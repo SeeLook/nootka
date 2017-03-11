@@ -23,7 +23,7 @@
 
 TnotePair::TnotePair(int index, Tnote* n, TnoteObject* ob) :
   m_note(n),
-  m_noteObj(ob),
+  m_noteItem(ob),
   m_index(index)
 {
 
@@ -31,5 +31,22 @@ TnotePair::TnotePair(int index, Tnote* n, TnoteObject* ob) :
 
 
 void TnotePair::setNoteObject(TnoteObject* ob) {
-  m_noteObj = ob;
+  m_noteItem = ob;
+}
+
+
+void TnotePair::approve() {
+  if (m_changes) {
+    if (m_changes & e_beamChanged || m_changes & e_stemDirChanged)
+      m_noteItem->setNote(*m_note);
+    m_changes = 0;
+  }
+}
+
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
+
+void TnotePair::setBeam(TbeamObject* b) {
+  m_beam = b;
 }

@@ -25,18 +25,26 @@
 
 class Tnote;
 class TnoteObject;
+class TbeamObject;
 
 
 /**
- * @todo write docs
+ * It wraps @p Tnote and its graphical representation @p TnoteObject.
+ * It also handles rhythmical group of a note: @p rhythmGroup() and a beam @p beam()
  */
 class TnotePair
 {
+  Q_GADGET
+
+  friend class TmeasureObject;
+  friend class TbeamObject;
+  friend class TnoteObject;
+
 public:
   TnotePair(int index = -1, Tnote* n = nullptr, TnoteObject* ob = nullptr);
 
   Tnote* note() { return m_note; }
-  TnoteObject* object() { return m_noteObj; }
+  TnoteObject* item() { return m_noteItem; }
 
   void setNoteObject(TnoteObject* ob);
 
@@ -51,11 +59,35 @@ public:
        */
   quint32 index() { return m_index; }
 
+      /**
+       * Describes what changed in note to be approved into its item
+       */
+  enum Echanges : quint8 {
+    e_noChanges = 0,
+    e_stemDirChanged = 1,
+    e_beamChanged = 2
+  };
+  Q_ENUM(Echanges)
+
+  int changes() { return m_changes; }
+  void addChange(Echanges ch) { m_changes |= ch;}
+
+      /**
+       * Approves @p changes() (if any) to note @p item()
+       */
+  void approve();
+
+protected:
+  TbeamObject* beam() { return m_beam; }
+  void setBeam(TbeamObject* b);
+
 private:
   Tnote                   *m_note;
-  TnoteObject             *m_noteObj;
+  TnoteObject             *m_noteItem;
   qint8                    m_group = -1;
   quint16                  m_index;
+  int                      m_changes = 0;
+  TbeamObject             *m_beam = nullptr;
 };
 
 #endif // TNOTEPAIR_H

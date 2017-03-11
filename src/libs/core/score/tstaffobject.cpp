@@ -23,9 +23,10 @@
 #include "tnotepair.h"
 #include "music/tnote.h"
 
+#include <QtGui/qguiapplication.h>
+#include <QtGui/qpalette.h>
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qdebug.h>
-#include "checktime.h"
 
 
 TstaffObject::TstaffObject(QObject* parent) :
@@ -139,7 +140,7 @@ void TstaffObject::fit() {
           if (m > m_firstMeasureId)
             m_allNotesWidth -= BARLINE_OFFSET;
           m_gapFactor = (m_score->width() - m_notesIndent - m_allNotesWidth - 1.0) / m_gapsSum;  // allow factor bigger than 2.5
-          createExtraTie(measure->first()->object());
+          createExtraTie(measure->first()->item());
           m_score->startStaffFromMeasure(this, m, m_lastMeasureId - (m - 1));
           m_lastMeasureId = m - 1;
           updateNotesPos();
@@ -171,7 +172,7 @@ void TstaffObject::fit() {
         if (nextStaff->measuresCount() < 1)
           m_score->deleteStaff(nextStaff);
         else
-          createExtraTie(nextStaff->firstMeasure()->first()->object());
+          createExtraTie(nextStaff->firstMeasure()->first()->item());
         fit();
         checkNotesRange();
         return;
@@ -193,9 +194,9 @@ void TstaffObject::updateNotesPos(int startMeasure) {
             << "gap factor" << m_gapFactor << "notes count" << lastMeasure()->last()->index() - firstMeasure()->first()->index() + 1;
   TnoteObject* prevNote = nullptr;
   if (startMeasure == 0)
-    firstMeas->first()->object()->setX(m_notesIndent);
+    firstMeas->first()->item()->setX(m_notesIndent);
   else
-    prevNote = m_score->measure(startMeasure - 1)->last()->object();
+    prevNote = m_score->measure(startMeasure - 1)->last()->item();
 
   for (int m = m_firstMeasureId; m <= m_lastMeasureId; ++m) {
     auto measure = m_score->measure(m);
@@ -205,7 +206,7 @@ void TstaffObject::updateNotesPos(int startMeasure) {
     }
     qreal barOffset = m > 0 ? BARLINE_OFFSET : 0.0; // offset for first note after bar line
     for (int n = 0; n < measure->noteCount(); ++n) {
-      auto note = measure->note(n)->object();
+      auto note = measure->note(n)->item();
       if (prevNote)
         note->setX(prevNote->rightX() + barOffset);
       prevNote = note;
@@ -264,8 +265,8 @@ void TstaffObject::findHighestNote() {
     auto measure = m_score->measure(m);
     for (int n = 0; n < measure->noteCount(); ++n) {
       auto noteSeg = measure->note(n);
-      if (noteSeg->object()->notePosY()) // is visible
-        m_hiNotePos = qMin(qreal(noteSeg->object()->notePosY() - (noteSeg->note()->rtm.stemDown() ? 2.0 : 4.0)), m_hiNotePos);
+      if (noteSeg->item()->notePosY()) // is visible
+        m_hiNotePos = qMin(qreal(noteSeg->item()->notePosY() - (noteSeg->note()->rtm.stemDown() ? 2.0 : 4.0)), m_hiNotePos);
     }
   }
 }
@@ -281,7 +282,7 @@ void TstaffObject::findLowestNote() {
     auto measure = m_score->measure(m);
     for (int n = 0; n < measure->noteCount(); ++n) {
       auto noteSeg = measure->note(n);
-      m_loNotePos = qMax(qreal(noteSeg->object()->notePosY() + (noteSeg->note()->rtm.stemDown() ? 4 : 2)), m_loNotePos);
+      m_loNotePos = qMax(qreal(noteSeg->item()->notePosY() + (noteSeg->note()->rtm.stemDown() ? 4 : 2)), m_loNotePos);
     }
   }
 }
@@ -294,7 +295,8 @@ void TstaffObject::createExtraTie(TnoteObject* parent) {
         QQmlComponent comp(&engine, this);
         comp.setData("import QtQuick 2.7; Text { font { family: \"Scorek\"; pixelSize: 7 }}", QUrl());
         m_extraTie = qobject_cast<QQuickItem*>(comp.create());
-        m_extraTie->setX(-2.346875); // 2.546875 tie glyph width
+        m_extraTie->setX(-2.446875); // 2.546875 tie glyph width
+        m_extraTie->setProperty("color", qApp->palette().text().color());
       }
       m_extraTie->setParentItem(parent->head());
       m_extraTie->setProperty("text", parent->note()->rtm.stemDown() ? QStringLiteral("\ue204") : QStringLiteral("\ue1fd"));
