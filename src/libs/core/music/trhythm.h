@@ -88,6 +88,7 @@ public:
   enum Ebeam : quint8 {
     e_noBeam = 0, e_beamStart = 16, e_beamCont = 32, e_beamEnd = 48
   };
+  Q_ENUM(Ebeam)
 
   enum Etie : quint8 {
     e_noTie = 0, e_tieStart = 64, e_tieCont = 128, e_tieEnd = 192

@@ -20,6 +20,7 @@
 #include "tscoreobject.h"
 #include "tstaffobject.h"
 #include "tmeasureobject.h"
+#include "tbeamobject.h"
 #include "tnotepair.h"
 #include "music/tnote.h"
 
@@ -60,10 +61,10 @@ const qreal rtmGapArray[5][3] = {
 
 
 
-TnoteObject::TnoteObject(TstaffObject* staffObj) :
+TnoteObject::TnoteObject(TstaffObject* staffObj, TnotePair* wrapper) :
   QQuickItem(staffObj->staffItem()),
   m_staff(staffObj),
-  m_index(-1),
+  m_wrapper(wrapper),
   m_stemHeight(6.0)
 {
   setParent(m_staff->score()); // to avoid deleting with parent staff
@@ -115,10 +116,17 @@ TnoteObject::~TnoteObject() {
 }
 
 
+int TnoteObject::index() const {
+  return m_wrapper->index();
+}
+
+
 void TnoteObject::setStaff(TstaffObject* staffObj) {
   if (staffObj != m_staff) {
     m_staff = staffObj;
     setParentItem(m_staff->staffItem());
+    if (m_wrapper->beam() && m_wrapper->beam()->last()->item() == this)
+      m_wrapper->beam()->changeStaff(m_staff);
   } else
       qDebug() << debug() << "has staff set already";
 }
@@ -126,6 +134,11 @@ void TnoteObject::setStaff(TstaffObject* staffObj) {
 
 void TnoteObject::setMeasure(TmeasureObject* m) {
   m_measure = m;
+}
+
+
+void TnoteObject::setStemHeight(qreal sh) {
+  m_stem->setHeight(sh);
 }
 
 
@@ -159,7 +172,8 @@ void TnoteObject::setColor(const QColor& c) {
  */
 void TnoteObject::setNote(const Tnote& n) {
   bool updateHead = n.rhythm() != m_note->rhythm() || n.isRest() != m_note->isRest() || n.hasDot() != m_note->hasDot();
-  bool updateStem = updateHead || (n.rtm.beam() != Trhythm::e_noBeam) != (m_note->rtm.beam() != Trhythm::e_noBeam);
+  bool updateStem = updateHead || ((n.rtm.beam() != Trhythm::e_noBeam) != (m_note->rtm.beam() != Trhythm::e_noBeam))
+                    || (n.rtm.stemDown() != m_note->rtm.stemDown());
   bool updateTie = n.rtm.tie() != m_note->rtm.tie();
 
   *m_note = n;
@@ -186,22 +200,8 @@ void TnoteObject::setNote(const Tnote& n) {
     updateStem = true;
   }
 
-  if (updateStem) {
-    if (m_notePosY && !m_note->isRest() && m_note->rhythm() > Trhythm::Whole ) {
-        if (m_note->rtm.beam() == Trhythm::e_noBeam) {
-            m_note->rtm.setStemDown(m_notePosY < staff()->upperLine() + 4.0);
-            m_stem->setHeight(qMax(6.0, qAbs(m_notePosY - (staff()->upperLine() + 4.0))));
-            QString flag = getFlagText();
-            m_flag->setProperty("text", flag);
-            if (!flag.isEmpty())
-              m_flag->setY((m_note->rtm.stemDown() ? m_stem->height() : 0.0) - 15.0);
-        }
-        m_stem->setX(m_head->x() + (m_note->rtm.stemDown() ? 0.0 : 2.0));
-        m_stem->setY(m_notePosY + (m_note->rtm.stemDown() ? 0.0 : - m_stem->height()));
-        m_stem->setVisible(true);
-    } else
-        m_stem->setVisible(false);
-  }
+  if (updateStem)
+    checkStem();
 
   updateAlter();
   updateWidth();
@@ -221,6 +221,8 @@ void TnoteObject::setNote(const Tnote& n) {
 void TnoteObject::setX(qreal xx) {
   updateTieScale();
   QQuickItem::setX(xx + (m_accidText.isEmpty() ? 0.0 : m_alter->width()));
+  if (m_wrapper->beam() && m_wrapper->beam()->last()->item() == this)
+    m_wrapper->beam()->last()->beam()->drawBeam();
 }
 
 
@@ -262,7 +264,12 @@ void TnoteObject::checkTie() {
 
 
 qreal TnoteObject::tieWidth() {
-  return staff()->gapFactor() * rhythmFactor() + (this == m_measure->last()->object() ? 1.5 : 0.0) + (m_note->rtm.stemDown() ? 0.0 : m_flag->width() - 0.2);
+  return staff()->gapFactor() * rhythmFactor() + (this == m_measure->last()->item() ? 1.5 : 0.0) + (m_note->rtm.stemDown() ? 0.0 : m_flag->width() - 0.2);
+}
+
+
+QPointF TnoteObject::stemTop() {
+  return mapToItem(parentItem(), QPointF(m_stem->x(), m_stem->y() + (m_note->rtm.stemDown() ? m_stem->height() : 0.0)));
 }
 
 //#################################################################################################
@@ -289,7 +296,7 @@ QString TnoteObject::getAccidText() {
     }
   }
   int id = index() - 1; // check the previous notes for accidentals
-  while (id >= 0 && m_staff->score()->noteSegment(id)->object()->measure() == measure()) {
+  while (id >= 0 && m_staff->score()->noteSegment(id)->item()->measure() == measure()) {
     if (m_staff->score()->noteSegment(id)->note()->note == m_note->note) {
       char prevAlter = m_staff->score()->noteSegment(id)->note()->alter;
       if (prevAlter != 0 && m_note->alter == 0) {
@@ -400,4 +407,25 @@ void TnoteObject::updateTieScale() {
     m_tie->setProperty("xScale", tieWidth() / 2.90625);
     m_tie->setProperty("stemDown", m_note->rtm.stemDown());
   }
+}
+
+
+void TnoteObject::checkStem() {
+  if (m_notePosY && !m_note->isRest() && m_note->rhythm() > Trhythm::Whole ) {
+      if (m_note->rtm.beam() == Trhythm::e_noBeam) {
+          m_note->rtm.setStemDown(m_notePosY < staff()->upperLine() + 4.0);
+          m_stem->setHeight(qMax(6.0, qAbs(m_notePosY - (staff()->upperLine() + 4.0))));
+          QString flag = getFlagText();
+          m_flag->setProperty("text", flag);
+          if (!flag.isEmpty())
+            m_flag->setY((m_note->rtm.stemDown() ? m_stem->height() : 0.0) - 15.0);
+      } else {
+          if (m_flag->width() > 0.0)
+            m_flag->setProperty("text", QString());
+      }
+      m_stem->setX(m_head->x() + (m_note->rtm.stemDown() ? 0.0 : 2.0));
+      m_stem->setY(m_notePosY + (m_note->rtm.stemDown() ? 0.0 : - m_stem->height()));
+      m_stem->setVisible(true);
+  } else
+      m_stem->setVisible(false);
 }
