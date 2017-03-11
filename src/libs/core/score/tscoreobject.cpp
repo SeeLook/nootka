@@ -119,6 +119,8 @@ void solveList(const Tnote& n, int dur, QList<Tnote>& outList) {
 void TscoreObject::addNote(const Tnote& n) {
 CHECKTIME (
 
+  qDebug() << "Note" << n.toText() << n.rtm.string();
+
   auto lastMeasure = m_measures.last();
   if (lastMeasure->free() == 0) { // new measure is needed
     lastMeasure = new TmeasureObject(m_measures.count(), this);
@@ -135,9 +137,11 @@ CHECKTIME (
       if (notesToCurrent.isEmpty())
           qDebug() << "[TscoreObject] can't resolve duration of" << lastMeasure->free();
       else {
-          notesToCurrent.first().rtm.setTie(Trhythm::e_tieStart);
-          if (notesToCurrent.count() == 2)
-            notesToCurrent.last().rtm.setTie(Trhythm::e_tieCont);
+          if (!n.isRest()) {
+            notesToCurrent.first().rtm.setTie(Trhythm::e_tieStart);
+            if (notesToCurrent.count() == 2)
+              notesToCurrent.last().rtm.setTie(Trhythm::e_tieCont);
+          }
           appendNoteList(notesToCurrent);
           lastMeasure->appendNewNotes(lastNoteId, notesToCurrent.count());
       }
@@ -148,11 +152,13 @@ CHECKTIME (
       if (notesToNext.isEmpty())
           qDebug() << "[TscoreObject] can't resolve duration" << leftDuration;
       else {
-          if (notesToNext.count() == 1)
-              notesToNext.first().rtm.setTie(Trhythm::e_tieEnd);
-          else {
-              notesToNext.first().rtm.setTie(Trhythm::e_tieCont);
-              notesToNext.last().rtm.setTie(Trhythm::e_tieEnd);
+          if (!n.isRest()) {
+            if (notesToNext.count() == 1)
+                notesToNext.first().rtm.setTie(Trhythm::e_tieEnd);
+            else {
+                notesToNext.first().rtm.setTie(Trhythm::e_tieCont);
+                notesToNext.last().rtm.setTie(Trhythm::e_tieEnd);
+            }
           }
           appendNoteList(notesToNext);
           auto newLastMeasure = new TmeasureObject(m_measures.count(), this); // add a new measure
