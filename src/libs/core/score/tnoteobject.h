@@ -26,6 +26,7 @@
 
 class TstaffObject;
 class TmeasureObject;
+class TnotePair;
 class Tnote;
 
 
@@ -44,9 +45,10 @@ class NOOTKACORE_EXPORT TnoteObject : public QQuickItem
   friend class TscoreObject;
   friend class TstaffObject;
   friend class TmeasureObject;
+  friend class TbeamObject;
 
 public:
-  explicit TnoteObject(TstaffObject* staffObj = nullptr);
+  explicit TnoteObject(TstaffObject* staffObj = nullptr, TnotePair* wrapper = nullptr);
   ~TnoteObject();
 
   TstaffObject* staff() const { return m_staff; }
@@ -64,8 +66,7 @@ public:
       /**
        * Note number in the staff
        */
-  int index() const { return m_index; }
-  void setIndex(int id) { m_index = id; }
+  int index() const;
 
   qreal stemHeight() const { return m_stemHeight; }
   void setStemHeight(qreal sh);
@@ -75,7 +76,8 @@ public:
   void setColor(const QColor& c);
 
       /**
-       * Overrides standard @p setX() method to shift note segment about accidental symbol width (if it is set)
+       * Overrides standard @p setX() method to shift note segment about accidental symbol width (if it is set).
+       * It also updates tie (if any) and beam (for the last note in a beam group)
        */
   void setX(qreal xx);
 
@@ -88,6 +90,11 @@ public:
        * Returns gap factor after this note item depends on current rhythm value
        */
   qreal rhythmFactor();
+
+      /**
+       * Returns position of the top of this note stem in staff coordinates
+       */
+  QPointF stemTop();
 
       /**
        * Prints to std out debug info about this note: [NOTE number] in color
@@ -124,9 +131,9 @@ protected:
 private:
 
   TstaffObject                *m_staff;
+  TnotePair                   *m_wrapper;
   TmeasureObject              *m_measure;
   Tnote                       *m_note;
-  int                          m_index;
   qreal                        m_notePosY;
   qreal                        m_x;
   QQuickItem                  *m_head, *m_alter, *m_stem, *m_flag, *m_bg;
@@ -141,6 +148,7 @@ private:
   void updateWidth();
   void updateNoteHead();
   void updateTieScale();
+  void checkStem();
 };
 
 #endif // TNOTEOBJECT_H
