@@ -99,6 +99,7 @@ TnoteObject::TnoteObject(TstaffObject* staffObj, TnotePair* wrapper) :
 
   m_alter = qobject_cast<QQuickItem*>(comp.create());
   m_alter->setParentItem(m_head);
+  connect(m_alter, &QQuickItem::widthChanged, this, &TnoteObject::alterWidthChanged);
 
   m_flag = qobject_cast<QQuickItem*>(comp.create());
   m_flag->setParentItem(m_stem);
@@ -107,6 +108,7 @@ TnoteObject::TnoteObject(TstaffObject* staffObj, TnotePair* wrapper) :
 
   setColor(qApp->palette().text().color());
   setHeight(staffObj->staffItem()->height());
+  setAcceptHoverEvents(true);
 }
 
 
@@ -226,12 +228,12 @@ void TnoteObject::setX(qreal xx) {
 }
 
 
-qreal TnoteObject::rightX() {
+qreal TnoteObject::rightX() const {
   return x() + width() + staff()->gapFactor() * rhythmFactor() - m_alter->width();
 }
 
 
-qreal TnoteObject::rhythmFactor() {
+qreal TnoteObject::rhythmFactor() const {
   if (m_note->rhythm() == Trhythm::NoRhythm)
     return 0.0;
 
@@ -360,6 +362,22 @@ void TnoteObject::keySignatureChanged() {
 }
 
 
+void TnoteObject::hoverEnterEvent(QHoverEvent*) {
+  m_measure->score()->changeActiveNote(this);
+}
+
+
+void TnoteObject::hoverLeaveEvent(QHoverEvent*) {
+  m_measure->score()->changeActiveNote(nullptr);
+}
+
+
+void TnoteObject::hoverMoveEvent(QHoverEvent* event) {
+  if (static_cast<int>(m_measure->score()->activeYpos()) != static_cast<int>(event->pos().y()))
+    m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
+}
+
+
 //#################################################################################################
 //###################              PRIVATE             ############################################
 //#################################################################################################
@@ -389,7 +407,7 @@ void TnoteObject::updateAlter() {
 
 
 void TnoteObject::updateWidth() {
-  setWidth(m_alter->width() + m_head->width() + (m_note->rtm.stemDown() ? 0.0 : m_flag->width() - 0.5));
+  setWidth(m_alter->width() + m_head->width() + (m_note->isRest() ? 0.0 : m_note->rtm.stemDown() ? 0.0 : m_flag->width() - 0.5));
   updateTieScale();
 }
 
@@ -428,4 +446,6 @@ void TnoteObject::checkStem() {
       m_stem->setVisible(true);
   } else
       m_stem->setVisible(false);
+  if (m_stemHeight != m_stem->height())
+    m_stemHeight = m_stem->height();
 }
