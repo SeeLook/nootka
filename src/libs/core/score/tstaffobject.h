@@ -68,7 +68,7 @@ public:
       /**
        * Y coordinate of upper staff line
        */
-  qreal upperLine() { return m_upperLine; }
+  qreal upperLine() const { return m_upperLine; }
   void setUpperLine(qreal upLine);
 
   QQuickItem* staffItem() { return m_staffItem; }
@@ -77,7 +77,7 @@ public:
       /**
        * X coordinate of first note (or width of clef + key sign. + meter)
        */
-  qreal notesIndent() { return m_notesIndent; }
+  qreal notesIndent() const { return m_notesIndent; }
   void setNotesIndent(qreal ni);
 
   int firstMeasureNr();
@@ -111,9 +111,9 @@ public:
       /**
        * Width of all notes on the staff
        */
-  qreal allNotesWidth() { return m_allNotesWidth; }
+  qreal allNotesWidth() const { return m_allNotesWidth; }
 
-  qreal gapsSum() { return m_gapsSum; }
+  qreal gapsSum() const { return m_gapsSum; }
 
       /**
        * Scaling factor of the staff
@@ -136,9 +136,9 @@ protected:
   void fit();
   void updateNotesPos(int startMeasure = 0);
 
-  int firstMeasureId() { return m_firstMeasureId; }
+  int firstMeasureId() const { return m_firstMeasureId; }
   void setFirstMeasureId(int firstId) { m_firstMeasureId = firstId; emit firstMeasureNrChanged(); }
-  int lastMeasureId() { return m_lastMeasureId; }
+  int lastMeasureId() const { return m_lastMeasureId; }
   void setLastMeasureId(int lastId) { m_lastMeasureId = lastId; }
 
       /**

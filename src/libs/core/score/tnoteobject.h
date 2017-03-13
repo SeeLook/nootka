@@ -40,7 +40,9 @@ class NOOTKACORE_EXPORT TnoteObject : public QQuickItem
 
   Q_OBJECT
 
-  Q_PROPERTY(qreal notePosY READ notePosY WRITE setNotePosY NOTIFY notePosYchanged)
+  Q_PROPERTY(qreal notePosY READ notePosY NOTIFY notePosYchanged)
+  Q_PROPERTY(qreal alterWidth READ alterWidth NOTIFY alterWidthChanged)
+  Q_PROPERTY(int index READ index)
 
   friend class TscoreObject;
   friend class TstaffObject;
@@ -71,6 +73,8 @@ public:
   qreal stemHeight() const { return m_stemHeight; }
   void setStemHeight(qreal sh);
 
+  qreal alterWidth() { return m_alter->width(); }
+
 
   QColor color() { return m_head->property("color").value<QColor>(); }
   void setColor(const QColor& c);
@@ -84,12 +88,12 @@ public:
       /**
        * shortcut to X coordinate of right note corner plus gap related to rhythm and staff gap factor
        */
-  qreal rightX();
+  qreal rightX() const;
 
       /**
        * Returns gap factor after this note item depends on current rhythm value
        */
-  qreal rhythmFactor();
+  qreal rhythmFactor() const;
 
       /**
        * Returns position of the top of this note stem in staff coordinates
@@ -105,6 +109,7 @@ public:
 
 signals:
   void notePosYchanged();
+  void alterWidthChanged();
 
 protected:
   QString getAccidText();
@@ -127,6 +132,10 @@ protected:
        * It sets tie glyph text to @p m_accidText when note with tie begins a staff
        */
   void checkTie();
+
+  void hoverEnterEvent(QHoverEvent*) override;
+  void hoverLeaveEvent(QHoverEvent*) override;
+  void hoverMoveEvent(QHoverEvent* event) override;
 
 private:
 
