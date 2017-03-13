@@ -25,7 +25,7 @@
 
 
 /**
- * Describes offset of a note.
+ * @class TclefOffset describes offset of a note depends on clef
  */
 class TclefOffset
 {
@@ -49,19 +49,27 @@ class Tnote;
 
 
 /**
- *
+ * Implementation of score supplementing Score.qml
  */
 class NOOTKACORE_EXPORT  TscoreObject : public QObject
 {
 
   Q_OBJECT
 
-  Q_PROPERTY(QObject* parent READ parent WRITE setParent)
+                        /* Musical parameters */
   Q_PROPERTY(int meter READ meterToInt WRITE setMeter NOTIFY meterChanged)
+  Q_PROPERTY(int keySignature READ keySignature WRITE setKeySignature)
+  Q_PROPERTY(int notesCount READ notesCount)
+                        /* Score switches */
+  Q_PROPERTY(bool keySignatureEnabled READ keySignatureEnabled WRITE setKeySignatureEnabled)
+  Q_PROPERTY(qreal enableDoubleAccidentals READ enableDoubleAccidentals WRITE setEnableDoubleAccids)
+                        /* Helper variables */
   Q_PROPERTY(qreal stavesHeight READ stavesHeight NOTIFY stavesHeightChanged)
   Q_PROPERTY(qreal width READ width WRITE setWidth)
-  Q_PROPERTY(int keySignature READ keySignature WRITE setKeySignature)
-  Q_PROPERTY(bool keySignatureEnabled READ keySignatureEnabled WRITE setKeySignatureEnabled)
+                        /* Note cursor */
+  Q_PROPERTY(TnoteObject* activeNote READ activeNote NOTIFY activeNoteChanged)
+  Q_PROPERTY(qreal activeYpos READ activeYpos NOTIFY activeYposChanged)
+  Q_PROPERTY(qreal upperLine READ upperLine NOTIFY upperLineChanged)
 
   friend class TstaffObject;
   friend class TmeasureObject;
@@ -71,51 +79,68 @@ public:
   explicit TscoreObject(QObject* parent = nullptr);
   ~TscoreObject();
 
-  void setParent(QObject* p);
+  /* ------------------ Musical parameters ------------------ */
 
-  qreal width() { return m_width; }
-  void setWidth(qreal w);
+  Tmeter* meter() const { return m_meter; }
+  void setMeter(int m);
+  int meterToInt() const; /**< Small helper for QML property that converts meter enumerator into int */
+
+  int keySignature() const { return static_cast<int>(m_keySignature); }
+  void setKeySignature(int k);
 
   Q_INVOKABLE void addNote(const Tnote& n);
   Q_INVOKABLE void setNote(int staffNr, int noteNr, const Tnote& n);
 
+      /**
+       * Returns a note item of @p TnoteObject
+       */
+  Q_INVOKABLE TnoteObject* note(int noteId);
+
+  Q_INVOKABLE void noteClicked(qreal yPos);
+
+  /* ------------------ Score switches ------------------ */
+
   bool keySignatureEnabled() const { return m_keySignEnabled; }
   void setKeySignatureEnabled(bool enKey);
 
-  int keySignature() { return static_cast<int>(m_keySignature); }
-  void setKeySignature(int k);
-
-  bool showExtraAccids() { return m_showExtraAccids; }
+  bool showExtraAccids() const { return m_showExtraAccids; }
   void setShowExtraAccids(bool accShow);
 
+  bool enableDoubleAccidentals() { return m_enableDoubleAccids; }
+  void setEnableDoubleAccids(bool dblEnabled);
+
       /**
-       * If set, reminds about accidentals changes occurred in previous measure
+       * If set, reminds about accidental changes occurred in previous measure
        */
-  bool remindAccids() { return m_remindAccids; }
+  bool remindAccids() const { return m_remindAccids; }
   void setRemindAccids(bool doRemaind);
 
-  Tmeter* meter() const { return m_meter; }
-  void setMeter(int m);
-  int meterToInt();
+  /* ------------------ Lists with score content (staves, measures notes) ------------------ */
 
+  int notesCount() const { return m_notes.count(); }
   TnotePair* noteSegment(int id) { return m_segments[id]; }
   TnotePair* firstSegment() { return m_segments.first(); }
   TnotePair* lastSegment() { return m_segments.last(); }
 
-  int measuresCount() { return m_measures.count(); }
+  int measuresCount() const { return m_measures.count(); }
   TmeasureObject* measure(int id) { return m_measures[id]; }
   TmeasureObject* firstMeasure() { return m_measures.first(); }
   TmeasureObject* lastMeasure() { return m_measures.last(); }
+
+  int stavesCount() const { return m_staves.count(); }
+  TstaffObject* staff(int id) { return m_staves[id]; }
+  TstaffObject* firstStaff() { return m_staves.first(); }
+  TstaffObject* lastStaff() { return m_staves.last(); }
+
+  /* ------------------ Other helpers ------------------ */
+
+  qreal width() { return m_width; }
+  void setWidth(qreal w);
 
       /**
        * Total height of all staves
        */
   qreal stavesHeight();
-
-  int stavesCount() { return m_staves.count(); }
-  TstaffObject* staff(int id) { return m_staves[id]; }
-  TstaffObject* firstStaff() { return m_staves.first(); }
-  TstaffObject* lastStaff() { return m_staves.last(); }
 
       /**
       * Returns duration of given @param grNr group starting from measure beginning
@@ -124,15 +149,16 @@ public:
       * - for 3/8 it is only single 36 value - whole measure under one beam
       * - for 3/4 it is 24, 48, 72) - three groups
       */
-  quint8 groupPos(int grNr) { return m_meterGroups[grNr]; }
+  quint8 groupPos(int grNr) const { return m_meterGroups[grNr]; }
 
       /**
        * Number of beaming groups for this meter
        */
-  int groupCount() { return m_meterGroups.count(); }
+  int groupCount() const { return m_meterGroups.count(); }
 
-  QList<Tnote>& notes();
-  int notesCount() { return m_notes.count(); }
+  TnoteObject* activeNote() { return m_activeNote; }
+  qreal activeYpos() const { return m_activeYpos; }
+  qreal upperLine();
 
 signals:
   void meterChanged();
@@ -141,11 +167,15 @@ signals:
        * Asks Score.qml about create new staff
        */
   void staffCreate();
-  
+
       /**
        * Informs Score.qml that content widget height has to be adjusted to all staves height
        */
   void stavesHeightChanged();
+
+  void activeNoteChanged();
+  void activeYposChanged();
+  void upperLineChanged();
 
 protected:
   void addStaff(TstaffObject* st);
@@ -178,32 +208,43 @@ protected:
       /**
        * This array keeps values (-1, 0 or 1) for accidentals in key sign.
        */
-  qint8 accidInKey(int k) { return m_accidInKeyArray[k]; }
+  qint8 accidInKey(int k) const { return m_accidInKeyArray[k]; }
+
+  void changeActiveNote(TnoteObject* aNote);
+  void setActiveNotePos(qreal yPos);
 
 private:
       /**
        * Appends notes to @p m_notes list, creates corresponding @p TnotePair
        * and adds them to @p m_segments list
        */
-  void appendNoteList(QList<Tnote>& l);
+  void appendToNoteList(QList<Tnote>& l);
 
 private:
+                              /* Musical parameters */
   Tmeter                           *m_meter;
+  qint8                             m_keySignature = 0;
+                              /* Score switches */
   bool                              m_keySignEnabled;
   bool                              m_showExtraAccids;
   bool                              m_remindAccids;
-  TclefOffset                       m_clefOffset;
-  qreal                             m_width;
-  bool                              m_adjustInProgress;
-  bool                              m_keyChanged = false;
+  bool                              m_enableDoubleAccids;
+                              /* Lists with notes, measures, staves, meter groups */
   QList<TnotePair*>                 m_segments;
   QList<TstaffObject*>              m_staves;
   QList<TmeasureObject*>            m_measures;
   QList<Tnote>                      m_notes;
   QList<quint8>                     m_meterGroups;
+                              /* Helper variables */
+  TclefOffset                       m_clefOffset;
+  qreal                             m_width;
+  bool                              m_adjustInProgress;
+  bool                              m_keyChanged = false;
   QTimer                           *m_widthTimer;
-  qint8                             m_keySignature = 0;
   qint8                             m_accidInKeyArray[7];
+                              /* Note cursor */
+  TnoteObject                      *m_activeNote = nullptr;
+  qreal                             m_activeYpos = 0.0;
 
 };
 

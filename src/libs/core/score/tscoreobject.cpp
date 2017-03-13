@@ -43,6 +43,7 @@ TscoreObject::TscoreObject(QObject* parent) :
   m_meter = new Tmeter(Tmeter::Meter_4_4);
   setMeter(4); // Tmeter::Meter_4_4
   m_measures << new TmeasureObject(0, this);
+
   m_widthTimer = new QTimer(this);
   m_widthTimer->setSingleShot(true);
   connect(m_widthTimer, &QTimer::timeout, this, &TscoreObject::adjustScoreWidth);
@@ -58,22 +59,45 @@ TscoreObject::~TscoreObject()
   qDebug() << "[TscoreObject] deleted";
 }
 
+//#################################################################################################
+//###################          Musical parameters      ############################################
+//#################################################################################################
 
-// TODO: Is it necessary at all?
-void TscoreObject::setParent(QObject* p) {
-  QObject::setParent(p);
-  qDebug() << "[TscoreObject] parent changed to" << p;
-}
-
-
-void TscoreObject::setWidth(qreal w) {
-  if (w != m_width) {
-    m_width = w;
-    if (m_widthTimer->isActive())
-      m_widthTimer->stop();
-    m_widthTimer->start(WIDTH_CHANGE_DELAY);
+void TscoreObject::setMeter(int m) {
+  // set notes grouping
+  m_meter->setMeter(static_cast<Tmeter::Emeter>(m));
+  m_meterGroups.clear();
+  if (m_meter->lower() == 4) { // simple grouping: one group for each quarter
+    m_meterGroups << 24 << 48; // 2/4 and above
+    if (m_meter->meter() > Tmeter::Meter_2_4)
+      m_meterGroups << 72;
+    if (m_meter->meter() > Tmeter::Meter_3_4)
+      m_meterGroups << 96;
+    if (m_meter->meter() > Tmeter::Meter_4_4)
+      m_meterGroups << 120;
+    if (m_meter->meter() > Tmeter::Meter_5_4)
+      m_meterGroups << 144;
+    if (m_meter->meter() > Tmeter::Meter_6_4)
+      m_meterGroups << 168;
+  } else {
+    if (m_meter->meter() == Tmeter::Meter_3_8)
+      m_meterGroups << 36;
+    else if (m_meter->meter() == Tmeter::Meter_5_8)
+      m_meterGroups << 36 << 60;
+    else if (m_meter->meter() == Tmeter::Meter_6_8)
+      m_meterGroups << 36 << 72;
+    else if (m_meter->meter() == Tmeter::Meter_7_8)
+      m_meterGroups << 36 << 60 << 84;
+    else if (m_meter->meter() == Tmeter::Meter_9_8)
+      m_meterGroups << 36 << 72 << 108;
+    else if (m_meter->meter() == Tmeter::Meter_12_8)
+      m_meterGroups << 36 << 72 << 108 << 144;
   }
+  qDebug() << "[TscoreObject] Meter changed" << m_meterGroups;
 }
+
+
+int TscoreObject::meterToInt() const { return static_cast<int>(m_meter->meter()); }
 
 
 void TscoreObject::setKeySignature(int k) {
@@ -142,7 +166,7 @@ CHECKTIME (
             if (notesToCurrent.count() == 2)
               notesToCurrent.last().rtm.setTie(Trhythm::e_tieCont);
           }
-          appendNoteList(notesToCurrent);
+          appendToNoteList(notesToCurrent);
           lastMeasure->appendNewNotes(lastNoteId, notesToCurrent.count());
       }
 
@@ -160,7 +184,7 @@ CHECKTIME (
                 notesToNext.last().rtm.setTie(Trhythm::e_tieEnd);
             }
           }
-          appendNoteList(notesToNext);
+          appendToNoteList(notesToNext);
           auto newLastMeasure = new TmeasureObject(m_measures.count(), this); // add a new measure
           m_measures << newLastMeasure;
           lastStaff()->appendMeasure(newLastMeasure);
@@ -186,47 +210,32 @@ void TscoreObject::setNote(int staffNr, int noteNr, const Tnote& n) {
 }
 
 
+TnoteObject * TscoreObject::note(int noteId) {
+  return noteId > -1 && noteId < notesCount() ? m_segments[noteId]->item() : nullptr;
+}
+
+
+void TscoreObject::noteClicked(qreal yPos) {
+  int globalNr = m_clefOffset.octave * 7 - (yPos - static_cast<int>(upperLine()) - m_clefOffset.note);
+  Tnote n(static_cast<char>(56 + globalNr) % 7 + 1, static_cast<char>(56 + globalNr) / 7 - 8,
+          static_cast<char>(activeNote()->note()->alter), activeNote()->note()->rtm);
+  qDebug() << "[TscoreObject] clicked note" << activeNote() << yPos << n.toText() << n.rtm.string();
+}
+
+//#################################################################################################
+//###################         Score switches           ############################################
+//#################################################################################################
 
 void TscoreObject::setKeySignatureEnabled(bool enKey) {
   m_keySignEnabled = enKey;
 }
 
 
-void TscoreObject::setMeter(int m) {
-  // set notes grouping
-  m_meter->setMeter(static_cast<Tmeter::Emeter>(m));
-  m_meterGroups.clear();
-  if (m_meter->lower() == 4) { // simple grouping: one group for each quarter
-      m_meterGroups << 24 << 48; // 2/4 and above
-      if (m_meter->meter() > Tmeter::Meter_2_4)
-        m_meterGroups << 72;
-      if (m_meter->meter() > Tmeter::Meter_3_4)
-        m_meterGroups << 96;
-      if (m_meter->meter() > Tmeter::Meter_4_4)
-        m_meterGroups << 120;
-      if (m_meter->meter() > Tmeter::Meter_5_4)
-        m_meterGroups << 144;
-      if (m_meter->meter() > Tmeter::Meter_6_4)
-        m_meterGroups << 168;
-  } else {
-      if (m_meter->meter() == Tmeter::Meter_3_8)
-        m_meterGroups << 36;
-      else if (m_meter->meter() == Tmeter::Meter_5_8)
-        m_meterGroups << 36 << 60;
-      else if (m_meter->meter() == Tmeter::Meter_6_8)
-        m_meterGroups << 36 << 72;
-      else if (m_meter->meter() == Tmeter::Meter_7_8)
-        m_meterGroups << 36 << 60 << 84;
-      else if (m_meter->meter() == Tmeter::Meter_9_8)
-        m_meterGroups << 36 << 72 << 108;
-      else if (m_meter->meter() == Tmeter::Meter_12_8)
-        m_meterGroups << 36 << 72 << 108 << 144;
+void TscoreObject::setEnableDoubleAccids(bool dblEnabled) {
+  if (m_enableDoubleAccids != dblEnabled) {
+    m_enableDoubleAccids = dblEnabled;
   }
-  qDebug() << "[TscoreObject] Meter changed" << m_meterGroups;
 }
-
-
-int TscoreObject::meterToInt() { return static_cast<int>(m_meter->meter()); }
 
 
 qreal TscoreObject::stavesHeight() {
@@ -237,6 +246,34 @@ qreal TscoreObject::stavesHeight() {
 }
 
 
+void TscoreObject::changeActiveNote(TnoteObject* aNote) {
+  if (aNote != m_activeNote) {
+    m_activeNote = aNote;
+    emit activeNoteChanged();
+  }
+}
+
+
+void TscoreObject::setActiveNotePos(qreal yPos) {
+  if (yPos != m_activeYpos) {
+    m_activeYpos = yPos;
+    emit activeYposChanged();
+  }
+}
+
+
+qreal TscoreObject::upperLine() { return m_staves.empty() ? 16.0 : firstStaff()->upperLine(); }
+
+
+void TscoreObject::setWidth(qreal w) {
+  if (w != m_width) {
+    m_width = w;
+    if (m_widthTimer->isActive())
+      m_widthTimer->stop();
+    m_widthTimer->start(WIDTH_CHANGE_DELAY);
+  }
+}
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
@@ -244,8 +281,10 @@ qreal TscoreObject::stavesHeight() {
 void TscoreObject::addStaff(TstaffObject* st) {
   st->setNumber(stavesCount());
   m_staves.append(st);
-  if (m_staves.count() == 1) // initialize first measure of first staff
+  if (m_staves.count() == 1) { // initialize first measure of first staff
     st->appendMeasure(m_measures.first());
+    connect(st, &TstaffObject::upperLineChanged, this, &TscoreObject::upperLineChanged);
+  }
 
   // next staves position ca be set only when staffItem is set, see TstaffObject::setStaffItem() then
   connect(st, &TstaffObject::hiNotePosChanged, [=](int staffNr, qreal offset){
@@ -332,12 +371,11 @@ void TscoreObject::onIndentChanged() {
   }
 }
 
-
 //#################################################################################################
 //###################              PRIVATE             ############################################
 //#################################################################################################
 
-void TscoreObject::appendNoteList(QList<Tnote>& l) {
+void TscoreObject::appendToNoteList(QList<Tnote>& l) {
   for (Tnote n : l) {
     m_notes << n;
     m_segments << new TnotePair(m_segments.count(), &m_notes.last());
