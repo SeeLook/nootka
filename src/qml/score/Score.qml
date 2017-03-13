@@ -32,7 +32,7 @@ Flickable {
       var lastStaff = c.createObject(score.contentItem, { "clef.type": score.clef })
       staves.push(lastStaff)
       lastStaff.enableKeySignature(enableKeySign)
-//       score.contentY = score.contentHeight - score.height TODO
+//       score.contentY = score.contentHeight - score.height TODO ensure visible
       lastStaff.keySignature.onKeySignatureChanged.connect(setKeySignature)
       lastStaff.onDestroing.connect(removeStaff)
       if (enableKeySign)
@@ -42,6 +42,7 @@ Flickable {
     function removeStaff(nr) { staves.splice(nr, 1) }
   }
 
+  property alias scoreObj: scoreObj
   property alias scale: staff0.scale
   property int clef: Tclef.Treble_G_8down
   property alias meter: scoreObj.meter
@@ -50,6 +51,8 @@ Flickable {
   property bool showKeyName: true
   property var staves: []
   property real scaleFactor: 1.0
+  property alias notesCount: scoreObj.notesCount
+
 
   function setKeySignature(key) {
     if (enableKeySign) {

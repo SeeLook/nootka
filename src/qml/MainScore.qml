@@ -19,6 +19,8 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.0
 
+import Score 1.0
+
 
 Score {
   id: mainScore
@@ -26,8 +28,32 @@ Score {
   width: parent.width
 
   property alias scoreMenu: scoreMenu
+  property TnoteItem currentNote: null
 
   enableKeySign: true
+
+  Rectangle { // note highlight
+    parent: currentNote
+    visible: currentNote != null
+    width: currentNote ? (currentNote.width - currentNote.alterWidth) * 1.5 : 0
+    height: currentNote ? Math.min(12.0, currentNote.notePosY + 6.0) : 0
+    x: currentNote ? -width * 0.25 : 0
+    y: currentNote ? Math.min(currentNote.height - height, Math.max(0.0, currentNote.notePosY - height / 2.0)) : 0
+    color: Qt.rgba(activPal.highlight.r, activPal.highlight.g, activPal.highlight.b, 0.3)
+    z: -1
+    radius: width / 3.0
+  }
+
+  NoteCursor {
+    parent: scoreObj.activeNote
+    anchors.fill: parent
+    yPos: scoreObj.activeYpos
+    upperLine: scoreObj.upperLine
+    onClicked: {
+      scoreObj.noteClicked(y)
+      mainScore.currentNote = scoreObj.activeNote
+    }
+  }
 
   Menu {
       id: scoreMenu
@@ -54,4 +80,25 @@ Score {
   }
   Shortcut { sequence: StandardKey.ZoomOut; onActivated: zoomOut.triggered() }
   Shortcut { sequence: StandardKey.ZoomIn; onActivated: zoomIn.triggered() }
+  Shortcut {
+    sequence: StandardKey.MoveToNextChar;
+    onActivated: {
+      if (currentNote) {
+          if (currentNote.index < notesCount - 1)
+            currentNote =  scoreObj.note(currentNote.index + 1)
+      } else
+          currentNote = scoreObj.note(0)
+    }
+  }
+  Shortcut {
+    sequence: StandardKey.MoveToPreviousChar;
+    onActivated: {
+      if (currentNote) {
+          if (currentNote.index > 0)
+            currentNote = scoreObj.note(currentNote.index - 1)
+      } else {
+          currentNote = scoreObj.note(0)
+      }
+    }
+  }
 }
