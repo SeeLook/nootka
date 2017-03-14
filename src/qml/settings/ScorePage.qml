@@ -56,7 +56,7 @@ Column {
       height: parent.height - headList.height
       width: parent.width
 
-      Item {
+      Item { // 1st page
         Column {
           anchors.fill: parent
           spacing: nootkaWindow.fontSize / 2
@@ -118,21 +118,83 @@ Column {
           singleNoteMode.checked = GLOB.singleNoteMode
         }
       }
+
+      Flickable { // 2nd page (key signatures)
+        clip: true
+        contentHeight: childrenRect.height
+        Column {
+          id: secondColumn
+          anchors.fill: parent
+          spacing: nootkaWindow.fontSize / 2
+          Tile {
+            anchors.horizontalCenter: parent.horizontalCenter
+            CheckBox {
+              id: enableKeyChB
+              text: qsTranslate("TscoreSettings", "enable key signature")
+              anchors.horizontalCenter: parent.horizontalCenter
+            }
+          }
+          Frame {
+            width: parent.width
+            Column {
+              spacing: nootkaWindow.fontSize / 2
+              width: parent.width
+              Tile {
+                enabled: enableKeyChB.checked
+                anchors.horizontalCenter: parent.horizontalCenter
+                CheckBox {
+                  id: showKeyNamesChB
+                  text: qsTranslate("TscoreSettings", "show names of key signature")
+                  anchors.horizontalCenter: parent.horizontalCenter
+                }
+              }
+
+              Tile {
+                enabled: enableKeyChB.checked && showKeyNamesChB.checked
+                width: parent.width * 0.95
+                anchors.horizontalCenter: parent.horizontalCenter
+                Column {
+                  spacing: nootkaWindow.fontSize / 2
+                  width: parent.width
+                  RadioButton {
+                    text: qsTr("Scandinavian")
+//                     anchors.horizontalCenter: parent.horizontalCenter
+                  }
+                  RadioButton {
+                    text: qsTr("Italian")
+//                     anchors.horizontalCenter: parent.horizontalCenter
+                  }
+                  RadioButton {
+                    text: qsTr("German")
+//                     anchors.horizontalCenter: parent.horizontalCenter
+                  }
+                  RadioButton {
+                    text: qsTr("English")
+//                     anchors.horizontalCenter: parent.horizontalCenter
+                  }
+                  RadioButton {
+                    text: qsTr("Dutch")
+//                     anchors.horizontalCenter: parent.horizontalCenter
+                  }
+                  RadioButton {
+                    text: qsTr("Russian")
+//                     anchors.horizontalCenter: parent.horizontalCenter
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
       Item {
         Text {
-          text: "P2"
+          text: "Clefs"
           anchors.centerIn: parent
         }
       }
       Item {
         Text {
-          text: "P3"
-          anchors.centerIn: parent
-        }
-      }
-      Item {
-        Text {
-          text: "P4"
+          text: "Note names"
           anchors.centerIn: parent
         }
       }
