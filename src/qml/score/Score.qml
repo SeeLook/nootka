@@ -24,24 +24,6 @@ import Score 1.0
 Flickable {
   id: score
 
-  TscoreObject {
-    id: scoreObj
-    width: score.width / scale
-    onStaffCreate: {
-      var c = Qt.createComponent("qrc:/Staff.qml")
-      var lastStaff = c.createObject(score.contentItem, { "clef.type": score.clef })
-      staves.push(lastStaff)
-      lastStaff.enableKeySignature(enableKeySign)
-//       score.contentY = score.contentHeight - score.height TODO ensure visible
-      lastStaff.keySignature.onKeySignatureChanged.connect(setKeySignature)
-      lastStaff.onDestroing.connect(removeStaff)
-      if (enableKeySign)
-        lastStaff.keySignature.key = staff0.keySignature.key
-    }
-    onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
-    function removeStaff(nr) { staves.splice(nr, 1) }
-  }
-
   property alias scoreObj: scoreObj
   property alias scale: staff0.scale
   property int clef: Tclef.Treble_G_8down
@@ -52,22 +34,30 @@ Flickable {
   property var staves: []
   property real scaleFactor: 1.0
   property alias notesCount: scoreObj.notesCount
-
-
-  function setKeySignature(key) {
-    if (enableKeySign) {
-      for (var s = 0; s < staves.length; ++s) {
-        if (key !== staves[s].keySignature.key)
-          staves[s].keySignature.key = key
-      }
-      scoreObj.keySignature = key
-    }
-  }
+  property TnoteItem currentNote: null
 
   clip: true
   width: parent.width
 
   contentWidth: score.width
+
+  TscoreObject {
+    id: scoreObj
+    width: score.width / scale
+    onStaffCreate: {
+      var c = Qt.createComponent("qrc:/Staff.qml")
+      var lastStaff = c.createObject(score.contentItem, { "clef.type": score.clef })
+      staves.push(lastStaff)
+      lastStaff.enableKeySignature(enableKeySign)
+      //       score.contentY = score.contentHeight - score.height TODO ensure visible
+      lastStaff.keySignature.onKeySignatureChanged.connect(setKeySignature)
+      lastStaff.onDestroing.connect(removeStaff)
+      if (enableKeySign)
+        lastStaff.keySignature.key = staff0.keySignature.key
+    }
+    onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
+    function removeStaff(nr) { staves.splice(nr, 1) }
+  }
 
   Rectangle {
     id: bgRect
@@ -93,6 +83,18 @@ Flickable {
     Component.onCompleted: staves.push(staff0)
   }
 
+  NoteCursor {
+    parent: scoreObj.activeNote
+    anchors.fill: parent
+    yPos: scoreObj.activeYpos
+    upperLine: scoreObj.upperLine
+    z: 20
+    onClicked: {
+      scoreObj.noteClicked(y)
+      score.currentNote = scoreObj.activeNote
+    }
+  }
+
   onEnableKeySignChanged: {
     staff0.enableKeySignature(enableKeySign)
     if (enableKeySign)
@@ -103,6 +105,16 @@ Flickable {
         staff0.keySignature.onKeySignatureChanged.connect(setKeySignature)
     }
     scoreObj.keySignatureEnabled = enableKeySign
+  }
+
+  function setKeySignature(key) {
+    if (enableKeySign) {
+      for (var s = 0; s < staves.length; ++s) {
+        if (key !== staves[s].keySignature.key)
+          staves[s].keySignature.key = key
+      }
+      scoreObj.keySignature = key
+    }
   }
 
   function addNote(n) { scoreObj.addNote(n) }
