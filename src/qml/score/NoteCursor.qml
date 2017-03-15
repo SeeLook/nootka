@@ -26,7 +26,7 @@ Item {
 
   anchors.fill: parent
 
-  property color color: activPal.highlight
+  property color color: GLOB.noteCursorColor
   property real yPos: 0
   property real upperLine: 16
 

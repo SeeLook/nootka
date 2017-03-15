@@ -72,36 +72,29 @@ TnoteObject::TnoteObject(TstaffObject* staffObj, TnotePair* wrapper) :
   QQmlEngine engine;
   QQmlComponent comp(&engine, this);
 
-//   comp.setData("import QtQuick 2.7; Rectangle { radius: 1 }", QUrl());
-//   m_bg = qobject_cast<QQuickItem*>(comp.create());
-//   m_bg->setParentItem(this);
-//   QColor bgColor = qApp->palette().highlight().color();
-//   bgColor.setAlpha(50);
-//   m_bg->setProperty("color", bgColor);
-
-  comp.setData("import QtQuick 2.7; Rectangle {}", QUrl());
-  m_stem = qobject_cast<QQuickItem*>(comp.create());
+  m_staff->score()->component()->setData("import QtQuick 2.7; Rectangle {}", QUrl());
+  m_stem = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
   m_stem->setParentItem(this);
   m_stem->setWidth(0.3);
   m_stem->setHeight(m_stemHeight);
   m_stem->setVisible(false);
 
   for (int i = 0; i < 7; ++i) {
-    m_upperLines << createAddLine(comp);
+    m_upperLines << createAddLine();
     m_upperLines.last()->setY(2 * (i + 1) - 0.1);
-    m_lowerLines << createAddLine(comp);
+    m_lowerLines << createAddLine();
     m_lowerLines.last()->setY(staff()->upperLine() + 10.0 + 2 * i - 0.1);
   }
 
-  comp.setData("import QtQuick 2.7; Text { font { family: \"Scorek\"; pixelSize: 7 }}", QUrl());
-  m_head = qobject_cast<QQuickItem*>(comp.create());
+  m_staff->score()->component()->setData("import QtQuick 2.7; Text { font { family: \"Scorek\"; pixelSize: 7 }}", QUrl());
+  m_head = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
   m_head->setParentItem(this);
 
-  m_alter = qobject_cast<QQuickItem*>(comp.create());
+  m_alter = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
   m_alter->setParentItem(m_head);
   connect(m_alter, &QQuickItem::widthChanged, this, &TnoteObject::alterWidthChanged);
 
-  m_flag = qobject_cast<QQuickItem*>(comp.create());
+  m_flag = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
   m_flag->setParentItem(m_stem);
   m_flag->setX(0.1);
 
@@ -109,6 +102,7 @@ TnoteObject::TnoteObject(TstaffObject* staffObj, TnotePair* wrapper) :
   setColor(qApp->palette().text().color());
   setHeight(staffObj->staffItem()->height());
   setAcceptHoverEvents(true);
+  setZ(10);
 }
 
 
@@ -129,6 +123,8 @@ void TnoteObject::setStaff(TstaffObject* staffObj) {
     setParentItem(m_staff->staffItem());
     if (m_wrapper->beam() && m_wrapper->beam()->last()->item() == this)
       m_wrapper->beam()->changeStaff(m_staff);
+    if (m_name)
+      m_name->setParentItem(parentItem());
   } else
       qDebug() << debug() << "has staff set already";
 }
@@ -183,10 +179,11 @@ void TnoteObject::setNote(const Tnote& n) {
   if (updateHead)
     updateNoteHead();
 
+  int oldNotePos = static_cast<int>(m_notePosY);
   if (m_note->isRest())
     m_notePosY = staff()->upperLine() + (m_note->rhythm() == Trhythm::Whole ? 2.0 : 4.0);
   else
-    setNotePosY(staff()->score()->clefOffset().total() + staff()->upperLine() - (n.octave * 7 + (n.note - 1)));
+    m_notePosY = staff()->score()->clefOffset().total() + staff()->upperLine() - (n.octave * 7 + (n.note - 1));
   if (m_notePosY < 2.0 || m_notePosY > 38.0)
     m_notePosY = 0.0;
   if (static_cast<int>(m_notePosY) != static_cast<int>(m_head->y())) {
@@ -211,10 +208,11 @@ void TnoteObject::setNote(const Tnote& n) {
   if (updateTie)
     checkTie();
 
-//   m_bg->setX(m_note->alter && m_alter->isVisible() ? -m_alter->width() - 0.4 : -0.4);
-//   m_bg->setHeight(m_stem->height() + 4.0);
-//   m_bg->setY(m_stem->y() - (m_note->rtm.stemDown() ? 3.25 : 1.25));
-//   m_bg->setWidth(width());
+  if (oldNotePos != static_cast<int>(m_notePosY))
+      emit notePosYchanged();
+
+  if (updateStem || oldNotePos != static_cast<int>(m_notePosY))
+      updateNamePos();
 
 //   qDebug() << debug() << "set note" << m_note->toText() << m_note->rtm.string() << "note pos" << m_notePosY << "width:" << width();
 }
@@ -225,6 +223,8 @@ void TnoteObject::setX(qreal xx) {
   QQuickItem::setX(xx + (m_accidText.isEmpty() ? 0.0 : m_alter->width()));
   if (m_wrapper->beam() && m_wrapper->beam()->last()->item() == this)
     m_wrapper->beam()->last()->beam()->drawBeam();
+  if (m_name)
+    m_name->setX(x());
 }
 
 
@@ -254,8 +254,7 @@ void TnoteObject::checkTie() {
       delete m_tie;
       m_tie = nullptr;
   } else if (m_tie == nullptr && (m_note->rtm.tie() == Trhythm::e_tieStart || m_note->rtm.tie() == Trhythm::e_tieCont)) {
-      QQmlEngine engine;
-      QQmlComponent comp(&engine, QUrl(QStringLiteral("qrc:/Tie.qml")));
+      QQmlComponent comp(m_staff->score()->qmlEngine(), QUrl(QStringLiteral("qrc:/Tie.qml")));
       m_tie = qobject_cast<QQuickItem*>(comp.create());
       m_tie->setParentItem(m_head);
       m_tie->setProperty("color", qApp->palette().text().color());
@@ -272,6 +271,30 @@ qreal TnoteObject::tieWidth() {
 
 QPointF TnoteObject::stemTop() {
   return mapToItem(parentItem(), QPointF(m_stem->x(), m_stem->y() + (m_note->rtm.stemDown() ? m_stem->height() : 0.0)));
+}
+
+
+/**
+ * When set to @p TRUE - creates @p m_name object, which belongs to parent staff (due to issues with blocking hover events over this name text item)
+ * @p updateNamePos() method takes care about @p y() coordinate,
+ * but @p x() has to be set when this @p TnoteObject changes its X coordinate
+ */
+void TnoteObject::setNoteNameVisible(bool nameVisible) {
+  if (nameVisible) {
+      if (!m_name) {
+        m_staff->score()->component()->setData("import QtQuick 2.7; Text { font.pixelSize: 3; textFormat: Text.RichText; style: Text.Outline }", QUrl());
+        m_name = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
+        m_name->setParentItem(parentItem());
+        m_name->setProperty("color", qApp->palette().text().color());
+        m_name->setProperty("styleColor", m_measure->score()->nameColor());
+        updateNamePos();
+      }
+  } else {
+      if (m_name) {
+        delete m_name;
+        m_name = nullptr;
+      }
+  }
 }
 
 //#################################################################################################
@@ -383,8 +406,8 @@ void TnoteObject::hoverMoveEvent(QHoverEvent* event) {
 //#################################################################################################
 
 
-QQuickItem* TnoteObject::createAddLine(QQmlComponent& comp) {
-  auto line = qobject_cast<QQuickItem*>(comp.create());
+QQuickItem* TnoteObject::createAddLine() {
+  auto line = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
   line->setParentItem(this);
   line->setWidth(3.5);
   line->setHeight(0.2);
@@ -448,4 +471,19 @@ void TnoteObject::checkStem() {
       m_stem->setVisible(false);
   if (m_stemHeight != m_stem->height())
     m_stemHeight = m_stem->height();
+}
+
+
+// TODO: name may collide with next/previous note name (16ths), octave mark out-shots too much
+void TnoteObject::updateNamePos() {
+  if (m_name) {
+    if (m_note->isValid()) {
+        m_name->setVisible(true);
+        m_name->setY(m_notePosY + (m_note->rtm.stemDown() ? -5.0 : 1.0));
+        m_name->setProperty("text", m_note->toRichText());
+        m_name->setX(x());
+    } else {
+        m_name->setVisible(false);
+    }
+  }
 }

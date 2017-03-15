@@ -63,7 +63,6 @@ public:
   void setNote(const Tnote& n);
 
   qreal notePosY() const { return m_notePosY; }
-  qreal setNotePosY(qreal y) { m_notePosY = y; emit notePosYchanged(); }
 
       /**
        * Note number in the staff
@@ -107,7 +106,10 @@ public:
 
   qreal tieWidth();
 
+  void setNoteNameVisible(bool nameVisible);
+
 signals:
+  void noteChanged();
   void notePosYchanged();
   void alterWidthChanged();
 
@@ -120,6 +122,7 @@ protected:
 
   QQuickItem* tie() { return m_tie; }
   QQuickItem* head() { return m_head; }
+  QQuickItem* nameItem() { return m_name; }
 
       /**
        * @p TnoteObject manages tie itself whenever tie state changes, by calling exactly this method.
@@ -145,19 +148,21 @@ private:
   Tnote                       *m_note;
   qreal                        m_notePosY;
   qreal                        m_x;
-  QQuickItem                  *m_head, *m_alter, *m_stem, *m_flag, *m_bg;
+  QQuickItem                  *m_head, *m_alter, *m_stem, *m_flag;
   QList<QQuickItem*>           m_upperLines, m_lowerLines;
   qreal                        m_stemHeight;
   QString                      m_accidText;
   QQuickItem                  *m_tie = nullptr;
+  QQuickItem                  *m_name = nullptr;
 
 private:
-  QQuickItem* createAddLine(QQmlComponent& comp);
+  QQuickItem* createAddLine();
   void updateAlter();
   void updateWidth();
   void updateNoteHead();
   void updateTieScale();
   void checkStem();
+  void updateNamePos();
 };
 
 #endif // TNOTEOBJECT_H
