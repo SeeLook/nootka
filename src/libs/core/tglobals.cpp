@@ -29,12 +29,14 @@
 #include "touch/ttouchproxy.h"
 #include "tlayoutparams.h"
 #include "tinitcorelib.h"
+#include "tcolor.h"
 #if defined (Q_OS_ANDROID)
   #include <Android/tandroid.h>
 #endif
 #include <QtCore/qdir.h>
 #include <QtCore/qsettings.h>
 #include <QtGui/qguiapplication.h>
+#include <QtGui/qpalette.h>
 #include <QtGui/qscreen.h>
 #include <QtCore/qdebug.h>
 
@@ -123,25 +125,26 @@ Tglobals::~Tglobals() {
 //#######################         PUBLIC         ###########################################
 //##########################################################################################
 
-QVariant Tglobals::getVar(const QString& key) {
-  return config->value(key);
-}
+void Tglobals::setUseAnimations(bool use) { m_useAnimations = use; emit useAnimationsChanged(); }
 
-
-void Tglobals::setUseAnimations(bool use) {
-  m_useAnimations = use;
-  emit useAnimationsChanged();
-}
-
-bool Tglobals::showEnharmNotes() { return S->showEnharmNotes; }
+bool Tglobals::showEnharmNotes() const { return S->showEnharmNotes; }
 void Tglobals::setShowEnharmNotes(bool showEnharm) { S->showEnharmNotes = showEnharm; }
 
-QColor Tglobals::getEnharmNoteColor() { return S->enharmNotesColor; }
+QColor Tglobals::getEnharmNoteColor() const { return S->enharmNotesColor; }
 void Tglobals::setEnharmNoteColor(const QColor& c) { S->enharmNotesColor = c; }
 
-bool Tglobals::isSingleNote() { return S->isSingleNoteMode; }
+QColor Tglobals::getNoteCursorColor() const { return S->pointerColor; }
+void Tglobals::setNoteCursorColor(const QColor& c) { S->pointerColor = c; emit noteCursorColorChanged(); }
+
+bool Tglobals::isSingleNote() const { return S->isSingleNoteMode; }
 void Tglobals::setSingleNote(bool sn) { S->isSingleNoteMode = sn; }
 
+bool Tglobals::namesOnScore() const { return S->namesOnScore; }
+void Tglobals::setNamesOnScore(bool showNames) { S->namesOnScore = showNames; emit namesOnScoreChanged(); }
+
+
+QColor Tglobals::nameColor() { return S->nameColor; }
+void Tglobals::setNameColor(const QColor& nameC) { S->nameColor = nameC; emit nameColorChanged(); }
 
 
 void Tglobals::loadSettings(QSettings* cfg) {
@@ -172,9 +175,9 @@ void Tglobals::loadSettings(QSettings* cfg) {
       S->majKeyNameSufix = cfg->value(QStringLiteral("majorKeysSufix"), QString()).toString();
       S->minKeyNameSufix = cfg->value(QStringLiteral("minorKeysSufix"), QString()).toString();
       if (cfg->contains("pointerColor"))
-          S->pointerColor = cfg->value(QStringLiteral("pointerColor")).value<QColor>(); //-1;
+          S->pointerColor = cfg->value(QStringLiteral("pointerColor")).value<QColor>();
       else
-          S->pointerColor = -1;
+          S->pointerColor = Tcolor::invert(qApp->palette().highlight().color());
       S->clef = Tclef::EclefType(cfg->value(QStringLiteral("clef"), (int)Tclef::Treble_G_8down).toInt());
       S->isSingleNoteMode = cfg->value(QStringLiteral("singleNoteMode"), false).toBool();
       S->tempo = cfg->value(QStringLiteral("tempo"), 120).toInt();
@@ -198,7 +201,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
       S->solfegeStyle = Tnote::EnameStyle(cfg->value(QStringLiteral("solfegeStyle"), (int)getSolfegeStyle()).toInt());
       S->octaveInNoteNameFormat = cfg->value(QStringLiteral("octaveInName"), true).toBool();
       S->namesOnScore = cfg->value(QStringLiteral("namesOnScore"), true).toBool();
-      S->nameColor = cfg->value(QStringLiteral("namesColor"), QColor(0, 80, 80)).value<QColor>();
+      S->nameColor = cfg->value(QStringLiteral("namesColor"), QColor(0, 225, 225)).value<QColor>();
   cfg->endGroup();
 // Initialize name filter
   TnameStyleFilter::setStyleFilter(&S->seventhIs_B, &S->solfegeStyle);

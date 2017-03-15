@@ -49,7 +49,10 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(QString lang READ getLang WRITE setLang)
   Q_PROPERTY(bool showEnharmNotes READ showEnharmNotes WRITE setShowEnharmNotes)
   Q_PROPERTY(QColor enharmNoteColor READ getEnharmNoteColor WRITE setEnharmNoteColor)
+  Q_PROPERTY(QColor noteCursorColor READ getNoteCursorColor WRITE setNoteCursorColor NOTIFY noteCursorColorChanged)
   Q_PROPERTY(bool singleNoteMode READ isSingleNote WRITE setSingleNote)
+  Q_PROPERTY(qreal namesOnScore READ namesOnScore WRITE setNamesOnScore NOTIFY namesOnScoreChanged)
+  Q_PROPERTY(QColor nameColor READ nameColor WRITE setNameColor NOTIFY nameColorChanged)
 
 public:
 
@@ -63,31 +66,34 @@ public:
        */
   static Tglobals* instance() { return m_instance; }
 
-      /**
-       * Returns settings value from given @p key.
-       * Notice: It is not current value but value directly read from configuration file 
-       */
-  Q_INVOKABLE QVariant getVar(const QString& key);
-
       /** Geometry of main Nootka window */
-  QRect geometry() { return m_geometry; }
+  QRect geometry() const { return m_geometry; }
   void setGeometry(const QRect& g) { m_geometry = g; }
 
       /** To show GUI animations. */
-  bool useAnimations() { return m_useAnimations; }
+  bool useAnimations() const { return m_useAnimations; }
   void setUseAnimations(bool use);
 
-  QString getLang() { return lang; }
+  QString getLang() const { return lang; }
   void setLang(const QString& l) { lang = l; }
 
-  bool showEnharmNotes();
+  bool showEnharmNotes() const;
   void setShowEnharmNotes(bool showEnharm);
 
-  QColor getEnharmNoteColor();
+  QColor getEnharmNoteColor() const;
   void setEnharmNoteColor(const QColor& c);
 
-  bool isSingleNote();
+  QColor getNoteCursorColor() const;
+  void setNoteCursorColor(const QColor& c);
+
+  bool isSingleNote() const;
   void setSingleNote(bool sn);
+
+  bool namesOnScore() const;
+  void setNamesOnScore(bool showNames);
+
+  QColor nameColor();
+  void setNameColor(const QColor& nameC);
 
       /** This method return application install path - path from where Nootka was started. */
   static QString getInstPath(QString appInstPath);
@@ -149,16 +155,19 @@ public:
 
 
   TexamParams *E; /**< Exam parameters */
-  QColor EquestionColor; // red
-  QColor EanswerColor; // green
-  QColor EnotBadColor; // #ff8000 (orange)
+  QColor EquestionColor; /**< red */
+  QColor EanswerColor; /**< green */
+  QColor EnotBadColor; /**< #ff8000 (orange) */
 
-  TaudioParams *A;  /** Audio parameters */
+  TaudioParams *A;  /**< Audio parameters */
   TlayoutParams *L; /**< Main window Layout params. */
 
 signals:
   void geometryChanged(); /**< It is never emitted :(  */
   void useAnimationsChanged();
+  void noteCursorColorChanged();
+  void namesOnScoreChanged();
+  void nameColorChanged();
 
 private:
   static Tglobals           *m_instance;
