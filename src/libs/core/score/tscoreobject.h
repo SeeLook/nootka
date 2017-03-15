@@ -22,6 +22,7 @@
 
 #include "nootkacoreglobal.h"
 #include <QtCore/qobject.h>
+#include <QtGui/qcolor.h>
 
 
 /**
@@ -38,6 +39,8 @@ public:
 };
 
 
+class QQmlEngine;
+class QQmlComponent;
 class QTimer;
 class Tnote;
 class TnotePair;
@@ -62,7 +65,9 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(int notesCount READ notesCount)
                         /* Score switches */
   Q_PROPERTY(bool keySignatureEnabled READ keySignatureEnabled WRITE setKeySignatureEnabled)
-  Q_PROPERTY(qreal enableDoubleAccidentals READ enableDoubleAccidentals WRITE setEnableDoubleAccids)
+  Q_PROPERTY(bool enableDoubleAccidentals READ enableDoubleAccidentals WRITE setEnableDoubleAccids)
+  Q_PROPERTY(bool showNoteNames READ showNoteNames WRITE setShowNoteNames)
+  Q_PROPERTY(QColor nameColor READ nameColor WRITE setNameColor)
                         /* Helper variables */
   Q_PROPERTY(qreal stavesHeight READ stavesHeight NOTIFY stavesHeightChanged)
   Q_PROPERTY(qreal width READ width WRITE setWidth)
@@ -115,6 +120,12 @@ public:
   bool remindAccids() const { return m_remindAccids; }
   void setRemindAccids(bool doRemaind);
 
+  bool showNoteNames() { return m_showNoteNames; }
+  void setShowNoteNames(bool showNames);
+
+  QColor nameColor() { return m_nameColor; }
+  void setNameColor(const QColor& nameC);
+
   /* ------------------ Lists with score content (staves, measures notes) ------------------ */
 
   int notesCount() const { return m_notes.count(); }
@@ -141,7 +152,6 @@ public:
        * Total height of all staves
        */
   qreal stavesHeight();
-
       /**
       * Returns duration of given @param grNr group starting from measure beginning
       * Describes grouping (beaming - beam connections) of notes in a single measure for current meter.
@@ -178,6 +188,9 @@ signals:
   void upperLineChanged();
 
 protected:
+  QQmlComponent* component() { return m_qmlComponent; }
+  QQmlEngine* qmlEngine() { return m_qmlEngine; }
+
   void addStaff(TstaffObject* st);
 
   TclefOffset clefOffset() const { return m_clefOffset; }
@@ -229,6 +242,7 @@ private:
   bool                              m_showExtraAccids;
   bool                              m_remindAccids;
   bool                              m_enableDoubleAccids;
+  bool                              m_showNoteNames;
                               /* Lists with notes, measures, staves, meter groups */
   QList<TnotePair*>                 m_segments;
   QList<TstaffObject*>              m_staves;
@@ -242,6 +256,9 @@ private:
   bool                              m_keyChanged = false;
   QTimer                           *m_widthTimer;
   qint8                             m_accidInKeyArray[7];
+  QQmlEngine                       *m_qmlEngine;
+  QQmlComponent                    *m_qmlComponent;
+  QColor                            m_nameColor;
                               /* Note cursor */
   TnoteObject                      *m_activeNote = nullptr;
   qreal                             m_activeYpos = 0.0;

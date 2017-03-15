@@ -28,11 +28,13 @@ Score {
   width: parent.width
 
   property alias scoreMenu: scoreMenu
-  property TnoteItem currentNote: null
 
   enableKeySign: true
+  scoreObj.nameColor: GLOB.nameColor
+  scoreObj.showNoteNames: GLOB.namesOnScore
 
   Rectangle { // note highlight
+    id: noteHighlight
     parent: currentNote
     visible: currentNote != null
     width: currentNote ? (currentNote.width - currentNote.alterWidth) * 1.5 : 0
@@ -42,17 +44,6 @@ Score {
     color: Qt.rgba(activPal.highlight.r, activPal.highlight.g, activPal.highlight.b, 0.3)
     z: -1
     radius: width / 3.0
-  }
-
-  NoteCursor {
-    parent: scoreObj.activeNote
-    anchors.fill: parent
-    yPos: scoreObj.activeYpos
-    upperLine: scoreObj.upperLine
-    onClicked: {
-      scoreObj.noteClicked(y)
-      mainScore.currentNote = scoreObj.activeNote
-    }
   }
 
   Menu {
@@ -66,6 +57,8 @@ Score {
       MenuItem {
         text: qsTr("Show note names")
         checkable: true
+        checked: GLOB.namesOnScore
+        onTriggered: scoreObj.showNoteNames = checked
       }
       MenuItem {
         id: zoomOut
@@ -75,7 +68,7 @@ Score {
       MenuItem {
         id: zoomIn
         text: qsTr("Zoom score in")
-        onTriggered:  scaleFactor = Math.min(scaleFactor + 0.2, 1.0)
+        onTriggered:  scaleFactor = Math.min(scaleFactor + 0.2, 1.4)
       }
   }
   Shortcut { sequence: StandardKey.ZoomOut; onActivated: zoomOut.triggered() }
@@ -101,4 +94,5 @@ Score {
       }
     }
   }
+
 }

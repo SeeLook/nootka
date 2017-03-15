@@ -78,6 +78,8 @@ void TmeasureObject::appendNewNotes(int segmentId, int count) {
     np->setNoteObject(noteObject);
     checkAccidentals();
     noteObject->setNote(*np->note());
+    if (m_score->showNoteNames())
+      noteObject->setNoteNameVisible(true);
   }
   if (grWithBeam > -1) {
     auto firstInGrId = m_score->noteSegment(firstNoteId() + m_firstInGr[grWithBeam])->index();

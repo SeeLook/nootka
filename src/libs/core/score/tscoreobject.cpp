@@ -24,6 +24,7 @@
 #include "music/tmeter.h"
 #include "music/tnote.h"
 
+#include <QtQml/qqmlengine.h>
 #include <QtCore/qtimer.h>
 #include <QtCore/qdebug.h>
 #include "checktime.h"
@@ -36,10 +37,14 @@ TscoreObject::TscoreObject(QObject* parent) :
   QObject(parent),
   m_keySignEnabled(false),
   m_showExtraAccids(false),
-  m_remindAccids(true),
+  m_remindAccids(false),
+  m_enableDoubleAccids(true),
+  m_showNoteNames(false),
   m_clefOffset(TclefOffset(3, 1)),
   m_width(0.0), m_adjustInProgress(false)
 {
+  m_qmlEngine = new QQmlEngine;
+  m_qmlComponent = new QQmlComponent(m_qmlEngine, this);
   m_meter = new Tmeter(Tmeter::Meter_4_4);
   setMeter(4); // Tmeter::Meter_4_4
   m_measures << new TmeasureObject(0, this);
@@ -56,6 +61,8 @@ TscoreObject::TscoreObject(QObject* parent) :
 TscoreObject::~TscoreObject()
 {
   delete m_meter;
+  delete m_qmlComponent;
+  delete m_qmlEngine;
   qDebug() << "[TscoreObject] deleted";
 }
 
@@ -235,6 +242,36 @@ void TscoreObject::setEnableDoubleAccids(bool dblEnabled) {
   if (m_enableDoubleAccids != dblEnabled) {
     m_enableDoubleAccids = dblEnabled;
   }
+}
+
+
+/**
+ * When @p m_showNoteNames is set to @p TRUE:
+ * @p TmeasureObject during adding a note item calls @p TnoteObject::setNoteNameVisible() to create note name
+ * This method iterates all notes and switches its state of displaying note name
+ */
+void TscoreObject::setShowNoteNames(bool showNames) {
+CHECKTIME (
+  if (m_showNoteNames != showNames) {
+    m_showNoteNames = showNames;
+    for (int n = 0; n < notesCount(); ++n)
+      m_segments[n]->item()->setNoteNameVisible(m_showNoteNames);
+    qDebug() << "[TscoreObject] note name changed for" << notesCount() << "notes";
+  }
+)
+}
+
+
+void TscoreObject::setNameColor(const QColor& nameC) {
+CHECKTIME(
+  if (m_nameColor != nameC) {
+    m_nameColor = nameC;
+    if (m_showNoteNames) {
+      for (int n = 0; n < notesCount(); ++n) // with hope that all items have name item created
+        m_segments[n]->item()->nameItem()->setProperty("styleColor", m_nameColor);
+    }
+  }
+)
 }
 
 
