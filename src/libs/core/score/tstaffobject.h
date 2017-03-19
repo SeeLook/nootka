@@ -49,6 +49,7 @@ class NOOTKACORE_EXPORT  TstaffObject : public QObject
   Q_PROPERTY(int number READ number WRITE setNumber NOTIFY numberChanged)
 
   friend class TscoreObject;
+  friend class TnotePair;
 
 public:
   explicit TstaffObject(QObject* parent = nullptr);
@@ -86,6 +87,9 @@ public:
   TmeasureObject* firstMeasure();
   TmeasureObject* lastMeasure();
 //   TmeasureObject* measure(int id) { return m_measures[id]; }
+
+  TnotePair* firstNote();
+  TnotePair* lastNote();
 
       /**
        * Multiplexer of rhythm gaps between notes.
@@ -155,18 +159,17 @@ protected:
        */
   void insertMeasure(int index, TmeasureObject* m);
 
-  void deleteExtraTie();
-
-private:
-  void findLowestNote(); /**< Checks all Y positions of staff notes to find lowest one */
-  void findHighestNote(); /**< Checks all Y positions of staff notes to find highest one */
-
       /**
        * Staff manages extra tie text when tie is broken among staves.
        * It creates QML Text item and adds it to first note head in the staff.
        * Whenever first note changes (measures are shifting), it check is that extra tie necessary
        */
   void createExtraTie(TnoteObject* parent);
+  void deleteExtraTie();
+
+private:
+  void findLowestNote(); /**< Checks all Y positions of staff notes to find lowest one */
+  void findHighestNote(); /**< Checks all Y positions of staff notes to find highest one */
 
 private:
   TscoreObject                  *m_score;

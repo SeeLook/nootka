@@ -60,6 +60,19 @@ const qreal rtmGapArray[5][3] = {
 };
 
 
+QString tieDebug(Trhythm::Etie t) {
+  switch (t) {
+    case Trhythm::e_tieEnd:
+      return "TE";
+    case Trhythm::e_tieStart:
+      return "TS";
+    case Trhythm::e_tieCont:
+      return "TC";
+    default:
+      return QString();
+  }
+}
+
 
 TnoteObject::TnoteObject(TstaffObject* staffObj, TnotePair* wrapper) :
   QQuickItem(staffObj->staffItem()),
@@ -98,6 +111,9 @@ TnoteObject::TnoteObject(TstaffObject* staffObj, TnotePair* wrapper) :
   m_flag->setParentItem(m_stem);
   m_flag->setX(0.1);
 
+//   m_staff->score()->component()->setData("import QtQuick 2.7; Text { font { pixelSize: 1 }}", QUrl());
+//   m_debug = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
+//   m_debug->setParentItem(this);
 
   setColor(qApp->palette().text().color());
   setHeight(staffObj->staffItem()->height());
@@ -214,6 +230,8 @@ void TnoteObject::setNote(const Tnote& n) {
   if (updateStem || oldNotePos != static_cast<int>(m_notePosY))
       updateNamePos();
 
+//   m_debug->setProperty("text", QString("%1 %2").arg(index()).arg(tieDebug(m_note->rtm.tie())));
+//   m_debug->setY(height() - (2 + index() % 2) * m_debug->height());
 //   qDebug() << debug() << "set note" << m_note->toText() << m_note->rtm.string() << "note pos" << m_notePosY << "width:" << width();
 }
 
@@ -261,6 +279,8 @@ void TnoteObject::checkTie() {
       updateTieScale();
       m_tie->setX(m_head->width());
   }
+//   m_debug->setProperty("text", QString("%1 %2").arg(index()).arg(tieDebug(m_note->rtm.tie())));
+//   m_debug->setY(height() - (2 + index() % 2) * m_debug->height());
 }
 
 

@@ -22,6 +22,7 @@
 
 #include "nootkacoreglobal.h"
 #include <QtCore/qobject.h>
+#include <QtCore/qpoint.h>
 #include <QtGui/qcolor.h>
 
 
@@ -225,6 +226,12 @@ protected:
 
   void changeActiveNote(TnoteObject* aNote);
   void setActiveNotePos(qreal yPos);
+
+      /**
+       * Returns number of note that starts a tie through @p x()
+       * and number of note that ends the tie through @p y()
+       */
+  QPoint tieRange(TnoteObject* n);
 
 private:
       /**

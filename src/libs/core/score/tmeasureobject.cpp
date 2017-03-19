@@ -121,12 +121,12 @@ void TmeasureObject::keySignatureChanged() {
 
 
 int TmeasureObject::firstNoteId() const {
-  return m_notes.count() ? m_notes.first()->index() : 0;
+  return m_notes.isEmpty() ? 0 : m_notes.first()->index();
 }
 
 
 int TmeasureObject::lastNoteId() const {
-  return m_notes.count() ? m_notes.last()->index() : 0;
+  return m_notes.isEmpty() ? 0 : m_notes.last()->index();
 }
 
 
