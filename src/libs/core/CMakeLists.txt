@@ -13,7 +13,7 @@ set(LIB_NOOTKACORE_SRC
   tcolor.cpp
   tfingerpos.cpp
   tglobals.cpp
-  tnoofont.cpp
+#   tnoofont.cpp
   tpath.cpp
 #   tmtr.cpp
   tnootkaqml.cpp
@@ -49,13 +49,6 @@ set(LIB_NOOTKACORE_SRC
 #   exam/textrans.h
 #   exam/tresulttext.cpp
 
-
-  touch/ttouchproxy.cpp
-#   touch/ttoucharea.cpp
-  touch/ttouchparams.cpp
-
-#   plugins/tplugininterface.h
-#   plugins/tpluginsloader.cpp
 )
 
 
@@ -65,7 +58,7 @@ target_link_libraries(NootkaCore
   Qt5::Qml
   Qt5::Quick
   Qt5::QuickControls2
-  )
+)
 
 
 if(UNIX AND NOT APPLE)   # Linux path for Nootka library
