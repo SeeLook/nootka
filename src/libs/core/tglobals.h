@@ -110,11 +110,6 @@ public:
   bool isFirstRun; /**< to show or skip first run wizard*/
   QString lang; /**< Application language. If empty - selected from system info*/
   QSettings *config; /**< Pointer to QSettings instance of Nootka */
-  bool enableTouch; /**< When true, touch events are propagated */
-
-        /** Due to bug in version 0.8.95 it keeps value of user declared instrument to fix incorrect levels
-         * or -1 to display a dialog for user to declare it.  */
-  int instrumentToFix;
 
         /** Let's have a convention:
         * globals settings for @class TnoteName will started from 'N' letter

@@ -23,10 +23,8 @@
 #include <taudioparams.h>
 #include <texamparams.h>
 #include <tscoreparams.h>
-#include <touch/ttouchparams.h>
 #include <music/tnamestylefilter.h>
 #include "tpath.h"
-#include "touch/ttouchproxy.h"
 #include "tlayoutparams.h"
 #include "tinitcorelib.h"
 #include "tcolor.h"
@@ -63,8 +61,6 @@ QString Tglobals::getInstPath(QString appInstPath) {
   return p;
 }
 
-TtouchProxy* onlyOneTouchProxy = 0; // It is available through TtouchProxy::instance()
-
 /*end static*/
 
 
@@ -86,7 +82,6 @@ Tglobals::Tglobals(QObject* parent) :
   A = new TaudioParams();
   S = new TscoreParams();
   L = new TlayoutParams();
-  new TtouchParams;
 
 #if defined(Q_OS_WIN32) || defined(Q_OS_MAC) // I hate mess in Win registry
   config = new QSettings(QSettings::IniFormat, QSettings::UserScope, QStringLiteral("Nootka"), qApp->applicationName());
@@ -102,7 +97,6 @@ Tglobals::Tglobals(QObject* parent) :
       qDebug() << "Tglobals instance has already existed. Application is terminating!";
       exit(109);
   }
-  onlyOneTouchProxy = new TtouchProxy();
 }
 
 
@@ -114,8 +108,6 @@ Tglobals::~Tglobals() {
   delete L;
   delete m_tune;
   delete config;
-  delete onlyOneTouchProxy;
-  delete TtouchParams::i();
   Tcore::reset();
   m_instance = nullptr;
 }
@@ -165,9 +157,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
   cfg->beginGroup(QLatin1String("common"));
       isFirstRun = cfg->value(QStringLiteral("isFirstRun"), true).toBool();
       m_useAnimations = cfg->value(QStringLiteral("useAnimations"), true).toBool();
-      enableTouch = cfg->value(QStringLiteral("enableTouch"), false).toBool();
       lang = cfg->value(QStringLiteral("language"), QString()).toString();
-      instrumentToFix = cfg->value(QStringLiteral("instrumentToFix"), -1).toInt();
   cfg->endGroup();
 
 //score widget settings
@@ -323,7 +313,6 @@ void Tglobals::loadSettings(QSettings* cfg) {
 #if defined (Q_OS_ANDROID)
     L->soundViewEnabled = cfg->value(QStringLiteral("soundViewEnabled"), false).toBool();
   // override some options not supported under mobile systems
-  enableTouch = true;
   L->toolBarAutoHide = true;
   L->iconTextOnToolBar = Qt::ToolButtonTextBesideIcon;
   L->hintsBarEnabled = false;
@@ -335,14 +324,13 @@ void Tglobals::loadSettings(QSettings* cfg) {
     L->hintsBarEnabled = cfg->value(QStringLiteral("hintsBarEnabled"), true).toBool();
 #endif
   cfg->endGroup();
-  TtouchProxy::setTouchEnabled(enableTouch);
 
-  cfg->beginGroup(QLatin1String("touch"));
-    TtouchParams::i()->scoreWasTouched = cfg->value(QStringLiteral("scoreWasTouched"), false).toBool();
-    TtouchParams::i()->clefWasTouched = cfg->value(QStringLiteral("clefWasTouched"), false).toBool();
-    TtouchParams::i()->guitarWasTouched = cfg->value(QStringLiteral("guitarWasTouched"), false).toBool();
-    TtouchParams::i()->initialAnimAccepted = cfg->value(QStringLiteral("initialAnimAccepted"), false).toBool();
-  cfg->endGroup();
+//   cfg->beginGroup(QLatin1String("touch"));
+//     TtouchParams::i()->scoreWasTouched = cfg->value(QStringLiteral("scoreWasTouched"), false).toBool();
+//     TtouchParams::i()->clefWasTouched = cfg->value(QStringLiteral("clefWasTouched"), false).toBool();
+//     TtouchParams::i()->guitarWasTouched = cfg->value(QStringLiteral("guitarWasTouched"), false).toBool();
+//     TtouchParams::i()->initialAnimAccepted = cfg->value(QStringLiteral("initialAnimAccepted"), false).toBool();
+//   cfg->endGroup();
 }
 
 
@@ -402,13 +390,11 @@ void Tglobals::storeSettings(QSettings* cfg) {
   cfg->beginGroup(QLatin1String("common"));
       cfg->setValue(QStringLiteral("isFirstRun"), isFirstRun);
       cfg->setValue(QStringLiteral("useAnimations"), m_useAnimations);
-      cfg->setValue(QStringLiteral("enableTouch"), enableTouch);
       cfg->setValue(QStringLiteral("doubleAccidentals"), S->doubleAccidentalsEnabled);
       cfg->setValue(QStringLiteral("showEnaharmonicNotes"), S->showEnharmNotes);
       cfg->setValue(QStringLiteral("enharmonicNotesColor"), S->enharmNotesColor);
       cfg->setValue(QStringLiteral("is7thNote_B"), S->seventhIs_B);
       cfg->setValue(QStringLiteral("language"), lang);
-      cfg->setValue(QStringLiteral("instrumentToFix"), instrumentToFix);
   cfg->endGroup();
 
   cfg->beginGroup(QLatin1String("score"));
@@ -510,10 +496,10 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue(QStringLiteral("guitarEnabled"), L->guitarEnabled);
   cfg->endGroup();
 
-  cfg->beginGroup(QLatin1String("touch"));
-    cfg->setValue(QStringLiteral("scoreWasTouched"), TtouchParams::i()->scoreWasTouched);
-    cfg->setValue(QStringLiteral("clefWasTouched"), TtouchParams::i()->clefWasTouched);
-    cfg->setValue(QStringLiteral("guitarWasTouched"), TtouchParams::i()->guitarWasTouched);
-    cfg->setValue(QStringLiteral("initialAnimAccepted"), TtouchParams::i()->initialAnimAccepted);
-  cfg->endGroup();
+//   cfg->beginGroup(QLatin1String("touch"));
+//     cfg->setValue(QStringLiteral("scoreWasTouched"), TtouchParams::i()->scoreWasTouched);
+//     cfg->setValue(QStringLiteral("clefWasTouched"), TtouchParams::i()->clefWasTouched);
+//     cfg->setValue(QStringLiteral("guitarWasTouched"), TtouchParams::i()->guitarWasTouched);
+//     cfg->setValue(QStringLiteral("initialAnimAccepted"), TtouchParams::i()->initialAnimAccepted);
+//   cfg->endGroup();
 }
