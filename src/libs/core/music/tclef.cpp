@@ -16,7 +16,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #include "tclef.h"
 #include <QtWidgets/qapplication.h>
 #include <QtCore/qxmlstream.h>
@@ -41,6 +40,8 @@ QString Tclef::name() const {
       return QApplication::translate("Tclef", "tenor");
     case PianoStaffClefs:
       return QApplication::translate("Tclef", "grand staff");
+    case NoClef:
+      return QApplication::translate("Tclef", "neutral");
     default :
       return QString();
   }
@@ -48,25 +49,58 @@ QString Tclef::name() const {
 
 
 QString Tclef::desc() const {
+  QString br = QStringLiteral("<br>");
   switch(m_type) {
     case Treble_G:
-      return QApplication::translate("Tclef", "clef G");
+      return QApplication::translate("Tclef", "clef G") + br +
+             QApplication::translate("TradioClef", "Common used clef (for violin, flute, saxophones, etc.)");
     case Treble_G_8down:
-      return QApplication::translate("Tclef", "clef G dropped octave down");
+      return QApplication::translate("Tclef", "clef G dropped octave down") + br +
+             QApplication::translate("TradioClef", "Clef for guitars (classical, electric and so)");
     case Bass_F:
-      return QApplication::translate("Tclef", "clef F");
+      return QApplication::translate("Tclef", "clef F") + br +
+             QApplication::translate("Tclef", "Clef for bass guitar and double bass, also used for cello and trombone.");
     case Bass_F_8down:
-      return QApplication::translate("Tclef", "clef F dropped octave down");
+      return QString();// QApplication::translate("Tclef", "clef F dropped octave down"); used no more
     case Alto_C:
-      return QApplication::translate("Tclef", "clef C");
+      return QApplication::translate("Tclef", "clef C") + br +
+             QApplication::translate("TradioClef", "Sometimes it is called clef for viola and mostly used for this instrument.");
     case Tenor_C:
       return QApplication::translate("Tclef", "clef C");
     case PianoStaffClefs:
       return QApplication::translate("Tclef", "treble and bass clefs");
+    case NoClef:
+      return QApplication::translate("Tclef", "percussion clef") + br +
+             QApplication::translate("Tclef", "For rhythms only, note pitch is undefined.");
     default :
       return QString();
   }
 }
+
+
+QString Tclef::glyph() const {
+  switch(m_type) {
+    case Treble_G:
+      return QStringLiteral("\ue050");
+    case Treble_G_8down:
+      return QStringLiteral("\ue052");
+    case Bass_F:
+      return QStringLiteral("\ue062");
+    case Bass_F_8down:
+      return QStringLiteral("\ue064");
+    case Alto_C:
+      return QStringLiteral("\ue05c");
+    case Tenor_C:
+      return QStringLiteral("\ue05c");
+    case PianoStaffClefs:
+      return QStringLiteral("\ue050");
+    case NoClef:
+      return QStringLiteral("\ue069");
+    default :
+      return QString();
+  }
+}
+
 
 
 void Tclef::toXml(QXmlStreamWriter& xml) {

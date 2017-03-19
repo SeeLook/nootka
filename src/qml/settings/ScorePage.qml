@@ -20,6 +20,8 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Layouts 1.3
 
+import Score 1.0
+
 
 Column {
 
@@ -121,7 +123,7 @@ Column {
 
       Flickable { // 2nd page (key signatures)
         clip: true
-        contentHeight: childrenRect.height
+        contentHeight: secondColumn.height
         Column {
           id: secondColumn
           anchors.fill: parent
@@ -186,10 +188,28 @@ Column {
           }
         }
       }
-      Item {
-        Text {
-          text: "Clefs"
-          anchors.centerIn: parent
+
+      Flickable { // 3rd page (clefs)
+        clip: true
+        contentHeight: clefsCol.height
+        contentWidth: parent.width
+        width: parent.width
+        Column {
+          id: clefsCol
+          width: parent.width
+          spacing: nootkaWindow.fontSize / 2
+          Text {
+            text: qsTranslate("TscoreSettings", "Select default clef for the application.") + "<br><b>" + qsTranslate("TscoreSettings", "Remember! Not all clefs are suitable for some possible tunings or instrument types!") + "<b>"
+            textFormat: Text.StyledText
+            horizontalAlignment: Text.AlignHCenter
+            width: parent.width
+            wrapMode: Text.WordWrap
+          }
+          ClefMenu {
+            id: clefs
+            columns: width < nootkaWindow.fontSize * 40 ? 1 : 2
+            Component.onCompleted: selClef = GLOB.clefType
+          }
         }
       }
       Item {
