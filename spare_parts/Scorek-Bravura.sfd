@@ -22,7 +22,7 @@ OS2Version: 3
 OS2_WeightWidthSlopeOnly: 0
 OS2_UseTypoMetrics: 0
 CreationTime: 1461314537
-ModificationTime: 1488792473
+ModificationTime: 1489615944
 PfmFamily: 81
 TTFWeight: 400
 TTFWidth: 5
@@ -75,7 +75,7 @@ NameList: AGL For New Fonts
 DisplaySize: -128
 AntiAlias: 1
 FitToEm: 0
-WinInfo: 57824 8 5
+WinInfo: 57424 8 5
 BeginPrivate: 2
 StdHW 4 [78]
 StdVW 4 [90]
@@ -2138,21 +2138,38 @@ EndChar
 
 StartChar: uniE069
 Encoding: 57449 57449 53
-Width: 1000
-Flags: MW
+Width: 382
+Flags: HMW
 LayerCount: 2
 Fore
-Validated: 1
+SplineSet
+160 -235 m 2
+ 160 -243 154 -250 146 -250 c 2
+ 14 -250 l 2
+ 6 -250 0 -243 0 -235 c 2
+ 0 235 l 2
+ 0 243 6 250 14 250 c 2
+ 146 250 l 2
+ 154 250 160 243 160 235 c 2
+ 160 -235 l 2
+382 235 m 2
+ 382 -235 l 2
+ 382 -243 376 -250 368 -250 c 2
+ 236 -250 l 2
+ 228 -250 222 -243 222 -235 c 2
+ 222 235 l 2
+ 222 243 228 250 236 250 c 2
+ 368 250 l 2
+ 376 250 382 243 382 235 c 2
+EndSplineSet
 AlternateSubs2: "'salt' Stylistic Alternatives lookup 5 subtable" uniE069.salt01
 EndChar
 
 StartChar: uniE06A
 Encoding: 57450 57450 54
 Width: 1000
-Flags: MW
+Flags: HMW
 LayerCount: 2
-Fore
-Validated: 1
 EndChar
 
 StartChar: uniE06B
