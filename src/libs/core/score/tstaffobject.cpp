@@ -140,8 +140,8 @@ void TstaffObject::fit() {
           if (m > m_firstMeasureId)
             m_allNotesWidth -= BARLINE_OFFSET;
           m_gapFactor = (m_score->width() - m_notesIndent - m_allNotesWidth - 1.0) / m_gapsSum;  // allow factor bigger than 2.5
-          createExtraTie(measure->first()->item());
           m_score->startStaffFromMeasure(this, m, m_lastMeasureId - (m - 1));
+          m_score->staff(m_number + 1)->createExtraTie(measure->first()->item());
           m_lastMeasureId = m - 1;
           updateNotesPos();
           checkNotesRange();
@@ -167,12 +167,12 @@ void TstaffObject::fit() {
       if (availableWidth / tempGapSum > 0.8) {
         m_lastMeasureId = m;
         nextMeasure->setStaff(this);
-        deleteExtraTie();
+        nextStaff->deleteExtraTie();
         nextStaff->setFirstMeasureId(m + 1); // if there is not next measure - next staff will be deleted
         if (nextStaff->measuresCount() < 1)
           m_score->deleteStaff(nextStaff);
         else
-          createExtraTie(nextStaff->firstMeasure()->first()->item());
+          nextStaff->createExtraTie(nextStaff->firstMeasure()->first()->item());
         fit();
         checkNotesRange();
         return;
@@ -252,6 +252,16 @@ void TstaffObject::deleteExtraTie() {
     delete m_extraTie;
     m_extraTie = nullptr;
   }
+}
+
+
+TnotePair* TstaffObject::firstNote() {
+  return firstMeasure()->isEmpty() ? nullptr : firstMeasure()->first();
+}
+
+
+TnotePair* TstaffObject::lastNote() {
+  return m_lastMeasureId > -1 ? lastMeasure()->last() : nullptr;
 }
 
 
