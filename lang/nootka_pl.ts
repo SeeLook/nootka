@@ -1052,7 +1052,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/libs/core/music/tclef.cpp" line="70"/>
         <source>treble and bass clefs</source>
-        <translation>klucz wiolinowy i  basowy</translation>
+        <translation>klucz wiolinowy i basowy</translation>
     </message>
 </context>
 <context>

@@ -53,6 +53,7 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(bool singleNoteMode READ isSingleNote WRITE setSingleNote)
   Q_PROPERTY(qreal namesOnScore READ namesOnScore WRITE setNamesOnScore NOTIFY namesOnScoreChanged)
   Q_PROPERTY(QColor nameColor READ nameColor WRITE setNameColor NOTIFY nameColorChanged)
+  Q_PROPERTY(int clefType READ clefType WRITE setClefType)
 
 public:
 
@@ -92,8 +93,11 @@ public:
   bool namesOnScore() const;
   void setNamesOnScore(bool showNames);
 
-  QColor nameColor();
+  QColor nameColor() const;
   void setNameColor(const QColor& nameC);
+
+  int clefType() const;
+  void setClefType(int clType);
 
       /** This method return application install path - path from where Nootka was started. */
   static QString getInstPath(QString appInstPath);

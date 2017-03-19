@@ -143,8 +143,12 @@ bool Tglobals::namesOnScore() const { return S->namesOnScore; }
 void Tglobals::setNamesOnScore(bool showNames) { S->namesOnScore = showNames; emit namesOnScoreChanged(); }
 
 
-QColor Tglobals::nameColor() { return S->nameColor; }
+QColor Tglobals::nameColor() const { return S->nameColor; }
 void Tglobals::setNameColor(const QColor& nameC) { S->nameColor = nameC; emit nameColorChanged(); }
+
+int Tglobals::clefType() const { return static_cast<int>(S->clef); }
+void Tglobals::setClefType(int clType) { S->clef = static_cast<Tclef::EclefType>(clType); }
+
 
 
 void Tglobals::loadSettings(QSettings* cfg) {
