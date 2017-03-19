@@ -47,6 +47,7 @@ class NOOTKACORE_EXPORT TbeamObject : public QQuickPaintedItem
 
   Q_OBJECT
 
+  friend class TscoreObject;
   friend class TstaffObject;
   friend class TmeasureObject;
   friend class TnoteObject;
