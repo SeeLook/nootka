@@ -30,7 +30,6 @@
 #include <QtGui/qpainter.h>
 
 #include <QtCore/qdebug.h>
-#include "checktime.h"
 
 
 /**
@@ -144,7 +143,6 @@ void TbeamObject::prepareBeam() {
  * for stems-down the opposite.
  */
 void TbeamObject::paint(QPainter* painter) {
-CHECKTIME (
   if (count() > 1) {
     qreal s = first()->note()->rtm.stemDown() ? -1.0 : 1.0;
     qreal t = first()->note()->rtm.stemDown() ? height() : 0.0;
@@ -164,7 +162,6 @@ CHECKTIME (
       painter->drawPolygon(polyB);
     }
   }
-)
 }
 
 

@@ -93,6 +93,7 @@ public:
   enum Etie : quint8 {
     e_noTie = 0, e_tieStart = 64, e_tieCont = 128, e_tieEnd = 192
   };
+  Q_ENUM(Etie)
 
       /** DEFAULT CONSTRUCTOR: by default it is quarter (without dot) */
   Trhythm(Erhythm nVal = Quarter, bool rest = false, bool dot = false, bool triplet = false)
