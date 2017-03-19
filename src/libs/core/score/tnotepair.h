@@ -36,6 +36,7 @@ class TnotePair
 {
   Q_GADGET
 
+  friend class TscoreObject;
   friend class TmeasureObject;
   friend class TbeamObject;
   friend class TnoteObject;
@@ -69,6 +70,9 @@ public:
   };
   Q_ENUM(Echanges)
 
+  enum Euntie { e_untieNext, e_untiePrev };
+  Q_ENUM(Euntie)
+
   int changes() { return m_changes; }
   void addChange(Echanges ch) { m_changes |= ch;}
 
@@ -80,6 +84,14 @@ public:
 protected:
   TbeamObject* beam() { return m_beam; }
   void setBeam(TbeamObject* b);
+
+      /**
+       * Disconnect tie. @p untie parameter of @p Euntie enumerator determines:
+       * is this note before tie break (@p e_untiePrev) or after (@p e_untieNext)
+       * This method doesn't check tie existence it asserts note has tie already.
+       * It also takes care about removing of extra tie at the staff beginning
+       */
+  void disconnectTie(Euntie untie);
 
 private:
   Tnote                   *m_note;
