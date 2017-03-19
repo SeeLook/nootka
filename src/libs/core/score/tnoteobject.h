@@ -48,6 +48,7 @@ class NOOTKACORE_EXPORT TnoteObject : public QQuickItem
   friend class TstaffObject;
   friend class TmeasureObject;
   friend class TbeamObject;
+  friend class TnotePair;
 
 public:
   explicit TnoteObject(TstaffObject* staffObj = nullptr, TnotePair* wrapper = nullptr);
@@ -123,6 +124,7 @@ protected:
   QQuickItem* tie() { return m_tie; }
   QQuickItem* head() { return m_head; }
   QQuickItem* nameItem() { return m_name; }
+  TnotePair* wrapper() { return m_wrapper; }
 
       /**
        * @p TnoteObject manages tie itself whenever tie state changes, by calling exactly this method.
@@ -154,6 +156,8 @@ private:
   QString                      m_accidText;
   QQuickItem                  *m_tie = nullptr;
   QQuickItem                  *m_name = nullptr;
+
+  QQuickItem                  *m_debug;
 
 private:
   QQuickItem* createAddLine();
