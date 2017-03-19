@@ -20,6 +20,7 @@
 #include "tstaffobject.h"
 #include "tmeasureobject.h"
 #include "tnoteobject.h"
+#include "tbeamobject.h"
 #include "tnotepair.h"
 #include "music/tmeter.h"
 #include "music/tnote.h"
@@ -223,10 +224,70 @@ TnoteObject * TscoreObject::note(int noteId) {
 
 
 void TscoreObject::noteClicked(qreal yPos) {
+  if (activeNote()->note()->isRest())
+    return;
+CHECKTIME(
   int globalNr = m_clefOffset.octave * 7 - (yPos - static_cast<int>(upperLine()) - m_clefOffset.note);
-  Tnote n(static_cast<char>(56 + globalNr) % 7 + 1, static_cast<char>(56 + globalNr) / 7 - 8,
+  Tnote newNote(static_cast<char>(56 + globalNr) % 7 + 1, static_cast<char>(56 + globalNr) / 7 - 8,
           static_cast<char>(activeNote()->note()->alter), activeNote()->note()->rtm);
-  qDebug() << "[TscoreObject] clicked note" << activeNote() << yPos << n.toText() << n.rtm.string();
+  Tnote oldNote = *activeNote()->wrapper()->note();
+  bool fitStaff = false;
+// disconnect tie (if any) if note pitch changed
+  QPoint notesForAlterCheck;// x is first note and y is the last note to check
+  if (oldNote.rtm.tie() && newNote.chromatic() != oldNote.chromatic()) {
+    // alters of notes has to be checked due to note changed
+    // and all measures contained note with the tie are affected. Find them then
+    notesForAlterCheck = tieRange(activeNote());
+    notesForAlterCheck.setX(m_segments[notesForAlterCheck.x()]->item()->measure()->firstNoteId());
+    notesForAlterCheck.setY(m_segments[notesForAlterCheck.y()]->item()->measure()->lastNoteId());
+    if (oldNote.rtm.tie() == Trhythm::e_tieStart) {
+        m_segments[activeNote()->index() + 1]->disconnectTie(TnotePair::e_untieNext);
+    } else { // tie continue or end
+        if (oldNote.rtm.tie() == Trhythm::e_tieCont)
+          m_segments[activeNote()->index() + 1]->disconnectTie(TnotePair::e_untieNext);
+        m_segments[activeNote()->index() - 1]->disconnectTie(TnotePair::e_untiePrev);
+    }
+    newNote.rtm.setTie(Trhythm::e_noTie);
+    if (activeNote()->wrapper() == activeNote()->staff()->firstNote())
+      activeNote()->staff()->deleteExtraTie();
+    fitStaff = true;
+  }
+  *activeNote()->wrapper()->note() = newNote;
+  activeNote()->setNote(newNote);
+// When note or alter are different - check accidentals in whole measure and fit staff if necessary
+  if (!notesForAlterCheck.isNull() || oldNote.note != newNote.note || oldNote.alter != newNote.alter) {
+    if (notesForAlterCheck.isNull())
+      notesForAlterCheck = QPoint(activeNote()->measure()->firstNoteId(), activeNote()->measure()->lastNoteId());
+    auto measureToRefresh = m_segments[notesForAlterCheck.x()]->item()->measure();
+    for (int n = notesForAlterCheck.x(); n <= notesForAlterCheck.y(); ++n) {
+      if (m_segments[n]->note()->note == oldNote.note || m_segments[n]->note()->note == newNote.note) {
+        fitStaff = true;
+        m_segments[n]->item()->updateAlter();
+      }
+      // Update measure sums (notes width)
+      if (m_segments[n]->item()->measure() != measureToRefresh) {
+        measureToRefresh->refresh();
+        measureToRefresh = m_segments[n]->item()->measure();
+      }
+    }
+    measureToRefresh->refresh();
+  }
+// update note range on current staff
+  if (oldNote.note != newNote.note || oldNote.octave != newNote.octave)
+    activeNote()->staff()->checkNotesRange();
+// If there is a beam - prepare it again then draw
+  if (activeNote()->wrapper()->beam()) {
+    activeNote()->wrapper()->beam()->prepareBeam();
+    if (!fitStaff)
+      activeNote()->wrapper()->beam()->drawBeam();
+  }
+  if (fitStaff) {
+    m_segments[notesForAlterCheck.x()]->item()->staff()->fit();
+    if (m_segments[notesForAlterCheck.y()]->item()->staff() != m_segments[notesForAlterCheck.x()]->item()->staff())
+      m_segments[notesForAlterCheck.y()]->item()->staff()->fit();
+  }
+  qDebug() << "[TscoreObject] clicked note" << activeNote() << yPos << newNote.toText() << newNote.rtm.string();
+)
 }
 
 //#################################################################################################
@@ -311,6 +372,27 @@ void TscoreObject::setWidth(qreal w) {
   }
 }
 
+
+QPoint TscoreObject::tieRange(TnoteObject* n) {
+  QPoint tr;
+  if (n->note()->rtm.tie()) {
+    tr.setX(n->index());
+    while (tr.x() > -1) {
+      if (m_notes[tr.x()].rtm.tie() == Trhythm::e_tieStart)
+        break;
+      --tr.rx();
+    }
+    tr.setY(n->index());
+    while (tr.y() < notesCount()) {
+      if (m_notes[tr.y()].rtm.tie() == Trhythm::e_tieEnd)
+        break;
+      ++tr.ry();
+    }
+  }
+  return tr;
+}
+
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
@@ -339,7 +421,7 @@ void TscoreObject::addStaff(TstaffObject* st) {
 }
 
 /**
- * More-less it means that staff @p sourceStaff has no space for @p count number of measures measures
+ * More-less it means that staff @p sourceStaff has no space for @p count number of measures
  * starting from @p measureNr, but those measures belong to it still
  */
 void TscoreObject::startStaffFromMeasure(TstaffObject* sourceStaff, int measureNr, int count) {
