@@ -56,8 +56,9 @@ public:
   EclefType type() const { return m_type; }
   void setClef(EclefType type) { m_type = type; }
 
-  Q_INVOKABLE QString name() const; // short name of a clef
-  Q_INVOKABLE QString desc() const; // a clef description
+  Q_INVOKABLE QString name() const; /**< short name of a clef */
+  Q_INVOKABLE QString desc() const; /**< a clef description */
+  Q_INVOKABLE QString glyph() const;
 
      /**
       * Adds 'clef' key to XML stream compatible with MusicXML format with current clef

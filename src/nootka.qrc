@@ -8,6 +8,7 @@
     <file alias="HeadButton.qml">qml/shared/HeadButton.qml</file>
     <file alias="PagesDialog.qml">qml/shared/PagesDialog.qml</file>
     <file alias="Tile.qml">qml/shared/Tile.qml</file>
+    <file alias="ClefMenu.qml">qml/shared/ClefMenu.qml</file>
 
     <file alias="IntonationBar.qml">qml/sound/IntonationBar.qml</file>
     <file alias="VolumeBar.qml">qml/sound/VolumeBar.qml</file>
