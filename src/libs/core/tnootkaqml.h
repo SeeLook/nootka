@@ -21,12 +21,11 @@
 
 
 #include <nootkacoreglobal.h>
+#include "music/tmeter.h"
+#include "music/tclef.h"
+#include "music/tnote.h"
+
 #include <QtCore/qobject.h>
-
-
-class Tclef;
-class Tmeter;
-class Tnote;
 
 
 /**
@@ -51,6 +50,13 @@ public:
   Q_INVOKABLE QString minorKeyName(int key);
   Q_INVOKABLE QString getLicense();
   Q_INVOKABLE QString getChanges();
+  Q_INVOKABLE bool isAndroid() {
+        #if defined (Q_OS_ANDROID)
+            return true;
+        #else
+            return false;
+        #endif
+  }
 
 private:
   static TnootkaQML             *m_instance;

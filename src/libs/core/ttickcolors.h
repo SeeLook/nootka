@@ -36,9 +36,11 @@ public:
   Q_INVOKABLE void resize(qreal w);
 
   Q_INVOKABLE QColor colorAt(int nr) {
-    return m_tickColors[qBound(0, nr, m_tickColors.count() - 1)];
-    if (nr < 0 || nr > m_tickColors.count() - 1)
+    if (nr < 0 || nr > m_tickColors.count() - 1) {
       qDebug() << "wrong color number" << nr;
+      return QColor();
+    }
+    return m_tickColors[qBound(0, nr, m_tickColors.count() - 1)];
   }
 
   QColor gradColorAtPoint(float lineX1, float lineX2, QColor startC, QColor endC, float posC);

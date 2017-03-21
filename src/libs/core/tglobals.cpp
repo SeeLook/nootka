@@ -252,10 +252,10 @@ void Tglobals::loadSettings(QSettings* cfg) {
       E->expertsAnswerEnable = cfg->value(QStringLiteral("expertsAnswerEnable"), false).toBool();
       E->studentName = cfg->value(QStringLiteral("studentName"), QString()).toString();
 #if defined (Q_OS_ANDROID)
-      E->examsDir = cfg->value(QStringLiteral("examsDir")), Tandroid::getExternalPath()).toString();
+      E->examsDir = cfg->value(QStringLiteral("examsDir"), Tandroid::getExternalPath()).toString();
       if (!QFileInfo::exists(E->examsDir)) // reset if doesn't exist
         E->examsDir = Tandroid::getExternalPath();
-      E->levelsDir = cfg->value(QStringLiteral("levelsDir")), Tandroid::getExternalPath()).toString();
+      E->levelsDir = cfg->value(QStringLiteral("levelsDir"), Tandroid::getExternalPath()).toString();
       if (!QFileInfo::exists(E->levelsDir))
         E->levelsDir = Tandroid::getExternalPath();
 #else
