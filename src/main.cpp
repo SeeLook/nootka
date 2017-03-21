@@ -17,12 +17,9 @@
  ***************************************************************************/
 
 
-#if defined (Q_OS_ANDROID)
-  #include <Android/tandroid.h>
-#endif
 #include <tinitcorelib.h>
 #include <tpath.h>
-#include <tmtr.h>
+//#include <tmtr.h>
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qicon.h>
 #include <QtQml/qqmlapplicationengine.h>
@@ -36,6 +33,9 @@
 
 #include "tnootkaqml.h"
 
+#if defined (Q_OS_ANDROID)
+  #include <Android/tandroid.h>
+#endif
 
 static QString logFile;
 
@@ -66,10 +66,10 @@ int main(int argc, char *argv[])
   qputenv("QT_ANDROID_VOLUME_KEYS", "1"); // Handle volume keys by Qt, lock native Android behavior
 
   // log to any writable storage
-  logFile = Tandroid::getExternalPath() + QStringLiteral("/nootka-log.txt");
+ logFile = Tandroid::getExternalPath() + QStringLiteral("/nootka-log.txt");
   if (QFile::exists(logFile))
     QFile::remove(logFile);
-  qInstallMessageHandler(myMessageOutput);
+ qInstallMessageHandler(myMessageOutput);
   qDebug() << "==== NOOTKA LOG =======\n" << QDateTime::currentDateTime().toString();
 #endif
 
@@ -120,9 +120,9 @@ int main(int argc, char *argv[])
 
     if (firstTime) {
 #if defined (Q_OS_ANDROID)
-      QString androidArg = Tandroid::getRunArgument();
-      if (!androidArg.isEmpty())
-        w->openFile(androidArg);
+//      QString androidArg = Tandroid::getRunArgument();
+//      if (!androidArg.isEmpty())
+//        w->openFile(androidArg);
 #else // TODO
 //       if (argc > 1)
 //         w->openFile(QString::fromLocal8Bit(argv[argc - 1]));
@@ -136,7 +136,7 @@ int main(int argc, char *argv[])
     if (resetConfig) { // delete config file - new Nootka instance will start with first run wizard
         QFile f(confFile);
         f.remove();
-        Tandroid::restartNootka(); // and call Nootka after delay
+       Tandroid::restartNootka(); // and call Nootka after delay
     }
     resetConfig = false; // do - while loop doesn't work with Android
     qApp->quit(); // HACK: calling QApplication::quick() solves hang on x86 when Qt uses native (usually obsolete) SSL libraries

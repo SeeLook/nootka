@@ -78,7 +78,7 @@ public:
   TnotePair* note(int nr) { return m_notes[nr]; }
   TnotePair* first() { return m_notes.first(); }
   TnotePair* last() { return m_notes.last(); }
-  bool isEmpty() { m_notes.isEmpty(); }
+  bool isEmpty() { return m_notes.isEmpty(); }
 
       /**
        * Staff index of the first measure note

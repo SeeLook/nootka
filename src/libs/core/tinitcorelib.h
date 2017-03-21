@@ -25,7 +25,6 @@
 
 class QTranslator;
 class QGuiApplication;
-class QStyle;
 
 /**
  * Internal instance of Tglobals pointer used by in initCoreLibrary. *
@@ -38,9 +37,6 @@ class NOOTKACORE_EXPORT Tcore
 
 public:
   static Tglobals* gl() { return m_gl; } /** static global pointer to Tglobals */
-#if defined (Q_OS_ANDROID)
-  static QStyle* androidStyle;
-#endif
 
 protected:
   static void setGlobals(Tglobals *g) { m_gl = g; }

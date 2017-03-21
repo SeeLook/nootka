@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>fonts/nootka.ttf</file>
+        <file>fonts/Scorek.otf</file>
         <file>picts/body-bass.png</file>
         <file>picts/body-electro.png</file>
         <file>picts/body.png</file>

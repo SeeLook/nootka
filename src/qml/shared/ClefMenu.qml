@@ -37,7 +37,7 @@ Grid {
 
   onSelClefChanged: {
     for (var c = 0; c < 7; ++c) {
-      clefButtons.itemAt(c).highlighted = (clefNr[c] == selClef)
+      clefButtons.itemAt(c).highlighted = (clefNr[c] === selClef)
     }
   }
 

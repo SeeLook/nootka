@@ -24,7 +24,6 @@
 #include "tpath.h"
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>
-// #include <QtWidgets/qmessagebox.h>
 #include <QtCore/qtranslator.h>
 #include <QtCore/qlibraryinfo.h>
 #include <QtGui/qfontdatabase.h>
@@ -32,26 +31,17 @@
 #include <QtCore/qdir.h>
 #if defined (Q_OS_ANDROID)
   #include "Android/tandroid.h"
-  #include <QtWidgets/qstylefactory.h>
 #endif
 
 
 Tglobals* Tcore::m_gl = nullptr;
 
-#if defined (Q_OS_ANDROID)
-  QStyle* Tcore::androidStyle = nullptr;
-#endif
 
 bool initCoreLibrary() {
   if (Tcore::gl() == nullptr) {
     qDebug() << "Tglobals was not created. Construct it first!";
     return false;
   }
-
-#if defined (Q_OS_ANDROID)
-  if (Tcore::androidStyle == nullptr)
-    Tcore::androidStyle = QStyleFactory::create(QStringLiteral("android"));
-#endif
 
   Trhythm::initialize();
   Tcolor::setShadow(qApp->palette());
