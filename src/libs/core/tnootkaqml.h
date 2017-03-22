@@ -31,6 +31,7 @@
 /**
  * Singleton object to manage (create) custom types from QML
  * In constructor it registers types accessible from QML in Nootka
+ * Access it through @p Noo object
  */
 class NOOTKACORE_EXPORT TnootkaQML : public QObject
 {
@@ -41,6 +42,14 @@ public:
   explicit TnootkaQML(QObject* parent = nullptr);
   ~TnootkaQML();
 
+      /**
+       * Dialogues recognized by main QML Dialog instance of main window
+       */
+  enum Edialogs {
+    Settings = 1, About = 2, LevelCreator = 3, ExamStart = 4, ExamSummary = 5,
+    Charts = 6, Wizard = 7, QuickAudio = 8
+  };
+  Q_ENUM(Edialogs)
 
   Q_INVOKABLE QString version();
   Q_INVOKABLE Tclef clef(int type);
@@ -50,13 +59,7 @@ public:
   Q_INVOKABLE QString minorKeyName(int key);
   Q_INVOKABLE QString getLicense();
   Q_INVOKABLE QString getChanges();
-  Q_INVOKABLE bool isAndroid() {
-        #if defined (Q_OS_ANDROID)
-            return true;
-        #else
-            return false;
-        #endif
-  }
+  Q_INVOKABLE bool isAndroid();
 
 private:
   static TnootkaQML             *m_instance;

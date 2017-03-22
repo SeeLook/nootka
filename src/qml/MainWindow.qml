@@ -41,12 +41,10 @@ ApplicationWindow {
 
   header: TtoolBar {
       onAbout: {
-        var c = Qt.createComponent("qrc:/TaboutNootka.qml")
-        var a = c.createObject(nootkaWindow)
+        dialogLoader.page = 2
       }
       onSettings: {
-        var c = Qt.createComponent("qrc:/TsettingsDialog.qml")
-        var a = c.createObject(nootkaWindow)
+        dialogLoader.page = 1
       }
       onExam: {
         randNotes()
@@ -79,7 +77,7 @@ ApplicationWindow {
 
       MainScore {
         id: score
-        height: (nootkaWindow.height * 2) / 3 - header.height
+        height: nootkaWindow.height * 0.916667 - header.height - instrument.height
         scoreMenu.x: header.scoreAct.x
       }
 
@@ -90,6 +88,8 @@ ApplicationWindow {
 
       }
   }
+
+  DialogLoader { id: dialogLoader }
 
 //   Component.onCompleted: {
 //     for (var n = 1; n < 8; ++n) {

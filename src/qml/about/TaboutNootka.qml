@@ -17,19 +17,13 @@
  ***************************************************************************/
 
 import QtQuick 2.7
-import QtQuick.Controls 2.0
-import QtQuick.Dialogs 1.2
-import QtQuick.Layouts 1.3
 
 import "fakeTrans.js" as Fake
 
 
-Dialog {
-  visible: true
-  title: qsTr("About Nootka")
-//  width: pages.width; height: pages.height
-
-  width: nootkaWindow.width * 0.75; height: nootkaWindow.height * 0.75
+Item {
+  width: parent.width
+  height: parent.height - (Noo.isAndroid() ? 0 : nootkaWindow.fontSize * 3)
 
   PagesDialog { id: pages }
 
@@ -44,4 +38,5 @@ Dialog {
     pages.addItem("qt", "Qt", "Qt")
   }
 
+  function accepted() {} // fake
 }

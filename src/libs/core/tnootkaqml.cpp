@@ -47,10 +47,10 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   m_instance = this;
 
   qRegisterMetaType<Tclef>();
-  qmlRegisterUncreatableType<Tclef>("Score", 1, 0, "Tclef", "You cannot create an instance of the Tclef.");
+  qmlRegisterUncreatableType<Tclef>("Score", 1, 0, "Tclef", QStringLiteral("You cannot create an instance of the Tclef."));
   qRegisterMetaType<Tmeter>();
-  qmlRegisterUncreatableType<Tmeter>("Score", 1, 0, "Tmeter", "You cannot create an instance of the Tmeter.");
-  qmlRegisterUncreatableType<Trhythm>("Score", 1, 0, "Trhythm", "You cannot create an instance of the Trhythm.");
+  qmlRegisterUncreatableType<Tmeter>("Score", 1, 0, "Tmeter", QStringLiteral("You cannot create an instance of the Tmeter."));
+  qmlRegisterUncreatableType<Trhythm>("Score", 1, 0, "Trhythm", QStringLiteral("You cannot create an instance of the Trhythm."));
 
   qmlRegisterType<TscoreObject>("Score", 1, 0, "TscoreObject");
   qmlRegisterType<TstaffObject>("Score", 1, 0, "TstaffObject");
@@ -147,6 +147,13 @@ QString TnootkaQML::getChanges() {
 }
 
 
+bool TnootkaQML::isAndroid()  {
+#if defined (Q_OS_ANDROID)
+  return true;
+#else
+  return false;
+#endif
+}
 
 
 

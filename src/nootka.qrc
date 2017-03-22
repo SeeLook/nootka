@@ -4,6 +4,7 @@
     <file alias="TtoolBar.qml">qml/TtoolBar.qml</file>
     <file alias="NootkaLabel.qml">qml/NootkaLabel.qml</file>
     <file alias="MainScore.qml">qml/MainScore.qml</file>
+    <file alias="DialogLoader.qml">qml/DialogLoader.qml</file>
 
     <file alias="HeadButton.qml">qml/shared/HeadButton.qml</file>
     <file alias="PagesDialog.qml">qml/shared/PagesDialog.qml</file>
