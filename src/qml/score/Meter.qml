@@ -26,6 +26,7 @@ Text {
   id: meter
 
   property bool readOnly: false
+  property Drawer meterDrawer
 
   font { family: "Scorek"; pixelSize: 8 }
   color: activPal.text
@@ -33,8 +34,10 @@ Text {
   y: 7
   x: (parent.keySignature ? parent.keySignature.x + parent.keySignature.width : 0.5 + parent.clef.width) + 1.0
 
-  Drawer { // meter menu
-      id: meterDrawer
+  Component {
+    id: meterComp
+    Drawer { // meter menu
+      visible: true
       width: nootkaWindow.width / 4; height: nootkaWindow.height
 
       Grid {
@@ -66,11 +69,17 @@ Text {
           }
         }
       }
+    }
   }
 
   MouseArea {
       anchors.fill: parent
       enabled: !readOnly
-      onClicked: meterDrawer.open()
+      onClicked: {
+        if (meterDrawer)
+          meterDrawer.open()
+        else 
+          meterDrawer = meterComp.createObject(meter)
+      }
   }
 }

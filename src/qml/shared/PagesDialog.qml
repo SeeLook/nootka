@@ -69,8 +69,8 @@ Item {
           id: delegateButt
           name: buttonText
           icon: Tpath.pix(iconName)
-          factor: 1.6 * Screen.pixelDensity
-          fontSize: nootkaWindow.font.pixelSize
+          factor: Screen.pixelDensity * (Noo.isAndroid() ? 1.2 : 1.6)
+          fontSize: nootkaWindow.fontSize * (Noo.isAndroid() ? 0.8 : 1.0)
           onPressed: {
             if (stack.currentItem !== navList.pages[index]) {
               stack.push(navList.pages[index])
