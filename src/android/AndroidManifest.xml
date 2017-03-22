@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<manifest package="net.sf.nootka-devel"
+<manifest package="net.sf.nootkadevel"
           xmlns:android="http://schemas.android.com/apk/res/android"
           android:versionName="1.5.0-alpha"
           android:versionCode="15"
