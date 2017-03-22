@@ -17,18 +17,13 @@
  ***************************************************************************/
 
 import QtQuick 2.7
-import QtQuick.Dialogs 1.2
 
 
-Dialog {
-  visible: true
-  width: nootkaWindow.width * 0.75; height: nootkaWindow.height * 0.75
-
-  title: "Nootka - " + qsTr("application's settings")
-//  width: pages.width; height: pages.height
+Item {
+  width: parent.width
+  height: parent.height - (Noo.isAndroid() ? 0 : nootkaWindow.fontSize * 3)
 
   PagesDialog { id: pages }
-  standardButtons: StandardButton.Apply | StandardButton.Cancel | StandardButton.RestoreDefaults | StandardButton.Help
 
   Component.onCompleted: {
     pages.addItem("global", qsTr("Common"), "Global")
@@ -39,15 +34,15 @@ Dialog {
     pages.addItem("appearance", qsTr("Appearance"), "Appearance")
   }
 
-  onApply: {
+  function apply() {
+    console.log("Settings approved")
     for (var i = 0; i < pages.pages.length; ++i) {
       if (typeof(pages.pages[i]) === 'object')
         pages.pages[i].save()
     }
-    close()
   }
 
-  onReset: {
+  function reset() {
     pages.currentPage.defaults()
   }
 }

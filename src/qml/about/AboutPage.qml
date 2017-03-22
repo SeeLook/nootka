@@ -17,7 +17,6 @@
  ***************************************************************************/
 
 import QtQuick 2.7
-import QtQuick.Controls 2.0
 
 
 Item {
@@ -39,5 +38,4 @@ Item {
       }
     }
   }
-  Component.onDestruction: console.log("about by bye")
 }
