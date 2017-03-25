@@ -20,6 +20,8 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Window 2.0
 
+import Nootka 1.0
+
 
 ApplicationWindow {
   id: nootkaWindow
@@ -28,9 +30,43 @@ ApplicationWindow {
   color: activPal.window
 
   property alias fontSize: nootkaWindow.font.pixelSize
+  property alias settingsAct: settingsAct
+  property alias aboutAct: aboutAct
+  property alias levelAct: levelAct
+  property alias scoreAct: scoreAct
+  property alias examAct: examAct
 
   SystemPalette { id: activPal; colorGroup: SystemPalette.Active }
   SystemPalette { id: disdPal; colorGroup: SystemPalette.Disabled }
+
+  Taction {
+    id: settingsAct
+    icon: "systemsettings"
+    text: qsTranslate("TtoolBar", "Settings")
+    tip: qsTranslate("TtoolBar", "Application preferences")
+    onTriggered: dialogLoader.page = 1
+  }
+  Taction { id: aboutAct; onTriggered: dialogLoader.page = 2 }
+  Taction {
+    id: levelAct
+    icon: "levelCreator"
+    text: qsTranslate("TtoolBar", "Level")
+    tip: qsTranslate("TtoolBar", "Levels creator")
+  }
+  Taction {
+    id: scoreAct
+    icon: "score"
+    text: qsTranslate("TtoolBar", "Score", "it could be 'notation', 'staff' or whatever is associated with that 'place to display musical notes' and this the name is quite short and looks well.")
+    tip: qsTranslate("TtoolBar", "Manage and navigate the score.")
+    onTriggered: score.scoreMenu.open()
+  }
+  Taction {
+    id: examAct
+    icon: "startExam"
+    text: qsTranslate("TtoolBar", "Lessons")
+    tip: qsTranslate("TtoolBar", "Start exercises or an exam")
+    onTriggered: randNotes()
+  }
 
   width: GLOB.geometry.width
   height: GLOB.geometry.height
@@ -39,23 +75,14 @@ ApplicationWindow {
 
   onClosing: GLOB.geometry = Qt.rect(x ,y, width, height)
 
-  header: TtoolBar {
-      onAbout: {
-        dialogLoader.page = 2
-      }
-      onSettings: {
-        dialogLoader.page = 1
-      }
-      onExam: {
-        randNotes()
-      }
-      scoreAct.onClicked: score.scoreMenu.open()
-  }
+  MainMenu { id: mainMenu }
+  header: mainMenu.toolBar
 
   Column {
       anchors.fill: parent
 
       Row {
+        visible: !Noo.isAndroid()
         height: nootkaWindow.height / 12
         width: nootkaWindow.width
         Label {
@@ -77,8 +104,8 @@ ApplicationWindow {
 
       MainScore {
         id: score
-        height: nootkaWindow.height * 0.916667 - header.height - instrument.height
-        scoreMenu.x: header.scoreAct.x
+        height: nootkaWindow.height * (Noo.isAndroid() ? 1.0 : 0.916667) - (header ? header.height : 0) - instrument.height
+        scoreMenu.x: header ? header.scoreAct.x : 0
       }
 
       Instrument {
@@ -92,10 +119,6 @@ ApplicationWindow {
   DialogLoader { id: dialogLoader }
 
 //   Component.onCompleted: {
-//     for (var n = 1; n < 8; ++n) {
-//       score.addNote(Noo.note(1 + Math.random() * 7, -2 + Math.random() * 5, Math.min(Math.max(-2, -3 + Math.random() * 6), 2),
-//                        2 + Math.random() * 4))
-//     }
 //   }
 
 //   Timer {

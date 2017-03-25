@@ -28,7 +28,6 @@ Item {
 
   signal clicked()
 
-  height: parent.height
   width: logo.width
 
   Rectangle {
@@ -57,7 +56,7 @@ Item {
   MouseArea {
     id: mouseArea
     anchors.fill: parent
-    hoverEnabled: true
+    hoverEnabled: !Noo.isAndroid()
     onEntered: bgColor = randColor()
     onExited: bgColor = "white"
     onClicked: nootkaLabel.clicked()

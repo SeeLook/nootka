@@ -28,54 +28,29 @@ ToolBar {
 
   property alias scoreAct: scoreAct
 
-  signal settings()
-  signal about()
-  signal exam()
-
   Rectangle { // background
     anchors.fill: parent
     color: activPal.window
   }
 
   RowLayout {
-    HeadButton {
-      id: settAct
-      name: qsTr("Settings")
-      icon: Tpath.pix("systemsettings")
-      tip: qsTr("Application preferences")
-      onClicked: toolBar.settings()
-    }
-    HeadButton {
-      id: levelAct
-      name: qsTr("Level")
-      icon: Tpath.pix("levelCreator")
-      tip: qsTr("Levels creator")
-    }
+    HeadButton { id: settAct; action: nootkaWindow.settingsAct }
+    HeadButton { action: nootkaWindow.levelAct }
 //     HeadButton {
 //       id: chartAct
 //       name: qsTr("Analyze", "could be Chart as well")
 //       icon: Tpath.pix("charts")
 //       tip: qsTr("Analysis of exam results")
 //     }
-    HeadButton {
-      id: scoreAct
-      name: qsTr("Score", "it could be 'notation', 'staff' or whatever is associated with that 'place to display musical notes' and this the name is quite short and looks well.")
-      icon: Tpath.pix("score")
-      tip: qsTr("Manage and navigate the score.")
-    }
-    HeadButton {
-      id: examAct
-      name: qsTr("Lessons")
-      icon: Tpath.pix("startExam")
-      tip: qsTr("Start exercises or an exam")
-      onClicked: toolBar.exam()
-    }
+    HeadButton { id: scoreAct; action: nootkaWindow.scoreAct }
+    HeadButton { action: nootkaWindow.examAct }
 
     Item { Layout.fillWidth: true }
   }
   NootkaLabel {
     anchors.right: parent.right
-    onClicked: toolBar.about()
+    height: toolBar.height
+    onClicked: nootkaWindow.aboutAct.trigger()
   }
 
 }

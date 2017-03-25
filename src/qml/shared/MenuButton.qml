@@ -17,26 +17,47 @@
  ***************************************************************************/
 
 import QtQuick 2.7
+import QtQuick.Controls 2.0
+
+import Nootka 1.0
 
 
-Item {
+Button {
+  id: menuButton
 
-  width: parent.width
-  height: parent.height
+  property Taction action
 
-  Column {
-    anchors.fill: parent
-    Rectangle {
-      height: parent.height / 7
-      width: parent.width
-      color: nooLab.bgColor
-      NootkaLabel {
-        id: nooLab
-        height: parent.height
-        active: false
-        anchors.centerIn: parent
-        bgColor: randColor()
+  hoverEnabled: true
+  width: parent.width - 6
+  height: nootkaWindow.fontSize * 3
+  anchors.horizontalCenter: parent.horizontalCenter
+
+  onActionChanged: {
+    icon.source = action.icon
+    menuButton.text = action.text
+  }
+
+  contentItem: Item {
+      width: menuButton.width
+      Image {
+        x: (nootkaWindow.fontSize * 2.5 - width) / 2
+        id: icon
+        sourceSize.height: nootkaWindow.fontSize * 2
+        anchors.verticalCenter: parent.verticalCenter
       }
-    }
+      Column {
+        x: nootkaWindow.fontSize * 3
+        anchors.verticalCenter: parent.verticalCenter
+        Text {
+          id: butText
+          text: menuButton.text
+          font.bold: true
+        }
+      }
+  }
+
+  onClicked: {
+    if (action)
+      action.trigger()
   }
 }
