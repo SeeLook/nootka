@@ -18,6 +18,7 @@ set(LIB_NOOTKACORE_SRC
 #   tmtr.cpp
   tnootkaqml.cpp
   ttickcolors.cpp
+  taction.cpp
 
   music/tnote.cpp
   music/trhythm.cpp

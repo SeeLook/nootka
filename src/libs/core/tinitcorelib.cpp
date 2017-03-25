@@ -111,8 +111,7 @@ bool loadNootkaFont(QGuiApplication* a) {
   int fid2 = fd.addApplicationFont(Tpath::main + QLatin1String("fonts/Scorek.otf"));
   if (fid == -1 || fid2 == -1) {
     qDebug() << "Can not load Nootka fonts!";
-//       QMessageBox::critical(0, QString(), a->translate("main", "<center>Can not load a font.<br>Try to install nootka.ttf manually.</center>"));
-      return false;
+    return false;
   }
   return true;
 }

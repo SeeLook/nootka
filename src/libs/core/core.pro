@@ -14,6 +14,7 @@ SOURCES +=  tcolor.cpp\
 #             tmtr.cpp\
             tnootkaqml.cpp\
             ttickcolors.cpp\
+            taction.cpp\
           \
 #             exam/tattempt.cpp\
 #             exam/texam.cpp\
@@ -60,6 +61,7 @@ HEADERS  += nootkaconfig.h\
 #             tmtr.h\
             tnootkaqml.h\
             ttickcolors.h\
+            taction.h\
           \
 #             exam/tattempt.h\
 #             exam/texam.h\
