@@ -72,7 +72,7 @@ Grid {
         selClef = clefNr[index]
         clefMenu.clicked(clefNr[index])
       }
-      Row {
+      contentItem: Row {
         height: parent.height
         width: parent.width
         spacing: nootkaWindow.fontSize
