@@ -24,6 +24,13 @@ Frame {
   property alias description: descText.text
   property alias descriptionColor: descText.color
   default property alias content: container.data
+  
+  background: Rectangle {
+    id: bg
+    color: enabled ? Qt.lighter(activPal.window, 1.05) : Qt.darker(disdPal.window, 1.5)
+    border.color: disdPal.text
+    radius: nootkaWindow.fontSize / 4
+  }
 
   width: parent.width
   height: (descText.text === "" ? 0 : descText.height) + container.height + nootkaWindow.fontSize * 2
