@@ -10,6 +10,7 @@
         <file>picts/exam.png</file>
         <file>picts/fingbg-el.png</file>
         <file>picts/fingbg.png</file>
+        <file>picts/flags-.png</file>
         <file>picts/flags-cs.png</file>
         <file>picts/flags-de.png</file>
         <file>picts/flags-en.png</file>
@@ -59,7 +60,6 @@
         <file>picts/scoreSettings.png</file>
         <file>picts/soundSettings.png</file>
         <file>picts/guitarSettings.png</file>
-        <file>picts/exam-settings.png</file>
         <file>picts/appearance.png</file>
 <!-- about -->
         <file>picts/author.png</file>

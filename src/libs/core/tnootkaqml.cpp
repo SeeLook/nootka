@@ -20,13 +20,12 @@
 #include "ttickcolors.h"
 #include "nootkaconfig.h"
 #include "tpath.h"
-//#include "music/tmeter.h"
-//#include "music/tclef.h"
 #include "music/tkeysignature.h"
 #include "score/tscoreobject.h"
 #include "score/tstaffobject.h"
 #include "score/tnoteobject.h"
 #include "instruments/tguitarbg.h"
+#include "taction.h"
 
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qfile.h>
@@ -59,6 +58,8 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qmlRegisterType<TtickColors>("TtickColors", 1, 0, "TtickColors");
 
   qmlRegisterType<TguitarBg>("Instruments", 1, 0, "GuitarBackground");
+
+  qmlRegisterType<Taction>("Nootka", 1, 0, "Taction");
 }
 
 
