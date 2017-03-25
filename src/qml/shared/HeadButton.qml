@@ -20,6 +20,8 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 import QtQuick.Window 2.0
 
+import Nootka 1.0
+
 
 ToolButton {
   antialiasing: true
@@ -34,6 +36,20 @@ ToolButton {
   property real factor: Screen.pixelDensity
   property alias fontSize: butText.font.pixelSize
   property alias textColor: butText.color
+  property Taction action
+
+  onActionChanged: {
+    if (action) {
+      icon.source = action.icon
+      name = action.text
+      tip = action.tip
+    }
+  }
+
+  onClicked: {
+    if (action)
+      action.trigger()
+  }
 
   Image {
     id: icon
