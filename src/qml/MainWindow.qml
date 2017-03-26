@@ -44,9 +44,9 @@ ApplicationWindow {
     icon: "systemsettings"
     text: qsTranslate("TtoolBar", "Settings")
     tip: qsTranslate("TtoolBar", "Application preferences")
-    onTriggered: dialogLoader.page = 1
+    onTriggered: dialogLoader.page = Nootka.Settings
   }
-  Taction { id: aboutAct; onTriggered: dialogLoader.page = 2 }
+  Taction { id: aboutAct; onTriggered: dialogLoader.page = Nootka.About }
   Taction {
     id: levelAct
     icon: "levelCreator"

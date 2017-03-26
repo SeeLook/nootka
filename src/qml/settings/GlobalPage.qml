@@ -22,7 +22,8 @@ import QtQuick.Controls 2.0
 
 Flickable {
   id: globalPage
-  anchors.fill: parent
+  width: parent.width
+  height: parent.height
 
   property alias fontSize: langHead.font.pixelSize
 

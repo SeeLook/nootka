@@ -21,6 +21,8 @@ import QtQuick.Dialogs 1.2
 import QtQuick.Controls 2.0
 import QtQuick.Window 2.0
 
+import Nootka 1.0
+
 
 Dialog {
   id: dialLoader
@@ -41,7 +43,7 @@ Dialog {
           height = nootkaWindow.height * 0.75
       }
       switch (page) {
-        case 1:
+        case Nootka.Settings:
           var c = Qt.createComponent("qrc:/TsettingsDialog.qml")
           currentDialog = c.createObject(contentItem)
           if (!Noo.isAndroid()) {
@@ -49,7 +51,7 @@ Dialog {
             title = "Nootka - " + qsTranslate("TsettingsDialog", "application's settings")
           }
           break
-        case 2:
+        case Nootka.About:
           var c = Qt.createComponent("qrc:/TaboutNootka.qml")
           currentDialog = c.createObject(contentItem)
           if (!Noo.isAndroid()) {
