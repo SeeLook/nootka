@@ -59,6 +59,8 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qmlRegisterType<TtickColors>("Nootka", 1, 0, "TtickColors");
   qmlRegisterType<TguitarBg>("Nootka", 1, 0, "TguitarBg");
   qmlRegisterType<Taction>("Nootka", 1, 0, "Taction");
+
+  qmlRegisterUncreatableType<TnootkaQML>("Nootka", 1, 0, "Nootka", QStringLiteral("You cannot create an instance of the TnootkaQML."));
 }
 
 

@@ -24,7 +24,8 @@ import Score 1.0
 
 Flickable {
   clip: true
-  anchors.fill: parent
+  width: parent.width
+  height: parent.height
   contentHeight: instrCol.height
 
   property var instrGlyphs: ["v", "h", "j", "i"]
