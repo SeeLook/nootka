@@ -17,8 +17,9 @@
  ***************************************************************************/
 
 import QtQuick 2.7
-import TtickColors 1.0
 import QtGraphicalEffects 1.0
+
+import Nootka 1.0
 
 
 Item {

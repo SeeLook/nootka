@@ -15,6 +15,7 @@ TRANSLATION CONTEXT CHANGES
   TvolumeView -> VolumeBar
   TscoreSettings -> ScorePage (rearrange ScorePage)
   TradioClef - Tclef (rearrange Tclef)
+  TguitarSettings - InstrumentPage
 
   Score actions
 
