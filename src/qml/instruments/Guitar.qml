@@ -19,10 +19,10 @@
 import QtQuick 2.7
 import QtGraphicalEffects 1.0
 
-import Instruments 1.0
+import Nootka 1.0
 
 
-GuitarBackground {
+TguitarBg {
   id: guitar
 
   Rectangle {

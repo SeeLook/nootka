@@ -30,6 +30,7 @@
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qfile.h>
 #include <QtCore/qdir.h>
+#include <QtGui/qguiapplication.h>
 #include <QtCore/qdebug.h>
 
 
@@ -55,10 +56,8 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qmlRegisterType<TstaffObject>("Score", 1, 0, "TstaffObject");
   qmlRegisterType<TnoteObject>("Score", 1, 0, "TnoteItem");
 
-  qmlRegisterType<TtickColors>("TtickColors", 1, 0, "TtickColors");
-
-  qmlRegisterType<TguitarBg>("Instruments", 1, 0, "GuitarBackground");
-
+  qmlRegisterType<TtickColors>("Nootka", 1, 0, "TtickColors");
+  qmlRegisterType<TguitarBg>("Nootka", 1, 0, "TguitarBg");
   qmlRegisterType<Taction>("Nootka", 1, 0, "Taction");
 }
 
