@@ -21,9 +21,11 @@ import QtQuick.Controls 2.0
 import QtGraphicalEffects 1.0
 import QtQuick.Window 2.0
 
+import Nootka 1.0
 
 Item {
   property Item toolBar: null // fake, for main window information
+  property alias scoreMenu: scoreMenu
 
   x: Screen.pixelDensity / 2
   y: Screen.pixelDensity / 2
@@ -70,13 +72,14 @@ Item {
     Flickable {
       anchors.fill: parent
       clip: true
-      contentHeight: childrenRect.height
+      contentHeight: drawerColumn.height
       Column {
+        id: drawerColumn
         width: parent.width
-        spacing: Screen.pixelDensity
+        spacing: Screen.pixelDensity / 2
         NootkaLabel {
           id: nooLabel
-          height: nootkaWindow.fontSize * 6.328125 // 0.3955078125 * 16
+          height: nootkaWindow.fontSize * 6.328125 // (logo ratio) 0.3955078125 * 16
           onClicked: {
             mainDrawer.close()
             nootkaWindow.aboutAct.trigger()
@@ -85,6 +88,38 @@ Item {
         MenuButton { action: nootkaWindow.levelAct; onClicked: mainDrawer.close() }
         MenuButton { action: nootkaWindow.examAct; /*onClicked: mainDrawer.close()*/ }
         MenuButton { action: nootkaWindow.settingsAct; onClicked: mainDrawer.close() }
+        MenuButton { action: nootkaWindow.scoreAct }
+        Column { // drop-down menu with score actions
+          id: scoreMenu
+          function open() { visible ? state = "Invisible" : state = "Visible" }
+          spacing: Screen.pixelDensity / 2
+          width: parent.width - nootkaWindow.fontSize / 2
+          x: -parent.width
+          visible: false
+          MenuButton { action: score.extraAccidsAct; onClicked: mainDrawer.close() }
+          MenuButton { action: score.showNamesAct; onClicked: mainDrawer.close() }
+          MenuButton { action: score.zoomInAct; onClicked: mainDrawer.close() }
+          MenuButton { action: score.zoomOutAct; onClicked: mainDrawer.close() }
+          states: [ State { name: "Visible"; when: scoreMenu.visible }, State { name: "Invisible"; when: !scoreMenu.visible } ]
+
+          transitions: [
+            Transition {
+              from: "Invisible"; to: "Visible"
+              SequentialAnimation {
+                PropertyAction { target: scoreMenu; property: "visible"; value: true }
+                NumberAnimation { target: scoreMenu; property: "x"; to: nootkaWindow.fontSize / 2; duration: 300 }
+              }
+            },
+            Transition {
+              from: "Visible"; to: "Invisible"
+              SequentialAnimation {
+                NumberAnimation { target: scoreMenu; property: "x"; to: -parent.width; duration: 300 }
+                PropertyAction { target: scoreMenu; property: "visible"; value: false }
+              }
+            }
+          ]
+        }
+        MenuButton { onClicked: nootkaWindow.close(); action: Taction { icon: "exit"; text: qsTr("exit") } }
       }
     }
   }

@@ -17,9 +17,44 @@
  ***************************************************************************/
 
 import QtQuick 2.7
+import QtQuick.Controls 2.0
 
 
 Item {
   property alias toolBar: toolBar
+  property alias scoreMenu: scoreMenu
+
   TtoolBar { id: toolBar }
+
+  Menu {
+    id: scoreMenu
+    width: nootkaWindow.fontSize * 20
+    x: toolBar.scoreAct.x
+    y: score.y
+
+    MenuItem {
+      contentItem: MenuButton {
+        action: score.extraAccidsAct
+        onClicked: { scoreMenu.close() }
+      }
+    }
+    MenuItem {
+      contentItem: MenuButton {
+        action: score.showNamesAct
+        onClicked: { scoreMenu.close() }
+      }
+    }
+    MenuItem {
+      contentItem: MenuButton {
+        action: score.zoomInAct
+        onClicked: { scoreMenu.close() }
+      }
+    }
+    MenuItem {
+      contentItem: MenuButton {
+        action: score.zoomOutAct
+        onClicked: { scoreMenu.close() }
+      }
+    }
+  }
 }

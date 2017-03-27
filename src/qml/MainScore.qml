@@ -20,6 +20,7 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 
 import Score 1.0
+import Nootka 1.0
 
 
 Score {
@@ -27,7 +28,10 @@ Score {
 
   width: parent.width
 
-  property alias scoreMenu: scoreMenu
+  property alias showNamesAct: showNamesAct
+  property alias extraAccidsAct: extraAccidsAct
+  property alias zoomInAct: zoomInAct
+  property alias zoomOutAct: zoomOutAct
 
   enableKeySign: true
   scoreObj.nameColor: GLOB.nameColor
@@ -46,33 +50,33 @@ Score {
     radius: width / 3.0
   }
 
-  Menu {
-      id: scoreMenu
-      width: nootkaWindow.fontSize * 15
-
-      MenuItem {
-        text: qsTr("Additional accidentals")
-        checkable: true
-      }
-      MenuItem {
-        text: qsTr("Show note names")
-        checkable: true
-        checked: GLOB.namesOnScore
-        onTriggered: scoreObj.showNoteNames = checked
-      }
-      MenuItem {
-        id: zoomOut
-        text: qsTr("Zoom score out")
-        onTriggered: scaleFactor = Math.max(0.4, scaleFactor - 0.2)
-      }
-      MenuItem {
-        id: zoomIn
-        text: qsTr("Zoom score in")
-        onTriggered:  scaleFactor = Math.min(scaleFactor + 0.2, 1.4)
-      }
+  Taction {
+    id: extraAccidsAct
+    text: qsTr("Additional accidentals")
+    checkable: true
   }
-  Shortcut { sequence: StandardKey.ZoomOut; onActivated: zoomOut.triggered() }
-  Shortcut { sequence: StandardKey.ZoomIn; onActivated: zoomIn.triggered() }
+  Taction {
+    id: showNamesAct
+    text: qsTr("Show note names")
+    checkable: true
+    checked: GLOB.namesOnScore
+    onTriggered: { scoreObj.showNoteNames = checked }
+  }
+  Taction {
+    id: zoomOutAct
+    icon: "zoom-out"
+    text: qsTr("Zoom score out")
+    onTriggered: scaleFactor = Math.max(0.4, scaleFactor - 0.2)
+    shortcut: Shortcut { sequence: StandardKey.ZoomOut; onActivated: zoomOutAct.triggered() }
+  }
+  Taction {
+    id: zoomInAct
+    icon: "zoom-in"
+    text: qsTr("Zoom score in")
+    onTriggered: scaleFactor = scaleFactor = Math.min(scaleFactor + 0.2, 1.4)
+    shortcut: Shortcut { sequence: StandardKey.ZoomIn; onActivated: zoomInAct.triggered() }
+  }
+
   Shortcut {
     sequence: StandardKey.MoveToNextChar;
     onActivated: {
@@ -81,6 +85,7 @@ Score {
             currentNote =  scoreObj.note(currentNote.index + 1)
       } else
           currentNote = scoreObj.note(0)
+      console.log(portableText)
     }
   }
   Shortcut {
@@ -92,6 +97,7 @@ Score {
       } else {
           currentNote = scoreObj.note(0)
       }
+      console.log(portableText)
     }
   }
 
