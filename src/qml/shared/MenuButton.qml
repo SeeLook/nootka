@@ -27,7 +27,6 @@ Button {
 
   property Taction action
 
-  hoverEnabled: true
   width: parent.width - 6
   height: nootkaWindow.fontSize * 3
   anchors.horizontalCenter: parent.horizontalCenter
@@ -35,6 +34,8 @@ Button {
   onActionChanged: {
     icon.source = action.icon
     menuButton.text = action.text
+    if (action.checkable)
+      radioComp.createObject(contentItem)
   }
 
   contentItem: Item {
@@ -56,8 +57,34 @@ Button {
       }
   }
 
+  Component {
+    id: radioComp
+    CheckBox {
+      anchors {verticalCenter: parent.verticalCenter}
+      checked: action.checked
+      onClicked: menuButton.clicked()
+    }
+  }
+
+  Component {
+    id: shortComp
+    Text {
+      anchors {verticalCenter: parent.verticalCenter}
+      text: action.key()
+      x: menuButton.width - width - nootkaWindow.fontSize
+    }
+  }
+
+  Component.onCompleted: { // shortcut is known only now
+    if (!Noo.isAndroid() && action.shortcut)
+      shortComp.createObject(contentItem)
+  }
+
   onClicked: {
-    if (action)
+    if (action) {
+      if (action.checkable)
+        action.checked = !action.checked
       action.trigger()
+    }
   }
 }
