@@ -24,7 +24,7 @@ Frame {
   property alias description: descText.text
   property alias descriptionColor: descText.color
   default property alias content: container.data
-  
+
   background: Rectangle {
     id: bg
     color: enabled ? Qt.lighter(activPal.window, 1.05) : Qt.darker(disdPal.window, 1.5)
@@ -48,11 +48,13 @@ Frame {
 
       Text {
         id: descText
-        anchors { horizontalCenter: parent.horizontalCenter; bottom: parent.Bottom }
+        anchors.bottom: parent.Bottom
+        width: parent.width
         font.pixelSize: nootkaWindow.fontSize * 0.8
         textFormat: Text.RichText
         horizontalAlignment: Text.AlignHCenter
         color: enabled ? activPal.text : disdPal.text
+        wrapMode: Text.WordWrap
       }
 
   }
