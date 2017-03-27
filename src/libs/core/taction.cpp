@@ -22,7 +22,9 @@
 #include <QtCore/qdebug.h>
 
 Taction::Taction(QObject* parent) :
-  QObject(parent)
+  QObject(parent),
+  m_checkable(false),
+  m_checked(false)
 {
 }
 
@@ -30,11 +32,14 @@ Taction::Taction(QObject* parent) :
 Taction::~Taction() {}
 
 
-QString Taction::icon() const { return Tpath::pix(m_iconTag); }
+QString Taction::icon() const { return m_iconTag.isEmpty() ? QString() : Tpath::pix(m_iconTag); }
 
 
 void Taction::setIconTag(const QString& ic) {
-  m_iconTag = ic;
+  if (ic != m_iconTag) {
+    m_iconTag = ic;
+    emit iconChanged();
+  }
 }
 
 
@@ -58,4 +63,25 @@ void Taction::trigger() {
   emit triggered();
 }
 
+
+void Taction::setCheckable(bool ch) {
+  m_checkable = ch;
+}
+
+
+void Taction::setChecked(bool ch) {
+  if (ch != m_checked) {
+    m_checked = ch;
+    emit checkedChanged();
+  }
+}
+
+
+void Taction::setShortcut(QObject* s) {
+  m_shortcut = s;
+}
+
+
+QString Taction::key() {
+  return m_shortcut ? m_shortcut->property("nativeText").toString() : QString(); }
 
