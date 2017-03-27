@@ -16,8 +16,7 @@ TRANSLATION CONTEXT CHANGES
   TscoreSettings -> ScorePage (rearrange ScorePage)
   TradioClef - Tclef (rearrange Tclef)
   TguitarSettings - InstrumentPage
-
-  Score actions
+  TscoreActions - MainScore
 
 ============================================================================
 SCORE

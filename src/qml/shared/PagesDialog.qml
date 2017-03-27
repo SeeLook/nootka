@@ -71,7 +71,7 @@ Item {
           icon: Tpath.pix(iconName)
           factor: Screen.pixelDensity * (Noo.isAndroid() ? 1.2 : 1.6)
           fontSize: nootkaWindow.fontSize * (Noo.isAndroid() ? 0.8 : 1.0)
-          onPressed: {
+          onClicked: {
             if (stack.currentItem !== navList.pages[index]) {
               stack.push(navList.pages[index])
               navList.pages[index] = stack.currentItem
