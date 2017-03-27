@@ -53,12 +53,12 @@ ApplicationWindow {
     text: qsTranslate("TtoolBar", "Level")
     tip: qsTranslate("TtoolBar", "Levels creator")
   }
-  Taction {
+  Taction { // desktop only
     id: scoreAct
     icon: "score"
     text: qsTranslate("TtoolBar", "Score", "it could be 'notation', 'staff' or whatever is associated with that 'place to display musical notes' and this the name is quite short and looks well.")
     tip: qsTranslate("TtoolBar", "Manage and navigate the score.")
-    onTriggered: score.scoreMenu.open()
+    onTriggered: mainMenu.scoreMenu.open()
   }
   Taction {
     id: examAct
@@ -105,7 +105,7 @@ ApplicationWindow {
       MainScore {
         id: score
         height: nootkaWindow.height * (Noo.isAndroid() ? 1.0 : 0.916667) - (header ? header.height : 0) - instrument.height
-        scoreMenu.x: header ? header.scoreAct.x : 0
+//         scoreMenu.x: header ? header.scoreAct.x : 0
       }
 
       Instrument {
