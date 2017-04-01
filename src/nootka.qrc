@@ -3,6 +3,7 @@
     <file alias="MainWindow.qml">qml/MainWindow.qml</file>
     <file alias="MainMenu.qml">qml/MainMenu.qml</file>
     <file alias="+android/MainMenu.qml">qml/+android/MainMenuMobile.qml</file>
+<!--     <file alias="+linux/MainMenu.qml">qml/+android/MainMenuMobile.qml</file> -->
     <file alias="TtoolBar.qml">qml/TtoolBar.qml</file>
     <file alias="NootkaLabel.qml">qml/NootkaLabel.qml</file>
     <file alias="MainScore.qml">qml/MainScore.qml</file>
@@ -47,6 +48,9 @@
     <file alias="ColorButton.qml">qml/settings/ColorButton.qml</file>
 
     <file alias="fakeTrans.js">qml/shared/fakeTrans.js</file>
+
+    <file alias="qtquickcontrols2.conf">qml/qtquickcontrols2.conf</file>
+    <file alias="+android/qtquickcontrols2.conf">qml/+android/qtquickcontrols2.conf</file>
 
   </qresource>
 </RCC>

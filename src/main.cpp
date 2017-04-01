@@ -62,6 +62,8 @@ bool resetConfig;
 
 int main(int argc, char *argv[])
 {
+  QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
 #if defined (Q_OS_ANDROID)
   qputenv("QT_ANDROID_VOLUME_KEYS", "1"); // Handle volume keys by Qt, lock native Android behavior
 
@@ -69,7 +71,7 @@ int main(int argc, char *argv[])
  logFile = Tandroid::getExternalPath() + QStringLiteral("/nootka-log.txt");
   if (QFile::exists(logFile))
     QFile::remove(logFile);
- qInstallMessageHandler(myMessageOutput);
+  qInstallMessageHandler(myMessageOutput);
   qDebug() << "==== NOOTKA LOG =======\n" << QDateTime::currentDateTime().toString();
 #endif
 
