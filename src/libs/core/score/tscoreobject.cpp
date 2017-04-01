@@ -56,6 +56,13 @@ TscoreObject::TscoreObject(QObject* parent) :
 
   for (int i = 0; i < 7; i++) // reset accidentals array
     m_accidInKeyArray[i] = 0;
+
+  m_touchHideTimer = new QTimer(this);
+  connect(m_touchHideTimer, &QTimer::timeout, [=]{
+      changeActiveNote(nullptr);
+      setPressedNote(nullptr);
+      m_touchHideTimer->stop();
+  });
 }
 
 
@@ -224,7 +231,7 @@ TnoteObject * TscoreObject::note(int noteId) {
 
 
 void TscoreObject::noteClicked(qreal yPos) {
-  if (activeNote()->note()->isRest())
+  if (!activeNote() || activeNote()->note()->isRest())
     return;
 CHECKTIME(
   int globalNr = m_clefOffset.octave * 7 - (yPos - static_cast<int>(upperLine()) - m_clefOffset.note);
@@ -286,6 +293,7 @@ CHECKTIME(
     if (m_segments[notesForAlterCheck.y()]->item()->staff() != m_segments[notesForAlterCheck.x()]->item()->staff())
       m_segments[notesForAlterCheck.y()]->item()->staff()->fit();
   }
+  emit clicked();
   qDebug() << "[TscoreObject] clicked note" << activeNote() << yPos << newNote.toText() << newNote.rtm.string();
 )
 }

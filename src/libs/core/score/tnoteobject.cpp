@@ -27,6 +27,8 @@
 #include <QtQml/qqmlengine.h>
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>
+#include <QtCore/qtimer.h>
+#include <QtCore/qelapsedtimer.h>
 
 #include <QtCore/qdebug.h>
 
@@ -119,6 +121,7 @@ TnoteObject::TnoteObject(TstaffObject* staffObj, TnotePair* wrapper) :
   setHeight(staffObj->staffItem()->height());
   setAcceptHoverEvents(true);
   setZ(10);
+  setAcceptedMouseButtons(Qt::LeftButton);
 }
 
 
@@ -405,26 +408,87 @@ void TnoteObject::keySignatureChanged() {
 }
 
 
+/**
+ * Due to some bug invoking hover events after touch, mouse is not supported under mobile for now
+ * That bug makes it messy
+ */
+#if !defined (Q_OS_ANDROID)
 void TnoteObject::hoverEnterEvent(QHoverEvent*) {
+  m_measure->score()->setHoveredNote(this);
   m_measure->score()->changeActiveNote(this);
 }
 
 
 void TnoteObject::hoverLeaveEvent(QHoverEvent*) {
+  m_measure->score()->setHoveredNote(nullptr);
   m_measure->score()->changeActiveNote(nullptr);
 }
 
 
 void TnoteObject::hoverMoveEvent(QHoverEvent* event) {
-  if (static_cast<int>(m_measure->score()->activeYpos()) != static_cast<int>(event->pos().y()))
-    m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
+  if (!m_measure->score()->pressedNote() && m_measure->score()->hoveredNote()
+      && static_cast<int>(m_measure->score()->activeYpos()) != static_cast<int>(event->pos().y()))
+          m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
+}
+#endif
+
+static QElapsedTimer m_touchDuration;
+/**
+ * Mouse events are used to handle touch when supported (they are ignored when enter event occurred before invoked by mouse)
+ * Press event displays note cursor and locks grabbing the mouse - so moving a finger doesn't scroll entire score
+ */
+void TnoteObject::mousePressEvent(QMouseEvent* event) {
+  setKeepMouseGrab(true);
+  m_measure->score()->setPressedNote(this);
+  m_measure->score()->touchHideTimer()->stop();
+  if (m_measure->score()->activeNote() != this) {
+    if (event->buttons() & Qt::LeftButton) {
+      m_measure->score()->changeActiveNote(this);
+      m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
+    }
+  }
+  m_touchDuration.restart();
+}
+
+
+/**
+ * @p touchHideTimer() of score becomes active after first release of a finger,
+ * note cursor remains visible for 2.5 seconds.
+ * Second touch will set the note and hide cursor.
+ *
+ * Release event is also used to set (confirm) a note by mouse press
+ */
+void TnoteObject::mouseReleaseEvent(QMouseEvent*) {
+  if (keepMouseGrab())
+    setKeepMouseGrab(false);
+  if (m_measure->score()->hoveredNote()) { // mouse
+      if (m_measure->score()->hoveredNote() == this)
+        m_measure->score()->noteClicked(m_measure->score()->activeYpos());
+      m_measure->score()->setPressedNote(nullptr);
+  } else { // touch
+      if (m_touchDuration.elapsed() < 150) { // confirm note
+          m_measure->score()->touchHideTimer()->stop();
+          if (m_measure->score()->activeNote() == this) // set note only when it was touched second time
+            m_measure->score()->noteClicked(m_measure->score()->activeYpos());
+          m_measure->score()->setPressedNote(nullptr);
+          m_measure->score()->changeActiveNote(nullptr);
+      } else { // keep cursor visible
+          m_measure->score()->touchHideTimer()->start(2500);
+      }
+  }
+}
+
+
+void TnoteObject::mouseMoveEvent(QMouseEvent* event) {
+  if (m_measure->score()->pressedNote() && !m_measure->score()->touchHideTimer()->isActive()
+      && static_cast<int>(m_measure->score()->activeYpos()) != static_cast<int>(event->pos().y()))
+        m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
 }
 
 
 //#################################################################################################
 //###################              PRIVATE             ############################################
 //#################################################################################################
-
 
 QQuickItem* TnoteObject::createAddLine() {
   auto line = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());

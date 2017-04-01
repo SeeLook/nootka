@@ -188,6 +188,11 @@ signals:
   void activeYposChanged();
   void upperLineChanged();
 
+      /**
+       * When active note was clicked
+       */
+  void clicked();
+
 protected:
   QQmlComponent* component() { return m_qmlComponent; }
   QQmlEngine* qmlEngine() { return m_qmlEngine; }
@@ -224,14 +229,30 @@ protected:
        */
   qint8 accidInKey(int k) const { return m_accidInKeyArray[k]; }
 
-  void changeActiveNote(TnoteObject* aNote);
-  void setActiveNotePos(qreal yPos);
-
       /**
        * Returns number of note that starts a tie through @p x()
        * and number of note that ends the tie through @p y()
        */
   QPoint tieRange(TnoteObject* n);
+
+/* ------------------ Note cursor ------------------ */
+
+      /**
+       * Sets note over which one cursor appears or null if none
+       */
+  void changeActiveNote(TnoteObject* aNote);
+  void setActiveNotePos(qreal yPos);
+
+      /**
+       * Delays hiding note cursor when touch was released
+       */
+  QTimer* touchHideTimer() { return m_touchHideTimer; }
+
+  TnoteObject* hoveredNote() { return m_hoveredNote; }
+  void setHoveredNote(TnoteObject* hn) { m_hoveredNote = hn; }
+
+  TnoteObject* pressedNote() { return m_presseddNote; }
+  void setPressedNote(TnoteObject* pn) { m_presseddNote = pn; }
 
 private:
       /**
@@ -269,6 +290,9 @@ private:
                               /* Note cursor */
   TnoteObject                      *m_activeNote = nullptr;
   qreal                             m_activeYpos = 0.0;
+  QTimer                           *m_touchHideTimer;
+  TnoteObject                      *m_hoveredNote = nullptr;
+  TnoteObject                      *m_presseddNote = nullptr;
 
 };
 
