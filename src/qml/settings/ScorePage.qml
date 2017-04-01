@@ -35,6 +35,7 @@ Column {
         orientation: ListView.Horizontal
         spacing: nootkaWindow.fontSize
         width: parent.width
+//         contentWidth: parent.width
 
         model: ListModel {
           ListElement { head: QT_TR_NOOP("Score settings") }
@@ -55,12 +56,17 @@ Column {
     }
     StackLayout {
       id: swipePages
-      height: parent.height - headList.height
+      height: parent.height - headList.height - nootkaWindow.fontSize
       width: parent.width
 
-      Item { // 1st page
+      Flickable { // 1st page (general)
+        clip: true
+        contentHeight: firstColumn.height
+        width: parent.width
+        height: parent.height
         Column {
-          anchors.fill: parent
+          id: firstColumn
+          width: parent.width
           spacing: nootkaWindow.fontSize / 2
           Frame {
             width: parent.width
@@ -124,9 +130,11 @@ Column {
       Flickable { // 2nd page (key signatures)
         clip: true
         contentHeight: secondColumn.height
+        width: parent.width
+        height: parent.height
         Column {
           id: secondColumn
-          anchors.fill: parent
+          width: parent.width
           spacing: nootkaWindow.fontSize / 2
           Tile {
             anchors.horizontalCenter: parent.horizontalCenter
@@ -137,7 +145,8 @@ Column {
             }
           }
           Frame {
-            width: parent.width
+            width: parent.width * 0.96
+            anchors.horizontalCenter: parent.horizontalCenter
             Column {
               spacing: nootkaWindow.fontSize / 2
               width: parent.width
