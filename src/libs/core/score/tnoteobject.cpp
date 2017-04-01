@@ -480,7 +480,7 @@ void TnoteObject::mouseReleaseEvent(QMouseEvent*) {
 
 
 void TnoteObject::mouseMoveEvent(QMouseEvent* event) {
-  if (m_measure->score()->pressedNote() && !m_measure->score()->touchHideTimer()->isActive()
+  if (m_measure->score()->pressedNote() && !m_measure->score()->touchHideTimer()->isActive() && m_touchDuration.elapsed() > 200
       && static_cast<int>(m_measure->score()->activeYpos()) != static_cast<int>(event->pos().y()))
         m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
 }
