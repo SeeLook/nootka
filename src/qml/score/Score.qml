@@ -44,6 +44,9 @@ Flickable {
   TscoreObject {
     id: scoreObj
     width: score.width / scale
+
+    onClicked: score.currentNote = scoreObj.activeNote
+
     onStaffCreate: {
       var c = Qt.createComponent("qrc:/Staff.qml")
       var lastStaff = c.createObject(score.contentItem, { "clef.type": score.clef })
@@ -81,6 +84,7 @@ Flickable {
       text: staff0.keySignature ? Noo.majorKeyName(staff0.keySignature.key) + "<br>" + Noo.minorKeyName(staff0.keySignature.key) : ""
     }
     Component.onCompleted: staves.push(staff0)
+    Component.onDestruction: destroing("destroying staff")
   }
 
   NoteCursor {
@@ -89,10 +93,6 @@ Flickable {
     yPos: scoreObj.activeYpos
     upperLine: scoreObj.upperLine
     z: 20
-    onClicked: {
-      scoreObj.noteClicked(y)
-      score.currentNote = scoreObj.activeNote
-    }
   }
 
   onEnableKeySignChanged: {

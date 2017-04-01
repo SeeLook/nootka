@@ -73,9 +73,4 @@ Item {
       }
   }
 
-  MouseArea {
-    anchors.fill: parent
-    onClicked: noteCursor.clicked(yPos)
-  }
-
 }
