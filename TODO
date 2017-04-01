@@ -22,6 +22,11 @@ TRANSLATION CONTEXT CHANGES
 SCORE
  - rich text for key names (accidentals would be in Nootka symbols)
 
+small glitches:
+ - beam is not fit to the last stem
+ - when stems change direction in the beam, beams are not shifted properly (rare case)
+ - sometimes setting a note doesn't scale tie - probably due to note width is not refreshed
+
 ============================================================================
   Do we need Tmtr?? Make order with this!
 
