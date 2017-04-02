@@ -29,10 +29,15 @@ Item {
   property color color: GLOB.noteCursorColor
   property real yPos: 0
   property real upperLine: 16
-
-  signal clicked(var y)
+  property alias alterText: alter.text
 
   visible: yPos > 0
+
+  Rectangle { // highlight
+    anchors.fill: parent
+    color: Qt.rgba(noteCursor.color.r, noteCursor.color.g, noteCursor.color.b, 0.1)
+    z: -10
+  }
 
   Text {
       id: head
