@@ -28,14 +28,15 @@ Item {
 
   property bool active: false
   property int selectedId: -1
-  property real factor: score.height / 20
+  property real factor: score.scale * 2
   property string text: ""
   property int alter: accidArray[selectedId + 1]
   readonly property var accidGlyphs: [ "\ue264", "\ue260", "\ue262", "\ue263" ]
   readonly property var accidArray: [ 0, -2, -1, 1, 2 ]
 
   x: -width - nootkaWindow.fontSize
-  y: (score.height - height) / 2
+  y: score.contentY + (score.height - height) / 2
+  z: 20
   width: contentColumn.width
   height: contentColumn.height
 
