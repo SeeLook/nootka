@@ -44,6 +44,7 @@ Flickable {
   TscoreObject {
     id: scoreObj
     width: score.width / scale
+    cursorAlter: accidControl.alter
 
     onClicked: score.currentNote = scoreObj.activeNote
 
@@ -59,6 +60,7 @@ Flickable {
         lastStaff.keySignature.key = staff0.keySignature.key
     }
     onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
+
     function removeStaff(nr) { staves.splice(nr, 1) }
   }
 
@@ -88,11 +90,18 @@ Flickable {
   }
 
   NoteCursor {
+    id: cursor
     parent: scoreObj.activeNote
     anchors.fill: parent
     yPos: scoreObj.activeYpos
     upperLine: scoreObj.upperLine
+    alterText: accidControl.text
     z: 20
+  }
+
+  AccidControl {
+    id: accidControl
+    active: scoreObj.activeNote !== null
   }
 
   onEnableKeySignChanged: {

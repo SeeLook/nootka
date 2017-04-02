@@ -64,6 +64,7 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(int meter READ meterToInt WRITE setMeter NOTIFY meterChanged)
   Q_PROPERTY(int keySignature READ keySignature WRITE setKeySignature)
   Q_PROPERTY(int notesCount READ notesCount)
+  Q_PROPERTY(int cursorAlter READ cursorAlter WRITE setCursorAlter)
                         /* Score switches */
   Q_PROPERTY(bool keySignatureEnabled READ keySignatureEnabled WRITE setKeySignatureEnabled)
   Q_PROPERTY(bool enableDoubleAccidentals READ enableDoubleAccidentals WRITE setEnableDoubleAccids)
@@ -103,6 +104,9 @@ public:
   Q_INVOKABLE TnoteObject* note(int noteId);
 
   Q_INVOKABLE void noteClicked(qreal yPos);
+
+  int cursorAlter() const { return m_cursorAlter; }
+  void setCursorAlter(int curAlt) { m_cursorAlter = curAlt; }
 
   /* ------------------ Score switches ------------------ */
 
@@ -293,6 +297,7 @@ private:
   QTimer                           *m_touchHideTimer;
   TnoteObject                      *m_hoveredNote = nullptr;
   TnoteObject                      *m_presseddNote = nullptr;
+  int                               m_cursorAlter = 0;
 
 };
 
