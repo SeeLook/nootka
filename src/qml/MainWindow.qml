@@ -118,12 +118,12 @@ ApplicationWindow {
 
   DialogLoader { id: dialogLoader }
 
-  Component.onCompleted: {
-    randNotes()
-    randNotes()
-    randNotes()
-    randNotes()
-  }
+//   Component.onCompleted: {
+//     randNotes()
+//     randNotes()
+//     randNotes()
+//     randNotes()
+//   }
 
 //   Timer {
 //       interval: 5000

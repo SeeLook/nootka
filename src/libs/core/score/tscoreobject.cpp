@@ -236,7 +236,7 @@ void TscoreObject::noteClicked(qreal yPos) {
 CHECKTIME(
   int globalNr = m_clefOffset.octave * 7 - (yPos - static_cast<int>(upperLine()) - m_clefOffset.note);
   Tnote newNote(static_cast<char>(56 + globalNr) % 7 + 1, static_cast<char>(56 + globalNr) / 7 - 8,
-          static_cast<char>(activeNote()->note()->alter), activeNote()->note()->rtm);
+          static_cast<char>(m_cursorAlter), activeNote()->note()->rtm);
   Tnote oldNote = *activeNote()->wrapper()->note();
   bool fitStaff = false;
 // disconnect tie (if any) if note pitch changed
