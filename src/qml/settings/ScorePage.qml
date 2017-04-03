@@ -35,7 +35,6 @@ Column {
         orientation: ListView.Horizontal
         spacing: nootkaWindow.fontSize
         width: parent.width
-//         contentWidth: parent.width
 
         model: ListModel {
           ListElement { head: QT_TR_NOOP("Score settings") }
@@ -76,27 +75,27 @@ Column {
               Tile {
                 description: qsTranslate("TscoreSettings", "When enabled, a score displays only a single note.")
                 CheckBox {
-                  id: singleNoteMode
+                  id: singleNoteModeChB
                   text: qsTranslate("TscoreSettings", "use single note only")
                   anchors.horizontalCenter: parent.horizontalCenter
                 }
               }
 
               Tile {
-                enabled: singleNoteMode.checked
+                enabled: singleNoteModeChB.checked
                 width: parent.width * 0.95
                 anchors.horizontalCenter: parent.horizontalCenter
                 description: qsTranslate("TscoreSettings",
                                         "Shows enharmonic variants of notes.<br>i.e.: the note E is also Fb (F flat) <i>and</i> Dx (D with double sharp).")
                 CheckBox {
-                  id: showEnharmNotes
+                  id: showEnharmNotesChB
                   text: qsTranslate("TscoreSettings", "show enharmonic variants of notes")
                   anchors.horizontalCenter: parent.horizontalCenter
                 }
               }
               Tile {
-                enabled: singleNoteMode.checked
-                width: parent.width * 0.95
+                enabled: singleNoteModeChB.checked
+//                 width: parent.width * 0.95
                 anchors.horizontalCenter: parent.horizontalCenter
                 Row {
                   spacing: nootkaWindow.fontSize
@@ -112,18 +111,29 @@ Column {
             }
           }
           Tile {
+            description: qsTranslate("TscoreSettings", "If checked, you can use double sharps and double flats.")
+            anchors.horizontalCenter: parent.horizontalCenter
+            CheckBox {
+              id: doubleAccidsChB
+              text: qsTranslate("TscoreSettings", "use double accidentals")
+              anchors.horizontalCenter: parent.horizontalCenter
+              checked: GLOB.enableDoubleAccids
+            }
+          }
+          Tile {
+            anchors.horizontalCenter: parent.horizontalCenter
             Row {
               spacing: nootkaWindow.fontSize
               anchors.horizontalCenter: parent.horizontalCenter
               Text { color: activPal.text; text: qsTranslate("TscoreSettings", "note-cursor color"); anchors.verticalCenter: parent.verticalCenter }
-              ColorButton { id: pointerColor }
+              ColorButton { id: pointerColorButt; color: GLOB.noteCursorColor }
             }
           }
         }
         Component.onCompleted: {
           enharmNoteColor.color = GLOB.enharmNoteColor
-          showEnharmNotes.checked = GLOB.showEnharmNotes
-          singleNoteMode.checked = GLOB.singleNoteMode
+          showEnharmNotesChB.checked = GLOB.showEnharmNotes
+          singleNoteModeChB.checked = GLOB.singleNoteMode
         }
       }
 
@@ -142,6 +152,7 @@ Column {
               id: enableKeyChB
               text: qsTranslate("TscoreSettings", "enable key signature")
               anchors.horizontalCenter: parent.horizontalCenter
+              checked: GLOB.keySignatureEnabled
             }
           }
           Frame {
@@ -162,7 +173,7 @@ Column {
 
               Tile {
                 enabled: enableKeyChB.checked && showKeyNamesChB.checked
-                width: parent.width * 0.95
+//                 width: parent.width * 0.95
                 anchors.horizontalCenter: parent.horizontalCenter
                 Column {
                   spacing: nootkaWindow.fontSize / 2
@@ -230,13 +241,19 @@ Column {
     }
 
     function save() {
-      
+//       GLOB. = singleNoteModeChB
+      GLOB.enableDoubleAccids = doubleAccidsChB.checked
+      GLOB.noteCursorColor = pointerColorButt.color
+      GLOB.keySignatureEnabled = enableKeyChB.checked
     }
 
     function defaults() {
-      singleNoteMode.checked = false
-      showEnharmNotes.checked = false
+      singleNoteModeChB.checked = false
+      showEnharmNotesChB.checked = false
       enharmNoteColor.color = Qt.rgba(0, 0.6352941176470588, 0.6352941176470588, 1)
-      pointerColor.color = "pink"
+      doubleAccidsChB.checked = false
+      pointerColorButt.color = "pink"
+
+      enableKeyChB.checked = false
     }
 }

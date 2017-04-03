@@ -68,6 +68,7 @@ Item {
             width: factor * 2
             height: factor * 3
             radius: factor / 5
+            visible: score.enableDoubleAccids || index === 1 || index === 2
             Text {
               id: accText
               y: factor * -4.5
@@ -97,7 +98,7 @@ Item {
 
   onActiveChanged: {
     if (active) {
-        x = nootkaWindow.fontSize
+        x = nootkaWindow.fontSize / 2
         hideTimer.stop()
     } else {
         hideTimer.restart()
@@ -110,5 +111,5 @@ Item {
       repeat: false
       onTriggered: x = -width - nootkaWindow.fontSize
   }
-  
+
 }
