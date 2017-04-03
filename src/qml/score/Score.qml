@@ -30,11 +30,14 @@ Flickable {
   property alias meter: scoreObj.meter
   property alias bgColor: bgRect.color
   property bool enableKeySign: false
+  property bool enableDoubleAccids: false
   property bool showKeyName: true
-  property var staves: []
   property real scaleFactor: 1.0
   property alias notesCount: scoreObj.notesCount
   property TnoteItem currentNote: null
+
+  // private
+  property var staves: []
 
   clip: true
   width: parent.width
@@ -45,6 +48,7 @@ Flickable {
     id: scoreObj
     width: score.width / scale
     cursorAlter: accidControl.alter
+    enableDoubleAccidentals: score.enableDoubleAccids
 
     onClicked: score.currentNote = scoreObj.activeNote
 
@@ -64,7 +68,7 @@ Flickable {
     function removeStaff(nr) { staves.splice(nr, 1) }
   }
 
-  Rectangle {
+  Rectangle { // entire score background
     id: bgRect
     anchors.fill: score.contentItem
     color: activPal.base

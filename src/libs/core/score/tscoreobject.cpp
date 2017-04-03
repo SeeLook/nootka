@@ -39,7 +39,7 @@ TscoreObject::TscoreObject(QObject* parent) :
   m_keySignEnabled(false),
   m_showExtraAccids(false),
   m_remindAccids(false),
-  m_enableDoubleAccids(true),
+  m_enableDoubleAccids(false),
   m_showNoteNames(false),
   m_clefOffset(TclefOffset(3, 1)),
   m_width(0.0), m_adjustInProgress(false)
@@ -303,13 +303,19 @@ CHECKTIME(
 //#################################################################################################
 
 void TscoreObject::setKeySignatureEnabled(bool enKey) {
-  m_keySignEnabled = enKey;
+  if (enKey != m_keySignEnabled) {
+    m_keySignEnabled = enKey;
+    adjustScoreWidth();
+  }
 }
 
 
 void TscoreObject::setEnableDoubleAccids(bool dblEnabled) {
   if (m_enableDoubleAccids != dblEnabled) {
     m_enableDoubleAccids = dblEnabled;
+    if (!m_enableDoubleAccids) {
+      // TODO: convert notes with double accidentals into single-ones
+    }
   }
 }
 

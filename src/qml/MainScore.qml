@@ -33,9 +33,11 @@ Score {
   property alias zoomInAct: zoomInAct
   property alias zoomOutAct: zoomOutAct
 
-  enableKeySign: true
+  enableDoubleAccids: GLOB.enableDoubleAccids
+  enableKeySign: GLOB.keySignatureEnabled
   scoreObj.nameColor: GLOB.nameColor
   scoreObj.showNoteNames: GLOB.namesOnScore
+  scoreObj.enableDoubleAccidentals: GLOB.enableDoubleAccids
 
   Rectangle { // note highlight
     id: noteHighlight
