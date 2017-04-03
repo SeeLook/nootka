@@ -138,6 +138,14 @@ void Tglobals::setNamesOnScore(bool showNames) { S->namesOnScore = showNames; em
 QColor Tglobals::nameColor() const { return S->nameColor; }
 void Tglobals::setNameColor(const QColor& nameC) { S->nameColor = nameC; emit nameColorChanged(); }
 
+bool Tglobals::enableDoubleAccids() const { return S->doubleAccidentalsEnabled; }
+void Tglobals::setEnableDoubleAccids(bool dblAcc) { S->doubleAccidentalsEnabled = dblAcc; emit enableDoubleAccidsChanged(); }
+
+bool Tglobals::keySignatureEnabled() const { return S->keySignatureEnabled; }
+void Tglobals::setKeySignatureEnabled(bool enKey) { S->keySignatureEnabled = enKey; emit enableKeySignatureChanged(); }
+
+
+
 int Tglobals::clefType() const { return static_cast<int>(S->clef); }
 void Tglobals::setClefType(int clType) { S->clef = static_cast<Tclef::EclefType>(clType); }
 
