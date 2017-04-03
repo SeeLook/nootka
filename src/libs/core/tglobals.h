@@ -47,12 +47,15 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(QRect geometry READ geometry WRITE setGeometry NOTIFY geometryChanged)
   Q_PROPERTY(bool useAnimations READ useAnimations WRITE setUseAnimations NOTIFY useAnimationsChanged)
   Q_PROPERTY(QString lang READ getLang WRITE setLang)
+  /* Score switches */
   Q_PROPERTY(bool showEnharmNotes READ showEnharmNotes WRITE setShowEnharmNotes)
   Q_PROPERTY(QColor enharmNoteColor READ getEnharmNoteColor WRITE setEnharmNoteColor)
   Q_PROPERTY(QColor noteCursorColor READ getNoteCursorColor WRITE setNoteCursorColor NOTIFY noteCursorColorChanged)
   Q_PROPERTY(bool singleNoteMode READ isSingleNote WRITE setSingleNote)
   Q_PROPERTY(qreal namesOnScore READ namesOnScore WRITE setNamesOnScore NOTIFY namesOnScoreChanged)
   Q_PROPERTY(QColor nameColor READ nameColor WRITE setNameColor NOTIFY nameColorChanged)
+  Q_PROPERTY(bool enableDoubleAccids READ enableDoubleAccids WRITE setEnableDoubleAccids NOTIFY enableDoubleAccidsChanged)
+  Q_PROPERTY(bool keySignatureEnabled READ keySignatureEnabled WRITE setKeySignatureEnabled NOTIFY enableKeySignatureChanged)
   Q_PROPERTY(int clefType READ clefType WRITE setClefType)
 
 public:
@@ -78,6 +81,7 @@ public:
   QString getLang() const { return lang; }
   void setLang(const QString& l) { lang = l; }
 
+  /* ------------------ Score switches ------------------ */
   bool showEnharmNotes() const;
   void setShowEnharmNotes(bool showEnharm);
 
@@ -95,6 +99,12 @@ public:
 
   QColor nameColor() const;
   void setNameColor(const QColor& nameC);
+
+  bool enableDoubleAccids() const;
+  void setEnableDoubleAccids(bool dblAcc);
+
+  bool keySignatureEnabled() const;
+  void setKeySignatureEnabled(bool enKey);
 
   int clefType() const;
   void setClefType(int clType);
@@ -166,6 +176,8 @@ signals:
   void useAnimationsChanged();
   void noteCursorColorChanged();
   void namesOnScoreChanged();
+  void enableDoubleAccidsChanged();
+  void enableKeySignatureChanged();
   void nameColorChanged();
 
 private:
