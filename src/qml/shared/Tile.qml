@@ -32,7 +32,7 @@ Frame {
     radius: nootkaWindow.fontSize / 4
   }
 
-  width: parent.width * 0.98
+  width: parent.width * 0.96
   height: (descText.text === "" ? 0 : descText.height) + container.height + nootkaWindow.fontSize * 2
 
   Column {
