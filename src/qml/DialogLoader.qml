@@ -26,8 +26,8 @@ import Nootka 1.0
 
 Dialog {
   id: dialLoader
-  width: Noo.isAndroid() ? Screen.width : nootkaWindow.width * 0.75
-  height: Noo.isAndroid() ? Screen.height : nootkaWindow.height * 0.75
+  width: Noo.isAndroid() ? Screen.width : nootkaWindow.width * 0.9
+  height: Noo.isAndroid() ? Screen.height : nootkaWindow.height * 0.9
 
   property int page: 0
   // private
@@ -39,8 +39,8 @@ Dialog {
       if (Noo.isAndroid()) {
           standardButtons = 0
       } else {
-          width = nootkaWindow.width * 0.75
-          height = nootkaWindow.height * 0.75
+          width = nootkaWindow.width * 0.9
+          height = nootkaWindow.height * 0.9
       }
       switch (page) {
         case Nootka.Settings:
