@@ -18,8 +18,8 @@
 
 
 #include "tkeysignature.h"
-// #include "tinitcorelib.h"
-// #include <tscoreparams.h>
+#include "tglobals.h"
+#include "tscoreparams.h"
 #include <QtCore/qxmlstream.h>
 #include <QtCore/qvariant.h>
 
@@ -53,20 +53,20 @@ QString TkeySignature::minorNames[15] = { QString(), QString(), QString(), QStri
                                           QString(), QString(), QString(), QString(), QString(),
                                           QString(), QString(), QString(), QString(), QString()};
 
-void TkeySignature::setNameStyle(Tnote::EnameStyle style, QString majSuf, QString minSuf) {
+void TkeySignature::setNameStyle(Tnote::EnameStyle style, const QString& majSuf, const QString& minSuf) {
   Tnote n;
   QString majS, minS;
   auto minus = QStringLiteral("-");
   if (majSuf.isEmpty()) {
       majS = minus + majorSufixTxt();
-//       Tcore::gl()->S->majKeyNameSufix = majorSufixTxt();
+      GLOB->S->majKeyNameSufix = majorSufixTxt();
   } else
       if (majSuf != QLatin1String(" "))
         majS = minus + majSuf;
 
   if (minSuf.isEmpty()) {
       minS = minus + minorSufixTxt();
-//       Tcore::gl()->S->minKeyNameSufix = minorSufixTxt();
+      GLOB->S->minKeyNameSufix = minorSufixTxt();
   } else
     if (minSuf != QLatin1String(" "))
       minS = minus + minSuf;
