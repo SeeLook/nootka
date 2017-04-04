@@ -56,7 +56,13 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(QColor nameColor READ nameColor WRITE setNameColor NOTIFY nameColorChanged)
   Q_PROPERTY(bool enableDoubleAccids READ enableDoubleAccids WRITE setEnableDoubleAccids NOTIFY enableDoubleAccidsChanged)
   Q_PROPERTY(bool keySignatureEnabled READ keySignatureEnabled WRITE setKeySignatureEnabled NOTIFY enableKeySignatureChanged)
+  Q_PROPERTY(bool showKeyName READ showKeyName WRITE setShowKeyName NOTIFY showKeyNameChanged)
+  Q_PROPERTY(QString majorKeyNameSufix READ majorKeyNameSufix WRITE setMajorKeyNameSufix)
+  Q_PROPERTY(QString minorKeyNameSufix READ minorKeyNameSufix WRITE setMinorKeyNameSufix)
+  Q_PROPERTY(int keyNameStyle READ keyNameStyle WRITE setKeyNameStyle)
+
   Q_PROPERTY(int clefType READ clefType WRITE setClefType)
+  Q_PROPERTY(bool seventhIsB READ seventhIsB WRITE setSeventhIsB NOTIFY seventhIsBChanged)
 
 public:
 
@@ -108,6 +114,27 @@ public:
 
   int clefType() const;
   void setClefType(int clType);
+
+  bool seventhIsB() const;
+  void setSeventhIsB(bool isB);
+
+  bool showKeyName() const;
+  void setShowKeyName(bool showKey);
+
+  QString majorKeyNameSufix() const;
+  void setMajorKeyNameSufix(const QString& mkns);
+
+  QString minorKeyNameSufix() const;
+  void setMinorKeyNameSufix(const QString& mkns);
+
+  int keyNameStyle() const;
+  void setKeyNameStyle(int keyStyle);
+
+      /**
+       * Updates key signature names according to name style and major/minor suffixes.
+       * Emits @p keyNameChanged() to inform MainScore.qml
+       */
+  Q_INVOKABLE void updateKeySignatureNames();
 
       /** This method return application install path - path from where Nootka was started. */
   static QString getInstPath(QString appInstPath);
@@ -179,6 +206,9 @@ signals:
   void enableDoubleAccidsChanged();
   void enableKeySignatureChanged();
   void nameColorChanged();
+  void seventhIsBChanged();
+  void showKeyNameChanged();
+  void keyNameChanged();
 
 private:
   static Tglobals           *m_instance;

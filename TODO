@@ -13,10 +13,11 @@
 TRANSLATION CONTEXT CHANGES
   TpitchView -> PitchView
   TvolumeView -> VolumeBar
-  TscoreSettings -> ScorePage (rearrange ScorePage)
+  TscoreSettings -> ScorePage, KeySufixEdit,  (rearrange ScorePage)
   TradioClef - Tclef (rearrange Tclef)
   TguitarSettings - InstrumentPage
   TscoreActions - MainScore
+  TnotationRadioGroup - NameStyleSelector
 
 ============================================================================
 SCORE

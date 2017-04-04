@@ -83,7 +83,6 @@ Column {
 
               Tile {
                 enabled: singleNoteModeChB.checked
-                width: parent.width * 0.95
                 anchors.horizontalCenter: parent.horizontalCenter
                 description: qsTranslate("TscoreSettings",
                                         "Shows enharmonic variants of notes.<br>i.e.: the note E is also Fb (F flat) <i>and</i> Dx (D with double sharp).")
@@ -95,7 +94,6 @@ Column {
               }
               Tile {
                 enabled: singleNoteModeChB.checked
-//                 width: parent.width * 0.95
                 anchors.horizontalCenter: parent.horizontalCenter
                 Row {
                   spacing: nootkaWindow.fontSize
@@ -168,40 +166,39 @@ Column {
                   id: showKeyNamesChB
                   text: qsTranslate("TscoreSettings", "show names of key signature")
                   anchors.horizontalCenter: parent.horizontalCenter
+                  checked: GLOB.showKeyName
                 }
               }
 
               Tile {
                 enabled: enableKeyChB.checked && showKeyNamesChB.checked
-//                 width: parent.width * 0.95
                 anchors.horizontalCenter: parent.horizontalCenter
-                Column {
-                  spacing: nootkaWindow.fontSize / 2
-                  width: parent.width
-                  RadioButton {
-                    text: qsTr("Scandinavian")
-//                     anchors.horizontalCenter: parent.horizontalCenter
+                Grid {
+                  columns: parent.width < nootkaWindow.fontSize * 50 ? 1 : 2
+                  spacing: nootkaWindow.fontSize
+                  anchors.horizontalCenter: parent.horizontalCenter
+                  NameStyleSelector {
+                    id: keyNameStyleSel
+                    seventhIsB: GLOB.seventhIsB
                   }
-                  RadioButton {
-                    text: qsTr("Italian")
-//                     anchors.horizontalCenter: parent.horizontalCenter
+                  Column {
+                    Text {
+                      text: qsTranslate("TscoreSettings", "Naming extension")
+                      anchors.horizontalCenter: parent.horizontalCenter
+                      color: enabled ? activPal.text : disdPal.text
+                    }
+                    Row {
+                      spacing: nootkaWindow.fontSize * 2
+                      anchors.horizontalCenter: parent.horizontalCenter
+                      KeySufixEdit { id: majKeySufixText; nameStyle: keyNameStyleSel.style }
+                      KeySufixEdit { id: minKeySufixText; nameStyle: keyNameStyleSel.style; noteOne: 1; alterOne: 1; noteTwo: 5; alterTwo: 0 }
+                    }
                   }
-                  RadioButton {
-                    text: qsTr("German")
-//                     anchors.horizontalCenter: parent.horizontalCenter
-                  }
-                  RadioButton {
-                    text: qsTr("English")
-//                     anchors.horizontalCenter: parent.horizontalCenter
-                  }
-                  RadioButton {
-                    text: qsTr("Dutch")
-//                     anchors.horizontalCenter: parent.horizontalCenter
-                  }
-                  RadioButton {
-                    text: qsTr("Russian")
-//                     anchors.horizontalCenter: parent.horizontalCenter
-                  }
+                }
+                Component.onCompleted: {
+                  majKeySufixText.sufix = GLOB.majorKeyNameSufix
+                  minKeySufixText.sufix = GLOB.minorKeyNameSufix
+                  keyNameStyleSel.style = GLOB.keyNameStyle
                 }
               }
             }
@@ -245,6 +242,15 @@ Column {
       GLOB.enableDoubleAccids = doubleAccidsChB.checked
       GLOB.noteCursorColor = pointerColorButt.color
       GLOB.keySignatureEnabled = enableKeyChB.checked
+      if (GLOB.keySignatureEnabled) {
+        GLOB.showKeyName = showKeyNamesChB.checked
+        if (GLOB.showKeyName) {
+          GLOB.majorKeyNameSufix = majKeySufixText.sufix
+          GLOB.minorKeyNameSufix = minKeySufixText.sufix
+          GLOB.keyNameStyle = keyNameStyleSel.style
+          GLOB.updateKeySignatureNames()
+        }
+      }
     }
 
     function defaults() {

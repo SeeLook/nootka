@@ -21,6 +21,7 @@
 #include "nootkaconfig.h"
 #include "tpath.h"
 #include "music/tkeysignature.h"
+#include "music/tnamestylefilter.h"
 #include "score/tscoreobject.h"
 #include "score/tstaffobject.h"
 #include "score/tnoteobject.h"
@@ -89,6 +90,18 @@ Tmeter TnootkaQML::meter(int m) {
 Tnote TnootkaQML::note(int pitch, int octave, int alter, int rhythm, bool rest, bool dot) {
   return Tnote(static_cast<char>(pitch), static_cast<char>(octave), static_cast<char>(alter),
                Trhythm(static_cast<Trhythm::Erhythm>(rhythm), rest, dot, false));
+}
+
+
+QString TnootkaQML::noteName(const Tnote& n, int style, bool showOctave) {
+  // Tnote::toText() method returns only names in user preferred according to settings
+  // To cheat it and force note name in any given style we are resetting pointer of is7th_B 
+  // then Tnote skips filtering of a style during name generation.
+  auto tmpPtr = TnameStyleFilter::is7th_B();
+  TnameStyleFilter::setStyleFilter(nullptr, TnameStyleFilter::solfegeStyle());
+  auto name = n.toText(static_cast<Tnote::EnameStyle>(style), showOctave);
+  TnameStyleFilter::setStyleFilter(tmpPtr, TnameStyleFilter::solfegeStyle()); // restore is7th_B settings
+  return name;
 }
 
 

@@ -134,7 +134,6 @@ void Tglobals::setSingleNote(bool sn) { S->isSingleNoteMode = sn; }
 bool Tglobals::namesOnScore() const { return S->namesOnScore; }
 void Tglobals::setNamesOnScore(bool showNames) { S->namesOnScore = showNames; emit namesOnScoreChanged(); }
 
-
 QColor Tglobals::nameColor() const { return S->nameColor; }
 void Tglobals::setNameColor(const QColor& nameC) { S->nameColor = nameC; emit nameColorChanged(); }
 
@@ -144,11 +143,30 @@ void Tglobals::setEnableDoubleAccids(bool dblAcc) { S->doubleAccidentalsEnabled 
 bool Tglobals::keySignatureEnabled() const { return S->keySignatureEnabled; }
 void Tglobals::setKeySignatureEnabled(bool enKey) { S->keySignatureEnabled = enKey; emit enableKeySignatureChanged(); }
 
-
-
 int Tglobals::clefType() const { return static_cast<int>(S->clef); }
 void Tglobals::setClefType(int clType) { S->clef = static_cast<Tclef::EclefType>(clType); }
 
+QString Tglobals::majorKeyNameSufix() const { return S->majKeyNameSufix; }
+void Tglobals::setMajorKeyNameSufix(const QString& mkns) { S->majKeyNameSufix = mkns; }
+
+QString Tglobals::minorKeyNameSufix() const { return S->minKeyNameSufix; }
+void Tglobals::setMinorKeyNameSufix(const QString& mkns) { S->minKeyNameSufix = mkns; }
+
+int Tglobals::keyNameStyle() const { return static_cast<int>(S->nameStyleInKeySign); }
+void Tglobals::setKeyNameStyle(int keyStyle) { S->nameStyleInKeySign = static_cast<Tnote::EnameStyle>(keyStyle); }
+
+bool Tglobals::showKeyName() const { return S->showKeySignName; }
+void Tglobals::setShowKeyName(bool showKey) { S->showKeySignName = showKey; emit showKeyNameChanged(); }
+
+
+void Tglobals::updateKeySignatureNames() {
+  TkeySignature::setNameStyle(S->nameStyleInKeySign, S->majKeyNameSufix, S->minKeyNameSufix);
+  emit keyNameChanged();
+}
+
+
+bool Tglobals::seventhIsB() const { return S->seventhIs_B; }
+void Tglobals::setSeventhIsB(bool isB) { S->seventhIs_B = isB; emit seventhIsBChanged(); }
 
 
 void Tglobals::loadSettings(QSettings* cfg) {
