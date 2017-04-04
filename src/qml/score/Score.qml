@@ -26,12 +26,12 @@ Flickable {
 
   property alias scoreObj: scoreObj
   property alias scale: staff0.scale
+  property alias firstStaff: staff0
   property int clef: Tclef.Treble_G_8down
   property alias meter: scoreObj.meter
   property alias bgColor: bgRect.color
   property bool enableKeySign: false
   property bool enableDoubleAccids: false
-  property bool showKeyName: true
   property real scaleFactor: 1.0
   property alias notesCount: scoreObj.notesCount
   property TnoteItem currentNote: null
@@ -80,14 +80,6 @@ Flickable {
     meter: Meter { parent: staff0 }
     clef.onTypeChanged: {
       // TODO: approve clef for all staves
-    }
-    Text { // key name
-      visible: showKeyName && enableKeySign
-      x: 4.5
-      y: 5
-      color: activPal.text
-      font.pointSize: 1.5
-      text: staff0.keySignature ? Noo.majorKeyName(staff0.keySignature.key) + "<br>" + Noo.minorKeyName(staff0.keySignature.key) : ""
     }
     Component.onCompleted: staves.push(staff0)
     Component.onDestruction: destroing("destroying staff")

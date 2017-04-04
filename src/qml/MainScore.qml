@@ -39,6 +39,21 @@ Score {
   scoreObj.showNoteNames: GLOB.namesOnScore
   scoreObj.enableDoubleAccidentals: GLOB.enableDoubleAccids
 
+  Text {
+    id: keyName
+    parent: firstStaff
+    visible: GLOB.showKeyName && enableKeySign
+    x: 4.5
+    y: 5
+    color: activPal.text
+    font.pointSize: 1.5
+    text: firstStaff.keySignature ? Noo.majorKeyName(firstStaff.keySignature.key) + "<br>" + Noo.minorKeyName(firstStaff.keySignature.key) : ""
+    Connections {
+      target: GLOB
+      onKeyNameChanged: keyName.text = Noo.majorKeyName(firstStaff.keySignature.key) + "<br>" + Noo.minorKeyName(firstStaff.keySignature.key)
+    }
+  }
+
   Rectangle { // note highlight
     id: noteHighlight
     parent: currentNote

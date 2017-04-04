@@ -14,6 +14,7 @@
     <file alias="Tile.qml">qml/shared/Tile.qml</file>
     <file alias="ClefMenu.qml">qml/shared/ClefMenu.qml</file>
     <file alias="MenuButton.qml">qml/shared/MenuButton.qml</file>
+    <file alias="NameStyleSelector.qml">qml/shared/NameStyleSelector.qml</file>
 
     <file alias="IntonationBar.qml">qml/sound/IntonationBar.qml</file>
     <file alias="VolumeBar.qml">qml/sound/VolumeBar.qml</file>
@@ -47,6 +48,7 @@
     <file alias="ScorePage.qml">qml/settings/ScorePage.qml</file>
     <file alias="InstrumentPage.qml">qml/settings/InstrumentPage.qml</file>
     <file alias="ColorButton.qml">qml/settings/ColorButton.qml</file>
+    <file alias="KeySufixEdit.qml">qml/settings/KeySufixEdit.qml</file>
 
     <file alias="fakeTrans.js">qml/shared/fakeTrans.js</file>
 
