@@ -14,7 +14,7 @@ Flickable {
   property alias fontSize: langHead.font.pixelSize
 
   clip: true
-  contentHeight: mainColumn.height
+  contentHeight: mainColumn.height + nootkaWindow.fontSize * 2
 
   ScrollBar.vertical: ScrollBar {}
 

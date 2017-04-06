@@ -12,6 +12,7 @@ import Score 1.0
 Column {
 
     spacing: nootkaWindow.fontSize
+    width: parent.width
 
     Row {
       width: parent.width
@@ -46,7 +47,7 @@ Column {
 
       Flickable { // 1st page (general)
         clip: true
-        contentHeight: firstColumn.height
+        contentHeight: firstColumn.height + nootkaWindow.fontSize * 2
         width: parent.width
         height: parent.height
         Column {
@@ -69,7 +70,6 @@ Column {
 
               Tile {
                 enabled: singleNoteModeChB.checked
-                anchors.horizontalCenter: parent.horizontalCenter
                 description: qsTranslate("TscoreSettings",
                                         "Shows enharmonic variants of notes.<br>i.e.: the note E is also Fb (F flat) <i>and</i> Dx (D with double sharp).")
                 CheckBox {
@@ -80,7 +80,6 @@ Column {
               }
               Tile {
                 enabled: singleNoteModeChB.checked
-                anchors.horizontalCenter: parent.horizontalCenter
                 Row {
                   spacing: nootkaWindow.fontSize
                   anchors.horizontalCenter: parent.horizontalCenter
@@ -96,7 +95,6 @@ Column {
           }
           Tile {
             description: qsTranslate("TscoreSettings", "If checked, you can use double sharps and double flats.")
-            anchors.horizontalCenter: parent.horizontalCenter
             CheckBox {
               id: doubleAccidsChB
               text: qsTranslate("TscoreSettings", "use double accidentals")
@@ -105,7 +103,6 @@ Column {
             }
           }
           Tile {
-            anchors.horizontalCenter: parent.horizontalCenter
             Row {
               spacing: nootkaWindow.fontSize
               anchors.horizontalCenter: parent.horizontalCenter
@@ -123,7 +120,7 @@ Column {
 
       Flickable { // 2nd page (key signatures)
         clip: true
-        contentHeight: secondColumn.height
+        contentHeight: secondColumn.height + nootkaWindow.fontSize * 2
         width: parent.width
         height: parent.height
         Column {
@@ -131,7 +128,6 @@ Column {
           width: parent.width
           spacing: nootkaWindow.fontSize / 2
           Tile {
-            anchors.horizontalCenter: parent.horizontalCenter
             CheckBox {
               id: enableKeyChB
               text: qsTranslate("TscoreSettings", "enable key signature")
@@ -147,7 +143,6 @@ Column {
               width: parent.width
               Tile {
                 enabled: enableKeyChB.checked
-                anchors.horizontalCenter: parent.horizontalCenter
                 CheckBox {
                   id: showKeyNamesChB
                   text: qsTranslate("TscoreSettings", "show names of key signature")
@@ -158,7 +153,6 @@ Column {
 
               Tile {
                 enabled: enableKeyChB.checked && showKeyNamesChB.checked
-                anchors.horizontalCenter: parent.horizontalCenter
                 Grid {
                   columns: parent.width < nootkaWindow.fontSize * 50 ? 1 : 2
                   spacing: nootkaWindow.fontSize
@@ -194,7 +188,7 @@ Column {
 
       Flickable { // 3rd page (clefs)
         clip: true
-        contentHeight: clefsCol.height
+        contentHeight: clefsCol.height + nootkaWindow.fontSize * 2
         contentWidth: parent.width
         width: parent.width
         Column {
