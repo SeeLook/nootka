@@ -13,7 +13,7 @@ ToolButton {
   antialiasing: true
   hoverEnabled: true
 
-  implicitWidth: Math.max(icon.width, butText.width) + factor * 2
+  implicitWidth: Math.max(icon.width, butText.width) + (Noo.isAndroid() ? 4 : factor * 2)
   implicitHeight: butText.height + icon.height + Screen.pixelDensity * 2
 
   property alias icon: icon.source

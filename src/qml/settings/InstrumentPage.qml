@@ -12,7 +12,7 @@ Flickable {
   clip: true
   width: parent.width
   height: parent.height
-  contentHeight: instrCol.height
+  contentHeight: instrCol.height + nootkaWindow.fontSize * 2
 
   property var instrGlyphs: ["v", "h", "j", "i"]
 
@@ -39,17 +39,23 @@ Flickable {
       }
     }
 
-    Row {
+    Grid {
       anchors.horizontalCenter: parent.horizontalCenter
       spacing: nootkaWindow.fontSize
-      Text { text: qsTr("number of frets:"); anchors.verticalCenter: parent.verticalCenter }
-      SpinBox {}
-      Text { text: qsTr("number of strings:"); anchors.verticalCenter: parent.verticalCenter }
-      SpinBox {}
+      columns: parent.width < nootkaWindow.fontSize * 50 ? 1 : 2
+      Row {
+        spacing: nootkaWindow.fontSize
+        Text { text: qsTr("number of frets:"); anchors.verticalCenter: parent.verticalCenter }
+        SpinBox {}
+      }
+      Row {
+        spacing: nootkaWindow.fontSize
+        Text { text: qsTr("number of strings:"); anchors.verticalCenter: parent.verticalCenter }
+        SpinBox {}
+      }
     }
 
     Tile {
-      width: parent.width
       Column {
         spacing: nootkaWindow.fontSize / 4
         width: parent.width
@@ -72,7 +78,6 @@ Flickable {
     }
 
     Tile {
-      width: parent.width
       CheckBox {
         text: qsTr("show all possibilities of a note")
         anchors.horizontalCenter: parent.horizontalCenter

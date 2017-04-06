@@ -36,7 +36,7 @@ Item {
 
   Row {
     anchors { fill: parent }
-    spacing: Screen.pixelDensity * 2
+    spacing: Noo.isAndroid() ? 2 : Screen.pixelDensity * 2
 
     // navigation list on the left
     ListView {
@@ -55,7 +55,7 @@ Item {
           id: delegateButt
           name: buttonText
           icon: Tpath.pix(iconName)
-          factor: Screen.pixelDensity * (Noo.isAndroid() ? 1.2 : 1.6)
+          factor: Screen.pixelDensity * (Noo.isAndroid() ? 1.1 : 1.6)
           fontSize: nootkaWindow.fontSize * (Noo.isAndroid() ? 0.8 : 1.0)
           onClicked: {
             if (stack.currentItem !== navList.pages[index]) {

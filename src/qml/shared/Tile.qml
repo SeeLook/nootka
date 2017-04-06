@@ -10,6 +10,7 @@ Frame {
   property alias description: descText.text
   property alias descriptionColor: descText.color
   default property alias content: container.data
+  anchors.horizontalCenter: parent.horizontalCenter
 
   background: Rectangle {
     id: bg
@@ -18,7 +19,7 @@ Frame {
     radius: nootkaWindow.fontSize / 4
   }
 
-  width: parent.width * 0.96
+  width: parent.width * (Noo.isAndroid() ? 0.99 : 0.96)
   height: (descText.text === "" ? 0 : descText.height) + container.height + nootkaWindow.fontSize * 2
 
   Column {
