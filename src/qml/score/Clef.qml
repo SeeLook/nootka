@@ -28,7 +28,7 @@ Text {
     Drawer {
       id: drawer
       property alias selectedClef: clefMenu.selClef
-      width: nootkaWindow.fontSize * 20
+      width: nootkaWindow.fontSize * 18
       height: nootkaWindow.height
       visible: true
       Flickable {

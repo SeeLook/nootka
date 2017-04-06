@@ -7,6 +7,7 @@ import QtQuick.Controls 2.0
 
 import Score 1.0
 
+
 Grid {
   id: clefMenu
   columns: 1
@@ -33,7 +34,7 @@ Grid {
       property int index: 0
       Text {
         id: clefStaff
-        x: scale * 1.5
+        x: scale * 0.7
         font { family: "scorek"; pixelSize: 3 }
         text: "\ue014\ue014"
         color: activPal.text
@@ -62,10 +63,10 @@ Grid {
         height: parent.height
         width: parent.width
         spacing: nootkaWindow.fontSize
-        Item { id: clefItem; width: nootkaWindow.fontSize * 5.0; height: nootkaWindow.fontSize }
+        Item { id: clefItem; width: nootkaWindow.fontSize * 3.2; height: nootkaWindow.fontSize }
         Column {
           anchors.verticalCenter: parent.verticalCenter
-          width: parent.width - nootkaWindow.fontSize * 6.0
+          width: parent.width - nootkaWindow.fontSize * 4.0
           spacing: nootkaWindow.fontSize / 4
           Text {
             antialiasing: true
@@ -83,10 +84,10 @@ Grid {
           }
         }
         Component.onCompleted:{
-          clefPixComp.createObject(clefItem, {"scale": nootkaWindow.fontSize, "y":  - 2.0 * nootkaWindow.fontSize, "index": index})
+          clefPixComp.createObject(clefItem, {"scale": nootkaWindow.fontSize * 0.9, "y": -2.2 * nootkaWindow.fontSize, "index": index})
           if (index == 6) {
-            var lowStaff = clefPixComp.createObject(clefItem, {"index": 2, "scale": nootkaWindow.fontSize, "y": nootkaWindow.fontSize * 2.9})
-            var brace = Qt.createQmlObject('import QtQuick 2.7; Text { font {family: "scorek"; pixelSize: 8 } text: "\ue000"; x: 0.85 }', lowStaff)
+            var lowStaff = clefPixComp.createObject(clefItem, {"index": 2, "scale": nootkaWindow.fontSize * 0.9, "y": nootkaWindow.fontSize * 2.3})
+            var brace = Qt.createQmlObject('import QtQuick 2.7; Text { font {family: "scorek"; pixelSize: 8 } text: "\ue000"; x: 0.15 }', lowStaff)
             brace.y = -10.0
             brace.color = activPal.text
           }
