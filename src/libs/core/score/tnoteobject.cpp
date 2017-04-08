@@ -80,7 +80,7 @@ TnoteObject::TnoteObject(TstaffObject* staffObj, TnotePair* wrapper) :
   QQuickItem(staffObj->staffItem()),
   m_staff(staffObj),
   m_wrapper(wrapper),
-  m_stemHeight(6.0)
+  m_stemHeight(STEM_HEIGHT)
 {
   setParent(m_staff->score()); // to avoid deleting with parent staff
   m_note = new Tnote();
@@ -201,8 +201,12 @@ void TnoteObject::setNote(const Tnote& n) {
   int oldNotePos = static_cast<int>(m_notePosY);
   if (m_note->isRest())
     m_notePosY = staff()->upperLine() + (m_note->rhythm() == Trhythm::Whole ? 2.0 : 4.0);
-  else
-    m_notePosY = staff()->score()->clefOffset().total() + staff()->upperLine() - (n.octave * 7 + (n.note - 1));
+  else {
+    if (m_note->isValid())
+      m_notePosY = staff()->score()->clefOffset().total() + staff()->upperLine() - (n.octave * 7 + (n.note - 1));
+    else
+      m_notePosY = staff()->upperLine() + 7.0;
+  }
   if (m_notePosY < 2.0 || m_notePosY > 38.0)
     m_notePosY = 0.0;
   if (static_cast<int>(m_notePosY) != static_cast<int>(m_head->y())) {
@@ -539,7 +543,7 @@ void TnoteObject::checkStem() {
   if (m_notePosY && !m_note->isRest() && m_note->rhythm() > Trhythm::Whole ) {
       if (m_note->rtm.beam() == Trhythm::e_noBeam) {
           m_note->rtm.setStemDown(m_notePosY < staff()->upperLine() + 4.0);
-          m_stem->setHeight(qMax(6.0, qAbs(m_notePosY - (staff()->upperLine() + 4.0))));
+          m_stem->setHeight(qMax(STEM_HEIGHT, qAbs(m_notePosY - (staff()->upperLine() + 4.0))));
           QString flag = getFlagText();
           m_flag->setProperty("text", flag);
           if (!flag.isEmpty())

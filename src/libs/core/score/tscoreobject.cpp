@@ -78,6 +78,52 @@ TscoreObject::~TscoreObject()
 //###################          Musical parameters      ############################################
 //#################################################################################################
 
+void TscoreObject::setClefType(Tclef::EclefType ct) {
+  if (m_clefType != ct) {
+    auto oldClef = m_clefType;
+    m_clefType = ct;
+    updateClefOffset();
+    if (notesCount() < 1)
+      return;
+
+    Tnote loNote = lowestNote();
+    Tnote hiNote = highestNote();
+    for (int n = 0; n < notesCount(); ++n) {
+      auto noteSeg = m_segments[n];
+      if (m_clefType == Tclef::NoClef) {
+          auto noteSeg = m_segments[n];
+          Tnote newNote(Tnote(), noteSeg->note()->rtm);
+          newNote.rtm.setStemDown(false);
+          noteSeg->item()->setStemHeight(STEM_HEIGHT);
+          noteSeg->setNote(newNote);
+      } else {
+          Tnote newNote(*noteSeg->note());
+          if (oldClef == Tclef::NoClef) {
+              int globalNr = m_clefOffset.octave * 7 - (7 - m_clefOffset.note);
+              newNote.note = static_cast<char>(56 + globalNr) % 7 + 1;
+              newNote.octave = static_cast<char>(56 + globalNr) / 7 - 8;
+          } else {
+              if (!newNote.isRest()
+                  && ((newNote.octave > hiNote.octave || (newNote.octave == hiNote.octave && newNote.note > hiNote.note))
+                  || (newNote.octave < loNote.octave || (newNote.octave == loNote.octave && newNote.note < loNote.note))))
+              {
+                newNote.note = 0; newNote.octave = 0; // invalidate note
+                newNote.setRest(true);
+                newNote.rtm.setTie(Trhythm::e_noTie);
+                // TODO fix beam
+              }
+          }
+          noteSeg->setNote(newNote);
+      }
+    }
+    for (int m = 0; m < m_measures.count(); ++m) {
+      m_measures[m]->refresh();
+    }
+    adjustScoreWidth();
+  }
+}
+
+
 void TscoreObject::setMeter(int m) {
   // set notes grouping
   m_meter->setMeter(static_cast<Tmeter::Emeter>(m));
@@ -259,8 +305,7 @@ CHECKTIME(
       activeNote()->staff()->deleteExtraTie();
     fitStaff = true;
   }
-  *activeNote()->wrapper()->note() = newNote;
-  activeNote()->setNote(newNote);
+  activeNote()->wrapper()->setNote(newNote);
 // When note or alter are different - check accidentals in whole measure and fit staff if necessary
   if (!notesForAlterCheck.isNull() || oldNote.note != newNote.note || oldNote.alter != newNote.alter) {
     if (notesForAlterCheck.isNull())
@@ -305,7 +350,8 @@ CHECKTIME(
 void TscoreObject::setKeySignatureEnabled(bool enKey) {
   if (enKey != m_keySignEnabled) {
     m_keySignEnabled = enKey;
-    adjustScoreWidth();
+    if (notesCount() > 0)
+      adjustScoreWidth();
   }
 }
 
@@ -387,25 +433,30 @@ void TscoreObject::setWidth(qreal w) {
 }
 
 
-QPoint TscoreObject::tieRange(TnoteObject* n) {
-  QPoint tr;
-  if (n->note()->rtm.tie()) {
-    tr.setX(n->index());
-    while (tr.x() > -1) {
-      if (m_notes[tr.x()].rtm.tie() == Trhythm::e_tieStart)
-        break;
-      --tr.rx();
-    }
-    tr.setY(n->index());
-    while (tr.y() < notesCount()) {
-      if (m_notes[tr.y()].rtm.tie() == Trhythm::e_tieEnd)
-        break;
-      ++tr.ry();
-    }
+Tnote TscoreObject::highestNote() {
+  switch (m_clefType) {
+    case Tclef::Treble_G: return Tnote(4, 4);
+    case Tclef::Treble_G_8down: return Tnote(4, 3);
+    case Tclef::Bass_F: return Tnote(6, 2);
+    case Tclef::Alto_C: return Tnote(5, 3);
+    case Tclef::Tenor_C: return Tnote(3, 4);
+    case Tclef::PianoStaffClefs: return Tnote(1, 4);
+    default: return Tnote(); // percussion clef (no clef) and unsupported dropped bass
   }
-  return tr;
 }
 
+
+Tnote TscoreObject::lowestNote() {
+  switch (m_clefType) {
+    case Tclef::Treble_G: return Tnote(7, -1);
+    case Tclef::Treble_G_8down: return Tnote(7, -2);
+    case Tclef::Bass_F: return Tnote(7, -2);
+    case Tclef::Alto_C: return Tnote(1, -1);
+    case Tclef::Tenor_C: return Tnote(6, -2);
+    case Tclef::PianoStaffClefs: return Tnote(1, -1);
+    default: return Tnote(); // percussion clef (no clef) and unsupported dropped bass
+  }
+}
 
 //#################################################################################################
 //###################              PROTECTED           ############################################
@@ -504,6 +555,26 @@ void TscoreObject::onIndentChanged() {
   }
 }
 
+
+QPoint TscoreObject::tieRange(TnoteObject* n) {
+  QPoint tr;
+  if (n->note()->rtm.tie()) {
+    tr.setX(n->index());
+    while (tr.x() > -1) {
+      if (m_notes[tr.x()].rtm.tie() == Trhythm::e_tieStart)
+        break;
+      --tr.rx();
+    }
+    tr.setY(n->index());
+    while (tr.y() < notesCount()) {
+      if (m_notes[tr.y()].rtm.tie() == Trhythm::e_tieEnd)
+        break;
+      ++tr.ry();
+    }
+  }
+  return tr;
+}
+
 //#################################################################################################
 //###################              PRIVATE             ############################################
 //#################################################################################################
@@ -512,6 +583,17 @@ void TscoreObject::appendToNoteList(QList<Tnote>& l) {
   for (Tnote n : l) {
     m_notes << n;
     m_segments << new TnotePair(m_segments.count(), &m_notes.last());
+  }
+}
+
+
+void TscoreObject::updateClefOffset() {
+  switch (m_clefType) {
+    case Tclef::Treble_G_8down: m_clefOffset.set(3, 1); break;
+    case Tclef::Bass_F: m_clefOffset.set(5, 0); break;
+    case Tclef::Alto_C: m_clefOffset.set(4, 1); break;
+    case Tclef::Tenor_C: m_clefOffset.set(2, 1); break;
+    default: m_clefOffset.set(3, 2); break; // Treble, piano staff and no clef (rhythm only)
   }
 }
 

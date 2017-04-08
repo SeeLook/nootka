@@ -49,6 +49,11 @@ public:
 
   void setNoteObject(TnoteObject* ob);
 
+      /**
+       * Sets note to @p n for both @p note() and then @p item()->setNote()
+       */
+  void setNote(const Tnote& n);
+
     /**
      * Number of rhythmical group in the measure, -1 (undefined) by default
      */

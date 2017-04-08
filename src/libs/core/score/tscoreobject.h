@@ -24,6 +24,7 @@
 #include <QtCore/qobject.h>
 #include <QtCore/qpoint.h>
 #include <QtGui/qcolor.h>
+#include "music/tclef.h"
 
 
 /**
@@ -37,6 +38,7 @@ public:
   qint8 note;
   qint8 octave;
   int total() { return octave * 7 + note; }
+  void set(qint8 nOff, qint8 oOff) { note = nOff; octave = oOff; }
 };
 
 
@@ -62,6 +64,7 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
 
                         /* Musical parameters */
   Q_PROPERTY(int meter READ meterToInt WRITE setMeter NOTIFY meterChanged)
+  Q_PROPERTY(Tclef::EclefType clefType READ clefType WRITE setClefType)
   Q_PROPERTY(int keySignature READ keySignature WRITE setKeySignature)
   Q_PROPERTY(int notesCount READ notesCount)
   Q_PROPERTY(int cursorAlter READ cursorAlter WRITE setCursorAlter)
@@ -91,6 +94,14 @@ public:
   Tmeter* meter() const { return m_meter; }
   void setMeter(int m);
   int meterToInt() const; /**< Small helper for QML property that converts meter enumerator into int */
+
+      /**
+       * As long as graphics clef representation and clef change is managed by QML (Staff & Clef)
+       * it only keeps clef type enumerator and changes note positions according to clef
+       * or converts note into rest if out of score range
+       */
+  Tclef::EclefType clefType() const { return m_clefType; }
+  void setClefType(Tclef::EclefType ct);
 
   int keySignature() const { return static_cast<int>(m_keySignature); }
   void setKeySignature(int k);
@@ -174,6 +185,16 @@ public:
   TnoteObject* activeNote() { return m_activeNote; }
   qreal activeYpos() const { return m_activeYpos; }
   qreal upperLine();
+
+      /**
+       * Returns highest possible note on the staff in current clef
+       */
+  Tnote highestNote();
+
+      /**
+       * Returns lowest possible note on the staff in current clef
+       */
+  Tnote lowestNote();
 
 signals:
   void meterChanged();
@@ -264,9 +285,11 @@ private:
        * and adds them to @p m_segments list
        */
   void appendToNoteList(QList<Tnote>& l);
+  void updateClefOffset();
 
 private:
                               /* Musical parameters */
+  Tclef::EclefType                  m_clefType = Tclef::Treble_G_8down;
   Tmeter                           *m_meter;
   qint8                             m_keySignature = 0;
                               /* Score switches */

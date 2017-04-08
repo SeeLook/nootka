@@ -36,6 +36,12 @@ void TnotePair::setNoteObject(TnoteObject* ob) {
 }
 
 
+void TnotePair::setNote(const Tnote& n) {
+  *m_note = n;
+  m_noteItem->setNote(n);
+}
+
+
 void TnotePair::approve() {
   if (m_changes) {
     if (m_changes & e_beamChanged || m_changes & e_stemDirChanged)
