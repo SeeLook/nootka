@@ -42,12 +42,13 @@ Flickable {
       var c = Qt.createComponent("qrc:/Staff.qml")
       var lastStaff = c.createObject(score.contentItem, { "clef.type": score.clef })
       staves.push(lastStaff)
-      lastStaff.enableKeySignature(enableKeySign)
+      lastStaff.enableKeySignature(enableKeySign && score.clef !== Tclef.NoClef)
       //       score.contentY = score.contentHeight - score.height TODO ensure visible
-      lastStaff.keySignature.onKeySignatureChanged.connect(setKeySignature)
       lastStaff.onDestroing.connect(removeStaff)
-      if (enableKeySign)
+      if (enableKeySign && score.clef !== Tclef.NoClef) {
+        lastStaff.keySignature.onKeySignatureChanged.connect(setKeySignature)
         lastStaff.keySignature.key = staff0.keySignature.key
+      }
     }
     onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
 
@@ -64,11 +65,7 @@ Flickable {
     id: staff0
     clef.type: score.clef
     meter: Meter { parent: staff0 }
-    clef.onTypeChanged: {
-      // TODO: approve clef for all staves
-    }
     Component.onCompleted: staves.push(staff0)
-    Component.onDestruction: destroing("destroying staff")
   }
 
   NoteCursor {
@@ -83,7 +80,7 @@ Flickable {
 
   AccidControl {
     id: accidControl
-    active: scoreObj.activeNote !== null
+    active: score.clef !== Tclef.NoClef && scoreObj.activeNote !== null
   }
 
   onEnableKeySignChanged: {
@@ -96,6 +93,18 @@ Flickable {
         staff0.keySignature.onKeySignatureChanged.connect(setKeySignature)
     }
     scoreObj.keySignatureEnabled = enableKeySign
+  }
+
+  function staffChangesClef(staffId) {
+    if (staffId.clef.type !== score.clef) {
+      score.clef = staffId.clef.type
+      for (var s = 0; s < staves.length; ++s) {
+        if (staffId !== staves[s])
+          staves[s].clef.type = staffId.clef.type
+        staves[s].enableKeySignature(score.clef !== Tclef.NoClef && enableKeySign)
+      }
+      scoreObj.clefType = staffId.clef.type
+    }
   }
 
   function setKeySignature(key) {

@@ -88,7 +88,6 @@ Score {
             currentNote =  scoreObj.note(currentNote.index + 1)
       } else
           currentNote = scoreObj.note(0)
-      console.log(portableText)
     }
   }
   Shortcut {
@@ -100,7 +99,6 @@ Score {
       } else {
           currentNote = scoreObj.note(0)
       }
-      console.log(portableText)
     }
   }
 
