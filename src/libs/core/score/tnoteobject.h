@@ -30,6 +30,9 @@ class TnotePair;
 class Tnote;
 
 
+#define STEM_HEIGHT (6.0) // default height of a note stem
+
+
 /**
  * @class TnoteObject is @class QQuickItem derivative representing single note on the score.
  * It dynamically crates QML items: note head, alter (accidental) text, stem rectangle and rhythm flag.
