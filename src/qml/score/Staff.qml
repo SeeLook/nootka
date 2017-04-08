@@ -44,7 +44,7 @@ Item {
       onTypeChanged: {
         if (keySignature)
           keySignature.changeClef(clef.type)
-        // TODO: approve clef change to the notes
+        score.staffChangesClef(staff)
       }
   }
 
@@ -69,8 +69,10 @@ Item {
             }
           }
       } else {
-          if (keySignature)
+          if (keySignature) {
             keySignature.destroy()
+            keySignature = null
+          }
           if (meter)
             meter.x = clef.x + clef.width
       }
@@ -79,5 +81,5 @@ Item {
   function updateMeterPos() {
     meter.x = keySignature.x + keySignature.width
   }
-  Component.onDestruction: destroing(staffObj.number)
+  Component.onDestruction: { destroing(staffObj.number) }
 }

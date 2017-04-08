@@ -19,7 +19,8 @@ Grid {
   property var clefNr: [0, 1, 2, 4, 8, 32, 128]
   property var clefOff: [1.5, 0.8, 2.2, 1.5 , 0.8, 2.25, 0.8]
   property int selClef
-  
+  property bool enableNoClef: true
+
   signal clicked(var cl)
 
   onSelClefChanged: {
@@ -55,6 +56,7 @@ Grid {
     Button {
       width: (clefMenu.width * 0.98) / clefMenu.columns
       height: nootkaWindow.fontSize * (index === 6 ? 11.0 : 7.5)
+      visible: index !== 0 || enableNoClef
       onClicked: {
         selClef = clefNr[index]
         clefMenu.clicked(clefNr[index])
