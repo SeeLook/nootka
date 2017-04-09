@@ -48,6 +48,11 @@ QPointF TguitarBg::fretToPos(const TfingerPos& pos) {
 }
 
 
+qreal TguitarBg::xiiFret() const {
+  return static_cast<qreal>(m_fretsPos[11]);
+}
+
+
 void TguitarBg::paint(QPainter* painter) {
 //   painter->setRenderHint(QPainter::Antialiasing, true);
 //   painter->setRenderHint(QPainter::TextAntialiasing, true);

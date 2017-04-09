@@ -8,19 +8,46 @@ import QtGraphicalEffects 1.0
 import Nootka 1.0
 
 
-TguitarBg {
-  id: guitar
+Item {
+  id: root
+  anchors.fill: parent
+
+  TguitarBg {
+    id: guitar
+    anchors.fill: parent
+  }
+
+  Image {
+    id: body
+    cache: false
+    source: Tpath.pix("body")
+    fillMode: Image.PreserveAspectFit
+    height: parent.height * 4
+    x: guitar.xiiFret
+    y: parent.height - height * 0.95
+    z: -1
+  }
+
+  Image {
+    id: rosette
+    cache: false
+    source: Tpath.pix("rosette")
+    fillMode: Image.PreserveAspectFit
+    height: parent.height * 1.5
+    x: guitar.fbRect.width - height * 0.2
+    y: parent.height - height * 0.95
+    z: -1
+  }
 
   Rectangle {
     id: finger
     color: Qt.rgba(1, 0, 0.5, 0.78)
     width: guitar.fretWidth / 1.6
-    height: guitar.stringsGap * 0.7
-    radius: height / 2
-    x: guitar.fingerPos.x; y: guitar.fingerPos.y
-    visible: false // guitar.active && guitar.fingerPos.x > 0 
-//     Behavior on x { enabled: GLOB.useAnimations; NumberAnimation { duration: 200 }}
-//     Behavior on y { enabled: GLOB.useAnimations; NumberAnimation { duration: 200 }}
+    height: width * 0.75
+    radius: width / 2
+    x: guitar.fingerPos.x;
+    y: guitar.fingerPos.y - height * 0.25
+    visible: false
   }
 
   DropShadow {
