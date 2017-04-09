@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,32 +19,42 @@
 #include "tinstrument.h"
 #include <QtGui/qguiapplication.h>
 
+#include <QtCore/qdebug.h>
 
-QString instrumentToText(Einstrument instr) {
-  if (instr == e_noInstrument)
-      return QGuiApplication::translate("Einstrument", "other instrument");
-  if (instr == e_classicalGuitar)
-      return QGuiApplication::translate("Einstrument", "Classical Guitar");
-  if (instr == e_electricGuitar)
-      return QGuiApplication::translate("Einstrument", "Electric Guitar");
-  if (instr == e_bassGuitar)
-      return QGuiApplication::translate("Einstrument", "Bass Guitar");
 
-  return "";
+Tinstrument::Tinstrument(Tinstrument::Etype type) :
+  m_type(type)
+{
 }
 
 
-QString instrumentToGlyph(Einstrument instr) {
+QString Tinstrument::name() {
+  if (m_type == NoInstrument)
+    return QGuiApplication::translate("Einstrument", "other instrument");
+  if (m_type == ClassicalGuitar)
+    return QGuiApplication::translate("Einstrument", "Classical Guitar");
+  if (m_type == ElectricGuitar)
+    return QGuiApplication::translate("Einstrument", "Electric Guitar");
+  if (m_type == BassGuitar)
+    return QGuiApplication::translate("Einstrument", "Bass Guitar");
+  
+  return QString();
+}
+
+
+
+QString Tinstrument::glyph() {
   QString glyph;
-  switch (instr) {
-      case e_noInstrument: glyph = "v"; break;// singer symbol
-      case e_classicalGuitar: glyph = "h"; break; // classical guitar
-      case e_electricGuitar: glyph = "i"; break; // electric guitar
-      case e_bassGuitar: glyph = "j"; break; // bass guitar
-      default: glyph = ""; break;
+  switch (m_type) {
+    case NoInstrument: glyph = QLatin1String("v"); break;
+    case ClassicalGuitar: glyph = QLatin1String("h"); break;
+    case ElectricGuitar: glyph = QLatin1String("i"); break;
+    case BassGuitar: glyph = QLatin1String("j"); break;
+    default: glyph = QString(); break;
   }
   return glyph;
 }
+
 
 
 

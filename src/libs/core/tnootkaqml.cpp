@@ -27,6 +27,7 @@
 #include "score/tnoteobject.h"
 #include "instruments/tguitarbg.h"
 #include "taction.h"
+#include "music/tinstrument.h"
 
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qfile.h>
@@ -62,6 +63,8 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qmlRegisterType<Taction>("Nootka", 1, 0, "Taction");
 
   qmlRegisterUncreatableType<TnootkaQML>("Nootka", 1, 0, "Nootka", QStringLiteral("You cannot create an instance of the TnootkaQML."));
+  qRegisterMetaType<Tinstrument>();
+  qmlRegisterUncreatableType<Tinstrument>("Nootka", 1, 0, "Tinstrument", QStringLiteral("You cannot create an instance of the Tinstrument."));
 }
 
 

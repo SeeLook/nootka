@@ -11,31 +11,31 @@ import Nootka 1.0
 Item {
   id: root
   anchors.fill: parent
+  // private
+  property var bodyPix: ["", "-electro", "-bass"]
 
   TguitarBg {
     id: guitar
     anchors.fill: parent
   }
 
-  Image {
-    id: body
+  Image { // body
     cache: false
-    source: Tpath.pix("body")
-    fillMode: Image.PreserveAspectFit
-    height: parent.height * 4
-    x: guitar.xiiFret
-    y: parent.height - height * 0.95
+    source: Tpath.pix("body" + bodyPix[GLOB.instrument.typeINT - 1])
+    height: parent.height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 4.0 : 3.1)
+    width: height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 1.452482269503546 : 1.04885993485342)
+    x: GLOB.instrument.type === Tinstrument.ClassicalGuitar ? guitar.xiiFret : parent.width * 0.65
+    y: parent.height - height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 0.95 : 0.97)
     z: -1
   }
 
-  Image {
-    id: rosette
+  Image { // rosette/pickup
     cache: false
-    source: Tpath.pix("rosette")
-    fillMode: Image.PreserveAspectFit
-    height: parent.height * 1.5
-    x: guitar.fbRect.width - height * 0.2
-    y: parent.height - height * 0.95
+    source: Tpath.pix(GLOB.instrument.type === Tinstrument.ClassicalGuitar ? "rosette" : "pickup")
+    height: parent.height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 1.5 : 1.3)
+    width: height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 1.215351812366738 : 0.6217948717948718)
+    x: GLOB.instrument.type === Tinstrument.ClassicalGuitar ? guitar.fbRect.width - height * 0.2 : parent.width * 0.87
+    y: parent.height - height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ?  0.95 : 0.88)
     z: -1
   }
 
@@ -43,10 +43,10 @@ Item {
     id: finger
     color: Qt.rgba(1, 0, 0.5, 0.78)
     width: guitar.fretWidth / 1.6
-    height: width * 0.75
-    radius: width / 2
+    height: width * 0.65
+    radius: width  * 0.5
     x: guitar.fingerPos.x;
-    y: guitar.fingerPos.y - height * 0.25
+    y: guitar.fingerPos.y - height * 0.15
     visible: false
   }
 

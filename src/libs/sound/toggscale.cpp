@@ -201,7 +201,7 @@ bool ToggScale::loadAudioData(int instrument) {
         fileName = Tpath::sound("electric-guitar");
         m_firstNote = -11; m_lastNote = 41;
         break;
-      case e_bassGuitar:
+      case BassGuitar:
         fileName = Tpath::sound("bass-guitar");
         m_firstNote = -24; m_lastNote = 21;
         break;

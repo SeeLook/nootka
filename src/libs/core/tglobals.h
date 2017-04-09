@@ -64,6 +64,8 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(int clefType READ clefType WRITE setClefType)
   Q_PROPERTY(bool seventhIsB READ seventhIsB WRITE setSeventhIsB NOTIFY seventhIsBChanged)
 
+  Q_PROPERTY(Tinstrument instrument READ instrument NOTIFY instrumentChanged)
+
 public:
 
       /** If @p true, setting are loaded from temporary config file */
@@ -162,7 +164,8 @@ public:
   Tnote::EnameStyle getSolfegeStyle();
 
   //============ guitar settings =============================================================
-  Einstrument instrument; /**< Type of instrument - classical guitar default */
+  Tinstrument instrument() { return m_instrument; }
+  Q_INVOKABLE void setInstrument(Tinstrument::Etype t);
   unsigned char GfretsNumber; /**< default 19 */
   bool GisRightHanded; /**< default true */
   bool GshowOtherPos; /**< Shows other possibilities of note (sound) on the fretboard (default true) */
@@ -209,6 +212,7 @@ signals:
   void seventhIsBChanged();
   void showKeyNameChanged();
   void keyNameChanged();
+  void instrumentChanged();
 
 private:
   static Tglobals           *m_instance;
@@ -216,6 +220,7 @@ private:
   qint8                      m_order[6]; /**< Strings order is determined in @param setTune() method */
   QRect                      m_geometry;
   bool                       m_useAnimations;
+  Tinstrument                m_instrument;
 
 };
 #endif // TGLOBALS_H

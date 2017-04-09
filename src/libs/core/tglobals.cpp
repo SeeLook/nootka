@@ -169,6 +169,9 @@ bool Tglobals::seventhIsB() const { return S->seventhIs_B; }
 void Tglobals::setSeventhIsB(bool isB) { S->seventhIs_B = isB; emit seventhIsBChanged(); }
 
 
+void Tglobals::setInstrument(Tinstrument::Etype t) { m_instrument.setType(t); emit instrumentChanged(); }
+
+
 void Tglobals::loadSettings(QSettings* cfg) {
   cfg->beginGroup(QLatin1String("General"));
     m_geometry = cfg->value(QStringLiteral("geometry"), QRect()).toRect();
@@ -229,7 +232,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
 // guitar settings
   Ttune::prepareDefinedTunes();
   cfg->beginGroup(QLatin1String("guitar"));
-      instrument = Einstrument(cfg->value(QStringLiteral("instrument"), (int)e_classicalGuitar).toInt());
+      m_instrument.setType(static_cast<Tinstrument::Etype>(cfg->value(QStringLiteral("instrument"), static_cast<int>(Tinstrument::ClassicalGuitar)).toInt()));
       GfretsNumber = cfg->value(QStringLiteral("fretNumber"), 19).toInt();
       GisRightHanded = cfg->value(QStringLiteral("rightHanded"), true).toBool(); //true;
       GshowOtherPos = cfg->value(QStringLiteral("showOtherPos"), false).toBool();
@@ -454,7 +457,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
   cfg->endGroup();
 
   cfg->beginGroup(QLatin1String("guitar"));
-      cfg->setValue(QStringLiteral("instrument"), (int)instrument);
+      cfg->setValue(QStringLiteral("instrument"), static_cast<int>(m_instrument.type()));
       cfg->setValue(QStringLiteral("fretNumber"), (int)GfretsNumber);
       cfg->setValue(QStringLiteral("rightHanded"), GisRightHanded);
       cfg->setValue(QStringLiteral("showOtherPos"), GshowOtherPos);

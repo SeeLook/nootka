@@ -60,7 +60,7 @@ void TguitarBg::paint(QPainter* painter) {
 
 // FINGERBOARD
   painter->setPen(QPen(Qt::black, 0, Qt::NoPen));
-  if (GLOB->instrument == e_classicalGuitar)
+  if (GLOB->instrument().type() == Tinstrument::ClassicalGuitar)
       painter->setBrush(QBrush(Qt::black, Qt::SolidPattern));
   else {
       QColor fbEdgeColor = QColor("#AFA072");
@@ -76,7 +76,7 @@ void TguitarBg::paint(QPainter* painter) {
               m_fbRect.x() + m_fbRect.width(), height(),
               m_fbRect.x(), height());
   painter->drawPolygon(a);
-  if (GLOB->instrument == e_classicalGuitar)
+  if (GLOB->instrument().type() == Tinstrument::ClassicalGuitar)
     painter->setBrush(QBrush(QPixmap(Tpath::img("fingbg"))));
   else
     painter->setBrush(QBrush(QPixmap(Tpath::img("fingbg-el"))));
@@ -84,7 +84,7 @@ void TguitarBg::paint(QPainter* painter) {
 // FRETS
   // zero fret (upper bridge or HUESO)
   int huesoW = qRound(m_fbRect.width() * 0.01);
-  if (GLOB->instrument == e_classicalGuitar) {
+  if (GLOB->instrument().type() == Tinstrument::ClassicalGuitar) {
       painter->setPen(Qt::NoPen);
       painter->setBrush(QBrush(QColor("#FFFBF0"),Qt::SolidPattern)); // #FFFBF0 cream color for hueso
       painter->drawRect(m_fbRect.x() - 8, m_fbRect.y() + 4, huesoW, m_fbRect.height());
@@ -186,22 +186,23 @@ void TguitarBg::paint(QPainter* painter) {
         painter->setPen(QPen(Qt::black, 1, Qt::SolidLine)); //on upper bridge
         painter->drawLine(m_fbRect.x() - 8, lineYpos - 2, m_fbRect.x() - 8 + huesoW , lineYpos - 2);
         painter->drawLine(m_fbRect.x() - 8, lineYpos + m_strWidth[i] - 1, m_fbRect.x() - 8 + huesoW, lineYpos + m_strWidth[i] - 1);
-        /*if (BG_PIX->pickUpRect().width()) { // shadow on the pickup if exist (bass or electric guitar)
-          int pickX = BG_PIX->pickUpRect().x();
-          if (!GLOB->GisRightHanded)
-              pickX = width() - (BG_PIX->pickUpRect().x() + BG_PIX->pickUpRect().width());
+        if (GLOB->instrument().type() != Tinstrument::ClassicalGuitar) { // shadow on the pickup if exist (bass or electric guitar)
+          int pickX = width() * 0.88;
+//           if (!GLOB->GisRightHanded)
+//               pickX = width() - (BG_PIX->pickUpRect().x() + BG_PIX->pickUpRect().width());
           painter->setPen(QPen(QColor(28, 28, 28, 30), m_strWidth[i], Qt::SolidLine));
           yy += m_strGap * 0.1;
-          int subW = qRound((qreal)BG_PIX->pickUpRect().width() * 0.15);
+          qreal pickupWidth = height() * 0.6217948717948718 * 1.3;
+          int subW = qRound(pickupWidth * 0.15);
           QPoint ps[5] = {
                 QPoint(m_fbRect.x() + m_fbRect.width() + fbThick, yy + m_strGap * 0.12),
                 QPoint(pickX, yy + m_strGap * 0.12),
                 QPoint(pickX + subW, yy),
-                QPoint(pickX + BG_PIX->pickUpRect().width() - subW, yy),
-                QPoint(pickX + BG_PIX->pickUpRect().width() - subW * 0.3, yy + m_strGap * 0.15)
+                QPoint(pickX + pickupWidth - subW, yy),
+                QPoint(pickX + pickupWidth - subW * 0.3, yy + m_strGap * 0.15)
           };
           painter->drawPolyline(ps, 5);
-        }*/
+        }
 
     }
   }
