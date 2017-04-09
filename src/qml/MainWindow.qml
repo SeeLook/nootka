@@ -15,7 +15,7 @@ ApplicationWindow {
   title: "Nootka"
   color: activPal.window
 
-  property alias fontSize: nootkaWindow.font.pixelSize
+  readonly property int fontSize: nootkaWindow.font.pixelSize
   property alias settingsAct: settingsAct
   property alias aboutAct: aboutAct
   property alias levelAct: levelAct
@@ -91,14 +91,14 @@ ApplicationWindow {
       MainScore {
         id: score
         height: nootkaWindow.height * (Noo.isAndroid() ? 1.0 : 0.916667) - (header ? header.height : 0) - instrument.height
-//         scoreMenu.x: header ? header.scoreAct.x : 0
+        z: 2
       }
 
       Instrument {
         id: instrument
         height: nootkaWindow.height / 4
-        width: parent.width
-
+        width: nootkaWindow.width
+        z: 1
       }
   }
 

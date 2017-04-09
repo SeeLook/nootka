@@ -40,6 +40,8 @@ class NOOTKACORE_EXPORT TguitarBg : public QQuickPaintedItem
   Q_PROPERTY(int stringsGap READ stringsGap NOTIFY stringsGapChanged)
   Q_PROPERTY(QPointF fingerPos READ fingerPos NOTIFY fingerPosChanged)
   Q_PROPERTY(int string READ currentString NOTIFY stringChanged)
+  Q_PROPERTY(qreal xiiFret READ xiiFret NOTIFY stringsGapChanged)
+  Q_PROPERTY(QRect fbRect READ fbRect NOTIFY stringsGapChanged)
 
 
 public:
@@ -76,6 +78,8 @@ public:
        * Returns scene coordinates of given guitar position (between bars)
        */
   QPointF fretToPos(const TfingerPos &pos);
+
+  qreal xiiFret() const;
 
   Q_INVOKABLE qreal strWidth(int str) { return m_strWidth[str]; }
 

@@ -58,7 +58,7 @@ Flickable {
   Rectangle { // entire score background
     id: bgRect
     anchors.fill: score.contentItem
-    color: activPal.base
+    color: Qt.rgba(activPal.base.r, activPal.base.g, activPal.base.b, 0.9)
   }
 
   Staff {
