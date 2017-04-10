@@ -65,6 +65,8 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(bool seventhIsB READ seventhIsB WRITE setSeventhIsB NOTIFY seventhIsBChanged)
 
   Q_PROPERTY(Tinstrument instrument READ instrument NOTIFY instrumentChanged)
+  Q_PROPERTY(int tuning READ tuning NOTIFY tuningChanged)
+  Q_PROPERTY(QString tuningName READ tuningName NOTIFY tuningChanged)
 
 public:
 
@@ -138,6 +140,12 @@ public:
        */
   Q_INVOKABLE void updateKeySignatureNames();
 
+      /**
+       * Type of tuning
+       */
+  int tuning() const;
+  QString tuningName() const;
+
       /** This method return application install path - path from where Nootka was started. */
   static QString getInstPath(QString appInstPath);
   static QString& path; /**< Reference to Tpath::main - Nootka resources path */
@@ -172,10 +180,12 @@ public:
   QColor GfingerColor; /**< rules the same like in S->enharmNotesColor */
   QColor GselectedColor;
 
-      /** Actual tune of the guitar also with information about strings number
-       * available by Ttune::stringsNr() */
+      /**
+       * Actual tune of the guitar also with information about strings number
+       * available by Ttune::stringsNr()
+       */
   Ttune *Gtune() { return m_tune; }
-  void setTune(Ttune &t);
+  Q_INVOKABLE void setTune(Ttune &t);
 
       /** It returns real string number (0 - 5) when @param strNr
        * is sorted number from highest (0) to lowest (5) */
@@ -213,6 +223,7 @@ signals:
   void showKeyNameChanged();
   void keyNameChanged();
   void instrumentChanged();
+  void tuningChanged();
 
 private:
   static Tglobals           *m_instance;

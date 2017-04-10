@@ -4027,7 +4027,7 @@ nutowy</translation>
     <message>
         <location filename="../src/libs/core/music/ttune.cpp" line="37"/>
         <source>Dropped D: D A D G B E </source>
-        <translation>Obniżone D:D A D G H E</translation>
+        <translation>Obniżone D: D A D G H E</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/ttune.cpp" line="39"/>

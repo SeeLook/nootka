@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2006-2016 by Tomasz Bojczuk                             *
- *   seelook@gmail.com                                                      *
+ *   Copyright (C) 2006-2017 by Tomasz Bojczuk                             *
+ *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,17 +12,18 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License       *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
 #ifndef TTUNE_H
 #define TTUNE_H
 
+#include <nootkacoreglobal.h>
 #include "tnote.h"
 #include <QtCore/qmetatype.h>
 #include <QtCore/qxmlstream.h>
-#include <nootkacoreglobal.h>
+#include <QtCore/qobject.h>
 
 
 /**
@@ -32,69 +33,115 @@
 class NOOTKACORE_EXPORT Ttune
 {
 
+  Q_GADGET
+
 public:
-        /** @p tuneName is the name, @p S(1-6) are notes.
-        * Empty notes (Tnote(0,0,0)) can control strings number
-        * when empty - it is moved to the end of a array and stringNr() is less.
-        * This way only a number of string [from 1 to 6] is supported. */
-    Ttune(const QString& tuneName = QString(), const Tnote& S1 = Tnote(0,0,0) , const Tnote& S2 = Tnote(0,0,0),
-                    const Tnote& S3 = Tnote(0,0,0), const Tnote& S4 = Tnote(0,0,0),
-                    const Tnote& S5 = Tnote(0,0,0), const Tnote& S6 = Tnote(0,0,0));
+      /**
+       * @p tuneName is the name, @p S(1-6) are notes.
+       * Empty notes (Tnote()) can control strings number
+       * when empty - it is moved to the end of a array and stringNr() is less.
+       * This way only a number of string [from 1 to 6] is supported.
+       */
+  Ttune(const QString& tuneName = QString(), const Tnote& S1 = Tnote() , const Tnote& S2 = Tnote(),
+          const Tnote& S3 = Tnote(), const Tnote& S4 = Tnote(), const Tnote& S5 = Tnote(), const Tnote& S6 = Tnote());
 
-    QString name; /**< It is a name of the tune*/
-    quint8 stringNr() { return m_strNumber; } /** Number of strings for current tune/guitar */
 
-        /** When tune has less than 3 strings and "scale" as a name it represents a scale of an instrument
-         * and it is not guitar. */
-    bool isGuitar() { return m_isGuitar; }
+  enum Etunings : qint8 {
+    NoTuning = -100, /**< Undefined - initial state. */
+    Scale = -2, /**< Instrument scale - only first two strings points lower and higher notes */
+    Custom = -1, /**< User defined tuning */
+    Standard_EADGBE = 0,
+    Dropped_D_DADGBE = 1,
+    DummyLute_DADFshBE = 2,
+    Open_DADGAD = 3,
+    Kouyanbaba_DADADF = 4,
 
-        /** Substitute of [] operator - returns note of given string. */
-    Tnote  str(quint8 stringNr) { return stringsArray[stringNr - 1]; }
+    Bass4_EADG = 100,
+    Bass4_5ths_CGDA = 101,
+    Bass5_BEADG = 102,
+    Bass6_BEADGC = 103
+  };
+  Q_ENUM(Etunings)
 
-    static Ttune stdTune; // standard tune template
-    static Ttune tunes[4]; // templates for guitar tunes
-    static Ttune bassTunes[4]; // templates for bass guitar tunes
 
-    void copy(Ttune& t); /**< Copies given tuning to this one. */
+  QString name; /**< It is a name of the tune */
 
-    static void prepareDefinedTunes(); /**< Makes translations in defined tunes. */
+      /**
+       * Number of strings for current tune/guitar
+       */
+  quint8 stringNr() const { return m_strNumber; }
 
-    friend QDataStream &operator<< (QDataStream &out, const Ttune &t);
-    friend QDataStream &operator>> (QDataStream &in, Ttune &t);
+      /**
+       * When tune has less than 3 strings and "scale" as a name it represents a scale of an instrument
+       * and it is not guitar.
+       */
+  bool isGuitar() const { return m_strNumber > 2; }
 
-        /** Method responses for converting tuning to XML structure..
-         * When @p isExam is @p TRUE it is wrapped in <tuning id="0"> tag.
-         * Attribute @p id determining kind of tune.
-         * Only when tuning is different than all defined tuning suitable XML elements are written.
-         * When @p isExam is @p FALSE <staff-details> is a main key and all elements are saved. */
-    void toXml(QXmlStreamWriter& xml, bool isExam = true);
-    bool fromXml(QXmlStreamReader& xml, bool isExam = true);
+  Etunings type() const { return m_tuning; }
 
-        /** Overloaded operator [] allows to use statement
-        * @li Ttune @p your_variable[number_of_a_string]
-        * @p stringNr is real string number (1 to 6) */
-    Tnote &operator[] (quint8 stringNr) { return stringsArray[stringNr - 1]; }
-    bool operator==(Ttune& T2) {
-        return ( stringsArray[0]==T2[1] && stringsArray[1]==T2[2] && stringsArray[2]==T2[3] &&
-                 stringsArray[3]==T2[4] && stringsArray[4]==T2[5] && stringsArray[5]==T2[6] );
-    }
-    bool operator!=(Ttune& T2) {
-        return ( stringsArray[0]!=T2[1] || stringsArray[1]!=T2[2] || stringsArray[2]!=T2[3] ||
-                stringsArray[3]!=T2[4] || stringsArray[4]!=T2[5] || stringsArray[5]!=T2[6] );
-    }
+      /**
+       * Substitute of [] operator - returns note of given string.
+       */
+  Tnote  str(quint8 stringNr) const { return stringsArray[stringNr - 1]; }
+
+  static Ttune stdTune; /**< standard EADGBE tuning template */
+  static Ttune tunes[4]; /**< templates for guitar tuning */
+  static Ttune bassTunes[4]; /**< templates for bass guitar tuning */
+
+      /**
+       * Copies given tuning to this one.
+       */
+  void copy(Ttune& t);
+
+  static QString definedName(Etunings t);
+
+      /**
+       * Makes translations in defined tunes. Has to be invoked once per app launch
+       */
+  static void prepareDefinedTunes();
+
+  friend QDataStream &operator<< (QDataStream &out, const Ttune &t);
+  friend QDataStream &operator>> (QDataStream &in, Ttune &t);
+
+      /** 
+       * Method responses for converting tuning to XML structure..
+       * When @p isExam is @p TRUE it is wrapped in <tuning id="0"> tag.
+       * Attribute @p id determining kind of tune.
+       * Only when tuning is different than all defined tuning suitable XML elements are written.
+       * When @p isExam is @p FALSE <staff-details> is a main key and all elements are saved.
+       */
+  void toXml(QXmlStreamWriter& xml, bool isExam = true);
+  bool fromXml(QXmlStreamReader& xml, bool isExam = true);
+
+      /**
+       * Overloaded operator [] allows to use statement
+       * @li Ttune @p your_variable[number_of_a_string]
+       * @p stringNr is real string number (1 to 6)
+       */
+  Tnote &operator[] (quint8 stringNr) { return stringsArray[stringNr - 1]; }
+  bool operator==(Ttune& T2) {
+      return ( stringsArray[0]==T2[1] && stringsArray[1]==T2[2] && stringsArray[2]==T2[3] &&
+                stringsArray[3]==T2[4] && stringsArray[4]==T2[5] && stringsArray[5]==T2[6] );
+  }
+  bool operator!=(Ttune& T2) {
+      return ( stringsArray[0]!=T2[1] || stringsArray[1]!=T2[2] || stringsArray[2]!=T2[3] ||
+              stringsArray[3]!=T2[4] || stringsArray[4]!=T2[5] || stringsArray[5]!=T2[6] );
+  }
 
 protected:
-    Tnote stringsArray[6]; /**< Array of Tnote that represent six strings */
+  Tnote stringsArray[6]; /**< Array of Tnote that represent six strings */
 
-        /** This method is called by constructor and operator.
-         * It calculates number of strings by selecting string with defined notes
-         * and moving empty ones to the end of stringsArray.
-         * THIS IS ONLY WAY TO MANAGE STRINGS NUMBER. */
-    void determineStringsNumber();
+      /**
+       * This method is called by constructor and operator.
+       * It calculates number of strings by selecting string with defined notes
+       * and moving empty ones to the end of stringsArray.
+       * THIS IS ONLY WAY TO MANAGE STRINGS NUMBER.
+       */
+  void determineStringsNumber();
 
 private:
-    quint8   m_strNumber;
-    bool    m_isGuitar;
+  quint8         m_strNumber;
+  Etunings       m_tuning;
 
 };
 
