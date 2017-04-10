@@ -6,6 +6,7 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 
 import Score 1.0
+import Nootka 1.0
 
 
 Flickable {
@@ -64,7 +65,10 @@ Flickable {
           anchors.horizontalCenter: parent.horizontalCenter
           Text { text: qsTr("tuning of the guitar"); anchors.verticalCenter: parent.verticalCenter }
           ComboBox {
-            model: []
+            model: GLOB.instrument.type === Tinstrument.BassGuitar ? Noo.bassTunings() : Noo.guitarTunings()
+            delegate: ItemDelegate {
+              text: modelData
+            }
           }
         }
         Score {

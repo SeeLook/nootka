@@ -28,6 +28,7 @@
 #include "instruments/tguitarbg.h"
 #include "taction.h"
 #include "music/tinstrument.h"
+#include "music/ttune.h"
 
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qfile.h>
@@ -65,6 +66,8 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qmlRegisterUncreatableType<TnootkaQML>("Nootka", 1, 0, "Nootka", QStringLiteral("You cannot create an instance of the TnootkaQML."));
   qRegisterMetaType<Tinstrument>();
   qmlRegisterUncreatableType<Tinstrument>("Nootka", 1, 0, "Tinstrument", QStringLiteral("You cannot create an instance of the Tinstrument."));
+  qRegisterMetaType<Ttune>();
+  qmlRegisterUncreatableType<Ttune>("Nootka", 1, 0, "Ttune", QStringLiteral("You cannot create an instance of the Ttune."));
 }
 
 
@@ -171,6 +174,24 @@ bool TnootkaQML::isAndroid()  {
 #else
   return false;
 #endif
+}
+
+
+QStringList TnootkaQML::guitarTunings() {
+  QStringList tunList;
+  int start = static_cast<int>(Ttune::Standard_EADGBE);
+  for (int t = start; t < start + 5; ++t)
+    tunList << Ttune::definedName(static_cast<Ttune::Etunings>(t));
+  return tunList;
+}
+
+
+QStringList TnootkaQML::bassTunings() {
+  QStringList tunList;
+  int start = static_cast<int>(Ttune::Bass4_EADG);
+  for (int t = start; t < start + 4; ++t)
+    tunList << Ttune::definedName(static_cast<Ttune::Etunings>(t));
+  return tunList;
 }
 
 

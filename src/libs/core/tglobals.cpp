@@ -171,6 +171,9 @@ void Tglobals::setSeventhIsB(bool isB) { S->seventhIs_B = isB; emit seventhIsBCh
 
 void Tglobals::setInstrument(Tinstrument::Etype t) { m_instrument.setType(t); emit instrumentChanged(); }
 
+int Tglobals::tuning() const { return static_cast<int>(m_tune->type()); }
+QString Tglobals::tuningName() const { return m_tune->name; }
+
 
 void Tglobals::loadSettings(QSettings* cfg) {
   cfg->beginGroup(QLatin1String("General"));
@@ -384,6 +387,7 @@ void Tglobals::setTune(Ttune& t) {
     }
     i--;
   }
+  emit tuningChanged();
 }
 
 
