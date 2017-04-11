@@ -2,7 +2,7 @@
 #define QTR_H
 
 
-#include <QtWidgets/qapplication.h>
+#include <QtGui/qguiapplication.h>
 
 
 /** HACK:
@@ -11,7 +11,7 @@
  * This way translations of Qt can be used without adding them to *.ts files.
  */
 inline QString qTR(const char* context, const char* key, const char* disambiguation = 0, int n = -1) {
-  return QApplication::translate(context, key, disambiguation, n);
+  return QGuiApplication::translate(context, key, disambiguation, n);
 }
 
 #endif // QTR_H

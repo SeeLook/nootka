@@ -20,8 +20,12 @@ Item {
     pages.addItem("appearance", qsTr("Appearance"), "Appearance")
   }
 
+  Connections {
+    target: pages.mobileButt
+    onClicked: dialLoader.dialogDrawer.open()
+  }
+
   function apply() {
-    console.log("Settings approved")
     for (var i = 0; i < pages.pages.length; ++i) {
       if (typeof(pages.pages[i]) === 'object')
         pages.pages[i].save()

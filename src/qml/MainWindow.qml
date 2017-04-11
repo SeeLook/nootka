@@ -16,6 +16,7 @@ ApplicationWindow {
   color: activPal.window
 
   readonly property int fontSize: nootkaWindow.font.pixelSize
+  property alias mainMenu: mainMenu
   property alias settingsAct: settingsAct
   property alias aboutAct: aboutAct
   property alias levelAct: levelAct

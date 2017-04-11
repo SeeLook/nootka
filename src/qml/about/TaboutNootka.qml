@@ -24,5 +24,10 @@ Item {
     pages.addItem("qt", "Qt", "Qt")
   }
 
+  Connections {
+    target: pages.mobileButt
+    onClicked: dialLoader.dialogDrawer.open()
+  }
+
   function accepted() {} // fake
 }

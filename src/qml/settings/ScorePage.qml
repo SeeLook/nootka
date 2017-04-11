@@ -14,29 +14,26 @@ Column {
     spacing: nootkaWindow.fontSize
     width: parent.width
 
-    Row {
+
+    ListView {
+      id: headList
+      orientation: ListView.Horizontal
+      spacing: nootkaWindow.fontSize
       width: parent.width
 
-      ListView {
-        id: headList
-        orientation: ListView.Horizontal
-        spacing: nootkaWindow.fontSize
-        width: parent.width
+      model: ListModel {
+        ListElement { head: QT_TR_NOOP("Score settings") }
+        ListElement { head: QT_TR_NOOP("Key signatures") }
+        ListElement { head: QT_TR_NOOP("Clefs") }
+        ListElement { head: QT_TR_NOOP("Notes naming") }
+      }
 
-        model: ListModel {
-          ListElement { head: QT_TR_NOOP("Score settings") }
-          ListElement { head: QT_TR_NOOP("Key signatures") }
-          ListElement { head: QT_TR_NOOP("Clefs") }
-          ListElement { head: QT_TR_NOOP("Notes naming") }
-        }
-
-        delegate: Component {
-          Button {
-            text: (index + 1) + ". " + qsTranslate("TscoreSettings", head)
-            onClicked: { swipePages.currentIndex = index; headList.currentIndex = index }
-            highlighted: headList.currentIndex == index
-            Component.onCompleted: headList.height = Math.max(height, headList.height)
-          }
+      delegate: Component {
+        Button {
+          text: (index + 1) + ". " + qsTranslate("TscoreSettings", head)
+          onClicked: { swipePages.currentIndex = index; headList.currentIndex = index }
+          highlighted: headList.currentIndex == index
+          Component.onCompleted: headList.height = Math.max(height, headList.height)
         }
       }
     }
@@ -91,6 +88,15 @@ Column {
                   ColorButton { id: enharmNoteColor }
                 }
               }
+            }
+          }
+          Tile {
+            description: qsTr("Use rhythms or only bare note heads.")
+            enabled: !singleNoteModeChB.checked
+            CheckBox {
+              id: enableRhythChB
+              text: qsTr("enable rhythms")
+              anchors.horizontalCenter: parent.horizontalCenter
             }
           }
           Tile {
