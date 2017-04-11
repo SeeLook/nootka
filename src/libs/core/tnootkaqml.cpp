@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "tnootkaqml.h"
+#include "qtr.h"
 #include "ttickcolors.h"
 #include "nootkaconfig.h"
 #include "tpath.h"
@@ -195,4 +196,15 @@ QStringList TnootkaQML::bassTunings() {
 }
 
 
+QString TnootkaQML::stdButtonText(int role) {
+  switch (role) {
+    case 33554432: return qTR("QPlatformTheme", "Apply");
+    case 4194304: return qTR("QPlatformTheme", "Cancel");
+    case 134217728: return qTR("QPlatformTheme", "Restore Defaults");
+    case 16777216: return qTR("QPlatformTheme", "Help");
+    case 2097152: return qTR("QPlatformTheme", "Close");
+    case 1024: return qTR("QPlatformTheme", "OK");
+    default: return QString();
+  }
+}
 

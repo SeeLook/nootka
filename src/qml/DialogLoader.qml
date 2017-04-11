@@ -19,6 +19,7 @@ Dialog {
   // private
   property var currentDialog: null
   property Drawer dialogDrawer: null
+  property var buttons: []
 
   onPageChanged: {
     if (page > 0) {
@@ -32,17 +33,21 @@ Dialog {
         case Nootka.Settings:
           var c = Qt.createComponent("qrc:/TsettingsDialog.qml")
           currentDialog = c.createObject(contentItem)
-          if (!Noo.isAndroid()) {
-            standardButtons = StandardButton.Apply | StandardButton.Cancel | StandardButton.RestoreDefaults | StandardButton.Help
-            title = "Nootka - " + qsTranslate("TsettingsDialog", "application's settings")
+          if (Noo.isAndroid()) {
+            buttons = [StandardButton.Apply, StandardButton.RestoreDefaults, StandardButton.Help, StandardButton.Cancel]
+          } else {
+              standardButtons = StandardButton.Apply | StandardButton.Cancel | StandardButton.RestoreDefaults | StandardButton.Help
+              title = "Nootka - " + qsTranslate("TsettingsDialog", "application's settings")
           }
           break
         case Nootka.About:
           var c = Qt.createComponent("qrc:/TaboutNootka.qml")
           currentDialog = c.createObject(contentItem)
-          if (!Noo.isAndroid()) {
-            standardButtons = StandardButton.Ok
-            title = qsTranslate("TaboutNootka", "About Nootka")
+          if (Noo.isAndroid()) {
+            buttons = [StandardButton.Ok]
+          } else {
+              standardButtons = StandardButton.Ok
+              title = qsTranslate("TaboutNootka", "About Nootka")
           }
           break
       }
@@ -58,7 +63,19 @@ Dialog {
     Drawer {
       width: nootkaWindow.fontSize * 15
       height: parent.height
-      Column {
+      ListView {
+        spacing: Screen.pixelDensity * 2
+        anchors.fill: parent
+        model: dialLoader.buttons
+        delegate: Component {
+          MenuButton {
+            property int role: dialLoader.buttons[index]
+            action: Taction {
+              text: Noo.stdButtonText(dialLoader.buttons[index])
+            }
+            onClicked: mapRole(role)
+          }
+        }
       }
     }
   }
@@ -78,4 +95,17 @@ Dialog {
   }
   onReset: if (currentDialog) currentDialog.reset()
   onAccepted: if (currentDialog) currentDialog.accepted()
+
+  function mapRole(role) {
+    switch (role) {
+      case StandardButton.Ok: accept(); break
+      case StandardButton.Apply: apply(); break
+      case StandardButton.Cancel: reject(); break
+      case StandardButton.RestoreDefaults: reset(); break
+      case StandardButton.Help: help(); break
+      case StandardButton.Close: close(); break
+    }
+    console.log(role)
+    dialogDrawer.close()
+  }
 }

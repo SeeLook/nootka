@@ -18,10 +18,11 @@ Item {
   property alias model: navList.model
   property alias pages: navList.pages
   property alias currentPage: stack.currentItem
+  property alias mobileButt: mobBut
 
   anchors.fill: parent
 
-  Rectangle { color: activPal.base; x: navList.x; y: navList.y; width: navList.width; height: navList.height }
+  Rectangle { z: 2; color: activPal.base; x: navList.x; y: navList.y; width: navList.width; height: navList.height }
   Rectangle { // highlight
     id: butHigh;
     color: activPal.highlight; x: navList.x
@@ -34,15 +35,18 @@ Item {
     model.append({ "iconName": icon, "buttonText": text })
   }
 
-  Row {
-    anchors { fill: parent }
-    spacing: Noo.isAndroid() ? 2 : Screen.pixelDensity * 2
+  Column {
+    height: parent.height
+    width: navList.width
+    spacing: 4
+    z: 3
 
     // navigation list on the left
     ListView {
       id: navList
       clip: true
-      height: parent.height
+      height: parent.height - (Noo.isAndroid() ? mobBut.height : 0)
+      z: 3 // above stack
       property var buttons: []
       property var pages: []
       property HeadButton prevButt: null
@@ -92,7 +96,7 @@ Item {
         }
       }
 
-      ScrollBar.vertical: ScrollBar { active: true }
+      ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
 
       function ensureVisible(yy, hh) {
         if (contentY >= yy)
@@ -104,15 +108,36 @@ Item {
       Behavior on contentY { enabled: GLOB.useAnimations; NumberAnimation { duration: 300; easing.type: Easing.OutBounce }}
     }
 
-    // pages container on the right
-    StackView {
-      id: stack
-      width: parent.width - navList.width - Screen.pixelDensity * 2
-      height: parent.height
-      // fade animations
-      pushEnter: Transition { enabled: GLOB.useAnimations; PropertyAnimation { property: "opacity"; from: 0; to: 1; duration: 300 }}
-      pushExit: Transition { enabled: GLOB.useAnimations; PropertyAnimation { property: "opacity"; from: 1; to: 0; duration: 300 }}
+    Button {
+      id: mobBut
+      visible: Noo.isAndroid()
+      width: navList.width
+      height: nootkaWindow.fontSize * 2
+      background: Rectangle {
+        anchors.fill: parent
+        color: mobBut.down ? activPal.highlight : activPal.text
+      }
+      contentItem: Text {
+        text: ". . ."
+        font.bold: true
+        color: mobBut.down ? activPal.highlightedText : activPal.base
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+      }
     }
+
+  }
+
+    // pages container on the right
+  StackView {
+    id: stack
+    x: navList.width + Screen.pixelDensity
+    z: -1 // below navigation list
+    width: parent.width - navList.width - Screen.pixelDensity * 2
+    height: parent.height
+    // fade animations
+    pushEnter: Transition { enabled: GLOB.useAnimations; PropertyAnimation { property: "opacity"; from: 0; to: 1; duration: 300 }}
+    pushExit: Transition { enabled: GLOB.useAnimations; PropertyAnimation { property: "opacity"; from: 1; to: 0; duration: 300 }}
   }
 }
  

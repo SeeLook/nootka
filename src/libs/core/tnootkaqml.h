@@ -73,7 +73,7 @@ public:
   Q_INVOKABLE bool isAndroid();
   Q_INVOKABLE QStringList guitarTunings();
   Q_INVOKABLE QStringList bassTunings();
-  
+  Q_INVOKABLE QString stdButtonText(int role);
 
 private:
   static TnootkaQML             *m_instance;

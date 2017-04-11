@@ -12,6 +12,7 @@ import Nootka 1.0
 Item {
   property Item toolBar: null // fake, for main window information
   property alias scoreMenu: scoreMenu
+  property alias drawer: mainDrawer
 
   x: Screen.pixelDensity / 2
   y: Screen.pixelDensity / 2
