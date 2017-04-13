@@ -31,6 +31,7 @@
 
     <file alias="Instrument.qml">qml/instruments/Instrument.qml</file>
     <file alias="Guitar.qml">qml/instruments/Guitar.qml</file>
+    <file alias="Piano.qml">qml/instruments/Piano.qml</file>
 
     <file alias="TaboutNootka.qml">qml/about/TaboutNootka.qml</file>
     <file alias="AboutPage.qml">qml/about/AboutPage.qml</file>
