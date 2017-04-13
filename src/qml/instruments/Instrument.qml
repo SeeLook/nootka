@@ -10,11 +10,11 @@ Item {
 
   signal note(var n)
 
-  height: nootkaWindow.height / 5 //4
+  height: nootkaWindow.height / 4 //5 for piano
   width: nootkaWindow.width
 
   Component.onCompleted: {
-    var c = Qt.createComponent("qrc:/Piano.qml")
+    var c = Qt.createComponent("qrc:/Guitar.qml")
     instrument = c.createObject(root, {"anchors.fill": root})
     instrument.onNoteChanged.connect(callNote)
   }

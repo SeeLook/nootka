@@ -36,6 +36,7 @@ TguitarBg::TguitarBg(QQuickItem* parent) :
   setRenderTarget(QQuickPaintedItem::FramebufferObject);
   //   setPerformanceHint(QQuickPaintedItem::FastFBOResizing);
   setAntialiasing(true);
+  setAcceptedMouseButtons(Qt::LeftButton);
   setTune();
 }
 
@@ -45,6 +46,13 @@ QPointF TguitarBg::fretToPos(const TfingerPos& pos) {
   if (pos.fret())
     xPos = m_fretsPos[pos.fret() - 1] - qRound(m_fretWidth / 1.5);
   return QPointF(xPos, m_fbRect.y() + m_strGap * (pos.str() - 1) + m_strGap / 5);
+}
+
+
+void TguitarBg::setNote(const Tnote& n) {
+  if (n != m_note) {
+    
+  }
 }
 
 
@@ -59,7 +67,7 @@ void TguitarBg::paint(QPainter* painter) {
 //   painter->fillRect(painter->viewport(), qApp->palette().window().color());
 
 // FINGERBOARD
-  painter->setPen(QPen(Qt::black, 0, Qt::NoPen));
+  painter->setPen(Qt::NoPen);
   if (GLOB->instrument().type() == Tinstrument::ClassicalGuitar)
       painter->setBrush(QBrush(Qt::black, Qt::SolidPattern));
   else {
@@ -206,7 +214,14 @@ void TguitarBg::paint(QPainter* painter) {
 
     }
   }
+}
 
+
+void TguitarBg::setReadOnly(bool ro) {
+  if (ro != m_readOnly) {
+    m_readOnly = ro;
+    setAcceptedMouseButtons(m_readOnly ? Qt::NoButton : Qt::LeftButton);
+  }
 }
 
 //#################################################################################################
@@ -260,6 +275,19 @@ void TguitarBg::hoverMoveEvent(QHoverEvent* event) {
 
   paintFingerAtPoint(event->pos());
 }
+
+
+void TguitarBg::mousePressEvent(QMouseEvent* event) {
+  if (event->buttons() & Qt::LeftButton) {
+    if (m_curStr < 7) {
+      m_note.setChromatic(GLOB->Gtune()->str(m_curStr + 1).chromatic() + m_curFret);
+      if (GLOB->GpreferFlats)
+        m_note = m_note.showWithFlat();
+      emit noteChanged();
+    }
+  }
+}
+
 
 //################################################################################################
 //################################################ PROTECTED #####################################

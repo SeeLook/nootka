@@ -21,7 +21,8 @@
 
 
 #include "nootkacoreglobal.h"
-#include <tfingerpos.h>
+#include "tfingerpos.h"
+#include "music/tnote.h"
 
 #include <QtQuick/qquickpainteditem.h>
 
@@ -42,6 +43,8 @@ class NOOTKACORE_EXPORT TguitarBg : public QQuickPaintedItem
   Q_PROPERTY(int string READ currentString NOTIFY stringChanged)
   Q_PROPERTY(qreal xiiFret READ xiiFret NOTIFY stringsGapChanged)
   Q_PROPERTY(QRect fbRect READ fbRect NOTIFY stringsGapChanged)
+  Q_PROPERTY(bool readOnly READ readOnly WRITE setReadOnly)
+  Q_PROPERTY(Tnote note READ note WRITE setNote NOTIFY noteChanged)
 
 
 public:
@@ -67,6 +70,9 @@ public:
 
   QPointF fingerPos() { return m_fingerPos; }
 
+  Tnote note() const { return m_note; }
+  void setNote(const Tnote& n);
+
   void paint(QPainter* painter) override;
 
       /**
@@ -83,18 +89,23 @@ public:
 
   Q_INVOKABLE qreal strWidth(int str) { return m_strWidth[str]; }
 
+  bool readOnly() const { return m_readOnly; }
+  void setReadOnly(bool ro);
+
 signals:
   void activeChanged();
   void fretWidthChanged();
   void stringsGapChanged();
   void fingerPosChanged();
   void stringChanged();
+  void noteChanged();
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) override;
   void hoverEnterEvent(QHoverEvent*) override;
   void hoverLeaveEvent(QHoverEvent*) override;
   void hoverMoveEvent(QHoverEvent* event) override;
+  void mousePressEvent(QMouseEvent* event) override;
 
   void paintFingerAtPoint(QPoint p);
 
@@ -115,7 +126,9 @@ private:
   QColor       m_strColors[6];
 
   bool         m_active;
+  bool         m_readOnly = false;
   QPointF      m_fingerPos;
+  Tnote        m_note;
 
 };
 

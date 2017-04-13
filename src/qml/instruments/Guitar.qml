@@ -10,13 +10,19 @@ import Nootka 1.0
 
 Item {
   id: root
-  anchors.fill: parent
+  property alias note: guitar.note
   // private
   property var bodyPix: ["", "-electro", "-bass"]
+
+  anchors.fill: parent
 
   TguitarBg {
     id: guitar
     anchors.fill: parent
+    onNoteChanged: {
+      selectedFinger.x = fingerPos.x;
+      selectedFinger.y = fingerPos.y - selectedFinger.height * 0.15
+    }
   }
 
   Image { // body
@@ -40,12 +46,21 @@ Item {
   }
 
   Rectangle {
+    id: selectedFinger
+    color: Qt.rgba(0.2, 0.6, 1.0, 1.0)
+    width: guitar.fretWidth / 1.6
+    height: width * 0.65
+    radius: width * 0.5
+    visible: x != 0
+  }
+
+  Rectangle {
     id: finger
     color: Qt.rgba(1, 0, 0.5, 0.78)
     width: guitar.fretWidth / 1.6
     height: width * 0.65
-    radius: width  * 0.5
-    x: guitar.fingerPos.x;
+    radius: width * 0.5
+    x: guitar.fingerPos.x
     y: guitar.fingerPos.y - height * 0.15
     visible: false
   }
