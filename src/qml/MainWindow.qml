@@ -97,9 +97,10 @@ ApplicationWindow {
 
       Instrument {
         id: instrument
-        height: nootkaWindow.height / 4
-        width: nootkaWindow.width
         z: 1
+        onNote: {
+          score.addNote(Noo.note(n, 2 + Math.random() * 4))
+        }
       }
   }
 
@@ -112,26 +113,7 @@ ApplicationWindow {
 //     randNotes()
 //   }
 
-//   Timer {
-//       interval: 5000
-//       running: true
-//       repeat: true
-//       onTriggered: {
-//         score.addNote(Noo.note(1 + Math.random() * 7, -2 + Math.random() * 5, Math.min(Math.max(-2, -3 + Math.random() * 6), 2),
-//                                2 + Math.random() * 4))
-//         var noteNr = Math.random() * 7
-//         var rest = Math.floor((Math.random() * 100) % 2)
-//         var accid = rest ? 0 : Math.min(Math.max(-2, -3 + Math.random() * 6), 2)
-//         var note = Noo.note(1 + Math.random() * 7, -3 + Math.random() * 7, accid, 1 + Math.random() * 5, rest)
-//         score.setNote(0, noteNr, note)
-//         score.enableKeySign = !score.enableKeySign
-//         if (score.enableKeySign)
-//           score.setKeySignature(-7 + Math.random() * 15)
-//         var m = Math.pow(2, Math.floor(1 + Math.random() * 11))
-//         console.log("meter " + m)
-//         score.meter = m
-//       }
-//   }
+
   function randNotes() {
     var rest = (Math.random() * 100)  > 90
 //     var accid = rest ? 0 : Math.min(Math.max(-2, -3 + Math.random() * 6), 2)

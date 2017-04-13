@@ -5,8 +5,19 @@
 import QtQuick 2.7
 
 Item {
+  id: root
+  property Item instrument: null
 
-  Guitar {
-    anchors.fill: parent
+  signal note(var n)
+
+  height: nootkaWindow.height / 5 //4
+  width: nootkaWindow.width
+
+  Component.onCompleted: {
+    var c = Qt.createComponent("qrc:/Piano.qml")
+    instrument = c.createObject(root, {"anchors.fill": root})
+    instrument.onNoteChanged.connect(callNote)
   }
+
+  function callNote() { root.note(instrument.note) }
 }

@@ -40,6 +40,7 @@ set(LIB_NOOTKACORE_SRC
   score/tbeamobject.cpp
 
   instruments/tguitarbg.cpp
+  instruments/tpianobg.cpp
 
 #   exam/tqatype.cpp
 #   exam/tqaunit.cpp
