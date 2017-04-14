@@ -29,6 +29,10 @@
 #include "checktime.h"
 
 
+const char* const octaveNames[8] = { QT_TR_NOOP("Subcontra"), QT_TR_NOOP("Contra"), QT_TR_NOOP("Great"), QT_TR_NOOP("Small"),
+                          QT_TR_NOOP("One-line"), QT_TR_NOOP("Two-line"), QT_TR_NOOP("Three-line"), QT_TR_NOOP("Four-line") };
+
+
 TpianoBg::TpianoBg(QQuickItem* parent) :
   QQuickPaintedItem(parent),
   m_keyWidth(32.0),
@@ -94,6 +98,15 @@ CHECKTIME (
   if (m_margin > 0) {
     painter->drawRect(0, kw, m_margin, height() - kw);
     painter->drawRect(width() - m_margin, kw, m_margin, height() - kw);
+  }
+  painter->setPen(Qt::white);
+  QFont f;
+  f.setPixelSize(qRound(m_keyWidth * 0.6));
+  painter->setFont(f);
+  for (int k = 0; k < m_keysNumber / 7; ++k) {
+    painter->drawText(QRect(m_margin + k * 7 * kw, 0, 7 * kw, m_keyWidth), Qt::AlignCenter, octaveNames[m_firstOctave + 2 + k]);
+    int xx = m_margin + (k + 1) * 7 * kw;
+    painter->drawLine(xx, qRound(m_keyWidth / 2.0), xx, qRound(m_keyWidth - 1.0));
   }
 )
 }
