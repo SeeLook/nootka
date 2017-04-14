@@ -13,7 +13,7 @@ Item {
 
   signal note(var n)
 
-  height: nootkaWindow.height / (GLOB.instrument.type === Tinstrument.Piano ? 5 : 4)
+  height: GLOB.instrument.type === Tinstrument.Piano ? Math.min(nootkaWindow.height / 5, nootkaWindow.fontSize * 12) : nootkaWindow.height / 4
   width: nootkaWindow.width
 
   Component.onCompleted: {

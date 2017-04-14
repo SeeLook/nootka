@@ -36,7 +36,7 @@ const char* const octaveNames[8] = { QT_TR_NOOP("Subcontra"), QT_TR_NOOP("Contra
 TpianoBg::TpianoBg(QQuickItem* parent) :
   QQuickPaintedItem(parent),
   m_keyWidth(32.0),
-  m_firstOctave(-2)
+  m_firstOctave(-3)
 {
   setAcceptHoverEvents(true);
   setRenderTarget(QQuickPaintedItem::FramebufferObject);
@@ -103,10 +103,13 @@ CHECKTIME (
   QFont f;
   f.setPixelSize(qRound(m_keyWidth * 0.6));
   painter->setFont(f);
-  for (int k = 0; k < m_keysNumber / 7; ++k) {
-    painter->drawText(QRect(m_margin + k * 7 * kw, 0, 7 * kw, m_keyWidth), Qt::AlignCenter, octaveNames[m_firstOctave + 2 + k]);
-    int xx = m_margin + (k + 1) * 7 * kw;
-    painter->drawLine(xx, qRound(m_keyWidth / 2.0), xx, qRound(m_keyWidth - 1.0));
+  int octavesNr = m_keysNumber / 7;
+  for (int k = 0; k < octavesNr; ++k) {
+    painter->drawText(QRect(m_margin + k * 7 * kw, 0, 7 * kw, m_keyWidth), Qt::AlignCenter, octaveNames[m_firstOctave + 3 + k]);
+    if (k < octavesNr - 1 || m_keysNumber - (m_keysNumber / 7) * 7 > 0) { // do not draw a tick of last octave when it is completed
+      int xx = m_margin + (k + 1) * 7 * kw;
+      painter->drawLine(xx, qRound(m_keyWidth / 2.0), xx, qRound(m_keyWidth - 1.0));
+    }
   }
 )
 }
@@ -173,5 +176,9 @@ void TpianoBg::mousePressEvent(QMouseEvent* event) {
 
 void TpianoBg::calculateMetrics(int newWidth) {
   m_keysNumber = newWidth / qRound(m_keyWidth);
+  if (m_keysNumber > 56) {
+    m_keysNumber = 56;
+    m_keyWidth = newWidth / m_keysNumber;
+  }
   m_margin = (newWidth - m_keysNumber * qFloor(m_keyWidth)) / 2;
 }
