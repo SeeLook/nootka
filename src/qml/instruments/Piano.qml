@@ -3,7 +3,6 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.7
-import QtQuick.Window 2.0
 
 import Nootka 1.0
 
@@ -16,19 +15,20 @@ Item {
   TpianoBg {
     id: piano
     anchors.fill: parent
-    keyWidth: Screen.pixelDensity * 5.5
+    keyWidth: nootkaWindow.fontSize * 2
     onNoteChanged: {
-      selectedKey.width = keyRect.width
-      selectedKey.height = keyRect.height
       selectedKey.x = keyRect.x
-      selectedKey.y = keyRect.y
+      selectedKey.y = keyWidth + keyRect.height - height * 0.3
+      selectedKey.width = keyRect.width
     }
   }
 
   Rectangle {
     id: selectedKey
     color: Qt.rgba(0.2, 0.6, 1.0, 1.0)
+    height: parent.height * 0.3
     radius: width * 0.2
+    visible: x > 0
   }
 
   Rectangle {
