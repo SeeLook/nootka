@@ -15,7 +15,7 @@ Flickable {
   height: parent.height
   contentHeight: instrCol.height + nootkaWindow.fontSize * 2
 
-  property var instrGlyphs: ["v", "h", "j", "i"]
+  property var instrGlyphs: ["v", "h", "j", "i", "f"]
 
   Column {
     id: instrCol
@@ -29,7 +29,7 @@ Flickable {
       spacing: nootkaWindow.fontSize
       anchors.horizontalCenter: parent.horizontalCenter
       Repeater {
-        model: 4
+        model: 5
         Button {
           contentItem: Text {
             font {family: "nootka"; pixelSize: 50 }

@@ -37,7 +37,9 @@ QString Tinstrument::name() {
     return QGuiApplication::translate("Einstrument", "Electric Guitar");
   if (m_type == BassGuitar)
     return QGuiApplication::translate("Einstrument", "Bass Guitar");
-  
+  if (m_type == Piano)
+    return QGuiApplication::translate("Einstrument", "Piano");
+
   return QString();
 }
 
@@ -50,6 +52,7 @@ QString Tinstrument::glyph() {
     case ClassicalGuitar: glyph = QLatin1String("h"); break;
     case ElectricGuitar: glyph = QLatin1String("i"); break;
     case BassGuitar: glyph = QLatin1String("j"); break;
+    case Piano: glyph = QLatin1String("f"); break;
     default: glyph = QString(); break;
   }
   return glyph;

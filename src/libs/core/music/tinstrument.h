@@ -41,7 +41,8 @@ public:
     NoInstrument = 0, // 0, however level and exam save it as 255 for backward comparability
     ClassicalGuitar = 1,
     ElectricGuitar = 2,
-    BassGuitar = 3
+    BassGuitar = 3,
+    Piano = 4
   };
   Q_ENUM(Etype)
 
