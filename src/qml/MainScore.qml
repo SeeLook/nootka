@@ -19,6 +19,8 @@ Score {
   property alias zoomInAct: zoomInAct
   property alias zoomOutAct: zoomOutAct
 
+  meter: GLOB.rhythmsEnabled ? Tmeter.Meter_4_4 : Tmeter.NoMeter
+
   enableDoubleAccids: GLOB.enableDoubleAccids
   enableKeySign: GLOB.keySignatureEnabled
   scoreObj.nameColor: GLOB.nameColor

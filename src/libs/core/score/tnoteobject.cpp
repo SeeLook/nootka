@@ -122,6 +122,8 @@ TnoteObject::TnoteObject(TstaffObject* staffObj, TnotePair* wrapper) :
   setAcceptHoverEvents(true);
   setZ(10);
   setAcceptedMouseButtons(Qt::LeftButton);
+
+  updateNoteHead();
 }
 
 
@@ -260,7 +262,7 @@ qreal TnoteObject::rightX() const {
 
 qreal TnoteObject::rhythmFactor() const {
   if (m_note->rhythm() == Trhythm::NoRhythm)
-    return 0.0;
+    return 0.75;
 
   int add = m_note->hasDot() ? 1 : (m_note->isTriplet() ? 2 : 0);
   return rtmGapArray[static_cast<int>(m_note->rhythm()) - 1][add];
