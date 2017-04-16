@@ -15,6 +15,7 @@
     <file alias="ClefMenu.qml">qml/shared/ClefMenu.qml</file>
     <file alias="MenuButton.qml">qml/shared/MenuButton.qml</file>
     <file alias="NameStyleSelector.qml">qml/shared/NameStyleSelector.qml</file>
+    <file alias="InstrumentSelector.qml">qml/shared/InstrumentSelector.qml</file>
 
     <file alias="IntonationBar.qml">qml/sound/IntonationBar.qml</file>
     <file alias="VolumeBar.qml">qml/sound/VolumeBar.qml</file>
