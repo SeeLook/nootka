@@ -35,6 +35,7 @@ class Ttune;
 class QSettings;
 class TexamParams;
 class TaudioParams;
+class TtuneObject;
 
 
 #define   GLOB     Tglobals::instance()
@@ -66,8 +67,11 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(bool seventhIsB READ seventhIsB WRITE setSeventhIsB NOTIFY seventhIsBChanged)
 
   Q_PROPERTY(Tinstrument instrument READ instrument NOTIFY instrumentChanged)
-  Q_PROPERTY(int tuning READ tuning NOTIFY tuningChanged)
-  Q_PROPERTY(QString tuningName READ tuningName NOTIFY tuningChanged)
+  Q_PROPERTY(TtuneObject* tuning READ tuning NOTIFY tuningChanged)
+
+  Q_PROPERTY(QColor fingerColor READ fingerColor WRITE setFingerColor NOTIFY fingerColorChanged)
+  Q_PROPERTY(QColor selectedColor READ selectedColor WRITE setSelectedColor NOTIFY selectedColorChanged)
+  Q_PROPERTY(bool preferFlats READ preferFlats WRITE setPreferFlats NOTIFY preferFlatsChanged)
 
 public:
 
@@ -77,7 +81,7 @@ public:
 
       /**
        * Instance (single for whole Nootka) of Tglobals class.
-       * Also avail through @p GLOB macro
+       * Also available through @p GLOB macro
        */
   static Tglobals* instance() { return m_instance; }
 
@@ -138,17 +142,20 @@ public:
   bool rhythmsEnabled() const;
   void setRhythmsEnabled(bool enR);
 
+  QColor fingerColor() const { return GfingerColor; }
+  void setFingerColor(const QColor& fc);
+
+  QColor selectedColor() const { return GselectedColor; }
+  void setSelectedColor(const QColor& sc);
+
+  bool preferFlats() const { return GpreferFlats; }
+  void setPreferFlats(bool prefFlat) { GpreferFlats = prefFlat; }
+
       /**
        * Updates key signature names according to name style and major/minor suffixes.
        * Emits @p keyNameChanged() to inform MainScore.qml
        */
   Q_INVOKABLE void updateKeySignatureNames();
-
-      /**
-       * Type of tuning
-       */
-  int tuning() const;
-  QString tuningName() const;
 
       /** This method return application install path - path from where Nootka was started. */
   static QString getInstPath(QString appInstPath);
@@ -190,6 +197,7 @@ public:
        */
   Ttune *Gtune() { return m_tune; }
   Q_INVOKABLE void setTune(Ttune &t);
+  TtuneObject* tuning() { return m_tuneObject; }
 
       /** It returns real string number (0 - 5) when @param strNr
        * is sorted number from highest (0) to lowest (5) */
@@ -229,10 +237,14 @@ signals:
   void rhythmsEnabledChanged();
   void instrumentChanged();
   void tuningChanged();
+  void fingerColorChanged();
+  void selectedColorChanged();
+  void preferFlatsChanged(); /**< Fake, this option doesn't affect QML */
 
 private:
   static Tglobals           *m_instance;
   Ttune                     *m_tune; /**< current guitar tune */
+  TtuneObject               *m_tuneObject;
   qint8                      m_order[6]; /**< Strings order is determined in @param setTune() method */
   QRect                      m_geometry;
   bool                       m_useAnimations;

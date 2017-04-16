@@ -19,7 +19,7 @@
 #include "tglobals.h"
 #include "nootkaconfig.h"
 #include <music/tkeysignature.h>
-#include <music/ttune.h>
+#include <music/ttuneobject.h>
 #include <taudioparams.h>
 #include <texamparams.h>
 #include <tscoreparams.h>
@@ -66,7 +66,7 @@ QString Tglobals::getInstPath(QString appInstPath) {
 
 Tglobals::Tglobals(QObject* parent) :
   QObject(parent),
-  m_tune(0)
+  m_tune(nullptr)
 {
   version = NOOTKA_VERSION;
 
@@ -82,6 +82,7 @@ Tglobals::Tglobals(QObject* parent) :
   A = new TaudioParams();
   S = new TscoreParams();
   L = new TlayoutParams();
+  m_tuneObject = new TtuneObject(this);
 
 #if defined(Q_OS_WIN32) || defined(Q_OS_MAC) // I hate mess in Win registry
   config = new QSettings(QSettings::IniFormat, QSettings::UserScope, QStringLiteral("Nootka"), qApp->applicationName());
@@ -174,8 +175,8 @@ void Tglobals::setRhythmsEnabled(bool enR) { S->rhythmsEnabled = enR; emit rhyth
 
 void Tglobals::setInstrument(Tinstrument::Etype t) { m_instrument.setType(t); emit instrumentChanged(); }
 
-int Tglobals::tuning() const { return static_cast<int>(m_tune->type()); }
-QString Tglobals::tuningName() const { return m_tune->name; }
+void Tglobals::setFingerColor(const QColor& fc) { GfingerColor = fc; emit fingerColorChanged(); }
+void Tglobals::setSelectedColor(const QColor& sc) { GselectedColor = sc; selectedColorChanged(); }
 
 
 void Tglobals::loadSettings(QSettings* cfg) {
@@ -374,6 +375,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
 void Tglobals::setTune(Ttune& t) {
   delete m_tune;
   m_tune = new Ttune(t.name, t[1], t[2], t[3], t[4], t[5], t[6]);
+  m_tuneObject->setTune(m_tune);
   // creating array with guitar strings in order of their height
   char openStr[6];
   for (int i = 0; i < 6; i++) {
