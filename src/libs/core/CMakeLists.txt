@@ -24,6 +24,7 @@ set(LIB_NOOTKACORE_SRC
   music/trhythm.cpp
   music/tnamestylefilter.cpp
   music/ttune.cpp
+  music/ttuneobject.cpp
   music/tclef.cpp
   music/tinstrument.cpp
   music/tkeysignature.cpp
