@@ -14,7 +14,6 @@ Text {
   property int type: Tclef.Treble_G
   property bool readOnly: false
   property Drawer clefDrawer
-  property bool enableNoClef: true
 
   width: 5.5
 
@@ -39,7 +38,7 @@ Text {
         ClefMenu {
           id: clefMenu
           onClicked: { type = cl; close() }
-          enableNoClef: clef.enableNoClef
+          enableNoClef: score.enableNoClef
         }
       }
     }

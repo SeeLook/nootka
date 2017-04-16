@@ -47,7 +47,7 @@ Item {
 
   Rectangle {
     id: selectedFinger
-    color: Qt.rgba(0.2, 0.6, 1.0, 1.0)
+    color: GLOB.selectedColor
     width: guitar.fretWidth / 1.6
     height: width * 0.65
     radius: width * 0.5
@@ -56,7 +56,7 @@ Item {
 
   Rectangle {
     id: finger
-    color: Qt.rgba(1, 0, 0.5, 0.78)
+    color: GLOB.fingerColor
     width: guitar.fretWidth / 1.6
     height: width * 0.65
     radius: width * 0.5

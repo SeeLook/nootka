@@ -19,6 +19,7 @@
 #include "tpianobg.h"
 #include "tpath.h"
 #include "music/tnote.h"
+#include "tglobals.h"
 
 #include <QtGui/qpainter.h>
 #include <QtGui/qguiapplication.h>
@@ -168,6 +169,8 @@ void TpianoBg::hoverMoveEvent(QHoverEvent* event) {
 void TpianoBg::mousePressEvent(QMouseEvent* event) {
   if (event->buttons() & Qt::LeftButton) {
     m_note = m_activeNote;
+    if (GLOB->GpreferFlats)
+      m_note = m_note.showWithFlat();
     emit noteChanged();
   }
 }
