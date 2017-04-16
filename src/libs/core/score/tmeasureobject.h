@@ -112,6 +112,8 @@ protected:
   void updateRhythmicGroups();
   void checkBarLine();
 
+  void meterChanged();
+
       /**
        * Updates @p m_allNotesWidth @p m_allGaps according to current measure content
        */

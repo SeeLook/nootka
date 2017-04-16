@@ -94,9 +94,10 @@ Column {
             description: qsTr("Use rhythms or only bare note heads.")
             enabled: !singleNoteModeChB.checked
             CheckBox {
-              id: enableRhythChB
+              id: rhythmsEnabledChB
               text: qsTr("enable rhythms")
               anchors.horizontalCenter: parent.horizontalCenter
+              checked: GLOB.rhythmsEnabled
             }
           }
           Tile {
@@ -227,6 +228,7 @@ Column {
 
     function save() {
 //       GLOB. = singleNoteModeChB
+      GLOB.rhythmsEnabled = rhythmsEnabledChB.checked
       GLOB.enableDoubleAccids = doubleAccidsChB.checked
       GLOB.noteCursorColor = pointerColorButt.color
       GLOB.keySignatureEnabled = enableKeyChB.checked

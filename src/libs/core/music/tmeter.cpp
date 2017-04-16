@@ -42,7 +42,7 @@ int Tmeter::upper() const {
 
 
 int Tmeter::lower() const {
-  int v = (int)m_meter;
+  int v = static_cast<int>(m_meter);
   if (v > 0) {
     if (v <= 32)
       return 4;
@@ -54,8 +54,8 @@ int Tmeter::lower() const {
 
 
 int Tmeter::duration() const {
-  if (NoMeter)
-    return 0;
+  if (m_meter == NoMeter)
+    return 1;
   else
     return (RVALUE / lower()) * upper();
 }

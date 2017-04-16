@@ -60,6 +60,7 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(QString majorKeyNameSufix READ majorKeyNameSufix WRITE setMajorKeyNameSufix)
   Q_PROPERTY(QString minorKeyNameSufix READ minorKeyNameSufix WRITE setMinorKeyNameSufix)
   Q_PROPERTY(int keyNameStyle READ keyNameStyle WRITE setKeyNameStyle)
+  Q_PROPERTY(bool rhythmsEnabled READ rhythmsEnabled WRITE setRhythmsEnabled NOTIFY rhythmsEnabledChanged)
 
   Q_PROPERTY(int clefType READ clefType WRITE setClefType)
   Q_PROPERTY(bool seventhIsB READ seventhIsB WRITE setSeventhIsB NOTIFY seventhIsBChanged)
@@ -133,6 +134,9 @@ public:
 
   int keyNameStyle() const;
   void setKeyNameStyle(int keyStyle);
+
+  bool rhythmsEnabled() const;
+  void setRhythmsEnabled(bool enR);
 
       /**
        * Updates key signature names according to name style and major/minor suffixes.
@@ -222,6 +226,7 @@ signals:
   void seventhIsBChanged();
   void showKeyNameChanged();
   void keyNameChanged();
+  void rhythmsEnabledChanged();
   void instrumentChanged();
   void tuningChanged();
 

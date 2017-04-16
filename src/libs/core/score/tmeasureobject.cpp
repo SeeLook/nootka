@@ -46,7 +46,7 @@ TmeasureObject::TmeasureObject(int nr, TscoreObject* parent) :
 
 TmeasureObject::~TmeasureObject()
 {
-  qDebug() << debug() << "is going delete";
+//   qDebug() << debug() << "is going delete";
 }
 
 
@@ -66,7 +66,7 @@ void TmeasureObject::setStaff(TstaffObject* st) {
 
 void TmeasureObject::appendNewNotes(int segmentId, int count) {
   // so far we are sure there is enough space for whole note list in this measure
-//   qDebug() << debug() << "append" << count << "note(s) from" << segmentId;
+//   qDebug() << debug() << "append" << count << "note(s) from" << segmentId << "measure duration" << duration();
   for (int n = segmentId; n < segmentId + count; ++n)
     m_notes.append(m_score->noteSegment(n));
   updateRhythmicGroups();
@@ -154,7 +154,8 @@ void TmeasureObject::updateRhythmicGroups() {
       currGr = grNr;
     }
     m_notes[i]->setRhythmGroup(grNr);
-    notePos += m_notes[i]->note()->duration();
+    /** We are cheating here: no-rhythm-note gets duration of 1 - such a rhythm doesn't exists */
+    notePos += m_notes[i]->note()->rhythm() == Trhythm::NoRhythm ? 1 : m_notes[i]->note()->duration();
     while (grNr < m_score->groupCount() && notePos >= m_score->groupPos(grNr))
       grNr++;
   }
@@ -169,7 +170,7 @@ void TmeasureObject::updateRhythmicGroups() {
 
 
 void TmeasureObject::checkBarLine() {
-  if (m_free == 0) {
+  if (m_free == 0 && m_score->meter()->meter() != Tmeter::NoMeter) {
     auto lastNote = last()->item();
     if (!m_barLine) {
       QQmlEngine engine;
@@ -183,6 +184,11 @@ void TmeasureObject::checkBarLine() {
     qreal xOff = lastNote == m_staff->lastMeasure()->last()->item() ? 0.2 : 0.0; // fit line at the staff end
     m_barLine->setX(lastNote->rightX() - lastNote->x() + xOff);
   }
+}
+
+
+void TmeasureObject::meterChanged() {
+  m_duration = m_score->meter()->duration();
 }
 
 

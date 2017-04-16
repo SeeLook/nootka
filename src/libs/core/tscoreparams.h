@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,7 +22,8 @@
 #include "nootkacoreglobal.h"
 #include "music/tnote.h"
 #include "music/tclef.h"
-#include <QColor>
+
+#include <QtGui/qcolor.h>
 
 
 /**
@@ -35,43 +36,50 @@ public:
   TscoreParams() : clef(Tclef::defaultType) {}
 
 //============ score widget settings =============================================================
-        /** if true shows other similar (enharmonic) notes on the staff:
-        * for C# - Db, for G - Fx and Abb. In Tnotename widget also. */
-    bool keySignatureEnabled;
-    bool showKeySignName; // default true
-    Tnote::EnameStyle nameStyleInKeySign;
+       /**
+        * if true shows other similar (enharmonic) notes on the staff:
+        * for C# - Db, for G - Fx and Abb. In Tnotename widget also.
+        */
+  bool keySignatureEnabled;
+  bool showKeySignName; /**< default true */
+  Tnote::EnameStyle nameStyleInKeySign;
 
-        /** Convention is:
+       /**
+        * Convention is:
         * if keyNameSuffix == " " constructor of Tglobals sets its default and
         * constructor of TkeySignatureView sets translatable value "major" and "minor"
         * otherwise it is overridden by loading settings
         * if keyNameSuffix == "" user prefers without suffix.
-        * If keyNameSuffix has some text -  is translated by user himself */
-    QString majKeyNameSufix;
-    QString minKeyNameSufix;
-    QColor pointerColor;
-    Tclef::EclefType& clef; // preferred clef - treble by default, reference to static Tclef::defaultType
-    bool isSingleNoteMode; // score mode (single or multi)
-    qreal scoreScale; // score scale - user preferred staff size
-    int tempo; // playback tempo
+        * If keyNameSuffix has some text -  is translated by user himself
+        */
+  QString majKeyNameSufix;
+  QString minKeyNameSufix;
+  QColor pointerColor;
+  bool rhythmsEnabled;
+  Tclef::EclefType& clef; /**< preferred clef - treble by default, reference to static Tclef::defaultType */
+  bool isSingleNoteMode; /**< score mode (single or multi) */
+  qreal scoreScale; /**< score scale - user preferred staff size */
+  int tempo; /**< playback tempo */
 
 //============= common with score widget and note name ==========================================
-    bool doubleAccidentalsEnabled; //default true
-    bool showEnharmNotes; // default true
+  bool doubleAccidentalsEnabled; /**< default @p TRUE */
+  bool showEnharmNotes; /**< default @p TRUE */
 
-        /** On the very beginning it is -1 and then it is set in TscoreWidget constructor
+       /**
+        * On the very beginning it is -1 and then it is set in TscoreWidget constructor
         * as inversion of highlight color from palette() and put to TnoteName,
-        * otherwise is taken from saved settings. */
-    QColor enharmNotesColor;
-    bool seventhIs_B; /** To determine note names - default true */
+        * otherwise is taken from saved settings.
+        */
+  QColor enharmNotesColor;
+  bool seventhIs_B; /**< To determine note names - default @p TRUE */
 
 
 //======== note name settings ===================================================================
-    Tnote::EnameStyle nameStyleInNoteName;
-    bool octaveInNoteNameFormat; //default true
-    Tnote::EnameStyle solfegeStyle; // e_italiano_Si is default
-    bool namesOnScore; // show/hide note names on the score
-    QColor nameColor;// color of note name highlight
+  Tnote::EnameStyle nameStyleInNoteName;
+  bool octaveInNoteNameFormat; /**< default @p TRUE */
+  Tnote::EnameStyle solfegeStyle; /**< e_italiano_Si is default */
+  bool namesOnScore; /**< show/hide note names on the score */
+  QColor nameColor; /**< color of note name highlight */
 
 };
 

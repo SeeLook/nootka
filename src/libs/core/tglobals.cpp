@@ -168,6 +168,9 @@ void Tglobals::updateKeySignatureNames() {
 bool Tglobals::seventhIsB() const { return S->seventhIs_B; }
 void Tglobals::setSeventhIsB(bool isB) { S->seventhIs_B = isB; emit seventhIsBChanged(); }
 
+bool Tglobals::rhythmsEnabled() const { return S->rhythmsEnabled; }
+void Tglobals::setRhythmsEnabled(bool enR) { S->rhythmsEnabled = enR; emit rhythmsEnabledChanged(); }
+
 
 void Tglobals::setInstrument(Tinstrument::Etype t) { m_instrument.setType(t); emit instrumentChanged(); }
 
@@ -205,6 +208,8 @@ void Tglobals::loadSettings(QSettings* cfg) {
       else
           S->pointerColor = Tcolor::invert(qApp->palette().highlight().color());
       S->clef = Tclef::EclefType(cfg->value(QStringLiteral("clef"), (int)Tclef::Treble_G_8down).toInt());
+      // Rhythms has to be enabled when no clef (percussion)
+      S->rhythmsEnabled = cfg->value(QStringLiteral("rhythmsEnabled"), true).toBool() || S->clef == Tclef::NoClef;
       S->isSingleNoteMode = cfg->value(QStringLiteral("singleNoteMode"), false).toBool();
       S->tempo = cfg->value(QStringLiteral("tempo"), 120).toInt();
       S->scoreScale = cfg->value(QStringLiteral("scoreScale"), 1.0).toReal();
@@ -447,6 +452,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue(QStringLiteral("minorKeysSufix"), minS);
       cfg->setValue(QStringLiteral("pointerColor"), S->pointerColor);
       cfg->setValue(QStringLiteral("clef"), (int)S->clef);
+      cfg->setValue(QStringLiteral("rhythmsEnabled"), S->rhythmsEnabled);
       cfg->setValue(QStringLiteral("singleNoteMode"), S->isSingleNoteMode);
       cfg->setValue(QStringLiteral("tempo"), S->tempo);
       cfg->setValue(QStringLiteral("scoreScale"), S->scoreScale);

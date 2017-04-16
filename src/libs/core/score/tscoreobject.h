@@ -286,6 +286,7 @@ private:
        */
   void appendToNoteList(QList<Tnote>& l);
   void updateClefOffset();
+  void updateMeterGroups();
 
 private:
                               /* Musical parameters */

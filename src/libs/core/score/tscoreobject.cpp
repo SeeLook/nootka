@@ -127,34 +127,12 @@ void TscoreObject::setClefType(Tclef::EclefType ct) {
 void TscoreObject::setMeter(int m) {
   // set notes grouping
   m_meter->setMeter(static_cast<Tmeter::Emeter>(m));
-  m_meterGroups.clear();
-  if (m_meter->lower() == 4) { // simple grouping: one group for each quarter
-    m_meterGroups << 24 << 48; // 2/4 and above
-    if (m_meter->meter() > Tmeter::Meter_2_4)
-      m_meterGroups << 72;
-    if (m_meter->meter() > Tmeter::Meter_3_4)
-      m_meterGroups << 96;
-    if (m_meter->meter() > Tmeter::Meter_4_4)
-      m_meterGroups << 120;
-    if (m_meter->meter() > Tmeter::Meter_5_4)
-      m_meterGroups << 144;
-    if (m_meter->meter() > Tmeter::Meter_6_4)
-      m_meterGroups << 168;
-  } else {
-    if (m_meter->meter() == Tmeter::Meter_3_8)
-      m_meterGroups << 36;
-    else if (m_meter->meter() == Tmeter::Meter_5_8)
-      m_meterGroups << 36 << 60;
-    else if (m_meter->meter() == Tmeter::Meter_6_8)
-      m_meterGroups << 36 << 72;
-    else if (m_meter->meter() == Tmeter::Meter_7_8)
-      m_meterGroups << 36 << 60 << 84;
-    else if (m_meter->meter() == Tmeter::Meter_9_8)
-      m_meterGroups << 36 << 72 << 108;
-    else if (m_meter->meter() == Tmeter::Meter_12_8)
-      m_meterGroups << 36 << 72 << 108 << 144;
+  updateMeterGroups();
+  for (TmeasureObject* m : m_measures) {
+    m->meterChanged();
   }
   qDebug() << "[TscoreObject] Meter changed" << m_meterGroups;
+  emit meterChanged();
 }
 
 
@@ -212,7 +190,7 @@ CHECKTIME (
     m_measures << lastMeasure;
     lastStaff()->appendMeasure(lastMeasure);
   }
-  int noteDur = n.duration();
+  int noteDur = n.rhythm() == Trhythm::NoRhythm ? 1 : n.duration();
   if (noteDur > lastMeasure->free()) { // split note that is adding
       int leftDuration = noteDur - lastMeasure->free();
       int lastNoteId = m_segments.count();
@@ -594,6 +572,45 @@ void TscoreObject::updateClefOffset() {
     case Tclef::Alto_C: m_clefOffset.set(4, 1); break;
     case Tclef::Tenor_C: m_clefOffset.set(2, 1); break;
     default: m_clefOffset.set(3, 2); break; // Treble, piano staff and no clef (rhythm only)
+  }
+}
+
+
+/**
+ * By assigning duration of @p 1 to meter group of @p Tmeter::NoMeter we are bending score reality.
+ * There is no note with such duration, but this way @p TmeasureObject will keep one note per measure
+ * and shifting measures among staves will work without any changes - the same way as such as for rhythmic notes.
+ * Only drawbacks are: many measure objects (wasting RAM), accidentals for every single note (measure contains only one note)
+ */
+void TscoreObject::updateMeterGroups() {
+  m_meterGroups.clear();
+  if (m_meter->meter() == Tmeter::NoMeter)
+    m_meterGroups << 1;
+  else if (m_meter->lower() == 4) { // simple grouping: one group for each quarter
+    m_meterGroups << 24 << 48; // 2/4 and above
+    if (m_meter->meter() > Tmeter::Meter_2_4)
+      m_meterGroups << 72;
+    if (m_meter->meter() > Tmeter::Meter_3_4)
+      m_meterGroups << 96;
+    if (m_meter->meter() > Tmeter::Meter_4_4)
+      m_meterGroups << 120;
+    if (m_meter->meter() > Tmeter::Meter_5_4)
+      m_meterGroups << 144;
+    if (m_meter->meter() > Tmeter::Meter_6_4)
+      m_meterGroups << 168;
+  } else {
+    if (m_meter->meter() == Tmeter::Meter_3_8)
+      m_meterGroups << 36;
+    else if (m_meter->meter() == Tmeter::Meter_5_8)
+      m_meterGroups << 36 << 60;
+    else if (m_meter->meter() == Tmeter::Meter_6_8)
+      m_meterGroups << 36 << 72;
+    else if (m_meter->meter() == Tmeter::Meter_7_8)
+      m_meterGroups << 36 << 60 << 84;
+    else if (m_meter->meter() == Tmeter::Meter_9_8)
+      m_meterGroups << 36 << 72 << 108;
+    else if (m_meter->meter() == Tmeter::Meter_12_8)
+      m_meterGroups << 36 << 72 << 108 << 144;
   }
 }
 
