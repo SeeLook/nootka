@@ -48,6 +48,6 @@ Item {
     color: colorButton.color
     onAccepted: colorButton.color = colorDialog.color
     modality: Qt.WindowModal
-    showAlphaChannel: false
+    showAlphaChannel: color.a < 1.0
   }
 }

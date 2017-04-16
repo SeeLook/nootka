@@ -25,14 +25,14 @@ Item {
 
   Rectangle {
     id: selectedKey
-    color: Qt.rgba(0.2, 0.6, 1.0, 1.0)
+    color: GLOB.selectedColor
     height: parent.height * 0.3
     radius: width * 0.2
     visible: x > 0
   }
 
   Rectangle {
-    color: Qt.rgba(1, 0, 0.5, 0.78)
+    color: GLOB.fingerColor
     width: piano.keyRect.width
     height: piano.keyRect.height
     radius: width * 0.2

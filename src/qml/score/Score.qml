@@ -14,6 +14,7 @@ Flickable {
   property alias scale: staff0.scale
   property alias firstStaff: staff0
   property int clef: Tclef.Treble_G_8down
+  property bool enableNoClef: true
   property alias meter: scoreObj.meter
   property alias bgColor: bgRect.color
   property bool enableKeySign: false

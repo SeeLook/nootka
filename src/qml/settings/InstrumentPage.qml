@@ -72,13 +72,31 @@ Flickable {
           }
         }
         Score {
-          width: parent.width * 0.9
+          id: score
           height: nootkaWindow.fontSize * 20
+          width: Math.min(parent.width * 0.9, nootkaWindow.fontSize * 26)
           anchors.horizontalCenter: parent.horizontalCenter
+          meter: Tmeter.NoMeter
+          enableNoClef: false
+          Component.onCompleted: {
+            for (var s = 1; s <= GLOB.tuning.stringNumber; ++s)
+              score.addNote(GLOB.tuning.string(s))
+          }
         }
       }
       description: qsTr("Select appropriate tuning from the list or prepare your own.") + "<br>" + 
                     qsTr("Remember to select the appropriate clef in Score settings.")
+    }
+
+    Tile {
+      Row {
+        spacing: nootkaWindow.fontSize
+        anchors.horizontalCenter: parent.horizontalCenter
+        Text { text: qsTr("preferred accidentals:"); anchors.verticalCenter: parent.verticalCenter }
+        RadioButton { id: prefSharpRadio; text: qsTr("# - sharps"); checked: !GLOB.preferFlats }
+        RadioButton { id: prefFlatRadio; text: qsTr("b - flats"); checked: GLOB.preferFlats }
+      }
+      description: qsTr("Choose which accidentals will be shown on the staff.")
     }
 
     Tile {
@@ -101,5 +119,35 @@ Flickable {
       }
       description: qsTr("Put numbers of frets marked with dot. Separate the numbers with comma. Add ! (exclamation mark) after a number to paint a dot twice.")
     }
+
+    Tile {
+      Row {
+        spacing: nootkaWindow.fontSize
+        anchors.horizontalCenter: parent.horizontalCenter
+        Text { color: activPal.text; text: qsTr("color of a pointer on a instrument"); anchors.verticalCenter: parent.verticalCenter }
+        ColorButton { id: fingerColorButt; color: GLOB.fingerColor }
+      }
+    }
+    Tile {
+      Row {
+        spacing: nootkaWindow.fontSize
+        anchors.horizontalCenter: parent.horizontalCenter
+        Text { color: activPal.text; text: qsTr("color of a selection"); anchors.verticalCenter: parent.verticalCenter }
+        ColorButton { id: selectedColorButt; color: GLOB.selectedColor }
+      }
+    }
+
+  }
+
+  function save() {
+    GLOB.fingerColor = fingerColorButt.color
+    GLOB.selectedColor = selectedColorButt.color
+    GLOB.preferFlats = prefFlatRadio.checked
+  }
+
+  function defaults() {
+    fingerColorButt.color = Qt.rgba(1, 0, 0.5, 0.78)
+    selectedColorButt.color = Qt.rgba(0.2, 0.6, 1.0, 1.0)
+    prefSharpRadio.checked = true
   }
 }
