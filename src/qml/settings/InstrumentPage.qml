@@ -25,19 +25,8 @@ Flickable {
       text: qsTr("Instrument")
       anchors.horizontalCenter: parent.horizontalCenter
     }
-    Row {
-      spacing: nootkaWindow.fontSize
+    InstrumentSelector {
       anchors.horizontalCenter: parent.horizontalCenter
-      Repeater {
-        model: 5
-        Button {
-          contentItem: Text {
-            font {family: "nootka"; pixelSize: 50 }
-            text: instrGlyphs[index]
-            anchors.horizontalCenter: parent.horizontalCenter
-          }
-        }
-      }
     }
 
     Grid {

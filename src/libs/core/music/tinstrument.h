@@ -25,7 +25,7 @@
 
 
 /**
- * 
+ * Describes instrument
  */
 class NOOTKACORE_EXPORT Tinstrument {
 
@@ -36,7 +36,7 @@ class NOOTKACORE_EXPORT Tinstrument {
   Q_PROPERTY(int typeINT READ typeINT)
 
 public:
-  
+
   enum Etype {
     NoInstrument = 0, // 0, however level and exam save it as 255 for backward comparability
     ClassicalGuitar = 1,
@@ -51,6 +51,7 @@ public:
   Etype type() const { return m_type; }
   Q_INVOKABLE void setType(Etype t) { m_type = t; }
   int typeINT() const { return static_cast<int>(m_type); }
+
     /**
      * Translated name of an instrument.
      */
@@ -60,6 +61,8 @@ public:
      * letter of instrument symbol (singer for NoInstrument).
      */
   QString glyph();
+
+  QString static staticName(Etype t);
 
 private:
   Etype             m_type;

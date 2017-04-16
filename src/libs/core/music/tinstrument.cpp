@@ -29,20 +29,24 @@ Tinstrument::Tinstrument(Tinstrument::Etype type) :
 
 
 QString Tinstrument::name() {
-  if (m_type == NoInstrument)
+  return staticName(m_type);
+}
+
+
+QString Tinstrument::staticName(Tinstrument::Etype t) {
+  if (t == NoInstrument)
     return QGuiApplication::translate("Einstrument", "other instrument");
-  if (m_type == ClassicalGuitar)
+  if (t == ClassicalGuitar)
     return QGuiApplication::translate("Einstrument", "Classical Guitar");
-  if (m_type == ElectricGuitar)
+  if (t == ElectricGuitar)
     return QGuiApplication::translate("Einstrument", "Electric Guitar");
-  if (m_type == BassGuitar)
+  if (t == BassGuitar)
     return QGuiApplication::translate("Einstrument", "Bass Guitar");
-  if (m_type == Piano)
+  if (t == Piano)
     return QGuiApplication::translate("Einstrument", "Piano");
 
   return QString();
 }
-
 
 
 QString Tinstrument::glyph() {

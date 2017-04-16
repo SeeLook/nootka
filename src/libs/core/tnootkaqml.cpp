@@ -216,3 +216,7 @@ QString TnootkaQML::stdButtonText(int role) {
   }
 }
 
+
+QString TnootkaQML::instrumentName(int instr) {
+  return Tinstrument::staticName(static_cast<Tinstrument::Etype>(instr));
+}
