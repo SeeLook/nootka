@@ -24,7 +24,6 @@
 #include "tnotepair.h"
 #include "music/tnote.h"
 
-#include <QtQml/qqmlengine.h>
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>
 #include <QtCore/qtimer.h>
@@ -84,8 +83,6 @@ TnoteObject::TnoteObject(TstaffObject* staffObj, TnotePair* wrapper) :
 {
   setParent(m_staff->score()); // to avoid deleting with parent staff
   m_note = new Tnote();
-  QQmlEngine engine;
-  QQmlComponent comp(&engine, this);
 
   m_staff->score()->component()->setData("import QtQuick 2.7; Rectangle {}", QUrl());
   m_stem = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
@@ -130,6 +127,8 @@ TnoteObject::TnoteObject(TstaffObject* staffObj, TnotePair* wrapper) :
 TnoteObject::~TnoteObject() {
 //   qDebug() << debug() << "is going deleted";
   delete m_note;
+  if (m_name)
+    delete m_name;
 }
 
 
@@ -140,12 +139,19 @@ int TnoteObject::index() const {
 
 void TnoteObject::setStaff(TstaffObject* staffObj) {
   if (staffObj != m_staff) {
-    m_staff = staffObj;
-    setParentItem(m_staff->staffItem());
-    if (m_wrapper->beam() && m_wrapper->beam()->last()->item() == this)
-      m_wrapper->beam()->changeStaff(m_staff);
-    if (m_name)
-      m_name->setParentItem(parentItem());
+      m_staff = staffObj;
+      if (m_staff) {
+          setParentItem(m_staff->staffItem());
+          if (m_wrapper->beam() && m_wrapper->beam()->last()->item() == this)
+            m_wrapper->beam()->changeStaff(m_staff);
+          // TODO This is good point to delete beam here, when staff becomes null
+      } else {
+          setParentItem(nullptr);
+          if (m_name)
+            m_name->setParentItem(parentItem());
+      }
+      if (m_name)
+        m_name->setParentItem(parentItem());
   } else
       qDebug() << debug() << "has staff set already";
 }

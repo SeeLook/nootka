@@ -128,8 +128,8 @@ protected:
       /**
        * Checks notes rhythms of group @p segmentId belongs to
        * for 8ths and 16ths and crates beams (@p TbeamObject) if they occurs
-       * It can be called before @p TnoteObject will be created
-       * When beam was set or note was added to it it returns number of that group
+       * It can be called before @p TnoteObject creation.
+       * When beam was set or note was added to it, it returns number of that group
        * or -1 if no beams were added
        */
   int beamGroup(int segmentId);
