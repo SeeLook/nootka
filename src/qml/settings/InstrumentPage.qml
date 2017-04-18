@@ -15,8 +15,6 @@ Flickable {
   height: parent.height
   contentHeight: instrCol.height + nootkaWindow.fontSize * 2
 
-  property var instrGlyphs: ["v", "h", "j", "i", "f"]
-
   Column {
     id: instrCol
     width: parent.width
@@ -27,6 +25,7 @@ Flickable {
     }
     InstrumentSelector {
       anchors.horizontalCenter: parent.horizontalCenter
+      instrument: GLOB.instrument.type
     }
 
     Grid {
