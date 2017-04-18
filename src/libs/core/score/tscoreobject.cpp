@@ -125,14 +125,33 @@ void TscoreObject::setClefType(Tclef::EclefType ct) {
 
 
 void TscoreObject::setMeter(int m) {
+CHECKTIME (
   // set notes grouping
   m_meter->setMeter(static_cast<Tmeter::Emeter>(m));
   updateMeterGroups();
-  for (TmeasureObject* m : m_measures) {
-    m->meterChanged();
+
+  if (measuresCount() && firstMeasure()->noteCount() > 0) {
+    qDeleteAll(m_measures);
+    m_measures.clear();
+    qDeleteAll(m_segments);
+    m_segments.clear();
+    while (m_staves.count() > 1) {
+      auto ls = m_staves.takeLast();
+      ls->staffItem()->deleteLater();
+    }
+    m_measures << new TmeasureObject(0, this);
+    lastStaff()->appendMeasure(firstMeasure());
+    firstStaff()->setFirstMeasureId(0);
+    QList<Tnote> oldList = m_notes;
+    m_notes.clear();
+    for (int n = 0; n < oldList.size(); ++n) {
+      addNote(oldList[n]);
+    }
+    adjustScoreWidth();
   }
   qDebug() << "[TscoreObject] Meter changed" << m_meterGroups;
   emit meterChanged();
+)
 }
 
 

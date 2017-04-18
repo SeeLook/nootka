@@ -31,6 +31,12 @@ TnotePair::TnotePair(int index, Tnote* n, TnoteObject* ob) :
 }
 
 
+TnotePair::~TnotePair()
+{
+  delete m_noteItem;
+}
+
+
 void TnotePair::setNoteObject(TnoteObject* ob) {
   m_noteItem = ob;
 }

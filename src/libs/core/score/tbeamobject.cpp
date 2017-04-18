@@ -67,6 +67,7 @@ TbeamObject::~TbeamObject()
   qDebug() << "     [BEAM] deleted of id" << first()->index();
   for (TnotePair* note : m_notes) {
     note->note()->rtm.setBeam(Trhythm::e_noBeam); // restore beams
+    note->setBeam(nullptr);
   }
 }
 
@@ -114,7 +115,7 @@ void TbeamObject::prepareBeam() {
   bool stemsUpPossible = true;
   qreal hiNote = 99.0, loNote = 0.0;
   for (TnotePair* np : m_notes) {
-    stemDirStrength += np->item()->notePosY() - 18;
+    stemDirStrength += np->item()->notePosY() - (m_measure->staff()->upperLine() + 4.0);
     if (np->item()->notePosY() < MIN_STEM_HEIGHT)
       stemsUpPossible = false;
     hiNote = qMin(hiNote, np->item()->notePosY());
@@ -137,10 +138,9 @@ void TbeamObject::prepareBeam() {
 
 
 /**
- * Poligons are painted, single for 8ths and possible a few for 16ths.
- * Paiter canvas orientation depends on are stems up or down,
- * for stems-up, top beam is 8ths and bottom are 16ths,
- * for stems-down the opposite.
+ * Polygons are painted, single for 8ths and possible a few for 16ths.
+ * Painter canvas orientation depends on stems direction (up or down),
+ * for stems-up, top beam is 8ths and bottom are 16ths in contrary to stems-down
  */
 void TbeamObject::paint(QPainter* painter) {
   if (count() > 1) {

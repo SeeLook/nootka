@@ -43,6 +43,7 @@ class TnotePair
 
 public:
   TnotePair(int index = -1, Tnote* n = nullptr, TnoteObject* ob = nullptr);
+  ~TnotePair();
 
   Tnote* note() { return m_note; }
   TnoteObject* item() { return m_noteItem; }

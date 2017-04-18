@@ -25,7 +25,6 @@
 #include "music/tmeter.h"
 #include "music/tnote.h"
 
-#include <QtQml/qqmlengine.h>
 #include <QtQml/qqmlcomponent.h>
 #include <QtCore/qdebug.h>
 
@@ -46,6 +45,11 @@ TmeasureObject::TmeasureObject(int nr, TscoreObject* parent) :
 
 TmeasureObject::~TmeasureObject()
 {
+  // delete beams
+  for (TnotePair* np : m_notes) {
+    if (np->beam() && np == np->beam()->last())
+      delete np->beam();
+  }
 //   qDebug() << debug() << "is going delete";
 }
 
@@ -89,6 +93,7 @@ void TmeasureObject::appendNewNotes(int segmentId, int count) {
         ns->beam()->prepareBeam();
         break;
       }
+      ++firstInGrId;
     }
   }
   refresh();
@@ -173,10 +178,8 @@ void TmeasureObject::checkBarLine() {
   if (m_free == 0 && m_score->meter()->meter() != Tmeter::NoMeter) {
     auto lastNote = last()->item();
     if (!m_barLine) {
-      QQmlEngine engine;
-      QQmlComponent comp(&engine, this);
-      comp.setData("import QtQuick 2.7; Rectangle { width: 0.3; height: 8 }", QUrl());
-      m_barLine = qobject_cast<QQuickItem*>(comp.create());
+      m_staff->score()->component()->setData("import QtQuick 2.7; Rectangle { width: 0.3; height: 8 }", QUrl());
+      m_barLine = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
       m_barLine->setParentItem(lastNote);
       m_barLine->setProperty("color", lastNote->color());
       m_barLine->setY(m_staff->upperLine());
