@@ -45,11 +45,8 @@ TmeasureObject::TmeasureObject(int nr, TscoreObject* parent) :
 
 TmeasureObject::~TmeasureObject()
 {
-  // delete beams
-  for (TnotePair* np : m_notes) {
-    if (np->beam() && np == np->beam()->last())
-      delete np->beam();
-  }
+  if (m_barLine)
+    delete m_barLine;
 //   qDebug() << debug() << "is going delete";
 }
 
@@ -77,13 +74,15 @@ void TmeasureObject::appendNewNotes(int segmentId, int count) {
   int grWithBeam = beamGroup(segmentId);
   for (int n = segmentId; n < segmentId + count; ++n) {
     auto np = m_score->noteSegment(n);
-    auto noteObject = new TnoteObject(m_staff, np);
-    noteObject->setMeasure(this);
-    np->setNoteObject(noteObject);
+    if (np->item() == nullptr)
+      np->setNoteObject(new TnoteObject(m_staff, np));
+    else
+      np->item()->setStaff(m_staff);
+    np->item()->setMeasure(this);
     checkAccidentals();
-    noteObject->setNote(*np->note());
+    np->item()->setNote(*np->note());
     if (m_score->showNoteNames())
-      noteObject->setNoteNameVisible(true);
+      np->item()->setNoteNameVisible(true);
   }
   if (grWithBeam > -1) {
     auto firstInGrId = m_score->noteSegment(firstNoteId() + m_firstInGr[grWithBeam])->index();

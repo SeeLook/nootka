@@ -132,7 +132,7 @@ protected:
       /**
        * @p TnoteObject manages tie itself whenever tie state changes, by calling exactly this method.
        * Tie is simple Text QML item of tie symbol with horizontal scaling that determines tie width,
-       * but tie its not aware about next note position as long as next note X coordinate
+       * but tie is not aware about next note position as long as next note X coordinate
        * depends on this note width and rhythm factor.
        * So @p setX() method usually called when staff factor is changing, updates tie width.
        * @p tieWidth() returns desired tie width.
@@ -158,7 +158,6 @@ private:
   TmeasureObject              *m_measure;
   Tnote                       *m_note;
   qreal                        m_notePosY;
-  qreal                        m_x;
   QQuickItem                  *m_head, *m_alter, *m_stem, *m_flag;
   QList<QQuickItem*>           m_upperLines, m_lowerLines;
   qreal                        m_stemHeight;
