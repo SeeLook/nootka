@@ -37,14 +37,13 @@ Flickable {
     cursorAlter: accidControl.alter
     enableDoubleAccidentals: score.enableDoubleAccids
 
-    onClicked: score.currentNote = scoreObj.activeNote
+    onClicked: currentNote = scoreObj.activeNote
 
     onStaffCreate: {
       var c = Qt.createComponent("qrc:/Staff.qml")
       var lastStaff = c.createObject(score.contentItem, { "clef.type": score.clef })
       staves.push(lastStaff)
       lastStaff.enableKeySignature(enableKeySign && score.clef !== Tclef.NoClef)
-      //       score.contentY = score.contentHeight - score.height TODO ensure visible
       lastStaff.onDestroing.connect(removeStaff)
       if (enableKeySign && score.clef !== Tclef.NoClef) {
         lastStaff.keySignature.onKeySignatureChanged.connect(setKeySignature)
@@ -54,6 +53,11 @@ Flickable {
     onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
 
     function removeStaff(nr) { staves.splice(nr, 1) }
+  }
+
+  onCurrentNoteChanged: {
+    if (currentNote && staves.length > 1)
+      ensureVisible(currentNote.staffItem.y, currentNote.staffItem.height * scale)
   }
 
   Rectangle { // entire score background
@@ -118,6 +122,19 @@ Flickable {
     }
   }
 
-  function addNote(n) { scoreObj.addNote(n) }
+  function ensureVisible(yy, hh) {
+    if (contentY >= yy)
+      contentY = yy;
+    else if (contentY + height <= yy + hh)
+      contentY = yy + hh - height;
+  }
+
+  function addNote(n) {
+    scoreObj.addNote(n)
+    var lastNote = scoreObj.note(scoreObj.notesCount - 1)
+    if (staves.length > 1)
+      ensureVisible(lastNote.staffItem.y, lastNote.staffItem.height * scale)
+  }
+
   function setNote(staff, nr, n) { scoreObj.setNote(staff, nr, n) }
 }

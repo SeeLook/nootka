@@ -46,6 +46,7 @@ class NOOTKACORE_EXPORT TnoteObject : public QQuickItem
   Q_PROPERTY(qreal notePosY READ notePosY NOTIFY notePosYchanged)
   Q_PROPERTY(qreal alterWidth READ alterWidth NOTIFY alterWidthChanged)
   Q_PROPERTY(int index READ index)
+  Q_PROPERTY(QQuickItem* staffItem READ staffItem)
 
   friend class TscoreObject;
   friend class TstaffObject;
@@ -111,6 +112,8 @@ public:
   qreal tieWidth();
 
   void setNoteNameVisible(bool nameVisible);
+
+  QQuickItem* staffItem();
 
 signals:
   void noteChanged();
