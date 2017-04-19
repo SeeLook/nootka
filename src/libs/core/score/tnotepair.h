@@ -55,6 +55,11 @@ public:
        */
   void setNote(const Tnote& n);
 
+      /**
+       * Sets note pointer to another @p Tnote, doesn't update note of the @p item()
+       */
+  void setNote(Tnote* n) { m_note = n; }
+
     /**
      * Number of rhythmical group in the measure, -1 (undefined) by default
      */
@@ -65,6 +70,7 @@ public:
        * Number of note in the score
        */
   quint32 index() { return m_index; }
+  void setIndex(int i) { m_index = static_cast<quint32>(i); }
 
       /**
        * Describes what changed in note to be approved into its item
@@ -92,12 +98,20 @@ protected:
   void setBeam(TbeamObject* b);
 
       /**
-       * Disconnect tie. @p untie parameter of @p Euntie enumerator determines:
+       * Disconnects tie. @p untie parameter of @p Euntie enumerator determines:
        * is this note before tie break (@p e_untiePrev) or after (@p e_untieNext)
        * This method doesn't check tie existence it asserts note has tie already.
        * It also takes care about removing of extra tie at the staff beginning
        */
   void disconnectTie(Euntie untie);
+
+      /**
+       * Resets this note segment:
+       * - sets parent staff of item to null
+       * - deletes beam
+       * - removes tie, also this extra one at the staff beginning
+       */
+  void flush();
 
 private:
   Tnote                   *m_note;

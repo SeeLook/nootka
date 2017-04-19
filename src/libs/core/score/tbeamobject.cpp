@@ -65,9 +65,10 @@ TbeamObject::TbeamObject(TnotePair* sn, TmeasureObject* m) :
 TbeamObject::~TbeamObject()
 {
   qDebug() << "     [BEAM] deleted of id" << first()->index();
-  for (TnotePair* note : m_notes) {
-    note->note()->rtm.setBeam(Trhythm::e_noBeam); // restore beams
-    note->setBeam(nullptr);
+  for (TnotePair* np : m_notes) {
+    np->note()->rtm.setBeam(Trhythm::e_noBeam); // restore beams
+    np->item()->note()->rtm.setBeam(Trhythm::e_noBeam); // restore beams
+    np->setBeam(nullptr);
   }
 }
 

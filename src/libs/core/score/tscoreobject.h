@@ -288,6 +288,8 @@ private:
   void updateClefOffset();
   void updateMeterGroups();
 
+  TnotePair* getSegment(int noteNr, Tnote* n);
+
 private:
                               /* Musical parameters */
   Tclef::EclefType                  m_clefType = Tclef::Treble_G_8down;
@@ -301,6 +303,7 @@ private:
   bool                              m_showNoteNames;
                               /* Lists with notes, measures, staves, meter groups */
   QList<TnotePair*>                 m_segments;
+  QList<TnotePair*>                 m_spareSegments;
   QList<TstaffObject*>              m_staves;
   QList<TmeasureObject*>            m_measures;
   QList<Tnote>                      m_notes;

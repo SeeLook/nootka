@@ -20,6 +20,7 @@
 #include "music/tnote.h"
 #include "tnoteobject.h"
 #include "tstaffobject.h"
+#include "tbeamobject.h"
 
 
 TnotePair::TnotePair(int index, Tnote* n, TnoteObject* ob) :
@@ -76,4 +77,17 @@ void TnotePair::disconnectTie(Euntie untie) {
   m_noteItem->checkTie();
   if (this == m_noteItem->staff()->firstNote() && (t == Trhythm::e_noTie || t == Trhythm::e_tieStart))
     m_noteItem->staff()->deleteExtraTie();
+}
+
+
+void TnotePair::flush() {
+  if (m_beam && this == m_beam->last())
+    delete m_beam; // TbeamObject destructor will reset this beam to nullptr
+  if (this == m_noteItem->staff()->firstNote())
+    m_noteItem->staff()->deleteExtraTie();
+  if (m_noteItem->tie()) {
+    m_noteItem->note()->rtm.setTie(Trhythm::e_noTie);
+    m_noteItem->checkTie();
+  }
+  m_noteItem->setStaff(nullptr);
 }

@@ -46,7 +46,7 @@ TscoreObject::TscoreObject(QObject* parent) :
 {
   m_qmlEngine = new QQmlEngine;
   m_qmlComponent = new QQmlComponent(m_qmlEngine, this);
-  m_meter = new Tmeter(Tmeter::Meter_4_4);
+  m_meter = new Tmeter();
   setMeter(4); // Tmeter::Meter_4_4
   m_measures << new TmeasureObject(0, this);
 
@@ -124,33 +124,50 @@ void TscoreObject::setClefType(Tclef::EclefType ct) {
 }
 
 
+/**
+ * When meter is changed and there are notes on the score, all segments are flushed and stored
+ * then measures and staves are deleted (TODO it could be improved someday),
+ * then all notes are added from scratch, but stored segments are reused to improve single segment creation time
+ */
 void TscoreObject::setMeter(int m) {
 CHECKTIME (
-  // set notes grouping
-  m_meter->setMeter(static_cast<Tmeter::Emeter>(m));
-  updateMeterGroups();
+  Tmeter::Emeter newMeter = static_cast<Tmeter::Emeter>(m);
+  Tmeter::Emeter prevMeter = m_meter->meter();
+  if (m_meter->meter() != newMeter) {
+    // set notes grouping
+    m_meter->setMeter(newMeter);
+    updateMeterGroups();
+    emit meterChanged();
 
-  if (measuresCount() && firstMeasure()->noteCount() > 0) {
-    qDeleteAll(m_measures);
-    m_measures.clear();
-    qDeleteAll(m_segments);
-    m_segments.clear();
-    while (m_staves.count() > 1) {
-      auto ls = m_staves.takeLast();
-      ls->staffItem()->deleteLater();
+    if (measuresCount() && firstMeasure()->noteCount() > 0) {
+      for (TnotePair* s : m_segments) {
+        s->flush();
+        m_spareSegments << s;
+      }
+      qDeleteAll(m_measures);
+      m_measures.clear();
+      m_segments.clear();
+      while (m_staves.count() > 1) {
+        auto ls = m_staves.takeLast();
+        ls->staffItem()->deleteLater();
+      }
+      m_measures << new TmeasureObject(0, this);
+      lastStaff()->appendMeasure(firstMeasure());
+      firstStaff()->setFirstMeasureId(0);
+      QList<Tnote> oldList = m_notes;
+      m_notes.clear();
+      for (int n = 0; n < oldList.size(); ++n) {
+        // TODO fold (merge) all ties
+        if (m_meter->meter() == Tmeter::NoMeter) // remove rhythm then
+          oldList[n].setRhythm(Trhythm(Trhythm::NoRhythm));
+        if (prevMeter == Tmeter::NoMeter) // initialize empty rhythm
+          oldList[n].setRhythm(Trhythm()); // quarter by default
+        addNote(oldList[n]);
+      }
+      adjustScoreWidth();
     }
-    m_measures << new TmeasureObject(0, this);
-    lastStaff()->appendMeasure(firstMeasure());
-    firstStaff()->setFirstMeasureId(0);
-    QList<Tnote> oldList = m_notes;
-    m_notes.clear();
-    for (int n = 0; n < oldList.size(); ++n) {
-      addNote(oldList[n]);
-    }
-    adjustScoreWidth();
+//     emit meterChanged();
   }
-  qDebug() << "[TscoreObject] Meter changed" << m_meterGroups;
-  emit meterChanged();
 )
 }
 
@@ -251,7 +268,7 @@ CHECKTIME (
   } else { // just add new note to the last measure
       m_notes << n;
       int lastNoteId = m_segments.count();
-      m_segments << new TnotePair(lastNoteId, &m_notes.last());
+      m_segments << getSegment(lastNoteId, &m_notes.last());
       lastMeasure->appendNewNotes(lastNoteId, 1);
   }
 
@@ -530,7 +547,6 @@ CHECKTIME (
 
 
 void TscoreObject::updateStavesPos() {
-CHECKTIME (
   if (m_adjustInProgress)
     return;
   TstaffObject* prev = nullptr;
@@ -541,7 +557,6 @@ CHECKTIME (
       prev = curr;
   }
   emit stavesHeightChanged();
-)
 }
 
 
@@ -579,7 +594,7 @@ QPoint TscoreObject::tieRange(TnoteObject* n) {
 void TscoreObject::appendToNoteList(QList<Tnote>& l) {
   for (Tnote n : l) {
     m_notes << n;
-    m_segments << new TnotePair(m_segments.count(), &m_notes.last());
+    m_segments << getSegment(m_segments.count(), &m_notes.last());
   }
 }
 
@@ -633,3 +648,14 @@ void TscoreObject::updateMeterGroups() {
   }
 }
 
+
+TnotePair* TscoreObject::getSegment(int noteNr, Tnote* n) {
+  if (m_spareSegments.isEmpty())
+      return new TnotePair(noteNr, n);
+  else {
+      auto np = m_spareSegments.takeLast();
+      np->setNote(n);
+      np->setIndex(noteNr);
+      return np;
+  }
+}

@@ -127,8 +127,6 @@ TnoteObject::TnoteObject(TstaffObject* staffObj, TnotePair* wrapper) :
 TnoteObject::~TnoteObject() {
 //   qDebug() << debug() << "is going deleted";
   delete m_note;
-  if (m_name)
-    delete m_name;
 }
 
 
@@ -144,7 +142,6 @@ void TnoteObject::setStaff(TstaffObject* staffObj) {
           setParentItem(m_staff->staffItem());
           if (m_wrapper->beam() && m_wrapper->beam()->last()->item() == this)
             m_wrapper->beam()->changeStaff(m_staff);
-          // TODO This is good point to delete beam here, when staff becomes null
       } else {
           setParentItem(nullptr);
           if (m_name)
@@ -253,7 +250,7 @@ void TnoteObject::setNote(const Tnote& n) {
 
 void TnoteObject::setX(qreal xx) {
   updateTieScale();
-  QQuickItem::setX(xx + (m_accidText.isEmpty() ? 0.0 : m_alter->width()));
+  QQuickItem::setX(xx + (/*m_accidText.isEmpty() ? 0.0 : */m_alter->width()));
   if (m_wrapper->beam() && m_wrapper->beam()->last()->item() == this)
     m_wrapper->beam()->last()->beam()->drawBeam();
   if (m_name)
@@ -526,7 +523,7 @@ void TnoteObject::updateAlter() {
 
 
 void TnoteObject::updateWidth() {
-  setWidth(m_alter->width() + m_head->width() + (m_note->isRest() ? 0.0 : m_note->rtm.stemDown() ? 0.0 : m_flag->width() - 0.5));
+  setWidth(m_alter->width() + m_head->width() + (m_note->isRest() ? 0.0 : m_note->rtm.stemDown() ? 0.0 : (m_stem->isVisible() ? m_flag->width() - 0.5 : 0.0)));
   updateTieScale();
 }
 
