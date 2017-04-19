@@ -130,6 +130,11 @@ QString TnootkaQML::minorKeyName(int key) {
 }
 
 
+QString TnootkaQML::majAndMinKeyName(int key) {
+  return TkeySignature(static_cast<char>(key)).getMajorName() + QLatin1String("<br>") + TkeySignature(static_cast<char>(key)).getMinorName();
+}
+
+
 QString TnootkaQML::getLicense() {
   QFile file(Tpath::main + QLatin1String("gpl"));
   QString license;
