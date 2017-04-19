@@ -36,10 +36,10 @@ Score {
     y: 5
     color: activPal.text
     font.pointSize: 1.5
-    text: firstStaff.keySignature ? Noo.majorKeyName(firstStaff.keySignature.key) + "<br>" + Noo.minorKeyName(firstStaff.keySignature.key) : ""
+    text: firstStaff.keySignature ? Noo.majAndMinKeyName(firstStaff.keySignature.key) : ""
     Connections {
       target: GLOB
-      onKeyNameChanged: keyName.text = Noo.majorKeyName(firstStaff.keySignature.key) + "<br>" + Noo.minorKeyName(firstStaff.keySignature.key)
+      onKeyNameChanged: keyName.text = Noo.majAndMinKeyName(firstStaff.keySignature.key)
     }
   }
 

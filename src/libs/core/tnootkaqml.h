@@ -69,6 +69,7 @@ public:
   Q_INVOKABLE QString noteName(const Tnote& n, int style, bool showOctave = true);
   Q_INVOKABLE QString majorKeyName(int key);
   Q_INVOKABLE QString minorKeyName(int key);
+  Q_INVOKABLE QString majAndMinKeyName(int key);
   Q_INVOKABLE QString getLicense();
   Q_INVOKABLE QString getChanges();
   Q_INVOKABLE bool isAndroid();
