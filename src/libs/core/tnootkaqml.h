@@ -77,6 +77,7 @@ public:
   Q_INVOKABLE QStringList bassTunings();
   Q_INVOKABLE QString stdButtonText(int role);
   Q_INVOKABLE QString instrumentName(int instr);
+  Q_INVOKABLE QString getXmlToOpen();
 
 private:
   static TnootkaQML             *m_instance;

@@ -7,6 +7,7 @@ import QtQuick.Controls 2.0
 
 import Score 1.0
 import Nootka 1.0
+import "fakeTrans.js" as Fake
 
 
 Score {
@@ -18,6 +19,7 @@ Score {
   property alias extraAccidsAct: extraAccidsAct
   property alias zoomInAct: zoomInAct
   property alias zoomOutAct: zoomOutAct
+  property alias openXmlAct: openXmlAct
 
   meter: GLOB.rhythmsEnabled ? Tmeter.Meter_4_4 : Tmeter.NoMeter
   enableNoClef: GLOB.rhythmsEnabled
@@ -54,6 +56,16 @@ Score {
     color: Qt.rgba(activPal.highlight.r, activPal.highlight.g, activPal.highlight.b, 0.3)
     z: -1
     radius: width / 3.0
+  }
+
+  Taction {
+    id: openXmlAct
+    text: Fake.tr("QShortcut", "Open")
+    onTriggered: {
+      var xmlFle = Noo.getXmlToOpen()
+      scoreObj.openMusicXml(xmlFle)
+    }
+    shortcut: Shortcut { sequence: StandardKey.Open; onActivated: openXmlAct.triggered() }
   }
 
   Taction {
