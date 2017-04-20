@@ -24,6 +24,7 @@
 #include "tnotepair.h"
 #include "music/tmeter.h"
 #include "music/tnote.h"
+#include "music/tmelody.h"
 
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qtimer.h>
@@ -140,20 +141,7 @@ CHECKTIME (
     emit meterChanged();
 
     if (measuresCount() && firstMeasure()->noteCount() > 0) {
-      for (TnotePair* s : m_segments) {
-        s->flush();
-        m_spareSegments << s;
-      }
-      qDeleteAll(m_measures);
-      m_measures.clear();
-      m_segments.clear();
-      while (m_staves.count() > 1) {
-        auto ls = m_staves.takeLast();
-        ls->staffItem()->deleteLater();
-      }
-      m_measures << new TmeasureObject(0, this);
-      lastStaff()->appendMeasure(firstMeasure());
-      firstStaff()->setFirstMeasureId(0);
+      clearScore();
       QList<Tnote> oldList = m_notes;
       m_notes.clear();
       for (int n = 0; n < oldList.size(); ++n) {
@@ -356,6 +344,24 @@ CHECKTIME(
   qDebug() << "[TscoreObject] clicked note" << activeNote() << yPos << newNote.toText() << newNote.rtm.string();
 )
 }
+
+
+void TscoreObject::openMusicXml(const QString& musicFile) {
+  if (!musicFile.isEmpty()) {
+    auto melody = new Tmelody();
+    if (melody->grabFromMusicXml(musicFile)) {
+      clearScore();
+      m_notes.clear();
+//       setMeter(melody->me)
+      setMeter(Tmeter::NoMeter);
+      for (int n = 0; n < melody->length(); ++n) {
+        addNote(melody->note(n)->p());
+      }
+    }
+    delete melody;
+  }
+}
+
 
 //#################################################################################################
 //###################         Score switches           ############################################
@@ -657,5 +663,25 @@ TnotePair* TscoreObject::getSegment(int noteNr, Tnote* n) {
       np->setNote(n);
       np->setIndex(noteNr);
       return np;
+  }
+}
+
+
+void TscoreObject::clearScore() {
+  if (measuresCount() && firstMeasure()->noteCount() > 0) {
+    for (TnotePair* s : m_segments) {
+      s->flush();
+      m_spareSegments << s;
+    }
+    qDeleteAll(m_measures);
+    m_measures.clear();
+    m_segments.clear();
+    while (m_staves.count() > 1) {
+      auto ls = m_staves.takeLast();
+      ls->staffItem()->deleteLater();
+    }
+    m_measures << new TmeasureObject(0, this);
+    lastStaff()->appendMeasure(firstMeasure());
+    firstStaff()->setFirstMeasureId(0);
   }
 }

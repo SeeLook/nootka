@@ -119,6 +119,8 @@ public:
   int cursorAlter() const { return m_cursorAlter; }
   void setCursorAlter(int curAlt) { m_cursorAlter = curAlt; }
 
+  Q_INVOKABLE void openMusicXml(const QString& musicFile);
+
   /* ------------------ Score switches ------------------ */
 
   bool keySignatureEnabled() const { return m_keySignEnabled; }
@@ -288,7 +290,12 @@ private:
   void updateClefOffset();
   void updateMeterGroups();
 
+      /**
+       * Returns @p TnotePair - a segment that can be either created or taken from @p m_spareSegments
+       */
   TnotePair* getSegment(int noteNr, Tnote* n);
+
+  void clearScore();
 
 private:
                               /* Musical parameters */

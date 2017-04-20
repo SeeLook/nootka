@@ -16,7 +16,7 @@ TRANSLATION CONTEXT CHANGES
   TscoreSettings -> ScorePage, KeySufixEdit,  (rearrange ScorePage)
   TradioClef - Tclef (rearrange Tclef)
   TguitarSettings - InstrumentPage
-  TscoreActions - MainScore
+  TscoreActions & TmelMan - MainScore
   TnotationRadioGroup - NameStyleSelector
   Einstrument - Tinstrument (or simply Instrument)
 

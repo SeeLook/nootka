@@ -20,7 +20,7 @@
 #include <tinitcorelib.h>
 #include <tpath.h>
 //#include <tmtr.h>
-#include <QtGui/qguiapplication.h>
+#include <QtWidgets/qapplication.h>
 #include <QtGui/qicon.h>
 #include <QtQml/qqmlapplicationengine.h>
 #include <QtQml/qqmlcontext.h>
@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
 
   QTranslator qtTranslator;
   QTranslator nooTranslator;
-  QPointer<QGuiApplication> a = nullptr;
+  QPointer<QApplication> a = nullptr;
   QQmlApplicationEngine *e = nullptr;
   Tpath pathObj;
   TnootkaQML nooObj;
@@ -95,7 +95,7 @@ int main(int argc, char *argv[])
     }
     resetConfig = false;
 #endif
-    a = new QGuiApplication(argc, argv);
+    a = new QApplication(argc, argv);
 //     Tmtr::init(a);
 
     gl = new Tglobals();

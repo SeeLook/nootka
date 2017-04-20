@@ -20,6 +20,13 @@ Item {
 
     MenuItem {
       contentItem: MenuButton {
+        action: score.openXmlAct
+        onClicked: { scoreMenu.close() }
+      }
+    }
+
+    MenuItem {
+      contentItem: MenuButton {
         action: score.extraAccidsAct
         onClicked: { scoreMenu.close() }
       }

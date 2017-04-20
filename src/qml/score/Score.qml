@@ -51,6 +51,7 @@ Flickable {
       }
     }
     onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
+    onMeterChanged: enableNoClef = meter !== Tmeter.NoMeter
 
     function removeStaff(nr) { staves.splice(nr, 1) }
   }

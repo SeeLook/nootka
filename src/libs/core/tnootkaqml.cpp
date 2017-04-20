@@ -36,6 +36,8 @@
 #include <QtCore/qfile.h>
 #include <QtCore/qdir.h>
 #include <QtGui/qguiapplication.h>
+#include <QtCore/qdir.h>
+#include <QtWidgets/qfiledialog.h>
 #include <QtCore/qdebug.h>
 
 
@@ -224,4 +226,10 @@ QString TnootkaQML::stdButtonText(int role) {
 
 QString TnootkaQML::instrumentName(int instr) {
   return Tinstrument::staticName(static_cast<Tinstrument::Etype>(instr));
+}
+
+
+QString TnootkaQML::getXmlToOpen() {
+  return QFileDialog::getOpenFileName(0, qApp->translate("TmelMan", "Open melody file"), QDir::homePath(),
+                                      qApp->translate("TmelMan", "MusicXML file") + QStringLiteral(" (*.xml)"));
 }
