@@ -64,12 +64,12 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
 
                         /* Musical parameters */
   Q_PROPERTY(int meter READ meterToInt WRITE setMeter NOTIFY meterChanged)
-  Q_PROPERTY(Tclef::EclefType clefType READ clefType WRITE setClefType)
-  Q_PROPERTY(int keySignature READ keySignature WRITE setKeySignature)
+  Q_PROPERTY(Tclef::EclefType clefType READ clefType WRITE setClefType NOTIFY clefTypeChanged)
+  Q_PROPERTY(int keySignature READ keySignature WRITE setKeySignature NOTIFY keySignatureChanged)
   Q_PROPERTY(int notesCount READ notesCount)
   Q_PROPERTY(int cursorAlter READ cursorAlter WRITE setCursorAlter)
                         /* Score switches */
-  Q_PROPERTY(bool keySignatureEnabled READ keySignatureEnabled WRITE setKeySignatureEnabled)
+  Q_PROPERTY(bool keySignatureEnabled READ keySignatureEnabled WRITE setKeySignatureEnabled NOTIFY keySignatureEnabledChanged)
   Q_PROPERTY(bool enableDoubleAccidentals READ enableDoubleAccidentals WRITE setEnableDoubleAccids)
   Q_PROPERTY(bool showNoteNames READ showNoteNames WRITE setShowNoteNames)
   Q_PROPERTY(QColor nameColor READ nameColor WRITE setNameColor)
@@ -96,9 +96,9 @@ public:
   int meterToInt() const; /**< Small helper for QML property that converts meter enumerator into int */
 
       /**
-       * As long as graphics clef representation and clef change is managed by QML (Staff & Clef)
-       * it only keeps clef type enumerator and changes note positions according to clef
-       * or converts note into rest if out of score range
+       * In most cases clef change is managed by QML (Staff & Clef) - means outside.
+       * But when melody is set QML has to be updated from here.
+       * It changes note positions according to clef or converts note into rest if the note is out of score range
        */
   Tclef::EclefType clefType() const { return m_clefType; }
   void setClefType(Tclef::EclefType ct);
@@ -201,10 +201,20 @@ public:
 signals:
   void meterChanged();
 
+  void clefTypeChanged();
+
       /**
        * Asks Score.qml about create new staff
        */
   void staffCreate();
+
+      /**
+       * Usually those props are managed outside of @p TscoreObject - by QML
+       * but in case @p keySignatureEnabled() and @p keySignature() are changed 'internally'
+       * QML has to react on that change, so @p clefTypeChanged(), @p keySignatureEnabledChanged() and @p keySignatureChanged() are emitted
+       */
+  void keySignatureEnabledChanged();
+  void keySignatureChanged();
 
       /**
        * Informs Score.qml that content widget height has to be adjusted to all staves height
