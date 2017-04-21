@@ -91,11 +91,51 @@ void Tmeter::toXml(QXmlStreamWriter& xml) const
 }
 
 
-bool Tmeter::fromXml(QXmlStreamReader& xml)
-{
-  return false;
+bool Tmeter::fromXml(QXmlStreamReader& xml) {
+  bool ok = true;
+  int up = 0, lo = 0; 
+  while (xml.readNextStartElement()) {
+    if (xml.name() == QLatin1String("beats"))
+      up = xml.readElementText().toInt();
+    else if (xml.name() == QLatin1String("beat-type"))
+      lo = xml.readElementText().toInt();
+    else
+      xml.skipCurrentElement();
+  }
+  m_meter = valueToMeter(up, lo);
+  if ((up || lo) && m_meter == NoMeter) {
+    qDebug() << "[Tmeter] XML unsupported meter" << up << "/" << lo << "revert to 4/4";
+    m_meter = Meter_4_4;
+    ok = false;
+  }
+  return ok;
 }
 
+
+Tmeter::Emeter Tmeter::valueToMeter(int up, int lo) {
+  if (lo == 8) {
+      switch (up) {
+        case 3: return Meter_3_8;
+        case 5: return Meter_5_8;
+        case 6: return Meter_6_8;
+        case 7: return Meter_7_8;
+        case 9: return Meter_9_8;
+        case 12: return Meter_12_8;
+        default: return NoMeter;
+      }
+  } else if (lo == 4) {
+      switch (up) {
+        case 2: return Meter_2_4;
+        case 3: return Meter_3_4;
+        case 4: return Meter_4_4;
+        case 5: return Meter_5_4;
+        case 6: return Meter_6_4;
+        case 7: return Meter_7_4;
+        default: return NoMeter;
+      }
+  }
+  return NoMeter;
+}
 
 
 

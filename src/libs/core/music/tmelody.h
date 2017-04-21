@@ -39,6 +39,7 @@ class NOOTKACORE_EXPORT Tmelody
 
 public:
   Tmelody(const QString& title = QString(), const TkeySignature& k = TkeySignature());
+  ~Tmelody();
 
   QString& title() {return m_title; }
   void setTitle(const QString& t) { m_title = t; }
@@ -50,6 +51,7 @@ public:
 
   Tmeasure& measure(int nr) { return m_measures[nr]; }
   Tmeasure& lastMeasure() { return m_measures.last(); }
+  int measuresCount() { return m_measures.count(); }
 
   int tempo() { return m_tempo; }
   void setTempo(int tmp) { m_tempo = tmp; }
@@ -59,6 +61,8 @@ public:
 
   Tclef::EclefType clef() { return m_clef; }
   void setClef(Tclef::EclefType type) { m_clef = type; }
+
+  Tmeter* meter() const { return m_meter; }
 
   void toXml(QXmlStreamWriter& xml);
   bool fromXml(QXmlStreamReader& xml);
