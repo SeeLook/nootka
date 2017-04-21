@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,7 +21,6 @@
 
 #include <nootkacoreglobal.h>
 #include "tnote.h"
-#include "trhythm.h"
 #include <tfingerpos.h>
 
 class QXmlStreamReader;
@@ -30,32 +29,48 @@ class QXmlStreamWriter;
 
 /**
  * This class represent a note:
- * a pitch described by @p Tnote
- * and its value (relative duration) described by @p Trhythm
+ * a pitch and rhythm described by @p p() (@p Tnote)
+ * and position on the fingerboard accessible through @p g() (@p TfingerPos)
  */
 class NOOTKACORE_EXPORT Tchunk
 {
 
 public:
-  Tchunk(const Tnote& pitch, const Trhythm& rhythm, const TfingerPos& fretPos = TfingerPos());
-  Tchunk() {} /** Default constructor - creates 'empty' note, rhythm and position. */
+  Tchunk(const Tnote& pitch, const TfingerPos& fretPos = TfingerPos());
+
+      /**
+       * Default constructor - creates 'empty' note and position.
+       */
+  Tchunk() {}
   ~Tchunk();
 
-  Tnote& p() { return m_pitch; } /** The pitch of a note */
-  TfingerPos& g() { return m_fretPos; } /** Position a note on a guitar (if any) - by default it is invalid */
-  Trhythm& r() { return m_rhythm; } /** rhythm value of a note */
+      /**
+       * The note
+       */
+  Tnote& p() { return m_pitch; }
+
+      /**
+       * Position a note on a guitar (if any) - by default it is null - invalid
+       */
+  TfingerPos& g() { return m_fretPos; }
 
       /** Returns @p TRUE when position on the guitar is valid. */
   bool validPos() { if (g().str() == 7) return false; else return true; }
 
-  void toXml(QXmlStreamWriter& xml, int* staffNr = 0); /** If @p staffNr is set appropriate <staff>staffNr</staff> is added */
-  bool fromXml(QXmlStreamReader& xml, int* staffNr = 0); /** Trough @p staffNr (if set) is returned staff number the note belongs to. */
+      /**
+       * If @p staffNr is set appropriate <staff>staffNr</staff> is added
+       */
+  void toXml(QXmlStreamWriter& xml, int* staffNr = nullptr);
+
+      /**
+       * Trough @p staffNr (if set) is returned staff number the note belongs to.
+       */
+  bool fromXml(QXmlStreamReader& xml, int* staffNr = nullptr);
 
 
 private:
-  Tnote        m_pitch;
-  Trhythm      m_rhythm;
-  TfingerPos  m_fretPos;
+  Tnote               m_pitch;
+  TfingerPos          m_fretPos;
 };
 
 #endif // TCHUNK_H

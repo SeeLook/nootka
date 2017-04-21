@@ -82,6 +82,8 @@ public:
   bool operator==(const Tmeter& m) const { return meter() == m.meter(); }
   bool operator!=(const Tmeter& m) const { return meter() != m.meter(); }
 
+  static Emeter valueToMeter(int up, int lo);
+
 private:
   Emeter        m_meter;
 };
