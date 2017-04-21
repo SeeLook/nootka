@@ -117,9 +117,8 @@ void TscoreObject::setClefType(Tclef::EclefType ct) {
           noteSeg->setNote(newNote);
       }
     }
-    for (int m = 0; m < m_measures.count(); ++m) {
+    for (int m = 0; m < m_measures.count(); ++m)
       m_measures[m]->refresh();
-    }
     adjustScoreWidth();
   }
 }
@@ -138,6 +137,8 @@ CHECKTIME (
     // set notes grouping
     m_meter->setMeter(newMeter);
     updateMeterGroups();
+    if (measuresCount())
+      firstMeasure()->meterChanged();
     emit meterChanged();
 
     if (measuresCount() && firstMeasure()->noteCount() > 0) {
@@ -154,7 +155,6 @@ CHECKTIME (
       }
       adjustScoreWidth();
     }
-//     emit meterChanged();
   }
 )
 }
@@ -179,7 +179,8 @@ void TscoreObject::setKeySignature(int k) {
       m_keyChanged = true;
       for (TmeasureObject* m : m_measures)
         m->keySignatureChanged();
-      adjustScoreWidth();
+      if (notesCount() > 0)
+        adjustScoreWidth();
     }
   }
 }
@@ -206,14 +207,13 @@ void solveList(const Tnote& n, int dur, QList<Tnote>& outList) {
 void TscoreObject::addNote(const Tnote& n) {
 CHECKTIME (
 
-  qDebug() << "Note" << n.toText() << n.rtm.string();
-
   auto lastMeasure = m_measures.last();
   if (lastMeasure->free() == 0) { // new measure is needed
     lastMeasure = new TmeasureObject(m_measures.count(), this);
     m_measures << lastMeasure;
     lastStaff()->appendMeasure(lastMeasure);
   }
+  qDebug() << "Note" << n.toText() << n.rtm.string() << lastMeasure->free();
   int noteDur = n.rhythm() == Trhythm::NoRhythm ? 1 : n.duration();
   if (noteDur > lastMeasure->free()) { // split note that is adding
       int leftDuration = noteDur - lastMeasure->free();
@@ -350,10 +350,23 @@ void TscoreObject::openMusicXml(const QString& musicFile) {
   if (!musicFile.isEmpty()) {
     auto melody = new Tmelody();
     if (melody->grabFromMusicXml(musicFile)) {
+      qDebug() << "[TscoreObject] melody loaded with" << melody->measuresCount() << "measures" << melody->length() << "notes";
       clearScore();
       m_notes.clear();
-//       setMeter(melody->me)
-      setMeter(Tmeter::NoMeter);
+      setMeter(melody->meter()->meter());
+      if (melody->clef() != m_clefType) {
+        setClefType(melody->clef());
+        emit clefTypeChanged();
+      }
+      int newKey = static_cast<int>(melody->key().value());
+      if (newKey != keySignature()) {
+        if (!m_keySignEnabled && qAbs(newKey) != 0) {
+          m_keySignEnabled = true;
+          emit keySignatureEnabledChanged();
+        }
+        setKeySignature(newKey);
+        emit keySignatureChanged();
+      }
       for (int n = 0; n < melody->length(); ++n) {
         addNote(melody->note(n)->p());
       }
@@ -652,6 +665,7 @@ void TscoreObject::updateMeterGroups() {
     else if (m_meter->meter() == Tmeter::Meter_12_8)
       m_meterGroups << 36 << 72 << 108 << 144;
   }
+  qDebug() << "{TscoreObject} m_meterGroups" << m_meterGroups;
 }
 
 

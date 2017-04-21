@@ -14,6 +14,11 @@ Text {
   property bool readOnly: false
   property Drawer meterDrawer
 
+  Connections {
+    target: score
+    onMeterChanged: text = Noo.meter(score.meter).symbol()
+  }
+
   font { family: "Scorek"; pixelSize: 8 }
   color: activPal.text
   text: Noo.meter(score.meter).symbol()

@@ -13,11 +13,11 @@ Flickable {
   property alias scoreObj: scoreObj
   property alias scale: staff0.scale
   property alias firstStaff: staff0
-  property int clef: Tclef.Treble_G_8down
+  property int clef: Tclef.Treble_G
   property bool enableNoClef: true
   property alias meter: scoreObj.meter
   property alias bgColor: bgRect.color
-  property bool enableKeySign: false
+  property bool enableKeySign: scoreObj.keySignatureEnabled
   property bool enableDoubleAccids: false
   property real scaleFactor: 1.0
   property alias notesCount: scoreObj.notesCount
@@ -52,6 +52,8 @@ Flickable {
     }
     onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
     onMeterChanged: enableNoClef = meter !== Tmeter.NoMeter
+    onKeySignatureChanged: setKeySignature(scoreObj.keySignature)
+    onClefTypeChanged: staff0.clef.type = clefType
 
     function removeStaff(nr) { staves.splice(nr, 1) }
   }
