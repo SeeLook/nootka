@@ -21,6 +21,7 @@
 #include "tnotestruct.h"
 #include "tclef.h"
 #include "tmeter.h"
+#include "nootkaconfig.h"
 
 #include <QtCore/qvariant.h>
 #include <QtCore/qdebug.h>
@@ -29,9 +30,9 @@
 
 
 /* local static */
-/** Prints warring message and sets given clef reference to current default clef type. */
+/** Prints warning message and sets given clef reference to current default clef type. */
 void unsupportedClef(Tclef::EclefType& clefType) {
-  qDebug() << "Unsupported clef. Set to default" << Tclef(Tclef::defaultType).name();
+  qDebug() << "[Tmelody] Unsupported clef. Set to default" << Tclef(Tclef::defaultType).name();
   clefType = Tclef::defaultType;
 }
 /*******************************************************************************************/
@@ -98,6 +99,7 @@ void Tmelody::toXml(QXmlStreamWriter& xml) {
 
 bool Tmelody::fromXml(QXmlStreamReader& xml) {
   bool ok = true;
+  int prevTie = -1; // -1 -> no tie, otherwise this number points to previous note that had a tie
   m_notes.clear();
   m_measures.clear();
   m_meter->setMeter(Tmeter::NoMeter);
@@ -116,7 +118,7 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
               if (xml.name() == QLatin1String("staves")) {
                   staffCnt = xml.readElementText().toInt();
                   if (staffCnt > 2) {
-                    qDebug() << "Read from more staves is unsupported";
+                    qDebug() << "[Tmelody] Read from more staves is unsupported";
                     staffCnt = 2;
                   }
               } else if (xml.name() == QLatin1String("clef")) {
@@ -159,11 +161,25 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
                 ch.p().setRhythm(m_meter->duration()); // it will reset 'rest' attribute
                 ch.p().setRest(true);
               }
-              if (!(staffPtr && !ch.p().isValid() && ch.p().rhythm() == Trhythm::NoRhythm))
+              if (!(staffPtr && !ch.p().isValid() && ch.p().rhythm() == Trhythm::NoRhythm)) {
+                // Nootka is not able to import from grand staff of real score (XML)
+                // and above condition avoids it, but allows to import piano staves created by Nootka itself
+
+                if (prevTie > -1) {
+                  // check and fix tie, Nootka supports them only between the same notes
+                  // scoring app may set tie between different ones, but seems like in such case there is no 'stop' tag used (musescore)
+                  Tnote& prevNote = m_notes[prevTie]->p();
+                  short prevChromatic = prevNote.chromatic(), currChromatic = ch.p().chromatic();
+                  if ((prevChromatic == currChromatic && ch.p().rtm.tie() == Trhythm::e_noTie) || prevChromatic != currChromatic) {
+                    if (prevNote.rtm.tie() == Trhythm::e_tieCont)
+                      prevNote.rtm.setTie(Trhythm::e_tieEnd);
+                    else if (prevNote.rtm.tie() == Trhythm::e_tieStart)
+                      prevNote.rtm.setTie(Trhythm::e_noTie);
+                  }
+                }
+                prevTie = ch.p().rtm.tie() ? m_notes.count() : -1;
                 addNote(ch);
-              // Nootka is not able to import from grand staff of real score (XML)
-              // and above condition avoids it,
-              // but piano staves created by Nootka itself are supported
+              }
             }
         }
         else
@@ -187,29 +203,29 @@ bool Tmelody::saveToMusicXml(const QString& xmlFileName) {
     xml.setAutoFormatting(true);
     xml.setAutoFormattingIndent(2);
     xml.writeStartDocument();
-    xml.writeDTD("<!DOCTYPE score-partwise PUBLIC \"-//Recordare//DTD MusicXML 3.0 Partwise//EN\" \"http://www.musicxml.org/dtds/partwise.dtd\">");
-    xml.writeStartElement("score-partwise");
-      xml.writeStartElement("work");
-        xml.writeTextElement("work-title", title());
+    xml.writeDTD(QStringLiteral("<!DOCTYPE score-partwise PUBLIC \"-//Recordare//DTD MusicXML 3.0 Partwise//EN\" \"http://www.musicxml.org/dtds/partwise.dtd\">"));
+    xml.writeStartElement(QStringLiteral("score-partwise"));
+      xml.writeStartElement(QStringLiteral("work"));
+        xml.writeTextElement(QStringLiteral("work-title"), title());
       xml.writeEndElement(); // work
-      xml.writeStartElement("identification");
-        xml.writeStartElement("creator");
-          xml.writeAttribute("type", "composer");
-          xml.writeCharacters("Nootka Composer");
+      xml.writeStartElement(QStringLiteral("identification"));
+        xml.writeStartElement(QStringLiteral("creator"));
+          xml.writeAttribute(QStringLiteral("type"), QStringLiteral("composer"));
+          xml.writeCharacters(QStringLiteral("Nootka Composer"));
         xml.writeEndElement(); // creator composer
-        xml.writeStartElement("encoding");
-          xml.writeTextElement("software", "Nootka 1.2"); // TODO grab current version
-          xml.writeTextElement("encoding-date", QDate::currentDate().toString(Qt::ISODate));
+        xml.writeStartElement(QStringLiteral("encoding"));
+          xml.writeTextElement(QStringLiteral("software"), QLatin1String("Nootka ") + QString(NOOTKA_VERSION));
+          xml.writeTextElement(QStringLiteral("encoding-date"), QDate::currentDate().toString(Qt::ISODate));
         xml.writeEndElement(); // encoding
       xml.writeEndElement(); // identification
-      xml.writeStartElement("part-list");
-        xml.writeStartElement("score-part");
-        xml.writeAttribute("id", "P1");
+      xml.writeStartElement(QStringLiteral("part-list"));
+        xml.writeStartElement(QStringLiteral("score-part"));
+          xml.writeAttribute(QStringLiteral("id"), QStringLiteral("P1"));
 //           xml.writeTextElement("part-name", "instrument");
         xml.writeEndElement(); // score-part
       xml.writeEndElement(); //part-list
-      xml.writeStartElement("part");
-      xml.writeAttribute("id", "P1");
+      xml.writeStartElement(QStringLiteral("part"));
+        xml.writeAttribute(QStringLiteral("id"), QStringLiteral("P1"));
         toXml(xml);
       xml.writeEndElement(); // part
     xml.writeEndElement(); // score-partwise
@@ -229,18 +245,17 @@ bool Tmelody::grabFromMusicXml(const QString& xmlFileName) {
     QXmlStreamReader xml(&file);
   // DTD is ignored, only <score-partwise> key is required as main
     if (xml.readNextStartElement()) {
-      if (xml.name() != "score-partwise") {
-        qDebug() << "File" << xmlFileName << "is not MusicXML format.";
+      if (xml.name() != QLatin1String("score-partwise")) {
+        qDebug() << "[Tmelody] File" << xmlFileName << "is not MusicXML format.";
         ok = false;
       }
     }
     while (xml.readNextStartElement()) {
       qDebug() << "partwise" << xml.name();
       // TODO - grab melody info (title and so...)
-      if (xml.name() == "part") {
-          if (!fromXml(xml)) {
+      if (xml.name() == QLatin1String("part")) {
+          if (!fromXml(xml))
             ok = false;
-          }
       } else
           xml.skipCurrentElement();
     }
