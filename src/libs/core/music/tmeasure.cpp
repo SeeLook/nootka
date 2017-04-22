@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,21 +17,31 @@
  ***************************************************************************/
 
 #include "tmeasure.h"
+#include "tchunk.h"
 
-Tmeasure::Tmeasure(int nr) :
+
+Tmeasure::Tmeasure(int nr, Tmeter::Emeter m) :
   m_number(nr),
-  m_meter(Tmeter::NoMeter)
+  m_meter(m),
+  m_duration(0)
 {
-
 }
 
 
 void Tmeasure::addNote(const Tchunk& n) {
   m_notes << n;
+  if (m_meter.meter() != Tmeter::NoMeter)
+    m_duration += n.duration();
 }
 
 
 void Tmeasure::removeLastNote() {
+  m_duration -= lastNote().duration();
   m_notes.removeLast();
+}
+
+
+bool Tmeasure::isFull() {
+  return m_duration == m_meter.duration();
 }
 

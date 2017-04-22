@@ -23,11 +23,14 @@
 #include <QtCore/qstring.h>
 #include <QtCore/qlist.h>
 #include "tkeysignature.h"
-#include "tmeasure.h"
 #include "tclef.h"
+#include "tmeasure.h"
+
 
 class Tmeter;
+class Tchunk;
 class TnoteStruct;
+
 
 /**
  * Class describing a musical melody - sequence of notes (Tchunk)
@@ -63,6 +66,7 @@ public:
   void setClef(Tclef::EclefType type) { m_clef = type; }
 
   Tmeter* meter() const { return m_meter; }
+  void setMeter(int m);
 
   void toXml(QXmlStreamWriter& xml);
   bool fromXml(QXmlStreamReader& xml);

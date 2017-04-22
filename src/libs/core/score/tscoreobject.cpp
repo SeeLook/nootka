@@ -25,6 +25,7 @@
 #include "music/tmeter.h"
 #include "music/tnote.h"
 #include "music/tmelody.h"
+#include "music/tchunk.h"
 
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qtimer.h>
@@ -369,6 +370,23 @@ void TscoreObject::openMusicXml(const QString& musicFile) {
       }
       adjustScoreWidth();
     }
+    delete melody;
+  }
+}
+
+
+void TscoreObject::saveMusicXml(const QString& musicFile) {
+  if (!musicFile.isEmpty()) {
+    QString fileName = musicFile;
+    if (fileName.right(4) != QLatin1String(".xml"))
+      fileName += QLatin1String(".xml");
+    auto melody = new Tmelody(QStringLiteral("Nootka melody"), TkeySignature(static_cast<char>(keySignature())));
+    melody->setClef(clefType());
+    melody->setMeter(m_meter->meter());
+    for (int n = 0; n < notesCount(); ++n) {
+      melody->addNote(Tchunk(m_notes[n]));
+    }
+    melody->saveToMusicXml(fileName);
     delete melody;
   }
 }

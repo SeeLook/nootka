@@ -85,9 +85,13 @@ void Tmeter::debug(const QString& text) {
 }
 
 
-void Tmeter::toXml(QXmlStreamWriter& xml) const
-{
-
+void Tmeter::toXml(QXmlStreamWriter& xml) const {
+  if (m_meter != NoMeter) {
+    xml.writeStartElement(QLatin1String("time"));
+      xml.writeTextElement(QLatin1String("beats"), QString::number(upper()));
+      xml.writeTextElement(QLatin1String("beat-type"), QString::number(lower()));
+    xml.writeEndElement(); // time
+  }
 }
 
 

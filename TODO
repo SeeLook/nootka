@@ -39,7 +39,6 @@ ANDROID:
         - hide 'clear score' one when undesired (single mode, exam with playing):
           innerWidget->flyActions()->append(bar->scoreDeleteAll()); // TODO: idea is brilliant but needs more efforts
 
-- HOME button would be switching available menus or get rid of score menu (merge with the main)
 ============================================================================
 - TexamExecutor has many, many un-wrapped strings, many ""
 - Use int and enumerations between plugins and main window instead of text messages (level plugin to do)
@@ -58,13 +57,7 @@ MINOR:
       if it is started from creator - there is highlight of message 
       but when started from 'start' menu - there is not
 
-- changing tool bar auto-hiding causes sometimes locked melody menu
-- auto hidden tool bar remains big after decreased window size
-
-
 - changing to/from grand staff overrides TscoreNote ambitus - there is no problem as long as ambitus is unused
-- selecting read only notes (right and double click) is unused - it is good - but clean a code
-
 
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
@@ -77,7 +70,6 @@ MINOR:
 - make exam summary pretty
 - certificates would have some additional data about melodies
 - bring back isVoice() audio param - average pitch of all chunks or min duration will depend on it
-- clear code for guitar body images
 
 - divide TexamExecutor class !!!!!
 - rhythms in score
@@ -87,8 +79,6 @@ MINOR:
 - rhythms in level and exercise/exam
 - Tsound has to have a timer to determine rhythmical value of detected note (or a rest)
      then emitting signal should contain Tchunk instead Tnote
-- unlock and improve saving melodies to musicXML and opening/importing melodies from XML
-  (MUSIC XML is not fully standard compatible (check what MuseScore complains))
   - stop sniffer when melody dialogues are opening
 - Class that manages recent exams menu list and has colored item 'recent opened exams',
     use recent exams list for analyzer the same as start exam dialog has (common class or method)
@@ -101,12 +91,9 @@ MINOR:
 - intervals: questions related to them in exam/exercises
 - recognizing melodies from *.ogg and *.wav files
 - support for (octavation marks) - octave drop/rise (8-va, 15-va)
-- add piano keyboard as an option instead of a guitar
 - preview of questions in Level Creator (list, on the guitar, in the score)
 - comparing exams (charts)
 - keep exam file in /tmp and restore it when crash or so
-- add blinking of settings icon(action) instead of expert check boxes in old versions (???)
-- proxy corner widgets may be animated (???)
 - add sound during wizard and About dialog (???)
 - options for adjusting pitch detection range to  1.score, 2. instrument scale (???)
 - text only tool bar

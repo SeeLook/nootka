@@ -49,6 +49,8 @@ public:
        */
   Tnote& p() { return m_pitch; }
 
+  int duration() const { return m_pitch.duration(); }
+
       /**
        * Position a note on a guitar (if any) - by default it is null - invalid
        */
@@ -67,6 +69,23 @@ public:
        */
   bool fromXml(QXmlStreamReader& xml, int* staffNr = nullptr);
 
+      /**
+       * Converts beam type into music XML compatible string
+       */
+  static QString beamToString(Trhythm::Ebeam b);
+
+      /**
+       * In music XML structure ties are written in two places:
+       * below 'pitch' with <tie type />
+       * and inside <notations/> with <tied type />
+       * but we have single method to generate them both and this enumerator is to distinguish them
+       */
+  enum EtieTag { e_tie, e_tied };
+
+      /**
+       * @p t has to be kind of tie but not empty
+       */
+  void tieToXml(QXmlStreamWriter& xml, Trhythm::Etie t, EtieTag tag);
 
 private:
   Tnote               m_pitch;

@@ -63,7 +63,7 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(int keyNameStyle READ keyNameStyle WRITE setKeyNameStyle)
   Q_PROPERTY(bool rhythmsEnabled READ rhythmsEnabled WRITE setRhythmsEnabled NOTIFY rhythmsEnabledChanged)
 
-  Q_PROPERTY(int clefType READ clefType WRITE setClefType)
+  Q_PROPERTY(int clefType READ clefType WRITE setClefType NOTIFY clefTypeChanged)
   Q_PROPERTY(bool seventhIsB READ seventhIsB WRITE setSeventhIsB NOTIFY seventhIsBChanged)
 
   Q_PROPERTY(Tinstrument instrument READ instrument NOTIFY instrumentChanged)
@@ -230,6 +230,7 @@ signals:
   void namesOnScoreChanged();
   void enableDoubleAccidsChanged();
   void enableKeySignatureChanged();
+  void clefTypeChanged();
   void nameColorChanged();
   void seventhIsBChanged();
   void showKeyNameChanged();

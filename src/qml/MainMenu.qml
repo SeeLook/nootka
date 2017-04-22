@@ -21,32 +21,37 @@ Item {
     MenuItem {
       contentItem: MenuButton {
         action: score.openXmlAct
-        onClicked: { scoreMenu.close() }
+        onClicked: scoreMenu.close()
       }
     }
-
+    MenuItem {
+      contentItem: MenuButton {
+        action: score.saveXmlAct
+        onClicked: scoreMenu.close()
+      }
+    }
     MenuItem {
       contentItem: MenuButton {
         action: score.extraAccidsAct
-        onClicked: { scoreMenu.close() }
+        onClicked: scoreMenu.close()
       }
     }
     MenuItem {
       contentItem: MenuButton {
         action: score.showNamesAct
-        onClicked: { scoreMenu.close() }
+        onClicked: scoreMenu.close()
       }
     }
     MenuItem {
       contentItem: MenuButton {
         action: score.zoomInAct
-        onClicked: { scoreMenu.close() }
+        onClicked: scoreMenu.close()
       }
     }
     MenuItem {
       contentItem: MenuButton {
         action: score.zoomOutAct
-        onClicked: { scoreMenu.close() }
+        onClicked: scoreMenu.close()
       }
     }
   }
