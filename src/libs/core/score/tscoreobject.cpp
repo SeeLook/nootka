@@ -281,7 +281,7 @@ TnoteObject * TscoreObject::note(int noteId) {
 void TscoreObject::noteClicked(qreal yPos) {
   if (!activeNote() || activeNote()->note()->isRest())
     return;
-CHECKTIME(
+
   int globalNr = m_clefOffset.octave * 7 - (yPos - static_cast<int>(upperLine()) - m_clefOffset.note);
   Tnote newNote(static_cast<char>(56 + globalNr) % 7 + 1, static_cast<char>(56 + globalNr) / 7 - 8,
           static_cast<char>(m_cursorAlter), activeNote()->note()->rtm);
@@ -341,8 +341,6 @@ CHECKTIME(
       m_segments[notesForAlterCheck.y()]->item()->staff()->fit();
   }
   emit clicked();
-  qDebug() << "[TscoreObject] clicked note" << activeNote() << yPos << newNote.toText() << newNote.rtm.string();
-)
 }
 
 
@@ -350,7 +348,6 @@ void TscoreObject::openMusicXml(const QString& musicFile) {
   if (!musicFile.isEmpty()) {
     auto melody = new Tmelody();
     if (melody->grabFromMusicXml(musicFile)) {
-      qDebug() << "[TscoreObject] melody loaded with" << melody->measuresCount() << "measures" << melody->length() << "notes";
       clearScore();
       m_notes.clear();
       setMeter(melody->meter()->meter());
@@ -370,6 +367,7 @@ void TscoreObject::openMusicXml(const QString& musicFile) {
       for (int n = 0; n < melody->length(); ++n) {
         addNote(melody->note(n)->p());
       }
+      adjustScoreWidth();
     }
     delete melody;
   }
@@ -587,6 +585,7 @@ void TscoreObject::onIndentChanged() {
 }
 
 
+/** FIXME: if tie starts/stops incorrectly (no start or end) it may return note number out of range */
 QPoint TscoreObject::tieRange(TnoteObject* n) {
   QPoint tr;
   if (n->note()->rtm.tie()) {
@@ -665,7 +664,6 @@ void TscoreObject::updateMeterGroups() {
     else if (m_meter->meter() == Tmeter::Meter_12_8)
       m_meterGroups << 36 << 72 << 108 << 144;
   }
-  qDebug() << "{TscoreObject} m_meterGroups" << m_meterGroups;
 }
 
 

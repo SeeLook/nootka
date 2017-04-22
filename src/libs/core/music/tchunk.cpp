@@ -18,7 +18,9 @@
 
 
 #include "tchunk.h"
+
 #include <QtCore/qxmlstream.h>
+#include <QtCore/qdebug.h>
 
 
 Tchunk::Tchunk(const Tnote& pitch, const TfingerPos& fretPos) :
@@ -78,10 +80,21 @@ bool Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr) {
           m_pitch.setDot(true);
           xml.skipCurrentElement();
       } else if (xml.name() == QLatin1String("notations")) {
-          xml.readNextStartElement();
-          if (xml.name() == QLatin1String("technical"))
-            m_fretPos.fromXml(xml);
-          xml.skipCurrentElement();
+          while (xml.readNextStartElement()) {
+            if (xml.name() == QLatin1String("technical"))
+                m_fretPos.fromXml(xml);
+            else if (xml.name() == QLatin1String("tied")) {
+              auto type = xml.attributes().value(QStringLiteral("type"));
+              Trhythm::Etie tie = Trhythm::e_noTie;
+              if (type == QLatin1String("start"))
+                  tie = m_pitch.rtm.tie() ? Trhythm::e_tieCont : Trhythm::e_tieStart; // tie was set already - means tie starts and stops on this note
+              else if (type == QLatin1String("stop"))
+                  tie = m_pitch.rtm.tie() ? Trhythm::e_tieCont : Trhythm::e_tieEnd; // tie was set already - means tie starts and stops on this note
+              m_pitch.rtm.setTie(tie);
+              xml.skipCurrentElement();
+            } else
+                xml.skipCurrentElement();
+          }
       } else if (xml.name() == QLatin1String("voice")) {
           if (xml.readElementText().toInt() != 1)
             ok = false;
