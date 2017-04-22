@@ -231,5 +231,11 @@ QString TnootkaQML::instrumentName(int instr) {
 
 QString TnootkaQML::getXmlToOpen() {
   return QFileDialog::getOpenFileName(0, qApp->translate("TmelMan", "Open melody file"), QDir::homePath(),
-                                      qApp->translate("TmelMan", "MusicXML file") + QStringLiteral(" (*.xml)"));
+                                      qApp->translate("TmelMan", "MusicXML file") + QLatin1String(" (*.xml)"));
+}
+
+
+QString TnootkaQML::getXmlToSave() {
+  return QFileDialog::getSaveFileName(0, qApp->translate("TmelMan", "Save melody as:"), QDir::homePath(),
+                                      qTR("TmelMan", "MusicXML file") + QLatin1String(" (*.xml)"));
 }

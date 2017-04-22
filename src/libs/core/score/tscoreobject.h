@@ -120,6 +120,7 @@ public:
   void setCursorAlter(int curAlt) { m_cursorAlter = curAlt; }
 
   Q_INVOKABLE void openMusicXml(const QString& musicFile);
+  Q_INVOKABLE void saveMusicXml(const QString& musicFile);
 
   /* ------------------ Score switches ------------------ */
 

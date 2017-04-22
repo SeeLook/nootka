@@ -20,10 +20,12 @@ Score {
   property alias zoomInAct: zoomInAct
   property alias zoomOutAct: zoomOutAct
   property alias openXmlAct: openXmlAct
+  property alias saveXmlAct: saveXmlAct
 
   meter: GLOB.rhythmsEnabled ? Tmeter.Meter_4_4 : Tmeter.NoMeter
   enableNoClef: GLOB.rhythmsEnabled
 
+  clef: GLOB.clefType
   enableDoubleAccids: GLOB.enableDoubleAccids
   enableKeySign: GLOB.keySignatureEnabled
   scoreObj.nameColor: GLOB.nameColor
@@ -67,7 +69,15 @@ Score {
     }
     shortcut: Shortcut { sequence: StandardKey.Open; onActivated: openXmlAct.triggered() }
   }
-
+  Taction {
+    id: saveXmlAct
+    text: Fake.tr("QShortcut", "Save")
+    onTriggered: {
+      var xmlFle = Noo.getXmlToSave()
+      scoreObj.saveMusicXml(xmlFle)
+    }
+    shortcut: Shortcut { sequence: StandardKey.Save; onActivated: saveXmlAct.triggered() }
+  }
   Taction {
     id: extraAccidsAct
     text: qsTr("Additional accidentals")

@@ -145,7 +145,7 @@ bool Tglobals::keySignatureEnabled() const { return S->keySignatureEnabled; }
 void Tglobals::setKeySignatureEnabled(bool enKey) { S->keySignatureEnabled = enKey; emit enableKeySignatureChanged(); }
 
 int Tglobals::clefType() const { return static_cast<int>(S->clef); }
-void Tglobals::setClefType(int clType) { S->clef = static_cast<Tclef::EclefType>(clType); }
+void Tglobals::setClefType(int clType) { S->clef = static_cast<Tclef::EclefType>(clType); emit clefTypeChanged(); }
 
 QString Tglobals::majorKeyNameSufix() const { return S->majKeyNameSufix; }
 void Tglobals::setMajorKeyNameSufix(const QString& mkns) { S->majKeyNameSufix = mkns; }

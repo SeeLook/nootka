@@ -40,29 +40,42 @@ void Tchunk::toXml(QXmlStreamWriter& xml, int* staffNr) {
       xml.writeEmptyElement(QLatin1String("rest"));
     else
       m_pitch.toXml(xml);
+    xml.writeTextElement(QLatin1String("duration"), QString::number(m_pitch.rtm.isValid() ? m_pitch.duration() : Trhythm(Trhythm::Quarter).duration()));
     if (m_pitch.rhythm() == Trhythm::NoRhythm) {
-      if (!m_pitch.isRest() && m_pitch.isValid())
-        xml.writeTextElement(QLatin1String("stem"), QLatin1String("none"));
+        if (!m_pitch.isRest() && m_pitch.isValid())
+          xml.writeTextElement(QLatin1String("stem"), QLatin1String("none"));
     } else {
-      xml.writeTextElement(QLatin1String("type"), m_pitch.rtm.xmlType());
-      if (m_pitch.hasDot())
-        xml.writeEmptyElement(QLatin1String("dot"));
+        if (m_pitch.rtm.tie())
+          tieToXml(xml, m_pitch.rtm.tie(), e_tie);
+        xml.writeTextElement(QLatin1String("type"), m_pitch.rtm.xmlType());
+        if (m_pitch.hasDot())
+          xml.writeEmptyElement(QLatin1String("dot"));
+        if (m_pitch.rtm.beam()) {
+          xml.writeStartElement(QStringLiteral("beam"));
+            xml.writeAttribute(QStringLiteral("number"), QStringLiteral("1"));
+            xml.writeCharacters(beamToString(m_pitch.rtm.beam()));
+          xml.writeEndElement(); // beam
+        }
     }
-    xml.writeTextElement(QLatin1String("duration"), QLatin1String("1"));
-    if (validPos()) {
+    if (m_pitch.rtm.tie() || validPos()) {
       xml.writeStartElement(QLatin1String("notations"));
-        g().toXml(xml);
+        if (validPos())
+          g().toXml(xml);
+        if (m_pitch.rtm.tie())
+          tieToXml(xml, m_pitch.rtm.tie(), e_tied);
       xml.writeEndElement();
     }
     if (staffNr)
-      xml.writeTextElement(QLatin1String("staff"), QString("%1").arg(*staffNr));
+      xml.writeTextElement(QLatin1String("staff"), QString::number(*staffNr));
   xml.writeEndElement(); // note
 }
 
 
 /** 
  * So far, returned @p FALSE value is used to inform that chunk (a note) was in other voice than 'first'
- * More voices are not (and never be) supported... 
+ * More voices are not (and never be) supported...
+ * Tie is recognized by <notations><tied type="" ></tied></notations> tag, <tie /> itself is ignored,
+ * but during save, both tags are writing.
  */
 bool Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr) {
   bool ok = true;
@@ -109,6 +122,24 @@ bool Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr) {
 }
 
 
+QString Tchunk::beamToString(Trhythm::Ebeam b) {
+  switch (b) {
+    case Trhythm::e_beamStart: return QStringLiteral("begin");
+    case Trhythm::e_beamCont: return QStringLiteral("continue");
+    case Trhythm::e_beamEnd: return QStringLiteral("end");
+    default: return QString();
+  }
+}
+
+
+void Tchunk::tieToXml(QXmlStreamWriter& xml, Trhythm::Etie t, Tchunk::EtieTag tag) {
+  QString tieTag = tag == e_tie ? QLatin1String("tie") : QLatin1String("tied");
+  xml.writeStartElement(tieTag);
+    xml.writeAttribute(QLatin1String("type"), t == Trhythm::e_tieStart ? QLatin1String("start") : QLatin1String("stop"));
+  xml.writeEndElement();
+  if (t == Trhythm::e_tieCont)
+    tieToXml(xml, Trhythm::e_tieStart, tag);
+}
 
 
 

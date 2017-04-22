@@ -21,6 +21,7 @@
 #include "tnotestruct.h"
 #include "tclef.h"
 #include "tmeter.h"
+#include "tchunk.h"
 #include "nootkaconfig.h"
 
 #include <QtCore/qvariant.h>
@@ -56,12 +57,20 @@ Tmelody::~Tmelody()
 //########################################## PUBLIC ##################################################
 //####################################################################################################
 
+void Tmelody::setMeter(int m) {
+  m_meter->setMeter(static_cast<Tmeter::Emeter>(m));
+}
+
+
+/**
+ * IT DOESN'T CHECK NOTES DURATION!!!!
+ * all notes added to melody have to be nicely divided to fit every measure duration exactly.
+ */
 void Tmelody::addNote(const Tchunk& n) {
-  if (m_measures.isEmpty())
-      m_measures << Tmeasure(1);
+  if (m_measures.isEmpty() || lastMeasure().isFull())
+      m_measures << Tmeasure(m_measures.count() + 1, m_meter->meter());
 
   lastMeasure().addNote(n);
-
   m_notes << &lastMeasure().lastNote();
 }
 
@@ -69,13 +78,14 @@ void Tmelody::addNote(const Tchunk& n) {
 void Tmelody::toXml(QXmlStreamWriter& xml) {
   for (int m = 0; m < m_measures.size(); ++m) {
     xml.writeStartElement(QStringLiteral("measure"));
-      xml.writeAttribute(QStringLiteral("number"), QVariant(measure(m).number()).toString());
-      if (measure(m).number() == 1) {
+      Tmeasure& meas = measure(m);
+      xml.writeAttribute(QStringLiteral("number"), QVariant(meas.number()).toString());
+      if (meas.number() == 1) {
         xml.writeStartElement(QStringLiteral("attributes"));
-          xml.writeTextElement(QStringLiteral("divisions"), QStringLiteral("1"));
+          xml.writeTextElement(QStringLiteral("divisions"), QString("%1").arg(Trhythm(Trhythm::Quarter).duration()));
           if (m_key.value() || m_key.isMinor())
             m_key.toXml(xml);
-          // time signature (meter)
+          m_meter->toXml(xml);
           if (m_clef == Tclef::PianoStaffClefs)
             xml.writeTextElement(QStringLiteral("staves"), QStringLiteral("2"));
           Tclef(m_clef).toXml(xml);
@@ -83,14 +93,14 @@ void Tmelody::toXml(QXmlStreamWriter& xml) {
       }
       int staffNr_1 = 1, staffNr_2 = 2;
       int *staffPtr = 0;
-      for (int n = 0; n < measure(m).conunt(); ++n) {
+      for (int n = 0; n < meas.conunt(); ++n) {
         if (m_clef == Tclef::PianoStaffClefs) {
-          if (measure(m).note(n).p().chromatic() > 12)
+          if (meas.note(n).p().chromatic() > 12)
             staffPtr = & staffNr_1;
           else
             staffPtr = & staffNr_2;
         }
-        measure(m).note(n).toXml(xml, staffPtr);
+        meas.note(n).toXml(xml, staffPtr);
       }
     xml.writeEndElement(); // measure
   }
@@ -211,7 +221,7 @@ bool Tmelody::saveToMusicXml(const QString& xmlFileName) {
       xml.writeStartElement(QStringLiteral("identification"));
         xml.writeStartElement(QStringLiteral("creator"));
           xml.writeAttribute(QStringLiteral("type"), QStringLiteral("composer"));
-          xml.writeCharacters(QStringLiteral("Nootka Composer"));
+          xml.writeCharacters(QStringLiteral("Nootka The Composer"));
         xml.writeEndElement(); // creator composer
         xml.writeStartElement(QStringLiteral("encoding"));
           xml.writeTextElement(QStringLiteral("software"), QLatin1String("Nootka ") + QString(NOOTKA_VERSION));
@@ -221,6 +231,7 @@ bool Tmelody::saveToMusicXml(const QString& xmlFileName) {
       xml.writeStartElement(QStringLiteral("part-list"));
         xml.writeStartElement(QStringLiteral("score-part"));
           xml.writeAttribute(QStringLiteral("id"), QStringLiteral("P1"));
+          xml.writeTextElement(QStringLiteral("part-name"), QStringLiteral("Nootka"));
 //           xml.writeTextElement("part-name", "instrument");
         xml.writeEndElement(); // score-part
       xml.writeEndElement(); //part-list
