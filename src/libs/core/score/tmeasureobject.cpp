@@ -47,6 +47,7 @@ TmeasureObject::~TmeasureObject()
 {
   if (m_barLine)
     delete m_barLine;
+  delete m_firstInGr;
 //   qDebug() << debug() << "is going delete";
 }
 
