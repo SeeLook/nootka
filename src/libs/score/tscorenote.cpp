@@ -142,6 +142,7 @@ TscoreNote::~TscoreNote() { // release work note and controls from destructing p
 	if (scoreScene()->right() && (scoreScene()->workNote()->parentItem() == this || scoreScene()->right()->parentItem() == parentItem()))
 		scoreScene()->noteDeleted(this);
   delete m_note;
+  delete m_lines;
 }
 
 //##############################################################################

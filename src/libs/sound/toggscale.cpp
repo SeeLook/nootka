@@ -118,6 +118,7 @@ ToggScale::ToggScale() :
 ToggScale::~ToggScale()
 {
   deleteData();
+  delete m_thread;
 }
 
 

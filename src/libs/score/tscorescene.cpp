@@ -60,6 +60,7 @@ TscoreScene::~TscoreScene()
 		delete m_rightBox; // but the last TscoreNote has to skip deleting depending items itself
 		m_rightBox = 0;
 	}
+  delete m_workLines;
 }
 
 

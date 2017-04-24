@@ -2,7 +2,7 @@
 
 VERSION=$1
 SRC=$2
-BUILD=$[$(cat $SRC/.hg/cache/branch2-served | head -1| awk '{print $2}') + 829]
+BUILD=$[$(cat $SRC/.hg/cache/branch2-served | head -1| awk '{print $2}') + 777]
 
 
 cat <<EOF
