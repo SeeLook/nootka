@@ -40,7 +40,7 @@ Score {
     y: 5
     color: activPal.text
     font.pointSize: 1.5
-    text: firstStaff.keySignature ? Noo.majAndMinKeyName(firstStaff.keySignature.key) : ""
+    text: enableKeySign ? Noo.majAndMinKeyName(firstStaff.keySignature.key) : ""
     Connections {
       target: GLOB
       onKeyNameChanged: keyName.text = Noo.majAndMinKeyName(firstStaff.keySignature.key)
@@ -63,6 +63,7 @@ Score {
   Taction {
     id: openXmlAct
     text: Fake.tr("QShortcut", "Open")
+    icon: "open"
     onTriggered: {
       var xmlFle = Noo.getXmlToOpen()
       scoreObj.openMusicXml(xmlFle)
@@ -72,6 +73,7 @@ Score {
   Taction {
     id: saveXmlAct
     text: Fake.tr("QShortcut", "Save")
+    icon: "save"
     onTriggered: {
       var xmlFle = Noo.getXmlToSave()
       scoreObj.saveMusicXml(xmlFle)
