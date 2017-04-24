@@ -1,4 +1,5 @@
-1.5.0
+1.5.0 alpha1
+     - import/export to/from music XML files
      - porting visible part into QML
      - option for enable/disable animations
 
