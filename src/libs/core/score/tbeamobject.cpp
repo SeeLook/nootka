@@ -150,13 +150,14 @@ void TbeamObject::paint(QPainter* painter) {
     painter->setPen(Qt::NoPen);
     painter->setBrush(qApp->palette().text().color());
     QPolygonF topBeam;
-    topBeam << QPointF(0.0, t) << QPointF(0.0, t + s * BEAM_THICK) << QPointF(width(), t + s * BEAM_THICK) << QPointF(width(), t) << QPointF(0.0, t);
+    qreal endX = last()->item()->stemTop().x() - x() + 0.3;
+    topBeam << QPointF(0.0, t) << QPointF(0.0, t + s * BEAM_THICK) << QPointF(endX, t + s * BEAM_THICK) << QPointF(endX, t) << QPointF(0.0, t);
     painter->drawPolygon(topBeam);
     for (int b = 0; b < m_16beams.count(); ++b) {
       T16beam& b16 = m_16beams[b];
       qreal startX = m_notes[b16.startStem]->item()->stemTop().x() - x();
       // 16th beam of fist stem is right-sided (2.0) others are left-sided (-2.0)
-      qreal endX = (b16.isHalf() ? startX + BEAM_THICK * (b16.startStem == 0 ? 2.0 : -2.0) : m_notes[b16.endStem]->item()->stemTop().x() - x()) + 0.3;
+      endX = (b16.isHalf() ? startX + BEAM_THICK * (b16.startStem == 0 ? 2.0 : -2.0) : m_notes[b16.endStem]->item()->stemTop().x() - x()) + 0.3;
       QPolygonF polyB;
       polyB << QPointF(startX, t + s * 1.5 * BEAM_THICK) << QPointF(startX, t + s * 2.5 * BEAM_THICK) << QPointF(endX, t + s * 2.5 * BEAM_THICK)
             << QPointF(endX, t + s * 1.5 * BEAM_THICK) << QPointF(startX, t + s * 1.5 * BEAM_THICK);
@@ -177,7 +178,7 @@ void TbeamObject::paint(QPainter* painter) {
 void TbeamObject::drawBeam() {
   auto p1 = first()->item()->stemTop();
   auto p2 = last()->item()->stemTop();
-  setWidth(qAbs(p2.x() - p1.x()) + 0.3);
+  setWidth(qAbs(p2.x() - p1.x()) + 1.0);
   setHeight(qAbs(p1.y() - p2.y()) + BEAM_THICK * 2.5);
   setX(p1.x());
   setY(qMin(p1.y(), p2.y()) - (first()->note()->rtm.stemDown() ? 2.0 * BEAM_THICK : HALF_THICK));
