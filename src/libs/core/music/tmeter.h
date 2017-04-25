@@ -82,7 +82,13 @@ public:
   bool operator==(const Tmeter& m) const { return meter() == m.meter(); }
   bool operator!=(const Tmeter& m) const { return meter() != m.meter(); }
 
+      /**
+       * Converts given @p up upper numerator and @p lo lower denominator
+       * into @p Tmeter::Emeter enumerator
+       */
   static Emeter valueToMeter(int up, int lo);
+
+  void fillMeterGroups(QList<quint8>& durationList);
 
 private:
   Emeter        m_meter;

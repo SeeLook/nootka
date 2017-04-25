@@ -142,5 +142,43 @@ Tmeter::Emeter Tmeter::valueToMeter(int up, int lo) {
 }
 
 
+/**
+ * By assigning duration of @p 1 to meter group of @p Tmeter::NoMeter we are bending score reality.
+ * There is no note with such duration, but this way @p TmeasureObject will keep one note per measure
+ * and shifting measures among staves will work without any changes - the same way as such as for rhythmic notes.
+ * Only drawbacks are: many measure objects (wasting RAM), accidentals for every single note (measure contains only one note)
+ */
+void Tmeter::fillMeterGroups(QList<quint8>& durationList) {
+  durationList.clear();
+  if (m_meter == NoMeter)
+    durationList << 1;
+  else if (lower() == 4) { // simple grouping: one group for each quarter
+    durationList << 24 << 48; // 2/4 and above
+    if (m_meter > Meter_2_4)
+      durationList << 72;
+    if (m_meter > Meter_3_4)
+      durationList << 96;
+    if (m_meter > Meter_4_4)
+      durationList << 120;
+    if (m_meter > Meter_5_4)
+      durationList << 144;
+    if (m_meter > Meter_6_4)
+      durationList << 168;
+  } else {
+    if (m_meter == Meter_3_8)
+      durationList << 36;
+    else if (m_meter == Meter_5_8)
+      durationList << 36 << 60;
+    else if (m_meter == Meter_6_8)
+      durationList << 36 << 72;
+    else if (m_meter == Meter_7_8)
+      durationList << 36 << 60 << 84;
+    else if (m_meter == Meter_9_8)
+      durationList << 36 << 72 << 108;
+    else if (m_meter == Meter_12_8)
+      durationList << 36 << 72 << 108 << 144;
+  }
+}
+
 
 
