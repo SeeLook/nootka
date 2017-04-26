@@ -71,8 +71,7 @@ void TguitarBg::paint(QPainter* painter) {
   if (GLOB->instrument().type() == Tinstrument::ClassicalGuitar)
       painter->setBrush(QBrush(Qt::black, Qt::SolidPattern));
   else {
-      QColor fbEdgeColor = QColor("#AFA072");
-      fbEdgeColor.setAlpha(220);
+      QColor fbEdgeColor(175, 160, 114, 220);
       painter->setBrush(QBrush(fbEdgeColor, Qt::SolidPattern));
   }
   QPolygon a;
@@ -94,20 +93,20 @@ void TguitarBg::paint(QPainter* painter) {
   int huesoW = qRound(m_fbRect.width() * 0.01);
   if (GLOB->instrument().type() == Tinstrument::ClassicalGuitar) {
       painter->setPen(Qt::NoPen);
-      painter->setBrush(QBrush(QColor("#FFFBF0"),Qt::SolidPattern)); // #FFFBF0 cream color for hueso
+      painter->setBrush(QBrush(QColor(255, 251, 240), Qt::SolidPattern)); // #FFFBF0 cream color for hueso
       painter->drawRect(m_fbRect.x() - 8, m_fbRect.y() + 4, huesoW, m_fbRect.height());
       a.setPoints(4, m_fbRect.x() - 8,                            m_fbRect.y() + 4,
                   m_fbRect.x() - 8 + huesoW,                      m_fbRect.y() + 4,
                   m_fbRect.x() + m_strGap / 3 - 8 + huesoW,       m_fbRect.y() - m_strGap / 3,
                   m_fbRect.x() + m_strGap / 3 - 8,                m_fbRect.y() - m_strGap / 3);
-      painter->setBrush(QBrush(QColor("#FFEEBC"),Qt::SolidPattern)); // a bit darker for its rant
+      painter->setBrush(QBrush(QColor(255, 238, 188), Qt::SolidPattern)); // a bit darker for its rant
       painter->drawPolygon(a);
   } else {
       QLinearGradient fretGrad(m_fbRect.x() - 8, 10.0, m_fbRect.x() - 8 + huesoW, 10.0);
-      fretGrad.setColorAt(0.0, QColor("#DAE4E4"));
-      fretGrad.setColorAt(0.4, QColor("#7F806E"));
-      fretGrad.setColorAt(0.7, QColor("#3B382B"));
-      fretGrad.setColorAt(0.9, QColor("#000000"));
+      fretGrad.setColorAt(0.0, QColor(218, 228, 228));
+      fretGrad.setColorAt(0.4, QColor(127, 128, 110));
+      fretGrad.setColorAt(0.7, QColor(59, 56, 43));
+      fretGrad.setColorAt(0.9, QColor(0, 0, 0)); // black
       painter->setBrush(fretGrad);
       painter->drawRoundedRect(m_fbRect.x() - 8, m_fbRect.y() + 2, huesoW, m_fbRect.height() - 4, 2, 2);
   }
@@ -133,10 +132,10 @@ void TguitarBg::paint(QPainter* painter) {
   for (int i = 0; i < GLOB->GfretsNumber; i++) {
     QLinearGradient fretGrad(0.0, 0.0, 1.0, 0.0);
     fretGrad.setCoordinateMode(QGradient::ObjectBoundingMode);
-    fretGrad.setColorAt(0.0, QColor("#DAE4E4"));
-    fretGrad.setColorAt(0.4, QColor("#7F806E"));
-    fretGrad.setColorAt(0.7, QColor("#3B382B"));
-    fretGrad.setColorAt(0.9, QColor("#000000"));
+    fretGrad.setColorAt(0.0, QColor(218, 228, 228));
+    fretGrad.setColorAt(0.4, QColor(127, 128, 110));
+    fretGrad.setColorAt(0.7, QColor(59, 56, 43));
+    fretGrad.setColorAt(0.9, QColor(0, 0, 0));
     painter->setBrush(fretGrad);
     painter->drawRoundedRect(m_fretsPos[i], m_fbRect.y() + 2, m_fbRect.width() * 0.0085, m_fbRect.height() - 4, 2, 2);
 
@@ -338,25 +337,25 @@ void TguitarBg::setTune() {
         m_strColors[i] = QColor(255, 255, 255, 150); // are nylon
         m_widthFromPitch[i] = 3; // and more thick
     } else if (GLOB->Gtune()->str(i + 1).chromatic() > 0) { // highest than b-1(contra)
-        m_strColors[i] = QColor("#C29432"); // are gold-plated
+        m_strColors[i] = QColor(194, 148, 50); // are gold-plated
         m_widthFromPitch[i] = 3; // and more thick
     } else if (GLOB->Gtune()->str(i + 1).chromatic() > -5) { // highest than g-1(contra) 1-st string of bass
-        m_strColors[i] = QColor("#C29432"); // are gold-plated
+      m_strColors[i] = QColor(194, 148, 50); // #C29432" // are gold-plated
         m_widthFromPitch[i] = 3.5; // and more thick
     } else if (GLOB->Gtune()->str(i + 1).chromatic() > -10) { // highest than d-1(contra)
-        m_strColors[i] = QColor("#C29432"); // are gold-plated
+        m_strColors[i] = QColor(194, 148, 50); // are gold-plated
         m_widthFromPitch[i] = 4; // and more thick
     } else if (GLOB->Gtune()->str(i + 1).chromatic() > -15) { // highest than gis-2(subcontra)
-        m_strColors[i] = QColor("#C29432"); // are gold-plated
+        m_strColors[i] = QColor(194, 148, 50); // are gold-plated
         m_widthFromPitch[i] = 4.5; // and more thick
     } else if (GLOB->Gtune()->str(i + 1).chromatic() > -20) { // highest than dis-1(contra)
-        m_strColors[i] = QColor("#C29432"); // are gold-plated
+        m_strColors[i] = QColor(194, 148, 50); // are gold-plated
         m_widthFromPitch[i] = 5; // and more thick
     } else if (GLOB->Gtune()->str(i + 1).chromatic() > -25) { // highest than
-        m_strColors[i] = QColor("#C29432"); // are gold-plated
+        m_strColors[i] = QColor(194, 148, 50); // are gold-plated
         m_widthFromPitch[i] = 6; // and more thick
     } else if (GLOB->Gtune()->str(i + 1).chromatic() > -30) { // highest than
-        m_strColors[i] = QColor("#C29432"); // are gold-plated
+        m_strColors[i] = QColor(194, 148, 50); // are gold-plated
         m_widthFromPitch[i] = 7; // and more thick
     }
   }

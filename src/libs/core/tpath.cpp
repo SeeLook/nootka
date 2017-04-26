@@ -40,10 +40,10 @@ Tpath::~Tpath() { m_instance = nullptr; }
 
 
 QString Tpath::img(const char* imageFileName, const char* ext) {
-  return QString("%1picts/%2%3").arg(main).arg(imageFileName).arg(ext);
+  return QString("%1picts/%2%3").arg(main, imageFileName, ext);
 }
 
 
 QString Tpath::pix(const QString& imageFileName) {
-  return QString("file:%1picts/%2.png").arg(main).arg(imageFileName);
+  return QString("file:%1picts/%2.png").arg(main, imageFileName);
 }

@@ -65,7 +65,7 @@ TbeamObject::TbeamObject(TnotePair* sn, TmeasureObject* m) :
 TbeamObject::~TbeamObject()
 {
   qDebug() << "     [BEAM] deleted of id" << first()->index();
-  for (TnotePair* np : m_notes) {
+  for (TnotePair* np : qAsConst(m_notes)) {
     np->note()->rtm.setBeam(Trhythm::e_noBeam); // restore beams
     np->item()->note()->rtm.setBeam(Trhythm::e_noBeam); // restore beams
     np->setBeam(nullptr);
@@ -115,7 +115,7 @@ void TbeamObject::prepareBeam() {
   int stemDirStrength = 0;
   bool stemsUpPossible = true;
   qreal hiNote = 99.0, loNote = 0.0;
-  for (TnotePair* np : m_notes) {
+  for (TnotePair* np : qAsConst(m_notes)) {
     stemDirStrength += np->item()->notePosY() - (m_measure->staff()->upperLine() + 4.0);
     if (np->item()->notePosY() < MIN_STEM_HEIGHT)
       stemsUpPossible = false;
@@ -129,7 +129,7 @@ void TbeamObject::prepareBeam() {
   qreal stemTop = allStemsDown ? loNote + minStemHeight : hiNote - minStemHeight;
   if ((allStemsDown && stemTop < m_measure->staff()->upperLine() + 4.0) || (!allStemsDown && stemTop > m_measure->staff()->upperLine() + 4.0))
     stemTop = m_measure->staff()->upperLine() + 4.0; // keep beam on staff middle line
-  for (TnotePair* np : m_notes) {
+  for (TnotePair* np : qAsConst(m_notes)) {
     np->note()->rtm.setStemDown(allStemsDown);
     np->addChange(TnotePair::e_stemDirChanged);
     np->item()->setStemHeight(qAbs(np->item()->notePosY() - stemTop));
