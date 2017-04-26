@@ -195,7 +195,7 @@ void TnoteObject::setColor(const QColor& c) {
 void TnoteObject::setNote(const Tnote& n) {
   bool updateHead = n.rhythm() != m_note->rhythm() || n.isRest() != m_note->isRest() || n.hasDot() != m_note->hasDot();
   bool updateStem = updateHead || ((n.rtm.beam() != Trhythm::e_noBeam) != (m_note->rtm.beam() != Trhythm::e_noBeam))
-                    || (n.rtm.stemDown() != m_note->rtm.stemDown());
+        || (n.rtm.stemDown() != m_note->rtm.stemDown() || m_stem->height() != m_stemHeight);
   bool updateTie = n.rtm.tie() != m_note->rtm.tie();
 
   *m_note = n;
@@ -214,7 +214,7 @@ void TnoteObject::setNote(const Tnote& n) {
   }
   if (m_notePosY < 2.0 || m_notePosY > 38.0)
     m_notePosY = 0.0;
-  if (static_cast<int>(m_notePosY) != static_cast<int>(m_head->y())) {
+  if (static_cast<int>(m_notePosY - 15.0) != static_cast<int>(m_head->y())) {
     if (m_notePosY) {
         m_head->setVisible(true);
         m_head->setY(m_notePosY - 15.0);
@@ -239,8 +239,7 @@ void TnoteObject::setNote(const Tnote& n) {
   if (oldNotePos != static_cast<int>(m_notePosY))
       emit notePosYchanged();
 
-  if (updateStem || oldNotePos != static_cast<int>(m_notePosY))
-      updateNamePos();
+    updateNamePos();
 
 //   m_debug->setProperty("text", QString("%1 %2").arg(index()).arg(tieDebug(m_note->rtm.tie())));
 //   m_debug->setY(height() - (2 + index() % 2) * m_debug->height());
@@ -359,8 +358,15 @@ QString TnoteObject::getAccidText() {
   }
   int id = index() - 1; // check the previous notes for accidentals
   while (id >= 0 && m_staff->score()->noteSegment(id)->item()->measure() == measure()) {
-    if (m_staff->score()->noteSegment(id)->note()->note == m_note->note) {
-      char prevAlter = m_staff->score()->noteSegment(id)->note()->alter;
+    auto checkNote = m_staff->score()->noteSegment(id)->note();
+    if (checkNote->note == m_note->note) {
+      if (checkNote->rtm.tie() && checkNote->rtm.tie() != Trhythm::e_tieStart) {
+        // Ignore notes prolonged with ties - they could be continued from the previous measure
+        // and then, the accidental has to be displayed again in current measure
+        id--;
+        continue;
+      }
+      char prevAlter = checkNote->alter;
       if (prevAlter != 0 && m_note->alter == 0) {
           if (a.isEmpty())
             a = accCharTable[5]; // and add neutral when some of previous notes with the same step had an accidental
@@ -567,8 +573,7 @@ void TnoteObject::checkStem() {
       m_stem->setVisible(true);
   } else
       m_stem->setVisible(false);
-  if (m_stemHeight != m_stem->height())
-    m_stemHeight = m_stem->height();
+  m_stemHeight = m_stem->height();
 }
 
 
