@@ -47,7 +47,7 @@ TmeasureObject::~TmeasureObject()
 {
   if (m_barLine)
     delete m_barLine;
-  delete m_firstInGr;
+  delete[] m_firstInGr;
 //   qDebug() << debug() << "is going delete";
 }
 
@@ -60,7 +60,7 @@ void TmeasureObject::setNumber(int nr) {
 void TmeasureObject::setStaff(TstaffObject* st) {
   if (m_staff != st) {
     m_staff = st;
-    for (TnotePair* np : m_notes)
+    for (TnotePair* np : qAsConst(m_notes))
       np->item()->setStaff(m_staff);
   }
 }

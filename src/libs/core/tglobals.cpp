@@ -176,7 +176,7 @@ void Tglobals::setRhythmsEnabled(bool enR) { S->rhythmsEnabled = enR; emit rhyth
 void Tglobals::setInstrument(Tinstrument::Etype t) { m_instrument.setType(t); emit instrumentChanged(); }
 
 void Tglobals::setFingerColor(const QColor& fc) { GfingerColor = fc; emit fingerColorChanged(); }
-void Tglobals::setSelectedColor(const QColor& sc) { GselectedColor = sc; selectedColorChanged(); }
+void Tglobals::setSelectedColor(const QColor& sc) { GselectedColor = sc; emit selectedColorChanged(); }
 
 
 void Tglobals::loadSettings(QSettings* cfg) {
@@ -267,22 +267,22 @@ void Tglobals::loadSettings(QSettings* cfg) {
 
 // Exam settings
   cfg->beginGroup(QLatin1String("exam"));
-      if (cfg->contains("questionColor"))
+      if (cfg->contains(QLatin1String("questionColor")))
           EquestionColor = cfg->value(QStringLiteral("questionColor")).value<QColor>();
       else {
-          EquestionColor = QColor("red");
+          EquestionColor = QColor(255, 0, 0); // red
           EquestionColor.setAlpha(40);
       }
-      if (cfg->contains("answerColor"))
+      if (cfg->contains(QLatin1String("answerColor")))
           EanswerColor = cfg->value(QStringLiteral("answerColor")).value<QColor>();
       else {
-          EanswerColor = QColor("green");
+          EanswerColor = QColor(0, 255, 0); // green
           EanswerColor.setAlpha(40);
       }
-      if (cfg->contains("notBadColor"))
+      if (cfg->contains(QLatin1String("notBadColor")))
           EnotBadColor = cfg->value(QStringLiteral("notBadColor")).value<QColor>();
       else {
-          EnotBadColor = QColor("#FF8000");
+          EnotBadColor = QColor(255, 128, 0); // #FF8000
           EnotBadColor.setAlpha(40);
       }
       E->autoNextQuest = cfg->value(QStringLiteral("autoNextQuest"), false).toBool();

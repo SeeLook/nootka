@@ -44,7 +44,7 @@ class NOOTKACORE_EXPORT Tpath : public QObject
 
 public:
   Tpath(QObject *parent = nullptr);
-  ~Tpath();
+  ~Tpath() override;
 
   static QString main; /**< Path with Nootka resources (/usr/share -Linux /Resources - MacOs) */
 
@@ -65,9 +65,9 @@ public:
       /** Returns a path to given ogg file with samples in sound resource directory */
   static QString sound(const char* soundFileName, const char* ext = ".ogg") {
 #if defined (Q_OS_ANDROID)
-      return QString("assets:/sounds/%1%2").arg(soundFileName).arg(ext);
+      return QString("assets:/sounds/%1%2").arg(soundFileName, ext);
 #else
-      return QString("%1sounds/%2%3").arg(main).arg(soundFileName).arg(ext);
+      return QString("%1sounds/%2%3").arg(main, soundFileName, ext);
 #endif
   }
 

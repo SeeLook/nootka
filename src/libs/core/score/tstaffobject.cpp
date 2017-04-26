@@ -190,8 +190,8 @@ void TstaffObject::updateNotesPos(int startMeasure) {
   if (firstMeas->isEmpty())
     return;
 
-  qDebug() << debug() << "updating notes positions from" << startMeasure << "measure among number" << measuresCount()
-            << "gap factor" << m_gapFactor << "notes count" << lastMeasure()->last()->index() - firstMeasure()->first()->index() + 1;
+//   qDebug() << debug() << "updating notes positions from" << startMeasure << "measure among number" << measuresCount()
+//             << "gap factor" << m_gapFactor << "notes count" << lastMeasure()->last()->index() - firstMeasure()->first()->index() + 1;
   TnoteObject* prevNote = nullptr;
   if (startMeasure == 0)
     firstMeas->first()->item()->setX(m_notesIndent);

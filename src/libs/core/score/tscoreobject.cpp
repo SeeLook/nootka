@@ -178,7 +178,7 @@ void TscoreObject::setKeySignature(int k) {
           m_accidInKeyArray[(startVal + sign * (i * 4)) % 7] = 0;
       }
       m_keyChanged = true;
-      for (TmeasureObject* m : m_measures)
+      for (TmeasureObject* m : qAsConst(m_measures))
         m->keySignatureChanged();
       if (notesCount() > 0)
         adjustScoreWidth();
@@ -630,7 +630,7 @@ QPoint TscoreObject::tieRange(TnoteObject* n) {
 //#################################################################################################
 
 void TscoreObject::appendToNoteList(QList<Tnote>& l) {
-  for (Tnote n : l) {
+  for (Tnote& n : l) {
     m_notes << n;
     m_segments << getSegment(m_segments.count(), &m_notes.last());
   }
@@ -662,7 +662,7 @@ TnotePair* TscoreObject::getSegment(int noteNr, Tnote* n) {
 
 void TscoreObject::clearScore() {
   if (measuresCount() && firstMeasure()->noteCount() > 0) {
-    for (TnotePair* s : m_segments) {
+    for (TnotePair* s : qAsConst(m_segments)) {
       s->flush();
       m_spareSegments << s;
     }
