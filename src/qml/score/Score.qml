@@ -91,6 +91,10 @@ Flickable {
     active: score.clef !== Tclef.NoClef && scoreObj.activeNote !== null
   }
 
+  RhythmControl {
+    active: scoreObj.activeNote !== null
+  }
+
   onEnableKeySignChanged: {
     staff0.enableKeySignature(enableKeySign)
     if (enableKeySign)
