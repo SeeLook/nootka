@@ -19,29 +19,47 @@ TipRect {
   x: score.width + nootkaWindow.fontSize
   y: score.contentY + (score.height - height) / 2
   z: 20
-  width: contentGrid.width
-  height: contentGrid.height
+  width: contentCol.width
+  height: contentCol.height
 
-  Grid {
-    z: 22
-    id: contentGrid
-    spacing: factor / 4
-    columns: 2
+  Column {
+    id: contentCol
 
-    Repeater {
-      model: 12
-      ControlButton {
-        factor: rhythmControl.factor
-        selected: rhythmControl.selectedId === index
-        yOffset: factor / 2
-        font { family: "nootka"; pixelSize: factor * 2 }
-        text: index % 2 === 0 ? lGlyphs[index / 2] : rGlyphs[Math.floor(index / 2)]
-        onClicked: {
-          selectedId = selectedId === index ? -1 : index
+    Grid {
+      z: 22
+      spacing: factor / 4
+      columns: 2
+
+      Repeater {
+        model: 12
+        ControlButton {
+          factor: rhythmControl.factor * 0.9
+          selected: rhythmControl.selectedId === index
+          yOffset: factor / 2
+          font { family: "nootka"; pixelSize: factor * 1.8 }
+          text: index % 2 === 0 ? lGlyphs[index / 2] : rGlyphs[Math.floor(index / 2)]
+          onClicked: {
+            selectedId = selectedId === index ? -1 : index
+          }
+          onEntered: hideTimer.stop()
+          onExited: hideTimer.restart()
         }
-        onEntered: hideTimer.stop()
-        onExited: hideTimer.restart()
       }
+    }
+
+    ControlButton {
+      anchors.horizontalCenter: parent.horizontalCenter
+      factor: rhythmControl.factor * 1.2
+      selected: rhythmControl.selectedId === 12
+      height: factor * 1.5
+      yOffset: -factor * 1.5
+      font { family: "nootka"; pixelSize: factor * 3.6 }
+      text: "\ue18c"
+      onClicked: {
+        selectedId = 12
+      }
+      onEntered: hideTimer.stop()
+      onExited: hideTimer.restart()
     }
   }
 

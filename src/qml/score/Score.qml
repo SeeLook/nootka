@@ -92,6 +92,7 @@ Flickable {
   }
 
   RhythmControl {
+    visible: meter !== Tmeter.NoMeter
     active: scoreObj.activeNote !== null
   }
 
