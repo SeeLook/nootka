@@ -2753,7 +2753,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
 </context>
 <context>
-    <name>TnotationRadioGroup</name>
+    <name>NameStyleSelector</name>
     <message>
         <location filename="../src/plugins/settings/tnotationradiogroup.h" line="41"/>
         <source>Scandinavian</source>

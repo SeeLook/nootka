@@ -2256,7 +2256,7 @@
     </message>
 </context>
 <context>
-    <name>TnotationRadioGroup</name>
+    <name>NameStyleSelector</name>
     <message>
         <source>Naming style</source>
         <translation>Estilo de nomenclatura</translation>
