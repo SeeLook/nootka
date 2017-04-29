@@ -17,8 +17,8 @@ TRANSLATION CONTEXT CHANGES
   TradioClef - Tclef (rearrange Tclef)
   TguitarSettings - InstrumentPage
   TscoreActions & TmelMan - MainScore
-  TnotationRadioGroup - NameStyleSelector
   Einstrument - Tinstrument (or simply Instrument)
+  TtoolBar - MainWindow
 
 ============================================================================
 SCORE
