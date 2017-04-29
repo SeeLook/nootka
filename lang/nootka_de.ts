@@ -2262,7 +2262,7 @@ nicht öffnen</translation>
     </message>
 </context>
 <context>
-    <name>TnotationRadioGroup</name>
+    <name>NameStyleSelector</name>
     <message>
         <source>Scandinavian</source>
         <translation>skandinavisch</translation>

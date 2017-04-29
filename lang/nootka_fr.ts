@@ -2084,7 +2084,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
 </context>
 <context>
-    <name>TnotationRadioGroup</name>
+    <name>NameStyleSelector</name>
     <message>
         <source>Naming style</source>
         <translation>Style de dénomination</translation>
