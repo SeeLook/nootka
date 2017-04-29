@@ -3,13 +3,12 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.7
-import QtGraphicalEffects 1.0
 
 
 /**
  * Visibility of this control depends on active (cursor) note of the score
  */
-Item {
+TipRect {
   id: accidControl
 
   property bool active: false
@@ -26,56 +25,24 @@ Item {
   width: contentColumn.width
   height: contentColumn.height
 
-  Rectangle {
-    id: bg
-    anchors.fill: parent
-    color: activPal.base
-    radius: factor / 4
-    visible: false
-  }
-
-  DropShadow {
-    anchors.fill: bg
-    horizontalOffset: nootkaWindow.fontSize / 4
-    verticalOffset: nootkaWindow.fontSize / 4
-    radius: 8.0
-    samples: 17
-    color: activPal.shadow
-    source: bg
-  }
-
   Column {
       id: contentColumn
       spacing: factor / 4
       Repeater {
         model: 4
-        Rectangle {
-            color: accidControl.selectedId === index ? activPal.highlight : "transparent"
-            width: factor * 2
-            height: factor * 3
-            radius: factor / 5
-            visible: score.enableDoubleAccids || index === 1 || index === 2
-            Text {
-              id: accText
-              y: factor * -4.5
-              x: (factor * 2 - width) / 2
-              height: factor * 3
-              font { family: "scorek"; pixelSize: factor * 3 }
-              text: accidGlyphs[index]
-              color: accidControl.selectedId === index ? activPal.highlightedText : activPal.text
-              style: Text.Normal
-              styleColor: activPal.highlightedText
-            }
-            MouseArea {
-              anchors.fill: parent
-              hoverEnabled: true
-              onClicked: {
-                selectedId = selectedId === index ? -1 : index
-                accidControl.text = selectedId > -1 ? accidGlyphs[selectedId] : ""
-              }
-              onEntered: { accText.style = Text.Outline; hideTimer.stop() }
-              onExited: { accText.style = Text.Normal; hideTimer.restart() }
-            }
+        ControlButton {
+          factor: accidControl.factor
+          yOffset: factor * -4.4
+          visible: score.enableDoubleAccids || index === 1 || index === 2
+          selected: accidControl.selectedId === index
+          font { family: "scorek"; pixelSize: factor * 3 }
+          text: accidGlyphs[index]
+          onClicked: {
+            selectedId = selectedId === index ? -1 : index
+            accidControl.text = selectedId > -1 ? accidGlyphs[selectedId] : ""
+          }
+          onEntered: hideTimer.stop()
+          onExited: hideTimer.restart()
         }
       }
   }
