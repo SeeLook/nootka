@@ -14,4 +14,5 @@ Text {
   text: stemDown ? "\ue204" : "\ue1fd"
   transform: Scale { id: sc }
   y: -0.5
+  z: - 20
 }

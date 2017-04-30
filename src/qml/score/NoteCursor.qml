@@ -10,7 +10,8 @@ import Score 1.0
 Item {
   id: noteCursor
 
-  anchors.fill: parent
+  height: parent ? parent.height : 0
+  width: parent ? parent.width - parent.alterWidth : 0
 
   property color color: GLOB.noteCursorColor
   property real yPos: 0

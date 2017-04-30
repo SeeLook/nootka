@@ -79,11 +79,9 @@ Flickable {
   NoteCursor {
     id: cursor
     parent: scoreObj.activeNote
-    anchors.fill: parent
     yPos: scoreObj.activeYpos
     upperLine: scoreObj.upperLine
     alterText: accidControl.text
-    z: 20
   }
 
   AccidControl {
