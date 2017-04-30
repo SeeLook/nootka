@@ -214,6 +214,7 @@ void TstaffObject::updateNotesPos(int startMeasure) {
     }
     measure->checkBarLine();
   }
+  m_score->emitActiveBarChanged();
 }
 
 

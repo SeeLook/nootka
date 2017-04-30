@@ -13,10 +13,12 @@ TipRect {
   property bool active: false
 
   // private
-  property var lGlyphs: [ "\ue107", "\ue108", "\ue109", "\ue10a", "\ue10b", "\u0183" ]
-  property var rGlyphs: [ "C", "D", "E", "F", "G", "." ]
+  readonly property var lGlyphs: [ "\ue107", "\ue108", "\ue109", "\ue10a", "\ue10b", "\u0183" ] // rests & triplet
+  readonly property var rGlyphs: [ "C", "D", "E", "F", "G", "." ] // individual notes & dot
+  property bool show: false
 
-  x: score.width + nootkaWindow.fontSize
+  x: show ? score.scoreObj.xLastInActivBar : score.width + nootkaWindow.fontSize + width
+
   y: score.contentY + (score.height - height) / 2
   z: 20
   width: contentCol.width
@@ -26,8 +28,6 @@ TipRect {
     id: contentCol
 
     Grid {
-      z: 22
-      spacing: factor / 4
       columns: 2
 
       Repeater {
@@ -47,7 +47,7 @@ TipRect {
       }
     }
 
-    ControlButton {
+    ControlButton { // tie
       anchors.horizontalCenter: parent.horizontalCenter
       factor: rhythmControl.factor * 1.2
       selected: rhythmControl.selectedId === 12
@@ -63,11 +63,11 @@ TipRect {
     }
   }
 
-  Behavior on x { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.1; duration: 300 }}
+  Behavior on x { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.3; duration: 300 }}
 
   onActiveChanged: {
     if (active) {
-        x = score.width - nootkaWindow.fontSize / 2 - width
+        show = true
         hideTimer.stop()
     } else {
         hideTimer.restart()
@@ -78,7 +78,7 @@ TipRect {
     id: hideTimer
     interval: 1500
     repeat: false
-    onTriggered: x = score.width + nootkaWindow.fontSize
+    onTriggered: show = false
   }
 
 }

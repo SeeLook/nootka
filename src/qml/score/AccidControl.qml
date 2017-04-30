@@ -19,7 +19,10 @@ TipRect {
   readonly property var accidGlyphs: [ "\ue264", "\ue260", "\ue262", "\ue263" ]
   readonly property var accidArray: [ 0, -2, -1, 1, 2 ]
 
-  x: -width - nootkaWindow.fontSize
+  // private
+  property bool show: false
+
+  x: (show ? score.scoreObj.xFirstInActivBar : -nootkaWindow.fontSize) - width
   y: score.contentY + (score.height - height) / 2
   z: 20
   width: contentColumn.width
@@ -27,7 +30,6 @@ TipRect {
 
   Column {
       id: contentColumn
-      spacing: factor / 4
       Repeater {
         model: 4
         ControlButton {
@@ -47,22 +49,21 @@ TipRect {
       }
   }
 
-  Behavior on x { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.1; duration: 300 }}
+  Behavior on x { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.3; duration: 300 }}
 
   onActiveChanged: {
     if (active) {
-        x = nootkaWindow.fontSize / 2
+        show = true
         hideTimer.stop()
-    } else {
+    } else
         hideTimer.restart()
-    }
   }
 
   Timer {
       id: hideTimer
       interval: 1500
       repeat: false
-      onTriggered: x = -width - nootkaWindow.fontSize
+      onTriggered: show = false
   }
 
 }
