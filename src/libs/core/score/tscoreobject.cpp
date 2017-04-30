@@ -458,7 +458,14 @@ qreal TscoreObject::stavesHeight() {
 void TscoreObject::changeActiveNote(TnoteObject* aNote) {
   if (aNote != m_activeNote) {
     m_activeNote = aNote;
+    bool emitBarChange = false;
+    if (m_activeNote && m_activeNote->measure()->number() != m_activeBarNr) {
+      m_activeBarNr = m_activeNote->measure()->number();
+      emitBarChange = true;
+    }
     emit activeNoteChanged();
+    if (emitBarChange)
+        emit activeBarChanged();
   }
 }
 
@@ -468,6 +475,33 @@ void TscoreObject::setActiveNotePos(qreal yPos) {
     m_activeYpos = yPos;
     emit activeYposChanged();
   }
+}
+
+/**
+ * Returns X coordinate of the first note in active measure (if any).
+ * So far it is used for positioning accidental pane on the active measure left 
+ */
+qreal TscoreObject::xFirstInActivBar() {
+  return m_activeBarNr == -1 ?
+          0.0 : (m_measures[m_activeBarNr]->first()->item()->x() - m_measures[m_activeBarNr]->first()->item()->alterWidth() - 1.0) * firstStaff()->scale();
+}
+
+
+/**
+ * Returns X coordinate of the last note in active measure (if any),
+ * but if that note is too far on the right (near a staff end), coordinate of first note is returned,
+ * subtracted with 11.2 units of score scale which is width of the rhythm pane - to keep it visible.
+ * So far it is used for positioning rhythm pane on the active measure right
+ */
+qreal TscoreObject::xLastInActivBar() {
+  if (m_activeBarNr > -1) {
+    qreal xx = m_measures[m_activeBarNr]->last()->item()->rightX();
+    if (xx > m_width - 8)
+      return xFirstInActivBar() - 11.2 * firstStaff()->scale();
+    else
+      return xx * firstStaff()->scale();
+  }
+  return 0.0;
 }
 
 

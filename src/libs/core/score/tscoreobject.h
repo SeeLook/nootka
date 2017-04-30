@@ -80,6 +80,8 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(TnoteObject* activeNote READ activeNote NOTIFY activeNoteChanged)
   Q_PROPERTY(qreal activeYpos READ activeYpos NOTIFY activeYposChanged)
   Q_PROPERTY(qreal upperLine READ upperLine NOTIFY upperLineChanged)
+  Q_PROPERTY(qreal xFirstInActivBar READ xFirstInActivBar NOTIFY activeBarChanged)
+  Q_PROPERTY(qreal xLastInActivBar READ xLastInActivBar NOTIFY activeBarChanged)
 
   friend class TstaffObject;
   friend class TmeasureObject;
@@ -185,19 +187,24 @@ public:
        */
   int groupCount() const { return m_meterGroups.count(); }
 
-  TnoteObject* activeNote() { return m_activeNote; }
-  qreal activeYpos() const { return m_activeYpos; }
   qreal upperLine();
-
-      /**
-       * Returns highest possible note on the staff in current clef
-       */
+  
+  /**
+   * Returns highest possible note on the staff in current clef
+   */
   Tnote highestNote();
-
-      /**
-       * Returns lowest possible note on the staff in current clef
-       */
+  
+  /**
+   * Returns lowest possible note on the staff in current clef
+   */
   Tnote lowestNote();
+
+/* ------------------ Note cursor ------------------ */
+  TnoteObject* activeNote() { return m_activeNote; }
+  qreal xFirstInActivBar();
+  qreal xLastInActivBar();
+  qreal activeYpos() const { return m_activeYpos; }
+
 
 signals:
   void meterChanged();
@@ -230,6 +237,11 @@ signals:
        * When active note was clicked
        */
   void clicked();
+
+      /**
+       * Emitted when number of active measure changes, but also when measure moves (note positions are changed)
+       */
+  void activeBarChanged();
 
 protected:
   QQmlComponent* component() { return m_qmlComponent; }
@@ -292,6 +304,11 @@ protected:
   TnoteObject* pressedNote() { return m_presseddNote; }
   void setPressedNote(TnoteObject* pn) { m_presseddNote = pn; }
 
+      /**
+       * Positioning notes in a staff invokes it to keep position of first/last notes in a bar actual
+       */
+  void emitActiveBarChanged() { emit activeBarChanged(); }
+
 private:
       /**
        * Appends notes to @p m_notes list, creates corresponding @p TnotePair
@@ -342,6 +359,7 @@ private:
   TnoteObject                      *m_hoveredNote = nullptr;
   TnoteObject                      *m_presseddNote = nullptr;
   int                               m_cursorAlter = 0;
+  int                               m_activeBarNr = -1;
 
 };
 

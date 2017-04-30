@@ -144,8 +144,6 @@ void TnoteObject::setStaff(TstaffObject* staffObj) {
             m_wrapper->beam()->changeStaff(m_staff);
       } else {
           setParentItem(nullptr);
-          if (m_name)
-            m_name->setParentItem(parentItem());
       }
       if (m_name)
         m_name->setParentItem(parentItem());
