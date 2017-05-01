@@ -28,15 +28,11 @@ Item {
 
   TstaffObject { id: staffObj; score: scoreObj; staffItem: staff; notesIndent: firstNoteX }
 
-  Repeater { // staff lines
-      model: 5
-      Rectangle {
-        x: 0.5
-        y: staffObj.upperLine + 2 * index - 0.1
-        height: 0.2
-        width: staff.width - 1.0
-        color: activPal.text
-      }
+  TstaffLines {
+    x: 0.5
+    width: staff.width - 1
+    y: staffObj.upperLine - 0.1
+    staffScale: staff.scale
   }
 
   Clef {
