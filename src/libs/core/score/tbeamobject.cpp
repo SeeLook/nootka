@@ -57,6 +57,9 @@ TbeamObject::TbeamObject(TnotePair* sn, TmeasureObject* m) :
   QQuickPaintedItem(m->staff()->staffItem()),
   m_measure(m)
 {
+  setAcceptHoverEvents(true);
+  setRenderTarget(QQuickPaintedItem::FramebufferObject);
+  setAntialiasing(true);
   addNote(sn);
   setParent(m_measure->score());
 }
@@ -145,8 +148,8 @@ void TbeamObject::prepareBeam() {
  */
 void TbeamObject::paint(QPainter* painter) {
   if (count() > 1) {
-    qreal s = first()->note()->rtm.stemDown() ? -1.0 : 1.0;
-    qreal t = first()->note()->rtm.stemDown() ? height() : 0.0;
+    qreal s = first()->note()->rtm.stemDown() ? -1.0 : 1.0; // scale
+    qreal t = first()->note()->rtm.stemDown() ? height() : 0.0; // translation
     painter->setPen(Qt::NoPen);
     painter->setBrush(qApp->palette().text().color());
     QPolygonF topBeam;
