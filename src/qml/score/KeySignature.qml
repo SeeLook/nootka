@@ -14,7 +14,7 @@ Item {
   property int key: 0
   property bool readOnly: false
 
-// those properties are private
+// private
   readonly property var sharpPos: [ 0, 3, -1, 2, 5, 1,  4 ]
   readonly property var flatPos: [ 4, 1, 5, 2, 6, 3, 7 ]
   property real accidOff: 0
@@ -27,55 +27,97 @@ Item {
 
   onKeyChanged: keySignatureChanged(key)
 
-//   Rectangle { width: parent.width; height: 14; color: "#aaff0000"; y: 12 }
-
   function changeClef(c) {
-      if (c === Tclef.Treble_G || c === Tclef.Treble_G_8down)
-          accidOff = 1
-      else if (c === Tclef.Bass_F || c === Tclef.Bass_F_8down)
-          accidOff = -1
-      else if (c === Tclef.Alto_C)
-          accidOff = 0;
-      else if (c === Tclef.Tenor_C)
-          accidOff = 2
-      else
-          accidOff = 1
+      switch (c) {
+        case Tclef.Treble_G:
+        case Tclef.Treble_G_8down:
+          accidOff = 1; break;
+        case Tclef.Bass_F:
+        case Tclef.Bass_F_8down:
+          accidOff = -1; break;
+        case Tclef.Tenor_C:
+          accidOff = 2; break;
+        case Tclef.Alto_C:
+          accidOff = 0; break;
+        case Tclef.PianoStaffClefs:
+          accidOff = 3; break;
+      }
       clef = c
+      x = staff.clef.x + staff.clef.width + 1
   }
 
   Repeater {
       model: 7
       Text {
+        id: keyAccid
         font { family: "Scorek"; pixelSize: 8 }
         color: activPal.text
         text: key < 0 ? "\ue260" : (key > 0 ? "\ue262" : "") // flat or sharp symbols
         x: index * 1.8
-        y: (key < 0 ? flatPos[index] : sharpPos[index]) - (accidOff) + (clef === Tclef.Tenor_C && key > 0 && (index === 0 || index === 2) ? 7 : 0)
+        y: (key < 0 ? flatPos[index] : sharpPos[index]) - accidOff + (clef === Tclef.Tenor_C && key > 0 && (index === 0 || index === 2) ? 7 : 0)
         opacity: index < Math.abs(key) ? 1.0 : 0.0
         Behavior on opacity { enabled: GLOB.useAnimations; NumberAnimation { property: "opacity"; duration: 200 }}
+        Text { // accidentals at lower staff
+          visible: clef === Tclef.PianoStaffClefs
+          font { family: "Scorek"; pixelSize: 8 }
+          color: keyAccid.color
+          text: keyAccid.text
+          y: 16
+        }
       }
   }
 
   MouseArea { // occupy only selected part of staff height
-      width: parent.width; height: 14; y: 12
+      width: parent.width; height: 14; y: 12 - (clef === Tclef.PianoStaffClefs ? 2 : 0)
       enabled: !readOnly
       onClicked: {
-        if (mouseY < 7) {
-            if (key < 7)
-              ++key
-        } else {
-          if (key > -7)
-              --key
-        }
+        if (mouseY < 7)
+          keyUp()
+        else
+          keyDown()
       }
       onWheel: {
-        if (wheel.angleDelta.y > 0) {
-          if (key < 7)
-            ++key
-        } else if (wheel.angleDelta.y < 0) {
-          if (key > -7)
-            --key
-        }
+        if (wheel.angleDelta.y > 0)
+          deltaUp()
+        else if (wheel.angleDelta.y < 0)
+          deltaDown()
       }
+  }
+
+  MouseArea { // area at lower staff
+      width: parent.width; height: 14; y: 26
+      enabled: !readOnly && clef === Tclef.PianoStaffClefs
+      onClicked: {
+        if (mouseY < 7)
+          keyUp()
+        else
+          keyDown()
+      }
+      onWheel: {
+        if (wheel.angleDelta.y > 0)
+          deltaUp()
+        else if (wheel.angleDelta.y < 0)
+          deltaDown()
+      }
+  }
+
+  // stops switching keys too quick (by wheel on touch pad)
+  Timer { id: wheelTimer; interval: 250 }
+
+  function keyUp() { if (key < 7) ++key }
+  function keyDown() { if (key > -7) --key }
+
+  function deltaUp() {
+    if (!wheelTimer.running) {
+      keyUp()
+      wheelTimer.running = true
+    }
+  }
+
+  function deltaDown() {
+    if (!wheelTimer.running) {
+      keyDown()
+      wheelTimer.running = true
+    }
   }
 }
