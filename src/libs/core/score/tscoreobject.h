@@ -173,13 +173,14 @@ public:
        * Total height of all staves
        */
   qreal stavesHeight();
+
       /**
-      * Returns duration of given @param grNr group starting from measure beginning
-      * Describes grouping (beaming - beam connections) of notes in a single measure for current meter.
-      * This is a group of a few int values - each representing duration of the one group:
-      * - for 3/8 it is only single 36 value - whole measure under one beam
-      * - for 3/4 it is 24, 48, 72) - three groups
-      */
+       * Returns duration of given @param grNr group starting from measure beginning
+       * Describes grouping (beaming - beam connections) of notes in a single measure for current meter.
+       * This is a group of a few int values - each representing duration of the one group:
+       * - for 3/8 it is only single 36 value - whole measure under one beam
+       * - for 3/4 it is 24, 48, 72) - three groups
+       */
   quint8 groupPos(int grNr) const { return m_meterGroups[grNr]; }
 
       /**
@@ -188,16 +189,18 @@ public:
   int groupCount() const { return m_meterGroups.count(); }
 
   qreal upperLine();
-  
-  /**
-   * Returns highest possible note on the staff in current clef
-   */
+
+      /**
+       * Returns highest possible note on the staff in current clef
+       */
   Tnote highestNote();
-  
-  /**
-   * Returns lowest possible note on the staff in current clef
-   */
+
+      /**
+       * Returns lowest possible note on the staff in current clef
+       */
   Tnote lowestNote();
+
+  bool isPianoStaff() { return m_clefType == Tclef::PianoStaffClefs; }
 
 /* ------------------ Note cursor ------------------ */
   TnoteObject* activeNote() { return m_activeNote; }

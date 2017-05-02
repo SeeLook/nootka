@@ -178,14 +178,15 @@ void TmeasureObject::checkBarLine() {
   if (m_free == 0 && m_score->meter()->meter() != Tmeter::NoMeter) {
     auto lastNote = last()->item();
     if (!m_barLine) {
-      m_staff->score()->component()->setData("import QtQuick 2.7; Rectangle { width: 0.3; height: 8 }", QUrl());
+      m_staff->score()->component()->setData("import QtQuick 2.7; Rectangle { width: 0.3 }", QUrl());
       m_barLine = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
       m_barLine->setParentItem(lastNote);
       m_barLine->setProperty("color", lastNote->color());
-      m_barLine->setY(m_staff->upperLine());
     }
     qreal xOff = lastNote == m_staff->lastMeasure()->last()->item() ? 0.2 : 0.0; // fit line at the staff end
     m_barLine->setX(lastNote->rightX() - lastNote->x() + xOff);
+    m_barLine->setY(m_staff->upperLine());
+    m_barLine->setHeight(m_score->isPianoStaff() ? 22.0 : 8.0);
   }
 }
 

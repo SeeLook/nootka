@@ -22,8 +22,16 @@ Text {
   font { family: "Scorek"; pixelSize: 8 }
   color: activPal.text
   text: Noo.meter(score.meter).symbol()
-  y: 7
+  y: score.upperLine - 9
   x: (parent.keySignature ? parent.keySignature.x + parent.keySignature.width : 0.5 + parent.clef.width) + 1.0
+
+  Text {
+    visible: score.clef === Tclef.PianoStaffClefs
+    font: meter.font
+    color: meter.color
+    text: meter.text
+    y: 14
+  }
 
   Component {
     id: meterComp

@@ -689,6 +689,9 @@ TnotePair* TscoreObject::getSegment(int noteNr, Tnote* n) {
       auto np = m_spareSegments.takeLast();
       np->setNote(n);
       np->setIndex(noteNr);
+      qreal currHeight = firstStaff()->staffItem()->height();
+      if (np->item()->height() != currHeight) // update note item height if clef type was changed to/from grand staff
+        np->item()->setHeight(currHeight);
       return np;
   }
 }

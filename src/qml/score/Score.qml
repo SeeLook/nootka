@@ -14,6 +14,7 @@ Flickable {
   property alias scale: staff0.scale
   property alias firstStaff: staff0
   property int clef: Tclef.Treble_G
+  property alias upperLine: staff0.upperLine
   property bool enableNoClef: true
   property alias meter: scoreObj.meter
   property alias bgColor: bgRect.color
@@ -27,6 +28,7 @@ Flickable {
   property var staves: []
 
   clip: true
+  boundsBehavior: Flickable.StopAtBounds
   width: parent.width
 
   contentWidth: score.width
@@ -80,7 +82,6 @@ Flickable {
     id: cursor
     parent: scoreObj.activeNote
     yPos: scoreObj.activeYpos
-    upperLine: scoreObj.upperLine
     alterText: accidControl.text
   }
 

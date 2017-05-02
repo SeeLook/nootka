@@ -15,7 +15,6 @@ Item {
 
   property color color: GLOB.noteCursorColor
   property real yPos: 0
-  property real upperLine: 16
   property alias alterText: alter.text
 
   visible: yPos > 0
@@ -43,7 +42,7 @@ Item {
   }
 
   Repeater { // upper lines
-      model: (upperLine - 2) / 2
+      model: (score.upperLine - 2) / 2
       Rectangle {
         x: - 1.0
         y: 2 * (index + 1) - 0.1
@@ -54,14 +53,14 @@ Item {
       }
   }
   Repeater { // lower lines
-      model: (parent.height - upperLine - 12) / 2
+      model: (score.firstStaff.height - score.upperLine - 12) / 2
       Rectangle {
         x: - 1.0
-        y: upperLine + 10.0 + 2 * index - 0.1
+        y: score.upperLine + 10.0 + 2 * index - 0.1
         height: 0.2
         width: 4.0
         color: noteCursor.color
-        visible: upperLine + 10.0 + index * 2 <= yPos
+        visible: score.upperLine + 10.0 + index * 2 <= yPos
       }
   }
 
