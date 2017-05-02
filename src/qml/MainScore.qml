@@ -26,6 +26,7 @@ Score {
   enableNoClef: GLOB.rhythmsEnabled
 
   clef: GLOB.clefType
+  scoreObj.clefType: GLOB.clefType
   enableDoubleAccids: GLOB.enableDoubleAccids
   enableKeySign: GLOB.keySignatureEnabled
   scoreObj.nameColor: GLOB.nameColor
@@ -40,10 +41,13 @@ Score {
     y: 5
     color: activPal.text
     font.pointSize: 1.5
-    text: enableKeySign ? Noo.majAndMinKeyName(firstStaff.keySignature.key) : ""
+    text: getKeyNameText() // enableKeySign ? Noo.majAndMinKeyName(firstStaff.keySignature.key) : ""
     Connections {
       target: GLOB
-      onKeyNameChanged: keyName.text = Noo.majAndMinKeyName(firstStaff.keySignature.key)
+      onKeyNameChanged: keyName.text = Qt.binding(keyName.getKeyNameText) //Noo.majAndMinKeyName(firstStaff.keySignature.key)
+    }
+    function getKeyNameText() {
+      return enableKeySign ? Noo.majAndMinKeyName(firstStaff.keySignature.key) : ""
     }
   }
 

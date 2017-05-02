@@ -11,7 +11,7 @@ import Nootka 1.0
 Item {
 
   property bool seventhIsB: true
-  property int style: 0
+  property int style: -1
 
   width: childrenRect.width
   height: childrenRect.height
