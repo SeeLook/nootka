@@ -16,19 +16,21 @@ Text {
   property Drawer clefDrawer
 
   width: 5.5
-
   x: 0.5
   y: 5
   text: "\ue050"
   font { family: "Scorek"; pixelSize: 8 }
   color: activPal.text
 
-  Text { // clef at lower staff
-    visible: clef.type === Tclef.PianoStaffClefs
-    font: clef.font
-    text: "\ue062"
-    color: clef.color
-    y: clef.y + 7
+  Loader { sourceComponent: score.clef === Tclef.PianoStaffClefs ? lowerClef : null }
+  Component {
+    id: lowerClef
+    Text { // clef at lower staff
+      font: clef.font
+      text: "\ue062"
+      color: clef.color
+      y: clef.y + 7
+    }
   }
 
   Component {

@@ -15,8 +15,8 @@ Text {
   property Drawer meterDrawer
 
   Connections {
-    target: score
-    onMeterChanged: text = Noo.meter(score.meter).symbol()
+      target: score
+      onMeterChanged: text = Noo.meter(score.meter).symbol()
   }
 
   font { family: "Scorek"; pixelSize: 8 }
@@ -25,12 +25,15 @@ Text {
   y: score.upperLine - 9
   x: (parent.keySignature ? parent.keySignature.x + parent.keySignature.width : 0.5 + parent.clef.width) + 1.0
 
-  Text {
-    visible: score.clef === Tclef.PianoStaffClefs
-    font: meter.font
-    color: meter.color
-    text: meter.text
-    y: 14
+  Loader { sourceComponent: score.clef === Tclef.PianoStaffClefs ? lowerMeter : null }
+  Component {
+      id: lowerMeter
+      Text {
+        font: meter.font
+        color: meter.color
+        text: meter.text
+        y: 14
+      }
   }
 
   Component {

@@ -47,9 +47,9 @@ Item {
   }
 
   Repeater {
+      id: accidRep
       model: 7
       Text {
-        id: keyAccid
         font { family: "Scorek"; pixelSize: 8 }
         color: activPal.text
         text: key < 0 ? "\ue260" : (key > 0 ? "\ue262" : "") // flat or sharp symbols
@@ -57,12 +57,21 @@ Item {
         y: (key < 0 ? flatPos[index] : sharpPos[index]) - accidOff + (clef === Tclef.Tenor_C && key > 0 && (index === 0 || index === 2) ? 7 : 0)
         opacity: index < Math.abs(key) ? 1.0 : 0.0
         Behavior on opacity { enabled: GLOB.useAnimations; NumberAnimation { property: "opacity"; duration: 200 }}
+      }
+  }
+
+  Loader { sourceComponent: clef === Tclef.PianoStaffClefs ? lowerAccids : null }
+  Component {
+      id: lowerAccids
+      Repeater {
+        model: 7
         Text { // accidentals at lower staff
-          visible: clef === Tclef.PianoStaffClefs
           font { family: "Scorek"; pixelSize: 8 }
-          color: keyAccid.color
-          text: keyAccid.text
-          y: 16
+          color: activPal.text
+          text: accidRep.itemAt(index).text
+          y: accidRep.itemAt(index).y + 16
+          x: accidRep.itemAt(index).x
+          opacity: accidRep.itemAt(index).opacity
         }
       }
   }
@@ -84,20 +93,25 @@ Item {
       }
   }
 
-  MouseArea { // area at lower staff
-      width: parent.width; height: 14; y: 26
-      enabled: !readOnly && clef === Tclef.PianoStaffClefs
-      onClicked: {
-        if (mouseY < 7)
-          keyUp()
-        else
-          keyDown()
-      }
-      onWheel: {
-        if (wheel.angleDelta.y > 0)
-          deltaUp()
-        else if (wheel.angleDelta.y < 0)
-          deltaDown()
+  Loader { sourceComponent: clef === Tclef.PianoStaffClefs ? lowerArea : null }
+  Component {
+      id: lowerArea
+      MouseArea { // area at lower staff
+          parent: keySig
+          width: parent.width; height: 14; y: 26
+          enabled: !readOnly
+          onClicked: {
+            if (mouseY < 7)
+              keyUp()
+            else
+              keyDown()
+          }
+          onWheel: {
+            if (wheel.angleDelta.y > 0)
+              deltaUp()
+            else if (wheel.angleDelta.y < 0)
+              deltaDown()
+          }
       }
   }
 
