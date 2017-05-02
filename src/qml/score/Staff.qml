@@ -30,26 +30,33 @@ Item {
   TstaffObject { id: staffObj; score: scoreObj; staffItem: staff; notesIndent: firstNoteX }
 
   TstaffLines {
-    id: upperStaff
-    x: clef.type === Tclef.PianoStaffClefs ? 1.5 : 0.5
-    width: staff.width - (clef.type === Tclef.PianoStaffClefs ? 2 : 1)
-    y: staffObj.upperLine - 0.1
-    staffScale: staff.scale
+      id: upperStaff
+      x: clef.type === Tclef.PianoStaffClefs ? 1.5 : 0.5
+      width: staff.width - (clef.type === Tclef.PianoStaffClefs ? 2 : 1)
+      y: staffObj.upperLine - 0.1
+      staffScale: staff.scale
   }
 
-  TstaffLines { // lower staff
-    visible: clef.type === Tclef.PianoStaffClefs
-    x: clef.type === Tclef.PianoStaffClefs ? 1.5 : 0.5
-    width: staff.width - (clef.type === Tclef.PianoStaffClefs ? 2 : 1)
-    y: staffObj.upperLine - 0.1 + 14
-    staffScale: staff.scale
+  Loader { sourceComponent: clef.type === Tclef.PianoStaffClefs ? lowerStaff : null }
+  Component {
+      id: lowerStaff
+      TstaffLines {
+        x: clef.type === Tclef.PianoStaffClefs ? 1.5 : 0.5
+        width: staff.width - (clef.type === Tclef.PianoStaffClefs ? 2 : 1)
+        y: staffObj.upperLine - 0.1 + 14
+        staffScale: staff.scale
+      }
   }
 
-  Text { // brace
-    visible: clef.type === Tclef.PianoStaffClefs
-    text: "\ue000"
-    font {family: "scorek"; pixelSize: 22 }
-    y: -9
+  Loader { sourceComponent: clef.type === Tclef.PianoStaffClefs ? brace : null }
+  Component {
+      id: brace
+      Text {
+        visible: clef.type === Tclef.PianoStaffClefs
+        text: "\ue000"
+        font {family: "scorek"; pixelSize: 22 }
+        y: -9
+      }
   }
 
   Clef {
@@ -97,7 +104,7 @@ Item {
   }
 
   function updateMeterPos() {
-    meter.x = keySignature.x + keySignature.width
+      meter.x = keySignature.x + keySignature.width
   }
 
   Component.onDestruction: { destroing(staffObj.number) }
