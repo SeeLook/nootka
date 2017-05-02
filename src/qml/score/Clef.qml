@@ -23,6 +23,14 @@ Text {
   font { family: "Scorek"; pixelSize: 8 }
   color: activPal.text
 
+  Text { // clef at lower staff
+    visible: clef.type === Tclef.PianoStaffClefs
+    font: clef.font
+    text: "\ue062"
+    color: clef.color
+    y: clef.y + 7
+  }
+
   Component {
     id: clefComp
     Drawer {
@@ -60,17 +68,18 @@ Text {
       x = 0.5
       switch (clef.type) {
         case Tclef.Treble_G:
-        case Tclef.PianoStaffClefs:
         case Tclef.Treble_G_8down:
-          clef.y = 5; break;
+          y = 5; break;
         case Tclef.Bass_F:
         case Tclef.Bass_F_8down:
         case Tclef.Tenor_C:
-          clef.y = 1; break;
+          y = 1; break;
         case Tclef.Alto_C:
-          clef.y = 3; break;
+          y = 3; break;
+        case Tclef.PianoStaffClefs:
+          y = 3; x = 2.5; break;
         case Tclef.NoClef:
-          clef.y = 3; x = 2.0; break;
+          y = 3; x = 2; break;
       }
       text = Noo.clef(clef.type).glyph()
   }

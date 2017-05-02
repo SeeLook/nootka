@@ -210,7 +210,7 @@ void TnoteObject::setNote(const Tnote& n) {
     else
       m_notePosY = staff()->upperLine() + 7.0;
   }
-  if (m_notePosY < 2.0 || m_notePosY > 38.0)
+  if (m_notePosY < 2.0 || m_notePosY > height() - 2.0)
     m_notePosY = 0.0;
   if (static_cast<int>(m_notePosY - 15.0) != static_cast<int>(m_head->y())) {
     if (m_notePosY) {
@@ -444,6 +444,9 @@ void TnoteObject::hoverLeaveEvent(QHoverEvent*) {
 
 
 void TnoteObject::hoverMoveEvent(QHoverEvent* event) {
+  if (m_staff->score()->isPianoStaff() && event->pos().y() >= m_staff->upperLine() + 10.6 && event->pos().y() <= m_staff->upperLine() + 11.6) {
+    return;
+  }
   if (!m_measure->score()->pressedNote() && m_measure->score()->hoveredNote()
       && static_cast<int>(m_measure->score()->activeYpos()) != static_cast<int>(event->pos().y()))
           m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));

@@ -64,8 +64,10 @@ void TstaffObject::refresh() {
 
 
 void TstaffObject::setUpperLine(qreal upLine) {
-  m_upperLine = upLine;
-  emit upperLineChanged();
+  if (m_upperLine != upLine) {
+    m_upperLine = upLine;
+    emit upperLineChanged();
+  }
 }
 
 

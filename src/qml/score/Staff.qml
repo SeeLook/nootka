@@ -14,7 +14,8 @@ Item {
 
   property alias clef: clef
 
-  property real linesCount: 40
+  property alias upperLine: staffObj.upperLine
+  property real linesCount: clef.type === Tclef.PianoStaffClefs ? 44 : 38
   property KeySignature keySignature: null
   property Meter meter: null
   property real firstNoteX: (meter ? meter.x + meter.width : (keySignature ? keySignature.x + keySignature.width : 0.5 + clef.width)) + 1.0
@@ -29,24 +30,45 @@ Item {
   TstaffObject { id: staffObj; score: scoreObj; staffItem: staff; notesIndent: firstNoteX }
 
   TstaffLines {
-    x: 0.5
-    width: staff.width - 1
+    id: upperStaff
+    x: clef.type === Tclef.PianoStaffClefs ? 1.5 : 0.5
+    width: staff.width - (clef.type === Tclef.PianoStaffClefs ? 2 : 1)
     y: staffObj.upperLine - 0.1
     staffScale: staff.scale
+  }
+
+  TstaffLines { // lower staff
+    visible: clef.type === Tclef.PianoStaffClefs
+    x: clef.type === Tclef.PianoStaffClefs ? 1.5 : 0.5
+    width: staff.width - (clef.type === Tclef.PianoStaffClefs ? 2 : 1)
+    y: staffObj.upperLine - 0.1 + 14
+    staffScale: staff.scale
+  }
+
+  Text { // brace
+    visible: clef.type === Tclef.PianoStaffClefs
+    text: "\ue000"
+    font {family: "scorek"; pixelSize: 22 }
+    y: -9
   }
 
   Clef {
       id: clef
       onTypeChanged: {
-        if (keySignature)
+        staffObj.upperLine = clef.type === Tclef.PianoStaffClefs ? 14 : 16
+        if (keySignature) {
           keySignature.changeClef(clef.type)
+          if (meter)
+            updateMeterPos()
+        }
         score.staffChangesClef(staff)
       }
   }
 
   Text { // measure number
-      x: 1
-      y: staffObj.upperLine - (clef.type === Tclef.Treble_G || clef.type === Tclef.Treble_G_8down || clef.type === Tclef.Tenor_C ? 6 : 3)
+      x: clef.x
+      y: staffObj.upperLine - (clef.type === Tclef.Treble_G || clef.type === Tclef.Treble_G_8down 
+                              || clef.type === Tclef.Tenor_C || clef.type === Tclef.PianoStaffClefs ? 6 : 3)
       text: staffObj.firstMeasureNr + 1
       visible: staffObj.number > 0 && staffObj.firstMeasureNr > 0
       font.pixelSize: 2
@@ -57,7 +79,7 @@ Item {
       if (en) {
           if (!keySignature) {
             var c = Qt.createComponent("qrc:/KeySignature.qml")
-            keySignature = c.createObject(staff, { x: clef.x + clef.width + 1 })
+            keySignature = c.createObject(staff)
             keySignature.changeClef(clef.type)
             if (meter) {
               keySignature.onWidthChanged.connect(updateMeterPos)
@@ -77,5 +99,6 @@ Item {
   function updateMeterPos() {
     meter.x = keySignature.x + keySignature.width
   }
+
   Component.onDestruction: { destroing(staffObj.number) }
 }
