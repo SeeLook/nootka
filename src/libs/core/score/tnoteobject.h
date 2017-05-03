@@ -94,6 +94,8 @@ public:
        */
   qreal rightX() const;
 
+  void setHeight(qreal hh);
+
       /**
        * Returns gap factor after this note item depends on current rhythm value
        */
@@ -163,6 +165,7 @@ private:
   qreal                        m_notePosY;
   QQuickItem                  *m_head, *m_alter, *m_stem, *m_flag;
   QList<QQuickItem*>           m_upperLines, m_lowerLines;
+  QQuickItem                  *m_midLine = nullptr;
   qreal                        m_stemHeight;
   QString                      m_accidText;
   QQuickItem                  *m_tie = nullptr;
@@ -178,6 +181,7 @@ private:
   void updateTieScale();
   void checkStem();
   void updateNamePos();
+  void checkAddLinesVisibility();
 };
 
 #endif // TNOTEOBJECT_H

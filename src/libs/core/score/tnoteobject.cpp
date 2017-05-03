@@ -30,6 +30,7 @@
 #include <QtCore/qelapsedtimer.h>
 
 #include <QtCore/qdebug.h>
+#include "checktime.h"
 
 
 /** Unicode numbers of accidentals in Scorek font. */
@@ -93,9 +94,7 @@ TnoteObject::TnoteObject(TstaffObject* staffObj, TnotePair* wrapper) :
 
   for (int i = 0; i < 7; ++i) {
     m_upperLines << createAddLine();
-    m_upperLines.last()->setY(2 * (i + 1) - 0.1);
     m_lowerLines << createAddLine();
-    m_lowerLines.last()->setY(staff()->upperLine() + 10.0 + 2 * i - 0.1);
   }
 
   m_staff->score()->component()->setData("import QtQuick 2.7; Text { font { family: \"Scorek\"; pixelSize: 7 }}", QUrl());
@@ -205,23 +204,24 @@ void TnoteObject::setNote(const Tnote& n) {
   if (m_note->isRest())
     m_notePosY = staff()->upperLine() + (m_note->rhythm() == Trhythm::Whole ? 2.0 : 4.0);
   else {
-    if (m_note->isValid())
-      m_notePosY = staff()->score()->clefOffset().total() + staff()->upperLine() - (n.octave * 7 + (n.note - 1));
-    else
-      m_notePosY = staff()->upperLine() + 7.0;
+    if (m_note->isValid()) {
+        m_notePosY = staff()->score()->clefOffset().total() + staff()->upperLine() - (n.octave * 7 + (n.note - 1));
+        if (staff()->score()->isPianoStaff() && m_notePosY > staff()->upperLine() + 10.0)
+          m_notePosY += 2.0;
+    } else
+        m_notePosY = staff()->upperLine() + 7.0;
   }
   if (m_notePosY < 2.0 || m_notePosY > height() - 2.0)
     m_notePosY = 0.0;
+
   if (static_cast<int>(m_notePosY - 15.0) != static_cast<int>(m_head->y())) {
     if (m_notePosY) {
         m_head->setVisible(true);
         m_head->setY(m_notePosY - 15.0);
     } else
         m_head->setVisible(false);
-    for (int i = 0; i < 7; ++i) {
-      m_upperLines[i]->setVisible(m_head->isVisible() && !m_note->isRest() && m_notePosY > 0.0 && i >= qFloor((m_notePosY - 1.0) / 2.0));
-      m_lowerLines[i]->setVisible(m_head->isVisible() && !m_note->isRest() && staff()->upperLine() + 10.0 + i * 2 <= m_notePosY);
-    }
+
+    checkAddLinesVisibility();
     updateStem = true;
   }
 
@@ -257,6 +257,31 @@ void TnoteObject::setX(qreal xx) {
 
 qreal TnoteObject::rightX() const {
   return x() + width() + staff()->gapFactor() * rhythmFactor() - m_alter->width();
+}
+
+
+void TnoteObject::setHeight(qreal hh) {
+  if (hh != height()) {
+    QQuickItem::setHeight(hh);
+    for (int i = 0; i < 7; ++i) {
+      m_upperLines[i]->setY(2 * (i + 1) - 0.1);
+      m_lowerLines[i]->setY(staff()->upperLine() + (staff()->score()->isPianoStaff() ? 22.0 : 10.0) + 2 * i - 0.1);
+    }
+    if (staff()->score()->isPianoStaff()) {
+        if (m_midLine == nullptr) {
+          m_staff->score()->component()->setData("import QtQuick 2.7; Rectangle {}", QUrl());
+          m_midLine = createAddLine();
+          m_midLine->setParent(this);
+        }
+        m_midLine->setY(m_staff->upperLine() + 10.0);
+    } else {
+        if (m_midLine) {
+          delete m_midLine;
+          m_midLine = nullptr;
+        }
+    }
+    checkAddLinesVisibility();
+  }
 }
 
 
@@ -590,4 +615,14 @@ void TnoteObject::updateNamePos() {
         m_name->setVisible(false);
     }
   }
+}
+
+
+void TnoteObject::checkAddLinesVisibility() {
+  for (int i = 0; i < 7; ++i) {
+    m_upperLines[i]->setVisible(m_head->isVisible() && !m_note->isRest() && m_notePosY > 0.0 && i >= qFloor((m_notePosY - 1.0) / 2.0));
+    m_lowerLines[i]->setVisible(m_head->isVisible() && !m_note->isRest() && staff()->upperLine() + (m_midLine ? 22 : 10.0) + i * 2 <= m_notePosY);
+  }
+  if (m_midLine)
+    m_midLine->setVisible(m_head->isVisible() && !m_note->isRest() && m_notePosY == staff()->upperLine() + 10.0);
 }
