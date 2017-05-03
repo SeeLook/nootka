@@ -88,39 +88,44 @@ void TscoreObject::setClefType(Tclef::EclefType ct) {
     if (notesCount() < 1)
       return;
 
-    Tnote loNote = lowestNote();
-    Tnote hiNote = highestNote();
-    for (int n = 0; n < notesCount(); ++n) {
-      auto noteSeg = m_segments[n];
-      if (m_clefType == Tclef::NoClef) {
+    if (notesCount() > 0) {
+        Tnote loNote = lowestNote();
+        Tnote hiNote = highestNote();
+        bool pianoChanged = (oldClef == Tclef::PianoStaffClefs && m_clefType != Tclef::PianoStaffClefs)
+                            || (oldClef != Tclef::PianoStaffClefs && m_clefType == Tclef::PianoStaffClefs);
+        for (int n = 0; n < notesCount(); ++n) {
           auto noteSeg = m_segments[n];
-          Tnote newNote(Tnote(), noteSeg->note()->rtm);
-          newNote.rtm.setStemDown(false);
-          noteSeg->item()->setStemHeight(STEM_HEIGHT);
-          noteSeg->setNote(newNote);
-      } else {
-          Tnote newNote(*noteSeg->note());
-          if (oldClef == Tclef::NoClef) {
-              int globalNr = m_clefOffset.octave * 7 - (7 - m_clefOffset.note);
-              newNote.note = static_cast<char>(56 + globalNr) % 7 + 1;
-              newNote.octave = static_cast<char>(56 + globalNr) / 7 - 8;
+          if (pianoChanged)
+            noteSeg->item()->setHeight(m_clefType == Tclef::PianoStaffClefs ? 44.0 : 38.0);
+          if (m_clefType == Tclef::NoClef) {
+              Tnote newNote(Tnote(), noteSeg->note()->rtm);
+              newNote.rtm.setStemDown(false);
+              noteSeg->item()->setStemHeight(STEM_HEIGHT);
+              noteSeg->setNote(newNote);
           } else {
-              if (!newNote.isRest()
-                  && ((newNote.octave > hiNote.octave || (newNote.octave == hiNote.octave && newNote.note > hiNote.note))
-                  || (newNote.octave < loNote.octave || (newNote.octave == loNote.octave && newNote.note < loNote.note))))
-              {
-                newNote.note = 0; newNote.octave = 0; // invalidate note
-                newNote.setRest(true);
-                newNote.rtm.setTie(Trhythm::e_noTie);
-                // TODO fix beam
+              Tnote newNote(*noteSeg->note());
+              if (oldClef == Tclef::NoClef) {
+                  int globalNr = m_clefOffset.octave * 7 - (7 - m_clefOffset.note);
+                  newNote.note = static_cast<char>(56 + globalNr) % 7 + 1;
+                  newNote.octave = static_cast<char>(56 + globalNr) / 7 - 8;
+              } else {
+                  if (!newNote.isRest()
+                      && ((newNote.octave > hiNote.octave || (newNote.octave == hiNote.octave && newNote.note > hiNote.note))
+                      || (newNote.octave < loNote.octave || (newNote.octave == loNote.octave && newNote.note < loNote.note))))
+                  {
+                    newNote.note = 0; newNote.octave = 0; // invalidate note
+                    newNote.setRest(true);
+                    newNote.rtm.setTie(Trhythm::e_noTie);
+                    // TODO fix beam
+                  }
               }
+              noteSeg->setNote(newNote);
           }
-          noteSeg->setNote(newNote);
-      }
+        }
+        for (int m = 0; m < m_measures.count(); ++m)
+          m_measures[m]->refresh();
+        adjustScoreWidth();
     }
-    for (int m = 0; m < m_measures.count(); ++m)
-      m_measures[m]->refresh();
-    adjustScoreWidth();
   }
 }
 
@@ -283,6 +288,8 @@ void TscoreObject::noteClicked(qreal yPos) {
   if (!activeNote() || activeNote()->note()->isRest())
     return;
 
+  if (isPianoStaff() && yPos > firstStaff()->upperLine() + 10.0)
+    yPos -= 2.0;
   int globalNr = m_clefOffset.octave * 7 - (yPos - static_cast<int>(upperLine()) - m_clefOffset.note);
   Tnote newNote(static_cast<char>(56 + globalNr) % 7 + 1, static_cast<char>(56 + globalNr) / 7 - 8,
           static_cast<char>(m_cursorAlter), activeNote()->note()->rtm);
@@ -689,9 +696,6 @@ TnotePair* TscoreObject::getSegment(int noteNr, Tnote* n) {
       auto np = m_spareSegments.takeLast();
       np->setNote(n);
       np->setIndex(noteNr);
-      qreal currHeight = firstStaff()->staffItem()->height();
-      if (np->item()->height() != currHeight) // update note item height if clef type was changed to/from grand staff
-        np->item()->setHeight(currHeight);
       return np;
   }
 }

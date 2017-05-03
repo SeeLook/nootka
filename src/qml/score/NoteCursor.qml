@@ -20,7 +20,9 @@ Item {
   visible: yPos > 0
 
   Rectangle { // highlight
-    anchors.fill: parent
+    width: parent.width + 1
+    height: parent.height
+    x: -1
     color: Qt.rgba(noteCursor.color.r, noteCursor.color.g, noteCursor.color.b, 0.1)
     z: -10
   }
@@ -43,24 +45,18 @@ Item {
 
   Repeater { // upper lines
       model: (score.upperLine - 2) / 2
-      Rectangle {
-        x: - 1.0
-        y: 2 * (index + 1) - 0.1
-        height: 0.2
-        width: 4.0
-        color: noteCursor.color
-        visible: yPos > 0 && index >= Math.floor((yPos - 1) / 2)
-      }
+      AddLine { y: 2 * (index + 1) - 0.1; visible: yPos > 0 && index >= Math.floor((yPos - 1) / 2) }
+  }
+  Repeater { // middle lines
+    model: score.clef === Tclef.PianoStaffClefs ? 2 : 0
+    AddLine { y: score.upperLine + 10 + 2 * index - 0.1; visible: yPos == score.upperLine + 10 + 2 * index
+    }
   }
   Repeater { // lower lines
       model: (score.firstStaff.height - score.upperLine - 12) / 2
-      Rectangle {
-        x: - 1.0
-        y: score.upperLine + 10.0 + 2 * index - 0.1
-        height: 0.2
-        width: 4.0
-        color: noteCursor.color
-        visible: score.upperLine + 10.0 + index * 2 <= yPos
+      AddLine { 
+        y: score.upperLine + (score.clef === Tclef.PianoStaffClefs ? 22 : 10) + 2 * index - 0.1
+        visible: score.upperLine + (score.clef === Tclef.PianoStaffClefs ? 22 : 10) + index * 2 <= yPos
       }
   }
 

@@ -98,7 +98,7 @@ Item {
       id: lowerArea
       MouseArea { // area at lower staff
           parent: keySig
-          width: parent.width; height: 14; y: 26
+          width: keySig.width; height: 14; y: 26
           enabled: !readOnly
           onClicked: {
             if (mouseY < 7)

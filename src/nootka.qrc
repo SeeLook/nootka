@@ -29,6 +29,7 @@
     <file alias="KeySignature.qml">qml/score/KeySignature.qml</file>
     <file alias="Meter.qml">qml/score/Meter.qml</file>
     <file alias="Tie.qml">qml/score/Tie.qml</file>
+    <file alias="AddLine.qml">qml/score/AddLine.qml</file>
     <file alias="NoteCursor.qml">qml/score/NoteCursor.qml</file>
     <file alias="AccidControl.qml">qml/score/AccidControl.qml</file>
     <file alias="RhythmControl.qml">qml/score/RhythmControl.qml</file>
