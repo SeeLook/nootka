@@ -35,7 +35,7 @@ class Tnote;
 
 /**
  * @class TnoteObject is @class QQuickItem derivative representing single note on the score.
- * It dynamically crates QML items: note head, alter (accidental) text, stem rectangle and rhythm flag.
+ * It dynamically creates QML items: note head, alter (accidental) text, stem rectangle and rhythm flag.
  * A tie item form Tie.qml when necessary
  */
 class NOOTKACORE_EXPORT TnoteObject : public QQuickItem

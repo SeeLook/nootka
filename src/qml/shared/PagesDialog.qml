@@ -36,9 +36,9 @@ Item {
   }
 
   Column {
-    height: parent.height
+    height: parent.height - (Noo.isAndroid() ? 0 : Screen.pixelDensity)
     width: navList.width
-    spacing: 4
+    spacing: Screen.pixelDensity
     z: 3
 
     // navigation list on the left
@@ -134,10 +134,10 @@ Item {
     x: navList.width + Screen.pixelDensity
     z: -1 // below navigation list
     width: parent.width - navList.width - Screen.pixelDensity * 2
-    height: parent.height
+    height: parent.height - (Noo.isAndroid() ? 0 : Screen.pixelDensity)
     // fade animations
     pushEnter: Transition { enabled: GLOB.useAnimations; PropertyAnimation { property: "opacity"; from: 0; to: 1; duration: 300 }}
     pushExit: Transition { enabled: GLOB.useAnimations; PropertyAnimation { property: "opacity"; from: 1; to: 0; duration: 300 }}
   }
 }
- 
+
