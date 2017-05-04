@@ -77,7 +77,7 @@ public:
 
       /** If @p true, setting are loaded from temporary config file */
   Tglobals(QObject* parent = nullptr);
-  ~Tglobals();
+  ~Tglobals() override;
 
       /**
        * Instance (single for whole Nootka) of Tglobals class.

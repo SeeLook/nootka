@@ -39,7 +39,7 @@ class NOOTKACORE_EXPORT TtuneObject : public QObject
 public:
 
   explicit TtuneObject(QObject* parent = nullptr);
-  ~TtuneObject();
+  ~TtuneObject() override;
 
   void setTune(Ttune* t);
 

@@ -54,7 +54,7 @@ class NOOTKACORE_EXPORT TbeamObject : public QQuickPaintedItem
 
 public:
   explicit TbeamObject(TnotePair* sn, TmeasureObject* m);
-  virtual ~TbeamObject();
+  ~TbeamObject() override;
 
       /** Adds @p TnotePair to beam group
        * and according to adding order sets appropriate beam flag.

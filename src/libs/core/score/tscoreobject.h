@@ -89,7 +89,7 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
 
 public:
   explicit TscoreObject(QObject* parent = nullptr);
-  ~TscoreObject();
+  ~TscoreObject() override;
 
   /* ------------------ Musical parameters ------------------ */
 

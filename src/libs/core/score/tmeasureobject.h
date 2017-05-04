@@ -46,7 +46,7 @@ class NOOTKACORE_EXPORT TmeasureObject : public QObject
 public:
 
   explicit TmeasureObject(int nr = -1, TscoreObject* parent = nullptr);
-  ~TmeasureObject();
+  ~TmeasureObject() override;
 
   int number() const { return m_number; }
   void setNumber(int nr);
