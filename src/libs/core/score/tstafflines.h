@@ -20,12 +20,14 @@
 #define TSTAFFLINES_H
 
 
+#include "nootkacoreglobal.h"
 #include <QtQuick/qquickpainteditem.h>
+
 
 /**
  * Paints five staff lines
  */
-class TstaffLines : public QQuickPaintedItem
+class NOOTKACORE_EXPORT TstaffLines : public QQuickPaintedItem
 {
 
   Q_OBJECT

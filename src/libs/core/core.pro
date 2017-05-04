@@ -1,5 +1,5 @@
 
-QT += core gui androidextras quick quickcontrols2
+QT += core widgets androidextras quick quickcontrols2
 
 
 TARGET = NootkaCore
@@ -33,6 +33,7 @@ SOURCES +=  tcolor.cpp\
             music/tnamestylefilter.cpp\
             music/tnote.cpp\
             music/ttune.cpp\
+            music/ttuneobject.cpp\
             music/trhythm.cpp\
             music/tmeter.cpp\
           \
@@ -42,8 +43,10 @@ SOURCES +=  tcolor.cpp\
             score/tnoteobject.cpp\
             score/tnotepair.cpp\
             score/tbeamobject.cpp\
+            score/tstafflines.cpp\
           \
             instruments/tguitarbg.cpp\
+            instruments/tpianobg.cpp\
           \
             Android/tandroid.cpp\
 
@@ -84,6 +87,7 @@ HEADERS  += nootkaconfig.h\
             music/tnotestruct.h\
             music/trhythm.h\
             music/ttune.h\
+            music/ttuneobject.h\
           \
             score/tscoreobject.h\
             score/tstaffobject.h\
@@ -91,8 +95,11 @@ HEADERS  += nootkaconfig.h\
             score/tnoteobject.h\
             score/tnotepair.h\
             score/tbeamobject.h\
+            score/tstafflines.h\
           \
             instruments/tguitarbg.h\
+            instruments/tpianobg.h\
+          \
             Android/tandroid.h\
 
 CONFIG += mobility warn_off

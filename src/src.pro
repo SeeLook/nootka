@@ -1,5 +1,5 @@
 
-QT += multimedia androidextras core gui quick quickcontrols2 printsupport
+QT += multimedia androidextras core widgets quick quickcontrols2 printsupport
 
 
 TARGET = Nootka2
