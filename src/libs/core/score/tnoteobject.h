@@ -56,7 +56,7 @@ class NOOTKACORE_EXPORT TnoteObject : public QQuickItem
 
 public:
   explicit TnoteObject(TstaffObject* staffObj = nullptr, TnotePair* wrapper = nullptr);
-  ~TnoteObject();
+  ~TnoteObject() override;
 
   TstaffObject* staff() const { return m_staff; }
   void setStaff(TstaffObject* staffObj);

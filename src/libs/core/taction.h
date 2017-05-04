@@ -44,7 +44,7 @@ class Taction : public QObject
 
 public:
   explicit Taction(QObject* parent = nullptr);
-  ~Taction();
+  ~Taction() override;
 
   QString icon() const;
   void setIconTag(const QString& ic);

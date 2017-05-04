@@ -53,7 +53,7 @@ class NOOTKACORE_EXPORT  TstaffObject : public QObject
 
 public:
   explicit TstaffObject(QObject* parent = nullptr);
-  ~TstaffObject();
+  ~TstaffObject() override;
 
   int number() const { return m_number; }
   void setNumber(int nr) { m_number = nr; emit numberChanged(); }

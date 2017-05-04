@@ -41,7 +41,7 @@ class TpianoBg : public QQuickPaintedItem
 
 public:
   explicit TpianoBg(QQuickItem* parent = nullptr);
-  ~TpianoBg();
+  ~TpianoBg() override;
 
   qreal keyWidth() const { return m_keyWidth; }
   void setKeyWidth(qreal kw);

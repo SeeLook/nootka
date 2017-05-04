@@ -40,7 +40,7 @@ class NOOTKACORE_EXPORT TnootkaQML : public QObject
 
 public:
   explicit TnootkaQML(QObject* parent = nullptr);
-  ~TnootkaQML();
+  ~TnootkaQML() override;
 
       /**
        * Dialogues recognized by main QML Dialog instance of main window
