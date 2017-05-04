@@ -56,6 +56,7 @@ Item {
         text: "\ue000"
         font {family: "scorek"; pixelSize: 22 }
         y: -9
+        color: activPal.text
       }
   }
 
