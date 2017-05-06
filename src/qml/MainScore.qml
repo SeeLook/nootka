@@ -29,8 +29,9 @@ Score {
   scoreObj.clefType: GLOB.clefType
   enableDoubleAccids: GLOB.enableDoubleAccids
   enableKeySign: GLOB.keySignatureEnabled
-  scoreObj.nameColor: GLOB.nameColor
   scoreObj.showNoteNames: GLOB.namesOnScore
+  scoreObj.nameColor: GLOB.nameColor
+  scoreObj.nameStyle: GLOB.noteNameStyle
   scoreObj.enableDoubleAccidentals: GLOB.enableDoubleAccids
 
   Text {
@@ -41,7 +42,7 @@ Score {
     y: 5
     color: activPal.text
     font.pointSize: 1.5
-    text: getKeyNameText() // enableKeySign ? Noo.majAndMinKeyName(firstStaff.keySignature.key) : ""
+    text: getKeyNameText()
     Connections {
       target: GLOB
       onKeyNameChanged: keyName.text = Qt.binding(keyName.getKeyNameText) //Noo.majAndMinKeyName(firstStaff.keySignature.key)

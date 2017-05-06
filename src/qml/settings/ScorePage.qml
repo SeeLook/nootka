@@ -216,12 +216,52 @@ Column {
           }
         }
       }
-      Flickable { // 3rd page (clefs)
+      Flickable { // 4rd page (note name calling)
         clip: true
         contentWidth: parent.width
         width: parent.width
-        NameStyleSelector {
-          
+        Column {
+          width: parent.width
+          spacing: nootkaWindow.fontSize / 2
+          anchors.horizontalCenter: parent.horizontalCenter
+          Tile {
+            description: qsTranslate("NameStyleSelector", "Naming style of note. The main difference is the 7th note.<br>Is it B and B flat, or H and B?")
+            Column {
+              anchors.horizontalCenter: parent.horizontalCenter
+              spacing: nootkaWindow.fontSize * 2
+              Select7note {
+                id: is7BSelector
+                anchors.horizontalCenter: parent.horizontalCenter
+                style: nameStyleSel.style
+              }
+              NameStyleSelector {
+                id: nameStyleSel
+                seventhIsB: is7BSelector.is7B
+                anchors.horizontalCenter: parent.horizontalCenter
+              }
+            }
+          }
+          Tile {
+            CheckBox {
+              id: namesOnScoreChB
+              text: qsTr("Show names of all notes on the score.")
+              anchors.horizontalCenter: parent.horizontalCenter
+              checked: GLOB.namesOnScore
+            }
+          }
+          Tile {
+            enabled: namesOnScoreChB.checked
+            Row {
+              spacing: nootkaWindow.fontSize
+              anchors.horizontalCenter: parent.horizontalCenter
+              Text { color: enabled ? activPal.text : disdPal.text; text: qsTr("names highlight color"); anchors.verticalCenter: parent.verticalCenter }
+              ColorButton { id: nameColorButt; color: GLOB.nameColor }
+            }
+          }
+          Component.onCompleted: {
+            nameStyleSel.style = GLOB.noteNameStyle
+            is7BSelector.is7B = GLOB.seventhIsB
+          }
         }
       }
     }
@@ -241,6 +281,10 @@ Column {
           GLOB.updateKeySignatureNames()
         }
       }
+      GLOB.noteNameStyle = nameStyleSel.style
+      GLOB.seventhIsB = is7BSelector.is7B
+      GLOB.namesOnScore = namesOnScoreChB.checked
+      GLOB.nameColor = nameColorButt.color
     }
 
     function defaults() {

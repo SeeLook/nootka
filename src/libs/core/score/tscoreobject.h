@@ -73,6 +73,7 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(bool enableDoubleAccidentals READ enableDoubleAccidentals WRITE setEnableDoubleAccids)
   Q_PROPERTY(bool showNoteNames READ showNoteNames WRITE setShowNoteNames)
   Q_PROPERTY(QColor nameColor READ nameColor WRITE setNameColor)
+  Q_PROPERTY(int nameStyle READ nameStyle WRITE setNameStyle)
                         /* Helper variables */
   Q_PROPERTY(qreal stavesHeight READ stavesHeight NOTIFY stavesHeightChanged)
   Q_PROPERTY(qreal width READ width WRITE setWidth)
@@ -144,8 +145,11 @@ public:
   bool showNoteNames() { return m_showNoteNames; }
   void setShowNoteNames(bool showNames);
 
-  QColor nameColor() { return m_nameColor; }
+  QColor nameColor() const { return m_nameColor; }
   void setNameColor(const QColor& nameC);
+
+  int nameStyle() const { return m_nameStyle; }
+  void setNameStyle(int nameS);
 
   /* ------------------ Lists with score content (staves, measures notes) ------------------ */
 
@@ -355,6 +359,7 @@ private:
   QQmlEngine                       *m_qmlEngine;
   QQmlComponent                    *m_qmlComponent;
   QColor                            m_nameColor;
+  int                               m_nameStyle;
                               /* Note cursor */
   TnoteObject                      *m_activeNote = nullptr;
   qreal                             m_activeYpos = 0.0;

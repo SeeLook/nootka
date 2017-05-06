@@ -132,12 +132,6 @@ void Tglobals::setNoteCursorColor(const QColor& c) { S->pointerColor = c; emit n
 bool Tglobals::isSingleNote() const { return S->isSingleNoteMode; }
 void Tglobals::setSingleNote(bool sn) { S->isSingleNoteMode = sn; }
 
-bool Tglobals::namesOnScore() const { return S->namesOnScore; }
-void Tglobals::setNamesOnScore(bool showNames) { S->namesOnScore = showNames; emit namesOnScoreChanged(); }
-
-QColor Tglobals::nameColor() const { return S->nameColor; }
-void Tglobals::setNameColor(const QColor& nameC) { S->nameColor = nameC; emit nameColorChanged(); }
-
 bool Tglobals::enableDoubleAccids() const { return S->doubleAccidentalsEnabled; }
 void Tglobals::setEnableDoubleAccids(bool dblAcc) { S->doubleAccidentalsEnabled = dblAcc; emit enableDoubleAccidsChanged(); }
 
@@ -165,14 +159,49 @@ void Tglobals::updateKeySignatureNames() {
   emit keyNameChanged();
 }
 
-
-bool Tglobals::seventhIsB() const { return S->seventhIs_B; }
-void Tglobals::setSeventhIsB(bool isB) { S->seventhIs_B = isB; emit seventhIsBChanged(); }
-
 bool Tglobals::rhythmsEnabled() const { return S->rhythmsEnabled; }
 void Tglobals::setRhythmsEnabled(bool enR) { S->rhythmsEnabled = enR; emit rhythmsEnabledChanged(); }
 
+/* ------------------ Note name switches ------------------ */
+bool Tglobals::seventhIsB() const { return S->seventhIs_B; }
 
+void Tglobals::setSeventhIsB(bool isB) {
+  if (isB != S->seventhIs_B) {
+    S->seventhIs_B = isB;
+    emit seventhIsBChanged();
+  }
+}
+
+int Tglobals::noteNameStyle() const { return static_cast<int>(S->nameStyleInNoteName); }
+
+void Tglobals::setNoteNameStyle(int nameStyle) {
+  Tnote::EnameStyle newNameStyle = static_cast<Tnote::EnameStyle>(nameStyle);
+  if (newNameStyle != S->nameStyleInNoteName) {
+    S->nameStyleInNoteName = static_cast<Tnote::EnameStyle>(nameStyle);
+    Tnote::defaultStyle = S->nameStyleInNoteName;
+    emit noteNameStyleChanged();
+  }
+}
+
+bool Tglobals::namesOnScore() const { return S->namesOnScore; }
+
+void Tglobals::setNamesOnScore(bool showNames) {
+  if (showNames != S->namesOnScore) {
+    S->namesOnScore = showNames;
+    emit namesOnScoreChanged();
+  }
+}
+
+QColor Tglobals::nameColor() const { return S->nameColor; }
+
+void Tglobals::setNameColor(const QColor& nameC) {
+  if (nameC != S->nameColor) {
+    S->nameColor = nameC;
+    emit nameColorChanged();
+  }
+}
+
+/* ------------------ Instrument switches ------------------ */
 void Tglobals::setInstrument(Tinstrument::Etype t) { m_instrument.setType(t); emit instrumentChanged(); }
 
 void Tglobals::setFingerColor(const QColor& fc) { GfingerColor = fc; emit fingerColorChanged(); }
@@ -235,8 +264,21 @@ void Tglobals::loadSettings(QSettings* cfg) {
       S->namesOnScore = cfg->value(QStringLiteral("namesOnScore"), true).toBool();
       S->nameColor = cfg->value(QStringLiteral("namesColor"), QColor(0, 225, 225)).value<QColor>();
   cfg->endGroup();
+// Fix name style depending on 7th note is was set wrongly in configuration (naughty user)
+  if (S->seventhIs_B) {
+      if (S->nameStyleInNoteName == Tnote::e_norsk_Hb)
+        S->nameStyleInNoteName = Tnote::e_english_Bb;
+      else if (S->nameStyleInNoteName == Tnote::e_deutsch_His)
+        S->nameStyleInNoteName = Tnote::e_nederl_Bis;
+  } else {
+      if (S->nameStyleInNoteName == Tnote::e_english_Bb)
+        S->nameStyleInNoteName = Tnote::e_norsk_Hb;
+      else if (S->nameStyleInNoteName == Tnote::e_nederl_Bis)
+        S->nameStyleInNoteName = Tnote::e_deutsch_His;
+  }
 // Initialize name filter
   TnameStyleFilter::setStyleFilter(&S->seventhIs_B, &S->solfegeStyle);
+  Tnote::defaultStyle = S->nameStyleInNoteName;
 
 // guitar settings
   Ttune::prepareDefinedTunes();

@@ -56,6 +56,7 @@
     <file alias="InstrumentPage.qml">qml/settings/InstrumentPage.qml</file>
     <file alias="ColorButton.qml">qml/settings/ColorButton.qml</file>
     <file alias="KeySufixEdit.qml">qml/settings/KeySufixEdit.qml</file>
+    <file alias="Select7note.qml">qml/settings/Select7note.qml</file>
 
     <file alias="fakeTrans.js">qml/shared/fakeTrans.js</file>
 

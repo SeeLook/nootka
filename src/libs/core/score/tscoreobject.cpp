@@ -44,7 +44,8 @@ TscoreObject::TscoreObject(QObject* parent) :
   m_enableDoubleAccids(false),
   m_showNoteNames(false),
   m_clefOffset(TclefOffset(3, 1)),
-  m_width(0.0), m_adjustInProgress(false)
+  m_width(0.0), m_adjustInProgress(false),
+  m_nameStyle(static_cast<int>(Tnote::defaultStyle))
 {
   m_qmlEngine = new QQmlEngine;
   m_qmlComponent = new QQmlComponent(m_qmlEngine, this);
@@ -279,7 +280,7 @@ void TscoreObject::setNote(int staffNr, int noteNr, const Tnote& n) {
 }
 
 
-TnoteObject * TscoreObject::note(int noteId) {
+TnoteObject* TscoreObject::note(int noteId) {
   return noteId > -1 && noteId < notesCount() ? m_segments[noteId]->item() : nullptr;
 }
 
@@ -448,6 +449,19 @@ CHECKTIME(
     if (m_showNoteNames) {
       for (int n = 0; n < notesCount(); ++n) // with hope that all items have name item created
         m_segments[n]->item()->nameItem()->setProperty("styleColor", m_nameColor);
+    }
+  }
+)
+}
+
+
+void TscoreObject::setNameStyle(int nameS) {
+CHECKTIME(
+  if (m_nameStyle != nameS) {
+    m_nameStyle = nameS;
+    if (m_showNoteNames) {
+      for (int n = 0; n < notesCount(); ++n) // with hope that all items have name item created
+        m_segments[n]->item()->nameItem()->setProperty("text", m_notes[n].toRichText());
     }
   }
 )

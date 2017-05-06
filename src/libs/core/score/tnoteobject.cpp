@@ -247,11 +247,11 @@ void TnoteObject::setNote(const Tnote& n) {
 
 void TnoteObject::setX(qreal xx) {
   updateTieScale();
-  QQuickItem::setX(xx + (/*m_accidText.isEmpty() ? 0.0 : */m_alter->width()));
+  QQuickItem::setX(xx + (m_alter->width()));
   if (m_wrapper->beam() && m_wrapper->beam()->last()->item() == this)
     m_wrapper->beam()->last()->beam()->drawBeam();
   if (m_name)
-    m_name->setX(x());
+    m_name->setX(x() - m_alter->width());
 }
 
 
@@ -610,7 +610,7 @@ void TnoteObject::updateNamePos() {
         m_name->setVisible(true);
         m_name->setY(m_notePosY + (m_note->rtm.stemDown() ? -5.0 : 1.0));
         m_name->setProperty("text", m_note->toRichText());
-        m_name->setX(x());
+        m_name->setX(x() - m_alter->width());
     } else {
         m_name->setVisible(false);
     }
