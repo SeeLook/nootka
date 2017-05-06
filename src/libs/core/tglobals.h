@@ -53,8 +53,6 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(QColor enharmNoteColor READ getEnharmNoteColor WRITE setEnharmNoteColor)
   Q_PROPERTY(QColor noteCursorColor READ getNoteCursorColor WRITE setNoteCursorColor NOTIFY noteCursorColorChanged)
   Q_PROPERTY(bool singleNoteMode READ isSingleNote WRITE setSingleNote)
-  Q_PROPERTY(qreal namesOnScore READ namesOnScore WRITE setNamesOnScore NOTIFY namesOnScoreChanged)
-  Q_PROPERTY(QColor nameColor READ nameColor WRITE setNameColor NOTIFY nameColorChanged)
   Q_PROPERTY(bool enableDoubleAccids READ enableDoubleAccids WRITE setEnableDoubleAccids NOTIFY enableDoubleAccidsChanged)
   Q_PROPERTY(bool keySignatureEnabled READ keySignatureEnabled WRITE setKeySignatureEnabled NOTIFY enableKeySignatureChanged)
   Q_PROPERTY(bool showKeyName READ showKeyName WRITE setShowKeyName NOTIFY showKeyNameChanged)
@@ -64,8 +62,14 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(bool rhythmsEnabled READ rhythmsEnabled WRITE setRhythmsEnabled NOTIFY rhythmsEnabledChanged)
 
   Q_PROPERTY(int clefType READ clefType WRITE setClefType NOTIFY clefTypeChanged)
-  Q_PROPERTY(bool seventhIsB READ seventhIsB WRITE setSeventhIsB NOTIFY seventhIsBChanged)
 
+  /* Note name switches */
+  Q_PROPERTY(qreal namesOnScore READ namesOnScore WRITE setNamesOnScore NOTIFY namesOnScoreChanged)
+  Q_PROPERTY(int noteNameStyle READ noteNameStyle WRITE setNoteNameStyle NOTIFY noteNameStyleChanged)
+  Q_PROPERTY(bool seventhIsB READ seventhIsB WRITE setSeventhIsB NOTIFY seventhIsBChanged)
+  Q_PROPERTY(QColor nameColor READ nameColor WRITE setNameColor NOTIFY nameColorChanged)
+
+  /* Instrument switches */
   Q_PROPERTY(Tinstrument instrument READ instrument NOTIFY instrumentChanged)
   Q_PROPERTY(TtuneObject* tuning READ tuning NOTIFY tuningChanged)
 
@@ -124,9 +128,6 @@ public:
   int clefType() const;
   void setClefType(int clType);
 
-  bool seventhIsB() const;
-  void setSeventhIsB(bool isB);
-
   bool showKeyName() const;
   void setShowKeyName(bool showKey);
 
@@ -142,6 +143,14 @@ public:
   bool rhythmsEnabled() const;
   void setRhythmsEnabled(bool enR);
 
+  /* ------------------ Note name switches ------------------ */
+  bool seventhIsB() const;
+  void setSeventhIsB(bool isB);
+
+  int noteNameStyle() const;
+  void setNoteNameStyle(int nameStyle);
+
+  /* ------------------ Instrument switches ------------------ */
   QColor fingerColor() const { return GfingerColor; }
   void setFingerColor(const QColor& fc);
 
@@ -232,6 +241,7 @@ signals:
   void enableKeySignatureChanged();
   void clefTypeChanged();
   void nameColorChanged();
+  void noteNameStyleChanged();
   void seventhIsBChanged();
   void showKeyNameChanged();
   void keyNameChanged();
