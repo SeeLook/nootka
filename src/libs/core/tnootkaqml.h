@@ -52,12 +52,12 @@ public:
   Q_ENUM(Edialogs)
 
   enum EnameStyle {
-    Norsk_Hb = 0, // for letters with signs f.e. C# Cx or Cb    !! THIS IS DEFAULT !!
-    Deutsch_His = 1, // for letters with names f.e. Cis Cisis or Ces H and B (H with flat)
-    Italiano_Si = 2, // for classical Do Re Mi Fa Sol La Si
-    English_Bb = 3, // like @p e_norsk_Hb but with B and Bb (B flat)
-    Nederl_Bis = 4, // like @p e_deutsch_His but with B ens Bes
-    Russian_Ci = 5 // classical but in Russian: До Ре Ми Фа Соль Ля Си
+    Norsk_Hb = 0,     /**< for letters with signs f.e. C# Cx or Cb    !! THIS IS DEFAULT !! */
+    Deutsch_His = 1,  /**< for letters with names f.e. Cis Cisis or Ces H and B (H with flat) */
+    Italiano_Si = 2,  /**< for classical Do Re Mi Fa Sol La Si */
+    English_Bb = 3,   /**< like @p e_norsk_Hb but with B and Bb (B flat) */
+    Nederl_Bis = 4,   /**< like @p e_deutsch_His but with B ens Bes */
+    Russian_Ci = 5    /**< classical but in Russian: До Ре Ми Фа Соль Ля Си */
   };
   Q_ENUM(EnameStyle)
 

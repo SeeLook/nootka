@@ -51,12 +51,12 @@ public:
 
         /** Enumeration type describes the styles of notation */
   enum EnameStyle {
-    e_norsk_Hb = 0, // for letters with signs f.e. C# Cx or Cb    !! THIS IS DEFAULT !!
-    e_deutsch_His, // for letters with names f.e. Cis Cisis or Ces H and B (H with flat)
-    e_italiano_Si, // for classical Do Re Mi Fa Sol La Si
-    e_english_Bb, // like @p e_norsk_Hb but with B and Bb (B flat)
-    e_nederl_Bis, // like @p e_deutsch_His but with B ens Bes
-    e_russian_Ci // classical but in Russian: До Ре Ми Фа Соль Ля Си
+    e_norsk_Hb = 0,     /**< for letters with signs f.e. C# Cx or Cb    !! THIS IS DEFAULT !! */
+    e_deutsch_His = 1,  /**< for letters with names f.e. Cis Cisis or Ces H and B (H with flat) */
+    e_italiano_Si = 2,  /**< for classical Do Re Mi Fa Sol La Si */
+    e_english_Bb = 3,   /**<like @p e_norsk_Hb but with B and Bb (B flat) */
+    e_nederl_Bis = 4,   /**< like @p e_deutsch_His but with B ens Bes */
+    e_russian_Ci = 5    /**< classical but in Russian: До Ре Ми Фа Соль Ля Си */
   };
 
         /** Ealter enumeration type describes all signs which can be before note in score.
