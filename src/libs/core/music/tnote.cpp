@@ -318,6 +318,32 @@ QString Tnote::toRichText(Tnote::EnameStyle notation, bool showOctave) const {
 }
 
 
+QString Tnote::styledName(bool showOctave) const {
+  QString name;
+  if (isValid()) {
+    EnameStyle notation = defaultStyle;
+    if (notation == Tnote::e_italiano_Si || notation == Tnote::e_russian_Ci ||
+        notation == Tnote::e_english_Bb || notation == Tnote::e_norsk_Hb ) {
+          name = Tnote(note, octave, 0).toText(notation, false).toLower();
+          if (alter)
+            name += QString(QChar(379 + alter)); // 377 (0x179) is glyph number of double flat (-2)
+    } else // e_deutsch_His & e_nederl_Bis (full name)
+          name = toText(notation, false).toLower();
+    if (showOctave) {
+      if (octave > 0)
+          name += QString(QChar(390 + octave)); // 391 is fist glyph of sup script digit
+      else if (octave < 0) {
+        QString firstLetter = name.mid(0, 1).toUpper();
+        name.replace(0, 1, firstLetter);
+        if (octave < -1) // 397 is fist glyph of sub script digit,
+          name += QString(QChar(395 - octave)); // and -1 octave is just with capital letter but without digit, only -2 has 1 digit and etc
+      }
+    }
+  }
+  return name;
+}
+
+
 void Tnote::toXml(QXmlStreamWriter& xml, const QString& tag, const QString& prefix,
                   const QString& attr, const QString& val) const {
   if (!tag.isEmpty()) {

@@ -24,8 +24,6 @@ TRANSLATION CONTEXT CHANGES
   TnoteNameSettings - ScorePage or its sub-page
 
 ============================================================================
-SCORE
- - rich text for key names (accidentals would be in Nootka symbols)
 
 small glitches:
  - sometimes setting a note doesn't scale tie - probably due to note width is not refreshed
