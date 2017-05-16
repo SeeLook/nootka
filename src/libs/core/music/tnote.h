@@ -214,11 +214,23 @@ public:
       /** Returns note name converted to QString */
   QString toText (bool showOctave = true) const { return toText(defaultStyle, showOctave); }
 
-        /** Returns note name formatted to HTML*/
+        /** DEPRECATED
+         * Returns note name formatted to HTML
+         * NOTE: Since QML port, it is note recommended, prefer @p styledName() instead
+         */
   QString toRichText(EnameStyle notation, bool showOctave = true) const;
 
-        /** Returns note name formatted to HTML in default name style sets by @p defaultStyle. */
+        /** DEPRECATED
+         * Returns note name formatted to HTML in default name style sets by @p defaultStyle.
+         * NOTE: Since QML port, it is note recommended, prefer @p styledName() instead
+         */
   QString toRichText(bool showOctave = true) const { return toRichText(defaultStyle, showOctave); }
+
+      /**
+       * Returns name of the current note with glyphs of Scorek font.
+       * It doesn't use any tags for better QML performance.
+       */
+  QString styledName(bool showOctave = true)const;
 
   short chromatic() const; /**< Returns chromatic number of note f.e. C1 is 60 */
   void setChromatic(short noteNr); /**< Determines note, octave and accidental from chromatic value. */

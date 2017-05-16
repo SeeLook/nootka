@@ -216,11 +216,14 @@ Column {
           }
         }
       }
+
       Flickable { // 4rd page (note name calling)
         clip: true
         contentWidth: parent.width
         width: parent.width
+        contentHeight: nameCol.height + nootkaWindow.fontSize * 2
         Column {
+          id: nameCol
           width: parent.width
           spacing: nootkaWindow.fontSize / 2
           anchors.horizontalCenter: parent.horizontalCenter

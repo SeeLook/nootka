@@ -47,6 +47,7 @@ class NOOTKACORE_EXPORT TnoteObject : public QQuickItem
   Q_PROPERTY(qreal alterWidth READ alterWidth NOTIFY alterWidthChanged)
   Q_PROPERTY(int index READ index)
   Q_PROPERTY(QQuickItem* staffItem READ staffItem)
+  Q_PROPERTY(qreal rightX READ rightX NOTIFY rightXChanged)
 
   friend class TscoreObject;
   friend class TstaffObject;
@@ -121,6 +122,7 @@ signals:
   void noteChanged();
   void notePosYchanged();
   void alterWidthChanged();
+  void rightXChanged();
 
 protected:
   QString getAccidText();

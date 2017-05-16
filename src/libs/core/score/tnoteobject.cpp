@@ -251,7 +251,9 @@ void TnoteObject::setX(qreal xx) {
   if (m_wrapper->beam() && m_wrapper->beam()->last()->item() == this)
     m_wrapper->beam()->last()->beam()->drawBeam();
   if (m_name)
-    m_name->setX(x() - m_alter->width());
+    m_name->setX(x() - m_alter->width() + (width() - m_name->width()) / 2.0);
+//     m_name->setX(x() - m_alter->width());
+  emit rightXChanged();
 }
 
 
@@ -336,7 +338,8 @@ QPointF TnoteObject::stemTop() {
 void TnoteObject::setNoteNameVisible(bool nameVisible) {
   if (nameVisible) {
       if (!m_name) {
-        m_staff->score()->component()->setData("import QtQuick 2.7; Text { font.pixelSize: 3; textFormat: Text.RichText; style: Text.Outline }", QUrl());
+        m_staff->score()->component()->setData(
+              "import QtQuick 2.7; Text { font { pixelSize: 3; family: \"Scorek\" } textFormat: Text.PlainText; style: Text.Outline }", QUrl());
         m_name = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
         m_name->setParentItem(parentItem());
         m_name->setProperty("color", qApp->palette().text().color());
@@ -608,9 +611,9 @@ void TnoteObject::updateNamePos() {
   if (m_name) {
     if (m_note->isValid()) {
         m_name->setVisible(true);
-        m_name->setY(m_notePosY + (m_note->rtm.stemDown() ? -5.0 : 1.0));
-        m_name->setProperty("text", m_note->toRichText());
-        m_name->setX(x() - m_alter->width());
+        m_name->setY(m_notePosY + (m_note->rtm.stemDown() ? -9.5 : -2.5));
+        m_name->setProperty("text", m_note->styledName());
+        m_name->setX(x() - m_alter->width() + (width() - m_name->width()) / 2.0);
     } else {
         m_name->setVisible(false);
     }
