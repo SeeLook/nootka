@@ -7,6 +7,7 @@ import QtQuick.Controls 2.0
 
 import Score 1.0
 import Nootka 1.0
+import "../"
 
 
 Flickable {
