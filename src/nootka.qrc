@@ -40,23 +40,23 @@
     <file alias="Piano.qml">qml/instruments/Piano.qml</file>
 
     <file alias="TaboutNootka.qml">qml/about/TaboutNootka.qml</file>
-    <file alias="AboutPage.qml">qml/about/AboutPage.qml</file>
-    <file alias="HelpPage.qml">qml/about/HelpPage.qml</file>
-    <file alias="AuthorsPage.qml">qml/about/AuthorsPage.qml</file>
-    <file alias="LicensePage.qml">qml/about/LicensePage.qml</file>
-    <file alias="SupportPage.qml">qml/about/SupportPage.qml</file>
-    <file alias="DonorsPage.qml">qml/about/DonorsPage.qml</file>
-    <file alias="ChangesPage.qml">qml/about/ChangesPage.qml</file>
-    <file alias="QtPage.qml">qml/about/QtPage.qml</file>
-    <file alias="TextBackground.qml">qml/about/TextBackground.qml</file>
+    <file alias="about/AboutPage.qml">qml/about/AboutPage.qml</file>
+    <file alias="about/HelpPage.qml">qml/about/HelpPage.qml</file>
+    <file alias="about/AuthorsPage.qml">qml/about/AuthorsPage.qml</file>
+    <file alias="about/LicensePage.qml">qml/about/LicensePage.qml</file>
+    <file alias="about/SupportPage.qml">qml/about/SupportPage.qml</file>
+    <file alias="about/DonorsPage.qml">qml/about/DonorsPage.qml</file>
+    <file alias="about/ChangesPage.qml">qml/about/ChangesPage.qml</file>
+    <file alias="about/QtPage.qml">qml/about/QtPage.qml</file>
+    <file alias="about/TextBackground.qml">qml/about/TextBackground.qml</file>
 
     <file alias="TsettingsDialog.qml">qml/settings/TsettingsDialog.qml</file>
-    <file alias="GlobalPage.qml">qml/settings/GlobalPage.qml</file>
-    <file alias="ScorePage.qml">qml/settings/ScorePage.qml</file>
-    <file alias="InstrumentPage.qml">qml/settings/InstrumentPage.qml</file>
-    <file alias="ColorButton.qml">qml/settings/ColorButton.qml</file>
-    <file alias="KeySufixEdit.qml">qml/settings/KeySufixEdit.qml</file>
-    <file alias="Select7note.qml">qml/settings/Select7note.qml</file>
+    <file alias="settings/GlobalPage.qml">qml/settings/GlobalPage.qml</file>
+    <file alias="settings/ScorePage.qml">qml/settings/ScorePage.qml</file>
+    <file alias="settings/InstrumentPage.qml">qml/settings/InstrumentPage.qml</file>
+    <file alias="settings/ColorButton.qml">qml/settings/ColorButton.qml</file>
+    <file alias="settings/KeySufixEdit.qml">qml/settings/KeySufixEdit.qml</file>
+    <file alias="settings/Select7note.qml">qml/settings/Select7note.qml</file>
 
     <file alias="fakeTrans.js">qml/shared/fakeTrans.js</file>
 
