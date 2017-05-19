@@ -58,6 +58,13 @@
     <file alias="settings/KeySufixEdit.qml">qml/settings/KeySufixEdit.qml</file>
     <file alias="settings/Select7note.qml">qml/settings/Select7note.qml</file>
 
+    <file alias="LevelCreator.qml">qml/level/LevelCreator.qml</file>
+    <file alias="level/LevelsPage.qml">qml/level/LevelsPage.qml</file>
+    <file alias="level/QuestionsPage.qml">qml/level/QuestionsPage.qml</file>
+    <file alias="level/MelodyPage.qml">qml/level/MelodyPage.qml</file>
+    <file alias="level/AccidsPage.qml">qml/level/AccidsPage.qml</file>
+    <file alias="level/RangePage.qml">qml/level/RangePage.qml</file>
+
     <file alias="fakeTrans.js">qml/shared/fakeTrans.js</file>
 
     <file alias="qtquickcontrols2.conf">qml/qtquickcontrols2.conf</file>

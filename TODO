@@ -22,6 +22,7 @@ TRANSLATION CONTEXT CHANGES
 
   NameStyleSelector - text "Naming style of note. The main difference is the 7th note.<br>Is it B and B flat, or H and B?" has to go into ScorePage or its sub-page with name settings
   TnoteNameSettings - ScorePage or its sub-page
+  TlevelCreatorDlg -> LevelCreator
 
 ============================================================================
 

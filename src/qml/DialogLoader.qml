@@ -50,6 +50,16 @@ Dialog {
               title = qsTranslate("TaboutNootka", "About Nootka")
           }
           break
+        case Nootka.LevelCreator:
+          var c = Qt.createComponent("qrc:/LevelCreator.qml")
+          currentDialog = c.createObject(contentItem)
+          if (Noo.isAndroid()) {
+              buttons = [StandardButton.Close]
+          } else {
+              standardButtons = StandardButton.Close
+              title = qsTr("Level creator")
+          }
+          break
       }
       open()
       if (Noo.isAndroid()) {
