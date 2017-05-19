@@ -17,7 +17,7 @@ Flickable {
   clip: true
   contentHeight: mainColumn.height + nootkaWindow.fontSize * 2
 
-  ScrollBar.vertical: ScrollBar {}
+  ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
 
   Column {
     id: mainColumn
