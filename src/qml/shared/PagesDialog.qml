@@ -20,7 +20,7 @@ Item {
   property alias currentPage: stack.currentItem
   property alias mobileButt: mobBut
 
-  anchors.fill: parent
+  anchors { fill: parent; leftMargin: Screen.pixelDensity }
 
   Rectangle { z: 2; color: activPal.base; x: navList.x; y: navList.y; width: navList.width; height: navList.height }
   Rectangle { // highlight
@@ -100,9 +100,9 @@ Item {
 
       function ensureVisible(yy, hh) {
         if (contentY >= yy)
-            contentY = yy;
+          contentY = yy
         else if (contentY + height <= yy + hh)
-            contentY = yy + hh - height;
+          contentY = yy + hh - height
       }
 
       Behavior on contentY { enabled: GLOB.useAnimations; NumberAnimation { duration: 300; easing.type: Easing.OutBounce }}

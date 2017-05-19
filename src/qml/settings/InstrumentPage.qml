@@ -16,6 +16,8 @@ Flickable {
   height: parent.height
   contentHeight: instrCol.height + nootkaWindow.fontSize * 2
 
+  ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
+
   Column {
     id: instrCol
     width: parent.width
@@ -113,7 +115,7 @@ Flickable {
       Row {
         spacing: nootkaWindow.fontSize
         anchors.horizontalCenter: parent.horizontalCenter
-        Text { color: activPal.text; text: qsTr("color of a pointer on a instrument"); anchors.verticalCenter: parent.verticalCenter }
+        Text { color: activPal.text; text: qsTr("color of a pointer on an instrument"); anchors.verticalCenter: parent.verticalCenter }
         ColorButton { id: fingerColorButt; color: GLOB.fingerColor }
       }
     }

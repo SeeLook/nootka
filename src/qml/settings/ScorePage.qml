@@ -124,6 +124,9 @@ Column {
           showEnharmNotesChB.checked = GLOB.showEnharmNotes
           singleNoteModeChB.checked = GLOB.singleNoteMode
         }
+
+        ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
+
       }
 
       Flickable { // 2nd page (key signatures)
@@ -192,6 +195,9 @@ Column {
             }
           }
         }
+
+        ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
+
       }
 
       Flickable { // 3rd page (clefs)
@@ -216,6 +222,9 @@ Column {
             Component.onCompleted: selClef = GLOB.clefType
           }
         }
+
+        ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
+
       }
 
       Flickable { // 4rd page (note name calling)
@@ -267,6 +276,9 @@ Column {
             is7BSelector.is7B = GLOB.seventhIsB
           }
         }
+
+        ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
+
       }
     }
 
