@@ -39,7 +39,7 @@
         <file>picts/score.png</file>
         <file>picts/melody-play.png</file>
         <file>picts/melody-rec.png</file>
-        <file>picts/questionsSettings.png</file>
+        <file>picts/questionsSett.png</file>
         <file>picts/fork.png</file>
         <file>picts/check.png</file>
         <file>picts/exam-settings.png</file>
@@ -58,9 +58,9 @@
         <file>picts/fingerpoint.png</file>
 <!-- settings -->
         <file>picts/global.png</file>
-        <file>picts/scoreSettings.png</file>
-        <file>picts/soundSettings.png</file>
-        <file>picts/guitarSettings.png</file>
+        <file>picts/scoreSett.png</file>
+        <file>picts/soundSett.png</file>
+        <file>picts/instrSett.png</file>
         <file>picts/appearance.png</file>
 <!-- about -->
         <file>picts/author.png</file>

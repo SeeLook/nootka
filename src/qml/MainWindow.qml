@@ -39,6 +39,7 @@ ApplicationWindow {
     icon: "levelCreator"
     text: qsTranslate("TtoolBar", "Level")
     tip: qsTranslate("TtoolBar", "Levels creator")
+    onTriggered: dialogLoader.page = Nootka.LevelCreator
   }
   Taction { // desktop only
     id: scoreAct
@@ -99,7 +100,7 @@ ApplicationWindow {
         id: instrument
         z: 1
         onNote: {
-          score.addNote(Noo.note(n, score.meter == 0 ? 0 : 2 + Math.random() * 4))
+          score.addNote(Noo.note(n, score.workRhythm))
         }
       }
   }

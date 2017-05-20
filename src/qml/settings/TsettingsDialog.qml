@@ -14,10 +14,10 @@ Item {
 
   Component.onCompleted: {
     pages.addItem("global", qsTr("Common"), "settings/Global")
-    pages.addItem("scoreSettings", qsTr("Score"), "settings/Score")
-    pages.addItem("guitarSettings", qsTr("Instrument"), "settings/Instrument")
-    pages.addItem("soundSettings", qsTr("Sound"), "settings/Sound")
-    pages.addItem("questionsSettings", qsTr("Exercises") + "\n& " + qsTr("Exam"), "settings/Exam")
+    pages.addItem("scoreSett", qsTr("Score"), "settings/Score")
+    pages.addItem("instrSett", qsTr("Instrument"), "settings/Instrument")
+    pages.addItem("soundSett", qsTr("Sound"), "settings/Sound")
+    pages.addItem("questionsSett", qsTr("Exercises") + "\n& " + qsTr("Exam"), "settings/Exam")
     pages.addItem("appearance", qsTr("Appearance"), "settings/Appearance")
   }
 
