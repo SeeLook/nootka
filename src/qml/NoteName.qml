@@ -27,9 +27,11 @@ TipRect {
       width: noteName.width * 0.9
       height: noteName.height * 0.2
       Text {
+        y: -noteName.height * 0.17
+        width: parent.width
+        height: parent.height
         id: nameLabel
-        anchors.fill: parent
-        font.pixelSize: height * 0.8
+        font { pixelSize: height * 0.8; family: "Scorek" }
         horizontalAlignment: Text.AlignHCenter
       }
     }

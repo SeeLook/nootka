@@ -13,6 +13,7 @@ Flickable {
   property alias scoreObj: scoreObj
   property alias scale: staff0.scale
   property alias firstStaff: staff0
+  property Staff lastStaff: staff0
   property int clef: Tclef.Treble_G
   property alias upperLine: staff0.upperLine
   property bool enableNoClef: true
@@ -20,12 +21,14 @@ Flickable {
   property alias bgColor: bgRect.color
   property bool enableKeySign: scoreObj.keySignatureEnabled
   property bool enableDoubleAccids: false
+  property alias workRhythm: scoreObj.workRhythm
   property real scaleFactor: 1.0
   property alias notesCount: scoreObj.notesCount
   property TnoteItem currentNote: null
 
   // private
   property var staves: []
+  property NoteAdd noteAdd: null
 
   clip: true
   boundsBehavior: Flickable.StopAtBounds
@@ -51,13 +54,15 @@ Flickable {
         lastStaff.keySignature.onKeySignatureChanged.connect(setKeySignature)
         lastStaff.keySignature.key = staff0.keySignature.key
       }
+      score.lastStaff = lastStaff
     }
     onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
     onMeterChanged: enableNoClef = meter !== Tmeter.NoMeter
     onKeySignatureChanged: setKeySignature(scoreObj.keySignature)
     onClefTypeChanged: staff0.clef.type = clefType
+    onLastNoteChanged: if (noteAdd) noteAdd.lastNote = lastNote
 
-    function removeStaff(nr) { staves.splice(nr, 1) }
+    function removeStaff(nr) { staves.splice(nr, 1); lastStaff = staves[staves.length - 1] }
   }
 
   onCurrentNoteChanged: {
@@ -87,12 +92,26 @@ Flickable {
 
   AccidControl {
     id: accidControl
-    active: score.clef !== Tclef.NoClef && scoreObj.activeNote !== null
+    active: (score.clef !== Tclef.NoClef && scoreObj.activeNote !== null) || (noteAdd && noteAdd.active)
   }
 
   RhythmControl {
+    id: rtmCtrl
     visible: meter !== Tmeter.NoMeter
-    active: scoreObj.activeNote !== null
+    active: scoreObj.activeNote !== null || (noteAdd && noteAdd.active)
+    onChanged: scoreObj.workRhythm = rtmCtrl.rhythm
+  }
+
+  Loader { sourceComponent: scoreObj.allowAdding ? addComp : null }
+  Component {
+    id: addComp
+    NoteAdd {
+      noteText: rtmCtrl.rhythmText
+      onAdd: score.addNote(scoreObj.posToNote(yPos))
+      alterText: accidControl.text
+      Component.onCompleted: score.noteAdd = this
+      Component.onDestruction: score.noteAdd = null
+    }
   }
 
   onEnableKeySignChanged: {
@@ -138,9 +157,11 @@ Flickable {
 
   function addNote(n) {
     scoreObj.addNote(n)
-    var lastNote = scoreObj.note(scoreObj.notesCount - 1)
+    var lastNote = scoreObj.lastNote
     if (staves.length > 1)
       ensureVisible(lastNote.staffItem.y, lastNote.staffItem.height * scale)
+    if (noteAdd)
+      noteAdd.lastNote = lastNote
   }
 
   function setNote(staff, nr, n) { scoreObj.setNote(staff, nr, n) }

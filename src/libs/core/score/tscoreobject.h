@@ -52,6 +52,7 @@ class TmeasureObject;
 class TnoteObject;
 class Tmeter;
 class Tnote;
+class Trhythm;
 
 
 /**
@@ -79,10 +80,13 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(qreal width READ width WRITE setWidth)
                         /* Note cursor */
   Q_PROPERTY(TnoteObject* activeNote READ activeNote NOTIFY activeNoteChanged)
+  Q_PROPERTY(TnoteObject* lastNote READ lastNote NOTIFY lastNoteChanged)
   Q_PROPERTY(qreal activeYpos READ activeYpos NOTIFY activeYposChanged)
   Q_PROPERTY(qreal upperLine READ upperLine NOTIFY upperLineChanged)
   Q_PROPERTY(qreal xFirstInActivBar READ xFirstInActivBar NOTIFY activeBarChanged)
   Q_PROPERTY(qreal xLastInActivBar READ xLastInActivBar NOTIFY activeBarChanged)
+  Q_PROPERTY(bool allowAdding READ allowAdding WRITE setAllowAdding NOTIFY allowAddingChanged)
+  Q_PROPERTY(Trhythm workRhythm READ workRhythm WRITE setWorkRhythm)
 
   friend class TstaffObject;
   friend class TmeasureObject;
@@ -212,6 +216,23 @@ public:
   qreal xLastInActivBar();
   qreal activeYpos() const { return m_activeYpos; }
 
+  Trhythm workRhythm() const;
+  void setWorkRhythm(const Trhythm& r);
+
+  Q_INVOKABLE Tnote posToNote(qreal yPos);
+
+      /**
+       * A switch that triggers displaying controls for adding notes to the score.
+       * When @p TRUE, the last staff width is smaller about 'note add' control width (4.0).
+       * QML uses @p lastNote() position to place that control at the score end.
+       */
+  bool allowAdding() const { return m_allowAdding; }
+  void setAllowAdding(bool allow);
+
+      /**
+       * Last note item (@p TnoteObject) or null if score is empty
+       */
+  TnoteObject* lastNote();
 
 signals:
   void meterChanged();
@@ -249,6 +270,8 @@ signals:
        * Emitted when number of active measure changes, but also when measure moves (note positions are changed)
        */
   void activeBarChanged();
+  void allowAddingChanged();
+  void lastNoteChanged();
 
 protected:
   QQmlComponent* component() { return m_qmlComponent; }
@@ -316,6 +339,11 @@ protected:
        */
   void emitActiveBarChanged() { emit activeBarChanged(); }
 
+      /**
+       * emitting @p lastNoteChanged() signal updates position of 'note add' QML control, if note adding is allowed
+       */
+  void emitLastNote() { if (m_allowAdding) emit lastNoteChanged(); }
+
 private:
       /**
        * Appends notes to @p m_notes list, creates corresponding @p TnotePair
@@ -368,6 +396,8 @@ private:
   TnoteObject                      *m_presseddNote = nullptr;
   int                               m_cursorAlter = 0;
   int                               m_activeBarNr = -1;
+  Trhythm                          *m_workRhythm;
+  bool                              m_allowAdding;
 
 };
 

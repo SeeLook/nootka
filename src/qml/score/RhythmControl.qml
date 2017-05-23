@@ -4,13 +4,25 @@
 
 import QtQuick 2.7
 
+import Score 1.0
+
 
 TipRect {
   id: rhythmControl
 
-  property int selectedId: -1
-  property real factor: score.scale * 2
+  signal changed()
+
+  property string rhythmText: (rtmRep.itemAt(selectedId) ? rtmRep.itemAt(selectedId).text : "E") + (dot ? "." : "")
+  property int rtm: Trhythm.Quarter
+  property bool rest: false
+  property bool dot: false
+  property bool triplet: false
+  property var rhythm: Noo.rhythm(rtm, rest, dot, triplet)
+  property alias tie: tieButt.selected
   property bool active: false
+  property real factor: score.scale * 2
+
+  property int selectedId: 5 // quarter
 
   // private
   readonly property var lGlyphs: [ "\ue107", "\ue108", "\ue109", "\ue10a", "\ue10b", "\u0183" ] // rests & triplet
@@ -18,7 +30,6 @@ TipRect {
   property bool show: false
 
   x: show ? score.scoreObj.xLastInActivBar : score.width + nootkaWindow.fontSize + width
-
   y: score.contentY + (score.height - height) / 2
   z: 20
   width: contentCol.width
@@ -31,15 +42,36 @@ TipRect {
       columns: 2
 
       Repeater {
+        id: rtmRep
         model: 12
         ControlButton {
           factor: rhythmControl.factor * 0.9
-          selected: rhythmControl.selectedId === index
+          selected: index < 10 ? rhythmControl.selectedId === index : false
           yOffset: factor / 2
           font { family: "nootka"; pixelSize: factor * 1.8 }
           text: index % 2 === 0 ? lGlyphs[index / 2] : rGlyphs[Math.floor(index / 2)]
           onClicked: {
-            selectedId = selectedId === index ? -1 : index
+            if (index < 10) {
+                rest = index % 2 === 0
+                rtm = Math.floor(index / 2) + 1
+                selectedId = index
+            } else {
+                selected = !selected
+                if (index === 10) {
+                    triplet = selected
+                    if (selected) {
+                      dot = false
+                      rtmRep.itemAt(11).selected = false
+                    }
+                } else {
+                    dot = selected && selectedId < 8 // no dot for 16th-s
+                    if (dot) {
+                      triplet = false
+                      rtmRep.itemAt(10).selected = false
+                    }
+                }
+            }
+            rhythmControl.changed()
           }
           onEntered: hideTimer.stop()
           onExited: hideTimer.restart()
@@ -48,6 +80,7 @@ TipRect {
     }
 
     ControlButton { // tie
+      id: tieButt
       anchors.horizontalCenter: parent.horizontalCenter
       factor: rhythmControl.factor * 1.2
       selected: rhythmControl.selectedId === 12
@@ -55,9 +88,7 @@ TipRect {
       yOffset: -factor * 1.5
       font { family: "nootka"; pixelSize: factor * 3.6 }
       text: "\ue18c"
-      onClicked: {
-        selectedId = 12
-      }
+      onClicked: selected = !selected
       onEntered: hideTimer.stop()
       onExited: hideTimer.restart()
     }
