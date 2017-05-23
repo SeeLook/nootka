@@ -214,7 +214,7 @@ void TnoteObject::setNote(const Tnote& n) {
   if (m_notePosY < 2.0 || m_notePosY > height() - 2.0)
     m_notePosY = 0.0;
 
-  if (static_cast<int>(m_notePosY - 15.0) != static_cast<int>(m_head->y())) {
+  if (static_cast<int>(m_notePosY) != oldNotePos) {
     if (m_notePosY) {
         m_head->setVisible(true);
         m_head->setY(m_notePosY - 15.0);
@@ -252,7 +252,6 @@ void TnoteObject::setX(qreal xx) {
     m_wrapper->beam()->last()->beam()->drawBeam();
   if (m_name)
     m_name->setX(x() - m_alter->width() + (width() - m_name->width()) / 2.0);
-//     m_name->setX(x() - m_alter->width());
   emit rightXChanged();
 }
 
@@ -472,9 +471,9 @@ void TnoteObject::hoverLeaveEvent(QHoverEvent*) {
 
 
 void TnoteObject::hoverMoveEvent(QHoverEvent* event) {
-  if (m_staff->score()->isPianoStaff() && event->pos().y() >= m_staff->upperLine() + 10.6 && event->pos().y() <= m_staff->upperLine() + 11.6) {
+  if (m_staff->score()->isPianoStaff() && event->pos().y() >= m_staff->upperLine() + 10.6 && event->pos().y() <= m_staff->upperLine() + 11.6)
     return;
-  }
+
   if (!m_measure->score()->pressedNote() && m_measure->score()->hoveredNote()
       && static_cast<int>(m_measure->score()->activeYpos()) != static_cast<int>(event->pos().y()))
           m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
@@ -563,7 +562,10 @@ void TnoteObject::updateAlter() {
 
 
 void TnoteObject::updateWidth() {
-  setWidth(m_alter->width() + m_head->width() + (m_note->isRest() ? 0.0 : m_note->rtm.stemDown() ? 0.0 : (m_stem->isVisible() ? m_flag->width() - 0.5 : 0.0)));
+  qreal w = m_alter->width() + m_head->width();
+  if (!m_note->isRest() && !m_note->rtm.stemDown() && m_stem->isVisible() && m_flag->width() > 0.0)
+    w += m_flag->width() - 0.5;
+  setWidth(w);
   updateTieScale();
 }
 
@@ -589,9 +591,9 @@ void TnoteObject::checkStem() {
       if (m_note->rtm.beam() == Trhythm::e_noBeam) {
           m_note->rtm.setStemDown(m_notePosY < staff()->upperLine() + 4.0);
           m_stem->setHeight(qMax(STEM_HEIGHT, qAbs(m_notePosY - (staff()->upperLine() + 4.0))));
-          QString flag = getFlagText();
-          m_flag->setProperty("text", flag);
-          if (!flag.isEmpty())
+          QString flagText = getFlagText();
+          m_flag->setProperty("text", flagText);
+          if (!flagText.isEmpty())
             m_flag->setY((m_note->rtm.stemDown() ? m_stem->height() : 0.0) - 15.0);
       } else {
           if (m_flag->width() > 0.0)
