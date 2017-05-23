@@ -130,7 +130,7 @@ void TstaffObject::fit() {
     auto measure = m_score->measure(m);
     m_allNotesWidth += measure->allNotesWidth() + (m > m_firstMeasureId ? BARLINE_OFFSET : 0.0); // add bar line space
     m_gapsSum += measure->gapsSum();
-    availableWidth = m_score->width() - m_notesIndent - m_allNotesWidth - 1.0;
+    availableWidth = m_score->width() - m_notesIndent - m_allNotesWidth - 1.0 - (m_score->allowAdding() && m_score->lastStaff() == this ? 5.0 : 0.0);
     factor = availableWidth / m_gapsSum;
     if (factor < 0.8) { // shift current measure and the next ones
       if (m == m_firstMeasureId) { // first measure in the staff

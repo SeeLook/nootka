@@ -23,7 +23,6 @@
 #include "tbeamobject.h"
 #include "tnotepair.h"
 #include "music/tmeter.h"
-#include "music/tnote.h"
 #include "music/tmelody.h"
 #include "music/tchunk.h"
 
@@ -45,7 +44,9 @@ TscoreObject::TscoreObject(QObject* parent) :
   m_showNoteNames(false),
   m_clefOffset(TclefOffset(3, 1)),
   m_width(0.0), m_adjustInProgress(false),
-  m_nameStyle(static_cast<int>(Tnote::defaultStyle))
+  m_nameStyle(static_cast<int>(Tnote::defaultStyle)),
+  m_workRhythm(new Trhythm()), // quarter by default
+  m_allowAdding(false)
 {
   m_qmlEngine = new QQmlEngine;
   m_qmlComponent = new QQmlComponent(m_qmlEngine, this);
@@ -74,6 +75,7 @@ TscoreObject::~TscoreObject()
   delete m_meter;
   delete m_qmlComponent;
   delete m_qmlEngine;
+  delete m_workRhythm;
   qDebug() << "[TscoreObject] deleted";
 }
 
@@ -161,6 +163,7 @@ CHECKTIME (
         addNote(oldList[n]);
       }
       adjustScoreWidth();
+      emitLastNote();
     }
   }
 )
@@ -286,15 +289,23 @@ TnoteObject* TscoreObject::note(int noteId) {
 
 
 void TscoreObject::noteClicked(qreal yPos) {
-  if (!activeNote() || activeNote()->note()->isRest())
+  if (!activeNote())
     return;
+
+  Trhythm newRhythm = *m_workRhythm;
+  if (activeNote()->note()->rhythm() != m_workRhythm->rhythm() || activeNote()->note()->hasDot() != m_workRhythm->hasDot())
+    newRhythm = activeNote()->note()->rtm; // TODO so far it forces old rhythm until note rhythm change will be implemented
 
   if (isPianoStaff() && yPos > firstStaff()->upperLine() + 10.0)
     yPos -= 2.0;
   int globalNr = m_clefOffset.octave * 7 - (yPos - static_cast<int>(upperLine()) - m_clefOffset.note);
   Tnote newNote(static_cast<char>(56 + globalNr) % 7 + 1, static_cast<char>(56 + globalNr) / 7 - 8,
-          static_cast<char>(m_cursorAlter), activeNote()->note()->rtm);
+          static_cast<char>(m_cursorAlter), newRhythm);
+  if (m_workRhythm->isRest())
+    newNote.note = 0;
   Tnote oldNote = *activeNote()->wrapper()->note();
+  newNote.rtm.setBeam(oldNote.rtm.beam()); // TODO as long as we don't change rhythm
+  newNote.rtm.setTie(oldNote.rtm.tie()); // TODO as long as we don't change rhythm
   bool fitStaff = false;
 // disconnect tie (if any) if note pitch changed
   QPoint notesForAlterCheck;// x is first note and y is the last note to check
@@ -377,6 +388,7 @@ void TscoreObject::openMusicXml(const QString& musicFile) {
         addNote(melody->note(n)->p());
       }
       adjustScoreWidth();
+      emitLastNote();
     }
     delete melody;
   }
@@ -461,7 +473,7 @@ CHECKTIME(
     m_nameStyle = nameS;
     if (m_showNoteNames) {
       for (int n = 0; n < notesCount(); ++n) // with hope that all items have name item created
-        m_segments[n]->item()->nameItem()->setProperty("text", m_notes[n].toRichText());
+        m_segments[n]->item()->nameItem()->setProperty("text", m_notes[n].styledName());
     }
   }
 )
@@ -500,11 +512,14 @@ void TscoreObject::setActiveNotePos(qreal yPos) {
 
 /**
  * Returns X coordinate of the first note in active measure (if any).
- * So far it is used for positioning accidental pane on the active measure left 
+ *  or (if score is empty yet) - returns staff indent (position after meter)
+ * So far it is used for positioning accidental pane on the active measure left.
  */
 qreal TscoreObject::xFirstInActivBar() {
-  return m_activeBarNr == -1 ?
-          0.0 : (m_measures[m_activeBarNr]->first()->item()->x() - m_measures[m_activeBarNr]->first()->item()->alterWidth() - 1.0) * firstStaff()->scale();
+  if (m_activeBarNr == -1)
+    return (firstStaff()->notesIndent() - 2.0) * firstStaff()->scale();
+  else
+    return (m_measures[m_activeBarNr]->first()->item()->x() - m_measures[m_activeBarNr]->first()->item()->alterWidth() - 1.0) * firstStaff()->scale();
 }
 
 
@@ -517,12 +532,46 @@ qreal TscoreObject::xFirstInActivBar() {
 qreal TscoreObject::xLastInActivBar() {
   if (m_activeBarNr > -1) {
     qreal xx = m_measures[m_activeBarNr]->last()->item()->rightX();
-    if (xx > m_width - 8)
+    if (xx > m_width - 12.0)
       return xFirstInActivBar() - 11.2 * firstStaff()->scale();
     else
-      return xx * firstStaff()->scale();
+      return (xx + 7.0) * firstStaff()->scale();
   }
-  return 0.0;
+  return (firstStaff()->notesIndent() + 7.0) * firstStaff()->scale();
+}
+
+Trhythm TscoreObject::workRhythm() const {
+  return *m_workRhythm;
+}
+
+
+void TscoreObject::setWorkRhythm(const Trhythm& r) {
+  if (r != *m_workRhythm) {
+    m_workRhythm->setRhythm(r);
+  }
+}
+
+
+Tnote TscoreObject::posToNote(qreal yPos) {
+  if (isPianoStaff() && yPos > firstStaff()->upperLine() + 10.0)
+    yPos -= 2.0;
+  int globalNr = m_clefOffset.octave * 7 - (yPos - static_cast<int>(upperLine()) - m_clefOffset.note);
+  return Tnote(m_workRhythm->isRest() ? 0 : static_cast<char>(56 + globalNr) % 7 + 1, static_cast<char>(56 + globalNr) / 7 - 8,
+                static_cast<char>(m_cursorAlter), workRhythm());
+}
+
+
+void TscoreObject::setAllowAdding(bool allow) {
+  if (allow != m_allowAdding) {
+    m_allowAdding = allow;
+    adjustScoreWidth();
+    emit allowAddingChanged();
+  }
+}
+
+
+TnoteObject* TscoreObject::lastNote() {
+  return m_segments.isEmpty() ? nullptr : lastSegment()->item();
 }
 
 

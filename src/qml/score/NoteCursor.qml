@@ -20,11 +20,11 @@ Item {
   visible: yPos > 0
 
   Rectangle { // highlight
-    width: parent.width + 1
-    height: parent.height
-    x: -1
-    color: Qt.rgba(noteCursor.color.r, noteCursor.color.g, noteCursor.color.b, 0.1)
-    z: -10
+      width: parent.width + 1
+      height: parent.height
+      x: -1
+      color: Qt.rgba(noteCursor.color.r, noteCursor.color.g, noteCursor.color.b, 0.1)
+      z: -10
   }
 
   Text {
@@ -48,8 +48,8 @@ Item {
       AddLine { y: 2 * (index + 1) - 0.1; visible: yPos > 0 && index >= Math.floor((yPos - 1) / 2) }
   }
   Repeater { // middle lines
-    model: score.clef === Tclef.PianoStaffClefs ? 2 : 0
-    AddLine { y: score.upperLine + 10 + 2 * index - 0.1; visible: yPos == score.upperLine + 10 + 2 * index
+      model: score.clef === Tclef.PianoStaffClefs ? 2 : 0
+      AddLine { y: score.upperLine + 10 + 2 * index - 0.1; visible: yPos == score.upperLine + 10 + 2 * index
     }
   }
   Repeater { // lower lines

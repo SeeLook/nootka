@@ -33,6 +33,7 @@ Score {
   scoreObj.nameColor: GLOB.nameColor
   scoreObj.nameStyle: GLOB.noteNameStyle
   scoreObj.enableDoubleAccidentals: GLOB.enableDoubleAccids
+  scoreObj.allowAdding: true
 
   Text {
     id: keyName
