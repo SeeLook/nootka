@@ -28,7 +28,8 @@ Flickable {
 
   // private
   property var staves: []
-  property NoteAdd noteAdd: null
+  property alias noteAdd: addLoad.item
+  property alias rtmCtrl: rtmLoad.item
 
   clip: true
   boundsBehavior: Flickable.StopAtBounds
@@ -76,7 +77,7 @@ Flickable {
     color: Qt.rgba(activPal.base.r, activPal.base.g, activPal.base.b, 0.9)
   }
 
-  Staff {
+  Staff { // first staff (always exists)
     id: staff0
     clef.type: score.clef
     meter: Meter { parent: staff0 }
@@ -95,22 +96,22 @@ Flickable {
     active: (score.clef !== Tclef.NoClef && scoreObj.activeNote !== null) || (noteAdd && noteAdd.active)
   }
 
-  RhythmControl {
-    id: rtmCtrl
-    visible: meter !== Tmeter.NoMeter
-    active: scoreObj.activeNote !== null || (noteAdd && noteAdd.active)
-    onChanged: scoreObj.workRhythm = rtmCtrl.rhythm
+  Loader { id: rtmLoad; sourceComponent: scoreObj.meter !== Tmeter.NoMeter ? rtmComp : null }
+  Component {
+    id: rtmComp
+    RhythmControl {
+      active: scoreObj.activeNote !== null || (noteAdd && noteAdd.active)
+      onChanged: scoreObj.workRhythm = rhythm
+    }
   }
 
-  Loader { sourceComponent: scoreObj.allowAdding ? addComp : null }
+  Loader { id: addLoad; sourceComponent: scoreObj.allowAdding ? addComp : null }
   Component {
     id: addComp
     NoteAdd {
       noteText: rtmCtrl.rhythmText
       onAdd: score.addNote(scoreObj.posToNote(yPos))
       alterText: accidControl.text
-      Component.onCompleted: score.noteAdd = this
-      Component.onDestruction: score.noteAdd = null
     }
   }
 
