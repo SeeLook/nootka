@@ -22,8 +22,7 @@ Score {
   property alias openXmlAct: openXmlAct
   property alias saveXmlAct: saveXmlAct
 
-  meter: GLOB.rhythmsEnabled ? Tmeter.Meter_4_4 : Tmeter.NoMeter
-  enableNoClef: GLOB.rhythmsEnabled
+  scoreObj.meter: GLOB.rhythmsEnabled ? Tmeter.Meter_4_4 : Tmeter.NoMeter
 
   clef: GLOB.clefType
   scoreObj.clefType: GLOB.clefType
@@ -46,10 +45,10 @@ Score {
     text: getKeyNameText()
     Connections {
       target: GLOB
-      onKeyNameChanged: keyName.text = Qt.binding(keyName.getKeyNameText) //Noo.majAndMinKeyName(firstStaff.keySignature.key)
+      onKeyNameChanged: keyName.text = Qt.binding(keyName.getKeyNameText)
     }
     function getKeyNameText() {
-      return enableKeySign ? Noo.majAndMinKeyName(firstStaff.keySignature.key) : ""
+      return enableKeySign && firstStaff.keySignature ? Noo.majAndMinKeyName(firstStaff.keySignature.key) : ""
     }
   }
 

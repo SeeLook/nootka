@@ -55,16 +55,14 @@ Text {
             width: parent.width / 2.1
             Text {
                 id: buttText
-                property int meter: Noo.meter(Math.pow(2, index)).meter()
-
                 anchors.horizontalCenter: parent.horizontalCenter
                 y: -nootkaWindow.font.pixelSize * 3.5
                 font { family: "Scorek"; pixelSize: nootkaWindow.font.pixelSize * 4 }
-                text: Noo.meter(meter).symbol()
+                text: Noo.meter(Math.pow(2, index)).symbol()
                 color: activPal.text
             }
             onClicked: {
-                score.meter = buttText.meter
+                score.scoreObj.setMeter(Math.pow(2, index))
                 meter.text = buttText.text
                 meterDrawer.close()
             }

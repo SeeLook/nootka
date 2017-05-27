@@ -99,7 +99,7 @@ public:
   /* ------------------ Musical parameters ------------------ */
 
   Tmeter* meter() const { return m_meter; }
-  void setMeter(int m);
+  Q_INVOKABLE void setMeter(int m);
   int meterToInt() const; /**< Small helper for QML property that converts meter enumerator into int */
 
       /**
@@ -271,9 +271,18 @@ signals:
        */
   void activeBarChanged();
   void allowAddingChanged();
+
+      /**
+       * It is emitted whenever last note changes due to score refactoring 
+       * (i.e. when meter changes and all notes are removed and added again)
+       * QML score depends on it
+       */
   void lastNoteChanged();
 
 protected:
+      /**
+       * By keeping those objects available we are reducing QML components creation time when called from C++
+       */
   QQmlComponent* component() { return m_qmlComponent; }
   QQmlEngine* qmlEngine() { return m_qmlEngine; }
 
