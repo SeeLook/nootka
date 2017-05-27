@@ -16,7 +16,6 @@ Flickable {
   property Staff lastStaff: staff0
   property int clef: Tclef.Treble_G
   property alias upperLine: staff0.upperLine
-  property bool enableNoClef: true
   property alias meter: scoreObj.meter
   property alias bgColor: bgRect.color
   property bool enableKeySign: scoreObj.keySignatureEnabled
@@ -58,10 +57,21 @@ Flickable {
       score.lastStaff = lastStaff
     }
     onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
-    onMeterChanged: enableNoClef = meter !== Tmeter.NoMeter
     onKeySignatureChanged: setKeySignature(scoreObj.keySignature)
     onClefTypeChanged: staff0.clef.type = clefType
-    onLastNoteChanged: if (noteAdd) noteAdd.lastNote = lastNote
+    onLastNoteChanged: { // occurs when meter changes, so rhythm control has to be set accordingly
+      if (rtmCtrl && meter !== Tmeter.NoMeter) {
+          rtmCtrl.rtm = meter <= Tmeter.Meter_7_4 ? Trhythm.Quarter : Trhythm.Eighth
+          rtmCtrl.dot = false
+          rtmCtrl.rest = false
+          rtmCtrl.triplet = false
+          rtmCtrl.selectedId = meter <= Tmeter.Meter_7_4 ? 5 : 7
+          workRhythm = rtmCtrl.rhythm
+      } else
+          workRhythm = Noo.rhythm(Trhythm.NoRhythm, false, false, false)
+      if (noteAdd)
+        noteAdd.lastNote = lastNote
+    }
 
     function removeStaff(nr) { staves.splice(nr, 1); lastStaff = staves[staves.length - 1] }
   }
@@ -109,7 +119,7 @@ Flickable {
   Component {
     id: addComp
     NoteAdd {
-      noteText: rtmCtrl.rhythmText
+      noteText: rtmCtrl ? rtmCtrl.rhythmText : "z"
       onAdd: score.addNote(scoreObj.posToNote(yPos))
       alterText: accidControl.text
     }

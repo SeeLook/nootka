@@ -163,8 +163,8 @@ CHECKTIME (
         addNote(oldList[n]);
       }
       adjustScoreWidth();
-      emitLastNote();
     }
+    emitLastNote();
   }
 )
 }
