@@ -160,7 +160,12 @@ void Tglobals::updateKeySignatureNames() {
 }
 
 bool Tglobals::rhythmsEnabled() const { return S->rhythmsEnabled; }
-void Tglobals::setRhythmsEnabled(bool enR) { S->rhythmsEnabled = enR; emit rhythmsEnabledChanged(); }
+void Tglobals::setRhythmsEnabled(bool enR) {
+  if (S->rhythmsEnabled != enR) {
+    S->rhythmsEnabled = enR;
+    emit rhythmsEnabledChanged();
+  }
+}
 
 /* ------------------ Note name switches ------------------ */
 bool Tglobals::seventhIsB() const { return S->seventhIs_B; }
