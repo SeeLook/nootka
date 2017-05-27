@@ -18,14 +18,14 @@ Text {
   width: 5.5
   x: 0.5
   y: 5
-  text: "\ue050"
+  text: "\ue050" // treble clef by default
   font { family: "Scorek"; pixelSize: 8 }
   color: activPal.text
 
   Loader { sourceComponent: score.clef === Tclef.PianoStaffClefs ? lowerClef : null }
   Component {
     id: lowerClef
-    Text { // clef at lower staff
+    Text { // bass clef at lower staff
       font: clef.font
       text: "\ue062"
       color: clef.color
@@ -48,7 +48,6 @@ Text {
         ClefMenu {
           id: clefMenu
           onClicked: { type = cl; close() }
-          enableNoClef: score.enableNoClef
         }
       }
     }
