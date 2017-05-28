@@ -67,6 +67,12 @@ TscoreObject::TscoreObject(QObject* parent) :
       setPressedNote(nullptr);
       m_touchHideTimer->stop();
   });
+  m_enterTimer = new QTimer(this);
+  m_enterTimer->setSingleShot(true);
+  connect(m_enterTimer, &QTimer::timeout, this, &TscoreObject::enterTimeElapsed);
+  m_leaveTimer = new QTimer(this);
+  m_leaveTimer->setSingleShot(true);
+  connect(m_leaveTimer, &QTimer::timeout, this, &TscoreObject::leaveTimeElapsed);
 }
 
 
@@ -127,7 +133,8 @@ void TscoreObject::setClefType(Tclef::EclefType ct) {
         }
         for (int m = 0; m < m_measures.count(); ++m)
           m_measures[m]->refresh();
-        adjustScoreWidth();
+        if (!pianoChanged) // otherwise adjustScoreWidth() will be called due to score scale changes
+          adjustScoreWidth();
     }
   }
 }
@@ -279,7 +286,6 @@ void TscoreObject::setNote(int staffNr, int noteNr, const Tnote& n) {
     qDebug() << "[TscoreObject] There is no staff number" << staffNr;
     return;
   }
-//   m_staves[staffNr]->setNote(noteNr, n);
 }
 
 
@@ -296,9 +302,7 @@ void TscoreObject::noteClicked(qreal yPos) {
   if (activeNote()->note()->rhythm() != m_workRhythm->rhythm() || activeNote()->note()->hasDot() != m_workRhythm->hasDot())
     newRhythm = activeNote()->note()->rtm; // TODO so far it forces old rhythm until note rhythm change will be implemented
 
-  if (isPianoStaff() && yPos > firstStaff()->upperLine() + 10.0)
-    yPos -= 2.0;
-  int globalNr = m_clefOffset.octave * 7 - (yPos - static_cast<int>(upperLine()) - m_clefOffset.note);
+  int globalNr = globalNoteNr(yPos);
   Tnote newNote(static_cast<char>(56 + globalNr) % 7 + 1, static_cast<char>(56 + globalNr) / 7 - 8,
           static_cast<char>(m_cursorAlter), newRhythm);
   if (m_workRhythm->isRest())
@@ -490,21 +494,24 @@ qreal TscoreObject::stavesHeight() {
 
 void TscoreObject::changeActiveNote(TnoteObject* aNote) {
   if (aNote != m_activeNote) {
+    auto prevActive = m_activeNote;
     m_activeNote = aNote;
-    bool emitBarChange = false;
-    if (m_activeNote && m_activeNote->measure()->number() != m_activeBarNr) {
-      m_activeBarNr = m_activeNote->measure()->number();
-      emitBarChange = true;
+    if (aNote == nullptr) {
+        m_leaveTimer->start(300);
+    } else {
+        if (prevActive == nullptr)
+          m_enterTimer->start(300);
+        else {
+          enterTimeElapsed();
+          emit activeYposChanged();
+        }
     }
-    emit activeNoteChanged();
-    if (emitBarChange)
-        emit activeBarChanged();
   }
 }
 
 
 void TscoreObject::setActiveNotePos(qreal yPos) {
-  if (yPos != m_activeYpos) {
+  if (!m_enterTimer->isActive() && yPos != m_activeYpos) {
     m_activeYpos = yPos;
     emit activeYposChanged();
   }
@@ -546,16 +553,13 @@ Trhythm TscoreObject::workRhythm() const {
 
 
 void TscoreObject::setWorkRhythm(const Trhythm& r) {
-  if (r != *m_workRhythm) {
+  if (r != *m_workRhythm)
     m_workRhythm->setRhythm(r);
-  }
 }
 
 
 Tnote TscoreObject::posToNote(qreal yPos) {
-  if (isPianoStaff() && yPos > firstStaff()->upperLine() + 10.0)
-    yPos -= 2.0;
-  int globalNr = m_clefOffset.octave * 7 - (yPos - static_cast<int>(upperLine()) - m_clefOffset.note);
+  int globalNr = globalNoteNr(yPos);
   return Tnote(m_workRhythm->isRest() ? 0 : static_cast<char>(56 + globalNr) % 7 + 1, static_cast<char>(56 + globalNr) / 7 - 8,
                 static_cast<char>(m_cursorAlter), workRhythm());
 }
@@ -764,6 +768,13 @@ TnotePair* TscoreObject::getSegment(int noteNr, Tnote* n) {
 }
 
 
+int TscoreObject::globalNoteNr(qreal yPos) {
+  if (isPianoStaff() && yPos > firstStaff()->upperLine() + 10.0)
+    yPos -= 2.0;
+  return m_clefOffset.octave * 7 - static_cast<int>(yPos - upperLine() - m_clefOffset.note);
+}
+
+
 void TscoreObject::clearScore() {
   if (measuresCount() && firstMeasure()->noteCount() > 0) {
     for (TnotePair* s : qAsConst(m_segments)) {
@@ -781,4 +792,21 @@ void TscoreObject::clearScore() {
     lastStaff()->appendMeasure(firstMeasure());
     firstStaff()->setFirstMeasureId(0);
   }
+}
+
+
+void TscoreObject::enterTimeElapsed() {
+  bool emitBarChange = false;
+  if (m_activeNote && m_activeNote->measure()->number() != m_activeBarNr) {
+    m_activeBarNr = m_activeNote->measure()->number();
+    emitBarChange = true;
+  }
+  emit activeNoteChanged();
+  if (emitBarChange)
+    emit activeBarChanged();
+}
+
+
+void TscoreObject::leaveTimeElapsed() {
+  emit activeNoteChanged();
 }

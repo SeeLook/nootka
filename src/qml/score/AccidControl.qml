@@ -61,7 +61,7 @@ TipRect {
 
   Timer {
       id: hideTimer
-      interval: 1500
+      interval: 1000
       repeat: false
       onTriggered: show = false
   }

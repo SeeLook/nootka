@@ -51,15 +51,24 @@ Item {
   NoteCursor { id: cursor }
 
   MouseArea {
+    id: area
     hoverEnabled: true
     anchors.fill: parent
-    onClicked: noteAdd.add()
-    onEntered: active = true
-    onExited: { cursor.yPos = 0; active = false }
+    onClicked: if (active) noteAdd.add()
+    onEntered: enterTimer.restart()
+    onExited: { enterTimer.stop(); cursor.yPos = 0; active = false }
     onMouseYChanged: {
-      if (score.clef === Tclef.PianoStaffClefs && mouseY >= score.upperLine + 10.4 && mouseY <= score.upperLine + 12.6)
+      if (!active || (score.clef === Tclef.PianoStaffClefs && mouseY >= score.upperLine + 10.4 && mouseY <= score.upperLine + 12.6))
         return
       cursor.yPos = Math.floor(mouseY)
     }
   }
+
+  Timer {
+    id: enterTimer
+    interval: 300
+    repeat: false
+    onTriggered: { active = true; yPos = Math.floor(area.mouseY) }
+  }
+
 }

@@ -25,6 +25,7 @@
 #include <QtCore/qpoint.h>
 #include <QtGui/qcolor.h>
 #include "music/tclef.h"
+#include "music/tnote.h"
 
 
 /**
@@ -45,14 +46,11 @@ public:
 class QQmlEngine;
 class QQmlComponent;
 class QTimer;
-class Tnote;
 class TnotePair;
 class TstaffObject;
 class TmeasureObject;
 class TnoteObject;
 class Tmeter;
-class Tnote;
-class Trhythm;
 
 
 /**
@@ -366,7 +364,15 @@ private:
        */
   TnotePair* getSegment(int noteNr, Tnote* n);
 
+      /**
+       * According to actual clef, returns global note number (independent on octave) from given note position
+       */
+  int globalNoteNr(qreal yPos);
+
   void clearScore();
+
+  void enterTimeElapsed();
+  void leaveTimeElapsed();
 
 private:
                               /* Musical parameters */
@@ -407,6 +413,7 @@ private:
   int                               m_activeBarNr = -1;
   Trhythm                          *m_workRhythm;
   bool                              m_allowAdding;
+  QTimer                           *m_enterTimer, *m_leaveTimer;
 
 };
 
