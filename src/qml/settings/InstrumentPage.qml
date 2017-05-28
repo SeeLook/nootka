@@ -68,7 +68,6 @@ Flickable {
           width: Math.min(parent.width * 0.9, nootkaWindow.fontSize * 26)
           anchors.horizontalCenter: parent.horizontalCenter
           meter: Tmeter.NoMeter
-          enableNoClef: false
           Component.onCompleted: {
             for (var s = 1; s <= GLOB.tuning.stringNumber; ++s)
               score.addNote(GLOB.tuning.string(s))
