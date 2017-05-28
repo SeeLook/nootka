@@ -10,6 +10,9 @@
 ============================================================================
 ================              TODO LIST               ======================
 ============================================================================
+
+- There are memory leak(s) due to undeleted TnotePair instances in segments list - find a way to purge them without crash
+
 TRANSLATION CONTEXT CHANGES
   TpitchView -> PitchView
   TvolumeView -> VolumeBar
