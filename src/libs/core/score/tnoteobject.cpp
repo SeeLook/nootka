@@ -208,7 +208,7 @@ void TnoteObject::setNote(const Tnote& n) {
         m_notePosY = staff()->score()->clefOffset().total() + staff()->upperLine() - (n.octave * 7 + (n.note - 1));
         if (staff()->score()->isPianoStaff() && m_notePosY > staff()->upperLine() + 10.0)
           m_notePosY += 2.0;
-    } else
+    } else // no clef - rhythm only, note placed at lower staff field
         m_notePosY = staff()->upperLine() + 7.0;
   }
   if (m_notePosY < 2.0 || m_notePosY > height() - 2.0)
@@ -237,7 +237,7 @@ void TnoteObject::setNote(const Tnote& n) {
   if (oldNotePos != static_cast<int>(m_notePosY))
       emit notePosYchanged();
 
-    updateNamePos();
+  updateNamePos();
 
 //   m_debug->setProperty("text", QString("%1 %2").arg(index()).arg(tieDebug(m_note->rtm.tie())));
 //   m_debug->setY(height() - (2 + index() % 2) * m_debug->height());
@@ -354,7 +354,7 @@ void TnoteObject::setNoteNameVisible(bool nameVisible) {
 }
 
 
-QQuickItem * TnoteObject::staffItem() {
+QQuickItem* TnoteObject::staffItem() {
   return m_staff->staffItem();
 }
 
@@ -472,6 +472,9 @@ void TnoteObject::hoverLeaveEvent(QHoverEvent*) {
 
 void TnoteObject::hoverMoveEvent(QHoverEvent* event) {
   if (m_staff->score()->isPianoStaff() && event->pos().y() >= m_staff->upperLine() + 10.6 && event->pos().y() <= m_staff->upperLine() + 11.6)
+    return;
+
+  if (m_staff->score()->clefType() == Tclef::NoClef)
     return;
 
   if (!m_measure->score()->pressedNote() && m_measure->score()->hoveredNote()

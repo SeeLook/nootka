@@ -305,7 +305,7 @@ void TscoreObject::noteClicked(qreal yPos) {
   int globalNr = globalNoteNr(yPos);
   Tnote newNote(static_cast<char>(56 + globalNr) % 7 + 1, static_cast<char>(56 + globalNr) / 7 - 8,
           static_cast<char>(m_cursorAlter), newRhythm);
-  if (m_workRhythm->isRest())
+  if (m_workRhythm->isRest() || m_clefType == Tclef::NoClef)
     newNote.note = 0;
   Tnote oldNote = *activeNote()->wrapper()->note();
   newNote.rtm.setBeam(oldNote.rtm.beam()); // TODO as long as we don't change rhythm
@@ -451,7 +451,7 @@ CHECKTIME (
   if (m_showNoteNames != showNames) {
     m_showNoteNames = showNames;
     for (int n = 0; n < notesCount(); ++n)
-      m_segments[n]->item()->setNoteNameVisible(m_showNoteNames);
+      m_segments[n]->item()->setNoteNameVisible(m_showNoteNames && m_clefType != Tclef::NoClef);
     qDebug() << "[TscoreObject] note name changed for" << notesCount() << "notes";
   }
 )
@@ -560,8 +560,8 @@ void TscoreObject::setWorkRhythm(const Trhythm& r) {
 
 Tnote TscoreObject::posToNote(qreal yPos) {
   int globalNr = globalNoteNr(yPos);
-  return Tnote(m_workRhythm->isRest() ? 0 : static_cast<char>(56 + globalNr) % 7 + 1, static_cast<char>(56 + globalNr) / 7 - 8,
-                static_cast<char>(m_cursorAlter), workRhythm());
+  return Tnote(m_workRhythm->isRest() || m_clefType == Tclef::NoClef ? 0 : static_cast<char>(56 + globalNr) % 7 + 1,
+               static_cast<char>(56 + globalNr) / 7 - 8, static_cast<char>(m_cursorAlter), workRhythm());
 }
 
 
@@ -804,6 +804,8 @@ void TscoreObject::enterTimeElapsed() {
   emit activeNoteChanged();
   if (emitBarChange)
     emit activeBarChanged();
+  if (m_clefType == Tclef::NoClef)
+    setActiveNotePos(upperLine() + 7.0);
 }
 
 
