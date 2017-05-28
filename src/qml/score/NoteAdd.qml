@@ -60,6 +60,8 @@ Item {
     onMouseYChanged: {
       if (!active || (score.clef === Tclef.PianoStaffClefs && mouseY >= score.upperLine + 10.4 && mouseY <= score.upperLine + 12.6))
         return
+      if (score.clef === Tclef.NoClef)
+        return
       cursor.yPos = Math.floor(mouseY)
     }
   }
@@ -68,7 +70,7 @@ Item {
     id: enterTimer
     interval: 300
     repeat: false
-    onTriggered: { active = true; yPos = Math.floor(area.mouseY) }
+    onTriggered: { active = true; yPos = score.clef === Tclef.NoClef ? score.upperLine + 7 : Math.floor(area.mouseY) }
   }
 
 }
