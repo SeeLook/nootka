@@ -38,8 +38,8 @@ Score {
     id: keyName
     parent: firstStaff
     visible: GLOB.showKeyName && enableKeySign
-    x: 4.5
-    y: 5
+    x: clef === Tclef.PianoStaffClefs ? 6.5 : 4.5
+    y: clef === Tclef.PianoStaffClefs ? 2.5 : 5
     color: activPal.text
     font.pointSize: 1.5
     text: getKeyNameText()

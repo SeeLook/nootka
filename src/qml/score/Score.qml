@@ -28,7 +28,7 @@ Flickable {
   // private
   property var staves: []
   property alias noteAdd: addLoad.item
-  property alias rtmCtrl: rtmLoad.item
+  property alias rtmControl: rtmLoad.item
 
   clip: true
   boundsBehavior: Flickable.StopAtBounds
@@ -60,13 +60,13 @@ Flickable {
     onKeySignatureChanged: setKeySignature(scoreObj.keySignature)
     onClefTypeChanged: staff0.clef.type = clefType
     onLastNoteChanged: { // occurs when meter changes, so rhythm control has to be set accordingly
-      if (rtmCtrl && meter !== Tmeter.NoMeter) {
-          rtmCtrl.rtm = meter <= Tmeter.Meter_7_4 ? Trhythm.Quarter : Trhythm.Eighth
-          rtmCtrl.dot = false
-          rtmCtrl.rest = false
-          rtmCtrl.triplet = false
-          rtmCtrl.selectedId = meter <= Tmeter.Meter_7_4 ? 5 : 7
-          workRhythm = rtmCtrl.rhythm
+      if (rtmControl && meter !== Tmeter.NoMeter) {
+          rtmControl.rtm = meter <= Tmeter.Meter_7_4 ? Trhythm.Quarter : Trhythm.Eighth
+          rtmControl.dot = false
+          rtmControl.rest = false
+          rtmControl.triplet = false
+          rtmControl.selectedId = meter <= Tmeter.Meter_7_4 ? 5 : 7
+          workRhythm = rtmControl.rhythm
       } else
           workRhythm = Noo.rhythm(Trhythm.NoRhythm, false, false, false)
       if (noteAdd)
@@ -103,7 +103,7 @@ Flickable {
 
   AccidControl {
     id: accidControl
-    active: (score.clef !== Tclef.NoClef && scoreObj.activeNote !== null) || (noteAdd && noteAdd.active)
+    active: score.clef !== Tclef.NoClef && (scoreObj.activeNote !== null || noteAdd && noteAdd.active)
   }
 
   Loader { id: rtmLoad; sourceComponent: scoreObj.meter !== Tmeter.NoMeter ? rtmComp : null }
@@ -119,7 +119,7 @@ Flickable {
   Component {
     id: addComp
     NoteAdd {
-      noteText: rtmCtrl ? rtmCtrl.rhythmText : "z"
+      noteText: rtmControl ? rtmControl.rhythmText : "z"
       onAdd: score.addNote(scoreObj.posToNote(yPos))
       alterText: accidControl.text
     }
