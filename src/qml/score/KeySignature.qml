@@ -77,7 +77,7 @@ Item {
   }
 
   MouseArea { // occupy only selected part of staff height
-      width: parent.width; height: 14; y: 12 - (clef === Tclef.PianoStaffClefs ? 2 : 0)
+      width: parent.width; height: 14; y: 13 - (clef === Tclef.PianoStaffClefs ? 2 : 0)
       enabled: !readOnly
       onClicked: {
         if (mouseY < 7)

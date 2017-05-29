@@ -235,7 +235,7 @@ void TnoteObject::setNote(const Tnote& n) {
     checkTie();
 
   if (oldNotePos != static_cast<int>(m_notePosY))
-      emit notePosYchanged();
+    emit notePosYchanged();
 
   updateNamePos();
 
