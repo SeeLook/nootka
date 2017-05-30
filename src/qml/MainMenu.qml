@@ -8,51 +8,60 @@ import QtQuick.Controls 2.0
 
 Item {
   property alias toolBar: toolBar
-  property alias scoreMenu: scoreMenu
+  property Menu scoreMenu: null
 
   TtoolBar { id: toolBar }
 
-  Menu {
-    id: scoreMenu
-    width: nootkaWindow.fontSize * 20
-    x: toolBar.scoreAct.x
-    y: score.y
+  function open() {
+    if (!scoreMenu)
+      scoreMenu = menuComp.createObject(this)
+    scoreMenu.open()
+  }
 
-    MenuItem {
-      contentItem: MenuButton {
-        action: score.openXmlAct
-        onClicked: scoreMenu.close()
+  Component {
+      id: menuComp
+      Menu {
+        id: scoreMenu
+        width: nootkaWindow.fontSize * 20
+        x: toolBar.scoreAct.x
+        y: score.y
+
+        MenuItem {
+          contentItem: MenuButton {
+            action: score.openXmlAct
+            onClicked: scoreMenu.close()
+          }
+        }
+        MenuItem {
+          contentItem: MenuButton {
+            action: score.saveXmlAct
+            onClicked: scoreMenu.close()
+          }
+        }
+        MenuItem {
+          contentItem: MenuButton {
+            action: score.extraAccidsAct
+            onClicked: scoreMenu.close()
+          }
+        }
+        MenuItem {
+          contentItem: MenuButton {
+            action: score.showNamesAct
+            onClicked: scoreMenu.close()
+          }
+        }
+        MenuItem {
+          contentItem: MenuButton {
+            action: score.zoomInAct
+            onClicked: scoreMenu.close()
+          }
+        }
+        MenuItem {
+          contentItem: MenuButton {
+            action: score.zoomOutAct
+            onClicked: scoreMenu.close()
+          }
+        }
       }
-    }
-    MenuItem {
-      contentItem: MenuButton {
-        action: score.saveXmlAct
-        onClicked: scoreMenu.close()
-      }
-    }
-    MenuItem {
-      contentItem: MenuButton {
-        action: score.extraAccidsAct
-        onClicked: scoreMenu.close()
-      }
-    }
-    MenuItem {
-      contentItem: MenuButton {
-        action: score.showNamesAct
-        onClicked: scoreMenu.close()
-      }
-    }
-    MenuItem {
-      contentItem: MenuButton {
-        action: score.zoomInAct
-        onClicked: scoreMenu.close()
-      }
-    }
-    MenuItem {
-      contentItem: MenuButton {
-        action: score.zoomOutAct
-        onClicked: scoreMenu.close()
-      }
-    }
   }
 }

@@ -46,7 +46,7 @@ ApplicationWindow {
     icon: "score"
     text: qsTranslate("TtoolBar", "Score", "it could be 'notation', 'staff' or whatever is associated with that 'place to display musical notes' and this the name is quite short and looks well.")
     tip: qsTranslate("TtoolBar", "Manage and navigate the score.")
-    onTriggered: mainMenu.scoreMenu.open()
+    onTriggered: mainMenu.open()
   }
   Taction {
     id: examAct
