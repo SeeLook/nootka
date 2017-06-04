@@ -37,15 +37,6 @@ Item {
     color: Qt.rgba(activPal.highlight.r, activPal.highlight.g, activPal.highlight.b, 0.8)
     x: (4 - width) / 2
     y: 15
-
-    Text {
-      y: 1.5
-      color: activPal.highlightedText
-      font { family: "nootka"; pixelSize: 15 }
-      text: "+"
-      x: (parent.width - width) / 2
-      z: -1
-    }
   }
 
   NoteCursor { id: cursor }
