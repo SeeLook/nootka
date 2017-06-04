@@ -55,6 +55,8 @@ TipRect {
                 rest = index % 2 === 0
                 rtm = Math.floor(index / 2) + 1
                 selectedId = index
+                dot = false
+                rtmRep.itemAt(11).selected = false
             } else {
                 selected = !selected
                 if (index === 10) {
