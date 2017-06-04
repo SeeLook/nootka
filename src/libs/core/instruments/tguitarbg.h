@@ -92,6 +92,11 @@ public:
   bool readOnly() const { return m_readOnly; }
   void setReadOnly(bool ro);
 
+      /**
+       * Updates fingerboard to actual settings (guitar type string/fret number, marks)
+       */
+  void updateGuitar();
+
 signals:
   void activeChanged();
   void fretWidthChanged();

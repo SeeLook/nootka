@@ -76,6 +76,7 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(QColor fingerColor READ fingerColor WRITE setFingerColor NOTIFY fingerColorChanged)
   Q_PROPERTY(QColor selectedColor READ selectedColor WRITE setSelectedColor NOTIFY selectedColorChanged)
   Q_PROPERTY(bool preferFlats READ preferFlats WRITE setPreferFlats NOTIFY preferFlatsChanged)
+  Q_PROPERTY(int fretNumber READ fretNumber NOTIFY guitarParamsChanged)
 
 public:
 
@@ -194,11 +195,18 @@ public:
   //============ guitar settings =============================================================
   Tinstrument instrument() { return m_instrument; }
   Q_INVOKABLE void setInstrument(Tinstrument::Etype t);
-  unsigned char GfretsNumber; /**< default 19 */
+  Q_INVOKABLE void setInstrument(int t) { setInstrument(t >= 0 && t < 5 ? static_cast<Tinstrument::Etype>(t) : Tinstrument::NoInstrument); }
+  int fretNumber() const { return GfretsNumber; }
+  unsigned  GfretsNumber; /**< default 19 */
   bool GisRightHanded; /**< default true */
   bool GshowOtherPos; /**< Shows other possibilities of note (sound) on the fretboard (default true) */
   QColor GfingerColor; /**< rules the same like in S->enharmNotesColor */
   QColor GselectedColor;
+      /**
+       * Guitar params like guitar type or fret/string numbers, fret marks - affects guitar repainting.
+       * Keep their change in single call then.
+       */
+  Q_INVOKABLE void setGuitarParams(int fretNr, int stringNr/*TODO , bool rightHand */);
 
       /**
        * Actual tune of the guitar also with information about strings number
@@ -207,9 +215,12 @@ public:
   Ttune *Gtune() { return m_tune; }
   Q_INVOKABLE void setTune(Ttune &t);
   TtuneObject* tuning() { return m_tuneObject; }
+  Q_INVOKABLE int stringNumber();
 
-      /** It returns real string number (0 - 5) when @param strNr
-       * is sorted number from highest (0) to lowest (5) */
+      /**
+       * It returns real string number (0 - 5) when @param strNr
+       * is sorted number from highest (0) to lowest (5)
+       */
   qint8 strOrder(qint8 strNr) { return m_order[strNr]; }
   Tnote hiString(); /**< Returns the highest (usually first - 0) string. */
   Tnote loString(); /**< Returns the lowest (usually last) string */
@@ -251,6 +262,7 @@ signals:
   void fingerColorChanged();
   void selectedColorChanged();
   void preferFlatsChanged(); /**< Fake, this option doesn't affect QML */
+  void guitarParamsChanged();
 
 private:
   static Tglobals           *m_instance;

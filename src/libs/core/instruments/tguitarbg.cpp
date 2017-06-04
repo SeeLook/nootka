@@ -38,6 +38,8 @@ TguitarBg::TguitarBg(QQuickItem* parent) :
   setAntialiasing(true);
   setAcceptedMouseButtons(Qt::LeftButton);
   setTune();
+
+  connect(GLOB, &Tglobals::guitarParamsChanged, this, &TguitarBg::updateGuitar);
 }
 
 
@@ -61,11 +63,14 @@ qreal TguitarBg::xiiFret() const {
 }
 
 
+#include <QtCore/qelapsedtimer.h>
+QElapsedTimer paintTimer;
 void TguitarBg::paint(QPainter* painter) {
 //   painter->setRenderHint(QPainter::Antialiasing, true);
 //   painter->setRenderHint(QPainter::TextAntialiasing, true);
 //   painter->fillRect(painter->viewport(), qApp->palette().window().color());
 
+  paintTimer.restart();
 // FINGERBOARD
   painter->setPen(Qt::NoPen);
   if (GLOB->instrument().type() == Tinstrument::ClassicalGuitar)
@@ -213,6 +218,7 @@ void TguitarBg::paint(QPainter* painter) {
 
     }
   }
+  qDebug() << "Guitar painted in" << paintTimer.nsecsElapsed() / 1000000.0 << "ms";
 }
 
 
@@ -223,6 +229,13 @@ void TguitarBg::setReadOnly(bool ro) {
   }
 }
 
+
+void TguitarBg::updateGuitar() {
+  setTune();
+  geometryChanged(QRectF(x(), y(), width(), height()), QRectF());
+}
+
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
@@ -230,6 +243,7 @@ void TguitarBg::setReadOnly(bool ro) {
 void TguitarBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
   if (oldGeometry.width() != newGeometry.width() || oldGeometry.height() != newGeometry.height()) {
     QSize newSize = newGeometry.size().toSize();
+//     updateFretBoard(newSize);
     m_fbRect = QRect(10, newSize.height() / 18, (6 * newSize.width()) / 7, newSize.height() - newSize.height() / 18);
     m_fretWidth = ((m_fbRect.width() + ((GLOB->GfretsNumber / 2) * (GLOB->GfretsNumber / 2 + 1))
     + GLOB->GfretsNumber / 4) / (GLOB->GfretsNumber+1)) + 1;
@@ -362,3 +376,4 @@ void TguitarBg::setTune() {
 //   m_loNote = GLOB->loString().chromatic();
 //   m_hiNote = GLOB->hiString().chromatic() + GLOB->GfretsNumber;
 }
+

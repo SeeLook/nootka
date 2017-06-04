@@ -207,7 +207,31 @@ void Tglobals::setNameColor(const QColor& nameC) {
 }
 
 /* ------------------ Instrument switches ------------------ */
-void Tglobals::setInstrument(Tinstrument::Etype t) { m_instrument.setType(t); emit instrumentChanged(); }
+void Tglobals::setInstrument(Tinstrument::Etype t) {
+  if (t != m_instrument.type()) {
+    m_instrument.setType(t);
+    emit instrumentChanged();
+  }
+}
+
+
+void Tglobals::setGuitarParams(int fretNr, int stringNr) {
+  bool doEmit = false;
+  if (fretNr != GfretsNumber) {
+    GfretsNumber = fretNr;
+    doEmit = true;
+  }
+  if (stringNr != m_tune->stringNr()) {
+    // TODO
+  }
+  if (doEmit)
+    emit guitarParamsChanged();
+}
+
+
+
+int Tglobals::stringNumber() { return m_tune->stringNr(); }
+
 
 void Tglobals::setFingerColor(const QColor& fc) { GfingerColor = fc; emit fingerColorChanged(); }
 void Tglobals::setSelectedColor(const QColor& sc) { GselectedColor = sc; emit selectedColorChanged(); }

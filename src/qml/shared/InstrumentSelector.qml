@@ -7,6 +7,8 @@ import QtQuick 2.7
 
 Flow {
   property int instrument: 0
+
+  // rather private
   property var instrGlyphs: ["v", "h", "i", "j", "f"]
 
   spacing: nootkaWindow.fontSize
