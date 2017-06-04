@@ -27,23 +27,26 @@ Flickable {
       anchors.horizontalCenter: parent.horizontalCenter
     }
     InstrumentSelector {
+      id: instrSel
       anchors.horizontalCenter: parent.horizontalCenter
       instrument: GLOB.instrument.type
     }
 
     Grid {
+      visible: instrSel.instrument !== Tinstrument.Piano && instrSel.instrument !== Tinstrument.NoInstrument
       anchors.horizontalCenter: parent.horizontalCenter
       spacing: nootkaWindow.fontSize
       columns: parent.width < nootkaWindow.fontSize * 50 ? 1 : 2
       Row {
         spacing: nootkaWindow.fontSize
         Text { text: qsTr("number of frets:"); anchors.verticalCenter: parent.verticalCenter }
-        SpinBox {}
+        SpinBox { id: fretsNrSpin; from: 15; to: 24; value: GLOB.fretNumber }
       }
       Row {
+        enabled: false // TODO: not implemented yet
         spacing: nootkaWindow.fontSize
         Text { text: qsTr("number of strings:"); anchors.verticalCenter: parent.verticalCenter }
-        SpinBox {}
+        SpinBox { id: stringNrSpin; from: 3; to: 6; value: GLOB.stringNumber() }
       }
     }
 
@@ -90,6 +93,7 @@ Flickable {
     }
 
     Tile {
+      visible: instrSel.instrument !== Tinstrument.Piano && instrSel.instrument !== Tinstrument.NoInstrument
       CheckBox {
         text: qsTr("show all possibilities of a note")
         anchors.horizontalCenter: parent.horizontalCenter
@@ -98,6 +102,7 @@ Flickable {
     }
 
     Tile {
+      visible: instrSel.instrument !== Tinstrument.Piano && instrSel.instrument !== Tinstrument.NoInstrument
       Row {
         spacing: nootkaWindow.fontSize
         anchors.horizontalCenter: parent.horizontalCenter
@@ -133,6 +138,10 @@ Flickable {
     GLOB.fingerColor = fingerColorButt.color
     GLOB.selectedColor = selectedColorButt.color
     GLOB.preferFlats = prefFlatRadio.checked
+    GLOB.setInstrument(instrSel.instrument)
+    if (instrSel.instrument !== Tinstrument.Piano && instrSel.instrument !== Tinstrument.NoInstrument) {
+      GLOB.setGuitarParams(fretsNrSpin.value, stringNrSpin.value)
+    }
   }
 
   function defaults() {

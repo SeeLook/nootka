@@ -27,7 +27,7 @@ Item {
 
   Image { // body
     cache: false
-    source: Tpath.pix("body" + bodyPix[GLOB.instrument.typeINT - 1])
+    source: GLOB.instrument.type === Tinstrument.Piano ? "" : Tpath.pix("body" + bodyPix[GLOB.instrument.typeINT - 1])
     height: parent.height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 4.0 : 3.1)
     width: height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 1.452482269503546 : 1.04885993485342)
     x: GLOB.instrument.type === Tinstrument.ClassicalGuitar ? guitar.xiiFret : parent.width * 0.65

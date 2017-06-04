@@ -9,19 +9,21 @@ import Nootka 1.0
 
 Item {
   id: root
-  property Item instrument: null
+  property alias instrument: instrLoad.item
 
   signal note(var n)
 
   height: GLOB.instrument.type === Tinstrument.Piano ? Math.min(nootkaWindow.height / 5, nootkaWindow.fontSize * 12) : nootkaWindow.height / 4
   width: nootkaWindow.width
 
-  Component.onCompleted: {
-    var i = GLOB.instrument.type === Tinstrument.Piano ? "Piano" : "Guitar"
-    var c = Qt.createComponent("qrc:/" + i + ".qml")
-    instrument = c.createObject(root, {"anchors.fill": root})
-    instrument.onNoteChanged.connect(callNote)
+  Loader {
+    id: instrLoad
+    anchors.fill: parent
+    source: "qrc:/" +  (GLOB.instrument.type === Tinstrument.Piano ? "Piano" : "Guitar") + ".qml"
   }
 
-  function callNote() { root.note(instrument.note) }
+  Connections {
+    target: instrLoad.item
+    onNoteChanged: root.note(instrument.note)
+  }
 }
