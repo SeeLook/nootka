@@ -1,3 +1,9 @@
+1.4.3
+    ANDROID
+     - Try to fix random crashes related to audio input
+    BUGS FIXES
+     - removed a few memory leaks
+
 1.4.2
      - added standalone AppImage for Linux
     BUGS FIXES
