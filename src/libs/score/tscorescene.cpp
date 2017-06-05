@@ -36,6 +36,7 @@ TscoreScene::TscoreScene(QObject* parent) :
   m_workPosY(0),
   m_workNote(0),
   m_workAccid(0), m_workAccid2(0),
+  m_workLines(0),
   m_nameColor(Qt::darkCyan),
   m_rightBox(0), m_leftBox(0),
   m_accidYoffset(0.0),
