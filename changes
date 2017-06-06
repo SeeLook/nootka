@@ -1,6 +1,6 @@
 1.4.3
     ANDROID
-     - Try to fix random crashes related to audio input
+     - attempt to fix random crashes related to audio input
     BUGS FIXES
      - removed a few memory leaks
 
