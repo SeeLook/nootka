@@ -1,6 +1,8 @@
 1.4.3
     ANDROID
      - attempt to fix random crashes related to audio input
+    Mac
+     - improved look of checkable buttons (note name)
     BUGS FIXES
      - removed a few memory leaks
 
