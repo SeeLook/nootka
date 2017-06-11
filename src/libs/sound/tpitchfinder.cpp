@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -237,7 +237,7 @@ void TpitchFinder::copyToBuffer(void* data, unsigned int nBufferFrames) {
       framesToCopy = nBufferFrames - framesToCopy;
       std::copy(dataPtr, dataPtr + framesToCopy, m_ringBuffer + m_writePos);
       m_writePos += framesToCopy;
-      qDebug() << "reset and copied" << framesToCopy << "position" << m_writePos;
+      qDebug() << "[TpitchFinder] Part of audio data was shifted:" << framesToCopy << "position is" << m_writePos;
     }
   }
   m_framesReady += nBufferFrames;
