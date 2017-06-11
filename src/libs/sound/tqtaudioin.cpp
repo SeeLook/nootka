@@ -62,7 +62,6 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject *parent) :
   m_touchHandler = new TtouchHandler(this);
 
   createInputDevice();
-
 }
 
 
@@ -118,9 +117,9 @@ void TaudioIN::stopListening() {
 
 void TaudioIN::stateChangedSlot(QAudio::State s) {
   if (s != QAudio::ActiveState) {
-    qDebug() << "[TaudioIN] input device is not active, trying to acivate";
+    qDebug() << "[TaudioIN] input device is not active, trying to activate";
     if (m_audioIN->error() != QAudio::NoError)
-      qDebug() << "[TaudioIN] error ocurred" << m_audioIN->error();
+      qDebug() << "[TaudioIN] error occurred" << m_audioIN->error();
     m_audioIN->blockSignals(true);
     QTimer::singleShot(100, [=]{
       if (m_audioIN->state() != QAudio::StoppedState)
@@ -130,8 +129,8 @@ void TaudioIN::stateChangedSlot(QAudio::State s) {
       qDebug() << "[TaudioIN] input device started again";
     });
   }
-
 }
+
 
 void TaudioIN::createInputDevice() {
   m_deviceInfo = QAudioDeviceInfo::defaultInputDevice();
@@ -167,7 +166,7 @@ void TaudioIN::createInputDevice() {
 
   m_inBuffer->open(QIODevice::WriteOnly);
   m_inBuffer->setBufferSize(0); // respect amount of data send by input device, otherwise it will be overwritten
-  connect(m_inBuffer, SIGNAL(readAudio(const char*, qint64&)), this, SLOT(bufferReady(const char*, qint64&)), Qt::DirectConnection);
+  connect(m_inBuffer, SIGNAL(readAudio(const char*, qint64&)), this, SLOT(bufferReady(const char*, qint64&)));
 
   m_audioIN->start(m_inBuffer);
   connect(m_audioIN, &QAudioInput::stateChanged, this, &TaudioIN::stateChangedSlot);
@@ -177,7 +176,6 @@ void TaudioIN::createInputDevice() {
 //           << "\nsplit volume" << (finder()->isSplitByVolume() ? finder()->minVolumeToSplit() * 100.0 : 0.0)
 //           << "\nskip volume" << finder()->skipStillerValue() * 100.0
 //           << "\nnoise filter:" << finder()->aGl()->equalLoudness << "\ndetection range:" << detectionRange();
-
 }
 
 
