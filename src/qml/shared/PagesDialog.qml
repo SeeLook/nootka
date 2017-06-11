@@ -27,6 +27,7 @@ Item {
     id: butHigh;
     color: activPal.highlight; x: navList.x
     parent: navList.contentItem
+    y: navList.prevButt ? navList.prevButt.y : 0
     Behavior on y { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.1; duration: 500 }}
   }
 
@@ -62,10 +63,12 @@ Item {
           factor: Screen.pixelDensity * (Noo.isAndroid() ? 1.1 : 1.6)
           fontSize: nootkaWindow.fontSize * (Noo.isAndroid() ? 0.8 : 1.0)
           onClicked: {
-            if (stack.currentItem !== navList.pages[index]) {
-              stack.push(navList.pages[index])
-              navList.pages[index] = stack.currentItem
-              butHigh.y = y
+            if (navList.prevButt !== delegateButt) {
+              if (typeof(navList.pages[index]) === "string") {
+                var c = Qt.createComponent(navList.pages[index])
+                navList.pages[index] = c.createObject(stack)
+              }
+              navList.pages[index] = stack.replace(navList.pages[index])
               butHigh.height = height
               navList.ensureVisible(y, height)
               navList.prevButt.textColor = activPal.text
@@ -86,11 +89,10 @@ Item {
             if (index === 0) {
               navList.prevButt = delegateButt
               textColor = activPal.highlightedText
-              butHigh.y =  delegateButt.y
               butHigh.width = delegateButt.width
               butHigh.height = delegateButt.height
-              stack.push(navList.pages[0])
-              navList.pages[0] = stack.currentItem
+              var c = Qt.createComponent(navList.pages[0])
+              navList.pages[0] = stack.push(c.createObject(stack))
             }
           }
         }
@@ -128,7 +130,7 @@ Item {
 
   }
 
-    // pages container on the right
+  // pages container on the right
   StackView {
     id: stack
     x: navList.width + Screen.pixelDensity
@@ -136,8 +138,8 @@ Item {
     width: parent.width - navList.width - Screen.pixelDensity * 2
     height: parent.height - (Noo.isAndroid() ? 0 : Screen.pixelDensity)
     // fade animations
-    pushEnter: Transition { enabled: GLOB.useAnimations; PropertyAnimation { property: "opacity"; from: 0; to: 1; duration: 300 }}
-    pushExit: Transition { enabled: GLOB.useAnimations; PropertyAnimation { property: "opacity"; from: 1; to: 0; duration: 300 }}
+    replaceEnter: Transition { enabled: GLOB.useAnimations; PropertyAnimation { property: "opacity"; from: 0; to: 1; duration: 500 }}
+    replaceExit: Transition { enabled: GLOB.useAnimations; PropertyAnimation { property: "opacity"; from: 1; to: 0; duration: 500 }}
   }
 }
 
