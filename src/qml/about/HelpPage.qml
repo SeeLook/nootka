@@ -7,12 +7,16 @@ import QtQuick.Controls 2.0
 
 
 Item {
+  id: helpPage
   visible: true
 
   width: parent.width
   height: parent.height
 
   Column {
+    Text {
+      text: "Help"
+    }
   }
 }
 
