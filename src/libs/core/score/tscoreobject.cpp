@@ -82,7 +82,8 @@ TscoreObject::~TscoreObject()
   delete m_qmlComponent;
   delete m_qmlEngine;
   delete m_workRhythm;
-  qDebug() << "[TscoreObject] deleted";
+  qDebug() << "[TscoreObject] deleting," << m_segments.count() << "segments to flush";
+  qDeleteAll(m_segments);
 }
 
 //#################################################################################################
