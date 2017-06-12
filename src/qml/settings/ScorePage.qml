@@ -168,6 +168,7 @@ Column {
                   columns: parent.width < nootkaWindow.fontSize * 50 ? 1 : 2
                   spacing: nootkaWindow.fontSize
                   anchors.horizontalCenter: parent.horizontalCenter
+                  horizontalItemAlignment: Grid.AlignHCenter
                   NameStyleSelector {
                     id: keyNameStyleSel
                     seventhIsB: GLOB.seventhIsB
