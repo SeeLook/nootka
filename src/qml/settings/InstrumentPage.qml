@@ -37,6 +37,7 @@ Flickable {
       anchors.horizontalCenter: parent.horizontalCenter
       spacing: nootkaWindow.fontSize
       columns: parent.width < nootkaWindow.fontSize * 50 ? 1 : 2
+      horizontalItemAlignment: Grid.AlignHCenter
       Row {
         spacing: nootkaWindow.fontSize
         Text { text: qsTr("number of frets:"); anchors.verticalCenter: parent.verticalCenter }

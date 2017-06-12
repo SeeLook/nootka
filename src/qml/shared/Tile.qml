@@ -13,17 +13,15 @@ Frame {
   anchors.horizontalCenter: parent.horizontalCenter
 
   background: Rectangle {
-    id: bg
     color: enabled ? Qt.lighter(activPal.window, 1.05) : Qt.darker(disdPal.window, 1.5)
     border.color: disdPal.text
     radius: nootkaWindow.fontSize / 4
   }
 
-  width: parent.width * (Noo.isAndroid() ? 0.99 : 0.96)
+  width: parent.width * (Noo.isAndroid() ? 0.99 : 0.98)
   height: (descText.text === "" ? 0 : descText.height) + container.height + nootkaWindow.fontSize * 2
 
   Column {
-      id: col
       spacing: nootkaWindow.fontSize / 2
       width: parent.width
 
