@@ -22,6 +22,7 @@ TRANSLATION CONTEXT CHANGES
   TscoreActions & TmelMan - MainScore
   Einstrument - Tinstrument (or simply Instrument)
   TtoolBar - MainWindow
+  accidssettings -> AccidsPage (but remove line breaks from descriptions)
 
   NameStyleSelector - text "Naming style of note. The main difference is the 7th note.<br>Is it B and B flat, or H and B?" has to go into ScorePage or its sub-page with name settings
   TnoteNameSettings - ScorePage or its sub-page
@@ -60,8 +61,6 @@ MINOR:
       if it is started from creator - there is highlight of message 
       but when started from 'start' menu - there is not
 
-- changing to/from grand staff overrides TscoreNote ambitus - there is no problem as long as ambitus is unused
-
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@                        FEATURES FOR FURTHER RELEASES         @@@@@@@@@@@@@@@@@@@@@@@
@@ -75,7 +74,6 @@ MINOR:
 - bring back isVoice() audio param - average pitch of all chunks or min duration will depend on it
 
 - divide TexamExecutor class !!!!!
-- rhythms in score
 - in occasion of implementing rhythms, 
 
 - dialog to configure generated melody and its rhythms
@@ -85,7 +83,6 @@ MINOR:
   - stop sniffer when melody dialogues are opening
 - Class that manages recent exams menu list and has colored item 'recent opened exams',
     use recent exams list for analyzer the same as start exam dialog has (common class or method)
-- add extra marks over score when it is in record mode or melody is playing
 - managing melodies in levels, adding set of melodies to the level
 - settings for keyboard shortcuts
 - sophisticated and configurable algorithm to generate random melodies
