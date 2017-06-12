@@ -151,6 +151,16 @@ QString TnootkaQML::majAndMinKeyName(int key) {
 }
 
 
+QStringList TnootkaQML::keyComboModel() {
+  QStringList model;
+  for (int i = -7; i < 8; i++) {
+    TkeySignature k(i);
+    model << QLatin1String("(") + k.accidNumber() + QLatin1String(") ") + k.getMajorName() + QLatin1String(" / ") + k.getMinorName();
+  }
+  return model;
+}
+
+
 QString TnootkaQML::getLicense() {
   QFile file(Tpath::main + QLatin1String("gpl"));
   QString license;
