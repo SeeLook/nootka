@@ -10,20 +10,21 @@ import "../"
 Flickable {
   width: parent.width; height: parent.height
   clip: true
-  contentHeight: accidsCol.height + nootkaWindow.fontSize * 2
+  contentHeight: accidsGrid.height + nootkaWindow.fontSize * 2
   contentWidth: width
 
   ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
 
   Grid {
     columns:  parent.width > nootkaWindow.fontSize * 60 ? 2 : 1
-    id: accidsCol
+    id: accidsGrid
     width: parent.width
     spacing: nootkaWindow.fontSize / 4
     horizontalItemAlignment: Grid.AlignHCenter
+    topPadding: nootkaWindow.fontSize
 
     Frame {
-      width: accidsCol.columns === 1 ? Math.max(parent.width * 0.9, dblAccidsChB.width) : parent.width * 0.35
+      width: accidsGrid.columns === 1 ? Math.max(parent.width * 0.9, dblAccidsChB.width) : parent.width * 0.35
       Column {
         spacing: nootkaWindow.fontSize / 2
         width: parent.width
@@ -63,7 +64,7 @@ Flickable {
     }
 
     Frame {
-      width: accidsCol.columns === 1 ? parent.width * 0.96 : parent.width * 0.64
+      width: accidsGrid.columns === 1 ? parent.width * 0.96 : parent.width * 0.64
       Column {
         spacing: nootkaWindow.fontSize / 2
         width: parent.width
@@ -101,15 +102,15 @@ Flickable {
               id: fromCombo
               model: Noo.keyComboModel()
               delegate: ItemDelegate { text: modelData }
-              width: nootkaWindow.fontSize * 12
+              width: nootkaWindow.fontSize * 15
               currentIndex: 7 // C-major
             }
-            Rectangle { color: activPal.text; width: nootkaWindow.fontSize * 1.3; height: nootkaWindow.fontSize / 4; anchors.verticalCenter: parent.verticalCenter }
+            Rectangle { color: activPal.text; width: nootkaWindow.fontSize; height: nootkaWindow.fontSize / 5; anchors.verticalCenter: parent.verticalCenter }
             ComboBox {
               id: toCombo
               model: Noo.keyComboModel()
               delegate: ItemDelegate { text: modelData }
-              width: nootkaWindow.fontSize * 12
+              width: nootkaWindow.fontSize * 15
               currentIndex: 7
             }
           }
@@ -135,6 +136,5 @@ Flickable {
       }
     }
 
-  } // main column
-
+  }
 }
