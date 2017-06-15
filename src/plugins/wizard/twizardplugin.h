@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -32,7 +32,7 @@ class TwizardPlugin : public QObject, public TpluginInterface
 {
 
   Q_OBJECT
-  Q_PLUGIN_METADATA(IID TpluginInterface_iid FILE "")
+  Q_PLUGIN_METADATA(IID TpluginInterface_iid)
   Q_INTERFACES(TpluginInterface)
 
 public:
