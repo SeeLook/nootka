@@ -62,7 +62,8 @@ bool resetConfig;
 
 int main(int argc, char *argv[])
 {
-  QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+//   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+// FIXME: so far it is more disaster then helps (WIN: pixelized images, other issues)
 
 #if defined (Q_OS_ANDROID)
   qputenv("QT_ANDROID_VOLUME_KEYS", "1"); // Handle volume keys by Qt, lock native Android behavior
