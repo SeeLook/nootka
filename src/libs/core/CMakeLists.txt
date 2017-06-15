@@ -58,7 +58,7 @@ set(LIB_NOOTKACORE_SRC
 
 add_library(NootkaCore SHARED ${LIB_NOOTKACORE_SRC} )
 target_link_libraries(NootkaCore
-  Qt5::Gui
+  Qt5::Widgets
   Qt5::Qml
   Qt5::Quick
   Qt5::QuickControls2
