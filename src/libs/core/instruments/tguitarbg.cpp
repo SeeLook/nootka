@@ -80,14 +80,8 @@ void TguitarBg::paint(QPainter* painter) {
       painter->setBrush(QBrush(fbEdgeColor, Qt::SolidPattern));
   }
   QPolygon a;
-  int fbThick = ((m_strGap * GLOB->Gtune()->stringNr()) / 6) / 4; // thickness of fretboard
-  a.setPoints(6, m_fbRect.x(), m_fbRect.y(),
-              m_fbRect.x() + qRound(m_fbRect.width() * 0.005), m_fbRect.y() - fbThick,
-              m_fbRect.x() + m_fbRect.width() + fbThick, m_fbRect.y() - fbThick,
-              m_fbRect.x() + m_fbRect.width() + fbThick, height() - fbThick,
-              m_fbRect.x() + m_fbRect.width(), height(),
-              m_fbRect.x(), height());
-  painter->drawPolygon(a);
+  int fbThick = ((m_strGap * GLOB->Gtune()->stringNr()) / 6) / 3; // thickness of fretboard
+  painter->drawRect(m_fbRect.x() + m_strGap / 3 - 8, m_fbRect.y() - fbThick, m_fbRect.width() + fbThick, m_fbRect.height() + fbThick);
   if (GLOB->instrument().type() == Tinstrument::ClassicalGuitar)
     painter->setBrush(QBrush(QPixmap(Tpath::img("fingbg"))));
   else
@@ -147,15 +141,15 @@ void TguitarBg::paint(QPainter* painter) {
     if (fretMarks[i]) {
       int markW = m_strGap / 3;
       painter->setBrush(QBrush(Qt::white, Qt::SolidPattern)); //white color for circles marking 5, 7, 9... frets
-      if (fretMarks[i] == 1)
-        painter->drawEllipse(m_fretsPos[i] - markW / 2 - (m_fretsPos[i] - m_fretsPos[i - 1]) / 2,
+      if (fretMarks[i] == 1) {
+          painter->drawEllipse(m_fretsPos[i] - markW / 2 - (m_fretsPos[i] - m_fretsPos[i - 1]) / 2,
                             m_fbRect.y() + m_strGap * int((GLOB->Gtune()->stringNr() / 2)) - markW / 2, markW, markW);
-        else {
+      } else {
           painter->drawEllipse(m_fretsPos[i - 1] + 2 + ((m_fretsPos[i] - m_fretsPos[i - 1]) - 2 * markW) / 3,
-                              m_fbRect.y() + m_strGap * int((GLOB->Gtune()->stringNr() / 2)) - markW / 2, markW, markW);
+                            m_fbRect.y() + m_strGap * int((GLOB->Gtune()->stringNr() / 2)) - markW / 2, markW, markW);
           painter->drawEllipse(m_fretsPos[i - 1] + 2 + (((m_fretsPos[i] - m_fretsPos[i - 1]) - 2 * markW) / 3) * 2 + markW,
-                              m_fbRect.y() + m_strGap * int((GLOB->Gtune()->stringNr() / 2)) - markW / 2, markW, markW);
-        }
+                            m_fbRect.y() + m_strGap * int((GLOB->Gtune()->stringNr() / 2)) - markW / 2, markW, markW);
+      }
     }
   }
 // STRINGS
