@@ -17,11 +17,9 @@ Flickable {
 
   ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
 
-  onWidthChanged: console.log("W", width / nootkaWindow.fontSize)
-
   Grid {
     id: rangeGrid
-    columns:  parent.width > nootkaWindow.fontSize * 48 ? 2 : 1
+    columns:  parent.width > nootkaWindow.fontSize * 50 ? 2 : 1
     width: parent.width
     spacing: nootkaWindow.fontSize / 4
     horizontalItemAlignment: Grid.AlignHCenter
