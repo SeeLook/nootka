@@ -7,25 +7,19 @@ import QtQuick.Controls 2.0
 
 
 Flickable {
-  id: flick
   clip: true
   ScrollBar.vertical: ScrollBar {}
-  contentHeight: text.paintedHeight; contentWidth: text.paintedWidth
-
-  Rectangle {
-      anchors.fill: parent
-      color: activPal.base
-  }
+  contentHeight: text.paintedHeight; contentWidth: width
 
   TextEdit {
       id: text
-      width: flick.width
+      width: parent.width
       textMargin: font.pixelSize
       wrapMode: TextEdit.Wrap
       readOnly: true
       textFormat: TextEdit.RichText
       color: activPal.text
-      text: "About Qt"
+      text: Noo.aboutQt()
   }
 }
  
