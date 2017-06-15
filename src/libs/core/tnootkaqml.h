@@ -82,6 +82,7 @@ public:
   Q_INVOKABLE QString instrumentName(int instr);
   Q_INVOKABLE QString getXmlToOpen();
   Q_INVOKABLE QString getXmlToSave();
+  Q_INVOKABLE QString aboutQt();
 
 private:
   static TnootkaQML             *m_instance;
