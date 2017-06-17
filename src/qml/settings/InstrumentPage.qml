@@ -60,10 +60,9 @@ Flickable {
           anchors.horizontalCenter: parent.horizontalCenter
           Text { text: qsTr("tuning of the guitar"); anchors.verticalCenter: parent.verticalCenter }
           ComboBox {
+            width: nootkaWindow.fontSize * 20
             model: GLOB.instrument.type === Tinstrument.BassGuitar ? Noo.bassTunings() : Noo.guitarTunings()
-            delegate: ItemDelegate {
-              text: modelData
-            }
+            delegate: ItemDelegate { text: modelData }
           }
         }
         Score {
@@ -71,6 +70,8 @@ Flickable {
           height: nootkaWindow.fontSize * 20
           width: Math.min(parent.width * 0.9, nootkaWindow.fontSize * 26)
           anchors.horizontalCenter: parent.horizontalCenter
+          clef: GLOB.clefType
+          scoreObj.clefType: GLOB.clefType
           meter: Tmeter.NoMeter
           Component.onCompleted: {
             for (var s = 1; s <= GLOB.tuning.stringNumber; ++s)

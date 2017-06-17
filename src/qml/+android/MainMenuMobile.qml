@@ -9,9 +9,10 @@ import QtQuick.Window 2.0
 
 import Nootka 1.0
 
+
 Item {
   property Item toolBar: null // fake, for main window information
-  property Drawer mainDrawer: null
+  property alias drawer: mainDrawer
 
   function open() { mainDrawer.scoreMenu.open() }
 
@@ -50,16 +51,24 @@ Item {
     }
   }
 
-  Component {
-      id: drawerComp
-      Drawer {
-        id: mainDrawer
-        property alias scoreMenu: scoreMenu
-        width: nootkaWindow.fontSize * 16
-        height: nootkaWindow.height
-        onVisibleChanged: {
-          nooLabel.bgColor = visible ? nooLabel.randColor() : "white"
-        }
+  Drawer {
+    id: mainDrawer
+    property Item scoreMenu: null
+    property NootkaLabel label: null
+    width: nootkaWindow.fontSize * 16
+    height: nootkaWindow.height
+    onVisibleChanged: {
+      if (visible) {
+        if (!drawerLoad.active)
+          drawerLoad.active = true
+        label.bgColor = label.randColor()
+      }
+    }
+    Loader {
+      id: drawerLoad
+      active: false
+      anchors.fill: parent
+      sourceComponent: Component {
         Flickable {
           anchors.fill: parent
           clip: true
@@ -75,6 +84,7 @@ Item {
                 mainDrawer.close()
                 nootkaWindow.aboutAct.trigger()
               }
+              Component.onCompleted: mainDrawer.label = this
             }
             MenuButton { action: nootkaWindow.levelAct; onClicked: mainDrawer.close() }
             MenuButton { action: nootkaWindow.examAct; /*onClicked: mainDrawer.close()*/ }
@@ -91,6 +101,8 @@ Item {
               MenuButton { action: score.showNamesAct; onClicked: mainDrawer.close() }
               MenuButton { action: score.zoomInAct; onClicked: mainDrawer.close() }
               MenuButton { action: score.zoomOutAct; onClicked: mainDrawer.close() }
+              MenuButton { action: score.openXmlAct; onClicked: mainDrawer.close() }
+              MenuButton { action: score.saveXmlAct; onClicked: mainDrawer.close() }
               states: [ State { name: "Visible"; when: scoreMenu.visible }, State { name: "Invisible"; when: !scoreMenu.visible } ]
 
               transitions: [
@@ -109,20 +121,18 @@ Item {
                   }
                 }
               ]
+              Component.onCompleted: mainDrawer.scoreMenu = this
             }
             MenuButton { onClicked: nootkaWindow.close(); action: Taction { icon: "exit"; text: qsTr("exit") } }
           }
         }
       }
+    }
   }
 
   MouseArea {
     id: area
     anchors.fill: parent
-    onClicked: {
-      if (!mainDrawer)
-        mainDrawer = drawerComp.createObject(this)
-      mainDrawer.open()
-    }
+    onClicked: mainDrawer.open()
   }
 }
