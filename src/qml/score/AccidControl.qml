@@ -8,62 +8,41 @@ import QtQuick 2.7
 /**
  * Visibility of this control depends on active (cursor) note of the score
  */
-TipRect {
+ControlBase {
   id: accidControl
 
-  property bool active: false
   property int selectedId: -1
-  property real factor: score.scale * 2
   property string text: ""
   property int alter: accidArray[selectedId + 1]
   readonly property var accidGlyphs: [ "\ue264", "\ue260", "\ue262", "\ue263" ]
   readonly property var accidArray: [ 0, -2, -1, 1, 2 ]
 
-  // private
-  property bool show: false
 
   x: (show ? score.scoreObj.xFirstInActivBar : -nootkaWindow.fontSize) - width
   y: score.contentY + (score.height - height) / 2
-  z: 20
-  width: contentColumn.width
-  height: contentColumn.height
 
-  Column {
-      id: contentColumn
-      Repeater {
-        model: 4
-        ControlButton {
-          factor: accidControl.factor
-          yOffset: factor * -4.4
-          visible: score.enableDoubleAccids || index === 1 || index === 2
-          selected: accidControl.selectedId === index
-          font { family: "scorek"; pixelSize: factor * 3 }
-          text: accidGlyphs[index]
-          onClicked: {
-            selectedId = selectedId === index ? -1 : index
-            accidControl.text = selectedId > -1 ? accidGlyphs[selectedId] : ""
+  component: Component {
+      Column {
+          Repeater {
+            model: 4
+            ControlButton {
+              factor: accidControl.factor
+              yOffset: factor * -4.4
+              visible: score.enableDoubleAccids || index === 1 || index === 2
+              selected: accidControl.selectedId === index
+              font { family: "scorek"; pixelSize: factor * 3 }
+              text: accidGlyphs[index]
+              onClicked: {
+                selectedId = selectedId === index ? -1 : index
+                accidControl.text = selectedId > -1 ? accidGlyphs[selectedId] : ""
+              }
+              onEntered: hideTimer.stop()
+              onExited: hideTimer.restart()
+            }
           }
-          onEntered: hideTimer.stop()
-          onExited: hideTimer.restart()
-        }
       }
   }
 
   Behavior on x { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.3; duration: 300 }}
-
-  onActiveChanged: {
-    if (active) {
-        show = true
-        hideTimer.stop()
-    } else
-        hideTimer.restart()
-  }
-
-  Timer {
-      id: hideTimer
-      interval: 1000
-      repeat: false
-      onTriggered: show = false
-  }
 
 }

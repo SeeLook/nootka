@@ -35,6 +35,7 @@
     <file alias="RhythmControl.qml">qml/score/RhythmControl.qml</file>
     <file alias="ControlButton.qml">qml/score/ControlButton.qml</file>
     <file alias="NoteAdd.qml">qml/score/NoteAdd.qml</file>
+    <file alias="ControlBase.qml">qml/score/ControlBase.qml</file>
 
     <file alias="Instrument.qml">qml/instruments/Instrument.qml</file>
     <file alias="Guitar.qml">qml/instruments/Guitar.qml</file>
@@ -69,7 +70,7 @@
     <file alias="fakeTrans.js">qml/shared/fakeTrans.js</file>
 
     <file alias="qtquickcontrols2.conf">qml/qtquickcontrols2.conf</file>
-    <file alias="+android/qtquickcontrols2.conf">qml/+android/qtquickcontrols2.conf</file>
+<!--     <file alias="+android/qtquickcontrols2.conf">qml/+android/qtquickcontrols2.conf</file> -->
 
   </qresource>
 </RCC>

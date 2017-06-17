@@ -28,7 +28,6 @@ Flickable {
   // private
   property var staves: []
   property alias noteAdd: addLoad.item
-  property alias rtmControl: rtmLoad.item
 
   clip: true
   boundsBehavior: Flickable.StopAtBounds
@@ -106,13 +105,10 @@ Flickable {
     active: score.clef !== Tclef.NoClef && (scoreObj.activeNote !== null || noteAdd && noteAdd.active)
   }
 
-  Loader { id: rtmLoad; sourceComponent: scoreObj.meter !== Tmeter.NoMeter ? rtmComp : null }
-  Component {
-    id: rtmComp
-    RhythmControl {
-      active: scoreObj.activeNote !== null || (noteAdd && noteAdd.active)
-      onChanged: scoreObj.workRhythm = rhythm
-    }
+  RhythmControl {
+    id: rtmControl
+    active: meter !== Tmeter.NoMeter && (scoreObj.activeNote !== null || (noteAdd && noteAdd.active))
+    onChanged: scoreObj.workRhythm = rhythm
   }
 
   Loader { id: addLoad; sourceComponent: scoreObj.allowAdding ? addComp : null }
