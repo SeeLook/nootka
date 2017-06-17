@@ -66,6 +66,7 @@ Flickable {
 
     TextBackground { text: qsTranslate("TaboutNootka", "Other projects"); }
     Text {
+      width: parent.width
       text: qsTranslate("TaboutNootka", "However this application could not exist without various open source projects.<br>Especially:") +
             "<ul>" + createLink("Qt", "http://qt-project.org/") + " by Digia" +
             createLink("FFTW", "http://www.fftw.org") + " by M. Frigo & S. G. Johnson" +
@@ -77,9 +78,11 @@ Flickable {
             createLink("Bravura SMuFL font", "http://www.smufl.org/fonts/") +
             "</ul>"
       color: activPal.text
+      wrapMode: Text.WordWrap
     }
     TextBackground { text: qsTranslate("TaboutNootka", "Thanks"); }
     Text {
+      width: parent.width
       text: "I would like to say <b>THANK YOU</b> for all people who helped me with developing Nootka.<br>
 I will try to mention them in some random order:<br>
 <br><b>José Luis Marín</b> for patient and intensive tests under Linux and great feedback.<br>
@@ -93,6 +96,7 @@ I will try to mention them in some random order:<br>
 <b>And all others that helped.</b><br>"
       textFormat: Text.StyledText
       color: activPal.text
+      wrapMode: Text.WordWrap
     }
   }
   Timer {
