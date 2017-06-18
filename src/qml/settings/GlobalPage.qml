@@ -53,7 +53,8 @@ Flickable {
 
           Item {
             id: viewItem
-            width: parent.width
+            width: parent.width * 0.98
+            anchors.horizontalCenter: parent.horizontalCenter
             height: fontSize * 8
 
             PathView {

@@ -105,7 +105,10 @@ Flickable {
               width: nootkaWindow.fontSize * 15
               currentIndex: 7 // C-major
             }
-            Rectangle { color: activPal.text; width: nootkaWindow.fontSize; height: nootkaWindow.fontSize / 5; anchors.verticalCenter: parent.verticalCenter }
+            Rectangle {
+              color: enabled ? activPal.text : disdPal.text; width: nootkaWindow.fontSize; height: nootkaWindow.fontSize / 5
+              anchors.verticalCenter: parent.verticalCenter
+            }
             ComboBox {
               id: toCombo
               model: Noo.keyComboModel()
