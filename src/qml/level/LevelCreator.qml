@@ -18,4 +18,11 @@ Item {
     pages.addItem("accidSett", qsTranslate("TlevelSelector", "Accidentals"),  "level/Accids")
     pages.addItem("rangeSett", qsTranslate("TlevelSelector", "Range"),  "level/Range")
   }
+
+  Connections {
+    target: pages.mobileButt
+    onClicked: dialLoader.dialogDrawer.open()
+  }
+
+  function close() {} // fake
 }

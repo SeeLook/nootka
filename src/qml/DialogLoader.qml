@@ -34,7 +34,7 @@ Dialog {
           var c = Qt.createComponent("qrc:/TsettingsDialog.qml")
           currentDialog = c.createObject(contentItem)
           if (Noo.isAndroid()) {
-            buttons = [StandardButton.Apply, StandardButton.RestoreDefaults, StandardButton.Help, StandardButton.Cancel]
+              buttons = [StandardButton.Apply, StandardButton.RestoreDefaults, StandardButton.Help, StandardButton.Cancel]
           } else {
               standardButtons = StandardButton.Apply | StandardButton.Cancel | StandardButton.RestoreDefaults | StandardButton.Help
               title = "Nootka - " + qsTranslate("TsettingsDialog", "application's settings")
@@ -82,6 +82,7 @@ Dialog {
             property int role: dialLoader.buttons[index]
             action: Taction {
               text: Noo.stdButtonText(dialLoader.buttons[index])
+              icon: Noo.stdButtonIcon(dialLoader.buttons[index])
             }
             onClicked: mapRole(role)
           }
@@ -115,7 +116,6 @@ Dialog {
       case StandardButton.Help: help(); break
       case StandardButton.Close: close(); break
     }
-    console.log(role)
     dialogDrawer.close()
   }
 }
