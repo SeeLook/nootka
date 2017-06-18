@@ -3,27 +3,37 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.7
-import QtQuick.Controls 2.0
 
 
-Frame {
+/**
+ * 12 is magical number of pixels that corresponds with tipbg.png image size and keeps the frame pretty at any circumstances
+ */
+BorderImage {
   property alias description: descText.text
   property alias descriptionColor: descText.color
   default property alias content: container.data
+
   anchors.horizontalCenter: parent.horizontalCenter
 
-  background: Rectangle {
+  width: parent.width * (Noo.isAndroid() ? 0.99 : 0.98)
+  height: (descText.text === "" ? 0 : descText.height) + container.height + nootkaWindow.fontSize * 2.5
+
+  Rectangle { // background
+    x: 6; y: 6; width: parent.width - 12; height: parent.height - 12
     color: enabled ? Qt.lighter(activPal.window, 1.05) : Qt.darker(disdPal.window, 1.5)
-    border.color: disdPal.text
-    radius: nootkaWindow.fontSize / 4
+    radius: 6
   }
 
-  width: parent.width * (Noo.isAndroid() ? 0.99 : 0.98)
-  height: (descText.text === "" ? 0 : descText.height) + container.height + nootkaWindow.fontSize * 2
+  border { left: 12; right: 12; bottom: 12; top: 12 }
+  horizontalTileMode: BorderImage.Stretch
+  verticalTileMode: BorderImage.Stretch
+  source: Tpath.pix("tipbg")
 
   Column {
       spacing: nootkaWindow.fontSize / 2
       width: parent.width
+
+      Item { width: parent.width; height: nootkaWindow.fontSize / 2} // spacer
 
       Item {
         id: container
@@ -34,7 +44,8 @@ Frame {
       Text {
         id: descText
         anchors.bottom: parent.Bottom
-        width: parent.width
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width * 0.96
         font.pixelSize: nootkaWindow.fontSize * 0.8
         textFormat: Text.RichText
         horizontalAlignment: Text.AlignHCenter
