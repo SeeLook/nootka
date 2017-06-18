@@ -248,6 +248,19 @@ QString TnootkaQML::stdButtonText(int role) {
 }
 
 
+QString TnootkaQML::stdButtonIcon(int role) {
+  switch (role) {
+    case 33554432: return QStringLiteral("check"); // Apply
+    case 4194304: return QStringLiteral("record"); // Cancel
+    case 134217728: return QStringLiteral("fingerpoint"); // Restore defaults
+    case 16777216: return QStringLiteral("help"); // Help
+    case 2097152: return QStringLiteral("exit"); // Close
+    case 1024: return QStringLiteral("check"); // OK
+    default: return QString();
+  }
+}
+
+
 QString TnootkaQML::instrumentName(int instr) {
   return Tinstrument::staticName(static_cast<Tinstrument::Etype>(instr));
 }

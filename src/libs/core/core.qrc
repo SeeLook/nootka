@@ -56,6 +56,9 @@
         <file>mobile/volume.png</file>
         <file>picts/scr.png</file>
         <file>picts/fingerpoint.png</file>
+        <file>picts/open.png</file>
+        <file>picts/save.png</file>
+        <file>picts/tipbg.png</file>
 <!-- settings -->
         <file>picts/global.png</file>
         <file>picts/scoreSett.png</file>
