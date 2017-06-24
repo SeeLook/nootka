@@ -2,8 +2,8 @@
  * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
-import QtQuick 2.7
-import QtQuick.Controls 2.0
+import QtQuick 2.9
+import QtQuick.Controls 2.2
 
 import Score 1.0
 
@@ -88,7 +88,7 @@ Grid {
           clefPixComp.createObject(clefItem, {"scale": nootkaWindow.fontSize * 0.9, "y": -2.2 * nootkaWindow.fontSize, "index": index})
           if (index == 6) {
             var lowStaff = clefPixComp.createObject(clefItem, {"index": 2, "scale": nootkaWindow.fontSize * 0.9, "y": nootkaWindow.fontSize * 2.3})
-            var brace = Qt.createQmlObject('import QtQuick 2.7; Text { font {family: "scorek"; pixelSize: 8 } text: "\ue000"; x: 0.15 }', lowStaff)
+            var brace = Qt.createQmlObject('import QtQuick 2.9; Text { font {family: "scorek"; pixelSize: 8 } text: "\ue000"; x: 0.15 }', lowStaff)
             brace.y = -10.0
             brace.color = activPal.text
           }

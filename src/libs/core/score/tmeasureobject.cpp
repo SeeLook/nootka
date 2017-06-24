@@ -178,7 +178,7 @@ void TmeasureObject::checkBarLine() {
   if (m_free == 0 && m_score->meter()->meter() != Tmeter::NoMeter) {
     auto lastNote = last()->item();
     if (!m_barLine) {
-      m_staff->score()->component()->setData("import QtQuick 2.7; Rectangle { width: 0.3 }", QUrl());
+      m_staff->score()->component()->setData("import QtQuick 2.9; Rectangle { width: 0.3 }", QUrl());
       m_barLine = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
       m_barLine->setParentItem(lastNote);
       m_barLine->setProperty("color", lastNote->color());

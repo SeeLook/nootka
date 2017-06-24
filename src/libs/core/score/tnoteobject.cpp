@@ -85,7 +85,7 @@ TnoteObject::TnoteObject(TstaffObject* staffObj, TnotePair* wrapper) :
   setParent(m_staff->score()); // to avoid deleting with parent staff
   m_note = new Tnote();
 
-  m_staff->score()->component()->setData("import QtQuick 2.7; Rectangle {}", QUrl());
+  m_staff->score()->component()->setData("import QtQuick 2.9; Rectangle {}", QUrl());
   m_stem = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
   m_stem->setParentItem(this);
   m_stem->setWidth(0.3);
@@ -97,7 +97,7 @@ TnoteObject::TnoteObject(TstaffObject* staffObj, TnotePair* wrapper) :
     m_lowerLines << createAddLine();
   }
 
-  m_staff->score()->component()->setData("import QtQuick 2.7; Text { font { family: \"Scorek\"; pixelSize: 7 }}", QUrl());
+  m_staff->score()->component()->setData("import QtQuick 2.9; Text { font { family: \"Scorek\"; pixelSize: 7 }}", QUrl());
   m_head = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
   m_head->setParentItem(this);
 
@@ -109,7 +109,7 @@ TnoteObject::TnoteObject(TstaffObject* staffObj, TnotePair* wrapper) :
   m_flag->setParentItem(m_stem);
   m_flag->setX(0.1);
 
-//   m_staff->score()->component()->setData("import QtQuick 2.7; Text { font { pixelSize: 1 }}", QUrl());
+//   m_staff->score()->component()->setData("import QtQuick 2.9; Text { font { pixelSize: 1 }}", QUrl());
 //   m_debug = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
 //   m_debug->setParentItem(this);
 
@@ -270,7 +270,7 @@ void TnoteObject::setHeight(qreal hh) {
     }
     if (staff()->score()->isPianoStaff()) {
         if (m_midLine == nullptr) {
-          m_staff->score()->component()->setData("import QtQuick 2.7; Rectangle {}", QUrl());
+          m_staff->score()->component()->setData("import QtQuick 2.9; Rectangle {}", QUrl());
           m_midLine = createAddLine();
           m_midLine->setParent(this);
         }
@@ -338,7 +338,7 @@ void TnoteObject::setNoteNameVisible(bool nameVisible) {
   if (nameVisible) {
       if (!m_name) {
         m_staff->score()->component()->setData(
-              "import QtQuick 2.7; Text { font { pixelSize: 3; family: \"Scorek\" } textFormat: Text.PlainText; style: Text.Outline }", QUrl());
+              "import QtQuick 2.9; Text { font { pixelSize: 3; family: \"Scorek\" } textFormat: Text.PlainText; style: Text.Outline }", QUrl());
         m_name = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
         m_name->setParentItem(parentItem());
         m_name->setProperty("color", qApp->palette().text().color());
