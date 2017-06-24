@@ -15,6 +15,7 @@ Flickable {
   width: parent.width
   height: parent.height
   contentHeight: instrCol.height + nootkaWindow.fontSize * 2
+  contentWidth: Math.max(width, nootkaWindow.fontSize * 35)
 
   ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
 

@@ -13,7 +13,7 @@ Flickable {
   width: parent.width; height: parent.height
   clip: true
   contentHeight: rangeGrid.height + nootkaWindow.fontSize * 2
-  contentWidth: width
+  contentWidth: Math.max(width, nootkaWindow.fontSize * 35)
 
   ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
 

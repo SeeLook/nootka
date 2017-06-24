@@ -15,7 +15,7 @@ BorderImage {
 
   anchors.horizontalCenter: parent.horizontalCenter
 
-  width: parent.width * (Noo.isAndroid() ? 0.99 : 0.98)
+  width: parent.width
   height: (descText.text === "" ? 0 : descText.height) + container.height + nootkaWindow.fontSize * 2.5
 
   Rectangle { // background

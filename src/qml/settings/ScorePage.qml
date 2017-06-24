@@ -45,9 +45,10 @@ Column {
 
       Flickable { // 1st page (general)
         clip: true
-        contentHeight: firstColumn.height + nootkaWindow.fontSize * 2
         width: parent.width
         height: parent.height
+        contentHeight: firstColumn.height + nootkaWindow.fontSize * 2
+        contentWidth: Math.max(width, nootkaWindow.fontSize * 35)
         Column {
           id: firstColumn
           width: parent.width
@@ -131,20 +132,19 @@ Column {
 
       Flickable { // 2nd page (key signatures)
         clip: true
-        contentHeight: secondColumn.height + nootkaWindow.fontSize * 2
         width: parent.width
         height: parent.height
+        contentHeight: secondColumn.height + nootkaWindow.fontSize * 2
+        contentWidth: Math.max(width, nootkaWindow.fontSize * 35)
         Column {
           id: secondColumn
           width: parent.width
           spacing: nootkaWindow.fontSize / 2
-          Tile {
-            CheckBox {
-              id: enableKeyChB
-              text: qsTranslate("TscoreSettings", "enable key signature")
-              anchors.horizontalCenter: parent.horizontalCenter
-              checked: GLOB.keySignatureEnabled
-            }
+          CheckBox {
+            id: enableKeyChB
+            text: qsTranslate("TscoreSettings", "enable key signature")
+            anchors.horizontalCenter: parent.horizontalCenter
+            checked: GLOB.keySignatureEnabled
           }
           Frame {
             width: parent.width * 0.96
@@ -203,9 +203,9 @@ Column {
 
       Flickable { // 3rd page (clefs)
         clip: true
-        contentHeight: clefsCol.height + nootkaWindow.fontSize * 2
-        contentWidth: parent.width
         width: parent.width
+        contentHeight: clefsCol.height + nootkaWindow.fontSize * 2
+        contentWidth: Math.max(width, nootkaWindow.fontSize * 35)
         Column {
           id: clefsCol
           width: parent.width
@@ -230,9 +230,9 @@ Column {
 
       Flickable { // 4rd page (note name calling)
         clip: true
-        contentWidth: parent.width
         width: parent.width
         contentHeight: nameCol.height + nootkaWindow.fontSize * 2
+        contentWidth: Math.max(width, nootkaWindow.fontSize * 35)
         Column {
           id: nameCol
           width: parent.width
