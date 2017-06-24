@@ -6,12 +6,14 @@ import QtQuick 2.7
 import QtQuick.Controls 2.0
 
 import "../"
+import "../fakeTrans.js" as Fake
+
 
 Flickable {
   width: parent.width; height: parent.height
   clip: true
   contentHeight: accidsGrid.height + nootkaWindow.fontSize * 2
-  contentWidth: width
+  contentWidth: Math.max(width, nootkaWindow.fontSize * 40)
 
   ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
 
@@ -70,7 +72,7 @@ Flickable {
         width: parent.width
         CheckBox {
           id: useKeysChB
-          text: qsTr("use key signatures")
+          text: Fake.tr("TscoreSettings", "enable key signature")
           anchors.horizontalCenter: parent.horizontalCenter
           checked: true
         }
@@ -90,6 +92,7 @@ Flickable {
             text: qsTr("range of keys")
             ButtonGroup.group: keysGr
             anchors.horizontalCenter: parent.horizontalCenter
+            checked: true
           }
           description: qsTr("random key signature from selected range.")
         }
