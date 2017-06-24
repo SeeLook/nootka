@@ -306,7 +306,7 @@ void TstaffObject::createExtraTie(TnoteObject* parent) {
       if (!m_extraTie) {
         QQmlEngine engine;
         QQmlComponent comp(&engine, this);
-        comp.setData("import QtQuick 2.7; Text { font { family: \"Scorek\"; pixelSize: 7 }}", QUrl());
+        comp.setData("import QtQuick 2.9; Text { font { family: \"Scorek\"; pixelSize: 7 }}", QUrl());
         m_extraTie = qobject_cast<QQuickItem*>(comp.create());
         m_extraTie->setX(-2.446875); // 2.546875 tie glyph width
         m_extraTie->setProperty("color", qApp->palette().text().color());
