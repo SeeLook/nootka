@@ -42,7 +42,7 @@ TscoreObject::TscoreObject(QObject* parent) :
   m_remindAccids(false),
   m_enableDoubleAccids(false),
   m_showNoteNames(false),
-  m_clefOffset(TclefOffset(3, 1)),
+  m_clefOffset(TclefOffset(3, 2)),
   m_width(0.0), m_adjustInProgress(false),
   m_nameStyle(static_cast<int>(Tnote::defaultStyle)),
   m_workRhythm(new Trhythm()), // quarter by default

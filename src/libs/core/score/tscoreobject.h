@@ -376,7 +376,7 @@ private:
 
 private:
                               /* Musical parameters */
-  Tclef::EclefType                  m_clefType = Tclef::Treble_G_8down;
+  Tclef::EclefType                  m_clefType = Tclef::Treble_G;
   Tmeter                           *m_meter;
   qint8                             m_keySignature = 0;
                               /* Score switches */
