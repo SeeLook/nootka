@@ -15,7 +15,7 @@ CheckBox {
     text: chB.text
     anchors.verticalCenter: parent.verticalCenter
     leftPadding: indicator.width + font.pixelSize / 4
-    color: activPal.text
+    color: chB.enabled ? activPal.text : disdPal.text
     font: chB.font
   }
 }

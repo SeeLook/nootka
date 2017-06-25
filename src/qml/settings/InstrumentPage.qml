@@ -97,7 +97,7 @@ Flickable {
 
     Tile {
       visible: instrSel.instrument !== Tinstrument.Piano && instrSel.instrument !== Tinstrument.NoInstrument
-      CheckBox {
+      TcheckBox {
         text: qsTr("show all possibilities of a note")
         anchors.horizontalCenter: parent.horizontalCenter
       }
