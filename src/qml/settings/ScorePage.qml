@@ -60,7 +60,7 @@ Column {
               width: parent.width
               Tile {
                 description: qsTranslate("TscoreSettings", "When enabled, a score displays only a single note.")
-                CheckBox {
+                TcheckBox {
                   id: singleNoteModeChB
                   text: qsTranslate("TscoreSettings", "use single note only")
                   anchors.horizontalCenter: parent.horizontalCenter
@@ -71,7 +71,7 @@ Column {
                 enabled: singleNoteModeChB.checked
                 description: qsTranslate("TscoreSettings",
                                         "Shows enharmonic variants of notes.<br>i.e.: the note E is also Fb (F flat) <i>and</i> Dx (D with double sharp).")
-                CheckBox {
+                TcheckBox {
                   id: showEnharmNotesChB
                   text: qsTranslate("TscoreSettings", "show enharmonic variants of notes")
                   anchors.horizontalCenter: parent.horizontalCenter
@@ -95,7 +95,7 @@ Column {
           Tile {
             description: qsTr("Use rhythms or only bare note heads.")
             enabled: !singleNoteModeChB.checked
-            CheckBox {
+            TcheckBox {
               id: rhythmsEnabledChB
               text: qsTr("enable rhythms")
               anchors.horizontalCenter: parent.horizontalCenter
@@ -104,7 +104,7 @@ Column {
           }
           Tile {
             description: qsTranslate("TscoreSettings", "If checked, you can use double sharps and double flats.")
-            CheckBox {
+            TcheckBox {
               id: doubleAccidsChB
               text: qsTranslate("TscoreSettings", "use double accidentals")
               anchors.horizontalCenter: parent.horizontalCenter
@@ -140,7 +140,7 @@ Column {
           id: secondColumn
           width: parent.width
           spacing: nootkaWindow.fontSize / 2
-          CheckBox {
+          TcheckBox {
             id: enableKeyChB
             text: qsTranslate("TscoreSettings", "enable key signature")
             anchors.horizontalCenter: parent.horizontalCenter
@@ -154,7 +154,7 @@ Column {
               width: parent.width
               Tile {
                 enabled: enableKeyChB.checked
-                CheckBox {
+                TcheckBox {
                   id: showKeyNamesChB
                   text: qsTranslate("TscoreSettings", "show names of key signature")
                   anchors.horizontalCenter: parent.horizontalCenter
@@ -256,7 +256,7 @@ Column {
             }
           }
           Tile {
-            CheckBox {
+            TcheckBox {
               id: namesOnScoreChB
               text: qsTr("Show names of all notes on the score.")
               anchors.horizontalCenter: parent.horizontalCenter

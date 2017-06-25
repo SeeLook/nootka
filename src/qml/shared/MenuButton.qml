@@ -45,7 +45,7 @@ Button {
 
   Component {
     id: radioComp
-    CheckBox {
+    TcheckBox {
       anchors {verticalCenter: parent.verticalCenter}
       checked: action.checked
       onClicked: menuButton.clicked()

@@ -110,7 +110,7 @@ Flickable {
     }
 
     Tile {
-      CheckBox {
+      TcheckBox {
         id: animChBox
         anchors.horizontalCenter: parent.horizontalCenter
         text: qsTr("enable animations")
