@@ -30,9 +30,9 @@ Flickable {
       Column {
         spacing: nootkaWindow.fontSize / 2
         width: parent.width
-        Text { text: qsTr("accidentals"); anchors.horizontalCenter: parent.horizontalCenter }
+        Text { text: qsTr("accidentals"); color: activPal.text; anchors.horizontalCenter: parent.horizontalCenter }
         Tile {
-          CheckBox {
+          TcheckBox {
             id: sharpsChB
             anchors.horizontalCenter: parent.horizontalCenter
             text: qsTr("# - sharps")
@@ -40,7 +40,7 @@ Flickable {
           description: qsTr("Sharps will be used in questions and answers.<br>It has to be checked, if keys with sharps are used.")
         }
         Tile {
-          CheckBox {
+          TcheckBox {
             id: flatsChB
             anchors.horizontalCenter: parent.horizontalCenter
             text: qsTr("b - flats")
@@ -48,14 +48,14 @@ Flickable {
           description: qsTr("Flats will be used in questions and answers.<br>It has to be checked, if keys with flats are used.")
         }
         Tile {
-          CheckBox {
+          TcheckBox {
             id: dblAccidsChB
             anchors.horizontalCenter: parent.horizontalCenter
             text: qsTr("x, bb - double accidentals")
           }
         }
         Tile {
-          CheckBox {
+          TcheckBox {
             id: forceAccChB
             anchors.horizontalCenter: parent.horizontalCenter
             text: qsTr("force using appropriate accidental")
@@ -70,7 +70,7 @@ Flickable {
       Column {
         spacing: nootkaWindow.fontSize / 2
         width: parent.width
-        CheckBox {
+        TcheckBox {
           id: useKeysChB
           text: Fake.tr("TscoreSettings", "enable key signature")
           anchors.horizontalCenter: parent.horizontalCenter
@@ -124,7 +124,7 @@ Flickable {
         }
         Tile {
           enabled: useKeysChB.checked
-          CheckBox {
+          TcheckBox {
             id: keyInAnswersChB
             text: qsTr("select a key signature manually")
             anchors.horizontalCenter: parent.horizontalCenter
@@ -132,7 +132,7 @@ Flickable {
           description: qsTr("if checked, in exam user have to select a key signature, otherwise it is shown by application.")
         }
         Tile {
-          CheckBox {
+          TcheckBox {
             id: currKeyOnlyChB
             text: qsTr("notes in current key signature only")
             anchors.horizontalCenter: parent.horizontalCenter

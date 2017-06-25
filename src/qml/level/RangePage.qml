@@ -30,7 +30,7 @@ Flickable {
         Column {
           width: parent.width
           spacing: nootkaWindow.fontSize / 2
-          Text { text: qsTr("note range:"); anchors.horizontalCenter: parent.horizontalCenter }
+          Text { text: qsTr("note range:"); color: activPal.text; anchors.horizontalCenter: parent.horizontalCenter }
           Score {
             id: rangeScore
             height: nootkaWindow.fontSize * 20
@@ -60,13 +60,13 @@ Flickable {
           Column {
             width: parent.width
             spacing: nootkaWindow.fontSize / 2
-            Text { text: qsTr("fret range:"); anchors.horizontalCenter: parent.horizontalCenter }
+            Text { text: qsTr("fret range:"); color: activPal.text; anchors.horizontalCenter: parent.horizontalCenter }
             Row {
               anchors.horizontalCenter: parent.horizontalCenter
               spacing: nootkaWindow.fontSize / 2
-              Text { text: qsTr("from"); anchors.verticalCenter: parent.verticalCenter }
+              Text { text: qsTr("from"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
               SpinBox { id: fromFretSpin; from: 0; to: GLOB.fretNumber; value: 0 }
-              Text { text: qsTr("to"); anchors.verticalCenter: parent.verticalCenter }
+              Text { text: qsTr("to"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
               SpinBox { id: toFretSpin; from: 0; to: GLOB.fretNumber; value: 3 }
             }
             Tile {
@@ -84,7 +84,7 @@ Flickable {
         Column {
           width: parent.width
           spacing: nootkaWindow.fontSize / 4
-          Text { text: qsTr("available strings:"); anchors.horizontalCenter: parent.horizontalCenter }
+          Text { text: qsTr("available strings:"); color: activPal.text; anchors.horizontalCenter: parent.horizontalCenter }
           Grid {
             spacing: nootkaWindow.fontSize / 4
             anchors.horizontalCenter: parent.horizontalCenter
@@ -92,15 +92,10 @@ Flickable {
             horizontalItemAlignment: Grid.AlignHCenter
             Repeater {
               model: 6
-              CheckBox {
-                id: chB
+              TcheckBox {
                 checked: true
-                contentItem: Text {
-                  text: index + 1
-                  font { family: "nootka"; pixelSize: nootkaWindow.fontSize * 2 }
-                  anchors.verticalCenter: parent.verticalCenter
-                  leftPadding: chB.indicator.width + nootkaWindow.fontSize * 2.5
-                }
+                text: index + 1
+                font { family: "nootka"; pixelSize: nootkaWindow.fontSize * 2 }
               }
             }
           }
