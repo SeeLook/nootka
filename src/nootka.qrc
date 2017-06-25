@@ -18,6 +18,7 @@
     <file alias="NameStyleSelector.qml">qml/shared/NameStyleSelector.qml</file>
     <file alias="InstrumentSelector.qml">qml/shared/InstrumentSelector.qml</file>
     <file alias="TipRect.qml">qml/shared/TipRect.qml</file>
+    <file alias="TcheckBox.qml">qml/shared/TcheckBox.qml</file>
 
     <file alias="IntonationBar.qml">qml/sound/IntonationBar.qml</file>
     <file alias="VolumeBar.qml">qml/sound/VolumeBar.qml</file>
@@ -63,6 +64,7 @@
     <file alias="LevelCreator.qml">qml/level/LevelCreator.qml</file>
     <file alias="level/LevelsPage.qml">qml/level/LevelsPage.qml</file>
     <file alias="level/QuestionsPage.qml">qml/level/QuestionsPage.qml</file>
+    <file alias="level/QuestionsBox.qml">qml/level/QuestionsBox.qml</file>
     <file alias="level/MelodyPage.qml">qml/level/MelodyPage.qml</file>
     <file alias="level/AccidsPage.qml">qml/level/AccidsPage.qml</file>
     <file alias="level/RangePage.qml">qml/level/RangePage.qml</file>
