@@ -3793,19 +3793,16 @@ nutowy</translation>
     </message>
 </context>
 <context>
-    <name>TsupportNootka</name>
+    <name>SupportPage</name>
     <message>
-        <location filename="../src/plugins/about/tsupportnootka.cpp" line="40"/>
         <source>You also can help with making Nootka better.</source>
         <translation>Ty także możesz pomóc w ulepszaniu programu Nootka.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/about/tsupportnootka.cpp" line="41"/>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
         <translation>Wymaga to nieco angielskiego, więc jeżeli możesz przeczytać poniższy tekst będzie tam coś w co mógłbyś się zaangażować.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/about/tsupportnootka.cpp" line="68"/>
         <source>Donate Nootka campaign</source>
         <translation>Kampania „Wspomóż Nootkę”</translation>
     </message>
@@ -3815,12 +3812,10 @@ nutowy</translation>
         <translation>Funkcja za funkcją i Nootka stała się dużym i złożonym projektem.&lt;br&gt;Żeby móc rozwijać ten program dalej,&lt;br&gt; dokończyć wersję na Androida, (a później na inne mobilne systemy),&lt;br&gt;potrzebny jest sprzęt który temu podoła.&lt;br&gt; Po prostu komputer na którym pracuję jest na to za stary…&lt;br&gt;Wspomóż Nootkę darowizną.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/about/tsupportnootka.cpp" line="76"/>
         <source>Through PayPal or a card</source>
         <translation>Przez PayPal lub kartą</translation>
     </message>
     <message>
-        <location filename="../src/plugins/about/tsupportnootka.cpp" line="78"/>
         <source>or send email for an account number</source>
         <translation>lub wyślij emaila po numer konta</translation>
     </message>
