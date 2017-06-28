@@ -12,6 +12,8 @@ Flickable {
 
   clip: true
   contentHeight: aboutCont.height
+  contentWidth: Math.max(width, nootkaWindow.fontSize * 35)
+
   ScrollBar.vertical: ScrollBar {}
 
   Column {
