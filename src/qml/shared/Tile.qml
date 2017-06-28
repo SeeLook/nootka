@@ -11,6 +11,8 @@ import QtQuick 2.9
 BorderImage {
   property alias description: descText.text
   property alias descriptionColor: descText.color
+  property alias bgColor: bg.color
+  property alias bgBorder: bg.border
   default property alias content: container.data
 
   anchors.horizontalCenter: parent.horizontalCenter
@@ -19,6 +21,7 @@ BorderImage {
   height: (descText.text === "" ? 0 : descText.height) + container.height + nootkaWindow.fontSize * 2.5
 
   Rectangle { // background
+    id: bg
     x: 6; y: 6; width: parent.width - 12; height: parent.height - 12
     color: enabled ? Qt.lighter(activPal.window, 1.05) : Qt.darker(disdPal.window, 1.5)
     radius: 6
