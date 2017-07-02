@@ -11,7 +11,6 @@ import Score 1.0
 Text {
   id: meter
 
-  property bool readOnly: false
   property Drawer meterDrawer
 
   Connections {
@@ -74,7 +73,7 @@ Text {
 
   MouseArea {
       anchors.fill: parent
-      enabled: !readOnly
+      enabled: !score.readOnly
       onClicked: {
         if (meterDrawer)
           meterDrawer.open()

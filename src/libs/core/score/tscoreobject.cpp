@@ -485,6 +485,13 @@ CHECKTIME(
 }
 
 
+void TscoreObject::setReadOnly(bool ro) {
+  if (m_readOnly != ro) {
+    m_readOnly = ro;
+  }
+}
+
+
 qreal TscoreObject::stavesHeight() {
   if (m_staves.isEmpty())
     return 0.0;
