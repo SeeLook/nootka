@@ -199,12 +199,12 @@ public:
       /**
        * Returns highest possible note on the staff in current clef
        */
-  Tnote highestNote();
+  Q_INVOKABLE Tnote highestNote();
 
       /**
        * Returns lowest possible note on the staff in current clef
        */
-  Tnote lowestNote();
+  Q_INVOKABLE Tnote lowestNote();
 
   bool isPianoStaff() { return m_clefType == Tclef::PianoStaffClefs; }
 

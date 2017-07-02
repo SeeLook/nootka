@@ -16,6 +16,7 @@
 TRANSLATION CONTEXT CHANGES
   TpitchView -> PitchView
   TvolumeView -> VolumeBar
+  TaboutNootka -> AuthorsPage
   TscoreSettings -> ScorePage, KeySufixEdit,  (rearrange ScorePage)
   TradioClef - Tclef (rearrange Tclef)
   TguitarSettings - InstrumentPage
