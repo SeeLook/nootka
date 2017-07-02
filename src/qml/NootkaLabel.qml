@@ -27,7 +27,7 @@ Item {
     id: logo
     smooth: true
     anchors.top: parent.Top
-    source: Tpath.pix("logo")
+    source: Noo.pix("logo")
     sourceSize.height: nootkaLabel.height
   }
 

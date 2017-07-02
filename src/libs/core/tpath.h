@@ -57,7 +57,7 @@ public:
 
       /**
        * Returns path to Nootka images (picts) with given image name.
-       * It is accessible from QML through @p Tpath::pix("image_name")
+       * It is accessible from QML through @p Noo.pix("image_name")
        */
   Q_INVOKABLE static QString pix(const QString& imageFileName);
 

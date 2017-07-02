@@ -25,7 +25,7 @@ ToolBar {
 //     HeadButton {
 //       id: chartAct
 //       name: qsTr("Analyze", "could be Chart as well")
-//       icon: Tpath.pix("charts")
+//       icon: Noo.pix("charts")
 //       tip: qsTr("Analysis of exam results")
 //     }
     HeadButton { id: scoreAct; action: nootkaWindow.scoreAct }
