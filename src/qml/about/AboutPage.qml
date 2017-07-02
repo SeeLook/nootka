@@ -6,15 +6,19 @@ import QtQuick 2.9
 import "../"
 
 
-Item {
-
+Flickable {
   width: parent.width
   height: parent.height
 
+  contentHeight: aboutCol.height
+  contentWidth: width
+
   Column {
-    anchors.fill: parent
+    id: aboutCol
+    width: parent.width
+    spacing: nootkaWindow.fontSize
     Rectangle {
-      height: parent.height / 7
+      height: nootkaWindow.fontSize * 7
       width: parent.width
       color: nooLab.bgColor
       NootkaLabel {
@@ -23,6 +27,29 @@ Item {
         active: false
         anchors.centerIn: parent
         bgColor: randColor()
+      }
+    }
+    Tile {
+      bgColor: Qt.tint(nooLab.bgColor, Qt.rgba(activPal.base.r, activPal.base.g, activPal.base.b, 0.9))
+      bgBorder { width: 2; color: nooLab.bgColor }
+      width: parent.width * 0.9
+      Column {
+        width: parent.width
+        spacing: nootkaWindow.fontSize
+        Text {
+          width: parent.width
+          font { pixelSize: nootkaWindow.fontSize * 2; bold: true }
+          horizontalAlignment: Text.AlignHCenter
+          text: "Nootka " + Noo.version()
+          color: activPal.text
+        }
+        Text {
+          text: "A few nice words to introduce Nootka shortly."
+          width: parent.width
+          font { pixelSize: nootkaWindow.fontSize * 1.2 }
+          horizontalAlignment: Text.AlignHCenter
+          color: activPal.text
+        }
       }
     }
   }

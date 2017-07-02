@@ -84,6 +84,7 @@ public:
   Q_INVOKABLE QString getXmlToOpen();
   Q_INVOKABLE QString getXmlToSave();
   Q_INVOKABLE QString aboutQt();
+  Q_INVOKABLE QString pix(const QString& imageFileName);
 
 private:
   static TnootkaQML             *m_instance;

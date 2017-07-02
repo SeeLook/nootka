@@ -18,7 +18,6 @@
 
 
 #include <tinitcorelib.h>
-#include <tpath.h>
 //#include <tmtr.h>
 #include <QtWidgets/qapplication.h>
 #include <QtGui/qicon.h>
@@ -31,6 +30,7 @@
 #include <QtCore/qfile.h>
 #include <QtCore/qsettings.h>
 
+#include "tpath.h"
 #include "tnootkaqml.h"
 
 #if defined (Q_OS_ANDROID)
@@ -43,7 +43,7 @@ static QString logFile;
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
   Q_UNUSED(context)
   Q_UNUSED(type)
-//   if (type == QtDebugMsg) {
+
 #if defined (Q_OS_ANDROID)
     QFile outFile(logFile);
 #else
@@ -52,7 +52,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
     outFile.open(QIODevice::WriteOnly | QIODevice::Append);
     QTextStream ts(&outFile);
     ts << msg << endl;
-//   }
+
 }
 
 
@@ -79,7 +79,6 @@ int main(int argc, char *argv[])
   QTranslator nooTranslator;
   QPointer<QApplication> a = nullptr;
   QQmlApplicationEngine *e = nullptr;
-  Tpath pathObj;
   TnootkaQML nooObj;
 
   int exitCode;
@@ -88,7 +87,8 @@ int main(int argc, char *argv[])
   resetConfig = false;
   do {
 #if !defined (Q_OS_ANDROID)
-    if (a) delete a;
+    if (a)
+      delete a;
     if (resetConfig) { // delete config file - new Nootka instance will start with first run wizard
         QFile f(confFile);
         f.remove();
@@ -111,9 +111,17 @@ int main(int argc, char *argv[])
 
 // creating main window
     e = new QQmlApplicationEngine;
-    e->rootContext()->setContextProperty(QStringLiteral("Tpath"), &pathObj);
     e->rootContext()->setContextProperty(QStringLiteral("GLOB"), GLOB);
     e->rootContext()->setContextProperty(QStringLiteral("Noo"), &nooObj);
+    if (GLOB->isFirstRun) {
+      e->load(QUrl(QStringLiteral("qrc:/wizard/Wizard.qml")));
+      exitCode = a->exec();
+      delete e;
+      e = new QQmlApplicationEngine;
+      e->rootContext()->setContextProperty(QStringLiteral("GLOB"), GLOB);
+      e->rootContext()->setContextProperty(QStringLiteral("Noo"), &nooObj);
+      GLOB->isFirstRun = false;
+    }
     e->load(QUrl(QStringLiteral("qrc:/MainWindow.qml")));
 
 // #if defined (Q_OS_ANDROID)

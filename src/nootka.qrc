@@ -69,6 +69,11 @@
     <file alias="level/AccidsPage.qml">qml/level/AccidsPage.qml</file>
     <file alias="level/RangePage.qml">qml/level/RangePage.qml</file>
 
+    <file alias="wizard/Wizard.qml">qml/wizard/Wizard.qml</file>
+    <file alias="wizard/WizardInstrument.qml">qml/wizard/WizardInstrument.qml</file>
+    <file alias="wizard/WizardClef.qml">qml/wizard/WizardClef.qml</file>
+    <file alias="wizard/WizardOptions.qml">qml/wizard/WizardOptions.qml</file>
+
     <file alias="fakeTrans.js">qml/shared/fakeTrans.js</file>
 
     <file alias="qtquickcontrols2.conf">qml/qtquickcontrols2.conf</file>

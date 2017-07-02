@@ -311,3 +311,8 @@ QString TnootkaQML::aboutQt() {
         QStringLiteral("qt.io/licensing"),
         QStringLiteral("qt.io"));
 }
+
+
+QString TnootkaQML::pix(const QString& imageFileName) {
+  return Tpath::pix(imageFileName);
+}
