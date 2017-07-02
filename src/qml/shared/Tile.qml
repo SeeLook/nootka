@@ -30,7 +30,7 @@ BorderImage {
   border { left: 12; right: 12; bottom: 12; top: 12 }
   horizontalTileMode: BorderImage.Stretch
   verticalTileMode: BorderImage.Stretch
-  source: Tpath.pix("tipbg")
+  source: Noo.pix("tipbg")
 
   Column {
       spacing: nootkaWindow.fontSize / 2

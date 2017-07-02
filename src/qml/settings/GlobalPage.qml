@@ -78,7 +78,7 @@ Flickable {
                   Column {
                     Image {
                       id: flagIcon;
-                      source: Tpath.pix("flags-" + flag)
+                      source: Noo.pix("flags-" + flag)
                       sourceSize.height: (langView.currentIndex == index ? 7 : 4) * lText.font.pixelSize
                     }
                     Text {

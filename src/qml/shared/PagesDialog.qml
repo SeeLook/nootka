@@ -59,7 +59,7 @@ Item {
         HeadButton {
           id: delegateButt
           name: buttonText
-          icon: Tpath.pix(iconName)
+          icon: Noo.pix(iconName)
           factor: Screen.pixelDensity * (Noo.isAndroid() ? 1.1 : 1.6)
           fontSize: nootkaWindow.fontSize * (Noo.isAndroid() ? 0.8 : 1.0)
           onClicked: {
