@@ -24,6 +24,7 @@ Flickable {
   property real scaleFactor: 1.0
   property alias notesCount: scoreObj.notesCount
   property TnoteItem currentNote: null
+  property alias readOnly: scoreObj.readOnly
 
   // private
   property var staves: []
@@ -102,12 +103,12 @@ Flickable {
 
   AccidControl {
     id: accidControl
-    active: score.clef !== Tclef.NoClef && (scoreObj.activeNote !== null || noteAdd && noteAdd.active)
+    active: !readOnly && score.clef !== Tclef.NoClef && (scoreObj.activeNote !== null || noteAdd && noteAdd.active)
   }
 
   RhythmControl {
     id: rtmControl
-    active: meter !== Tmeter.NoMeter && (scoreObj.activeNote !== null || (noteAdd && noteAdd.active))
+    active: !readOnly && meter !== Tmeter.NoMeter && (scoreObj.activeNote !== null || (noteAdd && noteAdd.active))
     onChanged: scoreObj.workRhythm = rhythm
   }
 

@@ -12,7 +12,6 @@ Item {
   id: keySig
 
   property int key: 0
-  property bool readOnly: false
 
 // private
   readonly property var sharpPos: [ 0, 3, -1, 2, 5, 1,  4 ]
@@ -78,7 +77,7 @@ Item {
 
   MouseArea { // occupy only selected part of staff height
       width: parent.width; height: 14; y: 13 - (clef === Tclef.PianoStaffClefs ? 2 : 0)
-      enabled: !readOnly
+      enabled: !score.readOnly
       onClicked: {
         if (mouseY < 7)
           keyUp()
@@ -99,7 +98,7 @@ Item {
       MouseArea { // area at lower staff
           parent: keySig
           width: keySig.width; height: 14; y: 26
-          enabled: !readOnly
+          enabled: !score.readOnly
           onClicked: {
             if (mouseY < 7)
               keyUp()

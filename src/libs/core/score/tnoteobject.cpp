@@ -459,27 +459,33 @@ void TnoteObject::keySignatureChanged() {
  */
 #if !defined (Q_OS_ANDROID)
 void TnoteObject::hoverEnterEvent(QHoverEvent*) {
-  m_measure->score()->setHoveredNote(this);
-  m_measure->score()->changeActiveNote(this);
+  if (!m_staff->score()->readOnly()) {
+    m_measure->score()->setHoveredNote(this);
+    m_measure->score()->changeActiveNote(this);
+  }
 }
 
 
 void TnoteObject::hoverLeaveEvent(QHoverEvent*) {
-  m_measure->score()->setHoveredNote(nullptr);
-  m_measure->score()->changeActiveNote(nullptr);
+  if (!m_staff->score()->readOnly()) {
+    m_measure->score()->setHoveredNote(nullptr);
+    m_measure->score()->changeActiveNote(nullptr);
+  }
 }
 
 
 void TnoteObject::hoverMoveEvent(QHoverEvent* event) {
-  if (m_staff->score()->isPianoStaff() && event->pos().y() >= m_staff->upperLine() + 10.6 && event->pos().y() <= m_staff->upperLine() + 11.6)
-    return;
+  if (!m_staff->score()->readOnly()) {
+    if (m_staff->score()->isPianoStaff() && event->pos().y() >= m_staff->upperLine() + 10.6 && event->pos().y() <= m_staff->upperLine() + 11.6)
+      return;
 
-  if (m_staff->score()->clefType() == Tclef::NoClef)
-    return;
+    if (m_staff->score()->clefType() == Tclef::NoClef)
+      return;
 
-  if (!m_measure->score()->pressedNote() && m_measure->score()->hoveredNote()
-      && static_cast<int>(m_measure->score()->activeYpos()) != static_cast<int>(event->pos().y()))
-          m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
+    if (!m_measure->score()->pressedNote() && m_measure->score()->hoveredNote()
+        && static_cast<int>(m_measure->score()->activeYpos()) != static_cast<int>(event->pos().y()))
+            m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
+  }
 }
 #endif
 
@@ -489,16 +495,18 @@ static QElapsedTimer m_touchDuration;
  * Press event displays note cursor and locks grabbing the mouse - so moving a finger doesn't scroll entire score
  */
 void TnoteObject::mousePressEvent(QMouseEvent* event) {
-  setKeepMouseGrab(true);
-  m_measure->score()->setPressedNote(this);
-  m_measure->score()->touchHideTimer()->stop();
-  if (m_measure->score()->activeNote() != this) {
-    if (event->buttons() & Qt::LeftButton) {
-      m_measure->score()->changeActiveNote(this);
-      m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
+  if (!m_staff->score()->readOnly()) {
+    setKeepMouseGrab(true);
+    m_measure->score()->setPressedNote(this);
+    m_measure->score()->touchHideTimer()->stop();
+    if (m_measure->score()->activeNote() != this) {
+      if (event->buttons() & Qt::LeftButton) {
+        m_measure->score()->changeActiveNote(this);
+        m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
+      }
     }
+    m_touchDuration.restart();
   }
-  m_touchDuration.restart();
 }
 
 
@@ -510,30 +518,34 @@ void TnoteObject::mousePressEvent(QMouseEvent* event) {
  * Release event is also used to set (confirm) a note by mouse press
  */
 void TnoteObject::mouseReleaseEvent(QMouseEvent*) {
-  if (keepMouseGrab())
-    setKeepMouseGrab(false);
-  if (m_measure->score()->hoveredNote()) { // mouse
-      if (m_measure->score()->hoveredNote() == this)
-        m_measure->score()->noteClicked(m_measure->score()->activeYpos());
-      m_measure->score()->setPressedNote(nullptr);
-  } else { // touch
-      if (m_touchDuration.elapsed() < 150) { // confirm note
-          m_measure->score()->touchHideTimer()->stop();
-          if (m_measure->score()->activeNote() == this) // set note only when it was touched second time
-            m_measure->score()->noteClicked(m_measure->score()->activeYpos());
-          m_measure->score()->setPressedNote(nullptr);
-          m_measure->score()->changeActiveNote(nullptr);
-      } else { // keep cursor visible
-          m_measure->score()->touchHideTimer()->start(2500);
-      }
+  if (!m_staff->score()->readOnly()) {
+    if (keepMouseGrab())
+      setKeepMouseGrab(false);
+    if (m_measure->score()->hoveredNote()) { // mouse
+        if (m_measure->score()->hoveredNote() == this)
+          m_measure->score()->noteClicked(m_measure->score()->activeYpos());
+        m_measure->score()->setPressedNote(nullptr);
+    } else { // touch
+        if (m_touchDuration.elapsed() < 150) { // confirm note
+            m_measure->score()->touchHideTimer()->stop();
+            if (m_measure->score()->activeNote() == this) // set note only when it was touched second time
+              m_measure->score()->noteClicked(m_measure->score()->activeYpos());
+            m_measure->score()->setPressedNote(nullptr);
+            m_measure->score()->changeActiveNote(nullptr);
+        } else { // keep cursor visible
+            m_measure->score()->touchHideTimer()->start(2500);
+        }
+    }
   }
 }
 
 
 void TnoteObject::mouseMoveEvent(QMouseEvent* event) {
-  if (m_measure->score()->pressedNote() && !m_measure->score()->touchHideTimer()->isActive() && m_touchDuration.elapsed() > 200
-      && static_cast<int>(m_measure->score()->activeYpos()) != static_cast<int>(event->pos().y()))
-        m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
+  if (!m_staff->score()->readOnly()) {
+    if (m_measure->score()->pressedNote() && !m_measure->score()->touchHideTimer()->isActive() && m_touchDuration.elapsed() > 200
+        && static_cast<int>(m_measure->score()->activeYpos()) != static_cast<int>(event->pos().y()))
+          m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
+  }
 }
 
 

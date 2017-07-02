@@ -12,7 +12,6 @@ Text {
   id: clef
 
   property int type: Tclef.Treble_G
-  property bool readOnly: false
   property Drawer clefDrawer
 
   width: 5.5
@@ -55,7 +54,7 @@ Text {
 
   MouseArea {
     anchors.fill: parent
-    enabled: !readOnly
+    enabled: !score.readOnly
     onClicked: {
       if (clefDrawer)
         clefDrawer.open()

@@ -78,6 +78,7 @@ Flickable {
               height: nootkaWindow.fontSize * 20
               width: nootkaWindow.fontSize * 9
               meter: Tmeter.NoMeter
+              readOnly: true
               clef: index === 1 ? Tclef.Treble_G_8down : Tclef.Treble_G
               scoreObj.clefType: clef
               scoreObj.showNoteNames: true

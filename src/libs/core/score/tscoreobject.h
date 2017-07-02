@@ -73,6 +73,7 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(bool showNoteNames READ showNoteNames WRITE setShowNoteNames)
   Q_PROPERTY(QColor nameColor READ nameColor WRITE setNameColor)
   Q_PROPERTY(int nameStyle READ nameStyle WRITE setNameStyle)
+  Q_PROPERTY(bool readOnly READ readOnly WRITE setReadOnly)
                         /* Helper variables */
   Q_PROPERTY(qreal stavesHeight READ stavesHeight NOTIFY stavesHeightChanged)
   Q_PROPERTY(qreal width READ width WRITE setWidth)
@@ -152,6 +153,9 @@ public:
 
   int nameStyle() const { return m_nameStyle; }
   void setNameStyle(int nameS);
+
+  bool readOnly() const { return m_readOnly; }
+  void setReadOnly(bool ro);
 
   /* ------------------ Lists with score content (staves, measures notes) ------------------ */
 
@@ -385,6 +389,7 @@ private:
   bool                              m_remindAccids;
   bool                              m_enableDoubleAccids;
   bool                              m_showNoteNames;
+  bool                              m_readOnly = false;
                               /* Lists with notes, measures, staves, meter groups */
   QList<TnotePair*>                 m_segments;
   QList<TnotePair*>                 m_spareSegments;
