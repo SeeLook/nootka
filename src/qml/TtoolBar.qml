@@ -4,7 +4,6 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
 import QtQuick.Window 2.2
 
 
@@ -14,24 +13,13 @@ ToolBar {
 
   property alias scoreAct: scoreAct
 
-  Rectangle { // background
-    anchors.fill: parent
-    color: activPal.window
-  }
+  background: Rectangle { anchors.fill: parent; color: activPal.window }
 
-  RowLayout {
+  Row {
     HeadButton { id: settAct; action: nootkaWindow.settingsAct }
     HeadButton { action: nootkaWindow.levelAct }
-//     HeadButton {
-//       id: chartAct
-//       name: qsTr("Analyze", "could be Chart as well")
-//       icon: Noo.pix("charts")
-//       tip: qsTr("Analysis of exam results")
-//     }
     HeadButton { id: scoreAct; action: nootkaWindow.scoreAct }
     HeadButton { action: nootkaWindow.examAct }
-
-    Item { Layout.fillWidth: true }
   }
   NootkaLabel {
     anchors.right: parent.right
