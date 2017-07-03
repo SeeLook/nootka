@@ -10,6 +10,7 @@ Flickable {
   property int instrument: 1
   property var instrGlyphs: ["v", "h", "i", "j", "f"]
 
+  clip: true
   contentHeight: instrCol.height
   contentWidth: width
 

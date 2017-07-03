@@ -10,6 +10,7 @@ import "../"
 
 
 Flickable {
+  clip: true
   contentHeight: optCol.height
   contentWidth: width
 

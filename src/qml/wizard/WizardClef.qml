@@ -10,12 +10,13 @@ import "../"
 
 
 Flickable {
+  clip: true
   contentHeight: clefCol.height
   contentWidth: width
 
-  Column {
+  Item {
     id: clefCol
-    width: parent.width
+    width: parent.width; height: childrenRect.height
 
     Loader { sourceComponent: nootkaWindow.instrument === 0 ? noInstrComp : null }
     Component {
@@ -30,10 +31,9 @@ Flickable {
           wrapMode: Text.WordWrap
           horizontalAlignment: Text.AlignHCenter
           color: activPal.text
-          text: "Select a clef and scale of notes appropriate for your instrument."
+          text: qsTr("Select a clef and scale of notes appropriate for your instrument.")
         }
         Score {
-          id: sc
           height: nootkaWindow.fontSize * 20
           width: nootkaWindow.fontSize * 12
           anchors.horizontalCenter: parent.horizontalCenter
@@ -42,8 +42,8 @@ Flickable {
           scoreObj.nameColor: GLOB.nameColor
           scoreObj.nameStyle: GLOB.noteNameStyle
           Component.onCompleted: {
-            sc.addNote(scoreObj.lowestNote())
-            sc.addNote(scoreObj.highestNote())
+            addNote(scoreObj.lowestNote())
+            addNote(scoreObj.highestNote())
           }
           onClefChanged: {
 //             sc.addNote(scoreObj.lowestNote())
@@ -64,9 +64,10 @@ Flickable {
         Text {
           width: parent.width
           wrapMode: Text.WordWrap
+          font { pixelSize: nootkaWindow.fontSize * 1.2; bold: true }
           horizontalAlignment: Text.AlignHCenter
           color: activPal.text
-          text: "Guitar notation uses the treble clef with the digit \"eight\" written below (even if some editors are forgetting about this digit).<br><br>Try to understand this."
+          text: qsTr("Guitar notation uses the treble clef with the digit \"eight\" written below <br>(even if some editors are forgetting about this digit).<br>Try to understand this.")
         }
         Row {
           anchors.horizontalCenter: parent.horizontalCenter
@@ -84,7 +85,7 @@ Flickable {
               scoreObj.showNoteNames: true
               scoreObj.nameColor: GLOB.nameColor
               scoreObj.nameStyle: GLOB.noteNameStyle
-              Component.onCompleted: sc.addNote(Noo.note(1, 1, 0, Trhythm.NoRhythm))
+              Component.onCompleted: addNote(Noo.note(1, 1, 0, Trhythm.NoRhythm))
             }
           }
         }
@@ -93,7 +94,7 @@ Flickable {
           wrapMode: Text.WordWrap
           horizontalAlignment: Text.AlignHCenter
           color: activPal.text
-          text: "<b><font size=\"5\">Both pictures above show the same note: c<sup>1</sup></font></b><br>(note c in one-line octave)</p>"
+          text: "<b><font size=\"5\">Both pictures above show the same note!</font></b><br>(note c in one-line octave)"
         }
       }
     }
