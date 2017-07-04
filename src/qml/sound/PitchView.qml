@@ -23,6 +23,4 @@ Item {
       height: parent.height / 2
   }
 
-  SystemPalette { id: activPal; colorGroup: SystemPalette.Active }
-  SystemPalette { id: disdPal; colorGroup: SystemPalette.Inactive }
 }
