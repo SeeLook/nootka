@@ -21,7 +21,14 @@ ToolBar {
     HeadButton { id: scoreAct; action: nootkaWindow.scoreAct }
     HeadButton { action: nootkaWindow.examAct }
   }
+  PitchView {
+    x: lab.x - parent.width * 0.41
+    id: pitchView
+    height: parent.height
+    width: parent.width * 0.4
+  }
   NootkaLabel {
+    id: lab
     anchors.right: parent.right
     height: toolBar.height
     onClicked: nootkaWindow.aboutAct.trigger()

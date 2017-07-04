@@ -69,30 +69,9 @@ ApplicationWindow {
   Column {
       anchors.fill: parent
 
-      Row {
-        visible: !Noo.isAndroid()
-        height: nootkaWindow.height / 12
-        width: nootkaWindow.width
-        Label {
-          id: statLab
-          text: "Bla bla bla"
-          verticalAlignment: Qt.AlignVCenter
-          horizontalAlignment: Qt.AlignHCenter
-          height: parent.height
-          width: parent.width * 0.6
-          color: activPal.text
-        }
-
-        PitchView {
-          id: pitchView
-          height: parent.height
-          width: parent.width * 0.4
-        }
-      }
-
       MainScore {
         id: score
-        height: nootkaWindow.height * (Noo.isAndroid() ? 1.0 : 0.916667) - (header ? header.height : 0) - instrument.height
+        height: nootkaWindow.height - (header ? header.height : 0) - instrument.height
         z: 2
       }
 
@@ -106,10 +85,6 @@ ApplicationWindow {
   }
 
   DialogLoader { id: dialogLoader }
-
-//   Component.onCompleted: {
-//   }
-
 
   function randNotes() {
     var rest = (Math.random() * 100)  > 90
