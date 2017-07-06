@@ -282,10 +282,66 @@ CHECKTIME (
 }
 
 
-void TscoreObject::setNote(int staffNr, int noteNr, const Tnote& n) {
-  if (staffNr < 0 || staffNr >= m_staves.count()) {
-    qDebug() << "[TscoreObject] There is no staff number" << staffNr;
-    return;
+void TscoreObject::setNote(TnoteObject* no, const Tnote& n) {
+  if (no) {
+    auto oldNote = *no->wrapper()->note();
+    auto newNote = n;
+    newNote.rtm.setBeam(oldNote.rtm.beam()); // TODO as long as we don't change rhythm
+    newNote.rtm.setTie(oldNote.rtm.tie()); // TODO as long as we don't change rhythm
+    bool fitStaff = false;
+    // disconnect tie (if any) if note pitch changed
+    QPoint notesForAlterCheck;// x is first note and y is the last note to check
+    if (oldNote.rtm.tie() && newNote.chromatic() != oldNote.chromatic()) {
+      // alters of notes has to be checked due to note changed
+      // and all measures contained note with the tie are affected. Find them then
+      notesForAlterCheck = tieRange(no);
+      notesForAlterCheck.setX(m_segments[notesForAlterCheck.x()]->item()->measure()->firstNoteId());
+      notesForAlterCheck.setY(m_segments[notesForAlterCheck.y()]->item()->measure()->lastNoteId());
+      if (oldNote.rtm.tie() == Trhythm::e_tieStart) {
+        m_segments[no->index() + 1]->disconnectTie(TnotePair::e_untieNext);
+      } else { // tie continue or end
+        if (oldNote.rtm.tie() == Trhythm::e_tieCont)
+          m_segments[no->index() + 1]->disconnectTie(TnotePair::e_untieNext);
+        m_segments[no->index() - 1]->disconnectTie(TnotePair::e_untiePrev);
+      }
+      newNote.rtm.setTie(Trhythm::e_noTie);
+      if (no->wrapper() == no->staff()->firstNote())
+        no->staff()->deleteExtraTie();
+      fitStaff = true;
+    }
+    no->wrapper()->setNote(newNote);
+    // When note or alter are different - check accidentals in whole measure and fit staff if necessary
+    if (!notesForAlterCheck.isNull() || oldNote.note != newNote.note || oldNote.alter != newNote.alter) {
+      if (notesForAlterCheck.isNull())
+        notesForAlterCheck = QPoint(no->measure()->firstNoteId(), no->measure()->lastNoteId());
+      auto measureToRefresh = m_segments[notesForAlterCheck.x()]->item()->measure();
+      for (int n = notesForAlterCheck.x(); n <= notesForAlterCheck.y(); ++n) {
+        if (m_segments[n]->note()->note == oldNote.note || m_segments[n]->note()->note == newNote.note) {
+          fitStaff = true;
+          m_segments[n]->item()->updateAlter();
+        }
+        // Update measure sums (notes width)
+        if (m_segments[n]->item()->measure() != measureToRefresh) {
+          measureToRefresh->refresh();
+          measureToRefresh = m_segments[n]->item()->measure();
+        }
+      }
+      measureToRefresh->refresh();
+    }
+    // update note range on current staff
+    if (oldNote.note != newNote.note || oldNote.octave != newNote.octave)
+      no->staff()->checkNotesRange();
+    // If there is a beam - prepare it again then draw
+    if (no->wrapper()->beam()) {
+      no->wrapper()->beam()->prepareBeam();
+      if (!fitStaff)
+        no->wrapper()->beam()->drawBeam();
+    }
+    if (fitStaff) {
+      m_segments[notesForAlterCheck.x()]->item()->staff()->fit();
+      if (m_segments[notesForAlterCheck.y()]->item()->staff() != m_segments[notesForAlterCheck.x()]->item()->staff())
+        m_segments[notesForAlterCheck.y()]->item()->staff()->fit();
+    }
   }
 }
 
@@ -308,63 +364,9 @@ void TscoreObject::noteClicked(qreal yPos) {
           static_cast<char>(m_cursorAlter), newRhythm);
   if (m_workRhythm->isRest() || m_clefType == Tclef::NoClef)
     newNote.note = 0;
-  Tnote oldNote = *activeNote()->wrapper()->note();
-  newNote.rtm.setBeam(oldNote.rtm.beam()); // TODO as long as we don't change rhythm
-  newNote.rtm.setTie(oldNote.rtm.tie()); // TODO as long as we don't change rhythm
-  bool fitStaff = false;
-// disconnect tie (if any) if note pitch changed
-  QPoint notesForAlterCheck;// x is first note and y is the last note to check
-  if (oldNote.rtm.tie() && newNote.chromatic() != oldNote.chromatic()) {
-    // alters of notes has to be checked due to note changed
-    // and all measures contained note with the tie are affected. Find them then
-    notesForAlterCheck = tieRange(activeNote());
-    notesForAlterCheck.setX(m_segments[notesForAlterCheck.x()]->item()->measure()->firstNoteId());
-    notesForAlterCheck.setY(m_segments[notesForAlterCheck.y()]->item()->measure()->lastNoteId());
-    if (oldNote.rtm.tie() == Trhythm::e_tieStart) {
-        m_segments[activeNote()->index() + 1]->disconnectTie(TnotePair::e_untieNext);
-    } else { // tie continue or end
-        if (oldNote.rtm.tie() == Trhythm::e_tieCont)
-          m_segments[activeNote()->index() + 1]->disconnectTie(TnotePair::e_untieNext);
-        m_segments[activeNote()->index() - 1]->disconnectTie(TnotePair::e_untiePrev);
-    }
-    newNote.rtm.setTie(Trhythm::e_noTie);
-    if (activeNote()->wrapper() == activeNote()->staff()->firstNote())
-      activeNote()->staff()->deleteExtraTie();
-    fitStaff = true;
-  }
-  activeNote()->wrapper()->setNote(newNote);
-// When note or alter are different - check accidentals in whole measure and fit staff if necessary
-  if (!notesForAlterCheck.isNull() || oldNote.note != newNote.note || oldNote.alter != newNote.alter) {
-    if (notesForAlterCheck.isNull())
-      notesForAlterCheck = QPoint(activeNote()->measure()->firstNoteId(), activeNote()->measure()->lastNoteId());
-    auto measureToRefresh = m_segments[notesForAlterCheck.x()]->item()->measure();
-    for (int n = notesForAlterCheck.x(); n <= notesForAlterCheck.y(); ++n) {
-      if (m_segments[n]->note()->note == oldNote.note || m_segments[n]->note()->note == newNote.note) {
-        fitStaff = true;
-        m_segments[n]->item()->updateAlter();
-      }
-      // Update measure sums (notes width)
-      if (m_segments[n]->item()->measure() != measureToRefresh) {
-        measureToRefresh->refresh();
-        measureToRefresh = m_segments[n]->item()->measure();
-      }
-    }
-    measureToRefresh->refresh();
-  }
-// update note range on current staff
-  if (oldNote.note != newNote.note || oldNote.octave != newNote.octave)
-    activeNote()->staff()->checkNotesRange();
-// If there is a beam - prepare it again then draw
-  if (activeNote()->wrapper()->beam()) {
-    activeNote()->wrapper()->beam()->prepareBeam();
-    if (!fitStaff)
-      activeNote()->wrapper()->beam()->drawBeam();
-  }
-  if (fitStaff) {
-    m_segments[notesForAlterCheck.x()]->item()->staff()->fit();
-    if (m_segments[notesForAlterCheck.y()]->item()->staff() != m_segments[notesForAlterCheck.x()]->item()->staff())
-      m_segments[notesForAlterCheck.y()]->item()->staff()->fit();
-  }
+
+  setNote(m_activeNote, newNote);
+
   emit clicked();
 }
 

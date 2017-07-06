@@ -22,9 +22,8 @@ ToolBar {
     HeadButton { action: nootkaWindow.examAct }
   }
   PitchView {
-    x: lab.x - parent.width * 0.41
-    id: pitchView
-    height: parent.height
+    x: lab.x - parent.width * 0.41; y: parent.height * 0.05
+    height: parent.height * 0.9
     width: parent.width * 0.4
   }
   NootkaLabel {

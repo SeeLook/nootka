@@ -21,6 +21,7 @@
 
 
 #include "nootkacoreglobal.h"
+#include "music/trhythm.h"
 #include <QtQuick/qquickitem.h>
 
 
@@ -69,6 +70,8 @@ public:
   void setNote(const Tnote& n);
 
   qreal notePosY() const { return m_notePosY; }
+
+  Q_INVOKABLE Trhythm rhythm() const;
 
       /**
        * Note number in the staff

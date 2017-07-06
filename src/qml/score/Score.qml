@@ -117,7 +117,7 @@ Flickable {
     id: addComp
     NoteAdd {
       noteText: rtmControl ? rtmControl.rhythmText : "z"
-      onAdd: score.addNote(scoreObj.posToNote(yPos))
+      onAdd: { score.addNote(scoreObj.posToNote(yPos)); currentNote = null }
       alterText: accidControl.text
     }
   }
@@ -172,5 +172,5 @@ Flickable {
       noteAdd.lastNote = lastNote
   }
 
-  function setNote(staff, nr, n) { scoreObj.setNote(staff, nr, n) }
+  function setNote(noteItem, note) { scoreObj.setNote(noteItem, note) }
 }

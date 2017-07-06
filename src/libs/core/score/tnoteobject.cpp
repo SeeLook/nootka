@@ -256,6 +256,11 @@ void TnoteObject::setX(qreal xx) {
 }
 
 
+Trhythm TnoteObject::rhythm() const {
+  return m_note->rtm;
+}
+
+
 qreal TnoteObject::rightX() const {
   return x() + width() + staff()->gapFactor() * rhythmFactor() - m_alter->width();
 }

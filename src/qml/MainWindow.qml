@@ -79,7 +79,11 @@ ApplicationWindow {
         id: instrument
         z: 1
         onNote: {
-          score.addNote(Noo.note(n, score.workRhythm))
+          var cn = score.currentNote
+          if (cn)
+            score.setNote(cn, Noo.note(n, cn.rhythm()))
+          else
+            score.addNote(Noo.note(n, score.workRhythm))
         }
       }
   }
@@ -88,7 +92,6 @@ ApplicationWindow {
 
   function randNotes() {
     var rest = (Math.random() * 100)  > 90
-//     var accid = rest ? 0 : Math.min(Math.max(-2, -3 + Math.random() * 6), 2)
     var accid = rest ? 0 : Math.min(Math.floor(Math.random() * 2), 1)
     var note = rest ? 0 : 1 + Math.random() * 7
     var octave = -2 + Math.random() * 5

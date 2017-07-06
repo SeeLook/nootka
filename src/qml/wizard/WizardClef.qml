@@ -11,18 +11,18 @@ import "../"
 
 Flickable {
   clip: true
-  contentHeight: clefCol.height
+  contentHeight: mainItem.height
   contentWidth: width
 
   Item {
-    id: clefCol
+    id: mainItem
     width: parent.width; height: childrenRect.height
 
     Loader { sourceComponent: nootkaWindow.instrument === 0 ? noInstrComp : null }
     Component {
       id: noInstrComp
       Column {
-        parent: clefCol
+        parent: mainItem
         width: parent ? parent.width : 0
         spacing: nootkaWindow.fontSize
         Text {
@@ -46,8 +46,9 @@ Flickable {
             addNote(scoreObj.highestNote())
           }
           onClefChanged: {
-//             sc.addNote(scoreObj.lowestNote())
-//             sc.addNote(scoreObj.highestNote())
+            scoreObj.clefType = clef
+            setNote(scoreObj.note(0), scoreObj.lowestNote())
+            setNote(scoreObj.note(1), scoreObj.highestNote())
           }
         }
       }
@@ -58,7 +59,7 @@ Flickable {
     Component {
       id: classicComp
       Column {
-        parent: clefCol
+        parent: mainItem
         spacing: nootkaWindow.fontSize
         width: parent ? parent.width : 0
         Text {
