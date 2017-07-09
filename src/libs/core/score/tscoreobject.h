@@ -85,7 +85,8 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(qreal xFirstInActivBar READ xFirstInActivBar NOTIFY activeBarChanged)
   Q_PROPERTY(qreal xLastInActivBar READ xLastInActivBar NOTIFY activeBarChanged)
   Q_PROPERTY(bool allowAdding READ allowAdding WRITE setAllowAdding NOTIFY allowAddingChanged)
-  Q_PROPERTY(Trhythm workRhythm READ workRhythm WRITE setWorkRhythm)
+  Q_PROPERTY(Trhythm workRhythm READ workRhythm WRITE setWorkRhythm NOTIFY workRtmTextChanged)
+  Q_PROPERTY(QString workRtmText READ workRtmText NOTIFY workRtmTextChanged)
 
   friend class TstaffObject;
   friend class TmeasureObject;
@@ -221,6 +222,13 @@ public:
   Trhythm workRhythm() const;
   void setWorkRhythm(const Trhythm& r);
 
+  QString workRtmText() const;
+
+      /**
+       * Returns text of active note head or appropriate rest symbol if work rhythm is set to rest
+       */
+  Q_INVOKABLE QString activeRtmText() const;
+
   Q_INVOKABLE Tnote posToNote(qreal yPos);
 
       /**
@@ -280,6 +288,8 @@ signals:
        * QML score depends on it
        */
   void lastNoteChanged();
+
+  void workRtmTextChanged();
 
 protected:
       /**

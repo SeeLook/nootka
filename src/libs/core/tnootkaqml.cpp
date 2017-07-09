@@ -124,6 +124,23 @@ Trhythm TnootkaQML::rhythm(int rtm, bool rest, bool dot, bool triplet) {
 }
 
 
+/**
+ * It returns glyphs of 'Nootka' font in contrary to TnoteObject::getHeadText()
+ */
+QString TnootkaQML::rhythmText(const Trhythm& r) {
+  if (r.rhythm() == Trhythm::NoRhythm)
+    return QStringLiteral("z"); // just black note-head
+  QString out;
+  if (r.isRest())
+    out = QString(QChar(0xe106 + static_cast<int>(r.rhythm())));
+  else
+    out = QString(QChar(66 + static_cast<int>(r.rhythm())));
+  if (r.hasDot())
+    out += QStringLiteral(".");
+  return out;
+}
+
+
 QString TnootkaQML::noteName(const Tnote& n, int style, bool showOctave) {
   // Tnote::toText() method returns only names in user preferred according to settings
   // To cheat it and force note name in any given style we are resetting pointer of is7th_B 

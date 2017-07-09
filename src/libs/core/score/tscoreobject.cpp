@@ -170,6 +170,7 @@ CHECKTIME (
           oldList[n].setRhythm(Trhythm()); // quarter by default
         addNote(oldList[n]);
       }
+      m_activeBarNr = 0;
       adjustScoreWidth();
     }
     emitLastNote();
@@ -356,8 +357,10 @@ void TscoreObject::noteClicked(qreal yPos) {
     return;
 
   Trhythm newRhythm = *m_workRhythm;
-  if (activeNote()->note()->rhythm() != m_workRhythm->rhythm() || activeNote()->note()->hasDot() != m_workRhythm->hasDot())
+  if (activeNote()->note()->rhythm() != m_workRhythm->rhythm() || activeNote()->note()->hasDot() != m_workRhythm->hasDot()) {
     newRhythm = activeNote()->note()->rtm; // TODO so far it forces old rhythm until note rhythm change will be implemented
+    newRhythm.setRest(m_workRhythm->isRest()); // only changes note to rest if set by user
+  }
 
   int globalNr = globalNoteNr(yPos);
   Tnote newNote(static_cast<char>(56 + globalNr) % 7 + 1, static_cast<char>(56 + globalNr) / 7 - 8,
@@ -522,6 +525,8 @@ void TscoreObject::changeActiveNote(TnoteObject* aNote) {
 
 void TscoreObject::setActiveNotePos(qreal yPos) {
   if (!m_enterTimer->isActive() && yPos != m_activeYpos) {
+    if (m_workRhythm->isRest())
+      yPos = upperLine() + 4.0; // TODO it works because there is no rhythm change
     m_activeYpos = yPos;
     emit activeYposChanged();
   }
@@ -563,8 +568,20 @@ Trhythm TscoreObject::workRhythm() const {
 
 
 void TscoreObject::setWorkRhythm(const Trhythm& r) {
-  if (r != *m_workRhythm)
+  if (r != *m_workRhythm) {
     m_workRhythm->setRhythm(r);
+    emit workRtmTextChanged();
+  }
+}
+
+
+QString TscoreObject::workRtmText() const {
+  return TnoteObject::getHeadText(workRhythm());
+}
+
+
+QString TscoreObject::activeRtmText() const {
+  return m_activeNote ? TnoteObject::getHeadText(Trhythm(m_activeNote->note()->rhythm(), m_workRhythm->isRest())) : QString();
 }
 
 

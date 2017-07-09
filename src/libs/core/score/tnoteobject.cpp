@@ -363,6 +363,28 @@ QQuickItem* TnoteObject::staffItem() {
   return m_staff->staffItem();
 }
 
+
+/**
+ * Used glyphs are:
+ * - note heads: @p 0xf4be @p 0xf4bd (half and black over-sized) and @p 0xf486 (whole smaller)
+ * - rests: starts form 0xe4e3 (whole)
+ */
+QString TnoteObject::getHeadText(const Trhythm& r) {
+  if (r.rhythm() == Trhythm::NoRhythm)
+      return QStringLiteral("\uf4be"); // just black note-head
+      if (r.isRest())
+        return QString(QChar(0xe4e2 + static_cast<int>(r.rhythm())));
+  else {
+      if (r.rhythm() == Trhythm::Whole)
+        return QStringLiteral("\uf468");
+      else if (r.rhythm() == Trhythm::Half)
+        return QStringLiteral("\uf4bd");
+      else
+        return QStringLiteral("\uf4be");
+  }
+}
+
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
@@ -423,24 +445,8 @@ QString TnoteObject::getAccidText() {
 }
 
 
-/**
- * Used glyphs are:
- * - note heads: @p 0xf4be @p 0xf4bd (half and black over-sized) and @p 0xf486 (whole smaller)
- * - rests: starts form 0xe4e3 (whole)
- */
-QString TnoteObject::getHeadText() {
-  if (m_note->rhythm() == Trhythm::NoRhythm)
-    return QStringLiteral("\uf4be"); // just black note-head
-  if (m_note->isRest())
-    return QString(QChar(0xe4e2 + static_cast<int>(m_note->rhythm())));
-  else {
-    if (m_note->rhythm() == Trhythm::Whole)
-      return QStringLiteral("\uf468");
-    else if (m_note->rhythm() == Trhythm::Half)
-      return QStringLiteral("\uf4bd");
-    else
-      return QStringLiteral("\uf4be");
-  }
+QString TnoteObject::getHeadText() const {
+  return getHeadText(m_note->rtm);
 }
 
 
