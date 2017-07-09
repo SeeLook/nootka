@@ -89,9 +89,12 @@ void TmeasureObject::appendNewNotes(int segmentId, int count) {
     auto firstInGrId = m_score->noteSegment(firstNoteId() + m_firstInGr[grWithBeam])->index();
     while (firstInGrId < m_score->notesCount()) {
       auto ns = m_score->noteSegment(firstInGrId);
+      TbeamObject *curBeam = nullptr;
       if (ns->beam()) {
-        ns->beam()->prepareBeam();
-        break;
+        if (ns->beam() != curBeam) {
+          ns->beam()->prepareBeam();
+          curBeam = ns->beam();
+        }
       }
       ++firstInGrId;
     }
@@ -99,21 +102,6 @@ void TmeasureObject::appendNewNotes(int segmentId, int count) {
   refresh();
   m_staff->refresh();
   checkBarLine();
-}
-
-
-void TmeasureObject::insertNote(int id, TnotePair* np) {
-//   qDebug() << debug() << "inserting note at" << id;
-
-  m_notes.append(np);
-  updateRhythmicGroups();
-//   if (np->object() == nullptr) {
-//     auto noteObject = new TnoteObject(m_staff);
-//     noteObject->setMeasure(this);
-//     noteObject->setNote(*np->note());
-//     np->setNoteObject(noteObject);
-//     m_staff->addNote(np);
-//   }
 }
 
 
@@ -221,6 +209,26 @@ int TmeasureObject::beamGroup(int segmentId) {
   int currGr = m_score->noteSegment(segmentId)->rhythmGroup();
   int segId = m_firstInGr[currGr] + 1;
   int grWithBeam = -1;
+
+//   QList<QList<int>> beamLists;
+//   QList<int> l1;
+//   beamLists << l1;
+//   for (int bb = segId - 1; bb < m_notes.count() && m_notes[bb]->rhythmGroup() == currGr; ++bb) {
+//     auto prevSeg = m_notes[bb];
+//     if (!prevSeg->note()->isRest() && prevSeg->note()->rhythm() > Trhythm::Quarter) {
+//       auto lastBeam = beamLists.last();
+//       if (!lastBeam.isEmpty()) {
+//         if (lastBeam.last() < bb - 1) { // a new beam if there was a rest in between notes in current rhythm group
+//           QList<int> newBeam;
+//           beamLists << newBeam;
+//         }
+//       }
+//       beamLists.last() << bb;
+//     }
+//   }
+//   for (int b = 0; b < beamLists.size(); ++b)
+//     qDebug() << debug() << "beam" << b << ":" << beamLists[b];
+
   while (segId < m_notes.count() && m_notes[segId]->rhythmGroup() == currGr) {
     auto noteSeg = m_notes[segId];
     auto prevSeg = m_notes[segId - 1];

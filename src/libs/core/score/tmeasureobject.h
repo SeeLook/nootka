@@ -67,8 +67,6 @@ public:
        */
   void appendNewNotes(int segmentId, int count);
 
-  void insertNote(int id, TnotePair* np);
-
   TscoreObject* score() { return m_score; }
 
   TstaffObject* staff() { return m_staff; }
