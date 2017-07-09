@@ -68,6 +68,7 @@ public:
   Q_INVOKABLE Tnote note(const Tnote& n, int rhythm = 3, bool rest = false, bool dot = false);
   Q_INVOKABLE Tnote note(const Tnote& n, const Trhythm& r);
   Q_INVOKABLE Trhythm rhythm(int rtm, bool rest, bool dot, bool triplet);
+  Q_INVOKABLE QString rhythmText(const Trhythm& r);
   Q_INVOKABLE QString noteName(const Tnote& n, int style, bool showOctave = true);
   Q_INVOKABLE QString majorKeyName(int key);
   Q_INVOKABLE QString minorKeyName(int key);

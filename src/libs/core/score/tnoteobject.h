@@ -121,6 +121,11 @@ public:
 
   QQuickItem* staffItem();
 
+      /**
+       * Static method that converts given rhythm into text of a note head
+       */
+  static QString getHeadText(const Trhythm& r);
+
 signals:
   void noteChanged();
   void notePosYchanged();
@@ -129,7 +134,7 @@ signals:
 
 protected:
   QString getAccidText();
-  QString getHeadText();
+  QString getHeadText() const;
   QString getFlagText();
 
   void keySignatureChanged();

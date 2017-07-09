@@ -12,19 +12,13 @@ ControlBase {
 
   signal changed()
 
-  property string rhythmText: "E" // Quarter by default
+  property string rhythmText: Noo.rhythmText(rhythm)
   property int rtm: Trhythm.Quarter
   property bool rest: false
   property bool dot: false
   property bool triplet: false
   property var rhythm: Noo.rhythm(rtm, rest, dot, triplet)
   property bool tie: false
-
-  property int selectedId: 5 // quarter
-
-  // private
-  // unicode: rests & triplet, letters: notes and dot
-  readonly property var glyphs: [ "\ue107", "C", "\ue108", "D", "\ue109", "E", "\ue10a", "F", "\ue10b", "G", "\u0183", "."]
 
   x: show ? score.scoreObj.xLastInActivBar : score.width + nootkaWindow.fontSize + width
   y: score.contentY + (score.height - height) / 2
@@ -34,45 +28,52 @@ ControlBase {
       Column {
         id: contentCol
 
+        Component {
+          id: ctrlButtonComp
+          ControlButton {
+            property int rhythm: 1
+            property bool rest: false
+            factor: rhythmControl.factor * 0.9
+            yOffset: factor / 2
+            font { family: "nootka"; pixelSize: factor * 1.8 }
+            text: Noo.rhythmText(Noo.rhythm(rhythm, rest, false, false))
+            selected: rhythm === rhythmControl.rtm && rest === rhythmControl.rest
+            onEntered: hideTimer.stop()
+            onExited: hideTimer.restart()
+          }
+        }
+
         Grid {
           columns: 2
           Repeater {
-            id: rtmRep
-            model: 12
-            ControlButton {
-              factor: rhythmControl.factor * 0.9
-              selected: index < 10 ? rhythmControl.selectedId === index : false
-              yOffset: factor / 2
-              font { family: "nootka"; pixelSize: factor * 1.8 }
-              text: glyphs[index] // index % 2 === 0 ? lGlyphs[index / 2] : rGlyphs[Math.floor(index / 2)]
-              onClicked: {
-                if (index < 10) {
-                    rest = index % 2 === 0
-                    rtm = Math.floor(index / 2) + 1
-                    selectedId = index
-                    dot = false
-                    rtmRep.itemAt(11).selected = false
-                } else {
-                    selected = !selected
-                    if (index === 10) {
-                        triplet = selected
-                        if (selected) {
-                          dot = false
-                          rtmRep.itemAt(11).selected = false
-                        }
-                    } else {
-                        dot = selected && selectedId < 8 // no dot for 16th-s
-                        if (dot) {
-                          triplet = false
-                          rtmRep.itemAt(10).selected = false
-                        }
-                    }
-                }
-                rhythmText = (rtmRep.itemAt(selectedId) ? rtmRep.itemAt(selectedId).text : "E") + (dot ? "." : "")
-                rhythmControl.changed()
+            model: 10
+            Loader {
+              sourceComponent: ctrlButtonComp
+              onLoaded: { item.rhythm = 1 + index / 2; item.rest = index % 2 === 0 }
+              Connections {
+                target: item
+                onClicked: { rhythmControl.rtm = item.rhythm; rhythmControl.rest = item.rest; rhythmControl.changed() }
               }
-              onEntered: hideTimer.stop()
-              onExited: hideTimer.restart()
+            }
+          }
+          Loader { // triplet
+            id: tripLoad
+            sourceComponent: ctrlButtonComp
+            onLoaded: { item.rhythm = 0; item.text = "\u0183" }
+            Binding { target: tripLoad.item; property: "selected"; value: rhythmControl.triplet }
+            Connections {
+              target: tripLoad.item
+              onClicked: { rhythmControl.triplet = !tripLoad.item.selected; rhythmControl.changed() }
+            }
+          }
+          Loader { // dot
+            id: dotLoad
+            sourceComponent: ctrlButtonComp
+            onLoaded: { item.rhythm = 0; item.text = "." }
+            Binding { target: dotLoad.item; property: "selected"; value: rhythmControl.dot }
+            Connections {
+              target: dotLoad.item
+              onClicked: { rhythmControl.dot = !dotLoad.item.selected; rhythmControl.changed() }
             }
           }
         }
@@ -80,12 +81,12 @@ ControlBase {
         ControlButton { // tie
           anchors.horizontalCenter: parent.horizontalCenter
           factor: rhythmControl.factor * 1.2
-          selected: rhythmControl.selectedId === 12
+          selected: rhythmControl.tie
           height: factor * 1.5
           yOffset: -factor * 1.5
           font { family: "nootka"; pixelSize: factor * 3.6 }
           text: "\ue18c"
-          onClicked: { selected = !selected; tie = selected }
+          onClicked: rhythmControl.tie = !selected
           onEntered: hideTimer.stop()
           onExited: hideTimer.restart()
         }

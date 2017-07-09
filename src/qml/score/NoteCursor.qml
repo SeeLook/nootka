@@ -13,6 +13,7 @@ Item {
   height: parent ? parent.height : 0
   width: parent ? parent.width - parent.alterWidth : 0
 
+  property alias headText: head.text
   property color color: GLOB.noteCursorColor
   property real yPos: 0
   property alias alterText: alter.text

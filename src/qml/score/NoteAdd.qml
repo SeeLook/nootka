@@ -39,7 +39,7 @@ Item {
     y: 15
   }
 
-  NoteCursor { id: cursor }
+  NoteCursor { id: cursor; headText: scoreObj.workRtmText }
 
   MouseArea {
     id: area

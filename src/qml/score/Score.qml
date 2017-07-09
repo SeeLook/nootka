@@ -65,7 +65,6 @@ Flickable {
           rtmControl.dot = false
           rtmControl.rest = false
           rtmControl.triplet = false
-          rtmControl.selectedId = meter <= Tmeter.Meter_7_4 ? 5 : 7
           workRhythm = rtmControl.rhythm
       } else
           workRhythm = Noo.rhythm(Trhythm.NoRhythm, false, false, false)
@@ -99,6 +98,7 @@ Flickable {
     parent: scoreObj.activeNote
     yPos: scoreObj.activeYpos
     alterText: accidControl.text
+    headText: parent ? scoreObj.activeRtmText() : ""
   }
 
   AccidControl {
@@ -116,7 +116,7 @@ Flickable {
   Component {
     id: addComp
     NoteAdd {
-      noteText: rtmControl ? rtmControl.rhythmText : "z"
+      noteText: Noo.rhythmText(scoreObj.workRhythm)
       onAdd: { score.addNote(scoreObj.posToNote(yPos)); currentNote = null }
       alterText: accidControl.text
     }
