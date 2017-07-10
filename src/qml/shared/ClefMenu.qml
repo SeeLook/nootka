@@ -16,15 +16,19 @@ Grid {
   spacing: nootkaWindow.fontSize / 4
   horizontalItemAlignment: Grid.AlignHCenter
 
+  property int selClef
+  property int selId
+  // private
   property var clefNr: [0, 1, 2, 4, 8, 32, 128]
   property var clefOff: [1.5, 0.8, 2.2, 1.5 , 0.8, 2.25, 0.8]
-  property int selClef
 
   signal clicked(var cl)
 
   onSelClefChanged: {
     for (var c = 0; c < 7; ++c) {
       clefButtons.itemAt(c).highlighted = (clefNr[c] === selClef)
+      if (clefNr[c] === selClef)
+        selId = c
     }
   }
 
