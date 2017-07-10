@@ -41,12 +41,20 @@ Text {
       height: nootkaWindow.height
       visible: true
       Flickable {
+        id: flick
         anchors.fill: parent
         clip: true
         contentHeight: clefMenu.height
         ClefMenu {
           id: clefMenu
           onClicked: { type = cl; close() }
+          onSelIdChanged: { // ensure visible
+            var yy = nootkaWindow.fontSize * 7.75 * selId
+            if (flick.contentY >= yy)
+              flick.contentY = yy
+            else if (flick.contentY + flick.height <= yy + nootkaWindow.fontSize * 7.75)
+              flick.contentY = yy + nootkaWindow.fontSize * 7.75 - flick.height
+          }
         }
       }
     }
