@@ -89,6 +89,15 @@ protected:
        */
   void changeStaff(TstaffObject* st);
 
+      /**
+       * Removes given note from the beam,
+       * if necessary it creates a new beam in case this beam was split by rest.
+       * Returns @p TRUE if this beam becomes broken (not enough notes) and has to be deleted
+       */
+  bool removeNote(TnotePair* np);
+
+private:
+  void resetBeam(TnotePair* noteToRemove);
 
 private:
   TmeasureObject                   *m_measure;

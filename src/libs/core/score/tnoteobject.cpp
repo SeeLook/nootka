@@ -191,11 +191,22 @@ void TnoteObject::setColor(const QColor& c) {
  */
 void TnoteObject::setNote(const Tnote& n) {
   bool updateHead = n.rhythm() != m_note->rhythm() || n.isRest() != m_note->isRest() || n.hasDot() != m_note->hasDot();
-  bool updateStem = updateHead || ((n.rtm.beam() != Trhythm::e_noBeam) != (m_note->rtm.beam() != Trhythm::e_noBeam))
+  bool fixBeam = n.isRest() != m_note->isRest();
+  bool updateStem = updateHead || fixBeam || ((n.rtm.beam() != Trhythm::e_noBeam) != (m_note->rtm.beam() != Trhythm::e_noBeam))
         || (n.rtm.stemDown() != m_note->rtm.stemDown() || m_stem->height() != m_stemHeight);
   bool updateTie = n.rtm.tie() != m_note->rtm.tie();
 
   *m_note = n;
+
+  if (fixBeam) {
+    if (m_note->isRest()) {
+      if (m_wrapper->beam())
+        m_measure->noteGoingRest(m_wrapper);
+    } else {
+        if (m_note->rhythm() > Trhythm::Quarter)
+          m_measure->restGoingNote(m_wrapper);
+    }
+  }
 
   if (updateHead)
     updateNoteHead();

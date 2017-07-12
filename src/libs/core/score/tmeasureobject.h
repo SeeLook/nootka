@@ -132,6 +132,16 @@ protected:
        */
   int beamGroup(int segmentId);
 
+      /**
+       * Fixes a beam if given note has it.
+       */
+  void noteGoingRest(TnotePair* np);
+
+      /**
+       * Beams given note with surrounding notes. WARNING: Given note has to be 8th or 16th
+       */
+  void restGoingNote(TnotePair* np);
+
 private:
   void clearAccidState();
 
