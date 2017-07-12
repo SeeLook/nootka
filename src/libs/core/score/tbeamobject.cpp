@@ -69,9 +69,7 @@ TbeamObject::~TbeamObject()
 {
   qDebug() << "     [BEAM] deleted of id" << first()->index();
   for (TnotePair* np : qAsConst(m_notes)) {
-    np->note()->rtm.setBeam(Trhythm::e_noBeam); // restore beams
-    np->item()->note()->rtm.setBeam(Trhythm::e_noBeam); // restore beams
-    np->setBeam(nullptr);
+    resetBeam(np);
   }
 }
 
@@ -196,3 +194,70 @@ void TbeamObject::changeStaff(TstaffObject* st) {
 }
 
 
+bool TbeamObject::removeNote(TnotePair* np) {
+  bool deleteBeam = false;
+  int noteId = m_notes.indexOf(np);
+  if (noteId == -1) { // TODO remove this if does not occur
+    qDebug() << "     [BEAM] of note id" << first()->index() << "hes no note to remove";
+    return false;
+  }
+  if (noteId > 1) { // there are at least two notes at the beam beginning
+      if (count() - noteId > 2) { // split beam
+          resetBeam(m_notes.takeAt(noteId));
+          int tempCount = count();
+          TbeamObject *otherBeam = nullptr;
+          for (int n = noteId; n < tempCount; ++n) {
+            auto noteForOtherBeam = m_notes.takeAt(noteId);
+            resetBeam(noteForOtherBeam);
+            if (otherBeam)
+              otherBeam->addNote(noteForOtherBeam);
+            else
+              otherBeam = new TbeamObject(noteForOtherBeam, m_measure);
+          }
+          otherBeam->prepareBeam();
+          otherBeam->drawBeam();
+      } else { // remove rest of notes
+          int tempCount = count();
+          for (int n = noteId; n < tempCount; ++n)
+            resetBeam(m_notes.takeLast());
+      }
+  } else {
+      if (count() - noteId > 2) {
+          for (int n = 0; n <= noteId; ++n)
+            resetBeam(m_notes.takeFirst());
+      } else
+          deleteBeam = true;
+  }
+  if (!deleteBeam && !m_16beams.isEmpty()) { // renew 16th beam(s) state
+    m_16beams.clear();
+    for (int n = 0; n < count(); ++n) {
+      auto nt = m_notes[n];
+      if (nt->note()->rhythm() == Trhythm::Sixteenth) {
+        if (m_16beams.isEmpty())
+            m_16beams << T16beam(n);
+        else {
+            T16beam& last16Beam = m_16beams.last();
+            if (last16Beam.isHalf()) {
+                if (last16Beam.startStem == n - 1)
+                  last16Beam.endStem = n;
+                else
+                  m_16beams << T16beam(n);
+            } else {
+                if (last16Beam.endStem == n - 1)
+                  last16Beam.endStem = n;
+                else
+                  m_16beams << T16beam(n);
+            }
+        }
+      }
+    }
+  }
+  return deleteBeam;
+}
+
+
+void TbeamObject::resetBeam(TnotePair* noteToRemove) {
+  noteToRemove->note()->rtm.setBeam(Trhythm::e_noBeam); // restore beams
+  noteToRemove->addChange(TnotePair::e_beamChanged); // and inform TnotePair about changes (it has to invoke approve to fix them)
+  noteToRemove->setBeam(nullptr);
+}

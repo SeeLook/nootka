@@ -25,7 +25,6 @@
 #include "music/tmeter.h"
 #include "music/tnote.h"
 
-#include <QtQml/qqmlcomponent.h>
 #include <QtCore/qdebug.h>
 
 
@@ -209,26 +208,6 @@ int TmeasureObject::beamGroup(int segmentId) {
   int currGr = m_score->noteSegment(segmentId)->rhythmGroup();
   int segId = m_firstInGr[currGr] + 1;
   int grWithBeam = -1;
-
-//   QList<QList<int>> beamLists;
-//   QList<int> l1;
-//   beamLists << l1;
-//   for (int bb = segId - 1; bb < m_notes.count() && m_notes[bb]->rhythmGroup() == currGr; ++bb) {
-//     auto prevSeg = m_notes[bb];
-//     if (!prevSeg->note()->isRest() && prevSeg->note()->rhythm() > Trhythm::Quarter) {
-//       auto lastBeam = beamLists.last();
-//       if (!lastBeam.isEmpty()) {
-//         if (lastBeam.last() < bb - 1) { // a new beam if there was a rest in between notes in current rhythm group
-//           QList<int> newBeam;
-//           beamLists << newBeam;
-//         }
-//       }
-//       beamLists.last() << bb;
-//     }
-//   }
-//   for (int b = 0; b < beamLists.size(); ++b)
-//     qDebug() << debug() << "beam" << b << ":" << beamLists[b];
-
   while (segId < m_notes.count() && m_notes[segId]->rhythmGroup() == currGr) {
     auto noteSeg = m_notes[segId];
     auto prevSeg = m_notes[segId - 1];
@@ -247,6 +226,61 @@ int TmeasureObject::beamGroup(int segmentId) {
   }
   return grWithBeam;
 }
+
+
+void TmeasureObject::noteGoingRest(TnotePair* np) {
+  if (np->beam()) {
+    if (np->beam()->count() > 2) {
+      if (np->beam()->removeNote(np))
+        delete np->beam();
+    } else
+        delete np->beam();
+    int segId = m_firstInGr[np->rhythmGroup()];
+    while (segId < m_notes.count() && m_notes[segId]->rhythmGroup() == np->rhythmGroup()) { // update notes of entire rhythm group
+      m_notes[segId]->approve();
+      segId++;
+    }
+  }
+}
+
+
+void TmeasureObject::restGoingNote(TnotePair* np) {
+  QList<QList<int>> beamLists;
+  QList<int> l1;
+  beamLists << l1;
+  for (int bb = m_firstInGr[np->rhythmGroup()]; bb < m_notes.count() && m_notes[bb]->rhythmGroup() == np->rhythmGroup(); ++bb) {
+    auto prevSeg = m_notes[bb];
+    if (!prevSeg->note()->isRest() && prevSeg->note()->rhythm() > Trhythm::Quarter) {
+      auto lastBeam = beamLists.last();
+      if (!lastBeam.isEmpty()) {
+        if (lastBeam.last() < bb - 1) { // a new beam if there was a rest in between notes in current rhythm group
+          QList<int> newBeam;
+          beamLists << newBeam;
+        }
+      }
+      beamLists.last() << bb;
+    }
+  }
+  int noteId = np->index() - firstNoteId();
+  for (int bl = 0; bl < beamLists.size(); ++bl) {
+    QList<int>& beam = beamLists[bl];
+    if (beam.size() > 1 && noteId >= beam.first() && noteId <= beam.last()) {
+      TbeamObject *newBeam = nullptr;
+      for (int b = beam.first(); b <= beam.last(); ++b) {
+        auto noteInBeam = m_notes[b];
+        if (noteInBeam->beam())
+          delete noteInBeam->beam();
+        if (newBeam)
+          newBeam->addNote(noteInBeam);
+        else
+          newBeam = new TbeamObject(noteInBeam, this);
+      }
+      newBeam->prepareBeam();
+      newBeam->drawBeam();
+    }
+  }
+}
+
 
 //#################################################################################################
 //###################              PRIVATE             ############################################
