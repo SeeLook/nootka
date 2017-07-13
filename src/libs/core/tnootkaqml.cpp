@@ -38,6 +38,7 @@
 #include <QtCore/qdir.h>
 #include <QtGui/qguiapplication.h>
 #include <QtCore/qdir.h>
+#include <QtCore/qdatetime.h>
 #include <QtWidgets/qfiledialog.h>
 #include <QtCore/qdebug.h>
 
@@ -53,6 +54,8 @@ TnootkaQML::TnootkaQML(QObject* parent) :
     return;
   }
   m_instance = this;
+
+  qsrand(QDateTime::currentDateTime().toTime_t());
 
   qRegisterMetaType<Tclef>();
   qmlRegisterUncreatableType<Tclef>("Score", 1, 0, "Tclef", QStringLiteral("You cannot create an instance of the Tclef."));
@@ -332,4 +335,14 @@ QString TnootkaQML::aboutQt() {
 
 QString TnootkaQML::pix(const QString& imageFileName) {
   return Tpath::pix(imageFileName);
+}
+
+
+QColor TnootkaQML::alpha(const QColor& c, int a) {
+  return QColor(c.red(), c.green(), c.blue(), a);
+}
+
+
+QColor TnootkaQML::randomColor(int alpha, int level) {
+  return QColor(qrand() % level, qrand() % level, qrand() % level, alpha);
 }

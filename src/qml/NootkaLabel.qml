@@ -4,7 +4,6 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtGraphicalEffects 1.0
 
 
 Item {
@@ -43,11 +42,8 @@ Item {
     id: mouseArea
     anchors.fill: parent
     hoverEnabled: !Noo.isAndroid()
-    onEntered: bgColor = randColor()
+    onEntered: bgColor = Noo.randomColor()
     onExited: bgColor = "white"
     onClicked: nootkaLabel.clicked()
   }
-
-  function randColorValue() { return (80 + Math.random() * 150) / 255 }
-  function randColor() { return Qt.rgba(randColorValue(), randColorValue(), randColorValue(), 1) }
 }
