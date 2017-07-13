@@ -26,12 +26,14 @@
 #include "music/tnote.h"
 
 #include <QtCore/qobject.h>
+#include <QtGui/qcolor.h>
 
 
 /**
  * Singleton object to manage (create) custom types from QML
  * In constructor it registers types accessible from QML in Nootka
  * Access it through @p Noo object
+ * Also it provides many helper functions through @p Noo
  */
 class NOOTKACORE_EXPORT TnootkaQML : public QObject
 {
@@ -86,6 +88,18 @@ public:
   Q_INVOKABLE QString getXmlToSave();
   Q_INVOKABLE QString aboutQt();
   Q_INVOKABLE QString pix(const QString& imageFileName);
+
+      /**
+       * Returns given color @p c with alpha channel @p a
+       */
+  Q_INVOKABLE QColor alpha(const QColor& c, int a);
+
+      /**
+       * Returns randomized color, @p alpha is alpha level
+       * @p level (220 by default) determines maximal value of color [0 - 255].
+       * Using smaller value avoids generating dark colors
+       */
+  Q_INVOKABLE QColor randomColor(int alpha = 255, int level = 220);
 
 private:
   static TnootkaQML             *m_instance;

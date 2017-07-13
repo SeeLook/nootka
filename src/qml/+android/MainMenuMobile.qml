@@ -61,7 +61,7 @@ Item {
       if (visible) {
         if (!drawerLoad.active)
           drawerLoad.active = true
-        label.bgColor = label.randColor()
+        label.bgColor = Noo.randomColor()
       }
     }
     Loader {

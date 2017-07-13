@@ -26,7 +26,7 @@ Flickable {
         height: parent.height
         active: false
         anchors.centerIn: parent
-        bgColor: randColor()
+        bgColor: Noo.randomColor()
       }
     }
     Tile {
