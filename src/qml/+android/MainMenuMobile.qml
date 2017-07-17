@@ -87,7 +87,7 @@ Item {
               Component.onCompleted: mainDrawer.label = this
             }
             MenuButton { action: nootkaWindow.levelAct; onClicked: mainDrawer.close() }
-            MenuButton { action: nootkaWindow.examAct; /*onClicked: mainDrawer.close()*/ }
+            MenuButton { action: nootkaWindow.examAct; onClicked: mainDrawer.close() }
             MenuButton { action: nootkaWindow.settingsAct; onClicked: mainDrawer.close() }
             MenuButton { action: nootkaWindow.scoreAct }
             Column { // drop-down menu with score actions
@@ -103,6 +103,7 @@ Item {
               MenuButton { action: score.zoomOutAct; onClicked: mainDrawer.close() }
               MenuButton { action: score.openXmlAct; onClicked: mainDrawer.close() }
               MenuButton { action: score.saveXmlAct; onClicked: mainDrawer.close() }
+              MenuButton { action: score.clearScoreAct; onClicked: mainDrawer.close() }
               states: [ State { name: "Visible"; when: scoreMenu.visible }, State { name: "Invisible"; when: !scoreMenu.visible } ]
 
               transitions: [

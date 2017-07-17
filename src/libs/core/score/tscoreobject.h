@@ -244,6 +244,17 @@ public:
        */
   TnoteObject* lastNote();
 
+      /**
+       * Returns staff middle line position according to given @p actNote (active note) state.
+       * When it is set then middle of active staff is returned,
+       * or middle of the last staff (note cursor is on adding item then)
+       */
+  Q_INVOKABLE qreal midLine(TnoteObject* actNote);
+
+  Q_INVOKABLE void deleteLastNote();
+
+  Q_INVOKABLE void clearScore();
+
 signals:
   void meterChanged();
 
@@ -383,7 +394,7 @@ private:
        */
   int globalNoteNr(qreal yPos);
 
-  void clearScore();
+  void clearScorePrivate();
 
   void enterTimeElapsed();
   void leaveTimeElapsed();

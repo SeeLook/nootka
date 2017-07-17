@@ -59,6 +59,7 @@
         <file>picts/open.png</file>
         <file>picts/save.png</file>
         <file>picts/tipbg.png</file>
+        <file>picts/delete.png</file>
 <!-- settings -->
         <file>picts/global.png</file>
         <file>picts/scoreSett.png</file>

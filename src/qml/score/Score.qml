@@ -112,6 +112,12 @@ Flickable {
     onChanged: scoreObj.workRhythm = rhythm
   }
 
+  Loader { sourceComponent: scoreObj.allowAdding ? delControl : null }
+  Component {
+    id: delControl
+    DelControl { active: !readOnly && scoreObj.activeNote !== null && scoreObj.activeNote === scoreObj.lastNote }
+  }
+
   Loader { id: addLoad; sourceComponent: scoreObj.allowAdding ? addComp : null }
   Component {
     id: addComp
@@ -173,4 +179,11 @@ Flickable {
   }
 
   function setNote(noteItem, note) { scoreObj.setNote(noteItem, note) }
+
+  function clearScore() {
+    scoreObj.clearScore()
+    currentNote = null
+    accidControl.show = false
+    rtmControl.show = false
+  }
 }

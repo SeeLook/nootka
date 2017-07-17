@@ -3,12 +3,13 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
+import QtQuick.Window 2.2
 
 
 TipRect {
   id: base
   property bool active: false
-  property real factor: score.scale * 2
+  property real factor: Screen.pixelDensity * (Noo.isAndroid() ? 2.5 : 3.5)
   property alias component: loader.sourceComponent
   property alias hideTimer: hideTimer
 

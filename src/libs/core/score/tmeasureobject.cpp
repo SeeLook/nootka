@@ -104,6 +104,29 @@ void TmeasureObject::appendNewNotes(int segmentId, int count) {
 }
 
 
+void TmeasureObject::removeLastNote() {
+  if (m_free == 0) {
+    delete m_barLine;
+    m_barLine = nullptr;
+  }
+  auto noteToRemove = m_notes.takeLast();
+  updateRhythmicGroups();
+  if (noteToRemove->beam()) {
+    if (noteToRemove->beam()->count() < 3)
+      delete noteToRemove->beam();
+    else
+      noteToRemove->beam()->removeNote(noteToRemove);
+    int segId = m_firstInGr[noteToRemove->rhythmGroup()];
+    while (segId < m_notes.count()) { // update notes of entire rhythm group
+      m_notes[segId]->approve();
+      segId++;
+    }
+  }
+  refresh();
+  m_staff->refresh();
+}
+
+
 void TmeasureObject::keySignatureChanged() {
   for (int n = 0; n < m_notes.size(); ++n) {
     m_notes[n]->item()->keySignatureChanged();

@@ -259,7 +259,7 @@ void TstaffObject::deleteExtraTie() {
 
 
 TnotePair* TstaffObject::firstNote() {
-  return firstMeasure()->isEmpty() ? nullptr : firstMeasure()->first();
+  return measuresCount() ? (firstMeasure()->isEmpty() ? nullptr : firstMeasure()->first()) : nullptr;
 }
 
 
