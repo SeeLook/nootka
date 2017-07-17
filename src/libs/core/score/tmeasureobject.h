@@ -67,6 +67,8 @@ public:
        */
   void appendNewNotes(int segmentId, int count);
 
+  void removeLastNote();
+
   TscoreObject* score() { return m_score; }
 
   TstaffObject* staff() { return m_staff; }

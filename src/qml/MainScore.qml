@@ -21,8 +21,11 @@ Score {
   property alias zoomOutAct: zoomOutAct
   property alias openXmlAct: openXmlAct
   property alias saveXmlAct: saveXmlAct
+  property alias deleteLastAct: deleteLastAct
+  property alias clearScoreAct: clearScoreAct
 
   scoreObj.meter: GLOB.rhythmsEnabled ? Tmeter.Meter_4_4 : Tmeter.NoMeter
+  focus: true
 
   clef: GLOB.clefType
   scoreObj.clefType: GLOB.clefType
@@ -117,6 +120,20 @@ Score {
     text: qsTr("Zoom score in")
     onTriggered: scaleFactor = scaleFactor = Math.min(scaleFactor + 0.2, 1.4)
     shortcut: Shortcut { sequence: StandardKey.ZoomIn; onActivated: zoomInAct.triggered() }
+  }
+  Taction {
+    id: deleteLastAct
+    icon: "delete"
+    text: qsTr("Delete note")
+    onTriggered: scoreObj.deleteLastNote()
+    shortcut: Shortcut { sequence: "Del"; onActivated: deleteLastAct.triggered() }
+  }
+  Taction {
+    id: clearScoreAct
+    icon: "clear-score"
+    text: qsTr("Delete all notes")
+    onTriggered: clearScore()
+    shortcut: Shortcut { sequence: "Shift+Del"; onActivated: clearScoreAct.triggered() }
   }
 
   Shortcut {

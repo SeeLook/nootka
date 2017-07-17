@@ -20,8 +20,9 @@ ControlBase {
   property var rhythm: Noo.rhythm(rtm, rest, dot, triplet)
   property bool tie: false
 
-  x: show ? score.scoreObj.xLastInActivBar : score.width + nootkaWindow.fontSize + width
-  y: score.contentY + (score.height - height) / 2
+  x: 1
+  y: show ? score.contentY + (score.height - height) / 2 : -height - nootkaWindow.fontSize
+//   y: show ? Math.max(scoreObj.midLine(score.activeNote) - height / 2, 0) : -height - nootkaWindow.fontSize
 
   component: Component {
       id: contentComp
@@ -78,21 +79,21 @@ ControlBase {
           }
         }
 
-        ControlButton { // tie
-          anchors.horizontalCenter: parent.horizontalCenter
-          factor: rhythmControl.factor * 1.2
-          selected: rhythmControl.tie
-          height: factor * 1.5
-          yOffset: -factor * 1.5
-          font { family: "nootka"; pixelSize: factor * 3.6 }
-          text: "\ue18c"
-          onClicked: rhythmControl.tie = !selected
-          onEntered: hideTimer.stop()
-          onExited: hideTimer.restart()
-        }
+//         ControlButton { // tie
+//           anchors.horizontalCenter: parent.horizontalCenter
+//           factor: rhythmControl.factor * 1.2
+//           selected: rhythmControl.tie
+//           height: factor * 1.5
+//           yOffset: -factor * 1.5
+//           font { family: "nootka"; pixelSize: factor * 3.6 }
+//           text: "\ue18c"
+//           onClicked: rhythmControl.tie = !selected
+//           onEntered: hideTimer.stop()
+//           onExited: hideTimer.restart()
+//         }
       }
   }
 
-  Behavior on x { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.3; duration: 300 }}
+  Behavior on y { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.3; duration: 300 }}
 
 }

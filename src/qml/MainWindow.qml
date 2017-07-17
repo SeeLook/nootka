@@ -72,7 +72,7 @@ ApplicationWindow {
       MainScore {
         id: score
         height: nootkaWindow.height - (header ? header.height : 0) - instrument.height
-        z: 2
+        z: 5
       }
 
       Instrument {

@@ -36,6 +36,7 @@
     <file alias="RhythmControl.qml">qml/score/RhythmControl.qml</file>
     <file alias="ControlButton.qml">qml/score/ControlButton.qml</file>
     <file alias="NoteAdd.qml">qml/score/NoteAdd.qml</file>
+    <file alias="DelControl.qml">qml/score/DelControl.qml</file>
     <file alias="ControlBase.qml">qml/score/ControlBase.qml</file>
 
     <file alias="Instrument.qml">qml/instruments/Instrument.qml</file>

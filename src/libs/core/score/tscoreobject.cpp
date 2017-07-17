@@ -159,7 +159,7 @@ CHECKTIME (
     emit meterChanged();
 
     if (measuresCount() && firstMeasure()->noteCount() > 0) {
-      clearScore();
+      clearScorePrivate();
       QList<Tnote> oldList = m_notes;
       m_notes.clear();
       for (int n = 0; n < oldList.size(); ++n) {
@@ -378,7 +378,7 @@ void TscoreObject::openMusicXml(const QString& musicFile) {
   if (!musicFile.isEmpty()) {
     auto melody = new Tmelody();
     if (melody->grabFromMusicXml(musicFile)) {
-      clearScore();
+      clearScorePrivate();
       m_notes.clear();
       setMeter(melody->meter()->meter());
       if (melody->clef() != m_clefType) {
@@ -538,7 +538,7 @@ void TscoreObject::setActiveNotePos(qreal yPos) {
  * So far it is used for positioning accidental pane on the active measure left.
  */
 qreal TscoreObject::xFirstInActivBar() {
-  if (m_activeBarNr == -1)
+  if (m_activeBarNr < 0)
     return (firstStaff()->notesIndent() - 2.0) * firstStaff()->scale();
   else
     return (m_measures[m_activeBarNr]->first()->item()->x() - m_measures[m_activeBarNr]->first()->item()->alterWidth() - 1.0) * firstStaff()->scale();
@@ -603,6 +603,61 @@ void TscoreObject::setAllowAdding(bool allow) {
 
 TnoteObject* TscoreObject::lastNote() {
   return m_segments.isEmpty() ? nullptr : lastSegment()->item();
+}
+
+
+qreal TscoreObject::midLine(TnoteObject* actNote) {
+  if (stavesCount() == 0)
+    return 0.0;
+  if (actNote && m_activeNote)
+    return activeNote()->staffItem()->y() + (upperLine() + 4.0) * lastStaff()->scale();
+  else
+    return lastStaff()->staffItem()->y() + (upperLine() + 4.0) * lastStaff()->scale();
+}
+
+
+void TscoreObject::deleteLastNote() {
+  if (notesCount()) {
+    if (lastNote()->note()->rtm.tie())
+      noteSegment(notesCount() - 2)->disconnectTie(TnotePair::e_untiePrev);
+    bool adjust = false;
+    auto lastBar = lastMeasure();
+    if (lastBar->noteCount() == 1 && lastBar != firstMeasure()) {
+        delete m_measures.takeLast();
+        auto lastSt = lastStaff();
+        lastSt->setLastMeasureId(lastSt->lastMeasureId() - 1);
+        if (lastSt->measuresCount() == 0) {
+          deleteStaff(lastSt);
+          adjust = true;
+        }
+        m_activeBarNr--;
+    } else
+        lastBar->removeLastNote();
+    auto segToRemove = m_segments.takeLast();
+    segToRemove->flush();
+    m_spareSegments << segToRemove;
+    m_notes.removeLast();
+    m_activeNote = nullptr;
+    if (notesCount() == 0)
+      m_activeBarNr = -1;
+    if (adjust)
+      adjustScoreWidth();
+
+    emit activeNoteChanged();
+    emit lastNoteChanged(); //TODO it causes work rhythm change
+  }
+}
+
+
+void TscoreObject::clearScore() {
+  if (notesCount() == 0)
+    return;
+  clearScorePrivate();
+  m_notes.clear();
+  m_activeBarNr = -1;
+  m_activeNote = nullptr;
+  adjustScoreWidth();
+  emit lastNoteChanged();
 }
 
 
@@ -802,7 +857,7 @@ int TscoreObject::globalNoteNr(qreal yPos) {
 }
 
 
-void TscoreObject::clearScore() {
+void TscoreObject::clearScorePrivate() {
   if (measuresCount() && firstMeasure()->noteCount() > 0) {
     for (TnotePair* s : qAsConst(m_segments)) {
       s->flush();

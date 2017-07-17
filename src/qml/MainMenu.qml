@@ -62,6 +62,18 @@ Item {
             onClicked: scoreMenu.close()
           }
         }
+        MenuItem {
+          contentItem: MenuButton {
+            action: score.deleteLastAct
+            onClicked: scoreMenu.close()
+          }
+        }
+        MenuItem {
+          contentItem: MenuButton {
+            action: score.clearScoreAct
+            onClicked: scoreMenu.close()
+          }
+        }
       }
   }
 }
