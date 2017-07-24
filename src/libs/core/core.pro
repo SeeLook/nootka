@@ -44,6 +44,7 @@ SOURCES +=  tcolor.cpp\
             score/tnotepair.cpp\
             score/tbeamobject.cpp\
             score/tstafflines.cpp\
+            score/taddobject.cpp\
           \
             instruments/tguitarbg.cpp\
             instruments/tpianobg.cpp\
@@ -96,6 +97,7 @@ HEADERS  += nootkaconfig.h\
             score/tnotepair.h\
             score/tbeamobject.h\
             score/tstafflines.h\
+            score/taddobject.h\
           \
             instruments/tguitarbg.h\
             instruments/tpianobg.h\

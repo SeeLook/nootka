@@ -24,7 +24,7 @@ Item {
       width: parent.width + 1
       height: parent.height
       x: -1
-      color: Qt.rgba(noteCursor.color.r, noteCursor.color.g, noteCursor.color.b, 0.1)
+      color: Noo.alpha(noteCursor.color, 26)
       z: -10
   }
 

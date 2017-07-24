@@ -1,6 +1,7 @@
 1.5.0 alpha1
      - added support for rhythms to the score
      - import/export to/from music XML files
+     - added piano view
      - porting visible part into QML - rendering with graphics device
      - many improvements of user interface
      - option for enable/disable animations

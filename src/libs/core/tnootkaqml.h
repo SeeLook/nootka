@@ -48,8 +48,7 @@ public:
        * Dialogues recognized by main QML Dialog instance of main window
        */
   enum Edialogs {
-    Settings = 1, About = 2, LevelCreator = 3, ExamStart = 4, ExamSummary = 5,
-    Charts = 6, Wizard = 7, QuickAudio = 8
+    Settings = 1, About = 2, LevelCreator = 3, ExamStart = 4, ExamSummary = 5, Charts = 6, QuickAudio = 7
   };
   Q_ENUM(Edialogs)
 
@@ -69,6 +68,9 @@ public:
   Q_INVOKABLE Tnote note(int pitch, int octave, int alter, int rhythm = 3, bool rest = false, bool dot = false);
   Q_INVOKABLE Tnote note(const Tnote& n, int rhythm = 3, bool rest = false, bool dot = false);
   Q_INVOKABLE Tnote note(const Tnote& n, const Trhythm& r);
+  Q_INVOKABLE int octave(const Tnote& n) { return static_cast<int>(n.octave); }
+  Q_INVOKABLE int pitch(const Tnote& n) { return static_cast<int>(n.note); }
+  Q_INVOKABLE int alter(const Tnote& n) { return static_cast<int>(n.alter); }
   Q_INVOKABLE Trhythm rhythm(int rtm, bool rest, bool dot, bool triplet);
   Q_INVOKABLE QString rhythmText(const Trhythm& r);
   Q_INVOKABLE QString noteName(const Tnote& n, int style, bool showOctave = true);

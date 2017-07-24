@@ -85,12 +85,14 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(qreal xFirstInActivBar READ xFirstInActivBar NOTIFY activeBarChanged)
   Q_PROPERTY(qreal xLastInActivBar READ xLastInActivBar NOTIFY activeBarChanged)
   Q_PROPERTY(bool allowAdding READ allowAdding WRITE setAllowAdding NOTIFY allowAddingChanged)
+  Q_PROPERTY(qreal touched READ touched NOTIFY touchedChanged) 
   Q_PROPERTY(Trhythm workRhythm READ workRhythm WRITE setWorkRhythm NOTIFY workRtmTextChanged)
   Q_PROPERTY(QString workRtmText READ workRtmText NOTIFY workRtmTextChanged)
 
   friend class TstaffObject;
   friend class TmeasureObject;
   friend class TnoteObject;
+  friend class TaddObject;
 
 public:
   explicit TscoreObject(QObject* parent = nullptr);
@@ -240,6 +242,13 @@ public:
   void setAllowAdding(bool allow);
 
       /**
+       * Touched state occurs when score got mouse press event without hover enter event before.
+       * In that moment all controls have to be hidden to give user all score for touch and set note pitch
+       * This state is managed by @p TnoteObject and @p TaddObject classes.
+       */
+  bool touched() const { return m_touched; }
+
+      /**
        * Last note item (@p TnoteObject) or null if score is empty
        */
   TnoteObject* lastNote();
@@ -292,6 +301,8 @@ signals:
        */
   void activeBarChanged();
   void allowAddingChanged();
+
+  void touchedChanged();
 
       /**
        * It is emitted whenever last note changes due to score refactoring 
@@ -376,6 +387,8 @@ protected:
        */
   void emitLastNote() { if (m_allowAdding) emit lastNoteChanged(); }
 
+  void setTouched(bool t);
+
 private:
       /**
        * Appends notes to @p m_notes list, creates corresponding @p TnotePair
@@ -439,6 +452,7 @@ private:
   int                               m_activeBarNr = -1;
   Trhythm                          *m_workRhythm;
   bool                              m_allowAdding;
+  bool                              m_touched = false;
   QTimer                           *m_enterTimer, *m_leaveTimer;
 
 };

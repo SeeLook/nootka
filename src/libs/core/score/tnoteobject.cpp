@@ -475,11 +475,6 @@ void TnoteObject::keySignatureChanged() {
 }
 
 
-/**
- * Due to some bug invoking hover events after touch, mouse is not supported under mobile for now
- * That bug makes it messy
- */
-#if !defined (Q_OS_ANDROID)
 void TnoteObject::hoverEnterEvent(QHoverEvent*) {
   if (!m_staff->score()->readOnly()) {
     m_measure->score()->setHoveredNote(this);
@@ -509,7 +504,7 @@ void TnoteObject::hoverMoveEvent(QHoverEvent* event) {
             m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
   }
 }
-#endif
+
 
 static QElapsedTimer m_touchDuration;
 /**
@@ -522,12 +517,14 @@ void TnoteObject::mousePressEvent(QMouseEvent* event) {
     m_measure->score()->setPressedNote(this);
     m_measure->score()->touchHideTimer()->stop();
     if (m_measure->score()->activeNote() != this) {
-      if (event->buttons() & Qt::LeftButton) {
+      if (!(m_staff->score()->isPianoStaff() && event->pos().y() >= m_staff->upperLine() + 10.6 && event->pos().y() <= m_staff->upperLine() + 11.6)) {
         m_measure->score()->changeActiveNote(this);
         m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
       }
     }
     m_touchDuration.restart();
+    if (!m_measure->score()->hoveredNote())
+      m_measure->score()->setTouched(true);
   }
 }
 
@@ -548,7 +545,7 @@ void TnoteObject::mouseReleaseEvent(QMouseEvent*) {
           m_measure->score()->noteClicked(m_measure->score()->activeYpos());
         m_measure->score()->setPressedNote(nullptr);
     } else { // touch
-        if (m_touchDuration.elapsed() < 150) { // confirm note
+        if (m_touchDuration.elapsed() < 190) { // confirm note
             m_measure->score()->touchHideTimer()->stop();
             if (m_measure->score()->activeNote() == this) // set note only when it was touched second time
               m_measure->score()->noteClicked(m_measure->score()->activeYpos());
@@ -557,6 +554,7 @@ void TnoteObject::mouseReleaseEvent(QMouseEvent*) {
         } else { // keep cursor visible
             m_measure->score()->touchHideTimer()->start(2500);
         }
+        m_measure->score()->setTouched(false);
     }
   }
 }
