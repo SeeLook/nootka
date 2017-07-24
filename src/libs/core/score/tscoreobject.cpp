@@ -126,7 +126,6 @@ void TscoreObject::setClefType(Tclef::EclefType ct) {
                     newNote.note = 0; newNote.octave = 0; // invalidate note
                     newNote.setRest(true);
                     newNote.rtm.setTie(Trhythm::e_noTie);
-                    // TODO fix beam
                   }
               }
               noteSeg->setNote(newNote);
@@ -143,7 +142,7 @@ void TscoreObject::setClefType(Tclef::EclefType ct) {
 
 /**
  * When meter is changed and there are notes on the score, all segments are flushed and stored
- * then measures and staves are deleted (TODO it could be improved someday),
+ * then measures and staves are deleted,
  * then all notes are added from scratch, but stored segments are reused to improve single segment creation time
  */
 void TscoreObject::setMeter(int m) {
@@ -532,6 +531,7 @@ void TscoreObject::setActiveNotePos(qreal yPos) {
   }
 }
 
+
 /**
  * Returns X coordinate of the first note in active measure (if any).
  *  or (if score is empty yet) - returns staff indent (position after meter)
@@ -622,6 +622,7 @@ void TscoreObject::deleteLastNote() {
       noteSegment(notesCount() - 2)->disconnectTie(TnotePair::e_untiePrev);
     bool adjust = false;
     auto lastBar = lastMeasure();
+    int tempActiveBar = m_activeBarNr;
     if (lastBar->noteCount() == 1 && lastBar != firstMeasure()) {
         delete m_measures.takeLast();
         auto lastSt = lastStaff();
@@ -645,6 +646,8 @@ void TscoreObject::deleteLastNote() {
 
     emit activeNoteChanged();
     emit lastNoteChanged(); //TODO it causes work rhythm change
+    if (tempActiveBar != m_activeBarNr)
+      emitActiveBarChanged();
   }
 }
 
@@ -813,6 +816,13 @@ QPoint TscoreObject::tieRange(TnoteObject* n) {
     }
   }
   return tr;
+}
+
+void TscoreObject::setTouched(bool t) {
+  if (t != m_touched) {
+    m_touched = t;
+    emit touchedChanged();
+  }
 }
 
 //#################################################################################################

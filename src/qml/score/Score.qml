@@ -103,13 +103,15 @@ Flickable {
 
   AccidControl {
     id: accidControl
-    active: !readOnly && score.clef !== Tclef.NoClef && (scoreObj.activeNote !== null || noteAdd && noteAdd.active)
+    active: !readOnly && score.clef !== Tclef.NoClef && (scoreObj.activeNote !== null || (noteAdd && noteAdd.active))
+    visible: !scoreObj.touched
   }
 
   RhythmControl {
     id: rtmControl
     active: !readOnly && meter !== Tmeter.NoMeter && (scoreObj.activeNote !== null || (noteAdd && noteAdd.active))
     onChanged: scoreObj.workRhythm = rhythm
+    visible: !scoreObj.touched
   }
 
   Loader { sourceComponent: scoreObj.allowAdding ? delControl : null }
@@ -123,7 +125,7 @@ Flickable {
     id: addComp
     NoteAdd {
       noteText: Noo.rhythmText(scoreObj.workRhythm)
-      onAdd: { score.addNote(scoreObj.posToNote(yPos)); currentNote = null }
+      onAddNote: { score.addNote(scoreObj.posToNote(yPos)); currentNote = null }
       alterText: accidControl.text
     }
   }

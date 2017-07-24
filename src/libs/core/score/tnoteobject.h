@@ -156,11 +156,9 @@ protected:
        */
   void checkTie();
 
-#if !defined (Q_OS_ANDROID)
   void hoverEnterEvent(QHoverEvent*) override;
   void hoverLeaveEvent(QHoverEvent*) override;
   void hoverMoveEvent(QHoverEvent* event) override;
-#endif
 
   void mousePressEvent(QMouseEvent* event) override;
   void mouseReleaseEvent(QMouseEvent*) override;
