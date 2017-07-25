@@ -47,10 +47,7 @@ TpianoBg::TpianoBg(QQuickItem* parent) :
 }
 
 
-TpianoBg::~TpianoBg()
-{
-
-}
+TpianoBg::~TpianoBg() {}
 
 
 void TpianoBg::setKeyWidth(qreal kw) {
@@ -70,7 +67,8 @@ void TpianoBg::setNote(const Tnote& n) {
 void TpianoBg::setFirstOctave(int firstO) {
   auto fo = static_cast<char>(firstO);
   if (fo != m_firstOctave) {
-    
+    m_firstOctave = fo;
+    update();
   }
 }
 

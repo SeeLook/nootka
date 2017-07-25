@@ -44,10 +44,12 @@ Flickable {
           color: activPal.text
         }
         Text {
-          text: "A few nice words to introduce Nootka shortly."
-          width: parent.width
-          font { pixelSize: nootkaWindow.fontSize * 1.2 }
-          horizontalAlignment: Text.AlignHCenter
+          text: "Thanks You are here!<br>This is alpha version with limited functionality. There are either no sound nor lessons yet,<br>but there is a brand new score with rhythm support and possibility to load/save music XML files.<br>This is very big milestone...<br>Also there is a new look and layout (settings/level creator dialogues) and there can be piano instead of guitar.<br>Anyway, main purpose of this release is to check all of that and give some feedback.<br>So happy testing,<br>Author<br><br>P.S.<br>Let me know what do you think..."
+          width: parent.width * 0.96
+          anchors.horizontalCenter: parent.horizontalCenter
+          font { pixelSize: nootkaWindow.fontSize * 1.1 }
+          horizontalAlignment: Text.AlignLeft
+          wrapMode: Text.WordWrap
           color: activPal.text
         }
       }

@@ -53,7 +53,7 @@ ApplicationWindow {
     icon: "startExam"
     text: qsTranslate("TtoolBar", "Lessons")
     tip: qsTranslate("TtoolBar", "Start exercises or an exam")
-    onTriggered: randNotes()
+//     onTriggered:
   }
 
   width: GLOB.geometry.width
@@ -78,6 +78,7 @@ ApplicationWindow {
       Instrument {
         id: instrument
         z: 1
+        score: score
         onNote: {
           var cn = score.currentNote
           if (cn)
@@ -90,13 +91,13 @@ ApplicationWindow {
 
   DialogLoader { id: dialogLoader }
 
-  function randNotes() {
-    var rest = (Math.random() * 100)  > 90
-    var accid = rest ? 0 : Math.min(Math.floor(Math.random() * 2), 1)
-    var note = rest ? 0 : 1 + Math.random() * 7
-    var octave = -2 + Math.random() * 5
-    var rtm = score.meter == 0 ? 0 : 2 + Math.random() * 4
-    score.addNote(Noo.note(note, octave, accid, rtm, rest))
-  }
+//   function randNotes() {
+//     var rest = (Math.random() * 100)  > 90
+//     var accid = rest ? 0 : Math.min(Math.floor(Math.random() * 2), 1)
+//     var note = rest ? 0 : 1 + Math.random() * 7
+//     var octave = -2 + Math.random() * 5
+//     var rtm = score.meter == 0 ? 0 : 2 + Math.random() * 4
+//     score.addNote(Noo.note(note, octave, accid, rtm, rest))
+//   }
 
 }
