@@ -143,14 +143,16 @@ Flickable {
   }
 
   function staffChangesClef(staffId) {
-    if (staffId.clef.type !== score.clef) {
-      score.clef = staffId.clef.type
+    var newClef = staffId.clef.type
+    if (newClef !== score.clef) {
+//       score.clef = newClef
       for (var s = 0; s < staves.length; ++s) {
         if (staffId !== staves[s])
-          staves[s].clef.type = staffId.clef.type
-        staves[s].enableKeySignature(score.clef !== Tclef.NoClef && enableKeySign)
+          staves[s].clef.type = newClef
+        staves[s].enableKeySignature(newClef !== Tclef.NoClef && enableKeySign)
       }
-      scoreObj.clefType = staffId.clef.type
+      scoreObj.clefType = newClef
+      score.clef = newClef
     }
   }
 

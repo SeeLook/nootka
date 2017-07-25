@@ -25,7 +25,7 @@
 
 
 /**
- * 
+ * The C++ logic of piano component and its painted background
  */
 class TpianoBg : public QQuickPaintedItem
 {

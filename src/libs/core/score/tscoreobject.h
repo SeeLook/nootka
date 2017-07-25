@@ -115,7 +115,7 @@ public:
   int keySignature() const { return static_cast<int>(m_keySignature); }
   void setKeySignature(int k);
 
-  Q_INVOKABLE void addNote(const Tnote& n);
+  Q_INVOKABLE void addNote(const Tnote& newNote);
   Q_INVOKABLE void setNote(TnoteObject* no, const Tnote& n);
 
       /**
@@ -411,6 +411,11 @@ private:
 
   void enterTimeElapsed();
   void leaveTimeElapsed();
+
+      /**
+       * Check given note is it in score range and changes it into rest if not
+       */
+  void fitToRange(Tnote& n);
 
 private:
                               /* Musical parameters */

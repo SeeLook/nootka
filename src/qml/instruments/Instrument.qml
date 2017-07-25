@@ -10,6 +10,7 @@ import Nootka 1.0
 Item {
   id: root
   property alias instrument: instrLoad.item
+  property Score score
 
   signal note(var n)
 
@@ -20,10 +21,19 @@ Item {
     id: instrLoad
     anchors.fill: parent
     source: "qrc:/" +  (GLOB.instrument.type === Tinstrument.Piano ? "Piano" : "Guitar") + ".qml"
+    onLoaded: {
+      if (GLOB.instrument.type === Tinstrument.Piano)
+        instrument.firstOctave = Noo.octave(score.scoreObj.lowestNote())
+    }
   }
 
   Connections {
     target: instrLoad.item
     onNoteChanged: root.note(instrument.note)
+  }
+  Connections {
+    target: score
+    enabled: GLOB.instrument.type === Tinstrument.Piano
+    onClefChanged: instrument.firstOctave = Noo.octave(score.scoreObj.lowestNote())
   }
 }

@@ -11,8 +11,6 @@
 ================              TODO LIST               ======================
 ============================================================================
 
-- There are memory leak(s) due to undeleted TnotePair instances in segments list - find a way to purge them without crash
-
 TRANSLATION CONTEXT CHANGES
   TpitchView -> PitchView
   TvolumeView -> VolumeBar
@@ -59,17 +57,13 @@ To consideration:
 
 - NotaData of Tartini might be cleaned
 
-MINOR:
-- when instrument in new exercise changes: 
-      if it is started from creator - there is highlight of message 
-      but when started from 'start' menu - there is not
-
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@                        FEATURES FOR FURTHER RELEASES         @@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 ==== SMALL NEW FEATURES/IMPROVEMENTS =============================================================
+- triplets and editable ties
 - add minimal zoom value depends on screen resolution
 - average effectiveness line in chart
 - make exam summary pretty
@@ -77,7 +71,6 @@ MINOR:
 - bring back isVoice() audio param - average pitch of all chunks or min duration will depend on it
 
 - divide TexamExecutor class !!!!!
-- in occasion of implementing rhythms, 
 
 - dialog to configure generated melody and its rhythms
 - rhythms in level and exercise/exam
@@ -103,7 +96,6 @@ MINOR:
 - migrate on preferring 48000 sample rate (ogg files and audio methods)
 - move status label out as a separate class and implement animations there (can be used in settings windows as well) 
 
-ANDROID:
 - unlock left-handed guitar then implement frets zoom to respect transforms
 
 

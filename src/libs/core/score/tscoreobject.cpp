@@ -99,8 +99,6 @@ void TscoreObject::setClefType(Tclef::EclefType ct) {
       return;
 
     if (notesCount() > 0) {
-        Tnote loNote = lowestNote();
-        Tnote hiNote = highestNote();
         bool pianoChanged = (oldClef == Tclef::PianoStaffClefs && m_clefType != Tclef::PianoStaffClefs)
                             || (oldClef != Tclef::PianoStaffClefs && m_clefType == Tclef::PianoStaffClefs);
         for (int n = 0; n < notesCount(); ++n) {
@@ -118,16 +116,8 @@ void TscoreObject::setClefType(Tclef::EclefType ct) {
                   int globalNr = m_clefOffset.octave * 7 - (7 - m_clefOffset.note);
                   newNote.note = static_cast<char>(56 + globalNr) % 7 + 1;
                   newNote.octave = static_cast<char>(56 + globalNr) / 7 - 8;
-              } else {
-                  if (!newNote.isRest()
-                      && ((newNote.octave > hiNote.octave || (newNote.octave == hiNote.octave && newNote.note > hiNote.note))
-                      || (newNote.octave < loNote.octave || (newNote.octave == loNote.octave && newNote.note < loNote.note))))
-                  {
-                    newNote.note = 0; newNote.octave = 0; // invalidate note
-                    newNote.setRest(true);
-                    newNote.rtm.setTie(Trhythm::e_noTie);
-                  }
-              }
+              } else
+                  fitToRange(newNote);
               noteSeg->setNote(newNote);
           }
         }
@@ -222,7 +212,7 @@ void solveList(const Tnote& n, int dur, QList<Tnote>& outList) {
   }
 }
 
-void TscoreObject::addNote(const Tnote& n) {
+void TscoreObject::addNote(const Tnote& newNote) {
 CHECKTIME (
 
   auto lastMeasure = m_measures.last();
@@ -231,7 +221,9 @@ CHECKTIME (
     m_measures << lastMeasure;
     lastStaff()->appendMeasure(lastMeasure);
   }
-  qDebug() << "Note" << n.toText() << n.rtm.string() << lastMeasure->free();
+
+  Tnote n = newNote;
+  fitToRange(n);
   int noteDur = n.rhythm() == Trhythm::NoRhythm ? 1 : n.duration();
   if (noteDur > lastMeasure->free()) { // split note that is adding
       int leftDuration = noteDur - lastMeasure->free();
@@ -288,6 +280,7 @@ void TscoreObject::setNote(TnoteObject* no, const Tnote& n) {
     auto newNote = n;
     newNote.rtm.setBeam(oldNote.rtm.beam()); // TODO as long as we don't change rhythm
     newNote.rtm.setTie(oldNote.rtm.tie()); // TODO as long as we don't change rhythm
+    fitToRange(newNote);
     bool fitStaff = false;
     // disconnect tie (if any) if note pitch changed
     QPoint notesForAlterCheck;// x is first note and y is the last note to check
@@ -903,4 +896,19 @@ void TscoreObject::enterTimeElapsed() {
 
 void TscoreObject::leaveTimeElapsed() {
   emit activeNoteChanged();
+}
+
+
+void TscoreObject::fitToRange(Tnote& n) {
+  Tnote loNote = lowestNote();
+  Tnote hiNote = highestNote();
+  if (!n.isRest()
+    && ((n.octave > hiNote.octave || (n.octave == hiNote.octave && n.note > hiNote.note))
+    || (n.octave < loNote.octave || (n.octave == loNote.octave && n.note < loNote.note))))
+  {
+    n.note = 0; n.octave = 0; // invalidate note
+    n.setRest(true);
+    n.rtm.setTie(Trhythm::e_noTie);
+    n.rtm.setBeam(Trhythm::e_noBeam);
+  }
 }

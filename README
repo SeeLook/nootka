@@ -23,8 +23,8 @@ and helps with developing skills of playing and singing notes from a score.
 ######################################################################################
 - c++11 capable compiler (tested with gcc >=4.9 and clang)
 - cmake at least version 3.1.0 (http://cmake.org)
-- Qt libraries (at least version 5.7)
-	In particular: Qt5Core, Qt5Gui, Qt5PrintSupport, Qt5Network, Qt5Qml, Qt5QtQuick, Qt5QuickControls2
+- Qt libraries (at least version 5.9)
+	In particular: Qt5Core, Qt5Gui, Qt5Widgets, Qt5PrintSupport, Qt5Network, Qt5Qml, Qt5QtQuick, Qt5QuickControls2
 - Ogg Vorbis (http://www.xiph.org/downloads/) 
   both ogg and vorbis. Dll libraries are on mentioned site in vorbis-tools archive
   and headers are in libogg and libvorbis archives.
