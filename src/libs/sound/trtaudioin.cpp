@@ -28,23 +28,23 @@
 
 /*static */
 QStringList TaudioIN::getAudioDevicesList() {
-	QStringList devList;
-	createRtAudio();
+  QStringList devList;
+  createRtAudio();
   if (getCurrentApi() == RtAudio::LINUX_ALSA)
       closeStream(); // close ALSA stream to get full list of devices
-	int devCnt = getDeviceCount();
-	if (devCnt < 1)
-			return devList;
-	for (int i = 0; i < devCnt; i++) {
-			RtAudio::DeviceInfo devInfo;
-			if (!getDeviceInfo(devInfo, i))
-				continue;
-			if (devInfo.probed && devInfo.inputChannels > 0)
-				devList << convDevName(devInfo);
-	}
-	if (getCurrentApi() == RtAudio::LINUX_ALSA && !devList.isEmpty())
-			devList.prepend("ALSA default");
-	return devList;
+  int devCnt = getDeviceCount();
+  if (devCnt < 1)
+      return devList;
+  for (int i = 0; i < devCnt; i++) {
+      RtAudio::DeviceInfo devInfo;
+      if (!getDeviceInfo(devInfo, i))
+        continue;
+      if (devInfo.probed && devInfo.inputChannels > 0)
+        devList << convDevName(devInfo);
+  }
+  if (getCurrentApi() == RtAudio::LINUX_ALSA && !devList.isEmpty())
+      devList.prepend("ALSA default");
+  return devList;
 }
 
 
@@ -60,7 +60,7 @@ bool TaudioIN::inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudi
 
 
 
-TaudioIN*        			TaudioIN::m_instance = 0;
+TaudioIN*              TaudioIN::m_instance = 0;
 bool                  TaudioIN::m_goingDelete = false;
 
 //#################################################################################################
@@ -77,18 +77,18 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
   }
   m_instance = this;
   setAudioInParams();
-	m_goingDelete = false;
-	forceUpdate = true;
-  
-	connect(ao(), &TaudioObject::paramsUpdated, this, &TaudioIN::updateSlot);
+  m_goingDelete = false;
+  forceUpdate = true;
+
+  connect(ao(), &TaudioObject::paramsUpdated, this, &TaudioIN::updateSlot);
   connect(ao(), &TaudioObject::playingFinished, this, &TaudioIN::playingFinishedSlot);
 }
 
 TaudioIN::~TaudioIN()
 {
-	m_goingDelete = true;
+  m_goingDelete = true;
   closeStream();
-	finder()->blockSignals(true);
+  finder()->blockSignals(true);
   m_instance = 0;
   deleteInParams();
   resetCallBack();
@@ -117,19 +117,19 @@ void TaudioIN::setAudioInParams() {
 //#################################################################################################
 
 void TaudioIN::startListening() {
-	if (!streamParams()) {
-			qDebug() << "Can not start listening due to uninitialized input";
-			return;
-	}
-	if (detectingState() != e_detecting) {
+  if (!streamParams()) {
+      qDebug() << "Can not start listening due to uninitialized input";
+      return;
+  }
+  if (detectingState() != e_detecting) {
     resetVolume();
     if (!stoppedByUser()) {
       if (areStreamsSplit() && detectingState() != e_detecting)
         openStream();
       if (startStream())
         setState(e_detecting);
-// 			qDebug() << "start listening";
-		}
+//       qDebug() << "start listening";
+    }
   }
 }
 
@@ -139,8 +139,8 @@ void TaudioIN::stopListening() {
 //     qDebug() << "stop listening";
     resetVolume();
     resetChunkPitch();
-		if (areStreamsSplit() || rtDevice()->getCurrentApi() != RtAudio::LINUX_PULSE)
-			abortStream();
+    if (areStreamsSplit() || rtDevice()->getCurrentApi() != RtAudio::LINUX_PULSE)
+      abortStream();
     setState(e_stopped);
     finder()->stop(true);
   }

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -28,51 +28,58 @@
 
 class ToggScale;
 
-/** 
- * 
+/**
+ * Nootka audio output
  */
 class NOOTKASOUND_EXPORT TaudioOUT : public TabstractPlayer, public TrtAudio
 {
   Q_OBJECT
-   
+
 public:
-    TaudioOUT(TaudioParams* _params, QObject* parent = 0);
-    virtual ~TaudioOUT();
-    
-    static QStringList getAudioDevicesList();
-    
-          /** Starts playing given note and then returns true, otherwise gets false. */
-    bool play(int noteNr);
-    void setAudioOutParams();
-    void stop(); /** Immediately stops playing. */
-    
+  TaudioOUT(TaudioParams* _params, QObject* parent = 0);
+  virtual ~TaudioOUT();
+
+  static QStringList getAudioDevicesList();
+
+          /**
+           * Starts playing given note and then returns true, otherwise gets false.
+           */
+  bool play(int noteNr);
+  void setAudioOutParams();
+  void stop();
+
 protected:
-		static bool outCallBack(void* outBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status);
-		
-		int crossCount() { return m_crossCount; } /** counts samples of crossing buffer */
-		
+  static bool outCallBack(void* outBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status);
+
+      /**
+       * Counts samples of crossing buffer
+       */
+  int crossCount() { return m_crossCount; }
+
 protected:
-        /** Static pointer of this class instance to emit signal from callBack method. */ 
-    static TaudioOUT 							*instance;
-    ToggScale 										*oggScale;
-    int     				 							 ratioOfRate; // ratio of current sample rate to 44100
+        /**
+         * Static pointer of this class instance to emit signal from callback method.
+         */
+  static TaudioOUT               *instance;
+  ToggScale                      *oggScale;
+  int                             ratioOfRate; /**< ratio of current sample rate to 44100 */
 
 private slots:
-	void streamOpenedSlot();
-	void updateSlot() { setAudioOutParams(); }
-	void playingFinishedSlot();
+  void streamOpenedSlot();
+  void updateSlot() { setAudioOutParams(); }
+  void playingFinishedSlot();
 #if defined(Q_OS_WIN)
-	void ASIORestartSlot();
+  void ASIORestartSlot();
 #endif
-    
+
 private:
-  static int 			m_samplesCnt; /** Number of performed samples. */
-  static int 			m_maxCBloops; /** Duration of a sound counted in callBack loops */
-	static qint16  *m_crossBuffer; /** buffer with data of part of previous note to fade out */
-	static bool 		m_doCrossFade;
-	static float 		m_cross; /** current volume factor of fading effect */
-	int 						m_crossCount;
-	bool 						m_callBackIsBussy;
+  static int               m_samplesCnt; /**< Number of performed samples. */
+  static int               m_maxCBloops; /**< Duration of a sound counted in callBack loops */
+  static qint16           *m_crossBuffer; /**< buffer with data of part of previous note to fade out */
+  static bool              m_doCrossFade;
+  static float             m_cross; /**< current volume factor of fading effect */
+  int                      m_crossCount;
+  bool                     m_callBackIsBussy;
 
 };
 

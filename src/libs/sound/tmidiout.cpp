@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013=2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013=2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -38,7 +38,7 @@ QStringList TmidiOut::getMidiPortsList()
     for (int i = 0; i < midiOut->getPortCount(); i++)
       portList << QString::fromStdString(midiOut->getPortName(i));
   delete midiOut;
-  return portList;  
+  return portList;
 }
 
 
@@ -76,7 +76,7 @@ void TmidiOut::setMidiParams() {
     playable = false;
     return;
   }
-  
+
   if (m_midiOut && m_midiOut->getPortCount() > 0) {
       m_portNr = 0;
 #if defined(Q_OS_LINUX)
@@ -127,7 +127,7 @@ bool TmidiOut::play(int noteNr) {
   int semiToneOff = 0; // "whole" semitone offset
   quint16 midiBend = 0;
   if (m_params->a440diff != 0.0) {
-      semiToneOff = (int)m_params->a440diff; 
+      semiToneOff = (int)m_params->a440diff;
       float fineOff = qAbs(m_params->a440diff) - qAbs((float)semiToneOff); // float part of offset
       if (fineOff) { // if exist midi bend message is needed
           if (m_params->a440diff < 0) // restore bend direction
@@ -152,7 +152,7 @@ bool TmidiOut::play(int noteNr) {
   if (offTimer->isActive())
       offTimer->stop();
   offTimer->start(1500);
-  return true;   
+  return true;
 }
 
 
@@ -187,7 +187,7 @@ void TmidiOut::openMidiPort() {
       m_message[0] = 241;
       m_message[1] = 60;
       m_midiOut->sendMessage(&m_message);
-        
+
       m_message.push_back(0); // third message param
 
       m_message[0] = 176;
@@ -214,7 +214,7 @@ void TmidiOut::midiNoteOff() {
     qDebug() << "can't send MIDI message to fade sound out";
   }
   m_prevMidiNote = 0;
-// 	if (m_portOpened) {
+//   if (m_portOpened) {
 //       try {
 //         m_midiOut->closePort();
 //       } catch (RtMidiError &error){

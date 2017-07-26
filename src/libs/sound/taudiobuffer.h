@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -40,7 +40,7 @@ class TaudioBuffer : public QIODevice
   Q_OBJECT
 
 public:
-  TaudioBuffer(QObject* parent = 0) : QIODevice(parent), m_bufferSize(2048) {}
+  TaudioBuffer(QObject* parent = nullptr) : QIODevice(parent), m_bufferSize(2048) {}
 
       /**
        * In fact, there is no any buffer!
@@ -65,7 +65,9 @@ protected:
   }
 
 
-      /** When @p m_bufferSize is set to 0 @p len parameter is respected */
+      /**
+       * When @p m_bufferSize is set to 0 @p len parameter is respected
+       */
   virtual qint64 writeData(const char *data, qint64 len) {
     qint64 dataLenght = m_bufferSize ? m_bufferSize : len;
     emit readAudio(data, dataLenght);
