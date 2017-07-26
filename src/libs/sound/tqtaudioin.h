@@ -23,7 +23,6 @@
 
 #include "tcommonlistener.h"
 #include <QtMultimedia/qaudiodeviceinfo.h>
-#include <QtCore/qmutex.h>
 #include <QtCore/qtimer.h>
 #include <QtCore/qiodevice.h>
 
@@ -78,7 +77,7 @@ public:
       /**
        * Returns list of audio input devices filtered by template audio format.
        */
-  static QStringList getAudioDevicesList(); 
+  static QStringList getAudioDevicesList();
 
   void updateAudioParams();
 

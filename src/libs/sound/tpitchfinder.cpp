@@ -68,40 +68,40 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_splitByVol(true), m_minVolToSplit(0.1),
   m_skipStillerVal(0.0), m_averVolume(0.0)
 {
-	m_aGl = new TartiniParams();
-	m_aGl->chanells = 1;
-	m_aGl->rate = 44100;
-	m_aGl->windowSize = 2048;
-	m_aGl->framesPerChunk = 1; // A trick - setSampleRate() will set it soon
-	m_aGl->dBFloor = -150.0; // it is unchanged but if it will in conversions.cpp it is hard coded
-	m_aGl->equalLoudness = true;
-	m_aGl->doingFreqAnalysis = true;
-	m_aGl->doingAutoNoiseFloor = true;
-	m_aGl->doingHarmonicAnalysis = false;
-	m_aGl->firstTimeThrough = true;
-	m_aGl->doingDetailedPitch = true;
-	m_aGl->threshold = 93;
-	m_aGl->analysisType = e_AUTOCORRELATION;
-	m_aGl->topPitch = 140.0;
-	m_aGl->loPitch = 15;
-	
-	m_aGl->ampThresholds[AMPLITUDE_RMS][0]           = -85.0; m_aGl->ampThresholds[AMPLITUDE_RMS][1]           = -0.0;
-	m_aGl->ampThresholds[AMPLITUDE_MAX_INTENSITY][0] = -30.0; m_aGl->ampThresholds[AMPLITUDE_MAX_INTENSITY][1] = -20.0;
-	m_aGl->ampThresholds[AMPLITUDE_CORRELATION][0]   =  0.40; m_aGl->ampThresholds[AMPLITUDE_CORRELATION][1]   =  1.00;
-	m_aGl->ampThresholds[FREQ_CHANGENESS][0]         =  0.50; m_aGl->ampThresholds[FREQ_CHANGENESS][1]         =  0.02;
-	m_aGl->ampThresholds[DELTA_FREQ_CENTROID][0]     =  0.00; m_aGl->ampThresholds[DELTA_FREQ_CENTROID][1]     =  0.10;
-	m_aGl->ampThresholds[NOTE_SCORE][0]              =  0.03; m_aGl->ampThresholds[NOTE_SCORE][1]              =  0.20;
-	m_aGl->ampThresholds[NOTE_CHANGE_SCORE][0]       =  0.12; m_aGl->ampThresholds[NOTE_CHANGE_SCORE][1]       =  0.30;
-	
+  m_aGl = new TartiniParams();
+  m_aGl->chanells = 1;
+  m_aGl->rate = 44100;
+  m_aGl->windowSize = 2048;
+  m_aGl->framesPerChunk = 1; // A trick - setSampleRate() will set it soon
+  m_aGl->dBFloor = -150.0; // it is unchanged but if it will in conversions.cpp it is hard coded
+  m_aGl->equalLoudness = true;
+  m_aGl->doingFreqAnalysis = true;
+  m_aGl->doingAutoNoiseFloor = true;
+  m_aGl->doingHarmonicAnalysis = false;
+  m_aGl->firstTimeThrough = true;
+  m_aGl->doingDetailedPitch = true;
+  m_aGl->threshold = 93;
+  m_aGl->analysisType = e_AUTOCORRELATION;
+  m_aGl->topPitch = 140.0;
+  m_aGl->loPitch = 15;
+
+  m_aGl->ampThresholds[AMPLITUDE_RMS][0]           = -85.0; m_aGl->ampThresholds[AMPLITUDE_RMS][1]           = -0.0;
+  m_aGl->ampThresholds[AMPLITUDE_MAX_INTENSITY][0] = -30.0; m_aGl->ampThresholds[AMPLITUDE_MAX_INTENSITY][1] = -20.0;
+  m_aGl->ampThresholds[AMPLITUDE_CORRELATION][0]   =  0.40; m_aGl->ampThresholds[AMPLITUDE_CORRELATION][1]   =  1.00;
+  m_aGl->ampThresholds[FREQ_CHANGENESS][0]         =  0.50; m_aGl->ampThresholds[FREQ_CHANGENESS][1]         =  0.02;
+  m_aGl->ampThresholds[DELTA_FREQ_CENTROID][0]     =  0.00; m_aGl->ampThresholds[DELTA_FREQ_CENTROID][1]     =  0.10;
+  m_aGl->ampThresholds[NOTE_SCORE][0]              =  0.03; m_aGl->ampThresholds[NOTE_SCORE][1]              =  0.20;
+  m_aGl->ampThresholds[NOTE_CHANGE_SCORE][0]       =  0.12; m_aGl->ampThresholds[NOTE_CHANGE_SCORE][1]       =  0.30;
+
   m_framesReady = 0;
-	m_averVolume = 0.0;
+  m_averVolume = 0.0;
   m_currentNote.init(0, 0, 0);
-	setSampleRate(m_aGl->rate);
-	m_channel = new Channel(this, aGl()->windowSize);
+  setSampleRate(m_aGl->rate);
+  m_channel = new Channel(this, aGl()->windowSize);
   m_transforms = new MyTransforms();
   m_transforms->init(m_aGl, aGl()->windowSize, 0, aGl()->rate);
-	moveToThread(m_thread);
-	connect(m_thread, &QThread::started, this, &TpitchFinder::detectingThread);
+  moveToThread(m_thread);
+  connect(m_thread, &QThread::started, this, &TpitchFinder::detectingThread);
 //   connect(m_thread, &QThread::finished, this, &TpitchFinder::threadFinished);
 
   m_ringBuffer = new qint16[BUFF_SIZE]; // big enough for any circumstances
@@ -121,13 +121,13 @@ TpitchFinder::~TpitchFinder()
 #if !defined (Q_OS_ANDROID)
   destroyDumpFile();
 #endif
-	if (m_filteredChunk)
-			delete m_filteredChunk;
-	delete m_floatBuffer;
+  if (m_filteredChunk)
+      delete m_filteredChunk;
+  delete m_floatBuffer;
   delete m_transforms;
-	if (m_channel)
-		delete m_channel;
-	delete m_aGl;
+  if (m_channel)
+    delete m_channel;
+  delete m_aGl;
   delete m_thread;
   delete m_ringBuffer;
 }
@@ -154,7 +154,7 @@ void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
   }
 
   unsigned int oldRate = m_aGl->rate, oldFramesPerChunk = m_aGl->framesPerChunk;
-	m_aGl->rate = sRate;
+  m_aGl->rate = sRate;
   m_rateRatio = range == 2 ? 2.0 : 1.0; // e_low for 2, for other cases e_middle
 //   switch (range) {
 //     case 0:
@@ -164,31 +164,31 @@ void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
 //     default:
 //       m_rateRatio = 1.0; break; // e_middle - lowest pitch is F contra
 //   }
-// 		qDebug() << "m_rateRatio is " << m_rateRatio;
+//     qDebug() << "m_rateRatio is " << m_rateRatio;
   if (sRate > 96000)
     m_aGl->framesPerChunk = static_cast<quint32>(4096 * m_rateRatio);
   else if (sRate > 48000)
     m_aGl->framesPerChunk = static_cast<quint32>(2048 * m_rateRatio);
   else
     m_aGl->framesPerChunk = static_cast<quint32>(1024 * m_rateRatio);
-	bool doReset = false;
-	if (oldRate != m_aGl->rate || oldFramesPerChunk != m_aGl->framesPerChunk) {
-		m_aGl->windowSize = 2 * m_aGl->framesPerChunk;
-		delete m_filteredChunk;
+  bool doReset = false;
+  if (oldRate != m_aGl->rate || oldFramesPerChunk != m_aGl->framesPerChunk) {
+    m_aGl->windowSize = 2 * m_aGl->framesPerChunk;
+    delete m_filteredChunk;
     m_filteredChunk = 0;
-		delete m_floatBuffer;
-		if (aGl()->equalLoudness)
-			m_filteredChunk = new float[aGl()->framesPerChunk];
-		m_floatBuffer = new float[aGl()->framesPerChunk];
-		doReset = true;
+    delete m_floatBuffer;
+    if (aGl()->equalLoudness)
+      m_filteredChunk = new float[aGl()->framesPerChunk];
+    m_floatBuffer = new float[aGl()->framesPerChunk];
+    doReset = true;
     m_chunkTime = static_cast<qreal>(aGl()->framesPerChunk) / static_cast<qreal>(aGl()->rate);
     setMinimalDuration(m_minDuration); // recalculate minimum chunks number
 //    qDebug() << "range" << m_rateRatio
 //             << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize
 //             << "min chunks" << m_minChunks << "chunk time" << m_chunkTime << m_framesReady;
-	}
-	if (doReset)
-		resetFinder();
+  }
+  if (doReset)
+    resetFinder();
 }
 
 
@@ -330,14 +330,14 @@ void TpitchFinder::detectingThread() {
 void TpitchFinder::startPitchDetection() {
   m_isBussy = true;
   if (m_doReset) { // copy last chunk to keep capturing data continuous
-		resetFinder();
+    resetFinder();
     if (aGl()->equalLoudness) // initialize channel with previous data
       std::copy(m_filteredChunk, m_filteredChunk + aGl()->framesPerChunk, m_channel->end() - aGl()->framesPerChunk);
     else
       std::copy(m_floatBuffer, m_floatBuffer + aGl()->framesPerChunk, m_channel->end() - aGl()->framesPerChunk);
   }
-	m_channel->shift_left(aGl()->framesPerChunk); // make room in channel for new audio data
-	if (aGl()->equalLoudness) { // filter it and copy to channel
+  m_channel->shift_left(aGl()->framesPerChunk); // make room in channel for new audio data
+  if (aGl()->equalLoudness) { // filter it and copy to channel
       m_channel->highPassFilter->filter(m_floatBuffer, m_filteredChunk, aGl()->framesPerChunk);
       for(int i = 0; i < aGl()->framesPerChunk; i++)
           m_filteredChunk[i] = bound(m_filteredChunk[i], -1.0f, 1.0f);
@@ -345,20 +345,20 @@ void TpitchFinder::startPitchDetection() {
   } else // copy without filtering
       std::copy(m_floatBuffer, m_floatBuffer + aGl()->framesPerChunk, m_channel->end() - aGl()->framesPerChunk);
 
-	detect();
+  detect();
 }
 
 
 void TpitchFinder::processed() {
-	emit pitchInChunk(m_chunkPitch);
-	if (m_state != m_prevState) {
-		if (m_prevState == e_noticed) {
+  emit pitchInChunk(m_chunkPitch);
+  if (m_state != m_prevState) {
+    if (m_prevState == e_noticed) {
       if (m_state == e_playing) {
 //        qDebug() << "[TpitchFinder] started" << m_currentNote.index << "pitch:" << m_currentNote.pitchF
 //                          << "freq:" << m_currentNote.freq << "time:" << m_currentNote.duration * 1000;
         emit noteStarted(m_currentNote.getAverage(3, minChunksNumber()), m_currentNote.freq, m_currentNote.duration); // new note started
-			}
-		} else if (m_prevState == e_playing) {
+      }
+    } else if (m_prevState == e_playing) {
         if (m_state == e_silence || m_state == e_noticed) {
 //          qDebug() << "[TpitchFinder] finished" << m_currentNote.index << "pitch:" << m_currentNote.pitchF
 //                             << "freq:" << m_currentNote.freq << "time:" << m_currentNote.duration * 1000;
@@ -367,11 +367,11 @@ void TpitchFinder::processed() {
             m_averVolume = m_currentNote.maxVol;
           else
             m_averVolume = (m_averVolume + m_currentNote.maxVol) / 2.0;
-				}
-		}
-	}
-	m_prevState = m_state;
-	emit volume(m_volume);
+        }
+    }
+  }
+  m_prevState = m_state;
+  emit volume(m_volume);
 //   qDebug() << "[TpitchFinder] processed, volume" << m_volume << "state" << (m_state == e_silence ? "silence" : (m_state == e_noticed ? "noticed" : "playing"));
 }
 

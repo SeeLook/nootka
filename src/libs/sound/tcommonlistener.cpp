@@ -26,7 +26,7 @@
 #include <QtCore/qdebug.h>
 
 
-#define LOWEST_PCM (0.2f) // lowest raw PCM volume to start counting 
+#define LOWEST_PCM (0.2f) // lowest raw PCM volume to start counting
 #define HIGHEST_PCM (0.8f)
 #define MAX_OUT_NUM (10)
 
@@ -188,7 +188,7 @@ void TcommonListener::noteFinishedSlot(TnoteStruct* lastNote) {
   m_noteWasStarted = false;
   if (!isPaused()) {
       qreal midiPitch = lastNote->getAverage(3, // non guitar pitch is average of all pitches
-                              Tcore::gl()->instrument == e_noInstrument ? lastNote->pitches()->size() : finder()->minChunksNumber());
+                             GLOB->instrument().type() == Tinstrument::NoInstrument ? lastNote->pitches()->size() : finder()->minChunksNumber());
       m_lastNote.set(midiPitch - m_audioParams->a440diff, pitch2freq(midiPitch), lastNote->duration);
       if (inRange(m_lastNote.pitchF))
         emit noteFinished(m_lastNote);

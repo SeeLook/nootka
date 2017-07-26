@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -192,16 +192,16 @@ void ToggScale::setPitchOffset(float pitchOff) {
 bool ToggScale::loadAudioData(int instrument) {
   QString fileName;
   if (instrument != m_instrument) {
-    switch ((Einstrument)instrument) {
-      case e_classicalGuitar:
+    switch (static_cast<Tinstrument::Etype>(instrument)) {
+      case Tinstrument::ClassicalGuitar:
         fileName = Tpath::sound("classical-guitar");
         m_firstNote = -11; m_lastNote = 41;
         break;
-      case e_electricGuitar:
+      case Tinstrument::ElectricGuitar:
         fileName = Tpath::sound("electric-guitar");
         m_firstNote = -11; m_lastNote = 41;
         break;
-      case BassGuitar:
+      case Tinstrument::BassGuitar:
         fileName = Tpath::sound("bass-guitar");
         m_firstNote = -24; m_lastNote = 21;
         break;
