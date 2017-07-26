@@ -1,3 +1,3 @@
 
-#define NOOTKA_VERSION "1.5.0-alpha"
+#define NOOTKA_VERSION "1.5.1-alpha2"
 

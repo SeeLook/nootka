@@ -60,15 +60,11 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
   add_definitions(-DQT_QML_DEBUG)
 endif ()
 
-# add_subdirectory( libs/scorek )
 add_subdirectory( libs/core )     # libNootkaCore
-# add_subdirectory( libs/score )    # libNootkaScore
-# add_subdirectory( libs/widgets )  # libNootkaWidgets
-# add_subdirectory( libs/sound )    # libNootkaSound
-# add_subdirectory( libs/misc )     # libNootkaMisc
-# add_subdirectory( libs/main )     # libNootkaMain
+add_subdirectory( libs/sound )    # libNootkaSound
+# add_subdirectory( libs/main )     # libNootkaMain TODO: it rather will go to main executable
 
-include_directories( libs/core libs/score libs/widgets libs/sound libs/misc libs/main )
+include_directories( libs/core libs/sound ) # libs/main
 
 # nootka executable
 set(NOOTKA_SRC

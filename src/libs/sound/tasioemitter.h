@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,26 +21,31 @@
 #ifndef TASIOEMITTER_H
 #define TASIOEMITTER_H
 
-#include <QObject>
+
+#include <QtCore/qobject.h>
 
 
-/** 
- * This is QObject that emits @p resetASIO() signal
+/**
+ * This is @p QObject that emits @p resetASIO() signal
  * @p RtApiAsio has static instance of it
  * end emits this signal when ASIO requires restart.
  */
 class TASIOEmitter : public QObject
 {
-	Q_OBJECT
-	
+  Q_OBJECT
+
 public:
-	explicit TASIOEmitter(QObject* parent = 0) : QObject(parent) {}
-	
-	void emitResetASIO() { emit resetASIO(); }
+  explicit TASIOEmitter(QObject* parent = 0) : QObject(parent) {}
+
+  void emitResetASIO() { emit resetASIO(); }
 
 signals:
-	void resetASIO(); /** Emitted when user changes devices or parameters in ASIO console - stream have to be stopped and started again */
-	
+
+      /**
+       * Emitted when user changes devices or parameters in ASIO console - stream have to be stopped and started again
+       */
+  void resetASIO();
+
 };
 
 #endif // TASIOEMITTER_H

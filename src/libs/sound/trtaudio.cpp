@@ -24,44 +24,44 @@
 
 
 /*static*/
-RtAudio* 													TrtAudio::m_rtAduio = 0;
-RtAudio::StreamParameters* 				TrtAudio::m_inParams = 0;
-RtAudio::StreamParameters* 				TrtAudio::m_outParams = 0;
-RtAudio::StreamOptions* 					TrtAudio::streamOptions = 0;
-quint32 													TrtAudio::m_sampleRate = 44100;
-quint32                           TrtAudio::m_inSR = 48000;
-quint32                           TrtAudio::m_outSR = 44100;
-unsigned int 											TrtAudio::m_bufferFrames = 1024;
-bool 															TrtAudio::m_isAlsaDefault = false;
-QString 													TrtAudio::m_inDevName = "anything";
-QString 													TrtAudio::m_outDevName = "anything";
-TrtAudio::callBackType				 		TrtAudio::m_cbIn = 0;
-TrtAudio::callBackType 						TrtAudio::m_cbOut = 0;
-TaudioObject*											TrtAudio::m_ao = 0;
-RtAudioCallback										TrtAudio::m_callBack = TrtAudio::duplexCallBack;
-bool 															TrtAudio::m_JACKorASIO = false;
-bool 															TrtAudio::forceUpdate = false;
-bool 															TrtAudio::m_sendPlayingFinished = false;
-TrtAudio::EaudioState             TrtAudio::m_state = TrtAudio::e_idle;
-bool                              TrtAudio::m_areSplit = true;
+RtAudio*                           TrtAudio::m_rtAduio = 0;
+RtAudio::StreamParameters*         TrtAudio::m_inParams = 0;
+RtAudio::StreamParameters*         TrtAudio::m_outParams = 0;
+RtAudio::StreamOptions*            TrtAudio::streamOptions = 0;
+quint32                            TrtAudio::m_sampleRate = 44100;
+quint32                            TrtAudio::m_inSR = 48000;
+quint32                            TrtAudio::m_outSR = 44100;
+unsigned int                       TrtAudio::m_bufferFrames = 1024;
+bool                               TrtAudio::m_isAlsaDefault = false;
+QString                            TrtAudio::m_inDevName = "anything";
+QString                            TrtAudio::m_outDevName = "anything";
+TrtAudio::callBackType             TrtAudio::m_cbIn = 0;
+TrtAudio::callBackType             TrtAudio::m_cbOut = 0;
+TaudioObject*                      TrtAudio::m_ao = 0;
+RtAudioCallback                    TrtAudio::m_callBack = TrtAudio::duplexCallBack;
+bool                               TrtAudio::m_JACKorASIO = false;
+bool                               TrtAudio::forceUpdate = false;
+bool                               TrtAudio::m_sendPlayingFinished = false;
+TrtAudio::EaudioState              TrtAudio::m_state = TrtAudio::e_idle;
+bool                               TrtAudio::m_areSplit = true;
 
-int                               m_preferredBF = 512;
-bool                              m_audioUpdated = false;
+int                                m_preferredBF = 512;
+bool                               m_audioUpdated = false;
 
 
 void TrtAudio::createRtAudio() {
-	if (m_rtAduio == 0) { // Create RtAudio instance if doesn't exist
+  if (m_rtAduio == 0) { // Create RtAudio instance if doesn't exist
 #if defined(Q_OS_WIN)
-		RtAudio::Api rtAPI;
-		if ((int)QSysInfo::windowsVersion() < (int)QSysInfo::WV_VISTA)
-			rtAPI = RtAudio::WINDOWS_DS; // Direct sound for older versions
-		else // WASAPI since Vista
-			rtAPI = RtAudio::WINDOWS_WASAPI;
-		if (m_JACKorASIO)
-			rtAPI = RtAudio::UNSPECIFIED; // ASIO has a priority
+    RtAudio::Api rtAPI;
+    if ((int)QSysInfo::windowsVersion() < (int)QSysInfo::WV_VISTA)
+      rtAPI = RtAudio::WINDOWS_DS; // Direct sound for older versions
+    else // WASAPI since Vista
+      rtAPI = RtAudio::WINDOWS_WASAPI;
+    if (m_JACKorASIO)
+      rtAPI = RtAudio::UNSPECIFIED; // ASIO has a priority
 #elif defined(Q_OS_LINUX)
-		RtAudio::Api rtAPI;
-		if (m_JACKorASIO)
+    RtAudio::Api rtAPI;
+    if (m_JACKorASIO)
       rtAPI = RtAudio::UNSPECIFIED; // check is JACK possible and allow it
     else
       rtAPI = RtAudio::LINUX_ALSA; // force ALSA
@@ -75,62 +75,62 @@ void TrtAudio::createRtAudio() {
  #endif
 
     try {
-      m_rtAduio = new RtAudio(rtAPI);  
+      m_rtAduio = new RtAudio(rtAPI);
       m_rtAduio->showWarnings(false);
     } catch (RtAudioError& e) {
       qDebug() << "[TrtAudio] Cannot create RtAudio instance" << QString::fromStdString(e.getMessage());
       m_rtAduio = 0;
     }
-	}
+  }
 }
 
 
 QString TrtAudio::currentRtAPI() {
-	QString rtApiTxt;
-	if (m_rtAduio) {
-		switch (getCurrentApi()) {
-			case RtAudio::WINDOWS_DS:
-				rtApiTxt = "Direct Sound";
-				break;
-			case RtAudio::WINDOWS_WASAPI:
-				rtApiTxt = "WAS API";
-				break;
-			case RtAudio::WINDOWS_ASIO:
-				rtApiTxt = "ASIO";
-				break;
-			case RtAudio::LINUX_ALSA:
-				rtApiTxt = "ALSA";
-				break;
-			case RtAudio::UNIX_JACK:
-				rtApiTxt = "JACK";
-				break;
-			case RtAudio::LINUX_PULSE:
-				rtApiTxt = "pulseaudio";
-				break;
-			case RtAudio::RtAudio::MACOSX_CORE:
-				rtApiTxt = "CoreAudio";
-				break;
-			default:
-				rtApiTxt = "Undefined";
-				break;
-		}
-	} else
-			rtApiTxt = "RtAudio API doesn't exist";
-	return rtApiTxt;
+  QString rtApiTxt;
+  if (m_rtAduio) {
+    switch (getCurrentApi()) {
+      case RtAudio::WINDOWS_DS:
+        rtApiTxt = "Direct Sound";
+        break;
+      case RtAudio::WINDOWS_WASAPI:
+        rtApiTxt = "WAS API";
+        break;
+      case RtAudio::WINDOWS_ASIO:
+        rtApiTxt = "ASIO";
+        break;
+      case RtAudio::LINUX_ALSA:
+        rtApiTxt = "ALSA";
+        break;
+      case RtAudio::UNIX_JACK:
+        rtApiTxt = "JACK";
+        break;
+      case RtAudio::LINUX_PULSE:
+        rtApiTxt = "pulseaudio";
+        break;
+      case RtAudio::RtAudio::MACOSX_CORE:
+        rtApiTxt = "CoreAudio";
+        break;
+      default:
+        rtApiTxt = "Undefined";
+        break;
+    }
+  } else
+      rtApiTxt = "RtAudio API doesn't exist";
+  return rtApiTxt;
 }
 
 
 
 #if !defined (Q_OS_MAC)
 void TrtAudio::setJACKorASIO(bool jack) {
-	if (jack != m_JACKorASIO) {
-		abortStream();
+  if (jack != m_JACKorASIO) {
+    abortStream();
     closeStream();
-		delete m_rtAduio;
-		m_rtAduio = 0;
-		m_JACKorASIO = jack;
-		createRtAudio();
-	}
+    delete m_rtAduio;
+    m_rtAduio = 0;
+    m_JACKorASIO = jack;
+    createRtAudio();
+  }
 }
 
 
@@ -171,42 +171,42 @@ void TrtAudio::printSupportedSampleRates(RtAudio::DeviceInfo& devInfo) {
 
 
 TrtAudio::TrtAudio(TaudioParams* audioP, TrtAudio::EdevType type, TrtAudio::callBackType cb) :
-	m_audioParams(audioP),
-	m_type(type)
+  m_audioParams(audioP),
+  m_type(type)
 {
-	if (m_type == e_input) {
-		m_cbIn = cb;
-		if (!m_inParams)
-			m_inParams = new RtAudio::StreamParameters;
-	} else {
-		m_cbOut = cb;
-		if (!m_outParams)
-			m_outParams = new RtAudio::StreamParameters;
-	}
-	if (!streamOptions) {
-			streamOptions = new RtAudio::StreamOptions;
-			streamOptions->streamName = "Nootka";
-			m_ao = new TaudioObject();
-	}
-	ao()->blockSignals(true);
-	createRtAudio();
-	updateAudioParams();
-	ao()->blockSignals(false);
+  if (m_type == e_input) {
+    m_cbIn = cb;
+    if (!m_inParams)
+      m_inParams = new RtAudio::StreamParameters;
+  } else {
+    m_cbOut = cb;
+    if (!m_outParams)
+      m_outParams = new RtAudio::StreamParameters;
+  }
+  if (!streamOptions) {
+      streamOptions = new RtAudio::StreamOptions;
+      streamOptions->streamName = "Nootka";
+      m_ao = new TaudioObject();
+  }
+  ao()->blockSignals(true);
+  createRtAudio();
+  updateAudioParams();
+  ao()->blockSignals(false);
 }
 
 
 TrtAudio::~TrtAudio()
 {
-// 	closeStream();
-	if (m_outParams == 0 && m_inParams == 0) {
-		delete m_rtAduio;
-		m_rtAduio = 0;
-		delete streamOptions;
-		streamOptions = 0;
-		delete m_ao;
-		m_ao = 0;
-	}
-		
+//   closeStream();
+  if (m_outParams == 0 && m_inParams == 0) {
+    delete m_rtAduio;
+    m_rtAduio = 0;
+    delete streamOptions;
+    streamOptions = 0;
+    delete m_ao;
+    m_ao = 0;
+  }
+
 }
 
 
@@ -218,9 +218,9 @@ void TrtAudio::updateAudioParams() {
 #if defined (Q_OS_LINUX) || defined (Q_OS_WIN)
     setJACKorASIO(audioParams()->JACKorASIO);
 #endif
-		forceUpdate = false; // no more
-		m_audioUpdated = true;
-		if (audioParams()->forwardInput || getCurrentApi() == RtAudio::WINDOWS_ASIO) {
+    forceUpdate = false; // no more
+    m_audioUpdated = true;
+    if (audioParams()->forwardInput || getCurrentApi() == RtAudio::WINDOWS_ASIO) {
       m_areSplit = false;
     } else {
       m_areSplit = true;
@@ -323,7 +323,7 @@ void TrtAudio::updateAudioParams() {
     else
         m_callBack = &duplexCallBack;
   }
-	ao()->emitParamsUpdated();
+  ao()->emitParamsUpdated();
 }
 
 
@@ -361,7 +361,7 @@ bool TrtAudio::play() {
 
 
 bool TrtAudio::openStream() {
-	try {
+  try {
     if (rtDevice()) {
       m_bufferFrames = m_preferredBF; // reset when it was overridden by another rt API
       if (m_areSplit) {
@@ -421,15 +421,15 @@ void TrtAudio::apiStopOrClose() {
 
 
 bool TrtAudio::startStream() {
-	if (!isOpened()) {
-		if (!openStream())
-			return false;
+  if (!isOpened()) {
+    if (!openStream())
+      return false;
   }
   try {
     if (rtDevice() && !rtDevice()->isStreamRunning()) {
       rtDevice()->startStream();
 //      qDebug("stream started");
-		}
+    }
   } catch (RtAudioError& e) {
       qDebug() << "[TrtAudio] can't start stream";
       return false;
@@ -466,7 +466,7 @@ void TrtAudio::closeStream() {
 
 
 void TrtAudio::abortStream() {
-	try {
+  try {
     if (rtDevice() && rtDevice()->isStreamRunning()) {
       rtDevice()->abortStream();
 //       qDebug("[TrtAudio] stream aborted");
@@ -582,10 +582,10 @@ quint32 TrtAudio::determineSampleRate(RtAudio::DeviceInfo& devInfo) {
     if ( sr == 44100 || sr == 48000 || sr == 88200 || sr == 96000 || sr == 176400 || sr == 192000)
       return sr;
   }
-	if (devInfo.sampleRates.size() > 0)
-		return devInfo.sampleRates.at(devInfo.sampleRates.size() - 1);
-	else
-		return 44100;
+  if (devInfo.sampleRates.size() > 0)
+    return devInfo.sampleRates.at(devInfo.sampleRates.size() - 1);
+  else
+    return 44100;
 }
 
 #if defined(Q_OS_WIN)

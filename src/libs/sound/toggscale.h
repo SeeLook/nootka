@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,8 +21,7 @@
 #define TOGGSCALE_H
 
 #include "nootkasoundglobal.h"
-#include <QString>
-#include <QObject>
+#include <QtCore/qobject.h>
 #include "vorbis/codec.h"
 #include "vorbis/vorbisfile.h"
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
@@ -60,37 +59,49 @@ public:
   ToggScale();
   virtual ~ToggScale();
 
-      /** Loads ogg file with scale of given instrument to RAM.
-        * If everything is OK, returns true.
-        * Also it is setting low and hi notes of a scale.
-        * Notes beyond scale are generated with SoundTouch. */
+      /**
+       * Loads ogg file with scale of given instrument to RAM.
+       * If everything is OK, returns true.
+       * Also it is setting low and hi notes of a scale.
+       * Notes beyond scale are generated with SoundTouch.
+       */
   bool loadAudioData(int instrument);
-      /** Unloads audio data from buffer. */
+
+      /**
+       * Unloads audio data from buffer.
+       */
   void deleteData();
 
-
-      /** To read ogg data from RAM */
+      /**
+       * To read ogg data from RAM
+       */
   struct SoggFile {
       qint8* curPtr;
       qint8* filePtr;
       size_t fileSize;
   };
 
-      /** Prepares m_pcmBuffer:
-        * - determines is pitch offset necessary
-        * - seek ogg
-        * - starts decoding (re-sampling).
-        * - stops previous decoding if performed. */
+      /**
+       * Prepares m_pcmBuffer:
+       * - determines is pitch offset necessary
+       * - seek ogg
+       * - starts decoding (re-sampling).
+       * - stops previous decoding if performed.
+       */
   void setNote(int noteNr);
   qint16 getSample(int offset);
   unsigned int sampleRate() { return m_sampleRate; }
 
-      /** TRUE when appropriate data amount in a buffer is ready. */
+      /**
+       * @p TRUE when appropriate data amount in a buffer is ready.
+       */
   bool isReady() { return m_isReady; }
 
   void setSampleRate(unsigned int rate);
 
-      /** Sets decimal offset of a pitch -0.99 to +0.99 */
+      /**
+       * Sets decimal offset of a pitch -0.99 to +0.99
+       */
   void setPitchOffset(float pitchOff);
 
   int alreadyDecoded() { return m_alreadyDecoded; } /**< Number of already decoded bytes */

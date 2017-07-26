@@ -121,7 +121,7 @@ ELSE(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
 
   set(VORBIS_INCLUDE_DIRS    ${VORBIS_INCLUDE_DIR} )
   set(OGG_INCLUDE_DIRS       ${OGG_INCLUDE_DIR})
-  set(VORBIS_LIBRARIES       ${VORBIS_LIBRARY} CACHE STRING "Ogg vorbis library path") 
+  set(VORBIS_LIBRARIES       ${VORBIS_LIBRARY} CACHE STRING "Ogg vorbis library path")
 
   IF(VORBIS_INCLUDE_DIRS AND OGG_INCLUDE_DIRS AND VORBIS_LIBRARIES)
      set(OGG_FOUND TRUE)
@@ -155,7 +155,7 @@ if (UNIX)
             ${CMAKE_CURRENT_SOURCE_DIR}
             ${CMAKE_BINARY_DIR}/../soundtouch
         )
-  
+
     find_library(SOUNDTOUCH_LIBRARY
           NAMES
             SoundTouch
@@ -200,29 +200,29 @@ endif (APPLE)
 
 IF(UNIX AND NOT APPLE)
   find_library(ALSA_LIBRARY
-		  NAMES
-			asound
-		  PATHS
-			/usr/lib
-			/usr/lib/x86_64-linux-gnu
-			/usr/local/lib
-			/opt/local/lib
+      NAMES
+      asound
+      PATHS
+      /usr/lib
+      /usr/lib/x86_64-linux-gnu
+      /usr/local/lib
+      /opt/local/lib
   )
   find_library(PTHREAD_LIBRARY
-		  NAMES
-			pthread
-		  PATHS
-			/usr/lib
-			/usr/lib/x86_64-linux-gnu
-			/usr/local/lib
-			/opt/local/lib
+      NAMES
+      pthread
+      PATHS
+      /usr/lib
+      /usr/lib/x86_64-linux-gnu
+      /usr/local/lib
+      /opt/local/lib
   )
   mark_as_advanced(ALSA_LIBRARY PTHREAD_LIBRARY)
 
 ENDIF(UNIX AND NOT APPLE)
 
 IF(WIN32)
-# 	add_definitions(-D__WINDOWS_WASAPI__)
+#   add_definitions(-D__WINDOWS_WASAPI__)
 #   add_definitions(-D__WINDOWS_DS__)
 #   add_definitions(-D__WINDOWS_ASIO__)
 #   add_definitions(-D__WINDOWS_MM__)
@@ -235,7 +235,7 @@ endif(APPLE)
 
 
 IF(UNIX AND NOT APPLE)
-	##### PulseAudio ###########################################
+  ##### PulseAudio ###########################################
       find_path(PULSE_INCLUDE_DIR
         NAMES
           pulseaudio.h
@@ -245,7 +245,7 @@ IF(UNIX AND NOT APPLE)
           /usr/local/include
           /opt/local/include
           /sw/include
-          
+
       )
       if (PULSE_INCLUDE_DIR)
           find_library(PULSESIMPLE_LIBRARY
@@ -267,16 +267,16 @@ IF(UNIX AND NOT APPLE)
               /opt/local/lib
           )
       endif (PULSE_INCLUDE_DIR)
-		if (PULSE_INCLUDE_DIR)
+    if (PULSE_INCLUDE_DIR)
         option(ENABLE_PULSEAUDIO "Enable support for PulseAudio" ON)
     else(PULSE_INCLUDE_DIR)
         option(ENABLE_PULSEAUDIO "Enable support for PulseAudio" OFF)
         set(PULSEERROR_LIBRARY_FOUND TRUE)
         set(PULSESIMPLE_LIBRARY_FOUND TRUE)
     endif (PULSE_INCLUDE_DIR)
-    
-      
-	##### JACK - Jack Audio Connection Kit ##############
+
+
+  ##### JACK - Jack Audio Connection Kit ##############
       find_path(JACK_INCLUDE_DIR
         NAMES
           jack.h
@@ -286,7 +286,7 @@ IF(UNIX AND NOT APPLE)
           /usr/local/include
           /opt/local/include
           /sw/include
-          
+
       )
       if (JACK_INCLUDE_DIR)
           find_library(JACK_LIBRARY
@@ -299,14 +299,14 @@ IF(UNIX AND NOT APPLE)
               /opt/local/lib
           )
       endif (JACK_INCLUDE_DIR)
-      
+
     if (JACK_INCLUDE_DIR)
         option(ENABLE_JACK "Enable support for JACK (Jack Audio Connection Kit)" ON)
-    else (JACK_INCLUDE_DIR)    
+    else (JACK_INCLUDE_DIR)
         option(ENABLE_JACK "Enable support for JACK (Jack Audio Connection Kit)" OFF)
         set(JACK_LIBRARY_FOUND TRUE)
     endif (JACK_INCLUDE_DIR)
-    
+
   if(ALSA_LIBRARY)
     add_definitions(-D__LINUX_ALSA__)
     message(STATUS "support for ALSA\t\t TRUE")
@@ -327,54 +327,48 @@ IF(UNIX AND NOT APPLE)
   else(ENABLE_PULSEAUDIO AND PULSE_INCLUDE_DIR)
     message(STATUS "support for PulseAudio\t FALSE")
   endif(ENABLE_PULSEAUDIO AND PULSE_INCLUDE_DIR)
-  
+
 endif(UNIX AND NOT APPLE)
 
 
 add_definitions(-DNOOTKASOUND_LIBRARY)
 
-include_directories( . ../core ../score )
+include_directories( . ../core )
 
 if (WIN32)
-	include_directories( rt )
+  include_directories( rt )
 endif(WIN32)
 
 
 set(LIB_NOOTKASOUND_SRC
-	tabstractplayer.cpp
-	tartiniparams.h
-	tmidiout.cpp
-	toggscale.cpp
-	tpitchfinder.cpp
-	taudioobject.h
-	trtaudio.cpp
-	tcommonlistener.cpp
-	trtaudioin.cpp
-	trtaudioout.cpp
-	tsound.cpp
-	
-	tartini/analysisdata.cpp
-	tartini/array1d.h
-	tartini/bspline.cpp
-	tartini/channel.cpp
-	tartini/conversions.cpp
-	tartini/fast_smooth.cpp
-	tartini/large_vector.h
-	tartini/mytransforms.cpp
-	tartini/notedata.cpp
-	tartini/SmartPtr.h
-	tartini/useful.cpp
-	tartini/filters/FastSmoothedAveragingFilter.cpp
-	tartini/filters/Filter.h
-	tartini/filters/FixedAveragingFilter.cpp
-	tartini/filters/GrowingAveragingFilter.cpp
-	tartini/filters/IIR_Filter.cpp
-	
-	widgets/tabstractsoundview.cpp
-	widgets/tintonationview.cpp
-	widgets/tpitchview.cpp
-	widgets/tvolumeview.cpp
-# 	widgets/tpcmview.cpp
+  tabstractplayer.cpp
+  tartiniparams.h
+  tmidiout.cpp
+  toggscale.cpp
+  tpitchfinder.cpp
+  taudioobject.h
+  trtaudio.cpp
+  tcommonlistener.cpp
+  trtaudioin.cpp
+  trtaudioout.cpp
+  tsound.cpp
+
+  tartini/analysisdata.cpp
+  tartini/array1d.h
+  tartini/bspline.cpp
+  tartini/channel.cpp
+  tartini/conversions.cpp
+  tartini/fast_smooth.cpp
+  tartini/large_vector.h
+  tartini/mytransforms.cpp
+  tartini/notedata.cpp
+  tartini/SmartPtr.h
+  tartini/useful.cpp
+  tartini/filters/FastSmoothedAveragingFilter.cpp
+  tartini/filters/Filter.h
+  tartini/filters/FixedAveragingFilter.cpp
+  tartini/filters/GrowingAveragingFilter.cpp
+  tartini/filters/IIR_Filter.cpp
 )
 
 IF(WIN32)
@@ -382,21 +376,15 @@ IF(WIN32)
   link_directories( ${CMAKE_BINARY_DIR}/src )
   set(WIN_LIBS RtAudio)
 
-	list(APPEND LIB_NOOTKASOUND_SRC
-    tasioemitter.h
-# 		rt/asio.cpp
-# 		rt/asiodrivers.cpp
-# 		rt/asiolist.cpp
-# 		rt/iasiothiscallresolver.cpp
-	)
-  list(APPEND LIB_NOOTKASOUND_SRC 
+  list(APPEND LIB_NOOTKASOUND_SRC tasioemitter.h )
+  list(APPEND LIB_NOOTKASOUND_SRC
     stouch/SoundTouch.cpp
     stouch/TDStretch.cpp
     stouch/RateTransposer.cpp
     stouch/AAFilter.cpp
-    stouch/FIRFilter.cpp 
-    stouch/FIFOSampleBuffer.cpp 
-    stouch/cpu_detect_x86.cpp 
+    stouch/FIRFilter.cpp
+    stouch/FIFOSampleBuffer.cpp
+    stouch/cpu_detect_x86.cpp
     stouch/sse_optimized.cpp
     stouch/InterpolateCubic.cpp
     stouch/InterpolateLinear.cpp
@@ -411,27 +399,26 @@ endif(WIN32)
 
 add_library(NootkaSound SHARED ${LIB_NOOTKASOUND_SRC} )
 target_link_libraries(NootkaSound
-		Qt5::Widgets
-		NootkaCore
-		NootkaScore
-		${WIN_LIBS}
-		${FFTW3_LIBRARIES}
-		${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
-		${PULSESIMPLE_LIBRARY} ${PULSEERROR_LIBRARY}
-		${JACK_LIBRARY}
-		${VORBIS_LIBRARIES}
-		${SOUNDTOUCH_LIBRARY}
+    Qt5::Core
+    NootkaCore
+    ${WIN_LIBS}
+    ${FFTW3_LIBRARIES}
+    ${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
+    ${PULSESIMPLE_LIBRARY} ${PULSEERROR_LIBRARY}
+    ${JACK_LIBRARY}
+    ${VORBIS_LIBRARIES}
+    ${SOUNDTOUCH_LIBRARY}
     ${CoreAudio_LIB}
     ${CoreMidi_LIB}
     ${CoreFoundation_LIB}
 )
 
-if(UNIX AND NOT APPLE) 	# Linux path for Nootka binary
+if(UNIX AND NOT APPLE)   # Linux path for Nootka binary
   install(TARGETS NootkaSound DESTINATION lib/nootka)
 else(UNIX AND NOT APPLE)
-  if(WIN32) 			# Windows
+  if(WIN32)       # Windows
     install(TARGETS NootkaSound DESTINATION .)
-  else(WIN32) 			# MacOs
+  else(WIN32)       # MacOs
     install(TARGETS NootkaSound DESTINATION "${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/Frameworks")
   endif(WIN32)
 endif(UNIX AND NOT APPLE)

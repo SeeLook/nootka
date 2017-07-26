@@ -46,7 +46,7 @@ class NOOTKASOUND_EXPORT TcommonListener : public QObject {
   Q_OBJECT
 
 public:
-  explicit TcommonListener(TaudioParams* params, QObject* parent = 0);
+  explicit TcommonListener(TaudioParams* params, QObject* parent = nullptr);
   ~TcommonListener();
 
 
@@ -167,7 +167,7 @@ private:
   bool              m_stoppedByUser;
   qreal             m_loPitch, m_hiPitch;
   bool              m_noteWasStarted;
-  int               m_currentRange; /**< Current range of detected note - see @class TaudioParams */
+  int               m_currentRange; /**< Current range of detected note - see @p TaudioParams */
   Estate            m_state;
   int               m_loPCMnumber = 0, m_hiPCMnumber = 0; /**< Counts number of PCM volumes out of range, to emit warning note  */
 };

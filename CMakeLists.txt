@@ -8,7 +8,7 @@ project(nootka)
 
 set(Nootka_VERSION_MAJOR  "1")
 set(Nootka_VERSION_MINOR  "5")
-set(Nootka_VERSION_PATCH  "0-alpha")
+set(Nootka_VERSION_PATCH  "1-alpha2")
 
 
 set(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")

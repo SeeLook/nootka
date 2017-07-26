@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,33 +17,42 @@
  ***************************************************************************/
 
 
-
 #ifndef TAUDIOOBJECT_H
 #define TAUDIOOBJECT_H
 
-#include <QObject>
+
+#include <QtCore/qobject.h>
 #include "nootkasoundglobal.h"
 
-/** 
+
+/**
  * This class is like 'emitter' of signals for TrtAudio class
- * which can not derive directly from QObject
+ * which can not derive directly from @p QObject
  */
 class NOOTKASOUND_EXPORT TaudioObject : public QObject
 {
-	Q_OBJECT
-	
+  Q_OBJECT
+
 public:
-	explicit TaudioObject(QObject* parent = 0) : QObject(parent) {}
-	
-	void emitStreamOpened() { emit streamOpened(); }
-	void emitParamsUpdated() { emit paramsUpdated(); }
-	void emitPlayingFinished() { emit playingFinished(); }
-	
+  explicit TaudioObject(QObject* parent = nullptr) : QObject(parent) {}
+
+  void emitStreamOpened() { emit streamOpened(); }
+  void emitParamsUpdated() { emit paramsUpdated(); }
+  void emitPlayingFinished() { emit playingFinished(); }
+
 signals:
-	void streamOpened();
-	void paramsUpdated(); /** Emitted after @p TrtAudio::updateAudioParams()  */
-  void playingFinished(); /** Emitted when all note data were send */
-	
+  void streamOpened();
+
+      /**
+       * Emitted after @p TrtAudio::updateAudioParams()
+       */
+  void paramsUpdated();
+
+      /**
+       * Emitted when all note data were send
+       */
+  void playingFinished();
+
 };
 
 #endif // TAUDIOOBJECT_H
