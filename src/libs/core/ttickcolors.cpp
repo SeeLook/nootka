@@ -28,38 +28,47 @@ QColor TtickColors::disabledColor = Qt::gray;
 
 
 TtickColors::TtickColors(QObject* parent) :
-  QObject(parent)
-{
+  QObject(parent),
+  m_divisor(6.0)
+{}
 
+
+void TtickColors::setWidth(qreal w) {
+  if (w != m_width) {
+    m_width = w;
+    resize(m_width);
+    emit widthChanged();
+  }
+}
+
+
+void TtickColors::setDivisor(qreal d) {
+  if (d != m_divisor) {
+    m_divisor = d;
+    resize(m_width);
+    emit divisorChanged();
+  }
 }
 
 
 void TtickColors::resize(qreal w) {
-  int m_ticksCount = qFloor(w / 6);
-//    m_hiTickStep = ((float)height() * 0.66) / m_ticksCount;
+  int m_ticksCount = qFloor(w / m_divisor) + 1;
     m_tickColors.clear();
   for (int i = 0; i < m_ticksCount; i++) {
-      if (i <= m_ticksCount * 0.2)
-        m_tickColors << startColor;
-        else if (i <= m_ticksCount * 0.5)
-          m_tickColors << gradColorAtPoint(w * 0.2, w * 0.55, startColor, middleColor,
-                                           (i + 1) * (w / m_ticksCount));
-        else if (i <= m_ticksCount * 0.6)
-            m_tickColors << middleColor;
-        else if ( i <= m_ticksCount * 0.8)
-            m_tickColors << gradColorAtPoint(w * 0.6, w * 0.82,
-                                         middleColor, endColor, (i + 1) * (w / m_ticksCount));
-        else
-            m_tickColors << gradColorAtPoint(w * 0.8, w,
-                                         endColor, totalColor, (i + 1) * (w / m_ticksCount));
-    }
+    if (i < qFloor(m_ticksCount * 0.3))
+      m_tickColors << gradColorAtPoint(0.0, w * 0.3, startColor, middleColor, (i) * (w / m_ticksCount));
+    else if (i < qFloor(m_ticksCount * 0.9))
+      m_tickColors << gradColorAtPoint(w * 0.3, w * 0.9, middleColor, endColor, (i) * (w / m_ticksCount));
+    else
+      m_tickColors << gradColorAtPoint(w * 0.9, w, endColor, totalColor, (i) * (w / m_ticksCount));
+  }
 }
 
 
-QColor TtickColors::gradColorAtPoint(float lineX1, float lineX2, QColor startC, QColor endC, float posC) {
-  float segmentLength = qSqrt((lineX2 - lineX1) * (lineX2 - lineX1));
-  double pdist = qSqrt((posC - lineX1) * (posC - lineX1));
-  double ratio = pdist / segmentLength;
+QColor TtickColors::gradColorAtPoint(qreal lineX1, qreal lineX2, const QColor& startC, const QColor& endC, qreal posC) {
+  qreal segmentLength = qSqrt((lineX2 - lineX1) * (lineX2 - lineX1));
+  qreal pdist = qSqrt((posC - lineX1) * (posC - lineX1));
+  qreal ratio = pdist / segmentLength;
   int red = qBound(0, (int)(ratio * endC.red() + ( 1 - ratio) * startC.red()), 255);
   int green = qBound(0, (int)(ratio * endC.green() + (1 - ratio) * startC.green()), 255);
   int blue = qBound(0, (int)(ratio * endC.blue() + (1 - ratio) * startC.blue()), 255);

@@ -65,6 +65,17 @@ public:
   bool isSniffable() { return (sniffer ? true : false) ; }
   bool melodyIsPlaying() { return m_melodyNoteIndex > -1; }
 
+      /**
+       * Normalized volume of detected note
+       */
+  Q_INVOKABLE qreal inputVol();
+
+      /**
+       * Value representing fractional part of the pitch in current chunk,
+       * it expressing a clearness of the pitch
+       */
+  Q_INVOKABLE qreal pitchDeviation();
+
 //   TpitchView* pitchView() { return m_pitchView; } /**< First instance existing in main window */
 
     /**

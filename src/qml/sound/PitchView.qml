@@ -9,18 +9,26 @@ import QtQuick.Window 2.2
 Item {
   id: pitchView
 
+  property alias volume : volBar.volume
+  property alias minVol : volBar.minVol
+  property alias deviation : intoBar.deviation
+
+  // private
   property real tickWidth: Screen.pixelDensity * 0.5
   property real tickGap: tickWidth * 1.25
 
   IntonationBar {
+      id: intoBar
+      y: parent.height * 0.05
       width: parent.width
-      height: parent.height / 2
+      height: parent.height * 0.45
   }
 
   VolumeBar {
-      y: parent.height / 2
+      id: volBar
+      y: parent.height * 0.55
       width: parent.width
-      height: parent.height / 2
+      height: parent.height * 0.45
   }
 
 }
