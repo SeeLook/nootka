@@ -3,7 +3,6 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
-import QtGraphicalEffects 1.0
 
 import Nootka 1.0
 
@@ -11,21 +10,15 @@ import Nootka 1.0
 Item {
   id: intoBar
 
-  property real pitch: 0.1
+  property real deviation: 0.0
 
-  onWidthChanged: tc.resize(intoBar.width - noteText.width * 3)
-
-  TtickColors { id: tc }
+  TtickColors { id: tc; width: (intoBar.width - noteText.width * 3) / 2; divisor: pitchView.tickGap + pitchView.tickWidth }
 
   Repeater {
     id: iRepLeft
-    model: (intoBar.width - noteText.width * 3) / 2 / (pitchView.tickGap + pitchView.tickWidth) - 1
+    model: tc.width / tc.divisor
     Rectangle {
-      color: activPal.text
-//      color: {
-//        var tickNr = iRep.model * index / 100
-//        tickNr <= volBar.volume * 100 ? tc.colorAt(tickNr) : disdPal.text
-//      }
+      color: deviation < 0 && iRepLeft.model - index <= (deviation * -2 * iRepLeft.model) ? tc.colorAt(iRepLeft.model - index) : activPal.text
       width: pitchView.tickWidth
       radius: pitchView.tickWidth / 2
       height: pitchView.tickWidth * 1.5 + ((intoBar.height - pitchView.tickWidth * 4) / iRepLeft.model) * (iRepLeft.model - index)
@@ -47,13 +40,9 @@ Item {
 
   Repeater {
     id: iRepRight
-    model: (intoBar.width - noteText.width * 3) / 2 / (pitchView.tickGap + pitchView.tickWidth) - 1
+    model: tc.width / tc.divisor
     Rectangle {
-      color: activPal.text
-//      color: {
-//        var tickNr = iRep.model * index / 100
-//        tickNr <= volBar.volume * 100 ? tc.colorAt(tickNr) : disdPal.text
-//      }
+      color: deviation > 0 && index <= (deviation * 2 * iRepRight.model) ? tc.colorAt(index) : activPal.text
       width: pitchView.tickWidth
       radius: pitchView.tickWidth / 2
       height: pitchView.tickWidth * 1.5 + ((intoBar.height - pitchView.tickWidth * 4) / iRepRight.model) * index

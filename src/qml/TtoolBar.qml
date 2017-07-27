@@ -4,15 +4,14 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQuick.Window 2.2
 
 
 ToolBar {
   id: toolBar
-  height: settAct.height
 
   property alias scoreAct: scoreAct
 
+  height: settAct.height
   background: Rectangle { anchors.fill: parent; color: activPal.window }
 
   Row {
@@ -21,13 +20,23 @@ ToolBar {
     HeadButton { id: scoreAct; action: nootkaWindow.scoreAct }
     HeadButton { action: nootkaWindow.examAct }
   }
+
   PitchView {
-    x: lab.x - parent.width * 0.41; y: parent.height * 0.05
+    id: pitchView
+    x: label.x - parent.width * 0.41; y: parent.height * 0.05
     height: parent.height * 0.9
     width: parent.width * 0.4
+    Timer {
+      repeat: true; interval: 75; running: true
+      onTriggered: {
+        pitchView.volume = SOUND.inputVol()
+        pitchView.deviation = SOUND.pitchDeviation()
+      }
+    }
   }
+
   NootkaLabel {
-    id: lab
+    id: label
     anchors.right: parent.right
     height: toolBar.height
     onClicked: nootkaWindow.aboutAct.trigger()

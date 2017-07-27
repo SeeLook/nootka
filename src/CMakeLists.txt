@@ -25,29 +25,29 @@ find_package(Qt5PrintSupport REQUIRED)
 
 
 if(UNIX AND NOT APPLE)
-	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-z,relro")
-	set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,-z,relro")
-	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,relro")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -Wl,-z,relro")
+  set(CMAKE_MODULE_LINKER_FLAGS "${CMAKE_MODULE_LINKER_FLAGS} -Wl,-z,relro")
+  set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,relro")
 # rpath rules
   option(OBS_SUSE_QUIRKS "Must be ON for Suse machines in Open Build Services" OFF)
-	set(NOOTKA_LIB_PATH "${CMAKE_INSTALL_PREFIX}/lib/nootka")
-	set(CMAKE_SKIP_BUILD_RPATH  FALSE) # use, i.e. don't skip the full RPATH for the build tree
-	if(OBS_SUSE_QUIRKS)
+  set(NOOTKA_LIB_PATH "${CMAKE_INSTALL_PREFIX}/lib/nootka")
+  set(CMAKE_SKIP_BUILD_RPATH  FALSE) # use, i.e. don't skip the full RPATH for the build tree
+  if(OBS_SUSE_QUIRKS)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
     message("Build for Suse OBS")
   else(OBS_SUSE_QUIRKS)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE) # when building, don't use the install RPATH already (but later on when installing)
   endif(OBS_SUSE_QUIRKS)
-	set(CMAKE_INSTALL_RPATH "${NOOTKA_LIB_PATH}")
-	# add the automatically determined parts of the RPATH
-	# which point to directories outside the build tree to the install RPATH
-	set(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE)
+  set(CMAKE_INSTALL_RPATH "${NOOTKA_LIB_PATH}")
+  # add the automatically determined parts of the RPATH
+  # which point to directories outside the build tree to the install RPATH
+  set(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE)
 
-	# the RPATH to be used when installing, but only if it's not a system directory
-	list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${NOOTKA_LIB_PATH}" isSystemDir)
-	if("${isSystemDir}" STREQUAL "-1")
-		set(CMAKE_INSTALL_RPATH "${NOOTKA_LIB_PATH}")
-	endif("${isSystemDir}" STREQUAL "-1")
+  # the RPATH to be used when installing, but only if it's not a system directory
+  list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${NOOTKA_LIB_PATH}" isSystemDir)
+  if("${isSystemDir}" STREQUAL "-1")
+    set(CMAKE_INSTALL_RPATH "${NOOTKA_LIB_PATH}")
+  endif("${isSystemDir}" STREQUAL "-1")
 endif(UNIX AND NOT APPLE)
 
 if (APPLE) # Mac RPath
@@ -87,7 +87,7 @@ qt5_add_resources(NOOTKA_SRC nootka.qrc)
 add_executable(nootka WIN32 ${NOOTKA_SRC} ${NOOTKA_EXE_ICON})
 target_link_libraries(nootka
     NootkaCore
-#     NootkaScore
+    NootkaSound
     Qt5::Core
     Qt5::Widgets
     Qt5::Qml
@@ -96,12 +96,12 @@ target_link_libraries(nootka
 )
 
 
-if(UNIX AND NOT APPLE) 	# Linux path for Nootka binary
+if(UNIX AND NOT APPLE)   # Linux path for Nootka binary
   install(TARGETS nootka DESTINATION bin)
 else(UNIX AND NOT APPLE)
-  if(WIN32) 			# Windows
+  if(WIN32)       # Windows
     install(TARGETS nootka DESTINATION .)
-  else(WIN32) 			# MacOs
+  else(WIN32)       # MacOs
     install(TARGETS nootka DESTINATION "${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/MacOs")
     install( CODE "
     execute_process(COMMAND echo copying info.plist )

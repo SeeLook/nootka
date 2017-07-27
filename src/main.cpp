@@ -32,14 +32,18 @@
 
 #include "tpath.h"
 #include "tnootkaqml.h"
+#include <tsound.h>
 
 #if defined (Q_OS_ANDROID)
   #include <Android/tandroid.h>
 #endif
 
+
 static QString logFile;
 
-/** It allows to grab all debug messages into nootka-log.txt file */
+/**
+ * It allows to grab all debug messages into nootka-log.txt file
+ */
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
   Q_UNUSED(context)
   Q_UNUSED(type)
@@ -109,10 +113,13 @@ int main(int argc, char *argv[])
 
     a->setWindowIcon(QIcon(Tpath::img("nootka")));
 
+    Tsound sound;
+
 // creating main window
     e = new QQmlApplicationEngine;
     e->rootContext()->setContextProperty(QStringLiteral("GLOB"), GLOB);
     e->rootContext()->setContextProperty(QStringLiteral("Noo"), &nooObj);
+    e->rootContext()->setContextProperty(QStringLiteral("SOUND"), &sound);
     if (GLOB->isFirstRun) {
       e->load(QUrl(QStringLiteral("qrc:/wizard/Wizard.qml")));
       exitCode = a->exec();
@@ -120,6 +127,7 @@ int main(int argc, char *argv[])
       e = new QQmlApplicationEngine;
       e->rootContext()->setContextProperty(QStringLiteral("GLOB"), GLOB);
       e->rootContext()->setContextProperty(QStringLiteral("Noo"), &nooObj);
+      e->rootContext()->setContextProperty(QStringLiteral("SOUND"), &sound);
       GLOB->isFirstRun = false;
     }
     e->load(QUrl(QStringLiteral("qrc:/MainWindow.qml")));

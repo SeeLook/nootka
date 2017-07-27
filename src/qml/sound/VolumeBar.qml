@@ -14,34 +14,38 @@ Item {
   property real volume: 0.05
   property real minVol: 0.4
 
-  onWidthChanged: tc.resize(volBar.width - minText.width - noteText.width * 2)
 
-  TtickColors { id: tc }
+  TtickColors { id: tc; width: volBar.width - minText.width - noteText.width * 2; divisor: pitchView.tickGap + pitchView.tickWidth }
 
-  Rectangle {
-      id: bgRect
-      anchors.fill: parent
-      color: activPal.window
+  MouseArea {
+    id: area
+    anchors.fill: parent
+    hoverEnabled: true
+    acceptedButtons: Qt.LeftButton
+    onPositionChanged: {
+      if (pressedButtons && mouseX > vRep.itemAt(1).x && mouseX < vRep.itemAt(vRep.model - 2).x) {
+        var mv = (mouseX - minText.width) / tc.width
+        if (mv > 0.1 && mv < 0.9)
+          minVol = mv
+      }
+    }
   }
 
   Text {
       id: minText
-      anchors.top: parent.Top
-      anchors.left: parent.Left
-      anchors.verticalCenter: parent.verticalCenter
+      anchors { top: parent.Top; left: parent.Left; verticalCenter: parent.verticalCenter }
       text: " " + Math.round(minVol * 100) + "% "
       color: activPal.text
+      font.pixelSize: parent.height / 2
+      width: parent.height * 1.2
   }
 
   Repeater {
       id: vRep
-      model: (volBar.width - minText.width - noteText.width * 2) / (pitchView.tickGap + pitchView.tickWidth)
+      model: tc.width / tc.divisor
       Rectangle {
-        color: {
-          var tickNr = vRep.model * index / 100
-          tickNr <= volBar.volume * 100 ? tc.colorAt(tickNr) : disdPal.text
-        }
-        width: (index * 9) < minVol * (volBar.width - minText.width - noteText.width * 1.5) ? pitchView.tickWidth / 2 : pitchView.tickWidth
+        color: index <= volume * vRep.model ? tc.colorAt(index) : activPal.text
+        width: index <= minVol * vRep.model ? pitchView.tickWidth / 2 : pitchView.tickWidth
         radius: pitchView.tickWidth / 2
         height: pitchView.tickWidth * 1.5 + ((volBar.height - pitchView.tickWidth * 4) / vRep.model) * index
         y: (parent.height - height) / 2
@@ -51,13 +55,18 @@ Item {
 
   Text {
       id: noteText
-      anchors.top: parent.Top
       x: volBar.width - width * 1.5
       anchors.verticalCenter: parent.verticalCenter
       font.family: "Nootka"
       font.pixelSize: volBar.height
       text: "r"
       color: activPal.text
+      MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        onEntered: noteText.color = activPal.highlight
+        onExited: noteText.color = activPal.text
+      }
   }
 
   DropShadow {
@@ -68,12 +77,12 @@ Item {
       color: activPal.shadow
       radius: 8.0
       source: knob
-      visible: false
+      visible: area.pressed || area.containsMouse
   }
 
   Rectangle {
       id: knob
-      x: minVol * volBar.width
+      x: minText.width + minVol * tc.width - radius
       y: (volBar.height - height) / 2
       visible: false
       height: volBar.height * 0.9
@@ -89,25 +98,4 @@ Item {
       }
   }
 
-  MouseArea {
-      anchors.fill: parent
-      hoverEnabled: true
-      acceptedButtons: Qt.LeftButton
-
-      onEntered: {
-        knobShad.visible = true
-      }
-      onPositionChanged: {
-        if (pressedButtons && mouseX > vRep.itemAt(1).x && mouseX < vRep.itemAt(vRep.model - 2).x) {
-          var mv = mouseX / volBar.width
-          if (mv > 0.1 && mv < 0.9) {
-            minVol = (mouseX - knob.width) / volBar.width
-            knob.x = mouseX - knob.width / 2
-          }
-        }
-      }
-      onExited: {
-        knobShad.visible = false
-      }
-    }
 }

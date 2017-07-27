@@ -33,9 +33,12 @@
 
 #include <QtCore/qdebug.h>
 
+
 /* static */
 Tsound* Tsound::m_instance = nullptr;
 
+
+#define INT_FACTOR (1.2)
 
 Tsound::Tsound(QObject* parent) :
   QObject(parent),
@@ -64,6 +67,8 @@ Tsound::Tsound(QObject* parent) :
   } else {
       sniffer = 0;
   }
+
+  QTimer::singleShot(750, [=]{ sniffer->startListening(); });
 }
 
 Tsound::~Tsound()
@@ -111,6 +116,19 @@ void Tsound::playMelody(Tmelody* mel) {
     m_playedMelody = mel;
   }
   playMelodySlot();
+}
+
+
+qreal Tsound::inputVol() {
+  return sniffer ? sniffer->volume() : 0.0;
+}
+
+
+qreal Tsound::pitchDeviation() {
+  if (sniffer)
+    return static_cast<qreal>(qBound(-0.49, (sniffer->lastChunkPitch() - static_cast<float>(qRound(sniffer->lastChunkPitch()))) * INT_FACTOR, 0.49));
+  else
+    return 0.0;
 }
 
 

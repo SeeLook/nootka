@@ -74,11 +74,6 @@ TcommonListener::~TcommonListener() {
 }
 
 
-void TcommonListener::startListening() {} /* virtual */
-void TcommonListener::stopListening() {} /* virtual */
-
-
-
 void TcommonListener::setAudioInParams() {
   setDetectionMethod(m_audioParams->detectMethod);
   setMinimalVolume(m_audioParams->minimalVol);
