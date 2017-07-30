@@ -54,6 +54,10 @@ Score {
       return enableKeySign && firstStaff.keySignature ? Noo.majAndMinKeyName(firstStaff.keySignature.key) : ""
     }
   }
+  Connections {
+    target: SOUND
+    onNoteFinished: addNote(SOUND.note())
+  }
 
   Rectangle { // note highlight
     id: noteHighlight

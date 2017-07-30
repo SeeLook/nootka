@@ -44,7 +44,7 @@ Item {
       id: vRep
       model: tc.width / tc.divisor
       Rectangle {
-        color: index <= volume * vRep.model ? tc.colorAt(index) : activPal.text
+        color: index < volume * vRep.model ? tc.colorAt(index) : activPal.text
         width: index <= minVol * vRep.model ? pitchView.tickWidth / 2 : pitchView.tickWidth
         radius: pitchView.tickWidth / 2
         height: pitchView.tickWidth * 1.5 + ((volBar.height - pitchView.tickWidth * 4) / vRep.model) * index

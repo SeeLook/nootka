@@ -235,7 +235,7 @@ CHECKTIME (
           qDebug() << "[TscoreObject] can't resolve duration of" << lastMeasure->free();
       else {
           if (!n.isRest()) {
-            notesToCurrent.first().rtm.setTie(Trhythm::e_tieStart);
+            notesToCurrent.first().rtm.setTie(newNote.rtm.tie() > Trhythm::e_tieStart ? Trhythm::e_tieCont : Trhythm::e_tieStart);
             if (notesToCurrent.count() == 2)
               notesToCurrent.last().rtm.setTie(Trhythm::e_tieCont);
           }
