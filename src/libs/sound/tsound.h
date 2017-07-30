@@ -50,6 +50,9 @@ class NOOTKASOUND_EXPORT Tsound : public QObject
 
   Q_OBJECT
 
+  Q_PROPERTY(int tempo READ tempo WRITE setTempo NOTIFY tempoChanged)
+  Q_PROPERTY(int quantization READ quantization WRITE setQuantization NOTIFY quantizationChanged)
+
 public:
   explicit Tsound(QObject *parent = nullptr);
   virtual ~Tsound();
@@ -98,8 +101,22 @@ public:
       /**
        * Returns recently detected note.
        */
-  Tnote& note() { return m_detectedPitch; }
-  float pitch(); /**< Returns recently detected pitch of note. */
+  Q_INVOKABLE Tnote note() const { return m_detectedNote; }
+
+      /**
+       * Returns recently detected pitch of note (midi number).
+       */
+  float pitch();
+
+  int tempo() const { return m_tempo; }
+  void setTempo(int t);
+
+      /**
+       * Quantization value determines accuracy of detecting rhythm of played note by its duration.
+       */
+  void setQuantization(int q);
+  int quantization() const { return m_quantVal; }
+
   void pauseSinffing();
   void unPauseSniffing();
   bool isSnifferPaused();
@@ -123,9 +140,11 @@ public:
 signals:
   void noteStarted(const Tnote&);
   void noteStartedEntire(const TnoteStruct&);
-  void noteFinished(Tchunk*);
+  void noteFinished();
   void noteFinishedEntire(const TnoteStruct&);
   void plaingFinished();
+  void tempoChanged();
+  void quantizationChanged();
 
 private:
   void createPlayer();
@@ -134,12 +153,15 @@ private:
   void deleteSniffer();
   void restoreSniffer(); /**< Brings back sniffer & pitch view state as such as before settings dialog */
 
-  Tnote                   m_detectedPitch; // detected note pitch
+  Tnote                   m_detectedNote; /**< detected note */
   bool                    m_examMode;
-  Tnote                   m_prevLoNote, m_prevHiNote; // notes form sniffer ambitus stored during an exam
+  Tnote                   m_prevLoNote, m_prevHiNote; /**< notes form sniffer ambitus stored during an exam */
   bool                    m_stopSniffOnce, m_userState;;
   int                     m_melodyNoteIndex;
   Tmelody                *m_playedMelody;
+  int                     m_tempo;
+  int                     m_quantVal;
+
   static Tsound          *m_instance;
 
 private slots:

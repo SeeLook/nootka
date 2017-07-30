@@ -45,7 +45,9 @@ Tsound::Tsound(QObject* parent) :
   player(0),
   sniffer(0),
   m_examMode(false),
-  m_melodyNoteIndex(-1)
+  m_melodyNoteIndex(-1),
+  m_tempo(60),
+  m_quantVal(6)
 {
   if (m_instance) {
     qDebug() << "Tsound instance already exists!";
@@ -250,6 +252,23 @@ float Tsound::pitch() {
 }
 
 
+void Tsound::setTempo(int t) {
+  if (t != m_tempo && t > 39 && t < 181) {
+    m_tempo = t;
+    emit tempoChanged();
+  }
+}
+
+
+/**
+ * @p m_quantVal is expressed in @p Trhythm duration of: Sixteenth triplet -> 4 or just Sixteenth -> 6 or Eighth -> 12
+ */
+void Tsound::setQuantization(int q) {
+  if ((q == 4 || q == 6 || q == 12) != m_quantVal) {
+    m_quantVal = q;
+  }
+}
+
 
 void Tsound::wait() {
 //     qDebug("wait");
@@ -444,30 +463,44 @@ void Tsound::playMelodySlot() {
 
 
 void Tsound::noteStartedSlot(const TnoteStruct& note) {
-  m_detectedPitch = note.pitch;
-  emit noteStarted(m_detectedPitch);
+  m_detectedNote = note.pitch;
+  emit noteStarted(m_detectedNote);
   emit noteStartedEntire(note);
   if (player && GLOB->instrument().type() != Tinstrument::NoInstrument && GLOB->A->playDetected)
-    play(m_detectedPitch);
+    play(m_detectedNote);
 }
 
 
-Tchunk m_lastChunk;
 void Tsound::noteFinishedSlot(const TnoteStruct& note) {
-  m_detectedPitch = note.pitch;
-//   Tchunk noteChunk(m_detectedPitch, Trhythm());
-  m_lastChunk.p() = m_detectedPitch;
-//   m_lastChunk.r() = ; // TODO not supported yet
-  emit noteFinished(&m_lastChunk);
+  m_detectedNote = note.pitch;
+  qreal rFactor = 2500.0 / m_tempo;
+  qreal dur = note.duration * 1000.0 / rFactor;
+  int normDur = qRound(dur /  static_cast<qreal>(m_quantVal)) * m_quantVal;
+  Trhythm r(normDur);
+  qDebug() << "noteFinishedSlot" << note.duration * 1000 << dur << normDur;
+  if (r.isValid()) {
+      m_detectedNote.setRhythm(r);
+      qDebug() << "Detected" << m_detectedNote.toText() << m_detectedNote.rtm.string();
+      emit noteFinished();
+  } else {
+      TrhythmList notes;
+      Trhythm::resolve(normDur, notes);
+      for (int n = 0; n < notes.count(); ++n) {
+        Trhythm& rr = notes[n];
+        if (n == 0)
+            rr.setTie(Trhythm::e_tieStart);
+        else if (n == notes.count() - 1)
+            rr.setTie(Trhythm::e_tieEnd);
+        else
+          rr.setTie(Trhythm::e_tieCont);
+        m_detectedNote.setRhythm(rr);
+        qDebug() << "Detected" << n << m_detectedNote.toText() << m_detectedNote.rtm.string();
+        emit noteFinished();
+      }
+  }
+//   emit noteFinished();
   emit noteFinishedEntire(note);
   if (player && GLOB->instrument().type() == Tinstrument::NoInstrument && GLOB->A->playDetected)
-    play(m_detectedPitch);
+    play(m_detectedNote);
 }
-
-
-
-
-
-
-
 

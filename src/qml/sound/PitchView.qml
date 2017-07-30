@@ -15,7 +15,7 @@ Item {
 
   // private
   property real tickWidth: Screen.pixelDensity * 0.5
-  property real tickGap: tickWidth * 1.25
+  property real tickGap: tickWidth * 1.4
 
   IntonationBar {
       id: intoBar
