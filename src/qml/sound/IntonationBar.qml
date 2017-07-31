@@ -18,7 +18,7 @@ Item {
     id: iRepLeft
     model: tc.width / tc.divisor
     Rectangle {
-      color: deviation < 0 && iRepLeft.model - index <= (deviation * -2 * iRepLeft.model) ? tc.colorAt(iRepLeft.model - index) : activPal.text
+      color: pitchView.active ? (deviation < 0 && iRepLeft.model - index <= (deviation * -2 * iRepLeft.model) ? tc.colorAt(iRepLeft.model - index) : activPal.text) : disdPal.text
       width: pitchView.tickWidth
       radius: pitchView.tickWidth / 2
       height: pitchView.tickWidth * 1.5 + ((intoBar.height - pitchView.tickWidth * 4) / iRepLeft.model) * (iRepLeft.model - index)
@@ -35,14 +35,14 @@ Item {
     font.family: "Nootka"
     font.pixelSize: intoBar.height * 0.8
     text: "n"
-    color: activPal.text
+    color: pitchView.active ? activPal.text : disdPal.text
   }
 
   Repeater {
     id: iRepRight
     model: tc.width / tc.divisor
     Rectangle {
-      color: deviation > 0 && index <= (deviation * 2 * iRepRight.model) ? tc.colorAt(index) : activPal.text
+      color: pitchView.active ? (deviation > 0 && index <= (deviation * 2 * iRepRight.model) ? tc.colorAt(index) : activPal.text) : disdPal.text
       width: pitchView.tickWidth
       radius: pitchView.tickWidth / 2
       height: pitchView.tickWidth * 1.5 + ((intoBar.height - pitchView.tickWidth * 4) / iRepRight.model) * index

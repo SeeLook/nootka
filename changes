@@ -1,3 +1,6 @@
+1.5.1 alpha2
+     - simple metronome and menu for configuring tempo, quantization, etc.
+
 1.5.0 alpha1
      - added support for rhythms to the score
      - import/export to/from music XML files

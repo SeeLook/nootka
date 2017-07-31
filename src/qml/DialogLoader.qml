@@ -61,6 +61,7 @@ Dialog {
           }
           break
       }
+      SOUND.stopListen()
       open()
       if (Noo.isAndroid()) {
         dialogDrawer = drawerComp.createObject(currentDialog)
@@ -93,6 +94,7 @@ Dialog {
 
   onVisibleChanged: {
     if (visible === false && currentDialog) {
+      SOUND.startListen()
       currentDialog.destroy()
       currentDialog = null
       page = 0

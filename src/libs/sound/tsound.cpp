@@ -70,7 +70,7 @@ Tsound::Tsound(QObject* parent) :
       sniffer = 0;
   }
 
-  QTimer::singleShot(750, [=]{ sniffer->startListening(); });
+  QTimer::singleShot(1000, [=]{ sniffer->startListening(); });
 }
 
 Tsound::~Tsound()
@@ -198,23 +198,6 @@ void Tsound::acceptSettings() {
 }
 
 
-// void Tsound::setPitchView(TpitchView* pView) {
-//   m_pitchView = pView;
-//   m_pitchView->setPitchColor(GLOB->EanswerColor);
-//   m_pitchView->setMinimalVolume(GLOB->A->minimalVol);
-//   m_pitchView->setIntonationAccuracy(GLOB->A->intonation);
-//   m_pitchView->setAudioInput(sniffer);
-// 
-//   if (sniffer) {
-// #if defined (Q_OS_ANDROID)
-//     QTimer::singleShot(750, [=]{ m_pitchView->pauseAction()->trigger(); });
-// #else
-//     QTimer::singleShot(750, [=]{ sniffer->startListening(); });
-// #endif
-//   }
-// }
-
-
 void Tsound::prepareToConf() {
   if (player) {
     player->stop();
@@ -270,19 +253,37 @@ void Tsound::setQuantization(int q) {
 }
 
 
-void Tsound::wait() {
-//     qDebug("wait");
-  if (sniffer) {
-    sniffer->stopListening();
+bool Tsound::stoppedByUser() const {
+  return sniffer ? sniffer->stoppedByUser() : false;
+}
+
+
+void Tsound::setStoppedByUser(bool sbu) {
+  if (sniffer && sniffer->stoppedByUser() != sbu) {
+    sniffer->setStoppedByUser(sbu);
+    if (sbu)
+      stopListen();
+    else
+      startListen();
+    emit stoppedByUserChanged();
   }
 }
 
 
-void Tsound::go() {
-//     qDebug("go");
-  if (sniffer /*&& !m_pitchView->isPaused()*/) {
+bool Tsound::listening() const {
+  return sniffer ? sniffer->detectingState() == TcommonListener::e_detecting : false;
+}
+
+
+void Tsound::stopListen() {
+  if (sniffer)
+    sniffer->stopListening();
+}
+
+
+void Tsound::startListen() {
+  if (sniffer)
     sniffer->startListening();
-  }
 }
 
 
@@ -339,7 +340,7 @@ void Tsound::restoreAfterExam() {
 //     sniffer->setAmbitus(m_prevLoNote, m_prevHiNote); // acceptSettings() has already invoked setDefaultAmbitus()
 //     m_pitchView->setDisabled(false);
     unPauseSniffing();
-    go();
+    startListen();
   }
 }
 
@@ -400,11 +401,12 @@ void Tsound::createSniffer() {
     sniffer = TaudioIN::instance();
   else
 #endif
-    sniffer = new TaudioIN(GLOB->A);
+  sniffer = new TaudioIN(GLOB->A);
   setDefaultAmbitus();
 //   sniffer->setAmbitus(Tnote(-31), Tnote(82)); // fixed ambitus bounded Tartini capacities
   connect(sniffer, &TaudioIN::noteStarted, this, &Tsound::noteStartedSlot);
   connect(sniffer, &TaudioIN::noteFinished, this, &Tsound::noteFinishedSlot);
+  connect(sniffer, &TaudioIN::stateChanged, [=]{ emit listeningChanged(); });
   m_userState = false; // user didn't stop sniffing yet
 }
 
@@ -480,7 +482,7 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
   qDebug() << "noteFinishedSlot" << note.duration * 1000 << dur << normDur;
   if (r.isValid()) {
       m_detectedNote.setRhythm(r);
-      qDebug() << "Detected" << m_detectedNote.toText() << m_detectedNote.rtm.string();
+      qDebug() << "Detected" << note.duration << normDur << m_detectedNote.toText() << m_detectedNote.rtm.string();
       emit noteFinished();
   } else {
       TrhythmList notes;
@@ -494,11 +496,10 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
         else
           rr.setTie(Trhythm::e_tieCont);
         m_detectedNote.setRhythm(rr);
-        qDebug() << "Detected" << n << m_detectedNote.toText() << m_detectedNote.rtm.string();
+        qDebug() << "Detected" << note.duration << normDur << n << m_detectedNote.toText() << m_detectedNote.rtm.string();
         emit noteFinished();
       }
   }
-//   emit noteFinished();
   emit noteFinishedEntire(note);
   if (player && GLOB->instrument().type() == Tinstrument::NoInstrument && GLOB->A->playDetected)
     play(m_detectedNote);
