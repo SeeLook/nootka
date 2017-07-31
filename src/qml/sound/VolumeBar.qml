@@ -14,11 +14,11 @@ Item {
   property real volume: 0.05
   property real minVol: 0.4
 
-
   TtickColors { id: tc; width: volBar.width - minText.width - noteText.width * 2; divisor: pitchView.tickGap + pitchView.tickWidth }
 
   MouseArea {
     id: area
+    enabled: pitchView.active
     anchors.fill: parent
     hoverEnabled: true
     acceptedButtons: Qt.LeftButton
@@ -35,7 +35,7 @@ Item {
       id: minText
       anchors { top: parent.Top; left: parent.Left; verticalCenter: parent.verticalCenter }
       text: " " + Math.round(minVol * 100) + "% "
-      color: activPal.text
+      color: pitchView.active ? activPal.text : disdPal.text
       font.pixelSize: parent.height / 2
       width: parent.height * 1.2
   }
@@ -44,7 +44,7 @@ Item {
       id: vRep
       model: tc.width / tc.divisor
       Rectangle {
-        color: index < volume * vRep.model ? tc.colorAt(index) : activPal.text
+        color: pitchView.active ? (index < volume * vRep.model ? tc.colorAt(index) : activPal.text) : disdPal.text
         width: index <= minVol * vRep.model ? pitchView.tickWidth / 2 : pitchView.tickWidth
         radius: pitchView.tickWidth / 2
         height: pitchView.tickWidth * 1.5 + ((volBar.height - pitchView.tickWidth * 4) / vRep.model) * index
@@ -60,12 +60,10 @@ Item {
       font.family: "Nootka"
       font.pixelSize: volBar.height
       text: "r"
-      color: activPal.text
+      color: pitchView.active ? "red" : activPal.text
       MouseArea {
         anchors.fill: parent
-        hoverEnabled: true
-        onEntered: noteText.color = activPal.highlight
-        onExited: noteText.color = activPal.text
+        onClicked: pitchView.paused()
       }
   }
 
@@ -77,7 +75,7 @@ Item {
       color: activPal.shadow
       radius: 8.0
       source: knob
-      visible: area.pressed || area.containsMouse
+      visible: pitchView.active && (area.pressed || area.containsMouse)
   }
 
   Rectangle {

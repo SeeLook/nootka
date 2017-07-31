@@ -61,4 +61,6 @@ Popup {
       }
     }
   }
+  onOpened: SOUND.stopListen()
+  onClosed: SOUND.startListen()
 }

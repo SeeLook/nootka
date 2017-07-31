@@ -282,7 +282,7 @@ void MainWindow::examMessageSlot(int demand) {
   if (demand == Torders::e_examAskCreator)
       QTimer::singleShot(500, [=]{ openLevelCreator(); }); // open creator with delay to give executor time to finish his routines
   else
-      m_sound->go();
+      m_sound->startListen();
 }
 
 //##########################################################################################
@@ -364,7 +364,7 @@ void MainWindow::createSettingsDialog() {
 void MainWindow::openLevelCreator(QString levelFile) {
   if (m_score->isScorePlayed())
     m_melButt->playMelodySlot(); // stop playing
-  m_sound->wait(); // stops pitch detection
+  m_sound->stopListen(); // stops pitch detection
   m_sound->stopPlaying();
   m_levelCreatorExist = true;
   TpluginsLoader loader;
@@ -390,7 +390,7 @@ void MainWindow::openLevelCreator(QString levelFile) {
     startExamPlugin(args);
   }
   else
-    m_sound->go(); // restore pitch detection
+    m_sound->startListen(); // restore pitch detection
 }
 
 
@@ -405,12 +405,12 @@ void MainWindow::aboutSlot() {
 
 	if (m_score->isScorePlayed())
 			m_melButt->playMelodySlot(); // stop playing
-	m_sound->wait();
+	m_sound->stopListen();
 	m_sound->stopPlaying();
   TpluginsLoader loader;
   if (loader.load(TpluginsLoader::e_about))
     loader.init(QString(), this);
-	m_sound->go();
+	m_sound->startListen();
 }
 
 
@@ -418,13 +418,13 @@ void MainWindow::analyseSlot() {
 #if !defined (Q_OS_ANDROID)
 	if (m_score->isScorePlayed())
 			m_melButt->playMelodySlot(); // stop playing
-	m_sound->wait();
+	m_sound->stopListen();
 	m_sound->stopPlaying();
 	TpluginsLoader loader;
   if (loader.load(TpluginsLoader::e_analyzer)) {
     loader.init(QString(), this);
   }
-	m_sound->go();
+	m_sound->startListen();
 #endif
 }
 
@@ -489,13 +489,13 @@ void MainWindow::setSingleNoteMode(bool isSingle) {
 //#######################     PROTECTED SLOTS       ########################################
 //##########################################################################################
 void MainWindow::showSupportDialog() {
-  m_sound->wait();
+  m_sound->stopListen();
   m_sound->stopPlaying();
   TpluginsLoader loader;
   if (loader.load(TpluginsLoader::e_about))
     loader.init(QStringLiteral("support"), this);
   gl->config->setValue("General/supportDate", QDate::currentDate());
-  m_sound->go();
+  m_sound->startListen();
 }
 
 
@@ -504,9 +504,9 @@ void MainWindow::updaterMessagesSlot(int m) {
       || m == Torders::e_updaterFinished || m >= Torders::e_updaterError) {
       m_updaterPlugin->deleteLater();
       if (m_updaterStoppedSound)
-        m_sound->go();
+        m_sound->startListen();
   } else if (m == Torders::e_updaterSuccess && !m_sound->isSnifferPaused()) {
-      m_sound->wait();
+      m_sound->stopListen();
       m_updaterStoppedSound = true;
   }
   // It sends Torders::e_updaterSuccess as well but it means that updater window is displayed,
@@ -632,7 +632,7 @@ void MainWindow::updateSize(QSize newS) {
 
 void MainWindow::closeEvent(QCloseEvent *event) {
   m_sound->stopPlaying();
-  m_sound->wait();
+  m_sound->stopListen();
 #if !defined (Q_OS_ANDROID)
   disconnect(m_score, &TmainScore::statusTip, m_statusLabel, &TstatusLabel::messageSlot);
   disconnect(m_innerWidget, &TmainView::statusTip, m_statusLabel, &TstatusLabel::messageSlot);

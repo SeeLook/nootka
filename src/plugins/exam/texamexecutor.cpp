@@ -105,7 +105,7 @@ void TexamExecutor::init(QString examFile, Tlevel *lev) {
 	QString resultText;
 	TstartExamDlg::Eactions userAct;
 
-	SOUND->wait();
+	SOUND->stopListen();
 	if (lev) {
 			m_level = *lev;
 			if (Tcore::gl()->E->studentName.isEmpty()) {
@@ -541,7 +541,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
           // Give a student some time to prepare itself for next question in expert mode
           // It avoids capture previous played sound as current answer
   } else
-      SOUND->wait(); // stop sniffing if answer is not a played sound
+      SOUND->stopListen(); // stop sniffing if answer is not a played sound
 
   TOOLBAR->setForQuestion(curQ->questionAsSound(), curQ->questionAsSound() && curQ->answerAsNote());
   m_penalty->startQuestionTime();
@@ -988,7 +988,7 @@ void TexamExecutor::repeatQuestion() {
 
 void TexamExecutor::displayCertificate() {
   m_snifferLocked = true;
-	SOUND->wait();
+	SOUND->stopListen();
 	m_penalty->pauseTime();
 #if !defined (Q_OS_ANDROID)
   qApp->removeEventFilter(m_supp); // stop grabbing right button and calling checkAnswer()
@@ -1062,7 +1062,7 @@ void TexamExecutor::prepareToExam() {
   if (m_level.canBeSound()) {
       SOUND->acceptSettings();
     if (SOUND->isSniffable())
-        SOUND->wait();
+        SOUND->stopListen();
     if (m_level.requireOctave)
       SOUND->prepareToExam(m_level.loNote, m_level.hiNote);
     // when octave are not required do not change ambitus - it is already set to instrument scale
@@ -1377,7 +1377,7 @@ void TexamExecutor::stopSound() {
 	if (m_soundTimer->isActive())
 			m_soundTimer->stop();
 	SOUND->stopPlaying();
-	SOUND->wait();
+	SOUND->stopListen();
 #if !defined (Q_OS_ANDROID)
 	qApp->removeEventFilter(m_supp);
 #endif
@@ -1507,7 +1507,7 @@ void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
     else {
       m_canvas->playMelodyAgainMessage();
       m_canvas->confirmTip(800);
-      SOUND->wait();
+      SOUND->stopListen();
     }
   }
 }
@@ -1516,7 +1516,7 @@ void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
 void TexamExecutor::noteOfMelodySelected(int nr) {
   m_melody->setCurrentIndex(nr);
   SCORE->selectNote(nr);
-  SOUND->go();
+  SOUND->startListen();
   m_canvas->clearConfirmTip();
   if (isExercise() && GUITAR->isVisible() && m_exam->curQ()->melody()) // in exercises, display guitar position of clicked note for a hint
       GUITAR->setFinger(m_exam->curQ()->melody()->note(nr)->g());
@@ -1561,7 +1561,7 @@ void TexamExecutor::startSniffing() {
   if (SOUND->isSnifferPaused())
     SOUND->unPauseSniffing();
 	else
-    SOUND->go();
+    SOUND->startListen();
 }
 
 
@@ -1686,7 +1686,7 @@ void TexamExecutor::setTitleAndTexts() {
 
 void TexamExecutor::unlockAnswerCapturing() {
 	if (m_exam->curQ()->answerAsSound())
-		SOUND->go();
+		SOUND->startListen();
 	m_penalty->continueTime();
 #if !defined (Q_OS_ANDROID)
   qApp->installEventFilter(m_supp); // restore grabbing right mouse button

@@ -123,17 +123,17 @@ public:
        */
   TnoteStruct& lastNote() { return m_lastNote; }
 
-  float lastChunkPitch() { return m_LastChunkPitch; }
+  float lastChunkPitch() const { return m_LastChunkPitch; }
 
       /**
        * Returns @p TRUE when @p pitch is in ambitus
        */
-  bool inRange(qreal pitch) {
+  bool inRange(qreal pitch) const {
     if (pitch >= m_loPitch && pitch <= m_hiPitch) return true;
     else return false;
   }
 
-  bool noteWasStarted() { return m_noteWasStarted; } /**< @p TRUE when note started but not finished. */
+  bool noteWasStarted() const { return m_noteWasStarted; } /**< @p TRUE when note started but not finished. */
 
       /**
        * Sets pitch detection method. Currently three are available:
@@ -148,7 +148,7 @@ public:
        * Stores user action when he stopped sniffing himself.
        */
   void setStoppedByUser(bool userStop) { m_stoppedByUser = userStop; }
-  bool stoppedByUser() { return m_stoppedByUser; }
+  bool stoppedByUser() const { return m_stoppedByUser; }
 
       /**
        * Returns intonation accuracy sets in global audio settings.
