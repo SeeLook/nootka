@@ -30,6 +30,7 @@
 #include "score/taddobject.h"
 #include "instruments/tguitarbg.h"
 #include "instruments/tpianobg.h"
+#include "instruments/tbandoneonbg.h"
 #include "taction.h"
 #include "music/tinstrument.h"
 #include "music/ttuneobject.h"
@@ -74,6 +75,7 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qmlRegisterType<TtickColors>("Nootka", 1, 0, "TtickColors");
   qmlRegisterType<TguitarBg>("Nootka", 1, 0, "TguitarBg");
   qmlRegisterType<TpianoBg>("Nootka", 1, 0, "TpianoBg");
+  qmlRegisterType<TbandoneonBg>("Nootka", 1, 0, "TbandoneonBg");
   qmlRegisterType<Taction>("Nootka", 1, 0, "Taction");
 
   qmlRegisterUncreatableType<TnootkaQML>("Nootka", 1, 0, "Nootka", QStringLiteral("You cannot create an instance of the TnootkaQML."));
@@ -120,6 +122,11 @@ Tnote TnootkaQML::note(const Tnote& n, int rhythm, bool rest, bool dot) {
 
 Tnote TnootkaQML::note(const Tnote& n, const Trhythm& r) {
   return Tnote(n, r);
+}
+
+
+Tnote TnootkaQML::note(int chroma) {
+  return Tnote(static_cast<short>(chroma));
 }
 
 
