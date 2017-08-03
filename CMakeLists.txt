@@ -187,5 +187,6 @@ add_subdirectory( packaging ) # cpack rules
 # add_subdirectory( tests/plugtester )
 # add_subdirectory( tests/nootini )
 # add_subdirectory( tests/nootoxml )
+# add_subdirectory( tests/bp )
 
 
