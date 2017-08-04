@@ -352,6 +352,7 @@ set(LIB_NOOTKASOUND_SRC
   trtaudioin.cpp
   trtaudioout.cpp
   tsound.cpp
+  ttickcolors.cpp
 
   tartini/analysisdata.cpp
   tartini/array1d.h
@@ -400,6 +401,7 @@ endif(WIN32)
 add_library(NootkaSound SHARED ${LIB_NOOTKASOUND_SRC} )
 target_link_libraries(NootkaSound
     Qt5::Core
+    Qt5::Qml
     NootkaCore
     ${WIN_LIBS}
     ${FFTW3_LIBRARIES}
