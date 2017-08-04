@@ -25,12 +25,14 @@
   #include "trtaudioout.h"
   #include "trtaudioin.h"
 #endif
+#include "ttickcolors.h"
 #include <tprecisetimer.h>
 #include <tinitcorelib.h>
 #include <taudioparams.h>
 #include "music/tmelody.h"
 #include "music/tchunk.h"
 
+#include <QtQml/qqmlengine.h>
 #include <QtCore/qdebug.h>
 
 
@@ -57,6 +59,7 @@ Tsound::Tsound(QObject* parent) :
   m_instance = this;
   qRegisterMetaType<Tchunk>("Tchunk");
   qRegisterMetaType<TnoteStruct>("TnoteStruct");
+  qmlRegisterType<TtickColors>("Nootka", 1, 0, "TtickColors");
 #if !defined (Q_OS_ANDROID) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))
   TrtAudio::initJACKorASIO(GLOB->A->JACKorASIO);
 #endif

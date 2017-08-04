@@ -18,7 +18,6 @@
 
 #include "tnootkaqml.h"
 #include "qtr.h"
-#include "ttickcolors.h"
 #include "nootkaconfig.h"
 #include "tpath.h"
 #include "music/tkeysignature.h"
@@ -72,7 +71,6 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qmlRegisterType<TstaffLines>("Score", 1, 0, "TstaffLines");
   qmlRegisterType<TaddObject>("Score", 1, 0, "TaddObject");
 
-  qmlRegisterType<TtickColors>("Nootka", 1, 0, "TtickColors");
   qmlRegisterType<TguitarBg>("Nootka", 1, 0, "TguitarBg");
   qmlRegisterType<TpianoBg>("Nootka", 1, 0, "TpianoBg");
   qmlRegisterType<TbandoneonBg>("Nootka", 1, 0, "TbandoneonBg");
