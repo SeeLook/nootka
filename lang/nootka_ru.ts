@@ -404,7 +404,7 @@
     </message>
 </context>
 <context>
-    <name>Einstrument</name>
+    <name>Tinstrument</name>
     <message>
         <location filename="../src/libs/core/music/tinstrument.cpp" line="25"/>
         <source>other instrument</source>
