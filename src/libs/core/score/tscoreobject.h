@@ -215,6 +215,16 @@ public:
 
   bool isPianoStaff() { return m_clefType == Tclef::PianoStaffClefs; }
 
+      /**
+       * Returns next note to given @p someNote or null if given note was the last one
+       */
+  Q_INVOKABLE TnoteObject* getNext(TnoteObject* someNote);
+
+      /**
+       * Returns previous note to given @p someNote or null if given note was the first one
+       */
+  Q_INVOKABLE TnoteObject* getPrev(TnoteObject* someNote);
+
 /* ------------------ Note cursor ------------------ */
   TnoteObject* activeNote() { return m_activeNote; }
   qreal xFirstInActivBar();

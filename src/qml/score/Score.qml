@@ -25,6 +25,7 @@ Flickable {
   property alias notesCount: scoreObj.notesCount
   property TnoteItem currentNote: null
   property alias readOnly: scoreObj.readOnly
+  property bool recordMode: false
 
   // private
   property var staves: []
@@ -83,7 +84,8 @@ Flickable {
   Rectangle { // entire score background
     id: bgRect
     anchors.fill: score.contentItem
-    color: Qt.rgba(activPal.base.r, activPal.base.g, activPal.base.b, 0.9)
+    color: Noo.alpha(activPal.base, 230)
+    border { width: recordMode ? 2 : 0; color: "red" }
   }
 
   Staff { // first staff (always exists)
@@ -125,7 +127,7 @@ Flickable {
     id: addComp
     NoteAdd {
       noteText: Noo.rhythmText(scoreObj.workRhythm)
-      onAddNote: { score.addNote(scoreObj.posToNote(yPos)); currentNote = null }
+      onAddNote: { score.addNote(scoreObj.posToNote(yPos)); if (recordMode) currentNote = null }
       alterText: accidControl.text
     }
   }
@@ -180,9 +182,15 @@ Flickable {
       ensureVisible(lastNote.staffItem.y, lastNote.staffItem.height * scale)
     if (noteAdd)
       noteAdd.lastNote = lastNote
+    if (!recordMode)
+      currentNote = lastNote
   }
 
-  function setNote(noteItem, note) { scoreObj.setNote(noteItem, note) }
+  function setNote(noteItem, note) {
+    scoreObj.setNote(noteItem, note)
+    if (recordMode)
+      currentNote = scoreObj.getNext(currentNote)
+  }
 
   function clearScore() {
     scoreObj.clearScore()
