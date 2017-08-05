@@ -16,10 +16,9 @@ Button {
   width: parent.width - 6
   height: nootkaWindow.fontSize * 3
   anchors.horizontalCenter: parent.horizontalCenter
+  text: action ? action.text : ""
 
   onActionChanged: {
-    icon.source = action.icon
-    menuButton.text = action.text
     if (action.checkable)
       radioComp.createObject(contentItem)
   }
@@ -31,6 +30,7 @@ Button {
         id: icon
         sourceSize.height: nootkaWindow.fontSize * 2
         anchors.verticalCenter: parent.verticalCenter
+        source: action ? action.icon : ""
       }
       Column {
         x: nootkaWindow.fontSize * 3
