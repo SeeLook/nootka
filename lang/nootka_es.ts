@@ -321,7 +321,7 @@
     </message>
 </context>
 <context>
-    <name>Einstrument</name>
+    <name>Tinstrument</name>
     <message>
         <source>other instrument</source>
         <translation>otro instrumento</translation>

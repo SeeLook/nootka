@@ -404,7 +404,7 @@
     </message>
 </context>
 <context>
-    <name>Einstrument</name>
+    <name>Tinstrument</name>
     <message>
         <location filename="../src/libs/core/music/tinstrument.cpp" line="25"/>
         <source>other instrument</source>
@@ -424,6 +424,10 @@
         <location filename="../src/libs/core/music/tinstrument.cpp" line="31"/>
         <source>Bass Guitar</source>
         <translation>Gitara basowa</translation>
+    </message>
+    <message>
+        <source>Piano</source>
+        <translation>Fortepian</translation>
     </message>
 </context>
 <context>

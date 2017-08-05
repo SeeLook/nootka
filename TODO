@@ -19,7 +19,6 @@ TRANSLATION CONTEXT CHANGES
   TradioClef - Tclef (rearrange Tclef)
   TguitarSettings - InstrumentPage
   TscoreActions & TmelMan - MainScore
-  Einstrument - Tinstrument (or simply Instrument)
   TtoolBar - MainWindow
   accidssettings -> AccidsPage (but remove line breaks from descriptions)
   rangeSettings -> RangePage as well (be careful with TlevelPreview texts there)
