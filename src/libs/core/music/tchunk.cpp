@@ -82,10 +82,13 @@ bool Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr) {
   int stNr = 1;
   m_pitch.setRhythm(Trhythm(Trhythm::NoRhythm));
   while (xml.readNextStartElement()) {
-      if (xml.name() == QLatin1String("pitch"))
+      if (xml.name() == QLatin1String("grace") || xml.name() == QLatin1String("chord")) {
+          ok = false;
+          xml.skipCurrentElement();
+      } else if (xml.name() == QLatin1String("pitch"))
           m_pitch.fromXml(xml);
       else if (xml.name() == QLatin1String("type"))
-        m_pitch.setRhythmValue(xml.readElementText().toStdString());
+          m_pitch.setRhythmValue(xml.readElementText().toStdString());
       else if (xml.name() == QLatin1String("rest")) {
           m_pitch.setRest(true);
           xml.skipCurrentElement();
