@@ -8,7 +8,6 @@ import QtQuick.Controls 2.2
 
 Flickable {
   property int instrument: 1
-  property var instrGlyphs: ["v", "h", "i", "j", "f"]
 
   clip: true
   contentHeight: instrCol.height
@@ -30,13 +29,13 @@ Flickable {
       anchors.horizontalCenter: parent.horizontalCenter
 
       Repeater {
-        model: instrGlyphs.length
+        model: 6
         Row {
           width: nootkaWindow.fontSize * 30
           spacing: nootkaWindow.fontSize * 3
           Text {
             font {family: "nootka"; pixelSize: nootkaWindow.fontSize * 5 }
-            text: instrGlyphs[index]
+            text: Noo.instr(index).glyph
             color: instrument === index ? activPal.highlight : activPal.text
             scale: instrument === index ? 1.4 : 1.0
             x: instrument === index ? -nootkaWindow.fontSize / 3 : 0
@@ -49,7 +48,7 @@ Flickable {
           }
           Text {
             id: instrText
-            text: Noo.instrumentName(index)
+            text: Noo.instr(index).name
             font { pixelSize: nootkaWindow.fontSize * (instrument === index ? 1.4 : 1.0); bold: true }
             color: index === instrument ? activPal.highlight : activPal.text
             anchors.verticalCenter: parent.verticalCenter

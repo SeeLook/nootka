@@ -34,7 +34,7 @@ Flickable {
     }
 
     Grid {
-      visible: instrSel.instrument !== Tinstrument.Piano && instrSel.instrument !== Tinstrument.NoInstrument
+      visible: Noo.instr(instrSel.instrument).isGuitar
       anchors.horizontalCenter: parent.horizontalCenter
       spacing: nootkaWindow.fontSize
       columns: parent.width < nootkaWindow.fontSize * 50 ? 1 : 2
@@ -53,6 +53,7 @@ Flickable {
     }
 
     Tile {
+      visible: instrSel.instrument != Tinstrument.Piano && instrSel.instrument != Tinstrument.Bandoneon
       Column {
         spacing: nootkaWindow.fontSize / 4
         width: parent.width
@@ -96,7 +97,7 @@ Flickable {
     }
 
     Tile {
-      visible: instrSel.instrument !== Tinstrument.Piano && instrSel.instrument !== Tinstrument.NoInstrument
+      visible: Noo.instr(instrSel.instrument).isGuitar
       TcheckBox {
         text: qsTr("show all possibilities of a note")
         anchors.horizontalCenter: parent.horizontalCenter
@@ -105,7 +106,7 @@ Flickable {
     }
 
     Tile {
-      visible: instrSel.instrument !== Tinstrument.Piano && instrSel.instrument !== Tinstrument.NoInstrument
+      visible: Noo.instr(instrSel.instrument).isGuitar
       Row {
         spacing: nootkaWindow.fontSize
         anchors.horizontalCenter: parent.horizontalCenter
@@ -142,7 +143,7 @@ Flickable {
     GLOB.selectedColor = selectedColorButt.color
     GLOB.preferFlats = prefFlatRadio.checked
     GLOB.setInstrument(instrSel.instrument)
-    if (instrSel.instrument !== Tinstrument.Piano && instrSel.instrument !== Tinstrument.NoInstrument) {
+    if (Noo.instr(instrSel.instrument).isGuitar) {
       GLOB.setGuitarParams(fretsNrSpin.value, stringNrSpin.value)
     }
   }

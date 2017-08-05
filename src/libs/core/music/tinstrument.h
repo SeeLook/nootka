@@ -24,6 +24,9 @@
 #include <QtCore/qobject.h>
 
 
+#define INSTR_COUNT (6) // number of instruments supported by Nootka
+
+
 /**
  * Describes instrument
  */
@@ -34,6 +37,11 @@ class NOOTKACORE_EXPORT Tinstrument {
   Q_PROPERTY(Etype type READ type WRITE setType)
   Q_PROPERTY(QString name READ name)
   Q_PROPERTY(int typeINT READ typeINT)
+  Q_PROPERTY(QString glyph READ glyph)
+  Q_PROPERTY(int clef READ clef)
+  Q_PROPERTY(bool isGuitar READ isGuitar)
+  Q_PROPERTY(QString qmlFile READ qmlFile)
+  Q_PROPERTY(qreal heightPart READ heightPart)
 
 public:
 
@@ -42,7 +50,8 @@ public:
     ClassicalGuitar = 1,
     ElectricGuitar = 2,
     BassGuitar = 3,
-    Piano = 4
+    Piano = 4,
+    Bandoneon = 5
   };
   Q_ENUM(Etype)
 
@@ -55,14 +64,31 @@ public:
     /**
      * Translated name of an instrument.
      */
-  QString name();
+  QString name() const;
+
+  QString static staticName(Etype t);
 
     /**
      * letter of instrument symbol (singer for NoInstrument).
      */
-  QString glyph();
+  QString glyph() const;
 
-  QString static staticName(Etype t);
+      /**
+       * Preferred clef for @p Etype of instrument
+       */
+  int clef() const;
+
+  bool isGuitar() const { return m_type == ClassicalGuitar || m_type == ElectricGuitar || m_type == BassGuitar; }
+
+      /**
+       * File implementing QML side of the instrument
+       */
+  QString qmlFile() const;
+
+      /**
+       * Main Nootka window height divider (height of instrument component)
+       */
+  qreal heightPart() const;
 
 private:
   Etype             m_type;
