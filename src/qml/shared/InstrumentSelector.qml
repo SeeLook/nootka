@@ -8,9 +8,6 @@ import QtQuick 2.9
 Flow {
   property int instrument: 0
 
-  // rather private
-  property var instrGlyphs: ["v", "h", "i", "j", "f"]
-
   spacing: nootkaWindow.fontSize
 
   Item {
@@ -18,7 +15,7 @@ Flow {
       height: parent.height
       Text {
         id: instrText
-        text: Noo.instrumentName(instrument)
+        text: Noo.instr(instrument).name
         anchors.centerIn: parent
         font { pixelSize: nootkaWindow.fontSize * 1.5; bold: true }
         Behavior on text {
@@ -33,10 +30,10 @@ Flow {
   }
 
   Repeater {
-      model: instrGlyphs.length
+      model: 6
       Text {
         font {family: "nootka"; pixelSize: 60 }
-        text: instrGlyphs[index]
+        text: Noo.instr(index).glyph
         color: instrument === index ? activPal.highlight : activPal.text
         scale: instrument === index ? 1.4 : 1.0
         y: instrument === index ? -nootkaWindow.fontSize / 3 : 0

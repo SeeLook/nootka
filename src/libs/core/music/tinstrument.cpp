@@ -16,52 +16,78 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+
 #include "tinstrument.h"
 #include <QtGui/qguiapplication.h>
 
 #include <QtCore/qdebug.h>
 
 
+//#################################################################################################
+//###################     static const definitions     ############################################
+//#################################################################################################
+
+static const char* const nameArray[INSTR_COUNT] = {
+  QT_TR_NOOP("other instrument"), QT_TR_NOOP("Classical Guitar"), QT_TR_NOOP("Electric Guitar"), QT_TR_NOOP("Bass Guitar"),
+  QT_TR_NOOP("Piano"), QT_TR_NOOP("Bandoneon")
+};
+
+
+static const char* const glyphArray[INSTR_COUNT] = {
+  "v", "h", "i", "j", "f", "e"
+};
+
+
+static const int clefArray[INSTR_COUNT] = {
+  1, 8, 8, 2, 128, 128
+};
+
+
+static const char* const qmlFileArray[INSTR_COUNT] = {
+  "", "Guitar", "Guitar", "Guitar", "Piano", "Bandoneon"
+};
+
+
+static const qreal heightArray[INSTR_COUNT] = {
+  0.0, 4.0, 4.0, 4.0, 5.0, 3.0
+};
+
+//#################################################################################################
+//###################              Tinstrument         ############################################
+//#################################################################################################
 Tinstrument::Tinstrument(Tinstrument::Etype type) :
   m_type(type)
 {
 }
 
 
-QString Tinstrument::name() {
+QString Tinstrument::name() const {
   return staticName(m_type);
 }
 
 
 QString Tinstrument::staticName(Tinstrument::Etype t) {
-  if (t == NoInstrument)
-    return QGuiApplication::translate("Einstrument", "other instrument");
-  if (t == ClassicalGuitar)
-    return QGuiApplication::translate("Einstrument", "Classical Guitar");
-  if (t == ElectricGuitar)
-    return QGuiApplication::translate("Einstrument", "Electric Guitar");
-  if (t == BassGuitar)
-    return QGuiApplication::translate("Einstrument", "Bass Guitar");
-  if (t == Piano)
-    return QGuiApplication::translate("Einstrument", "Piano");
-
-  return QString();
+  int ti = static_cast<int>(t);
+  return ti < 0 || ti > 5?  QString() : QGuiApplication::translate("Tinstrument", nameArray[ti]);
 }
 
 
-QString Tinstrument::glyph() {
-  QString glyph;
-  switch (m_type) {
-    case NoInstrument: glyph = QLatin1String("v"); break;
-    case ClassicalGuitar: glyph = QLatin1String("h"); break;
-    case ElectricGuitar: glyph = QLatin1String("i"); break;
-    case BassGuitar: glyph = QLatin1String("j"); break;
-    case Piano: glyph = QLatin1String("f"); break;
-    default: glyph = QString(); break;
-  }
-  return glyph;
+QString Tinstrument::glyph() const {
+  return QString(glyphArray[static_cast<int>(m_type)]);
+}
+
+
+int Tinstrument::clef() const {
+  return clefArray[static_cast<int>(m_type)];
+}
+
+
+QString Tinstrument::qmlFile() const {
+  return QString(qmlFileArray[static_cast<int>(m_type)]);
 }
 
 
 
-
+qreal Tinstrument::heightPart() const {
+  return heightArray[static_cast<int>(m_type)];
+}

@@ -168,9 +168,9 @@ Flickable {
 
   function ensureVisible(yy, hh) {
     if (contentY >= yy)
-      contentY = yy;
+      contentY = yy
     else if (contentY + height <= yy + hh)
-      contentY = yy + hh - height;
+      contentY = yy + hh - height
   }
 
   function addNote(n) {

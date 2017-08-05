@@ -9,24 +9,18 @@ import Nootka 1.0
 
 Item {
   id: root
-//   property alias instrument: instrLoad.item
+  property alias instrument: instrLoad.item
   property Score score
 
   signal note(var n)
 
-  height: GLOB.instrument.type === Tinstrument.Piano ? Math.min(nootkaWindow.height / 5, nootkaWindow.fontSize * 12) : nootkaWindow.height / 4
-  width: nootkaWindow.width
+  height: Math.max(parent.height / GLOB.instrument.heightPart, nootkaWindow.fontSize * 12)
+  width: parent.width
 
-//   nootkaWindow.height / 3 // for Bandoneon
-//   Bandoneon {
-//     anchors.horizontalCenter: parent.horizontalCenter
-//     onNoteChanged: root.note(note)
-//   }
-  
   Loader {
     id: instrLoad
     anchors.fill: parent
-    source: "qrc:/" +  (GLOB.instrument.type === Tinstrument.Piano ? "Piano" : "Guitar") + ".qml"
+    source: "qrc:/" +  GLOB.instrument.qmlFile + ".qml"
     onLoaded: {
       if (GLOB.instrument.type === Tinstrument.Piano)
         instrument.firstOctave = Noo.octave(score.scoreObj.lowestNote())

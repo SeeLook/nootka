@@ -31,7 +31,6 @@
 #include "instruments/tpianobg.h"
 #include "instruments/tbandoneonbg.h"
 #include "taction.h"
-#include "music/tinstrument.h"
 #include "music/ttuneobject.h"
 
 #include <QtQml/qqmlengine.h>
@@ -288,8 +287,8 @@ QString TnootkaQML::stdButtonIcon(int role) {
 }
 
 
-QString TnootkaQML::instrumentName(int instr) {
-  return Tinstrument::staticName(static_cast<Tinstrument::Etype>(instr));
+Tinstrument TnootkaQML::instr(int type) {
+  return Tinstrument(static_cast<Tinstrument::Etype>(type < 0 || type > INSTR_COUNT - 1 ? 0 : type));
 }
 
 

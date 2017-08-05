@@ -195,7 +195,7 @@ public:
   //============ guitar settings =============================================================
   Tinstrument instrument() { return m_instrument; }
   Q_INVOKABLE void setInstrument(Tinstrument::Etype t);
-  Q_INVOKABLE void setInstrument(int t) { setInstrument(t >= 0 && t < 5 ? static_cast<Tinstrument::Etype>(t) : Tinstrument::NoInstrument); }
+  Q_INVOKABLE void setInstrument(int t) { setInstrument(t >= 0 && t < INSTR_COUNT ? static_cast<Tinstrument::Etype>(t) : Tinstrument::NoInstrument); }
   int fretNumber() const { return GfretsNumber; }
   unsigned  GfretsNumber; /**< default 19 */
   bool GisRightHanded; /**< default true */
