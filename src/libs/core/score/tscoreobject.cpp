@@ -695,6 +695,25 @@ Tnote TscoreObject::lowestNote() {
   }
 }
 
+
+TnoteObject* TscoreObject::getNext(TnoteObject* someNote) {
+  if (someNote) {
+    if (someNote->index() < notesCount() - 1)
+      return noteSegment(someNote->index() + 1)->item();
+  }
+  return nullptr;
+}
+
+
+TnoteObject * TscoreObject::getPrev(TnoteObject* someNote) {
+  if (someNote) {
+    if (someNote->index() > 0)
+      return noteSegment(someNote->index() - 1)->item();
+  }
+  return nullptr;
+}
+
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################

@@ -23,6 +23,7 @@ Score {
   property alias saveXmlAct: saveXmlAct
   property alias deleteLastAct: deleteLastAct
   property alias clearScoreAct: clearScoreAct
+  property alias recModeAct: recModeAct
 
   scoreObj.meter: GLOB.rhythmsEnabled ? Tmeter.Meter_4_4 : Tmeter.NoMeter
   focus: true
@@ -79,6 +80,13 @@ Score {
 //     x: mainScore.width * 0.7
 //   }
 
+  Taction {
+    id: recModeAct
+    text: recordMode ? qsTr("Note by note") : qsTr("Edit")
+    icon: recordMode ? "record" : "stopMelody"
+    onTriggered: recordMode = !recordMode
+    shortcut: Shortcut { sequence: "Ctrl+Space"; onActivated: recModeAct.triggered() }
+  }
   Taction {
     id: openXmlAct
     text: Fake.tr("QShortcut", "Open")
@@ -143,22 +151,19 @@ Score {
   Shortcut {
     sequence: StandardKey.MoveToNextChar;
     onActivated: {
-      if (currentNote) {
-          if (currentNote.index < notesCount - 1)
-            currentNote =  scoreObj.note(currentNote.index + 1)
-      } else
-          currentNote = scoreObj.note(0)
+      if (currentNote)
+        currentNote = scoreObj.getNext(currentNote)
+      else
+        currentNote = scoreObj.note(0)
     }
   }
   Shortcut {
     sequence: StandardKey.MoveToPreviousChar;
     onActivated: {
-      if (currentNote) {
-          if (currentNote.index > 0)
-            currentNote = scoreObj.note(currentNote.index - 1)
-      } else {
-          currentNote = scoreObj.note(0)
-      }
+      if (currentNote)
+        currentNote = scoreObj.getPrev(currentNote)
+      else
+        currentNote = scoreObj.note(notesCount - 1)
     }
   }
 
