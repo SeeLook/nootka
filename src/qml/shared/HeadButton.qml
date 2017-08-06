@@ -35,6 +35,7 @@ ToolButton {
   onClicked: {
     if (action)
       action.trigger()
+    focus = false
   }
 
   Image {
