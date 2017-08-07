@@ -23,7 +23,8 @@ Flickable {
   property alias workRhythm: scoreObj.workRhythm
   property real scaleFactor: 1.0
   property alias notesCount: scoreObj.notesCount
-  property TnoteItem currentNote: null
+  property alias currentNote: scoreObj.selectedItem
+  property alias note: scoreObj.selectedNote
   property alias readOnly: scoreObj.readOnly
   property bool recordMode: false
 
