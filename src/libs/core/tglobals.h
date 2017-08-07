@@ -72,11 +72,13 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   /* Instrument switches */
   Q_PROPERTY(Tinstrument instrument READ instrument NOTIFY instrumentChanged)
   Q_PROPERTY(TtuneObject* tuning READ tuning NOTIFY tuningChanged)
+  
 
   Q_PROPERTY(QColor fingerColor READ fingerColor WRITE setFingerColor NOTIFY fingerColorChanged)
   Q_PROPERTY(QColor selectedColor READ selectedColor WRITE setSelectedColor NOTIFY selectedColorChanged)
   Q_PROPERTY(bool preferFlats READ preferFlats WRITE setPreferFlats NOTIFY preferFlatsChanged)
   Q_PROPERTY(int fretNumber READ fretNumber NOTIFY guitarParamsChanged)
+  Q_PROPERTY(bool showOtherPos READ showOtherPos WRITE setShowOtherPos)
 
 public:
 
@@ -160,6 +162,9 @@ public:
 
   bool preferFlats() const { return GpreferFlats; }
   void setPreferFlats(bool prefFlat) { GpreferFlats = prefFlat; }
+
+  bool showOtherPos() const { return GshowOtherPos; }
+  void setShowOtherPos(bool show) { GshowOtherPos = show; }
 
       /**
        * Updates key signature names according to name style and major/minor suffixes.
