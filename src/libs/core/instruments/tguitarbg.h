@@ -45,6 +45,7 @@ class NOOTKACORE_EXPORT TguitarBg : public QQuickPaintedItem
   Q_PROPERTY(QRect fbRect READ fbRect NOTIFY stringsGapChanged)
   Q_PROPERTY(bool readOnly READ readOnly WRITE setReadOnly)
   Q_PROPERTY(Tnote note READ note WRITE setNote NOTIFY noteChanged)
+  Q_PROPERTY(bool outOfScale READ outOfScale NOTIFY outOfScaleChanged)
 
 
 public:
@@ -72,6 +73,8 @@ public:
 
   Tnote note() const { return m_note; }
   void setNote(const Tnote& n);
+
+  bool outOfScale() const { return m_outOfScale; }
 
   void paint(QPainter* painter) override;
 
@@ -104,6 +107,7 @@ signals:
   void fingerPosChanged();
   void stringChanged();
   void noteChanged();
+  void outOfScaleChanged();
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) override;
@@ -119,6 +123,8 @@ protected:
        */
   void setTune();
 
+  void setOutOfScale(bool out);
+
 private:
   QRect        m_fbRect; /**< Represents top left positions and size of a fingerboard */
   int          m_strGap; /**< Distance between strings */
@@ -132,8 +138,11 @@ private:
 
   bool         m_active;
   bool         m_readOnly = false;
+  bool         m_outOfScale = false;
   QPointF      m_fingerPos;
   Tnote        m_note;
+  QQuickItem  *m_fingerItems[6];
+  QQuickItem  *m_stringItems[6];
 
 };
 

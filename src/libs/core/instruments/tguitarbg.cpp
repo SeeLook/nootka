@@ -21,10 +21,13 @@
 #include "music/ttune.h"
 #include "tpath.h"
 
+#include <QtQml/qqmlengine.h>
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpainter.h>
 #include <QtGui/qpalette.h>
+
 #include <QtCore/qdebug.h>
+#include "checktime.h"
 
 
 TguitarBg::TguitarBg(QQuickItem* parent) :
@@ -39,6 +42,19 @@ TguitarBg::TguitarBg(QQuickItem* parent) :
   setAcceptedMouseButtons(Qt::LeftButton);
   setTune();
 
+  QQmlEngine engine;
+  QQmlComponent comp(&engine, this);
+
+  comp.setData("import QtQuick 2.9; Rectangle {}", QUrl());
+  for (int s = 0; s < 6; ++s) {
+    m_stringItems[s] = qobject_cast<QQuickItem*>(comp.create());
+    m_stringItems[s]->setParentItem(this);
+    m_stringItems[s]->setVisible(false);
+    m_fingerItems[s] = qobject_cast<QQuickItem*>(comp.create());
+    m_fingerItems[s]->setParentItem(this);
+    m_fingerItems[s]->setVisible(false);
+  }
+
   connect(GLOB, &Tglobals::guitarParamsChanged, this, &TguitarBg::updateGuitar);
 }
 
@@ -47,13 +63,39 @@ QPointF TguitarBg::fretToPos(const TfingerPos& pos) {
   qreal xPos = fbRect().x();
   if (pos.fret())
     xPos = m_fretsPos[pos.fret() - 1] - qRound(m_fretWidth / 1.5);
-  return QPointF(xPos, m_fbRect.y() + m_strGap * (pos.str() - 1) + m_strGap / 5);
+  return QPointF(xPos, m_fbRect.y() + m_strGap * (pos.str() - 1) + m_strGap / 5.0);
 }
 
 
 void TguitarBg::setNote(const Tnote& n) {
-  if (n != m_note) {
-    
+  if (!m_note.compareNotes(n)) {
+    short noteNr = n.chromatic();
+    bool foundPos = false;
+    bool doShow = n.isValid();
+    for (int s = 0; s < 6; ++ s) {
+      auto strNr = GLOB->strOrder(s);
+      int fret = noteNr - GLOB->Gtune()->str(strNr + 1).chromatic();
+      if (doShow && fret >= 0 && fret <= GLOB->GfretsNumber) { // found
+          if (fret == 0) { // open string
+              m_fingerItems[strNr]->setVisible(false);
+              m_stringItems[strNr]->setVisible(true);
+          } else { // some fret
+              m_fingerItems[strNr]->setVisible(true);
+              auto p = fretToPos(TfingerPos(static_cast<unsigned char>(strNr + 1), static_cast<unsigned char>(fret)));
+              m_fingerItems[strNr]->setX(p.x());
+              m_fingerItems[strNr]->setY(p.y() - m_fingerItems[strNr]->height() * 0.15);
+              m_stringItems[strNr]->setVisible(false);
+          }
+          foundPos = true;
+          if (!GLOB->GshowOtherPos)
+            doShow = false;
+      } else {// not found on this string or no need to show - hide then
+          m_fingerItems[strNr]->setVisible(false);
+          m_stringItems[strNr]->setVisible(false);
+      }
+    }
+    setOutOfScale(!foundPos && n.isValid());
+    m_note = n;
   }
 }
 
@@ -256,6 +298,19 @@ void TguitarBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeom
     m_strWidth[4] = m_widthFromPitch[4] * wFactor;
     m_strWidth[5] = m_widthFromPitch[5] * wFactor;
 
+    for (int s = 0; s < 6; ++s) {
+      m_stringItems[s]->setProperty("color", GLOB->GselectedColor);
+      m_stringItems[s]->setWidth(newGeometry.width());
+      m_stringItems[s]->setHeight(m_strWidth[s] * 1.5);
+      m_stringItems[s]->setX(1.0);
+      m_stringItems[s]->setY(m_fbRect.y() + static_cast<qreal>(m_strGap * s) + m_strGap / 2.0 - strWidth(s) / 2.0);
+
+      m_fingerItems[s]->setProperty("color", GLOB->GselectedColor);
+      m_fingerItems[s]->setWidth(m_fretWidth / 1.6);
+      m_fingerItems[s]->setHeight(m_fretWidth / 2.46);
+      m_fingerItems[s]->setProperty("radius", m_fretWidth / 3.2);
+    }
+
     emit fretWidthChanged();
     emit stringsGapChanged();
 
@@ -266,6 +321,7 @@ void TguitarBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeom
 
 void TguitarBg::hoverEnterEvent(QHoverEvent*) {
   m_active = true;
+  setOutOfScale(false);
   emit activeChanged();
 }
 
@@ -285,14 +341,18 @@ void TguitarBg::hoverMoveEvent(QHoverEvent* event) {
 
 
 void TguitarBg::mousePressEvent(QMouseEvent* event) {
+CHECKTIME (
   if (event->buttons() & Qt::LeftButton) {
     if (m_curStr < 7) {
-      m_note.setChromatic(GLOB->Gtune()->str(m_curStr + 1).chromatic() + m_curFret);
+      Tnote n(GLOB->Gtune()->str(m_curStr + 1).chromatic() + m_curFret);
       if (GLOB->GpreferFlats)
-        m_note = m_note.showWithFlat();
+        n = n.showWithFlat();
+      setNote(n);
+      emit fingerPosChanged();
       emit noteChanged();
     }
   }
+)
 }
 
 
@@ -371,3 +431,10 @@ void TguitarBg::setTune() {
 //   m_hiNote = GLOB->hiString().chromatic() + GLOB->GfretsNumber;
 }
 
+
+void TguitarBg::setOutOfScale(bool out) {
+  if (out != m_outOfScale) {
+    m_outOfScale = out;
+    emit outOfScaleChanged();
+  }
+}
