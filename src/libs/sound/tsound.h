@@ -54,6 +54,7 @@ class NOOTKASOUND_EXPORT Tsound : public QObject
   Q_PROPERTY(int quantization READ quantization WRITE setQuantization NOTIFY quantizationChanged)
   Q_PROPERTY(bool stoppedByUser READ stoppedByUser WRITE setStoppedByUser NOTIFY stoppedByUserChanged)
   Q_PROPERTY(bool listening READ listening NOTIFY listeningChanged)
+  Q_PROPERTY(Tnote finishedNote READ note NOTIFY noteFinished)
 
 public:
   explicit Tsound(QObject *parent = nullptr);
