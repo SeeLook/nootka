@@ -99,6 +99,7 @@ Flickable {
     Tile {
       visible: Noo.instr(instrSel.instrument).isGuitar
       TcheckBox {
+        id: showOtherPosChB
         text: qsTr("show all possibilities of a note")
         anchors.horizontalCenter: parent.horizontalCenter
       }
@@ -135,6 +136,9 @@ Flickable {
         ColorButton { id: selectedColorButt; color: GLOB.selectedColor }
       }
     }
+    Component.onCompleted: { // to avoid declaring every property signal in Tglobals.h
+      showOtherPosChB.checked = GLOB.showOtherPos
+    }
 
   }
 
@@ -145,6 +149,7 @@ Flickable {
     GLOB.setInstrument(instrSel.instrument)
     if (Noo.instr(instrSel.instrument).isGuitar) {
       GLOB.setGuitarParams(fretsNrSpin.value, stringNrSpin.value)
+      GLOB.showOtherPos = showOtherPosChB.checked
     }
   }
 
