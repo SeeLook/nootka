@@ -77,6 +77,8 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
                         /* Helper variables */
   Q_PROPERTY(qreal stavesHeight READ stavesHeight NOTIFY stavesHeightChanged)
   Q_PROPERTY(qreal width READ width WRITE setWidth)
+  Q_PROPERTY(TnoteObject* selectedItem READ selectedItem WRITE setSelectedItem NOTIFY selectedItemChanged)
+  Q_PROPERTY(Tnote selectedNote READ selectedNote NOTIFY selectedNoteChanged)
                         /* Note cursor */
   Q_PROPERTY(TnoteObject* activeNote READ activeNote NOTIFY activeNoteChanged)
   Q_PROPERTY(TnoteObject* lastNote READ lastNote NOTIFY lastNoteChanged)
@@ -122,6 +124,11 @@ public:
        * Returns a note item of @p TnoteObject
        */
   Q_INVOKABLE TnoteObject* note(int noteId);
+
+      /**
+       * Returns note of given @p item or invalid (empty) one if item is null
+       */
+  Q_INVOKABLE Tnote noteOfItem(TnoteObject* item) const;
 
   Q_INVOKABLE void noteClicked(qreal yPos);
 
@@ -225,6 +232,15 @@ public:
        */
   Q_INVOKABLE TnoteObject* getPrev(TnoteObject* someNote);
 
+      /**
+       * It keeps pointer to selected note item but selections itself is managed outside.
+       * Changes this has influence on @p selectedNote() which is read only
+       */
+  TnoteObject* selectedItem() { return m_selectedItem; }
+  void setSelectedItem(TnoteObject* item);
+
+  Tnote selectedNote() const { return noteOfItem(m_selectedItem); }
+
 /* ------------------ Note cursor ------------------ */
   TnoteObject* activeNote() { return m_activeNote; }
   qreal xFirstInActivBar();
@@ -322,6 +338,9 @@ signals:
   void lastNoteChanged();
 
   void workRtmTextChanged();
+
+  void selectedItemChanged();
+  void selectedNoteChanged();
 
 protected:
       /**
@@ -457,6 +476,7 @@ private:
   QQmlComponent                    *m_qmlComponent;
   QColor                            m_nameColor;
   int                               m_nameStyle;
+  TnoteObject                      *m_selectedItem = nullptr;
                               /* Note cursor */
   TnoteObject                      *m_activeNote = nullptr;
   qreal                             m_activeYpos = 0.0;

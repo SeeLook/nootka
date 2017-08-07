@@ -335,12 +335,19 @@ void TscoreObject::setNote(TnoteObject* no, const Tnote& n) {
       if (m_segments[notesForAlterCheck.y()]->item()->staff() != m_segments[notesForAlterCheck.x()]->item()->staff())
         m_segments[notesForAlterCheck.y()]->item()->staff()->fit();
     }
+    if (no = m_selectedItem)
+      emit selectedNoteChanged();
   }
 }
 
 
 TnoteObject* TscoreObject::note(int noteId) {
   return noteId > -1 && noteId < notesCount() ? m_segments[noteId]->item() : nullptr;
+}
+
+
+Tnote TscoreObject::noteOfItem(TnoteObject* item) const {
+  return item ? *item->note() : Tnote();
 }
 
 
@@ -711,6 +718,15 @@ TnoteObject * TscoreObject::getPrev(TnoteObject* someNote) {
       return noteSegment(someNote->index() - 1)->item();
   }
   return nullptr;
+}
+
+
+void TscoreObject::setSelectedItem(TnoteObject* item) {
+  if (item != m_selectedItem) {
+    m_selectedItem = item;
+    emit selectedItemChanged();
+    emit selectedNoteChanged();
+  }
 }
 
 
