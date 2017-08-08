@@ -97,8 +97,9 @@ TguitarSettings::TguitarSettings(QWidget *parent) :
       m_prefSharpBut->setChecked(true);
 
   m_fretMarksEdit = new QLineEdit(grabFretsFromList(Tcore::gl()->GmarkedFrets), this);
-  m_fretMarksEdit->setMaxLength(25);
-  QRegExp rx("([1-2]{0,1}[0-9]{1,2}!{0,1},){0,7}");
+  m_fretMarksEdit->setMaxLength(30);
+  m_fretMarksEdit->setMinimumWidth(fontMetrics().width(QStringLiteral("0")) * 25);
+  QRegExp rx("([1-2]{0,1}[0-9]{1,2}!{0,1},){0,10}");
   m_fretMarksEdit->setValidator(new QRegExpValidator(rx, 0));
 #if defined (Q_OS_ANDROID)
   m_fretMarksEdit->setStatusTip(tr("Put numbers of frets marked with dot. Separate the numbers with comma. Add ! (exclamation mark) after a number to paint a dot twice.").replace(". ", ".<br>"));
