@@ -20,52 +20,118 @@
 #define TBANDONEONBG_H
 
 
-#include <QtCore/qobject.h>
 #include "music/tnote.h"
 
+#include <QtQuick/qquickitem.h>
+#include <QtGui/qcolor.h>
 
-class TbandoneonBg : public QObject
+
+class QQmlComponent;
+
+
+/**
+ * @class TbandoneonBg represents logic of bandoneon.
+ * It has static array @p buttArray with X,Y button coordinates
+ * and notes for bellows opening/closing for each of buttons.
+ * From this array @p m_notesArray is created which contains number of @p buttArray elements for each note.
+ * @p m_notesArray covers entire bandoneon scale (C-1 - note -11 to H3 - note 48) : 59 notes
+ *
+ * There are five circles that highlight selected buttons: some notes occur a few times (a few buttons)
+ * depends on @p m_opening / @p m_closing state(s)
+ */
+class TbandoneonBg : public QQuickItem
 {
   Q_OBJECT
 
-  Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex NOTIFY currentIndexChanged)
+  Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex)
+  Q_PROPERTY(bool opening READ opening WRITE setOpening NOTIFY openingChanged)
   Q_PROPERTY(bool closing READ closing WRITE setClosing NOTIFY closingChanged)
   Q_PROPERTY(Tnote note READ note WRITE setNote NOTIFY noteChanged)
+  Q_PROPERTY(qreal rightX READ rightX WRITE setRightX)
+  Q_PROPERTY(bool outOfScale READ outOfScale NOTIFY outOfScaleChanged)
+  Q_PROPERTY(bool active READ active NOTIFY activeChanged)
 
 public:
-  TbandoneonBg(QObject* parent = nullptr);
+  TbandoneonBg(QQuickItem* parent = nullptr);
+  ~TbandoneonBg();
 
-  Q_INVOKABLE qreal leftXat(int b);
-  Q_INVOKABLE qreal leftYat(int b);
-  Q_INVOKABLE int leftOpenAt(int b);
-  Q_INVOKABLE int leftCloseAt(int b);
-
-  Q_INVOKABLE qreal rightXat(int b);
-  Q_INVOKABLE qreal rightYat(int b);
-  Q_INVOKABLE int rightOpenAt(int b);
-  Q_INVOKABLE int rightCloseAt(int b);
+  Q_INVOKABLE qreal xAt(int b);
+  Q_INVOKABLE qreal yAt(int b);
+  Q_INVOKABLE int openAt(int b);
+  Q_INVOKABLE int closeAt(int b);
 
   int currentIndex() const { return m_currentIndex; }
   void setCurrentIndex(int i);
 
-  bool closing() const { return m_isClosing; }
+  bool opening() const { return m_opening; }
+  void setOpening(bool o);
+
+  bool closing() const { return m_closing; }
   void setClosing(bool c);
 
   Tnote note() const { return m_note; }
   void setNote(const Tnote& n);
 
+  qreal rightX() const { return m_rightX; }
+  void setRightX(qreal rx);
+
+  bool outOfScale() const { return m_outOfScale; }
+
+  bool active() const { return m_active; }
+
 signals:
-  void currentIndexChanged();
   void closingChanged();
+  void openingChanged();
   void noteChanged();
+  void outOfScaleChanged();
+  void activeChanged();
+
+protected:
+  void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) override;
+  void hoverEnterEvent(QHoverEvent*) override;
+  void hoverLeaveEvent(QHoverEvent*) override;
 
 private:
+
+      /**
+       * @p QQuickItem circle and button number in @p buttArray, or 0 if no button.
+       */
+  class TbandCircle {
+    public:
+      int             buttonId = 0;
+      QQuickItem*     item = nullptr;
+  };
+
   void getNote();
+  QQuickItem* createCircle(QQmlComponent* comp);
+  void updateCircleSize(QQuickItem* it);
+  void updateCircesPos();
+  void checkCircle(int butNr, TbandCircle& c, bool visible = true);
+  void hideCircles();
 
 private:
+      /**
+       * Contains button number in @p buttArray for left/right keys and opening/closing states.
+       * NOTICE: number is increased by 1, so @p 0 means: no button
+       */
+  class TbandoNote {
+  public:
+    quint8 leftOpen = 0;
+    quint8 leftClose = 0;
+    quint8 rightOpen = 0;
+    quint8 rightClose = 0;
+  };
+
   int               m_currentIndex;
-  bool              m_isClosing = false;
+  bool              m_closing = false;
+  bool              m_opening = false;
   Tnote             m_note;
+  TbandoNote        m_notesArray[60];
+  TbandCircle       m_circleLeftOpen, m_circleLeftClose, m_circleRightOpen, m_circleRightClose, m_circleCloseExtra;
+  qreal             m_factor = 1.0;
+  qreal             m_rightX = 0.0;
+  bool              m_outOfScale = false;
+  bool              m_active = false;
 };
 
 #endif // TBANDONEONBG_H
