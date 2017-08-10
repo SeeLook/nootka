@@ -138,6 +138,8 @@ public:
   Q_INVOKABLE void openMusicXml(const QString& musicFile);
   Q_INVOKABLE void saveMusicXml(const QString& musicFile);
 
+  Q_INVOKABLE void playScore(int tempo = 80);
+
   /* ------------------ Score switches ------------------ */
 
   bool keySignatureEnabled() const { return m_keySignEnabled; }

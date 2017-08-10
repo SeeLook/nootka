@@ -421,6 +421,29 @@ void TscoreObject::saveMusicXml(const QString& musicFile) {
 }
 
 
+void TscoreObject::playScore(int tempo) {
+  if (m_segments.isEmpty())
+    return;
+  // invoke playing first note
+  if (m_selectedItem == nullptr)
+      setSelectedItem(firstSegment()->item());
+  else {
+      emit selectedItemChanged();
+      emit selectedNoteChanged();
+  }
+  if (m_selectedItem != lastSegment()->item()) {
+    auto note = selectedNote();
+    int duration = 60000 / tempo;
+    if (note.rtm.isValid()) // 24 is duration of quarter note
+      duration = qRound(static_cast<qreal>(duration) / (24.0 / static_cast<qreal>(note.duration())));
+    QTimer::singleShot(duration, [=]{
+      m_selectedItem = getNext(m_selectedItem);
+      playScore(tempo);
+    });
+  }
+}
+
+
 //#################################################################################################
 //###################         Score switches           ############################################
 //#################################################################################################

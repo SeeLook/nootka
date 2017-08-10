@@ -65,7 +65,7 @@ public:
 
   static Tsound* instance() { return m_instance; }
 
-  void play(Tnote& note);
+  Q_INVOKABLE void play(const Tnote& note);
   void playMelody(Tmelody* mel);
   bool isPlayable();
   bool isSniffable() { return (sniffer ? true : false) ; }

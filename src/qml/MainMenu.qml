@@ -28,6 +28,12 @@ Item {
 
         MenuItem {
           contentItem: MenuButton {
+            action: score.playAct
+            onClicked: scoreMenu.close()
+          }
+        }
+        MenuItem {
+          contentItem: MenuButton {
             action: score.recModeAct
             onClicked: scoreMenu.close()
           }

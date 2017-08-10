@@ -73,6 +73,7 @@ ApplicationWindow {
         id: score
         height: nootkaWindow.height - (header ? header.height : 0) - instrument.height
         z: 5
+        onNoteChanged: SOUND.play(note)
       }
 
       Instrument {

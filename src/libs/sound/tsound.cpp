@@ -87,7 +87,7 @@ Tsound::~Tsound()
 //###################                PUBLIC            ############################################
 //#################################################################################################
 
-void Tsound::play(Tnote& note) {
+void Tsound::play(const Tnote& note) {
   bool playing = false;
   if (player && note.note)
       playing = player->play(note.chromatic());

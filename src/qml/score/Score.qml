@@ -199,4 +199,8 @@ Flickable {
     accidControl.show = false
     rtmControl.show = false
   }
+
+  function playScore(tempo) {
+    scoreObj.playScore(tempo)
+  }
 }
