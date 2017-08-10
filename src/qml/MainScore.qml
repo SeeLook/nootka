@@ -24,6 +24,7 @@ Score {
   property alias deleteLastAct: deleteLastAct
   property alias clearScoreAct: clearScoreAct
   property alias recModeAct: recModeAct
+  property alias playAct: playAct
 
   scoreObj.meter: GLOB.rhythmsEnabled ? Tmeter.Meter_4_4 : Tmeter.NoMeter
   focus: true
@@ -81,11 +82,18 @@ Score {
 //   }
 
   Taction {
+    id: playAct
+    text: Fake.tr("QShortcut", "Play")
+    icon: "playMelody"
+    onTriggered: playScore(SOUND.tempo)
+//     shortcut: Shortcut { sequence: "Space"; onActivated: recModeAct.triggered() }
+  }
+  Taction {
     id: recModeAct
     text: recordMode ? qsTr("Note by note") : qsTr("Edit")
     icon: recordMode ? "record" : "stopMelody"
     onTriggered: recordMode = !recordMode
-    shortcut: Shortcut { sequence: "Ctrl+Space"; onActivated: recModeAct.triggered() }
+//     shortcut: Shortcut { sequence: "Ctrl+Space"; onActivated: recModeAct.triggered() }
   }
   Taction {
     id: openXmlAct
@@ -165,6 +173,12 @@ Score {
       else
         currentNote = scoreObj.note(notesCount - 1)
     }
+  }
+  Keys.onSpacePressed: {
+    if (event.modifiers & Qt.ControlModifier)
+      recModeAct.triggered()
+    else
+      playAct.triggered()
   }
 
 }
