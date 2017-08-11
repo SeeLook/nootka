@@ -5,6 +5,7 @@
 import QtQuick 2.9
 
 import Nootka 1.0
+// import "instruments"
 
 
 Item {
@@ -14,13 +15,13 @@ Item {
 
   signal note(var n)
 
-  height: Math.max(parent.height / GLOB.instrument.heightPart, nootkaWindow.fontSize * 12)
-  width: parent.width
+  height: GLOB.instrument.isSax ? parent.height : Math.max(parent.height / GLOB.instrument.heightPart, nootkaWindow.fontSize * 12)
+  width: parent.width * (GLOB.instrument.isSax ? 0.15 : 1)
 
   Loader {
     id: instrLoad
     anchors.fill: parent
-    source: "qrc:/" +  GLOB.instrument.qmlFile + ".qml"
+    source: "qrc:/instruments/" +  GLOB.instrument.qmlFile + ".qml"
     onLoaded: {
       instrument.note = Qt.binding( function() { return score.note } )
       if (GLOB.instrument.type === Tinstrument.Piano)
