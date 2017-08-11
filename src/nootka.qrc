@@ -41,10 +41,12 @@
     <file alias="ControlBase.qml">qml/score/ControlBase.qml</file>
 
     <file alias="Instrument.qml">qml/instruments/Instrument.qml</file>
-    <file alias="Guitar.qml">qml/instruments/Guitar.qml</file>
-    <file alias="Piano.qml">qml/instruments/Piano.qml</file>
-    <file alias="Bandoneon.qml">qml/instruments/Bandoneon.qml</file>
+    <file alias="instruments/Guitar.qml">qml/instruments/Guitar.qml</file>
+    <file alias="instruments/Piano.qml">qml/instruments/Piano.qml</file>
+    <file alias="instruments/Bandoneon.qml">qml/instruments/Bandoneon.qml</file>
+    <file alias="instruments/Sax.qml">qml/instruments/Sax.qml</file>
     <file alias="instruments/OutScaleTip.qml">qml/instruments/OutScaleTip.qml</file>
+    <file alias="instruments/SaxFlap.qml">qml/instruments/SaxFlap.qml</file>
 
     <file alias="TaboutNootka.qml">qml/about/TaboutNootka.qml</file>
     <file alias="about/AboutPage.qml">qml/about/AboutPage.qml</file>

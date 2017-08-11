@@ -66,12 +66,14 @@ ApplicationWindow {
   MainMenu { id: mainMenu }
   header: mainMenu.toolBar
 
-  Column {
+  Grid {
       anchors.fill: parent
+      columns: GLOB.instrument.isSax ? 2 : 1
 
       MainScore {
         id: score
-        height: nootkaWindow.height - (header ? header.height : 0) - instrument.height
+        height: nootkaWindow.height - (header ? header.height : 0) - (GLOB.instrument.isSax ? 0 : instrument.height)
+        width: parent.width - (GLOB.instrument.isSax ? instrument.width : 0)
         z: 5
         onNoteChanged: SOUND.play(note)
       }
