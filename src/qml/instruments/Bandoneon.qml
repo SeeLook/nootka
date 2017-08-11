@@ -6,7 +6,6 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 
 import Nootka 1.0
-import "instruments"
 
 
 Item {
@@ -166,12 +165,6 @@ Item {
     }
 
   }
-
-//   MouseArea {
-//     id: mainArea
-//     width: parent.width; height: parent.height
-//     hoverEnabled: true
-//   }
 
   OutScaleTip { visible: bando.outOfScale && !bando.active }
 
