@@ -53,7 +53,7 @@ Flickable {
     }
 
     Tile {
-      visible: instrSel.instrument != Tinstrument.Piano && instrSel.instrument != Tinstrument.Bandoneon
+      visible: instrSel.instrument <= Tinstrument.BassGuitar
       Column {
         spacing: nootkaWindow.fontSize / 4
         width: parent.width

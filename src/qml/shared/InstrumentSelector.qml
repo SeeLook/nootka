@@ -30,7 +30,7 @@ Flow {
   }
 
   Repeater {
-      model: 6
+      model: 8
       Text {
         font {family: "nootka"; pixelSize: 60 }
         text: Noo.instr(index).glyph
