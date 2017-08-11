@@ -29,27 +29,32 @@
 
 static const char* const nameArray[INSTR_COUNT] = {
   QT_TR_NOOP("other instrument"), QT_TR_NOOP("Classical Guitar"), QT_TR_NOOP("Electric Guitar"), QT_TR_NOOP("Bass Guitar"),
-  QT_TR_NOOP("Piano"), QT_TR_NOOP("Bandoneon")
+  QT_TR_NOOP("Piano"), QT_TR_NOOP("Bandoneon"), QT_TR_NOOP("Alt Saxophone"), QT_TR_NOOP("Tenor Saxophone")
 };
 
 
 static const char* const glyphArray[INSTR_COUNT] = {
-  "v", "h", "i", "j", "f", "e"
+  "v", "h", "i", "j", "f", "e", "P", "Q"
 };
 
 
-static const int clefArray[INSTR_COUNT] = {
-  1, 8, 8, 2, 128, 128
+static const quint8 clefArray[INSTR_COUNT] = {
+  1, 8, 8, 2, 128, 128, 1, 1
 };
 
 
 static const char* const qmlFileArray[INSTR_COUNT] = {
-  "", "Guitar", "Guitar", "Guitar", "Piano", "Bandoneon"
+  "", "Guitar", "Guitar", "Guitar", "Piano", "Bandoneon", "Sax"
 };
 
 
 static const qreal heightArray[INSTR_COUNT] = {
-  0.0, 4.0, 4.0, 4.0, 5.0, 3.0
+  0.0, 4.0, 4.0, 4.0, 5.0, 3.0, 1.0, 1.0
+};
+
+
+static const qint8 transArray[INSTR_COUNT] = {
+  0, 0, 0, -12, 0, 0, 3, -2
 };
 
 //#################################################################################################
@@ -68,7 +73,7 @@ QString Tinstrument::name() const {
 
 QString Tinstrument::staticName(Tinstrument::Etype t) {
   int ti = static_cast<int>(t);
-  return ti < 0 || ti > 5?  QString() : QGuiApplication::translate("Tinstrument", nameArray[ti]);
+  return ti < 0 || ti > INSTR_COUNT - 1 ?  QString() : QGuiApplication::translate("Tinstrument", nameArray[ti]);
 }
 
 
@@ -90,4 +95,9 @@ QString Tinstrument::qmlFile() const {
 
 qreal Tinstrument::heightPart() const {
   return heightArray[static_cast<int>(m_type)];
+}
+
+
+int Tinstrument::transposition() const {
+  return transArray[static_cast<int>(m_type)];
 }
