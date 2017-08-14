@@ -335,7 +335,7 @@ void TscoreObject::setNote(TnoteObject* no, const Tnote& n) {
       if (m_segments[notesForAlterCheck.y()]->item()->staff() != m_segments[notesForAlterCheck.x()]->item()->staff())
         m_segments[notesForAlterCheck.y()]->item()->staff()->fit();
     }
-    if (no = m_selectedItem)
+    if (no == m_selectedItem)
       emit selectedNoteChanged();
   }
 }
