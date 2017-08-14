@@ -30,6 +30,7 @@
 #include "instruments/tguitarbg.h"
 #include "instruments/tpianobg.h"
 #include "instruments/tbandoneonbg.h"
+#include "instruments/tsaxbg.h"
 #include "taction.h"
 #include "music/ttuneobject.h"
 
@@ -73,6 +74,7 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qmlRegisterType<TguitarBg>("Nootka", 1, 0, "TguitarBg");
   qmlRegisterType<TpianoBg>("Nootka", 1, 0, "TpianoBg");
   qmlRegisterType<TbandoneonBg>("Nootka", 1, 0, "TbandoneonBg");
+  qmlRegisterType<TsaxBg>("Nootka", 1, 0, "TsaxBg");
   qmlRegisterType<Taction>("Nootka", 1, 0, "Taction");
 
   qmlRegisterUncreatableType<TnootkaQML>("Nootka", 1, 0, "Nootka", QStringLiteral("You cannot create an instance of the TnootkaQML."));

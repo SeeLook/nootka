@@ -7,18 +7,24 @@ import QtQuick 2.9
 
 Rectangle {
   property int nr: -1
-  property bool checked: false
+  property bool checked: fingeringId & Math.pow(2, nr)
+
+  antialiasing: true
   color: checked ? activPal.text : activPal.base
   x: (parent.width - width) / 2
   width: parent.height / 20
   height: width
   radius: width / 2
   border { width: 2; color: ma.containsMouse ? activPal.highlight : activPal.text }
+//   checked: fingeringId & nr
 
   MouseArea {
     id: ma
     anchors.fill: parent
     hoverEnabled: true
-    onClicked: checked = !checked
+    onClicked: {
+//       checked = !checked
+      flapNumber = nr
+    }
   }
 }

@@ -44,6 +44,7 @@ set(LIB_NOOTKACORE_SRC
   instruments/tguitarbg.cpp
   instruments/tpianobg.cpp
   instruments/tbandoneonbg.cpp
+  instruments/tsaxbg.cpp
 
 #   exam/tqatype.cpp
 #   exam/tqaunit.cpp
