@@ -124,8 +124,11 @@ Tnote TnootkaQML::note(const Tnote& n, const Trhythm& r) {
 }
 
 
-Tnote TnootkaQML::note(int chroma) {
-  return Tnote(static_cast<short>(chroma));
+Tnote TnootkaQML::note(int chroma,  bool sharp) {
+  Tnote n(static_cast<short>(chroma));
+  if (!sharp && (n.alter != 0 || (n.alter == 0 && n.note != 3 && n.note != 7))) // but skip e and b - otherwise they become fb or cb
+    n = n.showWithFlat();
+  return n;
 }
 
 
