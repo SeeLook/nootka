@@ -29,7 +29,7 @@ Flickable {
       anchors.horizontalCenter: parent.horizontalCenter
 
       Repeater {
-        model: 6
+        model: 8
         Row {
           width: nootkaWindow.fontSize * 30
           spacing: nootkaWindow.fontSize * 3

@@ -10,6 +10,9 @@ import "../"
 
 
 Flickable {
+  property int clef: noLoader.item ? noLoader.item.score.clef : Noo.instr(nootkaWindow.instrument).clef
+  property int transposition: saxLoader.item ? saxLoader.item.transpose.outShift : (noLoader.item ? noLoader.item.transpose.outShift : Noo.instr(nootkaWindow.instrument).transposition)
+
   clip: true
   contentHeight: mainItem.height
   contentWidth: width
@@ -18,10 +21,12 @@ Flickable {
     id: mainItem
     width: parent.width; height: childrenRect.height
 
-    Loader { sourceComponent: nootkaWindow.instrument === 0 ? noInstrComp : null }
+    Loader { id: noLoader; sourceComponent: nootkaWindow.instrument === 0 ? noInstrComp : null }
     Component {
       id: noInstrComp
       Column {
+        property alias score: score
+        property alias transpose: transpose
         parent: mainItem
         width: parent ? parent.width : 0
         spacing: nootkaWindow.fontSize
@@ -34,6 +39,7 @@ Flickable {
           text: qsTr("Select a clef and scale of notes appropriate for your instrument.")
         }
         Score {
+          id: score
           height: nootkaWindow.fontSize * 20
           width: nootkaWindow.fontSize * 12
           anchors.horizontalCenter: parent.horizontalCenter
@@ -50,6 +56,10 @@ Flickable {
             setNote(scoreObj.note(0), scoreObj.lowestNote())
             setNote(scoreObj.note(1), scoreObj.highestNote())
           }
+        }
+        Transposition {
+          id: transpose
+          shift: 0
         }
       }
     }
@@ -96,6 +106,41 @@ Flickable {
           horizontalAlignment: Text.AlignHCenter
           color: activPal.text
           text: "<b><font size=\"5\">Both pictures above show the same note!</font></b><br>(note c in one-line octave)"
+        }
+      }
+    }
+
+  // Saxophones
+  Loader { id: saxLoader; sourceComponent: Noo.instr(nootkaWindow.instrument).isSax ? saxComp : null }
+    Component {
+      id: saxComp
+      Column {
+        property alias transpose: transpose
+        parent: mainItem
+        spacing: nootkaWindow.fontSize
+        anchors.horizontalCenter: parent ? parent.horizontalCenter : undefined
+        width: parent ? parent.width * 0.9 : 0
+        Text {
+          width: parent.width
+          font { pixelSize: nootkaWindow.fontSize * 1.5 }
+          wrapMode: Text.WordWrap
+          horizontalAlignment: Text.AlignHCenter
+          color: activPal.text
+          text: qsTr("Saxophones are transposing instruments.<br>It means that note pitch in the score doesn't correspond directly to note which is played - it transposes by interval (number of semitones) according to kind of saxophone.")
+        }
+        Transposition {
+          id: transpose
+          anchors.horizontalCenter: parent.horizontalCenter
+          shift: Noo.instr(nootkaWindow.instrument).transposition
+        }
+        Connections {
+          target: nootkaWindow
+          onInstrumentChanged: transpose.shift = Noo.instr(nootkaWindow.instrument).transposition
+        }
+        Text {
+          anchors.horizontalCenter: parent.horizontalCenter
+          font { pixelSize: nootkaWindow.fontSize * 2; bold: true }
+          text: Noo.noteName(Noo.note(13 + transpose.outShift, false), 0, false)
         }
       }
     }

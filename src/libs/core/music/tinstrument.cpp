@@ -44,7 +44,7 @@ static const quint8 clefArray[INSTR_COUNT] = {
 
 
 static const char* const qmlFileArray[INSTR_COUNT] = {
-  "", "Guitar", "Guitar", "Guitar", "Piano", "Bandoneon", "Sax"
+  "", "Guitar", "Guitar", "Guitar", "Piano", "Bandoneon", "Sax", "Sax"
 };
 
 

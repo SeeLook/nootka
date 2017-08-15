@@ -42,8 +42,8 @@ ApplicationWindow {
     WizardInstrument {
       id: instrPage
     }
-    WizardClef {}
-    WizardOptions {}
+    WizardClef { id: clefPage }
+    WizardOptions { id: optionsPage }
     Item {
       Text { text: "Some help"; anchors.centerIn: parent }
     }
@@ -81,8 +81,15 @@ ApplicationWindow {
   }
 
   onClosing: {
-    console.log("Wizard is closing")
+    console.log("Wizard is closing:", Noo.instr(instrPage.instrument).name)
+    GLOB.setInstrument(instrPage.instrument)
+    GLOB.clefType = clefPage.clef
+    GLOB.transposition = clefPage.transposition
+    GLOB.seventhIsB = optionsPage.is7B
+    GLOB.enableDoubleAccids = optionsPage.doubleAccids
+    GLOB.keySignatureEnabled - optionsPage.useKeys
+    GLOB.showEnharmNotes = optionsPage.enharmNames
     Qt.quit()
   }
-  Component.onDestruction: console.log("Wizard Bye")
+//   Component.onDestruction: console.log("Wizard Bye")
 }
