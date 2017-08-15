@@ -20,6 +20,7 @@
 #define TRHYTHM_H
 
 
+#include "nootkacoreglobal.h"
 #include <QtCore/qobject.h>
 #include <QtCore/qmath.h>
 
@@ -60,7 +61,7 @@ typedef QList<Trhythm> TrhythmList;
  *
  * To have full functionality it has to be initialized by static @p initialize()
  */
-class Trhythm
+class NOOTKACORE_EXPORT Trhythm
 {
 
   Q_GADGET

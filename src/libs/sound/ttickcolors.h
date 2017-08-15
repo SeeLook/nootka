@@ -20,7 +20,7 @@
 #define TTICKCOLORS_H
 
 
-#include "nootkacoreglobal.h"
+#include "nootkasoundglobal.h"
 #include <QtCore/QObject>
 #include <QtGui/QColor>
 #include <QtCore/QDebug>
@@ -32,7 +32,7 @@
  * Then gradient values of @p startColor -> @p middleColor -> @p endColor -> @p totalColor
  * are stored in the list accessible by @p colorAt(tickNr)
  */
-class NOOTKACORE_EXPORT TtickColors : public QObject
+class NOOTKASOUND_EXPORT TtickColors : public QObject
 {
   Q_OBJECT
 
