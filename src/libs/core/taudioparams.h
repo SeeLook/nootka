@@ -37,10 +37,11 @@ public:
   bool    INenabled; /**< is audio input enabled */
   QString INdevName; /**< input device name */
   float   a440diff; /**< difference between standard a1 440Hz and user preferred base pitch */
+  int     transposition; /**< shift (interval) between score/note name and sound/instrument  */
   float   minimalVol; /**< only above this value detected note is sending to Nootka */
   qreal   minDuration; /**< minimal duration of a sound above which it is detected */
   int     detectMethod; /**< pitch detection method (0 - MPM, 1 - auto-correlation, 2 - MPM modified cepstrum) */
-  quint8  intonation; /**< accuracy of intonation in detected note - corresponds with Eaccuracy */
+  quint8  intonation; /**< accuracy of intonation in detected note - corresponds with @p Eaccuracy */
   qreal   minSplitVol; /**< minimum volume change to split the same note (0.0 - no split) */
 
       /** multiplexer of sound volume (aka %)

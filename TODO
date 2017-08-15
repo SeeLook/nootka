@@ -27,6 +27,7 @@ TRANSLATION CONTEXT CHANGES
   TnoteNameSettings - ScorePage or its sub-page
   TlevelCreatorDlg -> LevelCreator
   TsupportNootka -> SupportPage
+  AdioInSettings ??? copy "semitone(s)" text to Transposition context but remove %n
 
 ============================================================================
 
