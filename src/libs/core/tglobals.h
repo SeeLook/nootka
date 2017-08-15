@@ -72,6 +72,7 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   /* Instrument switches */
   Q_PROPERTY(Tinstrument instrument READ instrument NOTIFY instrumentChanged)
   Q_PROPERTY(TtuneObject* tuning READ tuning NOTIFY tuningChanged)
+  Q_PROPERTY(qreal transposition READ transposition WRITE setTransposition NOTIFY transpositionChanged)
   
 
   Q_PROPERTY(QColor fingerColor READ fingerColor WRITE setFingerColor NOTIFY fingerColorChanged)
@@ -165,6 +166,9 @@ public:
 
   bool showOtherPos() const { return GshowOtherPos; }
   void setShowOtherPos(bool show) { GshowOtherPos = show; }
+
+  int transposition() const;
+  void setTransposition(int t);
 
       /**
        * Updates key signature names according to name style and major/minor suffixes.
@@ -268,6 +272,7 @@ signals:
   void selectedColorChanged();
   void preferFlatsChanged(); /**< Fake, this option doesn't affect QML */
   void guitarParamsChanged();
+  void transpositionChanged();
 
 private:
   static Tglobals           *m_instance;

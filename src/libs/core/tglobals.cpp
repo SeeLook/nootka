@@ -215,6 +215,16 @@ void Tglobals::setInstrument(Tinstrument::Etype t) {
 }
 
 
+int Tglobals::transposition() const { return A->transposition; }
+void Tglobals::setTransposition(int t) {
+  if (t != A->transposition) {
+    A->transposition = t;
+    emit transpositionChanged();
+  }
+}
+
+
+
 void Tglobals::setGuitarParams(int fretNr, int stringNr) {
   bool doEmit = false;
   if (fretNr != GfretsNumber) {

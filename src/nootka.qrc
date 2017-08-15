@@ -19,6 +19,7 @@
     <file alias="InstrumentSelector.qml">qml/shared/InstrumentSelector.qml</file>
     <file alias="TipRect.qml">qml/shared/TipRect.qml</file>
     <file alias="TcheckBox.qml">qml/shared/TcheckBox.qml</file>
+    <file alias="Transposition.qml">qml/shared/Transposition.qml</file>
 
     <file alias="IntonationBar.qml">qml/sound/IntonationBar.qml</file>
     <file alias="VolumeBar.qml">qml/sound/VolumeBar.qml</file>
