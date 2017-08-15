@@ -10,6 +10,11 @@ import "../"
 
 
 Flickable {
+  property alias is7B: seventhNote.is7B
+  property alias doubleAccids: dblAccidsChB.checked
+  property alias enharmNames: enharmChB.checked
+  property alias useKeys: keySignChB.checked
+
   clip: true
   contentHeight: optCol.height
   contentWidth: width
@@ -27,11 +32,12 @@ Flickable {
       text: qsTr("7th note can be B or H, depends on country<br>What is the name of 7th note in your country?")
     }
     Select7note {
+      id: seventhNote
       anchors.horizontalCenter: parent.horizontalCenter
     }
 
     Tile {
-      width: innerCol.width +nootkaWindow.fontSize * 2
+      width: innerCol.width + nootkaWindow.fontSize * 2
       Column {
         id: innerCol
         spacing: nootkaWindow.fontSize
