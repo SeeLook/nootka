@@ -18,7 +18,6 @@
 
 #include "tpianobg.h"
 #include "tpath.h"
-#include "music/tnote.h"
 #include "tglobals.h"
 
 #include <QtGui/qpainter.h>
@@ -35,16 +34,10 @@ const char* const octaveNames[8] = { QT_TR_NOOP("Subcontra"), QT_TR_NOOP("Contra
 
 
 TpianoBg::TpianoBg(QQuickItem* parent) :
-  QQuickPaintedItem(parent),
+  TcommonInstrument(parent),
   m_keyWidth(32.0),
   m_firstOctave(-3)
-{
-  setAcceptHoverEvents(true);
-  setRenderTarget(QQuickPaintedItem::FramebufferObject);
-  //   setPerformanceHint(QQuickPaintedItem::FastFBOResizing);
-  setAntialiasing(true);
-  setAcceptedMouseButtons(Qt::LeftButton);
-}
+{}
 
 
 TpianoBg::~TpianoBg() {}
@@ -125,16 +118,9 @@ void TpianoBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeome
 }
 
 
-void TpianoBg::hoverEnterEvent(QHoverEvent*) {
-  m_active = true;
-  emit activeChanged();
-}
-
-
 void TpianoBg::hoverLeaveEvent(QHoverEvent*) {
-  m_active = false;
+  TcommonInstrument::hoverLeaveEvent(nullptr);
   m_keyRect = QRectF();
-  emit activeChanged();
   emit keyRectChanged();
 }
 
@@ -166,9 +152,9 @@ void TpianoBg::hoverMoveEvent(QHoverEvent* event) {
 
 void TpianoBg::mousePressEvent(QMouseEvent* event) {
   if (event->buttons() & Qt::LeftButton) {
-    m_note = m_activeNote;
+    p_note = m_activeNote;
     if (GLOB->GpreferFlats)
-      m_note = m_note.showWithFlat();
+      p_note = p_note.showWithFlat();
     emit noteChanged();
   }
 }

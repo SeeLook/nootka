@@ -31,15 +31,9 @@
 
 
 TguitarBg::TguitarBg(QQuickItem* parent) :
-  QQuickPaintedItem(parent),
-  m_curStr(7), m_curFret(99), // none
-  m_active(false)
+  TcommonInstrument(parent),
+  m_curStr(7), m_curFret(99) // none
 {
-  setAcceptHoverEvents(true);
-  setRenderTarget(QQuickPaintedItem::FramebufferObject);
-  //   setPerformanceHint(QQuickPaintedItem::FastFBOResizing);
-  setAntialiasing(true);
-  setAcceptedMouseButtons(Qt::LeftButton);
   setTune();
 
   QQmlEngine engine;
@@ -68,7 +62,7 @@ QPointF TguitarBg::fretToPos(const TfingerPos& pos) {
 
 
 void TguitarBg::setNote(const Tnote& n) {
-  if (!m_note.compareNotes(n)) {
+  if (!p_note.compareNotes(n)) {
     short noteNr = n.chromatic();
     bool foundPos = false;
     bool doShow = n.isValid();
@@ -95,7 +89,7 @@ void TguitarBg::setNote(const Tnote& n) {
       }
     }
     setOutOfScale(!foundPos && n.isValid());
-    m_note = n;
+    p_note = n;
   }
 }
 
@@ -319,21 +313,12 @@ void TguitarBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeom
 }
 
 
-void TguitarBg::hoverEnterEvent(QHoverEvent*) {
-  m_active = true;
-  setOutOfScale(false);
-  emit activeChanged();
-}
-
-
-void TguitarBg::hoverLeaveEvent(QHoverEvent*) {
-  m_active = false;
-  emit activeChanged();
-}
-
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
 
 void TguitarBg::hoverMoveEvent(QHoverEvent* event) {
-  if (!m_active)
+  if (!active())
     hoverEnterEvent(nullptr);
 
   paintFingerAtPoint(event->pos());
@@ -432,9 +417,3 @@ void TguitarBg::setTune() {
 }
 
 
-void TguitarBg::setOutOfScale(bool out) {
-  if (out != m_outOfScale) {
-    m_outOfScale = out;
-    emit outOfScaleChanged();
-  }
-}

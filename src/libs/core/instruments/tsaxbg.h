@@ -20,7 +20,7 @@
 #define TSAXBG_H
 
 
-#include "nootkacoreglobal.h"
+#include "tcommoninstrument.h"
 #include "music/tnote.h"
 #include <QtQuick/qquickitem.h>
 
@@ -33,14 +33,11 @@
  * QML calls @p flapNumber and by it current shape is obtained,
  * then corresponding note is found end @p noteChanged() signal is emitted
  */
-class NOOTKACORE_EXPORT TsaxBg : public QQuickItem
+class NOOTKACORE_EXPORT TsaxBg : public TcommonInstrument
 {
 
   Q_OBJECT
 
-  Q_PROPERTY(Tnote note READ note WRITE setNote NOTIFY noteChanged)
-  Q_PROPERTY(bool outOfScale READ outOfScale NOTIFY outOfScaleChanged)
-  Q_PROPERTY(bool active READ active NOTIFY activeChanged)
   Q_PROPERTY(int flapNumber READ flapNumber WRITE setFlapNumber NOTIFY flapNumberChanged)
   Q_PROPERTY(int fingeringId READ fingeringId NOTIFY fingeringIdChanged)
 
@@ -48,15 +45,7 @@ public:
   TsaxBg(QQuickItem* parent = nullptr);
   ~TsaxBg();
 
-  Tnote note() const { return m_note; }
-  void setNote(const Tnote& n);
-
-  bool outOfScale() const { return m_outOfScale; }
-  void setOutOfScale(bool out);
-      /**
-       * @p TRUE when mouse cursor is over
-       */
-  bool active() { return m_active; }
+  void setNote(const Tnote& n) override;
 
   int flapNumber() const { return m_flapNumber; }
 
@@ -67,23 +56,15 @@ public:
 
   quint32 fingeringId() const { return m_fingeringId; }
 
+  void paint(QPainter*) override {}
+
 
 signals:
-  void noteChanged();
-  void activeChanged();
-  void outOfScaleChanged();
   void flapNumberChanged();
   void fingeringIdChanged();
 
 
-protected:
-  void hoverEnterEvent(QHoverEvent*) override;
-  void hoverLeaveEvent(QHoverEvent*) override;
-
 private:
-  Tnote         m_note;
-  bool          m_outOfScale = false;
-  bool          m_active = false;
   int           m_flapNumber;
   quint32       m_fingeringId = 0;
   quint32      *m_notesArray;

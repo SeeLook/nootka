@@ -21,22 +21,19 @@
 
 
 #include "nootkacoreglobal.h"
+#include "tcommoninstrument.h"
 #include "tfingerpos.h"
-#include "music/tnote.h"
-
-#include <QtQuick/qquickpainteditem.h>
 
 
 /**
  * This is static background of guitar QML component.
  * It re-paints its content only when size changes (user scales main window)
  */
-class NOOTKACORE_EXPORT TguitarBg : public QQuickPaintedItem
+class NOOTKACORE_EXPORT TguitarBg : public TcommonInstrument
 {
 
   Q_OBJECT
 
-  Q_PROPERTY(bool active READ active NOTIFY activeChanged)
   Q_PROPERTY(int fretWidth READ fretWidth NOTIFY fretWidthChanged)
   Q_PROPERTY(int stringsGap READ stringsGap NOTIFY stringsGapChanged)
   Q_PROPERTY(QPointF fingerPos READ fingerPos NOTIFY fingerPosChanged)
@@ -44,17 +41,10 @@ class NOOTKACORE_EXPORT TguitarBg : public QQuickPaintedItem
   Q_PROPERTY(qreal xiiFret READ xiiFret NOTIFY stringsGapChanged)
   Q_PROPERTY(QRect fbRect READ fbRect NOTIFY stringsGapChanged)
   Q_PROPERTY(bool readOnly READ readOnly WRITE setReadOnly)
-  Q_PROPERTY(Tnote note READ note WRITE setNote NOTIFY noteChanged)
-  Q_PROPERTY(bool outOfScale READ outOfScale NOTIFY outOfScaleChanged)
 
 
 public:
   TguitarBg(QQuickItem* parent = nullptr);
-
-      /**
-       * @p TRUE when mouse cursor is over
-       */
-  bool active() { return m_active; }
 
   short currentString() { return m_curStr; }
   short currentFret() { return m_curFret; }
@@ -71,10 +61,7 @@ public:
 
   QPointF fingerPos() { return m_fingerPos; }
 
-  Tnote note() const { return m_note; }
-  void setNote(const Tnote& n);
-
-  bool outOfScale() const { return m_outOfScale; }
+  void setNote(const Tnote& n) override;
 
   void paint(QPainter* painter) override;
 
@@ -101,18 +88,13 @@ public:
   void updateGuitar();
 
 signals:
-  void activeChanged();
   void fretWidthChanged();
   void stringsGapChanged();
   void fingerPosChanged();
   void stringChanged();
-  void noteChanged();
-  void outOfScaleChanged();
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) override;
-  void hoverEnterEvent(QHoverEvent*) override;
-  void hoverLeaveEvent(QHoverEvent*) override;
   void hoverMoveEvent(QHoverEvent* event) override;
   void mousePressEvent(QMouseEvent* event) override;
 
@@ -122,8 +104,6 @@ protected:
        * Determines string width by its note pitch. Sets @p loNote & @p hiNote
        */
   void setTune();
-
-  void setOutOfScale(bool out);
 
 private:
   QRect        m_fbRect; /**< Represents top left positions and size of a fingerboard */
@@ -136,11 +116,8 @@ private:
   qreal        m_widthFromPitch[6]; /**< Base values from which @p m_strWidth is calculated determined from tune. */
   QColor       m_strColors[6];
 
-  bool         m_active;
   bool         m_readOnly = false;
-  bool         m_outOfScale = false;
   QPointF      m_fingerPos;
-  Tnote        m_note;
   QQuickItem  *m_fingerItems[6];
   QQuickItem  *m_stringItems[6];
 

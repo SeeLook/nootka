@@ -20,23 +20,20 @@
 #define TPIANOBG_H
 
 
-#include <QtQuick/qquickpainteditem.h>
-#include "music/tnote.h"
+#include "tcommoninstrument.h"
 
 
 /**
  * The C++ logic of piano component and its painted background
  */
-class TpianoBg : public QQuickPaintedItem
+class NOOTKACORE_EXPORT TpianoBg : public TcommonInstrument
 {
 
   Q_OBJECT
 
   Q_PROPERTY(qreal keyWidth READ keyWidth WRITE setKeyWidth)
-  Q_PROPERTY(bool active READ active NOTIFY activeChanged)
   Q_PROPERTY(QRectF keyRect READ keyRect NOTIFY keyRectChanged)
   Q_PROPERTY(bool readOnly READ readOnly WRITE setReadOnly)
-  Q_PROPERTY(Tnote note READ note WRITE setNote NOTIFY noteChanged)
   Q_PROPERTY(int firstOctave READ firstOctave WRITE setFirstOctave)
 
 public:
@@ -48,16 +45,10 @@ public:
 
   QRectF keyRect() const { return m_keyRect; }
 
-  Tnote note() const { return m_note; }
-  void setNote(const Tnote& n);
+  void setNote(const Tnote& n) override;
 
   int firstOctave() const { return static_cast<int>(m_firstOctave); }
   void setFirstOctave(int firstO);
-
-      /**
-       * @p TRUE when mouse cursor is over
-       */
-  bool active() const { return m_active; }
 
   bool readOnly() const { return m_readOnly; }
   void setReadOnly(bool ro);
@@ -65,13 +56,10 @@ public:
   void paint(QPainter* painter) override;
 
 signals:
-  void activeChanged();
   void keyRectChanged();
-  void noteChanged();
 
 protected:
   void geometryChanged(const QRectF & newGeometry, const QRectF & oldGeometry) override;
-  void hoverEnterEvent(QHoverEvent*) override;
   void hoverLeaveEvent(QHoverEvent*) override;
   void hoverMoveEvent(QHoverEvent* event) override;
   void mousePressEvent(QMouseEvent* event) override;
@@ -82,10 +70,9 @@ private:
 private:
   int                   m_keysNumber;
   qreal                 m_keyWidth;
-  bool                  m_active = false;
   QRectF                m_keyRect;
   int                   m_margin;
-  Tnote                 m_note, m_activeNote;
+  Tnote                 m_activeNote;
   char                  m_firstOctave;
   bool                  m_readOnly = false;
 };
