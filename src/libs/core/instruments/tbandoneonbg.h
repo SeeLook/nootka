@@ -20,7 +20,7 @@
 #define TBANDONEONBG_H
 
 
-#include "music/tnote.h"
+#include "tcommoninstrument.h"
 
 #include <QtQuick/qquickitem.h>
 #include <QtGui/qcolor.h>
@@ -39,17 +39,14 @@ class QQmlComponent;
  * There are five circles that highlight selected buttons: some notes occur a few times (a few buttons)
  * depends on @p m_opening / @p m_closing state(s)
  */
-class TbandoneonBg : public QQuickItem
+class NOOTKACORE_EXPORT TbandoneonBg : public TcommonInstrument
 {
   Q_OBJECT
 
   Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex)
   Q_PROPERTY(bool opening READ opening WRITE setOpening NOTIFY openingChanged)
   Q_PROPERTY(bool closing READ closing WRITE setClosing NOTIFY closingChanged)
-  Q_PROPERTY(Tnote note READ note WRITE setNote NOTIFY noteChanged)
   Q_PROPERTY(qreal rightX READ rightX WRITE setRightX)
-  Q_PROPERTY(bool outOfScale READ outOfScale NOTIFY outOfScaleChanged)
-  Q_PROPERTY(bool active READ active NOTIFY activeChanged)
 
 public:
   TbandoneonBg(QQuickItem* parent = nullptr);
@@ -69,27 +66,19 @@ public:
   bool closing() const { return m_closing; }
   void setClosing(bool c);
 
-  Tnote note() const { return m_note; }
-  void setNote(const Tnote& n);
+  void setNote(const Tnote& n) override;
 
   qreal rightX() const { return m_rightX; }
   void setRightX(qreal rx);
 
-  bool outOfScale() const { return m_outOfScale; }
-
-  bool active() const { return m_active; }
+  void paint(QPainter*) override {}
 
 signals:
   void closingChanged();
   void openingChanged();
-  void noteChanged();
-  void outOfScaleChanged();
-  void activeChanged();
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) override;
-  void hoverEnterEvent(QHoverEvent*) override;
-  void hoverLeaveEvent(QHoverEvent*) override;
 
 private:
 
@@ -115,23 +104,20 @@ private:
        * NOTICE: number is increased by 1, so @p 0 means: no button
        */
   class TbandoNote {
-  public:
-    quint8 leftOpen = 0;
-    quint8 leftClose = 0;
-    quint8 rightOpen = 0;
-    quint8 rightClose = 0;
+    public:
+      quint8 leftOpen = 0;
+      quint8 leftClose = 0;
+      quint8 rightOpen = 0;
+      quint8 rightClose = 0;
   };
 
   int               m_currentIndex;
   bool              m_closing = false;
   bool              m_opening = false;
-  Tnote             m_note;
   TbandoNote        m_notesArray[60];
   TbandCircle       m_circleLeftOpen, m_circleLeftClose, m_circleRightOpen, m_circleRightClose, m_circleCloseExtra;
   qreal             m_factor = 1.0;
   qreal             m_rightX = 0.0;
-  bool              m_outOfScale = false;
-  bool              m_active = false;
 };
 
 #endif // TBANDONEONBG_H

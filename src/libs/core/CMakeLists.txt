@@ -41,6 +41,7 @@ set(LIB_NOOTKACORE_SRC
   score/tstafflines.cpp
   score/taddobject.cpp
 
+  instruments/tcommoninstrument.cpp
   instruments/tguitarbg.cpp
   instruments/tpianobg.cpp
   instruments/tbandoneonbg.cpp

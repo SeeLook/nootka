@@ -126,7 +126,7 @@ static BandoButt buttArray[71] = {
 
 
 TbandoneonBg::TbandoneonBg(QQuickItem* parent) :
-  QQuickItem(parent),
+  TcommonInstrument(parent),
   m_currentIndex(-1)
 {
   for (int i = 0; i < 71; ++i) {
@@ -138,9 +138,6 @@ TbandoneonBg::TbandoneonBg(QQuickItem* parent) :
         m_notesArray[buttArray[i].close + 11].rightClose = i + 1;
     }
   }
-
-  setAntialiasing(true);
-  setAcceptHoverEvents(true);
 
   QQmlEngine engine;
   QQmlComponent comp(&engine, this);
@@ -184,7 +181,7 @@ void TbandoneonBg::setOpening(bool o) {
   if (o != m_opening) {
     m_opening = o;
     emit openingChanged();
-    if (m_note.isValid()) {
+    if (p_note.isValid()) {
       if (m_circleLeftClose.buttonId)
         m_circleLeftClose.item->setVisible(!m_opening);
       if (m_circleRightClose.buttonId)
@@ -218,7 +215,7 @@ void TbandoneonBg::setClosing(bool c) {
 
 
 void TbandoneonBg::setNote(const Tnote& n) {
-  if (!n.isValid() && !m_note.isValid())
+  if (!n.isValid() && !p_note.isValid())
     return;
   if (!n.isValid()) {
     hideCircles();
@@ -226,19 +223,16 @@ void TbandoneonBg::setNote(const Tnote& n) {
   }
   int chromaticNew = n.chromatic();
   if (chromaticNew < -11 || chromaticNew > 48) {
-    m_outOfScale = true;
-    m_note.note = 0;
+    setOutOfScale(true);
+    p_note.note = 0;
     hideCircles();
     emit outOfScaleChanged();
     return;
   }
-  if (m_outOfScale) {
-    m_outOfScale = false;
-    emit outOfScaleChanged();
-  }
-  int chOld = m_note.isValid() ? m_note.chromatic() : 1000;
+  setOutOfScale(false);
+  int chOld = p_note.isValid() ? p_note.chromatic() : 1000;
   if (chromaticNew != chOld) {
-    m_note = n;
+    p_note = n;
     chromaticNew += 11;
 
     if (m_notesArray[chromaticNew].leftOpen != m_circleLeftOpen.buttonId)
@@ -297,26 +291,10 @@ void TbandoneonBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldG
 }
 
 
-void TbandoneonBg::hoverEnterEvent(QHoverEvent*) {
-  if (!m_active) {
-    m_active = true;
-    emit activeChanged();
-  }
-}
-
-
-void TbandoneonBg::hoverLeaveEvent(QHoverEvent*) {
-  if (m_active) {
-    m_active = false;
-    emit activeChanged();
-  }
-}
-
-
 void TbandoneonBg::getNote() {
   if (m_currentIndex < 0)
     return;
-  m_note.setChromatic(m_closing ? buttArray[m_currentIndex].close : buttArray[m_currentIndex].open);
+  p_note.setChromatic(m_closing ? buttArray[m_currentIndex].close : buttArray[m_currentIndex].open);
 //   emit noteChanged();
 }
 
@@ -348,9 +326,9 @@ void TbandoneonBg::checkCircle(int butNr, TbandCircle& c, bool visible) {
 
 
 void TbandoneonBg::updateCircesPos() {
-  if (m_note.isValid()) {
+  if (p_note.isValid()) {
     qDebug() << "[TbandoneonBg] updateCircesPos";
-    int chromaticNr = m_note.chromatic();
+    int chromaticNr = p_note.chromatic();
     checkCircle(m_notesArray[chromaticNr].leftOpen, m_circleLeftOpen);
     checkCircle(m_notesArray[chromaticNr].leftClose, m_circleLeftClose);
     checkCircle(m_notesArray[chromaticNr].rightOpen, m_circleRightOpen);

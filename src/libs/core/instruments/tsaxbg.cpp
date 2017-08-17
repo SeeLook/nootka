@@ -29,7 +29,7 @@
 
 
 TsaxBg::TsaxBg(QQuickItem* parent) :
-  QQuickItem(parent)
+  TcommonInstrument(parent)
 {
   m_notesArray = new quint32[SUPPORTED_NOTES];
   m_notesArray[0]   = 4227322;    // a#/bb
@@ -72,7 +72,6 @@ TsaxBg::TsaxBg(QQuickItem* parent) :
   m_notesArray[37]  = 2320;       // b3           or 133656
   m_notesArray[38]  = 2832;       // c3           or 2099378
 
-  setAcceptHoverEvents(true);
 }
 
 
@@ -87,7 +86,8 @@ CHECKTIME (
   bool out = false;
   if (n.isValid()) {
       int ch = n.chromatic();
-      if (ch != m_note.chromatic()) {
+//       qDebug() << "setNote" << n.toText() << ch;
+      if (!p_note.isValid() || ch != p_note.chromatic()) {
         if (ch >= LOWEST_NOTE && ch <= HIGHEST_NOTE) {
             ch -= LOWEST_NOTE;
             m_fingeringId = m_notesArray[ch];
@@ -100,19 +100,12 @@ CHECKTIME (
   } else {
       if (m_fingeringId) {
         m_fingeringId = 0;
+        p_note.note = 0;
         emit fingeringIdChanged();
       }
   }
   setOutOfScale(out);
 )
-}
-
-
-void TsaxBg::setOutOfScale(bool out) {
-  if (out != m_outOfScale) {
-    m_outOfScale = out;
-    emit outOfScaleChanged();
-  }
 }
 
 
@@ -128,32 +121,10 @@ CHECKTIME (
   emit fingeringIdChanged();
   for (int f = 0; f < SUPPORTED_NOTES; ++f) {
     if (m_notesArray[f] == m_fingeringId) {
-      m_note.setChromatic(LOWEST_NOTE + f /*+ GLOB->instrument().transposition()*/);
+      p_note.setChromatic(LOWEST_NOTE + f /*+ GLOB->instrument().transposition()*/);
       emit noteChanged();
       break;
     }
   }
 )
-}
-
-
-
-//#################################################################################################
-//###################              PROTECTED           ############################################
-//#################################################################################################
-
-void TsaxBg::hoverEnterEvent(QHoverEvent*) {
-  if (!m_active) {
-    m_active = true;
-    setOutOfScale(false);
-    emit activeChanged();
-  }
-}
-
-
-void TsaxBg::hoverLeaveEvent(QHoverEvent*) {
-  if (m_active) {
-    m_active = false;
-    emit activeChanged();
-  }
 }
