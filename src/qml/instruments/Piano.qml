@@ -10,6 +10,7 @@ import Nootka 1.0
 Item {
   property alias note: piano.note
   property alias firstOctave: piano.firstOctave
+  property alias instrBg: piano
 
   anchors.fill: parent
 

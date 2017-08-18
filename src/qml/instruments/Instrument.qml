@@ -23,15 +23,13 @@ Item {
     anchors.fill: parent
     source: "qrc:/instruments/" +  GLOB.instrument.qmlFile + ".qml"
     onLoaded: {
-      instrument.note = Qt.binding( function() { return score.note } )
+      if (GLOB.instrument.isGuitar) // TODO unify it!
+        Noo.instrument = instrument
+      else
+        Noo.instrument = instrument.instrBg
       if (GLOB.instrument.type === Tinstrument.Piano)
         instrument.firstOctave = Noo.octave(score.scoreObj.lowestNote())
     }
-  }
-
-  Connections {
-    target: SOUND
-    onNoteFinished: instrument.note = SOUND.finishedNote
   }
 
   Connections {

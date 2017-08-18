@@ -10,11 +10,12 @@ import Nootka 1.0
 
 Item {
   property alias note: bando.note
+  property alias instrBg: bando
 
   property real factor: height / 100
 
-  width: childrenRect.width; height: parent.height
-  anchors.horizontalCenter: parent.horizontalCenter
+  width: childrenRect.width; height: parent ? parent.height : 0
+  anchors.horizontalCenter: parent ? parent.horizontalCenter : undefined
 
 //   Image {
 //     source: Noo.pix("bandoneon-left")
