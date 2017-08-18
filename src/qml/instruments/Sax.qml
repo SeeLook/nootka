@@ -10,6 +10,7 @@ import Nootka 1.0
 
 Item {
   property alias note: sax.note
+  property alias instrBg: sax
   property alias flapNumber: sax.flapNumber
   property alias fingeringId: sax.fingeringId
 
