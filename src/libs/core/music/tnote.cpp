@@ -54,6 +54,11 @@ QString accidInSpan(char accid) {
   return  QString("<span style=\"font-family: nootka;\">%1</span>").arg(accTxt);
 }
 
+/** Quick map (array) to get chromatic note number - first filed is invalid */
+static qint8 chromaticMap[8] { 0, 1, 3, 5, 6, 8, 10, 12 };
+
+// static char setChromaticMap[12] { 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6, 7 };
+
 /*static*/
 std::string Tnote::m_solmization[7] = {"Do", "Re", "Mi", "Fa", "Sol", "La", "Si"};
 std::string Tnote::m_solmizationRu[7] = {"До", "Ре", "Ми", "Фа", "Соль", "Ля", "Си"};
@@ -80,22 +85,12 @@ void Tnote::setChromatic(short int noteNr) {
       case 11: note = 6; alter = 1; break;
       case 12: note = 7; alter = 0; break;
   }
-  octave = ((noteNr + 143) / 12 - 12) ;
+  octave = (noteNr + 143) / 12 - 12;
 }
 
 
 short Tnote::chromatic() const {
-  char a;
-  switch  (Tnote::note)  {
-    case 1: a = 1; break;  // note C
-    case 2: a = 3; break;  // D
-    case 3: a = 5; break;  // E
-    case 4: a = 6; break;  // F
-    case 5: a = 8; break;  // G
-    case 6: a = 10; break;  // A
-    case 7: a = 12; break;  // H
-  }
-    return a + (Tnote::octave) * 12 + Tnote::alter;
+  return chromaticMap[static_cast<int>(Tnote::note)] + Tnote::octave * 12 + Tnote::alter;
 }
 
 
@@ -384,6 +379,12 @@ void Tnote::fromXml(QXmlStreamReader& xml, const QString& prefix) {
         xml.skipCurrentElement();
     }
 //   }
+}
+
+
+void Tnote::transpose(int interval) {
+  if (isValid())
+    setChromatic(chromatic() + static_cast<short>(interval));
 }
 
 
