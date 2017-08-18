@@ -30,20 +30,34 @@
 #include <QtGui/qcolor.h>
 
 
+class TcommonInstrument;
+class TscoreObject;
+class QQuickItem;
+
+
+#define   NOO   TnootkaQML::instance()
+
 /**
  * Singleton object to manage (create) custom types from QML
  * In constructor it registers types accessible from QML in Nootka
  * Access it through @p Noo object
  * Also it provides many helper functions through @p Noo
+ *
+ * Also it acts as node to tie note changes of sound, instrument and score 
  */
 class NOOTKACORE_EXPORT TnootkaQML : public QObject
 {
 
   Q_OBJECT
 
+  Q_PROPERTY(QQuickItem* mainScore READ mainScore WRITE setMainScore)
+  Q_PROPERTY(TcommonInstrument* instrument READ instrument WRITE setInstrument)
+
 public:
   explicit TnootkaQML(QObject* parent = nullptr);
   ~TnootkaQML() override;
+
+  static TnootkaQML* instance() { return m_instance; }
 
       /**
        * Dialogues recognized by main QML Dialog instance of main window
@@ -105,8 +119,37 @@ public:
        */
   Q_INVOKABLE QColor randomColor(int alpha = 255, int level = 220);
 
+/**
+ * All stuff below is responsible for handling note changes in score, instrument and sound in/out.
+ * @p TnootkaQML has score and instrument pointers to handle theirs signals when note is changed,
+ * but sound is managed outside (through @p Tsound) due to all audio stuff is in sound library layer above.
+ * So @p playNote() signal is emitted apparently and @p noteStarted(), @p noteFinished() methods are invoked by @p Tscound
+ */
+  QQuickItem* mainScore() { return m_mainScore; }
+  void setMainScore(QQuickItem* ms);
+
+  TcommonInstrument* instrument() { return m_instrument; }
+  void setInstrument(TcommonInstrument* ci);
+
+  void noteStarted(const Tnote& n);
+  void noteFinished(const Tnote& n);
+
+signals:
+  void playNote(const Tnote&);
+
+protected:
+  void connectNode();
+
+protected slots:
+  void scoreChangedNote();
+
 private:
   static TnootkaQML             *m_instance;
+
+  TcommonInstrument             *m_instrument = nullptr;
+  QQuickItem                    *m_mainScore = nullptr;
+  TscoreObject                  *m_scoreObject = nullptr;
+  bool                           m_nodeConnected = false;
 };
 
 #endif // TNOOTKAQML_H

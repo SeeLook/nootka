@@ -19,6 +19,7 @@
 #include "tnootkaqml.h"
 #include "qtr.h"
 #include "nootkaconfig.h"
+#include "tglobals.h"
 #include "tpath.h"
 #include "music/tkeysignature.h"
 #include "music/tnamestylefilter.h"
@@ -71,6 +72,7 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qmlRegisterType<TstaffLines>("Score", 1, 0, "TstaffLines");
   qmlRegisterType<TaddObject>("Score", 1, 0, "TaddObject");
 
+  qmlRegisterUncreatableType<TcommonInstrument>("Nootka", 1, 0, "TcommonInstrument", QStringLiteral("You cannot create an instance of the TcommonInstrument."));
   qmlRegisterType<TguitarBg>("Nootka", 1, 0, "TguitarBg");
   qmlRegisterType<TpianoBg>("Nootka", 1, 0, "TpianoBg");
   qmlRegisterType<TbandoneonBg>("Nootka", 1, 0, "TbandoneonBg");
@@ -130,7 +132,6 @@ Tnote TnootkaQML::note(int chroma,  bool sharp) {
     n = n.showWithFlat();
   return n;
 }
-
 
 
 Trhythm TnootkaQML::rhythm(int rtm, bool rest, bool dot, bool triplet) {
@@ -357,3 +358,74 @@ QColor TnootkaQML::alpha(const QColor& c, int a) {
 QColor TnootkaQML::randomColor(int alpha, int level) {
   return QColor(qrand() % level, qrand() % level, qrand() % level, alpha);
 }
+
+//#################################################################################################
+//###################     CONNECTIONS  NODE            ############################################
+//#################################################################################################
+void TnootkaQML::noteStarted(const Tnote& n) {
+}
+
+
+void TnootkaQML::noteFinished(const Tnote& n) {
+  m_instrument->setNote(n);
+  Tnote transNote = n;
+  transNote.transpose(-GLOB->transposition());
+//   if (m_scoreObject->selectedItem())
+//     QMetaObject::invokeMethod(m_mainScore, "setNote", Q_ARG(QVariant, QVariant::fromValue(m_scoreObject->selectedItem())),
+//                               Q_ARG(QVariant, QVariant::fromValue(transNote)));
+//   else
+  // TODO remember to treat tied notes as a single one when setNote will be implemented
+    QMetaObject::invokeMethod(m_mainScore, "addNote", Q_ARG(QVariant, QVariant::fromValue(transNote)));
+}
+
+
+void TnootkaQML::connectNode() {
+  m_nodeConnected = true;
+  connect(m_instrument, &TcommonInstrument::noteChanged, [=] {
+    Tnote rawNote = m_instrument->note();
+    qDebug() << "instrument send note" << rawNote.toText();
+    // TODO send only chromatic number and duration obtained below... but Tsound has to be capable for it
+    emit playNote(m_instrument->note()); // not yet transposed - to sound properly
+    rawNote.transpose(-GLOB->transposition());
+    if (m_scoreObject->selectedItem()) {
+        rawNote.setRhythm(m_scoreObject->selectedItem()->note()->rtm);
+        QMetaObject::invokeMethod(m_mainScore, "setNote", Q_ARG(QVariant, QVariant::fromValue(m_scoreObject->selectedItem())),
+                                                          Q_ARG(QVariant, QVariant::fromValue(rawNote)));
+    } else {
+        rawNote.setRhythm(m_scoreObject->workRhythm());
+        QMetaObject::invokeMethod(m_mainScore, "addNote", Q_ARG(QVariant, QVariant::fromValue(rawNote)));
+    }
+  });
+}
+
+
+void TnootkaQML::setMainScore(QQuickItem* ms) {
+  if (!m_mainScore) {
+    m_mainScore = ms;
+    m_scoreObject = qobject_cast<TscoreObject*>(qvariant_cast<QObject*>(m_mainScore->property("scoreObj")));
+    connect(m_scoreObject, &TscoreObject::clicked, this, &TnootkaQML::scoreChangedNote);
+    if (m_scoreObject && !m_nodeConnected)
+      connectNode();
+  }
+}
+
+
+void TnootkaQML::setInstrument(TcommonInstrument* ci) {
+  if (m_instrument != ci) {
+    if (m_instrument != nullptr)
+      m_nodeConnected = false; // reset connection of instrument signal when instrument type changed
+    m_instrument = ci;
+    if (m_scoreObject && !m_nodeConnected)
+      connectNode();
+  }
+}
+
+
+void TnootkaQML::scoreChangedNote() {
+  auto n = m_scoreObject->selectedNote();
+  n.transpose(GLOB->transposition());
+  m_instrument->setNote(n);
+  emit playNote(m_instrument->note()); // not yet transposed - to sound properly
+  qDebug() << "Got note from score" << n.toText();
+}
+
