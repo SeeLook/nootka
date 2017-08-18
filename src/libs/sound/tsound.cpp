@@ -25,6 +25,7 @@
   #include "trtaudioout.h"
   #include "trtaudioin.h"
 #endif
+#include "tnootkaqml.h"
 #include "ttickcolors.h"
 #include <tprecisetimer.h>
 #include <tinitcorelib.h>
@@ -72,6 +73,8 @@ Tsound::Tsound(QObject* parent) :
   } else {
       sniffer = 0;
   }
+
+  connect(NOO, &TnootkaQML::playNote, [=](const Tnote& n){ play(n); });
 
   QTimer::singleShot(1000, [=]{ sniffer->startListening(); });
 }
@@ -469,6 +472,8 @@ void Tsound::playMelodySlot() {
 
 void Tsound::noteStartedSlot(const TnoteStruct& note) {
   m_detectedNote = note.pitch;
+//   if (!m_examMode)
+//   NOO->noteStarted(m_detectedNote); // TODO
   emit noteStarted(m_detectedNote);
   emit noteStartedEntire(note);
   if (player && GLOB->instrument().type() != Tinstrument::NoInstrument && GLOB->A->playDetected)
@@ -487,6 +492,8 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
       m_detectedNote.setRhythm(r);
       qDebug() << "Detected" << note.duration << normDur << m_detectedNote.toText() << m_detectedNote.rtm.string();
       emit noteFinished();
+      if (!m_examMode)
+        NOO->noteFinished(m_detectedNote);
   } else {
       TrhythmList notes;
       Trhythm::resolve(normDur, notes);
@@ -501,6 +508,8 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
         m_detectedNote.setRhythm(rr);
         qDebug() << "Detected" << note.duration << normDur << n << m_detectedNote.toText() << m_detectedNote.rtm.string();
         emit noteFinished();
+        if (!m_examMode)
+          NOO->noteFinished(m_detectedNote);
       }
   }
   emit noteFinishedEntire(note);

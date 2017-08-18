@@ -75,21 +75,17 @@ ApplicationWindow {
         height: nootkaWindow.height - (header ? header.height : 0) - (GLOB.instrument.isSax ? 0 : instrument.height)
         width: parent.width - (GLOB.instrument.isSax ? instrument.width : 0)
         z: 5
-        onNoteChanged: SOUND.play(note)
       }
 
       Instrument {
         id: instrument
         z: 1
         score: score
-        onNote: {
-          var cn = score.currentNote
-          if (cn)
-            score.setNote(cn, Noo.note(n, cn.rhythm()))
-          else
-            score.addNote(Noo.note(n, score.workRhythm))
-        }
       }
+  }
+
+  Component.onCompleted: {
+    Noo.mainScore = score
   }
 
   DialogLoader { id: dialogLoader }
