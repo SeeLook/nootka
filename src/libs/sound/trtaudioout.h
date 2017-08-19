@@ -37,16 +37,16 @@ class NOOTKASOUND_EXPORT TaudioOUT : public TabstractPlayer, public TrtAudio
 
 public:
   TaudioOUT(TaudioParams* _params, QObject* parent = 0);
-  virtual ~TaudioOUT();
+  ~TaudioOUT() override;
 
   static QStringList getAudioDevicesList();
 
-          /**
-           * Starts playing given note and then returns true, otherwise gets false.
-           */
-  bool play(int noteNr);
+      /**
+       * Starts playing given note and then returns true, otherwise gets false.
+       */
+  bool play(int noteNr) override;
   void setAudioOutParams();
-  void stop();
+  void stop() override;
 
 protected:
   static bool outCallBack(void* outBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status);
