@@ -23,9 +23,9 @@ Item {
     anchors.fill: parent
     source: "qrc:/instruments/" +  GLOB.instrument.qmlFile + ".qml"
     onLoaded: {
-      if (GLOB.instrument.isGuitar) // TODO unify it!
+      if (GLOB.instrument.isGuitar || GLOB.instrument.isSax)
         Noo.instrument = instrument
-      else
+      else  // TODO unify it!
         Noo.instrument = instrument.instrBg
       if (GLOB.instrument.type === Tinstrument.Piano)
         instrument.firstOctave = Noo.octave(score.scoreObj.lowestNote())

@@ -8,11 +8,7 @@ import QtQuick.Controls 2.2
 import Nootka 1.0
 
 
-Item {
-  property alias note: sax.note
-  property alias instrBg: sax
-  property alias flapNumber: sax.flapNumber
-  property alias fingeringId: sax.fingeringId
+TsaxBg {
 
   // private
   property real xAxis: height * 0.096 // line.x
@@ -25,13 +21,7 @@ Item {
     height: parent.height * 0.9
     width: height * 0.715
     x: -width * 0.25
-//     y: height * 0.1
     z: -1
-  }
-
-  TsaxBg {
-    id: sax
-    anchors.fill: parent
   }
 
 
@@ -75,11 +65,11 @@ Item {
   SaxFlap { nr: 21; x: xAxis - width * 1.5; y: parent.height * 0.75; width: parent.height / 18; height: width / 2; rotation: 30 }
   SaxFlap { nr: 22; x: xAxis - width * 1.5; y: parent.height * 0.78; width: parent.height / 18; height: width / 2; rotation: 30 }
 
-  OutScaleTip { visible: !sax.active && sax.outOfScale; width: parent.width * 0.9 }
+  OutScaleTip { visible: !active && outOfScale; width: parent.width * 0.9 }
 
   TextEdit {
     anchors.top: parent.top; anchors.horizontalCenter: parent.horizontalCenter
     font.pixelSize: 30
-    text: sax.fingeringId
+    text: fingeringId
   }
 }
