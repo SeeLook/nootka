@@ -369,7 +369,8 @@ void TnootkaQML::noteStarted(const Tnote& n) {
 void TnootkaQML::noteFinished(const Tnote& n) {
   m_instrument->setNote(n);
   Tnote transNote = n;
-  transNote.transpose(-GLOB->transposition());
+  if (transNote.isValid())
+    transNote.transpose(-GLOB->transposition());
 //   if (m_scoreObject->selectedItem())
 //     QMetaObject::invokeMethod(m_mainScore, "setNote", Q_ARG(QVariant, QVariant::fromValue(m_scoreObject->selectedItem())),
 //                               Q_ARG(QVariant, QVariant::fromValue(transNote)));
@@ -403,7 +404,7 @@ void TnootkaQML::setMainScore(QQuickItem* ms) {
   if (!m_mainScore) {
     m_mainScore = ms;
     m_scoreObject = qobject_cast<TscoreObject*>(qvariant_cast<QObject*>(m_mainScore->property("scoreObj")));
-    connect(m_scoreObject, &TscoreObject::clicked, this, &TnootkaQML::scoreChangedNote);
+    connect(m_scoreObject, &TscoreObject::selectedNoteChanged, this, &TnootkaQML::scoreChangedNote);
     if (m_scoreObject && !m_nodeConnected)
       connectNode();
   }
@@ -423,9 +424,10 @@ void TnootkaQML::setInstrument(TcommonInstrument* ci) {
 
 void TnootkaQML::scoreChangedNote() {
   auto n = m_scoreObject->selectedNote();
-  n.transpose(GLOB->transposition());
+  if (n.isValid())
+    n.transpose(GLOB->transposition());
   m_instrument->setNote(n);
-  emit playNote(m_instrument->note()); // not yet transposed - to sound properly
+  emit playNote(n);
   qDebug() << "Got note from score" << n.toText();
 }
 

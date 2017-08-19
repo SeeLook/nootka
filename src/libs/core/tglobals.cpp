@@ -425,6 +425,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
     A->equalLoudness = cfg->value(QStringLiteral("equalLoudness"), true).toBool();
     A->minSplitVol = cfg->value(QStringLiteral("minVolumeToSplit"), 10.0).toReal();
     A->skipStillerVal = cfg->value(QStringLiteral("skipStillerThan"), 80.0).toReal();
+    A->transposition = cfg->value(QStringLiteral("transposition"), 0).toInt();
   cfg->endGroup();
 
   cfg->beginGroup(QLatin1String("layout"));
@@ -605,6 +606,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue(QStringLiteral("equalLoudness"), A->equalLoudness);
       cfg->setValue(QStringLiteral("minVolumeToSplit"), A->minSplitVol);
       cfg->setValue(QStringLiteral("skipStillerThan"), A->skipStillerVal);
+      cfg->setValue(QStringLiteral("transposition"), A->transposition);
 #if !defined (Q_OS_ANDROID)
       cfg->setValue(QLatin1String("dumpPath"), A->dumpPath);
 #endif

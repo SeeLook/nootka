@@ -31,6 +31,7 @@ Flickable {
       id: instrSel
       anchors.horizontalCenter: parent.horizontalCenter
       instrument: GLOB.instrument.type
+      onInstrumentChanged: transp.shift = Noo.instr(instrument).transposition
     }
 
     Grid {
@@ -136,6 +137,12 @@ Flickable {
         ColorButton { id: selectedColorButt; color: GLOB.selectedColor }
       }
     }
+    Tile {
+      Transposition {
+        id: transp
+        shift: GLOB.transposition
+      }
+    }
     Component.onCompleted: { // to avoid declaring every property signal in Tglobals.h
       showOtherPosChB.checked = GLOB.showOtherPos
     }
@@ -151,11 +158,14 @@ Flickable {
       GLOB.setGuitarParams(fretsNrSpin.value, stringNrSpin.value)
       GLOB.showOtherPos = showOtherPosChB.checked
     }
+    GLOB.transposition = transp.outShift
   }
 
   function defaults() {
     fingerColorButt.color = Qt.rgba(1, 0, 0.5, 0.78)
     selectedColorButt.color = Qt.rgba(0.2, 0.6, 1.0, 1.0)
     prefSharpRadio.checked = true
+    instrSel.instrument = Tinstrument.ClassicalGuitar
+    transp.shift = 0
   }
 }
