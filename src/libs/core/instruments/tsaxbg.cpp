@@ -25,7 +25,7 @@
 
 #define LOWEST_NOTE (11)  // lowest note for saxophone notation is a#/bb in small octave
 #define HIGHEST_NOTE (49) // highest note for saxophone notation is f3 in three-lines octave
-#define SUPPORTED_NOTES (39)
+#define SUPPORTED_NOTES (39) // number of notes supported by fingering chart
 
 
 TsaxBg::TsaxBg(QQuickItem* parent) :
@@ -85,9 +85,10 @@ void TsaxBg::setNote(const Tnote& n) {
 CHECKTIME (
   bool out = false;
   if (n.isValid()) {
-      int ch = n.chromatic();
+      int ch = n.chromatic() - GLOB->transposition();
 //       qDebug() << "setNote" << n.toText() << ch;
       if (!p_note.isValid() || ch != p_note.chromatic()) {
+        p_note.setChromatic(ch);
         if (ch >= LOWEST_NOTE && ch <= HIGHEST_NOTE) {
             ch -= LOWEST_NOTE;
             m_fingeringId = m_notesArray[ch];
@@ -121,7 +122,7 @@ CHECKTIME (
   emit fingeringIdChanged();
   for (int f = 0; f < SUPPORTED_NOTES; ++f) {
     if (m_notesArray[f] == m_fingeringId) {
-      p_note.setChromatic(LOWEST_NOTE + f /*+ GLOB->instrument().transposition()*/);
+      p_note.setChromatic(LOWEST_NOTE + f + GLOB->instrument().transposition());
       emit noteChanged();
       break;
     }
