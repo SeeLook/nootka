@@ -330,8 +330,6 @@ CHECKTIME (
   if (event->buttons() & Qt::LeftButton) {
     if (m_curStr < 7) {
       Tnote n(GLOB->Gtune()->str(m_curStr + 1).chromatic() + m_curFret);
-      if (GLOB->GpreferFlats)
-        n = n.showWithFlat();
       setNote(n);
       emit fingerPosChanged();
       emit noteChanged();

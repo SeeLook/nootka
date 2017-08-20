@@ -42,6 +42,7 @@
 #include <QtCore/qdir.h>
 #include <QtCore/qdatetime.h>
 #include <QtWidgets/qfiledialog.h>
+
 #include <QtCore/qdebug.h>
 
 
@@ -371,6 +372,8 @@ void TnootkaQML::noteFinished(const Tnote& n) {
   Tnote transNote = n;
   if (transNote.isValid())
     transNote.transpose(-GLOB->transposition());
+  if (m_scoreObject->keySignature() < 0 || (m_scoreObject->keySignature() == 0 && GLOB->GpreferFlats))
+    transNote = transNote.showWithFlat();
 //   if (m_scoreObject->selectedItem())
 //     QMetaObject::invokeMethod(m_mainScore, "setNote", Q_ARG(QVariant, QVariant::fromValue(m_scoreObject->selectedItem())),
 //                               Q_ARG(QVariant, QVariant::fromValue(transNote)));
@@ -380,14 +383,39 @@ void TnootkaQML::noteFinished(const Tnote& n) {
 }
 
 
-void TnootkaQML::connectNode() {
+void TnootkaQML::setMainScore(QQuickItem* ms) {
+  if (!m_mainScore) {
+    m_mainScore = ms;
+    m_scoreObject = qobject_cast<TscoreObject*>(qvariant_cast<QObject*>(m_mainScore->property("scoreObj")));
+    connect(m_scoreObject, &TscoreObject::selectedNoteChanged, this, &TnootkaQML::scoreChangedNote);
+    if (m_scoreObject && !m_nodeConnected)
+      connectInstrument();
+  }
+}
+
+
+void TnootkaQML::setInstrument(TcommonInstrument* ci) {
+  if (m_instrument != ci) {
+    if (m_instrument != nullptr)
+      m_nodeConnected = false; // reset connection of instrument signal when instrument type changed
+      m_instrument = ci;
+    if (m_scoreObject && !m_nodeConnected)
+      connectInstrument();
+  }
+}
+
+
+void TnootkaQML::connectInstrument() {
   m_nodeConnected = true;
   connect(m_instrument, &TcommonInstrument::noteChanged, [=] {
     Tnote rawNote = m_instrument->note();
     qDebug() << "instrument send note" << rawNote.toText();
+    m_ignoreScore = true;
     // TODO send only chromatic number and duration obtained below... but Tsound has to be capable for it
     emit playNote(m_instrument->note()); // not yet transposed - to sound properly
     rawNote.transpose(-GLOB->transposition());
+    if (m_scoreObject->keySignature() < 0 || (m_scoreObject->keySignature() == 0 && GLOB->GpreferFlats))
+      rawNote = rawNote.showWithFlat();
     if (m_scoreObject->selectedItem()) {
         rawNote.setRhythm(m_scoreObject->selectedItem()->note()->rtm);
         QMetaObject::invokeMethod(m_mainScore, "setNote", Q_ARG(QVariant, QVariant::fromValue(m_scoreObject->selectedItem())),
@@ -400,29 +428,12 @@ void TnootkaQML::connectNode() {
 }
 
 
-void TnootkaQML::setMainScore(QQuickItem* ms) {
-  if (!m_mainScore) {
-    m_mainScore = ms;
-    m_scoreObject = qobject_cast<TscoreObject*>(qvariant_cast<QObject*>(m_mainScore->property("scoreObj")));
-    connect(m_scoreObject, &TscoreObject::selectedNoteChanged, this, &TnootkaQML::scoreChangedNote);
-    if (m_scoreObject && !m_nodeConnected)
-      connectNode();
-  }
-}
-
-
-void TnootkaQML::setInstrument(TcommonInstrument* ci) {
-  if (m_instrument != ci) {
-    if (m_instrument != nullptr)
-      m_nodeConnected = false; // reset connection of instrument signal when instrument type changed
-    m_instrument = ci;
-    if (m_scoreObject && !m_nodeConnected)
-      connectNode();
-  }
-}
-
-
 void TnootkaQML::scoreChangedNote() {
+  if (m_ignoreScore) {
+    qDebug() << "Score slot ignored";
+    m_ignoreScore = false;
+    return;
+  }
   auto n = m_scoreObject->selectedNote();
   if (n.isValid())
     n.transpose(GLOB->transposition());

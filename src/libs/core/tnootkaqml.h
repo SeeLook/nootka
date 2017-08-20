@@ -138,7 +138,7 @@ signals:
   void playNote(const Tnote&);
 
 protected:
-  void connectNode();
+  void connectInstrument();
 
 protected slots:
   void scoreChangedNote();
@@ -150,6 +150,7 @@ private:
   QQuickItem                    *m_mainScore = nullptr;
   TscoreObject                  *m_scoreObject = nullptr;
   bool                           m_nodeConnected = false;
+  bool                           m_ignoreScore = false; /**< Becomes @p TRUE to ignore @p scoreChangedNote() slot  */
 };
 
 #endif // TNOOTKAQML_H

@@ -151,12 +151,12 @@ void TpianoBg::hoverMoveEvent(QHoverEvent* event) {
 
 
 void TpianoBg::mousePressEvent(QMouseEvent* event) {
+CHECKTIME(
   if (event->buttons() & Qt::LeftButton) {
     p_note = m_activeNote;
-    if (GLOB->GpreferFlats)
-      p_note = p_note.showWithFlat();
     emit noteChanged();
   }
+)
 }
 
 
