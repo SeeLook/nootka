@@ -17,6 +17,8 @@ Flickable {
   contentHeight: instrCol.height + nootkaWindow.fontSize * 2
   contentWidth: Math.max(width, nootkaWindow.fontSize * 35)
 
+  property bool first: true // read props first time from GLOB but when instrument changed then from its profile
+
   ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
 
   Column {
@@ -31,7 +33,18 @@ Flickable {
       id: instrSel
       anchors.horizontalCenter: parent.horizontalCenter
       instrument: GLOB.instrument.type
-      onInstrumentChanged: transp.shift = Noo.instr(instrument).transposition
+      onInstrumentChanged: { // load instrument profile
+        if (first) {
+            transp.shift = GLOB.transposition
+            prefFlatRadio.checked = GLOB.preferFlats
+            first = false
+        } else {
+            var ins = Noo.instr(instrument)
+            transp.shift = ins.transposition
+            prefFlatRadio.checked = ins.isSax ? true : false
+            prefSharpRadio.checked = ins.isSax ? false : true
+        }
+      }
     }
 
     Grid {
@@ -138,10 +151,7 @@ Flickable {
       }
     }
     Tile {
-      Transposition {
-        id: transp
-        shift: GLOB.transposition
-      }
+      Transposition { id: transp }
     }
     Component.onCompleted: { // to avoid declaring every property signal in Tglobals.h
       showOtherPosChB.checked = GLOB.showOtherPos
@@ -164,8 +174,7 @@ Flickable {
   function defaults() {
     fingerColorButt.color = Qt.rgba(1, 0, 0.5, 0.78)
     selectedColorButt.color = Qt.rgba(0.2, 0.6, 1.0, 1.0)
-    prefSharpRadio.checked = true
-    instrSel.instrument = Tinstrument.ClassicalGuitar
-    transp.shift = 0
+    GLOB.showOtherPos = false
+    instrSel.instrument = Tinstrument.ClassicalGuitar // it will set transposition and preferred accidentals
   }
 }
