@@ -407,7 +407,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
     A->midiEnabled = cfg->value(QStringLiteral("midiEnabled"), false).toBool();
     A->midiPortName = cfg->value(QStringLiteral("midiPortName"), QString()).toString();
     A->midiInstrNr = (unsigned char)cfg->value(QStringLiteral("midiInstrumentNr"), 0).toInt();
-    A->audioInstrNr = qBound(1, cfg->value(QStringLiteral("audioInstrumentNr"), 1).toInt(), 3);
+    A->audioInstrNr = qBound(1, cfg->value(QStringLiteral("audioInstrumentNr"), 1).toInt(), INSTR_COUNT);
     A->INenabled = cfg->value(QStringLiteral("inSoundEnabled"), true).toBool();
     A->INdevName = cfg->value(QStringLiteral("inDeviceName"), QString()).toString();
     A->detectMethod = qBound(0, cfg->value(QStringLiteral("detectionMethod"), 2).toInt(), 2); // MPM modified cepstrum
