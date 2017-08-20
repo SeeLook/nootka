@@ -57,7 +57,7 @@ QString accidInSpan(char accid) {
 /** Quick map (array) to get chromatic note number - first filed is invalid */
 static qint8 chromaticMap[8] { 0, 1, 3, 5, 6, 8, 10, 12 };
 
-// static char setChromaticMap[12] { 1, 1, 2, 2, 3, 4, 4, 5, 5, 6, 6, 7 };
+static char setChromaticMap[12][2] { {1, 0}, {1, 1}, {2, 0}, {2, 1}, {3, 0}, {4, 0}, {4, 1}, {5, 0}, {5, 1}, {6, 0}, {6, 1}, {7, 0} };
 
 /*static*/
 std::string Tnote::m_solmization[7] = {"Do", "Re", "Mi", "Fa", "Sol", "La", "Si"};
@@ -71,20 +71,9 @@ Tnote::EnameStyle Tnote::defaultStyle = Tnote::e_norsk_Hb;
 //#############################################################################################
 
 void Tnote::setChromatic(short int noteNr) {
-  switch ((noteNr + 143) % 12 + 1)  {
-      case 1: note = 1; alter = 0; break;
-      case 2: note = 1; alter = 1; break;
-      case 3: note = 2; alter = 0; break;
-      case 4: note = 2; alter = 1; break;
-      case 5: note = 3; alter = 0; break;
-      case 6: note = 4; alter = 0; break;
-      case 7: note = 4; alter = 1; break;
-      case 8: note = 5; alter = 0; break;
-      case 9: note = 5; alter = 1; break;
-      case 10: note = 6; alter = 0; break;
-      case 11: note = 6; alter = 1; break;
-      case 12: note = 7; alter = 0; break;
-  }
+  int nr = (noteNr + 143) % 12;
+  note = setChromaticMap[nr][0];
+  alter = setChromaticMap[nr][1];
   octave = (noteNr + 143) / 12 - 12;
 }
 

@@ -54,7 +54,7 @@ static const qreal heightArray[INSTR_COUNT] = {
 
 
 static const qint8 transArray[INSTR_COUNT] = {
-  0, 0, 0, -12, 0, 0, 3, -2
+  0, 0, 0, -12, 0, 0, -9, -14
 };
 
 //#################################################################################################
