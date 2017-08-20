@@ -89,6 +89,7 @@ ApplicationWindow {
     GLOB.enableDoubleAccids = optionsPage.doubleAccids
     GLOB.keySignatureEnabled - optionsPage.useKeys
     GLOB.showEnharmNotes = optionsPage.enharmNames
+    GLOB.preferFlats = GLOB.instrument.isSax ? true : false
     Qt.quit()
   }
 //   Component.onDestruction: console.log("Wizard Bye")

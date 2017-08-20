@@ -302,6 +302,7 @@ Column {
       GLOB.seventhIsB = is7BSelector.is7B
       GLOB.namesOnScore = namesOnScoreChB.checked
       GLOB.nameColor = nameColorButt.color
+      GLOB.clefType = clefs.selClef
     }
 
     function defaults() {
@@ -310,6 +311,7 @@ Column {
       enharmNoteColor.color = Qt.rgba(0, 0.6352941176470588, 0.6352941176470588, 1)
       doubleAccidsChB.checked = false
       pointerColorButt.color = "pink"
+      clefs.selClef = Tclef.Treble_G_8down
 
       enableKeyChB.checked = false
     }
