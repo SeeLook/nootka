@@ -430,7 +430,6 @@ void TnootkaQML::connectInstrument() {
 
 void TnootkaQML::scoreChangedNote() {
   if (m_ignoreScore) {
-    qDebug() << "Score slot ignored";
     m_ignoreScore = false;
     return;
   }
@@ -439,6 +438,6 @@ void TnootkaQML::scoreChangedNote() {
     n.transpose(GLOB->transposition());
   m_instrument->setNote(n);
   emit playNote(n);
-  qDebug() << "Got note from score" << n.toText();
+  qDebug() << "Got note from score" << n.toText() << n.chromatic();
 }
 

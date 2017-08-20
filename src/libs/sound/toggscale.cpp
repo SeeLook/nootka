@@ -205,6 +205,18 @@ bool ToggScale::loadAudioData(int instrument) {
         fileName = Tpath::sound("bass-guitar");
         m_firstNote = -24; m_lastNote = 21;
         break;
+      case Tinstrument::Bandoneon:
+        fileName = Tpath::sound("bandoneon");
+        m_firstNote = -11; m_lastNote = 48;
+        break;
+      case Tinstrument::AltSax:
+        fileName = Tpath::sound("alto-sax");
+        m_firstNote = 1; m_lastNote = 34;
+        break;
+      case Tinstrument::TenorSax:
+        fileName = Tpath::sound("tenor-sax");
+        m_firstNote = -3; m_lastNote = 30;
+        break;
       default:
         return false;
     }
