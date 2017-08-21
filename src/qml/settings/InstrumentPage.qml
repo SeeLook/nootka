@@ -127,8 +127,9 @@ Flickable {
         anchors.horizontalCenter: parent.horizontalCenter
         Text { text: qsTr("marked frets", "or frets with dots/marks"); anchors.verticalCenter: parent.verticalCenter }
         TextField {
-          maximumLength: 25
-          validator: RegExpValidator { regExp: /([1-2]{0,1}[0-9]{1,2}!{0,1},){0,7}/ }
+          id: fretDots
+          maximumLength: 30
+          validator: RegExpValidator { regExp: /([1-2]{0,1}[0-9]{1,2}!{0,1},){0,10}/ }
         }
       }
       description: qsTr("Put numbers of frets marked with dot. Separate the numbers with comma. Add ! (exclamation mark) after a number to paint a dot twice.")
@@ -155,6 +156,7 @@ Flickable {
     }
     Component.onCompleted: { // to avoid declaring every property signal in Tglobals.h
       showOtherPosChB.checked = GLOB.showOtherPos
+      fretDots.text = GLOB.markedFrets
     }
 
   }
@@ -167,8 +169,11 @@ Flickable {
     if (Noo.instr(instrSel.instrument).isGuitar) {
       GLOB.setGuitarParams(fretsNrSpin.value, stringNrSpin.value)
       GLOB.showOtherPos = showOtherPosChB.checked
+      GLOB.markedFrets = fretDots.text
     }
     GLOB.transposition = transp.outShift
+    GLOB.audioInstrument = instrSel.instrument
+    SOUND.acceptSettings()
   }
 
   function defaults() {
@@ -176,5 +181,6 @@ Flickable {
     selectedColorButt.color = Qt.rgba(0.2, 0.6, 1.0, 1.0)
     GLOB.showOtherPos = false
     instrSel.instrument = Tinstrument.ClassicalGuitar // it will set transposition and preferred accidentals
+    fretDots.text = "5,7,9,12!,15,19"
   }
 }

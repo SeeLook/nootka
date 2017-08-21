@@ -144,46 +144,43 @@ void Tsound::acceptSettings() {
   bool doParamsUpdated = false;
   // for output
   if (GLOB->A->OUTenabled) {
-    if (!player)
-        createPlayer();
-    else {
-      #if !defined (Q_OS_ANDROID)
-        if (GLOB->A->midiEnabled) {
-          deletePlayer(); // it is safe to delete midi
-          createPlayer(); // and create it again
-        } else
-      #endif
-        { // avoids deleting TaudioOUT instance and loading ogg file every acceptSettings call
-          if (player->type() == TabstractPlayer::e_midi) {
-              deletePlayer(); // player was midi so delete
-              createPlayer();
-          } else { // just set new params to TaudioOUT
-              doParamsUpdated = true;
+      if (!player)
+          createPlayer();
+      else {
+        #if !defined (Q_OS_ANDROID)
+          if (GLOB->A->midiEnabled) {
+            deletePlayer(); // it is safe to delete midi
+            createPlayer(); // and create it again
+          } else
+        #endif
+          { // avoids deleting TaudioOUT instance and loading ogg file every acceptSettings call
+            if (player->type() == TabstractPlayer::e_midi) {
+                deletePlayer(); // player was midi so delete
+                createPlayer();
+            } else { // just set new params to TaudioOUT
+                doParamsUpdated = true;
+            }
           }
-        }
-        if (player) {
-          if (!player->isPlayable())
-            deletePlayer();
-        }
-    }
-  } else {
-      deletePlayer();
-  }
+          if (player) {
+            if (!player->isPlayable())
+              deletePlayer();
+          }
+      }
+  } else
+        deletePlayer();
+
   // for input
   if (GLOB->A->INenabled) {
-    if (!sniffer) {
-      createSniffer();
-//       m_pitchView->setAudioInput(sniffer);
-    } else {
+      if (!sniffer) {
+          createSniffer();
+      } else {
 //       m_userState = sniffer->stoppedByUser();
-      setDefaultAmbitus();
-      doParamsUpdated = true;
-    }
-//     m_pitchView->setMinimalVolume(GLOB->A->minimalVol);
-//     m_pitchView->setIntonationAccuracy(GLOB->A->intonation);
+          setDefaultAmbitus();
+          doParamsUpdated = true;
+      }
   } else {
-    if (sniffer)
-      deleteSniffer();
+      if (sniffer)
+        deleteSniffer();
   }
 #if defined (Q_OS_ANDROID)
   if (player)
@@ -198,9 +195,8 @@ void Tsound::acceptSettings() {
           sniffer->updateAudioParams();
   }
 #endif
-  if (sniffer) {
+  if (sniffer)
     restoreSniffer();
-  }
 }
 
 
@@ -212,9 +208,8 @@ void Tsound::prepareToConf() {
 #endif
   }
   if (sniffer) {
-    m_userState = sniffer->stoppedByUser(); // m_pitchView->isPaused();
+    m_userState = sniffer->stoppedByUser();
     sniffer->stopListening();
-//     m_pitchView->setDisabled(true);
     blockSignals(true);
     sniffer->setStoppedByUser(false);
   }
@@ -434,7 +429,6 @@ void Tsound::deleteSniffer() {
 
 void Tsound::restoreSniffer() {
   sniffer->setStoppedByUser(m_userState);
-//   m_pitchView->setDisabled(false);
   blockSignals(false);
   sniffer->startListening();
 }
