@@ -223,6 +223,38 @@ void Tglobals::setTransposition(int t) {
   }
 }
 
+QString Tglobals::markedFrets() const {
+  QString fretText;
+  for (int i = 0; i < GmarkedFrets.size(); ++i) {
+    fretText.append(GmarkedFrets.at(i).toString());
+    if (i < GmarkedFrets.size() - 1)
+      fretText.append(QStringLiteral(","));
+  }
+  return fretText;
+}
+
+
+void Tglobals::setMarkedFrets(const QString& frets) {
+  GmarkedFrets.clear();
+  QString ex = QStringLiteral("!");
+  QStringList fr = frets.split(QStringLiteral(","));
+  for (int i = 0; i < fr.size(); ++i) {
+    QString exMark;
+    if (fr[i].contains(ex)) {
+      exMark = ex;
+      fr[i].replace(ex, QString());
+    }
+    bool ok;
+    int frNr = fr[i].toInt(&ok);
+    if (ok && frNr > 0 && frNr <= GfretsNumber)
+      GmarkedFrets << fr[i] + exMark;
+  }
+}
+
+
+/* ------------------ Sound switches ------------------ */
+int Tglobals::audioInstrument() const { return A->audioInstrNr; }
+void Tglobals::setAudioInstrument(int ai) { A->audioInstrNr = ai; }
 
 
 void Tglobals::setGuitarParams(int fretNr, int stringNr) {

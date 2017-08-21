@@ -89,13 +89,13 @@ public:
      * stop sniffing, playing, delete midi, which blocks audio devices,
      * delete audioIN, config creates its own to test.
      */
-  void prepareToConf();
+  Q_INVOKABLE void prepareToConf();
 
       /**
        * Also, when user will discard config, it has to restore its state.
        */
-  void restoreAfterConf();
-  void acceptSettings();
+  Q_INVOKABLE void restoreAfterConf();
+  Q_INVOKABLE void acceptSettings();
 
   Q_INVOKABLE void stopListen();
   Q_INVOKABLE void startListen();

@@ -73,13 +73,16 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(Tinstrument instrument READ instrument NOTIFY instrumentChanged)
   Q_PROPERTY(TtuneObject* tuning READ tuning NOTIFY tuningChanged)
   Q_PROPERTY(qreal transposition READ transposition WRITE setTransposition NOTIFY transpositionChanged)
-  
 
   Q_PROPERTY(QColor fingerColor READ fingerColor WRITE setFingerColor NOTIFY fingerColorChanged)
   Q_PROPERTY(QColor selectedColor READ selectedColor WRITE setSelectedColor NOTIFY selectedColorChanged)
   Q_PROPERTY(bool preferFlats READ preferFlats WRITE setPreferFlats NOTIFY preferFlatsChanged)
   Q_PROPERTY(int fretNumber READ fretNumber NOTIFY guitarParamsChanged)
   Q_PROPERTY(bool showOtherPos READ showOtherPos WRITE setShowOtherPos)
+  Q_PROPERTY(QString markedFrets READ markedFrets WRITE setMarkedFrets);
+
+  /* Sound switches */
+  Q_PROPERTY(int audioInstrument READ audioInstrument WRITE setAudioInstrument)
 
 public:
 
@@ -169,6 +172,13 @@ public:
 
   int transposition() const;
   void setTransposition(int t);
+
+  QString markedFrets() const;
+  void setMarkedFrets(const QString& frets);
+
+  /* ------------------ Sound switches ------------------ */
+  int audioInstrument() const;
+  void setAudioInstrument(int ai);
 
       /**
        * Updates key signature names according to name style and major/minor suffixes.
