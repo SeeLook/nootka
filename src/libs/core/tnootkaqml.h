@@ -106,6 +106,7 @@ public:
   Q_INVOKABLE QString getXmlToSave();
   Q_INVOKABLE QString aboutQt();
   Q_INVOKABLE QString pix(const QString& imageFileName);
+  Q_INVOKABLE QString TR(const QString& context, const QString& text, const QString& disambiguation = QString(), int n = -1);
 
       /**
        * Returns given color @p c with alpha channel @p a

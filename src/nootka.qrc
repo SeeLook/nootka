@@ -81,8 +81,6 @@
     <file alias="wizard/WizardClef.qml">qml/wizard/WizardClef.qml</file>
     <file alias="wizard/WizardOptions.qml">qml/wizard/WizardOptions.qml</file>
 
-    <file alias="fakeTrans.js">qml/shared/fakeTrans.js</file>
-
     <file alias="qtquickcontrols2.conf">qml/qtquickcontrols2.conf</file>
 <!--     <file alias="+android/qtquickcontrols2.conf">qml/+android/qtquickcontrols2.conf</file> -->
 
