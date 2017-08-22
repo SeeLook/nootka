@@ -218,7 +218,9 @@ bool ToggScale::loadAudioData(int instrument) {
         m_firstNote = -3; m_lastNote = 30;
         break;
       default:
-        return false;
+        fileName = Tpath::sound("piano");
+        m_firstNote = -23; m_lastNote = 61;
+        break;
     }
   } else
       return false;
