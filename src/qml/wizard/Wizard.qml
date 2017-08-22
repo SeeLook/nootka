@@ -7,7 +7,6 @@ import QtQuick.Controls 2.2
 import QtQuick.Window 2.2
 
 import "../about"
-import "../fakeTrans.js" as Fake
 
 
 ApplicationWindow {
@@ -62,19 +61,19 @@ ApplicationWindow {
       Button {
         x: parent.width / 2 - width - fontSize
         id: prevBut
-        text: Fake.tr("QWizard", "< &Back").replace("&", "")
+        text: Noo.TR("QWizard", "< &Back").replace("&", "")
         enabled: swipe.currentIndex > 0
         onClicked: swipe.currentIndex -= 1
       }
       Button {
         x: parent.width / 2 + fontSize
-        text: Fake.tr("QWizard", "&Next >").replace("&", "")
+        text: Noo.TR("QWizard", "&Next >").replace("&", "")
         enabled: swipe.currentIndex < swipe.count - 1
         onClicked: swipe.currentIndex += 1
       }
       Button {
         anchors.right: parent.right
-        text: Fake.tr("QWizard", "&Finish").replace("&", "")
+        text: Noo.TR("QWizard", "&Finish").replace("&", "")
         onClicked: nootkaWindow.close()
       }
     }

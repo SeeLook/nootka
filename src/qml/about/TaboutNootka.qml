@@ -5,7 +5,6 @@
 import QtQuick 2.9
 
 import "about"
-import "fakeTrans.js" as Fake
 
 
 Item {
@@ -16,7 +15,7 @@ Item {
 
   Component.onCompleted: {
     pages.addItem("nootka-frame", qsTr("About"), "about/About")
-    pages.addItem("help-frame", Fake.tr("QShortcut", "Help"), "about/Help")
+    pages.addItem("help-frame", Noo.TR("QShortcut", "Help"), "about/Help")
     pages.addItem("author", qsTr("Authors"), "about/Authors")
     pages.addItem("license", qsTr("License"), "about/License")
     pages.addItem("support", qsTr("Support"), "about/Support")

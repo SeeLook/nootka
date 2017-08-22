@@ -441,3 +441,7 @@ void TnootkaQML::scoreChangedNote() {
   qDebug() << "Got note from score" << n.toText() << n.chromatic();
 }
 
+
+QString TnootkaQML::TR(const QString& context, const QString& text, const QString& disambiguation, int n) {
+  return qTR(qPrintable(context), qPrintable(text), qPrintable(disambiguation), n);
+}

@@ -6,7 +6,6 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 
 import "../"
-import "../fakeTrans.js" as Fake
 
 
 Flickable {
@@ -72,7 +71,7 @@ Flickable {
         width: parent.width
         TcheckBox {
           id: useKeysChB
-          text: Fake.tr("TscoreSettings", "enable key signature")
+          text: Noo.TR("TscoreSettings", "enable key signature")
           anchors.horizontalCenter: parent.horizontalCenter
           checked: true
         }

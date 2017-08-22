@@ -7,7 +7,6 @@ import QtQuick.Controls 2.2
 
 import Score 1.0
 import Nootka 1.0
-import "fakeTrans.js" as Fake
 
 
 Score {
@@ -80,7 +79,7 @@ Score {
 
   Taction {
     id: playAct
-    text: Fake.tr("QShortcut", "Play")
+    text: Noo.TR("QShortcut", "Play")
     icon: "playMelody"
     onTriggered: playScore(SOUND.tempo)
 //     shortcut: Shortcut { sequence: "Space"; onActivated: recModeAct.triggered() }
@@ -94,7 +93,7 @@ Score {
   }
   Taction {
     id: openXmlAct
-    text: Fake.tr("QShortcut", "Open")
+    text: Noo.TR("QShortcut", "Open")
     icon: "open"
     onTriggered: {
       var xmlFle = Noo.getXmlToOpen()
@@ -104,7 +103,7 @@ Score {
   }
   Taction {
     id: saveXmlAct
-    text: Fake.tr("QShortcut", "Save")
+    text: Noo.TR("QShortcut", "Save")
     icon: "save"
     onTriggered: {
       var xmlFle = Noo.getXmlToSave()
