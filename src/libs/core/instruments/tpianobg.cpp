@@ -53,7 +53,23 @@ void TpianoBg::setKeyWidth(qreal kw) {
 
 
 void TpianoBg::setNote(const Tnote& n) {
-  
+  if (!p_note.compareNotes(n)) {
+    if (n.isValid()) {
+        Tnote sharpNote = Tnote(n.chromatic());
+        int o = sharpNote.octave - m_firstOctave;
+        int kw = qFloor(m_keyWidth);
+        bool isWhite = sharpNote.alter == 0;
+        int keyNr = o * 7 + sharpNote.note - (isWhite ? 1 : 0);
+        if (isWhite)
+          m_keyRect.setRect(m_margin + keyNr * kw, m_keyWidth, m_keyWidth, height() - m_keyWidth);
+        else
+          m_keyRect.setRect(m_margin + keyNr * kw - m_keyWidth * 0.4, m_keyWidth, m_keyWidth * 0.8, height() / 2.0);
+    } else {
+        m_keyRect.setX(0.0); // hide
+    }
+    p_note = n;
+    emit selectedRectChanged();
+  }
 }
 
 
@@ -97,7 +113,8 @@ CHECKTIME (
   painter->setFont(f);
   int octavesNr = m_keysNumber / 7;
   for (int k = 0; k < octavesNr; ++k) {
-    painter->drawText(QRect(m_margin + k * 7 * kw, 0, 7 * kw, m_keyWidth), Qt::AlignCenter, octaveNames[m_firstOctave + 3 + k]);
+    if (m_firstOctave + 3 + k < 8)
+      painter->drawText(QRect(m_margin + k * 7 * kw, 0, 7 * kw, m_keyWidth), Qt::AlignCenter, octaveNames[m_firstOctave + 3 + k]);
     if (k < octavesNr - 1 || m_keysNumber - (m_keysNumber / 7) * 7 > 0) { // do not draw a tick of last octave when it is completed
       int xx = m_margin + (k + 1) * 7 * kw;
       painter->drawLine(xx, qRound(m_keyWidth / 2.0), xx, qRound(m_keyWidth - 1.0));
@@ -154,6 +171,7 @@ void TpianoBg::mousePressEvent(QMouseEvent* event) {
 CHECKTIME(
   if (event->buttons() & Qt::LeftButton) {
     p_note = m_activeNote;
+    emit selectedRectChanged();
     emit noteChanged();
   }
 )
