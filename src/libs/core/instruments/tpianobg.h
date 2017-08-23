@@ -57,6 +57,7 @@ public:
 
 signals:
   void keyRectChanged();
+  void selectedRectChanged();
 
 protected:
   void geometryChanged(const QRectF & newGeometry, const QRectF & oldGeometry) override;

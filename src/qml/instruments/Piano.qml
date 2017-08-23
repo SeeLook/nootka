@@ -7,22 +7,15 @@ import QtQuick 2.9
 import Nootka 1.0
 
 
-Item {
-  property alias note: piano.note
-  property alias firstOctave: piano.firstOctave
-  property alias instrBg: piano
+TpianoBg {
 
   anchors.fill: parent
 
-  TpianoBg {
-    id: piano
-    anchors.fill: parent
-    keyWidth: nootkaWindow.fontSize * 2
-    onNoteChanged: {
-      selectedKey.x = keyRect.x
-      selectedKey.y = keyWidth + keyRect.height - height * 0.3
-      selectedKey.width = keyRect.width
-    }
+  keyWidth: nootkaWindow.fontSize * 2
+  onSelectedRectChanged: {
+    selectedKey.x = keyRect.x
+    selectedKey.y = keyWidth + keyRect.height - height * 0.3
+    selectedKey.width = keyRect.width
   }
 
   Rectangle {
@@ -35,11 +28,11 @@ Item {
 
   Rectangle {
     color: GLOB.fingerColor
-    width: piano.keyRect.width
-    height: piano.keyRect.height
+    width: keyRect.width
+    height: keyRect.height
     radius: width * 0.2
-    x: piano.keyRect.x
-    y: piano.keyRect.y
-    visible: piano.active
+    x: keyRect.x
+    y: keyRect.y
+    visible: active
   }
 }

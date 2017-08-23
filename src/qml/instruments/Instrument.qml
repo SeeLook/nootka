@@ -23,7 +23,7 @@ Item {
     anchors.fill: parent
     source: "qrc:/instruments/" +  GLOB.instrument.qmlFile + ".qml"
     onLoaded: {
-      if (GLOB.instrument.isGuitar || GLOB.instrument.isSax)
+      if (GLOB.instrument.isGuitar || GLOB.instrument.isSax || GLOB.instrument.type === Tinstrument.Piano)
         Noo.instrument = instrument
       else  // TODO unify it!
         Noo.instrument = instrument.instrBg
