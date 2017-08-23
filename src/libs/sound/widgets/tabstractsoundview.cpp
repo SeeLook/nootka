@@ -53,8 +53,9 @@ QString TabstractSoundView::getStringsFreqText(Ttune* t, float pitch440Offset) {
     }
   } else { // no guitar - C-major scale frequencies
     for (int i = 1; i < 8; i++) {
-      float offPitch = TnoteStruct::pitchToFreq(t->str(i).toMidi() + pitch440Offset);
-      freqTxt += QString("<b>%1</b> = %2 Hz, ").arg(Tnote(i, 1, 0).toRichText()).arg(offPitch, 0, 'f', 1);
+      Tnote n(i, 1, 0);
+      float offPitch = TnoteStruct::pitchToFreq(n.toMidi() + pitch440Offset);
+      freqTxt += QString("<b>%1</b> = %2 Hz, ").arg(n.toRichText()).arg(offPitch, 0, 'f', 1);
       if (i % 2 == 0 && i < 7)
           freqTxt += br; // three entries per line
       else if (i % 3 == 0 && i < 7)
