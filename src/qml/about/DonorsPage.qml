@@ -9,10 +9,25 @@ import "../"
 
 
 Flickable {
-  id: flick
+  id: root
   clip: true
   ScrollBar.vertical: ScrollBar {}
   contentHeight: donCol.height; contentWidth: parent.width
+  z: 1
+
+  Rectangle {
+    id: bgRect
+    width: root.width; height: root.height
+    color: Noo.alpha(activPal.base, 230)
+    parent: root.parent
+    z: 0
+    Image {
+      source: Noo.pix("nootka")
+      height: root.height; width: height
+      z: -1
+      anchors.horizontalCenter: parent.horizontalCenter
+    }
+  }
 
   Column {
     id: donCol
@@ -35,7 +50,7 @@ Flickable {
     }
 
     Repeater {
-      model: [ "Илья Б.", "Yves Balhant", "Tomasz Matuszewski", "Vincent Bermel" ]
+      model: [ "Илья Б.", "Yves Balhant", "Tomasz Matuszewski", "Vincent Bermel", "Torsten Philipp" ]
       Tile {
         property color randCol: Noo.randomColor()
         width: tt.width + nootkaWindow.fontSize * 4
@@ -49,6 +64,12 @@ Flickable {
           color: activPal.text
         }
       }
+    }
+
+    Text {
+      font { bold: true; pixelSize: nootkaWindow.fontSize * 2 }
+      text: "THANK YOU!   "
+      anchors.right: parent.right
     }
   }
 }
