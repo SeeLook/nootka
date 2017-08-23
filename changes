@@ -1,3 +1,8 @@
+1.4.4
+     - support for marking more frets on the fingerboard
+    BUGS FIXES
+     - fixed crash on enetring settings when 'other' instrument was used
+
 1.4.3
     ANDROID
      - attempt to fix random crashes related to audio input
