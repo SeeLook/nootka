@@ -35,6 +35,7 @@
 
 using namespace soundtouch;
 
+class TdecodedNote;
 
 /**
 * @class ToggScale manages audio data (musical scale) taken from ogg file.
@@ -82,14 +83,17 @@ public:
   };
 
       /**
-       * Prepares m_pcmBuffer:
+       * Prepares audio data in @p m_pcmArray
+       * - creates buffer for note if it is not yet decoded
        * - determines is pitch offset necessary
        * - seek ogg
        * - starts decoding (re-sampling).
        * - stops previous decoding if performed.
        */
-  void setNote(int noteNr);
-  qint16 getSample(int offset);
+  void decodeNote(int noteNr);
+
+  qint16 getNoteSample(int noteNr, int offset);
+
   unsigned int sampleRate() { return m_sampleRate; }
 
       /**
@@ -105,10 +109,17 @@ public:
   void setPitchOffset(float pitchOff);
 
   int alreadyDecoded() { return m_alreadyDecoded; } /**< Number of already decoded bytes */
-  int noteNr() { return m_prevNote; } /**< Number of note in buffer or -10000 if none */
 
 signals:
-  void oggReady(); /**< Emitted when appropriate amount of decoded data is ready */
+      /**
+       * Emitted when appropriate amount of decoded data is ready
+       */
+  void oggReady();
+
+      /**
+       * When decoding process is finished;
+       */
+  void noteDecoded(); 
 
 
 protected slots:
@@ -133,11 +144,9 @@ private:
 private:
   qint8             *m_oggInMemory;
   OggVorbis_File     m_ogg; /**< ogg vorbis handler */
-  qint16            *m_pcmBuffer; /**< buffer with decompressed data of selected note. */
   SoggFile           m_oggWrap; /**< Structure wrapped m_oggInMemory used by ogg vorbis. */
   QThread           *m_thread;
   unsigned int       m_sampleRate;
-  int                m_prevNote;
   bool               m_doDecode; /**< If new note is going to be decoded it goes to FALSE - then stops decoding loop */
   bool               m_isDecoding; /**< TRUE during decoding/resampling process. */
   bool               m_isReady;
@@ -148,6 +157,8 @@ private:
   int                m_firstNote, m_lastNote; /**< Numbers of first and last notes in file with scale. */
   int                m_instrument; /**< current instrument which samples are loaded */
   int                m_alreadyDecoded; /**< Number of already decoded bytes */
+  TdecodedNote      *m_pcmArray = nullptr; /**< Array with decoded notes */
+  qint16            *m_currentBuffer; /**< pointer to currently decoded note */
 
 };
 

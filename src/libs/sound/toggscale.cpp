@@ -84,15 +84,39 @@ long int ToggScale::tellOggStatic(void* fh) {
 //########################## PUBLIC #########################################
 //###########################################################################
 
+/**
+ * Contains decoded audio data of a single note,
+ * it is not initialized by default, @p reserve method creates buffer of declared @p size
+ */
+class TdecodedNote {
+  public:
+    ~TdecodedNote() {
+      if (noteData)
+        delete[] noteData;
+    }
+
+    void reserve(int size) {
+      if (noteData)
+        qDebug() << "[TdecodedNote] memory for data already reserved";
+      else
+        noteData = new qint16[size];
+    }
+
+    qint16 *noteData = nullptr;
+};
+
+
+#define LOWEST_NOTE (-35)
+
+
 int minDataAmount = 10000;
+
 
 ToggScale::ToggScale() :
   QObject(),
-  m_oggInMemory(0),
-  m_pcmBuffer(0),
+  m_oggInMemory(nullptr),
   m_thread(new QThread),
   m_sampleRate(44100),
-  m_prevNote(-10000),
   m_doDecode(true), m_isDecoding(false), m_isReady(true),
   m_pitchOffset(0.0f), m_innerOffset(0.0),
   m_oggConnected(false), m_touchConnected(false),
@@ -129,25 +153,34 @@ void ToggScale::deleteData() {
   }
   if (m_oggInMemory) {
     delete m_oggInMemory;
-    m_oggInMemory = 0;
+    m_oggInMemory = nullptr;
   }
-  delete m_pcmBuffer;
-  m_pcmBuffer = 0;
+  if (m_pcmArray) {
+    delete[] m_pcmArray;
+    m_pcmArray = nullptr;
+  }
   delete m_touch;
   m_thread->deleteLater();
 }
 
 
-qint16 ToggScale::getSample(int offset) {
-  return m_pcmBuffer[offset];
+qint16 ToggScale::getNoteSample(int noteNr, int offset) {
+  if (m_pcmArray[noteNr - LOWEST_NOTE].noteData)
+    return m_pcmArray[noteNr - LOWEST_NOTE].noteData[offset];
+
+  // TODO: It should never happen, so delete condition after tests
+  qDebug() << "[ToggScale] note" << noteNr << "has been not decoded yet !!!!!";
+  return 0;
 }
 
 
-
-void ToggScale::setNote(int noteNr) {
-  if (noteNr == m_prevNote) {
-    emit oggReady();
-    return;
+void ToggScale::decodeNote(int noteNr) {
+  if (m_pcmArray[noteNr - LOWEST_NOTE].noteData == nullptr) {
+      m_pcmArray[noteNr - LOWEST_NOTE].reserve(m_sampleRate * 2);
+      m_currentBuffer = m_pcmArray[noteNr - LOWEST_NOTE].noteData;
+  } else {
+      emit oggReady();
+      return;
   }
 
   int baseNote = noteNr;
@@ -167,7 +200,6 @@ void ToggScale::setNote(int noteNr) {
   if (baseNote - m_firstNote == 0)
       fasterOffset = 0;
   stopDecoding();
-  m_prevNote = noteNr;
   /*int ret = */ov_pcm_seek(&m_ogg, (baseNote - m_firstNote) * 44100 * 2 - fasterOffset);
   m_thread->start();
 }
@@ -176,6 +208,9 @@ void ToggScale::setNote(int noteNr) {
 void ToggScale::setSampleRate(unsigned int rate) {
   if (m_sampleRate != rate) {
     m_sampleRate = rate;
+    if (m_pcmArray)
+      delete[] m_pcmArray;
+    m_pcmArray = new TdecodedNote[88];
     adjustSoundTouch();
   }
 }
@@ -184,6 +219,9 @@ void ToggScale::setSampleRate(unsigned int rate) {
 void ToggScale::setPitchOffset(float pitchOff) {
   if (pitchOff != m_pitchOffset) {
     m_pitchOffset = pitchOff;
+    if (m_pcmArray)
+      delete[] m_pcmArray;
+    m_pcmArray = new TdecodedNote[88];
     adjustSoundTouch();
   }
 }
@@ -232,7 +270,7 @@ bool ToggScale::loadAudioData(int instrument) {
   oggFile.open(QIODevice::ReadOnly);
   QDataStream oggStream(&oggFile);
   if (m_oggInMemory)
-      delete m_oggInMemory;
+    delete m_oggInMemory;
   m_oggInMemory = new qint8[oggFile.size()];
   oggStream.readRawData((char*)m_oggInMemory, oggFile.size());
 
@@ -243,13 +281,14 @@ bool ToggScale::loadAudioData(int instrument) {
 
   oggFile.close();
 
-  if (m_pcmBuffer)
-      delete m_pcmBuffer;
-  m_pcmBuffer = new qint16[2 * m_sampleRate];
   myCallBacks.read_func = readOggStatic;
   myCallBacks.seek_func = seekOggStatic;
   myCallBacks.close_func = closeOggStatic;
   myCallBacks.tell_func = tellOggStatic;
+
+  if (m_pcmArray)
+    delete[] m_pcmArray;
+  m_pcmArray = new TdecodedNote[88];
 
   int ret = ov_open_callbacks((void*)&m_oggWrap, &m_ogg, NULL, 0, myCallBacks);
 
@@ -295,7 +334,7 @@ void ToggScale::decodeOgg() {
   int loops = 0;
   m_alreadyDecoded = 0;
   while (m_doDecode && loops < 500 && m_alreadyDecoded < maxSize) {
-    read = ov_read(&m_ogg, (char*)m_pcmBuffer + m_alreadyDecoded, maxSize - m_alreadyDecoded, 0, 2, 1, &bitStream);
+    read = ov_read(&m_ogg, reinterpret_cast<char*>(m_currentBuffer) + m_alreadyDecoded, maxSize - m_alreadyDecoded, 0, 2, 1, &bitStream);
     m_alreadyDecoded += read;
     if (m_alreadyDecoded > minDataAmount && !m_isReady) { // amount of data needed by single loop of audio outCallBack
       m_isReady = true;
@@ -306,6 +345,7 @@ void ToggScale::decodeOgg() {
   m_isDecoding = false;
 //   qDebug() << "readFromOgg" << m_alreadyDecoded << "loops" << loops;
   m_thread->quit();
+  emit noteDecoded();
 }
 
 
@@ -327,15 +367,17 @@ void ToggScale::decodeAndResample() {
         tmpRead = ov_read_float(&m_ogg, &oggChannels, 2048, 0);
         tmpPos += tmpRead;
         left = oggChannels[0]; // pointer to left channel chunk
-        if (tmpRead > 0) { /// 2. push data to SoundTouch
-            m_touch->putSamples((SAMPLETYPE*)left, tmpRead);
-        }
+    /// 2. push data to SoundTouch
+        if (tmpRead > 0)
+            m_touch->putSamples(static_cast<SAMPLETYPE*>(left), tmpRead);
     }
     samplesReady = m_touch->numSamples();
-    if (samplesReady > 0) { /// 3. Get resampled/offsetted data from SoundTouch
-      read = m_touch->receiveSamples((SAMPLETYPE*)tmpTouch, samplesReady);
-      for (int i = 0; i < read; i++) /// 4. Convert samples to 16bit integer
-          *(m_pcmBuffer + m_alreadyDecoded + i) = qint16(*(tmpTouch + i) * 32768);
+    /// 3. Get re-sampled/offset data from SoundTouch
+    if (samplesReady > 0) {
+      read = m_touch->receiveSamples(static_cast<SAMPLETYPE*>(tmpTouch), samplesReady);
+    /// 4. Convert samples to 16bit integer
+      for (int i = 0; i < read; i++)
+          *(m_currentBuffer + m_alreadyDecoded + i) = static_cast<qint16>(*(tmpTouch + i) * 32768);
       m_alreadyDecoded += read;
     }
     if (m_alreadyDecoded > minDataAmount && !m_isReady) { // below this value SoundTouch is not able to prepare data
@@ -344,10 +386,10 @@ void ToggScale::decodeAndResample() {
     }
   }
   m_isDecoding = false;
-//   qDebug() << "decodeAndResample finished" << m_alreadyDecoded;
   m_touch->clear();
   m_thread->quit();
   delete[] tmpTouch;
+  emit noteDecoded();
 }
 
 //###########################################################################
