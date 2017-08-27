@@ -138,8 +138,6 @@ public:
   Q_INVOKABLE void openMusicXml(const QString& musicFile);
   Q_INVOKABLE void saveMusicXml(const QString& musicFile);
 
-  Q_INVOKABLE void playScore(int tempo = 80);
-
   /* ------------------ Score switches ------------------ */
 
   bool keySignatureEnabled() const { return m_keySignEnabled; }
@@ -185,6 +183,8 @@ public:
   TstaffObject* staff(int id) { return m_staves[id]; }
   TstaffObject* firstStaff() { return m_staves.first(); }
   TstaffObject* lastStaff() { return m_staves.last(); }
+
+  QList<Tnote>& noteList() { return m_notes; }
 
   /* ------------------ Other helpers ------------------ */
 
