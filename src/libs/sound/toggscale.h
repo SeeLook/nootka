@@ -39,17 +39,19 @@ class TdecodedNote;
 
 /**
 * @class ToggScale manages audio data (musical scale) taken from ogg file.
-* It keeps it in m_oggInMemory array and decode it when setNote is called.
-* Decompressed data are available through getSample() method.
+* It keeps it in @p m_oggInMemory array and decode it when @p decodeNote() is called.
+* Decompressed data is stored in @p m_pcmArray and available through @p getNoteSample() method.
 * Data is decompressed in separate thread and some SLEEP calls are performed
 * if data is not ready.
 *
 * @p setSampleRate() and @p setPitchOffset() control appropriate parameters of note.
 *
-* To get sample @p setNote has to be called first.
+* To get sample @p decodeNote() has to be called first.
 * It starts decoding thread which prepares first portion of data.
 * Data is ready only when @p isReady() returns true.
-* Preparing process takes around 1-10 ms (depends on CPU)
+* Preparing process takes around 1-10 ms for every note (depends on CPU) but if performed once data is stored,
+* only changing float value of pitch offset or sample rate or instrument
+* resets the array and processing is performed again.
 */
 class NOOTKASOUND_EXPORT ToggScale : public QObject
 {
@@ -81,6 +83,11 @@ public:
       qint8* filePtr;
       size_t fileSize;
   };
+
+      /**
+       * For instruments with continuous sound (sax, bando, violin) returns @p TRUE
+       */
+  bool soundContinuous() const { return m_soundContinuous; }
 
       /**
        * Prepares audio data in @p m_pcmArray
@@ -133,13 +140,18 @@ protected slots:
   void stopDecoding();
 
 private:
-    /** Methods needed by vorbisfile library. */
+    // Methods needed by vorbisfile library.
   static size_t readOggStatic(void* dst, size_t size1, size_t size2, void* fh);
   static int    seekOggStatic(void *fh, ogg_int64_t to, int type );
   static int    closeOggStatic(void* fh);
   static long   tellOggStatic(void *fh );
 
-  void adjustSoundTouch(); // sets SoundTouch parameters
+      /**
+       * sets SoundTouch parameters
+       */
+  void adjustSoundTouch();
+
+  void resetPCMArray();
 
 private:
   qint8             *m_oggInMemory;
@@ -159,6 +171,8 @@ private:
   int                m_alreadyDecoded; /**< Number of already decoded bytes */
   TdecodedNote      *m_pcmArray = nullptr; /**< Array with decoded notes */
   qint16            *m_currentBuffer; /**< pointer to currently decoded note */
+  bool               m_pcmArrayfilled = false; /**< becomes @p TRUE if very note was decoded, prevents deleting @p m_pcmArray when empty */
+  bool               m_soundContinuous = false;
 
 };
 

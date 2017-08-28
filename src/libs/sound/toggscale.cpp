@@ -183,6 +183,7 @@ void ToggScale::decodeNote(int noteNr) {
       return;
   }
 
+  m_pcmArrayfilled = true;
   int baseNote = noteNr;
   m_isReady = false;
   if (noteNr < m_firstNote || noteNr > m_lastNote) { // prepare SoundTouch
@@ -196,11 +197,9 @@ void ToggScale::decodeNote(int noteNr) {
   } else
       m_innerOffset = 0.0;
   adjustSoundTouch();
-  int fasterOffset = 1000;
-  if (baseNote - m_firstNote == 0)
-      fasterOffset = 0;
+  int fasterOffset = m_instrument == 1 ? 880 : 0; // 20 ms later for classical guitar doe to recordings issues
   stopDecoding();
-  /*int ret = */ov_pcm_seek(&m_ogg, (baseNote - m_firstNote) * 44100 * 2 - fasterOffset);
+  /*int ret = */ov_pcm_seek(&m_ogg, (baseNote - m_firstNote) * 44100 * 2 + fasterOffset);
   m_thread->start();
 }
 
@@ -208,9 +207,7 @@ void ToggScale::decodeNote(int noteNr) {
 void ToggScale::setSampleRate(unsigned int rate) {
   if (m_sampleRate != rate) {
     m_sampleRate = rate;
-    if (m_pcmArray)
-      delete[] m_pcmArray;
-    m_pcmArray = new TdecodedNote[88];
+    resetPCMArray();
     adjustSoundTouch();
   }
 }
@@ -219,9 +216,7 @@ void ToggScale::setSampleRate(unsigned int rate) {
 void ToggScale::setPitchOffset(float pitchOff) {
   if (pitchOff != m_pitchOffset) {
     m_pitchOffset = pitchOff;
-    if (m_pcmArray)
-      delete[] m_pcmArray;
-    m_pcmArray = new TdecodedNote[88];
+    resetPCMArray();
     adjustSoundTouch();
   }
 }
@@ -234,45 +229,53 @@ bool ToggScale::loadAudioData(int instrument) {
       case Tinstrument::ClassicalGuitar:
         fileName = Tpath::sound("classical-guitar");
         m_firstNote = -11; m_lastNote = 41;
+        m_soundContinuous = false;
         break;
       case Tinstrument::ElectricGuitar:
         fileName = Tpath::sound("electric-guitar");
         m_firstNote = -11; m_lastNote = 41;
+        m_soundContinuous = false;
         break;
       case Tinstrument::BassGuitar:
         fileName = Tpath::sound("bass-guitar");
         m_firstNote = -24; m_lastNote = 21;
+        m_soundContinuous = false;
         break;
       case Tinstrument::Bandoneon:
         fileName = Tpath::sound("bandoneon");
         m_firstNote = -11; m_lastNote = 48;
+        m_soundContinuous = true;
         break;
       case Tinstrument::AltSax:
         fileName = Tpath::sound("alto-sax");
         m_firstNote = 1; m_lastNote = 34;
+        m_soundContinuous = true;
         break;
       case Tinstrument::TenorSax:
         fileName = Tpath::sound("tenor-sax");
         m_firstNote = -3; m_lastNote = 30;
+        m_soundContinuous = true;
         break;
       default:
         fileName = Tpath::sound("piano");
         m_firstNote = -23; m_lastNote = 61;
+        m_soundContinuous = false;
         break;
     }
   } else
       return false;
+  m_instrument = instrument;
 
   QFile oggFile(fileName);
   if (!oggFile.exists())
-      return false;
+    return false;
 
   oggFile.open(QIODevice::ReadOnly);
   QDataStream oggStream(&oggFile);
   if (m_oggInMemory)
     delete m_oggInMemory;
   m_oggInMemory = new qint8[oggFile.size()];
-  oggStream.readRawData((char*)m_oggInMemory, oggFile.size());
+  oggStream.readRawData(reinterpret_cast<char*>(m_oggInMemory), oggFile.size());
 
   ov_callbacks myCallBacks;
   m_oggWrap.curPtr = m_oggInMemory;
@@ -286,9 +289,7 @@ bool ToggScale::loadAudioData(int instrument) {
   myCallBacks.close_func = closeOggStatic;
   myCallBacks.tell_func = tellOggStatic;
 
-  if (m_pcmArray)
-    delete[] m_pcmArray;
-  m_pcmArray = new TdecodedNote[88];
+  resetPCMArray();
 
   int ret = ov_open_callbacks((void*)&m_oggWrap, &m_ogg, NULL, 0, myCallBacks);
 
@@ -317,11 +318,11 @@ bool ToggScale::loadAudioData(int instrument) {
 void ToggScale::stopDecoding() {
   if (m_isDecoding) {
       qDebug("decoding in progress");
-      m_doDecode = false;
+//       m_doDecode = false; // NOTE: since we are storing decoded data, keep decoding till it's finished
       do {
         SLEEP(1);
       } while (m_isDecoding);
-      m_doDecode = true;
+//       m_doDecode = true;
   }
 }
 
@@ -422,5 +423,13 @@ void ToggScale::adjustSoundTouch() {
 }
 
 
+void ToggScale::resetPCMArray() {
+  if (m_pcmArrayfilled || m_pcmArray == nullptr) {
+    if (m_pcmArray)
+      delete[] m_pcmArray;
+    m_pcmArray = new TdecodedNote[88];
+    m_pcmArrayfilled = false;
+  }
+}
 
 
