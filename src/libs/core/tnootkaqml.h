@@ -135,6 +135,27 @@ public:
   void noteStarted(const Tnote& n);
   void noteFinished(const Tnote& n);
 
+      /**
+       * Id (number) of selected note on the score or @p -1 if none
+       */
+  int selectedNoteId() const;
+
+      /**
+       * This method is invoked by @p Tsound when playing note changes,
+       * and it is used to select corresponding note on the score and on the instrument
+       */
+  void selectPlayingNote(int id);
+
+      /**
+       * Number of notes on the score
+       */
+  int scoreNotesCount() const;
+
+      /**
+       * Reference to the notes list on the score
+       */
+  QList<Tnote>& scoreNoteList() const;
+
 signals:
   void playNote(const Tnote&);
 

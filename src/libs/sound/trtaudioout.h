@@ -24,12 +24,16 @@
 #include "nootkacoreglobal.h"
 #include "tabstractplayer.h"
 #include "trtaudio.h"
-#include <QStringList>
+#include <QtCore/qstringlist.h>
+
 
 class ToggScale;
+class Tnote;
+class TsingleSound;
+
 
 /**
- * Nootka audio output
+ * Nootka audio output through RtAudio
  */
 class NOOTKASOUND_EXPORT TaudioOUT : public TabstractPlayer, public TrtAudio
 {
@@ -45,41 +49,43 @@ public:
        * Starts playing given note and then returns true, otherwise gets false.
        */
   bool play(int noteNr) override;
+
+  void playMelody(const QList<Tnote>& notes, int tempo, int firstNote = 0);
+
   void setAudioOutParams();
+
   void stop() override;
+
+      /**
+       * Number (id) of actually played note, if note list of @p playMelody comes from score
+       * this number corresponds with note id on the score
+       */
+  int playingNoteId() const { return m_playingNoteId; }
 
 protected:
   static bool outCallBack(void* outBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status);
 
-      /**
-       * Counts samples of crossing buffer
-       */
-  int crossCount() { return m_crossCount; }
-
 protected:
-        /**
-         * Static pointer of this class instance to emit signal from callback method.
-         */
-  static TaudioOUT               *instance;
+  static TaudioOUT               *instance; /**< Static pointer of this class instance. */
   ToggScale                      *oggScale;
   int                             ratioOfRate; /**< ratio of current sample rate to 44100 */
 
+  void decodeNext();
+
 private slots:
-  void streamOpenedSlot();
   void updateSlot() { setAudioOutParams(); }
   void playingFinishedSlot();
+
 #if defined(Q_OS_WIN)
   void ASIORestartSlot();
 #endif
 
 private:
-  static int               m_samplesCnt; /**< Number of performed samples. */
-  static int               m_maxCBloops; /**< Duration of a sound counted in callBack loops */
-  static qint16           *m_crossBuffer; /**< buffer with data of part of previous note to fade out */
-  static bool              m_doCrossFade;
-  static float             m_cross; /**< current volume factor of fading effect */
-  int                      m_crossCount;
-  bool                     m_callBackIsBussy;
+  bool                          m_callBackIsBussy;
+
+  static unsigned int           m_posInNote, m_posInOgg;
+  static int                    m_playingNoteNr, m_decodingNoteNr, m_playingNoteId;
+  QList<TsingleSound>           m_playList;
 
 };
 

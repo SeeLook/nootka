@@ -45,8 +45,8 @@ Tsound* Tsound::m_instance = nullptr;
 
 Tsound::Tsound(QObject* parent) :
   QObject(parent),
-  player(0),
-  sniffer(0),
+  player(nullptr),
+  sniffer(nullptr),
   m_examMode(false),
   m_melodyNoteIndex(-1),
   m_tempo(60),
@@ -67,11 +67,11 @@ Tsound::Tsound(QObject* parent) :
   if (GLOB->A->OUTenabled)
       createPlayer();
   else
-      player = 0;
+      player = nullptr;
   if (GLOB->A->INenabled) {
       createSniffer();
   } else {
-      sniffer = 0;
+      sniffer = nullptr;
   }
 
   connect(NOO, &TnootkaQML::playNote, [=](const Tnote& n){ play(n); });
@@ -96,7 +96,7 @@ void Tsound::play(const Tnote& note) {
       playing = player->play(note.chromatic());
 #if defined (Q_OS_ANDROID)
   if (playing) {
-    if (sniffer) { // stop sniffer if midi output was started
+    if (sniffer) { // stop sniffer
       if (!m_stopSniffOnce) { // stop listening just once
         sniffer->stopListening();
         m_stopSniffOnce = true;
@@ -124,6 +124,18 @@ void Tsound::playMelody(Tmelody* mel) {
     m_playedMelody = mel;
   }
   playMelodySlot();
+}
+
+
+void Tsound::playScoreNotes(const QList<Tnote>& notes, int firstNote) {
+  if (player && player->type() == TabstractPlayer::e_audio)
+    static_cast<TaudioOUT*>(player)->playMelody(notes, m_tempo, firstNote);
+}
+
+
+void Tsound::playScore() {
+  playScoreNotes(NOO->scoreNoteList(), NOO->selectedNoteId() > -1 ? NOO->selectedNoteId() : 0);
+  selectNextNote();
 }
 
 
@@ -433,8 +445,6 @@ void Tsound::restoreSniffer() {
   sniffer->startListening();
 }
 
-
-
 //#################################################################################################
 //###################            PRIVATE SLOTS         ############################################
 //#################################################################################################
@@ -511,3 +521,12 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
     play(m_detectedNote);
 }
 
+
+void Tsound::selectNextNote() {
+  int playingId = static_cast<TaudioOUT*>(player)->playingNoteId();
+  int scoreId = NOO->selectedNoteId();
+  if (playingId != scoreId)
+    NOO->selectPlayingNote(playingId);
+  if (playingId < NOO->scoreNotesCount() - 1)
+    QTimer::singleShot(100, [=]{ selectNextNote(); });
+}

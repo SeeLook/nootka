@@ -81,7 +81,7 @@ Score {
     id: playAct
     text: Noo.TR("QShortcut", "Play")
     icon: "playMelody"
-    onTriggered: playScore(SOUND.tempo)
+    onTriggered: SOUND.playScore()
 //     shortcut: Shortcut { sequence: "Space"; onActivated: recModeAct.triggered() }
   }
   Taction {
