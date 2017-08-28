@@ -20,8 +20,10 @@
 #ifndef TABSTRACTPLAYER_H
 #define TABSTRACTPLAYER_H
 
-#include <QtCore/qobject.h>
+
 #include <nootkasoundglobal.h>
+#include <QtCore/qobject.h>
+
 
 class QTimer;
 
@@ -67,7 +69,7 @@ signals:
 
 
 protected:
-    void setType(EplayerType type) { playerType = type; }
+  void setType(EplayerType type) { playerType = type; }
 
   bool          playable;
 

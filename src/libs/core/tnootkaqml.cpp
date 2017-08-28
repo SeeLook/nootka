@@ -411,7 +411,6 @@ void TnootkaQML::connectInstrument() {
     Tnote rawNote = m_instrument->note();
     qDebug() << "instrument send note" << rawNote.toText();
     m_ignoreScore = true;
-    // TODO send only chromatic number and duration obtained below... but Tsound has to be capable for it
     emit playNote(m_instrument->note()); // not yet transposed - to sound properly
     rawNote.transpose(-GLOB->transposition());
     if (m_scoreObject->keySignature() < 0 || (m_scoreObject->keySignature() == 0 && GLOB->GpreferFlats))
@@ -445,3 +444,29 @@ void TnootkaQML::scoreChangedNote() {
 QString TnootkaQML::TR(const QString& context, const QString& text, const QString& disambiguation, int n) {
   return qTR(qPrintable(context), qPrintable(text), qPrintable(disambiguation), n);
 }
+
+
+int TnootkaQML::selectedNoteId() const {
+  return m_scoreObject->selectedItem() ? m_scoreObject->selectedItem()->index() : -1;
+}
+
+
+void TnootkaQML::selectPlayingNote(int id) {
+  m_ignoreScore = true;
+  m_scoreObject->setSelectedItem(m_scoreObject->note(id));
+  auto n = m_scoreObject->selectedNote();
+  if (n.isValid())
+    n.transpose(GLOB->transposition());
+  m_instrument->setNote(n);
+}
+
+
+int TnootkaQML::scoreNotesCount() const {
+  return m_scoreObject->notesCount();
+}
+
+
+QList<Tnote>& TnootkaQML::scoreNoteList() const {
+  return m_scoreObject->noteList();
+}
+

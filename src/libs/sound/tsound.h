@@ -66,9 +66,17 @@ public:
   static Tsound* instance() { return m_instance; }
 
   Q_INVOKABLE void play(const Tnote& note);
+
   void playMelody(Tmelody* mel);
+
+  void playScoreNotes(const QList<Tnote>& notes, int firstNote = 0);
+
+  Q_INVOKABLE void playScore();
+
   bool isPlayable();
+
   bool isSniffable() { return (sniffer ? true : false) ; }
+
   bool melodyIsPlaying() { return m_melodyNoteIndex > -1; }
 
       /**
@@ -174,11 +182,20 @@ private:
   static Tsound          *m_instance;
 
 private slots:
-    /** Is performed when note stops playing, then sniffing is unlocked */
+    /*
+     * Is performed when note stops playing, then sniffing is unlocked
+     */
   void playingFinishedSlot();
+
   void playMelodySlot();
   void noteStartedSlot(const TnoteStruct& note);
   void noteFinishedSlot(const TnoteStruct& note);
+
+      /**
+       * Checks current played note by audio out and selects it on the score,
+       * It calls itself by timer until played note is not the last on the score
+       */
+  void selectNextNote();
 
 };
 
