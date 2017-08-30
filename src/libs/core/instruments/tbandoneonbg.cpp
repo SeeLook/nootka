@@ -287,6 +287,10 @@ void TbandoneonBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldG
     updateCircleSize(m_circleRightClose.item);
     updateCircleSize(m_circleCloseExtra.item);
     qDebug() << "[TbandoneonBg] geometryChanged" << m_factor;
+    emit heightChanged();
+    emit xChanged();
+    emit widthChanged();
+    emit yChanged();
   }
 }
 
@@ -303,6 +307,7 @@ QQuickItem* TbandoneonBg::createCircle(QQmlComponent* comp) {
   auto circle = qobject_cast<QQuickItem*>(comp->create());
   circle->setParentItem(this);
   circle->setVisible(false);
+  circle->setZ(10);
   return circle;
 }
 
