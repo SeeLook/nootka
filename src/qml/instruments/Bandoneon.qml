@@ -4,18 +4,20 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
+import QtGraphicalEffects 1.0
 
 import Nootka 1.0
 
 
-Item {
-  property alias note: bando.note
-  property alias instrBg: bando
-
+TbandoneonBg {
   property real factor: height / 100
 
-  width: childrenRect.width; height: parent ? parent.height : 0
-  anchors.horizontalCenter: parent ? parent.horizontalCenter : undefined
+  // private
+  property int hiId: -1
+
+  x: (parent.width - width) / 2
+  width: mainRow.width
+  height: parent ? parent.height : 0
 
 //   Image {
 //     source: Noo.pix("bandoneon-left")
@@ -32,14 +34,9 @@ Item {
 //     z: 2
 //   }
 
-  TbandoneonBg {
-    id: bando
-    width: mainRow.width; height: mainRow.height; x: mainRow.x; y: mainRow.y
-    z: 10
-    rightX: factor * 200 + buttonCol.width
-    opening: openButt.checked
-    closing: closeButt.checked
-  }
+  rightX: factor * 200 + buttonCol.width
+  opening: openButt.checked
+  closing: closeButt.checked
 
   Row {
     id: mainRow
@@ -53,8 +50,8 @@ Item {
         model: 33
         Rectangle {
           width: parent.height / 8; height: width
-          x: bando.xAt(index) * factor
-          y: bando.yAt(index) * factor + width / 3
+          x: xAt(index) * factor
+          y: yAt(index) * factor + width / 3
           color: "white"
           radius: width / 2
 //           Text {
@@ -65,10 +62,13 @@ Item {
 //           }
           MouseArea {
             anchors.fill: parent
+            hoverEnabled: true
+            onEntered: hiId = index
+            onExited: hiId = -1
             onClicked: {
               if (!openButt.checked && !closeButt.checked)
                 openButt.checked = true
-              bando.currentIndex = index
+              currentIndex = index
             }
           }
         }
@@ -143,8 +143,8 @@ Item {
         model: 38
         Rectangle {
           width: parent.height / 8; height: width
-          x: bando.xAt(index + 33) * factor
-          y: bando.yAt(index + 33) * factor + width
+          x: xAt(index + 33) * factor
+          y: yAt(index + 33) * factor + width
           color: "white"
           radius: width / 2
 //           Text {
@@ -158,7 +158,7 @@ Item {
             onClicked: {
               if (!openButt.checked && !closeButt.checked)
                 openButt.checked = true
-              bando.currentIndex = index + 33
+              currentIndex = index + 33
             }
           }
         }
@@ -167,7 +167,30 @@ Item {
 
   }
 
-  OutScaleTip { visible: bando.outOfScale && !bando.active }
+  Rectangle {
+    id: hi
+    color: GLOB.fingerColor
+    width: parent.height / 8
+    height: width
+    radius: width / 2
+    x: hiId > -1 ? xAt(hiId) * factor : 0
+    y: hiId > -1 ? yAt(hiId) * factor + width / 3 : 0
+    visible: false
+  }
+
+  DropShadow {
+    id: fingerShadow
+    anchors.fill: hi
+    horizontalOffset: factor * 2
+    verticalOffset: factor * 2
+    color: activPal.shadow
+    radius: 8.0
+    source: hi
+    z: 20
+    visible: hiId > -1
+  }
+
+  OutScaleTip { visible: outOfScale && !active }
 
 }
 
