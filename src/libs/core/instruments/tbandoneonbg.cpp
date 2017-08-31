@@ -271,6 +271,7 @@ void TbandoneonBg::setRightX(qreal rx) {
   if (m_rightX != rx) {
     m_rightX = rx;
     updateCircesPos();
+    emit rightXChanged();
   }
 }
 
@@ -322,8 +323,8 @@ void TbandoneonBg::updateCircleSize(QQuickItem* it) {
 void TbandoneonBg::checkCircle(int butNr, TbandCircle& c, bool visible) {
   c.buttonId = butNr;
   if (c.buttonId) {
-      c.item->setX(buttArray[c.buttonId - 1].x * m_factor + (butNr > 33 ? m_rightX : 0.0));
-      c.item->setY(buttArray[c.buttonId - 1].y * m_factor + height() / (butNr > 33 ? 8.0 : 24.0));
+      c.item->setX(buttArray[c.buttonId - 1].x * m_factor * (butNr > 33 ? 1.2 : 1.0) + (butNr > 33 ? m_rightX : 0.0));
+      c.item->setY(buttArray[c.buttonId - 1].y * m_factor + height() / 8.0);
       c.item->setVisible(visible);
   } else
       c.item->setVisible(false);

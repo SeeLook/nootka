@@ -46,7 +46,7 @@ class NOOTKACORE_EXPORT TbandoneonBg : public TcommonInstrument
   Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex)
   Q_PROPERTY(bool opening READ opening WRITE setOpening NOTIFY openingChanged)
   Q_PROPERTY(bool closing READ closing WRITE setClosing NOTIFY closingChanged)
-  Q_PROPERTY(qreal rightX READ rightX WRITE setRightX)
+  Q_PROPERTY(qreal rightX READ rightX WRITE setRightX NOTIFY rightXChanged)
 
 public:
   TbandoneonBg(QQuickItem* parent = nullptr);
@@ -76,6 +76,7 @@ public:
 signals:
   void closingChanged();
   void openingChanged();
+  void rightXChanged();
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) override;

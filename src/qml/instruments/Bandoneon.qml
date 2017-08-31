@@ -34,7 +34,7 @@ TbandoneonBg {
 //     z: 2
 //   }
 
-  rightX: factor * 200 + buttonCol.width
+  rightX: factor * 210 + buttonCol.width
   opening: openButt.checked
   closing: closeButt.checked
 
@@ -44,14 +44,14 @@ TbandoneonBg {
     z: 5
     Rectangle {
       height: parent.height
-      width: factor * 200
+      width: factor * 210
       color: "black"
       Repeater {
         model: 33
         Rectangle {
           width: parent.height / 8; height: width
           x: xAt(index) * factor
-          y: yAt(index) * factor + width / 3
+          y: yAt(index) * factor + width
           color: "white"
           radius: width / 2
 //           Text {
@@ -83,7 +83,7 @@ TbandoneonBg {
       Row {
         anchors.horizontalCenter: parent.horizontalCenter
         y: factor * 2
-        spacing: factor * 3
+        spacing: factor * 1.5
         Text {
           text: openButt.checked ? "<" : ">"
           color: openButt.checked ? "blue" : "red"
@@ -113,7 +113,7 @@ TbandoneonBg {
       }
       Button {
         id: openButt
-        width: nootkaWindow.fontSize * 10
+        width: factor * 40
         text: qsTr("bellows<br>opening")
         checkable: true
         background: Rectangle { color: openButt.checked ? "blue" : "gray" }
@@ -124,7 +124,7 @@ TbandoneonBg {
       }
       Button {
         id: closeButt
-        width: nootkaWindow.fontSize * 10
+        width: factor * 40
         text: qsTr("bellows<br>closing")
         checkable: true
         background: Rectangle { color: closeButt.checked ? "red" : "gray" }
@@ -137,13 +137,13 @@ TbandoneonBg {
 
     Rectangle {
       height: parent.height
-      width: factor * 190
+      width: factor * 220
       color: "black"
       Repeater {
         model: 38
         Rectangle {
           width: parent.height / 8; height: width
-          x: xAt(index + 33) * factor
+          x: xAt(index + 33) * factor * 1.2
           y: yAt(index + 33) * factor + width
           color: "white"
           radius: width / 2
@@ -155,6 +155,9 @@ TbandoneonBg {
 //           }
           MouseArea {
             anchors.fill: parent
+            hoverEnabled: true
+            onEntered: hiId = index + 33
+            onExited: hiId = -1
             onClicked: {
               if (!openButt.checked && !closeButt.checked)
                 openButt.checked = true
@@ -173,8 +176,8 @@ TbandoneonBg {
     width: parent.height / 8
     height: width
     radius: width / 2
-    x: hiId > -1 ? xAt(hiId) * factor : 0
-    y: hiId > -1 ? yAt(hiId) * factor + width / 3 : 0
+    x: hiId > -1 ? (hiId > 32 ? rightX : 0) + xAt(hiId) * factor * (hiId > 32 ? 1.2 : 1) : 0
+    y: hiId > -1 ? yAt(hiId) * factor + width : 0
     visible: false
   }
 
