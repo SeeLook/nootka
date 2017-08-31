@@ -9,12 +9,12 @@ Rectangle {
   property int nr: -1
   property bool checked: fingeringId & Math.pow(2, nr)
 
-  color: checked ? activPal.text : activPal.base
+  color: ma.containsMouse ? GLOB.fingerColor : (checked ? activPal.text : activPal.base)
   x: (parent.width - width) / 2
   width: parent.height / 20
   height: width
   radius: width / 2
-  border { width: 2; color: ma.containsMouse ? GLOB.fingerColor : activPal.text }
+  border { width: 2; color: activPal.text }
 
   MouseArea {
     id: ma
