@@ -16,6 +16,11 @@ Flickable {
 
   ScrollBar.vertical: ScrollBar {}
 
+  MouseArea {
+    anchors.fill: parent
+    onClicked: scrollTimer.running = !scrollTimer.running && GLOB.useAnimations
+  }
+
   Column {
     id: aboutCont
     spacing: nootkaWindow.fontSize
@@ -69,7 +74,7 @@ Flickable {
     Text {
       width: parent.width
       text: qsTranslate("TaboutNootka", "However this application could not exist without various open source projects.<br>Especially:") +
-            "<ul>" + createLink("Qt", "http://qt-project.org/") + " by Digia" +
+            "<ul>" + createLink("Qt", "https://www.qt.io/developers/") + " by Qt Company" +
             createLink("FFTW", "http://www.fftw.org") + " by M. Frigo & S. G. Johnson" +
             createLink("ogg vorbis", "http://vorbis.com") + " by XIPH" +
             createLink("RtAudio & RtMidi", "http://www.music.mcgill.ca/~gary/") + " by G. P. Scavone" +
@@ -80,6 +85,12 @@ Flickable {
             "</ul>"
       color: activPal.text
       wrapMode: Text.WordWrap
+      onLinkActivated: Qt.openUrlExternally(link)
+      MouseArea { // make hand cursor over link text
+        anchors.fill: parent
+        acceptedButtons: Qt.NoButton
+        cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+      }
     }
     TextBackground { text: qsTranslate("TaboutNootka", "Thanks"); }
     Text {
@@ -98,6 +109,12 @@ I will try to mention them in some random order:<br>
       textFormat: Text.StyledText
       color: activPal.text
       wrapMode: Text.WordWrap
+      onLinkActivated: Qt.openUrlExternally(link)
+      MouseArea { // make hand cursor over link text
+        anchors.fill: parent
+        acceptedButtons: Qt.NoButton
+        cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+      }
     }
   }
   Timer {
@@ -111,11 +128,6 @@ I will try to mention them in some random order:<br>
 
   function createLink(desc, href) {
     return "<li><a href=\"" + href + "\">" + desc + "</a></li>";
-  }
-
-  MouseArea {
-    anchors.fill: parent
-    onClicked: scrollTimer.running = !scrollTimer.running && GLOB.useAnimations
   }
 }
 

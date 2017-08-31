@@ -50,7 +50,7 @@ Flickable {
     }
 
     Repeater {
-      model: [ "Илья Б.", "Yves Balhant", "Tomasz Matuszewski", "Vincent Bermel", "Torsten Philipp" ]
+      model: [ "Torsten Philipp", "Vincent Bermel", "Tomasz Matuszewski", "Yves Balhant", "Илья Б." ]
       Tile {
         property color randCol: Noo.randomColor()
         width: tt.width + nootkaWindow.fontSize * 4
