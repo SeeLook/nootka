@@ -26,6 +26,7 @@
 #include <QtCore/qthread.h>
 #include <QtCore/qfileinfo.h>
 #include <stdlib.h>
+#include <QtCore/qmath.h>
 #include <unistd.h>
 
 
@@ -103,6 +104,8 @@ class TdecodedNote {
     }
 
     qint16 *noteData = nullptr;
+    uint start = 0;
+    uint stop = 0;
 };
 
 
@@ -174,6 +177,17 @@ qint16 ToggScale::getNoteSample(int noteNr, int offset) {
 }
 
 
+uint ToggScale::startLoopSample(int noteNr) {
+  return m_pcmArray[noteNr - LOWEST_NOTE].start;
+}
+
+
+uint ToggScale::stopLoopSample(int noteNr) {
+  return m_pcmArray[noteNr - LOWEST_NOTE].stop;
+}
+
+
+
 void ToggScale::decodeNote(int noteNr) {
   if (m_pcmArray[noteNr - LOWEST_NOTE].noteData == nullptr) {
       m_pcmArray[noteNr - LOWEST_NOTE].reserve(m_sampleRate * 2);
@@ -199,6 +213,7 @@ void ToggScale::decodeNote(int noteNr) {
   adjustSoundTouch();
   int fasterOffset = m_instrument == 1 ? 880 : 0; // 20 ms later for classical guitar doe to recordings issues
   stopDecoding();
+  m_noteInProgress = noteNr;
   /*int ret = */ov_pcm_seek(&m_ogg, (baseNote - m_firstNote) * 44100 * 2 + fasterOffset);
   m_thread->start();
 }
@@ -343,6 +358,11 @@ void ToggScale::decodeOgg() {
     }
     loops++;
   }
+  if (soundContinuous()) {
+    TdecodedNote& decNote = m_pcmArray[m_noteInProgress - LOWEST_NOTE];
+    decNote.start = crossZeroBeforeMaxAmlp(8820, m_noteInProgress + 47); // 200ms of a sound
+    decNote.stop = crossZeroBeforeMaxAmlp(52920, m_noteInProgress + 47); // 1200ms of a sound
+  }
   m_isDecoding = false;
 //   qDebug() << "readFromOgg" << m_alreadyDecoded << "loops" << loops;
   m_thread->quit();
@@ -385,6 +405,11 @@ void ToggScale::decodeAndResample() {
       m_isReady = true;
       emit oggReady();
     }
+  }
+  if (soundContinuous()) {
+    TdecodedNote& decNote = m_pcmArray[m_noteInProgress - LOWEST_NOTE];
+    decNote.start = crossZeroBeforeMaxAmlp(8820, m_noteInProgress + 47); // 200ms of a sound
+    decNote.stop = crossZeroBeforeMaxAmlp(52920, m_noteInProgress + 47); // 1200ms of a sound
   }
   m_isDecoding = false;
   m_touch->clear();
@@ -433,3 +458,28 @@ void ToggScale::resetPCMArray() {
 }
 
 
+uint ToggScale::crossZeroBeforeMaxAmlp(uint lookFrom, int midiNoteNr) {
+  int firstZeroCross = lookFrom;
+  int periodSamples = qCeil(44100.0 / qPow(10.0, (static_cast<qreal>(midiNoteNr) + 36.3763165622959152488) / 39.8631371386483481));
+  for (int s = lookFrom; s < lookFrom + periodSamples; ++s) {
+    if (m_currentBuffer[s] > 0 && m_currentBuffer[s - 1] <= 0) {
+      firstZeroCross = s;
+      break;
+    }
+  }
+  qint16 maxAmplitude = 0;
+  uint maxAmplitudeSampleNr = lookFrom;
+  for (uint s = firstZeroCross; s < firstZeroCross + periodSamples; ++s) {
+    if (m_currentBuffer[s] > maxAmplitude) {
+      maxAmplitude = qAbs(m_currentBuffer[s]);
+      maxAmplitudeSampleNr = s;
+    }
+  }
+  do {
+    maxAmplitudeSampleNr--;
+    if (m_currentBuffer[maxAmplitudeSampleNr] > 0 && m_currentBuffer[maxAmplitudeSampleNr - 1] <= 0)
+      break;
+  } while (maxAmplitudeSampleNr > firstZeroCross);
+
+  return maxAmplitudeSampleNr;
+}

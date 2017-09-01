@@ -35,11 +35,6 @@
   #define SLEEP(msecs) usleep(msecs * 1000)
 #endif
 
-/**
- * Value of CROSS_STEP = 0.0023 (100ms) cases reverb effect with sound
- * Shorter cross-fade duration works better.
- */
-#define CROSS_STEP (0.001f) // cross-fade will take about 23 [ms] - 1000 samples (it determines m_crossBuffer size)
 
 #define REST_NR (127)
 
@@ -89,11 +84,10 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
 //   if (status) // It doesn't harm if occurs
 //       qDebug() << "Stream underflow detected!";
 
-  auto out = static_cast<qint16*>(outBuff);
   if (m_playingNoteNr < instance->m_playList.size()) {
       auto playingSound = instance->m_playList[m_playingNoteNr];
-      qint16 sample = 1;
-//         auto out = static_cast<qint16*>(outBuff);
+      qint16 sample = 0;
+      auto out = static_cast<qint16*>(outBuff);
       bool unfinished = true;
       for (int i = 0; i < nBufferFrames / instance->ratioOfRate; i++) {
         if (m_posInNote >= playingSound.samplesCount) {
@@ -106,16 +100,22 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
           } else
               unfinished = false;
         }
-        if (unfinished && playingSound.number < REST_NR && m_posInOgg < 61740) { // 1.4 sec of samples
-            sample = instance->oggScale->getNoteSample(playingSound.number, m_posInOgg);
-            if (m_posInOgg > playingSound.samplesCount - 220) { // fade out 5ms
-                float m = 1.0 - (static_cast<float>(m_posInOgg + 221 - playingSound.samplesCount) / 220.0);
-                sample = static_cast<qint16>(sample * (m < 0.0 ? 0.0 : m));
-            } else if (m_posInOgg < 220) // fade in 5ms
-                sample = static_cast<qint16>(sample * (1.0 - (static_cast<qreal>(220 - m_posInOgg) / 220.0)));
-            m_posInOgg++;
-        } else
-            sample = 0;
+        if (unfinished && playingSound.number < REST_NR) {
+          if (instance->oggScale->soundContinuous() && m_posInOgg > instance->oggScale->stopLoopSample(playingSound.number))
+            m_posInOgg = instance->oggScale->startLoopSample(playingSound.number);
+
+          if (m_posInOgg < 61740) { // 1.4 sec of samples
+              sample = instance->oggScale->getNoteSample(playingSound.number, m_posInOgg);
+              if (m_posInOgg > playingSound.samplesCount - 220) { // fade out 5ms
+                  float m = 1.0 - (static_cast<float>(m_posInOgg + 221 - playingSound.samplesCount) / 220.0);
+                  sample = static_cast<qint16>(sample * (m < 0.0 ? 0.0 : m));
+              } else if (m_posInOgg < 220) // fade in 5ms
+                  sample = static_cast<qint16>(sample * (1.0 - (static_cast<float>(220 - m_posInOgg) / 220.0)));
+              if (instance->oggScale->soundContinuous() && m_posInNote > 44100) // fade out long continuous sound 
+                sample *= 1.0 - static_cast<qreal>(m_posInNote - 44100) / static_cast<qreal>(playingSound.samplesCount);
+          }
+          m_posInOgg++;
+        }
         for (int r = 0; r < instance->ratioOfRate; r++) {
           *out++ = sample; // left channel
           *out++ = sample; // right channel
@@ -125,11 +125,10 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
       instance->m_callBackIsBussy = false;
       return m_playingNoteNr >= instance->m_playList.size();
   } else { // flush buffer with zeros if no sound will be played
+      auto out = static_cast<qint32*>(outBuff); // 4 bytes for both channels at once
       for (int i = 0; i < nBufferFrames / instance->ratioOfRate; i++) {
-        for (int r = 0; r < instance->ratioOfRate; r++) {
-          *out++ = 0; // left channel
-          *out++ = 0; // right channel
-        }
+        for (int r = 0; r < instance->ratioOfRate; r++)
+          *out++ = 0; // both channels at once channel
       }
       instance->m_callBackIsBussy = false;
       return true;
@@ -266,6 +265,7 @@ void TaudioOUT::playMelody(const QList<Tnote>& notes, int tempo, int firstNote) 
         SLEEP(1);
         loops++;
       }
+//       if (loops) qDebug() << "latency:" << loops << "ms";
   }
 
   // in faster tempo wait for decoding of some notes

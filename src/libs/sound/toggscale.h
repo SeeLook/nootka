@@ -101,6 +101,16 @@ public:
 
   qint16 getNoteSample(int noteNr, int offset);
 
+      /**
+       * Number of sample after zero-cross and before max amplitude peak about 200ms after start
+       */
+  uint startLoopSample(int noteNr);
+
+      /**
+       * Number of sample after zero-cross and before max amplitude peak about 1200ms of a sound
+       */
+  uint stopLoopSample(int noteNr);
+
   unsigned int sampleRate() { return m_sampleRate; }
 
       /**
@@ -153,6 +163,12 @@ private:
 
   void resetPCMArray();
 
+      /**
+       * Looks in @p m_currentBuffer starting from @p lookFrom sample number in samples span equal to period size of @p midiNoteNr
+       * for cross-zero point (sample number) before maximal amplitude (sample with maximal absolute value)
+       */
+  uint crossZeroBeforeMaxAmlp(uint lookFrom, int midiNoteNr);
+
 private:
   qint8             *m_oggInMemory;
   OggVorbis_File     m_ogg; /**< ogg vorbis handler */
@@ -173,6 +189,7 @@ private:
   qint16            *m_currentBuffer; /**< pointer to currently decoded note */
   bool               m_pcmArrayfilled = false; /**< becomes @p TRUE if very note was decoded, prevents deleting @p m_pcmArray when empty */
   bool               m_soundContinuous = false;
+  int                m_noteInProgress;
 
 };
 
