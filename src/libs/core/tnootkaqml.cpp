@@ -379,7 +379,8 @@ void TnootkaQML::noteFinished(const Tnote& n) {
 //                               Q_ARG(QVariant, QVariant::fromValue(transNote)));
 //   else
   // TODO remember to treat tied notes as a single one when setNote will be implemented
-    QMetaObject::invokeMethod(m_mainScore, "addNote", Q_ARG(QVariant, QVariant::fromValue(transNote)));
+  m_ignoreScore = true;
+  QMetaObject::invokeMethod(m_mainScore, "addNote", Q_ARG(QVariant, QVariant::fromValue(transNote)));
 }
 
 
