@@ -20,7 +20,6 @@
 #include "tnote.h"
 #include "tnamestylefilter.h"
 
-
 #include <sstream>
 #include <string>
 #include <iostream>
@@ -391,14 +390,14 @@ bool getNoteFromStream(QDataStream &in, Tnote &n) {
 
 
 QDataStream &operator << (QDataStream &out, const Tnote &n) {
-    out << (qint8)n.note << (qint8)n.octave << (qint8)n.alter;
-    return out;
+  out << static_cast<qint8>(n.note) << static_cast<qint8>(n.octave) << static_cast<qint8>(n.alter);
+  return out;
 }
 
 
-QDataStream &operator>> (QDataStream &in, Tnote &n) {
-    qint8 nn, oo, aa;
-    in >> nn >> oo >> aa;
-    n = Tnote(nn, oo, aa);
-    return in;
+QDataStream &operator >> (QDataStream &in, Tnote &n) {
+  qint8 nn, oo, aa;
+  in >> nn >> oo >> aa;
+  n = Tnote(nn, oo, aa);
+  return in;
 }

@@ -22,6 +22,7 @@
 
 #include "nootkacoreglobal.h"
 #include <QtCore/qobject.h>
+#include <QtCore/qdatastream.h>
 #include <QtCore/qmath.h>
 
 
@@ -229,6 +230,9 @@ public:
     return m_r != r.rhythm() || ((m_prefs % 8) != (r.parameters() % 8)); // compare only first three bits of m_prefs (rest, dot and triplet)
   }
 
+  friend QDataStream& operator << (QDataStream &out, const Trhythm &r);
+  friend QDataStream& operator >> (QDataStream &in, Trhythm &r);
+
 protected:
   quint8 parameters() const { return m_prefs; } /**< For copy purposes */
   void setParameters(quint8 p) { m_prefs = p; }
@@ -237,5 +241,8 @@ private:
   Erhythm                 m_r;
   quint8                  m_prefs = 0;
 };
+
+NOOTKACORE_EXPORT QDataStream& operator << (QDataStream &out, const Trhythm &r);
+NOOTKACORE_EXPORT QDataStream& operator >> (QDataStream &in, Trhythm &r);
 
 #endif // TRHYTHM_H

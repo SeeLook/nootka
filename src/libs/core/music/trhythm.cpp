@@ -236,3 +236,15 @@ void Trhythm::debug(const char* text) const {
   }
 }
 
+
+QDataStream& operator << (QDataStream& out, const Trhythm& r) {
+  out << static_cast<quint8>(r.rhythm()) << static_cast<quint8>(r.parameters());
+}
+
+
+QDataStream& operator >>(QDataStream& in, Trhythm& r) {
+  quint8 rr, p;
+  in >> rr >> p;
+  r.setRhythm(static_cast<Trhythm::Erhythm>(rr));
+  r.setParameters(p);
+}
