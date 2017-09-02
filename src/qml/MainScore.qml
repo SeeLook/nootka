@@ -28,6 +28,11 @@ Score {
   scoreObj.meter: GLOB.rhythmsEnabled ? Tmeter.Meter_4_4 : Tmeter.NoMeter
   focus: true
 
+  onFocusChanged: {
+    if (!focus) // FIXME: space key is stolen if any dialog/popup is invoked, this workaround avoids that but side effects are unknown yet
+      focus = true
+  }
+
   clef: GLOB.clefType
   scoreObj.clefType: GLOB.clefType
   enableDoubleAccids: GLOB.enableDoubleAccids
