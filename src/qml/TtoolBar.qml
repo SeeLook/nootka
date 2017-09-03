@@ -32,6 +32,7 @@ ToolBar {
         menu = c.createObject(metroButt)
       }
       menu.open()
+      metroButt.focus = false
     }
     background: Rectangle {
       anchors.fill: parent; color: activPal.window
@@ -78,7 +79,13 @@ ToolBar {
     anchors.right: label.left
     height: parent.height * 0.9
     width: parent.width * 0.4
-    onPaused: SOUND.stoppedByUser = !SOUND.stoppedByUser
+    onPaused: {
+      SOUND.stoppedByUser = !SOUND.stoppedByUser
+      if (SOUND.listening)
+        SOUND.stopListen()
+      else
+        SOUND.startListen()
+    }
     Timer {
       repeat: true; interval: 75; running: SOUND.listening
       onTriggered: {

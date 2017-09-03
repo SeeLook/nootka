@@ -25,6 +25,14 @@ Popup {
         value: SOUND.tempo
       }
     }
+    Slider {
+      width: parent.width * 0.96
+      anchors.horizontalCenter: parent.horizontalCenter
+      value: tempoSpin.value
+      from: 40; to: 180;
+      onValueChanged: tempoSpin.value = value
+      stepSize: 10
+    }
 
     Row {
       spacing: nootkaWindow.fontSize
@@ -61,6 +69,7 @@ Popup {
       }
     }
   }
+
   onOpened: SOUND.stopListen()
   onClosed: SOUND.startListen()
 }

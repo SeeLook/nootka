@@ -14,7 +14,7 @@ Item {
   property real volume: 0.05
   property real minVol: 0.4
 
-  TtickColors { id: tc; width: volBar.width - minText.width - noteText.width * 2; divisor: pitchView.tickGap + pitchView.tickWidth }
+  TtickColors { id: tc; width: volBar.width - minVolText.width - noteText.width * 2; divisor: pitchView.tickGap + pitchView.tickWidth }
 
   MouseArea {
     id: area
@@ -24,7 +24,7 @@ Item {
     acceptedButtons: Qt.LeftButton
     onPositionChanged: {
       if (pressedButtons && mouseX > vRep.itemAt(1).x && mouseX < vRep.itemAt(vRep.model - 2).x) {
-        var mv = (mouseX - minText.width) / tc.width
+        var mv = (mouseX - minVolText.width) / tc.width
         if (mv > 0.1 && mv < 0.9)
           minVol = mv
       }
@@ -32,7 +32,7 @@ Item {
   }
 
   Text {
-      id: minText
+      id: minVolText
       anchors { top: parent.Top; left: parent.Left; verticalCenter: parent.verticalCenter }
       text: " " + Math.round(minVol * 100) + "% "
       color: pitchView.active ? activPal.text : disdPal.text
@@ -49,22 +49,30 @@ Item {
         radius: pitchView.tickWidth / 2
         height: pitchView.tickWidth * 1.5 + ((volBar.height - pitchView.tickWidth * 4) / vRep.model) * index
         y: (parent.height - height) / 2
-        x: minText.width + (index * pitchView.tickGap) + (index + 1) * pitchView.tickWidth
+        x: minVolText.width + (index * pitchView.tickGap) + (index + 1) * pitchView.tickWidth
       }
   }
 
-  Text {
-      id: noteText
-      x: volBar.width - width * 1.5
-      anchors.verticalCenter: parent.verticalCenter
-      font.family: "Nootka"
-      font.pixelSize: volBar.height
-      text: "r"
-      color: pitchView.active ? "red" : activPal.text
-      MouseArea {
-        anchors.fill: parent
-        onClicked: pitchView.paused()
-      }
+  Rectangle {
+    x: volBar.width - width
+    width: noteText.width * 1.5
+    height: parent.height
+    color: ma.containsMouse ? activPal.highlight : "transparent"
+    radius: height / 5
+    Text {
+        id: noteText
+        anchors.centerIn: parent
+        font.family: "Nootka"
+        font.pixelSize: volBar.height
+        text: "r"
+        color: pitchView.active ? "red" : activPal.text
+    }
+    MouseArea {
+      id: ma
+      anchors.fill: parent
+      onClicked: pitchView.paused()
+      hoverEnabled: true
+    }
   }
 
   DropShadow {
@@ -80,7 +88,7 @@ Item {
 
   Rectangle {
       id: knob
-      x: minText.width + minVol * tc.width - radius
+      x: minVolText.width + minVol * tc.width - radius
       y: (volBar.height - height) / 2
       visible: false
       height: volBar.height * 0.9
