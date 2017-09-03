@@ -260,7 +260,7 @@ void Tsound::setTempo(int t) {
  * @p m_quantVal is expressed in @p Trhythm duration of: Sixteenth triplet -> 4 or just Sixteenth -> 6 or Eighth -> 12
  */
 void Tsound::setQuantization(int q) {
-  if ((q == 4 || q == 6 || q == 12) != m_quantVal) {
+  if ((q == 4 || q == 6 || q == 12) && q != m_quantVal) {
     m_quantVal = q;
   }
 }
@@ -274,10 +274,6 @@ bool Tsound::stoppedByUser() const {
 void Tsound::setStoppedByUser(bool sbu) {
   if (sniffer && sniffer->stoppedByUser() != sbu) {
     sniffer->setStoppedByUser(sbu);
-    if (sbu)
-      stopListen();
-    else
-      startListen();
     emit stoppedByUserChanged();
   }
 }
@@ -300,12 +296,6 @@ void Tsound::startListen() {
 }
 
 
-void Tsound::prepareAnswer() {
-//   m_pitchView->setBgColor(GLOB->EanswerColor);
-//   m_pitchView->setDisabled(false);
-}
-
-
 void Tsound::pauseSinffing() {
   if (sniffer)
       sniffer->pause();
@@ -317,22 +307,14 @@ void Tsound::unPauseSniffing() {
       sniffer->unPause();
 }
 
+
 bool Tsound::isSnifferPaused() {
-  if (sniffer)
-      return sniffer->isPaused();
-  else
-      return false;
+  return sniffer ? sniffer->isPaused() : false;
 }
 
 
 bool Tsound::isSniferStopped() {
   return sniffer ? sniffer->isStoped() : true;
-}
-
-
-void Tsound::restoreAfterAnswer() {
-//   m_pitchView->setBgColor(Qt::transparent);
-//   m_pitchView->setDisabled(true);
 }
 
 
@@ -366,10 +348,7 @@ void Tsound::stopPlaying() {
 
 
 bool Tsound::isPlayable() {
-  if (player)
-   return true;
-  else
-    return false;
+  return player ? player->isPlayable() : false;
 }
 
 
@@ -528,5 +507,5 @@ void Tsound::selectNextNote() {
   if (playingId != scoreId)
     NOO->selectPlayingNote(playingId);
   if (playingId < NOO->scoreNotesCount() - 1)
-    QTimer::singleShot(100, [=]{ selectNextNote(); });
+    QTimer::singleShot(50, [=]{ selectNextNote(); });
 }

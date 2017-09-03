@@ -143,10 +143,12 @@ public:
        */
   void prepareToExam(Tnote loNote, Tnote hiNote);
   void restoreAfterExam();
-  void prepareAnswer(); /**< Sets bg color to question color and enables TpitchView. */
-  void restoreAfterAnswer(); /**< Clears bg color and disables TpitchView. */
-  void stopPlaying();
-  void setDefaultAmbitus(); /**< Instrument scale extended of perfect 4th up and down. */
+  Q_INVOKABLE void stopPlaying();
+
+      /**
+       * Instrument scale extended of perfect 4th up and down.
+       */
+  void setDefaultAmbitus();
 
 #if !defined (Q_OS_ANDROID)
   void setDumpFileName(const QString& fName);
