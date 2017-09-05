@@ -198,13 +198,13 @@ TrtAudio::TrtAudio(TaudioParams* audioP, TrtAudio::EdevType type, TrtAudio::call
 TrtAudio::~TrtAudio()
 {
 //   closeStream();
-  if (m_outParams == 0 && m_inParams == 0) {
+  if (m_outParams == nullptr && m_inParams == nullptr) {
     delete m_rtAduio;
-    m_rtAduio = 0;
+    m_rtAduio = nullptr;
     delete streamOptions;
-    streamOptions = 0;
+    streamOptions = nullptr;
     delete m_ao;
-    m_ao = 0;
+    m_ao = nullptr;
   }
 
 }

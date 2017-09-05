@@ -114,8 +114,8 @@ protected:
        */
   static bool forceUpdate;
 
-  void deleteOutParams() { delete m_outParams; m_outParams = 0; }
-  void deleteInParams() { delete m_inParams; m_inParams = 0; }
+  void deleteOutParams() { delete m_outParams; m_outParams = nullptr; }
+  void deleteInParams() { delete m_inParams; m_inParams = nullptr; }
 
       /**
        * Sets pointer to appropriate callback method to 0.

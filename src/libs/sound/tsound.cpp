@@ -43,6 +43,7 @@ Tsound* Tsound::m_instance = nullptr;
 
 #define INT_FACTOR (1.2)
 
+
 Tsound::Tsound(QObject* parent) :
   QObject(parent),
   player(nullptr),
@@ -117,13 +118,12 @@ void Tsound::play(const Tnote& note) {
 
 
 void Tsound::playMelody(Tmelody* mel) {
-  if (m_melodyNoteIndex > -1)
-    m_melodyNoteIndex = m_playedMelody->length();
-  else {
-    m_melodyNoteIndex = 0;
-    m_playedMelody = mel;
-  }
-  playMelodySlot();
+//   if (m_melodyNoteIndex > -1)
+//     m_melodyNoteIndex = m_playedMelody->length();
+//   else {
+//     m_melodyNoteIndex = 0;
+//     m_playedMelody = mel;
+//   }
 }
 
 
@@ -380,8 +380,11 @@ void Tsound::createPlayer() {
   if (GLOB->A->midiEnabled) {
       player = new TmidiOut(GLOB->A);
       connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinishedSlot()));
-  } else
-      player = new TaudioOUT(GLOB->A);
+  } else {
+      auto p = new TaudioOUT(GLOB->A);
+      player = p;
+      connect(p, &TaudioOUT::nextNoteStarted, this, &Tsound::selectNextNote);
+  }
 #endif
   m_stopSniffOnce = false;
 }
@@ -441,18 +444,6 @@ void Tsound::playingFinishedSlot() {
 }
 
 
-void Tsound::playMelodySlot() {
-  if (m_melodyNoteIndex > -1 && m_melodyNoteIndex < m_playedMelody->length()) {
-    play(m_playedMelody->note(m_melodyNoteIndex)->p());
-    TpreciseTimer::singleShot(60000 / m_playedMelody->tempo(), this, SLOT(playMelodySlot()));
-    m_melodyNoteIndex++;
-  } else {
-    m_melodyNoteIndex = -1;
-    playingFinishedSlot();
-  }
-}
-
-
 void Tsound::noteStartedSlot(const TnoteStruct& note) {
   m_detectedNote = note.pitch;
 //   if (!m_examMode)
@@ -503,9 +494,6 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
 
 void Tsound::selectNextNote() {
   int playingId = static_cast<TaudioOUT*>(player)->playingNoteId();
-  int scoreId = NOO->selectedNoteId();
-  if (playingId != scoreId)
+  if (playingId != NOO->selectedNoteId())
     NOO->selectPlayingNote(playingId);
-  if (playingId < NOO->scoreNotesCount() - 1)
-    QTimer::singleShot(50, [=]{ selectNextNote(); });
 }

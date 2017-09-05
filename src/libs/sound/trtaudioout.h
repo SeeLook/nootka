@@ -40,7 +40,7 @@ class NOOTKASOUND_EXPORT TaudioOUT : public TabstractPlayer, public TrtAudio
   Q_OBJECT
 
 public:
-  TaudioOUT(TaudioParams* _params, QObject* parent = 0);
+  TaudioOUT(TaudioParams* _params, QObject* parent = nullptr);
   ~TaudioOUT() override;
 
   static QStringList getAudioDevicesList();
@@ -61,6 +61,9 @@ public:
        * this number corresponds with note id on the score
        */
   int playingNoteId() const { return m_playingNoteId; }
+
+signals:
+  void nextNoteStarted();
 
 protected:
   static bool outCallBack(void* outBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status);
