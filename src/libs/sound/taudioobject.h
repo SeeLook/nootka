@@ -39,6 +39,7 @@ public:
   void emitStreamOpened() { emit streamOpened(); }
   void emitParamsUpdated() { emit paramsUpdated(); }
   void emitPlayingFinished() { emit playingFinished(); }
+  void emitNextNoteStarted() { emit nextNoteStarted(); }
 
 signals:
   void streamOpened();
@@ -52,6 +53,12 @@ signals:
        * Emitted when all note data were send
        */
   void playingFinished();
+
+      /**
+       * In out callback, when next note of melody is going to be played,
+       * to synchronize note selected on the score 
+       */
+  void nextNoteStarted();
 
 };
 

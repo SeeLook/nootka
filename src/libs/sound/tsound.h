@@ -189,7 +189,6 @@ private slots:
      */
   void playingFinishedSlot();
 
-  void playMelodySlot();
   void noteStartedSlot(const TnoteStruct& note);
   void noteFinishedSlot(const TnoteStruct& note);
 

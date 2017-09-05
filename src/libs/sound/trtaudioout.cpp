@@ -98,6 +98,7 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
               m_posInNote = 0;
               playingSound = instance->m_playList[m_playingNoteNr];
               m_playingNoteId = playingSound.id;
+              ao()->nextNoteStarted();
           } else
               unfinished = false;
         }
@@ -163,6 +164,7 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
   forceUpdate = true;
   connect(ao(), &TaudioObject::paramsUpdated, this, &TaudioOUT::updateSlot);
   connect(ao(), &TaudioObject::playingFinished, this, &TaudioOUT::playingFinishedSlot);
+  connect(ao(), &TaudioObject::nextNoteStarted, [=]{ emit nextNoteStarted(); });
 
   connect(oggScale, &ToggScale::noteDecoded, this, &TaudioOUT::decodeNext);
 }
