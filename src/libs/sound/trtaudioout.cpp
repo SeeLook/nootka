@@ -218,7 +218,7 @@ bool TaudioOUT::play(int noteNr) {
   m_playList.clear();
   m_playList << TsingleSound(0, noteNr + static_cast<int>(audioParams()->a440diff), qRound(oggScale->sampleRate() * 1.5));
   m_playingNoteNr = 0;
-  m_playingNoteId = 0;
+//   m_playingNoteId = 0; // we have no any idea about current note id here
   m_decodingNoteNr = 0;
   m_posInNote = 0;
   m_posInOgg = 0;
@@ -253,13 +253,18 @@ void TaudioOUT::playMelody(const QList<Tnote>& notes, int tempo, int firstNote) 
   for (int n = firstNote; n < notes.count(); ++n) {
     const Tnote& tmpN = notes.at(n);
     int samplesDuration = qRound(((tmpN.duration() > 0 ? tmpN.duration() / 24.0 : 1.0) * (60000.0 / tempo)) * (oggScale->sampleRate() / 1000.0));
-    if (tmpN.rtm.tie() > Trhythm::e_tieStart) // append duration if tie is continued or at end
-      m_playList.last().samplesCount += samplesDuration;
-    else
-      m_playList << TsingleSound(n, tmpN.isValid() ? tmpN.chromatic() + GLOB->transposition() + static_cast<int>(audioParams()->a440diff) : REST_NR, samplesDuration);
+    if (tmpN.rtm.tie() > Trhythm::e_tieStart) { // append duration if tie is continued or at end
+        if (m_playList.isEmpty())
+          continue; // do not start playing in the middle of tied notes
+        m_playList.last().samplesCount += samplesDuration;
+    } else
+        m_playList << TsingleSound(n, tmpN.isValid() ? tmpN.chromatic() + GLOB->transposition() + static_cast<int>(audioParams()->a440diff) : REST_NR, samplesDuration);
   }
+  if (m_playList.isEmpty()) // naughty user wants to play tied note at the score end
+    return;
+
   m_playingNoteNr = 0;
-  m_playingNoteId = 0;
+  m_playingNoteId = m_playList.first().id;
   m_decodingNoteNr = 0;
   m_posInNote = 0;
   m_posInOgg = 0;
@@ -281,6 +286,7 @@ void TaudioOUT::playMelody(const QList<Tnote>& notes, int tempo, int firstNote) 
     if (areStreamsSplit() && state() != e_playing)
       openStream();
     startStream();
+    ao()->emitNextNoteStarted();
   });
 }
 
