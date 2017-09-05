@@ -896,6 +896,9 @@ int TscoreObject::globalNoteNr(qreal yPos) {
 
 void TscoreObject::clearScorePrivate() {
   if (measuresCount() && firstMeasure()->noteCount() > 0) {
+    setSelectedItem(nullptr);
+    m_activeBarNr = -1;
+    changeActiveNote(nullptr);
     for (TnotePair* s : qAsConst(m_segments)) {
       s->flush();
       m_spareSegments << s;
