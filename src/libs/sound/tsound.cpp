@@ -134,8 +134,12 @@ void Tsound::playScoreNotes(const QList<Tnote>& notes, int firstNote) {
 
 
 void Tsound::playScore() {
-  playScoreNotes(NOO->scoreNoteList(), NOO->selectedNoteId() > -1 ? NOO->selectedNoteId() : 0);
-  selectNextNote();
+  if (sniffer->state() != TrtAudio::e_playing)
+    playScoreNotes(NOO->scoreNoteList(), NOO->selectedNoteId() > -1 ? NOO->selectedNoteId() : 0);
+  else {
+    stopPlaying();
+    playingFinishedSlot();
+  }
 }
 
 
@@ -343,7 +347,7 @@ void Tsound::restoreAfterExam() {
 void Tsound::stopPlaying() {
   if (player)
     player->stop();
-  m_melodyNoteIndex = -1;
+//   m_melodyNoteIndex = -1;
 }
 
 
@@ -435,9 +439,8 @@ void Tsound::restoreSniffer() {
 void Tsound::playingFinishedSlot() {
 //   qDebug("playingFinished");
   if (!m_examMode && sniffer) {
-    if (m_stopSniffOnce) {
+    if (m_stopSniffOnce)
       sniffer->startListening();
-    }
     m_stopSniffOnce = false;
   }
   emit plaingFinished();
