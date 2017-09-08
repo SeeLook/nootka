@@ -120,7 +120,7 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
   translStr += transRow("cs", QStringLiteral("český"), QStringLiteral("Pavel Fric"),
                         QStringLiteral("<a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>"));
 // German
-  translStr += transRow("de", QStringLiteral("deutsch"), QStringLiteral("Johann C. Weihe"), QString());
+  translStr += transRow("de", QStringLiteral("deutsch"), QStringLiteral("Johann C. Weihe,<br>&nbsp;&nbsp;Renato Reinau"), QString());
 // English
   translStr += transRow("en", QStringLiteral("english"), QStringLiteral("Luster"), QString());
 // Spanish

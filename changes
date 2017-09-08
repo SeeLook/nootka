@@ -1,4 +1,5 @@
 1.4.4
+     - finished German translation
      - support for marking more frets on the fingerboard
     BUGS FIXES
      - fixed crash on enetring settings when 'other' instrument was used

@@ -1,0 +1,4113 @@
+# Renato Reinau <xx>, 2017.
+# Renato Reinau <xx>, 2017.
+# Renato Reinau <xx>, 2017.
+msgid ""
+msgstr ""
+"PO-Revision-Date: 2017-09-07 13:46+0200\n"
+"Last-Translator: Renato Reinau <xx>\n"
+"Language-Team: xx\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Virtaal 0.7.1\n"
+"X-Language: de_DE\n"
+"X-Source-Language: en\n"
+"X-Qt-Contexts: true\n"
+
+msgctxt "AnswerText|"
+msgid "Wrong answer!"
+msgstr "Falsche Antwort!"
+
+msgctxt ""
+"AnswerText|or 'Good!' or 'Correct!' would be somewhat more specific than "
+"merely 'It was good!' (previous version) 'It' in this case certainly does "
+"refer to a specific thing, which is in this case the answer, but it might be "
+"momentarily confused with some other specific thing, such as a shoe or a "
+"crocodile, or the wind on one's back. I know that's probably confusing, but "
+"the implied subject of 'Correct! is in a certain sense much more specific "
+"than a mere 'It' and is more certain to refer to the answer."
+msgid "Good answer!"
+msgstr "Richtige Antwort!"
+
+msgctxt ""
+"AnswerText|'Not so bad, but:' is perfectly clear, but a little less common "
+"in US English. To be a bit shorter, it might just as well be, 'Not bad, but:'"
+msgid "Not bad, but:"
+msgstr "Nicht schlecht, aber:"
+
+msgctxt "AnswerText|"
+msgid "wrong string"
+msgstr "Falsche Saite"
+
+msgctxt "AnswerText|"
+msgid "wrong accidental"
+msgstr "Falsches Vorzeichen"
+
+msgctxt "AnswerText|"
+msgid "wrong key signature"
+msgstr "Falsches Generalvorzeichen"
+
+msgctxt "AnswerText|"
+msgid "wrong octave"
+msgstr "Falsche Oktave"
+
+msgctxt "AnswerText|"
+msgid "correct notes"
+msgstr "Richtige Noten"
+
+msgctxt "AnswerText|"
+msgid "wrong notes"
+msgstr "Falsche Noten"
+
+msgctxt "AnswerText|"
+msgid "wrong accidentals"
+msgstr "Falsche Vorzeichen"
+
+msgctxt "AnswerText|"
+msgid "wrong octaves"
+msgstr "Falsche Oktaven"
+
+msgctxt "AnswerText|"
+msgid "correct key signatures"
+msgstr "Richtige Generalvorzeichen"
+
+msgctxt "AnswerText|"
+msgid "wrong key signatures"
+msgstr "Falsche Generalvorzeichen"
+
+msgctxt "AnswerText|"
+msgid "correct positions"
+msgstr "Richtige Lage"
+
+msgctxt "AnswerText|"
+msgid "wrong positions"
+msgstr "Falsche Position"
+
+msgctxt "AnswerText|"
+msgid "wrong strings"
+msgstr "Falsche Saiten"
+
+msgctxt "AnswerText|"
+msgid "out of tune"
+msgstr "verstimmt"
+
+msgctxt "AnswerText|the amount of correct notes in an answer is little"
+msgid "little valid notes"
+msgstr "wenig richtige Noten"
+
+msgctxt "AnswerText|"
+msgid "poor effectiveness"
+msgstr "geringe Effektivität"
+
+msgctxt "AudioInSettings|"
+msgid "enable pitch detection"
+msgstr "Tonhöhenerkennung an"
+
+msgctxt "AudioInSettings|"
+msgid "input device"
+msgstr "Eingabegerät"
+
+msgctxt "AudioInSettings|"
+msgid "pitch detection mode"
+msgstr "Tonhöhenerkennungsmodus"
+
+msgctxt "AudioInSettings|"
+msgid ""
+"Be sure your input device (microphone, webcam, instrument, etc.) is plugged "
+"in, properly configured, and working."
+msgstr ""
+"Stellen sie sicher, dass das Eingabegerät (Mikrofon, Webcam, Instrument, "
+"etc.) richtig eingesteckt und konfiguriert ist und funktioniert."
+
+msgctxt "AudioInSettings|"
+msgid "minimum note duration"
+msgstr "Minimale Notenlänge"
+
+msgctxt "AudioInSettings|"
+msgid ""
+"Only sounds longer than the selected time will be "
+"pitch-detected.<br>Selecting a longer minimum note duration helps avoid "
+"capturing fret noise or other unexpected sounds but decreases responsiveness."
+msgstr ""
+"Nur Töne die länger als die ausgewählte Zeit sind, werden erfasst.<br>Eine "
+"längere Notenlänge Hilft bei der Vermeidung der Erfassung von "
+"Stöhrgeräuschen und Nebentönen, aber vermidert gleichzeitig die "
+"Ansprechempfindlichkeit."
+
+msgctxt "AudioInSettings|"
+msgid "minimum volume"
+msgstr "Mindestlautstärke"
+
+msgctxt "AudioInSettings|"
+msgid "Minimum volume of a sound to be pitch-detected"
+msgstr "Mindestlautstärke eines Tones für die Tonhöhenerkennung"
+
+msgctxt "AudioInSettings|"
+msgid "middle A"
+msgstr "mittleres A"
+
+msgctxt "AudioInSettings|"
+msgid "frequency:"
+msgstr "Frequenz:"
+
+msgctxt "AudioInSettings|"
+msgid ""
+"Check, are your audio input settings appropriate?<br>And how well does pitch "
+"detection work for your selected settings?"
+msgstr ""
+"Überprüfung: Sind deine Audioeingans-Einstellungen richtig?<br>Wie gut "
+"funktioniert die Tonhöhenerkennung für deine ausgewählten Einstellungen?"
+
+msgctxt "AudioInSettings|"
+msgid "Frequency of detected note. You can use this for tuning."
+msgstr "Frequenz der erkannten Note. Du kannst sie zum Stimmen verwenden."
+
+#, qt-format
+msgctxt "AudioInSettings|"
+msgid "%n semitone(s)"
+msgid_plural "%n semitone(s)"
+msgstr[0] "%n Halbton"
+msgstr[1] "%n Halbtöne"
+
+msgctxt "AudioInSettings|"
+msgid "interval:"
+msgstr "Intervall:"
+
+msgctxt "AudioInSettings|"
+msgid "[milliseconds]"
+msgstr "[Millisekunden]"
+
+msgctxt "AudioInSettings|"
+msgid "none"
+msgstr "kein"
+
+msgctxt "AudioInSettings|"
+msgid ""
+"The base frequency of <i>middle a</i>.<br>Detection of the proper pitch of "
+"notes is relative to this value. This also affects the pitch of played "
+"sounds."
+msgstr ""
+"Die Grundfrequenz der <i>mittleres a</i>.<br>Erkennung der Tonhöhe ist "
+"relativ zu seinem Wert. Sie beeinflusst auch die Höhe der anderen gespielten "
+"Töne."
+
+msgctxt "AudioInSettings|"
+msgid ""
+"Shifts the frequency of <i>middle a</i>. It can be used as a transposition."
+msgstr ""
+"Verschiebt die Frequenz von <i>mittleres a</i>. Es kan zum transponieren "
+"verwendet werden."
+
+msgctxt "AudioInSettings|"
+msgid "up"
+msgstr "hoch"
+
+msgctxt "AudioInSettings|"
+msgid "down"
+msgstr "runter"
+
+msgctxt "AudioInSettings|"
+msgid "Test"
+msgstr "Test"
+
+msgctxt "AudioInSettings|"
+msgid "Stop"
+msgstr "Beenden"
+
+msgctxt "AudioInSettings|"
+msgid "Detected pitch"
+msgstr "Erfasste Tonhöhe"
+
+msgctxt "AudioInSettings|"
+msgid "no devices found"
+msgstr "keine Geräte gefunden"
+
+msgctxt "AudioInSettings|"
+msgid "Input device and pitch detection"
+msgstr "Eingabegerät und Tonhöhenerkennung"
+
+msgctxt "AudioInSettings|"
+msgid "'Middle a' and transposition"
+msgstr "\"Mittleres A\" und Transponierung"
+
+msgctxt "AudioInSettings|"
+msgid "Advanced"
+msgstr "Erweitert"
+
+msgctxt "AudioInSettings|"
+msgid "split when volume rise"
+msgstr "teilen, wenn sich Lautstärke erhöht"
+
+msgctxt "AudioInSettings|"
+msgid "Helps to properly detect the same notes repeated quickly on the guitar."
+msgstr ""
+"Hilft um gleiche Töne zu erkennen die schnell hintereinander gespielt werden."
+
+msgctxt "AudioInSettings|"
+msgid "skip stiller than"
+msgstr "überspringt leiser als"
+
+msgctxt "AudioInSettings|"
+msgid ""
+"Skips stiller sounds, below given percent of average volume. It prevents "
+"detecting of harmonics on classical or acoustic guitar but requires playing "
+"with similar strength."
+msgstr ""
+"Vernachlässigt Töne die leiser als die angegebenen prozent sind. Es "
+"verhindert, dass Beitöne bei Akustikgitarren mit aufgenommen werden aber "
+"alle Töne müssen mit gleicher Stärke gespielt werden."
+
+msgctxt "AudioInSettings|"
+msgid "noise filter"
+msgstr "Störgeräuschfilter"
+
+msgctxt "AudioInSettings|"
+msgid ""
+"It is rather necessary for mic input but may be switched off for instrument "
+"line-in plugged with less noise."
+msgstr ""
+"Es ist hauptsächlich bei der Nutzung eines Mikrofons erforderlich und kann "
+"für Instrumente, die direkt angeschlossen sind und weniger Geräusche machen "
+"abgeschaltet werden."
+
+msgctxt "AudioInSettings|"
+msgid "adjust to instrument"
+msgstr "Instrument wählen"
+
+msgctxt "AudioInSettings|"
+msgid "Test the settings"
+msgstr "Prüfung der Einstellungen"
+
+msgctxt "AudioOutSettings|"
+msgid "play sound"
+msgstr "Ton wiedergeben"
+
+msgctxt "AudioOutSettings|"
+msgid "Selected notes and guitar positions will be played."
+msgstr "Ausgewählte Noten und Lagen werden gespielt."
+
+msgctxt "AudioOutSettings|"
+msgid "real audio playback"
+msgstr "echte Audio Wiedergabe"
+
+msgctxt "AudioOutSettings|"
+msgid "audio device for output"
+msgstr "Ausgabegerät"
+
+msgctxt "AudioOutSettings|"
+msgid "midi playback"
+msgstr "Midi Wiedergabe"
+
+msgctxt "AudioOutSettings|"
+msgid "midi port"
+msgstr "Midi Port"
+
+msgctxt "AudioOutSettings|"
+msgid "no midi ports"
+msgstr "keine Midi Ports"
+
+msgctxt "AudioOutSettings|"
+msgid "instrument"
+msgstr "Instrument"
+
+msgctxt "AudioOutSettings|"
+msgid "Grand Piano"
+msgstr "Flügel"
+
+msgctxt "AudioOutSettings|"
+msgid "Harpsichord"
+msgstr "Cembalo"
+
+msgctxt "AudioOutSettings|"
+msgid "Classical Guitar"
+msgstr "Konzertgitarre"
+
+msgctxt "AudioOutSettings|"
+msgid "Acoustic Guitar"
+msgstr "Akustische Gitarre"
+
+msgctxt "AudioOutSettings|"
+msgid "Electric Guitar"
+msgstr "E-Gitarre"
+
+msgctxt "AudioOutSettings|"
+msgid "Electric Guitar (Overdriven)"
+msgstr "E-Gitarre (Verzerrt)"
+
+msgctxt "AudioOutSettings|"
+msgid "Bass Guitar"
+msgstr "Bassgitarre"
+
+msgctxt "AudioOutSettings|"
+msgid "Violin"
+msgstr "Geige"
+
+msgctxt "AudioOutSettings|"
+msgid "Sax"
+msgstr "Saxophon"
+
+msgctxt "AudioOutSettings|"
+msgid "Flute"
+msgstr "Flöte"
+
+msgctxt "AudioOutSettings|"
+msgid "no devices found"
+msgstr "keine Geräte gefunden"
+
+msgctxt "AudioOutSettings|"
+msgid "forward input to output"
+msgstr "Eingabe / Ausgabe Weiterleitung"
+
+msgctxt "AudioOutSettings|"
+msgid ""
+"All sounds captured by audio input will be forwarded directly to output "
+"device."
+msgstr "Alle Töne des Audio-Eingangs werden direkt an die Ausgabe übergeben."
+
+#~ msgctxt "AudioOutSettings|"
+#~ msgid "IT WORKS ONLY FOR SINGLE SOUND CARD OR WITH ASIO OR JACK!"
+#~ msgstr ""
+#~ "ES FUNKTIONIERT NUR MIT EINZELNEN SOUNDKARTEN ODER MIT ASIO ODER JACK!"
+
+msgctxt "Einstrument|"
+msgid "other instrument"
+msgstr "anders Instrument"
+
+msgctxt "Einstrument|"
+msgid "Classical Guitar"
+msgstr "Konzertgitarre"
+
+msgctxt "Einstrument|"
+msgid "Electric Guitar"
+msgstr "E-Gitarre"
+
+msgctxt "Einstrument|"
+msgid "Bass Guitar"
+msgstr "Bassgitarre"
+
+msgctxt "File association entries|for file browsers"
+msgid "Nootka level file"
+msgstr "Nootka-Level Datei"
+
+msgctxt "File association entries|"
+msgid "Open with Nootka"
+msgstr "Mit Nootka öffnen"
+
+msgctxt "File association entries|"
+msgid "Nootka exam file"
+msgstr "Nootka-Prüfungs Datei"
+
+msgctxt "File association entries|"
+msgid "to play scores"
+msgstr "um Partituren zu spielen"
+
+msgctxt "File association entries|"
+msgid "Application for learning musical score notation"
+msgstr "Anwendung zum erlernen der musikalischen Notation"
+
+#, qt-format
+msgctxt "QObject|"
+msgid ""
+"Cannot save exam file:\n"
+"%1"
+msgstr ""
+"Kann Prüfungsdatei nicht speichern:\n"
+"%1"
+
+msgctxt "QObject|"
+msgid "master of masters"
+msgstr "Meister der Meister"
+
+msgctxt "QObject|"
+msgid "All possible options are turned on"
+msgstr "Alle Möglichkeiten sind an"
+
+#~ msgctxt "QObject|"
+#~ msgid "open strings"
+#~ msgstr "leere Saiten"
+
+#~ msgctxt "QObject|"
+#~ msgid ""
+#~ "The simplest. No key signatures, no double accidentals and no "
+#~ "sound.<br>Automatically adjusted to current tune."
+#~ msgstr ""
+#~ "Das Einfachste. Keine Generalvorzeichen, keine Doppelvorzeichen und kein "
+#~ "Ton.<br>Automatische Anpassung an aktuelle Stimmung."
+
+#~ msgctxt "QObject|"
+#~ msgid "C-major scale"
+#~ msgstr "C-Dur Tonleiter"
+
+#~ msgctxt "QObject|"
+#~ msgid "In first position. No accidentals, no sound.<br>Octave required."
+#~ msgstr "Nur erste Lage. Keine Vorzeichen, kein Ton.<br>Oktaven benötigt."
+
+#~ msgctxt "QObject|"
+#~ msgid ""
+#~ "Give note name in C-major scale or show note on the staff knowing its "
+#~ "name."
+#~ msgstr ""
+#~ " Notenname aus der C-Dur Tonleiter angeben, oder Ton auf der Notation "
+#~ "anzeigen."
+
+#~ msgctxt "QObject|"
+#~ msgid "All to V fret"
+#~ msgstr "Alles bis zum 5. Bund"
+
+#~ msgctxt "QObject|"
+#~ msgid ""
+#~ "All chromatic notes till V-th fret, no sound.<br>Without double "
+#~ "accidentals. Key signatures: C, G, D, A"
+#~ msgstr ""
+#~ "Alle Bis zum 5. Bund, kein Ton.<br>Keine Doppelvorzeichen. "
+#~ "Generalvorzeichen: C, G, D, A"
+
+#~ msgctxt "QObject|"
+#~ msgid "Ear training"
+#~ msgstr "Gehörtrainig"
+
+#~ msgctxt "QObject|"
+#~ msgid ""
+#~ "Listen to a sound and show it on the staff.<br>Guitar, note names and key "
+#~ "signatures are not used.<br>Scale a - a<sup>2</sup>."
+#~ msgstr ""
+#~ "Hör einen Ton und zeige in in der Notation an.<br>Gitarre, Notennamen und "
+#~ "Genralvorzeichen werden nicht verwendet.<br>Tonleiter a - a<sup>2</sup>."
+
+#~ msgctxt "QObject|"
+#~ msgid ""
+#~ "Take your instrument and just play...<br>No note names, no fretboard. "
+#~ "Keys till 4 accids and double accids enabled! Scale of whole guitar "
+#~ "without positions."
+#~ msgstr ""
+#~ "Nimm dein Instrument und spiel...<br>Keine Notennamen, kein Griffbrett. "
+#~ "Bis zu 4 Vorzeichen und Doppelvorzeichen aktiviert."
+
+#~ msgctxt "QObject|"
+#~ msgid ""
+#~ "Just sing a score...<br>No note names, no fretboard, no keys and double "
+#~ "accids. Scale doesn't matter because octaves are ignored - you can "
+#~ "transpose."
+#~ msgstr ""
+#~ "Eine Partitur singen ...<br>Keine Notennamen, kein Griffbrett, keine "
+#~ "Vorzeichen und Doppelvorzeichen. Die Tonleiter spielt keine Rolle weil "
+#~ "Oktaven ignoriert werden - du kannst transponieren."
+
+#~ msgctxt "QObject|"
+#~ msgid "Play scores"
+#~ msgstr "Partituren spielen"
+
+#~ msgctxt "QObject|"
+#~ msgid "Sing scores"
+#~ msgstr "Partituren singen"
+
+msgctxt "QObject|"
+msgid "major"
+msgstr "Dur"
+
+msgctxt "QObject|"
+msgid "minor"
+msgstr "Moll"
+
+#~ msgctxt "QObject|"
+#~ msgid "Standard: E A D G B E "
+#~ msgstr "Standard: E A D G H E "
+
+#~ msgctxt "QObject|"
+#~ msgid "Dropped D: D A D G B E "
+#~ msgstr "Dropped D: D A D G H E "
+
+#~ msgctxt "QObject|"
+#~ msgid "Dummy Lute: D A D F# B E "
+#~ msgstr "falsche Laute: D A D F# H E "
+
+#~ msgctxt "QObject|"
+#~ msgid "Open: D A D G A D "
+#~ msgstr "Offen: D A D G A D "
+
+#~ msgctxt "QObject|"
+#~ msgid "Kouyanbaba: D A D A D F "
+#~ msgstr "Kouyanbaba: D A D A D F "
+
+#~ msgctxt "QObject|"
+#~ msgid "Standard bass: E A D G"
+#~ msgstr "Standard Bass: E A D G"
+
+#~ msgctxt "QObject|"
+#~ msgid "Bass in fifths: C G D A"
+#~ msgstr "Quintenstimmung für Bass: C G D A"
+
+#~ msgctxt "QObject|"
+#~ msgid "5-str. bass: B E A D G"
+#~ msgstr "5-Saiten Bass: H E A D G"
+
+#~ msgctxt "QObject|"
+#~ msgid "6-str. bass: B E A D G C"
+#~ msgstr "6-Saiten Bass: H E A D G C"
+
+#~ msgctxt "QObject|"
+#~ msgid "You also can help with making Nootka better."
+#~ msgstr "Du kannst auch helfen Nootka zu verbessern."
+
+#~ msgctxt "QObject|"
+#~ msgid ""
+#~ "It requires little bit English, so if you can read a text below there "
+#~ "will be something you may get involved."
+#~ msgstr ""
+#~ "Man benötigt ein paar Englischkenntnisse, wenn du den unteren Text lesen "
+#~ "kannst, gibt es Möglichkeiten mitzuhelfen."
+
+#~ msgctxt "QObject|"
+#~ msgid ""
+#~ "Don't worry. This window appears only once per Nootka release.<br>You can "
+#~ "find it always in 'About Nootka' dialog"
+#~ msgstr ""
+#~ "Keine Angst. Dieses Fenster erscheint nur einmal bei jeder Nootka "
+#~ "Release.<br>Du findest es immer im \"Nootka Info\" Dialog"
+
+msgctxt "QObject|unit of Y axis"
+msgid "time [s]"
+msgstr "Zeit [s]"
+
+#~ msgctxt "QObject|"
+#~ msgid "Melody on trebles"
+#~ msgstr "Melodie in hoher Tonlage"
+
+#~ msgctxt "QObject|"
+#~ msgid ""
+#~ "Play short melody on treble strings with notes just on first three frets. "
+#~ "Sharps keys only."
+#~ msgstr ""
+#~ "Spiele kurze Melodie auf den Diskant-Saiten mit Noten in den ersten drei "
+#~ "Bünden. Nur Kreutz-Tonarten."
+
+msgctxt "Select7note|"
+msgid "7th note is:"
+msgstr "7te Note ist:"
+
+msgctxt "Select7note|"
+msgid ""
+"7th note is <b>B</b> and with flat is <b>Bb</b> or <b>bes</b> or <b>bs</b>"
+msgstr ""
+"Die 7. Note ist ein <b>B</b> und mit b ist es <b>Bb</b>oder <b>bes</b> oder "
+"<b>bs</b>"
+
+msgctxt "Select7note|"
+msgid "7th note is <b>H</b> and with flat is <b>Hb</b> or <b>B</b>"
+msgstr "Die 7. Note ist ein <b>H</b> und mit b ist es <b>Hb</b> oder <b>B</b>"
+
+msgctxt "Tabout|"
+msgid ""
+"Welcome on board.<br>Nootka is an open source application to help you in "
+"learning (and in teaching) classical score notation.<br>It is specially "
+"designed for guitarists but others will find many usable features as well."
+msgstr ""
+"Willkommen an bord.<br>Nootka ist eine Open Source Anwendung zum lernen (und "
+"lehren) der klassischen Notenschrift (Notation).<br>Es ist besonders für "
+"Gitarristen geeignet, enthält aber auch für andere Anwender nützliche "
+"Funktionen."
+
+msgctxt "Tabout|"
+msgid ""
+"This is a beta version and may contain bugs or behave in unexpected ways. "
+"Also, it has unfinished features.<br>In spite of that, you are welcome to "
+"try it!"
+msgstr ""
+"Dies ist eine Betaversion und könne Bugs enthalten oder sich mekwürdig "
+"verhalten. Einige Funktionen sind noch nicht vollständig.<br>Abgesehen davon "
+"bist du herzlich eingeladen sie auszuprobieren!"
+
+msgctxt "Tabout|"
+msgid ""
+"See a <a href=\"http://nootka.sourceforge.net\">program site</a> for more "
+"details and further releases.</p><p>Any bugs, suggestions, translations and "
+"so on, report to: <a "
+"href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p>with "
+"respects<br>Author"
+msgstr ""
+"Besuche <a href=\"http://nootka.sourceforge.net\">program site</a>für "
+"Details und weitere Releases.</p><p>Alle Bugs, Vorschläge, Übersetzungen "
+"usw, bitte hierher senden: <a "
+"href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p>hochachtungsvoll<br>Author"
+
+msgctxt "Tabout|"
+msgid ""
+"<br>To support this project and also to avoid infection of your "
+"PC<br><b>PLEASE, use the official project site to download updates, new "
+"releases and to see news.</b>"
+msgstr ""
+"<br>Um diese Projekt zu unterstützen und eine Infektion deines PCs zu "
+"vermeiden<br><b>benutz BITTE die ofizielle Projektseite für Downloads, "
+"Updates, News und neue Releases.</b>"
+
+msgctxt "TaboutNootka|"
+msgid "About Nootka"
+msgstr "Nootka Info"
+
+msgctxt "TaboutNootka|"
+msgid "About"
+msgstr "Info"
+
+#~ msgctxt "TaboutNootka|"
+#~ msgid "Help"
+#~ msgstr "Hilfe"
+
+msgctxt "TaboutNootka|"
+msgid "License"
+msgstr "Lizens"
+
+msgctxt "TaboutNootka|"
+msgid "Support"
+msgstr "Support"
+
+msgctxt "TaboutNootka|"
+msgid "Changes"
+msgstr "Änderungen"
+
+msgctxt "TaboutNootka|"
+msgid "Code"
+msgstr "Code"
+
+msgctxt "TaboutNootka|"
+msgid "Audio"
+msgstr "Audio"
+
+msgctxt "TaboutNootka|"
+msgid "Thanks"
+msgstr "Danke"
+
+msgctxt "TaboutNootka|"
+msgid "Translators"
+msgstr "Übersetzer"
+
+msgctxt "TaboutNootka|"
+msgid "editing and/or recording of samples:"
+msgstr "Bearbeitung und/oder Aufnahmen von Beispielen:"
+
+msgctxt "TaboutNootka|"
+msgid "Other projects"
+msgstr "Ander Projekte"
+
+msgctxt "TaboutNootka|"
+msgid ""
+"However this application could not exist without various open source "
+"projects.<br>Especially:"
+msgstr ""
+"Durch viele Open Source Projekte wurde dieses Projekt "
+"ermöglicht.<br>Besonders:"
+
+msgctxt "TaboutNootka|"
+msgid "Authors"
+msgstr "Autoren"
+
+msgctxt ""
+"TaboutNootka|Would be 'Sponsors' or even 'Backers' - translate as such as "
+"You fill, what sounds/looks better in Your language"
+msgid "Donors"
+msgstr "Gönner"
+
+msgctxt "TaboutNootka|"
+msgid "People and companies who gave material support for the Nootka project"
+msgstr ""
+"Personen und Firmen, die das Projekt Nootka materiell unterstützt haben"
+
+msgctxt ""
+"TanalysDialog|Keep a proper form - whole sentence will be: ordered by: "
+"question number, key signature, etc..."
+msgid "ordered by:"
+msgstr "geordnet nach:"
+
+msgctxt "TanalysDialog|"
+msgid "student name:"
+msgstr "Name des Schülers:"
+
+msgctxt "TanalysDialog|"
+msgid "level:"
+msgstr "Level:"
+
+msgctxt "TanalysDialog|"
+msgid "note pitch"
+msgstr "Tonhöhe"
+
+msgctxt "TanalysDialog|"
+msgid "fret number"
+msgstr "Bundnummer"
+
+msgctxt "TanalysDialog|"
+msgid "key signature"
+msgstr "Generalvorzeichen"
+
+msgctxt "TanalysDialog|"
+msgid "accidentals"
+msgstr "Vorzeichen"
+
+msgctxt "TanalysDialog|"
+msgid "question type"
+msgstr "Fragentyp"
+
+msgctxt "TanalysDialog|"
+msgid "mistake"
+msgstr "Fehler"
+
+msgctxt "TanalysDialog|"
+msgid "Level summary:"
+msgstr "Zusammenfassung des Levels:"
+
+msgctxt "TanalysDialog|"
+msgid "Click and Drag the cursor to move the chart."
+msgstr "Klicken und Ziehen zum Verschieben des Diagramms."
+
+msgctxt "TanalysDialog|"
+msgid "Question number"
+msgstr "Anzahl der Fragen"
+
+#, qt-format
+msgctxt "TanalysDialog|"
+msgid ""
+"File: %1 \n"
+" is not valid exam file!"
+msgstr ""
+"Datei: %1 \n"
+" ist keine gültige Prüfungsdatei!"
+
+msgctxt "TanalysDialog|"
+msgid "Open an exam to analyze"
+msgstr "Öffne Prüfung zur Analyse"
+
+msgctxt "TanalysDialog|"
+msgid "Recent exercise on level"
+msgstr "Letze Prüfung in diesem Level"
+
+msgctxt "TanalysDialog|"
+msgid "recent opened exams:"
+msgstr "Zuletzt geöffnete Prüfungen:"
+
+msgctxt "TanalysDialog|"
+msgid "Close analyzer window"
+msgstr "Schließe Analyse-Fenster"
+
+msgctxt "TanalysDialog|"
+msgid "Settings of a chart"
+msgstr "Einstellungen des Diagramms"
+
+msgctxt "TanalysDialog|"
+msgid "Maximize"
+msgstr "Maximieren"
+
+msgctxt "TanalysDialog|"
+msgid "linear chart"
+msgstr "Liniendiagramm"
+
+msgctxt "TanalysDialog|"
+msgid "bar chart"
+msgstr "Balkendiagramm"
+
+msgctxt "TanalysDialog|"
+msgid "OK"
+msgstr "OK"
+
+#, qt-format
+msgctxt "TanalysDialog|"
+msgid "Press %1 button to select an exam from a file."
+msgstr "%1 Button Drücken um eine Prüfung aus einer Datei zu öffnen."
+
+#, qt-format
+msgctxt "TanalysDialog|"
+msgid "Use %1 + mouse wheel or %2 buttons to zoom a chart."
+msgstr "Benutze %1 + Mausrad oder %2 Buttons um Diagramm zu zoomen."
+
+msgctxt "TanalysDialog|"
+msgid "Questions number"
+msgstr "Nummer der Frage"
+
+#~ msgctxt "TanalysDialog|"
+#~ msgid "zoom in"
+#~ msgstr "reinzoomen"
+
+#~ msgctxt "TanalysDialog|"
+#~ msgid "zoom out"
+#~ msgstr "rauszoomen"
+
+msgctxt "TanalysDialog|"
+msgid "include time of wrong answers to average"
+msgstr "Zeit der falschen Antworten in den Durchschnitt einbeziehen"
+
+msgctxt "TanalysDialog|"
+msgid "show wrong answers separately"
+msgstr "Falsche Fragen getrennt Anzeigen"
+
+msgctxt "TanalysDialog|"
+msgid "Analysis of exam results"
+msgstr "Analyse der Prüfungsergebnisse"
+
+msgctxt "TanalysDialog|"
+msgid "Analysis of exercise"
+msgstr "Analyse der Übungsergebnisse"
+
+msgctxt "TanalysDialog|"
+msgid "Tuning"
+msgstr "Stimmung"
+
+msgctxt "TanalysDialog|"
+msgid "Y value:"
+msgstr "Y-Wert:"
+
+msgctxt "TanalysDialog|see comment in 'ordered by:' entry"
+msgid "question number"
+msgstr "Nummer der Frage"
+
+# is it the count of attempts?
+msgctxt "TanalysDialog|"
+msgid "Attempts number"
+msgstr "Anzahl der Versuche"
+
+msgctxt "TanalysDialog|"
+msgid "Preparation time"
+msgstr "Vorbereitungszeit"
+
+msgctxt "TanalysDialog|"
+msgid "Played number"
+msgstr "mal gespielt"
+
+msgctxt "TanalysDialog|"
+msgid "Analyze"
+msgstr "Statistik"
+
+#, qt-format
+msgctxt "Tcanvas|note name"
+msgid "%1 was detected"
+msgstr "%1 wurde erkannt"
+
+msgctxt "Tcanvas|"
+msgid "Try again!"
+msgstr "Versuch es nocheinmal!"
+
+msgctxt "Tcanvas|"
+msgid "To correct an answer"
+msgstr "Um die Antwort zu korregieren"
+
+msgctxt "Tcanvas|"
+msgid "To see corrected answer"
+msgstr "Um die richtige Antwort zu sehen"
+
+msgctxt "Tcanvas|"
+msgid "To check the answer confirm it:"
+msgstr "Um die Antwort zu Bestätigen auswählen:"
+
+#, qt-format
+msgctxt "Tcanvas|"
+msgid "Check in exam help %1 how to do it automatically"
+msgstr "Guck in die Prüfungshilfe %1 um zu sehen wie es automatisch geht"
+
+msgctxt "Tcanvas|"
+msgid "too low"
+msgstr "zu tief"
+
+msgctxt "Tcanvas|"
+msgid "too high"
+msgstr "zu hoch"
+
+msgctxt "Tcanvas|"
+msgid "To try this melody again"
+msgstr "um die Melodie noch einmal zu wiederholen"
+
+msgctxt "Tcanvas|"
+msgid "To see some hints"
+msgstr "um Hinweise anzuzeigen"
+
+msgctxt "Tcanvas|"
+msgid "Select any note to play it again."
+msgstr "Wähle eine Note um sie erneut zu spielen."
+
+msgctxt "Tcanvas|"
+msgid "You are exercising on level"
+msgstr "Du übst auf Level"
+
+msgctxt "Tcanvas|"
+msgid "Exam started on level"
+msgstr "Prüfung beginnt auf Level"
+
+msgctxt "Tcanvas|"
+msgid "Click incorrect notes to see<br>and to listen to them corrected."
+msgstr ""
+"Klicke auf eine falsch gespielte Note um sie zu sehen <br> und den korrekten "
+"Ton zu hören."
+
+msgctxt "Tclef|"
+msgid "treble"
+msgstr "Violinschlüssel"
+
+msgctxt "Tclef|"
+msgid "treble dropped"
+msgstr "nach unten oktavierender Violinschlüssel"
+
+msgctxt "Tclef|"
+msgid "bass"
+msgstr "Bassschlüssel"
+
+msgctxt "Tclef|"
+msgid "bass dropped"
+msgstr "nach unten oktavierender Bassschlüssel"
+
+msgctxt "Tclef|"
+msgid "alto"
+msgstr "Altschlüssel"
+
+msgctxt "Tclef|"
+msgid "tenor"
+msgstr "Tenorschlüssel"
+
+msgctxt "Tclef|"
+msgid "grand staff"
+msgstr "Akkolade"
+
+msgctxt "Tclef|"
+msgid "clef G"
+msgstr "G-Schlüssel"
+
+msgctxt "Tclef|"
+msgid "clef G dropped octave down"
+msgstr "nach unten oktavierender G-Schlüssel"
+
+msgctxt "Tclef|"
+msgid "clef F"
+msgstr "F-Schlüssel"
+
+msgctxt "Tclef|"
+msgid "clef F dropped octave down"
+msgstr "nach unten oktavierender F-Schlüssel"
+
+msgctxt "Tclef|"
+msgid "clef C"
+msgstr "C-Schlüssel"
+
+msgctxt "Tclef|"
+msgid "treble and bass clefs"
+msgstr "Violin- und Bassschlüssel"
+
+msgctxt "Texam|"
+msgid "play melody"
+msgstr "Spiele Melodie"
+
+msgctxt "Texam|"
+msgid "write melody"
+msgstr "Schreibe Melodie"
+
+msgctxt "Texam|"
+msgid "attempt"
+msgstr "Versuch"
+
+# 1 Versuch, 2 Versuche
+#, qt-format
+msgctxt "Texam|like: '1 attempt' or '121 attempts'"
+msgid "%n attempt(s)"
+msgid_plural "%n attempt(s)"
+msgstr[0] "%n Versuch(e)"
+msgstr[1] "%n Versuche"
+
+# need more context what score means. Is it the musical notation?
+msgctxt "Texam|"
+msgid "Play a melody written in a score"
+msgstr "Spiele eine Melodie nach Noten"
+
+msgctxt "Texam|"
+msgid "Listen to a melody and write it on a score"
+msgstr "Höre eine Melodie und schreibe sie in die Notation"
+
+msgctxt "TexamExecutor|"
+msgid ""
+"<b>Exam file seems to be corrupted</b><br>Better start new exam on the same "
+"level"
+msgstr ""
+"<b>Prüfungsdatei scheint beschädigt zu sein</b><br>Beginn lieber eine neue "
+"Prüfung im selben Level"
+
+#, qt-format
+msgctxt "TexamExecutor|"
+msgid ""
+"File: %1 \n"
+" is not valid exam file!"
+msgstr ""
+"Datei: %1 \n"
+" ist keine gültige Prüfungsdatei!"
+
+#, qt-format
+msgctxt "TexamExecutor|"
+msgid ""
+"Level <b>%1</b><br>makes no sense because there are no questions to "
+"ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again."
+msgstr ""
+"Level <b>%1</b><br>ergibt keinen Sinn, da es keine Fragen enthält.<br>Es "
+"kann neu eingestellt werden.<br>Reparier es im Level Creator und versuch es "
+"nochmal."
+
+msgctxt "TexamExecutor|"
+msgid "Give an answer first!<br>Then the exam will end."
+msgstr "Gib zuerst eine Antwort!<br>Dann wird die Prüfung beendet."
+
+msgctxt "TexamExecutor|"
+msgid "Such a pity."
+msgstr "Wie schade."
+
+msgctxt "TexamExecutor|"
+msgid "Save exam results as:"
+msgstr "Speichere Prüfungsergebnisse als:"
+
+msgctxt "TexamExecutor|"
+msgid "If you don't save to file<br>you lost all results!"
+msgstr "Wenn du nicht die Datei speicherst<br>verlierst du alle Ergebnisse!"
+
+msgctxt "TexamExecutor|"
+msgid "Exercises with Nootka"
+msgstr "Übungen mit Nootka"
+
+msgctxt "TexamExecutor|"
+msgid "finish exercising"
+msgstr "Übung Beenden"
+
+msgctxt "TexamExecutor|"
+msgid "EXAM!"
+msgstr "PRÜFUNG!"
+
+msgctxt "TexamExecutor|"
+msgid "stop the exam"
+msgstr "Prüfung Abbrechen"
+
+#~ msgctxt "TexamExecutor|"
+#~ msgid ""
+#~ "Psssst... Exam is going.<br><br><b>Continue</b> "
+#~ "it<br>or<br><b>Terminate</b> to check, save and exit<br>"
+#~ msgstr ""
+#~ "Psssst... Prüfung "
+#~ "läuft.<br><br><b>Prüfung</b>Fortsetzen<br>oder<br><b>Abbrechen</b>zum "
+#~ "Bestätigen, speichern und beenden<br>"
+
+#~ msgctxt "TexamExecutor|"
+#~ msgid "Continue"
+#~ msgstr "Fortfahren"
+
+#~ msgctxt "TexamExecutor|"
+#~ msgid "Terminate"
+#~ msgstr "Abbrechen"
+
+#~ msgctxt "TexamExecutor|"
+#~ msgid "Save"
+#~ msgstr "Speichern"
+
+#~ msgctxt "TexamExecutor|"
+#~ msgid "Discard"
+#~ msgstr "Verwerfen"
+
+msgctxt "TexamExecutor|"
+msgid "This note was not played!"
+msgstr "Diese Note wurde nicht gespielt!"
+
+#, qt-format
+msgctxt "TexamExecutor|"
+msgid ""
+"Psssst... Exam is going.<br><br>Select <b>%1</b> to check, save and "
+"exit<br>or <b>%2</b> to continue.<br>"
+msgstr ""
+"Psssst... Die Prüfung läuft.<br><br>Wähle <b>%1</b> aus zum Prüfen, Sichern "
+"und Beenden<br>oder <b>%2</b> um weiter zu machen.<br>"
+
+msgctxt "TexamHelp|"
+msgid ""
+"When your exercising will go well Nootka will suggest you to start an exam."
+msgstr "Wenn deine Übung gut läuft, wird dir Nootka eine Prüfung vorschlagen."
+
+msgctxt "TexamHelp|"
+msgid ""
+"Exams can be saved to files and continued later. Moreover, exam files can be "
+"opened to analyze."
+msgstr ""
+"Prüfungen werden in Dateien gespeichert und später fortgesetzt. Außerdem "
+"können Prüfungsdatein zur Auswertung der Prüfung geöffnet werden."
+
+msgctxt "TexamHelp|"
+msgid ""
+"Exam will be completed when you give answers to all questions.<br>The number "
+"of questions depends on the level of the exam."
+msgstr ""
+"Die Prüfung ist Abgeschlossen, wenn du alle Fragen beantwortet hast.<br>Die "
+"Anzahl der Fragen hängt vom Level der Prüfung ab."
+
+msgctxt "TexamHelp|"
+msgid ""
+"If you make a mistake, the question will asked two more times and the total "
+"number of questions will be increased. These are penalty questions."
+msgstr ""
+"Wenn du einen Fehler machst, wird die Frage noch einmal wiederholt und die "
+"Gesamtzahl der Fragen wird erhöht. Das sind zusätzliche Wiederholungsfragen."
+
+msgctxt "TexamHelp|"
+msgid "When answer is 'not bad', you get one penalty more."
+msgstr ""
+"Wenn die Antwort \"Nicht schlecht\" war, bekommst du eine zusätzliche Frage."
+
+msgctxt "TexamHelp|"
+msgid "How does an exercise or an exam work?"
+msgstr "Wie funktioniert eine Übung oder eine Prüfung?"
+
+msgctxt "TexamHelp|"
+msgid " Briefly: Nootka give you a question and you give an answer..."
+msgstr " Kurz: Nootka gibt eine Frage vor und du beantwortest sie ..."
+
+msgctxt "TexamHelp|"
+msgid "Questions are marked with this color and \"?\" mark."
+msgstr "Fragen werden mit dieser Farbe und \"?\" gekennzeichnet."
+
+#, qt-format
+msgctxt "TexamHelp|"
+msgid ""
+"To give an answer, select it on <span style=\"%1\">Nootka's element with "
+"that color.</span><br>"
+msgstr ""
+"Wähle die Antwort in dem<span style=\"%1\">Nootka Element mit dieser "
+"Farbe.</span><br>"
+
+msgctxt "TexamHelp|"
+msgid "Exercises"
+msgstr "Übungen"
+
+msgctxt "TexamHelp|"
+msgid ""
+"If you made a mistake during an exercise, Nootka can show you correct "
+"answer. To see it:"
+msgstr ""
+"Wenn du einen Fehler in der Übung machst, wird dir Nootka die richtige "
+"Antwort zeigen. Um sie zu sehen:"
+
+#, qt-format
+msgctxt "TexamHelp|"
+msgid ""
+"You can every time click button %1 to pause or stop exercising and to see "
+"your results."
+msgstr ""
+"Du kannst jederzeit den %1 Button drücken um die Übung zu unterbrechen und "
+"die Ergebnisse zu sehen."
+
+msgctxt "TexamHelp|"
+msgid "Exams"
+msgstr "Prüfungen"
+
+msgctxt "TexamHelp|"
+msgid ""
+"If you made a mistake during an exam and you want to repeat the question:"
+msgstr ""
+"Wenn du einen Fehler in der Prüfung gemacht hast und die Frage wiederholen "
+"möchtest:"
+
+msgctxt "TexamHelp|"
+msgid "GOOD LUCK!"
+msgstr "VIEL GLÜCK!"
+
+msgctxt "TexamHelp|"
+msgid "To check the answer confirm it:"
+msgstr "Um die Antwort Prüfen Bestätigen:"
+
+msgctxt "TexamHelp|"
+msgid "or right mouse button"
+msgstr "oder rechte Maustaste"
+
+#, qt-format
+msgctxt "TexamHelp|"
+msgid "click %1 button"
+msgstr "%1 Button klicken"
+
+msgctxt "TexamHelp|"
+msgid "To get question"
+msgstr "Um eine Frage zu bekommen"
+
+msgctxt "TexamHelp|"
+msgid "press <b>space</b> key"
+msgstr "<b>space</b> Taste drücken"
+
+msgctxt "TexamHelp|"
+msgid "press <b>Enter</b> key"
+msgstr "drücke die <b>Enter</b> Taste"
+
+msgctxt "TexamHelp|"
+msgid "or press <b>Enter</b> key"
+msgstr "oder drücke die <b>Enter</b> Taste"
+
+msgctxt "TexamHelp|"
+msgid "or <b>Backspace</b> key"
+msgstr "oder drücke die <b>Backspace</b> Taste"
+
+#, qt-format
+msgctxt "TexamHelp|"
+msgid "Click %1 button to stop."
+msgstr "Klick %1 Button zum Anhalten."
+
+msgctxt "TexamHelp|"
+msgid "Settings"
+msgstr "Einstellungen"
+
+msgctxt "TexamHelp|"
+msgid ""
+"Just click this settings button to adjust an exercise or an exam to your "
+"current needs."
+msgstr ""
+"Klicke den Einstellungs-Button um die Übung auf deine Bedürfnisse anzupassen."
+
+msgctxt "TexamHelp|"
+msgid "check answers without requiring confirmation"
+msgstr "wählt die Frage ohne sie noch einmal zu bestätigen"
+
+msgctxt "TexamHelp|"
+msgid "correct mistakes (exercises only)"
+msgstr "berichtige Fehler (nur in Übung)"
+
+msgctxt "TexamHelp|"
+msgid "ask next question automatically"
+msgstr "stelle nächste Frage automatisch"
+
+#, qt-format
+msgctxt "TexamHelp|tap <icon image follows>"
+msgid "tap %1"
+msgstr "Tippe auf %1"
+
+#, qt-format
+msgctxt "TexamHelp|click <icon-image> to stop (exam or exercise)"
+msgid "Click %1 to stop."
+msgstr "Klick auf %1 zum Anhalten."
+
+msgctxt "TexamSettings|"
+msgid ""
+"When you will make mistake, the program will show you automatically how a "
+"correct answer should be."
+msgstr ""
+"Wenn du einen Fehler machst, wird dir das Programm automatisch zeigen, wie "
+"die richtige Antwort sein sollte."
+
+msgctxt "TexamSettings|"
+msgid "suggest an exam"
+msgstr "Prüfung vorschlagen"
+
+msgctxt "TexamSettings|"
+msgid ""
+"Preview time of corrected answer when next question is asked automatically."
+msgstr ""
+"Vorschau der berichtigten Antwort, wenn die nächte Frage automatisch gefragt "
+"wird."
+
+msgctxt "TexamSettings|"
+msgid "Delay before every next question when it is asked automatically."
+msgstr ""
+"Verzögerung vor jeder neuen Frage, wess sie automatisch gestellt werden."
+
+msgctxt "TexamSettings|"
+msgid "A time of displaying incorrect answers."
+msgstr "Zeit um Falsche Antworten anzuzeigen."
+
+msgctxt "TexamSettings|"
+msgid ""
+"Watch exercising progress and when it is going well, suggest to start an "
+"exam on the exercise level."
+msgstr ""
+"Beobachte den Übungsfortschritt und wenn es gut läuft, wird eine Prüfung in "
+"diesem Level vorgeschlagen."
+
+msgctxt "TexamSettings|"
+msgid "show wrong played"
+msgstr "Zeige falsch gespielte"
+
+msgctxt "TexamSettings|"
+msgid ""
+"When answer was played (or sung) and it was wrong also the detected wrong "
+"note is shown."
+msgstr ""
+"Wenn die Antwort gepielt (oder gesungen) ist und falsch erfasst wurde, wird "
+"die Note gezeigt."
+
+msgctxt "TexamSettings|"
+msgid "repeat a question"
+msgstr "Wiederhole eine Frage"
+
+msgctxt "TexamSettings|"
+msgid "A question with an incorrect answer will be asked once again."
+msgstr "Eine Frage mit falscher Antwort wird nocheinmal gefragt."
+
+msgctxt "TexamSettings|"
+msgid "close without confirm"
+msgstr "Schließen ohne Bestätigung"
+
+#, qt-format
+msgctxt "TexamSettings|"
+msgid ""
+"If checked, an application will not ask to answer pending question just mark "
+"it as wrong, save an exam to file (in directory: %1) and close itself "
+"without any confirmation needed."
+msgstr ""
+"Bei Auswahl, wird die Anwendung nicht auf die anstehenden Antwort der Frage "
+"warten, sondern sie als Falsch markieren. Speichere Prüfung in Datei (im "
+"Verzeichnis: %1) und schließe Anwendung ohne Bestätigung."
+
+msgctxt "TexamSettings|"
+msgid "Student Name:"
+msgstr "Name des Schülers:"
+
+msgctxt "TexamSettings|"
+msgid "Default name for every new exam or exercise."
+msgstr "Standard Name für jede neue Prüfung oder Übung."
+
+msgctxt "TexamSettings|"
+msgid "questions"
+msgstr "Fragen"
+
+msgctxt "TexamSettings|"
+msgid "color of questions"
+msgstr "Farbe der Fragen"
+
+msgctxt "TexamSettings|"
+msgid "color of wrong answers"
+msgstr "Farbe der falschen Antworten"
+
+msgctxt "TexamSettings|"
+msgid "answers"
+msgstr "Antworten"
+
+msgctxt "TexamSettings|"
+msgid "color of answers"
+msgstr "Farbe der Antworten"
+
+msgctxt "TexamSettings|"
+msgid "'not bad'"
+msgstr "\"nicht schlecht\""
+
+msgctxt "TexamSettings|"
+msgid "color of 'not bad' answers"
+msgstr "Farbe von \"nicht schlecht\" Antworten"
+
+msgctxt "TexamSettings|"
+msgid "after mistake:"
+msgstr "nach Fehler:"
+
+msgctxt "TexamSettings|"
+msgid "continue"
+msgstr "fortfahren"
+
+msgctxt "TexamSettings|"
+msgid "wait"
+msgstr "warten"
+
+msgctxt "TexamSettings|"
+msgid "stop"
+msgstr "Beenden"
+
+msgctxt "TexamSettings|"
+msgid ""
+"When <b>'ask next question automatically'</b> is checked and you commit a "
+"mistake, the program can: <b>continue asking immediately</b>, <b>wait "
+"defined period of time</b> or <b>stop questioning</b>, to give you "
+"possibility to analyze what was wrong."
+msgstr ""
+"Wenn <b>'nächste Frage automatisch stellen'</b> ausgewählt ist und du einen "
+"Fehler machst, kann das Programm: <b>sofort die nächste Frage stellen</b>, "
+"<b>eine bestimmte Zeit warten</b> oder <b>aufhören zu fragen</b>, um dir die "
+"Möglichkeit zu geben, den Fehler zu entdecken."
+
+msgctxt "TexamSettings|"
+msgid "extra names"
+msgstr "zusätzliche Namen"
+
+msgctxt "TexamSettings|"
+msgid ""
+"To improve association of note in the score or position on the guitar to "
+"note name, Nootka will display names even if neither question nor answer is "
+"related to it."
+msgstr ""
+"Um die Verknüpfung der Notennamen mit der Notation oder der Position auf der "
+"Gitarre zu verbessern, wird Nootka die Namen ,unabhängig von der "
+"Frage.anzeigen."
+
+msgctxt "TexamSettings|"
+msgid "colors"
+msgstr "Farben"
+
+msgctxt "TexamSettings|"
+msgid "exercises"
+msgstr "Übungen"
+
+msgctxt "TexamSettings|"
+msgid "exams"
+msgstr "Prüfungen"
+
+msgctxt "TexamSummary|"
+msgid "Exam results"
+msgstr "Prüfungsergebnisse"
+
+msgctxt "TexamSummary|"
+msgid "student:"
+msgstr "Schüler:"
+
+msgctxt "TexamSummary|"
+msgid "times:"
+msgstr "Zeigen:"
+
+msgctxt "TexamSummary|"
+msgid "Number of questions:"
+msgstr "Anzahl der Fragen:"
+
+msgctxt "TexamSummary|"
+msgid "Time taken to answer"
+msgstr "Antwortzeit"
+
+#~ msgctxt "TexamSummary|"
+#~ msgid "Close"
+#~ msgstr "Schließen"
+
+#~ msgctxt "TexamSummary|"
+#~ msgid "Continue"
+#~ msgstr "Fortfahren"
+
+#~ msgctxt "TexamSummary|"
+#~ msgid "Discard"
+#~ msgstr "Verwerfen"
+
+msgctxt "TexamSummary|"
+msgid "Results:"
+msgstr "Ergebnisse:"
+
+msgctxt "TexamSummary|"
+msgid "Kinds of mistakes"
+msgstr "Fehlerarten"
+
+msgctxt "TexamSummary|"
+msgid "Wrong notes"
+msgstr "Falsche Noten"
+
+msgctxt "TexamSummary|"
+msgid "Wrong accidentals"
+msgstr "Falsche Vorzeichen"
+
+msgctxt "TexamSummary|"
+msgid "Wrong key signatures"
+msgstr "Falsche Generalvorzeichen"
+
+msgctxt "TexamSummary|"
+msgid "Wrong octaves"
+msgstr "Falsche Oktaven"
+
+msgctxt "TexamSummary|"
+msgid "Wrong note names"
+msgstr "Falsche Notennamen"
+
+msgctxt "TexamSummary|"
+msgid "Out of tune"
+msgstr "falsche Intonation"
+
+msgctxt "TexamSummary|"
+msgid "Progress of exercises"
+msgstr "Fortschritt der Übung"
+
+msgctxt "TexamSummary|"
+msgid "Pass an exam"
+msgstr "Eine Prüfung ablegen"
+
+msgctxt "TexamSummary|"
+msgid "Finish exercise and pass an exam on this level."
+msgstr "Beende Übung und belege eine Prüfung in diesem Level."
+
+msgctxt "TexamSummary|"
+msgid "Finish this exercise"
+msgstr "Diese Übung Beenden"
+
+msgctxt "TexamSummary|"
+msgid "Wrong positions on guitar"
+msgstr "Falsche Lage auf der Gitarre"
+
+msgctxt "TexamSummary|"
+msgid "Wrong strings"
+msgstr "Falsche Saiten"
+
+msgctxt "TexamSummary|"
+msgid "Analyze"
+msgstr "Statistik"
+
+msgctxt "TexamSummary|"
+msgid "Send exam file"
+msgstr "Sende Prüfungsdatei"
+
+msgctxt "TexamView|"
+msgid "[in seconds]"
+msgstr "[in Sekunden]"
+
+msgctxt "TexamView|"
+msgid "Number of mistakes"
+msgstr "Anzahl der Fehler"
+
+msgctxt "TexamView|"
+msgid "Average time taken to answer"
+msgstr "Durchschnittliche Antwortzeit"
+
+msgctxt "TexamView|"
+msgid "Time for an answer"
+msgstr "Zeit für Antwort"
+
+msgctxt "TexamView|"
+msgid "Total time"
+msgstr "Gesamtzeit"
+
+msgctxt "TexamView|"
+msgid "Number of correct answers"
+msgstr "Richtige Antworten\n"
+
+msgctxt "TexamView|"
+msgid "Effectiveness"
+msgstr "Effektivität"
+
+msgctxt "TexamView|"
+msgid "'Not bad' answers"
+msgstr "\"nicht schlecht\" Antworten"
+
+msgctxt "TexamView|"
+msgid "(counted as half of a mistake)"
+msgstr "(als halber Fehler gewertet)"
+
+msgctxt "TexamView|"
+msgid "Exam results"
+msgstr "Prüfungsergebnisse"
+
+msgctxt "TexamView|"
+msgid "Effectiveness of whole exam (and effectiveness of current question)."
+msgstr "Effektivität des gesamten Übung (und der aktuellen Frage)."
+
+msgctxt "TexecutorSupply|"
+msgid "Instrument type was changed!"
+msgstr "Instrumententyp wurde geändert!"
+
+msgctxt "TexecutorSupply|"
+msgid "Tuning of the guitar was changed to:"
+msgstr "Stimmung der Gitarre wurde geändert zu:"
+
+msgctxt "TexecutorSupply|"
+msgid "Guitar fret number was changed!"
+msgstr "Anzahl der Bünde wurde geändert!"
+
+msgctxt "TexpertAnswerHelp|"
+msgid "Experts mode"
+msgstr "Expertenmodus"
+
+msgctxt "TexpertAnswerHelp|"
+msgid ""
+"You are about to enter expert mode.<br> In this mode you don't need to "
+"confirm every answer,<br><b>but remember the following:"
+msgstr ""
+"Du startest im Expertenmodus.<br> In diesem Modus musst du nicht jede "
+"Antwort bestätigen,<br><b>aber merk dir folgendes:"
+
+msgctxt "TexpertAnswerHelp|"
+msgid ""
+"Selecting a note on the score or a position on the fingerboard invokes "
+"automatic checking of your answer, so select a key signature first, if "
+"required."
+msgstr ""
+"Auswählen einer Note in der Notenschrift oder auf dem Griffbrett führt zu "
+"einer atomatischen Bestätigung der Antwort, also muss zuerst das Vorzeichen "
+"ausgewählt werden."
+
+msgctxt "TexpertAnswerHelp|"
+msgid ""
+"When an answer is the name of a note <b>first select a proper accidental and "
+"an octave</b> and then click a note button - this automatically invokes "
+"checking."
+msgstr ""
+"Wenn die Antwort aus einem Notennamen besteht,<b>wähle zuerst das Vorzeichen "
+"und die Oktave aus</b> und dann klicken auf den Notenbutton - dadurch wird "
+"die Antwort automatisch ausgewählt."
+
+msgctxt "TexpertAnswerHelp|"
+msgid ""
+"When you have to play a note as an answer - the first detected sound will be "
+"taken, so be sure that your input device captures exactly what you want."
+msgstr ""
+"Wenn du als Antwort einen Ton spielen musst, wird der erste Ton bewertet "
+"also stell sicher das dein Eingabegerät genau das erfasst, was du möchtest."
+
+msgctxt "TexpertAnswerHelp|"
+msgid "Always remind me about this"
+msgstr "Erinnere mich immer daran"
+
+# show stats after the last note of the question?
+# No!!!!
+# Check answer just after last note of melody was played.
+msgctxt "TexpertAnswerHelp|"
+msgid ""
+"When the last note of question that is a melody was played - checking starts."
+msgstr ""
+"Sobald die letzte Note der zu spielenden Melodie erklingt, beginnt die "
+"Kontrolle."
+
+msgctxt "TfileDialog|"
+msgid "Memory card"
+msgstr "Speicherkarte"
+
+#, qt-format
+msgctxt "TfileDialog|"
+msgid ""
+"Directory named <b>Nootka</b> will be created in<br>%1<br>Application files "
+"will be written there."
+msgstr ""
+"Das Verzeichnis mit dem Namen <b>Nootka</b> wird in <br>%1<br> erstellt. "
+"Dort werden die Dateien der Applikation abgelegt."
+
+msgctxt "TfingerBoard|"
+msgid "Select a string or fret and click to see it on the staff."
+msgstr ""
+"Wähle eine Saite oder einen Bund aus um ihn in der Notenschrift zu sehen."
+
+msgctxt "TfingerBoard|"
+msgid "This note is beyond the scale of the guitar!"
+msgstr "Dieser Ton ist außerhalb des Bereiches der Gitarre!"
+
+msgctxt "TfirstRunWizard|"
+msgid "First run wizard"
+msgstr "Wizard für den ersten Start"
+
+msgctxt "TfirstRunWizard|"
+msgid "What instrument do you play?"
+msgstr "Welches Instrument spielst du?"
+
+msgctxt "TfirstRunWizard|"
+msgid ""
+"When writing notation for bass guitar, the <b>bass clef</b> is used but the "
+"played notes sound an octave lower. The proper clef is <b>bass dropped "
+"clef</b> (with the digit \"eight\" written below) In this clef, the notes "
+"sound exactly as written. This clef is used in Nootka for bass guitar."
+msgstr ""
+"Bei der Notation für die Bassgitarre, wird der <b>Bassschlüssel</b> "
+"verwendet aber die gespielten Töne sind eine Oktave tiefer. Der richtige "
+"Schlüssel ist der<b>nach unten oktavierende Basschlüssel</b> (mit einer "
+"kleinen 8 darunter) Mit diesem Schlüssel, klingen die Töne genau, wie sie "
+"geschrieben sind. Dieser Schlüssel wird in Nootka für die Basgitarre "
+"verwendet."
+
+#, qt-format
+msgctxt "TfirstRunWizard|"
+msgid ""
+"Guitar notation uses the treble clef with the digit \"eight\" written below "
+"(even if some editors are forgetting about this digit).<br><br>Try to "
+"understand this. <br><br><p> %1 %2<br><b><big>Both pictures above show the "
+"same note: c<sup>1</sup></big></b><br>(note c in one-line octave)</p>"
+msgstr ""
+"Die Notation für die Gitarre nutzt den oktavierenden Violinschlüssel mit "
+"einer kleinen 8 darunter (das wird von einigen Herausgebern "
+"vergessen).<br><br>Versuch dich darin hineinzudenken.<br><br><p> %1 "
+"%2<br><b><big>Beide oberen Bilder zeigen den gleichen Ton: "
+"c<sup>1</sup></big></b><br>(Ton c in eingestrichener Oktave)"
+
+msgctxt "TglobalSettings|"
+msgid "Application language"
+msgstr "Sprache der Anwendung"
+
+msgctxt "TglobalSettings|"
+msgid ""
+"Select a language.<br><span style=\"color: red;\">To take effect, this "
+"requires restarting the application!</span>"
+msgstr ""
+"Wähle eine Sprache aus.<br><span style=\"color: red;\">Damit die Einstellung "
+"aktiv werden, muss das Programm neu gestartet werden!</span>"
+
+msgctxt "TglobalSettings|"
+msgid "Restore all default settings"
+msgstr "Standarteinstellungen wiederherstellen"
+
+msgctxt "TglobalSettings|"
+msgid "default"
+msgstr "standard"
+
+msgctxt "TglobalSettings|"
+msgid "Check for updates"
+msgstr "Nach Updates suchen"
+
+msgctxt "TglobalSettings|"
+msgid ""
+"All settings will be reset to their default values!<br>Nootka will start up "
+"with the first-run wizard."
+msgstr ""
+"Alle Einstellungen werden wieder auf die Standardwerte gesetzt!<br>Nootka "
+"wird wieder mit dem Einstellungsassistenten starten."
+
+msgctxt "TgraphicsLine|"
+msgid "progress line"
+msgstr "Fortschrittslinie"
+
+msgctxt "TgraphicsLine|"
+msgid "descending - you are progressing better"
+msgstr "absteigend - dein Fortschritt wird besser"
+
+msgctxt "TgraphicsLine|"
+msgid "ascending - you are thinking too much"
+msgstr "aufsteigend - du musst zuviel nachdenken"
+
+msgctxt "TguitarSettings|"
+msgid "number of frets:"
+msgstr "Anzahl der Bünde:"
+
+msgctxt "TguitarSettings|"
+msgid "number of strings:"
+msgstr "Anzahl der Saiten:"
+
+msgctxt "TguitarSettings|"
+msgid "tuning of the guitar"
+msgstr "Stimmung der Gitarre"
+
+msgctxt "TguitarSettings|"
+msgid "scale of an instrument"
+msgstr "Tonleiter von einem Instrument"
+
+msgctxt "TguitarSettings|"
+msgid "Select appropriate tuning from the list or prepare your own."
+msgstr ""
+"Wählei eine geeignete Stimmung aus der Liste oder erstelle deine eigene."
+
+msgctxt "TguitarSettings|"
+msgid "Remember to select the appropriate clef in Score settings."
+msgstr ""
+"Vergiss nicht den richtigen Schlüssel in den Partitureinstelllungen "
+"auzuwählen."
+
+msgctxt "TguitarSettings|"
+msgid "Instrument"
+msgstr "Instrument"
+
+msgctxt ""
+"TguitarSettings|When translation will be too long try to add '\n"
+"' - line break between words."
+msgid "right-handed players"
+msgstr "Rechtshänder"
+
+msgctxt "TguitarSettings|"
+msgid ""
+"Uncheck this if you are left-handed<br>and your guitar is strung for "
+"left-handed playing (changed string order)"
+msgstr ""
+"Abwählen wenn du linkshändig bist<br>und deine Gitarre für linkshändiges "
+"Spielen besaitet ist (veränderte Saitenanordnung)"
+
+msgctxt "TguitarSettings|"
+msgid "preferred accidentals:"
+msgstr "bevorzugte Vorzeichen:"
+
+msgctxt "TguitarSettings|"
+msgid "Choose which accidentals will be shown on the staff."
+msgstr "Wähle, welche Vorzeichen in der Notation angezeigt werden."
+
+msgctxt "TguitarSettings|"
+msgid "# - sharps"
+msgstr "# - Kreuze"
+
+msgctxt "TguitarSettings|"
+msgid "b - flats"
+msgstr "b - Bes"
+
+msgctxt "TguitarSettings|"
+msgid "show all possibilities of a note"
+msgstr "zeige alle Varianten einer Note"
+
+msgctxt "TguitarSettings|"
+msgid ""
+"As you know, the same note can be played in several places on the "
+"fingerboard.<br>If checked, all of them will be shown."
+msgstr ""
+"Wie du weißt, kann der selbe Ton an verschiedenen Stellen auf dem Griffbrett "
+"gespielt werden.<br>Bei Auswahl, werden alle davon angezeigt."
+
+msgctxt "TguitarSettings|"
+msgid "color of string/fret pointer"
+msgstr "Farbe der Saiten-/Bundanzeige"
+
+msgctxt "TguitarSettings|"
+msgid "color of selected string/fret"
+msgstr "Farbe der/des ausgewälten Saite/Bundes"
+
+msgctxt "TguitarSettings|"
+msgid "Custom tuning"
+msgstr "Benutzerdefinierte Stimmung"
+
+msgctxt "TguitarSettings|"
+msgid ""
+"Put numbers of frets marked with dot. Separate the numbers with comma. Add ! "
+"(exclamation mark) after a number to paint a dot twice."
+msgstr ""
+"Lege die Anzahl der Bünde fest, die mit Punkten markiert sind. Trenne die "
+"Nummern mit Kommas. Schreibe ! (Ausrufezeichen) nach einer Nummer um ein "
+"Punkt einzufügen."
+
+msgctxt "TguitarSettings|or frets with dots/marks"
+msgid "marked frets"
+msgstr "Bünde mit Punkten"
+
+msgctxt "ThelpDialogBase|"
+msgid "Nootka help"
+msgstr "Nootka Hilfe"
+
+msgctxt "ThelpDialogBase|"
+msgid "always show this help window"
+msgstr "diese Hilfefenster immer anzeigen"
+
+msgctxt "TintonationCombo|"
+msgid "intonation accuracy"
+msgstr "Genauigkeit der Intonation"
+
+msgctxt "TintonationCombo|"
+msgid "do not check"
+msgstr "nicht prüfen"
+
+msgctxt ""
+"TintonationCombo|We used to say that gums or teeth are paining when music is "
+"out of tune but it isn't official term."
+msgid "gums pain"
+msgstr "Ohrenfolter"
+
+msgctxt "TintonationCombo|"
+msgid "violinist beginner"
+msgstr "Violinenanfänger"
+
+msgctxt "TintonationCombo|"
+msgid "old strings"
+msgstr "Alte Saiten"
+
+msgctxt "TintonationCombo|"
+msgid "well tuned instrument"
+msgstr "gut gestimmtes Instrument"
+
+msgctxt "TintonationCombo|"
+msgid "perfect"
+msgstr "Perfekt"
+
+# It should be rather plural form.
+# cents???
+msgctxt ""
+"TintonationCombo|unit of measure used for musical intervals. This text "
+"always is used in context: ' ±\t[5, 10, 20, 30] cents ' "
+msgid "cents"
+msgstr "Cent"
+
+msgctxt "TlaySettings|"
+msgid "tool bar"
+msgstr "Werkzeugleiste"
+
+msgctxt "TlaySettings|"
+msgid "auto hide"
+msgstr "automatisch verbergen"
+
+msgctxt "TlaySettings|"
+msgid "text under icons"
+msgstr "Text unter Icons"
+
+msgctxt "TlaySettings|"
+msgid "icons only"
+msgstr "nur Icons"
+
+msgctxt "TlaySettings|"
+msgid "text only"
+msgstr "nur Text"
+
+msgctxt "TlaySettings|"
+msgid "hints"
+msgstr "Hinweise"
+
+msgctxt "TlaySettings|"
+msgid "sound bar"
+msgstr "Tonleiste"
+
+msgctxt "TlaySettings|"
+msgid "There is no Nootka without a score!"
+msgstr "Es gibt kein Nootka ohne Notation!"
+
+msgctxt "TlaySettings|"
+msgid "But you can hide even all the rest of widgets to see a score only."
+msgstr ""
+"Aber du kannst alle anderen Elemente verbergen um nur die Notation zu sehen."
+
+msgctxt "TlaySettings|"
+msgid "guitar"
+msgstr "Gitarre"
+
+msgctxt "TlaySettings|"
+msgid "Show or hide main window elements."
+msgstr "Anzeigen / Verbergen der Elemete des Hauptfensters."
+
+msgctxt "Tlevel|"
+msgid "Grand staff"
+msgstr "Akkolade"
+
+msgctxt "Tlevel|"
+msgid "Guess notes from grand staff in different keys"
+msgstr "Errate die Noten aus verschiedenen Systemen in der Akkolade"
+
+msgctxt "Tlevel|"
+msgid "Bass clef"
+msgstr "Bassschlüssel"
+
+msgctxt "Tlevel|"
+msgid "Play a short and simple melody in bass clef"
+msgstr "Spiele eine kurze einfache Melodie in Bassschlüssel"
+
+msgctxt "Tlevel|"
+msgid "Play grand staff"
+msgstr "Spiele Akkolade"
+
+msgctxt "Tlevel|"
+msgid ""
+"Play random melodies from two staves of piano notation. Keys up to four "
+"accidentals."
+msgstr ""
+"Spiele Zufallsmelodien aus beiden Systemen einer Klavierpartitur. Bis zu "
+"vier Vorzeichen pro Tonlage."
+
+msgctxt "Tlevel|"
+msgid "open strings"
+msgstr "leere Saiten"
+
+msgctxt "Tlevel|"
+msgid ""
+"The simplest. No key signatures, no double accidentals and no "
+"sound.<br>Automatically adjusted to current tune."
+msgstr ""
+"Das Einfachste. Keine Generalvorzeichen, keine Doppelvorzeichen und kein "
+"Ton.<br>Automatische Anpassung an aktuelle Stimmung."
+
+msgctxt "Tlevel|"
+msgid "C-major scale"
+msgstr "C-Dur Tonleiter"
+
+msgctxt "Tlevel|"
+msgid "In first position. No accidentals, no sound.<br>Octave required."
+msgstr "Nur erste Lage. Keine Vorzeichen, kein Ton.<br>Oktaven benötigt."
+
+msgctxt "Tlevel|"
+msgid ""
+"Give note name in C-major scale or show note on the staff knowing its name."
+msgstr ""
+"Notenname aus der C-Dur Tonleiter angeben, oder Ton auf der Notation "
+"anzeigen."
+
+msgctxt "Tlevel|"
+msgid "All to V fret"
+msgstr "Alles bis zum 5. Bund"
+
+msgctxt "Tlevel|"
+msgid ""
+"All chromatic notes till V-th fret, no sound.<br>Without double accidentals. "
+"Key signatures: C, G, D, A"
+msgstr ""
+"Alle Bis zum 5. Bund, kein Ton.<br>Keine Doppelvorzeichen. "
+"Generalvorzeichen: C, G, D, A"
+
+msgctxt "Tlevel|"
+msgid "Ear training"
+msgstr "Gehörtrainig"
+
+msgctxt "Tlevel|"
+msgid ""
+"Listen to a sound and show it on the staff.<br>Guitar, note names and key "
+"signatures are not used.<br>Scale a - a<sup>2</sup>."
+msgstr ""
+"Hör einen Ton und zeige in in der Notation an.<br>Gitarre, Notennamen und "
+"Genralvorzeichen werden nicht verwendet.<br>Tonleiter a - a<sup>2</sup>."
+
+msgctxt "Tlevel|"
+msgid "Melody on trebles"
+msgstr "Melodie in hoher Tonlage"
+
+msgctxt "Tlevel|"
+msgid ""
+"Play short melody on treble strings with notes just on first three frets. "
+"Sharps keys only."
+msgstr ""
+"Spiele kurze Melodie auf den Diskant-Saiten mit Noten in den ersten drei "
+"Bünden. Nur Kreutz-Tonarten."
+
+msgctxt "Tlevel|"
+msgid "Play scores"
+msgstr "Partituren spielen"
+
+msgctxt "Tlevel|"
+msgid ""
+"Take your instrument and just play...<br>No note names, no fretboard. Keys "
+"till 4 accids and double accids enabled! Scale of whole guitar without "
+"positions."
+msgstr ""
+"Nimm dein Instrument und spiel...<br>Keine Notennamen, kein Griffbrett. Bis "
+"zu 4 Vorzeichen und Doppelvorzeichen aktiviert."
+
+msgctxt "Tlevel|"
+msgid "Sing scores"
+msgstr "Partituren singen"
+
+msgctxt "Tlevel|"
+msgid ""
+"Just sing a score...<br>No note names, no fretboard, no keys and double "
+"accids. Scale doesn't matter because octaves are ignored - you can transpose."
+msgstr ""
+"Eine Partitur singen ...<br>Keine Notennamen, kein Griffbrett, keine "
+"Vorzeichen und Doppelvorzeichen. Die Tonleiter spielt keine Rolle weil "
+"Oktaven ignoriert werden - du kannst transponieren."
+
+msgctxt "Tlevel|"
+msgid "Pentatonic"
+msgstr "Fünftonleiter"
+
+msgctxt "Tlevel|"
+msgid ""
+"Play melody composed from pentatonic scale, every time in different key "
+"signature."
+msgstr "Spiele Melodie aus Fünftonleiter, jedes Mal in anderer Tonlage."
+
+msgctxt "TlevelCreatorDlg|"
+msgid "Questions"
+msgstr "Fragen"
+
+msgctxt "TlevelCreatorDlg|"
+msgid "Accidentals"
+msgstr "Vorzeichen"
+
+msgctxt "TlevelCreatorDlg|"
+msgid "Range"
+msgstr "Bereich"
+
+msgctxt "TlevelCreatorDlg|"
+msgid "Check"
+msgstr "Bestätigen"
+
+msgctxt "TlevelCreatorDlg|"
+msgid "Check, Are your settings for the level possible to perform."
+msgstr ""
+"Prüfe, ob deine Einstellungen für dieses Level ausgeführt werden können."
+
+msgctxt "TlevelCreatorDlg|"
+msgid "level not saved!"
+msgstr "Level nicht gespeichert!"
+
+msgctxt "TlevelCreatorDlg|"
+msgid "Level was changed and not saved!"
+msgstr "Level wurde geändert und nicht gespeichert!"
+
+msgctxt "TlevelCreatorDlg|"
+msgid "Save exam level"
+msgstr "Speichere Prüfungslevel"
+
+msgctxt "TlevelCreatorDlg|"
+msgid ""
+"There aren't any questions or answers selected.<br>Level makes no sense."
+msgstr ""
+"Es sind keine Fragen oder Antworten ausgewählt.<br>Das Level ergibt keinen "
+"Sinn."
+
+msgctxt "TlevelCreatorDlg|"
+msgid "<li>Range of frets is beyond the scale of this level</li>"
+msgstr "<li>Der Bundbereich ist außerhalb des Bereichs in diesem Level</li>"
+
+msgctxt "TlevelCreatorDlg|"
+msgid ""
+"<li>In range of notes some accidentals are used<br>but not available in this "
+"level</li>"
+msgstr ""
+"<li>In dem Tonbereich werden einige Versetzungszeichen verwendet<br>sie sind "
+"aber in diesem Level nicht verfügbar</li>"
+
+msgctxt "TlevelCreatorDlg|"
+msgid ""
+"<li>Force appropriate accidental is enabled but any accidental was "
+"selected.</li>"
+msgstr ""
+"<li>Erzwinge Gebrauch von Versetzungszeichen, aber keine Versetzungszeichen "
+"wurden ausgewählt.</li>"
+
+msgctxt "TlevelCreatorDlg|"
+msgid ""
+"<li>Questions and answers as note names will be the same. To avoid that "
+"level has to use flats and sharps and/or double accidentals and/or to use "
+"different name styles.</li>"
+msgstr ""
+"<li>In Fragen und Antworten werden die Notennamen gleich sein, um zu "
+"vermeiden, dass im Level Bes und Kreuze und/oder Doppelversetzungszeichen "
+"und/oder verschiedene Notennamen verwendet werden</li>"
+
+msgctxt "TlevelCreatorDlg|"
+msgid ""
+"<li>'Use different naming styles' was checked but neither questions nor "
+"answers as note name are checked.<br>Check this type of answer/question or "
+"uncheck 'Use different naming styles'.</li>"
+msgstr ""
+"<li>'Verwende verschiedene Notennamen' wurde ausgewählt, aber weder Fragen "
+"noch Antworten mit Notennamen gewählt.<br>Wähle diese Antwort-/Fragetypen "
+"aus oder wähle 'Verwende verschiedene Notennamen' ab.</li>"
+
+msgctxt "TlevelCreatorDlg|"
+msgid ""
+"<li>Questions and answers as notes on the staff will be the same. Manually "
+"selecting keys or forcing accidentals has to be selected to avoid that.</li>"
+msgstr ""
+"<li>Fragen und Antworten zu den Noten auf der Notation sind identisch. "
+"Manuelles auswählen der Tonart oder erzwingen von Vorzeichen muss ausgewählt "
+"werden, um dies zu vermeiden.</li>"
+
+msgctxt "TlevelCreatorDlg|"
+msgid ""
+"<li>Manual selecting of a key signature was checked but answer as note on "
+"the staff was not checked.</li>"
+msgstr ""
+"<li>Manuelle auswahl der Generalvorzeichen wurde gewählt aber die Antwort "
+"Ton auf Notation wurde nicht gewählt.</li>"
+
+#, qt-format
+msgctxt "TlevelCreatorDlg|"
+msgid ""
+"<li>Fret range is not enough to find any note in different positions. At "
+"least <b>%1</b> frets range is required.</li>"
+msgstr ""
+"<li>Der Bundbereich ist nicht groß genug um mehrere Positionen für eine Ton "
+"zu finden. Mindestens <b>%1</b> Bünde werden im Bereich benötigt.</li>"
+
+msgctxt "TlevelCreatorDlg|"
+msgid "Level validation"
+msgstr "Levelüberprüfung"
+
+msgctxt "TlevelCreatorDlg|"
+msgid "<center><b>It seems the level has some mistakes:</b>"
+msgstr "<center><b>Das Level enthält anscheinend Fehler :</b>"
+
+msgctxt "TlevelCreatorDlg|"
+msgid "Cannot open file for writing"
+msgstr "Kann Datei zum schreiben nicht öffnen"
+
+msgctxt "TlevelCreatorDlg|"
+msgid "Level seems to be correct"
+msgstr "Das Level scheint in Ordnung zu sein"
+
+msgctxt "TlevelCreatorDlg|"
+msgid "Levels creator"
+msgstr "Levelcreator"
+
+msgctxt "TlevelCreatorDlg|"
+msgid ""
+"<li>Possible missing a tonic note for some key signatures in selected note "
+"range .</li>"
+msgstr ""
+"<li>Fehlende Tonika für einige Tonarten in dem ausgewählten Tonbereich "
+"möglich.</li>"
+
+msgctxt "TlevelHeaderWdg|"
+msgid "Level name:"
+msgstr "Levelname:"
+
+msgctxt "TlevelHeaderWdg|"
+msgid "new level"
+msgstr "neues Level"
+
+msgctxt "TlevelHeaderWdg|"
+msgid "Level description:"
+msgstr "Levelbeschreibung:"
+
+#~ msgctxt "TlevelHeaderWdg|"
+#~ msgid "OK"
+#~ msgstr "OK"
+
+msgctxt "TlevelPreview|"
+msgid "Level summary:"
+msgstr "Levelzusammenfassung:"
+
+msgctxt "TlevelPreview|"
+msgid "no level selected"
+msgstr "kein Level ausgewählt"
+
+msgctxt "TlevelPreview|"
+msgid "fix an instrument"
+msgstr "Instrument einstellen"
+
+msgctxt "TlevelPreview|"
+msgid "key signature:"
+msgstr "Generalvozeichen:"
+
+msgctxt "TlevelPreview|"
+msgid "accidentals:"
+msgstr "Versetzungszeichen:"
+
+msgctxt "TlevelPreview|"
+msgid "none"
+msgstr "nichts"
+
+msgctxt "TlevelPreview|"
+msgid "proper octave is required"
+msgstr "passende Oktave wird benötigt"
+
+msgctxt "TlevelPreview|"
+msgid "octave does no matter"
+msgstr "Oktave spielt keine Rolle"
+
+msgctxt "TlevelPreview|"
+msgid "Clef"
+msgstr "Schlüssel"
+
+msgctxt "TlevelPreview|"
+msgid "note range:"
+msgstr "Tonbereich:"
+
+msgctxt "TlevelPreview|"
+msgid "fret range:"
+msgstr "Bundbereich:"
+
+#, qt-format
+msgctxt "TlevelSelector|"
+msgid ""
+"Cannot open file\n"
+" %1 \n"
+" for reading"
+msgstr ""
+"Kann Datei zum lesen\n"
+" %1 \n"
+"nicht öffnen"
+
+msgctxt "TlevelSelector|"
+msgid "No file name specified"
+msgstr "Kein Dateiname festgelegt"
+
+msgctxt "TlevelSelector|"
+msgid "Level is not suitable for current tuning and/or fret number"
+msgstr "Level stimmt nicht mit aktueller Stimmung/Anzahl der Bünde überein"
+
+msgctxt "TlevelSelector|"
+msgid "Load"
+msgstr "Lade"
+
+msgctxt "TlevelSelector|"
+msgid "Load level from file"
+msgstr "Lade Level von Datei"
+
+msgctxt "TlevelSelector|"
+msgid "Remove"
+msgstr "Entfernen"
+
+#, qt-format
+msgctxt "TlevelSelector|"
+msgid ""
+"File: %1 \n"
+" is not Nootka level file!"
+msgstr ""
+"Datei: %1 \n"
+" ist keine Nootka Level Datei!"
+
+#, qt-format
+msgctxt "TlevelSelector|"
+msgid ""
+"Level file\n"
+" %1 \n"
+" was corrupted and repaired!\n"
+" Check please, if its parameters are as expected."
+msgstr ""
+"Leveldatei %1 wurde beschädigt und repariert! Bitte überprüfen, ob die "
+"Einstellungen im Level noch stimmen."
+
+msgctxt "TlevelSelector|"
+msgid "Load exam's level"
+msgstr "Lade Prüfungslevel"
+
+msgctxt "TlevelSelector|"
+msgid "Levels"
+msgstr "Level"
+
+msgctxt "TlevelSelector|"
+msgid "Range of notes in the level is beyond the scale of your instrument"
+msgstr "Tonbereich im Level ist außerhalb des Bereichs vom Instrument"
+
+msgctxt "TlevelSelector|"
+msgid "Level is not suitable for current instrument type"
+msgstr "Das Level ist für den aktuellen Instrumententyp nicht geeignet"
+
+msgctxt "TlinearChart|"
+msgid "Key signatures given by user"
+msgstr "Tonart vom Nutzer vorgegeben"
+
+msgctxt "TlinearChart|"
+msgid "for notes without accidentals"
+msgstr "für Noten ohne Vorzeichen"
+
+msgctxt "TlinearChart|"
+msgid "questions unrelated<br>with chart type"
+msgstr "Fragen ohne Beziehung mit Diagrammtyp"
+
+msgctxt "TlinearChart|"
+msgid "without accidentals"
+msgstr "ohne Vorzeichen"
+
+#, qt-format
+msgctxt "TmainHelp|"
+msgid ""
+"Much depends on the chosen level. Press %1 button to create your own "
+"questions set (a level)."
+msgstr ""
+"Viel hängt von den Fragen ab. Drücke den %1 Button um ein Level mit eigenen "
+"Fragen zu erstellen."
+
+msgctxt "TmainHelp|"
+msgid ""
+"Select a level and warm up yourself exercising. Then try to pass an exam."
+msgstr ""
+"Wähle ein Level und währm dich mit Übungen auf. Versuche anschließend eine "
+"Prüfung abzulegen."
+
+msgctxt "TmainHelp|"
+msgid ""
+"You will learn by answering questions. To answer, you can play, sing, put in "
+"the name of a note, and so on."
+msgstr ""
+"Du lernst durch das Beantworten der Fragen. Zum Antworten kannst du spielen, "
+"singen, Notennamen wählen, usw."
+
+#, qt-format
+msgctxt "TmainHelp|"
+msgid ""
+"During exercising %1 the program will be your understanding and friendly "
+"teacher - it will show you corrected answers if you miss."
+msgstr ""
+"Während des Übens %1 wird das Programm ein verständnisvoller und "
+"freundlicher Lehrer sein - es wird dir die richtigen Antworten zeigen, wenn "
+"du einen Fehler machst."
+
+#, qt-format
+msgctxt "TmainHelp|"
+msgid ""
+"During exams %1 Nootka will be your strict and &quot;old school&quot; "
+"master. Any mistake will be penalized with additional questions...<br>When "
+"you pass an exam you got a certificate!"
+msgstr ""
+"Während Prüfungen %1 ist Nootka streng wie ein Lehrer &quot;von der alten "
+"Garde&quot;. Jeder Fehler wird mit einer zusätzlichen Frage "
+"bestraft...<br>Wenn du eine Prüfung bestehst, bekommst du ein Zeugnis!"
+
+msgctxt ""
+"TmainHelp|Don't try to translate the entries in this context/section too "
+"strict, rather use some nice words into your language to describe it. The "
+"statements like '%1' are images(icons) inside the text"
+msgid "Using Nootka may be divided into three stages:"
+msgstr "Die Benutzung von Nootka unterteilt sich in drei Stufen:"
+
+msgctxt "TmainHelp|"
+msgid "I. Discovering"
+msgstr "I. Entdecken"
+
+msgctxt "TmainHelp|"
+msgid ""
+"Exploring the interface of Nootka and how musical scores work. Just click on "
+"elements of the interface to see and get to know Nootka. Also, you can play "
+"or sing if you have a mic or web-cam."
+msgstr ""
+"Kennenlernen der Benutzeroberfläche von Nootka und der Notenschrift. Klicke "
+"einfach auf die verschiedenen Bestandteile der Nootka Oberfläche um deren "
+"Funktionen kennenzulernen. Du kannst auch singen oder spielen, wenn du ein "
+"Mikrofon oder eine Webcam hast."
+
+#, qt-format
+msgctxt "TmainHelp|"
+msgid ""
+"Press %1 buttons to see help and %2 button to adjust Nootka to your "
+"preference."
+msgstr ""
+"Drücke %1 für Hilfe und den %2 Button um Nootka für deine Bedürfnisse "
+"anzupassen."
+
+msgctxt "TmainHelp|"
+msgid "II. Exercises and exams"
+msgstr "II. Übungen und Prüfungen"
+
+msgctxt "TmainHelp|"
+msgid "III. Analyzing"
+msgstr "III. Auswerten"
+
+#, qt-format
+msgctxt "TmainHelp|"
+msgid ""
+"Nootka will tell you about what you've been thinking for so long... and "
+"about the progress you've been making so far....<br>Press %1 button to see "
+"and to analyze the results of your exams, find your weak points, and improve."
+msgstr ""
+"Nootka wird dir zeigen, für welche Fragen du besonders lange brauchst ... "
+"aber auch welche Fortschritte du machst...<br>Drücke %1 um die Ergebnisse "
+"deiner Prüfungen zu sehen und auszuwerten, finde deine Schwachpunkte um dich "
+"zu verbessern."
+
+msgctxt "TmainHelp|"
+msgid "Have fun!"
+msgstr "Viel Spaß!"
+
+msgctxt "TmainView|"
+msgid "score menu"
+msgstr "Partitur Menü"
+
+#~ msgctxt "TmelMan|"
+#~ msgid "Play"
+#~ msgstr "Wiedergabe"
+
+#~ msgctxt "TmelMan|"
+#~ msgid "Record"
+#~ msgstr "Aufnahme"
+
+#~ msgctxt "TmelMan|"
+#~ msgid ""
+#~ "When record is set, not only played notes are written one by one but "
+#~ "either selecting fret or note name adds new note automatically."
+#~ msgstr ""
+#~ "Bei der Aufnahme werden nicht nur die gespilten Noten nacheinander "
+#~ "aufgezeichnet, sondern auch das Auswählen des Bundes oder des Notennamens "
+#~ "fügt automatisch neue Noten hinzu."
+
+msgctxt "TmelMan|"
+msgid "Melody"
+msgstr "Melodie"
+
+msgctxt "TmelMan|"
+msgid "Open, save, generate and play a melody."
+msgstr "Öffnen, speichern, erstellen und abspielen einer Melodie."
+
+msgctxt "TmelMan|"
+msgid "Open melody file"
+msgstr "Öffne Melodie-Datei"
+
+msgctxt "TmelMan|"
+msgid "MusicXML file"
+msgstr "MusicXML Datei"
+
+msgctxt "TmelMan|"
+msgid "Save melody as:"
+msgstr "Speichere Melodie als:"
+
+#~ msgctxt "TmelMan|"
+#~ msgid "Generate"
+#~ msgstr "Erstellen"
+
+msgctxt "TmelMan|"
+msgid "Generate a melody with random notes."
+msgstr "Erstelle eine Melodie aus zufälligen Noten."
+
+msgctxt "TmelMan|"
+msgid "Play melody"
+msgstr "Spiele Melodie"
+
+msgctxt "TmelMan|"
+msgid "Note by note"
+msgstr "Einzelnoten"
+
+msgctxt "TmelMan|"
+msgid ""
+"Notes are written on the score one by one. Either playing, selecting fret or "
+"note name adds a new note to the staff automatically."
+msgstr ""
+"Die Noten werden einzeln auf die Notenzeile gesetzt. Entweder das Spielen "
+"oder die Auswahl von Bund oder Notenname erzeugt automatisch eine neue Note "
+"auf der Notenzeile."
+
+msgctxt "TmelMan|"
+msgid "Generate melody"
+msgstr "Erstellen Melodie "
+
+msgctxt "TmelodySettings|"
+msgid ""
+"Maximum number of notes in a melody. Melody length is random value between "
+"70% and 100% of that number."
+msgstr ""
+"Maximale Anzahl der Noten in einer Melodie. Die Länge der Melodie ist ein "
+"Zufallswert zwischen 70% und 100% dieser Zahl."
+
+msgctxt "TmelodySettings|"
+msgid "Melody length"
+msgstr "Länge der Melodie"
+
+msgctxt "TmelodySettings|"
+msgid "Melody ends on tonic note"
+msgstr "Melodie endet mit der Tonika"
+
+msgctxt "TmelodySettings|"
+msgid ""
+"Determines the last note of a melody.<br>When set, melody will be finished "
+"on tonic note in actual key signature."
+msgstr ""
+"Legt den letzten Ton der Melodie fest.<br>bei Aktivierung wird die Melodie "
+"mit der Tonika der aktuellen Tonart beendet."
+
+msgctxt "TmelodySettings|"
+msgid "in selected range"
+msgstr "im ausgewählten Bereich"
+
+msgctxt "TmelodySettings|"
+msgid "from notes below"
+msgstr "aus den Noten unten"
+
+msgctxt "TmelodySettings|"
+msgid "Melodies are composed from a note range defined on the 'Range' page."
+msgstr ""
+"Melodien bestehen aus Noten in einem Bereich, der in 'Bereich' festgelegt "
+"ist."
+
+msgctxt "TmelodySettings|"
+msgid "Melodies are composed from notes selected on the score below."
+msgstr "Melodien bestehen aus Noten aus der Partitur unten."
+
+msgctxt "TmelodySettings|"
+msgid "Random melody"
+msgstr "Zufallsmelodie"
+
+msgctxt "TnootkaCertificate|2nd line, single indent"
+msgid "Student <big><b>[STUDENT]</b></big> has been awarded the"
+msgstr "Kursteilnehmen <big><b>[STUDENT]</b></big> wird ausgezeichnet mit"
+
+msgctxt "TnootkaCertificate|Main header - centered"
+msgid "<h1>Certificate Of Exam Completion</h1>"
+msgstr "<h1>Zeugnis zur<br>bestandenen Prüfung</h1>"
+
+msgctxt "TnootkaCertificate|top-left corner"
+msgid "<h3>Nootka Academy Of Music</h3>"
+msgstr "<h3>Nootka Hochschule für Musik</h3>"
+
+msgctxt ""
+"TnootkaCertificate|All those entries assembly a certificate. You can adjust "
+"translation to your imagination of it look by manipulating where to put an "
+"entry, using some 'HTML tags: "
+"http://qt-project.org/doc/qt-4.8/richtext-html-subset.html' and using exam "
+"data tags like: [DATE], [STUDENT], [LEVELNAME], [TOTALTIME], [SCORE] and "
+"[QUESTNR]. Single entry can't be adjusted (center, left, right) like in pure "
+"HTML - this is why it is divided. TO OBTAIN CERT PREVIEW IN ANY TIME OF AN "
+"EXAM JUST PRESS: [Shift+Alt+middle-mouse-button] (and don't tell this secret "
+"anybody). Feel free to translate it directly as well. This entry is "
+"displayed at top-right corner of a cert"
+msgid "[DATE]<br><i>date<i>"
+msgstr "[DATE]<br><i>Datum<i>"
+
+msgctxt "TnootkaCertificate|Exam results - double indented, left aligned"
+msgid ""
+"Passing the exam on the level <big><b>[LEVELNAME]</b></big>,<br>having "
+"answered the required [QUESTNR] questions<br>in time "
+"<big><b>[TOTALTIME]</b></big><br>and achieving the score "
+"<big><b>[SCORE]</b></big>"
+msgstr ""
+"In der Prüfung des Levels <big><b>[LEVELNAME]</b></big>,<br>wurden [QUESTNR] "
+"Fragen<br>in einer Zeit von <big><b>[TOTALTIME]</b> "
+"beantwortet,</big><br>mit einer Gesamtpunktzahl von <big><b>[SCORE]</b></big>"
+
+msgctxt "TnootkaCertificate|Under results - single indent"
+msgid ""
+"As a witness to this accomplishment,<br>we hereby award this certificate on "
+"<b>[DATE]</b>."
+msgstr ""
+"Wir beglaubigen hiermit die Prüfungsleistung<br>und verleihen das Zeugnis am "
+"<b>[DATE]</b>."
+
+msgctxt "TnootkaCertificate|Right aligned and centered"
+msgid ""
+"<small><i>examining board:</i><br><i>president:</i><b> Nootka "
+"itself</b><br><b>professor Processor</b> &amp;<br><b>Mrs RAM</b> his "
+"assistant<br><i>secretary:</i><b> Mr Disk</b></small>"
+msgstr ""
+"<small><i>Prüfungskomitee:</i><br><i>Prüfungsvorsitzende:</i><b> Nootka "
+"selbst</b><br><b>Professor Prozessor</b> &amp;<br><b>Herr "
+"Arbeitsspeicher</b> als Assistentin<br><i>Sekretärin:</i><b> Frau "
+"Festplatte</b></small>"
+
+msgctxt "TnootkaCertificate|bottom, centered"
+msgid "<i>stamp</i>"
+msgstr "<i>Stempel</i>"
+
+msgctxt "TnootkaCertificate|"
+msgid "CONGRATULATIONS!<br>You have just passed the exam!"
+msgstr "GLÜCKWUNSCH!<br>Du hast gerade die Prüfung bestanden!"
+
+msgctxt "TnootkaCertificate|"
+msgid "Save this certificate to file in remembrance."
+msgstr "Speichere das Zeugnis als Andenken in eine Datei."
+
+msgctxt "TnootkaCertificate|"
+msgid "You can still play with it and improve effectiveness."
+msgstr "Du kannst damit immernoch üben und die Effektivität erhöhen."
+
+msgctxt "TnootkaCertificate|"
+msgid "Save certificate"
+msgstr "Speichere Zeugnis"
+
+msgctxt "TnotationRadioGroup|"
+msgid "Scandinavian"
+msgstr "skandinavisch"
+
+msgctxt "TnotationRadioGroup|"
+msgid "Italian"
+msgstr "italienisch"
+
+msgctxt "TnotationRadioGroup|"
+msgid "German"
+msgstr "deutsch"
+
+msgctxt "TnotationRadioGroup|"
+msgid "English"
+msgstr "englisch"
+
+msgctxt "TnotationRadioGroup|"
+msgid "Dutch"
+msgstr "niederländisch"
+
+msgctxt "TnotationRadioGroup|"
+msgid "Russian"
+msgstr "russisch"
+
+msgctxt "TnotationRadioGroup|"
+msgid "Naming style"
+msgstr "Notennamen"
+
+msgctxt "TnotationRadioGroup|"
+msgid ""
+"Naming style of note. The main difference is the 7th note.<br>Is it B and B "
+"flat, or H and B?"
+msgstr ""
+"Notenname. Der Hauptunterschied besteht bei der 7ten Note.<br>Ist es B und B "
+"moll, oder H und B?"
+
+msgctxt "TnotationRadioGroup|"
+msgid "letter names"
+msgstr "Buchstabennamen"
+
+msgctxt "TnotationRadioGroup|"
+msgid "solfege names"
+msgstr "Solfègen Namen"
+
+msgctxt "TnoteControl|"
+msgid "Click to add a new note"
+msgstr "Klicken um neue Note hinzuzufügen"
+
+msgctxt "TnoteControl|"
+msgid ""
+"<b>double sharp</b> - raises a note by two semitones (whole tone).<br>On the "
+"guitar it is two frets up."
+msgstr ""
+"<b>Doppelkreuz</b> - erhöht die Note um zwei Halbtöne (einen ganzen "
+"Ton).<br>Auf der Gitarre entspricht das zwei Bünden."
+
+msgctxt "TnoteControl|"
+msgid ""
+"<b>sharp</b> - raises a note by a half tone (semitone).<br>On the guitar it "
+"is one fret up."
+msgstr ""
+"<b>Kreuz</b> - erhöht die Note um einen Halbton.<br>Auf der Gitarre "
+"entspricht das einem Bund."
+
+msgctxt "TnoteControl|"
+msgid ""
+"<b>flat</b> - lowers a note by a half tone (semitone).<br>On the guitar it "
+"is one fret down."
+msgstr ""
+"<b>Be</b> - senkt die Note um einen Halbton.<br>Auf der Gitarre entspricht "
+"das einem Bund."
+
+msgctxt "TnoteControl|"
+msgid ""
+"<b>double flat</b> - lowers a note by two semitones (whole tone).<br>On the "
+"guitar it is two frets down."
+msgstr ""
+"<b>Doppelbe</b> - senkt die Note um zwei Halbtöne (einen ganzen Ton).<br>Auf "
+"der Gitarre entspricht das zwei Bünden."
+
+#, qt-format
+msgctxt "TnoteControl|"
+msgid "Click %1 to remove a note"
+msgstr "Klick %1 um Note zu entfernen"
+
+#, qt-format
+msgctxt "TnoteControl|"
+msgid "Click %1 to edit note name"
+msgstr "Klicke %1 um Notennamen zu ändern"
+
+msgctxt "TnoteName|"
+msgid "Contra"
+msgstr "kontra"
+
+msgctxt "TnoteName|"
+msgid "Great"
+msgstr "groß"
+
+msgctxt "TnoteName|"
+msgid "Small"
+msgstr "klein"
+
+msgctxt "TnoteName|"
+msgid "Sub"
+msgstr "subkontra"
+
+# eingestrichen abbreviation because of limited button size
+msgctxt "TnoteName|"
+msgid "1-line"
+msgstr "eingestr"
+
+# abbreviation because of limited button size
+msgctxt "TnoteName|"
+msgid "2-line"
+msgstr "zweigestr"
+
+# abbreviation because of limited button size
+msgctxt "TnoteName|"
+msgid "3-line"
+msgstr "dreigestr"
+
+# abbreviation because of limited button size
+msgctxt "TnoteName|"
+msgid "4-line"
+msgstr "viergestr"
+
+msgctxt "TnoteName|"
+msgid "Subcontra octave"
+msgstr "Subkontra-Oktave"
+
+msgctxt "TnoteName|"
+msgid "Contra octave"
+msgstr "Kontra-Oktave"
+
+msgctxt "TnoteName|"
+msgid "Great octave"
+msgstr "große Oktave"
+
+msgctxt "TnoteName|"
+msgid "Small octave"
+msgstr "kleine Oktave"
+
+msgctxt "TnoteName|"
+msgid "One-line octave"
+msgstr "eingestrichene Oktave"
+
+msgctxt "TnoteName|"
+msgid "Two-line octave"
+msgstr "zweigestrichene Oktave"
+
+msgctxt "TnoteName|"
+msgid "Three-line octave"
+msgstr "dreigestrichene Oktave"
+
+msgctxt "TnoteName|"
+msgid "Four-line octave"
+msgstr "viergestrichene Oktave"
+
+msgctxt ""
+"TnoteName|You can change this link to article in your language. Leave "
+"quotation matks around the address!"
+msgid ""
+"Click to see what <i>octaves</i> are at "
+"\"http://en.wikipedia.org/wiki/Octave\""
+msgstr ""
+"Klicke um nachzulesen was <i>Oktaven</i>sind auf "
+"\"https://de.wikipedia.org/wiki/Oktave\""
+
+msgctxt "TnoteName|"
+msgid "Octaves"
+msgstr "Oktaven"
+
+msgctxt "TnoteName|"
+msgid "Next note"
+msgstr "Nächste Note"
+
+msgctxt "TnoteName|"
+msgid "Previous note"
+msgstr "Vorherige Note"
+
+msgctxt "TnoteNameSettings|"
+msgid "show octave in name of note"
+msgstr "zeige Oktave im Notennamen"
+
+msgctxt "TnoteNameSettings|"
+msgid ""
+"Shows formatted note name. For small octave - the name is small "
+"letter,<br>for great octave - the name starts with a capital letter,<br>for "
+"one-line, digit <sup>1</sup> is added, and so on."
+msgstr ""
+"Zeigt formatierten Notenname. Für kleine Oktave ist der Buchstabe "
+"klein,<br>für die große Oktave Großbuchstaben,<br>für Eingestrichene wird "
+"eine Stelle <sup>1</sup> hinzugefügt, und so weiter."
+
+msgctxt "TnoteNameSettings|"
+msgid "names highlight color"
+msgstr "Markierfarbe für Namen"
+
+msgctxt "TnoteNameSettings|"
+msgid "note name on the staff"
+msgstr "Notenname in der Notation"
+
+msgctxt "TnoteNameSettings|"
+msgid "Shows names of all notes on the staff."
+msgstr "Zeigt die Namen aller Noten in der Notation."
+
+msgctxt "TouchHelp|"
+msgid ""
+"To edit a note in a score:<br>Touch area about some note and move a finger "
+"to select its pitch.<br>Then take the finger away to add/remove an "
+"accidental or a note.<br>Touch and move again to continue selecting the "
+"pitch.<br>To set the note - tap it quickly again.<br>To scroll the score "
+"with multiple staves - use two fingers."
+msgstr ""
+"Um eine Note in einer Partitur zu ändern, <br>berühre etwas oberhalb einer "
+"Note und bestimme die Tonhöhe durch Verschieben des Fingers.<br>Dann Finger "
+"wegnehmen, um ein Vorzeichen oder eine Note zu setzen oder zu "
+"entfernen.<br>Wieder Berühren/Verschieben um Tonhöhe zu bestimmen.<br>Kurz "
+"Antippen, um Note zu setzen.<br>Mit zwei Fingern durch Partitur mit mehreren "
+"Notenzeilen scrollen."
+
+msgctxt "TouchHelp|"
+msgid "Touch a clef for a while to change it."
+msgstr "Durch längeres Berühren lässt sich der Schlüssel ändern."
+
+msgctxt "TouchHelp|"
+msgid ""
+"Tap a fret you want to select - zoomed preview will appear.<br>You may drag "
+"it right or left to change the fret.<br>Tap desired string on the preview to "
+"set the position."
+msgstr ""
+"Tippe gewählten Bund an und es erscheint eine Nahansicht.<br>Durch Ziehen "
+"nach rechts oder links kannst du einen andern Bund wählen.<br>Tippe auf der "
+"Nahansicht die gewünschte Saite an, um die Position anzugeben."
+
+msgctxt "Tpage_2|"
+msgid "Select a clef and scale of notes appropriate for your instrument."
+msgstr ""
+"Wähle einen geeigneten Schlüssel und eine Tonleiter für dein Instument."
+
+msgctxt "Tpage_3|"
+msgid ""
+"7th note can be B or H, depends on country<br>What is the name of 7th note "
+"in your country?"
+msgstr ""
+"Der 7. Ton kann ein B oder H sein, abhängig vom Land<br>Wie heißt der 7. Ton "
+"in deinem Land?"
+
+msgctxt "Tpage_3|"
+msgid "I know about double sharps (x) and double flats (bb)"
+msgstr "Ich kenne mich mit Doppelkreuzen und Doppelbes aus"
+
+msgctxt "Tpage_3|"
+msgid "I know that e# is the same as f"
+msgstr "Ich weis das eis das gleiche wie f ist"
+
+msgctxt "Tpage_3|"
+msgid "I know about key signatures"
+msgstr "Ich kenne die Generalvorzeichen"
+
+msgctxt ""
+"Tpage_3|Give here a name of 7-th note preferred in your country. But only "
+"'b' or 'h' not 'si' or something worst..."
+msgid "b"
+msgstr "h"
+
+msgctxt ""
+"Tpage_3|DO NOT TRANSLATE IT DIRECTLY. Put here 'letters' or 'solfege' This "
+"is country preferred style of naming key signatures. 'letters' means "
+"C-major/a-minor names ('major' & 'minor' also are translated by you), "
+"'solfege' means Do-major/La-minor names"
+msgid "letters"
+msgstr "letters"
+
+msgctxt "TpitchView|"
+msgid "Intonation - clarity of the sound. Is it in tune."
+msgstr "Intonation - Reinheit des Tons. Ist er gestimmt."
+
+msgctxt "TpitchView|"
+msgid "Click note symbol to change it."
+msgstr "Für Änderung auf Notensymbol klicken."
+
+msgctxt ""
+"TpitchView|Android menu entry, could be 'Note recognition' or 'detection' as "
+"well"
+msgid "Pitch recognition"
+msgstr "Tonhöhenerkennung"
+
+msgctxt "TprogressWidget|"
+msgid "Answered questions"
+msgstr "Beantwortete Fragen"
+
+msgctxt ""
+"TprogressWidget|could be also: 'rest of the questions' or 'remaining "
+"questions'"
+msgid "Unanswered questions"
+msgstr "Restliche Fragen"
+
+msgctxt "TprogressWidget|"
+msgid "penalties"
+msgstr "Strafpunkte"
+
+msgctxt "TprogressWidget|"
+msgid "Total questions in this exam"
+msgstr "Gesamte Anzahl der Fragen in dieser Prüfung"
+
+msgctxt "TprogressWidget|"
+msgid "Progress of the exam"
+msgstr "Fortschritt der Prüfung"
+
+msgctxt "TprogressWidget|"
+msgid "Exam was finished"
+msgstr "Die Prüfung wurde beendet"
+
+msgctxt "TquestionAsWdg|"
+msgid "question"
+msgstr "Frage"
+
+msgctxt "TquestionAsWdg|"
+msgid "questions"
+msgstr "Fragen"
+
+msgctxt "TquestionAsWdg|"
+msgid "answer"
+msgstr "Antwort"
+
+msgctxt "TquestionAsWdg|"
+msgid "answers"
+msgstr "Antworten"
+
+msgctxt "TquestionAsWdg|"
+msgid "as note on the staff"
+msgstr "Ton auf der Notation"
+
+msgctxt "TquestionAsWdg|"
+msgid "as note name"
+msgstr "Notenname"
+
+msgctxt "TquestionAsWdg|"
+msgid "as position on the fingerboard"
+msgstr "Position auf dem Griffbrett"
+
+msgctxt "TquestionAsWdg|"
+msgid "as played sound"
+msgstr "gespielter Ton"
+
+msgctxt "TquestionAsWdg|"
+msgid "Select the type of answers for a question."
+msgstr "Wähle den Antworttyp für die Frage."
+
+#, qt-format
+msgctxt "TquestionTip|"
+msgid "Use %1"
+msgstr "Benutze %1"
+
+msgctxt "TquestionTip|"
+msgid " Don't use accidentals!"
+msgstr " Benutze kene Vorzeichen!"
+
+#, qt-format
+msgctxt "TquestionTip|"
+msgid "on %1 string."
+msgstr "auf %1 Saite."
+
+msgctxt "TquestionTip|"
+msgid "Play"
+msgstr "Spielen"
+
+msgctxt "TquestionTip|"
+msgid "Change enharmonically and show on the staff"
+msgstr "Ändere enharmonisch und zeige Ton auf der Notation"
+
+msgctxt "TquestionTip|"
+msgid "Given note show on the staff"
+msgstr "Zeige den gegebenen Ton auf der Notation"
+
+#, qt-format
+msgctxt "TquestionTip|in key signature"
+msgid "<br><b>in %1 key.</b>"
+msgstr "<br><b>in der Tonart %1.</b>"
+
+msgctxt "TquestionTip|"
+msgid "Give name of"
+msgstr "Notenname von"
+
+msgctxt "TquestionTip|"
+msgid "Show on the guitar"
+msgstr "Zeige auf der Gitarre"
+
+msgctxt "TquestionTip|"
+msgid "Play or sing"
+msgstr "Singe oder spiele"
+
+msgctxt "TquestionTip|"
+msgid "Show on the staff"
+msgstr "Zeige auf der Notation"
+
+msgctxt "TquestionTip|"
+msgid "Change enharmonically and give name of"
+msgstr "Ändere enharmonisch und gib den Namen an"
+
+msgctxt "TquestionTip|"
+msgid "Show on the staff note played on"
+msgstr "Zeige auf der Notation den Ton"
+
+msgctxt "TquestionTip|"
+msgid "Listened sound show on the staff"
+msgstr "Zeige gespielten Ton auf der Notation"
+
+msgctxt "TquestionTip|"
+msgid "Use another style to give name of"
+msgstr "Benutze eine andere Benennung um den Namen anzugeben"
+
+#, qt-format
+msgctxt "TquestionTip|in key signature"
+msgid "<b>in %1 key.</b>"
+msgstr "<br><b>in der Tonart %1.</b>"
+
+msgctxt "TquestionTip|... and string + fret numbers folowing"
+msgid "Show sound from position:"
+msgstr "Zeige den Ton von der Position:"
+
+msgctxt "TquestionTip|"
+msgid "Give name of listened sound"
+msgstr "Gib den Namen des gespielten Tons an"
+
+msgctxt "TquestionTip|"
+msgid "Listened sound show on the guitar"
+msgstr "Zeige die Positions des gespielten Tons auf der Gitarre"
+
+msgctxt "TquestionTip|"
+msgid "Play or sing listened sound"
+msgstr "Spiele oder singe den vorgespielten Ton"
+
+msgctxt "TquestionTip|"
+msgid "Play or sing a melody."
+msgstr "Spiele oder singe Melodie."
+
+msgctxt "TquestionTip|"
+msgid "Guess a key signature"
+msgstr "Rate die Vorzeichen"
+
+msgctxt "TradioClef|"
+msgid "Common used clef (for violin, flute, saxophones, etc.)"
+msgstr "Gebräuchlicher Schlüssel (für Violine, Flöte, Saxophon, etc.)"
+
+msgctxt "TradioClef|"
+msgid "Clef for guitars (classical, electric and so)"
+msgstr "Schlüssel für Gitarren (Konzertgitarre, E-Gitarre, usw.)"
+
+msgctxt "TradioClef|"
+msgid " Bottom clef on the grand staff but also used for cello, trombone, etc."
+msgstr ""
+" Unterer Schlüssel in der Akkolade auf verwendet für Cello, Posaune, usw."
+
+msgctxt "TradioClef|"
+msgid " Clef for bass guitar and double bass."
+msgstr " Schlüssel für Bassgitarre und Kontrabass."
+
+msgctxt "TradioClef|"
+msgid ""
+"Sometimes it is called clef for viola and mostly used for this instrument."
+msgstr ""
+"Manchmal wird er Bratschenschlüssel genannt und meistens auch dafür "
+"verwendet."
+
+msgctxt "TremoveLevel|"
+msgid "Also delete level file:"
+msgstr "Auch Leveldatei löschen:"
+
+msgctxt "TremoveLevel|"
+msgid "Remove"
+msgstr "Entfernen"
+
+#, qt-format
+msgctxt "TremoveLevel|"
+msgid "Remove level %1 from the list"
+msgstr "Entferne Level %1 von der Liste"
+
+msgctxt ""
+"TscoreActions|it could be 'notation', 'staff' or whatever is associated with "
+"that 'place to display musical notes' and this the name is quite short and "
+"looks well."
+msgid "Score"
+msgstr "Notation"
+
+msgctxt "TscoreActions|"
+msgid "Manage and navigate the score."
+msgstr "Notation bearbeiten und darin bewegen."
+
+msgctxt "TscoreActions|"
+msgid "Show note names"
+msgstr "Zeige Notenname"
+
+msgctxt "TscoreActions|"
+msgid "Zoom score out"
+msgstr "Partitur rauszoomen"
+
+msgctxt "TscoreActions|"
+msgid "Zoom score in"
+msgstr "Partitur reinzoomen"
+
+msgctxt "TscoreActions|"
+msgid "Previous note"
+msgstr "Vorherige Note"
+
+msgctxt "TscoreActions|"
+msgid "First note"
+msgstr "Erste Note"
+
+msgctxt "TscoreActions|"
+msgid "Staff above"
+msgstr "Notenlinie darüber"
+
+# need context
+msgctxt "TscoreActions|"
+msgid "Staff below"
+msgstr "Notenlinie darunter"
+
+msgctxt "TscoreActions|"
+msgid "Last note"
+msgstr "Letzte Note"
+
+msgctxt "TscoreActions|"
+msgid "Next note"
+msgstr "Nächste Note"
+
+msgctxt "TscoreActions|"
+msgid "Delete note"
+msgstr "Note löschen"
+
+msgctxt "TscoreActions|"
+msgid "Delete all notes"
+msgstr "Alle Noten löschen"
+
+msgctxt "TscoreActions|"
+msgid "Additional accidentals"
+msgstr "Zusätzliche Vorzeichen"
+
+msgctxt "TscoreActions|"
+msgid "Shows names of all notes on the staff."
+msgstr "Zeigt die Namen aller Noten in der Notation."
+
+msgctxt "TscoreActions|"
+msgid ""
+"Shows accidentals from the key signature also next to a note. <b>WARING! It "
+"never occurs in real scores - use it only for theoretical purposes.</b>"
+msgstr ""
+"Zeigt die Vorzeichen der Tonart auch neben der Note. <b>ACHTUNG! Dies kommt "
+"niemals in echten Partituren vor - nutze es nur für Übungszwecke</b>"
+
+msgctxt "TscoreClef|"
+msgid "Click to select another clef."
+msgstr "Anklicken um einen anderen Schlüssel zu wählen."
+
+msgctxt "TscoreKeySignature|"
+msgid ""
+"Key signature - to change it, click above or below the staff or use mouse "
+"wheel."
+msgstr ""
+"Generalvorzeichen - um es zu ändern, klicke über oder unter die Notenschrift "
+"oder benutze das Mausrad."
+
+msgctxt "TscoreNote|"
+msgid "Click to enter a note, use horizontal scroll to change accidental."
+msgstr ""
+"Klicken um eine Note einzufügen, nutze horizontal scrollen um die Vorzeichen "
+"zu ändern."
+
+msgctxt "TscoreNote|"
+msgid "Right mouse button just selects a note."
+msgstr "Rechte Maustaste markiert nur eine Note."
+
+msgctxt "TscoreSettings|"
+msgid "enable key signature"
+msgstr "Generalvorzeichen einschalten"
+
+msgctxt "TscoreSettings|"
+msgid "Naming extension"
+msgstr "Namenserweiterung"
+
+msgctxt "TscoreSettings|"
+msgid "in the major keys:"
+msgstr "in den Dur-Tonarten:"
+
+msgctxt "TscoreSettings|"
+msgid "in the minor keys:"
+msgstr "in den Moll-Tonarten:"
+
+msgctxt "TscoreSettings|"
+msgid "note-cursor color"
+msgstr "Notencursor-Farbe"
+
+msgctxt "TscoreSettings|"
+msgid ""
+"Remember! Not all clefs are suitable for some possible tunings or instrument "
+"types!"
+msgstr ""
+"Beachte! Nicht alle Schlüssel sind für bestimmte Stimmungen oder "
+"Instrumententypen geeignet!"
+
+msgctxt "TscoreSettings|"
+msgid "Default clef"
+msgstr "Standardschlüssel"
+
+msgctxt "TscoreSettings|"
+msgid "Select default clef for the application."
+msgstr "Wähle den Standardschlüssel für die Anwendung."
+
+msgctxt "TscoreSettings|"
+msgid "for example"
+msgstr "zum Beispiel"
+
+msgctxt "TscoreSettings|"
+msgid "show names of key signature"
+msgstr "Zeige Namen der Tonart"
+
+msgctxt "TscoreSettings|"
+msgid "use single note only"
+msgstr "Nur einzelne Note verwenden"
+
+msgctxt "TscoreSettings|"
+msgid "When enabled, a score displays only a single note."
+msgstr ""
+"Bei Aktivierung wird in der Notation nur eine einzelne Note dargestellt."
+
+msgctxt "TscoreSettings|"
+msgid "show enharmonic variants of notes"
+msgstr "zeige enharmonische Varianten von Noten"
+
+msgctxt "TscoreSettings|"
+msgid ""
+"Shows enharmonic variants of notes.<br>i.e.: the note E is also Fb (F flat) "
+"<i>and</i> Dx (D with double sharp)."
+msgstr ""
+"Zeige enharmonische Varianten von Noten.<br>z. B. die Note E ist auch Fes (F "
+"mit Be)<i>und</i> Dx (D mit Doppelkreuz)."
+
+msgctxt "TscoreSettings|"
+msgid "color of enharmonic notes"
+msgstr "Farbe der enharmonischen Noten"
+
+msgctxt "TscoreSettings|"
+msgid "use double accidentals"
+msgstr "benutze Doppelvorzeichen"
+
+msgctxt "TscoreSettings|"
+msgid "If checked, you can use double sharps and double flats."
+msgstr "Bei Auswahl können Doppelkreuze und Doppelbes benutzt werden."
+
+msgctxt "TscoreSettings|"
+msgid "tempo of played notes"
+msgstr "Tempo der gespielten Noten"
+
+msgctxt "TscoreSettings|"
+msgid "Score settings"
+msgstr "Einstellungen für Partitur"
+
+msgctxt "TscoreSettings|"
+msgid "Key signatures"
+msgstr "Generalvorzeichen"
+
+msgctxt "TscoreSettings|"
+msgid "Clefs"
+msgstr "Schlüssel"
+
+msgctxt "TscoreSettings|"
+msgid "Notes naming"
+msgstr "Notennamen"
+
+msgctxt "TsettingsDialog|"
+msgid "application's settings"
+msgstr "Programmeinstellungen"
+
+msgctxt "TsettingsDialog|"
+msgid "Common"
+msgstr "Allgemein"
+
+msgctxt "TsettingsDialog|"
+msgid "Score"
+msgstr "Notation"
+
+msgctxt "TsettingsDialog|"
+msgid "Exam"
+msgstr "Prüfung"
+
+msgctxt "TsettingsDialog|"
+msgid "Sound"
+msgstr "Ton"
+
+msgctxt "TsettingsDialog|"
+msgid "Instrument"
+msgstr "Instrument"
+
+msgctxt "TsettingsDialog|"
+msgid "Exercises"
+msgstr "Übungen"
+
+msgctxt "TsettingsDialog|"
+msgid "Restore default settings for above parameters."
+msgstr "Standardeinstellungen für die oberen Parameter wiederherstellen."
+
+msgctxt "TsettingsDialog|"
+msgid "listening"
+msgstr "hören"
+
+msgctxt "TsettingsDialog|"
+msgid "playing"
+msgstr "spielen"
+
+msgctxt "TsettingsDialog|"
+msgid "Simple exam settings"
+msgstr "Einfache Prüfungseinstellungen"
+
+msgctxt "TsettingsDialog|"
+msgid "Simple exercise settings"
+msgstr "Einfache Übungseinstellungen"
+
+msgctxt "TsettingsDialog|"
+msgid "Appearance"
+msgstr "Darstellung"
+
+msgctxt "TsettingsDialogBase|"
+msgid "Open online documentation"
+msgstr "Onlinedokumentation öffnen"
+
+msgctxt "TstartExamDlg|"
+msgid "Start exercises or an exam"
+msgstr "Starte Übung oder Prüfung"
+
+msgctxt "TstartExamDlg|"
+msgid "student name:"
+msgstr "Name des Schülers:"
+
+msgctxt "TstartExamDlg|"
+msgid "Enter your name or nick-name."
+msgstr "Trag deinen Namen oder Spitznamen ein."
+
+msgctxt "TstartExamDlg|"
+msgid "Select a level suitable for you<br>or create new one."
+msgstr "Wähle ein für dich geeignetes Level<br>oder erstelle ein neues."
+
+msgctxt "TstartExamDlg|"
+msgid "Create new level"
+msgstr "Neues Level erstellen"
+
+#~ msgctxt "TstartExamDlg|"
+#~ msgid "exercises"
+#~ msgstr "Übungen"
+
+#~ msgctxt "TstartExamDlg|"
+#~ msgid "pass new exam"
+#~ msgstr "neue Prüfung ablegen"
+
+msgctxt "TstartExamDlg|"
+msgid "Click and select an exam to continue"
+msgstr "Hier klicken um eine Prüfung fortzusetzen"
+
+#~ msgctxt "TstartExamDlg|"
+#~ msgid "Help"
+#~ msgstr "Hilfe"
+
+msgctxt "TstartExamDlg|"
+msgid ""
+"To start exercising or to pass new exam put in your name and select a level. "
+"To continue the previous exam, select it from the list or load from file."
+msgstr ""
+"Um eine neue Übung oder Prüfung zu starten, gibst du deinen Namen ein und "
+"wählst ein Level. Um die letzte Prüfung fortzusetzen wählst du sie aus der "
+"Liste oder aus einer Datei aus."
+
+msgctxt "TstartExamDlg|"
+msgid "recent opened exams:"
+msgstr "Kürzlich geöffnete Prüfungen:"
+
+msgctxt "TstartExamDlg|"
+msgid "Start exercise on level:"
+msgstr "Starte Übung auf Level:"
+
+msgctxt "TstartExamDlg|"
+msgid "Continue the latest exam:"
+msgstr "Führe letzte Prüfung fort:"
+
+msgctxt "TstartExamDlg|"
+msgid "No level was selected!"
+msgstr "Kein Level ausgewählt!"
+
+msgctxt "TstartExamDlg|"
+msgid "Give a user name!"
+msgstr "Wähle einen Nutzernamen!"
+
+msgctxt "TstartExamDlg|"
+msgid "Pass new exam on level:"
+msgstr "Lege neue Prüfung ab, auf Level:"
+
+msgctxt "TstartExamDlg|"
+msgid "To exercise or to pass an exam?"
+msgstr "Zum Üben oder um eine Prüfung abzulegen?"
+
+msgctxt "TstartExamDlg|"
+msgid "Dialog window for creating new level<br>will be opened."
+msgstr "Dialogfenster um ein neues Level zu erstellen<br>wird geöffnet."
+
+#~ msgctxt "TstartExamDlg|"
+#~ msgid "continue exam"
+#~ msgstr "Prüfung fortsetzen"
+
+#~ msgctxt "TstartExamDlg|"
+#~ msgid "Discard"
+#~ msgstr "Verwerfen"
+
+msgctxt "TstartExamDlg|"
+msgid "Exam results"
+msgstr "Prüfungsergebnisse"
+
+msgctxt "TstartExamDlg|"
+msgid "Load an exam file"
+msgstr "Lade eine Prüfungsdatei"
+
+msgctxt "TstartExamDlg|"
+msgid "Continue exam"
+msgstr "Prüfung fortsetzen"
+
+msgctxt "TstartExamDlg|"
+msgid "Latest exam"
+msgstr "Letzte Prüfung"
+
+msgctxt "TstatisticTip|"
+msgid "Statistics"
+msgstr "Statistiken"
+
+msgctxt "TsuggestExam|"
+msgid "Start an exam"
+msgstr "Starte eine Prüfung"
+
+msgctxt "TsuggestExam|"
+msgid ""
+"You are very good in this exercise!<br>Would you like to pass an exam on the "
+"same level and got a certificate?"
+msgstr ""
+"Du bist sehr gut in dieser Übung!<br>Möchtest du eine Prüfung auf diesem "
+"Level ablegen und ein Zertifikat erhalten?"
+
+msgctxt "TsuggestExam|"
+msgid "Sure! Lets start an exam!"
+msgstr "Sicher! Starte eine Prüfung!"
+
+msgctxt "TsuggestExam|"
+msgid "Not now, ask me for a moment."
+msgstr "Nicht jetzt, frag mich später nochmal."
+
+msgctxt "TsuggestExam|"
+msgid "Not in this exercise."
+msgstr "Nicht in dieser Übung."
+
+msgctxt "TsuggestExam|"
+msgid "Never more suggest me to start an exam!"
+msgstr "Nie wieder eine Prüfung vorschlagen!"
+
+msgctxt "TsuggestExam|"
+msgid "OK"
+msgstr "OK"
+
+msgctxt "TsupportNootka|"
+msgid "You also can help with making Nootka better."
+msgstr "Du kannst auch helfen Nootka zu verbessern."
+
+msgctxt "TsupportNootka|"
+msgid ""
+"It requires little bit English, so if you can read a text below there will "
+"be something you may get involved."
+msgstr ""
+"Man benötigt ein paar Englischkenntnisse, wenn du den unteren Text lesen "
+"kannst, gibt es Möglichkeiten mitzuhelfen."
+
+msgctxt "TsupportNootka|"
+msgid "Donate Nootka campaign"
+msgstr "Nootka Spendenaufruf"
+
+msgctxt "TsupportNootka|"
+msgid "Through PayPal or a card"
+msgstr "Mit PayPal oder Kreditkarte"
+
+msgctxt "TsupportNootka|"
+msgid "or send email for an account number"
+msgstr "oder per Mail Kontoverbindung anfordern"
+
+msgctxt "TsupportNootka|"
+msgid ""
+"Don't worry. This window appears only once per Nootka release.<br>You can "
+"find it always in 'About Nootka' dialog"
+msgstr ""
+"Keine Angst. Dieses Fenster erscheint nur einmal bei jeder Nootka "
+"Release.<br>Du findest es immer im \"Nootka Info\" Dialog"
+
+msgctxt "TsupportNootka|"
+msgid ""
+"Feature by feature and Nootka became big and complex project.<br>To be able "
+"developing this application further,<br>to finish version for Android (and "
+"other mobile systems later on),<br>an equipment capable for that is "
+"needed.<br>Simply, the PC I'm working on is too old for that…<br>Donate "
+"Nootka, please."
+msgstr ""
+"Schritt für Schritt wurde der Funktionsumfang und damit auch die Komplexität "
+"von Nootka erweitert.<br>Um Nootka weiter zu entwickeln,<br>um die "
+"Android-Version fertigzustellen (und ggfs. weitere Mobilsysteme),<br>braucht "
+"es entspechende Hardware.<br>Der PC, auf dem ich arbeite, ist schlicht zu "
+"alt.<br>Spenden für Nootka sind willkommen!"
+
+#, qt-format
+msgctxt "TtipMelody|"
+msgid "Melody was played <b>%n</b> times"
+msgid_plural "Melody was played <b>%n</b> times"
+msgstr[0] "Melodie wurde <b>%n</b> mal gespielt"
+msgstr[1] "Melodie wurde <b>%n</b> mal gespielt"
+
+msgctxt "TtipMelody|"
+msgid "time"
+msgstr "Zeit"
+
+msgctxt "TtipMelody|It will give text: 'Attempt x of y'"
+msgid "of"
+msgstr "von"
+
+msgctxt "TtipMelody|a melody was played (and number follows)"
+msgid "played"
+msgstr "gespielt"
+
+msgctxt "TtoolBar|"
+msgid "Settings"
+msgstr "Einstellungen"
+
+msgctxt "TtoolBar|"
+msgid "Application preferences"
+msgstr "Anwendungseinstellungen"
+
+msgctxt "TtoolBar|could be Chart as well"
+msgid "Analyze"
+msgstr "Statistik"
+
+msgctxt "TtoolBar|"
+msgid "Analysis of exam results"
+msgstr "Analyse der Prüfungsergebnisse"
+
+msgctxt "TtoolBar|"
+msgid "About"
+msgstr "Info"
+
+msgctxt "TtoolBar|"
+msgid "About Nootka"
+msgstr "Nootka Info"
+
+msgctxt "TtoolBar|"
+msgid "Level"
+msgstr "Level"
+
+msgctxt "TtoolBar|"
+msgid "Levels creator"
+msgstr "Levelcreator"
+
+#~ msgctxt "TtoolBar|"
+#~ msgid "Start!"
+#~ msgstr "Start!"
+
+msgctxt "TtoolBar|"
+msgid "Start exercises or an exam"
+msgstr "Starte Übung oder Prüfung"
+
+msgctxt "TtoolBar|"
+msgid "Help"
+msgstr "Hilfe"
+
+msgctxt "TtoolBar|"
+msgid "Stop"
+msgstr "Beenden"
+
+msgctxt "TtoolBar|"
+msgid "Exercise or exam preferences"
+msgstr "Übungs- und Prüfungseinstellungen"
+
+msgctxt "TtoolBar|like a next question"
+msgid "Next"
+msgstr "Weiter"
+
+#, qt-format
+msgctxt "TtoolBar|"
+msgid ""
+"next question\n"
+"(space %1)"
+msgstr ""
+"nächste Frage\n"
+"(space %1)"
+
+msgctxt "TtoolBar|like a repeat question"
+msgid "Repeat"
+msgstr "Wiederholen"
+
+msgctxt "TtoolBar|"
+msgid "repeat previous question (backspace)"
+msgstr "letzte Frage Wiederholen"
+
+msgctxt "TtoolBar|like a check answer"
+msgid "Check"
+msgstr "Bestätigen"
+
+#, qt-format
+msgctxt "TtoolBar|"
+msgid ""
+"check answer\n"
+"(enter %1)"
+msgstr ""
+"Bestätige Antwort\n"
+"(enter %1)"
+
+msgctxt "TtoolBar|"
+msgid "Play"
+msgstr "Wiedergeben"
+
+msgctxt "TtoolBar|"
+msgid "play sound again"
+msgstr "Ton nocheinmal Wiedergeben"
+
+msgctxt "TtoolBar|like a correct answer with mistake"
+msgid "Correct"
+msgstr "Richtig"
+
+msgctxt "TtoolBar|"
+msgid ""
+"correct answer\n"
+"(enter)"
+msgstr ""
+"Richtige Antwort\n"
+"(enter)"
+
+msgctxt "TtoolBar|"
+msgid ""
+"Play <i>middle a</i> like a tuning fork.\n"
+"(Press key 'a')"
+msgstr "Spiele <i>mittleres a</i> wie bei einer Stimmgabel. (Drücke 'a' Taste)"
+
+msgctxt "TtoolBar|"
+msgid "Try again"
+msgstr "Versuch es nocheinmal"
+
+msgctxt "TtoolBar|"
+msgid "Try this melody once again. (backspace)"
+msgstr "Versuche die Meldoie nocheinmal. (Backspace)"
+
+msgctxt "TtoolBar|"
+msgid "Lessons"
+msgstr "Lektionen"
+
+msgctxt "TtoolBar|"
+msgid "Next"
+msgstr "Weiter"
+
+msgctxt "TtoolBar|"
+msgid "Correct"
+msgstr "Richtig"
+
+msgctxt "Ttune|"
+msgid "Standard: E A D G B E "
+msgstr "Standard: E A D G H E "
+
+msgctxt "Ttune|"
+msgid "Dropped D: D A D G B E "
+msgstr "Dropped D: D A D G H E "
+
+msgctxt "Ttune|"
+msgid "Dummy Lute: D A D F# B E "
+msgstr "falsche Laute: D A D F# H E "
+
+msgctxt "Ttune|"
+msgid "Open: D A D G A D "
+msgstr "Offen: D A D G A D "
+
+msgctxt "Ttune|"
+msgid "Kouyanbaba: D A D A D F "
+msgstr "Kouyanbaba: D A D A D F "
+
+msgctxt "Ttune|"
+msgid "Standard bass: E A D G"
+msgstr "Standard Bass: E A D G"
+
+msgctxt "Ttune|"
+msgid "Bass in fifths: C G D A"
+msgstr "Quintenstimmung für Bass: C G D A"
+
+msgctxt "Ttune|"
+msgid "5-str. bass: B E A D G"
+msgstr "5-Saiten Bass: H E A D G"
+
+msgctxt "Ttune|"
+msgid "6-str. bass: B E A D G C"
+msgstr "6-Saiten Bass: H E A D G C"
+
+msgctxt "TupdateChecker|"
+msgid "Checking for updates. Please wait..."
+msgstr "Suche nach Updates. Bitte warten..."
+
+msgctxt "TupdateRulesWdg|"
+msgid "check for Nootka updates"
+msgstr "suche nach Nootka Updates"
+
+msgctxt "TupdateRulesWdg|"
+msgid "daily"
+msgstr "täglich"
+
+msgctxt "TupdateRulesWdg|"
+msgid "weekly"
+msgstr "wöchentlich"
+
+msgctxt "TupdateRulesWdg|"
+msgid "monthly"
+msgstr "monatlich"
+
+msgctxt "TupdateRulesWdg|"
+msgid "all new versions"
+msgstr "alle neuen Versionen"
+
+msgctxt "TupdateRulesWdg|"
+msgid "stable versions only"
+msgstr "nur stabile Versionen"
+
+#, qt-format
+msgctxt "TupdateSummary|"
+msgid "New Nootka %1 is available."
+msgstr "Neue Version Nootka %1 ist Verfügbar."
+
+msgctxt "TupdateSummary|"
+msgid ""
+"To get it, visit <a "
+"href=\"http://nootka.sourceforge.net/index.php?C=down\">Nootka site</a>."
+msgstr ""
+"Um sie herunterzuladen, besuche <a "
+"href=\"http://nootka.sourceforge.net/index.php?C=down\">Nootka site</a>."
+
+msgctxt "TupdateSummary|"
+msgid "News:"
+msgstr "Neuigkeiten:"
+
+msgctxt "TupdateSummary|"
+msgid "No changes found.<br>This version is up to date."
+msgstr "Keine Änderungen gefunden.<br>Diese Version ist auf dem neusten Stand."
+
+#~ msgctxt "TupdateSummary|"
+#~ msgid "Ok"
+#~ msgstr "Ok"
+
+msgctxt "TupdateSummary|"
+msgid "Updates"
+msgstr "Updates"
+
+msgctxt "TvolumeView|"
+msgid ""
+"Shows volume level of input sound and indicates when the note was "
+"pitch-detected."
+msgstr ""
+"Zeigt die Lautstärke des Aufnahmetons und wann er von der Tonhöhenerkennung "
+"erfasst wird."
+
+msgctxt "TvolumeView|"
+msgid "Drag a knob to adjust minimum input volume."
+msgstr "Ziehe den Regler um die Mindestaufnahmelautstärke einzustellen."
+
+msgctxt "TvolumeView|"
+msgid "Switch on/off pitch detection"
+msgstr "Schalte Tonhöhenerkennung an/aus"
+
+msgctxt "Windows installer entries|"
+msgid "Do you really want to remove Nootka and all its components?"
+msgstr "Möchtest du wirklich Nootka und all seine Komponenten entfernen?"
+
+msgctxt ""
+"about translator|Do not translate this, just put in 'translator comment "
+"field' your data: Translator's' Name<br>Tramslator's' "
+"e-mail(optional)<br>Translator site(optional)"
+msgid "translator"
+msgstr "Johann C. Weihe"
+
+msgctxt "accidSettings|"
+msgid "# - sharps"
+msgstr "# - Kreuze"
+
+msgctxt "accidSettings|"
+msgid ""
+"Sharps will be used in questions and answers.<br>It has to be checked, if "
+"keys with sharps are used."
+msgstr ""
+"Kreuze werden in Fragen und Antworten verwendet.<br>Es muss ausgewählt sein, "
+"wenn Tonarten mit Kreuzen verwendet werden."
+
+msgctxt "accidSettings|"
+msgid "b - flats"
+msgstr "b - Bes"
+
+msgctxt "accidSettings|"
+msgid ""
+"Flats will be used in questions and answers.<br>It has to be checked, if "
+"keys with flats are used."
+msgstr ""
+"Bes werden in Fragen und Antworten verwendet.<br>Es muss ausgewählt sein, "
+"wenn Tonarten mit Bes verwendet werden."
+
+msgctxt "accidSettings|"
+msgid "x, bb - double accidentals"
+msgstr "x, bb - Doppelvorzeichen"
+
+#~ msgctxt "accidSettings|"
+#~ msgid "Accidentals used in exam."
+#~ msgstr "Vorzeichen, die in der Prüfung verwendet werden."
+
+msgctxt "accidSettings|"
+msgid "single key"
+msgstr "einzelner Schlüssel"
+
+#~ msgctxt "accidSettings|"
+#~ msgid "only one, selected key signature<br>for whole exam."
+#~ msgstr "nur eine ausgewählte Tonart<br>für die ganze Prüfung."
+
+msgctxt "accidSettings|"
+msgid "range of keys"
+msgstr "Tonartbereich"
+
+msgctxt "accidSettings|"
+msgid "random key signature from selected range."
+msgstr "Zufällige Tonart aus dem ausgewählten Bereich."
+
+#~ msgctxt "accidSettings|"
+#~ msgid ""
+#~ "Select a key signature.<br>Appropriate accidentals used in exam<br>will "
+#~ "be automatically selected !"
+#~ msgstr ""
+#~ "Wähle eine Tonart.<br>Entsprechende Vorzeichen für die Prüfung<br>werden "
+#~ "automatisch ausgewählt!"
+
+msgctxt "accidSettings|"
+msgid ""
+"Elements are disabled because appropriate types of questions or answers are "
+"not selected."
+msgstr ""
+"Elemente sind deaktiviert weil entsprechende Frage- oder Antworttypen nicht "
+"ausgewählt sind."
+
+msgctxt "accidSettings|"
+msgid "select a key signature manually"
+msgstr "wähle Tonart manuell"
+
+msgctxt "accidSettings|"
+msgid "use key signatures"
+msgstr "benutze Generalvorzeichen"
+
+#~ msgctxt "accidSettings|"
+#~ msgid ""
+#~ "if checked, in exam user have to select a key signature,<br>otherwise it "
+#~ "is shown by application."
+#~ msgstr ""
+#~ "Wenn ausgewählt, muss du die Generalvorzeichen in der Prüfung "
+#~ "angeben,<br>ansonsten werden sie von dem Programm angezeigt."
+
+msgctxt "accidSettings|"
+msgid "accidentals"
+msgstr "Vorzeichen"
+
+msgctxt "accidSettings|"
+msgid "force using appropriate accidental"
+msgstr "zwingen dazugehörige Vorzeichen zu verwenden"
+
+msgctxt "accidSettings|"
+msgid ""
+"if checked, it is possible to select a note<br>with given accidental only."
+msgstr ""
+"Wenn ausgewählt ist es nur möglich, eine Note mit dem gegebenen Vorzeichen "
+"auszuwählen."
+
+msgctxt "accidSettings|"
+msgid "notes in current key signature only"
+msgstr "nur Töne in der aktuellen Tonart"
+
+#~ msgctxt "accidSettings|"
+#~ msgid ""
+#~ "Only notes from current key signature are taken.<br>If key signature is "
+#~ "disabled accidentals are not used."
+#~ msgstr ""
+#~ "Nur Töne von der aktuellen Tonart werden verwendet.<br>Wenn die Tonart "
+#~ "deaktiviert ist verden die Vorzeichen nicht genutzt."
+
+msgctxt "accidSettings|"
+msgid "only one, selected key signature for whole exam."
+msgstr "nur eine ausgewählte Tonart für die ganze Prüfung."
+
+msgctxt "accidSettings|"
+msgid ""
+"Select a key signature. Appropriate accidentals used in exam will be "
+"automatically selected!"
+msgstr ""
+"Wähle eine Tonart. Entsprechende Vorzeichen für die Prüfung werden "
+"automatisch ausgewählt!"
+
+msgctxt "accidSettings|"
+msgid ""
+"if checked, in exam user have to select a key signature, otherwise it is "
+"shown by application."
+msgstr ""
+"Wenn ausgewählt, muss du die Generalvorzeichen in der Prüfung angeben, "
+"ansonsten werden sie von dem Programm angezeigt."
+
+msgctxt "accidSettings|"
+msgid ""
+"Only notes from current key signature are taken. If key signature is "
+"disabled accidentals are not used."
+msgstr ""
+"Nur Töne von der aktuellen Tonart werden verwendet. Wenn die Tonart "
+"deaktiviert ist verden die Vorzeichen nicht genutzt."
+
+msgctxt "chartStats|"
+msgid "none"
+msgstr "kein"
+
+msgctxt "chartStats|average reaction time for..."
+msgid "for a note:"
+msgstr "für eine Note:"
+
+msgctxt "chartStats|average reaction time for..."
+msgid "for a fret:"
+msgstr "für einen Bund:"
+
+msgctxt "chartStats|average reaction time for..."
+msgid "for a key:"
+msgstr "für eine Taste:"
+
+msgctxt "chartStats|average reaction time for..."
+msgid "for an accidental:"
+msgstr "für ein Vorzeichen:"
+
+msgctxt "levelSettings|"
+msgid "Save"
+msgstr "Speichern"
+
+msgctxt "levelSettings|"
+msgid "Save level settings to file"
+msgstr "Speichere Level-Einstellungen in Datei"
+
+msgctxt "levelSettings|"
+msgid "Start exam"
+msgstr "Starte Prüfung"
+
+msgctxt "levelSettings|"
+msgid "Start an exam on selected level"
+msgstr "Starte Prüfung mit ausgewähltem Level"
+
+#, qt-format
+msgctxt "levelSettings|"
+msgid "Get more levels <a href=\"%1\">from Nootka home page</a>"
+msgstr "Hol dir mehr Übungen <a href=\"%1\">von der Nootka Homepage</a>"
+
+msgctxt "levelSettings|"
+msgid "Start exercise"
+msgstr "Starte Übung"
+
+msgctxt "levelSettings|"
+msgid "Start an exercise on selected level"
+msgstr "Starte Übung mit ausgewähltem Level"
+
+msgctxt "main|"
+msgid ""
+"<center>Can not load a font.<br>Try to install nootka.ttf manually.</center>"
+msgstr ""
+"<center>Kann Schrift nicht laden.<br>Versuch nootka.ttf mauell zu "
+"intallieren.</center>"
+
+msgctxt "questionsSettings|"
+msgid "require octave"
+msgstr "benötigt Oktave"
+
+msgctxt "questionsSettings|"
+msgid "if checked, selecting of valid octave is required"
+msgstr "wenn ausgewählt, wird die Auswahl einer gültigen Oktave benötigt"
+
+msgctxt "questionsSettings|"
+msgid "use different naming styles"
+msgstr "benutze unterschiedliche Namensarten"
+
+msgctxt "questionsSettings|"
+msgid "if checked, note names are switched between letters and solfege."
+msgstr ""
+"Wenn ausgewählt wechseln die Notennamen zwischen Buchstaben und Solfege."
+
+msgctxt "questionsSettings|"
+msgid "show string number in questions"
+msgstr "zeige Saitennummer in der Frage"
+
+msgctxt "questionsSettings|"
+msgid ""
+"Shows on which string an answer has to be given.<br>Be careful, sometimes it "
+"is needed and sometimes it makes no sense."
+msgstr ""
+"Zeigt auf welcher Saite die Antwort zu geben ist.<br>Sei vorsichtig, "
+"manchmal wird es benötigt und manchmal ergibt es keinen Sinn."
+
+msgctxt "questionsSettings|"
+msgid ""
+"if checked, the lowest position in selected fret range is "
+"required,<br>otherwise all possible positions of the note are "
+"acceptable.<br>To use this, all strings have to be available!"
+msgstr ""
+"wenn ausgewählt wird die unterste Lage in dem gewählten Bundbereich "
+"benötigt,<br>ansonsten sind alle möglichen Positionen von dem Ton "
+"möglich.<br>Um diese Einstellung zu nutzen, müssen alle Saiten zur verfügung "
+"stehen!"
+
+msgctxt "questionsSettings|"
+msgid "notes in the lowest position only"
+msgstr "nur Töne in der untersten Lage"
+
+#~ msgctxt "questionsSettings|"
+#~ msgid "Melody length"
+#~ msgstr "Länge der Melodie"
+
+#~ msgctxt "questionsSettings|"
+#~ msgid "Melody ends on tonic note"
+#~ msgstr "Melodie endet mit der Tonika"
+
+#~ msgctxt "questionsSettings|"
+#~ msgid ""
+#~ "Determines the last note of a melody.<br>When set, melody will be "
+#~ "finished on tonic note of actual key signature."
+#~ msgstr ""
+#~ "Legt den letzten Ton der Melodie fest.<br>bei Aktivierung wird die "
+#~ "Melodie mit der Tonika der aktuellen Tonart beendet."
+
+msgctxt "questionsSettings|"
+msgid "single note"
+msgstr "Einzelnote"
+
+#~ msgctxt "questionsSettings|"
+#~ msgid "melodies"
+#~ msgstr "Melodien"
+
+#~ msgctxt "questionsSettings|"
+#~ msgid ""
+#~ "Maximum number of notes in a melody. Melody length is random value "
+#~ "between 70% and 100% of that number."
+#~ msgstr ""
+#~ "Maximale Anzahl der Noten in einer Melodie. Die Länge der Melodie ist ein "
+#~ "Zufallswert zwischen 70% und 100% dieser Zahl."
+
+msgctxt "rangeSettings|"
+msgid "adjust fret range"
+msgstr "wähle Bundbereich"
+
+msgctxt "rangeSettings|"
+msgid "Adjust fret range in a level to currently selected note range"
+msgstr "Wähle Bunbereich entsprechend dem aktuell ausgewählten Tonbereich"
+
+msgctxt "rangeSettings|"
+msgid "from"
+msgstr "von"
+
+msgctxt "rangeSettings|"
+msgid "to"
+msgstr "bis"
+
+msgctxt "rangeSettings|"
+msgid "adjust note range"
+msgstr "wähle Tonbereich"
+
+msgctxt "rangeSettings|"
+msgid "Adjust note range in a level to currently selected fret range"
+msgstr "Wähle Tonbereich entsprechend dem aktuell ausgewählten Bunbereich"
+
+msgctxt "rangeSettings|"
+msgid "available strings:"
+msgstr "verfügbare Saiten:"
+
+#~ msgctxt "rangeSettings|"
+#~ msgid "Uncheck strings if you want to skip them<br>in an exam."
+#~ msgstr "Wähle Saiten ab, die du in der Prüfung auslassen möchtest."
+
+msgctxt "rangeSettings|"
+msgid "Uncheck strings if you want to skip them in an exam."
+msgstr "Wähle Saiten ab, die du in der Prüfung auslassen möchtest."

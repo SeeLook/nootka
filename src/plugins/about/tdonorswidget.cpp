@@ -31,11 +31,11 @@ TdonorsWidget::TdonorsWidget(QWidget* parent) :
     headLab->setAlignment(Qt::AlignCenter);
     headLab->setWordWrap(true);
   QString sponText = QLatin1String("<ul>");
-    sponText += QString::fromUtf8("<li>Илья Б.</li>");
-    sponText += QLatin1String("<li>Yves Balhant</li>");
-    sponText += QLatin1String("<li>Tomasz Matuszewski</li>");
-    sponText += QLatin1String("<li>Vincent Bermel</li>");
     sponText += QLatin1String("<li>Torsten Philipp</li>");
+    sponText += QLatin1String("<li>Vincent Bermel</li>");
+    sponText += QLatin1String("<li>Tomasz Matuszewski</li>");
+    sponText += QLatin1String("<li>Yves Balhant</li>");
+    sponText += QString::fromUtf8("<li>Илья Б.</li>");
     sponText += QLatin1String("</ul>");
     sponText += QLatin1String("<p style=\"text-align: center;\"><b><big>THANK YOU!</b></big>");
   QLabel *sponLab = new QLabel(sponText, this);
