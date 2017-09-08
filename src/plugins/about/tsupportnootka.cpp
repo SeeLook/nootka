@@ -58,7 +58,7 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
           "Donate Nootka, please.")
         + QLatin1String("<br><a href=\"http://nootka.sourceforge.net/index.php?C=donate\">")
         + tr("Through PayPal or a card") + QLatin1String("</a>")
-        + QLatin1String("<p align=\"center\"><a href=\"mailto:seelook.gmail.com\">")
+        + QLatin1String("<p align=\"center\"><a href=\"mailto:seelook@gmail.com\">")
         + tr("or send email for an account number") + QLatin1String("</a></p>") + endLi;
   supp += QLatin1String("<li><big><b style=\"color: #0000C0;\">Translate Nootka</b></big><br>It does not require any programming skills. Just read <a href=\"http://sourceforge.net/p/nootka/hg/ci/default/tree/lang/how-to-translate.txt\">the instructions</a>,<br>translate and send your work.<br></li>");
 #endif
@@ -71,9 +71,8 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
                         "<a href=\"http://www.softpedia.com/get/Others/Home-Education/Nootka.shtml\">Softpedia</a><br>"
                         "or add <b>like</b> or/and <b>g+</b> on <a href=\"http://nootka.sourceforge.net\">Nootka site</a><br></li>");
 #endif
-  supp += coloredLi("#E57300", "Update German translation") + QLatin1String("It seems to be abandoned, so continue translating, please.") + br + endLi;
   supp += QLatin1String("<li><big><b style=\"color: #FF0000;\">Report an issue</b></big><br>If you find any issue or a bug than request it through:<br><a href=\"http://sourceforge.net/p/nootka/bugs/\">bug tracker</a><br></li>");
-  supp += QLatin1String("<li><big><b>Express your opinion</b></big><br>Simply <a href=\"mailto:seelook.gmail.com\">send an email</a></li>");
+  supp += QLatin1String("<li><big><b>Express your opinion</b></big><br>Simply <a href=\"mailto:seelook@gmail.com\">send an email</a></li>");
   supp += QLatin1String("</ul><p>&nbsp;&nbsp;Thanks in advance<br>&nbsp;&nbsp;Author</p><br>");
   auto textLab = new QLabel(supp, this);
   textLab->setWordWrap(true);
