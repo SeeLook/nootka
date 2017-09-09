@@ -253,8 +253,36 @@ void Tglobals::setMarkedFrets(const QString& frets) {
 
 
 /* ------------------ Sound switches ------------------ */
+QString Tglobals::inDevName() const { return A->INdevName; }
+void Tglobals::setInDevName(const QString& inName) { A->INdevName = inName; }
+
 int Tglobals::audioInstrument() const { return A->audioInstrNr; }
 void Tglobals::setAudioInstrument(int ai) { A->audioInstrNr = ai; }
+
+qreal Tglobals::minDuration() const { return A->minDuration; }
+
+void Tglobals::setMinDuration(qreal md) { A->minDuration = md; }
+
+qreal Tglobals::minVolume() const { return A->minimalVol; }
+void Tglobals::setMinVolume(qreal mv) {
+  if (mv != A->minimalVol) {
+    A->minimalVol = mv;
+    emit minVolumeChanged();
+  }
+}
+
+int Tglobals::detectionMethod() const { return A->detectMethod; }
+void Tglobals::setDetectionMethod(int m) { A->detectMethod = m; }
+
+qreal Tglobals::minSplitVol() const { return A->minSplitVol; }
+void Tglobals::setMinSplitVol(qreal msv) { A->minSplitVol = msv; }
+
+qreal Tglobals::skipStillerVal() const { return A->skipStillerVal; }
+void Tglobals::setSkipStillerVal(qreal ssv) { A->skipStillerVal = ssv; }
+
+bool Tglobals::useFilter() const { return A->equalLoudness; }
+void Tglobals::setUseFilter(bool use) { A->equalLoudness = use; }
+
 
 
 void Tglobals::setGuitarParams(int fretNr, int stringNr) {

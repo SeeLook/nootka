@@ -10,7 +10,6 @@ Item {
   id: pitchView
 
   property alias volume : volBar.volume
-  property alias minVol : volBar.minVol
   property alias deviation : intoBar.deviation
   property bool active: false
 

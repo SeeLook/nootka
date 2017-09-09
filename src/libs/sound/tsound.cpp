@@ -216,6 +216,15 @@ void Tsound::acceptSettings() {
 }
 
 
+QStringList Tsound::inputDevices() const { return TaudioIN::getAudioDevicesList(); }
+
+QStringList Tsound::outputDevices() const { return TaudioOUT::getAudioDevicesList(); }
+
+QString Tsound::currentInDevName() const { return TaudioIN::inputName(); }
+
+QString Tsound::currentOutDevName() const { return TaudioOUT::outputName(); }
+
+
 void Tsound::prepareToConf() {
   if (player) {
     player->stop();
@@ -414,14 +423,14 @@ void Tsound::deletePlayer() {
   if (player) {
     player->stop();
     delete player;
-    player = 0;
+    player = nullptr;
   }
 }
 
 
 void Tsound::deleteSniffer() {
   delete sniffer;
-  sniffer = 0;
+  sniffer = nullptr;
 }
 
 

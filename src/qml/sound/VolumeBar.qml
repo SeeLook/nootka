@@ -12,7 +12,6 @@ Item {
   id: volBar
 
   property real volume: 0.05
-  property real minVol: 0.4
 
   TtickColors { id: tc; width: volBar.width - minVolText.width - noteText.width * 2; divisor: pitchView.tickGap + pitchView.tickWidth }
 
@@ -26,7 +25,7 @@ Item {
       if (pressedButtons && mouseX > vRep.itemAt(1).x && mouseX < vRep.itemAt(vRep.model - 2).x) {
         var mv = (mouseX - minVolText.width) / tc.width
         if (mv > 0.1 && mv < 0.9)
-          minVol = mv
+          GLOB.minVolume = mv
       }
     }
   }
@@ -34,7 +33,7 @@ Item {
   Text {
       id: minVolText
       anchors { top: parent.Top; left: parent.Left; verticalCenter: parent.verticalCenter }
-      text: " " + Math.round(minVol * 100) + "% "
+      text: " " + Math.round(GLOB.minVolume * 100) + "% "
       color: pitchView.active ? activPal.text : disdPal.text
       font.pixelSize: parent.height / 2
       width: parent.height * 1.2
@@ -45,7 +44,7 @@ Item {
       model: tc.width / tc.divisor
       Rectangle {
         color: pitchView.active ? (index < volume * vRep.model ? tc.colorAt(index) : activPal.text) : disdPal.text
-        width: index <= minVol * vRep.model ? pitchView.tickWidth / 2 : pitchView.tickWidth
+        width: index <= GLOB.minVolume * vRep.model ? pitchView.tickWidth / 2 : pitchView.tickWidth
         radius: pitchView.tickWidth / 2
         height: pitchView.tickWidth * 1.5 + ((volBar.height - pitchView.tickWidth * 4) / vRep.model) * index
         y: (parent.height - height) / 2
@@ -88,7 +87,7 @@ Item {
 
   Rectangle {
       id: knob
-      x: minVolText.width + minVol * tc.width - radius
+      x: minVolText.width + GLOB.minVolume * tc.width - radius
       y: (volBar.height - height) / 2
       visible: false
       height: volBar.height * 0.9
