@@ -61,4 +61,6 @@ Flickable {
       }
     }
   }
+
+  ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
 }
