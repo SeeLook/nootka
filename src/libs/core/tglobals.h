@@ -83,6 +83,13 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
 
   /* Sound switches */
   Q_PROPERTY(int audioInstrument READ audioInstrument WRITE setAudioInstrument)
+  Q_PROPERTY(QString inDevName READ inDevName WRITE setInDevName);
+  Q_PROPERTY(qreal minDuration READ minDuration WRITE setMinDuration)
+  Q_PROPERTY(qreal minVolume READ minVolume WRITE setMinVolume NOTIFY minVolumeChanged)
+  Q_PROPERTY(int detectionMethod READ detectionMethod WRITE setDetectionMethod)
+  Q_PROPERTY(qreal minSplitVol READ minSplitVol WRITE setMinSplitVol)
+  Q_PROPERTY(qreal skipStillerVal READ skipStillerVal WRITE setSkipStillerVal)
+  Q_PROPERTY(bool useFilter READ useFilter WRITE setUseFilter)
 
 public:
 
@@ -179,6 +186,27 @@ public:
   /* ------------------ Sound switches ------------------ */
   int audioInstrument() const;
   void setAudioInstrument(int ai);
+
+  QString inDevName() const;
+  void setInDevName(const QString& inName);
+
+  qreal minDuration() const;
+  void setMinDuration(qreal md);
+
+  qreal minVolume() const;
+  void setMinVolume(qreal mv);
+
+  int detectionMethod() const;
+  void setDetectionMethod(int m);
+
+  qreal minSplitVol() const;
+  void setMinSplitVol(qreal msv);
+
+  qreal skipStillerVal() const;
+  void setSkipStillerVal(qreal ssv);
+
+  bool useFilter() const;
+  void setUseFilter(bool use);
 
       /**
        * Updates key signature names according to name style and major/minor suffixes.
@@ -283,6 +311,7 @@ signals:
   void preferFlatsChanged(); /**< Fake, this option doesn't affect QML */
   void guitarParamsChanged();
   void transpositionChanged();
+  void minVolumeChanged();
 
 private:
   static Tglobals           *m_instance;

@@ -90,12 +90,15 @@ public:
        */
   Q_INVOKABLE qreal pitchDeviation();
 
-//   TpitchView* pitchView() { return m_pitchView; } /**< First instance existing in main window */
+  Q_INVOKABLE QStringList inputDevices() const;
+  Q_INVOKABLE QStringList outputDevices() const;
+
+  Q_INVOKABLE QString currentInDevName() const;
+  Q_INVOKABLE QString currentOutDevName() const;
 
     /**
      * Before Nootka config dialog is created a few things have to be done.
      * stop sniffing, playing, delete midi, which blocks audio devices,
-     * delete audioIN, config creates its own to test.
      */
   Q_INVOKABLE void prepareToConf();
 
