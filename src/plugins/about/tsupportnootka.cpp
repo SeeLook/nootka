@@ -62,6 +62,7 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
         + tr("or send email for an account number") + QLatin1String("</a></p>") + endLi;
   supp += QLatin1String("<li><big><b style=\"color: #0000C0;\">Translate Nootka</b></big><br>It does not require any programming skills. Just read <a href=\"http://sourceforge.net/p/nootka/hg/ci/default/tree/lang/how-to-translate.txt\">the instructions</a>,<br>translate and send your work.<br></li>");
 #endif
+  supp += QLatin1String("<li><big><b style=\"color: #00AAFF;\">Help with new version</b></big><br>Read how to get <a href=\"http://nootka.sourceforge.net/index.php?C=doc#compile-debug\">development version</a> and get involved in testing or more.<br></li>");
 #if defined (Q_OS_ANDROID)
   supp += coloredLi("#C90000", "Rate this app") + QLatin1String("Go to <a href=\"https://play.google.com/store/apps/details?id=net.sf.nootka\">Google Play</a>, rate it nicely and put a comment in your native language.") + br + endLi;
 #else
