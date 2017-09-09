@@ -54,7 +54,13 @@ Column {
           width: parent.width
           spacing: nootkaWindow.fontSize / 2
           Frame {
-            width: parent.width
+            width: parent.width * 0.99
+            anchors.horizontalCenter: parent.horizontalCenter
+            background: Rectangle {
+              color: "transparent"
+              border.color: activPal.shadow
+              radius: nootkaWindow.fontSize / 2
+            }
             Column {
               spacing: nootkaWindow.fontSize / 2
               width: parent.width
@@ -82,11 +88,7 @@ Column {
                 Row {
                   spacing: nootkaWindow.fontSize
                   anchors.horizontalCenter: parent.horizontalCenter
-                  Text {
-                    color: enabled ? activPal.text : disdPal.text
-                    text: qsTranslate("TscoreSettings", "color of enharmonic notes")
-                    anchors.verticalCenter: parent.verticalCenter
-                  }
+                  TlabelText { text: qsTranslate("TscoreSettings", "color of enharmonic notes") }
                   ColorButton { id: enharmNoteColor }
                 }
               }
@@ -115,7 +117,7 @@ Column {
             Row {
               spacing: nootkaWindow.fontSize
               anchors.horizontalCenter: parent.horizontalCenter
-              Text { color: activPal.text; text: qsTranslate("TscoreSettings", "note-cursor color"); anchors.verticalCenter: parent.verticalCenter }
+              TlabelText { text: qsTranslate("TscoreSettings", "note-cursor color") }
               ColorButton { id: pointerColorButt; color: GLOB.noteCursorColor }
             }
           }
@@ -147,8 +149,13 @@ Column {
             checked: GLOB.keySignatureEnabled
           }
           Frame {
-            width: parent.width * 0.96
+            width: parent.width * 0.99
             anchors.horizontalCenter: parent.horizontalCenter
+            background: Rectangle {
+              color: "transparent"
+              border.color: activPal.shadow
+              radius: nootkaWindow.fontSize / 2
+            }
             Column {
               spacing: nootkaWindow.fontSize / 2
               width: parent.width
@@ -268,7 +275,7 @@ Column {
             Row {
               spacing: nootkaWindow.fontSize
               anchors.horizontalCenter: parent.horizontalCenter
-              Text { color: enabled ? activPal.text : disdPal.text; text: qsTr("names highlight color"); anchors.verticalCenter: parent.verticalCenter }
+              TlabelText { text: qsTr("names highlight color") }
               ColorButton { id: nameColorButt; color: GLOB.nameColor }
             }
           }
