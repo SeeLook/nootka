@@ -18,6 +18,7 @@ Flow {
         text: Noo.instr(instrument).name
         anchors.centerIn: parent
         font { pixelSize: nootkaWindow.fontSize * 1.5; bold: true }
+        color: activPal.text
         Behavior on text {
           enabled: GLOB.useAnimations;
           SequentialAnimation {

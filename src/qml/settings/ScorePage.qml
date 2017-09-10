@@ -223,6 +223,7 @@ Column {
             horizontalAlignment: Text.AlignHCenter
             width: parent.width
             wrapMode: Text.WordWrap
+            color: activPal.text
           }
           ClefMenu {
             id: clefs
