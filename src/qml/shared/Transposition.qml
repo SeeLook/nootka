@@ -18,7 +18,7 @@ Row {
   anchors.horizontalCenter: parent.horizontalCenter
   spacing: nootkaWindow.fontSize
 
-  Text { text: qsTr("Transposition"); anchors.verticalCenter: parent.verticalCenter }
+  TlabelText { text: qsTr("Transposition") }
   SpinBox {
     id: shiftSpin
     anchors.verticalCenter: parent.verticalCenter
@@ -26,7 +26,7 @@ Row {
     value: Math.abs(shift)
     onValueChanged: shift = value * (upRadio.checked ? 1 : -1)
   }
-  Text { text: qsTr("semitone(s)", "", shiftSpin.value); width: nootkaWindow.fontSize * 15; anchors.verticalCenter: parent.verticalCenter }
+  TlabelText { text: qsTr("semitone(s)", "", shiftSpin.value); width: nootkaWindow.fontSize * 15 }
   Column {
     RadioButton { id: upRadio; text: "<b><font size=\"7\">\u2191</font></b> " + qsTr("up") }
     RadioButton { id: downRadio; text: "<b><font size=\"7\">\u2193</font></b> " + qsTr("down") }

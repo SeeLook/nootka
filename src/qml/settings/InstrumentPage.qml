@@ -28,6 +28,7 @@ Flickable {
     Text {
       text: qsTr("Instrument")
       anchors.horizontalCenter: parent.horizontalCenter
+      color: activPal.text
     }
     InstrumentSelector {
       id: instrSel
@@ -100,10 +101,12 @@ Flickable {
     }
 
     Tile {
+      ButtonGroup { buttons: radioRow.children }
       Row {
+        id: radioRow
         spacing: nootkaWindow.fontSize
         anchors.horizontalCenter: parent.horizontalCenter
-        Text { text: qsTr("preferred accidentals:"); anchors.verticalCenter: parent.verticalCenter }
+        TlabelText { text: qsTr("preferred accidentals:") }
         RadioButton { id: prefSharpRadio; text: qsTr("# - sharps"); checked: !GLOB.preferFlats }
         RadioButton { id: prefFlatRadio; text: qsTr("b - flats"); checked: GLOB.preferFlats }
       }

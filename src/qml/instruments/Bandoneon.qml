@@ -7,6 +7,7 @@ import QtQuick.Controls 2.2
 import QtGraphicalEffects 1.0
 
 import Nootka 1.0
+import "../"
 
 
 TbandoneonBg {
@@ -114,7 +115,11 @@ TbandoneonBg {
       Button {
         id: openButt
         width: factor * 40
-        text: qsTr("bellows<br>opening")
+        height: nootkaWindow.fontSize * 3
+        contentItem: TlabelText { 
+          text: qsTr("bellows<br>opening"); width: parent.width
+          horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
+        }
         checkable: true
         background: Rectangle { color: openButt.checked ? "blue" : "gray" }
         onClicked: {
@@ -125,7 +130,11 @@ TbandoneonBg {
       Button {
         id: closeButt
         width: factor * 40
-        text: qsTr("bellows<br>closing")
+        height: nootkaWindow.fontSize * 3
+        contentItem: TlabelText {
+          text: qsTr("bellows<br>closing"); width: parent.width
+          horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
+        }
         checkable: true
         background: Rectangle { color: closeButt.checked ? "red" : "gray" }
         onClicked: {

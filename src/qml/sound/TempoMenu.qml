@@ -34,7 +34,10 @@ Popup {
       stepSize: 10
     }
 
+    ButtonGroup { buttons: radioRow.children }
+
     Row {
+      id: radioRow
       spacing: nootkaWindow.fontSize
       anchors.horizontalCenter: parent.horizontalCenter
       Text { text: qsTr("round to:"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
