@@ -8,40 +8,42 @@ import QtQuick.Controls 2.2
 import Nootka 1.0
 
 
-Button {
+Rectangle {
   id: menuButton
 
   property Taction action
+  property alias text: butText.text
 
-  width: parent.width - 6
-  height: nootkaWindow.fontSize * 3
+  width: parent.width - nootkaWindow.fontSize
+  implicitHeight: nootkaWindow.fontSize * 3
   anchors.horizontalCenter: parent.horizontalCenter
-  text: action ? action.text : ""
+  color: ma.containsPress ? activPal.highlight : activPal.button
+  border { width: 1; color: ma.containsMouse ? activPal.highlight : activPal.shadow }
+  radius: nootkaWindow.fontSize / 4
+
+  signal clicked()
 
   onActionChanged: {
     if (action.checkable)
-      radioComp.createObject(contentItem)
+      radioComp.createObject(menuButton)
   }
 
-  contentItem: Item {
-      width: menuButton.width
-      Image {
-        x: (nootkaWindow.fontSize * 2.5 - width) / 2
-        id: icon
-        sourceSize.height: nootkaWindow.fontSize * 2
-        anchors.verticalCenter: parent.verticalCenter
-        source: action ? action.icon : ""
+    Image {
+      x: nootkaWindow.fontSize / 2
+      id: icon
+      sourceSize.height: nootkaWindow.fontSize * 2.2
+      anchors.verticalCenter: parent.verticalCenter
+      source: action ? action.icon : ""
+    }
+    Column {
+      x: nootkaWindow.fontSize * 3.7
+      anchors.verticalCenter: parent.verticalCenter
+      Text {
+        id: butText
+        text: action ? action.text : ""
+        font.bold: true
       }
-      Column {
-        x: nootkaWindow.fontSize * 3
-        anchors.verticalCenter: parent.verticalCenter
-        Text {
-          id: butText
-          text: menuButton.text
-          font.bold: true
-        }
-      }
-  }
+    }
 
   Component {
     id: radioComp
@@ -49,6 +51,7 @@ Button {
       anchors {verticalCenter: parent.verticalCenter}
       checked: action.checked
       onClicked: menuButton.clicked()
+      x: (nootkaWindow.fontSize * 3.5 - width) / 2
     }
   }
 
@@ -56,21 +59,27 @@ Button {
     id: shortComp
     Text {
       anchors {verticalCenter: parent.verticalCenter}
-      text: action.key()
+      text: "(" + action.key() + ")"
       x: menuButton.width - width - nootkaWindow.fontSize
     }
   }
 
   Component.onCompleted: { // shortcut is known only now
     if (!Noo.isAndroid() && action.shortcut)
-      shortComp.createObject(contentItem)
+      shortComp.createObject(menuButton)
   }
 
-  onClicked: {
-    if (action) {
-      if (action.checkable)
-        action.checked = !action.checked
-      action.trigger()
+  MouseArea {
+    id: ma
+    anchors.fill: parent
+    hoverEnabled: true
+    onClicked: {
+      if (action) {
+        if (action.checkable)
+          action.checked = !action.checked
+        action.trigger()
+      }
+      menuButton.clicked()
     }
   }
 }
