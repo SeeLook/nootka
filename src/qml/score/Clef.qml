@@ -12,7 +12,7 @@ Text {
   id: clef
 
   property int type: Tclef.Treble_G
-  property Drawer clefDrawer
+  property var clefDrawer
 
   width: 5.5
   x: 0.5

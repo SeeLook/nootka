@@ -23,7 +23,7 @@ ToolBar {
 
   ToolButton {
     id: metroButt
-    property TempoMenu menu: null
+    property var menu: null
     width: settAct.width * 1.2; height: settAct.height
     x: pitchView.x - width
     onClicked: {
