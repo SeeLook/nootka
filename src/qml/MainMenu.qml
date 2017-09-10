@@ -8,7 +8,7 @@ import QtQuick.Controls 2.2
 
 Item {
   property alias toolBar: toolBar
-  property Menu scoreMenu: null
+  property var scoreMenu: null
 
   TtoolBar { id: toolBar }
 
