@@ -101,8 +101,10 @@ Score {
     text: Noo.TR("QShortcut", "Open")
     icon: "open"
     onTriggered: {
+      SOUND.stopListen()
       var xmlFle = Noo.getXmlToOpen()
       scoreObj.openMusicXml(xmlFle)
+      SOUND.startListen()
     }
     shortcut: Shortcut { sequence: StandardKey.Open; onActivated: openXmlAct.triggered() }
   }

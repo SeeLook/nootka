@@ -82,9 +82,11 @@ Flickable {
       ensureVisible(currentNote.staffItem.y, currentNote.staffItem.height * scale)
   }
 
-  Rectangle { // entire score background
+  Rectangle { // entire score background & frame when record
     id: bgRect
-    anchors.fill: score.contentItem
+    parent: score
+    z: -1
+    width: score.width; height: score.height
     color: Noo.alpha(activPal.base, 230)
     border { width: recordMode ? 2 : 0; color: "red" }
   }
