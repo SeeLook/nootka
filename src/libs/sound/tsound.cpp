@@ -458,8 +458,9 @@ void Tsound::playingFinishedSlot() {
 
 void Tsound::noteStartedSlot(const TnoteStruct& note) {
   m_detectedNote = note.pitch;
-//   if (!m_examMode)
-//   NOO->noteStarted(m_detectedNote); // TODO
+  m_detectedNote.setRhythm(Trhythm::Sixteenth);
+  if (!m_examMode)
+    NOO->noteStarted(m_detectedNote);
   emit noteStarted(m_detectedNote);
   emit noteStartedEntire(note);
   if (player && GLOB->instrument().type() != Tinstrument::NoInstrument && GLOB->A->playDetected)
