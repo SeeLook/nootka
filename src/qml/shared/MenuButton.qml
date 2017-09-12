@@ -28,22 +28,22 @@ Rectangle {
       radioComp.createObject(menuButton)
   }
 
-    Image {
-      x: nootkaWindow.fontSize / 2
-      id: icon
-      sourceSize.height: nootkaWindow.fontSize * 2.2
-      anchors.verticalCenter: parent.verticalCenter
-      source: action ? action.icon : ""
+  Image {
+    x: nootkaWindow.fontSize / 2
+    id: icon
+    sourceSize.height: nootkaWindow.fontSize * 2.2
+    anchors.verticalCenter: parent.verticalCenter
+    source: action ? action.icon : ""
+  }
+  Column {
+    x: nootkaWindow.fontSize * 3.7
+    anchors.verticalCenter: parent.verticalCenter
+    Text {
+      id: butText
+      text: action ? action.text : ""
+      font.bold: true
     }
-    Column {
-      x: nootkaWindow.fontSize * 3.7
-      anchors.verticalCenter: parent.verticalCenter
-      Text {
-        id: butText
-        text: action ? action.text : ""
-        font.bold: true
-      }
-    }
+  }
 
   Component {
     id: radioComp

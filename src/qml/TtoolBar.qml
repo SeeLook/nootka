@@ -32,7 +32,7 @@ ToolBar {
         menu = c.createObject(metroButt)
       }
       menu.open()
-      metroButt.focus = false
+      metroButt.focus = true
     }
     background: Rectangle {
       anchors.fill: parent; color: activPal.window
