@@ -61,7 +61,7 @@ Flickable {
     onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
     onKeySignatureChanged: setKeySignature(scoreObj.keySignature)
     onClefTypeChanged: staff0.clef.type = clefType
-    onLastNoteChanged: { // occurs when meter changes, so rhythm control has to be set accordingly
+    onMeterChanged: {
       if (rtmControl && meter !== Tmeter.NoMeter) {
           rtmControl.rtm = meter <= Tmeter.Meter_7_4 ? Trhythm.Quarter : Trhythm.Eighth
           rtmControl.dot = false
@@ -70,10 +70,7 @@ Flickable {
           workRhythm = rtmControl.rhythm
       } else
           workRhythm = Noo.rhythm(Trhythm.NoRhythm, false, false, false)
-      if (noteAdd)
-        noteAdd.lastNote = lastNote
     }
-
     function removeStaff(nr) { staves.splice(nr, 1); lastStaff = staves[staves.length - 1] }
   }
 
@@ -132,6 +129,7 @@ Flickable {
       noteText: Noo.rhythmText(scoreObj.workRhythm)
       onAddNote: { score.addNote(scoreObj.posToNote(yPos)); if (recordMode) currentNote = null }
       alterText: accidControl.text
+      lastNote: scoreObj.lastNote
     }
   }
 
@@ -183,8 +181,6 @@ Flickable {
     var lastNote = scoreObj.lastNote
     if (staves.length > 1)
       ensureVisible(lastNote.staffItem.y, lastNote.staffItem.height * scale)
-    if (noteAdd)
-      noteAdd.lastNote = lastNote
     if (!recordMode)
       currentNote = lastNote
   }
