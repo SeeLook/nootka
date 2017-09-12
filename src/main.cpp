@@ -23,7 +23,6 @@
 #include <QtGui/qicon.h>
 #include <QtQml/qqmlapplicationengine.h>
 #include <QtQml/qqmlcontext.h>
-#include <QtCore/qdebug.h>
 #include <QtCore/qtranslator.h>
 #include <QtCore/qdatetime.h>
 #include <QtCore/qpointer.h>
@@ -37,6 +36,9 @@
 #if defined (Q_OS_ANDROID)
   #include <Android/tandroid.h>
 #endif
+
+#include <QtCore/qdebug.h>
+#include <QtCore/qelapsedtimer.h>
 
 
 static QString logFile;
@@ -78,6 +80,9 @@ int main(int argc, char *argv[])
   qInstallMessageHandler(myMessageOutput);
   qDebug() << "==== NOOTKA LOG =======\n" << QDateTime::currentDateTime().toString();
 #endif
+
+  QElapsedTimer startElapsed;
+  startElapsed.start();
 
   QTranslator qtTranslator;
   QTranslator nooTranslator;
@@ -145,6 +150,10 @@ int main(int argc, char *argv[])
 //       if (argc > 1)
 //         w->openFile(QString::fromLocal8Bit(argv[argc - 1]));
 #endif
+    }
+    if (firstTime) {
+      QTextStream o(stdout);
+      o << "\033[01;35m[Nootka launch time: " << startElapsed.nsecsElapsed() / 1000000.0 << " [ms]\033[01;00m\n";
     }
     firstTime = false;
     exitCode = a->exec();
