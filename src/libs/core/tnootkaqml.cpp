@@ -364,6 +364,13 @@ QColor TnootkaQML::randomColor(int alpha, int level) {
 //###################     CONNECTIONS  NODE            ############################################
 //#################################################################################################
 void TnootkaQML::noteStarted(const Tnote& n) {
+  Tnote transNote = n;
+  if (transNote.isValid())
+    transNote.transpose(-GLOB->transposition());
+  if (m_scoreObject->keySignature() < 0 || (m_scoreObject->keySignature() == 0 && GLOB->GpreferFlats))
+    transNote = transNote.showWithFlat();
+  m_ignoreScore = true;
+  QMetaObject::invokeMethod(m_mainScore, "addNote", Q_ARG(QVariant, QVariant::fromValue(transNote)));
 }
 
 
@@ -374,13 +381,12 @@ void TnootkaQML::noteFinished(const Tnote& n) {
     transNote.transpose(-GLOB->transposition());
   if (m_scoreObject->keySignature() < 0 || (m_scoreObject->keySignature() == 0 && GLOB->GpreferFlats))
     transNote = transNote.showWithFlat();
-//   if (m_scoreObject->selectedItem())
-//     QMetaObject::invokeMethod(m_mainScore, "setNote", Q_ARG(QVariant, QVariant::fromValue(m_scoreObject->selectedItem())),
-//                               Q_ARG(QVariant, QVariant::fromValue(transNote)));
-//   else
-  // TODO remember to treat tied notes as a single one when setNote will be implemented
   m_ignoreScore = true;
-  QMetaObject::invokeMethod(m_mainScore, "addNote", Q_ARG(QVariant, QVariant::fromValue(transNote)));
+  if (m_scoreObject->selectedItem())
+    QMetaObject::invokeMethod(m_mainScore, "setNote", Q_ARG(QVariant, QVariant::fromValue(m_scoreObject->selectedItem())),
+                                                      Q_ARG(QVariant, QVariant::fromValue(transNote)));
+//   else // naughty user pressed arrow key
+  // TODO remember to treat tied notes as a single one when setNote will be implemented
 }
 
 
