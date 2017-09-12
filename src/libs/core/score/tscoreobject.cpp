@@ -276,6 +276,13 @@ CHECKTIME (
 
 void TscoreObject::setNote(TnoteObject* no, const Tnote& n) {
   if (no) {
+    if (no == lastNote() && no->note()->rtm != n.rtm) {
+      deleteLastNote();
+      addNote(n);
+      emitLastNote();
+      return;
+    }
+
     auto oldNote = *no->wrapper()->note();
     auto newNote = n;
     newNote.rtm.setBeam(oldNote.rtm.beam()); // TODO as long as we don't change rhythm
@@ -357,8 +364,10 @@ void TscoreObject::noteClicked(qreal yPos) {
 
   Trhythm newRhythm = *m_workRhythm;
   if (activeNote()->note()->rhythm() != m_workRhythm->rhythm() || activeNote()->note()->hasDot() != m_workRhythm->hasDot()) {
-    newRhythm = activeNote()->note()->rtm; // TODO so far it forces old rhythm until note rhythm change will be implemented
-    newRhythm.setRest(m_workRhythm->isRest()); // only changes note to rest if set by user
+    if (activeNote() != lastNote()) {
+      newRhythm = activeNote()->note()->rtm; // TODO so far it forces old rhythm until note rhythm change will be implemented
+      newRhythm.setRest(m_workRhythm->isRest()); // only changes note to rest if set by user
+    }
   }
 
   int globalNr = globalNoteNr(yPos);
@@ -579,8 +588,10 @@ QString TscoreObject::workRtmText() const {
 }
 
 
-QString TscoreObject::activeRtmText() const {
-  return m_activeNote ? TnoteObject::getHeadText(Trhythm(m_activeNote->note()->rhythm(), m_workRhythm->isRest())) : QString();
+QString TscoreObject::activeRtmText() {
+  if (m_activeNote)
+    return TnoteObject::getHeadText(Trhythm(m_activeNote == lastSegment()->item() ? m_workRhythm->rhythm() : m_activeNote->note()->rhythm(), m_workRhythm->isRest()));
+  return QString();
 }
 
 
@@ -617,7 +628,7 @@ qreal TscoreObject::midLine(TnoteObject* actNote) {
 
 void TscoreObject::deleteLastNote() {
   if (notesCount()) {
-    if (lastNote()->note()->rtm.tie())
+    if (lastNote()->note()->rtm.tie() && notesCount() > 1)
       noteSegment(notesCount() - 2)->disconnectTie(TnotePair::e_untiePrev);
     bool adjust = false;
     auto lastBar = lastMeasure();
@@ -644,7 +655,7 @@ void TscoreObject::deleteLastNote() {
       adjustScoreWidth();
 
     emit activeNoteChanged();
-    emit lastNoteChanged(); //TODO it causes work rhythm change
+    emitLastNote();
     if (tempActiveBar != m_activeBarNr)
       emitActiveBarChanged();
   }
@@ -659,7 +670,7 @@ void TscoreObject::clearScore() {
   m_activeBarNr = -1;
   m_activeNote = nullptr;
   adjustScoreWidth();
-  emit lastNoteChanged();
+  emitLastNote();
 }
 
 
