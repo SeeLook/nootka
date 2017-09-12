@@ -257,7 +257,7 @@ public:
       /**
        * Returns text of active note head or appropriate rest symbol if work rhythm is set to rest
        */
-  Q_INVOKABLE QString activeRtmText() const;
+  Q_INVOKABLE QString activeRtmText();
 
   Q_INVOKABLE Tnote posToNote(qreal yPos);
 
