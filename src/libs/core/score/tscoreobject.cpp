@@ -269,7 +269,7 @@ CHECKTIME (
       m_segments << getSegment(lastNoteId, &m_notes.last());
       lastMeasure->appendNewNotes(lastNoteId, 1);
   }
-
+  emitLastNote();
 )
 }
 
