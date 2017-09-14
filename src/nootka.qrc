@@ -22,10 +22,11 @@
     <file alias="Transposition.qml">qml/shared/Transposition.qml</file>
     <file alias="TlabelText.qml">qml/shared/TlabelText.qml</file>
 
-    <file alias="IntonationBar.qml">qml/sound/IntonationBar.qml</file>
-    <file alias="VolumeBar.qml">qml/sound/VolumeBar.qml</file>
+<!--     <file alias="IntonationBar.qml">qml/sound/IntonationBar.qml</file> -->
     <file alias="PitchView.qml">qml/sound/PitchView.qml</file>
-    <file alias="TempoMenu.qml">qml/sound/TempoMenu.qml</file>
+    <file alias="sound/VolumeBar.qml">qml/sound/VolumeBar.qml</file>
+    <file alias="sound/TempoBar.qml">qml/sound/TempoBar.qml</file>
+    <file alias="sound/TempoMenu.qml">qml/sound/TempoMenu.qml</file>
 
     <file alias="Score.qml">qml/score/Score.qml</file>
     <file alias="Staff.qml">qml/score/Staff.qml</file>
