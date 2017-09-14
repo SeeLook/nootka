@@ -72,9 +72,12 @@ Flickable {
           anchors.horizontalCenter: parent.horizontalCenter
           Text { text: qsTr("minimum volume"); anchors.verticalCenter: parent.verticalCenter; color: enabled ? activPal.text : disdPal.text }
           Slider {
+            anchors.verticalCenter: parent.verticalCenter
+            width: Math.min(nootkaWindow.fontSize * 15, parent.parent.width / 3)
             from: 10; to: 80
             value: volSpin.value
             onValueChanged: volSpin.value = value
+            stepSize: 5
           }
           SpinBox {
             id: volSpin
