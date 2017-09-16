@@ -10,6 +10,8 @@ import ".."
 
 Popup {
   property alias tickEnable: meterTickChB.checked
+  property alias count: countChB.checked
+
   margins: nootkaWindow.fontSize
 
   signal accepted()
@@ -60,6 +62,12 @@ Popup {
     TcheckBox {
       id: meterTickChB
       text: qsTr("Enable metronome ticking")
+      checked: true
+    }
+
+    TcheckBox {
+      id: countChB
+      text: qsTr("Count up")
       checked: true
     }
 
