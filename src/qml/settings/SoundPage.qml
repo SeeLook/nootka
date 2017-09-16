@@ -59,7 +59,8 @@ Flickable {
           SpinBox {
             id: minDurSpin
             from: 50; to: 1000
-            stepSize: 50
+            stepSize: 10
+            editable: true
           }
           TlabelText { text: qsTr("[milliseconds]") }
         }
@@ -83,6 +84,7 @@ Flickable {
             id: volSpin
             from: 10; to: 80
             value: GLOB.minVolume * 100
+            editable: true
           }
           TlabelText { text: "%" }
         }
@@ -123,6 +125,7 @@ Flickable {
               anchors.verticalCenter: parent.verticalCenter;
               from: 391; to: 493 // in range of two semitones up and down around middle A (440Hz)
               value: 440
+              editable: true
             }
             TlabelText { text: qsTr("[Hz]") }
           }
@@ -173,6 +176,7 @@ Flickable {
                 id: splitVolSpin
                 from: 5; to: 50
                 enabled: splitVolChB.checked
+                editable: true
               }
               TlabelText { text: "%" }
             }
@@ -191,6 +195,7 @@ Flickable {
                 id: skipStillerSpin
                 from: 10; to: 95
                 enabled: skipStillerChB.checked
+                editable: true
               }
               TlabelText { text: "%" }
             }

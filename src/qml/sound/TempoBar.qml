@@ -10,7 +10,6 @@ Item {
 
   // private
   property var menu: null
-//   property var rot: [ -18, -18, 0, 18, 18 ]
   property int hiTick: -1
 
   Rectangle {
@@ -24,7 +23,7 @@ Item {
       x: width * 0.2
       font { family: "Scorek"; pixelSize: parent.height * 0.7 }
       text: "\ue1d5=" + SOUND.tempo
-      color: /*SOUND.listening ?*/ activPal.text //: disdPal.text
+      color: activPal.text
     }
     MouseArea {
       id: ma
@@ -40,16 +39,27 @@ Item {
     }
   }
 
+  Text {
+    id: countText
+    property int cnt: 1
+    visible: SOUND.listening && (!menu || (menu.count && menu.tickEnable))
+    font { pixelSize: parent.height * 1.3; family: "Scorek" }
+    color: activPal.text
+    y: parent.height * -1.7
+    x: parent.height * 4
+  }
+
   Repeater {
     id: rep
     model: 5
     Rectangle {
-      x: root.width / 4 + index * (parent.height)
+      readonly property color bgColor: Qt.tint(activPal.window, Noo.alpha(activPal.base, 100))
+      x: root.width / 3 + index * (parent.height)
       y: (parent.height * 0.1) * (2 - Math.abs(2 - index))
       width: parent.height * 0.5; height: parent.height * 0.6 + Math.abs(2 - index) * 0.3 * parent.height
       radius: width / 2
-      color: index === hiTick && timer.running ? activPal.text : activPal.button
-      rotation: (index - 2) * 25 // rot[index]
+      color: index === hiTick && timer.running ? activPal.text : bgColor
+      rotation: (index - 2) * 25
     }
   }
 
@@ -69,6 +79,11 @@ Item {
       elap = currTime
       interval = Math.max(60000 / SOUND.tempo / 4 - lag, 1)
       lag = 0
+      if (countText.visible && (phase + 1) % 4 === 0) {
+        countText.text = countText.cnt
+        countText.cnt++
+        if (countText.cnt > 4) countText.cnt = 1
+      }
       phase++
       if (phase > 7) phase = 0
       hiTick = Math.abs(phase - 4)
