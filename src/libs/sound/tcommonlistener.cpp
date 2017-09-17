@@ -169,10 +169,17 @@ void TcommonListener::pitchInChunkSlot(float pitch) {
 
 void TcommonListener::noteStartedSlot(qreal pitch, qreal freq, qreal duration) {
   if (!isPaused()) {
-      m_lastNote.set(pitch - m_audioParams->a440diff, freq, duration);
-      if (inRange(m_lastNote.pitchF)) {
-        m_noteWasStarted = true;
-        emit noteStarted(m_lastNote);
+      if (pitch > 0.0) {
+          m_lastNote.set(pitch - m_audioParams->a440diff, freq, duration);
+          if (inRange(m_lastNote.pitchF)) {
+            m_noteWasStarted = true;
+            emit noteStarted(m_lastNote);
+          }
+      } else { // zero pitch means rest
+          m_noteWasStarted = true;
+          m_lastNote.pitch.note = 0;
+          m_lastNote.duration = duration;
+          emit noteStarted(m_lastNote);
       }
   } else
       m_lastNote.set(); // reset last detected note structure
@@ -182,11 +189,18 @@ void TcommonListener::noteStartedSlot(qreal pitch, qreal freq, qreal duration) {
 void TcommonListener::noteFinishedSlot(TnoteStruct* lastNote) {
   m_noteWasStarted = false;
   if (!isPaused()) {
-      qreal midiPitch = lastNote->getAverage(3, // non guitar pitch is average of all pitches
-                             GLOB->instrument().type() == Tinstrument::NoInstrument ? lastNote->pitches()->size() : finder()->minChunksNumber());
-      m_lastNote.set(midiPitch - m_audioParams->a440diff, pitch2freq(midiPitch), lastNote->duration);
-      if (inRange(m_lastNote.pitchF))
-        emit noteFinished(m_lastNote);
+      // non guitar pitch is average of all pitches
+      qreal midiPitch = lastNote->pitchF > 0.0 ? lastNote->getAverage(3,
+                             GLOB->instrument().type() == Tinstrument::NoInstrument ? lastNote->pitches()->size() : finder()->minChunksNumber()) : 0.0;
+      if (lastNote->pitchF > 0.0)
+        m_lastNote.set(midiPitch - m_audioParams->a440diff, pitch2freq(midiPitch), lastNote->duration);
+      else
+        m_lastNote.set(0.0, 0.0, lastNote->duration);
+      if (lastNote->pitchF > 0.0) {
+          if (inRange(m_lastNote.pitchF))
+            emit noteFinished(m_lastNote);
+      } else
+          emit noteFinished(m_lastNote);
 
       if (lastNote->maxPCMvol < LOWEST_PCM) {
           m_hiPCMnumber = 0;

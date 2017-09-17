@@ -458,7 +458,7 @@ void Tsound::playingFinishedSlot() {
 
 void Tsound::noteStartedSlot(const TnoteStruct& note) {
   m_detectedNote = note.pitch;
-  m_detectedNote.setRhythm(Trhythm::Sixteenth);
+  m_detectedNote.setRhythm(Trhythm::Sixteenth, !m_detectedNote.isValid());
   if (!m_examMode)
     NOO->noteStarted(m_detectedNote);
   emit noteStarted(m_detectedNote);
@@ -468,16 +468,19 @@ void Tsound::noteStartedSlot(const TnoteStruct& note) {
 }
 
 
+// qreal durationBalance = 0.0;
 void Tsound::noteFinishedSlot(const TnoteStruct& note) {
-  m_detectedNote = note.pitch;
+  if (note.pitch.isValid())
+    m_detectedNote = note.pitch;
   qreal rFactor = 2500.0 / m_tempo;
-  qreal dur = note.duration * 1000.0 / rFactor;
-  int normDur = qRound(dur /  static_cast<qreal>(m_quantVal)) * m_quantVal;
-  Trhythm r(normDur);
-  qDebug() << "noteFinishedSlot" << note.duration * 1000 << dur << normDur;
+  qreal dur = (note.duration * 1000.0/* + durationBalance*/) / rFactor;
+  int normDur = qRound(dur / static_cast<qreal>(m_quantVal)) * m_quantVal;
+//   durationBalance = note.duration * 1000.0 - static_cast<qreal>(normDur) * rFactor;
+//   qDebug() << "[Tsound] rest of duration average" << durationBalance << "of" << note.duration * 1000.0 << normDur * rFactor;
+  Trhythm r(normDur, m_detectedNote.isRest());
   if (r.isValid()) {
       m_detectedNote.setRhythm(r);
-      qDebug() << "Detected" << note.duration << normDur << m_detectedNote.toText() << m_detectedNote.rtm.string();
+      qDebug() << "Detected" << note.duration << normDur << note.pitchF << m_detectedNote.rtm.string();
       emit noteFinished();
       if (!m_examMode)
         NOO->noteFinished(m_detectedNote);
@@ -486,17 +489,23 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
       Trhythm::resolve(normDur, notes);
       for (int n = 0; n < notes.count(); ++n) {
         Trhythm& rr = notes[n];
-        if (n == 0)
-            rr.setTie(Trhythm::e_tieStart);
-        else if (n == notes.count() - 1)
-            rr.setTie(Trhythm::e_tieEnd);
-        else
-          rr.setTie(Trhythm::e_tieCont);
-        m_detectedNote.setRhythm(rr);
-        qDebug() << "Detected" << note.duration << normDur << n << m_detectedNote.toText() << m_detectedNote.rtm.string();
+        if (!m_detectedNote.isRest()) {
+          if (n == 0)
+              rr.setTie(Trhythm::e_tieStart);
+          else if (n == notes.count() - 1)
+              rr.setTie(Trhythm::e_tieEnd);
+          else
+            rr.setTie(Trhythm::e_tieCont);
+        }
+        m_detectedNote.setRhythm(rr.rhythm(), m_detectedNote.isRest(), rr.hasDot(), rr.isTriplet());
+        qDebug() << "Detected" << note.duration << normDur << n << note.pitchF << m_detectedNote.rtm.string();
         emit noteFinished();
-        if (!m_examMode)
-          NOO->noteFinished(m_detectedNote);
+        if (!m_examMode) {
+          if (n == 0) // update rhythm of the last note
+            NOO->noteFinished(m_detectedNote);
+          else // but create others
+            NOO->noteStarted(m_detectedNote);
+        }
       }
   }
   emit noteFinishedEntire(note);

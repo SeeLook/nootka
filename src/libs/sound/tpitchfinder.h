@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,7 +27,7 @@
 #include "tartiniparams.h"
 
 
-// This part of code id directly taken from Tartini musicnotes.h --------------------
+// This part of code is directly taken from Tartini musicnotes.h --------------------
   /** Converts the frequencies freq (in hertz) into their note number on the midi scale
     i.e. the number of semi-tones above C0
     Note: The note's pitch will contain its fractional part
@@ -37,9 +37,9 @@
 inline qreal freq2pitch(qreal freq)
 {
 #ifdef log2
-  return -36.3763165622959152488 + 12.0*log2(freq);
+  return -36.3763165622959152488 + 12.0 * log2(freq);
 #else
-  return -36.3763165622959152488 + 39.8631371386483481*log10(freq);
+  return -36.3763165622959152488 + 39.8631371386483481 * log10(freq);
 #endif
 }
 
@@ -195,8 +195,15 @@ signals:
   void noteFinished(TnoteStruct*); /** Emitting parameters of finished note (pitch, freq, duration) */
 
 protected slots:
-  void startPitchDetection(); /** Starts searching thread */
-  void processed(); /** Performs signal emitting after chunk was done but out of processing thread */
+      /**
+       * Starts searching thread
+       */
+  void startPitchDetection();
+
+      /**
+       * Performs signal emitting after chunk was done
+       */
+  void processed();
   void detectingThread();
   void threadFinished();
 
@@ -204,7 +211,9 @@ protected slots:
 private:
   void detect();
 
-      /** Cleans all buffers, sets m_chunkNum to 0. */
+      /**
+       * Cleans all buffers, sets m_chunkNum to 0.
+       */
   void resetFinder();
   void createDumpFile();
   void destroyDumpFile();
@@ -235,6 +244,9 @@ private:
   EnoteState            m_state, m_prevState;
   float                 m_pcmVolume, m_workVol;
   TnoteStruct           m_newNote, m_currentNote;
+  TnoteStruct           m_restNote, m_lastDetectedNote;
+  bool                  m_plaingWasDetected = false;
+  bool                  m_restStarted = false;
   bool                  m_splitByVol;
   qreal                 m_minVolToSplit, m_chunkTime, m_skipStillerVal, m_averVolume;
   int                   m_minChunks;
