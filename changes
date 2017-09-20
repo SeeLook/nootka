@@ -2,7 +2,7 @@
      - German translation is complete
      - support for marking more frets on the fingerboard
     BUGS FIXES
-     - fixed annoying crash on enetring settings when 'other' instrument was used
+     - fixed annoying crash on entering settings when 'other' instrument was used
 
 1.4.3
     ANDROID

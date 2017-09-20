@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -439,6 +439,8 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 			if (!isAttempt) // play melody but not when user tries again
 				repeatSound();
 		} else {
+        if (curQ->answerAsSound())
+          SOUND->wait(); // stop paused sniffing - at any rate, playing sound will break input data consistency
 				SOUND->play(curQ->qa.note);
 				if (curQ->answerAsSound())
 						m_answRequire.accid = false;
