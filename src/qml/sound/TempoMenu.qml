@@ -77,6 +77,7 @@ Popup {
       onClicked: {
         SOUND.tempo = tempoSpin.value
         SOUND.quantization = radio16.checked ? 6 : 12 // See Tsound doc for values explanation
+        tempoSpin.value = SOUND.tempo
         accepted()
         close()
       }
