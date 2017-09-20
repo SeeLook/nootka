@@ -11,6 +11,9 @@ Item {
   // private
   property var menu: null
   property int hiTick: -1
+  property int cnt: 1
+  property var hArray: [ 0.6, 0, 0.3, 0, 0.6]
+  property var gArray: [ "\ue1d5", "\ue1d9", "\ue1d7", "\ue1d9", "\ue1d5" ]
 
   Rectangle {
     id: metroText
@@ -39,34 +42,41 @@ Item {
     }
   }
 
-  Text {
-    id: countText
-    property int cnt: 1
-    visible: SOUND.listening && (!menu || (menu.count && menu.tickEnable))
-    font { pixelSize: parent.height * 1.3; family: "Scorek" }
-    color: activPal.text
-    y: parent.height * -1.7
-    x: parent.height * 4
-  }
-
   Repeater {
     id: rep
     model: 5
     Rectangle {
       readonly property color bgColor: Qt.tint(activPal.window, Noo.alpha(activPal.base, 100))
-      x: root.width / 3 + index * (parent.height)
-      y: (parent.height * 0.1) * (2 - Math.abs(2 - index))
-      width: parent.height * 0.5; height: parent.height * 0.6 + Math.abs(2 - index) * 0.3 * parent.height
+      x: root.width / 3 + index * (parent.height) - width / 2
+      y:  parent.height * (Math.abs(0.6 - hArray[index]) / 5)
+      width: parent.height * (0.9 - (Math.abs(0.6 - hArray[index]) / 3)); height: parent.height * 0.8 + hArray[index] * parent.height
       radius: width / 2
-      color: index === hiTick && timer.running ? activPal.text : bgColor
-      rotation: (index - 2) * 25
+      color: index === hiTick && timer.running ? (index === 0 || index === 4 ? activPal.highlight : activPal.text) : bgColor
+      rotation: (index - 2) * 30
+      visible: SOUND.tempo < 110 || index % 2 !== 1
+      Text { // rhythm
+        visible: index !== hiTick || !SOUND.listening
+        font { pixelSize: parent.height * 0.8; family: "Scorek" }
+        color: disdPal.text
+        text: gArray[index]
+        y: parent.height * -0.85
+        x: (parent.width - width) / 2
+      }
+      Text { // count
+        visible: SOUND.listening && index === hiTick && (!menu || (menu.count && menu.tickEnable))
+        font { pixelSize: parent.height; family: "Scorek" }
+        color: activPal.base
+        text: cnt
+        y: parent.height * -1.2
+        x: (parent.width - width) / 2
+      }
     }
   }
 
   Timer {
     id: timer
     running: SOUND.listening && (!menu || menu.tickEnable); repeat: true
-    interval: 60000 / SOUND.tempo / 4
+    interval: (SOUND.tempo < 110 ? 15000 : 30000) / SOUND.tempo
     property real elap: 0
     property real lag: 0
     property int phase: 0
@@ -77,14 +87,15 @@ Item {
         lag += elap - interval
       }
       elap = currTime
-      interval = Math.max(60000 / SOUND.tempo / 4 - lag, 1)
+      interval = Math.max(((SOUND.tempo < 110 ? 15000 : 30000) / SOUND.tempo) - lag, 1)
       lag = 0
-      if (countText.visible && (phase + 1) % 4 === 0) {
-        countText.text = countText.cnt
-        countText.cnt++
-        if (countText.cnt > 4) countText.cnt = 1
+      if ((phase + (SOUND.tempo < 110 ? 1 : 2)) % 4 === 0) {
+        if (cnt < 4)
+          cnt++
+        else
+          cnt = 1
       }
-      phase++
+      phase += SOUND.tempo < 110 ? 1 : 2
       if (phase > 7) phase = 0
       hiTick = Math.abs(phase - 4)
     }
