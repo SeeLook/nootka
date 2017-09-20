@@ -70,7 +70,9 @@ float          TaudioOUT::m_cross = 0.0f;
 
 
 bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status) {
+  Q_UNUSED(status)
   instance->m_callBackIsBussy = true;
+  bool endState = true;
 //   if (status) // It doesn't harm if occurs
 //       qDebug() << "Stream underflow detected!";
   if (m_doCrossFade) { // Cross-fading avoids cracking during transition of notes.
@@ -99,13 +101,18 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
       }
       instance->m_callBackIsBussy = false;
       if (m_samplesCnt == m_maxCBloops)
-        return true;
+        endState = true;
       else
-        return false;
+        endState = false;
   } else {
       instance->m_callBackIsBussy = false;
-      return true;
+      endState = true;
   }
+
+  if (instance->doEmit && !areStreamsSplit() && endState)
+    ao()->emitPlayingFinished(); // emit in duplex mode
+
+  return endState;
 }
 /*end static*/
 
@@ -212,8 +219,12 @@ bool TaudioOUT::play(int noteNr) {
 
 
 void TaudioOUT::playingFinishedSlot() {
-  if (areStreamsSplit() && state() == e_playing) {
+  if (areStreamsSplit() && state() == e_playing)
     closeStream();
+
+  if (doEmit) {
+    emit noteFinished();
+    doEmit = false;
   }
 }
 

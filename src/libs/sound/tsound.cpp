@@ -243,7 +243,7 @@ void Tsound::wait() {
 
 
 void Tsound::go() {
-//     qDebug("go");
+//   qDebug("go");
   if (sniffer /*&& !m_pitchView->isPaused()*/) {
     sniffer->startListening();
   }
@@ -346,14 +346,13 @@ void Tsound::setDumpFileName(const QString& fName) {
 void Tsound::createPlayer() {
 #if defined (Q_OS_ANDROID)
   player = new TaudioOUT(Tcore::gl()->A);
-  connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinishedSlot()));
 #else
-  if (Tcore::gl()->A->midiEnabled) {
+  if (Tcore::gl()->A->midiEnabled)
       player = new TmidiOut(Tcore::gl()->A);
-      connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinishedSlot()));
-	} else
+	else
       player = new TaudioOUT(Tcore::gl()->A);
 #endif
+  connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinishedSlot()));
   m_stopSniffOnce = false;
 }
 
