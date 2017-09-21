@@ -43,6 +43,26 @@ Score {
   scoreObj.enableDoubleAccidentals: GLOB.enableDoubleAccids
   scoreObj.allowAdding: true
 
+  Timer { id: zoomTimer; interval: 500 }
+  MouseArea {
+    anchors.fill: parent
+    onWheel: {
+      if (wheel.modifiers & Qt.ControlModifier) {
+        if (wheel.angleDelta.y > 0) {
+            if (!zoomTimer.running) {
+              zoomInAct.trigger()
+              zoomTimer.running = true
+            }
+        } else if (wheel.angleDelta.y < 0) {
+            if (!zoomTimer.running) {
+              zoomOutAct.trigger()
+              zoomTimer.running = true
+            }
+        }
+      }
+    }
+  }
+
   Text {
     id: keyName
     parent: firstStaff
