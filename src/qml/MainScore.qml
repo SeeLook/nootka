@@ -70,7 +70,7 @@ Score {
     x: clef === Tclef.PianoStaffClefs ? 6.5 : 4.5
     y: clef === Tclef.PianoStaffClefs ? 2.5 : 5
     color: activPal.text
-    font.pointSize: 1.5
+    font { family: "Sans"; pointSize: 1.5 }
     text: getKeyNameText()
     Connections {
       target: GLOB
