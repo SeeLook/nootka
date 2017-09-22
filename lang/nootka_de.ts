@@ -15,7 +15,7 @@
     <message>
         <source>Not bad, but:</source>
         <comment>&apos;Not so bad, but:&apos; is perfectly clear, but a little less common in US English. To be a bit shorter, it might just as well be, &apos;Not bad, but:&apos;</comment>
-        <translation>Nicht Schlecht, aber:</translation>
+        <translation>Nicht schlecht, aber:</translation>
     </message>
     <message>
         <source>wrong string</source>
@@ -233,7 +233,7 @@
     <name>AudioOutSettings</name>
     <message>
         <source>play sound</source>
-        <translation>Ton wiedergeben </translation>
+        <translation>Ton wiedergeben</translation>
     </message>
     <message>
         <source>Selected notes and guitar positions will be played.</source>
@@ -596,11 +596,11 @@
     <message>
         <source>Donors</source>
         <comment>Would be &apos;Sponsors&apos; or even &apos;Backers&apos; - translate as such as You fill, what sounds/looks better in Your language</comment>
-        <translation type="unfinished"></translation>
+        <translation>Gönner</translation>
     </message>
     <message>
         <source>People and companies who gave material support for the Nootka project</source>
-        <translation type="unfinished"></translation>
+        <translation>Personen und Firmen, die das Projekt Nootka materiell unterstützt haben</translation>
     </message>
 </context>
 <context>
@@ -831,7 +831,7 @@
     </message>
     <message>
         <source>treble dropped</source>
-        <translation>nach unten oktavierender Violinschlüssel </translation>
+        <translation>nach unten oktavierender Violinschlüssel</translation>
     </message>
     <message>
         <source>bass</source>
@@ -985,7 +985,7 @@
     </message>
     <message>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Psssst... Die Prüfung läuft.&lt;br&gt;&lt;br&gt;Wähle &lt;b&gt;%1&lt;/b&gt; aus zum Prüfen, Sichern und Beenden&lt;br&gt;oder &lt;b&gt;%2&lt;/b&gt; um weiter zu machen.&lt;br&gt;</translation>
     </message>
 </context>
 <context>
@@ -1016,7 +1016,7 @@
     </message>
     <message>
         <source> Briefly: Nootka give you a question and you give an answer...</source>
-        <translation>Kurz: Nootka gibt eine Frage vor und du beantwortest sie ...</translation>
+        <translation> Kurz: Nootka gibt eine Frage vor und du beantwortest sie ...</translation>
     </message>
     <message>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
@@ -1109,12 +1109,12 @@
     <message>
         <source>tap %1</source>
         <comment>tap &lt;icon image follows&gt;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tippe auf %1</translation>
     </message>
     <message>
         <source>Click %1 to stop.</source>
         <comment>click &lt;icon-image&gt; to stop (exam or exercise)</comment>
-        <translation type="unfinished"></translation>
+        <translation>Klick auf %1 zum Anhalten.</translation>
     </message>
 </context>
 <context>
@@ -1340,7 +1340,7 @@
     </message>
     <message>
         <source>Send exam file</source>
-        <translation type="unfinished"></translation>
+        <translation>Sende Prüfungsdatei</translation>
     </message>
 </context>
 <context>
@@ -1388,7 +1388,7 @@
     </message>
     <message>
         <source>Effectiveness of whole exam (and effectiveness of current question).</source>
-        <translation>Effektivität des gesamten Übung (und der aktuellen Frage). </translation>
+        <translation>Effektivität des gesamten Übung (und der aktuellen Frage).</translation>
     </message>
 </context>
 <context>
@@ -1444,11 +1444,11 @@ Check answer just after last note of melody was played.</translatorcomment>
     <name>TfileDialog</name>
     <message>
         <source>Memory card</source>
-        <translation type="unfinished"></translation>
+        <translation>Speicherkarte</translation>
     </message>
     <message>
         <source>Directory named &lt;b&gt;Nootka&lt;/b&gt; will be created in&lt;br&gt;%1&lt;br&gt;Application files will be written there.</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Verzeichnis mit dem Namen &lt;b&gt;Nootka&lt;/b&gt; wird in &lt;br&gt;%1&lt;br&gt; erstellt. Dort werden die Dateien der Applikation abgelegt.</translation>
     </message>
 </context>
 <context>
@@ -1710,27 +1710,27 @@ cents???</translatorcomment>
     <name>Tlevel</name>
     <message>
         <source>Grand staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Akkolade</translation>
     </message>
     <message>
         <source>Guess notes from grand staff in different keys</source>
-        <translation type="unfinished"></translation>
+        <translation>Errate die Noten aus verschiedenen Systemen in der Akkolade</translation>
     </message>
     <message>
         <source>Bass clef</source>
-        <translation type="unfinished"></translation>
+        <translation>Bassschlüssel</translation>
     </message>
     <message>
         <source>Play a short and simple melody in bass clef</source>
-        <translation type="unfinished"></translation>
+        <translation>Spiele eine kurze einfache Melodie in Bassschlüssel</translation>
     </message>
     <message>
         <source>Play grand staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Spiele Akkolade</translation>
     </message>
     <message>
         <source>Play random melodies from two staves of piano notation. Keys up to four accidentals.</source>
-        <translation type="unfinished"></translation>
+        <translation>Spiele Zufallsmelodien aus beiden Systemen einer Klavierpartitur. Bis zu vier Vorzeichen pro Tonlage.</translation>
     </message>
     <message>
         <source>open strings</source>
@@ -1794,11 +1794,11 @@ cents???</translatorcomment>
     </message>
     <message>
         <source>Pentatonic</source>
-        <translation type="unfinished"></translation>
+        <translation>Fünftonleiter</translation>
     </message>
     <message>
         <source>Play melody composed from pentatonic scale, every time in different key signature.</source>
-        <translation type="unfinished"></translation>
+        <translation>Spiele Melodie aus Fünftonleiter, jedes Mal in anderer Tonlage.</translation>
     </message>
 </context>
 <context>
@@ -2101,7 +2101,7 @@ nicht öffnen</translation>
     <name>TmainView</name>
     <message>
         <source>score menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Partitur Menü</translation>
     </message>
 </context>
 <context>
@@ -2152,11 +2152,11 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Note by note</source>
-        <translation type="unfinished"></translation>
+        <translation>Einzelnoten</translation>
     </message>
     <message>
         <source>Notes are written on the score one by one. Either playing, selecting fret or note name adds a new note to the staff automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Noten werden einzeln auf die Notenzeile gesetzt. Entweder das Spielen oder die Auswahl von Bund oder Notenname erzeugt automatisch eine neue Note auf der Notenzeile.</translation>
     </message>
     <message>
         <source>Generate melody</source>
@@ -2183,23 +2183,23 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>in selected range</source>
-        <translation type="unfinished"></translation>
+        <translation>im ausgewählten Bereich</translation>
     </message>
     <message>
         <source>from notes below</source>
-        <translation type="unfinished"></translation>
+        <translation>aus den Noten unten</translation>
     </message>
     <message>
         <source>Melodies are composed from a note range defined on the &apos;Range&apos; page.</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodien bestehen aus Noten in einem Bereich, der in &apos;Bereich&apos; festgelegt ist.</translation>
     </message>
     <message>
         <source>Melodies are composed from notes selected on the score below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodien bestehen aus Noten aus der Partitur unten.</translation>
     </message>
     <message>
         <source>Random melody</source>
-        <translation type="unfinished"></translation>
+        <translation>Zufallsmelodie</translation>
     </message>
 </context>
 <context>
@@ -2332,7 +2332,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Click %1 to edit note name</source>
-        <translation></translation>
+        <translation>Klicke %1 um Notennamen zu ändern</translation>
     </message>
 </context>
 <context>
@@ -2450,15 +2450,15 @@ nicht öffnen</translation>
     <name>TouchHelp</name>
     <message>
         <source>To edit a note in a score:&lt;br&gt;Touch area about some note and move a finger to select its pitch.&lt;br&gt;Then take the finger away to add/remove an accidental or a note.&lt;br&gt;Touch and move again to continue selecting the pitch.&lt;br&gt;To set the note - tap it quickly again.&lt;br&gt;To scroll the score with multiple staves - use two fingers.</source>
-        <translation type="unfinished"></translation>
+        <translation>Um eine Note in einer Partitur zu ändern, &lt;br&gt;berühre etwas oberhalb einer Note und bestimme die Tonhöhe durch Verschieben des Fingers.&lt;br&gt;Dann Finger wegnehmen, um ein Vorzeichen oder eine Note zu setzen oder zu entfernen.&lt;br&gt;Wieder Berühren/Verschieben um Tonhöhe zu bestimmen.&lt;br&gt;Kurz Antippen, um Note zu setzen.&lt;br&gt;Mit zwei Fingern durch Partitur mit mehreren Notenzeilen scrollen.</translation>
     </message>
     <message>
         <source>Touch a clef for a while to change it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Durch längeres Berühren lässt sich der Schlüssel ändern.</translation>
     </message>
     <message>
         <source>Tap a fret you want to select - zoomed preview will appear.&lt;br&gt;You may drag it right or left to change the fret.&lt;br&gt;Tap desired string on the preview to set the position.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tippe gewählten Bund an und es erscheint eine Nahansicht.&lt;br&gt;Durch Ziehen nach rechts oder links kannst du einen andern Bund wählen.&lt;br&gt;Tippe auf der Nahansicht die gewünschte Saite an, um die Position anzugeben.</translation>
     </message>
 </context>
 <context>
@@ -2510,7 +2510,7 @@ nicht öffnen</translation>
     <message>
         <source>Pitch recognition</source>
         <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
-        <translation type="unfinished"></translation>
+        <translation>Tonhöhenerkennung</translation>
     </message>
 </context>
 <context>
@@ -2588,7 +2588,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source> Don&apos;t use accidentals!</source>
-        <translation>Benutze kene Vorzeichen!</translation>
+        <translation> Benutze kene Vorzeichen!</translation>
     </message>
     <message>
         <source>on %1 string.</source>
@@ -2686,11 +2686,11 @@ nicht öffnen</translation>
     </message>
     <message>
         <source> Bottom clef on the grand staff but also used for cello, trombone, etc.</source>
-        <translation>Unterer Schlüssel in der Akkolade auf verwendet für Cello, Posaune, usw.</translation>
+        <translation> Unterer Schlüssel in der Akkolade auf verwendet für Cello, Posaune, usw.</translation>
     </message>
     <message>
         <source> Clef for bass guitar and double bass.</source>
-        <translation>Schlüssel für Bassgitarre und Kontrabass.</translation>
+        <translation> Schlüssel für Bassgitarre und Kontrabass.</translation>
     </message>
     <message>
         <source>Sometimes it is called clef for viola and mostly used for this instrument.</source>
@@ -3051,11 +3051,11 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Continue exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Prüfung fortsetzen</translation>
     </message>
     <message>
         <source>Latest exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Letzte Prüfung</translation>
     </message>
 </context>
 <context>
@@ -3108,15 +3108,15 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Donate Nootka campaign</source>
-        <translation type="unfinished"></translation>
+        <translation>Nootka Spendenaufruf</translation>
     </message>
     <message>
         <source>Through PayPal or a card</source>
-        <translation type="unfinished"></translation>
+        <translation>Mit PayPal oder Kreditkarte</translation>
     </message>
     <message>
         <source>or send email for an account number</source>
-        <translation type="unfinished"></translation>
+        <translation>oder per Mail Kontoverbindung anfordern</translation>
     </message>
     <message>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
@@ -3124,7 +3124,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is too old for that…&lt;br&gt;Donate Nootka, please.</source>
-        <translation type="unfinished"></translation>
+        <translation>Schritt für Schritt wurde der Funktionsumfang und damit auch die Komplexität von Nootka erweitert.&lt;br&gt;Um Nootka weiter zu entwickeln,&lt;br&gt;um die Android-Version fertigzustellen (und ggfs. weitere Mobilsysteme),&lt;br&gt;braucht es entspechende Hardware.&lt;br&gt;Der PC, auf dem ich arbeite, ist schlicht zu alt.&lt;br&gt;Spenden für Nootka sind willkommen!</translation>
     </message>
 </context>
 <context>
@@ -3271,7 +3271,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Lessons</source>
-        <translation type="unfinished"></translation>
+        <translation>Lektionen</translation>
     </message>
     <message>
         <source>Next</source>
