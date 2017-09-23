@@ -106,7 +106,7 @@
     </message>
 </context>
 <context>
-    <name>AudioInSettings</name>
+    <name>SoundPage</name>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="76"/>
         <source>input device</source>
@@ -290,9 +290,6 @@
         <source>no devices found</source>
         <translation>nie znaleziono urządzenia</translation>
     </message>
-</context>
-<context>
-    <name>AudioOutSettings</name>
     <message>
         <location filename="../src/plugins/settings/audiooutsettings.cpp" line="39"/>
         <source>play sound</source>
@@ -324,11 +321,6 @@
         <translation>Wszystkie dźwięki przechwycone przez wejście dźwiękowe będą bezpośrednio odtwarzane przez wyjście.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="204"/>
-        <source>no devices found</source>
-        <translation>nie znaleziono urządzenia</translation>
-    </message>
-    <message>
         <location filename="../src/plugins/settings/audiooutsettings.cpp" line="87"/>
         <source>midi playback</source>
         <translation>dźwięk midi</translation>
@@ -343,14 +335,13 @@
         <source>no midi ports</source>
         <translation>brak portów midi</translation>
     </message>
+</context>
+<context>
+    <name>AudioOutSettings</name>
     <message>
         <location filename="../src/plugins/settings/audiooutsettings.cpp" line="98"/>
         <source>instrument</source>
         <translation>instrument</translation>
-    </message>
-    <message>
-        <source>IT WORKS ONLY FOR SINGLE SOUND CARD OR WITH ASIO OR JACK!</source>
-        <translation type="vanished">TO DZIAŁA TYLKO DLA POJEDYNCZEJ KARTY DŹWIĘKOWEJ LUB Z ASIO LUB JACK!</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audiooutsettings.cpp" line="103"/>

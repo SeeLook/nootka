@@ -106,7 +106,7 @@
     </message>
 </context>
 <context>
-    <name>AudioInSettings</name>
+    <name>SoundPage</name>
     <message>
         <location filename="../src/plugins/settings/audioinsettings.cpp" line="393"/>
         <source>enable pitch detection</source>
@@ -290,9 +290,6 @@
         <source>no devices found</source>
         <translation>устройства не найдены</translation>
     </message>
-</context>
-<context>
-    <name>AudioOutSettings</name>
     <message>
         <location filename="../src/plugins/settings/audiooutsettings.cpp" line="39"/>
         <source>play sound</source>
@@ -338,14 +335,13 @@
         <source>no midi ports</source>
         <translation>нет MIDI-выходов</translation>
     </message>
+</context>
+<context>
+    <name>AudioOutSettings</name>
     <message>
         <location filename="../src/plugins/settings/audiooutsettings.cpp" line="98"/>
         <source>instrument</source>
         <translation>инструмент</translation>
-    </message>
-    <message>
-        <source>IT WORKS ONLY FOR SINGLE SOUND CARD OR WITH ASIO OR JACK!</source>
-        <translation>ЭТО РАБОТАЕТ ТОЛЬКО С ЕДИНСТВЕННОЙ АУДИО-КАРТОЙ ИЛИ С ASIO ИЛИ JACK!</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/audiooutsettings.cpp" line="103"/>
@@ -396,11 +392,6 @@
         <location filename="../src/plugins/settings/audiooutsettings.cpp" line="112"/>
         <source>Flute</source>
         <translation>Флейта</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="204"/>
-        <source>no devices found</source>
-        <translation>устройства не найдены</translation>
     </message>
 </context>
 <context>
