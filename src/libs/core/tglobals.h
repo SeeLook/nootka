@@ -82,6 +82,7 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(QString markedFrets READ markedFrets WRITE setMarkedFrets);
 
   /* Sound switches */
+  Q_PROPERTY(bool audioInEnabled READ audioInEnabled WRITE setAudioInEnabled)
   Q_PROPERTY(int audioInstrument READ audioInstrument WRITE setAudioInstrument)
   Q_PROPERTY(QString inDevName READ inDevName WRITE setInDevName);
   Q_PROPERTY(qreal minDuration READ minDuration WRITE setMinDuration)
@@ -90,6 +91,9 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(qreal minSplitVol READ minSplitVol WRITE setMinSplitVol)
   Q_PROPERTY(qreal skipStillerVal READ skipStillerVal WRITE setSkipStillerVal)
   Q_PROPERTY(bool useFilter READ useFilter WRITE setUseFilter)
+  Q_PROPERTY(bool audioOutEnabled READ audioOutEnabled WRITE setAudioOutEnabled)
+  Q_PROPERTY(QString outDevName READ outDevName WRITE setOutDevName);
+  Q_PROPERTY(bool forwardInput READ forwardInput WRITE setForwardInput)
 
 public:
 
@@ -184,6 +188,9 @@ public:
   void setMarkedFrets(const QString& frets);
 
   /* ------------------ Sound switches ------------------ */
+  bool audioInEnabled() const;
+  void setAudioInEnabled(bool inEnabled);
+
   int audioInstrument() const;
   void setAudioInstrument(int ai);
 
@@ -207,6 +214,15 @@ public:
 
   bool useFilter() const;
   void setUseFilter(bool use);
+
+  bool audioOutEnabled() const;
+  void setAudioOutEnabled(bool outEnabled);
+
+  QString outDevName() const;
+  void setOutDevName(const QString& odn);
+
+  bool forwardInput() const;
+  void setForwardInput(bool fi);
 
       /**
        * Updates key signature names according to name style and major/minor suffixes.

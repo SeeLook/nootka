@@ -253,6 +253,9 @@ void Tglobals::setMarkedFrets(const QString& frets) {
 
 
 /* ------------------ Sound switches ------------------ */
+bool Tglobals::audioInEnabled() const { return A->INenabled; }
+void Tglobals::setAudioInEnabled(bool inEnabled) { A->INenabled = inEnabled; }
+
 QString Tglobals::inDevName() const { return A->INdevName; }
 void Tglobals::setInDevName(const QString& inName) { A->INdevName = inName; }
 
@@ -283,6 +286,14 @@ void Tglobals::setSkipStillerVal(qreal ssv) { A->skipStillerVal = ssv; }
 bool Tglobals::useFilter() const { return A->equalLoudness; }
 void Tglobals::setUseFilter(bool use) { A->equalLoudness = use; }
 
+bool Tglobals::audioOutEnabled() const { return A->OUTenabled; }
+void Tglobals::setAudioOutEnabled(bool outEnabled) { A->OUTenabled = outEnabled; }
+
+QString Tglobals::outDevName() const { return A->OUTdevName; }
+void Tglobals::setOutDevName(const QString& odn) { A->OUTdevName = odn; }
+
+bool Tglobals::forwardInput() const { return A->forwardInput; }
+void Tglobals::setForwardInput(bool fi) { A->forwardInput = fi; }
 
 
 void Tglobals::setGuitarParams(int fretNr, int stringNr) {
