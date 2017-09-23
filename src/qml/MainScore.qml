@@ -46,6 +46,7 @@ Score {
   Timer { id: zoomTimer; interval: 500 }
   MouseArea {
     anchors.fill: parent
+    z: -1
     onWheel: {
       if (wheel.modifiers & Qt.ControlModifier) {
         if (wheel.angleDelta.y > 0) {
