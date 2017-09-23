@@ -84,7 +84,7 @@
     </message>
 </context>
 <context>
-    <name>AudioInSettings</name>
+    <name>SoundPage</name>
     <message>
         <source>input device</source>
         <translation>dispositivo de entrada</translation>
@@ -228,9 +228,6 @@
         <source>It is rather necessary for mic input but may be switched off for instrument line-in plugged with less noise.</source>
         <translation>Es más bien necesario para la entrada de micrófono pero puede apagarse para la entrada de línea de instrumento (line in) conectado con menor ruido.</translation>
     </message>
-</context>
-<context>
-    <name>AudioOutSettings</name>
     <message>
         <source>play sound</source>
         <translation>interpretar un sonido</translation>
@@ -255,6 +252,17 @@
         <source>midi port</source>
         <translation>puerto MIDI</translation>
     </message>
+    <message>
+        <source>forward input to output</source>
+        <translation>reenviar la entrada a la salida</translation>
+    </message>
+    <message>
+        <source>All sounds captured by audio input will be forwarded directly to output device.</source>
+        <translation>Todos los sonidos capturados por la entrada de audio se reenviarán directamente al dispositivo de salida.</translation>
+    </message>
+</context>
+<context>
+    <name>AudioOutSettings</name>
     <message>
         <source>instrument</source>
         <translation>instrumento</translation>
@@ -302,22 +310,6 @@
     <message>
         <source>no midi ports</source>
         <translation>sin puertos MIDI</translation>
-    </message>
-    <message>
-        <source>no devices found</source>
-        <translation>no se han encontrado dispositivos</translation>
-    </message>
-    <message>
-        <source>forward input to output</source>
-        <translation>reenviar la entrada a la salida</translation>
-    </message>
-    <message>
-        <source>All sounds captured by audio input will be forwarded directly to output device.</source>
-        <translation>Todos los sonidos capturados por la entrada de audio se reenviarán directamente al dispositivo de salida.</translation>
-    </message>
-    <message>
-        <source>IT WORKS ONLY FOR SINGLE SOUND CARD OR WITH ASIO OR JACK!</source>
-        <translation>¡FUNCIONA SOLAMENTE PARA TARJETA DE SONIDO SENCILLA O CON ASIO O JACK!</translation>
     </message>
 </context>
 <context>

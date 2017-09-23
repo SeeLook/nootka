@@ -84,7 +84,7 @@
     </message>
 </context>
 <context>
-    <name>AudioInSettings</name>
+    <name>SoundPage</name>
     <message>
         <source>enable pitch detection</source>
         <translation>Tonhöhenerkennung an</translation>
@@ -228,9 +228,6 @@
         <source>Test the settings</source>
         <translation>Prüfung der Einstellungen</translation>
     </message>
-</context>
-<context>
-    <name>AudioOutSettings</name>
     <message>
         <source>play sound</source>
         <translation>Ton wiedergeben</translation>
@@ -259,6 +256,17 @@
         <source>no midi ports</source>
         <translation>keine Midi Ports</translation>
     </message>
+    <message>
+        <source>forward input to output</source>
+        <translation>Eingabe / Ausgabe Weiterleitung</translation>
+    </message>
+    <message>
+        <source>All sounds captured by audio input will be forwarded directly to output device.</source>
+        <translation>Alle Töne des Audio-Eingangs werden direkt an die Ausgabe übergeben.</translation>
+    </message>
+</context>
+<context>
+    <name>AudioOutSettings</name>
     <message>
         <source>instrument</source>
         <translation>Instrument</translation>
@@ -306,18 +314,6 @@
     <message>
         <source>no devices found</source>
         <translation>keine Geräte gefunden</translation>
-    </message>
-    <message>
-        <source>forward input to output</source>
-        <translation>Eingabe / Ausgabe Weiterleitung</translation>
-    </message>
-    <message>
-        <source>All sounds captured by audio input will be forwarded directly to output device.</source>
-        <translation>Alle Töne des Audio-Eingangs werden direkt an die Ausgabe übergeben.</translation>
-    </message>
-    <message>
-        <source>IT WORKS ONLY FOR SINGLE SOUND CARD OR WITH ASIO OR JACK!</source>
-        <translation type="vanished">ES FUNKTIONIERT NUR MIT EINZELNEN SOUNDKARTEN ODER MIT ASIO ODER JACK!</translation>
     </message>
 </context>
 <context>

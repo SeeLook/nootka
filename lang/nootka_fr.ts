@@ -84,7 +84,7 @@
     </message>
 </context>
 <context>
-    <name>AudioInSettings</name>
+    <name>SoundPage</name>
     <message>
         <source>input device</source>
         <translation>Périphérique d&apos;entrée</translation>
@@ -228,9 +228,6 @@
         <source>It is rather necessary for mic input but may be switched off for instrument line-in plugged with less noise.</source>
         <translation>Nécessaire pour l&apos;entrée micro mais peut être coupé pour un instrument raccordé à l&apos;entrée ligne, moins sensible aux bruits.</translation>
     </message>
-</context>
-<context>
-    <name>AudioOutSettings</name>
     <message>
         <source>play sound</source>
         <translation>Jouer les sons</translation>
@@ -255,6 +252,21 @@
         <source>midi port</source>
         <translation>Port MIDI</translation>
     </message>
+    <message>
+        <source>no midi ports</source>
+        <translation>Aucun port MIDI</translation>
+    </message>
+    <message>
+        <source>forward input to output</source>
+        <translation>Rediriger l&apos;entrée vers la sortie</translation>
+    </message>
+    <message>
+        <source>All sounds captured by audio input will be forwarded directly to output device.</source>
+        <translation>Tous les sons captés pas l&apos;entrée audio seront redirigés vers le périphérique de sortie.</translation>
+    </message>
+</context>
+<context>
+    <name>AudioOutSettings</name>
     <message>
         <source>instrument</source>
         <translation>Instrument</translation>
@@ -298,22 +310,6 @@
     <message>
         <source>Flute</source>
         <translation>Flûte</translation>
-    </message>
-    <message>
-        <source>no midi ports</source>
-        <translation>Aucun port MIDI</translation>
-    </message>
-    <message>
-        <source>no devices found</source>
-        <translation>Aucun périphérique détecté</translation>
-    </message>
-    <message>
-        <source>forward input to output</source>
-        <translation>Rediriger l&apos;entrée vers la sortie</translation>
-    </message>
-    <message>
-        <source>All sounds captured by audio input will be forwarded directly to output device.</source>
-        <translation>Tous les sons captés pas l&apos;entrée audio seront redirigés vers le périphérique de sortie.</translation>
     </message>
 </context>
 <context>
