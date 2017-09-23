@@ -21,6 +21,7 @@ Column {
       orientation: ListView.Horizontal
       spacing: nootkaWindow.fontSize
       width: parent.width
+      currentIndex: 0
 
       model: ListModel {
         ListElement { head: QT_TR_NOOP("Score settings") }
@@ -33,7 +34,7 @@ Column {
         Button {
           text: (index + 1) + ". " + qsTranslate("TscoreSettings", head)
           onClicked: { swipePages.currentIndex = index; headList.currentIndex = index }
-          highlighted: headList.currentIndex == index
+          highlighted: headList.currentIndex === index
           Component.onCompleted: headList.height = Math.max(height, headList.height)
         }
       }
@@ -43,9 +44,7 @@ Column {
       height: parent.height - headList.height - nootkaWindow.fontSize
       width: parent.width
 
-      Flickable { // 1st page (general)
-        clip: true
-        width: parent.width
+      Tflickable { // 1st page (general)
         height: parent.height
         contentHeight: firstColumn.height + nootkaWindow.fontSize * 2
         contentWidth: Math.max(width, nootkaWindow.fontSize * 35)
@@ -128,13 +127,9 @@ Column {
           singleNoteModeChB.checked = GLOB.singleNoteMode
         }
 
-        ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
-
       }
 
-      Flickable { // 2nd page (key signatures)
-        clip: true
-        width: parent.width
+      Tflickable { // 2nd page (key signatures)
         height: parent.height
         contentHeight: secondColumn.height + nootkaWindow.fontSize * 2
         contentWidth: Math.max(width, nootkaWindow.fontSize * 35)
@@ -204,13 +199,9 @@ Column {
           }
         }
 
-        ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
-
       }
 
-      Flickable { // 3rd page (clefs)
-        clip: true
-        width: parent.width
+      Tflickable { // 3rd page (clefs)
         contentHeight: clefsCol.height + nootkaWindow.fontSize * 2
         contentWidth: Math.max(width, nootkaWindow.fontSize * 35)
         Column {
@@ -232,13 +223,9 @@ Column {
           }
         }
 
-        ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
-
       }
 
-      Flickable { // 4rd page (note name calling)
-        clip: true
-        width: parent.width
+      Tflickable { // 4rd page (note name calling)
         contentHeight: nameCol.height + nootkaWindow.fontSize * 2
         contentWidth: Math.max(width, nootkaWindow.fontSize * 35)
         Column {
@@ -285,8 +272,6 @@ Column {
             is7BSelector.is7B = GLOB.seventhIsB
           }
         }
-
-        ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
 
       }
     }
