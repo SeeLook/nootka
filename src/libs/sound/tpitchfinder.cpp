@@ -367,7 +367,8 @@ void TpitchFinder::processed() {
                 if (m_plaingWasDetected) {
                   m_lastDetectedNote.duration += restDur * m_chunkTime;
                   QTextStream o(stdout);
-                  o << "\033[01;37m   [TpitchFinder] NOTE finished FIXED" << m_lastDetectedNote.pitchF << m_lastDetectedNote.duration * 1000.0 << " \033[01;00m\n";
+                  o << "\033[01;37m   [TpitchFinder] NOTE finished FIXED " << m_lastDetectedNote.pitchF << " "
+                    << m_lastDetectedNote.duration * 1000.0 << " \033[01;00m\n";
                   emit noteFinished(&m_lastDetectedNote);
                   // TODO; if it occurs, Tsound might split previously detected duration and it will improper
                 }

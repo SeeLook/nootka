@@ -97,6 +97,11 @@ float TcommonListener::minimalVolume() {
 }
 
 
+qreal TcommonListener::chunkTime() const {
+  return m_pitchFinder->chunkTime() * 1000.0;
+}
+
+
 /** Range of notes is increased semitone down and up.
  * This 46 and 48 are its sign.
  * Normally 47 is offset of midi note to Nootka Tnote. */

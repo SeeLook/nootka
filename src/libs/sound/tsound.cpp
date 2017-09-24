@@ -205,14 +205,14 @@ void Tsound::acceptSettings() {
     sniffer->updateAudioParams();
 #else
   if (doParamsUpdated) {
-      if (player && player->type() == TabstractPlayer::e_audio) {
+      if (player && player->type() == TabstractPlayer::e_audio)
           static_cast<TaudioOUT*>(player)->updateAudioParams();
-      } else if (sniffer)
+      else if (sniffer)
           sniffer->updateAudioParams();
   }
 #endif
-  if (sniffer)
-    restoreSniffer();
+//   if (sniffer)
+//     restoreSniffer();
 }
 
 
@@ -227,27 +227,27 @@ QString Tsound::currentOutDevName() const { return TaudioOUT::outputName(); }
 
 void Tsound::prepareToConf() {
   if (player) {
-    player->stop();
-#if !defined (Q_OS_ANDROID)
-    player->deleteMidi();
-#endif
+//     player->stop();
+// #if !defined (Q_OS_ANDROID)
+//     player->deleteMidi();
+// #endif
   }
   if (sniffer) {
     m_userState = sniffer->stoppedByUser();
-    sniffer->stopListening();
-    blockSignals(true);
+//     sniffer->stopListening();
+//     blockSignals(true);
     sniffer->setStoppedByUser(false);
   }
 }
 
 
 void Tsound::restoreAfterConf() {
-#if !defined (Q_OS_ANDROID)
-  if (GLOB->A->midiEnabled) {
-    if (player)
-      player->setMidiParams();
-  }
-#endif
+// #if !defined (Q_OS_ANDROID)
+//   if (GLOB->A->midiEnabled) {
+//     if (player)
+//       player->setMidiParams();
+//   }
+// #endif
   if (sniffer)
     restoreSniffer();
 }
@@ -263,7 +263,7 @@ float Tsound::pitch() {
 
 void Tsound::setTempo(int t) {
   if (t != m_tempo && t > 39 && t < 181) {
-    m_tempo = t;
+    m_tempo = qRound(15000.0 / (qRound(15000.0 / static_cast<qreal>(t) / sniffer->chunkTime()) * sniffer->chunkTime()));
     emit tempoChanged();
   }
 }
@@ -436,8 +436,8 @@ void Tsound::deleteSniffer() {
 
 void Tsound::restoreSniffer() {
   sniffer->setStoppedByUser(m_userState);
-  blockSignals(false);
-  sniffer->startListening();
+//   blockSignals(false);
+//   sniffer->startListening();
 }
 
 //#################################################################################################
