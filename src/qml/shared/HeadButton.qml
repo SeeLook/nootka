@@ -19,7 +19,7 @@ ToolButton {
   property alias icon: icon.source
   property alias name: butText.text
   property alias tip: toolTip.text
-  property real factor: Screen.pixelDensity
+  property real factor: nootkaWindow.height / 140
   property alias fontSize: butText.font.pixelSize
   property alias textColor: butText.color
   property Taction action
@@ -46,7 +46,7 @@ ToolButton {
   }
   Text {
     id: butText
-    font.pixelSize: factor * 2.5
+    font.pixelSize: Math.min(factor * 2.5, nootkaWindow.fontSize)
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.top: icon.bottom
     horizontalAlignment: Text.AlignHCenter
