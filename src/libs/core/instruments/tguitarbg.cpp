@@ -83,13 +83,16 @@ void TguitarBg::setNote(const Tnote& n) {
           foundPos = true;
           if (!GLOB->GshowOtherPos)
             doShow = false;
-      } else {// not found on this string or no need to show - hide then
+      } else { // not found on this string or no need to show - hide then
           m_fingerItems[strNr]->setVisible(false);
           m_stringItems[strNr]->setVisible(false);
       }
     }
     setOutOfScale(!foundPos && n.isValid());
-    p_note = n;
+    if (outOfScale())
+      p_note.note = 0; // invalidate it
+    else
+      p_note = n;
   }
 }
 
@@ -273,7 +276,6 @@ void TguitarBg::updateGuitar() {
 void TguitarBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
   if (oldGeometry.width() != newGeometry.width() || oldGeometry.height() != newGeometry.height()) {
     QSize newSize = newGeometry.size().toSize();
-//     updateFretBoard(newSize);
     m_fbRect = QRect(10, newSize.height() / 18, (6 * newSize.width()) / 7, newSize.height() - newSize.height() / 18);
     m_fretWidth = ((m_fbRect.width() + ((GLOB->GfretsNumber / 2) * (GLOB->GfretsNumber / 2 + 1))
     + GLOB->GfretsNumber / 4) / (GLOB->GfretsNumber+1)) + 1;
@@ -294,7 +296,7 @@ void TguitarBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeom
 
     for (int s = 0; s < 6; ++s) {
       m_stringItems[s]->setProperty("color", GLOB->GselectedColor);
-      m_stringItems[s]->setWidth(newGeometry.width());
+      m_stringItems[s]->setWidth(newGeometry.width() - m_strGap - 2.0);
       m_stringItems[s]->setHeight(m_strWidth[s] * 1.5);
       m_stringItems[s]->setX(1.0);
       m_stringItems[s]->setY(m_fbRect.y() + static_cast<qreal>(m_strGap * s) + m_strGap / 2.0 - strWidth(s) / 2.0);
@@ -307,6 +309,16 @@ void TguitarBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeom
 
     emit fretWidthChanged();
     emit stringsGapChanged();
+
+    if (oldGeometry.height() != newGeometry.height())
+      emit heightChanged();
+    if (oldGeometry.width() != newGeometry.width())
+      emit widthChanged();
+    if (p_note.isValid()) { // update position(s) of fingers by resetting note and setting it again
+      Tnote tmpNote = p_note;
+      p_note.note = 0;
+      setNote(tmpNote);
+    }
 
     update();
   }
@@ -410,8 +422,6 @@ void TguitarBg::setTune() {
         m_widthFromPitch[i] = 7; // and more thick
     }
   }
-//   m_loNote = GLOB->loString().chromatic();
-//   m_hiNote = GLOB->hiString().chromatic() + GLOB->GfretsNumber;
 }
 
 

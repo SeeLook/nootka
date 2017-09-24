@@ -288,10 +288,10 @@ void TbandoneonBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldG
     updateCircleSize(m_circleRightClose.item);
     updateCircleSize(m_circleCloseExtra.item);
     qDebug() << "[TbandoneonBg] geometryChanged" << m_factor;
-    emit heightChanged();
-    emit xChanged();
-    emit widthChanged();
-    emit yChanged();
+    if (oldGeometry.height() != newGeometry.height())
+      emit heightChanged();
+    if (oldGeometry.width() != newGeometry.width())
+      emit widthChanged();
   }
 }
 
@@ -300,7 +300,6 @@ void TbandoneonBg::getNote() {
   if (m_currentIndex < 0)
     return;
   p_note.setChromatic(m_closing ? buttArray[m_currentIndex].close : buttArray[m_currentIndex].open);
-//   emit noteChanged();
 }
 
 
