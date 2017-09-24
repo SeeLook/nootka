@@ -99,6 +99,11 @@ public:
   float minimalVolume();
 
       /**
+       * Duration time of a single chunk for current sample rate and frames per chunk.
+       */
+  qreal chunkTime() const;
+
+      /**
        * Sets range of notes which are detected. Others are ignored.
        */
   void setAmbitus(Tnote loNote, Tnote hiNote);

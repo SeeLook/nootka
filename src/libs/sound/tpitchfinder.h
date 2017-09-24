@@ -96,11 +96,11 @@ public:
     e_low = 2
   };
 
-  TartiniParams* aGl() { return m_aGl; } /** global settings for pitch recognition. */
+  TartiniParams* aGl() { return m_aGl; } /**< global settings for pitch recognition. */
 
-  bool isBussy() { return m_isBussy; }
+  bool isBussy() const { return m_isBussy; }
 
-  int currentChunk() { return m_chunkNum; }
+  int currentChunk() const { return m_chunkNum; }
   void setCurrentChunk(int curCh) { m_chunkNum = curCh; }
   void incrementChunk() { m_chunkNum++; }
 
@@ -135,31 +135,33 @@ public:
           * If note has got such volume it is observed till its end - even below. */
   void setMinimalVolume(float vol) { m_minVolume = vol; }
 
-  qreal chunkTime() { return m_chunkTime; } /** Duration time of chunk for current sample rate and frames per chunk. */
+  qreal chunkTime() const { return m_chunkTime; } /**< Duration time of chunk for current sample rate and frames per chunk. */
   void setMinimalDuration(float dur) { m_minDuration = dur; m_minChunks = qRound((qreal)m_minDuration / m_chunkTime); }
-  float minimalDuration() { return m_minDuration; } /** Minimum acceptable duration of a note to be pitch-detected. */
-  int minChunksNumber() { return m_minChunks; } /** Minimal number of chunks in note to be pitch-detected. */
+  float minimalDuration() const { return m_minDuration; } /**< Minimum acceptable duration of a note to be pitch-detected. */
+  int minChunksNumber() const { return m_minChunks; } /**< Minimal number of chunks in note to be pitch-detected. */
 
       /** Determines whether increased volume of played note split it.
        * Tartini doesn't detect this so extra checking will be done if @p TRUE.
        * Volume threshold can be set through @p setSplitValue() */
   void setSplitByVolChange(bool sp) { m_splitByVol = sp; }
-  bool isSplitByVolume() { return m_splitByVol; }
+  bool isSplitByVolume() const { return m_splitByVol; }
 
   void setSplitVolume(qreal volToSplit) { m_minVolToSplit = qMax<qreal>(volToSplit, 0.05); }
-  qreal minVolumeToSplit() { return m_minVolToSplit; }
+  qreal minVolumeToSplit() const { return m_minVolToSplit; }
 
-      /** multiplexer of sound volume (aka %) that determines minimum volume of next note to be pitch-detected.
-       * i.e. - value of 0.8 determines that note has to have at least 80% volume of average volume */
+      /** 
+       * multiplexer of sound volume (aka %) that determines minimum volume of next note to be pitch-detected.
+       * i.e. - value of 0.8 determines that note has to have at least 80% volume of average volume
+       */
   void setSkipStillerVal(qreal skipStill) { m_skipStillerVal = skipStill; }
-  qreal skipStillerValue() { return m_skipStillerVal; }
+  qreal skipStillerValue() const { return m_skipStillerVal; }
 
   TnoteStruct* lastNote() { return &m_currentNote; }
 
       /** In offline mode pitch detecting isn't performed in separate thread.
        * After collecting audio data in buffer, detection is performed
        * and no data is retrieving until detection in current chunk is finished. */
-  bool isOffline() { return m_isOffline; }
+  bool isOffline() const { return m_isOffline; }
   void setOffLine(bool off);
 
       /**
@@ -171,10 +173,18 @@ public:
   Channel* ch() { return m_channel; }
   MyTransforms* transforms() { return m_transforms; }
 
-      /** Returns current range of pitch detection */
-  Erange pitchRange() { if (m_rateRatio == 0.5f) return e_high; else if (m_rateRatio == 2.0f) return e_low; else return e_middle; }
+      /**
+       * Returns current range of pitch detection
+       */
+  Erange pitchRange() const {
+    if (m_rateRatio == 0.5f)
+      return e_high;
+    else if (m_rateRatio == 2.0f)
+      return e_low;
+    else return e_middle;
+  }
 
-  float pcmVolume() { return m_pcmVolume; }
+  float pcmVolume() const { return m_pcmVolume; }
 
 #if !defined (Q_OS_ANDROID)
       /**
@@ -184,7 +194,7 @@ public:
        */
   void setDumpDirPath(const QString& dumpPath);
   void setDumpFileName(const QString& fName) { m_dumpName = fName; }
-  bool isDumpingToFile() { return m_dumpFile != nullptr; }
+  bool isDumpingToFile() const { return m_dumpFile != nullptr; }
   QString dumpDirPath() const { return m_dumpPath; }
 #endif
 
