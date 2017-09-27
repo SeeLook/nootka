@@ -66,9 +66,11 @@ add_subdirectory( libs/sound )    # libNootkaSound
 
 include_directories( libs/core libs/sound ) # libs/main
 
+
 # nootka executable
 set(NOOTKA_SRC
     main.cpp
+    main/tnameitem.cpp
 )
 
 
