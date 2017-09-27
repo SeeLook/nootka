@@ -96,13 +96,6 @@ Score {
     radius: width / 3.0
   }
 
-//   NoteName {
-//     width: mainScore.width / 4
-//     height: mainScore.scale * 32
-//     y: mainScore.scale * 0.4
-//     x: mainScore.width * 0.7
-//   }
-
   Taction {
     id: playAct
     text: Noo.TR("QShortcut", "Play")

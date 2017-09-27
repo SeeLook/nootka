@@ -7,6 +7,8 @@ import QtGraphicalEffects 1.0
 
 
 Item {
+  property alias color: bg.color
+  property bool rised: true
 
   Rectangle {
     id: bg
@@ -18,8 +20,8 @@ Item {
 
   DropShadow {
     anchors.fill: bg
-    horizontalOffset: nootkaWindow.fontSize / 4
-    verticalOffset: nootkaWindow.fontSize / 4
+    horizontalOffset: rised ? nootkaWindow.fontSize / 4 : 0
+    verticalOffset: rised ? nootkaWindow.fontSize / 4 : 0
     radius: 8.0
     samples: 17
     color: activPal.shadow

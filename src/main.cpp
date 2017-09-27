@@ -29,9 +29,10 @@
 #include <QtCore/qfile.h>
 #include <QtCore/qsettings.h>
 
-#include "tpath.h"
-#include "tnootkaqml.h"
+#include <tpath.h>
+#include <tnootkaqml.h>
 #include <tsound.h>
+#include "main/tnameitem.h"
 
 #if defined (Q_OS_ANDROID)
   #include <Android/tandroid.h>
@@ -135,6 +136,7 @@ int main(int argc, char *argv[])
       e->rootContext()->setContextProperty(QStringLiteral("SOUND"), &sound);
       GLOB->isFirstRun = false;
     }
+    qmlRegisterType<TnameItem>("Nootka.name", 1, 0, "TnameItem");
     e->load(QUrl(QStringLiteral("qrc:/MainWindow.qml")));
 
 // #if defined (Q_OS_ANDROID)
