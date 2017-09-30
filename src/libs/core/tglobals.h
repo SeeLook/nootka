@@ -52,7 +52,7 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(bool showEnharmNotes READ showEnharmNotes WRITE setShowEnharmNotes)
   Q_PROPERTY(QColor enharmNoteColor READ getEnharmNoteColor WRITE setEnharmNoteColor)
   Q_PROPERTY(QColor noteCursorColor READ getNoteCursorColor WRITE setNoteCursorColor NOTIFY noteCursorColorChanged)
-  Q_PROPERTY(bool singleNoteMode READ isSingleNote WRITE setSingleNote)
+  Q_PROPERTY(bool singleNoteMode READ isSingleNote WRITE setSingleNote NOTIFY singleNoteModeChanged)
   Q_PROPERTY(bool enableDoubleAccids READ enableDoubleAccids WRITE setEnableDoubleAccids NOTIFY enableDoubleAccidsChanged)
   Q_PROPERTY(bool keySignatureEnabled READ keySignatureEnabled WRITE setKeySignatureEnabled NOTIFY enableKeySignatureChanged)
   Q_PROPERTY(bool showKeyName READ showKeyName WRITE setShowKeyName NOTIFY showKeyNameChanged)
@@ -310,6 +310,7 @@ signals:
   void geometryChanged(); /**< It is never emitted :(  */
   void useAnimationsChanged();
   void noteCursorColorChanged();
+  void singleNoteModeChanged();
   void namesOnScoreChanged();
   void enableDoubleAccidsChanged();
   void enableKeySignatureChanged();

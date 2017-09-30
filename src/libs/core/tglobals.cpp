@@ -130,7 +130,12 @@ QColor Tglobals::getNoteCursorColor() const { return S->pointerColor; }
 void Tglobals::setNoteCursorColor(const QColor& c) { S->pointerColor = c; emit noteCursorColorChanged(); }
 
 bool Tglobals::isSingleNote() const { return S->isSingleNoteMode; }
-void Tglobals::setSingleNote(bool sn) { S->isSingleNoteMode = sn; }
+void Tglobals::setSingleNote(bool sn) {
+  if (sn != S->isSingleNoteMode) {
+    S->isSingleNoteMode = sn;
+    emit singleNoteModeChanged();
+  }
+}
 
 bool Tglobals::enableDoubleAccids() const { return S->doubleAccidentalsEnabled; }
 void Tglobals::setEnableDoubleAccids(bool dblAcc) { S->doubleAccidentalsEnabled = dblAcc; emit enableDoubleAccidsChanged(); }

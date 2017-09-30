@@ -24,7 +24,8 @@
 Taction::Taction(QObject* parent) :
   QObject(parent),
   m_checkable(false),
-  m_checked(false)
+  m_checked(false),
+  m_enabled(true)
 {
 }
 
@@ -60,7 +61,8 @@ void Taction::setTip(const QString& t) {
 
 
 void Taction::trigger() {
-  emit triggered();
+  if (m_enabled)
+    emit triggered();
 }
 
 
@@ -79,6 +81,11 @@ void Taction::setChecked(bool ch) {
 
 void Taction::setShortcut(QObject* s) {
   m_shortcut = s;
+}
+
+
+void Taction::setEnabled(bool e) {
+  m_enabled = e;
 }
 
 
