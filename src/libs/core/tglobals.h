@@ -49,7 +49,7 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(bool useAnimations READ useAnimations WRITE setUseAnimations NOTIFY useAnimationsChanged)
   Q_PROPERTY(QString lang READ getLang WRITE setLang)
   /* Score switches */
-  Q_PROPERTY(bool showEnharmNotes READ showEnharmNotes WRITE setShowEnharmNotes)
+  Q_PROPERTY(bool showEnharmNotes READ showEnharmNotes WRITE setShowEnharmNotes NOTIFY showEnharmNotesChanged)
   Q_PROPERTY(QColor enharmNoteColor READ getEnharmNoteColor WRITE setEnharmNoteColor)
   Q_PROPERTY(QColor noteCursorColor READ getNoteCursorColor WRITE setNoteCursorColor NOTIFY noteCursorColorChanged)
   Q_PROPERTY(bool singleNoteMode READ isSingleNote WRITE setSingleNote NOTIFY singleNoteModeChanged)
@@ -311,6 +311,7 @@ signals:
   void useAnimationsChanged();
   void noteCursorColorChanged();
   void singleNoteModeChanged();
+  void showEnharmNotesChanged();
   void namesOnScoreChanged();
   void enableDoubleAccidsChanged();
   void enableKeySignatureChanged();
