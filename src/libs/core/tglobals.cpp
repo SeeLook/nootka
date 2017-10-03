@@ -121,7 +121,12 @@ Tglobals::~Tglobals() {
 void Tglobals::setUseAnimations(bool use) { m_useAnimations = use; emit useAnimationsChanged(); }
 
 bool Tglobals::showEnharmNotes() const { return S->showEnharmNotes; }
-void Tglobals::setShowEnharmNotes(bool showEnharm) { S->showEnharmNotes = showEnharm; }
+void Tglobals::setShowEnharmNotes(bool showEnharm) {
+  if (showEnharm != S->showEnharmNotes) {
+    S->showEnharmNotes = showEnharm;
+    emit showEnharmNotesChanged();
+  }
+}
 
 QColor Tglobals::getEnharmNoteColor() const { return S->enharmNotesColor; }
 void Tglobals::setEnharmNoteColor(const QColor& c) { S->enharmNotesColor = c; }
