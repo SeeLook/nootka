@@ -12,7 +12,6 @@ import QtQuick.Controls 2.2
  */
 AbstractButton {
   id: root
-//   property alias font: contentItem.font
 
   contentItem: Text {
     font: root.font

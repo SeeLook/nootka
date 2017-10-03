@@ -16,6 +16,7 @@ Item {
 
   width: childrenRect.width
   height: childrenRect.height
+  antialiasing: true
 
   ButtonGroup {
     id: styleRadios
@@ -40,6 +41,12 @@ Item {
     }
 
     Frame {
+      background: Rectangle {
+        color: "transparent"
+        border.color: enabled ? activPal.shadow : disdPal.shadow
+        radius: nootkaWindow.fontSize / 2
+      }
+
       Column {
         id: styleColumn
         spacing: nootkaWindow.fontSize / 2

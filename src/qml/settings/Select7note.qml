@@ -8,21 +8,24 @@ import QtQuick.Controls 2.1
 
 Item {
   property alias is7B: bButt.checked
-  property int style: -1 //bButt.checked ? 1 : 3
+  property int style: -1
 
   width: mainLay.width
   height: mainLay.height
 
   Grid {
     id: mainLay
-    columns: 2 //width < nootkaWindow.fontSize * 40 ? 1 : 2
+    columns: 2
     spacing: nootkaWindow.fontSize
 
+    ButtonGroup { buttons: butRow.children }
     Row {
+      id: butRow
+      y: (parent.height - height) / 2
       spacing: nootkaWindow.fontSize / 2
       Text { text: qsTr("7th note is:"); color: enabled ? activPal.text : disdPal.text; anchors.verticalCenter: parent.verticalCenter }
       RadioButton { id: bButt; text: "B" }
-      RadioButton { text: "H"; checked: !is7B }
+      RadioButton { text: "H"; checked: !bButt.checked }
     }
 
     Text {
