@@ -20,7 +20,7 @@ TaddObject {
 
   scoreObject: score.scoreObj
   parent: score.lastStaff
-  height: parent.height
+  height: parent ? parent.height : 0
   width: 4
   x: lastNote ? lastNote.rightX + 1.5 : score.firstStaff.firstNoteX
   z: 11

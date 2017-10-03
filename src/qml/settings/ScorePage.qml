@@ -68,6 +68,7 @@ Column {
                 TcheckBox {
                   id: singleNoteModeChB
                   text: qsTranslate("TscoreSettings", "use single note only")
+                  checked: GLOB.singleNoteMode
                   anchors.horizontalCenter: parent.horizontalCenter
                 }
               }
@@ -78,6 +79,7 @@ Column {
                                         "Shows enharmonic variants of notes.<br>i.e.: the note E is also Fb (F flat) <i>and</i> Dx (D with double sharp).")
                 TcheckBox {
                   id: showEnharmNotesChB
+                  checked: GLOB.showEnharmNotes
                   text: qsTranslate("TscoreSettings", "show enharmonic variants of notes")
                   anchors.horizontalCenter: parent.horizontalCenter
                 }
@@ -121,11 +123,7 @@ Column {
             }
           }
         }
-        Component.onCompleted: {
-          enharmNoteColor.color = GLOB.enharmNoteColor
-          showEnharmNotesChB.checked = GLOB.showEnharmNotes
-          singleNoteModeChB.checked = GLOB.singleNoteMode
-        }
+        Component.onCompleted: enharmNoteColor.color = GLOB.enharmNoteColor
 
       }
 
@@ -277,7 +275,11 @@ Column {
     }
 
     function save() {
-//       GLOB. = singleNoteModeChB
+      GLOB.singleNoteMode = singleNoteModeChB.checked
+      if (singleNoteModeChB.checked) {
+        GLOB.showEnharmNotes = showEnharmNotesChB.checked
+        GLOB.enharmNoteColor = enharmNoteColor.color
+      }
       GLOB.rhythmsEnabled = rhythmsEnabledChB.checked
       GLOB.enableDoubleAccids = doubleAccidsChB.checked
       GLOB.noteCursorColor = pointerColorButt.color
@@ -304,7 +306,7 @@ Column {
       enharmNoteColor.color = Qt.rgba(0, 0.6352941176470588, 0.6352941176470588, 1)
       doubleAccidsChB.checked = false
       pointerColorButt.color = "pink"
-      clefs.selClef = Tclef.Treble_G_8down
+      clefs.selClef = GLOB.instrument.clef
 
       enableKeyChB.checked = false
     }
