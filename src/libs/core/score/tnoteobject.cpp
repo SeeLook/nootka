@@ -166,6 +166,12 @@ void TnoteObject::setColor(const QColor& c) {
   m_alter->setProperty("color", c);
   m_flag->setProperty("color", c);
   m_stem->setProperty("color", c);
+  for (auto line : m_upperLines)
+    line->setProperty("color", c);
+  for (auto line : m_lowerLines)
+    line->setProperty("color", c);
+  if (m_midLine)
+    m_midLine->setProperty("color", c);
 }
 
 
@@ -219,13 +225,18 @@ void TnoteObject::setNote(const Tnote& n) {
         m_notePosY = staff()->score()->clefOffset().total() + staff()->upperLine() - (n.octave * 7 + (n.note - 1));
         if (staff()->score()->isPianoStaff() && m_notePosY > staff()->upperLine() + 10.0)
           m_notePosY += 2.0;
-    } else // no clef - rhythm only, note placed at lower staff field
-        m_notePosY = staff()->upperLine() + 7.0;
+    } else {
+        if (staff()->score()->singleNote()) {
+            m_notePosY = 0.0;
+            oldNotePos = -1.0; // cheat the logic to force add lines check
+        } else // no clef - rhythm only, note placed at lower staff field
+            m_notePosY = staff()->upperLine() + 7.0;
+    }
   }
   if (m_notePosY < 2.0 || m_notePosY > height() - 2.0)
     m_notePosY = 0.0;
 
-  if (static_cast<int>(m_notePosY) != oldNotePos) {
+  if (oldNotePos != static_cast<int>(m_notePosY)) {
     if (m_notePosY) {
         m_head->setVisible(true);
         m_head->setY(m_notePosY - 15.0);
@@ -236,8 +247,8 @@ void TnoteObject::setNote(const Tnote& n) {
     updateStem = true;
   }
 
-  if (updateStem)
-    checkStem();
+if (updateStem)
+  checkStem();
 
   updateAlter();
   updateWidth();
@@ -257,13 +268,17 @@ void TnoteObject::setNote(const Tnote& n) {
 
 
 void TnoteObject::setX(qreal xx) {
-  updateTieScale();
-  QQuickItem::setX(xx + (m_alter->width()));
-  if (m_wrapper->beam() && m_wrapper->beam()->last()->item() == this)
-    m_wrapper->beam()->last()->beam()->drawBeam();
-  if (m_name)
-    m_name->setX(x() - m_alter->width() + (width() - m_name->width()) / 2.0);
-  emit rightXChanged();
+  if (staff()->score()->singleNote())
+      QQuickItem::setX(xx);
+  else {
+      updateTieScale();
+      QQuickItem::setX(xx + (m_alter->width()));
+      if (m_wrapper->beam() && m_wrapper->beam()->last()->item() == this)
+        m_wrapper->beam()->last()->beam()->drawBeam();
+      if (m_name)
+        m_name->setX(x() - m_alter->width() + (width() - m_name->width()) / 2.0);
+      emit rightXChanged();
+  }
 }
 
 
@@ -289,6 +304,7 @@ void TnoteObject::setHeight(qreal hh) {
           m_staff->score()->component()->setData("import QtQuick 2.9; Rectangle {}", QUrl());
           m_midLine = createAddLine();
           m_midLine->setParent(this);
+          m_midLine->setProperty("color", m_head->property("color"));
         }
         m_midLine->setY(m_staff->upperLine() + 10.0);
     } else {
@@ -315,6 +331,19 @@ char TnoteObject::debug() {
   QTextStream o(stdout);
   o << "   \033[01;29m[NOTE " << index() << "]\033[01;00m";
   return 32; // fake
+}
+
+
+void TnoteObject::shiftHead(qreal shift) {
+  if (shift != m_head->x()) {
+    m_head->setX(shift);
+    for (int i = 0; i < 7; ++i) {
+      m_upperLines[i]->setX(-0.5 + shift);
+      m_lowerLines[i]->setX(-0.5 + shift);
+    }
+    if (m_midLine)
+      m_midLine->setX(-0.5 + shift);
+  }
 }
 
 
@@ -578,7 +607,7 @@ QQuickItem* TnoteObject::createAddLine() {
   line->setParentItem(this);
   line->setWidth(3.5);
   line->setHeight(0.2);
-  line->setX(-0.5);
+  line->setX(m_staff->score()->singleNote() ? 1.0 : -0.5);
   line->setVisible(false);
   line->setProperty("color", qApp->palette().text().color());
   return line;
@@ -597,11 +626,15 @@ void TnoteObject::updateAlter() {
 
 
 void TnoteObject::updateWidth() {
-  qreal w = m_alter->width() + m_head->width();
-  if (!m_note->isRest() && !m_note->rtm.stemDown() && m_stem->isVisible() && m_flag->width() > 0.0)
-    w += m_flag->width() - 0.5;
-  setWidth(w);
-  updateTieScale();
+  if (m_measure->score()->singleNote())
+      setWidth(5.0);
+  else {
+      qreal w = m_alter->width() + m_head->width();
+      if (!m_note->isRest() && !m_note->rtm.stemDown() && m_stem->isVisible() && m_flag->width() > 0.0)
+        w += m_flag->width() - 0.5;
+      setWidth(w);
+      updateTieScale();
+  }
 }
 
 
