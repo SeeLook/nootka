@@ -25,7 +25,10 @@
 #include "music/tmeter.h"
 #include "music/tmelody.h"
 #include "music/tchunk.h"
+#include <tglobals.h>
 
+#include <QtGui/qguiapplication.h>
+#include <QtGui/qpalette.h>
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qtimer.h>
 #include <QtCore/qdebug.h>
@@ -84,6 +87,7 @@ TscoreObject::~TscoreObject()
   delete m_workRhythm;
   qDebug() << "[TscoreObject] deleting," << m_segments.count() << "segments to flush";
   qDeleteAll(m_segments);
+  qDeleteAll(m_spareSegments);
 }
 
 //#################################################################################################
@@ -344,6 +348,22 @@ void TscoreObject::setNote(TnoteObject* no, const Tnote& n) {
     }
     if (no == m_selectedItem)
       emit selectedNoteChanged();
+    if (m_singleNote) {
+      TnotesList enharmList = newNote.getTheSameNotes(m_enableDoubleAccids);
+      TnotesList::iterator it = enharmList.begin();
+      ++it;
+      if (it != enharmList.end()) {
+          m_segments[1]->item()->setVisible(true);
+          m_segments[1]->setNote(*(it));
+      } else
+          m_segments[1]->item()->setVisible(false);
+      ++it;
+      if (it != enharmList.end()) {
+          m_segments[2]->item()->setVisible(true);
+          m_segments[2]->setNote(*(it));
+      } else
+          m_segments[2]->item()->setVisible(false);
+    }
   }
 }
 
@@ -502,6 +522,34 @@ void TscoreObject::setReadOnly(bool ro) {
     m_readOnly = ro;
   }
 }
+
+
+/**
+ * MainScore.qml also handles single note mode change,
+ * but this method is (AND HAS TO BE) invoked first
+ */
+void TscoreObject::setSingleNote(bool singleN) {
+  if (singleN != m_singleNote) {
+    clearScore();
+    m_singleNote = singleN;
+    if (singleN) {
+      setShowNoteNames(false);
+      addNote(Tnote());
+      addNote(Tnote());
+      addNote(Tnote());
+      noteSegment(0)->item()->shiftHead(1.5);
+      noteSegment(1)->item()->shiftHead(1.5);
+      noteSegment(2)->item()->shiftHead(1.5);
+      noteSegment(1)->item()->setColor(GLOB->getEnharmNoteColor());
+      noteSegment(2)->item()->setColor(GLOB->getEnharmNoteColor());
+      noteSegment(1)->item()->setEnabled(false);
+      noteSegment(2)->item()->setEnabled(false);
+      m_selectedItem = noteSegment(0)->item();
+    }
+    emit singleNoteChanged();
+  }
+}
+
 
 
 qreal TscoreObject::stavesHeight() {
@@ -665,6 +713,7 @@ void TscoreObject::deleteLastNote() {
 void TscoreObject::clearScore() {
   if (notesCount() == 0)
     return;
+
   clearScorePrivate();
   m_notes.clear();
   m_activeBarNr = -1;
@@ -893,6 +942,12 @@ TnotePair* TscoreObject::getSegment(int noteNr, Tnote* n) {
       auto np = m_spareSegments.takeLast();
       np->setNote(n);
       np->setIndex(noteNr);
+      // Routines below revert note item state after single mode
+      np->item()->setVisible(true);
+      np->item()->setEnabled(true);
+      np->item()->setColor(qApp->palette().text().color());
+      np->item()->setNoteNameVisible(m_showNoteNames && m_clefType != Tclef::NoClef);
+      np->item()->shiftHead(0.0);
       return np;
   }
 }

@@ -145,6 +145,12 @@ protected:
   TnotePair* wrapper() { return m_wrapper; }
 
       /**
+       * Moves note head X position by @p shift.
+       * It is used in single note mode when note head has to centered in highlight
+       */
+  void shiftHead(qreal shift);
+
+      /**
        * @p TnoteObject manages tie itself whenever tie state changes, by calling exactly this method.
        * Tie is simple Text QML item of tie symbol with horizontal scaling that determines tie width,
        * but tie is not aware about next note position as long as next note X coordinate
