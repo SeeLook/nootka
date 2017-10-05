@@ -17,6 +17,9 @@ Item {
 
   height: GLOB.instrument.isSax ? parent.height : Math.max(parent.height / GLOB.instrument.heightPart, nootkaWindow.fontSize * 12)
   width: parent.width * (GLOB.instrument.isSax ? 0.15 : 1)
+  y: GLOB.instrument.isSax ? 0 : score.height + 1
+  x: GLOB.instrument.isSax ? parent.width - width : 0
+  z: 1
 
   Loader {
     id: instrLoad
