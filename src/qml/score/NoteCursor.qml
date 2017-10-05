@@ -11,7 +11,7 @@ Item {
   id: noteCursor
 
   height: parent ? parent.height : 0
-  width: parent ? parent.width - parent.alterWidth : 0
+  width: parent ? parent.width - (score.singleNote ? 0 : parent.alterWidth) : 0
 
   property alias headText: head.text
   property color color: GLOB.noteCursorColor
@@ -35,12 +35,13 @@ Item {
       text: "\uf4be"
       y: yPos - 15
       color: noteCursor.color
+      x: score.singleNote ? 1.5 : 0
 
       Text {
         id: alter
         font { family: "Scorek"; pixelSize: 7 }
         color: noteCursor.color
-        x: head.x - width - 0.1
+        x: -width - 0.1
       }
   }
 

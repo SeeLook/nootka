@@ -25,7 +25,7 @@ Score {
   property alias recModeAct: recModeAct
   property alias playAct: playAct
 
-  scoreObj.meter: GLOB.rhythmsEnabled ? Tmeter.Meter_4_4 : Tmeter.NoMeter
+  scoreObj.meter: GLOB.rhythmsEnabled && !GLOB.singleNoteMode ? Tmeter.Meter_4_4 : Tmeter.NoMeter
   focus: true
 
   onFocusChanged: {
@@ -41,7 +41,8 @@ Score {
   scoreObj.nameColor: GLOB.nameColor
   scoreObj.nameStyle: GLOB.noteNameStyle
   scoreObj.enableDoubleAccidentals: GLOB.enableDoubleAccids
-  scoreObj.allowAdding: true
+  scoreObj.allowAdding: !GLOB.singleNoteMode
+
 
   Timer { id: zoomTimer; interval: 500 }
   MouseArea {
@@ -73,15 +74,27 @@ Score {
     color: activPal.text
     font { family: "Sans"; pointSize: 1.5 }
     text: getKeyNameText()
-    Connections {
-      target: GLOB
-      onKeyNameChanged: keyName.text = Qt.binding(keyName.getKeyNameText)
-    }
     function getKeyNameText() {
       return enableKeySign && firstStaff.keySignature ? Noo.majAndMinKeyName(firstStaff.keySignature.key) : ""
     }
   }
 
+  Component.onCompleted: {
+    scoreObj.singleNote = GLOB.singleNoteMode
+  }
+
+  Connections {
+    target: GLOB
+    onKeyNameChanged: keyName.text = Qt.binding(keyName.getKeyNameText)
+    onSingleNoteModeChanged: {
+      scoreObj.singleNote = GLOB.singleNoteMode
+      if (GLOB.singleNoteMode) {
+          recordMode = false
+          scoreObj.note(1).visible = Qt.binding(function() { return GLOB.showEnharmNotes })
+          scoreObj.note(2).visible = Qt.binding(function() { return GLOB.showEnharmNotes && GLOB.enableDoubleAccids })
+      }
+    }
+  }
 
   Rectangle { // note highlight
     id: noteHighlight
@@ -134,11 +147,13 @@ Score {
   }
   Taction {
     id: extraAccidsAct
+    enabled: !GLOB.singleNoteMode
     text: qsTr("Additional accidentals")
     checkable: true
   }
   Taction {
     id: showNamesAct
+    enabled: !GLOB.singleNoteMode
     text: qsTr("Show note names")
     checkable: true
     checked: GLOB.namesOnScore
@@ -146,6 +161,7 @@ Score {
   }
   Taction {
     id: zoomOutAct
+    enabled: !GLOB.singleNoteMode
     icon: "zoom-out"
     text: qsTr("Zoom score out")
     onTriggered: scaleFactor = Math.max(0.4, scaleFactor - 0.2)
@@ -153,6 +169,7 @@ Score {
   }
   Taction {
     id: zoomInAct
+    enabled: !GLOB.singleNoteMode
     icon: "zoom-in"
     text: qsTr("Zoom score in")
     onTriggered: scaleFactor = scaleFactor = Math.min(scaleFactor + 0.2, 1.4)
@@ -160,6 +177,7 @@ Score {
   }
   Taction {
     id: deleteLastAct
+    enabled: !GLOB.singleNoteMode
     icon: "delete"
     text: qsTr("Delete note")
     onTriggered: scoreObj.deleteLastNote()
@@ -167,6 +185,7 @@ Score {
   }
   Taction {
     id: clearScoreAct
+    enabled: !GLOB.singleNoteMode
     icon: "clear-score"
     text: qsTr("Delete all notes")
     onTriggered: clearScore()
@@ -174,6 +193,7 @@ Score {
   }
 
   Shortcut {
+    enabled: !GLOB.singleNoteMode
     sequence: StandardKey.MoveToNextChar;
     onActivated: {
       if (currentNote)
@@ -183,6 +203,7 @@ Score {
     }
   }
   Shortcut {
+    enabled: !GLOB.singleNoteMode
     sequence: StandardKey.MoveToPreviousChar;
     onActivated: {
       if (currentNote)
@@ -192,6 +213,7 @@ Score {
     }
   }
   Keys.onSpacePressed: {
+    enabled: !GLOB.singleNoteMode
     if (event.modifiers & Qt.ControlModifier)
       recModeAct.triggered()
     else

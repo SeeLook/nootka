@@ -11,6 +11,8 @@ import Nootka.name 1.0
 TnameItem {
   id: noteName
 
+  nameStyle: GLOB.noteNameStyle
+
   // private
   property real buttHeight: height / 12
   property real buttWidth: width / 9
@@ -65,6 +67,7 @@ TnameItem {
     Repeater {
       model:  [ "B", "b", "#", "x" ]
       TcuteButton {
+        visible: GLOB.enableDoubleAccids || (index > 0 && index < 3)
         width: buttWidth
         height: buttHeight * 1.1
         checkable: step > 0
