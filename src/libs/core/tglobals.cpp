@@ -370,8 +370,8 @@ void Tglobals::loadSettings(QSettings* cfg) {
   cfg->beginGroup(QLatin1String("common"));
       S->doubleAccidentalsEnabled = cfg->value(QStringLiteral("doubleAccidentals"), false).toBool();
       S->showEnharmNotes = cfg->value(QStringLiteral("showEnaharmonicNotes"), false).toBool();
-      if (!S->isSingleNoteMode) // enharmonically equal notes can be enabled only in single note mode
-          S->showEnharmNotes = false;
+//       if (!S->isSingleNoteMode) // enharmonically equal notes can be enabled only in single note mode
+//           S->showEnharmNotes = false;
       S->enharmNotesColor = cfg->value(QStringLiteral("enharmonicNotesColor"), QColor(0, 162, 162)).value<QColor>(); // turquoise
       S->seventhIs_B = cfg->value(QStringLiteral("is7thNote_B"), true).toBool(); //true;
   cfg->endGroup();

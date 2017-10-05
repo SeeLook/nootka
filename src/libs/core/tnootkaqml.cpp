@@ -370,7 +370,14 @@ void TnootkaQML::noteStarted(const Tnote& n) {
   if (m_scoreObject->keySignature() < 0 || (m_scoreObject->keySignature() == 0 && GLOB->GpreferFlats))
     transNote = transNote.showWithFlat();
   m_ignoreScore = true;
-  QMetaObject::invokeMethod(m_mainScore, "addNote", Q_ARG(QVariant, QVariant::fromValue(transNote)));
+  if (m_scoreObject->singleNote()) {
+      if (!transNote.isRest()) {
+        transNote.setRhythm(Trhythm::NoRhythm);
+        QMetaObject::invokeMethod(m_mainScore, "setNote", Q_ARG(QVariant, QVariant::fromValue(m_scoreObject->note(0))),
+                                  Q_ARG(QVariant, QVariant::fromValue(transNote)));
+      }
+  } else
+      QMetaObject::invokeMethod(m_mainScore, "addNote", Q_ARG(QVariant, QVariant::fromValue(transNote)));
 }
 
 
@@ -382,7 +389,9 @@ void TnootkaQML::noteFinished(const Tnote& n) {
   if (m_scoreObject->keySignature() < 0 || (m_scoreObject->keySignature() == 0 && GLOB->GpreferFlats))
     transNote = transNote.showWithFlat();
   m_ignoreScore = true;
-  if (m_scoreObject->selectedItem())
+  if (m_scoreObject->singleNote())
+    transNote.setRhythm(Trhythm::NoRhythm);
+  if (m_scoreObject->selectedItem() && (!m_scoreObject->singleNote() || (m_scoreObject->singleNote() && !transNote.isRest())))
     QMetaObject::invokeMethod(m_mainScore, "setNote", Q_ARG(QVariant, QVariant::fromValue(m_scoreObject->selectedItem())),
                                                       Q_ARG(QVariant, QVariant::fromValue(transNote)));
 //   else // naughty user pressed arrow key
@@ -422,13 +431,19 @@ void TnootkaQML::connectInstrument() {
     rawNote.transpose(-GLOB->transposition());
     if (m_scoreObject->keySignature() < 0 || (m_scoreObject->keySignature() == 0 && GLOB->GpreferFlats))
       rawNote = rawNote.showWithFlat();
-    if (m_scoreObject->selectedItem()) {
-        rawNote.setRhythm(m_scoreObject->selectedItem()->note()->rtm);
-        QMetaObject::invokeMethod(m_mainScore, "setNote", Q_ARG(QVariant, QVariant::fromValue(m_scoreObject->selectedItem())),
-                                                          Q_ARG(QVariant, QVariant::fromValue(rawNote)));
+
+    if (m_scoreObject->singleNote()) {
+        QMetaObject::invokeMethod(m_mainScore, "setNote", Q_ARG(QVariant, QVariant::fromValue(m_scoreObject->note(0))),
+                                  Q_ARG(QVariant, QVariant::fromValue(rawNote)));
     } else {
-        rawNote.setRhythm(m_scoreObject->workRhythm());
-        QMetaObject::invokeMethod(m_mainScore, "addNote", Q_ARG(QVariant, QVariant::fromValue(rawNote)));
+        if (m_scoreObject->selectedItem()) {
+            rawNote.setRhythm(m_scoreObject->selectedItem()->note()->rtm);
+            QMetaObject::invokeMethod(m_mainScore, "setNote", Q_ARG(QVariant, QVariant::fromValue(m_scoreObject->selectedItem())),
+                                                              Q_ARG(QVariant, QVariant::fromValue(rawNote)));
+        } else {
+            rawNote.setRhythm(m_scoreObject->workRhythm());
+            QMetaObject::invokeMethod(m_mainScore, "addNote", Q_ARG(QVariant, QVariant::fromValue(rawNote)));
+        }
     }
   });
 }

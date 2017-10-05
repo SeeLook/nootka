@@ -41,7 +41,6 @@ void TnameItem::setNote(const Tnote& n) {
     bool octaveCh = n.octave != m_note.octave;
     bool alterCh = n.alter != m_note.alter;
     m_note = n;
-    emit noteChanged();
     if (stepCh)
       emit stepChanged();
     if (octaveCh)
@@ -99,7 +98,7 @@ void TnameItem::setNameStyle(int nStyle) {
 
 QString TnameItem::nameText() const {
   QString enharmText;
-  if (m_note.isValid()) {
+  if (GLOB->showEnharmNotes() && m_note.isValid()) {
     TnotesList enharmList = m_note.getTheSameNotes(GLOB->enableDoubleAccids());
     TnotesList::iterator it = enharmList.begin();
     ++it;
