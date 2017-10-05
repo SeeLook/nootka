@@ -75,7 +75,7 @@ Item {
 
   Timer {
     id: timer
-    running: SOUND.listening && (!menu || menu.tickEnable); repeat: true
+    running: visible && SOUND.listening && (!menu || menu.tickEnable); repeat: true
     interval: (SOUND.tempo < 110 ? 15000 : 30000) / SOUND.tempo
     property real elap: 0
     property real lag: 0
