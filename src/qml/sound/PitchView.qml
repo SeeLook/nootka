@@ -14,6 +14,7 @@ Item {
   property alias volume : volBar.volume
 //   property alias deviation : intoBar.deviation
   property bool active: false
+  property alias tempoVisible : tempoBar.visible
 
   signal paused()
 
@@ -39,7 +40,7 @@ Item {
 
   VolumeBar {
       id: volBar
-      y: parent.height * 0.55
+      y: parent.height * (tempoVisible ? 0.55 : 0.27)
       width: parent.width
       height: parent.height * 0.45
   }

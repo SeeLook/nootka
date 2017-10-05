@@ -17,7 +17,7 @@ ToolBar {
   Row {
     HeadButton { id: settAct; action: nootkaWindow.settingsAct }
     HeadButton { action: nootkaWindow.levelAct }
-    HeadButton { id: scoreAct; action: nootkaWindow.scoreAct }
+    HeadButton { id: scoreAct; action: nootkaWindow.scoreAct; visible: !GLOB.singleNoteMode }
     HeadButton { action: nootkaWindow.examAct }
   }
 
@@ -28,6 +28,7 @@ ToolBar {
     anchors.right: label.left
     height: parent.height * 0.9
     width: parent.width * 0.4
+    tempoVisible: !GLOB.singleNoteMode
     onPaused: {
       SOUND.stoppedByUser = !SOUND.stoppedByUser
       if (SOUND.listening)
