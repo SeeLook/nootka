@@ -66,22 +66,29 @@ ApplicationWindow {
   MainMenu { id: mainMenu }
   header: mainMenu.toolBar
 
-  Grid {
-      anchors.fill: parent
-      columns: GLOB.instrument.isSax ? 2 : 1
+  MainScore {
+    id: score
+    height: nootkaWindow.height - (header ? header.height : 0) - (GLOB.instrument.isSax ? (GLOB.singleNoteMode ? instrument.height / 7 : 0) : instrument.height)
+    width: (parent.width - (GLOB.instrument.isSax ? instrument.width : 0)) / (GLOB.singleNoteMode ? 2 : 1)
+    z: 5
+  }
 
-      MainScore {
-        id: score
-        height: nootkaWindow.height - (header ? header.height : 0) - (GLOB.instrument.isSax ? 0 : instrument.height)
-        width: parent.width - (GLOB.instrument.isSax ? instrument.width : 0)
-        z: 5
-      }
+  Instrument {
+    id: instrument
+    score: score
+  }
 
-      Instrument {
-        id: instrument
-        z: 1
-        score: score
-      }
+  Loader {
+    active: GLOB.singleNoteMode
+    source: "qrc:/NoteName.qml"
+    width: score.width
+    height: score.height
+    x: score.width + 1
+    z: 5
+    onLoaded: {
+      item.note = Qt.binding(function() { return score.note })
+      item.onNoteChanged.connect(function() { score.setNote(score.scoreObj.note(0), item.note) })
+    }
   }
 
   Component.onCompleted: {
