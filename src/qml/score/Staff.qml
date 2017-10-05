@@ -23,7 +23,8 @@ Item {
   signal destroing(var nr)
 
   height: linesCount
-  scale: (Math.min(score.height, Math.max(Screen.height / 4, Screen.pixelDensity * 70)) / linesCount) * score.scaleFactor
+  scale: score.singleNote ? score.height / linesCount :
+                            (Math.min(score.height, Math.max(Screen.height / 4, Screen.pixelDensity * 70)) / linesCount) * score.scaleFactor
   width: score.width / scale
   transformOrigin: Item.TopLeft
 

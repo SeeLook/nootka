@@ -26,6 +26,7 @@ Flickable {
   property alias currentNote: scoreObj.selectedItem
   property alias note: scoreObj.selectedNote
   property alias readOnly: scoreObj.readOnly
+  property alias singleNote: scoreObj.singleNote
   property bool recordMode: false
 
   // private
