@@ -11,8 +11,8 @@ import QtQuick.Controls 2.2
 Flickable {
   width: parent.width; height: parent.height
   clip: true
-  contentHeight: questionCol.height + nootkaWindow.fontSize * 2
-  contentWidth: Math.max(width, nootkaWindow.fontSize * 35)
+  contentHeight: questionCol.height + Noo.fontSize() * 2
+  contentWidth: Math.max(width, Noo.fontSize() * 35)
 
   property var qTexts: [ qsTr("as note on the staff"), qsTr("as note name"), qsTr("as position on the fingerboard"), qsTr("as played sound") ]
 

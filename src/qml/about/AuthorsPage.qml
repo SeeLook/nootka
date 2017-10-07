@@ -12,7 +12,7 @@ Flickable {
 
   clip: true
   contentHeight: aboutCont.height
-  contentWidth: Math.max(width, nootkaWindow.fontSize * 35)
+  contentWidth: Math.max(width, Noo.fontSize() * 35)
 
   ScrollBar.vertical: ScrollBar {}
 
@@ -23,7 +23,7 @@ Flickable {
 
   Column {
     id: aboutCont
-    spacing: nootkaWindow.fontSize
+    spacing: Noo.fontSize()
     width: parent.width
     TextBackground { text: qsTranslate("TaboutNootka", "Code"); }
     Text {
@@ -39,32 +39,32 @@ Flickable {
     GridLayout {
       columns: 4
       Layout.alignment: Qt.AlignVCenter
-      Image { sourceSize.height: nootkaWindow.fontSize * 2; source: Noo.pix("flags-cs"); }
+      Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-cs"); }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;český "; textFormat: Text.StyledText; color: activPal.text }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Pavel Fric</b> "; color: activPal.text }
       Text { text: " <a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>"; color: activPal.text }
 
-      Image { sourceSize.height: nootkaWindow.fontSize * 2; source: Noo.pix("flags-de") }
+      Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-de") }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;deutsch "; textFormat: Text.StyledText; color: activPal.text}
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Johann C. Weihe</b> "; font.bold: true; color: activPal.text }
       Item { width: 10; height: 10 }
 
-      Image { sourceSize.height: nootkaWindow.fontSize * 2; source: Noo.pix("flags-es") }
+      Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-es") }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;español "; textFormat: Text.StyledText; color: activPal.text }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>José Luis Marín</b> "; font.bold: true; color: activPal.text }
       Text { text: " <a href=\"mailto:jsls@gmx.com\">jsls@gmx.com</a>"; color: activPal.text }
 
-      Image { sourceSize.height: nootkaWindow.fontSize * 2; source: Noo.pix("flags-fr") }
+      Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-fr") }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;français "; textFormat: Text.StyledText; color: activPal.text }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Olivier Devineau,<br>&nbsp;&nbsp;&nbsp;&nbsp;Jean-Marc Lartigue</b> "; color: activPal.text }
       Item { width: 10; height: 10 }
 
-      Image { sourceSize.height: nootkaWindow.fontSize * 2; source: Noo.pix("flags-pl") }
+      Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-pl") }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;polski "; textFormat: Text.StyledText; color: activPal.text }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Tomasz Bojczuk</b> "; color: activPal.text }
       Text { text: "<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>"; color: activPal.text }
 
-      Image { sourceSize.height: nootkaWindow.fontSize * 2; source: Noo.pix("flags-ru") }
+      Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-ru") }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;русский "; textFormat: Text.StyledText; color: activPal.text }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Sergei Ivanov (tico-tico)<br>&nbsp;&nbsp;&nbsp;&nbsp;Timur Artykov</b> "; color: activPal.text }
       Item { width: 10; height: 10 }

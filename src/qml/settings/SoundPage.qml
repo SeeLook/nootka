@@ -10,13 +10,13 @@ import "../"
 
 
 Column {
-  spacing: nootkaWindow.fontSize
+  spacing: Noo.fontSize()
   width: parent.width; height: parent.height
 
   ListView {
     id: headList
     orientation: ListView.Horizontal
-    spacing: nootkaWindow.fontSize
+    spacing: Noo.fontSize()
     width: parent.width
 
     model: ListModel {
@@ -34,7 +34,7 @@ Column {
 
   StackLayout {
     id: stack
-    height: parent.height - headList.height - nootkaWindow.fontSize
+    height: parent.height - headList.height - Noo.fontSize()
     width: parent.width
     currentIndex: -1
 
@@ -56,17 +56,17 @@ Column {
         Column {
           enabled: enableInChB.checked
           width: parent.width
-          spacing: nootkaWindow.fontSize
+          spacing: Noo.fontSize()
 
           Tile {
             description: qsTr("Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.")
             Row {
-              spacing: nootkaWindow.fontSize
+              spacing: Noo.fontSize()
               anchors.horizontalCenter: parent.horizontalCenter
               TlabelText { text: qsTr("input device") }
               ComboBox {
                 id: inDevCombo
-                width: nootkaWindow.fontSize * 20
+                width: Noo.fontSize() * 20
                 model: SOUND.inputDevices()
                 delegate: ItemDelegate { text: modelData }
               }
@@ -82,7 +82,7 @@ Column {
           Tile {
             description: qsTr("Only sounds longer than the selected time will be pitch-detected.<br>Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness.")
             Row {
-              spacing: nootkaWindow.fontSize
+              spacing: Noo.fontSize()
               anchors.horizontalCenter: parent.horizontalCenter
               TlabelText { text: qsTr("minimum note duration") }
               SpinBox {
@@ -98,12 +98,12 @@ Column {
           Tile {
             description: qsTr("Minimum volume of a sound to be pitch-detected")
             Row {
-              spacing: nootkaWindow.fontSize
+              spacing: Noo.fontSize()
               anchors.horizontalCenter: parent.horizontalCenter
               Text { text: qsTr("minimum volume"); anchors.verticalCenter: parent.verticalCenter; color: enabled ? activPal.text : disdPal.text }
               Slider {
                 anchors.verticalCenter: parent.verticalCenter
-                width: Math.min(nootkaWindow.fontSize * 15, parent.parent.width / 3)
+                width: Math.min(Noo.fontSize() * 15, parent.parent.width / 3)
                 from: 10; to: 80
                 value: volSpin.value
                 onValueChanged: volSpin.value = value
@@ -125,18 +125,18 @@ Column {
             Column {
               width: parent.width
               Row {
-                spacing: nootkaWindow.fontSize
+                spacing: Noo.fontSize()
                 anchors.horizontalCenter: parent.horizontalCenter
                 TlabelText { text: qsTr("middle A") }
                 Text { // staff
-                  height: nootkaWindow.fontSize * 4.5
-                  y: nootkaWindow.fontSize * -1.6
-                  font { pixelSize: nootkaWindow.fontSize * 2.5; family: "scorek" }
+                  height: Noo.fontSize() * 4.5
+                  y: Noo.fontSize() * -1.6
+                  font { pixelSize: Noo.fontSize() * 2.5; family: "scorek" }
                   text: "\ue014\ue014\ue014\ue014"
                   color: enabled ? activPal.text : disdPal.text
                   Text { // clef
-                    x: nootkaWindow.fontSize / 4
-                    y: nootkaWindow.fontSize * -0.6
+                    x: Noo.fontSize() / 4
+                    y: Noo.fontSize() * -0.6
                     color: parent.color
                     font: parent.font
                     text: "\ue050"
@@ -144,8 +144,8 @@ Column {
                   Text { // note
                     color: parent.color
                     font: parent.font
-                    x: nootkaWindow.fontSize * 2.7
-                    y: nootkaWindow.fontSize * -0.9
+                    x: Noo.fontSize() * 2.7
+                    y: Noo.fontSize() * -0.9
                     text: "\ue1d7"
                   }
                 }
@@ -167,11 +167,11 @@ Column {
             background: Rectangle {
               color: "transparent"
               border.color: enabled ? "red" : disdPal.text
-              radius: nootkaWindow.fontSize / 2
+              radius: Noo.fontSize() / 2
             }
             Column {
               width: parent.width
-              spacing: nootkaWindow.fontSize
+              spacing: Noo.fontSize()
               Switch {
                 id: advSwitch
                 text: qsTr("Advanced")
@@ -181,11 +181,11 @@ Column {
                 visible: advSwitch.checked
                 Row {
                   anchors.horizontalCenter: parent.horizontalCenter
-                  spacing: nootkaWindow.fontSize
+                  spacing: Noo.fontSize()
                   TlabelText { text: qsTr("pitch detection mode") }
                   ComboBox {
                     id: methodCombo
-                    width: nootkaWindow.fontSize * 20
+                    width: Noo.fontSize() * 20
                     model: ["MPM", "autocorrelation", "MPM + modified cepstrum"]
                     delegate: ItemDelegate { text: modelData }
                   }
@@ -196,7 +196,7 @@ Column {
                 description: qsTr("Helps to properly detect the same notes repeated quickly on the guitar.")
                 Row {
                   anchors.horizontalCenter: parent.horizontalCenter
-                  spacing: nootkaWindow.fontSize
+                  spacing: Noo.fontSize()
                   TcheckBox {
                     id: splitVolChB
                     anchors.verticalCenter: parent.verticalCenter
@@ -216,7 +216,7 @@ Column {
                 description: qsTr("Skips stiller sounds, below given percent of average volume. It prevents detecting of harmonics on classical or acoustic guitar but requires playing with similar strength.")
                 Row {
                   anchors.horizontalCenter: parent.horizontalCenter
-                  spacing: nootkaWindow.fontSize
+                  spacing: Noo.fontSize()
                   TcheckBox {
                     id: skipStillerChB
                     anchors.verticalCenter: parent.verticalCenter
@@ -254,7 +254,7 @@ Column {
       Column {
         id: outCol
         width: parent.width
-        spacing: nootkaWindow.fontSize
+        spacing: Noo.fontSize()
 
         TcheckBox {
           id: enableOutChB
@@ -266,15 +266,15 @@ Column {
         Column {
           enabled: enableOutChB.checked
           width: parent.width
-          spacing: nootkaWindow.fontSize
+          spacing: Noo.fontSize()
 
           Row {
-            spacing: nootkaWindow.fontSize
+            spacing: Noo.fontSize()
             anchors.horizontalCenter: parent.horizontalCenter
             TlabelText { text: qsTr("output device") }
             ComboBox {
               id: outDevCombo
-              width: nootkaWindow.fontSize * 20
+              width: Noo.fontSize() * 20
               model: SOUND.outputDevices()
               delegate: ItemDelegate { text: modelData }
             }

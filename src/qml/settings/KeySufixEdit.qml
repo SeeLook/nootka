@@ -35,7 +35,7 @@ Column {
   Text {
     anchors.horizontalCenter: parent.horizontalCenter
     color: enabled ? activPal.text : disdPal.text
-    font { bold: true; pixelSize: nootkaWindow.fontSize * 1.5 }
+    font { bold: true; pixelSize: Noo.fontSize() * 1.5 }
     text: Noo.noteName(Noo.note(noteOne, 0, alterOne), nameStyle, false) + (sufix === "" || sufix === " " ? "" : "-" + sufixField.text) + "\n"
         + Noo.noteName(Noo.note(noteTwo, 0, alterTwo), nameStyle, false) + (sufix === "" || sufix === " " ? "" : "-" + sufixField.text)
   }

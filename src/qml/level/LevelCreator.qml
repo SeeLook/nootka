@@ -7,7 +7,7 @@ import QtQuick 2.9
 
 Item {
   width: parent.width
-  height: parent.height - (Noo.isAndroid() ? 0 : nootkaWindow.fontSize * 3)
+  height: parent.height - (Noo.isAndroid() ? 0 : Noo.fontSize() * 3)
 
   PagesDialog { id: pages }
 

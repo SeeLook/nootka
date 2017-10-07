@@ -12,29 +12,29 @@ import "../"
 Flickable {
   width: parent.width; height: parent.height
   clip: true
-  contentHeight: rangeGrid.height + nootkaWindow.fontSize * 2
-  contentWidth: Math.max(width, nootkaWindow.fontSize * 35)
+  contentHeight: rangeGrid.height + Noo.fontSize() * 2
+  contentWidth: Math.max(width, Noo.fontSize() * 35)
 
   ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
 
   Grid {
     id: rangeGrid
-    columns:  parent.width > nootkaWindow.fontSize * 50 ? 2 : 1
+    columns:  parent.width > Noo.fontSize() * 50 ? 2 : 1
     width: parent.width
-    spacing: nootkaWindow.fontSize / 4
+    spacing: Noo.fontSize() / 4
     horizontalItemAlignment: Grid.AlignHCenter
-    topPadding: nootkaWindow.fontSize
+    topPadding: Noo.fontSize()
 
     Frame {
         width: rangeGrid.columns === 1 ? parent.width * 0.98 : parent.width * 0.49
         Column {
           width: parent.width
-          spacing: nootkaWindow.fontSize / 2
+          spacing: Noo.fontSize() / 2
           Text { text: qsTr("note range:"); color: activPal.text; anchors.horizontalCenter: parent.horizontalCenter }
           Score {
             id: rangeScore
-            height: nootkaWindow.fontSize * 20
-            width: nootkaWindow.fontSize * 12
+            height: Noo.fontSize() * 20
+            width: Noo.fontSize() * 12
             anchors.horizontalCenter: parent.horizontalCenter
             meter: Tmeter.NoMeter
             Component.onCompleted: {
@@ -54,16 +54,16 @@ Flickable {
 
     Column {
       width: rangeGrid.columns === 1 ? parent.width * 0.98 : parent.width * 0.49
-      spacing: nootkaWindow.fontSize / 2
+      spacing: Noo.fontSize() / 2
       Frame {
           width: parent.width
           Column {
             width: parent.width
-            spacing: nootkaWindow.fontSize / 2
+            spacing: Noo.fontSize() / 2
             Text { text: qsTr("fret range:"); color: activPal.text; anchors.horizontalCenter: parent.horizontalCenter }
             Row {
               anchors.horizontalCenter: parent.horizontalCenter
-              spacing: nootkaWindow.fontSize / 2
+              spacing: Noo.fontSize() / 2
               Text { text: qsTr("from"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
               SpinBox { id: fromFretSpin; from: 0; to: GLOB.fretNumber; value: 0 }
               Text { text: qsTr("to"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
@@ -78,15 +78,15 @@ Flickable {
             }
           }
       }
-      Item { width: parent.width; height: rangeGrid.columns === 1 ? 0 : nootkaWindow.fontSize * 3 } // spacer only for 2 columns
+      Item { width: parent.width; height: rangeGrid.columns === 1 ? 0 : Noo.fontSize() * 3 } // spacer only for 2 columns
       Tile {
         description: qsTr("Uncheck strings if you want to skip them in an exam.")
         Column {
           width: parent.width
-          spacing: nootkaWindow.fontSize / 4
+          spacing: Noo.fontSize() / 4
           Text { text: qsTr("available strings:"); color: activPal.text; anchors.horizontalCenter: parent.horizontalCenter }
           Grid {
-            spacing: nootkaWindow.fontSize / 4
+            spacing: Noo.fontSize() / 4
             anchors.horizontalCenter: parent.horizontalCenter
             columns: 3
             horizontalItemAlignment: Grid.AlignHCenter
@@ -95,7 +95,7 @@ Flickable {
               TcheckBox {
                 checked: true
                 text: index + 1
-                font { family: "nootka"; pixelSize: nootkaWindow.fontSize * 2 }
+                font { family: "nootka"; pixelSize: Noo.fontSize() * 2 }
               }
             }
           }

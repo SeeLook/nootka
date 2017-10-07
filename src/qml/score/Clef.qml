@@ -37,7 +37,7 @@ Text {
     Drawer {
       id: drawer
       property alias selectedClef: clefMenu.selClef
-      width: nootkaWindow.fontSize * 18
+      width: Noo.fontSize() * 18
       height: nootkaWindow.height
       visible: true
       Flickable {
@@ -49,11 +49,11 @@ Text {
           id: clefMenu
           onClicked: { type = cl; close() }
           onSelIdChanged: { // ensure visible
-            var yy = nootkaWindow.fontSize * 7.75 * selId
+            var yy = Noo.fontSize() * 7.75 * selId
             if (flick.contentY >= yy)
               flick.contentY = yy
-            else if (flick.contentY + flick.height <= yy + nootkaWindow.fontSize * 7.75)
-              flick.contentY = yy + nootkaWindow.fontSize * 7.75 - flick.height
+            else if (flick.contentY + flick.height <= yy + Noo.fontSize() * 7.75)
+              flick.contentY = yy + Noo.fontSize() * 7.75 - flick.height
           }
         }
       }

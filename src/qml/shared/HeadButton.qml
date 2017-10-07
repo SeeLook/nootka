@@ -46,7 +46,7 @@ ToolButton {
   }
   Text {
     id: butText
-    font.pixelSize: Math.min(factor * 2.5, nootkaWindow.fontSize)
+    font.pixelSize: Math.min(factor * 2.5, Noo.fontSize())
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.top: icon.bottom
     horizontalAlignment: Text.AlignHCenter

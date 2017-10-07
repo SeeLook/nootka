@@ -22,10 +22,10 @@ Flickable {
   Column {
     id: optCol
     width: parent.width
-    spacing: nootkaWindow.fontSize
+    spacing: Noo.fontSize()
     Text {
       width: parent.width
-      font { pixelSize: nootkaWindow.fontSize * 2; bold: true }
+      font { pixelSize: Noo.fontSize() * 2; bold: true }
       wrapMode: Text.WordWrap
       horizontalAlignment: Text.AlignHCenter
       color: activPal.text
@@ -37,10 +37,10 @@ Flickable {
     }
 
     Tile {
-      width: innerCol.width + nootkaWindow.fontSize * 2
+      width: innerCol.width + Noo.fontSize() * 2
       Column {
         id: innerCol
-        spacing: nootkaWindow.fontSize
+        spacing: Noo.fontSize()
         anchors.horizontalCenter: parent.horizontalCenter
         TcheckBox {
           id: dblAccidsChB

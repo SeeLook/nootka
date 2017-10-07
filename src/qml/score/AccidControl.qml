@@ -18,7 +18,7 @@ ControlBase {
   readonly property var accidArray: [ 0, -2, -1, 1, 2 ]
 
 
-  x: (show ? score.scoreObj.xFirstInActivBar : -nootkaWindow.fontSize) - width
+  x: (show ? score.scoreObj.xFirstInActivBar : -Noo.fontSize()) - width
   y: score.contentY + (score.height - height) / 2
 
   component: Component {

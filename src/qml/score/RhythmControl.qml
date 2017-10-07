@@ -21,8 +21,8 @@ ControlBase {
   property bool tie: false
 
   x: 1
-  y: show ? score.contentY + (score.height - height) / 2 : -height - nootkaWindow.fontSize
-//   y: show ? Math.max(scoreObj.midLine(score.activeNote) - height / 2, 0) : -height - nootkaWindow.fontSize
+  y: show ? score.contentY + (score.height - height) / 2 : -height - Noo.fontSize()
+//   y: show ? Math.max(scoreObj.midLine(score.activeNote) - height / 2, 0) : -height - Noo.fontSize()
 
   component: Component {
       id: contentComp

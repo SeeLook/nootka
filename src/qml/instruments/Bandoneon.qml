@@ -115,7 +115,7 @@ TbandoneonBg {
       Button {
         id: openButt
         width: factor * 40
-        height: nootkaWindow.fontSize * 3
+        height: Noo.fontSize() * 3
         contentItem: TlabelText { 
           text: qsTr("bellows<br>opening"); width: parent.width
           horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
@@ -130,7 +130,7 @@ TbandoneonBg {
       Button {
         id: closeButt
         width: factor * 40
-        height: nootkaWindow.fontSize * 3
+        height: Noo.fontSize() * 3
         contentItem: TlabelText {
           text: qsTr("bellows<br>closing"); width: parent.width
           horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter

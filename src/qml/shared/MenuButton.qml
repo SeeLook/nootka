@@ -14,12 +14,12 @@ Rectangle {
   property Taction action
   property alias text: butText.text
 
-  width: parent.width - nootkaWindow.fontSize
-  implicitHeight: nootkaWindow.fontSize * 3
+  width: parent.width - Noo.fontSize()
+  implicitHeight: Noo.fontSize() * 3
   anchors.horizontalCenter: parent.horizontalCenter
   color: ma.containsPress ? activPal.highlight : activPal.button
   border { width: 1; color: ma.containsMouse ? activPal.highlight : activPal.shadow }
-  radius: nootkaWindow.fontSize / 4
+  radius: Noo.fontSize() / 4
 
   signal clicked()
 
@@ -29,14 +29,14 @@ Rectangle {
   }
 
   Image {
-    x: nootkaWindow.fontSize / 2
+    x: Noo.fontSize() / 2
     id: icon
-    sourceSize.height: nootkaWindow.fontSize * 2.2
+    sourceSize.height: Noo.fontSize() * 2.2
     anchors.verticalCenter: parent.verticalCenter
     source: action ? action.icon : ""
   }
   Column {
-    x: nootkaWindow.fontSize * 3.7
+    x: Noo.fontSize() * 3.7
     anchors.verticalCenter: parent.verticalCenter
     Text {
       id: butText
@@ -51,7 +51,7 @@ Rectangle {
       anchors {verticalCenter: parent.verticalCenter}
       checked: action.checked
       onClicked: menuButton.clicked()
-      x: (nootkaWindow.fontSize * 3.5 - width) / 2
+      x: (Noo.fontSize() * 3.5 - width) / 2
     }
   }
 
@@ -60,7 +60,7 @@ Rectangle {
     Text {
       anchors {verticalCenter: parent.verticalCenter}
       text: "(" + action.key() + ")"
-      x: menuButton.width - width - nootkaWindow.fontSize
+      x: menuButton.width - width - Noo.fontSize()
     }
   }
 

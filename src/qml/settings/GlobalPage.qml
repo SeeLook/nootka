@@ -13,13 +13,13 @@ Flickable {
   height: parent.height
 
   clip: true
-  contentHeight: mainColumn.height + nootkaWindow.fontSize * 2
+  contentHeight: mainColumn.height + Noo.fontSize() * 2
 
   ScrollBar.vertical: ScrollBar { active: false; visible: active }
 
   Column {
     id: mainColumn
-    spacing: nootkaWindow.fontSize / 2
+    spacing: Noo.fontSize() / 2
     width: parent.width
 
     Tile {
@@ -40,17 +40,17 @@ Flickable {
       Tumbler {
         id: langTumb
         width: parent.width
-        height: nootkaWindow.fontSize * 8
-        visibleItemCount: Math.min(((width / (nootkaWindow.fontSize * 7)) / 2) * 2 - 1, 7)
+        height: Noo.fontSize() * 8
+        visibleItemCount: Math.min(((width / (Noo.fontSize() * 7)) / 2) * 2 - 1, 7)
         model: langModel
         delegate: Component {
           Column {
-            spacing: nootkaWindow.fontSize / 4
+            spacing: Noo.fontSize() / 4
             opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
             scale: 1.7 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
             Image {
               source: Noo.pix("flags-" + flag)
-              sourceSize.height: nootkaWindow.fontSize * 3
+              sourceSize.height: Noo.fontSize() * 3
               anchors.horizontalCenter: parent.horizontalCenter
             }
             Text {
@@ -72,15 +72,15 @@ Flickable {
           dragMargin: width / 2
           path: Path {
             startX: 0
-            startY: nootkaWindow.fontSize * 1.2
+            startY: Noo.fontSize() * 1.2
             PathLine {
               x: pathView.width
-              y: nootkaWindow.fontSize * 1.2
+              y: Noo.fontSize() * 1.2
             }
           }
         }
         Rectangle {
-          z: -1; width: nootkaWindow.fontSize * 9; height: parent.height * 1.1
+          z: -1; width: Noo.fontSize() * 9; height: parent.height * 1.1
           x: parent.width / 2 - width / 2; y: -parent.height * 0.05
           color: Noo.alpha(activPal.highlight, 100)
           radius: width / 8
@@ -104,7 +104,7 @@ Flickable {
       }
     }
 
-    Item { height: nootkaWindow.fontSize * 3; width: parent.width }
+    Item { height: Noo.fontSize() * 3; width: parent.width }
 
     Tile {
       description: qsTranslate("TglobalSettings", "All settings will be reset to their default values!<br>Nootka will start up with the first-run wizard.")

@@ -11,8 +11,8 @@ import "../"
 Flickable {
   width: parent.width; height: parent.height
   clip: true
-  contentHeight: suppFlow.childrenRect.height + thText.height + nootkaWindow.fontSize * 3
-  contentWidth: Math.max(width, nootkaWindow.fontSize * 35)
+  contentHeight: suppFlow.childrenRect.height + thText.height + Noo.fontSize() * 3
+  contentWidth: Math.max(width, Noo.fontSize() * 35)
 
   ScrollBar.vertical: ScrollBar {}
 //                     | donate   | translate |  vote   | report   | express |
@@ -32,8 +32,8 @@ Flickable {
     id: suppFlow
     width: parent.width
     height: childrenRect.height
-    anchors.margins: nootkaWindow.fontSize
-    spacing: nootkaWindow.fontSize / 2
+    anchors.margins: Noo.fontSize()
+    spacing: Noo.fontSize() / 2
 
     Tile {
       width: parent.width
@@ -43,7 +43,7 @@ Flickable {
         text: qsTr("You also can help with making Nootka better.")
         width: parent.width * 0.9
         wrapMode: Text.WordWrap
-        font { pixelSize: nootkaWindow.fontSize * 2; bold: true }
+        font { pixelSize: Noo.fontSize() * 2; bold: true }
         anchors.horizontalCenter: parent.horizontalCenter
         color: activPal.highlightedText
       }
@@ -54,7 +54,7 @@ Flickable {
       Text {
         width: parent.width * 0.96
         text: qsTr("It requires little bit English, so if you can read a text below there will be something you may get involved.")
-        font { pixelSize: nootkaWindow.fontSize * 1.1 }
+        font { pixelSize: Noo.fontSize() * 1.1 }
         wrapMode: Text.WordWrap
         anchors.horizontalCenter: parent.horizontalCenter
         color: activPal.text
@@ -66,7 +66,7 @@ Flickable {
       delegate: Component {
         Tile {
           visible: !Noo.isAndroid() || index != 0
-          width: tt.width + nootkaWindow.fontSize * 4
+          width: tt.width + Noo.fontSize() * 4
           anchors.horizontalCenter: undefined
           bgBorder { color: colors[index]; width: 2 }
           bgColor: Qt.tint(colors[index], Qt.rgba(activPal.base.r, activPal.base.g, activPal.base.b, 0.9))
@@ -89,14 +89,14 @@ Flickable {
   }
 
   Tile {
-    width: nootkaWindow.fontSize * 20
+    width: Noo.fontSize() * 20
     anchors { horizontalCenter: parent.horizontalCenter; top: suppFlow.bottom }
     bgColor: activPal.highlight
     bgBorder { color: activPal.highlightedText; width: 2 }
     Text {
       id: thText
       text: "Thanks in advance!<br>Author"
-      font { pixelSize: nootkaWindow.fontSize * 1.7 }
+      font { pixelSize: Noo.fontSize() * 1.7 }
       horizontalAlignment: Text.AlignRight
       anchors.horizontalCenter: parent.horizontalCenter
       color: activPal.highlightedText

@@ -44,12 +44,12 @@ Item {
       background: Rectangle {
         color: "transparent"
         border.color: enabled ? activPal.shadow : disdPal.shadow
-        radius: nootkaWindow.fontSize / 2
+        radius: Noo.fontSize() / 2
       }
 
       Column {
         id: styleColumn
-        spacing: nootkaWindow.fontSize / 2
+        spacing: Noo.fontSize() / 2
         RadioButton { // 0
           default property int style: Nootka.Norsk_Hb
           text: qsTr("Scandinavian") + " (C, C#, Db ... Hb, H)"

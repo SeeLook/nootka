@@ -10,7 +10,7 @@ import Score 1.0
 ControlBase {
   id: delControl
 
-  x: show && scoreObj.lastNote ? (scoreObj.lastNote.x + scoreObj.lastNote.width) * score.scale : score.width + nootkaWindow.fontSize + width
+  x: show && scoreObj.lastNote ? (scoreObj.lastNote.x + scoreObj.lastNote.width) * score.scale : score.width + Noo.fontSize() + width
   y: score.lastStaff.y + score.scale * 6
 
   component: Component {

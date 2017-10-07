@@ -16,10 +16,10 @@ Flickable {
   Column {
     id: instrCol
     width: parent.width
-    spacing: nootkaWindow.fontSize * 3
+    spacing: Noo.fontSize() * 3
     Text {
       text: qsTr("What instrument do you play?")
-      font { pixelSize: nootkaWindow.fontSize * 2; bold: true }
+      font { pixelSize: Noo.fontSize() * 2; bold: true }
       width: parent.width
       wrapMode: Text.WordWrap
       horizontalAlignment: Text.AlignHCenter
@@ -31,14 +31,14 @@ Flickable {
       Repeater {
         model: 8
         Row {
-          width: nootkaWindow.fontSize * 30
-          spacing: nootkaWindow.fontSize * 3
+          width: Noo.fontSize() * 30
+          spacing: Noo.fontSize() * 3
           Text {
-            font {family: "nootka"; pixelSize: nootkaWindow.fontSize * 5 }
+            font {family: "nootka"; pixelSize: Noo.fontSize() * 5 }
             text: Noo.instr(index).glyph
             color: instrument === index ? activPal.highlight : activPal.text
             scale: instrument === index ? 1.4 : 1.0
-            x: instrument === index ? -nootkaWindow.fontSize / 3 : 0
+            x: instrument === index ? -Noo.fontSize() / 3 : 0
             Behavior on x { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.1; duration: 500 }}
             Behavior on scale { enabled: GLOB.useAnimations; PropertyAnimation { duration: 300 }}
             MouseArea {
@@ -49,7 +49,7 @@ Flickable {
           Text {
             id: instrText
             text: Noo.instr(index).name
-            font { pixelSize: nootkaWindow.fontSize * (instrument === index ? 1.4 : 1.0); bold: true }
+            font { pixelSize: Noo.fontSize() * (instrument === index ? 1.4 : 1.0); bold: true }
             color: index === instrument ? activPal.highlight : activPal.text
             anchors.verticalCenter: parent.verticalCenter
             MouseArea {

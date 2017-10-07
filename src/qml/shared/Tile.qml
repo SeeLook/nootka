@@ -18,7 +18,7 @@ BorderImage {
   anchors.horizontalCenter: parent.horizontalCenter
 
   width: parent.width
-  height: (descText.text === "" ? 0 : descText.height) + container.height + nootkaWindow.fontSize * 2.5
+  height: (descText.text === "" ? 0 : descText.height) + container.height + Noo.fontSize() * 2.5
 
   Rectangle { // background
     id: bg
@@ -37,14 +37,14 @@ BorderImage {
   source: Noo.pix("tipbg")
 
   Column {
-      spacing: nootkaWindow.fontSize / 2
+      spacing: Noo.fontSize() / 2
       width: parent.width
 
-      Item { width: parent.width; height: nootkaWindow.fontSize / 2} // spacer
+      Item { width: parent.width; height: Noo.fontSize() / 2} // spacer
 
       Item {
         id: container
-        width: parent.width - nootkaWindow.fontSize
+        width: parent.width - Noo.fontSize()
         height: childrenRect.height
       }
 
@@ -53,7 +53,7 @@ BorderImage {
         anchors.bottom: parent.Bottom
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width * 0.96
-        font.pixelSize: nootkaWindow.fontSize * 0.85
+        font.pixelSize: Noo.fontSize() * 0.85
         textFormat: Text.RichText
         horizontalAlignment: Text.AlignHCenter
         color: enabled ? activPal.text : disdPal.text

@@ -12,15 +12,15 @@ Popup {
   property alias tickEnable: meterTickChB.checked
   property alias count: countChB.checked
 
-  margins: nootkaWindow.fontSize
+  margins: Noo.fontSize()
 
   signal accepted()
 
   Column {
-    spacing: nootkaWindow.fontSize / 2
+    spacing: Noo.fontSize() / 2
 
     Row {
-      spacing: nootkaWindow.fontSize
+      spacing: Noo.fontSize()
       anchors.horizontalCenter: parent.horizontalCenter
       Text { text: qsTr("tempo"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
       SpinBox {
@@ -42,18 +42,18 @@ Popup {
 
     Row {
       id: radioRow
-      spacing: nootkaWindow.fontSize
+      spacing: Noo.fontSize()
       anchors.horizontalCenter: parent.horizontalCenter
       Text { text: qsTr("round to:"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
       RadioButton {
         id: radio16
-        font { family: "Nootka"; pixelSize: nootkaWindow.fontSize * 2.5 }
+        font { family: "Nootka"; pixelSize: Noo.fontSize() * 2.5 }
         text: "G"
         checked: SOUND.quantization === 6
       }
       RadioButton {
         id: radio8
-        font { family: "Nootka"; pixelSize: nootkaWindow.fontSize * 2.5 }
+        font { family: "Nootka"; pixelSize: Noo.fontSize() * 2.5 }
         text: "F"
         checked: SOUND.quantization === 12
       }
