@@ -19,6 +19,9 @@
 #include "tnameitem.h"
 #include <tglobals.h>
 
+#include <QtGui/qguiapplication.h>
+#include <QtGui/qpalette.h>
+
 
 static const char* const shortOctaveNames[8] = { QT_TR_NOOP("Sub"), 	QT_TR_NOOP("Contra"), QT_TR_NOOP("Great"), QT_TR_NOOP("Small"),
   QT_TR_NOOP("1-line"), QT_TR_NOOP("2-line"), QT_TR_NOOP("3-line"), QT_TR_NOOP("4-line") };
@@ -114,7 +117,8 @@ QString TnameItem::nameText() const {
     if (!enharmText.isEmpty())
       enharmText += QLatin1String(")</font>");
   }
-  return m_note.isValid() ? m_note.styledName() + enharmText : QString();
+  return m_note.isValid() ? QString("<font color=\"%1\">").arg(qApp->palette().text().color().name()) + m_note.styledName() + QLatin1String("</font>") + enharmText
+                          : QString();
 }
 
 

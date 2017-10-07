@@ -12,12 +12,10 @@ Flickable {
   width: parent.width
   height: parent.height
 
-  property alias fontSize: langHead.font.pixelSize
-
   clip: true
   contentHeight: mainColumn.height + nootkaWindow.fontSize * 2
 
-  ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
+  ScrollBar.vertical: ScrollBar { active: false; visible: active }
 
   Column {
     id: mainColumn
@@ -27,86 +25,67 @@ Flickable {
     Tile {
       description: qsTranslate("TglobalSettings", "Select a language.<br><span style=\"color: red;\">To take effect, this requires restarting the application!</span>")
 
-        ListModel {
-          id: langModel
-          ListElement { flag: "";  lang: QT_TR_NOOP("default") }
-          ListElement { flag:"cs"; lang: "český" }
-          ListElement { flag:"de"; lang: "deutsch" }
-          ListElement { flag:"en"; lang: "english" }
-          ListElement { flag:"es"; lang: "español" }
-          ListElement { flag:"fr"; lang: "français" }
-          ListElement { flag:"pl"; lang: "polski" }
-          ListElement { flag:"ru"; lang: "русский" }
-        }
+      ListModel {
+        id: langModel
+        ListElement { flag: "";  lang: QT_TR_NOOP("default") }
+        ListElement { flag:"cs"; lang: "český" }
+        ListElement { flag:"de"; lang: "deutsch" }
+        ListElement { flag:"en"; lang: "english" }
+        ListElement { flag:"es"; lang: "español" }
+        ListElement { flag:"fr"; lang: "français" }
+        ListElement { flag:"pl"; lang: "polski" }
+        ListElement { flag:"ru"; lang: "русский" }
+      }
 
-        Column {
-          width: globalPage.width
-          height: langHead.height + viewItem.height
-
-          Text {
-            id: langHead;
-            text: qsTranslate("TglobalSettings", "Application language")
-            anchors.horizontalCenter: parent.horizontalCenter
-            horizontalAlignment: Text.AlignHCenter
-            color: activPal.text
-          }
-
-          Item {
-            id: viewItem
-            width: parent.width * 0.98
-            anchors.horizontalCenter: parent.horizontalCenter
-            height: fontSize * 8
-
-            PathView {
-              id: langView
-
-              highlight: Component {
-                Rectangle {
-                  width: langView.currentItem.width + fontSize / 2
-                  height: langView.currentItem.height + fontSize / 2
-                  color: Qt.rgba(activPal.highlight.r, activPal.highlight.g, activPal.highlight.b, 0.4)
-                  border { width: fontSize / 3; color: activPal.highlightedText }
-                  radius: fontSize / 2
-                }
-              }
-
-              model: langModel
-              delegate: Component {
-                Item {
-                  width: Math.max(flagIcon.width, lText.width)
-                  height: flagIcon.height + lText.height + fontSize
-                  Column {
-                    Image {
-                      id: flagIcon;
-                      source: Noo.pix("flags-" + flag)
-                      sourceSize.height: (langView.currentIndex == index ? 7 : 4) * lText.font.pixelSize
-                    }
-                    Text {
-                      id: lText;
-                      anchors { top: flagIcon.Bottom; horizontalCenter: parent.horizontalCenter }
-                      text: flag == "" ? qsTranslate("TglobalSettings", lang) : lang
-                      color: activPal.text
-                    }
-                  }
-                  MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                      langView.currentIndex = index
-                    }
-                  }
-                  Component.onCompleted: {
-                    if (flag === GLOB.lang )
-                      langView.currentIndex = index
-                  }
-                }
-              }
-              path: Path {
-                  startX: viewItem.x + fontSize * 4; startY: fontSize * 4
-                  PathLine { x: viewItem.width; y: fontSize * 4 }
-              }
+      Tumbler {
+        id: langTumb
+        width: parent.width
+        height: nootkaWindow.fontSize * 8
+        visibleItemCount: Math.min(((width / (nootkaWindow.fontSize * 7)) / 2) * 2 - 1, 7)
+        model: langModel
+        delegate: Component {
+          Column {
+            spacing: nootkaWindow.fontSize / 4
+            opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
+            scale: 1.7 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
+            Image {
+              source: Noo.pix("flags-" + flag)
+              sourceSize.height: nootkaWindow.fontSize * 3
+              anchors.horizontalCenter: parent.horizontalCenter
+            }
+            Text {
+              anchors.horizontalCenter: parent.horizontalCenter
+              text: flag === "" ? qsTranslate("TglobalSettings", lang) : lang
+              color: langTumb.currentIndex === index ? activPal.highlightedText : activPal.text
+              font.bold: langTumb.currentIndex === index
             }
           }
         }
+        contentItem: PathView {
+          id: pathView
+          model: langTumb.model
+          delegate: langTumb.delegate
+          clip: true
+          pathItemCount: langTumb.visibleItemCount + 1
+          preferredHighlightBegin: 0.5
+          preferredHighlightEnd: 0.5
+          dragMargin: width / 2
+          path: Path {
+            startX: 0
+            startY: nootkaWindow.fontSize * 1.2
+            PathLine {
+              x: pathView.width
+              y: nootkaWindow.fontSize * 1.2
+            }
+          }
+        }
+        Rectangle {
+          z: -1; width: nootkaWindow.fontSize * 9; height: parent.height * 1.1
+          x: parent.width / 2 - width / 2; y: -parent.height * 0.05
+          color: Noo.alpha(activPal.highlight, 100)
+          radius: width / 8
+        }
+      }
     }
 
     Tile {
@@ -125,7 +104,7 @@ Flickable {
       }
     }
 
-    Item { height: fontSize * 3; width: parent.width }
+    Item { height: nootkaWindow.fontSize * 3; width: parent.width }
 
     Tile {
       description: qsTranslate("TglobalSettings", "All settings will be reset to their default values!<br>Nootka will start up with the first-run wizard.")
@@ -138,14 +117,28 @@ Flickable {
 
   }
 
+  Timer { // workaround to select 0 item, call it with delay
+    id: langTimer
+    running: true
+    interval: 50
+    onTriggered: {
+      for (var i = 0; i < langModel.count; ++i) {
+        if (langModel.get(i).flag === GLOB.lang) {
+          langTumb.currentIndex = i
+          break
+        }
+      }
+    }
+  }
+
   function save() {
     GLOB.useAnimations = animChBox.checked
-    GLOB.lang = langModel.get(langView.currentIndex).flag
+    GLOB.lang = langModel.get(langTumb.currentIndex).flag
   }
 
   function defaults() {
     animChBox.checked = true
-    langView.currentIndex = 0
+    langTumb.currentIndex = 0
   }
 
 }

@@ -19,7 +19,7 @@ Flickable {
 
   property bool first: true // read props first time from GLOB but when instrument changed then from its profile
 
-  ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
+  ScrollBar.vertical: ScrollBar { active: false; visible: active }
 
   Column {
     id: instrCol
