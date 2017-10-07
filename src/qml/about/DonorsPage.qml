@@ -70,6 +70,7 @@ Flickable {
       font { bold: true; pixelSize: nootkaWindow.fontSize * 2 }
       text: "THANK YOU!   "
       anchors.right: parent.right
+      color: activPal.text
     }
   }
 }

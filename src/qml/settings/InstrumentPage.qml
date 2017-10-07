@@ -56,13 +56,13 @@ Flickable {
       horizontalItemAlignment: Grid.AlignHCenter
       Row {
         spacing: nootkaWindow.fontSize
-        Text { text: qsTr("number of frets:"); anchors.verticalCenter: parent.verticalCenter }
+        Text { text: qsTr("number of frets:"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
         SpinBox { id: fretsNrSpin; from: 15; to: 24; value: GLOB.fretNumber }
       }
       Row {
         enabled: false // TODO: not implemented yet
         spacing: nootkaWindow.fontSize
-        Text { text: qsTr("number of strings:"); anchors.verticalCenter: parent.verticalCenter }
+        Text { text: qsTr("number of strings:"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
         SpinBox { id: stringNrSpin; from: 3; to: 6; value: GLOB.stringNumber() }
       }
     }
@@ -75,7 +75,7 @@ Flickable {
         Row {
           spacing: nootkaWindow.fontSize
           anchors.horizontalCenter: parent.horizontalCenter
-          Text { text: qsTr("tuning of the guitar"); anchors.verticalCenter: parent.verticalCenter }
+          Text { text: qsTr("tuning of the guitar"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
           ComboBox {
             width: nootkaWindow.fontSize * 20
             model: GLOB.instrument.type === Tinstrument.BassGuitar ? Noo.bassTunings() : Noo.guitarTunings()
@@ -128,7 +128,7 @@ Flickable {
       Row {
         spacing: nootkaWindow.fontSize
         anchors.horizontalCenter: parent.horizontalCenter
-        Text { text: qsTr("marked frets", "or frets with dots/marks"); anchors.verticalCenter: parent.verticalCenter }
+        Text { text: qsTr("marked frets", "or frets with dots/marks"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
         TextField {
           id: fretDots
           maximumLength: 30
