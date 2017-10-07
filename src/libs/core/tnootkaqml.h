@@ -120,6 +120,8 @@ public:
        */
   Q_INVOKABLE QColor randomColor(int alpha = 255, int level = 220);
 
+  Q_INVOKABLE int fontSize();
+
 /**
  * All stuff below is responsible for handling note changes in score, instrument and sound in/out.
  * @p TnootkaQML has score and instrument pointers to handle theirs signals when note is changed,

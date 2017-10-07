@@ -14,14 +14,14 @@ Item {
     id: bg
     anchors.fill: parent
     color: activPal.base
-    radius: nootkaWindow.fontSize / 4
+    radius: Noo.fontSize() / 4
     visible: false
   }
 
   DropShadow {
     anchors.fill: bg
-    horizontalOffset: rised ? nootkaWindow.fontSize / 4 : 0
-    verticalOffset: rised ? nootkaWindow.fontSize / 4 : 0
+    horizontalOffset: rised ? Noo.fontSize() / 4 : 0
+    verticalOffset: rised ? Noo.fontSize() / 4 : 0
     radius: 8.0
     samples: 17
     color: activPal.shadow

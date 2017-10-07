@@ -22,7 +22,7 @@ Item {
       id: menuComp
       Menu {
         id: scoreMenu
-        width: nootkaWindow.fontSize * 20
+        width: Noo.fontSize() * 20
         x: toolBar.scoreAct.x
         y: score.y
 

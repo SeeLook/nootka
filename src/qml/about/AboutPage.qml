@@ -16,9 +16,9 @@ Flickable {
   Column {
     id: aboutCol
     width: parent.width
-    spacing: nootkaWindow.fontSize
+    spacing: Noo.fontSize()
     Rectangle {
-      height: nootkaWindow.fontSize * 7
+      height: Noo.fontSize() * 7
       width: parent.width
       color: nooLab.bgColor
       NootkaLabel {
@@ -35,10 +35,10 @@ Flickable {
       width: parent.width * 0.9
       Column {
         width: parent.width
-        spacing: nootkaWindow.fontSize
+        spacing: Noo.fontSize()
         Text {
           width: parent.width
-          font { pixelSize: nootkaWindow.fontSize * 2; bold: true }
+          font { pixelSize: Noo.fontSize() * 2; bold: true }
           horizontalAlignment: Text.AlignHCenter
           text: "Nootka " + Noo.version()
           color: activPal.text
@@ -47,7 +47,7 @@ Flickable {
           text: "Thanks You are here!<br>This is alpha version with limited functionality. There is no lessons (exercises) yet,<br>but there is a brand new score with rhythm support and possibility to load/save music XML files.<br>This is very big milestone...<br>Also there is a new look and layout (settings/level creator dialogues) and there are new instruments (piano, saxophone and bandoneon) along with guitar.<br>Anyway, main purpose of this release is to check all of that and give some feedback.<br>So happy testing,<br>Author<br><br>P.S.<br>Let me know what do you think..."
           width: parent.width * 0.96
           anchors.horizontalCenter: parent.horizontalCenter
-          font { pixelSize: nootkaWindow.fontSize * 1.1 }
+          font { pixelSize: Noo.fontSize() * 1.1 }
           horizontalAlignment: Text.AlignLeft
           wrapMode: Text.WordWrap
           color: activPal.text

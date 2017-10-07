@@ -29,10 +29,10 @@ Flickable {
         property alias transpose: transpose
         parent: mainItem
         width: parent ? parent.width : 0
-        spacing: nootkaWindow.fontSize
+        spacing: Noo.fontSize()
         Text {
           width: parent.width
-          font { pixelSize: nootkaWindow.fontSize * 2; bold: true }
+          font { pixelSize: Noo.fontSize() * 2; bold: true }
           wrapMode: Text.WordWrap
           horizontalAlignment: Text.AlignHCenter
           color: activPal.text
@@ -40,8 +40,8 @@ Flickable {
         }
         Score {
           id: score
-          height: nootkaWindow.fontSize * 20
-          width: nootkaWindow.fontSize * 12
+          height: Noo.fontSize() * 20
+          width: Noo.fontSize() * 12
           anchors.horizontalCenter: parent.horizontalCenter
           meter: Tmeter.NoMeter
           scoreObj.showNoteNames: true
@@ -70,25 +70,25 @@ Flickable {
       id: classicComp
       Column {
         parent: mainItem
-        spacing: nootkaWindow.fontSize
+        spacing: Noo.fontSize()
         width: parent ? parent.width : 0
         Text {
           width: parent.width
           wrapMode: Text.WordWrap
-          font { pixelSize: nootkaWindow.fontSize * 1.2; bold: true }
+          font { pixelSize: Noo.fontSize() * 1.2; bold: true }
           horizontalAlignment: Text.AlignHCenter
           color: activPal.text
           text: qsTr("Guitar notation uses the treble clef with the digit \"eight\" written below <br>(even if some editors are forgetting about this digit).<br>Try to understand this.")
         }
         Row {
           anchors.horizontalCenter: parent.horizontalCenter
-          spacing: nootkaWindow.fontSize
+          spacing: Noo.fontSize()
           Repeater {
             model: 2
             Score {
               id: sc
-              height: nootkaWindow.fontSize * 20
-              width: nootkaWindow.fontSize * 9
+              height: Noo.fontSize() * 20
+              width: Noo.fontSize() * 9
               meter: Tmeter.NoMeter
               readOnly: true
               clef: index === 1 ? Tclef.Treble_G_8down : Tclef.Treble_G
@@ -117,12 +117,12 @@ Flickable {
       Column {
         property alias transpose: transpose
         parent: mainItem
-        spacing: nootkaWindow.fontSize
+        spacing: Noo.fontSize()
         anchors.horizontalCenter: parent ? parent.horizontalCenter : undefined
         width: parent ? parent.width * 0.9 : 0
         Text {
           width: parent.width
-          font { pixelSize: nootkaWindow.fontSize * 1.5 }
+          font { pixelSize: Noo.fontSize() * 1.5 }
           wrapMode: Text.WordWrap
           horizontalAlignment: Text.AlignHCenter
           color: activPal.text
@@ -139,7 +139,7 @@ Flickable {
         }
         Text {
           anchors.horizontalCenter: parent.horizontalCenter
-          font { pixelSize: nootkaWindow.fontSize * 2; bold: true }
+          font { pixelSize: Noo.fontSize() * 2; bold: true }
           text: Noo.noteName(Noo.note(13 + transpose.outShift, false), 0, false)
         }
       }

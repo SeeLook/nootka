@@ -12,14 +12,14 @@ import "../"
 
 Column {
 
-    spacing: nootkaWindow.fontSize
+    spacing: Noo.fontSize()
     width: parent.width
 
 
     ListView {
       id: headList
       orientation: ListView.Horizontal
-      spacing: nootkaWindow.fontSize
+      spacing: Noo.fontSize()
       width: parent.width
       currentIndex: 0
 
@@ -41,27 +41,27 @@ Column {
     }
     StackLayout {
       id: swipePages
-      height: parent.height - headList.height - nootkaWindow.fontSize
+      height: parent.height - headList.height - Noo.fontSize()
       width: parent.width
 
       Tflickable { // 1st page (general)
         height: parent.height
-        contentHeight: firstColumn.height + nootkaWindow.fontSize * 2
-        contentWidth: Math.max(width, nootkaWindow.fontSize * 35)
+        contentHeight: firstColumn.height + Noo.fontSize() * 2
+        contentWidth: Math.max(width, Noo.fontSize() * 35)
         Column {
           id: firstColumn
           width: parent.width
-          spacing: nootkaWindow.fontSize / 2
+          spacing: Noo.fontSize() / 2
           Frame {
             width: parent.width * 0.99
             anchors.horizontalCenter: parent.horizontalCenter
             background: Rectangle {
               color: "transparent"
               border.color: activPal.shadow
-              radius: nootkaWindow.fontSize / 2
+              radius: Noo.fontSize() / 2
             }
             Column {
-              spacing: nootkaWindow.fontSize / 2
+              spacing: Noo.fontSize() / 2
               width: parent.width
               Tile {
                 description: qsTranslate("TscoreSettings", "When enabled, a score displays only a single note.")
@@ -87,7 +87,7 @@ Column {
               Tile {
                 enabled: singleNoteModeChB.checked
                 Row {
-                  spacing: nootkaWindow.fontSize
+                  spacing: Noo.fontSize()
                   anchors.horizontalCenter: parent.horizontalCenter
                   TlabelText { text: qsTranslate("TscoreSettings", "color of enharmonic notes") }
                   ColorButton { id: enharmNoteColor }
@@ -116,7 +116,7 @@ Column {
           }
           Tile {
             Row {
-              spacing: nootkaWindow.fontSize
+              spacing: Noo.fontSize()
               anchors.horizontalCenter: parent.horizontalCenter
               TlabelText { text: qsTranslate("TscoreSettings", "note-cursor color") }
               ColorButton { id: pointerColorButt; color: GLOB.noteCursorColor }
@@ -129,12 +129,12 @@ Column {
 
       Tflickable { // 2nd page (key signatures)
         height: parent.height
-        contentHeight: secondColumn.height + nootkaWindow.fontSize * 2
-        contentWidth: Math.max(width, nootkaWindow.fontSize * 35)
+        contentHeight: secondColumn.height + Noo.fontSize() * 2
+        contentWidth: Math.max(width, Noo.fontSize() * 35)
         Column {
           id: secondColumn
           width: parent.width
-          spacing: nootkaWindow.fontSize / 2
+          spacing: Noo.fontSize() / 2
           TcheckBox {
             id: enableKeyChB
             text: qsTranslate("TscoreSettings", "enable key signature")
@@ -147,10 +147,10 @@ Column {
             background: Rectangle {
               color: "transparent"
               border.color: activPal.shadow
-              radius: nootkaWindow.fontSize / 2
+              radius: Noo.fontSize() / 2
             }
             Column {
-              spacing: nootkaWindow.fontSize / 2
+              spacing: Noo.fontSize() / 2
               width: parent.width
               Tile {
                 enabled: enableKeyChB.checked
@@ -165,8 +165,8 @@ Column {
               Tile {
                 enabled: enableKeyChB.checked && showKeyNamesChB.checked
                 Grid {
-                  columns: parent.width < nootkaWindow.fontSize * 50 ? 1 : 2
-                  spacing: nootkaWindow.fontSize
+                  columns: parent.width < Noo.fontSize() * 50 ? 1 : 2
+                  spacing: Noo.fontSize()
                   anchors.horizontalCenter: parent.horizontalCenter
                   horizontalItemAlignment: Grid.AlignHCenter
                   NameStyleSelector {
@@ -180,7 +180,7 @@ Column {
                       color: enabled ? activPal.text : disdPal.text
                     }
                     Row {
-                      spacing: nootkaWindow.fontSize * 2
+                      spacing: Noo.fontSize() * 2
                       anchors.horizontalCenter: parent.horizontalCenter
                       KeySufixEdit { id: majKeySufixText; nameStyle: keyNameStyleSel.style }
                       KeySufixEdit { id: minKeySufixText; nameStyle: keyNameStyleSel.style; noteOne: 1; alterOne: 1; noteTwo: 5; alterTwo: 0 }
@@ -200,12 +200,12 @@ Column {
       }
 
       Tflickable { // 3rd page (clefs)
-        contentHeight: clefsCol.height + nootkaWindow.fontSize * 2
-        contentWidth: Math.max(width, nootkaWindow.fontSize * 35)
+        contentHeight: clefsCol.height + Noo.fontSize() * 2
+        contentWidth: Math.max(width, Noo.fontSize() * 35)
         Column {
           id: clefsCol
           width: parent.width
-          spacing: nootkaWindow.fontSize / 2
+          spacing: Noo.fontSize() / 2
           Text {
             text: qsTranslate("TscoreSettings", "Select default clef for the application.") + "<br><b>" + qsTranslate("TscoreSettings", "Remember! Not all clefs are suitable for some possible tunings or instrument types!") + "<b>"
             textFormat: Text.StyledText
@@ -216,7 +216,7 @@ Column {
           }
           ClefMenu {
             id: clefs
-            columns: width < nootkaWindow.fontSize * 40 ? 1 : 2
+            columns: width < Noo.fontSize() * 40 ? 1 : 2
             Component.onCompleted: selClef = GLOB.clefType
           }
         }
@@ -224,18 +224,18 @@ Column {
       }
 
       Tflickable { // 4rd page (note name calling)
-        contentHeight: nameCol.height + nootkaWindow.fontSize * 2
-        contentWidth: Math.max(width, nootkaWindow.fontSize * 35)
+        contentHeight: nameCol.height + Noo.fontSize() * 2
+        contentWidth: Math.max(width, Noo.fontSize() * 35)
         Column {
           id: nameCol
           width: parent.width
-          spacing: nootkaWindow.fontSize / 2
+          spacing: Noo.fontSize() / 2
           anchors.horizontalCenter: parent.horizontalCenter
           Tile {
             description: qsTranslate("NameStyleSelector", "Naming style of note. The main difference is the 7th note.<br>Is it B and B flat, or H and B?")
             Column {
               anchors.horizontalCenter: parent.horizontalCenter
-              spacing: nootkaWindow.fontSize * 2
+              spacing: Noo.fontSize() * 2
               Select7note {
                 id: is7BSelector
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -259,7 +259,7 @@ Column {
           Tile {
             enabled: namesOnScoreChB.checked
             Row {
-              spacing: nootkaWindow.fontSize
+              spacing: Noo.fontSize()
               anchors.horizontalCenter: parent.horizontalCenter
               TlabelText { text: qsTr("names highlight color") }
               ColorButton { id: nameColorButt; color: GLOB.nameColor }

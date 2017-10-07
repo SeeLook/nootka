@@ -8,16 +8,16 @@ import QtQuick 2.9
 Flow {
   property int instrument: 0
 
-  spacing: nootkaWindow.fontSize
+  spacing: Noo.fontSize()
 
   Item {
-      width: nootkaWindow.fontSize * 15
+      width: Noo.fontSize() * 15
       height: parent.height
       Text {
         id: instrText
         text: Noo.instr(instrument).name
         anchors.centerIn: parent
-        font { pixelSize: nootkaWindow.fontSize * 1.5; bold: true }
+        font { pixelSize: Noo.fontSize() * 1.5; bold: true }
         color: activPal.text
         Behavior on text {
           enabled: GLOB.useAnimations;
@@ -37,7 +37,7 @@ Flow {
         text: Noo.instr(index).glyph
         color: instrument === index ? activPal.highlight : activPal.text
         scale: instrument === index ? 1.4 : 1.0
-        y: instrument === index ? -nootkaWindow.fontSize / 3 : 0
+        y: instrument === index ? -Noo.fontSize() / 3 : 0
         Behavior on y { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.1; duration: 500 }}
         Behavior on scale { enabled: GLOB.useAnimations; PropertyAnimation { duration: 300 }}
         MouseArea {

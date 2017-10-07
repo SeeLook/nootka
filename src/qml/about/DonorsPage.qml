@@ -32,7 +32,7 @@ Flickable {
   Column {
     id: donCol
     width: parent.width
-    spacing: nootkaWindow.fontSize
+    spacing: Noo.fontSize()
 
     Tile {
       width: parent.width
@@ -42,7 +42,7 @@ Flickable {
         text: qsTranslate("TaboutNootka", "People and companies who gave material support for the Nootka project")
         width: parent.width * 0.9
         wrapMode: Text.WordWrap
-        font { pixelSize: nootkaWindow.fontSize * 2; bold: true }
+        font { pixelSize: Noo.fontSize() * 2; bold: true }
         anchors.horizontalCenter: parent.horizontalCenter
         color: activPal.highlightedText
         horizontalAlignment: Text.AlignHCenter
@@ -53,12 +53,12 @@ Flickable {
       model: [ "Torsten Philipp", "Vincent Bermel", "Tomasz Matuszewski", "Yves Balhant", "Илья Б." ]
       Tile {
         property color randCol: Noo.randomColor()
-        width: tt.width + nootkaWindow.fontSize * 4
+        width: tt.width + Noo.fontSize() * 4
         bgBorder { color: randCol; width: 2 }
         bgColor: Qt.tint(randCol, Noo.alpha(activPal.base, 180))
         Text {
           id: tt
-          font.pixelSize: nootkaWindow.fontSize * 1.5
+          font.pixelSize: Noo.fontSize() * 1.5
           text: modelData
           anchors.horizontalCenter: parent.horizontalCenter
           color: activPal.text
@@ -67,7 +67,7 @@ Flickable {
     }
 
     Text {
-      font { bold: true; pixelSize: nootkaWindow.fontSize * 2 }
+      font { bold: true; pixelSize: Noo.fontSize() * 2 }
       text: "THANK YOU!   "
       anchors.right: parent.right
       color: activPal.text

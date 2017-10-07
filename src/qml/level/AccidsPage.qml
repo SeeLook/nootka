@@ -11,23 +11,23 @@ import "../"
 Flickable {
   width: parent.width; height: parent.height
   clip: true
-  contentHeight: accidsGrid.height + nootkaWindow.fontSize * 2
-  contentWidth: Math.max(width, nootkaWindow.fontSize * 40)
+  contentHeight: accidsGrid.height + Noo.fontSize() * 2
+  contentWidth: Math.max(width, Noo.fontSize() * 40)
 
   ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
 
   Grid {
-    columns:  parent.width > nootkaWindow.fontSize * 60 ? 2 : 1
+    columns:  parent.width > Noo.fontSize() * 60 ? 2 : 1
     id: accidsGrid
     width: parent.width
-    spacing: nootkaWindow.fontSize / 4
+    spacing: Noo.fontSize() / 4
     horizontalItemAlignment: Grid.AlignHCenter
-    topPadding: nootkaWindow.fontSize
+    topPadding: Noo.fontSize()
 
     Frame {
       width: accidsGrid.columns === 1 ? Math.max(parent.width * 0.9, dblAccidsChB.width) : parent.width * 0.35
       Column {
-        spacing: nootkaWindow.fontSize / 2
+        spacing: Noo.fontSize() / 2
         width: parent.width
         Text { text: qsTr("accidentals"); color: activPal.text; anchors.horizontalCenter: parent.horizontalCenter }
         Tile {
@@ -67,7 +67,7 @@ Flickable {
     Frame {
       width: accidsGrid.columns === 1 ? parent.width * 0.96 : parent.width * 0.64
       Column {
-        spacing: nootkaWindow.fontSize / 2
+        spacing: Noo.fontSize() / 2
         width: parent.width
         TcheckBox {
           id: useKeysChB
@@ -98,24 +98,24 @@ Flickable {
         Tile {
           enabled: useKeysChB.checked
           Row {
-            spacing: nootkaWindow.fontSize / 2
+            spacing: Noo.fontSize() / 2
             anchors.horizontalCenter: parent.horizontalCenter
             ComboBox {
               id: fromCombo
               model: Noo.keyComboModel()
               delegate: ItemDelegate { text: modelData }
-              width: nootkaWindow.fontSize * 15
+              width: Noo.fontSize() * 15
               currentIndex: 7 // C-major
             }
             Rectangle {
-              color: enabled ? activPal.text : disdPal.text; width: nootkaWindow.fontSize; height: nootkaWindow.fontSize / 5
+              color: enabled ? activPal.text : disdPal.text; width: Noo.fontSize(); height: Noo.fontSize() / 5
               anchors.verticalCenter: parent.verticalCenter
             }
             ComboBox {
               id: toCombo
               model: Noo.keyComboModel()
               delegate: ItemDelegate { text: modelData }
-              width: nootkaWindow.fontSize * 15
+              width: Noo.fontSize() * 15
               currentIndex: 7
             }
           }

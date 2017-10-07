@@ -21,7 +21,7 @@ ApplicationWindow {
 
   property alias instrument: instrPage.instrument
 
-  readonly property int fontSize: nootkaWindow.font.pixelSize
+  readonly property int fontSize: Noo.fontSize()
 
   SystemPalette { id: activPal; colorGroup: SystemPalette.Active }
   SystemPalette { id: disdPal; colorGroup: SystemPalette.Disabled }

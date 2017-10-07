@@ -72,7 +72,7 @@ Dialog {
   Component {
     id: drawerComp
     Drawer {
-      width: nootkaWindow.fontSize * 15
+      width: Noo.fontSize() * 15
       height: parent.height
       ListView {
         spacing: Screen.pixelDensity * 2

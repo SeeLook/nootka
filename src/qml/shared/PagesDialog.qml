@@ -61,7 +61,7 @@ Item {
           name: buttonText
           icon: Noo.pix(iconName)
           factor: Screen.pixelDensity * (Noo.isAndroid() ? 1.1 : 1.6)
-          fontSize: nootkaWindow.fontSize * (Noo.isAndroid() ? 0.8 : 1.0)
+          fontSize: Noo.fontSize() * (Noo.isAndroid() ? 0.8 : 1.0)
           onClicked: {
             if (navList.prevButt !== delegateButt) {
               if (typeof(navList.pages[index]) === "string") {
@@ -114,7 +114,7 @@ Item {
       id: mobBut
       visible: Noo.isAndroid()
       width: navList.width
-      height: nootkaWindow.fontSize * 2
+      height: Noo.fontSize() * 2
       background: Rectangle {
         anchors.fill: parent
         color: mobBut.down ? activPal.highlight : activPal.text

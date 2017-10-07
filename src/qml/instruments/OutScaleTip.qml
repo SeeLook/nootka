@@ -16,7 +16,7 @@ Tile {
   Text {
     width: parent.width * 0.96
     text: qsTr("Out of instrument scale!")
-    font.pixelSize: nootkaWindow.fontSize * 1.5
+    font.pixelSize: Noo.fontSize() * 1.5
     wrapMode: Text.WordWrap
     horizontalAlignment: Text.AlignHCenter
   }

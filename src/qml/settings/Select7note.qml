@@ -16,13 +16,13 @@ Item {
   Grid {
     id: mainLay
     columns: 2
-    spacing: nootkaWindow.fontSize
+    spacing: Noo.fontSize()
 
     ButtonGroup { buttons: butRow.children }
     Row {
       id: butRow
       y: (parent.height - height) / 2
-      spacing: nootkaWindow.fontSize / 2
+      spacing: Noo.fontSize() / 2
       Text { text: qsTr("7th note is:"); color: enabled ? activPal.text : disdPal.text; anchors.verticalCenter: parent.verticalCenter }
       RadioButton { id: bButt; text: "B" }
       RadioButton { text: "H"; checked: !bButt.checked }
@@ -30,7 +30,7 @@ Item {
 
     Text {
       id: preview
-      font.pixelSize: nootkaWindow.fontSize * 2
+      font.pixelSize: Noo.fontSize() * 2
     }
   }
 

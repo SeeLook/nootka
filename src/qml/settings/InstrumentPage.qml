@@ -14,8 +14,8 @@ Flickable {
   clip: true
   width: parent.width
   height: parent.height
-  contentHeight: instrCol.height + nootkaWindow.fontSize * 2
-  contentWidth: Math.max(width, nootkaWindow.fontSize * 35)
+  contentHeight: instrCol.height + Noo.fontSize() * 2
+  contentWidth: Math.max(width, Noo.fontSize() * 35)
 
   property bool first: true // read props first time from GLOB but when instrument changed then from its profile
 
@@ -24,7 +24,7 @@ Flickable {
   Column {
     id: instrCol
     width: parent.width
-    spacing: nootkaWindow.fontSize / 2
+    spacing: Noo.fontSize() / 2
     Text {
       text: qsTr("Instrument")
       anchors.horizontalCenter: parent.horizontalCenter
@@ -51,17 +51,17 @@ Flickable {
     Grid {
       visible: Noo.instr(instrSel.instrument).isGuitar
       anchors.horizontalCenter: parent.horizontalCenter
-      spacing: nootkaWindow.fontSize
-      columns: parent.width < nootkaWindow.fontSize * 50 ? 1 : 2
+      spacing: Noo.fontSize()
+      columns: parent.width < Noo.fontSize() * 50 ? 1 : 2
       horizontalItemAlignment: Grid.AlignHCenter
       Row {
-        spacing: nootkaWindow.fontSize
+        spacing: Noo.fontSize()
         Text { text: qsTr("number of frets:"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
         SpinBox { id: fretsNrSpin; from: 15; to: 24; value: GLOB.fretNumber }
       }
       Row {
         enabled: false // TODO: not implemented yet
-        spacing: nootkaWindow.fontSize
+        spacing: Noo.fontSize()
         Text { text: qsTr("number of strings:"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
         SpinBox { id: stringNrSpin; from: 3; to: 6; value: GLOB.stringNumber() }
       }
@@ -70,22 +70,22 @@ Flickable {
     Tile {
       visible: instrSel.instrument <= Tinstrument.BassGuitar
       Column {
-        spacing: nootkaWindow.fontSize / 4
+        spacing: Noo.fontSize() / 4
         width: parent.width
         Row {
-          spacing: nootkaWindow.fontSize
+          spacing: Noo.fontSize()
           anchors.horizontalCenter: parent.horizontalCenter
           Text { text: qsTr("tuning of the guitar"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
           ComboBox {
-            width: nootkaWindow.fontSize * 20
+            width: Noo.fontSize() * 20
             model: GLOB.instrument.type === Tinstrument.BassGuitar ? Noo.bassTunings() : Noo.guitarTunings()
             delegate: ItemDelegate { text: modelData }
           }
         }
         Score {
           id: score
-          height: nootkaWindow.fontSize * 20
-          width: Math.min(parent.width * 0.9, nootkaWindow.fontSize * 26)
+          height: Noo.fontSize() * 20
+          width: Math.min(parent.width * 0.9, Noo.fontSize() * 26)
           anchors.horizontalCenter: parent.horizontalCenter
           clef: GLOB.clefType
           scoreObj.clefType: GLOB.clefType
@@ -104,7 +104,7 @@ Flickable {
       ButtonGroup { buttons: radioRow.children }
       Row {
         id: radioRow
-        spacing: nootkaWindow.fontSize
+        spacing: Noo.fontSize()
         anchors.horizontalCenter: parent.horizontalCenter
         TlabelText { text: qsTr("preferred accidentals:") }
         RadioButton { id: prefSharpRadio; text: qsTr("# - sharps"); checked: !GLOB.preferFlats }
@@ -126,7 +126,7 @@ Flickable {
     Tile {
       visible: Noo.instr(instrSel.instrument).isGuitar
       Row {
-        spacing: nootkaWindow.fontSize
+        spacing: Noo.fontSize()
         anchors.horizontalCenter: parent.horizontalCenter
         Text { text: qsTr("marked frets", "or frets with dots/marks"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
         TextField {
@@ -140,7 +140,7 @@ Flickable {
 
     Tile {
       Row {
-        spacing: nootkaWindow.fontSize
+        spacing: Noo.fontSize()
         anchors.horizontalCenter: parent.horizontalCenter
         Text { color: activPal.text; text: qsTr("color of a pointer on an instrument"); anchors.verticalCenter: parent.verticalCenter }
         ColorButton { id: fingerColorButt; color: GLOB.fingerColor }
@@ -148,7 +148,7 @@ Flickable {
     }
     Tile {
       Row {
-        spacing: nootkaWindow.fontSize
+        spacing: Noo.fontSize()
         anchors.horizontalCenter: parent.horizontalCenter
         Text { color: activPal.text; text: qsTr("color of a selection"); anchors.verticalCenter: parent.verticalCenter }
         ColorButton { id: selectedColorButt; color: GLOB.selectedColor }

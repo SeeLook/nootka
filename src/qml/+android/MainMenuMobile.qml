@@ -19,20 +19,20 @@ Item {
   x: Screen.pixelDensity / 2
   y: Screen.pixelDensity / 2
   z: 100
-  width: nootkaWindow.fontSize * 1.5
-  height: nootkaWindow.fontSize * 4
+  width: Noo.fontSize() * 1.5
+  height: Noo.fontSize() * 4
 
   Rectangle {
     id: bg
     anchors.fill: parent
     color: area.pressed ? activPal.highlight : Qt.rgba(0.2, 0.2, 0.2, 0.05)
-    radius: nootkaWindow.fontSize / 3
+    radius: Noo.fontSize() / 3
     visible: false
   }
   DropShadow {
     anchors.fill: bg
-    horizontalOffset: nootkaWindow.fontSize / 5
-    verticalOffset: nootkaWindow.fontSize / 5
+    horizontalOffset: Noo.fontSize() / 5
+    verticalOffset: Noo.fontSize() / 5
     radius: 8.0
     samples: 17
     color: activPal.shadow
@@ -42,10 +42,10 @@ Item {
   Repeater {
     model: 3
     Rectangle {
-      width: nootkaWindow.fontSize * 0.5
-      height: nootkaWindow.fontSize * 0.5
-      x: nootkaWindow.fontSize * 0.5
-      y: nootkaWindow.fontSize * 0.625 * (index + 1) + index * nootkaWindow.fontSize * 0.5
+      width: Noo.fontSize() * 0.5
+      height: Noo.fontSize() * 0.5
+      x: Noo.fontSize() * 0.5
+      y: Noo.fontSize() * 0.625 * (index + 1) + index * Noo.fontSize() * 0.5
       color: "black"
       radius: width / 2
     }
@@ -55,7 +55,7 @@ Item {
     id: mainDrawer
     property Item scoreMenu: null
     property NootkaLabel label: null
-    width: nootkaWindow.fontSize * 16
+    width: Noo.fontSize() * 16
     height: nootkaWindow.height
     onVisibleChanged: {
       if (visible) {
@@ -79,7 +79,7 @@ Item {
             spacing: Screen.pixelDensity / 2
             NootkaLabel {
               id: nooLabel
-              height: nootkaWindow.fontSize * 6.328125 // (logo ratio) 0.3955078125 * 16
+              height: Noo.fontSize() * 6.328125 // (logo ratio) 0.3955078125 * 16
               onClicked: {
                 mainDrawer.close()
                 nootkaWindow.aboutAct.trigger()
@@ -94,7 +94,7 @@ Item {
               id: scoreMenu
               function open() { visible ? state = "Invisible" : state = "Visible" }
               spacing: Screen.pixelDensity / 2
-              width: parent.width - nootkaWindow.fontSize / 2
+              width: parent.width - Noo.fontSize() / 2
               x: -parent.width
               visible: false
               MenuButton { action: score.extraAccidsAct; onClicked: mainDrawer.close() }
@@ -111,7 +111,7 @@ Item {
                   from: "Invisible"; to: "Visible"
                   SequentialAnimation {
                     PropertyAction { target: scoreMenu; property: "visible"; value: true }
-                    NumberAnimation { target: scoreMenu; property: "x"; to: nootkaWindow.fontSize / 2; duration: 300 }
+                    NumberAnimation { target: scoreMenu; property: "x"; to: Noo.fontSize() / 2; duration: 300 }
                   }
                 },
                 Transition {

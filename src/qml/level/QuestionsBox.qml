@@ -15,31 +15,31 @@ Tile {
 
   property var answSymb: [ "s", "c", "g", "n" ]
 
-  width: col.width + nootkaWindow.fontSize * 4
+  width: col.width + Noo.fontSize() * 4
 
   Column {
     id: col
     anchors.horizontalCenter: parent.horizontalCenter
     Row {
       anchors.horizontalCenter: parent.horizontalCenter
-      spacing: nootkaWindow.fontSize / 2
+      spacing: Noo.fontSize() / 2
       TcheckBox { id: questionChB }
       Text {
         text: answSymb[qId] + "?"
         anchors.verticalCenter: parent.verticalCenter
-        font { family: "nootka"; pixelSize: nootkaWindow.fontSize * 2 }
+        font { family: "nootka"; pixelSize: Noo.fontSize() * 2 }
         color: activPal.text
       }
     }
     Row {
-      spacing: nootkaWindow.fontSize / 2
+      spacing: Noo.fontSize() / 2
       anchors.horizontalCenter: parent.horizontalCenter
       Text { text: qsTr("answers") + ":"; anchors.verticalCenter: parent.verticalCenter }
       Repeater {
         model: 4
         TcheckBox {
           text: answSymb[index]
-          font { family: "nootka"; pixelSize: nootkaWindow.fontSize * 2 }
+          font { family: "nootka"; pixelSize: Noo.fontSize() * 2 }
         }
       }
     }

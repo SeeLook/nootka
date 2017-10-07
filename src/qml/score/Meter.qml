@@ -43,20 +43,20 @@ Text {
 
       Grid {
         width: parent.width
-        anchors.margins: nootkaWindow.font.pixelSize / 2
+        anchors.margins: Noo.fontSize() / 2
         columns: 2
-        spacing: nootkaWindow.font.pixelSize / 2
+        spacing: Noo.fontSize() / 2
 
         Repeater {
           model: 12
           Button {
-            height: nootkaWindow.font.pixelSize * 5
+            height: Noo.fontSize() * 5
             width: parent.width / 2.1
             Text {
                 id: buttText
                 anchors.horizontalCenter: parent.horizontalCenter
-                y: -nootkaWindow.font.pixelSize * 3.5
-                font { family: "Scorek"; pixelSize: nootkaWindow.font.pixelSize * 4 }
+                y: -Noo.fontSize() * 3.5
+                font { family: "Scorek"; pixelSize: Noo.fontSize() * 4 }
                 text: Noo.meter(Math.pow(2, index)).symbol()
                 color: activPal.text
             }

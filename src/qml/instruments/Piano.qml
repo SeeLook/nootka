@@ -11,7 +11,7 @@ TpianoBg {
 
   anchors.fill: parent
 
-  keyWidth: nootkaWindow.fontSize * 2
+  keyWidth: Noo.fontSize() * 2
   onSelectedRectChanged: {
     selectedKey.x = keyRect.x
     selectedKey.y = keyWidth + keyRect.height - height * 0.3

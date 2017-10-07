@@ -38,7 +38,7 @@
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qfile.h>
 #include <QtCore/qdir.h>
-#include <QtGui/qguiapplication.h>
+#include <QtWidgets/qapplication.h>
 #include <QtCore/qdir.h>
 #include <QtCore/qdatetime.h>
 #include <QtWidgets/qfiledialog.h>
@@ -359,6 +359,12 @@ QColor TnootkaQML::alpha(const QColor& c, int a) {
 QColor TnootkaQML::randomColor(int alpha, int level) {
   return QColor(qrand() % level, qrand() % level, qrand() % level, alpha);
 }
+
+
+int TnootkaQML::fontSize() {
+  return (qApp->font().pixelSize() > 0 ? qApp->font().pixelSize() : qApp->font().pointSize()) * 1.3;
+}
+
 
 //#################################################################################################
 //###################     CONNECTIONS  NODE            ############################################

@@ -14,8 +14,8 @@ Item {
   property color color: "white"
   property real offset: Screen.pixelDensity / 2
 
-  implicitWidth: nootkaWindow.fontSize * 4
-  implicitHeight: nootkaWindow.fontSize * 2
+  implicitWidth: Noo.fontSize() * 4
+  implicitHeight: Noo.fontSize() * 2
 
   Rectangle {
     id: colorRect

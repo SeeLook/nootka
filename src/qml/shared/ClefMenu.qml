@@ -13,7 +13,7 @@ Grid {
   columns: 1
   width: parent.width
   height: childrenRect.height
-  spacing: nootkaWindow.fontSize / 4
+  spacing: Noo.fontSize() / 4
   horizontalItemAlignment: Grid.AlignHCenter
 
   property int selClef
@@ -58,7 +58,7 @@ Grid {
     model: 7
     Button {
       width: (clefMenu.width * 0.98) / clefMenu.columns
-      height: nootkaWindow.fontSize * (index === 6 ? 11.0 : 7.5)
+      height: Noo.fontSize() * (index === 6 ? 11.0 : 7.5)
       visible: index !== 0 || score.meter !== Tmeter.NoMeter
       onClicked: {
         selClef = clefNr[index]
@@ -67,31 +67,31 @@ Grid {
       contentItem: Row {
         height: parent.height
         width: parent.width
-        spacing: nootkaWindow.fontSize
-        Item { id: clefItem; width: nootkaWindow.fontSize * 3.2; height: nootkaWindow.fontSize }
+        spacing: Noo.fontSize()
+        Item { id: clefItem; width: Noo.fontSize() * 3.2; height: Noo.fontSize() }
         Column {
           anchors.verticalCenter: parent.verticalCenter
-          width: parent.width - nootkaWindow.fontSize * 4.0
-          spacing: nootkaWindow.fontSize / 4
+          width: parent.width - Noo.fontSize() * 4.0
+          spacing: Noo.fontSize() / 4
           Text {
             antialiasing: true
             text: Noo.clef(clefNr[index]).name()
-            font { bold: true; pixelSize: nootkaWindow.fontSize * 1.1 }
+            font { bold: true; pixelSize: Noo.fontSize() * 1.1 }
             color: activPal.text
           }
           Text {
             antialiasing: true
             text: Noo.clef(clefNr[index]).desc()
-            font { pixelSize: nootkaWindow.fontSize * 0.8 }
+            font { pixelSize: Noo.fontSize() * 0.8 }
             width: parent.width
             wrapMode: Text.WordWrap
             color: activPal.text
           }
         }
         Component.onCompleted:{
-          clefPixComp.createObject(clefItem, {"scale": nootkaWindow.fontSize * 0.9, "y": -2.2 * nootkaWindow.fontSize, "index": index})
+          clefPixComp.createObject(clefItem, {"scale": Noo.fontSize() * 0.9, "y": -2.2 * Noo.fontSize(), "index": index})
           if (index == 6) {
-            var lowStaff = clefPixComp.createObject(clefItem, {"index": 2, "scale": nootkaWindow.fontSize * 0.9, "y": nootkaWindow.fontSize * 2.3})
+            var lowStaff = clefPixComp.createObject(clefItem, {"index": 2, "scale": Noo.fontSize() * 0.9, "y": Noo.fontSize() * 2.3})
             var brace = Qt.createQmlObject('import QtQuick 2.9; Text { font {family: "scorek"; pixelSize: 8 } text: "\ue000"; x: 0.15 }', lowStaff)
             brace.y = -10.0
             brace.color = activPal.text
