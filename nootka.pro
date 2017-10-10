@@ -7,7 +7,7 @@ TEMPLATE = subdirs
 
 SUBDIRS = src/libs/core\
 #           src/libs/mobile\
-#           src/libs/sound\
+          src/libs/sound\
 #           src/libs/misc\
 #           src/libs/main\
           src\
@@ -22,10 +22,10 @@ SUBDIRS = src/libs/core\
 CONFIG += ordered
 
 # src/libs/mobile.depends = src/libs/core
-src/libs/sound.depends = src/libs/score
 # src/libs/misc.depends = src/libs/widgets
 # src/libs/main.depends = src/libs/widgets
 src.depends = src/libs/core
+sound.depends = src/libs/core
 # src/plugins/about.depends = src/libs/misc
 # src/plugins/level.depends = src/libs/widgets src/libs/sound
 # src/plugins/settings.depends = src/libs/misc

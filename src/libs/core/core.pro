@@ -13,7 +13,6 @@ SOURCES +=  tcolor.cpp\
             tpath.cpp\
 #             tmtr.cpp\
             tnootkaqml.cpp\
-            ttickcolors.cpp\
             taction.cpp\
           \
 #             exam/tattempt.cpp\
@@ -46,8 +45,11 @@ SOURCES +=  tcolor.cpp\
             score/tstafflines.cpp\
             score/taddobject.cpp\
           \
+            instruments/tcommoninstrument.cpp\
             instruments/tguitarbg.cpp\
             instruments/tpianobg.cpp\
+            instruments/tbandoneonbg.cpp\
+            instruments/tsaxbg.cpp\
           \
             Android/tandroid.cpp\
 
@@ -64,7 +66,6 @@ HEADERS  += nootkaconfig.h\
             tscoreparams.h\
 #             tmtr.h\
             tnootkaqml.h\
-            ttickcolors.h\
             taction.h\
           \
 #             exam/tattempt.h\
@@ -99,8 +100,11 @@ HEADERS  += nootkaconfig.h\
             score/tstafflines.h\
             score/taddobject.h\
           \
+            instruments/tcommoninstrument.h\
             instruments/tguitarbg.h\
             instruments/tpianobg.h\
+            instruments/tbandoneonbg.h\
+            instruments/tsaxbg.h\
           \
             Android/tandroid.h\
 
