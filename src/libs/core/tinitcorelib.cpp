@@ -38,7 +38,7 @@ Tglobals* Tcore::m_gl = nullptr;
 
 
 bool initCoreLibrary() {
-  if (Tcore::gl() == nullptr) {
+  if (GLOB == nullptr) {
     qDebug() << "Tglobals was not created. Construct it first!";
     return false;
   }
@@ -69,15 +69,15 @@ bool initCoreLibrary() {
 
 
 void prepareTranslations(QGuiApplication* a, QTranslator& qt, QTranslator& noo) {
-  if (!Tcore::gl())
+  if (!GLOB)
     return;
 
 #if defined (Q_OS_ANDROID)
-  QLocale loc(Tcore::gl()->lang.isEmpty() ? QLocale::system() : Tcore::gl()->lang);
+  QLocale loc(GLOB->lang.isEmpty() ? QLocale::system() : GLOB->lang);
 #elif defined (Q_OS_MAC)
-  QLocale loc(Tcore::gl()->lang.isEmpty() ? QLocale::system().uiLanguages().first() : Tcore::gl()->lang);
+  QLocale loc(GLOB->lang.isEmpty() ? QLocale::system().uiLanguages().first() : GLOB->lang);
 #else
-  QLocale loc(Tcore::gl()->lang.isEmpty() ? qgetenv("LANG") : Tcore::gl()->lang);
+  QLocale loc(GLOB->lang.isEmpty() ? qgetenv("LANG") : GLOB->lang);
 #endif
   QLocale::setDefault(loc);
 
@@ -86,8 +86,6 @@ void prepareTranslations(QGuiApplication* a, QTranslator& qt, QTranslator& noo) 
   translationsPath = Tpath::lang();
 #endif
 
-  if (loc.language() == QLocale::Spanish) // So far, there are missing
-    translationsPath = Tpath::lang(); // TODO Check when those qtbase translations will be shipped with Qt
   if (qt.load(loc, QStringLiteral("qtbase_"), QString(), translationsPath))
     a->installTranslator(&qt);
 
@@ -99,14 +97,15 @@ void prepareTranslations(QGuiApplication* a, QTranslator& qt, QTranslator& noo) 
   noo.load(loc, QStringLiteral("nootka_"), QString(), Tpath::lang());
   a->installTranslator(&noo);
 
-  TkeySignature::setNameStyle(Tcore::gl()->S->nameStyleInKeySign, Tcore::gl()->S->majKeyNameSufix,
-                              Tcore::gl()->S->minKeyNameSufix);
+  TkeySignature::setNameStyle(GLOB->S->nameStyleInKeySign, GLOB->S->majKeyNameSufix,
+                              GLOB->S->minKeyNameSufix);
   Ttune::prepareDefinedTunes();
 }
 
 
 bool loadNootkaFont(QGuiApplication* a) {
-    QFontDatabase fd;
+  Q_UNUSED(a)
+  QFontDatabase fd;
   int fid = fd.addApplicationFont(Tpath::main + QLatin1String("fonts/nootka.ttf"));
   int fid2 = fd.addApplicationFont(Tpath::main + QLatin1String("fonts/Scorek.otf"));
   if (fid == -1 || fid2 == -1) {
