@@ -48,16 +48,27 @@ public:
   static QString outputName() { return m_devName; }
   static TaudioOUT* instance() { return m_instance; }
 
-        /** Starts playing given note and then returns true, otherwise gets false. */
+        /**
+         * Starts playing given note and then returns true, otherwise gets false.
+         */
   bool play(int noteNr);
+
+  void playMelody(const QList<Tnote>& notes, int tempo, int firstNote = 0);
+
   void setAudioOutParams();
-  void stop(); /**< Immediately stops playing. */
+
+      /**
+       * Immediately stops playing.
+       */
+  void stop();
 
   TaudioParams* audioParams() { return m_audioParams; }
 
 protected:
   int crossCount() { return m_crossCount; } /**< counts samples of crossing buffer */
   void createOutputDevice();
+
+  void decodeNext();
 
 signals:
   void finishSignal();

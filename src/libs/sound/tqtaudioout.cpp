@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,7 +21,10 @@
 #include "toggscale.h"
 #include "taudiobuffer.h"
 #include <taudioparams.h>
+#include <tglobals.h>
+
 #include <QtMultimedia/qaudiooutput.h>
+#include <QtCore/qtimer.h>
 #include <QtCore/qdebug.h>
 #include <unistd.h>
 
@@ -48,14 +51,13 @@ QStringList TaudioOUT::getAudioDevicesList() {
 }
 
 QString                TaudioOUT::m_devName = QStringLiteral("anything");
-TaudioOUT*             TaudioOUT::m_instance = 0;
+TaudioOUT*             TaudioOUT::m_instance = nullptr;
 /*end static*/
 
 
 
 TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
   TabstractPlayer(parent),
-  m_audioParams(_params),
   oggScale(new ToggScale()),
   ratioOfRate(1),
   m_samplesCnt(100000),
@@ -65,7 +67,8 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
   m_cross(0.0f),
   m_crossCount(0),
   m_callBackIsBussy(false),
-  m_audioOUT(0)
+  m_audioParams(_params),
+  m_audioOUT(nullptr)
 {
   if (m_instance) {
     qDebug() << "Nothing of this kind... TaudioOUT already exist!";
@@ -173,23 +176,52 @@ bool TaudioOUT::play(int noteNr) {
   pt.start();
   while (m_callBackIsBussy) {
       SLEEP(1); // TODO: seems like it never occurs in Qt Audio - remove it then
-       qDebug() << "Oops! Call back method is in progress when a new note wants to be played!";
+//        qDebug() << "Oops! Call back method is in progress when a new note wants to be played!";
   }
 
-  if (m_samplesCnt < m_maxSamples) {
-      int off = m_samplesCnt + 1; // next chunk of playing sound
-      for (int i = 0; i < 1000; i++) // copy data of current sound to perform crrosfading
-        m_crossBuffer[i] = oggScale->getSample(off + i);
-      m_doCrossFade = true;
-  } else
-      m_doCrossFade = false;
+  playList().clear();
+  playList() << TsingleSound(0, noteNr + static_cast<int>(audioParams()->a440diff), qRound(oggScale->sampleRate() * 1.5));
 
-  noteNr = noteNr + int(audioParams()->a440diff);
 
   doEmit = true;
-  oggScale->setNote(noteNr); // oggScale will emit oggReady() and invoke startPlayingSlot()
+  p_playingNoteNr = 0;
+  //   p_playingNoteId = 0; // we have no any idea about current note id here
+  p_decodingNoteNr = 0;
+  p_posInNote = 0;
+  p_posInOgg = 0;
+
+  oggScale->decodeNote(playList().first().number);
+  p_isPlaying = true;
 
   return true;
+}
+
+
+void TaudioOUT::playMelody(const QList<Tnote>& notes, int tempo, int firstNote) {
+  if (!playable)
+    return;
+
+  while (m_callBackIsBussy)
+    SLEEP(1);
+
+  if (firstNote < 0 || firstNote >= notes.count()) {
+    qDebug() << "[TaudioOUT] Not such a note in a melody!";
+    return;
+  }
+
+  preparePlayList(notes, tempo, firstNote, oggScale->sampleRate(), GLOB->transposition(), static_cast<int>(audioParams()->a440diff));
+  if (playList().isEmpty()) // naughty user wants to play tied note at the score end
+    return;
+
+  p_playingNoteNr = 0;
+  p_playingNoteId = playList().first().id;
+  p_decodingNoteNr = 0;
+  p_posInNote = 0;
+  p_posInOgg = 0;
+  doEmit = true;
+  p_isPlaying = true;
+
+  oggScale->decodeNote(playList().first().number);
 }
 
 
@@ -198,43 +230,65 @@ void TaudioOUT::startPlayingSlot() {
   m_samplesCnt = -1;
   if (m_audioOUT->state() != QAudio::ActiveState)
     m_audioOUT->start(m_buffer);
+  QTimer::singleShot(5, [=]{ decodeNext(); });
 }
 
 
 void TaudioOUT::outCallBack(char *data, qint64 maxLen, qint64 &wasRead) {
 //   qDebug() << "outCallBack" << m_samplesCnt << maxLen << m_audioOUT->bytesFree() << m_audioOUT->bufferSize();
-  if (maxLen && m_samplesCnt < m_maxSamples) {
-    m_callBackIsBussy = true;
-    if (m_doCrossFade) { // Cross-fading avoids cracking during transition of notes.
-        m_doCrossFade = false;
-        m_cross = 1.0f;
-        m_crossCount = 0;
-    }
-//    if (m_samplesCnt > oggScale->alreadyDecoded()) {
-//      qDebug() << "Uh-uh! Ogg data not decoded yet!" << m_samplesCnt << oggScale->alreadyDecoded();
-//      while (m_samplesCnt > oggScale->alreadyDecoded()) {
-//        SLEEP(1);
-//        qDebug() << "waiting";
-//      }
-//    }
-    qint16 *outPtr = (qint16*)data;
+  m_callBackIsBussy = true;
+
+  if (p_playingNoteNr < playList().size()) {
+    TsingleSound& playingSound = playList()[p_playingNoteNr];
+    auto out = reinterpret_cast<qint16*>(data);
+    bool unfinished = true;
+    qint16 sample = 0;
     for (int i = 0; i < (maxLen / 2) / ratioOfRate; i++) {
-      m_samplesCnt++;
-      qint16 sample;
-        if (m_cross > 0.0 && m_crossCount < 1000) { // mix current and previous samples when cross-fading
-              sample =  (qint16)qRound((1.0 - m_cross) * (float)oggScale->getSample(m_samplesCnt) +
-                      m_cross * (float)m_crossBuffer[m_crossCount]);
-              m_cross -= CROSS_STEP;
-              m_crossCount++;
-        } else {
-              sample = oggScale->getSample(m_samplesCnt);
+      if (p_posInNote >= playingSound.samplesCount) {
+        p_playingNoteNr++;
+        if (p_playingNoteNr < playList().size()) {
+            p_posInOgg = 0;
+            p_posInNote = 0;
+            playingSound = playList()[p_playingNoteNr];
+            p_playingNoteId = playingSound.id;
+            emit nextNoteStarted();
+        } else
+            unfinished = false;
+      }
+      if (unfinished && playingSound.number < REST_NR) {
+        if (oggScale->soundContinuous() && p_posInOgg > oggScale->stopLoopSample(playingSound.number))
+          p_posInOgg = oggScale->startLoopSample(playingSound.number);
+
+        if (p_posInOgg < 61740) { // 1.4 sec of samples
+          sample = oggScale->getNoteSample(playingSound.number, p_posInOgg);
+          if (p_posInOgg > playingSound.samplesCount - 220) { // fade out 5ms
+            qreal m = 1.0 - (static_cast<qreal>(p_posInOgg + 221 - playingSound.samplesCount) / 220.0);
+            sample = static_cast<qint16>(sample * (m < 0.0 ? 0.0 : m));
+          } else if (p_posInOgg < 220) // fade in 5ms
+            sample = static_cast<qint16>(sample * (1.0 - (static_cast<qreal>(220 - p_posInOgg) / 220.0)));
+          if (oggScale->soundContinuous() && p_posInNote > 44100) { // fade out long continuous sound
+            // slowly fade it out to minimize loop jump effect
+            sample = static_cast<qint16>(sample * (1.0 - static_cast<qreal>(p_posInNote - 44100) / static_cast<qreal>(playingSound.samplesCount)));
+            if (p_posInNote > playingSound.samplesCount - 220) // but fade it quickly (5ms) at the end of duration
+              sample = static_cast<qint16>(sample * static_cast<qreal>(playingSound.samplesCount - p_posInNote) / 220.0);
+          }
         }
-        for (int r = 0; r < ratioOfRate; r++)
-            *outPtr++ = sample; // left channel
+        p_posInOgg++;
+      }
+      for (int r = 0; r < ratioOfRate; r++)
+        *out++ = sample; // left channel
+      p_posInNote++;
+      sample = 0;
+      wasRead = maxLen;
     }
     m_callBackIsBussy = false;
-//    if (m_samplesCnt < m_maxSamples)
-      wasRead = maxLen;
+  } else { // flush buffer with zeros if no sound will be played
+      auto out = reinterpret_cast<qint16*>(data);
+      for (int i = 0; i < (maxLen / 2) / ratioOfRate; i++) {
+        for (int r = 0; r < ratioOfRate; r++)
+        *out++ = 0;
+    }
+    m_callBackIsBussy = false;
   }
 }
 
@@ -258,8 +312,19 @@ void TaudioOUT::playingFinishedSlot() {
 
 void TaudioOUT::stop() {
   doEmit = false;
+  p_isPlaying = false;
   playingFinishedSlot();
 }
 
 
+void TaudioOUT::decodeNext() {
+  p_decodingNoteNr++;
+  if (p_decodingNoteNr < playList().size()) {
+    int noteNr = playList()[p_decodingNoteNr].number;
+    if (noteNr < REST_NR)
+      oggScale->decodeNote(noteNr); // when it will finish this method will call again
+      if (oggScale->isReady()) // decoding was ignored - note is ready
+        decodeNext(); // so call itself for the next note
+  }
+}
 

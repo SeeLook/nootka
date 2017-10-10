@@ -29,7 +29,6 @@
 
 class ToggScale;
 class Tnote;
-class TsingleSound;
 
 
 /**
@@ -56,15 +55,6 @@ public:
 
   void stop() override;
 
-      /**
-       * Number (id) of actually played note, if note list of @p playMelody comes from score
-       * this number corresponds with note id on the score
-       */
-  int playingNoteId() const { return m_playingNoteId; }
-
-signals:
-  void nextNoteStarted();
-
 protected:
   static bool outCallBack(void* outBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status);
 
@@ -85,10 +75,6 @@ private slots:
 
 private:
   bool                          m_callBackIsBussy;
-
-  static unsigned int           m_posInNote, m_posInOgg;
-  static int                    m_playingNoteNr, m_decodingNoteNr, m_playingNoteId;
-  QList<TsingleSound>           m_playList;
 
 };
 
