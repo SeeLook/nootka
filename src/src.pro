@@ -6,8 +6,9 @@ TARGET = Nootka2
 TEMPLATE = app
 
 SOURCES += main.cpp \
+           main/tnameitem.cpp \
 
-# HEADERS  += 
+HEADERS  += main/tnameitem.h \
 
 
 CONFIG += mobility warn_off
@@ -18,17 +19,16 @@ android {
   QMAKE_CXXFLAGS_DEBUG += -fsigned-char -O1
   ANDROID_EXTRA_LIBS += $$OUT_PWD/libs/core/libNootkaCore.so\
 #                         $$OUT_PWD/libs/mobile/libNootkaMobile.so\
-#                         $$OUT_PWD/libs/sound/libNootkaSound.so\
+                        $$OUT_PWD/libs/sound/libNootkaSound.so\
 #                         $$OUT_PWD/libs/misc/libNootkaMisc.so\
 #                         $$OUT_PWD/libs/main/libNootkaMain.so\
 }
 
-INCLUDEPATH += libs/core
-#libs/mobile libs/sound libs/main
+INCLUDEPATH += libs/core libs/mobile libs/sound libs/main
 
 LIBS += -Llibs/core/ -lNootkaCore \
 #         -Llibs/mobile/ -lNootkaMobile \
-#         -Llibs/sound -lNootkaSound \
+        -Llibs/sound -lNootkaSound \
 #         -Llibs/main -lNootkaMain
 
 RESOURCES += nootka.qrc
@@ -46,4 +46,26 @@ DISTFILES += \
 
 
 ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+
+# append Qt base translations from current Qt installation
+TR_DIR = "$$system(dirname $$QMAKESPEC)/../translations"
+
+lang.path = /assets/lang
+lang.files += lang/nootka_pl.qm
+lang.files += lang/nootka_cs.qm
+lang.files += lang/nootka_de.qm
+lang.files += lang/nootka_fr.qm
+lang.files += lang/nootka_ru.qm
+lang.files += lang/nootka_es.qm
+lang.files += $$system(ls $$TR_DIR/qtbase_cs.qm)
+lang.files += $$system(ls $$TR_DIR/qtbase_de.qm)
+lang.files += $$system(ls $$TR_DIR/qtbase_es.qm)
+lang.files += $$system(ls $$TR_DIR/qtbase_fr.qm)
+lang.files += $$system(ls $$TR_DIR/qtbase_pl.qm)
+lang.files += $$system(ls $$TR_DIR/qtbase_ru.qm)
+
+lang.depends += FORCE
+
+INSTALLS += lang
+
 

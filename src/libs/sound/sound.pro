@@ -1,5 +1,5 @@
 
-QT += core multimedia gui widgets androidextras
+QT += core multimedia gui widgets androidextras quick quickcontrols2
 
 
 TARGET = NootkaSound
@@ -12,6 +12,7 @@ SOURCES +=  tabstractplayer.cpp\
             tqtaudioout.cpp\
             toggscale.cpp\
             tsound.cpp\
+            ttickcolors.cpp\
             \
             tartini/analysisdata.cpp\
             tartini/bspline.cpp\
@@ -25,14 +26,6 @@ SOURCES +=  tabstractplayer.cpp\
             tartini/filters/FixedAveragingFilter.cpp\
             tartini/filters/GrowingAveragingFilter.cpp\
             tartini/filters/IIR_Filter.cpp\
-            \
-            widgets/tabstractsoundview.cpp\
-            widgets/tintonationview.cpp\
-            widgets/tpitchview.cpp\
-            widgets/tvolumeview.cpp\
-            widgets/tmelodyitem.cpp\
-#            widgets/tpcmview.cpp\
-            widgets/tquickaudiodialog.cpp\
             \
             stouch/SoundTouch.cpp\
             stouch/TDStretch.cpp\
@@ -56,6 +49,7 @@ HEADERS  += tartiniparams.h\
             toggscale.h\
             tsound.h\
             taudiobuffer.h\
+            ttickcolors.h\
             \
             tartini/array1d.h\
             tartini/large_vector.h\
@@ -73,14 +67,6 @@ HEADERS  += tartiniparams.h\
             tartini/filters/FixedAveragingFilter.h\
             tartini/filters/GrowingAveragingFilter.h\
             tartini/filters/IIR_Filter.h\
-            \
-            widgets/tabstractsoundview.h\
-            widgets/tintonationview.h\
-            widgets/tpitchview.h\
-            widgets/tvolumeview.h\
-            widgets/tmelodyitem.h\
-#            widgets/tpcmview.h\
-            widgets/tquickaudiodialog.h\
             \
             stouch\STTypes.h\
             stouch/SoundTouch.h\
@@ -120,14 +106,18 @@ android {
   INCLUDEPATH += fftw ogg vorbis
 }
 
-LIBS += -L../core/ -lNootkaCore -L../mobile/ -lNootkaMobile -L../score/ -lNootkaScore
+LIBS += -L../core/ -lNootkaCore  #-L../mobile/ -lNootkaMobile
 
-INCLUDEPATH += ../core ../mobile ../score
+INCLUDEPATH += ../core #../mobile
 
 sounds.path = /assets/sounds
+sounds.files += sounds/alto-sax.ogg
+sounds.files += sounds/bandoneon.ogg
+sounds.files += sounds/bass-guitar.ogg
 sounds.files += sounds/classical-guitar.ogg
 sounds.files += sounds/electric-guitar.ogg
-sounds.files += sounds/bass-guitar.ogg
+sounds.files += sounds/piano.ogg
+sounds.files += sounds/tenor-sax.ogg
 sounds.depends += FORCE
 
 INSTALLS += sounds
