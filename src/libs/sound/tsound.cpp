@@ -134,11 +134,19 @@ void Tsound::playScoreNotes(const QList<Tnote>& notes, int firstNote) {
 
 
 void Tsound::playScore() {
-  if (sniffer->state() != TrtAudio::e_playing)
-    playScoreNotes(NOO->scoreNoteList(), NOO->selectedNoteId() > -1 ? NOO->selectedNoteId() : 0);
-  else {
-    stopPlaying();
-    playingFinishedSlot();
+  if (!player->isPlaying()) {
+      playScoreNotes(NOO->scoreNoteList(), NOO->selectedNoteId() > -1 ? NOO->selectedNoteId() : 0);
+      if (player->isPlaying()) {
+        if (sniffer) { // stop sniffer if midi output was started
+          if (!m_stopSniffOnce) { // stop listening just once
+            sniffer->stopListening();
+            m_stopSniffOnce = true;
+          }
+        }
+      }
+  } else {
+      stopPlaying();
+      playingFinishedSlot();
   }
 }
 
@@ -388,17 +396,16 @@ void Tsound::setDumpFileName(const QString& fName) {
 void Tsound::createPlayer() {
 #if defined (Q_OS_ANDROID)
   player = new TaudioOUT(GLOB->A);
-  connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinishedSlot()));
 #else
   if (GLOB->A->midiEnabled) {
       player = new TmidiOut(GLOB->A);
-      connect(player, SIGNAL(noteFinished()), this, SLOT(playingFinishedSlot()));
   } else {
       auto p = new TaudioOUT(GLOB->A);
       player = p;
       connect(p, &TaudioOUT::nextNoteStarted, this, &Tsound::selectNextNote);
   }
 #endif
+  connect(player, &TaudioOUT::noteFinished, this, &Tsound::playingFinishedSlot);
   m_stopSniffOnce = false;
 }
 
@@ -446,7 +453,6 @@ void Tsound::restoreSniffer() {
 
 
 void Tsound::playingFinishedSlot() {
-//   qDebug("playingFinished");
   if (!m_examMode && sniffer) {
     if (m_stopSniffOnce)
       sniffer->startListening();

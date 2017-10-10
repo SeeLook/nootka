@@ -37,18 +37,6 @@
 #endif
 
 
-#define REST_NR (127)
-
-
-class TsingleSound {
-  public:
-    TsingleSound(int nId = -1, qint16 nr = REST_NR, quint32 samples = 0) : id(nId), number(nr), samplesCount(samples) {}
-    int id; /** Note id in the melody */
-    qint8 number; /**< number of note (chromatic) - none (rest) by default */
-    quint32 samplesCount; /**< Number of samples the note takes */
-};
-
-
 /*static*/
 QStringList TaudioOUT::getAudioDevicesList() {
     QStringList devList;
@@ -72,11 +60,6 @@ QStringList TaudioOUT::getAudioDevicesList() {
 
 
 TaudioOUT*              TaudioOUT::instance = nullptr;
-unsigned int            TaudioOUT::m_posInNote = 0;
-unsigned int            TaudioOUT::m_posInOgg = 0;
-int                     TaudioOUT::m_playingNoteNr = -1;
-int                     TaudioOUT::m_decodingNoteNr = -1;
-int                     TaudioOUT::m_playingNoteId = -1;
 
 
 bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status) {
@@ -85,52 +68,53 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
 //   if (status) // It doesn't harm if occurs
 //       qDebug() << "Stream underflow detected!";
 
-  if (m_playingNoteNr < instance->m_playList.size()) {
-      TsingleSound& playingSound = instance->m_playList[m_playingNoteNr];
+  bool endState = true;
+  if (p_playingNoteNr < instance->playList().size()) {
+      TsingleSound& playingSound = instance->playList()[p_playingNoteNr];
       auto out = static_cast<qint16*>(outBuff);
       bool unfinished = true;
       qint16 sample = 0;
       for (int i = 0; i < nBufferFrames / instance->ratioOfRate; i++) {
-        if (m_posInNote >= playingSound.samplesCount) {
-          m_playingNoteNr++;
-          if (m_playingNoteNr < instance->m_playList.size()) {
-              m_posInOgg = 0;
-              m_posInNote = 0;
-              playingSound = instance->m_playList[m_playingNoteNr];
-              m_playingNoteId = playingSound.id;
+        if (p_posInNote >= playingSound.samplesCount) {
+          p_playingNoteNr++;
+          if (p_playingNoteNr < instance->playList().size()) {
+              p_posInOgg = 0;
+              p_posInNote = 0;
+              playingSound = instance->playList()[p_playingNoteNr];
+              p_playingNoteId = playingSound.id;
               ao()->nextNoteStarted();
           } else
               unfinished = false;
         }
         if (unfinished && playingSound.number < REST_NR) {
-          if (instance->oggScale->soundContinuous() && m_posInOgg > instance->oggScale->stopLoopSample(playingSound.number))
-            m_posInOgg = instance->oggScale->startLoopSample(playingSound.number);
+          if (instance->oggScale->soundContinuous() && p_posInOgg > instance->oggScale->stopLoopSample(playingSound.number))
+            p_posInOgg = instance->oggScale->startLoopSample(playingSound.number);
 
-          if (m_posInOgg < 61740) { // 1.4 sec of samples
-              sample = instance->oggScale->getNoteSample(playingSound.number, m_posInOgg);
-              if (m_posInOgg > playingSound.samplesCount - 220) { // fade out 5ms
-                  qreal m = 1.0 - (static_cast<qreal>(m_posInOgg + 221 - playingSound.samplesCount) / 220.0);
+          if (p_posInOgg < 61740) { // 1.4 sec of samples
+              sample = instance->oggScale->getNoteSample(playingSound.number, p_posInOgg);
+              if (p_posInOgg > playingSound.samplesCount - 220) { // fade out 5ms
+                  qreal m = 1.0 - (static_cast<qreal>(p_posInOgg + 221 - playingSound.samplesCount) / 220.0);
                   sample = static_cast<qint16>(sample * (m < 0.0 ? 0.0 : m));
-              } else if (m_posInOgg < 220) // fade in 5ms
-                  sample = static_cast<qint16>(sample * (1.0 - (static_cast<qreal>(220 - m_posInOgg) / 220.0)));
-              if (instance->oggScale->soundContinuous() && m_posInNote > 44100) { // fade out long continuous sound
+              } else if (p_posInOgg < 220) // fade in 5ms
+                  sample = static_cast<qint16>(sample * (1.0 - (static_cast<qreal>(220 - p_posInOgg) / 220.0)));
+              if (instance->oggScale->soundContinuous() && p_posInNote > 44100) { // fade out long continuous sound
                 // slowly fade it out to minimize loop jump effect
-                sample = static_cast<qint16>(sample * (1.0 - static_cast<qreal>(m_posInNote - 44100) / static_cast<qreal>(playingSound.samplesCount)));
-                if (m_posInNote > playingSound.samplesCount - 220) // but fade it quickly (5ms) at the end of duration
-                  sample = static_cast<qint16>(sample * static_cast<qreal>(playingSound.samplesCount - m_posInNote) / 220.0);
+                sample = static_cast<qint16>(sample * (1.0 - static_cast<qreal>(p_posInNote - 44100) / static_cast<qreal>(playingSound.samplesCount)));
+                if (p_posInNote > playingSound.samplesCount - 220) // but fade it quickly (5ms) at the end of duration
+                  sample = static_cast<qint16>(sample * static_cast<qreal>(playingSound.samplesCount - p_posInNote) / 220.0);
               }
           }
-          m_posInOgg++;
+          p_posInOgg++;
         }
         for (int r = 0; r < instance->ratioOfRate; r++) {
           *out++ = sample; // left channel
           *out++ = sample; // right channel
         }
-        m_posInNote++;
+        p_posInNote++;
         sample = 0;
       }
       instance->m_callBackIsBussy = false;
-      return m_playingNoteNr >= instance->m_playList.size();
+      endState = p_playingNoteNr >= instance->playList().size();
   } else { // flush buffer with zeros if no sound will be played
       auto out = static_cast<qint32*>(outBuff); // 4 bytes for both channels at once
       for (int i = 0; i < nBufferFrames / instance->ratioOfRate; i++) {
@@ -138,9 +122,12 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
           *out++ = 0; // both channels at once channel
       }
       instance->m_callBackIsBussy = false;
-      return true;
+      endState = true;
   }
+  if (instance->doEmit && !areStreamsSplit() && endState)
+    ao()->emitPlayingFinished(); // emit in duplex mode
 
+  return endState;
 }
 /*end static*/
 
@@ -215,20 +202,22 @@ bool TaudioOUT::play(int noteNr) {
 
   doEmit = true;
 
-  m_playList.clear();
-  m_playList << TsingleSound(0, noteNr + static_cast<int>(audioParams()->a440diff), qRound(oggScale->sampleRate() * 1.5));
-  m_playingNoteNr = 0;
-//   m_playingNoteId = 0; // we have no any idea about current note id here
-  m_decodingNoteNr = 0;
-  m_posInNote = 0;
-  m_posInOgg = 0;
+  playList().clear();
+  playList() << TsingleSound(0, noteNr + static_cast<int>(audioParams()->a440diff), qRound(oggScale->sampleRate() * 1.5));
+  p_playingNoteNr = 0;
+//   p_playingNoteId = 0; // we have no any idea about current note id here
+  p_decodingNoteNr = 0;
+  p_posInNote = 0;
+  p_posInOgg = 0;
 
-  oggScale->decodeNote(m_playList.first().number);
+  oggScale->decodeNote(playList().first().number);
   int loops = 0;
   while (!oggScale->isReady() && loops < 40) { // 40ms - max latency
     SLEEP(1);
     loops++;
   }
+
+  p_isPlaying = true;
 
 //   if (loops) qDebug() << "latency:" << loops << "ms";
   if (areStreamsSplit() && state() != e_playing)
@@ -249,27 +238,19 @@ void TaudioOUT::playMelody(const QList<Tnote>& notes, int tempo, int firstNote) 
     return;
   }
 
-  m_playList.clear();
-  for (int n = firstNote; n < notes.count(); ++n) {
-    const Tnote& tmpN = notes.at(n);
-    int samplesDuration = qRound(((tmpN.duration() > 0 ? tmpN.duration() / 24.0 : 1.0) * (60000.0 / tempo)) * (oggScale->sampleRate() / 1000.0));
-    if (tmpN.rtm.tie() > Trhythm::e_tieStart) { // append duration if tie is continued or at end
-        if (m_playList.isEmpty())
-          continue; // do not start playing in the middle of tied notes
-        m_playList.last().samplesCount += samplesDuration;
-    } else
-        m_playList << TsingleSound(n, tmpN.isValid() ? tmpN.chromatic() + GLOB->transposition() + static_cast<int>(audioParams()->a440diff) : REST_NR, samplesDuration);
-  }
-  if (m_playList.isEmpty()) // naughty user wants to play tied note at the score end
+  preparePlayList(notes, tempo, firstNote, oggScale->sampleRate(), GLOB->transposition(), static_cast<int>(audioParams()->a440diff));
+  if (playList().isEmpty()) // naughty user wants to play tied note at the score end
     return;
 
-  m_playingNoteNr = 0;
-  m_playingNoteId = m_playList.first().id;
-  m_decodingNoteNr = 0;
-  m_posInNote = 0;
-  m_posInOgg = 0;
+  p_playingNoteNr = 0;
+  p_playingNoteId = playList().first().id;
+  p_decodingNoteNr = 0;
+  p_posInNote = 0;
+  p_posInOgg = 0;
+  doEmit = true;
+  p_isPlaying = true;
 
-  oggScale->decodeNote(m_playList.first().number);
+  oggScale->decodeNote(playList().first().number);
   if (oggScale->isReady())
       QTimer::singleShot(5, [=]{ decodeNext(); });
   else {
@@ -292,13 +273,20 @@ void TaudioOUT::playMelody(const QList<Tnote>& notes, int tempo, int firstNote) 
 
 
 void TaudioOUT::playingFinishedSlot() {
-  if (areStreamsSplit() && state() == e_playing) {
+  if (areStreamsSplit() && state() == e_playing)
     closeStream();
+
+  p_isPlaying = false;
+
+  if (doEmit) {
+    emit noteFinished();
+    doEmit = false;
   }
 }
 
 
 void TaudioOUT::stop() {
+  p_isPlaying = false;
   if (areStreamsSplit() || getCurrentApi() == RtAudio::LINUX_PULSE)
     closeStream();
   else
@@ -312,9 +300,9 @@ void TaudioOUT::stop() {
  * This way all notes of melody are decoded in paralel just after melody starts playing
  */
 void TaudioOUT::decodeNext() {
-  m_decodingNoteNr++;
-  if (m_decodingNoteNr < m_playList.size()) {
-    int noteNr = m_playList[m_decodingNoteNr].number;
+  p_decodingNoteNr++;
+  if (p_decodingNoteNr < playList().size()) {
+    int noteNr = playList()[p_decodingNoteNr].number;
     if (noteNr < REST_NR)
       oggScale->decodeNote(noteNr); // when it will finish this method will call again
     if (oggScale->isReady()) // decoding was ignored - note is ready

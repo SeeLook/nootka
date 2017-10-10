@@ -23,9 +23,23 @@
 
 #include <nootkasoundglobal.h>
 #include <QtCore/qobject.h>
+#include <QtCore/qlist.h>
 
 
 class QTimer;
+class Tnote;
+
+
+#define REST_NR (127)
+
+
+class NOOTKASOUND_EXPORT TsingleSound {
+public:
+  TsingleSound(int nId = -1, qint16 nr = REST_NR, quint32 samples = 0) : id(nId), number(nr), samplesCount(samples) {}
+  int id; /** Note id in the melody */
+  qint8 number; /**< number of note (chromatic) - none (rest) by default */
+  quint32 samplesCount; /**< Number of samples the note takes */
+};
 
 
 /**
@@ -37,20 +51,23 @@ class NOOTKASOUND_EXPORT TabstractPlayer : public QObject
   Q_OBJECT
 
 public:
-  TabstractPlayer(QObject *parent = 0);
+  TabstractPlayer(QObject *parent = nullptr);
 
-  bool isPlayable() { return playable; }
+  bool isPlayable() const { return playable; }
+
+  bool isPlaying() const { return p_isPlaying; }
 
       /**
         * Starts playing given note and then returns true, otherwise gets false.
         */
-  virtual bool play(int noteNr);
+  virtual bool play(int noteNr) = 0;
 
       /**
        * Immediately stops playing. Emits nothing
        */
 
-  virtual void stop();
+  virtual void stop() = 0;
+
       /**
        * Does nothing in audio player subclass.
        */
@@ -61,25 +78,44 @@ public:
 
   EplayerType type() { return playerType; }
 
+  QList<TsingleSound>& playList() { return m_playList; }
+
+      /**
+       * Number (id) of actually played note, if note list of @p playMelody comes from score
+       * this number corresponds with note id on the score
+       */
+  int playingNoteId() const { return p_playingNoteId; }
+
 signals:
       /**
-       * This signal is emitted when playing of a note is finished.
+       * This signal is emitted when playing of a note/melody is finished.
        */
   void noteFinished();
+
+  void nextNoteStarted();
 
 
 protected:
   void setType(EplayerType type) { playerType = type; }
 
-  bool          playable;
+  void preparePlayList(const QList<Tnote>& notes, int tempo, int firstNote, int sampleRate, int transposition, int a440Ddiff);
+
+protected:
+  bool             playable;
 
       /**
        * Determines whether noteFinished() signal is emited in offTimer timeOut() slot.
-       * Slot is also called by stop() method and then signal can't be emited.
+       * Slot is also called by stop() method and then signal can't be emitted.
        */
-  bool             doEmit;
-  QTimer          *offTimer;
-  EplayerType      playerType;
+  bool                         doEmit;
+  QTimer                      *offTimer;
+  EplayerType                  playerType;
+  bool                         p_isPlaying = false;
+  static unsigned int          p_posInNote, p_posInOgg;
+  static int                   p_playingNoteNr, p_decodingNoteNr, p_playingNoteId;
+
+private:
+  QList<TsingleSound>           m_playList;
 
 };
 

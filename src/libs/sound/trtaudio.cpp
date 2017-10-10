@@ -337,7 +337,7 @@ bool TrtAudio::listen() {
     }
   }
   m_state = e_listening;
-  rtDevice()->openStream(0, m_inParams, RTAUDIO_SINT16, m_inSR, &m_bufferFrames, &listenCallBack, 0, streamOptions);
+  rtDevice()->openStream(nullptr, m_inParams, RTAUDIO_SINT16, m_inSR, &m_bufferFrames, &listenCallBack, nullptr, streamOptions);
 //   qDebug() << "[TrtAudio] stream is listening";
   return true;
 }
@@ -354,7 +354,7 @@ bool TrtAudio::play() {
   }
   m_state = e_playing;
   m_sendPlayingFinished = true;
-  rtDevice()->openStream(m_outParams, 0, RTAUDIO_SINT16, m_outSR, &m_bufferFrames, &playCallBack, 0, streamOptions);
+  rtDevice()->openStream(m_outParams, nullptr, RTAUDIO_SINT16, m_outSR, &m_bufferFrames, &playCallBack, nullptr, streamOptions);
 //   qDebug() << "[TrtAudio] stream is playing";
   return true;
 }
@@ -375,7 +375,7 @@ bool TrtAudio::openStream() {
           return false;
         }
       } else if (!rtDevice()->isStreamOpen()) {
-          rtDevice()->openStream(m_outParams, m_inParams, RTAUDIO_SINT16, sampleRate(), &m_bufferFrames, m_callBack, 0, streamOptions);
+          rtDevice()->openStream(m_outParams, m_inParams, RTAUDIO_SINT16, sampleRate(), &m_bufferFrames, m_callBack, nullptr, streamOptions);
           qDebug() << "[TrtAudio] audio opened in duplex mode";
       }
 
