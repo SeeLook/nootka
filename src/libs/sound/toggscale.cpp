@@ -25,6 +25,7 @@
 #include <QtCore/qdebug.h>
 #include <QtCore/qthread.h>
 #include <QtCore/qfileinfo.h>
+#include <QtGui/qguiapplication.h>
 #include <stdlib.h>
 #include <QtCore/qmath.h>
 #include <unistd.h>
@@ -137,7 +138,8 @@ ToggScale::ToggScale() :
   minDataAmount = 15000;
 #endif
   moveToThread(m_thread);
-  connect(m_thread, SIGNAL(started()), this, SLOT(decodeOgg()));
+  connect(m_thread, &QThread::started, this, &ToggScale::decodeOgg);
+  connect(m_thread, &QThread::finished, [=]{ emit noteDecoded(); });
   m_oggConnected = true;
 }
 
@@ -194,6 +196,7 @@ void ToggScale::decodeNote(int noteNr) {
       m_currentBuffer = m_pcmArray[noteNr - LOWEST_NOTE].noteData;
   } else {
       emit oggReady();
+      emit noteDecoded();
       return;
   }
 
@@ -333,11 +336,9 @@ bool ToggScale::loadAudioData(int instrument) {
 void ToggScale::stopDecoding() {
   if (m_isDecoding) {
       qDebug("decoding in progress");
-//       m_doDecode = false; // NOTE: since we are storing decoded data, keep decoding till it's finished
       do {
         SLEEP(1);
       } while (m_isDecoding);
-//       m_doDecode = true;
   }
 }
 
@@ -364,9 +365,7 @@ void ToggScale::decodeOgg() {
     decNote.stop = crossZeroBeforeMaxAmlp(52920, m_noteInProgress + 47); // 1200ms of a sound
   }
   m_isDecoding = false;
-//   qDebug() << "readFromOgg" << m_alreadyDecoded << "loops" << loops;
   m_thread->quit();
-  emit noteDecoded();
 }
 
 
@@ -415,7 +414,6 @@ void ToggScale::decodeAndResample() {
   m_touch->clear();
   m_thread->quit();
   delete[] tmpTouch;
-  emit noteDecoded();
 }
 
 //###########################################################################
@@ -424,25 +422,25 @@ void ToggScale::decodeAndResample() {
 
 void ToggScale::adjustSoundTouch() {
   if (m_innerOffset != 0.0 || m_pitchOffset != 0.0 || m_sampleRate != 44100) { // SoundTouch has got a job
-    m_touch->setSampleRate(44100);
-    m_touch->setPitchSemiTones(m_innerOffset + m_pitchOffset);
-    if (m_sampleRate != 44100) {
-      float newRate =  44100.0f / (float)m_sampleRate;
-      m_touch->setRate(newRate);
-    }
-//     qDebug() << "SoundTouch sampleRate" << m_sampleRate << "pitch offset" << m_innerOffset + m_pitchOffset;
-    if (!m_touchConnected)
-        connect(m_thread, SIGNAL(started()), this, SLOT(decodeAndResample()));
-    m_touchConnected = true;
-    if (m_oggConnected)
-        disconnect(m_thread, SIGNAL(started()), this, SLOT(decodeOgg()));
-    m_oggConnected = false;
+      m_touch->setSampleRate(44100);
+      m_touch->setPitchSemiTones(m_innerOffset + m_pitchOffset);
+      if (m_sampleRate != 44100) {
+        float newRate =  44100.0f / (float)m_sampleRate;
+        m_touch->setRate(newRate);
+      }
+  //     qDebug() << "SoundTouch sampleRate" << m_sampleRate << "pitch offset" << m_innerOffset + m_pitchOffset;
+      if (!m_touchConnected)
+        connect(m_thread, &QThread::started, this, &ToggScale::decodeAndResample);
+      m_touchConnected = true;
+      if (m_oggConnected)
+        disconnect(m_thread, &QThread::started, this, &ToggScale::decodeOgg);
+      m_oggConnected = false;
   } else {
       if (!m_oggConnected)
-          connect(m_thread, SIGNAL(started()), this, SLOT(decodeOgg()));
+        connect(m_thread, &QThread::started, this, &ToggScale::decodeOgg);
       m_oggConnected = true;
       if (m_touchConnected)
-          disconnect(m_thread, SIGNAL(started()), this, SLOT(decodeAndResample()));
+        disconnect(m_thread, &QThread::started, this, &ToggScale::decodeAndResample);
       m_touchConnected = false;
   }
 }

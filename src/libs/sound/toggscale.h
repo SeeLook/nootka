@@ -139,14 +139,22 @@ signals:
   void noteDecoded(); 
 
 
-protected slots:
-      /** Preforms decoding. Usually is invoked by m_thread.start()
-        * called from setNote() method. */
+protected:
+      /**
+       * Preforms decoding. Usually is invoked by m_thread.start()
+       * called from setNote() method.
+       */
   void decodeOgg();
-      /** Decoding and re-sampling or/and pitch shifting */
+
+      /**
+       * Decoding and re-sampling or/and pitch shifting
+       */
   void decodeAndResample();
-      /** Checks is decoding performed and stops it
-        * by setting m_doDecode=false and waiting for stop. */
+
+      /**
+       * Checks is decoding performed and stops it
+       * by setting m_doDecode=false and waiting for stop.
+       */
   void stopDecoding();
 
 private:
