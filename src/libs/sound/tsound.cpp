@@ -394,17 +394,8 @@ void Tsound::setDumpFileName(const QString& fName) {
 
 
 void Tsound::createPlayer() {
-#if defined (Q_OS_ANDROID)
   player = new TaudioOUT(GLOB->A);
-#else
-  if (GLOB->A->midiEnabled) {
-      player = new TmidiOut(GLOB->A);
-  } else {
-      auto p = new TaudioOUT(GLOB->A);
-      player = p;
-      connect(p, &TaudioOUT::nextNoteStarted, this, &Tsound::selectNextNote);
-  }
-#endif
+  connect(player, &TaudioOUT::nextNoteStarted, this, &Tsound::selectNextNote);
   connect(player, &TaudioOUT::noteFinished, this, &Tsound::playingFinishedSlot);
   m_stopSniffOnce = false;
 }
@@ -521,7 +512,6 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
 
 
 void Tsound::selectNextNote() {
-  int playingId = static_cast<TaudioOUT*>(player)->playingNoteId();
-  if (playingId != NOO->selectedNoteId())
-    NOO->selectPlayingNote(playingId);
+  if (player->playingNoteId() != NOO->selectedNoteId())
+    NOO->selectPlayingNote(player->playingNoteId());
 }
