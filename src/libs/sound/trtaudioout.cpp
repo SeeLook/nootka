@@ -251,9 +251,7 @@ void TaudioOUT::playMelody(const QList<Tnote>& notes, int tempo, int firstNote) 
   p_isPlaying = true;
 
   oggScale->decodeNote(playList().first().number);
-  if (oggScale->isReady())
-      QTimer::singleShot(5, [=]{ decodeNext(); });
-  else {
+  if (!oggScale->isReady()) {
       int loops = 0;
       while (!oggScale->isReady() && loops < 40) { // 40ms - max latency
         SLEEP(1);
@@ -305,7 +303,7 @@ void TaudioOUT::decodeNext() {
     int noteNr = playList()[p_decodingNoteNr].number;
     if (noteNr < REST_NR)
       oggScale->decodeNote(noteNr); // when it will finish this method will call again
-    if (oggScale->isReady()) // decoding was ignored - note is ready
+    else
       decodeNext(); // so call itself for the next note
   }
 }

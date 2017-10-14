@@ -88,7 +88,6 @@ private slots:
 private:
   static QString      m_devName;
   static TaudioOUT   *m_instance;
-  int                 m_samplesCnt; /**< Number of performed samples. */
   int                 m_maxSamples; /**< Duration of a sound counted in samples */
   int                 m_bufferFrames, m_sampleRate;
   qint16             *m_crossBuffer; /**< buffer with data of part of previous note to fade out */

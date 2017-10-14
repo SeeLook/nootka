@@ -36,10 +36,6 @@
   #define SLEEP(msecs) usleep(msecs * 1000)
 #endif
 
-/** Value of CROSS_STEP = 0.00023 (100ms) cases reverb effect with sound
-* Shorter cross-fade duration works better. */
-#define CROSS_STEP (0.001f) // cross-fade will take about 23 [ms] - 1000 samples (it determines m_crossBuffer size)
-
 
 /*static*/
 QStringList TaudioOUT::getAudioDevicesList() {
@@ -60,7 +56,6 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
   TabstractPlayer(parent),
   oggScale(new ToggScale()),
   ratioOfRate(1),
-  m_samplesCnt(100000),
   m_bufferFrames(1024),
   m_sampleRate(44100),
   m_doCrossFade(false),
@@ -84,6 +79,7 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
   connect(oggScale, &ToggScale::oggReady, this, &TaudioOUT::startPlayingSlot, Qt::DirectConnection);
   // With direct connection playing is called immediately after minimal audio data amount was decoded
   // without event loop delay like for default queued connection
+  connect(oggScale, &ToggScale::noteDecoded, this, &TaudioOUT::decodeNext);
 }
 
 
@@ -135,7 +131,7 @@ void TaudioOUT::createOutputDevice() {
   }
   m_devName = m_deviceInfo.deviceName();
   QAudioFormat format;
-    format.setChannelCount(1);
+    format.setChannelCount(1); // Mono
     format.setSampleRate(m_sampleRate);
     format.setSampleType(QAudioFormat::SignedInt);
     format.setSampleSize(16);
@@ -201,13 +197,12 @@ void TaudioOUT::playMelody(const QList<Tnote>& notes, int tempo, int firstNote) 
   if (!playable)
     return;
 
+  pt.start();
   while (m_callBackIsBussy)
     SLEEP(1);
 
-  if (firstNote < 0 || firstNote >= notes.count()) {
-    qDebug() << "[TaudioOUT] Not such a note in a melody!";
+  if (firstNote < 0 || firstNote >= notes.count())
     return;
-  }
 
   preparePlayList(notes, tempo, firstNote, oggScale->sampleRate(), GLOB->transposition(), static_cast<int>(audioParams()->a440diff));
   if (playList().isEmpty()) // naughty user wants to play tied note at the score end
@@ -222,15 +217,17 @@ void TaudioOUT::playMelody(const QList<Tnote>& notes, int tempo, int firstNote) 
   p_isPlaying = true;
 
   oggScale->decodeNote(playList().first().number);
+  QTimer::singleShot(tempo > 100 ? 150 : 10, [=]{
+    emit nextNoteStarted();
+  });
 }
 
 
 void TaudioOUT::startPlayingSlot() {
-  qDebug() << "preparation time" << pt.elapsed();
-  m_samplesCnt = -1;
-  if (m_audioOUT->state() != QAudio::ActiveState)
+  if (m_audioOUT->state() != QAudio::ActiveState) {
+    qDebug() << "preparation time" << pt.elapsed();
     m_audioOUT->start(m_buffer);
-  QTimer::singleShot(5, [=]{ decodeNext(); });
+  }
 }
 
 
@@ -303,7 +300,7 @@ void TaudioOUT::stateChangedSlot(QAudio::State state) {
 void TaudioOUT::playingFinishedSlot() {
 //   qDebug() << "stop playing";
   m_audioOUT->stop();
-  m_samplesCnt = 100000;
+  p_isPlaying = false;
   if (doEmit)
     emit noteFinished();
   doEmit = false; // emit once per play/stop cycle
@@ -312,19 +309,20 @@ void TaudioOUT::playingFinishedSlot() {
 
 void TaudioOUT::stop() {
   doEmit = false;
-  p_isPlaying = false;
   playingFinishedSlot();
 }
 
 
 void TaudioOUT::decodeNext() {
   p_decodingNoteNr++;
+  qDebug() << "decodeNext" << p_decodingNoteNr << "of" << playList().size() << pt.elapsed() << "[ms]";
+  pt.restart();
   if (p_decodingNoteNr < playList().size()) {
     int noteNr = playList()[p_decodingNoteNr].number;
     if (noteNr < REST_NR)
-      oggScale->decodeNote(noteNr); // when it will finish this method will call again
-      if (oggScale->isReady()) // decoding was ignored - note is ready
-        decodeNext(); // so call itself for the next note
+      oggScale->decodeNote(noteNr);
+    else
+      decodeNext();
   }
 }
 
