@@ -13,6 +13,9 @@ import QtQuick.Controls 2.2
 AbstractButton {
   id: root
 
+  property alias radius: bg.radius
+  property alias color: bg.color
+
   contentItem: Text {
     font: root.font
     horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
@@ -22,6 +25,7 @@ AbstractButton {
     text: root.text
   }
   background: TipRect {
+    id: bg
     color: enabled ? (checked ? activPal.highlight : activPal.button) : disdPal.button
     rised: !checked
   }

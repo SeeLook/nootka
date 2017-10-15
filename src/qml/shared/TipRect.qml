@@ -8,6 +8,7 @@ import QtGraphicalEffects 1.0
 
 Item {
   property alias color: bg.color
+  property alias radius: bg.radius
   property bool rised: true
 
   Rectangle {
