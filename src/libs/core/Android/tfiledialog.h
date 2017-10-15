@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,6 +18,7 @@
 
 #ifndef TFILEDIALOG_H
 #define TFILEDIALOG_H
+
 
 #include <QtWidgets/qdialog.h>
 #include <QtWidgets/qfilesystemmodel.h>
@@ -54,12 +55,15 @@ public:
   explicit TfileDialog(QWidget* parent, const QString& directory, const QString& filter, EacceptMode mode);
   ~TfileDialog();
 
-  static QString getSaveFileName(QWidget* parent = 0, const QString& directory = QString(), const QString& filter = QString());
-  static QString getOpenFileName(QWidget* parent = 0, const QString& directory = QString(), const QString& filter = QString());
+  static QString getSaveFileName(QWidget* parent = nullptr, const QString& directory = QString(), const QString& filter = QString());
+  static QString getOpenFileName(QWidget* parent = nullptr, const QString& directory = QString(), const QString& filter = QString());
 
   QString selectedFile() const { return m_selectedFile; }
 
-  void setDirection(QBoxLayout::Direction dir) { m_lay->setDirection(dir); } /** Left to right by default */
+      /**
+       * Left to right by default
+       */
+  void setDirection(QBoxLayout::Direction dir) { m_lay->setDirection(dir); }
   EacceptMode acceptMode() { return m_acceptMode; }
 
 
@@ -71,8 +75,10 @@ protected:
   void performAction(); /**< Open or save */
   void createNewDir(const QString& newDir); /**< Creates new directory with name @p newDir in current model node */
 
-    /**< Displays message about possibility of creating Nootka folder on external card (if exists - or internal then).
-     * If user agreed - creates the directory.  */
+    /**
+     * Displays message about possibility of creating Nootka folder on external card (if exists - or internal then).
+     * If user agreed - creates the directory.
+     */
   void createNootkaDir();
 
   QListWidgetItem* addMenuItem(const QIcon& icon, const QString& text = QString());
