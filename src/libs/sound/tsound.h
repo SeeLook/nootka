@@ -54,6 +54,7 @@ class NOOTKASOUND_EXPORT Tsound : public QObject
   Q_PROPERTY(int quantization READ quantization WRITE setQuantization NOTIFY quantizationChanged)
   Q_PROPERTY(bool stoppedByUser READ stoppedByUser WRITE setStoppedByUser NOTIFY stoppedByUserChanged)
   Q_PROPERTY(bool listening READ listening NOTIFY listeningChanged)
+  Q_PROPERTY(bool playing READ playing NOTIFY playingChanged)
   Q_PROPERTY(Tnote finishedNote READ note NOTIFY noteFinished)
 
 public:
@@ -135,6 +136,8 @@ public:
 
   bool listening() const;
 
+  bool playing() const;
+
   void pauseSinffing();
   void unPauseSniffing();
   bool isSnifferPaused();
@@ -167,6 +170,7 @@ signals:
   void quantizationChanged();
   void stoppedByUserChanged();
   void listeningChanged();
+  void playingChanged();
 
 private:
   void createPlayer();

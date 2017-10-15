@@ -13,9 +13,8 @@ set(LIB_NOOTKACORE_SRC
   tcolor.cpp
   tfingerpos.cpp
   tglobals.cpp
-#   tnoofont.cpp
   tpath.cpp
-#   tmtr.cpp
+  tmtr.cpp
   tnootkaqml.cpp
   taction.cpp
 
@@ -46,6 +45,8 @@ set(LIB_NOOTKACORE_SRC
   instruments/tpianobg.cpp
   instruments/tbandoneonbg.cpp
   instruments/tsaxbg.cpp
+
+#   Android/tmobilemenu.cpp
 
 #   exam/tqatype.cpp
 #   exam/tqaunit.cpp
