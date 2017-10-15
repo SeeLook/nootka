@@ -5,49 +5,59 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtGraphicalEffects 1.0
-import QtQuick.Window 2.2
 
 import Nootka 1.0
 
 
-Item {
+TmobileMenu {
+  id: root
+
   property Item toolBar: null // fake, for main window information
   property alias drawer: mainDrawer
 
   function open() { mainDrawer.scoreMenu.open() }
 
-  x: Screen.pixelDensity / 2
-  y: Screen.pixelDensity / 2
-  z: 100
-  width: Noo.fontSize() * 1.5
-  height: Noo.fontSize() * 4
+  z: 1000
+  width: fingerPixels()
+  height: fingerPixels()
 
   Rectangle {
     id: bg
-    anchors.fill: parent
-    color: area.pressed ? activPal.highlight : Qt.rgba(0.2, 0.2, 0.2, 0.05)
-    radius: Noo.fontSize() / 3
-    visible: false
-  }
-  DropShadow {
-    anchors.fill: bg
-    horizontalOffset: Noo.fontSize() / 5
-    verticalOffset: Noo.fontSize() / 5
-    radius: 8.0
-    samples: 17
-    color: activPal.shadow
-    source: bg
+    width: fingerPixels() / 2; height: fingerPixels(); x: fingerPixels() / 10; y:  fingerPixels() / 10;
+    color: pressed ? activPal.highlight : Qt.rgba(0.2, 0.2, 0.2, 0.05)
+    radius: fingerPixels() / 10
+    Column {
+      width: parent.width
+      spacing: fingerPixels() * 0.15625
+      topPadding: spacing
+      Rectangle {
+        width: bg.width / 4; height: width; radius: width / 2
+        anchors.horizontalCenter: parent.horizontalCenter
+        color: SOUND.playing ? "lime" : "black"
+      }
+      Rectangle {
+        width: bg.width / 4; height: width; radius: width / 2
+        anchors.horizontalCenter: parent.horizontalCenter
+        color: score.recordMode ? "red" : "black"
+      }
+      Rectangle {
+        width: bg.width / 4; height: width; radius: width / 2
+        anchors.horizontalCenter: parent.horizontalCenter
+        color: SOUND.listening ? "blue" : "black"
+      }
+    }
   }
 
-  Repeater {
-    model: 3
-    Rectangle {
-      width: Noo.fontSize() * 0.5
-      height: Noo.fontSize() * 0.5
-      x: Noo.fontSize() * 0.5
-      y: Noo.fontSize() * 0.625 * (index + 1) + index * Noo.fontSize() * 0.5
-      color: "black"
-      radius: width / 2
+  Taction {
+    id: pitchDetectAct
+    text: qsTr("Pitch recognition", "Android menu entry, could be 'Note recognition' or 'detection' as well")
+    icon: "delete"
+    onTriggered: {
+      SOUND.stoppedByUser = !SOUND.stoppedByUser
+      if (SOUND.listening)
+        SOUND.stopListen()
+      else
+        SOUND.startListen()
     }
   }
 
@@ -55,7 +65,7 @@ Item {
     id: mainDrawer
     property Item scoreMenu: null
     property NootkaLabel label: null
-    width: Noo.fontSize() * 16
+    width: Noo.fontSize() * 20
     height: nootkaWindow.height
     onVisibleChanged: {
       if (visible) {
@@ -76,16 +86,17 @@ Item {
           Column {
             id: drawerColumn
             width: parent.width
-            spacing: Screen.pixelDensity / 2
+            spacing: fingerPixels() / 8
             NootkaLabel {
               id: nooLabel
-              height: Noo.fontSize() * 6.328125 // (logo ratio) 0.3955078125 * 16
+              height: Noo.fontSize() * 7.91015625 // (logo ratio) 0.3955078125 * 20
               onClicked: {
                 mainDrawer.close()
                 nootkaWindow.aboutAct.trigger()
               }
               Component.onCompleted: mainDrawer.label = this
             }
+            MenuButton { action: pitchDetectAct; onClicked: mainDrawer.close() }
             MenuButton { action: nootkaWindow.levelAct; onClicked: mainDrawer.close() }
             MenuButton { action: nootkaWindow.examAct; onClicked: mainDrawer.close() }
             MenuButton { action: nootkaWindow.settingsAct; onClicked: mainDrawer.close() }
@@ -93,12 +104,13 @@ Item {
             Column { // drop-down menu with score actions
               id: scoreMenu
               function open() { visible ? state = "Invisible" : state = "Visible" }
-              spacing: Screen.pixelDensity / 2
+              spacing: fingerPixels() / 8
               width: parent.width - Noo.fontSize() / 2
               x: -parent.width
               visible: false
-              MenuButton { action: score.extraAccidsAct; onClicked: mainDrawer.close() }
+              MenuButton { action: score.playAct; onClicked: mainDrawer.close() }
               MenuButton { action: score.showNamesAct; onClicked: mainDrawer.close() }
+//               MenuButton { action: score.extraAccidsAct; onClicked: mainDrawer.close() } // Not implemented yet
               MenuButton { action: score.zoomInAct; onClicked: mainDrawer.close() }
               MenuButton { action: score.zoomOutAct; onClicked: mainDrawer.close() }
               MenuButton { action: score.openXmlAct; onClicked: mainDrawer.close() }
@@ -131,9 +143,27 @@ Item {
     }
   }
 
-  MouseArea {
-    id: area
-    anchors.fill: parent
-    onClicked: mainDrawer.open()
+
+  onClicked: mainDrawer.open()
+
+  onFlyClicked: {
+    if (currentFly)
+      currentFly.action.trigger()
+  }
+
+  Repeater {
+    model: flyActions
+    FlyItem {
+      visible: extra
+      x: flyX(index); y: flyY(index); width: fingerPixels() * 1.5; height: fingerPixels() * 1.5
+      action: modelData
+      color: currentFly === this ? activPal.highlight : activPal.button
+    }
+  }
+  Component.onCompleted: {
+    addAction(score.playAct)
+    addAction(score.recModeAct)
+    addAction(pitchDetectAct)
+    addAction(score.clearScoreAct)
   }
 }

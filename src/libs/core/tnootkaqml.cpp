@@ -41,8 +41,12 @@
 #include <QtWidgets/qapplication.h>
 #include <QtCore/qdir.h>
 #include <QtCore/qdatetime.h>
-#include <QtWidgets/qfiledialog.h>
-
+#if defined (Q_OS_ANDROID)
+  #include "Android/tfiledialog.h"
+  #include "Android/tmobilemenu.h"
+#else
+  #include <QtWidgets/qfiledialog.h>
+#endif
 #include <QtCore/qdebug.h>
 
 
@@ -79,6 +83,9 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qmlRegisterType<TbandoneonBg>("Nootka", 1, 0, "TbandoneonBg");
   qmlRegisterType<TsaxBg>("Nootka", 1, 0, "TsaxBg");
   qmlRegisterType<Taction>("Nootka", 1, 0, "Taction");
+#if defined (Q_OS_ANDROID)
+  qmlRegisterType<TmobileMenu>("Nootka", 1, 0, "TmobileMenu");
+#endif
 
   qmlRegisterUncreatableType<TnootkaQML>("Nootka", 1, 0, "Nootka", QStringLiteral("You cannot create an instance of the TnootkaQML."));
   qRegisterMetaType<Tinstrument>();
@@ -300,14 +307,22 @@ Tinstrument TnootkaQML::instr(int type) {
 
 
 QString TnootkaQML::getXmlToOpen() {
-  return QFileDialog::getOpenFileName(0, qApp->translate("TmelMan", "Open melody file"), QDir::homePath(),
+#if defined (Q_OS_ANDROID)
+  return TfileDialog::getOpenFileName(nullptr, QStringLiteral("/"), QStringLiteral("xml"));
+#else
+  return QFileDialog::getOpenFileName(nullptr, qApp->translate("TmelMan", "Open melody file"), QDir::homePath(),
                                       qApp->translate("TmelMan", "MusicXML file") + QLatin1String(" (*.xml)"));
+#endif
 }
 
 
 QString TnootkaQML::getXmlToSave() {
-  return QFileDialog::getSaveFileName(0, qApp->translate("TmelMan", "Save melody as:"), QDir::homePath(),
+#if defined (Q_OS_ANDROID)
+  return TfileDialog::getSaveFileName(nullptr, QStringLiteral("/"), QStringLiteral("xml"));
+#else
+  return QFileDialog::getSaveFileName(nullptr, qApp->translate("TmelMan", "Save melody as:"), QDir::homePath(),
                                       qTR("TmelMan", "MusicXML file") + QLatin1String(" (*.xml)"));
+#endif
 }
 
 

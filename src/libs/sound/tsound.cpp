@@ -114,6 +114,7 @@ void Tsound::play(const Tnote& note) {
     }
   }
 #endif
+  emit playingChanged();
 }
 
 
@@ -143,6 +144,7 @@ void Tsound::playScore() {
             m_stopSniffOnce = true;
           }
         }
+        emit playingChanged();
       }
   } else {
       stopPlaying();
@@ -305,6 +307,11 @@ bool Tsound::listening() const {
 }
 
 
+bool Tsound::playing() const {
+  return player->isPlaying();
+}
+
+
 void Tsound::stopListen() {
   if (sniffer)
     sniffer->stopListening();
@@ -450,6 +457,7 @@ void Tsound::playingFinishedSlot() {
     m_stopSniffOnce = false;
   }
   emit plaingFinished();
+  emit playingChanged();
 }
 
 

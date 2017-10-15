@@ -18,7 +18,6 @@
 
 
 #include <tinitcorelib.h>
-//#include <tmtr.h>
 #include <QtWidgets/qapplication.h>
 #include <QtGui/qicon.h>
 #include <QtQml/qqmlapplicationengine.h>
@@ -29,6 +28,7 @@
 #include <QtCore/qfile.h>
 #include <QtCore/qsettings.h>
 
+#include <tmtr.h>
 #include <tpath.h>
 #include <tnootkaqml.h>
 #include <tsound.h>
@@ -106,7 +106,7 @@ int main(int argc, char *argv[])
     resetConfig = false;
 #endif
     a = new QApplication(argc, argv);
-//     Tmtr::init(a);
+    Tmtr::init(a);
 
     gl = new Tglobals();
     gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
@@ -154,8 +154,12 @@ int main(int argc, char *argv[])
 #endif
     }
     if (firstTime) {
+#if defined (Q_OS_ANDROID)
+      qDebug() << "NOOTKA LAUNCH TIME" << startElapsed.nsecsElapsed() / 1000000.0 << " [ms]";
+#else
       QTextStream o(stdout);
       o << "\033[01;35m[Nootka launch time: " << startElapsed.nsecsElapsed() / 1000000.0 << " [ms]\033[01;00m\n";
+#endif
     }
     firstTime = false;
     exitCode = a->exec();

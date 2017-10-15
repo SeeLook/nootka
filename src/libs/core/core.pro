@@ -11,7 +11,7 @@ SOURCES +=  tcolor.cpp\
             tinitcorelib.cpp\
 #             tnoofont.cpp\
             tpath.cpp\
-#             tmtr.cpp\
+            tmtr.cpp\
             tnootkaqml.cpp\
             taction.cpp\
           \
@@ -52,6 +52,8 @@ SOURCES +=  tcolor.cpp\
             instruments/tsaxbg.cpp\
           \
             Android/tandroid.cpp\
+            Android/tfiledialog.cpp\
+            Android/tmobilemenu.cpp\
 
 HEADERS  += nootkaconfig.h\
             texamparams.h\
@@ -64,7 +66,7 @@ HEADERS  += nootkaconfig.h\
             tnoofont.h\
             tpath.h\
             tscoreparams.h\
-#             tmtr.h\
+            tmtr.h\
             tnootkaqml.h\
             taction.h\
           \
@@ -107,6 +109,8 @@ HEADERS  += nootkaconfig.h\
             instruments/tsaxbg.h\
           \
             Android/tandroid.h\
+            Android/tfiledialog.h\
+            Android/tmobilemenu.h\
 
 CONFIG += mobility warn_off
 MOBILITY = 
