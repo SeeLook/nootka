@@ -69,10 +69,10 @@ Score {
     id: keyName
     parent: firstStaff
     visible: GLOB.showKeyName && enableKeySign
-    x: clef === Tclef.PianoStaffClefs ? 6.5 : 4.5
-    y: clef === Tclef.PianoStaffClefs ? 2.5 : 5
+    x: clef === Tclef.PianoStaffClefs ? 7.5 : 5.5
+    y: clef === Tclef.PianoStaffClefs ? 3.7 : 6.2
     color: activPal.text
-    font { family: "Sans"; pointSize: 1.5 }
+    font { family: "Sans"; pointSize: 1.3 }
     text: getKeyNameText()
     function getKeyNameText() {
       return enableKeySign && firstStaff.keySignature ? Noo.majAndMinKeyName(firstStaff.keySignature.key) : ""
