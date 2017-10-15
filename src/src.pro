@@ -6,9 +6,9 @@ TARGET = Nootka2
 TEMPLATE = app
 
 SOURCES += main.cpp \
-           main/tnameitem.cpp \
+           main/tnameitem.cpp\
 
-HEADERS  += main/tnameitem.h \
+HEADERS  += main/tnameitem.h\
 
 
 CONFIG += mobility warn_off
