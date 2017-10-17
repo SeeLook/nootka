@@ -60,6 +60,7 @@ public:
   bool isSingleNoteMode; /**< score mode (single or multi) */
   qreal scoreScale; /**< score scale - user preferred staff size */
   int tempo; /**< playback tempo */
+  QString lastXmlDir;
 
 //============= common with score widget and note name ==========================================
   bool doubleAccidentalsEnabled; /**< default @p TRUE */

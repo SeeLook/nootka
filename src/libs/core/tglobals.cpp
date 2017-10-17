@@ -363,6 +363,12 @@ void Tglobals::loadSettings(QSettings* cfg) {
       S->isSingleNoteMode = cfg->value(QStringLiteral("singleNoteMode"), false).toBool();
       S->tempo = cfg->value(QStringLiteral("tempo"), 120).toInt();
       S->scoreScale = cfg->value(QStringLiteral("scoreScale"), 1.0).toReal();
+      S->lastXmlDir = cfg->value(QStringLiteral("lastXmlDir"), QDir::homePath()).toString();
+#if defined (Q_OS_ANDROID)
+      S->lastXmlDir = cfg->value(QStringLiteral("lastXmlDir"), Tandroid::getExternalPath()).toString();
+      if (!QFileInfo::exists(S->lastXmlDir)) // reset if doesn't exist
+        S->lastXmlDir = Tandroid::getExternalPath();
+#endif
   cfg->endGroup();
 
 
@@ -584,6 +590,10 @@ Tnote::EnameStyle Tglobals::getSolfegeStyle() {
 }
 
 
+QString Tglobals::lastXmlDir() const { return S->lastXmlDir; }
+void Tglobals::setLastXmlDir(const QString& lastXml) { S->lastXmlDir = lastXml; }
+
+
 
 void Tglobals::storeSettings(QSettings* cfg) {
   cfg->beginGroup(QStringLiteral("General"));
@@ -621,6 +631,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue(QStringLiteral("singleNoteMode"), S->isSingleNoteMode);
       cfg->setValue(QStringLiteral("tempo"), S->tempo);
       cfg->setValue(QStringLiteral("scoreScale"), S->scoreScale);
+      cfg->setValue(QStringLiteral("lastXmlDir"), S->lastXmlDir);
   cfg->endGroup();
 
   cfg->beginGroup(QLatin1String("noteName"));
@@ -683,7 +694,6 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue(QStringLiteral("a440Offset"), A->a440diff);
       cfg->setValue(QStringLiteral("intonation"), A->intonation);
       cfg->setValue(QStringLiteral("forwardInput"), A->forwardInput);
-//       cfg->setValue(QStringLiteral("playDetected"), A->playDetected);
       cfg->setValue(QStringLiteral("equalLoudness"), A->equalLoudness);
       cfg->setValue(QStringLiteral("minVolumeToSplit"), A->minSplitVol);
       cfg->setValue(QStringLiteral("skipStillerThan"), A->skipStillerVal);
