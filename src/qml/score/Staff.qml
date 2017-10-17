@@ -75,12 +75,12 @@ Item {
   }
 
   Text { // measure number
-      x: clef.x
+      x: 1
       y: staffObj.upperLine - (clef.type === Tclef.Treble_G || clef.type === Tclef.Treble_G_8down 
-                              || clef.type === Tclef.Tenor_C || clef.type === Tclef.PianoStaffClefs ? 6 : 3)
+                              || clef.type === Tclef.Tenor_C || clef.type === Tclef.PianoStaffClefs ? 8.5 : 6)
       text: staffObj.firstMeasureNr + 1
       visible: staffObj.number > 0 && staffObj.firstMeasureNr > 0
-      font.pixelSize: 2
+      font { pixelSize: clef.type === Tclef.PianoStaffClefs ? 2 : 1.5; family: "Scorek" }
       color: activPal.text
   }
 

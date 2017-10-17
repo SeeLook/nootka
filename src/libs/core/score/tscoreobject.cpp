@@ -801,13 +801,15 @@ void TscoreObject::addStaff(TstaffObject* st) {
     connect(st, &TstaffObject::upperLineChanged, this, &TscoreObject::upperLineChanged);
   }
 
-  // next staves position ca be set only when staffItem is set, see TstaffObject::setStaffItem() then
+  // next staves position can be set only when staffItem is set, see TstaffObject::setStaffItem() then
   connect(st, &TstaffObject::hiNotePosChanged, [=](int staffNr, qreal offset){
     for (int i = staffNr; i < m_staves.size(); ++i) // move every staff about offset
       m_staves[i]->staffItem()->setY(m_staves[i]->staffItem()->y() + offset);
     emit stavesHeightChanged();
   });
   connect(st, &TstaffObject::loNotePosChanged, [=](int staffNr, qreal offset){
+    if (staffNr == 0) // never change Y position of first staff - it is always 0
+        staffNr = 1;
     if (m_staves.size() > 1 && staffNr < m_staves.size() - 1) { // ignore change of the last staff
       for (int i = staffNr; i < m_staves.size(); ++i) // move every staff about offset
         m_staves[i]->staffItem()->setY(m_staves[i]->staffItem()->y() + offset);
@@ -853,9 +855,10 @@ void TscoreObject::deleteStaff(TstaffObject* st) {
 void TscoreObject::adjustScoreWidth() {
 CHECKTIME (
   m_adjustInProgress = true;
-  for (QList<TstaffObject*>::iterator s = m_staves.begin(); s != m_staves.end(); ++s) {
-    auto curr = *s;
-    curr->refresh();
+  int refreshStaffNr = 0;
+  while (refreshStaffNr < stavesCount()) {
+    m_staves[refreshStaffNr]->refresh();
+    refreshStaffNr++;
   }
   m_adjustInProgress = false;
   updateStavesPos();
@@ -869,9 +872,9 @@ void TscoreObject::updateStavesPos() {
   TstaffObject* prev = nullptr;
   for (QList<TstaffObject*>::iterator s = m_staves.begin(); s != m_staves.end(); ++s) {
     auto curr = *s;
-    if (prev && curr->number() < stavesCount() - 1)
+    if (curr->number() != 0 && curr->number() < stavesCount())
       curr->staffItem()->setY(prev->staffItem()->y() + (prev->loNotePos() - curr->hiNotePos() + 4.0) * prev->scale()); // TODO scordature!
-      prev = curr;
+    prev = curr;
   }
   emit stavesHeightChanged();
 }
