@@ -307,22 +307,30 @@ Tinstrument TnootkaQML::instr(int type) {
 
 
 QString TnootkaQML::getXmlToOpen() {
+  QString openFile;
 #if defined (Q_OS_ANDROID)
-  return TfileDialog::getOpenFileName(nullptr, QStringLiteral("/"), QStringLiteral("xml"));
+  openFile = TfileDialog::getOpenFileName(nullptr, GLOB->lastXmlDir(), QStringLiteral("xml"));
 #else
-  return QFileDialog::getOpenFileName(nullptr, qApp->translate("TmelMan", "Open melody file"), QDir::homePath(),
+  openFile = QFileDialog::getOpenFileName(nullptr, qApp->translate("TmelMan", "Open melody file"), GLOB->lastXmlDir(),
                                       qApp->translate("TmelMan", "MusicXML file") + QLatin1String(" (*.xml)"));
 #endif
+  if (!openFile.isEmpty())
+    GLOB->setLastXmlDir(QFileInfo(openFile).absoluteDir().path());
+  return openFile;
 }
 
 
 QString TnootkaQML::getXmlToSave() {
+  QString saveFile;
 #if defined (Q_OS_ANDROID)
-  return TfileDialog::getSaveFileName(nullptr, QStringLiteral("/"), QStringLiteral("xml"));
+  saveFile = TfileDialog::getSaveFileName(nullptr, GLOB->lastXmlDir(), QStringLiteral("xml"));
 #else
-  return QFileDialog::getSaveFileName(nullptr, qApp->translate("TmelMan", "Save melody as:"), QDir::homePath(),
+  saveFile = QFileDialog::getSaveFileName(nullptr, qApp->translate("TmelMan", "Save melody as:"), GLOB->lastXmlDir(),
                                       qTR("TmelMan", "MusicXML file") + QLatin1String(" (*.xml)"));
 #endif
+  if (!saveFile.isEmpty())
+    GLOB->setLastXmlDir(QFileInfo(saveFile).absoluteDir().path());
+  return saveFile;
 }
 
 
