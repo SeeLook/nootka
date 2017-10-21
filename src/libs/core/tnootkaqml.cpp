@@ -34,6 +34,7 @@
 #include "instruments/tsaxbg.h"
 #include "taction.h"
 #include "music/ttuneobject.h"
+#include "tmtr.h"
 
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qfile.h>
@@ -388,7 +389,7 @@ int TnootkaQML::fontSize() {
 #if defined (Q_OS_ANDROID)
   return (qApp->font().pixelSize() > 0 ? qApp->font().pixelSize() : qApp->font().pointSize()) * 0.8;
 #else
-  return (qApp->font().pixelSize() > 0 ? qApp->font().pixelSize() : qApp->font().pointSize()) * 1.2;
+  return Tmtr::fingerPixels() * 0.45;
 #endif
 }
 

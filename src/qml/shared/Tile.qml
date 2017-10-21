@@ -53,7 +53,7 @@ BorderImage {
         anchors.bottom: parent.Bottom
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width * 0.96
-        font.pixelSize: Noo.fontSize() * 0.85
+        font.pixelSize: Noo.fontSize() * 0.8
         textFormat: Text.RichText
         horizontalAlignment: Text.AlignHCenter
         color: enabled ? activPal.text : disdPal.text

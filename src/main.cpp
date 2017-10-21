@@ -69,7 +69,7 @@ bool resetConfig;
 
 int main(int argc, char *argv[])
 {
-  QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+//   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
 #if defined (Q_OS_ANDROID)
   qputenv("QT_ANDROID_VOLUME_KEYS", "1"); // Handle volume keys by Qt, lock native Android behavior
@@ -107,6 +107,11 @@ int main(int argc, char *argv[])
 #endif
     a = new QApplication(argc, argv);
     Tmtr::init(a);
+#if !defined (Q_OS_ANDROID)
+    auto f = a->font();
+    f.setPixelSize(Tmtr::fingerPixels() * 0.45);
+    a->setFont(f);
+#endif
 
     gl = new Tglobals();
     gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
