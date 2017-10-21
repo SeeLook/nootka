@@ -13,9 +13,9 @@ CheckBox {
   contentItem: Text {
     id: content
     text: chB.text
-    anchors.verticalCenter: parent.verticalCenter
+    y: (contentItem.height - height) / 2
     leftPadding: indicator.width + font.pixelSize / 2
     color: chB.enabled ? activPal.text : disdPal.text
-    font: chB.font
+    font { family: chB.font.family; pixelSize: Noo.fontSize() }
   }
 }
