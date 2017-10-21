@@ -120,19 +120,27 @@ Section "MainGroup" SEC01
   File "changes"
   File "gpl"
 
-  SetOutPath "$INSTDIR\platforms"
-    File "platforms\qwindows.dll"
-
   SetOutPath "$INSTDIR\bearer"
-    File "bearer\qgenericbearer.dll"
-    File "bearer\qnativewifibearer.dll"
+    File "bearer\*.dll"
 
   SetOutPath "$INSTDIR\imageformats"
     File "imageformats\*.dll"
 
+  SetOutPath "$INSTDIR\platforms"
+    File "platforms\qwindows.dll"
 
-  SetOutPath "$INSTDIR\printsupport"
-    File "printsupport\windowsprintersupport.dll"
+  SetOutPath "$INSTDIR\qmltooling"
+    File "qmltooling\*.dll"
+
+  SetOutPath "$INSTDIR"
+    File /r "Qt"
+    File /r /x "*.qmlc" "QtGraphicalEffects"
+    File /r /x "*.qmlc" "QtQml"
+    File /r /x "*.qmlc" "QtQuick"
+    File /r /x "*.qmlc" "QtQuick.2"
+
+;  SetOutPath "$INSTDIR\printsupport"
+;    File "printsupport\windowsprintersupport.dll"
   
   SetOutPath "$INSTDIR\sounds"
     File "sounds\*.ogg"
@@ -197,7 +205,9 @@ Section Uninstall
   Delete "$INSTDIR\platforms\*.*"
   Delete "$INSTDIR\bearer\*.*"
   Delete "$INSTDIR\imageformats\*.*"
-  Delete "$INSTDIR\printsupport\*.*"
+  Delete "$INSTDIR\qmltooling\*.*"
+  Delete "$INSTDIR\Qt\*.*"
+;  Delete "$INSTDIR\printsupport\*.*"
 
   Delete "$SMPROGRAMS\Nootka\Uninstall.lnk"
   Delete "$SMPROGRAMS\Nootka\Website.lnk"
@@ -213,6 +223,12 @@ Section Uninstall
   RMDir "$INSTDIR\bearer"
   RMDir "$INSTDIR\printsupport"
   RMDir "$INSTDIR\imageformats"
+  RMDir "$INSTDIR\qmltooling"
+  RMDir  \r "$INSTDIR\Qt"
+  RMDir  \r "$INSTDIR\QtGraphicalEffects"
+  RMDir  \r "$INSTDIR\QtQml"
+  RMDir  \r "$INSTDIR\QtQuick"
+  RMDir  \r "$INSTDIR\QtQuick.2"
   RMDir "$INSTDIR"
 
   !insertmacro APP_UNASSOCIATE "nel" "nootka.level"

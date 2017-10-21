@@ -115,6 +115,7 @@ if(APPLE OR WIN32)
  LIST(APPEND langs
    "${QT_TRANSLATIONS_DIR}/qtbase_cs.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_de.qm"
+   "${QT_TRANSLATIONS_DIR}/qtbase_es.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_fr.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_pl.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_ru.qm"
@@ -132,7 +133,7 @@ if(APPLE)
 endif(APPLE)
 
 
-file(GLOB snds "${CMAKE_CURRENT_SOURCE_DIR}/sounds/*-guitar.ogg")
+file(GLOB snds "${CMAKE_CURRENT_SOURCE_DIR}/sounds/*.ogg")
 install(FILES ${snds} DESTINATION "${INS_PREF}/sounds")
 
 # files related with Linux (mime, desktop entry, icons)
@@ -160,11 +161,10 @@ if(UNIX AND NOT APPLE)
 endif(UNIX AND NOT APPLE)
 
 if(WIN32)
-  get_filename_component(VORBIS_DIR "${VORBIS_LIBRARIES}" DIRECTORY)
-  get_filename_component(MAKE_DIR "${CMAKE_RC_COMPILER}" DIRECTORY) # it works ether with make and ninja
+#  get_filename_component(MAKE_DIR "${CMAKE_RC_COMPILER}" DIRECTORY) # it works ether with make and ninja
   install(FILES picts/nootka-exam.ico picts/nootka.ico picts/nootka-levels.ico picts/pack.ico picts/logo.bmp picts/logo-left.bmp DESTINATION "${INS_PREF}/picts") #ico
   install(FILES packaging/nsis/nootka-utf8.nsi packaging/nsis/fileasoc.nsh ${CMAKE_BINARY_DIR}/nsis/NSIS.definitions.nsh DESTINATION "${INS_PREF}")
-#   install(FILES "${FFTW3_LIBRARIES}" "${VORBIS_LIBRARIES}" "${VORBIS_DIR}/libvorbis.dll" "${VORBIS_DIR}/libogg.dll" DESTINATION "${INS_PREF}")
+  install(FILES packaging/nsis/qt.conf DESTINATION "${INS_PREF}")
 endif(WIN32)
 
 ###########################################################################

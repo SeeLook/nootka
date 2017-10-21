@@ -170,8 +170,6 @@ get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
 get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
 
 if(WIN32)
-#   set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/nsis/Modules/")
-#   LIST(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/packaging/nsis/Modules")
   configure_file(
     ${CMAKE_CURRENT_SOURCE_DIR}/nsis/definitions.nsh.in
     ${CMAKE_BINARY_DIR}/nsis/NSIS.definitions.nsh
@@ -184,7 +182,7 @@ if(WIN32)
 
 	add_custom_target(deploy
     COMMAND echo "deploying..."
-    COMMAND ${QT_BINARY_DIR}/windeployqt.exe ${CMAKE_INSTALL_PREFIX}/nootka.exe ${CMAKE_INSTALL_PREFIX}/libNootkaUpdaterPlugin.dll ${CMAKE_INSTALL_PREFIX}/libNootkaSound.dll --release --no-translations --no-svg
+    COMMAND ${QT_BINARY_DIR}/windeployqt.exe ${CMAKE_INSTALL_PREFIX}/nootka.exe ${CMAKE_INSTALL_PREFIX}/libNootkaSound.dll --release --no-translations --no-svg --qmldir "${CMAKE_SOURCE_DIR}/src/qml"
 	)
 
 	add_custom_target(runinplace
