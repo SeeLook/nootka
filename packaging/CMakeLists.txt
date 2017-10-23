@@ -178,7 +178,7 @@ if(WIN32)
 	get_filename_component(VORBIS_DIR "${VORBIS_LIBRARIES}" DIRECTORY)
 	get_filename_component(MAKE_DIR "${CMAKE_RC_COMPILER}" DIRECTORY)
 
-	file(GLOB ICU_DLLS "${QT_BINARY_DIR}/icu*.dll") # icudtXX.dll icuinXX.dll icuucXX.dll
+# 	file(GLOB ICU_DLLS "${QT_BINARY_DIR}/icu*.dll") # icudtXX.dll icuinXX.dll icuucXX.dll
 
 	add_custom_target(deploy
     COMMAND echo "deploying..."
@@ -194,7 +194,7 @@ if(WIN32)
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt5Network.dll ${CMAKE_BINARY_DIR}/src/.
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt5PrintSupport.dll ${CMAKE_BINARY_DIR}/src/.
 # 		foreach(ICU ${ICU_DLLS})
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${ICU_DLLS} ${CMAKE_BINARY_DIR}/src/.
+# 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${ICU_DLLS} ${CMAKE_BINARY_DIR}/src/.
 # 		endforeach()
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/src/plugins/platforms
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/../plugins/platforms/qwindows.dll ${CMAKE_BINARY_DIR}/src/plugins/platforms/.
@@ -240,13 +240,12 @@ endif(APPLE)
 
 if (UNIX AND NOT APPLE)
 # appimage target
-# When older Linux system is used for build (i.e. Ubuntu Trusty 14.04)
-# and external PPA is used to take Qt version 5.6.2 - it uses own environment
-# during compilation (that Qt is installed into /opt):
-# $source /opt/qt56/bin/set-env.sh
-# To make this working, just call make appimage from another terminal
-# but not in the same one as the compilation process
+# install linuxdeployqt & appimagetool first - they have to be in $PATH
+# To correctly generate AppImage set install prefix to '/usr'
+# and when using with older Linux system (i.e. Ubuntu Trusty 14.04)
+# call
+# cmake with -DQT_QMAKE_EXECUTABLE=/opt/qtXX/bin/qmake
   add_custom_target(appimage
-    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/appimage/make-appimage.sh ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${QT_BINARY_DIR} ${Nootka_VERSION_FULL}
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/appimage/make-appimage.sh ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${QT_QMAKE_EXECUTABLE} ${Nootka_VERSION_FULL}
   )
 endif()

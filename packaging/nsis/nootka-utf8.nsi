@@ -119,6 +119,7 @@ Section "MainGroup" SEC01
 
   File "changes"
   File "gpl"
+  File "qt.conf"
 
   SetOutPath "$INSTDIR\bearer"
     File "bearer\*.dll"
@@ -199,6 +200,7 @@ Section Uninstall
   Delete "$INSTDIR\sounds\*.*"
   Delete "$INSTDIR\changes"
   Delete "$INSTDIR\gpl"
+  Delete "$INSTDIR\qt.conf"
   Delete "$INSTDIR\picts\*.*"
   Delete "$INSTDIR\lang\*.*"
   Delete "$INSTDIR\fonts\*.*"
@@ -206,7 +208,6 @@ Section Uninstall
   Delete "$INSTDIR\bearer\*.*"
   Delete "$INSTDIR\imageformats\*.*"
   Delete "$INSTDIR\qmltooling\*.*"
-  Delete "$INSTDIR\Qt\*.*"
 ;  Delete "$INSTDIR\printsupport\*.*"
 
   Delete "$SMPROGRAMS\Nootka\Uninstall.lnk"
@@ -224,11 +225,11 @@ Section Uninstall
   RMDir "$INSTDIR\printsupport"
   RMDir "$INSTDIR\imageformats"
   RMDir "$INSTDIR\qmltooling"
-  RMDir  \r "$INSTDIR\Qt"
-  RMDir  \r "$INSTDIR\QtGraphicalEffects"
-  RMDir  \r "$INSTDIR\QtQml"
-  RMDir  \r "$INSTDIR\QtQuick"
-  RMDir  \r "$INSTDIR\QtQuick.2"
+  RMDir  /r "$INSTDIR\Qt"
+  RMDir  /r "$INSTDIR\QtGraphicalEffects"
+  RMDir  /r "$INSTDIR\QtQml"
+  RMDir  /r "$INSTDIR\QtQuick"
+  RMDir  /r "$INSTDIR\QtQuick.2"
   RMDir "$INSTDIR"
 
   !insertmacro APP_UNASSOCIATE "nel" "nootka.level"
