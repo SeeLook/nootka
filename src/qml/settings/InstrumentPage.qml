@@ -25,25 +25,24 @@ Flickable {
     id: instrCol
     width: parent.width
     spacing: Noo.fontSize() / 2
-    Text {
-      text: qsTr("Instrument")
-      anchors.horizontalCenter: parent.horizontalCenter
-      color: activPal.text
-    }
-    InstrumentSelector {
-      id: instrSel
-      anchors.horizontalCenter: parent.horizontalCenter
-      instrument: GLOB.instrument.type
-      onInstrumentChanged: { // load instrument profile
-        if (first) {
-            transp.shift = GLOB.transposition
-            prefFlatRadio.checked = GLOB.preferFlats
-            first = false
-        } else {
-            var ins = Noo.instr(instrument)
-            transp.shift = ins.transposition
-            prefFlatRadio.checked = ins.isSax ? true : false
-            prefSharpRadio.checked = ins.isSax ? false : true
+
+    Tile {
+      description: qsTr("Instrument")
+      InstrumentSelector {
+        id: instrSel
+        anchors.horizontalCenter: parent.horizontalCenter
+        instrument: GLOB.instrument.type
+        onInstrumentChanged: { // load instrument profile
+          if (first) {
+              transp.shift = GLOB.transposition
+              prefFlatRadio.checked = GLOB.preferFlats
+              first = false
+          } else {
+              var ins = Noo.instr(instrument)
+              transp.shift = ins.transposition
+              prefFlatRadio.checked = ins.isSax ? true : false
+              prefSharpRadio.checked = ins.isSax ? false : true
+          }
         }
       }
     }

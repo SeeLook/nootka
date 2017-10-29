@@ -72,10 +72,10 @@ Flickable {
           dragMargin: width / 2
           path: Path {
             startX: 0
-            startY: Noo.fontSize() * 1.2
+            startY: Noo.fontSize() * 1.4
             PathLine {
               x: pathView.width
-              y: Noo.fontSize() * 1.2
+              y: Noo.fontSize() * 1.4
             }
           }
         }
