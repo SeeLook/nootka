@@ -6,7 +6,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 
 
-Row {
+Grid {
   property int shift: 0
   property int outShift: shiftSpin.value * (upRadio.checked ? 1 : -1) // read shift from here
 
@@ -16,17 +16,23 @@ Row {
   }
 
   anchors.horizontalCenter: parent.horizontalCenter
+  horizontalItemAlignment: Grid.AlignHCenter; verticalItemAlignment: Grid.AlignVCenter
   spacing: Noo.fontSize()
+  columns: parent.width < Noo.fontSize() * 50 ? 1 : 2
 
-  TlabelText { text: qsTr("Transposition") }
-  SpinBox {
-    id: shiftSpin
-    anchors.verticalCenter: parent.verticalCenter
-    from: 0; to: 24
-    value: Math.abs(shift)
-    onValueChanged: shift = value * (upRadio.checked ? 1 : -1)
+  Row {
+    spacing: Noo.fontSize()
+    TlabelText { text: qsTr("Transposition") }
+    SpinBox {
+      id: shiftSpin
+      anchors.verticalCenter: parent.verticalCenter
+      from: 0; to: 24
+      value: Math.abs(shift)
+      onValueChanged: shift = value * (upRadio.checked ? 1 : -1)
+    }
+    TlabelText { text: qsTr("semitone(s)", "", shiftSpin.value); width: Noo.fontSize() * 12 }
   }
-  TlabelText { text: qsTr("semitone(s)", "", shiftSpin.value); width: Noo.fontSize() * 15 }
+
   Column {
     RadioButton { id: upRadio; text: "<b><font size=\"7\">\u2191</font></b> " + qsTr("up") }
     RadioButton { id: downRadio; text: "<b><font size=\"7\">\u2193</font></b> " + qsTr("down") }
