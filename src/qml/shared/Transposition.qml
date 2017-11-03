@@ -34,7 +34,7 @@ Grid {
   }
 
   Column {
-    RadioButton { id: upRadio; text: "<b><font size=\"7\">\u2191</font></b> " + qsTr("up") }
-    RadioButton { id: downRadio; text: "<b><font size=\"7\">\u2193</font></b> " + qsTr("down") }
+    RadioButton { id: upRadio; text: "<b><font size=\"6\">\u2191</font></b> " + qsTr("up") }
+    RadioButton { id: downRadio; text: "<b><font size=\"6\">\u2193</font></b> " + qsTr("down") }
   }
 }

@@ -40,7 +40,7 @@ Flickable {
       Tumbler {
         id: langTumb
         width: parent.width
-        height: Noo.fontSize() * 9
+        height: Noo.fontSize() * 8
         visibleItemCount: Math.min(((width / (Noo.fontSize() * 7)) / 2) * 2 - 1, 7)
         model: langModel
         delegate: Component {
@@ -57,7 +57,7 @@ Flickable {
               anchors.horizontalCenter: parent.horizontalCenter
               text: flag === "" ? qsTranslate("TglobalSettings", lang) : lang
               color: activPal.text
-              font.bold: langTumb.currentIndex === index
+              font { bold: langTumb.currentIndex === index; pixelSize: Noo.fontSize() * 0.8 }
             }
           }
         }
@@ -81,7 +81,7 @@ Flickable {
         }
         Rectangle {
           z: -1; width: Noo.fontSize() * 9; height: parent.height * 0.7
-          x: parent.width / 2 - width / 2; y: -parent.height * 0.05
+          x: parent.width / 2 - width / 2; y: 2 //-parent.height * 0.05
           color: Noo.alpha(activPal.highlight, 100)
           radius: width / 12
         }
