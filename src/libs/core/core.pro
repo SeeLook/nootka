@@ -31,6 +31,7 @@ SOURCES +=  tcolor.cpp\
             music/tmelody.cpp\
             music/tnamestylefilter.cpp\
             music/tnote.cpp\
+            music/tnotestruct.cpp\
             music/ttune.cpp\
             music/ttuneobject.cpp\
             music/trhythm.cpp\
