@@ -198,4 +198,9 @@ Flickable {
     accidControl.show = false
     rtmControl.show = false
   }
+
+  function deleteLast() {
+    scoreObj.deleteLastNote()
+    currentNote = null
+  }
 }
