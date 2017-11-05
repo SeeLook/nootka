@@ -2420,7 +2420,7 @@ nicht öffnen</translation>
     </message>
 </context>
 <context>
-    <name>TnoteNameSettings</name>
+    <name>ScorePage</name>
     <message>
         <source>show octave in name of note</source>
         <translation>zeige Oktave im Notennamen</translation>
@@ -2438,8 +2438,8 @@ nicht öffnen</translation>
         <translation>Notenname in der Notation</translation>
     </message>
     <message>
-        <source>Shows names of all notes on the staff.</source>
-        <translation>Zeigt die Namen aller Noten in der Notation.</translation>
+        <source>Show names of all notes on the score</source>
+        <translation>Notenname in der Notation</translation>
     </message>
 </context>
 <context>

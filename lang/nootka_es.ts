@@ -2370,7 +2370,7 @@
     </message>
 </context>
 <context>
-    <name>TnoteNameSettings</name>
+    <name>ScorePage</name>
     <message>
         <source>names highlight color</source>
         <translation>color de resaltado de nombres</translation>
@@ -2388,8 +2388,8 @@
         <translation>nombre de nota en la partitura</translation>
     </message>
     <message>
-        <source>Shows names of all notes on the staff.</source>
-        <translation>Muestra los nombres de todas las notas en la partitura.</translation>
+        <source>Show names of all notes on the staff</source>
+        <translation>Nombre de nota en la partitura</translation>
     </message>
 </context>
 <context>
