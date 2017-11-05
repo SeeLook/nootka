@@ -378,6 +378,11 @@ Tnote TscoreObject::noteOfItem(TnoteObject* item) const {
 }
 
 
+Tnote TscoreObject::noteAt(int index) const {
+  return index >= 0 && index < m_notes.count() ? m_notes[index] : Tnote();
+}
+
+
 void TscoreObject::noteClicked(qreal yPos) {
   if (!activeNote())
     return;
