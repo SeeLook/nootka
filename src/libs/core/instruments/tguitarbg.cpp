@@ -63,12 +63,12 @@ QPointF TguitarBg::fretToPos(const TfingerPos& pos) {
 
 void TguitarBg::setNote(const Tnote& n) {
   if (!p_note.compareNotes(n)) {
-    short noteNr = n.chromatic();
+    short noteNr = n.chromatic() - GLOB->transposition();
     bool foundPos = false;
     bool doShow = n.isValid();
     for (int s = 0; s < 6; ++ s) {
       auto strNr = GLOB->strOrder(s);
-      int fret = noteNr - GLOB->Gtune()->str(strNr + 1).chromatic();
+      int fret = noteNr - GLOB->Gtune()->strChromatic(strNr + 1);
       if (doShow && fret >= 0 && fret <= GLOB->GfretsNumber) { // found
           if (fret == 0) { // open string
               m_fingerItems[strNr]->setVisible(false);
@@ -90,9 +90,11 @@ void TguitarBg::setNote(const Tnote& n) {
     }
     setOutOfScale(!foundPos && n.isValid());
     if (outOfScale())
-      p_note.note = 0; // invalidate it
-    else
-      p_note = n;
+        p_note.note = 0; // invalidate it
+    else {
+        p_note = n;
+        p_note.transpose(GLOB->transposition());
+    }
   }
 }
 
@@ -341,7 +343,7 @@ void TguitarBg::mousePressEvent(QMouseEvent* event) {
 CHECKTIME (
   if (event->buttons() & Qt::LeftButton) {
     if (m_curStr < 7) {
-      Tnote n(GLOB->Gtune()->str(m_curStr + 1).chromatic() + m_curFret);
+      Tnote n(GLOB->Gtune()->strChromatic(m_curStr + 1) + m_curFret);
       setNote(n);
       emit fingerPosChanged();
       emit noteChanged();
@@ -389,35 +391,35 @@ void TguitarBg::paintFingerAtPoint(QPoint p) {
 
 
 void TguitarBg::setTune() {
-  for (quint8 i = 0; i < GLOB->Gtune()->stringNr(); i++) {
-    if (GLOB->Gtune()->str(i + 1).chromatic() > 14) { // highest than cis1
-      m_strColors[i] = QColor(255, 255, 255, 125); // are nylon
-      m_widthFromPitch[i] = 2; // and thinner
-    } else if (GLOB->Gtune()->str(i + 1).chromatic() > 10) { // highest than gis
+  for (int i = 0; i < GLOB->Gtune()->stringNr(); i++) {
+    if (GLOB->Gtune()->strChromatic(i + 1) + GLOB->transposition() > 14) { // highest than cis1
+        m_strColors[i] = QColor(255, 255, 255, 125); // are nylon
+        m_widthFromPitch[i] = 2; // and thinner
+    } else if (GLOB->Gtune()->strChromatic(i + 1) + GLOB->transposition() > 10) { // highest than gis
         m_strColors[i] = QColor(255, 255, 255, 125); // are nylon
         m_widthFromPitch[i] = 2.5; // and more thick
-    } else if (GLOB->Gtune()->str(i + 1).chromatic() > 4) { // highest than dis
+    } else if (GLOB->Gtune()->strChromatic(i + 1) + GLOB->transposition() > 4) { // highest than dis
         m_strColors[i] = QColor(255, 255, 255, 150); // are nylon
         m_widthFromPitch[i] = 3; // and more thick
-    } else if (GLOB->Gtune()->str(i + 1).chromatic() > 0) { // highest than b-1(contra)
+    } else if (GLOB->Gtune()->strChromatic(i + 1) + GLOB->transposition() > 0) { // highest than b-1(contra)
         m_strColors[i] = QColor(194, 148, 50); // are gold-plated
         m_widthFromPitch[i] = 3; // and more thick
-    } else if (GLOB->Gtune()->str(i + 1).chromatic() > -5) { // highest than g-1(contra) 1-st string of bass
-      m_strColors[i] = QColor(194, 148, 50); // #C29432" // are gold-plated
+    } else if (GLOB->Gtune()->strChromatic(i + 1) + GLOB->transposition() > -5) { // highest than g-1(contra) 1-st string of bass
+        m_strColors[i] = QColor(194, 148, 50); // #C29432" // are gold-plated
         m_widthFromPitch[i] = 3.5; // and more thick
-    } else if (GLOB->Gtune()->str(i + 1).chromatic() > -10) { // highest than d-1(contra)
+    } else if (GLOB->Gtune()->strChromatic(i + 1) + GLOB->transposition() > -10) { // highest than d-1(contra)
         m_strColors[i] = QColor(194, 148, 50); // are gold-plated
         m_widthFromPitch[i] = 4; // and more thick
-    } else if (GLOB->Gtune()->str(i + 1).chromatic() > -15) { // highest than gis-2(subcontra)
+    } else if (GLOB->Gtune()->strChromatic(i + 1) + GLOB->transposition() > -15) { // highest than gis-2(subcontra)
         m_strColors[i] = QColor(194, 148, 50); // are gold-plated
         m_widthFromPitch[i] = 4.5; // and more thick
-    } else if (GLOB->Gtune()->str(i + 1).chromatic() > -20) { // highest than dis-1(contra)
+    } else if (GLOB->Gtune()->strChromatic(i + 1) + GLOB->transposition() > -20) { // highest than dis-1(contra)
         m_strColors[i] = QColor(194, 148, 50); // are gold-plated
         m_widthFromPitch[i] = 5; // and more thick
-    } else if (GLOB->Gtune()->str(i + 1).chromatic() > -25) { // highest than
+    } else if (GLOB->Gtune()->strChromatic(i + 1) + GLOB->transposition() > -25) { // highest than
         m_strColors[i] = QColor(194, 148, 50); // are gold-plated
         m_widthFromPitch[i] = 6; // and more thick
-    } else if (GLOB->Gtune()->str(i + 1).chromatic() > -30) { // highest than
+    } else if (GLOB->Gtune()->strChromatic(i + 1) + GLOB->transposition() > -30) { // highest than
         m_strColors[i] = QColor(194, 148, 50); // are gold-plated
         m_widthFromPitch[i] = 7; // and more thick
     }
