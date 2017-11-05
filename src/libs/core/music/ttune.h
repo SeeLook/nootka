@@ -35,16 +35,9 @@ class NOOTKACORE_EXPORT Ttune
 
   Q_GADGET
 
-public:
-      /**
-       * @p tuneName is the name, @p S(1-6) are notes.
-       * Empty notes (Tnote()) can control strings number
-       * when empty - it is moved to the end of a array and stringNr() is less.
-       * This way only a number of string [from 1 to 6] is supported.
-       */
-  Ttune(const QString& tuneName = QString(), const Tnote& S1 = Tnote() , const Tnote& S2 = Tnote(),
-          const Tnote& S3 = Tnote(), const Tnote& S4 = Tnote(), const Tnote& S5 = Tnote(), const Tnote& S6 = Tnote());
+  Q_PROPERTY(QString name READ tuningName)
 
+public:
 
   enum Etunings : qint8 {
     NoTuning = -100, /**< Undefined - initial state. */
@@ -62,14 +55,24 @@ public:
     Bass6_BEADGC = 103
   };
   Q_ENUM(Etunings)
+      /**
+       * @p tuneName is the name, @p S(1-6) are notes.
+       * Empty notes (Tnote()) can control strings number
+       * when empty - it is moved to the end of a array and stringNr() is less.
+       * This way only a number of string [from 1 to 6] is supported.
+       */
+  Ttune(const QString& tuneName = QString(), const Tnote& S1 = Tnote() , const Tnote& S2 = Tnote(),
+          const Tnote& S3 = Tnote(), const Tnote& S4 = Tnote(), const Tnote& S5 = Tnote(), const Tnote& S6 = Tnote(), Etunings tunType = NoTuning);
 
 
   QString name; /**< It is a name of the tune */
 
+  QString tuningName() const { return name; }
+
       /**
        * Number of strings for current tune/guitar
        */
-  quint8 stringNr() const { return m_strNumber; }
+  Q_INVOKABLE quint8 stringNr() const { return m_strNumber; }
 
       /**
        * When tune has less than 3 strings and "scale" as a name it represents a scale of an instrument
@@ -77,12 +80,17 @@ public:
        */
   bool isGuitar() const { return m_strNumber > 2; }
 
-  Etunings type() const { return m_tuning; }
+  Etunings type() const { return p_tuning; }
 
       /**
        * Substitute of [] operator - returns note of given string.
        */
-  Tnote  str(quint8 stringNr) const { return stringsArray[stringNr - 1]; }
+  Q_INVOKABLE Tnote str(quint8 stringNr) const { return stringsArray[stringNr - 1]; }
+
+      /**
+       * Chromatic number of a given @p stringNr string
+       */
+  Q_INVOKABLE int strChromatic(int stringNr) const { return static_cast<int>(str(stringNr).chromatic()); }
 
   static Ttune stdTune; /**< standard EADGBE tuning template */
   static Ttune tunes[4]; /**< templates for guitar tuning */
@@ -139,9 +147,10 @@ protected:
        */
   void determineStringsNumber();
 
+  Etunings       p_tuning;
+
 private:
   quint8         m_strNumber;
-  Etunings       m_tuning;
 
 };
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2006-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,8 +23,7 @@
 
 
 /*static*/
-Ttune Ttune::stdTune = Ttune(QString(), Tnote(3,1,0), Tnote(7,0,0),
-                                          Tnote(5,0,0), Tnote(2,0,0), Tnote(6,-1,0),Tnote(3,-1,0));
+Ttune Ttune::stdTune = Ttune();
 
 Ttune Ttune::tunes[4];
 Ttune Ttune::bassTunes[4];
@@ -32,42 +31,43 @@ Ttune Ttune::bassTunes[4];
 
 void Ttune::prepareDefinedTunes() {
   stdTune = Ttune(QGuiApplication::translate("Ttune", "Standard: E A D G B E "), Tnote(3, 1, 0), Tnote(7, 0, 0),
-          Tnote(5, 0, 0), Tnote(2, 0, 0), Tnote(6, -1, 0), Tnote(3, -1, 0));
+          Tnote(5, 0, 0), Tnote(2, 0, 0), Tnote(6, -1, 0), Tnote(3, -1, 0), Standard_EADGBE);
 
   tunes[0] = Ttune(QGuiApplication::translate("Ttune", "Dropped D: D A D G B E "), Tnote(3, 1, 0), Tnote(7, 0, 0),
-                   Tnote(5, 0, 0), Tnote(2, 0, 0), Tnote(6, -1, 0),Tnote(2, -1, 0));
+                   Tnote(5, 0, 0), Tnote(2, 0, 0), Tnote(6, -1, 0),Tnote(2, -1, 0), Dropped_D_DADGBE);
   tunes[1] = Ttune(QGuiApplication::translate("Ttune", "Dummy Lute: D A D F# B E "), Tnote(3, 1, 0), Tnote(7, 0, 0),
-                   Tnote(4, 0, 1), Tnote(2, 0, 0), Tnote(6, -1, 0),Tnote(2, -1, 0));
+                   Tnote(4, 0, 1), Tnote(2, 0, 0), Tnote(6, -1, 0),Tnote(2, -1, 0), DummyLute_DADFshBE);
   tunes[2] = Ttune(QGuiApplication::translate("Ttune", "Open: D A D G A D "), Tnote(2, 1, 0), Tnote(6, 0, 0),
-                   Tnote(5, 0, 0), Tnote(2, 0, 0), Tnote(6, -1, 0),Tnote(2, -1, 0));
+                   Tnote(5, 0, 0), Tnote(2, 0, 0), Tnote(6, -1, 0),Tnote(2, -1, 0), Open_DADGAD);
   tunes[3] = Ttune(QGuiApplication::translate("Ttune", "Kouyanbaba: D A D A D F "), Tnote(4, 1, 0), Tnote(2, 1, 0),
-                   Tnote(6, 0, 0), Tnote(2, 0, 0), Tnote(6, -1, 0),Tnote(2, -1, 0));
+                   Tnote(6, 0, 0), Tnote(2, 0, 0), Tnote(6, -1, 0),Tnote(2, -1, 0), Kouyanbaba_DADADF);
 
-  bassTunes[0] = Ttune(QGuiApplication::translate("Ttune", "Standard bass: E A D G"), Tnote(5, -1, 0), Tnote(2, -1, 0),
-                        Tnote(6, -2, 0), Tnote(3, -2, 0), Tnote(0, 0, 0), Tnote(0, 0, 0));
-  bassTunes[1] = Ttune(QGuiApplication::translate("Ttune", "Bass in fifths: C G D A"), Tnote(6, -1, 0), Tnote(2, -1, 0),
-                        Tnote(5, -2, 0), Tnote(1, -2, 0), Tnote(0, 0, 0), Tnote(0, 0, 0));
-  bassTunes[2] = Ttune(QGuiApplication::translate("Ttune", "5-str. bass: B E A D G"), Tnote(5, -1, 0), Tnote(2, -1, 0),
-                        Tnote(6, -2, 0), Tnote(3, -2, 0), Tnote(7, -3, 0), Tnote(0, 0, 0));
-  bassTunes[3] = Ttune(QGuiApplication::translate("Ttune", "6-str. bass: B E A D G C"), Tnote(1, 0, 0), Tnote(5, -1, 0), Tnote(2, -1, 0),
-                        Tnote(6, -2, 0), Tnote(3, -2, 0), Tnote(7, -3, 0));
+  bassTunes[0] = Ttune(QGuiApplication::translate("Ttune", "Standard bass: E A D G"), Tnote(5, 0, 0), Tnote(2, 0, 0),
+                        Tnote(6, -1, 0), Tnote(3, -1, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Bass4_EADG);
+  bassTunes[1] = Ttune(QGuiApplication::translate("Ttune", "Bass in fifths: C G D A"), Tnote(6, 0, 0), Tnote(2, 0, 0),
+                        Tnote(5, -1, 0), Tnote(1, -1, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Bass4_5ths_CGDA);
+  bassTunes[2] = Ttune(QGuiApplication::translate("Ttune", "5-str. bass: B E A D G"), Tnote(5, 0, 0), Tnote(2, 0, 0),
+                        Tnote(6, -1, 0), Tnote(3, -1, 0), Tnote(7, -2, 0), Tnote(0, 0, 0), Bass5_BEADG);
+  bassTunes[3] = Ttune(QGuiApplication::translate("Ttune", "6-str. bass: B E A D G C"), Tnote(1, 0, 0), Tnote(5, 0, 0), Tnote(2, 0, 0),
+                        Tnote(6, -1, 0), Tnote(3, -1, 0), Tnote(7, -2, 0), Bass6_BEADGC);
 }
+
 
 //##################################################################################################
 Ttune::Ttune(const QString& tuneName, const Tnote& S1, const Tnote& S2, const Tnote& S3,
-             const Tnote& S4, const Tnote& S5, const Tnote& S6) :
+             const Tnote& S4, const Tnote& S5, const Tnote& S6, Etunings tunType) :
   name(tuneName),
-  m_strNumber(0),
-  m_tuning(NoTuning)
+  p_tuning(tunType),
+  m_strNumber(0)
 {
-    stringsArray[0] = S1;
-    stringsArray[1] = S2;
-    stringsArray[2] = S3;
-    stringsArray[3] = S4;
-    stringsArray[4] = S5;
-    stringsArray[5] = S6;
+  stringsArray[0] = S1;
+  stringsArray[1] = S2;
+  stringsArray[2] = S3;
+  stringsArray[3] = S4;
+  stringsArray[4] = S5;
+  stringsArray[5] = S6;
 
-    determineStringsNumber();
+  determineStringsNumber();
 }
 
 
@@ -93,6 +93,7 @@ void Ttune::copy(Ttune& t) {
   name = t.name;
   for (int i = 0; i < 6; ++i)
     stringsArray[i] = t.str(i + 1);
+  p_tuning = t.type();
   determineStringsNumber();
 }
 
@@ -221,19 +222,42 @@ bool Ttune::fromXml(QXmlStreamReader& xml, bool isExam) {
 
 
 QDataStream &operator<< (QDataStream &out, const Ttune &t) {
-    out << t.name;
-    for (int i=0; i < 6; i++)
-      out << t.stringsArray[i];
-    return out;
+  out << t.name;
+  for (int i = 0; i < 6; i++)
+    out << t.stringsArray[i];
+  return out;
 }
 
 
 QDataStream &operator>> (QDataStream &in, Ttune &t) {
-    in >> t.name;
-    for (int i=0; i < 6; i++)
-        in >> t.stringsArray[i];
-    t.determineStringsNumber();
-    return in;
+  in >> t.name;
+  for (int i=0; i < 6; i++)
+      in >> t.stringsArray[i];
+  t.determineStringsNumber();
+  // determine tuning type
+  if (t.stringNr() == 0)
+      t.p_tuning = Ttune::NoTuning;
+  else if (t.stringNr() < 3)
+      t.p_tuning = Ttune::Scale;
+  else {
+      if (t == Ttune::stdTune)
+          t.p_tuning = Ttune::Standard_EADGBE;
+      else {
+          for (int i = 0; i < 4; ++i) {
+            if (t == Ttune::tunes[i]) {
+                t.p_tuning = Ttune::tunes[i].type();
+                break;
+            } else if (t == Ttune::tunes[i]) {
+                t.p_tuning = Ttune::bassTunes[i].type();
+                break;
+            }
+          }
+          if (t.type() == Ttune::NoTuning)
+            t.p_tuning = Ttune::Custom;
+      }
+  }
+
+  return in;
 }
 
 
