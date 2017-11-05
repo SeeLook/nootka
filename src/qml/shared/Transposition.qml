@@ -33,7 +33,9 @@ Grid {
     TlabelText { text: qsTr("semitone(s)", "", shiftSpin.value); width: Noo.fontSize() * 12 }
   }
 
+  ButtonGroup { buttons: radioCol.children }
   Column {
+    id: radioCol
     RadioButton { id: upRadio; text: "<b><font size=\"6\">\u2191</font></b> " + qsTr("up") }
     RadioButton { id: downRadio; text: "<b><font size=\"6\">\u2193</font></b> " + qsTr("down") }
   }
