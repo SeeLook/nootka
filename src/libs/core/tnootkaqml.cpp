@@ -143,6 +143,13 @@ Tnote TnootkaQML::note(int chroma,  bool sharp) {
 }
 
 
+Tnote TnootkaQML::transpose(Tnote n, int semitones) {
+  n.transpose(semitones);
+  return n;
+}
+
+
+
 Trhythm TnootkaQML::rhythm(int rtm, bool rest, bool dot, bool triplet) {
   return Trhythm(static_cast<Trhythm::Erhythm>(rtm), rest, dot, triplet);
 }
@@ -263,6 +270,7 @@ QStringList TnootkaQML::guitarTunings() {
   int start = static_cast<int>(Ttune::Standard_EADGBE);
   for (int t = start; t < start + 5; ++t)
     tunList << Ttune::definedName(static_cast<Ttune::Etunings>(t));
+  tunList << QApplication::translate("InstrumentPage", "Custom tuning");
   return tunList;
 }
 
@@ -272,7 +280,30 @@ QStringList TnootkaQML::bassTunings() {
   int start = static_cast<int>(Ttune::Bass4_EADG);
   for (int t = start; t < start + 4; ++t)
     tunList << Ttune::definedName(static_cast<Ttune::Etunings>(t));
+  tunList << QApplication::translate("InstrumentPage", "Custom tuning");
   return tunList;
+}
+
+
+Ttune TnootkaQML::tuning(int tuningType) {
+  if (tuningType > -1) {
+    if (tuningType == 0)
+      return Ttune::stdTune;
+    if (tuningType < 5)
+      return Ttune::tunes[tuningType - 1];
+    if (tuningType > 99 && tuningType < 104)
+      return Ttune::bassTunes[tuningType - 100];
+  }
+  return Ttune();
+}
+
+
+/**
+ * When third note @s3 is valid the tuning represents real guitar tuning
+ * otherwise it is an instrument scale
+ */
+Ttune TnootkaQML::tuning(const Tnote& s1, const Tnote& s2, const Tnote& s3, const Tnote& s4, const Tnote& s5, const Tnote& s6) {
+  return Ttune(QApplication::translate("InstrumentPage", "Custom tuning"), s1, s2, s3, s4, s5, s6, s3.isValid() ? Ttune::Custom : Ttune::Scale);
 }
 
 

@@ -33,6 +33,7 @@
 class TcommonInstrument;
 class TscoreObject;
 class QQuickItem;
+class Ttune;
 
 
 #define   NOO   TnootkaQML::instance()
@@ -87,6 +88,7 @@ public:
   Q_INVOKABLE int octave(const Tnote& n) { return static_cast<int>(n.octave); }
   Q_INVOKABLE int pitch(const Tnote& n) { return static_cast<int>(n.note); }
   Q_INVOKABLE int alter(const Tnote& n) { return static_cast<int>(n.alter); }
+  Q_INVOKABLE Tnote transpose(Tnote n, int semitones);
   Q_INVOKABLE Trhythm rhythm(int rtm, bool rest, bool dot, bool triplet);
   Q_INVOKABLE QString rhythmText(const Trhythm& r);
   Q_INVOKABLE QString noteName(const Tnote& n, int style, bool showOctave = true);
@@ -99,6 +101,8 @@ public:
   Q_INVOKABLE bool isAndroid();
   Q_INVOKABLE QStringList guitarTunings();
   Q_INVOKABLE QStringList bassTunings();
+  Q_INVOKABLE Ttune tuning(int tuningType);
+  Q_INVOKABLE Ttune tuning(const Tnote& s1, const Tnote& s2, const Tnote& s3, const Tnote& s4, const Tnote& s5, const Tnote& s6);
   Q_INVOKABLE QString stdButtonText(int role);
   Q_INVOKABLE QString stdButtonIcon(int role);
   Q_INVOKABLE Tinstrument instr(int type);
