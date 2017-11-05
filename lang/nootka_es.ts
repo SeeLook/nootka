@@ -440,42 +440,6 @@
         <translation>menor</translation>
     </message>
     <message>
-        <source>Standard: E A D G B E </source>
-        <translation>Estándar: E A D G B E</translation>
-    </message>
-    <message>
-        <source>Dropped D: D A D G B E </source>
-        <translation>D bajado un tono: D A D G B E</translation>
-    </message>
-    <message>
-        <source>Dummy Lute: D A D F# B E </source>
-        <translation>Laúd ficticio: D A D F# B E</translation>
-    </message>
-    <message>
-        <source>Open: D A D G A D </source>
-        <translation>Abierto: D A D G A D</translation>
-    </message>
-    <message>
-        <source>Kouyanbaba: D A D A D F </source>
-        <translation>Kouyanbaba: D A D A D F </translation>
-    </message>
-    <message>
-        <source>Standard bass: E A D G</source>
-        <translation>Bajo estándar: E A D G</translation>
-    </message>
-    <message>
-        <source>Bass in fifths: C G D A</source>
-        <translation>Bajo en quintas: C G D A</translation>
-    </message>
-    <message>
-        <source>5-str. bass: B E A D G</source>
-        <translation>Bajo de 5 cuerdas: B E A D G</translation>
-    </message>
-    <message>
-        <source>6-str. bass: B E A D G C</source>
-        <translation>Bajo de 6 cuerdas: B E A D G C</translation>
-    </message>
-    <message>
         <source>You also can help with making Nootka better.</source>
         <translation>Tú también puedes ayudar a mejorar Nootka.</translation>
     </message>
@@ -1509,7 +1473,7 @@
     </message>
 </context>
 <context>
-    <name>TguitarSettings</name>
+    <name>InstrumentPage</name>
     <message>
         <source>tuning of the guitar</source>
         <translation>afinación de la guitarra</translation>

@@ -533,42 +533,6 @@
         <translation type="vanished">Gama C-dur</translation>
     </message>
     <message>
-        <source>Standard: E A D G B E </source>
-        <translation type="vanished">Standardowy: E A D G H E</translation>
-    </message>
-    <message>
-        <source>Dropped D: D A D G B E </source>
-        <translation type="vanished">Obniżone D:D A D G H E</translation>
-    </message>
-    <message>
-        <source>Dummy Lute: D A D F# B E </source>
-        <translation type="vanished">Jakby lutnia: D A D F# H E</translation>
-    </message>
-    <message>
-        <source>Open: D A D G A D </source>
-        <translation type="vanished">Otwarty: D A D G A D</translation>
-    </message>
-    <message>
-        <source>Kouyanbaba: D A D A D F </source>
-        <translation type="vanished">Kouyanbaba: D A D A D F </translation>
-    </message>
-    <message>
-        <source>Standard bass: E A D G</source>
-        <translation type="vanished">Standardowy bas: E A D G</translation>
-    </message>
-    <message>
-        <source>Bass in fifths: C G D A</source>
-        <translation type="vanished">Bas w kwintach: C G D A</translation>
-    </message>
-    <message>
-        <source>5-str. bass: B E A D G</source>
-        <translation type="vanished">Bas 5-str.: H E A D G</translation>
-    </message>
-    <message>
-        <source>6-str. bass: B E A D G C</source>
-        <translation type="vanished">Bas 6-str.: H E A D G C</translation>
-    </message>
-    <message>
         <location filename="../src/libs/core/exam/texam.cpp" line="424"/>
         <source>Cannot save exam file:
 %1</source>
@@ -1838,7 +1802,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     </message>
 </context>
 <context>
-    <name>TguitarSettings</name>
+    <name>InstrumentPage</name>
     <message>
         <location filename="../src/plugins/settings/tguitarsettings.cpp" line="76"/>
         <source>number of frets:</source>
@@ -4022,7 +3986,7 @@ nutowy</translation>
     <message>
         <location filename="../src/libs/core/music/ttune.cpp" line="39"/>
         <source>Dummy Lute: D A D F# B E </source>
-        <translation>Jakby lutnia: D A D F# H E</translation>
+        <translation>Niby-lutnia: D A D F# H E</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/ttune.cpp" line="41"/>

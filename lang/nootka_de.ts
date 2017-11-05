@@ -1520,7 +1520,7 @@ Check answer just after last note of melody was played.</translatorcomment>
     </message>
 </context>
 <context>
-    <name>TguitarSettings</name>
+    <name>InstrumentPage</name>
     <message>
         <source>number of frets:</source>
         <translation>Anzahl der Bünde:</translation>
