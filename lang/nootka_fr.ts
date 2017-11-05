@@ -1361,7 +1361,7 @@ version</translation>
     </message>
 </context>
 <context>
-    <name>TguitarSettings</name>
+    <name>InstrumentPage</name>
     <message>
         <source>tuning of the guitar</source>
         <translation>Accordage de la guitare</translation>

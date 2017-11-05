@@ -1686,7 +1686,7 @@ není platným souborem zkoušky!</translation>
     </message>
 </context>
 <context>
-    <name>TguitarSettings</name>
+    <name>InstrumentPage</name>
     <message>
         <location filename="../src/plugins/settings/tguitarsettings.cpp" line="76"/>
         <source>number of frets:</source>
