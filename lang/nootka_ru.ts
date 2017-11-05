@@ -2945,7 +2945,7 @@
     </message>
 </context>
 <context>
-    <name>TnoteNameSettings</name>
+    <name>ScorePage</name>
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="59"/>
         <source>note name on the staff</source>
@@ -2953,8 +2953,8 @@
     </message>
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="60"/>
-        <source>Shows names of all notes on the staff.</source>
-        <translation>Показывает названия всех нот на нотном стане.</translation>
+        <source>Show names of all notes on the score</source>
+        <translation>Показывать названия всех нот на нотном стане</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="62"/>

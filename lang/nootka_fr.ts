@@ -2245,7 +2245,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
 </context>
 <context>
-    <name>TnoteNameSettings</name>
+    <name>ScorePage</name>
     <message>
         <source>names highlight color</source>
         <translation>Couleur utilisée pour surligner le nom des notes</translation>
@@ -2263,8 +2263,8 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>Afficher le nom des notes sur la portée</translation>
     </message>
     <message>
-        <source>Shows names of all notes on the staff.</source>
-        <translation>Affiche le nom de toutes les notes sur la portée.</translation>
+        <source>Show names of all notes on the score</source>
+        <translation>Afficher le nom de toutes les notes sur la portée</translation>
     </message>
 </context>
 <context>

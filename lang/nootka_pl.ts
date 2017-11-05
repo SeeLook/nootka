@@ -2907,7 +2907,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
 </context>
 <context>
-    <name>TnoteNameSettings</name>
+    <name>ScorePage</name>
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="59"/>
         <source>note name on the staff</source>
@@ -2915,8 +2915,8 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="60"/>
-        <source>Shows names of all notes on the staff.</source>
-        <translation>Pokazuje nazwy wszystkich nut na pięciolinii.</translation>
+        <source>Show names of all notes on the score</source>
+        <translation>Pokaż nazwy wszystkich nut na pięciolinii</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="62"/>

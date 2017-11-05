@@ -251,7 +251,7 @@ Column {
           Tile {
             TcheckBox {
               id: namesOnScoreChB
-              text: qsTr("Show names of all notes on the score.")
+              text: qsTr("Show names of all notes on the score")
               anchors.horizontalCenter: parent.horizontalCenter
               checked: GLOB.namesOnScore
             }

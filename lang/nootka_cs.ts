@@ -2771,7 +2771,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
 </context>
 <context>
-    <name>TnoteNameSettings</name>
+    <name>ScorePage</name>
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="59"/>
         <source>note name on the staff</source>
@@ -2779,8 +2779,8 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="60"/>
-        <source>Shows names of all notes on the staff.</source>
-        <translation>Ukáže názvy všech not v notové osnově.</translation>
+        <source>Show names of all notes on the score</source>
+        <translation>Název noty v notové osnově</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tnotenamesettings.cpp" line="62"/>
