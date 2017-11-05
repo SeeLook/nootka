@@ -272,14 +272,14 @@ public:
        * Guitar params like guitar type or fret/string numbers, fret marks - affects guitar repainting.
        * Keep their change in single call then.
        */
-  Q_INVOKABLE void setGuitarParams(int fretNr, int stringNr/*TODO , bool rightHand */);
+  Q_INVOKABLE void setGuitarParams(int fretNr, const Ttune& tun /*TODO , bool rightHand */);
 
       /**
        * Actual tune of the guitar also with information about strings number
        * available by Ttune::stringsNr()
        */
   Ttune *Gtune() { return m_tune; }
-  Q_INVOKABLE void setTune(Ttune &t);
+  Q_INVOKABLE void setTune(const Ttune &t);
   TtuneObject* tuning() { return m_tuneObject; }
   Q_INVOKABLE int stringNumber();
 
