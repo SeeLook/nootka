@@ -42,6 +42,15 @@ Flickable {
               transp.shift = ins.transposition
               prefFlatRadio.checked = ins.isSax ? true : false
               prefSharpRadio.checked = ins.isSax ? false : true
+              tuningCombo.model = instrument === Tinstrument.BassGuitar ? Noo.bassTunings() : Noo.guitarTunings()
+              if (ins.isGuitar) {
+                score.clef = ins.clef
+                score.scoreObj.clefType = ins.clef
+                if (instrument === Tinstrument.BassGuitar)
+                  setTuning(Noo.tuning(Ttune.Bass4_EADG))
+                else
+                  setTuning(Noo.tuning(Ttune.Standard_EADGBE))
+              }
           }
         }
       }
@@ -59,7 +68,6 @@ Flickable {
         SpinBox { id: fretsNrSpin; from: 15; to: 24; value: GLOB.fretNumber }
       }
       Row {
-        enabled: false // TODO: not implemented yet
         spacing: Noo.fontSize()
         Text { text: qsTr("number of strings:"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
         SpinBox { id: stringNrSpin; from: 3; to: 6; value: GLOB.stringNumber() }
@@ -76,7 +84,8 @@ Flickable {
           anchors.horizontalCenter: parent.horizontalCenter
           Text { text: qsTr("tuning of the guitar"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
           ComboBox {
-            width: Noo.fontSize() * 20
+            id: tuningCombo
+            width: Noo.fontSize() * 16
             model: GLOB.instrument.type === Tinstrument.BassGuitar ? Noo.bassTunings() : Noo.guitarTunings()
             delegate: ItemDelegate { text: modelData }
           }
@@ -89,14 +98,37 @@ Flickable {
           clef: GLOB.clefType
           scoreObj.clefType: GLOB.clefType
           meter: Tmeter.NoMeter
+          scoreObj.onClicked: tuningCombo.currentIndex = tuningCombo.count - 1
           Component.onCompleted: {
             for (var s = 1; s <= GLOB.tuning.stringNumber; ++s)
               score.addNote(GLOB.tuning.string(s))
+            stringNrSpin.valueModified.connect(strNrChanged)
+            tuningCombo.activated.connect(tuningSelected)
+          }
+          function strNrChanged() {
+            if (stringNrSpin.value > score.notesCount) {
+                while (stringNrSpin.value > score.notesCount)
+                  score.addNote(Noo.note(0, 0, 0, 0))
+                tuningCombo.currentIndex = tuningCombo.count - 1
+            } else if (stringNrSpin.value < score.notesCount) {
+                while (stringNrSpin.value < score.notesCount)
+                  score.deleteLast()
+                tuningCombo.currentIndex = tuningCombo.count - 1
+            }
+          }
+          function tuningSelected() {
+            if (tuningCombo.currentIndex < tuningCombo.count - 1)
+              setTuning(Noo.tuning((instrSel.instrument === Tinstrument.BassGuitar ? 100 : 0) + tuningCombo.currentIndex))
           }
         }
       }
       description: qsTr("Select appropriate tuning from the list or prepare your own.") + "<br>" + 
                     qsTr("Remember to select the appropriate clef in Score settings.")
+    }
+
+    Tile {
+      Transposition { id: transp }
+      description: qsTr("Difference between score notation and real sound pitch.")
     }
 
     Tile {
@@ -153,14 +185,31 @@ Flickable {
         ColorButton { id: selectedColorButt; color: GLOB.selectedColor }
       }
     }
-    Tile {
-      Transposition { id: transp }
-    }
     Component.onCompleted: { // to avoid declaring every property signal in Tglobals.h
       showOtherPosChB.checked = GLOB.showOtherPos
       fretDots.text = GLOB.markedFrets
+      if (GLOB.instrument.isGuitar) {
+        if (GLOB.tuning.type === Ttune.Custom)
+          tuningCombo.currentIndex = tuningCombo.count - 1
+        else
+          tuningCombo.currentIndex = GLOB.tuning.type - (GLOB.instrument.type === Tinstrument.BassGuitar ? 100 : 0)
+      }
     }
 
+  }
+
+  function setTuning(t) {
+    for (var i = 0; i < 6; ++i) {
+      if (i < t.stringNr()) {
+          if (i >= score.notesCount)
+            score.addNote(t.str(i + 1))
+          else
+            score.setNote(score.scoreObj.note(i), t.str(i + 1))
+      } else {
+          if (score.notesCount > t.stringNr())
+            score.deleteLast()
+      }
+    }
   }
 
   function save() {
@@ -168,12 +217,22 @@ Flickable {
     GLOB.selectedColor = selectedColorButt.color
     GLOB.preferFlats = prefFlatRadio.checked
     GLOB.setInstrument(instrSel.instrument)
+    GLOB.transposition = transp.outShift
     if (Noo.instr(instrSel.instrument).isGuitar) {
-      GLOB.setGuitarParams(fretsNrSpin.value, stringNrSpin.value)
       GLOB.showOtherPos = showOtherPosChB.checked
       GLOB.markedFrets = fretDots.text
+      var tun
+      if (tuningCombo.currentIndex === tuningCombo.count - 1)
+          tun = Noo.tuning(score.scoreObj.noteAt(0), score.scoreObj.noteAt(1), score.scoreObj.noteAt(2),
+                           score.scoreObj.noteAt(3), score.scoreObj.noteAt(4), score.scoreObj.noteAt(5))
+      else {
+          if (instrSel.instrument !== Tinstrument.BassGuitar && tuningCombo.currentIndex === 0)
+            tun = Noo.tuning(Ttune.Standard_EADGBE)
+          else
+            tun = Noo.tuning(tuningCombo.currentIndex + (instrSel.instrument === Tinstrument.BassGuitar ? 100 : 0))
+      }
+      GLOB.setGuitarParams(fretsNrSpin.value, tun) // TODO left-handed guitar
     }
-    GLOB.transposition = transp.outShift
     GLOB.audioInstrument = instrSel.instrument
     SOUND.acceptSettings()
   }
