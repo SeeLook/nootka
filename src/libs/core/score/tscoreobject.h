@@ -131,6 +131,11 @@ public:
        */
   Q_INVOKABLE Tnote noteOfItem(TnoteObject* item) const;
 
+      /**
+       * Returns note at given @p index or invalid note if there is no a note with that index
+       */
+  Q_INVOKABLE Tnote noteAt(int index) const;
+
   Q_INVOKABLE void noteClicked(qreal yPos);
 
   int cursorAlter() const { return m_cursorAlter; }
