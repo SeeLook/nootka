@@ -306,14 +306,15 @@ bool Tglobals::forwardInput() const { return A->forwardInput; }
 void Tglobals::setForwardInput(bool fi) { A->forwardInput = fi; }
 
 
-void Tglobals::setGuitarParams(int fretNr, int stringNr) {
+void Tglobals::setGuitarParams(int fretNr, const Ttune& tun) {
   bool doEmit = false;
   if (fretNr != GfretsNumber) {
     GfretsNumber = fretNr;
     doEmit = true;
   }
-  if (stringNr != m_tune->stringNr()) {
-    // TODO
+  if (tun.type() == Ttune::Custom || tun.type() != tuning()->type()) {
+    setTune(tun);
+    doEmit = true;
   }
   if (doEmit)
     emit guitarParamsChanged();
@@ -541,9 +542,10 @@ void Tglobals::loadSettings(QSettings* cfg) {
 }
 
 
-void Tglobals::setTune(Ttune& t) {
+void Tglobals::setTune(const Ttune& t) {
+  qDebug() << "[Tglobals] setTune" << t.name << t.type();
   delete m_tune;
-  m_tune = new Ttune(t.name, t[1], t[2], t[3], t[4], t[5], t[6]);
+  m_tune = new Ttune(t.name, t.str(1), t.str(2), t.str(3), t.str(4), t.str(5), t.str(6), t.type());
   m_tuneObject->setTune(m_tune);
   // creating array with guitar strings in order of their height
   char openStr[6];
