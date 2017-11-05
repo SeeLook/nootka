@@ -371,7 +371,7 @@ void Tnote::fromXml(QXmlStreamReader& xml, const QString& prefix) {
 
 
 void Tnote::transpose(int interval) {
-  if (isValid())
+  if (isValid() && interval != 0)
     setChromatic(chromatic() + static_cast<short>(interval));
 }
 
