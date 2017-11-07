@@ -5,15 +5,12 @@
 import QtQuick 2.9
 
 import Nootka 1.0
-// import "instruments"
 
 
 Item {
   id: root
   property alias instrument: instrLoad.item
   property Score score
-
-  signal note(var n)
 
   height: GLOB.instrument.isSax ? parent.height : parent.height / GLOB.instrument.heightPart
   width: parent.width * (GLOB.instrument.isSax ? 0.15 : 1)
@@ -32,10 +29,6 @@ Item {
     }
   }
 
-  Connections {
-    target: instrLoad.item
-    onNoteChanged: root.note(instrument.note)
-  }
   Connections {
     target: score
     enabled: GLOB.instrument.type === Tinstrument.Piano
