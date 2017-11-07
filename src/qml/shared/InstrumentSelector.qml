@@ -57,7 +57,7 @@ Tumbler {
   Rectangle {
     z: -1; width: Noo.fontSize() * 9; height: parent.height * 0.5
     x: parent.width / 2 - width / 2; y: 2
-    color: Noo.alpha(activPal.highlight, 100)
+    color: activPal.highlight
     radius: width / 12
   }
 }

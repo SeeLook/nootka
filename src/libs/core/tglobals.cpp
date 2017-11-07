@@ -543,7 +543,6 @@ void Tglobals::loadSettings(QSettings* cfg) {
 
 
 void Tglobals::setTune(const Ttune& t) {
-  qDebug() << "[Tglobals] setTune" << t.name << t.type();
   delete m_tune;
   m_tune = new Ttune(t.name, t.str(1), t.str(2), t.str(3), t.str(4), t.str(5), t.str(6), t.type());
   m_tuneObject->setTune(m_tune);
