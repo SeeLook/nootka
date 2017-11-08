@@ -47,6 +47,7 @@ class NOOTKACORE_EXPORT  TstaffObject : public QObject
   Q_PROPERTY(qreal notesIndent READ notesIndent WRITE setNotesIndent)
   Q_PROPERTY(int firstMeasureNr READ firstMeasureNr NOTIFY firstMeasureNrChanged)
   Q_PROPERTY(int number READ number WRITE setNumber NOTIFY numberChanged)
+  Q_PROPERTY(int scordSpace READ scordSpace WRITE setScordSpace)
 
   friend class TscoreObject;
   friend class TnotePair;
@@ -57,6 +58,13 @@ public:
 
   int number() const { return m_number; }
   void setNumber(int nr) { m_number = nr; emit numberChanged(); }
+
+      /**
+       * @p 0 - means no scordature (standard tuning)
+       * positive value determines additional space below first staff for scordature marks
+       */
+  int scordSpace() const { return m_scordSpace; }
+  void setScordSpace(int hasScord);
 
   TscoreObject* score() { return m_score; }
   void setScore(TscoreObject* s);
@@ -183,6 +191,7 @@ private:
   qreal                          m_allNotesWidth = 0.0;
   qreal                          m_gapsSum = 0.0;
   QQuickItem                    *m_extraTie = nullptr; /**< Tie at the staff beginning */
+  int                           m_scordSpace = 0;
 };
 
 #endif // TSTAFFOBJECT_H

@@ -19,6 +19,7 @@ Item {
   property var keySignature: null
   property var meter: null
   property real firstNoteX: (meter ? meter.x + meter.width : (keySignature ? keySignature.x + keySignature.width : 0.5 + clef.width)) + 1.0
+  property alias scordSpace: staffObj.scordSpace
 
   signal destroing(var nr)
 
