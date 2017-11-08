@@ -312,7 +312,7 @@ void Tglobals::setGuitarParams(int fretNr, const Ttune& tun) {
     GfretsNumber = fretNr;
     doEmit = true;
   }
-  if (tun.type() == Ttune::Custom || tun.type() != tuning()->type()) {
+  if (tun.type() == Ttune::Custom || tun.type() != tuning()->typeInt()) {
     setTune(tun);
     doEmit = true;
   }

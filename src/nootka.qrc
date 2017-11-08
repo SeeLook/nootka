@@ -45,6 +45,7 @@
     <file alias="NoteAdd.qml">qml/score/NoteAdd.qml</file>
     <file alias="DelControl.qml">qml/score/DelControl.qml</file>
     <file alias="ControlBase.qml">qml/score/ControlBase.qml</file>
+    <file alias="Scordature.qml">qml/score/Scordature.qml</file>
 
     <file alias="Instrument.qml">qml/instruments/Instrument.qml</file>
     <file alias="instruments/Guitar.qml">qml/instruments/Guitar.qml</file>

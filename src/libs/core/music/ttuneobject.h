@@ -27,14 +27,17 @@
 
 /**
  * Wraps @class Ttune with @class QObject
+ * It is used only by @p Tglobals class.
+ * It also tracks tuning type for scordature.
  */
 class NOOTKACORE_EXPORT TtuneObject : public QObject
 {
   Q_OBJECT
 
   Q_PROPERTY(QString name READ name NOTIFY tuningChanged)
-  Q_PROPERTY(Ttune::Etunings type READ type NOTIFY tuningChanged)
+  Q_PROPERTY(int type READ typeInt NOTIFY tuningChanged)
   Q_PROPERTY(int stringNumber READ stringNumber NOTIFY tuningChanged)
+  Q_PROPERTY(bool scordature READ scordature NOTIFY scordatureChanged)
 
 public:
 
@@ -45,17 +48,38 @@ public:
 
   QString name() const;
 
-  Ttune::Etunings type() const { return m_tune->type(); }
+  int typeInt() const { return static_cast<int>(m_tuning->type()); }
 
-  Q_INVOKABLE Tnote string(int realNr) const { return m_tune->str(realNr); }
+  Q_INVOKABLE Tnote string(int realStrNr) const { return m_tuning->str(realStrNr); }
 
-  int stringNumber() { return static_cast<int>(m_tune->stringNr()); }
+      /**
+       * Name of a given string (note name without octave)
+       */
+  Q_INVOKABLE QString stringName(int realStrNr) const;
+
+      /**
+       * Returns @p TRUE when given string is different than the same string in standard guitar tuning
+       */
+  Q_INVOKABLE bool otherThanStd(int realStrNr) const;
+
+  int stringNumber() { return static_cast<int>(m_tuning->stringNr()); }
+
+      /**
+       * @p TRUE when tuning is guitar tuning (not bass) and differs from standard EADGBE one
+       */
+  bool scordature() const;
+
+      /**
+       * Number of strings that were changed (tuned)
+       */
+  Q_INVOKABLE int changedStrings() const;
 
 signals:
   void tuningChanged();
+  void scordatureChanged();
 
 private:
-  Ttune                 *m_tune;
+  Ttune                 *m_tuning;
 };
 
 

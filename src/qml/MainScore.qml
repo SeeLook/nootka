@@ -73,15 +73,19 @@ Score {
     x: clef === Tclef.PianoStaffClefs ? 7.5 : 5.5
     y: clef === Tclef.PianoStaffClefs ? 3.7 : 6.2
     color: activPal.text
-    font { family: "Sans"; pointSize: 1.3 }
+    font { family: "Sans"; pixelSize: 2 }
     text: getKeyNameText()
     function getKeyNameText() {
       return enableKeySign && firstStaff.keySignature ? Noo.majAndMinKeyName(firstStaff.keySignature.key) : ""
     }
   }
 
+  // private
+  property var scordature: null
+
   Component.onCompleted: {
     scoreObj.singleNote = GLOB.singleNoteMode
+    updateScord()
   }
 
   Connections {
@@ -95,6 +99,22 @@ Score {
           scoreObj.note(2).visible = Qt.binding(function() { return GLOB.showEnharmNotes && GLOB.enableDoubleAccids })
       }
     }
+  }
+  Connections {
+    target: GLOB.tuning
+    onScordatureChanged: updateScord()
+  }
+  function updateScord() {
+    if (scordature) {
+      scordature.destroy()
+      scordature = null
+    }
+    if (GLOB.tuning.scordature && GLOB.instrument.type !== Tinstrument.BassGuitar) {
+        var c = Qt.createComponent("qrc:/Scordature.qml")
+        var scordature = c.createObject(firstStaff)
+        firstStaff.scordSpace = scordature.height
+    } else
+        firstStaff.scordSpace = 0
   }
 
   Rectangle { // note highlight

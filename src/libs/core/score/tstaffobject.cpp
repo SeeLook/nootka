@@ -46,6 +46,14 @@ TstaffObject::~TstaffObject() {
 }
 
 
+void TstaffObject::setScordSpace(int hasScord) {
+  if (m_scordSpace != hasScord) {
+    m_scordSpace = hasScord;
+    checkNotesRange();
+  }
+}
+
+
 void TstaffObject::setScore(TscoreObject* s) {
   m_score = s;
   m_score->addStaff(this);
@@ -286,11 +294,7 @@ void TstaffObject::findHighestNote() {
 
 
 void TstaffObject::findLowestNote() {
-//   if (hasScordature()) { TODO
-//     m_loNotePos = height();
-//     return;
-//   }
-  m_loNotePos = upperLine() + (m_score->isPianoStaff() ? 24.0 : 14.0);
+  m_loNotePos = static_cast<qreal>(m_scordSpace) + upperLine() + (m_score->isPianoStaff() ? 24.0 : 14.0);
   for (int m = m_firstMeasureId; m <= m_lastMeasureId; ++m) {
     auto measure = m_score->measure(m);
     for (int n = 0; n < measure->noteCount(); ++n) {
