@@ -34,6 +34,7 @@
     <file alias="Score.qml">qml/score/Score.qml</file>
     <file alias="Staff.qml">qml/score/Staff.qml</file>
     <file alias="Clef.qml">qml/score/Clef.qml</file>
+    <file alias="ClefDrawer.qml">qml/score/ClefDrawer.qml</file>
     <file alias="KeySignature.qml">qml/score/KeySignature.qml</file>
     <file alias="Meter.qml">qml/score/Meter.qml</file>
     <file alias="Tie.qml">qml/score/Tie.qml</file>

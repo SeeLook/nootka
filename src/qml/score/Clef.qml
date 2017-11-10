@@ -12,11 +12,8 @@ Text {
   id: clef
 
   property int type: Tclef.Treble_G
-  property var clefDrawer
 
-  width: 5.5
-  x: 0.5
-  y: 5
+  width: 5.5; x: 0.5; y: 5
   text: "\ue050" // treble clef by default
   font { family: "Scorek"; pixelSize: 8 }
   color: activPal.text
@@ -32,42 +29,18 @@ Text {
     }
   }
 
-  Component {
-    id: clefComp
-    Drawer {
-      id: drawer
-      property alias selectedClef: clefMenu.selClef
-      width: Noo.fontSize() * 18
-      height: nootkaWindow.height
-      visible: true
-      Flickable {
-        id: flick
-        anchors.fill: parent
-        clip: true
-        contentHeight: clefMenu.height
-        ClefMenu {
-          id: clefMenu
-          onClicked: { type = cl; close() }
-          onSelIdChanged: { // ensure visible
-            var yy = Noo.fontSize() * 7.75 * selId
-            if (flick.contentY >= yy)
-              flick.contentY = yy
-            else if (flick.contentY + flick.height <= yy + Noo.fontSize() * 7.75)
-              flick.contentY = yy + Noo.fontSize() * 7.75 - flick.height
-          }
-        }
-      }
-    }
-  }
 
   MouseArea {
     anchors.fill: parent
     enabled: !score.readOnly
+    property var clefDrawer
     onClicked: {
       if (clefDrawer)
-        clefDrawer.open()
-      else
-        clefDrawer = clefComp.createObject(clef)
+          clefDrawer.open()
+      else {
+         var c = Qt.createComponent("qrc:/ClefDrawer.qml")
+         clefDrawer = c.createObject(clef)
+      }
       clefDrawer.selectedClef = type
     }
   }
