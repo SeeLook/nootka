@@ -13,12 +13,13 @@ Item {
 
   property alias volume : volBar.volume
 //   property alias deviation : intoBar.deviation
-  property bool active: false
-  property alias tempoVisible : tempoBar.visible
+  property bool active: SOUND.listening
 
   signal paused()
 
   antialiasing: true
+  height: parent.height * 0.9
+  width: parent.width * 0.4
 
   // protected
   property real tickWidth: Screen.pixelDensity * 0.5
@@ -33,16 +34,32 @@ Item {
 
   TempoBar {
     id: tempoBar
+    visible: !GLOB.singleNoteMode
     y: parent.height * 0.05
     width: parent.width
     height: parent.height * 0.45
   }
 
   VolumeBar {
-      id: volBar
-      y: parent.height * (tempoVisible ? 0.55 : 0.27)
-      width: parent.width
-      height: parent.height * 0.45
+    id: volBar
+    y: parent.height * (tempoBar.visible ? 0.55 : 0.27)
+    width: parent.width
+    height: parent.height * 0.45
+  }
+
+  onPaused: {
+    SOUND.stoppedByUser = !SOUND.stoppedByUser
+    if (SOUND.listening)
+      SOUND.stopListen()
+    else
+      SOUND.startListen()
+  }
+  Timer {
+    repeat: true; interval: 75; running: SOUND.listening
+    onTriggered: {
+      volume = SOUND.inputVol()
+//    deviation = SOUND.pitchDeviation()
+    }
   }
 
 }

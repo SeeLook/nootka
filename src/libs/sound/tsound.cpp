@@ -93,6 +93,7 @@ void Tsound::init() {
       connect(NOO, &TnootkaQML::playNote, [=](const Tnote& n){ play(n); });
       if (sniffer)
         sniffer->startListening();
+      emit initialized();
   });
 }
 
