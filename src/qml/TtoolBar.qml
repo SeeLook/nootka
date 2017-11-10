@@ -21,26 +21,13 @@ ToolBar {
     HeadButton { action: nootkaWindow.examAct }
   }
 
-
-  PitchView {
-    id: pitchView
-    active: SOUND.listening
-    anchors.right: label.left
-    height: parent.height * 0.9
-    width: parent.width * 0.4
-    tempoVisible: !GLOB.singleNoteMode
-    onPaused: {
-      SOUND.stoppedByUser = !SOUND.stoppedByUser
-      if (SOUND.listening)
-        SOUND.stopListen()
-      else
-        SOUND.startListen()
-    }
-    Timer {
-      repeat: true; interval: 75; running: SOUND.listening
-      onTriggered: {
-        pitchView.volume = SOUND.inputVol()
-//         pitchView.deviation = SOUND.pitchDeviation()
+  Connections {
+    target: SOUND
+    property var pitchView
+    onInitialized: {
+      if (!pitchView) {
+        var c = Qt.createComponent("qrc:/PitchView.qml")
+        pitchView = c.createObject(toolBar, { "x": label.x - toolBar.width * 0.4 })
       }
     }
   }

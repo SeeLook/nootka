@@ -178,6 +178,11 @@ signals:
   void listeningChanged();
   void playingChanged();
 
+      /**
+       * When sound got initialized at the very beginning
+       */
+  void initialized();
+
 private:
   void createPlayer();
   void createSniffer();
