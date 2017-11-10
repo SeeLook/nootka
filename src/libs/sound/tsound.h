@@ -66,6 +66,12 @@ public:
 
   static Tsound* instance() { return m_instance; }
 
+      /**
+       * Initializes sound stack with delay to keep GUI creation quick.
+       * It has to be called before audio input and output will be used
+       */
+  Q_INVOKABLE void init();
+
   Q_INVOKABLE void play(const Tnote& note);
 
   void playMelody(Tmelody* mel);

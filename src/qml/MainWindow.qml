@@ -88,6 +88,7 @@ ApplicationWindow {
   Component.onCompleted: {
     Noo.mainScore = score
     checkSingleMode()
+    SOUND.init()
   }
 
   function checkSingleMode() {

@@ -31,15 +31,6 @@ TRANSLATION CONTEXT CHANGES
 small glitches:
  - sometimes setting a note doesn't scale tie - probably due to note width is not refreshed
 
-============================================================================
-  Do we need Tmtr?? Make order with this!
-
-============================================================================
-ANDROID:
-    - quick icons:
-        - disable sniffing/note by note when audio input is off
-        - hide 'clear score' one when undesired (single mode, exam with playing):
-          innerWidget->flyActions()->append(bar->scoreDeleteAll()); // TODO: idea is brilliant but needs more efforts
 
 ============================================================================
 - TexamExecutor has many, many un-wrapped strings, many ""
@@ -71,9 +62,6 @@ To consideration:
 
 - dialog to configure generated melody and its rhythms
 - rhythms in level and exercise/exam
-- Tsound has to have a timer to determine rhythmical value of detected note (or a rest)
-     then emitting signal should contain Tchunk instead Tnote
-  - stop sniffer when melody dialogues are opening
 - Class that manages recent exams menu list and has colored item 'recent opened exams',
     use recent exams list for analyzer the same as start exam dialog has (common class or method)
 - managing melodies in levels, adding set of melodies to the level
@@ -89,9 +77,7 @@ To consideration:
 - keep exam file in /tmp and restore it when crash or so
 - add sound during wizard and About dialog (???)
 - options for adjusting pitch detection range to  1.score, 2. instrument scale (???)
-- text only tool bar
 - migrate on preferring 48000 sample rate (ogg files and audio methods)
-- move status label out as a separate class and implement animations there (can be used in settings windows as well) 
 
 - unlock left-handed guitar then implement frets zoom to respect transforms
 

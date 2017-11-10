@@ -23,7 +23,7 @@
 #include <nootkacoreglobal.h>
 #include "music/tmeter.h"
 #include "music/tclef.h"
-#include "music/tnote.h"
+#include "music/ttune.h"
 #include "music/tinstrument.h"
 
 #include <QtCore/qobject.h>
@@ -33,7 +33,6 @@
 class TcommonInstrument;
 class TscoreObject;
 class QQuickItem;
-class Ttune;
 
 
 #define   NOO   TnootkaQML::instance()
