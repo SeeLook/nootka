@@ -22,6 +22,9 @@ ApplicationWindow {
   property alias scoreAct: scoreAct
   property alias examAct: examAct
 
+  // private
+  property var noteName: null
+
   SystemPalette { id: activPal; colorGroup: SystemPalette.Active }
   SystemPalette { id: disdPal; colorGroup: SystemPalette.Disabled }
 
@@ -77,21 +80,28 @@ ApplicationWindow {
     score: score
   }
 
-  Loader {
-    active: GLOB.singleNoteMode
-    source: "qrc:/NoteName.qml"
-    width: score.width
-    height: score.height
-    x: score.width + 1
-    z: 5
-    onLoaded: {
-      item.note = Qt.binding(function() { return score.note })
-      item.onNoteChanged.connect(function() { score.setNote(score.scoreObj.note(0), item.note) })
-    }
+  Connections {
+    target: GLOB
+    onSingleNoteModeChanged: checkSingleMode()
   }
 
   Component.onCompleted: {
     Noo.mainScore = score
+    checkSingleMode()
+  }
+
+  function checkSingleMode() {
+    if (GLOB.singleNoteMode) {
+        if (!noteName) {
+          var c = Qt.createComponent("qrc:/NoteName.qml")
+          noteName = c.createObject(nootkaWindow.contentItem, { "width": score.width, "height": score.height, "x": score.width + 1, "z": 5 })
+          noteName.note = Qt.binding(function() { return score.note })
+          noteName.onNoteChanged.connect(function() { score.setNote(score.scoreObj.note(0), noteName.note) })
+        }
+    } else {
+        if (noteName)
+          noteName.destroy()
+    }
   }
 
   DialogLoader { id: dialogLoader }
