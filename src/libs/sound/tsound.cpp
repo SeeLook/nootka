@@ -62,22 +62,6 @@ Tsound::Tsound(QObject* parent) :
   qRegisterMetaType<Tchunk>("Tchunk");
   qRegisterMetaType<TnoteStruct>("TnoteStruct");
   qmlRegisterType<TtickColors>("Nootka", 1, 0, "TtickColors");
-#if !defined (Q_OS_ANDROID) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))
-  TrtAudio::initJACKorASIO(GLOB->A->JACKorASIO);
-#endif
-  if (GLOB->A->OUTenabled)
-      createPlayer();
-  else
-      player = nullptr;
-  if (GLOB->A->INenabled) {
-      createSniffer();
-  } else {
-      sniffer = nullptr;
-  }
-
-  connect(NOO, &TnootkaQML::playNote, [=](const Tnote& n){ play(n); });
-
-  QTimer::singleShot(1000, [=]{ sniffer->startListening(); });
 }
 
 Tsound::~Tsound()
@@ -90,6 +74,28 @@ Tsound::~Tsound()
 //#################################################################################################
 //###################                PUBLIC            ############################################
 //#################################################################################################
+
+void Tsound::init() {
+  QTimer::singleShot(1000, [=]{
+#if !defined (Q_OS_ANDROID) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))
+      TrtAudio::initJACKorASIO(GLOB->A->JACKorASIO);
+#endif
+      if (GLOB->A->OUTenabled)
+          createPlayer();
+      else
+          player = nullptr;
+      if (GLOB->A->INenabled) {
+          createSniffer();
+      } else {
+          sniffer = nullptr;
+      }
+
+      connect(NOO, &TnootkaQML::playNote, [=](const Tnote& n){ play(n); });
+      if (sniffer)
+        sniffer->startListening();
+  });
+}
+
 
 void Tsound::play(const Tnote& note) {
   bool playing = false;
