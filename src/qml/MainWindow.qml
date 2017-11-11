@@ -95,7 +95,10 @@ ApplicationWindow {
     if (GLOB.singleNoteMode) {
         if (!noteName) {
           var c = Qt.createComponent("qrc:/NoteName.qml")
-          noteName = c.createObject(nootkaWindow.contentItem, { "width": score.width, "height": score.height, "x": score.width + 1, "z": 5 })
+          noteName = c.createObject(nootkaWindow.contentItem, { "z": 5 })
+          noteName.width = Qt.binding(function() { return score.width })
+          noteName.height = Qt.binding(function() { return score.height })
+          noteName.x = Qt.binding(function() { return score.width + 1 })
           noteName.note = Qt.binding(function() { return score.note })
           noteName.onNoteChanged.connect(function() { score.setNote(score.scoreObj.note(0), noteName.note) })
         }
