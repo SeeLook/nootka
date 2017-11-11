@@ -27,7 +27,8 @@ ToolBar {
     onInitialized: {
       if (!pitchView) {
         var c = Qt.createComponent("qrc:/PitchView.qml")
-        pitchView = c.createObject(toolBar, { "x": label.x - toolBar.width * 0.4 })
+        pitchView = c.createObject(toolBar)
+        pitchView.x = Qt.binding(function() { return label.x - toolBar.width * 0.4 })
       }
     }
   }
