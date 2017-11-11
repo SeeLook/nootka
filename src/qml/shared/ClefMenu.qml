@@ -14,6 +14,8 @@ Grid {
   width: parent.width
   height: childrenRect.height
   spacing: Noo.fontSize() / 4
+  leftPadding: Noo.fontSize() / 4
+  topPadding: Noo.fontSize() / 2
   horizontalItemAlignment: Grid.AlignHCenter
 
   property int selClef
@@ -26,7 +28,7 @@ Grid {
 
   onSelClefChanged: {
     for (var c = 0; c < 7; ++c) {
-      clefButtons.itemAt(c).highlighted = (clefNr[c] === selClef)
+      clefButtons.itemAt(c).checked = (clefNr[c] === selClef)
       if (clefNr[c] === selClef)
         selId = c
     }
@@ -56,8 +58,8 @@ Grid {
   Repeater {
     id: clefButtons
     model: 7
-    Button {
-      width: (clefMenu.width * 0.98) / clefMenu.columns
+    TcuteButton {
+      width: (clefMenu.width * 0.98 - Noo.fontSize() / 4) / clefMenu.columns
       height: Noo.fontSize() * (index === 6 ? 11.0 : 7.5)
       visible: index !== 0 || score.meter !== Tmeter.NoMeter
       onClicked: {

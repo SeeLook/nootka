@@ -11,8 +11,6 @@ import Score 1.0
 Text {
   id: meter
 
-  property Drawer meterDrawer
-
   Connections {
       target: score
       onMeterChanged: text = Noo.meter(score.meter).symbol()
@@ -35,50 +33,17 @@ Text {
       }
   }
 
-  Component {
-    id: meterComp
-    Drawer { // meter menu
-      visible: true
-      width: nootkaWindow.width / 4; height: nootkaWindow.height
-
-      Grid {
-        width: parent.width
-        anchors.margins: Noo.fontSize() / 2
-        columns: 2
-        spacing: Noo.fontSize() / 2
-
-        Repeater {
-          model: 12
-          Button {
-            height: Noo.fontSize() * 5
-            width: parent.width / 2.1
-            Text {
-                id: buttText
-                anchors.horizontalCenter: parent.horizontalCenter
-                y: -Noo.fontSize() * 3.5
-                font { family: "Scorek"; pixelSize: Noo.fontSize() * 4 }
-                text: Noo.meter(Math.pow(2, index)).symbol()
-                color: activPal.text
-            }
-            onClicked: {
-                score.scoreObj.setMeter(Math.pow(2, index))
-                meter.text = buttText.text
-                meterDrawer.close()
-            }
-          }
-        }
-      }
-    }
-  }
-
   MouseArea {
       anchors.fill: parent
       enabled: !score.readOnly
+      property Drawer meterDrawer
       onClicked: {
         if (meterDrawer)
-          meterDrawer.open()
-        else 
-          meterDrawer = meterComp.createObject(meter)
+            meterDrawer.open()
+        else {
+            var c = Qt.createComponent("qrc:/MeterDrawer.qml")
+            meterDrawer = c.createObject(meter)
+        }
       }
   }
 }
