@@ -12,6 +12,7 @@ import "../"
 Column {
   spacing: Noo.fontSize()
   width: parent.width; height: parent.height
+  topPadding: Noo.fontSize() / 2
 
   ListView {
     id: headList
@@ -24,17 +25,17 @@ Column {
       ListElement { head: QT_TR_NOOP("playing") }
     }
 
-    delegate: Button {
+    delegate: TcuteButton {
       text: qsTranslate("TscoreSettings", head)
       onClicked: { stack.currentIndex = index; headList.currentIndex = index }
-      highlighted: index === stack.currentIndex
+      checked: index === stack.currentIndex
       Component.onCompleted: headList.height = Math.max(height, headList.height)
     }
   }
 
   StackLayout {
     id: stack
-    height: parent.height - headList.height - Noo.fontSize()
+    height: parent.height - headList.height - Noo.fontSize() * 1.5
     width: parent.width
     currentIndex: -1
 
@@ -56,7 +57,7 @@ Column {
         Column {
           enabled: enableInChB.checked
           width: parent.width
-          spacing: Noo.fontSize()
+          spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
 
           Tile {
             description: qsTr("Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.")
@@ -171,7 +172,7 @@ Column {
             }
             Column {
               width: parent.width
-              spacing: Noo.fontSize()
+              spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
               Switch {
                 id: advSwitch
                 text: qsTr("Advanced")

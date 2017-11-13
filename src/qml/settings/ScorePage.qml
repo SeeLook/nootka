@@ -14,6 +14,7 @@ Column {
 
     spacing: Noo.fontSize()
     width: parent.width
+    topPadding: Noo.fontSize() / 2
 
 
     ListView {
@@ -31,17 +32,17 @@ Column {
       }
 
       delegate: Component {
-        Button {
+        TcuteButton {
           text: (index + 1) + ". " + qsTranslate("TscoreSettings", head)
           onClicked: { swipePages.currentIndex = index; headList.currentIndex = index }
-          highlighted: headList.currentIndex === index
+          checked: headList.currentIndex === index
           Component.onCompleted: headList.height = Math.max(height, headList.height)
         }
       }
     }
     StackLayout {
       id: swipePages
-      height: parent.height - headList.height - Noo.fontSize()
+      height: parent.height - headList.height - Noo.fontSize() * 1.5
       width: parent.width
 
       Tflickable { // 1st page (general)

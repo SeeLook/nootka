@@ -4,6 +4,7 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
+
 import "../"
 
 
@@ -19,7 +20,7 @@ Flickable {
 
   Column {
     id: mainColumn
-    spacing: Noo.fontSize() / 2
+    spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
     width: parent.width
 
     Tile {
@@ -98,7 +99,7 @@ Flickable {
     }
 
     Tile {
-      Button {
+      TcuteButton {
         anchors.horizontalCenter: parent.horizontalCenter
         text: qsTranslate("TglobalSettings", "Check for updates")
       }
@@ -109,7 +110,7 @@ Flickable {
     Tile {
       description: qsTranslate("TglobalSettings", "All settings will be reset to their default values!<br>Nootka will start up with the first-run wizard.")
       descriptionColor: "red"
-      Button {
+      TcuteButton {
         anchors.horizontalCenter: parent.horizontalCenter
         text: qsTranslate("TglobalSettings", "Restore all default settings")
       }
