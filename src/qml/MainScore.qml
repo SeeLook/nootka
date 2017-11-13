@@ -41,8 +41,6 @@ Score {
   scoreObj.nameColor: GLOB.nameColor
   scoreObj.nameStyle: GLOB.noteNameStyle
   scoreObj.enableDoubleAccidentals: GLOB.enableDoubleAccids
-  scoreObj.allowAdding: !GLOB.singleNoteMode
-
 
   Timer { id: zoomTimer; interval: 500 }
   MouseArea {
@@ -83,11 +81,14 @@ Score {
   // private
   property var scordature: null
 
-  Component.onCompleted: {
-    scoreObj.singleNote = GLOB.singleNoteMode
-    updateScord()
+  Connections {
+    target: SOUND
+    onInitialized: {
+      scoreObj.singleNote = GLOB.singleNoteMode
+      scoreObj.allowAdding = Qt.binding(function() { return !GLOB.singleNoteMode })
+      updateScord()
+    }
   }
-
   Connections {
     target: GLOB
     onKeyNameChanged: keyName.text = Qt.binding(keyName.getKeyNameText)

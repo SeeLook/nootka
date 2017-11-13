@@ -76,7 +76,7 @@ Tsound::~Tsound()
 //#################################################################################################
 
 void Tsound::init() {
-  QTimer::singleShot(1000, [=]{
+  QTimer::singleShot(500, [=]{
 #if !defined (Q_OS_ANDROID) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))
       TrtAudio::initJACKorASIO(GLOB->A->JACKorASIO);
 #endif
@@ -315,7 +315,7 @@ bool Tsound::listening() const {
 
 
 bool Tsound::playing() const {
-  return player->isPlaying();
+  return player ? player->isPlaying() : false;
 }
 
 
