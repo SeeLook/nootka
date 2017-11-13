@@ -82,13 +82,8 @@ void Tsound::init() {
 #endif
       if (GLOB->A->OUTenabled)
           createPlayer();
-      else
-          player = nullptr;
-      if (GLOB->A->INenabled) {
+      if (GLOB->A->INenabled)
           createSniffer();
-      } else {
-          sniffer = nullptr;
-      }
 
       connect(NOO, &TnootkaQML::playNote, [=](const Tnote& n){ play(n); });
       if (sniffer)
