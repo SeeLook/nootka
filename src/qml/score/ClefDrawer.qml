@@ -10,9 +10,11 @@ import QtQuick.Controls 2.2
 
 Drawer {
   property alias selectedClef: clefMenu.selClef
-  width: Noo.fontSize() * 18
+  width: Noo.fontSize() * 19
   height: nootkaWindow.height
   visible: true
+  background: Rectangle { color: activPal.window }
+
   Flickable {
     id: flick
     anchors.fill: parent
