@@ -13,7 +13,7 @@ Grid {
   columns: 1
   width: parent.width
   height: childrenRect.height
-  spacing: Noo.fontSize() / 4
+  spacing: Noo.fontSize() / 2
   leftPadding: Noo.fontSize() / 4
   topPadding: Noo.fontSize() / 2
   horizontalItemAlignment: Grid.AlignHCenter
@@ -59,7 +59,7 @@ Grid {
     id: clefButtons
     model: 7
     TcuteButton {
-      width: (clefMenu.width * 0.98 - Noo.fontSize() / 4) / clefMenu.columns
+      width: (clefMenu.width - Noo.fontSize() / 2) / clefMenu.columns
       height: Noo.fontSize() * (index === 6 ? 11.0 : 7.5)
       visible: index !== 0 || score.meter !== Tmeter.NoMeter
       onClicked: {
@@ -76,13 +76,12 @@ Grid {
           width: parent.width - Noo.fontSize() * 4.0
           spacing: Noo.fontSize() / 4
           Text {
-            antialiasing: true
             text: Noo.clef(clefNr[index]).name()
             font { bold: true; pixelSize: Noo.fontSize() * 1.1 }
             color: activPal.text
           }
           Text {
-            antialiasing: true
+            padding: 4
             text: Noo.clef(clefNr[index]).desc()
             font { pixelSize: Noo.fontSize() * 0.8 }
             width: parent.width

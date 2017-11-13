@@ -52,7 +52,7 @@ QString TtuneObject::stringName(int realStrNr) const {
 
 
 bool TtuneObject::otherThanStd(int realStrNr) const {
-  return !m_tuning->str(realStrNr).compareNotes(Ttune::stdTune.str(realStrNr));
+  return realStrNr <= m_tuning->stringNr() && !m_tuning->str(realStrNr).compareNotes(Ttune::stdTune.str(realStrNr));
 }
 
 

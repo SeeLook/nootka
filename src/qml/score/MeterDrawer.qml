@@ -11,9 +11,9 @@ import Score 1.0
 Drawer { // meter menu
   visible: true
   width: nootkaWindow.width / 4; height: nootkaWindow.height
+  background: Rectangle { color: activPal.window }
   
   Flickable {
-    id: flick
     anchors.fill: parent
     clip: true
     contentHeight: childrenRect.height
