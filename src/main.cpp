@@ -166,6 +166,7 @@ int main(int argc, char *argv[])
       o << "\033[01;35m[Nootka launch time: " << startElapsed.nsecsElapsed() / 1000000.0 << " [ms]\033[01;00m\n";
 #endif
     }
+    sound.init();
     firstTime = false;
     exitCode = a->exec();
     delete e;
