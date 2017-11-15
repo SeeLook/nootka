@@ -13,6 +13,12 @@ TnameItem {
 
   nameStyle: GLOB.noteNameStyle
 
+  property var score: null
+  width: score.width; height: score.height
+  x: score.width + 1
+  note: score.note
+  onNoteChanged: score.setNote(score.scoreObj.note(0), noteName.note)
+
   // private
   property real buttHeight: height / 12
   property real buttWidth: width / 9
