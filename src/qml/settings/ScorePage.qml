@@ -16,12 +16,11 @@ Column {
     width: parent.width
     topPadding: Noo.fontSize() / 2
 
-
     ListView {
       id: headList
       orientation: ListView.Horizontal
       spacing: Noo.fontSize()
-      width: parent.width
+      width: parent.width; height: Noo.fontSize() * 2
       currentIndex: 0
 
       model: ListModel {
@@ -36,7 +35,6 @@ Column {
           text: (index + 1) + ". " + qsTranslate("TscoreSettings", head)
           onClicked: { swipePages.currentIndex = index; headList.currentIndex = index }
           checked: headList.currentIndex === index
-          Component.onCompleted: headList.height = Math.max(height, headList.height)
         }
       }
     }
@@ -52,7 +50,7 @@ Column {
         Column {
           id: firstColumn
           width: parent.width
-          spacing: Noo.fontSize() / 2
+          spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
           Frame {
             width: parent.width * 0.99
             anchors.horizontalCenter: parent.horizontalCenter
@@ -62,7 +60,7 @@ Column {
               radius: Noo.fontSize() / 2
             }
             Column {
-              spacing: Noo.fontSize() / 2
+              spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
               width: parent.width
               Tile {
                 description: qsTranslate("TscoreSettings", "When enabled, a score displays only a single note.")
@@ -135,7 +133,7 @@ Column {
         Column {
           id: secondColumn
           width: parent.width
-          spacing: Noo.fontSize() / 2
+          spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
           TcheckBox {
             id: enableKeyChB
             text: qsTranslate("TscoreSettings", "enable key signature")
@@ -151,7 +149,7 @@ Column {
               radius: Noo.fontSize() / 2
             }
             Column {
-              spacing: Noo.fontSize() / 2
+              spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
               width: parent.width
               Tile {
                 enabled: enableKeyChB.checked
@@ -206,7 +204,7 @@ Column {
         Column {
           id: clefsCol
           width: parent.width
-          spacing: Noo.fontSize() / 2
+          spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
           Text {
             text: qsTranslate("TscoreSettings", "Select default clef for the application.") + "<br><b>" + qsTranslate("TscoreSettings", "Remember! Not all clefs are suitable for some possible tunings or instrument types!") + "<b>"
             textFormat: Text.StyledText
@@ -230,7 +228,7 @@ Column {
         Column {
           id: nameCol
           width: parent.width
-          spacing: Noo.fontSize() / 2
+          spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
           anchors.horizontalCenter: parent.horizontalCenter
           Tile {
             description: qsTranslate("NameStyleSelector", "Naming style of note. The main difference is the 7th note.<br>Is it B and B flat, or H and B?")

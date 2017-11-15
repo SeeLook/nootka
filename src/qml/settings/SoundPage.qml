@@ -18,7 +18,7 @@ Column {
     id: headList
     orientation: ListView.Horizontal
     spacing: Noo.fontSize()
-    width: parent.width
+    width: parent.width; height: Noo.fontSize() * 2
 
     model: ListModel {
       ListElement { head: QT_TR_NOOP("listening") }
@@ -29,7 +29,6 @@ Column {
       text: qsTranslate("TscoreSettings", head)
       onClicked: { stack.currentIndex = index; headList.currentIndex = index }
       checked: index === stack.currentIndex
-      Component.onCompleted: headList.height = Math.max(height, headList.height)
     }
   }
 
@@ -46,6 +45,7 @@ Column {
       Column {
         id: inCol
         width: parent.width
+        topPadding: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
 
         TcheckBox {
           id: enableInChB
