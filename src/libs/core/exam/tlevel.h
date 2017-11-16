@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -40,10 +40,14 @@ class QWidget;
 class NOOTKACORE_EXPORT Tlevel
 {
 public:
-      /** default constructor creates a "complex" level (master of masters) */
+      /**
+       * default constructor creates a "complex" level (master of masters)
+       */
   Tlevel();
 
-  /** Possible errors during reading level file or XML key.*/
+      /**
+       * Possible errors during reading level file or XML key.
+       */
   enum EerrorType { e_level_OK = 0,
       e_levelFixed,     /**< level parameters were fixed */
       e_noLevelInXml,   /**< when XML stream has no <level> tag  */
@@ -96,10 +100,10 @@ public:
   bool               forceAccids;
   bool               requireOctave;
   bool               requireStyle;
-  bool               showStrNr; /**< Shows a string number in questions*/
-  quint8             intonation; // This shares byte with isSingleKey in file
+  bool               showStrNr; /**< Shows a string number in questions */
+  quint8             intonation; /**< This shares byte with isSingleKey in file */
   Tclef              clef;
-  Einstrument        instrument;
+  Tinstrument::Etype instrument;
   bool               onlyLowPos;
   bool               onlyCurrKey;
 // ACCIDENTALS
@@ -168,12 +172,14 @@ public:
   Tclef fixClef(quint16 cl);
 
       /** Fixes instrument value taken from file (stream) created before level Version 2 */
-  Einstrument fixInstrument(quint8 instr);
+  Tinstrument::Etype fixInstrument(quint8 instr);
 
-      /** Checks what kind of instrument should be used by level.
-        * In contrary to fixInstrument() method it doesn't check Tglobals state of instrument
-        * just takes given parameter. */
-  Einstrument detectInstrument(Einstrument currInstr);
+      /**
+       * Checks what kind of instrument should be used by level.
+       * In contrary to fixInstrument() method it doesn't check Tglobals state of instrument
+       * just takes given parameter.
+       */
+  Tinstrument::Etype detectInstrument(Tinstrument::Etype currInstr);
 
   Tlevel::EerrorType fixFretRange(); /**< When loFret is bigger than hiFret it swaps their values */
   Tlevel::EerrorType fixNoteRange(); /**< When loNote is higher than hiNote it swaps their values */

@@ -49,12 +49,12 @@ set(LIB_NOOTKACORE_SRC
 
 #   Android/tmobilemenu.cpp
 
-#   exam/tqatype.cpp
-#   exam/tqaunit.cpp
-#   exam/tqagroup.cpp
-#   exam/tattempt.cpp
-#   exam/tlevel.cpp
-#   exam/texam.cpp
+  exam/tqatype.cpp
+  exam/tqaunit.cpp
+  exam/tqagroup.cpp
+  exam/tattempt.cpp
+  exam/tlevel.cpp
+  exam/texam.cpp
 #   exam/textrans.h
 #   exam/tresulttext.cpp
 
