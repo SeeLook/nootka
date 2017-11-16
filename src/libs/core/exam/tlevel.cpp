@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,7 +18,7 @@
 
 
 #include "tlevel.h"
-#include "tinitcorelib.h"
+#include "tglobals.h"
 #include <music/ttune.h>
 #include <taudioparams.h>
 #include <tscoreparams.h>
@@ -36,7 +36,7 @@
  *
  * 2. 0x95121703 (02.12.2013)
  *     - support for instrument types and guessing an instrument from previous version
- *     - instrument enum is casting directly to quint8: e_noInstrument is 0
+ *     - instrument enum is casting directly to quint8: Tinstrument::NoInstrument is 0
  *
  * 3. 0x95121705 (22.06.2014) - XML stream - universal version
  */
@@ -105,7 +105,7 @@ Tlevel::Tlevel() :
   desc = QObject::tr("All possible options are turned on");
   bool hasGuitar = true;
 // QUESTIONS
-  if (Tcore::gl()->instrument == e_noInstrument)
+  if (GLOB->instrument().type() == Tinstrument::NoInstrument)
     hasGuitar = false;
   questionAs = TQAtype(true, true, hasGuitar, true);
   answersAs[0] = TQAtype(true, true, hasGuitar, true);
@@ -118,12 +118,12 @@ Tlevel::Tlevel() :
     *  Since version 0.8.90 isNoteLo and isNoteHi are merged into Tclef.
     *  It can store multiple clefs (maybe in unknown future it will be used)
     *  0 - no clef and up to 15 different clefs    */
-  clef = Tclef(Tcore::gl()->S->clef);
+  clef = Tclef(GLOB->S->clef);
 
-  instrument = Tcore::gl()->instrument;
+  instrument = GLOB->instrument().type();
   onlyLowPos = false;
   onlyCurrKey = false;
-  intonation = Tcore::gl()->A->intonation;
+  intonation = GLOB->A->intonation;
 // ACCIDENTALS
   withSharps = true;
   withFlats = true;
@@ -142,12 +142,12 @@ Tlevel::Tlevel() :
   randMelody = e_randFromRange;
   //   notesList is clean here
 // RANGE - for non guitar Tglobals will returns scale determined by clef
-  loNote = Tcore::gl()->loString();
-  hiNote = Tnote(Tcore::gl()->hiString().chromatic() + Tcore::gl()->GfretsNumber);
+  loNote = GLOB->loString();
+  hiNote = Tnote(GLOB->hiString().chromatic() + GLOB->GfretsNumber);
   loFret = 0;
-  hiFret = Tcore::gl()->GfretsNumber;
+  hiFret = GLOB->GfretsNumber;
   for (int i = 0; i < 6; i++) {
-    if (i <= Tcore::gl()->Gtune()->stringNr())
+    if (i <= GLOB->Gtune()->stringNr())
       usedStrings[i] = true;
     else
       usedStrings[i] = false;
@@ -182,7 +182,7 @@ bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver) {
       ok = false;
   }
   if (hi < 0 || hi > 24) { // max frets number
-      hi = Tcore::gl()->GfretsNumber;
+      hi = GLOB->GfretsNumber;
       ok = false;
   }
   lev.loFret = char(lo);
@@ -198,7 +198,7 @@ bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver) {
       lev.instrument = lev.fixInstrument(instr); // determining/fixing an instrument type
   } else {
       lev.clef = Tclef((Tclef::EclefType)testClef);
-      lev.instrument = (Einstrument)instr;
+      lev.instrument = (Tinstrument::Etype)instr;
   }
   lev.melodyLen = 1; // Those parameters was deployed in XML files
   lev.endsOnTonic = false; // By settings those values their will be ignored
@@ -287,10 +287,10 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
               er = e_levelFixed;
             }
         } else if (xml.name() == QLatin1String("instrument")) {
-            instrument = Einstrument(QVariant(xml.readElementText()).toInt());
-            if (instrumentToText(instrument).isEmpty()) {
+            instrument = Tinstrument::Etype(QVariant(xml.readElementText()).toInt());
+            if (Tinstrument::staticName(instrument).isEmpty()) {
               qDebug() << "Level had wrong instrument type. It was fixed to classical guitar.";
-              instrument = e_classicalGuitar;
+              instrument = Tinstrument::ClassicalGuitar;
               er = e_levelFixed;
             }
         } else if (xml.name() == QLatin1String("onlyLowPos"))
@@ -528,40 +528,40 @@ Tclef Tlevel::fixClef(quint16 cl) {
 }
 
 
-Einstrument Tlevel::fixInstrument(quint8 instr) {
+Tinstrument::Etype Tlevel::fixInstrument(quint8 instr) {
   // Value 255 comes from transition version 0.8.90 - 0.8.95 and means no instrument,
   // however it is invalid because it ignores guitarists and doesn't play exams/exercises on proper instrument
     if (instr == 255) {
-      if (canBeGuitar() || canBeSound()) {
-          hasInstrToFix = true;
-          return Tcore::gl()->instrument;
-      } else // instrument has no matter
-          return e_noInstrument;
+        if (canBeGuitar() || canBeSound()) {
+            hasInstrToFix = true;
+            return GLOB->instrument().type();
+        } else // instrument has no matter
+            return Tinstrument::NoInstrument;
     } else if (instr == 0 || instr == 1) {
-      // Values 0 and 1 occur in versions before 0.8.90 where an instrument doesn't exist
-      if (canBeGuitar() || canBeSound())
-          return e_classicalGuitar;
-      else
-          return e_noInstrument;
-    } else if (instr < 4) // simple cast to detect an instrument
-          return (Einstrument)instr;
-    else {
-      qDebug() << "Tlevel::instrument has some stupid value. FIXED";
-      return Tcore::gl()->instrument;
+        // Values 0 and 1 occur in versions before 0.8.90 where an instrument doesn't exist
+        if (canBeGuitar() || canBeSound())
+            return Tinstrument::ClassicalGuitar;
+        else
+            return Tinstrument::NoInstrument;
+    } else if (instr < 4) { // simple cast to detect an instrument
+          return (Tinstrument::Etype)instr;
+    } else {
+        qDebug() << "Tlevel::instrument had some stupid value. FIXED";
+        return GLOB->instrument().type();
     }
 }
 
 
-Einstrument Tlevel::detectInstrument(Einstrument currInstr) {
+Tinstrument::Etype Tlevel::detectInstrument(Tinstrument::Etype currInstr) {
   if (canBeGuitar()) { // it has to be some kind of guitar
-      if (currInstr != e_noInstrument)
+      if (currInstr != Tinstrument::NoInstrument)
           return currInstr;
       else // if current instrument isn't guitar force classical
-          return e_classicalGuitar;
+          return Tinstrument::ClassicalGuitar;
   } else if (canBeSound()) // prefer current instrument for it
         return currInstr;
   else // no guitar & no sound - instrument type really has no matter
-        return e_noInstrument;
+        return Tinstrument::NoInstrument;
 }
 
 
@@ -678,7 +678,7 @@ bool Tlevel::inScaleOf(int loNoteNr, int hiNoteNr) {
 
 
 bool Tlevel::inScaleOf() {
-  return inScaleOf(Tcore::gl()->loString().chromatic(), Tcore::gl()->hiNote().chromatic());
+  return inScaleOf(GLOB->loString().chromatic(), GLOB->hiNote().chromatic());
 }
 
 
@@ -686,17 +686,17 @@ bool Tlevel::adjustFretsToScale(char& loF, char& hiF) {
   if (!inScaleOf()) // when note range is not in an instrument scale
     return false; // get rid - makes no sense to further check
 
-  int lowest = Tcore::gl()->GfretsNumber, highest = 0;
+  int lowest = GLOB->GfretsNumber, highest = 0;
   for (int no = loNote.chromatic(); no <= hiNote.chromatic(); no++) {
     if (!withFlats && !withSharps)
       if (Tnote(no).alter) // skip note with accidental when not available in the level
           continue;
-    int tmpLow = Tcore::gl()->GfretsNumber;
-    for(int st = 0 ; st < Tcore::gl()->Gtune()->stringNr(); st++) {
+    int tmpLow = GLOB->GfretsNumber;
+    for(int st = 0 ; st < GLOB->Gtune()->stringNr(); st++) {
       if (!usedStrings[st])
           continue;
-      int diff = no - Tcore::gl()->Gtune()->str(Tcore::gl()->strOrder(st) + 1).chromatic();
-      if (diff >= 0 && diff <= Tcore::gl()->GfretsNumber) { // found
+      int diff = no - GLOB->Gtune()->str(GLOB->strOrder(st) + 1).chromatic();
+      if (diff >= 0 && diff <= GLOB->GfretsNumber) { // found
           lowest = qMin<int>(lowest, diff);
           tmpLow = qMin<int>(tmpLow, diff);
       }

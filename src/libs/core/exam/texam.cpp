@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,13 +22,13 @@
 #include "tattempt.h"
 #include "tinitcorelib.h"
 #include <tscoreparams.h>
-#include <QFile>
-#include <QDataStream>
-#include <QMessageBox>
-#include <QDateTime>
-#include <QDebug>
-#include <QDir>
-#include <QSettings>
+#include <QtCore/qfile.h>
+#include <QtCore/qdatastream.h>
+#include <QtCore/qdatetime.h>
+#include <QtCore/qdir.h>
+#include <QtCore/qsettings.h>
+
+#include <QtCore/qdebug.h>
 
 
 
@@ -97,27 +97,27 @@ bool Texam::areQuestTheSame(TQAunit* q1, TQAunit* q2) {
 
 
 QString Texam::formatReactTime(quint16 timeX10, bool withUnit) {
-    QString hh = "", mm = "", ss = "";
-    int dig = 0;
-    if (timeX10 / 36000) {
-        hh = QString("%1").arg(timeX10 / 36000);
-        dig = 2;
-    }
-    int dig2 = 0;
-    if ((timeX10 % 36000) / 600) {
-        mm = QString("%1").arg((timeX10 % 36000) / 600, dig, 'i', 0, '0');
-        dig2 = 2;
-    }
-    ss = QString("%1").arg(((timeX10 % 36000) % 600) / 10, dig2, 'i', 0, '0' );
-    QString res = "";
-    if (hh != "")
-        res = hh + ":";
-    if (mm != "")
-        res += mm + ":";
-    QString unitS = "";
-    if (withUnit && timeX10 < 600)
-        unitS = " s";
-    return res + ss + QString(".%1").arg(timeX10 % 10) + unitS;
+  QString hh, mm, ss;
+  int dig = 0;
+  if (timeX10 / 36000) {
+      hh = QString("%1").arg(timeX10 / 36000);
+      dig = 2;
+  }
+  int dig2 = 0;
+  if ((timeX10 % 36000) / 600) {
+      mm = QString("%1").arg((timeX10 % 36000) / 600, dig, 'i', 0, '0');
+      dig2 = 2;
+  }
+  ss = QString("%1").arg(((timeX10 % 36000) % 600) / 10, dig2, 'i', 0, '0' );
+  QString res;
+  if (!hh.isEmpty())
+      res = hh + QLatin1String(":");
+  if (!mm.isEmpty())
+      res += mm + QLatin1String(":");
+  QString unitS;
+  if (withUnit && timeX10 < 600)
+      unitS = QLatin1String(" s");
+  return res + ss + QString(".%1").arg(timeX10 % 10) + unitS;
 }
 
 /*end of static*/
@@ -126,18 +126,18 @@ QString Texam::formatReactTime(quint16 timeX10, bool withUnit) {
 //###################             CONSTRUCTOR          ############################################
 //#################################################################################################
 Texam::Texam(Tlevel* l, QString userName):
+  m_fileName(QString()),
   m_userName(userName),
-  m_fileName(""),
+  m_totalTime(0),  m_attempts(0),
   m_mistNr(0), m_tmpMist(0),
-  m_averReactTime(0),
-  m_workTime(0), m_totalTime(0),  m_attempts(0),
-  m_penaltysNr(0),
-  m_isFinished(false), m_melody(false), m_isExercise(false),
+  m_averReactTime(0), m_workTime(0),
   m_halfMistNr(0), m_tmpHalf(0),
+  m_isFinished(false), m_melody(false), m_isExercise(false),
+  m_penaltysNr(0),
   m_blackCount(0),
   m_okTime(0),
   m_effectivenes(0.0),
-  m_skippedUnit(0)
+  m_skippedUnit(nullptr)
 {
   setLevel(l);
 }
@@ -160,7 +160,7 @@ void Texam::setExercise() {
     qDebug() << "Exam has got questions already. Can't set it as an exercise!";
     return;
   }
-  setFileName(QDir::toNativeSeparators(QFileInfo(Tcore::gl()->config->fileName()).absolutePath() + "/exercise.noo"));
+  setFileName(QDir::toNativeSeparators(QFileInfo(Tcore::gl()->config->fileName()).absolutePath() + QLatin1String("/exercise.noo")));
   m_isExercise = true;
 }
 
@@ -183,17 +183,17 @@ void Texam::setFileName(const QString& fileName) {
 void Texam::skipLast(bool skip) {
   if (skip != (bool)m_skippedUnit) {
     if (skip) {
-      if (m_skippedUnit)
-        qDebug() << "Previously skipped question unit will be overridden by newly skipped.";
-      delete m_skippedUnit;
-      m_skippedUnit = m_answList.takeLast();
+        if (m_skippedUnit)
+          qDebug() << "Previously skipped question unit will be overridden by newly skipped.";
+        delete m_skippedUnit;
+        m_skippedUnit = m_answList.takeLast();
     } else {
-      if (!m_skippedUnit)
-        qDebug() << "There is no skipped unit to revert it back!";
-      else {
-        m_answList << m_skippedUnit;
-        m_skippedUnit = 0;
-      }
+        if (!m_skippedUnit)
+          qDebug() << "There is no skipped unit to revert it back!";
+        else {
+          m_answList << m_skippedUnit;
+          m_skippedUnit = 0;
+        }
     }
   }
 }
@@ -215,43 +215,43 @@ Texam::EerrorType Texam::loadFromFile(QString& fileName) {
   EerrorType result = e_file_OK;
   quint32 ev; //exam template version
   if (file.open(QIODevice::ReadOnly)) {
-    QDataStream in(&file);
-    in >> ev;
-    if (couldBeExam(ev)) {
-      if (!isExamVersion(ev))
-          return e_newerVersion;
-    }  else
-        return e_file_not_valid;
+      QDataStream in(&file);
+      in >> ev;
+      if (couldBeExam(ev)) {
+        if (!isExamVersion(ev))
+            return e_newerVersion;
+      }  else
+          return e_file_not_valid;
 
-    bool isExamFileOk = true;
-    if (examVersionNr(ev) == 4) {
-      in.setVersion(QDataStream::Qt_5_2);
-      QByteArray arrayXML = file.readAll();
-      arrayXML.remove(0, 4);
-      QByteArray unZipXml = qUncompress(arrayXML);
-      if (!unZipXml.isEmpty()) {
-        QXmlStreamReader xml(unZipXml);
-        isExamFileOk = loadFromXml(xml);
+      bool isExamFileOk = true;
+      if (examVersionNr(ev) == 4) {
+          in.setVersion(QDataStream::Qt_5_2);
+          QByteArray arrayXML = file.readAll();
+          arrayXML.remove(0, 4);
+          QByteArray unZipXml = qUncompress(arrayXML);
+          if (!unZipXml.isEmpty()) {
+              QXmlStreamReader xml(unZipXml);
+              isExamFileOk = loadFromXml(xml);
+          } else {
+              qDebug() << "Problems with decompressing exam file";
+              return e_file_not_valid;
+          }
       } else {
-        qDebug() << "Problems with decompressing exam file";
-        return e_file_not_valid;
+          in.setVersion(QDataStream::Qt_4_7);
+          isExamFileOk = loadFromBin(in, ev);
       }
-    } else {
-        in.setVersion(QDataStream::Qt_4_7);
-        isExamFileOk = loadFromBin(in, ev);
-    }
 
-    m_melody = m_level->canBeMelody();
-    updateEffectiveness();
-    updateAverageReactTime(true);
+      m_melody = m_level->canBeMelody();
+      updateEffectiveness();
+      updateAverageReactTime(true);
 //     if ((count() - mistakes()))
 //         m_averReactTime = m_okTime / (count() - mistakes());
 //     else
 //         m_averReactTime = 0.0;
 
-    if (!isExamFileOk)
-        result = e_file_corrupted;
-    file.close();
+      if (!isExamFileOk)
+          result = e_file_corrupted;
+      file.close();
   } else {
       Tlevel::fileIOerrorMsg(file, 0);
       result = e_cant_open;
@@ -298,11 +298,11 @@ bool Texam::loadFromBin(QDataStream& in, quint32 ev) {
     isExamFileOk = false;
   }
   if (examVersionNr(ev) >= 2 && (m_tmpMist != m_mistNr || m_tmpHalf != m_halfMistNr)) {
-    m_mistNr = m_tmpMist; // we try to fix exam file to give proper number of mistakes
-    m_halfMistNr = m_tmpHalf;
-    isExamFileOk = false;
+      m_mistNr = m_tmpMist; // we try to fix exam file to give proper number of mistakes
+      m_halfMistNr = m_tmpHalf;
+      isExamFileOk = false;
   } else {
-    m_mistNr = m_tmpMist; // transition to exam version 2
+      m_mistNr = m_tmpMist; // transition to exam version 2
   }
   if (ev == examVersion) {
       convertToVersion2();
@@ -316,13 +316,12 @@ bool Texam::loadFromBin(QDataStream& in, quint32 ev) {
 bool Texam::loadFromXml(QXmlStreamReader& xml) {
   bool ok = true;
   int questNr = 0;
-  int fixedNr = 0;
   if (xml.readNextStartElement()) {
-    if (xml.name() != "exam") {
+    if (xml.name() != QLatin1String("exam")) {
       qDebug() << "There is no 'exam' key in that XML";
       return false;
     }
-    m_userName = xml.attributes().value("user").toString();
+    m_userName = xml.attributes().value(QStringLiteral("user")).toString();
     if (m_userName.isEmpty() || m_userName.size() > 30) {
       qDebug() << "Exam has wrong user name";
       return false;
@@ -330,47 +329,47 @@ bool Texam::loadFromXml(QXmlStreamReader& xml) {
   }
   while (xml.readNextStartElement()) {
 //     qDebug() << "exam" << xml.name();
-    if (xml.name() == "head") {
-      while (xml.readNextStartElement()) {
-//         qDebug() << "head" << xml.name();
-        if (xml.name() == "level") {
-          Tlevel::EerrorType err = m_level->loadFromXml(xml);
-          if (err != Tlevel::e_level_OK) {
-            qDebug() << "Exam has wrong level definition" << (int)err;
-            ok = false;
-          }
-        } else if (xml.name() == "tuning") {
-          if (!m_tune.fromXml(xml, true)) {
-            qDebug() << "Exam has wrong tuning";
-            ok = false;
-          }
-        } else if (xml.name() == "totalTime")
-          m_totalTime = xml.readElementText().toInt();
-        else if (xml.name() == "questNr")
-          questNr = xml.readElementText().toInt();
-        else if (xml.name() == "averReactTime")
-          m_averReactTime = xml.readElementText().toInt();
-        else if (xml.name() == "mistNr")
-          m_mistNr = xml.readElementText().toInt();
-        else if (xml.name() == "halfMistNr")
-          m_halfMistNr = xml.readElementText().toInt();
-        else if (xml.name() == "penaltysNr")
-          m_penaltysNr = xml.readElementText().toInt();
-        else if (xml.name() == "finished")
-          m_isFinished = QVariant(xml.readElementText()).toBool();
-        else if (xml.name() == "exercise") {
-          m_isExercise = true;
-          xml.skipCurrentElement();
-        } else
-          Tlevel::skipCurrentXmlKey(xml);
-      }
-    } else if (xml.name() == "answers") {
+    if (xml.name() == QLatin1String("head")) {
+        while (xml.readNextStartElement()) {
+  //         qDebug() << "head" << xml.name();
+          if (xml.name() == QLatin1String("level")) {
+            Tlevel::EerrorType err = m_level->loadFromXml(xml);
+            if (err != Tlevel::e_level_OK) {
+              qDebug() << "Exam has wrong level definition" << (int)err;
+              ok = false;
+            }
+          } else if (xml.name() == QLatin1String("tuning")) {
+            if (!m_tune.fromXml(xml, true)) {
+              qDebug() << "Exam has wrong tuning";
+              ok = false;
+            }
+          } else if (xml.name() == QLatin1String("totalTime"))
+              m_totalTime = xml.readElementText().toInt();
+          else if (xml.name() == QLatin1String("questNr"))
+              questNr = xml.readElementText().toInt();
+          else if (xml.name() == QLatin1String("averReactTime"))
+              m_averReactTime = xml.readElementText().toInt();
+          else if (xml.name() == QLatin1String("mistNr"))
+            m_mistNr = xml.readElementText().toInt();
+          else if (xml.name() == QLatin1String("halfMistNr"))
+              m_halfMistNr = xml.readElementText().toInt();
+          else if (xml.name() == QLatin1String("penaltysNr"))
+              m_penaltysNr = xml.readElementText().toInt();
+          else if (xml.name() == QLatin1String("finished"))
+              m_isFinished = QVariant(xml.readElementText()).toBool();
+          else if (xml.name() == QLatin1String("exercise")) {
+              m_isExercise = true;
+              xml.skipCurrentElement();
+          } else
+              Tlevel::skipCurrentXmlKey(xml);
+        }
+    } else if (xml.name() == QLatin1String("answers")) {
         if (!readAnswerFromXml(m_answList, xml))
           ok = false;
-    } else if (xml.name() == "penalties") {
+    } else if (xml.name() == QLatin1String("penalties")) {
         if (!readPenaltyFromXml(m_blackList, xml))
             ok = false;
-    } else if (xml.name() == "black") {
+    } else if (xml.name() == QLatin1String("black")) {
         m_blackNumbers.clear();
         while (xml.readNextStartElement()) {
           if (xml.name() == "n")
@@ -398,31 +397,33 @@ bool Texam::loadFromXml(QXmlStreamReader& xml) {
 
 
 Texam::EerrorType Texam::saveToFile(QString fileName) {
-  if (fileName != "")
+  if (!fileName.isEmpty())
     setFileName(fileName); // m_fileName becomes fileName
-  if (m_fileName == "")
+  if (m_fileName.isEmpty())
     return e_noFileName;
+
   QFile file(m_fileName);
   if (file.open(QIODevice::WriteOnly)) {
-    QDataStream out(&file);
-    out.setVersion(QDataStream::Qt_5_2);
-    out << currentVersion;
-    QByteArray arrayXML;
-    QXmlStreamWriter xml(&arrayXML);
-//     xml.setAutoFormatting(true);
-    xml.writeStartDocument();
-    xml.writeComment("\nXML file of Nootka exam data.\nhttp://nootka.sf.net\nThis file should never be opened in other software then Nootka.\nProbably you are doing something illegal!");
-    writeToXml(xml);
-    xml.writeEndDocument();
+      QDataStream out(&file);
+      out.setVersion(QDataStream::Qt_5_2);
+      out << currentVersion;
+      QByteArray arrayXML;
+      QXmlStreamWriter xml(&arrayXML);
+  //     xml.setAutoFormatting(true);
+      xml.writeStartDocument();
+      xml.writeComment("\nXML file of Nootka exam data.\nhttp://nootka.sf.net\nThis file should never be opened in other software then Nootka.\nProbably you are doing something illegal!");
+      writeToXml(xml);
+      xml.writeEndDocument();
 
-    out << qCompress(arrayXML);
-//     out << arrayXML;
+      out << qCompress(arrayXML);
+  //     out << arrayXML;
 
-    file.close();
+      file.close();
   } else {
-    QMessageBox::critical(0, "",
-           QObject::tr("Cannot save exam file:\n%1").arg(QString::fromLocal8Bit(qPrintable(file.errorString()))));
-    return e_cant_open;
+// TODO:    QMessageBox::critical(0, "",
+//            QObject::tr("Cannot save exam file:\n%1").arg(QString::fromLocal8Bit(qPrintable(file.errorString()))));
+      qDebug() << "[Texam] Error message is not implemented!";
+      return e_cant_open;
   }
   qDebug() << "Exam saved to:" << m_fileName;
   return e_file_OK;
@@ -430,35 +431,35 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
 
 
 void Texam::writeToXml(QXmlStreamWriter& xml) {
-  xml.writeStartElement("exam");
-    xml.writeAttribute("user", m_userName);
-    xml.writeStartElement("head");
+  xml.writeStartElement(QStringLiteral("exam"));
+    xml.writeAttribute(QStringLiteral("user"), m_userName);
+    xml.writeStartElement(QStringLiteral("head"));
       m_level->writeToXml(xml);
       m_tune.toXml(xml, true);
-      xml.writeTextElement("totalTime", QVariant(m_totalTime).toString());
-      xml.writeTextElement("questNr", QVariant(count()).toString());
-      xml.writeTextElement("averReactTime", QVariant(m_averReactTime).toString());
-      xml.writeTextElement("mistNr", QVariant(m_mistNr).toString());
-      xml.writeTextElement("halfMistNr", QVariant(m_halfMistNr).toString());
-      xml.writeTextElement("penaltysNr", QVariant(m_penaltysNr).toString());
-      xml.writeTextElement("finished", QVariant(m_isFinished).toString());
+      xml.writeTextElement(QStringLiteral("totalTime"), QVariant(m_totalTime).toString());
+      xml.writeTextElement(QStringLiteral("questNr"), QVariant(count()).toString());
+      xml.writeTextElement(QStringLiteral("averReactTime"), QVariant(m_averReactTime).toString());
+      xml.writeTextElement(QStringLiteral("mistNr"), QVariant(m_mistNr).toString());
+      xml.writeTextElement(QStringLiteral("halfMistNr"), QVariant(m_halfMistNr).toString());
+      xml.writeTextElement(QStringLiteral("penaltysNr"), QVariant(m_penaltysNr).toString());
+      xml.writeTextElement(QStringLiteral("finished"), QVariant(m_isFinished).toString());
       if (isExercise())
-        xml.writeEmptyElement("exercise");
+        xml.writeEmptyElement(QStringLiteral("exercise"));
     xml.writeEndElement(); // head
-    xml.writeStartElement("answers");
+    xml.writeStartElement(QStringLiteral("answers"));
     for (int i = 0; i < count(); ++i)
       m_answList[i]->toXml(xml);
     xml.writeEndElement(); // answers
     if (m_blackList.size()) {
-      xml.writeStartElement("penalties");
-      for (int i = 0; i < m_blackList.size(); ++i)
-        m_blackList[i].toXml(xml);
-      xml.writeEndElement(); // penalties
+        xml.writeStartElement(QStringLiteral("penalties"));
+        for (int i = 0; i < m_blackList.size(); ++i)
+          m_blackList[i].toXml(xml);
+        xml.writeEndElement(); // penalties
     } else if (m_blackNumbers.size()) {
-      xml.writeStartElement("black");
-      for (int i = 0; i < m_blackNumbers.size(); ++i)
-        xml.writeTextElement("n", QString::number(m_blackNumbers[i]));
-      xml.writeEndElement(); // penalties
+        xml.writeStartElement(QStringLiteral("black"));
+        for (int i = 0; i < m_blackNumbers.size(); ++i)
+          xml.writeTextElement(QStringLiteral("n"), QString::number(m_blackNumbers[i]));
+        xml.writeEndElement(); // penalties
     }
   xml.writeEndElement(); // exam
 }
@@ -512,17 +513,17 @@ void Texam::addPenalties() {
     if (melodies())
         m_blackNumbers.append(-1); // one more random melody
     if (curQ()->isNotSoBad()) {
-      if (!isExercise() /*&& !melodies() */&& !isFinished())
-          m_penaltysNr++;
-      if (!melodies())
-        m_halfMistNr++;
+        if (!isExercise() /*&& !melodies() */&& !isFinished())
+            m_penaltysNr++;
+        if (!melodies())
+          m_halfMistNr++;
     } else {
-      if (melodies())
-        m_blackNumbers.append(count() - 1); // repeat current melody in some further question
-      if (!isExercise() /*&& !melodies() */&& !isFinished())
-          m_penaltysNr += 2;
-      if (!melodies())
-        m_mistNr++;
+        if (melodies())
+          m_blackNumbers.append(count() - 1); // repeat current melody in some further question
+        if (!isExercise() /*&& !melodies() */&& !isFinished())
+            m_penaltysNr += 2;
+        if (!melodies())
+          m_mistNr++;
     }
   }
 }
@@ -568,12 +569,12 @@ bool Texam::readPenaltyFromXml(QList<TQAunit>& blackList, QXmlStreamReader& xml)
   bool ok = true;
   while (xml.readNextStartElement()) {
     if (xml.name() == "u") {
-      blackList << TQAunit(this);
-      if (!blackList.last().fromXml(xml)) {
-        qDebug() << "Exam has wrong unit" << blackList.size();
-        blackList.removeLast();
-        ok = false;
-      }
+        blackList << TQAunit(this);
+        if (!blackList.last().fromXml(xml)) {
+          qDebug() << "Exam has wrong unit" << blackList.size();
+          blackList.removeLast();
+          ok = false;
+        }
     } else
         Tlevel::skipCurrentXmlKey(xml);
   }
@@ -587,13 +588,13 @@ bool Texam::readAnswerFromXml(QList<TQAunit*>& list, QXmlStreamReader& xml) {
     if (xml.name() == "u") {
       list << new TQAunit(this);
       if (list.last()->fromXml(xml)) {
-        grabFromLastUnit();
-        if (melodies())
-          m_attempts += curQ()->attemptsCount();
+          grabFromLastUnit();
+          if (melodies())
+            m_attempts += curQ()->attemptsCount();
       } else {
-        qDebug() << "Exam has wrong unit" << list.size();
-        list.removeLast();
-        ok = false;
+          qDebug() << "Exam has wrong unit" << list.size();
+          list.removeLast();
+          ok = false;
       }
     } else
         Tlevel::skipCurrentXmlKey(xml);
@@ -606,9 +607,9 @@ void Texam::grabFromLastUnit() {
   m_workTime += curQ()->time;
   if (!curQ()->isCorrect()) {
     if (curQ()->isWrong())
-        m_tmpMist++;
+      m_tmpMist++;
     else
-        m_tmpHalf++; // not so bad answer
+      m_tmpHalf++; // not so bad answer
     }
   if (!curQ()->isWrong())
     m_okTime += curQ()->time;
@@ -633,7 +634,7 @@ void Texam::clearAnswList() {
 }
 
 
-/** This method exist for backward compatibility but is has rate use in 'modern' Nootka times  */
+/** This method exist for backward compatibility but is has very rare usage in 'modern' Nootka times  */
 void Texam::convertToVersion2() {
   bool hasStyle = false;
   Tnote::EnameStyle randStyles[3];
@@ -645,11 +646,11 @@ void Texam::convertToVersion2() {
    if (m_level->requireStyle) { // prepare styles array to imitate switching
       randStyles[0] = Tnote::e_italiano_Si;
       if (Tcore::gl()->S->seventhIs_B) {
-        randStyles[1] = Tnote::e_english_Bb;
-        randStyles[2] = Tnote::e_nederl_Bis;
+          randStyles[1] = Tnote::e_english_Bb;
+          randStyles[2] = Tnote::e_nederl_Bis;
       } else {
-        randStyles[1] = Tnote::e_norsk_Hb;
-        randStyles[2] = Tnote::e_deutsch_His;
+          randStyles[1] = Tnote::e_norsk_Hb;
+          randStyles[2] = Tnote::e_deutsch_His;
       }
    }
   }
@@ -660,21 +661,21 @@ void Texam::convertToVersion2() {
   // version 1 didn't put proper Tnote::EnameStyle to file - we fixing it
     if (hasStyle) {
       if (m_level->requireStyle) {
-        if (m_answList[i]->questionAs == TQAtype::e_asName && m_answList[i]->answerAs == TQAtype::e_asName) {
-          Tnote::EnameStyle qSt = randStyles[qrand() % 3];
-          Tnote::EnameStyle aSt;
-          if (qSt == Tnote::e_italiano_Si)
-            aSt = randStyles[(qrand() % 2) +1];
-          else
-            aSt = Tnote::e_italiano_Si;
-          m_answList[i]->setStyle(qSt, aSt);
-        } else
-          if (m_answList[i]->questionAs == TQAtype::e_asName) {
-            m_answList[i]->setStyle(randStyles[qrand() % 3], Tcore::gl()->S->nameStyleInNoteName);
+          if (m_answList[i]->questionAs == TQAtype::e_asName && m_answList[i]->answerAs == TQAtype::e_asName) {
+            Tnote::EnameStyle qSt = randStyles[qrand() % 3];
+            Tnote::EnameStyle aSt;
+            if (qSt == Tnote::e_italiano_Si)
+              aSt = randStyles[(qrand() % 2) +1];
+            else
+              aSt = Tnote::e_italiano_Si;
+            m_answList[i]->setStyle(qSt, aSt);
           } else
             if (m_answList[i]->questionAs == TQAtype::e_asName) {
-              m_answList[i]->setStyle(Tcore::gl()->S->nameStyleInNoteName, randStyles[qrand() % 3]);
-            }
+                m_answList[i]->setStyle(randStyles[qrand() % 3], Tcore::gl()->S->nameStyleInNoteName);
+            } else
+                if (m_answList[i]->questionAs == TQAtype::e_asName) {
+                  m_answList[i]->setStyle(Tcore::gl()->S->nameStyleInNoteName, randStyles[qrand() % 3]);
+                }
       } else // fixed style - we changing to user preferred
           m_answList[i]->setStyle(Tcore::gl()->S->nameStyleInNoteName, Tcore::gl()->S->nameStyleInNoteName);
     }
@@ -682,24 +683,23 @@ void Texam::convertToVersion2() {
     if (!m_answList[i]->isCorrect()) {
       quint16 penCnt = 0; // counts of penalties
       if (m_answList[i]->isWrong()) {
-        if (i < (m_answList.size() -1) && areQuestTheSame(m_answList[i], m_answList[i+1])) {
-          // there was next question repeated
-          if (m_answList[i+1]->isCorrect()) // and was correct
-            penCnt = 65501; // so add one penalty
-          else // when again wrong
-            penCnt = 65502; // add two
-          // The next loop will add next two penalties !!
-        } else // question was not repeated
-            penCnt = 65502;
+          if (i < (m_answList.size() -1) && areQuestTheSame(m_answList[i], m_answList[i+1])) {
+            // there was next question repeated
+            if (m_answList[i+1]->isCorrect()) // and was correct
+              penCnt = 65501; // so add one penalty
+            else // when again wrong
+              penCnt = 65502; // add two
+            // The next loop will add next two penalties !!
+          } else // question was not repeated
+              penCnt = 65502;
       } else { // not so bad
-        if (i < (m_answList.size() -1) && areQuestTheSame(m_answList[i], m_answList[i+1])) {
-          // there was next question repeated
-          if (m_answList[i+1]->isCorrect()) // and was correct
-//             m_blackList.removeLast(); // remove it from black list - corrected
-            penCnt = 0;
-          else
-            penCnt = 65501;
-        }
+          if (i < (m_answList.size() -1) && areQuestTheSame(m_answList[i], m_answList[i+1])) {
+            // there was next question repeated
+            if (m_answList[i+1]->isCorrect()) // and was correct
+              penCnt = 0;
+            else
+              penCnt = 65501;
+          }
       }
       if (penCnt) {
         m_blackList << *m_answList[i];
