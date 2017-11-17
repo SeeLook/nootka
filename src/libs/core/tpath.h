@@ -21,7 +21,7 @@
 
 
 #include "nootkacoreglobal.h"
-#include <QtCore/qobject.h>
+#include <QtCore/qstring.h>
 
 
 /**
@@ -38,13 +38,12 @@
  * @p sound() for sounds
  * @p lang() for translations
 */
-class NOOTKACORE_EXPORT Tpath : public QObject
+class NOOTKACORE_EXPORT Tpath
 {
-  Q_OBJECT
 
 public:
-  Tpath(QObject *parent = nullptr);
-  ~Tpath() override;
+  Tpath() {}
+  ~Tpath() {}
 
   static QString main; /**< Path with Nootka resources (/usr/share -Linux /Resources - MacOs) */
 
@@ -59,10 +58,12 @@ public:
        * Returns path to Nootka images (picts) with given image name.
        * It is accessible from QML through @p Noo.pix("image_name")
        */
-  Q_INVOKABLE static QString pix(const QString& imageFileName);
+  static QString pix(const QString& imageFileName);
 
 
-      /** Returns a path to given ogg file with samples in sound resource directory */
+      /**
+       * Returns a path to given ogg file with samples in sound resource directory
+       */
   static QString sound(const char* soundFileName, const char* ext = ".ogg") {
 #if defined (Q_OS_ANDROID)
       return QString("assets:/sounds/%1%2").arg(soundFileName, ext);
@@ -71,9 +72,11 @@ public:
 #endif
   }
 
-      /** Returns path where Nootka language files (*.qm) are located.
-       * (Under Mac/Win/Android Qt translations aw well).
-       * WARING! there is no trailing slash at the end. */
+      /**
+       * Returns path where Nootka language files (*.qm) are located.
+       * (Under Mac/Win/Android Qt translations as well).
+       * WARNING! there is no trailing slash at the end.
+       */
   static QString lang() {
 #if defined (Q_OS_ANDROID)
       return QStringLiteral("assets:/lang");
@@ -82,8 +85,6 @@ public:
 #endif
   }
 
-private:
-  static Tpath               *m_instance;
 };
 
 

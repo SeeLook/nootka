@@ -18,25 +18,9 @@
 
 
 #include "tpath.h"
-#include <QtCore/qdebug.h>
 
 
 QString Tpath::main = QString();
-Tpath* Tpath::m_instance = nullptr;
-
-
-Tpath::Tpath(QObject* parent) :
-  QObject(parent)
-{
-  if (m_instance) {
-    qDebug() << "Tpath instance already exists";
-    return;
-  }
-  m_instance = this;
-}
-
-
-Tpath::~Tpath() { m_instance = nullptr; }
 
 
 QString Tpath::img(const char* imageFileName, const char* ext) {

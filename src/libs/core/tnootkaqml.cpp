@@ -39,15 +39,17 @@
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qfile.h>
 #include <QtCore/qdir.h>
-#include <QtWidgets/qapplication.h>
 #include <QtCore/qdir.h>
 #include <QtCore/qdatetime.h>
+#include <QtCore/qbuffer.h>
+#include <QtWidgets/qapplication.h>
 #if defined (Q_OS_ANDROID)
   #include "Android/tfiledialog.h"
   #include "Android/tmobilemenu.h"
 #else
   #include <QtWidgets/qfiledialog.h>
 #endif
+
 #include <QtCore/qdebug.h>
 
 
@@ -424,6 +426,21 @@ int TnootkaQML::fontSize() {
 #endif
 }
 
+
+QString TnootkaQML::pixToHtml(const QString& pixName, int height) {
+  if (height == 0)
+    return QString("<img src=\"%1\">").arg(pixName);
+
+  QPixmap pix;
+  if (!pix.load(Tpath::img(qPrintable(pixName))))
+    return QString();
+
+  QByteArray byteArray;
+  QBuffer buffer(&byteArray);
+  pix.scaled(qRound(height * (static_cast<qreal>(pix.height()) / static_cast<qreal>(pix.width()))),
+                               height, Qt::KeepAspectRatio, Qt::SmoothTransformation).save(&buffer, "PNG");
+  return QString("<img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/>";
+}
 
 //#################################################################################################
 //###################     CONNECTIONS  NODE            ############################################
