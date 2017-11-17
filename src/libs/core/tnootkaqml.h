@@ -125,6 +125,8 @@ public:
 
   Q_INVOKABLE int fontSize();
 
+  Q_INVOKABLE QString pixToHtml(const QString& pixName, int height = 0);
+
 /**
  * All stuff below is responsible for handling note changes in score, instrument and sound in/out.
  * @p TnootkaQML has score and instrument pointers to handle theirs signals when note is changed,
