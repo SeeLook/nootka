@@ -27,13 +27,13 @@
 #endif
 #include "tnootkaqml.h"
 #include "ttickcolors.h"
-#include <tprecisetimer.h>
 #include <tinitcorelib.h>
 #include <taudioparams.h>
 #include "music/tmelody.h"
 #include "music/tchunk.h"
 
 #include <QtQml/qqmlengine.h>
+#include <QtCore/qtimer.h>
 #include <QtCore/qdebug.h>
 
 
