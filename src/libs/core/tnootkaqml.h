@@ -102,8 +102,6 @@ public:
   Q_INVOKABLE QStringList bassTunings();
   Q_INVOKABLE Ttune tuning(int tuningType);
   Q_INVOKABLE Ttune tuning(const Tnote& s1, const Tnote& s2, const Tnote& s3, const Tnote& s4, const Tnote& s5, const Tnote& s6);
-  Q_INVOKABLE QString stdButtonText(int role);
-  Q_INVOKABLE QString stdButtonIcon(int role);
   Q_INVOKABLE Tinstrument instr(int type);
   Q_INVOKABLE QString getXmlToOpen();
   Q_INVOKABLE QString getXmlToSave();
