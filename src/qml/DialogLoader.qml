@@ -18,8 +18,10 @@ Dialog {
   property int page: 0
   // private
   property var currentDialog: null
-  property Drawer dialogDrawer: null
+  property var dialogDrawer: null
   property var buttons: []
+
+  TdialogObject { id: dialogObj }
 
   onPageChanged: {
     if (page > 0) {
@@ -64,33 +66,12 @@ Dialog {
       SOUND.stopListen()
       open()
       if (Noo.isAndroid()) {
-        dialogDrawer = drawerComp.createObject(currentDialog)
+          var c = Qt.createComponent("qrc:/+android/DialogDrawer.qml")
+          dialogDrawer = c.createObject(currentDialog)
       }
     }
   }
 
-  Component {
-    id: drawerComp
-    Drawer {
-      width: Noo.fontSize() * 15
-      height: parent.height
-      ListView {
-        spacing: Screen.pixelDensity * 2
-        anchors.fill: parent
-        model: dialLoader.buttons
-        delegate: Component {
-          MenuButton {
-            property int role: dialLoader.buttons[index]
-            action: Taction {
-              text: Noo.stdButtonText(dialLoader.buttons[index])
-              icon: Noo.stdButtonIcon(dialLoader.buttons[index])
-            }
-            onClicked: mapRole(role)
-          }
-        }
-      }
-    }
-  }
 
   onVisibleChanged: {
     if (visible === false && currentDialog) {
@@ -108,16 +89,4 @@ Dialog {
   }
   onReset: if (currentDialog) currentDialog.reset()
   onAccepted: if (currentDialog) currentDialog.accepted()
-
-  function mapRole(role) {
-    switch (role) {
-      case StandardButton.Ok: accept(); break
-      case StandardButton.Apply: apply(); break
-      case StandardButton.Cancel: reject(); break
-      case StandardButton.RestoreDefaults: reset(); break
-      case StandardButton.Help: help(); break
-      case StandardButton.Close: close(); break
-    }
-    dialogDrawer.close()
-  }
 }

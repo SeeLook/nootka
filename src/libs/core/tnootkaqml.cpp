@@ -32,6 +32,7 @@
 #include "instruments/tpianobg.h"
 #include "instruments/tbandoneonbg.h"
 #include "instruments/tsaxbg.h"
+#include "dialogs/tdialogloaderobject.h"
 #include "taction.h"
 #include "music/ttuneobject.h"
 #include "tmtr.h"
@@ -96,6 +97,8 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qRegisterMetaType<Ttune>();
   qmlRegisterUncreatableType<Ttune>("Nootka", 1, 0, "Ttune", QStringLiteral("You cannot create an instance of the Ttune."));
   qmlRegisterType<TtuneObject>("Nootka", 1, 0, "TtuneObject");
+
+  qmlRegisterType<TdialogLoaderObject>("Nootka", 1, 0, "TdialogObject");
 }
 
 
@@ -306,32 +309,6 @@ Ttune TnootkaQML::tuning(int tuningType) {
  */
 Ttune TnootkaQML::tuning(const Tnote& s1, const Tnote& s2, const Tnote& s3, const Tnote& s4, const Tnote& s5, const Tnote& s6) {
   return Ttune(QApplication::translate("InstrumentPage", "Custom tuning"), s1, s2, s3, s4, s5, s6, s3.isValid() ? Ttune::Custom : Ttune::Scale);
-}
-
-
-QString TnootkaQML::stdButtonText(int role) {
-  switch (role) {
-    case 33554432: return qTR("QPlatformTheme", "Apply");
-    case 4194304: return qTR("QPlatformTheme", "Cancel");
-    case 134217728: return qTR("QPlatformTheme", "Restore Defaults");
-    case 16777216: return qTR("QPlatformTheme", "Help");
-    case 2097152: return qTR("QPlatformTheme", "Close");
-    case 1024: return qTR("QPlatformTheme", "OK");
-    default: return QString();
-  }
-}
-
-
-QString TnootkaQML::stdButtonIcon(int role) {
-  switch (role) {
-    case 33554432: return QStringLiteral("check"); // Apply
-    case 4194304: return QStringLiteral("record"); // Cancel
-    case 134217728: return QStringLiteral("fingerpoint"); // Restore defaults
-    case 16777216: return QStringLiteral("help"); // Help
-    case 2097152: return QStringLiteral("exit"); // Close
-    case 1024: return QStringLiteral("check"); // OK
-    default: return QString();
-  }
 }
 
 
