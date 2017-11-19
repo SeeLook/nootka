@@ -4,10 +4,27 @@
 
 import QtQuick 2.9
 
+import "../"
 
-Item {
-  Text {
-    text: "Not implemented yet"
-    anchors.centerIn: parent
+Tflickable {
+  id: levelsPage
+
+  height: parent.height
+  contentWidth: width
+  contentHeight:levelsCol.height
+
+  Column {
+    id: levelsCol
+    anchors.fill: parent
+    Row {
+      width: parent.width
+      Rectangle {
+        width: parent.width / 2; height: levelsPage.height * 0.6
+        color: "gray"
+      }
+      LevelPreview {
+        width: parent.width / 2; height: levelsPage.height * 0.7
+      }
+    }
   }
 }
