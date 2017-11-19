@@ -57,11 +57,6 @@ set(LIB_NOOTKACORE_SRC
   exam/texam.cpp
 #   exam/textrans.h
 #   exam/tresulttext.cpp
-
-  dialogs/tdialogloaderobject.cpp
-  dialogs/tlevelcreatoritem.cpp
-  dialogs/tlevelpreviewitem.cpp
-
 )
 
 

@@ -32,7 +32,6 @@
 #include "instruments/tpianobg.h"
 #include "instruments/tbandoneonbg.h"
 #include "instruments/tsaxbg.h"
-#include "dialogs/tdialogloaderobject.h"
 #include "taction.h"
 #include "music/ttuneobject.h"
 #include "tmtr.h"
@@ -97,8 +96,6 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qRegisterMetaType<Ttune>();
   qmlRegisterUncreatableType<Ttune>("Nootka", 1, 0, "Ttune", QStringLiteral("You cannot create an instance of the Ttune."));
   qmlRegisterType<TtuneObject>("Nootka", 1, 0, "TtuneObject");
-
-  qmlRegisterType<TdialogLoaderObject>("Nootka", 1, 0, "TdialogObject");
 }
 
 
