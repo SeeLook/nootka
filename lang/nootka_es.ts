@@ -3365,7 +3365,7 @@
     </message>
 </context>
 <context>
-    <name>accidSettings</name>
+    <name>AccidsPage</name>
     <message>
         <source># - sharps</source>
         <translation># - sostenidos</translation>

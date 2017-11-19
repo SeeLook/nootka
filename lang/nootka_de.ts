@@ -3409,7 +3409,7 @@ nicht öffnen</translation>
     </message>
 </context>
 <context>
-    <name>accidSettings</name>
+    <name>AccidsPage</name>
     <message>
         <source># - sharps</source>
         <translation># - Kreuze</translation>

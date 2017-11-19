@@ -4174,7 +4174,7 @@
     </message>
 </context>
 <context>
-    <name>accidSettings</name>
+    <name>AccidsPage</name>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="33"/>
         <source># - sharps</source>

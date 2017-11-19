@@ -4130,7 +4130,7 @@ nutowy</translation>
     </message>
 </context>
 <context>
-    <name>accidSettings</name>
+    <name>AccidsPage</name>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="33"/>
         <source># - sharps</source>
@@ -4163,8 +4163,8 @@ nutowy</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="86"/>
-        <source>Select a key signature. Appropriate accidentals used in exam will be automatically selected!</source>
-        <translation>Wybierz tonację. Odpowiednie znaki używane podczas egzaminu zostaną zaznaczone automatycznie!</translation>
+        <source>Select a key signature. Appropriate accidentals used in this level will be selected automatically.</source>
+        <translation>Wybierz tonację. Odpowiednie znaki używane w tym poziomie zostaną zaznaczone automatycznie.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="102"/>
