@@ -33,6 +33,7 @@
 #include <tnootkaqml.h>
 #include <tsound.h>
 #include "main/tnameitem.h"
+#include "dialogs/tdialogloaderobject.h"
 
 #if defined (Q_OS_ANDROID)
   #include <Android/tandroid.h>
@@ -141,7 +142,8 @@ int main(int argc, char *argv[])
       e->rootContext()->setContextProperty(QStringLiteral("SOUND"), &sound);
       GLOB->isFirstRun = false;
     }
-    qmlRegisterType<TnameItem>("Nootka.name", 1, 0, "TnameItem");
+    qmlRegisterType<TnameItem>("Nootka.Main", 1, 0, "TnameItem");
+    qmlRegisterType<TdialogLoaderObject>("Nootka.Dialogs", 1, 0, "TdialogObject");
     e->load(QUrl(QStringLiteral("qrc:/MainWindow.qml")));
 
 // #if defined (Q_OS_ANDROID)

@@ -69,8 +69,12 @@ include_directories( libs/core libs/sound ) # libs/main
 
 # nootka executable
 set(NOOTKA_SRC
-    main.cpp
-    main/tnameitem.cpp
+  main.cpp
+  main/tnameitem.cpp
+
+  dialogs/tdialogloaderobject.cpp
+  dialogs/tlevelcreatoritem.cpp
+  dialogs/tlevelpreviewitem.cpp
 )
 
 
