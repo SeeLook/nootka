@@ -4,8 +4,12 @@
 
 import QtQuick 2.9
 
+import Nootka.exam 1.0
 
-Item {
+
+TlevelCreatorItem {
+  id: creator
+
   width: parent.width
   height: parent.height - (Noo.isAndroid() ? 0 : Noo.fontSize() * 3)
 

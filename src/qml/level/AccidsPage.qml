@@ -8,13 +8,10 @@ import QtQuick.Controls 2.2
 import "../"
 
 
-Flickable {
-  width: parent.width; height: parent.height
-  clip: true
+Tflickable {
+  height: parent.height
   contentHeight: accidsGrid.height + Noo.fontSize() * 2
   contentWidth: Math.max(width, Noo.fontSize() * 40)
-
-  ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
 
   Grid {
     columns:  parent.width > Noo.fontSize() * 60 ? 2 : 1
@@ -119,7 +116,7 @@ Flickable {
               currentIndex: 7
             }
           }
-          description: qsTr("Select a key signature. Appropriate accidentals used in the level will be selected automatically.")
+          description: qsTr("Select a key signature. Appropriate accidentals used in this level will be selected automatically.")
         }
         Tile {
           enabled: useKeysChB.checked

@@ -60,6 +60,7 @@ set(LIB_NOOTKACORE_SRC
 
   dialogs/tdialogloaderobject.cpp
   dialogs/tlevelcreatoritem.cpp
+  dialogs/tlevelpreviewitem.cpp
 
 )
 

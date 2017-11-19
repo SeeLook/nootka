@@ -85,6 +85,7 @@
     <file alias="level/MelodyPage.qml">qml/level/MelodyPage.qml</file>
     <file alias="level/AccidsPage.qml">qml/level/AccidsPage.qml</file>
     <file alias="level/RangePage.qml">qml/level/RangePage.qml</file>
+    <file alias="level/LevelPreview.qml">qml/level/LevelPreview.qml</file>
 
     <file alias="wizard/Wizard.qml">qml/wizard/Wizard.qml</file>
     <file alias="wizard/WizardInstrument.qml">qml/wizard/WizardInstrument.qml</file>

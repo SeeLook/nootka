@@ -18,6 +18,7 @@
 
 #include "tdialogloaderobject.h"
 #include "tlevelcreatoritem.h"
+#include "exam/tlevelpreviewitem.h"
 #include "qtr.h"
 
 
@@ -26,6 +27,7 @@ TdialogLoaderObject::TdialogLoaderObject(QObject* parent) :
 {
   if (m_firstTime) {
     qmlRegisterType<TlevelCreatorItem>("Nootka.exam", 1, 0, "TlevelCreatorItem");
+    qmlRegisterType<TlevelPreviewItem>("Nootka.exam", 1, 0, "TlevelPreviewItem");
     m_firstTime = false;
   }
 }
