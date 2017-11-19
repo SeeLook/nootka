@@ -18,7 +18,7 @@
 
 #include "tdialogloaderobject.h"
 #include "tlevelcreatoritem.h"
-#include "exam/tlevelpreviewitem.h"
+#include "dialogs/tlevelpreviewitem.h"
 #include "qtr.h"
 
 
