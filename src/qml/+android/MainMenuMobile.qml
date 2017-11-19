@@ -7,6 +7,7 @@ import QtQuick.Controls 2.2
 import QtGraphicalEffects 1.0
 
 import Nootka 1.0
+import "sound"
 
 
 TmobileMenu {
@@ -24,7 +25,7 @@ TmobileMenu {
   Rectangle {
     id: bg
     width: fingerPixels() / 2; height: fingerPixels(); x: fingerPixels() / 10; y:  fingerPixels() / 10;
-    color: pressed ? activPal.highlight : Qt.rgba(0.2, 0.2, 0.2, 0.05)
+    color: Noo.alpha(activPal.highlight, pressed ? 255 : 25)
     radius: fingerPixels() / 10
     Column {
       width: parent.width
@@ -58,6 +59,21 @@ TmobileMenu {
         SOUND.stopListen()
       else
         SOUND.startListen()
+    }
+  }
+
+  property var tempoBar: null
+  Taction {
+    id: tempoAct
+    text: qsTr("Metronome")
+    icon: "fork"
+    onTriggered: {
+      if (!tempoBar) {
+        var c = Qt.createComponent("qrc:/sound/TempoBar.qml")
+        tempoBar = c.createObject(nootkaWindow.contentItem,
+                  { "z": 10, "height": nootkaWindow.height * 0.08, "y": nootkaWindow.height * 0.85, "width": nootkaWindow.width / 2, "x": nootkaWindow.width / 4 })
+        console.log("tempoBar", tempoBar)
+      }
     }
   }
 
@@ -97,6 +113,7 @@ TmobileMenu {
               Component.onCompleted: mainDrawer.label = this
             }
             MenuButton { action: pitchDetectAct; onClicked: mainDrawer.close() }
+            MenuButton { action: tempoAct; onClicked: mainDrawer.close() }
             MenuButton { action: nootkaWindow.levelAct; onClicked: mainDrawer.close() }
             MenuButton { action: nootkaWindow.examAct; onClicked: mainDrawer.close() }
             MenuButton { action: nootkaWindow.settingsAct; onClicked: mainDrawer.close() }
