@@ -18,7 +18,7 @@ Item {
   Rectangle {
     id: metroText
     width: height * 2.5; height: parent.height
-    color: ma.containsMouse ? activPal.highlight : "transparent"
+    color: ma.containsMouse ? activPal.highlight : (Noo.isAndroid() ? activPal.base : "transparent")
     radius: height / 5
     Text {
       anchors.horizontalCenter: parent.horizontalCenter
