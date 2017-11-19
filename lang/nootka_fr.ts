@@ -3205,7 +3205,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
 </context>
 <context>
-    <name>accidSettings</name>
+    <name>AccidsPage</name>
     <message>
         <source># - sharps</source>
         <translation>#  dièses</translation>
