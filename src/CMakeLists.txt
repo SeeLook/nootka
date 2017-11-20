@@ -62,7 +62,6 @@ endif ()
 
 add_subdirectory( libs/core )     # libNootkaCore
 add_subdirectory( libs/sound )    # libNootkaSound
-# add_subdirectory( libs/main )     # libNootkaMain TODO: it rather will go to main executable
 
 include_directories( libs/core libs/sound ) # libs/main
 
@@ -75,6 +74,8 @@ set(NOOTKA_SRC
   dialogs/tdialogloaderobject.cpp
   dialogs/tlevelcreatoritem.cpp
   dialogs/tlevelpreviewitem.cpp
+  dialogs/tlevelsdefs.cpp
+  dialogs/tlevelselector.cpp
 )
 
 

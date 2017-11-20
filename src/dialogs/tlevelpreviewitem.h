@@ -33,20 +33,23 @@ class TlevelPreviewItem : public QQuickItem
   Q_OBJECT
 
   Q_PROPERTY(QString levelHtml READ levelHtml NOTIFY levelHtmlChanged)
+  Q_PROPERTY(QString instrumentGlyph READ instrumentGlyph NOTIFY instrumentGlyphChanged)
 
 public:
   TlevelPreviewItem(QQuickItem* parent = nullptr);
   ~TlevelPreviewItem() override;
 
-  void setLevel(Tlevel* l);
+  void setLevel(Tlevel* tl);
 
   QString levelHtml() const { return m_levelText; }
+  QString instrumentGlyph() const { return m_instrGlyph; }
 
 signals:
   void levelHtmlChanged();
+  void instrumentGlyphChanged();
 
 private:
-  QString                   m_levelText;
+  QString                   m_levelText, m_instrGlyph;
 };
 
 #endif // TLEVELPREVIEWITEM_H

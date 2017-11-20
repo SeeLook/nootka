@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,15 +20,16 @@
 #define TLEVELSDEFS_H
 
 
-#include "nootkacoreglobal.h"
 #include <QtCore/qlist.h>
 
 
 class Tlevel;
 
 
-    /** Fills given list with predefined levels. */
-void NOOTKACORE_EXPORT getExampleLevels(QList<Tlevel>& llist);
+    /**
+     * Fills given list with predefined levels.
+     */
+void getExampleLevels(QList<Tlevel>& llist);
 
 
 #endif // TLEVELSDEFS_H

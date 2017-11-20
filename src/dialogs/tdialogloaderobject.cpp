@@ -18,16 +18,21 @@
 
 #include "tdialogloaderobject.h"
 #include "tlevelcreatoritem.h"
-#include "dialogs/tlevelpreviewitem.h"
+#include "tlevelpreviewitem.h"
+#include "tlevelselector.h"
 #include "qtr.h"
+
+
+bool TdialogLoaderObject::m_firstTime = true;
 
 
 TdialogLoaderObject::TdialogLoaderObject(QObject* parent) :
   QObject(parent)
 {
   if (m_firstTime) {
-    qmlRegisterType<TlevelCreatorItem>("Nootka.exam", 1, 0, "TlevelCreatorItem");
-    qmlRegisterType<TlevelPreviewItem>("Nootka.exam", 1, 0, "TlevelPreviewItem");
+    qmlRegisterType<TlevelCreatorItem>("Nootka.Dialogs", 1, 0, "TlevelCreatorItem");
+    qmlRegisterType<TlevelPreviewItem>("Nootka.Dialogs", 1, 0, "TlevelPreviewItem");
+    qmlRegisterType<TlevelSelector>("Nootka.Dialogs", 1, 0, "TlevelsSelector");
     m_firstTime = false;
   }
 }

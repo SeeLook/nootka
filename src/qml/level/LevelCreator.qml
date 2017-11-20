@@ -4,7 +4,7 @@
 
 import QtQuick 2.9
 
-import Nootka.exam 1.0
+import Nootka.Dialogs 1.0
 
 
 TlevelCreatorItem {
@@ -17,10 +17,10 @@ TlevelCreatorItem {
 
   Component.onCompleted: {
     pages.addItem("levelsSett", qsTranslate("TlevelSelector", "Levels"), "level/Levels")
-    pages.addItem("questionsSett", qsTranslate("TlevelCreatorDlg", "Questions"), "level/Questions")
+    pages.addItem("questionsSett", qsTr("Questions"), "level/Questions")
     pages.addItem("melodySett", qsTr("Melody"), "level/Melody")
-    pages.addItem("accidSett", qsTranslate("TlevelSelector", "Accidentals"),  "level/Accids")
-    pages.addItem("rangeSett", qsTranslate("TlevelSelector", "Range"),  "level/Range")
+    pages.addItem("accidSett", qsTr("Accidentals"),  "level/Accids")
+    pages.addItem("rangeSett", qsTr("Range"),  "level/Range")
   }
 
   Connections {

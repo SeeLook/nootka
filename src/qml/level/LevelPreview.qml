@@ -4,7 +4,8 @@
 
 import QtQuick 2.9
 
-import Nootka.exam 1.0
+import Nootka.Dialogs 1.0
+import "../"
 
 
 TlevelPreviewItem {
@@ -16,13 +17,46 @@ TlevelPreviewItem {
       color: Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 50))
       font { family: "Nootka"; pixelSize: parent.height }
       anchors.centerIn: parent
-      text: "h"
+      text: instrumentGlyph
     }
   }
 
-  Text {
+  Tflickable {
     anchors.fill: parent
-    horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
-    text: levelHtml
+    contentWidth: width
+    contentHeight: htmlText.height
+    Text {
+      id: htmlText
+      property int pixelSize: Noo.fontSize()
+      padding: Noo.fontSize() / 3
+      width: parent.width
+      horizontalAlignment: Text.AlignHCenter
+      textFormat: Text.RichText
+      text: levelHtml
+      color: activPal.text
+      wrapMode: Text.WordWrap
+      font.pixelSize: pixelSize
+    }
+    MouseArea {
+      anchors.fill: parent
+      z: -1
+      onWheel: {
+        if (wheel.modifiers & Qt.ControlModifier) {
+            if (wheel.angleDelta.y > 0) {
+                if (!zoomTimer.running) {
+                  htmlText.pixelSize = htmlText.pixelSize + 1
+                  zoomTimer.running = true
+                }
+            } else if (wheel.angleDelta.y < 0) {
+                if (!zoomTimer.running) {
+                  htmlText.pixelSize = htmlText.pixelSize - 1
+                  zoomTimer.running = true
+                }
+            }
+        } else
+            wheel.accepted = false
+      }
+    }
+    Timer { id: zoomTimer; interval: 100 }
   }
 }

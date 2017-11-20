@@ -86,8 +86,8 @@ void Tsound::init() {
           createSniffer();
 
       connect(NOO, &TnootkaQML::playNote, [=](const Tnote& n){ play(n); });
-      if (sniffer)
-        sniffer->startListening();
+//       if (sniffer)
+//         sniffer->startListening();
       emit initialized();
   });
 }

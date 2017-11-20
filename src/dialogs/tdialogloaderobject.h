@@ -46,7 +46,7 @@ public:
   Q_INVOKABLE QString stdButtonIcon(int role);
 
 private:
-  bool                    m_firstTime = true;
+  static bool                    m_firstTime;
 
 };
 
