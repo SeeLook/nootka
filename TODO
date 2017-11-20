@@ -20,10 +20,9 @@ TRANSLATION CONTEXT CHANGES
   TscoreActions & TmelMan - MainScore
   TtoolBar - MainWindow
   accidssettings -> AccidsPage (but remove line breaks from descriptions)
-  rangeSettings -> RangePage as well (be careful with TlevelPreview texts there)
+  TlevelPreviewItem "no level selected" goes to TlevelSelector
 
   NameStyleSelector - text "Naming style of note. The main difference is the 7th note.<br>Is it B and B flat, or H and B?" has to go into ScorePage or its sub-page with name settings
-  TlevelCreatorDlg -> LevelCreator
   AdioInSettings ??? copy "semitone(s)" text to Transposition context but remove %n
 
 ============================================================================
