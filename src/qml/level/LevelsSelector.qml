@@ -100,12 +100,13 @@ TlevelsSelector {
             Text {
               anchors.verticalCenter: parent.verticalCenter
               color: enabled ? (checked ? activPal.highlightedText : activPal.text) : disdPal.text
-              text: qsTr("load")
+              text: qsTr("Load")
             }
           }
           onClicked: loadFromFile()
         }
         TcuteButton {
+          enabled: isRemovable(view.currentIndex)
           contentItem: Row {
             padding: lSelector.width / 200
             spacing: lSelector.width / 100
@@ -116,8 +117,13 @@ TlevelsSelector {
             Text {
               anchors.verticalCenter: parent.verticalCenter
               color: enabled ? (checked ? activPal.highlightedText : activPal.text) : disdPal.text
-              text: qsTr("remove")
+              text: qsTr("Remove")
             }
+          }
+          onClicked: {
+            var c = Qt.createComponent("qrc:/level/RemoveLevel.qml")
+            var rmLevelDialog = c.createObject(creator, { "levelName": levelName(view.currentIndex), "levelFile": levelFile(view.currentIndex) })
+            rmLevelDialog.onRemove.connect(rmLevelSlot)
           }
         }
       }
@@ -127,5 +133,10 @@ TlevelsSelector {
       id: previewItem
       width: parent.width * 0.49; height: lSelector.height
     }
+  }
+
+  function rmLevelSlot(fromDisk) {
+    if (removeLevel(view.currentIndex, fromDisk))
+      view.currentIndex = -1
   }
 }

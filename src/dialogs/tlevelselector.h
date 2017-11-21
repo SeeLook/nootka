@@ -28,6 +28,9 @@ class QFile;
 class TlevelPreviewItem;
 
 
+/**
+ * @p TlevelSelector is C++ logic of LevelSelector.qml
+ */
 class TlevelSelector : public QQuickItem
 {
 
@@ -78,7 +81,7 @@ public:
   void addLevel(const Tlevel &lev, QString levelFile = QString(), bool check = false);
 
       /**
-       * Shows the level with given @p id
+       * Shows the level with given @p id in the level preview
        */
   Q_INVOKABLE void showLevel(int id);
 
@@ -88,6 +91,9 @@ public:
   Q_INVOKABLE QString desc(int id);
 
   Q_INVOKABLE bool isMelody(int id);
+
+  Q_INVOKABLE QString levelName(int id) const;
+  Q_INVOKABLE QString levelFile(int id) const;
 
       /**
        * Returns current selected level
@@ -114,9 +120,16 @@ public:
        */
   bool isSuitable(Tlevel &l);
 
-      /** Checks currently selected level */
-  bool isSuitable();
-  bool isSuitable(int id) { return m_levels[id].suitable; }
+      /**
+       * Checks currently selected level
+       */
+  bool isSuitable() const;
+  bool isSuitable(int id) const { return m_levels[id].suitable; }
+
+      /**
+       * Returns @p TRUE when level has its file and can be removed (from the list and from a storage)
+       */
+  Q_INVOKABLE bool isRemovable(int id) const;
 
       /**
        * Disables all levels which not match to instrument settings.
@@ -128,46 +141,21 @@ public:
        */
   Q_INVOKABLE void loadFromFile(QString levelFile = QString());
 
+  Q_INVOKABLE bool removeLevel(int id, bool removeFile);
+
+
 signals:
-  void levelChanged(Tlevel level);
   void levelsModelChanged();
 
 private:
-  QList <SlevelContener>          m_levels;
+  QList<SlevelContener>           m_levels;
   QStringList                     m_levelsModel;
   TlevelPreviewItem              *m_levelPreview;
   Tlevel                          m_fakeLevel; /**< Default @p Tlevel with empty name. Can be used for references */
 
   Tlevel getLevelFromFile(QFile &file);
-  void removeLevelSlot();
 
 };
-
-
-
-/**
- * Pop up widget confirms deleting a level file.
- */
-// class TremoveLevel : public QDialog
-// {
-//   Q_OBJECT
-
-// public:
-//   explicit TremoveLevel(const QString& levelName, const QString& fileName, QWidget* parent = 0);
-
-      /** Remove level %1 from the list (%1 is optional) */
-//   static QString removeTxt(const QString& levelName = "") { 
-//       return tr("Remove level %1 from the list").arg("<b>" + levelName + "</b>");  }
-
-// protected slots:
-//   void acceptedSlot();
-
-// private:
-//   QCheckBox          *m_deleteChB;
-//   QString             m_levelFile;
-
-// };
-
 
 #endif // TLEVELSELECTOR_H
 

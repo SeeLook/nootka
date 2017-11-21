@@ -87,6 +87,7 @@
     <file alias="level/RangePage.qml">qml/level/RangePage.qml</file>
     <file alias="level/LevelPreview.qml">qml/level/LevelPreview.qml</file>
     <file alias="level/LevelsSelector.qml">qml/level/LevelsSelector.qml</file>
+    <file alias="level/RemoveLevel.qml">qml/level/RemoveLevel.qml</file>
 
     <file alias="wizard/Wizard.qml">qml/wizard/Wizard.qml</file>
     <file alias="wizard/WizardInstrument.qml">qml/wizard/WizardInstrument.qml</file>

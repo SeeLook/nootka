@@ -106,7 +106,7 @@ void TlevelSelector::findLevels() {
   m_levels.last().suitable = true;
 // from setting file - recent load/saved levels
   QStringList recentLevels = GLOB->config->value("recentLevels").toStringList();
-  for (int i = recentLevels.size()-1; i >= 0; i--) {
+  for (int i = recentLevels.size() - 1; i >= 0; i--) {
       QFile file(recentLevels[i]);
       if (file.exists()) {
           Tlevel level = getLevelFromFile(file);
@@ -160,7 +160,7 @@ void TlevelSelector::disableNotSuitable() {
 }
 
 
-bool TlevelSelector::isSuitable() {
+bool TlevelSelector::isSuitable() const {
 //   if (idOfSelected() > -1 )
 //       return m_levels[idOfSelected()].suitable;
 //   else
@@ -170,8 +170,13 @@ bool TlevelSelector::isSuitable() {
 }
 
 
+bool TlevelSelector::isRemovable(int id) const {
+  return id >= 0 && id < m_levels.count() ? !m_levels[id].file.isEmpty() : false;
+}
+
+
 void TlevelSelector::showLevel(int id) {
-  if (id >= 0 && id < m_levels.count())
+  if (id >= 0 && id < m_levels.count() && m_levelPreview)
     m_levelPreview->setLevel(&m_levels[id].level);
 }
 
@@ -186,12 +191,22 @@ bool TlevelSelector::isMelody(int id) {
 }
 
 
+QString TlevelSelector::levelName(int id) const {
+  return id >= 0 && id < m_levels.count() ? m_levels[id].level.name : QString();
+}
+
+
+QString TlevelSelector::levelFile(int id) const {
+  return id >= 0 && id < m_levels.count() ? m_levels[id].file : QString();
+}
+
+
 void TlevelSelector::loadFromFile(QString levelFile) {
   if (levelFile.isEmpty())
 #if defined (Q_OS_ANDROID)
     levelFile = TfileDialog::getOpenFileName(this, GLOB->E->levelsDir, QStringLiteral("nel"));
 #else
-    levelFile = QFileDialog::getOpenFileName(nullptr, tr("Load exam's level"), GLOB->E->levelsDir, levelFilterTxt() + QLatin1String(" (*.nel)"));
+    levelFile = QFileDialog::getOpenFileName(nullptr, tr("Load exam level"), GLOB->E->levelsDir, levelFilterTxt() + QLatin1String(" (*.nel)"));
 #endif
   QFile file(levelFile);
   Tlevel level = getLevelFromFile(file);
@@ -203,6 +218,26 @@ void TlevelSelector::loadFromFile(QString levelFile) {
       updateRecentLevels();
       emit levelsModelChanged();
   }
+}
+
+
+bool TlevelSelector::removeLevel(int id, bool removeFile) {
+
+  if (id >= 0 && id < m_levels.count()) {
+    if (removeFile) {
+      QFile levF(m_levels[id].file);
+      if (!levF.remove())
+        qDebug() << "Can't remove level file" << levF.fileName() ;
+    }
+    m_levels.removeAt(id);
+    m_levelsModel.removeAt(id);
+    emit levelsModelChanged();
+    if (m_levelPreview)
+      m_levelPreview->setLevel(&m_fakeLevel);
+    updateRecentLevels();
+    return true;
+  }
+  return false;
 }
 
 
@@ -229,108 +264,48 @@ void TlevelSelector::updateRecentLevels() {
 //##########################################################################################################
 
 Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
-    Tlevel level;
-    level.name.clear();;
-    if (file.open(QIODevice::ReadOnly)) {
-         QDataStream in(&file);
-         in.setVersion(QDataStream::Qt_5_2);
-         quint32 lv; // level version identifier
-         in >> lv;
-         bool wasLevelValid = true;
-         bool wasLevelFile = true;
-         if (Tlevel::levelVersionNr(lv) == 1 || Tlevel::levelVersionNr(lv) == 2) // *.nel with binary data
-            wasLevelValid = getLevelFromStream(in, level, lv); // *.nel in XML
-         else if (Tlevel::levelVersionNr(lv) == 3) {
-           Tlevel::EerrorType er;
-           QXmlStreamReader xml(in.device());
-           if (!xml.readNextStartElement()) // open first XML node
-             er = Tlevel::e_noLevelInXml;
-           else 
+  Tlevel level;
+  level.name.clear();;
+  if (file.open(QIODevice::ReadOnly)) {
+        QDataStream in(&file);
+        in.setVersion(QDataStream::Qt_5_2);
+        quint32 lv; // level version identifier
+        in >> lv;
+        bool wasLevelValid = true;
+        bool wasLevelFile = true;
+        if (Tlevel::levelVersionNr(lv) == 1 || Tlevel::levelVersionNr(lv) == 2) // *.nel with binary data
+          wasLevelValid = getLevelFromStream(in, level, lv); // *.nel in XML
+        else if (Tlevel::levelVersionNr(lv) == 3) {
+          Tlevel::EerrorType er;
+          QXmlStreamReader xml(in.device());
+          if (!xml.readNextStartElement()) // open first XML node
+            er = Tlevel::e_noLevelInXml;
+          else 
             er = level.loadFromXml(xml);
-           switch (er) {
-             case Tlevel::e_levelFixed:
+          switch (er) {
+            case Tlevel::e_levelFixed:
                 wasLevelValid = false; break;
-             case Tlevel::e_noLevelInXml:
-             case Tlevel::e_otherError:
-               wasLevelFile = false; break;
-             default:
-               break;
-           }
-         } else
-              wasLevelFile = false;
-         file.close();
+            case Tlevel::e_noLevelInXml:
+            case Tlevel::e_otherError:
+              wasLevelFile = false; break;
+            default:
+              break;
+          }
+        } else
+            wasLevelFile = false;
+        file.close();
 //          if (!wasLevelFile) {
 //             QMessageBox::critical(this, QString(), tr("File: %1 \n is not Nootka level file!").arg(file.fileName()));
 //             level.name.clear();
 //             return level;
 //          } else if (!wasLevelValid)
 //              QMessageBox::warning(0, QString(), tr("Level file\n %1 \n was corrupted and repaired!\n Check please, if its parameters are as expected.").arg(file.fileName()));
-    } else {
-        if (!file.fileName().isEmpty()) // skip empty file names (ignored by user)
-          Tlevel::fileIOerrorMsg(file, nullptr);
-    }
-    return level;
+  } else {
+      if (!file.fileName().isEmpty()) // skip empty file names (ignored by user)
+        Tlevel::fileIOerrorMsg(file, nullptr);
+  }
+  return level;
 }
-
-
-void TlevelSelector::removeLevelSlot() {
-//   if (m_levelsListWdg->currentRow() == -1)
-//     return;
-//   QPointer<TremoveLevel> removeDialog = new TremoveLevel(m_levels[idOfSelected()].level.name,  m_levels[idOfSelected()].file, this);
-//   if (removeDialog->exec() == QDialog::Accepted) {
-//     int selId = idOfSelected();
-//     m_levelsListWdg->setCurrentRow(-1);
-//     m_levels.removeAt(selId);
-//     QListWidgetItem *toTrash = m_levelsListWdg->takeItem(selId);
-//     delete toTrash;
-//     updateRecentLevels();
-//     emit levelChanged(m_fakeLevel);
-//     m_removeButt->setDisabled(true);
-//   }
-}
-
-
-/*
-//%%%%%%%%%%%%%%%%%%%%%%%%%% TremoveLevel %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-TremoveLevel::TremoveLevel(const QString& levelName, const QString& fileName, QWidget* parent) : 
-  QDialog(parent, Qt::CustomizeWindowHint | Qt::WindowSystemMenuHint | Qt::WindowCloseButtonHint),
-  m_levelFile(fileName)
-{
-    setWindowTitle(removeTxt().replace("<b>", QString()).replace("</b>", QString()));
-    QLabel *removeLab = new QLabel(removeTxt(levelName), this);
-    m_deleteChB = new QCheckBox(tr("Also delete level file:"), this);
-    QLabel *fNameLab = new QLabel(QLatin1String("<b>") + fileName + QLatin1String("</b>"), this);
-
-    QDialogButtonBox *stdButtons = new QDialogButtonBox(this);
-    QPushButton *removeButton = stdButtons->addButton(tr("Remove"), QDialogButtonBox::AcceptRole);
-      removeButton->setIcon(style()->standardIcon(QStyle::SP_TrashIcon));
-    QPushButton *cancelButton =  stdButtons->addButton(QDialogButtonBox::Cancel);
-      cancelButton->setIcon(style()->standardIcon(QStyle::SP_DialogCancelButton));
-
-    QVBoxLayout *lay = new QVBoxLayout;
-      lay->addWidget(removeLab, 0, Qt::AlignCenter);
-      lay->addSpacing(20);
-      lay->addWidget(m_deleteChB, 0, Qt::AlignCenter);
-      lay->addWidget(fNameLab, 0, Qt::AlignCenter);
-      lay->addSpacing(20);
-      lay->addWidget(stdButtons, 0, Qt::AlignCenter);
-    setLayout(lay);
-
-    connect(this, SIGNAL(accepted()), this, SLOT(acceptedSlot()));
-    connect(stdButtons, SIGNAL(accepted()), this, SLOT(accept()));
-    connect(stdButtons, SIGNAL(rejected()), this, SLOT(reject()));
-}
-
-
-void TremoveLevel::acceptedSlot() {
-    if (m_deleteChB->isChecked()) {
-      QFile levF(m_levelFile);
-      if (!levF.remove())
-        qDebug() << "Can't remove level file" << m_levelFile ;
-    }
-}
-*/
 
 
 
