@@ -26,7 +26,7 @@ TlevelsSelector {
       ListView {
         id: view
         clip: true
-        width: parent.width; height: lSelector.height * 0.99 - buttRow.height
+        width: parent.width; height: lSelector.height * 0.96 - buttRow.height
         currentIndex: -1
         ScrollBar.vertical: ScrollBar { active: false; visible: active }
         model: levelsModel
@@ -122,7 +122,7 @@ TlevelsSelector {
           }
           onClicked: {
             var c = Qt.createComponent("qrc:/level/RemoveLevel.qml")
-            var rmLevelDialog = c.createObject(creator, { "levelName": levelName(view.currentIndex), "levelFile": levelFile(view.currentIndex) })
+            var rmLevelDialog = c.createObject(lSelector, { "levelName": levelName(view.currentIndex), "levelFile": levelFile(view.currentIndex) })
             rmLevelDialog.onRemove.connect(rmLevelSlot)
           }
         }

@@ -18,6 +18,7 @@ Item {
   property alias model: navList.model
   property alias pages: navList.pages
   property alias currentPage: stack.currentItem
+  property var buttons: []
   property alias mobileButt: mobBut
 
   anchors { fill: parent; leftMargin: Screen.pixelDensity }
@@ -48,7 +49,6 @@ Item {
       clip: true
       height: parent.height - (Noo.isAndroid() ? mobBut.height : 0)
       z: 3 // above stack
-      property var buttons: []
       property var pages: []
       property HeadButton prevButt: null
       property int prevDelegate: -1
@@ -83,9 +83,9 @@ Item {
             var w = Math.max(navList.width, width)
             navList.width = w
             butHigh.width = w
-            navList.buttons.push(delegateButt)
-            for (var i = 0; i < navList.buttons.length; ++i) // keep buttons width the same
-              navList.buttons[i].width = w
+            buttons.push(delegateButt)
+            for (var i = 0; i < buttons.length; ++i) // keep buttons width the same
+              buttons[i].width = w
             if (index === 0) {
               navList.prevButt = delegateButt
               textColor = activPal.highlightedText
