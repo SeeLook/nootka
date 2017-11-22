@@ -80,6 +80,8 @@ public:
        */
   void addLevel(const Tlevel &lev, QString levelFile = QString(), bool check = false);
 
+  Tlevel* currentLevel();
+
       /**
        * Shows the level with given @p id in the level preview
        */
@@ -146,12 +148,14 @@ public:
 
 signals:
   void levelsModelChanged();
+  void levelChanged();
 
 private:
   QList<SlevelContener>           m_levels;
   QStringList                     m_levelsModel;
   TlevelPreviewItem              *m_levelPreview;
   Tlevel                          m_fakeLevel; /**< Default @p Tlevel with empty name. Can be used for references */
+  int                             m_currentLevelId = -1;
 
   Tlevel getLevelFromFile(QFile &file);
 

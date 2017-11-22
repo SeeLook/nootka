@@ -60,7 +60,6 @@ Dialog {
               buttons = [StandardButton.Close]
           } else {
               standardButtons = StandardButton.Close
-              title = qsTr("Level creator")
           }
           break
       }

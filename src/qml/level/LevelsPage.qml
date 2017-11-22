@@ -7,18 +7,77 @@ import QtQuick 2.9
 import "../"
 
 
-Tflickable {
+Column {
   id: levelsPage
 
-  height: parent.height
-  contentWidth: width
-  contentHeight: levelsCol.height
+  height: parent.height; width: parent.width
 
-  Column {
-    id: levelsCol
-    width: parent.width
-    LevelsSelector {
-      width: parent.width; height: levelsPage.height * 0.8
+  spacing: levelsPage.width / 50
+  LevelsSelector {
+    id: selector
+    width: parent.width; height: levelsPage.height - buttRow.height - levelsPage.width / 50
+    Component.onCompleted: creator.selector = selector
+  }
+  Row {
+    id: buttRow
+    spacing: levelsPage.width / 50
+    anchors.horizontalCenter: parent.horizontalCenter
+    TcuteButton {
+      width: levelsPage.width / 4
+      contentItem: Row {
+        padding: levelsPage.width / 200
+        spacing: levelsPage.width / 100
+        Image {
+          source: Noo.pix("notSaved")
+          sourceSize.height: levelsPage.height / 15
+        }
+        Text {
+          anchors.verticalCenter: parent.verticalCenter
+          color: enabled ? (checked ? activPal.highlightedText : activPal.text) : disdPal.text
+          text: qsTr("Save")
+        }
+      }
+      onClicked: {
+        
+      }
+    }
+    TcuteButton {
+      width: levelsPage.width / 4
+      contentItem: Row {
+        padding: levelsPage.width / 200
+        spacing: levelsPage.width / 100
+        Image {
+          source: Noo.pix("exam")
+          sourceSize.height: levelsPage.height / 15
+        }
+        Text {
+          anchors.verticalCenter: parent.verticalCenter
+          color: enabled ? (checked ? activPal.highlightedText : activPal.text) : disdPal.text
+          text: qsTr("Start exam")
+        }
+      }
+      onClicked: {
+        
+      }
+    }
+    TcuteButton {
+      width: levelsPage.width / 4
+      contentItem: Row {
+        padding: levelsPage.width / 200
+        spacing: levelsPage.width / 100
+        Image {
+          source: Noo.pix("practice")
+          sourceSize.height: levelsPage.height / 15
+        }
+        Text {
+          anchors.verticalCenter: parent.verticalCenter
+          color: enabled ? (checked ? activPal.highlightedText : activPal.text) : disdPal.text
+          text: qsTr("Start exercise")
+        }
+      }
+      onClicked: {
+        
+      }
     }
   }
 }

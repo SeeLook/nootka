@@ -111,7 +111,7 @@ void TlevelPreviewItem::setLevel(Tlevel* tl) {
         if (tl->canBeMelody())
           tmp += QLatin1String("m");
         else
-          tmp += qaTypeSymbol(TQAtype::e_asSound);
+          tmp += qaTypeSymbol(TQAtype::e_asSound) + space;
       }
 
       m_levelText += TnooFont::span(tmp, fontSize);
@@ -128,7 +128,7 @@ void TlevelPreviewItem::setLevel(Tlevel* tl) {
         if (tl->canBeMelody())
           tmp += QLatin1String("m");
         else
-          tmp += qaTypeSymbol(TQAtype::e_asSound);
+          tmp += qaTypeSymbol(TQAtype::e_asSound) + space;
       }
       m_levelText += TnooFont::span(tmp, fontSize);
       m_levelText += TDTREnd;

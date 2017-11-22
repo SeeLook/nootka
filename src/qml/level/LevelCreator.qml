@@ -23,6 +23,11 @@ TlevelCreatorItem {
     pages.addItem("rangeSett", qsTr("Range"),  "level/Range")
   }
 
+  onSaveStateChanged: {
+    pages.buttons[0].icon = Noo.pix(creator.notSaved ? "notSaved" : "levelsSett")
+    dialLoader.title = creator.title // TODO: it doesn't work
+  }
+
   Connections {
     target: pages.mobileButt
     onClicked: dialLoader.dialogDrawer.open()

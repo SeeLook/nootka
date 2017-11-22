@@ -140,6 +140,11 @@ void TlevelSelector::addLevel(const Tlevel& lev, QString levelFile, bool check) 
 }
 
 
+Tlevel* TlevelSelector::currentLevel() {
+  return m_currentLevelId >= 0 && m_currentLevelId < m_levels.count() ? &m_levels[m_currentLevelId].level : nullptr;
+}
+
+
 bool TlevelSelector::isSuitable(Tlevel &l) {
   QString warringText = checkLevel(l);
 //   if (!warringText.isEmpty()) {
@@ -176,8 +181,12 @@ bool TlevelSelector::isRemovable(int id) const {
 
 
 void TlevelSelector::showLevel(int id) {
-  if (id >= 0 && id < m_levels.count() && m_levelPreview)
-    m_levelPreview->setLevel(&m_levels[id].level);
+  if (id >= 0 && id < m_levels.count() && m_levelPreview) {
+      m_levelPreview->setLevel(&m_levels[id].level);
+      m_currentLevelId = id;
+  } else
+      m_currentLevelId = -1;
+  emit levelChanged();
 }
 
 

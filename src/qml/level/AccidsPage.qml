@@ -22,7 +22,7 @@ Tflickable {
     topPadding: Noo.fontSize()
 
     Frame {
-      width: accidsGrid.columns === 1 ? Math.max(parent.width * 0.9, dblAccidsChB.width) : parent.width * 0.35
+      width: accidsGrid.columns === 1 ? Math.max(parent.width * 0.9, dblAccidsChB.width) : parent.width * 0.4
       Column {
         spacing: Noo.fontSize() / 2
         width: parent.width
@@ -30,16 +30,22 @@ Tflickable {
         Tile {
           TcheckBox {
             id: sharpsChB
+            enabled: !(useKeysChB.checked && (loKeyCombo.currentIndex > 7 || (rangeKeysChB.checked && hiKeyCombo.currentIndex > 7)))
             anchors.horizontalCenter: parent.horizontalCenter
             text: qsTr("# - sharps")
+            checked: creator.withSharps
+            onClicked: creator.withSharps = checked
           }
           description: qsTr("Sharps will be used in questions and answers.<br>It has to be checked, if keys with sharps are used.")
         }
         Tile {
           TcheckBox {
             id: flatsChB
+            enabled: !(useKeysChB.checked && (loKeyCombo.currentIndex < 7 || (rangeKeysChB.checked && hiKeyCombo.currentIndex < 7)))
             anchors.horizontalCenter: parent.horizontalCenter
             text: qsTr("b - flats")
+            checked: creator.withFlats
+            onClicked: creator.withFlats = checked
           }
           description: qsTr("Flats will be used in questions and answers.<br>It has to be checked, if keys with flats are used.")
         }
@@ -48,21 +54,25 @@ Tflickable {
             id: dblAccidsChB
             anchors.horizontalCenter: parent.horizontalCenter
             text: qsTr("x, bb - double accidentals")
+            checked: creator.withDblAccids
+            onClicked: creator.withDblAccids = checked
           }
         }
         Tile {
           TcheckBox {
-            id: forceAccChB
             anchors.horizontalCenter: parent.horizontalCenter
             text: qsTr("force using appropriate accidental")
+            checked: creator.forceAccids
+            onClicked: creator.forceAccChB = checked
           }
           description: qsTr("if checked, it is possible to select a note<br>with given accidental only.")
         }
       }
-    }
+    } // accids frame
 
     Frame {
-      width: accidsGrid.columns === 1 ? parent.width * 0.96 : parent.width * 0.64
+      id: keyFrame
+      width: accidsGrid.columns === 1 ? parent.width * 0.98 : parent.width * 0.59
       Column {
         spacing: Noo.fontSize() / 2
         width: parent.width
@@ -70,7 +80,8 @@ Tflickable {
           id: useKeysChB
           text: Noo.TR("TscoreSettings", "enable key signature")
           anchors.horizontalCenter: parent.horizontalCenter
-          checked: true
+          checked: creator.useKeySign
+          onClicked: creator.useKeySign = checked
         }
         ButtonGroup { id: keysGr }
         Tile {
@@ -79,16 +90,20 @@ Tflickable {
             text: qsTr("single key")
             ButtonGroup.group: keysGr
             anchors.horizontalCenter: parent.horizontalCenter
+            checked: creator.isSingleKey
+            onClicked: creator.isSingleKey = checked
           }
           description: qsTr("only one, selected key signature for whole exam.")
         }
         Tile {
           enabled: useKeysChB.checked
           RadioButton {
+            id: rangeKeysChB
             text: qsTr("range of keys")
             ButtonGroup.group: keysGr
             anchors.horizontalCenter: parent.horizontalCenter
-            checked: true
+            checked: !creator.isSingleKey
+            onClicked: creator.isSingleKey = !checked
           }
           description: qsTr("random key signature from selected range.")
         }
@@ -98,22 +113,25 @@ Tflickable {
             spacing: Noo.fontSize() / 2
             anchors.horizontalCenter: parent.horizontalCenter
             ComboBox {
-              id: fromCombo
+              id: loKeyCombo
               model: Noo.keyComboModel()
               delegate: ItemDelegate { text: modelData }
-              width: Noo.fontSize() * 15
-              currentIndex: 7 // C-major
+              width: keyFrame.width * 0.4
+              currentIndex: creator.loKey + 7
+              onActivated: creator.hiKey = currentIndex - 7
             }
             Rectangle {
               color: enabled ? activPal.text : disdPal.text; width: Noo.fontSize(); height: Noo.fontSize() / 5
               anchors.verticalCenter: parent.verticalCenter
             }
             ComboBox {
-              id: toCombo
+              enabled: rangeKeysChB.checked
+              id: hiKeyCombo
               model: Noo.keyComboModel()
               delegate: ItemDelegate { text: modelData }
-              width: Noo.fontSize() * 15
-              currentIndex: 7
+              width: keyFrame.width * 0.4
+              currentIndex: creator.hiKey + 7
+              onActivated: creator.hiKey = currentIndex - 7
             }
           }
           description: qsTr("Select a key signature. Appropriate accidentals used in this level will be selected automatically.")
@@ -121,22 +139,24 @@ Tflickable {
         Tile {
           enabled: useKeysChB.checked
           TcheckBox {
-            id: keyInAnswersChB
             text: qsTr("select a key signature manually")
             anchors.horizontalCenter: parent.horizontalCenter
+            checked: creator.manualKey
+            onClicked: creator.manualKey = checked
           }
           description: qsTr("if checked, in exam user have to select a key signature, otherwise it is shown by application.")
         }
         Tile {
           TcheckBox {
-            id: currKeyOnlyChB
             text: qsTr("notes in current key signature only")
             anchors.horizontalCenter: parent.horizontalCenter
+            checked: creator.onlyCurrKey
+            onClicked: creator.onlyCurrKey = checked
           }
           description: qsTr("Only notes from current key signature are taken. If key signature is disabled accidentals are not used.")
         }
       }
-    }
+    } // keyFrame
 
   }
 }
