@@ -10,6 +10,8 @@ CheckBox {
   id: chB
   property alias textColor: content.color
 
+  font.pixelSize: Noo.fontSize()
+
   indicator: Rectangle {
     implicitWidth: Noo.fontSize() * 1.3
     implicitHeight: Noo.fontSize() * 1.3
@@ -36,6 +38,6 @@ CheckBox {
     y: (chB.height - height) / 2
     leftPadding: indicator.width + font.pixelSize / 2
     color: chB.enabled ? activPal.text : disdPal.text
-    font { family: chB.font.family; pixelSize: Noo.fontSize() }
+    font { family: chB.font.family; pixelSize: chB.font.pixelSize }
   }
 }
