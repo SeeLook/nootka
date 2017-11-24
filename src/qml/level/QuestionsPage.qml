@@ -5,27 +5,36 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 
-// import "../"
+import "../"
 
 
 Flickable {
-  width: parent.width; height: parent.height
-  clip: true
+  id: questionsPage
+  height: parent.height
   contentHeight: questionCol.height + Noo.fontSize() * 2
   contentWidth: Math.max(width, Noo.fontSize() * 35)
 
-  property var qTexts: [ qsTr("as note on the staff"), qsTr("as note name"), qsTr("as position on the fingerboard"), qsTr("as played sound") ]
+  property var qTexts: [ qsTr("as note on the staff"), qsTr("as note name"), qsTr("on instrument"), qsTr("as played sound") ]
 
-  ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
 
   Column {
     width: parent.width
     id: questionCol
-    Repeater {
-      model: 4
-      QuestionsBox {
-        qId: index
-        questionText: qsTr("Question") + " " + qTexts[index]
+    Tile {
+      Flow {
+        width: parent.width
+        spacing: questionsPage.width / 50
+        padding: questionsPage.width / 100
+        Repeater {
+          id: qRep
+          model: 4
+          QuestionsBox {
+            qId: index
+            questionText: qsTr("Question") + " " + qTexts[index]
+            questionChecked: creator.questionAs & Math.pow(2, index)
+            answerBits: creator.answersAs[index]
+          }
+        }
       }
     }
   }

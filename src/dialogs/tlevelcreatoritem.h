@@ -36,16 +36,20 @@ class TlevelCreatorItem : public QQuickItem
 
   Q_OBJECT
 
+  Q_PROPERTY(TlevelSelector* selector READ selector WRITE setSelector)
   Q_PROPERTY(QString title READ title NOTIFY saveStateChanged)
   Q_PROPERTY(bool notSaved READ notSaved NOTIFY saveStateChanged)
 
-  Q_PROPERTY(TlevelSelector* selector READ selector WRITE setSelector)
+  // Questions
+  Q_PROPERTY(int questionAs READ questionAs WRITE setQuestionAs NOTIFY updateLevel)
+  Q_PROPERTY(QList<int> answersAs READ answersAs WRITE setAnswersAs NOTIFY updateLevel)
   // Range
   Q_PROPERTY(int loFret READ loFret WRITE setLoFret NOTIFY updateLevel)
   Q_PROPERTY(int hiFret READ hiFret WRITE setHiFret NOTIFY updateLevel)
   Q_PROPERTY(Tnote loNote READ loNote WRITE setLoNote NOTIFY updateLevel)
   Q_PROPERTY(Tnote hiNote READ hiNote WRITE setHiNote NOTIFY updateLevel)
   Q_PROPERTY(int clef READ clef WRITE setClef NOTIFY updateLevel)
+  Q_PROPERTY(int usedStrings READ usedStrings WRITE setUsedStrings NOTIFY updateLevel)
   // Accidentals
   Q_PROPERTY(bool withSharps READ withSharps WRITE setWithSharps NOTIFY updateLevel)
   Q_PROPERTY(bool withFlats READ withFlats WRITE setWithFlats NOTIFY updateLevel)
@@ -72,6 +76,16 @@ public:
 
   bool notSaved() const;
 
+  // Questions page
+  int questionAs() const;
+  void setQuestionAs(int qAs);
+
+  QList<int> answersAs() const { return m_answersList; }
+  void setAnswersAs(QList<int> aAs);
+
+  Q_INVOKABLE void setAnswers(int questionType, int answersValue);
+
+  // Range page
   int loFret() const;
   void setLoFret(int lf);
 
@@ -87,6 +101,13 @@ public:
   int clef() const;
   void setClef(int c);
 
+      /**
+       * Returned number represents bits of every enabled string
+       */
+  int usedStrings() const;
+  void setUsedStrings(int uStr);
+
+  // Accidentals page
   bool withSharps() const;
   void setWithSharps(bool sharps);
 
@@ -134,6 +155,7 @@ private:
   Tlevel                    *m_level = nullptr;
   TlevelSelector            *m_selector = nullptr;
   QString                    m_title, m_titleExtension;
+  QList<int>                 m_answersList; /**< Each number represents bitwised value of @p TQAtype  */
 };
 
 #endif // TLEVELCREATORITEM_H

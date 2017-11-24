@@ -17,6 +17,14 @@ Flickable {
 
   ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
 
+  Connections {
+    target: creator
+    onUpdateLevel: {
+      rangeScore.setNote(rangeScore.scoreObj.note(0), creator.loNote)
+      rangeScore.setNote(rangeScore.scoreObj.note(1), creator.hiNote)
+    }
+  }
+
   Grid {
     id: rangeGrid
     columns:  parent.width > Noo.fontSize() * 50 ? 2 : 1
@@ -37,13 +45,15 @@ Flickable {
             width: Noo.fontSize() * 12
             anchors.horizontalCenter: parent.horizontalCenter
             meter: Tmeter.NoMeter
+            clef: creator.clef
+            scoreObj.clefType: creator.clef
             Component.onCompleted: {
-              rangeScore.addNote(Noo.note(1, 1, 0, Trhythm.NoRhythm))
-              rangeScore.addNote(Noo.note(1, 2, 0, Trhythm.NoRhythm))
+              rangeScore.addNote(creator.loNote)
+              rangeScore.addNote(creator.hiNote)
             }
           }
           Tile {
-            Button {
+            TcuteButton {
               text: qsTr("adjust fret range")
               anchors.horizontalCenter: parent.horizontalCenter
             }
@@ -65,12 +75,20 @@ Flickable {
               anchors.horizontalCenter: parent.horizontalCenter
               spacing: Noo.fontSize() / 2
               Text { text: qsTr("from"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
-              SpinBox { id: fromFretSpin; from: 0; to: GLOB.fretNumber; value: 0 }
+              SpinBox {
+                id: fromFretSpin
+                from: 0; to: GLOB.fretNumber
+                value: creator.loFret
+              }
               Text { text: qsTr("to"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
-              SpinBox { id: toFretSpin; from: 0; to: GLOB.fretNumber; value: 3 }
+              SpinBox {
+                id: toFretSpin
+                from: 0; to: GLOB.fretNumber
+                value: creator.hiFret
+              }
             }
             Tile {
-              Button {
+              TcuteButton {
                 text: qsTr("adjust note range")
                 anchors.horizontalCenter: parent.horizontalCenter
               }
@@ -88,14 +106,15 @@ Flickable {
           Grid {
             spacing: Noo.fontSize() / 4
             anchors.horizontalCenter: parent.horizontalCenter
-            columns: 3
+            columns: Math.ceil(GLOB.tuning.stringNumber / 2.0)
             horizontalItemAlignment: Grid.AlignHCenter
             Repeater {
-              model: 6
+              model: GLOB.tuning.stringNumber
               TcheckBox {
-                checked: true
+                checked: creator.usedStrings & Math.pow(2, index)
                 text: index + 1
                 font { family: "nootka"; pixelSize: Noo.fontSize() * 2 }
+                onClicked: creator.usedStrings = checked ? creator.usedStrings | Math.pow(2, index) : creator.usedStrings & ~Math.pow(2, index)
               }
             }
           }
