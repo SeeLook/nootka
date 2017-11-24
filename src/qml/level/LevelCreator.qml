@@ -21,6 +21,7 @@ TlevelCreatorItem {
     pages.addItem("melodySett", qsTr("Melody"), "level/Melody")
     pages.addItem("accidSett", qsTr("Accidentals"),  "level/Accids")
     pages.addItem("rangeSett", qsTr("Range"),  "level/Range")
+    dialLoader.title = creator.title
   }
 
   onSaveStateChanged: {

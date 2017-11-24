@@ -23,6 +23,8 @@
 #include <tglobals.h>
 
 #include <QtCore/qdebug.h>
+#include "checktime.h"
+
 
 TlevelCreatorItem::TlevelCreatorItem(QQuickItem* parent) :
   QQuickItem(parent)
@@ -31,6 +33,7 @@ TlevelCreatorItem::TlevelCreatorItem(QQuickItem* parent) :
   m_level->name.clear();
   m_level->desc.clear();
   m_title = tr("Level creator");
+  m_answersList << m_level->answersAs[0].value() << m_level->answersAs[1].value() << m_level->answersAs[2].value() << m_level->answersAs[3].value();
 }
 
 
@@ -52,6 +55,98 @@ void TlevelCreatorItem::setSelector(TlevelSelector* sel) {
 QString TlevelCreatorItem::title() const { return m_title + m_titleExtension; }
 
 bool TlevelCreatorItem::notSaved() const { return !m_titleExtension.isEmpty(); }
+
+int TlevelCreatorItem::questionAs() const { return m_level->questionAs.value(); }
+void TlevelCreatorItem::setQuestionAs(int qAs) {
+CHECKTIME (
+  bool prevState = m_level->questionAs.isNote();
+  bool doEmit = false;
+  m_level->questionAs.setAsNote(qAs & 1);
+  if (m_level->questionAs.isNote() != prevState) {
+    doEmit = true;
+    if (m_level->questionAs.isNote()) { // question checkbox was set, so select all answers
+        m_level->answersAs[0].setValue(15);
+        m_answersList[0] = 15;
+    } else { // question was un-set, switch off all answers
+        m_level->answersAs[0].setValue(0);
+        m_answersList[0] = 0;
+    }
+  }
+  prevState = m_level->questionAs.isName();
+  m_level->questionAs.setAsName(qAs & 2);
+  if (m_level->questionAs.isName() != prevState) {
+    doEmit = true;
+    if (m_level->questionAs.isName()) { // question checkbox was set, so select all answers
+        m_level->answersAs[1].setValue(15);
+        m_answersList[1] = 15;
+    } else { // question was un-set, switch off all answers
+        m_level->answersAs[1].setValue(0);
+        m_answersList[1] = 0;
+    }
+  }
+  prevState = m_level->questionAs.isFret();
+  m_level->questionAs.setAsFret(qAs & 4);
+  if (m_level->questionAs.isFret() != prevState) {
+    doEmit = true;
+    if (m_level->questionAs.isFret()) { // question checkbox was set, so select all answers
+        m_level->answersAs[2].setValue(15);
+        m_answersList[2] = 15;
+    } else { // question was un-set, switch off all answers
+        m_level->answersAs[2].setValue(0);
+        m_answersList[2] = 0;
+    }
+  }
+  prevState = m_level->questionAs.isSound();
+  m_level->questionAs.setAsSound(qAs & 8);
+  if (m_level->questionAs.isSound() != prevState) {
+    doEmit = true;
+    if (m_level->questionAs.isSound()) { // question checkbox was set, so select all answers
+        m_level->answersAs[3].setValue(15);
+        m_answersList[3] = 15;
+    } else { // question was un-set, switch off all answers
+        m_level->answersAs[3].setValue(0);
+        m_answersList[3] = 0;
+    }
+  }
+  levelParamChanged();
+  if (doEmit)
+    emit updateLevel();
+)
+}
+
+
+void TlevelCreatorItem::setAnswersAs(QList<int> aAs) {
+  for (int a = 0; a < 4; ++a) {
+    m_level->answersAs[a].setValue(aAs[a]);
+    switch (a) {
+      case 0: m_level->questionAs.setAsNote(aAs[a] != 0); break;
+      case 1: m_level->questionAs.setAsName(aAs[a] != 0); break;
+      case 2: m_level->questionAs.setAsFret(aAs[a] != 0); break;
+      case 3: m_level->questionAs.setAsSound(aAs[a] != 0); break;
+    }
+  }
+  emit updateLevel();
+  levelParamChanged();
+}
+
+
+void TlevelCreatorItem::setAnswers(int questionType, int answersValue) {
+CHECKTIME (
+  if (questionType >= 0 && questionType < 4) {
+    m_level->answersAs[questionType].setValue(answersValue);
+    m_answersList[questionType] = answersValue;
+    switch (questionType) {
+      case 0: m_level->questionAs.setAsNote(answersValue != 0); break;
+      case 1: m_level->questionAs.setAsName(answersValue != 0); break;
+      case 2: m_level->questionAs.setAsFret(answersValue != 0); break;
+      case 3: m_level->questionAs.setAsSound(answersValue != 0); break;
+    }
+    levelParamChanged();
+    updateLevel();
+  }
+)
+}
+
 
 
 int TlevelCreatorItem::loFret() const { return static_cast<int>(m_level->loFret); }
@@ -83,6 +178,19 @@ void TlevelCreatorItem::setClef(int c) {
   m_level->clef.setClef(static_cast<Tclef::EclefType>(c));
   levelParamChanged();
 }
+
+int TlevelCreatorItem::usedStrings() const {
+  return (m_level->usedStrings[0] ? 1 : 0) + (m_level->usedStrings[1] ? 2 : 0) + (m_level->usedStrings[2] ? 4 : 0)
+          + (m_level->usedStrings[3] ? 8 : 0) + (m_level->usedStrings[4] ? 16 : 0) + (m_level->usedStrings[5] ? 32 : 0);
+}
+
+
+void TlevelCreatorItem::setUsedStrings(int uStr) {
+  for (int s = 0; s < 6; ++s)
+    m_level->usedStrings[s] = (uStr & qRound(qPow(2.0, static_cast<qreal>(s)))) > 0;
+  levelParamChanged();
+}
+
 
 bool TlevelCreatorItem::withSharps() const { return m_level->withSharps; }
 void TlevelCreatorItem::setWithSharps(bool sharps) {
@@ -152,6 +260,8 @@ void TlevelCreatorItem::setManualKey(bool manual) {
 void TlevelCreatorItem::whenLevelChanged() {
   qDebug() << "[TlevelCreatorItem] level was changed";
   *m_level = *m_selector->currentLevel();
+  m_answersList.clear();
+  m_answersList << m_level->answersAs[0].value() << m_level->answersAs[1].value() << m_level->answersAs[2].value() << m_level->answersAs[3].value();
   emit updateLevel();
   if (!m_titleExtension.isEmpty()) {
     m_titleExtension.clear();
