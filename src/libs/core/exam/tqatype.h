@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,49 +21,64 @@
 #define TQATYPE_H
 
 #include <nootkacoreglobal.h>
-#include <QDataStream>
+#include <QtCore/qdatastream.h>
+
 
 class QXmlStreamReader;
 class QXmlStreamWriter;
 
 
 /**
-* Question-Answer type. It keeps array of four bool elements
-* witch say is appropriate type enabled or not.
-* Also it randomize possible type by calling @param randNext(),
-* or returns next possible type by calling next().
-*/
+ * Question or Answer type witch says is appropriate type enabled or not.
+ *
+ * Also it randomize possible type by calling @p randNext(),
+ * or returns next possible type by calling @p next().
+ *
+ * Questions/answers state are stored into single byte value
+ */
 class NOOTKACORE_EXPORT TQAtype
 {
 
 public:
-    TQAtype();
-    TQAtype(bool _asNote, bool _asName, bool _asFretPos, bool _asSound);
+  TQAtype() {}
+  TQAtype(bool _asNote, bool _asName, bool _asFretPos, bool _asSound);
+  TQAtype(int val);
 
-    enum Etype { e_asNote = 0, e_asName = 1, e_asFretPos = 2, e_asSound = 3};
+  enum Etype : qint8 { e_asNote = 0, e_asName = 1, e_asFretPos = 2, e_asSound = 3 };
 
-    void setAsNote(bool isNote) {m_typeArr[0] = isNote; }
-    void setAsName(bool isName) {m_typeArr[1] = isName; }
-    void setAsFret(bool isFret) {m_typeArr[2] = isFret; }
-    void setAsSound(bool isSound) {m_typeArr[3] = isSound; }
-    bool isNote() { return m_typeArr[0]; }
-    bool isName() { return m_typeArr[1]; }
-    bool isFret() { return m_typeArr[2]; }
-    bool isSound() { return m_typeArr[3]; }
+      // Those strange numbers are bit reverse values to unset one
+  void setAsNote(bool isNote) { m_value = isNote ? m_value | 1 : m_value & 14; }
+  void setAsName(bool isName) { m_value = isName ? m_value | 2 : m_value & 13; }
+  void setAsFret(bool isFret) { m_value = isFret ? m_value | 4 : m_value & 11; }
+  void setAsSound(bool isSound) { m_value = isSound ? m_value | 8 : m_value & 7; }
 
-    Etype next();
-    Etype randNext();
+  bool isNote() const { return m_value & 1; }
+  bool isName() const { return m_value & 2; }
+  bool isFret() const { return m_value & 4; }
+  bool isSound() const { return m_value & 8; }
 
-        /** Adds 'qaType' key to given XML stream with types as bool attributes. For instance:
-         * <qaType id="-1" score="true" name="true" guitar="true" sound="false"/>
-         * @p id is to intricate qaType keys in file. */
-    void toXml(int id, QXmlStreamWriter& xml);
+      /**
+       * Number that represents bits combination:
+       * @li as note : 1, @li as name : 2, @li on instrument : 4, @li as sound : 8
+       */
+  int value() const { return static_cast<int>(m_value); }
+  void setValue(int v) { m_value = static_cast<quint8>(v); }
 
-    int fromXml(QXmlStreamReader& xml);
+  Etype next();
+  Etype randNext();
+
+      /**
+       * Adds 'qaType' key to given XML stream with types as bool attributes. For instance:
+       * <qaType id="-1" score="true" name="true" guitar="true" sound="false"/>
+       * @p id is to intricate qaType keys in file.
+       */
+  void toXml(int id, QXmlStreamWriter& xml);
+
+  int fromXml(QXmlStreamReader& xml);
 
 private:
-    bool m_typeArr[4];
-    char m_index;
+  quint8 m_value = 0;
+  qint8 m_index = 0;
 
 };
 
