@@ -8,7 +8,7 @@ import QtQuick.Controls 2.2
 import "../"
 
 
-Frame {
+Tile {
   property int qId: 0
   property alias questionText: questionChB.text
   property alias questionChecked: questionChB.checked
@@ -16,7 +16,10 @@ Frame {
 
   property var answSymb: [ "s", "c", "g", "n" ]
 
-  width: col.width + Noo.fontSize() * 4
+  width: col.width + Noo.fontSize() * 3
+  anchors.horizontalCenter: undefined
+
+  description: unfold.checked ? qsTr("Select the type of answers for this kind of question.") : ""
 
   Column {
     id: col
@@ -66,13 +69,15 @@ Frame {
             spacing: Noo.fontSize() / 2
             TcheckBox {
               id: aChB
-              text: unfold.checked ? questionsPage.qTexts[index] : ""
+              text: unfold.checked ? qPage.qTexts[index] : ""
               checked: answerBits & Math.pow(2, index)
               onClicked: creator.setAnswers(qId, checked ? answerBits | Math.pow(2, index) : answerBits & ~Math.pow(2, index))
             }
             Text {
               font { family: "nootka"; pixelSize: Noo.fontSize() * 2 }
               text: answSymb[index]
+              width: unfold.checked ? Noo.fontSize() * 3 : undefined
+              horizontalAlignment: Text.AlignHCenter
             }
           }
         }

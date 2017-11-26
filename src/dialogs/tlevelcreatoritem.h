@@ -39,10 +39,19 @@ class TlevelCreatorItem : public QQuickItem
   Q_PROPERTY(TlevelSelector* selector READ selector WRITE setSelector)
   Q_PROPERTY(QString title READ title NOTIFY saveStateChanged)
   Q_PROPERTY(bool notSaved READ notSaved NOTIFY saveStateChanged)
-
   // Questions
   Q_PROPERTY(int questionAs READ questionAs WRITE setQuestionAs NOTIFY updateLevel)
   Q_PROPERTY(QList<int> answersAs READ answersAs WRITE setAnswersAs NOTIFY updateLevel)
+  Q_PROPERTY(bool requireOctave READ requireOctave WRITE setRequireOctave NOTIFY updateLevel)
+  Q_PROPERTY(bool requireStyle READ requireStyle WRITE setRequireStyle NOTIFY updateLevel)
+  Q_PROPERTY(bool showStrNr READ showStrNr WRITE setShowStrNr NOTIFY updateLevel)
+  Q_PROPERTY(bool onlyLowPos READ onlyLowPos WRITE setOnlyLowPos NOTIFY updateLevel)
+  Q_PROPERTY(bool isMelody READ isMelody WRITE setIsMelody NOTIFY updateLevel)
+  Q_PROPERTY(qreal playMelody READ playMelody WRITE setPlayMelody NOTIFY updateLevel)
+  Q_PROPERTY(qreal writeMelody READ writeMelody WRITE setWriteMelody NOTIFY updateLevel)
+  Q_PROPERTY(qreal repeatMelody READ repeatMelody WRITE setRepeatMelody NOTIFY updateLevel)
+  // Melodies
+  Q_PROPERTY(int melodyLen READ melodyLen WRITE setMelodyLen NOTIFY updateLevel)
   // Range
   Q_PROPERTY(int loFret READ loFret WRITE setLoFret NOTIFY updateLevel)
   Q_PROPERTY(int hiFret READ hiFret WRITE setHiFret NOTIFY updateLevel)
@@ -84,6 +93,34 @@ public:
   void setAnswersAs(QList<int> aAs);
 
   Q_INVOKABLE void setAnswers(int questionType, int answersValue);
+
+  bool requireOctave() const;
+  void setRequireOctave(bool require);
+
+  bool requireStyle() const;
+  void setRequireStyle(bool require);
+
+  bool showStrNr() const;
+  void setShowStrNr(bool showStr);
+
+  bool onlyLowPos() const;
+  void setOnlyLowPos(bool only);
+
+  bool playMelody() const;
+  void setPlayMelody(bool play);
+
+  bool writeMelody() const;
+  void setWriteMelody(bool write);
+
+  bool repeatMelody() const;
+  void setRepeatMelody(bool repeat);
+
+  bool isMelody() const;
+  void setIsMelody(bool isMel);
+
+  // Melodies page
+  int melodyLen() const;
+  void setMelodyLen(int len);
 
   // Range page
   int loFret() const;
