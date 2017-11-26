@@ -48,6 +48,7 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(QRect geometry READ geometry WRITE setGeometry NOTIFY geometryChanged)
   Q_PROPERTY(bool useAnimations READ useAnimations WRITE setUseAnimations NOTIFY useAnimationsChanged)
   Q_PROPERTY(QString lang READ getLang WRITE setLang)
+  Q_PROPERTY(qreal scale READ guiScale WRITE setGuiScale NOTIFY guiScaleChanged)
   /* Score switches */
   Q_PROPERTY(bool showEnharmNotes READ showEnharmNotes WRITE setShowEnharmNotes NOTIFY showEnharmNotesChanged)
   Q_PROPERTY(QColor enharmNoteColor READ getEnharmNoteColor WRITE setEnharmNoteColor)
@@ -117,6 +118,9 @@ public:
 
   QString getLang() const { return lang; }
   void setLang(const QString& l) { lang = l; }
+
+  qreal guiScale() const { return m_guiScale; }
+  void setGuiScale(qreal sc);
 
   /* ------------------ Score switches ------------------ */
   bool showEnharmNotes() const;
@@ -312,6 +316,7 @@ public:
 signals:
   void geometryChanged(); /**< It is never emitted :(  */
   void useAnimationsChanged();
+  void guiScaleChanged();
   void noteCursorColorChanged();
   void singleNoteModeChanged();
   void showEnharmNotesChanged();
@@ -342,6 +347,7 @@ private:
   QRect                      m_geometry;
   bool                       m_useAnimations;
   Tinstrument                m_instrument;
+  qreal                      m_guiScale;
 
 };
 #endif // TGLOBALS_H

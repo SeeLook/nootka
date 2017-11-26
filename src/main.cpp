@@ -108,11 +108,6 @@ int main(int argc, char *argv[])
 #endif
     a = new QApplication(argc, argv);
     Tmtr::init(a);
-#if !defined (Q_OS_ANDROID)
-    auto f = a->font();
-    f.setPixelSize(Tmtr::fingerPixels() * 0.45);
-    a->setFont(f);
-#endif
 
     gl = new Tglobals();
     gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
@@ -122,6 +117,15 @@ int main(int argc, char *argv[])
     prepareTranslations(a, qtTranslator, nooTranslator);
     if (!loadNootkaFont(a))
       return 111;
+
+
+    auto f = a->font();
+#if defined (Q_OS_ANDROID)
+    f.setPixelSize(f.pixelSize() * GLOB->guiScale());
+#else
+    f.setPixelSize(Tmtr::fingerPixels() * 0.45 * GLOB->guiScale());
+#endif
+    a->setFont(f);
 
     a->setWindowIcon(QIcon(Tpath::img("nootka")));
 
