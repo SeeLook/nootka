@@ -65,11 +65,11 @@ CHECKTIME (
   if (m_level->questionAs.isNote() != prevState) {
     doEmit = true;
     if (m_level->questionAs.isNote()) { // question checkbox was set, so select all answers
-        m_level->answersAs[0].setValue(15);
-        m_answersList[0] = 15;
-    } else { // question was un-set, switch off all answers
-        m_level->answersAs[0].setValue(0);
-        m_answersList[0] = 0;
+        m_level->answersAs[TQAtype::e_asNote].setValue(15);
+        m_answersList[TQAtype::e_asNote] = 15;
+    } else { // question was unset, switch off all answers
+        m_level->answersAs[TQAtype::e_asNote].setValue(0);
+        m_answersList[TQAtype::e_asNote] = 0;
     }
   }
   prevState = m_level->questionAs.isName();
@@ -77,11 +77,11 @@ CHECKTIME (
   if (m_level->questionAs.isName() != prevState) {
     doEmit = true;
     if (m_level->questionAs.isName()) { // question checkbox was set, so select all answers
-        m_level->answersAs[1].setValue(15);
-        m_answersList[1] = 15;
-    } else { // question was un-set, switch off all answers
-        m_level->answersAs[1].setValue(0);
-        m_answersList[1] = 0;
+        m_level->answersAs[TQAtype::e_asName].setValue(15);
+        m_answersList[TQAtype::e_asName] = 15;
+    } else { // question was unset, switch off all answers
+        m_level->answersAs[TQAtype::e_asName].setValue(0);
+        m_answersList[TQAtype::e_asName] = 0;
     }
   }
   prevState = m_level->questionAs.isFret();
@@ -89,11 +89,11 @@ CHECKTIME (
   if (m_level->questionAs.isFret() != prevState) {
     doEmit = true;
     if (m_level->questionAs.isFret()) { // question checkbox was set, so select all answers
-        m_level->answersAs[2].setValue(15);
-        m_answersList[2] = 15;
-    } else { // question was un-set, switch off all answers
-        m_level->answersAs[2].setValue(0);
-        m_answersList[2] = 0;
+        m_level->answersAs[TQAtype::e_asFretPos].setValue(15);
+        m_answersList[TQAtype::e_asFretPos] = 15;
+    } else { // question was unset, switch off all answers
+        m_level->answersAs[TQAtype::e_asFretPos].setValue(0);
+        m_answersList[TQAtype::e_asFretPos] = 0;
     }
   }
   prevState = m_level->questionAs.isSound();
@@ -101,11 +101,11 @@ CHECKTIME (
   if (m_level->questionAs.isSound() != prevState) {
     doEmit = true;
     if (m_level->questionAs.isSound()) { // question checkbox was set, so select all answers
-        m_level->answersAs[3].setValue(15);
-        m_answersList[3] = 15;
-    } else { // question was un-set, switch off all answers
-        m_level->answersAs[3].setValue(0);
-        m_answersList[3] = 0;
+        m_level->answersAs[TQAtype::e_asSound].setValue(15);
+        m_answersList[TQAtype::e_asSound] = 15;
+    } else { // question was unset, switch off all answers
+        m_level->answersAs[TQAtype::e_asSound].setValue(0);
+        m_answersList[TQAtype::e_asSound] = 0;
     }
   }
   levelParamChanged();
@@ -114,7 +114,7 @@ CHECKTIME (
 )
 }
 
-
+/** TODO: it is not used, @p setAnswers() is called directly from QML instead */
 void TlevelCreatorItem::setAnswersAs(QList<int> aAs) {
   for (int a = 0; a < 4; ++a) {
     m_level->answersAs[a].setValue(aAs[a]);
@@ -125,8 +125,8 @@ void TlevelCreatorItem::setAnswersAs(QList<int> aAs) {
       case 3: m_level->questionAs.setAsSound(aAs[a] != 0); break;
     }
   }
-  emit updateLevel();
   levelParamChanged();
+  emit updateLevel();
 }
 
 
@@ -142,13 +142,91 @@ CHECKTIME (
       case 3: m_level->questionAs.setAsSound(answersValue != 0); break;
     }
     levelParamChanged();
-    updateLevel();
+    emit updateLevel();
   }
 )
 }
 
+bool TlevelCreatorItem::requireOctave() const { return m_level->requireOctave; }
+void TlevelCreatorItem::setRequireOctave(bool require) {
+  m_level->requireOctave = require;
+  levelParamChanged();
+}
+
+bool TlevelCreatorItem::requireStyle() const { return m_level->requireStyle; }
+void TlevelCreatorItem::setRequireStyle(bool require) {
+  m_level->requireStyle = require;
+  levelParamChanged();
+}
+
+bool TlevelCreatorItem::showStrNr() const { return m_level->showStrNr; }
+void TlevelCreatorItem::setShowStrNr(bool showStr) {
+  m_level->showStrNr = showStr;
+  levelParamChanged();
+}
+
+bool TlevelCreatorItem::onlyLowPos() const { return m_level->onlyLowPos; }
+void TlevelCreatorItem::setOnlyLowPos(bool only) {
+  m_level->onlyLowPos = only;
+  levelParamChanged();
+}
+
+bool TlevelCreatorItem::playMelody() const {
+  return m_level->canBeMelody() && m_level->questionAs.isNote() && m_level->answersAs[TQAtype::e_asNote].isSound();
+}
+void TlevelCreatorItem::setPlayMelody(bool play) {
+  m_level->answersAs[TQAtype::e_asNote].setAsSound(play);
+  m_level->questionAs.setAsNote(m_level->answersAs[TQAtype::e_asNote].value() != 0);
+  m_answersList[TQAtype::e_asNote] = m_level->answersAs[TQAtype::e_asNote].value();
+  levelParamChanged();
+  emit updateLevel();
+}
+
+bool TlevelCreatorItem::writeMelody() const {
+  return m_level->canBeMelody() && m_level->questionAs.isSound() && m_level->answersAs[TQAtype::e_asSound].isNote();
+}
+void TlevelCreatorItem::setWriteMelody(bool write) {
+  m_level->answersAs[TQAtype::e_asSound].setAsNote(write);
+  m_level->questionAs.setAsSound(m_level->answersAs[TQAtype::e_asSound].value() != 0);
+  m_answersList[TQAtype::e_asSound] = m_level->answersAs[TQAtype::e_asSound].value();
+  levelParamChanged();
+  emit updateLevel();
+}
+
+bool TlevelCreatorItem::repeatMelody() const {
+  return m_level->canBeMelody() && m_level->questionAs.isSound() && m_level->answersAs[TQAtype::e_asSound].isSound();
+}
+void TlevelCreatorItem::setRepeatMelody(bool repeat) {
+  m_level->answersAs[TQAtype::e_asSound].setAsSound(repeat);
+  m_level->questionAs.setAsSound(m_level->answersAs[TQAtype::e_asSound].value() != 0);
+  m_answersList[TQAtype::e_asSound] = m_level->answersAs[TQAtype::e_asSound].value();
+  levelParamChanged();
+  emit updateLevel();
+}
+
+bool TlevelCreatorItem::isMelody() const { return m_level->melodyLen > 1; }
+void TlevelCreatorItem::setIsMelody(bool isMel) {
+  m_level->melodyLen = isMel ? 2 : 1;
+  m_level->questionAs.setValue(0);
+  for (int a = 0; a < 4; ++a) {
+    m_level->answersAs[a].setValue(0);
+    m_answersList[a] = 0;
+  }
+  levelParamChanged();
+  emit updateLevel();
+}
 
 
+// Melodies page
+int TlevelCreatorItem::melodyLen() const { return m_level->melodyLen; }
+void TlevelCreatorItem::setMelodyLen(int len) {
+  if (m_level->melodyLen != len) {
+    m_level->melodyLen = len;
+    levelParamChanged();
+  }
+}
+
+// Range page
 int TlevelCreatorItem::loFret() const { return static_cast<int>(m_level->loFret); }
 void TlevelCreatorItem::setLoFret(int lf) {
   m_level->loFret = static_cast<char>(lf);
@@ -191,7 +269,7 @@ void TlevelCreatorItem::setUsedStrings(int uStr) {
   levelParamChanged();
 }
 
-
+// Accidentals page
 bool TlevelCreatorItem::withSharps() const { return m_level->withSharps; }
 void TlevelCreatorItem::setWithSharps(bool sharps) {
   m_level->withSharps = sharps;
