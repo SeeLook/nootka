@@ -120,6 +120,14 @@ Tglobals::~Tglobals() {
 
 void Tglobals::setUseAnimations(bool use) { m_useAnimations = use; emit useAnimationsChanged(); }
 
+void Tglobals::setGuiScale(qreal sc) {
+  if (sc != m_guiScale) {
+    m_guiScale = sc;
+    emit guiScaleChanged();
+  }
+}
+
+
 bool Tglobals::showEnharmNotes() const { return S->showEnharmNotes; }
 void Tglobals::setShowEnharmNotes(bool showEnharm) {
   if (showEnharm != S->showEnharmNotes) {
@@ -338,6 +346,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
       m_geometry.setX((qApp->primaryScreen()->size().width() - m_geometry.width()) / 2);
       m_geometry.setY((qApp->primaryScreen()->size().height() - m_geometry.height()) / 2);
     }
+    m_guiScale = qBound(0.5, cfg->value(QStringLiteral("scale"), 1.0).toReal(), 1.5);
   cfg->endGroup();
 
   cfg->beginGroup(QLatin1String("common"));
@@ -599,6 +608,7 @@ void Tglobals::setLastXmlDir(const QString& lastXml) { S->lastXmlDir = lastXml; 
 void Tglobals::storeSettings(QSettings* cfg) {
   cfg->beginGroup(QStringLiteral("General"));
     cfg->setValue(QStringLiteral("geometry"), m_geometry);
+    cfg->setValue(QStringLiteral("scale"), m_guiScale);
   cfg->endGroup();
 
   cfg->beginGroup(QLatin1String("common"));

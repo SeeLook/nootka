@@ -394,9 +394,9 @@ QColor TnootkaQML::randomColor(int alpha, int level) {
 
 int TnootkaQML::fontSize() {
 #if defined (Q_OS_ANDROID)
-  return (qApp->font().pixelSize() > 0 ? qApp->font().pixelSize() : qApp->font().pointSize()) * 0.8;
+  return (qApp->font().pixelSize() > 0 ? qApp->font().pixelSize() : qApp->font().pointSize()) * 0.8 * GLOB->guiScale();
 #else
-  return Tmtr::fingerPixels() * 0.45;
+  return Tmtr::fingerPixels() * 0.45 * GLOB->guiScale();
 #endif
 }
 

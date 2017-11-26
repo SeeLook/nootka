@@ -8,15 +8,11 @@ import QtQuick.Controls 2.2
 import "../"
 
 
-Flickable {
+Tflickable {
   id: globalPage
-  width: parent.width
   height: parent.height
 
-  clip: true
   contentHeight: mainColumn.height + Noo.fontSize() * 2
-
-  ScrollBar.vertical: ScrollBar { active: false; visible: active }
 
   Column {
     id: mainColumn
@@ -105,6 +101,26 @@ Flickable {
       }
     }
 
+    Tile {
+      description: qsTr("Scaling factor of visible texts and others GUI elements.<br>Requires application restart.")
+      Row {
+        spacing: Noo.fontSize()
+        anchors.horizontalCenter: parent.horizontalCenter
+        Text { color: activPal.text; text: qsTr("scale"); anchors.verticalCenter: parent.verticalCenter }
+        Slider {
+          id: scaleSlider
+          from: 0.5; to: 1.5; stepSize: 0.1; snapMode: Slider.SnapAlways
+          value: GLOB.scale
+          width: Noo.fontSize() * 15
+        }
+        Text {
+          anchors.verticalCenter: parent.verticalCenter
+          text: Math.round(scaleSlider.value * 10) / 10
+          color: activPal.text; width: Noo.fontSize() * 3; horizontalAlignment: Text.AlignHCenter
+        }
+      }
+    }
+
     Item { height: Noo.fontSize() * 3; width: parent.width }
 
     Tile {
@@ -135,11 +151,13 @@ Flickable {
   function save() {
     GLOB.useAnimations = animChBox.checked
     GLOB.lang = langModel.get(langTumb.currentIndex).flag
+    GLOB.scale = scaleSlider.value
   }
 
   function defaults() {
     animChBox.checked = true
     langTumb.currentIndex = 0
+    scaleSlider.value = 1.0
   }
 
 }
