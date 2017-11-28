@@ -35,6 +35,7 @@
 #include "taction.h"
 #include "music/ttuneobject.h"
 #include "tmtr.h"
+#include "tcolor.h"
 
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qfile.h>
@@ -198,16 +199,6 @@ QString TnootkaQML::minorKeyName(int key) {
 
 QString TnootkaQML::majAndMinKeyName(int key) {
   return TkeySignature(static_cast<char>(key)).getMajorName() + QLatin1String("<br>") + TkeySignature(static_cast<char>(key)).getMinorName();
-}
-
-
-QStringList TnootkaQML::keyComboModel() {
-  QStringList model;
-  for (int i = -7; i < 8; i++) {
-    TkeySignature k(i);
-    model << QLatin1String("(") + k.accidNumber() + QLatin1String(") ") + k.getMajorName() + QLatin1String(" / ") + k.getMinorName();
-  }
-  return model;
 }
 
 
@@ -389,6 +380,11 @@ QColor TnootkaQML::alpha(const QColor& c, int a) {
 
 QColor TnootkaQML::randomColor(int alpha, int level) {
   return QColor(qrand() % level, qrand() % level, qrand() % level, alpha);
+}
+
+
+QColor TnootkaQML::invert(const QColor& c) {
+  return Tcolor::invert(c);
 }
 
 
