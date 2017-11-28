@@ -56,7 +56,7 @@ Tile {
     Row {
       spacing: Noo.fontSize() / 2
       anchors.horizontalCenter: parent.horizontalCenter
-      Text { text: qsTr("answers") + ":"; anchors.verticalCenter: parent.verticalCenter }
+      Text { text: qsTr("answers") + ":"; anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
       Grid {
         spacing: Noo.fontSize() / 2
         columns: unfold.checked ? 1 : 4

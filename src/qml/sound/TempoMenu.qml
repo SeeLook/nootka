@@ -72,7 +72,7 @@ Popup {
     }
 
     Button {
-      text: Noo.stdButtonText(33554432)
+      text:  Noo.TR("QPlatformTheme", "Apply")
       anchors.horizontalCenter: parent.horizontalCenter
       onClicked: {
         SOUND.tempo = tempoSpin.value
