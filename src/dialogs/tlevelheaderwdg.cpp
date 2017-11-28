@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -32,20 +32,20 @@ TlevelHeaderWdg::TlevelHeaderWdg(QWidget *parent) :
   auto mainLay = new QVBoxLayout;
   auto nameLab = new QLabel(tr("Level name:"), this);
   mainLay->addWidget(nameLab);
-  nameEd = new QLineEdit(this);
-  nameEd->setMaxLength(25);
-  nameEd->setText(tr("new level"));
-  mainLay->addWidget(nameEd);
-  QLabel *descLab = new QLabel(tr("Level description:"), this);
+  m_nameEd = new QLineEdit(this);
+  m_nameEd->setMaxLength(25);
+  m_nameEd->setText(tr("new level"));
+  mainLay->addWidget(m_nameEd);
+  auto descLab = new QLabel(tr("Level description:"), this);
   mainLay->addWidget(descLab);
-  descEd = new QTextEdit(this);
-  descEd->setFixedHeight(fontMetrics().boundingRect(QStringLiteral("A")).height() * 4);
-  descEd->setFixedWidth(fontMetrics().boundingRect(QStringLiteral("w")).width() * 30);
-  descEd->setLineWrapMode(QTextEdit::FixedColumnWidth);
-  descEd->setLineWrapColumnOrWidth(35);
-  mainLay->addWidget(descEd);
-  okBut = new QPushButton(qTR("QDialogButtonBox", "OK"), this);
-  mainLay->addWidget(okBut, 1, Qt::AlignCenter);
+  m_descEd = new QTextEdit(this);
+  m_descEd->setFixedHeight(fontMetrics().boundingRect(QStringLiteral("A")).height() * 4);
+  m_descEd->setFixedWidth(fontMetrics().boundingRect(QStringLiteral("w")).width() * 30);
+  m_descEd->setLineWrapMode(QTextEdit::FixedColumnWidth);
+  m_descEd->setLineWrapColumnOrWidth(35);
+  mainLay->addWidget(m_descEd);
+  m_okBut = new QPushButton(qTR("QDialogButtonBox", "OK"), this);
+  mainLay->addWidget(m_okBut, 1, Qt::AlignCenter);
 
   setLayout(mainLay);
 
@@ -56,18 +56,20 @@ TlevelHeaderWdg::TlevelHeaderWdg(QWidget *parent) :
   setStyleSheet(QStringLiteral("QDialog#levelHeader { background-color: #A1A1A1; }")); // dark gray
 #endif
 
-  connect(descEd, SIGNAL(textChanged()), this, SLOT(onTextChanged()));
-  connect(okBut, SIGNAL(clicked()), this, SLOT(accept()));
+  connect(m_descEd, &QTextEdit::textChanged, this, &TlevelHeaderWdg::onTextChanged);
+  connect(m_okBut, &QPushButton::clicked, this, &TlevelHeaderWdg::accept);
 }
+
 
 QStringList TlevelHeaderWdg::getLevelName() {
   exec();
   QStringList list;
-  list << nameEd->text() << descEd->toPlainText();
+  list << m_nameEd->text() << m_descEd->toPlainText();
   return list;
 }
 
+
 void TlevelHeaderWdg::onTextChanged() {
-  if (descEd->toPlainText().length() > 120 )
-    descEd->setPlainText(descEd->toPlainText().right(120));
+  if (m_descEd->toPlainText().length() > 120 )
+    m_descEd->setPlainText(m_descEd->toPlainText().right(120));
 }
