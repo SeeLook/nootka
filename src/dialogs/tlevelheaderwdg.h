@@ -1,6 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk  				                   *
- *   seelook@gmail.com   	      					                                 *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -20,7 +20,9 @@
 #ifndef TLEVELHEADERWDG_H
 #define TLEVELHEADERWDG_H
 
-#include <QDialog>
+#include <QtWidgets/qdialog.h>
+
+
 class QLineEdit;
 class QTextEdit;
 
@@ -28,20 +30,25 @@ class QTextEdit;
     /** This is dialog with level's name and description.*/
 class TlevelHeaderWdg : public QDialog
 {
-    Q_OBJECT
+
+  Q_OBJECT
+
 public:
-    explicit TlevelHeaderWdg(QWidget *parent = 0);
-        /** It is called instead exec() and returns list with:
-         name - at [0] and description - at [1] */
-    QStringList getLevelName();
+  explicit TlevelHeaderWdg(QWidget* parent = nullptr);
+
+      /**
+       * It is called instead exec() and returns list with:
+       * name - at [0] and description - at [1]
+       */
+  QStringList getLevelName();
 
 private:
-    QLineEdit *nameEd;
-    QTextEdit *descEd;
-    QPushButton *okBut;
+  QLineEdit         *m_nameEd;
+  QTextEdit         *m_descEd;
+  QPushButton       *m_okBut;
 
 private slots:
-    void onTextChanged();
+  void onTextChanged();
 
 };
 

@@ -76,6 +76,7 @@ set(NOOTKA_SRC
   dialogs/tlevelpreviewitem.cpp
   dialogs/tlevelsdefs.cpp
   dialogs/tlevelselector.cpp
+  dialogs/tlevelheaderwdg.cpp
 )
 
 
