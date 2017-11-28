@@ -94,7 +94,6 @@ public:
   Q_INVOKABLE QString majorKeyName(int key);
   Q_INVOKABLE QString minorKeyName(int key);
   Q_INVOKABLE QString majAndMinKeyName(int key);
-  Q_INVOKABLE QStringList keyComboModel();
   Q_INVOKABLE QString getLicense();
   Q_INVOKABLE QString getChanges();
   Q_INVOKABLE bool isAndroid();
@@ -120,6 +119,7 @@ public:
        * Using smaller value avoids generating dark colors
        */
   Q_INVOKABLE QColor randomColor(int alpha = 255, int level = 220);
+  Q_INVOKABLE QColor invert(const QColor& c);
 
   Q_INVOKABLE int fontSize();
 
