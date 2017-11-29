@@ -114,11 +114,11 @@ Tflickable {
             anchors.horizontalCenter: parent.horizontalCenter
             ComboBox {
               id: loKeyCombo
-              model: Noo.keyComboModel()
+              model: creator.keyComboModel()
               delegate: ItemDelegate { text: modelData }
               width: keyFrame.width * 0.4
               currentIndex: creator.loKey + 7
-              onActivated: creator.hiKey = currentIndex - 7
+              onActivated: creator.loKey = currentIndex - 7
             }
             Rectangle {
               color: enabled ? activPal.text : disdPal.text; width: Noo.fontSize(); height: Noo.fontSize() / 5
@@ -127,7 +127,7 @@ Tflickable {
             ComboBox {
               enabled: rangeKeysChB.checked
               id: hiKeyCombo
-              model: Noo.keyComboModel()
+              model: creator.keyComboModel()
               delegate: ItemDelegate { text: modelData }
               width: keyFrame.width * 0.4
               currentIndex: creator.hiKey + 7

@@ -26,23 +26,43 @@ Tflickable {
     Frame {
       width: parent.width * 0.99
       anchors.horizontalCenter: parent.horizontalCenter
+      background: Rectangle {
+        color: Noo.alpha(creator.isMelody ? Noo.invert(activPal.highlight) : activPal.highlight, 75)
+        border.color: activPal.shadow
+        radius: Noo.fontSize() / 2
+      }
       Column {
         width: parent.width
         Tile {
           Row {
             spacing: qPage.width / 50
             anchors.horizontalCenter: parent.horizontalCenter
+            Text {
+              font { family: "Nootka"; pixelSize: Noo.fontSize() * 2 }
+              color: activPal.highlight; text: "n"
+            }
             RadioButton {
               text: qsTr("single note")
               checked: !creator.isMelody
               onClicked: creator.isMelody = !checked
+              anchors.verticalCenter: parent.verticalCenter
             }
             RadioButton {
               text: qsTr("melodies")
               checked: creator.isMelody
               onClicked: creator.isMelody = checked
+              anchors.verticalCenter: parent.verticalCenter
+            }
+            Text {
+              font { family: "Nootka"; pixelSize: Noo.fontSize() * 2 }
+              color: Noo.invert(activPal.highlight); text: "m"
             }
           }
+        }
+        Text {
+          anchors.horizontalCenter: parent.horizontalCenter
+          font.bold: true; color: activPal.text
+          text: qsTr("Kind of questions and answers" + ":")
         }
         Flow { // single note
           width: parent.width

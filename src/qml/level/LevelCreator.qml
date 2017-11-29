@@ -29,6 +29,11 @@ TlevelCreatorItem {
     dialLoader.title = creator.title // TODO: it doesn't work
   }
 
+  onSave: {
+    if (typeof(pages.pages[2]) !== "string") // save melody
+      pages.pages[2].saveLevel()
+  }
+
   Connections {
     target: pages.mobileButt
     onClicked: dialLoader.dialogDrawer.open()

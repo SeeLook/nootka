@@ -12,6 +12,8 @@ import "../"
 TlevelsSelector {
   id: lSelector
 
+  property alias levelId: view.currentIndex
+
   levelPreview: previewItem
 
   Row {
@@ -46,7 +48,7 @@ TlevelsSelector {
                 anchors.verticalCenter: parent.verticalCenter
                 font { family: "Nootka"; pixelSize: Noo.fontSize() * 1.7 }
                 width: Noo.fontSize() * 2.5
-                color: index === view.currentIndex ? activPal.highlightedText : activPal.text
+                color: index === view.currentIndex ? activPal.highlightedText : isMelody(index) ? Noo.invert(activPal.highlight) : activPal.highlight
                 text: isMelody(index) ? "m" : "n"
                 horizontalAlignment: Text.AlignHCenter
               }
