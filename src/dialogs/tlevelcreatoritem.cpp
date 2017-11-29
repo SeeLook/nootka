@@ -461,21 +461,23 @@ QStringList TlevelCreatorItem::keyComboModel() {
 
 void TlevelCreatorItem::whenLevelChanged() {
   if (m_selector->currentLevel() == nullptr) {
-    qDebug() << "[TlevelCreatorItem] Null level is selected!";
+    qDebug() << "[TlevelCreatorItem] Null pointer of level is selected!";
     return;
   }
-  qDebug() << "[TlevelCreatorItem] level was changed";
+  if (!m_titleExtension.isEmpty()) {
+    if (QMessageBox::question(nullptr, tr("level not saved!").toUpper(), tr("Level was changed and not saved!"),
+        QMessageBox::Save, QMessageBox::Cancel) == QMessageBox::Save ) {
+        saveLevel();
+    }
+    m_titleExtension.clear();
+    emit saveStateChanged();
+  }
   *m_level = *m_selector->currentLevel();
   m_answersList.clear();
   m_answersList << m_level->answersAs[0].value() << m_level->answersAs[1].value() << m_level->answersAs[2].value() << m_level->answersAs[3].value();
   emit updateLevel();
   if (m_level->randMelody == Tlevel::e_randFromList)
     emit updateNotesList();
-  if (!m_titleExtension.isEmpty()) {
-    m_titleExtension.clear();
-    emit saveStateChanged();
-    // TODO: Warn about unsaved changes
-  }
 }
 
 

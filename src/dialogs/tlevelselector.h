@@ -38,6 +38,7 @@ class TlevelSelector : public QQuickItem
 
   Q_PROPERTY(QStringList levelsModel READ levelsModel NOTIFY levelsModelChanged)
   Q_PROPERTY(TlevelPreviewItem* levelPreview READ levelPreview WRITE setLevelPreview)
+  Q_PROPERTY(int currentIndex READ currentIndex WRITE setCurrentIndex)
 
 public:
   explicit TlevelSelector(QQuickItem* parent = nullptr);
@@ -47,6 +48,9 @@ public:
 
   TlevelPreviewItem* levelPreview() { return m_levelPreview; }
   void setLevelPreview(TlevelPreviewItem* lpi);
+
+  int currentIndex() const { return m_currentLevelId; }
+  void setCurrentIndex(int ci);
 
       /**
        * It's looking for levels:
@@ -69,7 +73,6 @@ public:
   struct SlevelContener {
       Tlevel             level;
       QString            file; /**< file name of a level */
-      int                itemId; /**< id number in the list */
       bool               suitable; /**< true when level is possible to perform by current instrument */
   };
 
@@ -98,13 +101,6 @@ public:
   Q_INVOKABLE QString levelFile(int id) const;
 
       /**
-       * Returns current selected level
-       */
-  Tlevel& getSelectedLevel();
-
-  SlevelContener& levelContener(int id) { return m_levels[id]; }
-
-      /**
        * Updates config file with new levels list.
        * Returns true when given level file was added to config.
        */
@@ -113,34 +109,15 @@ public:
       /**
        * Static method to check a level with current global instrument settings
        */
-  static QString checkLevel(Tlevel &l);
+  static QString checkLevel(const Tlevel &l);
 
-      /**
-       * Checks is given level in range of current tune and frets number.
-       * If not, it disables the latest entry in the list - BE SURE to call this
-       * only after addLevel() method which puts the last level on the list.
-       */
-  bool isSuitable(Tlevel &l);
-
-      /**
-       * Checks currently selected level
-       */
-  bool isSuitable() const;
-  bool isSuitable(int id) const { return m_levels[id].suitable; }
+  Q_INVOKABLE bool isSuitable(int id) const { return m_levels[id].suitable; }
 
       /**
        * Returns @p TRUE when level has its file and can be removed (from the list and from a storage)
        */
   Q_INVOKABLE bool isRemovable(int id) const;
 
-      /**
-       * Disables all levels which not match to instrument settings.
-       */
-  void disableNotSuitable();
-
-      /**
-       *
-       */
   Q_INVOKABLE void loadFromFile(QString levelFile = QString());
 
   Q_INVOKABLE bool removeLevel(int id, bool removeFile);
@@ -149,6 +126,10 @@ public:
 signals:
   void levelsModelChanged();
   void levelChanged();
+  void selectLast();
+
+protected:
+  void checkLast();
 
 private:
   QList<SlevelContener>           m_levels;

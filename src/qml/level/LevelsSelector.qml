@@ -15,6 +15,9 @@ TlevelsSelector {
   property alias levelId: view.currentIndex
 
   levelPreview: previewItem
+  currentIndex: view.currentIndex
+
+  onSelectLast: view.currentIndex = view.count - 1
 
   Row {
     width: parent.width
@@ -35,6 +38,7 @@ TlevelsSelector {
         delegate: Component {
           Item {
             width: view.width; height: delegateRow.height
+            enabled: isSuitable(index)
             Rectangle {
               anchors.fill: parent
               color: index === view.currentIndex ? activPal.highlight :
@@ -60,7 +64,7 @@ TlevelsSelector {
                   width: parent.width
                   font { pixelSize: Noo.fontSize(); bold: true }
                   text: modelData
-                  color: index === view.currentIndex ? activPal.highlightedText : activPal.text
+                  color: index === view.currentIndex ? activPal.highlightedText : (isSuitable(index) ? activPal.text : disdPal.text)
                   elide: Text.ElideRight
                 }
                 Text {
