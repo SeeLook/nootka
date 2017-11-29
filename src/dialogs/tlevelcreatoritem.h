@@ -22,6 +22,7 @@
 
 #include <music/tnote.h>
 #include <QtQuick/qquickitem.h>
+#include <QtCore/qvariant.h>
 
 
 class Tlevel;
@@ -29,7 +30,16 @@ class TlevelSelector;
 
 
 /**
- * This class is QML logic for "Level creator" dialog window
+ * This class is QML logic for "Level creator" dialog window.
+ * It exposes all properties of @p Tlevel to QML.
+ *
+ * @p whenLevelChanged() method is connected to @p TlevelSelector::levelChanged signal
+ * then all parameters are updated because exposed level properties have the same NOTIFY signal: @p updateLevel().
+ * This signal is also emitted when some property is set and its value influences other level parameters.
+ *
+ * In general, any user made changes in level creator are saved to @p m_level immediately
+ * BUT! There are some parameters that have no sense to be updated this way (notes list for randomization)
+ * So @p save() signal is emitted, and QML Level Creator calls function @p saveLevel() for each page if necessary
  */
 class TlevelCreatorItem : public QQuickItem
 {
@@ -52,6 +62,9 @@ class TlevelCreatorItem : public QQuickItem
   Q_PROPERTY(qreal repeatMelody READ repeatMelody WRITE setRepeatMelody NOTIFY updateLevel)
   // Melodies
   Q_PROPERTY(int melodyLen READ melodyLen WRITE setMelodyLen NOTIFY updateLevel)
+  Q_PROPERTY(bool endsOnTonic READ endsOnTonic WRITE setEndsOnTonic NOTIFY updateLevel)
+  Q_PROPERTY(int randMelody READ randMelody WRITE setRandMelody NOTIFY updateLevel)
+  Q_PROPERTY(int keyOfRandList READ keyOfRandList WRITE setKeyOfRandList NOTIFY updateLevel)
   // Range
   Q_PROPERTY(int loFret READ loFret WRITE setLoFret NOTIFY updateLevel)
   Q_PROPERTY(int hiFret READ hiFret WRITE setHiFret NOTIFY updateLevel)
@@ -84,6 +97,8 @@ public:
   QString title() const;
 
   bool notSaved() const;
+
+  Q_INVOKABLE void saveLevel();
 
   // Questions page
   int questionAs() const;
@@ -121,6 +136,22 @@ public:
   // Melodies page
   int melodyLen() const;
   void setMelodyLen(int len);
+
+  bool endsOnTonic() const;
+  void setEndsOnTonic(bool ends);
+
+  int randMelody() const;
+  void setRandMelody(int rand);
+
+      /**
+       * Number of notes in the list when melodies are generated from selected notes (Tlevel::e_randFromList)
+       */
+  Q_INVOKABLE int notesInList() const;
+  Q_INVOKABLE Tnote noteFromList(int id) const;
+  Q_INVOKABLE void setNoteOfList(int id, const Tnote& n);
+
+  int keyOfRandList() const;
+  void setKeyOfRandList(int key);
 
   // Range page
   int loFret() const;
@@ -175,12 +206,19 @@ public:
   bool manualKey() const;
   void setManualKey(bool manual);
 
+  Q_INVOKABLE QStringList keyComboModel();
+
 signals:
   void updateLevel();
+  void updateNotesList();
   void saveStateChanged();
+  void save();
 
 protected:
   void whenLevelChanged();
+
+  QString validateLevel();
+  void showValidationMessage(QString& message);
 
 private:
       /**

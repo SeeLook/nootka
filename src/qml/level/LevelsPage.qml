@@ -23,6 +23,7 @@ Column {
     spacing: levelsPage.width / 50
     anchors.horizontalCenter: parent.horizontalCenter
     TcuteButton {
+      enabled: creator.notSaved
       width: levelsPage.width / 4
       contentItem: Row {
         padding: levelsPage.width / 200
@@ -38,10 +39,11 @@ Column {
         }
       }
       onClicked: {
-        
+        creator.saveLevel()
       }
     }
     TcuteButton {
+      enabled: selector.levelId !== -1
       width: levelsPage.width / 4
       contentItem: Row {
         padding: levelsPage.width / 200
@@ -61,6 +63,7 @@ Column {
       }
     }
     TcuteButton {
+      enabled: selector.levelId !== -1
       width: levelsPage.width / 4
       contentItem: Row {
         padding: levelsPage.width / 200
