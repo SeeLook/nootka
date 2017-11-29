@@ -572,7 +572,7 @@ Tinstrument::Etype Tlevel::detectInstrument(Tinstrument::Etype currInstr) {
  * Despite of level creator disables all questions with empty answers (set to false)
  * better check this again to avoid further problems. 
  */
-bool Tlevel::canBeScore() {
+bool Tlevel::canBeScore() const {
   if (questionAs.isNote() ||
     (questionAs.isName() && answersAs[TQAtype::e_asName].isNote()) ||
     (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isNote()) ||
@@ -582,7 +582,7 @@ bool Tlevel::canBeScore() {
       return false;
 }
 
-bool Tlevel::canBeName() {
+bool Tlevel::canBeName() const {
   if (questionAs.isName() ||
     (questionAs.isNote() && answersAs[TQAtype::e_asNote].isName()) ||
     (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isName()) ||
@@ -592,7 +592,7 @@ bool Tlevel::canBeName() {
       return false;
 }
 
-bool Tlevel::canBeGuitar() {
+bool Tlevel::canBeGuitar() const {
   if (questionAs.isFret() ||
     (questionAs.isName() && answersAs[TQAtype::e_asName].isFret()) ||
     (questionAs.isNote() && answersAs[TQAtype::e_asNote].isFret()) ||
@@ -602,7 +602,7 @@ bool Tlevel::canBeGuitar() {
       return false;
 }
 
-bool Tlevel::canBeSound() {
+bool Tlevel::canBeSound() const {
   if (questionAs.isSound() ||
     (questionAs.isName() && answersAs[TQAtype::e_asName].isSound()) ||
     (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isSound()) ||
@@ -612,9 +612,11 @@ bool Tlevel::canBeSound() {
       return false;
 }
 
-/** To be sure, a melody is possible we checking not only notes number
- * but question-answer types as well, even if creator doesn't allow for wrong sets. */
-bool Tlevel::canBeMelody() {
+/**
+ * To be sure, a melody is possible we checking not only notes number
+ * but question-answer types as well, even if creator doesn't allow for wrong sets.
+ */
+bool Tlevel::canBeMelody() const {
   if (melodyLen > 1 &&
       ((questionAs.isNote() && answersAs[TQAtype::e_asNote].isSound()) ||
       (questionAs.isSound() && answersAs[TQAtype::e_asSound].isNote()) ||
@@ -625,9 +627,11 @@ bool Tlevel::canBeMelody() {
 }
 
 
-/** Checking questions would be skipped because Level creator avoids selecting answer without question.
-* Unfortunately built-in levels are not so perfect.*/
-bool Tlevel::answerIsNote() {
+/**
+ * Checking questions would be skipped because Level creator avoids selecting answer without question.
+ * Unfortunately built-in levels are not so perfect.
+ */
+bool Tlevel::answerIsNote() const {
   if ((questionAs.isNote() && answersAs[TQAtype::e_asNote].isNote()) ||
       (questionAs.isName() && answersAs[TQAtype::e_asName].isNote()) ||
       (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isNote()) ||
@@ -637,7 +641,7 @@ bool Tlevel::answerIsNote() {
         return false;
 }
 
-bool Tlevel::answerIsName() {
+bool Tlevel::answerIsName() const {
   if ((questionAs.isNote() && answersAs[TQAtype::e_asNote].isName()) ||
       (questionAs.isName() && answersAs[TQAtype::e_asName].isName()) ||
       (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isName()) ||
@@ -647,7 +651,7 @@ bool Tlevel::answerIsName() {
         return false;
 }
 
-bool Tlevel::answerIsGuitar() {
+bool Tlevel::answerIsGuitar() const {
   if ((questionAs.isNote() && answersAs[TQAtype::e_asNote].isFret()) ||
       (questionAs.isName() && answersAs[TQAtype::e_asName].isFret()) ||
       (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isFret()) ||
@@ -657,7 +661,7 @@ bool Tlevel::answerIsGuitar() {
         return false;
 }
 
-bool Tlevel::answerIsSound() {
+bool Tlevel::answerIsSound() const {
   if ((questionAs.isNote() && answersAs[TQAtype::e_asNote].isSound()) ||
       (questionAs.isName() && answersAs[TQAtype::e_asName].isSound()) ||
       (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isSound()) ||
@@ -668,7 +672,7 @@ bool Tlevel::answerIsSound() {
 }
 
 
-bool Tlevel::inScaleOf(int loNoteNr, int hiNoteNr) {
+bool Tlevel::inScaleOf(int loNoteNr, int hiNoteNr) const {
   int loNr = loNote.chromatic();
   int hiNr = hiNote.chromatic();
   if (loNr >= loNoteNr && loNr <= hiNoteNr && hiNr >= loNoteNr && hiNr <= hiNoteNr)

@@ -35,8 +35,8 @@ class QWidget;
 
 
 /**
-* This class describes exam level.
-*/
+ * This class describes exam level.
+ */
 class NOOTKACORE_EXPORT Tlevel
 {
 public:
@@ -131,22 +131,40 @@ public:
   bool hasInstrToFix;
 
 // some helpers
-  bool canBeScore(); // True if answer or question is note on a score
-  bool canBeName(); // True if answer or question is note name
-  bool canBeGuitar(); // True if answer or question is position on a guitar
-  bool canBeSound(); // True if answer or question is played or sang sound
-  bool canBeMelody(); // True when question/answer has more notes and have appropriate types
-  bool answerIsNote(); // True if answer is note on a score in any question type
-  bool answerIsName(); // True if answer is note name in any question type
-  bool answerIsGuitar(); // True if answer is position on the guitar in any question type
-  bool answerIsSound(); // True if answer is played sound in any question type
+      /** True if answer or question is note on a score */
+  bool canBeScore() const ;
+
+      /** True if answer or question is note name */
+  bool canBeName() const;
+
+      /** True if answer or question is position on a guitar */
+  bool canBeGuitar() const;
+
+      /** True if answer or question is played or sang sound */
+  bool canBeSound() const ;
+
+      /** True when question/answer has more notes and have appropriate types */
+  bool canBeMelody() const;
+
+      /** True if answer is note on a score in any question type */
+  bool answerIsNote() const;
+      /** True if answer is note name in any question type */
+  bool answerIsName() const;
+
+      /** True if answer is position on the guitar in any question type */
+  bool answerIsGuitar() const;
+
+      /** True if answer is played sound in any question type */
+  bool answerIsSound() const;
 
       /** True when level note range is in given number range represented scale of instrument. */
-  bool inScaleOf(int loNoteNr, int hiNoteNr);
+  bool inScaleOf(int loNoteNr, int hiNoteNr) const;
 
       /** Overloaded method with scale in Tnote objects */
-  bool inScaleOf(const Tnote &loN, const Tnote &hiN) { return inScaleOf(loN.chromatic(), hiN.chromatic()); }
-  bool inScaleOf(); /**< Overloaded method where instrument scale is taken from Tglobals  */
+  bool inScaleOf(const Tnote &loN, const Tnote &hiN) const { return inScaleOf(loN.chromatic(), hiN.chromatic()); }
+
+      /** Overloaded method where instrument scale is taken from @p Tglobals  */
+  bool inScaleOf();
 
       /** 
        * Examines level scale, note by note to find lowest and highest frets used.
