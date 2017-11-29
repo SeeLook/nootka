@@ -38,7 +38,7 @@
 
 /*static*/
 
-QString TlevelSelector::checkLevel(Tlevel& l) {
+QString TlevelSelector::checkLevel(const Tlevel& l) {
   QString warringText;
   if (GLOB->instrument().type() == Tinstrument::NoInstrument && l.instrument != Tinstrument::NoInstrument)
           warringText = tr("Level is not suitable for current instrument type");
@@ -54,9 +54,6 @@ QString TlevelSelector::checkLevel(Tlevel& l) {
 /*end static*/
 
 
-//##########################################################################################################
-//########################################## CONSTRUCTOR ###################################################
-//##########################################################################################################
 TlevelSelector::TlevelSelector(QQuickItem* parent) :
   QQuickItem(parent)
 {
@@ -93,48 +90,55 @@ void TlevelSelector::setLevelPreview(TlevelPreviewItem* lpi) {
 }
 
 
+void TlevelSelector::setCurrentIndex(int ci) {
+  m_currentLevelId = ci;
+}
+
+
 void TlevelSelector::findLevels() {
   Tlevel lev = Tlevel();
 // from predefined list
   QList<Tlevel> llist;
   getExampleLevels(llist);
   for (int i = 0; i < llist.size(); i++) {
-      addLevel(llist[i]);
-      m_levels.last().suitable = isSuitable(llist[i]);
+    addLevel(llist[i]);
+    checkLast();
   }
+
 // from constructor (Master of Masters)
   addLevel(lev);
-  m_levels.last().suitable = true;
+  m_levels.last().suitable = true; // always suitable
+
 // from setting file - recent load/saved levels
-  QStringList recentLevels = GLOB->config->value("recentLevels").toStringList();
+  QStringList recentLevels = GLOB->config->value(QLatin1String("recentLevels")).toStringList();
   for (int i = recentLevels.size() - 1; i >= 0; i--) {
-      QFile file(recentLevels[i]);
-      if (file.exists()) {
-          Tlevel level = getLevelFromFile(file);
-          if (!level.name.isEmpty()) {
-              addLevel(level, file.fileName());
-              m_levels.last().suitable = isSuitable(level);
-          } else
-              recentLevels.removeAt(i);
-      } else
-          recentLevels.removeAt(i);
+    QFile file(recentLevels[i]);
+    if (file.exists()) {
+        Tlevel level = getLevelFromFile(file);
+        if (!level.name.isEmpty()) {
+            addLevel(level, file.fileName());
+            checkLast();
+        } else
+            recentLevels.removeAt(i);
+    } else
+        recentLevels.removeAt(i);
   }
-  GLOB->config->setValue("recentLevels", recentLevels);
+  GLOB->config->setValue(QLatin1String("recentLevels"), recentLevels);
 }
 
 
 void TlevelSelector::addLevel(const Tlevel& lev, QString levelFile, bool check) {
-  if (check && !levelFile.isEmpty()) {
+  if (check && !levelFile.isEmpty()) { // check for duplicates
     int pos = -1;
     for (int i = 0; i < m_levels.size(); i++)
       if (m_levels[i].file == levelFile) // file and level exist
           pos = i;
     m_levels.removeAt(pos);
+    m_levelsModel.removeAt(pos);
   }
   SlevelContener l;
   l.level = lev;
   l.file = levelFile;
-  l.itemId = m_levels.count();
   l.suitable = true;
   m_levels << l;
   m_levelsModel << l.level.name;
@@ -146,47 +150,14 @@ Tlevel* TlevelSelector::currentLevel() {
 }
 
 
-bool TlevelSelector::isSuitable(Tlevel &l) {
-  QString warringText = checkLevel(l);
-//   if (!warringText.isEmpty()) {
-//       m_levels.last().item->setStatusTip("<span style=\"color: red;\">" + warringText + "</span>");
-//       m_levels.last().item->setForeground(QBrush(Qt::red));
-//       return false;
-//   }
-  return true;
-}
-
-
-void TlevelSelector::disableNotSuitable() {
-  for (int i = 0; i < m_levels.size(); i++)
-    if (!m_levels[i].suitable) {
-//       m_levels[i].item->setFlags(Qt::NoItemFlags);
-//       m_levels[i].item->setForeground(QBrush(palette().color(QPalette::Disabled, QPalette::Text)));
-    }
-}
-
-
-bool TlevelSelector::isSuitable() const {
-//   if (idOfSelected() > -1 )
-//       return m_levels[idOfSelected()].suitable;
-//   else
-//       return false;
-
-  return true;
-}
-
-
 bool TlevelSelector::isRemovable(int id) const {
   return id >= 0 && id < m_levels.count() ? !m_levels[id].file.isEmpty() : false;
 }
 
 
 void TlevelSelector::showLevel(int id) {
-  if (id >= 0 && id < m_levels.count() && m_levelPreview) {
+  if (id >= 0 && id < m_levels.count() && m_levelPreview)
       m_levelPreview->setLevel(&m_levels[id].level);
-      m_currentLevelId = id;
-  } else
-      m_currentLevelId = -1;
   emit levelChanged();
 }
 
@@ -223,16 +194,18 @@ void TlevelSelector::loadFromFile(QString levelFile) {
   if (!level.name.isEmpty()) {
       GLOB->E->levelsDir = QFileInfo(levelFile).absoluteDir().absolutePath();
       addLevel(level, levelFile, true);
-//       if (isSuitable(level)) // TODO
-//           selectLevel(); // select the last
+      checkLast();
       updateRecentLevels();
       emit levelsModelChanged();
+      if (m_levels.last().suitable) {
+        emit selectLast();
+        m_levelPreview->setLevel(&level);
+      }
   }
 }
 
 
 bool TlevelSelector::removeLevel(int id, bool removeFile) {
-
   if (id >= 0 && id < m_levels.count()) {
     if (removeFile) {
       QFile levF(m_levels[id].file);
@@ -248,14 +221,6 @@ bool TlevelSelector::removeLevel(int id, bool removeFile) {
     return true;
   }
   return false;
-}
-
-
-Tlevel& TlevelSelector::getSelectedLevel() {
-//     if (m_levelsListWdg->currentRow() == -1 ) {
-//         return m_fakeLevel;
-//     } else
-//         return m_levels[m_levelsListWdg->currentRow()].level;
 }
 
 
@@ -317,6 +282,17 @@ Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
   return level;
 }
 
+
+void TlevelSelector::checkLast() {
+  SlevelContener& last = m_levels.last();
+  QString notSuitableText = checkLevel(last.level);
+  if (notSuitableText.isEmpty())
+      m_levels.last().suitable = true;
+  else {
+      m_levels.last().suitable = false;
+      m_levels.last().level.desc = QLatin1String("<font color=\"red\">") + notSuitableText + QLatin1String("</font>");
+  }
+}
 
 
 
