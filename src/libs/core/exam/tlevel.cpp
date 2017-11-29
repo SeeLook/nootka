@@ -22,6 +22,7 @@
 #include <music/ttune.h>
 #include <taudioparams.h>
 #include <tscoreparams.h>
+
 #include <QtCore/qfile.h>
 #include <QtWidgets/qmessagebox.h>
 #include <QtWidgets/qapplication.h>
@@ -74,19 +75,19 @@ bool Tlevel::couldBeLevel(qint32 ver) {
  */
 void Tlevel::fileIOerrorMsg(QFile& f, QWidget* parent) {
   if (!f.fileName().isEmpty())
-      QMessageBox::critical(parent, QString(), QApplication::translate("TlevelSelector",
+      QMessageBox::critical(parent, QLatin1String(" "), QApplication::translate("TlevelSelector",
                                       "Cannot open file\n %1 \n for reading").arg(f.fileName()));
   else
-      QMessageBox::critical(parent, QString(), QApplication::translate("TlevelSelector", "No file name specified"));
+      QMessageBox::critical(parent, QLatin1String(" "), QApplication::translate("TlevelSelector", "No file name specified"));
 }
 
 
 void Tlevel::fretFromXml(QXmlStreamReader& xml, char& fr, Tlevel::EerrorType& err) {
   fr = (char)QVariant(xml.readElementText()).toInt();
   if (fr < 0 || fr > 24) { // max frets number
-        fr = 0;
-        qDebug() << "Fret number in" << xml.name() << "was wrong but fixed";
-        err = Tlevel::e_levelFixed;
+    fr = 0;
+    qDebug() << "Fret number in" << xml.name() << "was wrong but fixed";
+    err = Tlevel::e_levelFixed;
   }
 }
 
