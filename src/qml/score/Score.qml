@@ -30,7 +30,7 @@ Flickable {
   property bool recordMode: false
 
   // private
-  property var staves: []
+  property var staves: [ staff0 ]
   property alias noteAdd: addLoad.item
 
   clip: true
@@ -93,7 +93,6 @@ Flickable {
     id: staff0
     clef.type: score.clef
     meter: Meter { parent: staff0 }
-    Component.onCompleted: staves.push(staff0)
   }
 
   NoteCursor {
