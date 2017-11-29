@@ -25,6 +25,7 @@
 #include <tglobals.h>
 
 #include <QtCore/qsettings.h>
+#include <QtWidgets/qmessagebox.h>
 #if defined (Q_OS_ANDROID)
   #include "Android/tfiledialog.h"
 #else
@@ -303,12 +304,12 @@ Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
         } else
             wasLevelFile = false;
         file.close();
-//          if (!wasLevelFile) {
-//             QMessageBox::critical(this, QString(), tr("File: %1 \n is not Nootka level file!").arg(file.fileName()));
-//             level.name.clear();
-//             return level;
-//          } else if (!wasLevelValid)
-//              QMessageBox::warning(0, QString(), tr("Level file\n %1 \n was corrupted and repaired!\n Check please, if its parameters are as expected.").arg(file.fileName()));
+         if (!wasLevelFile) {
+              QMessageBox::critical(nullptr, QLatin1String(" "), tr("File: %1 \n is not Nootka level file!").arg(file.fileName()));
+              level.name.clear();
+              return level;
+         } else if (!wasLevelValid)
+             QMessageBox::warning(nullptr, QLatin1String(" "), tr("Level file\n %1 \n was corrupted and repaired!\n Check please, if its parameters are as expected.").arg(file.fileName()));
   } else {
       if (!file.fileName().isEmpty()) // skip empty file names (ignored by user)
         Tlevel::fileIOerrorMsg(file, nullptr);
