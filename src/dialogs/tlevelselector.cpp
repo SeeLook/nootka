@@ -192,15 +192,15 @@ void TlevelSelector::loadFromFile(QString levelFile) {
   QFile file(levelFile);
   Tlevel level = getLevelFromFile(file);
   if (!level.name.isEmpty()) {
-      GLOB->E->levelsDir = QFileInfo(levelFile).absoluteDir().absolutePath();
-      addLevel(level, levelFile, true);
-      checkLast();
-      updateRecentLevels();
-      emit levelsModelChanged();
-      if (m_levels.last().suitable) {
-        emit selectLast();
-        m_levelPreview->setLevel(&level);
-      }
+    GLOB->E->levelsDir = QFileInfo(levelFile).absoluteDir().absolutePath();
+    addLevel(level, levelFile, true);
+    checkLast();
+    updateRecentLevels();
+    emit levelsModelChanged();
+//     if (m_levels.last().suitable) {
+      emit selectLast();
+      m_levelPreview->setLevel(&level);
+//     }
   }
 }
 

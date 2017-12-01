@@ -51,11 +51,19 @@ Flickable {
               rangeScore.addNote(creator.loNote)
               rangeScore.addNote(creator.hiNote)
             }
+            Connections {
+              target: rangeScore.scoreObj
+              onClicked: {
+                creator.loNote = rangeScore.scoreObj.noteAt(0)
+                creator.hiNote = rangeScore.scoreObj.noteAt(1)
+              }
+            }
           }
           Tile {
             TcuteButton {
               text: qsTr("adjust fret range")
               anchors.horizontalCenter: parent.horizontalCenter
+              onClicked: creator.adjustFretsToScale()
             }
             description: qsTr("Adjust fret range in a level to currently selected note range")
           }
@@ -76,21 +84,32 @@ Flickable {
               spacing: Noo.fontSize() / 2
               Text { text: qsTr("from"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
               SpinBox {
-                id: fromFretSpin
+                id: loFretSpin
                 from: 0; to: GLOB.fretNumber
                 value: creator.loFret
+                onValueModified: {
+                  creator.loFret = loFretSpin.value
+                  if (loFretSpin.value > hiFretSpin.value)
+                    creator.hiFret = loFretSpin.value
+                }
               }
               Text { text: qsTr("to"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
               SpinBox {
-                id: toFretSpin
+                id: hiFretSpin
                 from: 0; to: GLOB.fretNumber
                 value: creator.hiFret
+                onValueModified: {
+                  creator.hiFret = hiFretSpin.value
+                  if (hiFretSpin.value < loFretSpin.value)
+                    creator.loFret = hiFretSpin.value
+                }
               }
             }
             Tile {
               TcuteButton {
                 text: qsTr("adjust note range")
                 anchors.horizontalCenter: parent.horizontalCenter
+                onClicked: creator.adjustNotesToFretRange()
               }
               description: qsTr("Adjust note range in a level to currently selected fret range")
             }
