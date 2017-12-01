@@ -358,4 +358,6 @@ Column {
     outDevCombo.currentIndex = 0
     forwardInChB.checked = false
   }
+
+  function help() { Noo.openHelpLink("input-settings") }
 }

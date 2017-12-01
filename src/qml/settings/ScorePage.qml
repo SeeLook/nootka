@@ -309,4 +309,6 @@ Column {
 
       enableKeyChB.checked = false
     }
+
+    function help() { Noo.openHelpLink("score-settings") }
 }

@@ -33,7 +33,7 @@ Item {
     }
   }
 
-  function reset() {
-    pages.currentPage.defaults()
-  }
+  function reset() { pages.currentPage.defaults() }
+
+  function help() { pages.currentPage.help() }
 }
