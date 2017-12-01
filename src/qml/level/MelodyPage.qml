@@ -67,9 +67,6 @@ Tflickable {
             editable: true
             from: 1; to: 50
             value: creator.melodyLen
-          }
-          Connections {
-            target: lenSpin
             onValueModified: creator.melodyLen = lenSpin.value
           }
         }

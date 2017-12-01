@@ -32,13 +32,13 @@ TlevelsSelector {
         id: view
         clip: true
         width: parent.width; height: lSelector.height * 0.96 - buttRow.height
+        spacing: 1
         currentIndex: -1
         ScrollBar.vertical: ScrollBar { active: false; visible: active }
         model: levelsModel
         delegate: Component {
           Item {
             width: view.width; height: delegateRow.height
-            enabled: isSuitable(index)
             Rectangle {
               anchors.fill: parent
               color: index === view.currentIndex ? activPal.highlight :

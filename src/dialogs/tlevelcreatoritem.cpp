@@ -333,26 +333,38 @@ void TlevelCreatorItem::setKeyOfRandList(int key) {
 // Range page
 int TlevelCreatorItem::loFret() const { return static_cast<int>(m_level->loFret); }
 void TlevelCreatorItem::setLoFret(int lf) {
-  m_level->loFret = static_cast<char>(lf);
-  levelParamChanged();
+  if (static_cast<char>(lf) != m_level->loFret) {
+    m_level->loFret = static_cast<char>(lf);
+    levelParamChanged();
+    emit updateLevel();
+  }
 }
 
 int TlevelCreatorItem::hiFret() const { return static_cast<int>(m_level->hiFret); }
 void TlevelCreatorItem::setHiFret(int hf) {
-  m_level->hiFret = static_cast<char>(hf);
-  levelParamChanged();
+CHECKTIME (
+  if (static_cast<char>(hf) != m_level->hiFret) {
+    m_level->hiFret = static_cast<char>(hf);
+    levelParamChanged();
+    emit updateLevel();
+  }
+)
 }
 
 Tnote TlevelCreatorItem::loNote() const { return m_level->loNote; }
 void TlevelCreatorItem::setLoNote(const Tnote& n) {
-  m_level->loNote = n;
-  levelParamChanged();
+  if (!m_level->loNote.compareNotes(n) && n.isValid()) {
+    m_level->loNote = n;
+    levelParamChanged();
+  }
 }
 
 Tnote TlevelCreatorItem::hiNote() const { return m_level->hiNote; }
 void TlevelCreatorItem::setHiNote(const Tnote& n) {
-  m_level->hiNote = n;
-  levelParamChanged();
+  if (!m_level->hiNote.compareNotes(n) && n.isValid()) {
+    m_level->hiNote = n;
+    levelParamChanged();
+  }
 }
 
 int TlevelCreatorItem::clef() const { return static_cast<int>(m_level->clef.type()); }
@@ -366,12 +378,36 @@ int TlevelCreatorItem::usedStrings() const {
           + (m_level->usedStrings[3] ? 8 : 0) + (m_level->usedStrings[4] ? 16 : 0) + (m_level->usedStrings[5] ? 32 : 0);
 }
 
-
 void TlevelCreatorItem::setUsedStrings(int uStr) {
   for (int s = 0; s < 6; ++s)
     m_level->usedStrings[s] = (uStr & qRound(qPow(2.0, static_cast<qreal>(s)))) > 0;
   levelParamChanged();
 }
+
+void TlevelCreatorItem::adjustFretsToScale() {
+  char loF, hiF;
+  if (m_level->adjustFretsToScale(loF, hiF)) {
+      if (loF != m_level->loFret || hiF != m_level->hiFret) {
+        m_level->loFret = loF;
+        m_level->hiFret = hiF;
+        levelParamChanged();
+        emit updateLevel();
+      }
+  } else
+      qDebug() << "[TlevelCreatorItem] Can't adjust fret range!";
+}
+
+void TlevelCreatorItem::adjustNotesToFretRange() {
+  Tnote loN(GLOB->loString().chromatic() + static_cast<short>(m_level->loFret));
+  Tnote hiN(GLOB->hiString().chromatic() + static_cast<short>(m_level->hiFret));
+  if (!loN.compareNotes(m_level->loNote) || !hiN.compareNotes(m_level->hiNote)) {
+    m_level->loNote = loN;
+    m_level->hiNote = hiN;
+    levelParamChanged();
+    emit updateLevel();
+  }
+}
+
 
 // Accidentals page
 bool TlevelCreatorItem::withSharps() const { return m_level->withSharps; }

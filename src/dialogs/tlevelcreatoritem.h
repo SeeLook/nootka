@@ -175,6 +175,16 @@ public:
   int usedStrings() const;
   void setUsedStrings(int uStr);
 
+      /**
+       * Sets level fret range according to currently selected note range
+       */
+  Q_INVOKABLE void adjustFretsToScale();
+
+      /**
+       * Sets note range according to currently selected fret range
+       */
+  Q_INVOKABLE void adjustNotesToFretRange();
+
   // Accidentals page
   bool withSharps() const;
   void setWithSharps(bool sharps);

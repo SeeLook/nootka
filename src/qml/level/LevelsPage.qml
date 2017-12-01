@@ -43,7 +43,7 @@ Column {
       }
     }
     TcuteButton {
-      enabled: selector.levelId !== -1
+      enabled: selector.levelId !== -1 && selector.isSuitable(selector.levelId)
       width: levelsPage.width / 4
       contentItem: Row {
         padding: levelsPage.width / 200
@@ -63,7 +63,7 @@ Column {
       }
     }
     TcuteButton {
-      enabled: selector.levelId !== -1
+      enabled: selector.levelId !== -1 && selector.isSuitable(selector.levelId)
       width: levelsPage.width / 4
       contentItem: Row {
         padding: levelsPage.width / 200
