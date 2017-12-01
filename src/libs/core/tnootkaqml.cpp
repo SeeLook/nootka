@@ -44,6 +44,7 @@
 #include <QtCore/qdatetime.h>
 #include <QtCore/qbuffer.h>
 #include <QtWidgets/qapplication.h>
+#include <QtGui/qdesktopservices.h>
 #if defined (Q_OS_ANDROID)
   #include "Android/tfiledialog.h"
   #include "Android/tmobilemenu.h"
@@ -411,6 +412,13 @@ QString TnootkaQML::pixToHtml(const QString& pixName, int height) {
                                height, Qt::KeepAspectRatio, Qt::SmoothTransformation).save(&buffer, "PNG");
   return QString("<img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/>";
 }
+
+
+void TnootkaQML::openHelpLink(const QString& hash) {
+  QDesktopServices::openUrl(QUrl(QString("https://nootka.sourceforge.io/index.php?L=%1&C=doc#" + hash).
+    arg(QString(qgetenv("LANG")).left(2).toLower()), QUrl::TolerantMode));
+}
+
 
 //#################################################################################################
 //###################     CONNECTIONS  NODE            ############################################

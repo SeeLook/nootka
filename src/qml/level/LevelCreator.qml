@@ -40,4 +40,5 @@ TlevelCreatorItem {
   }
 
   function close() {} // fake
+  function help() { Noo.openHelpLink("level-creator") }
 }

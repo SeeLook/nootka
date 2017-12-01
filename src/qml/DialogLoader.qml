@@ -57,9 +57,9 @@ Dialog {
           var c = Qt.createComponent("qrc:/LevelCreator.qml")
           currentDialog = c.createObject(contentItem)
           if (Noo.isAndroid()) {
-              buttons = [StandardButton.Close]
+              buttons = [StandardButton.Close, StandardButton.Help]
           } else {
-              standardButtons = StandardButton.Close
+              standardButtons = StandardButton.Close | StandardButton.Help
           }
           break
       }
@@ -89,4 +89,5 @@ Dialog {
   }
   onReset: if (currentDialog) currentDialog.reset()
   onAccepted: if (currentDialog) currentDialog.accepted()
+  onHelp: if (currentDialog) currentDialog.help()
 }

@@ -244,4 +244,6 @@ Flickable {
     instrSel.instrument = Tinstrument.ClassicalGuitar // it will set transposition and preferred accidentals
     fretDots.text = "5,7,9,12!,15,19"
   }
+
+  function help() { Noo.openHelpLink("instrument-settings") }
 }

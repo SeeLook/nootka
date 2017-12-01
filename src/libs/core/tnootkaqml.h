@@ -125,6 +125,9 @@ public:
 
   Q_INVOKABLE QString pixToHtml(const QString& pixName, int height = 0);
 
+      /** Calls @p QDesktopServices::openUrl with Nootka site doc at given @p hash */
+  Q_INVOKABLE  void openHelpLink(const QString& hash);
+
 /**
  * All stuff below is responsible for handling note changes in score, instrument and sound in/out.
  * @p TnootkaQML has score and instrument pointers to handle theirs signals when note is changed,

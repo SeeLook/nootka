@@ -160,4 +160,6 @@ Tflickable {
     scaleSlider.value = 1.0
   }
 
+  function help() { Noo.openHelpLink("settings") }
+
 }
