@@ -8,11 +8,9 @@ import QtQuick.Controls 2.2
 import "../"
 
 
-Flickable {
+Tflickable {
   id: root
-  clip: true
-  ScrollBar.vertical: ScrollBar {}
-  contentHeight: donCol.height; contentWidth: parent.width
+  contentHeight: donCol.height
   z: 1
 
   Rectangle {
@@ -31,7 +29,7 @@ Flickable {
 
   Column {
     id: donCol
-    width: parent.width
+    width: root.width
     spacing: Noo.fontSize()
 
     Tile {
@@ -49,19 +47,37 @@ Flickable {
       }
     }
 
-    Repeater {
-      model: [ "Torsten Philipp", "Vincent Bermel", "Tomasz Matuszewski", "Yves Balhant", "Илья Б." ]
-      Tile {
-        property color randCol: Noo.randomColor()
-        width: tt.width + Noo.fontSize() * 4
-        bgBorder { color: randCol; width: 2 }
-        bgColor: Qt.tint(randCol, Noo.alpha(activPal.base, 180))
-        Text {
-          id: tt
-          font.pixelSize: Noo.fontSize() * 1.5
-          text: modelData
-          anchors.horizontalCenter: parent.horizontalCenter
-          color: activPal.text
+    Grid {
+      id: container
+      width: columns * widest + (columns - 1) * Noo.fontSize()
+      columns: Math.floor(parent.width / (widest + Noo.fontSize()))
+      horizontalItemAlignment: Grid.AlignHCenter
+      anchors.horizontalCenter: parent.horizontalCenter
+      property real widest: 0
+      spacing: Noo.fontSize()
+      Repeater {
+        model: [ "Aaron Wolf", "Torsten Philipp", "Vincent Bermel", "Tomasz Matuszewski", "Yves Balhant", "Илья Б." ]
+        Tile {
+          anchors.horizontalCenter: undefined
+          property color randCol: Noo.randomColor()
+          width: tt.width + Noo.fontSize() * 4
+          bgBorder { color: randCol; width: 2 }
+          bgColor: Qt.tint(randCol, Noo.alpha(activPal.base, 180))
+          Text {
+            id: tt
+            font.pixelSize: Noo.fontSize() * 1.5
+            text: modelData
+            anchors.horizontalCenter: parent.horizontalCenter
+            color: activPal.text
+            Component.onCompleted: container.widest = Math.max(container.widest, tt.width + Noo.fontSize() * 4)
+          }
+          MouseArea {
+            id: ma
+            anchors.fill: parent
+            hoverEnabled: true
+            onEntered: randCol = Noo.randomColor()
+            onClicked: randCol = Noo.randomColor()
+          }
         }
       }
     }
@@ -69,7 +85,7 @@ Flickable {
     Text {
       font { bold: true; pixelSize: Noo.fontSize() * 2 }
       text: "THANK YOU!   "
-      anchors.right: parent.right
+      anchors.horizontalCenter: parent.horizontalCenter
       color: activPal.text
     }
   }
