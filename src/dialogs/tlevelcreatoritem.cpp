@@ -120,6 +120,15 @@ if (!m_level->canBeGuitar() && !m_level->answerIsSound() ) { // no guitar and no
 }
 
 
+void TlevelCreatorItem::checkLevel() {
+  QString validMessage =  validateLevel();
+  if (validMessage.isEmpty())
+    QMessageBox::information(nullptr, tr("Level validation"), tr("Level seems to be correct"));
+  else
+    showValidationMessage(validMessage);
+}
+
+
 // Questions page
 int TlevelCreatorItem::questionAs() const { return m_level->questionAs.value(); }
 void TlevelCreatorItem::setQuestionAs(int qAs) {
