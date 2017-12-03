@@ -100,6 +100,8 @@ public:
 
   Q_INVOKABLE void saveLevel();
 
+  Q_INVOKABLE void checkLevel();
+
   // Questions page
   int questionAs() const;
   void setQuestionAs(int qAs);

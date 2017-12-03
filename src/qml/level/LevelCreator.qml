@@ -31,7 +31,7 @@ TlevelCreatorItem {
         b.text = qsTr("Check")
         b.DialogButtonBox.buttonRole = DialogButtonBox.ActionRole
         b.icon = Noo.pix("levelCreator")
-        b.clicked.connect(function() { console.log("check level") })
+        b.clicked.connect(checkLevel)
     }
   }
 
