@@ -3,13 +3,15 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
+import QtQuick.Controls 2.2
+
 
 import "about"
 
 
 Item {
   width: parent.width
-  height: parent.height - (Noo.isAndroid() ? 0 : Noo.fontSize() * 3)
+  height: parent.height
 
   PagesDialog { id: pages }
 
@@ -24,12 +26,16 @@ Item {
                   "about/Donors")
     pages.addItem("chlog", qsTr("Changes"), "about/Changes")
     pages.addItem("qt", "Qt", "about/Qt")
+    if (Noo.isAndroid()) {
+        dialLoader.buttons = [DialogButtonBox.Close]
+    } else {
+        dialLoader.standardButtons = DialogButtonBox.Close
+        dialLoader.title = qsTr("About Nootka")
+    }
   }
 
   Connections {
     target: pages.mobileButt
     onClicked: dialLoader.dialogDrawer.open()
   }
-
-  function accepted() {} // fake
 }

@@ -22,6 +22,9 @@
 #include "tlevelselector.h"
 #include "qtr.h"
 
+#include <QtWidgets/qdialogbuttonbox.h>
+#include <QtCore/qdebug.h>
+
 
 bool TdialogLoaderObject::m_firstTime = true;
 
@@ -65,3 +68,15 @@ QString TdialogLoaderObject::stdButtonIcon(int role) {
     default: return QString();
   }
 }
+
+
+QString TdialogLoaderObject::buttonRoleIcon(int role) {
+  switch (static_cast<QDialogButtonBox::ButtonRole>(role)) {
+    case QDialogButtonBox::ApplyRole: return QStringLiteral("check"); // Apply
+    case QDialogButtonBox::ResetRole: return QStringLiteral("fingerpoint"); // Restore defaults
+    case QDialogButtonBox::HelpRole: return QStringLiteral("help"); // Help
+    case QDialogButtonBox::AcceptRole: return QStringLiteral("check"); // OK
+    default: return QStringLiteral("exit");;
+  }
+}
+

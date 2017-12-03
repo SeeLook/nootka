@@ -36,14 +36,19 @@ public:
   ~TdialogLoaderObject() override;
 
       /**
-       * Returns translated text according to Qt @p StandartButtons enumerator
+       * Returns translated text according to Qt @p ButtonDialogBox enumerator
        */
   Q_INVOKABLE QString stdButtonText(int role);
 
       /**
-       * Icon image name of given StandartButtons role
+       * Icon image name of given @p ButtonDialogBox role
        */
   Q_INVOKABLE QString stdButtonIcon(int role);
+
+      /**
+       * icon name by button role
+       */
+  Q_INVOKABLE QString buttonRoleIcon(int role);
 
 private:
   static bool                    m_firstTime;
