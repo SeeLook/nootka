@@ -7,8 +7,23 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
            main/tnameitem.cpp\
+          \
+           dialogs/tdialogloaderobject.cpp\
+           dialogs/tlevelcreatoritem.cpp\
+           dialogs/tlevelpreviewitem.cpp\
+           dialogs/tlevelsdefs.cpp\
+           dialogs/tlevelselector.cpp\
+           dialogs/tlevelheaderwdg.cpp\
 
 HEADERS  += main/tnameitem.h\
+          \
+           dialogs/tdialogloaderobject.h\
+           dialogs/tlevelcreatoritem.h\
+           dialogs/tlevelpreviewitem.h\
+           dialogs/tlevelsdefs.h\
+           dialogs/tlevelselector.h\
+           dialogs/tlevelheaderwdg.h\
+
 
 
 CONFIG += mobility warn_off
@@ -20,8 +35,7 @@ android {
   ANDROID_EXTRA_LIBS += $$OUT_PWD/libs/core/libNootkaCore.so\
 #                         $$OUT_PWD/libs/mobile/libNootkaMobile.so\
                         $$OUT_PWD/libs/sound/libNootkaSound.so\
-#                         $$OUT_PWD/libs/misc/libNootkaMisc.so\
-#                         $$OUT_PWD/libs/main/libNootkaMain.so\
+
 }
 
 INCLUDEPATH += libs/core libs/mobile libs/sound libs/main
@@ -29,7 +43,6 @@ INCLUDEPATH += libs/core libs/mobile libs/sound libs/main
 LIBS += -Llibs/core/ -lNootkaCore \
 #         -Llibs/mobile/ -lNootkaMobile \
         -Llibs/sound -lNootkaSound \
-#         -Llibs/main -lNootkaMain
 
 RESOURCES += nootka.qrc
 

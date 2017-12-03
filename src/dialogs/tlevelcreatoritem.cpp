@@ -25,7 +25,6 @@
 #include <tglobals.h>
 #include <texamparams.h>
 
-#include <math.h>
 #include <QtCore/qfileinfo.h>
 #include <QtCore/qdatetime.h>
 #include <QtWidgets/qmessagebox.h>
@@ -309,7 +308,7 @@ void TlevelCreatorItem::setEndsOnTonic(bool ends) {
 /**
  * Due to Tlevel::ErandMelody enumerator has values 1, 2, 4 (power of 2) we need to convert them to ordered indexes: 0, 1, 2
  */
-int TlevelCreatorItem::randMelody() const { return qRound(std::log2(static_cast<double>(m_level->randMelody))); }
+int TlevelCreatorItem::randMelody() const { return qRound(qLn(static_cast<qreal>(m_level->randMelody) / qLn(2.0))); }
 void TlevelCreatorItem::setRandMelody(int rand) {
   m_level->randMelody = static_cast<Tlevel::ErandMelody>(qPow(2.0, static_cast<qreal>(rand)));
   levelParamChanged();
@@ -325,7 +324,6 @@ Tnote TlevelCreatorItem::noteFromList(int id) const {
  * or simply append this note to the list end
  */
 void TlevelCreatorItem::setNoteOfList(int id, const Tnote& n) {
-  qDebug() << "setNoteOfList" << n.toText();
   if (id >= 0 && id < m_level->notesList.count())
     m_level->notesList[id] = n;
   else

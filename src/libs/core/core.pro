@@ -9,18 +9,18 @@ SOURCES +=  tcolor.cpp\
             tfingerpos.cpp\
             tglobals.cpp\
             tinitcorelib.cpp\
-#             tnoofont.cpp\
+            tnoofont.cpp\
             tpath.cpp\
             tmtr.cpp\
             tnootkaqml.cpp\
             taction.cpp\
           \
-#             exam/tattempt.cpp\
-#             exam/texam.cpp\
-#             exam/tlevel.cpp\
-#             exam/tqagroup.cpp\
-#             exam/tqatype.cpp\
-#             exam/tqaunit.cpp\
+             exam/tattempt.cpp\
+             exam/texam.cpp\
+             exam/tlevel.cpp\
+             exam/tqagroup.cpp\
+             exam/tqatype.cpp\
+             exam/tqaunit.cpp\
 #             exam/tresulttext.cpp\
           \
             music/tchunk.cpp\
@@ -71,13 +71,13 @@ HEADERS  += nootkaconfig.h\
             tnootkaqml.h\
             taction.h\
           \
-#             exam/tattempt.h\
-#             exam/texam.h\
+             exam/tattempt.h\
+             exam/texam.h\
 #             exam/textrans.h\
-#             exam/tlevel.h\
-#             exam/tqagroup.h\
-#             exam/tqatype.h\
-#             exam/tqaunit.h\
+             exam/tlevel.h\
+             exam/tqagroup.h\
+             exam/tqatype.h\
+             exam/tqaunit.h\
 #             exam/tresulttext.h\
           \
             music/tchunk.h\
