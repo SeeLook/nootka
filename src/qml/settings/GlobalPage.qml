@@ -106,16 +106,22 @@ Tflickable {
       Row {
         spacing: Noo.fontSize()
         anchors.horizontalCenter: parent.horizontalCenter
-        Text { color: activPal.text; text: qsTr("scale"); anchors.verticalCenter: parent.verticalCenter }
+        Text {
+          color: activPal.text; width: Noo.fontSize() * text.length
+          text: qsTr("scale")
+          anchors.verticalCenter: parent.verticalCenter
+          font.pixelSize: (Noo.fontSize() / GLOB.scale) * scaleSlider.value
+        }
         Slider {
           id: scaleSlider
           from: 0.5; to: 1.5; stepSize: 0.1; snapMode: Slider.SnapAlways
           value: GLOB.scale
-          width: Noo.fontSize() * 15
+          width: Math.min(Noo.fontSize() * 15, globalPage.width * 0.4)
         }
         Text {
           anchors.verticalCenter: parent.verticalCenter
-          text: Math.round(scaleSlider.value * 10) / 10
+          text: Math.round(scaleSlider.value * 100) + "%"
+          font.pixelSize: (Noo.fontSize() / GLOB.scale) * scaleSlider.value
           color: activPal.text; width: Noo.fontSize() * 3; horizontalAlignment: Text.AlignHCenter
         }
       }
