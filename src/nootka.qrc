@@ -25,6 +25,7 @@
     <file alias="TlabelText.qml">qml/shared/TlabelText.qml</file>
     <file alias="Tflickable.qml">qml/shared/Tflickable.qml</file>
     <file alias="TcuteButton.qml">qml/shared/TcuteButton.qml</file>
+    <file alias="LinkText.qml">qml/shared/LinkText.qml</file>
 
 <!--     <file alias="IntonationBar.qml">qml/sound/IntonationBar.qml</file> -->
     <file alias="PitchView.qml">qml/sound/PitchView.qml</file>
@@ -93,6 +94,8 @@
     <file alias="wizard/WizardInstrument.qml">qml/wizard/WizardInstrument.qml</file>
     <file alias="wizard/WizardClef.qml">qml/wizard/WizardClef.qml</file>
     <file alias="wizard/WizardOptions.qml">qml/wizard/WizardOptions.qml</file>
+
+    <file alias="exam/StartExam.qml">qml/exam/StartExam.qml</file>
 
     <file alias="qtquickcontrols2.conf">qml/qtquickcontrols2.conf</file>
 <!--     <file alias="+android/qtquickcontrols2.conf">qml/+android/qtquickcontrols2.conf</file> -->

@@ -31,11 +31,12 @@ Old.Dialog {
     anchors.fill: parent
     Rectangle {
       id: container
-      width: parent.width; height: parent.height - (Noo.isAndroid() ? 0 : Noo.fontSize() * 3)
+      width: parent.width; height: parent.height - (box.visible ? box.height : 0)
       color: activPal.window
     }
     DialogButtonBox {
       id: box
+      visible: !Noo.isAndroid() && standardButtons != 0
       width: parent.width; height: Noo.isAndroid() ? 0 : Noo.fontSize() * 3
       padding: Noo.fontSize() / 4
       spacing: Noo.fontSize()
@@ -90,6 +91,9 @@ Old.Dialog {
           var c = Qt.createComponent("qrc:/LevelCreator.qml")
           currentDialog = c.createObject(container)
           break
+        case Nootka.ExamStart:
+          var c = Qt.createComponent("qrc:/exam/StartExam.qml")
+          currentDialog = c.createObject(container)
       }
       SOUND.stopListen()
       open()

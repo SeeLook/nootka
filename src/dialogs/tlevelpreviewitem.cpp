@@ -64,7 +64,7 @@ void TlevelPreviewItem::setLevel(Tlevel* tl) {
       const QString TDTREnd = QStringLiteral("</td></tr>");
       QFontMetrics fm(qApp->font());
       int fontSize = fm.height() * 1.3;
-      m_levelText = QLatin1String("<center><b>") + tl->name + QLatin1String("</b><br>");
+      m_levelText = QLatin1String("<center>") + tr("Level summary:") + QLatin1String("<br><b>") + tl->name + QLatin1String("</b><br>");
       m_levelText += QLatin1String("<table border=\"1\" cellpadding=\"3\">");
       m_levelText += QLatin1String("<tr><td colspan=\"2\" align=\"center\" valign=\"middle\">") + instr.name() + spTDEnd;
       QString clefString(tr("Clef") + QLatin1String(":")); // "Clef:  "

@@ -55,7 +55,7 @@ ApplicationWindow {
     icon: "startExam"
     text: qsTranslate("TtoolBar", "Lessons")
     tip: qsTranslate("TtoolBar", "Start exercises or an exam")
-//     onTriggered:
+    onTriggered: dialogLoader.page = Nootka.ExamStart
   }
 
   width: GLOB.geometry.width
