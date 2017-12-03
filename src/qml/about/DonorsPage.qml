@@ -78,6 +78,7 @@ Tflickable {
             onEntered: randCol = Noo.randomColor()
             onClicked: randCol = Noo.randomColor()
           }
+          Behavior on randCol { ColorAnimation { duration: 300 }}
         }
       }
     }

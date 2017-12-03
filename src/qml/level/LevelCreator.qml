@@ -3,6 +3,7 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
+import QtQuick.Controls 2.2
 
 import Nootka.Dialogs 1.0
 
@@ -11,7 +12,7 @@ TlevelCreatorItem {
   id: creator
 
   width: parent.width
-  height: parent.height - (Noo.isAndroid() ? 0 : Noo.fontSize() * 3)
+  height: parent.height
 
   PagesDialog { id: pages }
 
@@ -22,6 +23,16 @@ TlevelCreatorItem {
     pages.addItem("accidSett", qsTr("Accidentals"),  "level/Accids")
     pages.addItem("rangeSett", qsTr("Range"),  "level/Range")
     dialLoader.title = creator.title
+    if (Noo.isAndroid()) {
+        dialLoader.buttons = [DialogButtonBox.Close, DialogButtonBox.Help, DialogButtonBox.RestoreDefaults]
+    } else {
+        dialLoader.standardButtons = DialogButtonBox.Close | DialogButtonBox.Help | DialogButtonBox.RestoreDefaults
+        var b = dialLoader.buttonBox.standardButton(DialogButtonBox.RestoreDefaults)
+        b.text = qsTr("Check")
+        b.DialogButtonBox.buttonRole = DialogButtonBox.ActionRole
+        b.icon = Noo.pix("levelCreator")
+        b.clicked.connect(function() { console.log("check level") })
+    }
   }
 
   onSaveStateChanged: {
@@ -39,6 +50,5 @@ TlevelCreatorItem {
     onClicked: dialLoader.dialogDrawer.open()
   }
 
-  function close() {} // fake
   function help() { Noo.openHelpLink("level-creator") }
 }

@@ -1,3 +1,6 @@
+1.5.2 alpha3
+     - improved level creator
+
 1.5.1 alpha2
      - detecting duration (rhythm) of sound along with its pitch
      - simple metronome and its menu for configuring parameters

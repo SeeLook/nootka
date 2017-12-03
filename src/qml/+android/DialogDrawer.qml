@@ -3,7 +3,6 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
-import QtQuick.Dialogs 1.2
 import QtQuick.Controls 2.2
 
 import Nootka 1.0
@@ -30,12 +29,12 @@ Drawer {
 
   function mapRole(role) {
     switch (role) {
-      case StandardButton.Ok: dialLoader.accept(); break
-      case StandardButton.Apply: dialLoader.apply(); break
-      case StandardButton.Cancel: dialLoader.reject(); break
-      case StandardButton.RestoreDefaults: dialLoader.reset(); break
-      case StandardButton.Help: dialLoader.help(); break
-      case StandardButton.Close: dialLoader.close(); break
+      case DialogButtonBox.Ok: dialLoader.accept(); break
+      case DialogButtonBox.Apply: dialLoader.apply(); break
+      case DialogButtonBox.Cancel: dialLoader.reject(); break
+      case DialogButtonBox.RestoreDefaults: dialLoader.reset(); break
+      case DialogButtonBox.Help: dialLoader.help(); break
+      case DialogButtonBox.Close: dialLoader.close(); break
     }
     close()
   }
