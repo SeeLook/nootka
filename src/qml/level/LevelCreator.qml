@@ -17,15 +17,15 @@ TlevelCreatorItem {
   PagesDialog { id: pages }
 
   Component.onCompleted: {
-    pages.addItem("levelsSett", qsTranslate("TlevelSelector", "Levels"), "level/Levels")
+    pages.addItem("levelsSett", qsTr("Levels"), "level/Levels")
     pages.addItem("questionsSett", qsTr("Questions"), "level/Questions")
     pages.addItem("melodySett", qsTr("Melody"), "level/Melody")
     pages.addItem("accidSett", qsTr("Accidentals"),  "level/Accids")
     pages.addItem("rangeSett", qsTr("Range"),  "level/Range")
-    dialLoader.title = creator.title
     if (Noo.isAndroid()) {
         dialLoader.buttons = [DialogButtonBox.Close, DialogButtonBox.Help, DialogButtonBox.RestoreDefaults]
     } else {
+        dialLoader.title = creator.title
         dialLoader.standardButtons = DialogButtonBox.Close | DialogButtonBox.Help | DialogButtonBox.RestoreDefaults
         var b = dialLoader.buttonBox.standardButton(DialogButtonBox.RestoreDefaults)
         b.text = qsTr("Check")
