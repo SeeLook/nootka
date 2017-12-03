@@ -4,17 +4,16 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQuick.Layouts 1.3
+// import QtQuick.Layouts 1.3
+
+import "../"
 
 
-Flickable {
+Tflickable {
   id: authorsPage
 
-  clip: true
   contentHeight: aboutCont.height
-  contentWidth: Math.max(width, Noo.fontSize() * 35)
-
-  ScrollBar.vertical: ScrollBar {}
+  contentWidth: width
 
   MouseArea {
     anchors.fill: parent
@@ -24,25 +23,28 @@ Flickable {
   Column {
     id: aboutCont
     spacing: Noo.fontSize()
+    padding: Noo.fontSize() / 2
     width: parent.width
     TextBackground { text: qsTranslate("TaboutNootka", "Code"); }
-    Text {
-      anchors.horizontalCenter: parent.horizontalCenter; width: parent.width; color: activPal.text
+    LinkText {
+      anchors.horizontalCenter: parent.horizontalCenter
       text: "<b>Tomasz Bojczuk</b>    <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><br>"
     }
     TextBackground { text: qsTranslate("TaboutNootka", "Audio"); }
     Text {
-      anchors.horizontalCenter: parent.horizontalCenter; width: parent.width; color: activPal.text
+      anchors.horizontalCenter: parent.horizontalCenter; color: activPal.text
       text: qsTranslate("TaboutNootka", "editing and/or recording of samples:") + "<br><b>Sergei Ivanov (tico-tico)</b><br>"
     }
     TextBackground { text: qsTranslate("TaboutNootka", "Translators"); }
-    GridLayout {
+    Grid {
       columns: 4
-      Layout.alignment: Qt.AlignVCenter
+      spacing: Noo.fontSize() / 2
+      verticalItemAlignment: Grid.AlignVCenter
+      anchors.horizontalCenter: parent.horizontalCenter
       Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-cs"); }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;český "; textFormat: Text.StyledText; color: activPal.text }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Pavel Fric</b> "; color: activPal.text }
-      Text { text: " <a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>"; color: activPal.text }
+      LinkText { text: " <a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>" }
 
       Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-de") }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;deutsch "; textFormat: Text.StyledText; color: activPal.text}
@@ -52,7 +54,7 @@ Flickable {
       Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-es") }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;español "; textFormat: Text.StyledText; color: activPal.text }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>José Luis Marín</b> "; font.bold: true; color: activPal.text }
-      Text { text: " <a href=\"mailto:jsls@gmx.com\">jsls@gmx.com</a>"; color: activPal.text }
+      LinkText { text: " <a href=\"mailto:jsls@gmx.com\">jsls@gmx.com</a>" }
 
       Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-fr") }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;français "; textFormat: Text.StyledText; color: activPal.text }
@@ -62,7 +64,7 @@ Flickable {
       Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-pl") }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;polski "; textFormat: Text.StyledText; color: activPal.text }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Tomasz Bojczuk</b> "; color: activPal.text }
-      Text { text: "<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>"; color: activPal.text }
+      LinkText { text: "<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>" }
 
       Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-ru") }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;русский "; textFormat: Text.StyledText; color: activPal.text }
@@ -71,7 +73,7 @@ Flickable {
     }
 
     TextBackground { text: qsTranslate("TaboutNootka", "Other projects"); }
-    Text {
+    LinkText {
       width: parent.width
       text: qsTranslate("TaboutNootka", "However this application could not exist without various open source projects.<br>Especially:") +
             "<ul>" + createLink("Qt", "https://www.qt.io/developers/") + " by Qt Company" +
@@ -83,17 +85,10 @@ Flickable {
             createLink("LilyPond emmentaler font", "http://lilypond.org/introduction.html") +
             createLink("Bravura SMuFL font", "http://www.smufl.org/fonts/") +
             "</ul>"
-      color: activPal.text
       wrapMode: Text.WordWrap
-      onLinkActivated: Qt.openUrlExternally(link)
-      MouseArea { // make hand cursor over link text
-        anchors.fill: parent
-        acceptedButtons: Qt.NoButton
-        cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
-      }
     }
     TextBackground { text: qsTranslate("TaboutNootka", "Thanks"); }
-    Text {
+    LinkText {
       width: parent.width
       text: "I would like to say <b>THANK YOU</b> for all people who helped me with developing Nootka.<br>
 I will try to mention them in some random order:<br>
@@ -107,14 +102,7 @@ I will try to mention them in some random order:<br>
 <b>Project16 @ KVR</b> <a href=\"http://www.kvraudio.com/\">http://www.kvraudio.com</a> for the bass guitar samples<br>
 <b>And all others that helped.</b><br>"
       textFormat: Text.StyledText
-      color: activPal.text
       wrapMode: Text.WordWrap
-      onLinkActivated: Qt.openUrlExternally(link)
-      MouseArea { // make hand cursor over link text
-        anchors.fill: parent
-        acceptedButtons: Qt.NoButton
-        cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
-      }
     }
   }
   Timer {
@@ -122,7 +110,7 @@ I will try to mention them in some random order:<br>
     interval: 50; repeat: true; running: GLOB.useAnimations && authorsPage.visible
     onTriggered: {
       if (authorsPage.visible && authorsPage.contentY < authorsPage.contentHeight - authorsPage.height)
-        authorsPage.contentY = authorsPage.contentY + 1.0
+        authorsPage.contentY++
     }
   }
 
