@@ -50,7 +50,7 @@ TlevelHeaderWdg::TlevelHeaderWdg(QWidget *parent) :
   setLayout(mainLay);
 
 #if defined (Q_OS_ANDROID)
-  move((Tmtr::screenWidth() - descEd->width()) / 2, Tmtr::fingerPixels() / 2);
+  move((Tmtr::screenWidth() - m_descEd->width()) / 2, Tmtr::fingerPixels() / 2);
   // for better visibility where there is no window frame on mobile change background color
   setObjectName(QStringLiteral("levelHeader"));
   setStyleSheet(QStringLiteral("QDialog#levelHeader { background-color: #A1A1A1; }")); // dark gray

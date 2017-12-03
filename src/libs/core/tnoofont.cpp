@@ -53,8 +53,9 @@
  * digits [0-9] starts from 0x0180
  */
 
+
 #include "tnoofont.h"
-#include <math.h>
+#include <QtCore/qmath.h>
 
 
 TnooFont::TnooFont(int pointSize) :
@@ -87,7 +88,7 @@ quint16 TnooFont::getCharFromRhythm(quint16 rhythm, bool stemUp, bool rest) {
   else if (!stemUp && rhythm > 1) // stem down only if no rest and half note at least
       stemGap = 6;
   if (rhythm)
-    return baseChar + (int)std::log2(rhythm) + stemGap;
+    return baseChar + qRound(qLn(static_cast<qreal>(rhythm) / qLn(2.0))) + stemGap;
   else
     return 0xe193;
 }

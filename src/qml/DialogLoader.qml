@@ -28,7 +28,7 @@ Old.Dialog {
   TdialogObject { id: dialogObj }
 
   contentItem: Column {
-    anchors.fill: parent
+    width: dialLoader.width; height: dialLoader.height
     Rectangle {
       id: container
       width: parent.width; height: parent.height - (box.visible ? box.height : 0)
@@ -94,12 +94,14 @@ Old.Dialog {
         case Nootka.ExamStart:
           var c = Qt.createComponent("qrc:/exam/StartExam.qml")
           currentDialog = c.createObject(container)
+          break
       }
       SOUND.stopListen()
       open()
       if (Noo.isAndroid()) {
-          var c = Qt.createComponent("qrc:/+android/DialogDrawer.qml")
-          dialogDrawer = c.createObject(currentDialog)
+        var c = Qt.createComponent("qrc:/+android/DialogDrawer.qml")
+        console.log("drawer", c)
+        dialogDrawer = c.createObject(currentDialog)
       }
     }
   }
