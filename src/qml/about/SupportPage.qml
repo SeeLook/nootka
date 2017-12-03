@@ -8,23 +8,21 @@ import QtQuick.Controls 2.2
 import "../"
 
 
-Flickable {
-  width: parent.width; height: parent.height
-  clip: true
+Tflickable {
+  height: parent.height
   contentHeight: suppFlow.childrenRect.height + thText.height + Noo.fontSize() * 3
-  contentWidth: Math.max(width, Noo.fontSize() * 35)
+  contentWidth: width
 
-  ScrollBar.vertical: ScrollBar {}
 //                     | donate   | translate |  vote   | report   | express |
   property var colors: [ "#42DA06", "#0000C0", "#C000C0", "#FF0000", activPal.text ]
   property var headers: [ qsTr("Donate Nootka campaign"), "Translate Nootka", Noo.isAndroid() ? "Rate this app" : "Vote on Nootka", "Report an issue", "Express your opinion" ]
   property var texts: [ 
-   "<a href=\"http://nootka.sourceforge.net/index.php?C=donate\">" + qsTr("Through PayPal or a card") + "</a><br><a href=\"mailto:seelook.gmail.com\">" + qsTr("or send email for an account number") + "</a>",
-    "It does not require any programming skills. Just read <a href=\"http://sourceforge.net/p/nootka/hg/ci/default/tree/lang/how-to-translate.txt\">the instructions</a>,<br>translate and send your work.",
+   "<a href=\"https://nootka.sourceforge.io/index.php?C=donate\">" + qsTr("Through PayPal or a card") + "</a><br><a href=\"mailto:seelook.gmail.com\">" + qsTr("or send email for an account number") + "</a>",
+    "It does not require any programming skills. Just read <a href=\"https://sourceforge.net/p/nootka/hg/ci/default/tree/lang/how-to-translate.txt\">the instructions</a>,<br>translate and send your work.",
     Noo.isAndroid() ?
     "Go to <a href=\"https://play.google.com/store/apps/details?id=net.sf.nootka\">Google Play</a>,<br>rate it nicely and put a comment in your native language." :
-    "There are a lot of services. For example:<br><a href=\"https://play.google.com/store/apps/details?id=net.sf.nootka\">Google Play</a>, <a href=\"https://www.linux-apps.com/p/1127020/\">Linux Apps</a>, <a href=\"http://www.softpedia.com/get/Others/Home-Education/Nootka.shtml\">Softpedia</a><br>or add <b>like</b> or/and <b>g+</b> on <a href=\"http://nootka.sourceforge.net\">Nootka site</a>",
-    "If you find any issue or a bug than request it through:<br><a href=\"http://sourceforge.net/p/nootka/bugs/\">bug tracker</a>",
+    "There are a lot of services. For example:<br><a href=\"https://play.google.com/store/apps/details?id=net.sf.nootka\">Google Play</a>, <a href=\"https://www.linux-apps.com/p/1127020/\">Linux Apps</a>, <a href=\"http://www.softpedia.com/get/Others/Home-Education/Nootka.shtml\">Softpedia</a><br>or add <b>like</b> or/and <b>g+</b> on <a href=\"https://nootka.sourceforge.io\">Nootka site</a>",
+    "If you find any issue or a bug than request it through:<br><a href=\"https://sourceforge.net/p/nootka/bugs/\">bug tracker</a>",
     "Simply <a href=\"mailto:seelook.gmail.com\">send an email</a>"
   ]
 
@@ -70,17 +68,10 @@ Flickable {
           anchors.horizontalCenter: undefined
           bgBorder { color: colors[index]; width: 2 }
           bgColor: Qt.tint(colors[index], Qt.rgba(activPal.base.r, activPal.base.g, activPal.base.b, 0.9))
-          Text {
+          LinkText {
             id: tt
             text: "<b><font size=\"5\" color=\"" + colors[index] +"\">" + headers[index] + "</font></b><br>" + texts[index]
             anchors.horizontalCenter: parent.horizontalCenter
-            onLinkActivated: Qt.openUrlExternally(link)
-            color: activPal.text
-            MouseArea {
-              anchors.fill: parent
-              acceptedButtons: Qt.NoButton
-              cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
-            }
           }
         }
       }

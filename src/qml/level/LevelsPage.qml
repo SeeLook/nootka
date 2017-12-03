@@ -15,7 +15,7 @@ Column {
   spacing: levelsPage.width / 50
   LevelsSelector {
     id: selector
-    width: parent.width; height: levelsPage.height - buttRow.height - levelsPage.width / 50
+    width: parent.width; height: levelsPage.height - buttRow.height - levelsPage.width / 50 - Noo.fontSize() * 3
     Component.onCompleted: creator.selector = selector
   }
   Row {
@@ -82,5 +82,9 @@ Column {
         
       }
     }
+  }
+  LinkText {
+    text: qsTr("Get more levels <a href=\"%1\">from Nootka home page</a>").arg("https://nootka.sourceforge.io/index.php?C=down#levels")
+    anchors.horizontalCenter: parent.horizontalCenter
   }
 }
