@@ -22,65 +22,26 @@ Column {
     id: buttRow
     spacing: levelsPage.width / 50
     anchors.horizontalCenter: parent.horizontalCenter
-    TcuteButton {
+    TiconButton {
       enabled: creator.notSaved
       width: levelsPage.width / 4
-      contentItem: Row {
-        padding: levelsPage.width / 200
-        spacing: levelsPage.width / 100
-        Image {
-          source: Noo.pix("notSaved")
-          sourceSize.height: levelsPage.height / 15
-        }
-        Text {
-          anchors.verticalCenter: parent.verticalCenter
-          color: enabled ? (checked ? activPal.highlightedText : activPal.text) : disdPal.text
-          text: qsTr("Save")
-        }
-      }
-      onClicked: {
-        creator.saveLevel()
-      }
+      icon: Noo.pix("notSaved"); iconHeight: levelsPage.height / 15
+      text: qsTr("Save")
+      onClicked: creator.saveLevel()
     }
-    TcuteButton {
+    TiconButton {
       enabled: selector.levelId !== -1 && selector.isSuitable(selector.levelId)
       width: levelsPage.width / 4
-      contentItem: Row {
-        padding: levelsPage.width / 200
-        spacing: levelsPage.width / 100
-        Image {
-          source: Noo.pix("exam")
-          sourceSize.height: levelsPage.height / 15
-        }
-        Text {
-          anchors.verticalCenter: parent.verticalCenter
-          color: enabled ? (checked ? activPal.highlightedText : activPal.text) : disdPal.text
-          text: qsTr("Start exam")
-        }
-      }
-      onClicked: {
-        
-      }
+      icon: Noo.pix("exam"); iconHeight: levelsPage.height / 15
+      text: qsTr("Start exam")
+//       onClicked:
     }
-    TcuteButton {
+    TiconButton {
       enabled: selector.levelId !== -1 && selector.isSuitable(selector.levelId)
       width: levelsPage.width / 4
-      contentItem: Row {
-        padding: levelsPage.width / 200
-        spacing: levelsPage.width / 100
-        Image {
-          source: Noo.pix("practice")
-          sourceSize.height: levelsPage.height / 15
-        }
-        Text {
-          anchors.verticalCenter: parent.verticalCenter
-          color: enabled ? (checked ? activPal.highlightedText : activPal.text) : disdPal.text
-          text: qsTr("Start exercise")
-        }
-      }
-      onClicked: {
-        
-      }
+      icon: Noo.pix("practice"); iconHeight: levelsPage.height / 15
+      text: qsTr("Start exercise")
+//       onClicked:
     }
   }
   LinkText {

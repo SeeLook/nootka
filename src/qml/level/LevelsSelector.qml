@@ -95,37 +95,13 @@ TlevelsSelector {
         anchors.horizontalCenter: parent.horizontalCenter
         spacing: lSelector.width / 50
 
-        TcuteButton {
-          contentItem: Row {
-            padding: lSelector.width / 200
-            spacing: lSelector.width / 100
-            Image {
-              source: Noo.pix("nootka-level")
-              sourceSize.height: Noo.fontSize() * 2
-            }
-            Text {
-              anchors.verticalCenter: parent.verticalCenter
-              color: enabled ? (checked ? activPal.highlightedText : activPal.text) : disdPal.text
-              text: qsTr("Load")
-            }
-          }
+        TiconButton {
+          icon: Noo.pix("nootka-level"); text: qsTr("Load")
           onClicked: loadFromFile()
         }
-        TcuteButton {
+        TiconButton {
           enabled: isRemovable(view.currentIndex)
-          contentItem: Row {
-            padding: lSelector.width / 200
-            spacing: lSelector.width / 100
-            Image {
-              source: Noo.pix("delete")
-              sourceSize.height: Noo.fontSize() * 2
-            }
-            Text {
-              anchors.verticalCenter: parent.verticalCenter
-              color: enabled ? (checked ? activPal.highlightedText : activPal.text) : disdPal.text
-              text: qsTr("Remove")
-            }
-          }
+          icon: Noo.pix("delete"); text: qsTr("Remove")
           onClicked: {
             var c = Qt.createComponent("qrc:/level/RemoveLevel.qml")
             var rmLevelDialog = c.createObject(lSelector, { "levelName": levelName(view.currentIndex), "levelFile": levelFile(view.currentIndex) })
