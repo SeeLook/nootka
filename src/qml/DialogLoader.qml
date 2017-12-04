@@ -40,18 +40,9 @@ Old.Dialog {
       width: parent.width; height: Noo.isAndroid() ? 0 : Noo.fontSize() * 3
       padding: Noo.fontSize() / 4
       spacing: Noo.fontSize()
-      delegate: Button {
-        id: root
-        property alias icon: img.source
-        contentItem: Item {
-          Row {
-            anchors.horizontalCenter: parent.horizontalCenter
-            x: (root.width - width) / 2
-            spacing: Noo.fontSize() / 4
-            Image { id: img; source: Noo.pix(dialogObj.buttonRoleIcon(root.DialogButtonBox.buttonRole)); sourceSize.height: Noo.fontSize() * 2 }
-            Text { text: root.text; font: root.font; anchors.verticalCenter: parent.verticalCenter }
-          }
-        }
+      delegate: TiconButton {
+        icon: Noo.pix(dialogObj.buttonRoleIcon(DialogButtonBox.buttonRole))
+        background: Rectangle { color: enabled ? (checked ? activPal.highlight : activPal.button) : disdPal.button }
       }
       background: Rectangle {
         anchors.fill: parent

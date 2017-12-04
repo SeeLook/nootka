@@ -25,6 +25,7 @@
     <file alias="TlabelText.qml">qml/shared/TlabelText.qml</file>
     <file alias="Tflickable.qml">qml/shared/Tflickable.qml</file>
     <file alias="TcuteButton.qml">qml/shared/TcuteButton.qml</file>
+    <file alias="TiconButton.qml">qml/shared/TiconButton.qml</file>
     <file alias="LinkText.qml">qml/shared/LinkText.qml</file>
 
 <!--     <file alias="IntonationBar.qml">qml/sound/IntonationBar.qml</file> -->
