@@ -21,7 +21,7 @@ Tflickable {
     horizontalItemAlignment: Grid.AlignHCenter
     topPadding: Noo.fontSize()
 
-    Frame {
+    Tframe {
       width: accidsGrid.columns === 1 ? Math.max(parent.width * 0.9, dblAccidsChB.width) : parent.width * 0.4
       Column {
         spacing: Noo.fontSize() / 2
@@ -70,7 +70,7 @@ Tflickable {
       }
     } // accids frame
 
-    Frame {
+    Tframe {
       id: keyFrame
       width: accidsGrid.columns === 1 ? parent.width * 0.98 : parent.width * 0.59
       Column {

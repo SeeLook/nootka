@@ -40,12 +40,7 @@ Item {
       color: enabled ? activPal.text : disdPal.text
     }
 
-    Frame {
-      background: Rectangle {
-        color: "transparent"
-        border.color: enabled ? activPal.shadow : disdPal.shadow
-        radius: Noo.fontSize() / 2
-      }
+    Tframe {
 
       Column {
         id: styleColumn

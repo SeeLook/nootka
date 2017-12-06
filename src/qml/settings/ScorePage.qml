@@ -51,14 +51,9 @@ Column {
           id: firstColumn
           width: parent.width
           spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
-          Frame {
+          Tframe {
             width: parent.width * 0.99
             anchors.horizontalCenter: parent.horizontalCenter
-            background: Rectangle {
-              color: "transparent"
-              border.color: activPal.shadow
-              radius: Noo.fontSize() / 2
-            }
             Column {
               spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
               width: parent.width
@@ -140,14 +135,9 @@ Column {
             anchors.horizontalCenter: parent.horizontalCenter
             checked: GLOB.keySignatureEnabled
           }
-          Frame {
+          Tframe {
             width: parent.width * 0.99
             anchors.horizontalCenter: parent.horizontalCenter
-            background: Rectangle {
-              color: "transparent"
-              border.color: activPal.shadow
-              radius: Noo.fontSize() / 2
-            }
             Column {
               spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
               width: parent.width

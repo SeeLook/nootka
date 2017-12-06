@@ -23,14 +23,10 @@ Tflickable {
     width: parent.width
     id: questionCol
 
-    Frame {
+    Tframe {
       width: parent.width * 0.99
       anchors.horizontalCenter: parent.horizontalCenter
-      background: Rectangle {
-        color: Noo.alpha(creator.isMelody ? Noo.invert(activPal.highlight) : activPal.highlight, 75)
-        border.color: activPal.shadow
-        radius: Noo.fontSize() / 2
-      }
+      bgColor: Noo.alpha(creator.isMelody ? Noo.invert(activPal.highlight) : activPal.highlight, 75)
       Column {
         width: parent.width
         Tile {
