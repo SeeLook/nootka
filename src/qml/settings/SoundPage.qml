@@ -162,14 +162,9 @@ Column {
             }
           }
 
-          Frame { // advanced settings
+          Tframe { // advanced settings
             width: parent.width * 0.99
             anchors.horizontalCenter: parent.horizontalCenter
-            background: Rectangle {
-              color: "transparent"
-              border.color: enabled ? "red" : disdPal.text
-              radius: Noo.fontSize() / 2
-            }
             Column {
               width: parent.width
               spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2

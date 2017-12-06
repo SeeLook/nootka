@@ -91,7 +91,6 @@ Old.Dialog {
       open()
       if (Noo.isAndroid()) {
         var c = Qt.createComponent("qrc:/+android/DialogDrawer.qml")
-        console.log("drawer", c)
         dialogDrawer = c.createObject(currentDialog)
       }
     }

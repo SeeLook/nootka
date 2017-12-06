@@ -33,7 +33,7 @@ Flickable {
     horizontalItemAlignment: Grid.AlignHCenter
     topPadding: Noo.fontSize()
 
-    Frame {
+    Tframe {
         width: rangeGrid.columns === 1 ? parent.width * 0.98 : parent.width * 0.49
         Column {
           width: parent.width
@@ -73,7 +73,7 @@ Flickable {
     Column {
       width: rangeGrid.columns === 1 ? parent.width * 0.98 : parent.width * 0.49
       spacing: Noo.fontSize() / 2
-      Frame {
+      Tframe {
           width: parent.width
           Column {
             width: parent.width
