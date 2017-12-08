@@ -106,7 +106,7 @@ void TglobalExamStore::prepareGlobalsToExam(Tlevel& level) {
 		if (level.canBeGuitar()) // enable guitar if necessary, but don't disable when it is visible
 			m_globals->L->guitarEnabled = true;
 		// change output instrument type when necessary (exam instrument differs from user) TODO
-// 		if (m_globals->instrument != e_noInstrument && m_globals->instrument != instrument)
+// 		if (m_globals->instrument != NoInstrument && m_globals->instrument != instrument)
 // 				AudioOutSettings::adjustOutToInstrument(m_globals->A, (int)m_globals->instrument);
 }
 
