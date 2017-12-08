@@ -61,6 +61,16 @@ QString Tglobals::getInstPath(QString appInstPath) {
   return p;
 }
 
+QString Tglobals::systemUserName() {
+  #if defined (Q_OS_ANDROID)
+    return Tandroid::accountName();
+  #elif defined(Q_OS_WIN32)
+    return qgetenv("USERNAME");
+  #else
+    return qgetenv("USER");
+  #endif
+}
+
 /*end static*/
 
 
@@ -313,6 +323,15 @@ void Tglobals::setOutDevName(const QString& odn) { A->OUTdevName = odn; }
 bool Tglobals::forwardInput() const { return A->forwardInput; }
 void Tglobals::setForwardInput(bool fi) { A->forwardInput = fi; }
 
+/* ------------------ Exam switches ------------------ */
+QString Tglobals::student() const { return E->studentName; }
+void Tglobals::setStudent(const QString& st) {
+  if (st != E->studentName) {
+    E->studentName = st;
+    emit studentChanged();
+  }
+}
+
 
 void Tglobals::setGuitarParams(int fretNr, const Ttune& tun) {
   bool doEmit = false;
@@ -467,6 +486,8 @@ void Tglobals::loadSettings(QSettings* cfg) {
       E->repeatIncorrect = cfg->value(QStringLiteral("repeatIncorrect"), true).toBool();
       E->expertsAnswerEnable = cfg->value(QStringLiteral("expertsAnswerEnable"), false).toBool();
       E->studentName = cfg->value(QStringLiteral("studentName"), QString()).toString();
+      if (E->studentName.isEmpty())
+        E->studentName = systemUserName();
 #if defined (Q_OS_ANDROID)
       E->examsDir = cfg->value(QStringLiteral("examsDir"), Tandroid::getExternalPath()).toString();
       if (!QFileInfo::exists(E->examsDir)) // reset if doesn't exist
