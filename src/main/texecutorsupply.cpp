@@ -62,9 +62,9 @@ bool TexecutorSupply::m_playCorrections = true;
 
 void TexecutorSupply::checkPlayCorrected(Tlevel* level) {
 	m_playCorrections = true;
-	if (level->instrument == e_noInstrument) {
+	if (level->instrument == NoInstrument) {
 		if (level->answerIsSound())
-			if (Tcore::gl()->instrument != e_noInstrument)
+			if (Tcore::gl()->instrument != NoInstrument)
 				if (level->inScaleOf(Tcore::gl()->loString().chromatic(), Tcore::gl()->hiNote().chromatic()))
 					m_playCorrections = false;
 	} else
@@ -75,7 +75,7 @@ void TexecutorSupply::checkPlayCorrected(Tlevel* level) {
 void TexecutorSupply::checkGuitarParamsChanged(Texam* exam) {
 	checkPlayCorrected(exam->level());
 	QString changesMessage;
-	if (exam->level()->instrument != e_noInstrument) { // when instrument is guitar it has a matter
+	if (exam->level()->instrument != NoInstrument) { // when instrument is guitar it has a matter
 			if (exam->level()->instrument != Tcore::gl()->instrument)
 					changesMessage = tr("Instrument type was changed!");
 			Tcore::gl()->instrument = exam->level()->instrument;
@@ -171,9 +171,9 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
 	if (!m_level->canBeGuitar() && !m_level->answerIsSound())  // adjust fret range
 		m_level->onlyLowPos = true;
 
-	if (!m_playCorrections || m_level->instrument != e_noInstrument || m_level->showStrNr || m_level->canBeGuitar()) {
+	if (!m_playCorrections || m_level->instrument != NoInstrument || m_level->showStrNr || m_level->canBeGuitar()) {
 //    qDebug() << "Question list created fret by fret. Tune:" << Tcore::gl()->Gtune()->name << Tcore::gl()->Gtune()->stringNr();
-      if (m_level->instrument == e_noInstrument && Tcore::gl()->instrument != e_noInstrument) {
+      if (m_level->instrument == NoInstrument && Tcore::gl()->instrument != NoInstrument) {
         char hi = m_hiFret, lo = m_loFret;
         if (!m_level->adjustFretsToScale(lo, hi))
             qDebug() << "Cant adjust fret range. Corrections will be played!";
