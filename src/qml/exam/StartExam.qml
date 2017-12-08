@@ -10,23 +10,19 @@ import "../"
 
 
 Column {
-  id: startExam
+  id: startDialog
 
   width: parent.width; height: parent.height
+
   spacing: Noo.fontSize()
   topPadding: Noo.fontSize() / 4
 
   Row {
+    id: upperRow
     spacing: Noo.fontSize() * 4
     width: parent.width * 0.98
     anchors.horizontalCenter: parent.horizontalCenter
-    TcuteButton {
-      padding: Noo.fontSize() / 4
-      contentItem: Image {
-        source: Noo.pix("help")
-        sourceSize.height: startExam.height / 16
-      }
-    }
+    TiconButton { icon: Noo.pix("help"); iconHeight: startDialog.height / 15; text: Noo.TR("QShortcut", "Help") }
     Row {
       spacing: Noo.fontSize()
       anchors.verticalCenter: parent.verticalCenter
@@ -36,14 +32,104 @@ Column {
         placeholderText: qsTr("Enter your name or nick-name.")
         font.pixelSize: Noo.fontSize(); maximumLength: 40
         width: Noo.fontSize() * 30
-        horizontalAlignment: TextInput.AlighHCenter
+        horizontalAlignment: TextInput.AlignHCenter
+        text: GLOB.student
       }
     }
   }
 
+  Text {
+    text: qsTr("Select a level suitable for you<br>or create new one.").replace("<br>", " ")
+    anchors.horizontalCenter: parent.horizontalCenter
+    width: parent.width * 0.9; horizontalAlignment: Text.AlignHCenter; color: activPal.text
+    font { bold: true; pixelSize: Noo.fontSize() * 0.8 }
+  }
+
   LevelsSelector {
     id: selector
-    width: parent.width; height: parent.height * 0.5
+    anchors.horizontalCenter: parent.horizontalCenter
+    width: parent.width * 0.98; height: parent.height - upperRow.height - row1.height - row2.height - Noo.fontSize() * 6
+  }
+
+  Row {
+    id: row1
+    anchors.horizontalCenter: parent.horizontalCenter
+    spacing: Noo.fontSize()
+    Tframe {
+      width: startDialog.width * 0.48
+      Row {
+        spacing: Noo.fontSize()
+        TiconButton {
+          iconHeight: startDialog.height / 15
+          icon: Noo.pix("practice"); text: qsTr("Start exercise on level:")
+//             onClicked: startExercise()
+        }
+        Text {
+          anchors.verticalCenter: parent.verticalCenter
+          text: "<b>" + (selector.levelId > -1 ? selector.levelName(selector.levelId) : qsTr("No level was selected!"))
+          color: activPal.text; font.pixelSize: Noo.fontSize() * 0.8
+        }
+      }
+    }
+    Tframe {
+      width: startDialog.width * 0.48
+      Row {
+        spacing: Noo.fontSize()
+        TiconButton {
+          enabled: selector.levelId !== -1
+          iconHeight: startDialog.height / 15
+          icon: Noo.pix("exam"); text: qsTr("Pass new exam on level:")
+//             onClicked: startExam()
+        }
+        Text {
+          anchors.verticalCenter: parent.verticalCenter
+          text: "<b>" + (selector.levelId > -1 ? selector.levelName(selector.levelId) : qsTr("No level was selected!"))
+          color: activPal.text; font.pixelSize: Noo.fontSize() * 0.8
+        }
+      }
+    }
+  }
+  Item {
+    id: row2
+    anchors { horizontalCenter: parent.horizontalCenter }
+    width: startDialog.width - Noo.fontSize() * 2; height: childrenRect.height
+    Tframe {
+      id: contFrame
+      border.width: 0
+      Row {
+        spacing: Noo.fontSize()
+        TiconButton {
+          iconHeight: startDialog.height / 15
+          icon: Noo.pix("exam"); text: qsTr("Select an exam to continue")
+        }
+      }
+    }
+    Tframe {
+      anchors {left: contFrame.right; leftMargin: Noo.fontSize() }
+      width: parent.width - contFrame.width - exitFrame.width - 2 * Noo.fontSize()
+      Row {
+        spacing: Noo.fontSize()
+        TiconButton {
+          iconHeight: startDialog.height / 15
+          icon: Noo.pix("exam"); text: qsTr("Latest exam")
+        }
+        Text {
+          anchors.verticalCenter: parent.verticalCenter
+          text: "Latest exam"
+          color: activPal.text; font.pixelSize: Noo.fontSize() * 0.8
+        }
+      }
+    }
+    Tframe {
+      id: exitFrame
+      anchors.right: parent.right; border.width: 0
+      Row {
+        TiconButton {
+          iconHeight: startDialog.height / 15
+          icon: Noo.pix("exit"); text: Noo.TR("QShortcut", "Exit")
+        }
+      }
+    }
   }
 
   Component.onCompleted: {

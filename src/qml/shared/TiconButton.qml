@@ -16,9 +16,9 @@ AbstractButton {
   property alias iconHeight: img.sourceSize.height
 
   contentItem: Column {
-    padding: Noo.fontSize() / 3
+    padding: Noo.fontSize() / 4
     Row {
-      spacing: Noo.fontSize()
+      spacing: Noo.fontSize() / 3
       anchors.horizontalCenter: parent.horizontalCenter
       Image {
         id: img

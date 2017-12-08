@@ -96,6 +96,9 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(QString outDevName READ outDevName WRITE setOutDevName);
   Q_PROPERTY(bool forwardInput READ forwardInput WRITE setForwardInput)
 
+  /* Exam */
+  Q_PROPERTY(QString student READ student WRITE setStudent NOTIFY studentChanged)
+
 public:
 
       /** If @p true, setting are loaded from temporary config file */
@@ -228,6 +231,10 @@ public:
   bool forwardInput() const;
   void setForwardInput(bool fi);
 
+  /* ------------------ Exam switches ------------------ */
+  QString student() const;
+  void setStudent(const QString& st);
+
       /**
        * Updates key signature names according to name style and major/minor suffixes.
        * Emits @p keyNameChanged() to inform MainScore.qml
@@ -246,11 +253,13 @@ public:
   QString lang; /**< Application language. If empty - selected from system info*/
   QSettings *config; /**< Pointer to QSettings instance of Nootka */
 
-        /** Let's have a convention:
-        * globals settings for @class TnoteName will started from 'N' letter
-        * for @class TscoreWidget and @class TscoreWidgetSimple
-        * and for guitar (@class TfingerBoard) from 'G' letter.
-        * For sound and exam there are pointers to appropirate classes with theirs parameters. */
+        /**
+         * Let's have a convention:
+         * globals settings for @class TnoteName will started from 'N' letter
+         * for @class TscoreWidget and @class TscoreWidgetSimple
+         * and for guitar (@class TfingerBoard) from 'G' letter.
+         * For sound and exam there are pointers to appropirate classes with theirs parameters.
+         */
 
   //============ score settings =============================================================
   TscoreParams *S; /**< Score parameters */
@@ -313,6 +322,11 @@ public:
   TaudioParams *A;  /**< Audio parameters */
   TlayoutParams *L; /**< Main window Layout params. */
 
+      /**
+       * Returns system user name (log-in name)
+       */
+  static QString systemUserName();
+
 signals:
   void geometryChanged(); /**< It is never emitted :(  */
   void useAnimationsChanged();
@@ -338,6 +352,7 @@ signals:
   void guitarParamsChanged();
   void transpositionChanged();
   void minVolumeChanged();
+  void studentChanged();
 
 private:
   static Tglobals           *m_instance;
