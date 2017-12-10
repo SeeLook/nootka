@@ -71,6 +71,8 @@ set(NOOTKA_SRC
   main.cpp
   main/tnameitem.cpp
 
+  main/texamexecutor.cpp
+
   dialogs/tdialogloaderobject.cpp
   dialogs/tlevelcreatoritem.cpp
   dialogs/tlevelpreviewitem.cpp
