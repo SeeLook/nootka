@@ -229,7 +229,7 @@ public:
   void setFinished() { m_isFinished = true; }
   void increasePenaltys(int penaltyNr) { m_penaltysNr += penaltyNr; }
 
-  EerrorType loadFromFile(QString &fileName);
+  EerrorType loadFromFile(const QString &fileName);
   EerrorType saveToFile(QString fileName = QString());
 
   void writeToXml(QXmlStreamWriter& xml);

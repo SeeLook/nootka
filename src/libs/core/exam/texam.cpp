@@ -199,7 +199,7 @@ void Texam::skipLast(bool skip) {
 }
 
 
-Texam::EerrorType Texam::loadFromFile(QString& fileName) {
+Texam::EerrorType Texam::loadFromFile(const QString& fileName) {
   m_okTime = 0;
   m_tmpMist = 0;
   m_tmpHalf = 0;

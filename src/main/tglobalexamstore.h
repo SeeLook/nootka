@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,12 +25,12 @@
 #include <music/ttune.h>
 #include <music/tclef.h>
 
-class Tlevel;
 
+class Tlevel;
 class Tglobals;
 
 
-/** 
+/**
  * Simple class which grabs global settings overwritten by exam,
  * stores them and restores when exam is finished. 
  */
@@ -38,40 +38,41 @@ class TglobalExamStore
 {
 
 public:
-  
+
   TglobalExamStore(Tglobals* globals);
-  
-			/** Grabs exam necessary settings from Tglobals except:
-			 * @p tune and @p fretsNumber which have to be set separately. */
-	void storeSettings();
+
+      /**
+       * Grabs exam necessary settings from Tglobals except:
+       * @p tune and @p fretsNumber which have to be set separately.
+       */
+  void storeSettings();
   void restoreSettings();
-	
-			/** Sets initial values to Tglobals from given level. */
-	void prepareGlobalsToExam(Tlevel &level);
-  
-	
-	
-	
-  bool 												showEnharmNotes;
-  bool 												showKeySignName;
-  bool 												showOtherPos;
-  Tnote::EnameStyle 					nameStyleInNoteName;
-  bool 												useDblAccids;
-  bool 												useKeySign;
-  Ttune 											tune;
-  bool 												octaveInName;
-  char 												fretsNumber;
-  Tclef 											clef;
-  Einstrument 								instrument;
-	quint8											intonation;
-	int													playbackInstr;
-	bool												isSingleNoteMode;
-	bool												namesOnScore;
-	bool												OUTenabled,	INenabled;
-	bool												showSoundView, showGuitar;
-	
+
+      /**
+       * Sets initial values to Tglobals from given level.
+       */
+  void prepareGlobalsToExam(const Tlevel &level);
+
+  bool                          showEnharmNotes;
+  bool                          showKeySignName;
+  bool                          showOtherPos;
+  Tnote::EnameStyle             nameStyleInNoteName;
+  bool                          useDblAccids;
+  bool                          useKeySign;
+  Ttune                         tune;
+  bool                          octaveInName;
+  char                          fretsNumber;
+  Tclef                         clef;
+  Tinstrument::Etype            instrument;
+  quint8                        intonation;
+  int                           playbackInstr;
+  bool                          isSingleNoteMode;
+  bool                          namesOnScore;
+  bool                          OUTenabled,  INenabled;
+  bool                          showSoundView, showGuitar;
+
 private:
-	Tglobals *m_globals;
+  Tglobals *m_globals;
 
 };
 
