@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,56 +19,71 @@
 #ifndef TEXERCISES_H
 #define TEXERCISES_H
 
-#include <QDialog>
+
+#include <QtWidgets/qdialog.h>
 
 class QRadioButton;
 class Texam;
 
 
-/** 
- * Class for managing exercising (exam like mode) 
- * It gets answers state through checkAnswer(), checks is it necessary to suggest an exam
- * and emits messageDisplayed signal during message. 
+/**
+ * Class for managing exercising (exam like mode)
+ * It gets answers state through @p checkAnswer(), checks is it necessary to suggest an exam
+ * and emits @p messageDisplayed() signal during message.
  */
 class Texercises : public QObject
 {
+
   Q_OBJECT
 
 public:
-  Texercises(Texam *exam, QObject *parent = 0);
+  Texercises(Texam *exam, QObject *parent = nullptr);
 
   void checkAnswer();
 
-      /** Sets checking of exercising progress enabled when @p obligate value is bigger than 0.
-        * Given value should be qaPossibilities() calculated by @class TexecutorSupply.
-        * Special cases are when exercises are melodies - it is controlled by @p melody.	 */
+      /**
+       * Sets checking of exercising progress enabled when @p obligate value is bigger than 0.
+       * Given value should be qaPossibilities() calculated by @class TexecutorSupply.
+       * Special cases are when exercises are melodies - it is controlled by @p melody.
+       */
   void setSuggestionEnabled(int qaPosibilities, bool melody = false);
 
-      /** Returns user decision when he got message about starting an exam.
-        * It affects global setting for further suggestions. */
+      /**
+       * Returns user decision when he got message about starting an exam.
+       * It affects global setting for further suggestions.
+       */
   bool suggestInFuture() { return m_checkInFuture; }
 
-      /** Returns true when user decided to start exam after suggestion.  */
+      /**
+       * Returns true when user decided to start exam after suggestion.
+       */
   bool readyToExam() { return m_readyToExam; }
 
-      /** Stores index of corrected note on the score.
+      /**
+       * Stores index of corrected note on the score.
        * By default it is -1 --> no note was corrected.
-       *Score emits signal when correction finish */
+       * Score emits signal when correction finish
+       */
   void setCorrectedNoteId(int noteId = -1) { m_correctedNoteId = noteId; }
   int idOfCorrectedNote() { return m_correctedNoteId; }
 
 signals:
   void messageDisplayed();
-      /** Signal emitted after message with information about desire to start an exam.  */
+
+      /**
+       * Signal emitted after message with information about desire to start an exam.
+       */
   void messageClosed(bool);
 
 private:
-  Texam			 *m_exam;
-  bool 				m_checkInFuture, m_checkNow, m_readyToExam;
-  int 				m_max; /** Number of questions in a cycle */
-  int					m_currentGood; /** Number of good answers since last mistake */;
-  int					m_prevMistake;
-  int         m_correctedNoteId;
+  Texam         *m_exam;
+  bool           m_checkInFuture = false;
+  bool           m_checkNow = false;
+  bool           m_readyToExam = false;
+  int            m_max; /**< Number of questions in a cycle */
+  int            m_currentGood; /**< Number of good answers since last mistake */;
+  int            m_prevMistake;
+  int            m_correctedNoteId = -1;
 
 };
 
@@ -76,22 +91,24 @@ private:
 
 class TsuggestExam : public QDialog
 {
-	Q_OBJECT
+
+  Q_OBJECT
+
 public:
-		explicit TsuggestExam();
-		
-		enum Esuggest {
-			e_readyToExam, e_forAmoment, e_notThisTime, e_neverEver
-		};
-		
-				/** Call this dialog and returns user decision */
-		Esuggest suggest();
-		
-		
+  explicit TsuggestExam();
+
+  enum Esuggest {
+    e_readyToExam, e_forAmoment, e_notThisTime, e_neverEver
+  };
+
+      /**
+        * Call this dialog and returns user decision
+        */
+  Esuggest suggest();
+
 private:
-		QRadioButton	*m_redyExamRadio, *m_notNowRadio, *m_notThisExRadio, *m_neverAskRadio;
-		Esuggest			m_userResponse;
-		
+  QRadioButton       *m_redyExamRadio, *m_notNowRadio, *m_notThisExRadio, *m_neverAskRadio;
+  Esuggest            m_userResponse;
 };
 
 #endif // TEXERCISES_H

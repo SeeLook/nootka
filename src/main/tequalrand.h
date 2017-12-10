@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -41,29 +41,49 @@ class TequalRand
 {
 
 public:
-	
-	TequalRand(int range, int startVal = 0);
-	virtual ~TequalRand();
-	
-			/** The depth determines how many times certain value can be randomized.
-			 * By default it is @p 1 and [1-255] depth is supported. */
-	void setDepth(int d) { m_depth = d; m_total = d * m_range; }
-	int depth() { return m_depth; }
-	void setTotalRandoms(int total); /** By setting this value the depth can be obtained. */
-	int range() { return m_range; }
-	int startValue() { return m_offset; }
-	int get(); /** Randomizes and returns a value. */
-	int count() { return m_count; } /** Number of randoms already performed. */
-	
-	void reset(); /** Resets a memory of randomized values. */
-	
+
+  TequalRand(int range, int startVal = 0);
+  virtual ~TequalRand();
+
+      /**
+       * The depth determines how many times certain value can be randomized.
+       * By default it is @p 1 and [1-255] depth is supported.
+       */
+  void setDepth(int d) { m_depth = d; m_total = d * m_range; }
+  int depth() const { return m_depth; }
+
+      /**
+       * By setting this value the depth can be obtained.
+       */
+  void setTotalRandoms(int total);
+  int range() const { return m_range; }
+  int startValue() const { return m_offset; }
+
+      /**
+       * Randomizes and returns a value.
+       */
+  int get();
+
+      /**
+       * Number of randoms already performed.
+       */
+  int count() const { return m_count; }
+
+      /**
+       * Resets a memory of randomized values.
+       */
+  void reset();
+
 protected:
-	int next(int currVal); /** Looks for next available value than @p currVal */
-	
+      /**
+       * Looks for next available value than @p currVal
+       */
+  int next(int currVal);
+
 private:
-	int							m_range, m_depth, m_offset, m_total, m_count;
-	quint8				 *m_shotTable;
-	bool						m_isLastLoop; /** @p True when depth is achieved but m_depth * m_range < m_total */
+  int              m_range, m_depth, m_offset, m_total, m_count;
+  quint8          *m_shotTable;
+  bool             m_isLastLoop; /**< @p True when depth is achieved but m_depth * m_range < m_total */
 };
 
 #endif // TEQUALRAND_H

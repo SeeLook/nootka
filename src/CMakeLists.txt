@@ -72,6 +72,11 @@ set(NOOTKA_SRC
   main/tnameitem.cpp
 
   main/texamexecutor.cpp
+  main/texecutorsupply.cpp
+  main/tglobalexamstore.cpp
+  main/texercises.cpp
+  main/tequalrand.cpp
+  main/texammelody.cpp
 
   dialogs/tdialogloaderobject.cpp
   dialogs/tlevelcreatoritem.cpp

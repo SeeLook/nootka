@@ -64,26 +64,22 @@ public:
 
   Q_INVOKABLE void init(Eactions whatToDo, const QVariant& arg);
 
-//   void init(QString examFile = QString(), Tlevel *lev = 0);
-// 
   struct TanswerRequire {
       bool octave;
       bool accid;
       bool key;
   };
-// 
+
 //   bool closeNootka();
-//   bool isAnswered() { return m_isAnswered; }
-// 
-//       /**
-//        * @p TRUE when exercise or @p FALSE when exam.
-//        */
-//   bool isExercise() { return (bool)m_exercise; }
-// 
-// signals:
-// 
-// protected:
-//   void deleteExam();
+  bool isAnswered() const { return m_isAnswered; }
+
+      /**
+       * @p TRUE when exercise or @p FALSE when exam.
+       */
+  bool isExercise() { return static_cast<bool>(m_exercise); }
+
+protected:
+  void deleteExam();
 // 
 //   void askQuestion(bool isAttempt = false);
 // 
@@ -131,7 +127,12 @@ public:
 // 
 //   void correctionFinished();
 // 
-// private:
+private:
+      /**
+       * Casts @p QVariant @p v to @p Tlevel* and if casted, assigns it to @p m_level and returns @p TRUE
+       * otherwise return @p FALSE
+       */
+  bool castLevelFromQVariant(const QVariant& v);
 //   void createActions();
 //   void prepareToExam();
 //   void restoreAfterExam();
@@ -153,26 +154,30 @@ private:
 
   TexecutorSupply              *m_supp;
   Texam                        *m_exam;
-
-        /** main instance of Tlevel, others are pointers or references to it */
-  Tlevel                       m_level;
+  Tlevel                       m_level; /**< main instance of Tlevel, others are pointers or references to it */
   QList<TQAgroup>              m_questList;
 
-        /** Invokes startSniffing() and stopPlaying() after delay
-          * to avoid feedback between played question and listened answer. */
+        /**
+         * Invokes startSniffing() and stopPlaying() after delay
+         * to avoid feedback between played question and listened answer.
+         */
   QTimer                      *m_soundTimer, *m_askingTimer;
   Tnote::EnameStyle            m_prevQuestStyle, m_prevAnswStyle;
   TglobalExamStore            *m_glStore;
   TanswerRequire               m_answRequire;
 
-      /** Indicates when sniffing has to be ignored, 
-        * because some dialog window exist over exam. */
+      /**
+       * Indicates when sniffing has to be ignored, 
+       * because some dialog window exist over exam.
+       */
   bool                         m_snifferLocked;
   bool                         m_shouldBeTerminated, m_isAnswered, m_incorrectRepeated;
 
-        /** If it is sets to @p TRUE locks invoking event of right mouse button.
-        * It has to be set before singleShot() method called on askQuestion() 
-        * to avoid user click button and call askQuestion() again during time of delay.*/
+        /**
+         * If it is sets to @p TRUE locks invoking event of right mouse button.
+         * It has to be set before @p singleShot() method called on askQuestion() 
+         * to avoid user click button and call @p askQuestion() again during time of delay.
+         */
   bool                         m_lockRightButt;
   bool                         m_goingClosed; /**< It becomes true when user wants close Nootka during an exam or exercise.*/
 

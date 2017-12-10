@@ -17,28 +17,29 @@
  ***************************************************************************/
 
 #include "texamexecutor.h"
-// #include "texecutorsupply.h"
-// #include "tglobalexamstore.h"
-// #include "texercises.h"
-// #include "tequalrand.h"
+#include "texecutorsupply.h"
+#include "tglobalexamstore.h"
+#include "texercises.h"
+#include "tequalrand.h"
 // #include "tpenalty.h"
-// #include "texammelody.h"
+#include "texammelody.h"
 #include <qtr.h>
 #include <tsound.h>
 #include <tglobals.h>
 // #include <exam/trandmelody.h>
 #include <exam/texam.h>
 // #include <exam/textrans.h>
-// #include <exam/tattempt.h>
+#include <exam/tattempt.h>
 // #include <help/texamhelp.h>
 // #include <help/texpertanswerhelp.h>
-// #include <taudioparams.h>
+#include <taudioparams.h>
 #include <texamparams.h>
-// #include <tscoreparams.h>
+#include <tscoreparams.h>
 // #include <tlayoutparams.h>
 // #include <music/tmelody.h>
 
 #include <QtCore/qdatetime.h>
+#include <QtWidgets/qmessagebox.h>
 #if defined (Q_OS_ANDROID)
   #include <tfiledialog.h>
 #else
@@ -101,73 +102,51 @@ void TexamExecutor::init(TexamExecutor::Eactions whatToDo, const QVariant& arg) 
     case ContinueOtherExam:
       qDebug() << "continue other exam" << arg.toString();
       break;
-    case NewExam:
-      qDebug() << "new exam" << qvariant_cast<Tlevel*>(arg)->name;
+    case NewExam: {
+      qDebug() << "new exam";
+      if (!castLevelFromQVariant(arg))
+        return;
       break;
+    }
     case LevelCreator:
       break;
     case ContinueExercise:
       qDebug() << "continue exercise";
       break;
-    case NewExercise:
-      qDebug() << "new exercise" << qvariant_cast<Tlevel*>(arg)->name;
+    case NewExercise: {
+      qDebug() << "new exercise";
+      if (!castLevelFromQVariant(arg))
+        return;
+      break;
+    }
     default:
       break;
   }
   if (GLOB->E->studentName.isEmpty())
     GLOB->E->studentName = GLOB->systemUserName();
-}
-
-
-// void TexamExecutor::init(QString examFile, Tlevel *lev) {
-//   QString resultText;
-//   TstartExamDlg::Eactions userAct;
-// 
-//   SOUND->stopListen();
-//   if (lev) {
-//       m_level = *lev;
-//       if (GLOB->E->studentName.isEmpty()) {
-//           resultText = TstartExamDlg::systemUserName();
-//       } else
-//           resultText = GLOB->E->studentName;
-//       if (examFile == QLatin1String("exercise"))
-//         userAct = TstartExamDlg::e_runExercise;
-//       else
-//         userAct = TstartExamDlg::e_newExam;
-//   } else {
-//       if (examFile.isEmpty()) { // start exam dialog
-//           TstartExamDlg *startDlg = new TstartExamDlg(GLOB->E->studentName, GLOB->E, mW);
-//           userAct = startDlg->showDialog(resultText, m_level);
-//           delete startDlg;
-//       } else { // command line arg with given filename
-//           resultText = examFile;
-//           userAct = TstartExamDlg::e_contExam;
-//       }
-//   }
-//   m_glStore = new TglobalExamStore(Tcore::gl());
-//   m_glStore->tune = *GLOB->Gtune();
-//   m_glStore->fretsNumber = GLOB->GfretsNumber;
-//   m_glStore->instrument = GLOB->instrument;
-//   if (userAct == TstartExamDlg::e_newExam || userAct == TstartExamDlg::e_runExercise) {
-//       m_exam = new Texam(&m_level, resultText); // resultText is userName
-// #if !defined (Q_OS_ANDROID)
-//       if (!fixLevelInstrument(m_level, QString(), GLOB->instrumentToFix, mW)) {
-//             emit examMessage(Torders::e_examFailed);
-//             deleteExam();
-//             return;
-//         }
-// #endif
-//       GLOB->E->studentName = resultText; // store user name
-//       m_exam->setTune(*GLOB->Gtune());
-//       if (userAct == TstartExamDlg::e_runExercise)
-//           m_exercise = new Texercises(m_exam);
-//   } else if (userAct == TstartExamDlg::e_contExam) {
-//       m_exam = new Texam(&m_level, QString());
-//       Texam::EerrorType err = m_exam->loadFromFile(resultText);
-//       if (err == Texam::e_file_OK || err == Texam::e_file_corrupted) {
-//         if (err == Texam::e_file_corrupted)
-//           QMessageBox::warning(mW, QString(),
-//             tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
+  m_glStore = new TglobalExamStore(GLOB);
+  m_glStore->tune = *GLOB->Gtune();
+  m_glStore->fretsNumber = GLOB->GfretsNumber;
+  m_glStore->instrument = GLOB->instrument().type();
+  if (whatToDo == NewExam || whatToDo == ContinueExercise || whatToDo == NewExercise) {
+      m_exam = new Texam(&m_level, GLOB->E->studentName);
+      // TODO Get rid of following:
+      // #if !defined (Q_OS_ANDROID)
+      //       if (!fixLevelInstrument(m_level, QString(), GLOB->instrumentToFix, mW)) {
+      //             emit examMessage(Torders::e_examFailed);
+      //             deleteExam();
+      //             return;
+      //         }
+      // #endif
+      m_exam->setTune(*GLOB->Gtune());
+      if (whatToDo == ContinueExercise || whatToDo == NewExercise)
+          m_exercise = new Texercises(m_exam);
+  } else if (whatToDo == ContinueLastExam || whatToDo == ContinueOtherExam) {
+      m_exam = new Texam(&m_level, QString());
+      Texam::EerrorType err = m_exam->loadFromFile(arg.toString());
+      if (err == Texam::e_file_OK || err == Texam::e_file_corrupted) {
+        if (err == Texam::e_file_corrupted)
+          QMessageBox::warning(nullptr, QString(), tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
 // #if defined (Q_OS_ANDROID)
 //         if (!showExamSummary(mW, m_exam, true)) // there is no level fix under android - just display summary window
 // #else
@@ -186,62 +165,59 @@ void TexamExecutor::init(TexamExecutor::Eactions whatToDo, const QVariant& arg) 
 //           emit examMessage(Torders::e_examFailed);
 //           deleteExam();
 //           return;
-//       }
-//   } else {
+      }
+  } else {
 //       if (userAct == TstartExamDlg::e_levelCreator) {
 //           emit examMessage(Torders::e_examAskCreator);
 //       }  else
 //           emit examMessage(Torders::e_examFailed);
 //       deleteExam();
 //       return;
-//   }
-//   //We check are guitar's params suitable for an exam
-// #if !defined (Q_OS_ANDROID)
-//   TexecutorSupply::checkGuitarParamsChanged(m_exam);
-// #endif
-//   // ---------- End of checking ----------------------------------
-// 
-//   if (m_exam->melodies())
-//     emit examMessage(Torders::e_examMultiple);
-//   else
-//     emit examMessage(Torders::e_examSingle);
-//   m_supp = new TexecutorSupply(&m_level, this);
-//   // TODO: when level has its own list of notes for melodies - it is wasting energy!
-//   m_supp->createQuestionsList(m_questList);
-//   if (m_exam->melodies())
-//     m_melody = new TexamMelody(this);
-//   if (m_questList.isEmpty()) {
-//       QMessageBox::critical(mW, QString(), tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
-//       delete m_supp;
+  }
+  //We check are guitar's params suitable for an exam
+#if !defined (Q_OS_ANDROID)
+  TexecutorSupply::checkGuitarParamsChanged(m_exam);
+#endif
+  // ---------- End of checking ----------------------------------
+  GLOB->setSingleNote(!m_exam->melodies());
+  m_supp = new TexecutorSupply(&m_level, this);
+  // TODO: when level has its own list of notes for melodies - it is wasting energy!
+  m_supp->createQuestionsList(m_questList);
+  if (m_exam->melodies())
+    m_melody = new TexamMelody(this);
+  if (m_questList.isEmpty()) {
+      QMessageBox::critical(nullptr, QString(), tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
+      delete m_supp;
 //       emit examMessage(Torders::e_examFailed);
-//       deleteExam();
-//       return;
-//   }
+      deleteExam();
+      return;
+  }
 //   prepareToExam();
 //   if (GLOB->E->showHelpOnStart)
 //       showExamHelp();
-//   if (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isFret()) {
-//     if (!m_supp->isGuitarOnlyPossible()) {
-//         qDebug("Something stupid!\n Level has question and answer as position on guitar but any question is available.");
+  if (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isFret()) {
+    if (!m_supp->isGuitarOnlyPossible()) {
+        qDebug("Something stupid!\n Level has question and answer as position on guitar but any question is available.");
 //         emit examMessage(Torders::e_examFailed);
-//         deleteExam();
-//         return;
-//     }
-//   }
-//   
+        deleteExam();
+        return;
+    }
+  }
+//
 //   initializeExecuting();
 //   createActions();
-// }
-// 
-// 
+}
+
+
+
 TexamExecutor::~TexamExecutor() {
 //   if (m_penalty)
 //     delete m_penalty;
-//   if (m_supp)
-//       delete m_supp;
-//   delete m_glStore;
-//   if (m_rand)
-//     delete m_rand;
+  if (m_supp)
+      delete m_supp;
+  delete m_glStore;
+  if (m_rand)
+    delete m_rand;
 //   deleteExam();
   qDebug() << "[TexamExecutor] destroyed";
 }
@@ -1671,16 +1647,16 @@ TexamExecutor::~TexamExecutor() {
 //   else if (name == QLatin1String("newAttempt"))
 //       newAttempt();
 // }
-// 
-// 
-// void TexamExecutor::deleteExam() {
-//   if (m_exam) {
-//     delete m_exam;
-//     m_exam = 0;
-//   }
-// }
-// 
-// 
+
+
+void TexamExecutor::deleteExam() {
+  if (m_exam) {
+    delete m_exam;
+    m_exam = 0;
+  }
+}
+
+
 // void TexamExecutor::delayerTip() {
 //   m_lockRightButt = false;
 //   m_canvas->whatNextTip(!(!m_exercise && GLOB->E->repeatIncorrect && !m_incorrectRepeated));
@@ -1748,3 +1724,14 @@ TexamExecutor::~TexamExecutor() {
 // 
 // 
 // 
+
+bool TexamExecutor::castLevelFromQVariant(const QVariant& v) {
+  auto l = qvariant_cast<Tlevel*>(v);
+  if (l) {
+      m_level = *l;
+      return true;
+  } else {
+      qDebug() << "[TexamExecutor] CAN'T CAST Tlevel* FROM QVariant!!!";
+      return false;
+  }
+}
