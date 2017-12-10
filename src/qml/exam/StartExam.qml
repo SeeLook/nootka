@@ -5,6 +5,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 
+import Nootka.Exam 1.0
 import "../level"
 import "../"
 
@@ -28,6 +29,7 @@ Column {
       anchors.verticalCenter: parent.verticalCenter
       Text { text: qsTr("student name:"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
       TextField {
+        id: userNameIn
         anchors.verticalCenter: parent.verticalCenter
         placeholderText: qsTr("Enter your name or nick-name.")
         font.pixelSize: Noo.fontSize(); maximumLength: 40
@@ -62,7 +64,12 @@ Column {
         TiconButton {
           iconHeight: startDialog.height / 15
           icon: Noo.pix("practice"); text: qsTr("Start exercise on level:")
-//             onClicked: startExercise()
+            onClicked: {
+              if (selector.levelId > -1)
+                start(Texecutor.NewExercise, selector.currentLevel())
+              else
+                start(Texecutor.ContinueExercise, "")
+            }
         }
         Text {
           anchors.verticalCenter: parent.verticalCenter
@@ -79,7 +86,7 @@ Column {
           enabled: selector.levelId !== -1
           iconHeight: startDialog.height / 15
           icon: Noo.pix("exam"); text: qsTr("Pass new exam on level:")
-//             onClicked: startExam()
+          onClicked: start(Texecutor.NewExam, selector.currentLevel())
         }
         Text {
           anchors.verticalCenter: parent.verticalCenter
@@ -101,6 +108,7 @@ Column {
         TiconButton {
           iconHeight: startDialog.height / 15
           icon: Noo.pix("exam"); text: qsTr("Select an exam to continue")
+          onClicked: start(Texecutor.ContinueLastExam, "other exam file")
         }
       }
     }
@@ -112,6 +120,7 @@ Column {
         TiconButton {
           iconHeight: startDialog.height / 15
           icon: Noo.pix("exam"); text: qsTr("Latest exam")
+          onClicked: start(Texecutor.ContinueLastExam, "last exam file")
         }
         Text {
           anchors.verticalCenter: parent.verticalCenter
@@ -127,6 +136,7 @@ Column {
         TiconButton {
           iconHeight: startDialog.height / 15
           icon: Noo.pix("exit"); text: Noo.TR("QShortcut", "Exit")
+          onClicked: dialLoader.close()
         }
       }
     }
@@ -139,5 +149,15 @@ Column {
         dialLoader.standardButtons = 0
         dialLoader.title = qsTr("Start exercises or an exam")
     }
+  }
+
+  property var executor: null
+
+  function start(act, arg) {
+    GLOB.student = userNameIn.text
+    var c = Qt.createComponent("qrc:/exam/ExamExecutor.qml")
+    executor = c.createObject(nootkaWindow)
+    executor.init(act, arg)
+    dialLoader.close()
   }
 }

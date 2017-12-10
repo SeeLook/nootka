@@ -83,7 +83,7 @@ public:
        */
   void addLevel(const Tlevel &lev, QString levelFile = QString(), bool check = false);
 
-  Tlevel* currentLevel();
+  Q_INVOKABLE Tlevel* currentLevel();
 
       /**
        * Shows the level with given @p id in the level preview

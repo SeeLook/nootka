@@ -208,6 +208,7 @@ public:
     /** Reads level data from given stream to @p lev. Respects @p ver - version */
 NOOTKACORE_EXPORT bool getLevelFromStream(QDataStream& in, Tlevel& lev, qint32 ver);
 
+Q_DECLARE_METATYPE(Tlevel*)
 
 #endif // TEXAMLEVEL_H
 
