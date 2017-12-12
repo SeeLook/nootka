@@ -99,7 +99,8 @@ Old.Dialog {
 
   onVisibleChanged: {
     if (visible === false && currentDialog) {
-      SOUND.startListen()
+      if (page !== Nootka.ExamStart)
+        SOUND.startListen()
       currentDialog.destroy()
       currentDialog = null
       page = 0

@@ -13,5 +13,8 @@ Texecutor {
 
   anchors.fill: parent
 
+  nameItem: nootkaWindow.noteName
+  onTitleChanged: nootkaWindow.title = title
+
 }
 

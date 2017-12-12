@@ -33,13 +33,13 @@ class TexamMelody;
 class Tpenalty;
 class TequalRand;
 class Tsound;
-// class TmainScore;
 class Texercises;
 class TglobalExamStore;
 // class Tcanvas;
 class QTimer;
 class TexecutorSupply;
 class Texam;
+class TnameItem;
 
 
 /**
@@ -50,9 +50,17 @@ class TexamExecutor : public QQuickItem
 
   Q_OBJECT
 
+  Q_PROPERTY(QString title READ title NOTIFY titleChanged)
+  Q_PROPERTY(TnameItem* nameItem READ nameItem WRITE setNameItem)
+
 public:
   explicit TexamExecutor(QQuickItem* parent = nullptr);
   ~TexamExecutor() override;
+
+  QString title() const;
+
+  TnameItem* nameItem() { return m_nameItem; }
+  void setNameItem(TnameItem* ni);
 
       /**
        * Describes actions committed by user.
@@ -62,7 +70,7 @@ public:
   };
   Q_ENUM(Eactions)
 
-  Q_INVOKABLE void init(Eactions whatToDo, const QVariant& arg);
+  Q_INVOKABLE bool init(Eactions whatToDo, const QVariant& arg);
 
   struct TanswerRequire {
       bool octave;
@@ -77,6 +85,9 @@ public:
        * @p TRUE when exercise or @p FALSE when exam.
        */
   bool isExercise() { return static_cast<bool>(m_exercise); }
+
+signals:
+  void titleChanged();
 
 protected:
   void deleteExam();
@@ -97,20 +108,22 @@ protected:
 //   void newAttempt();
 // 
 //   void showExamHelp();
-//   void expertAnswersSlot();
-//   void startSniffing();     /** Invokes Tsound::go() */
+  void expertAnswersSlot();
+  void startSniffing();     /**< Invokes Tsound::go() */
 //   void sniffAfterPlaying(); /**< Starts sniffing when asked note is finished */
 //   void rightButtonSlot();
 //   void tipButtonSlot(const QString& name);
 //   void markAnswer(TQAunit* curQ);
 //   void delayerTip(); /**< This is QTimer slot invoking m_canvas->whatNextTip(true) method. */
 //   void exerciseToExam(); /**< Stops exercising and starts exam. */
-//   void stopSound(); /**< Common method called by exercises and exams to disable sniffing, lock right button, etc. */
-// 
-//       /** Performs routines after dialog window closed as such as 
-//         * right mouse button unlocking. If and exam is going to start it calls @p exerciseToExam() */
-//   void suggestDialogClosed(bool startExam);
-// 
+  void stopSound(); /**< Common method called by exercises and exams to disable sniffing, lock right button, etc. */
+
+      /**
+       * Performs routines after dialog window closed as such as 
+       * right mouse button unlocking. If and exam is going to start it calls @p exerciseToExam()
+       */
+  void suggestDialogClosed(bool startExam);
+
 //   void displayCertificate(); /**< Locks the executor and displays certificate. */
 // 
 //       /** It sets m_snifferLocked to false (unlocks) and restores capturing right mouse button (installEventFilter) */
@@ -134,20 +147,15 @@ private:
        */
   bool castLevelFromQVariant(const QVariant& v);
 //   void createActions();
-//   void prepareToExam();
+  void prepareToExam();
 //   void restoreAfterExam();
-//   void disableWidgets(); /**< Disables score, noteName and guitar*/
-//   void clearWidgets();
+  void disableWidgets(); /**< Disables score, noteName and guitar*/
+  void clearWidgets();
 //   void closeExecutor(); /**< Clears canvas and invokes restoreAfterExam() */
 //   void initializeExecuting(); /**< Performs some initial routines on exam/exercise variables */
 // 
 //   QString saveExamToFile();
-// 
-//       /** Sets texts depend on exercise or exam:
-//         * - main window title
-//         * - startExamAct status tip */
-//   void setTitleAndTexts();
-// 
+
 //   void connectPlayingFinished(); /**< Checks @p m_soundTimer and connects @p playingFinished() of @p Tsound */
 
 private:
@@ -191,6 +199,7 @@ private:
   TequalRand                  *m_rand;
 
   QPointer<TexamMelody>        m_melody; /**< Helper class with exam/exercises with melodies */
+  TnameItem*                   m_nameItem = nullptr;
 
 };
 

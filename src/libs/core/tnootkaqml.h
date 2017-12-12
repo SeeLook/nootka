@@ -137,6 +137,8 @@ public:
   QQuickItem* mainScore() { return m_mainScore; }
   void setMainScore(QQuickItem* ms);
 
+  TscoreObject* scoreObj() { return m_scoreObject; }
+
   TcommonInstrument* instrument() { return m_instrument; }
   void setInstrument(TcommonInstrument* ci);
 

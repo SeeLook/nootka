@@ -37,8 +37,13 @@
 #include <tscoreparams.h>
 // #include <tlayoutparams.h>
 // #include <music/tmelody.h>
+#include <tnootkaqml.h>
+#include <instruments/tcommoninstrument.h>
+#include <score/tscoreobject.h>
+#include "tnameitem.h"
 
 #include <QtCore/qdatetime.h>
+#include <QtCore/qtimer.h>
 #include <QtWidgets/qmessagebox.h>
 #if defined (Q_OS_ANDROID)
   #include <tfiledialog.h>
@@ -56,19 +61,24 @@
 #endif
 #define SOUND_DURATION (1500) //[ms]
 
+#define SCORE NOO->scoreObj()
+#define SCORE_ITEM NOO->mainScore()
+#define INSTRUMENT NOO->instrument()
+#define NOTENAME m_nameItem;
+
 
 #if !defined (Q_OS_ANDROID)
 void debugStyle(TQAunit &qa) {
-    qDebug("styles debugging");
-    qDebug() << "Q:" << qa.styleOfQuestion() << "A:" << qa.styleOfAnswer();
+  qDebug("styles debugging");
+  qDebug() << "Q:" << qa.styleOfQuestion() << "A:" << qa.styleOfAnswer();
 }
 #endif
 
 
-        /**
-         * Returns a file name generated from user name and level,
-         * but when such a file exists in current exam directory some time mark is added.
-         */
+/**
+ * Returns a file name generated from user name and level,
+ * but when such a file exists in current exam directory some time mark is added.
+ */
 QString getExamFileName(Texam* e) {
   QString fName = QDir::toNativeSeparators(GLOB->E->examsDir + QLatin1String("/") + e->userName() + QLatin1String("-") + e->level()->name);
   if (QFileInfo(fName  + QLatin1String(".noo")).exists())
@@ -93,7 +103,7 @@ TexamExecutor::TexamExecutor(QQuickItem* parent) :
 }
 
 
-void TexamExecutor::init(TexamExecutor::Eactions whatToDo, const QVariant& arg) {
+bool TexamExecutor::init(TexamExecutor::Eactions whatToDo, const QVariant& arg) {
   qDebug() << "[TexamExecutor] initialize" << whatToDo << arg;
   switch (whatToDo) {
     case ContinueLastExam:
@@ -105,7 +115,7 @@ void TexamExecutor::init(TexamExecutor::Eactions whatToDo, const QVariant& arg) 
     case NewExam: {
       qDebug() << "new exam";
       if (!castLevelFromQVariant(arg))
-        return;
+        return false;
       break;
     }
     case LevelCreator:
@@ -116,7 +126,7 @@ void TexamExecutor::init(TexamExecutor::Eactions whatToDo, const QVariant& arg) 
     case NewExercise: {
       qDebug() << "new exercise";
       if (!castLevelFromQVariant(arg))
-        return;
+        return false;
       break;
     }
     default:
@@ -130,7 +140,7 @@ void TexamExecutor::init(TexamExecutor::Eactions whatToDo, const QVariant& arg) 
   m_glStore->instrument = GLOB->instrument().type();
   if (whatToDo == NewExam || whatToDo == ContinueExercise || whatToDo == NewExercise) {
       m_exam = new Texam(&m_level, GLOB->E->studentName);
-      // TODO Get rid of following:
+      // TODO Get rid of the following:
       // #if !defined (Q_OS_ANDROID)
       //       if (!fixLevelInstrument(m_level, QString(), GLOB->instrumentToFix, mW)) {
       //             emit examMessage(Torders::e_examFailed);
@@ -163,16 +173,9 @@ void TexamExecutor::init(TexamExecutor::Eactions whatToDo, const QVariant& arg) 
 //               QMessageBox::critical(mW, QString(), tr("File: %1 \n is not valid exam file!")
 //                                 .arg(resultText));
 //           emit examMessage(Torders::e_examFailed);
-//           deleteExam();
-//           return;
+          deleteExam();
+          return false;
       }
-  } else {
-//       if (userAct == TstartExamDlg::e_levelCreator) {
-//           emit examMessage(Torders::e_examAskCreator);
-//       }  else
-//           emit examMessage(Torders::e_examFailed);
-//       deleteExam();
-//       return;
   }
   //We check are guitar's params suitable for an exam
 #if !defined (Q_OS_ANDROID)
@@ -188,9 +191,8 @@ void TexamExecutor::init(TexamExecutor::Eactions whatToDo, const QVariant& arg) 
   if (m_questList.isEmpty()) {
       QMessageBox::critical(nullptr, QString(), tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
       delete m_supp;
-//       emit examMessage(Torders::e_examFailed);
       deleteExam();
-      return;
+      return false;
   }
 //   prepareToExam();
 //   if (GLOB->E->showHelpOnStart)
@@ -198,14 +200,14 @@ void TexamExecutor::init(TexamExecutor::Eactions whatToDo, const QVariant& arg) 
   if (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isFret()) {
     if (!m_supp->isGuitarOnlyPossible()) {
         qDebug("Something stupid!\n Level has question and answer as position on guitar but any question is available.");
-//         emit examMessage(Torders::e_examFailed);
         deleteExam();
-        return;
+        return false;
     }
   }
-//
+  prepareToExam();
 //   initializeExecuting();
 //   createActions();
+  return true;
 }
 
 
@@ -218,7 +220,7 @@ TexamExecutor::~TexamExecutor() {
   delete m_glStore;
   if (m_rand)
     delete m_rand;
-//   deleteExam();
+  deleteExam();
   qDebug() << "[TexamExecutor] destroyed";
 }
 // 
@@ -356,8 +358,8 @@ TexamExecutor::~TexamExecutor() {
 //             if (curQ->melody()->note(i)->g().str() > 1)
 //               SCORE->noteFromId(i)->setString(curQ->melody()->note(i)->g().str());
 //           }
-//           if (GUITAR->isVisible())
-//             GUITAR->prepareAnswer(); // It just shows range frame
+//           if (INSTRUMENT->isVisible())
+//             INSTRUMENT->prepareAnswer(); // It just shows range frame
 //         }
 //       }
 //       if (curQ->answerAsSound()) { // in fact, there is no other option yet
@@ -419,7 +421,7 @@ TexamExecutor::~TexamExecutor() {
 //     }
 // 
 //     if (curQ->questionAsFret()) {
-//         GUITAR->askQuestion(curQ->qa.pos);
+//         INSTRUMENT->askQuestion(curQ->qa.pos);
 //         if (curQ->answerAsNote())
 //             m_answRequire.octave = true; // checking accidental determined by level
 //         if (curQ->answerAsSound()) {
@@ -506,8 +508,8 @@ TexamExecutor::~TexamExecutor() {
 //   }
 // 
 //   if (curQ->answerAsFret()) {
-// //         GUITAR->setGuitarDisabled(false);
-// //         GUITAR->prepareAnswer();
+// //         INSTRUMENT->setGuitarDisabled(false);
+// //         INSTRUMENT->prepareAnswer();
 //       m_answRequire.accid = false;  // Ignored in checking, positions are comparing
 //       if (curQ->questionAsFret()) {
 //         QList<TfingerPos> posList;
@@ -518,13 +520,13 @@ TexamExecutor::~TexamExecutor() {
 //         } else {
 //             if (m_penalty->isNot())
 //                 curQ->qa_2.pos = posList[qrand() % posList.size()];
-//             GUITAR->setHighlitedString(curQ->qa_2.pos.str());
+//             INSTRUMENT->setHighlitedString(curQ->qa_2.pos.str());
 //         }
 //       } else 
 //         if (m_level.showStrNr)
-//           GUITAR->setHighlitedString(curQ->qa.pos.str());
-//       GUITAR->setGuitarDisabled(false);
-//       GUITAR->prepareAnswer();
+//           INSTRUMENT->setHighlitedString(curQ->qa.pos.str());
+//       INSTRUMENT->setGuitarDisabled(false);
+//       INSTRUMENT->prepareAnswer();
 //   }
 // 
 //   if (curQ->answerAsSound()) {
@@ -595,7 +597,7 @@ TexamExecutor::~TexamExecutor() {
 // // Now we can check
 //   if (curQ->answerAsFret()) { // 1. Comparing positions
 //       TfingerPos answPos, questPos;
-//       answPos = GUITAR->getfingerPos();
+//       answPos = INSTRUMENT->getfingerPos();
 //       if (curQ->questionAsFret()) { 
 //         if (answPos == curQ->qa.pos) { // check has not user got answer the same as question position
 //           curQ->setMistake(TQAunit::e_wrongPos);
@@ -792,7 +794,7 @@ TexamExecutor::~TexamExecutor() {
 //       TfingerPos goodPos = curQ->qa.pos;
 //       if (curQ->questionAsFret())
 //           goodPos = curQ->qa_2.pos;
-//       GUITAR->correctPosition(goodPos, markColor);
+//       INSTRUMENT->correctPosition(goodPos, markColor);
 //       correctAnimStarted = true;
 //   } else if (curQ->answerAsName()) {
 //       Tnote goodNote = curQ->qa.note;
@@ -822,10 +824,10 @@ TexamExecutor::~TexamExecutor() {
 //       if (m_supp->isCorrectedPlayable())
 //           repeatSound();
 //       else {
-//         if (GUITAR->isVisible()) {
+//         if (INSTRUMENT->isVisible()) {
 //         // Animation towards guitar when instrument is guitar and answer was wrong or octave was wrong
 //           if (curQ->questionAsFret())
-//             GUITAR->correctPosition(curQ->qa.pos, markColor);
+//             INSTRUMENT->correctPosition(curQ->qa.pos, markColor);
 //           else
 //             m_canvas->correctToGuitar(curQ->questionAs, GLOB->E->mistakePreview, curQ->qa.pos);
 //           correctAnimStarted = true;
@@ -875,7 +877,7 @@ TexamExecutor::~TexamExecutor() {
 //         SCORE->markAnswered(markColor);
 //         break;
 //       case TQAtype::e_asFretPos:
-//         GUITAR->markAnswer(markColor);
+//         INSTRUMENT->markAnswer(markColor);
 //         break;
 //       case TQAtype::e_asName:
 //         NOTENAME->markNameLabel(markColor);
@@ -889,7 +891,7 @@ TexamExecutor::~TexamExecutor() {
 //         SCORE->markQuestion(markColor);
 //         break;
 //       case TQAtype::e_asFretPos:
-//         GUITAR->markQuestion(markColor);
+//         INSTRUMENT->markQuestion(markColor);
 //         break;
 //       case TQAtype::e_asName:
 //         NOTENAME->markNameLabel(markColor);
@@ -903,15 +905,15 @@ TexamExecutor::~TexamExecutor() {
 //       if (curQ->answerAsNote() || (curQ->answerAsSound() && curQ->questionAsNote()))
 //         SCORE->showNames(GLOB->S->nameStyleInNoteName);
 //       else if (curQ->answerAsFret()) // for q/a fret-fret this will be the first case
-//         GUITAR->showName(GLOB->S->nameStyleInNoteName, curQ->qa.note, markColor); // Take it from user answer
+//         INSTRUMENT->showName(GLOB->S->nameStyleInNoteName, curQ->qa.note, markColor); // Take it from user answer
 //       else if (curQ->answerAsSound() && curQ->questionAsFret())
-//           GUITAR->showName(GLOB->S->nameStyleInNoteName, curQ->qa.note, markColor);
+//           INSTRUMENT->showName(GLOB->S->nameStyleInNoteName, curQ->qa.note, markColor);
 //     } else { // cases when name was an question
 //       if (curQ->questionAsName()) {
 //         if (curQ->answerAsNote())
 //           SCORE->showNames(curQ->styleOfQuestion());
 //         else if (curQ->answerAsFret())
-//           GUITAR->showName(curQ->styleOfQuestion(), curQ->qa.note, markColor);
+//           INSTRUMENT->showName(curQ->styleOfQuestion(), curQ->qa.note, markColor);
 //       }
 //     }
 //   }
@@ -926,7 +928,7 @@ TexamExecutor::~TexamExecutor() {
 //   if (GLOB->E->showNameOfAnswered) {
 //     for (int i = 0; i < 2; i++)
 //       SCORE->deleteNoteName(i);
-//     GUITAR->deleteNoteName();
+//     INSTRUMENT->deleteNoteName();
 //   }
 // // for melodies it never comes here - questions are newer repeated - copying of TQAunit is safe 
 //   TQAunit curQ(*m_exam->curQ()); // copy last unit as a new one
@@ -962,7 +964,7 @@ TexamExecutor::~TexamExecutor() {
 //                 NOTENAME->forceAccidental(answNote.alter);
 //   }
 //   if (curQ.answerAsFret())
-//       GUITAR->setGuitarDisabled(false);
+//       INSTRUMENT->setGuitarDisabled(false);
 //   if (curQ.answerAsSound() && !curQ.questionAsSound())
 //       startSniffing();
 //       // *** When question is sound it is played again (repeatSound()) 
@@ -991,52 +993,52 @@ TexamExecutor::~TexamExecutor() {
 //   m_canvas->certificateTip();
 // }
 // 
-// /**
-//  * Instrument selection in exams/exercises:
-//  * - Build-in levels force instruments type,
-//  * - instrument type in saved levels is copied from user preferences when level has guitar or sound 
-//  * - or it is set to none when level uses only name and note on the staff
-//  * - during loading levels from older files above rules are used
-//  * - exam/exercise respects level instrument when it is kind of guitar
-//  * - but when level has no instrument it lefts user preferred instrument
-//  * 
-//  *   Corrected answers appears on guitar when it is visible, and level scale matches to guitar scale
-//  *   so question list has to be created fret by fret 
-//  */
-// void TexamExecutor::prepareToExam() {
-//   setTitleAndTexts();
+/**
+ * Instrument selection in exams/exercises:
+ * - Build-in levels force instruments type,
+ * - instrument type in saved levels is copied from user preferences when level has guitar or sound
+ * - or it is set to none when level uses only name and note on the staff
+ * - during loading levels from older files above rules are used
+ * - exam/exercise respects level instrument when it is kind of guitar
+ * - but when level has no instrument it lefts user preferred instrument
+ * 
+ *   Corrected answers appears on guitar when it is visible, and level scale matches to guitar scale
+ *   so question list has to be created fret by fret 
+ */
+void TexamExecutor::prepareToExam() {
+  if (!m_nameItem && !m_exam->melodies()) { // TODO It should never happened, delete it when checked
+    qDebug() << "[TexamExecutor] prepareToExam\n\nSingle note mode required but note name was not created. THERE IS A BUG!!!\n\n";
+    return;
+  }
+  emit titleChanged();
 //   TOOLBAR->actionsToExam();
-// 
-//   disableWidgets();
-// // connect all events to check an answer or display tip how to check
-//   connect(SCORE, SIGNAL(noteClicked()), this, SLOT(expertAnswersSlot()));
-//   connect(NOTENAME, SIGNAL(noteButtonClicked()), this, SLOT(expertAnswersSlot()));
-//   connect(GUITAR, SIGNAL(guitarClicked(Tnote)), this, SLOT(expertAnswersSlot()));
-//   if (m_level.instrument != e_noInstrument)
-//     connect(SOUND, &Tsound::noteStarted, this, &TexamExecutor::expertAnswersSlot);
-//   else
-//     connect(SOUND, &Tsound::noteFinished, this, &TexamExecutor::expertAnswersSlot);
+
+  disableWidgets();
+// connect all events to check an answer or display tip how to check
+  connect(SCORE, &TscoreObject::clicked, this, &TexamExecutor::expertAnswersSlot);
+//   connect(NOTENAME, SIGNAL(noteButtonClicked()), this, SLOT(expertAnswersSlot())); // TODO
+  connect(INSTRUMENT, &TcommonInstrument::noteChanged, this, &TexamExecutor::expertAnswersSlot);
+  if (m_level.instrument != Tinstrument::NoInstrument)
+    connect(SOUND, &Tsound::noteStarted, this, &TexamExecutor::expertAnswersSlot);
+  else
+    connect(SOUND, &Tsound::noteFinished, this, &TexamExecutor::expertAnswersSlot);
 // #if !defined (Q_OS_ANDROID)
 //   qApp->installEventFilter(m_supp);
 // #endif
 //   connect(m_supp, SIGNAL(rightButtonClicked()), this, SLOT(rightButtonSlot()));
-// 
+
 //   emit examMessage(Torders::e_examDisconnect); // disconnect main window widgets
-//   if (m_exercise) {
+  if (m_exercise) {
 //     connect(TOOLBAR->startExamAct, SIGNAL(triggered()), this, SLOT(stopExerciseSlot()));
-//     connect(m_exercise, SIGNAL(messageDisplayed()), this, SLOT(stopSound()));
-//     connect(m_exercise, SIGNAL(messageClosed(bool)), this, SLOT(suggestDialogClosed(bool)));
-//   } else
+    connect(m_exercise, &Texercises::messageDisplayed, this, &TexamExecutor::stopSound);
+    connect(m_exercise, &Texercises::messageClosed, this, &TexamExecutor::suggestDialogClosed);
+  } else
 //     connect(TOOLBAR->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
 //   connect(TOOLBAR->levelCreatorAct, SIGNAL(triggered()), this, SLOT(showExamHelp()));
-// 
-//   m_glStore->storeSettings();
-//   m_glStore->prepareGlobalsToExam(m_level);
-// 
-//   if (GLOB->S->isSingleNoteMode)
-//     emit examMessage(Torders::e_examSingle);
-//   else
-//     emit examMessage(Torders::e_examMultiple);
+
+  m_glStore->storeSettings();
+  m_glStore->prepareGlobalsToExam(m_level);
+
 // #if defined (Q_OS_ANDROID) // remove/hide actions from main and score menus
 //   if (!GLOB->S->isSingleNoteMode) {
 //     TOOLBAR->playMelody()->setVisible(false);
@@ -1047,42 +1049,35 @@ TexamExecutor::~TexamExecutor() {
 // #if !defined (Q_OS_ANDROID) // Do not show it user Android - it sucks there
 //   SOUND->pitchView()->setVisible(GLOB->L->soundViewEnabled);
 // #endif
-//   GUITAR->setVisible(GLOB->L->guitarEnabled);
+//   INSTRUMENT->setVisible(GLOB->L->guitarEnabled);
 //   SCORE->acceptSettings();
 //   NOTENAME->setEnabledEnharmNotes(false);
 //   NOTENAME->setEnabledDblAccid(m_level.withDblAcc);
-//   GUITAR->acceptSettings();
+//   INSTRUMENT->acceptSettings();
 //   SCORE->isExamExecuting(true);
-//   SCORE->enableAccidToKeyAnim(!GLOB->E->expertsAnswerEnable); // no key animation for experts (no time for it)
-//   if (m_level.canBeSound()) {
-//       SOUND->acceptSettings();
-//     if (SOUND->isSniffable())
-//         SOUND->stopListen();
-//     if (m_level.requireOctave)
-//       SOUND->prepareToExam(m_level.loNote, m_level.hiNote);
-//     // when octave are not required do not change ambitus - it is already set to instrument scale
+  if (m_level.canBeSound()) {
+    SOUND->acceptSettings();
+    if (SOUND->isSniffable())
+        SOUND->stopListen();
+    if (m_level.requireOctave)
+      SOUND->prepareToExam(m_level.loNote, m_level.hiNote);
+    // when octave are not required do not change ambitus - it is already set to instrument scale
 //     SOUND->pitchView()->setIntonationAccuracy(m_level.intonation);
 //     SOUND->pitchView()->enableAccuracyChange(false);
-//   }
-//   TnotePixmap::setDefaultClef(m_level.clef);
-//   emit examMessage(Torders::e_examResize);
-//   clearWidgets();
-//   if (GLOB->instrument != e_noInstrument && !m_supp->isCorrectedPlayable())
-//       GUITAR->createRangeBox(m_supp->loFret(), m_supp->hiFret());
-//   m_soundTimer = new QTimer(this);
-//   connect(m_soundTimer, SIGNAL(timeout()), this, SLOT(startSniffing()));
-//   m_askingTimer = new QTimer(this);
+  }
+  clearWidgets();
+//   if (GLOB->instrument().isGuitar() && !m_supp->isCorrectedPlayable())
+//       INSTRUMENT->createRangeBox(m_supp->loFret(), m_supp->hiFret());
+  m_soundTimer = new QTimer(this);
+  connect(m_soundTimer, &QTimer::timeout, this, &TexamExecutor::startSniffing);
+  m_askingTimer = new QTimer(this);
 //   connect(m_askingTimer, SIGNAL(timeout()), this, SLOT(askQuestion()));
-// 
-//   if (!m_exercise) {
-//     if (GUITAR->isVisible() && !m_level.canBeMelody())
-//         MAINVIEW->moveExamToName();
-//   }
-//   m_snifferLocked = false;
+
+  m_snifferLocked = false;
 //   m_canvas = new Tcanvas(MAINVIEW, m_exam);
 //   connect(m_canvas, &Tcanvas::buttonClicked, this, &TexamExecutor::tipButtonSlot);
 //   m_canvas->startTip();
-//   if (m_exercise && !m_exam->melodies()) {
+  if (m_exercise && !m_exam->melodies()) {
 //     if (m_level.answerIsNote())
 //       connect(SCORE, &TmainScore::correctingFinished, this, &TexamExecutor::correctionFinished);
 //     if (m_level.answerIsName())
@@ -1093,10 +1088,10 @@ TexamExecutor::~TexamExecutor() {
 //       connect(SOUND->pitchView(), &TpitchView::correctingFinished, this, &TexamExecutor::correctionFinished);
 //       connect(m_canvas, &Tcanvas::correctingFinished, this, &TexamExecutor::correctionFinished);
 //     }
-//   }
-// }
-// 
-// 
+  }
+}
+
+
 // void TexamExecutor::restoreAfterExam() {
 //   mW->setWindowTitle(qApp->applicationName());
 //   TOOLBAR->removeAction(TOOLBAR->nextQuestAct);
@@ -1113,7 +1108,7 @@ TexamExecutor::~TexamExecutor() {
 // 
 //   TnotePixmap::setDefaultClef(GLOB->S->clef);
 //   SOUND->pitchView()->setVisible(GLOB->L->soundViewEnabled);
-//   GUITAR->setVisible(GLOB->L->guitarEnabled);
+//   INSTRUMENT->setVisible(GLOB->L->guitarEnabled);
 //   if (GLOB->S->isSingleNoteMode)
 //     emit examMessage(Torders::e_examSingle);
 //   else
@@ -1128,14 +1123,14 @@ TexamExecutor::~TexamExecutor() {
 //   SCORE->enableAccidToKeyAnim(true);
 //   NOTENAME->setEnabledEnharmNotes(false);
 //   NOTENAME->setEnabledDblAccid(GLOB->S->doubleAccidentalsEnabled);
-//   GUITAR->acceptSettings();
+//   INSTRUMENT->acceptSettings();
 //   NOTENAME->setNoteNamesOnButt(GLOB->S->nameStyleInNoteName);
 //   SOUND->acceptSettings();
 //   SOUND->pitchView()->setIntonationAccuracy(GLOB->A->intonation);
 //   SOUND->pitchView()->enableAccuracyChange(true);
 // 
 //   NOTENAME->setNameDisabled(false);
-//   GUITAR->setGuitarDisabled(false);
+//   INSTRUMENT->setGuitarDisabled(false);
 // 
 //   if (m_canvas)
 //       m_canvas->deleteLater();
@@ -1146,27 +1141,27 @@ TexamExecutor::~TexamExecutor() {
 //   SCORE->unLockScore();
 //   // unfortunately, unLockScore locks clef again
 //   SCORE->setClefDisabled(false);
-//   GUITAR->deleteRangeBox();
+//   INSTRUMENT->deleteRangeBox();
 //   SOUND->restoreAfterExam();
 //   emit examMessage(Torders::e_examFinished);
 // }
-// 
-// 
-// void TexamExecutor::disableWidgets() {
+
+
+void TexamExecutor::disableWidgets() {
 //   NOTENAME->setNameDisabled(true);
-//   SCORE->setScoreDisabled(true);
-//   GUITAR->setGuitarDisabled(true);
-// }
-// 
-// 
-// void TexamExecutor::clearWidgets() {
-//   SCORE->clearScore();
+  SCORE->setReadOnly(true);
+  INSTRUMENT->setEnabled(false);
+}
+
+
+void TexamExecutor::clearWidgets() {
+  QMetaObject::invokeMethod(SCORE_ITEM, "clearScore");
 //   NOTENAME->clearNoteName();
-//   GUITAR->clearFingerBoard();
+//   INSTRUMENT->clearFingerBoard();
 //   SOUND->restoreAfterAnswer();
-// }
-// 
-// 
+}
+
+
 // void TexamExecutor::createActions() {
 // #if defined (Q_OS_ANDROID)
 //   if (!m_level.answerIsSound()) {
@@ -1223,7 +1218,7 @@ TexamExecutor::~TexamExecutor() {
 //   clearWidgets();
 //   m_canvas->clearCanvas();
 //   m_canvas->startTip();
-//   if (GUITAR->isVisible() && !m_level.canBeMelody())
+//   if (INSTRUMENT->isVisible() && !m_level.canBeMelody())
 //     MAINVIEW->moveExamToName();
 // }
 // 
@@ -1366,32 +1361,32 @@ TexamExecutor::~TexamExecutor() {
 //   qApp->installEventFilter(m_supp);
 // #endif
 // }
-// 
-// 
-// void TexamExecutor::stopSound() {
-//   if (m_soundTimer->isActive())
-//       m_soundTimer->stop();
-//   SOUND->stopPlaying();
-//   SOUND->stopListen();
+
+
+void TexamExecutor::stopSound() {
+  if (m_soundTimer->isActive())
+      m_soundTimer->stop();
+  SOUND->stopPlaying();
+  SOUND->stopListen();
 // #if !defined (Q_OS_ANDROID)
 //   qApp->removeEventFilter(m_supp);
 // #endif
-// }
-// 
-// 
-// void TexamExecutor::suggestDialogClosed(bool startExam) {
-//   if (startExam) {
-//         exerciseToExam();
-//   } else {
+}
+
+
+void TexamExecutor::suggestDialogClosed(bool startExam) {
+  if (startExam) {
+//       exerciseToExam();
+  } else {
 // #if !defined (Q_OS_ANDROID)
 //       qApp->installEventFilter(m_supp);
 // #endif
-//       if (m_exam->curQ()->answerAsSound())
-//             startSniffing();
-//   }
-// }
-// 
-// 
+      if (m_exam->curQ()->answerAsSound())
+            startSniffing();
+  }
+}
+
+
 // bool TexamExecutor::closeNootka() {
 //   bool result;
 //   if (m_exercise) {
@@ -1513,8 +1508,8 @@ TexamExecutor::~TexamExecutor() {
 //   SCORE->selectNote(nr);
 //   SOUND->startListen();
 //   m_canvas->clearConfirmTip();
-//   if (isExercise() && GUITAR->isVisible() && m_exam->curQ()->melody()) // in exercises, display guitar position of clicked note for a hint
-//       GUITAR->setFinger(m_exam->curQ()->melody()->note(nr)->g());
+//   if (isExercise() && INSTRUMENT->isVisible() && m_exam->curQ()->melody()) // in exercises, display guitar position of clicked note for a hint
+//       INSTRUMENT->setFinger(m_exam->curQ()->melody()->note(nr)->g());
 // }
 // 
 // 
@@ -1540,43 +1535,40 @@ TexamExecutor::~TexamExecutor() {
 //     m_soundTimer->stop();
 //   m_soundTimer->start(100);
 // }
-// 
-// 
-// void TexamExecutor::startSniffing() {
-//   if (m_soundTimer->isActive())
-//     m_soundTimer->stop();
-// #if !defined (Q_OS_ANDROID)
-//       if (m_exam->curQ()->answerAsSound() && !GLOB->A->dumpPath.isEmpty()) {
-//         QString dumpFileName = QString("Question-%1").arg(m_exam->count(), 3, 'i', 0, '0');
-//         if (m_melody)
-//           dumpFileName += QString("-attempt%1").arg(m_exam->curQ()->attemptsCount());
-//         SOUND->setDumpFileName(dumpFileName);
-//       }
-// #endif
-//   if (SOUND->isSnifferPaused())
-//     SOUND->unPauseSniffing();
-//   else
-//     SOUND->startListen();
-// }
-// 
-// 
-// void TexamExecutor::expertAnswersSlot() {
-//   if (!GLOB->E->expertsAnswerEnable && !m_exam->melodies()) { // no expert and no melodies
+
+
+void TexamExecutor::startSniffing() {
+  if (m_soundTimer->isActive())
+    m_soundTimer->stop();
+#if !defined (Q_OS_ANDROID)
+      if (m_exam->curQ()->answerAsSound() && !GLOB->A->dumpPath.isEmpty()) {
+        QString dumpFileName = QString("Question-%1").arg(m_exam->count(), 3, 'i', 0, '0');
+        if (m_melody)
+          dumpFileName += QString("-attempt%1").arg(m_exam->curQ()->attemptsCount());
+        SOUND->setDumpFileName(dumpFileName);
+      }
+#endif
+  if (SOUND->isSnifferPaused())
+    SOUND->unPauseSniffing();
+  else
+    SOUND->startListen();
+}
+
+
+void TexamExecutor::expertAnswersSlot() {
+  if (!GLOB->E->expertsAnswerEnable && !m_exam->melodies()) { // no expert and no melodies
 //       m_canvas->confirmTip(1500);
-//       return;
-//   }
-//   // ignore slot when some dialog window appears or answer for melody
-//   if (m_snifferLocked || (m_exam->count() && m_exam->curQ()->melody())) 
-//       return;
-// 
-//   if (m_exam->curQ()->answerAsSound())
-//       SOUND->pauseSinffing();
+      return;
+  }
+  // ignore slot when some dialog window appears or answer for melody
+  if (m_snifferLocked || (m_exam->count() && m_exam->curQ()->melody())) 
+      return;
+
+  if (m_exam->curQ()->answerAsSound())
+      SOUND->pauseSinffing();
 //   QTimer::singleShot(0, this, SLOT(checkAnswer()));
-//   /** expertAnswersSlot() is invoked also by TaudioIN/TpitchFinder.
-//     * Calling checkAnswer() from here invokes stopping and deleting TaudioIN.
-//     * It finishes with crash. To avoid this checkAnswer() has to be called from outside - by timer event. */
-// }
-// 
+}
+
 // /** This slot is invoked  during correction of melody on the score. 
 //  * Each note can be clicked and: 
 //  * - corrected if score is an answer
@@ -1601,8 +1593,8 @@ TexamExecutor::~TexamExecutor() {
 //       }
 //       if (SOUND->isPlayable() && m_exam->curQ()->melody()->length() > noteNr)
 //           SOUND->play(m_exam->curQ()->melody()->note(noteNr)->p());
-//       if (GUITAR->isVisible() && m_exam->curQ()->melody()->length() > noteNr)
-//         GUITAR->setFinger(m_exam->curQ()->melody()->note(noteNr)->p());
+//       if (INSTRUMENT->isVisible() && m_exam->curQ()->melody()->length() > noteNr)
+//         INSTRUMENT->setFinger(m_exam->curQ()->melody()->note(noteNr)->p());
 //       if (m && m_exam->curQ()->answerAsSound()) {
 //         if (m_melody->listened()[noteNr].pitch.isValid())
 //           m_canvas->detectedNoteTip(m_melody->listened()[noteNr].pitch);
@@ -1652,7 +1644,7 @@ TexamExecutor::~TexamExecutor() {
 void TexamExecutor::deleteExam() {
   if (m_exam) {
     delete m_exam;
-    m_exam = 0;
+    m_exam = nullptr;
   }
 }
 
@@ -1664,21 +1656,8 @@ void TexamExecutor::deleteExam() {
 //    * so whatNextTip(false) is invoked - whatNextTip displays repeat question hint
 //    * otherwise (exercise and/or correct answer) @p whatNextTip(true) goes. */
 // }
-// 
-// 
-// void TexamExecutor::setTitleAndTexts() {
-// #if !defined (Q_OS_ANDROID)
-//   if (m_exercise) {
-//       mW->setWindowTitle(tr("Exercises with Nootka"));
-//       TOOLBAR->startExamAct->setStatusTip(tr("finish exercising"));
-//     } else {
-//       mW->setWindowTitle(tr("EXAM!") + " " + m_exam->userName() + " - " + m_level.name);
-//       TOOLBAR->startExamAct->setStatusTip(tr("stop the exam"));
-//   }
-// #endif
-// }
-// 
-// 
+
+
 // void TexamExecutor::unlockAnswerCapturing() {
 //   if (m_exam->curQ()->answerAsSound())
 //     SOUND->startListen();
@@ -1721,17 +1700,37 @@ void TexamExecutor::deleteExam() {
 //       QTimer::singleShot(4000, m_canvas, SLOT(clearResultTip())); // exam will stop so clear result tip after correction
 //   m_lockRightButt = false;
 // }
-// 
-// 
-// 
+
 
 bool TexamExecutor::castLevelFromQVariant(const QVariant& v) {
   auto l = qvariant_cast<Tlevel*>(v);
   if (l) {
       m_level = *l;
       return true;
-  } else {
+  } else { // TODO It should never happened, delete it when checked
       qDebug() << "[TexamExecutor] CAN'T CAST Tlevel* FROM QVariant!!!";
       return false;
   }
 }
+
+
+//#################################################################################################
+//###################                QML               ############################################
+//#################################################################################################
+QString TexamExecutor::title() const {
+  if (m_exercise) {
+      return tr("Exercises with Nootka");
+//       TOOLBAR->startExamAct->setStatusTip(tr("finish exercising"));
+  } else {
+      return tr("EXAM!") + QLatin1String(" ") + m_exam->userName() + QLatin1String(" - ") + m_level.name;
+//       TOOLBAR->startExamAct->setStatusTip(tr("stop the exam"));
+  }
+}
+
+
+void TexamExecutor::setNameItem(TnameItem* ni) {
+  if (m_nameItem != ni) {
+    m_nameItem = ni;
+  }
+}
+
