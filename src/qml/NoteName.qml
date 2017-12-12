@@ -91,16 +91,10 @@ TnameItem {
     y: parent.height * 0.65
     leftPadding: parent.width / 60
     spacing: parent.width / 20
-    Text {
+    LinkText {
       text: octavesLink()
       font { pixelSize: buttHeight * 0.4; family: "Sans"; bold: true }
       anchors.verticalCenter: parent.verticalCenter
-      onLinkActivated: Qt.openUrlExternally(link)
-      MouseArea { // make hand cursor over link text
-        anchors.fill: parent
-        acceptedButtons: Qt.NoButton
-        cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
-      }
     }
     Repeater {
       model: 4

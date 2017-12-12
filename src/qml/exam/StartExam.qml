@@ -153,11 +153,14 @@ Column {
 
   property var executor: null
 
-  function start(act, arg) {
+  function start(action, argument) {
     GLOB.student = userNameIn.text
     var c = Qt.createComponent("qrc:/exam/ExamExecutor.qml")
     executor = c.createObject(nootkaWindow)
-    executor.init(act, arg)
+    if (!executor.init(action, argument)) {
+      console.log("Executor discarded, deleting it")
+      executor.destroy()
+    }
     dialLoader.close()
   }
 }
