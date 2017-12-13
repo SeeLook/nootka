@@ -77,6 +77,10 @@ set(NOOTKA_SRC
   main/texercises.cpp
   main/tequalrand.cpp
   main/texammelody.cpp
+  main/trandmelody.cpp
+  main/texamview.cpp
+  main/tprogresswidget.cpp
+  main/tpenalty.cpp
 
   dialogs/tdialogloaderobject.cpp
   dialogs/tlevelcreatoritem.cpp

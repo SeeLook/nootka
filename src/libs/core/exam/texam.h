@@ -113,13 +113,13 @@ public:
        * @p TRUE when level for melodies, otherwise it is single note.
        * It is determined through @p setLevel()
        */
-  bool melodies() { return m_melody; }
+  bool melodies() const { return m_melody; }
 
       /**
        * Total number of attempts when melodies. Updated in @p sumarizeAnswer()
        */
-  quint32 attempts() { return m_attempts; }
-  bool isExercise() { return m_isExercise; }
+  quint32 attempts() const { return m_attempts; }
+  bool isExercise() const { return m_isExercise; }
 
       /**
        * Makes exam an exercise (without penalties). Also sets default file name for exercises.
@@ -127,7 +127,7 @@ public:
        */
   void setExercise();
 
-  quint32 totalTime() { return m_totalTime; }
+  quint32 totalTime() const { return m_totalTime; }
   void setTotalTime(quint32 total) { m_totalTime = total; }
 
       /**
@@ -170,17 +170,17 @@ public:
       /**
        * Number of 'not bad' answer in the exam.
        */
-  quint16 halfMistaken() { return m_halfMistNr; }
+  quint16 halfMistaken() const { return m_halfMistNr; }
 
       /**
        * Number of correct answers
        */
-  quint16 corrects() { return (count()) - mistakes() - halfMistaken(); }
+  quint16 corrects() const { return (count()) - mistakes() - halfMistaken(); }
 
       /**
        * Average answer time
        */
-  quint16 averageReactonTime() { return m_averReactTime; }
+  quint16 averageReactonTime() const { return m_averReactTime; }
   void setAverageReactonTime(quint16 avTime) { m_averReactTime = avTime; }
 
       /**
@@ -197,9 +197,9 @@ public:
       /**
        * Total time spent for answering without breaks between questions
        */
-  quint16 workTime() { return qRound(static_cast<qreal>(m_workTime) / 10.0); }
-  QString userName() { return m_userName; }
-  QString fileName() { return m_fileName; }
+  quint16 workTime() const { return qRound(static_cast<qreal>(m_workTime) / 10.0); }
+  QString userName() const { return m_userName; }
+  QString fileName() const { return m_fileName; }
   void setFileName(const QString& fileName);
 
       /**

@@ -99,6 +99,8 @@
 
     <file alias="exam/StartExam.qml">qml/exam/StartExam.qml</file>
     <file alias="exam/ExamExecutor.qml">qml/exam/ExamExecutor.qml</file>
+    <file alias="exam/ExamResults.qml">qml/exam/ExamResults.qml</file>
+    <file alias="exam/ResultLabel.qml">qml/exam/ResultLabel.qml</file>
 
     <file alias="qtquickcontrols2.conf">qml/qtquickcontrols2.conf</file>
 <!--     <file alias="+android/qtquickcontrols2.conf">qml/+android/qtquickcontrols2.conf</file> -->

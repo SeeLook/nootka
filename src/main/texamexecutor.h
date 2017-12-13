@@ -152,7 +152,7 @@ private:
   void disableWidgets(); /**< Disables score, noteName and guitar*/
   void clearWidgets();
 //   void closeExecutor(); /**< Clears canvas and invokes restoreAfterExam() */
-//   void initializeExecuting(); /**< Performs some initial routines on exam/exercise variables */
+  void initializeExecuting(); /**< Performs some initial routines on exam/exercise variables */
 // 
 //   QString saveExamToFile();
 
