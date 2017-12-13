@@ -21,12 +21,12 @@
 #include "tglobalexamstore.h"
 #include "texercises.h"
 #include "tequalrand.h"
-// #include "tpenalty.h"
+#include "tpenalty.h"
 #include "texammelody.h"
+#include "trandmelody.h"
 #include <qtr.h>
 #include <tsound.h>
 #include <tglobals.h>
-// #include <exam/trandmelody.h>
 #include <exam/texam.h>
 // #include <exam/textrans.h>
 #include <exam/tattempt.h>
@@ -205,7 +205,7 @@ bool TexamExecutor::init(TexamExecutor::Eactions whatToDo, const QVariant& arg) 
     }
   }
   prepareToExam();
-//   initializeExecuting();
+  initializeExecuting();
 //   createActions();
   return true;
 }
@@ -223,44 +223,44 @@ TexamExecutor::~TexamExecutor() {
   deleteExam();
   qDebug() << "[TexamExecutor] destroyed";
 }
-// 
-// 
-// void TexamExecutor::initializeExecuting() {
-//   m_shouldBeTerminated = false;
-//   m_incorrectRepeated = false;
-//   m_isAnswered = true;
-//   m_penalty = new Tpenalty(m_exam, m_supp);
+
+
+void TexamExecutor::initializeExecuting() {
+  m_shouldBeTerminated = false;
+  m_incorrectRepeated = false;
+  m_isAnswered = true;
+  m_penalty = new Tpenalty(m_exam, m_supp);
 //   connect(m_penalty, SIGNAL(certificate()), this, SLOT(displayCertificate()));
-//   if (m_exercise) {
-//     if (GLOB->E->suggestExam)
-//       m_exercise->setSuggestionEnabled(m_supp->qaPossibilities(), m_exam->melodies());
-//   } else {
+  if (m_exercise) {
+    if (GLOB->E->suggestExam)
+      m_exercise->setSuggestionEnabled(m_supp->qaPossibilities(), m_exam->melodies());
+  } else {
 //       connect(m_canvas, SIGNAL(certificateMagicKeys()), this, SLOT(displayCertificate()));
 //       if (m_level.answerIsNote())
 //         SCORE->enableAccidToKeyAnim(false);
-//   }
-//   if (m_level.requireStyle) {
-//       m_prevQuestStyle = m_supp->randomNameStyle(GLOB->S->nameStyleInNoteName);
-//       m_prevAnswStyle = m_supp->randomNameStyle(m_prevQuestStyle);
-//   } else {
-//       m_prevQuestStyle = GLOB->S->nameStyleInNoteName;
-//       m_prevAnswStyle = GLOB->S->nameStyleInNoteName;
-//   }
-//   
-//   m_level.questionAs.randNext(); // Randomize question and answer type
-//   if (m_level.questionAs.isNote()) m_level.answersAs[TQAtype::e_asNote].randNext();
-//   if (m_level.questionAs.isName()) m_level.answersAs[TQAtype::e_asName].randNext();
-//   if (m_level.questionAs.isFret()) m_level.answersAs[TQAtype::e_asFretPos].randNext();
-//   if (m_level.questionAs.isSound()) m_level.answersAs[TQAtype::e_asSound].randNext();
-//   if (m_rand)
-//     m_rand->reset();
-//   else
-//     m_rand = new TequalRand(m_questList.size());
-//   m_rand->setTotalRandoms(m_supp->obligQuestions() - m_exam->count());
-// //   qDebug() << "Questions nr: " << m_questList.size() << "Randoms:" << m_supp->obligQuestions() - m_exam->count();
-// }
-// 
-// 
+  }
+  if (m_level.requireStyle) {
+      m_prevQuestStyle = m_supp->randomNameStyle(GLOB->S->nameStyleInNoteName);
+      m_prevAnswStyle = m_supp->randomNameStyle(m_prevQuestStyle);
+  } else {
+      m_prevQuestStyle = GLOB->S->nameStyleInNoteName;
+      m_prevAnswStyle = GLOB->S->nameStyleInNoteName;
+  }
+
+  m_level.questionAs.randNext(); // Randomize question and answer type
+  if (m_level.questionAs.isNote()) m_level.answersAs[TQAtype::e_asNote].randNext();
+  if (m_level.questionAs.isName()) m_level.answersAs[TQAtype::e_asName].randNext();
+  if (m_level.questionAs.isFret()) m_level.answersAs[TQAtype::e_asFretPos].randNext();
+  if (m_level.questionAs.isSound()) m_level.answersAs[TQAtype::e_asSound].randNext();
+  if (m_rand)
+    m_rand->reset();
+  else
+    m_rand = new TequalRand(m_questList.size());
+  m_rand->setTotalRandoms(m_supp->obligQuestions() - m_exam->count());
+//   qDebug() << "Questions nr: " << m_questList.size() << "Randoms:" << m_supp->obligQuestions() - m_exam->count();
+}
+
+
 // void TexamExecutor::askQuestion(bool isAttempt) {
 //   m_askingTimer->stop();
 //   if (m_canvas->hasCertificate()) // in auto mode new question can be asked "under" certificate

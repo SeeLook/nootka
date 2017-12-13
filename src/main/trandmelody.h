@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,24 +20,23 @@
 #define TRANDMELODY_H
 
 
-#include <nootkacoreglobal.h>
 #include <exam/tqagroup.h>
 
 
 class TkeySignature;
 class Tmelody;
 
-    /**
-    * Generates randomized melody into given reference of @p Tmelody.
-    * Length is determined by @p len.
-    * Notes are taken form given question list 
-    * and key signature is respected if @inKey is set to @p true
-    * Melody is finished on tonic note of the given key signature
-    * when @p onTonic is set to @p true
-    */
-void NOOTKACORE_EXPORT getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic);
+/**
+ * Generates randomized melody into given reference of @p Tmelody.
+ * Length is determined by @p len.
+ * Notes are taken form given question list 
+ * and key signature is respected if @inKey is set to @p true
+ * Melody is finished on tonic note of the given key signature
+ * when @p onTonic is set to @p true
+ */
+void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic);
 
-void NOOTKACORE_EXPORT getRandomMelodyNG(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic);
+void getRandomMelodyNG(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic);
 
 
 #endif // TRANDMELODY_H

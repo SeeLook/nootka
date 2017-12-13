@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,15 +21,13 @@
 #define TEXAMVIEW_H
 
 
-#include <nootkacoreglobal.h>
-#include <QtWidgets/qwidget.h>
+#include <QtQuick/qquickitem.h>
 #include <QtCore/qdatetime.h>
 #include <QtCore/qtimer.h>
 
 
 class Texam;
 class TQAunit;
-class QLabel;
 
 #define    RESULTS    TexamView::instance()
 
@@ -47,14 +45,31 @@ class QLabel;
  * It has single instance available through @p instance()
  * defined also as a macro @p RESULTS
  */
-class NOOTKACORE_EXPORT TexamView : public QWidget
+class TexamView : public QQuickItem
 {
 
   Q_OBJECT
 
+  Q_PROPERTY(int correctAnswers READ correctAnswers NOTIFY answersNumberChanged)
+  Q_PROPERTY(int halfAnswers READ halfAnswers NOTIFY answersNumberChanged)
+  Q_PROPERTY(int wrongAnswers READ wrongAnswers NOTIFY answersNumberChanged)
+  Q_PROPERTY(QString effectiveness READ effectiveness NOTIFY effectivenessChanged)
+  Q_PROPERTY(QString totalTimeText READ totalTimeText NOTIFY totalTimeTextChanged)
+  Q_PROPERTY(QString averText READ averText NOTIFY averTextChanged)
+  Q_PROPERTY(QString reactText READ reactText NOTIFY reactTextChanged)
+
 public:
-  explicit TexamView(QWidget *parent = 0);
-  virtual ~TexamView();
+  explicit TexamView(QQuickItem *parent = nullptr);
+  ~TexamView() override;
+
+  int correctAnswers() const;
+  int halfAnswers() const;
+  int wrongAnswers() const;
+
+  QString effectiveness() const;
+  QString totalTimeText() const;
+  QString averText() const;
+  QString reactText() const;
 
   static TexamView* instance() { return m_instance; }
 
@@ -70,7 +85,6 @@ public:
   void answered(); /**< Displays updated counters after answer */
 
   quint16 questionTime(); /**< Elapsed time for of current question [seconds * 10] */
-  void setFontSize(int s);
 
   void pause(); /**< Stops counting time of answer */
   void go(); /**< Continues counting time of answer */
@@ -85,29 +99,25 @@ public:
   void updateExam(); /**< Updates elapsed time and average time in current @p Texam */
   void clearResults();
 
-      /** Sets background of mistakes/correct answers number Qlabel.
-        * Background color is directly inserted to setStyleSheet so
-        * it has to be given in format:
-        * background-color: rgba(red, green, blue, alpha) */
-  void setStyleBg(const QString& okBg, const QString& wrongBg, const QString& notBadBg);
-
-  virtual QSize sizeHint() const { return m_sizeHint; }
-
-public slots:
   void reactTimesUpdate(); /**< Updates reaction time and average reaction time of to the last answer time. */
   void effectUpdate(); /**< Updates effectiveness value of an exam. */
   void questionCountUpdate(); /**< Updates mistakes, correct, and 'not bad' numbers to current exam values */
 
+signals:
+  void answersNumberChanged();
+  void effectivenessChanged();
+  void totalTimeTextChanged();
+  void reactTextChanged();
+  void averTextChanged();
+
 private:
   bool                 m_showReact; /**< switches whether displays pending question time counter */
-  QLabel              *m_reactTimeLab, *m_averTimeLab, *m_totalTimeLab;
-  QLabel              *m_mistLab, *m_corrLab, *m_effLab, *m_halfLab;
+  QString              m_effectivenessText;
   QTime                m_questionTime; /**< Elapsing time of a question - started with questionStart() and stopped with questionStop() */
   int                  m_startExamTime; /**< Elapsed time from previous exam sessions */
   QTimer              *m_timer;
   QTime                m_totalTime; /**< Total time of an exam */
   int                  m_pausedAt; /**< when m_averTime was paused */
-  QSize                m_sizeHint;
   Texam               *m_exam;
   static TexamView    *m_instance;
 
