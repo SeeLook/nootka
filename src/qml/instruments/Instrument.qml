@@ -14,7 +14,7 @@ Item {
 
   height: GLOB.instrument.isSax ? parent.height : parent.height / GLOB.instrument.heightPart
   width: parent.width * (GLOB.instrument.isSax ? 0.15 : 1)
-  y: GLOB.instrument.isSax ? 0 : score.height + 1
+  y: score.y + (GLOB.instrument.isSax ? 0 : score.height)
   x: GLOB.instrument.isSax ? parent.width - width : 0
   z: 1
 

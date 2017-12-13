@@ -15,7 +15,7 @@ TnameItem {
 
   property var score: null
   width: score.width; height: score.height
-  x: score.width + 1
+  x: score.width + 1; z: 5
   note: score.note
   onNoteChanged: score.setNote(score.scoreObj.note(0), noteName.note)
 
