@@ -7,6 +7,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Window 2.2
 
 import Nootka 1.0
+import "exam"
 
 
 ApplicationWindow {
@@ -24,6 +25,7 @@ ApplicationWindow {
 
   // private
   property var noteName: null
+  property var examResults: null
 
   SystemPalette { id: activPal; colorGroup: SystemPalette.Active }
   SystemPalette { id: disdPal; colorGroup: SystemPalette.Disabled }
@@ -70,7 +72,10 @@ ApplicationWindow {
 
   MainScore {
     id: score
-    height: nootkaWindow.height - (header ? header.height : 0) - (GLOB.instrument.isSax ? (GLOB.singleNoteMode ? instrument.height / 7 : 0) : instrument.height)
+    y: examResults ? examResults.height + 2 : 0
+    height: nootkaWindow.height - (header ? header.height : 0)
+            - (GLOB.instrument.isSax ? (GLOB.singleNoteMode ? instrument.height / 7 : 0) : instrument.height)
+            - (examResults ? examResults.height + 2 : 0)
     width: (parent.width - (GLOB.instrument.isSax ? instrument.width : 0)) / (GLOB.singleNoteMode ? 2 : 1)
     z: 5
   }
@@ -94,7 +99,7 @@ ApplicationWindow {
     if (GLOB.singleNoteMode) {
         if (!noteName) {
           var c = Qt.createComponent("qrc:/NoteName.qml")
-          noteName = c.createObject(nootkaWindow.contentItem, { "z": 5, "score": score })
+          noteName = c.createObject(nootkaWindow.contentItem, { "score": score })
         }
     } else {
         if (noteName)
