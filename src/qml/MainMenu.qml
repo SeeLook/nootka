@@ -27,36 +27,42 @@ Item {
         y: score.y
 
         MenuItem {
+          visible: !GLOB.isExam
           contentItem: MenuButton {
             action: score.playAct
             onClicked: scoreMenu.close()
           }
         }
         MenuItem {
+          visible: !GLOB.isExam
           contentItem: MenuButton {
             action: score.recModeAct
             onClicked: scoreMenu.close()
           }
         }
         MenuItem {
+          visible: !GLOB.isExam
           contentItem: MenuButton {
             action: score.openXmlAct
             onClicked: scoreMenu.close()
           }
         }
         MenuItem {
+          visible: !GLOB.isExam
           contentItem: MenuButton {
             action: score.saveXmlAct
             onClicked: scoreMenu.close()
           }
         }
         MenuItem {
+          visible: !GLOB.isExam
           contentItem: MenuButton {
             action: score.extraAccidsAct
             onClicked: scoreMenu.close()
           }
         }
         MenuItem {
+          visible: !GLOB.isExam
           contentItem: MenuButton {
             action: score.showNamesAct
             onClicked: scoreMenu.close()

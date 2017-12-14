@@ -8,7 +8,7 @@ import QtQuick 2.9
 Rectangle {
   id: label
   property alias score: result.text
-  property color bg: activPal.mid
+  property color bg: activPal.button
 
   height: nootkaWindow.width / 45; width: height * 2
   color: resultArea.containsMouse ? activPal.highlight : Qt.tint(activPal.mid, Noo.alpha(bg, 70))
@@ -19,7 +19,7 @@ Rectangle {
     font.pixelSize: parent.height * 0.75
     anchors.fill: parent
     verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignHCenter
-    color: resultArea.containsMouse ? activPal.highlightedText : activPal.text
+    color: resultArea.containsMouse ? activPal.highlightedText : activPal.buttonText
   }
 
   MouseArea {

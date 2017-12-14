@@ -97,7 +97,11 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(bool forwardInput READ forwardInput WRITE setForwardInput)
 
   /* Exam */
+  Q_PROPERTY(bool isExam READ isExam WRITE setIsExam NOTIFY isExamChanged)
   Q_PROPERTY(QString student READ student WRITE setStudent NOTIFY studentChanged)
+  Q_PROPERTY(QColor correctColor READ correctColor WRITE setCorrectColor NOTIFY correctColorChanged)
+  Q_PROPERTY(QColor notBadColor READ notBadColor WRITE setNotBadColor NOTIFY notBadColorChanged)
+  Q_PROPERTY(QColor wrongColor READ wrongColor WRITE setWrongColor NOTIFY wrongColorChanged)
 
 public:
 
@@ -232,8 +236,20 @@ public:
   void setForwardInput(bool fi);
 
   /* ------------------ Exam switches ------------------ */
+  bool isExam() const { return m_isExam; }
+  void setIsExam(bool is);
+
   QString student() const;
   void setStudent(const QString& st);
+
+  QColor correctColor() const { return EanswerColor; }
+  void setCorrectColor(const QColor& c);
+
+  QColor notBadColor() const { return EnotBadColor; }
+  void setNotBadColor(const QColor& c);
+
+  QColor wrongColor() const { return EquestionColor; }
+  void setWrongColor(const QColor& c);
 
       /**
        * Updates key signature names according to name style and major/minor suffixes.
@@ -352,7 +368,11 @@ signals:
   void guitarParamsChanged();
   void transpositionChanged();
   void minVolumeChanged();
+  void isExamChanged();
   void studentChanged();
+  void correctColorChanged();
+  void notBadColorChanged();
+  void wrongColorChanged();
 
 private:
   static Tglobals           *m_instance;
@@ -363,6 +383,7 @@ private:
   bool                       m_useAnimations;
   Tinstrument                m_instrument;
   qreal                      m_guiScale;
+  bool                       m_isExam = false;
 
 };
 #endif // TGLOBALS_H

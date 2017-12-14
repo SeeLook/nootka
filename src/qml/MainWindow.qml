@@ -87,6 +87,19 @@ ApplicationWindow {
   Connections {
     target: GLOB
     onSingleNoteModeChanged: checkSingleMode()
+    onIsExamChanged: {
+      if (GLOB.isExam) {
+          if (!examResults) {
+              var c = Qt.createComponent("qrc:/exam/ExamResults.qml")
+              examResults = c.createObject(nootkaWindow.contentItem)
+          } else { // TODO remove when does not occur
+              console.log("[MainWindow.qml] EXAM RESULTS ALREADY EXISTS!")
+          }
+      } else {
+          if (examResults)
+            examResults.destroy()
+      }
+    }
   }
 
   Component.onCompleted: {
@@ -104,11 +117,6 @@ ApplicationWindow {
         if (noteName)
           noteName.destroy()
     }
-  }
-
-  function startExam() {
-    var c = Qt.createComponent("qrc:/exam/ExamResults.qml")
-    examResults = c.createObject(nootkaWindow.contentItem)
   }
 
   DialogLoader { id: dialogLoader }
