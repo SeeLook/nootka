@@ -13,33 +13,35 @@ ToolButton {
   antialiasing: true
   hoverEnabled: true
 
-  implicitWidth: Math.max(icon.width, butText.width) + (Noo.isAndroid() ? 4 : factor * 2)
-  implicitHeight: butText.height + icon.height + Screen.pixelDensity * 2
+  implicitWidth: Math.max(pix.width, butText.width) + (Noo.isAndroid() ? 4 : factor * 2)
+  implicitHeight: butText.height + pix.height + Screen.pixelDensity * 2
 
-  property alias icon: icon.source
+  property alias pixmap: pix.source
   property alias name: butText.text
   property alias tip: toolTip.text
   property real factor: nootkaWindow.height / 140
   property alias fontSize: butText.font.pixelSize
   property alias textColor: butText.color
-  property Taction action
+  property Taction taction
 
-  onActionChanged: {
-    if (action) {
-      icon.source = action.icon
-      name = action.text
-      tip = action.tip
+  background: Rectangle { color: pressed ? activPal.button : "transparent" }
+
+  onTactionChanged: {
+    if (taction) {
+      pix.source = taction.icon
+      name = taction.text
+      tip = taction.tip
     }
   }
 
   onClicked: {
-    if (action)
-      action.trigger()
+    if (taction)
+      taction.trigger()
     focus = false
   }
 
   Image {
-    id: icon
+    id: pix
     y: Screen.pixelDensity
     sourceSize.height: factor * 8
     anchors.horizontalCenter: butText.horizontalCenter
@@ -48,7 +50,7 @@ ToolButton {
     id: butText
     font.pixelSize: Math.min(factor * 2.5, Noo.fontSize())
     anchors.horizontalCenter: parent.horizontalCenter
-    anchors.top: icon.bottom
+    anchors.top: pix.bottom
     horizontalAlignment: Text.AlignHCenter
     color: activPal.text
   }

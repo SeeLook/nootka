@@ -96,12 +96,12 @@ TlevelsSelector {
         spacing: lSelector.width / 50
 
         TiconButton {
-          icon: Noo.pix("nootka-level"); text: qsTr("Load")
+          pixmap: Noo.pix("nootka-level"); text: qsTr("Load")
           onClicked: loadFromFile()
         }
         TiconButton {
           enabled: isRemovable(view.currentIndex)
-          icon: Noo.pix("delete"); text: qsTr("Remove")
+          pixmap: Noo.pix("delete"); text: qsTr("Remove")
           onClicked: {
             var c = Qt.createComponent("qrc:/level/RemoveLevel.qml")
             var rmLevelDialog = c.createObject(lSelector, { "levelName": levelName(view.currentIndex), "levelFile": levelFile(view.currentIndex) })

@@ -41,7 +41,7 @@ Old.Dialog {
       padding: Noo.fontSize() / 4
       spacing: Noo.fontSize()
       delegate: TiconButton {
-        icon: Noo.pix(dialogObj.buttonRoleIcon(DialogButtonBox.buttonRole))
+        pixmap: Noo.pix(dialogObj.buttonRoleIcon(DialogButtonBox.buttonRole))
         background: Rectangle { color: enabled ? (checked ? activPal.highlight : activPal.button) : disdPal.button }
       }
       background: Rectangle {

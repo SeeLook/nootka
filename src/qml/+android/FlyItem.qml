@@ -8,12 +8,12 @@ import Nootka 1.0
 
 
 TcuteButton {
-  property Taction action: null
+  property Taction taction: null
 
   radius: width / 2
 
   Image {
-    source: action ? action.icon : ""
+    source: taction ? taction.icon : ""
     sourceSize.width: parent.width * 0.6
     x: (parent.width - width) / 2; y: (parent.height - height) / 2
   }

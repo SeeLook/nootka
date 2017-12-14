@@ -30,13 +30,13 @@ TlevelCreatorItem {
         var b = dialLoader.buttonBox.standardButton(DialogButtonBox.RestoreDefaults)
         b.text = qsTr("Check")
         b.DialogButtonBox.buttonRole = DialogButtonBox.ActionRole
-        b.icon = Noo.pix("levelCreator")
+        b.pixmap = Noo.pix("levelCreator")
         b.clicked.connect(checkLevel)
     }
   }
 
   onSaveStateChanged: {
-    pages.buttons[0].icon = Noo.pix(creator.notSaved ? "notSaved" : "levelsSett")
+    pages.buttons[0].pixmap = Noo.pix(creator.notSaved ? "notSaved" : "levelsSett")
     dialLoader.title = creator.title // TODO: it doesn't work
   }
 

@@ -25,21 +25,21 @@ Column {
     TiconButton {
       enabled: creator.notSaved
       width: levelsPage.width / 4
-      icon: Noo.pix("notSaved"); iconHeight: levelsPage.height / 15
+      pixmap: Noo.pix("notSaved"); iconHeight: levelsPage.height / 15
       text: qsTr("Save")
       onClicked: creator.saveLevel()
     }
     TiconButton {
       enabled: selector.levelId !== -1 && selector.isSuitable(selector.levelId)
       width: levelsPage.width / 4
-      icon: Noo.pix("exam"); iconHeight: levelsPage.height / 15
+      pixmap: Noo.pix("exam"); iconHeight: levelsPage.height / 15
       text: qsTr("Start exam")
 //       onClicked:
     }
     TiconButton {
       enabled: selector.levelId !== -1 && selector.isSuitable(selector.levelId)
       width: levelsPage.width / 4
-      icon: Noo.pix("practice"); iconHeight: levelsPage.height / 15
+      pixmap: Noo.pix("practice"); iconHeight: levelsPage.height / 15
       text: qsTr("Start exercise")
 //       onClicked:
     }

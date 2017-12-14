@@ -15,10 +15,10 @@ ToolBar {
   background: Rectangle { anchors.fill: parent; color: activPal.window }
 
   Row {
-    HeadButton { id: settAct; action: nootkaWindow.settingsAct }
-    HeadButton { action: nootkaWindow.levelAct }
-    HeadButton { id: scoreAct; action: nootkaWindow.scoreAct; visible: !GLOB.singleNoteMode }
-    HeadButton { action: nootkaWindow.examAct }
+    HeadButton { id: settAct; taction: nootkaWindow.settingsAct }
+    HeadButton { taction: nootkaWindow.levelAct }
+    HeadButton { id: scoreAct; taction: nootkaWindow.scoreAct; visible: !GLOB.singleNoteMode }
+    HeadButton { taction: nootkaWindow.examAct }
   }
 
   Connections {

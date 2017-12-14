@@ -165,7 +165,7 @@ TmobileMenu {
 
   onFlyClicked: {
     if (currentFly)
-      currentFly.action.trigger()
+      currentFly.taction.trigger()
   }
 
   Repeater {
@@ -173,7 +173,7 @@ TmobileMenu {
     FlyItem {
       visible: extra
       x: flyX(index); y: flyY(index); width: fingerPixels() * 1.5; height: fingerPixels() * 1.5
-      action: modelData
+      taction: modelData
       color: currentFly === this ? activPal.highlight : activPal.button
     }
   }

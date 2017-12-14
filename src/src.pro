@@ -14,6 +14,16 @@ SOURCES += main.cpp \
            dialogs/tlevelsdefs.cpp\
            dialogs/tlevelselector.cpp\
            dialogs/tlevelheaderwdg.cpp\
+          \
+           main/texamexecutor.cpp\
+           main/texecutorsupply.cpp\
+           main/tglobalexamstore.cpp\
+           main/texercises.cpp\
+           main/tequalrand.cpp\
+           main/texammelody.cpp\
+           main/trandmelody.cpp\
+           main/texamview.cpp\
+           main/tpenalty.cpp\
 
 HEADERS  += main/tnameitem.h\
           \
@@ -23,6 +33,16 @@ HEADERS  += main/tnameitem.h\
            dialogs/tlevelsdefs.h\
            dialogs/tlevelselector.h\
            dialogs/tlevelheaderwdg.h\
+          \
+           main/texamexecutor.h\
+           main/texecutorsupply.h\
+           main/tglobalexamstore.h\
+           main/texercises.h\
+           main/tequalrand.h\
+           main/texammelody.h\
+           main/trandmelody.h\
+           main/texamview.h\
+           main/tpenalty.h\
 
 
 
