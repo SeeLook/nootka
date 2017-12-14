@@ -49,7 +49,7 @@ Rectangle {
     id: radioComp
     TcheckBox {
       anchors {verticalCenter: parent.verticalCenter}
-      checked: action.checked
+      checked: menuButton.action.checked
       onClicked: menuButton.clicked()
       x: (Noo.fontSize() * 3.5 - width) / 2
     }

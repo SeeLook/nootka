@@ -12,7 +12,7 @@ AbstractButton {
 
   property alias radius: bg.radius
   property alias color: bg.color
-  property alias icon: img.source
+  property alias pixmap: img.source
   property alias iconHeight: img.sourceSize.height
 
   contentItem: Column {

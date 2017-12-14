@@ -73,7 +73,7 @@ HEADERS  += nootkaconfig.h\
           \
              exam/tattempt.h\
              exam/texam.h\
-#             exam/textrans.h\
+             exam/textrans.h\
              exam/tlevel.h\
              exam/tqagroup.h\
              exam/tqatype.h\
