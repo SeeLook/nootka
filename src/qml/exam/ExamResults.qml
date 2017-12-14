@@ -6,10 +6,11 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 
 import Nootka.Exam 1.0
+import "../"
 
 
 Grid {
-  id: root
+  id: resultsItem
   columns: 2
   width: parent.width
   y: 1; z: 10
@@ -19,14 +20,14 @@ Grid {
 
   Row {
     spacing: Noo.fontSize()
-    width: root.width / 2; leftPadding: (width - childrenRect.width) / 2
+    width: resultsItem.width / 2; leftPadding: (width - childrenRect.width) / 2
     ResultLabel {
       width: height * 4
       score: results.answersText
     }
     ProgressBar {
       anchors.verticalCenter: parent.verticalCenter
-      width: root.width / 5
+      width: resultsItem.width / 5
       from: 0; to: results.progressMax
       value: results.progressValue
     }
@@ -37,7 +38,7 @@ Grid {
   }
 
   Row {
-    width: root.width / 2; leftPadding: (width - childrenRect.width) / 2
+    width: resultsItem.width / 2; leftPadding: (width - childrenRect.width) / 2
     spacing: Noo.fontSize()
 
     ResultLabel {
@@ -69,6 +70,22 @@ Grid {
       width: height * 3
       score: results.totalTimeText
     }
+  }
+
+  Popup {
+    id: resPop
+    background: TipRect { color: activPal.button }
+    y: resultsItem.height + Noo.fontSize() / 2
+    Column {
+      Text {
+        text: "Description"
+      }
+    }
+  }
+
+  function more(sender) {
+    resPop.parent = sender
+    resPop.open()
   }
 
 }
