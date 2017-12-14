@@ -23,7 +23,7 @@ Column {
     spacing: Noo.fontSize() * 4
     width: parent.width * 0.98
     anchors.horizontalCenter: parent.horizontalCenter
-    TiconButton { icon: Noo.pix("help"); iconHeight: startDialog.height / 15; text: Noo.TR("QShortcut", "Help") }
+    TiconButton { pixmap: Noo.pix("help"); iconHeight: startDialog.height / 15; text: Noo.TR("QShortcut", "Help") }
     Row {
       spacing: Noo.fontSize()
       anchors.verticalCenter: parent.verticalCenter
@@ -63,7 +63,7 @@ Column {
         spacing: Noo.fontSize()
         TiconButton {
           iconHeight: startDialog.height / 15
-          icon: Noo.pix("practice"); text: qsTr("Start exercise on level:")
+          pixmap: Noo.pix("practice"); text: qsTr("Start exercise on level:")
             onClicked: {
               if (selector.levelId > -1)
                 start(Texecutor.NewExercise, selector.currentLevel())
@@ -85,7 +85,7 @@ Column {
         TiconButton {
           enabled: selector.levelId !== -1
           iconHeight: startDialog.height / 15
-          icon: Noo.pix("exam"); text: qsTr("Pass new exam on level:")
+          pixmap: Noo.pix("exam"); text: qsTr("Pass new exam on level:")
           onClicked: start(Texecutor.NewExam, selector.currentLevel())
         }
         Text {
@@ -107,7 +107,7 @@ Column {
         spacing: Noo.fontSize()
         TiconButton {
           iconHeight: startDialog.height / 15
-          icon: Noo.pix("exam"); text: qsTr("Select an exam to continue")
+          pixmap: Noo.pix("exam"); text: qsTr("Select an exam to continue")
           onClicked: start(Texecutor.ContinueLastExam, "other exam file")
         }
       }
@@ -119,7 +119,7 @@ Column {
         spacing: Noo.fontSize()
         TiconButton {
           iconHeight: startDialog.height / 15
-          icon: Noo.pix("exam"); text: qsTr("Latest exam")
+          pixmap: Noo.pix("exam"); text: qsTr("Latest exam")
           onClicked: start(Texecutor.ContinueLastExam, "last exam file")
         }
         Text {
@@ -135,7 +135,7 @@ Column {
       Row {
         TiconButton {
           iconHeight: startDialog.height / 15
-          icon: Noo.pix("exit"); text: Noo.TR("QShortcut", "Exit")
+          pixmap: Noo.pix("exit"); text: Noo.TR("QShortcut", "Exit")
           onClicked: dialLoader.close()
         }
       }
@@ -155,9 +155,8 @@ Column {
 
   function start(action, argument) {
     GLOB.student = userNameIn.text
-    var c = Qt.createComponent("qrc:/exam/ExamResults.qml")
-    nootkaWindow.examResults = c.createObject(nootkaWindow.contentItem)
-    c = Qt.createComponent("qrc:/exam/ExamExecutor.qml")
+    nootkaWindow.startExam()
+    var c = Qt.createComponent("qrc:/exam/ExamExecutor.qml")
     executor = c.createObject(nootkaWindow)
     if (!executor.init(action, argument)) {
         console.log("Executor discarded, deleting it")

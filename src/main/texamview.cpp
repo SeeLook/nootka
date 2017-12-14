@@ -43,62 +43,6 @@ TexamView::TexamView(QQuickItem *parent) :
   }
 
   m_instance = this;
-//   auto mainLay = new QHBoxLayout;
-// #if defined (Q_OS_ANDROID)
-//   mainLay->setContentsMargins(0, 1, 2, 1);
-// #else
-//   setStatusTip(tr("Exam results"));
-// #endif
-//   mainLay->addStretch();
-//   QHBoxLayout *okMistLay = new QHBoxLayout;
-//   m_corrLab = new QLabel(this);
-//   okMistLay->addWidget(m_corrLab, 0, Qt::AlignRight);
-//   okMistLay->addSpacing(SPACE_GAP);
-//   m_halfLab = new QLabel(this);
-//   okMistLay->addWidget(m_halfLab, 0, Qt::AlignRight);
-//   m_halfLab->hide();
-//   okMistLay->addSpacing(SPACE_GAP);
-//   m_mistLab = new QLabel(this);
-//   okMistLay->addWidget(m_mistLab, 0, Qt::AlignRight);
-//   mainLay->addLayout(okMistLay);
-//   mainLay->addStretch();
-// 
-//   m_effLab = new QLabel(this);
-//   m_effLab->setStyleSheet(borderStyleTxt);
-//   mainLay->addWidget(m_effLab);
-//   mainLay->addStretch();
-// 
-//   m_averTimeLab = new QLabel(this);
-//   m_averTimeLab->setStyleSheet(borderStyleTxt);
-//   mainLay->addWidget(m_averTimeLab);
-//   mainLay->addStretch();
-// 
-//   m_reactTimeLab = new QLabel(this);
-//   m_reactTimeLab->setStyleSheet(borderStyleTxt);
-//   mainLay->addWidget(m_reactTimeLab);
-// 
-//   mainLay->addStretch();
-// 
-//   m_totalTimeLab = new QLabel(this);
-//   m_totalTimeLab->setStyleSheet(borderStyleTxt);
-//   mainLay->addWidget(m_totalTimeLab);
-//   mainLay->addStretch();
-// 
-//   setLayout(mainLay);
-// 
-//   clearResults();
-// 
-//   m_corrLab->setAlignment(Qt::AlignCenter);
-//   m_corrLab->setStatusTip(TexTrans::corrAnswersNrTxt());
-//   m_halfLab->setAlignment(Qt::AlignCenter);
-//   m_mistLab->setStatusTip(TexTrans::mistakesNrTxt());
-//   m_mistLab->setAlignment(Qt::AlignCenter);
-//   m_averTimeLab->setStatusTip(TexTrans::averAnsverTimeTxt() + space + TexTrans::inSecondsTxt());
-//   m_averTimeLab->setAlignment(Qt::AlignCenter);
-//   m_reactTimeLab->setStatusTip(TexTrans::reactTimeTxt() + space + TexTrans::inSecondsTxt());
-//   m_reactTimeLab->setAlignment(Qt::AlignCenter);
-//   m_totalTimeLab->setStatusTip(TexTrans::totalTimetxt());
-//   m_totalTimeLab->setAlignment(Qt::AlignCenter);
 
   m_timer = new QTimer(this);
   connect(m_timer, &QTimer::timeout, this, &TexamView::countTime);
@@ -174,7 +118,7 @@ void TexamView::go() {
 }
 
 
-void TexamView::startExam(Texam* exam) {
+void TexamView::startExam(Texam* exam, int totalNr) {
   m_exam = exam;
   m_totalTime = QTime(0, 0);
   m_startExamTime = int(m_exam->totalTime());
@@ -183,6 +127,9 @@ void TexamView::startExam(Texam* exam) {
   countTime();
   answered();
   emit averTextChanged();
+
+  m_totalNr = totalNr;
+  updateLabels();
 //   m_averTimeLab->setText(space + Texam::formatReactTime(m_exam->averageReactonTime()) + space);
 //   if (m_exam->melodies()) {
 //     m_effLab->setStatusTip(tr("Effectiveness of whole exam (and effectiveness of current question)."));
@@ -201,33 +148,6 @@ void TexamView::answered() {
 }
 
 
-// void TexamView::setFontSize(int s) {
-//   QFont f = font();
-//   f.setPointSize(s);
-// #if defined (Q_OS_ANDROID)
-//   QFontMetrics fm(f);
-//   int zeroW = fm.width(QStringLiteral("0")) * 35;
-//   if (zeroW + layout()->spacing() * 8 > qRound(Tmtr::longScreenSide() * 0.48)) {
-//       s = qRound(qreal(s) * (Tmtr::longScreenSide() * 0.48) / qreal(zeroW + layout()->spacing() * 8)) - 1;
-//       f.setPointSize(s);
-//   }
-// #endif
-//   setFont(f);
-//   m_reactTimeLab->setFont(f);
-//   m_averTimeLab->setFont(f);
-//   m_totalTimeLab->setFont(f);
-//   m_mistLab->setFont(f);
-//   m_corrLab->setFont(f);
-//   m_halfLab->setFont(f);
-//   m_effLab->setFont(f);
-//   m_sizeHint.setWidth(m_effLab->fontMetrics().width(QStringLiteral("0")) * 35 + layout()->spacing() * 8);
-//   m_sizeHint.setHeight(m_effLab->fontMetrics().height() + m_effLab->contentsMargins().top() * 2);
-// }
-
-
-//######################################################################
-//#######################     PUBLIC SLOTS   ###########################
-//######################################################################
 void TexamView::reactTimesUpdate() {
   if (m_exam && isVisible()) {
     emit averTextChanged();
@@ -262,6 +182,18 @@ void TexamView::questionCountUpdate() {
 }
 
 
+void TexamView::terminate() {
+  m_progressValue = 0;
+  m_progressMax = 0;
+  m_answersText = QStringLiteral("0");
+  m_totalText = QStringLiteral("0");
+  emit valuesUpdated();
+}
+
+
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
 
 void TexamView::countTime() {
   if (isVisible()) {
@@ -276,14 +208,27 @@ void TexamView::countTime() {
 }
 
 
-void TexamView::clearResults() {
-//   QString zero = QStringLiteral("0");
-//   m_corrLab->setText(zero);
-//   m_mistLab->setText(zero);
-//   m_halfLab->setText(zero);
-//   m_effLab->setText(QStringLiteral("<b>100%</b>"));
-//   m_averTimeLab->setText(QLatin1String(" 0.0 "));
-//   m_reactTimeLab->setText(QLatin1String(" 0.0 "));
-//   m_totalTimeLab->setText(QStringLiteral(" 0:00:00 "));
+void TexamView::updateLabels() {
+  int remained = qMax(0, m_totalNr + m_exam->penalty() - m_exam->count());
+  int alreadyAnswered = m_exam->count();
+  if (m_exam->melodies() && m_exam->count() && !m_exam->curQ()->answered())
+    alreadyAnswered = qMax(0, alreadyAnswered - 1);
+  m_answersText = QString("%1 + %2").arg(alreadyAnswered).arg(remained);
+//   m_answLab->setStatusTip(tr("Answered questions") + QString(": %1").arg(alreadyAnswered) +
+//         "<br>" + tr("Unanswered questions", "could be also: 'rest of the questions' or 'remaining questions'") + QString(": %1 ").arg(remained)  );
+  m_totalText = QString(" %1 (%2)").arg(m_totalNr + m_exam->penalty()).arg(m_exam->penalty());
+//   m_totalLab->setStatusTip(tr("Total questions in this exam") + QString(": %1 ").arg(m_totalNr + m_exam->penalty()) +
+//     "<br>(" + tr("penalties") + QString(": %1)").arg(m_exam->penalty()));
+  m_progressMax = m_totalNr + m_exam->penalty();
+  if (remained) {
+      m_progressValue = m_exam->count();
+//     m_bar->setStatusTip(progressExamTxt() + QLatin1String("<br>") + m_bar->text());
+  } else {
+      m_progressValue = m_totalNr + m_exam->penalty();
+//     if (m_exam->isFinished()) 
+//       m_bar->setStatusTip(examFinishedTxt());
+  }
+  emit valuesUpdated();
 }
+
 

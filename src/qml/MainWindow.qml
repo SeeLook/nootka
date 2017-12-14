@@ -7,7 +7,6 @@ import QtQuick.Controls 2.2
 import QtQuick.Window 2.2
 
 import Nootka 1.0
-import "exam"
 
 
 ApplicationWindow {
@@ -105,6 +104,11 @@ ApplicationWindow {
         if (noteName)
           noteName.destroy()
     }
+  }
+
+  function startExam() {
+    var c = Qt.createComponent("qrc:/exam/ExamResults.qml")
+    examResults = c.createObject(nootkaWindow.contentItem)
   }
 
   DialogLoader { id: dialogLoader }

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,7 +19,6 @@
 #include "tpenalty.h"
 #include "texecutorsupply.h"
 #include "texamview.h"
-#include "tprogresswidget.h"
 #include <exam/texam.h>
 #include <QtCore/qdebug.h>
 
@@ -30,8 +29,8 @@ Tpenalty::Tpenalty(Texam* exam, TexecutorSupply* supply) :
   m_exam(exam),
   m_supply(supply),
   m_blackQuestNr(-1), m_blackNumber(-1),
-  m_penalCount(0),
-  m_penalStep(65535)
+  m_penalStep(65535),
+  m_penalCount(0)
 {
   if (m_exam->isExercise()) { // Do not count penalties in exercising mode
       m_exam->setFinished(); // to avoid adding penalties in exercising
@@ -46,7 +45,7 @@ Tpenalty::Tpenalty(Texam* exam, TexecutorSupply* supply) :
             if (remained < m_exam->blackCount()) {
               m_exam->increasePenaltys(m_exam->blackCount() - remained);
               qDebug() << "penalties number adjusted:" << m_exam->blackCount() - remained;
-//               PROGRESS->activate(m_exam, m_supply->obligQuestions());
+//               RESULTS->startExam(m_exam, m_supply->obligQuestions());
             }
             if (remained == 0 && m_exam->blackCount() == 0) {
               m_supply->setFinished();
@@ -56,8 +55,7 @@ Tpenalty::Tpenalty(Texam* exam, TexecutorSupply* supply) :
         }
       RESULTS->displayTime();
   }
-  PROGRESS->activate(m_exam, m_supply->obligQuestions());
-  RESULTS->startExam(m_exam);
+  RESULTS->startExam(m_exam, m_supply->obligQuestions());
   updatePenalStep();
 }
 
@@ -121,7 +119,7 @@ void Tpenalty::checkAnswer() {
   RESULTS->effectUpdate();
   if (!m_exam->isExercise()) {
     releaseBlackList();
-    PROGRESS->progress();
+    RESULTS->progress();
     if (!m_exam->curQ()->isCorrect())
         updatePenalStep();
     checkForCert();
@@ -148,7 +146,7 @@ void Tpenalty::setMelodyPenalties() {
         updatePenalStep();
     }
     if (!m_exam->isExercise()) {
-      PROGRESS->progress();
+      RESULTS->progress();
       checkForCert();
     }
   }
@@ -181,7 +179,6 @@ void Tpenalty::checkForCert() {
         qDebug() << "penalties increased. Can't finish this exam yet.";
     } else {
         m_exam->setFinished();
-        PROGRESS->setFinished();
         emit certificate();
         m_supply->setFinished();
     }

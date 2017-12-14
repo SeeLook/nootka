@@ -8,13 +8,15 @@ import QtQuick 2.9
 Rectangle {
   property string label
   property alias score: result.text
+  property color bg: activPal.mid
 
-  height: Noo.fontSize() * 1.5; width: Noo.fontSize() * 3
-  color: resultArea.containsMouse ? activPal.highlight : activPal.mid
+  height: nootkaWindow.width / 45; width: height * 2
+  color: resultArea.containsMouse ? activPal.highlight : Qt.tint(activPal.mid, Noo.alpha(bg, 70))
   z: 15
 
   Text {
     id: result
+    font.pixelSize: parent.height * 0.75
     anchors.fill: parent
     verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignHCenter
     color: resultArea.containsMouse ? activPal.highlightedText : activPal.text
@@ -24,6 +26,5 @@ Rectangle {
     id: resultArea
     anchors.fill: parent
     hoverEnabled: true
-    onClicked: console.log("hjdhfajfhajshfaj")
   }
 }

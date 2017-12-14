@@ -46,7 +46,7 @@
 #include <QtCore/qtimer.h>
 #include <QtWidgets/qmessagebox.h>
 #if defined (Q_OS_ANDROID)
-  #include <tfiledialog.h>
+  #include <Android/tfiledialog.h>
 #else
   #include <QtWidgets/qfiledialog.h>
 #endif
@@ -213,8 +213,8 @@ bool TexamExecutor::init(TexamExecutor::Eactions whatToDo, const QVariant& arg) 
 
 
 TexamExecutor::~TexamExecutor() {
-//   if (m_penalty)
-//     delete m_penalty;
+  if (m_penalty)
+    delete m_penalty;
   if (m_supp)
       delete m_supp;
   delete m_glStore;

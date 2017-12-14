@@ -79,7 +79,6 @@ set(NOOTKA_SRC
   main/texammelody.cpp
   main/trandmelody.cpp
   main/texamview.cpp
-  main/tprogresswidget.cpp
   main/tpenalty.cpp
 
   dialogs/tdialogloaderobject.cpp
