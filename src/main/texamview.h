@@ -58,6 +58,11 @@ class TexamView : public QQuickItem
   Q_PROPERTY(QString averText READ averText NOTIFY averTextChanged)
   Q_PROPERTY(QString reactText READ reactText NOTIFY reactTextChanged)
 
+  Q_PROPERTY(QString answersText READ answersText NOTIFY valuesUpdated)
+  Q_PROPERTY(QString totalText READ totalText NOTIFY valuesUpdated)
+  Q_PROPERTY(int progressValue READ progressValue NOTIFY valuesUpdated)
+  Q_PROPERTY(int progressMax READ progressMax NOTIFY valuesUpdated)
+
 public:
   explicit TexamView(QQuickItem *parent = nullptr);
   ~TexamView() override;
@@ -71,6 +76,11 @@ public:
   QString averText() const;
   QString reactText() const;
 
+  QString answersText() const { return m_answersText; }
+  QString totalText() const { return m_totalText; }
+  int progressValue() const { return m_progressValue; }
+  int progressMax() const { return m_progressMax; }
+
   static TexamView* instance() { return m_instance; }
 
     /** Returns time given in &milliseconds in format h:mm:ss */
@@ -79,7 +89,7 @@ public:
           .arg((t%3600000)/60000, 2, 'f', 0, '0')
           .arg((t%60000)/1000, 2, 'f', 0, '0'); }
 
-  void startExam(Texam *exam); /**< Initialization */
+  void startExam(Texam *exam, int totalNr); /**< Initialization */
   void questionStart(); /**< Starts counting time for a new question */
   void questionStop(); /**< Stops question timer and updates time in the last exam TQAunit. */
   void answered(); /**< Displays updated counters after answer */
@@ -97,11 +107,16 @@ public:
       /** Total time of the exam. */
   quint32 totalTime() {return quint32(m_startExamTime) + quint32(m_totalTime.elapsed() / 1000); }
   void updateExam(); /**< Updates elapsed time and average time in current @p Texam */
-  void clearResults();
 
   void reactTimesUpdate(); /**< Updates reaction time and average reaction time of to the last answer time. */
   void effectUpdate(); /**< Updates effectiveness value of an exam. */
   void questionCountUpdate(); /**< Updates mistakes, correct, and 'not bad' numbers to current exam values */
+
+  static QString progressExamTxt() { return tr("Progress of the exam"); } // Progress of the exam
+  static QString examFinishedTxt() { return tr("Exam was finished"); } // Exam was finished
+
+  void progress() { updateLabels(); }
+  void terminate();
 
 signals:
   void answersNumberChanged();
@@ -109,6 +124,11 @@ signals:
   void totalTimeTextChanged();
   void reactTextChanged();
   void averTextChanged();
+  void valuesUpdated();
+
+protected:
+  void countTime();
+  void updateLabels();
 
 private:
   bool                 m_showReact; /**< switches whether displays pending question time counter */
@@ -121,8 +141,9 @@ private:
   Texam               *m_exam;
   static TexamView    *m_instance;
 
-private slots:
-    void countTime();
+  int                  m_totalNr;
+  QString              m_answersText, m_totalText;
+  int                  m_progressValue, m_progressMax;
 
 };
 

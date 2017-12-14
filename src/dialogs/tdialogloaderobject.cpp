@@ -22,7 +22,6 @@
 #include "tlevelselector.h"
 #include "main/texamexecutor.h"
 #include "main/texamview.h"
-#include "main/tprogresswidget.h"
 #include "qtr.h"
 
 #include <QtWidgets/qdialogbuttonbox.h>
@@ -42,7 +41,6 @@ TdialogLoaderObject::TdialogLoaderObject(QObject* parent) :
 
     qmlRegisterType<TexamExecutor>("Nootka.Exam", 1, 0, "Texecutor");
     qmlRegisterType<TexamView>("Nootka.Exam", 1, 0, "Tresults");
-    qmlRegisterType<TprogressWidget>("Nootka.Exam", 1, 0, "Tprogress");
     qRegisterMetaType<Tlevel*>("Tlevel*");
     m_firstTime = false;
   }

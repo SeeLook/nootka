@@ -9,71 +9,65 @@ import Nootka.Exam 1.0
 
 
 Grid {
+  id: root
   columns: 2
   width: parent.width
   y: 1; z: 10
+  verticalItemAlignment: Grid.AlignVCenter; horizontalItemAlignment: Grid.AlignHCenter
 
-  Tprogress {
-    id: progress
-    height: row1.height; width: parent.width / 2
-    Row {
-      id: row1
-      spacing: Noo.fontSize()
-      anchors.horizontalCenter: parent.horizontalCenter
-      ResultLabel {
-        width: Noo.fontSize() * 6
-        score: progress.answersText
-      }
-      ProgressBar {
-        anchors.verticalCenter: parent.verticalCenter
-        width: progress.width / 2
-        from: 0; to: progress.progressMax
-        value: progress.progressValue
-      }
-      ResultLabel {
-        width: Noo.fontSize() * 6
-        score: progress.totalText
-      }
+  Tresults { id: results }
+
+  Row {
+    spacing: Noo.fontSize()
+    width: root.width / 2; leftPadding: (width - childrenRect.width) / 2
+    ResultLabel {
+      width: height * 4
+      score: results.answersText
+    }
+    ProgressBar {
+      anchors.verticalCenter: parent.verticalCenter
+      width: root.width / 5
+      from: 0; to: results.progressMax
+      value: results.progressValue
+    }
+    ResultLabel {
+      width: height * 4
+      score: results.totalText
     }
   }
 
-  Tresults {
-    id: results
-    height: row2.height; width: parent.width / 2
-    Row {
-      id: row2
-      spacing: Noo.fontSize()
-      anchors.horizontalCenter: parent.horizontalCenter
+  Row {
+    width: root.width / 2; leftPadding: (width - childrenRect.width) / 2
+    spacing: Noo.fontSize()
 
-      ResultLabel {
-        score: results.correctAnswers
-        color: "green"
-      }
-      ResultLabel {
-        score: results.halfAnswers
-        color: "yellow"
-      }
-      ResultLabel {
-        score: results.wrongAnswers
-        color: "red"
-      }
+    ResultLabel {
+      score: results.correctAnswers
+      bg: "green"
+    }
+    ResultLabel {
+      score: results.halfAnswers
+      bg: "yellow"
+    }
+    ResultLabel {
+      score: results.wrongAnswers
+      bg: "red"
+    }
 
-      ResultLabel {
-        width: Noo.fontSize() * 4
-        score: results.effectiveness
-      }
-      ResultLabel {
-        width: Noo.fontSize() * 4
-        score: results.averText
-      }
-      ResultLabel {
-        width: Noo.fontSize() * 6
-        score: results.reactText
-      }
-      ResultLabel {
-        width: Noo.fontSize() * 6
-        score: results.totalTimeText
-      }
+    ResultLabel {
+      width: height * 2.5
+      score: results.effectiveness
+    }
+    ResultLabel {
+      width: height * 2.5
+      score: results.averText
+    }
+    ResultLabel {
+      width: height * 2.5
+      score: results.reactText
+    }
+    ResultLabel {
+      width: height * 3
+      score: results.totalTimeText
     }
   }
 

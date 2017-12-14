@@ -29,7 +29,7 @@ class Texam;
 
 /**
  * This class manages penalties during exam execution.
- * Also it takes care about state of @class TexamView and @class TprogressWidget widgets
+ * Also it takes care about state of @class TexamView
  * @p m_penalStep determines how many 'normal' questions is asked between penalties
  * When it is 0 - penalty is asked every time.
  * @p m_penalCount counts questions and is increased by @p nextQuestion()
