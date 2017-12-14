@@ -6,7 +6,7 @@ import QtQuick 2.9
 
 
 Rectangle {
-  property string label
+  id: label
   property alias score: result.text
   property color bg: activPal.mid
 
@@ -26,5 +26,10 @@ Rectangle {
     id: resultArea
     anchors.fill: parent
     hoverEnabled: true
+    onClicked: more()
+  }
+
+  function more() {
+    resultsItem.more(label)
   }
 }
