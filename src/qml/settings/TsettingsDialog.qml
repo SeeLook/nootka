@@ -15,11 +15,13 @@ Item {
   PagesDialog { id: pages }
 
   Component.onCompleted: {
-    pages.addItem("global", qsTr("Common"), "settings/Global")
-    pages.addItem("scoreSett", qsTr("Score"), "settings/Score")
-    pages.addItem("instrSett", qsTr("Instrument"), "settings/Instrument")
-    pages.addItem("soundSett", qsTr("Sound"), "settings/Sound")
-//     pages.addItem("questionsSett", qsTr("Exercises") + "\n& " + qsTr("Exam"), "settings/Exam")
+    if (!GLOB.isExam) {
+      pages.addItem("global", qsTr("Common"), "settings/Global")
+      pages.addItem("scoreSett", qsTr("Score"), "settings/Score")
+      pages.addItem("instrSett", qsTr("Instrument"), "settings/Instrument")
+      pages.addItem("soundSett", qsTr("Sound"), "settings/Sound")
+    }
+    pages.addItem("questionsSett", qsTr("Exercises") + "\n& " + qsTr("Exam"), "settings/Exam")
 //     pages.addItem("appearance", qsTr("Appearance"), "settings/Appearance")
     if (Noo.isAndroid()) {
         dialLoader.buttons = [DialogButtonBox.Apply, DialogButtonBox.RestoreDefaults, DialogButtonBox.Help, DialogButtonBox.Cancel]

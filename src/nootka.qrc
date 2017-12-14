@@ -80,6 +80,7 @@
     <file alias="settings/ColorButton.qml">qml/settings/ColorButton.qml</file>
     <file alias="settings/KeySufixEdit.qml">qml/settings/KeySufixEdit.qml</file>
     <file alias="settings/Select7note.qml">qml/settings/Select7note.qml</file>
+    <file alias="settings/ExamPage.qml">qml/settings/ExamPage.qml</file>
 
     <file alias="LevelCreator.qml">qml/level/LevelCreator.qml</file>
     <file alias="level/LevelsPage.qml">qml/level/LevelsPage.qml</file>
@@ -101,6 +102,7 @@
     <file alias="exam/ExamExecutor.qml">qml/exam/ExamExecutor.qml</file>
     <file alias="exam/ExamResults.qml">qml/exam/ExamResults.qml</file>
     <file alias="exam/ResultLabel.qml">qml/exam/ResultLabel.qml</file>
+    <file alias="exam/ExamTip.qml">qml/exam/ExamTip.qml</file>
 
     <file alias="qtquickcontrols2.conf">qml/qtquickcontrols2.conf</file>
 <!--     <file alias="+android/qtquickcontrols2.conf">qml/+android/qtquickcontrols2.conf</file> -->

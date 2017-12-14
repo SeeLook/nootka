@@ -43,15 +43,15 @@ Grid {
 
     ResultLabel {
       score: results.correctAnswers
-      bg: "green"
+      bg: GLOB.correctColor
     }
     ResultLabel {
       score: results.halfAnswers
-      bg: "yellow"
+      bg: GLOB.notBadColor
     }
     ResultLabel {
       score: results.wrongAnswers
-      bg: "red"
+      bg: GLOB.wrongColor
     }
 
     ResultLabel {

@@ -16,9 +16,9 @@ ToolBar {
 
   Row {
     HeadButton { id: settAct; taction: nootkaWindow.settingsAct }
-    HeadButton { taction: nootkaWindow.levelAct }
+    HeadButton { taction: nootkaWindow.levelAct; visible: !GLOB.isExam }
     HeadButton { id: scoreAct; taction: nootkaWindow.scoreAct; visible: !GLOB.singleNoteMode }
-    HeadButton { taction: nootkaWindow.examAct }
+    HeadButton { taction: nootkaWindow.examAct; visible: !GLOB.isExam }
   }
 
   Connections {
@@ -28,7 +28,7 @@ ToolBar {
       if (!pitchView) {
         var c = Qt.createComponent("qrc:/PitchView.qml")
         pitchView = c.createObject(toolBar)
-        pitchView.x = Qt.binding(function() { return label.x - toolBar.width * 0.4 })
+        pitchView.x = Qt.binding(function() { return label.x - toolBar.width * 0.403 })
       }
     }
   }

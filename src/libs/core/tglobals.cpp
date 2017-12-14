@@ -324,6 +324,13 @@ bool Tglobals::forwardInput() const { return A->forwardInput; }
 void Tglobals::setForwardInput(bool fi) { A->forwardInput = fi; }
 
 /* ------------------ Exam switches ------------------ */
+void Tglobals::setIsExam(bool is) {
+  if (is != m_isExam) {
+    m_isExam = is;
+    emit isExamChanged();
+  }
+}
+
 QString Tglobals::student() const { return E->studentName; }
 void Tglobals::setStudent(const QString& st) {
   if (st != E->studentName) {
@@ -331,6 +338,28 @@ void Tglobals::setStudent(const QString& st) {
     emit studentChanged();
   }
 }
+
+void Tglobals::setCorrectColor(const QColor& c) {
+  if (c != EanswerColor) {
+    EanswerColor = c;
+    emit correctColorChanged();
+  }
+}
+
+void Tglobals::setNotBadColor(const QColor& c) {
+  if (c != EnotBadColor) {
+    EnotBadColor = c;
+    emit notBadColorChanged();
+  }
+}
+
+void Tglobals::setWrongColor(const QColor& c) {
+  if (c != EquestionColor) {
+    EquestionColor = c;
+    emit wrongColorChanged();
+  }
+}
+
 
 
 void Tglobals::setGuitarParams(int fretNr, const Ttune& tun) {
