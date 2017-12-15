@@ -19,6 +19,7 @@ TRANSLATION CONTEXT CHANGES
   TradioClef - Tclef (rearrange Tclef)
   TscoreActions & TmelMan - MainScore
   TtoolBar - MainWindow
+  TtoolBar - exam actions are created in TexamExecutor
   accidssettings -> AccidsPage (but remove line breaks from descriptions)
   TlevelPreviewItem "no level selected" goes to TlevelSelector
 

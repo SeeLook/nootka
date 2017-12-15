@@ -40,6 +40,7 @@ class QTimer;
 class TexecutorSupply;
 class Texam;
 class TnameItem;
+class Taction;
 
 
 /**
@@ -52,6 +53,7 @@ class TexamExecutor : public QQuickItem
 
   Q_PROPERTY(QString title READ title NOTIFY titleChanged)
   Q_PROPERTY(TnameItem* nameItem READ nameItem WRITE setNameItem)
+  Q_PROPERTY(QVariantList examActions READ examActions NOTIFY examActionsChanged)
 
 public:
   explicit TexamExecutor(QQuickItem* parent = nullptr);
@@ -61,6 +63,8 @@ public:
 
   TnameItem* nameItem() { return m_nameItem; }
   void setNameItem(TnameItem* ni);
+
+  QVariantList examActions() { return m_examActions; }
 
       /**
        * Describes actions committed by user.
@@ -88,17 +92,20 @@ public:
 
 signals:
   void titleChanged();
+  void examActionsChanged();
 
 protected:
   void deleteExam();
-// 
-//   void askQuestion(bool isAttempt = false);
-// 
-//       /**
-//        * If it is called by pressing "check answer" it obviously shows results
-//        * but if app is closing it only checks answer and save it without displaying results.
-//        */
-//   void checkAnswer(bool showResults = true);
+
+  void askQuestionSlot() { askQuestion(false); }
+  void askQuestion(bool isAttempt = false);
+
+      /**
+       * If it is called by pressing "check answer" it obviously shows results
+       * but if app is closing it only checks answer and save it without displaying results.
+       */
+  void checkAnswer(bool showResults = true);
+  void checkAnswerSlot() { checkAnswer(true); }
 //   void stopExamSlot();
 //   void stopExerciseSlot();
 //   void repeatQuestion();
@@ -146,7 +153,7 @@ private:
        * otherwise return @p FALSE
        */
   bool castLevelFromQVariant(const QVariant& v);
-//   void createActions();
+  void createActions();
   void prepareToExam();
 //   void restoreAfterExam();
   void disableWidgets(); /**< Disables score, noteName and guitar*/
@@ -199,7 +206,12 @@ private:
   TequalRand                  *m_rand;
 
   QPointer<TexamMelody>        m_melody; /**< Helper class with exam/exercises with melodies */
-  TnameItem*                   m_nameItem = nullptr;
+  TnameItem                  *m_nameItem = nullptr;
+  Taction                    *m_helpAct, *m_stopExamAct, *m_nextQuestAct, *m_repeatQuestAct, *m_checkQuestAct;
+  Taction                    *m_playAgainAct = nullptr;
+  Taction                    *m_correctAct = nullptr;
+  Taction                    *m_newAtemptAct = nullptr;
+  QVariantList                m_examActions;
 
 };
 
