@@ -41,10 +41,11 @@ class Taction : public QObject
   Q_PROPERTY(bool checked READ checked WRITE setChecked NOTIFY checkedChanged)
   Q_PROPERTY(bool checkable READ checkable WRITE setCheckable)
   Q_PROPERTY(QObject* shortcut READ shortcut WRITE setShortcut)
-  Q_PROPERTY(bool enabled READ enabled WRITE setEnabled)
+  Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
 
 public:
   explicit Taction(QObject* parent = nullptr);
+  explicit Taction(const QString& txt, const QString& ico, QObject* parent = nullptr, bool isEnabled = true);
   ~Taction() override;
 
   QString icon() const;
@@ -77,11 +78,12 @@ signals:
   void tipChanged();
   void triggered();
   void checkedChanged();
+  void enabledChanged();
 
 private:
-  bool                    m_checkable;
-  bool                    m_checked;
-  bool                    m_enabled;
+  bool                    m_checkable = false;
+  bool                    m_checked = false;
+  bool                    m_enabled = true;
   QString                 m_iconTag;
   QString                 m_text;
   QString                 m_tip;

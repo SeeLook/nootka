@@ -10,15 +10,21 @@ ToolBar {
   id: toolBar
 
   property alias scoreAct: scoreAct
+  property alias examActions: examRepeater.model
 
   height: settAct.height
   background: Rectangle { anchors.fill: parent; color: activPal.window }
 
   Row {
-    HeadButton { id: settAct; taction: nootkaWindow.settingsAct }
+    spacing: toolBar.width / 200
+    HeadButton { id: settAct; taction: nootkaWindow.settingsAct; visible: !GLOB.isExam }
     HeadButton { taction: nootkaWindow.levelAct; visible: !GLOB.isExam }
     HeadButton { id: scoreAct; taction: nootkaWindow.scoreAct; visible: !GLOB.singleNoteMode }
     HeadButton { taction: nootkaWindow.examAct; visible: !GLOB.isExam }
+    Repeater {
+      id: examRepeater
+      HeadButton { taction: modelData; visible: taction && taction.enabled }
+    }
   }
 
   Connections {

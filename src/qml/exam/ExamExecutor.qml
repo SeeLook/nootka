@@ -7,6 +7,8 @@ import QtQuick 2.9
 import Nootka 1.0
 import Nootka.Exam 1.0
 
+import "../"
+
 
 Texecutor {
   id: executor
@@ -15,6 +17,8 @@ Texecutor {
 
   nameItem: nootkaWindow.noteName
   onTitleChanged: nootkaWindow.title = title
+
+  onExamActionsChanged: nootkaWindow.mainMenu.toolBar.examActions = examActions
 
 }
 

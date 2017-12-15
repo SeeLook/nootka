@@ -21,11 +21,18 @@
 
 #include <QtCore/qdebug.h>
 
+
 Taction::Taction(QObject* parent) :
+  QObject(parent)
+{
+}
+
+
+Taction::Taction(const QString& txt, const QString& ico, QObject* parent, bool isEnabled) :
   QObject(parent),
-  m_checkable(false),
-  m_checked(false),
-  m_enabled(true)
+  m_enabled(isEnabled),
+  m_iconTag(ico),
+  m_text(txt)
 {
 }
 
@@ -85,7 +92,10 @@ void Taction::setShortcut(QObject* s) {
 
 
 void Taction::setEnabled(bool e) {
-  m_enabled = e;
+  if (e != m_enabled) {
+    m_enabled = e;
+    emit enabledChanged();
+  }
 }
 
 

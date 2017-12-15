@@ -36,7 +36,9 @@
 #include <texamparams.h>
 #include <tscoreparams.h>
 // #include <tlayoutparams.h>
-// #include <music/tmelody.h>
+#include <music/tmelody.h>
+#include <music/tchunk.h>
+#include <taction.h>
 #include <tnootkaqml.h>
 #include <instruments/tcommoninstrument.h>
 #include <score/tscoreobject.h>
@@ -45,6 +47,7 @@
 #include <QtCore/qdatetime.h>
 #include <QtCore/qtimer.h>
 #include <QtWidgets/qmessagebox.h>
+#include <QtWidgets/qapplication.h>
 #if defined (Q_OS_ANDROID)
   #include <Android/tfiledialog.h>
 #else
@@ -206,7 +209,7 @@ bool TexamExecutor::init(TexamExecutor::Eactions whatToDo, const QVariant& arg) 
   }
   prepareToExam();
   initializeExecuting();
-//   createActions();
+  createActions();
   return true;
 }
 
@@ -261,93 +264,94 @@ void TexamExecutor::initializeExecuting() {
 }
 
 
-// void TexamExecutor::askQuestion(bool isAttempt) {
-//   m_askingTimer->stop();
+void TexamExecutor::askQuestion(bool isAttempt) {
+  m_askingTimer->stop();
 //   if (m_canvas->hasCertificate()) // in auto mode new question can be asked "under" certificate
 //     return;
-// 
+
 //   m_lockRightButt = false; // release mouse button events
-//   if (m_exercise && !GLOB->E->showCorrected) // hide correct action button
-//       TOOLBAR->removeAction(TOOLBAR->correctAct);
+  if (m_exercise && !GLOB->E->showCorrected) // hide correct action button
+    m_correctAct->setEnabled(false);
 //   if (m_exam->count() && m_exercise && m_exam->melodies())
 //     disconnect(SCORE, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctNoteOfMelody);
-//   if (m_exam->count() && m_exam->melodies())
-//     TOOLBAR->removeAction(TOOLBAR->attemptAct);
-//   if (!isAttempt) { // add new question to the list
-//     m_penalty->setMelodyPenalties();
-//     if (m_exam->count() && m_exercise) // Check answer only after summarize
-//         m_exercise->checkAnswer();
-//     TQAunit Q(m_exam);
-//     m_exam->addQuestion(Q);
-//   }
-//   TQAunit* curQ = m_exam->curQ();
-//   m_isAnswered = false;
-//   if (!isAttempt) {
-//     clearWidgets();
-//     if (m_blindCounter > 20) {
-//         QMessageBox::critical(mW, "Level error!", QString("Nootka attempted to create proper question-answer pair 20 times<br>Send this message and a level file to developers and we will try to fix it in further releases."));
+  if (m_exam->count() && m_exam->melodies())
+    m_newAtemptAct->setEnabled(false);
+  if (!isAttempt) { // add new question to the list
+    m_penalty->setMelodyPenalties();
+    if (m_exam->count() && m_exercise) // Check answer only after summarize
+        m_exercise->checkAnswer();
+    TQAunit Q(m_exam);
+    m_exam->addQuestion(Q);
+  }
+  TQAunit* curQ = m_exam->curQ();
+  m_isAnswered = false;
+  if (!isAttempt) {
+    clearWidgets();
+    if (m_blindCounter > 20) {
+        QMessageBox::critical(nullptr, QStringLiteral("Level error!"), QString(
+          "Nootka attempted to create proper question-answer pair 20 times<br>"
+          " Send this message and a level file to developers and we will try to fix it in further releases."));
 //         emit examMessage(Torders::e_examFailed);
-//         deleteExam();
-//         return;
-//     }
-//     if (!GLOB->E->autoNextQuest) {
-//       if (!m_exercise)
-//           TOOLBAR->startExamAct->setDisabled(true);
+        deleteExam();
+        return;
+    }
+    if (!GLOB->E->autoNextQuest) {
+      if (!m_exercise)
+        m_stopExamAct->setEnabled(false);
 //       m_canvas->clearCanvas();
-//     }
-// //     m_isAnswered = false;
-//     m_incorrectRepeated = false;
-//     m_answRequire.octave = m_level.requireOctave;
-//     m_answRequire.accid = m_level.forceAccids;
-//     m_answRequire.key = false;
-//     
+    }
+    m_incorrectRepeated = false;
+    m_answRequire.octave = m_level.requireOctave;
+    m_answRequire.accid = m_level.forceAccids;
+    m_answRequire.key = false;
+
 //     NOTENAME->setStyle(GLOB->S->nameStyleInNoteName);
 //     NOTENAME->setNoteNamesOnButt(GLOB->S->nameStyleInNoteName);
-//     
-//     m_penalty->nextQuestion();
-//     if (!m_exercise && m_penalty->ask()) {
-// 
-//     } else {
-//         if (!m_exam->melodies()) // leave them empty for melody - there are all notes and positions
-//             curQ->qa = m_questList[m_rand->get()];
-//         curQ->questionAs = m_level.questionAs.next();
-//         curQ->answerAs = m_level.answersAs[curQ->questionAs].next();
-//     }
-//     
-//     if (m_penalty->isNot() && curQ->questionAsFret() && curQ->answerAsFret())
-//       curQ->qa = m_questList[m_supp->getQAnrForGuitarOnly()];
-// 
-//     if (m_penalty->isNot() && (curQ->questionAsNote() || curQ->answerAsNote())) {
-//         if (m_level.useKeySign)
-//           curQ->key = m_supp->getKey(curQ->qa.note);
-//         if (!m_level.onlyCurrKey) // if key doesn't determine accidentals, we do this
-//             curQ->qa.note = m_supp->determineAccid(curQ->qa.note);
-//     }
-//     if (m_exam->melodies()) {
-//       int melodyLength = qBound(qMax(2, qRound(m_level.melodyLen * 0.7)), //at least 70% of length but not less than 2
-//                                       qRound(((6.0 + (qrand() % 5)) / 10.0) * (qreal)m_level.melodyLen), (int)m_level.melodyLen);
-//       if (m_penalty->isNot()) {
-//         curQ->addMelody(QString("%1").arg(m_exam->count()));
-//         curQ->melody()->setKey(curQ->key);
-//         if (m_level.randMelody == Tlevel::e_randFromList) {
-//             QList<TQAgroup> qaList;
-//             m_supp->listForRandomNotes(curQ->key, qaList);
-//             // ignore in key (4th param) of level, notes from list are already in key (if required)
-//             getRandomMelodyNG(qaList, curQ->melody(), melodyLength, false, false);
-//         } else
-//             getRandomMelodyNG(m_questList, curQ->melody(), melodyLength, m_level.onlyCurrKey, m_level.endsOnTonic);
-//       }
-//       m_melody->newMelody(curQ->answerAsSound() ? curQ->melody()->length() : 0); // prepare list to store notes played by user or clear it
-//       m_exam->newAttempt();
-//       curQ->lastAttempt()->melodyWasPlayed(); // it was played once for sure 
-//       if (m_exercise) 
-//         m_melody->clearToFix(melodyLength);
-//     }
-// //    qDebug() << curQ->qa.note.toText() << "Q" << (int)curQ->questionAs
-// //            << "A" << (int)curQ->answerAs << curQ->key.getName()
-// //            << (int)curQ->qa.pos.str() << (int)curQ->qa.pos.fret();
-//   }
-// 
+
+    m_penalty->nextQuestion();
+    if (!m_exercise && m_penalty->ask()) {
+
+    } else {
+        if (!m_exam->melodies()) // leave them empty for melody - there are all notes and positions
+            curQ->qa = m_questList[m_rand->get()];
+        curQ->questionAs = m_level.questionAs.next();
+        curQ->answerAs = m_level.answersAs[curQ->questionAs].next();
+    }
+
+    if (m_penalty->isNot() && curQ->questionAsFret() && curQ->answerAsFret())
+      curQ->qa = m_questList[m_supp->getQAnrForGuitarOnly()];
+
+    if (m_penalty->isNot() && (curQ->questionAsNote() || curQ->answerAsNote())) {
+        if (m_level.useKeySign)
+          curQ->key = m_supp->getKey(curQ->qa.note);
+        if (!m_level.onlyCurrKey) // if key doesn't determine accidentals, we do this
+            curQ->qa.note = m_supp->determineAccid(curQ->qa.note);
+    }
+    if (m_exam->melodies()) {
+      int melodyLength = qBound(qMax(2, qRound(m_level.melodyLen * 0.7)), //at least 70% of length but not less than 2
+                                      qRound(((6.0 + (qrand() % 5)) / 10.0) * (qreal)m_level.melodyLen), (int)m_level.melodyLen);
+      if (m_penalty->isNot()) {
+        curQ->addMelody(QString("%1").arg(m_exam->count()));
+        curQ->melody()->setKey(curQ->key);
+        if (m_level.randMelody == Tlevel::e_randFromList) {
+            QList<TQAgroup> qaList;
+            m_supp->listForRandomNotes(curQ->key, qaList);
+            // ignore in key (4th param) of level, notes from list are already in key (if required)
+            getRandomMelodyNG(qaList, curQ->melody(), melodyLength, false, false);
+        } else
+            getRandomMelodyNG(m_questList, curQ->melody(), melodyLength, m_level.onlyCurrKey, m_level.endsOnTonic);
+      }
+      m_melody->newMelody(curQ->answerAsSound() ? curQ->melody()->length() : 0); // prepare list to store notes played by user or clear it
+      m_exam->newAttempt();
+      curQ->lastAttempt()->melodyWasPlayed(); // it was played once for sure 
+      if (m_exercise) 
+        m_melody->clearToFix(melodyLength);
+    }
+//    qDebug() << curQ->qa.note.toText() << "Q" << (int)curQ->questionAs
+//            << "A" << (int)curQ->answerAs << curQ->key.getName()
+//            << (int)curQ->qa.pos.str() << (int)curQ->qa.pos.fret();
+  }
+
 //   // ASKING QUESTIONS
 //   if (curQ->questionAsNote()) {
 //     if (curQ->melody()) {
@@ -541,15 +545,15 @@ void TexamExecutor::initializeExecuting() {
 //       SOUND->stopListen(); // stop sniffing if answer is not a played sound
 // 
 //   TOOLBAR->setForQuestion(curQ->questionAsSound(), curQ->questionAsSound() && curQ->answerAsNote());
-//   m_penalty->startQuestionTime();
+  m_penalty->startQuestionTime();
 //   m_canvas->questionTip();
 //   m_blindCounter = 0; // question successfully asked - reset the counter
-// }
-// 
-// 
-// void TexamExecutor::checkAnswer(bool showResults) {
+}
+
+
+void TexamExecutor::checkAnswer(bool showResults) {
 //   TQAunit* curQ = m_exam->curQ();
-//   m_penalty->stopQuestionTime();
+  m_penalty->stopQuestionTime();
 //   TOOLBAR->setAfterAnswer();
 //   if (curQ->answerAsSound()) {
 //       SOUND->pauseSinffing(); // but only skip detected for single sound
@@ -746,9 +750,9 @@ void TexamExecutor::initializeExecuting() {
 //         }
 //       }
 //   }
-// }
-// 
-// 
+}
+
+
 // /**
 //  * %%%%%%%%%% Time flow in Nootka %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 //  * @p correctPreview @p mistakePreview and @p questionDelay  are user configurable vars determining corresponding times
@@ -1162,14 +1166,39 @@ void TexamExecutor::clearWidgets() {
 }
 
 
-// void TexamExecutor::createActions() {
+void TexamExecutor::createActions() {
+  m_helpAct = new Taction(QApplication::translate("TtoolBar", "Help"), QStringLiteral("help"), this);
+  m_examActions.append(QVariant::fromValue(m_helpAct));
+  m_stopExamAct = new Taction(QApplication::translate("TtoolBar", "Stop"), QStringLiteral("stopExam"), this);
+  m_examActions.append(QVariant::fromValue(m_stopExamAct));
+  m_repeatQuestAct = new Taction(QApplication::translate("TtoolBar", "Repeat", "like a repeat question"), QStringLiteral("prevQuest"), this, false);
+  m_examActions.append(QVariant::fromValue(m_repeatQuestAct));
+  m_nextQuestAct = new Taction(QApplication::translate("TtoolBar", "Next", "like a next question"), QStringLiteral("nextQuest"), this);
+  m_examActions.append(QVariant::fromValue(m_nextQuestAct));
+  connect(m_nextQuestAct, &Taction::triggered, this, &TexamExecutor::askQuestionSlot);
+  if (m_level.canBeMelody()) {
+    m_newAtemptAct = new Taction(QApplication::translate("TtoolBar", "Try again"), "prevQuest", this, false);
+    m_examActions.append(QVariant::fromValue(m_newAtemptAct));
+  }
+  if (m_level.questionAs.isSound()) {
+    m_playAgainAct = new Taction(QApplication::translate("TtoolBar", "Play"), QStringLiteral("playMelody"), this, false);
+    m_examActions.append(QVariant::fromValue(m_playAgainAct));
+  }
+  m_checkQuestAct = new Taction(QApplication::translate("TtoolBar", "Check", "like a check answer"), QStringLiteral("check"), this, false);
+  m_examActions.append(QVariant::fromValue(m_checkQuestAct));
+  connect(m_checkQuestAct, &Taction::triggered, this, &TexamExecutor::checkAnswerSlot);
+  if (m_exercise) {
+    m_correctAct = new Taction(QApplication::translate("TtoolBar", "Correct", "like a correct answer with mistake"), QStringLiteral("correct"), this, false);
+    m_examActions.append(QVariant::fromValue(m_correctAct));
+  }
+  emit examActionsChanged();
+
 // #if defined (Q_OS_ANDROID)
 //   if (!m_level.answerIsSound()) {
 //     SOUND->pitchView()->pauseAction()->setVisible(false);
 //     MAINVIEW->flyActions()->removeOne(SOUND->pitchView()->pauseAction());
 //   }
 // #endif
-//   connect(TOOLBAR->nextQuestAct, SIGNAL(triggered()), this, SLOT(askQuestion()));
 //   connect(TOOLBAR->prevQuestAct, SIGNAL(triggered()), this, SLOT(repeatQuestion()));
 //   connect(TOOLBAR->checkAct, SIGNAL(triggered()), this, SLOT(checkAnswer()));
 //   if (m_level.questionAs.isSound()) {
@@ -1188,9 +1217,9 @@ void TexamExecutor::clearWidgets() {
 //     TOOLBAR->createAttemptAction();
 //     connect(TOOLBAR->attemptAct, SIGNAL(triggered()), this, SLOT(newAttempt()));
 //   }
-// }
-// 
-// 
+}
+
+
 // void TexamExecutor::exerciseToExam() {
 //   m_isAnswered = true;
 // #if !defined (Q_OS_ANDROID)
