@@ -24,6 +24,8 @@ SOURCES += main.cpp \
            main/trandmelody.cpp\
            main/texamview.cpp\
            main/tpenalty.cpp\
+           main/thelpdialogbase.cpp\
+           main/texamhelp.cpp\
 
 HEADERS  += main/tnameitem.h\
           \
@@ -43,6 +45,8 @@ HEADERS  += main/tnameitem.h\
            main/trandmelody.h\
            main/texamview.h\
            main/tpenalty.h\
+           main/thelpdialogbase.h\
+           main/texamhelp.h\
 
 
 

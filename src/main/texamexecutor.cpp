@@ -25,12 +25,13 @@
 #include "texammelody.h"
 #include "trandmelody.h"
 #include <qtr.h>
+#include <tcolor.h>
 #include <tsound.h>
 #include <tglobals.h>
 #include <exam/texam.h>
 // #include <exam/textrans.h>
 #include <exam/tattempt.h>
-// #include <help/texamhelp.h>
+#include "texamhelp.h"
 // #include <help/texpertanswerhelp.h>
 #include <taudioparams.h>
 #include <texamparams.h>
@@ -198,8 +199,8 @@ bool TexamExecutor::init(TexamExecutor::Eactions whatToDo, const QVariant& arg) 
       return false;
   }
 //   prepareToExam();
-//   if (GLOB->E->showHelpOnStart)
-//       showExamHelp();
+  if (GLOB->E->showHelpOnStart)
+      showExamHelp();
   if (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isFret()) {
     if (!m_supp->isGuitarOnlyPossible()) {
         qDebug("Something stupid!\n Level has question and answer as position on guitar but any question is available.");
@@ -1169,6 +1170,7 @@ void TexamExecutor::clearWidgets() {
 void TexamExecutor::createActions() {
   m_helpAct = new Taction(QApplication::translate("TtoolBar", "Help"), QStringLiteral("help"), this);
   m_examActions.append(QVariant::fromValue(m_helpAct));
+  connect(m_helpAct, &Taction::triggered, this, &TexamExecutor::showExamHelp);
   m_stopExamAct = new Taction(QApplication::translate("TtoolBar", "Stop"), QStringLiteral("stopExam"), this);
   m_examActions.append(QVariant::fromValue(m_stopExamAct));
   m_repeatQuestAct = new Taction(QApplication::translate("TtoolBar", "Repeat", "like a repeat question"), QStringLiteral("prevQuest"), this, false);
@@ -1540,24 +1542,24 @@ void TexamExecutor::suggestDialogClosed(bool startExam) {
 //   if (isExercise() && INSTRUMENT->isVisible() && m_exam->curQ()->melody()) // in exercises, display guitar position of clicked note for a hint
 //       INSTRUMENT->setFinger(m_exam->curQ()->melody()->note(nr)->g());
 // }
-// 
-// 
-// void TexamExecutor::showExamHelp() {
-//   m_snifferLocked = true;
+
+
+void TexamExecutor::showExamHelp() {
+  m_snifferLocked = true;
 // #if !defined (Q_OS_ANDROID)
 //   qApp->removeEventFilter(m_supp);
 // #endif
-//   TexamHelp *hlp = new TexamHelp(Tcolor::bgTag(GLOB->EquestionColor), Tcolor::bgTag(GLOB->EanswerColor),
-//                                  &GLOB->E->showHelpOnStart, mW);
-//   hlp->exec();
-//   delete hlp;
+  TexamHelp *hlp = new TexamHelp(Tcolor::bgTag(GLOB->EquestionColor), Tcolor::bgTag(GLOB->EanswerColor),
+                                 &GLOB->E->showHelpOnStart, nullptr);
+  hlp->exec();
+  delete hlp;
 // #if !defined (Q_OS_ANDROID)
 //   qApp->installEventFilter(m_supp);
 // #endif
-//   m_snifferLocked = false;
-// }
-// 
-// 
+  m_snifferLocked = false;
+}
+
+
 // void TexamExecutor::sniffAfterPlaying() {
 //   disconnect(SOUND, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
 //   if (m_soundTimer->isActive())

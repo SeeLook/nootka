@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,17 +18,33 @@
 
 #include "thelpdialogbase.h"
 #include <tpath.h>
-#include <graphics/tnotepixmap.h>
-#include <widgets/tsettingsdialogbase.h>
+#include <tnootkaqml.h>
 #include <QtWidgets/QtWidgets>
+
+
+/**
+ * Workaround to avoid warning messages during image creation
+ * https://bugreports.qt.io/browse/QTBUG-43270
+ */
+QVariant TtextBrowser::loadResource(int type, const QUrl& name) {
+  if (type == QTextDocument::ImageResource
+      && name.scheme().compare(QLatin1String("data"), Qt::CaseInsensitive) == 0)
+  {
+    static QRegularExpression re("^image/[^;]+;base64,.+={0,2}$");
+    QRegularExpressionMatch match = re.match(name.path());
+    if (match.hasMatch())
+      return QVariant();
+  }
+  return QTextBrowser::loadResource(type, name);
+}
 
 
 /*static*/
 QString ThelpDialogBase::m_path = QString();
 
 QString ThelpDialogBase::onlineDocP(const QString& hash) {
-  return QString("<p align=\"right\"><a href=\"http://nootka.sourceforge.net/index.php?L=%1&C=doc#%2\">").arg(QString(qgetenv("LANG")).left(2).toLower()).arg(hash) + 
-      TsettingsDialogBase::tr("Open online documentation") + "</a> </p>";
+  return QString("<p align=\"right\"><a href=\"http://nootka.sourceforge.net/index.php?L=%1&C=doc#%2\">").arg(QString(qgetenv("LANG")).left(2).toLower()).arg(hash)
+        + tr("Open online documentation") + QLatin1String("</a> </p>");
 }
 
 
@@ -41,20 +57,20 @@ ThelpDialogBase::ThelpDialogBase(QWidget* parent, Qt::WindowFlags f) :
   m_checkBox(0),
   m_stateOfChB(0)
 {
-	m_path = Tpath::main;
+  m_path = Tpath::main;
 #if defined (Q_OS_ANDROID)
   showMaximized();
 #else
-	setWindowIcon(QIcon(Tpath::img("help")));
+  setWindowIcon(QIcon(Tpath::img("help")));
   setWindowTitle(tr("Nootka help"));
 #endif
-  m_helpText = new QTextBrowser(this);
-		m_helpText->setReadOnly(true);
-		m_helpText->setAlignment(Qt::AlignCenter);
+  m_helpText = new TtextBrowser(this);
+    m_helpText->setReadOnly(true);
+    m_helpText->setAlignment(Qt::AlignCenter);
     m_helpText->setOpenExternalLinks(true);
     m_helpText->setTextInteractionFlags(Qt::LinksAccessibleByKeyboard | Qt::LinksAccessibleByMouse);
-	m_buttonBox = new QDialogButtonBox(Qt::Horizontal, this);
-		m_buttonBox->setCenterButtons(true);
+  m_buttonBox = new QDialogButtonBox(Qt::Horizontal, this);
+    m_buttonBox->setCenterButtons(true);
 
   QScroller::grabGesture(helpText()->viewport(), QScroller::LeftMouseButtonGesture);
 #if defined (Q_OS_ANDROID)
@@ -64,20 +80,20 @@ ThelpDialogBase::ThelpDialogBase(QWidget* parent, Qt::WindowFlags f) :
 
   m_lay = new QVBoxLayout;
   m_lay->addWidget(m_helpText);
-	m_lay->addWidget(m_buttonBox);
+  m_lay->addWidget(m_buttonBox);
 
   setLayout(m_lay);
-	showButtons(true, false); // OK button by default
+  showButtons(true, false); // OK button by default
 
-	connect(buttonBox(), SIGNAL(accepted()), this, SLOT(accept()));
-	connect(buttonBox(), SIGNAL(rejected()), this, SLOT(reject()));
+  connect(buttonBox(), SIGNAL(accepted()), this, SLOT(accept()));
+  connect(buttonBox(), SIGNAL(rejected()), this, SLOT(reject()));
 }
 
 
 ThelpDialogBase::~ThelpDialogBase()
 {
-	if (m_stateOfChB && m_checkBox)
-		*m_stateOfChB = m_checkBox->isChecked();
+  if (m_stateOfChB && m_checkBox)
+    *m_stateOfChB = m_checkBox->isChecked();
 }
 
 
@@ -102,28 +118,29 @@ void ThelpDialogBase::showCheckBox(const QString& label, bool* state) {
 
 
 QString ThelpDialogBase::pix(const char* imageName, int height) {
-  return pixToHtml(Tpath::img(imageName), height);
+  return NOO->pixToHtml(QString(imageName), height);
+//   return pixToHtml(Tpath::img(imageName), height);
 }
 
 
 void ThelpDialogBase::showButtons(bool withOk, bool withCancel) {
   if (withOk) {
-		if (!m_OkButton) {
-			m_OkButton = buttonBox()->addButton(QDialogButtonBox::Ok);
-			m_OkButton->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogOkButton)));
-		}
+    if (!m_OkButton) {
+      m_OkButton = buttonBox()->addButton(QDialogButtonBox::Ok);
+      m_OkButton->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogOkButton)));
+    }
   } else {
-			buttonBox()->removeButton(m_OkButton);
-			delete m_OkButton;
+      buttonBox()->removeButton(m_OkButton);
+      delete m_OkButton;
   }
   if (withCancel) {
-		if (!m_cancelButton) {
-			m_cancelButton = buttonBox()->addButton(QDialogButtonBox::Cancel);
-			m_cancelButton->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCancelButton)));
-		}
+    if (!m_cancelButton) {
+      m_cancelButton = buttonBox()->addButton(QDialogButtonBox::Cancel);
+      m_cancelButton->setIcon(QIcon(style()->standardIcon(QStyle::SP_DialogCancelButton)));
+    }
   } else {
-			buttonBox()->removeButton(m_cancelButton);
-			delete m_cancelButton;
+      buttonBox()->removeButton(m_cancelButton);
+      delete m_cancelButton;
   }
 }
 

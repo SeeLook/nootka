@@ -114,7 +114,7 @@ protected:
 //   void correctAnswer();
 //   void newAttempt();
 // 
-//   void showExamHelp();
+  void showExamHelp();
   void expertAnswersSlot();
   void startSniffing();     /**< Invokes Tsound::go() */
 //   void sniffAfterPlaying(); /**< Starts sniffing when asked note is finished */

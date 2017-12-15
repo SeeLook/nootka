@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,39 +20,52 @@
 #define TEXAMHELP_H
 
 
-#include "nootkamiscglobal.h"
 #include "thelpdialogbase.h"
 
 class QCheckBox;
 class QLabel;
 
-/** 
+/**
  * It shows simple exam help. The parameters are QStrings with colors 
  * in HTML format: 
  * background-color: rgba() 
  * @param path is global path to images
  */
-class NOOTKAMISC_EXPORT TexamHelp : public ThelpDialogBase
+class TexamHelp : public ThelpDialogBase
 {
+
   Q_OBJECT
-  
+
 public:
 
-  TexamHelp(const QString& questColorTxt, const QString& answColorTxt, bool* showHelp, QWidget* parent = 0);
-  
-			/** check answers without requiring confirmation */
+  TexamHelp(const QString& questColorTxt, const QString& answColorTxt, bool* showHelp, QWidget* parent = nullptr);
+
+      /**
+       * check answers without requiring confirmation
+       */
   static QString expertsAnswerTxt() { return tr("check answers without requiring confirmation"); }
-  
-			/** correct mistakes (exercises only) */
+
+      /**
+       * correct mistakes (exercises only)
+       */
   static QString correctMistakesTxt() { return tr("correct mistakes (exercises only)"); }
-  
-			/** ask next question automatically */
+
+      /**
+       * ask next question automatically
+       */
   static QString autoNextQuestTxt() { return tr("ask next question automatically"); }
-	
-  static QString orRightButtTxt() { return tr("or right mouse button"); } /**< or right mouse button */
+
+      /**
+       * or right mouse button
+       */
+  static QString orRightButtTxt() { return tr("or right mouse button"); }
+
+      /**
+       * click /button-icon/ button
+       */
   static QString clickSomeButtonTxt(const QString& imgHtmlTag) {
     return tr("click %1 button").arg(imgHtmlTag);
-  } /**< click /button-icon/ button */
+  }
   static QString tapIconTxt(const QString& imgHtmlTag) {
     return tr("tap %1", "tap <icon image follows>").arg(imgHtmlTag); /** tap (icon image) */
   }
@@ -62,20 +75,31 @@ public:
   static QString pressEnterKey() { return tr("press <b>Enter</b> key"); } /**< press Enter key */
   static QString orPressEnterKey() { return tr("or press <b>Enter</b> key"); } /**< or  press Enter key */
   static QString orPressBackSpace() { return tr("or <b>Backspace</b> key"); } /**< or Backspace key */
+
+      /**
+       * Click %1 button to stop.
+       */
   static QString toStopExamTxt(const QString& imgHtmlTag) {
     return tr("Click %1 button to stop.").arg(imgHtmlTag);
-  } /** Click %1 button to stop. */
+  }
 
+      /**
+       * Click %1 button to stop.
+       */
   static QString toStopExamImageTxt(const QString& imgHtmlTag) {
     return tr("Click %1 to stop.", "click <icon-image> to stop (exam or exercise)").arg(imgHtmlTag);
-  } /** Click %1 button to stop. */
+  }
 
-			/** Describing exercise mode:
-			 * Only recent exercise is stored for further continuation.
-			 * When your exercising will go well Nootka will suggest you to start an exam. */
+      /**
+       * Describing exercise mode:
+       * Only recent exercise is stored for further continuation.
+       * When your exercising will go well Nootka will suggest you to start an exam.
+       */
   static QString exerciseFeaturesText();
-  
-			/** Describing exam mode */
+
+      /**
+       * Describing exam mode
+       */
   static QString examFeaturesText();
 
 };
