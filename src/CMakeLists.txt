@@ -80,6 +80,8 @@ set(NOOTKA_SRC
   main/trandmelody.cpp
   main/texamview.cpp
   main/tpenalty.cpp
+  main/thelpdialogbase.cpp
+  main/texamhelp.cpp
 
   dialogs/tdialogloaderobject.cpp
   dialogs/tlevelcreatoritem.cpp

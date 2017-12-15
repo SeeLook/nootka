@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "texamhelp.h"
+#include <tglobals.h>
 
 
 // Width of exam screenshot
@@ -31,12 +32,12 @@ QString br = QStringLiteral("<br>");
 QString br_ = QStringLiteral("<br>- ");
 
 QString TexamHelp::exerciseFeaturesText() {
-	return tr("When your exercising will go well Nootka will suggest you to start an exam.");
+ return tr("When your exercising will go well Nootka will suggest you to start an exam.");
 }
 
 
 QString TexamHelp::examFeaturesText() {
-	return tr("Exams can be saved to files and continued later. Moreover, exam files can be opened to analyze.") + br +
+ return tr("Exams can be saved to files and continued later. Moreover, exam files can be opened to analyze.") + br +
     tr("Exam will be completed when you give answers to all questions.<br>The number of questions depends on the level of the exam.") + br +
     tr("If you make a mistake, the question will asked two more times and the total number of questions will be increased. These are penalty questions.") + br + tr("When answer is 'not bad', you get one penalty more.");
 }
@@ -46,27 +47,26 @@ TexamHelp::TexamHelp(const QString& questColorTxt, const QString& answColorTxt, 
     ThelpDialogBase(parent, 0)
 {
 #if !defined (Q_OS_ANDROID)
-  resize((parent->width() / 3) * 2, (parent->height() / 3) * 2);
+  resize((GLOB->geometry().width() / 10) * 8, (GLOB->geometry().height() / 10) * 8);
 #endif
   const int iconsSize = fontMetrics().boundingRect("A").height() * 2;
   const int bigIconSize = iconsSize * 2;
   helpText()->setHtml(
     QString("<center><h2>%1").arg(pix("help", bigIconSize)) + br +
-    tr("How does an exercise or an exam work?") + QLatin1String("</h2>") + br +
-		pix("practice", bigIconSize) + "&nbsp;&nbsp;&nbsp;&nbsp;" + pix("exam", bigIconSize) + br +
-		tr(" Briefly: Nootka give you a question and you give an answer...") + br + br + br + br +
-    toGetQuestTxt() + QLatin1String(":") + br_
+    tr("How does an exercise or an exam work?") + QLatin1String("</h2>") + br
+    + pix("practice", bigIconSize) + QLatin1String("&nbsp;&nbsp;&nbsp;&nbsp;") + pix("exam", bigIconSize) + br
+    + tr(" Briefly: Nootka give you a question and you give an answer...") + br + br + br + br
+    + toGetQuestTxt() + QLatin1String(":") + br_
 #if defined (Q_OS_ANDROID)
     + tapIconTxt(pix("nextQuest", iconsSize))
 #else
-    + clickSomeButtonTxt(pix("nextQuest", iconsSize)) + br_ +
-    pressSpaceKey() + br_ + orRightButtTxt()
+    + clickSomeButtonTxt(pix("nextQuest", iconsSize)) + br_ + pressSpaceKey() + br_ + orRightButtTxt()
 #endif
 
     + br + br + br + QString("<span style=\"%1\">").arg(questColorTxt) +
     tr("Questions are marked with this color and \"?\" mark.") + QLatin1String("</span>") +br +
     tr("To give an answer, select it on <span style=\"%1\">Nootka's element with that color.</span><br>")
-      .arg(answColorTxt) + br + br + QString("%1").arg(pix("scr", parent->width() * SCR_FACTOR)) + br + br +
+      .arg(answColorTxt) + br + br + QString("%1").arg(pix("scr", width() * SCR_FACTOR)) + br + br +
     tr("To check the answer confirm it:") + br_
 #if defined (Q_OS_ANDROID)
     + tapIconTxt(pix("check", iconsSize))
@@ -84,7 +84,7 @@ TexamHelp::TexamHelp(const QString& questColorTxt, const QString& answColorTxt, 
     + clickSomeButtonTxt(pix("correct", iconsSize)) + br_ + orPressEnterKey()
 #endif
     + br + br + tr("You can every time click button %1 to pause or stop exercising and to see your results.").arg(pix("stopExam", iconsSize)) +
-    br + exerciseFeaturesText() +	QLatin1String("</td></tr></table>") + br + br +
+    br + exerciseFeaturesText() + QLatin1String("</td></tr></table>") + br + br +
 
     QLatin1String("<hr><table><tr><td  valign=\"middle\" align=\"center\">") + pix("exam", bigIconSize) + br + tr("Exams")
     + QLatin1String("</td><td align=\"center\">") +
@@ -100,15 +100,15 @@ TexamHelp::TexamHelp(const QString& questColorTxt, const QString& answColorTxt, 
     QLatin1String("<hr><table><tr><td valign=\"middle\" align=\"center\">") + pix("exam-settings", bigIconSize) + br + tr("Settings") +
     QLatin1String("</td><td align=\"center\">") + br + br +
     tr("Just click this settings button to adjust an exercise or an exam to your current needs.")
-    +	QLatin1String("</td></tr></table>") + br + br
+    + QLatin1String("</td></tr></table>") + br + br
 
     + QLatin1String("<hr><br><br><span style=\"font-size: xx-large;\"><b>") +
     tr("GOOD LUCK!") + "</b></span>" +
     onlineDocP("exercises") + br
     + QLatin1String("</center>"));
 
-  helpText()->resize((parent->width() / 3) * 2, (parent->height() / 5) * 3);
-	showCheckBox(showHelp);
+  helpText()->resize((width() / 3) * 2, (height() / 5) * 3);
+  showCheckBox(showHelp);
 }
 
 
