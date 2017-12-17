@@ -10,6 +10,7 @@ Item {
   property alias color: bg.color
   property alias radius: bg.radius
   property bool rised: true
+  property alias shadowRadius: shadow.radius
 
   Rectangle {
     id: bg
@@ -20,6 +21,7 @@ Item {
   }
 
   DropShadow {
+    id: shadow
     anchors.fill: bg
     horizontalOffset: rised ? Noo.fontSize() / 4 : 0
     verticalOffset: rised ? Noo.fontSize() / 4 : 0
