@@ -82,6 +82,7 @@ set(NOOTKA_SRC
   main/tpenalty.cpp
   main/thelpdialogbase.cpp
   main/texamhelp.cpp
+  main/tcanvas.cpp
 
   dialogs/tdialogloaderobject.cpp
   dialogs/tlevelcreatoritem.cpp

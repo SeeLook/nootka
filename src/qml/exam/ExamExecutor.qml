@@ -20,5 +20,12 @@ Texecutor {
 
   onExamActionsChanged: nootkaWindow.mainMenu.toolBar.examActions = examActions
 
+  Connections {
+    target: tipHandler
+    onShowStartTip: {
+      var s = Qt.createComponent("qrc:/exam/ExamTip.qml")
+      s.createObject(executor, { "text": text, "offX": pos.x, "offY": pos.y, "bg": color } )
+    }
+  }
 }
 
