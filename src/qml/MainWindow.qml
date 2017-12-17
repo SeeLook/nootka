@@ -25,6 +25,7 @@ ApplicationWindow {
   // private
   property var noteName: null
   property var examResults: null
+  property var executor: null
 
   SystemPalette { id: activPal; colorGroup: SystemPalette.Active }
   SystemPalette { id: disdPal; colorGroup: SystemPalette.Disabled }
@@ -89,6 +90,10 @@ ApplicationWindow {
     onSingleNoteModeChanged: checkSingleMode()
     onIsExamChanged: {
       if (GLOB.isExam) {
+          if (!executor) {
+              var e = Qt.createComponent("qrc:/exam/ExamExecutor.qml")
+              executor = e.createObject(nootkaWindow)
+          }
           if (!examResults) {
               var c = Qt.createComponent("qrc:/exam/ExamResults.qml")
               examResults = c.createObject(nootkaWindow.contentItem)
