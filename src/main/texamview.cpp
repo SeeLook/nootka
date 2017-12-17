@@ -24,13 +24,6 @@
 #include <exam/tattempt.h>
 
 
-#define SPACE_GAP (7)
-
-
-static QString borderStyleTxt = QStringLiteral("border: 1px solid palette(shadow); border-radius: 2px;");
-static QString space = QStringLiteral(" ");
-
-
 TexamView* TexamView::m_instance = nullptr;
 
 TexamView::TexamView(QQuickItem *parent) :
@@ -60,14 +53,14 @@ int TexamView::halfAnswers() const { return m_exam ? m_exam->halfMistaken() : 0;
 int TexamView::wrongAnswers() const { return m_exam ? m_exam->mistakes() : 0; }
 
 QString TexamView::reactText() const {
-  return m_exam && m_exam->count() ?  QString(" %1 ").arg(Texam::formatReactTime(m_questionTime.elapsed() / 100 + m_exam->curQ()->time)) : QLatin1String(" 0.0 ");
+  return m_exam && m_exam->count() ? QString("%1").arg(Texam::formatReactTime(m_questionTime.elapsed() / 100 + m_exam->curQ()->time)) : QLatin1String(" 0.0 ");
 }
 QString TexamView::effectiveness() const { return m_effectivenessText; }
 QString TexamView::averText() const {
-  return m_exam && m_exam->count() ? space + Texam::formatReactTime(m_exam->averageReactonTime()) + space : QLatin1String(" 0.0 ");
+  return m_exam && m_exam->count() ? Texam::formatReactTime(m_exam->averageReactonTime()) : QLatin1String(" 0.0 ");
 }
 QString TexamView::totalTimeText() const {
-  return m_exam && m_exam->count() ? QString(" %1 ").arg(Texam::formatReactTime(m_questionTime.elapsed() / 100 + m_exam->curQ()->time)) : QStringLiteral(" 0:00:00 ");
+  return m_exam && m_exam->count() ? formatedTotalTime(m_startExamTime * 1000 + m_totalTime.elapsed()) : QStringLiteral(" 0:00:00 ");
 }
 
 

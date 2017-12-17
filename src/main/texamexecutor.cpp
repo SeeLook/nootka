@@ -24,6 +24,7 @@
 #include "tpenalty.h"
 #include "texammelody.h"
 #include "trandmelody.h"
+#include "tcanvas.h"
 #include <qtr.h>
 #include <tcolor.h>
 #include <tsound.h>
@@ -91,6 +92,9 @@ QString getExamFileName(Texam* e) {
 }
 
 
+TexamExecutor* TexamExecutor::m_instance = nullptr;
+
+
 TexamExecutor::TexamExecutor(QQuickItem* parent) :
   QQuickItem(parent),
   m_supp(nullptr),
@@ -103,7 +107,11 @@ TexamExecutor::TexamExecutor(QQuickItem* parent) :
   m_blindCounter(0),
   m_rand(nullptr)
 {
-
+  if (m_instance) {
+    qDebug() << "TexamExecutor instance already exists!";
+    return;
+  }
+  m_instance = this;
 }
 
 
@@ -225,6 +233,7 @@ TexamExecutor::~TexamExecutor() {
   if (m_rand)
     delete m_rand;
   deleteExam();
+  m_instance = nullptr;
   qDebug() << "[TexamExecutor] destroyed";
 }
 
@@ -299,7 +308,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     if (!GLOB->E->autoNextQuest) {
       if (!m_exercise)
         m_stopExamAct->setEnabled(false);
-//       m_canvas->clearCanvas();
+      m_canvas->clearCanvas();
     }
     m_incorrectRepeated = false;
     m_answRequire.octave = m_level.requireOctave;
@@ -1016,7 +1025,6 @@ void TexamExecutor::prepareToExam() {
     return;
   }
   emit titleChanged();
-//   TOOLBAR->actionsToExam();
 
   disableWidgets();
 // connect all events to check an answer or display tip how to check
@@ -1038,8 +1046,6 @@ void TexamExecutor::prepareToExam() {
     connect(m_exercise, &Texercises::messageDisplayed, this, &TexamExecutor::stopSound);
     connect(m_exercise, &Texercises::messageClosed, this, &TexamExecutor::suggestDialogClosed);
   } else
-//     connect(TOOLBAR->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
-//   connect(TOOLBAR->levelCreatorAct, SIGNAL(triggered()), this, SLOT(showExamHelp()));
 
   m_glStore->storeSettings();
   m_glStore->prepareGlobalsToExam(m_level);
@@ -1076,12 +1082,13 @@ void TexamExecutor::prepareToExam() {
   m_soundTimer = new QTimer(this);
   connect(m_soundTimer, &QTimer::timeout, this, &TexamExecutor::startSniffing);
   m_askingTimer = new QTimer(this);
-//   connect(m_askingTimer, SIGNAL(timeout()), this, SLOT(askQuestion()));
+  connect(m_askingTimer, &QTimer::timeout, this, &TexamExecutor::askQuestionSlot);
 
   m_snifferLocked = false;
-//   m_canvas = new Tcanvas(MAINVIEW, m_exam);
-//   connect(m_canvas, &Tcanvas::buttonClicked, this, &TexamExecutor::tipButtonSlot);
-//   m_canvas->startTip();
+  m_canvas = new Tcanvas(m_exam, this);
+  connect(m_canvas, &Tcanvas::destroyTips, this, &TexamExecutor::destroyTips);
+  emit tipCreated();
+  m_canvas->startTip();
   if (m_exercise && !m_exam->melodies()) {
 //     if (m_level.answerIsNote())
 //       connect(SCORE, &TmainScore::correctingFinished, this, &TexamExecutor::correctionFinished);
@@ -1646,11 +1653,11 @@ void TexamExecutor::expertAnswersSlot() {
 //       checkAnswer();
 //   }
 // }
-// 
-// 
-// void TexamExecutor::tipButtonSlot(const QString& name) {
-//   if (name == QLatin1String("nextQuest"))
-//       askQuestion();
+
+
+ void TexamExecutor::tipLink(const QString& link) {
+   if (link == QLatin1String("nextQuest"))
+       askQuestion();
 //   else if (name == QLatin1String("stopExam")) {
 //     if (m_exercise)
 //       stopExerciseSlot();
@@ -1659,17 +1666,17 @@ void TexamExecutor::expertAnswersSlot() {
 //   }
 //   else if (name == QLatin1String("prevQuest"))
 //       repeatQuestion();
-//   else if (name == QLatin1String("checkAnswer"))
-//       checkAnswer();
-//   else if (name == QLatin1String("examHelp"))
-//       showExamHelp();
+   else if (link == QLatin1String("checkAnswer"))
+       checkAnswer();
+   else if (link == QLatin1String("examHelp"))
+       showExamHelp();
 //   else if (name == QLatin1String("correct"))
 //       correctAnswer();
 //   else if (name == QLatin1String("certClosing"))
 //       unlockAnswerCapturing();
 //   else if (name == QLatin1String("newAttempt"))
 //       newAttempt();
-// }
+ }
 
 
 void TexamExecutor::deleteExam() {
@@ -1765,3 +1772,5 @@ void TexamExecutor::setNameItem(TnameItem* ni) {
   }
 }
 
+
+Tcanvas* TexamExecutor::tipHandler() { return m_canvas; }

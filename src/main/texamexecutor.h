@@ -35,13 +35,16 @@ class TequalRand;
 class Tsound;
 class Texercises;
 class TglobalExamStore;
-// class Tcanvas;
+class Tcanvas;
 class QTimer;
 class TexecutorSupply;
 class Texam;
 class TnameItem;
 class Taction;
+class TtipData;
 
+
+#define EXECUTOR TexamExecutor::instance()
 
 /**
  * This class manages exam executing and practicing.
@@ -54,10 +57,13 @@ class TexamExecutor : public QQuickItem
   Q_PROPERTY(QString title READ title NOTIFY titleChanged)
   Q_PROPERTY(TnameItem* nameItem READ nameItem WRITE setNameItem)
   Q_PROPERTY(QVariantList examActions READ examActions NOTIFY examActionsChanged)
+  Q_PROPERTY(Tcanvas* tipHandler READ tipHandler NOTIFY tipCreated)
 
 public:
   explicit TexamExecutor(QQuickItem* parent = nullptr);
   ~TexamExecutor() override;
+
+  static TexamExecutor* instance() { return m_instance; }
 
   QString title() const;
 
@@ -65,6 +71,8 @@ public:
   void setNameItem(TnameItem* ni);
 
   QVariantList examActions() { return m_examActions; }
+
+  Tcanvas* tipHandler();
 
       /**
        * Describes actions committed by user.
@@ -93,6 +101,8 @@ public:
 signals:
   void titleChanged();
   void examActionsChanged();
+  void tipCreated();
+  void destroyTips();
 
 protected:
   void deleteExam();
@@ -119,7 +129,7 @@ protected:
   void startSniffing();     /**< Invokes Tsound::go() */
 //   void sniffAfterPlaying(); /**< Starts sniffing when asked note is finished */
 //   void rightButtonSlot();
-//   void tipButtonSlot(const QString& name);
+  Q_INVOKABLE void tipLink(const QString& link);
 //   void markAnswer(TQAunit* curQ);
 //   void delayerTip(); /**< This is QTimer slot invoking m_canvas->whatNextTip(true) method. */
 //   void exerciseToExam(); /**< Stops exercising and starts exam. */
@@ -167,10 +177,11 @@ private:
 
 private:
 
+  static TexamExecutor         *m_instance;
   TexecutorSupply              *m_supp;
   Texam                        *m_exam;
-  Tlevel                       m_level; /**< main instance of Tlevel, others are pointers or references to it */
-  QList<TQAgroup>              m_questList;
+  Tlevel                        m_level; /**< main instance of Tlevel, others are pointers or references to it */
+  QList<TQAgroup>               m_questList;
 
         /**
          * Invokes startSniffing() and stopPlaying() after delay
@@ -199,19 +210,19 @@ private:
         /** stores note if question and answer are Note Name to restore it if question is repeated
         It is to restore buttons state in NoteName widget witch are unchecked by disableWidget() */
   Tnote                        m_prevNoteIfName;
-//   Tcanvas                   *m_canvas;
+  Tcanvas                     *m_canvas = nullptr;
   Tpenalty                    *m_penalty;
   Texercises                  *m_exercise;
   int                          m_blindCounter; /**< counts occurrences of questions without possible answer */
   TequalRand                  *m_rand;
 
   QPointer<TexamMelody>        m_melody; /**< Helper class with exam/exercises with melodies */
-  TnameItem                  *m_nameItem = nullptr;
-  Taction                    *m_helpAct, *m_stopExamAct, *m_nextQuestAct, *m_repeatQuestAct, *m_checkQuestAct;
-  Taction                    *m_playAgainAct = nullptr;
-  Taction                    *m_correctAct = nullptr;
-  Taction                    *m_newAtemptAct = nullptr;
-  QVariantList                m_examActions;
+  TnameItem                   *m_nameItem = nullptr;
+  Taction                     *m_helpAct, *m_stopExamAct, *m_nextQuestAct, *m_repeatQuestAct, *m_checkQuestAct;
+  Taction                     *m_playAgainAct = nullptr;
+  Taction                     *m_correctAct = nullptr;
+  Taction                     *m_newAtemptAct = nullptr;
+  QVariantList                 m_examActions;
 
 };
 

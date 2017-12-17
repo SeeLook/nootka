@@ -22,6 +22,7 @@
 #include "tlevelselector.h"
 #include "main/texamexecutor.h"
 #include "main/texamview.h"
+#include "main/tcanvas.h"
 #include "qtr.h"
 
 #include <QtWidgets/qdialogbuttonbox.h>
@@ -41,6 +42,8 @@ TdialogLoaderObject::TdialogLoaderObject(QObject* parent) :
 
     qmlRegisterType<TexamExecutor>("Nootka.Exam", 1, 0, "Texecutor");
     qmlRegisterType<TexamView>("Nootka.Exam", 1, 0, "Tresults");
+    qmlRegisterUncreatableType<Tcanvas>("Nootka.Exam", 1, 0, "TipHandler", QStringLiteral("You cannot create an instance of the TipHandler."));
+
     qRegisterMetaType<Tlevel*>("Tlevel*");
     m_firstTime = false;
   }
