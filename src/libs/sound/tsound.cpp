@@ -351,11 +351,12 @@ bool Tsound::isSniferStopped() {
 void Tsound::prepareToExam(Tnote loNote, Tnote hiNote) {
   m_examMode = true;
   if (sniffer) {
-//      m_pitchView->setDisabled(true);
      m_prevLoNote = sniffer->loNote();
      m_prevHiNote = sniffer->hiNote();
      sniffer->setAmbitus(loNote, hiNote);
   }
+  if (player)
+    disconnect(player, &TaudioOUT::nextNoteStarted, this, &Tsound::selectNextNote);
 }
 
 
@@ -363,10 +364,11 @@ void Tsound::restoreAfterExam() {
   m_examMode = false;
   if (sniffer) {
 //     sniffer->setAmbitus(m_prevLoNote, m_prevHiNote); // acceptSettings() has already invoked setDefaultAmbitus()
-//     m_pitchView->setDisabled(false);
     unPauseSniffing();
     startListen();
   }
+  if (player)
+    connect(player, &TaudioOUT::nextNoteStarted, this, &Tsound::selectNextNote);
 }
 
 

@@ -464,6 +464,7 @@ void TnootkaQML::setMainScore(QQuickItem* ms) {
     m_mainScore = ms;
     m_scoreObject = qobject_cast<TscoreObject*>(qvariant_cast<QObject*>(m_mainScore->property("scoreObj")));
     connect(m_scoreObject, &TscoreObject::selectedNoteChanged, this, &TnootkaQML::scoreChangedNote);
+    connect(GLOB, &Tglobals::isExamChanged, this, &TnootkaQML::examStartStop);
     if (m_scoreObject && !m_nodeConnected)
       connectInstrument();
   }
@@ -483,29 +484,44 @@ void TnootkaQML::setInstrument(TcommonInstrument* ci) {
 
 void TnootkaQML::connectInstrument() {
   m_nodeConnected = true;
-  connect(m_instrument, &TcommonInstrument::noteChanged, [=] {
-    Tnote rawNote = m_instrument->note();
-    qDebug() << "instrument send note" << rawNote.toText();
-    m_ignoreScore = true;
-    emit playNote(m_instrument->note()); // not yet transposed - to sound properly
-    rawNote.transpose(-GLOB->transposition());
-    if (m_scoreObject->keySignature() < 0 || (m_scoreObject->keySignature() == 0 && GLOB->GpreferFlats))
-      rawNote = rawNote.showWithFlat();
+  connect(m_instrument, &TcommonInstrument::noteChanged, this, &TnootkaQML::instrumentChangesNoteSlot);
+}
 
-    if (m_scoreObject->singleNote()) {
-        QMetaObject::invokeMethod(m_mainScore, "setNote", Q_ARG(QVariant, QVariant::fromValue(m_scoreObject->note(0))),
-                                  Q_ARG(QVariant, QVariant::fromValue(rawNote)));
-    } else {
-        if (m_scoreObject->selectedItem()) {
-            rawNote.setRhythm(m_scoreObject->selectedItem()->note()->rtm);
-            QMetaObject::invokeMethod(m_mainScore, "setNote", Q_ARG(QVariant, QVariant::fromValue(m_scoreObject->selectedItem())),
-                                                              Q_ARG(QVariant, QVariant::fromValue(rawNote)));
-        } else {
-            rawNote.setRhythm(m_scoreObject->workRhythm());
-            QMetaObject::invokeMethod(m_mainScore, "addNote", Q_ARG(QVariant, QVariant::fromValue(rawNote)));
-        }
-    }
-  });
+
+void TnootkaQML::instrumentChangesNoteSlot() {
+  Tnote rawNote = m_instrument->note();
+  qDebug() << "instrument send note" << rawNote.toText();
+  m_ignoreScore = true;
+  emit playNote(m_instrument->note()); // not yet transposed - to sound properly
+  rawNote.transpose(-GLOB->transposition());
+  if (m_scoreObject->keySignature() < 0 || (m_scoreObject->keySignature() == 0 && GLOB->GpreferFlats))
+    rawNote = rawNote.showWithFlat();
+
+  if (m_scoreObject->singleNote()) {
+      QMetaObject::invokeMethod(m_mainScore, "setNote", Q_ARG(QVariant, QVariant::fromValue(m_scoreObject->note(0))),
+                                Q_ARG(QVariant, QVariant::fromValue(rawNote)));
+  } else {
+      if (m_scoreObject->selectedItem()) {
+          rawNote.setRhythm(m_scoreObject->selectedItem()->note()->rtm);
+          QMetaObject::invokeMethod(m_mainScore, "setNote", Q_ARG(QVariant, QVariant::fromValue(m_scoreObject->selectedItem())),
+                                                            Q_ARG(QVariant, QVariant::fromValue(rawNote)));
+      } else {
+          rawNote.setRhythm(m_scoreObject->workRhythm());
+          QMetaObject::invokeMethod(m_mainScore, "addNote", Q_ARG(QVariant, QVariant::fromValue(rawNote)));
+      }
+  }
+}
+
+
+void TnootkaQML::examStartStop() {
+  if (GLOB->isExam()) {
+      disconnect(m_instrument, &TcommonInstrument::noteChanged, this, &TnootkaQML::instrumentChangesNoteSlot);
+      disconnect(m_scoreObject, &TscoreObject::selectedNoteChanged, this, &TnootkaQML::scoreChangedNote);
+  } else {
+      m_nodeConnected = false;
+      connectInstrument();
+      connect(m_scoreObject, &TscoreObject::selectedNoteChanged, this, &TnootkaQML::scoreChangedNote);
+  }
 }
 
 

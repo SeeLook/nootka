@@ -171,6 +171,8 @@ signals:
 
 protected:
   void connectInstrument();
+  void instrumentChangesNoteSlot();
+  void examStartStop();
 
 protected slots:
   void scoreChangedNote();
