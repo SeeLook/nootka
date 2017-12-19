@@ -55,7 +55,6 @@ class TexamExecutor : public QQuickItem
   Q_OBJECT
 
   Q_PROPERTY(QString title READ title NOTIFY titleChanged)
-  Q_PROPERTY(TnameItem* nameItem READ nameItem WRITE setNameItem)
   Q_PROPERTY(QVariantList examActions READ examActions NOTIFY examActionsChanged)
   Q_PROPERTY(Tcanvas* tipHandler READ tipHandler NOTIFY tipCreated)
 
@@ -66,9 +65,6 @@ public:
   static TexamExecutor* instance() { return m_instance; }
 
   QString title() const;
-
-  TnameItem* nameItem() { return m_nameItem; }
-  void setNameItem(TnameItem* ni);
 
   QVariantList examActions() { return m_examActions; }
 
@@ -119,8 +115,8 @@ protected:
 //   void stopExamSlot();
 //   void stopExerciseSlot();
 //   void repeatQuestion();
-//   void repeatSound();
-//   void playMiddleA();
+  void repeatSound();
+  void playMiddleA();
 //   void correctAnswer();
 //   void newAttempt();
 // 
@@ -146,11 +142,11 @@ protected:
 //       /** It sets m_snifferLocked to false (unlocks) and restores capturing right mouse button (installEventFilter) */
 //   void unlockAnswerCapturing();
 //   void blindQuestion(); /**< Routines for questions with the same answers 'blind' */
-// 
-//   void noteOfMelodyStarted(const TnoteStruct& n); /**< When user plays a melody as an answer and start of a note was detected. */
-//   void noteOfMelodyFinished(const TnoteStruct& n); /**< Played note was finished */
-//   void noteOfMelodySelected(int nr); /**< Note of score to play was clicked */
-// 
+
+  void noteOfMelodyStarted(const TnoteStruct& n); /**< When user plays a melody as an answer and start of a note was detected. */
+  void noteOfMelodyFinished(const TnoteStruct& n); /**< Played note was finished */
+  void noteOfMelodySelected(int nr); /**< Note of score to play was clicked */
+
 //   void prepareToSettings(); /**< Should be called when main window is going to display settings dialog. */
 //   void settingsAccepted(); /**< Should be called when settings (Tglobals) was changed during exam. */
 //   void correctNoteOfMelody(int noteNr);
@@ -173,7 +169,7 @@ private:
 // 
 //   QString saveExamToFile();
 
-//   void connectPlayingFinished(); /**< Checks @p m_soundTimer and connects @p playingFinished() of @p Tsound */
+  void connectPlayingFinished(); /**< Checks @p m_soundTimer and connects @p playingFinished() of @p Tsound */
 
 private:
 
@@ -217,7 +213,6 @@ private:
   TequalRand                  *m_rand;
 
   QPointer<TexamMelody>        m_melody; /**< Helper class with exam/exercises with melodies */
-  TnameItem                   *m_nameItem = nullptr;
   Taction                     *m_helpAct, *m_stopExamAct, *m_nextQuestAct, *m_repeatQuestAct, *m_checkQuestAct;
   Taction                     *m_playAgainAct = nullptr;
   Taction                     *m_correctAct = nullptr;

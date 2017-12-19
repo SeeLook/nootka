@@ -81,7 +81,7 @@ Tcanvas::Tcanvas(Texam* exam, QObject *parent) :
 //  m_tipPos(e_bottomRight)
   m_iconSize(bigFont() * 1.5)
 {
-//  connect(m_timerToConfirm, SIGNAL(timeout()), this, SLOT(showConfirmTip()));
+ connect(m_timerToConfirm, &QTimer::timeout, this, &Tcanvas::showConfirmTip);
 //  qApp->installEventFilter(this);
   int levelMessageDelay = 1;
   if (TexecutorSupply::paramsChangedMessage())
@@ -307,17 +307,18 @@ void Tcanvas::startTip() {
 //}
 
 
-//void Tcanvas::confirmTip(int time) {
-//#if defined (Q_OS_ANDROID)
-//  showConfirmTip();
-//#else
-//  m_timerToConfirm->start(time + 1); // add 1 to show it immediately when time = 0
-//#endif
-//}
+void Tcanvas::confirmTip(int time) {
+#if defined (Q_OS_ANDROID)
+ showConfirmTip();
+#else
+ m_timerToConfirm->start(time + 1); // add 1 to show it immediately when time = 0
+#endif
+}
 
 
-//void Tcanvas::showConfirmTip() {
-//  m_timerToConfirm->stop();
+void Tcanvas::showConfirmTip() {
+ m_timerToConfirm->stop();
+
 //  if (!m_confirmTip) {
 //#if defined (Q_OS_ANDROID)
 //    m_confirmTip = new ThackedTouchTip(getTipText("check", "Check"), Tcore::gl()->EanswerColor);
@@ -344,7 +345,7 @@ void Tcanvas::startTip() {
 //#endif
 //    setConfirmPos();
 //  }
-//}
+}
 
 
 //void Tcanvas::playMelodyAgainMessage() {

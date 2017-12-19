@@ -15,9 +15,7 @@ Texecutor {
 
   anchors.fill: parent
 
-  nameItem: nootkaWindow.noteName
   onTitleChanged: nootkaWindow.title = title
-
   onExamActionsChanged: nootkaWindow.mainMenu.toolBar.examActions = examActions
 
   Connections {
