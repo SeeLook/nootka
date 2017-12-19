@@ -27,15 +27,27 @@ static const char* const shortOctaveNames[8] = { QT_TR_NOOP("Sub"), 	QT_TR_NOOP(
   QT_TR_NOOP("1-line"), QT_TR_NOOP("2-line"), QT_TR_NOOP("3-line"), QT_TR_NOOP("4-line") };
 
 
+TnameItem* TnameItem::m_instance = nullptr;
+
+
 TnameItem::TnameItem(QQuickItem* parent) :
   QQuickItem(parent),
   m_nameStyle(Tnote::e_english_Bb)
 {
+  if (m_instance) {
+    qDebug() << "TnameItem instance already exists!";
+    return;
+  }
+
+  m_instance = this;
   m_note.octave = -4;
 }
 
 
-TnameItem::~TnameItem() {}
+TnameItem::~TnameItem()
+{
+  m_instance = nullptr;
+}
 
 
 void TnameItem::setNote(const Tnote& n) {

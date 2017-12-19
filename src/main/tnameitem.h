@@ -24,6 +24,11 @@
 #include <QtQuick/qquickitem.h>
 
 
+#define NOTENAME TnameItem::instance()
+
+/**
+ * C++ logic of NoteName.qml control
+ */
 class TnameItem : public QQuickItem
 {
 
@@ -62,6 +67,8 @@ public:
   Q_INVOKABLE QString octavesLink() const;
   Q_INVOKABLE QString noteButtonText(int noteNr, int nStyle = -1);
 
+  static TnameItem* instance() { return m_instance; }
+
 signals:
   void noteChanged();
   void stepChanged();
@@ -73,6 +80,8 @@ signals:
 private:
   Tnote                   m_note;
   Tnote::EnameStyle       m_nameStyle;
+
+  static TnameItem       *m_instance;
 };
 
 #endif // TNAMEOBJECT_H

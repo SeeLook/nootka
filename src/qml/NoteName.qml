@@ -16,8 +16,16 @@ TnameItem {
   property var score: null
   width: score.width; height: score.height
   x: score.width + 1; y: score.y; z: 5
-  note: score.note
-  onNoteChanged: score.setNote(score.scoreObj.note(0), noteName.note)
+  onNoteChanged: {
+    if (!GLOB.isExam)
+      score.setNote(score.scoreObj.note(0), noteName.note)
+  }
+
+  Connections {
+    target: score
+    enabled: !GLOB.isExam
+    onNoteChanged: noteName.note = score.note
+  }
 
   // private
   property real buttHeight: height / 12

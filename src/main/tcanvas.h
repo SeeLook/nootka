@@ -102,7 +102,7 @@ public:
 //      /** Text with question context */
 //  void questionTip();
 //  void tryAgainTip(int time); /**< "Try again" text" */
-//  void confirmTip(int time = 0); /**< tip about confirm an answer appears after given time */
+ void confirmTip(int time = 0); /**< tip about confirm an answer appears after given time */
 //  void melodyCorrectMessage(); /**< Status message about how to correct a melody notes. */
 
 //      /** 'to low' or 'to high' text above pitch view @p pitchDiff is float part of pitch */
@@ -137,7 +137,7 @@ public:
 //  void clearTryAgainTip();
 //  void linkActivatedSlot(const QString& link);
 //  void clearConfirmTip();
-//  void showConfirmTip();
+ void showConfirmTip();
 //  void clearCertificate();
 //  void clearCorrection();
 //  void clearWhatNextTip();
