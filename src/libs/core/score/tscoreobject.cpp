@@ -348,7 +348,7 @@ void TscoreObject::setNote(TnoteObject* no, const Tnote& n) {
     }
     if (no == m_selectedItem)
       emit selectedNoteChanged();
-    if (m_singleNote) {
+    if (m_singleNote && m_enharmNotesEnabled && n.isValid()) {
       TnotesList enharmList = newNote.getTheSameNotes(m_enableDoubleAccids);
       TnotesList::iterator it = enharmList.begin();
       ++it;
@@ -535,22 +535,23 @@ void TscoreObject::setReadOnly(bool ro) {
  */
 void TscoreObject::setSingleNote(bool singleN) {
   if (singleN != m_singleNote) {
-    clearScore();
+    clearScore(); // In single note mode this call is ignored
     m_singleNote = singleN;
     if (singleN) {
-      setShowNoteNames(false);
-      addNote(Tnote());
-      addNote(Tnote());
-      addNote(Tnote());
-      noteSegment(0)->item()->shiftHead(1.5);
-      noteSegment(1)->item()->shiftHead(1.5);
-      noteSegment(2)->item()->shiftHead(1.5);
-      noteSegment(1)->item()->setColor(GLOB->getEnharmNoteColor());
-      noteSegment(2)->item()->setColor(GLOB->getEnharmNoteColor());
-      noteSegment(1)->item()->setEnabled(false);
-      noteSegment(2)->item()->setEnabled(false);
-      m_selectedItem = noteSegment(0)->item();
-    }
+        setShowNoteNames(false);
+        addNote(Tnote());
+        addNote(Tnote());
+        addNote(Tnote());
+        noteSegment(0)->item()->shiftHead(1.5);
+        noteSegment(1)->item()->shiftHead(1.5);
+        noteSegment(2)->item()->shiftHead(1.5);
+        noteSegment(1)->item()->setColor(GLOB->getEnharmNoteColor());
+        noteSegment(2)->item()->setColor(GLOB->getEnharmNoteColor());
+        noteSegment(1)->item()->setEnabled(false);
+        noteSegment(2)->item()->setEnabled(false);
+        m_selectedItem = noteSegment(0)->item();
+    } else
+        clearScore(); // call it again when transitioning from single note mode
     emit singleNoteChanged();
   }
 }
@@ -719,12 +720,18 @@ void TscoreObject::clearScore() {
   if (notesCount() == 0)
     return;
 
-  clearScorePrivate();
-  m_notes.clear();
-  m_activeBarNr = -1;
-  m_activeNote = nullptr;
-  adjustScoreWidth();
-  emitLastNote();
+  if (m_singleNote) {
+      setNote(note(0), Tnote());
+      setNote(note(1), Tnote());
+      setNote(note(2), Tnote());
+  } else {
+      clearScorePrivate();
+      m_notes.clear();
+      m_activeBarNr = -1;
+      m_activeNote = nullptr;
+      adjustScoreWidth();
+      emitLastNote();
+  }
 }
 
 

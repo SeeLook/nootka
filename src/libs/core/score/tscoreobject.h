@@ -75,6 +75,7 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(int nameStyle READ nameStyle WRITE setNameStyle)
   Q_PROPERTY(bool readOnly READ readOnly WRITE setReadOnly)
   Q_PROPERTY(bool singleNote READ singleNote WRITE setSingleNote NOTIFY singleNoteChanged)
+  Q_PROPERTY(bool enharmNotesEnabled READ enharmNotesEnabled WRITE setEnharmNotesEnabled)
                         /* Helper variables */
   Q_PROPERTY(qreal stavesHeight READ stavesHeight NOTIFY stavesHeightChanged)
   Q_PROPERTY(qreal width READ width WRITE setWidth)
@@ -175,6 +176,9 @@ public:
 
   bool singleNote() const { return m_singleNote; }
   void setSingleNote(bool singleN);
+
+  bool enharmNotesEnabled() const { return m_enharmNotesEnabled; }
+  void setEnharmNotesEnabled(bool enEn) { m_enharmNotesEnabled = enEn; }
 
   /* ------------------ Lists with score content (staves, measures notes) ------------------ */
 
@@ -471,6 +475,7 @@ private:
   bool                              m_showNoteNames;
   bool                              m_readOnly = false;
   bool                              m_singleNote = false;
+  bool                              m_enharmNotesEnabled = false;
                               /* Lists with notes, measures, staves, meter groups */
   QList<TnotePair*>                 m_segments;
   QList<TnotePair*>                 m_spareSegments;
