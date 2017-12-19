@@ -96,6 +96,7 @@ Score {
       scoreObj.singleNote = GLOB.singleNoteMode
       if (GLOB.singleNoteMode) {
           recordMode = false
+          scoreObj.enharmNotesEnabled = Qt.binding(function() { return GLOB.showEnharmNotes })
           scoreObj.note(1).visible = Qt.binding(function() { return GLOB.showEnharmNotes })
           scoreObj.note(2).visible = Qt.binding(function() { return GLOB.showEnharmNotes && GLOB.enableDoubleAccids })
       }
