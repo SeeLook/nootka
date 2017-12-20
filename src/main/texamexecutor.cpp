@@ -434,6 +434,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
   }
 
   if (curQ->questionAsFret()) {
+    INSTRUMENT->askQuestion(curQ->qa.note); // TODO: Questioned position on the guitar is not known that way
 //       INSTRUMENT->askQuestion(curQ->qa.pos);
       if (curQ->answerAsNote())
           m_answRequire.octave = true; // checking accidental determined by level

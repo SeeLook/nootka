@@ -50,6 +50,8 @@ public:
   Tnote note() const { return p_note; }
   virtual void setNote(const Tnote& n) = 0;
 
+  virtual void askQuestion(const Tnote& n) = 0;
+
 signals:
   void activeChanged();
   void noteChanged();
