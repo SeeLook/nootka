@@ -494,23 +494,20 @@ void Tglobals::loadSettings(QSettings* cfg) {
 // Exam settings
   cfg->beginGroup(QLatin1String("exam"));
       if (cfg->contains(QLatin1String("questionColor")))
-          EquestionColor = cfg->value(QStringLiteral("questionColor")).value<QColor>();
-      else {
-          EquestionColor = QColor(255, 0, 0); // red
-          EquestionColor.setAlpha(40);
-      }
+        EquestionColor = cfg->value(QStringLiteral("questionColor")).value<QColor>();
+      else
+        EquestionColor = QColor(255, 0, 0); // red
       if (cfg->contains(QLatin1String("answerColor")))
-          EanswerColor = cfg->value(QStringLiteral("answerColor")).value<QColor>();
-      else {
-          EanswerColor = QColor(0, 255, 0); // green
-          EanswerColor.setAlpha(40);
-      }
+        EanswerColor = cfg->value(QStringLiteral("answerColor")).value<QColor>();
+      else
+        EanswerColor = QColor(0, 255, 0); // green
       if (cfg->contains(QLatin1String("notBadColor")))
-          EnotBadColor = cfg->value(QStringLiteral("notBadColor")).value<QColor>();
-      else {
-          EnotBadColor = QColor(255, 128, 0); // #FF8000
-          EnotBadColor.setAlpha(40);
-      }
+        EnotBadColor = cfg->value(QStringLiteral("notBadColor")).value<QColor>();
+      else
+        EnotBadColor = QColor(255, 128, 0); // #FF8000
+      EquestionColor.setAlpha(255);
+      EanswerColor.setAlpha(255);
+      EnotBadColor.setAlpha(255);
       E->autoNextQuest = cfg->value(QStringLiteral("autoNextQuest"), false).toBool();
       E->repeatIncorrect = cfg->value(QStringLiteral("repeatIncorrect"), true).toBool();
       E->expertsAnswerEnable = cfg->value(QStringLiteral("expertsAnswerEnable"), false).toBool();

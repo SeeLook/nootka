@@ -11,7 +11,7 @@ Rectangle {
   property color bg: activPal.button
 
   height: nootkaWindow.width / 45; width: height * 2
-  color: resultArea.containsMouse ? activPal.highlight : Qt.tint(activPal.mid, Noo.alpha(bg, 70))
+  color: resultArea.containsMouse ? activPal.highlight : Qt.tint(activPal.mid, Noo.alpha(bg, 40))
   z: 15
 
   Text {

@@ -73,6 +73,8 @@ public:
        */
   static void setShadow(const QPalette& pal);
 
+  static QColor alpha(const QColor& c, int a) { return QColor(c.red(), c.green(), c.blue(), a); }
+
 };
 
 

@@ -375,7 +375,7 @@ QString TnootkaQML::pix(const QString& imageFileName) {
 
 
 QColor TnootkaQML::alpha(const QColor& c, int a) {
-  return QColor(c.red(), c.green(), c.blue(), a);
+  return Tcolor::alpha(c, a);
 }
 
 
