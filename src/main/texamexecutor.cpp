@@ -418,7 +418,6 @@ void TexamExecutor::askQuestion(bool isAttempt) {
             if (m_level.requireStyle) { // switch previous used style
               curQ->setStyle(m_supp->randomNameStyle(m_prevQuestStyle), GLOB->S->nameStyleInNoteName);
               m_prevQuestStyle = curQ->styleOfQuestion();
-//                 m_prevQuestStyle = m_supp->randomNameStyle(curQ->styleOfQuestion());
             } else {
                 curQ->setStyle(GLOB->S->nameStyleInNoteName, curQ->styleOfAnswer());
                 m_prevQuestStyle = GLOB->S->nameStyleInNoteName;
@@ -426,10 +425,10 @@ void TexamExecutor::askQuestion(bool isAttempt) {
         }
       }
       // Show question on TnoteName widget
-//       if ((curQ->answerAsFret() || curQ->answerAsSound()) && m_level.showStrNr)
-//           NOTENAME->askQuestion(curQ->qa.note, curQ->styleOfQuestion(), curQ->qa.pos.str());
-//       else
-//           NOTENAME->askQuestion(curQ->qa.note, curQ->styleOfQuestion());
+      if ((curQ->answerAsFret() || curQ->answerAsSound()) && m_level.showStrNr)
+          NOTENAME->askQuestion(curQ->qa.note, curQ->styleOfQuestion(), curQ->qa.pos.str());
+      else
+          NOTENAME->askQuestion(curQ->qa.note, curQ->styleOfQuestion());
       if (curQ->answerAsSound())
           m_answRequire.accid = false; // reset checking accidentals determined by level
   }
@@ -494,32 +493,32 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 //     if (m_level.useKeySign && !m_level.manualKey) // case for either for single mode and melodies
 //       SCORE->lockKeySignature(true); // disables key signature enabled above - user cannot change it in this case (fixed key)
 //   }
-// 
-//   if (curQ->answerAsName()) {
-//           /** During an exam Note name style is changed in two cases:
-//           * 1. If level.requireStyle = true every question or answer with Note Name
-//           *       switch it (letters/solfege)
-//           * 2. If Note Name is question and answer and are the same - this is only way that it has sense    
-//           */
-//       Tnote answNote = Tnote(0, 0, 0);
-//       if (curQ->questionAsName())
-//           answNote = curQ->qa_2.note;
-//       else {
-//         answNote = curQ->qa.note;
-//         if (m_level.requireStyle)
-//             m_prevAnswStyle = m_supp->randomNameStyle(m_prevAnswStyle);
-//         curQ->setStyle(curQ->styleOfQuestion(), m_prevAnswStyle);
-//       }
-//       NOTENAME->prepAnswer(curQ->styleOfAnswer());
-//       if (curQ->questionAsFret() || curQ->questionAsSound()) {
-//           if (m_level.forceAccids) {
-//               NOTENAME->forceAccidental(answNote.alter);
-//           }
-//       } else if (curQ->questionAsName())
-//                 NOTENAME->forceAccidental(answNote.alter);
-//       NOTENAME->setStyle(curQ->styleOfAnswer());
-//   }
-// 
+
+  if (curQ->answerAsName()) {
+          /** During an exam Note name style is changed in two cases:
+           * 1. If level.requireStyle = true every question or answer with Note Name
+           *       switch it (letters/solfege)
+           * 2. If Note Name is question and answer and are the same - this is only way that it makes sense
+           */
+      Tnote answNote = Tnote(0, 0, 0);
+      if (curQ->questionAsName())
+          answNote = curQ->qa_2.note;
+      else {
+        answNote = curQ->qa.note;
+        if (m_level.requireStyle)
+            m_prevAnswStyle = m_supp->randomNameStyle(m_prevAnswStyle);
+        curQ->setStyle(curQ->styleOfQuestion(), m_prevAnswStyle);
+      }
+      NOTENAME->prepAnswer(curQ->styleOfAnswer());
+      if (curQ->questionAsFret() || curQ->questionAsSound()) {
+          if (m_level.forceAccids) {
+              NOTENAME->forceAccidental(answNote.alter);
+          }
+      } else if (curQ->questionAsName())
+                NOTENAME->forceAccidental(answNote.alter);
+      NOTENAME->setNameStyle(curQ->styleOfAnswer());
+  }
+
 //   if (curQ->answerAsFret()) {
 // //         INSTRUMENT->setGuitarDisabled(false);
 // //         INSTRUMENT->prepareAnswer();

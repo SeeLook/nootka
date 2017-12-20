@@ -40,11 +40,15 @@ class TnameItem : public QQuickItem
   Q_PROPERTY(int octave READ octave WRITE setOctave NOTIFY octaveChanged)
   Q_PROPERTY(QString nameText READ nameText NOTIFY nameTextChanged)
   Q_PROPERTY(int nameStyle READ nameStyle WRITE setNameStyle NOTIFY nameStyleChanged)
+  Q_PROPERTY(QString appendix READ appendix NOTIFY appendixChanged)
+  Q_PROPERTY(QColor bgColor READ bgColor NOTIFY bgColorChanged)
 
 
 public:
   TnameItem (QQuickItem* parent = nullptr);
   ~TnameItem() override;
+
+  static TnameItem* instance() { return m_instance; }
 
   Tnote note() const { return m_note; }
   void setNote(const Tnote& n);
@@ -59,15 +63,30 @@ public:
   void setOctave(int oct);
 
   int nameStyle() const { return static_cast<int>(m_nameStyle); }
-  void setNameStyle(int nStyle);
+  void setNameStyle(int nStyle) { setNameStyle(static_cast<Tnote::EnameStyle>(nStyle)); }
+  void setNameStyle(Tnote::EnameStyle style);
 
   QString nameText() const;
+
+      /**
+       * This is additional text displayed in exam mode: '?' (question mark) and string number (if any)
+       */
+  QString appendix() const { return m_appendix; }
+
+  QColor bgColor() const { return m_bgColor; }
 
   Q_INVOKABLE QString octaveName(int oNr) const;
   Q_INVOKABLE QString octavesLink() const;
   Q_INVOKABLE QString noteButtonText(int noteNr, int nStyle = -1);
 
-  static TnameItem* instance() { return m_instance; }
+  void askQuestion(const Tnote& note, Tnote::EnameStyle questStyle, char strNr = 0);
+
+  void prepAnswer(Tnote::EnameStyle answStyle);
+
+      /**
+       * The same as @p setAlter, used for backward compatibility with @p TexamExecutor
+       */
+  void forceAccidental(char accid) { setAlter(static_cast<int>(accid)); }
 
 signals:
   void noteChanged();
@@ -76,10 +95,17 @@ signals:
   void octaveChanged();
   void nameTextChanged();
   void nameStyleChanged();
+  void appendixChanged();
+  void bgColorChanged();
+
+private:
+  void changeNameBgColor(const QColor& c) { m_bgColor = c;  emit bgColorChanged(); }
 
 private:
   Tnote                   m_note;
   Tnote::EnameStyle       m_nameStyle;
+  QString                 m_appendix;
+  QColor                  m_bgColor;
 
   static TnameItem       *m_instance;
 };

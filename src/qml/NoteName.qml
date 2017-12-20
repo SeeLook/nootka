@@ -41,14 +41,22 @@ TnameItem {
     anchors.horizontalCenter: parent.horizontalCenter
     width: noteName.width * 0.9
     height: noteName.height / 5
-    color: Noo.alpha(activPal.base, 230)
-    Text {
-      y: -noteName.height * 0.17
-      text: nameText
-      width: parent.width
+    color: bgColor
+    Row {
+      anchors.horizontalCenter: parent.horizontalCenter
       height: parent.height
-      font { pixelSize: height * 0.8; family: "Scorek" }
-      horizontalAlignment: Text.AlignHCenter
+      spacing: Noo.fontSize()
+      Text {
+        y: -noteName.height * 0.17
+        text: nameText; color: activPal.text
+        height: parent.height
+        font { pixelSize: height * 0.8; family: "Scorek" }
+      }
+      Text {
+        font { pixelSize: parent.height * 0.9; family: "Nootka" }
+        text: appendix; color: GLOB.wrongColor
+        anchors.verticalCenter: parent.verticalCenter
+      }
     }
   }
 
