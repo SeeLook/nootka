@@ -18,9 +18,12 @@
 
 #include "tnameitem.h"
 #include <tglobals.h>
+#include <tcolor.h>
 
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>
+
+#include <QtCore/qdebug.h>
 
 
 static const char* const shortOctaveNames[8] = { QT_TR_NOOP("Sub"), 	QT_TR_NOOP("Contra"), QT_TR_NOOP("Great"), QT_TR_NOOP("Small"),
@@ -41,6 +44,13 @@ TnameItem::TnameItem(QQuickItem* parent) :
 
   m_instance = this;
   m_note.octave = -4;
+  m_bgColor = qApp->palette().base().color();
+  connect(qApp, &QGuiApplication::paletteChanged, [=]{
+    if (m_appendix.isEmpty()) { // update color only when question is not asked
+        changeNameBgColor(qApp->palette().base().color());
+        emit bgColorChanged();
+      }
+  });
 }
 
 
@@ -62,7 +72,15 @@ void TnameItem::setNote(const Tnote& n) {
       emit octaveChanged();
     if (alterCh)
       emit alterChanged();
-    nameTextChanged();
+    emit nameTextChanged();
+    if (!n.isValid()) {
+      if (!m_appendix.isEmpty()) {
+        m_appendix.clear();
+        emit appendixChanged();
+        m_bgColor = qApp->palette().base().color();
+        emit bgColorChanged();
+      }
+    }
   }
 }
 
@@ -102,9 +120,9 @@ void TnameItem::setOctave(int oct) {
 }
 
 
-void TnameItem::setNameStyle(int nStyle) {
-  if (static_cast<Tnote::EnameStyle>(nStyle) != m_nameStyle) {
-    m_nameStyle = static_cast<Tnote::EnameStyle>(nStyle);
+void TnameItem::setNameStyle(Tnote::EnameStyle style) {
+  if (m_nameStyle != style) {
+    m_nameStyle = style;
     emit nameStyleChanged();
     emit nameTextChanged();
   }
@@ -129,8 +147,10 @@ QString TnameItem::nameText() const {
     if (!enharmText.isEmpty())
       enharmText += QLatin1String(")</font>");
   }
-  return m_note.isValid() ? QString("<font color=\"%1\">").arg(qApp->palette().text().color().name()) + m_note.styledName() + QLatin1String("</font>") + enharmText
-                          : QString();
+  if (m_note.isValid())
+    return QString("<font color=\"%1\">").arg(qApp->palette().text().color().name()) + m_note.styledName() + QLatin1String("</font>") + enharmText;
+  else
+    return QString();
 }
 
 
@@ -152,3 +172,23 @@ QString TnameItem::noteButtonText(int noteNr, int nStyle) {
   return Tnote(noteNr, 0, 0).toText(m_nameStyle, false);
 }
 
+
+void TnameItem::askQuestion(const Tnote& note, Tnote::EnameStyle questStyle, char strNr) {
+  changeNameBgColor(Tcolor::merge(Tcolor::alpha(GLOB->wrongColor(), 40), qApp->palette().window().color()));
+//   Tnote::EnameStyle tmpStyle = m_nameStyle;
+  setNameStyle(questStyle);
+  setNote(note);
+  m_appendix.clear();
+  if (strNr > 0)
+    m_appendix = QString::number(static_cast<int>(strNr));
+  m_appendix += QLatin1String("?");
+  emit appendixChanged();
+}
+
+
+void TnameItem::prepAnswer(Tnote::EnameStyle answStyle) {
+  changeNameBgColor(Tcolor::merge(Tcolor::alpha(GLOB->correctColor(), 40), qApp->palette().window().color()));
+  setNameStyle(answStyle);
+  setNote(Tnote());
+  setEnabled(true);
+}
