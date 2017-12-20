@@ -47,6 +47,8 @@ public:
 
   void setNote(const Tnote& n) override;
 
+  void askQuestion(const Tnote & n) override;
+
   int firstOctave() const { return static_cast<int>(m_firstOctave); }
   void setFirstOctave(int firstO);
 

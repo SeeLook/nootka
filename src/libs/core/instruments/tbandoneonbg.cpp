@@ -267,6 +267,11 @@ void TbandoneonBg::setNote(const Tnote& n) {
 }
 
 
+void TbandoneonBg::askQuestion(const Tnote& n) {
+  setNote(n);
+}
+
+
 void TbandoneonBg::setRightX(qreal rx) {
   if (m_rightX != rx) {
     m_rightX = rx;

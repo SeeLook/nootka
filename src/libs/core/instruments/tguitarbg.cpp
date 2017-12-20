@@ -257,6 +257,11 @@ void TguitarBg::paint(QPainter* painter) {
 }
 
 
+void TguitarBg::askQuestion(const Tnote& n) {
+  setNote(n);
+}
+
+
 void TguitarBg::setReadOnly(bool ro) {
   if (ro != m_readOnly) {
     m_readOnly = ro;

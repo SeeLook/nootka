@@ -47,6 +47,8 @@ public:
 
   void setNote(const Tnote& n) override;
 
+  void askQuestion(const Tnote & n) override;
+
   int flapNumber() const { return m_flapNumber; }
 
       /**

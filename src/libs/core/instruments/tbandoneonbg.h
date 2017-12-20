@@ -68,6 +68,8 @@ public:
 
   void setNote(const Tnote& n) override;
 
+  void askQuestion(const Tnote & n) override;
+
   qreal rightX() const { return m_rightX; }
   void setRightX(qreal rx);
 

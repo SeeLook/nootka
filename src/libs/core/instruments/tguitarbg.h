@@ -65,6 +65,8 @@ public:
 
   void paint(QPainter* painter) override;
 
+  void askQuestion(const Tnote & n) override;
+
       /**
        * Guitar fingerboard rectangle
        */

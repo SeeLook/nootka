@@ -110,6 +110,12 @@ CHECKTIME (
 }
 
 
+void TsaxBg::askQuestion(const Tnote& n) {
+  setNote(n);
+}
+
+
+
 void TsaxBg::setFlapNumber(int fNr) {
 CHECKTIME (
   quint32 flatPower = qFloor(qPow(2.0, fNr));

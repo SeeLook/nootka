@@ -73,6 +73,11 @@ void TpianoBg::setNote(const Tnote& n) {
 }
 
 
+void TpianoBg::askQuestion(const Tnote& n) {
+  setNote(n);
+}
+
+
 void TpianoBg::setFirstOctave(int firstO) {
   auto fo = static_cast<char>(firstO);
   if (fo != m_firstOctave) {
