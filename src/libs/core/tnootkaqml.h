@@ -128,6 +128,8 @@ public:
       /** Calls @p QDesktopServices::openUrl with Nootka site doc at given @p hash */
   Q_INVOKABLE  void openHelpLink(const QString& hash);
 
+  Q_INVOKABLE qreal bound(qreal min, qreal val, qreal max);
+
 /**
  * All stuff below is responsible for handling note changes in score, instrument and sound in/out.
  * @p TnootkaQML has score and instrument pointers to handle theirs signals when note is changed,
