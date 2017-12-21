@@ -3,6 +3,7 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
+import QtQuick.Window 2.2
 
 import "../"
 
@@ -11,6 +12,7 @@ TipRect {
   id: tip
 
   property alias text: text.text
+  property alias font: text.font
   property color bg: activPal.window
   property real offX: 0
   property real offY: 0
@@ -20,18 +22,12 @@ TipRect {
   property real eH: 0
 
   color: Qt.tint(activPal.window, Noo.alpha(bg, 50))
-  shadowRadius: Noo.fontSize()
-  z: 200; x: offX - width / 2; y: offY - height / 2
+  shadowRadius: Screen.height / 90
+  z: 200
+  x: Noo.bound(shadowRadius, offX - width / 2, executor.width - width - shadowRadius)
+  y: Noo.bound(shadowRadius, offY - height / 2, executor.height - height - shadowRadius)
   width: text.width; height: text.height
   scale: GLOB.useAnimations ? 0.1 : 1.0
-
-  MouseArea {
-    id: dragArea
-    anchors.fill: parent
-    drag.target: parent
-    drag.minimumX: 1; drag.maximumX: executor.width - width * scale - 1
-    drag.minimumY: 1; drag.maximumY: executor.height - height * scale - 1
-  }
 
   Text {
     id: text
@@ -49,8 +45,6 @@ TipRect {
     }
   }
 
-  Drag.active: dragArea.drag.active
-
   Component.onCompleted: {
     eW = executor.width; eH = executor.height
     if (GLOB.useAnimations)
@@ -61,11 +55,11 @@ TipRect {
     target: executor
     onWidthChanged: {
       scale = (executor.width / eW) * scale
-      x = Math.min(x * (executor.width / eW), executor.width - tip.width * scale - 1)
+      offX = offX * (executor.width / eW)
       eW = executor.width
     }
     onHeightChanged: {
-      y = Math.min(y *(executor.height / eH), executor.height - tip.height * scale - 1)
+      offY = offY *(executor.height / eH)
       eH = executor.height
     }
     onDestroyTips: tip.destroy()

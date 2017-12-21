@@ -34,7 +34,6 @@ class Tnote;
 class TnoteName;
 //class TnootkaCertificate;
 class QTimer;
-//class TtipScene;
 class TexamExecutor;
 class QTimer;
 class Texam;
@@ -52,9 +51,7 @@ class Tcanvas : public QObject
 
   Q_OBJECT
 
-  Q_PROPERTY(QString tipText READ tipText WRITE setTipText NOTIFY tipChanged)
-  Q_PROPERTY(QPointF tipPos READ tipPos WRITE setTipPos NOTIFY tipChanged)
-  Q_PROPERTY(QColor tipColor READ tipColor WRITE setTipColor NOTIFY tipChanged)
+  Q_PROPERTY(QPointF tipPos READ tipPos WRITE setTipPos)
 
 public:
 
@@ -63,21 +60,15 @@ public:
        * Number of enumerators has to correspond with @p TIP_POS_NUM definition
        */
   enum EtipPos {
-    e_guitarOver = 0, e_scoreOver = 1, e_nameOver = 2, e_bottomRight
+    e_instrumentOver = 0, e_scoreOver = 1, e_nameOver = 2, e_bottomRight
   };
-   Q_ENUM(EtipPos)
+  Q_ENUM(EtipPos)
 
   Tcanvas(Texam* exam, QObject* parent = nullptr);
   ~Tcanvas() override;
 
-  QString tipText() const { return m_tipText; }
-  void setTipText(const QString& t) { m_tipText = t; }
-
-  QPointF tipPos() const { return m_tipPos; }
-  void setTipPos(const QPointF& p) { m_tipPos = p; }
-
-  QColor tipColor() const { return m_tipColor; }
-  void setTipColor(const QColor& c) { m_tipColor = c; }
+  QPointF tipPos() const { return m_lastTipPos; }
+  void setTipPos(const QPointF& p);
 
 //    /**
 //     * Cross platform status message:
@@ -88,7 +79,6 @@ public:
 
   void changeExam(Texam* newExam); /**< Replaces exam pointer given in constructor to the new one. */
 
-//  void addTip(TgraphicsTextTip *tip); /**< add any TgraphicsTextTip object */
 //  void resultTip(TQAunit *answer, int time = 0); /**< show was question correct text, hides after given time */
   void startTip(); /**< Text with help on an exam start */
 
@@ -99,8 +89,8 @@ public:
 //     */
 //  void whatNextTip(bool isCorrect, bool toCorrection = false);
 
-//      /** Text with question context */
-//  void questionTip();
+     /** Text with question context */
+ void questionTip();
 //  void tryAgainTip(int time); /**< "Try again" text" */
  void confirmTip(int time = 0); /**< tip about confirm an answer appears after given time */
 //  void melodyCorrectMessage(); /**< Status message about how to correct a melody notes. */
@@ -117,8 +107,6 @@ public:
 
   int bigFont(); /**< Returns point size of 'A' letter multiplied by 2. */
 
-//      /** Returns default font with point size scaled to 'A' letter multiplied by given factor. */
-//  QFont tipFont(qreal factor = 1);
   QString startTipText();
 
 
@@ -132,15 +120,9 @@ public:
 
 //  bool hasCertificate() { return m_certifyTip != nullptr; }
 
-//public slots:
-//  void clearResultTip(); // clears tip with results
 //  void clearTryAgainTip();
-//  void linkActivatedSlot(const QString& link);
-//  void clearConfirmTip();
  void showConfirmTip();
 //  void clearCertificate();
-//  void clearCorrection();
-//  void clearWhatNextTip();
 //  void clearMelodyCorrectMessage();
 //  void certificateTip(); /**< paper like exam report when finished */
 
@@ -152,6 +134,7 @@ public:
 signals:
   void tipChanged();
   void showStartTip(const QString text, const QColor& color, const QPointF& pos);
+  void showQuestionTip(const QString text, const QPointF& pos);
   void destroyTips();
 //  void buttonClicked(const QString&); /**< This signal is emitted when user click image button (a link) on any tip.*/
 //  void certificateMagicKeys(); /**< When translator wants to see a certificate preview */
@@ -175,25 +158,17 @@ private:
 
 //  TnootkaCertificate             *m_certifyTip;
   Texam                             *m_exam;
-//  QPointer<TcombinedAnim>         m_correctAnim;
   QTimer                            *m_timerToConfirm;
-//  int                            m_maxTipWidth;
-//  QSizeF                         m_prevSize;
-//  QSize                          m_newSize;
-//  QGraphicsEllipseItem          *m_flyEllipse;
+  qreal                              m_prevWidth;
 //  TfingerPos                     m_goodPos;
-//  QColor                         m_correctColor;
-//  TnoteName                      *m_noteName;
-//  QPoint                         m_relPoint;
-//  QPointF                         m_posOfQuestTips[TIP_POS_NUM], m_posOfWhatTips[TIP_POS_NUM], m_posOfConfirm;
+ QPointF                             m_posOfQuestTips[TIP_POS_NUM];
 //  bool                           m_minimizedQuestion, m_melodyCorrectMessage;
-//  EtipPos                         m_tipPos; /**< Kind of tip position */
-  int                               m_iconSize; /**< Icon image size on tips calculated from actual font metrics. */
-  QString             m_tipText;
-  QPointF             m_tipPos;
-  QColor              m_tipColor;
+  EtipPos                            m_questTipPosType; /**< Kind of question tip position */
+  int                                m_iconSize; /**< Icon image size on tips calculated from actual font metrics. */
+  QPointF                            m_lastTipPos;
 
-//private:
+private:
+  QPointF getTipPosition(EtipPos tp);
 //  int getMaxTipHeight(); /**< Calculates maximal tip height depends on free MainWindow widget. */
 //  void setPosOfTip(TgraphicsTextTip *tip); /**< Universal method to place given tip above free MainWindow widget.  */
 //  void setResultPos();
@@ -206,7 +181,7 @@ private:
 //  void updateRelatedPoint();
 //  void createQuestionTip(); /**< Be sure that @p m_exam has already pointed current exam */
 //  void fixWidthOverScore(TgraphicsTextTip* tip); /**< Scales tip if its width is bigger than score widget */
-//  EtipPos determineTipPos();
+ EtipPos determineTipPos();
 
 };
 

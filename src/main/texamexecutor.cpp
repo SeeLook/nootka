@@ -314,8 +314,10 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     m_answRequire.accid = m_level.forceAccids;
     m_answRequire.key = false;
 
-    NOTENAME->setNameStyle(GLOB->S->nameStyleInNoteName);
+    if (NOTENAME) {
+      NOTENAME->setNameStyle(GLOB->S->nameStyleInNoteName);
 //     NOTENAME->setNoteNamesOnButt(GLOB->S->nameStyleInNoteName);
+    }
 
     m_penalty->nextQuestion();
     if (!m_exercise && m_penalty->ask()) {
@@ -555,7 +557,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 // 
 //   TOOLBAR->setForQuestion(curQ->questionAsSound(), curQ->questionAsSound() && curQ->answerAsNote());
   m_penalty->startQuestionTime();
-//   m_canvas->questionTip();
+  m_canvas->questionTip();
   m_blindCounter = 0; // question successfully asked - reset the counter
 }
 
@@ -1162,13 +1164,15 @@ void TexamExecutor::disableWidgets() {
 //   NOTENAME->setNameDisabled(true);
   SCORE->setReadOnly(true);
   INSTRUMENT->setEnabled(false);
-  NOTENAME->setEnabled(false);
+  if (NOTENAME)
+    NOTENAME->setEnabled(false);
 }
 
 
 void TexamExecutor::clearWidgets() {
   QMetaObject::invokeMethod(SCORE_ITEM, "clearScore");
-  NOTENAME->setNote(Tnote());
+  if (NOTENAME)
+    NOTENAME->setNote(Tnote());
 //   INSTRUMENT->clearFingerBoard();
 //   SOUND->restoreAfterAnswer();
 }

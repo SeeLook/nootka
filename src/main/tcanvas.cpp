@@ -25,13 +25,15 @@
 #include <exam/texam.h>
 #include <exam/tresulttext.h>
 #include <exam/tlevel.h>
-#include <texamparams.h>
+// #include <texamparams.h>
 #include <tnootkaqml.h>
+#include <instruments/tcommoninstrument.h>
+#include <exam/textrans.h>
+#include <tcolor.h>
 #include "tglobals.h"
 #include "texamhelp.h"
 #include "texamexecutor.h"
-//#include <notename/tnotename.h>
-//#include <guitar/tfingerboard.h>
+#include "tnameitem.h"
 #include <tsound.h>
 #include <tpath.h>
 #if defined (Q_OS_ANDROID)
@@ -39,13 +41,11 @@
 #else
 //  #include <gui/tstatuslabel.h>
 #endif
-//#include <score/tmainscore.h>
 #include <QtWidgets/qapplication.h>
 #include <QtGui/qpalette.h>
 #include <QtCore/qdebug.h>
 #include <QtCore/qtimer.h>
 #include <QtGui/qevent.h>
-
 
 
 #if defined (Q_OS_ANDROID)
@@ -70,6 +70,33 @@ inline qreal multiScale() {
 
 #endif
 
+QString getTextHowAccid(Tnote::Ealter accid) {
+  QString S = QString("<br><span style=\"color: %1\">").arg(GLOB->GselectedColor.name());
+  if (accid) S += qApp->tr("Use %1").arg(QString::fromStdString(signsAcid[accid + 2]));
+  else S += qApp->tr(" Don't use accidentals!");
+  S +=  QLatin1String("</span>");
+  return S;
+}
+
+
+QString onStringTxt(quint8 strNr) {
+    return QLatin1String("<b>") + qApp->tr("on %1 string.").arg(QString("</b><span style=\"font-family: nootka;\">%1</span><b>").arg(strNr))
+          + QLatin1String("</b>");
+}
+
+
+QString playOrSing(int instr) {
+  if (static_cast<Tinstrument::Etype>(instr) == Tinstrument::NoInstrument)
+    return qApp->tr("Play or sing");
+  else
+    return qApp->tr("Play");
+}
+
+
+QString getNiceNoteName(Tnote& note, Tnote::EnameStyle style) {
+  return QString("<b><span style=\"%1\">&nbsp;").arg(Tcolor::bgTag(GLOB->EquestionColor)) + note.toRichText(style) + QLatin1String(" </span></b>");
+}
+
 
 
 Tcanvas::Tcanvas(Texam* exam, QObject *parent) :
@@ -78,15 +105,24 @@ Tcanvas::Tcanvas(Texam* exam, QObject *parent) :
   m_exam(exam),
   m_timerToConfirm(new QTimer(this)),
 //  m_minimizedQuestion(false), m_melodyCorrectMessage(false),
-//  m_tipPos(e_bottomRight)
+  m_questTipPosType(e_bottomRight),
   m_iconSize(bigFont() * 1.5)
 {
  connect(m_timerToConfirm, &QTimer::timeout, this, &Tcanvas::showConfirmTip);
 //  qApp->installEventFilter(this);
-  int levelMessageDelay = 1;
-  if (TexecutorSupply::paramsChangedMessage())
-      levelMessageDelay = 7000;
+//   int levelMessageDelay = 1;
+//   if (TexecutorSupply::paramsChangedMessage())
+//       levelMessageDelay = 7000;
 //  QTimer::singleShot(levelMessageDelay, this, SLOT(levelStatusMessage()));
+  m_prevWidth = EXECUTOR->width();
+  connect(EXECUTOR, &TexamExecutor::widthChanged, [=]{
+    qreal sc = EXECUTOR->width() / m_prevWidth;
+    for (int t = 0; t < TIP_POS_NUM; ++t) {
+      if (!m_posOfQuestTips[t].isNull())
+        m_posOfQuestTips[t] = QPointF(m_posOfQuestTips[t].x() * sc, m_posOfQuestTips[t].y() * sc);
+    }
+    m_prevWidth = EXECUTOR->width();
+  });
 }
 
 Tcanvas::~Tcanvas()
@@ -95,6 +131,11 @@ Tcanvas::~Tcanvas()
 
 void Tcanvas::changeExam(Texam* newExam) {
   m_exam = newExam;
+}
+
+
+void Tcanvas::setTipPos(const QPointF& p) {
+  m_posOfQuestTips[static_cast<int>(m_questTipPosType)] = p;
 }
 
 
@@ -118,13 +159,6 @@ int Tcanvas::bigFont() {
   return (NOO->fontSize() * 2);
 #endif
 }
-
-
-//QFont Tcanvas::tipFont(qreal factor) {
-//  QFont f = m_view->font();
-//  f.setPointSize(qRound(qreal(bigFont()) * factor));
-//  return f;
-//}
 
 
 //void Tcanvas::resultTip(TQAunit* answer, int time) {
@@ -201,19 +235,15 @@ QString Tcanvas::startTipText() {
 
 
 void Tcanvas::startTip() {
-  m_tipText = QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75))
+  QString tipText = QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75))
       + startTipText() + QLatin1String(".<br>")
       + TexamHelp::toStopExamTxt(QLatin1String("<a href=\"stopExam\"> ")
                                  + NOO->pixToHtml(QLatin1String("stopExam"), m_iconSize)
                                  + QLatin1String("</a>"))
       + QLatin1String("</p>");
-//  m_tipColor = qApp->palette().highlight().color();
-//  m_tipPos = QPointF(200, 200);
   QTimer::singleShot(200, [=]{
-    emit showStartTip(m_tipText, qApp->palette().highlight().color(), QPointF(EXECUTOR->width() / 2.0, EXECUTOR->height() / 2.0));
+    emit showStartTip(tipText, qApp->palette().highlight().color(), QPointF(EXECUTOR->width() / 2.0, EXECUTOR->height() / 2.0));
   });
-//  emit tipChanged();
-//  setStartTipPos();
 }
 
 
@@ -357,21 +387,134 @@ void Tcanvas::showConfirmTip() {
 //}
 
 
-//void Tcanvas::questionTip() {
-//  delete m_startTip;
-//  delete m_outTuneTip;
-//  clearWhatNextTip();
-//  clearMelodyCorrectMessage();
-//  createQuestionTip();
-//  m_tipPos = determineTipPos();
+void Tcanvas::questionTip() {
+  QString br = QStringLiteral("<br>");
+  QString sp = QStringLiteral(" ");
+  QString questText;
+  QString attemptText;
+  auto question = m_exam->curQ();
+  auto questNr = m_exam->count();
+  auto level = m_exam->level();
+  if (question->attemptsCount() > 1)
+    attemptText = QLatin1String(" <small><i>") + TexTrans::attemptTxt() + QString(" %1").arg(question->attemptsCount()) + "</i></small>";
+  questText += QString("<center><b><u>&nbsp;%1.&nbsp;</u></b>").arg(questNr) + attemptText + br;
+  QString apendix;
+  QString noteStr;
+  switch (question->questionAs) {
+    case TQAtype::e_asNote: {
+      if (question->answerAsNote()) {
+          if (question->qa.note.alter != question->qa_2.note.alter)
+              questText += tr("Change enharmonically and show on the staff");
+          else
+              questText += tr("Given note show on the staff");
+          if (level->useKeySign && level->manualKey)
+              apendix = tr("<br><b>in %1 key.</b>", "in key signature").arg(question->key.getName());
+                questText += getTextHowAccid((Tnote::Ealter)question->qa_2.note.alter);
+      } else if (question->answerAsName()) {
+          questText += tr("Give name of");
+      } else if (question->answerAsFret()) {
+            questText += tr("Show on the guitar");
+      } else if (question->answerAsSound()) {
+                if (question->melody())
+                        questText += tr("Play or sing a melody.");
+                else
+                        questText += playOrSing(int(level->instrument));
+      }
+      if (question->answerAsFret() || question->answerAsSound()) {
+        if (level->instrument != Tinstrument::NoInstrument && !level->canBeMelody() && level->showStrNr && !level->onlyLowPos) {
+          apendix = br + sp + onStringTxt(question->qa.pos.str());
+        }
+      }
+      if (!question->melody()) {
+        questText += "<br> . . . <br>";
+//           if (level->useKeySign && level->manualKey && question->answerAsNote()) // hide key signature
+//                 m_questText += br + wrapPixToHtml(question->qa.note, true, TkeySignature(0), sc);
+//           else
+//                 m_questText += br + wrapPixToHtml(question->qa.note, true, question->key, sc);
+      }
+      if (!apendix.isEmpty())
+          questText += apendix;
+      break;
+    }
+
+    case TQAtype::e_asName:
+      noteStr = br + getNiceNoteName(question->qa.note, question->styleOfQuestion());
+      if (question->answerAsNote()) {
+          questText += tr("Show on the staff") + noteStr;
+          if (level->useKeySign && level->manualKey)
+            questText += tr("<br><b>in %1 key.</b>", "in key signature").arg(question->key.getName());
+      } else if (question->answerAsName()) {
+          noteStr = br + getNiceNoteName(question->qa.note, question->styleOfQuestion());
+          if (question->qa.note.alter != question->qa_2.note.alter) {
+              questText += tr("Change enharmonically and give name of");
+              questText += noteStr + getTextHowAccid((Tnote::Ealter)question->qa_2.note.alter);
+          } else
+              questText += tr("Use another style to give name of") + noteStr;
+      } else if (question->answerAsFret()) {
+          questText += tr("Show on the guitar") + noteStr;
+      } else if (question->answerAsSound()) {
+          questText += playOrSing(int(level->instrument)) + noteStr;
+      }
+      if (question->answerAsFret() || question->answerAsSound()) {
+          if (level->instrument != Tinstrument::NoInstrument && level->showStrNr && !level->onlyLowPos)
+                      questText += br + sp + onStringTxt(question->qa.pos.str());
+      }
+    break;
+
+    case TQAtype::e_asFretPos:
+      if (question->answerAsNote()) {
+                questText += tr("Show on the staff note played on");
+          if (level->useKeySign && level->manualKey) {
+            apendix = tr("<b>in %1 key.</b>", "in key signature").arg(question->key.getName());
+          }
+      } else if (question->answerAsName()) {
+          questText += tr("Give name of");
+      } else if (question->answerAsFret()) {
+            questText += tr("Show sound from position:", "... and string + fret numbers folowing");
+            apendix = br + sp + onStringTxt(question->qa_2.pos.str());
+      } else if (question->answerAsSound()) {
+                  questText += playOrSing(int(level->instrument));
+      }
+      questText += QString("<br><span style=\"font-size: xx-large; %1\">&nbsp;").arg(Tcolor::bgTag(GLOB->EquestionColor)) +
+                  question->qa.pos.toHtml() + QLatin1String(" </span>");
+      if (!apendix.isEmpty())
+          questText += br + apendix;
+      if (question->answerAsNote() || question->answerAsName())
+        if (level->forceAccids)
+              questText += getTextHowAccid((Tnote::Ealter)question->qa.note.alter);
+    break;
+
+    case TQAtype::e_asSound:
+      if (question->answerAsNote()) {
+          if (question->melody()) {
+                  questText += TexTrans::writeDescTxt();
+              if (level->useKeySign && level->manualKey && level->onlyCurrKey)
+                  questText += br + tr("Guess a key signature");
+          } else {
+                  questText += tr("Listened sound show on the staff");
+              if (level->useKeySign && level->manualKey)
+                  questText += tr("<br><b>in %1 key.</b>", "in key signature").arg(question->key.getName());
+              if (level->forceAccids)
+                  questText += getTextHowAccid((Tnote::Ealter)question->qa.note.alter);
+          }
+      } else if (question->answerAsName()) {
+          questText += tr("Give name of listened sound");
+          if (level->forceAccids)
+              questText += getTextHowAccid((Tnote::Ealter)question->qa.note.alter);
+      } else if (question->answerAsFret()) {
+            questText += tr("Listened sound show on the guitar");
+            if (level->showStrNr)
+              questText += br + sp + onStringTxt(question->qa.pos.str());
+      } else if (question->answerAsSound()) {
+              questText += tr("Play or sing listened sound");
+      }
+    break;
+  }
+  questText += QLatin1String("</center>");
+  m_questTipPosType = determineTipPos();
+  emit showQuestionTip(questText, m_posOfQuestTips[m_questTipPosType].isNull() ? getTipPosition(m_questTipPosType) : m_posOfQuestTips[m_questTipPosType]);
 //  m_questionTip->setMinimized(m_minimizedQuestion);
-//  setQuestionPos();
-//}
-
-
-//void Tcanvas::addTip(TgraphicsTextTip* tip) {
-//  m_scene->addItem(tip);
-//}
+}
 
 
 //void Tcanvas::outOfTuneTip(float pitchDiff) {
@@ -460,9 +603,6 @@ void Tcanvas::showConfirmTip() {
 //  QTimer::singleShot(prevTime, this, SLOT(clearCorrection()));
 //}
 
-////#################################################################################################
-////###################                PUBLIC            ############################################
-////#################################################################################################
 
 //void Tcanvas::levelStatusMessage() {
 //#if !defined (Q_OS_ANDROID)
@@ -498,16 +638,6 @@ void Tcanvas::clearCanvas() {
 }
 
 
-//void Tcanvas::clearResultTip() { delete m_resultTip; }
-
-
-//void Tcanvas::clearTryAgainTip() { delete m_tryAgainTip; }
-
-
-//void Tcanvas::clearConfirmTip() {
-//    m_timerToConfirm->stop();
-//    delete m_confirmTip;
-//}
 
 
 //void Tcanvas::clearCertificate() {
@@ -531,16 +661,6 @@ void Tcanvas::clearCanvas() {
 //}
 
 
-//void Tcanvas::clearWhatNextTip() {
-//#if defined (Q_OS_ANDROID)
-//  delete m_nextTip;
-//  delete m_prevTip;
-//  delete m_correctTip;
-//#else
-//  delete m_whatTip;
-//#endif
-//}
-
 
 //void Tcanvas::clearMelodyCorrectMessage() {
 //  if (m_melodyCorrectMessage) {
@@ -549,19 +669,6 @@ void Tcanvas::clearCanvas() {
 //  }
 //}
 
-
-//const QRect& Tcanvas::getRect(TQAtype::Etype kindOf) {
-//  switch (kindOf) {
-//    case TQAtype::e_asNote:
-//      return SCORE->geometry();
-//    case TQAtype::e_asName:
-//      return NOTENAME->geometry();
-//    case TQAtype::e_asFretPos:
-//          return GUITAR->geometry();
-//    case TQAtype::e_asSound:
-//      return SOUND->pitchView()->geometry();
-//  }
-//}
 
 ////#################################################################################################
 ////###################              PROTECTED           ############################################
@@ -582,68 +689,6 @@ void Tcanvas::clearCanvas() {
 //  QTimer::singleShot(2, this, SLOT(sizeChanged()));
 //}
 
-
-//void Tcanvas::sizeChanged() {
-//  updateRelatedPoint();
-//  qreal hi;
-//  if (bool(m_scene->height()))
-//    hi = m_scene->height();
-//  else
-//    hi = 580;
-//  m_scale = m_scale * (qreal(m_newSize.height()) / hi);
-//  m_maxTipWidth = m_view->width() / 3;
-//  if (m_resultTip) {
-//      if (m_exam->curQ()->isNotSoBad())
-//        m_resultTip->setScale(m_scale);
-//      else
-//        m_resultTip->setScale(m_scale * 1.2);
-//      setResultPos();
-//  }
-//  if (m_tryAgainTip) {
-//    m_tryAgainTip->setScale(m_scale);
-//    setTryAgainPos();
-//  }
-//  if (m_whatTip) {
-//      m_whatTip->setScale(m_scale);
-//      setWhatNextPos();
-//  }
-//  if (m_startTip) {
-//    m_startTip->setScale(m_scale);
-//    setStartTipPos();
-//  }
-//  if (m_questionTip) {
-//    createQuestionTip();
-//    setQuestionPos();
-//  }
-//  if (m_confirmTip) {
-//    clearConfirmTip(); // To re-create confirm tip works better than re-scaling
-//    showConfirmTip();
-//  }
-//  if (m_certifyTip) {
-//    clearCertificate();
-//    QTimer::singleShot(50, this, SLOT(certificateTip()));
-//  }
-//  if (m_outTuneTip) {
-//    m_outTuneTip->setScale(m_scale);
-//    setOutTunePos();
-//  }
-//#if defined (Q_OS_ANDROID)
-//  if (m_nextTip) {
-//    setWhatNextPos();
-//  }
-//#endif
-//}
-
-
-//void Tcanvas::linkActivatedSlot(const QString& link) {
-//  emit buttonClicked(link);
-//#if defined (Q_OS_ANDROID)
-//  if (link == QLatin1String("correct"))
-//    delete m_correctTip;
-//#endif
-//  if (m_certifyTip)
-//    clearCertificate();
-//}
 
 
 //void Tcanvas::correctAnimFinished() {
@@ -680,47 +725,18 @@ void Tcanvas::clearCanvas() {
 ////#################################### PRIVATE #####################################################
 ////##################################################################################################
 
-//int Tcanvas::getMaxTipHeight() {
-//  if (m_tipPos == e_nameOver || m_tipPos == e_scoreOver)
-//    return SCORE->height() * 0.6;
-//  else
-//    return GUITAR->height() * 1.1;
-//}
-
-
-//void Tcanvas::setPosOfTip(TgraphicsTextTip* tip) {
-//  QRect geoRect;
-//  if (m_tipPos == e_nameOver) { // middle of the noteName
-//      geoRect.setRect(SCORE->x() + SCORE->width(), SCORE->y() + NOTENAME->y(), NOTENAME->width(), NOTENAME->height());
-//  } else if (m_tipPos == e_scoreOver) {// on the score at its center
-//      geoRect = SCORE->geometry();
-//      fixWidthOverScore(tip);
-//  } else if (m_tipPos == e_guitarOver) // middle of the guitar
-//      geoRect = GUITAR->geometry();
-//  else // bottom-right corner
-//      geoRect = QRect(m_view->width() - tip->realW(), m_view->height() - tip->realH(), tip->realW(), tip->realH());
-//  tip->setPos(qMin(geoRect.x() + (geoRect.width() - tip->realW()) / 2, m_view->width() - tip->realW() - 5.0),
-//              qMin(geoRect.y() + (geoRect.height() - tip->realH()) / 2, m_view->height() - tip->realH() - 5.0));
-//  // qMin guards a tip position in scene boundaries
-//}
-
-
-//void Tcanvas::setResultPos() {
-//#if defined (Q_OS_ANDROID)
-//// place the tip on the right screen side, but when answer is a name - on the left
-//  m_resultTip->setPos(m_scene->width() * (m_exam->curQ()->answerAsName() ? 0.02 : 0.48) + (m_scene->width() * 0.48 - m_resultTip->realW()) / 2,
-//                      m_scene->height() * (m_exam->isExercise() ? 0.02 : 0.15));
-//#else
-//  m_resultTip->setPos(m_scene->width() * 0.52 + (m_scene->width() * 0.48 - m_resultTip->realW()) / 2,
-//                      m_scene->height() * 0.05);
-//#endif
-//  if (m_resultTip->realH() > m_scene->height() * 0.5) {
-//      m_resultTip->setScale((m_scene->height() * 0.48) / m_resultTip->boundingRect().height());
-//    setResultPos();
-//  }
-//  if (m_scene->width() - m_resultTip->x() < m_resultTip->realW() - 10.0) // keep the tip on the screen
-//    m_resultTip->setX(m_scene->width() - m_resultTip->realW() - 10.0);
-//}
+QPointF Tcanvas::getTipPosition(Tcanvas::EtipPos tp) {
+  qreal offY = NOO->isAndroid() ? 0.0 : EXECUTOR->height() / 14; // controls coordinates are sifted by tool bar height
+  if (tp == e_nameOver && NOTENAME)
+    return QPointF(NOTENAME->x() + NOTENAME->width() / 2.0, NOTENAME->y() + NOTENAME->height() / 2.0 + offY);
+  else if (tp == e_scoreOver)
+    return QPointF(NOO->mainScore()->x() + NOO->mainScore()->width() / 2.0, NOO->mainScore()->y() + NOO->mainScore()->height() / 2.0 + offY);
+  else if (tp == e_instrumentOver && !GLOB->instrument().isSax())
+    return QPointF(NOO->instrument()->x() + NOO->instrument()->width() / 2.0,
+                   NOO->mainScore()->y() + NOO->mainScore()->height() + NOO->instrument()->height() / 2.0 + offY);
+  else
+    return QPointF(EXECUTOR->width() * 0.75, EXECUTOR->height() * 0.7);
+}
 
 
 //void Tcanvas::setTryAgainPos() {
@@ -868,53 +884,46 @@ void Tcanvas::clearCanvas() {
 //}
 
 
-///**
-// * For details, see table in tip_positions.html file
-// */
-//Tcanvas::EtipPos Tcanvas::determineTipPos() {
-//  EtipPos tipPos;
-//  switch (m_exam->curQ()->questionAs) {
-//    /** Question is note on the score, so place a tip over name if not used or over guitar if visible but if not - in bottom-right corner. */
-//    case TQAtype::e_asNote : {
-//      if (SCORE->insertMode() == TmainScore::e_single) {
-//          if (m_exam->curQ()->answerAs == TQAtype::e_asName) {
-//              tipPos = GUITAR->isVisible() ? e_guitarOver : e_bottomRight;
-//          } else
-//              tipPos = e_nameOver;
-//      } else { // melody, so answer is sound (only supported case)
-//          tipPos = GUITAR->isVisible() ? e_guitarOver : e_bottomRight;
-//      }
-//      break;
-//    }
-//    /** Question is note name, so place a tip over score if not used, or over guitar. */
-//    case TQAtype::e_asName : { // single note mode only
-//      if (m_exam->curQ()->answerAs == TQAtype::e_asNote)
-//        tipPos = GUITAR->isVisible() ? e_guitarOver : e_bottomRight;
-//      else
-//        tipPos = e_scoreOver;
-//      break;
-//    }
-//    case TQAtype::e_asFretPos : { // single note mode only
-//      if (m_exam->curQ()->answerAs == TQAtype::e_asNote)
-//        tipPos = e_nameOver;
-//      else
-//        tipPos = e_scoreOver;
-//      break;
-//    }
-//    case TQAtype::e_asSound : {
-//      if (SCORE->insertMode() == TmainScore::e_single) {
-//          if (m_exam->curQ()->answerAs == TQAtype::e_asNote)
-//          tipPos = e_nameOver;
-//        else
-//          tipPos = e_scoreOver;
-//      } else {
-//          tipPos = GUITAR->isVisible() ? e_guitarOver : e_bottomRight;
-//      }
-//      break;
-//    }
-//  }
-//  return tipPos;
-//}
+/**
+* For details, see table in tip_positions.html file
+*/
+Tcanvas::EtipPos Tcanvas::determineTipPos() {
+ EtipPos tipPos;
+ switch (m_exam->curQ()->questionAs) {
+   /** Question is note on the score, so place a tip over name if not used or over guitar if visible but if not - in bottom-right corner. */
+   case TQAtype::e_asNote : {
+     if (GLOB->isSingleNote()) {
+         if (m_exam->curQ()->answerAs == TQAtype::e_asName) {
+             tipPos = NOO->instrument() ? e_instrumentOver : e_bottomRight;
+         } else
+             tipPos = e_nameOver;
+     } else { // melody, so answer is sound (only supported case)
+         tipPos = NOO->instrument() ? e_instrumentOver : e_bottomRight;
+     }
+     break;
+   }
+   /** Question is note name, so place a tip over score if not used, or over guitar. */
+   case TQAtype::e_asName : { // single note mode only
+     if (m_exam->curQ()->answerAs == TQAtype::e_asNote)
+       tipPos = NOO->instrument() ? e_instrumentOver : e_bottomRight;
+     else
+       tipPos = e_scoreOver;
+     break;
+   }
+   case TQAtype::e_asFretPos: // single note mode only
+      tipPos = m_exam->curQ()->answerAs == TQAtype::e_asNote ? e_nameOver : e_scoreOver;
+      break;
+   case TQAtype::e_asSound : {
+     if (GLOB->isSingleNote()) {
+         if (m_exam->curQ()->answerAs == TQAtype::e_asNote)
+          tipPos = m_exam->curQ()->answerAs == TQAtype::e_asNote ? e_nameOver : e_scoreOver;
+     } else
+         tipPos = NOO->instrument() ? e_instrumentOver : e_bottomRight;
+     break;
+   }
+  }
+  return tipPos;
+}
 
 
 
