@@ -35,13 +35,11 @@ class TequalRand;
 class Tsound;
 class Texercises;
 class TglobalExamStore;
-class Tcanvas;
+class TtipHandler;
 class QTimer;
 class TexecutorSupply;
 class Texam;
-class TnameItem;
 class Taction;
-class TtipData;
 
 
 #define EXECUTOR TexamExecutor::instance()
@@ -56,7 +54,7 @@ class TexamExecutor : public QQuickItem
 
   Q_PROPERTY(QString title READ title NOTIFY titleChanged)
   Q_PROPERTY(QVariantList examActions READ examActions NOTIFY examActionsChanged)
-  Q_PROPERTY(Tcanvas* tipHandler READ tipHandler NOTIFY tipCreated)
+  Q_PROPERTY(TtipHandler* tipHandler READ tipHandler NOTIFY tipHandlerCreated)
 
 public:
   explicit TexamExecutor(QQuickItem* parent = nullptr);
@@ -68,7 +66,7 @@ public:
 
   QVariantList examActions() { return m_examActions; }
 
-  Tcanvas* tipHandler();
+  TtipHandler* tipHandler();
 
       /**
        * Describes actions committed by user.
@@ -97,7 +95,7 @@ public:
 signals:
   void titleChanged();
   void examActionsChanged();
-  void tipCreated();
+  void tipHandlerCreated();
   void destroyTips();
 
 protected:
@@ -206,7 +204,7 @@ private:
         /** stores note if question and answer are Note Name to restore it if question is repeated
         It is to restore buttons state in NoteName widget witch are unchecked by disableWidget() */
   Tnote                        m_prevNoteIfName;
-  Tcanvas                     *m_canvas = nullptr;
+  TtipHandler                 *m_tipHandler = nullptr;
   Tpenalty                    *m_penalty;
   Texercises                  *m_exercise;
   int                          m_blindCounter; /**< counts occurrences of questions without possible answer */

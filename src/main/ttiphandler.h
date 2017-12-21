@@ -41,10 +41,9 @@ class TQAunit;
 
 
 /**
- * This class managing Nootka main View
- * to show notifications (tips) during an exam.
+ * This class manages exam/exercise tips (flow information controls)
  */
-class Tcanvas : public QObject
+class TtipHandler : public QObject
 {
 
   friend class TexamExecutor;
@@ -55,17 +54,17 @@ class Tcanvas : public QObject
 
 public:
 
-      /**
-       * Describes a kind of tip position depended on q/a type - over what widget tip is placed.
-       * Number of enumerators has to correspond with @p TIP_POS_NUM definition
-       */
+    /**
+     * Describes a kind of tip position depended on q/a type - over what widget tip is placed.
+     * Number of enumerators has to correspond with @p TIP_POS_NUM definition
+     */
   enum EtipPos {
     e_instrumentOver = 0, e_scoreOver = 1, e_nameOver = 2, e_bottomRight
   };
   Q_ENUM(EtipPos)
 
-  Tcanvas(Texam* exam, QObject* parent = nullptr);
-  ~Tcanvas() override;
+  TtipHandler(Texam* exam, QObject* parent = nullptr);
+  ~TtipHandler() override;
 
   QPointF tipPos() const { return m_lastTipPos; }
   void setTipPos(const QPointF& p);
@@ -169,8 +168,6 @@ private:
 
 private:
   QPointF getTipPosition(EtipPos tp);
-//  int getMaxTipHeight(); /**< Calculates maximal tip height depends on free MainWindow widget. */
-//  void setPosOfTip(TgraphicsTextTip *tip); /**< Universal method to place given tip above free MainWindow widget.  */
 //  void setResultPos();
 //  void setWhatNextPos();
 //  void setStartTipPos();
@@ -179,8 +176,6 @@ private:
 //  void setConfirmPos();
 //  void setOutTunePos();
 //  void updateRelatedPoint();
-//  void createQuestionTip(); /**< Be sure that @p m_exam has already pointed current exam */
-//  void fixWidthOverScore(TgraphicsTextTip* tip); /**< Scales tip if its width is bigger than score widget */
  EtipPos determineTipPos();
 
 };

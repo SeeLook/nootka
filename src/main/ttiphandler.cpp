@@ -17,15 +17,13 @@
  ***************************************************************************/
 
 
-#include "tcanvas.h"
-//#include "tquestiontip.h"
+#include "ttiphandler.h"
 //#include "tnootkacertificate.h"
 #include "texecutorsupply.h"
 #include <exam/tqaunit.h>
 #include <exam/texam.h>
 #include <exam/tresulttext.h>
 #include <exam/tlevel.h>
-// #include <texamparams.h>
 #include <tnootkaqml.h>
 #include <instruments/tcommoninstrument.h>
 #include <exam/textrans.h>
@@ -72,7 +70,7 @@ inline qreal multiScale() {
 
 QString getTextHowAccid(Tnote::Ealter accid) {
   QString S = QString("<br><span style=\"color: %1\">").arg(GLOB->GselectedColor.name());
-  if (accid) S += qApp->tr("Use %1").arg(QString::fromStdString(signsAcid[accid + 2]));
+  if (accid) S += qApp->translate("TtipHandler", "Use %1").arg(QString::fromStdString(signsAcid[accid + 2]));
   else S += qApp->tr(" Don't use accidentals!");
   S +=  QLatin1String("</span>");
   return S;
@@ -80,16 +78,16 @@ QString getTextHowAccid(Tnote::Ealter accid) {
 
 
 QString onStringTxt(quint8 strNr) {
-    return QLatin1String("<b>") + qApp->tr("on %1 string.").arg(QString("</b><span style=\"font-family: nootka;\">%1</span><b>").arg(strNr))
+    return QLatin1String("<b>") + qApp->translate("TtipHandler", "on %1 string.").arg(QString("</b><span style=\"font-family: nootka;\">%1</span><b>").arg(strNr))
           + QLatin1String("</b>");
 }
 
 
 QString playOrSing(int instr) {
   if (static_cast<Tinstrument::Etype>(instr) == Tinstrument::NoInstrument)
-    return qApp->tr("Play or sing");
+    return qApp->translate("TtipHandler", "Play or sing");
   else
-    return qApp->tr("Play");
+    return qApp->translate("TtipHandler", "Play");
 }
 
 
@@ -99,7 +97,7 @@ QString getNiceNoteName(Tnote& note, Tnote::EnameStyle style) {
 
 
 
-Tcanvas::Tcanvas(Texam* exam, QObject *parent) :
+TtipHandler::TtipHandler(Texam* exam, QObject *parent) :
   QObject(parent),
 //  m_certifyTip(nullptr),
   m_exam(exam),
@@ -108,7 +106,7 @@ Tcanvas::Tcanvas(Texam* exam, QObject *parent) :
   m_questTipPosType(e_bottomRight),
   m_iconSize(bigFont() * 1.5)
 {
- connect(m_timerToConfirm, &QTimer::timeout, this, &Tcanvas::showConfirmTip);
+ connect(m_timerToConfirm, &QTimer::timeout, this, &TtipHandler::showConfirmTip);
 //  qApp->installEventFilter(this);
 //   int levelMessageDelay = 1;
 //   if (TexecutorSupply::paramsChangedMessage())
@@ -125,16 +123,16 @@ Tcanvas::Tcanvas(Texam* exam, QObject *parent) :
   });
 }
 
-Tcanvas::~Tcanvas()
+TtipHandler::~TtipHandler()
 {}
 
 
-void Tcanvas::changeExam(Texam* newExam) {
+void TtipHandler::changeExam(Texam* newExam) {
   m_exam = newExam;
 }
 
 
-void Tcanvas::setTipPos(const QPointF& p) {
+void TtipHandler::setTipPos(const QPointF& p) {
   m_posOfQuestTips[static_cast<int>(m_questTipPosType)] = p;
 }
 
@@ -152,7 +150,7 @@ void Tcanvas::setTipPos(const QPointF& p) {
 //##################################### TIPS ###########################
 //######################################################################
 
-int Tcanvas::bigFont() {
+int TtipHandler::bigFont() {
 #if defined (Q_OS_ANDROID)
   return (NOO->fontSize() * 1.2);
 #else
@@ -223,7 +221,7 @@ int Tcanvas::bigFont() {
 //}
 
 
-QString Tcanvas::startTipText() {
+QString TtipHandler::startTipText() {
   return TexamHelp::toGetQuestTxt() + QLatin1String(":<br>") +
     TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"nextQuest\">") +
                                   NOO->pixToHtml(QLatin1String("nextQuest"), m_iconSize) + QLatin1String("</a>"))
@@ -234,7 +232,7 @@ QString Tcanvas::startTipText() {
 }
 
 
-void Tcanvas::startTip() {
+void TtipHandler::startTip() {
   QString tipText = QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75))
       + startTipText() + QLatin1String(".<br>")
       + TexamHelp::toStopExamTxt(QLatin1String("<a href=\"stopExam\"> ")
@@ -337,7 +335,7 @@ void Tcanvas::startTip() {
 //}
 
 
-void Tcanvas::confirmTip(int time) {
+void TtipHandler::confirmTip(int time) {
 #if defined (Q_OS_ANDROID)
  showConfirmTip();
 #else
@@ -346,7 +344,7 @@ void Tcanvas::confirmTip(int time) {
 }
 
 
-void Tcanvas::showConfirmTip() {
+void TtipHandler::showConfirmTip() {
  m_timerToConfirm->stop();
 
 //  if (!m_confirmTip) {
@@ -387,7 +385,7 @@ void Tcanvas::showConfirmTip() {
 //}
 
 
-void Tcanvas::questionTip() {
+void TtipHandler::questionTip() {
   QString br = QStringLiteral("<br>");
   QString sp = QStringLiteral(" ");
   QString questText;
@@ -618,7 +616,7 @@ void Tcanvas::questionTip() {
 //}
 
 
-void Tcanvas::clearCanvas() {
+void TtipHandler::clearCanvas() {
   emit destroyTips();
 //  clearConfirmTip();
 //  clearResultTip();
@@ -674,23 +672,6 @@ void Tcanvas::clearCanvas() {
 ////###################              PROTECTED           ############################################
 ////#################################################################################################
 
-//void Tcanvas::sizeChangedDelayed(const QRectF& newRect) {
-//  QSizeF factor(newRect.width() / m_prevSize.width(), newRect.height() / m_prevSize.height());
-//  for (int i = 0; i < TIP_POS_NUM; ++i) {
-//    if (!m_posOfQuestTips[i].isNull())
-//      m_posOfQuestTips[i] = QPointF(m_posOfQuestTips[i].x() * factor.width(), m_posOfQuestTips[i].y() * factor.height());
-//    if (!m_posOfWhatTips[i].isNull())
-//      m_posOfWhatTips[i] = QPointF(m_posOfWhatTips[i].x() * factor.width(), m_posOfWhatTips[i].y() * factor.height());
-//  }
-//  if (!m_posOfConfirm.isNull())
-//      m_posOfConfirm = QPointF(m_posOfConfirm.x() * factor.width(), m_posOfConfirm.y() * factor.height());
-//  m_prevSize = newRect.size();
-//  m_newSize = newRect.size().toSize();
-//  QTimer::singleShot(2, this, SLOT(sizeChanged()));
-//}
-
-
-
 //void Tcanvas::correctAnimFinished() {
 ////   clearCorrection();
 //  m_flyEllipse->hide();
@@ -725,7 +706,7 @@ void Tcanvas::clearCanvas() {
 ////#################################### PRIVATE #####################################################
 ////##################################################################################################
 
-QPointF Tcanvas::getTipPosition(Tcanvas::EtipPos tp) {
+QPointF TtipHandler::getTipPosition(TtipHandler::EtipPos tp) {
   qreal offY = NOO->isAndroid() ? 0.0 : EXECUTOR->height() / 14; // controls coordinates are sifted by tool bar height
   if (tp == e_nameOver && NOTENAME)
     return QPointF(NOTENAME->x() + NOTENAME->width() / 2.0, NOTENAME->y() + NOTENAME->height() / 2.0 + offY);
@@ -784,12 +765,6 @@ QPointF Tcanvas::getTipPosition(Tcanvas::EtipPos tp) {
 //}
 
 
-//void Tcanvas::setStartTipPos() {
-//// in the middle of a window
-//  m_startTip->setPos((m_scene->width() - m_startTip->realW()) / 2, (m_scene->height() - m_startTip->realH()) / 2);
-//}
-
-
 //void Tcanvas::setConfirmPos() { // right top corner
 //#if defined (Q_OS_ANDROID)
 //  qreal sc = (m_view->height() / 8.0) / m_confirmTip->realH();
@@ -816,34 +791,6 @@ QPointF Tcanvas::getTipPosition(Tcanvas::EtipPos tp) {
 //}
 
 
-//void Tcanvas::setQuestionPos() {
-//  int maxTipHeight = qRound(getMaxTipHeight() * 1.1);
-//  qreal fineScale;
-//  if (m_questionTip->boundingRect().height() > maxTipHeight) { // check is scaling needed
-//      fineScale = (qreal)maxTipHeight / m_questionTip->boundingRect().height();
-//#if defined (Q_OS_ANDROID)
-//      fineScale *= multiScale();
-//#endif
-
-//      qreal scaleStep = 0.0;
-//      while (m_questionTip->realH() > maxTipHeight) {
-//          delete m_questionTip;
-//          m_questionTip = new TquestionTip(m_exam, fineScale - scaleStep);
-//          m_questionTip->setTextWidth(m_maxTipWidth);
-//          m_scene->addItem(m_questionTip);
-//          scaleStep += 0.1;
-//      }
-//  }
-//  if (m_posOfQuestTips[static_cast<int>(m_tipPos)].isNull()) // calculate tip position only when user doesn't change it
-//      setPosOfTip(m_questionTip);
-//  else {
-//      fixWidthOverScore(m_questionTip);
-//      m_questionTip->setFixPos(m_posOfQuestTips[static_cast<int>(m_tipPos)]);
-//  }
-//  m_questionTip->show();
-//}
-
-
 //void Tcanvas::setOutTunePos() {
 //  int startX = SOUND->pitchView()->geometry().x();
 //  if (m_outTuneTip->realW() > SOUND->pitchView()->geometry().width() / 2)
@@ -852,29 +799,6 @@ QPointF Tcanvas::getTipPosition(Tcanvas::EtipPos tp) {
 //    startX += SOUND->pitchView()->geometry().width() / 2;
 //  m_outTuneTip->setPos(startX + (SOUND->pitchView()->geometry().width() / 2 - m_outTuneTip->realW()) / 2,
 //                        SOUND->pitchView()->y() - m_outTuneTip->realH());
-//}
-
-
-//void Tcanvas::updateRelatedPoint() {
-//  m_relPoint.setX(SCORE->geometry().x() + (NOTENAME->geometry().x() - SCORE->geometry().x()) / 2);
-//  m_relPoint.setY(SCORE->geometry().y());
-//}
-
-
-//void Tcanvas::fixWidthOverScore ( TgraphicsTextTip* tip ) {
-//  if (m_tipPos == e_scoreOver && tip->realW() > SCORE->width())
-//    tip->setScale((qMax(SCORE->width() * 0.9, m_view->width() / 3.0) / (tip->boundingRect().width())));
-//}
-
-
-
-//void Tcanvas::tipMoved() {
-//  if (sender() == m_questionTip)
-//    m_posOfQuestTips[static_cast<int>(m_tipPos)] = m_questionTip->pos();
-//  else if (sender() == m_whatTip)
-//    m_posOfWhatTips[static_cast<int>(m_tipPos)] = m_whatTip->pos();
-//  else if (sender() == m_confirmTip)
-//    m_posOfConfirm = m_confirmTip->pos();
 //}
 
 
@@ -887,7 +811,7 @@ QPointF Tcanvas::getTipPosition(Tcanvas::EtipPos tp) {
 /**
 * For details, see table in tip_positions.html file
 */
-Tcanvas::EtipPos Tcanvas::determineTipPos() {
+TtipHandler::EtipPos TtipHandler::determineTipPos() {
  EtipPos tipPos;
  switch (m_exam->curQ()->questionAs) {
    /** Question is note on the score, so place a tip over name if not used or over guitar if visible but if not - in bottom-right corner. */
