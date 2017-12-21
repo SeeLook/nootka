@@ -24,6 +24,10 @@ Texecutor {
       var s = Qt.createComponent("qrc:/exam/ExamTip.qml")
       s.createObject(executor, { "text": text, "offX": pos.x, "offY": pos.y, "bg": color } )
     }
+    onShowQuestionTip: {
+      var s = Qt.createComponent("qrc:/exam/QuestionTip.qml")
+      s.createObject(executor, { "text": text, "offX": pos.x, "offY": pos.y } )
+    }
   }
 }
 
