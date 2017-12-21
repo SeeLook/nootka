@@ -22,7 +22,6 @@ TRANSLATION CONTEXT CHANGES
   TtoolBar - exam actions are created in TexamExecutor
   accidssettings -> AccidsPage (but remove line breaks from descriptions)
   TlevelPreviewItem "no level selected" goes to TlevelSelector
-  TquestionTip -> Tcanvas (or better TtipHandler)
 
   NameStyleSelector - text "Naming style of note. The main difference is the 7th note.<br>Is it B and B flat, or H and B?" has to go into ScorePage or its sub-page with name settings
   AdioInSettings ??? copy "semitone(s)" text to Transposition context but remove %n

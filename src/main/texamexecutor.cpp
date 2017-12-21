@@ -24,7 +24,7 @@
 #include "tpenalty.h"
 #include "texammelody.h"
 #include "trandmelody.h"
-#include "tcanvas.h"
+#include "ttiphandler.h"
 #include <qtr.h>
 #include <tcolor.h>
 #include <tsound.h>
@@ -247,7 +247,7 @@ void TexamExecutor::initializeExecuting() {
     if (GLOB->E->suggestExam)
       m_exercise->setSuggestionEnabled(m_supp->qaPossibilities(), m_exam->melodies());
   } else {
-//       connect(m_canvas, SIGNAL(certificateMagicKeys()), this, SLOT(displayCertificate()));
+//       connect(m_tipHandler, SIGNAL(certificateMagicKeys()), this, SLOT(displayCertificate()));
 //       if (m_level.answerIsNote())
 //         SCORE->enableAccidToKeyAnim(false);
   }
@@ -275,7 +275,7 @@ void TexamExecutor::initializeExecuting() {
 
 void TexamExecutor::askQuestion(bool isAttempt) {
   m_askingTimer->stop();
-//   if (m_canvas->hasCertificate()) // in auto mode new question can be asked "under" certificate
+//   if (m_tipHandler->hasCertificate()) // in auto mode new question can be asked "under" certificate
 //     return;
 
 //   m_lockRightButt = false; // release mouse button events
@@ -307,7 +307,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     if (!GLOB->E->autoNextQuest) {
       if (!m_exercise)
         m_stopExamAct->setEnabled(false);
-      m_canvas->clearCanvas();
+      m_tipHandler->clearCanvas();
     }
     m_incorrectRepeated = false;
     m_answRequire.octave = m_level.requireOctave;
@@ -557,7 +557,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 // 
 //   TOOLBAR->setForQuestion(curQ->questionAsSound(), curQ->questionAsSound() && curQ->answerAsNote());
   m_penalty->startQuestionTime();
-  m_canvas->questionTip();
+  m_tipHandler->questionTip();
   m_blindCounter = 0; // question successfully asked - reset the counter
 }
 
@@ -702,9 +702,9 @@ void TexamExecutor::checkAnswer(bool showResults) {
 //       autoNext = false; // when mistake and e_stop - the same like autoNext = false;
 //     
 //   if (showResults) {
-//       m_canvas->resultTip(curQ); // tip duration is calculated by itself (inside resultTip() method)
+//       m_tipHandler->resultTip(curQ); // tip duration is calculated by itself (inside resultTip() method)
 //       if ((!m_exercise || (m_exercise && curQ->isCorrect())) && !autoNext)
-//         m_canvas->whatNextTip(curQ->isCorrect());
+//         m_tipHandler->whatNextTip(curQ->isCorrect());
 //       if (!autoNext) {
 //         if (!curQ->isCorrect() && !m_exercise && !curQ->melody())
 //             TOOLBAR->addAction(TOOLBAR->prevQuestAct);
@@ -729,7 +729,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 //           if (!GLOB->E->autoNextQuest || (GLOB->E->autoNextQuest && GLOB->E->afterMistake == TexamParams::e_stop))
 //               TOOLBAR->addAction(TOOLBAR->correctAct); // show too button only when exam stops after mistake
 //           if (!autoNext) {
-//               m_canvas->whatNextTip(true, true);
+//               m_tipHandler->whatNextTip(true, true);
 //               m_lockRightButt = false;
 //               return; // wait for user
 //           }
@@ -780,7 +780,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 //   bool correctAnimStarted = false;
 //   if (m_askingTimer->isActive())
 //       m_askingTimer->stop();
-//   m_canvas->clearWhatNextTip();
+//   m_tipHandler->clearWhatNextTip();
 //   TQAunit* curQ = m_exam->answList()->last();
 //   QColor markColor = m_supp->answerColor(curQ);
 //   if (curQ->melody() && (curQ->answerAsNote() || curQ->questionAsNote())) {
@@ -833,7 +833,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 //       if (curQ->wrongIntonation()) {
 //           float outTune = SOUND->pitch() - (float)qRound(SOUND->pitch());
 //           SOUND->pitchView()->outOfTuneAnim(outTune, 1200);
-//           m_canvas->outOfTuneTip(outTune); // we are sure that it is beyond the accuracy threshold
+//           m_tipHandler->outOfTuneTip(outTune); // we are sure that it is beyond the accuracy threshold
 //           correctAnimStarted = true;
 //       }
 //       if (m_supp->isCorrectedPlayable())
@@ -844,7 +844,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 //           if (curQ->questionAsFret())
 //             INSTRUMENT->correctPosition(curQ->qa.pos, markColor);
 //           else
-//             m_canvas->correctToGuitar(curQ->questionAs, GLOB->E->mistakePreview, curQ->qa.pos);
+//             m_tipHandler->correctToGuitar(curQ->questionAs, GLOB->E->mistakePreview, curQ->qa.pos);
 //           correctAnimStarted = true;
 //         }
 //       }
@@ -859,8 +859,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
 // 
 // 
 // void TexamExecutor::newAttempt() {
-//   m_canvas->tryAgainTip(3000);
-//   QTimer::singleShot(2000, m_canvas, SLOT(clearResultTip())); 
+//   m_tipHandler->tryAgainTip(3000);
+//   QTimer::singleShot(2000, m_tipHandler, SLOT(clearResultTip())); 
 //   if (m_exam->curQ()->answerAsNote() || m_exam->curQ()->questionAsNote()) // remove names and marks from score notes
 //     for (int i = 0; i < SCORE->notesCount(); ++i) {
 //       if (m_exercise) {
@@ -936,7 +936,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 // 
 // 
 // void TexamExecutor::repeatQuestion() {
-//   m_canvas->tryAgainTip(3000);
+//   m_tipHandler->tryAgainTip(3000);
 //   m_lockRightButt = false;
 //   m_incorrectRepeated = true;
 //   m_isAnswered = false;
@@ -949,7 +949,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 //   TQAunit curQ(*m_exam->curQ()); // copy last unit as a new one
 // 
 //   if (!GLOB->E->autoNextQuest) {
-//       m_canvas->clearCanvas();
+//       m_tipHandler->clearCanvas();
 //   }
 //   curQ.setMistake(TQAunit::e_correct);
 //   
@@ -993,7 +993,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 //   TOOLBAR->setForQuestion(m_exam->curQ()->questionAsSound(), m_exam->curQ()->questionAsSound() && m_exam->curQ()->answerAsNote());
 //   if (m_exam->curQ()->questionAsSound())
 //       repeatSound();
-//   m_canvas->questionTip();
+//   m_tipHandler->questionTip();
 //   m_penalty->startQuestionTime();
 // }
 // 
@@ -1005,7 +1005,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 // #if !defined (Q_OS_ANDROID)
 //   qApp->removeEventFilter(m_supp); // stop grabbing right button and calling checkAnswer()
 // #endif
-//   m_canvas->certificateTip();
+//   m_tipHandler->certificateTip();
 // }
 // 
 /**
@@ -1086,10 +1086,10 @@ void TexamExecutor::prepareToExam() {
   connect(m_askingTimer, &QTimer::timeout, this, &TexamExecutor::askQuestionSlot);
 
   m_snifferLocked = false;
-  m_canvas = new Tcanvas(m_exam, this);
-  connect(m_canvas, &Tcanvas::destroyTips, this, &TexamExecutor::destroyTips);
-  emit tipCreated();
-  m_canvas->startTip();
+  m_tipHandler = new TtipHandler(m_exam, this);
+  connect(m_tipHandler, &TtipHandler::destroyTips, this, &TexamExecutor::destroyTips);
+  emit tipHandlerCreated();
+  m_tipHandler->startTip();
   if (m_exercise && !m_exam->melodies()) {
 //     if (m_level.answerIsNote())
 //       connect(SCORE, &TmainScore::correctingFinished, this, &TexamExecutor::correctionFinished);
@@ -1099,7 +1099,7 @@ void TexamExecutor::prepareToExam() {
 //       connect(GUITAR, &TfingerBoard::correctingFinished, this, &TexamExecutor::correctionFinished);
 //     if (m_level.answerIsSound()) {
 //       connect(SOUND->pitchView(), &TpitchView::correctingFinished, this, &TexamExecutor::correctionFinished);
-//       connect(m_canvas, &Tcanvas::correctingFinished, this, &TexamExecutor::correctionFinished);
+//       connect(m_tipHandler, &Tcanvas::correctingFinished, this, &TexamExecutor::correctionFinished);
 //     }
   }
 }
@@ -1145,8 +1145,8 @@ void TexamExecutor::prepareToExam() {
 //   NOTENAME->setNameDisabled(false);
 //   INSTRUMENT->setGuitarDisabled(false);
 // 
-//   if (m_canvas)
-//       m_canvas->deleteLater();
+//   if (m_tipHandler)
+//       m_tipHandler->deleteLater();
 // 
 //   disconnect(TOOLBAR->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
 //   disconnect(TOOLBAR->levelCreatorAct, SIGNAL(triggered()), this, SLOT(showExamHelp()));
@@ -1247,10 +1247,10 @@ void TexamExecutor::createActions() {
 //   m_exam->setTune(*GLOB->Gtune());
 //   delete m_exercise;
 //   m_exercise = 0;
-//   m_canvas->changeExam(m_exam);
+//   m_tipHandler->changeExam(m_exam);
 //   setTitleAndTexts();
 // #if !defined (Q_OS_ANDROID) // TODO: Some hint under Android
-//   m_canvas->levelStatusMessage();
+//   m_tipHandler->levelStatusMessage();
 // #endif
 //   m_supp->setFinished(false); // exercise had it set to true
 //   m_supp->resetKeyRandom(); // new set of randomized key signatures when exam requires them
@@ -1258,8 +1258,8 @@ void TexamExecutor::createActions() {
 //   disconnect(TOOLBAR->startExamAct, SIGNAL(triggered()), this, SLOT(stopExerciseSlot()));
 //   connect(TOOLBAR->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
 //   clearWidgets();
-//   m_canvas->clearCanvas();
-//   m_canvas->startTip();
+//   m_tipHandler->clearCanvas();
+//   m_tipHandler->startTip();
 //   if (INSTRUMENT->isVisible() && !m_level.canBeMelody())
 //     MAINVIEW->moveExamToName();
 // }
@@ -1327,7 +1327,7 @@ void TexamExecutor::createActions() {
 //     c.setAlpha(30);
 //     STATUS->setBackground(c);
 // #endif
-//     m_canvas->setStatusMessage(tr("Give an answer first!<br>Then the exam will end."), messageDuration);
+//     m_tipHandler->setStatusMessage(tr("Give an answer first!<br>Then the exam will end."), messageDuration);
 //     return;
 //   }
 //   if (!m_isAnswered)
@@ -1374,9 +1374,9 @@ void TexamExecutor::createActions() {
 //   STATUS->setBackground(-1);
 //   STATUS->setMessage(QString());
 // #endif
-//   m_canvas->setStatusMessage(tr("Such a pity."), 5000);
+//   m_tipHandler->setStatusMessage(tr("Such a pity."), 5000);
 // 
-//   m_canvas->clearCanvas();
+//   m_tipHandler->clearCanvas();
 //   clearWidgets();
 //   restoreAfterExam();
 // }
@@ -1537,8 +1537,8 @@ void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
     if (GLOB->E->expertsAnswerEnable)
       checkAnswer();
     else {
-//       m_canvas->playMelodyAgainMessage();
-      m_canvas->confirmTip(800);
+//       m_tipHandler->playMelodyAgainMessage();
+      m_tipHandler->confirmTip(800);
       SOUND->stopListen();
     }
   }
@@ -1549,7 +1549,7 @@ void TexamExecutor::noteOfMelodySelected(int nr) {
   m_melody->setCurrentIndex(nr);
 //   SCORE->selectNote(nr);
   SOUND->startListen();
-//   m_canvas->clearConfirmTip();
+//   m_tipHandler->clearConfirmTip();
 //   if (isExercise() && INSTRUMENT->isVisible() && m_exam->curQ()->melody()) // in exercises, display guitar position of clicked note for a hint
 //       INSTRUMENT->setFinger(m_exam->curQ()->melody()->note(nr)->g());
 }
@@ -1598,7 +1598,7 @@ void TexamExecutor::startSniffing() {
 
 void TexamExecutor::expertAnswersSlot() {
   if (!GLOB->E->expertsAnswerEnable && !m_exam->melodies()) { // no expert and no melodies
-      m_canvas->confirmTip(1500);
+      m_tipHandler->confirmTip(1500);
       return;
   }
   // ignore slot when some dialog window appears or answer for melody
@@ -1628,7 +1628,7 @@ void TexamExecutor::expertAnswersSlot() {
 //           m_melody->setFixed(noteNr);
 //           if (m_melody->numberOfFixed() > m_exam->curQ()->melody()->length() / 2) { // to much fixed - block new attempt
 //             TOOLBAR->removeAction(TOOLBAR->attemptAct);
-//             m_canvas->whatNextTip(true); // it will cheat m_canvas that question is correct and 'new attempt' will be blocked as well
+//             m_tipHandler->whatNextTip(true); // it will cheat m_tipHandler that question is correct and 'new attempt' will be blocked as well
 //           }
 //         }
 //       }
@@ -1638,9 +1638,9 @@ void TexamExecutor::expertAnswersSlot() {
 //         INSTRUMENT->setFinger(m_exam->curQ()->melody()->note(noteNr)->p());
 //       if (m && m_exam->curQ()->answerAsSound()) {
 //         if (m_melody->listened()[noteNr].pitch.isValid())
-//           m_canvas->detectedNoteTip(m_melody->listened()[noteNr].pitch);
+//           m_tipHandler->detectedNoteTip(m_melody->listened()[noteNr].pitch);
 //         else
-//           m_canvas->setStatusMessage(m_canvas->detectedText(tr("This note was not played!")), 3000);
+//           m_tipHandler->setStatusMessage(m_tipHandler->detectedText(tr("This note was not played!")), 3000);
 //       }
 //     }
 //   }
@@ -1692,7 +1692,7 @@ void TexamExecutor::deleteExam() {
 
 // void TexamExecutor::delayerTip() {
 //   m_lockRightButt = false;
-//   m_canvas->whatNextTip(!(!m_exercise && GLOB->E->repeatIncorrect && !m_incorrectRepeated));
+//   m_tipHandler->whatNextTip(!(!m_exercise && GLOB->E->repeatIncorrect && !m_incorrectRepeated));
 //   /** When exam mode and mistake occurred it will be true,
 //    * so whatNextTip(false) is invoked - whatNextTip displays repeat question hint
 //    * otherwise (exercise and/or correct answer) @p whatNextTip(true) goes. */
@@ -1731,14 +1731,14 @@ void TexamExecutor::deleteExam() {
 //     m_askingTimer->start(GLOB->E->correctPreview); // new question will be started after preview time
 //   }
 //   if (m_exam->curQ()->melody()) { // despite of 'auto' settings when melody - auto next question will not work
-//     m_canvas->whatNextTip(false, false);
+//     m_tipHandler->whatNextTip(false, false);
 //     connect(SCORE, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctNoteOfMelody); // only once per answer
 //   } else if (!GLOB->E->autoNextQuest || GLOB->E->afterMistake == TexamParams::e_stop)
-//       m_canvas->whatNextTip(!(!m_exercise && GLOB->E->repeatIncorrect && !m_incorrectRepeated));
+//       m_tipHandler->whatNextTip(!(!m_exercise && GLOB->E->repeatIncorrect && !m_incorrectRepeated));
 //   if (m_exam->curQ()->melody() && (m_exam->curQ()->questionAsNote() || m_exam->curQ()->answerAsNote()))
-//       m_canvas->melodyCorrectMessage();
+//       m_tipHandler->melodyCorrectMessage();
 //   if (!GLOB->E->autoNextQuest || !GLOB->E->showCorrected || GLOB->E->afterMistake == TexamParams::e_stop)
-//       QTimer::singleShot(4000, m_canvas, SLOT(clearResultTip())); // exam will stop so clear result tip after correction
+//       QTimer::singleShot(4000, m_tipHandler, SLOT(clearResultTip())); // exam will stop so clear result tip after correction
 //   m_lockRightButt = false;
 // }
 
@@ -1769,4 +1769,4 @@ QString TexamExecutor::title() const {
 }
 
 
-Tcanvas* TexamExecutor::tipHandler() { return m_canvas; }
+TtipHandler* TexamExecutor::tipHandler() { return m_tipHandler; }
