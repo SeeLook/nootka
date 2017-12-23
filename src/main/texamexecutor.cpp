@@ -1170,7 +1170,7 @@ void TexamExecutor::disableWidgets() {
 
 
 void TexamExecutor::clearWidgets() {
-  QMetaObject::invokeMethod(SCORE_ITEM, "clearScore");
+  SCORE->clearScore();
   if (NOTENAME)
     NOTENAME->setNote(Tnote());
 //   INSTRUMENT->clearFingerBoard();

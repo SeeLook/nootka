@@ -216,7 +216,7 @@ void solveList(const Tnote& n, int dur, QList<Tnote>& outList) {
   }
 }
 
-void TscoreObject::addNote(const Tnote& newNote) {
+void TscoreObject::addNote(const Tnote& newNote, bool fromQML) {
 CHECKTIME (
 
   auto lastMeasure = m_measures.last();
@@ -274,6 +274,11 @@ CHECKTIME (
       lastMeasure->appendNewNotes(lastNoteId, 1);
   }
   emitLastNote();
+  if (fromQML) {
+    if (!m_recordMode)
+      setSelectedItem(lastNote());
+    emit noteWasAdded();
+  }
 )
 }
 
@@ -365,6 +370,8 @@ void TscoreObject::setNote(TnoteObject* no, const Tnote& n) {
           m_segments[2]->item()->setVisible(false);
     }
   }
+  if (m_recordMode)
+    setSelectedItem(no);
 }
 
 
@@ -557,6 +564,13 @@ void TscoreObject::setSingleNote(bool singleN) {
 }
 
 
+void TscoreObject::setRecordMode(bool r) {
+  if (r != m_recordMode) {
+    m_recordMode = r;
+    emit recordModeChanged();
+  }
+}
+
 
 qreal TscoreObject::stavesHeight() {
   if (m_staves.isEmpty())
@@ -712,6 +726,7 @@ void TscoreObject::deleteLastNote() {
     emitLastNote();
     if (tempActiveBar != m_activeBarNr)
       emitActiveBarChanged();
+    setSelectedItem(nullptr);
   }
 }
 
@@ -731,6 +746,8 @@ void TscoreObject::clearScore() {
       m_activeNote = nullptr;
       adjustScoreWidth();
       emitLastNote();
+      setSelectedItem(nullptr);
+      emit scoreWasCleared();
   }
 }
 
