@@ -374,6 +374,11 @@ QString TnootkaQML::pix(const QString& imageFileName) {
 }
 
 
+QString TnootkaQML::TR(const QString& context, const QString& text, const QString& disambiguation, int n) {
+  return qTR(qPrintable(context), qPrintable(text), qPrintable(disambiguation), n);
+}
+
+
 QColor TnootkaQML::alpha(const QColor& c, int a) {
   return Tcolor::alpha(c, a);
 }
@@ -503,16 +508,14 @@ void TnootkaQML::instrumentChangesNoteSlot() {
     rawNote = rawNote.showWithFlat();
 
   if (m_scoreObject->singleNote()) {
-      QMetaObject::invokeMethod(m_mainScore, "setNote", Q_ARG(QVariant, QVariant::fromValue(m_scoreObject->note(0))),
-                                Q_ARG(QVariant, QVariant::fromValue(rawNote)));
+      m_scoreObject->setNote(m_scoreObject->note(0), rawNote);
   } else {
       if (m_scoreObject->selectedItem()) {
           rawNote.setRhythm(m_scoreObject->selectedItem()->note()->rtm);
-          QMetaObject::invokeMethod(m_mainScore, "setNote", Q_ARG(QVariant, QVariant::fromValue(m_scoreObject->selectedItem())),
-                                                            Q_ARG(QVariant, QVariant::fromValue(rawNote)));
+          m_scoreObject->setNote(m_scoreObject->selectedItem(), rawNote);
       } else {
           rawNote.setRhythm(m_scoreObject->workRhythm());
-          QMetaObject::invokeMethod(m_mainScore, "addNote", Q_ARG(QVariant, QVariant::fromValue(rawNote)));
+          m_scoreObject->addNote(rawNote, true);
       }
   }
 }
@@ -541,11 +544,6 @@ void TnootkaQML::scoreChangedNote() {
   m_instrument->setNote(n);
   emit playNote(n);
   qDebug() << "Got note from score" << n.toText() << n.chromatic();
-}
-
-
-QString TnootkaQML::TR(const QString& context, const QString& text, const QString& disambiguation, int n) {
-  return qTR(qPrintable(context), qPrintable(text), qPrintable(disambiguation), n);
 }
 
 

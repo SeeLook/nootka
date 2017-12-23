@@ -27,7 +27,7 @@ Flickable {
   property alias note: scoreObj.selectedNote
   property alias readOnly: scoreObj.readOnly
   property alias singleNote: scoreObj.singleNote
-  property bool recordMode: false
+  property alias recordMode: scoreObj.recordMode
 
   // private
   property var staves: [ staff0 ]
@@ -73,6 +73,14 @@ Flickable {
           workRhythm = Noo.rhythm(Trhythm.NoRhythm, false, false, false)
     }
     function removeStaff(nr) { staves.splice(nr, 1); lastStaff = staves[staves.length - 1] }
+    onNoteWasAdded: {
+      if (staves.length > 1)
+        ensureVisible(lastNote.staffItem.y, lastNote.staffItem.height * scale)
+    }
+    onScoreWasCleared: {
+      accidControl.show = false
+      rtmControl.show = false
+    }
   }
 
   onCurrentNoteChanged: {
@@ -176,30 +184,11 @@ Flickable {
       contentY = yy + hh - height
   }
 
-  function addNote(n) {
-    scoreObj.addNote(n)
-    var lastNote = scoreObj.lastNote
-    if (staves.length > 1)
-      ensureVisible(lastNote.staffItem.y, lastNote.staffItem.height * scale)
-    if (!recordMode)
-      currentNote = lastNote
-  }
+  function addNote(n) { scoreObj.addNote(n ,true) }
 
-  function setNote(noteItem, note) {
-    scoreObj.setNote(noteItem, note)
-    if (recordMode)
-      currentNote = scoreObj.getNext(currentNote)
-  }
+  function setNote(noteItem, note) { scoreObj.setNote(noteItem, note) }
 
-  function clearScore() {
-    scoreObj.clearScore()
-    currentNote = null
-    accidControl.show = false
-    rtmControl.show = false
-  }
+  function clearScore() { scoreObj.clearScore() }
 
-  function deleteLast() {
-    scoreObj.deleteLastNote()
-    currentNote = null
-  }
+  function deleteLast() { scoreObj.deleteLastNote() }
 }

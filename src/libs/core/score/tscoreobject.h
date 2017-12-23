@@ -76,6 +76,7 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(bool readOnly READ readOnly WRITE setReadOnly)
   Q_PROPERTY(bool singleNote READ singleNote WRITE setSingleNote NOTIFY singleNoteChanged)
   Q_PROPERTY(bool enharmNotesEnabled READ enharmNotesEnabled WRITE setEnharmNotesEnabled)
+  Q_PROPERTY(bool recordMode READ recordMode WRITE setRecordMode NOTIFY recordModeChanged)
                         /* Helper variables */
   Q_PROPERTY(qreal stavesHeight READ stavesHeight NOTIFY stavesHeightChanged)
   Q_PROPERTY(qreal width READ width WRITE setWidth)
@@ -119,7 +120,13 @@ public:
   int keySignature() const { return static_cast<int>(m_keySignature); }
   void setKeySignature(int k);
 
-  Q_INVOKABLE void addNote(const Tnote& newNote);
+      /**
+       * Adds note @p newNote to score.
+       * in some situations QML part has to take additional actions (scrolls score to make added note visible).
+       * @p fromQML has to be set to @p TRUE then - signal @p noteWaAdded() is emitted
+       * and QML performs required routines
+       */
+  Q_INVOKABLE void addNote(const Tnote& newNote, bool fromQML = false);
   Q_INVOKABLE void setNote(TnoteObject* no, const Tnote& n);
 
       /**
@@ -179,6 +186,9 @@ public:
 
   bool enharmNotesEnabled() const { return m_enharmNotesEnabled; }
   void setEnharmNotesEnabled(bool enEn) { m_enharmNotesEnabled = enEn; }
+
+  bool recordMode() const { return m_recordMode; }
+  void setRecordMode(bool r);
 
   /* ------------------ Lists with score content (staves, measures notes) ------------------ */
 
@@ -351,12 +361,15 @@ signals:
        * QML score depends on it
        */
   void lastNoteChanged();
+  void noteWasAdded();
+  void scoreWasCleared();
 
   void workRtmTextChanged();
 
   void selectedItemChanged();
   void selectedNoteChanged();
   void singleNoteChanged();
+  void recordModeChanged();
 
 protected:
       /**
@@ -476,6 +489,7 @@ private:
   bool                              m_readOnly = false;
   bool                              m_singleNote = false;
   bool                              m_enharmNotesEnabled = false;
+  bool                              m_recordMode = false;
                               /* Lists with notes, measures, staves, meter groups */
   QList<TnotePair*>                 m_segments;
   QList<TnotePair*>                 m_spareSegments;
