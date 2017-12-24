@@ -33,6 +33,7 @@
 #include <tnootkaqml.h>
 #include <tsound.h>
 #include "main/tnameitem.h"
+#include "main/tmainscoreobject.h"
 #include "dialogs/tdialogloaderobject.h"
 
 #if defined (Q_OS_ANDROID)
@@ -147,11 +148,12 @@ int main(int argc, char *argv[])
       GLOB->isFirstRun = false;
     }
     qmlRegisterType<TnameItem>("Nootka.Main", 1, 0, "TnameItem");
+    qmlRegisterType<TmainScoreObject>("Nootka.Main", 1, 0, "TmainScoreObject");
     qmlRegisterType<TdialogLoaderObject>("Nootka.Dialogs", 1, 0, "TdialogObject");
     e->load(QUrl(QStringLiteral("qrc:/MainWindow.qml")));
 
 // #if defined (Q_OS_ANDROID)
-//     w->showFullScreen(); // TODO
+//     w->showFullScreen(); // TODO seems to be not necessary
 // #endif
 
     if (firstTime) {
