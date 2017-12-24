@@ -74,12 +74,12 @@ Rectangle {
     anchors.fill: parent
     hoverEnabled: true
     onClicked: {
+      menuButton.clicked()
       if (action) {
         if (action.checkable)
           action.checked = !action.checked
         action.trigger()
       }
-      menuButton.clicked()
     }
   }
 }
