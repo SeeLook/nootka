@@ -572,6 +572,14 @@ void TscoreObject::setRecordMode(bool r) {
 }
 
 
+void TscoreObject::setScaleFactor(qreal factor) {
+  if (factor != m_scaleFactor) {
+    m_scaleFactor = factor;
+    emit scaleFactorChanged();
+  }
+}
+
+
 qreal TscoreObject::stavesHeight() {
   if (m_staves.isEmpty())
     return 0.0;

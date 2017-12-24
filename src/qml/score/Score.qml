@@ -21,7 +21,7 @@ Flickable {
   property bool enableKeySign: scoreObj.keySignatureEnabled
   property bool enableDoubleAccids: false
   property alias workRhythm: scoreObj.workRhythm
-  property real scaleFactor: 1.0
+  property alias scaleFactor: scoreObj.scaleFactor
   property alias notesCount: scoreObj.notesCount
   property alias currentNote: scoreObj.selectedItem
   property alias note: scoreObj.selectedNote
