@@ -14,6 +14,8 @@ Popup {
 
   margins: Noo.fontSize()
 
+  background: TipRect { color: activPal.window }
+
   signal accepted()
 
   Column {

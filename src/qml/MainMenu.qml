@@ -13,85 +13,10 @@ Item {
   TtoolBar { id: toolBar }
 
   function open() {
-    if (!scoreMenu)
-      scoreMenu = menuComp.createObject(this)
+    if (!scoreMenu) {
+      var c = Qt.createComponent("qrc:/ScoreMenuContent.qml")
+      scoreMenu = c.createObject(nootkaWindow.contentItem)
+    }
     scoreMenu.open()
-  }
-
-  Component {
-      id: menuComp
-      Menu {
-        id: scoreMenu
-        width: Noo.fontSize() * 20
-        x: toolBar.scoreAct.x
-        y: score.y
-
-        MenuItem {
-          visible: !GLOB.isExam
-          contentItem: MenuButton {
-            action: score.playAct
-            onClicked: scoreMenu.close()
-          }
-        }
-        MenuItem {
-          visible: !GLOB.isExam
-          contentItem: MenuButton {
-            action: score.recModeAct
-            onClicked: scoreMenu.close()
-          }
-        }
-        MenuItem {
-          visible: !GLOB.isExam
-          contentItem: MenuButton {
-            action: score.openXmlAct
-            onClicked: scoreMenu.close()
-          }
-        }
-        MenuItem {
-          visible: !GLOB.isExam
-          contentItem: MenuButton {
-            action: score.saveXmlAct
-            onClicked: scoreMenu.close()
-          }
-        }
-        MenuItem {
-          visible: !GLOB.isExam
-          contentItem: MenuButton {
-            action: score.extraAccidsAct
-            onClicked: scoreMenu.close()
-          }
-        }
-        MenuItem {
-          visible: !GLOB.isExam
-          contentItem: MenuButton {
-            action: score.showNamesAct
-            onClicked: scoreMenu.close()
-          }
-        }
-        MenuItem {
-          contentItem: MenuButton {
-            action: score.zoomInAct
-            onClicked: scoreMenu.close()
-          }
-        }
-        MenuItem {
-          contentItem: MenuButton {
-            action: score.zoomOutAct
-            onClicked: scoreMenu.close()
-          }
-        }
-        MenuItem {
-          contentItem: MenuButton {
-            action: score.deleteLastAct
-            onClicked: scoreMenu.close()
-          }
-        }
-        MenuItem {
-          contentItem: MenuButton {
-            action: score.clearScoreAct
-            onClicked: scoreMenu.close()
-          }
-        }
-      }
   }
 }
