@@ -7,6 +7,7 @@ import QtQuick.Controls 2.2
 
 import Score 1.0
 import Nootka 1.0
+import Nootka.Main 1.0
 
 
 Score {
@@ -14,16 +15,17 @@ Score {
 
   width: parent.width
 
-  property alias showNamesAct: showNamesAct
-  property alias extraAccidsAct: extraAccidsAct
-  property alias zoomInAct: zoomInAct
-  property alias zoomOutAct: zoomOutAct
-  property alias openXmlAct: openXmlAct
-  property alias saveXmlAct: saveXmlAct
-  property alias deleteLastAct: deleteLastAct
-  property alias clearScoreAct: clearScoreAct
-  property alias recModeAct: recModeAct
-  property alias playAct: playAct
+  property alias showNamesAct: mainObj.showNamesAct
+  property alias extraAccidsAct: mainObj.extraAccidsAct
+  property alias zoomInAct: mainObj.zoomInAct
+  property alias zoomOutAct: mainObj.zoomOutAct
+  property alias openXmlAct: mainObj.openXmlAct
+  property alias saveXmlAct: mainObj.saveXmlAct
+  property alias deleteLastAct: mainObj.deleteLastAct
+  property alias clearScoreAct: mainObj.clearScoreAct
+  property alias recModeAct: mainObj.recModeAct
+  property alias playAct: mainObj.playAct
+  property alias scoreActions: mainObj.scoreActions
 
   scoreObj.meter: GLOB.rhythmsEnabled && !GLOB.singleNoteMode ? Tmeter.Meter_4_4 : Tmeter.NoMeter
   focus: true
@@ -41,6 +43,19 @@ Score {
   scoreObj.nameColor: GLOB.nameColor
   scoreObj.nameStyle: GLOB.noteNameStyle
   scoreObj.enableDoubleAccidentals: GLOB.enableDoubleAccids
+
+  TmainScoreObject {
+    id: mainObj
+    scoreObject: scoreObj
+    deleteLastAct.shortcut: Shortcut { sequence: "Del"; onActivated: deleteLastAct.triggered(); enabled: !GLOB.singleNoteMode }
+    clearScoreAct.shortcut: Shortcut { sequence: "Shift+Del"; onActivated: clearScoreAct.triggered(); enabled: !GLOB.singleNoteMode }
+    openXmlAct.shortcut: Shortcut { sequence: StandardKey.Open; onActivated: openXmlAct.triggered(); enabled: !GLOB.singleNoteMode }
+    saveXmlAct.shortcut: Shortcut { sequence: StandardKey.Save; onActivated: saveXmlAct.triggered(); enabled: !GLOB.singleNoteMode }
+    zoomOutAct.shortcut: Shortcut { sequence: StandardKey.ZoomOut; onActivated: zoomOutAct.triggered(); enabled: !GLOB.singleNoteMode }
+    zoomInAct.shortcut: Shortcut { sequence: StandardKey.ZoomIn; onActivated: zoomInAct.triggered(); enabled: !GLOB.singleNoteMode }
+    recModeAct.text: recordMode ? qsTr("Note by note") : qsTr("Edit")
+    recModeAct.icon: recordMode ? "record" : "stopMelody"
+  }
 
   Timer { id: zoomTimer; interval: 500 }
   MouseArea {
@@ -127,92 +142,9 @@ Score {
     height: currentNote ? Math.min(12.0, currentNote.notePosY + 6.0) : 0
     x: currentNote ? -width * 0.25 : 0
     y: currentNote ? Math.min(currentNote.height - height, Math.max(0.0, currentNote.notePosY - height / 2.0)) : 0
-    color: Qt.rgba(activPal.highlight.r, activPal.highlight.g, activPal.highlight.b, 0.3)
+    color: Noo.alpha(activPal.highlight, 75)
     z: -1
     radius: width / 3.0
-  }
-
-  Taction {
-    id: playAct
-    text: Noo.TR("QShortcut", "Play")
-    icon: "playMelody"
-    onTriggered: SOUND.playScore()
-//     shortcut: Shortcut { sequence: "Space"; onActivated: recModeAct.triggered() }
-  }
-  Taction {
-    id: recModeAct
-    text: recordMode ? qsTr("Note by note") : qsTr("Edit")
-    icon: recordMode ? "record" : "stopMelody"
-    onTriggered: recordMode = !recordMode
-//     shortcut: Shortcut { sequence: "Ctrl+Space"; onActivated: recModeAct.triggered() }
-  }
-  Taction {
-    id: openXmlAct
-    text: Noo.TR("QShortcut", "Open")
-    icon: "open"
-    onTriggered: {
-      SOUND.stopListen()
-      var xmlFle = Noo.getXmlToOpen()
-      scoreObj.openMusicXml(xmlFle)
-      SOUND.startListen()
-    }
-    shortcut: Shortcut { sequence: StandardKey.Open; onActivated: openXmlAct.triggered() }
-  }
-  Taction {
-    id: saveXmlAct
-    text: Noo.TR("QShortcut", "Save")
-    icon: "save"
-    onTriggered: {
-      var xmlFle = Noo.getXmlToSave()
-      scoreObj.saveMusicXml(xmlFle)
-    }
-    shortcut: Shortcut { sequence: StandardKey.Save; onActivated: saveXmlAct.triggered() }
-  }
-  Taction {
-    id: extraAccidsAct
-    enabled: !GLOB.singleNoteMode
-    text: qsTr("Additional accidentals")
-    checkable: true
-  }
-  Taction {
-    id: showNamesAct
-    enabled: !GLOB.singleNoteMode
-    text: qsTr("Show note names")
-    checkable: true
-    checked: GLOB.namesOnScore
-    onTriggered: { scoreObj.showNoteNames = checked }
-  }
-  Taction {
-    id: zoomOutAct
-    enabled: !GLOB.singleNoteMode
-    icon: "zoom-out"
-    text: qsTr("Zoom score out")
-    onTriggered: scaleFactor = Math.max(0.4, scaleFactor - 0.2)
-    shortcut: Shortcut { sequence: StandardKey.ZoomOut; onActivated: zoomOutAct.triggered() }
-  }
-  Taction {
-    id: zoomInAct
-    enabled: !GLOB.singleNoteMode
-    icon: "zoom-in"
-    text: qsTr("Zoom score in")
-    onTriggered: scaleFactor = scaleFactor = Math.min(scaleFactor + 0.2, 1.4)
-    shortcut: Shortcut { sequence: StandardKey.ZoomIn; onActivated: zoomInAct.triggered() }
-  }
-  Taction {
-    id: deleteLastAct
-    enabled: !GLOB.singleNoteMode
-    icon: "delete"
-    text: qsTr("Delete note")
-    onTriggered: scoreObj.deleteLastNote()
-    shortcut: Shortcut { sequence: "Del"; onActivated: deleteLastAct.triggered() }
-  }
-  Taction {
-    id: clearScoreAct
-    enabled: !GLOB.singleNoteMode
-    icon: "clear-score"
-    text: qsTr("Delete all notes")
-    onTriggered: clearScore()
-    shortcut: Shortcut { sequence: "Shift+Del"; onActivated: clearScoreAct.triggered() }
   }
 
   Shortcut {

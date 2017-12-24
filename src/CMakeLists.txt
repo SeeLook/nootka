@@ -83,6 +83,7 @@ set(NOOTKA_SRC
   main/thelpdialogbase.cpp
   main/texamhelp.cpp
   main/ttiphandler.cpp
+  main/tmainscoreobject.cpp
 
   dialogs/tdialogloaderobject.cpp
   dialogs/tlevelcreatoritem.cpp
