@@ -16,9 +16,8 @@ Item {
 // private
   readonly property var sharpPos: [ 0, 3, -1, 2, 5, 1,  4 ]
   readonly property var flatPos: [ 4, 1, 5, 2, 6, 3, 7 ]
-  property real accidOff: 0
-  property int clef: Tclef.Treble_G
 
+  x: staff.clef.x + staff.clef.width + 1
   width: Math.max(6, (Math.abs(key) + 1) * 1.8)
   height: 10
 
@@ -26,11 +25,10 @@ Item {
 
   onKeyChanged: keySignatureChanged(key)
 
-  function changeClef(c) {
+  function accidOffset(c) {
+      var accidOff = 1
       switch (c) {
-        case Tclef.Treble_G:
-        case Tclef.Treble_G_8down:
-          accidOff = 1; break;
+
         case Tclef.Bass_F:
         case Tclef.Bass_F_8down:
           accidOff = -1; break;
@@ -41,8 +39,7 @@ Item {
         case Tclef.PianoStaffClefs:
           accidOff = 3; break;
       }
-      clef = c
-      x = staff.clef.x + staff.clef.width + 1
+      return accidOff;
   }
 
   Repeater {
@@ -53,13 +50,14 @@ Item {
         color: activPal.text
         text: key < 0 ? "\ue260" : (key > 0 ? "\ue262" : "") // flat or sharp symbols
         x: index * 1.8
-        y: (key < 0 ? flatPos[index] : sharpPos[index]) - accidOff + (clef === Tclef.Tenor_C && key > 0 && (index === 0 || index === 2) ? 7 : 0)
+        y: (key < 0 ? flatPos[index] : sharpPos[index]) - accidOffset(score.clef)
+                          + (score.clef === Tclef.Tenor_C && key > 0 && (index === 0 || index === 2) ? 7 : 0)
         opacity: index < Math.abs(key) ? 1.0 : 0.0
         Behavior on opacity { enabled: GLOB.useAnimations; NumberAnimation { property: "opacity"; duration: 200 }}
       }
   }
 
-  Loader { sourceComponent: clef === Tclef.PianoStaffClefs ? lowerAccids : null }
+  Loader { sourceComponent: score.clef === Tclef.PianoStaffClefs ? lowerAccids : null }
   Component {
       id: lowerAccids
       Repeater {
@@ -76,7 +74,7 @@ Item {
   }
 
   MouseArea { // occupy only selected part of staff height
-      width: parent.width; height: 14; y: 13 - (clef === Tclef.PianoStaffClefs ? 2 : 0)
+      width: parent.width; height: 14; y: 13 - (score.clef === Tclef.PianoStaffClefs ? 2 : 0)
       enabled: !score.readOnly
       onClicked: {
         if (mouseY < 7)
@@ -92,7 +90,7 @@ Item {
       }
   }
 
-  Loader { sourceComponent: clef === Tclef.PianoStaffClefs ? lowerArea : null }
+  Loader { sourceComponent: score.clef === Tclef.PianoStaffClefs ? lowerArea : null }
   Component {
       id: lowerArea
       MouseArea { // area at lower staff

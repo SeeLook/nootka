@@ -111,8 +111,7 @@ public:
   int meterToInt() const; /**< Small helper for QML property that converts meter enumerator into int */
 
       /**
-       * In most cases clef change is managed by QML (Staff & Clef) - means outside.
-       * But when melody is set QML has to be updated from here.
+       * General switch for score clef. All related things are based on this value
        * It changes note positions according to clef or converts note into rest if the note is out of score range
        */
   Tclef::EclefType clefType() const { return m_clefType; }

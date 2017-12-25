@@ -11,10 +11,8 @@ import Score 1.0
 Text {
   id: clef
 
-  property int type: Tclef.Treble_G
-
   width: 5.5; x: 0.5; y: 5
-  text: "\ue050" // treble clef by default
+  text: Noo.clef(score.clef).glyph()
   font { family: "Scorek"; pixelSize: 8 }
   color: activPal.text
 
@@ -29,7 +27,6 @@ Text {
     }
   }
 
-
   MouseArea {
     anchors.fill: parent
     enabled: !score.readOnly
@@ -41,28 +38,30 @@ Text {
          var c = Qt.createComponent("qrc:/ClefDrawer.qml")
          clefDrawer = c.createObject(clef)
       }
-      clefDrawer.selectedClef = type
+      clefDrawer.selectedClef = score.clef
     }
   }
 
-  onTypeChanged: {
-      x = 0.5
-      switch (clef.type) {
-        case Tclef.Treble_G:
-        case Tclef.Treble_G_8down:
-          y = 5; break;
-        case Tclef.Bass_F:
-        case Tclef.Bass_F_8down:
-        case Tclef.Tenor_C:
-          y = 1; break;
-        case Tclef.Alto_C:
-          y = 3; break;
-        case Tclef.PianoStaffClefs:
-          y = 3; x = 2.5; break;
-        case Tclef.NoClef:
-          y = 3; x = 2; break;
-      }
-      text = Noo.clef(clef.type).glyph()
+  Connections { target: score; onClefChanged: getPos() }
+  Component.onCompleted: getPos()
+
+  function getPos() {
+    x = 0.5
+    switch (score.clef) {
+      case Tclef.Treble_G:
+      case Tclef.Treble_G_8down:
+        y = 5; break;
+      case Tclef.Bass_F:
+      case Tclef.Bass_F_8down:
+      case Tclef.Tenor_C:
+        y = 1; break;
+      case Tclef.Alto_C:
+        y = 3; break;
+      case Tclef.PianoStaffClefs:
+        y = 3; x = 2.5; break;
+      case Tclef.NoClef:
+        y = 3; x = 2; break;
+    }
   }
 }
 

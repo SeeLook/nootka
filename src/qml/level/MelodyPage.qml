@@ -97,18 +97,20 @@ Tflickable {
       }
     }
   }
+
   Component.onCompleted: {
     if (listScore.visible)
       updateNotesList()
   }
+
   function updateNotesList() {
     listScore.clearScore()
     listScore.clef = creator.clef
-    listScore.scoreObj.clefType = creator.clef
     listScore.setKeySignature(creator.keyOfRandList)
     for (var i = 0; i < creator.notesInList(); ++i)
       listScore.addNote(creator.noteFromList(i))
   }
+
   function saveLevel() {
     if (melCombo.currentIndex === 1) {
       creator.keyOfRandList = listScore.scoreObj.keySignature

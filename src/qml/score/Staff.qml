@@ -15,7 +15,7 @@ Item {
   property alias clef: clef
 
   property alias upperLine: staffObj.upperLine
-  property real linesCount: clef.type === Tclef.PianoStaffClefs ? 44 : 38
+  property real linesCount: score.clef === Tclef.PianoStaffClefs ? 44 : 38
   property var keySignature: null
   property var meter: null
   property real firstNoteX: (meter ? meter.x + meter.width : (keySignature ? keySignature.x + keySignature.width : 0.5 + clef.width)) + 1.0
@@ -29,32 +29,37 @@ Item {
   width: score.width / scale
   transformOrigin: Item.TopLeft
 
-  TstaffObject { id: staffObj; score: scoreObj; staffItem: staff; notesIndent: firstNoteX }
+  TstaffObject {
+      id: staffObj
+      scoreObject: scoreObj
+      staffItem: staff; notesIndent: firstNoteX
+      upperLine: score.clef === Tclef.PianoStaffClefs ? 14 : 16
+  }
 
   TstaffLines {
       id: upperStaff
-      x: clef.type === Tclef.PianoStaffClefs ? 1.5 : 0.5
-      width: staff.width - (clef.type === Tclef.PianoStaffClefs ? 2 : 1)
+      x: score.clef === Tclef.PianoStaffClefs ? 1.5 : 0.5
+      width: staff.width - (score.clef === Tclef.PianoStaffClefs ? 2 : 1)
       y: staffObj.upperLine - 0.1
       staffScale: staff.scale
   }
 
-  Loader { sourceComponent: clef.type === Tclef.PianoStaffClefs ? lowerStaff : null }
+  Loader { sourceComponent: score.clef === Tclef.PianoStaffClefs ? lowerStaff : null }
   Component {
       id: lowerStaff
       TstaffLines {
-        x: clef.type === Tclef.PianoStaffClefs ? 1.5 : 0.5
-        width: staff.width - (clef.type === Tclef.PianoStaffClefs ? 2 : 1)
+        x: score.clef === Tclef.PianoStaffClefs ? 1.5 : 0.5
+        width: staff.width - (score.clef === Tclef.PianoStaffClefs ? 2 : 1)
         y: staffObj.upperLine - 0.1 + 14
         staffScale: staff.scale
       }
   }
 
-  Loader { sourceComponent: clef.type === Tclef.PianoStaffClefs ? brace : null }
+  Loader { sourceComponent: score.clef === Tclef.PianoStaffClefs ? brace : null }
   Component {
       id: brace
       Text {
-        visible: clef.type === Tclef.PianoStaffClefs
+        visible: score.clef === Tclef.PianoStaffClefs
         text: "\ue000"
         font {family: "scorek"; pixelSize: 22 }
         y: -9
@@ -62,26 +67,23 @@ Item {
       }
   }
 
-  Clef {
-      id: clef
-      onTypeChanged: {
-        staffObj.upperLine = clef.type === Tclef.PianoStaffClefs ? 14 : 16
-        if (keySignature) {
-          keySignature.changeClef(clef.type)
-          if (meter)
-            updateMeterPos()
-        }
-        score.staffChangesClef(staff)
-      }
+  Clef { id: clef }
+
+  Connections {
+    target: score
+    onClefChanged: {
+      if (keySignature && meter)
+        updateMeterPos()
+    }
   }
 
   Text { // measure number
       x: 1
-      y: staffObj.upperLine - (clef.type === Tclef.Treble_G || clef.type === Tclef.Treble_G_8down 
-                              || clef.type === Tclef.Tenor_C || clef.type === Tclef.PianoStaffClefs ? 8.5 : 6)
+      y: staffObj.upperLine - (score.clef === Tclef.Treble_G || score.clef === Tclef.Treble_G_8down 
+                              || score.clef === Tclef.Tenor_C || score.clef === Tclef.PianoStaffClefs ? 8.5 : 6)
       text: staffObj.firstMeasureNr + 1
       visible: staffObj.number > 0 && staffObj.firstMeasureNr > 0
-      font { pixelSize: clef.type === Tclef.PianoStaffClefs ? 2 : 1.5; family: "Scorek" }
+      font { pixelSize: score.clef === Tclef.PianoStaffClefs ? 2 : 1.5; family: "Scorek" }
       color: activPal.text
   }
 
@@ -90,7 +92,6 @@ Item {
           if (!keySignature) {
             var c = Qt.createComponent("qrc:/KeySignature.qml")
             keySignature = c.createObject(staff)
-            keySignature.changeClef(clef.type)
             if (meter) {
               keySignature.onWidthChanged.connect(updateMeterPos)
               updateMeterPos()

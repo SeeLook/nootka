@@ -52,7 +52,6 @@ Flickable {
             addNote(scoreObj.highestNote())
           }
           onClefChanged: {
-            scoreObj.clefType = clef
             setNote(scoreObj.note(0), scoreObj.lowestNote())
             setNote(scoreObj.note(1), scoreObj.highestNote())
           }
@@ -92,7 +91,6 @@ Flickable {
               meter: Tmeter.NoMeter
               readOnly: true
               clef: index === 1 ? Tclef.Treble_G_8down : Tclef.Treble_G
-              scoreObj.clefType: clef
               scoreObj.showNoteNames: true
               scoreObj.nameColor: GLOB.nameColor
               scoreObj.nameStyle: GLOB.noteNameStyle

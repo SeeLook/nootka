@@ -41,7 +41,7 @@ class NOOTKACORE_EXPORT  TstaffObject : public QObject
 
   Q_OBJECT
 
-  Q_PROPERTY(TscoreObject* score READ score WRITE setScore)
+  Q_PROPERTY(TscoreObject* scoreObject READ score WRITE setScore)
   Q_PROPERTY(qreal upperLine READ upperLine WRITE setUpperLine NOTIFY upperLineChanged)
   Q_PROPERTY(QQuickItem* staffItem READ staffItem WRITE setStaffItem)
   Q_PROPERTY(qreal notesIndent READ notesIndent WRITE setNotesIndent)
@@ -66,7 +66,7 @@ public:
   int scordSpace() const { return m_scordSpace; }
   void setScordSpace(int hasScord);
 
-  TscoreObject* score() { return m_score; }
+  TscoreObject* score() { return m_scoreObj; }
   void setScore(TscoreObject* s);
 
       /**
@@ -180,7 +180,7 @@ private:
   void findHighestNote(); /**< Checks all Y positions of staff notes to find highest one */
 
 private:
-  TscoreObject                  *m_score;
+  TscoreObject                  *m_scoreObj;
   qreal                          m_upperLine;
   QQuickItem                    *m_staffItem;
   qreal                          m_notesIndent;
@@ -191,7 +191,7 @@ private:
   qreal                          m_allNotesWidth = 0.0;
   qreal                          m_gapsSum = 0.0;
   QQuickItem                    *m_extraTie = nullptr; /**< Tie at the staff beginning */
-  int                           m_scordSpace = 0;
+  int                            m_scordSpace = 0;
 };
 
 #endif // TSTAFFOBJECT_H

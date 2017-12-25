@@ -14,7 +14,7 @@ Flickable {
   property alias scale: staff0.scale
   property alias firstStaff: staff0
   property Staff lastStaff: staff0
-  property int clef: Tclef.Treble_G
+  property alias clef: scoreObj.clefType
   property alias upperLine: staff0.upperLine
   property alias meter: scoreObj.meter
   property alias bgColor: bgRect.color
@@ -49,7 +49,7 @@ Flickable {
 
     onStaffCreate: {
       var c = Qt.createComponent("qrc:/Staff.qml")
-      var lastStaff = c.createObject(score.contentItem, { "clef.type": score.clef })
+      var lastStaff = c.createObject(score.contentItem/*, { "clef.type": score.clef }*/)
       staves.push(lastStaff)
       lastStaff.enableKeySignature(enableKeySign && score.clef !== Tclef.NoClef)
       lastStaff.onDestroing.connect(removeStaff)
@@ -61,7 +61,6 @@ Flickable {
     }
     onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
     onKeySignatureChanged: setKeySignature(scoreObj.keySignature)
-    onClefTypeChanged: staff0.clef.type = clefType
     onMeterChanged: {
       if (rtmControl && meter !== Tmeter.NoMeter) {
           rtmControl.rtm = meter <= Tmeter.Meter_7_4 ? Trhythm.Quarter : Trhythm.Eighth
@@ -99,7 +98,6 @@ Flickable {
 
   Staff { // first staff (always exists)
     id: staff0
-    clef.type: score.clef
     meter: Meter { parent: staff0 }
   }
 
@@ -151,20 +149,6 @@ Flickable {
         staff0.keySignature.onKeySignatureChanged.connect(setKeySignature)
     }
     scoreObj.keySignatureEnabled = enableKeySign
-  }
-
-  function staffChangesClef(staffId) {
-    var newClef = staffId.clef.type
-    if (newClef !== score.clef) {
-//       score.clef = newClef
-      for (var s = 0; s < staves.length; ++s) {
-        if (staffId !== staves[s])
-          staves[s].clef.type = newClef
-        staves[s].enableKeySignature(newClef !== Tclef.NoClef && enableKeySign)
-      }
-      scoreObj.clefType = newClef
-      score.clef = newClef
-    }
   }
 
   function setKeySignature(key) {
