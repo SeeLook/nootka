@@ -1,12 +1,12 @@
-888b      88                                    88                     
-8888b     88                             ,d     88                     
-88 `8b    88                             88     88                     
-88  `8b   88   ,adPPYba,    ,adPPYba,  MM88MMM  88   ,d8   ,adPPYYba,  
-88   `8b  88  a8"     "8a  a8"     "8a   88     88 ,a8"    ""     `Y8  
-88    `8b 88  8b       d8  8b       d8   88     8888[      ,adPPPPP88  
-88     `8888  "8a,   ,a8"  "8a,   ,a8"   88,    88`"Yba,   88,    ,88  
-88      `888   `"YbbdP"'    `"YbbdP"'    "Y888  88   `Y8a  `"8bbdP"Y8  
-                                                                       
+888b      88                                    88
+8888b     88                             ,d     88
+88 `8b    88                             88     88
+88  `8b   88   ,adPPYba,    ,adPPYba,  MM88MMM  88   ,d8   ,adPPYYba,
+88   `8b  88  a8"     "8a  a8"     "8a   88     88 ,a8"    ""     `Y8
+88    `8b 88  8b       d8  8b       d8   88     8888[      ,adPPPPP88
+88     `8888  "8a,   ,a8"  "8a,   ,a8"   88,    88`"Yba,   88,    ,88
+88      `888   `"YbbdP"'    `"YbbdP"'    "Y888  88   `Y8a  `"8bbdP"Y8
+
 ============================================================================
 ================              TODO LIST               ======================
 ============================================================================
@@ -17,7 +17,7 @@ TRANSLATION CONTEXT CHANGES
   TaboutNootka -> AuthorsPage
   TscoreSettings -> ScorePage, KeySufixEdit,  (rearrange ScorePage)
   TradioClef - Tclef (rearrange Tclef)
-  TscoreActions & TmelMan - MainScore
+  TscoreActions & TmelMan - TmainScoreObject
   TtoolBar - MainWindow
   TtoolBar - exam actions are created in TexamExecutor
   accidssettings -> AccidsPage (but remove line breaks from descriptions)
@@ -29,13 +29,12 @@ TRANSLATION CONTEXT CHANGES
 ============================================================================
 
 small glitches:
+ - clef is not approved when settings were accepted
  - sometimes setting a note doesn't scale tie - probably due to note width is not refreshed
+ - meter can be too close to key signature - probably related with clef change
 
 
 ============================================================================
-- TexamExecutor has many, many un-wrapped strings, many ""
-- Use int and enumerations between plugins and main window instead of text messages (level plugin to do)
-
 To consideration:
 - additional settings options:
     - disable screen locking (TRUE by default)
@@ -58,12 +57,9 @@ To consideration:
 - certificates would have some additional data about melodies
 - bring back isVoice() audio param - average pitch of all chunks or min duration will depend on it
 
-- divide TexamExecutor class !!!!!
-
 - dialog to configure generated melody and its rhythms
 - rhythms in level and exercise/exam
-- Class that manages recent exams menu list and has colored item 'recent opened exams',
-    use recent exams list for analyzer the same as start exam dialog has (common class or method)
+
 - managing melodies in levels, adding set of melodies to the level
 - settings for keyboard shortcuts
 - sophisticated and configurable algorithm to generate random melodies

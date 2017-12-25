@@ -50,7 +50,7 @@ Rectangle {
     TcheckBox {
       anchors {verticalCenter: parent.verticalCenter}
       checked: menuButton.action.checked
-      onClicked: menuButton.clicked()
+      onClicked: buttonClicked()
       x: (Noo.fontSize() * 3.5 - width) / 2
     }
   }
@@ -58,9 +58,10 @@ Rectangle {
   Component {
     id: shortComp
     Text {
-      anchors {verticalCenter: parent.verticalCenter}
+      anchors.verticalCenter: parent.verticalCenter
       text: "(" + action.key() + ")"
-      x: menuButton.width - width - Noo.fontSize()
+      font.pixelSize: Noo.fontSize() * 0.8
+      x: menuButton.width - width - Noo.fontSize() / 2
     }
   }
 
@@ -73,13 +74,15 @@ Rectangle {
     id: ma
     anchors.fill: parent
     hoverEnabled: true
-    onClicked: {
-      menuButton.clicked()
-      if (action) {
-        if (action.checkable)
-          action.checked = !action.checked
-        action.trigger()
-      }
+    onClicked: buttonClicked()
+  }
+
+  function buttonClicked() {
+    menuButton.clicked()
+    if (action) {
+      if (action.checkable)
+        action.checked = !action.checked
+      action.trigger()
     }
   }
 }
