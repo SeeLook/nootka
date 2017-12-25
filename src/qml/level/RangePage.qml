@@ -46,7 +46,6 @@ Flickable {
             anchors.horizontalCenter: parent.horizontalCenter
             meter: Tmeter.NoMeter
             clef: creator.clef
-            scoreObj.clefType: creator.clef
             Component.onCompleted: {
               rangeScore.addNote(creator.loNote)
               rangeScore.addNote(creator.hiNote)

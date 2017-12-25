@@ -36,7 +36,6 @@ Score {
   }
 
   clef: GLOB.clefType
-  scoreObj.clefType: GLOB.clefType
   enableDoubleAccids: GLOB.enableDoubleAccids
   enableKeySign: GLOB.keySignatureEnabled
   scoreObj.showNoteNames: GLOB.namesOnScore

@@ -45,7 +45,6 @@ Flickable {
               tuningCombo.model = instrument === Tinstrument.BassGuitar ? Noo.bassTunings() : Noo.guitarTunings()
               if (ins.isGuitar) {
                 score.clef = ins.clef
-                score.scoreObj.clefType = ins.clef
                 if (instrument === Tinstrument.BassGuitar)
                   setTuning(Noo.tuning(Ttune.Bass4_EADG))
                 else
@@ -96,7 +95,6 @@ Flickable {
           width: Math.min(parent.width * 0.9, Noo.fontSize() * 26)
           anchors.horizontalCenter: parent.horizontalCenter
           clef: GLOB.clefType
-          scoreObj.clefType: GLOB.clefType
           meter: Tmeter.NoMeter
           scoreObj.onClicked: tuningCombo.currentIndex = tuningCombo.count - 1
           Component.onCompleted: {

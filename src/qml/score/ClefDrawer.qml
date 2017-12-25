@@ -5,8 +5,6 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 
-// import Score 1.0
-
 
 Drawer {
   property alias selectedClef: clefMenu.selClef
@@ -22,13 +20,13 @@ Drawer {
     contentHeight: clefMenu.height
     ClefMenu {
       id: clefMenu
-      onClicked: { type = cl; close() }
+      onClicked: { close(); score.clef = cl }
       onSelIdChanged: { // ensure visible
         var yy = Noo.fontSize() * 7.75 * selId
         if (flick.contentY >= yy)
           flick.contentY = yy
-          else if (flick.contentY + flick.height <= yy + Noo.fontSize() * 7.75)
-            flick.contentY = yy + Noo.fontSize() * 7.75 - flick.height
+        else if (flick.contentY + flick.height <= yy + Noo.fontSize() * 7.75)
+          flick.contentY = yy + Noo.fontSize() * 7.75 - flick.height
       }
     }
   }

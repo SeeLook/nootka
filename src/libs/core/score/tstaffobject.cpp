@@ -31,7 +31,7 @@
 
 TstaffObject::TstaffObject(QObject* parent) :
   QObject(parent),
-  m_score(nullptr),
+  m_scoreObj(nullptr),
   m_upperLine(16.0),
   m_staffItem(nullptr),
   m_loNotePos(28.0), m_hiNotePos(12.0),
@@ -55,14 +55,14 @@ void TstaffObject::setScordSpace(int hasScord) {
 
 
 void TstaffObject::setScore(TscoreObject* s) {
-  m_score = s;
-  m_score->addStaff(this);
+  m_scoreObj = s;
+  m_scoreObj->addStaff(this);
 }
 
 
-TmeasureObject* TstaffObject::firstMeasure() { return m_score->measure(m_firstMeasureId); }
+TmeasureObject* TstaffObject::firstMeasure() { return m_scoreObj->measure(m_firstMeasureId); }
 
-TmeasureObject* TstaffObject::lastMeasure() { return m_score->measure(m_lastMeasureId); }
+TmeasureObject* TstaffObject::lastMeasure() { return m_scoreObj->measure(m_lastMeasureId); }
 
 
 void TstaffObject::refresh() {
@@ -81,15 +81,15 @@ void TstaffObject::setUpperLine(qreal upLine) {
 
 void TstaffObject::setStaffItem(QQuickItem* si) {
   m_staffItem = si;
-  if (m_score->stavesCount() > 1) { // initial staff position, depends on lowest note in the previous staff
-    auto prevStaff = m_score->staff(m_score->stavesCount() - 2);
+  if (m_scoreObj->stavesCount() > 1) { // initial staff position, depends on lowest note in the previous staff
+    auto prevStaff = m_scoreObj->staff(m_scoreObj->stavesCount() - 2);
     m_staffItem->setY(prevStaff->staffItem()->y() + (prevStaff->loNotePos() - hiNotePos() + 4.0) * prevStaff->scale()); // TODO hasScordature
   }
 }
 
 
 int TstaffObject::firstMeasureNr() {
-  return m_lastMeasureId == -1 ? 0 : (m_firstMeasureId < m_score->measuresCount() ? m_score->measure(m_firstMeasureId)->number() : 0);
+  return m_lastMeasureId == -1 ? 0 : (m_firstMeasureId < m_scoreObj->measuresCount() ? m_scoreObj->measure(m_firstMeasureId)->number() : 0);
 }
 
 
@@ -101,8 +101,8 @@ int TstaffObject::firstMeasureNr() {
 void TstaffObject::setNotesIndent(qreal ni) {
   if (m_notesIndent != ni) {
     m_notesIndent = ni;
-    if (this == m_score->lastStaff())
-      m_score->onIndentChanged();
+    if (this == m_scoreObj->lastStaff())
+      m_scoreObj->onIndentChanged();
   }
 }
 
@@ -124,7 +124,7 @@ char TstaffObject::debug() {
 #define BARLINE_OFFSET (2.0)
 
 void TstaffObject::fit() {
-  if ((m_number == 0 && m_score->measure(m_firstMeasureId)->isEmpty()) || m_lastMeasureId == -1 || measuresCount() < 1) {
+  if ((m_number == 0 && m_scoreObj->measure(m_firstMeasureId)->isEmpty()) || m_lastMeasureId == -1 || measuresCount() < 1) {
     qDebug() << debug() << "Empty staff - nothing to fit";
     return;
   }
@@ -135,10 +135,10 @@ void TstaffObject::fit() {
   qreal availableWidth;
 
   for (int m = m_firstMeasureId; m <= m_lastMeasureId; ++m) {
-    auto measure = m_score->measure(m);
+    auto measure = m_scoreObj->measure(m);
     m_allNotesWidth += measure->allNotesWidth() + (m > m_firstMeasureId ? BARLINE_OFFSET : 0.0); // add bar line space
     m_gapsSum += measure->gapsSum();
-    availableWidth = m_score->width() - m_notesIndent - m_allNotesWidth - 1.0 - (m_score->allowAdding() && m_score->lastStaff() == this ? 5.0 : 0.0);
+    availableWidth = m_scoreObj->width() - m_notesIndent - m_allNotesWidth - 1.0 - (m_scoreObj->allowAdding() && m_scoreObj->lastStaff() == this ? 5.0 : 0.0);
     factor = availableWidth / m_gapsSum;
     if (factor < 0.8) { // shift current measure and the next ones
       if (m == m_firstMeasureId) { // first measure in the staff
@@ -149,28 +149,28 @@ void TstaffObject::fit() {
           m_allNotesWidth -= measure->allNotesWidth();
           if (m > m_firstMeasureId)
             m_allNotesWidth -= BARLINE_OFFSET;
-          m_gapFactor = (m_score->width() - m_notesIndent - m_allNotesWidth - 1.0) / m_gapsSum;  // allow factor bigger than 2.5
-          m_score->startStaffFromMeasure(this, m, m_lastMeasureId - (m - 1));
-          m_score->staff(m_number + 1)->createExtraTie(measure->first()->item());
+          m_gapFactor = (m_scoreObj->width() - m_notesIndent - m_allNotesWidth - 1.0) / m_gapsSum;  // allow factor bigger than 2.5
+          m_scoreObj->startStaffFromMeasure(this, m, m_lastMeasureId - (m - 1));
+          m_scoreObj->staff(m_number + 1)->createExtraTie(measure->first()->item());
           m_lastMeasureId = m - 1;
           updateNotesPos();
           checkNotesRange();
-          if (!m_score->adjustInProgress())
-            m_score->staff(m_number + 1)->refresh();
-          m_score->updateStavesPos();
+          if (!m_scoreObj->adjustInProgress())
+            m_scoreObj->staff(m_number + 1)->refresh();
+          m_scoreObj->updateStavesPos();
           return;
       }
     }
   }
 
-  if (factor > 1.5 && this != m_score->lastStaff()) {
+  if (factor > 1.5 && this != m_scoreObj->lastStaff()) {
     int m = m_lastMeasureId + 1;
-    if (m >= m_score->measuresCount()) { // TODO delete debug message if not occurs
+    if (m >= m_scoreObj->measuresCount()) { // TODO delete debug message if not occurs
         qDebug() << debug() << "Next staff exists but there are no more measures. IT SHOULD NEVER HAPPEN!";
         return;
     } else {
-      auto nextMeasure = m_score->measure(m);
-      auto nextStaff = m_score->staff(m_number + 1);
+      auto nextMeasure = m_scoreObj->measure(m);
+      auto nextStaff = m_scoreObj->staff(m_number + 1);
       qreal tempGapSum = m_gapsSum;
       availableWidth -= nextMeasure->allNotesWidth();
       tempGapSum += nextMeasure->gapsSum();
@@ -180,7 +180,7 @@ void TstaffObject::fit() {
         nextStaff->deleteExtraTie();
         nextStaff->setFirstMeasureId(m + 1); // if there is not next measure - next staff will be deleted
         if (nextStaff->measuresCount() < 1)
-          m_score->deleteStaff(nextStaff);
+          m_scoreObj->deleteStaff(nextStaff);
         else
           nextStaff->createExtraTie(nextStaff->firstMeasure()->first()->item());
         fit();
@@ -206,10 +206,10 @@ void TstaffObject::updateNotesPos(int startMeasure) {
   if (startMeasure == 0)
     firstMeas->first()->item()->setX(m_notesIndent);
   else
-    prevNote = m_score->measure(startMeasure - 1)->last()->item();
+    prevNote = m_scoreObj->measure(startMeasure - 1)->last()->item();
 
   for (int m = m_firstMeasureId; m <= m_lastMeasureId; ++m) {
-    auto measure = m_score->measure(m);
+    auto measure = m_scoreObj->measure(m);
     if (measure->staff() != this) { // TODO delete debug message if not occurs
       qDebug() << debug() << "Something went wrong, measure" << measure->number() << "doesn't belong to staff" << m_number << "FIXING!";
       measure->setStaff(this);
@@ -224,7 +224,7 @@ void TstaffObject::updateNotesPos(int startMeasure) {
     }
     measure->checkBarLine();
   }
-  m_score->emitActiveBarChanged();
+  m_scoreObj->emitActiveBarChanged();
 }
 
 
@@ -283,7 +283,7 @@ TnotePair* TstaffObject::lastNote() {
 void TstaffObject::findHighestNote() {
   m_hiNotePos = upperLine() - 4.0;
   for (int m = m_firstMeasureId; m <= m_lastMeasureId; ++m) {
-    auto measure = m_score->measure(m);
+    auto measure = m_scoreObj->measure(m);
     for (int n = 0; n < measure->noteCount(); ++n) {
       auto noteSeg = measure->note(n);
       if (noteSeg->item()->notePosY()) // is visible
@@ -294,9 +294,9 @@ void TstaffObject::findHighestNote() {
 
 
 void TstaffObject::findLowestNote() {
-  m_loNotePos = static_cast<qreal>(m_scordSpace) + upperLine() + (m_score->isPianoStaff() ? 24.0 : 14.0);
+  m_loNotePos = static_cast<qreal>(m_scordSpace) + upperLine() + (m_scoreObj->isPianoStaff() ? 24.0 : 14.0);
   for (int m = m_firstMeasureId; m <= m_lastMeasureId; ++m) {
-    auto measure = m_score->measure(m);
+    auto measure = m_scoreObj->measure(m);
     for (int n = 0; n < measure->noteCount(); ++n) {
       auto noteSeg = measure->note(n);
       m_loNotePos = qMax(qreal(noteSeg->item()->notePosY() + (noteSeg->note()->rtm.stemDown() ? 4 : 2)), m_loNotePos);

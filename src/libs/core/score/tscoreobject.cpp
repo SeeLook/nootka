@@ -99,8 +99,7 @@ void TscoreObject::setClefType(Tclef::EclefType ct) {
     auto oldClef = m_clefType;
     m_clefType = ct;
     updateClefOffset();
-    if (notesCount() < 1)
-      return;
+    emit clefTypeChanged();
 
     if (notesCount() > 0) {
         bool pianoChanged = (oldClef == Tclef::PianoStaffClefs && m_clefType != Tclef::PianoStaffClefs)
