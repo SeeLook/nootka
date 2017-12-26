@@ -164,10 +164,20 @@ bool Tglobals::enableDoubleAccids() const { return S->doubleAccidentalsEnabled; 
 void Tglobals::setEnableDoubleAccids(bool dblAcc) { S->doubleAccidentalsEnabled = dblAcc; emit enableDoubleAccidsChanged(); }
 
 bool Tglobals::keySignatureEnabled() const { return S->keySignatureEnabled; }
-void Tglobals::setKeySignatureEnabled(bool enKey) { S->keySignatureEnabled = enKey; emit enableKeySignatureChanged(); }
+void Tglobals::setKeySignatureEnabled(bool enKey) {
+  if (enKey != S->keySignatureEnabled) {
+    S->keySignatureEnabled = enKey;
+    emit enableKeySignatureChanged();
+  }
+}
 
 int Tglobals::clefType() const { return static_cast<int>(S->clef); }
-void Tglobals::setClefType(int clType) { S->clef = static_cast<Tclef::EclefType>(clType); emit clefTypeChanged(); }
+void Tglobals::setClefType(int clType) {
+  if (static_cast<Tclef::EclefType>(clType) != S->clef) {
+    S->clef = static_cast<Tclef::EclefType>(clType);
+    emit clefTypeChanged();
+  }
+}
 
 QString Tglobals::majorKeyNameSufix() const { return S->majKeyNameSufix; }
 void Tglobals::setMajorKeyNameSufix(const QString& mkns) { S->majKeyNameSufix = mkns; }

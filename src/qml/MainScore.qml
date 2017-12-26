@@ -37,7 +37,6 @@ Score {
 
   clef: GLOB.clefType
   enableDoubleAccids: GLOB.enableDoubleAccids
-  enableKeySign: GLOB.keySignatureEnabled
   scoreObj.showNoteNames: GLOB.namesOnScore
   scoreObj.nameColor: GLOB.nameColor
   scoreObj.nameStyle: GLOB.noteNameStyle
@@ -98,14 +97,16 @@ Score {
   Connections {
     target: SOUND
     onInitialized: {
-      scoreObj.singleNote = GLOB.singleNoteMode
+      singleNote = GLOB.singleNoteMode
       scoreObj.allowAdding = Qt.binding(function() { return !GLOB.singleNoteMode })
+      enableKeySign = Qt.binding(function() { return GLOB.keySignatureEnabled })
       updateScord()
     }
   }
   Connections {
     target: GLOB
     onKeyNameChanged: keyName.text = Qt.binding(keyName.getKeyNameText)
+    onClefTypeChanged: score.clef = GLOB.clefType
     onSingleNoteModeChanged: {
       scoreObj.singleNote = GLOB.singleNoteMode
       if (GLOB.singleNoteMode) {

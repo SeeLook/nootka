@@ -175,8 +175,8 @@ int TscoreObject::meterToInt() const { return static_cast<int>(m_meter->meter())
 
 
 void TscoreObject::setKeySignature(int k) {
-  if (m_keySignEnabled) {
-    qint8 key = static_cast<qint8>(k);
+  qint8 key = static_cast<qint8>(k);
+  if (m_keySignEnabled && key != m_keySignature) {
     if (key != m_keySignature) {
       m_keySignature = key;
       for (int i = 1; i < 8; i++) {
@@ -192,6 +192,7 @@ void TscoreObject::setKeySignature(int k) {
         m->keySignatureChanged();
       if (notesCount() > 0)
         adjustScoreWidth();
+      emit keySignatureChanged();
     }
   }
 }
@@ -426,12 +427,9 @@ void TscoreObject::openMusicXml(const QString& musicFile) {
       }
       int newKey = static_cast<int>(melody->key().value());
       if (newKey != keySignature()) {
-        if (!m_keySignEnabled && qAbs(newKey) != 0) {
-          m_keySignEnabled = true;
-          emit keySignatureEnabledChanged();
-        }
+        if (!m_keySignEnabled && qAbs(newKey) != 0)
+          setKeySignatureEnabled(true);
         setKeySignature(newKey);
-        emit keySignatureChanged();
       }
       for (int n = 0; n < melody->length(); ++n) {
         addNote(melody->note(n)->p());
@@ -452,6 +450,8 @@ void TscoreObject::saveMusicXml(const QString& musicFile) {
     auto melody = new Tmelody(QStringLiteral("Nootka melody"), TkeySignature(static_cast<char>(keySignature())));
     melody->setClef(clefType());
     melody->setMeter(m_meter->meter());
+    if (m_keySignEnabled)
+      melody->setKey(TkeySignature(static_cast<char>(m_keySignature)));
     for (int n = 0; n < notesCount(); ++n) {
       melody->addNote(Tchunk(m_notes[n]));
     }
@@ -467,8 +467,9 @@ void TscoreObject::saveMusicXml(const QString& musicFile) {
 void TscoreObject::setKeySignatureEnabled(bool enKey) {
   if (enKey != m_keySignEnabled) {
     if (!enKey)
-      setKeySignature(0);
+      m_keySignature = 0;
     m_keySignEnabled = enKey;
+    emit keySignatureEnabledChanged();
     if (notesCount() > 0)
       adjustScoreWidth();
   }
@@ -531,6 +532,7 @@ CHECKTIME(
 void TscoreObject::setReadOnly(bool ro) {
   if (m_readOnly != ro) {
     m_readOnly = ro;
+    emit readOnlyChanged();
   }
 }
 
