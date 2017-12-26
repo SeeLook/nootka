@@ -23,7 +23,11 @@
 #include <qtr.h>
 #include <tnootkaqml.h>
 #include <tsound.h>
+#include <tcolor.h>
+#include <music/tkeysignature.h>
 
+#include <QtGui/qguiapplication.h>
+#include <QtGui/qpalette.h>
 #include <QtCore/qdebug.h>
 
 
@@ -77,6 +81,7 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
     return;
   }
   m_scoreObject = scoreObj;
+  connect(m_scoreObject, &TscoreObject::clicked, this, &TmainScoreObject::clicked);
   connect(m_showNamesAct, &Taction::triggered, [=]{ m_scoreObject->setShowNoteNames(m_showNamesAct->checked()); });
 //   connect(m_extraAccidsAct);
   connect(m_deleteLastAct, &Taction::triggered, [=]{ m_scoreObject->deleteLastNote(); });
@@ -87,6 +92,31 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
   connect(m_zoomInAct, &Taction::triggered, [=]{ m_scoreObject->setScaleFactor(qMin(m_scoreObject->scaleFactor() + 0.2, 1.4)); });
   connect(GLOB, &Tglobals::isExamChanged, this, &TmainScoreObject::isExamChangedSlot);
 }
+
+
+void TmainScoreObject::setReadOnly(bool ro) { m_scoreObject->setReadOnly(ro); }
+
+void TmainScoreObject::clearScore() { m_scoreObject->clearScore(); }
+
+
+void TmainScoreObject::askQuestion(Tmelody* mel) {
+  m_scoreObject->setBgColor(Tcolor::merge(Tcolor::alpha(GLOB->EquestionColor, 20), qApp->palette().window().color()));
+  m_scoreObject->setMelody(mel);
+  m_scoreObject->setReadOnly(true);
+}
+
+
+void TmainScoreObject::askQuestion(const Tnote& note, char realStr) {
+  m_scoreObject->setBgColor(Tcolor::merge(Tcolor::alpha(GLOB->EquestionColor, 20), qApp->palette().window().color()));
+  m_scoreObject->setNote(m_scoreObject->note(0), note);
+}
+
+
+void TmainScoreObject::askQuestion(const Tnote& note, const TkeySignature& key, char realStr) {
+  m_scoreObject->setKeySignature(static_cast<int>(key.value()));
+  askQuestion(note, realStr);
+}
+
 
 //#################################################################################################
 //###################              PROTECTED           ############################################

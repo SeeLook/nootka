@@ -51,6 +51,7 @@ class TstaffObject;
 class TmeasureObject;
 class TnoteObject;
 class Tmeter;
+class Tmelody;
 
 
 /**
@@ -83,6 +84,7 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(qreal width READ width WRITE setWidth)
   Q_PROPERTY(TnoteObject* selectedItem READ selectedItem WRITE setSelectedItem NOTIFY selectedItemChanged)
   Q_PROPERTY(Tnote selectedNote READ selectedNote NOTIFY selectedNoteChanged)
+  Q_PROPERTY(QColor bgColor READ bgColor WRITE setBgColor NOTIFY bgColorChanged)
                         /* Note cursor */
   Q_PROPERTY(TnoteObject* activeNote READ activeNote NOTIFY activeNoteChanged)
   Q_PROPERTY(TnoteObject* lastNote READ lastNote NOTIFY lastNoteChanged)
@@ -151,6 +153,8 @@ public:
 
   Q_INVOKABLE void openMusicXml(const QString& musicFile);
   Q_INVOKABLE void saveMusicXml(const QString& musicFile);
+
+  void setMelody(Tmelody* melody);
 
   /* ------------------ Score switches ------------------ */
 
@@ -269,6 +273,9 @@ public:
 
   Tnote selectedNote() const { return noteOfItem(m_selectedItem); }
 
+  QColor bgColor() const { return m_bgColor; }
+  void setBgColor(const QColor& bg);
+
 /* ------------------ Note cursor ------------------ */
   TnoteObject* activeNote() { return m_activeNote; }
   qreal xFirstInActivBar();
@@ -375,6 +382,7 @@ signals:
   void singleNoteChanged();
   void recordModeChanged();
   void scaleFactorChanged();
+  void bgColorChanged();
 
 protected:
       /**
@@ -515,6 +523,7 @@ private:
   QColor                            m_nameColor;
   int                               m_nameStyle;
   TnoteObject                      *m_selectedItem = nullptr;
+  QColor                            m_bgColor;
                               /* Note cursor */
   TnoteObject                      *m_activeNote = nullptr;
   qreal                             m_activeYpos = 0.0;

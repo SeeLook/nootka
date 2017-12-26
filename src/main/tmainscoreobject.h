@@ -25,6 +25,9 @@
 
 class Taction;
 class TscoreObject;
+class Tnote;
+class TkeySignature;
+class Tmelody;
 
 
 #define MAIN_SCORE TmainScoreObject::instance()
@@ -77,8 +80,19 @@ public:
 
   QList<QObject*> scoreActions() { return m_scoreActions; }
 
+// redirected from TscoreObject
+  void setReadOnly(bool ro);
+  void clearScore();
+
+// exam/exercise related
+  void askQuestion(const Tnote& note, char realStr = 0);
+  void askQuestion(const Tnote& note, const TkeySignature& key, char realStr = 0);
+  void askQuestion(Tmelody* mel);
+
 signals:
   void scoreActionsChanged();
+  // redirected from TscoreObject
+  void clicked();
 
 protected:
   void openXmlActSlot();

@@ -87,7 +87,7 @@ Flickable {
     parent: score
     z: -1
     width: score.width; height: score.height
-    color: Noo.alpha(activPal.base, 230)
+    color: scoreObj.bgColor
     border { width: recordMode ? 2 : 0; color: "red" }
   }
 
