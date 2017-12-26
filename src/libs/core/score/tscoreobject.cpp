@@ -417,26 +417,8 @@ void TscoreObject::noteClicked(qreal yPos) {
 void TscoreObject::openMusicXml(const QString& musicFile) {
   if (!musicFile.isEmpty()) {
     auto melody = new Tmelody();
-    if (melody->grabFromMusicXml(musicFile)) {
-      clearScorePrivate();
-      m_notes.clear();
-      setMeter(melody->meter()->meter());
-      if (melody->clef() != m_clefType) {
-        setClefType(melody->clef());
-        emit clefTypeChanged();
-      }
-      int newKey = static_cast<int>(melody->key().value());
-      if (newKey != keySignature()) {
-        if (!m_keySignEnabled && qAbs(newKey) != 0)
-          setKeySignatureEnabled(true);
-        setKeySignature(newKey);
-      }
-      for (int n = 0; n < melody->length(); ++n) {
-        addNote(melody->note(n)->p());
-      }
-      adjustScoreWidth();
-      emitLastNote();
-    }
+    if (melody->grabFromMusicXml(musicFile))
+      setMelody(melody);
     delete melody;
   }
 }
@@ -452,13 +434,33 @@ void TscoreObject::saveMusicXml(const QString& musicFile) {
     melody->setMeter(m_meter->meter());
     if (m_keySignEnabled)
       melody->setKey(TkeySignature(static_cast<char>(m_keySignature)));
-    for (int n = 0; n < notesCount(); ++n) {
+    for (int n = 0; n < notesCount(); ++n)
       melody->addNote(Tchunk(m_notes[n]));
-    }
     melody->saveToMusicXml(fileName);
     delete melody;
   }
 }
+
+
+void TscoreObject::setMelody(Tmelody* melody) {
+CHECKTIME (
+  clearScorePrivate();
+  m_notes.clear();
+  setMeter(melody->meter()->meter());
+  setClefType(melody->clef());
+  int newKey = static_cast<int>(melody->key().value());
+  if (newKey != keySignature()) {
+    if (!m_keySignEnabled && qAbs(newKey) != 0)
+      setKeySignatureEnabled(true);
+    setKeySignature(newKey);
+  }
+  for (int n = 0; n < melody->length(); ++n)
+    addNote(melody->note(n)->p());
+  adjustScoreWidth();
+  emitLastNote();
+)
+}
+
 
 //#################################################################################################
 //###################         Score switches           ############################################
@@ -823,6 +825,14 @@ void TscoreObject::setSelectedItem(TnoteObject* item) {
     m_selectedItem = item;
     emit selectedItemChanged();
     emit selectedNoteChanged();
+  }
+}
+
+
+void TscoreObject::setBgColor(const QColor& bg) {
+  if (bg != m_bgColor) {
+    m_bgColor = bg;
+    emit bgColorChanged();
   }
 }
 

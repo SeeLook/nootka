@@ -105,7 +105,7 @@ public:
     bool isMinor() { return m_isMinor; }
     void setMinor(bool isMinor) { m_isMinor = isMinor; }
 
-    char value() { return m_key; }
+    char value() const { return m_key; }
 
         /**
          * Returns base (tonic) note of this key signature, i.e. for a-minor key it is note 'a'.

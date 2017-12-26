@@ -41,6 +41,7 @@ Score {
   scoreObj.nameColor: GLOB.nameColor
   scoreObj.nameStyle: GLOB.noteNameStyle
   scoreObj.enableDoubleAccidentals: GLOB.enableDoubleAccids
+  scoreObj.bgColor: Noo.alpha(activPal.base, 230)
 
   TmainScoreObject {
     id: mainObj

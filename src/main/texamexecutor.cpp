@@ -43,8 +43,9 @@
 #include <taction.h>
 #include <tnootkaqml.h>
 #include <instruments/tcommoninstrument.h>
-#include <score/tscoreobject.h>
+// #include <score/tscoreobject.h>
 #include "tnameitem.h"
+#include "tmainscoreobject.h"
 
 #include <QtCore/qdatetime.h>
 #include <QtCore/qtimer.h>
@@ -66,8 +67,6 @@
 #endif
 #define SOUND_DURATION (1500) //[ms]
 
-#define SCORE NOO->scoreObj()
-#define SCORE_ITEM NOO->mainScore()
 #define INSTRUMENT NOO->instrument()
 
 
@@ -86,7 +85,7 @@ void debugStyle(TQAunit &qa) {
 QString getExamFileName(Texam* e) {
   QString fName = QDir::toNativeSeparators(GLOB->E->examsDir + QLatin1String("/") + e->userName() + QLatin1String("-") + e->level()->name);
   if (QFileInfo(fName  + QLatin1String(".noo")).exists())
-    fName += QLatin1String("-")+ QDateTime::currentDateTime().toString(QLatin1String("(dd-MMM-hhmmss)"));
+    fName += QLatin1String("-") + QDateTime::currentDateTime().toString(QLatin1String("(dd-MMM-hhmmss)"));
   return fName;
 }
 
@@ -367,7 +366,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
   if (curQ->questionAsNote()) {
     if (curQ->melody()) {
         if (!isAttempt) {
-  //         SCORE->askQuestion(curQ->melody());
+          MAIN_SCORE->askQuestion(curQ->melody());
           if (m_level.showStrNr) { // we may be sure that instrument is kind of a guitar
             for (int i = 0; i < curQ->melody()->length(); ++i) {
   //             if (curQ->melody()->note(i)->g().str() > 1)
@@ -386,18 +385,16 @@ void TexamExecutor::askQuestion(bool isAttempt) {
         }
     } else {
         char strNr = 0;
-        if ((curQ->answerAsFret() || curQ->answerAsSound())
-            && !m_level.onlyLowPos && m_level.showStrNr)
-                strNr = curQ->qa.pos.str(); // do show string number or not
-  //       if (m_level.useKeySign && !curQ->answerAsNote())
-            // when answer is also asNote we determine key in preparing answer part
-  //           SCORE->askQuestion(curQ->qa.note, curQ->key, strNr);
-  //       else 
-  //           SCORE->askQuestion(curQ->qa.note, strNr);
+        if ((curQ->answerAsFret() || curQ->answerAsSound()) && !m_level.onlyLowPos && m_level.showStrNr)
+          strNr = curQ->qa.pos.str(); // do show string number or not
+        if (m_level.useKeySign && !curQ->answerAsNote())
+          MAIN_SCORE->askQuestion(curQ->qa.note, curQ->key, strNr); // when answer is also asNote we determine key in preparing answer part
+        else
+          MAIN_SCORE->askQuestion(curQ->qa.note, strNr);
         if (curQ->answerAsName())
-            m_answRequire.accid = true;
+          m_answRequire.accid = true;
         else if (curQ->answerAsSound())
-            m_answRequire.accid = false;
+          m_answRequire.accid = false;
     }
   }
 
@@ -1029,7 +1026,7 @@ void TexamExecutor::prepareToExam() {
 
   disableWidgets();
 // connect all events to check an answer or display tip how to check
-  connect(SCORE, &TscoreObject::clicked, this, &TexamExecutor::expertAnswersSlot);
+  connect(MAIN_SCORE, &TmainScoreObject::clicked, this, &TexamExecutor::expertAnswersSlot);
 //   connect(NOTENAME, SIGNAL(noteButtonClicked()), this, SLOT(expertAnswersSlot())); // TODO
   connect(INSTRUMENT, &TcommonInstrument::noteChanged, this, &TexamExecutor::expertAnswersSlot);
   if (m_level.instrument != Tinstrument::NoInstrument)
@@ -1162,7 +1159,7 @@ void TexamExecutor::prepareToExam() {
 
 void TexamExecutor::disableWidgets() {
 //   NOTENAME->setNameDisabled(true);
-  SCORE->setReadOnly(true);
+  MAIN_SCORE->setReadOnly(true);
   INSTRUMENT->setEnabled(false);
   if (NOTENAME)
     NOTENAME->setEnabled(false);
@@ -1170,7 +1167,7 @@ void TexamExecutor::disableWidgets() {
 
 
 void TexamExecutor::clearWidgets() {
-  SCORE->clearScore();
+  MAIN_SCORE->clearScore();
   if (NOTENAME)
     NOTENAME->setNote(Tnote());
 //   INSTRUMENT->clearFingerBoard();
