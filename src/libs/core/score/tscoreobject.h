@@ -73,7 +73,7 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(bool showNoteNames READ showNoteNames WRITE setShowNoteNames)
   Q_PROPERTY(QColor nameColor READ nameColor WRITE setNameColor)
   Q_PROPERTY(int nameStyle READ nameStyle WRITE setNameStyle)
-  Q_PROPERTY(bool readOnly READ readOnly WRITE setReadOnly)
+  Q_PROPERTY(bool readOnly READ readOnly WRITE setReadOnly NOTIFY readOnlyChanged)
   Q_PROPERTY(bool singleNote READ singleNote WRITE setSingleNote NOTIFY singleNoteChanged)
   Q_PROPERTY(bool enharmNotesEnabled READ enharmNotesEnabled WRITE setEnharmNotesEnabled)
   Q_PROPERTY(bool recordMode READ recordMode WRITE setRecordMode NOTIFY recordModeChanged)
@@ -371,6 +371,7 @@ signals:
 
   void selectedItemChanged();
   void selectedNoteChanged();
+  void readOnlyChanged();
   void singleNoteChanged();
   void recordModeChanged();
   void scaleFactorChanged();

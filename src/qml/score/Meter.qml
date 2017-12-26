@@ -20,7 +20,7 @@ Text {
   color: activPal.text
   text: Noo.meter(score.meter).symbol()
   y: score.upperLine - 9
-  x: (parent.keySignature ? parent.keySignature.x + parent.keySignature.width : 0.5 + parent.clef.width) + 1.0
+  x: (staff0.keySignItem ? staff0.keySignItem.x + staff0.keySignItem.width : staff0.clef.x + staff0.clef.width) + 1.0
 
   Loader { sourceComponent: score.clef === Tclef.PianoStaffClefs ? lowerMeter : null }
   Component {

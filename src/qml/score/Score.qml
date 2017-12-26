@@ -18,7 +18,8 @@ Flickable {
   property alias upperLine: staff0.upperLine
   property alias meter: scoreObj.meter
   property alias bgColor: bgRect.color
-  property bool enableKeySign: scoreObj.keySignatureEnabled
+  property alias enableKeySign: scoreObj.keySignatureEnabled
+  property alias keySignature: scoreObj.keySignature
   property bool enableDoubleAccids: false
   property alias workRhythm: scoreObj.workRhythm
   property alias scaleFactor: scoreObj.scaleFactor
@@ -49,18 +50,12 @@ Flickable {
 
     onStaffCreate: {
       var c = Qt.createComponent("qrc:/Staff.qml")
-      var lastStaff = c.createObject(score.contentItem/*, { "clef.type": score.clef }*/)
+      var lastStaff = c.createObject(score.contentItem)
       staves.push(lastStaff)
-      lastStaff.enableKeySignature(enableKeySign && score.clef !== Tclef.NoClef)
       lastStaff.onDestroing.connect(removeStaff)
-      if (enableKeySign && score.clef !== Tclef.NoClef) {
-        lastStaff.keySignature.onKeySignatureChanged.connect(setKeySignature)
-        lastStaff.keySignature.key = staff0.keySignature.key
-      }
       score.lastStaff = lastStaff
     }
     onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
-    onKeySignatureChanged: setKeySignature(scoreObj.keySignature)
     onMeterChanged: {
       if (rtmControl && meter !== Tmeter.NoMeter) {
           rtmControl.rtm = meter <= Tmeter.Meter_7_4 ? Trhythm.Quarter : Trhythm.Eighth
@@ -136,28 +131,6 @@ Flickable {
       onAddNote: { score.addNote(scoreObj.posToNote(yPos)); if (recordMode) currentNote = null }
       alterText: accidControl.text
       lastNote: scoreObj.lastNote
-    }
-  }
-
-  onEnableKeySignChanged: {
-    staff0.enableKeySignature(enableKeySign)
-    if (enableKeySign)
-      staff0.keySignature.onKeySignatureChanged.connect(setKeySignature)
-    for (var s = 1; s < staves.length; ++s) {
-      staves[s].enableKeySignature(enableKeySign)
-      if (enableKeySign)
-        staff0.keySignature.onKeySignatureChanged.connect(setKeySignature)
-    }
-    scoreObj.keySignatureEnabled = enableKeySign
-  }
-
-  function setKeySignature(key) {
-    if (enableKeySign) {
-      for (var s = 0; s < staves.length; ++s) {
-        if (key !== staves[s].keySignature.key)
-          staves[s].keySignature.key = key
-      }
-      scoreObj.keySignature = key
     }
   }
 

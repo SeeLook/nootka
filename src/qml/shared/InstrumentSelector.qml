@@ -25,6 +25,10 @@ Tumbler {
         text: Noo.instr(modelData).glyph
         anchors.horizontalCenter: parent.horizontalCenter
         color: instrTumb.currentIndex === modelData ? activPal.highlightedText : activPal.text
+        MouseArea {
+          anchors.fill: parent
+          onClicked: instrTumb.currentIndex = modelData
+        }
       }
       Text {
         anchors.horizontalCenter: parent.horizontalCenter

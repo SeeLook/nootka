@@ -16,9 +16,9 @@ Item {
 
   property alias upperLine: staffObj.upperLine
   property real linesCount: score.clef === Tclef.PianoStaffClefs ? 44 : 38
-  property var keySignature: null
+  property var keySignItem: null
   property var meter: null
-  property real firstNoteX: (meter ? meter.x + meter.width : (keySignature ? keySignature.x + keySignature.width : 0.5 + clef.width)) + 1.0
+  property real firstNoteX: (meter ? meter.x + meter.width : (keySignItem ? keySignItem.x + keySignItem.width : clef.x + clef.width)) + 1.0
   property alias scordSpace: staffObj.scordSpace
 
   signal destroing(var nr)
@@ -71,10 +71,7 @@ Item {
 
   Connections {
     target: score
-    onClefChanged: {
-      if (keySignature && meter)
-        updateMeterPos()
-    }
+    onEnableKeySignChanged: checkIsKeyEnabled()
   }
 
   Text { // measure number
@@ -87,29 +84,20 @@ Item {
       color: activPal.text
   }
 
-  function enableKeySignature(en) { // key signature created on demand
-      if (en) {
-          if (!keySignature) {
-            var c = Qt.createComponent("qrc:/KeySignature.qml")
-            keySignature = c.createObject(staff)
-            if (meter) {
-              keySignature.onWidthChanged.connect(updateMeterPos)
-              updateMeterPos()
-            }
-          }
-      } else {
-          if (keySignature) {
-            keySignature.destroy()
-            keySignature = null
-          }
-          if (meter)
-            meter.x = clef.x + clef.width
-      }
+  function checkIsKeyEnabled() { // key signature created on demand
+    if (score.enableKeySign) {
+        if (!keySignItem) {
+          var c = Qt.createComponent("qrc:/KeySignature.qml")
+          keySignItem = c.createObject(staff)
+        }
+    } else {
+        if (keySignItem) {
+          keySignItem.destroy()
+          keySignItem = null
+        }
+    }
   }
 
-  function updateMeterPos() {
-      meter.x = keySignature.x + keySignature.width
-  }
-
-  Component.onDestruction: { destroing(staffObj.number) }
+  Component.onCompleted: checkIsKeyEnabled()
+  Component.onDestruction: destroing(staffObj.number)
 }
