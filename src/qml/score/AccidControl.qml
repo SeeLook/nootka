@@ -11,14 +11,15 @@ import QtQuick 2.9
 ControlBase {
   id: accidControl
 
-  property int selectedId: -1
-  property string text: ""
+  property int selectedId: idArray[scoreObj.cursorAlter + 2]
+  property string text: selectedId > -1 ? accidGlyphs[selectedId] : ""
   property int alter: accidArray[selectedId + 1]
   readonly property var accidGlyphs: [ "\ue264", "\ue260", "\ue262", "\ue263" ]
   readonly property var accidArray: [ 0, -2, -1, 1, 2 ]
+  readonly property var idArray: [ 0, 1, -1, 2, 3 ]
 
 
-  x: (show ? score.scoreObj.xFirstInActivBar : -Noo.fontSize()) - width
+  x: (show ? scoreObj.xFirstInActivBar : -Noo.fontSize()) - width
   y: score.contentY + (score.height - height) / 2
 
   component: Component {
@@ -32,10 +33,7 @@ ControlBase {
               selected: accidControl.selectedId === index
               font { family: "scorek"; pixelSize: factor * 3 }
               text: accidGlyphs[index]
-              onClicked: {
-                selectedId = selectedId === index ? -1 : index
-                accidControl.text = selectedId > -1 ? accidGlyphs[selectedId] : ""
-              }
+              onClicked: scoreObj.cursorAlter = accidArray[(selectedId === index ? -1 : index) + 1]
               onEntered: hideTimer.stop()
               onExited: hideTimer.restart()
             }
@@ -44,5 +42,4 @@ ControlBase {
   }
 
   Behavior on x { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.3; duration: 300 }}
-
 }

@@ -26,6 +26,7 @@ Score {
   property alias recModeAct: mainObj.recModeAct
   property alias playAct: mainObj.playAct
   property alias scoreActions: mainObj.scoreActions
+  property alias keyName: keyName
 
   scoreObj.meter: GLOB.rhythmsEnabled && !GLOB.singleNoteMode ? Tmeter.Meter_4_4 : Tmeter.NoMeter
   focus: true
@@ -113,8 +114,8 @@ Score {
       if (GLOB.singleNoteMode) {
           recordMode = false
           scoreObj.enharmNotesEnabled = Qt.binding(function() { return GLOB.showEnharmNotes })
-          scoreObj.note(1).visible = Qt.binding(function() { return GLOB.showEnharmNotes })
-          scoreObj.note(2).visible = Qt.binding(function() { return GLOB.showEnharmNotes && GLOB.enableDoubleAccids })
+          scoreObj.note(1).visible = Qt.binding(function() { return GLOB.showEnharmNotes || GLOB.isExam })
+          scoreObj.note(2).visible = Qt.binding(function() { return GLOB.isExam || (GLOB.showEnharmNotes && GLOB.enableDoubleAccids) })
       }
     }
   }

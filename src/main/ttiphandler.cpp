@@ -71,7 +71,7 @@ inline qreal multiScale() {
 QString getTextHowAccid(Tnote::Ealter accid) {
   QString S = QString("<br><span style=\"color: %1\">").arg(GLOB->GselectedColor.name());
   if (accid) S += qApp->translate("TtipHandler", "Use %1").arg(QString::fromStdString(signsAcid[accid + 2]));
-  else S += qApp->tr(" Don't use accidentals!");
+  else S += qApp->translate("TtipHandler", " Don't use accidentals!");
   S +=  QLatin1String("</span>");
   return S;
 }
@@ -345,34 +345,15 @@ void TtipHandler::confirmTip(int time) {
 
 
 void TtipHandler::showConfirmTip() {
- m_timerToConfirm->stop();
-
-//  if (!m_confirmTip) {
-//#if defined (Q_OS_ANDROID)
-//    m_confirmTip = new ThackedTouchTip(getTipText("check", "Check"), Tcore::gl()->EanswerColor);
-//    m_scene->addItem(m_confirmTip);
-//    m_confirmTip->setFont(smalTipFont(m_view));
-//    connect(m_confirmTip, &ThackedTouchTip::clicked, [=] {
-//      QTimer::singleShot(10, [=] { linkActivatedSlot(QLatin1String("checkAnswer")); });
-//    });
-//#else
-//    const QString br_ = QStringLiteral("<br>- ");
-//    const QString a = QStringLiteral("</a>");
-//    m_confirmTip = new TgraphicsTextTip(tr("To check the answer confirm it:") + br_ +
-//      TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"checkAnswer\">") + pixToHtml(Tpath::img("check"), m_iconSize) + a) + br_ +
-//      TexamHelp::pressEnterKey() + br_ + TexamHelp::orRightButtTxt() + QLatin1String("<br>") +
-//      tr("Check in exam help %1 how to do it automatically").arg(QStringLiteral("<a href=\"examHelp\">") +
-//      pixToHtml(Tpath::img("help"), m_iconSize) + a), Tcore::gl()->EanswerColor
-//    );
-//    m_confirmTip->setScale(m_scale * 1.2);
-//    m_scene->addItem(m_confirmTip);
-//    m_confirmTip->setTipMovable(true);
-//    m_confirmTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
-//    connect(m_confirmTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
-//    connect(m_confirmTip, SIGNAL(moved()), this, SLOT(tipMoved()));
-//#endif
-//    setConfirmPos();
-//  }
+  m_timerToConfirm->stop();
+  const QString br_ = QStringLiteral("<br>- ");
+  const QString a = QStringLiteral("</a>");
+  QString tipText = QLatin1String("<p style=\"text-align: center; font-size: x-large;\">") + tr("To check the answer confirm it:") + br_ +
+    TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"checkAnswer\">") + NOO->pixToHtml(QLatin1String("check"), m_iconSize) + a) + br_ +
+    TexamHelp::pressEnterKey() + br_ + TexamHelp::orRightButtTxt() + QLatin1String("<br>") +
+    tr("Check in exam help %1 how to do it automatically").arg(QStringLiteral("<a href=\"examHelp\">") +
+    NOO->pixToHtml(QLatin1String("help"), m_iconSize) + a) + QLatin1String("</p>");
+  emit showStartTip(tipText, GLOB->EanswerColor, QPointF(EXECUTOR->width() * 0.75, EXECUTOR->height() * 0.1));
 }
 
 
