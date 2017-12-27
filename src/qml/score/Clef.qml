@@ -29,7 +29,7 @@ Text {
 
   MouseArea {
     anchors.fill: parent
-    enabled: !score.readOnly
+    enabled: !score.readOnly && !GLOB.isExam
     property var clefDrawer
     onClicked: {
       if (clefDrawer)

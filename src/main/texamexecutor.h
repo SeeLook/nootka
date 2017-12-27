@@ -53,7 +53,7 @@ class TexamExecutor : public QQuickItem
   Q_OBJECT
 
   Q_PROPERTY(QString title READ title NOTIFY titleChanged)
-  Q_PROPERTY(QVariantList examActions READ examActions NOTIFY examActionsChanged)
+  Q_PROPERTY(QList<QObject*> examActions READ examActions NOTIFY examActionsChanged)
   Q_PROPERTY(TtipHandler* tipHandler READ tipHandler NOTIFY tipHandlerCreated)
 
 public:
@@ -64,7 +64,7 @@ public:
 
   QString title() const;
 
-  QVariantList examActions() { return m_examActions; }
+  QList<QObject*> examActions() { return m_examActions; }
 
   TtipHandler* tipHandler();
 
@@ -121,7 +121,7 @@ protected:
   void showExamHelp();
   void expertAnswersSlot();
   void startSniffing();     /**< Invokes Tsound::go() */
-//   void sniffAfterPlaying(); /**< Starts sniffing when asked note is finished */
+  void sniffAfterPlaying(); /**< Starts sniffing when asked note is finished */
 //   void rightButtonSlot();
   Q_INVOKABLE void tipLink(const QString& link);
 //   void markAnswer(TQAunit* curQ);
@@ -139,7 +139,7 @@ protected:
 // 
 //       /** It sets m_snifferLocked to false (unlocks) and restores capturing right mouse button (installEventFilter) */
 //   void unlockAnswerCapturing();
-//   void blindQuestion(); /**< Routines for questions with the same answers 'blind' */
+  void blindQuestion(); /**< Routines for questions with the same answers 'blind' */
 
   void noteOfMelodyStarted(const TnoteStruct& n); /**< When user plays a melody as an answer and start of a note was detected. */
   void noteOfMelodyFinished(const TnoteStruct& n); /**< Played note was finished */
@@ -215,7 +215,7 @@ private:
   Taction                     *m_playAgainAct = nullptr;
   Taction                     *m_correctAct = nullptr;
   Taction                     *m_newAtemptAct = nullptr;
-  QVariantList                 m_examActions;
+  QList<QObject*>              m_examActions;
 
 };
 

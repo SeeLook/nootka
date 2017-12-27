@@ -21,6 +21,7 @@
 
 
 #include <QtCore/qobject.h>
+#include <QtGui/qcolor.h>
 
 
 class Taction;
@@ -84,11 +85,20 @@ public:
 // redirected from TscoreObject
   void setReadOnly(bool ro);
   void clearScore();
+  void setKeySignature(const TkeySignature& key);
 
 // exam/exercise related
   void askQuestion(const Tnote& note, char realStr = 0);
   void askQuestion(const Tnote& note, const TkeySignature& key, char realStr = 0);
   void askQuestion(Tmelody* mel);
+  void prepareKeyToAnswer(const TkeySignature& fakeKey, const QString& expectKeyName);
+
+      /**
+       * Sets given accidental
+       */
+  void forceAccidental(int accid);
+  void unLockScore();
+  void lockKeySignature(bool lock);
 
 signals:
   void scoreActionsChanged();
@@ -100,6 +110,7 @@ protected:
   void saveXmlActSlot();
   void isExamChangedSlot();
   void paletteSlot();
+  QColor scoreBackgroundColor(const QColor& c, int alpha);
 
 private:
   TscoreObject              *m_scoreObj = nullptr;
@@ -111,6 +122,7 @@ private:
   QList<QObject*>            m_scoreActions;
 
   QQuickItem                *m_questionMark = nullptr;
+  QQuickItem                *m_questionKey = nullptr;
 
   static TmainScoreObject   *m_instance;
 

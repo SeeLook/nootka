@@ -414,6 +414,14 @@ void TscoreObject::noteClicked(qreal yPos) {
 }
 
 
+void TscoreObject::setCursorAlter(int curAlt) {
+  if (curAlt != m_cursorAlter) {
+    m_cursorAlter = curAlt;
+    emit cursorAlterChanged();
+  }
+}
+
+
 void TscoreObject::openMusicXml(const QString& musicFile) {
   if (!musicFile.isEmpty()) {
     auto melody = new Tmelody();
@@ -478,6 +486,16 @@ void TscoreObject::setKeySignatureEnabled(bool enKey) {
 }
 
 
+void TscoreObject::setKeyReadOnly(bool ro) {
+  if (m_keySignEnabled) {
+    if (ro != m_keyReadOnly) {
+      m_keyReadOnly = ro;
+      emit keyReadOnlyChanged();
+    }
+  }
+}
+
+
 void TscoreObject::setEnableDoubleAccids(bool dblEnabled) {
   if (m_enableDoubleAccids != dblEnabled) {
     m_enableDoubleAccids = dblEnabled;
@@ -535,6 +553,7 @@ void TscoreObject::setReadOnly(bool ro) {
   if (m_readOnly != ro) {
     m_readOnly = ro;
     emit readOnlyChanged();
+    setKeyReadOnly(ro);
   }
 }
 

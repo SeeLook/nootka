@@ -99,13 +99,26 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
 }
 
 
-void TmainScoreObject::setReadOnly(bool ro) { m_scoreObj->setReadOnly(ro); }
+void TmainScoreObject::setReadOnly(bool ro) {
+  m_scoreObj->setReadOnly(ro);
+}
 
-void TmainScoreObject::clearScore() { m_scoreObj->clearScore(); }
+
+void TmainScoreObject::clearScore() {
+  m_scoreObj->clearScore();
+  if (m_questionKey) {
+    delete m_questionKey;
+    m_questionKey = nullptr;
+  }
+  m_questionMark->setVisible(false);
+  m_scoreObj->setBgColor(qApp->palette().base().color());
+}
+
+void TmainScoreObject::setKeySignature(const TkeySignature& key) { m_scoreObj->setKeySignature(static_cast<int>(key.value())); }
 
 
 void TmainScoreObject::askQuestion(Tmelody* mel) {
-  m_scoreObj->setBgColor(Tcolor::merge(Tcolor::alpha(GLOB->EquestionColor, 20), qApp->palette().base().color()));
+  m_scoreObj->setBgColor(scoreBackgroundColor(GLOB->EquestionColor, 20));
   m_scoreObj->setMelody(mel);
   m_scoreObj->setReadOnly(true);
   m_questionMark->setVisible(true);
@@ -113,16 +126,51 @@ void TmainScoreObject::askQuestion(Tmelody* mel) {
 
 
 void TmainScoreObject::askQuestion(const Tnote& note, char realStr) {
-  m_scoreObj->setBgColor(Tcolor::merge(Tcolor::alpha(GLOB->EquestionColor, 20), qApp->palette().base().color()));
-  m_scoreObj->setNote(m_scoreObj->note(0), note);
+  m_scoreObj->setBgColor(scoreBackgroundColor(GLOB->EquestionColor, 20));
+  m_scoreObj->setNote(m_scoreObj->note(1), note);
   m_questionMark->setVisible(true);
 }
 
 
 void TmainScoreObject::askQuestion(const Tnote& note, const TkeySignature& key, char realStr) {
-  m_scoreObj->setKeySignature(static_cast<int>(key.value()));
+  setKeySignature(key);
   askQuestion(note, realStr);
 }
+
+
+void TmainScoreObject::prepareKeyToAnswer(const TkeySignature& fakeKey, const QString& expectKeyName) {
+  setKeySignature(fakeKey);
+  if (!m_questionKey) {
+    auto p = qobject_cast<QQuickItem*>(parent()); // parent: MainScore.qml
+    auto nameItem = qvariant_cast<QQuickItem*>(p->property("keyName"));
+    m_scoreObj->component()->setData("import QtQuick 2.9; Text { horizontalAlignment: Text.AlignHCenter; font { family: \"Sans\"; pixelSize: 2 }}", QUrl());
+    m_questionKey = qobject_cast<QQuickItem*>(m_scoreObj->component()->create());
+    if (m_questionKey && nameItem) {
+      m_questionKey->setParentItem(nameItem->parentItem());
+      m_questionKey->setProperty("text", expectKeyName + QLatin1String("<br>?"));
+      m_questionKey->setProperty("color", GLOB->EquestionColor);
+      m_questionKey->setX(nameItem->x());
+      m_questionKey->setY(nameItem->y());
+    }
+  }
+}
+
+
+void TmainScoreObject::forceAccidental(int accid) {
+  m_scoreObj->setCursorAlter(accid);
+}
+
+
+void TmainScoreObject::unLockScore() {
+  m_scoreObj->setBgColor(scoreBackgroundColor(GLOB->EanswerColor, 20));
+  setReadOnly(false);
+}
+
+
+void TmainScoreObject::lockKeySignature(bool lock) {
+  m_scoreObj->setKeyReadOnly(lock);
+}
+
 
 
 //#################################################################################################
@@ -148,8 +196,7 @@ void TmainScoreObject::isExamChangedSlot() {
   if (GLOB->isExam()) {
       m_scoreActions << m_zoomOutAct << m_zoomInAct << m_deleteLastAct << m_clearScoreAct;
       if (!m_questionMark) {
-        m_scoreObj->component()->setData("import QtQuick 2.9; Text { anchors.centerIn: parent ? parent : undefined; scale: parent ? parent.height / height : 1; text: \"?\"; font { family: \"Nootka\"; pixelSize: 20 }}",
-                     QUrl());
+        m_scoreObj->component()->setData("import QtQuick 2.9; Text { anchors.centerIn: parent ? parent : undefined; scale: parent ? parent.height / height : 1; text: \"?\"; font { family: \"Nootka\"; pixelSize: 20 }}", QUrl());
         m_questionMark = qobject_cast<QQuickItem*>(m_scoreObj->component()->create());
         if (m_questionMark) {
           m_questionMark->setParentItem(qvariant_cast<QQuickItem*>(qobject_cast<QQuickItem*>(m_scoreObj->parent())->property("bgRect")));
@@ -171,5 +218,10 @@ void TmainScoreObject::isExamChangedSlot() {
 
 void TmainScoreObject::paletteSlot() {
   if (m_questionMark)
-    m_questionMark->setProperty("color", Tcolor::merge(NOO->alpha(GLOB->wrongColor(), 40), qApp->palette().base().color()));
+    m_questionMark->setProperty("color", scoreBackgroundColor(GLOB->EquestionColor, 40));
+}
+
+
+QColor TmainScoreObject::scoreBackgroundColor(const QColor& c, int alpha) {
+  return Tcolor::merge(NOO->alpha(c, alpha), qApp->palette().base().color());
 }

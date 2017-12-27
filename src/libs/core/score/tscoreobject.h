@@ -67,9 +67,10 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(Tclef::EclefType clefType READ clefType WRITE setClefType NOTIFY clefTypeChanged)
   Q_PROPERTY(int keySignature READ keySignature WRITE setKeySignature NOTIFY keySignatureChanged)
   Q_PROPERTY(int notesCount READ notesCount)
-  Q_PROPERTY(int cursorAlter READ cursorAlter WRITE setCursorAlter)
+  Q_PROPERTY(int cursorAlter READ cursorAlter WRITE setCursorAlter NOTIFY cursorAlterChanged)
                         /* Score switches */
   Q_PROPERTY(bool keySignatureEnabled READ keySignatureEnabled WRITE setKeySignatureEnabled NOTIFY keySignatureEnabledChanged)
+  Q_PROPERTY(bool keyReadOnly READ keyReadOnly WRITE setKeyReadOnly NOTIFY keyReadOnlyChanged)
   Q_PROPERTY(bool enableDoubleAccidentals READ enableDoubleAccidentals WRITE setEnableDoubleAccids)
   Q_PROPERTY(bool showNoteNames READ showNoteNames WRITE setShowNoteNames)
   Q_PROPERTY(QColor nameColor READ nameColor WRITE setNameColor)
@@ -148,8 +149,11 @@ public:
 
   Q_INVOKABLE void noteClicked(qreal yPos);
 
+      /**
+       * This value represents accidental of cursor note. See @p Tnote::EAlter enumerator
+       */
   int cursorAlter() const { return m_cursorAlter; }
-  void setCursorAlter(int curAlt) { m_cursorAlter = curAlt; }
+  void setCursorAlter(int curAlt);
 
   Q_INVOKABLE void openMusicXml(const QString& musicFile);
   Q_INVOKABLE void saveMusicXml(const QString& musicFile);
@@ -160,6 +164,9 @@ public:
 
   bool keySignatureEnabled() const { return m_keySignEnabled; }
   void setKeySignatureEnabled(bool enKey);
+
+  bool keyReadOnly() const { return m_keyReadOnly; }
+  void setKeyReadOnly(bool ro);
 
   bool showExtraAccids() const { return m_showExtraAccids; }
   void setShowExtraAccids(bool accShow);
@@ -347,6 +354,7 @@ signals:
        * QML has to react on that change, so @p clefTypeChanged(), @p keySignatureEnabledChanged() and @p keySignatureChanged() are emitted
        */
   void keySignatureEnabledChanged();
+  void keyReadOnlyChanged();
   void keySignatureChanged();
 
       /**
@@ -379,6 +387,7 @@ signals:
   void lastNoteChanged();
   void noteWasAdded();
   void scoreWasCleared();
+  void cursorAlterChanged();
 
   void workRtmTextChanged();
 
@@ -495,6 +504,7 @@ private:
   qint8                             m_keySignature = 0;
                               /* Score switches */
   bool                              m_keySignEnabled;
+  bool                              m_keyReadOnly = false;
   bool                              m_showExtraAccids;
   bool                              m_remindAccids;
   bool                              m_enableDoubleAccids;

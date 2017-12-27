@@ -204,7 +204,6 @@ bool TexamExecutor::init(TexamExecutor::Eactions whatToDo, const QVariant& arg) 
       deleteExam();
       return false;
   }
-//   prepareToExam();
   if (GLOB->E->showHelpOnStart)
       showExamHelp();
   if (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isFret()) {
@@ -223,6 +222,8 @@ bool TexamExecutor::init(TexamExecutor::Eactions whatToDo, const QVariant& arg) 
 
 
 TexamExecutor::~TexamExecutor() {
+  m_examActions.clear();
+  emit examActionsChanged();
   if (m_penalty)
     delete m_penalty;
   if (m_supp)
@@ -268,6 +269,7 @@ void TexamExecutor::initializeExecuting() {
   else
     m_rand = new TequalRand(m_questList.size());
   m_rand->setTotalRandoms(m_supp->obligQuestions() - m_exam->count());
+
 //   qDebug() << "Questions nr: " << m_questList.size() << "Randoms:" << m_supp->obligQuestions() - m_exam->count();
 }
 
@@ -423,7 +425,6 @@ void TexamExecutor::askQuestion(bool isAttempt) {
             }
         }
       }
-      // Show question on TnoteName widget
       if ((curQ->answerAsFret() || curQ->answerAsSound()) && m_level.showStrNr)
           NOTENAME->askQuestion(curQ->qa.note, curQ->styleOfQuestion(), curQ->qa.pos.str());
       else
@@ -454,45 +455,44 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     }
   }
 
-// // PREPARING ANSWERS
-//   if (curQ->answerAsNote()) {
-//     if (!curQ->melody()) {
-//       if (m_level.useKeySign) {
-//           if (m_level.manualKey) { // user have to manually select a key
-// //               if (m_penalty->isNot()) // if black question key mode is defined
-// //                   curQ->key.setMinor(bool(qrand() % 2));
-//               SCORE->prepareKeyToAnswer(// we randomize some key to cover this expected one
-//                   (qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) + m_level.loKey.value(), curQ->key.getName());
-//               m_answRequire.key = true;
-//           } else {
-//               SCORE->setKeySignature(curQ->key);
-//           }
-//       }
-//       if (curQ->questionAsNote()) {// note has to be another than question
-//           if (m_penalty->isNot())
-//               curQ->qa_2.note = m_supp->forceEnharmAccid(curQ->qa.note); // curQ->qa_2.note is expected note
-//           if (!m_level.manualKey && curQ->qa_2.note == curQ->qa.note) {
-//               blindQuestion();
-//               return; // refresh this function scope by calling it outside
-//           }
-//           SCORE->forceAccidental((Tnote::Ealter)curQ->qa_2.note.alter);
-//           m_answRequire.accid = true;
-//           m_answRequire.octave = true;
-//       }
-//       if (curQ->questionAsFret() || curQ->questionAsSound()) {
-//           if (m_level.forceAccids) {
-//               SCORE->forceAccidental((Tnote::Ealter)curQ->qa.note.alter);
-//           }
-//       }
-//       if (curQ->questionAsName()) {
-//           m_answRequire.accid = true;
-//           m_answRequire.octave = true;
-//       }
-//     }
-//     SCORE->unLockScore();
-//     if (m_level.useKeySign && !m_level.manualKey) // case for either for single mode and melodies
-//       SCORE->lockKeySignature(true); // disables key signature enabled above - user cannot change it in this case (fixed key)
-//   }
+// PREPARING ANSWERS
+  if (curQ->answerAsNote()) {
+    if (!curQ->melody()) {
+      if (m_level.useKeySign) {
+          if (m_level.manualKey) { // user have to manually select a key
+//               if (m_penalty->isNot()) // if black question key mode is defined
+//                   curQ->key.setMinor(bool(qrand() % 2));
+              // we randomize some key to cover this expected one
+              TkeySignature fakeKey((qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) + m_level.loKey.value());
+              MAIN_SCORE->prepareKeyToAnswer(fakeKey, curQ->key.getName());
+              m_answRequire.key = true;
+          } else
+              MAIN_SCORE->setKeySignature(curQ->key);
+      }
+      if (curQ->questionAsNote()) {// note has to be another than question
+          if (m_penalty->isNot())
+              curQ->qa_2.note = m_supp->forceEnharmAccid(curQ->qa.note); // curQ->qa_2.note is expected note
+          if (!m_level.manualKey && curQ->qa_2.note == curQ->qa.note) {
+              blindQuestion();
+              return; // refresh this function scope by calling it outside
+          }
+          MAIN_SCORE->forceAccidental(static_cast<int>(curQ->qa_2.note.alter));
+          m_answRequire.accid = true;
+          m_answRequire.octave = true;
+      }
+      if (curQ->questionAsFret() || curQ->questionAsSound()) {
+          if (m_level.forceAccids)
+            MAIN_SCORE->forceAccidental(static_cast<int>(curQ->qa.note.alter));
+      }
+      if (curQ->questionAsName()) {
+          m_answRequire.accid = true;
+          m_answRequire.octave = true;
+      }
+    }
+    MAIN_SCORE->unLockScore();
+    if (m_level.useKeySign && !m_level.manualKey) // case either for single mode and melodies
+      MAIN_SCORE->lockKeySignature(true); // disables key signature enabled above - user cannot change it when fixed key sign.
+  }
 
   if (curQ->answerAsName()) {
           /** During an exam Note name style is changed in two cases:
@@ -500,7 +500,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
            *       switch it (letters/solfege)
            * 2. If Note Name is question and answer and are the same - this is only way that it makes sense
            */
-      Tnote answNote = Tnote(0, 0, 0);
+      Tnote answNote(0, 0, 0);
       if (curQ->questionAsName())
           answNote = curQ->qa_2.note;
       else {
@@ -540,19 +540,25 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 //       INSTRUMENT->setGuitarDisabled(false);
 //       INSTRUMENT->prepareAnswer();
 //   }
-// 
-//   if (curQ->answerAsSound()) {
+
+  if (curQ->answerAsSound()) {
 //       SOUND->prepareAnswer();
-//       if (curQ->questionAsSound())
-//           connect(SOUND, &Tsound::plaingFinished, this, &TexamExecutor::sniffAfterPlaying); // sniffing after finished sound
-//       else
-//           QTimer::singleShot(WAIT_TIME, this, SLOT(startSniffing()));
-//           // Give a student some time to prepare itself for next question in expert mode
-//           // It avoids capture previous played sound as current answer
-//   } else
-//       SOUND->stopListen(); // stop sniffing if answer is not a played sound
-// 
+      if (curQ->questionAsSound())
+          connect(SOUND, &Tsound::plaingFinished, this, &TexamExecutor::sniffAfterPlaying); // sniffing after finished sound
+      else
+          QTimer::singleShot(WAIT_TIME, this, SLOT(startSniffing()));
+          // Give a student some time to prepare itself for next question in expert mode
+          // It avoids capture previous played sound as current answer
+  } else
+      SOUND->stopListen(); // stop sniffing if answer is not a played sound
+
 //   TOOLBAR->setForQuestion(curQ->questionAsSound(), curQ->questionAsSound() && curQ->answerAsNote());
+//   m_nextQuestAct->setEnabled(false);
+  m_checkQuestAct->setEnabled(true);
+  m_repeatQuestAct->setEnabled(false);
+  if (curQ->questionAsSound() && m_playAgainAct)
+    m_playAgainAct->setEnabled(true);
+  // TODO tune fork act (play middle A)
   m_penalty->startQuestionTime();
   m_tipHandler->questionTip();
   m_blindCounter = 0; // question successfully asked - reset the counter
@@ -562,22 +568,25 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 void TexamExecutor::checkAnswer(bool showResults) {
   TQAunit* curQ = m_exam->curQ();
   m_penalty->stopQuestionTime();
+  m_checkQuestAct->setEnabled(false);
+  if (m_playAgainAct)
+    m_playAgainAct->setEnabled(false);
 //   TOOLBAR->setAfterAnswer();
-//   if (curQ->answerAsSound()) {
-//       SOUND->pauseSinffing(); // but only skip detected for single sound
+  if (curQ->answerAsSound()) {
+      SOUND->pauseSinffing(); // but only skip detected for single sound
 //       SCORE->selectNote(-1);
-//       disconnect(SOUND, &Tsound::plaingFinished, this, &TexamExecutor::sniffAfterPlaying);
-//       disconnect(SOUND, &Tsound::noteStartedEntire, this, &TexamExecutor::noteOfMelodyStarted);
-//       disconnect(SOUND, &Tsound::noteFinishedEntire, this, &TexamExecutor::noteOfMelodyFinished);
+      disconnect(SOUND, &Tsound::plaingFinished, this, &TexamExecutor::sniffAfterPlaying);
+      disconnect(SOUND, &Tsound::noteStartedEntire, this, &TexamExecutor::noteOfMelodyStarted);
+      disconnect(SOUND, &Tsound::noteFinishedEntire, this, &TexamExecutor::noteOfMelodyFinished);
 //       disconnect(SCORE, &TmainScore::lockedNoteClicked, this, &TexamExecutor::noteOfMelodySelected);
-//   }
-//   if (m_exam->melodies() && SOUND->melodyIsPlaying())
-//     SOUND->stopPlaying();
-//     
+  }
+  if (m_exam->melodies() && SOUND->melodyIsPlaying())
+    SOUND->stopPlaying();
+
 //   if (!GLOB->E->autoNextQuest || m_exercise)
 //       TOOLBAR->startExamAct->setDisabled(false);
-//   m_isAnswered = true;
-// // Let's check
+  m_isAnswered = true;
+// Let's check
 //   Tnote questNote, answNote, userNote; // example note & returned note
 // // At first we determine what has to be checked
 //   if (!curQ->melody()) {
@@ -1063,7 +1072,6 @@ void TexamExecutor::prepareToExam() {
 //   NOTENAME->setEnabledEnharmNotes(false);
 //   NOTENAME->setEnabledDblAccid(m_level.withDblAcc);
 //   INSTRUMENT->acceptSettings();
-//   SCORE->isExamExecuting(true);
   if (m_level.canBeSound()) {
     SOUND->acceptSettings();
     if (SOUND->isSniffable())
@@ -1177,29 +1185,29 @@ void TexamExecutor::clearWidgets() {
 
 void TexamExecutor::createActions() {
   m_helpAct = new Taction(QApplication::translate("TtoolBar", "Help"), QStringLiteral("help"), this);
-  m_examActions.append(QVariant::fromValue(m_helpAct));
+  m_examActions.append(m_helpAct);
   connect(m_helpAct, &Taction::triggered, this, &TexamExecutor::showExamHelp);
   m_stopExamAct = new Taction(QApplication::translate("TtoolBar", "Stop"), QStringLiteral("stopExam"), this);
-  m_examActions.append(QVariant::fromValue(m_stopExamAct));
+  m_examActions.append(m_stopExamAct);
   m_repeatQuestAct = new Taction(QApplication::translate("TtoolBar", "Repeat", "like a repeat question"), QStringLiteral("prevQuest"), this, false);
-  m_examActions.append(QVariant::fromValue(m_repeatQuestAct));
+  m_examActions.append(m_repeatQuestAct);
   m_nextQuestAct = new Taction(QApplication::translate("TtoolBar", "Next", "like a next question"), QStringLiteral("nextQuest"), this);
-  m_examActions.append(QVariant::fromValue(m_nextQuestAct));
+  m_examActions.append(m_nextQuestAct);
   connect(m_nextQuestAct, &Taction::triggered, this, &TexamExecutor::askQuestionSlot);
   if (m_level.canBeMelody()) {
     m_newAtemptAct = new Taction(QApplication::translate("TtoolBar", "Try again"), "prevQuest", this, false);
-    m_examActions.append(QVariant::fromValue(m_newAtemptAct));
+    m_examActions.append(m_newAtemptAct);
   }
   if (m_level.questionAs.isSound()) {
     m_playAgainAct = new Taction(QApplication::translate("TtoolBar", "Play"), QStringLiteral("playMelody"), this, false);
-    m_examActions.append(QVariant::fromValue(m_playAgainAct));
+    m_examActions.append(m_playAgainAct);
   }
   m_checkQuestAct = new Taction(QApplication::translate("TtoolBar", "Check", "like a check answer"), QStringLiteral("check"), this, false);
-  m_examActions.append(QVariant::fromValue(m_checkQuestAct));
+  m_examActions.append(m_checkQuestAct);
   connect(m_checkQuestAct, &Taction::triggered, this, &TexamExecutor::checkAnswerSlot);
   if (m_exercise) {
     m_correctAct = new Taction(QApplication::translate("TtoolBar", "Correct", "like a correct answer with mistake"), QStringLiteral("correct"), this, false);
-    m_examActions.append(QVariant::fromValue(m_correctAct));
+    m_examActions.append(m_correctAct);
   }
   emit examActionsChanged();
 
@@ -1567,12 +1575,12 @@ void TexamExecutor::showExamHelp() {
 }
 
 
-// void TexamExecutor::sniffAfterPlaying() {
-//   disconnect(SOUND, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
-//   if (m_soundTimer->isActive())
-//     m_soundTimer->stop();
-//   m_soundTimer->start(100);
-// }
+void TexamExecutor::sniffAfterPlaying() {
+  disconnect(SOUND, &Tsound::plaingFinished, this, &TexamExecutor::sniffAfterPlaying);
+  if (m_soundTimer->isActive())
+    m_soundTimer->stop();
+  m_soundTimer->start(100);
+}
 
 
 void TexamExecutor::startSniffing() {
@@ -1705,15 +1713,15 @@ void TexamExecutor::deleteExam() {
 // #endif
 //   m_snifferLocked = false;
 // }
-// 
-// 
-// void TexamExecutor::blindQuestion() {
-//   qDebug() << "Blind question - asking again";
-//   m_blindCounter++;
-//   QTimer::singleShot(10, this, SLOT(askQuestion()));
-// }
-// 
-// 
+
+
+void TexamExecutor::blindQuestion() {
+  qDebug() << "Blind question - asking again";
+  m_blindCounter++;
+  QTimer::singleShot(10, [=]{ askQuestion(); });
+}
+
+
 // void TexamExecutor::correctionFinished() {
 //   if (sender() == SCORE) { // show name on score only when it is enabled and corrected
 //     if (GLOB->E->showNameOfAnswered && m_exercise->idOfCorrectedNote() > -1) {

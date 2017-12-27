@@ -44,7 +44,6 @@ Flickable {
   TscoreObject {
     id: scoreObj
     width: score.width / scale
-    cursorAlter: accidControl.alter
     enableDoubleAccidentals: score.enableDoubleAccids
 
     onClicked: currentNote = scoreObj.activeNote
