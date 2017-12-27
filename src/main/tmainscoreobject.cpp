@@ -28,6 +28,9 @@
 
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>
+#include <QtQml/qqmlengine.h>
+#include <QtQml/qqmlcomponent.h>
+#include <QtQuick/qquickitem.h>
 #include <QtCore/qdebug.h>
 
 
@@ -48,7 +51,7 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
   m_showNamesAct = new Taction(tr("Show note names"), QString(), this);
   m_showNamesAct->setCheckable(true);
   m_showNamesAct->setChecked(GLOB->namesOnScore());
-  
+
   m_extraAccidsAct = new Taction(tr("Additional accidentals"), QString(), this);
   m_extraAccidsAct->setCheckable(true);
 //   m_showNamesAct->setChecked(GLOB->????);
@@ -65,6 +68,8 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
   m_saveXmlAct = new Taction(qTR("QShortcut", "Save"), QStringLiteral("save"), this);
   connect(m_saveXmlAct, &Taction::triggered, this, &TmainScoreObject::saveXmlActSlot);
 
+  connect(qApp, &QGuiApplication::paletteChanged, this, &TmainScoreObject::paletteSlot);
+
   isExamChangedSlot();
 }
 
@@ -76,44 +81,46 @@ TmainScoreObject::~TmainScoreObject()
 
 
 void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
-  if (m_scoreObject) {
+  if (m_scoreObj) {
     qDebug() << "[TmainScoreObject] score object was already set. FIX IT!";
     return;
   }
-  m_scoreObject = scoreObj;
-  connect(m_scoreObject, &TscoreObject::clicked, this, &TmainScoreObject::clicked);
-  connect(m_showNamesAct, &Taction::triggered, [=]{ m_scoreObject->setShowNoteNames(m_showNamesAct->checked()); });
+  m_scoreObj = scoreObj;
+  connect(m_scoreObj, &TscoreObject::clicked, this, &TmainScoreObject::clicked);
+  connect(m_showNamesAct, &Taction::triggered, [=]{ m_scoreObj->setShowNoteNames(m_showNamesAct->checked()); });
 //   connect(m_extraAccidsAct);
-  connect(m_deleteLastAct, &Taction::triggered, [=]{ m_scoreObject->deleteLastNote(); });
-  connect(m_clearScoreAct, &Taction::triggered, [=]{ m_scoreObject->clearScore(); });
+  connect(m_deleteLastAct, &Taction::triggered, [=]{ m_scoreObj->deleteLastNote(); });
+  connect(m_clearScoreAct, &Taction::triggered, [=]{ m_scoreObj->clearScore(); });
   connect(m_playAct, &Taction::triggered, SOUND, &Tsound::playScore);
-  connect(m_recModeAct, &Taction::triggered, [=]{ m_scoreObject->setRecordMode(!m_scoreObject->recordMode()); });
-  connect(m_zoomOutAct, &Taction::triggered, [=]{ m_scoreObject->setScaleFactor(qMax(0.4, m_scoreObject->scaleFactor() - 0.2)); });
-  connect(m_zoomInAct, &Taction::triggered, [=]{ m_scoreObject->setScaleFactor(qMin(m_scoreObject->scaleFactor() + 0.2, 1.4)); });
+  connect(m_recModeAct, &Taction::triggered, [=]{ m_scoreObj->setRecordMode(!m_scoreObj->recordMode()); });
+  connect(m_zoomOutAct, &Taction::triggered, [=]{ m_scoreObj->setScaleFactor(qMax(0.4, m_scoreObj->scaleFactor() - 0.2)); });
+  connect(m_zoomInAct, &Taction::triggered, [=]{ m_scoreObj->setScaleFactor(qMin(m_scoreObj->scaleFactor() + 0.2, 1.4)); });
   connect(GLOB, &Tglobals::isExamChanged, this, &TmainScoreObject::isExamChangedSlot);
 }
 
 
-void TmainScoreObject::setReadOnly(bool ro) { m_scoreObject->setReadOnly(ro); }
+void TmainScoreObject::setReadOnly(bool ro) { m_scoreObj->setReadOnly(ro); }
 
-void TmainScoreObject::clearScore() { m_scoreObject->clearScore(); }
+void TmainScoreObject::clearScore() { m_scoreObj->clearScore(); }
 
 
 void TmainScoreObject::askQuestion(Tmelody* mel) {
-  m_scoreObject->setBgColor(Tcolor::merge(Tcolor::alpha(GLOB->EquestionColor, 20), qApp->palette().window().color()));
-  m_scoreObject->setMelody(mel);
-  m_scoreObject->setReadOnly(true);
+  m_scoreObj->setBgColor(Tcolor::merge(Tcolor::alpha(GLOB->EquestionColor, 20), qApp->palette().base().color()));
+  m_scoreObj->setMelody(mel);
+  m_scoreObj->setReadOnly(true);
+  m_questionMark->setVisible(true);
 }
 
 
 void TmainScoreObject::askQuestion(const Tnote& note, char realStr) {
-  m_scoreObject->setBgColor(Tcolor::merge(Tcolor::alpha(GLOB->EquestionColor, 20), qApp->palette().window().color()));
-  m_scoreObject->setNote(m_scoreObject->note(0), note);
+  m_scoreObj->setBgColor(Tcolor::merge(Tcolor::alpha(GLOB->EquestionColor, 20), qApp->palette().base().color()));
+  m_scoreObj->setNote(m_scoreObj->note(0), note);
+  m_questionMark->setVisible(true);
 }
 
 
 void TmainScoreObject::askQuestion(const Tnote& note, const TkeySignature& key, char realStr) {
-  m_scoreObject->setKeySignature(static_cast<int>(key.value()));
+  m_scoreObj->setKeySignature(static_cast<int>(key.value()));
   askQuestion(note, realStr);
 }
 
@@ -124,24 +131,45 @@ void TmainScoreObject::askQuestion(const Tnote& note, const TkeySignature& key, 
 
 void TmainScoreObject::openXmlActSlot() {
   SOUND->stopListen();
-  m_scoreObject->openMusicXml(NOO->getXmlToOpen());
+  m_scoreObj->openMusicXml(NOO->getXmlToOpen());
   SOUND->startListen();
 }
 
 
 void TmainScoreObject::saveXmlActSlot() {
   SOUND->stopListen();
-  m_scoreObject->saveMusicXml(NOO->getXmlToSave());
+  m_scoreObj->saveMusicXml(NOO->getXmlToSave());
   SOUND->startListen();
 }
 
 
 void TmainScoreObject::isExamChangedSlot() {
   m_scoreActions.clear();
-  if (GLOB->isExam())
-    m_scoreActions << m_zoomOutAct << m_zoomInAct << m_deleteLastAct << m_clearScoreAct;
-  else
-    m_scoreActions << m_playAct << m_recModeAct << m_openXmlAct << m_saveXmlAct << m_showNamesAct << m_extraAccidsAct
-                   << m_zoomOutAct << m_zoomInAct << m_deleteLastAct << m_clearScoreAct;
+  if (GLOB->isExam()) {
+      m_scoreActions << m_zoomOutAct << m_zoomInAct << m_deleteLastAct << m_clearScoreAct;
+      if (!m_questionMark) {
+        m_scoreObj->component()->setData("import QtQuick 2.9; Text { anchors.centerIn: parent ? parent : undefined; scale: parent ? parent.height / height : 1; text: \"?\"; font { family: \"Nootka\"; pixelSize: 20 }}",
+                     QUrl());
+        m_questionMark = qobject_cast<QQuickItem*>(m_scoreObj->component()->create());
+        if (m_questionMark) {
+          m_questionMark->setParentItem(qvariant_cast<QQuickItem*>(qobject_cast<QQuickItem*>(m_scoreObj->parent())->property("bgRect")));
+          m_questionMark->setVisible(false);
+          paletteSlot();
+        }
+      }
+  } else {
+      m_scoreActions << m_playAct << m_recModeAct << m_openXmlAct << m_saveXmlAct << m_showNamesAct << m_extraAccidsAct
+                    << m_zoomOutAct << m_zoomInAct << m_deleteLastAct << m_clearScoreAct;
+      if (m_questionMark) {
+        delete m_questionMark;
+        m_questionMark = nullptr;
+      }
+  }
   emit scoreActionsChanged();
+}
+
+
+void TmainScoreObject::paletteSlot() {
+  if (m_questionMark)
+    m_questionMark->setProperty("color", Tcolor::merge(NOO->alpha(GLOB->wrongColor(), 40), qApp->palette().base().color()));
 }

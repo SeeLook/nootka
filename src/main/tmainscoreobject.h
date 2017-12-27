@@ -28,6 +28,7 @@ class TscoreObject;
 class Tnote;
 class TkeySignature;
 class Tmelody;
+class QQuickItem;
 
 
 #define MAIN_SCORE TmainScoreObject::instance()
@@ -64,7 +65,7 @@ public:
 
   static TmainScoreObject* instance() { return m_instance; }
 
-  TscoreObject* scoreObject() { return m_scoreObject; }
+  TscoreObject* scoreObject() { return m_scoreObj; }
   void setScoreObject(TscoreObject* scoreObj);
 
   Taction* playAct() { return m_playAct; }
@@ -98,15 +99,18 @@ protected:
   void openXmlActSlot();
   void saveXmlActSlot();
   void isExamChangedSlot();
+  void paletteSlot();
 
 private:
-  TscoreObject              *m_scoreObject = nullptr;
+  TscoreObject              *m_scoreObj = nullptr;
   Taction                   *m_playAct, *m_recModeAct;
   Taction                   *m_showNamesAct, *m_extraAccidsAct;
   Taction                   *m_zoomOutAct, *m_zoomInAct;
   Taction                   *m_deleteLastAct, *m_clearScoreAct;
   Taction                   *m_openXmlAct, *m_saveXmlAct;
   QList<QObject*>            m_scoreActions;
+
+  QQuickItem                *m_questionMark = nullptr;
 
   static TmainScoreObject   *m_instance;
 
