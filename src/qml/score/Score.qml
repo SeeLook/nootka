@@ -29,6 +29,7 @@ Flickable {
   property alias readOnly: scoreObj.readOnly
   property alias singleNote: scoreObj.singleNote
   property alias recordMode: scoreObj.recordMode
+  property alias bgRect: bgRect
 
   // private
   property var staves: [ staff0 ]
@@ -87,7 +88,7 @@ Flickable {
     parent: score
     z: -1
     width: score.width; height: score.height
-    color: scoreObj.bgColor
+    color: Noo.alpha(scoreObj.bgColor, 230)
     border { width: recordMode ? 2 : 0; color: "red" }
   }
 

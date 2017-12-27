@@ -325,6 +325,12 @@ public:
 
   Q_INVOKABLE void clearScore();
 
+      /**
+       * By keeping those objects available we are reducing QML components creation time when called from C++
+       */
+  QQmlComponent* component() { return m_qmlComponent; }
+  QQmlEngine* qmlEngine() { return m_qmlEngine; }
+
 signals:
   void meterChanged();
 
@@ -385,12 +391,6 @@ signals:
   void bgColorChanged();
 
 protected:
-      /**
-       * By keeping those objects available we are reducing QML components creation time when called from C++
-       */
-  QQmlComponent* component() { return m_qmlComponent; }
-  QQmlEngine* qmlEngine() { return m_qmlEngine; }
-
   void addStaff(TstaffObject* st);
 
   TclefOffset clefOffset() const { return m_clefOffset; }
