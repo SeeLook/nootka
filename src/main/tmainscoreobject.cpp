@@ -101,6 +101,15 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
   connect(m_scoreObj, &TscoreObject::singleNoteChanged, this, &TmainScoreObject::singleModeSlot);
   connect(GLOB, &Tglobals::showEnharmNotesChanged, this, &TmainScoreObject::checkSingleNoteVisibility);
   connect(GLOB, &Tglobals::enableDoubleAccidsChanged, this, &TmainScoreObject::checkSingleNoteVisibility);
+  connect(m_scoreObj, &TscoreObject::keySignatureChanged, [=]{
+    if (GLOB->keySignatureEnabled() && GLOB->showKeyName() && !GLOB->isExam())
+      emit keyNameTextChanged();
+  });
+}
+
+
+QString TmainScoreObject::keyNameText() const {
+  return m_scoreObj ? NOO->majAndMinKeyName(m_scoreObj->keySignature()) : QString();
 }
 
 

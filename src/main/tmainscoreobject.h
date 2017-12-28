@@ -59,6 +59,7 @@ class TmainScoreObject : public QObject
   Q_PROPERTY(Taction* zoomOutAct READ zoomOutAct)
   Q_PROPERTY(Taction* zoomInAct READ zoomInAct)
   Q_PROPERTY(QList<QObject*> scoreActions READ scoreActions NOTIFY scoreActionsChanged)
+  Q_PROPERTY(QString keyNameText READ keyNameText NOTIFY keyNameTextChanged)
 
 public:
   explicit TmainScoreObject(QObject* parent = nullptr);
@@ -82,6 +83,8 @@ public:
 
   QList<QObject*> scoreActions() { return m_scoreActions; }
 
+  QString keyNameText() const;
+
 // redirected from TscoreObject
   void setReadOnly(bool ro);
   void clearScore();
@@ -102,6 +105,7 @@ public:
 
 signals:
   void scoreActionsChanged();
+  void keyNameTextChanged();
   // redirected from TscoreObject
   void clicked();
 
