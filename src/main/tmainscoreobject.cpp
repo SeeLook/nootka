@@ -25,12 +25,14 @@
 #include <tsound.h>
 #include <tcolor.h>
 #include <music/tkeysignature.h>
+#include <score/tnoteobject.h>
 
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>
 #include <QtQml/qqmlengine.h>
 #include <QtQml/qqmlcomponent.h>
 #include <QtQuick/qquickitem.h>
+
 #include <QtCore/qdebug.h>
 
 
@@ -96,6 +98,9 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
   connect(m_zoomOutAct, &Taction::triggered, [=]{ m_scoreObj->setScaleFactor(qMax(0.4, m_scoreObj->scaleFactor() - 0.2)); });
   connect(m_zoomInAct, &Taction::triggered, [=]{ m_scoreObj->setScaleFactor(qMin(m_scoreObj->scaleFactor() + 0.2, 1.4)); });
   connect(GLOB, &Tglobals::isExamChanged, this, &TmainScoreObject::isExamChangedSlot);
+  connect(m_scoreObj, &TscoreObject::singleNoteChanged, this, &TmainScoreObject::singleModeSlot);
+  connect(GLOB, &Tglobals::showEnharmNotesChanged, this, &TmainScoreObject::checkSingleNoteVisibility);
+  connect(GLOB, &Tglobals::enableDoubleAccidsChanged, this, &TmainScoreObject::checkSingleNoteVisibility);
 }
 
 
@@ -216,6 +221,22 @@ void TmainScoreObject::isExamChangedSlot() {
 }
 
 
+void TmainScoreObject::singleModeSlot() {
+  if (GLOB->isSingleNote()) {
+    m_scoreObj->setRecordMode(false);
+    if (GLOB->isExam()) {
+        m_scoreObj->note(1)->setColor(qApp->palette().text().color());
+        m_scoreObj->note(2)->setColor(qApp->palette().text().color());
+    } else {
+        m_scoreObj->note(1)->setColor(GLOB->getEnharmNoteColor());
+        m_scoreObj->note(2)->setColor(GLOB->getEnharmNoteColor());
+    }
+    checkSingleNoteVisibility();
+  }
+}
+
+
+
 void TmainScoreObject::paletteSlot() {
   if (m_questionMark)
     m_questionMark->setProperty("color", scoreBackgroundColor(GLOB->EquestionColor, 40));
@@ -224,4 +245,12 @@ void TmainScoreObject::paletteSlot() {
 
 QColor TmainScoreObject::scoreBackgroundColor(const QColor& c, int alpha) {
   return Tcolor::merge(NOO->alpha(c, alpha), qApp->palette().base().color());
+}
+
+
+void TmainScoreObject::checkSingleNoteVisibility() {
+  if (m_scoreObj && m_scoreObj->singleNote()) {
+    m_scoreObj->note(1)->setVisible(GLOB->showEnharmNotes() || GLOB->isExam());;
+    m_scoreObj->note(2)->setVisible(!GLOB->isExam() && GLOB->showEnharmNotes() && GLOB->enableDoubleAccids());;
+  }
 }
