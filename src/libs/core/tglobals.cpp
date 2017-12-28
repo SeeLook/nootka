@@ -161,7 +161,12 @@ void Tglobals::setSingleNote(bool sn) {
 }
 
 bool Tglobals::enableDoubleAccids() const { return S->doubleAccidentalsEnabled; }
-void Tglobals::setEnableDoubleAccids(bool dblAcc) { S->doubleAccidentalsEnabled = dblAcc; emit enableDoubleAccidsChanged(); }
+void Tglobals::setEnableDoubleAccids(bool dblAcc) {
+  if (dblAcc != S->doubleAccidentalsEnabled) {
+    S->doubleAccidentalsEnabled = dblAcc;
+    emit enableDoubleAccidsChanged();
+  }
+}
 
 bool Tglobals::keySignatureEnabled() const { return S->keySignatureEnabled; }
 void Tglobals::setKeySignatureEnabled(bool enKey) {
