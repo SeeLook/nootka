@@ -460,7 +460,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     if (!curQ->melody()) {
       if (m_level.useKeySign) {
           if (m_level.manualKey) { // user have to manually select a key
-//               if (m_penalty->isNot()) // if black question key mode is defined
+//               if (m_penalty->isNot()) // if black question key mode is defined (FIXME: What is this dead code?)
 //                   curQ->key.setMinor(bool(qrand() % 2));
               // we randomize some key to cover this expected one
               TkeySignature fakeKey((qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) + m_level.loKey.value());
@@ -546,7 +546,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
       if (curQ->questionAsSound())
           connect(SOUND, &Tsound::plaingFinished, this, &TexamExecutor::sniffAfterPlaying); // sniffing after finished sound
       else
-          QTimer::singleShot(WAIT_TIME, this, SLOT(startSniffing()));
+          QTimer::singleShot(WAIT_TIME, [=]{ startSniffing(); });
           // Give a student some time to prepare itself for next question in expert mode
           // It avoids capture previous played sound as current answer
   } else

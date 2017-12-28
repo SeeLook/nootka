@@ -42,6 +42,7 @@ Score {
   scoreObj.nameColor: GLOB.nameColor
   scoreObj.nameStyle: GLOB.noteNameStyle
   scoreObj.enableDoubleAccidentals: GLOB.enableDoubleAccids
+  scoreObj.enharmNotesEnabled: GLOB.showEnharmNotes
   scoreObj.bgColor: activPal.base
 
   TmainScoreObject {
@@ -99,7 +100,7 @@ Score {
   Connections {
     target: SOUND
     onInitialized: {
-      singleNote = GLOB.singleNoteMode
+      singleNote = Qt.binding(function() { return GLOB.singleNoteMode })
       scoreObj.allowAdding = Qt.binding(function() { return !GLOB.singleNoteMode })
       enableKeySign = Qt.binding(function() { return GLOB.keySignatureEnabled })
       updateScord()
@@ -109,15 +110,6 @@ Score {
     target: GLOB
     onKeyNameChanged: keyName.text = Qt.binding(keyName.getKeyNameText)
     onClefTypeChanged: score.clef = GLOB.clefType
-    onSingleNoteModeChanged: {
-      scoreObj.singleNote = GLOB.singleNoteMode
-      if (GLOB.singleNoteMode) {
-          recordMode = false
-          scoreObj.enharmNotesEnabled = Qt.binding(function() { return GLOB.showEnharmNotes })
-          scoreObj.note(1).visible = Qt.binding(function() { return GLOB.showEnharmNotes || GLOB.isExam })
-          scoreObj.note(2).visible = Qt.binding(function() { return GLOB.isExam || (GLOB.showEnharmNotes && GLOB.enableDoubleAccids) })
-      }
-    }
   }
   Connections {
     target: GLOB.tuning

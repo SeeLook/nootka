@@ -109,8 +109,11 @@ protected:
   void openXmlActSlot();
   void saveXmlActSlot();
   void isExamChangedSlot();
+  void singleModeSlot();
   void paletteSlot();
+
   QColor scoreBackgroundColor(const QColor& c, int alpha);
+  void checkSingleNoteVisibility();
 
 private:
   TscoreObject              *m_scoreObj = nullptr;
