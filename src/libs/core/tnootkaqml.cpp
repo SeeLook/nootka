@@ -199,7 +199,7 @@ QString TnootkaQML::minorKeyName(int key) {
 
 
 QString TnootkaQML::majAndMinKeyName(int key) {
-  return TkeySignature(static_cast<char>(key)).getMajorName() + QLatin1String("<br>") + TkeySignature(static_cast<char>(key)).getMinorName();
+  return majorKeyName(key) + QLatin1String("<br>") + minorKeyName(key);
 }
 
 

@@ -88,10 +88,7 @@ Score {
     y: clef === Tclef.PianoStaffClefs ? 3.7 : 6.2
     color: activPal.text
     font { family: "Sans"; pixelSize: 2 }
-    text: getKeyNameText()
-    function getKeyNameText() {
-      return enableKeySign && firstStaff.keySignature ? Noo.majAndMinKeyName(firstStaff.keySignature.key) : ""
-    }
+    text: GLOB.showKeyName && enableKeySign ? mainObj.keyNameText : ""
   }
 
   // private
@@ -108,7 +105,6 @@ Score {
   }
   Connections {
     target: GLOB
-    onKeyNameChanged: keyName.text = Qt.binding(keyName.getKeyNameText)
     onClefTypeChanged: score.clef = GLOB.clefType
   }
   Connections {
