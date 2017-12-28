@@ -12,9 +12,7 @@ import Score 1.0
 TaddObject {
   id: noteAdd
 
-  property TnoteItem lastNote: null
-  property alias noteText: note.text
-  property alias alterText: cursor.alterText
+  property TnoteItem lastNote: scoreObj.lastNote
 
   readonly property real alterWidth: 0 // dummy, NoteCursor looks for it
 
@@ -34,6 +32,7 @@ TaddObject {
     color: Noo.alpha(activPal.highlight, 200)
     x: (4 - width) / 2
     y: 15
+    text: Noo.rhythmText(scoreObj.workRhythm)
   }
 
   NoteCursor { id: cursor; yPos: noteAdd.yPos; headText: scoreObj.workRtmText }

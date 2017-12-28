@@ -13,10 +13,10 @@ Item {
   height: parent ? parent.height : 0
   width: parent ? parent.width - (score.singleNote ? 0 : parent.alterWidth) : 0
 
-  property alias headText: head.text
+  property string headText: parent ? scoreObj.activeRtmText() : ""
   property color color: GLOB.noteCursorColor
-  property real yPos: 0
-  property alias alterText: alter.text
+  property real yPos: scoreObj.activeYpos
+//   property alias alterText: alter.text
 
   visible: yPos > 0
 
@@ -32,7 +32,7 @@ Item {
       id: head
       scale: 1.2
       font { family: "Scorek"; pixelSize: 7 }
-      text: "\uf4be"
+      text: headText //"\uf4be"
       y: yPos - 15
       color: noteCursor.color
       x: score.singleNote ? 1.5 : 0
@@ -42,6 +42,7 @@ Item {
         font { family: "Scorek"; pixelSize: 7 }
         color: noteCursor.color
         x: -width - 0.1
+        text: score.alterText
         Text {
           font { family: "Scorek"; pixelSize: 7 }
           color: activPal.shadow

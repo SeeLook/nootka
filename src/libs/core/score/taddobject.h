@@ -56,7 +56,6 @@ public:
 signals:
   void activeChanged();
   void yPosChanged();
-  void addNote();
 
 protected:
   void hoverEnterEvent(QHoverEvent* event) override;
@@ -66,6 +65,8 @@ protected:
   void mousePressEvent(QMouseEvent*) override;
   void mouseReleaseEvent(QMouseEvent*) override;
   void mouseMoveEvent(QMouseEvent* event) override;
+
+  void addNote();
 
 private:
   TscoreObject                        *m_scoreObject = nullptr;

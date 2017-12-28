@@ -75,6 +75,7 @@ TscoreObject::TscoreObject(QObject* parent) :
   m_leaveTimer = new QTimer(this);
   m_leaveTimer->setSingleShot(true);
   connect(m_leaveTimer, &QTimer::timeout, this, &TscoreObject::leaveTimeElapsed);
+  m_bgColor = qApp->palette().base().color();
 }
 
 

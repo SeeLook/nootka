@@ -47,7 +47,6 @@ Score {
 
   TmainScoreObject {
     id: mainObj
-    scoreObject: scoreObj
     deleteLastAct.shortcut: Shortcut { sequence: "Del"; onActivated: deleteLastAct.triggered(); enabled: !GLOB.singleNoteMode && !readOnly }
     clearScoreAct.shortcut: Shortcut { sequence: "Shift+Del"; onActivated: clearScoreAct.triggered(); enabled: !GLOB.singleNoteMode && !readOnly }
     openXmlAct.shortcut: Shortcut { sequence: StandardKey.Open; onActivated: openXmlAct.triggered(); enabled: !GLOB.singleNoteMode && !GLOB.isExam }
@@ -97,6 +96,7 @@ Score {
   Connections {
     target: SOUND
     onInitialized: {
+      mainObj.scoreObject = scoreObj
       singleNote = Qt.binding(function() { return GLOB.singleNoteMode })
       scoreObj.allowAdding = Qt.binding(function() { return !GLOB.singleNoteMode })
       enableKeySign = Qt.binding(function() { return GLOB.keySignatureEnabled })
