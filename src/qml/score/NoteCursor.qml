@@ -42,6 +42,21 @@ Item {
         font { family: "Scorek"; pixelSize: 7 }
         color: noteCursor.color
         x: -width - 0.1
+        Text {
+          font { family: "Scorek"; pixelSize: 7 }
+          color: activPal.shadow
+          x: 0.25; y: 0.25; z: -1
+          text: parent.text
+          opacity: 0.6
+        }
+      }
+
+      Text {
+        font { family: "Scorek"; pixelSize: 7 }
+        x: 0.25; y: 0.25; z: -1
+        color: activPal.shadow
+        text: head.text
+        opacity: 0.6
       }
   }
 
