@@ -105,11 +105,11 @@ void TaddObject::mouseReleaseEvent(QMouseEvent*) {
     setKeepMouseGrab(false);
   if (m_active) {
     if (m_hovered) { // mouse
-        emit addNote();
+        addNote();
     } else { // touch
         if (m_touchElapsed.elapsed() < 190) {
           if (m_yPos > 0.0)
-            emit addNote();
+            addNote();
         }
         m_hideTimer->stop();
         m_hideTimer->start(2500);
@@ -128,4 +128,11 @@ void TaddObject::mouseMoveEvent(QMouseEvent* event) {
     m_yPos = yy;
     emit yPosChanged();
   }
+}
+
+
+void TaddObject::addNote() {
+  m_scoreObject->addNote(m_scoreObject->posToNote(m_yPos));
+  if (m_scoreObject->recordMode())
+    m_scoreObject->setSelectedItem(nullptr);
 }

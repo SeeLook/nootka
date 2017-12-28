@@ -91,6 +91,7 @@ Tflickable {
       width: parent.width; height: melPage.height - topTile.height - melGrid.height
       meter: Tmeter.NoMeter
       enableKeySign: creator.useKeySign
+      scoreObj.allowAdding: visible
       Connections {
         target: creator
         onUpdateNotesList: updateNotesList()
@@ -106,7 +107,7 @@ Tflickable {
   function updateNotesList() {
     listScore.clearScore()
     listScore.clef = creator.clef
-    listScore.setKeySignature(creator.keyOfRandList)
+    listScore.keySignature = creator.keyOfRandList
     for (var i = 0; i < creator.notesInList(); ++i)
       listScore.addNote(creator.noteFromList(i))
   }

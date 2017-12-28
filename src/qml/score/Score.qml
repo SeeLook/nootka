@@ -30,10 +30,13 @@ Flickable {
   property alias singleNote: scoreObj.singleNote
   property alias recordMode: scoreObj.recordMode
   property alias bgRect: bgRect
+  property alias alterText: accidControl.text
 
   // private
   property var staves: [ staff0 ]
-  property alias noteAdd: addLoad.item
+  property var noteAdd: null
+  property var delControl: null
+  property var cursor: null
 
   clip: true
   boundsBehavior: Flickable.StopAtBounds
@@ -75,6 +78,26 @@ Flickable {
       accidControl.show = false
       rtmControl.show = false
     }
+    onAllowAddingChanged: {
+      if (allowAdding) {
+        if (!delControl) {
+          var c = Qt.createComponent("qrc:/DelControl.qml")
+          delControl = c.createObject(contentItem)
+          delControl.active = Qt.binding(function() { return !readOnly && scoreObj.activeNote !== null && scoreObj.activeNote === scoreObj.lastNote })
+        }
+        if (!noteAdd) {
+          var c = Qt.createComponent("qrc:/NoteAdd.qml")
+          noteAdd = c.createObject(contentItem)
+        }
+      }
+    }
+    onActiveNoteChanged: {
+      if (!cursor) {
+        var c = Qt.createComponent("qrc:/NoteCursor.qml")
+        cursor = c.createObject(contentItem)
+        cursor.parent = Qt.binding(function() { return scoreObj.activeNote })
+      }
+    }
   }
 
   onCurrentNoteChanged: {
@@ -96,14 +119,6 @@ Flickable {
     meter: Meter { parent: staff0 }
   }
 
-  NoteCursor {
-    id: cursor
-    parent: scoreObj.activeNote
-    yPos: scoreObj.activeYpos
-    alterText: accidControl.text
-    headText: parent ? scoreObj.activeRtmText() : ""
-  }
-
   AccidControl {
     id: accidControl
     active: !readOnly && score.clef !== Tclef.NoClef && (scoreObj.activeNote !== null || (noteAdd && noteAdd.active))
@@ -115,23 +130,6 @@ Flickable {
     active: !readOnly && meter !== Tmeter.NoMeter && (scoreObj.activeNote !== null || (noteAdd && noteAdd.active))
     onChanged: scoreObj.workRhythm = rhythm
     visible: !scoreObj.touched
-  }
-
-  Loader { sourceComponent: scoreObj.allowAdding ? delControl : null }
-  Component {
-    id: delControl
-    DelControl { active: !readOnly && scoreObj.activeNote !== null && scoreObj.activeNote === scoreObj.lastNote }
-  }
-
-  Loader { id: addLoad; sourceComponent: scoreObj.allowAdding ? addComp : null }
-  Component {
-    id: addComp
-    NoteAdd {
-      noteText: Noo.rhythmText(scoreObj.workRhythm)
-      onAddNote: { score.addNote(scoreObj.posToNote(yPos)); if (recordMode) currentNote = null }
-      alterText: accidControl.text
-      lastNote: scoreObj.lastNote
-    }
   }
 
   function ensureVisible(yy, hh) {
