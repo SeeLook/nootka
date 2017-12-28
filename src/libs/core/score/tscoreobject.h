@@ -131,6 +131,7 @@ public:
        */
   Q_INVOKABLE void addNote(const Tnote& newNote, bool fromQML = false);
   Q_INVOKABLE void setNote(TnoteObject* no, const Tnote& n);
+  Q_INVOKABLE void setNote(int noteNr, const Tnote& n);
 
       /**
        * Returns a note item of @p TnoteObject

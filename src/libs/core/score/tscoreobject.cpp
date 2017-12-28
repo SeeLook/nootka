@@ -25,7 +25,6 @@
 #include "music/tmeter.h"
 #include "music/tmelody.h"
 #include "music/tchunk.h"
-#include <tglobals.h>
 
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>
@@ -358,21 +357,30 @@ void TscoreObject::setNote(TnoteObject* no, const Tnote& n) {
       TnotesList::iterator it = enharmList.begin();
       ++it;
       if (it != enharmList.end()) {
-          m_segments[1]->item()->setVisible(true);
+          note(1)->setVisible(true);
           m_segments[1]->setNote(*(it));
       } else
-          m_segments[1]->item()->setVisible(false);
+          note(1)->setVisible(false);
       ++it;
       if (it != enharmList.end()) {
-          m_segments[2]->item()->setVisible(true);
+          note(2)->setVisible(true);
           m_segments[2]->setNote(*(it));
       } else
-          m_segments[2]->item()->setVisible(false);
+          note(2)->setVisible(false);
     }
   }
   if (m_recordMode)
     setSelectedItem(no);
 }
+
+
+void TscoreObject::setNote(int noteNr, const Tnote& n) {
+  if (noteNr >= 0 && noteNr < notesCount())
+    setNote(note(noteNr), n);
+  else
+    qDebug() << "[TscoreObject FIXME] Trying to set note of item that doesn't exist!" << noteNr;
+}
+
 
 
 TnoteObject* TscoreObject::note(int noteId) {
@@ -571,14 +579,12 @@ void TscoreObject::setSingleNote(bool singleN) {
         addNote(Tnote());
         addNote(Tnote());
         addNote(Tnote());
-        noteSegment(0)->item()->shiftHead(1.5);
-        noteSegment(1)->item()->shiftHead(1.5);
-        noteSegment(2)->item()->shiftHead(1.5);
-        noteSegment(1)->item()->setColor(GLOB->getEnharmNoteColor());
-        noteSegment(2)->item()->setColor(GLOB->getEnharmNoteColor());
-        noteSegment(1)->item()->setEnabled(false);
-        noteSegment(2)->item()->setEnabled(false);
-        m_selectedItem = noteSegment(0)->item();
+        note(0)->shiftHead(1.5);
+        note(1)->shiftHead(1.5);
+        note(2)->shiftHead(1.5);
+        note(1)->setEnabled(false);
+        note(2)->setEnabled(false);
+        m_selectedItem = note(0);
     } else
         clearScore(); // call it again when transitioning from single note mode
     emit singleNoteChanged();
