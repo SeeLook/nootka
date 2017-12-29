@@ -560,7 +560,7 @@ void TscoreNote::touched(const QPointF& scenePos) {
     return;
   m_wasTouched = true;
   TscoreItem::touched(scenePos);
-  scoreScene()->noteEntered(this);
+  scoreScene()->noteEntered(this, mapFromScene(scenePos).y());
   m_touchTime.start();
   if (m_touchedToMove)
     scoreScene()->hidePanes();

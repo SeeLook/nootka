@@ -93,7 +93,7 @@ public:
 		void setControlledNotes(bool controlled) { m_controlledNotes = controlled; }
 		bool controlledNotes() { return m_controlledNotes; }
 		
-		void noteEntered(TscoreNote* sn); /** Prepares note cursor. From @p TscoreNote::hoverEnterEvent() */
+		void noteEntered(TscoreNote* sn, int yPos = 0); /** Prepares note cursor. From @p TscoreNote::hoverEnterEvent() */
 		void noteMoved(TscoreNote* sn, int yPos); /** Starts show timer if hidden or restarts hide timer. From @p TscoreNote::hoverMoveEvent() */
 		void noteLeaved(TscoreNote* sn); /** Starts hide timer. From @p TscoreNote::hoverLeaveEvent() */
 		void noteDeleted(TscoreNote* sn); /** From @p TscoreNote::~TscoreNote() */

@@ -1,3 +1,8 @@
+1.4.5
+     - Stylus support on touch screens (Requires Qt 5.9/Android 4.2 and above)
+    BUGS FIXES
+     - Don't stop pitch detection when question and answer are a sound
+
 1.4.4
      - German translation is complete
      - support for marking more frets on the fingerboard

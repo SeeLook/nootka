@@ -123,7 +123,7 @@ void TscoreScene::setPointedColor(const QColor& color) {
 //#######################        Note CURSOR     ###########################################
 //##########################################################################################
 
-void TscoreScene::noteEntered(TscoreNote* sn) {
+void TscoreScene::noteEntered(TscoreNote* sn, int yPos) {
   m_hideTimer->stop();
   if (!m_rectIsChanging && sn != m_scoreNote && sn != 0) {
     m_scoreNote = sn;
@@ -146,6 +146,12 @@ void TscoreScene::noteEntered(TscoreNote* sn) {
     }
     if (workNote()->parentItem() != sn)
       setCursorParent(sn);
+    if (TscoreItem::touchEnabled() && yPos > 0) {
+      setWorkPosY(yPos);
+      workNote()->setPos(3.0, workPosY());
+      workLines()->checkLines(yPos);
+      m_workNote->show(); // show note immediately when touched
+    }
 	}
 }
 
