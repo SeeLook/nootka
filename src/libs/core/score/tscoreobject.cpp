@@ -219,6 +219,11 @@ void solveList(const Tnote& n, int dur, QList<Tnote>& outList) {
 void TscoreObject::addNote(const Tnote& newNote, bool fromQML) {
 CHECKTIME (
 
+  if (m_singleNote) {
+    qDebug() << "[TscoreObject] FIXME! Trying to add note in single mode";
+    return;
+  }
+
   auto lastMeasure = m_measures.last();
   if (lastMeasure->free() == 0) { // new measure is needed
     lastMeasure = new TmeasureObject(m_measures.count(), this);
@@ -574,20 +579,22 @@ void TscoreObject::setReadOnly(bool ro) {
 void TscoreObject::setSingleNote(bool singleN) {
   if (singleN != m_singleNote) {
     clearScore(); // In single note mode this call is ignored
-    m_singleNote = singleN;
     if (singleN) {
         setShowNoteNames(false);
+        addNote(Tnote()); // it is avoided in single note mode
         addNote(Tnote());
         addNote(Tnote());
-        addNote(Tnote());
+        m_singleNote = true;
         note(0)->shiftHead(1.5);
         note(1)->shiftHead(1.5);
         note(2)->shiftHead(1.5);
         note(1)->setEnabled(false);
         note(2)->setEnabled(false);
         m_selectedItem = note(0);
-    } else
+    } else {
+        m_singleNote = false;
         clearScore(); // call it again when transitioning from single note mode
+    }
     emit singleNoteChanged();
   }
 }

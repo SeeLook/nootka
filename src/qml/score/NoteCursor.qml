@@ -16,7 +16,6 @@ Item {
   property string headText: parent ? scoreObj.activeRtmText() : ""
   property color color: GLOB.noteCursorColor
   property real yPos: scoreObj.activeYpos
-//   property alias alterText: alter.text
 
   visible: yPos > 0
 
@@ -32,7 +31,7 @@ Item {
       id: head
       scale: 1.2
       font { family: "Scorek"; pixelSize: 7 }
-      text: headText //"\uf4be"
+      text: headText
       y: yPos - 15
       color: noteCursor.color
       x: score.singleNote ? 1.5 : 0

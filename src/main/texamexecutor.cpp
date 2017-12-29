@@ -560,7 +560,10 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     m_playAgainAct->setEnabled(true);
   // TODO tune fork act (play middle A)
   m_penalty->startQuestionTime();
-  m_tipHandler->questionTip();
+  if (SOUND->stoppedByUser())
+    m_tipHandler->questionTip();
+  else // As long as starting sound is expensive (PulseAudio) invoking tip animation at the same time sucks.
+    QTimer::singleShot(WAIT_TIME + 100, [=]{ m_tipHandler->questionTip(); }); // So call it with delay
   m_blindCounter = 0; // question successfully asked - reset the counter
 }
 
