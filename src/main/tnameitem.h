@@ -40,8 +40,10 @@ class TnameItem : public QQuickItem
   Q_PROPERTY(int octave READ octave WRITE setOctave NOTIFY octaveChanged)
   Q_PROPERTY(QString nameText READ nameText NOTIFY nameTextChanged)
   Q_PROPERTY(int nameStyle READ nameStyle WRITE setNameStyle NOTIFY nameStyleChanged)
+  Q_PROPERTY(int buttonNameStyle READ buttonNameStyle WRITE setButtonNameStyle NOTIFY buttonNameStyleChanged)
   Q_PROPERTY(QString appendix READ appendix NOTIFY appendixChanged)
   Q_PROPERTY(QColor bgColor READ bgColor NOTIFY bgColorChanged)
+  Q_PROPERTY(bool disabled READ disabled WRITE setDisabled NOTIFY disabledChanged)
 
 
 public:
@@ -66,6 +68,13 @@ public:
   void setNameStyle(int nStyle) { setNameStyle(static_cast<Tnote::EnameStyle>(nStyle)); }
   void setNameStyle(Tnote::EnameStyle style);
 
+  int buttonNameStyle() const { return static_cast<int>(m_buttonNameStyle); }
+  void setButtonNameStyle(Tnote::EnameStyle style);
+  void setButtonNameStyle(int nStyle) { setButtonNameStyle(static_cast<Tnote::EnameStyle>(nStyle)); }
+
+  bool disabled() const { return m_disabled; }
+  void setDisabled(bool dis);
+
   QString nameText() const;
 
       /**
@@ -81,12 +90,9 @@ public:
 
   void askQuestion(const Tnote& note, Tnote::EnameStyle questStyle, char strNr = 0);
 
-  void prepAnswer(Tnote::EnameStyle answStyle);
+  void prepareAnswer(Tnote::EnameStyle answStyle);
 
-      /**
-       * The same as @p setAlter, used for backward compatibility with @p TexamExecutor
-       */
-  void forceAccidental(char accid) { setAlter(static_cast<int>(accid)); }
+  void forceAccidental(char accid);
 
 signals:
   void noteChanged();
@@ -97,15 +103,19 @@ signals:
   void nameStyleChanged();
   void appendixChanged();
   void bgColorChanged();
+  void buttonNameStyleChanged();
+  void disabledChanged();
+  void noteButtonClicked();
 
 private:
   void changeNameBgColor(const QColor& c) { m_bgColor = c;  emit bgColorChanged(); }
 
 private:
   Tnote                   m_note;
-  Tnote::EnameStyle       m_nameStyle;
+  Tnote::EnameStyle       m_nameStyle, m_buttonNameStyle;
   QString                 m_appendix;
   QColor                  m_bgColor;
+  bool                    m_disabled = false;
 
   static TnameItem       *m_instance;
 };
