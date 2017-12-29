@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,7 +18,7 @@
 
 
 #include "tmainhelp.h"
-#include "thelpdialogbase.h"
+#include <widgets/thelpdialogbase.h>
 #include <graphics/tnotepixmap.h>
 #include <tpath.h>
 #include <QtWidgets/qboxlayout.h>
@@ -104,7 +104,7 @@ TmainHelp::TmainHelp(QWidget* parent) :
   helpTxt += QLatin1String("<hr><b><span style=\"font-size: xx-large;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
           + QApplication::translate("TmainHelp", "Have fun!") + QLatin1String("</span></b>");
 
-  QTextBrowser *helpEdit = new QTextBrowser(this);
+  auto *helpEdit = new TtextBrowser(this);
   helpEdit->setHtml(helpTxt);
 	helpEdit->setReadOnly(true);
   helpEdit->setOpenExternalLinks(true);

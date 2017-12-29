@@ -23,7 +23,7 @@
 #include "tdonorswidget.h"
 #include "tnootkalabel.h"
 #include "help/tmainhelp.h"
-#include <help/thelpdialogbase.h>
+#include <widgets/thelpdialogbase.h>
 #include <tpath.h>
 #include <qtr.h>
 #include <widgets/troundedlabel.h>

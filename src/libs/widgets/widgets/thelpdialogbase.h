@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,12 +19,20 @@
 #ifndef THELPDIALOGBASE_H
 #define THELPDIALOGBASE_H
 
-#include "nootkamiscglobal.h"
+#include "nootkacoreglobal.h"
 #include <QtWidgets/qdialog.h>
 #include <QtWidgets/qcheckbox.h>
 #include <QtWidgets/qtextbrowser.h>
 #include <QtCore/qpointer.h>
 
+
+class NOOTKACORE_EXPORT TtextBrowser : public QTextBrowser
+{
+public:
+  explicit TtextBrowser(QWidget* parent = nullptr) : QTextBrowser(parent) {}
+
+  QVariant loadResource(int type, const QUrl & name) override;
+};
 
 class QDialogButtonBox;
 class QVBoxLayout;
@@ -40,7 +48,7 @@ class QPushButton;
  * By default there is OK button connected to 'accept' dialog code,
  * but @p showButtons() method can change it. 
  */
-class NOOTKAMISC_EXPORT ThelpDialogBase : public QDialog
+class NOOTKACORE_EXPORT ThelpDialogBase : public QDialog
 {
 
 	Q_OBJECT
@@ -83,7 +91,7 @@ protected:
 			
   
 private:
-  QTextBrowser       			*m_helpText;
+  TtextBrowser       			*m_helpText;
   QCheckBox       				*m_checkBox;
   QPointer<QPushButton>    m_OkButton, m_cancelButton;
 	QDialogButtonBox				*m_buttonBox;

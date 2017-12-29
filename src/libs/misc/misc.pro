@@ -10,7 +10,6 @@ SOURCES +=  tscalepreviewlabel.cpp\
             tnootkalabel.cpp\
             tabout.cpp\
             \
-            help/thelpdialogbase.cpp\
             help/texamhelp.cpp\
             help/texpertanswerhelp.cpp\
             help/tmainhelp.cpp\
@@ -22,7 +21,6 @@ HEADERS  += nootkamiscglobal.h\
             tnootkalabel.h\
             tabout.h\
           \
-            help/thelpdialogbase.h\
             help/texamhelp.h\
             help/texpertanswerhelp.h\
             help/tmainhelp.h\

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,7 +25,7 @@
 #include <level/tlevelselector.h>
 #include <widgets/troundedlabel.h>
 #include <tpath.h>
-#include <help/thelpdialogbase.h>
+#include <widgets/thelpdialogbase.h>
 #include <help/tmainhelp.h>
 #include <help/texamhelp.h>
 #if defined (Q_OS_ANDROID)

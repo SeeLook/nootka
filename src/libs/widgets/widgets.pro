@@ -13,6 +13,7 @@ SOURCES +=  level/tlevelsdefs.cpp \
             widgets/tsettingsdialogbase.cpp \
             widgets/troundedlabel.cpp \
             widgets/tselectinstrument.cpp \
+            widgets/thelpdialogbase.cpp\
 
 HEADERS  += level/tlevelsdefs.h \
             level/tlevelpreview.h \
@@ -22,6 +23,7 @@ HEADERS  += level/tlevelsdefs.h \
             widgets/tsettingsdialogbase.h \
             widgets/troundedlabel.h \
             widgets/tselectinstrument.h \
+            widgets/thelpdialogbase.h\
 
 CONFIG += mobility warn_off
 MOBILITY = 
