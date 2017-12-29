@@ -12,16 +12,15 @@ import Score 1.0
 TaddObject {
   id: noteAdd
 
-  property TnoteItem lastNote: scoreObj.lastNote
-
   readonly property real alterWidth: 0 // dummy, NoteCursor looks for it
 
   scoreObject: score.scoreObj
   parent: score.lastStaff
   height: parent ? parent.height : 0
   width: 4
-  x: lastNote ? lastNote.rightX + 1.5 : score.firstStaff.firstNoteX
+  x: scoreObj.lastNote ? scoreObj.lastNote.rightX + 1.5 : score.firstStaff.firstNoteX
   z: 11
+  visible: scoreObj.allowAdding
 
   Behavior on x { enabled: GLOB.useAnimations; SpringAnimation { spring: 3; damping: 0.2; duration: 300 }}
 

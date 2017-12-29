@@ -69,7 +69,7 @@ Item {
 
   MouseArea { // occupy only selected part of staff height
       width: parent.width; height: 14; y: 13 - (score.clef === Tclef.PianoStaffClefs ? 2 : 0)
-      enabled: !score.readOnly || !score.keyReadOnly
+      enabled: !scoreObj.readOnly || !scoreObj.keyReadOnly
       onClicked: {
         if (mouseY < 7)
           keyUp()
@@ -90,7 +90,7 @@ Item {
       MouseArea { // area at lower staff
           parent: keySig
           width: keySig.width; height: 14; y: 26
-          enabled: !score.readOnly || !score.keyReadOnly
+          enabled: !scoreObj.readOnly || !scoreObj.keyReadOnly
           onClicked: {
             if (mouseY < 7)
               keyUp()
