@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -501,6 +501,36 @@ void TmainView::scoreMenuExec() {
   menu.exec(QPoint(0, 2), QPoint(- menu.sizeHint().width(), 2));
 #endif
 }
+
+
+#if (QT_VERSION_MINOR >= 9)
+static QPointF m_tabEventStartPos;
+void TmainView::tabletEvent(QTabletEvent* event) {
+  auto underWidget = m_container->childAt(event->pos());
+  if (underWidget == m_score->viewport()) {
+      auto t = event->type() == QEvent::TabletPress ? QEvent::TouchBegin: (event->type() == QEvent::TabletMove ? QEvent::TouchUpdate : QEvent::TouchEnd);
+      auto st = event->type() == QEvent::TabletPress ? Qt::TouchPointPressed : (event->type() == QEvent::TabletMove ? Qt::TouchPointMoved : Qt::TouchPointReleased);
+      if (t == QEvent::TouchBegin)
+        m_tabEventStartPos = event->posF();
+      QList<QTouchEvent::TouchPoint> p;
+      QTouchEvent::TouchPoint tp;
+      tp.setPos(event->posF());
+      tp.setStartPos(m_tabEventStartPos);
+      tp.setState(st);
+      p << tp;
+      QTouchEvent touchEvent(t, nullptr, Qt::NoModifier, st, p);
+      event->setAccepted(handleTouchEvent(&touchEvent));
+      return;
+  } else if (underWidget == m_guitar->viewport() && event->type() == QEvent::TabletPress) {
+      QTabletEvent mapTabEvent(event->type(), m_guitar->mapFromParent(event->pos()), QPoint(), event->device(), event->pointerType(), 0.0,
+                                0, 0, 0.0, 0.0, 0, event->modifiers(), event->uniqueId(), event->button(), event->buttons());
+      qApp->notify(m_guitar->viewport(), &mapTabEvent);
+      event->accept();
+      return;
+  }
+  QGraphicsView::tabletEvent(event);
+}
+#endif
 
 
 bool TmainView::handleTouchEvent(QEvent *event) {

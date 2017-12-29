@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -124,8 +124,8 @@ public slots:
   virtual void noteWasClicked(int index);
 
 protected:
-  virtual bool viewportEvent(QEvent* event);
-  virtual void wheelEvent(QWheelEvent* event);
+  bool viewportEvent(QEvent* event) override;
+  void wheelEvent(QWheelEvent* event) override;
 
       /** To make usage of touch pads wheel emulation which changes key/accidentals to fast by default,
         * a @p m_wheelFree locks a wheel event for e while to avoid switching keys to fast. */

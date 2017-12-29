@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -96,7 +96,11 @@ signals:
   void settingsRequired();
 
 protected:
-  virtual void resizeEvent(QResizeEvent* event);
+  void resizeEvent(QResizeEvent* event) override;
+#if (QT_VERSION_MINOR >= 9)
+  void tabletEvent(QTabletEvent * event) override;
+#endif
+  
 
 #if defined (Q_OS_ANDROID)
   virtual void keyPressEvent(QKeyEvent* event);
@@ -109,8 +113,8 @@ protected:
   void inVolExit(int exMessage);
 
 #else
-  virtual bool eventFilter(QObject* ob, QEvent* event);
-  virtual void mouseMoveEvent(QMouseEvent* event);
+  bool eventFilter(QObject* ob, QEvent* event) override;
+  void mouseMoveEvent(QMouseEvent* event) override;
 #endif
 
   void updateBarLine();

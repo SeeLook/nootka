@@ -361,7 +361,7 @@ void TsimpleScore::resizeEvent(QResizeEvent* event) {
 bool TsimpleScore::viewportEvent(QEvent* event) {
   if (TscoreNote::touchEnabled()) {
     if (event->type() == QEvent::TouchBegin || event->type() == QEvent::TouchUpdate || event->type() == QEvent::TouchEnd) {
-      QTouchEvent *te = static_cast<QTouchEvent*>(event);
+      auto te = static_cast<QTouchEvent*>(event);
       if (te->touchPoints().count() == 1) {
         // Touch event is sent here with view coordinates points - their has to be mapped to score scene
         QPointF touchScenePos = mapToScene(te->touchPoints().first().pos().toPoint());
