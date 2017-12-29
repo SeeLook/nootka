@@ -12,6 +12,7 @@ TnameItem {
   id: noteName
 
   nameStyle: GLOB.noteNameStyle
+  buttonNameStyle: GLOB.noteNameStyle
 
   property var score: null
   width: score.width; height: score.height
@@ -70,14 +71,15 @@ TnameItem {
       id: stepRep
       model: 7
       TcuteButton {
+        enabled: !disabled
         width: buttWidth
         height: buttHeight
         checkable: true
-        checked: index === step - 1
+        checked: !disabled && index === step - 1
         ButtonGroup.group: stepsGr
         font { pixelSize: height * 0.8; family: "Serif"; bold: true }
-        text: noteButtonText(index + 1, nameStyle)
-        onClicked: step = index + 1
+        text: noteButtonText(index + 1, buttonNameStyle)
+        onClicked: { step = index + 1; noteButtonClicked() }
       }
     }
   }
@@ -89,11 +91,12 @@ TnameItem {
     Repeater {
       model:  [ "B", "b", "#", "x" ]
       TcuteButton {
+        enabled: !disabled
         visible: GLOB.enableDoubleAccids || (index > 0 && index < 3)
         width: buttWidth
         height: buttHeight * 1.1
-        checkable: step > 0
-        checked: step > 0 && ((index < 2 && alter === index - 2) || (index > 1 && alter === index - 1))
+        checkable: true
+        checked: !disabled && ((index < 2 && alter === index - 2) || (index > 1 && alter === index - 1))
         font { family: "Nootka"; pixelSize: height * 0.85 }
         text: modelData
         onClicked: alter = checked ? (index < 2 ? index - 2 : index - 1) : 0
@@ -108,6 +111,7 @@ TnameItem {
     leftPadding: parent.width / 60
     spacing: parent.width / 20
     LinkText {
+      enabled: !disabled
       text: octavesLink()
       font { pixelSize: buttHeight * 0.4; family: "Sans"; bold: true }
       anchors.verticalCenter: parent.verticalCenter
@@ -115,10 +119,11 @@ TnameItem {
     Repeater {
       model: 4
       TcuteButton {
+        enabled: !disabled
         width: buttWidth * 1.2
         height: buttHeight
-        checkable: step > 0
-        checked: index === (octave + 2) / 2
+        checkable: true
+        checked: !disabled && index === (octave + 2) / 2
         ButtonGroup.group: octavesGr
         font { pixelSize: height * 0.5; family: "Sans"; bold: true }
         text: octaveName(index * 2 - 2)
@@ -134,10 +139,11 @@ TnameItem {
     Repeater {
       model: 4
       TcuteButton {
+        enabled: !disabled
         width: buttWidth * 1.2
         height: buttHeight
-        checkable: step > 0
-        checked: index === (octave + 3) / 2
+        checkable: true
+        checked: !disabled && index === (octave + 3) / 2
         ButtonGroup.group: octavesGr
         font { pixelSize: height * 0.5; family: "Sans"; bold: true }
         text: octaveName(index * 2 - 3)

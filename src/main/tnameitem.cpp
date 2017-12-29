@@ -35,7 +35,8 @@ TnameItem* TnameItem::m_instance = nullptr;
 
 TnameItem::TnameItem(QQuickItem* parent) :
   QQuickItem(parent),
-  m_nameStyle(Tnote::e_english_Bb)
+  m_nameStyle(Tnote::e_english_Bb),
+  m_buttonNameStyle(Tnote::e_english_Bb)
 {
   if (m_instance) {
     qDebug() << "TnameItem instance already exists!";
@@ -50,6 +51,10 @@ TnameItem::TnameItem(QQuickItem* parent) :
         changeNameBgColor(qApp->palette().base().color());
         emit bgColorChanged();
       }
+  });
+  connect(GLOB, &Tglobals::showEnharmNotesChanged, [=]{
+    if (m_note.isValid())
+      emit nameTextChanged();
   });
 }
 
@@ -98,24 +103,34 @@ void TnameItem::setStep(int st) {
 }
 
 
+/**
+ * Set alter button but do not change name text if note is invalid (not set)
+ */
 void TnameItem::setAlter(int alt) {
   char alterChar = static_cast<char>(alt);
   if (alterChar != m_note.alter) {
     m_note.alter = alterChar;
     emit alterChanged();
-    emit nameTextChanged();
-    emit noteChanged();
+    if (m_note.isValid()) {
+      emit nameTextChanged();
+      emit noteChanged();
+    }
   }
 }
 
 
+/**
+ * Set octave button but do not change name text if note is invalid (not set)
+ */
 void TnameItem::setOctave(int oct) {
   char octaveChar = static_cast<char>(oct);
   if (octaveChar != m_note.octave) {
     m_note.octave = octaveChar;
     emit octaveChanged();
-    emit nameTextChanged();
-    emit noteChanged();
+    if (m_note.isValid()) {
+      emit nameTextChanged();
+      emit noteChanged();
+    }
   }
 }
 
@@ -123,8 +138,24 @@ void TnameItem::setOctave(int oct) {
 void TnameItem::setNameStyle(Tnote::EnameStyle style) {
   if (m_nameStyle != style) {
     m_nameStyle = style;
+    Tnote::defaultStyle = style;
     emit nameStyleChanged();
     emit nameTextChanged();
+  }
+}
+
+void TnameItem::setButtonNameStyle(Tnote::EnameStyle style) {
+  if (style != m_buttonNameStyle) {
+    m_buttonNameStyle = style;
+    emit buttonNameStyleChanged();
+  }
+}
+
+
+void TnameItem::setDisabled(bool dis) {
+  if (dis != m_disabled) {
+    m_disabled = dis;
+    emit disabledChanged();
   }
 }
 
@@ -167,15 +198,16 @@ QString TnameItem::octavesLink() const {
 }
 
 
+/**
+ * Text on name buttons depends on style
+ */
 QString TnameItem::noteButtonText(int noteNr, int nStyle) {
-  Q_UNUSED(nStyle)
-  return Tnote(noteNr, 0, 0).toText(m_nameStyle, false);
+  return Tnote(noteNr, 0, 0).toText(static_cast<Tnote::EnameStyle>(nStyle), false);
 }
 
 
 void TnameItem::askQuestion(const Tnote& note, Tnote::EnameStyle questStyle, char strNr) {
-  changeNameBgColor(Tcolor::merge(Tcolor::alpha(GLOB->wrongColor(), 40), qApp->palette().window().color()));
-//   Tnote::EnameStyle tmpStyle = m_nameStyle;
+  changeNameBgColor(Tcolor::merge(Tcolor::alpha(GLOB->EquestionColor, 40), qApp->palette().base().color()));
   setNameStyle(questStyle);
   setNote(note);
   m_appendix.clear();
@@ -186,9 +218,21 @@ void TnameItem::askQuestion(const Tnote& note, Tnote::EnameStyle questStyle, cha
 }
 
 
-void TnameItem::prepAnswer(Tnote::EnameStyle answStyle) {
-  changeNameBgColor(Tcolor::merge(Tcolor::alpha(GLOB->correctColor(), 40), qApp->palette().window().color()));
-  setNameStyle(answStyle);
-  setNote(Tnote());
-  setEnabled(true);
+/**
+ * To keep note name text unchanged we silently (without emitting any signal) are changing name style.
+ * To unset note button we tricky set note to 0 and emitting only @p stepChanged() signal.
+ */
+void TnameItem::prepareAnswer(Tnote::EnameStyle answStyle) {
+  changeNameBgColor(Tcolor::merge(Tcolor::alpha(GLOB->EanswerColor, 40), qApp->palette().base().color()));
+  m_nameStyle = answStyle;
+  Tnote::defaultStyle = answStyle;
+  setDisabled(false);
+  m_note.note = 0;
+  emit stepChanged();
+}
+
+
+void TnameItem::forceAccidental(char accid) {
+  m_note.alter = accid;
+  emit alterChanged();
 }
