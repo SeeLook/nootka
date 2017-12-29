@@ -143,8 +143,10 @@ void TpitchView::setDisabled(bool isDisabled) {
   else
     watchInput();
   m_volumeView->setDisabled(isDisabled);
-	if (isDisabled) // it can be only disabled here, watchInput() enables it if it is possible
+  if (isDisabled) {// it can be only disabled here, watchInput() enables it if it is possible
 		m_intoView->setDisabled(isDisabled);
+    m_hideCnt = 8;
+  }
   enableAccuracyChange(m_intoView->accuracyChangeEnabled()); // refresh status tip state
 }
 
