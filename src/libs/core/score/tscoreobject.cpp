@@ -139,7 +139,6 @@ void TscoreObject::setClefType(Tclef::EclefType ct) {
  * then all notes are added from scratch, but stored segments are reused to improve single segment creation time
  */
 void TscoreObject::setMeter(int m) {
-CHECKTIME (
   Tmeter::Emeter newMeter = static_cast<Tmeter::Emeter>(m);
   Tmeter::Emeter prevMeter = m_meter->meter();
   if (m_meter->meter() != newMeter) {
@@ -150,7 +149,8 @@ CHECKTIME (
       firstMeasure()->meterChanged();
     emit meterChanged();
 
-    if (measuresCount() && firstMeasure()->noteCount() > 0) {
+    if (!m_singleNote && measuresCount() && firstMeasure()->noteCount() > 0) {
+    CHECKTIME (
       clearScorePrivate();
       QList<Tnote> oldList = m_notes;
       m_notes.clear();
@@ -164,10 +164,10 @@ CHECKTIME (
       }
       m_activeBarNr = 0;
       adjustScoreWidth();
+    )
     }
     emitLastNote();
   }
-)
 }
 
 
@@ -526,40 +526,45 @@ void TscoreObject::setEnableDoubleAccids(bool dblEnabled) {
  * This method iterates all notes and switches its state of displaying note name
  */
 void TscoreObject::setShowNoteNames(bool showNames) {
-CHECKTIME (
   if (m_showNoteNames != showNames) {
     m_showNoteNames = showNames;
-    for (int n = 0; n < notesCount(); ++n)
-      m_segments[n]->item()->setNoteNameVisible(m_showNoteNames && m_clefType != Tclef::NoClef);
-    qDebug() << "[TscoreObject] note name changed for" << notesCount() << "notes";
+    if (notesCount()) {
+    CHECKTIME (
+      for (int n = 0; n < notesCount(); ++n)
+        m_segments[n]->item()->setNoteNameVisible(m_showNoteNames && m_clefType != Tclef::NoClef);
+    )
+    }
   }
-)
 }
 
 
 void TscoreObject::setNameColor(const QColor& nameC) {
-CHECKTIME(
   if (m_nameColor != nameC) {
     m_nameColor = nameC;
     if (m_showNoteNames) {
-      for (int n = 0; n < notesCount(); ++n) // with hope that all items have name item created
-        m_segments[n]->item()->nameItem()->setProperty("styleColor", m_nameColor);
+      if (notesCount()) {
+      CHECKTIME(
+        for (int n = 0; n < notesCount(); ++n) // with hope that all items have name item created
+          m_segments[n]->item()->nameItem()->setProperty("styleColor", m_nameColor);
+      )
+      }
     }
   }
-)
 }
 
 
 void TscoreObject::setNameStyle(int nameS) {
-CHECKTIME(
   if (m_nameStyle != nameS) {
     m_nameStyle = nameS;
     if (m_showNoteNames) {
-      for (int n = 0; n < notesCount(); ++n) // with hope that all items have name item created
-        m_segments[n]->item()->nameItem()->setProperty("text", m_notes[n].styledName());
+      if (notesCount()) {
+      CHECKTIME(
+        for (int n = 0; n < notesCount(); ++n) // with hope that all items have name item created
+          m_segments[n]->item()->nameItem()->setProperty("text", m_notes[n].styledName());
+      )
+      }
     }
   }
-)
 }
 
 
@@ -585,6 +590,9 @@ void TscoreObject::setSingleNote(bool singleN) {
         addNote(Tnote());
         addNote(Tnote());
         m_singleNote = true;
+        setNote(0, Tnote()); // reset it (hide) because addNote was performed above in multi notes mode
+        setNote(1, Tnote());
+        setNote(2, Tnote());
         note(0)->shiftHead(1.5);
         note(1)->shiftHead(1.5);
         note(2)->shiftHead(1.5);

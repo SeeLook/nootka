@@ -43,7 +43,6 @@
 #include <taction.h>
 #include <tnootkaqml.h>
 #include <instruments/tcommoninstrument.h>
-// #include <score/tscoreobject.h>
 #include "tnameitem.h"
 #include "tmainscoreobject.h"
 
@@ -317,7 +316,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 
     if (NOTENAME) {
       NOTENAME->setNameStyle(GLOB->S->nameStyleInNoteName);
-//     NOTENAME->setNoteNamesOnButt(GLOB->S->nameStyleInNoteName);
+      NOTENAME->setButtonNameStyle(GLOB->S->nameStyleInNoteName);
     }
 
     m_penalty->nextQuestion();
@@ -496,27 +495,22 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 
   if (curQ->answerAsName()) {
           /** During an exam Note name style is changed in two cases:
-           * 1. If level.requireStyle = true every question or answer with Note Name
-           *       switch it (letters/solfege)
+           * 1. If level.requireStyle = true every question or answer with Note Name switch it (letters/solfege)
            * 2. If Note Name is question and answer and are the same - this is only way that it makes sense
            */
-      Tnote answNote(0, 0, 0);
+      char answerAlter = 0;
       if (curQ->questionAsName())
-          answNote = curQ->qa_2.note;
+          answerAlter = curQ->qa_2.note.alter;
       else {
-        answNote = curQ->qa.note;
-        if (m_level.requireStyle)
-            m_prevAnswStyle = m_supp->randomNameStyle(m_prevAnswStyle);
-        curQ->setStyle(curQ->styleOfQuestion(), m_prevAnswStyle);
+          answerAlter = curQ->qa.note.alter;
+          if (m_level.requireStyle)
+              m_prevAnswStyle = m_supp->randomNameStyle(m_prevAnswStyle);
+          curQ->setStyle(curQ->styleOfQuestion(), m_prevAnswStyle);
       }
-      NOTENAME->prepAnswer(curQ->styleOfAnswer());
-      if (curQ->questionAsFret() || curQ->questionAsSound()) {
-          if (m_level.forceAccids) {
-              NOTENAME->forceAccidental(answNote.alter);
-          }
-      } else if (curQ->questionAsName())
-                NOTENAME->forceAccidental(answNote.alter);
-      NOTENAME->setNameStyle(curQ->styleOfAnswer());
+      NOTENAME->prepareAnswer(curQ->styleOfAnswer());
+      // force accidental when question and answer are note name or question as sound or instrument and level forces accidentals
+      if (curQ->questionAsName() || ((curQ->questionAsFret() || curQ->questionAsSound()) && m_level.forceAccids))
+        NOTENAME->forceAccidental(answerAlter);
   }
 
 //   if (curQ->answerAsFret()) {
@@ -560,7 +554,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     m_playAgainAct->setEnabled(true);
   // TODO tune fork act (play middle A)
   m_penalty->startQuestionTime();
-  if (SOUND->stoppedByUser())
+  if (!curQ->answerAsSound() && SOUND->stoppedByUser())
     m_tipHandler->questionTip();
   else // As long as starting sound is expensive (PulseAudio) invoking tip animation at the same time sucks.
     QTimer::singleShot(WAIT_TIME + 100, [=]{ m_tipHandler->questionTip(); }); // So call it with delay
@@ -1016,7 +1010,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 // #endif
 //   m_tipHandler->certificateTip();
 // }
-// 
+
 /**
  * Instrument selection in exams/exercises:
  * - Build-in levels force instruments type,
@@ -1025,13 +1019,13 @@ void TexamExecutor::checkAnswer(bool showResults) {
  * - during loading levels from older files above rules are used
  * - exam/exercise respects level instrument when it is kind of guitar
  * - but when level has no instrument it lefts user preferred instrument
- * 
+ *
  *   Corrected answers appears on guitar when it is visible, and level scale matches to guitar scale
  *   so question list has to be created fret by fret 
  */
 void TexamExecutor::prepareToExam() {
   if (!NOTENAME && !m_exam->melodies()) { // TODO It should never happened, delete it when checked
-    qDebug() << "[TexamExecutor] prepareToExam\n\nSingle note mode required but note name was not created. THERE IS A BUG!!!\n\n";
+    qDebug() << "[TexamExecutor prepareToExam ] Single note mode required but note name was not created. THERE IS A BUG!!!\n\n";
     return;
   }
   emit titleChanged();
@@ -1039,7 +1033,7 @@ void TexamExecutor::prepareToExam() {
   disableWidgets();
 // connect all events to check an answer or display tip how to check
   connect(MAIN_SCORE, &TmainScoreObject::clicked, this, &TexamExecutor::expertAnswersSlot);
-//   connect(NOTENAME, SIGNAL(noteButtonClicked()), this, SLOT(expertAnswersSlot())); // TODO
+  connect(NOTENAME, &TnameItem::noteButtonClicked, this, &TexamExecutor::expertAnswersSlot);
   connect(INSTRUMENT, &TcommonInstrument::noteChanged, this, &TexamExecutor::expertAnswersSlot);
   if (m_level.instrument != Tinstrument::NoInstrument)
     connect(SOUND, &Tsound::noteStarted, this, &TexamExecutor::expertAnswersSlot);
@@ -1050,7 +1044,6 @@ void TexamExecutor::prepareToExam() {
 // #endif
 //   connect(m_supp, SIGNAL(rightButtonClicked()), this, SLOT(rightButtonSlot()));
 
-//   emit examMessage(Torders::e_examDisconnect); // disconnect main window widgets
   if (m_exercise) {
 //     connect(TOOLBAR->startExamAct, SIGNAL(triggered()), this, SLOT(stopExerciseSlot()));
     connect(m_exercise, &Texercises::messageDisplayed, this, &TexamExecutor::stopSound);
@@ -1173,7 +1166,7 @@ void TexamExecutor::disableWidgets() {
   MAIN_SCORE->setReadOnly(true);
   INSTRUMENT->setEnabled(false);
   if (NOTENAME)
-    NOTENAME->setEnabled(false);
+    NOTENAME->setDisabled(true);
 }
 
 

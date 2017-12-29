@@ -261,7 +261,8 @@ QColor TmainScoreObject::scoreBackgroundColor(const QColor& c, int alpha) {
 
 void TmainScoreObject::checkSingleNoteVisibility() {
   if (m_scoreObj && m_scoreObj->singleNote()) {
-    m_scoreObj->note(1)->setVisible(GLOB->showEnharmNotes() || GLOB->isExam());;
-    m_scoreObj->note(2)->setVisible(!GLOB->isExam() && GLOB->showEnharmNotes() && GLOB->enableDoubleAccids());;
+    m_scoreObj->note(1)->setVisible(GLOB->showEnharmNotes() || GLOB->isExam());
+    m_scoreObj->note(2)->setVisible(!GLOB->isExam() && GLOB->showEnharmNotes() && GLOB->enableDoubleAccids());
+    m_scoreObj->setNote(0, m_scoreObj->noteAt(0)); // refresh
   }
 }
