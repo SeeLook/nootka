@@ -8,7 +8,7 @@ project(nootka)
 
 SET(Nootka_VERSION_MAJOR  "1")
 SET(Nootka_VERSION_MINOR  "4")
-SET(Nootka_VERSION_PATCH  "4")
+SET(Nootka_VERSION_PATCH  "5")
 
 SET(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
@@ -31,11 +31,6 @@ if (APPLE)
     ")
 endif (APPLE)
 
-add_subdirectory(src)
-
-###########################################################################
-#INSTALLATION
-###########################################################################
 if(WIN32)
   set(PACKAGE_ARCHITECTURE x86)
 endif(WIN32)
@@ -48,8 +43,6 @@ if(NOT PACKAGE_ARCHITECTURE)
    if(NOT DPKG_CMD)
       find_program(RPM_CMD rpm)
       if(NOT RPM_CMD)
-#         message(STATUS "Can not find any program to determine architecture, default to i386.")
-#         set(PACKAGE_ARCHITECTURE i386)
         execute_process(COMMAND uname -m
           OUTPUT_VARIABLE PACKAGE_ARCHITECTURE
           OUTPUT_STRIP_TRAILING_WHITESPACE
@@ -73,6 +66,14 @@ message(STATUS "Architecture is ${PACKAGE_ARCHITECTURE}")
 if (NOT DPKG_CMD)
     unset(DPKG_CMD)
 endif (NOT DPKG_CMD)
+
+
+add_subdirectory(src)
+
+
+###########################################################################
+#INSTALLATION
+###########################################################################
 
 if(WIN32)
     set(INS_PREF ".")
