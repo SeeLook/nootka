@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,7 +21,8 @@
 
 
 #include "nootkamiscglobal.h"
-#include "thelpdialogbase.h"
+#include <widgets/thelpdialogbase.h>
+
 
 class QCheckBox;
 class QLabel;

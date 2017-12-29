@@ -21,7 +21,7 @@
 
 
 #include "nootkamiscglobal.h"
-#include "thelpdialogbase.h"
+#include <widgets/thelpdialogbase.h>
 
 
 /** 

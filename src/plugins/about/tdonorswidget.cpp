@@ -1,5 +1,5 @@
-/***************************************************************************
-*   Copyright (C) 2016 by Tomasz Bojczuk                                  *
+/**************************************************************************
+*   Copyright (C) 2016-2017 by Tomasz Bojczuk                             *
 *   tomaszbojczuk@gmail.com                                               *
 *                                                                         *
 *   This program is free software; you can redistribute it and/or modify  *
@@ -31,6 +31,7 @@ TdonorsWidget::TdonorsWidget(QWidget* parent) :
     headLab->setAlignment(Qt::AlignCenter);
     headLab->setWordWrap(true);
   QString sponText = QLatin1String("<ul>");
+    sponText += QLatin1String("<li>Aaron Wolf</li>");
     sponText += QLatin1String("<li>Torsten Philipp</li>");
     sponText += QLatin1String("<li>Vincent Bermel</li>");
     sponText += QLatin1String("<li>Tomasz Matuszewski</li>");

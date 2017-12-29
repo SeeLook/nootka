@@ -16,6 +16,7 @@ set(LIB_NOOTKAWIDGETS_SRC
 	widgets/tsettingsdialogbase.cpp
 	widgets/troundedlabel.cpp
 	widgets/tselectinstrument.cpp
+	widgets/thelpdialogbase.cpp
 )
 
 add_library(NootkaWidgets SHARED ${LIB_NOOTKAWIDGETS_SRC} )

@@ -20,12 +20,12 @@
 #include <exam/tlevel.h>
 #include <graphics/tnotepixmap.h>
 #include "widgets/tquestionaswdg.h"
+#include <widgets/thelpdialogbase.h>
 #include "tinitcorelib.h"
 #include <tnoofont.h>
 #include <tscoreparams.h>
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qlabel.h>
-#include <QtWidgets/qtextbrowser.h>
 #include <QtGui/qpainter.h>
 #include <QtWidgets/qscroller.h>
 #include <QtWidgets/qapplication.h>
@@ -46,7 +46,7 @@ TlevelPreview::TlevelPreview(QWidget* parent) :
 {
 		setMouseTracking(true);
     QLabel *headLab = new QLabel(tr("Level summary:"), this);
-		m_summaryEdit = new QTextBrowser(this);
+		m_summaryEdit = new TtextBrowser(this);
 		m_summaryEdit->setReadOnly(true);
 #if defined (Q_OS_ANDROID)
     m_summaryEdit->setMinimumWidth(fontMetrics().boundingRect("W").width() * 22);

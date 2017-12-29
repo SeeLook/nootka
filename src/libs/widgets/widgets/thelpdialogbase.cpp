@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,6 +21,23 @@
 #include <graphics/tnotepixmap.h>
 #include <widgets/tsettingsdialogbase.h>
 #include <QtWidgets/QtWidgets>
+
+
+/**
+ * Workaround to avoid warning messages during image creation
+ * https://bugreports.qt.io/browse/QTBUG-43270
+ */
+QVariant TtextBrowser::loadResource(int type, const QUrl& name) {
+  if (type == QTextDocument::ImageResource
+      && name.scheme().compare(QLatin1String("data"), Qt::CaseInsensitive) == 0)
+  {
+    static QRegularExpression re("^image/[^;]+;base64,.+={0,2}$");
+    QRegularExpressionMatch match = re.match(name.path());
+    if (match.hasMatch())
+      return QVariant();
+  }
+  return QTextBrowser::loadResource(type, name);
+}
 
 
 /*static*/
@@ -48,7 +65,7 @@ ThelpDialogBase::ThelpDialogBase(QWidget* parent, Qt::WindowFlags f) :
 	setWindowIcon(QIcon(Tpath::img("help")));
   setWindowTitle(tr("Nootka help"));
 #endif
-  m_helpText = new QTextBrowser(this);
+  m_helpText = new TtextBrowser(this);
 		m_helpText->setReadOnly(true);
 		m_helpText->setAlignment(Qt::AlignCenter);
     m_helpText->setOpenExternalLinks(true);

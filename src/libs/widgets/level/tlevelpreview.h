@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,7 +23,7 @@
 #include <QWidget>
 #include <QUrl>
 
-class QTextBrowser;
+class TtextBrowser;
 class Tlevel;
 
 /**
@@ -48,7 +48,7 @@ public:
   void setLevel(Tlevel &tl);
 	void setLevel(); /** Overloaded method with empty level to force empty table. */
 	
-			/** This method sets fixed height of QTextBrowser containing table with level preview
+			/** This method sets fixed height of TtextBrowser containing table with level preview
 			 * to current document height. It removes vertical scroll*/
 	void adjustToHeight();
 	
@@ -69,7 +69,7 @@ protected slots:
 	
 	
 private:
-	QTextBrowser 	*m_summaryEdit;
+	TtextBrowser 	*m_summaryEdit;
 	QString 			 m_instrText;
 	bool					 m_enableFixing;
 

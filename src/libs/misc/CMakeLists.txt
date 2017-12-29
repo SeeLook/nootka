@@ -14,7 +14,6 @@ set(LIB_NOOTKAMISC_SRC
 	tscalepreviewlabel.cpp
 	tmisctrans.h
 
-	help/thelpdialogbase.cpp
 	help/texamhelp.cpp
 	help/texpertanswerhelp.cpp
 	help/tmainhelp.cpp
