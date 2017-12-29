@@ -838,6 +838,14 @@ bool TfingerBoard::event(QEvent *event) {
 }
 
 
+#if (QT_VERSION_MINOR >= 9)
+void TfingerBoard::tabletEvent(QTabletEvent* event) {
+  if (event->type() == QEvent::TabletPress)
+    fakePress(event->pos());
+}
+#endif
+
+
 void TfingerBoard::mouseMoveEvent(QMouseEvent *event) {
     if (m_isDisabled)
         return;

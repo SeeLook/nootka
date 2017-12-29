@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -125,10 +125,13 @@ signals:
 
 
 protected:
-  void resizeEvent(QResizeEvent *);
-  void mouseMoveEvent(QMouseEvent *);
-  void mousePressEvent(QMouseEvent *event);
-  bool event(QEvent *event);
+  void resizeEvent(QResizeEvent*) override;
+  void mouseMoveEvent(QMouseEvent*) override;
+  void mousePressEvent(QMouseEvent *event) override;
+  bool event(QEvent *event) override;
+#if (QT_VERSION_MINOR >= 9)
+  void tabletEvent(QTabletEvent * event) override;
+#endif
 
   void updateBgPixmap();
   Tnote posToNote(int str, int fret);
