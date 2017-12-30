@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,10 +20,11 @@
 #define TABSTRACTANIM_H
 
 #include <nootkacoreglobal.h>
-#include <QObject>
-#include <QEasingCurve>
-#include <QTimer>
-#include <QGraphicsItem>
+#include <QtCore/qobject.h>
+#include <QtCore/qeasingcurve.h>
+#include <QtCore/qtimer.h>
+#include <QtCore/qpointer.h>
+#include <QtWidgets/qgraphicsitem.h>
 
 #define CLIP_TIME (50) // every move per 50 ms
 
@@ -97,13 +98,13 @@ protected slots:
       /** This is virtual method (slot) which is invoked by timeOut() signal of timer.
       * By default every CLIP_TIME (30ms).
       * It has to be implemented in subclass.  */
-  virtual void animationRoutine() {};
+  virtual void animationRoutine() {}
 
 private:
     QEasingCurve         *m_easingCurve;
-    QTimer               *m_timer;
+    QPointer<QTimer>      m_timer;
     QGraphicsItem        *m_item;
-    int                  m_duration;
+    int                   m_duration;
     int                   m_stepCount, m_currentStep;
 };
 
