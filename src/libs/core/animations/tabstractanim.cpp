@@ -33,7 +33,8 @@ TabstractAnim::TabstractAnim(QGraphicsItem* it, QObject* parent) :
 
 TabstractAnim::~TabstractAnim()
 {
-  timer()->stop();
+  if (timer())
+    timer()->stop();
   delete m_easingCurve;
 }
 
