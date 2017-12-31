@@ -129,6 +129,9 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
 // French
   translStr += transRow("fr", QStringLiteral("français"), QStringLiteral("Olivier Devineau,<br>&nbsp;&nbsp;Jean-Marc Lartigue"),
                         QString());
+// French
+  translStr += transRow("hu", QStringLiteral("magyar"), QStringLiteral("Gábor Kertész"),
+                        QStringLiteral("<a href=\"mailto:kergab@gmail.com\">kergab@gmail.com</a>"));
 // Polish
   translStr += transRow("pl", QStringLiteral("polski"), QStringLiteral("Tomasz Bojczuk"),
                         QStringLiteral("<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>"));

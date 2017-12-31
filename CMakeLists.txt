@@ -116,6 +116,7 @@ if(APPLE OR WIN32)
    "${QT_TRANSLATIONS_DIR}/qtbase_cs.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_de.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_fr.qm"
+   "${QT_TRANSLATIONS_DIR}/qtbase_hu.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_pl.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_ru.qm"
       # So far not provided by Qt
