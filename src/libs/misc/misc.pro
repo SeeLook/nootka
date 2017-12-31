@@ -35,7 +35,7 @@ LIBS += -L../core/ -lNootkaCore -L../mobile/ -lNootkaMobile -L../score/ -lNootka
 
 INCLUDEPATH += ../core ../mobile ../score ../widgets
 
-# append Qt base translations from corrent Qt installation
+# append Qt base translations from current Qt installation
 TR_DIR = "$$system(dirname $$QMAKESPEC)/../translations"
 
 lang.path = /assets/lang
@@ -43,14 +43,16 @@ lang.files += lang/nootka_pl.qm
 lang.files += lang/nootka_cs.qm
 lang.files += lang/nootka_de.qm
 lang.files += lang/nootka_fr.qm
+lang.files += lang/nootka_hu.qm
 lang.files += lang/nootka_ru.qm
 lang.files += lang/nootka_es.qm
 lang.files += $$system(ls $$TR_DIR/qtbase_cs.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_de.qm)
+lang.files += $$system(ls $$TR_DIR/qtbase_es.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_fr.qm)
+lang.files += $$system(ls $$TR_DIR/qtbase_hu.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_pl.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_ru.qm)
-lang.files += lang/qtbase_es.qm
 
 lang.depends += FORCE
 

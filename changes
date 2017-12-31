@@ -2,6 +2,8 @@
      - Stylus support on touch screens (Requires Qt 5.9/Android 4.2 and above)
     BUGS FIXES
      - Don't stop pitch detection when question and answer are a sound
+    ANDROID
+     - Removed memory leaks, fixed two issues causing random crashes
 
 1.4.4
      - German translation is complete

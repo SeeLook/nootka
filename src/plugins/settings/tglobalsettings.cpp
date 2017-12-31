@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,7 +27,7 @@
 TglobalSettings::TglobalSettings(QWidget *parent) :
   TtouchArea(parent)
 {
-  QVBoxLayout *lay = new QVBoxLayout();
+  auto lay = new QVBoxLayout();
   lay->setAlignment(Qt::AlignCenter);
   lay->addStretch(1);
   QHBoxLayout *langLay = new QHBoxLayout;
@@ -45,6 +45,7 @@ TglobalSettings::TglobalSettings(QWidget *parent) :
   m_langList[QLatin1String("en")] = QStringLiteral("english");
   m_langList[QLatin1String("es")] = QString::fromUtf8("español");
   m_langList[QLatin1String("fr")] = QString::fromUtf8("français");
+  m_langList[QLatin1String("hu")] = QStringLiteral("magyar");
   m_langList[QLatin1String("pl")] = QStringLiteral("polski");
   m_langList[QLatin1String("ru")] = QString::fromUtf8("русский");
   QMapIterator<QString, QString> i(m_langList);
