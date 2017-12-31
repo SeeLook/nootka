@@ -140,11 +140,13 @@ TquickAudioDialog::TquickAudioDialog(QWidget* parent) :
 
 
 TquickAudioDialog::~TquickAudioDialog() {
-  if (SOUND->sniffer) {
-    disconnect(SOUND->sniffer, &TaudioIN::noteStarted, this, &TquickAudioDialog::noteSlot);
-    SOUND->sniffer->startTouchHandle();
+  if (SOUND) {
+    if (SOUND->sniffer) {
+      disconnect(SOUND->sniffer, &TaudioIN::noteStarted, this, &TquickAudioDialog::noteSlot);
+      SOUND->sniffer->startTouchHandle();
+    }
+    SOUND->blockSignals(false);
   }
-  SOUND->blockSignals(false);
 }
 
 
@@ -189,9 +191,14 @@ void TquickAudioDialog::volChangedSlot(int v) {
 void TquickAudioDialog::keyPressEvent(QKeyEvent* e) {
   auto k = static_cast<Qt::Key>(e->key());
   if (k == Qt::Key_VolumeDown)
-    volDown();
+      volDown();
   else if (k == Qt::Key_VolumeUp)
-    volUp();
+      volUp();
+  else if (k == Qt::Key_Back) {
+      emit exit(static_cast<int>(e_discarded));
+      done(QDialog::Rejected);
+      return;
+  }
   QDialog::keyReleaseEvent(e);
 }
 
