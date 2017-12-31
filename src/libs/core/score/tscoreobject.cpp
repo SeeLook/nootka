@@ -601,6 +601,9 @@ void TscoreObject::setSingleNote(bool singleN) {
         m_selectedItem = note(0);
     } else {
         m_singleNote = false;
+        resetNoteItem(note(0));
+        resetNoteItem(note(1));
+        resetNoteItem(note(2));
         clearScore(); // call it again when transitioning from single note mode
     }
     emit singleNoteChanged();
@@ -1034,12 +1037,6 @@ TnotePair* TscoreObject::getSegment(int noteNr, Tnote* n) {
       auto np = m_spareSegments.takeLast();
       np->setNote(n);
       np->setIndex(noteNr);
-      // Routines below revert note item state after single mode
-      np->item()->setVisible(true);
-      np->item()->setEnabled(true);
-      np->item()->setColor(qApp->palette().text().color());
-      np->item()->setNoteNameVisible(m_showNoteNames && m_clefType != Tclef::NoClef);
-      np->item()->shiftHead(0.0);
       return np;
   }
 }
@@ -1106,4 +1103,16 @@ void TscoreObject::fitToRange(Tnote& n) {
     n.rtm.setTie(Trhythm::e_noTie);
     n.rtm.setBeam(Trhythm::e_noBeam);
   }
+}
+
+
+/**
+ * Set @TnoteObject parameters to defaults , usually they are different in single note mode
+ */
+void TscoreObject::resetNoteItem(TnoteObject* noteItem) {
+  noteItem->setVisible(true);
+  noteItem->setEnabled(true);
+  noteItem->setColor(qApp->palette().text().color());
+  noteItem->setNoteNameVisible(m_showNoteNames && m_clefType != Tclef::NoClef);
+  noteItem->shiftHead(0.0);
 }

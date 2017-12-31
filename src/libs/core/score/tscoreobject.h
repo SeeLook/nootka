@@ -497,6 +497,7 @@ private:
        * Check given note is it in score range and changes it into rest if not
        */
   void fitToRange(Tnote& n);
+  void resetNoteItem(TnoteObject* noteItem);
 
 private:
                               /* Musical parameters */
