@@ -546,9 +546,9 @@ void TexamExecutor::askQuestion(bool isAttempt) {
       SOUND->stopListen(); // stop sniffing if answer is not a played sound
 
 //   TOOLBAR->setForQuestion(curQ->questionAsSound(), curQ->questionAsSound() && curQ->answerAsNote());
-//   m_nextQuestAct->setEnabled(false);
   m_checkQuestAct->setEnabled(true);
   m_repeatQuestAct->setEnabled(false);
+  m_nextQuestAct->setEnabled(false);
   if (curQ->questionAsSound() && m_playAgainAct)
     m_playAgainAct->setEnabled(true);
   // TODO tune fork act (play middle A)
@@ -705,14 +705,15 @@ void TexamExecutor::checkAnswer(bool showResults) {
 
   if (showResults) {
       m_tipHandler->resultTip(curQ); // tip duration is calculated by itself (inside resultTip() method)
-//       if ((!m_exercise || (m_exercise && curQ->isCorrect())) && !autoNext)
-//         m_tipHandler->whatNextTip(curQ->isCorrect());
+      if ((!m_exercise || (m_exercise && curQ->isCorrect())) && !autoNext)
+        m_tipHandler->whatNextTip(curQ->isCorrect());
       if (!autoNext) {
-//         if (!curQ->isCorrect() && !m_exercise && !curQ->melody())
+        if (!curQ->isCorrect() && !m_exercise && !curQ->melody())
+          m_repeatQuestAct->setEnabled(true);
 //             TOOLBAR->addAction(TOOLBAR->prevQuestAct);
 //         if (!curQ->isCorrect() && curQ->melody())
 //           TOOLBAR->addAction(TOOLBAR->attemptAct);
-//         TOOLBAR->addAction(TOOLBAR->nextQuestAct);
+        m_nextQuestAct->setEnabled(true);
       }
   }
 
