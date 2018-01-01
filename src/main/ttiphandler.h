@@ -76,19 +76,31 @@ public:
 //     */
 //  void setStatusMessage(const QString& text, int duration = 0);
 
-  void changeExam(Texam* newExam); /**< Replaces exam pointer given in constructor to the new one. */
+      /**
+       * Replaces exam pointer given in constructor to the new one.
+       */
+  void changeExam(Texam* newExam);
 
-//  void resultTip(TQAunit *answer, int time = 0); /**< show was question correct text, hides after given time */
-  void startTip(); /**< Text with help on an exam start */
+      /**
+       * show was question correct text, hides after given time
+       */
+  void resultTip(TQAunit *answer, int time = 0);
 
-//    /**
-//     * Text with what to click after an answer.
-//     * @p isCorrect - was the question correct
-//     * @p toCorrection - text how to see corrected answer will be shown.
-//     */
-//  void whatNextTip(bool isCorrect, bool toCorrection = false);
+      /**
+       * Text with help on an exam start
+       */
+  void startTip();
 
-     /** Text with question context */
+   /**
+    * Text with what to click after an answer.
+    * @p isCorrect - was the question correct
+    * @p toCorrection - text how to see corrected answer will be shown.
+    */
+ void whatNextTip(bool isCorrect, bool toCorrection = false);
+
+     /**
+      * Text with question context
+      */
  void questionTip();
 //  void tryAgainTip(int time); /**< "Try again" text" */
  void confirmTip(int time = 0); /**< tip about confirm an answer appears after given time */
@@ -135,6 +147,8 @@ signals:
   void showStartTip(const QString text, const QColor& color, const QPointF& pos);
   void showQuestionTip(const QString text, const QPointF& pos);
   void destroyTips();
+  void showResultTip(const QString text, const QColor& color);
+  void destroyResultTip();
 //  void buttonClicked(const QString&); /**< This signal is emitted when user click image button (a link) on any tip.*/
 //  void certificateMagicKeys(); /**< When translator wants to see a certificate preview */
 //  void correctingFinished(); /**< Emitted when correction animation finish */
@@ -165,6 +179,7 @@ private:
   EtipPos                            m_questTipPosType; /**< Kind of question tip position */
   int                                m_iconSize; /**< Icon image size on tips calculated from actual font metrics. */
   QPointF                            m_lastTipPos;
+  bool                               m_confirmTipOn = false;
 
 private:
   QPointF getTipPosition(EtipPos tp);

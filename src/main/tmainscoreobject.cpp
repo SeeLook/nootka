@@ -130,7 +130,17 @@ void TmainScoreObject::clearScore() {
   m_scoreObj->setBgColor(qApp->palette().base().color());
 }
 
+
 void TmainScoreObject::setKeySignature(const TkeySignature& key) { m_scoreObj->setKeySignature(static_cast<int>(key.value())); }
+
+char TmainScoreObject::keySignatureValue() {
+  return static_cast<char>(m_scoreObj->keySignature());
+}
+
+
+Tnote TmainScoreObject::getNote(int id) {
+  return m_scoreObj->noteAt(id);
+}
 
 
 void TmainScoreObject::askQuestion(Tmelody* mel) {

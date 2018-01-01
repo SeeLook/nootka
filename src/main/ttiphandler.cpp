@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -34,6 +34,7 @@
 #include "tnameitem.h"
 #include <tsound.h>
 #include <tpath.h>
+#include <texamparams.h>
 #if defined (Q_OS_ANDROID)
   #include <tmtr.h>
 #else
@@ -137,7 +138,7 @@ void TtipHandler::setTipPos(const QPointF& p) {
 }
 
 
-//void Tcanvas::setStatusMessage(const QString& text, int duration) {
+//void TtipHandler::setStatusMessage(const QString& text, int duration) {
 //#if defined (Q_OS_ANDROID)
 //  tMessage->setMessage(text, duration);
 //#else
@@ -159,49 +160,41 @@ int TtipHandler::bigFont() {
 }
 
 
-//void Tcanvas::resultTip(TQAunit* answer, int time) {
-//  clearConfirmTip();
-//  clearResultTip();
-//  clearTryAgainTip();
+void TtipHandler::resultTip(TQAunit* answer, int time) {
+  m_timerToConfirm->stop();
+  clearCanvas();
 
-//  bool autoNext = Tcore::gl()->E->autoNextQuest;
-//  if (Tcore::gl()->E->afterMistake == TexamParams::e_stop && !answer->isCorrect())
-//      autoNext = false; // when mistake and e_stop - the same like autoNext = false;
-//  if (autoNext) { // determine time of displaying
-//    if (answer->isCorrect() || Tcore::gl()->E->afterMistake == TexamParams::e_continue)
-//      time = 2500; // hard-coded
-//    else
-//      time = Tcore::gl()->E->mistakePreview; // user defined wait time
-//  }
+ bool autoNext = GLOB->E->autoNextQuest;
+ if (GLOB->E->afterMistake == TexamParams::e_stop && !answer->isCorrect())
+     autoNext = false; // when mistake and e_stop - the same like autoNext = false;
+ if (autoNext) { // determine time of displaying
+   if (answer->isCorrect() || GLOB->E->afterMistake == TexamParams::e_continue)
+     time = 2500; // hard-coded
+   else
+     time = GLOB->E->mistakePreview; // user defined wait time
+ }
 
-//#if defined (Q_OS_ANDROID)
-//  int bf = qMin(Tmtr::shortScreenSide() / 10, qRound(Tmtr::fingerPixels() * 2.0));
-//#else
-//  int bf = bigFont();
-//#endif
-//  m_resultTip = new TgraphicsTextTip(wasAnswerOKtext(answer, TexecutorSupply::answerColor(answer->mistake()), bf));
-//  m_scene->addItem(m_resultTip);
-//  m_resultTip->setZValue(100);
-
+  emit showResultTip(wasAnswerOKtext(answer), TexecutorSupply::answerColor(answer->mistake()));
+ 
 //  if (answer->isNotSoBad())
 //    m_resultTip->setScale(m_scale);
 //  else
 //    m_resultTip->setScale(m_scale * 1.2);
 //  setResultPos();
-//  if (Tcore::gl()->E->showWrongPlayed && Tcore::gl()->E->showWrongPlayed && !answer->melody() &&
+//  if (GLOB->E->showWrongPlayed && GLOB->E->showWrongPlayed && !answer->melody() &&
 //      answer->answerAsSound() && !answer->isCorrect() && SOUND->note().note)
 //          detectedNoteTip(SOUND->note()); // In exercise mode display detected note when it was incorrect
-//  if (time)
-//      QTimer::singleShot(time, this, SLOT(clearResultTip()));
+  if (time)
+    QTimer::singleShot(time, [=]{ emit destroyResultTip(); });
+}
+
+
+//QString TtipHandler::detectedText(const QString& txt) {
+//  return QString("<span style=\"color: %1;\"><big>").arg(GLOB->EquestionColor.name()) + txt + QLatin1String("</big></span>");
 //}
 
 
-//QString Tcanvas::detectedText(const QString& txt) {
-//  return QString("<span style=\"color: %1;\"><big>").arg(Tcore::gl()->EquestionColor.name()) + txt + QLatin1String("</big></span>");
-//}
-
-
-//void Tcanvas::detectedNoteTip(const Tnote& note) {
+//void TtipHandler::detectedNoteTip(const Tnote& note) {
 //  Tnote n = note;
 //  if (n.isValid())
 //    setStatusMessage(QLatin1String("<table valign=\"middle\" align=\"center\"><tr><td> ") +
@@ -210,9 +203,9 @@ int TtipHandler::bigFont() {
 //}
 
 
-//void Tcanvas::tryAgainTip(int time) {
+//void TtipHandler::tryAgainTip(int time) {
 //  m_tryAgainTip = new TgraphicsTextTip(QString("<span style=\"color: %1; font-size: %2px;\">")
-//      .arg(Tcore::gl()->EquestionColor.name()).arg(bigFont()) + tr("Try again!") + "</span>");
+//      .arg(GLOB->EquestionColor.name()).arg(bigFont()) + tr("Try again!") + "</span>");
 //  m_scene->addItem(m_tryAgainTip);
 //  m_tryAgainTip->setZValue(100);
 //  m_tryAgainTip->setScale(m_scale);
@@ -245,7 +238,7 @@ void TtipHandler::startTip() {
 }
 
 
-//void Tcanvas::certificateTip() {
+//void TtipHandler::certificateTip() {
 //  if (m_certifyTip)
 //    return;
 
@@ -259,7 +252,7 @@ void TtipHandler::startTip() {
 //}
 
 
-//void Tcanvas::whatNextTip(bool isCorrect, bool toCorrection) {
+//void TtipHandler::whatNextTip(bool isCorrect, bool toCorrection) {
 //  delete m_questionTip;
 //  clearWhatNextTip();
 //#if defined (Q_OS_ANDROID)
@@ -288,7 +281,7 @@ void TtipHandler::startTip() {
 //      });
 //  }
 //  if (toCorrection) {
-//    m_correctTip = new ThackedTouchTip(getTipText("correct", "Correct"), Tcore::gl()->EanswerColor);
+//    m_correctTip = new ThackedTouchTip(getTipText("correct", "Correct"), GLOB->EanswerColor);
 //    m_scene->addItem(m_correctTip);
 //    m_correctTip->setFont(smalTipFont(m_view));
 //    connect(m_correctTip, &ThackedTouchTip::clicked, [=] {
@@ -336,11 +329,14 @@ void TtipHandler::startTip() {
 
 
 void TtipHandler::confirmTip(int time) {
+  if (!m_confirmTipOn) {
 #if defined (Q_OS_ANDROID)
- showConfirmTip();
+    showConfirmTip();
 #else
- m_timerToConfirm->start(time + 1); // add 1 to show it immediately when time = 0
+    m_timerToConfirm->start(time + 1); // add 1 to show it immediately when time = 0
 #endif
+    m_confirmTipOn = true;
+  }
 }
 
 
@@ -357,7 +353,7 @@ void TtipHandler::showConfirmTip() {
 }
 
 
-//void Tcanvas::playMelodyAgainMessage() {
+//void TtipHandler::playMelodyAgainMessage() {
 //#if defined (Q_OS_ANDROID)
 //  tMessage->setMessage(detectedText(tr("Select any note to play it again.")), 3000);
 //#else
@@ -367,6 +363,7 @@ void TtipHandler::showConfirmTip() {
 
 
 void TtipHandler::questionTip() {
+  emit destroyResultTip();
   QString br = QStringLiteral("<br>");
   QString sp = QStringLiteral(" ");
   QString questText;
@@ -496,7 +493,7 @@ void TtipHandler::questionTip() {
 }
 
 
-//void Tcanvas::outOfTuneTip(float pitchDiff) {
+//void TtipHandler::outOfTuneTip(float pitchDiff) {
 //  if (m_outTuneTip)
 //    return;
 //  QString tuneText;
@@ -508,7 +505,7 @@ void TtipHandler::questionTip() {
 //    tooLow = false;
 //  }
 //  m_outTuneTip = new TgraphicsTextTip(QString("<span style=\"color: %1; font-size: %2px;\">")
-//      .arg(Tcore::gl()->EanswerColor.name()).arg(bigFont()) + tuneText + "</span>");
+//      .arg(GLOB->EanswerColor.name()).arg(bigFont()) + tuneText + "</span>");
 //  m_scene->addItem(m_outTuneTip);
 //  m_outTuneTip->setZValue(100);
 //  m_outTuneTip->setScale(m_scale);
@@ -517,12 +514,12 @@ void TtipHandler::questionTip() {
 //}
 
 
-//void Tcanvas::melodyCorrectMessage() {
+//void TtipHandler::melodyCorrectMessage() {
 //  if (m_melodyCorrectMessage)
 //    return;
 
 //  m_melodyCorrectMessage = true;
-//  QString message = QString("<span style=\"color: %1;\"><big>").arg(Tcore::gl()->EanswerColor.name()) +
+//  QString message = QString("<span style=\"color: %1;\"><big>").arg(GLOB->EanswerColor.name()) +
 //                    tr("Click incorrect notes to see<br>and to listen to them corrected.") + QLatin1String("</big></span>");
 //#if defined (Q_OS_ANDROID)
 //  tMessage->setMessage(message, 10000); // temporary message on a tip
@@ -534,13 +531,13 @@ void TtipHandler::questionTip() {
 
 
 ///** @p prevTime param is to call clearing method after this time. */
-//void Tcanvas::correctToGuitar(TQAtype::Etype &question, int prevTime, TfingerPos& goodPos) {
+//void TtipHandler::correctToGuitar(TQAtype::Etype &question, int prevTime, TfingerPos& goodPos) {
 //  if (m_correctAnim)
 //    return;
 //  m_goodPos = goodPos;
 //  m_flyEllipse = new QGraphicsEllipseItem;
 //  m_flyEllipse->setPen(Qt::NoPen);
-//  m_flyEllipse->setBrush(QBrush(QColor(Tcore::gl()->EquestionColor.name())));
+//  m_flyEllipse->setBrush(QBrush(QColor(GLOB->EquestionColor.name())));
 //  m_scene->addItem(m_flyEllipse);
 //  if (question == TQAtype::e_asNote) {
 //      m_flyEllipse->setRect(SCORE->noteRect(1)); // 1 - answer note segment
@@ -558,7 +555,7 @@ void TtipHandler::questionTip() {
 //  m_correctAnim->setDuration(600);
 //  connect(m_correctAnim, SIGNAL(finished()), this, SLOT(correctAnimFinished()));
 //  QPointF destP = m_view->mapToScene(GUITAR->mapToParent(GUITAR->mapFromScene(GUITAR->fretToPos(goodPos))));
-//  if (!Tcore::gl()->GisRightHanded) { // fix destination position point for left-handed guitars
+//  if (!GLOB->GisRightHanded) { // fix destination position point for left-handed guitars
 //    if (goodPos.fret())
 //      destP.setX(destP.x() - GUITAR->fingerRect().width());
 //    else
@@ -570,7 +567,7 @@ void TtipHandler::questionTip() {
 //      m_correctAnim->setScaling(GUITAR->fingerRect().width() / m_flyEllipse->rect().width(), 2.0);
 //      m_correctAnim->scaling()->setEasingCurveType(QEasingCurve::OutQuint);
 //  }
-//  m_correctAnim->setColoring(QColor(Tcore::gl()->EanswerColor.name()));
+//  m_correctAnim->setColoring(QColor(GLOB->EanswerColor.name()));
 //  if (goodPos.fret() == 0) {
 //    QPointF p1(m_view->mapToScene(GUITAR->mapToParent(
 //              GUITAR->mapFromScene(GUITAR->stringLine(goodPos.str()).p1()))));
@@ -583,7 +580,7 @@ void TtipHandler::questionTip() {
 //}
 
 
-//void Tcanvas::levelStatusMessage() {
+//void TtipHandler::levelStatusMessage() {
 //#if !defined (Q_OS_ANDROID)
 //  QString message;
 //  if (m_exam->isExercise())
@@ -598,6 +595,7 @@ void TtipHandler::questionTip() {
 
 
 void TtipHandler::clearCanvas() {
+  m_confirmTipOn = false;
   emit destroyTips();
 //  clearConfirmTip();
 //  clearResultTip();
@@ -619,7 +617,7 @@ void TtipHandler::clearCanvas() {
 
 
 
-//void Tcanvas::clearCertificate() {
+//void TtipHandler::clearCertificate() {
 //  if (m_certifyTip) {
 //    m_certifyTip->deleteLater();
 //    m_certifyTip = nullptr;
@@ -627,7 +625,7 @@ void TtipHandler::clearCanvas() {
 //}
 
 
-//void Tcanvas::clearCorrection() {
+//void TtipHandler::clearCorrection() {
 //  if (m_correctAnim) {
 //    m_correctAnim->deleteLater();
 //    m_correctAnim = 0;
@@ -641,7 +639,7 @@ void TtipHandler::clearCanvas() {
 
 
 
-//void Tcanvas::clearMelodyCorrectMessage() {
+//void TtipHandler::clearMelodyCorrectMessage() {
 //  if (m_melodyCorrectMessage) {
 //    m_melodyCorrectMessage = false;
 //    levelStatusMessage();
@@ -653,16 +651,16 @@ void TtipHandler::clearCanvas() {
 ////###################              PROTECTED           ############################################
 ////#################################################################################################
 
-//void Tcanvas::correctAnimFinished() {
+//void TtipHandler::correctAnimFinished() {
 ////   clearCorrection();
 //  m_flyEllipse->hide();
 //  GUITAR->setFinger(m_goodPos);
-//  GUITAR->markAnswer(QColor(Tcore::gl()->EanswerColor.name()));
+//  GUITAR->markAnswer(QColor(GLOB->EanswerColor.name()));
 //  m_view->update();
 //}
 
 
-//bool Tcanvas::eventFilter(QObject* obj, QEvent* event) {
+//bool TtipHandler::eventFilter(QObject* obj, QEvent* event) {
 //#if defined (Q_OS_ANDROID)
 ////   if (event->type() == QEvent::KeyPress) {
 ////     auto ke = static_cast<QKeyEvent*>(event);
@@ -701,7 +699,7 @@ QPointF TtipHandler::getTipPosition(TtipHandler::EtipPos tp) {
 }
 
 
-//void Tcanvas::setTryAgainPos() {
+//void TtipHandler::setTryAgainPos() {
 //  QPointF tl(m_scene->width() * 0.6, m_scene->height() * 0.10); // top left of tip area
 //  if (m_resultTip) // place it below result tip
 //    tl.setY(m_resultTip->pos().y() + m_resultTip->realH());
@@ -709,7 +707,7 @@ QPointF TtipHandler::getTipPosition(TtipHandler::EtipPos tp) {
 //}
 
 
-//void Tcanvas::setWhatNextPos() {
+//void TtipHandler::setWhatNextPos() {
 //#if defined (Q_OS_ANDROID)
 //  qreal sc = (m_view->height() / 8.0) / m_nextTip->realH();
 //  if (sc > 1.0)
@@ -746,7 +744,7 @@ QPointF TtipHandler::getTipPosition(TtipHandler::EtipPos tp) {
 //}
 
 
-//void Tcanvas::setConfirmPos() { // right top corner
+//void TtipHandler::setConfirmPos() { // right top corner
 //#if defined (Q_OS_ANDROID)
 //  qreal sc = (m_view->height() / 8.0) / m_confirmTip->realH();
 //  if (sc > 1.0)
@@ -758,7 +756,7 @@ QPointF TtipHandler::getTipPosition(TtipHandler::EtipPos tp) {
 //}
 
 
-//void Tcanvas::createQuestionTip() {
+//void TtipHandler::createQuestionTip() {
 //  delete m_questionTip;
 //  qreal scaleFactor = 1.2;
 //#if defined (Q_OS_ANDROID) // HACK: to keep question big enough on tablet big screens
@@ -772,7 +770,7 @@ QPointF TtipHandler::getTipPosition(TtipHandler::EtipPos tp) {
 //}
 
 
-//void Tcanvas::setOutTunePos() {
+//void TtipHandler::setOutTunePos() {
 //  int startX = SOUND->pitchView()->geometry().x();
 //  if (m_outTuneTip->realW() > SOUND->pitchView()->geometry().width() / 2)
 //      m_outTuneTip->setScale(m_outTuneTip->realW() / (SOUND->pitchView()->geometry().width() / 2));
@@ -783,7 +781,7 @@ QPointF TtipHandler::getTipPosition(TtipHandler::EtipPos tp) {
 //}
 
 
-//void Tcanvas::tipStateChanged() {
+//void TtipHandler::tipStateChanged() {
 //  if (sender() == m_questionTip)
 //    m_minimizedQuestion = m_questionTip->isMinimized();
 //}

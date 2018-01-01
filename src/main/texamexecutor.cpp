@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -33,7 +33,6 @@
 // #include <exam/textrans.h>
 #include <exam/tattempt.h>
 #include "texamhelp.h"
-// #include <help/texpertanswerhelp.h>
 #include <taudioparams.h>
 #include <texamparams.h>
 #include <tscoreparams.h>
@@ -580,143 +579,143 @@ void TexamExecutor::checkAnswer(bool showResults) {
   if (m_exam->melodies() && SOUND->melodyIsPlaying())
     SOUND->stopPlaying();
 
-//   if (!GLOB->E->autoNextQuest || m_exercise)
-//       TOOLBAR->startExamAct->setDisabled(false);
+  if (!GLOB->E->autoNextQuest || m_exercise)
+    m_stopExamAct->setEnabled(true);
   m_isAnswered = true;
 // Let's check
-//   Tnote questNote, answNote, userNote; // example note & returned note
-// // At first we determine what has to be checked
-//   if (!curQ->melody()) {
-//     questNote = curQ->qa.note;
-//     if (curQ->answerAsNote()) {
-//         if (m_level.manualKey) {
-//             if (SCORE->keySignature().value() != curQ->key.value())
-//                 curQ->setMistake(TQAunit::e_wrongKey);
-//         }
-//         if (curQ->questionAsNote())
-//             questNote = curQ->qa_2.note;
-//         answNote = SCORE->getNote(0);
-//     }
-//     if (curQ->answerAsName()) {
-//         if (curQ->questionAsName())
-//             questNote = curQ->qa_2.note;
-//         m_prevNoteIfName = NOTENAME->getNoteName(); // store note to restore it if will be repeated
-//         answNote = NOTENAME->getNoteName();
-//     }
-//     userNote = answNote;
-//     if (curQ->answerAsSound()) {
-//         answNote = SOUND->note();
+  Tnote questNote, answNote, userNote; // example note & returned note
+// At first we determine what has to be checked
+  if (!curQ->melody()) {
+    questNote = curQ->qa.note;
+    if (curQ->answerAsNote()) {
+        if (m_level.manualKey) {
+            if (MAIN_SCORE->keySignatureValue() != curQ->key.value())
+              curQ->setMistake(TQAunit::e_wrongKey);
+        }
+        if (curQ->questionAsNote())
+            questNote = curQ->qa_2.note;
+        answNote = MAIN_SCORE->getNote(0);
+    }
+    if (curQ->answerAsName()) {
+        if (curQ->questionAsName())
+            questNote = curQ->qa_2.note;
+        m_prevNoteIfName = NOTENAME->note(); // store note to restore it if will be repeated
+        answNote = NOTENAME->note();
+    }
+    userNote = answNote;
+    if (curQ->answerAsSound()) {
+        answNote = SOUND->note();
 //         if ((TintonationView::Eaccuracy)m_level.intonation != TintonationView::e_noCheck) {
 //             if (TnoteStruct(Tnote(), SOUND->pitch()).inTune(TintonationView::getThreshold(m_level.intonation)))
 //                 curQ->setMistake(TQAunit::e_wrongIntonation);
 //         }
-//     }
-//   }
-// // Now we can check
-//   if (curQ->answerAsFret()) { // 1. Comparing positions
-//       TfingerPos answPos, questPos;
+    }
+  }
+// Now we can check
+  if (curQ->answerAsFret()) { // 1. Comparing positions
+      TfingerPos answPos, questPos;
 //       answPos = INSTRUMENT->getfingerPos();
-//       if (curQ->questionAsFret()) { 
-//         if (answPos == curQ->qa.pos) { // check has not user got answer the same as question position
-//           curQ->setMistake(TQAunit::e_wrongPos);
-//           qDebug("Cheater!");
-//         } else 
-//           questPos = curQ->qa_2.pos;
-//       } else
-//         questPos = curQ->qa.pos;
-//       if (questPos != answPos && curQ->isCorrect()) { // if no cheater give him a chance
-//         QList <TfingerPos> tmpPosList; // Maybe hi gave correct note but on incorrect string only
-//         m_supp->getTheSamePosNoOrder(answPos, tmpPosList); // get other positions
-//         bool otherPosFound = false;
-//         for (int i = 0; i < tmpPosList.size(); i++) {
-//             if (tmpPosList[i] == questPos) { // and compare it with expected
-//               otherPosFound = true;
-//               break;
-//             }
-//         }
-//         if (otherPosFound) {
-//           if (m_level.showStrNr || answPos.fret() < m_level.loFret || answPos.fret() > m_level.hiFret)
-//             curQ->setMistake(TQAunit::e_wrongString); // check the level settings and mark as wrong string when deserve
-//         } else
-//             curQ->setMistake(TQAunit::e_wrongPos);
-//       }
-//   } else {
-//       if (curQ->melody()) { // 2. or checking melodies
-//           curQ->setMistake(TQAunit::e_correct); // reset an answer
-//           if (curQ->answerAsNote()) { // dictation
-//             Tmelody answMelody;
+      if (curQ->questionAsFret()) { 
+        if (answPos == curQ->qa.pos) { // check has not user got answer the same as question position
+          curQ->setMistake(TQAunit::e_wrongPos);
+          qDebug("Cheater!");
+        } else 
+          questPos = curQ->qa_2.pos;
+      } else
+        questPos = curQ->qa.pos;
+      if (questPos != answPos && curQ->isCorrect()) { // if no cheater give him a chance
+        QList <TfingerPos> tmpPosList; // Maybe hi gave correct note but on incorrect string only
+        m_supp->getTheSamePosNoOrder(answPos, tmpPosList); // get other positions
+        bool otherPosFound = false;
+        for (int i = 0; i < tmpPosList.size(); i++) {
+            if (tmpPosList[i] == questPos) { // and compare it with expected
+              otherPosFound = true;
+              break;
+            }
+        }
+        if (otherPosFound) {
+          if (m_level.showStrNr || answPos.fret() < m_level.loFret || answPos.fret() > m_level.hiFret)
+            curQ->setMistake(TQAunit::e_wrongString); // check the level settings and mark as wrong string when deserve
+        } else
+            curQ->setMistake(TQAunit::e_wrongPos);
+      }
+  } else {
+      if (curQ->melody()) { // 2. or checking melodies
+          curQ->setMistake(TQAunit::e_correct); // reset an answer
+          if (curQ->answerAsNote()) { // dictation
+            Tmelody answMelody;
 //             SCORE->getMelody(&answMelody);
-//             m_supp->compareMelodies(curQ->melody(), &answMelody, curQ->lastAttempt());
-//           } else { // playing a score
-//             m_supp->compareMelodies(curQ->melody(), m_melody->listened(), curQ->lastAttempt());
-//           }
-//           int goodAllready = 0, notBadAlready = 0, wrongAlready = 0;
-//           for (int i = 0; i < curQ->lastAttempt()->mistakes.size(); ++i) { // setting mistake type in TQAunit
-//             if (curQ->lastAttempt()->mistakes[i] == TQAunit::e_correct) {
-//               goodAllready++;
-//               continue; // it was correct - skip
-//             }
-//             if (curQ->lastAttempt()->mistakes[i] & TQAunit::e_wrongNote) {
-//               wrongAlready++;
-//             } else // or 'not bad'
-//                 notBadAlready++;
-//           }
-//           if (goodAllready == curQ->melody()->length()) { // all required notes are correct
-//               curQ->setMistake(TQAunit::e_correct); // even if user put them more and effect. is poor
-// //               qDebug() << "Melody is correct";
-//           } else if (goodAllready + notBadAlready == curQ->melody()->length()) { // add committed mistakes of last attempt
-//               curQ->setMistake(curQ->lastAttempt()->summary()); // or 'not bad'
-// //               qDebug() << "Melody is not bad" << curQ->mistake();
-//           } else if (goodAllready + notBadAlready >= curQ->melody()->length() * 0.7) { // at least 70% notes answered properly
-// //             qDebug() << "Melody has little notes";
-//             if (curQ->lastAttempt()->effectiveness() >= 50.0) { // and effectiveness is sufficient
-//                 curQ->setMistake(curQ->lastAttempt()->summary());
-//                 curQ->setMistake(TQAunit::e_littleNotes); // but less notes than required
-// //                 qDebug() << "... and sufficient effectiveness";
-//             } else { // or effectiveness is too poor
-//                 curQ->setMistake(TQAunit::e_veryPoor);
-// //                 qDebug() << "... but very poor effectiveness" << curQ->lastAttempt()->effectiveness();
-//             }
-//           } else {
-//               curQ->setMistake(TQAunit::e_wrongNote);
-// //               qDebug() << "Simply wrong answer";
-//           }
-//           if (m_level.manualKey && !curQ->isWrong()) {
-//             if (SCORE->keySignature().value() != curQ->key.value())
-//                 curQ->setMistake(TQAunit::e_wrongKey);
-//           }
-//           // Another case is poor or very poor effectiveness but it is obtained after effect. update in sumarizeAnswer()
-//       } else { // 3. or checking are the notes the same
-//           m_supp->checkNotes(curQ, questNote, answNote, m_answRequire.octave, m_answRequire.accid);
-//           if (!m_answRequire.accid && curQ->isCorrect() && (curQ->answerAsNote() || curQ->answerAsName())) {
-//       // Save user given note when it is correct and accidental was not forced to respect kind of accidental
-//             if (curQ->questionAs == curQ->answerAs)
-//               curQ->qa_2.note = userNote;
-//             else
-//               curQ->qa.note = userNote;
-//           }
-//       }
-//   }
-//   m_penalty->checkAnswer();
-//   
-//   disableWidgets();
-//   bool autoNext = GLOB->E->autoNextQuest;
-//   if (GLOB->E->afterMistake == TexamParams::e_stop && !curQ->isCorrect())
-//       autoNext = false; // when mistake and e_stop - the same like autoNext = false;
-//     
-//   if (showResults) {
-//       m_tipHandler->resultTip(curQ); // tip duration is calculated by itself (inside resultTip() method)
+            m_supp->compareMelodies(curQ->melody(), &answMelody, curQ->lastAttempt());
+          } else { // playing a score
+            m_supp->compareMelodies(curQ->melody(), m_melody->listened(), curQ->lastAttempt());
+          }
+          int goodAllready = 0, notBadAlready = 0, wrongAlready = 0;
+          for (int i = 0; i < curQ->lastAttempt()->mistakes.size(); ++i) { // setting mistake type in TQAunit
+            if (curQ->lastAttempt()->mistakes[i] == TQAunit::e_correct) {
+              goodAllready++;
+              continue; // it was correct - skip
+            }
+            if (curQ->lastAttempt()->mistakes[i] & TQAunit::e_wrongNote) {
+              wrongAlready++;
+            } else // or 'not bad'
+                notBadAlready++;
+          }
+          if (goodAllready == curQ->melody()->length()) { // all required notes are correct
+              curQ->setMistake(TQAunit::e_correct); // even if user put them more and effect. is poor
+//               qDebug() << "Melody is correct";
+          } else if (goodAllready + notBadAlready == curQ->melody()->length()) { // add committed mistakes of last attempt
+              curQ->setMistake(curQ->lastAttempt()->summary()); // or 'not bad'
+//               qDebug() << "Melody is not bad" << curQ->mistake();
+          } else if (goodAllready + notBadAlready >= curQ->melody()->length() * 0.7) { // at least 70% notes answered properly
+//             qDebug() << "Melody has little notes";
+            if (curQ->lastAttempt()->effectiveness() >= 50.0) { // and effectiveness is sufficient
+                curQ->setMistake(curQ->lastAttempt()->summary());
+                curQ->setMistake(TQAunit::e_littleNotes); // but less notes than required
+//                 qDebug() << "... and sufficient effectiveness";
+            } else { // or effectiveness is too poor
+                curQ->setMistake(TQAunit::e_veryPoor);
+//                 qDebug() << "... but very poor effectiveness" << curQ->lastAttempt()->effectiveness();
+            }
+          } else {
+              curQ->setMistake(TQAunit::e_wrongNote);
+//               qDebug() << "Simply wrong answer";
+          }
+          if (m_level.manualKey && !curQ->isWrong()) {
+            if (MAIN_SCORE->keySignatureValue() != curQ->key.value())
+              curQ->setMistake(TQAunit::e_wrongKey);
+          }
+          // Another case is poor or very poor effectiveness but it is obtained after effect. update in sumarizeAnswer()
+      } else { // 3. or checking are the notes the same
+          m_supp->checkNotes(curQ, questNote, answNote, m_answRequire.octave, m_answRequire.accid);
+          if (!m_answRequire.accid && curQ->isCorrect() && (curQ->answerAsNote() || curQ->answerAsName())) {
+      // Save user given note when it is correct and accidental was not forced to respect kind of accidental
+            if (curQ->questionAs == curQ->answerAs)
+              curQ->qa_2.note = userNote;
+            else
+              curQ->qa.note = userNote;
+          }
+      }
+  }
+  m_penalty->checkAnswer();
+
+  disableWidgets();
+  bool autoNext = GLOB->E->autoNextQuest;
+  if (GLOB->E->afterMistake == TexamParams::e_stop && !curQ->isCorrect())
+      autoNext = false; // when mistake and e_stop - the same like autoNext = false;
+
+  if (showResults) {
+      m_tipHandler->resultTip(curQ); // tip duration is calculated by itself (inside resultTip() method)
 //       if ((!m_exercise || (m_exercise && curQ->isCorrect())) && !autoNext)
 //         m_tipHandler->whatNextTip(curQ->isCorrect());
-//       if (!autoNext) {
+      if (!autoNext) {
 //         if (!curQ->isCorrect() && !m_exercise && !curQ->melody())
 //             TOOLBAR->addAction(TOOLBAR->prevQuestAct);
 //         if (!curQ->isCorrect() && curQ->melody())
 //           TOOLBAR->addAction(TOOLBAR->attemptAct);
 //         TOOLBAR->addAction(TOOLBAR->nextQuestAct);
-//       }
-//   }
-// 
+      }
+  }
+
 //   markAnswer(curQ);
 //   int waitTime = GLOB->E->questionDelay;
 //   if (m_melody) // increase minimal delay before next question for melodies to 500ms

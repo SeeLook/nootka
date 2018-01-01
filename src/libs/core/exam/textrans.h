@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -35,60 +35,96 @@ public:
   TexTrans() {};
 
 
+   /**
+    * Average time taken to answer
+    */
 static const QString averAnsverTimeTxt() {
     return QApplication::translate("TexamView", "Average time taken to answer");
-  } /** Average time taken to answer */
+  }
 
 static const QString inSecondsTxt() { return QApplication::translate("TexamView", "[in seconds]"); } // [in seconds]
 static const QString totalTimetxt() { return QApplication::translate("TexamView", "Total time"); } // Total time
 static const QString effectTxt() { return QApplication::translate("TexamView", "Effectiveness"); } // Effectiveness
 
+    /**
+     * Number of correct answers
+     */
 static const QString corrAnswersNrTxt() {
     return QApplication::translate("TexamView", "Number of correct answers");
-  } /** Number of correct answers */
+  }
 
 static const QString reactTimeTxt() { return QApplication::translate("TexamView", "Time for an answer"); } // Time for an answer
 
 static const QString mistakesNrTxt() { return QApplication::translate("TexamView", "Number of mistakes"); } // Number of mistakes
 
+    /**
+     * Number of not bad answers
+     */
 static const QString halfMistakenTxt() {
     return QApplication::translate("TexamView", "'Not bad' answers");
-  }         /** Number of not bad answers */
+  }
 
+  /**
+   * (counted as half of a mistake)
+   */
 static const QString halfMistakenAddTxt() {
     return QApplication::translate("TexamView", "(counted as half of a mistake)");
-  } /** (counted as half of a mistake) */
+  }
 
 
 static const QString examFilterTxt() { return QApplication::translate("TstartExamDlg", "Exam results")  + " (*.noo)" ; }
 
+    /**
+     * Load an exam file
+     */
 static const QString loadExamFileTxt() {
     return QApplication::translate("TstartExamDlg", "Load an exam file");
-  } /** Load an exam file */
+  }
 
+    /**
+     * Get more levels <a>from Nootka home page</a>
+     */
 static QString moreLevelLinkTxt() {
     return QApplication::translate(
       "levelSettings" ,"Get more levels <a href=\"%1\">from Nootka home page</a>")
           .arg("http://www.nootka.sf.net/index.php?C=down#levels");
-  } /** Get more levels <a>from Nootka home page</a> */
+  }
 
-static QString playMelodyTxt() { return QApplication::translate("Texam", "play melody"); } /** play melody */
+    /**
+     * play melody
+     */
+static QString playMelodyTxt() { return QApplication::translate("Texam", "play melody"); }
 
-static QString writeMelodyTxt() { return QApplication::translate("Texam", "write melody"); } /** write melody */
+    /**
+     * write melody
+     */
+static QString writeMelodyTxt() { return QApplication::translate("Texam", "write melody"); }
 
-static QString attemptTxt() { return QApplication::translate("Texam", "attempt"); } /** attempt */
+    /**
+     * attempt
+     */
+static QString attemptTxt() { return QApplication::translate("Texam", "attempt"); }
 
+    /**
+     * 7 attempts (or other number given as a parameter)
+     */
 static QString attemptsTxt(int aCount) {
     return QApplication::translate("Texam", "%n attempt(s)", "like: '1 attempt' or '121 attempts'", aCount);
-  } /**  7 attempts (or other number given as a parameter) */
+  }
 
+    /**
+     * Play a melody written in a score
+     */
 static QString playDescTxt() {
     return QApplication::translate("Texam", "Play a melody written in a score");
-  } /** Play a melody written in a score */
+  }
 
+    /**
+     * Listen to a melody and write it on a score
+     */
 static QString writeDescTxt() {
     return QApplication::translate("Texam", "Listen to a melody and write it on a score");
-  } /** Listen to a melody and write it on a score */
+  }
 
 };
 

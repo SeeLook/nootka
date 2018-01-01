@@ -89,6 +89,8 @@ public:
   void setReadOnly(bool ro);
   void clearScore();
   void setKeySignature(const TkeySignature& key);
+  char keySignatureValue();
+  Tnote getNote(int id);
 
 // exam/exercise related
   void askQuestion(const Tnote& note, char realStr = 0);
