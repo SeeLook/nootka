@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -508,7 +508,7 @@ void TnootkaQML::instrumentChangesNoteSlot() {
     rawNote = rawNote.showWithFlat();
 
   if (m_scoreObject->singleNote()) {
-      m_scoreObject->setNote(m_scoreObject->note(0), rawNote);
+      m_scoreObject->setNote(0, rawNote);
   } else {
       if (m_scoreObject->selectedItem()) {
           rawNote.setRhythm(m_scoreObject->selectedItem()->note()->rtm);

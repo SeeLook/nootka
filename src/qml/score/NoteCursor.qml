@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -17,7 +17,16 @@ Item {
   property color color: GLOB.noteCursorColor
   property real yPos: scoreObj.activeYpos
 
-  visible: yPos > 0
+  // private
+  property bool allow: true
+
+  visible: yPos > 0 && allow
+
+  Connections { // hide cursor after click on a note to show what was selected
+    target: scoreObj
+    onClicked: allow = false
+    onActiveYposChanged: allow = scoreObj.activeYpos > 0
+  }
 
   Rectangle { // highlight
       width: parent.width + 1
