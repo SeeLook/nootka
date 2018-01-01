@@ -252,7 +252,7 @@ void TtipHandler::startTip() {
 //}
 
 
-//void TtipHandler::whatNextTip(bool isCorrect, bool toCorrection) {
+void TtipHandler::whatNextTip(bool isCorrect, bool toCorrection) {
 //  delete m_questionTip;
 //  clearWhatNextTip();
 //#if defined (Q_OS_ANDROID)
@@ -293,39 +293,36 @@ void TtipHandler::startTip() {
 //  }
 //  m_nextTip->setTextWidth(maxTipWidth);
 //#else
-//  QString whatNextText = startTipText();
-//  const QString br = QStringLiteral("<br>");
-//  const QString space = QStringLiteral(" ");
-//  const QString a = QStringLiteral("</a>");
-//  if (!isCorrect) {
-//    QString t = tr("To correct an answer");
-//    QString href = QStringLiteral("<a href=\"prevQuest\">");
-//    if (m_exam->melodies()) {
-//      t = tr("To try this melody again");
-//      href = QStringLiteral("<a href=\"newAttempt\">");
-//    }
-//    whatNextText += br + t + space +
-//        TexamHelp::clickSomeButtonTxt(href + pixToHtml(Tpath::img("prevQuest"), m_iconSize) +  a)
-//        + space + TexamHelp::orPressBackSpace();
-//  }
-//  if (toCorrection) {
-//    QString t = tr("To see corrected answer");
-//    if (m_exam->curQ()->melody())
-//        t = tr("To see some hints");
-//    whatNextText += br + t + space +
-//      TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"correct\">") + pixToHtml(Tpath::img("correct"), m_iconSize) + a)
-//      + br + TexamHelp::orPressEnterKey();
-//  }
-//  whatNextText += br + TexamHelp::toStopExamTxt(QLatin1String("<a href=\"stopExam\">") + pixToHtml(Tpath::img("stopExam"), m_iconSize) + a);
-//  m_whatTip = new TgraphicsTextTip(whatNextText, m_view->palette().highlight().color());
-//  m_scene->addItem(m_whatTip);
-//  m_whatTip->setTextInteractionFlags(Qt::LinksAccessibleByMouse | Qt::LinksAccessibleByKeyboard);
-//  m_whatTip->setTipMovable(true);
-//  connect(m_whatTip, SIGNAL(linkActivated(QString)), this, SLOT(linkActivatedSlot(QString)));
-//  connect(m_whatTip, SIGNAL(moved()), this, SLOT(tipMoved()));
+  QString whatNextText = QLatin1String("<p style=\"text-align: center; font-size: x-large;\">") + startTipText();
+  const QString br = QStringLiteral("<br>");
+  const QString space = QStringLiteral(" ");
+  const QString a = QStringLiteral("</a>");
+  if (!isCorrect) {
+    QString t = tr("To correct an answer");
+    QString href = QStringLiteral("<a href=\"prevQuest\">");
+    if (m_exam->melodies()) {
+      t = tr("To try this melody again");
+      href = QStringLiteral("<a href=\"newAttempt\">");
+    }
+    whatNextText += br + t + space +
+        TexamHelp::clickSomeButtonTxt(href + NOO->pixToHtml(QLatin1String("prevQuest"), m_iconSize) + a)
+        + space + TexamHelp::orPressBackSpace();
+  }
+  if (toCorrection) {
+    QString t = tr("To see corrected answer");
+    if (m_exam->curQ()->melody())
+        t = tr("To see some hints");
+    whatNextText += br + t + space +
+      TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"correct\">") + NOO->pixToHtml(QLatin1String("correct"), m_iconSize) + a)
+      + br + TexamHelp::orPressEnterKey();
+  }
+  whatNextText += br + TexamHelp::toStopExamTxt(QLatin1String("<a href=\"stopExam\">")
+               + NOO->pixToHtml(QLatin1String("stopExam"), m_iconSize) + a) + QLatin1String("</p>");
+  QTimer::singleShot(1000, [=]{
+      emit showStartTip(whatNextText, qApp->palette().highlight().color(), getTipPosition(determineTipPos()));
+  });
 //#endif
-//  setWhatNextPos();
-//}
+}
 
 
 void TtipHandler::confirmTip(int time) {
