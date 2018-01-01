@@ -105,6 +105,7 @@
     <file alias="exam/ResultLabel.qml">qml/exam/ResultLabel.qml</file>
     <file alias="exam/ExamTip.qml">qml/exam/ExamTip.qml</file>
     <file alias="exam/QuestionTip.qml">qml/exam/QuestionTip.qml</file>
+    <file alias="exam/ResultTip.qml">qml/exam/ResultTip.qml</file>
 
     <file alias="qtquickcontrols2.conf">qml/qtquickcontrols2.conf</file>
 <!--     <file alias="+android/qtquickcontrols2.conf">qml/+android/qtquickcontrols2.conf</file> -->

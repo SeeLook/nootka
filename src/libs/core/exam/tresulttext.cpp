@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,7 +23,9 @@
 #include <QtGui/qcolor.h>
 
 
-    /** Adds comma and space ', ' (',<br>' on Android) to not empty string or returns the same. */
+    /**
+     * Adds comma and space ', ' (',<br>' on Android) to not empty string or returns the same.
+     */
 void addSpaceToNotEmpty(QString& txt) {
   if (!txt.isEmpty()) {
 #if defined (Q_OS_ANDROID)
@@ -45,12 +47,8 @@ void newLineText(QString& txt, const QString& newText) {
 }
 
 
-QString wasAnswerOKtext(TQAunit* answer, const QColor& textColor, int fontSize, int attempt) {
+QString wasAnswerOKtext(TQAunit* answer, int attempt) {
   QString txt;
-  if (fontSize != -1)
-      txt = QString("<span style=\"color: %1; font-size: %2px;\">").arg(textColor.name()).arg(fontSize);
-  else
-      txt = QString("<span style=\"color: %1;\">").arg(textColor.name());
   TQAunit curQ;
   if (answer->melody() && attempt > 0 && attempt <= answer->attemptsCount())
     curQ.setMistake(answer->attempt(attempt - 1)->summary());
@@ -94,7 +92,7 @@ QString wasAnswerOKtext(TQAunit* answer, const QColor& textColor, int fontSize, 
           }
           txt += misMes;
       }
-  txt += QLatin1String("</span><br>");
+//   txt += QLatin1String("</span><br>");
   return txt;
 
 }

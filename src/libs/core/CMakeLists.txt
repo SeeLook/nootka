@@ -48,16 +48,14 @@ set(LIB_NOOTKACORE_SRC
   instruments/tbandoneonbg.cpp
   instruments/tsaxbg.cpp
 
-#   Android/tmobilemenu.cpp
-
   exam/tqatype.cpp
   exam/tqaunit.cpp
   exam/tqagroup.cpp
   exam/tattempt.cpp
   exam/tlevel.cpp
   exam/texam.cpp
-#   exam/textrans.h
-#   exam/tresulttext.cpp
+  exam/textrans.h
+  exam/tresulttext.cpp
 )
 
 

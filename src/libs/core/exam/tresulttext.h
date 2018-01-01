@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2015-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,15 +21,17 @@
 #define TRESULTTEXT_H
 
 #include <nootkacoreglobal.h>
-#include <QString>
+#include <QtCore/qstring.h>
 
 class TQAunit;
 class QColor;
 
-    /** Returns HTML formatted text with answer details.
-    * If @p fontSize remains default - default @p fontSize is taken.
-    * When @p attempt is bigger than 0 (and answer was a melody of course)
-    * The summary of that attempt is prepared.  */
-NOOTKACORE_EXPORT QString wasAnswerOKtext(TQAunit* answer, const QColor& textColor, int fontSize = -1, int attempt = 0);
+    /**
+     * Returns HTML formatted text with answer details.
+     * If @p fontSize remains default - default @p fontSize is taken.
+     * When @p attempt is bigger than 0 (and answer was a melody of course)
+     * The summary of that attempt is prepared.
+     */
+NOOTKACORE_EXPORT QString wasAnswerOKtext(TQAunit* answer, int attempt = 0);
 
 #endif // TRESULTTEXT_H

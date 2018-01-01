@@ -28,6 +28,10 @@ Texecutor {
       var s = Qt.createComponent("qrc:/exam/QuestionTip.qml")
       s.createObject(executor, { "text": text, "offX": pos.x, "offY": pos.y } )
     }
+    onShowResultTip: {
+      var r = Qt.createComponent("qrc:/exam/ResultTip.qml")
+      r.createObject(executor, { "text": text, "color": color } )
+    }
   }
 }
 
