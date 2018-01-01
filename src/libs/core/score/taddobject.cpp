@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -132,7 +132,7 @@ void TaddObject::mouseMoveEvent(QMouseEvent* event) {
 
 
 void TaddObject::addNote() {
-  m_scoreObject->addNote(m_scoreObject->posToNote(m_yPos));
+  m_scoreObject->addNote(m_scoreObject->posToNote(m_yPos), true);
   if (m_scoreObject->recordMode())
     m_scoreObject->setSelectedItem(nullptr);
 }

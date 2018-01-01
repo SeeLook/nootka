@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -585,10 +585,10 @@ void TscoreObject::setSingleNote(bool singleN) {
   if (singleN != m_singleNote) {
     clearScore(); // In single note mode this call is ignored
     if (singleN) {
-        setShowNoteNames(false);
         addNote(Tnote()); // it is avoided in single note mode
         addNote(Tnote());
         addNote(Tnote());
+        setShowNoteNames(false);
         m_singleNote = true;
         setNote(0, Tnote()); // reset it (hide) because addNote was performed above in multi notes mode
         setNote(1, Tnote());
