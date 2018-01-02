@@ -92,6 +92,7 @@ Score {
 
   // private
   property var scordature: null
+  property var notePrompt: null
 
   Connections {
     target: SOUND
@@ -118,10 +119,18 @@ Score {
     }
     if (GLOB.tuning.scordature && GLOB.instrument.type !== Tinstrument.BassGuitar) {
         var c = Qt.createComponent("qrc:/Scordature.qml")
-        var scordature = c.createObject(firstStaff)
+        scordature = c.createObject(firstStaff)
         firstStaff.scordSpace = scordature.height
     } else
         firstStaff.scordSpace = 0
+  }
+
+  onSingleNoteChanged: {
+    if (singleNote) {
+        var c = Qt.createComponent("qrc:/NotePrompt.qml")
+        notePrompt = c.createObject(scoreObj.note(0))
+    } else
+        notePrompt.destroy()
   }
 
   Rectangle { // note highlight

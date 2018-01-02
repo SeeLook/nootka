@@ -787,8 +787,10 @@ void TscoreObject::deleteLastNote() {
 
 
 void TscoreObject::clearScore() {
-  if (notesCount() == 0)
-    return;
+  if (notesCount() == 0) {
+      setKeySignature(0);
+      return;
+    }
 
   if (m_singleNote) {
       setNote(note(0), Tnote());
@@ -804,6 +806,7 @@ void TscoreObject::clearScore() {
       setSelectedItem(nullptr);
       emit scoreWasCleared();
   }
+  setKeySignature(0);
 }
 
 

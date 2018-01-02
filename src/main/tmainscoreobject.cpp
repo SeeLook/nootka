@@ -230,6 +230,7 @@ void TmainScoreObject::isExamChangedSlot() {
           paletteSlot();
         }
       }
+      singleModeSlot();
   } else {
       m_scoreActions << m_playAct << m_recModeAct << m_openXmlAct << m_saveXmlAct << m_showNamesAct << m_extraAccidsAct
                     << m_zoomOutAct << m_zoomInAct << m_deleteLastAct << m_clearScoreAct;
