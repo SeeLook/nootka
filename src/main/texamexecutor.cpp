@@ -362,7 +362,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 //            << (int)curQ->qa.pos.str() << (int)curQ->qa.pos.fret();
   }
 
-  // ASKING QUESTIONS
+// ASKING QUESTIONS
   if (curQ->questionAsNote()) {
     if (curQ->melody()) {
         if (!isAttempt) {
@@ -380,7 +380,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
           connect(SOUND, &Tsound::noteStartedEntire, this, &TexamExecutor::noteOfMelodyStarted);
           connect(SOUND, &Tsound::noteFinishedEntire, this, &TexamExecutor::noteOfMelodyFinished);
   //         connect(SCORE, &TmainScore::lockedNoteClicked, this, &TexamExecutor::noteOfMelodySelected);
-  //         SCORE->selectNote(0); // mark first note
+          MAIN_SCORE->setSelectedItem(0); // mark first note
   //         SCORE->setReadOnlyReacting(true); // allow user to select beginning note to play
         }
     } else {
@@ -1514,7 +1514,7 @@ void TexamExecutor::connectPlayingFinished() {
   if (m_soundTimer->isActive())
       m_soundTimer->stop();
   if (m_exam->curQ()->answerAsSound())
-      connect(SOUND, SIGNAL(plaingFinished()), this, SLOT(sniffAfterPlaying()));
+    connect(SOUND, &Tsound::plaingFinished, this, &TexamExecutor::sniffAfterPlaying);
 }
 
 
@@ -1524,8 +1524,8 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
   m_melody->noteStarted();
   if (m_melody->currentIndex() == 0) // first played note was detected
     m_exam->curQ()->lastAttempt()->setPrepareTime(m_penalty->elapsedTime() - quint32(n.duration));
-//   if (m_melody->currentIndex() + 1 < m_exam->curQ()->melody()->length()) // highlight next note
-//     SCORE->selectNote(m_melody->currentIndex() + 1);
+  if (m_melody->currentIndex() + 1 < m_exam->curQ()->melody()->length()) // highlight next note
+    MAIN_SCORE->setSelectedItem(m_melody->currentIndex() + 1);
 }
 
 
@@ -1548,7 +1548,7 @@ void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
 
 void TexamExecutor::noteOfMelodySelected(int nr) {
   m_melody->setCurrentIndex(nr);
-//   SCORE->selectNote(nr);
+  MAIN_SCORE->setSelectedItem(nr);
   SOUND->startListen();
 //   m_tipHandler->clearConfirmTip();
 //   if (isExercise() && INSTRUMENT->isVisible() && m_exam->curQ()->melody()) // in exercises, display guitar position of clicked note for a hint

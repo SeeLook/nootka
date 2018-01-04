@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -91,6 +91,7 @@ public:
   void setKeySignature(const TkeySignature& key);
   char keySignatureValue();
   Tnote getNote(int id);
+  void setSelectedItem(int id);
 
 // exam/exercise related
   void askQuestion(const Tnote& note, char realStr = 0);
