@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -140,6 +140,11 @@ char TmainScoreObject::keySignatureValue() {
 
 Tnote TmainScoreObject::getNote(int id) {
   return m_scoreObj->noteAt(id);
+}
+
+
+void TmainScoreObject::setSelectedItem(int id) {
+  m_scoreObj->setSelectedItem(m_scoreObj->note(id));
 }
 
 
