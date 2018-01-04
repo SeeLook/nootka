@@ -1,20 +1,20 @@
 /***************************************************************************
-*   Copyright (C) 2017 by Tomasz Bojczuk                                  *
-*   seelook@gmail.com                                                     *
-*                                                                         *
-*   This program is free software; you can redistribute it and/or modify  *
-*   it under the terms of the GNU General Public License as published by  *
-*   the Free Software Foundation; either version 3 of the License, or     *
-*   (at your option) any later version.                                   *
-*                                                                         *
-*   This program is distributed in the hope that it will be useful,       *
-*   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-*   GNU General Public License for more details.                          *
-*                                                                         *
-*  You should have received a copy of the GNU General Public License      *
-*  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
-***************************************************************************/
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   seelook@gmail.com                                                     *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *  You should have received a copy of the GNU General Public License      *
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
+ ***************************************************************************/
 
 #include "tnameitem.h"
 #include <tglobals.h>
@@ -202,17 +202,17 @@ QString TnameItem::octavesLink() const {
  * Text on name buttons depends on style
  */
 QString TnameItem::noteButtonText(int noteNr, int nStyle) {
-  return Tnote(noteNr, 0, 0).toText(static_cast<Tnote::EnameStyle>(nStyle), false);
+  return Tnote(static_cast<char>(noteNr), 0, 0).toText(static_cast<Tnote::EnameStyle>(nStyle), false);
 }
 
 
-void TnameItem::askQuestion(const Tnote& note, Tnote::EnameStyle questStyle, char strNr) {
+void TnameItem::askQuestion(const Tnote& note, Tnote::EnameStyle questStyle, quint8 strNr) {
   changeNameBgColor(Tcolor::merge(Tcolor::alpha(GLOB->EquestionColor, 40), qApp->palette().base().color()));
   setNameStyle(questStyle);
   setNote(note);
   m_appendix.clear();
   if (strNr > 0)
-    m_appendix = QString::number(static_cast<int>(strNr));
+    m_appendix = QString::number(strNr);
   m_appendix += QLatin1String("?");
   emit appendixChanged();
 }

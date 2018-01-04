@@ -20,6 +20,7 @@
 #define TACTION_H
 
 
+#include <nootkacoreglobal.h>
 #include <QtCore/qobject.h>
 
 
@@ -30,7 +31,7 @@
  * Also it keeps QML @p Shortcut through @p QObject,
  * so if @p shortcut() is set, @p key() returns its text representation
  */
-class Taction : public QObject
+class NOOTKACORE_EXPORT Taction : public QObject
 {
 
   Q_OBJECT
