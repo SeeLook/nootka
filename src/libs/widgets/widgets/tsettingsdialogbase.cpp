@@ -251,7 +251,7 @@ void TsettingsDialogBase::markChanges(QWidget *container) {
 
 
 void TsettingsDialogBase::openHelpLink(const QString& hash) {
-  QDesktopServices::openUrl(QUrl(QString("http://nootka.sourceforge.net/index.php?L=%1&C=doc#" + hash).
+  QDesktopServices::openUrl(QUrl(QString("https://nootka.sourceforge.io/index.php?L=%1&C=doc#" + hash).
     arg(QString(qgetenv("LANG")).left(2).toLower()), QUrl::TolerantMode));
 }
 

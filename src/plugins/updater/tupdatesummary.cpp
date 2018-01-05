@@ -46,12 +46,12 @@ TupdateSummary::TupdateSummary(QString version, QString changes, TupdateRules* u
 #if defined (Q_OS_ANDROID)
     lab->setText(QStringLiteral("<p style=\"font-size: large;\">") +
       tr("New Nootka %1 is available.").arg(version) + QStringLiteral("<br>") +
-      tr("To get it, visit <a href=\"http://nootka.sourceforge.net/index.php?C=down\">Nootka site</a>.")
+      tr("To get it, visit <a href=\"https://nootka.sourceforge.io/index.php?C=down\">Nootka site</a>.")
                  + QStringLiteral("</p>"));
 #else
     lab->setText(QStringLiteral("<br><p style=\"font-size: xx-large;\">") +
       tr("New Nootka %1 is available.").arg(version) + QStringLiteral("<br>") +
-      tr("To get it, visit <a href=\"http://nootka.sourceforge.net/index.php?C=down\">Nootka site</a>.")
+      tr("To get it, visit <a href=\"https://nootka.sourceforge.io/index.php?C=down\">Nootka site</a>.")
                  + QStringLiteral("</p><br>"));
 #endif
     lab->setOpenExternalLinks(true);

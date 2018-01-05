@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -411,7 +411,7 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
     QXmlStreamWriter xml(&arrayXML);
 //     xml.setAutoFormatting(true);
     xml.writeStartDocument();
-    xml.writeComment("\nXML file of Nootka exam data.\nhttp://nootka.sf.net\nThis file should never be opened in other software then Nootka.\nProbably you are doing something illegal!");
+    xml.writeComment("\nXML file of Nootka exam data.\nhttps://nootka.sourceforge.io\nThis file should never be opened in other software then Nootka.\nProbably you are doing something illegal!");
     writeToXml(xml);
     xml.writeEndDocument();
 

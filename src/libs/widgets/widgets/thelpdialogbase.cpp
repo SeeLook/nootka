@@ -44,7 +44,7 @@ QVariant TtextBrowser::loadResource(int type, const QUrl& name) {
 QString ThelpDialogBase::m_path = QString();
 
 QString ThelpDialogBase::onlineDocP(const QString& hash) {
-  return QString("<p align=\"right\"><a href=\"http://nootka.sourceforge.net/index.php?L=%1&C=doc#%2\">").arg(QString(qgetenv("LANG")).left(2).toLower()).arg(hash) + 
+  return QString("<p align=\"right\"><a href=\"https://nootka.sourceforge.io/index.php?L=%1&C=doc#%2\">").arg(QString(qgetenv("LANG")).left(2).toLower()).arg(hash) + 
       TsettingsDialogBase::tr("Open online documentation") + "</a> </p>";
 }
 
