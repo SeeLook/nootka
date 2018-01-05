@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -50,7 +50,16 @@ public:
   Tnote note() const { return p_note; }
   virtual void setNote(const Tnote& n) = 0;
 
-  virtual void askQuestion(const Tnote& n) = 0;
+      /**
+       * @p noteData is extra information about note needed for some instruments (guitars, bandoneon).
+       * In case of guitar it is more important than note itself 
+       */
+  virtual void askQuestion(const Tnote& n, int noteData) = 0;
+
+      /**
+       * Returns additional note data like position on the guitar or left/right hand on bandoneon
+       */
+  virtual int noteData() = 0;
 
 signals:
   void activeChanged();
