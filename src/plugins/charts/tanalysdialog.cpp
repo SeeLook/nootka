@@ -660,7 +660,7 @@ void TanalysDialog::showTuningPreview() {
 
 
 void TanalysDialog::openOnlineHelp() {
-  QDesktopServices::openUrl(QUrl(QString("http://nootka.sourceforge.net/index.php?L=%1&C=doc#analyze").
+  QDesktopServices::openUrl(QUrl(QString("https://nootka.sourceforge.io/index.php?L=%1&C=doc#analyze").
     arg(QString(qgetenv("LANG")).left(2).toLower()), QUrl::TolerantMode));
 }
 

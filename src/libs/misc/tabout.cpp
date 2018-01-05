@@ -91,7 +91,7 @@ Tabout::Tabout(QWidget* parent) :
   auto nootkaLab = new TheadLabel(this);
   QString info = tr("Welcome on board.<br>Nootka is an open source application to help you in learning (and in teaching) classical score notation.<br>It is specially designed for guitarists but others will find many usable features as well.");
   QString betaInfo = tr("This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.<br>In spite of that, you are welcome to try it!");
-  QString moreInfo = tr("See a <a href=\"http://nootka.sourceforge.net\">program site</a> for more details and further releases.</p><p>Any bugs, suggestions, translations and so on, report to: <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p>with respects<br>Author");
+  QString moreInfo = tr("See a <a href=\"https://nootka.sourceforge.io\">program site</a> for more details and further releases.</p><p>Any bugs, suggestions, translations and so on, report to: <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><p/><p>with respects<br>Author");
    betaInfo.clear(); // comment it to show info in beta releases
   m_aboutLab = new TroundedLabel(QLatin1String("<center><p style=\"background-color: palette(Base); border: 1px solid palette(Text); border-radius: 10px; font-size: xx-large;\"><b>Nootka ") + QLatin1String(NOOTKA_VERSION) + QLatin1String("</b></p></center><p><br>") + info + QLatin1String("</p><p>") + betaInfo + QLatin1String("</p><p>") + moreInfo + QLatin1String("</p><br>")
 #if defined(Q_OS_WIN32)

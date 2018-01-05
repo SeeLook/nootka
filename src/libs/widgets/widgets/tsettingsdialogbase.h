@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -58,8 +58,8 @@ public:
       /** Adds widget (page) to stacked layout (@p stackLayout - right pane) */
   void addPage(QWidget* page);
 
-      /** Open online documentation (http://nootka.sourceforge.net/index.php?C=doc) */
-  QString helpButtonTipText() { return tr("Open online documentation") + "<br>(http://nootka.sourceforge.net/index.php?C=doc)"; }
+      /** Open online documentation (https://nootka.sourceforge.io/index.php?C=doc) */
+  QString helpButtonTipText() { return tr("Open online documentation") + "<br>(https://nootka.sourceforge.io/index.php?C=doc)"; }
 
   static bool touchEnabled(); /**< @p TRUE when touch is enabled */
 
