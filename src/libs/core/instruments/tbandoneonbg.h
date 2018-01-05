@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -68,7 +68,9 @@ public:
 
   void setNote(const Tnote& n) override;
 
-  void askQuestion(const Tnote & n) override;
+  void askQuestion(const Tnote& n, int noteData) override;
+
+  int noteData() override;
 
   qreal rightX() const { return m_rightX; }
   void setRightX(qreal rx);

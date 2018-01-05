@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,9 +20,10 @@
 #ifndef TFINGERPOS_H
 #define TFINGERPOS_H
 
+
 #include <nootkacoreglobal.h>
-#include <QDataStream>
-#include <QXmlStreamWriter>
+#include <QtCore/qdatastream.h>
+#include <QtCore/qxmlstream.h>
 
 
 /**
@@ -38,6 +39,17 @@ public:
   TfingerPos(unsigned char realStr, unsigned char fret) {
       setPos(realStr, fret);
   }
+
+      /**
+       * Constructor making @p TfingerPos instance from given integer value
+       */
+  TfingerPos(quint8 positionData) { setData(positionData); }
+
+      /**
+       * Returns integer value represents fret string number as @p TfingerPos stores that
+       */
+  quint8 data() const { return m_pos; }
+  void setData(quint8 d) { m_pos = d; }
 
       /**
        * Returns string number (real [1-6])

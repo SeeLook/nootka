@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -257,8 +257,24 @@ void TguitarBg::paint(QPainter* painter) {
 }
 
 
-void TguitarBg::askQuestion(const Tnote& n) {
-  setNote(n);
+void TguitarBg::askQuestion(const Tnote& n, int noteData) {
+  p_note = n;
+  TfingerPos fp(static_cast<quint8>(noteData));
+  QPoint p = fretToPos(fp).toPoint(); 
+  for (int s = 0; s < 6; ++ s) {
+    if (fp.fret() == 0) { // open string
+        m_fingerItems[s]->setVisible(false);
+        m_stringItems[s]->setVisible(fp.str() == s + 1);
+    } else { // some fret
+        if (fp.str() == s + 1) {
+            m_fingerItems[s]->setVisible(true);
+            m_fingerItems[s]->setX(p.x());
+            m_fingerItems[s]->setY(p.y() - m_fingerItems[s]->height() * 0.15);
+        } else
+            m_fingerItems[s]->setVisible(false);
+        m_stringItems[s]->setVisible(false);
+    }
+  }
 }
 
 
@@ -350,13 +366,13 @@ CHECKTIME (
     if (m_curStr < 7) {
       Tnote n(GLOB->Gtune()->strChromatic(m_curStr + 1) + m_curFret);
       setNote(n);
+      m_selectedPos.setPos(m_curStr + 1, m_curFret);
       emit fingerPosChanged();
       emit noteChanged();
     }
   }
 )
 }
-
 
 //################################################################################################
 //################################################ PROTECTED #####################################

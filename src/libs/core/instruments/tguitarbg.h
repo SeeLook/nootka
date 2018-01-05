@@ -65,7 +65,9 @@ public:
 
   void paint(QPainter* painter) override;
 
-  void askQuestion(const Tnote & n) override;
+  void askQuestion(const Tnote& n, int noteData) override;
+
+  int noteData() override { return static_cast<int>(m_selectedPos.data()); }
 
       /**
        * Guitar fingerboard rectangle
@@ -122,6 +124,7 @@ private:
   QPointF      m_fingerPos;
   QQuickItem  *m_fingerItems[6];
   QQuickItem  *m_stringItems[6];
+  TfingerPos   m_selectedPos;
 
 };
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -110,7 +110,8 @@ CHECKTIME (
 }
 
 
-void TsaxBg::askQuestion(const Tnote& n) {
+void TsaxBg::askQuestion(const Tnote& n, int noteData) {
+  Q_UNUSED(noteData)
   setNote(n);
 }
 

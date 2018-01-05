@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -47,7 +47,9 @@ public:
 
   void setNote(const Tnote& n) override;
 
-  void askQuestion(const Tnote & n) override;
+  void askQuestion(const Tnote& n, int noteData) override;
+
+  int noteData() override { return 0; } // Fake - saxophone has no extra note data
 
   int flapNumber() const { return m_flapNumber; }
 

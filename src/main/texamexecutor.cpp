@@ -386,7 +386,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     } else {
         char strNr = 0;
         if ((curQ->answerAsFret() || curQ->answerAsSound()) && !m_level.onlyLowPos && m_level.showStrNr)
-          strNr = curQ->qa.pos.str(); // do show string number or not
+          strNr = static_cast<char>(curQ->qa.pos.str()); // do show string number or not
         if (m_level.useKeySign && !curQ->answerAsNote())
           MAIN_SCORE->askQuestion(curQ->qa.note, curQ->key, strNr); // when answer is also asNote we determine key in preparing answer part
         else
@@ -432,8 +432,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
   }
 
   if (curQ->questionAsFret()) {
-    INSTRUMENT->askQuestion(curQ->qa.note); // TODO: Questioned position on the guitar is not known that way
-//       INSTRUMENT->askQuestion(curQ->qa.pos);
+      INSTRUMENT->askQuestion(curQ->qa.note, curQ->qa.pos.data());
       if (curQ->answerAsNote())
           m_answRequire.octave = true; // checking accidental determined by level
       if (curQ->answerAsSound()) {
@@ -512,9 +511,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
         NOTENAME->forceAccidental(answerAlter);
   }
 
-//   if (curQ->answerAsFret()) {
-// //         INSTRUMENT->setGuitarDisabled(false);
-// //         INSTRUMENT->prepareAnswer();
+  if (curQ->answerAsFret()) {
 //       m_answRequire.accid = false;  // Ignored in checking, positions are comparing
 //       if (curQ->questionAsFret()) {
 //         QList<TfingerPos> posList;
@@ -530,9 +527,9 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 //       } else 
 //         if (m_level.showStrNr)
 //           INSTRUMENT->setHighlitedString(curQ->qa.pos.str());
-//       INSTRUMENT->setGuitarDisabled(false);
+      INSTRUMENT->setEnabled(true);
 //       INSTRUMENT->prepareAnswer();
-//   }
+  }
 
   if (curQ->answerAsSound()) {
 //       SOUND->prepareAnswer();
@@ -613,18 +610,17 @@ void TexamExecutor::checkAnswer(bool showResults) {
   }
 // Now we can check
   if (curQ->answerAsFret()) { // 1. Comparing positions
-      TfingerPos answPos, questPos;
-//       answPos = INSTRUMENT->getfingerPos();
+      TfingerPos answPos(INSTRUMENT->noteData()), questPos;
       if (curQ->questionAsFret()) { 
-        if (answPos == curQ->qa.pos) { // check has not user got answer the same as question position
-          curQ->setMistake(TQAunit::e_wrongPos);
-          qDebug("Cheater!");
-        } else 
-          questPos = curQ->qa_2.pos;
+          if (answPos == curQ->qa.pos) { // check has not user got answer the same as question position
+              curQ->setMistake(TQAunit::e_wrongPos);
+              qDebug("Cheater!");
+          } else
+              questPos = curQ->qa_2.pos;
       } else
-        questPos = curQ->qa.pos;
+          questPos = curQ->qa.pos;
       if (questPos != answPos && curQ->isCorrect()) { // if no cheater give him a chance
-        QList <TfingerPos> tmpPosList; // Maybe hi gave correct note but on incorrect string only
+        QList <TfingerPos> tmpPosList; // Maybe he gave correct note but on incorrect string only
         m_supp->getTheSamePosNoOrder(answPos, tmpPosList); // get other positions
         bool otherPosFound = false;
         for (int i = 0; i < tmpPosList.size(); i++) {
@@ -1174,7 +1170,7 @@ void TexamExecutor::clearWidgets() {
   MAIN_SCORE->clearScore();
   if (NOTENAME)
     NOTENAME->setNote(Tnote());
-//   INSTRUMENT->clearFingerBoard();
+  INSTRUMENT->setNote(Tnote());
 //   SOUND->restoreAfterAnswer();
 }
 

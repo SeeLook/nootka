@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -267,8 +267,14 @@ void TbandoneonBg::setNote(const Tnote& n) {
 }
 
 
-void TbandoneonBg::askQuestion(const Tnote& n) {
+void TbandoneonBg::askQuestion(const Tnote& n, int noteData) {
+  Q_UNUSED(noteData) // TODO
   setNote(n);
+}
+
+
+int TbandoneonBg::noteData() {
+  return 0; // TODO
 }
 
 
