@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -26,6 +26,7 @@ ApplicationWindow {
   property var noteName: null
   property var examResults: null
   property var executor: null
+  property var dialogLoader: null
 
   SystemPalette { id: activPal; colorGroup: SystemPalette.Active }
   SystemPalette { id: disdPal; colorGroup: SystemPalette.Disabled }
@@ -35,15 +36,15 @@ ApplicationWindow {
     icon: "systemsettings"
     text: qsTranslate("TtoolBar", "Settings")
     tip: qsTranslate("TtoolBar", "Application preferences")
-    onTriggered: dialogLoader.page = Nootka.Settings
+    onTriggered: showDialog(Nootka.Settings)
   }
-  Taction { id: aboutAct; onTriggered: dialogLoader.page = Nootka.About }
+  Taction { id: aboutAct; onTriggered: showDialog(Nootka.About) }
   Taction {
     id: levelAct
     icon: "levelCreator"
     text: qsTranslate("TtoolBar", "Level")
     tip: qsTranslate("TtoolBar", "Levels creator")
-    onTriggered: dialogLoader.page = Nootka.LevelCreator
+    onTriggered: showDialog(Nootka.LevelCreator)
   }
   Taction { // desktop only
     id: scoreAct
@@ -57,7 +58,7 @@ ApplicationWindow {
     icon: "startExam"
     text: qsTranslate("TtoolBar", "Lessons")
     tip: qsTranslate("TtoolBar", "Start exercises or an exam")
-    onTriggered: dialogLoader.page = Nootka.ExamStart
+    onTriggered: showDialog(Nootka.ExamStart)
   }
 
   width: GLOB.geometry.width
@@ -124,5 +125,11 @@ ApplicationWindow {
     }
   }
 
-  DialogLoader { id: dialogLoader }
+  function showDialog(page) {
+    if (!dialogLoader) {
+      var c = Qt.createComponent("qrc:/DialogLoader.qml")
+      dialogLoader = c.createObject(nootkaWindow)
+    }
+    dialogLoader.page = page
+  }
 }
