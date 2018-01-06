@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -14,7 +14,7 @@ Popup {
 
   margins: Noo.fontSize()
 
-  background: TipRect { color: activPal.window }
+  background: TipRect { color: activPal.window; shadowRadius: Noo.fontSize() }
 
   signal accepted()
 
@@ -73,8 +73,9 @@ Popup {
       checked: true
     }
 
-    Button {
+    TiconButton {
       text:  Noo.TR("QPlatformTheme", "Apply")
+      pixmap: Noo.pix("check")
       anchors.horizontalCenter: parent.horizontalCenter
       onClicked: {
         SOUND.tempo = tempoSpin.value
