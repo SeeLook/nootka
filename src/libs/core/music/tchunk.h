@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,9 +19,11 @@
 #ifndef TCHUNK_H
 #define TCHUNK_H
 
+
 #include <nootkacoreglobal.h>
 #include "tnote.h"
-#include <tfingerpos.h>
+#include "tnotedata.h"
+
 
 class QXmlStreamReader;
 class QXmlStreamWriter;
@@ -42,7 +44,7 @@ public:
        * Default constructor - creates 'empty' note and position.
        */
   Tchunk() {}
-  ~Tchunk();
+  ~Tchunk() {}
 
       /**
        * The note
@@ -54,10 +56,36 @@ public:
       /**
        * Position a note on a guitar (if any) - by default it is null - invalid
        */
-  TfingerPos& g() { return m_fretPos; }
+  TfingerPos& g() { return m_noteData.fingerPos(); }
 
-      /** Returns @p TRUE when position on the guitar is valid. */
-  bool validPos() { if (g().str() == 7) return false; else return true; }
+      /**
+       * Extra note data like guitar position, bow direction, staff position (upper/lower) and fingering
+       */
+  TnoteData& d() { return m_noteData; }
+
+  bool onUpperStaff() const { return m_noteData.onUpperStaff(); }
+  void setOnUpperStaff(bool onUpper) { m_noteData.setOnUpperStaff(onUpper); }
+
+  TnoteData::EbowDirection bow() const { return m_noteData.bow(); }
+  void setBow(TnoteData::EbowDirection b) { m_noteData.setBow(b); }
+
+      /**
+        * Finger number [0 - 5].
+        * -1 is returned when undefined
+        */
+  int finger() const { return m_noteData.finger(); }
+  void setFinger(int fi) { m_noteData.setFinger(fi); }
+
+      /**
+       * Numeric value representing all extra note parameters
+       */
+  quint32 noteData() const { return m_noteData.data(); }
+  void setNoteData(quint32 nd) { m_noteData.setData(nd); }
+
+      /**
+       * Returns @p TRUE when position on the guitar is valid.
+       */
+  bool validPos() { return g().str() != 7; }
 
       /**
        * If @p staffNr is set appropriate <staff>staffNr</staff> is added
@@ -89,7 +117,7 @@ public:
 
 private:
   Tnote               m_pitch;
-  TfingerPos          m_fretPos;
+  TnoteData           m_noteData;
 };
 
 #endif // TCHUNK_H
