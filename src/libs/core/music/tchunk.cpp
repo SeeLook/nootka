@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,14 +24,10 @@
 
 
 Tchunk::Tchunk(const Tnote& pitch, const TfingerPos& fretPos) :
-  m_pitch(pitch),
-  m_fretPos(fretPos)
+  m_pitch(pitch)
 {
+  m_noteData.setFingerPos(fretPos);
 }
-
-
-Tchunk::~Tchunk()
-{}
 
 
 void Tchunk::toXml(QXmlStreamWriter& xml, int* staffNr) {
@@ -57,10 +53,10 @@ void Tchunk::toXml(QXmlStreamWriter& xml, int* staffNr) {
           xml.writeEndElement(); // beam
         }
     }
-    if (m_pitch.rtm.tie() || validPos()) {
+    if (m_pitch.rtm.tie() || !m_noteData.isEmpty()) {
       xml.writeStartElement(QLatin1String("notations"));
-        if (validPos())
-          g().toXml(xml);
+        if (!m_noteData.isEmpty())
+          m_noteData.toXml(xml);
         if (m_pitch.rtm.tie())
           tieToXml(xml, m_pitch.rtm.tie(), e_tied);
       xml.writeEndElement();
@@ -98,7 +94,7 @@ bool Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr) {
       } else if (xml.name() == QLatin1String("notations")) {
           while (xml.readNextStartElement()) {
             if (xml.name() == QLatin1String("technical"))
-                m_fretPos.fromXml(xml);
+                m_noteData.fromXml(xml);
             else if (xml.name() == QLatin1String("tied")) {
               auto type = xml.attributes().value(QStringLiteral("type"));
               Trhythm::Etie tie = Trhythm::e_noTie;
