@@ -63,6 +63,8 @@ public:
 
   void setNote(const Tnote& n) override;
 
+  void setFingerPos(const TfingerPos& fp);
+
   void paint(QPainter* painter) override;
 
   void askQuestion(const Tnote& n, int noteData) override;

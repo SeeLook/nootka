@@ -489,7 +489,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
       if (cfg->contains("fingerColor"))
           GfingerColor = cfg->value(QStringLiteral("fingerColor")).value<QColor>();
       else
-          GfingerColor = QColor(255, 0, 127, 200); // nice pink
+          GfingerColor = QColor(255, 0, 127, 150); // nice pink with translucency
       if (cfg->contains("selectedColor"))
           GselectedColor = cfg->value(QStringLiteral("selectedColor")).value<QColor>();
       else

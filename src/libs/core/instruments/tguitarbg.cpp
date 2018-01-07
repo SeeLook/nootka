@@ -99,6 +99,25 @@ void TguitarBg::setNote(const Tnote& n) {
 }
 
 
+void TguitarBg::setFingerPos(const TfingerPos& fp) {
+  QPoint p = fretToPos(fp).toPoint();
+  for (int s = 0; s < 6; ++ s) {
+    if (fp.fret() == 0) { // open string
+        m_fingerItems[s]->setVisible(false);
+        m_stringItems[s]->setVisible(fp.str() == s + 1);
+    } else { // some fret
+        if (fp.isValid() && fp.str() == s + 1) {
+            m_fingerItems[s]->setVisible(true);
+            m_fingerItems[s]->setX(p.x());
+            m_fingerItems[s]->setY(p.y() - m_fingerItems[s]->height() * 0.15);
+        } else
+            m_fingerItems[s]->setVisible(false);
+        m_stringItems[s]->setVisible(false);
+    }
+  }
+}
+
+
 qreal TguitarBg::xiiFret() const {
   return static_cast<qreal>(m_fretsPos[11]);
 }
@@ -260,21 +279,7 @@ void TguitarBg::paint(QPainter* painter) {
 void TguitarBg::askQuestion(const Tnote& n, int noteData) {
   p_note = n;
   TfingerPos fp(static_cast<quint8>(noteData));
-  QPoint p = fretToPos(fp).toPoint(); 
-  for (int s = 0; s < 6; ++ s) {
-    if (fp.fret() == 0) { // open string
-        m_fingerItems[s]->setVisible(false);
-        m_stringItems[s]->setVisible(fp.str() == s + 1);
-    } else { // some fret
-        if (fp.str() == s + 1) {
-            m_fingerItems[s]->setVisible(true);
-            m_fingerItems[s]->setX(p.x());
-            m_fingerItems[s]->setY(p.y() - m_fingerItems[s]->height() * 0.15);
-        } else
-            m_fingerItems[s]->setVisible(false);
-        m_stringItems[s]->setVisible(false);
-    }
-  }
+  setFingerPos(fp);
 }
 
 
@@ -364,11 +369,17 @@ void TguitarBg::mousePressEvent(QMouseEvent* event) {
 CHECKTIME (
   if (event->buttons() & Qt::LeftButton) {
     if (m_curStr < 7) {
-      Tnote n(GLOB->Gtune()->strChromatic(m_curStr + 1) + m_curFret);
-      setNote(n);
       m_selectedPos.setPos(m_curStr + 1, m_curFret);
+      Tnote n(GLOB->Gtune()->strChromatic(m_curStr + 1) + m_curFret);
+      if (GLOB->showOtherPos())
+          setNote(n); // selects all possible positions on the fingerboard
+      else { // it selects only just clicked position
+          p_note = n;
+          setFingerPos(m_selectedPos);
+      }
       emit fingerPosChanged();
       emit noteChanged();
+      hoverLeaveEvent(nullptr); // hide highlight that covers selected fret/string
     }
   }
 )
