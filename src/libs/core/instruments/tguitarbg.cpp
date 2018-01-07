@@ -61,7 +61,7 @@ QPointF TguitarBg::fretToPos(const TfingerPos& pos) {
 }
 
 
-void TguitarBg::setNote(const Tnote& n) {
+void TguitarBg::setNote(const Tnote& n, quint32 noteDataValue) {
   if (!p_note.compareNotes(n)) {
     short noteNr = n.chromatic() - GLOB->transposition();
     bool foundPos = false;
@@ -276,9 +276,9 @@ void TguitarBg::paint(QPainter* painter) {
 }
 
 
-void TguitarBg::askQuestion(const Tnote& n, int noteData) {
+void TguitarBg::askQuestion(const Tnote& n, quint32 noteDataValue) {
   p_note = n;
-  TfingerPos fp(static_cast<quint8>(noteData));
+  TfingerPos fp(static_cast<quint8>(noteDataValue));
   setFingerPos(fp);
 }
 

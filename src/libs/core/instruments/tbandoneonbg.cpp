@@ -214,7 +214,7 @@ void TbandoneonBg::setClosing(bool c) {
 }
 
 
-void TbandoneonBg::setNote(const Tnote& n) {
+void TbandoneonBg::setNote(const Tnote& n, quint32 noteDataValue) {
   if (!n.isValid() && !p_note.isValid())
     return;
   if (!n.isValid()) {
@@ -267,8 +267,8 @@ void TbandoneonBg::setNote(const Tnote& n) {
 }
 
 
-void TbandoneonBg::askQuestion(const Tnote& n, int noteData) {
-  Q_UNUSED(noteData) // TODO
+void TbandoneonBg::askQuestion(const Tnote& n, quint32 noteDataValue) {
+  Q_UNUSED(noteDataValue) // TODO
   setNote(n);
 }
 

@@ -81,7 +81,8 @@ TsaxBg::~TsaxBg()
 }
 
 
-void TsaxBg::setNote(const Tnote& n) {
+void TsaxBg::setNote(const Tnote& n, quint32 noteDataValue) {
+  Q_UNUSED(noteDataValue)
 CHECKTIME (
   bool out = false;
   if (n.isValid()) {
@@ -110,8 +111,8 @@ CHECKTIME (
 }
 
 
-void TsaxBg::askQuestion(const Tnote& n, int noteData) {
-  Q_UNUSED(noteData)
+void TsaxBg::askQuestion(const Tnote& n, quint32 noteDataValue) {
+  Q_UNUSED(noteDataValue)
   setNote(n);
 }
 

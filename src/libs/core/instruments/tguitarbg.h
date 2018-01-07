@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -61,13 +61,13 @@ public:
 
   QPointF fingerPos() { return m_fingerPos; }
 
-  void setNote(const Tnote& n) override;
+  void setNote(const Tnote& n, quint32 noteDataValue = 255) override;
 
   void setFingerPos(const TfingerPos& fp);
 
   void paint(QPainter* painter) override;
 
-  void askQuestion(const Tnote& n, int noteData) override;
+  void askQuestion(const Tnote& n, quint32 noteDataValue) override;
 
   int noteData() override { return static_cast<int>(m_selectedPos.data()); }
 

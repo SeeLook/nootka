@@ -45,9 +45,9 @@ public:
 
   QRectF keyRect() const { return m_keyRect; }
 
-  void setNote(const Tnote& n) override;
+  void setNote(const Tnote& n, quint32 noteDataValue = 255) override;
 
-  void askQuestion(const Tnote& n, int noteData) override;
+  void askQuestion(const Tnote& n, quint32 noteDataValue) override;
 
   int noteData() override { return 0; } // Fake - piano has no extra note data
 
