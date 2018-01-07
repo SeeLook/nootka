@@ -52,7 +52,8 @@ void TpianoBg::setKeyWidth(qreal kw) {
 }
 
 
-void TpianoBg::setNote(const Tnote& n) {
+void TpianoBg::setNote(const Tnote& n, quint32 noteDataValue) {
+  Q_UNUSED(noteDataValue)
   if (!p_note.compareNotes(n)) {
     if (n.isValid()) {
         Tnote sharpNote = Tnote(n.chromatic());
@@ -73,8 +74,8 @@ void TpianoBg::setNote(const Tnote& n) {
 }
 
 
-void TpianoBg::askQuestion(const Tnote& n, int noteData) {
-  Q_UNUSED(noteData)
+void TpianoBg::askQuestion(const Tnote& n, quint32 noteDataValue) {
+  Q_UNUSED(noteDataValue)
   setNote(n);
 }
 

@@ -48,13 +48,13 @@ public:
   bool outOfScale() const { return m_outOfScale; }
 
   Tnote note() const { return p_note; }
-  virtual void setNote(const Tnote& n) = 0;
+  virtual void setNote(const Tnote& n, quint32 noteDataValue = 255) = 0;
 
       /**
        * @p noteData is extra information about note needed for some instruments (guitars, bandoneon).
        * In case of guitar it is more important than note itself 
        */
-  virtual void askQuestion(const Tnote& n, int noteData) = 0;
+  virtual void askQuestion(const Tnote& n, quint32 noteData) = 0;
 
       /**
        * Returns additional note data like position on the guitar or left/right hand on bandoneon
