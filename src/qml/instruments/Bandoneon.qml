@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -11,6 +11,7 @@ import "../"
 
 
 TbandoneonBg {
+//   id: bando
   property real factor: height / 100
 
   // private
@@ -36,8 +37,6 @@ TbandoneonBg {
 //   }
 
   rightX: factor * 210 + buttonCol.width
-  opening: openButt.checked
-  closing: closeButt.checked
 
   Row {
     id: mainRow
@@ -68,7 +67,7 @@ TbandoneonBg {
             onExited: hiId = -1
             onClicked: {
               if (!openButt.checked && !closeButt.checked)
-                openButt.checked = true
+                opening = true
               currentIndex = index
             }
           }
@@ -116,21 +115,24 @@ TbandoneonBg {
         id: openButt
         width: factor * 40
         height: Noo.fontSize() * 3
-        contentItem: TlabelText { 
+        checked: opening
+        contentItem: TlabelText {
           text: qsTr("bellows<br>opening"); width: parent.width
           horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
         }
         checkable: true
         background: Rectangle { color: openButt.checked ? "blue" : "gray" }
         onClicked: {
-          if (openButt.checked)
-            closeButt.checked = false
+          opening = openButt.checked
+          if (opening)
+            closing = false
         }
       }
       Button {
         id: closeButt
         width: factor * 40
         height: Noo.fontSize() * 3
+        checked: closing
         contentItem: TlabelText {
           text: qsTr("bellows<br>closing"); width: parent.width
           horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
@@ -138,8 +140,9 @@ TbandoneonBg {
         checkable: true
         background: Rectangle { color: closeButt.checked ? "red" : "gray" }
         onClicked: {
-          if (closeButt.checked)
-            openButt.checked = false
+          closing = closeButt.checked
+          if (closing)
+            opening = false
         }
       }
     }
@@ -168,8 +171,8 @@ TbandoneonBg {
             onEntered: hiId = index + 33
             onExited: hiId = -1
             onClicked: {
-              if (!openButt.checked && !closeButt.checked)
-                openButt.checked = true
+              if (!opening && !closing)
+                opening = true
               currentIndex = index + 33
             }
           }
