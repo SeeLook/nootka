@@ -375,7 +375,7 @@ void TscoreObject::setNote(TnoteObject* no, const Tnote& n) {
           note(2)->setVisible(false);
     }
   }
-  if (m_recordMode)
+  if (!m_recordMode)
     setSelectedItem(no);
 }
 
@@ -387,6 +387,11 @@ void TscoreObject::setNote(int noteNr, const Tnote& n) {
     qDebug() << "[TscoreObject FIXME] Trying to set note of item that doesn't exist!" << noteNr;
 }
 
+
+void TscoreObject::setTechnical(int noteId, quint32 tech) {
+  if (noteId >= 0 && noteId < notesCount())
+    noteSegment(noteId)->setTechnical(tech);
+}
 
 
 TnoteObject* TscoreObject::note(int noteId) {
@@ -476,8 +481,10 @@ CHECKTIME (
       setKeySignatureEnabled(true);
     setKeySignature(newKey);
   }
-  for (int n = 0; n < melody->length(); ++n)
+  for (int n = 0; n < melody->length(); ++n) {
     addNote(melody->note(n)->p());
+    lastSegment()->setTechnical(melody->note(n)->noteData());
+  }
   adjustScoreWidth();
   emitLastNote();
 )

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,6 +21,7 @@
 
 
 #include <QtCore/qobject.h>
+#include "music/tnotedata.h"
 
 
 class Tnote;
@@ -59,6 +60,14 @@ public:
        * Sets note pointer to another @p Tnote, doesn't update note of the @p item()
        */
   void setNote(Tnote* n) { m_note = n; }
+
+      /**
+       * Bowing, fingering, string number and etc...
+       */
+  quint32 technical() const { return m_technical.data(); }
+  void setTechnical(quint32 tech);
+
+  TnoteData& techicalData() { return m_technical; }
 
     /**
      * Number of rhythmical group in the measure, -1 (undefined) by default
@@ -120,6 +129,7 @@ private:
   quint16                  m_index;
   int                      m_changes = 0;
   TbeamObject             *m_beam = nullptr;
+  TnoteData                m_technical;
 };
 
 #endif // TNOTEPAIR_H

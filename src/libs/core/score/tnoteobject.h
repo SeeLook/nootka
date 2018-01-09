@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -69,6 +69,9 @@ public:
   Tnote* note() { return m_note; }
   void setNote(const Tnote& n);
 
+  quint32 technical() const;
+  void setTechnical(quint32 tech);
+
   qreal notePosY() const { return m_notePosY; }
 
   Q_INVOKABLE Trhythm rhythm() const;
@@ -125,6 +128,18 @@ public:
        * Static method that converts given rhythm into text of a note head
        */
   static QString getHeadText(const Trhythm& r);
+
+  void setFingerNumber(int fiNr);
+  void setStringNumber(int strNr);
+
+  enum EbowDirection {
+    BowUndefined = 0,
+    BowDown = 2, /**< For bandoneon it is bellow opening */
+    BowUp = 4 /**< For bandoneon it is bellow closing */
+  };
+  Q_ENUM(EbowDirection)
+
+  void setBowing(EbowDirection bowDir);
 
 signals:
   void noteChanged();
@@ -184,6 +199,9 @@ private:
   QString                      m_accidText;
   QQuickItem                  *m_tie = nullptr;
   QQuickItem                  *m_name = nullptr;
+  QQuickItem                  *m_stringNumber = nullptr;
+  QQuickItem                  *m_bowing = nullptr;
+  QQuickItem                  *m_fingerNumber = nullptr;
 
   QQuickItem                  *m_debug;
 

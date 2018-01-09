@@ -25,6 +25,7 @@
 #include <tsound.h>
 #include <tcolor.h>
 #include <music/tkeysignature.h>
+#include <music/tnotedata.h>
 #include <score/tnoteobject.h>
 
 #include <QtGui/qguiapplication.h>
@@ -56,7 +57,7 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
 
   m_extraAccidsAct = new Taction(tr("Additional accidentals"), QString(), this);
   m_extraAccidsAct->setCheckable(true);
-//   m_showNamesAct->setChecked(GLOB->????);
+//   m_extraAccidsAct->setChecked(GLOB->????);
 
   m_deleteLastAct = new Taction(tr("Delete note"), QStringLiteral("delete"), this);
   m_clearScoreAct = new Taction(tr("Delete all notes"), QStringLiteral("clear-score"), this);
@@ -128,6 +129,8 @@ void TmainScoreObject::clearScore() {
   }
   m_questionMark->setVisible(false);
   m_scoreObj->setBgColor(qApp->palette().base().color());
+  if (m_scoreObj->singleNote())
+    m_scoreObj->note(1)->setTechnical(255);
 }
 
 
@@ -148,6 +151,11 @@ void TmainScoreObject::setSelectedItem(int id) {
 }
 
 
+void TmainScoreObject::setTechnical(int noteId, quint32 tech) {
+  m_scoreObj->setTechnical(noteId, tech);
+}
+
+
 void TmainScoreObject::askQuestion(Tmelody* mel) {
   m_scoreObj->setBgColor(scoreBackgroundColor(GLOB->EquestionColor, 20));
   m_scoreObj->setMelody(mel);
@@ -156,10 +164,18 @@ void TmainScoreObject::askQuestion(Tmelody* mel) {
 }
 
 
+/**
+ * We are sure that this kind of questions occurs only in single note mode
+ */
 void TmainScoreObject::askQuestion(const Tnote& note, char realStr) {
   m_scoreObj->setBgColor(scoreBackgroundColor(GLOB->EquestionColor, 20));
   m_scoreObj->setNote(m_scoreObj->note(1), note);
   m_questionMark->setVisible(true);
+  if (realStr > 0 && realStr < 7) {
+    TnoteData nd;
+    nd.setFingerPos(TfingerPos(realStr, 0));
+    m_scoreObj->note(1)->setTechnical(nd.data());
+  }
 }
 
 
