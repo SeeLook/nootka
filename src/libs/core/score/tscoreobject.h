@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -132,6 +132,8 @@ public:
   Q_INVOKABLE void addNote(const Tnote& newNote, bool fromQML = false);
   Q_INVOKABLE void setNote(TnoteObject* no, const Tnote& n);
   Q_INVOKABLE void setNote(int noteNr, const Tnote& n);
+
+  void setTechnical(int noteId, quint32 tech);
 
       /**
        * Returns a note item of @p TnoteObject

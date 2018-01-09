@@ -92,6 +92,7 @@ public:
   char keySignatureValue();
   Tnote getNote(int id);
   void setSelectedItem(int id);
+  void setTechnical(int noteId, quint32 tech);
 
 // exam/exercise related
   void askQuestion(const Tnote& note, char realStr = 0);

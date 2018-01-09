@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,6 +18,7 @@
 
 #include "tnotepair.h"
 #include "music/tnote.h"
+#include "music/tnotedata.h"
 #include "tnoteobject.h"
 #include "tstaffobject.h"
 #include "tbeamobject.h"
@@ -26,7 +27,7 @@
 TnotePair::TnotePair(int index, Tnote* n, TnoteObject* ob) :
   m_note(n),
   m_noteItem(ob),
-  m_index(index)
+  m_index(static_cast<quint16>(index))
 {
 
 }
@@ -46,6 +47,18 @@ void TnotePair::setNoteObject(TnoteObject* ob) {
 void TnotePair::setNote(const Tnote& n) {
   *m_note = n;
   m_noteItem->setNote(n);
+}
+
+
+void TnotePair::setTechnical(quint32 tech) {
+  if (tech != m_technical.data()) {
+    TnoteData newData(tech);
+    if (newData.fingerPos().str() != m_technical.fingerPos().str())
+      m_noteItem->setStringNumber(newData.fingerPos().str());
+    if (newData.bowing() != m_technical.bowing())
+      m_noteItem->setBowing(static_cast<TnoteObject::EbowDirection>(newData.bowing()));
+    m_technical.setData(tech);
+  }
 }
 
 
@@ -90,4 +103,5 @@ void TnotePair::flush() {
     m_noteItem->checkTie();
   }
   m_noteItem->setStaff(nullptr);
+  m_technical.reset();
 }

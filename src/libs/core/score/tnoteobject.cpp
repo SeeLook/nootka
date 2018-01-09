@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -47,7 +47,7 @@ static const QString accCharTable[6] = {
  * Width of every accidental for Scorek font of pixel size set to 7.0
  * It was measured by QML and corresponds to QFont size @p QFont::setPointSizeF(5.5) (except of neutral)
  */
-static const qreal accWidthTable[6] = { 2.78125, 1.671875, 0.0, 1.765625, 2.03125, 2.34375 };
+// static const qreal accWidthTable[6] = { 2.78125, 1.671875, 0.0, 1.765625, 2.03125, 2.34375 };
 
 /**
  * Static array with space definitions for each rhythm value
@@ -267,6 +267,15 @@ if (updateStem)
 }
 
 
+quint32 TnoteObject::technical() const { return m_wrapper ? m_wrapper->technical() : 255; }
+
+
+void TnoteObject::setTechnical(quint32 tech) {
+  if (m_wrapper)
+    m_wrapper->setTechnical(tech);
+}
+
+
 void TnoteObject::setX(qreal xx) {
   if (staff()->score()->singleNote())
       QQuickItem::setX(xx);
@@ -422,6 +431,47 @@ QString TnoteObject::getHeadText(const Trhythm& r) {
       else
         return QStringLiteral("\uf4be");
   }
+}
+
+
+void TnoteObject::setStringNumber(int strNr) {
+  if (!m_stringNumber && strNr > 0 && strNr < 7) {
+    m_staff->score()->component()->setData("import QtQuick 2.9; Text { z: -1; font { pixelSize: 4; family: \"Nootka\" } }", QUrl());
+    m_stringNumber = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
+    m_stringNumber->setParentItem(this);
+  }
+  if (strNr > 0 && strNr < 7) {
+      m_stringNumber->setProperty("text", QString::number(strNr));
+      m_stringNumber->setX((width() - m_stringNumber->width()) / 2.0);
+      // TODO set Y position
+      m_stringNumber->setVisible(true);
+  } else {
+      if (m_stringNumber)
+        m_stringNumber->setVisible(false);
+  }
+}
+
+
+void TnoteObject::setBowing(EbowDirection bowDir) {
+  if (!m_bowing && bowDir != BowUndefined) {
+    m_staff->score()->component()->setData("import QtQuick 2.9; Text { z: -1; font { pixelSize: 5; family: \"Scorek\" } }", QUrl());
+    m_bowing = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
+    m_bowing->setParentItem(this);
+  }
+  if (bowDir != BowUndefined) {
+      m_bowing->setProperty("text", bowDir == BowDown ? QStringLiteral("\uE610") : QStringLiteral("\uE612"));
+      m_bowing->setX((width() - m_bowing->width()) / 2.0);
+//       m_bowing->setY(m_staff->upperLine());
+      m_bowing->setVisible(true);
+  } else {
+      if (m_bowing)
+        m_bowing->setVisible(false);
+  }
+}
+
+
+void TnoteObject::setFingerNumber(int fiNr)
+{
 }
 
 
