@@ -369,8 +369,8 @@ void TexamExecutor::askQuestion(bool isAttempt) {
           MAIN_SCORE->askQuestion(curQ->melody());
           if (m_level.showStrNr) { // we may be sure that instrument is kind of a guitar
             for (int i = 0; i < curQ->melody()->length(); ++i) {
-  //             if (curQ->melody()->note(i)->g().str() > 1)
-  //               SCORE->noteFromId(i)->setString(curQ->melody()->note(i)->g().str());
+              if (curQ->melody()->note(i)->g().str() > 1)
+                MAIN_SCORE->setTechnical(i, curQ->melody()->note(i)->noteData());
             }
   //           if (INSTRUMENT->isVisible())
   //             INSTRUMENT->prepareAnswer(); // It just shows range frame
