@@ -66,8 +66,8 @@ public:
   bool onUpperStaff() const { return m_noteData.onUpperStaff(); }
   void setOnUpperStaff(bool onUpper) { m_noteData.setOnUpperStaff(onUpper); }
 
-  TnoteData::EbowDirection bow() const { return m_noteData.bow(); }
-  void setBow(TnoteData::EbowDirection b) { m_noteData.setBow(b); }
+  TnoteData::EbowDirection bow() const { return m_noteData.bowing(); }
+  void setBowing(TnoteData::EbowDirection b) { m_noteData.setBowing(b); }
 
       /**
         * Finger number [0 - 5].

@@ -72,8 +72,8 @@ public:
   };
   Q_ENUM(EbowDirection)
 
-  EbowDirection bow() const { return static_cast<EbowDirection>(m_otherData & BOW_DIRECTION); }
-  void setBow(EbowDirection b);
+  EbowDirection bowing() const { return static_cast<EbowDirection>(m_otherData & BOW_DIRECTION); }
+  void setBowing(EbowDirection b);
 
       /**
        * Finger number [0 - 5].
