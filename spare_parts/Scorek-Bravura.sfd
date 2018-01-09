@@ -22,7 +22,7 @@ OS2Version: 3
 OS2_WeightWidthSlopeOnly: 0
 OS2_UseTypoMetrics: 0
 CreationTime: 1461314537
-ModificationTime: 1511126138
+ModificationTime: 1515528098
 PfmFamily: 81
 TTFWeight: 400
 TTFWidth: 5
@@ -75,13 +75,13 @@ NameList: AGL For New Fonts
 DisplaySize: -128
 AntiAlias: 1
 FitToEm: 0
-WinInfo: 57416 8 5
+WinInfo: 57824 8 5
 BeginPrivate: 2
 StdHW 4 [78]
 StdVW 4 [90]
 EndPrivate
 TeXData: 1 0 0 262144 131072 87381 0 1048576 87381 783286 444596 497025 792723 393216 433062 380633 303038 157286 324010 404750 52429 2506097 1059062 262144
-BeginChars: 1114115 1086
+BeginChars: 1114115 1090
 
 StartChar: .notdef
 Encoding: 1114112 -1 0
@@ -406,24 +406,18 @@ EndChar
 StartChar: uniE000
 Encoding: 57344 57344 9
 Width: 84
-Flags: MW
-HStem: 0 21G<70 72>
-VStem: 14 30<142 154.5 101.5 228.5 842 855> 49 33<362 379.5 347 429.5 616.5 634.5>
+Flags: W
+HStem: 0 21G<70 72.5215> 994 3<71.093 74.9531>
+VStem: 14 30<77.9997 221.963 774.648 919.702> 49 33<301.371 428.814 566.551 685.392>
 LayerCount: 2
 Fore
 SplineSet
-20 498 m 5
- 49 480 82 409 82 350 c 4
- 82 344 82 339 81 334 c 4
- 74 275 44 181 44 128 c 4
- 44 75 67 25 72 17 c 4
- 76 12 77 9 77 6 c 4
- 77 4 76 3 75 2 c 4
- 74 1 73 0 71 0 c 4xa0
+77 6 m 4
+ 77 2.94792183234 74.042921871 0 71 0 c 4
  69 0 67 1 63 6 c 4
  41 34 14 92 14 192 c 4
  14 265 49 327 49 397 c 4
- 49 462 20 478 2 498 c 5xc0
+ 49 462 20 478 2 498 c 5
  30 530 49 556 49 603 c 4
  49 666 14 706 14 805 c 4
  14 905 41 963 63 990 c 4
@@ -431,12 +425,17 @@ SplineSet
  73 997 74 995 75 994 c 4
  76 994 77 992 77 990 c 4
  77 987 76 984 72 980 c 4
- 67 971 44 921 44 869 c 4xa0
+ 67 971 44 921 44 869 c 4
  44 815 74 722 81 662 c 4
  82 657 82 651 82 646 c 4
  82 587 49 516 20 498 c 5
+ 49 480 82 409 82 350 c 4
+ 82 344 82 339 81 334 c 4
+ 74 275 44 181 44 128 c 4
+ 44 75 67 25 72 17 c 4
+ 76 12 77 9 77 6 c 4
 EndSplineSet
-Validated: 1
+Validated: 524289
 AlternateSubs2: "'salt' Stylistic Alternatives lookup 5 subtable" uniE000.salt01 uniE000.salt02 uniE000.salt03 uniE000.salt04
 EndChar
 
@@ -52597,7 +52596,121 @@ SplineSet
  862.75390625 1171.18261719 875.599609375 1225.58300781 875.599609375 1283.00292969 c 0x1ce120
  875.599609375 1337.40234375 864.266601562 1390.29199219 841.599609375 1441.66992188 c 1
 EndSplineSet
-Validated: 524293
+Validated: 5
+EndChar
+
+StartChar: uniE610
+Encoding: 58896 58896 1086
+Width: 312
+Flags: W
+HStem: 0 21G<9 29 283.5 303> 193 125<38 274>
+VStem: 0 38<0 185.531> 274 38<0 185.531>
+LayerCount: 2
+Fore
+SplineSet
+26 318 m 2
+ 286 318 l 2
+ 300 318 312 306 312 292 c 2
+ 312 12 l 2
+ 312 5 306 0 300 0 c 2
+ 287 0 l 2
+ 280 0 274 5 274 12 c 2
+ 274 176 l 2
+ 274 187 215 193 156 193 c 0
+ 97 193 38 187 38 176 c 2
+ 38 12 l 2
+ 38 5 32 0 26 0 c 2
+ 12 0 l 2
+ 6 0 0 5 0 12 c 2
+ 0 292 l 2
+ 0 306 12 318 26 318 c 2
+EndSplineSet
+Validated: 1
+EndChar
+
+StartChar: uniE611
+Encoding: 58897 58897 1087
+Width: 312
+Flags: W
+HStem: 0 125<38 274>
+VStem: 0 38<132.469 318> 274 38<132.469 318>
+LayerCount: 2
+Fore
+SplineSet
+286 0 m 2
+ 26 0 l 2
+ 12 0 0 12 0 26 c 2
+ 0 306 l 2
+ 0 313 6 318 12 318 c 2
+ 26 318 l 2
+ 32 318 38 313 38 306 c 2
+ 38 142 l 2
+ 38 131 97 125 156 125 c 0
+ 215 125 274 131 274 142 c 2
+ 274 306 l 2
+ 274 313 280 318 287 318 c 2
+ 300 318 l 2
+ 306 318 312 313 312 306 c 2
+ 312 26 l 2
+ 312 12 300 0 286 0 c 2
+EndSplineSet
+Validated: 1
+EndChar
+
+StartChar: uniE612
+Encoding: 58898 58898 1088
+Width: 250
+Flags: W
+HStem: 1 21G<121 130>
+VStem: 214 35<451.719 494.903>
+LayerCount: 2
+Fore
+SplineSet
+126 1 m 0
+ 116 1 109 7 107 15 c 2
+ 2 474 l 2
+ 1 476 1 477 1 479 c 0
+ 1 486 7 493 15 495 c 2
+ 19 495 l 2
+ 27 495 34 490 37 482 c 2
+ 125 97 l 1
+ 214 482 l 2
+ 216 490 223 495 231 495 c 2
+ 235 495 l 2
+ 244 493 249 486 249 478 c 2
+ 249 474 l 1
+ 143 15 l 2
+ 141 7 134 1 126 1 c 0
+EndSplineSet
+Validated: 1
+EndChar
+
+StartChar: uniE613
+Encoding: 58899 58899 1089
+Width: 250
+Flags: W
+HStem: 1 21G<11 23 227 239.5>
+VStem: 214 35<1.0974 44.2809>
+LayerCount: 2
+Fore
+SplineSet
+126 495 m 0
+ 134 495 141 489 143 481 c 2
+ 249 22 l 1
+ 249 18 l 2
+ 249 10 244 3 235 1 c 2
+ 231 1 l 2
+ 223 1 216 6 214 14 c 2
+ 125 399 l 1
+ 37 14 l 2
+ 34 6 27 1 19 1 c 2
+ 15 1 l 2
+ 7 3 1 10 1 17 c 0
+ 1 19 1 20 2 22 c 2
+ 107 481 l 2
+ 109 489 116 495 126 495 c 0
+EndSplineSet
+Validated: 1
 EndChar
 EndChars
 EndSplineFont
