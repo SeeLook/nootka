@@ -39,7 +39,7 @@ void TnoteData::setOnUpperStaff(bool onUpper) {
 }
 
 
-void TnoteData::setBow(TnoteData::EbowDirection b) {
+void TnoteData::setBowing(TnoteData::EbowDirection b) {
   m_otherData &= ~BOW_DIRECTION; // reset it first
   m_otherData |= b;
 }
@@ -50,7 +50,7 @@ void TnoteData::setFinger(int fingerNr) {
   if (fingerNr >= -1 && fingerNr < 6)
     m_otherData |= (static_cast<quint16>(fingerNr) + 1) << 3;
   else
-    qDebug() << "[TnoteData] wrong finger number to store" << fingerNr << " Igoring.";
+    qDebug() << "[TnoteData] wrong finger number to store" << fingerNr << " --> Ignoring.";
 }
 
 
@@ -72,24 +72,34 @@ void TnoteData::fromXml(QXmlStreamReader& xml) {
   int s = 0, f = 50;
   while (xml.readNextStartElement()) {
     if (xml.name() == QLatin1String("string"))
-      s = xml.readElementText().toInt();
+        s = xml.readElementText().toInt();
     else if (xml.name() == QLatin1String("fret"))
-      f = xml.readElementText().toInt();
-    else
-      xml.skipCurrentElement();
+        f = xml.readElementText().toInt();
+    else if (xml.name() == QLatin1String("down-bow")) {
+        xml.skipCurrentElement();
+        setBowing(BowDown);
+    } else if (xml.name() == QLatin1String("up-bow")) {
+        xml.skipCurrentElement();
+        setBowing(BowUp);
+    } else
+        xml.skipCurrentElement();
   }
-  if (s == 0 || f == 50)
-    m_fingerPos.setData(255); // invalid
+  if (s > 0 && s < 7)
+    m_fingerPos.setPos(s, f == 50 ? 0 : f); // set fret to 0 if its value was not set
   else
-    m_fingerPos.setPos(s, f);
+    m_fingerPos.setData(255); // invalid
 }
 
 
 void TnoteData::toXml(QXmlStreamWriter& xml, const QString& tag) const {
   if (!tag.isEmpty())
     xml.writeStartElement(tag);
-  xml.writeTextElement(QLatin1String("string"), QString("%1").arg(m_fingerPos.str()));
-  xml.writeTextElement(QLatin1String("fret"), QString("%1").arg(m_fingerPos.fret()));
+  if (m_fingerPos.isValid()) {
+    xml.writeTextElement(QLatin1String("string"), QString("%1").arg(m_fingerPos.str()));
+    xml.writeTextElement(QLatin1String("fret"), QString("%1").arg(m_fingerPos.fret()));
+  }
+  if (bowing())
+    xml.writeEmptyElement(bowing() == BowDown ? QLatin1String("down-bow") : QLatin1String("up-bow"));
   if (!tag.isEmpty())
     xml.writeEndElement(); // tag
 }
