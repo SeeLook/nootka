@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -30,6 +30,7 @@ Tflickable {
         ListElement { flag:"en"; lang: "english" }
         ListElement { flag:"es"; lang: "español" }
         ListElement { flag:"fr"; lang: "français" }
+        ListElement { flag:"hu"; lang: "magyar" }
         ListElement { flag:"pl"; lang: "polski" }
         ListElement { flag:"ru"; lang: "русский" }
       }
@@ -49,6 +50,10 @@ Tflickable {
               source: Noo.pix("flags-" + flag)
               sourceSize.height: Noo.fontSize() * 3
               anchors.horizontalCenter: parent.horizontalCenter
+              MouseArea {
+                anchors.fill: parent
+                onClicked: langTumb.currentIndex = index
+              }
             }
             Text {
               anchors.horizontalCenter: parent.horizontalCenter
@@ -95,6 +100,7 @@ Tflickable {
     }
 
     Tile {
+      visible: false
       TcuteButton {
         anchors.horizontalCenter: parent.horizontalCenter
         text: qsTranslate("TglobalSettings", "Check for updates")

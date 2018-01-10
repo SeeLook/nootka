@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -61,6 +61,11 @@ Tflickable {
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Olivier Devineau,<br>&nbsp;&nbsp;&nbsp;&nbsp;Jean-Marc Lartigue</b> "; color: activPal.text }
       Item { width: 10; height: 10 }
 
+      Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-hu") }
+      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;magyar "; textFormat: Text.StyledText; color: activPal.text }
+      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Gábor Kertész</b> "; color: activPal.text }
+      LinkText { text: "<a href=\"mailto:kergab@gmail.com\">kergab@gmail.com</a>" }
+
       Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-pl") }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;polski "; textFormat: Text.StyledText; color: activPal.text }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Tomasz Bojczuk</b> "; color: activPal.text }
@@ -79,19 +84,19 @@ Tflickable {
             "<ul>" + createLink("Qt", "https://www.qt.io/developers/") + " by Qt Company" +
             createLink("FFTW", "http://www.fftw.org") + " by M. Frigo & S. G. Johnson" +
             createLink("ogg vorbis", "http://vorbis.com") + " by XIPH" +
-            createLink("RtAudio & RtMidi", "http://www.music.mcgill.ca/~gary/") + " by G. P. Scavone" +
+            createLink("RtAudio & RtMidi", "https://www.music.mcgill.ca/~gary/rtaudio/index.html") + " by G. P. Scavone" +
             createLink("Tartini", "http://miracle.otago.ac.nz/tartini/index.html") + " by P. McLeod" +
             createLink("SoundTouch", "http://www.surina.net/soundtouch/") + " by Olli Parviainen" +
             createLink("LilyPond emmentaler font", "http://lilypond.org/introduction.html") +
-            createLink("Bravura SMuFL font", "http://www.smufl.org/fonts/") +
+            createLink("Bravura SMuFL font", "https://www.smufl.org/fonts/") +
             "</ul>"
       wrapMode: Text.WordWrap
     }
     TextBackground { text: qsTranslate("TaboutNootka", "Thanks"); }
     LinkText {
       width: parent.width
-      text: "I would like to say <b>THANK YOU</b> for all people who helped me with developing Nootka.<br>
-I will try to mention them in some random order:<br>
+      text: "I would like to say <b>THANK YOU</b> for all people who helped with developing Nootka.<br>
+Let's try to mention them in some random order:<br>
 <br><b>José Luis Marín</b> for patient and intensive tests under Linux and great feedback.<br>
 <b>Aaron Wolf</b> <a href=\"http://blog.wolftune.com/\">http://blog.wolftune.com</a> for many warm words about Nootka in the web and helping clues.<br>
 <b>falkTX</b> from <a href=\"http://kxstudio.sourceforge.net/\">http://kxstudio.sourceforge.net</a> for building *.deb and testing and for many clues.<br>
@@ -107,7 +112,7 @@ I will try to mention them in some random order:<br>
   }
   Timer {
     id: scrollTimer
-    interval: 50; repeat: true; running: GLOB.useAnimations && authorsPage.visible
+    interval: 20; repeat: true; running: GLOB.useAnimations && authorsPage.visible
     onTriggered: {
       if (authorsPage.visible && authorsPage.contentY < authorsPage.contentHeight - authorsPage.height)
         authorsPage.contentY++
