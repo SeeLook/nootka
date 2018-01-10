@@ -11,6 +11,7 @@ cat <<EOF
     <comment xml:lang="de">Nootka-Level Datei</comment>
     <comment xml:lang="es">Fichero de nivel de Nootka</comment>
     <comment xml:lang="fr">Fichier de niveau Nootka</comment>
+    <comment xml:lang="hu">Nootka szint fájl</comment>
     <comment xml:lang="pl">Poziom egzaminu programu Nootka</comment>
     <comment xml:lang="ru">Файл Нутки с уровнем</comment>
     <icon name="nootka-level">$1/share/pixmaps/nootka-level.png</icon>
@@ -27,6 +28,7 @@ cat <<EOF
     <comment xml:lang="de">Nootka-Prüfungs Datei</comment>
     <comment xml:lang="es">Fichero de examen de Nootka</comment>
 		<comment xml:lang="fr">Fichier d'examen Nootka</comment>
+		<comment xml:lang="hu">Nootka vizsga fájl</comment>
     <comment xml:lang="pl">Plik egzaminu programu Nootka</comment>
     <comment xml:lang="ru">Файл Нутки с экзаменом</comment>
     <icon name="nootka-exam">$1/share/pixmaps/nootka-exam.png</icon>
