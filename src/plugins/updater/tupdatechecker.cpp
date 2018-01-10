@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -46,9 +46,15 @@ void TupdateChecker::check(bool checkRules){
     if (!m_respectRules)
       emit updateMessage(Torders::e_updaterChecking);
     if (!m_respectRules || (m_updateRules.enable && isUpdateNecessary(m_updateRules))) {
-        QNetworkRequest request(QUrl(QString("http://nootka.sldc.pl/ch/version.php?v=%1").arg(QLatin1String(NOOTKA_VERSION))));
-        // This is additional hosting to improve updates system. It is much faster than sf.net
-        //         QNetworkRequest request(QUrl("http://nootka.sourceforge.net/ch/version.php"));
+        QString requestAddr = QStringLiteral("http");
+        bool hasSSL = QSslSocket::supportsSsl();
+        if (hasSSL) {
+          requestAddr += QStringLiteral("s");
+          qDebug() << "[TupdateChecker] SSL is supported, using https protocol to check updates";
+        }
+        requestAddr += QString("://nootka.sldc.pl/ch/version.php?v=%1").arg(QLatin1String(NOOTKA_VERSION));
+        QUrl requestUrl(requestAddr);
+        QNetworkRequest request(requestUrl);
   #if defined(Q_OS_WIN32)
           request.setRawHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET4.0C; .NET4.0E)");
   #elif defined (Q_OS_ANDROID)
@@ -58,7 +64,8 @@ void TupdateChecker::check(bool checkRules){
   #else
           request.setRawHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_0) AppleWebKit/534.57.2 (KHTML, like Gecko) ");
   #endif
-          request.setOriginatingObject(this);
+          if (hasSSL)
+            request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
           m_reply = m_netManager->get(request);
           connect(m_reply, SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT(errorSlot(QNetworkReply::NetworkError)));
     } else
