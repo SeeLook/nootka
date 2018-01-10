@@ -85,9 +85,8 @@ static const QString loadExamFileTxt() {
      * Get more levels <a>from Nootka home page</a>
      */
 static QString moreLevelLinkTxt() {
-    return QApplication::translate(
-      "levelSettings" ,"Get more levels <a href=\"%1\">from Nootka home page</a>")
-          .arg("http://www.nootka.sf.net/index.php?C=down#levels");
+    return QApplication::translate("LevelsPage" ,"Get more levels <a href=\"%1\">from Nootka home page</a>")
+          .arg("https://nootka.sourceforge.io/index.php?C=down#levels");
   }
 
     /**

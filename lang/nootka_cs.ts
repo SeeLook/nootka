@@ -791,7 +791,7 @@ není platným souborem zkoušky!</translation>
     </message>
 </context>
 <context>
-    <name>Tcanvas</name>
+    <name>TtipHandler</name>
     <message>
         <location filename="../src/plugins/exam/tcanvas.cpp" line="190"/>
         <source>%1 was detected</source>
@@ -2028,7 +2028,7 @@ není platným souborem zkoušky!</translation>
     </message>
 </context>
 <context>
-    <name>TlevelCreatorDlg</name>
+    <name>LevelCreator</name>
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="54"/>
         <source>Questions</source>
@@ -2167,7 +2167,7 @@ ale nebyla uložena!</translation>
     </message>
 </context>
 <context>
-    <name>TlevelPreview</name>
+    <name>TlevelPreviewItem</name>
     <message>
         <location filename="../src/libs/widgets/level/tlevelpreview.cpp" line="48"/>
         <source>Level summary:</source>
@@ -2212,16 +2212,6 @@ ale nebyla uložena!</translation>
         <location filename="../src/libs/widgets/level/tlevelpreview.cpp" line="118"/>
         <source>Clef</source>
         <translation>Klíč</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/widgets/level/tlevelpreview.h" line="45"/>
-        <source>note range:</source>
-        <translation>Rozsah not:</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/widgets/level/tlevelpreview.h" line="46"/>
-        <source>fret range:</source>
-        <translation>Rozsah pražců:</translation>
     </message>
 </context>
 <context>
@@ -2961,7 +2951,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
 </context>
 <context>
-    <name>TquestionTip</name>
+    <name>TtipHandler</name>
     <message>
         <location filename="../src/plugins/exam/tquestiontip.cpp" line="38"/>
         <source>Use %1</source>
@@ -3426,11 +3416,8 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
 </context>
 <context>
-    <name>TsettingsDialogBase</name>
+    <name>ThelpDialogBase</name>
     <message>
-        <location filename="../src/libs/misc/help/thelpdialogbase.cpp" line="31"/>
-        <location filename="../src/libs/widgets/widgets/tsettingsdialogbase.h" line="62"/>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="379"/>
         <source>Open online documentation</source>
         <translation>Otevřít internetovou dokumentaci</translation>
     </message>
@@ -4192,7 +4179,17 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
 </context>
 <context>
-    <name>rangeSettings</name>
+    <name>RangePage</name>
+    <message>
+        <location filename="../src/libs/widgets/level/tlevelpreview.h" line="45"/>
+        <source>note range:</source>
+        <translation>Rozsah not:</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/widgets/level/tlevelpreview.h" line="46"/>
+        <source>fret range:</source>
+        <translation>Rozsah pražců:</translation>
+    </message>
     <message>
         <location filename="../src/plugins/level/rangesettings.cpp" line="55"/>
         <source>adjust fret range</source>

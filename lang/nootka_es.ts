@@ -719,7 +719,7 @@
     </message>
 </context>
 <context>
-    <name>Tcanvas</name>
+    <name>TtipHandler</name>
     <message>
         <source>%1 was detected</source>
         <comment>note name</comment>
@@ -1749,7 +1749,7 @@
     </message>
 </context>
 <context>
-    <name>TlevelCreatorDlg</name>
+    <name>LevelCreator</name>
     <message>
         <source>Questions</source>
         <translation>Preguntas</translation>
@@ -1863,7 +1863,7 @@
     </message>
 </context>
 <context>
-    <name>TlevelPreview</name>
+    <name>TlevelPreviewItem</name>
     <message>
         <source>Level summary:</source>
         <translation>Resumen de nivel:</translation>
@@ -2529,7 +2529,7 @@
     </message>
 </context>
 <context>
-    <name>TquestionTip</name>
+    <name>TtipHandler</name>
     <message>
         <source>Use %1</source>
         <translation>Usar %1</translation>
@@ -2904,7 +2904,7 @@
     </message>
 </context>
 <context>
-    <name>TsettingsDialogBase</name>
+    <name>ThelpDialogBase</name>
     <message>
         <source>Open online documentation</source>
         <translation>Abrir documentación online</translation>
@@ -3588,7 +3588,15 @@
     </message>
 </context>
 <context>
-    <name>rangeSettings</name>
+    <name>RangePage</name>
+    <message>
+        <source>note range:</source>
+        <translation>rango de notas:</translation>
+    </message>
+    <message>
+        <source>fret range:</source>
+        <translation>rango de trastes:</translation>
+    </message>
     <message>
         <source>adjust fret range</source>
         <translation>ajustar el rango de trastes</translation>

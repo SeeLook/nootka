@@ -871,7 +871,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     </message>
 </context>
 <context>
-    <name>Tcanvas</name>
+    <name>TtipHandler</name>
     <message>
         <location filename="../src/plugins/exam/tcanvas.cpp" line="190"/>
         <source>%1 was detected</source>
@@ -943,6 +943,123 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <location filename="../src/plugins/exam/tcanvas.cpp" line="493"/>
         <source>Exam started on level</source>
         <translation>Egzamin uruchomiony na poziomie</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="38"/>
+        <source>Use %1</source>
+        <translation>Użyj %1</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="39"/>
+        <source> Don&apos;t use accidentals!</source>
+        <translation> Nie używaj znaków!</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="46"/>
+        <source>on %1 string.</source>
+        <translation>na %1 strunie.</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="55"/>
+        <source>Play</source>
+        <translation>Zagraj</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="132"/>
+        <source>Change enharmonically and show on the staff</source>
+        <translation>Zamień enharmonicznie i pokaż w nutach</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="134"/>
+        <source>Given note show on the staff</source>
+        <translation>Podaną nutę pokaż na pięciolinii</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="136"/>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="173"/>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="231"/>
+        <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
+        <comment>in key signature</comment>
+        <translation>&lt;br&gt;&lt;b&gt;w tonacji %1.&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="140"/>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="205"/>
+        <source>Give name of</source>
+        <translation>Podaj nazwę</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="143"/>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="185"/>
+        <source>Show on the guitar</source>
+        <translation>Pokaż na gitarze</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="53"/>
+        <source>Play or sing</source>
+        <translation>Zagraj lub zaśpiewaj</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="171"/>
+        <source>Show on the staff</source>
+        <translation>Pokaż na pięciolinii</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="179"/>
+        <source>Change enharmonically and give name of</source>
+        <translation>Zamień enharmonicznie i podaj nazwę</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="199"/>
+        <source>Show on the staff note played on</source>
+        <translation>Pokaż w nutach dźwięk grany na</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="227"/>
+        <source>Guess a key signature</source>
+        <translation>Odgadnij tonację</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="229"/>
+        <source>Listened sound show on the staff</source>
+        <translation>Usłyszany dźwięk pokaż w nutach</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="182"/>
+        <source>Use another style to give name of</source>
+        <translation>Użyj innego stylu żeby podać nazwę</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="146"/>
+        <source>Play or sing a melody.</source>
+        <translation>Zagraj lub zaśpiewaj melodię.</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="201"/>
+        <source>&lt;b&gt;in %1 key.&lt;/b&gt;</source>
+        <comment>in key signature</comment>
+        <translation>&lt;b&gt;w tonacji %1.&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="207"/>
+        <source>Show sound from position:</source>
+        <comment>... and string + fret numbers folowing</comment>
+        <translation>Pokaż dźwięk z pozycji:</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="237"/>
+        <source>Give name of listened sound</source>
+        <translation>Podaj nazwę usłyszanego dźwięku</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="242"/>
+        <source>Listened sound show on the guitar</source>
+        <translation>Usłyszany dźwięk pokaż na gitarze</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="246"/>
+        <source>Play or sing listened sound</source>
+        <translation>Zagraj lub zaśpiewaj usłyszany dźwięk</translation>
     </message>
 </context>
 <context>
@@ -1921,6 +2038,10 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <source>always show this help window</source>
         <translation>zawsze pokazuj to okno pomocy</translation>
     </message>
+    <message>
+        <source>Open online documentation</source>
+        <translation>Otwórz dokumentację online</translation>
+    </message>
 </context>
 <context>
     <name>TintonationCombo</name>
@@ -2144,7 +2265,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     </message>
 </context>
 <context>
-    <name>TlevelCreatorDlg</name>
+    <name>LevelCreator</name>
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="54"/>
         <source>Questions</source>
@@ -2287,7 +2408,7 @@ ale nie zapisany!</translation>
     </message>
 </context>
 <context>
-    <name>TlevelPreview</name>
+    <name>TlevelPreviewItem</name>
     <message>
         <location filename="../src/libs/widgets/level/tlevelpreview.cpp" line="48"/>
         <source>Level summary:</source>
@@ -2332,16 +2453,6 @@ ale nie zapisany!</translation>
         <location filename="../src/libs/widgets/level/tlevelpreview.cpp" line="118"/>
         <source>Clef</source>
         <translation>Klucz</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/widgets/level/tlevelpreview.h" line="45"/>
-        <source>note range:</source>
-        <translation>zakres dźwięków:</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/widgets/level/tlevelpreview.h" line="46"/>
-        <source>fret range:</source>
-        <translation>zakres progów:</translation>
     </message>
 </context>
 <context>
@@ -3101,126 +3212,6 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
 </context>
 <context>
-    <name>TquestionTip</name>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="38"/>
-        <source>Use %1</source>
-        <translation>Użyj %1</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="39"/>
-        <source> Don&apos;t use accidentals!</source>
-        <translation>Nie używaj znaków!</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="46"/>
-        <source>on %1 string.</source>
-        <translation>na %1 strunie.</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="55"/>
-        <source>Play</source>
-        <translation>Zagraj</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="132"/>
-        <source>Change enharmonically and show on the staff</source>
-        <translation>Zamień enharmonicznie i pokaż w nutach</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="134"/>
-        <source>Given note show on the staff</source>
-        <translation>Podaną nutę pokaż na pięciolinii</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="136"/>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="173"/>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="231"/>
-        <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
-        <comment>in key signature</comment>
-        <translation>&lt;br&gt;&lt;b&gt;w tonacji %1.&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="140"/>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="205"/>
-        <source>Give name of</source>
-        <translation>Podaj nazwę</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="143"/>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="185"/>
-        <source>Show on the guitar</source>
-        <translation>Pokaż na gitarze</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="53"/>
-        <source>Play or sing</source>
-        <translation>Zagraj lub zaśpiewaj</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="171"/>
-        <source>Show on the staff</source>
-        <translation>Pokaż na pięciolinii</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="179"/>
-        <source>Change enharmonically and give name of</source>
-        <translation>Zamień enharmonicznie i podaj nazwę</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="199"/>
-        <source>Show on the staff note played on</source>
-        <translation>Pokaż w nutach dźwięk grany na</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="227"/>
-        <source>Guess a key signature</source>
-        <translation>Odgadnij tonację</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="229"/>
-        <source>Listened sound show on the staff</source>
-        <translation>Usłyszany dźwięk pokaż w nutach</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="182"/>
-        <source>Use another style to give name of</source>
-        <translation>Użyj innego stylu żeby podać nazwę</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="146"/>
-        <source>Play or sing a melody.</source>
-        <translation>Zagraj lub zaśpiewaj melodię.</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="201"/>
-        <source>&lt;b&gt;in %1 key.&lt;/b&gt;</source>
-        <comment>in key signature</comment>
-        <translation>&lt;b&gt;w tonacji %1.&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="207"/>
-        <source>Show sound from position:</source>
-        <comment>... and string + fret numbers folowing</comment>
-        <translation>Pokaż dźwięk z pozycji:</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="237"/>
-        <source>Give name of listened sound</source>
-        <translation>Podaj nazwę usłyszanego dźwięku</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="242"/>
-        <source>Listened sound show on the guitar</source>
-        <translation>Usłyszany dźwięk pokaż na gitarze</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="246"/>
-        <source>Play or sing listened sound</source>
-        <translation>Zagraj lub zaśpiewaj usłyszany dźwięk</translation>
-    </message>
-</context>
-<context>
     <name>TradioClef</name>
     <message>
         <location filename="../src/libs/score/widgets/tselectclef.cpp" line="193"/>
@@ -3568,16 +3559,6 @@ nutowy</translation>
         <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="328"/>
         <source>playing</source>
         <translation>odtwarzanie</translation>
-    </message>
-</context>
-<context>
-    <name>TsettingsDialogBase</name>
-    <message>
-        <location filename="../src/libs/misc/help/thelpdialogbase.cpp" line="31"/>
-        <location filename="../src/libs/widgets/widgets/tsettingsdialogbase.h" line="62"/>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="379"/>
-        <source>Open online documentation</source>
-        <translation>Otwórz dokumentację online</translation>
     </message>
 </context>
 <context>
@@ -4396,7 +4377,17 @@ nutowy</translation>
     </message>
 </context>
 <context>
-    <name>rangeSettings</name>
+    <name>RangePage</name>
+    <message>
+        <location filename="../src/libs/widgets/level/tlevelpreview.h" line="45"/>
+        <source>note range:</source>
+        <translation>zakres dźwięków:</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/widgets/level/tlevelpreview.h" line="46"/>
+        <source>fret range:</source>
+        <translation>zakres progów:</translation>
+    </message>
     <message>
         <location filename="../src/plugins/level/rangesettings.cpp" line="55"/>
         <source>adjust fret range</source>
