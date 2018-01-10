@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,7 +29,7 @@
 class QNetworkAccessManager;
 
 /**
- * Connects with nootka.sf.net to check updates.
+ * Connects with https://nootka.sldc.pl to check updates.
  * Displays summary dialog after and console output.
  * Also emits signals with output communicates.
  */
@@ -39,7 +39,7 @@ class TupdateChecker : public QObject
   Q_OBJECT
 
 public:
-  TupdateChecker(QObject *parent = 0, QWidget* parentWidget = 0);
+  TupdateChecker(QObject *parent = nullptr, QWidget* parentWidget = nullptr);
   virtual ~TupdateChecker();
 
     /** Performs checking.
