@@ -47,7 +47,11 @@ void TupdateChecker::check(bool checkRules){
       emit updateMessage(Torders::e_updaterChecking);
     if (!m_respectRules || (m_updateRules.enable && isUpdateNecessary(m_updateRules))) {
         QString requestAddr = QStringLiteral("http");
+  #if defined(Q_OS_ANDROID)
+        bool hasSSL = false;
+  #else
         bool hasSSL = QSslSocket::supportsSsl();
+  #endif
         if (hasSSL) {
           requestAddr += QStringLiteral("s");
           qDebug() << "[TupdateChecker] SSL is supported, using https protocol to check updates";

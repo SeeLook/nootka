@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -187,7 +187,7 @@ void TnootkaCertificate::createHints() {
               + QLatin1String("<img src=\"data:image/png;base64,")
               + byteArray.toBase64() + QLatin1String("\"/>") + br + tr("Save this certificate to file in remembrance.") + QLatin1String("</big>"),
           qApp->palette().highlight().color());
-    m_saveHint->setTextWidth((pos().x() - 10));
+    m_saveHint->setTextWidth(qMin(pos().x() - 10, m_view->width() / 2.0));
     m_view->scene()->addItem(m_saveHint);
     if (m_saveHint->realH() > m_view->height() * 0.3)
       m_saveHint->setScale((m_view->height() * 0.3) / m_saveHint->boundingRect().height());
@@ -208,7 +208,7 @@ void TnootkaCertificate::createHints() {
 #endif
         + QLatin1String("</big>"), m_view->palette().window().color());
     m_view->scene()->addItem(m_nextHint);
-    m_nextHint->setTextWidth((pos().x() - 10));
+    m_nextHint->setTextWidth(qMin(pos().x() - 10, m_view->width() / 2.0));
     if (m_nextHint->realH() > m_view->height() * 0.3)
       m_nextHint->setScale((m_view->height() * 0.3) / m_nextHint->boundingRect().height());
     m_nextHint->setPos((pos().x() - m_nextHint->realW()) / 2, m_view->height() * 0.4);
@@ -224,7 +224,7 @@ void TnootkaCertificate::createHints() {
         + TexamHelp::toStopExamTxt(pixToHtml(Tpath::img("stopExam"), 32).replace(QLatin1String("<img"), QLatin1String("<br><img"))
         + QLatin1String("</big>")), Qt::red);
     m_view->scene()->addItem(m_closeHint);
-    m_closeHint->setTextWidth((m_view->width() -10 - boundingRect().width()) / 2);
+    m_closeHint->setTextWidth(qMin(pos().x() - 10, m_view->width() / 2.0));
     if (m_closeHint->realH() > m_view->height() * 0.25)
       m_closeHint->setScale((m_view->height() * 0.24) / m_closeHint->boundingRect().height());
     m_closeHint->setPos((pos().x() - m_closeHint->realW()) / 2.0, m_view->height() * 0.74);
