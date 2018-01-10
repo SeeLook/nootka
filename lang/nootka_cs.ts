@@ -3921,8 +3921,8 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/plugins/updater/tupdatesummary.cpp" line="49"/>
         <location filename="../src/plugins/updater/tupdatesummary.cpp" line="54"/>
-        <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
-        <translation>Pro její získání navštivte &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;stránky Nootky&lt;/a&gt;.</translation>
+        <source>To get it, visit &lt;a href=&quot;https://nootka.sourceforge.io/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
+        <translation>Pro její získání navštivte &lt;a href=&quot;https://nootka.sourceforge.io/index.php?C=down&quot;&gt;stránky Nootky&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../src/plugins/updater/tupdatesummary.cpp" line="67"/>

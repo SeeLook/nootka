@@ -3372,8 +3372,8 @@ nicht öffnen</translation>
         <translation>Neue Version Nootka %1 ist Verfügbar.</translation>
     </message>
     <message>
-        <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
-        <translation>Um sie herunterzuladen, besuche &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</translation>
+        <source>To get it, visit &lt;a href=&quot;https://nootka.sourceforge.io/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
+        <translation>Um sie herunterzuladen, besuche &lt;a href=&quot;https://nootka.sourceforge.io/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>News:</source>

@@ -3162,8 +3162,8 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>La nouvelle version %1 de Nootka est disponible.</translation>
     </message>
     <message>
-        <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
-        <translation>Pour l&apos;obtenir, rendez-vous sur le &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;site Nootka&lt;/a&gt;.</translation>
+        <source>To get it, visit &lt;a href=&quot;https://nootka.sourceforge.io/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
+        <translation>Pour l&apos;obtenir, rendez-vous sur le &lt;a href=&quot;https://nootka.sourceforge.io/index.php?C=down&quot;&gt;site Nootka&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>News:</source>

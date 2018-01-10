@@ -3357,8 +3357,8 @@
         <translation>El nuevo Nootka %1 está disponible.</translation>
     </message>
     <message>
-        <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
-        <translation>Para conseguirlo, visita&lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;el sitio de Nootka&lt;/a&gt;. </translation>
+        <source>To get it, visit &lt;a href=&quot;https://nootka.sourceforge.io/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
+        <translation>Para conseguirlo, visita&lt;a href=&quot;https://nootka.sourceforge.io/index.php?C=down&quot;&gt;el sitio de Nootka&lt;/a&gt;. </translation>
     </message>
     <message>
         <source>News:</source>

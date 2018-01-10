@@ -4129,8 +4129,8 @@
     <message>
         <location filename="../src/plugins/updater/tupdatesummary.cpp" line="49"/>
         <location filename="../src/plugins/updater/tupdatesummary.cpp" line="54"/>
-        <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
-        <translation>Для загрузки перейдите на &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;сайт Нутки&lt;/a&gt;.</translation>
+        <source>To get it, visit &lt;a href=&quot;https://nootka.sourceforge.io/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
+        <translation>Для загрузки перейдите на &lt;a href=&quot;https://nootka.sourceforge.io/index.php?C=down&quot;&gt;сайт Нутки&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../src/plugins/updater/tupdatesummary.cpp" line="67"/>
