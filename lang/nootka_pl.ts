@@ -2888,7 +2888,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/libs/main/notename/tnotename.cpp" line="34"/>
         <source>Subcontra octave</source>
-        <translation>oktawa Subkontra </translation>
+        <translation>oktawa Subkontra</translation>
     </message>
     <message>
         <location filename="../src/libs/main/notename/tnotename.cpp" line="35"/>
@@ -3151,7 +3151,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/plugins/exam/tquestiontip.cpp" line="39"/>
         <source> Don&apos;t use accidentals!</source>
-        <translation>Nie używaj znaków!</translation>
+        <translation> Nie używaj znaków!</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/tquestiontip.cpp" line="46"/>
@@ -3276,12 +3276,12 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/libs/score/widgets/tselectclef.cpp" line="199"/>
         <source> Bottom clef on the grand staff but also used for cello, trombone, etc.</source>
-        <translation>Klucz na dolnej pięciolinii zapisu fortepianowego ale również dla wiolonczeli, puzonu, itp.</translation>
+        <translation> Klucz na dolnej pięciolinii zapisu fortepianowego ale również dla wiolonczeli, puzonu, itp.</translation>
     </message>
     <message>
         <location filename="../src/libs/score/widgets/tselectclef.cpp" line="202"/>
         <source> Clef for bass guitar and double bass.</source>
-        <translation>Klucz dla gitary basowej i kontrabasu.</translation>
+        <translation> Klucz dla gitary basowej i kontrabasu.</translation>
     </message>
     <message>
         <location filename="../src/libs/score/widgets/tselectclef.cpp" line="205"/>
@@ -4122,8 +4122,8 @@ nutowy</translation>
     <message>
         <location filename="../src/plugins/updater/tupdatesummary.cpp" line="49"/>
         <location filename="../src/plugins/updater/tupdatesummary.cpp" line="54"/>
-        <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
-        <translation>Żeby ją pobrać, odwiedź &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;stronę programu&lt;/a&gt;.</translation>
+        <source>To get it, visit &lt;a href=&quot;https://nootka.sourceforge.io/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
+        <translation>Żeby ją pobrać, odwiedź &lt;a href=&quot;https://nootka.sourceforge.io/index.php?C=down&quot;&gt;stronę programu&lt;/a&gt;.</translation>
     </message>
     <message>
         <location filename="../src/plugins/updater/tupdatesummary.cpp" line="67"/>
@@ -4362,7 +4362,7 @@ nutowy</translation>
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="70"/>
         <source>Get more levels &lt;a href=&quot;%1&quot;&gt;from Nootka home page&lt;/a&gt;</source>
-        <translation>Pobierz więcej poziomów &lt;a href=&quot;%1&quot;&gt;ze strony www.nootka.sf.net&lt;/a&gt;</translation>
+        <translation>Pobierz więcej poziomów ze strony &lt;a href=&quot;%1&quot;&gt;nootka.sourceforge.io&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
