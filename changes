@@ -1,5 +1,8 @@
 1.4.5
+  Nootka says: I speak Hungarian
+     - added Hungarian translations
      - Stylus support on touch screens (Requires Qt 5.9/Android 4.2 and above)
+     - using secure SSL connections when possible (update check, links)
     BUGS FIXES
      - Don't stop pitch detection when question and answer are a sound
     ANDROID

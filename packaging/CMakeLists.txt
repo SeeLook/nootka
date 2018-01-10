@@ -180,7 +180,7 @@ if(WIN32)
 	get_filename_component(VORBIS_DIR "${VORBIS_LIBRARIES}" DIRECTORY)
 	get_filename_component(MAKE_DIR "${CMAKE_RC_COMPILER}" DIRECTORY)
 
-	file(GLOB ICU_DLLS "${QT_BINARY_DIR}/icu*.dll") # icudtXX.dll icuinXX.dll icuucXX.dll
+# 	file(GLOB ICU_DLLS "${QT_BINARY_DIR}/icu*.dll") # icudtXX.dll icuinXX.dll icuucXX.dll
 
 	add_custom_target(deploy
     COMMAND echo "deploying..."
@@ -196,7 +196,7 @@ if(WIN32)
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt5Network.dll ${CMAKE_BINARY_DIR}/src/.
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt5PrintSupport.dll ${CMAKE_BINARY_DIR}/src/.
 # 		foreach(ICU ${ICU_DLLS})
-			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${ICU_DLLS} ${CMAKE_BINARY_DIR}/src/.
+# 			COMMAND ${CMAKE_COMMAND} -E copy_if_different ${ICU_DLLS} ${CMAKE_BINARY_DIR}/src/.
 # 		endforeach()
 		COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/src/plugins/platforms
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/../plugins/platforms/qwindows.dll ${CMAKE_BINARY_DIR}/src/plugins/platforms/.
