@@ -637,7 +637,7 @@ version</translation>
     </message>
 </context>
 <context>
-    <name>Tcanvas</name>
+    <name>TtipHandler</name>
     <message>
         <source>%1 was detected</source>
         <comment>note name</comment>
@@ -1637,7 +1637,7 @@ version</translation>
     </message>
 </context>
 <context>
-    <name>TlevelCreatorDlg</name>
+    <name>LevelCreator</name>
     <message>
         <source>Questions</source>
         <translation>Questions</translation>
@@ -1747,7 +1747,7 @@ version</translation>
     </message>
 </context>
 <context>
-    <name>TlevelPreview</name>
+    <name>TlevelPreviewItem</name>
     <message>
         <source>Level summary:</source>
         <translation>Résumé du niveau :</translation>
@@ -2402,7 +2402,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
 </context>
 <context>
-    <name>TquestionTip</name>
+    <name>TtipHandler</name>
     <message>
         <source>Use %1</source>
         <translation>Utilisez un %1</translation>
@@ -2773,7 +2773,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
 </context>
 <context>
-    <name>TsettingsDialogBase</name>
+    <name>ThelpDialogBase</name>
     <message>
         <source>Open online documentation</source>
         <translation>Documentation en ligne</translation>
@@ -3388,7 +3388,15 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
 </context>
 <context>
-    <name>rangeSettings</name>
+    <name>RangePage</name>
+    <message>
+        <source>note range:</source>
+        <translation>Étendue des notes :</translation>
+    </message>
+    <message>
+        <source>fret range:</source>
+        <translation>Étendue des frettes :</translation>
+    </message>
     <message>
         <source>adjust fret range</source>
         <translation>Ajuster l&apos;étendue des frettes</translation>

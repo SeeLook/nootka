@@ -760,7 +760,7 @@
     </message>
 </context>
 <context>
-    <name>Tcanvas</name>
+    <name>TtipHandler</name>
     <message>
         <source>%1 was detected</source>
         <comment>note name</comment>
@@ -1798,7 +1798,7 @@ cents???</translatorcomment>
     </message>
 </context>
 <context>
-    <name>TlevelCreatorDlg</name>
+    <name>LevelCreator</name>
     <message>
         <source>Questions</source>
         <translation>Fragen</translation>
@@ -1912,7 +1912,7 @@ cents???</translatorcomment>
     </message>
 </context>
 <context>
-    <name>TlevelPreview</name>
+    <name>TlevelPreviewItem</name>
     <message>
         <source>Level summary:</source>
         <translation>Levelzusammenfassung:</translation>
@@ -1948,14 +1948,6 @@ cents???</translatorcomment>
     <message>
         <source>Clef</source>
         <translation>Schlüssel</translation>
-    </message>
-    <message>
-        <source>note range:</source>
-        <translation>Tonbereich:</translation>
-    </message>
-    <message>
-        <source>fret range:</source>
-        <translation>Bundbereich:</translation>
     </message>
 </context>
 <context>
@@ -2577,7 +2569,7 @@ nicht öffnen</translation>
     </message>
 </context>
 <context>
-    <name>TquestionTip</name>
+    <name>TtipHandler</name>
     <message>
         <source>Use %1</source>
         <translation>Benutze %1</translation>
@@ -2949,7 +2941,7 @@ nicht öffnen</translation>
     </message>
 </context>
 <context>
-    <name>TsettingsDialogBase</name>
+    <name>ThelpDialogBase</name>
     <message>
         <source>Open online documentation</source>
         <translation>Onlinedokumentation öffnen</translation>
@@ -3632,7 +3624,15 @@ nicht öffnen</translation>
     </message>
 </context>
 <context>
-    <name>rangeSettings</name>
+    <name>RangePage</name>
+    <message>
+        <source>note range:</source>
+        <translation>Tonbereich:</translation>
+    </message>
+    <message>
+        <source>fret range:</source>
+        <translation>Bundbereich:</translation>
+    </message>
     <message>
         <source>adjust fret range</source>
         <translation>wähle Bundbereich</translation>

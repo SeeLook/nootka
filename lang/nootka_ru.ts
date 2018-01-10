@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="ru_RU">
+<TS version="2.1" language="ru_RU">
 <context>
     <name>AnswerText</name>
     <message>
@@ -911,7 +911,7 @@
     </message>
 </context>
 <context>
-    <name>Tcanvas</name>
+    <name>TtipHandler</name>
     <message>
         <location filename="../src/plugins/exam/tcanvas.cpp" line="190"/>
         <source>%1 was detected</source>
@@ -983,6 +983,123 @@
         <location filename="../src/plugins/exam/tcanvas.cpp" line="493"/>
         <source>Exam started on level</source>
         <translation>начался экзамен на уровне</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="38"/>
+        <source>Use %1</source>
+        <translation>Используйте %1</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="39"/>
+        <source> Don&apos;t use accidentals!</source>
+        <translation> Не используйте знаки альтерации!</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="46"/>
+        <source>on %1 string.</source>
+        <translation>на %1 струне.</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="55"/>
+        <source>Play</source>
+        <translation>Сыграйте</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="132"/>
+        <source>Change enharmonically and show on the staff</source>
+        <translation>Измените энгармонически и покажите ноту на нотном стане</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="134"/>
+        <source>Given note show on the staff</source>
+        <translation>Покажите данную ноту на нотном стане</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="136"/>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="173"/>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="231"/>
+        <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
+        <comment>in key signature</comment>
+        <translation>&lt;br&gt;в тональности &lt;b&gt;%1&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="140"/>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="205"/>
+        <source>Give name of</source>
+        <translation>Назовите ноту</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="143"/>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="185"/>
+        <source>Show on the guitar</source>
+        <translation>Покажите на гитарном грифе</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="53"/>
+        <source>Play or sing</source>
+        <translation>Спойте или сыграйте</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="171"/>
+        <source>Show on the staff</source>
+        <translation>Покажите на нотном стане</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="179"/>
+        <source>Change enharmonically and give name of</source>
+        <translation>Измените энгармонически и назовите ноту</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="199"/>
+        <source>Show on the staff note played on</source>
+        <translation>Покажите на нотном стане ноту в позиции</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="227"/>
+        <source>Guess a key signature</source>
+        <translation>Угадайте основную тональность</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="229"/>
+        <source>Listened sound show on the staff</source>
+        <translation>Покажите услышанный звук на нотоносце</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="182"/>
+        <source>Use another style to give name of</source>
+        <translation>Используйте другой стиль, чтобы назвать</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="146"/>
+        <source>Play or sing a melody.</source>
+        <translation>Играйте или пойте мелодию.</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="201"/>
+        <source>&lt;b&gt;in %1 key.&lt;/b&gt;</source>
+        <comment>in key signature</comment>
+        <translation>в тональности &lt;b&gt;%1&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="207"/>
+        <source>Show sound from position:</source>
+        <comment>... and string + fret numbers folowing</comment>
+        <translation>Покажите ноту, находящуюся в позиции:</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="237"/>
+        <source>Give name of listened sound</source>
+        <translation>Назовите услышанный звук</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="242"/>
+        <source>Listened sound show on the guitar</source>
+        <translation>Покажите на грифе услышанный звук</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/exam/tquestiontip.cpp" line="246"/>
+        <source>Play or sing listened sound</source>
+        <translation>Сыграйте или спойте услышанный звук</translation>
     </message>
 </context>
 <context>
@@ -1955,6 +2072,10 @@
         <source>always show this help window</source>
         <translation>всегда показывать это окно</translation>
     </message>
+    <message>
+        <source>Open online documentation</source>
+        <translation>Открыть руководство в интернете</translation>
+    </message>
 </context>
 <context>
     <name>TintonationCombo</name>
@@ -2178,7 +2299,7 @@
     </message>
 </context>
 <context>
-    <name>TlevelCreatorDlg</name>
+    <name>LevelCreator</name>
     <message>
         <location filename="../src/plugins/level/tlevelcreatordlg.cpp" line="54"/>
         <source>Questions</source>
@@ -2321,7 +2442,7 @@
     </message>
 </context>
 <context>
-    <name>TlevelPreview</name>
+    <name>TlevelPreviewItem</name>
     <message>
         <location filename="../src/libs/widgets/level/tlevelpreview.cpp" line="48"/>
         <source>Level summary:</source>
@@ -3135,126 +3256,6 @@
     </message>
 </context>
 <context>
-    <name>TquestionTip</name>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="38"/>
-        <source>Use %1</source>
-        <translation>Используйте %1</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="39"/>
-        <source> Don&apos;t use accidentals!</source>
-        <translation>Не используйте знаки альтерации!</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="46"/>
-        <source>on %1 string.</source>
-        <translation>на %1 струне.</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="55"/>
-        <source>Play</source>
-        <translation>Сыграйте</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="132"/>
-        <source>Change enharmonically and show on the staff</source>
-        <translation>Измените энгармонически и покажите ноту на нотном стане</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="134"/>
-        <source>Given note show on the staff</source>
-        <translation>Покажите данную ноту на нотном стане</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="136"/>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="173"/>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="231"/>
-        <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
-        <comment>in key signature</comment>
-        <translation>&lt;br&gt;в тональности &lt;b&gt;%1&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="140"/>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="205"/>
-        <source>Give name of</source>
-        <translation>Назовите ноту</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="143"/>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="185"/>
-        <source>Show on the guitar</source>
-        <translation>Покажите на гитарном грифе</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="53"/>
-        <source>Play or sing</source>
-        <translation>Спойте или сыграйте</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="171"/>
-        <source>Show on the staff</source>
-        <translation>Покажите на нотном стане</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="179"/>
-        <source>Change enharmonically and give name of</source>
-        <translation>Измените энгармонически и назовите ноту</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="199"/>
-        <source>Show on the staff note played on</source>
-        <translation>Покажите на нотном стане ноту в позиции</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="227"/>
-        <source>Guess a key signature</source>
-        <translation>Угадайте основную тональность</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="229"/>
-        <source>Listened sound show on the staff</source>
-        <translation>Покажите услышанный звук на нотоносце</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="182"/>
-        <source>Use another style to give name of</source>
-        <translation>Используйте другой стиль, чтобы назвать</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="146"/>
-        <source>Play or sing a melody.</source>
-        <translation>Играйте или пойте мелодию.</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="201"/>
-        <source>&lt;b&gt;in %1 key.&lt;/b&gt;</source>
-        <comment>in key signature</comment>
-        <translation>в тональности &lt;b&gt;%1&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="207"/>
-        <source>Show sound from position:</source>
-        <comment>... and string + fret numbers folowing</comment>
-        <translation>Покажите ноту, находящуюся в позиции:</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="237"/>
-        <source>Give name of listened sound</source>
-        <translation>Назовите услышанный звук</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="242"/>
-        <source>Listened sound show on the guitar</source>
-        <translation>Покажите на грифе услышанный звук</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/exam/tquestiontip.cpp" line="246"/>
-        <source>Play or sing listened sound</source>
-        <translation>Сыграйте или спойте услышанный звук</translation>
-    </message>
-</context>
-<context>
     <name>TradioClef</name>
     <message>
         <location filename="../src/libs/score/widgets/tselectclef.cpp" line="193"/>
@@ -3602,16 +3603,6 @@
         <location filename="../src/plugins/settings/tsettingsdialog.cpp" line="328"/>
         <source>playing</source>
         <translation>воспроизведение звука</translation>
-    </message>
-</context>
-<context>
-    <name>TsettingsDialogBase</name>
-    <message>
-        <location filename="../src/libs/misc/help/thelpdialogbase.cpp" line="31"/>
-        <location filename="../src/libs/widgets/widgets/tsettingsdialogbase.h" line="62"/>
-        <location filename="../src/plugins/charts/tanalysdialog.cpp" line="379"/>
-        <source>Open online documentation</source>
-        <translation>Открыть руководство в интернете</translation>
     </message>
 </context>
 <context>
@@ -4442,7 +4433,17 @@
     </message>
 </context>
 <context>
-    <name>rangeSettings</name>
+    <name>RangePage</name>
+    <message>
+        <location filename="../src/libs/widgets/level/tlevelpreview.h" line="45"/>
+        <source>note range:</source>
+        <translation>диапазон нот:</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/widgets/level/tlevelpreview.h" line="46"/>
+        <source>fret range:</source>
+        <translation>диапазон ладов:</translation>
+    </message>
     <message>
         <location filename="../src/plugins/level/rangesettings.cpp" line="55"/>
         <source>adjust fret range</source>
