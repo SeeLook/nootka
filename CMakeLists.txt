@@ -128,8 +128,8 @@ endif(APPLE OR WIN32)
 install(FILES ${langs} DESTINATION "${INS_PREF}/lang")
 
 if(APPLE)
-  file(GLOB mimeTrans "${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/*.lproj" )
-  install(DIRECTORY ${mimeTrans} DESTINATION ${INS_PREF})
+  file(GLOB MIME_TRANS "${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/*.lproj" )
+  install(DIRECTORY ${MIME_TRANS} DESTINATION ${INS_PREF})
 endif(APPLE)
 
 
