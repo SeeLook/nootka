@@ -415,8 +415,8 @@
         <translation>Ceci est une version bêta qui peut présenter des bogues ou se comporter de manière inattendue. Le développement de certaines fonctionnalités n&apos;est pas terminé. Vous pouvez malgré tout l&apos;essayer si vous le souhaitez !</translation>
     </message>
     <message>
-        <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
-        <translation>Venez visiter le &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;site du programme&lt;/a&gt; pour plus de détails ainsi que pour les versions futures.&lt;/p&gt;&lt;p&gt;Veuillez nous faire part de vos bogues, suggestions ou traductions à : &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;Cordialement&lt;br&gt;&lt;br&gt;L&apos;auteur</translation>
+        <source>See a &lt;a href=&quot;https://nootka.sourceforge.io&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
+        <translation>Venez visiter le &lt;a href=&quot;https://nootka.sourceforge.io&quot;&gt;site du programme&lt;/a&gt; pour plus de détails ainsi que pour les versions futures.&lt;/p&gt;&lt;p&gt;Veuillez nous faire part de vos bogues, suggestions ou traductions à : &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;Cordialement&lt;br&gt;&lt;br&gt;L&apos;auteur</translation>
     </message>
     <message>
         <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
@@ -2545,8 +2545,8 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>Portée</translation>
     </message>
     <message>
-        <source>Manage and navigate the score.</source>
-        <translation>Gérer et naviguer sur la portée.</translation>
+        <source>Manage and navigate the score</source>
+        <translation>Gérer et naviguer sur la portée</translation>
     </message>
     <message>
         <source>Additional accidentals</source>
