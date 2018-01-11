@@ -527,8 +527,8 @@
         <translation>Dies ist eine Betaversion und könne Bugs enthalten oder sich mekwürdig verhalten. Einige Funktionen sind noch nicht vollständig.&lt;br&gt;Abgesehen davon bist du herzlich eingeladen sie auszuprobieren!</translation>
     </message>
     <message>
-        <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
-        <translation>Besuche &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt;für Details und weitere Releases.&lt;/p&gt;&lt;p&gt;Alle Bugs, Vorschläge, Übersetzungen usw, bitte hierher senden: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;hochachtungsvoll&lt;br&gt;Author</translation>
+        <source>See a &lt;a href=&quot;https://nootka.sourceforge.io&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
+        <translation>Besuche &lt;a href=&quot;https://nootka.sourceforge.io&quot;&gt;program site&lt;/a&gt;für Details und weitere Releases.&lt;/p&gt;&lt;p&gt;Alle Bugs, Vorschläge, Übersetzungen usw, bitte hierher senden: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;hochachtungsvoll&lt;br&gt;Author</translation>
     </message>
     <message>
         <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
@@ -2729,8 +2729,8 @@ nicht öffnen</translation>
         <translation>Notation</translation>
     </message>
     <message>
-        <source>Manage and navigate the score.</source>
-        <translation>Notation bearbeiten und darin bewegen.</translation>
+        <source>Manage and navigate the score</source>
+        <translation>Notation bearbeiten und darin bewegen</translation>
     </message>
     <message>
         <source>Show note names</source>

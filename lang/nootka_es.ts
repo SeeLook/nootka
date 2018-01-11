@@ -527,8 +527,8 @@
         <translation>Esta es una versión beta y puede contener errores o comportarse de formas inesperadas. Además, tiene características aún no terminadas.&lt;br&gt;A pesar de eso, ¡eres bienvenido a probarla!</translation>
     </message>
     <message>
-        <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
-        <translation>Ver el &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;sitio del programa&lt;/a&gt; para más detalles y versiones posteriores.&lt;/p&gt;&lt;p&gt;Informa de cualesquiera errores, sugerencias, traducciones y demás en: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;con todos mis respetos&lt;br&gt;El Autor</translation>
+        <source>See a &lt;a href=&quot;https://nootka.sourceforge.io&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
+        <translation>Ver el &lt;a href=&quot;https://nootka.sourceforge.io&quot;&gt;sitio del programa&lt;/a&gt; para más detalles y versiones posteriores.&lt;/p&gt;&lt;p&gt;Informa de cualesquiera errores, sugerencias, traducciones y demás en: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;con todos mis respetos&lt;br&gt;El Autor</translation>
     </message>
     <message>
         <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
@@ -2712,8 +2712,8 @@
         <translation>Partitura</translation>
     </message>
     <message>
-        <source>Manage and navigate the score.</source>
-        <translation>Gestionar y navegar el pentagrama.</translation>
+        <source>Manage and navigate the score</source>
+        <translation>Gestionar y navegar el pentagrama</translation>
     </message>
     <message>
         <source>Additional accidentals</source>

@@ -623,8 +623,8 @@
     </message>
     <message>
         <location filename="../src/libs/misc/tabout.cpp" line="94"/>
-        <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
-        <translation>Po więcej szczegółów i po następne wydania zajrzyj na &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;stronę programu&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Błędy, sugestie, tłumaczenia itp., proszę zgłaszać do: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;z poważaniem&lt;br&gt;Autor</translation>
+        <source>See a &lt;a href=&quot;https://nootka.sourceforge.io&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
+        <translation>Po więcej szczegółów i po następne wydania zajrzyj na &lt;a href=&quot;https://nootka.sourceforge.io&quot;&gt;stronę programu&lt;/a&gt;.&lt;/p&gt;&lt;p&gt;Błędy, sugestie, tłumaczenia itp., proszę zgłaszać do: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;z poważaniem&lt;br&gt;Autor</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/tabout.cpp" line="98"/>
@@ -3317,8 +3317,8 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
     <message>
         <location filename="../src/libs/main/score/tscoreactions.cpp" line="36"/>
-        <source>Manage and navigate the score.</source>
-        <translation>Zarządzaj i nawiguj zapisem nutowym.</translation>
+        <source>Manage and navigate the score</source>
+        <translation>Zarządzaj i nawiguj zapisem nutowym</translation>
     </message>
     <message>
         <location filename="../src/libs/main/score/tscoreactions.cpp" line="43"/>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="cs_CZ">
+<TS version="2.1" language="cs_CZ">
 <context>
     <name>AnswerText</name>
     <message>
@@ -519,8 +519,8 @@
     </message>
     <message>
         <location filename="../src/libs/misc/tabout.cpp" line="94"/>
-        <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
-        <translation>Podívejte se na &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;stránky programu&lt;/a&gt;, kde naleznete více podrobností a informace o dalších vydáních.&lt;/p&gt;&lt;p&gt;Všechny chyby, návrhy, překlady atd. hlašte: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;&lt;br&gt;Autor</translation>
+        <source>See a &lt;a href=&quot;https://nootka.sourceforge.io&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
+        <translation>Podívejte se na &lt;a href=&quot;https://nootka.sourceforge.io&quot;&gt;stránky programu&lt;/a&gt;, kde naleznete více podrobností a informace o dalších vydáních.&lt;/p&gt;&lt;p&gt;Všechny chyby, návrhy, překlady atd. hlašte: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;&lt;br&gt;Autor</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/tabout.cpp" line="98"/>
@@ -787,7 +787,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/plugins/charts/tyaxis.h" line="63"/>
         <source>Preparation time</source>
-        <translation>Čas na přípravu </translation>
+        <translation>Čas na přípravu</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/tyaxis.h" line="64"/>
@@ -3141,8 +3141,8 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
     <message>
         <location filename="../src/libs/main/score/tscoreactions.cpp" line="36"/>
-        <source>Manage and navigate the score.</source>
-        <translation>Spravovat a pohybovat se v notovém zápisu.</translation>
+        <source>Manage and navigate the score</source>
+        <translation>Spravovat a pohybovat se v notovém zápisu</translation>
     </message>
     <message>
         <location filename="../src/libs/main/score/tscoreactions.cpp" line="43"/>

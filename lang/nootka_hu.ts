@@ -414,8 +414,8 @@
         <translation>Ez egy beta verzió, amiben előfordulhatnak hibák vagy furcsa, nem várt működések, illetve félkész funkciók.&lt;br&gt;Mindezek ellenére, örülök, hogy kipróbálja!</translation>
     </message>
     <message>
-        <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
-        <translation>Nézze meg a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program weboldalt&lt;/a&gt; további részletekért és új verziókért.&lt;/p&gt;&lt;p&gt;Bármiféle hibajelentést, javaslatot, fordítást vagy egyéb észrevételt örömmel fogadok ezen a címen: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;Tisztelettel&lt;br&gt;Szerző</translation>
+        <source>See a &lt;a href=&quot;https://nootka.sourceforge.io&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
+        <translation>Nézze meg a &lt;a href=&quot;https://nootka.sourceforge.io&quot;&gt;program weboldalt&lt;/a&gt; további részletekért és új verziókért.&lt;/p&gt;&lt;p&gt;Bármiféle hibajelentést, javaslatot, fordítást vagy egyéb észrevételt örömmel fogadok ezen a címen: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;Tisztelettel&lt;br&gt;Szerző</translation>
     </message>
     <message>
         <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
@@ -2541,7 +2541,7 @@ nem Nootka fájl!</translation>
         <translation>Kotta</translation>
     </message>
     <message>
-        <source>Manage and navigate the score.</source>
+        <source>Manage and navigate the score</source>
         <translation>Kotta kezelése</translation>
     </message>
     <message>
