@@ -24,13 +24,13 @@ and helps with developing skills of playing and singing notes from a score.
 - c++11 capable compiler (tested with gcc >=4.9 and clang)
 - cmake at least version 3.1.0 (http://cmake.org)
 - Qt libraries (at least version 5.9)
-	In particular: Qt5Core, Qt5Gui, Qt5Widgets, Qt5PrintSupport, Qt5Network, Qt5Qml, Qt5QtQuick, Qt5QuickControls2
+  In particular: Qt5Core, Qt5Gui, Qt5Widgets, Qt5PrintSupport, Qt5Network, Qt5Qml, Qt5QtQuick, Qt5QuickControls2
 - Ogg Vorbis (http://www.xiph.org/downloads/) 
   both ogg and vorbis. Dll libraries are on mentioned site in vorbis-tools archive
   and headers are in libogg and libvorbis archives.
   Under Linux: libvorbis-dev & libogg-dev (or similar)
 - FFTW libraries (http://www.fftw.org/)
-	Under Linux: libfftw3-dev (or similar)
+  Under Linux: libfftw3-dev (or similar)
 - under Linux and MacOs only
   SoundTouch library (http://www.surina.net/soundtouch/)
   (libsoundtouch and libsoundtouch-dev)
@@ -49,11 +49,11 @@ In details:
 4. go into created dir (i.e. cd build)
   ---------------------------------------------------------------------------------------------------------
 5. Launch:
-		cmake ../ 
-	or 
-		ccmake ../
-	or  
-		launch graphical cmake-gui and select source and build directories there
+    cmake ../ 
+  or 
+    ccmake ../
+  or  
+    launch graphical cmake-gui and select source and build directories there
   ---------------------------------------------------------------------------------------------------------
   if you get error about not found libfftw or libvorbis
   put them manually as a cmake launch parameter:
@@ -70,7 +70,7 @@ In details:
       
     or do the same with GUI
     !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	NOTE for Windows build:
+  NOTE for Windows build:
     If you put unpacked archives of fftw and ogg-vorbis in the 'build' directory, 
     and you remove the versions numbers from their names, to have:
     libogg, libvorbis, fftw and vorbis-tools directories,
@@ -84,20 +84,20 @@ In details:
    - PulseAudio (requires libpulse-dev)
     When those headers/libs are found - options are selected automatically
     but they can be controlled by:
-	  -DENABLE_JACK=OFF -DENABLE_PULSEAUDIO=OFF (OFF or ON)
-	---------------------------------------------------------------------------------------------------------
+    -DENABLE_JACK=OFF -DENABLE_PULSEAUDIO=OFF (OFF or ON)
+  ---------------------------------------------------------------------------------------------------------
 6. then call
   make 
   or 
   make -j[number of CPU cores], f.e.: make -j4
   ---------------------------------------------------------------------------------------------------------
 - If you want to launch Nootka without installing - in a place where it is compiled
-	call
-		make runinplace
-		it will copy or link all necessary staff next to build executable
-	then invoke
-	  ./src/nootka
-	or just hit a file called 'nootka'
+  call
+    make runinplace
+    it will copy or link all necessary stuff next to build executable
+  then invoke
+    ./src/nootka
+  or just hit a file called 'nootka'
   ---------------------------------------------------------------------------------------------------------
 7. make install (usually as root)
   alternatively you can invoke 
@@ -111,8 +111,8 @@ In details:
 - make uninstall (usually as root)
 
 +++++++++++++++++++++++++++++ Qt Creator +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	Steps from 2 to 8 can be achieved also in Qt Creator - development IDE.
-	Just open CMakeLists.txt file, placed in main Nootka archive folder and follow the instructions
+  Steps from 2 to 8 can be achieved also in Qt Creator - development IDE.
+  Just open CMakeLists.txt file, placed in main Nootka archive folder and follow the instructions
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
   !!!!!!!!!!!! GOOD LUCK !!!!!!!!!
@@ -137,8 +137,8 @@ has to be called before!
 ######################################################################################
 1. Install Xcode & X11 (from MacOs install DVD or App Store). XCode SDK is not required
 2. Install MacPorts 
-	http://www.macports.org/install.php
-	and in terminal type:
+  http://www.macports.org/install.php
+  and in terminal type:
     sudo port install pkgconfig cmake mercurial fftw-3-single libvorbis soundtouch
   Alternatively you can use Fink or another MacOs packaging system
 
