@@ -84,7 +84,7 @@
     </message>
 </context>
 <context>
-    <name>AudioInSettings</name>
+    <name>SoundPage</name>
     <message>
         <source>input device</source>
         <translation>bemeneti eszköz</translation>
@@ -227,9 +227,6 @@
         <source>It is rather necessary for mic input but may be switched off for instrument line-in plugged with less noise.</source>
         <translation>Mikrofonhoz valószínűleg szükséges, de bemenethez csatlakoztatott hangszerekhez, kevés zaj esetén valószínűleg nem indokolt.</translation>
     </message>
-</context>
-<context>
-    <name>AudioOutSettings</name>
     <message>
         <source>play sound</source>
         <translation>hang lejátszása</translation>
@@ -302,6 +299,9 @@
         <source>no midi ports</source>
         <translation>midi port nem található</translation>
     </message>
+</context>
+<context>
+    <name>AudioOutSettings</name>
     <message>
         <source>no devices found</source>
         <translation>eszköz nem található</translation>
@@ -316,7 +316,7 @@
     </message>
 </context>
 <context>
-    <name>Einstrument</name>
+    <name>Tinstrument</name>
     <message>
         <source>other instrument</source>
         <translation>más hangszer</translation>
@@ -639,7 +639,7 @@
     </message>
 </context>
 <context>
-    <name>Tcanvas</name>
+    <name>TtipHandler</name>
     <message>
         <source>%1 was detected</source>
         <comment>note name</comment>
@@ -1364,7 +1364,7 @@
     </message>
 </context>
 <context>
-    <name>TguitarSettings</name>
+    <name>InstrumentPage</name>
     <message>
         <source>tuning of the guitar</source>
         <translation>gitár hangolása</translation>
@@ -1458,6 +1458,10 @@
     <message>
         <source>always show this help window</source>
         <translation>mindig mutassa ezt a súgó ablakot</translation>
+    </message>
+    <message>
+        <source>Open online documentation</source>
+        <translation>Online dokumentáció megnyitása</translation>
     </message>
 </context>
 <context>
@@ -1642,7 +1646,7 @@
     </message>
 </context>
 <context>
-    <name>TlevelCreatorDlg</name>
+    <name>LevelCreator</name>
     <message>
         <source>Questions</source>
         <translation>Kérdések</translation>
@@ -1753,7 +1757,7 @@ jelek</translation>
     </message>
 </context>
 <context>
-    <name>TlevelPreview</name>
+    <name>TlevelPreviewItem</name>
     <message>
         <source>Level summary:</source>
         <translation>Szint összegzése:</translation>
@@ -1789,14 +1793,6 @@ jelek</translation>
     <message>
         <source>octave does no matter</source>
         <translation>számít az oktáv</translation>
-    </message>
-    <message>
-        <source>note range:</source>
-        <translation>hangtartomány:</translation>
-    </message>
-    <message>
-        <source>fret range:</source>
-        <translation>bund tartomány:</translation>
     </message>
 </context>
 <context>
@@ -2086,7 +2082,7 @@ nem Nootka fájl!</translation>
     </message>
 </context>
 <context>
-    <name>TnotationRadioGroup</name>
+    <name>NameStyleSelector</name>
     <message>
         <source>Naming style</source>
         <translation>Nevezéktan</translation>
@@ -2160,7 +2156,7 @@ nem Nootka fájl!</translation>
     </message>
 </context>
 <context>
-    <name>TnoteName</name>
+    <name>TnameItem</name>
     <message>
         <source>Sub</source>
         <translation>Szub</translation>
@@ -2244,7 +2240,7 @@ nem Nootka fájl!</translation>
     </message>
 </context>
 <context>
-    <name>TnoteNameSettings</name>
+    <name>ScorePage</name>
     <message>
         <source>names highlight color</source>
         <translation>nevek kiemelő színe</translation>
@@ -2773,13 +2769,6 @@ nem Nootka fájl!</translation>
     </message>
 </context>
 <context>
-    <name>TsettingsDialogBase</name>
-    <message>
-        <source>Open online documentation</source>
-        <translation>Online dokumentáció megnyitása</translation>
-    </message>
-</context>
-<context>
     <name>TstartExamDlg</name>
     <message>
         <source>Start exercises or an exam</source>
@@ -2897,7 +2886,7 @@ nem Nootka fájl!</translation>
     </message>
 </context>
 <context>
-    <name>TsupportNootka</name>
+    <name>SupportPage</name>
     <message>
         <source>You also can help with making Nootka better.</source>
         <translation>Ön is segíthet a Nootka fejlesztésében.</translation>
@@ -3206,7 +3195,7 @@ nem Nootka fájl!</translation>
     </message>
 </context>
 <context>
-    <name>accidSettings</name>
+    <name>AccidsPage</name>
     <message>
         <source># - sharps</source>
         <translation># - keresztek</translation>
@@ -3272,8 +3261,8 @@ nem Nootka fájl!</translation>
         <translation>teljes vizsgára csak egy kiválasztott hangnem.</translation>
     </message>
     <message>
-        <source>Select a key signature. Appropriate accidentals used in exam will be automatically selected!</source>
-        <translation>Válasszon egy hangnemet. A megfelelő módosító jelzők automatikusan a vizsgához rendelődnek!</translation>
+        <source>Select a key signature. Appropriate accidentals used in this level will be selected automatically.</source>
+        <translation>Válasszon egy hangnemet. A megfelelő módosító jelzők automatikusan a vizsgához rendelődnek.</translation>
     </message>
     <message>
         <source>if checked, in exam user have to select a key signature, otherwise it is shown by application.</source>
@@ -3389,7 +3378,15 @@ nem Nootka fájl!</translation>
     </message>
 </context>
 <context>
-    <name>rangeSettings</name>
+    <name>RangePage</name>
+    <message>
+        <source>note range:</source>
+        <translation>hangtartomány:</translation>
+    </message>
+    <message>
+        <source>fret range:</source>
+        <translation>bund tartomány:</translation>
+    </message>
     <message>
         <source>adjust fret range</source>
         <translation>bund távolság beállítása</translation>

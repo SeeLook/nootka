@@ -186,7 +186,7 @@ QString TnameItem::nameText() const {
 
 
 QString TnameItem::octaveName(int oNr) const {
-  return oNr > -4 && oNr < 5 ? shortOctaveNames[oNr + 3] : QString();
+  return oNr > -4 && oNr < 5 ? tr(shortOctaveNames[oNr + 3]) : QString();
 }
 
 

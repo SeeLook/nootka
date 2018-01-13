@@ -1,4 +1,5 @@
 1.5.2 alpha3
+     - score supports bowing symbols, read them from XML
      - improved level creator
 
 1.5.1 alpha2
@@ -16,6 +17,16 @@
      - porting visible part into QML - rendering with graphics device
      - many improvements of user interface
      - option for enable/disable animations
+
+1.4.5
+  Nootka says: I speak Hungarian
+     - added Hungarian translations
+     - Stylus support on touch screens (Requires Qt 5.9/Android 4.2 and above)
+     - using secure SSL connections when possible (update check, links)
+    BUGS FIXES
+     - Don't stop pitch detection when question and answer are a sound
+    ANDROID
+     - Removed memory leaks, fixed two issues causing random crashes
 
 1.4.4
      - German translation is complete

@@ -1,14 +1,16 @@
 ########################################################################
 # MAIN CMAKE FILE FOR Nootka
 ########################################################################
- 
+
 cmake_minimum_required(VERSION 3.1.0)
+
+cmake_policy(SET CMP0071 NEW)
 
 project(nootka)
 
 set(Nootka_VERSION_MAJOR  "1")
 set(Nootka_VERSION_MINOR  "5")
-set(Nootka_VERSION_PATCH  "1-alpha2")
+set(Nootka_VERSION_PATCH  "2-alpha3")
 
 
 set(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
@@ -31,8 +33,6 @@ if (APPLE)
       COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_INSTALL_PREFIX}/nootka.app/Contents)
     ")
 endif (APPLE)
-
-add_subdirectory(src)
 
 ###########################################################################
 #INSTALLATION
@@ -74,6 +74,8 @@ message(STATUS "Architecture is ${PACKAGE_ARCHITECTURE}")
 if (NOT DPKG_CMD)
     unset(DPKG_CMD)
 endif (NOT DPKG_CMD)
+
+add_subdirectory(src)
 
 if(WIN32)
     set(INS_PREF ".")
@@ -117,11 +119,9 @@ if(APPLE OR WIN32)
    "${QT_TRANSLATIONS_DIR}/qtbase_de.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_es.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_fr.qm"
+   "${QT_TRANSLATIONS_DIR}/qtbase_hu.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_pl.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_ru.qm"
-      # So far not provided by Qt
-      #"${CMAKE_CURRENT_SOURCE_DIR}/lang/qtbase/qtbase_es.qm"
-
   )
 endif(APPLE OR WIN32)
 
