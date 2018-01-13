@@ -217,6 +217,11 @@ MainWindow::MainWindow(QWidget *parent) :
           }
       }
   });
+  // FIXME: update guitar to properly resize its body
+  QTimer::singleShot(500, [=]{
+    if (gl->L->guitarEnabled && gl->instrument != e_noInstrument)
+        m_guitar->acceptSettings();
+  });
 #endif
 
   qApp->installEventFilter(this);
