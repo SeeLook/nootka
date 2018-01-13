@@ -4,7 +4,7 @@
 # creates directory structure with all staff (libraries, icons, etc.),            #
 # then creates AppImage                                                           #
 #                                                                                 #
-# Copyright (C) 2011-2017 by Tomasz Bojczuk <seelook@gmail.com>                   #
+# Copyright (C) 2011-2018 by Tomasz Bojczuk <seelook@gmail.com>                   #
 #                                                                                 #
 # Arguments:                                                                      #
 # - source directory                                                              #
@@ -63,6 +63,7 @@ TRANS_PATH=$(qmake -query QT_INSTALL_TRANSLATIONS)
 cp $TRANS_PATH/qtbase_cs.qm AppDir/usr/share/nootka/lang
 cp $TRANS_PATH/qtbase_de.qm AppDir/usr/share/nootka/lang
 cp $TRANS_PATH/qtbase_fr.qm AppDir/usr/share/nootka/lang
+cp $TRANS_PATH/qtbase_hu.qm AppDir/usr/share/nootka/lang
 cp $TRANS_PATH/qtbase_pl.qm AppDir/usr/share/nootka/lang
 cp $TRANS_PATH/qtbase_ru.qm AppDir/usr/share/nootka/lang
 
