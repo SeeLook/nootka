@@ -32,13 +32,17 @@ class QXmlStreamWriter;
 /**
  * This class represent a note:
  * a pitch and rhythm described by @p p() (@p Tnote)
- * and position on the fingerboard accessible through @p g() (@p TfingerPos)
+ * and technical data of a note like:
+ * @li position on the fingerboard accessible through @p g() (@p TfingerPos)
+ * @li or entire data through @p d()
  */
 class NOOTKACORE_EXPORT Tchunk
 {
 
 public:
   Tchunk(const Tnote& pitch, const TfingerPos& fretPos = TfingerPos());
+
+  Tchunk(const Tnote& pitch, const TnoteData& technical);
 
       /**
        * Default constructor - creates 'empty' note and position.

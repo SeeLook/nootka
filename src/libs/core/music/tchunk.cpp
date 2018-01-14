@@ -30,6 +30,13 @@ Tchunk::Tchunk(const Tnote& pitch, const TfingerPos& fretPos) :
 }
 
 
+Tchunk::Tchunk(const Tnote& pitch, const TnoteData& technical) :
+  m_pitch(pitch),
+  m_noteData(technical)
+{
+}
+
+
 void Tchunk::toXml(QXmlStreamWriter& xml, int* staffNr) {
   xml.writeStartElement(QLatin1String("note"));
     if (m_pitch.isRest() || !m_pitch.isValid())
@@ -53,6 +60,18 @@ void Tchunk::toXml(QXmlStreamWriter& xml, int* staffNr) {
           xml.writeEndElement(); // beam
         }
     }
+//     if (m_pitch.alter && !m_pitch.isRest() && m_pitch.isValid()) {
+//       QString accidentalTag;
+//       switch (m_pitch.alter) {
+//         case -2: accidentalTag = QStringLiteral("flat-flat"); break;
+//         case -1: accidentalTag = QStringLiteral("flat"); break;
+//         case 1: accidentalTag = QStringLiteral("sharp"); break;
+//         case 2: accidentalTag = QStringLiteral("double-sharp"); break;
+//         default: break;
+//       }
+//       if (!accidentalTag.isEmpty())
+//         xml.writeTextElement(QLatin1String("accidental"), accidentalTag);
+//     }
     if (m_pitch.rtm.tie() || !m_noteData.isEmpty()) {
       xml.writeStartElement(QLatin1String("notations"));
         if (!m_noteData.isEmpty())
