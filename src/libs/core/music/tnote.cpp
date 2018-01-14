@@ -337,9 +337,9 @@ void Tnote::toXml(QXmlStreamWriter& xml, const QString& tag, const QString& pref
   if (note !=0) { // write <pitch> context only if note is valid
     Tnote bareNote = Tnote(note, octave, 0);
     xml.writeTextElement(prefix + QLatin1String("step"), bareNote.toText(Tnote::e_english_Bb, false));
-    xml.writeTextElement(prefix + QLatin1String("octave"), QVariant((int)octave + 3).toString());
     if (alter)
-      xml.writeTextElement(prefix + QLatin1String("alter"), QVariant((int)alter).toString());
+      xml.writeTextElement(prefix + QLatin1String("alter"), QString::number(static_cast<int>(alter)));
+    xml.writeTextElement(prefix + QLatin1String("octave"), QString::number(static_cast<int>(octave + 3)));
   }
   if (!tag.isEmpty())
     xml.writeEndElement(); // pitch

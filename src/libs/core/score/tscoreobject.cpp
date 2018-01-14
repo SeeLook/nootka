@@ -461,8 +461,10 @@ void TscoreObject::saveMusicXml(const QString& musicFile) {
     melody->setMeter(m_meter->meter());
     if (m_keySignEnabled)
       melody->setKey(TkeySignature(static_cast<char>(m_keySignature)));
-    for (int n = 0; n < notesCount(); ++n)
-      melody->addNote(Tchunk(m_notes[n]));
+    for (int n = 0; n < notesCount(); ++n) {
+      TnoteData technical(noteSegment(n)->techicalData());
+      melody->addNote(Tchunk(m_notes[n], technical));
+    }
     melody->saveToMusicXml(fileName);
     delete melody;
   }

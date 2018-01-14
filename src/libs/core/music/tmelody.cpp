@@ -191,6 +191,9 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
                 addNote(ch);
               }
             }
+        } else if (xml.name() == QLatin1String("direction")) {
+            xml.skipCurrentElement();
+            qDebug() << "[Tmelody] direction tag";
         }
         else
             xml.skipCurrentElement();
