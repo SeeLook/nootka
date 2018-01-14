@@ -510,7 +510,7 @@ void TnootkaQML::instrumentChangesNoteSlot() {
 
   if (m_scoreObject->singleNote()) {
       m_scoreObject->setNote(0, rawNote);
-      m_scoreObject->setTechnical(0, m_instrument->noteData());
+      m_scoreObject->setTechnical(0, m_instrument->technical());
   } else {
       if (m_scoreObject->selectedItem()) {
           rawNote.setRhythm(m_scoreObject->selectedItem()->note()->rtm);
@@ -521,13 +521,13 @@ void TnootkaQML::instrumentChangesNoteSlot() {
       }
       if (GLOB->instrument().type() == Tinstrument::Bandoneon) {
         auto seg = m_scoreObject->selectedItem() ? m_scoreObject->noteSegment(m_scoreObject->selectedItem()->index()) : m_scoreObject->lastSegment();
-        TnoteData instrData(m_instrument->noteData());
+        Ttechnical instrData(m_instrument->technical());
         if (seg->index() > 0) {
           for (int i = seg->index() - 1; i >= 0; --i) {
             auto searchNoteData = m_scoreObject->noteSegment(i)->techicalData();
             if (searchNoteData.bowing()) { // Show bowing but only when it changes comparing to the previously  set bow direction
               if (searchNoteData.bowing() == instrData.bowing()) // if it is the same - just reset bowing on note data from the instrument
-                instrData.setBowing(TnoteData::BowUndefined);
+                instrData.setBowing(Ttechnical::BowUndefined);
               break;
             }
           }
@@ -561,7 +561,7 @@ void TnootkaQML::scoreChangedNote() {
   quint32 noteData = 255; // empty by default
   if (GLOB->instrument().type() == Tinstrument::Bandoneon && m_scoreObject->selectedItem()) {
     auto selectedSegment = m_scoreObject->noteSegment(m_scoreObject->selectedItem()->index());
-    TnoteData dataToSet = selectedSegment->technical();
+    Ttechnical dataToSet = selectedSegment->technical();
     if (!dataToSet.bowing()) { // no bowing, so look up for any previous note with bowing mark
       for (int i = selectedSegment->index(); i >= 0; --i) {
         auto searchNoteData = m_scoreObject->noteSegment(i)->techicalData();

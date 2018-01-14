@@ -69,7 +69,7 @@ public:
 
   void askQuestion(const Tnote& n, quint32 noteDataValue) override;
 
-  int noteData() override { return static_cast<int>(m_selectedPos.data()); }
+  int technical() override { return static_cast<int>(m_selectedPos.data()); }
 
       /**
        * Guitar fingerboard rectangle

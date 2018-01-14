@@ -370,7 +370,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
           if (m_level.showStrNr) { // we may be sure that instrument is kind of a guitar
             for (int i = 0; i < curQ->melody()->length(); ++i) {
               if (curQ->melody()->note(i)->g().str() > 1)
-                MAIN_SCORE->setTechnical(i, curQ->melody()->note(i)->noteData());
+                MAIN_SCORE->setTechnical(i, curQ->melody()->note(i)->technical());
             }
   //           if (INSTRUMENT->isVisible())
   //             INSTRUMENT->prepareAnswer(); // It just shows range frame
@@ -610,7 +610,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
   }
 // Now we can check
   if (curQ->answerAsFret()) { // 1. Comparing positions
-      TfingerPos answPos(INSTRUMENT->noteData()), questPos;
+      TfingerPos answPos(INSTRUMENT->technical()), questPos;
       if (curQ->questionAsFret()) { 
           if (answPos == curQ->qa.pos) { // check has not user got answer the same as question position
               curQ->setMistake(TQAunit::e_wrongPos);

@@ -22,7 +22,7 @@
 
 #include <nootkacoreglobal.h>
 #include "tnote.h"
-#include "tnotedata.h"
+#include "ttechnical.h"
 
 
 class QXmlStreamReader;
@@ -42,7 +42,7 @@ class NOOTKACORE_EXPORT Tchunk
 public:
   Tchunk(const Tnote& pitch, const TfingerPos& fretPos = TfingerPos());
 
-  Tchunk(const Tnote& pitch, const TnoteData& technical);
+  Tchunk(const Tnote& pitch, const Ttechnical& technical);
 
       /**
        * Default constructor - creates 'empty' note and position.
@@ -60,31 +60,31 @@ public:
       /**
        * Position a note on a guitar (if any) - by default it is null - invalid
        */
-  TfingerPos& g() { return m_noteData.fingerPos(); }
+  TfingerPos& g() { return m_technical.fingerPos(); }
 
       /**
        * Extra note data like guitar position, bow direction, staff position (upper/lower) and fingering
        */
-  TnoteData& d() { return m_noteData; }
+  Ttechnical& t() { return m_technical; }
 
-  bool onUpperStaff() const { return m_noteData.onUpperStaff(); }
-  void setOnUpperStaff(bool onUpper) { m_noteData.setOnUpperStaff(onUpper); }
+  bool onUpperStaff() const { return m_technical.onUpperStaff(); }
+  void setOnUpperStaff(bool onUpper) { m_technical.setOnUpperStaff(onUpper); }
 
-  TnoteData::EbowDirection bow() const { return m_noteData.bowing(); }
-  void setBowing(TnoteData::EbowDirection b) { m_noteData.setBowing(b); }
+  Ttechnical::EbowDirection bow() const { return m_technical.bowing(); }
+  void setBowing(Ttechnical::EbowDirection b) { m_technical.setBowing(b); }
 
       /**
         * Finger number [0 - 5].
         * -1 is returned when undefined
         */
-  int finger() const { return m_noteData.finger(); }
-  void setFinger(int fi) { m_noteData.setFinger(fi); }
+  int finger() const { return m_technical.finger(); }
+  void setFinger(int fi) { m_technical.setFinger(fi); }
 
       /**
        * Numeric value representing all extra note parameters
        */
-  quint32 noteData() const { return m_noteData.data(); }
-  void setNoteData(quint32 nd) { m_noteData.setData(nd); }
+  quint32 technical() const { return m_technical.data(); }
+  void setTechnical(quint32 nd) { m_technical.setData(nd); }
 
       /**
        * Returns @p TRUE when position on the guitar is valid.
@@ -121,7 +121,7 @@ public:
 
 private:
   Tnote               m_pitch;
-  TnoteData           m_noteData;
+  Ttechnical          m_technical;
 };
 
 #endif // TCHUNK_H

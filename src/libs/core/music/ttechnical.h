@@ -16,8 +16,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TNOTEDATA_H
-#define TNOTEDATA_H
+#ifndef TTECHNICAL_H
+#define TTECHNICAL_H
 
 
 #include "nootkacoreglobal.h"
@@ -31,7 +31,7 @@
 
 
 /**
- * @p TnoteData extends information about note in the score.
+ * @p Ttechnical extends information about note in the score.
  * It has guitar position in @p TfingerPos
  * - bow direction (down/up) - for bandoneon it is bellow state (opening/closing)
  * - note position on the grand staff (on upper staff of or on the lower one)
@@ -39,15 +39,17 @@
  *
  * All parameters can be represented by single @p quint32 value
  * available through @p data() and set through @p setData()
+ *
+ * In general it corresponds with <technical> tag of Music XML format
  */
-class NOOTKACORE_EXPORT TnoteData
+class NOOTKACORE_EXPORT Ttechnical
 {
 
   Q_GADGET
 
 public:
-  TnoteData() {}
-  TnoteData(quint32 fromData);
+  Ttechnical() {}
+  Ttechnical(quint32 fromData);
 
       /**
        * Returns @p TRUE when all extra note parameters are unset
@@ -93,4 +95,4 @@ private:
   quint16                 m_otherData = 0;
 };
 
-#endif // TNOTEDATA_H
+#endif // TTECHNICAL_H

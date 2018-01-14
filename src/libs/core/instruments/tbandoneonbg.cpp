@@ -17,7 +17,7 @@
  ***************************************************************************/
 
 #include "tbandoneonbg.h"
-#include "music/tnotedata.h"
+#include "music/ttechnical.h"
 
 #include <QtQml/qqmlengine.h>
 
@@ -172,7 +172,7 @@ void TbandoneonBg::setCurrentIndex(int i) {
 CHECKTIME (
   m_currentIndex = i;
   if (m_currentIndex > -1) {
-    setNote(Tnote(m_closing ? buttArray[m_currentIndex].close : buttArray[m_currentIndex].open), noteData());
+    setNote(Tnote(m_closing ? buttArray[m_currentIndex].close : buttArray[m_currentIndex].open), technical());
     emit noteChanged();
   }
 )
@@ -223,9 +223,9 @@ void TbandoneonBg::setNote(const Tnote& n, quint32 noteDataValue) {
     hideCircles();
     return;
   }
-  TnoteData nd(noteDataValue);
-  setOpening(nd.bowing() == TnoteData::BowDown);
-  setClosing(nd.bowing() == TnoteData::BowUp);
+  Ttechnical nd(noteDataValue);
+  setOpening(nd.bowing() == Ttechnical::BowDown);
+  setClosing(nd.bowing() == Ttechnical::BowUp);
   // TODO left or right pane
   int chromaticNew = n.chromatic();
   if (chromaticNew < -11 || chromaticNew > 48) {
@@ -279,9 +279,9 @@ void TbandoneonBg::askQuestion(const Tnote& n, quint32 noteDataValue) {
 }
 
 
-int TbandoneonBg::noteData() {
-  TnoteData nd;
-  nd.setBowing(m_opening ? TnoteData::BowDown : (m_closing ? TnoteData::BowUp : TnoteData::BowUndefined));
+int TbandoneonBg::technical() {
+  Ttechnical nd;
+  nd.setBowing(m_opening ? Ttechnical::BowDown : (m_closing ? Ttechnical::BowUp : Ttechnical::BowUndefined));
   nd.setOnUpperStaff(m_currentIndex < 33);
   return nd.data();
 }
