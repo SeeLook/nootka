@@ -17,12 +17,12 @@
  ***************************************************************************/
 
 
-#include "tnotedata.h"
+#include "ttechnical.h"
 
 #include <QtCore/qdebug.h>
 
 
-TnoteData::TnoteData(quint32 fromData)
+Ttechnical::Ttechnical(quint32 fromData)
 {
   setData(fromData);
 }
@@ -31,7 +31,7 @@ TnoteData::TnoteData(quint32 fromData)
 /**
  * Upper staff id default state so it is for 0 value
  */
-void TnoteData::setOnUpperStaff(bool onUpper) {
+void Ttechnical::setOnUpperStaff(bool onUpper) {
   if (onUpper)
     m_otherData &= ~ON_UPPER;
   else
@@ -39,13 +39,13 @@ void TnoteData::setOnUpperStaff(bool onUpper) {
 }
 
 
-void TnoteData::setBowing(TnoteData::EbowDirection b) {
+void Ttechnical::setBowing(Ttechnical::EbowDirection b) {
   m_otherData &= ~BOW_DIRECTION; // reset it first
   m_otherData |= b;
 }
 
 
-void TnoteData::setFinger(int fingerNr) {
+void Ttechnical::setFinger(int fingerNr) {
   m_otherData &= ~FINGERING;
   if (fingerNr >= -1 && fingerNr < 6)
     m_otherData |= (static_cast<quint16>(fingerNr) + 1) << 3;
@@ -54,7 +54,7 @@ void TnoteData::setFinger(int fingerNr) {
 }
 
 
-quint32 TnoteData::data() const {
+quint32 Ttechnical::data() const {
   quint32 d = m_otherData;
   d <<= 8;
   d += m_fingerPos.data();
@@ -62,13 +62,13 @@ quint32 TnoteData::data() const {
 }
 
 
-void TnoteData::setData(quint32 d) {
+void Ttechnical::setData(quint32 d) {
   m_fingerPos.setData(static_cast<quint8>(d));
   m_otherData = static_cast<quint16>(d >> 8);
 }
 
 
-void TnoteData::fromXml(QXmlStreamReader& xml) {
+void Ttechnical::fromXml(QXmlStreamReader& xml) {
   int s = 0, f = 50;
   while (xml.readNextStartElement()) {
     if (xml.name() == QLatin1String("string"))
@@ -91,7 +91,7 @@ void TnoteData::fromXml(QXmlStreamReader& xml) {
 }
 
 
-void TnoteData::toXml(QXmlStreamWriter& xml, const QString& tag) const {
+void Ttechnical::toXml(QXmlStreamWriter& xml, const QString& tag) const {
   if (!tag.isEmpty())
     xml.writeStartElement(tag);
   if (m_fingerPos.isValid()) {

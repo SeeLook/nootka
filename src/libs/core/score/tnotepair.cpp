@@ -18,7 +18,6 @@
 
 #include "tnotepair.h"
 #include "music/tnote.h"
-#include "music/tnotedata.h"
 #include "tnoteobject.h"
 #include "tstaffobject.h"
 #include "tbeamobject.h"
@@ -52,11 +51,11 @@ void TnotePair::setNote(const Tnote& n) {
 
 void TnotePair::setTechnical(quint32 tech) {
   if (tech != m_technical.data()) {
-    TnoteData newData(tech);
-    if (newData.fingerPos().str() != m_technical.fingerPos().str())
-      m_noteItem->setStringNumber(newData.fingerPos().str());
-    if (newData.bowing() != m_technical.bowing())
-      m_noteItem->setBowing(static_cast<TnoteObject::EbowDirection>(newData.bowing()));
+    Ttechnical newTechn(tech);
+    if (newTechn.fingerPos().str() != m_technical.fingerPos().str())
+      m_noteItem->setStringNumber(newTechn.fingerPos().str());
+    if (newTechn.bowing() != m_technical.bowing())
+      m_noteItem->setBowing(static_cast<TnoteObject::EbowDirection>(newTechn.bowing()));
     m_technical.setData(tech);
   }
 }

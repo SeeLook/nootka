@@ -59,7 +59,7 @@ public:
       /**
        * Returns additional note data like position on the guitar or left/right hand on bandoneon
        */
-  virtual int noteData() = 0;
+  virtual int technical() = 0;
 
 signals:
   void activeChanged();

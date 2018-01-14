@@ -30,6 +30,7 @@
 #include <QtGui/qpalette.h>
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qtimer.h>
+
 #include <QtCore/qdebug.h>
 #include "checktime.h"
 
@@ -462,7 +463,7 @@ void TscoreObject::saveMusicXml(const QString& musicFile) {
     if (m_keySignEnabled)
       melody->setKey(TkeySignature(static_cast<char>(m_keySignature)));
     for (int n = 0; n < notesCount(); ++n) {
-      TnoteData technical(noteSegment(n)->techicalData());
+      Ttechnical technical(noteSegment(n)->techicalData());
       melody->addNote(Tchunk(m_notes[n], technical));
     }
     melody->saveToMusicXml(fileName);
@@ -485,7 +486,7 @@ CHECKTIME (
   }
   for (int n = 0; n < melody->length(); ++n) {
     addNote(melody->note(n)->p());
-    lastSegment()->setTechnical(melody->note(n)->noteData());
+    lastSegment()->setTechnical(melody->note(n)->technical());
   }
   adjustScoreWidth();
   emitLastNote();

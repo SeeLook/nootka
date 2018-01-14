@@ -26,13 +26,13 @@
 Tchunk::Tchunk(const Tnote& pitch, const TfingerPos& fretPos) :
   m_pitch(pitch)
 {
-  m_noteData.setFingerPos(fretPos);
+  m_technical.setFingerPos(fretPos);
 }
 
 
-Tchunk::Tchunk(const Tnote& pitch, const TnoteData& technical) :
+Tchunk::Tchunk(const Tnote& pitch, const Ttechnical& technical) :
   m_pitch(pitch),
-  m_noteData(technical)
+  m_technical(technical)
 {
 }
 
@@ -72,10 +72,10 @@ void Tchunk::toXml(QXmlStreamWriter& xml, int* staffNr) {
 //       if (!accidentalTag.isEmpty())
 //         xml.writeTextElement(QLatin1String("accidental"), accidentalTag);
 //     }
-    if (m_pitch.rtm.tie() || !m_noteData.isEmpty()) {
+    if (m_pitch.rtm.tie() || !m_technical.isEmpty()) {
       xml.writeStartElement(QLatin1String("notations"));
-        if (!m_noteData.isEmpty())
-          m_noteData.toXml(xml);
+        if (!m_technical.isEmpty())
+          m_technical.toXml(xml);
         if (m_pitch.rtm.tie())
           tieToXml(xml, m_pitch.rtm.tie(), e_tied);
       xml.writeEndElement();
@@ -113,7 +113,7 @@ bool Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr) {
       } else if (xml.name() == QLatin1String("notations")) {
           while (xml.readNextStartElement()) {
             if (xml.name() == QLatin1String("technical"))
-                m_noteData.fromXml(xml);
+                m_technical.fromXml(xml);
             else if (xml.name() == QLatin1String("tied")) {
               auto type = xml.attributes().value(QStringLiteral("type"));
               Trhythm::Etie tie = Trhythm::e_noTie;

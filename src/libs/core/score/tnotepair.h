@@ -21,7 +21,7 @@
 
 
 #include <QtCore/qobject.h>
-#include "music/tnotedata.h"
+#include "music/ttechnical.h"
 
 
 class Tnote;
@@ -67,7 +67,7 @@ public:
   quint32 technical() const { return m_technical.data(); }
   void setTechnical(quint32 tech);
 
-  TnoteData& techicalData() { return m_technical; }
+  Ttechnical& techicalData() { return m_technical; }
 
     /**
      * Number of rhythmical group in the measure, -1 (undefined) by default
@@ -129,7 +129,7 @@ private:
   quint16                  m_index;
   int                      m_changes = 0;
   TbeamObject             *m_beam = nullptr;
-  TnoteData                m_technical;
+  Ttechnical               m_technical;
 };
 
 #endif // TNOTEPAIR_H

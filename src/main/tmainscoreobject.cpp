@@ -25,7 +25,7 @@
 #include <tsound.h>
 #include <tcolor.h>
 #include <music/tkeysignature.h>
-#include <music/tnotedata.h>
+#include <music/ttechnical.h>
 #include <score/tnoteobject.h>
 
 #include <QtGui/qguiapplication.h>
@@ -172,9 +172,9 @@ void TmainScoreObject::askQuestion(const Tnote& note, char realStr) {
   m_scoreObj->setNote(m_scoreObj->note(1), note);
   m_questionMark->setVisible(true);
   if (realStr > 0 && realStr < 7) {
-    TnoteData nd;
-    nd.setFingerPos(TfingerPos(realStr, 0));
-    m_scoreObj->note(1)->setTechnical(nd.data());
+    Ttechnical techn;
+    techn.setFingerPos(TfingerPos(realStr, 0));
+    m_scoreObj->note(1)->setTechnical(techn.data());
   }
 }
 
