@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -36,7 +36,14 @@ void unsupportedClef(Tclef::EclefType& clefType) {
   qDebug() << "[Tmelody] Unsupported clef. Set to default" << Tclef(Tclef::defaultType).name();
   clefType = Tclef::defaultType;
 }
+
+/**
+ * Stores technical note data obtained from <words> tag (text).
+ * In such a cases it occurs before <note> tag
+ */
+static Ttechnical technical;
 /*******************************************************************************************/
+
 
 Tmelody::Tmelody(const QString& title, const TkeySignature& k) :
   m_title(title),
@@ -188,12 +195,40 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
                   }
                 }
                 prevTie = ch.p().rtm.tie() ? m_notes.count() : -1;
+                if (!technical.isEmpty()) {
+                  // technical data was read before note, so approve it now. But data from <technical> have priority
+                  if (!ch.bowing() && technical.bowing())
+                    ch.setBowing(technical.bowing());
+                  if (ch.finger() == -1 && technical.finger() != -1)
+                    ch.setFinger(technical.finger());
+                  technical.reset(); // reset for the next note
+                }
                 addNote(ch);
               }
             }
+/** [direction] with bowing/bellow and fingering detected from texts below/above note */
         } else if (xml.name() == QLatin1String("direction")) {
-            xml.skipCurrentElement();
-            qDebug() << "[Tmelody] direction tag";
+            while (xml.readNextStartElement()) {
+              if (xml.name() == QLatin1String("direction-type")) {
+                  while (xml.readNextStartElement()) {
+                    if (xml.name() == QLatin1String("words")) { // fingering and bowing can be read this way
+                        QString words = xml.readElementText();
+                        if (words == QLatin1String("(A)"))
+                            technical.setBowing(Ttechnical::BowDown);
+                        else if (words == QLatin1String("(C)"))
+                            technical.setBowing(Ttechnical::BowUp);
+                        else {
+                          bool isNumber = false;
+                          int finger = words.toInt(&isNumber);
+                          if (isNumber)
+                            technical.setFinger(finger);
+                        }
+                    } else
+                        xml.skipCurrentElement();
+                  }
+              } else
+                  xml.skipCurrentElement();
+            }
         }
         else
             xml.skipCurrentElement();

@@ -70,7 +70,7 @@ public:
   bool onUpperStaff() const { return m_technical.onUpperStaff(); }
   void setOnUpperStaff(bool onUpper) { m_technical.setOnUpperStaff(onUpper); }
 
-  Ttechnical::EbowDirection bow() const { return m_technical.bowing(); }
+  Ttechnical::EbowDirection bowing() const { return m_technical.bowing(); }
   void setBowing(Ttechnical::EbowDirection b) { m_technical.setBowing(b); }
 
       /**
