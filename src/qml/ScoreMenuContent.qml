@@ -12,11 +12,12 @@ Menu {
   x: toolBar.scoreAct.x
   y: score.y
 
-  background: TipRect { color: activPal.window; shadowRadius: Noo.fontSize() }
+  background: TipRect { shadowRadius: Noo.fontSize() }
 
   Repeater {
     model: score.scoreActions
     MenuItem {
+      padding: 0
       width: menu.width
       contentItem: MenuButton {
         action: modelData
