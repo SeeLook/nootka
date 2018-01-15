@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -15,11 +15,10 @@ Rectangle {
   property alias text: butText.text
 
   width: parent.width - Noo.fontSize()
-  implicitHeight: Noo.fontSize() * 3
+  implicitHeight: Noo.fontSize() * 2.8
   anchors.horizontalCenter: parent.horizontalCenter
-  color: ma.containsPress ? activPal.highlight : activPal.button
-  border { width: 1; color: ma.containsMouse ? activPal.highlight : activPal.shadow }
-  radius: Noo.fontSize() / 4
+  color: ma.containsPress ? activPal.highlight : (ma.containsMouse ? Noo.alpha(activPal.highlight, 50) :  activPal.button)
+  border { width: 1; color: activPal.shadow }
 
   signal clicked()
 
