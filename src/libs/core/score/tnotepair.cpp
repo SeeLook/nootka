@@ -102,5 +102,7 @@ void TnotePair::flush() {
     m_noteItem->checkTie();
   }
   m_noteItem->setStaff(nullptr);
+  m_noteItem->setBowing(TnoteObject::BowUndefined);
+  m_noteItem->setStringNumber(0);
   m_technical.reset();
 }

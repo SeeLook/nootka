@@ -474,7 +474,7 @@ void TnootkaQML::setMainScore(QQuickItem* ms) {
   if (!m_mainScore) {
     m_mainScore = ms;
     m_scoreObject = qobject_cast<TscoreObject*>(qvariant_cast<QObject*>(m_mainScore->property("scoreObj")));
-    connect(m_scoreObject, &TscoreObject::selectedNoteChanged, this, &TnootkaQML::scoreChangedNote);
+    connect(m_scoreObject, &TscoreObject::selectedNoteChanged, this, &TnootkaQML::scoreChangedNoteSlot);
     connect(GLOB, &Tglobals::isExamChanged, this, &TnootkaQML::examStartStop);
     if (m_scoreObject && !m_nodeConnected)
       connectInstrument();
@@ -541,16 +541,16 @@ void TnootkaQML::instrumentChangesNoteSlot() {
 void TnootkaQML::examStartStop() {
   if (GLOB->isExam()) {
       disconnect(m_instrument, &TcommonInstrument::noteChanged, this, &TnootkaQML::instrumentChangesNoteSlot);
-      disconnect(m_scoreObject, &TscoreObject::selectedNoteChanged, this, &TnootkaQML::scoreChangedNote);
+      disconnect(m_scoreObject, &TscoreObject::selectedNoteChanged, this, &TnootkaQML::scoreChangedNoteSlot);
   } else {
       m_nodeConnected = false;
       connectInstrument();
-      connect(m_scoreObject, &TscoreObject::selectedNoteChanged, this, &TnootkaQML::scoreChangedNote);
+      connect(m_scoreObject, &TscoreObject::selectedNoteChanged, this, &TnootkaQML::scoreChangedNoteSlot);
   }
 }
 
 
-void TnootkaQML::scoreChangedNote() {
+void TnootkaQML::scoreChangedNoteSlot() {
   if (m_ignoreScore) {
     m_ignoreScore = false;
     return;
@@ -558,7 +558,19 @@ void TnootkaQML::scoreChangedNote() {
   auto n = m_scoreObject->selectedNote();
   if (n.isValid())
     n.transpose(GLOB->transposition());
-  quint32 noteData = 255; // empty by default
+  m_instrument->setNote(n, getTechicalFromScore());
+  emit playNote(n);
+  qDebug() << "Got note from score" << n.toText() << n.chromatic();
+}
+
+
+int TnootkaQML::selectedNoteId() const {
+  return m_scoreObject->selectedItem() ? m_scoreObject->selectedItem()->index() : -1;
+}
+
+
+int TnootkaQML::getTechicalFromScore() {
+  quint32 technical = 255; // empty by default
   if (GLOB->instrument().type() == Tinstrument::Bandoneon && m_scoreObject->selectedItem()) {
     auto selectedSegment = m_scoreObject->noteSegment(m_scoreObject->selectedItem()->index());
     Ttechnical dataToSet = selectedSegment->technical();
@@ -571,16 +583,9 @@ void TnootkaQML::scoreChangedNote() {
         }
       }
     }
-    noteData = dataToSet.data();
+    technical = dataToSet.data();
   }
-  m_instrument->setNote(n, noteData);
-  emit playNote(n);
-  qDebug() << "Got note from score" << n.toText() << n.chromatic();
-}
-
-
-int TnootkaQML::selectedNoteId() const {
-  return m_scoreObject->selectedItem() ? m_scoreObject->selectedItem()->index() : -1;
+  return technical;
 }
 
 
@@ -590,7 +595,7 @@ void TnootkaQML::selectPlayingNote(int id) {
   auto n = m_scoreObject->selectedNote();
   if (n.isValid())
     n.transpose(GLOB->transposition());
-  m_instrument->setNote(n);
+  m_instrument->setNote(n, getTechicalFromScore());
 }
 
 

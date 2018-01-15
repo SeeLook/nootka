@@ -175,9 +175,9 @@ protected:
   void connectInstrument();
   void instrumentChangesNoteSlot();
   void examStartStop();
+  void scoreChangedNoteSlot();
 
-protected slots:
-  void scoreChangedNote();
+  int getTechicalFromScore();
 
 private:
   static TnootkaQML             *m_instance;
