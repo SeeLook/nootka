@@ -617,24 +617,27 @@ void TnoteObject::mousePressEvent(QMouseEvent* event) {
  */
 void TnoteObject::mouseReleaseEvent(QMouseEvent*) {
   if (!m_staff->score()->readOnly()) {
-    if (keepMouseGrab())
-      setKeepMouseGrab(false);
-    if (m_measure->score()->hoveredNote()) { // mouse
-        if (m_measure->score()->hoveredNote() == this)
-          m_measure->score()->noteClicked(m_measure->score()->activeYpos());
-        m_measure->score()->setPressedNote(nullptr);
-    } else { // touch
-        if (m_touchDuration.elapsed() < 190) { // confirm note
-            m_measure->score()->touchHideTimer()->stop();
-            if (m_measure->score()->activeNote() == this) // set note only when it was touched second time
-              m_measure->score()->noteClicked(m_measure->score()->activeYpos());
-            m_measure->score()->setPressedNote(nullptr);
-            m_measure->score()->changeActiveNote(nullptr);
-        } else { // keep cursor visible
-            m_measure->score()->touchHideTimer()->start(2500);
-        }
-        m_measure->score()->setTouched(false);
-    }
+      if (keepMouseGrab())
+        setKeepMouseGrab(false);
+      if (m_measure->score()->hoveredNote()) { // mouse
+          if (m_measure->score()->hoveredNote() == this)
+            m_measure->score()->noteClicked(m_measure->score()->activeYpos());
+          m_measure->score()->setPressedNote(nullptr);
+      } else { // touch
+          if (m_touchDuration.elapsed() < 190) { // confirm note
+              m_measure->score()->touchHideTimer()->stop();
+              if (m_measure->score()->activeNote() == this) // set note only when it was touched second time
+                m_measure->score()->noteClicked(m_measure->score()->activeYpos());
+              m_measure->score()->setPressedNote(nullptr);
+              m_measure->score()->changeActiveNote(nullptr);
+          } else { // keep cursor visible
+              m_measure->score()->touchHideTimer()->start(2500);
+          }
+          m_measure->score()->setTouched(false);
+      }
+    } else {
+        if (m_measure->score()->selectInReadOnly())
+          emit m_measure->score()->readOnlyNoteClicked(index());
   }
 }
 

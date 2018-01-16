@@ -90,6 +90,7 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
   }
   m_scoreObj = scoreObj;
   connect(m_scoreObj, &TscoreObject::clicked, this, &TmainScoreObject::clicked);
+  connect(m_scoreObj, &TscoreObject::readOnlyNoteClicked, this, &TmainScoreObject::readOnlyNoteClicked);
   connect(m_showNamesAct, &Taction::triggered, [=]{ m_scoreObj->setShowNoteNames(m_showNamesAct->checked()); });
 //   connect(m_extraAccidsAct);
   connect(m_deleteLastAct, &Taction::triggered, [=]{ m_scoreObj->deleteLastNote(); });
@@ -154,6 +155,10 @@ void TmainScoreObject::setSelectedItem(int id) {
 void TmainScoreObject::setTechnical(int noteId, quint32 tech) {
   m_scoreObj->setTechnical(noteId, tech);
 }
+
+
+bool TmainScoreObject::selectInReadOnly() const { return m_scoreObj->selectInReadOnly(); }
+void TmainScoreObject::setSelectInReadOnly(bool sel) { m_scoreObj->setSelectInReadOnly(sel); }
 
 
 void TmainScoreObject::askQuestion(Tmelody* mel) {

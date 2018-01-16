@@ -379,9 +379,9 @@ void TexamExecutor::askQuestion(bool isAttempt) {
         if (curQ->answerAsSound()) { // in fact, there is no other option yet
           connect(SOUND, &Tsound::noteStartedEntire, this, &TexamExecutor::noteOfMelodyStarted);
           connect(SOUND, &Tsound::noteFinishedEntire, this, &TexamExecutor::noteOfMelodyFinished);
-  //         connect(SCORE, &TmainScore::lockedNoteClicked, this, &TexamExecutor::noteOfMelodySelected);
+          connect(MAIN_SCORE, &TmainScoreObject::readOnlyNoteClicked, this, &TexamExecutor::noteOfMelodySelected);
           MAIN_SCORE->setSelectedItem(0); // mark first note
-  //         SCORE->setReadOnlyReacting(true); // allow user to select beginning note to play
+          MAIN_SCORE->setSelectInReadOnly(true); // allow user to select beginning note to play
         }
     } else {
         char strNr = 0;
@@ -571,7 +571,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
       disconnect(SOUND, &Tsound::plaingFinished, this, &TexamExecutor::sniffAfterPlaying);
       disconnect(SOUND, &Tsound::noteStartedEntire, this, &TexamExecutor::noteOfMelodyStarted);
       disconnect(SOUND, &Tsound::noteFinishedEntire, this, &TexamExecutor::noteOfMelodyFinished);
-//       disconnect(SCORE, &TmainScore::lockedNoteClicked, this, &TexamExecutor::noteOfMelodySelected);
+      disconnect(MAIN_SCORE, &TmainScoreObject::readOnlyNoteClicked, this, &TexamExecutor::noteOfMelodySelected);
   }
   if (m_exam->melodies() && SOUND->melodyIsPlaying())
     SOUND->stopPlaying();

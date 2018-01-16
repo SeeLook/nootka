@@ -93,6 +93,8 @@ public:
   Tnote getNote(int id);
   void setSelectedItem(int id);
   void setTechnical(int noteId, quint32 tech);
+  bool selectInReadOnly() const;
+  void setSelectInReadOnly(bool sel);
 
 // exam/exercise related
   void askQuestion(const Tnote& note, char realStr = 0);
@@ -112,6 +114,7 @@ signals:
   void keyNameTextChanged();
   // redirected from TscoreObject
   void clicked();
+  void readOnlyNoteClicked(int noteId);
 
 protected:
   void openXmlActSlot();
