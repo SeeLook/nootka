@@ -136,7 +136,7 @@ Score {
   Rectangle { // note highlight
     id: noteHighlight
     parent: currentNote
-    visible: currentNote != null
+    visible: currentNote != null && !singleNote
     width: currentNote ? (currentNote.width - currentNote.alterWidth) * 1.5 : 0
     height: currentNote ? Math.min(12.0, currentNote.notePosY + 6.0) : 0
     x: currentNote ? -width * 0.25 : 0

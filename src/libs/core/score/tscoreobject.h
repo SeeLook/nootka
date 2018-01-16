@@ -207,6 +207,12 @@ public:
   qreal scaleFactor() const { return m_scaleFactor; }
   void setScaleFactor(qreal factor);
 
+      /**
+       * Allows selecting notes when score is in read only state.
+       */
+  bool selectInReadOnly() const { return m_selectInReadOnly; }
+  void setSelectInReadOnly(bool sel) { m_selectInReadOnly = sel; }
+
   /* ------------------ Lists with score content (staves, measures notes) ------------------ */
 
   int notesCount() const { return m_notes.count(); }
@@ -401,6 +407,7 @@ signals:
   void recordModeChanged();
   void scaleFactorChanged();
   void bgColorChanged();
+  void readOnlyNoteClicked(int noteId);
 
 protected:
   void addStaff(TstaffObject* st);
@@ -518,6 +525,7 @@ private:
   bool                              m_enharmNotesEnabled = false;
   bool                              m_recordMode = false;
   qreal                             m_scaleFactor = 1.0;
+  bool                              m_selectInReadOnly = false;
                               /* Lists with notes, measures, staves, meter groups */
   QList<TnotePair*>                 m_segments;
   QList<TnotePair*>                 m_spareSegments;
