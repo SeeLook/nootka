@@ -444,11 +444,10 @@ void TnootkaQML::noteStarted(const Tnote& n) {
   if (m_scoreObject->singleNote()) {
       if (!transNote.isRest()) {
         transNote.setRhythm(Trhythm::NoRhythm);
-        QMetaObject::invokeMethod(m_mainScore, "setNote", Q_ARG(QVariant, QVariant::fromValue(m_scoreObject->note(0))),
-                                  Q_ARG(QVariant, QVariant::fromValue(transNote)));
+        m_scoreObject->setNote(0, transNote);
       }
   } else
-      QMetaObject::invokeMethod(m_mainScore, "addNote", Q_ARG(QVariant, QVariant::fromValue(transNote)));
+      m_scoreObject->addNote(transNote, true);
 }
 
 
@@ -463,8 +462,7 @@ void TnootkaQML::noteFinished(const Tnote& n) {
   if (m_scoreObject->singleNote())
     transNote.setRhythm(Trhythm::NoRhythm);
   if (m_scoreObject->selectedItem() && (!m_scoreObject->singleNote() || (m_scoreObject->singleNote() && !transNote.isRest())))
-    QMetaObject::invokeMethod(m_mainScore, "setNote", Q_ARG(QVariant, QVariant::fromValue(m_scoreObject->selectedItem())),
-                                                      Q_ARG(QVariant, QVariant::fromValue(transNote)));
+    m_scoreObject->setNote(m_scoreObject->selectedItem(), transNote);
 //   else // naughty user pressed arrow key
   // TODO remember to treat tied notes as a single one when setNote will be implemented
 }
