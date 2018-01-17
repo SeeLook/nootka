@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -70,6 +70,7 @@ public:
   bool                          namesOnScore;
   bool                          OUTenabled,  INenabled;
   bool                          showSoundView, showGuitar;
+  bool                          enableRhythms;
 
 private:
   Tglobals *m_globals;

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,6 +23,7 @@
 #include <tinitcorelib.h>
 #include <QtCore/qdir.h>
 #include <QtCore/qdatetime.h>
+
 #include <QtCore/qdebug.h>
 
 
@@ -181,10 +182,12 @@ void TcommonListener::noteStartedSlot(qreal pitch, qreal freq, qreal duration) {
             emit noteStarted(m_lastNote);
           }
       } else { // zero pitch means rest
-          m_noteWasStarted = true;
-          m_lastNote.pitch.note = 0;
-          m_lastNote.duration = duration;
-          emit noteStarted(m_lastNote);
+          if (GLOB->rhythmsEnabled()) {
+            m_noteWasStarted = true;
+            m_lastNote.pitch.note = 0;
+            m_lastNote.duration = duration;
+            emit noteStarted(m_lastNote);
+          }
       }
   } else
       m_lastNote.set(); // reset last detected note structure
@@ -204,7 +207,7 @@ void TcommonListener::noteFinishedSlot(TnoteStruct* lastNote) {
       if (lastNote->pitchF > 0.0) {
           if (inRange(m_lastNote.pitchF))
             emit noteFinished(m_lastNote);
-      } else
+      } else if (GLOB->rhythmsEnabled())
           emit noteFinished(m_lastNote);
 
       if (lastNote->maxPCMvol < LOWEST_PCM) {
