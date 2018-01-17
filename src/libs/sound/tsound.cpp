@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -474,8 +474,8 @@ void Tsound::noteStartedSlot(const TnoteStruct& note) {
     NOO->noteStarted(m_detectedNote);
   emit noteStarted(m_detectedNote);
   emit noteStartedEntire(note);
-  if (player && GLOB->instrument().type() != Tinstrument::NoInstrument && GLOB->A->playDetected)
-    play(m_detectedNote);
+//   if (player && GLOB->instrument().type() != Tinstrument::NoInstrument && GLOB->A->playDetected)
+//     play(m_detectedNote); // TODO it is never used
 }
 
 
@@ -483,41 +483,45 @@ void Tsound::noteStartedSlot(const TnoteStruct& note) {
 void Tsound::noteFinishedSlot(const TnoteStruct& note) {
   if (note.pitch.isValid())
     m_detectedNote = note.pitch;
-  qreal rFactor = 2500.0 / m_tempo;
-  qreal dur = (note.duration * 1000.0/* + durationBalance*/) / rFactor;
-  int normDur = qRound(dur / static_cast<qreal>(m_quantVal)) * m_quantVal;
-//   durationBalance = note.duration * 1000.0 - static_cast<qreal>(normDur) * rFactor;
-//   qDebug() << "[Tsound] rest of duration average" << durationBalance << "of" << note.duration * 1000.0 << normDur * rFactor;
-  Trhythm r(normDur, m_detectedNote.isRest());
-  if (r.isValid()) {
-      m_detectedNote.setRhythm(r);
-      qDebug() << "Detected" << note.duration << normDur << note.pitchF << m_detectedNote.rtm.string();
-      emit noteFinished();
-      if (!m_examMode)
-        NOO->noteFinished(m_detectedNote);
-  } else {
-      TrhythmList notes;
-      Trhythm::resolve(normDur, notes);
-      for (int n = 0; n < notes.count(); ++n) {
-        Trhythm& rr = notes[n];
-        if (!m_detectedNote.isRest()) {
-          if (n == 0)
-              rr.setTie(Trhythm::e_tieStart);
-          else if (n == notes.count() - 1)
-              rr.setTie(Trhythm::e_tieEnd);
-          else
-            rr.setTie(Trhythm::e_tieCont);
-        }
-        m_detectedNote.setRhythm(rr.rhythm(), m_detectedNote.isRest(), rr.hasDot(), rr.isTriplet());
-        qDebug() << "Detected" << note.duration << normDur << n << note.pitchF << m_detectedNote.rtm.string();
-        emit noteFinished();
-        if (!m_examMode) {
-          if (n == 0) // update rhythm of the last note
+  if (GLOB->rhythmsEnabled()) {
+      qreal rFactor = 2500.0 / m_tempo;
+      qreal dur = (note.duration * 1000.0/* + durationBalance*/) / rFactor;
+      int normDur = qRound(dur / static_cast<qreal>(m_quantVal)) * m_quantVal;
+    //   durationBalance = note.duration * 1000.0 - static_cast<qreal>(normDur) * rFactor;
+    //   qDebug() << "[Tsound] rest of duration average" << durationBalance << "of" << note.duration * 1000.0 << normDur * rFactor;
+      Trhythm r(normDur, m_detectedNote.isRest());
+      if (r.isValid()) {
+          m_detectedNote.setRhythm(r);
+          qDebug() << "Detected" << note.duration << normDur << note.pitchF << m_detectedNote.rtm.string();
+          emit noteFinished();
+          if (!m_examMode)
             NOO->noteFinished(m_detectedNote);
-          else // but create others
-            NOO->noteStarted(m_detectedNote);
-        }
+      } else {
+          TrhythmList notes;
+          Trhythm::resolve(normDur, notes);
+          for (int n = 0; n < notes.count(); ++n) {
+            Trhythm& rr = notes[n];
+            if (!m_detectedNote.isRest()) {
+              if (n == 0)
+                  rr.setTie(Trhythm::e_tieStart);
+              else if (n == notes.count() - 1)
+                  rr.setTie(Trhythm::e_tieEnd);
+              else
+                rr.setTie(Trhythm::e_tieCont);
+            }
+            m_detectedNote.setRhythm(rr.rhythm(), m_detectedNote.isRest(), rr.hasDot(), rr.isTriplet());
+            qDebug() << "Detected" << note.duration << normDur << n << note.pitchF << m_detectedNote.rtm.string();
+            emit noteFinished();
+            if (!m_examMode) {
+              if (n == 0) // update rhythm of the last note
+                NOO->noteFinished(m_detectedNote);
+              else // but create others
+                NOO->noteStarted(m_detectedNote);
+            }
+          }
       }
+  } else {
+      emit noteFinished();
   }
   emit noteFinishedEntire(note);
   if (player && GLOB->instrument().type() == Tinstrument::NoInstrument && GLOB->A->playDetected)

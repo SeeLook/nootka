@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -52,6 +52,7 @@ void TglobalExamStore::storeSettings() {
   INenabled = m_globals->A->INenabled;
   showSoundView = m_globals->L->soundViewEnabled;
   showGuitar = m_globals->L->guitarEnabled;
+  enableRhythms = m_globals->rhythmsEnabled();
 }
 
 
@@ -74,6 +75,7 @@ void TglobalExamStore::restoreSettings() {
     m_globals->A->audioInstrNr = playbackInstr;
   m_globals->A->INenabled = INenabled;
   m_globals->A->OUTenabled = OUTenabled;
+  m_globals->setRhythmsEnabled(enableRhythms);
 //   m_globals->L->soundViewEnabled = showSoundView;
 //   m_globals->L->guitarEnabled = showGuitar;
 }
@@ -99,6 +101,7 @@ void TglobalExamStore::prepareGlobalsToExam(const Tlevel& level) {
   }
   m_globals->A->intonation = level.intonation;
   m_globals->S->isSingleNoteMode = !level.canBeMelody();
+  m_globals->setRhythmsEnabled(false); // TODO: Read it from level when will be implemented
 //   m_globals->L->soundViewEnabled = level.answerIsSound();
 //   if (level.canBeGuitar()) // enable guitar if necessary, but don't disable when it is visible
 //     m_globals->L->guitarEnabled = true;
