@@ -30,7 +30,7 @@
 #include <tsound.h>
 #include <tglobals.h>
 #include <exam/texam.h>
-// #include <exam/textrans.h>
+#include <exam/textrans.h>
 #include <exam/tattempt.h>
 #include "texamhelp.h"
 #include <taudioparams.h>
@@ -49,6 +49,7 @@
 #include <QtCore/qtimer.h>
 #include <QtWidgets/qmessagebox.h>
 #include <QtWidgets/qapplication.h>
+#include <QtCore/qsettings.h>
 #if defined (Q_OS_ANDROID)
   #include <Android/tfiledialog.h>
 #else
@@ -146,6 +147,7 @@ bool TexamExecutor::init(TexamExecutor::Eactions whatToDo, const QVariant& arg) 
   m_glStore->tune = *GLOB->Gtune();
   m_glStore->fretsNumber = GLOB->GfretsNumber;
   m_glStore->instrument = GLOB->instrument().type();
+  m_glStore->isSingleNoteMode = GLOB->isSingleNote();
   if (whatToDo == NewExam || whatToDo == ContinueExercise || whatToDo == NewExercise) {
       m_exam = new Texam(&m_level, GLOB->E->studentName);
       // TODO Get rid of the following:
@@ -567,7 +569,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 //   TOOLBAR->setAfterAnswer();
   if (curQ->answerAsSound()) {
       SOUND->pauseSinffing(); // but only skip detected for single sound
-//       SCORE->selectNote(-1);
+      MAIN_SCORE->setSelectedItem(-1);
       disconnect(SOUND, &Tsound::plaingFinished, this, &TexamExecutor::sniffAfterPlaying);
       disconnect(SOUND, &Tsound::noteStartedEntire, this, &TexamExecutor::noteOfMelodyStarted);
       disconnect(SOUND, &Tsound::noteFinishedEntire, this, &TexamExecutor::noteOfMelodyFinished);
@@ -714,13 +716,13 @@ void TexamExecutor::checkAnswer(bool showResults) {
   }
 
 //   markAnswer(curQ);
-//   int waitTime = GLOB->E->questionDelay;
-//   if (m_melody) // increase minimal delay before next question for melodies to 500ms
-//     waitTime = qMax(waitTime, 500);
-//   if (m_exercise) {
-//     if ((GLOB->E->autoNextQuest && GLOB->E->afterMistake != TexamParams::e_continue) || !GLOB->E->autoNextQuest || GLOB->E->showCorrected)
-//       waitTime = GLOB->E->correctPreview; // user has to have time to see his mistake and correct answer
-//     m_exercise->checkAnswer();
+  int waitTime = GLOB->E->questionDelay;
+  if (m_melody) // increase minimal delay before next question for melodies to 500ms
+    waitTime = qMax(waitTime, 500);
+  if (m_exercise) {
+    if ((GLOB->E->autoNextQuest && GLOB->E->afterMistake != TexamParams::e_continue) || !GLOB->E->autoNextQuest || GLOB->E->showCorrected)
+      waitTime = GLOB->E->correctPreview; // user has to have time to see his mistake and correct answer
+    m_exercise->checkAnswer();
 //     if (!curQ->isCorrect()) { // correcting wrong answer
 //         if (GLOB->E->showCorrected) // TODO for dictation it should always stop and show mistakes
 //           correctAnswer();
@@ -734,7 +736,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
 //           }
 //         }
 //     }
-//   }
+  }
 //   if (showResults && autoNext) {
 //       m_lockRightButt = true; // to avoid nervous users clicking mouse during wait time
 //       if (m_shouldBeTerminated)
@@ -1024,7 +1026,6 @@ void TexamExecutor::prepareToExam() {
     qDebug() << "[TexamExecutor prepareToExam ] Single note mode required but note name was not created. THERE IS A BUG!!!\n\n";
     return;
   }
-  emit titleChanged();
 
   disableWidgets();
 // connect all events to check an answer or display tip how to check
@@ -1041,10 +1042,9 @@ void TexamExecutor::prepareToExam() {
 //   connect(m_supp, SIGNAL(rightButtonClicked()), this, SLOT(rightButtonSlot()));
 
   if (m_exercise) {
-//     connect(TOOLBAR->startExamAct, SIGNAL(triggered()), this, SLOT(stopExerciseSlot()));
     connect(m_exercise, &Texercises::messageDisplayed, this, &TexamExecutor::stopSound);
     connect(m_exercise, &Texercises::messageClosed, this, &TexamExecutor::suggestDialogClosed);
-  } else
+  }
 
   m_glStore->storeSettings();
   m_glStore->prepareGlobalsToExam(m_level);
@@ -1087,6 +1087,7 @@ void TexamExecutor::prepareToExam() {
   connect(m_tipHandler, &TtipHandler::destroyTips, this, &TexamExecutor::destroyTips);
   emit tipHandlerCreated();
   m_tipHandler->startTip();
+  emit titleChanged();
   if (m_exercise && !m_exam->melodies()) {
 //     if (m_level.answerIsNote())
 //       connect(SCORE, &TmainScore::correctingFinished, this, &TexamExecutor::correctionFinished);
@@ -1102,27 +1103,21 @@ void TexamExecutor::prepareToExam() {
 }
 
 
-// void TexamExecutor::restoreAfterExam() {
-//   mW->setWindowTitle(qApp->applicationName());
-//   TOOLBAR->removeAction(TOOLBAR->nextQuestAct);
-//   SCORE->isExamExecuting(false);
-// #if !defined (Q_OS_ANDROID)
-//   if (!GLOB->A->dumpPath.isEmpty())
-//     SOUND->setDumpFileName(QLatin1String("nootka_dump"));
-// #endif
-// 
-//   m_glStore->restoreSettings();
-//   if (m_exercise) {
-//     GLOB->E->suggestExam = m_exercise->suggestInFuture();
-//   }
-// 
+void TexamExecutor::restoreAfterExam() {
+#if !defined (Q_OS_ANDROID)
+  if (!GLOB->A->dumpPath.isEmpty())
+    SOUND->setDumpFileName(QLatin1String("nootka_dump"));
+#endif
+
+  m_glStore->restoreSettings();
+  if (m_exercise) {
+    GLOB->E->suggestExam = m_exercise->suggestInFuture();
+  }
+
 //   TnotePixmap::setDefaultClef(GLOB->S->clef);
 //   SOUND->pitchView()->setVisible(GLOB->L->soundViewEnabled);
 //   INSTRUMENT->setVisible(GLOB->L->guitarEnabled);
-//   if (GLOB->S->isSingleNoteMode)
-//     emit examMessage(Torders::e_examSingle);
-//   else
-//     emit examMessage(Torders::e_examMultiple);
+  
 // #if defined (Q_OS_ANDROID) // revert actions
 //   if (!m_level.answerIsSound()) {
 //     SOUND->pitchView()->pauseAction()->setVisible(true);
@@ -1134,27 +1129,28 @@ void TexamExecutor::prepareToExam() {
 //   NOTENAME->setEnabledEnharmNotes(false);
 //   NOTENAME->setEnabledDblAccid(GLOB->S->doubleAccidentalsEnabled);
 //   INSTRUMENT->acceptSettings();
-//   NOTENAME->setNoteNamesOnButt(GLOB->S->nameStyleInNoteName);
-//   SOUND->acceptSettings();
+  SOUND->acceptSettings();
 //   SOUND->pitchView()->setIntonationAccuracy(GLOB->A->intonation);
 //   SOUND->pitchView()->enableAccuracyChange(true);
-// 
-//   NOTENAME->setNameDisabled(false);
-//   INSTRUMENT->setGuitarDisabled(false);
-// 
-//   if (m_tipHandler)
-//       m_tipHandler->deleteLater();
-// 
-//   disconnect(TOOLBAR->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
-//   disconnect(TOOLBAR->levelCreatorAct, SIGNAL(triggered()), this, SLOT(showExamHelp()));
-//   emit examMessage(Torders::e_examConnect);
-//   SCORE->unLockScore();
-//   // unfortunately, unLockScore locks clef again
+
+  if (NOTENAME) {
+    NOTENAME->setDisabled(false);
+    NOTENAME->setButtonNameStyle(GLOB->S->nameStyleInNoteName);
+  }
+  INSTRUMENT->setEnabled(true);
+
+  if (m_tipHandler)
+      m_tipHandler->deleteLater();
+  m_tipHandler = nullptr;
+  emit titleChanged();
+
+  MAIN_SCORE->setReadOnly(false);
+  // unfortunately, unLockScore locks clef again
 //   SCORE->setClefDisabled(false);
 //   INSTRUMENT->deleteRangeBox();
-//   SOUND->restoreAfterExam();
+  SOUND->restoreAfterExam();
 //   emit examMessage(Torders::e_examFinished);
-// }
+}
 
 
 void TexamExecutor::disableWidgets() {
@@ -1180,6 +1176,10 @@ void TexamExecutor::createActions() {
   m_examActions.append(m_helpAct);
   connect(m_helpAct, &Taction::triggered, this, &TexamExecutor::showExamHelp);
   m_stopExamAct = new Taction(QApplication::translate("TtoolBar", "Stop"), QStringLiteral("stopExam"), this);
+  if (m_exercise)
+    connect(m_stopExamAct, &Taction::triggered, this, &TexamExecutor::stopExerciseSlot);
+  else
+    connect(m_stopExamAct, &Taction::triggered, this, &TexamExecutor::stopExamSlot);
   m_examActions.append(m_stopExamAct);
   m_repeatQuestAct = new Taction(QApplication::translate("TtoolBar", "Repeat", "like a repeat question"), QStringLiteral("prevQuest"), this, false);
   m_examActions.append(m_repeatQuestAct);
@@ -1230,155 +1230,158 @@ void TexamExecutor::createActions() {
 }
 
 
-// void TexamExecutor::exerciseToExam() {
-//   m_isAnswered = true;
+void TexamExecutor::exerciseToExam() {
+  m_isAnswered = true;
 // #if !defined (Q_OS_ANDROID)
 //   qApp->installEventFilter(m_supp);
 // #endif
-//   m_exam->saveToFile();
-//   QString userName = m_exam->userName();
-//   delete m_penalty;
-//   delete m_exam;
-//   delete TOOLBAR->correctAct;
-//   m_exam = new Texam(&m_level, userName);
-//   m_exam->setTune(*GLOB->Gtune());
-//   delete m_exercise;
-//   m_exercise = 0;
-//   m_tipHandler->changeExam(m_exam);
-//   setTitleAndTexts();
+  m_exam->saveToFile();
+  QString userName = m_exam->userName();
+  delete m_penalty;
+  delete m_exam;
+  m_examActions.removeOne(m_correctAct);
+  delete m_correctAct;
+  m_correctAct = nullptr;
+  m_exam = new Texam(&m_level, userName);
+  m_exam->setTune(*GLOB->Gtune());
+  delete m_exercise;
+  m_exercise = 0;
+  m_tipHandler->changeExam(m_exam);
 // #if !defined (Q_OS_ANDROID) // TODO: Some hint under Android
 //   m_tipHandler->levelStatusMessage();
 // #endif
-//   m_supp->setFinished(false); // exercise had it set to true
-//   m_supp->resetKeyRandom(); // new set of randomized key signatures when exam requires them
-//   initializeExecuting();
-//   disconnect(TOOLBAR->startExamAct, SIGNAL(triggered()), this, SLOT(stopExerciseSlot()));
-//   connect(TOOLBAR->startExamAct, SIGNAL(triggered()), this, SLOT(stopExamSlot()));
-//   clearWidgets();
-//   m_tipHandler->clearCanvas();
-//   m_tipHandler->startTip();
-//   if (INSTRUMENT->isVisible() && !m_level.canBeMelody())
-//     MAINVIEW->moveExamToName();
-// }
-// 
-// 
-// void TexamExecutor::stopExerciseSlot() {
-//   bool askAfter = m_askingTimer->isActive();
-//   m_askingTimer->stop(); // stop questioning, if any
-//   bool continuePractice = false;
-//   stopSound();
-//   if (m_exam->count()) {
-//     if (!m_isAnswered) {
-//       m_penalty->pauseTime();
-//       m_exam->skipLast(true);
-//     }
-//     if (m_isAnswered && m_exam->curQ()->melody() && m_exam->curQ()->answerAsNote() && !m_exam->curQ()->isCorrect()) 
-//       m_exam->curQ()->melody()->setTitle(m_exam->curQ()->melody()->title() + ";skip"); // user still can take new attempt to correct a melody, so hide it
-//     m_penalty->updateExamTimes();
-//     Tnote::EnameStyle tmpStyle = GLOB->S->nameStyleInNoteName;
-//     GLOB->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show charts in user defined style
-//       
-//     bool startExam = false;
+  m_supp->setFinished(false); // exercise had it set to true
+  m_supp->resetKeyRandom(); // new set of randomized key signatures when exam requires them
+  initializeExecuting();
+  disconnect(m_stopExamAct, &Taction::triggered, this, &TexamExecutor::stopExerciseSlot);
+  connect(m_stopExamAct, &Taction::triggered, this, &TexamExecutor::stopExamSlot);
+  clearWidgets();
+  emit titleChanged();
+  m_tipHandler->clearCanvas();
+  m_tipHandler->startTip();
+}
+
+
+void TexamExecutor::stopExerciseSlot() {
+  bool askAfter = m_askingTimer->isActive();
+  m_askingTimer->stop(); // stop questioning, if any
+  bool continuePractice = false;
+  stopSound();
+  if (m_exam->count()) {
+    if (!m_isAnswered) {
+      m_penalty->pauseTime();
+      m_exam->skipLast(true);
+    }
+    if (m_isAnswered && m_exam->curQ()->melody() && m_exam->curQ()->answerAsNote() && !m_exam->curQ()->isCorrect()) 
+      m_exam->curQ()->melody()->setTitle(m_exam->curQ()->melody()->title() + QLatin1String(";skip")); // user still can take new attempt to correct a melody, so hide it
+    m_penalty->updateExamTimes();
+    Tnote::EnameStyle tmpStyle = GLOB->S->nameStyleInNoteName;
+    GLOB->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show charts in user defined style
+
+    bool startExam = false;
 //     if (!m_goingClosed)
-//         continuePractice = showExamSummary(mW, m_exam, true, &startExam);
-//     if (m_isAnswered && m_exam->curQ()->melody() && m_exam->curQ()->answerAsNote() && !m_exam->curQ()->isCorrect()) // revert melody title
-//       m_exam->curQ()->melody()->setTitle(m_exam->curQ()->melody()->title().remove(";skip"));
-//     if (m_isAnswered)
-//         m_exam->curQ()->setAnswered();
-//     GLOB->S->nameStyleInNoteName = tmpStyle;
-//     if (startExam) {
-//         exerciseToExam();
-//         return;
-//     }
-//     if (!m_isAnswered && continuePractice) {
-//       m_exam->skipLast(false);
-//       m_penalty->continueTime();
-//     }
-//   }
-//   if (continuePractice) {
-//     if (askAfter) // ask next question if questioning was stopped
-//       askQuestion();
-//     else // restore sniffing if necessary
-//       if (m_exam->curQ()->answerAsSound())
-//         startSniffing();
+//         continuePractice = showExamSummary(nullptr, m_exam, true, &startExam);
+    if (m_isAnswered && m_exam->curQ()->melody() && m_exam->curQ()->answerAsNote() && !m_exam->curQ()->isCorrect()) // revert melody title
+      m_exam->curQ()->melody()->setTitle(m_exam->curQ()->melody()->title().remove(QLatin1String(";skip")));
+    if (m_isAnswered)
+        m_exam->curQ()->setAnswered();
+    GLOB->S->nameStyleInNoteName = tmpStyle;
+    if (startExam) {
+        exerciseToExam();
+        return;
+    }
+    if (!m_isAnswered && continuePractice) {
+      m_exam->skipLast(false);
+      m_penalty->continueTime();
+    }
+  }
+  if (continuePractice) {
+    if (askAfter) // ask next question if questioning was stopped
+      askQuestion();
+    else // restore sniffing if necessary
+      if (m_exam->curQ()->answerAsSound())
+        startSniffing();
 // #if !defined (Q_OS_ANDROID)
 //     qApp->installEventFilter(m_supp);
 // #endif
-//     return;
-//   } else {
-//     if ((m_exam->count() == 1 && m_exam->curQ()->answered()) || m_exam->count() > 1)
-//       m_exam->saveToFile();
-//   }
-//   closeExecutor();
-// }
-// 
-// 
-// void TexamExecutor::stopExamSlot() {
-//   if (!m_isAnswered && !GLOB->E->closeWithoutConfirm) {
-//     m_shouldBeTerminated = true;
+    return;
+  } else {
+    if ((m_exam->count() == 1 && m_exam->curQ()->answered()) || m_exam->count() > 1)
+      m_exam->saveToFile();
+  }
+  closeExecutor();
+}
+
+
+void TexamExecutor::stopExamSlot() {
+  if (!m_isAnswered && !GLOB->E->closeWithoutConfirm) {
+    m_shouldBeTerminated = true;
 //   int messageDuration = 2000;
-// #if defined (Q_OS_ANDROID)
-//   messageDuration = 5000;
-// #else
-//     QColor c = GLOB->GfingerColor;
-//     c.setAlpha(30);
+#if defined (Q_OS_ANDROID)
+  messageDuration = 5000;
+#else
+    QColor c = GLOB->GfingerColor;
+    c.setAlpha(30);
 //     STATUS->setBackground(c);
-// #endif
+#endif
 //     m_tipHandler->setStatusMessage(tr("Give an answer first!<br>Then the exam will end."), messageDuration);
-//     return;
-//   }
-//   if (!m_isAnswered)
-//     checkAnswer(false);
-//   m_penalty->stopTimeView();
-//   stopSound();
-//   if (m_exam->count()) {
-//     if (m_exam->fileName() != "") {
-//       if(!QFileInfo(m_exam->fileName()).isWritable()) {
-//         qDebug() << "Can't write to file. Another name is needed";
-//         m_exam->setFileName("");
-//       }
-//     }
-//     if (m_exam->fileName() == "") {
-//       if (GLOB->E->closeWithoutConfirm) {
-//         m_exam->setFileName(getExamFileName(m_exam) + ".noo");
-//       } else {
-//         m_exam->setFileName(saveExamToFile());
-//         if (m_exam->fileName() != "")
-//           GLOB->E->examsDir = QFileInfo(m_exam->fileName()).absoluteDir().absolutePath();
-//       }
-//     }
-//     if (m_exam->fileName() != "") {
-//       if (m_exam->melodies()) // summarize answer if not summarized yet (melodies can have such cases)
-//         m_penalty->setMelodyPenalties();
-//       m_penalty->updateExamTimes();
-//       GLOB->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show in user defined style
-//       if (m_exam->saveToFile() == Texam::e_file_OK) {
-//           QStringList recentExams = GLOB->config->value("recentExams").toStringList();
-//           recentExams.removeAll(m_exam->fileName());
-//           recentExams.prepend(m_exam->fileName());
-//           GLOB->config->setValue("recentExams", recentExams);
-//       }
+    qDebug() << "[TexamExecutor] Give an answer first! Then the exam will end.";
+    return;
+  }
+  if (!m_isAnswered)
+    checkAnswer(false);
+  m_penalty->stopTimeView();
+  stopSound();
+  if (m_exam->count()) {
+    if (!m_exam->fileName().isEmpty()) {
+      if(!QFileInfo(m_exam->fileName()).isWritable()) {
+        qDebug() << "Can't write to file. Another name is needed";
+        m_exam->setFileName(QString());
+      }
+    }
+    if (m_exam->fileName().isEmpty()) {
+      if (GLOB->E->closeWithoutConfirm) {
+          m_exam->setFileName(getExamFileName(m_exam) + QLatin1String(".noo"));
+      } else {
+          m_exam->setFileName(saveExamToFile());
+          if (!m_exam->fileName().isEmpty())
+            GLOB->E->examsDir = QFileInfo(m_exam->fileName()).absoluteDir().absolutePath();
+      }
+    }
+    if (!m_exam->fileName().isEmpty()) {
+      if (m_exam->melodies()) // summarize answer if not summarized yet (melodies can have such cases)
+        m_penalty->setMelodyPenalties();
+      m_penalty->updateExamTimes();
+      GLOB->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show in user defined style
+      if (m_exam->saveToFile() == Texam::e_file_OK) {
+        QStringList recentExams = GLOB->config->value(QLatin1String("recentExams")).toStringList();
+        recentExams.removeAll(m_exam->fileName());
+        recentExams.prepend(m_exam->fileName());
+        GLOB->config->setValue(QLatin1String("recentExams"), recentExams);
+      }
 //       if (!m_goingClosed) // if Nootka is closing don't show summary
 //           showExamSummary(mW, m_exam, false);
-//     }
-//   }
-//   closeExecutor();
-// }
-// 
-// 
-// void TexamExecutor::closeExecutor() {
+    }
+  }
+  closeExecutor();
+}
+
+
+void TexamExecutor::closeExecutor() {
 // #if !defined (Q_OS_ANDROID)
 //   STATUS->setBackground(-1);
 //   STATUS->setMessage(QString());
 // #endif
 //   m_tipHandler->setStatusMessage(tr("Such a pity."), 5000);
-// 
-//   m_tipHandler->clearCanvas();
-//   clearWidgets();
-//   restoreAfterExam();
-// }
-// 
-// 
+
+  m_tipHandler->clearCanvas();
+  clearWidgets();
+  restoreAfterExam();
+  GLOB->setIsExam(false);
+  deleteLater();
+}
+
+
 // void TexamExecutor::prepareToSettings() {
 //   stopSound();
 // }
@@ -1415,7 +1418,7 @@ void TexamExecutor::stopSound() {
 
 void TexamExecutor::suggestDialogClosed(bool startExam) {
   if (startExam) {
-//       exerciseToExam();
+      exerciseToExam();
   } else {
 // #if !defined (Q_OS_ANDROID)
 //       qApp->installEventFilter(m_supp);
@@ -1464,27 +1467,27 @@ void TexamExecutor::suggestDialogClosed(bool startExam) {
 //   }
 //   return result;
 // }
-// 
-// 
-// QString TexamExecutor::saveExamToFile() {
-// #if defined (Q_OS_ANDROID)
-//   QString fileName = TfileDialog::getSaveFileName(mW, getExamFileName(m_exam), QStringLiteral("noo"));
-// #else
-//   QString fileName = QFileDialog::getSaveFileName(mW, tr("Save exam results as:"), getExamFileName(m_exam), TexTrans::examFilterTxt());
-// #endif
-//   QLatin1String noo(".noo");
-//   if (fileName.isEmpty()) {
-//       auto msg = new QMessageBox(mW);
-//       msg->setText(tr("If you don't save to file<br>you lost all results!"));
-//       msg->setStandardButtons(QMessageBox::Save | QMessageBox::Discard);
-//       if (msg->exec() == QMessageBox::Save)
-//           fileName = saveExamToFile();
-//       delete msg;
-//   }
-//   if (!fileName.isEmpty() && fileName.right(4) != noo)
-//       fileName += noo;
-//   return fileName;
-// }
+
+
+QString TexamExecutor::saveExamToFile() {
+#if defined (Q_OS_ANDROID)
+  QString fileName = TfileDialog::getSaveFileName(nullptr, getExamFileName(m_exam), QStringLiteral("noo"));
+#else
+  QString fileName = QFileDialog::getSaveFileName(nullptr, tr("Save exam results as:"), getExamFileName(m_exam), TexTrans::examFilterTxt());
+#endif
+  QString noo = QStringLiteral(".noo");
+  if (fileName.isEmpty()) {
+      auto msg = new QMessageBox(nullptr);
+      msg->setText(tr("If you don't save to file<br>you lost all results!"));
+      msg->setStandardButtons(QMessageBox::Save | QMessageBox::Discard);
+      if (msg->exec() == QMessageBox::Save)
+          fileName = saveExamToFile();
+      delete msg;
+  }
+  if (!fileName.isEmpty() && fileName.right(4) != noo)
+      fileName += noo;
+  return fileName;
+}
 
 
 void TexamExecutor::repeatSound() {
@@ -1658,12 +1661,12 @@ void TexamExecutor::expertAnswersSlot() {
  void TexamExecutor::tipLink(const QString& link) {
    if (link == QLatin1String("nextQuest"))
        askQuestion();
-//   else if (name == QLatin1String("stopExam")) {
-//     if (m_exercise)
-//       stopExerciseSlot();
-//     else
-//       stopExamSlot();
-//   }
+  else if (link == QLatin1String("stopExam")) {
+    if (m_exercise)
+      stopExerciseSlot();
+    else
+      stopExamSlot();
+  }
 //   else if (name == QLatin1String("prevQuest"))
 //       repeatQuestion();
    else if (link == QLatin1String("checkAnswer"))
@@ -1756,6 +1759,9 @@ bool TexamExecutor::castLevelFromQVariant(const QVariant& v) {
 //###################                QML               ############################################
 //#################################################################################################
 QString TexamExecutor::title() const {
+  if (!m_tipHandler)
+    return QStringLiteral("Nootka");
+
   if (m_exercise) {
       return tr("Exercises with Nootka");
 //       TOOLBAR->startExamAct->setStatusTip(tr("finish exercising"));

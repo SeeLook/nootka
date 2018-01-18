@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -110,14 +110,14 @@ protected:
        */
   void checkAnswer(bool showResults = true);
   void checkAnswerSlot() { checkAnswer(true); }
-//   void stopExamSlot();
-//   void stopExerciseSlot();
+  void stopExamSlot();
+  void stopExerciseSlot();
 //   void repeatQuestion();
   void repeatSound();
   void playMiddleA();
 //   void correctAnswer();
 //   void newAttempt();
-// 
+
   void showExamHelp();
   void expertAnswersSlot();
   void startSniffing();     /**< Invokes Tsound::go() */
@@ -126,7 +126,7 @@ protected:
   Q_INVOKABLE void tipLink(const QString& link);
 //   void markAnswer(TQAunit* curQ);
 //   void delayerTip(); /**< This is QTimer slot invoking m_canvas->whatNextTip(true) method. */
-//   void exerciseToExam(); /**< Stops exercising and starts exam. */
+  void exerciseToExam(); /**< Stops exercising and starts exam. */
   void stopSound(); /**< Common method called by exercises and exams to disable sniffing, lock right button, etc. */
 
       /**
@@ -159,13 +159,13 @@ private:
   bool castLevelFromQVariant(const QVariant& v);
   void createActions();
   void prepareToExam();
-//   void restoreAfterExam();
+  void restoreAfterExam();
   void disableWidgets(); /**< Disables score, noteName and guitar*/
   void clearWidgets();
-//   void closeExecutor(); /**< Clears canvas and invokes restoreAfterExam() */
+  void closeExecutor(); /**< Clears canvas and invokes restoreAfterExam() */
   void initializeExecuting(); /**< Performs some initial routines on exam/exercise variables */
-// 
-//   QString saveExamToFile();
+
+  QString saveExamToFile();
 
   void connectPlayingFinished(); /**< Checks @p m_soundTimer and connects @p playingFinished() of @p Tsound */
 

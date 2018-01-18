@@ -31,7 +31,6 @@ TglobalExamStore::TglobalExamStore(Tglobals* globals) :
 
 
 void TglobalExamStore::storeSettings() {
-//     nameStyleInNoteName = mW->noteName->style();
   nameStyleInNoteName = m_globals->S->nameStyleInNoteName;
   showEnharmNotes = m_globals->S->showEnharmNotes;
   showKeySignName = m_globals->S->showKeySignName;
@@ -46,7 +45,7 @@ void TglobalExamStore::storeSettings() {
     playbackInstr = m_globals->A->midiInstrNr;
   else
     playbackInstr = m_globals->A->audioInstrNr;
-  isSingleNoteMode = m_globals->S->isSingleNoteMode;
+//   isSingleNoteMode = m_globals->S->isSingleNoteMode; // stored already, executor did this before
   namesOnScore = m_globals->S->namesOnScore;
   OUTenabled = m_globals->A->OUTenabled;
   INenabled = m_globals->A->INenabled;
@@ -100,7 +99,7 @@ void TglobalExamStore::prepareGlobalsToExam(const Tlevel& level) {
     m_globals->A->OUTenabled = true;
   }
   m_globals->A->intonation = level.intonation;
-  m_globals->S->isSingleNoteMode = !level.canBeMelody();
+//   m_globals->S->isSingleNoteMode = !level.canBeMelody();
   m_globals->setRhythmsEnabled(false); // TODO: Read it from level when will be implemented
 //   m_globals->L->soundViewEnabled = level.answerIsSound();
 //   if (level.canBeGuitar()) // enable guitar if necessary, but don't disable when it is visible
