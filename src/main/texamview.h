@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -63,6 +63,8 @@ class TexamView : public QQuickItem
   Q_PROPERTY(int progressValue READ progressValue NOTIFY valuesUpdated)
   Q_PROPERTY(int progressMax READ progressMax NOTIFY valuesUpdated)
 
+  Q_PROPERTY(bool isExercise READ isExercise NOTIFY isExerciseChanged)
+
 public:
   explicit TexamView(QQuickItem *parent = nullptr);
   ~TexamView() override;
@@ -80,6 +82,8 @@ public:
   QString totalText() const { return m_totalText; }
   int progressValue() const { return m_progressValue; }
   int progressMax() const { return m_progressMax; }
+
+  bool isExercise() const;
 
   static TexamView* instance() { return m_instance; }
 
@@ -125,6 +129,7 @@ signals:
   void reactTextChanged();
   void averTextChanged();
   void valuesUpdated();
+  void isExerciseChanged();
 
 protected:
   void countTime();
