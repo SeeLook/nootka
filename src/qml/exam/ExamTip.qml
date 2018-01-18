@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -12,8 +12,9 @@ TipRect {
   id: tip
 
   property alias text: text.text
+  property alias textItem: text
   property alias font: text.font
-  property color bg: activPal.window
+  property color bg: activPal.base
   property real offX: 0
   property real offY: 0
 
@@ -21,7 +22,7 @@ TipRect {
   property real eW: 0
   property real eH: 0
 
-  color: Qt.tint(activPal.window, Noo.alpha(bg, 50))
+  color: Qt.tint(activPal.base, Noo.alpha(bg, 50))
   shadowRadius: Screen.height / 90
   z: 200
   x: Noo.bound(shadowRadius, offX - width / 2, executor.width - width - shadowRadius)
@@ -30,6 +31,7 @@ TipRect {
   scale: GLOB.useAnimations ? 0.1 : 1.0
 
   Text {
+    z: 210
     id: text
     color: activPal.text
     textFormat: Text.RichText
