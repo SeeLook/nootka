@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -64,6 +64,11 @@ QString TexamView::totalTimeText() const {
 }
 
 
+bool TexamView::isExercise() const {
+  return m_exam ? m_exam->isExercise() : false;
+}
+
+
 void TexamView::updateExam() {
   if (m_exam) {
     m_exam->setTotalTime(totalTime());
@@ -119,10 +124,12 @@ void TexamView::startExam(Texam* exam, int totalNr) {
   m_totalTime.start();
   countTime();
   answered();
-  emit averTextChanged();
+  if (isVisible())
+    emit averTextChanged();
 
   m_totalNr = totalNr;
   updateLabels();
+  emit isExerciseChanged();
 //   m_averTimeLab->setText(space + Texam::formatReactTime(m_exam->averageReactonTime()) + space);
 //   if (m_exam->melodies()) {
 //     m_effLab->setStatusTip(tr("Effectiveness of whole exam (and effectiveness of current question)."));
@@ -221,7 +228,8 @@ void TexamView::updateLabels() {
 //     if (m_exam->isFinished()) 
 //       m_bar->setStatusTip(examFinishedTxt());
   }
-  emit valuesUpdated();
+  if (isVisible())
+    emit valuesUpdated();
 }
 
 
