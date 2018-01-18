@@ -93,7 +93,7 @@ QString playOrSing(int instr) {
 
 
 QString getNiceNoteName(Tnote& note, Tnote::EnameStyle style) {
-  return QString("<b><span style=\"%1\">&nbsp;").arg(Tcolor::bgTag(GLOB->EquestionColor)) + note.toRichText(style) + QLatin1String(" </span></b>");
+  return QString("<b><span style=\"%1\">&nbsp;").arg(Tcolor::bgTag(NOO->alpha(GLOB->EquestionColor, 40))) + note.toRichText(style) + QLatin1String(" </span></b>");
 }
 
 
@@ -293,7 +293,7 @@ void TtipHandler::whatNextTip(bool isCorrect, bool toCorrection) {
 //  }
 //  m_nextTip->setTextWidth(maxTipWidth);
 //#else
-  QString whatNextText = QLatin1String("<p style=\"text-align: center; font-size: x-large;\">") + startTipText();
+  QString whatNextText = QLatin1String("<p style=\"text-align: center; font-size: large;\">") + startTipText();
   const QString br = QStringLiteral("<br>");
   const QString space = QStringLiteral(" ");
   const QString a = QStringLiteral("</a>");
@@ -341,7 +341,7 @@ void TtipHandler::showConfirmTip() {
   m_timerToConfirm->stop();
   const QString br_ = QStringLiteral("<br>- ");
   const QString a = QStringLiteral("</a>");
-  QString tipText = QLatin1String("<p style=\"text-align: center; font-size: x-large;\">") + tr("To check the answer confirm it:") + br_ +
+  QString tipText = QLatin1String("<p style=\"text-align: center; font-size: large;\">") + tr("To check the answer confirm it:") + br_ +
     TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"checkAnswer\">") + NOO->pixToHtml(QLatin1String("check"), m_iconSize) + a) + br_ +
     TexamHelp::pressEnterKey() + br_ + TexamHelp::orRightButtTxt() + QLatin1String("<br>") +
     tr("Check in exam help %1 how to do it automatically").arg(QStringLiteral("<a href=\"examHelp\">") +
@@ -448,7 +448,7 @@ void TtipHandler::questionTip() {
       } else if (question->answerAsSound()) {
                   questText += playOrSing(int(level->instrument));
       }
-      questText += QString("<br><span style=\"font-size: xx-large; %1\">&nbsp;").arg(Tcolor::bgTag(GLOB->EquestionColor)) +
+      questText += QString("<br><span style=\"font-size: xx-large; %1\">&nbsp;").arg(Tcolor::bgTag(NOO->alpha(GLOB->EquestionColor, 40))) +
                   question->qa.pos.toHtml() + QLatin1String(" </span>");
       if (!apendix.isEmpty())
           questText += br + apendix;
