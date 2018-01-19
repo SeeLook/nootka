@@ -122,6 +122,18 @@ public:
   void progress() { updateLabels(); }
   void terminate();
 
+  Q_INVOKABLE QString answersHint() const;
+  Q_INVOKABLE QString summaryHint() const;
+  Q_INVOKABLE QString progressHint() const;
+  Q_INVOKABLE QString correctHint() const;
+  Q_INVOKABLE QString halfHint() const;
+  Q_INVOKABLE QString wrongHint() const;
+  Q_INVOKABLE QString effectHint() const;
+  Q_INVOKABLE QString averageHint() const;
+  Q_INVOKABLE QString answerTimeTxt() const;
+  Q_INVOKABLE QString examTimeTxt() const;
+  Q_INVOKABLE QString resultsTxt() const;
+
 signals:
   void answersNumberChanged();
   void effectivenessChanged();

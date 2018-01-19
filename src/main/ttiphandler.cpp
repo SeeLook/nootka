@@ -105,7 +105,7 @@ TtipHandler::TtipHandler(Texam* exam, QObject *parent) :
   m_timerToConfirm(new QTimer(this)),
 //  m_minimizedQuestion(false), m_melodyCorrectMessage(false),
   m_questTipPosType(e_bottomRight),
-  m_iconSize(bigFont() * 1.5)
+  m_iconSize(bigFont() * 1.2)
 {
  connect(m_timerToConfirm, &QTimer::timeout, this, &TtipHandler::showConfirmTip);
 //  qApp->installEventFilter(this);
