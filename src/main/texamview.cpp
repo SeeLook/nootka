@@ -130,14 +130,6 @@ void TexamView::startExam(Texam* exam, int totalNr) {
   m_totalNr = totalNr;
   updateLabels();
   emit isExerciseChanged();
-//   m_averTimeLab->setText(space + Texam::formatReactTime(m_exam->averageReactonTime()) + space);
-//   if (m_exam->melodies()) {
-//     m_effLab->setStatusTip(tr("Effectiveness of whole exam (and effectiveness of current question)."));
-//     m_halfLab->setStatusTip(TexTrans::halfMistakenTxt());
-//   } else {
-//     m_effLab->setStatusTip(TexTrans::effectTxt());
-//     m_halfLab->setStatusTip(TexTrans::halfMistakenTxt() + QLatin1String("<br>") + TexTrans::halfMistakenAddTxt());
-//   }
 }
 
 
@@ -151,7 +143,6 @@ void TexamView::answered() {
 void TexamView::reactTimesUpdate() {
   if (m_exam && isVisible()) {
     emit averTextChanged();
-//     m_averTimeLab->setText(space + Texam::formatReactTime(m_exam->averageReactonTime()) + space);
   }
 }
 
@@ -162,8 +153,6 @@ void TexamView::effectUpdate() {
     if (m_exam->count() && m_exam->melodies() && !m_exam->curQ()->answered() && 
         m_exam->curQ()->attemptsCount() && m_exam->curQ()->lastAttempt()->mistakes.size())
           m_effectivenessText += QString(" <font size=\"2\">(%1 %)</font>").arg(qRound(m_exam->curQ()->effectiveness()));
-      // It will display current melody question effectiveness only if it makes a sense
-//     m_effLab->setText(effText);
     emit effectivenessChanged();
   }
 }
@@ -197,13 +186,9 @@ void TexamView::terminate() {
 
 void TexamView::countTime() {
   if (isVisible()) {
-    if (m_showReact) {
-//         m_reactTimeLab->setText(QString(" %1 ").arg(Texam::formatReactTime(m_questionTime.elapsed() / 100 + m_exam->curQ()->time)));
-//       m_reactionTimeText = QString(" %1 ").arg(Texam::formatReactTime(m_questionTime.elapsed() / 100 + m_exam->curQ()->time));
+    if (m_showReact)
       emit reactTextChanged();
-    }
     emit totalTimeTextChanged();
-//     m_totalTimeLab->setText(space + formatedTotalTime(m_startExamTime * 1000 + m_totalTime.elapsed()) + space);
   }
 }
 
@@ -214,22 +199,87 @@ void TexamView::updateLabels() {
   if (m_exam->melodies() && m_exam->count() && !m_exam->curQ()->answered())
     alreadyAnswered = qMax(0, alreadyAnswered - 1);
   m_answersText = QString("%1 + %2").arg(alreadyAnswered).arg(remained);
-//   m_answLab->setStatusTip(tr("Answered questions") + QString(": %1").arg(alreadyAnswered) +
-//         "<br>" + tr("Unanswered questions", "could be also: 'rest of the questions' or 'remaining questions'") + QString(": %1 ").arg(remained)  );
   m_totalText = QString(" %1 (%2)").arg(m_totalNr + m_exam->penalty()).arg(m_exam->penalty());
-//   m_totalLab->setStatusTip(tr("Total questions in this exam") + QString(": %1 ").arg(m_totalNr + m_exam->penalty()) +
-//     "<br>(" + tr("penalties") + QString(": %1)").arg(m_exam->penalty()));
   m_progressMax = m_totalNr + m_exam->penalty();
-  if (remained) {
-      m_progressValue = m_exam->count();
-//     m_bar->setStatusTip(progressExamTxt() + QLatin1String("<br>") + m_bar->text());
-  } else {
-      m_progressValue = m_totalNr + m_exam->penalty();
-//     if (m_exam->isFinished()) 
-//       m_bar->setStatusTip(examFinishedTxt());
-  }
+  if (remained)
+    m_progressValue = m_exam->count();
+  else
+    m_progressValue = m_totalNr + m_exam->penalty();
   if (isVisible())
     emit valuesUpdated();
 }
 
 
+QString TexamView::answersHint() const {
+  if (m_exam) {
+      int alreadyAnswered = m_exam->count();
+      if (m_exam->melodies() && m_exam->count() && !m_exam->curQ()->answered())
+        alreadyAnswered = qMax(0, alreadyAnswered - 1);
+      return tr("Answered questions") + QString(": <b>%1</b>, ").arg(alreadyAnswered)
+              + tr("Unanswered questions", "could be also: 'rest of the questions' or 'remaining questions'")
+              + QString(": <b>%1</b> ").arg(qMax(0, m_totalNr + m_exam->penalty() - m_exam->count()));
+  } else
+      return QString();
+}
+
+
+QString TexamView::summaryHint() const {
+  if (m_exam) {
+      return tr("Total questions in this exam") + QString(": <b>%1</b> ").arg(m_totalNr + m_exam->penalty())
+              + QLatin1String(" (") + tr("penalties") + QString(": <b>%1</b>)").arg(m_exam->penalty());
+  } else
+      return QString();
+}
+
+
+QString TexamView::progressHint() const {
+  if (m_exam) {
+      if (m_exam->isFinished())
+        return examFinishedTxt();
+      else
+        return progressExamTxt() + QString(": <b>%1 %</b>").arg((m_progressValue * 100) / m_progressMax);
+  } else
+      return QString();
+}
+
+
+QString TexamView::correctHint() const {
+  return TexTrans::corrAnswersNrTxt() + QString(": <b>%1</b>").arg(correctAnswers());
+}
+
+
+QString TexamView::halfHint() const {
+  return TexTrans::halfMistakenTxt() + QString(": <b>%1</b>").arg(halfAnswers());
+}
+
+
+QString TexamView::wrongHint() const {
+  return TexTrans::mistakesNrTxt() + QString(": <b>%1</b>").arg(wrongAnswers());
+}
+
+
+QString TexamView::effectHint() const {
+  QString eff = effectiveness();
+  return (eff.contains(QLatin1String("(")) ? tr("Exam effectiveness (this question effectiveness)") : TexTrans::effectTxt())
+        + QLatin1String(": ") + effectiveness();
+}
+
+
+QString TexamView::averageHint() const {
+  return TexTrans::averAnsverTimeTxt() + QString(": <b>%1</b> ").arg(averText()) + TexTrans::inSecondsTxt();
+}
+
+
+QString TexamView::answerTimeTxt() const {
+  return tr("Answer time");
+}
+
+
+QString TexamView::examTimeTxt() const {
+  return tr("Exam time");
+}
+
+
+QString TexamView::resultsTxt() const {
+  return tr("Exam results");
+}
