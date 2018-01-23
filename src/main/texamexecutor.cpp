@@ -94,7 +94,6 @@ TexamExecutor* TexamExecutor::m_instance = nullptr;
 
 TexamExecutor::TexamExecutor(QQuickItem* parent) :
   QQuickItem(parent),
-  m_supp(nullptr),
   m_exam(nullptr),
   m_snifferLocked(false),
   m_lockRightButt(false),
@@ -112,113 +111,34 @@ TexamExecutor::TexamExecutor(QQuickItem* parent) :
 }
 
 
-bool TexamExecutor::init(TexamExecutor::Eactions whatToDo, const QVariant& arg) {
-  qDebug() << "[TexamExecutor] initialize" << whatToDo << arg;
-  switch (whatToDo) {
-    case ContinueLastExam:
-      qDebug() << "continue last exam" << arg.toString();
-      break;
-    case ContinueOtherExam:
-      qDebug() << "continue other exam" << arg.toString();
-      break;
-    case NewExam: {
-      qDebug() << "new exam";
-      if (!castLevelFromQVariant(arg))
-        return false;
-      break;
-    }
-    case LevelCreator:
-      break;
-    case ContinueExercise:
-      qDebug() << "continue exercise";
-      break;
-    case NewExercise: {
-      qDebug() << "new exercise";
-      if (!castLevelFromQVariant(arg))
-        return false;
-      break;
-    }
-    default:
-      break;
+bool TexamExecutor::init(TexamExecutor::EexecOrigin whatToDo, const QVariant& arg) {
+  if (whatToDo == NewExam || whatToDo == StartExercise) {
+    if (!castLevelFromQVariant(arg))
+      return false;
   }
-  if (GLOB->E->studentName.isEmpty())
-    GLOB->E->studentName = GLOB->systemUserName();
-  m_glStore = new TglobalExamStore(GLOB);
-  m_glStore->tune = *GLOB->Gtune();
-  m_glStore->fretsNumber = GLOB->GfretsNumber;
-  m_glStore->instrument = GLOB->instrument().type();
-  m_glStore->isSingleNoteMode = GLOB->isSingleNote();
-  if (whatToDo == NewExam || whatToDo == ContinueExercise || whatToDo == NewExercise) {
+
+  if (whatToDo == NewExam || whatToDo == StartExercise) {
       m_exam = new Texam(&m_level, GLOB->E->studentName);
-      // TODO Get rid of the following:
-      // #if !defined (Q_OS_ANDROID)
-      //       if (!fixLevelInstrument(m_level, QString(), GLOB->instrumentToFix, mW)) {
-      //             emit examMessage(Torders::e_examFailed);
-      //             deleteExam();
-      //             return;
-      //         }
-      // #endif
       m_exam->setTune(*GLOB->Gtune());
-      if (whatToDo == ContinueExercise || whatToDo == NewExercise)
+      if (whatToDo == StartExercise)
           m_exercise = new Texercises(m_exam);
-  } else if (whatToDo == ContinueLastExam || whatToDo == ContinueOtherExam) {
+  } else if (whatToDo == ContinueExam) {
       m_exam = new Texam(&m_level, QString());
       Texam::EerrorType err = m_exam->loadFromFile(arg.toString());
       if (err == Texam::e_file_OK || err == Texam::e_file_corrupted) {
+        if (err == Texam::e_file_not_valid) {
+          QMessageBox::critical(nullptr, QString(), tr("File: %1 \n is not valid exam file!").arg(arg.toString()));
+          return false;
+        }
         if (err == Texam::e_file_corrupted)
           QMessageBox::warning(nullptr, QString(), tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
-// #if defined (Q_OS_ANDROID)
-//         if (!showExamSummary(mW, m_exam, true)) // there is no level fix under android - just display summary window
-// #else
-//         if (!fixLevelInstrument(m_level, m_exam->fileName(), GLOB->instrumentToFix, mW) ||
-//             !showExamSummary(mW, m_exam, true))
-// #endif
-//         {
-//             emit examMessage(Torders::e_examFailed);
-//             deleteExam();
-//             return;
-//         }
-//       } else {
-//           if (err == Texam::e_file_not_valid)
-//               QMessageBox::critical(mW, QString(), tr("File: %1 \n is not valid exam file!")
-//                                 .arg(resultText));
-//           emit examMessage(Torders::e_examFailed);
-          deleteExam();
-          return false;
+        m_summaryReason = SumContExam;
+        QTimer::singleShot(50, [=]{ emit examSummary(); }); // Allow 'Start Exam dialog' to be closed
+        return true;
       }
   }
-  //We check are guitar's params suitable for an exam
-#if !defined (Q_OS_ANDROID)
-  TexecutorSupply::checkGuitarParamsChanged(m_exam);
-#endif
-  // ---------- End of checking ----------------------------------
-  GLOB->setSingleNote(!m_exam->melodies());
-  m_supp = new TexecutorSupply(&m_level, this);
-  // TODO: when level has its own list of notes for melodies - it is wasting energy!
-  m_supp->createQuestionsList(m_questList);
-  if (m_exam->melodies())
-    m_melody = new TexamMelody(this);
-  if (m_questList.isEmpty()) {
-      QMessageBox::critical(nullptr, QString(), tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
-      delete m_supp;
-      deleteExam();
-      return false;
-  }
-  if (GLOB->E->showHelpOnStart)
-      showExamHelp();
-  if (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isFret()) {
-    if (!m_supp->isGuitarOnlyPossible()) {
-        qDebug("Something stupid!\n Level has question and answer as position on guitar but any question is available.");
-        deleteExam();
-        return false;
-    }
-  }
-  prepareToExam();
-  initializeExecuting();
-  createActions();
-  return true;
+  return continueInit();
 }
-
 
 
 TexamExecutor::~TexamExecutor() {
@@ -227,13 +147,52 @@ TexamExecutor::~TexamExecutor() {
   if (m_penalty)
     delete m_penalty;
   if (m_supp)
-      delete m_supp;
-  delete m_glStore;
+    delete m_supp;
+  if (m_glStore)
+    delete m_glStore;
   if (m_rand)
     delete m_rand;
   deleteExam();
   m_instance = nullptr;
   qDebug() << "[TexamExecutor] destroyed";
+}
+
+
+bool TexamExecutor::continueInit() {
+  m_summaryReason = NoReason;
+  if (GLOB->E->studentName.isEmpty())
+    GLOB->E->studentName = GLOB->systemUserName();
+  m_glStore = new TglobalExamStore(GLOB);
+  m_glStore->tune = *GLOB->Gtune();
+  m_glStore->fretsNumber = GLOB->GfretsNumber;
+  m_glStore->instrument = GLOB->instrument().type();
+  m_glStore->isSingleNoteMode = GLOB->isSingleNote();
+  //We check are guitar's params suitable for an exam
+#if !defined (Q_OS_ANDROID)
+  TexecutorSupply::checkGuitarParamsChanged(m_exam);
+#endif
+  GLOB->setSingleNote(!m_exam->melodies());
+  m_supp = new TexecutorSupply(&m_level, this);
+  // TODO: when level has its own list of notes for melodies - it is wasting energy!
+  m_supp->createQuestionsList(m_questList);
+  if (m_exam->melodies())
+    m_melody = new TexamMelody(this);
+  if (m_questList.isEmpty()) {
+    QMessageBox::critical(nullptr, QString(), tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
+    return false;
+  }
+  if (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isFret()) {
+    if (!m_supp->isGuitarOnlyPossible()) {
+      qDebug("Something stupid!\n Level has question and answer as position on guitar but any question is available.");
+      return false;
+    }
+  }
+  if (GLOB->E->showHelpOnStart)
+    showExamHelp();
+  prepareToExam();
+  initializeExecuting();
+  createActions();
+  return true;
 }
 
 
@@ -1030,7 +989,8 @@ void TexamExecutor::prepareToExam() {
   disableWidgets();
 // connect all events to check an answer or display tip how to check
   connect(MAIN_SCORE, &TmainScoreObject::clicked, this, &TexamExecutor::expertAnswersSlot);
-  connect(NOTENAME, &TnameItem::noteButtonClicked, this, &TexamExecutor::expertAnswersSlot);
+  if (NOTENAME)
+    connect(NOTENAME, &TnameItem::noteButtonClicked, this, &TexamExecutor::expertAnswersSlot);
   connect(INSTRUMENT, &TcommonInstrument::noteChanged, this, &TexamExecutor::expertAnswersSlot);
   if (m_level.instrument != Tinstrument::NoInstrument)
     connect(SOUND, &Tsound::noteStarted, this, &TexamExecutor::expertAnswersSlot);
@@ -1114,7 +1074,6 @@ void TexamExecutor::restoreAfterExam() {
     GLOB->E->suggestExam = m_exercise->suggestInFuture();
   }
 
-//   TnotePixmap::setDefaultClef(GLOB->S->clef);
 //   SOUND->pitchView()->setVisible(GLOB->L->soundViewEnabled);
 //   INSTRUMENT->setVisible(GLOB->L->guitarEnabled);
   
@@ -1124,10 +1083,6 @@ void TexamExecutor::restoreAfterExam() {
 //     MAINVIEW->flyActions()->append(SOUND->pitchView()->pauseAction());
 //   }
 // #endif
-//   SCORE->acceptSettings();
-//   SCORE->enableAccidToKeyAnim(true);
-//   NOTENAME->setEnabledEnharmNotes(false);
-//   NOTENAME->setEnabledDblAccid(GLOB->S->doubleAccidentalsEnabled);
 //   INSTRUMENT->acceptSettings();
   SOUND->acceptSettings();
 //   SOUND->pitchView()->setIntonationAccuracy(GLOB->A->intonation);
@@ -1145,16 +1100,12 @@ void TexamExecutor::restoreAfterExam() {
   emit titleChanged();
 
   MAIN_SCORE->setReadOnly(false);
-  // unfortunately, unLockScore locks clef again
-//   SCORE->setClefDisabled(false);
 //   INSTRUMENT->deleteRangeBox();
   SOUND->restoreAfterExam();
-//   emit examMessage(Torders::e_examFinished);
 }
 
 
 void TexamExecutor::disableWidgets() {
-//   NOTENAME->setNameDisabled(true);
   MAIN_SCORE->setReadOnly(true);
   INSTRUMENT->setEnabled(false);
   if (NOTENAME)
@@ -1263,53 +1214,66 @@ void TexamExecutor::exerciseToExam() {
 
 
 void TexamExecutor::stopExerciseSlot() {
-  bool askAfter = m_askingTimer->isActive();
+  m_askAfterSummary = m_askingTimer->isActive();
   m_askingTimer->stop(); // stop questioning, if any
-  bool continuePractice = false;
   stopSound();
   if (m_exam->count()) {
-    if (!m_isAnswered) {
-      m_penalty->pauseTime();
-      m_exam->skipLast(true);
-    }
-    if (m_isAnswered && m_exam->curQ()->melody() && m_exam->curQ()->answerAsNote() && !m_exam->curQ()->isCorrect()) 
-      m_exam->curQ()->melody()->setTitle(m_exam->curQ()->melody()->title() + QLatin1String(";skip")); // user still can take new attempt to correct a melody, so hide it
-    m_penalty->updateExamTimes();
-    Tnote::EnameStyle tmpStyle = GLOB->S->nameStyleInNoteName;
-    GLOB->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show charts in user defined style
+      if (!m_isAnswered) {
+        m_penalty->pauseTime();
+        m_exam->skipLast(true);
+      }
+      // user still can take new attempt to correct a melody, so hide it
+      if (m_isAnswered && m_exam->curQ()->melody() && m_exam->curQ()->answerAsNote() && !m_exam->curQ()->isCorrect()) 
+        m_exam->curQ()->melody()->setTitle(m_exam->curQ()->melody()->title() + QLatin1String(";skip"));
+      m_penalty->updateExamTimes();
+      m_exerciseTmpStyle = GLOB->S->nameStyleInNoteName;
+      GLOB->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show charts in user defined style
 
-    bool startExam = false;
-//     if (!m_goingClosed)
-//         continuePractice = showExamSummary(nullptr, m_exam, true, &startExam);
+      m_summaryReason = SumFinishExer;
+      if (!m_goingClosed)
+        emit examSummary();
+      else
+        finishExerciseAfterSummary();
+  } else
+      closeExecutor();
+}
+
+
+void TexamExecutor::finishExerciseAfterSummary() {
+  restoreExerciseAfterSummary();
+  if ((m_exam->count() == 1 && m_exam->curQ()->answered()) || m_exam->count() > 1)
+    m_exam->saveToFile();
+  closeExecutor();
+}
+
+
+void TexamExecutor::restoreExerciseAfterSummary() {
+  if (m_summaryReason == SumFinishExer) {
+    m_summaryReason = NoReason;
     if (m_isAnswered && m_exam->curQ()->melody() && m_exam->curQ()->answerAsNote() && !m_exam->curQ()->isCorrect()) // revert melody title
       m_exam->curQ()->melody()->setTitle(m_exam->curQ()->melody()->title().remove(QLatin1String(";skip")));
     if (m_isAnswered)
         m_exam->curQ()->setAnswered();
-    GLOB->S->nameStyleInNoteName = tmpStyle;
-    if (startExam) {
-        exerciseToExam();
-        return;
-    }
-    if (!m_isAnswered && continuePractice) {
-      m_exam->skipLast(false);
-      m_penalty->continueTime();
-    }
-  }
-  if (continuePractice) {
-    if (askAfter) // ask next question if questioning was stopped
-      askQuestion();
-    else // restore sniffing if necessary
-      if (m_exam->curQ()->answerAsSound())
-        startSniffing();
+    GLOB->S->nameStyleInNoteName = m_exerciseTmpStyle;
 // #if !defined (Q_OS_ANDROID)
 //     qApp->installEventFilter(m_supp);
 // #endif
-    return;
-  } else {
-    if ((m_exam->count() == 1 && m_exam->curQ()->answered()) || m_exam->count() > 1)
-      m_exam->saveToFile();
   }
-  closeExecutor();
+}
+
+
+void TexamExecutor::continueExercise() {
+  restoreExerciseAfterSummary();
+  if (!m_isAnswered) {
+    m_exam->skipLast(false);
+    m_penalty->continueTime();
+  }
+  if (m_askAfterSummary) // ask next question if questioning was stopped
+      askQuestion();
+  else {// restore sniffing if necessary
+      if (m_exam->curQ()->answerAsSound())
+        startSniffing();
+  }
 }
 
 
@@ -1359,8 +1323,11 @@ void TexamExecutor::stopExamSlot() {
         recentExams.prepend(m_exam->fileName());
         GLOB->config->setValue(QLatin1String("recentExams"), recentExams);
       }
-//       if (!m_goingClosed) // if Nootka is closing don't show summary
-//           showExamSummary(mW, m_exam, false);
+      if (!m_goingClosed) { // if Nootka is closing don't show summary
+        m_summaryReason = SumFinishExam;
+        emit examSummary();
+        return; // Exam summary dialog will call closeExecutor()
+      }
     }
   }
   closeExecutor();

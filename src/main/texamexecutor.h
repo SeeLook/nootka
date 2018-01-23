@@ -56,6 +56,8 @@ class TexamExecutor : public QQuickItem
   Q_PROPERTY(QList<QObject*> examActions READ examActions NOTIFY examActionsChanged)
   Q_PROPERTY(TtipHandler* tipHandler READ tipHandler NOTIFY tipHandlerCreated)
 
+  friend class TexamSummary;
+
 public:
   explicit TexamExecutor(QQuickItem* parent = nullptr);
   ~TexamExecutor() override;
@@ -69,14 +71,26 @@ public:
   TtipHandler* tipHandler();
 
       /**
-       * Describes actions committed by user.
+       * Describes reason of starting executor
        */
-  enum Eactions {
-    NoExam = 0, ContinueLastExam, ContinueOtherExam, NewExam, LevelCreator, ContinueExercise, NewExercise
+  enum EexecOrigin {
+    NoExam = 0, ContinueExam, NewExam, LevelCreator, StartExercise
   };
-  Q_ENUM(Eactions)
+  Q_ENUM(EexecOrigin)
 
-  Q_INVOKABLE bool init(Eactions whatToDo, const QVariant& arg);
+      /**
+       * Reasons (so far three) why summary dialog was invoked
+       */
+  enum EsummaryReason {
+    NoReason = 0, SumContExam, SumFinishExer, SumFinishExam
+  };
+  Q_ENUM(EsummaryReason)
+
+  EsummaryReason summaryReason() const { return m_summaryReason; }
+
+  Q_INVOKABLE bool init(EexecOrigin whatToDo, const QVariant& arg);
+
+  bool isInitialized() const { return m_supp != nullptr && m_tipHandler != nullptr; }
 
   struct TanswerRequire {
       bool octave;
@@ -97,8 +111,18 @@ signals:
   void examActionsChanged();
   void tipHandlerCreated();
   void destroyTips();
+  void examSummary();
 
 protected:
+
+      /**
+       * This is "second" part of exam executor initialization @p init(),
+       * when previous exam is continued and its summary is displayed, it is invoked by @p TexamSummary::continueExam()
+       * in other cases it is called directly in @p init() method
+       */
+  bool continueInit();
+
+  Texam* exam() { return m_exam; }
   void deleteExam();
 
   void askQuestionSlot() { askQuestion(false); }
@@ -112,6 +136,9 @@ protected:
   void checkAnswerSlot() { checkAnswer(true); }
   void stopExamSlot();
   void stopExerciseSlot();
+  void restoreExerciseAfterSummary();
+  void continueExercise();
+  void finishExerciseAfterSummary();
 //   void repeatQuestion();
   void repeatSound();
   void playMiddleA();
@@ -172,7 +199,7 @@ private:
 private:
 
   static TexamExecutor         *m_instance;
-  TexecutorSupply              *m_supp;
+  TexecutorSupply              *m_supp = nullptr;
   Texam                        *m_exam;
   Tlevel                        m_level; /**< main instance of Tlevel, others are pointers or references to it */
   QList<TQAgroup>               m_questList;
@@ -183,7 +210,7 @@ private:
          */
   QTimer                      *m_soundTimer, *m_askingTimer;
   Tnote::EnameStyle            m_prevQuestStyle, m_prevAnswStyle;
-  TglobalExamStore            *m_glStore;
+  TglobalExamStore            *m_glStore = nullptr;
   TanswerRequire               m_answRequire;
 
       /**
@@ -216,6 +243,9 @@ private:
   Taction                     *m_correctAct = nullptr;
   Taction                     *m_newAtemptAct = nullptr;
   QList<QObject*>              m_examActions;
+  EsummaryReason               m_summaryReason = NoReason;
+  Tnote::EnameStyle            m_exerciseTmpStyle;
+  bool                         m_askAfterSummary;
 
 };
 
