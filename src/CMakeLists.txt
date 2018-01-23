@@ -84,6 +84,8 @@ set(NOOTKA_SRC
   main/texamhelp.cpp
   main/ttiphandler.cpp
   main/tmainscoreobject.cpp
+  main/texamsummary.cpp
+  main/tstartexamitem.cpp
 
   dialogs/tdialogloaderobject.cpp
   dialogs/tlevelcreatoritem.cpp

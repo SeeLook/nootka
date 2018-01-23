@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,6 +23,8 @@
 #include "main/texamexecutor.h"
 #include "main/texamview.h"
 #include "main/ttiphandler.h"
+#include "main/texamsummary.h"
+#include "main/tstartexamitem.h"
 #include "qtr.h"
 
 #include <QtWidgets/qdialogbuttonbox.h>
@@ -43,6 +45,8 @@ TdialogLoaderObject::TdialogLoaderObject(QObject* parent) :
     qmlRegisterType<TexamExecutor>("Nootka.Exam", 1, 0, "Texecutor");
     qmlRegisterType<TexamView>("Nootka.Exam", 1, 0, "Tresults");
     qmlRegisterUncreatableType<TtipHandler>("Nootka.Exam", 1, 0, "TipHandler", QStringLiteral("You cannot create an instance of the TipHandler."));
+    qmlRegisterType<TexamSummary>("Nootka.Exam", 1, 0, "TexamSummary");
+    qmlRegisterType<TstartExamItem>("Nootka.Exam", 1, 0, "TstartExamItem");
 
     qRegisterMetaType<Tlevel*>("Tlevel*");
     m_firstTime = false;
