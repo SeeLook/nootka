@@ -26,7 +26,7 @@ Column {
       enabled: creator.notSaved
       width: levelsPage.width / 4
       pixmap: Noo.pix("notSaved"); iconHeight: levelsPage.height / 15
-      text: qsTr("Save")
+      text: Noo.TR("QShortcut", "Save")
       onClicked: creator.saveLevel()
     }
     TiconButton {
