@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -98,15 +98,19 @@ Flickable {
           meter: Tmeter.NoMeter
           scoreObj.onClicked: tuningCombo.currentIndex = tuningCombo.count - 1
           Component.onCompleted: {
-            for (var s = 1; s <= GLOB.tuning.stringNumber; ++s)
+            for (var s = 1; s <= GLOB.tuning.stringNumber; ++s) {
               score.addNote(GLOB.tuning.string(s))
+              score.scoreObj.note(s - 1).setStringNumber(s)
+            }
             stringNrSpin.valueModified.connect(strNrChanged)
             tuningCombo.activated.connect(tuningSelected)
           }
           function strNrChanged() {
             if (stringNrSpin.value > score.notesCount) {
-                while (stringNrSpin.value > score.notesCount)
+                while (stringNrSpin.value > score.notesCount) {
                   score.addNote(Noo.note(0, 0, 0, 0))
+                  score.scoreObj.lastNote.setStringNumber(score.notesCount)
+                }
                 tuningCombo.currentIndex = tuningCombo.count - 1
             } else if (stringNrSpin.value < score.notesCount) {
                 while (stringNrSpin.value < score.notesCount)

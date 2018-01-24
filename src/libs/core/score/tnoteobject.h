@@ -130,7 +130,7 @@ public:
   static QString getHeadText(const Trhythm& r);
 
   void setFingerNumber(int fiNr);
-  void setStringNumber(int strNr);
+  Q_INVOKABLE void setStringNumber(int strNr);
 
   enum EbowDirection {
     BowUndefined = 0,
