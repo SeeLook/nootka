@@ -93,6 +93,8 @@ public:
        */
   void updateGuitar();
 
+  void markSelected(const QColor & markColor) override;
+
 signals:
   void fretWidthChanged();
   void stringsGapChanged();

@@ -108,6 +108,7 @@ public:
   void forceAccidental(int accid);
   void unLockScore();
   void lockKeySignature(bool lock);
+  void markNoteHead(const QColor& outColor, int noteNr);
 
 signals:
   void scoreActionsChanged();

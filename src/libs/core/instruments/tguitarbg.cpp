@@ -297,6 +297,16 @@ void TguitarBg::updateGuitar() {
 }
 
 
+void TguitarBg::markSelected(const QColor& markColor) {
+  auto mc = markColor.alpha() == 0 ? GLOB->GselectedColor : markColor;
+  for (int s = 0; s < 6; ++s) {
+    m_stringItems[s]->setProperty("color", mc);
+    m_fingerItems[s]->setProperty("color", mc);
+  }
+}
+
+
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################

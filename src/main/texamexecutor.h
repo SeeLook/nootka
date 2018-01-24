@@ -151,7 +151,7 @@ protected:
   void sniffAfterPlaying(); /**< Starts sniffing when asked note is finished */
 //   void rightButtonSlot();
   Q_INVOKABLE void tipLink(const QString& link);
-//   void markAnswer(TQAunit* curQ);
+  void markAnswer(TQAunit* curQ);
 //   void delayerTip(); /**< This is QTimer slot invoking m_canvas->whatNextTip(true) method. */
   void exerciseToExam(); /**< Stops exercising and starts exam. */
   void stopSound(); /**< Common method called by exercises and exams to disable sniffing, lock right button, etc. */

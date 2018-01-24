@@ -130,8 +130,11 @@ void TmainScoreObject::clearScore() {
   }
   m_questionMark->setVisible(false);
   m_scoreObj->setBgColor(qApp->palette().base().color());
-  if (m_scoreObj->singleNote())
+  if (m_scoreObj->singleNote()) {
     m_scoreObj->note(1)->setTechnical(255);
+    m_scoreObj->note(0)->markNoteHead(Qt::transparent);
+    m_scoreObj->note(1)->markNoteHead(Qt::transparent);
+  }
 }
 
 
@@ -223,6 +226,12 @@ void TmainScoreObject::lockKeySignature(bool lock) {
   m_scoreObj->setKeyReadOnly(lock);
 }
 
+
+void TmainScoreObject::markNoteHead(const QColor& outColor, int noteNr) {
+  auto note = m_scoreObj->note(noteNr);
+  if (note)
+    note->markNoteHead(outColor);
+}
 
 
 //#################################################################################################

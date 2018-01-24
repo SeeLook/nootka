@@ -137,3 +137,7 @@ CHECKTIME (
   }
 )
 }
+
+
+void TsaxBg::markSelected(const QColor& markColor) {
+}

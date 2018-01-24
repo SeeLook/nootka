@@ -62,6 +62,8 @@ public:
 
   void paint(QPainter*) override {}
 
+  void markSelected(const QColor & markColor) override;
+
 
 signals:
   void flapNumberChanged();
