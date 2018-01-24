@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -15,7 +15,6 @@
  *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
-
 
 #include "toggscale.h"
 #include <music/tinstrument.h>
@@ -130,7 +129,7 @@ ToggScale::ToggScale() :
   m_touch = new soundtouch::SoundTouch();
   m_touch->setChannels(1);
 #if defined (Q_OS_UNIX) // increase minimal audio data must to be processed when system works with PulseAudio
-  QFileInfo pulseBin("/usr/bin/pulseaudio");
+  QFileInfo pulseBin(QStringLiteral("/usr/bin/pulseaudio"));
   if (pulseBin.exists()) // it is necessary both for Nootka with native PA and PA in ALSA bridge mode
     minDataAmount = 15000;
 #endif
@@ -187,7 +186,6 @@ uint ToggScale::startLoopSample(int noteNr) {
 uint ToggScale::stopLoopSample(int noteNr) {
   return m_pcmArray[noteNr - LOWEST_NOTE].stop;
 }
-
 
 
 void ToggScale::decodeNote(int noteNr) {
@@ -450,7 +448,7 @@ void ToggScale::resetPCMArray() {
   if (m_pcmArrayfilled || m_pcmArray == nullptr) {
     if (m_pcmArray)
       delete[] m_pcmArray;
-    m_pcmArray = new TdecodedNote[88];
+    m_pcmArray = new TdecodedNote[99];
     m_pcmArrayfilled = false;
   }
 }
