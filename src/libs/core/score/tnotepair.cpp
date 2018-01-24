@@ -93,6 +93,7 @@ void TnotePair::disconnectTie(Euntie untie) {
 
 
 void TnotePair::flush() {
+  m_noteItem->markNoteHead(Qt::transparent);
   if (m_beam && this == m_beam->last())
     delete m_beam; // TbeamObject destructor will reset this beam to nullptr
   if (this == m_noteItem->staff()->firstNote())

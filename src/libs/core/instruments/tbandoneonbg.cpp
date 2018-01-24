@@ -295,6 +295,18 @@ void TbandoneonBg::setRightX(qreal rx) {
   }
 }
 
+
+void TbandoneonBg::markSelected(const QColor& markColor) {
+  auto mc = markColor.alpha() ? markColor : Qt::blue;
+  m_circleLeftOpen.item->setProperty("color", mc);
+  m_circleRightOpen.item->setProperty("color", mc);
+  mc = markColor.alpha() ? markColor : Qt::red;
+  m_circleLeftClose.item->setProperty("color", mc);
+  m_circleRightClose.item->setProperty("color", mc);
+  m_circleCloseExtra.item->setProperty("color", mc);
+}
+
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################

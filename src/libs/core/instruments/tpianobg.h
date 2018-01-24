@@ -59,6 +59,8 @@ public:
 
   void paint(QPainter* painter) override;
 
+  void markSelected(const QColor & markColor) override;
+
 signals:
   void keyRectChanged();
   void selectedRectChanged();

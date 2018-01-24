@@ -44,6 +44,7 @@ class TnameItem : public QQuickItem
   Q_PROPERTY(QString appendix READ appendix NOTIFY appendixChanged)
   Q_PROPERTY(QColor bgColor READ bgColor NOTIFY bgColorChanged)
   Q_PROPERTY(bool disabled READ disabled WRITE setDisabled NOTIFY disabledChanged)
+  Q_PROPERTY(QColor markColor READ markColor WRITE setMarkColor NOTIFY markColorChanged)
 
 
 public:
@@ -74,6 +75,9 @@ public:
 
   bool disabled() const { return m_disabled; }
   void setDisabled(bool dis);
+
+  QColor markColor() const { return m_outlineColor; }
+  void setMarkColor(const QColor& outColor);
 
   QString nameText() const;
 
@@ -106,6 +110,7 @@ signals:
   void buttonNameStyleChanged();
   void disabledChanged();
   void noteButtonClicked();
+  void markColorChanged();
 
 private:
   void changeNameBgColor(const QColor& c) { m_bgColor = c;  emit bgColorChanged(); }
@@ -114,7 +119,7 @@ private:
   Tnote                   m_note;
   Tnote::EnameStyle       m_nameStyle, m_buttonNameStyle;
   QString                 m_appendix;
-  QColor                  m_bgColor;
+  QColor                  m_bgColor, m_outlineColor;
   bool                    m_disabled = false;
 
   static TnameItem       *m_instance;

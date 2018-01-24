@@ -61,6 +61,12 @@ public:
        */
   virtual int technical() = 0;
 
+      /**
+       * Sets color of selected item (finger, button, key - depends on instrument type)
+       * to @p markColor if different than transparent, or to global color of selection
+       */
+  virtual void markSelected(const QColor& markColor) = 0;
+
 signals:
   void activeChanged();
   void noteChanged();

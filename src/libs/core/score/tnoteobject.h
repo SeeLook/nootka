@@ -141,6 +141,12 @@ public:
 
   void setBowing(EbowDirection bowDir);
 
+      /**
+       * If @p outLineColor differs from note color, outline is set over note head,
+       * but when it is the same, outline is unset (what means reset the mark)
+       */
+  void markNoteHead(const QColor& outlineColor);
+
 signals:
   void noteChanged();
   void notePosYchanged();

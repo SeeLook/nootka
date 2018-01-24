@@ -36,7 +36,8 @@ TnameItem* TnameItem::m_instance = nullptr;
 TnameItem::TnameItem(QQuickItem* parent) :
   QQuickItem(parent),
   m_nameStyle(Tnote::e_english_Bb),
-  m_buttonNameStyle(Tnote::e_english_Bb)
+  m_buttonNameStyle(Tnote::e_english_Bb),
+  m_outlineColor(Qt::transparent)
 {
   if (m_instance) {
     qDebug() << "TnameItem instance already exists!";
@@ -235,4 +236,12 @@ void TnameItem::prepareAnswer(Tnote::EnameStyle answStyle) {
 void TnameItem::forceAccidental(char accid) {
   m_note.alter = accid;
   emit alterChanged();
+}
+
+
+void TnameItem::setMarkColor(const QColor& outColor) {
+  if (m_outlineColor != outColor) {
+    m_outlineColor = outColor;
+    emit markColorChanged();
+  }
 }

@@ -475,6 +475,16 @@ void TnoteObject::setFingerNumber(int fiNr)
 }
 
 
+void TnoteObject::markNoteHead(const QColor& outlineColor) {
+  if (outlineColor.alpha() == 0) {
+      m_head->setProperty("style", 0); // In Qt private qquicktext_p.h it is first value of enum TextStyle
+  } else {
+      m_head->setProperty("style", 1); // In Qt private qquicktext_p.h it is second value of enum TextStyle
+      m_head->setProperty("styleColor", outlineColor);
+  }
+}
+
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################

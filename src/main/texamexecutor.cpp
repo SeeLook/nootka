@@ -674,7 +674,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
       }
   }
 
-//   markAnswer(curQ);
+  markAnswer(curQ);
   int waitTime = GLOB->E->questionDelay;
   if (m_melody) // increase minimal delay before next question for melodies to 500ms
     waitTime = qMax(waitTime, 500);
@@ -838,43 +838,43 @@ void TexamExecutor::checkAnswer(bool showResults) {
 //         m_exam->curQ()->lastAttempt()->melodyWasPlayed(); // we can suppose that user will play an answer for sure 
 //   askQuestion(true);
 // }
-// 
-// 
-// void TexamExecutor::markAnswer(TQAunit* curQ) {
-//   QColor markColor = m_supp->answerColor(curQ);
-//   if (curQ->melody()) {
-//     for (int i = 0; i < curQ->lastAttempt()->mistakes.size(); ++i) {
-//       SCORE->markAnswered(m_supp->answerColor(curQ->lastAttempt()->mistakes[i]), i);
-//     }
-//   } else {
-//     switch (curQ->answerAs) {
-//       case TQAtype::e_asNote:
-//         SCORE->markAnswered(markColor);
-//         break;
-//       case TQAtype::e_asFretPos:
-//         INSTRUMENT->markAnswer(markColor);
-//         break;
-//       case TQAtype::e_asName:
-//         NOTENAME->markNameLabel(markColor);
-//         break;
-//       case TQAtype::e_asSound:
+
+
+void TexamExecutor::markAnswer(TQAunit* curQ) {
+  QColor markColor = m_supp->answerColor(curQ);
+  if (curQ->melody()) {
+    for (int i = 0; i < curQ->lastAttempt()->mistakes.size(); ++i) {
+      MAIN_SCORE->markNoteHead(m_supp->answerColor(curQ->lastAttempt()->mistakes[i]), i);
+    }
+  } else {
+    switch (curQ->answerAs) {
+      case TQAtype::e_asNote:
+        MAIN_SCORE->markNoteHead(markColor, 0);
+        break;
+      case TQAtype::e_asFretPos:
+        INSTRUMENT->markSelected(markColor);
+        break;
+      case TQAtype::e_asName:
+        NOTENAME->setMarkColor(markColor);
+        break;
+      case TQAtype::e_asSound:
 //         SOUND->pitchView()->markAnswer(markColor);
-//         break;
-//     }
-//     switch (curQ->questionAs) {
-//       case TQAtype::e_asNote:
-//         SCORE->markQuestion(markColor);
-//         break;
-//       case TQAtype::e_asFretPos:
-//         INSTRUMENT->markQuestion(markColor);
-//         break;
-//       case TQAtype::e_asName:
-//         NOTENAME->markNameLabel(markColor);
-//         break;
-//       case TQAtype::e_asSound:
-//         break;
-//     }
-//   }                                                       // TODO
+        break;
+    }
+    switch (curQ->questionAs) {
+      case TQAtype::e_asNote:
+        MAIN_SCORE->markNoteHead(markColor, 1);
+        break;
+      case TQAtype::e_asFretPos:
+        INSTRUMENT->markSelected(markColor);
+        break;
+      case TQAtype::e_asName:
+        NOTENAME->setMarkColor(markColor);
+        break;
+      case TQAtype::e_asSound:
+        break;
+    }
+  }                                                       // TODO
 //   if (m_exercise && GLOB->E->showNameOfAnswered /*&& (!GLOB->E->autoNextQuest || (GLOB->E->autoNextQuest && GLOB->E->afterMistake != TexamParams::e_continue))*/) {
 //     if (!curQ->questionAsName() && !curQ->answerAsName()) {
 //       if (curQ->answerAsNote() || (curQ->answerAsSound() && curQ->questionAsNote()))
@@ -892,9 +892,9 @@ void TexamExecutor::checkAnswer(bool showResults) {
 //       }
 //     }
 //   }
-// }
-// 
-// 
+}
+
+
 // void TexamExecutor::repeatQuestion() {
 //   m_tipHandler->tryAgainTip(3000);
 //   m_lockRightButt = false;
@@ -1115,9 +1115,12 @@ void TexamExecutor::disableWidgets() {
 
 void TexamExecutor::clearWidgets() {
   MAIN_SCORE->clearScore();
-  if (NOTENAME)
+  if (NOTENAME) {
     NOTENAME->setNote(Tnote());
+    NOTENAME->setMarkColor(Qt::transparent);
+  }
   INSTRUMENT->setNote(Tnote());
+  INSTRUMENT->markSelected(Qt::transparent);
 //   SOUND->restoreAfterAnswer();
 }
 
