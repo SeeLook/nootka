@@ -67,6 +67,11 @@ public:
        */
   virtual void markSelected(const QColor& markColor) = 0;
 
+      /**
+       * Changes border of given @p item but only if the item has border property (QML Rectangle)
+       */
+  void markBorder(QQuickItem* item, int borderWidth, const QColor& borderColor);
+
 signals:
   void activeChanged();
   void noteChanged();

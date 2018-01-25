@@ -30,6 +30,16 @@ TcommonInstrument::TcommonInstrument(QQuickItem* parent) :
 }
 
 
+void TcommonInstrument::markBorder(QQuickItem* item, int borderWidth, const QColor& borderColor) {
+  auto border = qvariant_cast<QObject*>(item->property("border"));
+  if (border) {
+    border->setProperty("width", borderWidth);
+    if (borderWidth)
+      border->setProperty("color", borderColor);
+  }
+}
+
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################

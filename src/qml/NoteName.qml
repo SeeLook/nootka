@@ -48,11 +48,12 @@ TnameItem {
       height: parent.height
       spacing: Noo.fontSize()
       Text {
-        y: -noteName.height * 0.17
+        y: noteName.height * 0.03
         text: nameText; color: activPal.text
         height: parent.height
         style: Text.Outline; styleColor: markColor
-        font { pixelSize: height * 0.8; family: "Scorek" }
+        font { pixelSize: height * 0.266; family: "Scorek" }
+        scale: 3
       }
       Text {
         font { pixelSize: parent.height * 0.9; family: "Nootka" }

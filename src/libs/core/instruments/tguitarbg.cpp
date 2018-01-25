@@ -298,10 +298,10 @@ void TguitarBg::updateGuitar() {
 
 
 void TguitarBg::markSelected(const QColor& markColor) {
-  auto mc = markColor.alpha() == 0 ? GLOB->GselectedColor : markColor;
+  int borderWidth = markColor.alpha() ? qRound(height() / 40.0) : 0;
   for (int s = 0; s < 6; ++s) {
-    m_stringItems[s]->setProperty("color", mc);
-    m_fingerItems[s]->setProperty("color", mc);
+    markBorder(m_stringItems[s], borderWidth, markColor);
+    markBorder(m_fingerItems[s], borderWidth, markColor);
   }
 }
 
