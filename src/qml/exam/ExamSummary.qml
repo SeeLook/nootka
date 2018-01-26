@@ -48,29 +48,30 @@ TexamSummary {
       anchors.horizontalCenter: parent.horizontalCenter
       spacing: summDialog.width / 100
       columns: buttColumsCount()
+      property real buttWidth: buttColumsCount() === 2 ? summDialog.width / 3 : summDialog.width / 4
         TiconButton {
           visible: enableContinue()
-          width: summDialog.width / 4
+          width: buttGrid.buttWidth
           pixmap: Noo.pix(isExercise() ? "practice" : "exam"); iconHeight: summDialog.height / 15
           text: Noo.TR("QWizard", "Continue")
           onClicked: { continueExecutor(); dialLoader.close() }
         }
         TiconButton {
           enabled: false
-          width: summDialog.width / 4
+          width: buttGrid.buttWidth
           pixmap: Noo.pix("charts"); iconHeight: summDialog.height / 15
           text: qsTr("Analyze")
   //         onClicked:
         }
         TiconButton {
           visible: isExercise()
-          width: summDialog.width / 4
+          width: buttGrid.buttWidth
           pixmap: Noo.pix("exam"); iconHeight: summDialog.height / 15
           text: qsTr("Pass an exam")
           onClicked: { exerciseToExam(); dialLoader.close() }
         }
         TiconButton {
-          width: summDialog.width / 4
+          width: buttGrid.buttWidth
           pixmap: Noo.pix("exit"); iconHeight: summDialog.height / 15
           text: Noo.TR("QPlatformTheme", "Close")
           onClicked: dialLoader.close()
