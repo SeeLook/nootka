@@ -112,7 +112,7 @@ TstartExamItem {
           spacing: Noo.fontSize()
           TiconButton {
             iconHeight: startDialog.height / 15
-            pixmap: Noo.pix("exam"); text: qsTr("Select an exam to continue")
+            pixmap: Noo.pix("exam"); text: qsTr("Select an exam to continue") + "   ⋮"
             onClicked: menu.open()
             Menu {
               id: menu

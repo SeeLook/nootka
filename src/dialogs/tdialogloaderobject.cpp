@@ -74,7 +74,7 @@ QString TdialogLoaderObject::stdButtonIcon(int role) {
   switch (role) {
     case 33554432: return QStringLiteral("check"); // Apply
     case 4194304: return QStringLiteral("record"); // Cancel
-    case 134217728: return QStringLiteral("clear-score"); // Restore defaults
+    case 134217728: return QStringLiteral("restore-defaults"); // Restore defaults
     case 16777216: return QStringLiteral("help"); // Help
     case 2097152: return QStringLiteral("exit"); // Close
     case 1024: return QStringLiteral("check"); // OK
@@ -86,7 +86,7 @@ QString TdialogLoaderObject::stdButtonIcon(int role) {
 QString TdialogLoaderObject::buttonRoleIcon(int role) {
   switch (static_cast<QDialogButtonBox::ButtonRole>(role)) {
     case QDialogButtonBox::ApplyRole: return QStringLiteral("check"); // Apply
-    case QDialogButtonBox::ResetRole: return QStringLiteral("clear-score"); // Restore defaults
+    case QDialogButtonBox::ResetRole: return QStringLiteral("restore-defaults"); // Restore defaults
     case QDialogButtonBox::HelpRole: return QStringLiteral("help"); // Help
     case QDialogButtonBox::AcceptRole: return QStringLiteral("check"); // OK
     default: return QStringLiteral("exit");;

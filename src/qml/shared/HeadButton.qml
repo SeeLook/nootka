@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -24,7 +24,7 @@ ToolButton {
   property alias textColor: butText.color
   property Taction taction
 
-  background: Rectangle { color: pressed ? activPal.button : "transparent" }
+  background: Rectangle { color: pressed ? activPal.button : (hovered ? activPal.base : "transparent") }
 
   onTactionChanged: {
     if (taction) {
@@ -59,7 +59,7 @@ ToolButton {
     id: toolTip
     delay: 1000
     timeout: 5000
-    visible: hovered && text != ""
+    visible: hovered && text !== ""
     contentItem: Text {
       text: toolTip.text
       color: activPal.highlightedText

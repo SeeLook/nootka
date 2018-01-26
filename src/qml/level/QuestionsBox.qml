@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -44,7 +44,7 @@ Tile {
         anchors.verticalCenter: parent.verticalCenter
         font { pixelSize: Noo.fontSize() * 2; bold: true }
         color: ma.containsMouse ? activPal.highlight : activPal.text
-        text: "  ..."
+        text: "   ⋮"
         MouseArea {
           id: ma
           hoverEnabled: true
