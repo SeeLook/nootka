@@ -42,7 +42,6 @@ Old.Dialog {
       spacing: Noo.fontSize()
       delegate: TiconButton {
         pixmap: Noo.pix(dialogObj.buttonRoleIcon(DialogButtonBox.buttonRole))
-        background: Rectangle { color: enabled ? (checked ? activPal.highlight : activPal.button) : disdPal.button }
       }
       background: Rectangle {
         anchors.fill: parent
@@ -51,8 +50,8 @@ Old.Dialog {
       onClicked: {
         switch (button.DialogButtonBox.buttonRole) {
           case DialogButtonBox.AcceptRole: dialLoader.accepted(); break
-          case DialogButtonBox.HelpRole: help(); break
-          case DialogButtonBox.ResetRole: reset(); break
+          case DialogButtonBox.HelpRole: dialLoader.help(); break
+          case DialogButtonBox.ResetRole: dialLoader.reset(); break
           case DialogButtonBox.ApplyRole: dialLoader.apply(); break
           case DialogButtonBox.ActionRole: break
           default: dialLoader.close()
