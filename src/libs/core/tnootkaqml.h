@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -130,6 +130,9 @@ public:
 
   Q_INVOKABLE qreal bound(qreal min, qreal val, qreal max);
 
+  bool resetConfig() const { return m_resetConfig; }
+  Q_INVOKABLE void setResetConfig(bool rc) { m_resetConfig = rc; }
+
 /**
  * All stuff below is responsible for handling note changes in score, instrument and sound in/out.
  * @p TnootkaQML has score and instrument pointers to handle theirs signals when note is changed,
@@ -187,6 +190,7 @@ private:
   TscoreObject                  *m_scoreObject = nullptr;
   bool                           m_nodeConnected = false;
   bool                           m_ignoreScore = false; /**< Becomes @p TRUE to ignore @p scoreChangedNote() slot  */
+  bool                           m_resetConfig = false;
 };
 
 #endif // TNOOTKAQML_H

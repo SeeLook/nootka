@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -7,6 +7,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Window 2.2
 
 import "../about"
+import "../"
 
 
 ApplicationWindow {
@@ -57,22 +58,25 @@ ApplicationWindow {
     }
     Item {
       visible: !Noo.isAndroid()
-      width: parent.width; height: prevBut.height
-      Button {
+      width: parent.width; height: prevBut.height + fontSize
+      TcuteButton {
+        anchors.verticalCenter: parent.verticalCenter
         x: parent.width / 2 - width - fontSize
         id: prevBut
         text: Noo.TR("QWizard", "< &Back").replace("&", "")
         enabled: swipe.currentIndex > 0
         onClicked: swipe.currentIndex -= 1
       }
-      Button {
+      TcuteButton {
+        anchors.verticalCenter: parent.verticalCenter
         x: parent.width / 2 + fontSize
         text: Noo.TR("QWizard", "&Next >").replace("&", "")
         enabled: swipe.currentIndex < swipe.count - 1
         onClicked: swipe.currentIndex += 1
       }
-      Button {
-        anchors.right: parent.right
+      TcuteButton {
+        anchors.verticalCenter: parent.verticalCenter
+        x: parent.width - width - fontSize
         text: Noo.TR("QWizard", "&Finish").replace("&", "")
         onClicked: nootkaWindow.close()
       }
@@ -86,10 +90,9 @@ ApplicationWindow {
     GLOB.transposition = clefPage.transposition
     GLOB.seventhIsB = optionsPage.is7B
     GLOB.enableDoubleAccids = optionsPage.doubleAccids
-    GLOB.keySignatureEnabled - optionsPage.useKeys
+    GLOB.keySignatureEnabled = optionsPage.useKeys
     GLOB.showEnharmNotes = optionsPage.enharmNames
     GLOB.preferFlats = GLOB.instrument.isSax ? true : false
     Qt.quit()
   }
-//   Component.onDestruction: console.log("Wizard Bye")
 }

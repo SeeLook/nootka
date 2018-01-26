@@ -9,6 +9,7 @@ import "../"
 Flickable {
   width: parent.width
   height: parent.height
+  clip: true
 
   contentHeight: aboutCol.height
   contentWidth: width

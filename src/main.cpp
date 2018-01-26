@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -65,10 +65,6 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 }
 
 
-Tglobals *gl;
-bool resetConfig;
-
-
 int main(int argc, char *argv[])
 {
 //   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -89,6 +85,7 @@ int main(int argc, char *argv[])
 
   QTranslator qtTranslator;
   QTranslator nooTranslator;
+  Tglobals *gl = nullptr;
   QPointer<QApplication> a = nullptr;
   QQmlApplicationEngine *e = nullptr;
   TnootkaQML nooObj;
@@ -96,16 +93,15 @@ int main(int argc, char *argv[])
   int exitCode;
   bool firstTime = true;
   QString confFile;
-  resetConfig = false;
   do {
 #if !defined (Q_OS_ANDROID)
     if (a)
       delete a;
-    if (resetConfig) { // delete config file - new Nootka instance will start with first run wizard
-        QFile f(confFile);
-        f.remove();
+    if (nooObj.resetConfig()) { // delete config file - new Nootka instance will start with first run wizard
+      QFile f(confFile);
+      f.remove();
     }
-    resetConfig = false;
+    nooObj.setResetConfig(false);
 #endif
     a = new QApplication(argc, argv);
     Tmtr::init(a);
@@ -171,7 +167,7 @@ int main(int argc, char *argv[])
       qDebug() << "NOOTKA LAUNCH TIME" << startElapsed.nsecsElapsed() / 1000000.0 << " [ms]";
 #else
       QTextStream o(stdout);
-      o << "\033[01;35m[Nootka launch time: " << startElapsed.nsecsElapsed() / 1000000.0 << " [ms]\033[01;00m\n";
+      o << "\033[01;35m Nootka launch time: " << startElapsed.nsecsElapsed() / 1000000.0 << " [ms]\033[01;00m\n";
 #endif
     }
     sound.init();
@@ -180,15 +176,15 @@ int main(int argc, char *argv[])
     delete e;
     delete gl;
 #if defined (Q_OS_ANDROID)
-    if (resetConfig) { // delete config file - new Nootka instance will start with first run wizard
+    if (nooObj.resetConfig()) { // delete config file - new Nootka instance will start with first run wizard
         QFile f(confFile);
         f.remove();
-       Tandroid::restartNootka(); // and call Nootka after delay
+        Tandroid::restartNootka(); // and call Nootka after delay
     }
-    resetConfig = false; // do - while loop doesn't work with Android
+    nooObj.setResetConfig(false); // do - while loop doesn't work with Android
     qApp->quit(); // HACK: calling QApplication::quick() solves hang on x86 when Qt uses native (usually obsolete) SSL libraries
 #endif
-  } while (resetConfig);
+  } while (nooObj.resetConfig());
 
   delete a;
   return exitCode;

@@ -4,6 +4,7 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
+import QtQuick.Dialogs 1.3
 
 import "../"
 
@@ -141,6 +142,18 @@ Tflickable {
       TcuteButton {
         anchors.horizontalCenter: parent.horizontalCenter
         text: qsTranslate("TglobalSettings", "Restore all default settings")
+        onClicked: restoreDialog.open()
+        MessageDialog {
+          id: restoreDialog
+          icon: StandardIcon.Critical
+          standardButtons: StandardButton.Ok | StandardButton.Abort
+          title: qsTranslate("TglobalSettings", "Restore all default settings")
+          text: qsTranslate("TglobalSettings", "All settings will be reset to their default values!<br>Nootka will start up with the first-run wizard.")
+          onAccepted: {
+            Noo.setResetConfig(true)
+            Qt.quit()
+          }
+        }
       }
     }
 
