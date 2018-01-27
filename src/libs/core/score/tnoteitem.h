@@ -16,8 +16,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TNOTEOBJECT_H
-#define TNOTEOBJECT_H
+#ifndef TNOTEITEM_H
+#define TNOTEITEM_H
 
 
 #include "nootkacoreglobal.h"
@@ -220,4 +220,4 @@ private:
   void checkAddLinesVisibility();
 };
 
-#endif // TNOTEOBJECT_H
+#endif // TNOTEITEM_H

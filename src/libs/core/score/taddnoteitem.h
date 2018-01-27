@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,8 +16,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TADDOBJECT_H
-#define TADDOBJECT_H
+#ifndef TADDNOTEITEM_H
+#define TADDNOTEITEM_H
 
 
 #include "nootkacoreglobal.h"
@@ -33,7 +33,7 @@ class QTimer;
  * This is C++ part of @p NoteAdd component which is not able to handle mouse grabbing,
  * so in occasion a few logic routines are done here
  */
-class NOOTKACORE_EXPORT TaddObject : public QQuickItem
+class NOOTKACORE_EXPORT TaddNoteItem : public QQuickItem
 {
 
   Q_OBJECT
@@ -43,8 +43,8 @@ class NOOTKACORE_EXPORT TaddObject : public QQuickItem
   Q_PROPERTY(qreal yPos READ yPos NOTIFY yPosChanged)
 
 public:
-  explicit TaddObject(QQuickItem* parent = nullptr);
-  ~TaddObject();
+  explicit TaddNoteItem(QQuickItem* parent = nullptr);
+  ~TaddNoteItem();
 
   TscoreObject* scoreObject() { return m_scoreObject; }
   void setScoreObject(TscoreObject* sc);
@@ -77,4 +77,4 @@ private:
   QElapsedTimer                        m_touchElapsed;
 };
 
-#endif // TADDOBJECT_H
+#endif // TADDNOTEITEM_H
