@@ -18,7 +18,7 @@
 
 #include "tbeamobject.h"
 #include "tscoreobject.h"
-#include "tstaffobject.h"
+#include "tstaffitem.h"
 #include "tmeasureobject.h"
 #include "tnoteobject.h"
 #include "tnotepair.h"
@@ -190,7 +190,7 @@ void TbeamObject::drawBeam() {
 }
 
 
-void TbeamObject::changeStaff(TstaffObject* st) {
+void TbeamObject::changeStaff(TstaffItem* st) {
   setParentItem(st);
 }
 

@@ -19,7 +19,7 @@
 #include "tnotepair.h"
 #include "music/tnote.h"
 #include "tnoteobject.h"
-#include "tstaffobject.h"
+#include "tstaffitem.h"
 #include "tbeamobject.h"
 
 

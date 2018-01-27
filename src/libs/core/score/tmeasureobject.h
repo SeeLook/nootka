@@ -26,7 +26,7 @@
 
 class QQuickItem;
 class TscoreObject;
-class TstaffObject;
+class TstaffItem;
 class TnoteObject;
 class TnotePair;
 class TbeamObject;
@@ -40,7 +40,7 @@ class NOOTKACORE_EXPORT TmeasureObject : public QObject
   Q_OBJECT
 
   friend class TscoreObject;
-  friend class TstaffObject;
+  friend class TstaffItem;
   friend class TnoteObject;
 
 public:
@@ -71,8 +71,8 @@ public:
 
   TscoreObject* score() { return m_score; }
 
-  TstaffObject* staff() { return m_staff; }
-  void setStaff(TstaffObject* st);
+  TstaffItem* staff() { return m_staff; }
+  void setStaff(TstaffItem* st);
 
   int noteCount() { return m_notes.count(); }
   TnotePair* note(int nr) { return m_notes[nr]; }
@@ -152,7 +152,7 @@ private:
   int                            m_duration;
   int                            m_id;
   TscoreObject                  *m_score;
-  TstaffObject                  *m_staff;
+  TstaffItem                  *m_staff;
   int                            m_free;
   QList<TnotePair*>              m_notes;
   qint8                         *m_firstInGr; /**< qint8 is sufficient - measure never has more than 127 notes */
