@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tnoteobject.h"
+#include "tnoteitem.h"
 #include "tscoreobject.h"
 #include "tstaffitem.h"
 #include "tmeasureobject.h"
@@ -76,7 +76,7 @@ QString tieDebug(Trhythm::Etie t) {
 }
 
 
-TnoteObject::TnoteObject(TstaffItem* staffObj, TnotePair* wrapper) :
+TnoteItem::TnoteItem(TstaffItem* staffObj, TnotePair* wrapper) :
   QQuickItem(staffObj),
   m_staff(staffObj),
   m_wrapper(wrapper),
@@ -103,7 +103,7 @@ TnoteObject::TnoteObject(TstaffItem* staffObj, TnotePair* wrapper) :
 
   m_alter = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
   m_alter->setParentItem(m_head);
-  connect(m_alter, &QQuickItem::widthChanged, this, &TnoteObject::alterWidthChanged);
+  connect(m_alter, &QQuickItem::widthChanged, this, &TnoteItem::alterWidthChanged);
 
   m_flag = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
   m_flag->setParentItem(m_stem);
@@ -124,18 +124,18 @@ TnoteObject::TnoteObject(TstaffItem* staffObj, TnotePair* wrapper) :
 }
 
 
-TnoteObject::~TnoteObject() {
+TnoteItem::~TnoteItem() {
 //   qDebug() << debug() << "is going deleted";
   delete m_note;
 }
 
 
-int TnoteObject::index() const {
+int TnoteItem::index() const {
   return m_wrapper->index();
 }
 
 
-void TnoteObject::setStaff(TstaffItem* staffObj) {
+void TnoteItem::setStaff(TstaffItem* staffObj) {
   if (staffObj != m_staff) {
       m_staff = staffObj;
       if (m_staff) {
@@ -152,17 +152,17 @@ void TnoteObject::setStaff(TstaffItem* staffObj) {
 }
 
 
-void TnoteObject::setMeasure(TmeasureObject* m) {
+void TnoteItem::setMeasure(TmeasureObject* m) {
   m_measure = m;
 }
 
 
-void TnoteObject::setStemHeight(qreal sh) {
+void TnoteItem::setStemHeight(qreal sh) {
   m_stem->setHeight(sh);
 }
 
 
-void TnoteObject::setColor(const QColor& c) {
+void TnoteItem::setColor(const QColor& c) {
   m_head->setProperty("color", c);
   m_alter->setProperty("color", c);
   m_flag->setProperty("color", c);
@@ -206,7 +206,7 @@ void TnoteObject::setColor(const QColor& c) {
  * - stem visibility
  * - width
  */
-void TnoteObject::setNote(const Tnote& n) {
+void TnoteItem::setNote(const Tnote& n) {
   bool updateHead = n.rhythm() != m_note->rhythm() || n.isRest() != m_note->isRest() || n.hasDot() != m_note->hasDot();
   bool fixBeam = n.isRest() != m_note->isRest();
   bool updateStem = updateHead || fixBeam || ((n.rtm.beam() != Trhythm::e_noBeam) != (m_note->rtm.beam() != Trhythm::e_noBeam))
@@ -278,16 +278,16 @@ if (updateStem)
 }
 
 
-quint32 TnoteObject::technical() const { return m_wrapper ? m_wrapper->technical() : 255; }
+quint32 TnoteItem::technical() const { return m_wrapper ? m_wrapper->technical() : 255; }
 
 
-void TnoteObject::setTechnical(quint32 tech) {
+void TnoteItem::setTechnical(quint32 tech) {
   if (m_wrapper)
     m_wrapper->setTechnical(tech);
 }
 
 
-void TnoteObject::setX(qreal xx) {
+void TnoteItem::setX(qreal xx) {
   if (staff()->score()->singleNote())
       QQuickItem::setX(xx);
   else {
@@ -302,17 +302,17 @@ void TnoteObject::setX(qreal xx) {
 }
 
 
-Trhythm TnoteObject::rhythm() const {
+Trhythm TnoteItem::rhythm() const {
   return m_note->rtm;
 }
 
 
-qreal TnoteObject::rightX() const {
+qreal TnoteItem::rightX() const {
   return x() + width() + staff()->gapFactor() * rhythmFactor() - m_alter->width();
 }
 
 
-void TnoteObject::setHeight(qreal hh) {
+void TnoteItem::setHeight(qreal hh) {
   if (hh != height()) {
     QQuickItem::setHeight(hh);
     for (int i = 0; i < 7; ++i) {
@@ -338,7 +338,7 @@ void TnoteObject::setHeight(qreal hh) {
 }
 
 
-qreal TnoteObject::rhythmFactor() const {
+qreal TnoteItem::rhythmFactor() const {
   if (m_note->rhythm() == Trhythm::NoRhythm)
     return 0.75;
 
@@ -347,14 +347,14 @@ qreal TnoteObject::rhythmFactor() const {
 }
 
 
-char TnoteObject::debug() {
+char TnoteItem::debug() {
   QTextStream o(stdout);
   o << "   \033[01;29m[NOTE " << index() << "]\033[01;00m";
   return 32; // fake
 }
 
 
-void TnoteObject::shiftHead(qreal shift) {
+void TnoteItem::shiftHead(qreal shift) {
   if (shift != m_head->x()) {
     m_head->setX(shift);
     for (int i = 0; i < 7; ++i) {
@@ -367,7 +367,7 @@ void TnoteObject::shiftHead(qreal shift) {
 }
 
 
-void TnoteObject::checkTie() {
+void TnoteItem::checkTie() {
   if (m_tie && (m_note->rtm.tie() == Trhythm::e_noTie || m_note->rtm.tie() == Trhythm::e_tieEnd)) {
       delete m_tie;
       m_tie = nullptr;
@@ -384,12 +384,12 @@ void TnoteObject::checkTie() {
 }
 
 
-qreal TnoteObject::tieWidth() {
+qreal TnoteItem::tieWidth() {
   return staff()->gapFactor() * rhythmFactor() + (this == m_measure->last()->item() ? 1.5 : 0.0) + (m_note->rtm.stemDown() ? 0.0 : m_flag->width() - 0.2);
 }
 
 
-QPointF TnoteObject::stemTop() {
+QPointF TnoteItem::stemTop() {
   return mapToItem(parentItem(), QPointF(m_stem->x(), m_stem->y() + (m_note->rtm.stemDown() ? m_stem->height() : 0.0)));
 }
 
@@ -399,7 +399,7 @@ QPointF TnoteObject::stemTop() {
  * @p updateNamePos() method takes care about @p y() coordinate,
  * but @p x() has to be set when this @p TnoteObject changes its X coordinate
  */
-void TnoteObject::setNoteNameVisible(bool nameVisible) {
+void TnoteItem::setNoteNameVisible(bool nameVisible) {
   if (nameVisible) {
       if (!m_name) {
         m_staff->score()->component()->setData(
@@ -424,7 +424,7 @@ void TnoteObject::setNoteNameVisible(bool nameVisible) {
  * - note heads: @p 0xf4be @p 0xf4bd (half and black over-sized) and @p 0xf486 (whole smaller)
  * - rests: starts form 0xe4e3 (whole)
  */
-QString TnoteObject::getHeadText(const Trhythm& r) {
+QString TnoteItem::getHeadText(const Trhythm& r) {
   if (r.rhythm() == Trhythm::NoRhythm)
       return QStringLiteral("\uf4be"); // just black note-head
       if (r.isRest())
@@ -440,7 +440,7 @@ QString TnoteObject::getHeadText(const Trhythm& r) {
 }
 
 
-void TnoteObject::setStringNumber(int strNr) {
+void TnoteItem::setStringNumber(int strNr) {
   if (!m_stringNumber && strNr > 0 && strNr < 7) {
     m_staff->score()->component()->setData("import QtQuick 2.9; Text { z: -1; font { pixelSize: 4; family: \"Nootka\" } }", QUrl());
     m_stringNumber = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
@@ -458,7 +458,7 @@ void TnoteObject::setStringNumber(int strNr) {
 }
 
 
-void TnoteObject::setBowing(EbowDirection bowDir) {
+void TnoteItem::setBowing(EbowDirection bowDir) {
   if (!m_bowing && bowDir != BowUndefined) {
     m_staff->score()->component()->setData("import QtQuick 2.9; Text { z: -1; font { pixelSize: 5; family: \"Scorek\" } }", QUrl());
     m_bowing = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
@@ -476,12 +476,12 @@ void TnoteObject::setBowing(EbowDirection bowDir) {
 }
 
 
-void TnoteObject::setFingerNumber(int fiNr)
+void TnoteItem::setFingerNumber(int fiNr)
 {
 }
 
 
-void TnoteObject::markNoteHead(const QColor& outlineColor) {
+void TnoteItem::markNoteHead(const QColor& outlineColor) {
   if (outlineColor.alpha() == 0) {
       m_head->setProperty("style", 0); // In Qt private qquicktext_p.h it is first value of enum TextStyle
   } else {
@@ -495,7 +495,7 @@ void TnoteObject::markNoteHead(const QColor& outlineColor) {
 //###################              PROTECTED           ############################################
 //#################################################################################################
 
-QString TnoteObject::getAccidText() {
+QString TnoteItem::getAccidText() {
   if (!m_note->isValid() || (m_note->rtm.tie() && m_note->rtm.tie() != Trhythm::e_tieStart)) // accidental only for starting tie
     return QString();
 
@@ -551,12 +551,12 @@ QString TnoteObject::getAccidText() {
 }
 
 
-QString TnoteObject::getHeadText() const {
+QString TnoteItem::getHeadText() const {
   return getHeadText(m_note->rtm);
 }
 
 
-QString TnoteObject::getFlagText() {
+QString TnoteItem::getFlagText() {
   if (m_note->rhythm() < Trhythm::Eighth || m_note->isRest() || m_note->rtm.beam() != Trhythm::e_noBeam)
     return QString();
   // In Scorek font, flag glyphs are placed: flag for stem-up, then flag for stem-down, starting from 0xe240
@@ -564,13 +564,13 @@ QString TnoteObject::getFlagText() {
 }
 
 
-void TnoteObject::keySignatureChanged() {
+void TnoteItem::keySignatureChanged() {
   updateAlter();
   updateWidth();
 }
 
 
-void TnoteObject::hoverEnterEvent(QHoverEvent*) {
+void TnoteItem::hoverEnterEvent(QHoverEvent*) {
   if (!m_staff->score()->readOnly()) {
     m_measure->score()->setHoveredNote(this);
     m_measure->score()->changeActiveNote(this);
@@ -578,7 +578,7 @@ void TnoteObject::hoverEnterEvent(QHoverEvent*) {
 }
 
 
-void TnoteObject::hoverLeaveEvent(QHoverEvent*) {
+void TnoteItem::hoverLeaveEvent(QHoverEvent*) {
   if (!m_staff->score()->readOnly()) {
     m_measure->score()->setHoveredNote(nullptr);
     m_measure->score()->changeActiveNote(nullptr);
@@ -586,7 +586,7 @@ void TnoteObject::hoverLeaveEvent(QHoverEvent*) {
 }
 
 
-void TnoteObject::hoverMoveEvent(QHoverEvent* event) {
+void TnoteItem::hoverMoveEvent(QHoverEvent* event) {
   if (!m_staff->score()->readOnly()) {
     if (m_staff->score()->isPianoStaff() && event->pos().y() >= m_staff->upperLine() + 10.6 && event->pos().y() <= m_staff->upperLine() + 11.6)
       return;
@@ -606,7 +606,7 @@ static QElapsedTimer m_touchDuration;
  * Mouse events are used to handle touch when supported (they are ignored when enter event occurred before invoked by mouse)
  * Press event displays note cursor and locks grabbing the mouse - so moving a finger doesn't scroll entire score
  */
-void TnoteObject::mousePressEvent(QMouseEvent* event) {
+void TnoteItem::mousePressEvent(QMouseEvent* event) {
   if (!m_staff->score()->readOnly()) {
     setKeepMouseGrab(true);
     m_measure->score()->setPressedNote(this);
@@ -631,7 +631,7 @@ void TnoteObject::mousePressEvent(QMouseEvent* event) {
  *
  * Release event is also used to set (confirm) a note by mouse press
  */
-void TnoteObject::mouseReleaseEvent(QMouseEvent*) {
+void TnoteItem::mouseReleaseEvent(QMouseEvent*) {
   if (!m_staff->score()->readOnly()) {
       if (keepMouseGrab())
         setKeepMouseGrab(false);
@@ -658,7 +658,7 @@ void TnoteObject::mouseReleaseEvent(QMouseEvent*) {
 }
 
 
-void TnoteObject::mouseMoveEvent(QMouseEvent* event) {
+void TnoteItem::mouseMoveEvent(QMouseEvent* event) {
   if (!m_staff->score()->readOnly()) {
     if (m_measure->score()->pressedNote() && !m_measure->score()->touchHideTimer()->isActive() && m_touchDuration.elapsed() > 200
         && static_cast<int>(m_measure->score()->activeYpos()) != static_cast<int>(event->pos().y()))
@@ -671,7 +671,7 @@ void TnoteObject::mouseMoveEvent(QMouseEvent* event) {
 //###################              PRIVATE             ############################################
 //#################################################################################################
 
-QQuickItem* TnoteObject::createAddLine() {
+QQuickItem* TnoteItem::createAddLine() {
   auto line = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
   line->setParentItem(this);
   line->setWidth(3.5);
@@ -683,7 +683,7 @@ QQuickItem* TnoteObject::createAddLine() {
 }
 
 
-void TnoteObject::updateAlter() {
+void TnoteItem::updateAlter() {
   if ((m_note->rtm.tie() == Trhythm::e_tieCont || m_note->rtm.tie() == Trhythm::e_tieEnd))
     m_accidText.clear();
   else
@@ -694,7 +694,7 @@ void TnoteObject::updateAlter() {
 }
 
 
-void TnoteObject::updateWidth() {
+void TnoteItem::updateWidth() {
   if (m_measure->score()->singleNote())
       setWidth(5.0);
   else {
@@ -707,7 +707,7 @@ void TnoteObject::updateWidth() {
 }
 
 
-void TnoteObject::updateNoteHead() {
+void TnoteItem::updateNoteHead() {
   QString headText = getHeadText();
   if (m_note->hasDot())
     headText.append(QStringLiteral("\ue1e7"));
@@ -715,7 +715,7 @@ void TnoteObject::updateNoteHead() {
 }
 
 
-void TnoteObject::updateTieScale() {
+void TnoteItem::updateTieScale() {
   if (m_tie) {
     m_tie->setProperty("xScale", tieWidth() / 2.90625);
     m_tie->setProperty("stemDown", m_note->rtm.stemDown());
@@ -723,7 +723,7 @@ void TnoteObject::updateTieScale() {
 }
 
 
-void TnoteObject::checkStem() {
+void TnoteItem::checkStem() {
   if (m_notePosY && !m_note->isRest() && m_note->rhythm() > Trhythm::Whole ) {
       if (m_note->rtm.beam() == Trhythm::e_noBeam) {
           m_note->rtm.setStemDown(m_notePosY < staff()->upperLine() + 4.0);
@@ -749,7 +749,7 @@ void TnoteObject::checkStem() {
 
 
 // TODO: name may collide with next/previous note name (16ths), octave mark out-shots too much
-void TnoteObject::updateNamePos() {
+void TnoteItem::updateNamePos() {
   if (m_name) {
     if (m_note->isValid()) {
         m_name->setVisible(true);
@@ -768,7 +768,7 @@ void TnoteObject::updateNamePos() {
 }
 
 
-void TnoteObject::checkAddLinesVisibility() {
+void TnoteItem::checkAddLinesVisibility() {
   for (int i = 0; i < 7; ++i) {
     m_upperLines[i]->setVisible(m_head->isVisible() && !m_note->isRest() && m_notePosY > 0.0 && i >= qFloor((m_notePosY - 1.0) / 2.0));
     m_lowerLines[i]->setVisible(m_head->isVisible() && !m_note->isRest() && staff()->upperLine() + (m_midLine ? 22 : 10.0) + i * 2 <= m_notePosY);

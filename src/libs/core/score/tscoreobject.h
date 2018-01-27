@@ -49,7 +49,7 @@ class QTimer;
 class TnotePair;
 class TstaffItem;
 class TmeasureObject;
-class TnoteObject;
+class TnoteItem;
 class Tmeter;
 class Tmelody;
 
@@ -83,12 +83,12 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
                         /* Helper variables */
   Q_PROPERTY(qreal stavesHeight READ stavesHeight NOTIFY stavesHeightChanged)
   Q_PROPERTY(qreal width READ width WRITE setWidth)
-  Q_PROPERTY(TnoteObject* selectedItem READ selectedItem WRITE setSelectedItem NOTIFY selectedItemChanged)
+  Q_PROPERTY(TnoteItem* selectedItem READ selectedItem WRITE setSelectedItem NOTIFY selectedItemChanged)
   Q_PROPERTY(Tnote selectedNote READ selectedNote NOTIFY selectedNoteChanged)
   Q_PROPERTY(QColor bgColor READ bgColor WRITE setBgColor NOTIFY bgColorChanged)
                         /* Note cursor */
-  Q_PROPERTY(TnoteObject* activeNote READ activeNote NOTIFY activeNoteChanged)
-  Q_PROPERTY(TnoteObject* lastNote READ lastNote NOTIFY lastNoteChanged)
+  Q_PROPERTY(TnoteItem* activeNote READ activeNote NOTIFY activeNoteChanged)
+  Q_PROPERTY(TnoteItem* lastNote READ lastNote NOTIFY lastNoteChanged)
   Q_PROPERTY(qreal activeYpos READ activeYpos NOTIFY activeYposChanged)
   Q_PROPERTY(qreal upperLine READ upperLine NOTIFY upperLineChanged)
   Q_PROPERTY(qreal xFirstInActivBar READ xFirstInActivBar NOTIFY activeBarChanged)
@@ -100,7 +100,7 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
 
   friend class TstaffItem;
   friend class TmeasureObject;
-  friend class TnoteObject;
+  friend class TnoteItem;
   friend class TaddObject;
 
 public:
@@ -130,20 +130,20 @@ public:
        * and QML performs required routines
        */
   Q_INVOKABLE void addNote(const Tnote& newNote, bool fromQML = false);
-  Q_INVOKABLE void setNote(TnoteObject* no, const Tnote& n);
+  Q_INVOKABLE void setNote(TnoteItem* no, const Tnote& n);
   Q_INVOKABLE void setNote(int noteNr, const Tnote& n);
 
   void setTechnical(int noteId, quint32 tech);
 
       /**
-       * Returns a note item of @p TnoteObject
+       * Returns a note item of @p TnoteItem
        */
-  Q_INVOKABLE TnoteObject* note(int noteId);
+  Q_INVOKABLE TnoteItem* note(int noteId);
 
       /**
        * Returns note of given @p item or invalid (empty) one if item is null
        */
-  Q_INVOKABLE Tnote noteOfItem(TnoteObject* item) const;
+  Q_INVOKABLE Tnote noteOfItem(TnoteItem* item) const;
 
       /**
        * Returns note at given @p index or invalid note if there is no a note with that index
@@ -273,19 +273,19 @@ public:
       /**
        * Returns next note to given @p someNote or null if given note was the last one
        */
-  Q_INVOKABLE TnoteObject* getNext(TnoteObject* someNote);
+  Q_INVOKABLE TnoteItem* getNext(TnoteItem* someNote);
 
       /**
        * Returns previous note to given @p someNote or null if given note was the first one
        */
-  Q_INVOKABLE TnoteObject* getPrev(TnoteObject* someNote);
+  Q_INVOKABLE TnoteItem* getPrev(TnoteItem* someNote);
 
       /**
        * It keeps pointer to selected note item but selections itself is managed outside.
        * Changes this has influence on @p selectedNote() which is read only
        */
-  TnoteObject* selectedItem() { return m_selectedItem; }
-  void setSelectedItem(TnoteObject* item);
+  TnoteItem* selectedItem() { return m_selectedItem; }
+  void setSelectedItem(TnoteItem* item);
 
   Tnote selectedNote() const { return noteOfItem(m_selectedItem); }
 
@@ -293,7 +293,7 @@ public:
   void setBgColor(const QColor& bg);
 
 /* ------------------ Note cursor ------------------ */
-  TnoteObject* activeNote() { return m_activeNote; }
+  TnoteItem* activeNote() { return m_activeNote; }
   qreal xFirstInActivBar();
   qreal xLastInActivBar();
   qreal activeYpos() const { return m_activeYpos; }
@@ -321,21 +321,21 @@ public:
       /**
        * Touched state occurs when score got mouse press event without hover enter event before.
        * In that moment all controls have to be hidden to give user all score for touch and set note pitch
-       * This state is managed by @p TnoteObject and @p TaddObject classes.
+       * This state is managed by @p TnoteItem and @p TaddObject classes.
        */
   bool touched() const { return m_touched; }
 
       /**
-       * Last note item (@p TnoteObject) or null if score is empty
+       * Last note item (@p TnoteItem) or null if score is empty
        */
-  TnoteObject* lastNote();
+  TnoteItem* lastNote();
 
       /**
        * Returns staff middle line position according to given @p actNote (active note) state.
        * When it is set then middle of active staff is returned,
        * or middle of the last staff (note cursor is on adding item then)
        */
-  Q_INVOKABLE qreal midLine(TnoteObject* actNote);
+  Q_INVOKABLE qreal midLine(TnoteItem* actNote);
 
   Q_INVOKABLE void deleteLastNote();
 
@@ -448,14 +448,14 @@ protected:
        * Returns number of note that starts a tie through @p x()
        * and number of note that ends the tie through @p y()
        */
-  QPoint tieRange(TnoteObject* n);
+  QPoint tieRange(TnoteItem* n);
 
 /* ------------------ Note cursor ------------------ */
 
       /**
        * Sets note over which one cursor appears or null if none
        */
-  void changeActiveNote(TnoteObject* aNote);
+  void changeActiveNote(TnoteItem* aNote);
   void setActiveNotePos(qreal yPos);
 
       /**
@@ -463,11 +463,11 @@ protected:
        */
   QTimer* touchHideTimer() { return m_touchHideTimer; }
 
-  TnoteObject* hoveredNote() { return m_hoveredNote; }
-  void setHoveredNote(TnoteObject* hn) { m_hoveredNote = hn; }
+  TnoteItem* hoveredNote() { return m_hoveredNote; }
+  void setHoveredNote(TnoteItem* hn) { m_hoveredNote = hn; }
 
-  TnoteObject* pressedNote() { return m_presseddNote; }
-  void setPressedNote(TnoteObject* pn) { m_presseddNote = pn; }
+  TnoteItem* pressedNote() { return m_presseddNote; }
+  void setPressedNote(TnoteItem* pn) { m_presseddNote = pn; }
 
       /**
        * Positioning notes in a staff invokes it to keep position of first/last notes in a bar actual
@@ -508,7 +508,7 @@ private:
        * Check given note is it in score range and changes it into rest if not
        */
   void fitToRange(Tnote& n);
-  void resetNoteItem(TnoteObject* noteItem);
+  void resetNoteItem(TnoteItem* noteItem);
 
 private:
                               /* Musical parameters */
@@ -546,14 +546,14 @@ private:
   QQmlComponent                    *m_qmlComponent;
   QColor                            m_nameColor;
   int                               m_nameStyle;
-  TnoteObject                      *m_selectedItem = nullptr;
+  TnoteItem                      *m_selectedItem = nullptr;
   QColor                            m_bgColor;
                               /* Note cursor */
-  TnoteObject                      *m_activeNote = nullptr;
+  TnoteItem                      *m_activeNote = nullptr;
   qreal                             m_activeYpos = 0.0;
   QTimer                           *m_touchHideTimer;
-  TnoteObject                      *m_hoveredNote = nullptr;
-  TnoteObject                      *m_presseddNote = nullptr;
+  TnoteItem                      *m_hoveredNote = nullptr;
+  TnoteItem                      *m_presseddNote = nullptr;
   int                               m_cursorAlter = 0;
   int                               m_activeBarNr = -1;
   Trhythm                          *m_workRhythm;

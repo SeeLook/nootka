@@ -27,7 +27,7 @@
 class QQuickItem;
 class TscoreObject;
 class TstaffItem;
-class TnoteObject;
+class TnoteItem;
 class TnotePair;
 class TbeamObject;
 
@@ -41,7 +41,7 @@ class NOOTKACORE_EXPORT TmeasureObject : public QObject
 
   friend class TscoreObject;
   friend class TstaffItem;
-  friend class TnoteObject;
+  friend class TnoteItem;
 
 public:
 

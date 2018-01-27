@@ -26,7 +26,7 @@
 #include "score/tnotepair.h"
 #include "score/tscoreobject.h"
 #include "score/tstaffitem.h"
-#include "score/tnoteobject.h"
+#include "score/tnoteitem.h"
 #include "score/tstafflines.h"
 #include "score/taddobject.h"
 #include "instruments/tguitarbg.h"
@@ -79,7 +79,7 @@ TnootkaQML::TnootkaQML(QObject* parent) :
 
   qmlRegisterType<TscoreObject>("Score", 1, 0, "TscoreObject");
   qmlRegisterType<TstaffItem>("Score", 1, 0, "TstaffItem");
-  qmlRegisterType<TnoteObject>("Score", 1, 0, "TnoteItem");
+  qmlRegisterType<TnoteItem>("Score", 1, 0, "TnoteItem");
   qmlRegisterType<TstaffLines>("Score", 1, 0, "TstaffLines");
   qmlRegisterType<TaddObject>("Score", 1, 0, "TaddObject");
 

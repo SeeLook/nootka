@@ -18,12 +18,12 @@
 
 #include "tnotepair.h"
 #include "music/tnote.h"
-#include "tnoteobject.h"
+#include "tnoteitem.h"
 #include "tstaffitem.h"
 #include "tbeamobject.h"
 
 
-TnotePair::TnotePair(int index, Tnote* n, TnoteObject* ob) :
+TnotePair::TnotePair(int index, Tnote* n, TnoteItem* ob) :
   m_note(n),
   m_noteItem(ob),
   m_index(static_cast<quint16>(index))
@@ -38,7 +38,7 @@ TnotePair::~TnotePair()
 }
 
 
-void TnotePair::setNoteObject(TnoteObject* ob) {
+void TnotePair::setNoteObject(TnoteItem* ob) {
   m_noteItem = ob;
 }
 
@@ -55,7 +55,7 @@ void TnotePair::setTechnical(quint32 tech) {
     if (newTechn.fingerPos().str() != m_technical.fingerPos().str())
       m_noteItem->setStringNumber(newTechn.fingerPos().str());
     if (newTechn.bowing() != m_technical.bowing())
-      m_noteItem->setBowing(static_cast<TnoteObject::EbowDirection>(newTechn.bowing()));
+      m_noteItem->setBowing(static_cast<TnoteItem::EbowDirection>(newTechn.bowing()));
     m_technical.setData(tech);
   }
 }
@@ -103,7 +103,7 @@ void TnotePair::flush() {
     m_noteItem->checkTie();
   }
   m_noteItem->setStaff(nullptr);
-  m_noteItem->setBowing(TnoteObject::BowUndefined);
+  m_noteItem->setBowing(TnoteItem::BowUndefined);
   m_noteItem->setStringNumber(0);
   m_technical.reset();
 }

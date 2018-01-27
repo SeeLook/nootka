@@ -19,7 +19,7 @@
 #include "tscoreobject.h"
 #include "tstaffitem.h"
 #include "tmeasureobject.h"
-#include "tnoteobject.h"
+#include "tnoteitem.h"
 #include "tbeamobject.h"
 #include "tnotepair.h"
 #include "music/tmeter.h"
@@ -289,7 +289,7 @@ CHECKTIME (
 }
 
 
-void TscoreObject::setNote(TnoteObject* no, const Tnote& n) {
+void TscoreObject::setNote(TnoteItem* no, const Tnote& n) {
   if (no) {
     if (no == lastNote() && no->note()->rtm != n.rtm) {
       deleteLastNote();
@@ -395,12 +395,12 @@ void TscoreObject::setTechnical(int noteId, quint32 tech) {
 }
 
 
-TnoteObject* TscoreObject::note(int noteId) {
+TnoteItem* TscoreObject::note(int noteId) {
   return noteId > -1 && noteId < notesCount() ? m_segments[noteId]->item() : nullptr;
 }
 
 
-Tnote TscoreObject::noteOfItem(TnoteObject* item) const {
+Tnote TscoreObject::noteOfItem(TnoteItem* item) const {
   return item ? *item->note() : Tnote();
 }
 
@@ -645,7 +645,7 @@ qreal TscoreObject::stavesHeight() {
 }
 
 
-void TscoreObject::changeActiveNote(TnoteObject* aNote) {
+void TscoreObject::changeActiveNote(TnoteItem* aNote) {
   if (aNote != m_activeNote) {
     auto prevActive = m_activeNote;
     m_activeNote = aNote;
@@ -717,13 +717,13 @@ void TscoreObject::setWorkRhythm(const Trhythm& r) {
 
 
 QString TscoreObject::workRtmText() const {
-  return TnoteObject::getHeadText(workRhythm());
+  return TnoteItem::getHeadText(workRhythm());
 }
 
 
 QString TscoreObject::activeRtmText() {
   if (m_activeNote)
-    return TnoteObject::getHeadText(Trhythm(m_activeNote == lastSegment()->item() ? m_workRhythm->rhythm() : m_activeNote->note()->rhythm(), m_workRhythm->isRest()));
+    return TnoteItem::getHeadText(Trhythm(m_activeNote == lastSegment()->item() ? m_workRhythm->rhythm() : m_activeNote->note()->rhythm(), m_workRhythm->isRest()));
   return QString();
 }
 
@@ -744,12 +744,12 @@ void TscoreObject::setAllowAdding(bool allow) {
 }
 
 
-TnoteObject* TscoreObject::lastNote() {
+TnoteItem* TscoreObject::lastNote() {
   return m_segments.isEmpty() ? nullptr : lastSegment()->item();
 }
 
 
-qreal TscoreObject::midLine(TnoteObject* actNote) {
+qreal TscoreObject::midLine(TnoteItem* actNote) {
   if (stavesCount() == 0)
     return 0.0;
   if (actNote && m_activeNote)
@@ -859,7 +859,7 @@ Tnote TscoreObject::lowestNote() {
 }
 
 
-TnoteObject* TscoreObject::getNext(TnoteObject* someNote) {
+TnoteItem* TscoreObject::getNext(TnoteItem* someNote) {
   if (someNote) {
     if (someNote->index() < notesCount() - 1)
       return noteSegment(someNote->index() + 1)->item();
@@ -868,7 +868,7 @@ TnoteObject* TscoreObject::getNext(TnoteObject* someNote) {
 }
 
 
-TnoteObject * TscoreObject::getPrev(TnoteObject* someNote) {
+TnoteItem * TscoreObject::getPrev(TnoteItem* someNote) {
   if (someNote) {
     if (someNote->index() > 0)
       return noteSegment(someNote->index() - 1)->item();
@@ -877,7 +877,7 @@ TnoteObject * TscoreObject::getPrev(TnoteObject* someNote) {
 }
 
 
-void TscoreObject::setSelectedItem(TnoteObject* item) {
+void TscoreObject::setSelectedItem(TnoteItem* item) {
   if (item != m_selectedItem) {
     m_selectedItem = item;
     emit selectedItemChanged();
@@ -997,7 +997,7 @@ void TscoreObject::onIndentChanged() {
 
 
 /** FIXME: if tie starts/stops incorrectly (no start or end) it may return note number out of range */
-QPoint TscoreObject::tieRange(TnoteObject* n) {
+QPoint TscoreObject::tieRange(TnoteItem* n) {
   QPoint tr;
   if (n->note()->rtm.tie()) {
     tr.setX(n->index());
@@ -1125,7 +1125,7 @@ void TscoreObject::fitToRange(Tnote& n) {
 /**
  * Set @TnoteObject parameters to defaults , usually they are different in single note mode
  */
-void TscoreObject::resetNoteItem(TnoteObject* noteItem) {
+void TscoreObject::resetNoteItem(TnoteItem* noteItem) {
   noteItem->setVisible(true);
   noteItem->setEnabled(true);
   noteItem->setColor(qApp->palette().text().color());

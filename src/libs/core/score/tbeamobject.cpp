@@ -20,7 +20,7 @@
 #include "tscoreobject.h"
 #include "tstaffitem.h"
 #include "tmeasureobject.h"
-#include "tnoteobject.h"
+#include "tnoteitem.h"
 #include "tnotepair.h"
 #include <music/tnote.h>
 

@@ -37,7 +37,7 @@ set(LIB_NOOTKACORE_SRC
   score/tscoreobject.cpp
   score/tstaffitem.cpp
   score/tmeasureobject.cpp
-  score/tnoteobject.cpp
+  score/tnoteitem.cpp
   score/tnotepair.cpp
   score/tbeamobject.cpp
   score/tstafflines.cpp

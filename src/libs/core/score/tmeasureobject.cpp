@@ -19,7 +19,7 @@
 #include "tmeasureobject.h"
 #include "tscoreobject.h"
 #include "tstaffitem.h"
-#include "tnoteobject.h"
+#include "tnoteitem.h"
 #include "tnotepair.h"
 #include "tbeamobject.h"
 #include "music/tmeter.h"
@@ -82,7 +82,7 @@ void TmeasureObject::appendNewNotes(int segmentId, int count) {
   for (int n = segmentId; n < segmentId + count; ++n) {
     auto np = m_score->noteSegment(n);
     if (np->item() == nullptr)
-      np->setNoteObject(new TnoteObject(m_staff, np));
+      np->setNoteObject(new TnoteItem(m_staff, np));
     else
       np->item()->setStaff(m_staff);
     np->item()->setMeasure(this);

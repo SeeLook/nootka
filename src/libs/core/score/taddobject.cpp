@@ -18,7 +18,7 @@
 
 #include "taddobject.h"
 #include "tscoreobject.h"
-#include "tnoteobject.h"
+#include "tnoteitem.h"
 
 #include <QtCore/qtimer.h>
 #include <QtCore/qdebug.h>
