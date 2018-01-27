@@ -5,6 +5,7 @@
 import QtQuick 2.9
 
 import Nootka 1.0
+import "score"
 
 
 Item {

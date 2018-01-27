@@ -80,7 +80,7 @@ TstaffItem {
   function checkIsKeyEnabled() { // key signature created on demand
     if (score.enableKeySign) {
         if (!keySignItem) {
-          var c = Qt.createComponent("qrc:/KeySignature.qml")
+          var c = Qt.createComponent("qrc:/score/KeySignature.qml")
           keySignItem = c.createObject(staff)
         }
     } else {

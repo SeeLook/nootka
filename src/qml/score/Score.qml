@@ -52,7 +52,7 @@ Flickable {
     onClicked: currentNote = scoreObj.activeNote
 
     onStaffCreate: {
-      var c = Qt.createComponent("qrc:/Staff.qml")
+      var c = Qt.createComponent("qrc:/score/Staff.qml")
       var lastStaff = c.createObject(score.contentItem)
       staves.push(lastStaff)
       score.lastStaff = lastStaff
@@ -80,19 +80,19 @@ Flickable {
     onAllowAddingChanged: {
       if (allowAdding) {
         if (!delControl) {
-          var c = Qt.createComponent("qrc:/DelControl.qml")
+          var c = Qt.createComponent("qrc:/score/DelControl.qml")
           delControl = c.createObject(contentItem)
           delControl.active = Qt.binding(function() { return !readOnly && scoreObj.activeNote !== null && scoreObj.activeNote === scoreObj.lastNote })
         }
         if (!noteAdd) {
-          var c = Qt.createComponent("qrc:/NoteAdd.qml")
+          var c = Qt.createComponent("qrc:/score/NoteAdd.qml")
           noteAdd = c.createObject(contentItem)
         }
       }
     }
     onActiveNoteChanged: {
       if (!cursor) {
-        var c = Qt.createComponent("qrc:/NoteCursor.qml")
+        var c = Qt.createComponent("qrc:/score/NoteCursor.qml")
         cursor = c.createObject(contentItem)
         cursor.parent = Qt.binding(function() { return scoreObj.activeNote })
       }

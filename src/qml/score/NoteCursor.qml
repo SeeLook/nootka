@@ -80,7 +80,7 @@ Item {
   }
   Repeater { // lower lines
       model: (score.firstStaff.height - score.upperLine - 12) / 2
-      AddLine { 
+      AddLine {
         y: score.upperLine + (score.clef === Tclef.PianoStaffClefs ? 22 : 10) + 2 * index - 0.1
         visible: score.upperLine + (score.clef === Tclef.PianoStaffClefs ? 22 : 10) + index * 2 <= yPos
       }
