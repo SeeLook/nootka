@@ -17,7 +17,7 @@
  ***************************************************************************/
 
 #include "tscoreobject.h"
-#include "tstaffobject.h"
+#include "tstaffitem.h"
 #include "tmeasureobject.h"
 #include "tnoteobject.h"
 #include "tbeamobject.h"
@@ -898,24 +898,24 @@ void TscoreObject::setBgColor(const QColor& bg) {
 //###################              PROTECTED           ############################################
 //#################################################################################################
 
-void TscoreObject::addStaff(TstaffObject* st) {
+void TscoreObject::addStaff(TstaffItem* st) {
   st->setNumber(stavesCount());
   m_staves.append(st);
   if (m_staves.count() == 1) { // initialize first measure of first staff
       st->appendMeasure(m_measures.first());
-      connect(st, &TstaffObject::upperLineChanged, this, &TscoreObject::upperLineChanged);
+      connect(st, &TstaffItem::upperLineChanged, this, &TscoreObject::upperLineChanged);
   } else { // redirect destroyed signal to QML score
-      connect(st, &TstaffObject::destroyed, [=]{ emit staffDestroying(st->number()); });
+      connect(st, &TstaffItem::destroyed, [=]{ emit staffDestroying(st->number()); });
   }
 
 
   // next staves position can be set only when staffItem is set, see TstaffObject::setStaffItem() then
-  connect(st, &TstaffObject::hiNotePosChanged, [=](int staffNr, qreal offset){
+  connect(st, &TstaffItem::hiNotePosChanged, [=](int staffNr, qreal offset){
     for (int i = staffNr; i < m_staves.size(); ++i) // move every staff about offset
       m_staves[i]->setY(m_staves[i]->y() + offset);
     emit stavesHeightChanged();
   });
-  connect(st, &TstaffObject::loNotePosChanged, [=](int staffNr, qreal offset){
+  connect(st, &TstaffItem::loNotePosChanged, [=](int staffNr, qreal offset){
     if (staffNr == 0) // never change Y position of first staff - it is always 0
         staffNr = 1;
     if (m_staves.size() > 1 && staffNr < m_staves.size() - 1) { // ignore change of the last staff
@@ -930,8 +930,8 @@ void TscoreObject::addStaff(TstaffObject* st) {
  * More-less it means that staff @p sourceStaff has no space for @p count number of measures
  * starting from @p measureNr, but those measures belong to it still
  */
-void TscoreObject::startStaffFromMeasure(TstaffObject* sourceStaff, int measureNr, int count) {
-  TstaffObject* targetStaff = nullptr;
+void TscoreObject::startStaffFromMeasure(TstaffItem* sourceStaff, int measureNr, int count) {
+  TstaffItem* targetStaff = nullptr;
   if (sourceStaff == lastStaff()) { // create new staff to shift measure(s) there
       emit staffCreate();
       targetStaff = lastStaff();
@@ -947,7 +947,7 @@ void TscoreObject::startStaffFromMeasure(TstaffObject* sourceStaff, int measureN
 }
 
 
-void TscoreObject::deleteStaff(TstaffObject* st) {
+void TscoreObject::deleteStaff(TstaffItem* st) {
   if (st->measuresCount() < 1) {
       bool fixStaffNumbers = st != lastStaff();
       m_staves.removeAt(st->number());
@@ -977,8 +977,8 @@ CHECKTIME (
 void TscoreObject::updateStavesPos() {
   if (m_adjustInProgress)
     return;
-  TstaffObject* prev = nullptr;
-  for (QList<TstaffObject*>::iterator s = m_staves.begin(); s != m_staves.end(); ++s) {
+  TstaffItem* prev = nullptr;
+  for (QList<TstaffItem*>::iterator s = m_staves.begin(); s != m_staves.end(); ++s) {
     auto curr = *s;
     if (curr->number() != 0 && curr->number() < stavesCount())
       curr->setY(prev->y() + (prev->loNotePos() - curr->hiNotePos() + 4.0) * prev->scale()); // TODO scordature!

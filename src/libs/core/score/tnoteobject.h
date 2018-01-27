@@ -25,7 +25,7 @@
 #include <QtQuick/qquickitem.h>
 
 
-class TstaffObject;
+class TstaffItem;
 class TmeasureObject;
 class TnotePair;
 class Tnote;
@@ -47,21 +47,21 @@ class NOOTKACORE_EXPORT TnoteObject : public QQuickItem
   Q_PROPERTY(qreal notePosY READ notePosY NOTIFY notePosYchanged)
   Q_PROPERTY(qreal alterWidth READ alterWidth NOTIFY alterWidthChanged)
   Q_PROPERTY(int index READ index)
-  Q_PROPERTY(QQuickItem* staffItem READ staffItem)
+  Q_PROPERTY(TstaffItem* staffItem READ staff)
   Q_PROPERTY(qreal rightX READ rightX NOTIFY rightXChanged)
 
   friend class TscoreObject;
-  friend class TstaffObject;
+  friend class TstaffItem;
   friend class TmeasureObject;
   friend class TbeamObject;
   friend class TnotePair;
 
 public:
-  explicit TnoteObject(TstaffObject* staffObj = nullptr, TnotePair* wrapper = nullptr);
+  explicit TnoteObject(TstaffItem* staffObj = nullptr, TnotePair* wrapper = nullptr);
   ~TnoteObject() override;
 
-  TstaffObject* staff() const { return m_staff; }
-  void setStaff(TstaffObject* staffObj);
+  TstaffItem* staff() const { return m_staff; }
+  void setStaff(TstaffItem* staffObj);
 
   TmeasureObject* measure() { return m_measure; }
   void setMeasure(TmeasureObject* m);
@@ -121,8 +121,6 @@ public:
   qreal tieWidth();
 
   void setNoteNameVisible(bool nameVisible);
-
-  QQuickItem* staffItem();
 
       /**
        * Static method that converts given rhythm into text of a note head
@@ -193,7 +191,7 @@ protected:
 
 private:
 
-  TstaffObject                *m_staff;
+  TstaffItem                  *m_staff;
   TnotePair                   *m_wrapper;
   TmeasureObject              *m_measure;
   Tnote                       *m_note;

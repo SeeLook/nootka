@@ -16,8 +16,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TSTAFFOBJECT_H
-#define TSTAFFOBJECT_H
+#ifndef TSTAFFITEM_H
+#define TSTAFFITEM_H
 
 
 #include "nootkacoreglobal.h"
@@ -34,9 +34,9 @@ class Tnote;
 
 
 /**
- * @class TstaffObject is C++ logic of Staff.qml
+ * @class TstaffItem is C++ logic of Staff.qml
  */
-class NOOTKACORE_EXPORT  TstaffObject : public QQuickItem
+class NOOTKACORE_EXPORT  TstaffItem : public QQuickItem
 {
 
   Q_OBJECT
@@ -52,8 +52,8 @@ class NOOTKACORE_EXPORT  TstaffObject : public QQuickItem
   friend class TnotePair;
 
 public:
-  explicit TstaffObject(QQuickItem* parent = nullptr);
-  ~TstaffObject() override;
+  explicit TstaffItem(QQuickItem* parent = nullptr);
+  ~TstaffItem() override;
 
   int number() const { return m_number; }
   void setNumber(int nr) { m_number = nr; emit numberChanged(); }
@@ -183,4 +183,4 @@ private:
   int                            m_scordSpace = 0;
 };
 
-#endif // TSTAFFOBJECT_H
+#endif // TSTAFFITEM_H

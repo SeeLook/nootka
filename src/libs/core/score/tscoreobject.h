@@ -47,7 +47,7 @@ class QQmlEngine;
 class QQmlComponent;
 class QTimer;
 class TnotePair;
-class TstaffObject;
+class TstaffItem;
 class TmeasureObject;
 class TnoteObject;
 class Tmeter;
@@ -98,7 +98,7 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(Trhythm workRhythm READ workRhythm WRITE setWorkRhythm NOTIFY workRtmTextChanged)
   Q_PROPERTY(QString workRtmText READ workRtmText NOTIFY workRtmTextChanged)
 
-  friend class TstaffObject;
+  friend class TstaffItem;
   friend class TmeasureObject;
   friend class TnoteObject;
   friend class TaddObject;
@@ -226,9 +226,9 @@ public:
   TmeasureObject* lastMeasure() { return m_measures.last(); }
 
   int stavesCount() const { return m_staves.count(); }
-  TstaffObject* staff(int id) { return m_staves[id]; }
-  TstaffObject* firstStaff() { return m_staves.first(); }
-  TstaffObject* lastStaff() { return m_staves.last(); }
+  TstaffItem* staff(int id) { return m_staves[id]; }
+  TstaffItem* firstStaff() { return m_staves.first(); }
+  TstaffItem* lastStaff() { return m_staves.last(); }
 
   QList<Tnote>& noteList() { return m_notes; }
 
@@ -412,7 +412,7 @@ signals:
   void readOnlyNoteClicked(int noteId);
 
 protected:
-  void addStaff(TstaffObject* st);
+  void addStaff(TstaffItem* st);
 
   TclefOffset clefOffset() const { return m_clefOffset; }
 
@@ -421,9 +421,9 @@ protected:
        * of the next measure to given @p sourceStaff
        * Also it manages ownership of initial (source) staff shifted notes and sets parent of every such note to target staff.
        */
-  void startStaffFromMeasure(TstaffObject* sourceStaff, int measureNr, int count = 1);
+  void startStaffFromMeasure(TstaffItem* sourceStaff, int measureNr, int count = 1);
 
-  void deleteStaff(TstaffObject* st);
+  void deleteStaff(TstaffItem* st);
 
       /**
        * Score width is handled by Score.qml, but it has to be known here.
@@ -531,7 +531,7 @@ private:
                               /* Lists with notes, measures, staves, meter groups */
   QList<TnotePair*>                 m_segments;
   QList<TnotePair*>                 m_spareSegments;
-  QList<TstaffObject*>              m_staves;
+  QList<TstaffItem*>              m_staves;
   QList<TmeasureObject*>            m_measures;
   QList<Tnote>                      m_notes;
   QList<quint8>                     m_meterGroups;

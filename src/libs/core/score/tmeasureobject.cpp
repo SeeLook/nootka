@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,7 +18,7 @@
 
 #include "tmeasureobject.h"
 #include "tscoreobject.h"
-#include "tstaffobject.h"
+#include "tstaffitem.h"
 #include "tnoteobject.h"
 #include "tnotepair.h"
 #include "tbeamobject.h"
@@ -63,7 +63,7 @@ void TmeasureObject::setNumber(int nr) {
 }
 
 
-void TmeasureObject::setStaff(TstaffObject* st) {
+void TmeasureObject::setStaff(TstaffItem* st) {
   if (m_staff != st) {
     m_staff = st;
     for (TnotePair* np : qAsConst(m_notes))

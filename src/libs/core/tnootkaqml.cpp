@@ -25,7 +25,7 @@
 #include "music/tnamestylefilter.h"
 #include "score/tnotepair.h"
 #include "score/tscoreobject.h"
-#include "score/tstaffobject.h"
+#include "score/tstaffitem.h"
 #include "score/tnoteobject.h"
 #include "score/tstafflines.h"
 #include "score/taddobject.h"
@@ -78,7 +78,7 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qRegisterMetaType<Trhythm>();
 
   qmlRegisterType<TscoreObject>("Score", 1, 0, "TscoreObject");
-  qmlRegisterType<TstaffObject>("Score", 1, 0, "TstaffItem");
+  qmlRegisterType<TstaffItem>("Score", 1, 0, "TstaffItem");
   qmlRegisterType<TnoteObject>("Score", 1, 0, "TnoteItem");
   qmlRegisterType<TstaffLines>("Score", 1, 0, "TstaffLines");
   qmlRegisterType<TaddObject>("Score", 1, 0, "TaddObject");

@@ -35,7 +35,7 @@ set(LIB_NOOTKACORE_SRC
   music/ttechnical.cpp
 
   score/tscoreobject.cpp
-  score/tstaffobject.cpp
+  score/tstaffitem.cpp
   score/tmeasureobject.cpp
   score/tnoteobject.cpp
   score/tnotepair.cpp

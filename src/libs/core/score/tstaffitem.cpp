@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tstaffobject.h"
+#include "tstaffitem.h"
 #include "tscoreobject.h"
 #include "tmeasureobject.h"
 #include "tnoteobject.h"
@@ -29,7 +29,7 @@
 #include <QtCore/qdebug.h>
 
 
-TstaffObject::TstaffObject(QQuickItem* parent) :
+TstaffItem::TstaffItem(QQuickItem* parent) :
   QQuickItem(parent),
   m_scoreObj(nullptr),
   m_upperLine(16.0),
@@ -40,12 +40,12 @@ TstaffObject::TstaffObject(QQuickItem* parent) :
 }
 
 
-TstaffObject::~TstaffObject() {
+TstaffItem::~TstaffItem() {
   qDebug() << "[TstaffObject] is going delete" << m_number;
 }
 
 
-void TstaffObject::setScordSpace(int hasScord) {
+void TstaffItem::setScordSpace(int hasScord) {
   if (m_scordSpace != hasScord) {
     m_scordSpace = hasScord;
     checkNotesRange();
@@ -53,7 +53,7 @@ void TstaffObject::setScordSpace(int hasScord) {
 }
 
 
-void TstaffObject::setScore(TscoreObject* s) {
+void TstaffItem::setScore(TscoreObject* s) {
   m_scoreObj = s;
   m_scoreObj->addStaff(this);
   if (m_scoreObj->stavesCount() > 1) { // initial staff position, depends on lowest note in the previous staff
@@ -63,18 +63,18 @@ void TstaffObject::setScore(TscoreObject* s) {
 }
 
 
-TmeasureObject* TstaffObject::firstMeasure() { return m_scoreObj->measure(m_firstMeasureId); }
+TmeasureObject* TstaffItem::firstMeasure() { return m_scoreObj->measure(m_firstMeasureId); }
 
-TmeasureObject* TstaffObject::lastMeasure() { return m_scoreObj->measure(m_lastMeasureId); }
+TmeasureObject* TstaffItem::lastMeasure() { return m_scoreObj->measure(m_lastMeasureId); }
 
 
-void TstaffObject::refresh() {
+void TstaffItem::refresh() {
   fit();
   checkNotesRange();
 }
 
 
-void TstaffObject::setUpperLine(qreal upLine) {
+void TstaffItem::setUpperLine(qreal upLine) {
   if (m_upperLine != upLine) {
     m_upperLine = upLine;
     emit upperLineChanged();
@@ -82,7 +82,7 @@ void TstaffObject::setUpperLine(qreal upLine) {
 }
 
 
-int TstaffObject::firstMeasureNr() {
+int TstaffItem::firstMeasureNr() {
   return m_lastMeasureId == -1 ? 0 : (m_firstMeasureId < m_scoreObj->measuresCount() ? m_scoreObj->measure(m_firstMeasureId)->number() : 0);
 }
 
@@ -92,7 +92,7 @@ int TstaffObject::firstMeasureNr() {
  * For multiple staves on the score, last staff gets indent change at the end of queue.
  * Only then gap factor can be calculated.
  */
-void TstaffObject::setNotesIndent(qreal ni) {
+void TstaffItem::setNotesIndent(qreal ni) {
   if (m_notesIndent != ni) {
     m_notesIndent = ni;
     if (this == m_scoreObj->lastStaff())
@@ -101,7 +101,7 @@ void TstaffObject::setNotesIndent(qreal ni) {
 }
 
 
-char TstaffObject::debug() {
+char TstaffItem::debug() {
   QTextStream o(stdout);
   o << "\033[01;34m[" << number() + 1 << " STAFF]\033[01;00m";
   return 32; // fake
@@ -114,7 +114,7 @@ char TstaffObject::debug() {
 
 #define BARLINE_OFFSET (2.0)
 
-void TstaffObject::fit() {
+void TstaffItem::fit() {
   if ((m_number == 0 && m_scoreObj->measure(m_firstMeasureId)->isEmpty()) || m_lastMeasureId == -1 || measuresCount() < 1) {
     qDebug() << debug() << "Empty staff - nothing to fit";
     return;
@@ -186,7 +186,7 @@ void TstaffObject::fit() {
 }
 
 
-void TstaffObject::updateNotesPos(int startMeasure) {
+void TstaffItem::updateNotesPos(int startMeasure) {
   auto firstMeas = firstMeasure();
   if (firstMeas->isEmpty())
     return;
@@ -219,7 +219,7 @@ void TstaffObject::updateNotesPos(int startMeasure) {
 }
 
 
-void TstaffObject::checkNotesRange(bool doEmit) {
+void TstaffItem::checkNotesRange(bool doEmit) {
   qreal oldHi = m_hiNotePos, oldLo = m_loNotePos;
   findHighestNote();
   findLowestNote();
@@ -231,13 +231,13 @@ void TstaffObject::checkNotesRange(bool doEmit) {
 }
 
 
-void TstaffObject::appendMeasure(TmeasureObject* m) {
+void TstaffItem::appendMeasure(TmeasureObject* m) {
   m_lastMeasureId = m->number();
   m->setStaff(this);
 }
 
 
-void TstaffObject::insertMeasure(int index, TmeasureObject* m) {
+void TstaffItem::insertMeasure(int index, TmeasureObject* m) {
   qDebug() << debug() << "Inserting measure nr" << m->number() + 1 << "at" << index;
   if (index < m_firstMeasureId) {
     m_firstMeasureId = index;
@@ -249,7 +249,7 @@ void TstaffObject::insertMeasure(int index, TmeasureObject* m) {
 }
 
 
-void TstaffObject::deleteExtraTie() {
+void TstaffItem::deleteExtraTie() {
   if (m_extraTie) {
     delete m_extraTie;
     m_extraTie = nullptr;
@@ -257,12 +257,12 @@ void TstaffObject::deleteExtraTie() {
 }
 
 
-TnotePair* TstaffObject::firstNote() {
+TnotePair* TstaffItem::firstNote() {
   return measuresCount() ? (firstMeasure()->isEmpty() ? nullptr : firstMeasure()->first()) : nullptr;
 }
 
 
-TnotePair* TstaffObject::lastNote() {
+TnotePair* TstaffItem::lastNote() {
   return m_lastMeasureId > -1 ? lastMeasure()->last() : nullptr;
 }
 
@@ -271,7 +271,7 @@ TnotePair* TstaffObject::lastNote() {
 //###################              PRIVATE             ############################################
 //#################################################################################################
 
-void TstaffObject::findHighestNote() {
+void TstaffItem::findHighestNote() {
   m_hiNotePos = upperLine() - 4.0;
   for (int m = m_firstMeasureId; m <= m_lastMeasureId; ++m) {
     auto measure = m_scoreObj->measure(m);
@@ -284,7 +284,7 @@ void TstaffObject::findHighestNote() {
 }
 
 
-void TstaffObject::findLowestNote() {
+void TstaffItem::findLowestNote() {
   m_loNotePos = static_cast<qreal>(m_scordSpace) + upperLine() + (m_scoreObj->isPianoStaff() ? 24.0 : 14.0);
   for (int m = m_firstMeasureId; m <= m_lastMeasureId; ++m) {
     auto measure = m_scoreObj->measure(m);
@@ -296,7 +296,7 @@ void TstaffObject::findLowestNote() {
 }
 
 
-void TstaffObject::createExtraTie(TnoteObject* parent) {
+void TstaffItem::createExtraTie(TnoteObject* parent) {
   if (parent->note()->rtm.tie() == Trhythm::e_tieCont || parent->note()->rtm.tie() == Trhythm::e_tieEnd) {
       if (!m_extraTie) {
         QQmlEngine engine;

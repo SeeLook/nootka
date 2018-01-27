@@ -24,7 +24,7 @@
 #include <QtQuick/qquickpainteditem.h>
 
 
-class TstaffObject;
+class TstaffItem;
 class TmeasureObject;
 class TnoteObject;
 class TnotePair;
@@ -48,7 +48,7 @@ class NOOTKACORE_EXPORT TbeamObject : public QQuickPaintedItem
   Q_OBJECT
 
   friend class TscoreObject;
-  friend class TstaffObject;
+  friend class TstaffItem;
   friend class TmeasureObject;
   friend class TnoteObject;
 
@@ -87,7 +87,7 @@ protected:
        * Because beams are parented with staff it is important
        * to change their staff when measure is shifted between staves
        */
-  void changeStaff(TstaffObject* st);
+  void changeStaff(TstaffItem* st);
 
       /**
        * Removes given note from the beam,

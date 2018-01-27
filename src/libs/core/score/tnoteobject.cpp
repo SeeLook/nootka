@@ -18,7 +18,7 @@
 
 #include "tnoteobject.h"
 #include "tscoreobject.h"
-#include "tstaffobject.h"
+#include "tstaffitem.h"
 #include "tmeasureobject.h"
 #include "tbeamobject.h"
 #include "tnotepair.h"
@@ -76,7 +76,7 @@ QString tieDebug(Trhythm::Etie t) {
 }
 
 
-TnoteObject::TnoteObject(TstaffObject* staffObj, TnotePair* wrapper) :
+TnoteObject::TnoteObject(TstaffItem* staffObj, TnotePair* wrapper) :
   QQuickItem(staffObj),
   m_staff(staffObj),
   m_wrapper(wrapper),
@@ -135,7 +135,7 @@ int TnoteObject::index() const {
 }
 
 
-void TnoteObject::setStaff(TstaffObject* staffObj) {
+void TnoteObject::setStaff(TstaffItem* staffObj) {
   if (staffObj != m_staff) {
       m_staff = staffObj;
       if (m_staff) {
