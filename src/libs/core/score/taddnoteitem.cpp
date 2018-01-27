@@ -16,7 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "taddobject.h"
+#include "taddnoteitem.h"
 #include "tscoreobject.h"
 #include "tnoteitem.h"
 
@@ -24,7 +24,7 @@
 #include <QtCore/qdebug.h>
 
 
-TaddObject::TaddObject(QQuickItem* parent) :
+TaddNoteItem::TaddNoteItem(QQuickItem* parent) :
   QQuickItem(parent),
   m_yPos(0.0)
 {
@@ -44,17 +44,17 @@ TaddObject::TaddObject(QQuickItem* parent) :
 }
 
 
-TaddObject::~TaddObject() {}
+TaddNoteItem::~TaddNoteItem() {}
 
 
-void TaddObject::setScoreObject(TscoreObject* sc) {
+void TaddNoteItem::setScoreObject(TscoreObject* sc) {
   if (sc != m_scoreObject) {
     m_scoreObject = sc;
   }
 }
 
 
-void TaddObject::hoverEnterEvent(QHoverEvent* event) {
+void TaddNoteItem::hoverEnterEvent(QHoverEvent* event) {
   m_hideTimer->stop();
   m_active = true;
   m_hovered = true;
@@ -70,13 +70,13 @@ void TaddObject::hoverEnterEvent(QHoverEvent* event) {
 }
 
 
-void TaddObject::hoverLeaveEvent(QHoverEvent*) {
+void TaddNoteItem::hoverLeaveEvent(QHoverEvent*) {
   m_hideTimer->start(500);
   m_hovered = false;
 }
 
 
-void TaddObject::hoverMoveEvent(QHoverEvent* event) {
+void TaddNoteItem::hoverMoveEvent(QHoverEvent* event) {
   if (m_scoreObject->isPianoStaff() && event->pos().y() >= m_scoreObject->upperLine() + 10.6 && event->pos().y() <= m_scoreObject->upperLine() + 11.6)
     return;
 
@@ -88,7 +88,7 @@ void TaddObject::hoverMoveEvent(QHoverEvent* event) {
 }
 
 
-void TaddObject::mousePressEvent(QMouseEvent*) {
+void TaddNoteItem::mousePressEvent(QMouseEvent*) {
   m_hideTimer->stop();
   setKeepMouseGrab(true);
   if (!m_hovered) {
@@ -100,7 +100,7 @@ void TaddObject::mousePressEvent(QMouseEvent*) {
 }
 
 
-void TaddObject::mouseReleaseEvent(QMouseEvent*) {
+void TaddNoteItem::mouseReleaseEvent(QMouseEvent*) {
   if (keepMouseGrab())
     setKeepMouseGrab(false);
   if (m_active) {
@@ -122,7 +122,7 @@ void TaddObject::mouseReleaseEvent(QMouseEvent*) {
 /**
  * Bound Y coordinate [0 - 46] FIXME: It seems to be Qt bug
  */
-void TaddObject::mouseMoveEvent(QMouseEvent* event) {
+void TaddNoteItem::mouseMoveEvent(QMouseEvent* event) {
   int yy = qFloor(event->pos().y());
   if (m_touchElapsed.elapsed() > 200 && yy > 0.0 && yy < 46.0 && static_cast<int>(m_yPos) != yy) {
     m_yPos = yy;
@@ -131,7 +131,7 @@ void TaddObject::mouseMoveEvent(QMouseEvent* event) {
 }
 
 
-void TaddObject::addNote() {
+void TaddNoteItem::addNote() {
   m_scoreObject->addNote(m_scoreObject->posToNote(m_yPos), true);
   if (m_scoreObject->recordMode())
     m_scoreObject->setSelectedItem(nullptr);

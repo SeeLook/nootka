@@ -101,7 +101,7 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   friend class TstaffItem;
   friend class TmeasureObject;
   friend class TnoteItem;
-  friend class TaddObject;
+  friend class TaddNoteItem;
 
 public:
   explicit TscoreObject(QObject* parent = nullptr);
