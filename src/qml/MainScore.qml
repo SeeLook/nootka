@@ -8,6 +8,7 @@ import QtQuick.Controls 2.2
 import Score 1.0
 import Nootka 1.0
 import Nootka.Main 1.0
+import "score"
 
 
 Score {

@@ -372,7 +372,7 @@ void TnoteItem::checkTie() {
       delete m_tie;
       m_tie = nullptr;
   } else if (m_tie == nullptr && (m_note->rtm.tie() == Trhythm::e_tieStart || m_note->rtm.tie() == Trhythm::e_tieCont)) {
-      QQmlComponent comp(m_staff->score()->qmlEngine(), QUrl(QStringLiteral("qrc:/Tie.qml")));
+      QQmlComponent comp(m_staff->score()->qmlEngine(), QUrl(QStringLiteral("qrc:/score/Tie.qml")));
       m_tie = qobject_cast<QQuickItem*>(comp.create());
       m_tie->setParentItem(m_head);
       m_tie->setProperty("color", qApp->palette().text().color());
