@@ -25,6 +25,8 @@
 #include "music/tmeter.h"
 #include "music/tnote.h"
 
+#include <QtGui/qguiapplication.h>
+#include <QtGui/qpalette.h>
 #include <QtCore/qdebug.h>
 
 
@@ -39,6 +41,11 @@ TmeasureObject::TmeasureObject(int nr, TscoreObject* parent) :
   clearAccidState();
   m_duration = m_score->meter()->duration();
   m_free = m_duration;
+
+  connect(qApp, &QGuiApplication::paletteChanged, [=]{
+    if (m_barLine)
+      m_barLine->setProperty("color", qApp->palette().text().color());
+  });
 }
 
 

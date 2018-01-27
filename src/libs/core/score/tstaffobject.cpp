@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,11 +29,10 @@
 #include <QtCore/qdebug.h>
 
 
-TstaffObject::TstaffObject(QObject* parent) :
-  QObject(parent),
+TstaffObject::TstaffObject(QQuickItem* parent) :
+  QQuickItem(parent),
   m_scoreObj(nullptr),
   m_upperLine(16.0),
-  m_staffItem(nullptr),
   m_loNotePos(28.0), m_hiNotePos(12.0),
   m_number(-1),
   m_firstMeasureId(0), m_lastMeasureId(-1)
@@ -42,7 +41,7 @@ TstaffObject::TstaffObject(QObject* parent) :
 
 
 TstaffObject::~TstaffObject() {
-  qDebug() << "[TstaffObject] is going delete";
+  qDebug() << "[TstaffObject] is going delete" << m_number;
 }
 
 
@@ -57,6 +56,10 @@ void TstaffObject::setScordSpace(int hasScord) {
 void TstaffObject::setScore(TscoreObject* s) {
   m_scoreObj = s;
   m_scoreObj->addStaff(this);
+  if (m_scoreObj->stavesCount() > 1) { // initial staff position, depends on lowest note in the previous staff
+    auto prevStaff = m_scoreObj->staff(m_scoreObj->stavesCount() - 2);
+    setY(prevStaff->y() + (prevStaff->loNotePos() - hiNotePos() + 4.0) * prevStaff->scale());
+  }
 }
 
 
@@ -79,15 +82,6 @@ void TstaffObject::setUpperLine(qreal upLine) {
 }
 
 
-void TstaffObject::setStaffItem(QQuickItem* si) {
-  m_staffItem = si;
-  if (m_scoreObj->stavesCount() > 1) { // initial staff position, depends on lowest note in the previous staff
-    auto prevStaff = m_scoreObj->staff(m_scoreObj->stavesCount() - 2);
-    m_staffItem->setY(prevStaff->staffItem()->y() + (prevStaff->loNotePos() - hiNotePos() + 4.0) * prevStaff->scale()); // TODO hasScordature
-  }
-}
-
-
 int TstaffObject::firstMeasureNr() {
   return m_lastMeasureId == -1 ? 0 : (m_firstMeasureId < m_scoreObj->measuresCount() ? m_scoreObj->measure(m_firstMeasureId)->number() : 0);
 }
@@ -105,9 +99,6 @@ void TstaffObject::setNotesIndent(qreal ni) {
       m_scoreObj->onIndentChanged();
   }
 }
-
-
-qreal TstaffObject::scale() { return m_staffItem ? staffItem()->property("scale").toReal() : 1.0; }
 
 
 char TstaffObject::debug() {
