@@ -19,7 +19,7 @@
 #include "tstaffitem.h"
 #include "tscoreobject.h"
 #include "tmeasureobject.h"
-#include "tnoteobject.h"
+#include "tnoteitem.h"
 #include "tnotepair.h"
 #include "music/tnote.h"
 
@@ -41,7 +41,7 @@ TstaffItem::TstaffItem(QQuickItem* parent) :
 
 
 TstaffItem::~TstaffItem() {
-  qDebug() << "[TstaffObject] is going delete" << m_number;
+  qDebug() << "[TstaffObject]" << m_number << " is going delete";
 }
 
 
@@ -193,7 +193,7 @@ void TstaffItem::updateNotesPos(int startMeasure) {
 
 //   qDebug() << debug() << "updating notes positions from" << startMeasure << "measure among number" << measuresCount()
 //             << "gap factor" << m_gapFactor << "notes count" << lastMeasure()->last()->index() - firstMeasure()->first()->index() + 1;
-  TnoteObject* prevNote = nullptr;
+  TnoteItem* prevNote = nullptr;
   if (startMeasure == 0)
     firstMeas->first()->item()->setX(m_notesIndent);
   else
@@ -296,7 +296,7 @@ void TstaffItem::findLowestNote() {
 }
 
 
-void TstaffItem::createExtraTie(TnoteObject* parent) {
+void TstaffItem::createExtraTie(TnoteItem* parent) {
   if (parent->note()->rtm.tie() == Trhythm::e_tieCont || parent->note()->rtm.tie() == Trhythm::e_tieEnd) {
       if (!m_extraTie) {
         QQmlEngine engine;

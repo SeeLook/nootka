@@ -35,11 +35,11 @@ class Tnote;
 
 
 /**
- * @class TnoteObject is @class QQuickItem derivative representing single note on the score.
+ * @class TnoteItem is @class QQuickItem derivative representing single note on the score.
  * It dynamically creates QML items: note head, alter (accidental) text, stem rectangle and rhythm flag.
  * A tie item form Tie.qml when necessary
  */
-class NOOTKACORE_EXPORT TnoteObject : public QQuickItem
+class NOOTKACORE_EXPORT TnoteItem : public QQuickItem
 {
 
   Q_OBJECT
@@ -57,8 +57,8 @@ class NOOTKACORE_EXPORT TnoteObject : public QQuickItem
   friend class TnotePair;
 
 public:
-  explicit TnoteObject(TstaffItem* staffObj = nullptr, TnotePair* wrapper = nullptr);
-  ~TnoteObject() override;
+  explicit TnoteItem(TstaffItem* staffObj = nullptr, TnotePair* wrapper = nullptr);
+  ~TnoteItem() override;
 
   TstaffItem* staff() const { return m_staff; }
   void setStaff(TstaffItem* staffObj);
@@ -170,13 +170,13 @@ protected:
   void shiftHead(qreal shift);
 
       /**
-       * @p TnoteObject manages tie itself whenever tie state changes, by calling exactly this method.
+       * @p TnoteItem manages tie itself whenever tie state changes, by calling exactly this method.
        * Tie is simple Text QML item of tie symbol with horizontal scaling that determines tie width,
        * but tie is not aware about next note position as long as next note X coordinate
        * depends on this note width and rhythm factor.
        * So @p setX() method usually called when staff factor is changing, updates tie width.
        * @p tieWidth() returns desired tie width.
-       * Also @p TnoteObject objects takes care about breaking tie among staves.
+       * Also @p TnoteItem objects takes care about breaking tie among staves.
        * It sets tie glyph text to @p m_accidText when note with tie begins a staff
        */
   void checkTie();

@@ -26,7 +26,7 @@
 #include <tcolor.h>
 #include <music/tkeysignature.h>
 #include <music/ttechnical.h>
-#include <score/tnoteobject.h>
+#include <score/tnoteitem.h>
 
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>

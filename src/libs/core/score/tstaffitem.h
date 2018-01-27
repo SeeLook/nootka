@@ -28,7 +28,7 @@ class QQuickItem;
 class QTimer;
 class TscoreObject;
 class TmeasureObject;
-class TnoteObject;
+class TnoteItem;
 class TnotePair;
 class Tnote;
 
@@ -162,7 +162,7 @@ protected:
        * It creates QML Text item and adds it to first note head in the staff.
        * Whenever first note changes (measures are shifting), it check is that extra tie necessary
        */
-  void createExtraTie(TnoteObject* parent);
+  void createExtraTie(TnoteItem* parent);
   void deleteExtraTie();
 
 private:

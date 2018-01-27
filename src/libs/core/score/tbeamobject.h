@@ -26,7 +26,7 @@
 
 class TstaffItem;
 class TmeasureObject;
-class TnoteObject;
+class TnoteItem;
 class TnotePair;
 class T16beam;
 
@@ -50,7 +50,7 @@ class NOOTKACORE_EXPORT TbeamObject : public QQuickPaintedItem
   friend class TscoreObject;
   friend class TstaffItem;
   friend class TmeasureObject;
-  friend class TnoteObject;
+  friend class TnoteItem;
 
 public:
   explicit TbeamObject(TnotePair* sn, TmeasureObject* m);

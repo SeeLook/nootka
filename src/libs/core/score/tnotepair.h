@@ -25,12 +25,12 @@
 
 
 class Tnote;
-class TnoteObject;
+class TnoteItem;
 class TbeamObject;
 
 
 /**
- * It wraps @p Tnote and its graphical representation @p TnoteObject.
+ * It wraps @p Tnote and its graphical representation @p TnoteItem.
  * It also handles rhythmical group of a note: @p rhythmGroup() and a beam @p beam()
  */
 class TnotePair
@@ -40,16 +40,16 @@ class TnotePair
   friend class TscoreObject;
   friend class TmeasureObject;
   friend class TbeamObject;
-  friend class TnoteObject;
+  friend class TnoteItem;
 
 public:
-  TnotePair(int index = -1, Tnote* n = nullptr, TnoteObject* ob = nullptr);
+  TnotePair(int index = -1, Tnote* n = nullptr, TnoteItem* ob = nullptr);
   ~TnotePair();
 
   Tnote* note() { return m_note; }
-  TnoteObject* item() { return m_noteItem; }
+  TnoteItem* item() { return m_noteItem; }
 
-  void setNoteObject(TnoteObject* ob);
+  void setNoteObject(TnoteItem* ob);
 
       /**
        * Sets note to @p n for both @p note() and then @p item()->setNote()
@@ -124,7 +124,7 @@ protected:
 
 private:
   Tnote                   *m_note;
-  TnoteObject             *m_noteItem;
+  TnoteItem             *m_noteItem;
   qint8                    m_group = -1;
   quint16                  m_index;
   int                      m_changes = 0;
