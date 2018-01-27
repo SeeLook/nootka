@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2016-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -54,7 +54,7 @@ public:
 
 
 TbeamObject::TbeamObject(TnotePair* sn, TmeasureObject* m) :
-  QQuickPaintedItem(m->staff()->staffItem()),
+  QQuickPaintedItem(m->staff()),
   m_measure(m)
 {
   setAcceptHoverEvents(true);
@@ -62,12 +62,13 @@ TbeamObject::TbeamObject(TnotePair* sn, TmeasureObject* m) :
   setAntialiasing(true);
   addNote(sn);
   setParent(m_measure->score());
+  connect(qApp, &QGuiApplication::paletteChanged, [=]{ update(); });
 }
 
 
 TbeamObject::~TbeamObject()
 {
-  qDebug() << "     [BEAM] deleted of id" << first()->index();
+//   qDebug() << "     [BEAM] deleted of id" << first()->index();
   for (TnotePair* np : qAsConst(m_notes)) {
     resetBeam(np);
   }
@@ -190,7 +191,7 @@ void TbeamObject::drawBeam() {
 
 
 void TbeamObject::changeStaff(TstaffObject* st) {
-  setParentItem(st->staffItem());
+  setParentItem(st);
 }
 
 

@@ -357,6 +357,8 @@ signals:
        */
   void staffCreate();
 
+  void staffDestroying(int staffNr);
+
       /**
        * Usually those props are managed outside of @p TscoreObject - by QML
        * but in case @p keySignatureEnabled() and @p keySignature() are changed 'internally'

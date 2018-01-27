@@ -77,7 +77,7 @@ QString tieDebug(Trhythm::Etie t) {
 
 
 TnoteObject::TnoteObject(TstaffObject* staffObj, TnotePair* wrapper) :
-  QQuickItem(staffObj->staffItem()),
+  QQuickItem(staffObj),
   m_staff(staffObj),
   m_wrapper(wrapper),
   m_stemHeight(STEM_HEIGHT)
@@ -114,12 +114,13 @@ TnoteObject::TnoteObject(TstaffObject* staffObj, TnotePair* wrapper) :
 //   m_debug->setParentItem(this);
 
   setColor(qApp->palette().text().color());
-  setHeight(staffObj->staffItem()->height());
+  setHeight(staffObj->height());
   setAcceptHoverEvents(true);
   setZ(10);
   setAcceptedMouseButtons(Qt::LeftButton);
 
   updateNoteHead();
+  connect(qApp, &QGuiApplication::paletteChanged, [=]{ setColor(qApp->palette().text().color()); });
 }
 
 
@@ -138,7 +139,7 @@ void TnoteObject::setStaff(TstaffObject* staffObj) {
   if (staffObj != m_staff) {
       m_staff = staffObj;
       if (m_staff) {
-          setParentItem(m_staff->staffItem());
+          setParentItem(m_staff);
           if (m_wrapper->beam() && m_wrapper->beam()->last()->item() == this)
             m_wrapper->beam()->changeStaff(m_staff);
       } else {
@@ -172,6 +173,16 @@ void TnoteObject::setColor(const QColor& c) {
     line->setProperty("color", c);
   if (m_midLine)
     m_midLine->setProperty("color", c);
+  if (m_tie)
+    m_tie->setProperty("color", c);
+  if (m_name)
+    m_name->setProperty("color", c);
+  if (m_stringNumber)
+    m_stringNumber->setProperty("color", c);
+  if (m_bowing)
+    m_bowing->setProperty("color", c);
+  if (m_fingerNumber)
+    m_fingerNumber->setProperty("color", c);
 }
 
 
@@ -405,11 +416,6 @@ void TnoteObject::setNoteNameVisible(bool nameVisible) {
         m_name = nullptr;
       }
   }
-}
-
-
-QQuickItem* TnoteObject::staffItem() {
-  return m_staff->staffItem();
 }
 
 

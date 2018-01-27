@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,7 +21,7 @@
 
 
 #include "nootkacoreglobal.h"
-#include <QtCore/qobject.h>
+#include <QtQuick/qquickitem.h>
 
 
 class QQuickItem;
@@ -36,14 +36,13 @@ class Tnote;
 /**
  * @class TstaffObject is C++ logic of Staff.qml
  */
-class NOOTKACORE_EXPORT  TstaffObject : public QObject
+class NOOTKACORE_EXPORT  TstaffObject : public QQuickItem
 {
 
   Q_OBJECT
 
   Q_PROPERTY(TscoreObject* scoreObject READ score WRITE setScore)
   Q_PROPERTY(qreal upperLine READ upperLine WRITE setUpperLine NOTIFY upperLineChanged)
-  Q_PROPERTY(QQuickItem* staffItem READ staffItem WRITE setStaffItem)
   Q_PROPERTY(qreal notesIndent READ notesIndent WRITE setNotesIndent)
   Q_PROPERTY(int firstMeasureNr READ firstMeasureNr NOTIFY firstMeasureNrChanged)
   Q_PROPERTY(int number READ number WRITE setNumber NOTIFY numberChanged)
@@ -53,7 +52,7 @@ class NOOTKACORE_EXPORT  TstaffObject : public QObject
   friend class TnotePair;
 
 public:
-  explicit TstaffObject(QObject* parent = nullptr);
+  explicit TstaffObject(QQuickItem* parent = nullptr);
   ~TstaffObject() override;
 
   int number() const { return m_number; }
@@ -80,9 +79,6 @@ public:
   qreal upperLine() const { return m_upperLine; }
   void setUpperLine(qreal upLine);
 
-  QQuickItem* staffItem() { return m_staffItem; }
-  void setStaffItem(QQuickItem* si);
-
       /**
        * X coordinate of first note (or width of clef + key sign. + meter)
        */
@@ -94,7 +90,6 @@ public:
   int measuresCount() { return m_lastMeasureId - m_firstMeasureId + 1; }
   TmeasureObject* firstMeasure();
   TmeasureObject* lastMeasure();
-//   TmeasureObject* measure(int id) { return m_measures[id]; }
 
   TnotePair* firstNote();
   TnotePair* lastNote();
@@ -126,11 +121,6 @@ public:
   qreal allNotesWidth() const { return m_allNotesWidth; }
 
   qreal gapsSum() const { return m_gapsSum; }
-
-      /**
-       * Scaling factor of the staff
-       */
-  qreal scale();
 
       /**
        * Prints to std out debug info about this staff: [nr STAFF] in color
@@ -182,7 +172,6 @@ private:
 private:
   TscoreObject                  *m_scoreObj;
   qreal                          m_upperLine;
-  QQuickItem                    *m_staffItem;
   qreal                          m_notesIndent;
   qreal                          m_gapFactor;
   qreal                          m_loNotePos, m_hiNotePos;

@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -55,7 +55,6 @@ Flickable {
       var c = Qt.createComponent("qrc:/Staff.qml")
       var lastStaff = c.createObject(score.contentItem)
       staves.push(lastStaff)
-      lastStaff.onDestroing.connect(removeStaff)
       score.lastStaff = lastStaff
     }
     onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
@@ -69,7 +68,7 @@ Flickable {
       } else
           workRhythm = Noo.rhythm(Trhythm.NoRhythm, false, false, false)
     }
-    function removeStaff(nr) { staves.splice(nr, 1); lastStaff = staves[staves.length - 1] }
+    onStaffDestroying: { staves.splice(staffNr, 1); lastStaff = staves[staves.length - 1] }
     onNoteWasAdded: {
       if (staves.length > 1)
         ensureVisible(lastNote.staffItem.y, lastNote.staffItem.height * scale)
