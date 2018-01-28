@@ -82,7 +82,7 @@ void TmeasureObject::appendNewNotes(int segmentId, int count) {
   for (int n = segmentId; n < segmentId + count; ++n) {
     auto np = m_score->noteSegment(n);
     if (np->item() == nullptr)
-      np->setNoteObject(new TnoteItem(m_staff, np));
+      np->setNoteItem(new TnoteItem(m_staff, np));
     else
       np->item()->setStaff(m_staff);
     np->item()->setMeasure(this);
