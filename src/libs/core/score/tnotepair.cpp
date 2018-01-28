@@ -38,7 +38,7 @@ TnotePair::~TnotePair()
 }
 
 
-void TnotePair::setNoteObject(TnoteItem* ob) {
+void TnotePair::setNoteItem(TnoteItem* ob) {
   m_noteItem = ob;
 }
 

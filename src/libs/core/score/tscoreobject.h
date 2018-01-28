@@ -321,7 +321,7 @@ public:
       /**
        * Touched state occurs when score got mouse press event without hover enter event before.
        * In that moment all controls have to be hidden to give user all score for touch and set note pitch
-       * This state is managed by @p TnoteItem and @p TaddObject classes.
+       * This state is managed by @p TnoteItem and @p TaddNoteItem classes.
        */
   bool touched() const { return m_touched; }
 

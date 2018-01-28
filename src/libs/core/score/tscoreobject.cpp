@@ -532,7 +532,7 @@ void TscoreObject::setEnableDoubleAccids(bool dblEnabled) {
 
 /**
  * When @p m_showNoteNames is set to @p TRUE:
- * @p TmeasureObject during adding a note item calls @p TnoteObject::setNoteNameVisible() to create note name
+ * @p TmeasureObject during adding a note item calls @p TnoteItem::setNoteNameVisible() to create note name
  * This method iterates all notes and switches its state of displaying note name
  */
 void TscoreObject::setShowNoteNames(bool showNames) {
@@ -908,8 +908,6 @@ void TscoreObject::addStaff(TstaffItem* st) {
       connect(st, &TstaffItem::destroyed, [=]{ emit staffDestroying(st->number()); });
   }
 
-
-  // next staves position can be set only when staffItem is set, see TstaffObject::setStaffItem() then
   connect(st, &TstaffItem::hiNotePosChanged, [=](int staffNr, qreal offset){
     for (int i = staffNr; i < m_staves.size(); ++i) // move every staff about offset
       m_staves[i]->setY(m_staves[i]->y() + offset);
@@ -1123,7 +1121,7 @@ void TscoreObject::fitToRange(Tnote& n) {
 
 
 /**
- * Set @TnoteObject parameters to defaults , usually they are different in single note mode
+ * Set @p TnoteItem parameters to defaults , usually they are different in single note mode
  */
 void TscoreObject::resetNoteItem(TnoteItem* noteItem) {
   noteItem->setVisible(true);

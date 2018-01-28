@@ -49,7 +49,7 @@ public:
   Tnote* note() { return m_note; }
   TnoteItem* item() { return m_noteItem; }
 
-  void setNoteObject(TnoteItem* ob);
+  void setNoteItem(TnoteItem* ob);
 
       /**
        * Sets note to @p n for both @p note() and then @p item()->setNote()
@@ -124,7 +124,7 @@ protected:
 
 private:
   Tnote                   *m_note;
-  TnoteItem             *m_noteItem;
+  TnoteItem               *m_noteItem;
   qint8                    m_group = -1;
   quint16                  m_index;
   int                      m_changes = 0;
