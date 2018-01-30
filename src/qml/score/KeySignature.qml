@@ -60,7 +60,7 @@ Item {
           font { family: "Scorek"; pixelSize: 8 }
           color: activPal.text
           text: upperAccid ? upperAccid.text : ""
-          y: upperAccid ? upperAccid.y + 16 : 0
+          y: upperAccid ? upperAccid.y + 24 : 0
           x: upperAccid ? upperAccid.x : 0
           opacity: upperAccid ? upperAccid.opacity : 0
         }
@@ -89,7 +89,7 @@ Item {
       id: lowerArea
       MouseArea { // area at lower staff
           parent: keySig
-          width: keySig.width; height: 14; y: 26
+          width: keySig.width; height: 14; y: 34
           enabled: !scoreObj.readOnly || !scoreObj.keyReadOnly
           onClicked: {
             if (mouseY < 7)

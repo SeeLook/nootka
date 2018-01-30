@@ -129,7 +129,7 @@ public:
        * @p fromQML has to be set to @p TRUE then - signal @p noteWaAdded() is emitted
        * and QML performs required routines
        */
-  Q_INVOKABLE void addNote(const Tnote& newNote, bool fromQML = false);
+  Q_INVOKABLE void addNote(const Tnote& newNote, bool fromQML = false, quint32 techValue = 255);
   Q_INVOKABLE void setNote(TnoteItem* no, const Tnote& n);
   Q_INVOKABLE void setNote(int noteNr, const Tnote& n);
 

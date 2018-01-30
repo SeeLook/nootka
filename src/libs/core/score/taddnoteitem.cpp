@@ -19,6 +19,7 @@
 #include "taddnoteitem.h"
 #include "tscoreobject.h"
 #include "tnoteitem.h"
+#include "tnotepair.h"
 
 #include <QtCore/qtimer.h>
 #include <QtCore/qdebug.h>
@@ -55,18 +56,17 @@ void TaddNoteItem::setScoreObject(TscoreObject* sc) {
 
 
 void TaddNoteItem::hoverEnterEvent(QHoverEvent* event) {
-  m_hideTimer->stop();
-  m_active = true;
-  m_hovered = true;
-  if (m_scoreObject->isPianoStaff() && event->pos().y() >= m_scoreObject->upperLine() + 10.6 && event->pos().y() <= m_scoreObject->upperLine() + 11.6)
-      m_yPos = 0.0;
-  else {
-      int yy = qFloor(event->pos().y());
-      if (yy != static_cast<int>(m_yPos))
-        m_yPos = m_scoreObject->clefType() == Tclef::NoClef ? m_scoreObject->upperLine() + 7.0 : qFloor(event->pos().y());
+  if (event->pos().y() > 1.0) {
+    m_hideTimer->stop();
+    m_active = true;
+    m_hovered = true;
+    int yy = qFloor(event->pos().y());
+    if (yy != static_cast<int>(m_yPos)) {
+      m_yPos = m_scoreObject->clefType() == Tclef::NoClef ? m_scoreObject->upperLine() + 7.0 : qFloor(event->pos().y());
+      emit activeChanged();
+      emit yPosChanged();
+    }
   }
-  emit activeChanged();
-  emit yPosChanged();
 }
 
 
@@ -77,43 +77,44 @@ void TaddNoteItem::hoverLeaveEvent(QHoverEvent*) {
 
 
 void TaddNoteItem::hoverMoveEvent(QHoverEvent* event) {
-  if (m_scoreObject->isPianoStaff() && event->pos().y() >= m_scoreObject->upperLine() + 10.6 && event->pos().y() <= m_scoreObject->upperLine() + 11.6)
-    return;
-
   int yy = qFloor(event->pos().y());
-  if (yy != static_cast<int>(m_yPos)) {
+  if (yy > 1 && yy != static_cast<int>(m_yPos)) {
     m_yPos = m_scoreObject->clefType() == Tclef::NoClef ? m_scoreObject->upperLine() + 7.0 : qFloor(event->pos().y());
     emit yPosChanged();
   }
 }
 
 
-void TaddNoteItem::mousePressEvent(QMouseEvent*) {
+void TaddNoteItem::mousePressEvent(QMouseEvent* event) {
   m_hideTimer->stop();
   setKeepMouseGrab(true);
-  if (!m_hovered) {
-    m_active = true;
-    emit activeChanged();
-    m_scoreObject->setTouched(true);
-    m_touchElapsed.restart();
+  if (event->pos().y() > 1.0) {
+    if (!m_hovered) {
+      m_active = true;
+      emit activeChanged();
+      m_scoreObject->setTouched(true);
+      m_touchElapsed.restart();
+    }
   }
 }
 
 
-void TaddNoteItem::mouseReleaseEvent(QMouseEvent*) {
+void TaddNoteItem::mouseReleaseEvent(QMouseEvent* event) {
   if (keepMouseGrab())
     setKeepMouseGrab(false);
-  if (m_active) {
-    if (m_hovered) { // mouse
-        addNote();
-    } else { // touch
-        if (m_touchElapsed.elapsed() < 190) {
-          if (m_yPos > 0.0)
-            addNote();
-        }
-        m_hideTimer->stop();
-        m_hideTimer->start(2500);
-        m_scoreObject->setTouched(false);
+  if (event->pos().y() > 1.0) {
+    if (m_active) {
+      if (m_hovered) { // mouse
+          addNote();
+      } else { // touch
+          if (m_touchElapsed.elapsed() < 190) {
+            if (m_yPos > 0.0)
+              addNote();
+          }
+          m_hideTimer->stop();
+          m_hideTimer->start(2500);
+          m_scoreObject->setTouched(false);
+      }
     }
   }
 }
@@ -124,15 +125,18 @@ void TaddNoteItem::mouseReleaseEvent(QMouseEvent*) {
  */
 void TaddNoteItem::mouseMoveEvent(QMouseEvent* event) {
   int yy = qFloor(event->pos().y());
-  if (m_touchElapsed.elapsed() > 200 && yy > 0.0 && yy < 46.0 && static_cast<int>(m_yPos) != yy) {
-    m_yPos = yy;
+  if (m_touchElapsed.elapsed() > 200 && yy > 1 && yy < 49 && static_cast<int>(m_yPos) != yy) {
+    m_yPos = static_cast<qreal>(yy);
     emit yPosChanged();
   }
 }
 
 
 void TaddNoteItem::addNote() {
-  m_scoreObject->addNote(m_scoreObject->posToNote(m_yPos), true);
+  Ttechnical techn;
+  if (m_scoreObject->isPianoStaff() && m_yPos > m_scoreObject->upperLine() + 13.0)
+    techn.setOnUpperStaff(false);
+  m_scoreObject->addNote(m_scoreObject->posToNote(m_yPos), true, techn.data());
   if (m_scoreObject->recordMode())
     m_scoreObject->setSelectedItem(nullptr);
 }

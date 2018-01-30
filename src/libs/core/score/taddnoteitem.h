@@ -62,8 +62,8 @@ protected:
   void hoverLeaveEvent(QHoverEvent*) override;
   void hoverMoveEvent(QHoverEvent* event) override;
 
-  void mousePressEvent(QMouseEvent*) override;
-  void mouseReleaseEvent(QMouseEvent*) override;
+  void mousePressEvent(QMouseEvent* event) override;
+  void mouseReleaseEvent(QMouseEvent* event) override;
   void mouseMoveEvent(QMouseEvent* event) override;
 
   void addNote();

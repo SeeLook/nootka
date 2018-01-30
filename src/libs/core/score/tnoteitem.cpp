@@ -26,6 +26,7 @@
 
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>
+#include <QtGui/qpainter.h>
 #include <QtCore/qtimer.h>
 #include <QtCore/qelapsedtimer.h>
 
@@ -93,8 +94,8 @@ TnoteItem::TnoteItem(TstaffItem* staffObj, TnotePair* wrapper) :
   m_stem->setVisible(false);
 
   for (int i = 0; i < 7; ++i) {
-    m_upperLines << createAddLine();
-    m_lowerLines << createAddLine();
+    m_upLines << createAddLine();
+    m_loLines << createAddLine();
   }
 
   m_staff->score()->component()->setData("import QtQuick 2.9; Text { font { family: \"Scorek\"; pixelSize: 7 }}", QUrl());
@@ -167,12 +168,12 @@ void TnoteItem::setColor(const QColor& c) {
   m_alter->setProperty("color", c);
   m_flag->setProperty("color", c);
   m_stem->setProperty("color", c);
-  for (auto line : m_upperLines)
+  for (auto line : m_upLines)
     line->setProperty("color", c);
-  for (auto line : m_lowerLines)
+  for (auto line : m_loLines)
     line->setProperty("color", c);
-  if (m_midLine)
-    m_midLine->setProperty("color", c);
+  for (auto line : m_underLoLines)
+    line->setProperty("color", c);
   if (m_tie)
     m_tie->setProperty("color", c);
   if (m_name)
@@ -234,8 +235,15 @@ void TnoteItem::setNote(const Tnote& n) {
   else {
     if (m_note->isValid()) {
         m_notePosY = staff()->score()->clefOffset().total() + staff()->upperLine() - (n.octave * 7 + (n.note - 1));
-        if (staff()->score()->isPianoStaff() && m_notePosY > staff()->upperLine() + 10.0)
-          m_notePosY += 2.0;
+        if (staff()->score()->isPianoStaff()) {
+          if (m_wrapper->techicalData().onUpperStaff()) {
+              if (m_notePosY > staff()->upperLine() + 13.0)
+                m_notePosY += 10.0;
+          } else {
+              if (m_notePosY > staff()->upperLine() + 3.0)
+                m_notePosY += 10.0;
+          }
+        }
     } else {
         if (staff()->score()->singleNote()) {
             m_notePosY = 0.0;
@@ -244,7 +252,7 @@ void TnoteItem::setNote(const Tnote& n) {
             m_notePosY = staff()->upperLine() + 7.0;
     }
   }
-  if (m_notePosY < 2.0 || m_notePosY > height() - 2.0)
+  if (m_notePosY < 2.0 || m_notePosY > height() - 1.0)
     m_notePosY = 0.0;
 
   if (oldNotePos != static_cast<int>(m_notePosY)) {
@@ -315,23 +323,18 @@ qreal TnoteItem::rightX() const {
 void TnoteItem::setHeight(qreal hh) {
   if (hh != height()) {
     QQuickItem::setHeight(hh);
-    for (int i = 0; i < 7; ++i) {
-      m_upperLines[i]->setY(2 * (i + 1) - 0.1);
-      m_lowerLines[i]->setY(staff()->upperLine() + (staff()->score()->isPianoStaff() ? 22.0 : 10.0) + 2 * i - 0.1);
+    for (int l = 0; l < 7; ++l) {
+      m_upLines[l]->setY(2 * (l + 1) - 0.1);
+      m_loLines[l]->setY(staff()->upperLine() + 10.0 + 2 * l - 0.1);
     }
     if (staff()->score()->isPianoStaff()) {
-        if (m_midLine == nullptr) {
-          m_staff->score()->component()->setData("import QtQuick 2.9; Rectangle {}", QUrl());
-          m_midLine = createAddLine();
-          m_midLine->setParent(this);
-          m_midLine->setProperty("color", m_head->property("color"));
+      if (m_underLoLines.isEmpty()) {
+        m_staff->score()->component()->setData("import QtQuick 2.9; Rectangle {}", QUrl());
+        for (int l = 0; l < 2; ++l) {
+          m_underLoLines << createAddLine();
+          m_underLoLines.last()->setY(m_staff->upperLine() + 32.0 + l * 2.0 - 0.1);
         }
-        m_midLine->setY(m_staff->upperLine() + 10.0);
-    } else {
-        if (m_midLine) {
-          delete m_midLine;
-          m_midLine = nullptr;
-        }
+      }
     }
     checkAddLinesVisibility();
   }
@@ -357,12 +360,12 @@ char TnoteItem::debug() {
 void TnoteItem::shiftHead(qreal shift) {
   if (shift != m_head->x()) {
     m_head->setX(shift);
-    for (int i = 0; i < 7; ++i) {
-      m_upperLines[i]->setX(-0.5 + shift);
-      m_lowerLines[i]->setX(-0.5 + shift);
+    for (int l = 0; l < 7; ++l) {
+      m_upLines[l]->setX(-0.5 + shift);
+      m_loLines[l]->setX(-0.5 + shift);
     }
-    if (m_midLine)
-      m_midLine->setX(-0.5 + shift);
+  for (int l = 0; l < m_underLoLines.count(); ++l)
+    m_underLoLines[l]->setX(-0.5 + shift);
   }
 }
 
@@ -491,6 +494,45 @@ void TnoteItem::markNoteHead(const QColor& outlineColor) {
 }
 
 
+// #define LINE_WIDTH (0.2)
+// void TnoteItem::paint(QPainter* painter) {
+//   if (m_note->isValid() && m_notePosY > 0.0) {
+//     painter->setPen(QPen(qApp->palette().text().color(), LINE_WIDTH));
+//     if (m_notePosY < m_staff->upperLine()) {
+//         qreal lY = m_staff->upperLine() - 2.0;
+//         while (lY >= m_notePosY) {
+//           painter->drawLine(QPointF(-1.5, lY), QPointF(static_cast<qreal>(width()), lY));
+//           lY -= 2.0;
+//         }
+//     } else {
+//         if (m_notePosY > m_staff->upperLine() + 9.0) {
+//           if (m_staff->score()->isPianoStaff() && m_notePosY < m_staff->upperLine() + 21.0) {
+//               if (m_notePosY < m_staff->upperLine() + 14.0) {
+//                   qreal lY = m_staff->upperLine() + 10.0;
+//                   while (lY <= m_notePosY) {
+//                     painter->drawLine(QPointF(-1.5, lY), QPointF(static_cast<qreal>(width()), lY));
+//                     lY += 2.0;
+//                   }
+//               } else {
+//                   qreal lY = m_staff->upperLine() + 20.0;
+//                   while (lY >= m_notePosY) {
+//                     painter->drawLine(QPointF(-1.5, lY), QPointF(static_cast<qreal>(width()), lY));
+//                     lY -= 2.0;
+//                   }
+//               }
+//           } else {
+//               qreal lY = m_staff->upperLine() + (m_staff->score()->isPianoStaff() ? 30.0 : 10.0);
+//               while (lY <= m_notePosY) {
+//                 painter->drawLine(QPointF(-1.5, lY), QPointF(static_cast<qreal>(width()), lY));
+//                 lY += 2.0;
+//               }
+//           }
+//         }
+//     }
+//   }
+// }
+
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
@@ -570,10 +612,12 @@ void TnoteItem::keySignatureChanged() {
 }
 
 
-void TnoteItem::hoverEnterEvent(QHoverEvent*) {
+void TnoteItem::hoverEnterEvent(QHoverEvent* event) {
   if (!m_staff->score()->readOnly()) {
-    m_measure->score()->setHoveredNote(this);
-    m_measure->score()->changeActiveNote(this);
+    if (event->pos().y() > 2.0 && event->pos().y() < height()) {
+      m_measure->score()->setHoveredNote(this);
+      m_measure->score()->changeActiveNote(this);
+    }
   }
 }
 
@@ -588,15 +632,15 @@ void TnoteItem::hoverLeaveEvent(QHoverEvent*) {
 
 void TnoteItem::hoverMoveEvent(QHoverEvent* event) {
   if (!m_staff->score()->readOnly()) {
-    if (m_staff->score()->isPianoStaff() && event->pos().y() >= m_staff->upperLine() + 10.6 && event->pos().y() <= m_staff->upperLine() + 11.6)
-      return;
 
     if (m_staff->score()->clefType() == Tclef::NoClef)
       return;
 
-    if (!m_measure->score()->pressedNote() && m_measure->score()->hoveredNote()
-        && static_cast<int>(m_measure->score()->activeYpos()) != static_cast<int>(event->pos().y()))
-            m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
+    if (event->pos().y() > 2.0 && event->pos().y() < height()) {
+      if (!m_measure->score()->pressedNote() && m_measure->score()->hoveredNote()
+          && static_cast<int>(m_measure->score()->activeYpos()) != static_cast<int>(event->pos().y()))
+              m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
+    }
   }
 }
 
@@ -608,18 +652,19 @@ static QElapsedTimer m_touchDuration;
  */
 void TnoteItem::mousePressEvent(QMouseEvent* event) {
   if (!m_staff->score()->readOnly()) {
-    setKeepMouseGrab(true);
-    m_measure->score()->setPressedNote(this);
-    m_measure->score()->touchHideTimer()->stop();
-    if (m_measure->score()->activeNote() != this) {
-      if (!(m_staff->score()->isPianoStaff() && event->pos().y() >= m_staff->upperLine() + 10.6 && event->pos().y() <= m_staff->upperLine() + 11.6)) {
+    if (event->pos().y() > 2.0 && event->pos().y() < height()) {
+      setKeepMouseGrab(true);
+      m_measure->score()->setPressedNote(this);
+      m_measure->score()->touchHideTimer()->stop();
+      m_wrapper->techicalData().setOnUpperStaff(!(m_staff->score()->isPianoStaff() && event->pos().y() > m_staff->upperLine() + 13.0));
+      if (m_measure->score()->activeNote() != this) {
         m_measure->score()->changeActiveNote(this);
         m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
       }
+      m_touchDuration.restart();
+      if (!m_measure->score()->hoveredNote())
+        m_measure->score()->setTouched(true);
     }
-    m_touchDuration.restart();
-    if (!m_measure->score()->hoveredNote())
-      m_measure->score()->setTouched(true);
   }
 }
 
@@ -631,25 +676,27 @@ void TnoteItem::mousePressEvent(QMouseEvent* event) {
  *
  * Release event is also used to set (confirm) a note by mouse press
  */
-void TnoteItem::mouseReleaseEvent(QMouseEvent*) {
+void TnoteItem::mouseReleaseEvent(QMouseEvent* event) {
   if (!m_staff->score()->readOnly()) {
-      if (keepMouseGrab())
-        setKeepMouseGrab(false);
-      if (m_measure->score()->hoveredNote()) { // mouse
-          if (m_measure->score()->hoveredNote() == this)
-            m_measure->score()->noteClicked(m_measure->score()->activeYpos());
-          m_measure->score()->setPressedNote(nullptr);
-      } else { // touch
-          if (m_touchDuration.elapsed() < 190) { // confirm note
-              m_measure->score()->touchHideTimer()->stop();
-              if (m_measure->score()->activeNote() == this) // set note only when it was touched second time
-                m_measure->score()->noteClicked(m_measure->score()->activeYpos());
-              m_measure->score()->setPressedNote(nullptr);
-              m_measure->score()->changeActiveNote(nullptr);
-          } else { // keep cursor visible
-              m_measure->score()->touchHideTimer()->start(2500);
-          }
-          m_measure->score()->setTouched(false);
+      if (event->pos().y() > 2.0 && event->pos().y() < height()) {
+        if (keepMouseGrab())
+          setKeepMouseGrab(false);
+        if (m_measure->score()->hoveredNote()) { // mouse
+            if (m_measure->score()->hoveredNote() == this)
+              m_measure->score()->noteClicked(m_measure->score()->activeYpos());
+            m_measure->score()->setPressedNote(nullptr);
+        } else { // touch
+            if (m_touchDuration.elapsed() < 190) { // confirm note
+                m_measure->score()->touchHideTimer()->stop();
+                if (m_measure->score()->activeNote() == this) // set note only when it was touched second time
+                  m_measure->score()->noteClicked(m_measure->score()->activeYpos());
+                m_measure->score()->setPressedNote(nullptr);
+                m_measure->score()->changeActiveNote(nullptr);
+            } else { // keep cursor visible
+                m_measure->score()->touchHideTimer()->start(2500);
+            }
+            m_measure->score()->setTouched(false);
+        }
       }
     } else {
         if (m_measure->score()->selectInReadOnly())
@@ -660,11 +707,21 @@ void TnoteItem::mouseReleaseEvent(QMouseEvent*) {
 
 void TnoteItem::mouseMoveEvent(QMouseEvent* event) {
   if (!m_staff->score()->readOnly()) {
-    if (m_measure->score()->pressedNote() && !m_measure->score()->touchHideTimer()->isActive() && m_touchDuration.elapsed() > 200
-        && static_cast<int>(m_measure->score()->activeYpos()) != static_cast<int>(event->pos().y()))
-          m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
+    if (event->pos().y() > 2.0 && event->pos().y() < height()) {
+      if (m_measure->score()->pressedNote() && !m_measure->score()->touchHideTimer()->isActive() && m_touchDuration.elapsed() > 200
+          && static_cast<int>(m_measure->score()->activeYpos()) != static_cast<int>(event->pos().y()))
+            m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
+    }
   }
 }
+
+
+// void TnoteItem::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
+//   if (m_staff && (newGeometry.width() != oldGeometry.width() || newGeometry.height() != oldGeometry.height())) {
+//     setTextureSize(QSize(qRound(m_staff->scale() * newGeometry.width()), qRound(newGeometry.height() * m_staff->scale())));
+//     update();
+//   }
+// }
 
 
 //#################################################################################################
@@ -768,11 +825,29 @@ void TnoteItem::updateNamePos() {
 }
 
 
+/**
+ * @p m_loLines (lower lines) are displayed always below upper staff (either single one or that upper of grand staff),
+ * but in grand staff 1st and 2nd are used for notes of upper staff and the rest for notes of lower staff.
+ * This way the same note from range c1 to h1 can be expressed either on lower staff (using those lines) or on upper staff
+ * It covers all scale of the bandoneon notation
+ * @p m_underLoLines are used only when grand staff
+ */
 void TnoteItem::checkAddLinesVisibility() {
+  bool v = m_head->isVisible() && !m_note->isRest();
+  bool betweenStaves = staff()->score()->isPianoStaff() &&  m_notePosY >= staff()->upperLine() + 10.0 && m_notePosY < staff()->upperLine() + 21.0;
   for (int i = 0; i < 7; ++i) {
-    m_upperLines[i]->setVisible(m_head->isVisible() && !m_note->isRest() && m_notePosY > 0.0 && i >= qFloor((m_notePosY - 1.0) / 2.0));
-    m_lowerLines[i]->setVisible(m_head->isVisible() && !m_note->isRest() && staff()->upperLine() + (m_midLine ? 22 : 10.0) + i * 2 <= m_notePosY);
+    m_upLines[i]->setVisible(v && m_notePosY > 0.0 && i >= qFloor((m_notePosY - 1.0) / 2.0));
+    qreal upp1 = staff()->upperLine() + 10.0 + i * 2;
+    if (staff()->score()->isPianoStaff()) {
+        if (m_notePosY < staff()->upperLine() + 14.0)
+          m_loLines[i]->setVisible(v && betweenStaves && m_notePosY >= upp1 && m_notePosY < staff()->upperLine() + 14.0);
+        else
+          m_loLines[i]->setVisible(v && betweenStaves && m_notePosY <= upp1 && m_notePosY <= staff()->upperLine() + 21.0 && i != 6);
+    } else
+        m_loLines[i]->setVisible(v && m_notePosY >= upp1);
   }
-  if (m_midLine)
-    m_midLine->setVisible(m_head->isVisible() && !m_note->isRest() && m_notePosY == staff()->upperLine() + 10.0);
+  if (!m_underLoLines.isEmpty()) {
+    m_underLoLines[0]->setVisible(v && m_notePosY >= staff()->upperLine() + 32.0);
+    m_underLoLines[1]->setVisible(v && m_notePosY >= staff()->upperLine() + 34.0);
+  }
 }

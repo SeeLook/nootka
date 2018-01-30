@@ -72,7 +72,7 @@ void TmeasureObject::setStaff(TstaffItem* st) {
 }
 
 
-void TmeasureObject::appendNewNotes(int segmentId, int count) {
+void TmeasureObject::appendNewNotes(int segmentId, int count, quint32 techValue) {
   // so far we are sure there is enough space for whole note list in this measure
 //   qDebug() << debug() << "append" << count << "note(s) from" << segmentId << "measure duration" << duration();
   for (int n = segmentId; n < segmentId + count; ++n)
@@ -86,6 +86,8 @@ void TmeasureObject::appendNewNotes(int segmentId, int count) {
     else
       np->item()->setStaff(m_staff);
     np->item()->setMeasure(this);
+    if (techValue != 255)
+      np->techicalData().setData(techValue);
     checkAccidentals();
     np->item()->setNote(*np->note());
     if (m_score->showNoteNames())
@@ -203,7 +205,7 @@ void TmeasureObject::checkBarLine() {
     qreal xOff = lastNote == m_staff->lastMeasure()->last()->item() ? 0.2 : 0.0; // fit line at the staff end
     m_barLine->setX(lastNote->rightX() - lastNote->x() + xOff);
     m_barLine->setY(m_staff->upperLine());
-    m_barLine->setHeight(m_score->isPianoStaff() ? 22.0 : 8.0);
+    m_barLine->setHeight(m_score->isPianoStaff() ? 30.0 : 8.0);
   }
 }
 
