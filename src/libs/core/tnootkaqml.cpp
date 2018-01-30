@@ -506,16 +506,23 @@ void TnootkaQML::instrumentChangesNoteSlot() {
   if (m_scoreObject->keySignature() < 0 || (m_scoreObject->keySignature() == 0 && GLOB->GpreferFlats))
     rawNote = rawNote.showWithFlat();
 
+  Ttechnical onUpperTechn;
+  if (GLOB->instrument().type() == Tinstrument::Bandoneon) // determine lower/upper staff before note is set/add
+    onUpperTechn.setOnUpperStaff(Ttechnical(m_instrument->technical()).onUpperStaff());
   if (m_scoreObject->singleNote()) {
+      if (GLOB->instrument().type() == Tinstrument::Bandoneon)
+        m_scoreObject->noteSegment(0)->techicalData().setOnUpperStaff(onUpperTechn.onUpperStaff());
       m_scoreObject->setNote(0, rawNote);
       m_scoreObject->setTechnical(0, m_instrument->technical());
   } else {
       if (m_scoreObject->selectedItem()) {
           rawNote.setRhythm(m_scoreObject->selectedItem()->note()->rtm);
+          if (GLOB->instrument().type() == Tinstrument::Bandoneon)
+            m_scoreObject->noteSegment(m_scoreObject->selectedItem()->index())->techicalData().setOnUpperStaff(onUpperTechn.onUpperStaff());
           m_scoreObject->setNote(m_scoreObject->selectedItem(), rawNote);
       } else {
           rawNote.setRhythm(m_scoreObject->workRhythm());
-          m_scoreObject->addNote(rawNote, true);
+          m_scoreObject->addNote(rawNote, true, onUpperTechn.data());
       }
       if (GLOB->instrument().type() == Tinstrument::Bandoneon) {
         auto seg = m_scoreObject->selectedItem() ? m_scoreObject->noteSegment(m_scoreObject->selectedItem()->index()) : m_scoreObject->lastSegment();
