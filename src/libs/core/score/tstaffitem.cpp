@@ -285,7 +285,7 @@ void TstaffItem::findHighestNote() {
 
 
 void TstaffItem::findLowestNote() {
-  m_loNotePos = static_cast<qreal>(m_scordSpace) + upperLine() + (m_scoreObj->isPianoStaff() ? 24.0 : 14.0);
+  m_loNotePos = static_cast<qreal>(m_scordSpace) + upperLine() + (m_scoreObj->isPianoStaff() ? 29.0 : 14.0);
   for (int m = m_firstMeasureId; m <= m_lastMeasureId; ++m) {
     auto measure = m_scoreObj->measure(m);
     for (int n = 0; n < measure->noteCount(); ++n) {

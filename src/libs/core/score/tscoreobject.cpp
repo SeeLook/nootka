@@ -108,7 +108,7 @@ void TscoreObject::setClefType(Tclef::EclefType ct) {
         for (int n = 0; n < notesCount(); ++n) {
           auto noteSeg = m_segments[n];
           if (pianoChanged)
-            noteSeg->item()->setHeight(m_clefType == Tclef::PianoStaffClefs ? 44.0 : 38.0);
+            noteSeg->item()->setHeight(m_clefType == Tclef::PianoStaffClefs ? 49.0 : 38.0);
           if (m_clefType == Tclef::NoClef) {
               Tnote newNote(Tnote(), noteSeg->note()->rtm);
               newNote.rtm.setStemDown(false);
@@ -217,7 +217,7 @@ void solveList(const Tnote& n, int dur, QList<Tnote>& outList) {
   }
 }
 
-void TscoreObject::addNote(const Tnote& newNote, bool fromQML) {
+void TscoreObject::addNote(const Tnote& newNote, bool fromQML, quint32 techValue) {
 CHECKTIME (
 
   if (m_singleNote) {
@@ -271,13 +271,13 @@ CHECKTIME (
           auto newLastMeasure = new TmeasureObject(m_measures.count(), this); // add a new measure
           m_measures << newLastMeasure;
           lastStaff()->appendMeasure(newLastMeasure);
-          newLastMeasure->appendNewNotes(lastNoteId, notesToNext.count());
+          newLastMeasure->appendNewNotes(lastNoteId, notesToNext.count(), techValue);
       }
   } else { // just add new note to the last measure
       m_notes << n;
       int lastNoteId = m_segments.count();
       m_segments << getSegment(lastNoteId, &m_notes.last());
-      lastMeasure->appendNewNotes(lastNoteId, 1);
+      lastMeasure->appendNewNotes(lastNoteId, 1, techValue);
   }
   emitLastNote();
   if (fromQML) {
@@ -1057,8 +1057,8 @@ TnotePair* TscoreObject::getSegment(int noteNr, Tnote* n) {
 
 
 int TscoreObject::globalNoteNr(qreal yPos) {
-  if (isPianoStaff() && yPos > firstStaff()->upperLine() + 10.0)
-    yPos -= 2.0;
+  if (isPianoStaff() && yPos > firstStaff()->upperLine() + 13.0)
+    yPos -= 10.0;
   return m_clefOffset.octave * 7 - static_cast<int>(yPos - upperLine() - m_clefOffset.note);
 }
 

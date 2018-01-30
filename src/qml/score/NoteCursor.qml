@@ -71,18 +71,30 @@ Item {
 
   Repeater { // upper lines
       model: (score.upperLine - 2) / 2
-      AddLine { y: 2 * (index + 1) - 0.1; visible: yPos > 0 && index >= Math.floor((yPos - 1) / 2) }
+      AddLine {
+        y: 2 * (index + 1) - 0.1
+        visible: yPos > 0 && index >= Math.floor((yPos - 1) / 2)
+      }
   }
-  Repeater { // middle lines
+  Repeater { // upper staff mid lines
       model: score.clef === Tclef.PianoStaffClefs ? 2 : 0
-      AddLine { y: score.upperLine + 10 + 2 * index - 0.1; visible: yPos == score.upperLine + 10 + 2 * index
-    }
+      AddLine {
+        y: score.upperLine + 10 + 2 * index - 0.1
+        visible: yPos >= y && yPos < score.upperLine + 14
+      }
+  }
+  Repeater { // lower staff mid lines
+      model: score.clef === Tclef.PianoStaffClefs ? 4 : 0
+      AddLine {
+        y: score.upperLine + 14 + 2 * index - 0.1
+        visible: yPos <= y + 0.1 && yPos > score.upperLine + 13 && yPos < score.upperLine + 24
+      }
   }
   Repeater { // lower lines
-      model: (score.firstStaff.height - score.upperLine - 12) / 2
+      model: (score.firstStaff.height - score.upperLine - (score.clef === Tclef.PianoStaffClefs ? 28 : 12)) / 2
       AddLine {
-        y: score.upperLine + (score.clef === Tclef.PianoStaffClefs ? 22 : 10) + 2 * index - 0.1
-        visible: score.upperLine + (score.clef === Tclef.PianoStaffClefs ? 22 : 10) + index * 2 <= yPos
+        y: score.upperLine + (score.clef === Tclef.PianoStaffClefs ? 30 : 10) + 2 * index - 0.1
+        visible: score.upperLine + (score.clef === Tclef.PianoStaffClefs ? 30 : 10) + index * 2 <= yPos
       }
   }
 

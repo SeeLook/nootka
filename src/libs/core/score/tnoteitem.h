@@ -181,12 +181,12 @@ protected:
        */
   void checkTie();
 
-  void hoverEnterEvent(QHoverEvent*) override;
+  void hoverEnterEvent(QHoverEvent* event) override;
   void hoverLeaveEvent(QHoverEvent*) override;
   void hoverMoveEvent(QHoverEvent* event) override;
 
   void mousePressEvent(QMouseEvent* event) override;
-  void mouseReleaseEvent(QMouseEvent*) override;
+  void mouseReleaseEvent(QMouseEvent* event) override;
   void mouseMoveEvent(QMouseEvent* event) override;
 
 private:
@@ -197,8 +197,7 @@ private:
   Tnote                       *m_note;
   qreal                        m_notePosY;
   QQuickItem                  *m_head, *m_alter, *m_stem, *m_flag;
-  QList<QQuickItem*>           m_upperLines, m_lowerLines;
-  QQuickItem                  *m_midLine = nullptr;
+  QVector<QQuickItem*>         m_upLines, m_loLines, m_underLoLines;
   qreal                        m_stemHeight;
   QString                      m_accidText;
   QQuickItem                  *m_tie = nullptr;

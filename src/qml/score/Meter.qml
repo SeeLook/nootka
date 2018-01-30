@@ -29,7 +29,7 @@ Text {
         font: meter.font
         color: meter.color
         text: meter.text
-        y: 14
+        y: 22
       }
   }
 

@@ -23,7 +23,7 @@ Text {
       font: clef.font
       text: "\ue062"
       color: clef.color
-      y: clef.y + 7
+      y: clef.y + 15
     }
   }
 

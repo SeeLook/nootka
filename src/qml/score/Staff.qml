@@ -14,7 +14,7 @@ TstaffItem {
 
   property alias clef: clef
 
-  property real linesCount: score.clef === Tclef.PianoStaffClefs ? 44 : 38
+  property real linesCount: score.clef === Tclef.PianoStaffClefs ? 49 : 38
   property var keySignItem: null
   property var meter: null
   property real firstNoteX: (meter ? meter.x + meter.width : (keySignItem ? keySignItem.x + keySignItem.width : clef.x + clef.width)) + 1.0
@@ -31,7 +31,7 @@ TstaffItem {
 
   TstaffLines {
       id: upperStaff
-      x: score.clef === Tclef.PianoStaffClefs ? 1.5 : 0.5
+      x: score.clef === Tclef.PianoStaffClefs ? 2 : 0.5
       width: staff.width - (score.clef === Tclef.PianoStaffClefs ? 2 : 1)
       y: upperLine - 0.1
       staffScale: staff.scale
@@ -41,9 +41,9 @@ TstaffItem {
   Component {
       id: lowerStaff
       TstaffLines {
-        x: score.clef === Tclef.PianoStaffClefs ? 1.5 : 0.5
+        x: score.clef === Tclef.PianoStaffClefs ? 2 : 0.5
         width: staff.width - (score.clef === Tclef.PianoStaffClefs ? 2 : 1)
-        y: upperLine - 0.1 + 14
+        y: upperLine - 0.1 + 22
         staffScale: staff.scale
       }
   }
@@ -54,8 +54,8 @@ TstaffItem {
       Text {
         visible: score.clef === Tclef.PianoStaffClefs
         text: "\ue000"
-        font {family: "scorek"; pixelSize: 22 }
-        y: -9
+        font {family: "scorek"; pixelSize: 30 }
+        y: -17
         color: activPal.text
       }
   }
