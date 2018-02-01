@@ -184,7 +184,7 @@ void TcommonListener::noteStartedSlot(qreal pitch, qreal freq, qreal duration) {
       } else { // zero pitch means rest
           if (GLOB->rhythmsEnabled()) {
             m_noteWasStarted = true;
-            m_lastNote.pitch.note = 0;
+            m_lastNote.pitch.setNote(0);
             m_lastNote.duration = duration;
             emit noteStarted(m_lastNote);
           }

@@ -2,6 +2,8 @@
 # CMakeList.txt Nootka analyzer plugin library
 ########################################################################
 
+include_directories( ../core )
+
 
 set(ANALYZER_SRC
   tanalyzerplugin.cpp

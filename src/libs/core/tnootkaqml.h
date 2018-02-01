@@ -84,9 +84,9 @@ public:
   Q_INVOKABLE Tnote note(const Tnote& n, int rhythm = 3, bool rest = false, bool dot = false);
   Q_INVOKABLE Tnote note(const Tnote& n, const Trhythm& r);
   Q_INVOKABLE Tnote note(int chroma, bool sharp = true);
-  Q_INVOKABLE int octave(const Tnote& n) { return static_cast<int>(n.octave); }
-  Q_INVOKABLE int pitch(const Tnote& n) { return static_cast<int>(n.note); }
-  Q_INVOKABLE int alter(const Tnote& n) { return static_cast<int>(n.alter); }
+  Q_INVOKABLE int octave(const Tnote& n) { return static_cast<int>(n.octave()); }
+  Q_INVOKABLE int pitch(const Tnote& n) { return static_cast<int>(n.note()); }
+  Q_INVOKABLE int alter(const Tnote& n) { return static_cast<int>(n.alter()); }
   Q_INVOKABLE Tnote transpose(Tnote n, int semitones);
   Q_INVOKABLE Trhythm rhythm(int rtm, bool rest, bool dot, bool triplet);
   Q_INVOKABLE QString rhythmText(const Trhythm& r);

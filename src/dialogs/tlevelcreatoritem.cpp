@@ -556,8 +556,8 @@ QString TlevelCreatorItem::validateLevel() {
   }
 // checking are accidentals needed because of hi and low notes in range
   char acc = 0;
-  if (m_level->loNote.alter) acc = m_level->loNote.alter;
-  if (m_level->hiNote.alter) acc = m_level->hiNote.alter;
+  if (m_level->loNote.alter()) acc = m_level->loNote.alter();
+  if (m_level->hiNote.alter()) acc = m_level->hiNote.alter();
   if (acc) {
       if ( (acc == 1 && !m_level->withSharps) || (acc == -1 && !m_level->withFlats))
           res += tr("<li>In range of notes some accidentals are used<br>but not available in this level</li>");
@@ -604,8 +604,8 @@ QString TlevelCreatorItem::validateLevel() {
       inKeyNotes[static_cast<int>(TkeySignature::minorKeys[i + 7])] = true;
       inKeyNotes[static_cast<int>(TkeySignature::majorKeys[i + 7])] = true;
     }
-    int startNote = m_level->loNote.note + (m_level->loNote.octave + 5) * 7 - 1;
-    int endNote = m_level->hiNote.note + (m_level->hiNote.octave + 5) * 7 - 1;
+    int startNote = m_level->loNote.note() + (m_level->loNote.octave() + 5) * 7 - 1;
+    int endNote = m_level->hiNote.note() + (m_level->hiNote.octave() + 5) * 7 - 1;
     for (int n = 0; n < 7; ++n) {
       if (inKeyNotes[n]) {
         bool found = false;

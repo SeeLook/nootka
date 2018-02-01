@@ -75,7 +75,7 @@ void Ttune::determineStringsNumber() {
   Tnote tmpStrings[6];
   quint8 strCnt = 0;
   for (int i = 0; i < 6; i++) {
-    if (stringsArray[i].note != 0) { // put all defined notes to tmpStrings
+    if (stringsArray[i].note() != 0) { // put all defined notes to tmpStrings
       tmpStrings[strCnt] = stringsArray[i];
       strCnt++;
     }

@@ -57,10 +57,10 @@ void TpianoBg::setNote(const Tnote& n, quint32 noteDataValue) {
   if (!p_note.compareNotes(n)) {
     if (n.isValid()) {
         Tnote sharpNote = Tnote(n.chromatic());
-        int o = sharpNote.octave - m_firstOctave;
+        int o = sharpNote.octave() - m_firstOctave;
         int kw = qFloor(m_keyWidth);
-        bool isWhite = sharpNote.alter == 0;
-        int keyNr = o * 7 + sharpNote.note - (isWhite ? 1 : 0);
+        bool isWhite = sharpNote.alter() == 0;
+        int keyNr = o * 7 + sharpNote.note() - (isWhite ? 1 : 0);
         if (isWhite)
           m_keyRect.setRect(m_margin + keyNr * kw, m_keyWidth, m_keyWidth, height() - m_keyWidth);
         else
@@ -162,13 +162,13 @@ void TpianoBg::hoverMoveEvent(QHoverEvent* event) {
     bool isWhite = true;
     if (event->pos().y() < height() / 2) { // black keys
       if (keyNr % 7 != 0 && keyNr % 7 != 3) {
-        --newNote.note;
-        newNote.alter = Tnote::e_Sharp;
+        newNote.setNote(newNote.note() - 1);
+        newNote.setAlter(Tnote::e_Sharp);
         isWhite = false;
       }
     }
     if (m_activeNote != newNote) {
-      m_activeNote.note = newNote.note; m_activeNote.octave = newNote.octave; m_activeNote.alter = newNote.alter;
+      m_activeNote.setNote(newNote.note()); m_activeNote.setOctave(newNote.octave()); m_activeNote.setAlter(newNote.alter());
       if (isWhite)
         m_keyRect.setRect(m_margin + keyNr * kw, m_keyWidth, m_keyWidth, height() - m_keyWidth);
       else

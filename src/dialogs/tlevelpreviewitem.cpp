@@ -73,7 +73,7 @@ void TlevelPreviewItem::setLevel(Tlevel* tl) {
               .arg(fontSize * 2).arg(tl->clef.type() == Tclef::PianoStaffClefs ? QStringLiteral("\ue060") : tl->clef.glyph());
       m_levelText += QLatin1String("<td rowspan=\"_ROW_SPAN_\" align=\"center\" valign=\"middle\"><br>") + clefString;
       m_levelText += TRTD + qTR("RangePage", "note range:") + spTDEnd;
-      if (tl->loNote.note && tl->hiNote.note)
+      if (tl->loNote.note() && tl->hiNote.note())
         m_levelText += tdAlign() + tl->loNote.toRichText() + QLatin1String(" - ") + tl->hiNote.toRichText() + TDTREnd;
       if (tl->canBeGuitar()) { // level uses guitar
           m_levelText += TRTD + qTR("RangePage", "fret range:") + spTDEnd;

@@ -97,7 +97,7 @@ void Tsound::init() {
 
 void Tsound::play(const Tnote& note) {
   bool playing = false;
-  if (player && note.note)
+  if (player && note.note())
       playing = player->play(note.chromatic());
 #if defined (Q_OS_ANDROID)
   if (playing) {

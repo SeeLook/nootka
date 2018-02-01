@@ -187,16 +187,16 @@ bool getKeyFromStream(QDataStream &in, TkeySignature &k) {
 //#################################################################################################
 Tnote TkeySignature::inKeyPrivate(char val, Tnote n) {
   int v = val + 7;
-  if (scalesDefArr[v][n.note - 1] == n.alter)
+  if (scalesDefArr[v][n.note() - 1] == n.alter())
       return n;
   Tnote tmpN = n.showWithFlat();
-  if (scalesDefArr[v][tmpN.note - 1] == tmpN.alter)
+  if (scalesDefArr[v][tmpN.note() - 1] == tmpN.alter())
       return tmpN;
   tmpN = n.showWithSharp();
-  if (scalesDefArr[v][tmpN.note - 1] == tmpN.alter)
+  if (scalesDefArr[v][tmpN.note() - 1] == tmpN.alter())
       return tmpN;
   tmpN = n.showAsNatural();
-  if (scalesDefArr[v][tmpN.note - 1] == tmpN.alter)
+  if (scalesDefArr[v][tmpN.note() - 1] == tmpN.alter())
       return tmpN;
 
   return Tnote(0, 0, 0);

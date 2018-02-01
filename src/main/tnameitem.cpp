@@ -45,7 +45,7 @@ TnameItem::TnameItem(QQuickItem* parent) :
   }
 
   m_instance = this;
-  m_note.octave = -4;
+  m_note.setOctave(-4);
   m_bgColor = qApp->palette().base().color();
   connect(qApp, &QGuiApplication::paletteChanged, [=]{
     if (m_appendix.isEmpty()) { // update color only when question is not asked
@@ -68,9 +68,9 @@ TnameItem::~TnameItem()
 
 void TnameItem::setNote(const Tnote& n) {
   if (!m_note.compareNotes(n)) {
-    bool stepCh = n.note != m_note.note;
-    bool octaveCh = n.octave != m_note.octave;
-    bool alterCh = n.alter != m_note.alter;
+    bool stepCh = n.note() != m_note.note();
+    bool octaveCh = n.octave() != m_note.octave();
+    bool alterCh = n.alter() != m_note.alter();
     m_note = n;
     if (stepCh)
       emit stepChanged();
@@ -93,10 +93,10 @@ void TnameItem::setNote(const Tnote& n) {
 
 void TnameItem::setStep(int st) {
   char stepChar = static_cast<char>(st);
-  if (stepChar != m_note.note) {
-    if (m_note.octave == -4) // initial octave value is fake, revert it
+  if (stepChar != m_note.note()) {
+    if (m_note.octave() == -4) // initial octave value is fake, revert it
       setOctave(0);
-    m_note.note = stepChar;
+    m_note.setNote(stepChar);
     emit stepChanged();
     emit nameTextChanged();
     emit noteChanged();
@@ -109,8 +109,8 @@ void TnameItem::setStep(int st) {
  */
 void TnameItem::setAlter(int alt) {
   char alterChar = static_cast<char>(alt);
-  if (alterChar != m_note.alter) {
-    m_note.alter = alterChar;
+  if (alterChar != m_note.alter()) {
+    m_note.setAlter(alterChar);
     emit alterChanged();
     if (m_note.isValid()) {
       emit nameTextChanged();
@@ -125,8 +125,8 @@ void TnameItem::setAlter(int alt) {
  */
 void TnameItem::setOctave(int oct) {
   char octaveChar = static_cast<char>(oct);
-  if (octaveChar != m_note.octave) {
-    m_note.octave = octaveChar;
+  if (octaveChar != m_note.octave()) {
+    m_note.setOctave(octaveChar);
     emit octaveChanged();
     if (m_note.isValid()) {
       emit nameTextChanged();
@@ -228,13 +228,13 @@ void TnameItem::prepareAnswer(Tnote::EnameStyle answStyle) {
   m_nameStyle = answStyle;
   Tnote::defaultStyle = answStyle;
   setDisabled(false);
-  m_note.note = 0;
+  m_note.setNote(0);
   emit stepChanged();
 }
 
 
 void TnameItem::forceAccidental(char accid) {
-  m_note.alter = accid;
+  m_note.setAlter(accid);
   emit alterChanged();
 }
 

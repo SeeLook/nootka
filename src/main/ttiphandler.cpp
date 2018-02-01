@@ -376,13 +376,13 @@ void TtipHandler::questionTip() {
   switch (question->questionAs) {
     case TQAtype::e_asNote: {
       if (question->answerAsNote()) {
-          if (question->qa.note.alter != question->qa_2.note.alter)
+          if (question->qa.note.alter() != question->qa_2.note.alter())
               questText += tr("Change enharmonically and show on the staff");
           else
               questText += tr("Given note show on the staff");
           if (level->useKeySign && level->manualKey)
               apendix = tr("<br><b>in %1 key.</b>", "in key signature").arg(question->key.getName());
-                questText += getTextHowAccid((Tnote::Ealter)question->qa_2.note.alter);
+                questText += getTextHowAccid((Tnote::Ealter)question->qa_2.note.alter());
       } else if (question->answerAsName()) {
           questText += tr("Give name of");
       } else if (question->answerAsFret()) {
@@ -418,9 +418,9 @@ void TtipHandler::questionTip() {
             questText += tr("<br><b>in %1 key.</b>", "in key signature").arg(question->key.getName());
       } else if (question->answerAsName()) {
           noteStr = br + getNiceNoteName(question->qa.note, question->styleOfQuestion());
-          if (question->qa.note.alter != question->qa_2.note.alter) {
+          if (question->qa.note.alter() != question->qa_2.note.alter()) {
               questText += tr("Change enharmonically and give name of");
-              questText += noteStr + getTextHowAccid((Tnote::Ealter)question->qa_2.note.alter);
+              questText += noteStr + getTextHowAccid((Tnote::Ealter)question->qa_2.note.alter());
           } else
               questText += tr("Use another style to give name of") + noteStr;
       } else if (question->answerAsFret()) {
@@ -454,7 +454,7 @@ void TtipHandler::questionTip() {
           questText += br + apendix;
       if (question->answerAsNote() || question->answerAsName())
         if (level->forceAccids)
-              questText += getTextHowAccid((Tnote::Ealter)question->qa.note.alter);
+              questText += getTextHowAccid((Tnote::Ealter)question->qa.note.alter());
     break;
 
     case TQAtype::e_asSound:
@@ -468,12 +468,12 @@ void TtipHandler::questionTip() {
               if (level->useKeySign && level->manualKey)
                   questText += tr("<br><b>in %1 key.</b>", "in key signature").arg(question->key.getName());
               if (level->forceAccids)
-                  questText += getTextHowAccid((Tnote::Ealter)question->qa.note.alter);
+                  questText += getTextHowAccid((Tnote::Ealter)question->qa.note.alter());
           }
       } else if (question->answerAsName()) {
           questText += tr("Give name of listened sound");
           if (level->forceAccids)
-              questText += getTextHowAccid((Tnote::Ealter)question->qa.note.alter);
+              questText += getTextHowAccid((Tnote::Ealter)question->qa.note.alter());
       } else if (question->answerAsFret()) {
             questText += tr("Listened sound show on the guitar");
             if (level->showStrNr)
