@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -32,7 +32,7 @@ void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, 
     Tnote pitch = qList[randVal].note;
     TfingerPos fPos = qList[randVal].pos;
     if (inKey) { // note has to be in key signature declared in melody
-      if (mel->key().inKey(pitch).note == 0) { // if it is not
+      if (mel->key().inKey(pitch).note() == 0) { // if it is not
         int tryCount = 0;
         int it = randVal;
         while (tryCount < qList.size()) { // find another one
@@ -40,7 +40,7 @@ void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, 
           if (it == qList.size())
             it = 0;
           Tnote tryNote = mel->key().inKey(qList[it].note);
-          if (tryNote.note != 0) {
+          if (tryNote.note() != 0) {
             pitch = tryNote;
             fPos = qList[it].pos;
             break;
@@ -49,9 +49,9 @@ void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, 
         }
       }
     }
-    if (pitch.alter == 1 && mel->key().value() < 0) // flats key signature
+    if (pitch.alter() == 1 && mel->key().value() < 0) // flats key signature
       pitch = pitch.showWithFlat(); // so prefer flats
-    else if (pitch.alter == -1 && mel->key().value() > 0) // sharps key signature
+    else if (pitch.alter() == -1 && mel->key().value() > 0) // sharps key signature
       pitch = pitch.showWithSharp(); // so prefer sharps
     Tchunk note(pitch, fPos);
     mel->addNote(note);
@@ -69,9 +69,9 @@ void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, 
         theSame = true;
       else {
         Tnote tonicConverted;
-        if (tonic.alter == 1)
+        if (tonic.alter() == 1)
           tonicConverted = tonic.showWithFlat();
-        else if (tonic.alter == -1)
+        else if (tonic.alter() == -1)
           tonicConverted = tonic.showWithSharp();
         else
           continue;
@@ -81,8 +81,8 @@ void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, 
         }
       }
       if (theSame) {
-        tonic.octave = qList[i].note.octave;
-        if (tonic.alter == 1 && mel->key().value() < 0) // flats key signature
+        tonic.setOctave(qList[i].note.octave());
+        if (tonic.alter() == 1 && mel->key().value() < 0) // flats key signature
           tonic = tonic.showWithFlat(); // so prefer flats
         mel->lastMeasure().lastNote().p() = tonic;
         mel->lastMeasure().lastNote().g() = qList[i].pos;
@@ -144,7 +144,7 @@ void getRandomMelodyNG(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey
     QList<int> tonicList;
     for (int n = 0; n < qListPtr->size(); ++n) {
       auto qa = &qListPtr->operator[](n);
-      if (qa->note.note == tonic.note && qa->note.alter == tonic.alter)
+      if (qa->note.note() == tonic.note() && qa->note.alter() == tonic.alter())
         tonicList << n;
     }
     if (tonicList.isEmpty())

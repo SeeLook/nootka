@@ -1,20 +1,20 @@
 /***************************************************************************
-*   Copyright (C) 2006-2017 by Tomasz Bojczuk                             *
-*   seelook@gmail.com                                                     *
-*                                                                         *
-*   This program is free software; you can redistribute it and/or modify  *
-*   it under the terms of the GNU General Public License as published by  *
-*   the Free Software Foundation; either version 3 of the License, or     *
-*   (at your option) any later version.                                   *
-*                                                                         *
-*   This program is distributed in the hope that it will be useful,       *
-*   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
-*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
-*   GNU General Public License for more details.                          *
-*                                                                         *
-*  You should have received a copy of the GNU General Public License      *
-*  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
-***************************************************************************/
+ *   Copyright (C) 2006-2018 by Tomasz Bojczuk                             *
+ *   seelook@gmail.com                                                     *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *  You should have received a copy of the GNU General Public License      *
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
+ ***************************************************************************/
 
 
 #ifndef TNOTE_H
@@ -71,8 +71,17 @@ public:
     e_Natural = 0, e_Sharp = 1, e_DoubleSharp = 2, e_Flat = -1, e_DoubleFlat = -2, e_None = 3
   };
 
-  char note; /**< note variable is a number in "diatonic notation" (see constructor).*/
-  char octave; /**< Octave number is @p 0 for "small octave",  @p -1 for "Great" @p 1 for "one-line". */
+        /**
+         * note (step) is a number in "diatonic notation" (see constructor).
+         */
+  inline char note() const { return m_note; }
+  inline void setNote(char n) { m_note = n; }
+
+        /**
+         * Octave number is @p 0 for "small octave",  @p -1 for "Great" @p 1 for "one-line".
+         */
+  inline char octave() const { return m_octave; }
+  inline void setOctave(char o) { m_octave = o; }
 
         /**
          * @p accidental means raising or dropping a note, so it ca be:
@@ -82,8 +91,8 @@ public:
          * @li -1 for flat (b)
          * @li -2 for double flat (bb)
          */
-  char alter;
-
+  inline char alter() const { return m_alter; }
+  inline void setAlter(char a) { m_alter = a; }
 
         /**
          * Construct object of Tnote from number of note, number of octave
@@ -96,21 +105,17 @@ public:
          * If accidental is not defined, the note is natural.
          */
   Tnote(char diatonNote, char oct, char accid = 0, const Trhythm& r = Trhythm(Trhythm::NoRhythm)) :
-      note(diatonNote),
-      octave(oct),
-      alter(accid),
-      rtm(r)
+      rtm(r),
+      m_note(diatonNote),
+      m_octave(oct),
+      m_alter(accid)
     {}
 
         /**
          * The simple constructor, creates the note instance with 0 note and no rhythm.
          * It makes no sense in musical notation. It's needed for vectors.
          */
-  Tnote() :
-      note(0),
-      octave(0),
-      alter(e_Natural),
-      rtm(Trhythm(Trhythm::NoRhythm))
+  Tnote() : rtm(Trhythm(Trhythm::NoRhythm))
     {}
 
         /**
@@ -133,13 +138,12 @@ public:
        * Constructs @class Tnote from other Tnote but with different rhythm @p r
        */
   Tnote(const Tnote& other, const Trhythm& r) :
-    note(other.note),
-    octave(other.octave),
-    alter(other.alter),
-    rtm(r)
+    rtm(r),
+    m_note(other.note()),
+    m_octave(other.octave()),
+    m_alter(other.alter())
   {}
 
-  ~Tnote() {}
 
   Trhythm rtm; /**< Easy access to rhythm object */
   Trhythm::Erhythm rhythm() const { return rtm.rhythm(); }
@@ -188,23 +192,23 @@ public:
       /*
        * Returns @p TRUE when note is valid. There are used 'undefined' notes with 0 - they are invalid.
        */
-  bool isValid() const { return (note > 0 && note < 8); }
+  bool isValid() const { return (note() > 0 && note() < 8); }
 
       /** Static value determines default name style for a note */
   static EnameStyle defaultStyle;
 
   bool operator==(const Tnote N2) const {
-    return (note == N2.note && octave == N2.octave && alter == N2.alter && rtm == N2.rtm);
+    return (note() == N2.note() && octave() == N2.octave() && alter() == N2.alter() && rtm == N2.rtm);
   }
 
   bool operator!=(const Tnote N2) const {
-    return ( note != N2.note || octave != N2.octave || alter != N2.alter || rtm != N2.rtm);
+    return ( note() != N2.note() || octave() != N2.octave() || alter() != N2.alter() || rtm != N2.rtm);
   }
 
         /** Splits current note on two given rhythmic values */
   Tnote split(const Trhythm& r1, const Trhythm& r2) {
     setRhythm(r1);
-    return Tnote(note, octave, alter, r2);
+    return Tnote(note(), octave(), alter(), r2);
   }
 
         /**
@@ -235,7 +239,7 @@ public:
         * and method compares only number of note and accidental.
         */
   bool compareNotes(const Tnote& otherNote, bool ignoreOctave = false) const {
-    return note == otherNote.note && alter == otherNote.alter && (ignoreOctave || octave == otherNote.octave);
+    return note() == otherNote.note() && alter() == otherNote.alter() && (ignoreOctave || octave() == otherNote.octave());
   }
 
   std::string getName(EnameStyle notation = e_norsk_Hb, bool showOctave = 1) const;
@@ -306,9 +310,12 @@ public:
   void transpose(int interval);
 
 private:
+  char                  m_note = 0;
+  char                  m_octave = 0;
+  char                  m_alter = 0;
 
-  static std::string m_solmization[7];
-  static std::string m_solmizationRu[7];
+  static std::string    m_solmization[7];
+  static std::string    m_solmizationRu[7];
 
 };
 

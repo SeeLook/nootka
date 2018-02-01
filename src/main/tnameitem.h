@@ -56,13 +56,13 @@ public:
   Tnote note() const { return m_note; }
   void setNote(const Tnote& n);
 
-  int step() const { return static_cast<int>(m_note.note); }
+  int step() const { return static_cast<int>(m_note.note()); }
   void setStep (int st);
 
-  int alter() const { return static_cast<int>(m_note.alter); }
+  int alter() const { return static_cast<int>(m_note.alter()); }
   void setAlter(int alt);
 
-  int octave() const { return static_cast<int>(m_note.octave); }
+  int octave() const { return static_cast<int>(m_note.octave()); }
   void setOctave(int oct);
 
   int nameStyle() const { return static_cast<int>(m_nameStyle); }

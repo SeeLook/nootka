@@ -621,7 +621,7 @@ void Tglobals::setTune(const Ttune& t) {
   char openStr[6];
   for (int i = 0; i < 6; i++) {
     m_order[i] = i;
-    if (m_tune->str(i + 1).note != 0)
+    if (m_tune->str(i + 1).note() != 0)
       openStr[i] = m_tune->str(i + 1).chromatic();
     else // empty note - not such string
       openStr[i] = -120; // make it lowest

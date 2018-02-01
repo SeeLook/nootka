@@ -234,7 +234,7 @@ void TnoteItem::setNote(const Tnote& n) {
     m_notePosY = staff()->upperLine() + (m_note->rhythm() == Trhythm::Whole ? 2.0 : 4.0);
   else {
     if (m_note->isValid()) {
-        m_notePosY = staff()->score()->clefOffset().total() + staff()->upperLine() - (n.octave * 7 + (n.note - 1));
+        m_notePosY = staff()->score()->clefOffset().total() + staff()->upperLine() - (n.octave() * 7 + (n.note() - 1));
         if (staff()->score()->isPianoStaff()) {
           if (m_wrapper->techicalData().onUpperStaff()) {
               if (m_notePosY > staff()->upperLine() + 13.0)
@@ -541,13 +541,13 @@ QString TnoteItem::getAccidText() {
   if (!m_note->isValid() || (m_note->rtm.tie() && m_note->rtm.tie() != Trhythm::e_tieStart)) // accidental only for starting tie
     return QString();
 
-  QString a = accCharTable[m_note->alter + 2];
-  qint8 accidInKey = m_staff->score()->accidInKey(m_note->note - 1);
+  QString a = accCharTable[m_note->alter() + 2];
+  qint8 accidInKey = m_staff->score()->accidInKey(m_note->note() - 1);
   if (accidInKey) { // key signature has an accidental on this note
-    if (m_note->alter == 0) // show neutral if note has not any accidental
+    if (m_note->alter() == 0) // show neutral if note has not any accidental
         a = accCharTable[5];
     else {
-      if (accidInKey == m_note->alter) { // accidental in key, do not show
+      if (accidInKey == m_note->alter()) { // accidental in key, do not show
         if (m_staff->score()->showExtraAccids() && accidInKey) { // or user wants it at any cost
             a.prepend(QStringLiteral("\ue26a"));
             a.append(QStringLiteral("\ue26b"));
@@ -559,21 +559,21 @@ QString TnoteItem::getAccidText() {
   int id = index() - 1; // check the previous notes for accidentals
   while (id >= 0 && m_staff->score()->noteSegment(id)->item()->measure() == measure()) {
     auto checkNote = m_staff->score()->noteSegment(id)->note();
-    if (checkNote->note == m_note->note) {
+    if (checkNote->note() == m_note->note()) {
       if (checkNote->rtm.tie() && checkNote->rtm.tie() != Trhythm::e_tieStart) {
         // Ignore notes prolonged with ties - they could be continued from the previous measure
         // and then, the accidental has to be displayed again in current measure
         id--;
         continue;
       }
-      char prevAlter = checkNote->alter;
-      if (prevAlter != 0 && m_note->alter == 0) {
+      char prevAlter = checkNote->alter();
+      if (prevAlter != 0 && m_note->alter() == 0) {
           if (a.isEmpty())
             a = accCharTable[5]; // and add neutral when some of previous notes with the same step had an accidental
-      } else if (prevAlter == m_note->alter) // do not display it twice
+      } else if (prevAlter == m_note->alter()) // do not display it twice
           a.clear();
-      else if (accidInKey == m_note->alter && prevAlter != m_note->alter)
-          a = accCharTable[m_note->alter + 2]; // There is already accidental in key signature but some of the previous notes had another one, show it again
+      else if (accidInKey == m_note->alter() && prevAlter != m_note->alter())
+          a = accCharTable[m_note->alter() + 2]; // There is already accidental in key signature but some of the previous notes had another one, show it again
       break;
     }
     id--;

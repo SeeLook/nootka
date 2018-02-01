@@ -389,7 +389,7 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
     er = e_levelFixed;
     qDebug() << "Lowest key in range was higher than the highest one. Fixed";
   }
-  if (loNote.note == 0 || hiNote.note == 0) {
+  if (loNote.note() == 0 || hiNote.note() == 0) {
     qDebug() << "Note range is wrong.";
     return e_otherError;
   } else if (fixNoteRange() == e_levelFixed) {
@@ -694,7 +694,7 @@ bool Tlevel::adjustFretsToScale(char& loF, char& hiF) {
   int lowest = GLOB->GfretsNumber, highest = 0;
   for (int no = loNote.chromatic(); no <= hiNote.chromatic(); no++) {
     if (!withFlats && !withSharps)
-      if (Tnote(no).alter) // skip note with accidental when not available in the level
+      if (Tnote(no).alter()) // skip note with accidental when not available in the level
           continue;
     int tmpLow = GLOB->GfretsNumber;
     for(int st = 0 ; st < GLOB->Gtune()->stringNr(); st++) {

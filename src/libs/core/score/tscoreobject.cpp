@@ -118,8 +118,8 @@ void TscoreObject::setClefType(Tclef::EclefType ct) {
               Tnote newNote(*noteSeg->note());
               if (oldClef == Tclef::NoClef) {
                   int globalNr = m_clefOffset.octave * 7 - (7 - m_clefOffset.note);
-                  newNote.note = static_cast<char>(56 + globalNr) % 7 + 1;
-                  newNote.octave = static_cast<char>(56 + globalNr) / 7 - 8;
+                  newNote.setNote(static_cast<char>(56 + globalNr) % 7 + 1);
+                  newNote.setOctave(static_cast<char>(56 + globalNr) / 7 - 8);
               } else
                   fitToRange(newNote);
               noteSeg->setNote(newNote);
@@ -326,12 +326,12 @@ void TscoreObject::setNote(TnoteItem* no, const Tnote& n) {
     }
     no->wrapper()->setNote(newNote);
     // When note or alter are different - check accidentals in whole measure and fit staff if necessary
-    if (!notesForAlterCheck.isNull() || oldNote.note != newNote.note || oldNote.alter != newNote.alter) {
+    if (!notesForAlterCheck.isNull() || oldNote.note() != newNote.note() || oldNote.alter() != newNote.alter()) {
       if (notesForAlterCheck.isNull())
         notesForAlterCheck = QPoint(no->measure()->firstNoteId(), no->measure()->lastNoteId());
       auto measureToRefresh = m_segments[notesForAlterCheck.x()]->item()->measure();
       for (int n = notesForAlterCheck.x(); n <= notesForAlterCheck.y(); ++n) {
-        if (m_segments[n]->note()->note == oldNote.note || m_segments[n]->note()->note == newNote.note) {
+        if (m_segments[n]->note()->note() == oldNote.note() || m_segments[n]->note()->note() == newNote.note()) {
           fitStaff = true;
           m_segments[n]->item()->updateAlter();
         }
@@ -344,7 +344,7 @@ void TscoreObject::setNote(TnoteItem* no, const Tnote& n) {
       measureToRefresh->refresh();
     }
     // update note range on current staff
-    if (oldNote.note != newNote.note || oldNote.octave != newNote.octave)
+    if (oldNote.note() != newNote.note() || oldNote.octave() != newNote.octave())
       no->staff()->checkNotesRange();
     // If there is a beam - prepare it again then draw
     if (no->wrapper()->beam()) {
@@ -426,7 +426,7 @@ void TscoreObject::noteClicked(qreal yPos) {
   Tnote newNote(static_cast<char>(56 + globalNr) % 7 + 1, static_cast<char>(56 + globalNr) / 7 - 8,
           static_cast<char>(m_cursorAlter), newRhythm);
   if (m_workRhythm->isRest() || m_clefType == Tclef::NoClef)
-    newNote.note = 0;
+    newNote.setNote(0);
 
   setNote(m_activeNote, newNote);
 
@@ -1109,10 +1109,10 @@ void TscoreObject::fitToRange(Tnote& n) {
   Tnote loNote = lowestNote();
   Tnote hiNote = highestNote();
   if (!n.isRest()
-    && ((n.octave > hiNote.octave || (n.octave == hiNote.octave && n.note > hiNote.note))
-    || (n.octave < loNote.octave || (n.octave == loNote.octave && n.note < loNote.note))))
+    && ((n.octave() > hiNote.octave() || (n.octave() == hiNote.octave() && n.note() > hiNote.note()))
+    || (n.octave() < loNote.octave() || (n.octave() == loNote.octave() && n.note() < loNote.note()))))
   {
-    n.note = 0; n.octave = 0; // invalidate note
+    n.setNote(0); n.setOctave(0); // invalidate note
     n.setRest(true);
     n.rtm.setTie(Trhythm::e_noTie);
     n.rtm.setBeam(Trhythm::e_noBeam);

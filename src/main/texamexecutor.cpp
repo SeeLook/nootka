@@ -434,13 +434,13 @@ void TexamExecutor::askQuestion(bool isAttempt) {
               blindQuestion();
               return; // refresh this function scope by calling it outside
           }
-          MAIN_SCORE->forceAccidental(static_cast<int>(curQ->qa_2.note.alter));
+          MAIN_SCORE->forceAccidental(static_cast<int>(curQ->qa_2.note.alter()));
           m_answRequire.accid = true;
           m_answRequire.octave = true;
       }
       if (curQ->questionAsFret() || curQ->questionAsSound()) {
           if (m_level.forceAccids)
-            MAIN_SCORE->forceAccidental(static_cast<int>(curQ->qa.note.alter));
+            MAIN_SCORE->forceAccidental(static_cast<int>(curQ->qa.note.alter()));
       }
       if (curQ->questionAsName()) {
           m_answRequire.accid = true;
@@ -459,9 +459,9 @@ void TexamExecutor::askQuestion(bool isAttempt) {
            */
       char answerAlter = 0;
       if (curQ->questionAsName())
-          answerAlter = curQ->qa_2.note.alter;
+          answerAlter = curQ->qa_2.note.alter();
       else {
-          answerAlter = curQ->qa.note.alter;
+          answerAlter = curQ->qa.note.alter();
           if (m_level.requireStyle)
               m_prevAnswStyle = m_supp->randomNameStyle(m_prevAnswStyle);
           curQ->setStyle(curQ->styleOfQuestion(), m_prevAnswStyle);

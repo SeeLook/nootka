@@ -231,7 +231,7 @@ void TmeasureObject::checkAccidentals() {
   for (int n = 0; n < m_notes.size(); ++n) {
     auto np = note(n);
     if (np->note()->isValid() && !np->note()->isRest())
-      m_accidsState[np->note()->note - 1] = np->note()->alter; // register accidental of a note
+      m_accidsState[np->note()->note() - 1] = np->note()->alter(); // register accidental of a note
   }
 }
 

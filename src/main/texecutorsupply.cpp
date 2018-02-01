@@ -195,7 +195,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
                   if (hope && m_level->useKeySign && m_level->onlyCurrKey)
                     hope = isNoteInKey(n);
                   if (hope) {
-                      if (n.alter && (!m_level->withFlats && !m_level->withSharps))
+                      if (n.alter() && (!m_level->withFlats && !m_level->withSharps))
                           continue;
                       else {
                         TfingerPos ff = TfingerPos(GLOB->strOrder(s) + 1, f);
@@ -213,7 +213,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
         if (hope && m_level->useKeySign && m_level->onlyCurrKey)
             hope = isNoteInKey(n);
         if (hope) {
-          if (n.alter && (!m_level->withFlats && !m_level->withSharps))
+          if (n.alter() && (!m_level->withFlats && !m_level->withSharps))
               continue;
           else {
               TfingerPos ff = TfingerPos();
@@ -278,7 +278,7 @@ Tnote TexecutorSupply::determineAccid(const Tnote& n) {
             }
         }
         if (notFound && m_prevAccid != Tnote::e_Flat && m_level->withFlats) {
-          if ((n.note == 3 || n.note == 7) && n.alter == 0 ) { // increase counter for f and c notes
+          if ((n.note() == 3 || n.note() == 7) && n.alter() == 0 ) { // increase counter for f and c notes
             m_eisCesCntr++;
             if (m_eisCesCntr == 3) { // fes or ces can occur every 3 e or b occurences
               m_eisCesCntr = 0;
@@ -291,7 +291,7 @@ Tnote TexecutorSupply::determineAccid(const Tnote& n) {
           }
         }
         if (notFound && m_prevAccid != Tnote::e_Sharp && m_level->withSharps) {
-          if ((n.note == 4 || n.note == 1) && n.alter == 0) { // increase counter for f and c notes
+          if ((n.note() == 4 || n.note() == 1) && n.alter() == 0) { // increase counter for f and c notes
             m_eisCesCntr++;
             if (m_eisCesCntr == 3) { // eis or bis can occur every 3 f or c occurences
               nA = n.showWithSharp();
@@ -302,7 +302,7 @@ Tnote TexecutorSupply::determineAccid(const Tnote& n) {
           }
         }
     }
-    m_prevAccid = (Tnote::Ealter)nA.alter;
+    m_prevAccid = (Tnote::Ealter)nA.alter();
     return nA;
 }
 
@@ -376,10 +376,10 @@ Tnote TexecutorSupply::forceEnharmAccid(const Tnote& n) {
             nX = n.showWithSharp();
         if (acc == Tnote::e_DoubleSharp && m_level->withDblAcc)
             nX = n.showWithDoubleSharp();
-        if (nX.note && n != nX) break;
+        if (nX.note() && n != nX) break;
      }
     m_prevAccid = (Tnote::Ealter)acc;
-    if (nX.note)
+    if (nX.note())
         return nX;
     else return n;
 }
@@ -478,29 +478,29 @@ void TexecutorSupply::calcQAPossibleCount() {
 
 void TexecutorSupply::checkNotes(TQAunit* curQ, Tnote& expectedNote, Tnote& userNote, bool reqOctave, bool reqAccid) {
   Tnote exN = expectedNote, retN = userNote;
-  if (retN.note) {
+  if (retN.note()) {
     Tnote nE = exN.showAsNatural();
     Tnote nR = retN.showAsNatural();
     if (exN != retN) {
       if (reqOctave) {
-          if (nE.note == nR.note && nE.alter == nR.alter) {
-              if (nE.octave != nR.octave)
+          if (nE.note() == nR.note() && nE.alter() == nR.alter()) {
+              if (nE.octave() != nR.octave())
                 curQ->setMistake(TQAunit::e_wrongOctave);
           } else {
               curQ->setMistake(TQAunit::e_wrongNote);
           }
       }
       if (!curQ->wrongNote()) { // There is still something to check
-        if (exN.note != retN.note || exN.alter != retN.alter) {// if they are equal it means that only octaves were wrong
+        if (exN.note() != retN.note() || exN.alter() != retN.alter()) {// if they are equal it means that only octaves were wrong
             exN = exN.showAsNatural();
             retN = retN.showAsNatural();
             if (reqAccid) {
-                if (exN.note == retN.note && exN.alter == retN.alter)
+                if (exN.note() == retN.note() && exN.alter() == retN.alter())
                     curQ->setMistake(TQAunit::e_wrongAccid);
                 else
                     curQ->setMistake(TQAunit::e_wrongNote);
             } else {
-                if (exN.note != retN.note || exN.alter != retN.alter)
+                if (exN.note() != retN.note() || exN.alter() != retN.alter())
                   curQ->setMistake(TQAunit::e_wrongNote);
             }
         }
@@ -567,7 +567,7 @@ TkeySignature TexecutorSupply::getKey(Tnote& note) {
           int patience = 0; // we are looking for suitable key
           char keyOff = key.value() - m_level->loKey.value();
           tmpNote = key.inKey(note);
-          while(tmpNote.note == 0 && patience <= keyRangeWidth) {
+          while(tmpNote.note() == 0 && patience <= keyRangeWidth) {
               keyOff++;
               if (keyOff > keyRangeWidth) 
                 keyOff = 0;
@@ -604,7 +604,7 @@ bool TexecutorSupply::isNoteInKey(Tnote& n) {
         return true;
     } else {
         for (int k = m_level->loKey.value(); k <= m_level->hiKey.value(); k++) {
-          if (TkeySignature::inKey(TkeySignature(k), n).note != 0)
+          if (TkeySignature::inKey(TkeySignature(k), n).note() != 0)
             return true;
         }
     }

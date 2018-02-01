@@ -230,7 +230,7 @@ void TbandoneonBg::setNote(const Tnote& n, quint32 noteDataValue) {
   int chromaticNew = n.chromatic();
   if (chromaticNew < -11 || chromaticNew > 48) {
     setOutOfScale(true);
-    p_note.note = 0;
+    p_note.setNote(0);
     hideCircles();
     emit outOfScaleChanged();
     return;

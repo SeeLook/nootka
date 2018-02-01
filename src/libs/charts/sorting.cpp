@@ -20,7 +20,6 @@
 #include <exam/tqaunit.h>
 #include <exam/tlevel.h>
 #include <exam/textrans.h>
-#include <widgets/tquestionaswdg.h>
 #include <tfingerpos.h>
 #include <tnoofont.h>
 #include <QApplication>
@@ -75,7 +74,7 @@ QList<Tnote> getTheSame(short int noteNr, Tlevel* level) {
       nList.append(xNote);
     }
   }
-  if (doDblAcc && nList.last().alter != -1) { // flat not found
+  if (doDblAcc && nList.last().alter() != -1) { // flat not found
     xNote = workNote.showWithDoubleFlat();
     if (workNote != xNote) {
       nList.append(xNote);
@@ -225,9 +224,9 @@ QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, Tlevel* level,
 //    bool accidFound = false;
     if (answList[i].qaPtr->questionAs == TQAtype::e_asNote || answList[i].qaPtr->questionAs == TQAtype::e_asName ||
       answList[i].qaPtr->answerAs == TQAtype::e_asNote || answList[i].qaPtr->answerAs == TQAtype::e_asName) {
-        accidsArray[answList[i].qaPtr->qa.note.alter + 2].addQAunit(answList[i]);
-        if (answList[i].qaPtr->qa_2.note.note && answList[i].qaPtr->qa_2.note.alter != answList[i].qaPtr->qa.note.alter)
-            accidsArray[answList[i].qaPtr->qa_2.note.alter + 2].addQAunit(answList[i]);
+        accidsArray[answList[i].qaPtr->qa.note.alter() + 2].addQAunit(answList[i]);
+        if (answList[i].qaPtr->qa_2.note.note() && answList[i].qaPtr->qa_2.note.alter() != answList[i].qaPtr->qa.note.alter())
+            accidsArray[answList[i].qaPtr->qa_2.note.alter() + 2].addQAunit(answList[i]);
     } else
         accidsArray[5].addQAunit(answList[i]);
   }

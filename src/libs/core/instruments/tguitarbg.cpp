@@ -90,7 +90,7 @@ void TguitarBg::setNote(const Tnote& n, quint32 noteDataValue) {
     }
     setOutOfScale(!foundPos && n.isValid());
     if (outOfScale())
-        p_note.note = 0; // invalidate it
+        p_note.setNote(0); // invalidate it
     else {
         p_note = n;
         p_note.transpose(GLOB->transposition());
@@ -354,7 +354,7 @@ void TguitarBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeom
       emit widthChanged();
     if (p_note.isValid()) { // update position(s) of fingers by resetting note and setting it again
       Tnote tmpNote = p_note;
-      p_note.note = 0;
+      p_note.setNote(0);
       setNote(tmpNote);
     }
 

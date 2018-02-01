@@ -102,7 +102,7 @@ CHECKTIME (
   } else {
       if (m_fingeringId) {
         m_fingeringId = 0;
-        p_note.note = 0;
+        p_note.setNote(0);
         emit fingeringIdChanged();
       }
   }
