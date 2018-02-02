@@ -53,7 +53,9 @@ QString accidInSpan(char accid) {
   return  QString("<span style=\"font-family: nootka;\">%1</span>").arg(accTxt);
 }
 
-/** Quick map (array) to get chromatic note number - first filed is invalid */
+/**
+ * Quick map (array) to get chromatic note number - first filed is invalid
+ */
 static qint8 chromaticMap[8] { 0, 1, 3, 5, 6, 8, 10, 12 };
 
 static char setChromaticMap[12][2] { {1, 0}, {1, 1}, {2, 0}, {2, 1}, {3, 0}, {4, 0}, {4, 1}, {5, 0}, {5, 1}, {6, 0}, {6, 1}, {7, 0} };
