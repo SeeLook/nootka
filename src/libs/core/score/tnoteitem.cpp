@@ -210,7 +210,8 @@ void TnoteItem::setNote(const Tnote& n) {
   bool updateHead = n.rhythm() != m_note->rhythm() || n.isRest() != m_note->isRest() || n.hasDot() != m_note->hasDot();
   bool fixBeam = n.isRest() != m_note->isRest();
   bool updateStem = updateHead || fixBeam || ((n.rtm.beam() != Trhythm::e_noBeam) != (m_note->rtm.beam() != Trhythm::e_noBeam))
-        || (n.rtm.stemDown() != m_note->rtm.stemDown() || m_stem->height() != m_stemHeight);
+        || (n.rtm.stemDown() != m_note->rtm.stemDown() || m_stem->height() != m_stemHeight) 
+        || n.onUpperStaff() != m_note->onUpperStaff();
   bool updateTie = n.rtm.tie() != m_note->rtm.tie();
 
   *m_note = n;
@@ -234,7 +235,7 @@ void TnoteItem::setNote(const Tnote& n) {
   else {
     if (m_note->isValid()) {
         m_notePosY = staff()->score()->clefOffset().total() + staff()->upperLine() - (n.octave() * 7 + (n.note() - 1));
-        if (staff()->score()->isPianoStaff()) {
+        if (staff()->isPianoStaff()) {
           if (m_note->onUpperStaff()) {
               if (m_notePosY > staff()->upperLine() + 13.0)
                 m_notePosY += 10.0;
@@ -326,7 +327,7 @@ void TnoteItem::setHeight(qreal hh) {
       m_upLines[l]->setY(2 * (l + 1) - 0.1);
       m_loLines[l]->setY(staff()->upperLine() + 10.0 + 2 * l - 0.1);
     }
-    if (staff()->score()->isPianoStaff()) {
+    if (staff()->isPianoStaff()) {
       if (m_underLoLines.isEmpty()) {
         m_staff->score()->component()->setData("import QtQuick 2.9; Rectangle {}", QUrl());
         for (int l = 0; l < 2; ++l) {
@@ -783,8 +784,10 @@ void TnoteItem::updateTieScale() {
 void TnoteItem::checkStem() {
   if (m_notePosY && !m_note->isRest() && m_note->rhythm() > Trhythm::Whole ) {
       if (m_note->rtm.beam() == Trhythm::e_noBeam) {
-          m_note->rtm.setStemDown(m_notePosY < staff()->upperLine() + 4.0);
-          m_stem->setHeight(qMax(STEM_HEIGHT, qAbs(m_notePosY - (staff()->upperLine() + 4.0))));
+          m_note->rtm.setStemDown(m_notePosY < staff()->upperLine() + 4.0
+                                  || (staff()->isPianoStaff() && m_notePosY > staff()->upperLine() + 13.0 && m_notePosY < staff()->upperLine() + 26.0));
+          m_stem->setHeight(qMax(STEM_HEIGHT, qAbs(m_notePosY
+                            - (staff()->upperLine() + (staff()->isPianoStaff() && m_notePosY > staff()->upperLine() + 13.0 ? 26.0 : 4.0)))));
           QString flagText = getFlagText();
           m_flag->setProperty("text", flagText);
           if (!flagText.isEmpty())
@@ -834,11 +837,11 @@ void TnoteItem::updateNamePos() {
  */
 void TnoteItem::checkAddLinesVisibility() {
   bool v = m_head->isVisible() && !m_note->isRest();
-  bool betweenStaves = staff()->score()->isPianoStaff() &&  m_notePosY >= staff()->upperLine() + 10.0 && m_notePosY < staff()->upperLine() + 21.0;
+  bool betweenStaves = staff()->isPianoStaff() &&  m_notePosY >= staff()->upperLine() + 10.0 && m_notePosY < staff()->upperLine() + 21.0;
   for (int i = 0; i < 7; ++i) {
     m_upLines[i]->setVisible(v && m_notePosY > 0.0 && i >= qFloor((m_notePosY - 1.0) / 2.0));
     qreal upp1 = staff()->upperLine() + 10.0 + i * 2;
-    if (staff()->score()->isPianoStaff()) {
+    if (staff()->isPianoStaff()) {
         if (m_notePosY < staff()->upperLine() + 14.0)
           m_loLines[i]->setVisible(v && betweenStaves && m_notePosY >= upp1 && m_notePosY < staff()->upperLine() + 14.0);
         else

@@ -243,7 +243,9 @@ int TmeasureObject::beamGroup(int segmentId) {
     auto prevSeg = m_notes[segId - 1];
     if (!noteSeg->note()->isRest() && !prevSeg->note()->isRest() // not a rest
       && noteSeg->note()->rhythm() > Trhythm::Quarter // sixteenth or eighth
-      && prevSeg->note()->rhythm() > Trhythm::Quarter)
+      && prevSeg->note()->rhythm() > Trhythm::Quarter
+      && (!m_score->isPianoStaff() || noteSeg->note()->onUpperStaff() == prevSeg->note()->onUpperStaff())
+    )
     {
         if (prevSeg->note()->rtm.beam() == Trhythm::e_noBeam) // start beam group
           prevSeg->setBeam(new TbeamObject(prevSeg, this));

@@ -122,6 +122,8 @@ public:
 
   qreal gapsSum() const { return m_gapsSum; }
 
+  bool isPianoStaff() const;
+
       /**
        * Prints to std out debug info about this staff: [nr STAFF] in color
        */
