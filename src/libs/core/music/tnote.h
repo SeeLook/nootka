@@ -34,16 +34,22 @@ class Tnote;
 
 typedef std::vector<Tnote> TnotesList;
 
+#define ALTER_BIT_MASK (7)
+#define ON_UPPER_BIT_MASK (128)
 
-const std::string Letters [7] = {"C","D","E","F","G","A","H"};
-const std::string signsAcid[5] = {"bb","b","","#","x",};
+
+const std::string Letters [7] = { "C", "D", "E", "F", "G", "A", "H"};
+const std::string signsAcid[5] = { "bb", "b", "", "#", "x", };
 
 
 /**
- * This class provides the descriptions of classical notation for different variables in apps.
- * It helps to convert the letter notation (C D E ...) for Do Re Mi.
+ * This class provides the descriptions of musical.
+ * It helps to convert the letter notation (C D E ...) to solfege (Do Re Mi).
  * It supports accidentals (sharps, flats, double sharps and double flats.
- * General format for each note is its number.
+ *
+ * Also it stores position on the grand staff (upper/lower staff line) through @p onUpperStaff()
+ * Operators == and != compares two notes (their note number, octave and accidental, but not staff position)
+ * @p compareNotes() method can skip octaves check
  */
 class NOOTKACORE_EXPORT Tnote
 {
@@ -74,14 +80,14 @@ public:
         /**
          * note (step) is a number in "diatonic notation" (see constructor).
          */
-  inline char note() const { return m_note; }
-  inline void setNote(char n) { m_note = n; }
+  inline char note() const { return p_note; }
+  inline void setNote(char n) { p_note = n; }
 
         /**
          * Octave number is @p 0 for "small octave",  @p -1 for "Great" @p 1 for "one-line".
          */
-  inline char octave() const { return m_octave; }
-  inline void setOctave(char o) { m_octave = o; }
+  inline char octave() const { return p_octave; }
+  inline void setOctave(char o) { p_octave = o; }
 
         /**
          * @p accidental means raising or dropping a note, so it ca be:
@@ -91,8 +97,21 @@ public:
          * @li -1 for flat (b)
          * @li -2 for double flat (bb)
          */
-  inline char alter() const { return m_alter; }
-  inline void setAlter(char a) { m_alter = a; }
+  inline char alter() const { return (p_alterValue & ALTER_BIT_MASK) - 3; }
+
+      /**
+       * @p a HAS TO BE in range [-3, 3] (even if value -3 makes no sense)
+       * otherwise it may overwrite @p onUpperStaff() state
+       */
+  inline void setAlter(char a) { p_alterValue &= ~ALTER_BIT_MASK; p_alterValue |= a + 3; }
+
+  inline bool onUpperStaff() const { return !(p_alterValue & ON_UPPER_BIT_MASK); }
+  inline void setOnUpperStaff(bool onUp) {
+   if (onUp)
+     p_alterValue &= ~128;
+   else
+     p_alterValue |= 128;
+  }
 
         /**
          * Construct object of Tnote from number of note, number of octave
@@ -106,17 +125,17 @@ public:
          */
   Tnote(char diatonNote, char oct, char accid = 0, const Trhythm& r = Trhythm(Trhythm::NoRhythm)) :
       rtm(r),
-      m_note(diatonNote),
-      m_octave(oct),
-      m_alter(accid)
-    {}
+      p_note(diatonNote),
+      p_octave(oct)
+    {
+      setAlter(accid);
+    }
 
         /**
          * The simple constructor, creates the note instance with 0 note and no rhythm.
          * It makes no sense in musical notation. It's needed for vectors.
          */
-  Tnote() : rtm(Trhythm(Trhythm::NoRhythm))
-    {}
+  Tnote() : rtm(Trhythm(Trhythm::NoRhythm)) {}
 
         /**
          * Construct object of Tnote from number, that represents:
@@ -139,9 +158,9 @@ public:
        */
   Tnote(const Tnote& other, const Trhythm& r) :
     rtm(r),
-    m_note(other.note()),
-    m_octave(other.octave()),
-    m_alter(other.alter())
+    p_note(other.note()),
+    p_octave(other.octave()),
+    p_alterValue(other.p_alterValue)
   {}
 
 
@@ -198,17 +217,17 @@ public:
   static EnameStyle defaultStyle;
 
   bool operator==(const Tnote N2) const {
-    return (note() == N2.note() && octave() == N2.octave() && alter() == N2.alter() && rtm == N2.rtm);
+    return (note() == N2.note() && octave() == N2.octave() && p_alterValue == N2.p_alterValue && rtm == N2.rtm);
   }
 
   bool operator!=(const Tnote N2) const {
-    return ( note() != N2.note() || octave() != N2.octave() || alter() != N2.alter() || rtm != N2.rtm);
+    return ( note() != N2.note() || octave() != N2.octave() || p_alterValue != N2.p_alterValue || rtm != N2.rtm);
   }
 
         /** Splits current note on two given rhythmic values */
   Tnote split(const Trhythm& r1, const Trhythm& r2) {
     setRhythm(r1);
-    return Tnote(note(), octave(), alter(), r2);
+    return Tnote(note(), octave(), p_alterValue, r2);
   }
 
         /**
@@ -237,6 +256,8 @@ public:
         * This method compares actual note, with otherNote @p otherNote.
         * @p ignoreOctave, if @p TRUE - the octave values are ignored,
         * and method compares only number of note and accidental.
+        *
+        * In contrary to == operator, it also ignores @p onUpperStaff() comparison
         */
   bool compareNotes(const Tnote& otherNote, bool ignoreOctave = false) const {
     return note() == otherNote.note() && alter() == otherNote.alter() && (ignoreOctave || octave() == otherNote.octave());
@@ -249,7 +270,7 @@ public:
     return QString::fromUtf8(getName(notation, showOctave).data());
   }
 
-      /** Returns note name converted to QString */
+      /** Returns note name converted to @p QString */
   QString toText (bool showOctave = true) const { return toText(defaultStyle, showOctave); }
 
         /** DEPRECATED
@@ -309,11 +330,12 @@ public:
        */
   void transpose(int interval);
 
-private:
-  char                  m_note = 0;
-  char                  m_octave = 0;
-  char                  m_alter = 0;
+protected:
+  char                  p_note = 0;
+  char                  p_octave = 0;
+  quint8                p_alterValue = 3; /**< Used also to store upper/lower staff placement. */
 
+private:
   static std::string    m_solmization[7];
   static std::string    m_solmizationRu[7];
 
