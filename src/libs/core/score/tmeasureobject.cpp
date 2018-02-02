@@ -72,7 +72,7 @@ void TmeasureObject::setStaff(TstaffItem* st) {
 }
 
 
-void TmeasureObject::appendNewNotes(int segmentId, int count, quint32 techValue) {
+void TmeasureObject::appendNewNotes(int segmentId, int count) {
   // so far we are sure there is enough space for whole note list in this measure
 //   qDebug() << debug() << "append" << count << "note(s) from" << segmentId << "measure duration" << duration();
   for (int n = segmentId; n < segmentId + count; ++n)
@@ -86,8 +86,6 @@ void TmeasureObject::appendNewNotes(int segmentId, int count, quint32 techValue)
     else
       np->item()->setStaff(m_staff);
     np->item()->setMeasure(this);
-    if (techValue != 255)
-      np->techicalData().setData(techValue);
     checkAccidentals();
     np->item()->setNote(*np->note());
     if (m_score->showNoteNames())

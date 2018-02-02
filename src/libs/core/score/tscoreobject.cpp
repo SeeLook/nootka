@@ -217,7 +217,7 @@ void solveList(const Tnote& n, int dur, QList<Tnote>& outList) {
   }
 }
 
-void TscoreObject::addNote(const Tnote& newNote, bool fromQML, quint32 techValue) {
+void TscoreObject::addNote(const Tnote& newNote, bool fromQML) {
 CHECKTIME (
 
   if (m_singleNote) {
@@ -271,13 +271,13 @@ CHECKTIME (
           auto newLastMeasure = new TmeasureObject(m_measures.count(), this); // add a new measure
           m_measures << newLastMeasure;
           lastStaff()->appendMeasure(newLastMeasure);
-          newLastMeasure->appendNewNotes(lastNoteId, notesToNext.count(), techValue);
+          newLastMeasure->appendNewNotes(lastNoteId, notesToNext.count());
       }
   } else { // just add new note to the last measure
       m_notes << n;
       int lastNoteId = m_segments.count();
       m_segments << getSegment(lastNoteId, &m_notes.last());
-      lastMeasure->appendNewNotes(lastNoteId, 1, techValue);
+      lastMeasure->appendNewNotes(lastNoteId, 1);
   }
   emitLastNote();
   if (fromQML) {
@@ -425,6 +425,7 @@ void TscoreObject::noteClicked(qreal yPos) {
   int globalNr = globalNoteNr(yPos);
   Tnote newNote(static_cast<char>(56 + globalNr) % 7 + 1, static_cast<char>(56 + globalNr) / 7 - 8,
           static_cast<char>(m_cursorAlter), newRhythm);
+  newNote.setOnUpperStaff(!(isPianoStaff() && yPos > upperLine() + 13.0));
   if (m_workRhythm->isRest() || m_clefType == Tclef::NoClef)
     newNote.setNote(0);
 

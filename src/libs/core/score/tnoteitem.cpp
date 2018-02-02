@@ -26,7 +26,6 @@
 
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>
-#include <QtGui/qpainter.h>
 #include <QtCore/qtimer.h>
 #include <QtCore/qelapsedtimer.h>
 
@@ -236,7 +235,7 @@ void TnoteItem::setNote(const Tnote& n) {
     if (m_note->isValid()) {
         m_notePosY = staff()->score()->clefOffset().total() + staff()->upperLine() - (n.octave() * 7 + (n.note() - 1));
         if (staff()->score()->isPianoStaff()) {
-          if (m_wrapper->techicalData().onUpperStaff()) {
+          if (m_note->onUpperStaff()) {
               if (m_notePosY > staff()->upperLine() + 13.0)
                 m_notePosY += 10.0;
           } else {
@@ -656,7 +655,8 @@ void TnoteItem::mousePressEvent(QMouseEvent* event) {
       setKeepMouseGrab(true);
       m_measure->score()->setPressedNote(this);
       m_measure->score()->touchHideTimer()->stop();
-      m_wrapper->techicalData().setOnUpperStaff(!(m_staff->score()->isPianoStaff() && event->pos().y() > m_staff->upperLine() + 13.0));
+//       m_note->setOnUpperStaff(!(m_staff->score()->isPianoStaff() && event->pos().y() > m_staff->upperLine() + 13.0));
+//       m_wrapper->note()->setOnUpperStaff(m_note->onUpperStaff());
       if (m_measure->score()->activeNote() != this) {
         m_measure->score()->changeActiveNote(this);
         m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
