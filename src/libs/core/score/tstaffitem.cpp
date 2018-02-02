@@ -101,6 +101,11 @@ void TstaffItem::setNotesIndent(qreal ni) {
 }
 
 
+bool TstaffItem::isPianoStaff() const {
+  return m_scoreObj->isPianoStaff();
+}
+
+
 char TstaffItem::debug() {
   QTextStream o(stdout);
   o << "\033[01;34m[" << number() + 1 << " STAFF]\033[01;00m";

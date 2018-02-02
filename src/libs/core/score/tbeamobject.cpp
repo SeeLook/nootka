@@ -118,7 +118,8 @@ void TbeamObject::prepareBeam() {
   bool stemsUpPossible = true;
   qreal hiNote = 99.0, loNote = 0.0;
   for (TnotePair* np : qAsConst(m_notes)) {
-    stemDirStrength += np->item()->notePosY() - (m_measure->staff()->upperLine() + 4.0);
+    stemDirStrength += np->item()->notePosY() - (m_measure->staff()->upperLine()
+              + (m_measure->score()->isPianoStaff() && np->item()->notePosY() > m_measure->staff()->upperLine() + 13.0 ? 26.0 : 4.0));
     if (np->item()->notePosY() < MIN_STEM_HEIGHT)
       stemsUpPossible = false;
     hiNote = qMin(hiNote, np->item()->notePosY());
@@ -129,8 +130,15 @@ void TbeamObject::prepareBeam() {
   if (stemDirStrength < 0)
     allStemsDown = true; // stems down are always possible
   qreal stemTop = allStemsDown ? loNote + minStemHeight : hiNote - minStemHeight;
-  if ((allStemsDown && stemTop < m_measure->staff()->upperLine() + 4.0) || (!allStemsDown && stemTop > m_measure->staff()->upperLine() + 4.0))
-    stemTop = m_measure->staff()->upperLine() + 4.0; // keep beam on staff middle line
+  if (m_measure->score()->isPianoStaff() && !first()->note()->onUpperStaff()) { // when note lays on the lower staff
+      qreal lowerMidLine = m_measure->staff()->upperLine() + 26.0;
+      if ((allStemsDown && stemTop < lowerMidLine) || (!allStemsDown && stemTop > lowerMidLine))
+        stemTop = lowerMidLine; // keep beam on the lower staff middle line
+  } else {
+      qreal upperMidLine = m_measure->staff()->upperLine() + 4.0;
+      if ((allStemsDown && stemTop < upperMidLine) || (!allStemsDown && stemTop > upperMidLine))
+        stemTop = upperMidLine; // keep beam on staff middle line
+  }
   for (TnotePair* np : qAsConst(m_notes)) {
     np->note()->rtm.setStemDown(allStemsDown);
     np->addChange(TnotePair::e_stemDirChanged);
