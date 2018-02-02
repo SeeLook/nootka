@@ -172,7 +172,9 @@ void TbandoneonBg::setCurrentIndex(int i) {
 CHECKTIME (
   m_currentIndex = i;
   if (m_currentIndex > -1) {
-    setNote(Tnote(m_closing ? buttArray[m_currentIndex].close : buttArray[m_currentIndex].open), technical());
+    Tnote n(m_closing ? buttArray[m_currentIndex].close : buttArray[m_currentIndex].open);
+    n.setOnUpperStaff(m_currentIndex > 32);
+    setNote(n, technical());
     emit noteChanged();
   }
 )
@@ -216,6 +218,10 @@ void TbandoneonBg::setClosing(bool c) {
 }
 
 
+/**
+ * @p Tnote::onUpperStaff() determines on which pane button has to be selected
+ * onUpperStaff() == TRUE - right pane, FALSE - left pane
+ */
 void TbandoneonBg::setNote(const Tnote& n, quint32 noteDataValue) {
   if (!n.isValid() && !p_note.isValid())
     return;
@@ -226,7 +232,6 @@ void TbandoneonBg::setNote(const Tnote& n, quint32 noteDataValue) {
   Ttechnical techn(noteDataValue);
   setOpening(techn.bowing() == Ttechnical::BowDown);
   setClosing(techn.bowing() == Ttechnical::BowUp);
-  // TODO left or right pane
   int chromaticNew = n.chromatic();
   if (chromaticNew < -11 || chromaticNew > 48) {
     setOutOfScale(true);
@@ -236,22 +241,25 @@ void TbandoneonBg::setNote(const Tnote& n, quint32 noteDataValue) {
     return;
   }
   setOutOfScale(false);
-  int chOld = p_note.isValid() ? p_note.chromatic() : 1000;
-  if (chromaticNew != chOld) {
+  int chromaticOld = p_note.isValid() ? p_note.chromatic() : 1000;
+  if (chromaticNew != chromaticOld || n.onUpperStaff() != p_note.onUpperStaff()) {
+    if (chromaticNew == chromaticOld && n.onUpperStaff() != p_note.onUpperStaff())
+      hideCircles(); // reset marked buttons when note is the same but moved to upper/lower staff
+      // otherwise @p checkCircle condition doesn't occur and buttons remains on unappropriated side
     p_note = n;
     chromaticNew += 11;
 
     if (m_notesArray[chromaticNew].leftOpen != m_circleLeftOpen.buttonId)
-      checkCircle(m_notesArray[chromaticNew].leftOpen, m_circleLeftOpen, !m_closing && !techn.onUpperStaff());
+      checkCircle(m_notesArray[chromaticNew].leftOpen, m_circleLeftOpen, !m_closing && !n.onUpperStaff());
     if (m_notesArray[chromaticNew].leftClose != m_circleLeftClose.buttonId)
-      checkCircle(m_notesArray[chromaticNew].leftClose, m_circleLeftClose, !m_opening && !techn.onUpperStaff());
+      checkCircle(m_notesArray[chromaticNew].leftClose, m_circleLeftClose, !m_opening && !n.onUpperStaff());
     qreal scale = m_notesArray[chromaticNew].leftOpen && !m_opening && !m_closing
                 && m_notesArray[chromaticNew].leftOpen == m_notesArray[chromaticNew].leftClose ? SMALL_SCALE : BIG_SCALE;
     m_circleLeftClose.item->setProperty("scale", scale);
     if (m_notesArray[chromaticNew].rightOpen != m_circleRightOpen.buttonId)
-      checkCircle(m_notesArray[chromaticNew].rightOpen, m_circleRightOpen, !m_closing && techn.onUpperStaff());
+      checkCircle(m_notesArray[chromaticNew].rightOpen, m_circleRightOpen, !m_closing && n.onUpperStaff());
     if (m_notesArray[chromaticNew].rightClose != m_circleRightClose.buttonId)
-      checkCircle(m_notesArray[chromaticNew].rightClose, m_circleRightClose, !m_opening && techn.onUpperStaff());
+      checkCircle(m_notesArray[chromaticNew].rightClose, m_circleRightClose, !m_opening && n.onUpperStaff());
     scale = m_notesArray[chromaticNew].rightOpen && !m_opening && !m_closing
             && m_notesArray[chromaticNew].rightOpen == m_notesArray[chromaticNew].rightClose ? SMALL_SCALE : BIG_SCALE;
     m_circleRightClose.item->setProperty("scale", scale);
@@ -261,13 +269,13 @@ void TbandoneonBg::setNote(const Tnote& n, quint32 noteDataValue) {
         else
           m_circleCloseExtra.buttonId = E2_BUTT_ID;
         if (chromaticNew == E0_NOTE_ID)
-          checkCircle(m_circleCloseExtra.buttonId, m_circleCloseExtra, !m_opening && !techn.onUpperStaff());
+          checkCircle(m_circleCloseExtra.buttonId, m_circleCloseExtra, !m_opening && !n.onUpperStaff());
         else
-          checkCircle(m_circleCloseExtra.buttonId, m_circleCloseExtra, !m_opening && techn.onUpperStaff());
+          checkCircle(m_circleCloseExtra.buttonId, m_circleCloseExtra, !m_opening && n.onUpperStaff());
         m_circleCloseExtra.item->setProperty("color", QColor(255, 0, 0)); // red
     } else if (chromaticNew == A3_NOTE_ID) { // occur when opening
         m_circleCloseExtra.buttonId = A3_BUTT_ID;
-        checkCircle(m_circleCloseExtra.buttonId, m_circleCloseExtra, !m_closing && techn.onUpperStaff());
+        checkCircle(m_circleCloseExtra.buttonId, m_circleCloseExtra, !m_closing && n.onUpperStaff());
         m_circleCloseExtra.item->setProperty("color", QColor(0, 0, 255)); // blue
     } else
         m_circleCloseExtra.item->setVisible(false);
@@ -283,7 +291,6 @@ void TbandoneonBg::askQuestion(const Tnote& n, quint32 noteDataValue) {
 int TbandoneonBg::technical() {
   Ttechnical nd;
   nd.setBowing(m_opening ? Ttechnical::BowDown : (m_closing ? Ttechnical::BowUp : Ttechnical::BowUndefined));
-  nd.setOnUpperStaff(m_currentIndex > 32);
   return nd.data();
 }
 
@@ -333,6 +340,7 @@ void TbandoneonBg::getNote() {
   if (m_currentIndex < 0)
     return;
   p_note.setChromatic(m_closing ? buttArray[m_currentIndex].close : buttArray[m_currentIndex].open);
+  p_note.setOnUpperStaff(m_currentIndex > 32);
 }
 
 

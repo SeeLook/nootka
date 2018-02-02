@@ -19,7 +19,6 @@
 #include "taddnoteitem.h"
 #include "tscoreobject.h"
 #include "tnoteitem.h"
-#include "tnotepair.h"
 
 #include <QtCore/qtimer.h>
 #include <QtCore/qdebug.h>
@@ -133,10 +132,10 @@ void TaddNoteItem::mouseMoveEvent(QMouseEvent* event) {
 
 
 void TaddNoteItem::addNote() {
-  Ttechnical techn;
+  Tnote n = m_scoreObject->posToNote(m_yPos);
   if (m_scoreObject->isPianoStaff() && m_yPos > m_scoreObject->upperLine() + 13.0)
-    techn.setOnUpperStaff(false);
-  m_scoreObject->addNote(m_scoreObject->posToNote(m_yPos), true, techn.data());
+    n.setOnUpperStaff(false);
+  m_scoreObject->addNote(n, true);
   if (m_scoreObject->recordMode())
     m_scoreObject->setSelectedItem(nullptr);
 }

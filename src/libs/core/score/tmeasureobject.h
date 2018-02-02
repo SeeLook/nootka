@@ -65,7 +65,7 @@ public:
        * Adds list of @p count notes at the measure end starting from @p segmentId note number in the score
        * Measure has to have already space for the whole list!
        */
-  void appendNewNotes(int segmentId, int count, quint32 techValue = 255);
+  void appendNewNotes(int segmentId, int count);
 
   void removeLastNote();
 
