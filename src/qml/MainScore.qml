@@ -119,7 +119,7 @@ Score {
       scordature = null
     }
     if (GLOB.tuning.scordature && GLOB.instrument.type !== Tinstrument.BassGuitar) {
-        var c = Qt.createComponent("qrc:/Scordature.qml")
+        var c = Qt.createComponent("qrc:/score/Scordature.qml")
         scordature = c.createObject(firstStaff)
         firstStaff.scordSpace = scordature.height
     } else
@@ -128,7 +128,7 @@ Score {
 
   onSingleNoteChanged: {
     if (singleNote) {
-        var c = Qt.createComponent("qrc:/NotePrompt.qml")
+        var c = Qt.createComponent("qrc:/score/NotePrompt.qml")
         notePrompt = c.createObject(scoreObj.note(0))
     } else
         notePrompt.destroy()
