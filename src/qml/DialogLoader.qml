@@ -5,7 +5,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Window 2.2
-import QtQuick.Dialogs 1.3 as Old
+import QtQuick.Dialogs 1.2 as Old
 
 import Nootka 1.0
 import Nootka.Dialogs 1.0
