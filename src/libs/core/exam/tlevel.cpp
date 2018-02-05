@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -40,10 +40,12 @@
  *     - instrument enum is casting directly to quint8: Tinstrument::NoInstrument is 0
  *
  * 3. 0x95121705 (22.06.2014) - XML stream - universal version
+ *
+ * 4. 0x95121707 (05.02.2018) - new instruments, melodies in Music XML
  */
 
 const qint32 Tlevel::levelVersion = 0x95121701;
-const qint32 Tlevel::currentVersion = 0x95121705;
+const qint32 Tlevel::currentVersion = 0x95121707;
 
 
 int Tlevel::levelVersionNr(qint32 ver) {

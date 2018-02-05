@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,11 +20,12 @@
 #define TEXAM_H
 
 
-#include <nootkacoreglobal.h>
+#include "nootkacoreglobal.h"
 #include <QtCore/qxmlstream.h>
 #include <QtCore/qpointer.h>
 #include "tqaunit.h"
 #include "music/ttune.h"
+
 
 class Tlevel;
 
@@ -96,7 +97,8 @@ public:
       /**
        * @p EerrorType are possible errors during opening and saving exam file.
        */
-  enum EerrorType { e_file_OK = 0,
+  enum EerrorType {
+    e_file_OK = 0,
     e_file_not_valid, /**< occurs when @p examVersion is different */
     e_file_corrupted, /**< when data in file is corrupted */
     e_cant_open, /**< problems with reading file */

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -249,8 +249,8 @@ Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
         bool wasLevelValid = true;
         bool wasLevelFile = true;
         if (Tlevel::levelVersionNr(lv) == 1 || Tlevel::levelVersionNr(lv) == 2) // *.nel with binary data
-          wasLevelValid = getLevelFromStream(in, level, lv); // *.nel in XML
-        else if (Tlevel::levelVersionNr(lv) == 3) {
+          wasLevelValid = getLevelFromStream(in, level, lv);
+        else if (Tlevel::levelVersionNr(lv) > 2) { // *.nel in XML
           Tlevel::EerrorType er;
           QXmlStreamReader xml(in.device());
           if (!xml.readNextStartElement()) // open first XML node

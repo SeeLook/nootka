@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -43,12 +43,15 @@
  *     - new level version
  *
  * 4. 0x95121708 (2014.09.01)
- *    - encoded XML structure - let's hope universal
+ *    - encoded XML structure
+ *
+ * 5. 0x9512170A (05.02.2018)
+ *    - new instruments, melodies in Music XML, new mistake types - it can not be compatible with older versions
  */
 
 const qint32 Texam::examVersion = 0x95121702;
 const qint32 Texam::examVersion2 = 0x95121704;
-const qint32 Texam::currentVersion = 0x95121708; // version 4
+const qint32 Texam::currentVersion = 0x9512170A; // version 5
 
 const quint16 Texam::maxAnswerTime = 65500;
 
@@ -224,7 +227,7 @@ Texam::EerrorType Texam::loadFromFile(const QString& fileName) {
           return e_file_not_valid;
 
       bool isExamFileOk = true;
-      if (examVersionNr(ev) == 4) {
+      if (examVersionNr(ev) > 3) {
           in.setVersion(QDataStream::Qt_5_2);
           QByteArray arrayXML = file.readAll();
           arrayXML.remove(0, 4);
