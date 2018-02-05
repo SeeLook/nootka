@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -15,6 +15,7 @@
  *  You should have received a copy of the GNU General Public License       *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
+
 
 #include "texecutorsupply.h"
 #include "tequalrand.h"
@@ -77,7 +78,7 @@ void TexecutorSupply::checkGuitarParamsChanged(Texam* exam) {
   if (exam->level()->instrument != Tinstrument::NoInstrument) { // when instrument is guitar it has a matter
       if (exam->level()->instrument != GLOB->instrument().type())
           changesMessage = tr("Instrument type was changed!");
-      GLOB->instrument().setType(exam->level()->instrument);
+      GLOB->setInstrument(exam->level()->instrument);
   } // otherwise it reminds unchanged
   if ((exam->level()->canBeGuitar() || exam->level()->canBeSound()) && !m_playCorrections &&
     exam->tune() != *GLOB->Gtune() ) { // Is tune the same?
@@ -152,19 +153,20 @@ TexecutorSupply::~TexecutorSupply()
 
 void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
   char openStr[6];
-//       for (int i = 0; i < 6; i++)
   for (int i = 0; i < GLOB->Gtune()->stringNr(); i++)
       openStr[i] = GLOB->Gtune()->str(i + 1).chromatic();
-    
-    /** FIXING MISTAKE RELATED WITH A NEW VALIDATION WAY DURING SAVING NEW LEVEL 
-      * When there is no guitar in a level,
-      * add to question list only the lowest position sounds. 
-      * In this way question list contains proper number of questions. */
+
+    /**
+     * FIXING MISTAKE RELATED WITH A NEW VALIDATION WAY DURING SAVING NEW LEVEL
+     * When there is no guitar in a level,
+     * add to question list only the lowest position sounds.
+     * In this way question list contains proper number of questions.
+     */
   if (!m_level->canBeGuitar() && !m_level->answerIsSound())  // adjust fret range
     m_level->onlyLowPos = true;
 
-  if (!m_playCorrections || m_level->instrument != Tinstrument::NoInstrument || m_level->showStrNr || m_level->canBeGuitar()) {
-//    qDebug() << "Question list created fret by fret. Tune:" << GLOB->Gtune()->name << GLOB->Gtune()->stringNr();
+  if (!m_playCorrections || Tinstrument(m_level->instrument).isGuitar() || m_level->showStrNr || m_level->canBeGuitar()) {
+      qDebug() << "[TexecutorSupply] Question list created fret by fret. Tune:" << GLOB->Gtune()->name << GLOB->Gtune()->stringNr();
       if (m_level->instrument == Tinstrument::NoInstrument && GLOB->instrument().type() != Tinstrument::NoInstrument) {
         char hi = m_hiFret, lo = m_loFret;
         if (!m_level->adjustFretsToScale(lo, hi))
@@ -206,7 +208,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
           }
       }
   } else {
-//    qDebug() << "Question list created note by note";
+      qDebug() << "[TexecutorSupply] Question list created note by note";
       for (int nNr = m_level->loNote.chromatic(); nNr <= m_level->hiNote.chromatic(); nNr++) {
         Tnote n = Tnote(nNr);
         bool hope = true; // we still have hope that note is proper for the level
@@ -234,7 +236,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
       QList<TfingerPos> tmpSameList;
       for (int i = 0; i < list.size(); i++) {
         tmpSameList.clear();
-        getTheSamePos(list[i].pos, tmpSameList);
+        getTheSamePos(list[i].pos(), tmpSameList);
           if (!tmpSameList.isEmpty())
             m_fretFretList << (quint16)i;
       }
@@ -613,10 +615,10 @@ bool TexecutorSupply::isNoteInKey(Tnote& n) {
 
 
 void TexecutorSupply::addToList(QList<TQAgroup>& list, Tnote& n, TfingerPos& f) {
-    TQAgroup g;
-    g.note = n; 
-    g.pos = f;
-    list << g;
+  TQAgroup g;
+  g.note = n; 
+  g.pos() = f;
+  list << g;
 }
 
 

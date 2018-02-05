@@ -347,7 +347,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     } else {
         char strNr = 0;
         if ((curQ->answerAsFret() || curQ->answerAsSound()) && !m_level.onlyLowPos && m_level.showStrNr)
-          strNr = static_cast<char>(curQ->qa.pos.str()); // do show string number or not
+          strNr = static_cast<char>(curQ->qa.pos().str()); // do show string number or not
         if (m_level.useKeySign && !curQ->answerAsNote())
           MAIN_SCORE->askQuestion(curQ->qa.note, curQ->key, strNr); // when answer is also asNote we determine key in preparing answer part
         else
@@ -385,7 +385,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
         }
       }
       if ((curQ->answerAsFret() || curQ->answerAsSound()) && m_level.showStrNr)
-          NOTENAME->askQuestion(curQ->qa.note, curQ->styleOfQuestion(), curQ->qa.pos.str());
+          NOTENAME->askQuestion(curQ->qa.note, curQ->styleOfQuestion(), curQ->qa.pos().str());
       else
           NOTENAME->askQuestion(curQ->qa.note, curQ->styleOfQuestion());
       if (curQ->answerAsSound())
@@ -393,7 +393,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
   }
 
   if (curQ->questionAsFret()) {
-      INSTRUMENT->askQuestion(curQ->qa.note, curQ->qa.pos.data());
+      INSTRUMENT->askQuestion(curQ->qa.note, curQ->qa.pos().data());
       if (curQ->answerAsNote())
           m_answRequire.octave = true; // checking accidental determined by level
       if (curQ->answerAsSound()) {
@@ -573,13 +573,13 @@ void TexamExecutor::checkAnswer(bool showResults) {
   if (curQ->answerAsFret()) { // 1. Comparing positions
       TfingerPos answPos(INSTRUMENT->technical()), questPos;
       if (curQ->questionAsFret()) { 
-          if (answPos == curQ->qa.pos) { // check has not user got answer the same as question position
+          if (answPos == curQ->qa.pos()) { // check has not user got answer the same as question position
               curQ->setMistake(TQAunit::e_wrongPos);
               qDebug("Cheater!");
           } else
-              questPos = curQ->qa_2.pos;
+              questPos = curQ->qa_2.pos();
       } else
-          questPos = curQ->qa.pos;
+          questPos = curQ->qa.pos();
       if (questPos != answPos && curQ->isCorrect()) { // if no cheater give him a chance
         QList <TfingerPos> tmpPosList; // Maybe he gave correct note but on incorrect string only
         m_supp->getTheSamePosNoOrder(answPos, tmpPosList); // get other positions

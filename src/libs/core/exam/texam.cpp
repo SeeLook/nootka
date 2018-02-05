@@ -88,7 +88,7 @@ bool Texam::areQuestTheSame(TQAunit* q1, TQAunit* q2) {
   if (q1->questionAs == q2->questionAs && // the same questions
       q1->answerAs == q2->answerAs && // the same answers
       q1->qa.note == q2->qa.note && // the same notes
-      q1->qa.pos == q2->qa.pos // the same frets
+      q1->qa.pos() == q2->qa.pos() // the same frets
      )
       return true;
   else

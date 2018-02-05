@@ -395,7 +395,7 @@ void TtipHandler::questionTip() {
       }
       if (question->answerAsFret() || question->answerAsSound()) {
         if (level->instrument != Tinstrument::NoInstrument && !level->canBeMelody() && level->showStrNr && !level->onlyLowPos) {
-          apendix = br + sp + onStringTxt(question->qa.pos.str());
+          apendix = br + sp + onStringTxt(question->qa.pos().str());
         }
       }
       if (!question->melody()) {
@@ -430,7 +430,7 @@ void TtipHandler::questionTip() {
       }
       if (question->answerAsFret() || question->answerAsSound()) {
           if (level->instrument != Tinstrument::NoInstrument && level->showStrNr && !level->onlyLowPos)
-                      questText += br + sp + onStringTxt(question->qa.pos.str());
+                      questText += br + sp + onStringTxt(question->qa.pos().str());
       }
     break;
 
@@ -444,12 +444,12 @@ void TtipHandler::questionTip() {
           questText += tr("Give name of");
       } else if (question->answerAsFret()) {
             questText += tr("Show sound from position:", "... and string + fret numbers folowing");
-            apendix = br + sp + onStringTxt(question->qa_2.pos.str());
+            apendix = br + sp + onStringTxt(question->qa_2.pos().str());
       } else if (question->answerAsSound()) {
                   questText += playOrSing(int(level->instrument));
       }
       questText += QString("<br><span style=\"font-size: xx-large; %1\">&nbsp;").arg(Tcolor::bgTag(NOO->alpha(GLOB->EquestionColor, 40))) +
-                  question->qa.pos.toHtml() + QLatin1String(" </span>");
+                  question->qa.pos().toHtml() + QLatin1String(" </span>");
       if (!apendix.isEmpty())
           questText += br + apendix;
       if (question->answerAsNote() || question->answerAsName())
@@ -477,7 +477,7 @@ void TtipHandler::questionTip() {
       } else if (question->answerAsFret()) {
             questText += tr("Listened sound show on the guitar");
             if (level->showStrNr)
-              questText += br + sp + onStringTxt(question->qa.pos.str());
+              questText += br + sp + onStringTxt(question->qa.pos().str());
       } else if (question->answerAsSound()) {
               questText += tr("Play or sing listened sound");
       }
