@@ -30,7 +30,7 @@ void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, 
   for (int i = 0; i < len; ++i) {
     int randVal = qrand() % qList.size();
     Tnote pitch = qList[randVal].note;
-    TfingerPos fPos = qList[randVal].pos;
+    TfingerPos fPos = qList[randVal].pos();
     if (inKey) { // note has to be in key signature declared in melody
       if (mel->key().inKey(pitch).note() == 0) { // if it is not
         int tryCount = 0;
@@ -42,7 +42,7 @@ void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, 
           Tnote tryNote = mel->key().inKey(qList[it].note);
           if (tryNote.note() != 0) {
             pitch = tryNote;
-            fPos = qList[it].pos;
+            fPos = qList[it].pos();
             break;
           }
           tryCount++;
@@ -85,7 +85,7 @@ void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, 
         if (tonic.alter() == 1 && mel->key().value() < 0) // flats key signature
           tonic = tonic.showWithFlat(); // so prefer flats
         mel->lastMeasure().lastNote().p() = tonic;
-        mel->lastMeasure().lastNote().g() = qList[i].pos;
+        mel->lastMeasure().lastNote().g() = qList[i].pos();
         break;
       }
     }
@@ -96,7 +96,7 @@ void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, 
 
 
 /**
- * Generates random melody with following way:
+ * Generates random melody in following way:
  * If @p inKey is required creates list of notes in given key only
  * Random algorithm works with phrases
  * 1. Randomizes length of phrase (half of total length max)
@@ -114,7 +114,7 @@ void getRandomMelodyNG(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey
       TQAgroup g;
       g.note = mel->key().inKey(qa.note);
       if (g.note.isValid()) {
-        g.pos = qa.pos;
+        g.pos() = qa.pos();
         inKeyList << g;
       }
     }
@@ -132,7 +132,7 @@ void getRandomMelodyNG(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey
     int notesCnt = 0;
     while (notesCnt < phLen && noteId < qListPtr->size() && mel->length() < len) {
       auto curQA = &qListPtr->operator[](noteId);
-      mel->addNote(Tchunk(curQA->note, curQA->pos));
+      mel->addNote(Tchunk(curQA->note, curQA->pos()));
       notesCnt++;
       noteId += dir;
       if (noteId < 0 || noteId == qListPtr->size())
@@ -151,7 +151,7 @@ void getRandomMelodyNG(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey
       qDebug() << "Tonic note of" << mel->key().getName() << "was not found";
     else {
       int tonicRandNr = tonicList[qrand() % tonicList.size()];
-      mel->note(mel->length() - 1)->g() = qListPtr->operator[](tonicRandNr).pos;
+      mel->note(mel->length() - 1)->g() = qListPtr->operator[](tonicRandNr).pos();
       mel->note(mel->length() - 1)->p() = qListPtr->operator[](tonicRandNr).note;
     }
   }

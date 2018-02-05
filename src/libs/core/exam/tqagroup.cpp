@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,25 +16,31 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+
 #include "tqagroup.h"
 
-void qaGroupToXml(TQAgroup& gr, QXmlStreamWriter& xml, const QString& tag) {
+
+void TQAgroup::toXml(QXmlStreamWriter& xml, const QString& tag) {
   xml.writeStartElement(tag);
-    if (gr.note.isValid())
-      gr.note.toXml(xml, "n"); // n like note
-    if (gr.pos.str() > 0)
-      gr.pos.toXml(xml, "p"); // p like position
+    if (note.isValid())
+      note.toXml(xml, QLatin1String("n")); // n like note
+    if (!technical.isEmpty())
+      technical.toXml(xml, QLatin1String("t")); // t like technical (string, finger, bowing, etc.)
+//     if (gr.pos().str() > 0) // DEPRECATED: Nootka 1.X used only TfingerPos
+//       gr.pos().toXml(xml, QLatin1String("p")); // p like position
   xml.writeEndElement();
 }
 
 
-bool qaGroupFromXml(TQAgroup& gr, QXmlStreamReader& xml) {
+bool TQAgroup::fromXml(QXmlStreamReader& xml) {
   bool ok = true;
   while (xml.readNextStartElement()) {
-    if (xml.name() == "n")
-      gr.note.fromXml(xml);
-    else if (xml.name() == "p")
-      gr.pos.fromXml(xml);
+    if (xml.name() == QLatin1String("n"))
+      note.fromXml(xml);
+    else if (xml.name() == QLatin1String("p")) // to properly read older *.noo versions from Nootka 1.X
+      pos().fromXml(xml);
+    else if (xml.name() == QLatin1String("t"))
+      technical.fromXml(xml);
     else
       xml.skipCurrentElement();
   }

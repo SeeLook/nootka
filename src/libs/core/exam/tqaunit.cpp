@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -34,13 +34,13 @@
 
 TQAunit::TQAunit(Texam* exam)
 {
-  qa.pos = TfingerPos();
+  qa.pos() = TfingerPos();
   qa.note = Tnote(0,0,0);
   style = 50; // (2+1) * 16 + 2 // 2 is e_italiano_Si cast to int
   valid = 0; // correct in assume
   time = 0;
   qa_2.note = Tnote(0,0,0);
-  qa_2.pos = TfingerPos();
+  qa_2.pos() = TfingerPos();
   m_melody = nullptr;
   attemptList = nullptr;
   m_effectiveness = 0.0;
@@ -159,33 +159,33 @@ void TQAunit::updateEffectiveness() {
 
 
 void TQAunit::toXml(QXmlStreamWriter& xml) {
-  xml.writeStartElement("u"); //u like unit
-    if (qa.note.isValid() || qa.pos.isValid())
-      qaGroupToXml(qa, xml);
-    xml.writeTextElement("q", QVariant((qint8)questionAs).toString());
-    xml.writeTextElement("a", QVariant((qint8)answerAs).toString());
-    xml.writeTextElement("s", QVariant(style).toString());
+  xml.writeStartElement(QLatin1String("u")); //u like unit
+    if (qa.note.isValid() || qa.pos().isValid())
+      qa.toXml(xml);
+    xml.writeTextElement(QLatin1String("q"), QVariant((qint8)questionAs).toString());
+    xml.writeTextElement(QLatin1String("a"), QVariant((qint8)answerAs).toString());
+    xml.writeTextElement(QLatin1String("s"), QVariant(style).toString());
     if (key.value() || key.isMinor()) // skip key signature when C-major (default), fromXml() will guess it
       key.toXml(xml);
-    xml.writeTextElement("t", QVariant(time).toString());
+    xml.writeTextElement(QLatin1String("t"), QVariant(time).toString());
     if (time == 0)
       qDebug() << "Answer time is 0 - faster than light speed?";
     xml.writeTextElement("m", QVariant(mistake()).toString());
     if (!answered()) // in most cases saved unit is answered
       xml.writeTextElement("answered", QVariant(answered()).toString());
-    if (qa_2.note.isValid() || qa_2.pos.isValid())
-        qaGroupToXml(qa_2, xml, "qa2");
+    if (qa_2.note.isValid() || qa_2.pos().isValid())
+        qa_2.toXml(xml, QLatin1String("qa2"));
     if (melody()) {
-      xml.writeStartElement("melody");
+      xml.writeStartElement(QLatin1String("melody"));
         if (m_srcMelody == e_thisUnit) {
-            xml.writeAttribute("title", melody()->title());
+            xml.writeAttribute(QLatin1String("title"), melody()->title());
             melody()->toXml(xml);
         } else if (m_srcMelody == e_otherUnit)
-            xml.writeAttribute("qNr", QVariant(idOfMelody).toString());
+            xml.writeAttribute(QLatin1String("qNr"), QVariant(idOfMelody).toString());
         else if (m_srcMelody == e_list)
-            xml.writeAttribute("id", QVariant(idOfMelody).toString());
+            xml.writeAttribute(QLatin1String("id"), QVariant(idOfMelody).toString());
       xml.writeEndElement();
-      xml.writeStartElement("attempts");
+      xml.writeStartElement(QLatin1String("attempts"));
       for (int i = 0; i < attemptsCount(); ++i) {
         if (!attempt(i)->isEmpty()) // do not save empty attempts
           attempt(i)->toXml(xml);
@@ -201,9 +201,9 @@ bool TQAunit::fromXml(QXmlStreamReader& xml) {
   m_answered = true; // this state is common and not saved, so if <answered> key exists it is false then.
   while (xml.readNextStartElement()) {
     if (xml.name() == QLatin1String("qa"))
-      qaGroupFromXml(qa, xml);
+      qa.fromXml(xml);
     else if (xml.name() == QLatin1String("qa2"))
-      qaGroupFromXml(qa_2, xml);
+      qa_2.fromXml(xml);
     else if (xml.name() == QLatin1String("q"))
       questionAs = (TQAtype::Etype)xml.readElementText().toInt();
     else if (xml.name() == QLatin1String("a"))
@@ -268,7 +268,7 @@ void TQAunit::deleteMelody() {
 bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit) {
   bool ok = true;
   ok = getNoteFromStream(in, qaUnit.qa.note);
-  in >> qaUnit.qa.pos;
+  in >> qaUnit.qa.pos();
   qint8 qu, an;
   in >> qu >> an;
   qaUnit.questionAs = (TQAtype::Etype)qu;
@@ -276,12 +276,12 @@ bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit) {
   in >> qaUnit.style;
   ok = getKeyFromStream(in, qaUnit.key);
   in >> qaUnit.time;
-// getNoteFromStream is too smart and doesn't allow null Tnote(0,0,0)
-// I have to cheat it....
+// getNoteFromStream() is too smart and doesn't allow null Tnote(0,0,0)
+// We have to cheat it....
   bool ok2 = getNoteFromStream(in, qaUnit.qa_2.note);
   if (!ok2)
-      qaUnit.qa_2.note = Tnote(0,0,0);
-  in >> qaUnit.qa_2.pos;
+    qaUnit.qa_2.note = Tnote(0,0,0);
+  in >> qaUnit.qa_2.pos();
   quint8 valid_uint8;
   in >> valid_uint8;
   qaUnit.valid = valid_uint8;

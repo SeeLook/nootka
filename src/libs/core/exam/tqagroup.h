@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,27 +20,34 @@
 #define TQAGROUP_H
 
 
-#include <nootkacoreglobal.h>
-#include <tfingerpos.h>
-#include <music/tnote.h>
+#include "nootkacoreglobal.h"
+#include "music/ttechnical.h"
+#include "music/tnote.h"
 
 
 /**
- * This is simple structure with
+ * This is simple class with
  * @p note (Tnote)
- * and position on the guitar @p pot (TfingerPos)
+ * and technical information:
+ * @li - fret, string through @p pos() returning @p TfingerPos
+ * @li - bowing, fingering through @p technical() returning @p Ttechnical
  */
-struct NOOTKACORE_EXPORT TQAgroup
+class NOOTKACORE_EXPORT TQAgroup
 {
-    TfingerPos pos;
-    Tnote note;
+
+public:
+
+  TfingerPos& pos() { return technical.fingerPos(); }
+
+  Ttechnical technical;
+  Tnote note;
+
+      /**
+       * Save @p TQAgroup to XML. (not valid) note and position are skipped.
+       */
+  void toXml(QXmlStreamWriter& xml, const QString& tag = QLatin1String("qa"));
+  bool fromXml(QXmlStreamReader& xml);
 };
-
-    /** Global method to save TQAgroup to XML. (not valid) note and position are skipped. */
-NOOTKACORE_EXPORT void qaGroupToXml(TQAgroup& gr, QXmlStreamWriter& xml, const QString& tag = "qa");
-
-    /** Global method to get TQAgroup from XML. */
-NOOTKACORE_EXPORT bool qaGroupFromXml(TQAgroup& gr, QXmlStreamReader& xml);
 
 
 #endif // TQAGROUP_H
