@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -69,7 +69,7 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
 //       qDebug() << "Stream underflow detected!";
 
   bool endState = true;
-  if (p_playingNoteNr < instance->playList().size()) {
+  if (!instance->playList().isEmpty() && p_playingNoteNr < instance->playList().size()) {
       TsingleSound& playingSound = instance->playList()[p_playingNoteNr];
       auto out = static_cast<qint16*>(outBuff);
       bool unfinished = true;
