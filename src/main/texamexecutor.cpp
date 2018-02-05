@@ -126,15 +126,16 @@ bool TexamExecutor::init(TexamExecutor::EexecOrigin whatToDo, const QVariant& ar
       m_exam = new Texam(&m_level, QString());
       Texam::EerrorType err = m_exam->loadFromFile(arg.toString());
       if (err == Texam::e_file_OK || err == Texam::e_file_corrupted) {
-        if (err == Texam::e_file_not_valid) {
-          QMessageBox::critical(nullptr, QString(), tr("File: %1 \n is not valid exam file!").arg(arg.toString()));
-          return false;
-        }
-        if (err == Texam::e_file_corrupted)
-          QMessageBox::warning(nullptr, QString(), tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
-        m_summaryReason = SumContExam;
-        QTimer::singleShot(50, [=]{ emit examSummary(); }); // Allow 'Start Exam dialog' to be closed
-        return true;
+          if (err == Texam::e_file_corrupted)
+            QMessageBox::warning(nullptr, QString(), tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
+          m_summaryReason = SumContExam;
+          QTimer::singleShot(50, [=]{ emit examSummary(); }); // Allow 'Start Exam dialog' to be closed
+          return true;
+      } else {
+          if (err == Texam::e_file_not_valid) {
+            QMessageBox::critical(nullptr, QString(), tr("File: %1 \n is not valid exam file!").arg(arg.toString()));
+            return false;
+          }
       }
   }
   return continueInit();
