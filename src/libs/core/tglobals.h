@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -45,7 +45,7 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
 {
   Q_OBJECT
 
-  Q_PROPERTY(QRect geometry READ geometry WRITE setGeometry NOTIFY geometryChanged)
+  Q_PROPERTY(QRect geometry READ geometry WRITE setGeometry NOTIFY fakeSignal)
   Q_PROPERTY(bool useAnimations READ useAnimations WRITE setUseAnimations NOTIFY useAnimationsChanged)
   Q_PROPERTY(QString lang READ getLang WRITE setLang)
   Q_PROPERTY(qreal scale READ guiScale WRITE setGuiScale NOTIFY guiScaleChanged)
@@ -77,7 +77,7 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
 
   Q_PROPERTY(QColor fingerColor READ fingerColor WRITE setFingerColor NOTIFY fingerColorChanged)
   Q_PROPERTY(QColor selectedColor READ selectedColor WRITE setSelectedColor NOTIFY selectedColorChanged)
-  Q_PROPERTY(bool preferFlats READ preferFlats WRITE setPreferFlats NOTIFY preferFlatsChanged)
+  Q_PROPERTY(bool preferFlats READ preferFlats WRITE setPreferFlats NOTIFY fakeSignal)
   Q_PROPERTY(int fretNumber READ fretNumber NOTIFY guitarParamsChanged)
   Q_PROPERTY(bool showOtherPos READ showOtherPos WRITE setShowOtherPos)
   Q_PROPERTY(QString markedFrets READ markedFrets WRITE setMarkedFrets);
@@ -102,6 +102,15 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(QColor correctColor READ correctColor WRITE setCorrectColor NOTIFY correctColorChanged)
   Q_PROPERTY(QColor notBadColor READ notBadColor WRITE setNotBadColor NOTIFY notBadColorChanged)
   Q_PROPERTY(QColor wrongColor READ wrongColor WRITE setWrongColor NOTIFY wrongColorChanged)
+  Q_PROPERTY(bool autoNextQuestion READ autoNextQuestion WRITE setAutoNextQuestion)
+  Q_PROPERTY(bool expertAnswers READ expertAnswers WRITE setExpertAnswers)
+  Q_PROPERTY(bool correctAnswers READ correctAnswers WRITE setCorrectAnswers)
+  Q_PROPERTY(bool repeatIncorect READ repeatIncorect WRITE setRepeatIncorect)
+  Q_PROPERTY(bool closeWithoutConfirm READ closeWithoutConfirm WRITE setCloseWithoutConfirm)
+  Q_PROPERTY(bool suggestExam READ suggestExam WRITE setSuggestExam)
+  Q_PROPERTY(bool extraNames READ extraNames WRITE setExtraNames)
+  Q_PROPERTY(bool showWrongPlayed READ showWrongPlayed WRITE setShowWrongPlayed)
+  Q_PROPERTY(QString examsDir READ examsDir NOTIFY fakeSignal)
 
 public:
 
@@ -251,6 +260,32 @@ public:
   QColor wrongColor() const { return EquestionColor; }
   void setWrongColor(const QColor& c);
 
+  bool autoNextQuestion() const;
+  void setAutoNextQuestion(bool autoNext);
+
+  bool expertAnswers() const;
+  void setExpertAnswers(bool expertA);
+
+  bool correctAnswers() const;
+  void setCorrectAnswers(bool corrAnsw);
+
+  bool repeatIncorect() const;
+  void setRepeatIncorect(bool repInCorr);
+
+  bool closeWithoutConfirm() const;
+  void setCloseWithoutConfirm(bool closeNoConf);
+
+  bool suggestExam() const;
+  void setSuggestExam(bool suggest);
+
+  bool extraNames() const;
+  void setExtraNames(bool extraN);
+
+  bool showWrongPlayed() const;
+  void setShowWrongPlayed(bool wrongPlayed);
+
+  QString examsDir() const;
+
       /**
        * Updates key signature names according to name style and major/minor suffixes.
        * Emits @p keyNameChanged() to inform MainScore.qml
@@ -344,7 +379,6 @@ public:
   static QString systemUserName();
 
 signals:
-  void geometryChanged(); /**< It is never emitted :(  */
   void useAnimationsChanged();
   void guiScaleChanged();
   void noteCursorColorChanged();
@@ -364,7 +398,6 @@ signals:
   void tuningChanged();
   void fingerColorChanged();
   void selectedColorChanged();
-  void preferFlatsChanged(); /**< Fake, this option doesn't affect QML */
   void guitarParamsChanged();
   void transpositionChanged();
   void minVolumeChanged();
@@ -372,7 +405,8 @@ signals:
   void studentChanged();
   void correctColorChanged();
   void notBadColorChanged();
-  void wrongColorChanged();
+  void wrongColorChanged(); /**< To silence warning about non-NOTIFYable properties */
+  void fakeSignal();
 
 private:
   static Tglobals           *m_instance;

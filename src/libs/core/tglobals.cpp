@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -375,6 +375,31 @@ void Tglobals::setWrongColor(const QColor& c) {
   }
 }
 
+bool Tglobals::autoNextQuestion() const { return E->autoNextQuest; }
+void Tglobals::setAutoNextQuestion(bool autoNext) { E->autoNextQuest = autoNext; }
+
+bool Tglobals::expertAnswers() const { return E->expertsAnswerEnable; }
+void Tglobals::setExpertAnswers(bool expertA) { E->expertsAnswerEnable = expertA; }
+
+bool Tglobals::correctAnswers() const { return E->showCorrected; }
+void Tglobals::setCorrectAnswers(bool corrAnsw) { E->showCorrected = corrAnsw; }
+
+bool Tglobals::repeatIncorect() const { return E->repeatIncorrect; }
+void Tglobals::setRepeatIncorect(bool repInCorr) { E->repeatIncorrect = repInCorr; }
+
+bool Tglobals::closeWithoutConfirm() const { return E->closeWithoutConfirm; }
+void Tglobals::setCloseWithoutConfirm(bool closeNoConf) { E->closeWithoutConfirm = closeNoConf; }
+
+bool Tglobals::suggestExam() const { return E->suggestExam; }
+void Tglobals::setSuggestExam(bool suggest) { E->suggestExam = suggest; }
+
+bool Tglobals::extraNames() const { return E->showNameOfAnswered; }
+void Tglobals::setExtraNames(bool extraN) { E->showNameOfAnswered = extraN; }
+
+bool Tglobals::showWrongPlayed() const { return E->showWrongPlayed; }
+void Tglobals::setShowWrongPlayed(bool wrongPlayed) { E->showWrongPlayed = wrongPlayed; }
+
+QString Tglobals::examsDir() const { return E->examsDir; }
 
 
 void Tglobals::setGuitarParams(int fretNr, const Ttune& tun) {
