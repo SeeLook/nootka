@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -84,7 +84,7 @@ Column {
                   spacing: Noo.fontSize()
                   anchors.horizontalCenter: parent.horizontalCenter
                   TlabelText { text: qsTranslate("TscoreSettings", "color of enharmonic notes") }
-                  ColorButton { id: enharmNoteColor }
+                  ColorButton { id: enharmNoteColor; title: qsTranslate("TscoreSettings", "color of enharmonic notes") }
                 }
               }
             }
@@ -113,7 +113,7 @@ Column {
               spacing: Noo.fontSize()
               anchors.horizontalCenter: parent.horizontalCenter
               TlabelText { text: qsTranslate("TscoreSettings", "note-cursor color") }
-              ColorButton { id: pointerColorButt; color: GLOB.noteCursorColor }
+              ColorButton { id: pointerColorButt; color: GLOB.noteCursorColor; title: qsTranslate("TscoreSettings", "note-cursor color") }
             }
           }
         }
@@ -251,7 +251,7 @@ Column {
               spacing: Noo.fontSize()
               anchors.horizontalCenter: parent.horizontalCenter
               TlabelText { text: qsTr("names highlight color") }
-              ColorButton { id: nameColorButt; color: GLOB.nameColor }
+              ColorButton { id: nameColorButt; color: GLOB.nameColor; title: qsTr("names highlight color") }
             }
           }
           Component.onCompleted: {

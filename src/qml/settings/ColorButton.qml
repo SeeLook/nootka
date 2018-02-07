@@ -11,6 +11,8 @@ import "../"
 TcuteButton {
   id: colorButton
 
+  property alias title: colorDialog.title
+
   Behavior on color { enabled: GLOB.useAnimations; ColorAnimation { duration: 750 }}
 
   implicitWidth: Noo.fontSize() * 3.5
@@ -18,12 +20,22 @@ TcuteButton {
 
   onClicked: colorDialog.open()
 
+  contentItem: null
+
+  checked: !enabled
+
+  Rectangle { // disable cover
+    anchors.fill: background
+    visible: !colorButton.enabled
+    color: disdPal.text
+    radius: Noo.fontSize() / 3
+  }
+
   ColorDialog {
     id: colorDialog
     color: colorButton.color
     onAccepted: colorButton.color = colorDialog.color
     modality: Qt.WindowModal
     showAlphaChannel: color.a < 1.0
-    title: " "
   }
 }
