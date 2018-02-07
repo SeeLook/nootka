@@ -84,17 +84,17 @@ Tflickable {
           Row {
             spacing: Noo.fontSize() / 2
             TlabelText { text: qsTr("color of questions") }
-            ColorButton { id: wrongColor; color: GLOB.wrongColor }
+            ColorButton { id: wrongColor; color: GLOB.wrongColor; title: qsTr("color of questions") }
           }
           Row {
             spacing: Noo.fontSize() / 2
             TlabelText { text: qsTr("color of answers") }
-            ColorButton { id: correctColor; color: GLOB.correctColor }
+            ColorButton { id: correctColor; color: GLOB.correctColor; title: qsTr("color of answers") }
           }
           Row {
             spacing: Noo.fontSize() / 2
             TlabelText { text: qsTr("color of 'not bad' answers") }
-            ColorButton { id: notBadColor; color: GLOB.notBadColor }
+            ColorButton { id: notBadColor; color: GLOB.notBadColor; title: qsTr("color of 'not bad' answers") }
           }
         }
       }
