@@ -164,6 +164,13 @@ bool TmainScoreObject::selectInReadOnly() const { return m_scoreObj->selectInRea
 void TmainScoreObject::setSelectInReadOnly(bool sel) { m_scoreObj->setSelectInReadOnly(sel); }
 
 
+quint32 TmainScoreObject::technical(int noteId) {
+  if (noteId >= 0 && noteId < m_scoreObj->notesCount())
+    return m_scoreObj->note(noteId)->technical();
+}
+
+
+
 void TmainScoreObject::askQuestion(Tmelody* mel) {
   m_scoreObj->setBgColor(scoreBackgroundColor(GLOB->EquestionColor, 20));
   m_scoreObj->setMelody(mel);
@@ -175,21 +182,17 @@ void TmainScoreObject::askQuestion(Tmelody* mel) {
 /**
  * We are sure that this kind of questions occurs only in single note mode
  */
-void TmainScoreObject::askQuestion(const Tnote& note, char realStr) {
+void TmainScoreObject::askQuestion(const Tnote& note, quint32 technicalData) {
   m_scoreObj->setBgColor(scoreBackgroundColor(GLOB->EquestionColor, 20));
   m_scoreObj->setNote(m_scoreObj->note(1), note);
   m_questionMark->setVisible(true);
-  if (realStr > 0 && realStr < 7) {
-    Ttechnical techn;
-    techn.setFingerPos(TfingerPos(realStr, 0));
-    m_scoreObj->note(1)->setTechnical(techn.data());
-  }
+  m_scoreObj->note(1)->setTechnical(technicalData);
 }
 
 
-void TmainScoreObject::askQuestion(const Tnote& note, const TkeySignature& key, char realStr) {
+void TmainScoreObject::askQuestion(const Tnote& note, const TkeySignature& key, quint32 technicalData) {
   setKeySignature(key);
-  askQuestion(note, realStr);
+  askQuestion(note, technicalData);
 }
 
 

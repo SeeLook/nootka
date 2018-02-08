@@ -350,9 +350,9 @@ void TexamExecutor::askQuestion(bool isAttempt) {
         if ((curQ->answerAsFret() || curQ->answerAsSound()) && !m_level.onlyLowPos && m_level.showStrNr)
           strNr = static_cast<char>(curQ->qa.pos().str()); // do show string number or not
         if (m_level.useKeySign && !curQ->answerAsNote())
-          MAIN_SCORE->askQuestion(curQ->qa.note, curQ->key, strNr); // when answer is also asNote we determine key in preparing answer part
+          MAIN_SCORE->askQuestion(curQ->qa.note, curQ->key, curQ->qa.technical.data()); // when answer is also on the score we determine key in preparing answer part
         else
-          MAIN_SCORE->askQuestion(curQ->qa.note, strNr);
+          MAIN_SCORE->askQuestion(curQ->qa.note, curQ->qa.technical.data());
         if (curQ->answerAsName())
           m_answRequire.accid = true;
         else if (curQ->answerAsSound())
@@ -394,13 +394,13 @@ void TexamExecutor::askQuestion(bool isAttempt) {
   }
 
   if (curQ->questionAsFret()) {
-      INSTRUMENT->askQuestion(curQ->qa.note, curQ->qa.pos().data());
-      if (curQ->answerAsNote())
-          m_answRequire.octave = true; // checking accidental determined by level
-      if (curQ->answerAsSound()) {
-          m_answRequire.accid = false;
-          m_answRequire.octave = true;
-      }
+    INSTRUMENT->askQuestion(curQ->qa.note, curQ->qa.technical.data());
+    if (curQ->answerAsNote())
+        m_answRequire.octave = true; // checking accidental determined by level
+    if (curQ->answerAsSound()) {
+        m_answRequire.accid = false;
+        m_answRequire.octave = true;
+    }
   }
 
   if (curQ->questionAsSound()) {
@@ -474,21 +474,24 @@ void TexamExecutor::askQuestion(bool isAttempt) {
   }
 
   if (curQ->answerAsFret()) {
-//       m_answRequire.accid = false;  // Ignored in checking, positions are comparing
-//       if (curQ->questionAsFret()) {
-//         QList<TfingerPos> posList;
-//         m_supp->getTheSamePosNoOrder(curQ->qa.pos, posList);
-//         if (posList.isEmpty()) {
-//             blindQuestion();
-//             return; // refresh this function scope by calling it outside
-//         } else {
-//             if (m_penalty->isNot())
-//                 curQ->qa_2.pos = posList[qrand() % posList.size()];
+      m_answRequire.accid = false;  // Ignored in checking, positions are comparing
+      if (curQ->questionAsFret()) {
+        if (GLOB->instrument().isGuitar()) {
+          QList<TfingerPos> posList;
+          m_supp->getTheSamePosNoOrder(curQ->qa.pos(), posList);
+          if (posList.isEmpty()) {
+              blindQuestion();
+              return; // refresh this function scope by calling it outside
+          } else {
+              if (m_penalty->isNot())
+                  curQ->qa_2.pos() = posList[qrand() % posList.size()];
 //             INSTRUMENT->setHighlitedString(curQ->qa_2.pos.str());
-//         }
-//       } else 
+          }
+        }
+      } else {
 //         if (m_level.showStrNr)
 //           INSTRUMENT->setHighlitedString(curQ->qa.pos.str());
+      }
       INSTRUMENT->setEnabled(true);
 //       INSTRUMENT->prepareAnswer();
   }
@@ -571,31 +574,41 @@ void TexamExecutor::checkAnswer(bool showResults) {
     }
   }
 // Now we can check
-  if (curQ->answerAsFret()) { // 1. Comparing positions
-      TfingerPos answPos(INSTRUMENT->technical()), questPos;
-      if (curQ->questionAsFret()) { 
-          if (answPos == curQ->qa.pos()) { // check has not user got answer the same as question position
-              curQ->setMistake(TQAunit::e_wrongPos);
-              qDebug("Cheater!");
+  if (curQ->answerAsFret()) { // 1. Comparing positions on the instrument
+      if (GLOB->instrument().isGuitar()) {
+          TfingerPos answPos(INSTRUMENT->technical()), questPos;
+          if (curQ->questionAsFret()) {
+              if (answPos == curQ->qa.pos()) { // check has not user got answer the same as question position
+                  curQ->setMistake(TQAunit::e_wrongPos);
+                  qDebug("Cheater!");
+              } else
+                  questPos = curQ->qa_2.pos();
           } else
-              questPos = curQ->qa_2.pos();
-      } else
-          questPos = curQ->qa.pos();
-      if (questPos != answPos && curQ->isCorrect()) { // if no cheater give him a chance
-        QList <TfingerPos> tmpPosList; // Maybe he gave correct note but on incorrect string only
-        m_supp->getTheSamePosNoOrder(answPos, tmpPosList); // get other positions
-        bool otherPosFound = false;
-        for (int i = 0; i < tmpPosList.size(); i++) {
-            if (tmpPosList[i] == questPos) { // and compare it with expected
-              otherPosFound = true;
-              break;
+              questPos = curQ->qa.pos();
+          if (questPos != answPos && curQ->isCorrect()) { // if no cheater give him a chance
+            QList <TfingerPos> tmpPosList; // Maybe he gave correct note but on incorrect string only
+            m_supp->getTheSamePosNoOrder(answPos, tmpPosList); // get other positions
+            bool otherPosFound = false;
+            for (int i = 0; i < tmpPosList.size(); i++) {
+                if (tmpPosList[i] == questPos) { // and compare it with expected
+                  otherPosFound = true;
+                  break;
+                }
             }
-        }
-        if (otherPosFound) {
-          if (m_level.showStrNr || answPos.fret() < m_level.loFret || answPos.fret() > m_level.hiFret)
-            curQ->setMistake(TQAunit::e_wrongString); // check the level settings and mark as wrong string when deserve
-        } else
-            curQ->setMistake(TQAunit::e_wrongPos);
+            if (otherPosFound) {
+              if (m_level.showStrNr || answPos.fret() < m_level.loFret || answPos.fret() > m_level.hiFret)
+                curQ->setMistake(TQAunit::e_wrongString); // check the level settings and mark as wrong string when deserve
+            } else
+                curQ->setMistake(TQAunit::e_wrongPos);
+          }
+      } else {
+          answNote = INSTRUMENT->note();
+          m_supp->checkNotes(curQ, questNote, answNote, m_answRequire.octave, m_answRequire.accid);
+          if (curQ->questionAsNote() && m_level.instrument == Tinstrument::Bandoneon) { // check bowing (bellow direction)
+            Ttechnical bowFromInstr(INSTRUMENT->technical()), bowFomScore(MAIN_SCORE->technical(0));
+            if (bowFomScore.bowing() != bowFromInstr.bowing()) // TODO: it makes sense only when score will be able to select bowing
+              qDebug() << "[TexamExecutor check answer] mistake: wrong bellow direction";
+          }
       }
   } else {
       if (curQ->melody()) { // 2. or checking melodies
@@ -620,23 +633,17 @@ void TexamExecutor::checkAnswer(bool showResults) {
           }
           if (goodAllready == curQ->melody()->length()) { // all required notes are correct
               curQ->setMistake(TQAunit::e_correct); // even if user put them more and effect. is poor
-//               qDebug() << "Melody is correct";
           } else if (goodAllready + notBadAlready == curQ->melody()->length()) { // add committed mistakes of last attempt
               curQ->setMistake(curQ->lastAttempt()->summary()); // or 'not bad'
-//               qDebug() << "Melody is not bad" << curQ->mistake();
           } else if (goodAllready + notBadAlready >= curQ->melody()->length() * 0.7) { // at least 70% notes answered properly
-//             qDebug() << "Melody has little notes";
             if (curQ->lastAttempt()->effectiveness() >= 50.0) { // and effectiveness is sufficient
                 curQ->setMistake(curQ->lastAttempt()->summary());
                 curQ->setMistake(TQAunit::e_littleNotes); // but less notes than required
-//                 qDebug() << "... and sufficient effectiveness";
             } else { // or effectiveness is too poor
                 curQ->setMistake(TQAunit::e_veryPoor);
-//                 qDebug() << "... but very poor effectiveness" << curQ->lastAttempt()->effectiveness();
             }
           } else {
               curQ->setMistake(TQAunit::e_wrongNote);
-//               qDebug() << "Simply wrong answer";
           }
           if (m_level.manualKey && !curQ->isWrong()) {
             if (MAIN_SCORE->keySignatureValue() != curQ->key.value())

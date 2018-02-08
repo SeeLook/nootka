@@ -30,6 +30,7 @@ class Tnote;
 class TkeySignature;
 class Tmelody;
 class QQuickItem;
+class Ttechnical;
 
 
 #define MAIN_SCORE TmainScoreObject::instance()
@@ -95,10 +96,11 @@ public:
   void setTechnical(int noteId, quint32 tech);
   bool selectInReadOnly() const;
   void setSelectInReadOnly(bool sel);
+  quint32 technical(int noteId);
 
 // exam/exercise related
-  void askQuestion(const Tnote& note, char realStr = 0);
-  void askQuestion(const Tnote& note, const TkeySignature& key, char realStr = 0);
+  void askQuestion(const Tnote& note, quint32 technicalData = 255);
+  void askQuestion(const Tnote& note, const TkeySignature& key, quint32 technicalData = 255);
   void askQuestion(Tmelody* mel);
   void prepareKeyToAnswer(const TkeySignature& fakeKey, const QString& expectKeyName);
 
