@@ -25,6 +25,8 @@
 #include <music/ttune.h>
 #include <music/tmelody.h>
 #include <music/tchunk.h>
+#include <instruments/tbandoneonbg.h>
+#include <tnootkaqml.h>
 #include <tglobals.h>
 #include <tscoreparams.h>
 #if defined (Q_OS_ANDROID)
@@ -165,7 +167,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
   if (!m_level->canBeGuitar() && !m_level->answerIsSound())  // adjust fret range
     m_level->onlyLowPos = true;
 
-  if (!m_playCorrections || Tinstrument(m_level->instrument).isGuitar() || m_level->showStrNr || m_level->canBeGuitar()) {
+  if (Tinstrument(m_level->instrument).isGuitar() && (!m_playCorrections || m_level->showStrNr || m_level->canBeGuitar())) {
       qDebug() << "[TexecutorSupply] Question list created fret by fret. Tune:" << GLOB->Gtune()->name << GLOB->Gtune()->stringNr();
       if (m_level->instrument == Tinstrument::NoInstrument && GLOB->instrument().type() != Tinstrument::NoInstrument) {
         char hi = m_hiFret, lo = m_loFret;
@@ -200,8 +202,8 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
                       if (n.alter() && (!m_level->withFlats && !m_level->withSharps))
                           continue;
                       else {
-                        TfingerPos ff = TfingerPos(GLOB->strOrder(s) + 1, f);
-                        addToList(list, n, ff);
+                        Ttechnical tt(TfingerPos(GLOB->strOrder(s) + 1, f).data());
+                        addToList(list, n, tt);
                       }
                   }
               }
@@ -218,8 +220,34 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
           if (n.alter() && (!m_level->withFlats && !m_level->withSharps))
               continue;
           else {
-              TfingerPos ff = TfingerPos();
-              addToList(list, n, ff);
+              Ttechnical tt; // empty
+              if (m_level->instrument == Tinstrument::Bandoneon && !m_level->onlyLowPos) {
+                  auto bando = qobject_cast<TbandoneonBg*>(NOO->instrument());
+                  if (bando) { // add to list every each occurrence of the same note on the bandoneon
+                    short chromatic = n.chromatic();
+                    if (bando->canBeRightOpen(chromatic)) {
+                      n.setOnUpperStaff(true);
+                      tt.setBowing(Ttechnical::BowDown);
+                      addToList(list, n, tt);
+                    }
+                    if (bando->canBeRightClose(chromatic)) {
+                      n.setOnUpperStaff(true);
+                      tt.setBowing(Ttechnical::BowUp);
+                      addToList(list, n, tt);
+                    }
+                    if (bando->canBeLeftOpen(chromatic)) {
+                      n.setOnUpperStaff(false);
+                      tt.setBowing(Ttechnical::BowDown);
+                      addToList(list, n, tt);
+                    }
+                    if (bando->canBeLeftClose(chromatic)) {
+                      n.setOnUpperStaff(false);
+                      tt.setBowing(Ttechnical::BowUp);
+                      addToList(list, n, tt);
+                    }
+                  }
+              } else
+                  addToList(list, n, tt);
           }
         }
       }
@@ -238,7 +266,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
         tmpSameList.clear();
         getTheSamePos(list[i].pos(), tmpSameList);
           if (!tmpSameList.isEmpty())
-            m_fretFretList << (quint16)i;
+            m_fretFretList << static_cast<quint16>(i);
       }
 //       for (int i = 0; i < m_fretFretList.size(); i++)
 //        qDebug() << m_fretFretList.at(i) << (int)list[m_fretFretList.at(i)].pos.str() << "f"
@@ -247,9 +275,9 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
 //       qDebug() << "question list for only guitar created\nnumber:" << m_fretFretList.size() <<
 //           " among:" << list.size();
     }
-    
+
     qsrand(QDateTime::currentDateTime().toTime_t());
-    
+
     if (m_level->canBeMelody())
       m_obligQuestNr = qBound(5, 250 / m_level->melodyLen, 30); // longer melody - less questions
     else
@@ -510,6 +538,10 @@ void TexecutorSupply::checkNotes(TQAunit* curQ, Tnote& expectedNote, Tnote& user
     }
   } else
       curQ->setMistake(TQAunit::e_wrongNote);
+  if (!curQ->wrongNote() && m_level->instrument == Tinstrument::Bandoneon && m_level->clef.type() == Tclef::PianoStaffClefs) {
+      if (expectedNote.onUpperStaff() != userNote.onUpperStaff())
+        qDebug() << "[TexecutorSupply check notes] mistake: wrong bandoneon side";
+  }
 }
 
 
@@ -614,10 +646,10 @@ bool TexecutorSupply::isNoteInKey(Tnote& n) {
 }
 
 
-void TexecutorSupply::addToList(QList<TQAgroup>& list, Tnote& n, TfingerPos& f) {
+void TexecutorSupply::addToList(QList<TQAgroup>& list, Tnote& n, Ttechnical &t) {
   TQAgroup g;
-  g.note = n; 
-  g.pos() = f;
+  g.note = n;
+  g.technical = t;
   list << g;
 }
 

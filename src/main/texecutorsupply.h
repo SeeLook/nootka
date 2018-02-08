@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -185,9 +185,9 @@ private:
   bool isNoteInKey(Tnote &n);
 
       /**
-       * Appends given note and fret position to question list.
+       * Appends given note and technical data to question list.
        */
-  void addToList(QList<TQAgroup> &list, Tnote &n, TfingerPos &f);
+  void addToList(QList<TQAgroup> &list, Tnote &n, Ttechnical &t);
 
       /**
        * Returns number of string - itself (realNr - 1) when strings order is not respected
