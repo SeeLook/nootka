@@ -177,7 +177,7 @@ Flickable {
         spacing: Noo.fontSize()
         anchors.horizontalCenter: parent.horizontalCenter
         Text { color: activPal.text; text: qsTr("color of a pointer on an instrument"); anchors.verticalCenter: parent.verticalCenter }
-        ColorButton { id: fingerColorButt; color: GLOB.fingerColor }
+        ColorButton { id: fingerColorButt; color: GLOB.fingerColor; title: qsTr("color of a pointer on an instrument") }
       }
     }
     Tile {
@@ -185,7 +185,7 @@ Flickable {
         spacing: Noo.fontSize()
         anchors.horizontalCenter: parent.horizontalCenter
         Text { color: activPal.text; text: qsTr("color of a selection"); anchors.verticalCenter: parent.verticalCenter }
-        ColorButton { id: selectedColorButt; color: GLOB.selectedColor }
+        ColorButton { id: selectedColorButt; color: GLOB.selectedColor; title: qsTr("color of a selection") }
       }
     }
     Component.onCompleted: { // to avoid declaring every property signal in Tglobals.h

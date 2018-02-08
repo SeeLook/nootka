@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -118,7 +118,7 @@ Score {
       scordature.destroy()
       scordature = null
     }
-    if (GLOB.tuning.scordature && GLOB.instrument.type !== Tinstrument.BassGuitar) {
+    if (GLOB.tuning.scordature && GLOB.instrument.isGuitar && GLOB.instrument.type !== Tinstrument.BassGuitar) {
         var c = Qt.createComponent("qrc:/score/Scordature.qml")
         scordature = c.createObject(firstStaff)
         firstStaff.scordSpace = scordature.height
