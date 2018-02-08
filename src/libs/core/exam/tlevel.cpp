@@ -106,10 +106,8 @@ Tlevel::Tlevel() :
 // level parameters
   name = QObject::tr("master of masters");
   desc = QObject::tr("All possible options are turned on");
-  bool hasGuitar = true;
+  bool hasGuitar = GLOB->instrument().isGuitar();
 // QUESTIONS
-  if (GLOB->instrument().type() == Tinstrument::NoInstrument)
-    hasGuitar = false;
   questionAs = TQAtype(true, true, hasGuitar, true);
   answersAs[0] = TQAtype(true, true, hasGuitar, true);
   answersAs[1] = TQAtype(true, true, hasGuitar, true);
@@ -117,10 +115,12 @@ Tlevel::Tlevel() :
   answersAs[3] = TQAtype(true, true, hasGuitar, true);
   requireOctave = true;
   requireStyle = true;
-    /** variables isNoteLo, isNoteHi and isFretHi are not used - it has no sense.
-    *  Since version 0.8.90 isNoteLo and isNoteHi are merged into Tclef.
-    *  It can store multiple clefs (maybe in unknown future it will be used)
-    *  0 - no clef and up to 15 different clefs    */
+    /**
+     * variables isNoteLo, isNoteHi and isFretHi are not used - it has no sense.
+     *  Since version 0.8.90 isNoteLo and isNoteHi are merged into Tclef.
+     *  It can store multiple clefs (maybe in unknown future it will be used)
+     *  0 - no clef and up to 15 different clefs.
+     */
   clef = Tclef(GLOB->S->clef);
 
   instrument = GLOB->instrument().type();

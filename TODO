@@ -24,6 +24,7 @@ TRANSLATION CONTEXT CHANGES
   TlevelPreviewItem "no level selected" goes to TlevelSelector
   TprogressWidget -> TexamView
   TexpertAnswerHelp -> ExamPage
+  tleveldefs.cpp - "All chromatic notes till V-th" - change to 5th and adjust other translations
 
   NameStyleSelector - text "Naming style of note. The main difference is the 7th note.<br>Is it B and B flat, or H and B?" has to go into ScorePage or its sub-page with name settings
   AdioInSettings ??? copy "semitone(s)" text to Transposition context but remove %n

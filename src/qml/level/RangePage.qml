@@ -10,13 +10,10 @@ import "../"
 import "../score"
 
 
-Flickable {
-  width: parent.width; height: parent.height
-  clip: true
+Tflickable {
+  height: parent.height
   contentHeight: rangeGrid.height + Noo.fontSize() * 2
   contentWidth: Math.max(width, Noo.fontSize() * 35)
-
-  ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
 
   Connections {
     target: creator
@@ -28,7 +25,7 @@ Flickable {
 
   Grid {
     id: rangeGrid
-    columns:  parent.width > Noo.fontSize() * 50 ? 2 : 1
+    columns:  parent.width > Noo.fontSize() * 50 && GLOB.instrument.isGuitar? 2 : 1
     width: parent.width
     spacing: Noo.fontSize() / 4
     horizontalItemAlignment: Grid.AlignHCenter
@@ -60,6 +57,7 @@ Flickable {
             }
           }
           Tile {
+            visible: GLOB.instrument.isGuitar
             TcuteButton {
               text: qsTr("adjust fret range")
               anchors.horizontalCenter: parent.horizontalCenter
@@ -71,6 +69,7 @@ Flickable {
     }
 
     Column {
+      visible: GLOB.instrument.isGuitar
       width: rangeGrid.columns === 1 ? parent.width * 0.98 : parent.width * 0.49
       spacing: Noo.fontSize() / 2
       Tframe {

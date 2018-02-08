@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -156,6 +156,7 @@ Tflickable {
       }
       Tile {
         anchors.horizontalCenter: undefined
+        visible: GLOB.instrument.isGuitar
         width: Math.max(strChB.width + Noo.fontSize() * 2, qPage.width * 0.45)
         TcheckBox {
           id: strChB
@@ -166,9 +167,9 @@ Tflickable {
         }
         description: qsTr("Shows on which string an answer has to be given.<br>Be careful, sometimes it is needed and sometimes it makes no sense.")
       }
-      anchors.horizontalCenter: undefined
       Tile {
         anchors.horizontalCenter: undefined
+        visible: GLOB.instrument.isGuitar
         width: Math.max(lowPosChB.width + Noo.fontSize() * 2, qPage.width * 0.45)
         TcheckBox {
           id: lowPosChB
