@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,60 +27,63 @@
 void getExampleLevels(QList<Tlevel>& llist) {
   Tlevel l = Tlevel();
   int octaveOffset = 0; // depends on guitar type and for bass drops range octave down
-  if (GLOB->instrument().type() == Tinstrument::BassGuitar)
-    octaveOffset = -1;
-  else if (GLOB->instrument().type() == Tinstrument::NoInstrument)
+//   if (GLOB->instrument().type() == Tinstrument::BassGuitar)
+//     octaveOffset = -1;
+  if (!GLOB->instrument().isGuitar())
     octaveOffset = 1;
   //----------------------------------------------------------------------------
-  l.name = QGuiApplication::translate("Tlevel", "open strings");
-  l.desc = QGuiApplication::translate("Tlevel", "The simplest. No key signatures, no double accidentals and no sound.<br>Automatically adjusted to current tune.");
-  l.questionAs.setAsSound(false);
-  l.answersAs[0] = TQAtype(false, true, true, false); // q: score -- a: name, guitar
-  l.answersAs[1] = TQAtype(true, false, true, false); // q: name -- a: score, guitar
-  l.answersAs[2] = TQAtype(true, true, false, false); // q: guitar -- a: score, name
-  l.answersAs[3] = TQAtype(false, false, false, false);
-  l.withSharps = false;
-  l.withFlats = false;
-  l.withDblAcc = false;
-  l.useKeySign = false;
-  l.loKey = 0;
-  l.hiKey = 0;
-  l.forceAccids = false;
-  l.requireOctave = false;
-  l.requireStyle = false;
-  l.showStrNr = false;
-  l.intonation = 0; // do not check
-  //clef default, user/tune defined
-  //instrument default - selected by user
-  l.hiNote = Tnote(GLOB->hiString().chromatic());
-  //loNote is lowest by constructor
-  l.hiFret = 0;// loFret is 0 by constuctor
-  for (int i = 1; i < 7; i++) { //accids will be used if current tune requires it
-    if (GLOB->Gtune()->str(i).alter() == 1)
-      l.withSharps = true;
-    if (GLOB->Gtune()->str(i).alter() == -1)
-      l.withFlats = true;
+  if (GLOB->instrument().isGuitar()) {
+    l.name = QGuiApplication::translate("Tlevel", "open strings");
+    l.desc = QGuiApplication::translate("Tlevel", "The simplest. No key signatures, no double accidentals and no sound.<br>Automatically adjusted to current tune.");
+    l.questionAs.setAsSound(false);
+    l.answersAs[0] = TQAtype(false, true, true, false); // q: score -- a: name, guitar
+    l.answersAs[1] = TQAtype(true, false, true, false); // q: name -- a: score, guitar
+    l.answersAs[2] = TQAtype(true, true, false, false); // q: guitar -- a: score, name
+    l.answersAs[3] = TQAtype(false, false, false, false);
+    l.withSharps = false;
+    l.withFlats = false;
+    l.withDblAcc = false;
+    l.useKeySign = false;
+    l.loKey = 0;
+    l.hiKey = 0;
+    l.forceAccids = false;
+    l.requireOctave = false;
+    l.requireStyle = false;
+    l.showStrNr = false;
+    l.intonation = 0; // do not check
+    //clef default, user/tune defined
+    //instrument default - selected by user
+    l.hiNote = Tnote(GLOB->hiString().chromatic());
+    //loNote is lowest by constructor
+    l.hiFret = 0;// loFret is 0 by constuctor
+    for (int i = 1; i < 7; i++) { //accids will be used if current tune requires it
+      if (GLOB->Gtune()->str(i).alter() == 1)
+        l.withSharps = true;
+      if (GLOB->Gtune()->str(i).alter() == -1)
+        l.withFlats = true;
+    }
+    if (l.instrument == Tinstrument::NoInstrument) // force instrument when not defined
+      l.instrument = Tinstrument::ClassicalGuitar;
+    l.melodyLen = 1;
+    //     l.requireInTempo = false;
+    //     l.endsOnTonic = fasle;
+    llist << l;
   }
-  if (l.instrument == Tinstrument::NoInstrument) // force instrument when not defined
-    l.instrument = Tinstrument::ClassicalGuitar;
-  l.melodyLen = 1;
-  //     l.requireInTempo = false;
-  //     l.endsOnTonic = fasle;
-  llist << l;
   //----------------------------------------------------------------------------
   l.name = QGuiApplication::translate("Tlevel", "C-major scale");
   l.desc = QGuiApplication::translate("Tlevel", "In first position. No accidentals, no sound.<br>Octave required.");
   l.questionAs.setAsSound(false);
-  bool isGuitar = true;
-  if (GLOB->instrument().type() == Tinstrument::NoInstrument) {
-    isGuitar = false;
+  bool isGuitar = GLOB->instrument().isGuitar();
+  if (GLOB->instrument().type() == Tinstrument::NoInstrument)
     l.desc = QGuiApplication::translate("Tlevel", "Give note name in C-major scale or show note on the staff knowing its name.");
-  }
+  else if (!GLOB->instrument().isGuitar())
+    l.desc = QGuiApplication::translate("Tlevel", "Some note of C-major scale point on the instrument, or give its name or show in the score.");
   l.instrument = GLOB->instrument().type();
-  l.questionAs.setAsFret(isGuitar);
-  l.answersAs[0] = TQAtype(false, true, isGuitar, false);
-  l.answersAs[1] = TQAtype(true, false, isGuitar, false);
-  l.answersAs[2] = TQAtype(isGuitar, isGuitar, false, false);
+  bool isSomeInstr = GLOB->instrument().type() != Tinstrument::NoInstrument;
+  l.questionAs.setAsFret(isSomeInstr);
+  l.answersAs[0] = TQAtype(false, true, isSomeInstr, false);
+  l.answersAs[1] = TQAtype(true, false, isSomeInstr, false);
+  l.answersAs[2] = TQAtype(isSomeInstr, isSomeInstr, false, false);
   l.answersAs[3] = TQAtype(false, false, false, false);
   l.withSharps = false;
   l.withFlats = false;
