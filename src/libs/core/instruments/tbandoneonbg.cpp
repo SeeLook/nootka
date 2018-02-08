@@ -227,6 +227,8 @@ void TbandoneonBg::setNote(const Tnote& n, quint32 noteDataValue) {
     return;
   if (!n.isValid()) {
     hideCircles();
+    setOpening(false);
+    setClosing(false);
     return;
   }
   Ttechnical techn(noteDataValue);
@@ -312,6 +314,30 @@ void TbandoneonBg::markSelected(const QColor& markColor) {
   markBorder(m_circleLeftClose.item, borderWidth, mc);
   markBorder(m_circleRightClose.item, borderWidth, mc);
   markBorder(m_circleCloseExtra.item, borderWidth, mc);
+}
+
+
+bool TbandoneonBg::canBeLeftOpen(short chromNoteNr) {
+  int nrInArr = chromNoteNr + 11;
+  return nrInArr >= 0 && nrInArr < 60 && m_notesArray[nrInArr].leftOpen;
+}
+
+
+bool TbandoneonBg::canBeLeftClose(short chromNoteNr) {
+  int nrInArr = chromNoteNr + 11;
+  return nrInArr >= 0 && nrInArr < 60 && m_notesArray[nrInArr].leftClose;
+}
+
+
+bool TbandoneonBg::canBeRightOpen(short chromNoteNr) {
+  int nrInArr = chromNoteNr + 11;
+  return nrInArr >= 0 && nrInArr < 60 && m_notesArray[nrInArr].rightOpen;
+}
+
+
+bool TbandoneonBg::canBeRightClose(short chromNoteNr) {
+  int nrInArr = chromNoteNr + 11;
+  return nrInArr >= 0 && nrInArr < 60 && m_notesArray[nrInArr].rightClose;
 }
 
 
