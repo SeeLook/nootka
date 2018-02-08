@@ -79,6 +79,15 @@ public:
 
   void markSelected(const QColor & markColor) override;
 
+      /**
+       * Returns @p TRUE when given note (as chromatic number @p Tnote::chromatic())
+       * is possible to play on bandoneon at given side/bellow direction
+       */
+  bool canBeLeftOpen(short int chromNoteNr);
+  bool canBeLeftClose(short int chromNoteNr);
+  bool canBeRightOpen(short int chromNoteNr);
+  bool canBeRightClose(short int chromNoteNr);
+
 signals:
   void closingChanged();
   void openingChanged();
