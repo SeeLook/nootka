@@ -79,7 +79,7 @@ public:
        * Usually time is stored in value multiplied by 10.
        * @param prec defines digit number after point.
        */
-  static QString timeToText(int time10, int prec = 1) { return QString("%1").arg((qreal)time10 / 10, 0, 'f', prec); }
+  static QString timeToText(int time10, int prec = 1) { return QString("%1").arg(static_cast<qreal>(time10) / 10, 0, 'f', prec); }
 
       /**
        * Gives ready to insert string with time value.
@@ -89,7 +89,7 @@ public:
       /**
        * Returns time value divided by 10
        */
-  double getTime() { return (double)time / 10.0; }
+  double getTime() { return static_cast<double>(time) / 10.0; }
 
       /**
        * Set a given mistake.
@@ -120,7 +120,7 @@ public:
   Tnote::EnameStyle styleOfQuestion() const { return Tnote::EnameStyle(style / 16 - 1);  }
   Tnote::EnameStyle styleOfAnswer() const { return Tnote::EnameStyle(style % 16);  }
   void setStyle(Tnote::EnameStyle questionStyle, Tnote::EnameStyle answerStyle) {
-    style = ((quint8)questionStyle + 1) * 16 + (quint8)answerStyle;
+    style = (static_cast<quint8>(questionStyle) + 1) * 16 + static_cast<quint8>(answerStyle);
   }
 
   TkeySignature key;
@@ -155,26 +155,26 @@ public:
       /** effectiveness of an answered melody is less than 50% */
   bool veryPoor() const {return valid & e_veryPoor; }
 
-      /** questionAs == TQAtype::e_asNote; */
-  bool questionAsNote() const { return questionAs == TQAtype::e_asNote; }
+      /** questionAs == TQAtype::e_onScore; */
+  bool questionOnScore() const { return questionAs == TQAtype::e_onScore; }
 
       /** questionAs == TQAtype::e_asName; */
   bool questionAsName() const { return questionAs == TQAtype::e_asName; }
 
-      /** questionAs == TQAtype::e_asFretPos; */
-  bool questionAsFret() const { return questionAs == TQAtype::e_asFretPos; }
+      /** questionAs == TQAtype::e_onInstr; */
+  bool questionOnInstr() const { return questionAs == TQAtype::e_onInstr; }
 
       /** questionAs == TQAtype::e_asSound; */
   bool questionAsSound() const { return questionAs == TQAtype::e_asSound; }
 
-      /** answerAs == TQAtype::e_asNote; */
-  bool answerAsNote() const { return answerAs == TQAtype::e_asNote; }
+      /** answerAs == TQAtype::e_onScore; */
+  bool answerOnScore() const { return answerAs == TQAtype::e_onScore; }
 
       /** answerAs == TQAtype::e_asName; */
   bool answerAsName() const { return answerAs == TQAtype::e_asName; }
 
-      /** answerAs == TQAtype::e_asFretPos; */
-  bool answerAsFret() const { return answerAs == TQAtype::e_asFretPos; }
+      /** answerAs == TQAtype::e_onInstr; */
+  bool answerOnInstr() const { return answerAs == TQAtype::e_onInstr; }
 
       /** answerAs == TQAtype::e_asSound; */
   bool answerAsSound() const { return answerAs == TQAtype::e_asSound; }

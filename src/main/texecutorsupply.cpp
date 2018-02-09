@@ -260,7 +260,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
 
   // generate m_fretFretList if needed
     m_fretFretList.clear();
-    if (m_level->questionAs.isFret() && m_level->answersAs[TQAtype::e_asFretPos].isFret()) {
+    if (m_level->questionAs.isOnInstr() && m_level->answersAs[TQAtype::e_onInstr].isOnInstr()) {
       QList<TfingerPos> tmpSameList;
       for (int i = 0; i < list.size(); i++) {
         tmpSameList.clear();
@@ -463,42 +463,42 @@ void TexecutorSupply::getTheSamePosNoOrder(TfingerPos& fingerPos, QList<TfingerP
 
 void TexecutorSupply::calcQAPossibleCount() {
   m_qaPossib = 0;
-  if (m_level->questionAs.isNote()) {
-    if (m_level->answersAs[TQAtype::e_asNote].isNote())
+  if (m_level->questionAs.isOnScore()) {
+    if (m_level->answersAs[TQAtype::e_onScore].isOnScore())
       m_qaPossib++;
-    if (m_level->answersAs[TQAtype::e_asNote].isName())
+    if (m_level->answersAs[TQAtype::e_onScore].isName())
       m_qaPossib++;
-    if (m_level->answersAs[TQAtype::e_asNote].isFret())
+    if (m_level->answersAs[TQAtype::e_onScore].isOnInstr())
       m_qaPossib++;
-    if (m_level->answersAs[TQAtype::e_asNote].isSound())
+    if (m_level->answersAs[TQAtype::e_onScore].isSound())
       m_qaPossib++;
   }
   if (m_level->questionAs.isName()) {
-    if (m_level->answersAs[TQAtype::e_asName].isNote())
+    if (m_level->answersAs[TQAtype::e_asName].isOnScore())
       m_qaPossib++;
     if (m_level->answersAs[TQAtype::e_asName].isName())
       m_qaPossib++;
-    if (m_level->answersAs[TQAtype::e_asName].isFret())
+    if (m_level->answersAs[TQAtype::e_asName].isOnInstr())
       m_qaPossib++;
     if (m_level->answersAs[TQAtype::e_asName].isSound())
       m_qaPossib++;
   }
-  if (m_level->questionAs.isFret()) {
-    if (m_level->answersAs[TQAtype::e_asFretPos].isNote())
+  if (m_level->questionAs.isOnInstr()) {
+    if (m_level->answersAs[TQAtype::e_onInstr].isOnScore())
       m_qaPossib++;
-    if (m_level->answersAs[TQAtype::e_asFretPos].isName())
+    if (m_level->answersAs[TQAtype::e_onInstr].isName())
       m_qaPossib++;
-    if (m_level->answersAs[TQAtype::e_asFretPos].isFret())
+    if (m_level->answersAs[TQAtype::e_onInstr].isOnInstr())
       m_qaPossib++;
-    if (m_level->answersAs[TQAtype::e_asFretPos].isSound())
+    if (m_level->answersAs[TQAtype::e_onInstr].isSound())
       m_qaPossib++;
   }
   if (m_level->questionAs.isSound()) {
-    if (m_level->answersAs[TQAtype::e_asSound].isNote())
+    if (m_level->answersAs[TQAtype::e_asSound].isOnScore())
       m_qaPossib++;
     if (m_level->answersAs[TQAtype::e_asSound].isName())
       m_qaPossib++;
-    if (m_level->answersAs[TQAtype::e_asSound].isFret())
+    if (m_level->answersAs[TQAtype::e_asSound].isOnInstr())
       m_qaPossib++;
     if (m_level->answersAs[TQAtype::e_asSound].isSound())
       m_qaPossib++;

@@ -62,9 +62,9 @@ TlevelSelector::TlevelSelector(QQuickItem* parent) :
   m_fakeLevel.loNote = Tnote();
   m_fakeLevel.hiNote = Tnote();
   m_fakeLevel.hiFret = 0;
-  m_fakeLevel.questionAs.setAsNote(false);
+  m_fakeLevel.questionAs.setOnScore(false);
   m_fakeLevel.questionAs.setAsName(false);
-  m_fakeLevel.questionAs.setAsFret(false);
+  m_fakeLevel.questionAs.setOnInstr(false);
   m_fakeLevel.questionAs.setAsSound(false);
   m_fakeLevel.useKeySign = false;
   m_fakeLevel.withDblAcc = false;

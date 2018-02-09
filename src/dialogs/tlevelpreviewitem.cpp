@@ -36,9 +36,9 @@ QString tdAlign() {
 QString qaTypeSymbol(TQAtype::Etype type) {
   QString symbol;
   switch (type) {
-    case TQAtype::e_asNote : symbol = "s"; break;
+    case TQAtype::e_onScore : symbol = "s"; break;
     case TQAtype::e_asName : symbol = "c"; break;
-    case TQAtype::e_asFretPos : symbol = "g"; break;
+    case TQAtype::e_onInstr : symbol = "g"; break;
     case TQAtype::e_asSound : symbol = "n"; break;
   }
   return symbol;
@@ -101,12 +101,12 @@ void TlevelPreviewItem::setLevel(Tlevel* tl) {
       m_levelText += TRTD + qTR("LevelCreator", "Questions") + QLatin1String(": </td>") + tdAlign(); // QUESTIONS
       QString tmp;
       const QString space = QStringLiteral(" ");
-      if (tl->questionAs.isNote())
-        tmp += qaTypeSymbol(TQAtype::e_asNote) + space;
+      if (tl->questionAs.isOnScore())
+        tmp += qaTypeSymbol(TQAtype::e_onScore) + space;
       if (tl->questionAs.isName())
         tmp += qaTypeSymbol(TQAtype::e_asName) + space;
-      if (tl->questionAs.isFret())
-        tmp += qaTypeSymbol(TQAtype::e_asFretPos) + space;
+      if (tl->questionAs.isOnInstr())
+        tmp += qaTypeSymbol(TQAtype::e_onInstr) + space;
       if (tl->questionAs.isSound()) {
         if (tl->canBeMelody())
           tmp += QLatin1String("m");
@@ -119,11 +119,11 @@ void TlevelPreviewItem::setLevel(Tlevel* tl) {
       tmp.clear();
       m_levelText += TRTD + QGuiApplication::translate("LevelCreator", "Answers") + QLatin1String(": </td><td align=\"center\">"); // ANSWERS
       if (tl->answerIsNote())
-              tmp += qaTypeSymbol(TQAtype::e_asNote) + space;
+              tmp += qaTypeSymbol(TQAtype::e_onScore) + space;
       if (tl->answerIsName())
               tmp += qaTypeSymbol(TQAtype::e_asName) + space;
       if (tl->answerIsGuitar())
-              tmp += qaTypeSymbol(TQAtype::e_asFretPos) + space;
+              tmp += qaTypeSymbol(TQAtype::e_onInstr) + space;
       if (tl->answerIsSound()) {
         if (tl->canBeMelody())
           tmp += QLatin1String("m");

@@ -44,9 +44,9 @@ TtipMelody::TtipMelody(TquestionPoint *point) :
   QString txt;
   if (point->nr())
     txt = QString(TquestionAsWdg::questionTxt() + " <big><b>%1.</b></big>").arg(point->nr());
-  if (point->question()->questionAsNote() && point->question()->answerAsSound())
+  if (point->question()->questionOnScore() && point->question()->answerAsSound())
       txt += (" <b>" + TexTrans::playMelodyTxt() + "</b>");
-  else if (point->question()->questionAsSound() && point->question()->answerAsNote())
+  else if (point->question()->questionAsSound() && point->question()->answerOnScore())
       txt += (" <b>" + TexTrans::writeMelodyTxt() + "</b>");
   QLabel *headLab = new QLabel(txt, m_w);
   headLab->setAlignment(Qt::AlignCenter);

@@ -374,18 +374,18 @@ void TtipHandler::questionTip() {
   QString apendix;
   QString noteStr;
   switch (question->questionAs) {
-    case TQAtype::e_asNote: {
-      if (question->answerAsNote()) {
+    case TQAtype::e_onScore: {
+      if (question->answerOnScore()) {
           if (question->qa.note.alter() != question->qa_2.note.alter())
               questText += tr("Change enharmonically and show on the staff");
           else
               questText += tr("Given note show on the staff");
           if (level->useKeySign && level->manualKey)
               apendix = tr("<br><b>in %1 key.</b>", "in key signature").arg(question->key.getName());
-                questText += getTextHowAccid((Tnote::Ealter)question->qa_2.note.alter());
+          questText += getTextHowAccid(static_cast<Tnote::Ealter>(question->qa_2.note.alter()));
       } else if (question->answerAsName()) {
           questText += tr("Give name of");
-      } else if (question->answerAsFret()) {
+      } else if (question->answerOnInstr()) {
           if (Tinstrument(level->instrument).isGuitar())
             questText += tr("Show on the guitar");
           else
@@ -396,7 +396,7 @@ void TtipHandler::questionTip() {
           else
             questText += playOrSing(int(level->instrument));
       }
-      if (question->answerAsFret() || question->answerAsSound()) {
+      if (question->answerOnInstr() || question->answerAsSound()) {
         if (level->instrument != Tinstrument::NoInstrument && !level->canBeMelody() && level->showStrNr && !level->onlyLowPos) {
           apendix = br + sp + onStringTxt(question->qa.pos().str());
         }
@@ -415,7 +415,7 @@ void TtipHandler::questionTip() {
 
     case TQAtype::e_asName:
       noteStr = sp + sp + getNiceNoteName(question->qa.note, question->styleOfQuestion());
-      if (question->answerAsNote()) {
+      if (question->answerOnScore()) {
           questText += tr("Show on the staff") + noteStr;
           if (level->useKeySign && level->manualKey)
             questText += tr("<br><b>in %1 key.</b>", "in key signature").arg(question->key.getName());
@@ -426,7 +426,7 @@ void TtipHandler::questionTip() {
               questText += noteStr + getTextHowAccid((Tnote::Ealter)question->qa_2.note.alter());
           } else
               questText += tr("Use another style to give name of") + noteStr;
-      } else if (question->answerAsFret()) {
+      } else if (question->answerOnInstr()) {
           if (Tinstrument(level->instrument).isGuitar())
             questText += tr("Show on the guitar") + noteStr;
           else
@@ -434,20 +434,20 @@ void TtipHandler::questionTip() {
       } else if (question->answerAsSound()) {
           questText += playOrSing(int(level->instrument)) + noteStr;
       }
-      if (question->answerAsFret() || question->answerAsSound()) {
+      if (question->answerOnInstr() || question->answerAsSound()) {
           if (level->instrument != Tinstrument::NoInstrument && level->showStrNr && !level->onlyLowPos)
             questText += br + sp + onStringTxt(question->qa.pos().str());
       }
     break;
 
-    case TQAtype::e_asFretPos:
-      if (question->answerAsNote()) {
+    case TQAtype::e_onInstr:
+      if (question->answerOnScore()) {
           questText += tr("Show on the staff note played on");
           if (level->useKeySign && level->manualKey)
             apendix = tr("<b>in %1 key.</b>", "in key signature").arg(question->key.getName());
       } else if (question->answerAsName()) {
           questText += tr("Give name of");
-      } else if (question->answerAsFret()) {
+      } else if (question->answerOnInstr()) {
           questText += tr("Show sound from position:", "... and string + fret numbers folowing");
           apendix = br + sp + onStringTxt(question->qa_2.pos().str());
       } else if (question->answerAsSound()) {
@@ -458,14 +458,14 @@ void TtipHandler::questionTip() {
                   question->qa.pos().toHtml() + QLatin1String(" </span>");
       if (!apendix.isEmpty())
           questText += br + apendix;
-      if (question->answerAsNote() || question->answerAsName()) {
+      if (question->answerOnScore() || question->answerAsName()) {
         if (level->forceAccids)
               questText += getTextHowAccid((Tnote::Ealter)question->qa.note.alter());
       }
     break;
 
     case TQAtype::e_asSound:
-      if (question->answerAsNote()) {
+      if (question->answerOnScore()) {
           if (question->melody()) {
                   questText += TexTrans::writeDescTxt();
               if (level->useKeySign && level->manualKey && level->onlyCurrKey)
@@ -481,7 +481,7 @@ void TtipHandler::questionTip() {
           questText += tr("Give name of listened sound");
           if (level->forceAccids)
               questText += getTextHowAccid((Tnote::Ealter)question->qa.note.alter());
-      } else if (question->answerAsFret()) {
+      } else if (question->answerOnInstr()) {
             questText += tr("Listened sound show on the guitar");
             if (level->showStrNr)
               questText += br + sp + onStringTxt(question->qa.pos().str());
@@ -543,7 +543,7 @@ void TtipHandler::questionTip() {
 //  m_flyEllipse->setPen(Qt::NoPen);
 //  m_flyEllipse->setBrush(QBrush(QColor(GLOB->EquestionColor.name())));
 //  m_scene->addItem(m_flyEllipse);
-//  if (question == TQAtype::e_asNote) {
+//  if (question == TQAtype::e_onScore) {
 //      m_flyEllipse->setRect(SCORE->noteRect(1)); // 1 - answer note segment
 //      m_flyEllipse->setPos(m_view->mapToScene(SCORE->notePos(1)));
 //  } else if (question == TQAtype::e_asName) {
@@ -798,7 +798,7 @@ TtipHandler::EtipPos TtipHandler::determineTipPos() {
  EtipPos tipPos;
  switch (m_exam->curQ()->questionAs) {
    /** Question is note on the score, so place a tip over name if not used or over guitar if visible but if not - in bottom-right corner. */
-   case TQAtype::e_asNote : {
+   case TQAtype::e_onScore : {
      if (GLOB->isSingleNote()) {
          if (m_exam->curQ()->answerAs == TQAtype::e_asName) {
              tipPos = NOO->instrument() ? e_instrumentOver : e_bottomRight;
@@ -811,19 +811,19 @@ TtipHandler::EtipPos TtipHandler::determineTipPos() {
    }
    /** Question is note name, so place a tip over score if not used, or over guitar. */
    case TQAtype::e_asName : { // single note mode only
-     if (m_exam->curQ()->answerAs == TQAtype::e_asNote)
+     if (m_exam->curQ()->answerAs == TQAtype::e_onScore)
        tipPos = NOO->instrument() ? e_instrumentOver : e_bottomRight;
      else
        tipPos = e_scoreOver;
      break;
    }
-   case TQAtype::e_asFretPos: // single note mode only
-      tipPos = m_exam->curQ()->answerAs == TQAtype::e_asNote ? e_nameOver : e_scoreOver;
+   case TQAtype::e_onInstr: // single note mode only
+      tipPos = m_exam->curQ()->answerAs == TQAtype::e_onScore ? e_nameOver : e_scoreOver;
       break;
    case TQAtype::e_asSound : {
      if (GLOB->isSingleNote()) {
-         if (m_exam->curQ()->answerAs == TQAtype::e_asNote)
-          tipPos = m_exam->curQ()->answerAs == TQAtype::e_asNote ? e_nameOver : e_scoreOver;
+         if (m_exam->curQ()->answerAs == TQAtype::e_onScore)
+          tipPos = m_exam->curQ()->answerAs == TQAtype::e_onScore ? e_nameOver : e_scoreOver;
      } else
          tipPos = NOO->instrument() ? e_instrumentOver : e_bottomRight;
      break;

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -41,20 +41,20 @@ class NOOTKACORE_EXPORT TQAtype
 
 public:
   TQAtype() {}
-  TQAtype(bool _asNote, bool _asName, bool _asFretPos, bool _asSound);
+  TQAtype(bool _onScore, bool _asName, bool _asFretPos, bool _asSound);
   TQAtype(int val);
 
-  enum Etype : qint8 { e_asNote = 0, e_asName = 1, e_asFretPos = 2, e_asSound = 3 };
+  enum Etype : qint8 { e_onScore = 0, e_asName = 1, e_onInstr = 2, e_asSound = 3 };
 
       // Those strange numbers are bit reverse values to unset one
-  void setAsNote(bool isNote) { m_value = isNote ? m_value | 1 : m_value & 14; }
+  void setOnScore(bool onScore) { m_value = onScore ? m_value | 1 : m_value & 14; }
   void setAsName(bool isName) { m_value = isName ? m_value | 2 : m_value & 13; }
-  void setAsFret(bool isFret) { m_value = isFret ? m_value | 4 : m_value & 11; }
+  void setOnInstr(bool onInstr) { m_value = onInstr ? m_value | 4 : m_value & 11; }
   void setAsSound(bool isSound) { m_value = isSound ? m_value | 8 : m_value & 7; }
 
-  bool isNote() const { return m_value & 1; }
+  bool isOnScore() const { return m_value & 1; }
   bool isName() const { return m_value & 2; }
-  bool isFret() const { return m_value & 4; }
+  bool isOnInstr() const { return m_value & 4; }
   bool isSound() const { return m_value & 8; }
 
       /**

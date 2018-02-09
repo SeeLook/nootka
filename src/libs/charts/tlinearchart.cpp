@@ -213,7 +213,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
           hintText += QApplication::translate("TlinearChart", "questions unrelated<br>with chart type");
         else {
             hintText += QString("%1").arg(sortedLists[i].first()->key.getName());
-            hintText += "<br>" + getWasInAnswOrQuest(TQAtype::e_asNote, sortedLists[i].operator[](0).qaPtr);
+            hintText += "<br>" + getWasInAnswOrQuest(TQAtype::e_onScore, sortedLists[i].operator[](0).qaPtr);
         }
         hintText += "</b>";
         keyText->setHtml(hintText);
@@ -258,7 +258,7 @@ TlinearChart::TlinearChart(Texam* exam, Tchart::Tsettings& settings, QWidget* pa
 				int nootFontSize = fontMetrics().boundingRect("A").height() * 2;
         QString hintText;
 				if (exam->melodies()) {
-					if (sortedLists[i].first()->questionAs == TQAtype::e_asNote)
+					if (sortedLists[i].first()->questionAs == TQAtype::e_onScore)
 						hintText = TexTrans::playMelodyTxt();
 					else
 						hintText = TexTrans::writeMelodyTxt();

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,14 +23,14 @@
 #include <QtCore/qmath.h>
 
 
-TQAtype::TQAtype(bool _asNote, bool _asName, bool _asFretPos, bool _asSound)
+TQAtype::TQAtype(bool _onScore, bool _asName, bool _onInstr, bool _asSound)
 {
-  m_value = (_asNote ? 1 : 0) + (_asName ? 2 : 0) + (_asFretPos ? 4 : 0) + (_asSound ? 8 : 0);
+  m_value = (_onScore ? 1 : 0) + (_asName ? 2 : 0) + (_onInstr ? 4 : 0) + (_asSound ? 8 : 0);
 }
 
 
 TQAtype::TQAtype(int val) {
-  m_value = static_cast<quint16>(val);
+  m_value = static_cast<quint8>(val);
 }
 
 
@@ -54,9 +54,9 @@ TQAtype::Etype TQAtype::randNext() {
 void TQAtype::toXml(int id, QXmlStreamWriter& xml) {
   xml.writeStartElement(QStringLiteral("qaType"));
     xml.writeAttribute(QStringLiteral("id"), QVariant(id).toString());
-    xml.writeAttribute(QStringLiteral("score"), QVariant(isNote()).toString());
+    xml.writeAttribute(QStringLiteral("score"), QVariant(isOnScore()).toString());
     xml.writeAttribute(QStringLiteral("name"), QVariant(isName()).toString());
-    xml.writeAttribute(QStringLiteral("guitar"), QVariant(isFret()).toString());
+    xml.writeAttribute(QStringLiteral("guitar"), QVariant(isOnInstr()).toString());
     xml.writeAttribute(QStringLiteral("sound"), QVariant(isSound()).toString());
   xml.writeEndElement(); // qaType
 }
@@ -64,9 +64,9 @@ void TQAtype::toXml(int id, QXmlStreamWriter& xml) {
 
 int TQAtype::fromXml(QXmlStreamReader& xml) {
   int id = QVariant(xml.attributes().value(QStringLiteral("id")).toString()).toInt();
-  setAsNote(QVariant(xml.attributes().value(QStringLiteral("score")).toString()).toBool());
+  setOnScore(QVariant(xml.attributes().value(QStringLiteral("score")).toString()).toBool());
   setAsName(QVariant(xml.attributes().value(QStringLiteral("name")).toString()).toBool());
-  setAsFret(QVariant(xml.attributes().value(QStringLiteral("guitar")).toString()).toBool());
+  setOnInstr(QVariant(xml.attributes().value(QStringLiteral("guitar")).toString()).toBool());
   setAsSound(QVariant(xml.attributes().value(QStringLiteral("sound")).toString()).toBool());
   xml.skipCurrentElement();
   return id;
@@ -74,7 +74,7 @@ int TQAtype::fromXml(QXmlStreamReader& xml) {
 
 
 QDataStream &operator << (QDataStream &out,TQAtype &qatype) {
-  out << qatype.isNote() << qatype.isName() << qatype.isFret() << qatype.isSound();
+  out << qatype.isOnScore() << qatype.isName() << qatype.isOnInstr() << qatype.isSound();
   return out;
 }
 
