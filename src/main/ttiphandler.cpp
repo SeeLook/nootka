@@ -93,7 +93,7 @@ QString playOrSing(int instr) {
 
 
 QString getNiceNoteName(Tnote& note, Tnote::EnameStyle style) {
-  return QString("<b><span style=\"%1\">&nbsp;").arg(Tcolor::bgTag(NOO->alpha(GLOB->EquestionColor, 40))) + note.toRichText(style) + QLatin1String(" </span></b>");
+  return QString("<b><big>") + note.toRichText(style) + QLatin1String("</big></b>");
 }
 
 
@@ -386,12 +386,15 @@ void TtipHandler::questionTip() {
       } else if (question->answerAsName()) {
           questText += tr("Give name of");
       } else if (question->answerAsFret()) {
+          if (Tinstrument(level->instrument).isGuitar())
             questText += tr("Show on the guitar");
+          else
+            questText += tr("Point on the instrument");
       } else if (question->answerAsSound()) {
-                if (question->melody())
-                        questText += tr("Play or sing a melody.");
-                else
-                        questText += playOrSing(int(level->instrument));
+          if (question->melody())
+            questText += tr("Play or sing a melody.");
+          else
+            questText += playOrSing(int(level->instrument));
       }
       if (question->answerAsFret() || question->answerAsSound()) {
         if (level->instrument != Tinstrument::NoInstrument && !level->canBeMelody() && level->showStrNr && !level->onlyLowPos) {
@@ -399,62 +402,66 @@ void TtipHandler::questionTip() {
         }
       }
       if (!question->melody()) {
-        questText += "<br> . . . <br>";
+        questText += "<br> . . . <br>"; // TODO: add score into tip
 //           if (level->useKeySign && level->manualKey && question->answerAsNote()) // hide key signature
 //                 m_questText += br + wrapPixToHtml(question->qa.note, true, TkeySignature(0), sc);
 //           else
 //                 m_questText += br + wrapPixToHtml(question->qa.note, true, question->key, sc);
       }
       if (!apendix.isEmpty())
-          questText += apendix;
+        questText += apendix;
       break;
     }
 
     case TQAtype::e_asName:
-      noteStr = br + getNiceNoteName(question->qa.note, question->styleOfQuestion());
+      noteStr = sp + sp + getNiceNoteName(question->qa.note, question->styleOfQuestion());
       if (question->answerAsNote()) {
           questText += tr("Show on the staff") + noteStr;
           if (level->useKeySign && level->manualKey)
             questText += tr("<br><b>in %1 key.</b>", "in key signature").arg(question->key.getName());
       } else if (question->answerAsName()) {
-          noteStr = br + getNiceNoteName(question->qa.note, question->styleOfQuestion());
+          noteStr = sp + sp + getNiceNoteName(question->qa.note, question->styleOfQuestion());
           if (question->qa.note.alter() != question->qa_2.note.alter()) {
               questText += tr("Change enharmonically and give name of");
               questText += noteStr + getTextHowAccid((Tnote::Ealter)question->qa_2.note.alter());
           } else
               questText += tr("Use another style to give name of") + noteStr;
       } else if (question->answerAsFret()) {
-          questText += tr("Show on the guitar") + noteStr;
+          if (Tinstrument(level->instrument).isGuitar())
+            questText += tr("Show on the guitar") + noteStr;
+          else
+            questText += tr("Point on the instrument") + noteStr;
       } else if (question->answerAsSound()) {
           questText += playOrSing(int(level->instrument)) + noteStr;
       }
       if (question->answerAsFret() || question->answerAsSound()) {
           if (level->instrument != Tinstrument::NoInstrument && level->showStrNr && !level->onlyLowPos)
-                      questText += br + sp + onStringTxt(question->qa.pos().str());
+            questText += br + sp + onStringTxt(question->qa.pos().str());
       }
     break;
 
     case TQAtype::e_asFretPos:
       if (question->answerAsNote()) {
-                questText += tr("Show on the staff note played on");
-          if (level->useKeySign && level->manualKey) {
+          questText += tr("Show on the staff note played on");
+          if (level->useKeySign && level->manualKey)
             apendix = tr("<b>in %1 key.</b>", "in key signature").arg(question->key.getName());
-          }
       } else if (question->answerAsName()) {
           questText += tr("Give name of");
       } else if (question->answerAsFret()) {
-            questText += tr("Show sound from position:", "... and string + fret numbers folowing");
-            apendix = br + sp + onStringTxt(question->qa_2.pos().str());
+          questText += tr("Show sound from position:", "... and string + fret numbers folowing");
+          apendix = br + sp + onStringTxt(question->qa_2.pos().str());
       } else if (question->answerAsSound()) {
-                  questText += playOrSing(int(level->instrument));
+          questText += playOrSing(int(level->instrument));
       }
-      questText += QString("<br><span style=\"font-size: xx-large; %1\">&nbsp;").arg(Tcolor::bgTag(NOO->alpha(GLOB->EquestionColor, 40))) +
+      if (question->qa.pos().isValid())
+        questText += QString("<br><span style=\"font-size: xx-large; %1\">&nbsp;").arg(Tcolor::bgTag(NOO->alpha(GLOB->EquestionColor, 40))) +
                   question->qa.pos().toHtml() + QLatin1String(" </span>");
       if (!apendix.isEmpty())
           questText += br + apendix;
-      if (question->answerAsNote() || question->answerAsName())
+      if (question->answerAsNote() || question->answerAsName()) {
         if (level->forceAccids)
               questText += getTextHowAccid((Tnote::Ealter)question->qa.note.alter());
+      }
     break;
 
     case TQAtype::e_asSound:
