@@ -485,7 +485,7 @@ void TnootkaQML::setInstrument(TcommonInstrument* ci) {
     if (m_instrument != nullptr)
       m_nodeConnected = false; // reset connection of instrument signal when instrument type changed
       m_instrument = ci;
-    if (m_scoreObject && !m_nodeConnected)
+    if (m_scoreObject && !m_nodeConnected && !GLOB->isExam())
       connectInstrument();
   }
 }
