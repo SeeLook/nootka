@@ -182,7 +182,7 @@ bool TexamExecutor::continueInit() {
     QMessageBox::critical(nullptr, QString(), tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
     return false;
   }
-  if (m_level.questionAs.isFret() && m_level.answersAs[TQAtype::e_asFretPos].isFret()) {
+  if (m_level.questionAs.isOnInstr() && m_level.answersAs[TQAtype::e_onInstr].isOnInstr()) {
     if (!m_supp->isGuitarOnlyPossible()) {
       qDebug("Something stupid!\n Level has question and answer as position on guitar but any question is available.");
       return false;
@@ -220,9 +220,9 @@ void TexamExecutor::initializeExecuting() {
   }
 
   m_level.questionAs.randNext(); // Randomize question and answer type
-  if (m_level.questionAs.isNote()) m_level.answersAs[TQAtype::e_asNote].randNext();
+  if (m_level.questionAs.isOnScore()) m_level.answersAs[TQAtype::e_onScore].randNext();
   if (m_level.questionAs.isName()) m_level.answersAs[TQAtype::e_asName].randNext();
-  if (m_level.questionAs.isFret()) m_level.answersAs[TQAtype::e_asFretPos].randNext();
+  if (m_level.questionAs.isOnInstr()) m_level.answersAs[TQAtype::e_onInstr].randNext();
   if (m_level.questionAs.isSound()) m_level.answersAs[TQAtype::e_asSound].randNext();
   if (m_rand)
     m_rand->reset();
@@ -290,10 +290,10 @@ void TexamExecutor::askQuestion(bool isAttempt) {
         curQ->answerAs = m_level.answersAs[curQ->questionAs].next();
     }
 
-    if (m_penalty->isNot() && curQ->questionAsFret() && curQ->answerAsFret())
+    if (m_penalty->isNot() && curQ->questionOnInstr() && curQ->answerOnInstr())
       curQ->qa = m_questList[m_supp->getQAnrForGuitarOnly()];
 
-    if (m_penalty->isNot() && (curQ->questionAsNote() || curQ->answerAsNote())) {
+    if (m_penalty->isNot() && (curQ->questionOnScore() || curQ->answerOnScore())) {
         if (m_level.useKeySign)
           curQ->key = m_supp->getKey(curQ->qa.note);
         if (!m_level.onlyCurrKey) // if key doesn't determine accidentals, we do this
@@ -325,7 +325,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
   }
 
 // ASKING QUESTIONS
-  if (curQ->questionAsNote()) {
+  if (curQ->questionOnScore()) {
     if (curQ->melody()) {
         if (!isAttempt) {
           MAIN_SCORE->askQuestion(curQ->melody());
@@ -347,9 +347,9 @@ void TexamExecutor::askQuestion(bool isAttempt) {
         }
     } else {
         char strNr = 0;
-        if ((curQ->answerAsFret() || curQ->answerAsSound()) && !m_level.onlyLowPos && m_level.showStrNr)
+        if ((curQ->answerOnInstr() || curQ->answerAsSound()) && !m_level.onlyLowPos && m_level.showStrNr)
           strNr = static_cast<char>(curQ->qa.pos().str()); // do show string number or not
-        if (m_level.useKeySign && !curQ->answerAsNote())
+        if (m_level.useKeySign && !curQ->answerOnScore())
           MAIN_SCORE->askQuestion(curQ->qa.note, curQ->key, curQ->qa.technical.data()); // when answer is also on the score we determine key in preparing answer part
         else
           MAIN_SCORE->askQuestion(curQ->qa.note, curQ->qa.technical.data());
@@ -385,7 +385,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
             }
         }
       }
-      if ((curQ->answerAsFret() || curQ->answerAsSound()) && m_level.showStrNr)
+      if ((curQ->answerOnInstr() || curQ->answerAsSound()) && m_level.showStrNr)
           NOTENAME->askQuestion(curQ->qa.note, curQ->styleOfQuestion(), curQ->qa.pos().str());
       else
           NOTENAME->askQuestion(curQ->qa.note, curQ->styleOfQuestion());
@@ -393,9 +393,9 @@ void TexamExecutor::askQuestion(bool isAttempt) {
           m_answRequire.accid = false; // reset checking accidentals determined by level
   }
 
-  if (curQ->questionAsFret()) {
+  if (curQ->questionOnInstr()) {
     INSTRUMENT->askQuestion(curQ->qa.note, curQ->qa.technical.data());
-    if (curQ->answerAsNote())
+    if (curQ->answerOnScore())
         m_answRequire.octave = true; // checking accidental determined by level
     if (curQ->answerAsSound()) {
         m_answRequire.accid = false;
@@ -415,7 +415,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
   }
 
 // PREPARING ANSWERS
-  if (curQ->answerAsNote()) {
+  if (curQ->answerOnScore()) {
     if (!curQ->melody()) {
       if (m_level.useKeySign) {
           if (m_level.manualKey) { // user have to manually select a key
@@ -428,7 +428,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
           } else
               MAIN_SCORE->setKeySignature(curQ->key);
       }
-      if (curQ->questionAsNote()) {// note has to be another than question
+      if (curQ->questionOnScore()) {// note has to be another than question
           if (m_penalty->isNot())
               curQ->qa_2.note = m_supp->forceEnharmAccid(curQ->qa.note); // curQ->qa_2.note is expected note
           if (!m_level.manualKey && curQ->qa_2.note == curQ->qa.note) {
@@ -439,7 +439,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
           m_answRequire.accid = true;
           m_answRequire.octave = true;
       }
-      if (curQ->questionAsFret() || curQ->questionAsSound()) {
+      if (curQ->questionOnInstr() || curQ->questionAsSound()) {
           if (m_level.forceAccids)
             MAIN_SCORE->forceAccidental(static_cast<int>(curQ->qa.note.alter()));
       }
@@ -469,13 +469,13 @@ void TexamExecutor::askQuestion(bool isAttempt) {
       }
       NOTENAME->prepareAnswer(curQ->styleOfAnswer());
       // force accidental when question and answer are note name or question as sound or instrument and level forces accidentals
-      if (curQ->questionAsName() || ((curQ->questionAsFret() || curQ->questionAsSound()) && m_level.forceAccids))
+      if (curQ->questionAsName() || ((curQ->questionOnInstr() || curQ->questionAsSound()) && m_level.forceAccids))
         NOTENAME->forceAccidental(answerAlter);
   }
 
-  if (curQ->answerAsFret()) {
+  if (curQ->answerOnInstr()) {
       m_answRequire.accid = false;  // Ignored in checking, positions are comparing
-      if (curQ->questionAsFret()) {
+      if (curQ->questionOnInstr()) {
         if (GLOB->instrument().isGuitar()) {
           QList<TfingerPos> posList;
           m_supp->getTheSamePosNoOrder(curQ->qa.pos(), posList);
@@ -549,12 +549,12 @@ void TexamExecutor::checkAnswer(bool showResults) {
 // At first we determine what has to be checked
   if (!curQ->melody()) {
     questNote = curQ->qa.note;
-    if (curQ->answerAsNote()) {
+    if (curQ->answerOnScore()) {
         if (m_level.manualKey) {
             if (MAIN_SCORE->keySignatureValue() != curQ->key.value())
               curQ->setMistake(TQAunit::e_wrongKey);
         }
-        if (curQ->questionAsNote())
+        if (curQ->questionOnScore())
             questNote = curQ->qa_2.note;
         answNote = MAIN_SCORE->getNote(0);
     }
@@ -574,10 +574,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
     }
   }
 // Now we can check
-  if (curQ->answerAsFret()) { // 1. Comparing positions on the instrument
+  if (curQ->answerOnInstr()) { // 1. Comparing positions on the instrument
       if (GLOB->instrument().isGuitar()) {
           TfingerPos answPos(INSTRUMENT->technical()), questPos;
-          if (curQ->questionAsFret()) {
+          if (curQ->questionOnInstr()) {
               if (answPos == curQ->qa.pos()) { // check has not user got answer the same as question position
                   curQ->setMistake(TQAunit::e_wrongPos);
                   qDebug("Cheater!");
@@ -604,7 +604,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
       } else {
           answNote = INSTRUMENT->note();
           m_supp->checkNotes(curQ, questNote, answNote, m_answRequire.octave, m_answRequire.accid);
-          if (curQ->questionAsNote() && m_level.instrument == Tinstrument::Bandoneon) { // check bowing (bellow direction)
+          if (curQ->questionOnScore() && m_level.instrument == Tinstrument::Bandoneon) { // check bowing (bellow direction)
             Ttechnical bowFromInstr(INSTRUMENT->technical()), bowFomScore(MAIN_SCORE->technical(0));
             if (bowFomScore.bowing() != bowFromInstr.bowing()) // TODO: it makes sense only when score will be able to select bowing
               qDebug() << "[TexamExecutor check answer] mistake: wrong bellow direction";
@@ -613,7 +613,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
   } else {
       if (curQ->melody()) { // 2. or checking melodies
           curQ->setMistake(TQAunit::e_correct); // reset an answer
-          if (curQ->answerAsNote()) { // dictation
+          if (curQ->answerOnScore()) { // dictation
             Tmelody answMelody;
 //             SCORE->getMelody(&answMelody);
             m_supp->compareMelodies(curQ->melody(), &answMelody, curQ->lastAttempt());
@@ -652,7 +652,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
           // Another case is poor or very poor effectiveness but it is obtained after effect. update in sumarizeAnswer()
       } else { // 3. or checking are the notes the same
           m_supp->checkNotes(curQ, questNote, answNote, m_answRequire.octave, m_answRequire.accid);
-          if (!m_answRequire.accid && curQ->isCorrect() && (curQ->answerAsNote() || curQ->answerAsName())) {
+          if (!m_answRequire.accid && curQ->isCorrect() && (curQ->answerOnScore() || curQ->answerAsName())) {
       // Save user given note when it is correct and accidental was not forced to respect kind of accidental
             if (curQ->questionAs == curQ->answerAs)
               curQ->qa_2.note = userNote;
@@ -856,10 +856,10 @@ void TexamExecutor::markAnswer(TQAunit* curQ) {
     }
   } else {
     switch (curQ->answerAs) {
-      case TQAtype::e_asNote:
+      case TQAtype::e_onScore:
         MAIN_SCORE->markNoteHead(markColor, 0);
         break;
-      case TQAtype::e_asFretPos:
+      case TQAtype::e_onInstr:
         INSTRUMENT->markSelected(markColor);
         break;
       case TQAtype::e_asName:
@@ -870,10 +870,10 @@ void TexamExecutor::markAnswer(TQAunit* curQ) {
         break;
     }
     switch (curQ->questionAs) {
-      case TQAtype::e_asNote:
+      case TQAtype::e_onScore:
         MAIN_SCORE->markNoteHead(markColor, 1);
         break;
-      case TQAtype::e_asFretPos:
+      case TQAtype::e_onInstr:
         INSTRUMENT->markSelected(markColor);
         break;
       case TQAtype::e_asName:
@@ -1234,7 +1234,7 @@ void TexamExecutor::stopExerciseSlot() {
         m_exam->skipLast(true);
       }
       // user still can take new attempt to correct a melody, so hide it
-      if (m_isAnswered && m_exam->curQ()->melody() && m_exam->curQ()->answerAsNote() && !m_exam->curQ()->isCorrect()) 
+      if (m_isAnswered && m_exam->curQ()->melody() && m_exam->curQ()->answerOnScore() && !m_exam->curQ()->isCorrect()) 
         m_exam->curQ()->melody()->setTitle(m_exam->curQ()->melody()->title() + QLatin1String(";skip"));
       m_penalty->updateExamTimes();
       m_exerciseTmpStyle = GLOB->S->nameStyleInNoteName;
@@ -1261,7 +1261,7 @@ void TexamExecutor::finishExerciseAfterSummary() {
 void TexamExecutor::restoreExerciseAfterSummary() {
   if (m_summaryReason == SumFinishExer) {
     m_summaryReason = NoReason;
-    if (m_isAnswered && m_exam->curQ()->melody() && m_exam->curQ()->answerAsNote() && !m_exam->curQ()->isCorrect()) // revert melody title
+    if (m_isAnswered && m_exam->curQ()->melody() && m_exam->curQ()->answerOnScore() && !m_exam->curQ()->isCorrect()) // revert melody title
       m_exam->curQ()->melody()->setTitle(m_exam->curQ()->melody()->title().remove(QLatin1String(";skip")));
     if (m_isAnswered)
         m_exam->curQ()->setAnswered();

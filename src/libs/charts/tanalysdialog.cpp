@@ -216,7 +216,7 @@ void TanalysDialog::setExam(Texam* exam) {
       enableComboItem(m_XorderCombo, 1, false);
   // sort by fret  
   if (!m_exam->melodies() && (m_exam->level()->canBeGuitar() ||
-      m_exam->level()->answersAs[TQAtype::e_asNote].isSound() || // answers as played sound are also important
+      m_exam->level()->answersAs[TQAtype::e_onScore].isSound() || // answers as played sound are also important
       m_exam->level()->answersAs[TQAtype::e_asName].isSound() ||
       m_exam->level()->answersAs[TQAtype::e_asSound].isSound()) )
         enableComboItem(m_XorderCombo, 2, true);

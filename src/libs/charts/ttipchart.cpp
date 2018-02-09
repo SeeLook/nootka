@@ -47,15 +47,15 @@ TtipChart::TtipChart(TquestionPoint *point) :
           TquestionAsWdg::answerTxt() + ": <b>" + TquestionAsWdg::qaTypeText(point->question()->answerAs) + "</b><br>";
   QString qS = "", aS = "";
   switch (point->question()->questionAs) {
-    case TQAtype::e_asNote : {
+    case TQAtype::e_onScore : {
       int qStrNr = 0;
-      if (point->question()->answerAs == TQAtype::e_asFretPos) {
+      if (point->question()->answerAs == TQAtype::e_onInstr) {
         qStrNr = point->question()->qa.pos.str();
         if (qStrNr < 1 || qStrNr > 6)
           qStrNr = 0; // to avoid any stupidity
       }
       qS = wrapPixToHtml(point->question()->qa.note, true, point->question()->key, 4.0, qStrNr);
-      if (point->question()->answerAs == TQAtype::e_asNote) {
+      if (point->question()->answerAs == TQAtype::e_onScore) {
           qS = wrapPixToHtml(point->question()->qa.note, true, TkeySignature(0)); // no key in question
           aS = wrapPixToHtml(point->question()->qa_2.note, true, point->question()->key);
       }
@@ -68,7 +68,7 @@ TtipChart::TtipChart(TquestionPoint *point) :
           aS = "<span style=\"font-size: xx-large;\">" + point->question()->qa_2.note.toRichText(point->question()->styleOfAnswer())
                 + "</span>";
       break;
-    case TQAtype::e_asFretPos:
+    case TQAtype::e_onInstr:
         qS = point->question()->qa.pos.toHtml();
       break;
     case TQAtype::e_asSound:
@@ -79,21 +79,21 @@ TtipChart::TtipChart(TquestionPoint *point) :
   }
   if (aS == "") {
       switch (point->question()->answerAs) {
-        case TQAtype::e_asNote :
+        case TQAtype::e_onScore :
           aS = wrapPixToHtml(point->question()->qa.note, true, point->question()->key);
           break;
         case TQAtype::e_asName:
           aS = "<span style=\"font-size: xx-large;\">" + point->question()->qa.note.toRichText(point->question()->styleOfAnswer())
               + "</span>";
           break;
-        case TQAtype::e_asFretPos:
-          if (point->question()->questionAs == TQAtype::e_asFretPos)
+        case TQAtype::e_onInstr:
+          if (point->question()->questionAs == TQAtype::e_onInstr)
               aS = point->question()->qa_2.pos.toHtml();
           else
               aS = point->question()->qa.pos.toHtml();
           break;
         case TQAtype::e_asSound:
-          if (point->question()->questionAs == TQAtype::e_asNote)
+          if (point->question()->questionAs == TQAtype::e_onScore)
               aS = TnooFont::span("n",45);
           else
               aS = wrapPixToHtml(point->question()->qa.note, true, point->question()->key);

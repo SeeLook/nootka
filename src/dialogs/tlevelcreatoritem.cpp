@@ -132,17 +132,17 @@ void TlevelCreatorItem::checkLevel() {
 int TlevelCreatorItem::questionAs() const { return m_level->questionAs.value(); }
 void TlevelCreatorItem::setQuestionAs(int qAs) {
 CHECKTIME (
-  bool prevState = m_level->questionAs.isNote();
+  bool prevState = m_level->questionAs.isOnScore();
   bool doEmit = false;
-  m_level->questionAs.setAsNote(qAs & 1);
-  if (m_level->questionAs.isNote() != prevState) {
+  m_level->questionAs.setOnScore(qAs & 1);
+  if (m_level->questionAs.isOnScore() != prevState) {
     doEmit = true;
-    if (m_level->questionAs.isNote()) { // question checkbox was set, so select all answers
-        m_level->answersAs[TQAtype::e_asNote].setValue(15);
-        m_answersList[TQAtype::e_asNote] = 15;
+    if (m_level->questionAs.isOnScore()) { // question checkbox was set, so select all answers
+        m_level->answersAs[TQAtype::e_onScore].setValue(15);
+        m_answersList[TQAtype::e_onScore] = 15;
     } else { // question was unset, switch off all answers
-        m_level->answersAs[TQAtype::e_asNote].setValue(0);
-        m_answersList[TQAtype::e_asNote] = 0;
+        m_level->answersAs[TQAtype::e_onScore].setValue(0);
+        m_answersList[TQAtype::e_onScore] = 0;
     }
   }
   prevState = m_level->questionAs.isName();
@@ -157,16 +157,16 @@ CHECKTIME (
         m_answersList[TQAtype::e_asName] = 0;
     }
   }
-  prevState = m_level->questionAs.isFret();
-  m_level->questionAs.setAsFret(qAs & 4);
-  if (m_level->questionAs.isFret() != prevState) {
+  prevState = m_level->questionAs.isOnInstr();
+  m_level->questionAs.setOnInstr(qAs & 4);
+  if (m_level->questionAs.isOnInstr() != prevState) {
     doEmit = true;
-    if (m_level->questionAs.isFret()) { // question checkbox was set, so select all answers
-        m_level->answersAs[TQAtype::e_asFretPos].setValue(15);
-        m_answersList[TQAtype::e_asFretPos] = 15;
+    if (m_level->questionAs.isOnInstr()) { // question checkbox was set, so select all answers
+        m_level->answersAs[TQAtype::e_onInstr].setValue(15);
+        m_answersList[TQAtype::e_onInstr] = 15;
     } else { // question was unset, switch off all answers
-        m_level->answersAs[TQAtype::e_asFretPos].setValue(0);
-        m_answersList[TQAtype::e_asFretPos] = 0;
+        m_level->answersAs[TQAtype::e_onInstr].setValue(0);
+        m_answersList[TQAtype::e_onInstr] = 0;
     }
   }
   prevState = m_level->questionAs.isSound();
@@ -192,9 +192,9 @@ void TlevelCreatorItem::setAnswersAs(QList<int> aAs) {
   for (int a = 0; a < 4; ++a) {
     m_level->answersAs[a].setValue(aAs[a]);
     switch (a) {
-      case 0: m_level->questionAs.setAsNote(aAs[a] != 0); break;
+      case 0: m_level->questionAs.setOnScore(aAs[a] != 0); break;
       case 1: m_level->questionAs.setAsName(aAs[a] != 0); break;
-      case 2: m_level->questionAs.setAsFret(aAs[a] != 0); break;
+      case 2: m_level->questionAs.setOnInstr(aAs[a] != 0); break;
       case 3: m_level->questionAs.setAsSound(aAs[a] != 0); break;
     }
   }
@@ -209,9 +209,9 @@ CHECKTIME (
     m_level->answersAs[questionType].setValue(answersValue);
     m_answersList[questionType] = answersValue;
     switch (questionType) {
-      case 0: m_level->questionAs.setAsNote(answersValue != 0); break;
+      case 0: m_level->questionAs.setOnScore(answersValue != 0); break;
       case 1: m_level->questionAs.setAsName(answersValue != 0); break;
-      case 2: m_level->questionAs.setAsFret(answersValue != 0); break;
+      case 2: m_level->questionAs.setOnInstr(answersValue != 0); break;
       case 3: m_level->questionAs.setAsSound(answersValue != 0); break;
     }
     levelParamChanged();
@@ -245,21 +245,21 @@ void TlevelCreatorItem::setOnlyLowPos(bool only) {
 }
 
 bool TlevelCreatorItem::playMelody() const {
-  return m_level->canBeMelody() && m_level->questionAs.isNote() && m_level->answersAs[TQAtype::e_asNote].isSound();
+  return m_level->canBeMelody() && m_level->questionAs.isOnScore() && m_level->answersAs[TQAtype::e_onScore].isSound();
 }
 void TlevelCreatorItem::setPlayMelody(bool play) {
-  m_level->answersAs[TQAtype::e_asNote].setAsSound(play);
-  m_level->questionAs.setAsNote(m_level->answersAs[TQAtype::e_asNote].value() != 0);
-  m_answersList[TQAtype::e_asNote] = m_level->answersAs[TQAtype::e_asNote].value();
+  m_level->answersAs[TQAtype::e_onScore].setAsSound(play);
+  m_level->questionAs.setOnScore(m_level->answersAs[TQAtype::e_onScore].value() != 0);
+  m_answersList[TQAtype::e_onScore] = m_level->answersAs[TQAtype::e_onScore].value();
   levelParamChanged();
   emit updateLevel();
 }
 
 bool TlevelCreatorItem::writeMelody() const {
-  return m_level->canBeMelody() && m_level->questionAs.isSound() && m_level->answersAs[TQAtype::e_asSound].isNote();
+  return m_level->canBeMelody() && m_level->questionAs.isSound() && m_level->answersAs[TQAtype::e_asSound].isOnScore();
 }
 void TlevelCreatorItem::setWriteMelody(bool write) {
-  m_level->answersAs[TQAtype::e_asSound].setAsNote(write);
+  m_level->answersAs[TQAtype::e_asSound].setOnScore(write);
   m_level->questionAs.setAsSound(m_level->answersAs[TQAtype::e_asSound].value() != 0);
   m_answersList[TQAtype::e_asSound] = m_level->answersAs[TQAtype::e_asSound].value();
   levelParamChanged();
@@ -576,17 +576,17 @@ QString TlevelCreatorItem::validateLevel() {
   if (m_level->requireStyle && !m_level->canBeName())
       res += tr("<li>'Use different naming styles' was checked but neither questions nor answers as note name are checked.<br>Check this type of answer/question or uncheck 'Use different naming styles'.</li>");
 // Check are questions and answers as note on the staff have sense (are different)
-  if (m_level->questionAs.isNote() && m_level->answersAs[TQAtype::e_asNote].isNote())
+  if (m_level->questionAs.isOnScore() && m_level->answersAs[TQAtype::e_onScore].isOnScore())
     if (!m_level->manualKey && !m_level->forceAccids)
       res += tr("<li>Questions and answers as notes on the staff will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.</li>");
 // Check is possible of manualKey
   if (m_level->useKeySign && m_level->manualKey) {
-    if (!m_level->answersAs[TQAtype::e_asNote].isNote() && !m_level->answersAs[TQAtype::e_asName].isNote() &&
-      !m_level->answersAs[TQAtype::e_asFretPos].isNote() && !m_level->answersAs[TQAtype::e_asSound].isNote() )
+    if (!m_level->answersAs[TQAtype::e_onScore].isOnScore() && !m_level->answersAs[TQAtype::e_asName].isOnScore() &&
+      !m_level->answersAs[TQAtype::e_onInstr].isOnScore() && !m_level->answersAs[TQAtype::e_asSound].isOnScore() )
         res += tr("<li>Manual selecting of a key signature was checked but answer as note on the staff was not checked.</li>");
   }
 // 'Fret to fret' has to have suitable fret range to be possible
-  if (m_level->questionAs.isFret() && m_level->answersAs[TQAtype::e_asFretPos].isFret()) {
+  if (m_level->questionAs.isOnInstr() && m_level->answersAs[TQAtype::e_onInstr].isOnInstr()) {
     int minRange = 0; // first determine a minimal range for current tune
     int startStr = GLOB->Gtune()->str(GLOB->strOrder(0) + 1).chromatic();
     for (int i = 1; i < GLOB->Gtune()->stringNr(); i++) {

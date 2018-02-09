@@ -102,7 +102,7 @@ QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, Tlevel *level, bool &
       TgroupedQAunit noteList;
       for (int k = 0; k < answList.size(); k++) {
         if (answList[k].qaPtr->qa.note == theSame[j]) {
-            if (answList[k].qaPtr->questionAs != TQAtype::e_asFretPos || answList[k].qaPtr->answerAs != TQAtype::e_asFretPos)
+            if (answList[k].qaPtr->questionAs != TQAtype::e_onInstr || answList[k].qaPtr->answerAs != TQAtype::e_onInstr)
                 noteList.addQAunit(answList[k]);
         }
       }
@@ -112,11 +112,11 @@ QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, Tlevel *level, bool &
       }
     }
   }
-  if (level->questionAs.isFret() && level->answersAs[2].isFret()) {
+  if (level->questionAs.isOnInstr() && level->answersAs[2].isOnInstr()) {
       TgroupedQAunit ignoredList; // ignore answers without notes
       for (int k = 0; k < answList.size(); k++)
-            if (answList[k].qaPtr->questionAs == TQAtype::e_asFretPos && 
-              answList[k].qaPtr->questionAs == TQAtype::e_asFretPos)
+            if (answList[k].qaPtr->questionAs == TQAtype::e_onInstr && 
+              answList[k].qaPtr->questionAs == TQAtype::e_onInstr)
                       ignoredList.addQAunit(answList[k]);
       if (!ignoredList.isEmpty()) {
         result << ignoredList; // add ignoredList at the end
@@ -135,8 +135,8 @@ QList<TgroupedQAunit> sortByFret(TgroupedQAunit& answList, Tlevel *level, bool& 
     // search all list for each fret in level's fret range
     TgroupedQAunit fretList;
     for (int i = 0; i < answList.size(); i++) {
-      if (answList[i].qaPtr->questionAs == TQAtype::e_asFretPos ||
-          answList[i].qaPtr->answerAs == TQAtype::e_asFretPos ||
+      if (answList[i].qaPtr->questionAs == TQAtype::e_onInstr ||
+          answList[i].qaPtr->answerAs == TQAtype::e_onInstr ||
           answList[i].qaPtr->answerAs == TQAtype::e_asSound) { // is a question related to guitar
         if (f == answList[i].qaPtr->qa.pos.fret())
             fretList.addQAunit(answList[i]);
@@ -164,7 +164,7 @@ QList<TgroupedQAunit> sortByKeySignature(TgroupedQAunit& answList, Tlevel *level
   for (int k = level->loKey.value(); k <= level->hiKey.value(); k++) {
         TgroupedQAunit majors, minors;
     for (int i = 0; i < answList.size(); i++) {
-        if (answList[i].qaPtr->questionAsNote() || answList[i].qaPtr->answerAsNote()) {
+        if (answList[i].qaPtr->questionOnScore() || answList[i].qaPtr->answerOnScore()) {
             if (answList[i].qaPtr->key.value() == k) {
               if (answList[i].qaPtr->key.isMinor())
                   minors.addQAunit(answList[i]);
@@ -181,21 +181,21 @@ QList<TgroupedQAunit> sortByKeySignature(TgroupedQAunit& answList, Tlevel *level
 			if (!majors.first()->melody()) {
 				QList<TgroupedQAunit> majSorted = sortByNote(majors, level, tmpBool);
 				TgroupedQAunit mS = mergeListOfLists(majSorted);
-				divideQuestionsAndAnswers(result, mS, TQAtype::e_asNote);
+				divideQuestionsAndAnswers(result, mS, TQAtype::e_onScore);
 			} else
-					divideQuestionsAndAnswers(result, majors, TQAtype::e_asNote);
+					divideQuestionsAndAnswers(result, majors, TQAtype::e_onScore);
     }
     if (!minors.isEmpty()) {
 			if (!minors.first()->melody()) {
 				QList<TgroupedQAunit> minSorted = sortByNote(minors, level, tmpBool);
 				TgroupedQAunit mS = mergeListOfLists(minSorted);
-				divideQuestionsAndAnswers(result, mS, TQAtype::e_asNote);
+				divideQuestionsAndAnswers(result, mS, TQAtype::e_onScore);
 			} else
-					divideQuestionsAndAnswers(result, minors, TQAtype::e_asNote);
+					divideQuestionsAndAnswers(result, minors, TQAtype::e_onScore);
     }
   }
   for (int i = 0; i < result.size(); i++) {
-    QString desc = result[i].list.first().qaPtr->key.getName() + "<br>" + getWasInAnswOrQuest(TQAtype::e_asNote, result[i].first());
+    QString desc = result[i].list.first().qaPtr->key.getName() + "<br>" + getWasInAnswOrQuest(TQAtype::e_onScore, result[i].first());
     result[i].resume(desc, "<b>" + TgroupedQAunit::for_a_key() + "<big>  " +
                 result[i].first()->key.getName() + "</big></b>" +
     wereKeys(level->manualKey, result[i].list.first().qaPtr->answerAs));
@@ -210,7 +210,7 @@ QList<TgroupedQAunit> sortByKeySignature(TgroupedQAunit& answList, Tlevel *level
 
 QString wereKeys(bool manualKeys, TQAtype::Etype answerType) {
   QString wereK = "";
-  if (manualKeys && answerType == TQAtype::e_asNote)
+  if (manualKeys && answerType == TQAtype::e_onScore)
     wereK = "<br><i>(" + QApplication::translate("TlinearChart", "Key signatures given by user") + ")</i>";
   return wereK;
 }
@@ -222,8 +222,8 @@ QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, Tlevel* level,
   TgroupedQAunit accidsArray[6]; // 0 - bb, 1 - b, 2 - none, 3 - #, 4 - x, 5 - unrelated
   for (int i = 0; i < answList.size(); i++) {
 //    bool accidFound = false;
-    if (answList[i].qaPtr->questionAs == TQAtype::e_asNote || answList[i].qaPtr->questionAs == TQAtype::e_asName ||
-      answList[i].qaPtr->answerAs == TQAtype::e_asNote || answList[i].qaPtr->answerAs == TQAtype::e_asName) {
+    if (answList[i].qaPtr->questionAs == TQAtype::e_onScore || answList[i].qaPtr->questionAs == TQAtype::e_asName ||
+      answList[i].qaPtr->answerAs == TQAtype::e_onScore || answList[i].qaPtr->answerAs == TQAtype::e_asName) {
         accidsArray[answList[i].qaPtr->qa.note.alter() + 2].addQAunit(answList[i]);
         if (answList[i].qaPtr->qa_2.note.note() && answList[i].qaPtr->qa_2.note.alter() != answList[i].qaPtr->qa.note.alter())
             accidsArray[answList[i].qaPtr->qa_2.note.alter() + 2].addQAunit(answList[i]);
@@ -257,15 +257,15 @@ QList<TgroupedQAunit> sortByQAtype(TgroupedQAunit& answList, Tlevel* level, bool
   TgroupedQAunit qaTypesArr[4][4]; 
   for (int i = 0; i < answList.size(); i++) {
     switch (answList[i].qaPtr->questionAs) {
-      case TQAtype::e_asNote :
+      case TQAtype::e_onScore :
             switch (answList[i].qaPtr->answerAs) {
-              case TQAtype::e_asNote :
+              case TQAtype::e_onScore :
                 qaTypesArr[0][0].addQAunit(answList[i]);
                 break;
               case TQAtype::e_asName :
                 qaTypesArr[0][1].addQAunit(answList[i]);
                 break;
-              case TQAtype::e_asFretPos :
+              case TQAtype::e_onInstr :
                 qaTypesArr[0][2].addQAunit(answList[i]);
                 break;
               case TQAtype::e_asSound :
@@ -275,13 +275,13 @@ QList<TgroupedQAunit> sortByQAtype(TgroupedQAunit& answList, Tlevel* level, bool
         break;
       case TQAtype::e_asName :
             switch (answList[i].qaPtr->answerAs) {
-              case TQAtype::e_asNote :
+              case TQAtype::e_onScore :
                 qaTypesArr[1][0].addQAunit(answList[i]);
                 break;
               case TQAtype::e_asName :
                 qaTypesArr[1][1].addQAunit(answList[i]);
                 break;
-              case TQAtype::e_asFretPos :
+              case TQAtype::e_onInstr :
                 qaTypesArr[1][2].addQAunit(answList[i]);
                 break;
               case TQAtype::e_asSound :
@@ -289,15 +289,15 @@ QList<TgroupedQAunit> sortByQAtype(TgroupedQAunit& answList, Tlevel* level, bool
                 break;
         }
         break;
-      case TQAtype::e_asFretPos :
+      case TQAtype::e_onInstr :
             switch (answList[i].qaPtr->answerAs) {
-              case TQAtype::e_asNote :
+              case TQAtype::e_onScore :
                 qaTypesArr[2][0].addQAunit(answList[i]);
                 break;
               case TQAtype::e_asName :
                 qaTypesArr[2][1].addQAunit(answList[i]);
                 break;
-              case TQAtype::e_asFretPos :
+              case TQAtype::e_onInstr :
                 qaTypesArr[2][2].addQAunit(answList[i]);
                 break;
               case TQAtype::e_asSound :
@@ -307,13 +307,13 @@ QList<TgroupedQAunit> sortByQAtype(TgroupedQAunit& answList, Tlevel* level, bool
         break;
       case TQAtype::e_asSound :
             switch (answList[i].qaPtr->answerAs) {
-              case TQAtype::e_asNote :
+              case TQAtype::e_onScore :
                 qaTypesArr[0][0].addQAunit(answList[i]);
                 break;
               case TQAtype::e_asName :
                 qaTypesArr[0][1].addQAunit(answList[i]);
                 break;
-              case TQAtype::e_asFretPos :
+              case TQAtype::e_onInstr :
                 qaTypesArr[0][2].addQAunit(answList[i]);
                 break;
               case TQAtype::e_asSound :
@@ -328,7 +328,7 @@ QList<TgroupedQAunit> sortByQAtype(TgroupedQAunit& answList, Tlevel* level, bool
       if (!qaTypesArr[q][a].isEmpty()) {
 				QString fDesc;
 				if (level->canBeMelody()) {
-					if (qaTypesArr[q][a].first()->questionAs == TQAtype::e_asNote)
+					if (qaTypesArr[q][a].first()->questionAs == TQAtype::e_onScore)
 						fDesc = TexTrans::playMelodyTxt();
 					else
 						fDesc = TexTrans::writeMelodyTxt();
@@ -367,11 +367,11 @@ QList<TgroupedQAunit> sortByMisakes(TgroupedQAunit& answList, Tlevel* level, boo
   ;
   for (int i = 0; i < answList.size(); i++) {
     if (answList[i].qaPtr->isCorrect()) {
-      if (answList[i].qaPtr->answerAs == TQAtype::e_asNote || 
+      if (answList[i].qaPtr->answerAs == TQAtype::e_onScore || 
           answList[i].qaPtr->answerAs == TQAtype::e_asName || 
           answList[i].qaPtr->answerAs == TQAtype::e_asSound) {
           mistakesArr[0].addQAunit(answList[i]); // correct note
-          if (level->useKeySign && level->manualKey && answList[i].qaPtr->answerAs == TQAtype::e_asNote)
+          if (level->useKeySign && level->manualKey && answList[i].qaPtr->answerAs == TQAtype::e_onScore)
             mistakesArr[4].addQAunit(answList[i]); // correct key signature
           // TODO grab correct style here
       }

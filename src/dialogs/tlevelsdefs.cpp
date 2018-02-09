@@ -80,7 +80,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
     l.desc = QGuiApplication::translate("Tlevel", "Some note of C-major scale point on the instrument, or give its name or show in the score.");
   l.instrument = GLOB->instrument().type();
   bool isSomeInstr = GLOB->instrument().type() != Tinstrument::NoInstrument;
-  l.questionAs.setAsFret(isSomeInstr);
+  l.questionAs.setOnInstr(isSomeInstr);
   l.answersAs[0] = TQAtype(false, true, isSomeInstr, false);
   l.answersAs[1] = TQAtype(true, false, isSomeInstr, false);
   l.answersAs[2] = TQAtype(isSomeInstr, isSomeInstr, false, false);
@@ -136,7 +136,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
     l.clef = Tclef(Tclef::PianoStaffClefs);
     l.instrument = GLOB->instrument().type();
     l.questionAs.setAsSound(false);
-    l.questionAs.setAsFret(isGuitar);
+    l.questionAs.setOnInstr(isGuitar);
     l.answersAs[0] = TQAtype(false, true, isGuitar, false);
     l.answersAs[1] = TQAtype(true, false, false, false);
     l.answersAs[2] = TQAtype(isGuitar, false, false, false);
@@ -185,7 +185,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
     l.name = QGuiApplication::translate("Tlevel", "Bass clef");
     l.desc = QGuiApplication::translate("Tlevel", "Play a short and simple melody in bass clef");
     l.clef = Tclef(Tclef::Bass_F);
-    l.questionAs.setAsFret(false); // no guitar
+    l.questionAs.setOnInstr(false); // no guitar
     l.questionAs.setAsName(false); // no names
     l.questionAs.setAsSound(false); // don't play
     l.answersAs[0] = TQAtype(false, false, false, true); // score only
@@ -227,9 +227,9 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l = Tlevel();
   l.name = QGuiApplication::translate("Tlevel", "Ear training");
   l.desc = QGuiApplication::translate("Tlevel", "Listen to a sound and show it on the staff.<br>Guitar, note names and key signatures are not used.<br>Scale a - a<sup>2</sup>.");
-  l.questionAs.setAsFret(false); // no guitar
+  l.questionAs.setOnInstr(false); // no guitar
   l.questionAs.setAsName(false); // no names
-  l.questionAs.setAsNote(false); // score only as an question
+  l.questionAs.setOnScore(false); // score only as an question
   l.answersAs[0] = TQAtype(false, false, false, false);
   l.answersAs[1] = TQAtype(false, false, false, false);
   l.answersAs[2] = TQAtype(false, false, false, false);
@@ -258,7 +258,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
     l = Tlevel();
     l.name = QGuiApplication::translate("Tlevel", "Melody on trebles");
     l.desc = QGuiApplication::translate("Tlevel", "Play short melody on treble strings with notes just on first three frets. Sharps keys only.");
-    l.questionAs.setAsFret(false); // no guitar
+    l.questionAs.setOnInstr(false); // no guitar
     l.questionAs.setAsName(false); // no names
     l.questionAs.setAsSound(false); // don't play
     l.answersAs[0] = TQAtype(false, false, false, true); // score only
@@ -294,7 +294,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l = Tlevel();
   l.name = QGuiApplication::translate("Tlevel", "Play scores");
   l.desc = QGuiApplication::translate("Tlevel", "Take your instrument and just play...<br>No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.");
-  l.questionAs.setAsFret(false); // no guitar
+  l.questionAs.setOnInstr(false); // no guitar
   l.questionAs.setAsName(false); // no names
   l.questionAs.setAsSound(false); // don't play
   l.answersAs[0] = TQAtype(false, false, false, true); // score only
@@ -326,7 +326,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l = Tlevel();
   l.name = QGuiApplication::translate("Tlevel", "Sing scores");
   l.desc = QGuiApplication::translate("Tlevel", "Just sing a score...<br>No note names, no fretboard, no keys and double accids. Scale doesn't matter because octaves are ignored - you can transpose.");
-  l.questionAs.setAsFret(false); // no guitar
+  l.questionAs.setOnInstr(false); // no guitar
   l.questionAs.setAsName(false); // no names
   l.questionAs.setAsSound(false); // don't play
   l.answersAs[0] = TQAtype(false, false, false, true); // score only
@@ -357,7 +357,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l = Tlevel();
   l.name = QGuiApplication::translate("Tlevel", "Play grand staff");
   l.desc = QGuiApplication::translate("Tlevel", "Play random melodies from two staves of piano notation. Keys up to four accidentals.");
-  l.questionAs.setAsFret(false); // no guitar
+  l.questionAs.setOnInstr(false); // no guitar
   l.questionAs.setAsName(false); // no names
   l.questionAs.setAsSound(false); // don't play
   l.answersAs[0] = TQAtype(false, false, false, true); // score only
@@ -399,7 +399,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l = Tlevel();
   l.name = QGuiApplication::translate("Tlevel", "Pentatonic");
   l.desc = QGuiApplication::translate("Tlevel", "Play melody composed from pentatonic scale, every time in different key signature.");
-  l.questionAs.setAsFret(false); // no guitar
+  l.questionAs.setOnInstr(false); // no guitar
   l.questionAs.setAsName(false); // no names
   l.questionAs.setAsSound(false); // don't play
   l.answersAs[0] = TQAtype(false, false, false, true); // score only

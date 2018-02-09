@@ -79,12 +79,12 @@ void TXaxis::setTicText(QGraphicsTextItem *tic, TQAunit* unit, int questNr) {
     txt.replace("<br>", "");
   else {
     txt += QString("<b>%1</b>").arg(unit->qa.note.toRichText()) + altStyleText;
-    if (unit->questionAs == TQAtype::e_asFretPos || unit->answerAs == TQAtype::e_asFretPos || unit->answerAs == TQAtype::e_asSound)
+    if (unit->questionAs == TQAtype::e_onInstr || unit->answerAs == TQAtype::e_onInstr || unit->answerAs == TQAtype::e_asSound)
         txt += "<br>" + TnooFont::span(QString::number((int)unit->qa.pos.str()), 15) + 
               QString("<span style=\"font-size: 15px;\">%1</span>").arg(TfingerPos::romanFret(unit->qa.pos.fret()));
   }
   if (m_level->useKeySign &&
-    (unit->questionAs == TQAtype::e_asNote || unit->answerAs == TQAtype::e_asNote)) {
+    (unit->questionAs == TQAtype::e_onScore || unit->answerAs == TQAtype::e_onScore)) {
       txt += "<br><i>" + unit->key.getName() + "</i>";
   }
   tic->setHtml(txt);

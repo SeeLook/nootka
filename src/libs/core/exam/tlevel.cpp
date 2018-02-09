@@ -216,32 +216,32 @@ Tlevel::EerrorType Tlevel::qaTypeFromXml(QXmlStreamReader& xml) {
   int id = qa.fromXml(xml);
   if (id == -1) {
       questionAs = qa;
-      if (!questionAs.isNote() && !questionAs.isName() && !questionAs.isFret() && !questionAs.isSound()) {
+      if (!questionAs.isOnScore() && !questionAs.isName() && !questionAs.isOnInstr() && !questionAs.isSound()) {
         qDebug() << "There are not any questions in a level. It makes no sense.";
         return e_otherError;
       }
   } else if (id >= 0 && id < 4) {
       answersAs[id] = qa;
       // verify every answersAs context and set corresponding questionAs to false when all were unset (false)
-      if (questionAs.isNote() &&
-        (!answersAs[0].isNote() && !answersAs[0].isName() && !answersAs[0].isFret() && !answersAs[0].isSound())) {
+      if (questionAs.isOnScore() &&
+        (!answersAs[0].isOnScore() && !answersAs[0].isName() && !answersAs[0].isOnInstr() && !answersAs[0].isSound())) {
           er = e_levelFixed;
-          questionAs.setAsNote(false);
+          questionAs.setOnScore(false);
       }
       if (questionAs.isName() &&
-        (!answersAs[1].isNote() && !answersAs[1].isName() && !answersAs[1].isFret() && !answersAs[1].isSound())) {
+        (!answersAs[1].isOnScore() && !answersAs[1].isName() && !answersAs[1].isOnInstr() && !answersAs[1].isSound())) {
           er = e_levelFixed;
           questionAs.setAsName(false);
       }
-      if (questionAs.isFret() &&
-        (!answersAs[2].isNote() && !answersAs[2].isName() && !answersAs[2].isFret() && !answersAs[2].isSound())) {
+      if (questionAs.isOnInstr() &&
+        (!answersAs[2].isOnScore() && !answersAs[2].isName() && !answersAs[2].isOnInstr() && !answersAs[2].isSound())) {
           er = e_levelFixed;
-          questionAs.setAsFret(false);
+          questionAs.setOnInstr(false);
       }
       if (questionAs.isSound() &&
-        (!answersAs[3].isNote() && !answersAs[3].isName() && !answersAs[3].isFret() && !answersAs[3].isSound())) {
+        (!answersAs[3].isOnScore() && !answersAs[3].isName() && !answersAs[3].isOnInstr() && !answersAs[3].isSound())) {
           er = e_levelFixed;
-          questionAs.setAsNote(false);
+          questionAs.setOnScore(false);
       }
   }
   return er;
@@ -575,10 +575,10 @@ Tinstrument::Etype Tlevel::detectInstrument(Tinstrument::Etype currInstr) {
  * better check this again to avoid further problems. 
  */
 bool Tlevel::canBeScore() const {
-  if (questionAs.isNote() ||
-    (questionAs.isName() && answersAs[TQAtype::e_asName].isNote()) ||
-    (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isNote()) ||
-    (questionAs.isSound() && answersAs[TQAtype::e_asSound].isNote())  )
+  if (questionAs.isOnScore() ||
+    (questionAs.isName() && answersAs[TQAtype::e_asName].isOnScore()) ||
+    (questionAs.isOnInstr() && answersAs[TQAtype::e_onInstr].isOnScore()) ||
+    (questionAs.isSound() && answersAs[TQAtype::e_asSound].isOnScore())  )
       return true;
   else
       return false;
@@ -586,8 +586,8 @@ bool Tlevel::canBeScore() const {
 
 bool Tlevel::canBeName() const {
   if (questionAs.isName() ||
-    (questionAs.isNote() && answersAs[TQAtype::e_asNote].isName()) ||
-    (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isName()) ||
+    (questionAs.isOnScore() && answersAs[TQAtype::e_onScore].isName()) ||
+    (questionAs.isOnInstr() && answersAs[TQAtype::e_onInstr].isName()) ||
     (questionAs.isSound() && answersAs[TQAtype::e_asSound].isName())  )
       return true;
   else
@@ -595,10 +595,10 @@ bool Tlevel::canBeName() const {
 }
 
 bool Tlevel::canBeGuitar() const {
-  if (questionAs.isFret() ||
-    (questionAs.isName() && answersAs[TQAtype::e_asName].isFret()) ||
-    (questionAs.isNote() && answersAs[TQAtype::e_asNote].isFret()) ||
-    (questionAs.isSound() && answersAs[TQAtype::e_asSound].isFret())  )
+  if (questionAs.isOnInstr() ||
+    (questionAs.isName() && answersAs[TQAtype::e_asName].isOnInstr()) ||
+    (questionAs.isOnScore() && answersAs[TQAtype::e_onScore].isOnInstr()) ||
+    (questionAs.isSound() && answersAs[TQAtype::e_asSound].isOnInstr())  )
       return true;
   else
       return false;
@@ -607,8 +607,8 @@ bool Tlevel::canBeGuitar() const {
 bool Tlevel::canBeSound() const {
   if (questionAs.isSound() ||
     (questionAs.isName() && answersAs[TQAtype::e_asName].isSound()) ||
-    (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isSound()) ||
-    (questionAs.isNote() && answersAs[TQAtype::e_asNote].isSound())  )
+    (questionAs.isOnInstr() && answersAs[TQAtype::e_onInstr].isSound()) ||
+    (questionAs.isOnScore() && answersAs[TQAtype::e_onScore].isSound())  )
       return true;
   else
       return false;
@@ -620,8 +620,8 @@ bool Tlevel::canBeSound() const {
  */
 bool Tlevel::canBeMelody() const {
   if (melodyLen > 1 &&
-      ((questionAs.isNote() && answersAs[TQAtype::e_asNote].isSound()) ||
-      (questionAs.isSound() && answersAs[TQAtype::e_asSound].isNote()) ||
+      ((questionAs.isOnScore() && answersAs[TQAtype::e_onScore].isSound()) ||
+      (questionAs.isSound() && answersAs[TQAtype::e_asSound].isOnScore()) ||
       (questionAs.isSound() && answersAs[TQAtype::e_asSound].isSound())) )
     return true;
   else
@@ -634,19 +634,19 @@ bool Tlevel::canBeMelody() const {
  * Unfortunately built-in levels are not so perfect.
  */
 bool Tlevel::answerIsNote() const {
-  if ((questionAs.isNote() && answersAs[TQAtype::e_asNote].isNote()) ||
-      (questionAs.isName() && answersAs[TQAtype::e_asName].isNote()) ||
-      (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isNote()) ||
-      (questionAs.isSound() && answersAs[TQAtype::e_asSound].isNote()) )
+  if ((questionAs.isOnScore() && answersAs[TQAtype::e_onScore].isOnScore()) ||
+      (questionAs.isName() && answersAs[TQAtype::e_asName].isOnScore()) ||
+      (questionAs.isOnInstr() && answersAs[TQAtype::e_onInstr].isOnScore()) ||
+      (questionAs.isSound() && answersAs[TQAtype::e_asSound].isOnScore()) )
         return true;
   else
         return false;
 }
 
 bool Tlevel::answerIsName() const {
-  if ((questionAs.isNote() && answersAs[TQAtype::e_asNote].isName()) ||
+  if ((questionAs.isOnScore() && answersAs[TQAtype::e_onScore].isName()) ||
       (questionAs.isName() && answersAs[TQAtype::e_asName].isName()) ||
-      (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isName()) ||
+      (questionAs.isOnInstr() && answersAs[TQAtype::e_onInstr].isName()) ||
       (questionAs.isSound() && answersAs[TQAtype::e_asSound].isName()) )
         return true;
   else
@@ -654,19 +654,19 @@ bool Tlevel::answerIsName() const {
 }
 
 bool Tlevel::answerIsGuitar() const {
-  if ((questionAs.isNote() && answersAs[TQAtype::e_asNote].isFret()) ||
-      (questionAs.isName() && answersAs[TQAtype::e_asName].isFret()) ||
-      (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isFret()) ||
-      (questionAs.isSound() && answersAs[TQAtype::e_asSound].isFret()) )
+  if ((questionAs.isOnScore() && answersAs[TQAtype::e_onScore].isOnInstr()) ||
+      (questionAs.isName() && answersAs[TQAtype::e_asName].isOnInstr()) ||
+      (questionAs.isOnInstr() && answersAs[TQAtype::e_onInstr].isOnInstr()) ||
+      (questionAs.isSound() && answersAs[TQAtype::e_asSound].isOnInstr()) )
         return true;
   else
         return false;
 }
 
 bool Tlevel::answerIsSound() const {
-  if ((questionAs.isNote() && answersAs[TQAtype::e_asNote].isSound()) ||
+  if ((questionAs.isOnScore() && answersAs[TQAtype::e_onScore].isSound()) ||
       (questionAs.isName() && answersAs[TQAtype::e_asName].isSound()) ||
-      (questionAs.isFret() && answersAs[TQAtype::e_asFretPos].isSound()) ||
+      (questionAs.isOnInstr() && answersAs[TQAtype::e_onInstr].isSound()) ||
       (questionAs.isSound() && answersAs[TQAtype::e_asSound].isSound()) )
         return true;
   else
