@@ -117,7 +117,7 @@ TnoteItem::TnoteItem(TstaffItem* staffObj, TnotePair* wrapper) :
   setHeight(staffObj->height());
   setAcceptHoverEvents(true);
   setZ(10);
-  setAcceptedMouseButtons(Qt::LeftButton);
+  setAcceptedMouseButtons(Qt::LeftButton | Qt::RightButton);
 
   updateNoteHead();
   connect(qApp, &QGuiApplication::paletteChanged, [=]{ setColor(qApp->palette().text().color()); });
@@ -658,7 +658,7 @@ static QElapsedTimer m_touchDuration;
  */
 void TnoteItem::mousePressEvent(QMouseEvent* event) {
   if (!m_staff->score()->readOnly()) {
-    if (event->pos().y() > 2.0 && event->pos().y() < height()) {
+    if (event->button() == Qt::LeftButton && event->pos().y() > 2.0 && event->pos().y() < height()) {
       setKeepMouseGrab(true);
       m_measure->score()->setPressedNote(this);
       m_measure->score()->touchHideTimer()->stop();
@@ -685,25 +685,27 @@ void TnoteItem::mousePressEvent(QMouseEvent* event) {
  */
 void TnoteItem::mouseReleaseEvent(QMouseEvent* event) {
   if (!m_staff->score()->readOnly()) {
-      if (event->pos().y() > 2.0 && event->pos().y() < height()) {
-        if (keepMouseGrab())
-          setKeepMouseGrab(false);
-        if (m_measure->score()->hoveredNote()) { // mouse
-            if (m_measure->score()->hoveredNote() == this)
-              m_measure->score()->noteClicked(m_measure->score()->activeYpos());
-            m_measure->score()->setPressedNote(nullptr);
-        } else { // touch
-            if (m_touchDuration.elapsed() < 190) { // confirm note
-                m_measure->score()->touchHideTimer()->stop();
-                if (m_measure->score()->activeNote() == this) // set note only when it was touched second time
-                  m_measure->score()->noteClicked(m_measure->score()->activeYpos());
-                m_measure->score()->setPressedNote(nullptr);
-                m_measure->score()->changeActiveNote(nullptr);
-            } else { // keep cursor visible
-                m_measure->score()->touchHideTimer()->start(2500);
-            }
-            m_measure->score()->setTouched(false);
-        }
+      if (event->button() == Qt::LeftButton && event->pos().y() > 2.0 && event->pos().y() < height()) {
+          if (keepMouseGrab())
+            setKeepMouseGrab(false);
+          if (m_measure->score()->hoveredNote()) { // mouse
+              if (m_measure->score()->hoveredNote() == this)
+                m_measure->score()->noteClicked(m_measure->score()->activeYpos());
+              m_measure->score()->setPressedNote(nullptr);
+          } else { // touch
+              if (m_touchDuration.elapsed() < 190) { // confirm note
+                  m_measure->score()->touchHideTimer()->stop();
+                  if (m_measure->score()->activeNote() == this) // set note only when it was touched second time
+                    m_measure->score()->noteClicked(m_measure->score()->activeYpos());
+                  m_measure->score()->setPressedNote(nullptr);
+                  m_measure->score()->changeActiveNote(nullptr);
+              } else { // keep cursor visible
+                  m_measure->score()->touchHideTimer()->start(2500);
+              }
+              m_measure->score()->setTouched(false);
+          }
+      } else if (event->button() == Qt::RightButton) {
+          m_measure->score()->setSelectedItem(this);
       }
     } else {
         if (m_measure->score()->selectInReadOnly())
