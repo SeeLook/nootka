@@ -839,7 +839,7 @@ void TnoteItem::checkAddLinesVisibility() {
   bool v = m_head->isVisible() && !m_note->isRest();
   bool betweenStaves = staff()->isPianoStaff() &&  m_notePosY >= staff()->upperLine() + 10.0 && m_notePosY < staff()->upperLine() + 21.0;
   for (int i = 0; i < 7; ++i) {
-    m_upLines[i]->setVisible(v && m_notePosY > 0.0 && i >= qFloor((m_notePosY - 1.0) / 2.0));
+    m_upLines[i]->setVisible(v && m_notePosY > 0.0 && i >= qFloor((m_notePosY - 1.0) / 2.0) && (i != 6 || !staff()->isPianoStaff()));
     qreal upp1 = staff()->upperLine() + 10.0 + i * 2;
     if (staff()->isPianoStaff()) {
         if (m_notePosY < staff()->upperLine() + 14.0)

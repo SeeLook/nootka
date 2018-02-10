@@ -24,6 +24,7 @@
 #include <string>
 #include <iostream>
 #include <unistd.h>
+
 #include <QtCore/qvariant.h>
 
 
@@ -85,7 +86,9 @@ short Tnote::chromatic() const {
 
 
 Tnote Tnote::showAsNatural() const {
-  return Tnote(Tnote(note(), octave(), alter()).chromatic());
+  Tnote n(Tnote(note(), octave(), alter()).chromatic());
+  n.setOnUpperStaff(onUpperStaff());
+  return n;
 }
 
 
@@ -105,6 +108,7 @@ Tnote Tnote::showWithFlat() const {
           outputNote.setNote(4);
         outputNote.setAlter(Tnote::e_Flat);
     }
+    outputNote.setOnUpperStaff(onUpperStaff());
     return outputNote;
   }
   return Tnote(note(), octave(), alter());
@@ -119,11 +123,12 @@ Tnote Tnote::showWithSharp() const {
           outputNote.setNote(3);
           outputNote.setAlter(Tnote::e_Sharp);
       } else if (outputNote.note() == 1) {
-          outputNote.setOctave(outputNote.octave() + 1);
+          outputNote.setOctave(outputNote.octave() - 1);
           outputNote.setNote(7);
           outputNote.setAlter(Tnote::e_Sharp);
       }
     }
+    outputNote.setOnUpperStaff(onUpperStaff());
     return outputNote;
   }
   return Tnote(note(), octave(), alter());
@@ -146,6 +151,7 @@ Tnote Tnote::showWithDoubleSharp() const {
           outputNote.setNote(note() - 1);
       }
     }
+    outputNote.setOnUpperStaff(onUpperStaff());
     return outputNote;
   }
   return Tnote(note(), octave(), alter());
@@ -176,7 +182,7 @@ Tnote Tnote::showWithDoubleFlat() const {
                 outputNote.setOctave(outputNote.octave() + 1);
             } else {
                 outputNote.setAlter(Tnote::e_DoubleFlat);
-                outputNote.setOctave(outputNote.octave() + 1);
+                outputNote.setNote(outputNote.note() + 1);
             }
         } else if (outputNote.alter() == Tnote::e_Sharp) {
             if (outputNote.note() == 2) {
@@ -190,6 +196,7 @@ Tnote Tnote::showWithDoubleFlat() const {
                 outputNote = outputNote.showWithFlat();
           }
     }
+    outputNote.setOnUpperStaff(onUpperStaff());
     return outputNote;
   }
   return Tnote(note(), octave(), alter());
@@ -197,38 +204,39 @@ Tnote Tnote::showWithDoubleFlat() const {
 
 
 TnotesList Tnote::getTheSameNotes(bool enableDbAccids) const {
-  TnotesList notesL;
+  TnotesList notesList;
   short cnt; // counter of notes. With double accidentals is 5 (4) without 3 (2)
-  notesL.push_back(Tnote(note(),octave(),alter()));
-  if (notesL[0].alter() != Tnote::e_Natural)
-    notesL.push_back(notesL[0].showAsNatural());
-  if (notesL[0].alter() != Tnote::e_Sharp)
-    notesL.push_back(notesL[0].showWithSharp());
-  if (notesL[0].alter() != Tnote::e_Flat)
-    notesL.push_back(notesL[0].showWithFlat());
+  notesList.push_back(Tnote(note(),octave(),alter()));
+  notesList[0].setOnUpperStaff(onUpperStaff());
+  if (notesList[0].alter() != Tnote::e_Natural)
+    notesList.push_back(notesList[0].showAsNatural());
+  if (notesList[0].alter() != Tnote::e_Sharp)
+    notesList.push_back(notesList[0].showWithSharp());
+  if (notesList[0].alter() != Tnote::e_Flat)
+    notesList.push_back(notesList[0].showWithFlat());
   if (enableDbAccids)  {
-    if (notesL[0].alter() != Tnote::e_DoubleSharp)
-      notesL.push_back(notesL[0].showWithDoubleSharp());
-    if (notesL[0].alter() != Tnote::e_DoubleFlat)
-      notesL.push_back(notesL[0].showWithDoubleFlat());
-    cnt = 4;
-  }
-  else cnt = 2;
-  for( int m = 0; m < cnt; m++)  {
+      if (notesList[0].alter() != Tnote::e_DoubleSharp)
+        notesList.push_back(notesList[0].showWithDoubleSharp());
+      if (notesList[0].alter() != Tnote::e_DoubleFlat)
+        notesList.push_back(notesList[0].showWithDoubleFlat());
+      cnt = 4;
+  } else
+      cnt = 2;
+  for(int m = 0; m < cnt; m++)  {
     for( int n = cnt; n > m; n--) {
-      if ((notesL[m].note() != 0) && (notesL[n].note() != 0)) {
-        if (notesL[m].compareNotes(notesL[n]))
-          notesL[n].setNote(0);
+      if ((notesList[m].note() != 0) && (notesList[n].note() != 0)) {
+        if (notesList[m].compareNotes(notesList[n]))
+          notesList[n].setNote(0);
       }
     }
   }
-  TnotesList::iterator m = notesL.end();
-  while( m != notesL.begin() ){
+  TnotesList::iterator m = notesList.end();
+  while(m != notesList.begin()){
     --m;
     if (!(*m).isValid())
-      notesL.erase(m);
+      notesList.erase(m);
   }
-  return notesL;
+  return notesList;
 }
 
 
