@@ -121,14 +121,11 @@ Flickable {
   AccidControl {
     id: accidControl
     active: !readOnly && score.clef !== Tclef.NoClef && (scoreObj.activeNote !== null || (noteAdd && noteAdd.active))
-    visible: !scoreObj.touched
   }
 
   RhythmControl {
     id: rtmControl
     active: !readOnly && meter !== Tmeter.NoMeter && (scoreObj.activeNote !== null || (noteAdd && noteAdd.active))
-    onChanged: scoreObj.workRhythm = rhythm
-    visible: !scoreObj.touched
   }
 
   function ensureVisible(yy, hh) {

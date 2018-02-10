@@ -21,6 +21,7 @@ TipRect {
   z: 20
   width: loader.item ? loader.item.width : 0
   height: loader.item ?loader.item.height : 0
+  color: activPal.alternateBase
 
   Loader {
     id: loader

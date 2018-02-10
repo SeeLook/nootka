@@ -45,6 +45,7 @@ Score {
   scoreObj.enableDoubleAccidentals: GLOB.enableDoubleAccids
   scoreObj.enharmNotesEnabled: GLOB.showEnharmNotes
   scoreObj.bgColor: activPal.base
+  scoreObj.enableTechnical: GLOB.instrument.type === Tinstrument.Bandoneon
 
   TmainScoreObject {
     id: mainObj

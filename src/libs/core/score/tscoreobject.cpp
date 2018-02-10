@@ -638,6 +638,14 @@ void TscoreObject::setScaleFactor(qreal factor) {
 }
 
 
+void TscoreObject::setEnableTechnical(bool enTech) {
+  if (enTech != m_enableTechnControl) {
+    m_enableTechnControl = enTech;
+    emit enableTechnicalChanged();
+  }
+}
+
+
 qreal TscoreObject::stavesHeight() {
   if (m_staves.isEmpty())
     return 0.0;
