@@ -80,6 +80,7 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(bool enharmNotesEnabled READ enharmNotesEnabled WRITE setEnharmNotesEnabled)
   Q_PROPERTY(bool recordMode READ recordMode WRITE setRecordMode NOTIFY recordModeChanged)
   Q_PROPERTY(qreal scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
+  Q_PROPERTY(bool enableTechnical READ enableTechnical WRITE setEnableTechnical NOTIFY enableTechnicalChanged)
                         /* Helper variables */
   Q_PROPERTY(qreal stavesHeight READ stavesHeight NOTIFY stavesHeightChanged)
   Q_PROPERTY(qreal width READ width WRITE setWidth)
@@ -212,6 +213,9 @@ public:
        */
   bool selectInReadOnly() const { return m_selectInReadOnly; }
   void setSelectInReadOnly(bool sel) { m_selectInReadOnly = sel; }
+
+  bool enableTechnical() const { return m_enableTechnControl; }
+  void setEnableTechnical(bool enTech);
 
   /* ------------------ Lists with score content (staves, measures notes) ------------------ */
 
@@ -408,6 +412,7 @@ signals:
   void singleNoteChanged();
   void recordModeChanged();
   void scaleFactorChanged();
+  void enableTechnicalChanged();
   void bgColorChanged();
   void readOnlyNoteClicked(int noteId);
 
@@ -528,10 +533,11 @@ private:
   bool                              m_recordMode = false;
   qreal                             m_scaleFactor = 1.0;
   bool                              m_selectInReadOnly = false;
+  bool                              m_enableTechnControl = false;
                               /* Lists with notes, measures, staves, meter groups */
   QList<TnotePair*>                 m_segments;
   QList<TnotePair*>                 m_spareSegments;
-  QList<TstaffItem*>              m_staves;
+  QList<TstaffItem*>                m_staves;
   QList<TmeasureObject*>            m_measures;
   QList<Tnote>                      m_notes;
   QList<quint8>                     m_meterGroups;
@@ -546,14 +552,14 @@ private:
   QQmlComponent                    *m_qmlComponent;
   QColor                            m_nameColor;
   int                               m_nameStyle;
-  TnoteItem                      *m_selectedItem = nullptr;
+  TnoteItem                        *m_selectedItem = nullptr;
   QColor                            m_bgColor;
                               /* Note cursor */
-  TnoteItem                      *m_activeNote = nullptr;
+  TnoteItem                        *m_activeNote = nullptr;
   qreal                             m_activeYpos = 0.0;
   QTimer                           *m_touchHideTimer;
-  TnoteItem                      *m_hoveredNote = nullptr;
-  TnoteItem                      *m_presseddNote = nullptr;
+  TnoteItem                        *m_hoveredNote = nullptr;
+  TnoteItem                        *m_presseddNote = nullptr;
   int                               m_cursorAlter = 0;
   int                               m_activeBarNr = -1;
   Trhythm                          *m_workRhythm;

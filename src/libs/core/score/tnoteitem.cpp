@@ -461,6 +461,11 @@ void TnoteItem::setStringNumber(int strNr) {
 }
 
 
+TnoteItem::EbowDirection TnoteItem::bowing() const {
+  return static_cast<EbowDirection>(m_wrapper->techicalData().bowing());
+}
+
+
 void TnoteItem::setBowing(EbowDirection bowDir) {
   if (!m_bowing && bowDir != BowUndefined) {
     m_staff->score()->component()->setData("import QtQuick 2.9; Text { z: -1; font { pixelSize: 5; family: \"Scorek\" } }", QUrl());
@@ -476,6 +481,7 @@ void TnoteItem::setBowing(EbowDirection bowDir) {
       if (m_bowing)
         m_bowing->setVisible(false);
   }
+  m_wrapper->techicalData().setBowing(static_cast<Ttechnical::EbowDirection>(bowDir));
 }
 
 

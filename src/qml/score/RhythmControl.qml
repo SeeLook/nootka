@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -10,7 +10,10 @@ import Score 1.0
 ControlBase {
   id: rhythmControl
 
-  signal changed()
+  parent: score.parent
+  x: show ? 1 : -width - Noo.fontSize()
+  y: Noo.fontSize() / 2
+  visible: !scoreObj.touched
 
   property string rhythmText: Noo.rhythmText(rhythm)
   property int rtm: Trhythm.Quarter
@@ -20,14 +23,9 @@ ControlBase {
   property var rhythm: Noo.rhythm(rtm, rest, dot, triplet)
   property bool tie: false
 
-  x: 1
-  y: show ? score.contentY + (score.height - height) / 2 : -height - Noo.fontSize()
-//   y: show ? Math.max(scoreObj.midLine(score.activeNote) - height / 2, 0) : -height - Noo.fontSize()
-
   component: Component {
       id: contentComp
       Column {
-        id: contentCol
 
         Component {
           id: ctrlButtonComp
@@ -53,7 +51,7 @@ ControlBase {
               onLoaded: { item.rhythm = 1 + index / 2; item.rest = index % 2 === 0 }
               Connections {
                 target: item
-                onClicked: { rhythmControl.rtm = item.rhythm; rhythmControl.rest = item.rest; rhythmControl.changed() }
+                onClicked: { rhythmControl.rtm = item.rhythm; rhythmControl.rest = item.rest; scoreObj.workRhythm = rhythm }
               }
             }
           }
@@ -64,7 +62,7 @@ ControlBase {
             Binding { target: tripLoad.item; property: "selected"; value: rhythmControl.triplet }
             Connections {
               target: tripLoad.item
-              onClicked: { rhythmControl.triplet = !tripLoad.item.selected; rhythmControl.changed() }
+              onClicked: { rhythmControl.triplet = !tripLoad.item.selected; scoreObj.workRhythm = rhythm }
             }
           }
           Loader { // dot
@@ -74,7 +72,7 @@ ControlBase {
             Binding { target: dotLoad.item; property: "selected"; value: rhythmControl.dot }
             Connections {
               target: dotLoad.item
-              onClicked: { rhythmControl.dot = !dotLoad.item.selected; rhythmControl.changed() }
+              onClicked: { rhythmControl.dot = !dotLoad.item.selected; scoreObj.workRhythm = rhythm }
             }
           }
         }
@@ -94,6 +92,6 @@ ControlBase {
       }
   }
 
-  Behavior on y { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.3; duration: 300 }}
+  Behavior on x { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.3; duration: 300 }}
 
 }

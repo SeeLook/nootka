@@ -49,6 +49,7 @@
     <file alias="score/NotePrompt.qml">qml/score/NotePrompt.qml</file>
     <file alias="score/AccidControl.qml">qml/score/AccidControl.qml</file>
     <file alias="score/RhythmControl.qml">qml/score/RhythmControl.qml</file>
+    <file alias="score/TechnicalControl.qml">qml/score/TechnicalControl.qml</file>
     <file alias="score/ControlButton.qml">qml/score/ControlButton.qml</file>
     <file alias="score/NoteAdd.qml">qml/score/NoteAdd.qml</file>
     <file alias="score/DelControl.qml">qml/score/DelControl.qml</file>
