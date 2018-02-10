@@ -229,6 +229,7 @@ void TbandoneonBg::setNote(const Tnote& n, quint32 noteDataValue) {
     hideCircles();
     setOpening(false);
     setClosing(false);
+    m_currentIndex = -1;
     return;
   }
   Ttechnical techn(noteDataValue);

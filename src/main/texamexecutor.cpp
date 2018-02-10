@@ -485,7 +485,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
           } else {
               if (m_penalty->isNot())
                   curQ->qa_2.pos() = posList[qrand() % posList.size()];
-//             INSTRUMENT->setHighlitedString(curQ->qa_2.pos.str());
+//             INSTRUMENT->setHighlitedString(curQ->qa_2.pos.str()); // TODO: highlight bandoneon as well if question is ambiguous (i.e. as name)
           }
         }
       } else {
@@ -605,8 +605,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
           answNote = INSTRUMENT->note();
           m_supp->checkNotes(curQ, questNote, answNote, m_answRequire.octave, m_answRequire.accid);
           if (curQ->questionOnScore() && m_level.instrument == Tinstrument::Bandoneon) { // check bowing (bellow direction)
-            Ttechnical bowFromInstr(INSTRUMENT->technical()), bowFomScore(MAIN_SCORE->technical(0));
-            if (bowFomScore.bowing() != bowFromInstr.bowing()) // TODO: it makes sense only when score will be able to select bowing
+            Ttechnical bowFromInstr(INSTRUMENT->technical());
+            if (bowFromInstr.bowing() != curQ->qa.technical.bowing())
               qDebug() << "[TexamExecutor check answer] mistake: wrong bellow direction";
           }
       }

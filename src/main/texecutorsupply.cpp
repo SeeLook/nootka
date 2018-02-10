@@ -538,7 +538,8 @@ void TexecutorSupply::checkNotes(TQAunit* curQ, Tnote& expectedNote, Tnote& user
     }
   } else
       curQ->setMistake(TQAunit::e_wrongNote);
-  if (!curQ->wrongNote() && m_level->instrument == Tinstrument::Bandoneon && m_level->clef.type() == Tclef::PianoStaffClefs) {
+  if (!curQ->wrongNote() && m_level->instrument == Tinstrument::Bandoneon && m_level->clef.type() == Tclef::PianoStaffClefs
+      && curQ->questionOnScore() && curQ->answerOnInstr()) {
       if (expectedNote.onUpperStaff() != userNote.onUpperStaff())
         qDebug() << "[TexecutorSupply check notes] mistake: wrong bandoneon side";
   }

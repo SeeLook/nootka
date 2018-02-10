@@ -36,6 +36,14 @@ TbandoneonBg {
 //     z: 2
 //   }
 
+  Text {
+    anchors.horizontalCenter: parent.horizontalCenter
+    y: -10 * factor
+    text: opening ? "\uE610" : (closing ? "\uE612" : "")
+    color: opening ? "blue" : "red"
+    font { family: "Scorek"; pixelSize: factor * 15 }
+  }
+
   rightX: factor * 210 + buttonCol.width
 
   Row {
