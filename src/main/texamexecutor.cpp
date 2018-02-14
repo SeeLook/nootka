@@ -475,25 +475,24 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 
   if (curQ->answerOnInstr()) {
       m_answRequire.accid = false;  // Ignored in checking, positions are comparing
-      if (curQ->questionOnInstr()) {
+      if (curQ->questionOnInstr()) { // such combination is possible only for guitar
         if (GLOB->instrument().isGuitar()) {
-          QList<TfingerPos> posList;
-          m_supp->getTheSamePosNoOrder(curQ->qa.pos(), posList);
-          if (posList.isEmpty()) {
-              blindQuestion();
-              return; // refresh this function scope by calling it outside
-          } else {
-              if (m_penalty->isNot())
+            QList<TfingerPos> posList;
+            m_supp->getTheSamePosNoOrder(curQ->qa.pos(), posList);
+            if (posList.isEmpty()) {
+                blindQuestion();
+                return; // refresh this function scope by calling it outside
+            } else {
+                if (m_penalty->isNot())
                   curQ->qa_2.pos() = posList[qrand() % posList.size()];
-//             INSTRUMENT->setHighlitedString(curQ->qa_2.pos.str()); // TODO: highlight bandoneon as well if question is ambiguous (i.e. as name)
+              INSTRUMENT->highlightAnswer(Tnote(), curQ->qa_2.technical.data());
+            }
           }
-        }
       } else {
-//         if (m_level.showStrNr)
-//           INSTRUMENT->setHighlitedString(curQ->qa.pos.str());
+          if ((GLOB->instrument().isGuitar() && m_level.showStrNr) || (GLOB->instrument().type() == Tinstrument::Bandoneon && !curQ->questionOnScore()))
+            INSTRUMENT->highlightAnswer(curQ->qa.note, curQ->qa.technical.data());
       }
       INSTRUMENT->setEnabled(true);
-//       INSTRUMENT->prepareAnswer();
   }
 
   if (curQ->answerAsSound()) {

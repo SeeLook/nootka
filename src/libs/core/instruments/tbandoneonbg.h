@@ -70,6 +70,8 @@ public:
 
   void askQuestion(const Tnote& n, quint32 noteDataValue) override;
 
+  void highlightAnswer(const Tnote & n, quint32 noteData) override;
+
   int technical() override;
 
   qreal rightX() const { return m_rightX; }

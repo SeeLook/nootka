@@ -291,6 +291,15 @@ void TbandoneonBg::askQuestion(const Tnote& n, quint32 noteDataValue) {
 }
 
 
+void TbandoneonBg::highlightAnswer(const Tnote& n, quint32 noteData) {
+  //TODO: mark proper side
+  Ttechnical techn(noteData);
+  setOpening(techn.bowing() == Ttechnical::BowDown);
+  setClosing(techn.bowing() == Ttechnical::BowUp);
+}
+
+
+
 int TbandoneonBg::technical() {
   Ttechnical nd;
   nd.setBowing(m_opening ? Ttechnical::BowDown : (m_closing ? Ttechnical::BowUp : Ttechnical::BowUndefined));
