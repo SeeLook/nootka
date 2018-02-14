@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -13,8 +13,8 @@ Item {
   property alias instrument: instrLoad.item
   property Score score
 
-  height: GLOB.instrument.isSax ? parent.height : parent.height / GLOB.instrument.heightPart
-  width: parent.width * (GLOB.instrument.isSax ? 0.15 : 1)
+  height: GLOB.instrument.isSax ? parent.height : nootkaWindow.height / GLOB.instrument.heightPart
+  width: nootkaWindow.width * (GLOB.instrument.isSax ? 0.15 : 1)
   y: score.y + (GLOB.instrument.isSax ? 0 : score.height)
   x: GLOB.instrument.isSax ? parent.width - width : 0
   z: 1
