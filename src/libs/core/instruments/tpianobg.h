@@ -49,6 +49,8 @@ public:
 
   void askQuestion(const Tnote& n, quint32 noteDataValue) override;
 
+  void highlightAnswer(const Tnote&, quint32) override {}
+
   int technical() override { return 0; } // Fake - piano has no extra note data
 
   int firstOctave() const { return static_cast<int>(m_firstOctave); }

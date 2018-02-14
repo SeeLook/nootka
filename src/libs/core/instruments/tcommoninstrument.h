@@ -57,6 +57,12 @@ public:
   virtual void askQuestion(const Tnote& n, quint32 noteData) = 0;
 
       /**
+       * Highlight appropriate instrument part to point where to put an answer.
+       * For guitar it will be a string, for bandoneon bellow direction and side
+       */
+  virtual void highlightAnswer(const Tnote& n, quint32 noteData) = 0;
+
+      /**
        * Returns additional note data like position on the guitar or left/right hand on bandoneon
        */
   virtual int technical() = 0;

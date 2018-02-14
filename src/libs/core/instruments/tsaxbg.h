@@ -49,6 +49,8 @@ public:
 
   void askQuestion(const Tnote& n, quint32 noteDataValue) override;
 
+  void highlightAnswer(const Tnote&, quint32) override {}
+
   int technical() override { return 0; } // Fake - saxophone has no extra note data
 
   int flapNumber() const { return m_flapNumber; }

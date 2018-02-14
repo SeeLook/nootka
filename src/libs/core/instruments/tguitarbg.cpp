@@ -39,14 +39,16 @@ TguitarBg::TguitarBg(QQuickItem* parent) :
   QQmlEngine engine;
   QQmlComponent comp(&engine, this);
 
-  comp.setData("import QtQuick 2.9; Rectangle {}", QUrl());
+  comp.setData("import QtQuick 2.9; Rectangle { z: 5 }", QUrl());
   for (int s = 0; s < 6; ++s) {
     m_stringItems[s] = qobject_cast<QQuickItem*>(comp.create());
     m_stringItems[s]->setParentItem(this);
     m_stringItems[s]->setVisible(false);
+    m_stringItems[s]->setZ(5);
     m_fingerItems[s] = qobject_cast<QQuickItem*>(comp.create());
     m_fingerItems[s]->setParentItem(this);
     m_fingerItems[s]->setVisible(false);
+    m_fingerItems[s]->setZ(5);
   }
 
   connect(GLOB, &Tglobals::guitarParamsChanged, this, &TguitarBg::updateGuitar);
@@ -62,6 +64,7 @@ QPointF TguitarBg::fretToPos(const TfingerPos& pos) {
 
 
 void TguitarBg::setNote(const Tnote& n, quint32 noteDataValue) {
+  Q_UNUSED(noteDataValue)
   if (!p_note.compareNotes(n)) {
     short noteNr = n.chromatic() - GLOB->transposition();
     bool foundPos = false;
@@ -95,6 +98,10 @@ void TguitarBg::setNote(const Tnote& n, quint32 noteDataValue) {
         p_note = n;
         p_note.transpose(GLOB->transposition());
     }
+  }
+  if (m_highlightedString && !n.isValid()) {
+    m_highlightedString->setVisible(false);
+    m_latestHighlightedData = 255;
   }
 }
 
@@ -283,6 +290,30 @@ void TguitarBg::askQuestion(const Tnote& n, quint32 noteDataValue) {
 }
 
 
+void TguitarBg::highlightAnswer(const Tnote& n, quint32 noteData) {
+  Q_UNUSED(n)
+  if (!m_highlightedString) {
+    QQmlEngine engine;
+    QQmlComponent comp(&engine, this);
+    comp.setData("import QtQuick 2.9; Rectangle {}", QUrl());
+    m_highlightedString = qobject_cast<QQuickItem*>(comp.create());
+    m_highlightedString->setParentItem(this);
+    m_highlightedString->setZ(1);
+  }
+  TfingerPos f(static_cast<quint8>(noteData));
+  if (f.str() > 0 && f.str() < 7) {
+    int strNr = f.str() - 1;
+    m_highlightedString->setX(m_stringItems[strNr]->x());
+    m_highlightedString->setY(m_stringItems[strNr]->y());
+    m_highlightedString->setWidth(m_stringItems[strNr]->width());
+    m_highlightedString->setHeight(m_stringItems[strNr]->height());
+    m_highlightedString->setProperty("color", GLOB->EanswerColor);
+    m_highlightedString->setVisible(true);
+    m_latestHighlightedData = noteData;
+  }
+}
+
+
 void TguitarBg::setReadOnly(bool ro) {
   if (ro != m_readOnly) {
     m_readOnly = ro;
@@ -344,6 +375,8 @@ void TguitarBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeom
       m_fingerItems[s]->setHeight(m_fretWidth / 2.46);
       m_fingerItems[s]->setProperty("radius", m_fretWidth / 3.2);
     }
+    if (m_highlightedString && m_latestHighlightedData != 255)
+      highlightAnswer(Tnote(), m_latestHighlightedData);
 
     emit fretWidthChanged();
     emit stringsGapChanged();

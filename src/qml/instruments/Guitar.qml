@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -48,6 +48,7 @@ TguitarBg {
 
   DropShadow {
     id: fingerShadow
+    z: 5
     anchors.fill: finger
     horizontalOffset: stringsGap / 7
     verticalOffset: stringsGap / 7
@@ -58,6 +59,7 @@ TguitarBg {
   }
 
   Rectangle {
+    z: 5
     color: finger.color
     width: parent.width - stringsGap - 2
     height: string < 6 ? strWidth(string) * 1.5 : 0

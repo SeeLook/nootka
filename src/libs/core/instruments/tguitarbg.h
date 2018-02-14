@@ -69,6 +69,8 @@ public:
 
   void askQuestion(const Tnote& n, quint32 noteDataValue) override;
 
+  void highlightAnswer(const Tnote & n, quint32 noteData) override;
+
   int technical() override { return static_cast<int>(m_selectedPos.data()); }
 
       /**
@@ -128,6 +130,8 @@ private:
   QPointF      m_fingerPos;
   QQuickItem  *m_fingerItems[6];
   QQuickItem  *m_stringItems[6];
+  QQuickItem  *m_highlightedString = nullptr;
+  quint32      m_latestHighlightedData = 255; /**< Store technical data to properly resize highlighted string */
   TfingerPos   m_selectedPos;
 
 };
