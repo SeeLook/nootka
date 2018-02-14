@@ -316,6 +316,20 @@ void TbandoneonBg::setRightX(qreal rx) {
 }
 
 
+void TbandoneonBg::setFactor(qreal f) {
+  if (f != m_factor) {
+    m_factor = f;
+    updateCircleSize(m_circleLeftOpen.item);
+    updateCircleSize(m_circleLeftClose.item);
+    updateCircleSize(m_circleRightOpen.item);
+    updateCircleSize(m_circleRightClose.item);
+    updateCircleSize(m_circleCloseExtra.item);
+    emit factorChanged();
+    emit widthChanged();
+    emit heightChanged();
+  }
+}
+
 void TbandoneonBg::markSelected(const QColor& markColor) {
   auto mc = markColor.lighter();
   int borderWidth = markColor.alpha() ? qRound(height() / 40.0) : 0;
@@ -357,17 +371,8 @@ bool TbandoneonBg::canBeRightClose(short chromNoteNr) {
 
 void TbandoneonBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
   if (oldGeometry.width() != newGeometry.width() || oldGeometry.height() != newGeometry.height()) {
-    m_factor = newGeometry.height() / 100.0;
-    updateCircleSize(m_circleLeftOpen.item);
-    updateCircleSize(m_circleLeftClose.item);
-    updateCircleSize(m_circleRightOpen.item);
-    updateCircleSize(m_circleRightClose.item);
-    updateCircleSize(m_circleCloseExtra.item);
-    qDebug() << "[TbandoneonBg] geometryChanged" << m_factor;
-    if (oldGeometry.height() != newGeometry.height())
-      emit heightChanged();
-    if (oldGeometry.width() != newGeometry.width())
-      emit widthChanged();
+    emit heightChanged();
+    emit widthChanged();
   }
 }
 
@@ -390,9 +395,9 @@ QQuickItem* TbandoneonBg::createCircle(QQmlComponent* comp) {
 
 
 void TbandoneonBg::updateCircleSize(QQuickItem* it) {
-  it->setWidth(height() / 8.0);
-  it->setHeight(height() / 8.0);
-  it->setProperty("radius", height() / 16.0);
+  it->setWidth(height() / 7.5);
+  it->setHeight(height() / 7.5);
+  it->setProperty("radius", height() / 15.0);
 }
 
 
@@ -400,7 +405,7 @@ void TbandoneonBg::checkCircle(int butNr, TbandCircle& c, bool visible) {
   c.buttonId = butNr;
   if (c.buttonId) {
       c.item->setX(buttArray[c.buttonId - 1].x * m_factor * (butNr > 33 ? 1.2 : 1.0) + (butNr > 33 ? m_rightX : 0.0));
-      c.item->setY(buttArray[c.buttonId - 1].y * m_factor + height() / 8.0);
+      c.item->setY(buttArray[c.buttonId - 1].y * m_factor + height() * 0.09375);
       c.item->setVisible(visible);
   } else
       c.item->setVisible(false);
@@ -409,12 +414,11 @@ void TbandoneonBg::checkCircle(int butNr, TbandCircle& c, bool visible) {
 
 void TbandoneonBg::updateCircesPos() {
   if (p_note.isValid()) {
-    qDebug() << "[TbandoneonBg] updateCircesPos";
-    int chromaticNr = p_note.chromatic();
-    checkCircle(m_notesArray[chromaticNr].leftOpen, m_circleLeftOpen);
-    checkCircle(m_notesArray[chromaticNr].leftClose, m_circleLeftClose);
-    checkCircle(m_notesArray[chromaticNr].rightOpen, m_circleRightOpen);
-    checkCircle(m_notesArray[chromaticNr].rightClose, m_circleRightClose);
+    int chromaticNr = p_note.chromatic() + 11;
+    checkCircle(m_notesArray[chromaticNr].leftOpen, m_circleLeftOpen, m_circleLeftOpen.item->isVisible());
+    checkCircle(m_notesArray[chromaticNr].leftClose, m_circleLeftClose, m_circleLeftClose.item->isVisible());
+    checkCircle(m_notesArray[chromaticNr].rightOpen, m_circleRightOpen, m_circleRightOpen.item->isVisible());
+    checkCircle(m_notesArray[chromaticNr].rightClose, m_circleRightClose, m_circleRightClose.item->isVisible());
   }
 }
 

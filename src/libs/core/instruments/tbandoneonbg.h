@@ -47,6 +47,7 @@ class NOOTKACORE_EXPORT TbandoneonBg : public TcommonInstrument
   Q_PROPERTY(bool opening READ opening WRITE setOpening NOTIFY openingChanged)
   Q_PROPERTY(bool closing READ closing WRITE setClosing NOTIFY closingChanged)
   Q_PROPERTY(qreal rightX READ rightX WRITE setRightX NOTIFY rightXChanged)
+  Q_PROPERTY(qreal factor READ factor WRITE setFactor NOTIFY factorChanged)
 
 public:
   TbandoneonBg(QQuickItem* parent = nullptr);
@@ -77,6 +78,9 @@ public:
   qreal rightX() const { return m_rightX; }
   void setRightX(qreal rx);
 
+  qreal factor() const { return m_factor; }
+  void setFactor(qreal f);
+
   void paint(QPainter*) override {}
 
   void markSelected(const QColor & markColor) override;
@@ -94,6 +98,7 @@ signals:
   void closingChanged();
   void openingChanged();
   void rightXChanged();
+  void factorChanged();
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) override;
