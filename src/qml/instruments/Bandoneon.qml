@@ -19,6 +19,14 @@ TbandoneonBg {
   width: factor * 430
   height: parent.height
 
+  Rectangle {
+    visible: sideHighlight !== TbandoneonBg.HighlightNone
+    color: GLOB.correctColor
+    width: factor * 205; height: factor * 20
+    x: factor / 2 + (sideHighlight === TbandoneonBg.HighlightRight ? 0 : factor * 225)
+    y: parent.height - height
+  }
+
    Image {
      source: Noo.pix("bando-bg")
      width: factor * 210; height: width * 0.6203877423389619
