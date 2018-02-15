@@ -223,6 +223,10 @@ void TbandoneonBg::setClosing(bool c) {
  * onUpperStaff() == TRUE - right pane, FALSE - left pane
  */
 void TbandoneonBg::setNote(const Tnote& n, quint32 noteDataValue) {
+  if (m_sideHighlight != HighlightNone) {
+    m_sideHighlight = HighlightNone;
+    emit sideHighlightChanged();
+  }
   if (!n.isValid() && !p_note.isValid())
     return;
   if (!n.isValid()) {
@@ -292,10 +296,13 @@ void TbandoneonBg::askQuestion(const Tnote& n, quint32 noteDataValue) {
 
 
 void TbandoneonBg::highlightAnswer(const Tnote& n, quint32 noteData) {
-  //TODO: mark proper side
   Ttechnical techn(noteData);
   setOpening(techn.bowing() == Ttechnical::BowDown);
   setClosing(techn.bowing() == Ttechnical::BowUp);
+  if (n.isValid()) {
+    m_sideHighlight = n.onUpperStaff() ? HighlightRight : HighlightLeft;
+    emit sideHighlightChanged();
+  }
 }
 
 

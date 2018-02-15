@@ -485,7 +485,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
             } else {
                 if (m_penalty->isNot())
                   curQ->qa_2.pos() = posList[qrand() % posList.size()];
-              INSTRUMENT->highlightAnswer(Tnote(), curQ->qa_2.technical.data());
+                INSTRUMENT->highlightAnswer(Tnote(), curQ->qa_2.technical.data());
             }
           }
       } else {

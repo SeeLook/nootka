@@ -48,6 +48,7 @@ class NOOTKACORE_EXPORT TbandoneonBg : public TcommonInstrument
   Q_PROPERTY(bool closing READ closing WRITE setClosing NOTIFY closingChanged)
   Q_PROPERTY(qreal rightX READ rightX WRITE setRightX NOTIFY rightXChanged)
   Q_PROPERTY(qreal factor READ factor WRITE setFactor NOTIFY factorChanged)
+  Q_PROPERTY(EsideHighlight sideHighlight READ sideHighlight NOTIFY sideHighlightChanged)
 
 public:
   TbandoneonBg(QQuickItem* parent = nullptr);
@@ -94,11 +95,23 @@ public:
   bool canBeRightOpen(short int chromNoteNr);
   bool canBeRightClose(short int chromNoteNr);
 
+      /**
+       * Describes which side of bandoneon has to be highlighted for an answer.
+       * It depends on note layout (upper staff, lower staff)
+       */
+  enum EsideHighlight {
+    HighlightNone = 0, HighlightLeft, HighlightRight
+  };
+  Q_ENUM(EsideHighlight)
+
+  EsideHighlight sideHighlight() const { return m_sideHighlight; }
+
 signals:
   void closingChanged();
   void openingChanged();
   void rightXChanged();
   void factorChanged();
+  void sideHighlightChanged();
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) override;
@@ -141,6 +154,7 @@ private:
   TbandCircle       m_circleLeftOpen, m_circleLeftClose, m_circleRightOpen, m_circleRightClose, m_circleCloseExtra;
   qreal             m_factor = 1.0;
   qreal             m_rightX = 0.0;
+  EsideHighlight    m_sideHighlight = HighlightNone;
 };
 
 #endif // TBANDONEONBG_H
