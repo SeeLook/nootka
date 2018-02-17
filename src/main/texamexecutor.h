@@ -55,6 +55,7 @@ class TexamExecutor : public QQuickItem
   Q_PROPERTY(QString title READ title NOTIFY titleChanged)
   Q_PROPERTY(QList<QObject*> examActions READ examActions NOTIFY examActionsChanged)
   Q_PROPERTY(TtipHandler* tipHandler READ tipHandler NOTIFY tipHandlerCreated)
+  Q_PROPERTY(bool isExercise READ isExercise)
 
   friend class TexamSummary;
 
@@ -106,12 +107,18 @@ public:
        */
   bool isExercise() { return static_cast<bool>(m_exercise); }
 
+      /**
+       * Should be called when settings (Tglobals) was changed during exam.
+       */
+  Q_INVOKABLE void settingsAccepted();
+
 signals:
   void titleChanged();
   void examActionsChanged();
   void tipHandlerCreated();
   void destroyTips();
   void examSummary();
+  void showSettings();
 
 protected:
 
@@ -139,11 +146,11 @@ protected:
   void restoreExerciseAfterSummary();
   void continueExercise();
   void finishExerciseAfterSummary();
-//   void repeatQuestion();
+  void repeatQuestion();
   void repeatSound();
   void playMiddleA();
 //   void correctAnswer();
-//   void newAttempt();
+  void newAttempt();
 
   void showExamHelp();
   void expertAnswersSlot();
@@ -172,8 +179,7 @@ protected:
   void noteOfMelodyFinished(const TnoteStruct& n); /**< Played note was finished */
   void noteOfMelodySelected(int nr); /**< Note of score to play was clicked */
 
-//   void prepareToSettings(); /**< Should be called when main window is going to display settings dialog. */
-//   void settingsAccepted(); /**< Should be called when settings (Tglobals) was changed during exam. */
+  void prepareToSettings(); /**< Should be called when main window is going to display settings dialog. */
 //   void correctNoteOfMelody(int noteNr);
 // 
 //   void correctionFinished();
@@ -238,7 +244,7 @@ private:
   TequalRand                  *m_rand;
 
   QPointer<TexamMelody>        m_melody; /**< Helper class with exam/exercises with melodies */
-  Taction                     *m_helpAct, *m_stopExamAct, *m_nextQuestAct, *m_repeatQuestAct, *m_checkQuestAct;
+  Taction                     *m_settAct, *m_helpAct, *m_stopExamAct, *m_nextQuestAct, *m_repeatQuestAct, *m_checkQuestAct;
   Taction                     *m_playAgainAct = nullptr;
   Taction                     *m_correctAct = nullptr;
   Taction                     *m_newAtemptAct = nullptr;

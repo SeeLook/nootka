@@ -13,11 +13,22 @@ import "../"
 Texecutor {
   id: executor
 
+  //private
+  property var examSettDialog: null
+
   anchors.fill: parent
 
   onTitleChanged: nootkaWindow.title = title
   onExamActionsChanged: nootkaWindow.mainMenu.toolBar.examActions = examActions
   onExamSummary: nootkaWindow.showDialog(Nootka.ExamSummary)
+  onShowSettings: {
+    if (!examSettDialog) {
+      var e = Qt.createComponent("qrc:/exam/ExamSettingsDialog.qml")
+      examSettDialog =  e.createObject(executor, { "mode": isExercise ? 2 : 1 } )
+      examSettDialog.accepted.connect(settingsAccepted)
+      examSettDialog.closed.connect(function() { examSettDialog.destroy() })
+    }
+  }
 
   Connections {
     target: tipHandler
@@ -32,6 +43,11 @@ Texecutor {
     onShowResultTip: {
       var r = Qt.createComponent("qrc:/exam/ResultTip.qml")
       r.createObject(executor, { "text": text, "color": color } )
+    }
+    onShowTryAgainTip: {
+      var a = Qt.createComponent("qrc:/exam/ResultTip.qml")
+      tipHandler.tryAgainItem = a.createObject(executor, { "text": qsTranslate("TtipHandler", "Try again!"), "allowDestroy": false,
+                                                            "color": GLOB.wrongColor, "targetY": executor.height / 10 } )
     }
   }
 }

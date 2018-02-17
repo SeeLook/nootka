@@ -138,6 +138,13 @@ void TtipHandler::setTipPos(const QPointF& p) {
 }
 
 
+void TtipHandler::setTryAgainItem(QQuickItem* tryItem) {
+  if (tryItem != m_tryAgainItem) {
+    m_tryAgainItem = tryItem;
+  }
+}
+
+
 //void TtipHandler::setStatusMessage(const QString& text, int duration) {
 //#if defined (Q_OS_ANDROID)
 //  tMessage->setMessage(text, duration);
@@ -203,15 +210,18 @@ void TtipHandler::resultTip(TQAunit* answer, int time) {
 //}
 
 
-//void TtipHandler::tryAgainTip(int time) {
-//  m_tryAgainTip = new TgraphicsTextTip(QString("<span style=\"color: %1; font-size: %2px;\">")
-//      .arg(GLOB->EquestionColor.name()).arg(bigFont()) + tr("Try again!") + "</span>");
-//  m_scene->addItem(m_tryAgainTip);
-//  m_tryAgainTip->setZValue(100);
-//  m_tryAgainTip->setScale(m_scale);
-//  setTryAgainPos();
-//  QTimer::singleShot(time, this, SLOT(clearTryAgainTip()));
-//}
+void TtipHandler::tryAgainTip(int time) {
+  if (m_tryAgainItem)
+    qDebug() << "[TtipHandler] 'try again tip' already exists!";
+
+  emit showTryAgainTip();
+  QTimer::singleShot(time, [=]{
+    if (m_tryAgainItem) {
+      m_tryAgainItem->deleteLater();
+      m_tryAgainItem = nullptr;
+    }
+  });
+}
 
 
 QString TtipHandler::startTipText() {
@@ -360,7 +370,8 @@ void TtipHandler::showConfirmTip() {
 
 
 void TtipHandler::questionTip() {
-  emit destroyResultTip();
+  if (!GLOB->E->autoNextQuest)
+    emit destroyResultTip();
   QString br = QStringLiteral("<br>");
   QString sp = QStringLiteral(" ");
   QString questText;

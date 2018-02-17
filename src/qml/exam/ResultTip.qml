@@ -9,14 +9,16 @@ import QtGraphicalEffects 1.0
 Item {
   id: resultTip
 
+  property real targetY: executor.height / 50
+  property bool allowDestroy: true
   property alias color: txt.color
   property alias text: txt.text
 
-  y: GLOB.useAnimations ? -2 * height : parent.height / 50
+  y: GLOB.useAnimations ? -2 * height : targetY
   anchors.horizontalCenter: parent.horizontalCenter
 
   width: txt.width; height: txt.height
-  
+
   Text {
     id: txt
     font { pixelSize: (executor.height / 15) * (1 - 0.2 * (lineCount - 1)); family: "Sans"; bold: true }
@@ -29,7 +31,7 @@ Item {
     horizontalOffset: executor.height / 200
     verticalOffset: executor.height / 200
     radius: executor.height / 100
-    samples: 17
+    samples: radius * 2 + 1
     color: activPal.shadow
     source: txt
   }
@@ -37,6 +39,7 @@ Item {
   transformOrigin: Item.Top
 
   Connections {
+    enabled: allowDestroy
     target: executor.tipHandler
     onDestroyResultTip: resultTip.destroy()
   }
@@ -48,7 +51,7 @@ Item {
 
   SequentialAnimation {
     id: anim
-    NumberAnimation { target: resultTip; property: "y"; to: executor.height / 50; duration: 200 }
+    NumberAnimation { target: resultTip; property: "y"; to: targetY; duration: 200 }
     NumberAnimation { target: resultTip; property: "scale"; to: 2; duration: 200 }
     NumberAnimation { target: resultTip; property: "scale"; to: 1; duration: 300 }
   }
