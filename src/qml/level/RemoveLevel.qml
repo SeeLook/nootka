@@ -1,14 +1,13 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
-import QtQuick.Controls 2.2
 
 import "../"
 
 
-Dialog {
+TpopupDialog {
   id: rmLevel
 
   property string levelName
@@ -16,20 +15,20 @@ Dialog {
 
   signal remove(var fromDisk)
 
+  bgColor: Qt.tint(activPal.window, Noo.alpha("red", 20)); shadowColor: "red"
   visible: true
-  x: (parent.width - width) / 2; y: (parent.height - height) / 2
-  background: TipRect { color: activPal.window }
-  standardButtons: Dialog.Ok | Dialog.Abort
+  width: innerCol.width * 1.2; height: innerCol.height + Noo.fontSize() * 5
 
   Column {
+    id: innerCol
     spacing: Noo.fontSize()
+    anchors.horizontalCenter: parent.horizontalCenter
     Text {
       anchors.horizontalCenter: parent.horizontalCenter
       color: activPal.text
       font.pixelSize: Noo.fontSize() * 1.5
-      text: qsTr("Remove level %1 from the list").arg("<b>" + levelName + "</b>")
+      text: qsTr("Remove level %1 from the list").arg("<b>" + levelName + "</b>")// + "<br>"
     }
-    Item { width: parent.width; height: Noo.fontSize() * 2 }
     TcheckBox {
       id: rmFileChB
       anchors.horizontalCenter: parent.horizontalCenter

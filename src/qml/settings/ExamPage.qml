@@ -12,6 +12,8 @@ Tflickable {
   contentHeight: examCol.height
   contentWidth: width
 
+  property int mode: 0 // 0 - settings, 1 - exam, 2 - exercise
+
   Column {
     id: examCol
     width: parent.width; topPadding: Noo.fontSize()
@@ -24,6 +26,7 @@ Tflickable {
         width: parent.width
         spacing: Noo.fontSize() / 2
         Tile {
+          visible: mode === 0
           description: qsTr("Default name for every new exam or exercise.")
           Row {
             spacing: Noo.fontSize()
@@ -68,6 +71,7 @@ Tflickable {
           }
         }
         Tile {
+          visible: mode === 0 || mode === 2
           TcheckBox {
             id: correctChB
             anchors.horizontalCenter: parent.horizontalCenter
@@ -100,7 +104,8 @@ Tflickable {
       }
     }
 
-    Tframe {
+    Tframe { // Exercises frame
+      visible: mode === 0 || mode === 2
       width: parent.width * 0.98
       anchors.horizontalCenter: parent.horizontalCenter
       Column {
@@ -141,7 +146,8 @@ Tflickable {
         }
       }
     }
-    Tframe {
+    Tframe { // Exam frame
+      visible: mode === 0 || mode === 1
       width: parent.width * 0.98
       anchors.horizontalCenter: parent.horizontalCenter
       Column {
@@ -169,13 +175,9 @@ Tflickable {
 
   }
 
-  Dialog {
+  TpopupDialog {
     id: expertDialog
-    width: parent.width * 0.8; height: parent.height * 0.8; x: parent.width * 0.1; y: parent.height * 0.1
-    background: TipRect { color: Qt.tint(activPal.window, Noo.alpha("red", 20)); shadowRadius: Noo.fontSize(); shadowColor: "red" }
-    scale: 0.1
-    enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}
-    exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0.1 }}
+    bgColor: Qt.tint(activPal.window, Noo.alpha("red", 20)); shadowColor: "red"
     Tflickable {
       height: parent.height; contentHeight: expCol.height
       Column {
@@ -192,21 +194,7 @@ Tflickable {
         }
       }
     }
-    footer: Rectangle {
-      color: expertDialog.background.color; width: parent.width; height: butRow.height; radius: Noo.fontSize() / 4
-      Row {
-        id: butRow; spacing: parent.width / 10; padding: parent.height / 7
-        anchors.horizontalCenter: parent.horizontalCenter
-        TiconButton {
-          pixmap: Noo.pix("exit"); text: Noo.TR("QShortcut", "Cancel")
-          onClicked: { expertAnswChB.checked = false; expertDialog.close() }
-        }
-        TiconButton {
-          pixmap: Noo.pix("check"); text: Noo.TR("QShortcut", "Apply")
-          onClicked: { expertDialog.close() }
-        }
-      }
-    }
+    onRejected: expertAnswChB.checked = false
   }
 
   Component.onCompleted: {
@@ -224,17 +212,22 @@ Tflickable {
   function save() {
     GLOB.autoNextQuestion = autoNextChB.checked
     GLOB.expertAnswers = expertAnswChB.checked
-    GLOB.correctAnswers = correctChB.checked
-    GLOB.suggestExam = suggestChB.checked
-    GLOB.waitForCorrect = waitForCorrChB.checked
-    GLOB.showWrongPlayed = showWrongChB.checked
-    GLOB.extraNames = extraNamesChB.checked
-    GLOB.repeatIncorect = repeatChB.checked
-    GLOB.closeWithoutConfirm = noConfirmChB.checked
+    if (mode === 0 || mode === 2) {
+      GLOB.suggestExam = suggestChB.checked
+      GLOB.waitForCorrect = waitForCorrChB.checked
+      GLOB.showWrongPlayed = showWrongChB.checked
+      GLOB.extraNames = extraNamesChB.checked
+      GLOB.correctAnswers = correctChB.checked
+    }
+    if (mode === 0 || mode === 1) {
+      GLOB.closeWithoutConfirm = noConfirmChB.checked
+      GLOB.repeatIncorect = repeatChB.checked
+    }
     GLOB.wrongColor = wrongColor.color
     GLOB.notBadColor = notBadColor.color
     GLOB.correctColor = correctColor.color
-    GLOB.student = userNameIn.text
+    if (mode === 0)
+      GLOB.student = userNameIn.text
   }
 
   function defaults() {

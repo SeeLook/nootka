@@ -32,7 +32,6 @@ Flickable {
       InstrumentSelector {
         id: instrSel
         anchors.horizontalCenter: parent.horizontalCenter
-        instrument: GLOB.instrument.type
         onInstrumentChanged: { // load instrument profile
           if (first) {
               transp.shift = GLOB.transposition
@@ -197,6 +196,7 @@ Flickable {
         else
           tuningCombo.currentIndex = GLOB.tuning.type - (GLOB.instrument.type === Tinstrument.BassGuitar ? 100 : 0)
       }
+      instrSel.instrument = GLOB.instrument.type
     }
 
   }
