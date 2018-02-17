@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -65,6 +65,9 @@ TexamSettings::TexamSettings(QWidget* parent, EsettingsMode mode) :
   m_showDetectedChB = new QCheckBox(tr("show wrong played"), this);
     m_showDetectedChB->setStatusTip(tr("When answer was played (or sung) and it was wrong also the detected wrong note is shown."));
     m_showDetectedChB->setChecked(m_params->showWrongPlayed);
+  m_waitForCorrectChB = new QCheckBox(tr("wait for correct note"), this);
+    m_waitForCorrectChB->setStatusTip(tr("When melody is played from score, every note is checked immediately and next note can be played only when the previous one was correct. When unset, notes are checked only after playing the last one (or check button was clicked)."));
+    m_waitForCorrectChB->setChecked(m_params->waitForCorrect);
 
   m_repeatIncorChB = new QCheckBox(tr("repeat a question"), this);
     m_repeatIncorChB->setChecked(m_params->repeatIncorrect);
@@ -191,24 +194,39 @@ TexamSettings::TexamSettings(QWidget* parent, EsettingsMode mode) :
 #if defined (Q_OS_ANDROID)
     auto *exerciseLay = new QVBoxLayout;
 #else
-    auto *exerciseLay = new QHBoxLayout;
+    auto *exerciseLay = new QGridLayout;
 #endif
-    exerciseLay->addStretch();
+//     exerciseLay->addStretch();
+//     exerciseLay->addWidget(m_suggestExamChB);
+#if defined (Q_OS_ANDROID)
     exerciseLay->addWidget(m_suggestExamChB);
-#if defined (Q_OS_ANDROID)
     exerciseLay->addWidget(getLabelFromStatus(m_suggestExamChB, true, true));
+#else
+    exerciseLay->addWidget(m_suggestExamChB, 0, 0);
 #endif
-    exerciseLay->addStretch();
+//     exerciseLay->addStretch();
+//     exerciseLay->addWidget(m_showDetectedChB);
+#if defined (Q_OS_ANDROID)
     exerciseLay->addWidget(m_showDetectedChB);
-#if defined (Q_OS_ANDROID)
     exerciseLay->addWidget(getLabelFromStatus(m_showDetectedChB, true, true));
+#else
+    exerciseLay->addWidget(m_showDetectedChB, 0, 1);
 #endif
-    exerciseLay->addStretch();
-    exerciseLay->addWidget(m_showNameChB);
+//     exerciseLay->addStretch();
+//     exerciseLay->addWidget(m_showNameChB);
 #if defined (Q_OS_ANDROID)
+    exerciseLay->addWidget(m_showNameChB);
     exerciseLay->addWidget(getLabelFromStatus(m_showNameChB, true, true));
+#else
+    exerciseLay->addWidget(m_showNameChB, 1, 0);
 #endif
-    exerciseLay->addStretch();
+#if defined (Q_OS_ANDROID)
+    exerciseLay->addWidget(m_waitForCorrectChB);
+    exerciseLay->addWidget(getLabelFromStatus(m_waitForCorrectChB, true, true));
+#else
+    exerciseLay->addWidget(m_waitForCorrectChB, 1, 1);
+#endif
+//     exerciseLay->addStretch();
   exerciseGr->setLayout(exerciseLay);
   mainLay->addWidget(exerciseGr);
   mainLay->addStretch();
@@ -265,6 +283,7 @@ void TexamSettings::saveSettings() {
   m_params->suggestExam = m_suggestExamChB->isChecked();
   m_params->showNameOfAnswered = m_showNameChB->isChecked();
   m_params->showWrongPlayed = m_showDetectedChB->isChecked();
+  m_params->waitForCorrect = m_waitForCorrectChB->isChecked();
   if (m_contRadio->isChecked())
     m_params->afterMistake = TexamParams::e_continue;
   else if (m_waitRadio->isChecked())
@@ -292,6 +311,7 @@ void TexamSettings::restoreDefaults() {
   m_questionDelaySpin->setValue(150);
   m_correctChB->setChecked(true);
   m_suggestExamChB->setChecked(true);
+  m_waitForCorrectChB->setChecked(true);
   m_questColorBut->setColor(QColor("red"));
   m_answColorBut->setColor(QColor("green"));
   m_notBadButt->setColor(QColor("#FF8000"));

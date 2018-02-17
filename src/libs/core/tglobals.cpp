@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -246,6 +246,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
       E->afterMistake = (TexamParams::EafterMistake)cfg->value("afterMistake", (int)TexamParams::e_continue).toInt();
       E->showNameOfAnswered = cfg->value("showNameOfAnswered", true).toBool();
       E->showWrongPlayed = cfg->value("showWrongPlayed", false).toBool();
+      E->waitForCorrect = cfg->value(QStringLiteral("waitForCorrect"), true).toBool();
       E->showHelpOnStart = cfg->value("showHelpOnStart", true).toBool();
       E->askAboutExpert = cfg->value("askAboutExpert", true).toBool();
       E->showVeryBeginHelp = cfg->value("showVeryBeginHelp", false).toBool();
@@ -429,6 +430,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue("afterMistake", (int)E->afterMistake);
       cfg->setValue("showNameOfAnswered", E->showNameOfAnswered);
       cfg->setValue("showWrongPlayed", E->showWrongPlayed);
+      cfg->setValue(QStringLiteral("waitForCorrect"), E->waitForCorrect);
       cfg->setValue("askAboutExpert", E->askAboutExpert);
       cfg->setValue("showHelpOnStart", E->showHelpOnStart);
       cfg->setValue("showVeryBeginHelp", E->showVeryBeginHelp);

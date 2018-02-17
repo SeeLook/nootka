@@ -54,6 +54,7 @@ protected slots:
 private:
 // exercises
   QCheckBox				*m_correctChB, *m_suggestExamChB, *m_showDetectedChB;
+  QCheckBox       *m_waitForCorrectChB;
   QSpinBox				*m_correctPreviewSpin;
 // exams
   QCheckBox 			*m_repeatIncorChB, *m_closeConfirmChB;
