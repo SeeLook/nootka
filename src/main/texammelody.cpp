@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -40,12 +40,16 @@ void TexamMelody::newMelody(int length) {
     }
   }
   m_currentIndex = -1;
+  m_indexOfSaved = -1;
   m_indexChanged = false;
   m_numberOfFixed = 0;
 }
 
 
 void TexamMelody::noteStarted() {
+  if (m_indexOfSaved < m_currentIndex)
+    return;
+
   m_indexChanged = false;
   m_currentIndex++;
   if (m_currentIndex >= listened().size()) {
@@ -61,18 +65,20 @@ void TexamMelody::setNote(const TnoteStruct& n) {
     return;
   }
   m_listened[m_currentIndex] = n;
+  m_indexOfSaved = m_currentIndex;
 }
 
 
 void TexamMelody::setCurrentIndex(int id) {
   if (!m_listened.isEmpty()) {
-    if (id >= 0 && id < m_listened.size()) {
-      m_currentIndex = id - 1; // decrease it because noteStarted() will increase it again
-      m_indexChanged = true;
-    } else
-        qDebug() << "[TexamMelody::setCurrentIndex] Index out of range!";
+      if (id >= 0 && id < m_listened.size()) {
+          m_currentIndex = id - 1; // decrease it because noteStarted() will increase it again
+          m_indexChanged = true;
+          m_indexOfSaved = m_currentIndex;
+      } else
+          qDebug() << "[TexamMelody::setCurrentIndex] Index out of range!";
   } else {
-    qDebug() << "[TexamMelody::setCurrentIndex] list is empty, cannot change index!";
+      qDebug() << "[TexamMelody::setCurrentIndex] list is empty, cannot change index!";
   }
 }
 

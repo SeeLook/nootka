@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -57,7 +57,7 @@ public:
       /**
        * Returns true when user decided to start exam after suggestion.
        */
-  bool readyToExam() { return m_readyToExam; }
+  bool readyToExam() const { return m_readyToExam; }
 
       /**
        * Stores index of corrected note on the score.
@@ -98,16 +98,16 @@ public:
   explicit TsuggestExam();
 
   enum Esuggest {
-    e_readyToExam, e_forAmoment, e_notThisTime, e_neverEver
+    e_readyToExam, e_forAmoment, e_checkEntireMelody, e_notThisTime, e_neverEver
   };
 
       /**
-        * Call this dialog and returns user decision
-        */
-  Esuggest suggest();
+       * Call this dialog and returns user decision
+       */
+  Esuggest suggest(bool entireVisible = false);
 
 private:
-  QRadioButton       *m_redyExamRadio, *m_notNowRadio, *m_notThisExRadio, *m_neverAskRadio;
+  QRadioButton       *m_readyExamRadio, *m_checkEntireRadio, *m_notNowRadio, *m_notThisExRadio, *m_neverAskRadio;
   Esuggest            m_userResponse;
 };
 

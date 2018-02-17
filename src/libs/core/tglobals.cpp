@@ -399,6 +399,9 @@ void Tglobals::setExtraNames(bool extraN) { E->showNameOfAnswered = extraN; }
 bool Tglobals::showWrongPlayed() const { return E->showWrongPlayed; }
 void Tglobals::setShowWrongPlayed(bool wrongPlayed) { E->showWrongPlayed = wrongPlayed; }
 
+bool Tglobals::waitForCorrect() const { return E->waitForCorrect; }
+void Tglobals::setWaitForCorrect(bool waitFor) { E->waitForCorrect = waitFor; }
+
 QString Tglobals::examsDir() const { return E->examsDir; }
 
 
@@ -578,6 +581,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
       E->afterMistake = (TexamParams::EafterMistake)cfg->value(QStringLiteral("afterMistake"), (int)TexamParams::e_continue).toInt();
       E->showNameOfAnswered = cfg->value(QStringLiteral("showNameOfAnswered"), true).toBool();
       E->showWrongPlayed = cfg->value(QStringLiteral("showWrongPlayed"), false).toBool();
+      E->waitForCorrect = cfg->value(QStringLiteral("waitForCorrect"), true).toBool();
       E->showHelpOnStart = cfg->value(QStringLiteral("showHelpOnStart"), true).toBool();
       E->askAboutExpert = cfg->value(QStringLiteral("askAboutExpert"), true).toBool();
       E->showVeryBeginHelp = cfg->value(QStringLiteral("showVeryBeginHelp"), false).toBool();
@@ -771,6 +775,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue(QStringLiteral("afterMistake"), (int)E->afterMistake);
       cfg->setValue(QStringLiteral("showNameOfAnswered"), E->showNameOfAnswered);
       cfg->setValue(QStringLiteral("showWrongPlayed"), E->showWrongPlayed);
+      cfg->setValue(QStringLiteral("waitForCorrect"), E->waitForCorrect);
       cfg->setValue(QStringLiteral("askAboutExpert"), E->askAboutExpert);
       cfg->setValue(QStringLiteral("showHelpOnStart"), E->showHelpOnStart);
       cfg->setValue(QStringLiteral("showVeryBeginHelp"), E->showVeryBeginHelp);

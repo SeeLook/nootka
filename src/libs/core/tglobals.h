@@ -110,6 +110,7 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(bool suggestExam READ suggestExam WRITE setSuggestExam)
   Q_PROPERTY(bool extraNames READ extraNames WRITE setExtraNames)
   Q_PROPERTY(bool showWrongPlayed READ showWrongPlayed WRITE setShowWrongPlayed)
+  Q_PROPERTY(bool waitForCorrect READ waitForCorrect WRITE setWaitForCorrect)
   Q_PROPERTY(QString examsDir READ examsDir NOTIFY fakeSignal)
 
 public:
@@ -283,6 +284,9 @@ public:
 
   bool showWrongPlayed() const;
   void setShowWrongPlayed(bool wrongPlayed);
+
+  bool waitForCorrect() const;
+  void setWaitForCorrect(bool waitFor);
 
   QString examsDir() const;
 
