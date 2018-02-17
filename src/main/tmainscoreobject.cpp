@@ -171,9 +171,9 @@ quint32 TmainScoreObject::technical(int noteId) {
 
 
 
-void TmainScoreObject::askQuestion(Tmelody* mel) {
+void TmainScoreObject::askQuestion(Tmelody* mel, bool ignoreTechnical) {
   m_scoreObj->setBgColor(scoreBackgroundColor(GLOB->EquestionColor, 20));
-  m_scoreObj->setMelody(mel);
+  m_scoreObj->setMelody(mel, ignoreTechnical);
   m_scoreObj->setReadOnly(true);
   m_questionMark->setVisible(true);
 }

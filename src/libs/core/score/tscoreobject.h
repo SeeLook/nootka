@@ -162,7 +162,7 @@ public:
   Q_INVOKABLE void openMusicXml(const QString& musicFile);
   Q_INVOKABLE void saveMusicXml(const QString& musicFile);
 
-  void setMelody(Tmelody* melody);
+  void setMelody(Tmelody* melody, bool ignoreTechnical = false);
 
   /* ------------------ Score switches ------------------ */
 

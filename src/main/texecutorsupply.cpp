@@ -221,7 +221,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
               continue;
           else {
               Ttechnical tt; // empty
-              if (m_level->instrument == Tinstrument::Bandoneon && !m_level->onlyLowPos) {
+              if (m_level->instrument == Tinstrument::Bandoneon/* && !m_level->onlyLowPos*/) {
                   auto bando = qobject_cast<TbandoneonBg*>(NOO->instrument());
                   if (bando) { // add to list every each occurrence of the same note on the bandoneon
                     short chromatic = n.chromatic();

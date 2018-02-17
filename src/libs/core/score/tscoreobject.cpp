@@ -473,7 +473,7 @@ void TscoreObject::saveMusicXml(const QString& musicFile) {
 }
 
 
-void TscoreObject::setMelody(Tmelody* melody) {
+void TscoreObject::setMelody(Tmelody* melody, bool ignoreTechnical) {
 CHECKTIME (
   clearScorePrivate();
   m_notes.clear();
@@ -487,7 +487,8 @@ CHECKTIME (
   }
   for (int n = 0; n < melody->length(); ++n) {
     addNote(melody->note(n)->p());
-    lastSegment()->setTechnical(melody->note(n)->technical());
+    if (!ignoreTechnical)
+      lastSegment()->setTechnical(melody->note(n)->technical());
   }
   adjustScoreWidth();
   emitLastNote();
