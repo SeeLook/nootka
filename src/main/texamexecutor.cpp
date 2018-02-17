@@ -328,7 +328,8 @@ void TexamExecutor::askQuestion(bool isAttempt) {
   if (curQ->questionOnScore()) {
     if (curQ->melody()) {
         if (!isAttempt) {
-          MAIN_SCORE->askQuestion(curQ->melody());
+          bool ignoreTechnical = GLOB->instrument().type() != Tinstrument::Bandoneon;
+          MAIN_SCORE->askQuestion(curQ->melody(), ignoreTechnical);
           if (m_level.showStrNr) { // we may be sure that instrument is kind of a guitar
             for (int i = 0; i < curQ->melody()->length(); ++i) {
               if (curQ->melody()->note(i)->g().str() > 1)
@@ -346,13 +347,15 @@ void TexamExecutor::askQuestion(bool isAttempt) {
           MAIN_SCORE->setSelectInReadOnly(true); // allow user to select beginning note to play
         }
     } else {
-        char strNr = 0;
-        if ((curQ->answerOnInstr() || curQ->answerAsSound()) && !m_level.onlyLowPos && m_level.showStrNr)
-          strNr = static_cast<char>(curQ->qa.pos().str()); // do show string number or not
+        quint32 technData = 255; // empty
+        if ((curQ->answerOnInstr() || curQ->answerAsSound()) && !m_level.onlyLowPos && m_level.showStrNr && curQ->qa.pos().str() > 1)
+          technData = curQ->qa.technical.data(); // do show string number or not
+        if (m_level.instrument == Tinstrument::Bandoneon)
+          technData = curQ->qa.technical.data();
         if (m_level.useKeySign && !curQ->answerOnScore())
-          MAIN_SCORE->askQuestion(curQ->qa.note, curQ->key, curQ->qa.technical.data()); // when answer is also on the score we determine key in preparing answer part
+          MAIN_SCORE->askQuestion(curQ->qa.note, curQ->key, technData); // when answer is also on the score we determine key in preparing answer part
         else
-          MAIN_SCORE->askQuestion(curQ->qa.note, curQ->qa.technical.data());
+          MAIN_SCORE->askQuestion(curQ->qa.note, technData);
         if (curQ->answerAsName())
           m_answRequire.accid = true;
         else if (curQ->answerAsSound())
