@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,6 +23,8 @@
 #if defined (Q_OS_ANDROID)
   #include <widgets/tmelodyitem.h>
 #endif
+#include <tinitcorelib.h>
+#include <tscoreparams.h>
 #include <exam/tqagroup.h>
 #include <music/tmelody.h>
 #include <tpath.h>
@@ -139,15 +141,22 @@ void TmelMan::recordMelodySlot() {
 
 void TmelMan::randomizeMelodySlot() {
 	QList<TQAgroup> ql;
-	int ambit = 25; //highestNote().chromatic() - lowestNote().chromatic();
-	for (int i = 0; i < ambit; i++) {
+  short ambit = 25; //highestNote().chromatic() - lowestNote().chromatic();
+  short first = 1;
+  if (Tcore::gl()->S->clef == Tclef::e_bass_F_8down)
+    first = -20;
+  else if (Tcore::gl()->S->clef == Tclef::e_bass_F)
+    first = -9;
+  else if (Tcore::gl()->S->clef == Tclef::e_treble_G)
+    first = 11;
+	for (short i = 0; i < ambit; i++) {
 		TQAgroup qa;
-		qa.note = Tnote(1 + i);
+		qa.note = Tnote(first + i);
 		ql << qa;
 	}
 	Tmelody *mel = new Tmelody(QString(), m_score->keySignature());
   mel->setClef(m_score->clef().type());
-	getRandomMelodyNG(ql, mel, 14, true, true);
+	getRandomMelodyNG(ql, mel, 8 + qrand() % 7, true, true);
 	m_score->setMelody(mel);
 	delete mel;
 }
