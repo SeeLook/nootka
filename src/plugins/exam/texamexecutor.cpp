@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -692,7 +692,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
 			autoNext = false; // when mistake and e_stop - the same like autoNext = false;
 		
 	if (showResults) {
-      m_canvas->resultTip(curQ); // tip duration is calculated by itself (inside resultTip() method)
+      if (!(Tcore::gl()->E->waitForCorrect && m_exercise))
+        m_canvas->resultTip(curQ); // tip duration is calculated by itself (inside resultTip() method)
 			if ((!m_exercise || (m_exercise && curQ->isCorrect())) && !autoNext)
         m_canvas->whatNextTip(curQ->isCorrect());
       if (!autoNext) {
@@ -1491,10 +1492,21 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
   if (m_melody->wasIndexChanged())
     m_exam->curQ()->lastAttempt()->melodyWasPlayed();
   m_melody->noteStarted();
-	if (m_melody->currentIndex() == 0) // first played note was detected
+  if (m_melody->currentIndex() == 0) // first played note was detected
     m_exam->curQ()->lastAttempt()->setPrepareTime(m_penalty->elapsedTime() - quint32(n.duration));
-  if (m_melody->currentIndex() + 1 < m_exam->curQ()->melody()->length()) // highlight next note
-    SCORE->selectNote(m_melody->currentIndex() + 1);
+  if (m_exercise && Tcore::gl()->E->waitForCorrect) {
+      if (m_exam->curQ()->melody()->note(m_melody->currentIndex())->p().compareNotes(n.pitch)) {
+          if (m_melody->currentIndex() + 1 < m_exam->curQ()->melody()->length()) // highlight next note
+            SCORE->selectNote(m_melody->currentIndex() + 1);
+          SCORE->markAnswered(Tcore::gl()->EanswerColor, m_melody->currentIndex());
+          m_melody->setNote(n);
+      } else {
+          SCORE->markAnswered(Tcore::gl()->EquestionColor, m_melody->currentIndex());
+      }
+  } else {
+      if (m_melody->currentIndex() + 1 < m_exam->curQ()->melody()->length()) // highlight next note
+        SCORE->selectNote(m_melody->currentIndex() + 1);
+  }
 }
 
 
@@ -1502,14 +1514,22 @@ void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
   if (m_melody->currentIndex() < 0) // meanwhile new question melody was asked - some undesired note was finished
     return;
 
-  m_melody->setNote(n);
+  bool waitForCorrect = Tcore::gl()->E->waitForCorrect && m_exercise;
+  if (!waitForCorrect)
+    m_melody->setNote(n);
   if (m_melody->currentIndex() == m_exam->curQ()->melody()->length() - 1) {
+    if (waitForCorrect && !m_melody->wasLatestNoteSet())
+      return;
     if (Tcore::gl()->E->expertsAnswerEnable)
-      checkAnswer();
+        checkAnswer();
     else {
-      m_canvas->playMelodyAgainMessage();
-      m_canvas->confirmTip(800);
-      SOUND->wait();
+        if (waitForCorrect)
+            checkAnswer();
+        else {
+            m_canvas->playMelodyAgainMessage();
+            m_canvas->confirmTip(800);
+        }
+        SOUND->wait();
     }
   }
 }

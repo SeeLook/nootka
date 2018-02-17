@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -41,29 +41,30 @@ public:
     e_stop = 2 /** questioning is stopped, to get next one user has to click */
   };
 
-  bool autoNextQuest; /** Next question in en exam is given automatically after correct answer @def false */
-  bool repeatIncorrect; /** If EautoNextQuest is true incorrect questions are asked again once @def true */
-  EafterMistake afterMistake; /** Actions after user mistake when next question is set to ask automatically. @def e_continue */
-  bool expertsAnswerEnable; /** Enable checking without confirm @def false */
-  QString studentName; /** @def empty */
-  QString examsDir; /** Path to dir with recent opened exam file. @def system_home_path */
-  QString levelsDir; /** Path to dir with recent opened level file. @def system_home_path */
-  bool closeWithoutConfirm; /** Do not ask anything when Nootka is closing. @def false */
-  bool showNameOfAnswered; /** Displays note name of answered (if possible). @def false */
+  bool autoNextQuest; /**< Next question in en exam is given automatically after correct answer @def false */
+  bool repeatIncorrect; /**< If EautoNextQuest is true incorrect questions are asked again once @def true */
+  EafterMistake afterMistake; /**< Actions after user mistake when next question is set to ask automatically. @def e_continue */
+  bool expertsAnswerEnable; /**< Enable checking without confirm @def false */
+  QString studentName; /**< @def empty */
+  QString examsDir; /**< Path to dir with recent opened exam file. @def system_home_path */
+  QString levelsDir; /**< Path to dir with recent opened level file. @def system_home_path */
+  bool closeWithoutConfirm; /**< Do not ask anything when Nootka is closing. @def false */
+  bool showNameOfAnswered; /**< Displays note name of answered (if possible). @def false */
 
 // PRACTICE/EXERCISING
-  bool showCorrected; /** When answer was wrong, corrected one will be shown */
-  bool suggestExam; /** Check is exercising going well and suggest to start an exam on that level. @def true */
-  bool showWrongPlayed; /** Displays what pitch Nootka detected when played answer was wrong. @def false  */
+  bool showCorrected; /**< When answer was wrong, corrected one will be shown */
+  bool suggestExam; /**< Check is exercising going well and suggest to start an exam on that level. @def true */
+  bool showWrongPlayed; /**< Displays what pitch Nootka detected when played answer was wrong. @def false  */
+  bool waitForCorrect; /**< When exercise melody is played it locks current note index until correct note is played. @def true  */
 
-  int mistakePreview; /** How long mistakes are exposed to ask auto next question. @def 3000ms */
-  int questionDelay; /** Wait time before every next question. */
-  int correctPreview; /** Preview of answer correction.  */
+  int mistakePreview; /**< How long mistakes are exposed to ask auto next question. @def 3000ms */
+  int questionDelay; /**< Wait time before every next question. */
+  int correctPreview; /**< Preview of answer correction.  */
 
 // Displaying dialogues check box state
-  bool askAboutExpert; /** shows confirm dialog when expertsAnswerEnable is going to be changed @def true */
-  bool showHelpOnStart; /** shows dialog with help on start en exam or exercise @def true */
-  bool showVeryBeginHelp; /** When start exam or exercise dialog appears @def true */
+  bool askAboutExpert; /**< shows confirm dialog when expertsAnswerEnable is going to be changed @def true */
+  bool showHelpOnStart; /**< shows dialog with help on start en exam or exercise @def true */
+  bool showVeryBeginHelp; /**< When start exam or exercise dialog appears @def true */
 };
 
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,12 +19,13 @@
 #ifndef TEXAMMELODY_H
 #define TEXAMMELODY_H
 
-#include <QObject>
+#include <QtCore/qobject.h>
+
 
 class TnoteStruct;
 
 
-/** 
+/**
  * This class manages melodies during exams/exercises.
  * When user plays score, @p newMelody() is called to initialize list of played notes
  * stored in @p listened().
@@ -43,36 +44,70 @@ class TexamMelody : public QObject
 {
 
   Q_OBJECT
-  
+
 public:
-  
+
   TexamMelody(QObject* parent);
   ~TexamMelody();
-  
+
   QList<TnoteStruct>& listened() { return m_listened; }
-  
-  void newMelody(int length); /** Clears list of notes and adds @p length number of empty notes. Sets index to 0. */
-  void noteStarted(); /** Increases current index, note is listened. */
-  void setNote(const TnoteStruct& n); /** Sets note of current index to given value. */
-  
-  int currentIndex() { return m_currentIndex; } /** Index of current note in the list. */
+
+      /**
+       * Clears list of notes and adds @p length number of empty notes. Sets index to 0.
+       */
+  void newMelody(int length);
+
+      /**
+       * Increases current index, note is listened.
+       */
+  void noteStarted();
+
+      /**
+       * Sets note of current index to given value.
+       */
+  void setNote(const TnoteStruct& n);
+
+      /**
+       * Index of current note in the list.
+       */
+  int currentIndex() const { return m_currentIndex; }
   void setCurrentIndex(int id);
   bool wasIndexChanged() { return m_indexChanged; }
-  
-  QList<bool>& attemptFix() { return m_attemptFix; } /** List of fixed notes in melody during exercise */
-  void clearToFix(int notesCount); /** Clears the list and sets all given number elements to false. */
+
+      /**
+       * List of fixed notes in melody during exercise
+       */
+  QList<bool>& attemptFix() { return m_attemptFix; }
+
+      /**
+       * Clears the list and sets all given number elements to false.
+       */
+  void clearToFix(int notesCount);
   bool fixed(int noteNr) { return m_attemptFix[noteNr]; }
-  void setFixed(int noteNr); /** Sets given note number to true (fixed) */
-  int numberOfFixed() { return m_numberOfFixed; } /** Number of already fixed notes. */
-  
-  
+
+      /**
+       * Sets given note number to true (fixed)
+       */
+  void setFixed(int noteNr);
+
+      /**
+       * Number of already fixed notes.
+       */
+  int numberOfFixed() { return m_numberOfFixed; }
+
+      /**
+       * It is @p TRUE when latest note was saved
+       */
+  bool wasLatestNoteSet() const { return m_indexOfSaved == m_currentIndex; }
+
 private:
-  
+
   QList<TnoteStruct>        m_listened;
   int                       m_currentIndex;
+  int                       m_indexOfSaved; /**< Number of note that was recently saved through @p setNote() */
   bool                      m_indexChanged;
   int                       m_numberOfFixed;
-  
+
   QList<bool>               m_attemptFix;
 };
 
