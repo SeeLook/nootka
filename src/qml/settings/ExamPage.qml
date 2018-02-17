@@ -117,6 +117,14 @@ Tflickable {
         }
         Tile {
           TcheckBox {
+            id: waitForCorrChB
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: qsTr("wait for correct note")
+          }
+          description: qsTr("When melody is played from score, every note is checked immediately and next note can be played only when the previous one was correct. When unset, notes are checked only after playing the last one (or check button was clicked).")
+        }
+        Tile {
+          TcheckBox {
             id: showWrongChB
             anchors.horizontalCenter: parent.horizontalCenter
             text: qsTr("show wrong played")
@@ -206,6 +214,7 @@ Tflickable {
     expertAnswChB.checked = GLOB.expertAnswers
     correctChB.checked = GLOB.correctAnswers
     suggestChB.checked = GLOB.suggestExam
+    waitForCorrChB.checked = GLOB.waitForCorrect
     showWrongChB.checked = GLOB.showWrongPlayed
     extraNamesChB.checked = GLOB.extraNames
     repeatChB.checked = GLOB.repeatIncorect
@@ -217,6 +226,7 @@ Tflickable {
     GLOB.expertAnswers = expertAnswChB.checked
     GLOB.correctAnswers = correctChB.checked
     GLOB.suggestExam = suggestChB.checked
+    GLOB.waitForCorrect = waitForCorrChB.checked
     GLOB.showWrongPlayed = showWrongChB.checked
     GLOB.extraNames = extraNamesChB.checked
     GLOB.repeatIncorect = repeatChB.checked
@@ -232,6 +242,7 @@ Tflickable {
     expertAnswChB.checked = false
     correctChB.checked = true
     suggestChB.checked = true
+    waitForCorrChB.checked = true
     showWrongChB.checked = false
     extraNamesChB.checked = true
     repeatChB.checked = true

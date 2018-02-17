@@ -121,7 +121,7 @@ bool TexamExecutor::init(TexamExecutor::EexecOrigin whatToDo, const QVariant& ar
       m_exam = new Texam(&m_level, GLOB->E->studentName);
       m_exam->setTune(*GLOB->Gtune());
       if (whatToDo == StartExercise)
-          m_exercise = new Texercises(m_exam);
+        m_exercise = new Texercises(m_exam);
   } else if (whatToDo == ContinueExam) {
       m_exam = new Texam(&m_level, QString());
       Texam::EerrorType err = m_exam->loadFromFile(arg.toString());
@@ -668,17 +668,18 @@ void TexamExecutor::checkAnswer(bool showResults) {
       autoNext = false; // when mistake and e_stop - the same like autoNext = false;
 
   if (showResults) {
+    if (!(GLOB->waitForCorrect() && m_exercise))
       m_tipHandler->resultTip(curQ); // tip duration is calculated by itself (inside resultTip() method)
-      if ((!m_exercise || (m_exercise && curQ->isCorrect())) && !autoNext)
-        m_tipHandler->whatNextTip(curQ->isCorrect());
-      if (!autoNext) {
-        if (!curQ->isCorrect() && !m_exercise && !curQ->melody())
-          m_repeatQuestAct->setEnabled(true);
+    if ((!m_exercise || (m_exercise && curQ->isCorrect())) && !autoNext)
+      m_tipHandler->whatNextTip(curQ->isCorrect());
+    if (!autoNext) {
+      if (!curQ->isCorrect() && !m_exercise && !curQ->melody())
+        m_repeatQuestAct->setEnabled(true);
 //             TOOLBAR->addAction(TOOLBAR->prevQuestAct);
 //         if (!curQ->isCorrect() && curQ->melody())
 //           TOOLBAR->addAction(TOOLBAR->attemptAct);
-        m_nextQuestAct->setEnabled(true);
-      }
+      m_nextQuestAct->setEnabled(true);
+    }
   }
 
   markAnswer(curQ);
@@ -1206,7 +1207,7 @@ void TexamExecutor::exerciseToExam() {
   m_exam = new Texam(&m_level, userName);
   m_exam->setTune(*GLOB->Gtune());
   delete m_exercise;
-  m_exercise = 0;
+  m_exercise = nullptr;
   m_tipHandler->changeExam(m_exam);
 // #if !defined (Q_OS_ANDROID) // TODO: Some hint under Android
 //   m_tipHandler->levelStatusMessage();
@@ -1500,8 +1501,19 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
   m_melody->noteStarted();
   if (m_melody->currentIndex() == 0) // first played note was detected
     m_exam->curQ()->lastAttempt()->setPrepareTime(m_penalty->elapsedTime() - quint32(n.duration));
-  if (m_melody->currentIndex() + 1 < m_exam->curQ()->melody()->length()) // highlight next note
-    MAIN_SCORE->setSelectedItem(m_melody->currentIndex() + 1);
+  if (m_exercise && GLOB->waitForCorrect()) {
+      if (m_exam->curQ()->melody()->note(m_melody->currentIndex())->p().compareNotes(n.pitch)) {
+          if (m_melody->currentIndex() + 1 < m_exam->curQ()->melody()->length()) // highlight next note
+            MAIN_SCORE->setSelectedItem(m_melody->currentIndex() + 1);
+          MAIN_SCORE->markNoteHead(GLOB->correctColor(), m_melody->currentIndex());
+          m_melody->setNote(n);
+      } else {
+          MAIN_SCORE->markNoteHead(GLOB->wrongColor(), m_melody->currentIndex());
+      }
+  } else {
+      if (m_melody->currentIndex() + 1 < m_exam->curQ()->melody()->length()) // highlight next note
+        MAIN_SCORE->setSelectedItem(m_melody->currentIndex() + 1);
+  }
 }
 
 
@@ -1509,13 +1521,21 @@ void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
   if (m_melody->currentIndex() < 0) // meanwhile new question melody was asked - some undesired note was finished
     return;
 
-  m_melody->setNote(n);
+  bool waitForCorrect = GLOB->waitForCorrect() && m_exercise;
+  if (!waitForCorrect)
+    m_melody->setNote(n);
   if (m_melody->currentIndex() == m_exam->curQ()->melody()->length() - 1) {
+    if (waitForCorrect && !m_melody->wasLatestNoteSet())
+      return;
     if (GLOB->E->expertsAnswerEnable)
-      checkAnswer();
+        checkAnswer();
     else {
-//       m_tipHandler->playMelodyAgainMessage();
-      m_tipHandler->confirmTip(800);
+        if (waitForCorrect)
+            checkAnswer();
+        else {
+  //       m_tipHandler->playMelodyAgainMessage();
+            m_tipHandler->confirmTip(800);
+        }
       SOUND->stopListen();
     }
   }

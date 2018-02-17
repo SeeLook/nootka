@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -95,10 +95,16 @@ public:
        */
   int numberOfFixed() { return m_numberOfFixed; }
 
+      /**
+       * It is @p TRUE when latest note was saved
+       */
+  bool wasLatestNoteSet() const { return m_indexOfSaved == m_currentIndex; }
+
 private:
 
   QList<TnoteStruct>        m_listened;
   int                       m_currentIndex;
+  int                       m_indexOfSaved; /**< Number of note that was recently saved through @p setNote() */
   bool                      m_indexChanged;
   int                       m_numberOfFixed;
 
