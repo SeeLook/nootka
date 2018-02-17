@@ -253,7 +253,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     TQAunit Q(m_exam);
     m_exam->addQuestion(Q);
   }
-  TQAunit* curQ = m_exam->curQ();
+  auto curQ = m_exam->curQ();
   m_isAnswered = false;
   if (!isAttempt) {
     clearWidgets();
@@ -261,7 +261,6 @@ void TexamExecutor::askQuestion(bool isAttempt) {
         QMessageBox::critical(nullptr, QStringLiteral("Level error!"), QString(
           "Nootka attempted to create proper question-answer pair 20 times<br>"
           " Send this message and a level file to developers and we will try to fix it in further releases."));
-//         emit examMessage(Torders::e_examFailed);
         deleteExam();
         return;
     }
@@ -671,7 +670,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
       autoNext = false; // when mistake and e_stop - the same like autoNext = false;
 
   if (showResults) {
-    if (!(GLOB->waitForCorrect() && m_exercise))
+    if (!(GLOB->waitForCorrect() && m_exercise && m_melody))
       m_tipHandler->resultTip(curQ); // tip duration is calculated by itself (inside resultTip() method)
     if ((!m_exercise || (m_exercise && curQ->isCorrect())) && !autoNext)
       m_tipHandler->whatNextTip(curQ->isCorrect());
@@ -707,31 +706,32 @@ void TexamExecutor::checkAnswer(bool showResults) {
 //         }
 //     }
   }
-//   if (showResults && autoNext) {
+  if (showResults && autoNext) {
+    waitTime = 1500;
 //       m_lockRightButt = true; // to avoid nervous users clicking mouse during wait time
-//       if (m_shouldBeTerminated)
-//           stopExamSlot();
-//       else {
-//         if (curQ->isCorrect()) {
-//           m_askingTimer->start(m_melody ? qMax(GLOB->E->questionDelay, 500) : GLOB->E->questionDelay);
-//       } else {
-//           if (GLOB->E->repeatIncorrect && !m_incorrectRepeated) {
-//             if (curQ->melody())
-//               QTimer::singleShot(waitTime, this, SLOT(newAttempt()));
-//             else {
-//               if (!m_exercise) // repeat only once if any
-//                 QTimer::singleShot(waitTime, this, SLOT(repeatQuestion()));
-//               else
-//                 m_askingTimer->start(waitTime);
-//             }
-//           } else {
+      if (m_shouldBeTerminated)
+          stopExamSlot();
+      else {
+        if (curQ->isCorrect()) {
+            m_askingTimer->start(m_melody ? qMax(GLOB->E->questionDelay, 500) : waitTime /*GLOB->E->questionDelay*/);
+      } else {
+            if (GLOB->E->repeatIncorrect && !m_incorrectRepeated) {
+              if (curQ->melody())
+                  QTimer::singleShot(waitTime, [=]{ newAttempt(); });
+              else {
+                  if (!m_exercise) // repeat only once if any
+                    QTimer::singleShot(waitTime, [=] { repeatQuestion(); });
+                  else
+                    m_askingTimer->start(waitTime);
+              }
+          } else {
 //               if (GLOB->E->afterMistake == TexamParams::e_wait && (!m_exercise || !GLOB->E->showCorrected))
-//                   waitTime = GLOB->E->mistakePreview; // for exercises time was set above
-//               m_askingTimer->start(waitTime);
-//           }
-//         }
-//       }
-//   }
+//                 waitTime = GLOB->E->mistakePreview; // for exercises time was set above
+              m_askingTimer->start(waitTime);
+          }
+        }
+      }
+  }
 }
 
 
@@ -827,28 +827,28 @@ void TexamExecutor::checkAnswer(bool showResults) {
 //   } else
 //     correctionFinished();
 // }
-// 
-// 
-// void TexamExecutor::newAttempt() {
-//   m_tipHandler->tryAgainTip(3000);
+
+
+void TexamExecutor::newAttempt() {
+  m_tipHandler->tryAgainTip(3000);
 //   QTimer::singleShot(2000, m_tipHandler, SLOT(clearResultTip())); 
-//   if (m_exam->curQ()->answerAsNote() || m_exam->curQ()->questionAsNote()) // remove names and marks from score notes
-//     for (int i = 0; i < SCORE->notesCount(); ++i) {
+  if (m_exam->curQ()->answerOnScore() || m_exam->curQ()->questionOnScore()) { // remove names and marks from score notes
+//     for (int i = 0; i < MAIN_SCORE->notesCount(); ++i) {
 //       if (m_exercise) {
 //           SCORE->deleteNoteName(i);
 //           if (m_exam->curQ()->lastAttempt()->mistakes[i] != TQAunit::e_correct)
 //             SCORE->markQuestion(-1, i); // leave note marks (colored borders) only for correct answers
 //       } else // although clear all marked notes in exams
 //           SCORE->markQuestion(-1, i);
-//     }
-//   // prepare list to store notes played by user or clear it
-//   m_melody->newMelody(m_exam->curQ()->answerAsSound() ? m_exam->curQ()->melody()->length() : 0);
-// //   m_melody->clearToFix(m_exam->curQ()->melody()->length());
-//   m_penalty->newAttempt();
-//   if (m_exam->curQ()->answerAsSound())
-//         m_exam->curQ()->lastAttempt()->melodyWasPlayed(); // we can suppose that user will play an answer for sure 
-//   askQuestion(true);
-// }
+    }
+  // prepare list to store notes played by user or clear it
+  m_melody->newMelody(m_exam->curQ()->answerAsSound() ? m_exam->curQ()->melody()->length() : 0);
+//   m_melody->clearToFix(m_exam->curQ()->melody()->length());
+  m_penalty->newAttempt();
+  if (m_exam->curQ()->answerAsSound())
+        m_exam->curQ()->lastAttempt()->melodyWasPlayed(); // we can suppose that user will play an answer for sure 
+  askQuestion(true);
+}
 
 
 void TexamExecutor::markAnswer(TQAunit* curQ) {
@@ -906,69 +906,71 @@ void TexamExecutor::markAnswer(TQAunit* curQ) {
 }
 
 
-// void TexamExecutor::repeatQuestion() {
-//   m_tipHandler->tryAgainTip(3000);
+void TexamExecutor::repeatQuestion() {
+  m_tipHandler->tryAgainTip(3000);
 //   m_lockRightButt = false;
-//   m_incorrectRepeated = true;
-//   m_isAnswered = false;
+  m_incorrectRepeated = true;
+  m_isAnswered = false;
 //   if (GLOB->E->showNameOfAnswered) {
 //     for (int i = 0; i < 2; i++)
 //       SCORE->deleteNoteName(i);
 //     INSTRUMENT->deleteNoteName();
 //   }
-// // for melodies it never comes here - questions are newer repeated - copying of TQAunit is safe 
-//   TQAunit curQ(*m_exam->curQ()); // copy last unit as a new one
-// 
-//   if (!GLOB->E->autoNextQuest) {
-//       m_tipHandler->clearCanvas();
-//   }
-//   curQ.setMistake(TQAunit::e_correct);
-//   
-//   if (curQ.answerAsNote())
-//       SCORE->unLockScore();
-//   if (curQ.questionAsName()) { // refresh question on NoteName
-//     if (curQ.answerAsFret() && m_level.showStrNr)
-//           NOTENAME->askQuestion(curQ.qa.note, curQ.styleOfQuestion(), curQ.qa.pos.str());
-//       else
-//           NOTENAME->askQuestion(curQ.qa.note, curQ.styleOfQuestion());
-//   } else
-//     NOTENAME->clearNoteName();
-//   if (curQ.answerAsName()) {
-//     Tnote answNote = Tnote(0, 0, 0);
-//     NOTENAME->setNameDisabled(false);
-//     if (curQ.questionAsName())
-//           answNote = curQ.qa_2.note;
-//     else if (!curQ.answerAsNote())
-//             answNote = curQ.qa.note;
-//     NOTENAME->prepAnswer(curQ.styleOfAnswer());
+// for melodies it never comes here - questions are newer repeated - copying of TQAunit is safe 
+  TQAunit curQ(*m_exam->curQ()); // copy last unit as a new one
+
+  if (!GLOB->E->autoNextQuest)
+      m_tipHandler->clearCanvas();
+  curQ.setMistake(TQAunit::e_correct);
+
+  if (curQ.answerOnScore())
+      MAIN_SCORE->unLockScore();
+  if (curQ.questionAsName()) { // refresh question on NoteName
+      if (curQ.answerOnInstr() && m_level.showStrNr)
+          NOTENAME->askQuestion(curQ.qa.note, curQ.styleOfQuestion(), curQ.qa.pos().str());
+        else
+          NOTENAME->askQuestion(curQ.qa.note, curQ.styleOfQuestion());
+  } else
+        NOTENAME->setNote(Tnote());
+  if (curQ.answerAsName()) {
+    Tnote answNote = Tnote(0, 0, 0);
+    NOTENAME->setDisabled(false);
+    if (curQ.questionAsName())
+      answNote = curQ.qa_2.note;
+    else if (!curQ.answerOnScore())
+        answNote = curQ.qa.note;
+    NOTENAME->prepareAnswer(curQ.styleOfAnswer());
 //     NOTENAME->setStyle(curQ.styleOfAnswer());
-//     if (curQ.questionAsFret() || curQ.questionAsSound()) {
-//           if (m_level.forceAccids) {
-//               NOTENAME->forceAccidental(answNote.alter);
-//           }
-//       } else if (curQ.questionAsName())
-//                 NOTENAME->forceAccidental(answNote.alter);
-//   }
-//   if (curQ.answerAsFret())
-//       INSTRUMENT->setGuitarDisabled(false);
-//   if (curQ.answerAsSound() && !curQ.questionAsSound())
-//       startSniffing();
-//       // *** When question is sound it is played again (repeatSound()) 
-//       // and than startSniffing is called
-// 
-//   m_exam->addQuestion(curQ); // curQ is copied here - it becomes differ than this in exam list
-//   m_penalty->setBlackQuestion();
-//     
-//   if (!GLOB->E->autoNextQuest)
+    if (curQ.questionOnInstr() || curQ.questionAsSound()) {
+        if (m_level.forceAccids)
+          NOTENAME->forceAccidental(answNote.alter());
+    } else if (curQ.questionAsName())
+          NOTENAME->forceAccidental(answNote.alter());
+  }
+  if (curQ.answerOnInstr())
+    INSTRUMENT->setEnabled(true);
+  if (curQ.answerAsSound() && !curQ.questionAsSound())
+      startSniffing();
+      // *** When question is sound it is played again (repeatSound()) 
+      // and than startSniffing is called
+
+  m_exam->addQuestion(curQ); // curQ is copied here - it becomes differ than this in exam list
+  m_penalty->setBlackQuestion();
+
+  if (!GLOB->autoNextQuestion())
+    m_stopExamAct->setEnabled(false);
+  m_repeatQuestAct->setEnabled(false);
+  m_nextQuestAct->setEnabled(false);
+  m_checkQuestAct->setEnabled(true);
 //       TOOLBAR->startExamAct->setDisabled(true);
 //   TOOLBAR->setForQuestion(m_exam->curQ()->questionAsSound(), m_exam->curQ()->questionAsSound() && m_exam->curQ()->answerAsNote());
-//   if (m_exam->curQ()->questionAsSound())
-//       repeatSound();
-//   m_tipHandler->questionTip();
-//   m_penalty->startQuestionTime();
-// }
-// 
-// 
+  if (m_exam->curQ()->questionAsSound())
+    repeatSound();
+  m_tipHandler->questionTip();
+  m_penalty->startQuestionTime();
+}
+
+
 // void TexamExecutor::displayCertificate() {
 //   m_snifferLocked = true;
 //   SOUND->stopListen();
@@ -1137,6 +1139,9 @@ void TexamExecutor::clearWidgets() {
 
 
 void TexamExecutor::createActions() {
+  m_settAct = new Taction(QApplication::translate("TtoolBar", "Settings"), QStringLiteral("exam-settings"), this);
+  m_examActions.append(m_settAct);
+  connect(m_settAct, &Taction::triggered, this, &TexamExecutor::prepareToSettings);
   m_helpAct = new Taction(QApplication::translate("TtoolBar", "Help"), QStringLiteral("help"), this);
   m_examActions.append(m_helpAct);
   connect(m_helpAct, &Taction::triggered, this, &TexamExecutor::showExamHelp);
@@ -1147,6 +1152,7 @@ void TexamExecutor::createActions() {
     connect(m_stopExamAct, &Taction::triggered, this, &TexamExecutor::stopExamSlot);
   m_examActions.append(m_stopExamAct);
   m_repeatQuestAct = new Taction(QApplication::translate("TtoolBar", "Repeat", "like a repeat question"), QStringLiteral("prevQuest"), this, false);
+  connect(m_repeatQuestAct, &Taction::triggered, this, &TexamExecutor::repeatQuestion);
   m_examActions.append(m_repeatQuestAct);
   m_nextQuestAct = new Taction(QApplication::translate("TtoolBar", "Next", "like a next question"), QStringLiteral("nextQuest"), this);
   m_examActions.append(m_nextQuestAct);
@@ -1154,6 +1160,7 @@ void TexamExecutor::createActions() {
   if (m_level.canBeMelody()) {
     m_newAtemptAct = new Taction(QApplication::translate("TtoolBar", "Try again"), "prevQuest", this, false);
     m_examActions.append(m_newAtemptAct);
+    connect(m_newAtemptAct, &Taction::triggered, this, &TexamExecutor::newAttempt);
   }
   if (m_level.questionAs.isSound()) {
     m_playAgainAct = new Taction(QApplication::translate("TtoolBar", "Play"), QStringLiteral("playMelody"), this, false);
@@ -1363,27 +1370,25 @@ void TexamExecutor::closeExecutor() {
 }
 
 
-// void TexamExecutor::prepareToSettings() {
-//   stopSound();
-// }
-// 
-// 
-// void TexamExecutor::settingsAccepted() {
-// // set new colors in exam view - so far it is not allowed during exams
-// //       examResults->setStyleBg(Tcolor::bgTag(GLOB->EanswerColor), Tcolor::bgTag(GLOB->EquestionColor),
-// //                               Tcolor::bgTag(GLOB->EnotBadColor));
-//   if (m_exercise) {
-//     if (GLOB->E->suggestExam)
-//       m_exercise->setSuggestionEnabled(m_supp->qaPossibilities(), m_exam->melodies());
-//     else
-//       m_exercise->setSuggestionEnabled(0);
-//   }
-//   if (m_exam->count() && m_exam->curQ()->answerAsSound() && !SOUND->pitchView()->isPaused())
-//     startSniffing();
+void TexamExecutor::prepareToSettings() {
+  stopSound();
+  emit showSettings();
+}
+
+
+void TexamExecutor::settingsAccepted() {
+  if (m_exercise) {
+    if (GLOB->E->suggestExam)
+      m_exercise->setSuggestionEnabled(m_supp->qaPossibilities(), m_exam->melodies());
+    else
+      m_exercise->setSuggestionEnabled(0);
+  }
+  if (m_exam->count() && m_exam->curQ()->answerAsSound() && !SOUND->isSnifferPaused())//!SOUND->pitchView()->isPaused())
+    startSniffing();
 // #if !defined (Q_OS_ANDROID)
 //   qApp->installEventFilter(m_supp);
 // #endif
-// }
+}
 
 
 void TexamExecutor::stopSound() {
@@ -1658,17 +1663,17 @@ void TexamExecutor::expertAnswersSlot() {
 // }
 
 
- void TexamExecutor::tipLink(const QString& link) {
-   if (link == QLatin1String("nextQuest"))
-       askQuestion();
+void TexamExecutor::tipLink(const QString& link) {
+  if (link == QLatin1String("nextQuest"))
+      askQuestion();
   else if (link == QLatin1String("stopExam")) {
-    if (m_exercise)
-      stopExerciseSlot();
-    else
-      stopExamSlot();
+      if (m_exercise)
+        stopExerciseSlot();
+      else
+        stopExamSlot();
   }
-//   else if (name == QLatin1String("prevQuest"))
-//       repeatQuestion();
+  else if (link == QLatin1String("prevQuest"))
+      repeatQuestion();
    else if (link == QLatin1String("checkAnswer"))
        checkAnswer();
    else if (link == QLatin1String("examHelp"))

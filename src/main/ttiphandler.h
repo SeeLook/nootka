@@ -38,6 +38,7 @@ class TexamExecutor;
 class QTimer;
 class Texam;
 class TQAunit;
+class QQuickItem;
 
 
 /**
@@ -51,6 +52,7 @@ class TtipHandler : public QObject
   Q_OBJECT
 
   Q_PROPERTY(QPointF tipPos READ tipPos WRITE setTipPos)
+  Q_PROPERTY(QQuickItem* tryAgainItem READ tryAgainItem WRITE setTryAgainItem)
 
 public:
 
@@ -68,6 +70,9 @@ public:
 
   QPointF tipPos() const { return m_lastTipPos; }
   void setTipPos(const QPointF& p);
+
+  QQuickItem* tryAgainItem() { return m_tryAgainItem; }
+  void setTryAgainItem(QQuickItem* tryItem);
 
 //    /**
 //     * Cross platform status message:
@@ -102,7 +107,11 @@ public:
       * Text with question context
       */
  void questionTip();
-//  void tryAgainTip(int time); /**< "Try again" text" */
+
+    /**
+     * "Try again" text
+     */
+ void tryAgainTip(int time);
  void confirmTip(int time = 0); /**< tip about confirm an answer appears after given time */
 //  void melodyCorrectMessage(); /**< Status message about how to correct a melody notes. */
 
@@ -149,6 +158,7 @@ signals:
   void destroyTips();
   void showResultTip(const QString text, const QColor& color);
   void destroyResultTip();
+  void showTryAgainTip();
 //  void buttonClicked(const QString&); /**< This signal is emitted when user click image button (a link) on any tip.*/
 //  void certificateMagicKeys(); /**< When translator wants to see a certificate preview */
 //  void correctingFinished(); /**< Emitted when correction animation finish */
@@ -180,6 +190,7 @@ private:
   int                                m_iconSize; /**< Icon image size on tips calculated from actual font metrics. */
   QPointF                            m_lastTipPos;
   bool                               m_confirmTipOn = false;
+  QQuickItem                        *m_tryAgainItem = nullptr;
 
 private:
   QPointF getTipPosition(EtipPos tp);
