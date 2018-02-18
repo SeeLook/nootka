@@ -231,8 +231,9 @@ void TmainScore::setMelody(Tmelody* mel) {
 	}
 	selectNote(0);
 	setAnimationsEnabled(animEnabled);
-	if (mel->length() < notesCount()) { // remove automatically added empty note(s)
-		for (int i = 0; i < notesCount() - mel->length(); ++i)
+  int nc = notesCount();
+	if (mel->length() < nc) { // remove automatically added empty note(s)
+		for (int i = 0; i < nc - mel->length(); ++i)
 			lastStaff()->removeNote(lastStaff()->count() - 1);
 	}
 	enableAccidToKeyAnim(accidAnimEnabled);

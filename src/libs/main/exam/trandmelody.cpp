@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,7 +23,7 @@
 #include <QtCore/qdebug.h>
 #include <QtCore/qdatetime.h>
 
-
+/*
 void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic) {
   qsrand(QDateTime::currentDateTime().toTime_t());
 	for (int i = 0; i < len; ++i) {
@@ -92,7 +92,7 @@ void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, 
 		qDebug() << "Tonic note of" << mel->key().getName() << "was not found";
 	}
 }
-
+*/
 
 /**
  * Generates random melody with following way:
@@ -102,8 +102,9 @@ void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, 
  * 2. Randomizes first note in the phrase (from whole list - scale)
  * 3. Randomizes direction (ascending/descending)
  * 4. Takes notes from the list starting from random first one in random direction.
- * 5. etc, etc, until melody @p len is fulfilled
- * 6. Looks for tonic note at the end if required (@p onTonic)
+ * 5. Checks is interval between last note and first one in the new phrase greater than 7 semitones - looks for smaller then
+ * 6. etc, etc, until melody @p len is fulfilled
+ * 7. Looks for tonic note at the end if required (@p onTonic)
  */
 void getRandomMelodyNG(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic) {
   QList<TQAgroup>* qListPtr = &qList;
@@ -123,12 +124,39 @@ void getRandomMelodyNG(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey
       qListPtr = &inKeyList;
   }
 
+  if (onTonic)
+    len--;
   qsrand(QDateTime::currentDateTime().toTime_t());
+  bool allowMore5thJump = false;
   while (mel->length() < len) {
     int phLen = len < 4 ? len : qBound(2, 2 + qrand() % (len / 2 - 1), len);
     int dir = qrand() % 2 == 1 ? 1 : -1; // direction of melody (ascending or descending)
     int noteId = qrand() % qListPtr->size();
     int notesCnt = 0;
+    if (mel->length()) {
+      int randomInterval = qBound(2, qrand() % 9, 7);
+      int lastPhaseNote = mel->note(mel->length() - 1)->p().chromatic();
+      int nextPhaseNote = qListPtr->operator[](noteId).note.chromatic();
+      if (qAbs(lastPhaseNote - nextPhaseNote) > randomInterval) {
+        int listIt = noteId;
+        int steps = 0;
+        while (steps < qListPtr->size()) {
+          listIt += dir;
+          if (listIt > qListPtr->size() - 1)
+            listIt = 0;
+          else if (listIt < 0)
+            listIt = qListPtr->size() - 1;
+          nextPhaseNote = qListPtr->operator[](listIt).note.chromatic();
+          if (qAbs(lastPhaseNote - nextPhaseNote) > 0 && qAbs(lastPhaseNote - nextPhaseNote) <= randomInterval) {
+            noteId = listIt;
+            break;
+          }
+          steps++;
+        }
+        if (steps >= qListPtr->size())
+          allowMore5thJump = true;
+      }
+    }
     while (notesCnt < phLen && noteId < qListPtr->size() && mel->length() < len) {
       auto curQA = &qListPtr->operator[](noteId);
       mel->addNote(Tchunk(curQA->note, Trhythm(Trhythm::e_none), curQA->pos));
@@ -138,20 +166,24 @@ void getRandomMelodyNG(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey
         break;
     }
   }
+
   if (onTonic) {
     auto tonic = mel->key().tonicNote();
-    QList<int> tonicList;
+    QVector<int> tonicList;
+    int lastNote = mel->note(mel->length() - 1)->p().chromatic();
     for (int n = 0; n < qListPtr->size(); ++n) {
       auto qa = &qListPtr->operator[](n);
-      if (qa->note.note == tonic.note && qa->note.alter == tonic.alter)
-        tonicList << n;
+      if (qa->note.note == tonic.note && qa->note.alter == tonic.alter) {
+        if (allowMore5thJump || qAbs(qa->note.chromatic() - lastNote) < 8) // avoid jump bigger than 7 semitones
+          tonicList << n;
+      }
     }
     if (tonicList.isEmpty())
       qDebug() << "Tonic note of" << mel->key().getName() << "was not found";
     else {
       int tonicRandNr = tonicList[qrand() % tonicList.size()];
-      mel->note(mel->length() - 1)->g() = qListPtr->operator[](tonicRandNr).pos;
-      mel->note(mel->length() - 1)->p() = qListPtr->operator[](tonicRandNr).note;
+      auto curQA = &qListPtr->operator[](tonicRandNr);
+      mel->addNote(Tchunk(curQA->note, Trhythm(Trhythm::e_none), curQA->pos));
     }
   }
 }
