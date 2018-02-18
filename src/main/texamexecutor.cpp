@@ -1510,7 +1510,13 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
   if (m_melody->currentIndex() == 0) // first played note was detected
     m_exam->curQ()->lastAttempt()->setPrepareTime(m_penalty->elapsedTime() - quint32(n.duration));
   if (m_exercise && GLOB->waitForCorrect()) {
-      if (m_exam->curQ()->melody()->note(m_melody->currentIndex())->p().compareNotes(n.pitch)) {
+      int expected = m_exam->curQ()->melody()->note(m_melody->currentIndex())->p().chromatic();
+      int played = n.pitch.chromatic();
+      if (!m_level.requireOctave) {
+        expected = expected % 12;
+        played = played % 12;
+      }
+      if (expected == played) {
           if (m_melody->currentIndex() + 1 < m_exam->curQ()->melody()->length()) // highlight next note
             MAIN_SCORE->setSelectedItem(m_melody->currentIndex() + 1);
           MAIN_SCORE->markNoteHead(GLOB->correctColor(), m_melody->currentIndex());

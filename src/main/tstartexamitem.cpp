@@ -75,7 +75,7 @@ TstartExamItem::TstartExamItem(QQuickItem* parent) :
 
   m_prevExerciseLevel = new Tlevel;
 
-  QString exerciseFile = QDir::toNativeSeparators(QFileInfo(sett.fileName()).absolutePath() + "/exercise.noo");
+  QString exerciseFile = QDir::toNativeSeparators(QFileInfo(sett.fileName()).absolutePath() + "/exercise2.noo");
   m_prevExerciseLevel->name.clear(); // empty means - no previous level
   if (QFileInfo(exerciseFile).exists()) {
       Texam exam(m_prevExerciseLevel, QString());
