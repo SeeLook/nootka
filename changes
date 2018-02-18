@@ -1,3 +1,8 @@
+1.4.6
+     - more user friendly method of checking played notes in exercises
+    BUGS FIXES
+     - keep random generated melody in clef range
+
 1.4.5
   Nootka says: I speak Hungarian
      - added Hungarian translations
