@@ -336,7 +336,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
             QList<TQAgroup> qaList;
             m_supp->listForRandomNotes(curQ->key, qaList);
             // ignore in key (4th param) of level, notes from list are already in key (if required)
-            getRandomMelodyNG(qaList, curQ->melody(), melodyLength, false, false);
+            getRandomMelodyNG(qaList, curQ->melody(), melodyLength, false, m_level.endsOnTonic);
         } else
             getRandomMelodyNG(m_questList, curQ->melody(), melodyLength, m_level.onlyCurrKey, m_level.endsOnTonic);
       }
@@ -1495,7 +1495,13 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
   if (m_melody->currentIndex() == 0) // first played note was detected
     m_exam->curQ()->lastAttempt()->setPrepareTime(m_penalty->elapsedTime() - quint32(n.duration));
   if (m_exercise && Tcore::gl()->E->waitForCorrect) {
-      if (m_exam->curQ()->melody()->note(m_melody->currentIndex())->p().compareNotes(n.pitch)) {
+      auto expected = m_exam->curQ()->melody()->note(m_melody->currentIndex())->p().chromatic();
+      auto played = n.pitch.chromatic();
+      if (!m_level.requireOctave) {
+        expected = expected % 12;
+        played = played % 12;
+      }
+      if (expected == played) {
           if (m_melody->currentIndex() + 1 < m_exam->curQ()->melody()->length()) // highlight next note
             SCORE->selectNote(m_melody->currentIndex() + 1);
           SCORE->markAnswered(Tcore::gl()->EanswerColor, m_melody->currentIndex());
