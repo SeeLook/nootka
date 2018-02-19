@@ -33,6 +33,7 @@
 class TcommonInstrument;
 class TscoreObject;
 class QQuickItem;
+class QQmlEngine;
 
 
 #define   NOO   TnootkaQML::instance()
@@ -125,13 +126,21 @@ public:
 
   Q_INVOKABLE QString pixToHtml(const QString& pixName, int height = 0);
 
-      /** Calls @p QDesktopServices::openUrl with Nootka site doc at given @p hash */
+      /**
+       * Calls @p QDesktopServices::openUrl with Nootka site doc at given @p hash
+       */
   Q_INVOKABLE  void openHelpLink(const QString& hash);
 
   Q_INVOKABLE qreal bound(qreal min, qreal val, qreal max);
 
   bool resetConfig() const { return m_resetConfig; }
   Q_INVOKABLE void setResetConfig(bool rc) { m_resetConfig = rc; }
+
+      /**
+       * Main @p QQmlEngine created at very beginning of Nootka launch
+       */
+  QQmlEngine* qmlEngine() { return m_qmlEngine; }
+  void setQmlEngine(QQmlEngine* e);
 
 /**
  * All stuff below is responsible for handling note changes in score, instrument and sound in/out.
@@ -191,6 +200,7 @@ private:
   bool                           m_nodeConnected = false;
   bool                           m_ignoreScore = false; /**< Becomes @p TRUE to ignore @p scoreChangedNote() slot  */
   bool                           m_resetConfig = false;
+  QQmlEngine                    *m_qmlEngine = nullptr;
 };
 
 #endif // TNOOTKAQML_H
