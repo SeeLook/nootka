@@ -134,6 +134,7 @@ int main(int argc, char *argv[])
     e->rootContext()->setContextProperty(QStringLiteral("Noo"), &nooObj);
     e->rootContext()->setContextProperty(QStringLiteral("SOUND"), &sound);
     if (GLOB->isFirstRun) {
+      nooObj.setQmlEngine(e);
       e->load(QUrl(QStringLiteral("qrc:/wizard/Wizard.qml")));
       exitCode = a->exec();
       delete e;
@@ -143,6 +144,7 @@ int main(int argc, char *argv[])
       e->rootContext()->setContextProperty(QStringLiteral("SOUND"), &sound);
       GLOB->isFirstRun = false;
     }
+    nooObj.setQmlEngine(e);
     qmlRegisterType<TnameItem>("Nootka.Main", 1, 0, "TnameItem");
     qmlRegisterType<TmainScoreObject>("Nootka.Main", 1, 0, "TmainScoreObject");
     qmlRegisterType<TdialogLoaderObject>("Nootka.Dialogs", 1, 0, "TdialogObject");
