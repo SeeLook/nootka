@@ -170,7 +170,7 @@ protected:
   void suggestDialogClosed(bool startExam);
 
 //   void displayCertificate(); /**< Locks the executor and displays certificate. */
-// 
+
 //       /** It sets m_snifferLocked to false (unlocks) and restores capturing right mouse button (installEventFilter) */
 //   void unlockAnswerCapturing();
   void blindQuestion(); /**< Routines for questions with the same answers 'blind' */
@@ -181,15 +181,10 @@ protected:
 
   void prepareToSettings(); /**< Should be called when main window is going to display settings dialog. */
 //   void correctNoteOfMelody(int noteNr);
-// 
+
 //   void correctionFinished();
-// 
+
 private:
-      /**
-       * Casts @p QVariant @p v to @p Tlevel* and if casted, assigns it to @p m_level and returns @p TRUE
-       * otherwise return @p FALSE
-       */
-  bool castLevelFromQVariant(const QVariant& v);
   void createActions();
   void prepareToExam();
   void restoreAfterExam();
@@ -201,6 +196,13 @@ private:
   QString saveExamToFile();
 
   void connectPlayingFinished(); /**< Checks @p m_soundTimer and connects @p playingFinished() of @p Tsound */
+
+      /**
+       * Casts @p QVariant @p v to @p Tlevel* and if casted, assigns it to @p m_level and returns @p TRUE
+       * otherwise return @p FALSE
+       */
+  bool castLevelFromQVariant(const QVariant& v);
+  QObject* createQmlShortcut(QQmlComponent* qmlComp);
 
 private:
 
