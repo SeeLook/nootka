@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -72,6 +72,9 @@ public:
 
   Q_INVOKABLE void trigger();
   Q_INVOKABLE QString key();
+
+public slots:
+  void triggerSlot() { trigger(); }
 
 signals:
   void iconChanged();

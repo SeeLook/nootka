@@ -49,12 +49,12 @@ Score {
 
   TmainScoreObject {
     id: mainObj
-    deleteLastAct.shortcut: Shortcut { sequence: "Del"; onActivated: deleteLastAct.triggered(); enabled: !GLOB.singleNoteMode && !readOnly }
-    clearScoreAct.shortcut: Shortcut { sequence: "Shift+Del"; onActivated: clearScoreAct.triggered(); enabled: !GLOB.singleNoteMode && !readOnly }
-    openXmlAct.shortcut: Shortcut { sequence: StandardKey.Open; onActivated: openXmlAct.triggered(); enabled: !GLOB.singleNoteMode && !GLOB.isExam }
-    saveXmlAct.shortcut: Shortcut { sequence: StandardKey.Save; onActivated: saveXmlAct.triggered(); enabled: !GLOB.singleNoteMode && !GLOB.isExam }
-    zoomOutAct.shortcut: Shortcut { sequence: StandardKey.ZoomOut; onActivated: zoomOutAct.triggered(); enabled: !GLOB.singleNoteMode }
-    zoomInAct.shortcut: Shortcut { sequence: StandardKey.ZoomIn; onActivated: zoomInAct.triggered(); enabled: !GLOB.singleNoteMode }
+    deleteLastAct.shortcut: Shortcut { sequence: "Del"; enabled: !GLOB.singleNoteMode && !readOnly }
+    clearScoreAct.shortcut: Shortcut { sequence: "Shift+Del"; enabled: !GLOB.singleNoteMode && !readOnly }
+    openXmlAct.shortcut: Shortcut { sequence: StandardKey.Open; enabled: !GLOB.singleNoteMode && !GLOB.isExam }
+    saveXmlAct.shortcut: Shortcut { sequence: StandardKey.Save; enabled: !GLOB.singleNoteMode && !GLOB.isExam }
+    zoomOutAct.shortcut: Shortcut { sequence: StandardKey.ZoomOut; enabled: !GLOB.singleNoteMode }
+    zoomInAct.shortcut: Shortcut { sequence: StandardKey.ZoomIn; enabled: !GLOB.singleNoteMode }
     recModeAct.text: recordMode ? qsTr("Note by note") : qsTr("Edit")
     recModeAct.icon: recordMode ? "record" : "stopMelody"
   }

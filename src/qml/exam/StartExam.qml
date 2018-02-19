@@ -15,8 +15,6 @@ TstartExamItem {
 
   width: parent.width; height: parent.height
 
-  openAct.shortcut: Shortcut { sequence: StandardKey.Open; onActivated: openAct.triggered() }
-
   Column {
     width: parent.width; height: parent.height
 

@@ -35,7 +35,6 @@ class TstartExamItem : public QQuickItem
 
   Q_PROPERTY(QList<QObject*> recentModel READ recentModel NOTIFY recentModelChanged)
   Q_PROPERTY(QString lastExamFile READ lastExamFile NOTIFY lastExamFileChanged)
-  Q_PROPERTY(Taction* openAct READ openAct NOTIFY openActChanged)
 
 public:
   explicit TstartExamItem(QQuickItem* parent = nullptr);
@@ -43,8 +42,6 @@ public:
   QList<QObject*> recentModel() { return m_recentModel; }
 
   QString lastExamFile() const;
-
-  Taction* openAct();
 
   Q_INVOKABLE QString prevLevelName() const;
 
