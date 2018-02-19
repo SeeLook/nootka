@@ -50,6 +50,7 @@
 #include <QtWidgets/qmessagebox.h>
 #include <QtWidgets/qapplication.h>
 #include <QtCore/qsettings.h>
+#include <QtQml/qqmlengine.h>
 #if defined (Q_OS_ANDROID)
   #include <Android/tfiledialog.h>
 #else
@@ -1137,6 +1138,7 @@ void TexamExecutor::clearWidgets() {
 
 
 void TexamExecutor::createActions() {
+  QQmlComponent actionsComp(NOO->qmlEngine(), this);
   m_settAct = new Taction(QApplication::translate("TtoolBar", "Settings"), QStringLiteral("exam-settings"), this);
   m_examActions.append(m_settAct);
   connect(m_settAct, &Taction::triggered, this, &TexamExecutor::prepareToSettings);
@@ -1152,9 +1154,13 @@ void TexamExecutor::createActions() {
   m_repeatQuestAct = new Taction(QApplication::translate("TtoolBar", "Repeat", "like a repeat question"), QStringLiteral("prevQuest"), this, false);
   connect(m_repeatQuestAct, &Taction::triggered, this, &TexamExecutor::repeatQuestion);
   m_examActions.append(m_repeatQuestAct);
+  actionsComp.setData("import QtQuick 2.9; Shortcut { sequence: \"Backspace\" }", QUrl());
+  m_repeatQuestAct->setShortcut(createQmlShortcut(&actionsComp));
   m_nextQuestAct = new Taction(QApplication::translate("TtoolBar", "Next", "like a next question"), QStringLiteral("nextQuest"), this);
   m_examActions.append(m_nextQuestAct);
   connect(m_nextQuestAct, &Taction::triggered, this, &TexamExecutor::askQuestionSlot);
+  actionsComp.setData("import QtQuick 2.9; Shortcut { sequence: \"Space\" }", QUrl());
+  m_nextQuestAct->setShortcut(createQmlShortcut(&actionsComp));
   if (m_level.canBeMelody()) {
     m_newAtemptAct = new Taction(QApplication::translate("TtoolBar", "Try again"), "prevQuest", this, false);
     m_examActions.append(m_newAtemptAct);
@@ -1167,6 +1173,8 @@ void TexamExecutor::createActions() {
   m_checkQuestAct = new Taction(QApplication::translate("TtoolBar", "Check", "like a check answer"), QStringLiteral("check"), this, false);
   m_examActions.append(m_checkQuestAct);
   connect(m_checkQuestAct, &Taction::triggered, this, &TexamExecutor::checkAnswerSlot);
+  actionsComp.setData("import QtQuick 2.9; Shortcut { sequence: \"Return\" }", QUrl());
+  m_checkQuestAct->setShortcut(createQmlShortcut(&actionsComp));
   if (m_exercise) {
     m_correctAct = new Taction(QApplication::translate("TtoolBar", "Correct", "like a correct answer with mistake"), QStringLiteral("correct"), this, false);
     m_examActions.append(m_correctAct);
@@ -1761,6 +1769,16 @@ bool TexamExecutor::castLevelFromQVariant(const QVariant& v) {
       qDebug() << "[TexamExecutor] CAN'T CAST Tlevel* FROM QVariant!!!";
       return false;
   }
+}
+
+
+QObject* TexamExecutor::createQmlShortcut(QQmlComponent* qmlComp) {
+  auto shortcut = qmlComp->create(qmlContext(this));
+  if (shortcut)
+    shortcut->setParent(this);
+  else
+    qDebug() << "[TexamExecutor] Can't create shortcut";
+  return shortcut;
 }
 
 
