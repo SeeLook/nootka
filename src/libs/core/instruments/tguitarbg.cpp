@@ -52,6 +52,10 @@ TguitarBg::TguitarBg(QQuickItem* parent) :
   }
 
   connect(GLOB, &Tglobals::guitarParamsChanged, this, &TguitarBg::updateGuitar);
+  connect(GLOB, &Tglobals::instrumentChanged, [=] {
+    if (GLOB->instrument().isGuitar())
+      update();
+  });
 }
 
 
