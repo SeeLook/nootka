@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -88,17 +88,24 @@ void Taction::setChecked(bool ch) {
 
 void Taction::setShortcut(QObject* s) {
   m_shortcut = s;
+  if (m_shortcut) {
+    connect(m_shortcut, SIGNAL(activated()), this, SLOT(triggerSlot()));
+    m_shortcut->setProperty("enabled", m_enabled);
+  }
 }
 
 
 void Taction::setEnabled(bool e) {
   if (e != m_enabled) {
     m_enabled = e;
+    if (m_shortcut)
+      m_shortcut->setProperty("enabled", m_enabled);
     emit enabledChanged();
   }
 }
 
 
 QString Taction::key() {
-  return m_shortcut ? m_shortcut->property("nativeText").toString() : QString(); }
+  return m_shortcut ? m_shortcut->property("nativeText").toString() : QString();
+}
 

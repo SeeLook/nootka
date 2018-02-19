@@ -49,10 +49,13 @@ TstartExamItem::TstartExamItem(QQuickItem* parent) :
   QSettings sett;
 #endif
   auto loadExamAct = new Taction(TexTrans::loadExamFileTxt(), QStringLiteral("nootka-exam"), this);
-#if !defined (Q_OS_ANDROID) //TODO
-//     loadExamAct->setShortcut(QKeySequence::Open);
-#endif
   connect(loadExamAct, &Taction::triggered, this, &TstartExamItem::examFromFileDialog);
+  QQmlEngine e;
+  QQmlComponent c(&e, this);
+  c.setData("import QtQuick 2.9; Shortcut { sequence: StandardKey.Open }", QUrl());
+  auto openShort = c.create();
+  openShort->setParent(this);
+  loadExamAct->setShortcut(openShort);
   m_recentModel << loadExamAct;
 //   m_examMenu->addSeparator();
 //   m_examMenu->addAction(tr("recent opened exams:"));
@@ -94,29 +97,11 @@ TstartExamItem::TstartExamItem(QQuickItem* parent) :
 
   if (GLOB->E->showVeryBeginHelp)
     QTimer::singleShot(100, [=]{ getHelpDialog(); });
-
-//   connect(this, &TstartExamItem::parentChanged, [=]{
-//       qDebug() << "[TstartExamItem]" << this->parent();
-//       if (this->parent()) {
-//         QQmlEngine engine;
-//         QQmlComponent comp(&engine);
-//         comp.setData("import QtQuick 2.9; Shortcut { sequence: StandardKey.Open; onActivated: parent.triggered() }", QUrl());
-//         auto openShort = qobject_cast<QObject*>(comp.create());
-//         auto openAct = m_recentModel.first();
-//         openShort->setParent(openAct);
-//         openAct->setProperty("shortcut", QVariant::fromValue(openShort));
-//       }
-//   });
 }
 
 
 QString TstartExamItem::lastExamFile() const {
   return m_recentExams.isEmpty() ? QString() : m_recentExams.first();
-}
-
-
-Taction* TstartExamItem::openAct() {
-  return qobject_cast<Taction*>(m_recentModel.first());
 }
 
 
