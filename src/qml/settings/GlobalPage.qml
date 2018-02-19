@@ -166,6 +166,7 @@ Tflickable {
     onTriggered: {
       for (var i = 0; i < langModel.count; ++i) {
         if (langModel.get(i).flag === GLOB.lang) {
+          langTumb.currentIndex = i + 1 // FIXME: workaround for Qt 5.10.1
           langTumb.currentIndex = i
           break
         }
