@@ -35,10 +35,15 @@ small glitches:
  - sometimes setting a note doesn't scale tie - probably due to note width is not refreshed
  - meter can be too close to key signature - probably related with clef change
 
+============================================================================
+
+missing in action (comparing to previous major version)
+ - left hand guitar (do we really need this?)
+ - question mark and note name over instrument during exam/exercises
 
 ============================================================================
 To consideration:
-- additional settings options:
+- additional settings options [Android]:
     - disable screen locking (TRUE by default)
     - full screen mode (TRUE by default)
     - home button actions

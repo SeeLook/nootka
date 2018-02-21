@@ -135,6 +135,7 @@ void TmainScoreObject::clearScore() {
     m_scoreObj->note(0)->markNoteHead(Qt::transparent);
     m_scoreObj->note(1)->markNoteHead(Qt::transparent);
   }
+  showNoteNames(false);
 }
 
 
@@ -211,6 +212,23 @@ void TmainScoreObject::prepareKeyToAnswer(const TkeySignature& fakeKey, const QS
       m_questionKey->setY(nameItem->y());
     }
   }
+}
+
+
+void TmainScoreObject::showNoteNames(bool showName) {
+  if (m_scoreObj->singleNote()) {
+      m_scoreObj->note(0)->setNoteNameVisible(showName);
+//       m_scoreObj->note(1)->setNoteNameVisible(showName);
+  } else {
+      m_scoreObj->setShowNoteNames(showName);
+  }
+}
+
+
+void TmainScoreObject::showNoteName(int noteNr, bool showName) {
+  auto note = m_scoreObj->note(noteNr);
+  if (note)
+    note->setNoteNameVisible(showName);
 }
 
 
