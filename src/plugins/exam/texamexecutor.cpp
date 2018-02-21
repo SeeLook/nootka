@@ -908,20 +908,21 @@ void TexamExecutor::markAnswer(TQAunit* curQ) {
 	}                                                       // TODO
   if (m_exercise && Tcore::gl()->E->showNameOfAnswered /*&& (!Tcore::gl()->E->autoNextQuest || (Tcore::gl()->E->autoNextQuest && Tcore::gl()->E->afterMistake != TexamParams::e_continue))*/) {
 		if (!curQ->questionAsName() && !curQ->answerAsName()) {
-			if (curQ->answerAsNote() || (curQ->answerAsSound() && curQ->questionAsNote()))
-				SCORE->showNames(Tcore::gl()->S->nameStyleInNoteName);
-			else if (curQ->answerAsFret()) // for q/a fret-fret this will be the first case
-        GUITAR->showName(Tcore::gl()->S->nameStyleInNoteName, curQ->qa.note, markColor); // Take it from user answer
-			else if (curQ->answerAsSound() && curQ->questionAsFret())
-          GUITAR->showName(Tcore::gl()->S->nameStyleInNoteName, curQ->qa.note, markColor);
-		} else { // cases when name was an question
-			if (curQ->questionAsName()) {
-				if (curQ->answerAsNote())
-					SCORE->showNames(curQ->styleOfQuestion());
-				else if (curQ->answerAsFret())
-          GUITAR->showName(curQ->styleOfQuestion(), curQ->qa.note, markColor);
-			}
-		}
+        if (curQ->answerAsNote() || (curQ->answerAsSound() && curQ->questionAsNote())) {
+            if (!m_melody || !Tcore::gl()->E->waitForCorrect)
+              SCORE->showNames(Tcore::gl()->S->nameStyleInNoteName);
+        } else if (curQ->answerAsFret()) // for q/a fret-fret this will be the first case
+            GUITAR->showName(Tcore::gl()->S->nameStyleInNoteName, curQ->qa.note, markColor); // Take it from user answer
+        else if (curQ->answerAsSound() && curQ->questionAsFret())
+            GUITAR->showName(Tcore::gl()->S->nameStyleInNoteName, curQ->qa.note, markColor);
+    } else { // cases when name was an question
+        if (curQ->questionAsName()) {
+          if (curQ->answerAsNote())
+            SCORE->showNames(curQ->styleOfQuestion());
+          else if (curQ->answerAsFret())
+            GUITAR->showName(curQ->styleOfQuestion(), curQ->qa.note, markColor);
+        }
+    }
   }
 }
 
@@ -1066,6 +1067,7 @@ void TexamExecutor::prepareToExam() {
       SOUND->acceptSettings();
     if (SOUND->isSniffable())
         SOUND->wait();
+//     SOUND->prepareToExam(m_level.requireOctave ? m_level.loNote : GLOB->loNote(), m_level.requireOctave ? m_level.hiNote : GLOB->hiNote());TODO
     if (m_level.requireOctave)
       SOUND->prepareToExam(m_level.loNote, m_level.hiNote);
     // when octave are not required do not change ambitus - it is already set to instrument scale
@@ -1505,6 +1507,10 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
           if (m_melody->currentIndex() + 1 < m_exam->curQ()->melody()->length()) // highlight next note
             SCORE->selectNote(m_melody->currentIndex() + 1);
           SCORE->markAnswered(Tcore::gl()->EanswerColor, m_melody->currentIndex());
+          if (Tcore::gl()->E->showNameOfAnswered) {
+            auto sn = SCORE->noteFromId(m_melody->currentIndex());
+            sn->showNoteName(sn->mainNote()->pen().color());
+          }
           m_melody->setNote(n);
       } else {
           SCORE->markAnswered(Tcore::gl()->EquestionColor, m_melody->currentIndex());
