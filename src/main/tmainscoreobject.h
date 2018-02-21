@@ -103,6 +103,8 @@ public:
   void askQuestion(const Tnote& note, const TkeySignature& key, quint32 technicalData = 255);
   void askQuestion(Tmelody* mel, bool ignoreTechnical = false);
   void prepareKeyToAnswer(const TkeySignature& fakeKey, const QString& expectKeyName);
+  void showNoteNames(bool showName);
+  void showNoteName(int noteNr, bool showName);
 
       /**
        * Sets given accidental

@@ -886,24 +886,27 @@ void TexamExecutor::markAnswer(TQAunit* curQ) {
       case TQAtype::e_asSound:
         break;
     }
-  }                                                       // TODO
-//   if (m_exercise && GLOB->E->showNameOfAnswered /*&& (!GLOB->E->autoNextQuest || (GLOB->E->autoNextQuest && GLOB->E->afterMistake != TexamParams::e_continue))*/) {
-//     if (!curQ->questionAsName() && !curQ->answerAsName()) {
-//       if (curQ->answerAsNote() || (curQ->answerAsSound() && curQ->questionAsNote()))
-//         SCORE->showNames(GLOB->S->nameStyleInNoteName);
+  }
+  if (m_exercise && GLOB->extraNames()) {
+    if (!curQ->questionAsName() && !curQ->answerAsName()) {
+        if (curQ->answerOnScore() || (curQ->answerAsSound() && curQ->questionOnScore())) {
+          if (!m_melody || !GLOB->waitForCorrect())
+            MAIN_SCORE->showNoteNames(true);
 //       else if (curQ->answerAsFret()) // for q/a fret-fret this will be the first case
 //         INSTRUMENT->showName(GLOB->S->nameStyleInNoteName, curQ->qa.note, markColor); // Take it from user answer
 //       else if (curQ->answerAsSound() && curQ->questionAsFret())
 //           INSTRUMENT->showName(GLOB->S->nameStyleInNoteName, curQ->qa.note, markColor);
-//     } else { // cases when name was an question
-//       if (curQ->questionAsName()) {
-//         if (curQ->answerAsNote())
-//           SCORE->showNames(curQ->styleOfQuestion());
-//         else if (curQ->answerAsFret())
-//           INSTRUMENT->showName(curQ->styleOfQuestion(), curQ->qa.note, markColor);
-//       }
-//     }
-//   }
+        }
+    } else { // cases when name was an question
+        if (curQ->questionAsName()) {
+          if (curQ->answerOnScore())
+            MAIN_SCORE->showNoteNames(true); // TODO name style
+//             SCORE->showNames(curQ->styleOfQuestion());
+//           else if (curQ->answerAsFret())
+//             INSTRUMENT->showName(curQ->styleOfQuestion(), curQ->qa.note, markColor);
+        }
+    }
+  }
 }
 
 
@@ -1526,6 +1529,8 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
           if (m_melody->currentIndex() + 1 < m_exam->curQ()->melody()->length()) // highlight next note
             MAIN_SCORE->setSelectedItem(m_melody->currentIndex() + 1);
           MAIN_SCORE->markNoteHead(GLOB->correctColor(), m_melody->currentIndex());
+          if (GLOB->extraNames())
+            MAIN_SCORE->showNoteName(m_melody->currentIndex(), true);
           m_melody->setNote(n);
       } else {
           MAIN_SCORE->markNoteHead(GLOB->wrongColor(), m_melody->currentIndex());
