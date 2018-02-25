@@ -31,35 +31,41 @@ TnameItem {
   // private
   property real buttHeight: height / 12
   property real buttWidth: width / 9
+  property var correctAnim: null
 
   Rectangle {
     anchors.fill: parent
     color: Noo.alpha(activPal.window, 230)
   }
 
+  onCorrectName: {
+    if (!correctAnim) {
+      var c = Qt.createComponent("qrc:/exam/CorrectNameAnim.qml")
+      correctAnim = c.createObject(noteName)
+    }
+    correctAnim.doCross = textItem.text === ""
+    correctAnim.start()
+  }
+
   Rectangle {
     y: parent.height / 14
     anchors.horizontalCenter: parent.horizontalCenter
-    width: noteName.width * 0.9
-    height: noteName.height / 5
+    width: noteName.width * 0.9; height: noteName.height / 5
     color: bgColor
-    Row {
-      anchors.horizontalCenter: parent.horizontalCenter
+    Text {
+      visible: question
+      x: parent.width - width
+      text: "?"; color: GLOB.wrongColor
+      font { family: "Nootka"; pixelSize: parent.height }
+    }
+    Text {
+      id: textItem
+      y: noteName.height * 0.03; x: (parent.width - width) / 2
+      text: nameText; color: activPal.text
       height: parent.height
-      spacing: Noo.fontSize()
-      Text {
-        y: noteName.height * 0.03
-        text: nameText; color: activPal.text
-        height: parent.height
-        style: Text.Outline; styleColor: markColor
-        font { pixelSize: height * 0.266; family: "Scorek" }
-        scale: 3
-      }
-      Text {
-        font { pixelSize: parent.height * 0.9; family: "Nootka" }
-        text: appendix; color: GLOB.wrongColor
-        anchors.verticalCenter: parent.verticalCenter
-      }
+      style: Text.Outline; styleColor: markColor
+      font { pixelSize: height * 0.266; family: "Scorek" }
+      scale: 3
     }
   }
 

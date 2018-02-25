@@ -22,6 +22,7 @@
 
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>
+#include <QtCore/qtimer.h>
 
 #include <QtCore/qdebug.h>
 
@@ -48,7 +49,7 @@ TnameItem::TnameItem(QQuickItem* parent) :
   m_note.setOctave(-4);
   m_bgColor = qApp->palette().base().color();
   connect(qApp, &QGuiApplication::paletteChanged, [=]{
-    if (m_appendix.isEmpty()) { // update color only when question is not asked
+    if (!m_questionAsked) { // update color only when question is not asked
         changeNameBgColor(qApp->palette().base().color());
         emit bgColorChanged();
       }
@@ -80,9 +81,11 @@ void TnameItem::setNote(const Tnote& n) {
       emit alterChanged();
     emit nameTextChanged();
     if (!n.isValid()) {
-      if (!m_appendix.isEmpty()) {
-        m_appendix.clear();
-        emit appendixChanged();
+      if (m_questionAsked) {
+        m_questionAsked = false;
+        emit questionChanged();
+      }
+      if (m_bgColor != qApp->palette().base().color()) {
         m_bgColor = qApp->palette().base().color();
         emit bgColorChanged();
       }
@@ -207,15 +210,12 @@ QString TnameItem::noteButtonText(int noteNr, int nStyle) {
 }
 
 
-void TnameItem::askQuestion(const Tnote& note, Tnote::EnameStyle questStyle, quint8 strNr) {
+void TnameItem::askQuestion(const Tnote& note, Tnote::EnameStyle questStyle) {
   changeNameBgColor(Tcolor::merge(Tcolor::alpha(GLOB->EquestionColor, 40), qApp->palette().base().color()));
   setNameStyle(questStyle);
   setNote(note);
-  m_appendix.clear();
-  if (strNr > 0)
-    m_appendix = QString::number(strNr);
-  m_appendix += QLatin1String("?");
-  emit appendixChanged();
+  m_questionAsked = true;
+  emit questionChanged();
 }
 
 
@@ -245,3 +245,25 @@ void TnameItem::setMarkColor(const QColor& outColor) {
     emit markColorChanged();
   }
 }
+
+
+void TnameItem::correct(const Tnote& okNote) {
+  m_okNote = okNote;
+  emit correctName();
+}
+
+
+void TnameItem::applyCorrect() {
+  if (m_okNote.isValid()) {
+    m_note = m_okNote;
+    setMarkColor(GLOB->correctColor());
+    emit nameTextChanged();
+    m_okNote.setNote(0);
+  }
+}
+
+
+void TnameItem::finishCorrectAnim() {
+  emit correctionFinished();
+}
+

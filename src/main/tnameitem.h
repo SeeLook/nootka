@@ -41,10 +41,10 @@ class TnameItem : public QQuickItem
   Q_PROPERTY(QString nameText READ nameText NOTIFY nameTextChanged)
   Q_PROPERTY(int nameStyle READ nameStyle WRITE setNameStyle NOTIFY nameStyleChanged)
   Q_PROPERTY(int buttonNameStyle READ buttonNameStyle WRITE setButtonNameStyle NOTIFY buttonNameStyleChanged)
-  Q_PROPERTY(QString appendix READ appendix NOTIFY appendixChanged)
   Q_PROPERTY(QColor bgColor READ bgColor NOTIFY bgColorChanged)
   Q_PROPERTY(bool disabled READ disabled WRITE setDisabled NOTIFY disabledChanged)
   Q_PROPERTY(QColor markColor READ markColor WRITE setMarkColor NOTIFY markColorChanged)
+  Q_PROPERTY(bool question READ question NOTIFY questionChanged)
 
 
 public:
@@ -76,27 +76,32 @@ public:
   bool disabled() const { return m_disabled; }
   void setDisabled(bool dis);
 
-  QColor markColor() const { return m_outlineColor; }
-  void setMarkColor(const QColor& outColor);
-
   QString nameText() const;
 
-      /**
-       * This is additional text displayed in exam mode: '?' (question mark) and string number (if any)
-       */
-  QString appendix() const { return m_appendix; }
-
   QColor bgColor() const { return m_bgColor; }
+
+      /**
+       * It can be unset by setting empty note through @p setNote()
+       */
+  bool question() const { return m_questionAsked; }
 
   Q_INVOKABLE QString octaveName(int oNr) const;
   Q_INVOKABLE QString octavesLink() const;
   Q_INVOKABLE QString noteButtonText(int noteNr, int nStyle = -1);
 
-  void askQuestion(const Tnote& note, Tnote::EnameStyle questStyle, quint8 strNr = 0);
+  void askQuestion(const Tnote& note, Tnote::EnameStyle questStyle);
 
   void prepareAnswer(Tnote::EnameStyle answStyle);
 
   void forceAccidental(char accid);
+
+  QColor markColor() const { return m_outlineColor; }
+  void setMarkColor(const QColor& outColor);
+
+  void correct(const Tnote& okNote);
+
+  Q_INVOKABLE void applyCorrect();
+  Q_INVOKABLE void finishCorrectAnim();
 
 signals:
   void noteChanged();
@@ -111,16 +116,19 @@ signals:
   void disabledChanged();
   void noteButtonClicked();
   void markColorChanged();
+  void questionChanged();
+  void correctName();
+  void correctionFinished();
 
 private:
   void changeNameBgColor(const QColor& c) { m_bgColor = c;  emit bgColorChanged(); }
 
 private:
-  Tnote                   m_note;
+  Tnote                   m_note, m_okNote;
   Tnote::EnameStyle       m_nameStyle, m_buttonNameStyle;
-  QString                 m_appendix;
   QColor                  m_bgColor, m_outlineColor;
   bool                    m_disabled = false;
+  bool                    m_questionAsked = false;
 
   static TnameItem       *m_instance;
 };
