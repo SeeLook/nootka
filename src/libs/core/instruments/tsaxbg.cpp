@@ -19,6 +19,8 @@
 #include "tsaxbg.h"
 #include "tglobals.h"
 
+#include <QtCore/qtimer.h>
+
 #include <QtCore/qdebug.h>
 #include "checktime.h"
 
@@ -140,4 +142,15 @@ CHECKTIME (
 
 
 void TsaxBg::markSelected(const QColor& markColor) {
+}
+
+
+void TsaxBg::showNoteName() {
+}
+
+
+void TsaxBg::correct(const Tnote& n, quint32 noteData) {
+  markSelected(GLOB->correctColor());
+  setNote(n, noteData);
+  QTimer::singleShot(1500, [=]{ emit correctionFinished(); }); // Fake so far
 }

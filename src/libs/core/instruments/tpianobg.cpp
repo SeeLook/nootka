@@ -24,8 +24,9 @@
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qscreen.h>
 #include <QtCore/qmath.h>
-#include <QtCore/qdebug.h>
+#include <QtCore/qtimer.h>
 
+#include <QtCore/qdebug.h>
 #include "checktime.h"
 
 
@@ -134,6 +135,16 @@ CHECKTIME (
 void TpianoBg::markSelected(const QColor& markColor) {
 }
 
+
+void TpianoBg::showNoteName() {
+}
+
+
+void TpianoBg::correct(const Tnote& n, quint32 noteData) {
+  markSelected(GLOB->correctColor());
+  setNote(n, noteData);
+  QTimer::singleShot(1500, [=]{ emit correctionFinished(); }); // Fake so far
+}
 
 //#################################################################################################
 //###################              PROTECTED           ############################################

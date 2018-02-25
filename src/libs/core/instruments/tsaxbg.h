@@ -66,6 +66,9 @@ public:
 
   void markSelected(const QColor & markColor) override;
 
+  void showNoteName() override;
+
+  void correct(const Tnote & n, quint32 noteData) override;
 
 signals:
   void flapNumberChanged();

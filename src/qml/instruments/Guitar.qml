@@ -9,15 +9,26 @@ import Nootka 1.0
 
 
 TguitarBg {
+  id: instrItem
 
   // private
   property var bodyPix: ["", "-electro", "-bass"]
+  property var correctAnim: null
 
   anchors.fill: parent
 
+  onCorrectInstrument: {
+    if (!correctAnim) {
+      var c = Qt.createComponent("qrc:/exam/CorrectInstrAnim.qml")
+      correctAnim = c.createObject(instrItem)
+    }
+    correctAnim.doCross = wrongItem === null
+    correctAnim.start()
+  }
+
   Image { // body
     cache: false
-    source: Noo.pix("body" + bodyPix[GLOB.instrument.typeINT - 1])
+    source: GLOB.instrument.isGuitar ? Noo.pix("body" + bodyPix[GLOB.instrument.typeINT - 1]) : ""
     height: parent.height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 4 : 3.1)
     width: height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 1.452482269503546 : 1.04885993485342)
     x: GLOB.instrument.type === Tinstrument.ClassicalGuitar ? xiiFret : parent.width * 0.65
@@ -27,7 +38,7 @@ TguitarBg {
 
   Image { // rosette/pickup
     cache: false
-    source: Noo.pix(GLOB.instrument.type === Tinstrument.ClassicalGuitar ? "rosette" : "pickup")
+    source: GLOB.instrument.isGuitar ? Noo.pix(GLOB.instrument.type === Tinstrument.ClassicalGuitar ? "rosette" : "pickup") : ""
     height: parent.height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 1.55 : 1.3)
     width: height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 1.20253164556962 : 0.6217948717948718)
     x: GLOB.instrument.type === Tinstrument.ClassicalGuitar ? fbRect.width - height * 0.25 : parent.width * 0.87
