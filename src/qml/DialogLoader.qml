@@ -25,7 +25,21 @@ Old.Dialog {
   property var dialogDrawer: null
   property var buttons: []
 
-  TdialogObject { id: dialogObj }
+  TdialogObject {
+    id: dialogObj
+    onContinueExam: {
+      GLOB.isExam = true
+      if (!nootkaWindow.executor.init(1, examFile)) {
+        console.log("Executor discarded, deleting it")
+        nootkaWindow.executor.destroy()
+        GLOB.isExam = false
+      }
+    }
+    onOpenLevel: {
+      page = Nootka.LevelCreator
+      currentDialog.openLevel(levelFile)
+    }
+  }
 
   contentItem: Column {
     width: dialLoader.width; height: dialLoader.height
@@ -114,4 +128,8 @@ Old.Dialog {
   onReset: if (currentDialog) currentDialog.reset()
   onAccepted: if (currentDialog) currentDialog.accepted()
   onHelp: if (currentDialog) currentDialog.help()
+
+  function openFile(file) {
+    dialogObj.openFile(file)
+  }
 }

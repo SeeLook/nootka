@@ -39,9 +39,7 @@
 #include "tcolor.h"
 
 #include <QtQml/qqmlengine.h>
-#include <QtCore/qfile.h>
-#include <QtCore/qdir.h>
-#include <QtCore/qdir.h>
+#include <QtCore/qfileinfo.h>
 #include <QtCore/qdatetime.h>
 #include <QtCore/qbuffer.h>
 #include <QtWidgets/qapplication.h>
@@ -433,6 +431,33 @@ qreal TnootkaQML::bound(qreal min, qreal val, qreal max) {
 
 void TnootkaQML::setQmlEngine(QQmlEngine* e) {
   m_qmlEngine = e;
+}
+
+
+/**
+ * Opening files from command line argument starts here, but it is a bit clumsy:
+ * - for Music XML is fine, we have @p TscoreObject here so just call @p openMusicXml()
+ * - but for exam and level files only @p wantOpenFile() signal is emitted
+ * - then @p MainWindow.qml handles it and creates @p DialogLoader.qml
+ * - 'dialog loader' invokes @p TdialogLoaderObject::openFile() of its object
+ * - and there the file is distinguished (exam or level) and appropriate signal is emitted
+ * - again, 'dialog loader' handles those signals and creates 'exam executor' or 'level creator' apparently
+ */
+void TnootkaQML::openFile(const QString& runArg) {
+  if (GLOB->isExam()) {
+    qDebug() << "--- Exam or exercise is running. File cannot be opened! ---";
+    return;
+  }
+  if (QFile::exists(runArg)) {
+    QFile file(runArg);
+    auto ext = QFileInfo(file).suffix();
+    if (ext == QLatin1String("xml")) { // TODO mxl - compressed format
+        auto fullPath = QDir(file.fileName()).absolutePath();
+        m_scoreObject->openMusicXml(fullPath);
+    } else {
+        emit GLOB->wantOpenFile(runArg);
+    }
+  }
 }
 
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,6 +25,7 @@
 #include <tglobals.h>
 #include <texamparams.h>
 
+#include <QtCore/qtimer.h>
 #include <QtCore/qfileinfo.h>
 #include <QtCore/qdatetime.h>
 #include <QtWidgets/qmessagebox.h>
@@ -495,6 +496,19 @@ QStringList TlevelCreatorItem::keyComboModel() {
     model << QLatin1String("(") + k.accidNumber() + QLatin1String(") ") + k.getMajorName() + QLatin1String(" / ") + k.getMinorName();
   }
   return model;
+}
+
+
+void TlevelCreatorItem::openLevel(const QString& levelFile) {
+  if (selector())
+    selector()->loadFromFile(levelFile);
+  else // delay is necessary because selector is created when level creator component is completed
+    QTimer::singleShot(200, [=]{
+      if (selector())
+        selector()->loadFromFile(levelFile);
+      else
+        qDebug() << "[TlevelCreatorItem] device too slow to open file as command line argument.";
+    });
 }
 
 

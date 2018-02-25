@@ -150,18 +150,14 @@ int main(int argc, char *argv[])
     qmlRegisterType<TdialogLoaderObject>("Nootka.Dialogs", 1, 0, "TdialogObject");
     e->load(QUrl(QStringLiteral("qrc:/MainWindow.qml")));
 
-// #if defined (Q_OS_ANDROID)
-//     w->showFullScreen(); // TODO seems to be not necessary
-// #endif
-
     if (firstTime) {
 #if defined (Q_OS_ANDROID)
-//      QString androidArg = Tandroid::getRunArgument();
-//      if (!androidArg.isEmpty())
-//        w->openFile(androidArg);
-#else // TODO
-//       if (argc > 1)
-//         w->openFile(QString::fromLocal8Bit(argv[argc - 1]));
+     QString androidArg = Tandroid::getRunArgument();
+     if (!androidArg.isEmpty())
+       nooObj.openFile(androidArg);
+#else
+      if (argc > 1)
+        nooObj.openFile(QString::fromLocal8Bit(argv[argc - 1]));
 #endif
     }
     if (firstTime) {

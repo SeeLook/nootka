@@ -25,8 +25,10 @@
 #include "main/ttiphandler.h"
 #include "main/texamsummary.h"
 #include "main/tstartexamitem.h"
-#include "qtr.h"
+#include <qtr.h>
+#include <exam/texam.h>
 
+#include <QtCore/qdir.h>
 #include <QtWidgets/qdialogbuttonbox.h>
 #include <QtCore/qdebug.h>
 
@@ -93,3 +95,22 @@ QString TdialogLoaderObject::buttonRoleIcon(int role) {
   }
 }
 
+
+void TdialogLoaderObject::openFile(const QString& fileName) {
+  QFile file(fileName);
+  quint32 hdr = 0;
+  if (file.open(QIODevice::ReadOnly)) {
+    QDataStream in(&file);
+    in >> hdr; // check what file type
+    auto fullPath = QDir(file.fileName()).absolutePath();
+    file.close();
+    if (Texam::couldBeExam(hdr)) {
+        if (Texam::isExamVersion(hdr))
+          emit continueExam(fullPath);
+    } else if (Tlevel::couldBeLevel(hdr)) {
+        if (Tlevel::isLevelVersion(hdr))
+          emit openLevel(fullPath);
+    } else
+        qDebug() << "[TdialogLoaderObject] file" << fileName << "is not supported by Nootka";
+  }
+}
