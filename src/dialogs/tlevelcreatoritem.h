@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -219,6 +219,8 @@ public:
   void setManualKey(bool manual);
 
   Q_INVOKABLE QStringList keyComboModel();
+
+  Q_INVOKABLE void openLevel(const QString& levelFile);
 
 signals:
   void updateLevel();

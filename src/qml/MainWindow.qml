@@ -104,6 +104,10 @@ ApplicationWindow {
             examResults.destroy()
       }
     }
+    onWantOpenFile: {
+      showDialog(Nootka.NoDialog)
+      dialogLoader.openFile(fileName)
+    }
   }
 
   Component.onCompleted: {

@@ -75,7 +75,7 @@ public:
        * Describes reason of starting executor
        */
   enum EexecOrigin {
-    NoExam = 0, ContinueExam, NewExam, LevelCreator, StartExercise
+    NoExam = 0, ContinueExam = 1, NewExam = 2, LevelCreator = 3, StartExercise = 4
   };
   Q_ENUM(EexecOrigin)
 

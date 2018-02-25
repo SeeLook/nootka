@@ -62,9 +62,10 @@ public:
 
       /**
        * Dialogues recognized by main QML Dialog instance of main window
+       * @p NoDialog only creates 'dialog loader' instance but does nothing
        */
   enum Edialogs {
-    Settings = 1, About = 2, LevelCreator = 3, ExamStart = 4, ExamSummary = 5, Charts = 6, QuickAudio = 7
+    NoDialog = 0, Settings = 1, About = 2, LevelCreator = 3, ExamStart = 4, ExamSummary = 5, Charts = 6, QuickAudio = 7
   };
   Q_ENUM(Edialogs)
 
@@ -141,6 +142,8 @@ public:
        */
   QQmlEngine* qmlEngine() { return m_qmlEngine; }
   void setQmlEngine(QQmlEngine* e);
+
+  void openFile(const QString& runArg);
 
 /**
  * All stuff below is responsible for handling note changes in score, instrument and sound in/out.

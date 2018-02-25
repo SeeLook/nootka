@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -49,6 +49,12 @@ public:
        * icon name by button role
        */
   Q_INVOKABLE QString buttonRoleIcon(int role);
+
+  Q_INVOKABLE void openFile(const QString& fileName);
+
+signals:
+  void continueExam(const QString& examFile);
+  void openLevel(const QString& levelFile);
 
 private:
   static bool                    m_firstTime;

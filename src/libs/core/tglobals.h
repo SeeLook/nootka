@@ -411,6 +411,7 @@ signals:
   void notBadColorChanged();
   void wrongColorChanged(); /**< To silence warning about non-NOTIFYable properties */
   void fakeSignal();
+  void wantOpenFile(const QString& fileName); /**< Emitted when Nootka starts with an argument which is exam or level file  */
 
 private:
   static Tglobals           *m_instance;
