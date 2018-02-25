@@ -80,6 +80,16 @@ public:
 
   virtual void showNoteName() = 0;
 
+      /**
+       * Correcting answer logic:
+       * @p correct() method is called by exam executor.
+       * This method prepares correction and emits @p correctInstrument() signal.
+       * QML side (instrument implementation) starts animation then on @p p_wrongItem
+       * and when incorrect item is hidden by QML, it calls @p applyCorrect()
+       * to prepare correct answer and @p p_goodItem.
+       * After that QML continues animations and when finished,
+       * @p finishCorrectAnim() is invoked and @p correctionFinished() signal emitted.
+       */
   virtual void correct(const Tnote& n, quint32 noteData) = 0;
 
   virtual void applyCorrect() {}

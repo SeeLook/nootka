@@ -186,7 +186,7 @@ protected:
 //   void correctNoteOfMelody(int noteNr);
 
 protected slots:
-  void correctionFinished();
+  void correctionFinishedSlot();
 
 
 private:
