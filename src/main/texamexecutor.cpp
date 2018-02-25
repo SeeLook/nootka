@@ -1394,44 +1394,44 @@ void TexamExecutor::suggestDialogClosed(bool startExam) {
 }
 
 
-// bool TexamExecutor::closeNootka() {
-//   bool result;
-//   if (m_exercise) {
-//     m_goingClosed = true;
-//     stopExerciseSlot();
-//     result = true;
-//   } else {
-//     m_snifferLocked = true;
+bool TexamExecutor::closeNootka() {
+  bool allowToCLose = true;
+  if (m_exercise) {
+      m_goingClosed = true;
+      stopExerciseSlot();
+      allowToCLose = true;
+  } else {
+      m_snifferLocked = true;
 // #if !defined (Q_OS_ANDROID)
 //     qApp->removeEventFilter(m_supp);
 // #endif
-//     auto msg = new QMessageBox(mW);
-//     msg->setText(tr("Psssst... Exam is going.<br><br>"
-//                     "Select <b>%1</b> to check, save and exit<br>"
-//                     "or <b>%2</b> to continue.<br>")
-//                 .arg(qTR("QShortcut", "Save"))
-//                 .arg(qTR("QPlatformTheme", "Retry")));
-//     msg->setStandardButtons(QMessageBox::Retry | QMessageBox::Save);
-//     msg->setWindowTitle(QStringLiteral("Psssst..."));
-//     if (!GLOB->E->closeWithoutConfirm)
-//         msg->exec();
-//     if (!GLOB->E->closeWithoutConfirm && msg->clickedButton() == msg->button(QMessageBox::Retry)) {
-//         m_snifferLocked = false;
+      auto msg = new QMessageBox(nullptr);
+      msg->setText(tr("Psssst... Exam is going.<br><br>"
+                      "Select <b>%1</b> to check, save and exit<br>"
+                      "or <b>%2</b> to continue.<br>")
+                  .arg(qTR("QShortcut", "Save"))
+                  .arg(qTR("QPlatformTheme", "Retry")));
+      msg->setStandardButtons(QMessageBox::Retry | QMessageBox::Save);
+      msg->setWindowTitle(QStringLiteral("Psssst..."));
+      if (!GLOB->E->closeWithoutConfirm)
+        msg->exec();
+      if (!GLOB->E->closeWithoutConfirm && msg->clickedButton() == msg->button(QMessageBox::Retry)) {
+          m_snifferLocked = false;
 // #if !defined (Q_OS_ANDROID)
 //         qApp->installEventFilter(m_supp);
 // #endif
-//         result = false;
-//     } else {
-//         m_goingClosed = true;
-//         if (!m_isAnswered)
-//           checkAnswer(false);
-//         stopExamSlot();
-//         result = true;
-//     }
-//     delete msg;
-//   }
-//   return result;
-// }
+          allowToCLose = false;
+      } else {
+          m_goingClosed = true;
+          if (!m_isAnswered)
+            checkAnswer(false);
+          stopExamSlot();
+          allowToCLose = true;
+      }
+      delete msg;
+  }
+  return allowToCLose;
+}
 
 
 QString TexamExecutor::saveExamToFile() {

@@ -99,7 +99,8 @@ public:
       bool key;
   };
 
-//   bool closeNootka();
+  Q_INVOKABLE bool closeNootka();
+
   bool isAnswered() const { return m_isAnswered; }
 
       /**

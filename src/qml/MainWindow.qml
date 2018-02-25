@@ -66,8 +66,6 @@ ApplicationWindow {
   x: GLOB.geometry.x
   y: GLOB.geometry.y
 
-  onClosing: GLOB.geometry = Qt.rect(x ,y, width, height)
-
   MainMenu { id: mainMenu }
   header: mainMenu.toolBar
 
@@ -131,5 +129,14 @@ ApplicationWindow {
       dialogLoader = c.createObject(nootkaWindow)
     }
     dialogLoader.page = page
+  }
+
+  onClosing: {
+    if (executor) {
+      if (!executor.closeNootka())
+        close.accepted = false
+    }
+    if (close.accepted)
+      GLOB.geometry = Qt.rect(x ,y, width, height)
   }
 }
