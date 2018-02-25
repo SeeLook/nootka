@@ -113,10 +113,12 @@ public:
   void unLockScore();
   void lockKeySignature(bool lock);
   void markNoteHead(const QColor& outColor, int noteNr);
+  void correctNote(const Tnote& goodNote, char keySign, bool corrAccid = false);
 
 signals:
   void scoreActionsChanged();
   void keyNameTextChanged();
+  void correctionFinished();
   // redirected from TscoreObject
   void clicked();
   void readOnlyNoteClicked(int noteId);

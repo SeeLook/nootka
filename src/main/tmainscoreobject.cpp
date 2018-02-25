@@ -33,6 +33,7 @@
 #include <QtQml/qqmlengine.h>
 #include <QtQml/qqmlcomponent.h>
 #include <QtQuick/qquickitem.h>
+#include <QtCore/qtimer.h>
 
 #include <QtCore/qdebug.h>
 
@@ -252,6 +253,20 @@ void TmainScoreObject::markNoteHead(const QColor& outColor, int noteNr) {
   auto note = m_scoreObj->note(noteNr);
   if (note)
     note->markNoteHead(outColor);
+}
+
+
+void TmainScoreObject::correctNote(const Tnote& goodNote, char keySign, bool corrAccid) {
+  if (m_scoreObj->singleNote()) {
+    m_scoreObj->setNote(0, goodNote);
+    if (keySign != keySignatureValue())
+      m_scoreObj->setKeySignature(keySign);
+    if (corrAccid) {
+      // TODO
+    }
+    markNoteHead(GLOB->correctColor(), 0);
+  }
+  QTimer::singleShot(1500, [=]{ emit correctionFinished(); }); // Fake so far
 }
 
 

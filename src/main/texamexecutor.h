@@ -149,7 +149,7 @@ protected:
   void repeatQuestion();
   void repeatSound();
   void playMiddleA();
-//   void correctAnswer();
+  void correctAnswer();
   void newAttempt();
 
   void showExamHelp();
@@ -179,10 +179,15 @@ protected:
   void noteOfMelodyFinished(const TnoteStruct& n); /**< Played note was finished */
   void noteOfMelodySelected(int nr); /**< Note of score to play was clicked */
 
-  void prepareToSettings(); /**< Should be called when main window is going to display settings dialog. */
+      /**
+       * Should be called when settings dialog is going to be displayed.
+       */
+  void prepareToSettings();
 //   void correctNoteOfMelody(int noteNr);
 
-//   void correctionFinished();
+protected slots:
+  void correctionFinished();
+
 
 private:
   void createActions();

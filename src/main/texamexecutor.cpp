@@ -241,7 +241,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 //     return;
 
 //   m_lockRightButt = false; // release mouse button events
-  if (m_exercise && !GLOB->E->showCorrected) // hide correct action button
+  if (m_exercise && !GLOB->E->showCorrected && m_correctAct) // hide correct action button
     m_correctAct->setEnabled(false);
 //   if (m_exam->count() && m_exercise && m_exam->melodies())
 //     disconnect(SCORE, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctNoteOfMelody);
@@ -388,10 +388,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
             }
         }
       }
-      if ((curQ->answerOnInstr() || curQ->answerAsSound()) && m_level.showStrNr)
-          NOTENAME->askQuestion(curQ->qa.note, curQ->styleOfQuestion(), curQ->qa.pos().str());
-      else
-          NOTENAME->askQuestion(curQ->qa.note, curQ->styleOfQuestion());
+      NOTENAME->askQuestion(curQ->qa.note, curQ->styleOfQuestion());
       if (curQ->answerAsSound())
           m_answRequire.accid = false; // reset checking accidentals determined by level
   }
@@ -678,9 +675,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
     if (!autoNext) {
       if (!curQ->isCorrect() && !m_exercise && !curQ->melody())
         m_repeatQuestAct->setEnabled(true);
-//             TOOLBAR->addAction(TOOLBAR->prevQuestAct);
-//         if (!curQ->isCorrect() && curQ->melody())
-//           TOOLBAR->addAction(TOOLBAR->attemptAct);
+      if (!curQ->isCorrect() && curQ->melody())
+        m_newAtemptAct->setEnabled(true);
       m_nextQuestAct->setEnabled(true);
     }
   }
@@ -693,19 +689,19 @@ void TexamExecutor::checkAnswer(bool showResults) {
     if ((GLOB->E->autoNextQuest && GLOB->E->afterMistake != TexamParams::e_continue) || !GLOB->E->autoNextQuest || GLOB->E->showCorrected)
       waitTime = GLOB->E->correctPreview; // user has to have time to see his mistake and correct answer
     m_exercise->checkAnswer();
-//     if (!curQ->isCorrect()) { // correcting wrong answer
-//         if (GLOB->E->showCorrected) // TODO for dictation it should always stop and show mistakes
-//           correctAnswer();
-//         else {
-//           if (!GLOB->E->autoNextQuest || (GLOB->E->autoNextQuest && GLOB->E->afterMistake == TexamParams::e_stop))
-//               TOOLBAR->addAction(TOOLBAR->correctAct); // show too button only when exam stops after mistake
-//           if (!autoNext) {
-//               m_tipHandler->whatNextTip(true, true);
-//               m_lockRightButt = false;
-//               return; // wait for user
-//           }
-//         }
-//     }
+    if (!curQ->isCorrect()) { // correcting wrong answer
+        if (GLOB->correctAnswers()) // TODO for dictation it should always stop and show mistakes
+            correctAnswer();
+        else {
+          if (!GLOB->autoNextQuestion() /*|| (GLOB->autoNextQuestion() && GLOB->E->afterMistake == TexamParams::e_stop)*/)
+            m_correctAct->setEnabled(true); // show too button only when exam stops after mistake
+          if (!autoNext) {
+            m_tipHandler->whatNextTip(true, true);
+            m_lockRightButt = false;
+            return; // wait for user
+          }
+        }
+    }
   }
   if (showResults && autoNext) {
     waitTime = 1500;
@@ -746,88 +742,88 @@ void TexamExecutor::checkAnswer(bool showResults) {
 //  * When exam/exercise stops after mistake - 'what next tip' appears after 1000 ms
 //  * Detected note if wrong appears for result tip time or 5000 ms when no auto next question
 //  */
-// void TexamExecutor::correctAnswer() {
-//   if (!GLOB->E->showCorrected)
-//     TOOLBAR->removeAction(TOOLBAR->correctAct);
-//   bool correctAnimStarted = false;
-//   if (m_askingTimer->isActive())
-//       m_askingTimer->stop();
-//   m_tipHandler->clearWhatNextTip();
-//   TQAunit* curQ = m_exam->answList()->last();
-//   QColor markColor = m_supp->answerColor(curQ);
+void TexamExecutor::correctAnswer() {
+  if (m_correctAct && !GLOB->correctAnswers())
+    m_correctAct->setEnabled(false);
+  QObject* correctAnimObject = nullptr;
+  if (m_askingTimer->isActive())
+    m_askingTimer->stop();
+  m_tipHandler->clearCanvas();
+  TQAunit* curQ = m_exam->answList()->last();
+  QColor markColor = m_supp->answerColor(curQ);
 //   if (curQ->melody() && (curQ->answerAsNote() || curQ->questionAsNote())) {
 //     SCORE->setReadOnlyReacting(true); // It is undone whenever unLockScore() is called
 //   }
-//   if (curQ->answerAsNote()) {
-//     if (curQ->melody()) {
-//       
-//     } else {
-//       Tnote goodNote = curQ->qa.note;
-//       if (curQ->questionAsNote())
-//         goodNote = curQ->qa_2.note;
-//       if (curQ->wrongAccid() || curQ->wrongOctave()) // it corrects wrong octave as well
-//           SCORE->correctAccidental(goodNote);
-//       else if (curQ->wrongNote()) {
-//           if (m_level.manualKey && curQ->key.value() != SCORE->keySignature().value())
-//             SCORE->correctKeySignature(curQ->key);
-//           m_exercise->setCorrectedNoteId(0);
-//           SCORE->correctNote(goodNote, markColor);
-//       }
-//       if (curQ->wrongKey())
-//           SCORE->correctKeySignature(curQ->key);
-//       correctAnimStarted = true;
-//     }
-//   } else if (curQ->answerAsFret()) {
-//       TfingerPos goodPos = curQ->qa.pos;
-//       if (curQ->questionAsFret())
-//           goodPos = curQ->qa_2.pos;
-//       INSTRUMENT->correctPosition(goodPos, markColor);
-//       correctAnimStarted = true;
-//   } else if (curQ->answerAsName()) {
-//       Tnote goodNote = curQ->qa.note;
-//       if (curQ->questionAsName())
-//           goodNote = curQ->qa_2.note;
-//       if (!m_answRequire.accid && curQ->isNotSoBad()) { // respect accidental selected by user 
-//         switch (NOTENAME->getNoteName().alter) {
-//           case -2 : goodNote = goodNote.showWithDoubleFlat(); break;
-//           case -1 : goodNote = goodNote.showWithFlat(); break;
-//           case  0 : goodNote = goodNote.showAsNatural(); break;
-//           case  1 : goodNote = goodNote.showWithSharp(); break;
-//           case  2 : goodNote = goodNote.showWithDoubleSharp(); break;
+  if (curQ->answerOnScore()) {
+    if (curQ->melody()) {
+
+    } else {
+        Tnote goodNote = curQ->questionOnScore() ? curQ->qa_2.note : curQ->qa.note;
+        char key = MAIN_SCORE->keySignatureValue();
+        bool correctAccid = curQ->wrongAccid() || curQ->wrongOctave();
+//         if (curQ->wrongAccid() || curQ->wrongOctave()) // it corrects wrong octave as well
+//             SCORE->correctAccidental(goodNote);
+//         else if (curQ->wrongNote()) {/*
+            if (m_level.manualKey /*&& curQ->key.value() != SCORE->keySignature().value()*/)
+              key = curQ->key.value();
+//               SCORE->correctKeySignature(curQ->key);
+            m_exercise->setCorrectedNoteId(0);
+//             SCORE->correctNote(goodNote, markColor);
 //         }
-//       }
+//         if (curQ->wrongKey())
+//             SCORE->correctKeySignature(curQ->key);*/
+        MAIN_SCORE->correctNote(goodNote, key, correctAccid);
+        correctAnimObject = MAIN_SCORE;
+    }
+  } else if (curQ->answerOnInstr()) {
+      auto goodPos = curQ->questionOnInstr() ? curQ->qa_2.technical.data() : curQ->qa.technical.data();
+      INSTRUMENT->correct(curQ->questionOnInstr() ? curQ->qa_2.note : curQ->qa.note, goodPos);
+      correctAnimObject = INSTRUMENT;
+  } else if (curQ->answerAsName()) {
+      Tnote goodNote = curQ->questionAsName() ? curQ->qa_2.note : curQ->qa.note;
+      if (!m_answRequire.accid && curQ->isNotSoBad()) { // respect accidental selected by user 
+        switch (NOTENAME->note().alter()) {
+          case -2 : goodNote = goodNote.showWithDoubleFlat(); break;
+          case -1 : goodNote = goodNote.showWithFlat(); break;
+          case  0 : goodNote = goodNote.showAsNatural(); break;
+          case  1 : goodNote = goodNote.showWithSharp(); break;
+          case  2 : goodNote = goodNote.showWithDoubleSharp(); break;
+        }
+      }
+      NOTENAME->correct(goodNote);
 //       NOTENAME->correctName(goodNote, markColor, curQ->isWrong());
-//       correctAnimStarted = true;
-//   } else { // answer as played sound
-//     if (curQ->melody()) {
-//       
-//     } else {
-//       if (curQ->wrongIntonation()) {
-//           float outTune = SOUND->pitch() - (float)qRound(SOUND->pitch());
-//           SOUND->pitchView()->outOfTuneAnim(outTune, 1200);
-//           m_tipHandler->outOfTuneTip(outTune); // we are sure that it is beyond the accuracy threshold
-//           correctAnimStarted = true;
-//       }
-//       if (m_supp->isCorrectedPlayable())
-//           repeatSound();
-//       else {
-//         if (INSTRUMENT->isVisible()) {
-//         // Animation towards guitar when instrument is guitar and answer was wrong or octave was wrong
-//           if (curQ->questionAsFret())
-//             INSTRUMENT->correctPosition(curQ->qa.pos, markColor);
-//           else
-//             m_tipHandler->correctToGuitar(curQ->questionAs, GLOB->E->mistakePreview, curQ->qa.pos);
-//           correctAnimStarted = true;
-//         }
-//       }
-//     }
-//   }
-//   if (correctAnimStarted) { // disable space bar and right mouse button when animation is performed
-//     TOOLBAR->nextQuestAct->setDisabled(true);
+      correctAnimObject = NOTENAME;
+  } else { // answer as played sound
+      if (curQ->melody()) {
+
+      } else {
+          if (curQ->wrongIntonation()) { // TODO
+//               float outTune = SOUND->pitch() - (float)qRound(SOUND->pitch());
+//               SOUND->pitchView()->outOfTuneAnim(outTune, 1200);
+//               m_tipHandler->outOfTuneTip(outTune); // we are sure that it is beyond the accuracy threshold
+//               correctAnimStarted = true;
+          }
+          if (m_supp->isCorrectedPlayable())
+              repeatSound();
+          else {
+//             if (INSTRUMENT->isVisible()) {
+            // Animation towards guitar when instrument is guitar and answer was wrong or octave was wrong
+//               if (curQ->questionOnInstr())
+//                 INSTRUMENT->correctPosition(curQ->qa.pos, markColor);
+//               else
+//                 m_tipHandler->correctToGuitar(curQ->questionAs, GLOB->E->mistakePreview, curQ->qa.pos);
+//               correctAnimStarted = true;
+//             }
+          }
+    }
+  }
+  if (correctAnimObject) { // disable space bar and right mouse button when animation is performed
+      m_nextQuestAct->setEnabled(false);
+      connect(correctAnimObject, SIGNAL(correctionFinished()), this, SLOT(correctionFinished()));
 //     m_lockRightButt = true;
-//   } else
-//     correctionFinished();
-// }
+  } else
+      correctionFinished();
+}
 
 
 void TexamExecutor::newAttempt() {
@@ -930,10 +926,7 @@ void TexamExecutor::repeatQuestion() {
   if (curQ.answerOnScore())
       MAIN_SCORE->unLockScore();
   if (curQ.questionAsName()) { // refresh question on NoteName
-      if (curQ.answerOnInstr() && m_level.showStrNr)
-          NOTENAME->askQuestion(curQ.qa.note, curQ.styleOfQuestion(), curQ.qa.pos().str());
-        else
-          NOTENAME->askQuestion(curQ.qa.note, curQ.styleOfQuestion());
+      NOTENAME->askQuestion(curQ.qa.note, curQ.styleOfQuestion());
   } else
         NOTENAME->setNote(Tnote());
   if (curQ.answerAsName()) {
@@ -949,7 +942,7 @@ void TexamExecutor::repeatQuestion() {
         if (m_level.forceAccids)
           NOTENAME->forceAccidental(answNote.alter());
     } else if (curQ.questionAsName())
-          NOTENAME->forceAccidental(answNote.alter());
+        NOTENAME->forceAccidental(answNote.alter());
   }
   if (curQ.answerOnInstr())
     INSTRUMENT->setEnabled(true);
@@ -1026,21 +1019,11 @@ void TexamExecutor::prepareToExam() {
   m_glStore->storeSettings();
   m_glStore->prepareGlobalsToExam(m_level);
 
-// #if defined (Q_OS_ANDROID) // remove/hide actions from main and score menus
-//   if (!GLOB->S->isSingleNoteMode) {
-//     TOOLBAR->playMelody()->setVisible(false);
-//     TOOLBAR->recordMelody()->setVisible(false);
-//     TOOLBAR->generateMelody()->setVisible(false);
-//   }
-// #endif
+
 // #if !defined (Q_OS_ANDROID) // Do not show it user Android - it sucks there
 //   SOUND->pitchView()->setVisible(GLOB->L->soundViewEnabled);
 // #endif
 //   INSTRUMENT->setVisible(GLOB->L->guitarEnabled);
-//   SCORE->acceptSettings();
-//   NOTENAME->setEnabledEnharmNotes(false);
-//   NOTENAME->setEnabledDblAccid(m_level.withDblAcc);
-//   INSTRUMENT->acceptSettings();
   if (m_level.canBeSound()) {
     SOUND->acceptSettings();
     if (SOUND->isSniffable())
@@ -1098,7 +1081,6 @@ void TexamExecutor::restoreAfterExam() {
 //     MAINVIEW->flyActions()->append(SOUND->pitchView()->pauseAction());
 //   }
 // #endif
-//   INSTRUMENT->acceptSettings();
   SOUND->acceptSettings();
 //   SOUND->pitchView()->setIntonationAccuracy(GLOB->A->intonation);
 //   SOUND->pitchView()->enableAccuracyChange(true);
@@ -1181,32 +1163,14 @@ void TexamExecutor::createActions() {
   if (m_exercise) {
     m_correctAct = new Taction(QApplication::translate("TtoolBar", "Correct", "like a correct answer with mistake"), QStringLiteral("correct"), this, false);
     m_examActions.append(m_correctAct);
+    connect(m_correctAct, &Taction::triggered, this, &TexamExecutor::correctAnswer);
+    m_correctAct->setShortcut(createQmlShortcut(&actionsComp)); // Enter (Return) key
   }
   emit examActionsChanged();
 
-// #if defined (Q_OS_ANDROID)
-//   if (!m_level.answerIsSound()) {
-//     SOUND->pitchView()->pauseAction()->setVisible(false);
-//     MAINVIEW->flyActions()->removeOne(SOUND->pitchView()->pauseAction());
-//   }
-// #endif
-//   connect(TOOLBAR->prevQuestAct, SIGNAL(triggered()), this, SLOT(repeatQuestion()));
-//   connect(TOOLBAR->checkAct, SIGNAL(triggered()), this, SLOT(checkAnswer()));
-//   if (m_level.questionAs.isSound()) {
-//     TOOLBAR->createRepeatSoundAction();
-//     connect(TOOLBAR->repeatSndAct, SIGNAL(triggered()), this, SLOT(repeatSound()));
-//   }
 //   if (m_level.questionAs.isSound() && m_level.answersAs[TQAtype::e_asSound].isNote()) {
 //     TOOLBAR->createTuneForkAction();
 //     connect(TOOLBAR->tuneForkAct, SIGNAL(triggered()), this, SLOT(playMiddleA()));
-//   }
-//   if (m_exercise) {
-//     TOOLBAR->createCorrectAction();
-//     connect(TOOLBAR->correctAct, SIGNAL(triggered()), this, SLOT(correctAnswer()));
-//   }
-//   if (m_level.canBeMelody()) {
-//     TOOLBAR->createAttemptAction();
-//     connect(TOOLBAR->attemptAct, SIGNAL(triggered()), this, SLOT(newAttempt()));
 //   }
 }
 
@@ -1237,6 +1201,7 @@ void TexamExecutor::exerciseToExam() {
   disconnect(m_stopExamAct, &Taction::triggered, this, &TexamExecutor::stopExerciseSlot);
   connect(m_stopExamAct, &Taction::triggered, this, &TexamExecutor::stopExamSlot);
   clearWidgets();
+  emit examActionsChanged();
   emit titleChanged();
   m_tipHandler->clearCanvas();
   m_tipHandler->startTip();
@@ -1604,12 +1569,12 @@ void TexamExecutor::startSniffing() {
   if (m_soundTimer->isActive())
     m_soundTimer->stop();
 #if !defined (Q_OS_ANDROID)
-      if (m_exam->curQ()->answerAsSound() && !GLOB->A->dumpPath.isEmpty()) {
-        QString dumpFileName = QString("Question-%1").arg(m_exam->count(), 3, 'i', 0, '0');
-        if (m_melody)
-          dumpFileName += QString("-attempt%1").arg(m_exam->curQ()->attemptsCount());
-        SOUND->setDumpFileName(dumpFileName);
-      }
+    if (m_exam->curQ()->answerAsSound() && !GLOB->A->dumpPath.isEmpty()) {
+      QString dumpFileName = QString("Question-%1").arg(m_exam->count(), 3, 'i', 0, '0');
+      if (m_melody)
+        dumpFileName += QString("-attempt%1").arg(m_exam->curQ()->attemptsCount());
+      SOUND->setDumpFileName(dumpFileName);
+    }
 #endif
   if (SOUND->isSnifferPaused())
     SOUND->unPauseSniffing();
@@ -1632,10 +1597,11 @@ void TexamExecutor::expertAnswersSlot() {
   QTimer::singleShot(0, [=]{ checkAnswer(); });
 }
 
-// /** This slot is invoked  during correction of melody on the score. 
-//  * Each note can be clicked and: 
+
+// /** This slot is invoked  during correction of melody on the score.
+//  * Each note can be clicked and:
 //  * - corrected if score is an answer
-//  * - shows position on the guitar
+//  * - shows position on the instrument
 //  * - plays its sound
 //  * - displays message with detected pitch if note was played wrong  */
 // void TexamExecutor::correctNoteOfMelody(int noteNr) {
@@ -1691,16 +1657,16 @@ void TexamExecutor::tipLink(const QString& link) {
   }
   else if (link == QLatin1String("prevQuest"))
       repeatQuestion();
-   else if (link == QLatin1String("checkAnswer"))
-       checkAnswer();
-   else if (link == QLatin1String("examHelp"))
-       showExamHelp();
-//   else if (name == QLatin1String("correct"))
-//       correctAnswer();
+  else if (link == QLatin1String("checkAnswer"))
+      checkAnswer();
+  else if (link == QLatin1String("examHelp"))
+      showExamHelp();
+  else if (link == QLatin1String("correct"))
+      correctAnswer();
 //   else if (name == QLatin1String("certClosing"))
 //       unlockAnswerCapturing();
-//   else if (name == QLatin1String("newAttempt"))
-//       newAttempt();
+  else if (link == QLatin1String("newAttempt"))
+      newAttempt();
  }
 
 
@@ -1739,7 +1705,8 @@ void TexamExecutor::blindQuestion() {
 }
 
 
-// void TexamExecutor::correctionFinished() {
+void TexamExecutor::correctionFinished() {
+  disconnect(sender(), SIGNAL(correctionFinished()), this, SLOT(correctionFinished()));
 //   if (sender() == SCORE) { // show name on score only when it is enabled and corrected
 //     if (GLOB->E->showNameOfAnswered && m_exercise->idOfCorrectedNote() > -1) {
 //       Tnote::EnameStyle tmpStyle = Tnote::defaultStyle; // store current name style
@@ -1748,21 +1715,21 @@ void TexamExecutor::blindQuestion() {
 //       Tnote::defaultStyle = tmpStyle; // restore style
 //     }
 //   }
-//   TOOLBAR->nextQuestAct->setDisabled(false);
-//   if (GLOB->E->autoNextQuest && GLOB->E->afterMistake != TexamParams::e_stop && !m_exam->curQ()->melody()) {
-//     m_askingTimer->start(GLOB->E->correctPreview); // new question will be started after preview time
-//   }
-//   if (m_exam->curQ()->melody()) { // despite of 'auto' settings when melody - auto next question will not work
-//     m_tipHandler->whatNextTip(false, false);
+  m_nextQuestAct->setEnabled(true);
+  if (GLOB->E->autoNextQuest && GLOB->E->afterMistake != TexamParams::e_stop && !m_exam->curQ()->melody()) {
+    m_askingTimer->start(GLOB->E->correctPreview); // new question will be started after preview time
+  }
+  if (m_exam->curQ()->melody()) { // despite of 'auto' settings when melody - auto next question will not work
+      m_tipHandler->whatNextTip(false, false);
 //     connect(SCORE, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctNoteOfMelody); // only once per answer
-//   } else if (!GLOB->E->autoNextQuest || GLOB->E->afterMistake == TexamParams::e_stop)
-//       m_tipHandler->whatNextTip(!(!m_exercise && GLOB->E->repeatIncorrect && !m_incorrectRepeated));
-//   if (m_exam->curQ()->melody() && (m_exam->curQ()->questionAsNote() || m_exam->curQ()->answerAsNote()))
+  } else if (!GLOB->E->autoNextQuest || GLOB->E->afterMistake == TexamParams::e_stop)
+        m_tipHandler->whatNextTip(!(!m_exercise && GLOB->E->repeatIncorrect && !m_incorrectRepeated));
+//   if (m_exam->curQ()->melody() && (m_exam->curQ()->questionOnScore() || m_exam->curQ()->answerOnScore()))
 //       m_tipHandler->melodyCorrectMessage();
 //   if (!GLOB->E->autoNextQuest || !GLOB->E->showCorrected || GLOB->E->afterMistake == TexamParams::e_stop)
 //       QTimer::singleShot(4000, m_tipHandler, SLOT(clearResultTip())); // exam will stop so clear result tip after correction
 //   m_lockRightButt = false;
-// }
+}
 
 
 bool TexamExecutor::castLevelFromQVariant(const QVariant& v) {

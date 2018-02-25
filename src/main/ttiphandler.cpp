@@ -408,7 +408,7 @@ void TtipHandler::questionTip() {
             questText += playOrSing(int(level->instrument));
       }
       if (question->answerOnInstr() || question->answerAsSound()) {
-        if (level->instrument != Tinstrument::NoInstrument && !level->canBeMelody() && level->showStrNr && !level->onlyLowPos) {
+        if (Tinstrument(level->instrument).isGuitar() && !level->canBeMelody() && level->showStrNr && !level->onlyLowPos) {
           apendix = br + sp + onStringTxt(question->qa.pos().str());
         }
       }
