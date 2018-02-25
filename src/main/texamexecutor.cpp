@@ -732,16 +732,21 @@ void TexamExecutor::checkAnswer(bool showResults) {
 }
 
 
-// /**
-//  * %%%%%%%%%% Time flow in Nootka %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-//  * @p correctPreview @p mistakePreview and @p questionDelay  are user configurable vars determining corresponding times
-//  * Correction animation takes 1500 ms - rest time of @p correctPreview is for user
-//  * 'result tip (good, not bad, wrong)' takes 2500 ms
-//  * 'Try again tip is displayed for 3000 ms'
-//  * 'how to confirm an answer tip' is displayed after 1500 ms
-//  * When exam/exercise stops after mistake - 'what next tip' appears after 1000 ms
-//  * Detected note if wrong appears for result tip time or 5000 ms when no auto next question
-//  */
+/**
+ * @p correctAnswer() invokes @p correct() method of appropriate control
+ * and connects to @p correctingFinished() signal of the control.
+ * When the control will finish correction routines it will emit this signal,
+ * so @p correctionFinishedSlot continues executor action
+ *
+ * %%%%%%%%%% Time flow in Nootka %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ * @p correctPreview @p mistakePreview and @p questionDelay  are user configurable vars determining corresponding times
+ * Correction animation takes 1500 ms - rest time of @p correctPreview is for user
+ * 'result tip (good, not bad, wrong)' takes 2500 ms
+ * 'Try again tip is displayed for 3000 ms'
+ * 'how to confirm an answer tip' is displayed after 1500 ms
+ * When exam/exercise stops after mistake - 'what next tip' appears after 1000 ms
+ * Detected note if wrong appears for result tip time or 5000 ms when no auto next question
+ */
 void TexamExecutor::correctAnswer() {
   if (m_correctAct && !GLOB->correctAnswers())
     m_correctAct->setEnabled(false);
@@ -822,7 +827,7 @@ void TexamExecutor::correctAnswer() {
       connect(correctAnimObject, SIGNAL(correctionFinished()), this, SLOT(correctionFinished()));
 //     m_lockRightButt = true;
   } else
-      correctionFinished();
+      correctionFinishedSlot();
 }
 
 
@@ -1705,7 +1710,7 @@ void TexamExecutor::blindQuestion() {
 }
 
 
-void TexamExecutor::correctionFinished() {
+void TexamExecutor::correctionFinishedSlot() {
   disconnect(sender(), SIGNAL(correctionFinished()), this, SLOT(correctionFinished()));
 //   if (sender() == SCORE) { // show name on score only when it is enabled and corrected
 //     if (GLOB->E->showNameOfAnswered && m_exercise->idOfCorrectedNote() > -1) {
