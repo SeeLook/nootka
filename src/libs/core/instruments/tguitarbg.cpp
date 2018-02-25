@@ -25,6 +25,7 @@
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpainter.h>
 #include <QtGui/qpalette.h>
+#include <QtCore/qtimer.h>
 
 #include <QtCore/qdebug.h>
 #include "checktime.h"
@@ -44,12 +45,11 @@ TguitarBg::TguitarBg(QQuickItem* parent) :
     m_stringItems[s] = qobject_cast<QQuickItem*>(comp.create());
     m_stringItems[s]->setParentItem(this);
     m_stringItems[s]->setVisible(false);
-    m_stringItems[s]->setZ(5);
     m_fingerItems[s] = qobject_cast<QQuickItem*>(comp.create());
     m_fingerItems[s]->setParentItem(this);
     m_fingerItems[s]->setVisible(false);
-    m_fingerItems[s]->setZ(5);
   }
+  p_wrongItem = m_fingerItems[0];
 
   connect(GLOB, &Tglobals::guitarParamsChanged, this, &TguitarBg::updateGuitar);
   connect(GLOB, &Tglobals::instrumentChanged, [=] {
@@ -59,8 +59,8 @@ TguitarBg::TguitarBg(QQuickItem* parent) :
 }
 
 
-QPointF TguitarBg::fretToPos(const TfingerPos& pos) {
-  qreal xPos = fbRect().x();
+QPointF TguitarBg::fretToPos(const TfingerPos& pos) const {
+  qreal xPos = m_fbRect.x();
   if (pos.fret())
     xPos = m_fretsPos[pos.fret() - 1] - qRound(m_fretWidth / 1.5);
   return QPointF(xPos, m_fbRect.y() + m_strGap * (pos.str() - 1) + m_strGap / 5.0);
@@ -340,6 +340,58 @@ void TguitarBg::markSelected(const QColor& markColor) {
   }
 }
 
+
+void TguitarBg::showNoteName() {
+}
+
+
+void TguitarBg::correct(const Tnote& n, quint32 noteData) {
+  if (m_selectedPos.isValid()) {
+    if (m_selectedPos.fret() > 0)
+      p_wrongItem = m_fingerItems[m_selectedPos.str() - 1];
+    else
+      p_wrongItem = m_stringItems[m_selectedPos.str() - 1];
+  } else
+      p_wrongItem = nullptr;
+  p_note = n;
+  m_goodPos = TfingerPos(static_cast<quint8>(noteData));
+  if (m_goodPos.isValid()) {
+      if (m_goodPos.fret() > 0)
+        p_goodItem = m_fingerItems[m_goodPos.str() - 1];
+      else
+        p_goodItem = m_stringItems[m_goodPos.str() - 1];
+  } else
+      p_goodItem = nullptr;
+  emit correctInstrument();
+}
+
+
+void TguitarBg::applyCorrect() {
+  if (p_wrongItem)
+    p_wrongItem->setVisible(false);
+  if (p_goodItem) {
+      if (m_goodPos.fret() > 0) {
+          auto p = fretToPos(m_goodPos);
+          p_goodItem->setX(p.x());
+          p_goodItem->setY(p.y() - p_goodItem->height() * 0.15);
+      }
+      p_goodItem->setVisible(true);
+      markSelected(GLOB->correctColor());
+      if (m_highlightedString)
+        m_highlightedString->setVisible(false);
+  }
+}
+
+
+void TguitarBg::finishCorrectAnim() {
+  if (p_wrongItem) {
+    p_wrongItem->setScale(1.0);
+    p_wrongItem->setOpacity(1.0);
+  }
+  p_note.setNote(0);
+  m_selectedPos.setData(255);
+  TcommonInstrument::finishCorrectAnim();
+}
 
 
 //#################################################################################################

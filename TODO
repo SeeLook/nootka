@@ -39,7 +39,12 @@ small glitches:
 
 missing in action (comparing to previous major version)
  - left hand guitar (do we really need this?)
- - question mark and note name over instrument during exam/exercises
+ - question mark and note name over instrument during exam/exercises (remember about actual name style)
+ - no intonation gradients
+
+revert exam times: 
+    - next question delay
+    - correction preview
 
 ============================================================================
 To consideration:

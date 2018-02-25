@@ -18,8 +18,10 @@
 
 #include "tbandoneonbg.h"
 #include "music/ttechnical.h"
+#include "tglobals.h"
 
 #include <QtQml/qqmlengine.h>
+#include <QtCore/qtimer.h>
 
 #include <QtCore/qdebug.h>
 #include "checktime.h"
@@ -147,10 +149,15 @@ TbandoneonBg::TbandoneonBg(QQuickItem* parent) :
   comp.setData("import QtQuick 2.9; Rectangle { color: \"blue\"; scale: 1.2 }", QUrl());
   m_circleLeftOpen.item = createCircle(&comp);
   m_circleRightOpen.item = createCircle(&comp);
-  comp.setData("import QtQuick 2.9; Rectangle { color: \"red\"; scale: 1.2 }", QUrl());
+  comp.setData("import QtQuick 2.9; Rectangle { color: \"#FFA500\"; scale: 1.2 }", QUrl());
   m_circleLeftClose.item = createCircle(&comp);
   m_circleRightClose.item = createCircle(&comp);
   m_circleCloseExtra.item = createCircle(&comp);
+
+//   m_circleLeftClose.item->setObjectName("left_close");
+//   m_circleLeftOpen.item->setObjectName("left_open");
+//   m_circleRightClose.item->setObjectName("right_close");
+//   m_circleRightOpen.item->setObjectName("right_open");
 }
 
 
@@ -223,7 +230,7 @@ void TbandoneonBg::setClosing(bool c) {
  * onUpperStaff() == TRUE - right pane, FALSE - left pane
  */
 void TbandoneonBg::setNote(const Tnote& n, quint32 noteDataValue) {
-  if (m_sideHighlight != HighlightNone) {
+  if (!n.isValid() && m_sideHighlight != HighlightNone) {
     m_sideHighlight = HighlightNone;
     emit sideHighlightChanged();
   }
@@ -279,7 +286,7 @@ void TbandoneonBg::setNote(const Tnote& n, quint32 noteDataValue) {
           checkCircle(m_circleCloseExtra.buttonId, m_circleCloseExtra, !m_opening && !n.onUpperStaff());
         else
           checkCircle(m_circleCloseExtra.buttonId, m_circleCloseExtra, !m_opening && n.onUpperStaff());
-        m_circleCloseExtra.item->setProperty("color", QColor(255, 0, 0)); // red
+        m_circleCloseExtra.item->setProperty("color", QColor(255, 165, 0)); // #FFA500
     } else if (chromaticNew == A3_NOTE_ID) { // occur when opening
         m_circleCloseExtra.buttonId = A3_BUTT_ID;
         checkCircle(m_circleCloseExtra.buttonId, m_circleCloseExtra, !m_closing && n.onUpperStaff());
@@ -338,13 +345,79 @@ void TbandoneonBg::setFactor(qreal f) {
 }
 
 void TbandoneonBg::markSelected(const QColor& markColor) {
-  auto mc = markColor.lighter();
-  int borderWidth = markColor.alpha() ? qRound(height() / 40.0) : 0;
-  markBorder(m_circleLeftOpen.item, borderWidth, mc);
-  markBorder(m_circleRightOpen.item, borderWidth, mc);
-  markBorder(m_circleLeftClose.item, borderWidth, mc);
-  markBorder(m_circleRightClose.item, borderWidth, mc);
-  markBorder(m_circleCloseExtra.item, borderWidth, mc);
+  int borderWidth = markColor.alpha() ? qRound(height() / 50.0) : 0;
+  markBorder(m_circleLeftOpen.item, borderWidth, markColor);
+  markBorder(m_circleRightOpen.item, borderWidth, markColor);
+  markBorder(m_circleLeftClose.item, borderWidth, markColor);
+  markBorder(m_circleRightClose.item, borderWidth, markColor);
+  markBorder(m_circleCloseExtra.item, borderWidth, markColor);
+}
+
+
+void TbandoneonBg::showNoteName() {
+}
+
+
+void TbandoneonBg::correct(const Tnote& n, quint32 noteData) {
+  if (m_circleLeftOpen.item->isVisible())
+    p_wrongItem = m_circleLeftOpen.item;
+  else if (m_circleLeftClose.item->isVisible())
+    p_wrongItem = m_circleLeftClose.item;
+  else if (m_circleRightOpen.item->isVisible())
+    p_wrongItem = m_circleRightOpen.item;
+  else if (m_circleRightClose.item->isVisible())
+    p_wrongItem = m_circleRightClose.item;
+  m_goodNote = n;
+  m_goodTechn = noteData;
+
+  int goodChromatic = m_goodNote.chromatic() + 11;
+  Ttechnical goodTechn(m_goodTechn);
+  if (m_notesArray[goodChromatic].leftOpen && goodTechn.bowing() == Ttechnical::BowDown && !n.onUpperStaff()) {
+      p_goodItem = m_circleLeftOpen.item;
+      m_goodButton = m_notesArray[goodChromatic].leftOpen;
+  } else if (m_notesArray[goodChromatic].leftClose && goodTechn.bowing() == Ttechnical::BowUp && !n.onUpperStaff()) {
+      p_goodItem = m_circleLeftClose.item;
+      m_goodButton = m_notesArray[goodChromatic].leftClose;
+  } else if (m_notesArray[goodChromatic].rightOpen && goodTechn.bowing() == Ttechnical::BowDown && n.onUpperStaff()) {
+      p_goodItem = m_circleRightOpen.item;
+      m_goodButton = m_notesArray[goodChromatic].rightOpen;
+  } else if (m_notesArray[goodChromatic].rightClose && goodTechn.bowing() == Ttechnical::BowUp && n.onUpperStaff()) {
+      p_goodItem = m_circleRightClose.item;
+      m_goodButton = m_notesArray[goodChromatic].rightClose;
+  } else {
+      p_goodItem = nullptr;
+  }
+
+  emit correctInstrument();
+}
+
+
+void TbandoneonBg::applyCorrect() {
+  if (p_goodItem && m_goodNote.isValid()) {
+    TbandCircle bc;
+    bc.buttonId = m_goodButton;
+    bc.item = p_goodItem;
+    Ttechnical goodTechn(m_goodTechn);
+    p_note.setNote(0); // invalidate to stop setting button visible by following methods
+    setOpening(goodTechn.bowing() == Ttechnical::BowDown);
+    setClosing(goodTechn.bowing() == Ttechnical::BowUp);
+    hideCircles();
+    if (p_goodItem == m_circleLeftClose.item)
+      checkCircle(m_goodButton, m_circleLeftClose);
+    else if (p_goodItem == m_circleLeftOpen.item)
+      checkCircle(m_goodButton, m_circleLeftOpen);
+    else if (p_goodItem == m_circleRightClose.item)
+      checkCircle(m_goodButton, m_circleRightClose);
+    else if (p_goodItem == m_circleRightOpen.item)
+      checkCircle(m_goodButton, m_circleRightOpen);
+    p_note = m_goodNote;
+    markSelected(GLOB->correctColor());
+  }
+  if (p_wrongItem) {
+    p_wrongItem->setVisible(false);
+    p_wrongItem->setScale(BIG_SCALE);
+    p_wrongItem->setOpacity(1.0);
+  }
 }
 
 

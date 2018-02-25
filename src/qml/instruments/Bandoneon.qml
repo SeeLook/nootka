@@ -10,20 +10,31 @@ import "../"
 
 
 TbandoneonBg {
+  id: instrItem
+
   factor: Math.min(parent.height / 100, parent.width / 430)
-
-  // private
-  property int hiId: -1
-
   anchors.horizontalCenter: parent.horizontalCenter
   width: factor * 430
   height: parent.height
+
+  // private
+  property int hiId: -1
+  property var correctAnim: null
+
+  onCorrectInstrument: {
+    if (!correctAnim) {
+      var c = Qt.createComponent("qrc:/exam/CorrectInstrAnim.qml")
+      correctAnim = c.createObject(instrItem)
+    }
+    correctAnim.doCross = wrongItem === null
+    correctAnim.start()
+  }
 
   Rectangle {
     visible: sideHighlight !== TbandoneonBg.HighlightNone
     color: GLOB.correctColor
     width: factor * 205; height: factor * 20
-    x: factor / 2 + (sideHighlight === TbandoneonBg.HighlightRight ? 0 : factor * 225)
+    x: factor / 2 + (sideHighlight === TbandoneonBg.HighlightRight ? factor * 225 : 0)
     y: parent.height - height
   }
 
@@ -44,7 +55,7 @@ TbandoneonBg {
     anchors.horizontalCenter: parent.horizontalCenter
     y: -10 * factor
     text: opening ? "\uE610" : (closing ? "\uE612" : "")
-    color: opening ? "blue" : "red"
+    color: opening ? "blue" : "#FFA500"
     font { family: "Scorek"; pixelSize: factor * 15 }
   }
 
@@ -105,7 +116,7 @@ TbandoneonBg {
         checked: closing
         text: "\uE612"; font { family: "Scorek"; pixelSize: height }
         checkable: true
-        color: closeButt.checked ? "red" : "gray"
+        color: closeButt.checked ? "#FFA500" : "gray"
         onClicked: {
           closing = closeButt.checked
           if (closing)

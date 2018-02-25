@@ -36,6 +36,8 @@ class NOOTKACORE_EXPORT TcommonInstrument : public QQuickPaintedItem
   Q_PROPERTY(bool active READ active NOTIFY activeChanged)
   Q_PROPERTY(Tnote note READ note WRITE setNote NOTIFY noteChanged)
   Q_PROPERTY(bool outOfScale READ outOfScale NOTIFY outOfScaleChanged)
+  Q_PROPERTY(QQuickItem* wrongItem READ wrongItem NOTIFY correctInstrument)
+  Q_PROPERTY(QQuickItem* goodItem READ goodItem NOTIFY correctInstrument)
 
 public:
   TcommonInstrument(QQuickItem* parent = nullptr);
@@ -46,6 +48,9 @@ public:
   bool active() { return m_active; }
 
   bool outOfScale() const { return m_outOfScale; }
+
+  QQuickItem* wrongItem() { return p_wrongItem; }
+  QQuickItem* goodItem() { return p_goodItem; }
 
   Tnote note() const { return p_note; }
   virtual void setNote(const Tnote& n, quint32 noteDataValue = 255) = 0;
@@ -73,6 +78,14 @@ public:
        */
   virtual void markSelected(const QColor& markColor) = 0;
 
+  virtual void showNoteName() = 0;
+
+  virtual void correct(const Tnote& n, quint32 noteData) = 0;
+
+  virtual void applyCorrect() {}
+
+  Q_INVOKABLE void finishCorrectAnim() { emit correctionFinished(); }
+
       /**
        * Changes border of given @p item but only if the item has border property (QML Rectangle)
        */
@@ -82,6 +95,8 @@ signals:
   void activeChanged();
   void noteChanged();
   void outOfScaleChanged();
+  void correctInstrument();
+  void correctionFinished();
 
 protected:
   void hoverEnterEvent(QHoverEvent*) override;
@@ -90,6 +105,8 @@ protected:
   void setOutOfScale(bool out);
 
   Tnote        p_note;
+  QQuickItem  *p_wrongItem = nullptr;
+  QQuickItem  *p_goodItem = nullptr;
 
 private:
   bool         m_active = false;

@@ -86,6 +86,12 @@ public:
 
   void markSelected(const QColor & markColor) override;
 
+  void showNoteName() override;
+
+  void correct(const Tnote & n, quint32 noteData) override;
+
+  Q_INVOKABLE void applyCorrect() override;
+
       /**
        * Returns @p TRUE when given note (as chromatic number @p Tnote::chromatic())
        * is possible to play on bandoneon at given side/bellow direction
@@ -155,6 +161,9 @@ private:
   qreal             m_factor = 1.0;
   qreal             m_rightX = 0.0;
   EsideHighlight    m_sideHighlight = HighlightNone;
+  quint32           m_goodTechn;
+  Tnote             m_goodNote;
+  int               m_goodButton;
 };
 
 #endif // TBANDONEONBG_H

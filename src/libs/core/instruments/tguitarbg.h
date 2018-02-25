@@ -81,7 +81,7 @@ public:
       /**
        * Returns scene coordinates of given guitar position (between bars)
        */
-  QPointF fretToPos(const TfingerPos &pos);
+  QPointF fretToPos(const TfingerPos &pos) const;
 
   qreal xiiFret() const;
 
@@ -96,6 +96,14 @@ public:
   void updateGuitar();
 
   void markSelected(const QColor & markColor) override;
+
+  void showNoteName() override;
+
+  void correct(const Tnote & n, quint32 noteData) override;
+
+  Q_INVOKABLE void finishCorrectAnim();
+
+  Q_INVOKABLE void applyCorrect() override;
 
 signals:
   void fretWidthChanged();
@@ -132,7 +140,7 @@ private:
   QQuickItem  *m_stringItems[6];
   QQuickItem  *m_highlightedString = nullptr;
   quint32      m_latestHighlightedData = 255; /**< Store technical data to properly resize highlighted string */
-  TfingerPos   m_selectedPos;
+  TfingerPos   m_selectedPos, m_goodPos;
 
 };
 
