@@ -8,6 +8,7 @@ import QtQuick 2.9
 SequentialAnimation {
   property bool doCross: false
   property var wItem: instrItem.wrongItem
+  property real shakeStep: wItem ? Math.min(wItem.height, instrItem.height / 10) : instrItem.height / 10
   SequentialAnimation { // cross blinking
     loops: doCross ? 2 : 0
     NumberAnimation {
@@ -23,9 +24,9 @@ SequentialAnimation {
   }
   SequentialAnimation { // shake
     loops: doCross ? 0 : 2
-    NumberAnimation { target: wItem; property: "y"; to: wItem ? wItem.y + wItem.height / 20 : 0; duration: 50 }
-    NumberAnimation { target: wItem; property: "y"; to: wItem ? wItem.y - wItem.height / 10 : 0; duration: 100 }
-    NumberAnimation { target: wItem; property: "y"; to: wItem ? wItem.y + wItem.height / 20 : 0; duration: 50 }
+    NumberAnimation { target: wItem; property: "y"; to: wItem ? wItem.y + shakeStep / 2 : 0; duration: 50 }
+    NumberAnimation { target: wItem; property: "y"; to: wItem ? wItem.y - shakeStep : 0; duration: 100 }
+    NumberAnimation { target: wItem; property: "y"; to: wItem ? wItem.y + shakeStep / 2 : 0; duration: 50 }
   }
   PauseAnimation { duration: 50 }
   ParallelAnimation {

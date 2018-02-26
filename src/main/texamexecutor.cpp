@@ -824,7 +824,7 @@ void TexamExecutor::correctAnswer() {
   }
   if (correctAnimObject) { // disable space bar and right mouse button when animation is performed
       m_nextQuestAct->setEnabled(false);
-      connect(correctAnimObject, SIGNAL(correctionFinished()), this, SLOT(correctionFinished()));
+      connect(correctAnimObject, SIGNAL(correctionFinished()), this, SLOT(correctionFinishedSlot()));
 //     m_lockRightButt = true;
   } else
       correctionFinishedSlot();
@@ -1711,7 +1711,7 @@ void TexamExecutor::blindQuestion() {
 
 
 void TexamExecutor::correctionFinishedSlot() {
-  disconnect(sender(), SIGNAL(correctionFinished()), this, SLOT(correctionFinished()));
+  disconnect(sender(), SIGNAL(correctionFinished()), this, SLOT(correctionFinishedSlot()));
 //   if (sender() == SCORE) { // show name on score only when it is enabled and corrected
 //     if (GLOB->E->showNameOfAnswered && m_exercise->idOfCorrectedNote() > -1) {
 //       Tnote::EnameStyle tmpStyle = Tnote::defaultStyle; // store current name style
