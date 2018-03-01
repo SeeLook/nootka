@@ -32,22 +32,30 @@ Texecutor {
 
   Connections {
     target: tipHandler
-    onShowStartTip: {
+    onWantStartTip: {
       var s = Qt.createComponent("qrc:/exam/ExamTip.qml")
-      s.createObject(executor, { "text": text, "offX": pos.x, "offY": pos.y, "bg": color } )
+      tipHandler.startTip = s.createObject(executor, { "text": text, "offX": pos.x, "offY": pos.y, "bg": color } )
     }
-    onShowQuestionTip: {
+    onWantQuestionTip: {
       var s = Qt.createComponent("qrc:/exam/QuestionTip.qml")
-      s.createObject(executor, { "text": text, "offX": pos.x, "offY": pos.y } )
+      tipHandler.questionTip = s.createObject(executor, { "text": text, "offX": pos.x, "offY": pos.y } )
     }
-    onShowResultTip: {
+    onWantConfirmTip: {
+      var s = Qt.createComponent("qrc:/exam/ExamTip.qml")
+      tipHandler.confirmTip = s.createObject(executor, { "text": text, "offX": pos.x, "offY": pos.y, "bg": color } )
+    }
+    onWantResultTip: {
       var r = Qt.createComponent("qrc:/exam/ResultTip.qml")
-      r.createObject(executor, { "text": text, "color": color } )
+      tipHandler.resultTip = r.createObject(executor, { "text": text, "color": color } )
     }
-    onShowTryAgainTip: {
+    onWantTryAgainTip: {
       var a = Qt.createComponent("qrc:/exam/ResultTip.qml")
-      tipHandler.tryAgainItem = a.createObject(executor, { "text": qsTranslate("TtipHandler", "Try again!"), "allowDestroy": false,
+      tipHandler.tryAgainTip = a.createObject(executor, { "text": qsTranslate("TtipHandler", "Try again!"),
                                                             "color": GLOB.wrongColor, "targetY": executor.height / 10 } )
+    }
+    onWantWhatNextTip:  {
+      var s = Qt.createComponent("qrc:/exam/ExamTip.qml")
+      tipHandler.whatNextTip = s.createObject(executor, { "text": text, "offX": pos.x, "offY": pos.y, "bg": color } )
     }
   }
 }

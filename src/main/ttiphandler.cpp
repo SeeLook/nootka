@@ -107,7 +107,7 @@ TtipHandler::TtipHandler(Texam* exam, QObject *parent) :
   m_questTipPosType(e_bottomRight),
   m_iconSize(bigFont() * 1.2)
 {
- connect(m_timerToConfirm, &QTimer::timeout, this, &TtipHandler::showConfirmTip);
+ connect(m_timerToConfirm, &QTimer::timeout, this, &TtipHandler::showConfirmTipSlot);
 //  qApp->installEventFilter(this);
 //   int levelMessageDelay = 1;
 //   if (TexecutorSupply::paramsChangedMessage())
@@ -138,13 +138,6 @@ void TtipHandler::setTipPos(const QPointF& p) {
 }
 
 
-void TtipHandler::setTryAgainItem(QQuickItem* tryItem) {
-  if (tryItem != m_tryAgainItem) {
-    m_tryAgainItem = tryItem;
-  }
-}
-
-
 //void TtipHandler::setStatusMessage(const QString& text, int duration) {
 //#if defined (Q_OS_ANDROID)
 //  tMessage->setMessage(text, duration);
@@ -167,9 +160,59 @@ int TtipHandler::bigFont() {
 }
 
 
-void TtipHandler::resultTip(TQAunit* answer, int time) {
+QString TtipHandler::startTipText() {
+  return TexamHelp::toGetQuestTxt() + QLatin1String(":<br>") +
+    TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"nextQuest\">") +
+                                  NOO->pixToHtml(QLatin1String("nextQuest"), m_iconSize) + QLatin1String("</a>"))
+    #if !defined (Q_OS_ANDROID)
+      + QLatin1String(",<br>") + TexamHelp::pressSpaceKey() + QLatin1String(" ") + TexamHelp::orRightButtTxt()
+    #endif
+    ;
+}
+
+
+void TtipHandler::showStartTip() {
+  QString tipText = QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75))
+      + startTipText() + QLatin1String(".<br>")
+      + TexamHelp::toStopExamTxt(QLatin1String("<a href=\"stopExam\"> ")
+                                 + NOO->pixToHtml(QLatin1String("stopExam"), m_iconSize)
+                                 + QLatin1String("</a>"))
+      + QLatin1String("</p>");
+  QTimer::singleShot(200, [=]{
+    emit wantStartTip(tipText, qApp->palette().highlight().color(), QPointF(EXECUTOR->width() / 2.0, EXECUTOR->height() / 2.0));
+  });
+}
+
+
+void TtipHandler::showConfirmTip(int time) {
+  if (!m_confirmTipOn) {
+#if defined (Q_OS_ANDROID)
+    showConfirmTip();
+#else
+    m_timerToConfirm->start(time + 1); // add 1 to show it immediately when time = 0
+#endif
+    m_confirmTipOn = true;
+  }
+}
+
+
+void TtipHandler::showConfirmTipSlot() {
   m_timerToConfirm->stop();
-  clearCanvas();
+  const QString br_ = QStringLiteral("<br>- ");
+  const QString a = QStringLiteral("</a>");
+  QString tipText = QLatin1String("<p style=\"text-align: center; font-size: large;\">") + tr("To check the answer confirm it:") + br_ +
+    TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"checkAnswer\">") + NOO->pixToHtml(QLatin1String("check"), m_iconSize) + a) + br_ +
+    TexamHelp::pressEnterKey() + br_ + TexamHelp::orRightButtTxt() + QLatin1String("<br>") +
+    tr("Check in exam help %1 how to do it automatically").arg(QStringLiteral("<a href=\"examHelp\">") +
+    NOO->pixToHtml(QLatin1String("help"), m_iconSize) + a) + QLatin1String("</p>");
+  emit wantConfirmTip(tipText, GLOB->EanswerColor, QPointF(EXECUTOR->width() * 0.75, EXECUTOR->height() * 0.1));
+}
+
+
+void TtipHandler::showResultTip(TQAunit* answer, int time) {
+  m_timerToConfirm->stop();
+  deleteResultTip();
+  deleteConfirmTip();
 
  bool autoNext = GLOB->E->autoNextQuest;
  if (GLOB->E->afterMistake == TexamParams::e_stop && !answer->isCorrect())
@@ -181,8 +224,8 @@ void TtipHandler::resultTip(TQAunit* answer, int time) {
      time = GLOB->E->mistakePreview; // user defined wait time
  }
 
-  emit showResultTip(wasAnswerOKtext(answer), TexecutorSupply::answerColor(answer->mistake()));
- 
+  emit wantResultTip(wasAnswerOKtext(answer), TexecutorSupply::answerColor(answer->mistake()));
+
 //  if (answer->isNotSoBad())
 //    m_resultTip->setScale(m_scale);
 //  else
@@ -192,7 +235,7 @@ void TtipHandler::resultTip(TQAunit* answer, int time) {
 //      answer->answerAsSound() && !answer->isCorrect() && SOUND->note().note)
 //          detectedNoteTip(SOUND->note()); // In exercise mode display detected note when it was incorrect
   if (time)
-    QTimer::singleShot(time, [=]{ emit destroyResultTip(); });
+    QTimer::singleShot(time, [=]{ deleteResultTip(); });
 }
 
 
@@ -210,41 +253,11 @@ void TtipHandler::resultTip(TQAunit* answer, int time) {
 //}
 
 
-void TtipHandler::tryAgainTip(int time) {
-  if (m_tryAgainItem)
-    qDebug() << "[TtipHandler] 'try again tip' already exists!";
+void TtipHandler::showTryAgainTip(int time) {
+  deleteTryAgainTip();
 
-  emit showTryAgainTip();
-  QTimer::singleShot(time, [=]{
-    if (m_tryAgainItem) {
-      m_tryAgainItem->deleteLater();
-      m_tryAgainItem = nullptr;
-    }
-  });
-}
-
-
-QString TtipHandler::startTipText() {
-  return TexamHelp::toGetQuestTxt() + QLatin1String(":<br>") +
-    TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"nextQuest\">") +
-                                  NOO->pixToHtml(QLatin1String("nextQuest"), m_iconSize) + QLatin1String("</a>"))
-    #if !defined (Q_OS_ANDROID)
-      + QLatin1String(",<br>") + TexamHelp::pressSpaceKey() + QLatin1String(" ") + TexamHelp::orRightButtTxt()
-    #endif
-    ;
-}
-
-
-void TtipHandler::startTip() {
-  QString tipText = QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75))
-      + startTipText() + QLatin1String(".<br>")
-      + TexamHelp::toStopExamTxt(QLatin1String("<a href=\"stopExam\"> ")
-                                 + NOO->pixToHtml(QLatin1String("stopExam"), m_iconSize)
-                                 + QLatin1String("</a>"))
-      + QLatin1String("</p>");
-  QTimer::singleShot(200, [=]{
-    emit showStartTip(tipText, qApp->palette().highlight().color(), QPointF(EXECUTOR->width() / 2.0, EXECUTOR->height() / 2.0));
-  });
+  emit wantTryAgainTip();
+  QTimer::singleShot(time, [=]{ deleteTryAgainTip(); });
 }
 
 
@@ -262,9 +275,7 @@ void TtipHandler::startTip() {
 //}
 
 
-void TtipHandler::whatNextTip(bool isCorrect, bool toCorrection) {
-//  delete m_questionTip;
-//  clearWhatNextTip();
+void TtipHandler::showWhatNextTip(bool isCorrect, bool toCorrection) {
 //#if defined (Q_OS_ANDROID)
 //  m_nextTip = new ThackedTouchTip(getTipText("nextQuest", "Next"), m_view->palette().highlight().color());
 //  m_scene->addItem(m_nextTip);
@@ -303,6 +314,9 @@ void TtipHandler::whatNextTip(bool isCorrect, bool toCorrection) {
 //  }
 //  m_nextTip->setTextWidth(maxTipWidth);
 //#else
+  if (isCorrect)
+    deleteQuestionTip();
+  deleteWhatNextTip();
   QString whatNextText = QLatin1String("<p style=\"text-align: center; font-size: large;\">") + startTipText();
   const QString br = QStringLiteral("<br>");
   const QString space = QStringLiteral(" ");
@@ -328,35 +342,8 @@ void TtipHandler::whatNextTip(bool isCorrect, bool toCorrection) {
   }
   whatNextText += br + TexamHelp::toStopExamTxt(QLatin1String("<a href=\"stopExam\">")
                + NOO->pixToHtml(QLatin1String("stopExam"), m_iconSize) + a) + QLatin1String("</p>");
-  QTimer::singleShot(1000, [=]{
-      emit showStartTip(whatNextText, qApp->palette().highlight().color(), getTipPosition(determineTipPos()));
-  });
+  QTimer::singleShot(1000, [=]{ emit wantWhatNextTip(whatNextText, qApp->palette().highlight().color(), getTipPosition(determineTipPos())); });
 //#endif
-}
-
-
-void TtipHandler::confirmTip(int time) {
-  if (!m_confirmTipOn) {
-#if defined (Q_OS_ANDROID)
-    showConfirmTip();
-#else
-    m_timerToConfirm->start(time + 1); // add 1 to show it immediately when time = 0
-#endif
-    m_confirmTipOn = true;
-  }
-}
-
-
-void TtipHandler::showConfirmTip() {
-  m_timerToConfirm->stop();
-  const QString br_ = QStringLiteral("<br>- ");
-  const QString a = QStringLiteral("</a>");
-  QString tipText = QLatin1String("<p style=\"text-align: center; font-size: large;\">") + tr("To check the answer confirm it:") + br_ +
-    TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"checkAnswer\">") + NOO->pixToHtml(QLatin1String("check"), m_iconSize) + a) + br_ +
-    TexamHelp::pressEnterKey() + br_ + TexamHelp::orRightButtTxt() + QLatin1String("<br>") +
-    tr("Check in exam help %1 how to do it automatically").arg(QStringLiteral("<a href=\"examHelp\">") +
-    NOO->pixToHtml(QLatin1String("help"), m_iconSize) + a) + QLatin1String("</p>");
-  emit showStartTip(tipText, GLOB->EanswerColor, QPointF(EXECUTOR->width() * 0.75, EXECUTOR->height() * 0.1));
 }
 
 
@@ -369,9 +356,11 @@ void TtipHandler::showConfirmTip() {
 //}
 
 
-void TtipHandler::questionTip() {
+void TtipHandler::showQuestionTip() {
   if (!GLOB->E->autoNextQuest)
-    emit destroyResultTip();
+    deleteResultTip();
+  deleteQuestionTip();
+
   QString br = QStringLiteral("<br>");
   QString sp = QStringLiteral(" ");
   QString questText;
@@ -503,7 +492,7 @@ void TtipHandler::questionTip() {
   }
   questText += QLatin1String("</center>");
   m_questTipPosType = determineTipPos();
-  emit showQuestionTip(questText, m_posOfQuestTips[m_questTipPosType].isNull() ? getTipPosition(m_questTipPosType) : m_posOfQuestTips[m_questTipPosType]);
+  emit wantQuestionTip(questText, m_posOfQuestTips[m_questTipPosType].isNull() ? getTipPosition(m_questTipPosType) : m_posOfQuestTips[m_questTipPosType]);
 //  m_questionTip->setMinimized(m_minimizedQuestion);
 }
 
@@ -610,17 +599,12 @@ void TtipHandler::questionTip() {
 
 
 void TtipHandler::clearCanvas() {
-  m_confirmTipOn = false;
-  emit destroyTips();
-//  clearConfirmTip();
-//  clearResultTip();
-//  if (m_whatTip) {
-//    delete m_whatTip;
-//  }
-//  delete m_startTip;
-//  delete m_questionTip;
-//  clearCertificate();
-//  delete m_outTuneTip;
+  deleteStartTip();
+  deleteQuestionTip();
+  deleteConfirmTip();
+  deleteResultTip();
+  deleteTryAgainTip();
+  deleteWhatNextTip();
 //  clearMelodyCorrectMessage();
 //#if defined (Q_OS_ANDROID)
 //  delete m_nextTip;
@@ -699,6 +683,56 @@ void TtipHandler::clearCanvas() {
 ////##################################################################################################
 ////#################################### PRIVATE #####################################################
 ////##################################################################################################
+
+void TtipHandler::deleteStartTip() {
+  if (m_startTip) {
+    m_startTip->deleteLater();
+    m_startTip = nullptr;
+  }
+}
+
+
+void TtipHandler::deleteTryAgainTip() {
+  if (m_tryAgainTip) {
+    m_tryAgainTip->deleteLater();
+    m_tryAgainTip = nullptr;
+  }
+}
+
+
+void TtipHandler::deleteQuestionTip() {
+  if (m_questionTip) {
+    m_questionTip->deleteLater();
+    m_questionTip = nullptr;
+  }
+}
+
+
+void TtipHandler::deleteConfirmTip() {
+  if (m_confirmTip) {
+    m_confirmTipOn = false;
+    m_confirmTip->deleteLater();
+    m_confirmTip = nullptr;
+  }
+}
+
+
+void TtipHandler::deleteResultTip() {
+  if (m_resultTip) {
+    m_resultTip->deleteLater();
+    m_resultTip = nullptr;
+  }
+}
+
+
+void TtipHandler::deleteWhatNextTip() {
+  if (m_whatNextTip) {
+    m_whatNextTip->deleteLater();
+    m_whatNextTip = nullptr;
+  }
+}
+
+
 
 QPointF TtipHandler::getTipPosition(TtipHandler::EtipPos tp) {
   qreal offY = NOO->isAndroid() ? 0.0 : EXECUTOR->height() / 14; // controls coordinates are sifted by tool bar height
