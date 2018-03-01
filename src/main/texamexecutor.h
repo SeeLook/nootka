@@ -117,7 +117,6 @@ signals:
   void titleChanged();
   void examActionsChanged();
   void tipHandlerCreated();
-  void destroyTips();
   void examSummary();
   void showSettings();
 

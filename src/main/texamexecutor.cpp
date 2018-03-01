@@ -515,9 +515,9 @@ void TexamExecutor::askQuestion(bool isAttempt) {
   // TODO tune fork act (play middle A)
   m_penalty->startQuestionTime();
   if (!curQ->answerAsSound() && SOUND->stoppedByUser())
-    m_tipHandler->questionTip();
+    m_tipHandler->showQuestionTip();
   else // As long as starting sound is expensive (PulseAudio) invoking tip animation at the same time sucks.
-    QTimer::singleShot(WAIT_TIME + 100, [=]{ m_tipHandler->questionTip(); }); // So call it with delay
+    QTimer::singleShot(WAIT_TIME + 100, [=]{ m_tipHandler->showQuestionTip(); }); // So call it with delay
   m_blindCounter = 0; // question successfully asked - reset the counter
 }
 
@@ -669,9 +669,9 @@ void TexamExecutor::checkAnswer(bool showResults) {
 
   if (showResults) {
     if (!(GLOB->waitForCorrect() && m_exercise && m_melody))
-      m_tipHandler->resultTip(curQ); // tip duration is calculated by itself (inside resultTip() method)
+      m_tipHandler->showResultTip(curQ); // tip duration is calculated by itself (inside resultTip() method)
     if ((!m_exercise || (m_exercise && curQ->isCorrect())) && !autoNext)
-      m_tipHandler->whatNextTip(curQ->isCorrect());
+      m_tipHandler->showWhatNextTip(curQ->isCorrect());
     if (!autoNext) {
       if (!curQ->isCorrect() && !m_exercise && !curQ->melody())
         m_repeatQuestAct->setEnabled(true);
@@ -696,7 +696,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
           if (!GLOB->autoNextQuestion() /*|| (GLOB->autoNextQuestion() && GLOB->E->afterMistake == TexamParams::e_stop)*/)
             m_correctAct->setEnabled(true); // show too button only when exam stops after mistake
           if (!autoNext) {
-            m_tipHandler->whatNextTip(true, true);
+            m_tipHandler->showWhatNextTip(true, true);
             m_lockRightButt = false;
             return; // wait for user
           }
@@ -832,7 +832,7 @@ void TexamExecutor::correctAnswer() {
 
 
 void TexamExecutor::newAttempt() {
-  m_tipHandler->tryAgainTip(3000);
+  m_tipHandler->showTryAgainTip(3000);
 //   QTimer::singleShot(2000, m_tipHandler, SLOT(clearResultTip())); 
   if (m_exam->curQ()->answerOnScore() || m_exam->curQ()->questionOnScore()) { // remove names and marks from score notes
 //     for (int i = 0; i < MAIN_SCORE->notesCount(); ++i) {
@@ -912,7 +912,7 @@ void TexamExecutor::markAnswer(TQAunit* curQ) {
 
 
 void TexamExecutor::repeatQuestion() {
-  m_tipHandler->tryAgainTip(3000);
+  m_tipHandler->showTryAgainTip(3000);
 //   m_lockRightButt = false;
   m_incorrectRepeated = true;
   m_isAnswered = false;
@@ -968,7 +968,7 @@ void TexamExecutor::repeatQuestion() {
 //   TOOLBAR->setForQuestion(m_exam->curQ()->questionAsSound(), m_exam->curQ()->questionAsSound() && m_exam->curQ()->answerAsNote());
   if (m_exam->curQ()->questionAsSound())
     repeatSound();
-  m_tipHandler->questionTip();
+  m_tipHandler->showQuestionTip();
   m_penalty->startQuestionTime();
 }
 
@@ -1047,9 +1047,8 @@ void TexamExecutor::prepareToExam() {
 
   m_snifferLocked = false;
   m_tipHandler = new TtipHandler(m_exam, this);
-  connect(m_tipHandler, &TtipHandler::destroyTips, this, &TexamExecutor::destroyTips);
   emit tipHandlerCreated();
-  m_tipHandler->startTip();
+  m_tipHandler->showStartTip();
   emit titleChanged();
   if (m_exercise && !m_exam->melodies()) {
 //     if (m_level.answerIsNote())
@@ -1209,7 +1208,7 @@ void TexamExecutor::exerciseToExam() {
   emit examActionsChanged();
   emit titleChanged();
   m_tipHandler->clearCanvas();
-  m_tipHandler->startTip();
+  m_tipHandler->showStartTip();
 }
 
 
@@ -1529,7 +1528,7 @@ void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
             checkAnswer();
         else {
   //       m_tipHandler->playMelodyAgainMessage();
-            m_tipHandler->confirmTip(800);
+            m_tipHandler->showConfirmTip(800);
         }
       SOUND->stopListen();
     }
@@ -1590,7 +1589,7 @@ void TexamExecutor::startSniffing() {
 
 void TexamExecutor::expertAnswersSlot() {
   if (!GLOB->E->expertsAnswerEnable && !m_exam->melodies()) { // no expert and no melodies
-      m_tipHandler->confirmTip(1500);
+      m_tipHandler->showConfirmTip(1500);
       return;
   }
   // ignore slot when some dialog window appears or answer for melody
@@ -1725,10 +1724,10 @@ void TexamExecutor::correctionFinishedSlot() {
     m_askingTimer->start(GLOB->E->correctPreview); // new question will be started after preview time
   }
   if (m_exam->curQ()->melody()) { // despite of 'auto' settings when melody - auto next question will not work
-      m_tipHandler->whatNextTip(false, false);
+      m_tipHandler->showWhatNextTip(false, false);
 //     connect(SCORE, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctNoteOfMelody); // only once per answer
   } else if (!GLOB->E->autoNextQuest || GLOB->E->afterMistake == TexamParams::e_stop)
-        m_tipHandler->whatNextTip(!(!m_exercise && GLOB->E->repeatIncorrect && !m_incorrectRepeated));
+        m_tipHandler->showWhatNextTip(!(!m_exercise && GLOB->E->repeatIncorrect && !m_incorrectRepeated));
 //   if (m_exam->curQ()->melody() && (m_exam->curQ()->questionOnScore() || m_exam->curQ()->answerOnScore()))
 //       m_tipHandler->melodyCorrectMessage();
 //   if (!GLOB->E->autoNextQuest || !GLOB->E->showCorrected || GLOB->E->afterMistake == TexamParams::e_stop)

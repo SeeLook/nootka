@@ -23,6 +23,7 @@ TipRect {
   property real eH: 0
 
   color: Qt.tint(activPal.base, Noo.alpha(bg, 50))
+  border { width: Noo.fontSize() / 6; color: bg }
   shadowRadius: Screen.height / 90
   z: 200
   x: Noo.bound(shadowRadius, offX - width / 2, executor.width - width - shadowRadius)
@@ -64,7 +65,6 @@ TipRect {
       offY = offY *(executor.height / eH)
       eH = executor.height
     }
-    onDestroyTips: tip.destroy()
   }
 
   Behavior on scale { SpringAnimation { spring: 2; damping: 0.2; epsilon: 0.005; duration: 300 }}

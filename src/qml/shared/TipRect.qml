@@ -12,6 +12,7 @@ Item {
   property bool rised: true
   property alias shadowRadius: shadow.radius
   property alias shadowColor: shadow.color
+  property alias border: bg.border
 
   Rectangle {
     id: bg

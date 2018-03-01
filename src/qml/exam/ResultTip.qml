@@ -10,7 +10,6 @@ Item {
   id: resultTip
 
   property real targetY: executor.height / 50
-  property bool allowDestroy: true
   property alias color: txt.color
   property alias text: txt.text
 
@@ -37,12 +36,6 @@ Item {
   }
 
   transformOrigin: Item.Top
-
-  Connections {
-    enabled: allowDestroy
-    target: executor.tipHandler
-    onDestroyResultTip: resultTip.destroy()
-  }
 
   Component.onCompleted: {
     if (GLOB.useAnimations)

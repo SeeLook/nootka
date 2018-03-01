@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,7 +23,6 @@
 #include <QtCore/qobject.h>
 #include <QtCore/qpoint.h>
 #include <QtGui/qcolor.h>
-//#include <QtCore/qpointer.h>
 #include <exam/tqatype.h>
 //#include <tfingerpos.h>
 
@@ -52,7 +51,12 @@ class TtipHandler : public QObject
   Q_OBJECT
 
   Q_PROPERTY(QPointF tipPos READ tipPos WRITE setTipPos)
-  Q_PROPERTY(QQuickItem* tryAgainItem READ tryAgainItem WRITE setTryAgainItem)
+  Q_PROPERTY(QQuickItem* startTip READ startTip WRITE setStartTip)
+  Q_PROPERTY(QQuickItem* tryAgainTip READ tryAgainTip WRITE setTryAgainTip)
+  Q_PROPERTY(QQuickItem* questionTip READ questionTip WRITE setQuestionTip)
+  Q_PROPERTY(QQuickItem* resultTip READ resultTip WRITE setResultTip)
+  Q_PROPERTY(QQuickItem* whatNextTip READ whatNextTip WRITE setWhatNextTip)
+  Q_PROPERTY(QQuickItem* confirmTip READ confirmTip WRITE setConfirmTip)
 
 public:
 
@@ -71,8 +75,23 @@ public:
   QPointF tipPos() const { return m_lastTipPos; }
   void setTipPos(const QPointF& p);
 
-  QQuickItem* tryAgainItem() { return m_tryAgainItem; }
-  void setTryAgainItem(QQuickItem* tryItem);
+  QQuickItem* startTip() { return m_startTip; }
+  void setStartTip(QQuickItem* stTip) { m_startTip = stTip; }
+
+  QQuickItem* tryAgainTip() { return m_tryAgainTip; }
+  void setTryAgainTip(QQuickItem* tryTip) { m_tryAgainTip = tryTip; }
+
+  QQuickItem* questionTip() { return m_questionTip; }
+  void setQuestionTip(QQuickItem* questTip) { m_questionTip = questTip; }
+
+  QQuickItem* resultTip() { return m_resultTip; }
+  void setResultTip(QQuickItem* resTip) { m_resultTip = resTip; }
+
+  QQuickItem* whatNextTip() { return m_whatNextTip; }
+  void setWhatNextTip(QQuickItem* whatItem) { m_whatNextTip = whatItem; }
+
+  QQuickItem* confirmTip() { return m_confirmTip; }
+  void setConfirmTip(QQuickItem* confItem) { m_confirmTip = confItem; }
 
 //    /**
 //     * Cross platform status message:
@@ -89,30 +108,30 @@ public:
       /**
        * show was question correct text, hides after given time
        */
-  void resultTip(TQAunit *answer, int time = 0);
+  void showResultTip(TQAunit *answer, int time = 0);
 
       /**
        * Text with help on an exam start
        */
-  void startTip();
+  void showStartTip();
 
    /**
     * Text with what to click after an answer.
     * @p isCorrect - was the question correct
     * @p toCorrection - text how to see corrected answer will be shown.
     */
- void whatNextTip(bool isCorrect, bool toCorrection = false);
+ void showWhatNextTip(bool isCorrect, bool toCorrection = false);
 
      /**
       * Text with question context
       */
- void questionTip();
+ void showQuestionTip();
 
     /**
      * "Try again" text
      */
- void tryAgainTip(int time);
- void confirmTip(int time = 0); /**< tip about confirm an answer appears after given time */
+ void showTryAgainTip(int time);
+ void showConfirmTip(int time = 0); /**< tip about confirm an answer appears after given time */
 //  void melodyCorrectMessage(); /**< Status message about how to correct a melody notes. */
 
 //      /** 'to low' or 'to high' text above pitch view @p pitchDiff is float part of pitch */
@@ -125,10 +144,12 @@ public:
 
   void clearCanvas();
 
-  int bigFont(); /**< Returns point size of 'A' letter multiplied by 2. */
+      /**
+       * Returns point size of 'A' letter multiplied by 2.
+       */
+  int bigFont();
 
   QString startTipText();
-
 
 //      /** Paints rectangle around given type of widget to mark where is answer. */
 //  const QRect& getRect(TQAtype::Etype kindOf);
@@ -141,7 +162,6 @@ public:
 //  bool hasCertificate() { return m_certifyTip != nullptr; }
 
 //  void clearTryAgainTip();
- void showConfirmTip();
 //  void clearCertificate();
 //  void clearMelodyCorrectMessage();
 //  void certificateTip(); /**< paper like exam report when finished */
@@ -153,18 +173,20 @@ public:
 
 signals:
   void tipChanged();
-  void showStartTip(const QString text, const QColor& color, const QPointF& pos);
-  void showQuestionTip(const QString text, const QPointF& pos);
-  void destroyTips();
-  void showResultTip(const QString text, const QColor& color);
-  void destroyResultTip();
-  void showTryAgainTip();
+  void wantStartTip(const QString& text, const QColor& color, const QPointF& pos);
+  void wantQuestionTip(const QString& text, const QPointF& pos);
+  void wantConfirmTip(const QString& text, const QColor& color, const QPointF& pos);
+  void wantResultTip(const QString& text, const QColor& color);
+  void wantTryAgainTip();
+  void wantWhatNextTip(const QString& text, const QColor& color, const QPointF& pos);
+
 //  void buttonClicked(const QString&); /**< This signal is emitted when user click image button (a link) on any tip.*/
 //  void certificateMagicKeys(); /**< When translator wants to see a certificate preview */
 //  void correctingFinished(); /**< Emitted when correction animation finish */
 
-//protected:
+protected:
 //  virtual bool eventFilter(QObject* obj, QEvent* event);
+  void showConfirmTipSlot();
 
 
 //protected slots:
@@ -190,9 +212,20 @@ private:
   int                                m_iconSize; /**< Icon image size on tips calculated from actual font metrics. */
   QPointF                            m_lastTipPos;
   bool                               m_confirmTipOn = false;
-  QQuickItem                        *m_tryAgainItem = nullptr;
+  QQuickItem                        *m_startTip = nullptr;
+  QQuickItem                        *m_tryAgainTip = nullptr;
+  QQuickItem                        *m_questionTip = nullptr;
+  QQuickItem                        *m_resultTip = nullptr;
+  QQuickItem                        *m_whatNextTip = nullptr;
+  QQuickItem                        *m_confirmTip = nullptr;
 
 private:
+  void deleteStartTip();
+  void deleteTryAgainTip();
+  void deleteQuestionTip();
+  void deleteResultTip();
+  void deleteWhatNextTip();
+  void deleteConfirmTip();
   QPointF getTipPosition(EtipPos tp);
 //  void setResultPos();
 //  void setWhatNextPos();
