@@ -338,6 +338,18 @@ void Tglobals::setOutDevName(const QString& odn) { A->OUTdevName = odn; }
 bool Tglobals::forwardInput() const { return A->forwardInput; }
 void Tglobals::setForwardInput(bool fi) { A->forwardInput = fi; }
 
+
+qreal pitchOfFreq(int freq) {
+  return -36.3763165622959152488 + 39.8631371386483481 * log10(static_cast<qreal>(freq));
+}
+
+int Tglobals::midAfreq() const { return A->midAfreq; }
+void Tglobals::setMidAfreq(int midA) {
+  A->midAfreq = qBound(391, midA, 493); // in range of two semitones up and down around middle A (440Hz)
+  A->a440diff = midA == 440 ? 0.0 : pitchOfFreq(A->midAfreq) - pitchOfFreq(440);
+}
+
+
 /* ------------------ Exam switches ------------------ */
 void Tglobals::setIsExam(bool is) {
   if (is != m_isExam) {
@@ -606,7 +618,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
     A->dumpPath = cfg->value(QLatin1String("dumpPath"), QString()).toString();
 #endif
     A->minDuration = cfg->value(QStringLiteral("minimalDuration"), 0.15).toFloat(); // 150 ms
-    A->a440diff = cfg->value(QStringLiteral("a440Offset"), 0).toFloat();
+    setMidAfreq(cfg->value(QStringLiteral("midAfreq"), 440).toInt());
     A->intonation = (quint8)qBound(0, cfg->value(QStringLiteral("intonation"), 3).toInt(), 5);
     A->forwardInput = cfg->value(QStringLiteral("forwardInput"), false).toBool();
     A->playDetected = false; //cfg->value(QStringLiteral("playDetected"), false).toBool();
@@ -794,7 +806,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue(QStringLiteral("detectionMethod"), A->detectMethod);
       cfg->setValue(QStringLiteral("minimalVolume"), A->minimalVol);
       cfg->setValue(QStringLiteral("minimalDuration"), A->minDuration);
-      cfg->setValue(QStringLiteral("a440Offset"), A->a440diff);
+      cfg->setValue(QStringLiteral("midAfreq"), A->midAfreq);
       cfg->setValue(QStringLiteral("intonation"), A->intonation);
       cfg->setValue(QStringLiteral("forwardInput"), A->forwardInput);
       cfg->setValue(QStringLiteral("equalLoudness"), A->equalLoudness);

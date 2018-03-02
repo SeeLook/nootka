@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9 
@@ -72,9 +72,9 @@ Column {
                 delegate: ItemDelegate { text: modelData }
               }
               TcheckBox {
-                visible: false // TODO
+                visible: !Noo.isAndroid() && !Noo.isMac()
                 id: jackInChB
-                text: "JACK"
+                text: Noo.isWindows() ? "ASIO" : "JACK"
                 anchors.verticalCenter: parent.verticalCenter
               }
             }
@@ -121,7 +121,6 @@ Column {
           }
 
           Tile {
-            enabled: false // TODO
             description: qsTr("The base frequency of <i>middle a</i>.<br>Detection of the proper pitch of notes is relative to this value. This also affects the pitch of played sounds.")
             Column {
               width: parent.width
@@ -307,6 +306,7 @@ Column {
     skipStillerSpin.value = GLOB.skipStillerVal
     noiseFilterChB.checked = GLOB.useFilter
     enableInChB.checked = GLOB.audioInEnabled
+    freqSpin.value = GLOB.midAfreq
 
     if (outDevCombo.currentIndex === -1)
       outDevCombo.model = qsTr("no devices found")
@@ -325,6 +325,7 @@ Column {
       GLOB.minSplitVol = splitVolChB.checked ? splitVolSpin.value : 0
       GLOB.skipStillerVal = skipStillerChB.checked ? skipStillerSpin.value : 0
       GLOB.useFilter = noiseFilterChB.checked
+      GLOB.midAfreq = freqSpin.value
     }
     GLOB.audioInEnabled = enableInChB.checked
 
@@ -348,6 +349,7 @@ Column {
     skipStillerChB.checked = true
     skipStillerSpin.value = 80
     noiseFilterChB.checked = true
+    freqSpin.value = 440
 
     enableOutChB.checked = true
     outDevCombo.currentIndex = 0

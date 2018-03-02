@@ -181,7 +181,7 @@ void TaudioOUT::setAudioOutParams() {
       }
       oggScale->setSampleRate(oggSR);
       // Shifts only float part of a440diff - integer part is shifted by play() method
-      oggScale->setPitchOffset(audioParams()->a440diff - static_cast<float>(static_cast<int>(audioParams()->a440diff)));
+      oggScale->setPitchOffset(audioParams()->a440diff - static_cast<qreal>(static_cast<int>(audioParams()->a440diff)));
 #if defined(Q_OS_WIN)
       if (getCurrentApi() == RtAudio::WINDOWS_ASIO)
         connect(rtDevice()->emitter(), &TASIOEmitter::resetASIO, this, &TaudioOUT::ASIORestartSlot, Qt::UniqueConnection);
