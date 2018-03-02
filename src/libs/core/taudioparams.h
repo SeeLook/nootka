@@ -39,7 +39,7 @@ public:
   qreal   a440diff; /**< difference between standard a1 440Hz and user preferred base pitch */
   int     midAfreq = 440; /**< Orchestral pitch - frequency of middle A  */
   int     transposition; /**< shift (interval) between score/note name and sound/instrument  */
-  float   minimalVol; /**< only above this value detected note is sending to Nootka */
+  qreal   minimalVol; /**< only detected notes louder than this value are sending to Nootka */
   qreal   minDuration; /**< minimal duration of a sound above which it is detected */
   int     detectMethod; /**< pitch detection method (0 - MPM, 1 - auto-correlation, 2 - MPM modified cepstrum) */
   quint8  intonation; /**< accuracy of intonation in detected note - corresponds with @p Eaccuracy */
@@ -54,7 +54,6 @@ public:
   bool    equalLoudness; /**< if TRUE - noise filters are performed - FALSE by default */
 // duplex mode
   bool    forwardInput; /**< if true, all captured audio data is pushed to output */
-  bool    playDetected; /**< pitch-detected notes will be played */
 
 // audio output settings
   bool    OUTenabled; /**< audio output enabled */

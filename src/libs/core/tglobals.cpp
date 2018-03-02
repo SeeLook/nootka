@@ -614,36 +614,35 @@ void Tglobals::loadSettings(QSettings* cfg) {
 #if defined (Q_OS_ANDROID) // Input sound is loud on mobile
     A->minimalVol = cfg->value(QStringLiteral("minimalVolume"), 0.6).toFloat();
 #else
-    A->minimalVol = cfg->value(QStringLiteral("minimalVolume"), 0.4).toFloat();
+    A->minimalVol = cfg->value(QStringLiteral("minimalVolume"), 0.4).toReal();
     A->dumpPath = cfg->value(QLatin1String("dumpPath"), QString()).toString();
 #endif
-    A->minDuration = cfg->value(QStringLiteral("minimalDuration"), 0.15).toFloat(); // 150 ms
+    A->minDuration = cfg->value(QStringLiteral("minimalDuration"), 0.15).toReal(); // 150 ms
     setMidAfreq(cfg->value(QStringLiteral("midAfreq"), 440).toInt());
     A->intonation = (quint8)qBound(0, cfg->value(QStringLiteral("intonation"), 3).toInt(), 5);
     A->forwardInput = cfg->value(QStringLiteral("forwardInput"), false).toBool();
-    A->playDetected = false; //cfg->value(QStringLiteral("playDetected"), false).toBool();
     A->equalLoudness = cfg->value(QStringLiteral("equalLoudness"), true).toBool();
     A->minSplitVol = cfg->value(QStringLiteral("minVolumeToSplit"), 10.0).toReal();
     A->skipStillerVal = cfg->value(QStringLiteral("skipStillerThan"), 80.0).toReal();
     A->transposition = cfg->value(QStringLiteral("transposition"), 0).toInt();
   cfg->endGroup();
 
-  cfg->beginGroup(QLatin1String("layout"));
-    L->guitarEnabled = cfg->value(QStringLiteral("guitarEnabled"), true).toBool();
-#if defined (Q_OS_ANDROID)
-    L->soundViewEnabled = cfg->value(QStringLiteral("soundViewEnabled"), false).toBool();
-  // override some options not supported under mobile systems
-  L->toolBarAutoHide = true;
-  L->iconTextOnToolBar = Qt::ToolButtonTextBesideIcon;
-  L->hintsBarEnabled = false;
-  GisRightHanded = true;
-#else
-    L->soundViewEnabled = cfg->value(QStringLiteral("soundViewEnabled"), true).toBool();
-    L->toolBarAutoHide = cfg->value(QStringLiteral("toolBarAutoHide"), false).toBool();
-    L->iconTextOnToolBar = Qt::ToolButtonStyle(cfg->value(QStringLiteral("iconTextOnToolBar"), 3).toInt());
-    L->hintsBarEnabled = cfg->value(QStringLiteral("hintsBarEnabled"), true).toBool();
-#endif
-  cfg->endGroup();
+//   cfg->beginGroup(QLatin1String("layout"));
+//     L->guitarEnabled = cfg->value(QStringLiteral("guitarEnabled"), true).toBool();
+// #if defined (Q_OS_ANDROID)
+//     L->soundViewEnabled = cfg->value(QStringLiteral("soundViewEnabled"), false).toBool();
+//   // override some options not supported under mobile systems
+//   L->toolBarAutoHide = true;
+//   L->iconTextOnToolBar = Qt::ToolButtonTextBesideIcon;
+//   L->hintsBarEnabled = false;
+//   GisRightHanded = true;
+// #else
+//     L->soundViewEnabled = cfg->value(QStringLiteral("soundViewEnabled"), true).toBool();
+//     L->toolBarAutoHide = cfg->value(QStringLiteral("toolBarAutoHide"), false).toBool();
+//     L->iconTextOnToolBar = Qt::ToolButtonStyle(cfg->value(QStringLiteral("iconTextOnToolBar"), 3).toInt());
+//     L->hintsBarEnabled = cfg->value(QStringLiteral("hintsBarEnabled"), true).toBool();
+// #endif
+//   cfg->endGroup();
 
 //   cfg->beginGroup(QLatin1String("touch"));
 //     TtouchParams::i()->scoreWasTouched = cfg->value(QStringLiteral("scoreWasTouched"), false).toBool();
@@ -818,13 +817,13 @@ void Tglobals::storeSettings(QSettings* cfg) {
 #endif
   cfg->endGroup();
 
-  cfg->beginGroup(QLatin1String("layout"));
-      cfg->setValue(QStringLiteral("toolBarAutoHide"), L->toolBarAutoHide);
-      cfg->setValue(QStringLiteral("iconTextOnToolBar"), (int)L->iconTextOnToolBar);
-      cfg->setValue(QStringLiteral("hintsBarEnabled"), L->hintsBarEnabled);
-      cfg->setValue(QStringLiteral("soundViewEnabled"), L->soundViewEnabled);
-      cfg->setValue(QStringLiteral("guitarEnabled"), L->guitarEnabled);
-  cfg->endGroup();
+//   cfg->beginGroup(QLatin1String("layout"));
+//       cfg->setValue(QStringLiteral("toolBarAutoHide"), L->toolBarAutoHide);
+//       cfg->setValue(QStringLiteral("iconTextOnToolBar"), (int)L->iconTextOnToolBar);
+//       cfg->setValue(QStringLiteral("hintsBarEnabled"), L->hintsBarEnabled);
+//       cfg->setValue(QStringLiteral("soundViewEnabled"), L->soundViewEnabled);
+//       cfg->setValue(QStringLiteral("guitarEnabled"), L->guitarEnabled);
+//   cfg->endGroup();
 
 //   cfg->beginGroup(QLatin1String("touch"));
 //     cfg->setValue(QStringLiteral("scoreWasTouched"), TtouchParams::i()->scoreWasTouched);

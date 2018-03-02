@@ -95,8 +95,8 @@ public:
       /**
        * Sets minimal volume needed that note will be detected. Overrides global setting.
        */
-  void setMinimalVolume(float minVol);
-  float minimalVolume();
+  void setMinimalVolume(qreal minVol);
+  qreal minimalVolume();
 
       /**
        * Duration time of a single chunk for current sample rate and frames per chunk.
