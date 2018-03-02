@@ -109,7 +109,7 @@ void Tsound::play(const Tnote& note) {
     }
   }
 #else
-  if (playing && !GLOB->A->playDetected && player->type() == TabstractPlayer::e_midi) {
+  if (playing && player->type() == TabstractPlayer::e_midi) {
     if (sniffer) { // stop sniffer if midi output was started
       if (!m_stopSniffOnce) { // stop listening just once
         sniffer->stopListening();
@@ -474,8 +474,6 @@ void Tsound::noteStartedSlot(const TnoteStruct& note) {
     NOO->noteStarted(m_detectedNote);
   emit noteStarted(m_detectedNote);
   emit noteStartedEntire(note);
-//   if (player && GLOB->instrument().type() != Tinstrument::NoInstrument && GLOB->A->playDetected)
-//     play(m_detectedNote); // TODO it is never used
 }
 
 
@@ -524,8 +522,6 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
       emit noteFinished();
   }
   emit noteFinishedEntire(note);
-  if (player && GLOB->instrument().type() == Tinstrument::NoInstrument && GLOB->A->playDetected)
-    play(m_detectedNote);
 }
 
 

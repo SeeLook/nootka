@@ -87,13 +87,13 @@ void TcommonListener::setAudioInParams() {
 }
 
 
-void TcommonListener::setMinimalVolume(float minVol) {
-  finder()->setMinimalVolume(minVol);
+void TcommonListener::setMinimalVolume(qreal minVol) {
+  finder()->setMinimalVolume(static_cast<float>(minVol));
   m_audioParams->minimalVol = minVol;
 }
 
 
-float TcommonListener::minimalVolume() {
+qreal TcommonListener::minimalVolume() {
   return m_audioParams->minimalVol;
 }
 
