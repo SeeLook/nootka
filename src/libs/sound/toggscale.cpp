@@ -121,7 +121,6 @@ ToggScale::ToggScale() :
   m_thread(new QThread),
   m_sampleRate(44100),
   m_doDecode(true), m_isDecoding(false), m_isReady(true),
-  m_pitchOffset(0.0f), m_innerOffset(0.0),
   m_oggConnected(false), m_touchConnected(false),
   m_instrument(-1),
   m_alreadyDecoded(0)
@@ -229,7 +228,7 @@ void ToggScale::setSampleRate(unsigned int rate) {
 }
 
 
-void ToggScale::setPitchOffset(float pitchOff) {
+void ToggScale::setPitchOffset(qreal pitchOff) {
   if (pitchOff != m_pitchOffset) {
     m_pitchOffset = pitchOff;
     resetPCMArray();
@@ -239,8 +238,9 @@ void ToggScale::setPitchOffset(float pitchOff) {
 
 
 bool ToggScale::loadAudioData(int instrument) {
-  QString fileName;
   if (instrument != m_instrument) {
+    QString fileName;
+    m_instrument = instrument;
     switch (static_cast<Tinstrument::Etype>(instrument)) {
       case Tinstrument::ClassicalGuitar:
         fileName = Tpath::sound("classical-guitar");
@@ -278,52 +278,49 @@ bool ToggScale::loadAudioData(int instrument) {
         m_soundContinuous = false;
         break;
     }
-  } else
+    QFile oggFile(fileName);
+    if (!oggFile.exists())
       return false;
-  m_instrument = instrument;
 
-  QFile oggFile(fileName);
-  if (!oggFile.exists())
-    return false;
+    oggFile.open(QIODevice::ReadOnly);
+    QDataStream oggStream(&oggFile);
+    if (m_oggInMemory)
+      delete m_oggInMemory;
+    m_oggInMemory = new qint8[oggFile.size()];
+    oggStream.readRawData(reinterpret_cast<char*>(m_oggInMemory), oggFile.size());
 
-  oggFile.open(QIODevice::ReadOnly);
-  QDataStream oggStream(&oggFile);
-  if (m_oggInMemory)
-    delete m_oggInMemory;
-  m_oggInMemory = new qint8[oggFile.size()];
-  oggStream.readRawData(reinterpret_cast<char*>(m_oggInMemory), oggFile.size());
+    ov_callbacks myCallBacks;
+    m_oggWrap.curPtr = m_oggInMemory;
+    m_oggWrap.filePtr = m_oggInMemory;
+    m_oggWrap.fileSize = oggFile.size();
 
-  ov_callbacks myCallBacks;
-  m_oggWrap.curPtr = m_oggInMemory;
-  m_oggWrap.filePtr = m_oggInMemory;
-  m_oggWrap.fileSize = oggFile.size();
+    oggFile.close();
 
-  oggFile.close();
+    myCallBacks.read_func = readOggStatic;
+    myCallBacks.seek_func = seekOggStatic;
+    myCallBacks.close_func = closeOggStatic;
+    myCallBacks.tell_func = tellOggStatic;
 
-  myCallBacks.read_func = readOggStatic;
-  myCallBacks.seek_func = seekOggStatic;
-  myCallBacks.close_func = closeOggStatic;
-  myCallBacks.tell_func = tellOggStatic;
+    resetPCMArray();
 
-  resetPCMArray();
+    int ret = ov_open_callbacks((void*)&m_oggWrap, &m_ogg, NULL, 0, myCallBacks);
 
-  int ret = ov_open_callbacks((void*)&m_oggWrap, &m_ogg, NULL, 0, myCallBacks);
-
-  if (ret < 0) {
-    qDebug() << "cant open ogg stream";
-    return false;
+    if (ret < 0) {
+      qDebug() << "[ToggScale] Can't open ogg stream";
+      return false;
+      delete m_oggInMemory;
+      m_oggInMemory = nullptr;
+    }
+    //   vorbis_info *oggInfo = ov_info(&m_ogg, -1);
+    //   qDebug() << oggInfo->rate << oggInfo->channels << (bool)ov_seekable(&m_ogg);
+    //   char **ptr=ov_comment(&m_ogg, -1)->user_comments;
+    //     vorbis_info *vi=ov_info(&m_ogg, -1);
+    //     while(*ptr){
+    //       fprintf(stderr,"%s\n",*ptr);
+    //       ++ptr;
+    //     }
   }
-
-//   vorbis_info *oggInfo = ov_info(&m_ogg, -1);
-//   qDebug() << oggInfo->rate << oggInfo->channels << (bool)ov_seekable(&m_ogg);
-//   char **ptr=ov_comment(&m_ogg, -1)->user_comments;
-//     vorbis_info *vi=ov_info(&m_ogg, -1);
-//     while(*ptr){
-//       fprintf(stderr,"%s\n",*ptr);
-//       ++ptr;
-//     }
-
-  return true;
+  return m_oggInMemory != nullptr;
 }
 
 
@@ -423,10 +420,10 @@ void ToggScale::adjustSoundTouch() {
       m_touch->setSampleRate(44100);
       m_touch->setPitchSemiTones(m_innerOffset + m_pitchOffset);
       if (m_sampleRate != 44100) {
-        float newRate =  44100.0f / (float)m_sampleRate;
+        qreal newRate =  44100.0 / static_cast<qreal>(m_sampleRate);
         m_touch->setRate(newRate);
       }
-  //     qDebug() << "SoundTouch sampleRate" << m_sampleRate << "pitch offset" << m_innerOffset + m_pitchOffset;
+//       qDebug() << "SoundTouch sampleRate" << m_sampleRate << "pitch offset" << m_innerOffset + m_pitchOffset;
       if (!m_touchConnected)
         connect(m_thread, &QThread::started, this, &ToggScale::decodeAndResample);
       m_touchConnected = true;

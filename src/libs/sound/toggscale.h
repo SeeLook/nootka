@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -123,7 +123,7 @@ public:
       /**
        * Sets decimal offset of a pitch -0.99 to +0.99
        */
-  void setPitchOffset(float pitchOff);
+  void setPitchOffset(qreal pitchOff);
 
   int alreadyDecoded() { return m_alreadyDecoded; } /**< Number of already decoded bytes */
 
@@ -187,8 +187,8 @@ private:
   bool               m_isDecoding; /**< TRUE during decoding/resampling process. */
   bool               m_isReady;
   SoundTouch        *m_touch;
-  float              m_pitchOffset; /**< Offset set from outside (by user) */
-  float              m_innerOffset; /**< Offset calculated in setNote when SoundTouch has to generate note. */
+  qreal              m_pitchOffset = 0.0; /**< Offset set from outside (by user) */
+  qreal              m_innerOffset = 0.0; /**< Offset calculated in setNote when SoundTouch has to generate note. */
   bool               m_oggConnected, m_touchConnected;
   int                m_firstNote, m_lastNote; /**< Numbers of first and last notes in file with scale. */
   int                m_instrument; /**< current instrument which samples are loaded */
