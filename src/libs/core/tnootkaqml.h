@@ -99,6 +99,8 @@ public:
   Q_INVOKABLE QString getLicense();
   Q_INVOKABLE QString getChanges();
   Q_INVOKABLE bool isAndroid();
+  Q_INVOKABLE bool isWindows();
+  Q_INVOKABLE bool isMac();
   Q_INVOKABLE QStringList guitarTunings();
   Q_INVOKABLE QStringList bassTunings();
   Q_INVOKABLE Ttune tuning(int tuningType);

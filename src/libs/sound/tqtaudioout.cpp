@@ -113,7 +113,7 @@ void TaudioOUT::setAudioOutParams() {
       }
       oggScale->setSampleRate(oggSR);
       // Shifts only float part of a440diff - integer part is shifted by play() method
-      oggScale->setPitchOffset(audioParams()->a440diff - (float)int(audioParams()->a440diff));
+      oggScale->setPitchOffset(audioParams()->a440diff - static_cast<qreal>(static_cast<int>(audioParams()->a440diff)));
 
   } else
       playable = false;

@@ -258,6 +258,24 @@ bool TnootkaQML::isAndroid()  {
 }
 
 
+bool TnootkaQML::isWindows() {
+#if defined (Q_OS_WIN)
+  return true;
+#else
+  return false;
+#endif
+}
+
+
+bool TnootkaQML::isMac() {
+#if defined (Q_OS_MACOS)
+  return true;
+#else
+  return false;
+#endif
+}
+
+
 QStringList TnootkaQML::guitarTunings() {
   QStringList tunList;
   int start = static_cast<int>(Ttune::Standard_EADGBE);

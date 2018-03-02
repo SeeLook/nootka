@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -36,7 +36,8 @@ public:
 
   bool    INenabled; /**< is audio input enabled */
   QString INdevName; /**< input device name */
-  float   a440diff; /**< difference between standard a1 440Hz and user preferred base pitch */
+  qreal   a440diff; /**< difference between standard a1 440Hz and user preferred base pitch */
+  int     midAfreq = 440; /**< Orchestral pitch - frequency of middle A  */
   int     transposition; /**< shift (interval) between score/note name and sound/instrument  */
   float   minimalVol; /**< only above this value detected note is sending to Nootka */
   qreal   minDuration; /**< minimal duration of a sound above which it is detected */
@@ -44,9 +45,11 @@ public:
   quint8  intonation; /**< accuracy of intonation in detected note - corresponds with @p Eaccuracy */
   qreal   minSplitVol; /**< minimum volume change to split the same note (0.0 - no split) */
 
-      /** multiplexer of sound volume (aka %)
+      /**
+       * multiplexer of sound volume (aka %)
        * that determines minimum volume of next note to be pitch-detected.
-       * i.e. - value of 0.8 determines that note has to have at least 80% volume of average volume */
+       * i.e. - value of 0.8 determines that note has to have at least 80% volume of average volume
+       */
   qreal   skipStillerVal;
   bool    equalLoudness; /**< if TRUE - noise filters are performed - FALSE by default */
 // duplex mode
