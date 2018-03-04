@@ -239,32 +239,39 @@ QString Tsound::currentInDevName() const { return TaudioIN::inputName(); }
 QString Tsound::currentOutDevName() const { return TaudioOUT::outputName(); }
 
 
-void Tsound::prepareToConf() {
-  if (player) {
-//     player->stop();
-// #if !defined (Q_OS_ANDROID)
-//     player->deleteMidi();
-// #endif
-  }
-  if (sniffer) {
-    m_userState = sniffer->stoppedByUser();
-//     sniffer->stopListening();
-//     blockSignals(true);
-    sniffer->setStoppedByUser(false);
-  }
+void Tsound::setJACKorASIO(bool setOn) {
+#if !defined (Q_OS_MAC) && !defined(Q_OS_ANDROID)
+  TaudioIN::setJACKorASIO(setOn);
+#endif
 }
 
 
-void Tsound::restoreAfterConf() {
-// #if !defined (Q_OS_ANDROID)
-//   if (GLOB->A->midiEnabled) {
-//     if (player)
-//       player->setMidiParams();
+// void Tsound::prepareToConf() {
+//   if (player) {
+// //     player->stop();
+// // #if !defined (Q_OS_ANDROID)
+// //     player->deleteMidi();
+// // #endif
 //   }
-// #endif
-  if (sniffer)
-    restoreSniffer();
-}
+//   if (sniffer) {
+//     m_userState = sniffer->stoppedByUser();
+// //     sniffer->stopListening();
+// //     blockSignals(true);
+//     sniffer->setStoppedByUser(false);
+//   }
+// }
+
+
+// void Tsound::restoreAfterConf() {
+// // #if !defined (Q_OS_ANDROID)
+// //   if (GLOB->A->midiEnabled) {
+// //     if (player)
+// //       player->setMidiParams();
+// //   }
+// // #endif
+//   if (sniffer)
+//     restoreSniffer();
+// }
 
 
 float Tsound::pitch() {

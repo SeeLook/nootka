@@ -349,6 +349,9 @@ void Tglobals::setMidAfreq(int midA) {
   A->a440diff = midA == 440 ? 0.0 : pitchOfFreq(A->midAfreq) - pitchOfFreq(440);
 }
 
+bool Tglobals::JACKorASIO() const { return A->JACKorASIO; }
+void Tglobals::setJACKorASIO(bool JorA) { A->JACKorASIO = JorA; }
+
 
 /* ------------------ Exam switches ------------------ */
 void Tglobals::setIsExam(bool is) {

@@ -103,16 +103,18 @@ public:
   Q_INVOKABLE QString currentInDevName() const;
   Q_INVOKABLE QString currentOutDevName() const;
 
+  Q_INVOKABLE void setJACKorASIO(bool setOn);
+
     /**
      * Before Nootka config dialog is created a few things have to be done.
      * stop sniffing, playing, delete midi, which blocks audio devices,
      */
-  Q_INVOKABLE void prepareToConf();
+//   Q_INVOKABLE void prepareToConf();
 
       /**
        * Also, when user will discard config, it has to restore its state.
        */
-  Q_INVOKABLE void restoreAfterConf();
+//   Q_INVOKABLE void restoreAfterConf();
   Q_INVOKABLE void acceptSettings();
 
   Q_INVOKABLE void stopListen();

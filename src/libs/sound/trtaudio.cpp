@@ -24,10 +24,10 @@
 
 
 /*static*/
-RtAudio*                           TrtAudio::m_rtAduio = 0;
-RtAudio::StreamParameters*         TrtAudio::m_inParams = 0;
-RtAudio::StreamParameters*         TrtAudio::m_outParams = 0;
-RtAudio::StreamOptions*            TrtAudio::streamOptions = 0;
+RtAudio*                           TrtAudio::m_rtAduio = nullptr;
+RtAudio::StreamParameters*         TrtAudio::m_inParams = nullptr;
+RtAudio::StreamParameters*         TrtAudio::m_outParams = nullptr;
+RtAudio::StreamOptions*            TrtAudio::streamOptions = nullptr;
 quint32                            TrtAudio::m_sampleRate = 44100;
 quint32                            TrtAudio::m_inSR = 48000;
 quint32                            TrtAudio::m_outSR = 44100;
@@ -37,7 +37,7 @@ QString                            TrtAudio::m_inDevName = "anything";
 QString                            TrtAudio::m_outDevName = "anything";
 TrtAudio::callBackType             TrtAudio::m_cbIn = 0;
 TrtAudio::callBackType             TrtAudio::m_cbOut = 0;
-TaudioObject*                      TrtAudio::m_ao = 0;
+TaudioObject*                      TrtAudio::m_ao = nullptr;
 RtAudioCallback                    TrtAudio::m_callBack = TrtAudio::duplexCallBack;
 bool                               TrtAudio::m_JACKorASIO = false;
 bool                               TrtAudio::forceUpdate = false;
@@ -50,7 +50,7 @@ bool                               m_audioUpdated = false;
 
 
 void TrtAudio::createRtAudio() {
-  if (m_rtAduio == 0) { // Create RtAudio instance if doesn't exist
+  if (m_rtAduio == nullptr) { // Create RtAudio instance if doesn't exist
 #if defined(Q_OS_WIN)
     RtAudio::Api rtAPI;
     if ((int)QSysInfo::windowsVersion() < (int)QSysInfo::WV_VISTA)
@@ -66,7 +66,7 @@ void TrtAudio::createRtAudio() {
     else
       rtAPI = RtAudio::LINUX_ALSA; // force ALSA
     #if defined(__LINUX_PULSE__)
-      QFileInfo pulseBin("/usr/bin/pulseaudio");
+      QFileInfo pulseBin(QStringLiteral("/usr/bin/pulseaudio"));
       if (!m_JACKorASIO && pulseBin.exists()) // we check is PA possible to run - without check, it can hang over.
         rtAPI = RtAudio::LINUX_PULSE;
     #endif
@@ -75,11 +75,11 @@ void TrtAudio::createRtAudio() {
  #endif
 
     try {
-      m_rtAduio = new RtAudio(rtAPI);
-      m_rtAduio->showWarnings(false);
+        m_rtAduio = new RtAudio(rtAPI);
+        m_rtAduio->showWarnings(false);
     } catch (RtAudioError& e) {
-      qDebug() << "[TrtAudio] Cannot create RtAudio instance" << QString::fromStdString(e.getMessage());
-      m_rtAduio = 0;
+        qDebug() << "[TrtAudio] Cannot create RtAudio instance" << QString::fromStdString(e.getMessage());
+        m_rtAduio = nullptr;
     }
   }
 }

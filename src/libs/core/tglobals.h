@@ -96,6 +96,7 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(QString outDevName READ outDevName WRITE setOutDevName);
   Q_PROPERTY(bool forwardInput READ forwardInput WRITE setForwardInput)
   Q_PROPERTY(int midAfreq READ midAfreq WRITE setMidAfreq)
+  Q_PROPERTY(bool JACKorASIO READ JACKorASIO WRITE setJACKorASIO)
 
   /* Exam */
   Q_PROPERTY(bool isExam READ isExam WRITE setIsExam NOTIFY isExamChanged)
@@ -248,6 +249,9 @@ public:
 
   int midAfreq() const;
   void setMidAfreq(int midA);
+
+  bool JACKorASIO() const;
+  void setJACKorASIO(bool JorA);
 
   /* ------------------ Exam switches ------------------ */
   bool isExam() const { return m_isExam; }

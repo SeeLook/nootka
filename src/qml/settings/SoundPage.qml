@@ -76,6 +76,11 @@ Column {
                 id: jackInChB
                 text: Noo.isWindows() ? "ASIO" : "JACK"
                 anchors.verticalCenter: parent.verticalCenter
+                onClicked: {
+                  SOUND.setJACKorASIO(jackInChB.checked)
+                  inDevCombo.model = SOUND.inputDevices()
+                  outDevCombo.model = SOUND.outputDevices()
+                }
               }
             }
           }
@@ -307,6 +312,7 @@ Column {
     noiseFilterChB.checked = GLOB.useFilter
     enableInChB.checked = GLOB.audioInEnabled
     freqSpin.value = GLOB.midAfreq
+    jackInChB.checked = GLOB.JACKorASIO
 
     if (outDevCombo.currentIndex === -1)
       outDevCombo.model = qsTr("no devices found")
@@ -326,6 +332,7 @@ Column {
       GLOB.skipStillerVal = skipStillerChB.checked ? skipStillerSpin.value : 0
       GLOB.useFilter = noiseFilterChB.checked
       GLOB.midAfreq = freqSpin.value
+      GLOB.JACKorASIO = jackInChB.checked
     }
     GLOB.audioInEnabled = enableInChB.checked
 
@@ -350,6 +357,7 @@ Column {
     skipStillerSpin.value = 80
     noiseFilterChB.checked = true
     freqSpin.value = 440
+    jackInChB.checked = false
 
     enableOutChB.checked = true
     outDevCombo.currentIndex = 0
