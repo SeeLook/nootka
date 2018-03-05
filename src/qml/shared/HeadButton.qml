@@ -23,8 +23,9 @@ ToolButton {
   property alias fontSize: butText.font.pixelSize
   property alias textColor: butText.color
   property Taction taction
+  property bool hiHover: true
 
-  background: Rectangle { color: pressed ? activPal.button : (hovered ? activPal.base : "transparent") }
+  background: Rectangle { color: pressed ? activPal.button : (hovered && hiHover ? activPal.base : "transparent") }
 
   onTactionChanged: {
     if (taction) {
