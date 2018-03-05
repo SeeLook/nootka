@@ -62,6 +62,7 @@ Item {
           pixmap: Noo.pix(iconName)
           factor: Screen.pixelDensity * (Noo.isAndroid() ? 1.1 : 1.6)
           fontSize: Noo.fontSize() * (Noo.isAndroid() ? 0.8 : 0.9)
+          hiHover: false
           onClicked: {
             if (navList.prevButt !== delegateButt) {
               if (typeof(navList.pages[index]) === "string") {
