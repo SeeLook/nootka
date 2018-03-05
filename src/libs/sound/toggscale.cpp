@@ -21,13 +21,15 @@
 #include <tpath.h>
 #include <QtCore/qfile.h>
 #include <QtCore/qdatastream.h>
-#include <QtCore/qdebug.h>
 #include <QtCore/qthread.h>
 #include <QtCore/qfileinfo.h>
-#include <QtGui/qguiapplication.h>
-#include <stdlib.h>
 #include <QtCore/qmath.h>
+#include <QtCore/qtimer.h>
+#include <QtGui/qguiapplication.h>
 #include <unistd.h>
+#include <stdlib.h>
+
+#include <QtCore/qdebug.h>
 
 
 #if defined(Q_OS_WIN32)
@@ -192,7 +194,7 @@ void ToggScale::decodeNote(int noteNr) {
       m_pcmArray[noteNr - LOWEST_NOTE].reserve(m_sampleRate * 2);
       m_currentBuffer = m_pcmArray[noteNr - LOWEST_NOTE].noteData;
   } else {
-      emit oggReady();
+      QTimer::singleShot(0, [=]{ emit oggReady(); }); // HACK: emitting it out of this method
       emit noteDecoded();
       return;
   }

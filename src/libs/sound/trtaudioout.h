@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -58,14 +58,20 @@ public:
 protected:
   static bool outCallBack(void* outBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status);
 
+      /**
+       * Invoked when @p ToggScale decoded enough amount of audio data.
+       * But only when @p play() was called - single note
+       */
+  void readyToPlaySlot();
+
+  void decodeNextSlot();
+
 protected:
   static TaudioOUT               *instance; /**< Static pointer of this class instance. */
   ToggScale                      *oggScale;
   int                             ratioOfRate; /**< ratio of current sample rate to 44100 */
 
-  void decodeNext();
-
-private slots:
+private:
   void updateSlot() { setAudioOutParams(); }
   void playingFinishedSlot();
 
@@ -75,6 +81,7 @@ private slots:
 
 private:
   bool                          m_callBackIsBussy;
+  bool                          m_singleNotePlayed = false;
 
 };
 

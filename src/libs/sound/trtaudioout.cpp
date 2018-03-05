@@ -16,7 +16,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #include "trtaudioout.h"
 #include "toggscale.h"
 #include "tasioemitter.h"
@@ -153,7 +152,8 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
   connect(ao(), &TaudioObject::playingFinished, this, &TaudioOUT::playingFinishedSlot);
   connect(ao(), &TaudioObject::nextNoteStarted, [=]{ emit nextNoteStarted(); });
 
-  connect(oggScale, &ToggScale::noteDecoded, this, &TaudioOUT::decodeNext);
+  connect(oggScale, &ToggScale::noteDecoded, this, &TaudioOUT::decodeNextSlot);
+  connect(oggScale, &ToggScale::oggReady, this, &TaudioOUT::readyToPlaySlot);
 }
 
 
@@ -197,7 +197,7 @@ bool TaudioOUT::play(int noteNr) {
 
   while (m_callBackIsBussy) {
       SLEEP(1);
-//       qDebug() << "Oops! Call back method is in progress when a new note wants to be played!";
+      qDebug() << "[TaudioOUT] Oops! Call back method is in progress when a new note wants to be played!";
   }
 
   doEmit = true;
@@ -209,20 +209,21 @@ bool TaudioOUT::play(int noteNr) {
   p_decodingNoteNr = 0;
   p_posInNote = 0;
   p_posInOgg = 0;
+  m_singleNotePlayed = true;
 
   oggScale->decodeNote(playList().first().number);
-  int loops = 0;
-  while (!oggScale->isReady() && loops < 40) { // 40ms - max latency
-    SLEEP(1);
-    loops++;
+  return true;
+}
+
+
+void TaudioOUT::readyToPlaySlot() {
+  if (m_singleNotePlayed) {
+    m_singleNotePlayed = false;
+    p_isPlaying = true;
+    if (areStreamsSplit() && state() != e_playing)
+      openStream();
+    startStream();
   }
-
-  p_isPlaying = true;
-
-//   if (loops) qDebug() << "latency:" << loops << "ms";
-  if (areStreamsSplit() && state() != e_playing)
-    openStream();
-  return startStream();
 }
 
 
@@ -297,14 +298,14 @@ void TaudioOUT::stop() {
  * It is connected to @p ToggScale::noteDecoded emitted when decoding of a note is finished.
  * This way all notes of melody are decoded in paralel just after melody starts playing
  */
-void TaudioOUT::decodeNext() {
+void TaudioOUT::decodeNextSlot() {
   p_decodingNoteNr++;
   if (p_decodingNoteNr < playList().size()) {
     int noteNr = playList()[p_decodingNoteNr].number;
     if (noteNr < REST_NR)
-      oggScale->decodeNote(noteNr); // when it will finish this method will call again
+      oggScale->decodeNote(noteNr); // when it will finish decodeNextSlot() method will be called again
     else
-      decodeNext(); // so call itself for the next note
+      decodeNextSlot(); // so call itself for the next note
   }
 }
 
