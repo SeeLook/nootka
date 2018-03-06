@@ -15,10 +15,10 @@ find_package(Qt5Network REQUIRED)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 if(UNIX AND NOT APPLE)
-  if (PACKAGE_ARCHITECTURE MATCHES "arm")
+  if (PACKAGE_ARCHITECTURE MATCHES "arm" OR PACKAGE_ARCHITECTURE MATCHES "aarch64")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsigned-char")
-    message("Set additional flag -fsigned-char for ARM arch")
-  endif(PACKAGE_ARCHITECTURE MATCHES "arm")
+    message("Set additional flag -fsigned-char for ${PACKAGE_ARCHITECTURE} arch")
+  endif(PACKAGE_ARCHITECTURE MATCHES "arm" OR PACKAGE_ARCHITECTURE MATCHES "aarch64")
 endif(UNIX AND NOT APPLE)
 
 if(UNIX AND NOT APPLE)
