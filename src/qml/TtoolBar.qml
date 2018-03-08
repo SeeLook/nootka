@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelapook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelapook@gmail.com)   *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -20,6 +20,7 @@ ToolBar {
     HeadButton { id: settAct; taction: nootkaWindow.settingsAct; visible: !GLOB.isExam }
     HeadButton { taction: nootkaWindow.levelAct; visible: !GLOB.isExam }
     HeadButton { id: scoreAct; taction: nootkaWindow.scoreAct; visible: !GLOB.singleNoteMode }
+    HeadButton { id: chartAct; taction: nootkaWindow.chartAct; visible: !GLOB.isExam }
     HeadButton { taction: nootkaWindow.examAct; visible: !GLOB.isExam }
     Repeater {
       id: examRepeater
