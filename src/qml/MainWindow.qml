@@ -21,6 +21,7 @@ ApplicationWindow {
   property alias levelAct: levelAct
   property alias scoreAct: scoreAct
   property alias examAct: examAct
+  property alias chartAct: chartAct
 
   // private
   property var noteName: null
@@ -59,6 +60,13 @@ ApplicationWindow {
     text: qsTranslate("TtoolBar", "Lessons")
     tip: qsTranslate("TtoolBar", "Start exercises or an exam")
     onTriggered: showDialog(Nootka.ExamStart)
+  }
+  Taction {
+    id: chartAct
+    icon: "charts"
+    text: qsTranslate("TtoolBar", "Analyze")
+    tip: qsTranslate("TtoolBar", "Analysis of exam results")
+//     onTriggered: showDialog(Nootka.Charts)
   }
 
   width: GLOB.geometry.width
