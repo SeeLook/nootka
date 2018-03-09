@@ -16,7 +16,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #include "tlevel.h"
 #include "tglobals.h"
 #include <music/ttune.h>
@@ -75,12 +74,12 @@ bool Tlevel::couldBeLevel(qint32 ver) {
 /**
  * TlevelSelector context of translate() is used for backward compatibility with translations
  */
-void Tlevel::fileIOerrorMsg(QFile& f, QWidget* parent) {
+void Tlevel::fileIOerrorMsg(QFile& f) {
   if (!f.fileName().isEmpty())
-      QMessageBox::critical(parent, QLatin1String(" "), QApplication::translate("TlevelSelector",
+      QMessageBox::critical(nullptr, QLatin1String(" "), QApplication::translate("TlevelSelector",
                                       "Cannot open file\n %1 \n for reading").arg(f.fileName()));
   else
-      QMessageBox::critical(parent, QLatin1String(" "), QApplication::translate("TlevelSelector", "No file name specified"));
+      QMessageBox::critical(nullptr, QLatin1String(" "), QApplication::translate("TlevelSelector", "No file name specified"));
 }
 
 
@@ -264,6 +263,7 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
       er = e_levelFixed;
       qDebug() << "Name of a level was reduced to 29 characters:" << name;
   }
+  melodySet.clear();
 //   }
   while (xml.readNextStartElement()) {
     if (xml.name() == QLatin1String("description"))
@@ -306,6 +306,7 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
             skipCurrentXmlKey(xml);
       }
     } else if (xml.name() == QLatin1String("melodies")) {
+      // Melodies
         while (xml.readNextStartElement()) {
           if (xml.name() == QLatin1String("melodyLength"))
               melodyLen = qBound(1, QVariant(xml.readElementText()).toInt(), 100);
@@ -314,7 +315,7 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
           else if (xml.name() == QLatin1String("requireInTempo"))
               requireInTempo = QVariant(xml.readElementText()).toBool();
           else if (xml.name() == QLatin1String("randType"))
-              randMelody = static_cast<ErandMelody>(QVariant(xml.readElementText()).toInt());
+              randMelody = static_cast<ErandMelody>(xml.readElementText().toInt());
           else if (xml.name() == QLatin1String("keyOfrandList")) {
               xml.readNextStartElement();
               keyOfrandList.fromXml(xml);
@@ -330,6 +331,9 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
                 } else
                     skipCurrentXmlKey(xml);
               }
+          } else if (xml.name() == QLatin1String("melody")) {
+              melodySet << Tmelody();
+              melodySet.last().fromXml(xml); // TODO: no validation here, could be vulnerable
           } else
               skipCurrentXmlKey(xml);
         }
@@ -457,15 +461,21 @@ void Tlevel::writeToXml(QXmlStreamWriter& xml) {
       xml.writeTextElement(QLatin1String("endsOnTonic"), QVariant(endsOnTonic).toString());
       xml.writeTextElement(QLatin1String("requireInTempo"), QVariant(requireInTempo).toString());
       if (randMelody != e_randFromRange) { // write it only when needed
-        if (randMelody == e_randFromList) { // so far we have only this type implemented
-          xml.writeTextElement(QLatin1String("randType"), QVariant(static_cast<quint8>(randMelody)).toString());
-          xml.writeStartElement(QLatin1String("keyOfrandList"));
-            keyOfrandList.toXml(xml);
-          xml.writeEndElement(); // keyOfrandList
-          xml.writeStartElement(QLatin1String("noteList"));
-          for (int n = 0; n < notesList.count(); ++n)
-            notesList[n].toXml(xml, QLatin1String("n")); // XML note wrapped into <n> tag
-          xml.writeEndElement(); // noteList
+        xml.writeTextElement(QLatin1String("randType"), QVariant(static_cast<quint8>(randMelody)).toString());
+        if (randMelody == e_randFromList) {
+            xml.writeStartElement(QLatin1String("keyOfrandList"));
+              keyOfrandList.toXml(xml);
+            xml.writeEndElement(); // keyOfrandList
+            xml.writeStartElement(QLatin1String("noteList"));
+            for (int n = 0; n < notesList.count(); ++n)
+              notesList[n].toXml(xml, QLatin1String("n")); // XML note wrapped into <n> tag
+            xml.writeEndElement(); // noteList
+        } else if (randMelody == e_melodyFromSet) {
+            for (int m = 0; m < melodySet.count(); ++m) {
+              xml.writeStartElement(QLatin1String("melody"));
+              melodySet[m].toXml(xml);
+              xml.writeEndElement(); // melody
+            }
         }
       }
     xml.writeEndElement(); // melodies

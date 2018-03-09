@@ -16,22 +16,19 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #ifndef TEXAMLEVEL_H
 #define TEXAMLEVEL_H
 
 #include <nootkacoreglobal.h>
 #include "tqatype.h"
 #include <music/tnote.h>
-#include <music/tkeysignature.h>
-#include <music/tclef.h>
+#include <music/tmelody.h>
 #include <music/tinstrument.h>
 #include <QtCore/qdatastream.h>
 
 
 class QXmlStreamWriter;
 class QFile;
-class QWidget;
 
 
 /**
@@ -83,7 +80,7 @@ public:
   static bool saveToFile(Tlevel &level, const QString& levelFile);
 
       /** Shows message box with error if file cannot be opened.*/
-  static void fileIOerrorMsg(QFile &f, QWidget *parent = 0);
+  static void fileIOerrorMsg(QFile &f);
 
       /** Reads fret number from current XML key to @fr reference and verifies it.
         * Setts error type when error occurs or lives @p err unchanged when OK. */
@@ -119,6 +116,7 @@ public:
   ErandMelody        randMelody; /**< How melody is composed (from range, from notes list or from set of melodies) */
   QList<Tnote>       notesList; /**< List with notes from which melody is composed */
   TkeySignature      keyOfrandList; /**< Key signature of note list for composing random melodies */
+  QList<Tmelody>     melodySet; /**< List of defined melodies when @p randMelody is @p e_melodyFromSet */
 // RANGE
   Tnote              loNote; /**< Lowest level note */
   Tnote              hiNote; /**< Highest level note */
