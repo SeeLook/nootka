@@ -162,7 +162,15 @@ public:
   Q_INVOKABLE void openMusicXml(const QString& musicFile);
   Q_INVOKABLE void saveMusicXml(const QString& musicFile);
 
-  void setMelody(Tmelody* melody, bool ignoreTechnical = false);
+      /**
+       * Sets given melody to score.
+       * Score has its own mechanizm of dividing notes into measures,
+       * so measures of @p melody are ignored, only its meter,clef and key are respected.
+       * When @p notesAmount is set, only given number of notes is displayed in score,
+       * otherwise entire melody is taken.
+       * @p ignoreTechnical set to @p FALSE skips setting the technical data to notes
+       */
+  void setMelody(Tmelody* melody, bool ignoreTechnical = false, int notesAmount = 0);
 
   /* ------------------ Score switches ------------------ */
 

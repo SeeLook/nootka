@@ -16,7 +16,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #include "texecutorsupply.h"
 #include "tequalrand.h"
 #include <exam/texam.h>
@@ -24,7 +23,6 @@
 #include <exam/tattempt.h>
 #include <music/ttune.h>
 #include <music/tmelody.h>
-#include <music/tchunk.h>
 #include <instruments/tbandoneonbg.h>
 #include <tnootkaqml.h>
 #include <tglobals.h>
@@ -38,7 +36,6 @@
 #include <QtWidgets/qmessagebox.h>
 #include <QtCore/qdatetime.h>
 #include <QtCore/qdebug.h>
-
 
 
 #if !defined (Q_OS_ANDROID)

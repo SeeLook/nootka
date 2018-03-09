@@ -16,7 +16,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #include "tmelody.h"
 #include "tnotestruct.h"
 #include "tclef.h"
@@ -55,6 +54,20 @@ Tmelody::Tmelody(const QString& title, const TkeySignature& k) :
 
 }
 
+
+Tmelody::Tmelody(const Tmelody& other)
+{
+  m_title = other.title();
+  m_tempo = other.tempo();
+  m_clef = other.clef();
+  m_meter = new Tmeter;
+  setMeter(other.meter()->meter());
+  for (int n = 0; n < other.length(); ++n)
+    addNote(other.chunk(n));
+}
+
+
+
 Tmelody::~Tmelody()
 {
   delete m_meter;
@@ -75,7 +88,7 @@ void Tmelody::setMeter(int m) {
  */
 void Tmelody::addNote(const Tchunk& n) {
   if (m_measures.isEmpty() || lastMeasure().isFull())
-      m_measures << Tmeasure(m_measures.count() + 1, m_meter->meter());
+    m_measures << Tmeasure(m_measures.count() + 1, m_meter->meter());
 
   lastMeasure().addNote(n);
   m_notes << &lastMeasure().lastNote();

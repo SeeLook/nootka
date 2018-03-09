@@ -16,11 +16,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #include "trandmelody.h"
 #include <music/tmelody.h>
 #include <music/trhythm.h>
-#include <music/tchunk.h>
 #include <QtCore/qdebug.h>
 #include <QtCore/qdatetime.h>
 

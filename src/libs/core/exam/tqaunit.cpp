@@ -16,12 +16,10 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #include "tqaunit.h"
 #include "tattempt.h"
 #include "texam.h"
 #include "music/tmelody.h"
-#include "music/tchunk.h"
 #include <cmath>
 #include <QtCore/qxmlstream.h>
 #include <QtCore/qdebug.h>

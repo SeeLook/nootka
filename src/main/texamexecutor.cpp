@@ -38,7 +38,6 @@
 #include <tscoreparams.h>
 // #include <tlayoutparams.h>
 #include <music/tmelody.h>
-#include <music/tchunk.h>
 #include <taction.h>
 #include <tnootkaqml.h>
 #include <instruments/tcommoninstrument.h>

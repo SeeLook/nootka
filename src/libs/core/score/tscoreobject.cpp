@@ -24,7 +24,6 @@
 #include "tnotepair.h"
 #include "music/tmeter.h"
 #include "music/tmelody.h"
-#include "music/tchunk.h"
 
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>
@@ -473,7 +472,7 @@ void TscoreObject::saveMusicXml(const QString& musicFile) {
 }
 
 
-void TscoreObject::setMelody(Tmelody* melody, bool ignoreTechnical) {
+void TscoreObject::setMelody(Tmelody* melody, bool ignoreTechnical, int notesAmount) {
 CHECKTIME (
   clearScorePrivate();
   m_notes.clear();
@@ -485,7 +484,8 @@ CHECKTIME (
       setKeySignatureEnabled(true);
     setKeySignature(newKey);
   }
-  for (int n = 0; n < melody->length(); ++n) {
+  int notesToCopy = notesAmount == 0 ? melody->length() : qMin(notesAmount, melody->length());
+  for (int n = 0; n < notesToCopy; ++n) {
     addNote(melody->note(n)->p());
     if (!ignoreTechnical)
       lastSegment()->setTechnical(melody->note(n)->technical());

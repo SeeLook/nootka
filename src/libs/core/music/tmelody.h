@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,11 +24,11 @@
 #include <QtCore/qlist.h>
 #include "tkeysignature.h"
 #include "tclef.h"
+#include "tchunk.h"
 #include "tmeasure.h"
 
 
 class Tmeter;
-class Tchunk;
 class TnoteStruct;
 
 
@@ -42,27 +42,36 @@ class NOOTKACORE_EXPORT Tmelody
 
 public:
   Tmelody(const QString& title = QString(), const TkeySignature& k = TkeySignature());
+  Tmelody(const Tmelody& other);
   ~Tmelody();
 
-  QString& title() {return m_title; }
+  QString title() const { return m_title; }
   void setTitle(const QString& t) { m_title = t; }
 
-  int length() { return m_notes.size(); } /** A length of the melody (notes number) */
+      /**
+       * A length of the melody (notes number)
+       */
+  int length() const { return m_notes.size(); }
 
   void addNote(const Tchunk& n);
-  Tchunk* note(int index) { return m_notes[index]; } /** A pointer to note @p index */
+
+      /**
+       * A pointer to note @p index
+       */
+  Tchunk* note(int index) { return m_notes[index]; }
+  Tchunk chunk(int index) const { return *m_notes[index]; }
 
   Tmeasure& measure(int nr) { return m_measures[nr]; }
   Tmeasure& lastMeasure() { return m_measures.last(); }
-  int measuresCount() { return m_measures.count(); }
+  int measuresCount() const { return m_measures.count(); }
 
-  int tempo() { return m_tempo; }
+  int tempo() const { return m_tempo; }
   void setTempo(int tmp) { m_tempo = tmp; }
 
-  TkeySignature key() { return m_key; }
+  TkeySignature const key() { return m_key; }
   void setKey(const TkeySignature& k) { m_key = k; }
 
-  Tclef::EclefType clef() { return m_clef; }
+  Tclef::EclefType clef() const { return m_clef; }
   void setClef(Tclef::EclefType type) { m_clef = type; }
 
   Tmeter* meter() const { return m_meter; }
@@ -82,7 +91,7 @@ private:
   QList<Tchunk*>       m_notes; /**< List of pointers to ordered notes */
   int                  m_tempo;
   TkeySignature        m_key;
-  Tmeter              *m_meter;
+  Tmeter              *m_meter = nullptr;
   Tclef::EclefType     m_clef;
 };
 
