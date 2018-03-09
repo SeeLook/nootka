@@ -29,8 +29,7 @@
 #include "ttickcolors.h"
 #include <tinitcorelib.h>
 #include <taudioparams.h>
-#include "music/tmelody.h"
-#include "music/tchunk.h"
+#include <music/tmelody.h>
 
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qtimer.h>

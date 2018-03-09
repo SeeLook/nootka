@@ -103,7 +103,7 @@ TkeySignature::TkeySignature(char keyS, bool isMinor)
 }
 
 
-QString TkeySignature::accidNumber(bool inHtml) {
+QString TkeySignature::accidNumber(bool inHtml) const {
     QString a;
     if (m_key < 0)
         a = QStringLiteral("b");
@@ -119,12 +119,12 @@ QString TkeySignature::accidNumber(bool inHtml) {
 }
 
 
-Tnote TkeySignature::inKey(Tnote n) {
-    return inKeyPrivate(value(), n);
+Tnote TkeySignature::inKey(const Tnote& n) const {
+  return inKeyPrivate(value(), n);
 }
 
 
-Tnote TkeySignature::tonicNote(int octave) {
+Tnote TkeySignature::tonicNote(int octave) const {
   char tonicNoteNr = isMinor() ? minorKeys[value() + 7] : majorKeys[value() + 7];
   return Tnote(tonicNoteNr + 1, octave, scalesDefArr[value() + 7][static_cast<int>(tonicNoteNr)]);
 }
@@ -156,7 +156,6 @@ void TkeySignature::fromXml(QXmlStreamReader& xml) {
 }
 
 
-
 QDataStream &operator << (QDataStream &out, TkeySignature &key) {
     quint8 kk = key.value();
     if (key.isMinor())
@@ -185,7 +184,7 @@ bool getKeyFromStream(QDataStream &in, TkeySignature &k) {
 //#################################################################################################
 //###################              PRIVATE             ############################################
 //#################################################################################################
-Tnote TkeySignature::inKeyPrivate(char val, Tnote n) {
+Tnote TkeySignature::inKeyPrivate(char val, const Tnote& n) {
   int v = val + 7;
   if (scalesDefArr[v][n.note() - 1] == n.alter())
       return n;
