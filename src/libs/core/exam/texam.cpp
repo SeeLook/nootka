@@ -256,7 +256,7 @@ Texam::EerrorType Texam::loadFromFile(const QString& fileName) {
           result = e_file_corrupted;
       file.close();
   } else {
-      Tlevel::fileIOerrorMsg(file, 0);
+      Tlevel::fileIOerrorMsg(file);
       result = e_cant_open;
   }
   updateBlackCount();
