@@ -277,7 +277,7 @@ Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
              QMessageBox::warning(nullptr, QLatin1String(" "), tr("Level file\n %1 \n was corrupted and repaired!\n Check please, if its parameters are as expected.").arg(file.fileName()));
   } else {
       if (!file.fileName().isEmpty()) // skip empty file names (ignored by user)
-        Tlevel::fileIOerrorMsg(file, nullptr);
+        Tlevel::fileIOerrorMsg(file);
   }
   return level;
 }

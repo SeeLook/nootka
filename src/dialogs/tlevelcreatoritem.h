@@ -222,9 +222,17 @@ public:
 
   Q_INVOKABLE void openLevel(const QString& levelFile);
 
+  Q_INVOKABLE Tlevel* level() { return m_level; }
+
+      /**
+       * Invoked when user adds melody to the set
+       */
+  Q_INVOKABLE void melodyListChanged();
+
 signals:
   void updateLevel();
   void updateNotesList();
+  void updateMelodyList();
   void saveStateChanged();
   void save();
 

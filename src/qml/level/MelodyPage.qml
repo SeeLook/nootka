@@ -93,16 +93,39 @@ Tflickable {
       meter: Tmeter.NoMeter
       enableKeySign: creator.useKeySign
       scoreObj.allowAdding: visible
-      Connections {
-        target: creator
-        onUpdateNotesList: updateNotesList()
-      }
     }
   }
 
   Component.onCompleted: {
     if (listScore.visible)
       updateNotesList()
+    checkMelodyView()
+  }
+
+  Connections {
+    target: creator
+    onUpdateNotesList: updateNotesList()
+    onUpdateMelodyList: checkMelodyView()
+  }
+
+  property var melListView: null
+  Connections {
+    target: melCombo
+    onCurrentIndexChanged: checkMelodyView()
+  }
+
+  function checkMelodyView() {
+    if (melCombo.currentIndex === 2) {
+        if (!melListView) {
+          var c = Qt.createComponent("qrc:/level/MelodyListView.qml")
+          melListView = c.createObject(melodyCol)
+          melListView.width = Qt.binding(function() { return melodyCol.width - 10 })
+          melListView.height = Qt.binding(function() { return melPage.height - topTile.height })
+        }
+        melListView.setLevel(creator.level())
+    } else if (melListView) {
+        melListView.destroy()
+    }
   }
 
   function updateNotesList() {
@@ -114,10 +137,12 @@ Tflickable {
   }
 
   function saveLevel() {
-    if (melCombo.currentIndex === 1) {
-      creator.keyOfRandList = listScore.scoreObj.keySignature
-      for (var i = 0; i < listScore.notesCount; ++i)
-        creator.setNoteOfList(i, listScore.scoreObj.noteAt(i))
+    if (melCombo.currentIndex === 1) { // melody from note list
+        creator.keyOfRandList = listScore.scoreObj.keySignature
+        for (var i = 0; i < listScore.notesCount; ++i)
+          creator.setNoteOfList(i, listScore.scoreObj.noteAt(i))
+    } else if (melCombo.currentIndex === 2) { // random melody from set
+        melListView.save()
     }
   }
 }

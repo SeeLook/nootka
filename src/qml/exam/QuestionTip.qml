@@ -16,6 +16,7 @@ ExamTip {
     id: dragArea
     anchors.fill: parent
     drag.target: parent
+    drag.smoothed: false
     drag.minimumX: shadowRadius; drag.maximumX: executor.width - width * scale - shadowRadius
     drag.minimumY: shadowRadius; drag.maximumY: executor.height - height * scale - shadowRadius
   }
