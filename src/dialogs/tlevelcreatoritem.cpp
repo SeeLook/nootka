@@ -500,15 +500,23 @@ QStringList TlevelCreatorItem::keyComboModel() {
 
 
 void TlevelCreatorItem::openLevel(const QString& levelFile) {
-  if (selector())
+  if (selector()) {
     selector()->loadFromFile(levelFile);
+    *m_level = *m_selector->currentLevel();
+  }
   else // delay is necessary because selector is created when level creator component is completed
     QTimer::singleShot(200, [=]{
-      if (selector())
-        selector()->loadFromFile(levelFile);
-      else
-        qDebug() << "[TlevelCreatorItem] device too slow to open file as command line argument.";
+      if (selector()) {
+          selector()->loadFromFile(levelFile);
+          *m_level = *m_selector->currentLevel();
+      } else
+          qDebug() << "[TlevelCreatorItem] device too slow to open file as command line argument.";
     });
+}
+
+
+void TlevelCreatorItem::melodyListChanged() {
+  levelParamChanged();
 }
 
 
@@ -535,6 +543,8 @@ void TlevelCreatorItem::whenLevelChanged() {
   emit updateLevel();
   if (m_level->randMelody == Tlevel::e_randFromList)
     emit updateNotesList();
+  else if (m_level->randMelody == Tlevel::e_melodyFromSet)
+    emit updateMelodyList();
 }
 
 
@@ -636,6 +646,9 @@ QString TlevelCreatorItem::validateLevel() {
       }
     }
   }
+
+  // TODO: when level is set of melodies but any melody was added
+
 // Resume warnings
   if (!res.isEmpty()) {
     res.prepend(QLatin1String("<ul>"));
