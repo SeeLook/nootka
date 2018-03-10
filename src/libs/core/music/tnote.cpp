@@ -86,7 +86,8 @@ short Tnote::chromatic() const {
 
 
 Tnote Tnote::showAsNatural() const {
-  Tnote n(Tnote(note(), octave(), alter()).chromatic());
+  Tnote n(chromatic());
+  n.setRhythm(rtm);
   n.setOnUpperStaff(onUpperStaff());
   return n;
 }
@@ -196,6 +197,7 @@ Tnote Tnote::showWithDoubleFlat() const {
                 outputNote = outputNote.showWithFlat();
           }
     }
+    outputNote.setRhythm(rtm);
     outputNote.setOnUpperStaff(onUpperStaff());
     return outputNote;
   }
