@@ -156,6 +156,17 @@ void TkeySignature::fromXml(QXmlStreamReader& xml) {
 }
 
 
+int TkeySignature::difference(const TkeySignature& otherKey) const {
+  int diff = TkeySignature(otherKey.value()).tonicNote().chromatic() - TkeySignature(m_key).tonicNote().chromatic();
+  if (qAbs(diff) > 6) {
+    diff = diff - 12;
+    if (diff < -6)
+      diff += 12;
+  }
+  return diff;
+}
+
+
 QDataStream &operator << (QDataStream &out, TkeySignature &key) {
     quint8 kk = key.value();
     if (key.isMinor())
