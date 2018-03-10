@@ -170,7 +170,9 @@ public:
        * otherwise entire melody is taken.
        * @p ignoreTechnical set to @p FALSE skips setting the technical data to notes
        */
-  void setMelody(Tmelody* melody, bool ignoreTechnical = false, int notesAmount = 0);
+  void setMelody(Tmelody* melody, bool ignoreTechnical = false, int notesAmount = 0, int transposition = 0);
+
+  void getMelody(Tmelody* melody);
 
   /* ------------------ Score switches ------------------ */
 

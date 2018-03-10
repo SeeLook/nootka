@@ -458,21 +458,14 @@ void TscoreObject::saveMusicXml(const QString& musicFile) {
     if (fileName.right(4) != QLatin1String(".xml"))
       fileName += QLatin1String(".xml");
     auto melody = new Tmelody(QStringLiteral("Nootka melody"), TkeySignature(static_cast<char>(keySignature())));
-    melody->setClef(clefType());
-    melody->setMeter(m_meter->meter());
-    if (m_keySignEnabled)
-      melody->setKey(TkeySignature(static_cast<char>(m_keySignature)));
-    for (int n = 0; n < notesCount(); ++n) {
-      Ttechnical technical(noteSegment(n)->techicalData());
-      melody->addNote(Tchunk(m_notes[n], technical));
-    }
+    getMelody(melody);
     melody->saveToMusicXml(fileName);
     delete melody;
   }
 }
 
 
-void TscoreObject::setMelody(Tmelody* melody, bool ignoreTechnical, int notesAmount) {
+void TscoreObject::setMelody(Tmelody* melody, bool ignoreTechnical, int notesAmount, int transposition) {
 CHECKTIME (
   clearScorePrivate();
   m_notes.clear();
@@ -486,13 +479,32 @@ CHECKTIME (
   }
   int notesToCopy = notesAmount == 0 ? melody->length() : qMin(notesAmount, melody->length());
   for (int n = 0; n < notesToCopy; ++n) {
-    addNote(melody->note(n)->p());
+    if (transposition) {
+        Tnote nn = melody->note(n)->p();
+        nn.transpose(transposition);
+        if (m_keySignature < 0 && nn.alter() == Tnote::e_Sharp)
+          nn = nn.showWithFlat();
+        addNote(nn);
+    } else
+        addNote(melody->note(n)->p());
     if (!ignoreTechnical)
       lastSegment()->setTechnical(melody->note(n)->technical());
   }
   adjustScoreWidth();
   emitLastNote();
 )
+}
+
+
+void TscoreObject::getMelody(Tmelody* melody) {
+  melody->setClef(clefType());
+  melody->setMeter(m_meter->meter());
+  if (m_keySignEnabled)
+    melody->setKey(TkeySignature(static_cast<char>(m_keySignature)));
+  for (int n = 0; n < notesCount(); ++n) {
+    Ttechnical technical(noteSegment(n)->techicalData());
+    melody->addNote(Tchunk(m_notes[n], technical));
+  }
 }
 
 
