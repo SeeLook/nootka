@@ -26,6 +26,7 @@
 #include <tcolor.h>
 #include <music/tkeysignature.h>
 #include <music/ttechnical.h>
+#include <music/tmelody.h>
 #include <score/tnoteitem.h>
 
 #include <QtGui/qguiapplication.h>
@@ -172,10 +173,21 @@ quint32 TmainScoreObject::technical(int noteId) {
 }
 
 
+void TmainScoreObject::getMelody(Tmelody* melody) {
+  m_scoreObj->getMelody(melody);
+}
 
-void TmainScoreObject::askQuestion(Tmelody* mel, bool ignoreTechnical) {
+
+void TmainScoreObject::askQuestion(Tmelody* mel, bool ignoreTechnical, const TkeySignature& melodyKey) {
   m_scoreObj->setBgColor(scoreBackgroundColor(GLOB->EquestionColor, 20));
-  m_scoreObj->setMelody(mel, ignoreTechnical);
+  int transposition = 0;
+  auto tempKey = mel->key();
+  if (mel->key() != melodyKey) {
+    transposition = mel->key().difference(melodyKey);
+    mel->setKey(melodyKey);
+  }
+  m_scoreObj->setMelody(mel, ignoreTechnical, 0, transposition);
+  mel->setKey(tempKey);
   m_scoreObj->setReadOnly(true);
   m_questionMark->setVisible(true);
 }

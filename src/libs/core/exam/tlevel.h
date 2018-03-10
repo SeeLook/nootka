@@ -155,6 +155,11 @@ public:
       /** True if answer is played sound in any question type */
   bool answerIsSound() const;
 
+      /**
+       * @p TRUE when the level is set of melodies
+       */
+  bool isMelodySet() const { return randMelody == e_melodyFromSet && !melodySet.isEmpty(); }
+
       /** True when level note range is in given number range represented scale of instrument. */
   bool inScaleOf(int loNoteNr, int hiNoteNr) const;
 
@@ -164,7 +169,7 @@ public:
       /** Overloaded method where instrument scale is taken from @p Tglobals  */
   bool inScaleOf();
 
-      /** 
+      /**
        * Examines level scale, note by note to find lowest and highest frets used.
        * Obtained range is returned through references.
        * Returns true when both frets are in instrument capabilities,
