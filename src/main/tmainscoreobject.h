@@ -97,11 +97,12 @@ public:
   bool selectInReadOnly() const;
   void setSelectInReadOnly(bool sel);
   quint32 technical(int noteId);
+  void getMelody(Tmelody* melody);
 
 // exam/exercise related
   void askQuestion(const Tnote& note, quint32 technicalData = 255);
   void askQuestion(const Tnote& note, const TkeySignature& key, quint32 technicalData = 255);
-  void askQuestion(Tmelody* mel, bool ignoreTechnical = false);
+  void askQuestion(Tmelody* mel, bool ignoreTechnical, const TkeySignature& melodyKey);
   void prepareKeyToAnswer(const TkeySignature& fakeKey, const QString& expectKeyName);
   void showNoteNames(bool showName);
   void showNoteName(int noteNr, bool showName);

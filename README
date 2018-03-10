@@ -124,10 +124,10 @@ you can easily generate rpm and deb package and Windows installer.
 1. For deb call:
   cpack -G DEB
   (obviously dependencies for build debian packages are required)
-  
+
 3. To build Windows installer http://nsis.sourceforge.net is necessary.
 After installation there is nootka-utf8.nsi file. Launch it in nsis and the installer will be built.
-  make deploy 
+  make deploy
 has to be called before!
 
 
@@ -146,7 +146,7 @@ has to be called before!
 3. Download and install QT libraries:
   go to 
     http://qt-project.org/downloads
-    and take Qt libraries version 5.7 or any above
+    and take Qt libraries version 5.9 or any above
     and install it.
 
 4. Now you can go to to Building section

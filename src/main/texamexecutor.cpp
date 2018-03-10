@@ -178,7 +178,7 @@ bool TexamExecutor::continueInit() {
   m_supp->createQuestionsList(m_questList);
   if (m_exam->melodies())
     m_melody = new TexamMelody(this);
-  if (m_questList.isEmpty()) {
+  if (m_questList.isEmpty() && !m_level.isMelodySet()) {
     QMessageBox::critical(nullptr, QString(), tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
     return false;
   }
@@ -227,7 +227,7 @@ void TexamExecutor::initializeExecuting() {
   if (m_rand)
     m_rand->reset();
   else
-    m_rand = new TequalRand(m_questList.size());
+    m_rand = new TequalRand(m_level.isMelodySet() ? m_level.melodySet.count() : m_questList.size());
   m_rand->setTotalRandoms(m_supp->obligQuestions() - m_exam->count());
 
 //   qDebug() << "Questions nr: " << m_questList.size() << "Randoms:" << m_supp->obligQuestions() - m_exam->count();
@@ -293,22 +293,27 @@ void TexamExecutor::askQuestion(bool isAttempt) {
       curQ->qa = m_questList[m_supp->getQAnrForGuitarOnly()];
 
     if (m_penalty->isNot() && (curQ->questionOnScore() || curQ->answerOnScore())) {
-        if (m_level.useKeySign)
-          curQ->key = m_supp->getKey(curQ->qa.note);
-        if (!m_level.onlyCurrKey) // if key doesn't determine accidentals, we do this
-            curQ->qa.note = m_supp->determineAccid(curQ->qa.note);
+      if (m_level.useKeySign)
+        curQ->key = m_supp->getKey(curQ->qa.note);
+      if (!m_level.onlyCurrKey) // if key doesn't determine accidentals, we do this
+        curQ->qa.note = m_supp->determineAccid(curQ->qa.note);
     }
     if (m_exam->melodies()) {
       int melodyLength = qBound(qMax(2, qRound(m_level.melodyLen * 0.7)), //at least 70% of length but not less than 2
                                       qRound(((6.0 + (qrand() % 5)) / 10.0) * (qreal)m_level.melodyLen), (int)m_level.melodyLen);
       if (m_penalty->isNot()) {
-        curQ->addMelody(QString("%1").arg(m_exam->count()));
-        curQ->melody()->setKey(curQ->key);
+        if (!m_level.isMelodySet()) {
+          curQ->addMelody(QString("%1").arg(m_exam->count()));
+          curQ->melody()->setKey(curQ->key);
+        }
         if (m_level.randMelody == Tlevel::e_randFromList) {
             QList<TQAgroup> qaList;
             m_supp->listForRandomNotes(curQ->key, qaList);
             // ignore in key (4th param) of level, notes from list are already in key (if required)
             getRandomMelodyNG(qaList, curQ->melody(), melodyLength, false, false);
+        } else if (m_level.randMelody == Tlevel::e_melodyFromSet) {
+            int melodyId = m_rand->get();
+            curQ->addMelody(&m_level.melodySet[melodyId], TQAunit::e_list, melodyId);
         } else
             getRandomMelodyNG(m_questList, curQ->melody(), melodyLength, m_level.onlyCurrKey, m_level.endsOnTonic);
       }
@@ -328,7 +333,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     if (curQ->melody()) {
         if (!isAttempt) {
           bool ignoreTechnical = GLOB->instrument().type() != Tinstrument::Bandoneon;
-          MAIN_SCORE->askQuestion(curQ->melody(), ignoreTechnical);
+          MAIN_SCORE->askQuestion(curQ->melody(), ignoreTechnical, curQ->key);
           if (m_level.showStrNr) { // we may be sure that instrument is kind of a guitar
             for (int i = 0; i < curQ->melody()->length(); ++i) {
               if (curQ->melody()->note(i)->g().str() > 1)
@@ -612,11 +617,16 @@ void TexamExecutor::checkAnswer(bool showResults) {
       if (curQ->melody()) { // 2. or checking melodies
           curQ->setMistake(TQAunit::e_correct); // reset an answer
           if (curQ->answerOnScore()) { // dictation
-            Tmelody answMelody;
-//             SCORE->getMelody(&answMelody);
-            m_supp->compareMelodies(curQ->melody(), &answMelody, curQ->lastAttempt());
+              Tmelody answMelody;
+              MAIN_SCORE->getMelody(&answMelody);
+              m_supp->compareMelodies(curQ->melody(), &answMelody, curQ->lastAttempt());
           } else { // playing a score
-            m_supp->compareMelodies(curQ->melody(), m_melody->listened(), curQ->lastAttempt());
+              if (m_level.isMelodySet() && m_level.useKeySign && curQ->melody()->key() != curQ->key) {
+                  Tmelody transposedMelody; // questioned melody was transposed, so copy it from score
+                  MAIN_SCORE->getMelody(&transposedMelody);
+                  m_supp->compareMelodies(&transposedMelody, m_melody->listened(), curQ->lastAttempt());
+              } else
+                  m_supp->compareMelodies(curQ->melody(), m_melody->listened(), curQ->lastAttempt());
           }
           int goodAllready = 0, notBadAlready = 0, wrongAlready = 0;
           for (int i = 0; i < curQ->lastAttempt()->mistakes.size(); ++i) { // setting mistake type in TQAunit
@@ -624,10 +634,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
               goodAllready++;
               continue; // it was correct - skip
             }
-            if (curQ->lastAttempt()->mistakes[i] & TQAunit::e_wrongNote) {
+            if (curQ->lastAttempt()->mistakes[i] & TQAunit::e_wrongNote)
               wrongAlready++;
-            } else // or 'not bad'
-                notBadAlready++;
+            else // or 'not bad'
+              notBadAlready++;
           }
           if (goodAllready == curQ->melody()->length()) { // all required notes are correct
               curQ->setMistake(TQAunit::e_correct); // even if user put them more and effect. is poor
@@ -1709,7 +1719,8 @@ void TexamExecutor::blindQuestion() {
 
 
 void TexamExecutor::correctionFinishedSlot() {
-  disconnect(sender(), SIGNAL(correctionFinished()), this, SLOT(correctionFinishedSlot()));
+  if (!m_exam->melodies())
+    disconnect(sender(), SIGNAL(correctionFinished()), this, SLOT(correctionFinishedSlot()));
 //   if (sender() == SCORE) { // show name on score only when it is enabled and corrected
 //     if (GLOB->E->showNameOfAnswered && m_exercise->idOfCorrectedNote() > -1) {
 //       Tnote::EnameStyle tmpStyle = Tnote::defaultStyle; // store current name style

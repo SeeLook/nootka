@@ -165,12 +165,14 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
      * FIXING MISTAKE RELATED WITH A NEW VALIDATION WAY DURING SAVING NEW LEVEL
      * When there is no guitar in a level,
      * add to question list only the lowest position sounds.
-     * In this way question list contains proper number of questions.
+     * In this way the list contains proper number of questions.
      */
   if (!m_level->canBeGuitar() && !m_level->answerIsSound())  // adjust fret range
     m_level->onlyLowPos = true;
 
-  if (Tinstrument(m_level->instrument).isGuitar() && (!m_playCorrections || m_level->showStrNr || m_level->canBeGuitar())) {
+  if (m_level->isMelodySet()) {
+      qDebug() << "[TexecutorSupply] melody list, no question list";
+  } else if (Tinstrument(m_level->instrument).isGuitar() && (!m_playCorrections || m_level->showStrNr || m_level->canBeGuitar())) {
       qDebug() << "[TexecutorSupply] Question list created fret by fret. Tune:" << GLOB->Gtune()->name << GLOB->Gtune()->stringNr();
       if (m_level->instrument == Tinstrument::NoInstrument && GLOB->instrument().type() != Tinstrument::NoInstrument) {
         char hi = m_hiFret, lo = m_loFret;
@@ -281,10 +283,14 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
 
     qsrand(QDateTime::currentDateTime().toTime_t());
 
-    if (m_level->canBeMelody())
-      m_obligQuestNr = qBound(5, 250 / m_level->melodyLen, 30); // longer melody - less questions
-    else
-      m_obligQuestNr = qBound(20, list.size() * 4, 250);
+    if (m_level->canBeMelody()) {
+        if (m_level->isMelodySet())
+          m_obligQuestNr = qBound(5, m_level->melodySet.count(), 30);
+        else
+          m_obligQuestNr = qBound(5, 250 / m_level->melodyLen, 30); // longer melody - less questions
+    } else
+        m_obligQuestNr = qBound(20, list.size() * 4, 250);
+
     if (m_level->useKeySign && !m_level->isSingleKey)
         m_obligQuestNr = qMax(m_obligQuestNr, (m_level->hiKey.value() - m_level->loKey.value() + 1) * 5);
     m_obligQuestNr = qMax(qaPossibilities() * 4, m_obligQuestNr);
