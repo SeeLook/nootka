@@ -259,6 +259,7 @@ private:
   EsummaryReason               m_summaryReason = NoReason;
   Tnote::EnameStyle            m_exerciseTmpStyle;
   bool                         m_askAfterSummary;
+  bool                         m_disconnectAfterAnim = false;
 
 };
 

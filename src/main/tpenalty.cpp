@@ -78,7 +78,7 @@ bool Tpenalty::ask() {
       if (m_blackNumber != -1) {
         m_exam->curQ()->copy(*m_exam->answList()->operator[](m_blackNumber)); // copy black question into last unit
         m_exam->curQ()->unsetAnswered();
-        m_exam->curQ()->addMelody(m_exam->answList()->operator[](m_blackNumber)->melody(), TQAunit::e_otherUnit, m_blackNumber);
+        m_exam->curQ()->addMelody(m_exam->answList()->operator[](m_blackNumber)->melody(), TQAunit::e_srcOtherUnit, m_blackNumber);
         m_exam->curQ()->time = 0;
         m_exam->curQ()->setMistake(TQAunit::e_correct);
         return true;

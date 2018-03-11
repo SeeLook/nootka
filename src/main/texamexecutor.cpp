@@ -313,7 +313,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
             getRandomMelodyNG(qaList, curQ->melody(), melodyLength, false, false);
         } else if (m_level.randMelody == Tlevel::e_melodyFromSet) {
             int melodyId = m_rand->get();
-            curQ->addMelody(&m_level.melodySet[melodyId], TQAunit::e_list, melodyId);
+            curQ->addMelody(&m_level.melodySet[melodyId], TQAunit::e_srcLevelSet, melodyId);
         } else
             getRandomMelodyNG(m_questList, curQ->melody(), melodyLength, m_level.onlyCurrKey, m_level.endsOnTonic);
       }
@@ -834,6 +834,7 @@ void TexamExecutor::correctAnswer() {
   if (correctAnimObject) { // disable space bar and right mouse button when animation is performed
       m_nextQuestAct->setEnabled(false);
       connect(correctAnimObject, SIGNAL(correctionFinished()), this, SLOT(correctionFinishedSlot()));
+      m_disconnectAfterAnim = true;
 //     m_lockRightButt = true;
   } else
       correctionFinishedSlot();
@@ -1719,8 +1720,10 @@ void TexamExecutor::blindQuestion() {
 
 
 void TexamExecutor::correctionFinishedSlot() {
-  if (!m_exam->melodies())
+  if (m_disconnectAfterAnim) {
     disconnect(sender(), SIGNAL(correctionFinished()), this, SLOT(correctionFinishedSlot()));
+    m_disconnectAfterAnim = false;
+  }
 //   if (sender() == SCORE) { // show name on score only when it is enabled and corrected
 //     if (GLOB->E->showNameOfAnswered && m_exercise->idOfCorrectedNote() > -1) {
 //       Tnote::EnameStyle tmpStyle = Tnote::defaultStyle; // store current name style
