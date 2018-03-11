@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -222,9 +222,12 @@ public:
        */
   void updateEffectiveness();
 
-      /** Determines a source of melody. @p e_otherUnit and @p e_list points melody in another unit/exam */
+      /**
+       * Determines a source of melody. @p e_srcOtherUnit points melody in another unit
+       * @p e_srcLevelSet  points melody in level
+       */
   enum EmelodySrc {
-    e_noMelody, e_thisUnit, e_otherUnit, e_list
+    e_srcNoMelody, e_srcThisUnit, e_srcOtherUnit, e_srcLevelSet
   };
 
       /**

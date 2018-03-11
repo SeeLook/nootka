@@ -19,6 +19,7 @@
 #include "tqaunit.h"
 #include "tattempt.h"
 #include "texam.h"
+#include "tlevel.h"
 #include "music/tmelody.h"
 #include <cmath>
 #include <QtCore/qxmlstream.h>
@@ -32,18 +33,16 @@
 
 TQAunit::TQAunit(Texam* exam)
 {
-  qa.pos() = TfingerPos();
-  qa.note = Tnote(0,0,0);
-  style = 50; // (2+1) * 16 + 2 // 2 is e_italiano_Si cast to int
+  qa.pos();
+  style = 50; // (2 + 1) * 16 + 2 // 2 is e_italiano_Si cast to int
   valid = 0; // correct in assume
   time = 0;
-  qa_2.note = Tnote(0,0,0);
-  qa_2.pos() = TfingerPos();
+  qa_2.pos();
   m_melody = nullptr;
   attemptList = nullptr;
   m_effectiveness = 0.0;
   m_exam = exam;
-  m_srcMelody = e_noMelody;
+  m_srcMelody = e_srcNoMelody;
   idOfMelody = -1;
   m_answered = false;
 }
@@ -63,7 +62,7 @@ void TQAunit::copy(const TQAunit& otherUnit) {
       m_melody = 0;
       attemptList = 0;
       idOfMelody = -1;
-      m_srcMelody = e_noMelody;
+      m_srcMelody = e_srcNoMelody;
   } else {
       m_melody = otherUnit.melody();
       attemptList = otherUnit.attemptList;
@@ -128,7 +127,7 @@ int TQAunit::totalPlayBacks() {
 
 void TQAunit::addMelody(const QString& title) {
   deleteMelody();
-  m_srcMelody = e_thisUnit;
+  m_srcMelody = e_srcThisUnit;
   m_melody = new Tmelody(title);
 }
 
@@ -175,12 +174,12 @@ void TQAunit::toXml(QXmlStreamWriter& xml) {
         qa_2.toXml(xml, QLatin1String("qa2"));
     if (melody()) {
       xml.writeStartElement(QLatin1String("melody"));
-        if (m_srcMelody == e_thisUnit) {
+        if (m_srcMelody == e_srcThisUnit) {
             xml.writeAttribute(QLatin1String("title"), melody()->title());
             melody()->toXml(xml);
-        } else if (m_srcMelody == e_otherUnit)
+        } else if (m_srcMelody == e_srcOtherUnit)
             xml.writeAttribute(QLatin1String("qNr"), QVariant(idOfMelody).toString());
-        else if (m_srcMelody == e_list)
+        else if (m_srcMelody == e_srcLevelSet)
             xml.writeAttribute(QLatin1String("id"), QVariant(idOfMelody).toString());
       xml.writeEndElement();
       xml.writeStartElement(QLatin1String("attempts"));
@@ -220,20 +219,29 @@ bool TQAunit::fromXml(QXmlStreamReader& xml) {
       if (xml.attributes().hasAttribute(QLatin1String("title"))) {
           addMelody(xml.attributes().value(QLatin1String("title")).toString());
           if (!melody()->fromXml(xml)) {
-            qDebug() << "TQAunit has wrong melody";
+            qDebug() << "[TQAunit] has wrong melody";
             ok = false;
             delete m_melody;
-            m_melody = 0;
+            m_melody = nullptr;
           }
       } else if (xml.attributes().hasAttribute(QLatin1String("qNr"))) {
           int qNr = xml.attributes().value(QLatin1String("qNr")).toInt();
           if (qNr < m_exam->count())
-              addMelody(m_exam->answList()->at(qNr)->melody(), e_otherUnit, qNr);
+              addMelody(m_exam->answList()->at(qNr)->melody(), e_srcOtherUnit, qNr);
           else {
               ok = false;
-              qDebug() << "TQAunit has a melody that points to question number which doesn't exist in exam list.";
+              qDebug() << "[TQAunit] has a melody that points to question number which doesn't exist in exam list.";
           }
-        xml.skipCurrentElement();
+          xml.skipCurrentElement();
+      } else if (xml.attributes().hasAttribute(QLatin1String("id"))) {
+          int id = xml.attributes().value(QLatin1String("id")).toInt();
+          if (id >= 0 && id < m_exam->level()->melodySet.size()) {
+              addMelody(&m_exam->level()->melodySet[id], e_srcLevelSet, id);
+          } else {
+              ok = false;
+              qDebug() << "[TQAunit]";
+          }
+          xml.skipCurrentElement();
       }
     } else if (xml.name() == QLatin1String("attempts")) {
         while (xml.readNextStartElement()) {
@@ -241,7 +249,7 @@ bool TQAunit::fromXml(QXmlStreamReader& xml) {
               newAttempt();
               lastAttempt()->fromXml(xml);
               if (lastAttempt()->isEmpty()) { // Empty attempts are never written - they never occurs
-                  qDebug() << "TQAunit has wrong attempt" << attemptsCount();
+                  qDebug() << "[TQAunit] has wrong attempt" << attemptsCount();
                   ok = false;
                   attemptList->removeLast();
               }
@@ -258,7 +266,7 @@ bool TQAunit::fromXml(QXmlStreamReader& xml) {
 
 
 void TQAunit::deleteMelody() {
-  if (m_melody && m_srcMelody == e_thisUnit)
+  if (m_melody && m_srcMelody == e_srcThisUnit)
     delete m_melody;
 }
 
