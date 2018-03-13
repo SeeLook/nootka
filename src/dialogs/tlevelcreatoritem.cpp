@@ -87,10 +87,12 @@ if (!m_level->canBeGuitar() && !m_level->answerIsSound() ) { // no guitar and no
     return;
   }
   m_level->instrument = m_level->detectInstrument(GLOB->instrument().type()); // set instrument to none when it is not important for the level
-  auto saveDlg = new TlevelHeaderWdg(nullptr);
+  auto saveDlg = new TlevelHeaderWdg(m_selector->currentLevel() ? m_selector->currentLevel()->name : "",
+                                     m_selector->currentLevel() ? m_selector->currentLevel()->desc : "");
   QStringList nameList = saveDlg->getLevelName();
   m_level->name = nameList[0];
   m_level->desc = nameList[1];
+  delete saveDlg;
 // Saving to file
   QLatin1String dotNel(".nel");
   QString fName = QDir::toNativeSeparators(GLOB->E->levelsDir + QLatin1String("/") + m_level->name);
