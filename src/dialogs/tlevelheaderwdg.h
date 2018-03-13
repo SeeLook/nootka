@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -34,7 +34,7 @@ class TlevelHeaderWdg : public QDialog
   Q_OBJECT
 
 public:
-  explicit TlevelHeaderWdg(QWidget* parent = nullptr);
+  explicit TlevelHeaderWdg(const QString& levelName, const QString& levelDesc);
 
       /**
        * It is called instead exec() and returns list with:

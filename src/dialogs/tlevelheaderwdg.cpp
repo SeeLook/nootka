@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,20 +25,20 @@
 #include <QtWidgets/QtWidgets>
 
 
-TlevelHeaderWdg::TlevelHeaderWdg(QWidget *parent) :
-  QDialog(parent)
+TlevelHeaderWdg::TlevelHeaderWdg(const QString& levelName, const QString& levelDesc) :
+  QDialog(nullptr)
 {
   setWindowFlags(Qt::CustomizeWindowHint | Qt::Dialog);
   auto mainLay = new QVBoxLayout;
   auto nameLab = new QLabel(tr("Level name:"), this);
   mainLay->addWidget(nameLab);
-  m_nameEd = new QLineEdit(this);
+  m_nameEd = new QLineEdit(levelName, this);
   m_nameEd->setMaxLength(25);
-  m_nameEd->setText(tr("new level"));
+  m_nameEd->setText(levelName.isEmpty() ? tr("new level") : levelName);
   mainLay->addWidget(m_nameEd);
   auto descLab = new QLabel(tr("Level description:"), this);
   mainLay->addWidget(descLab);
-  m_descEd = new QTextEdit(this);
+  m_descEd = new QTextEdit(levelDesc, this);
   m_descEd->setFixedHeight(fontMetrics().boundingRect(QStringLiteral("A")).height() * 4);
   m_descEd->setFixedWidth(fontMetrics().boundingRect(QStringLiteral("w")).width() * 30);
   m_descEd->setLineWrapMode(QTextEdit::FixedColumnWidth);
