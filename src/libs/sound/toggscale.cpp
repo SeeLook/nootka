@@ -420,7 +420,7 @@ void ToggScale::decodeAndResample() {
 void ToggScale::adjustSoundTouch() {
   if (m_innerOffset != 0.0 || m_pitchOffset != 0.0 || m_sampleRate != 44100) { // SoundTouch has got a job
       m_touch->setSampleRate(44100);
-      m_touch->setPitchSemiTones(m_innerOffset + m_pitchOffset);
+      m_touch->setPitchSemiTones(static_cast<double>(m_innerOffset + m_pitchOffset));
       if (m_sampleRate != 44100) {
         qreal newRate =  44100.0 / static_cast<qreal>(m_sampleRate);
         m_touch->setRate(newRate);
