@@ -16,12 +16,6 @@ ApplicationWindow {
   color: activPal.window
 
   property alias mainMenu: mainMenu
-  property alias settingsAct: settingsAct
-  property alias aboutAct: aboutAct
-  property alias levelAct: levelAct
-  property alias scoreAct: scoreAct
-  property alias examAct: examAct
-  property alias chartAct: chartAct
 
   // private
   property var noteName: null
@@ -32,41 +26,15 @@ ApplicationWindow {
   SystemPalette { id: activPal; colorGroup: SystemPalette.Active }
   SystemPalette { id: disdPal; colorGroup: SystemPalette.Disabled }
 
-  Taction {
-    id: settingsAct
-    icon: "systemsettings"
-    text: qsTranslate("TtoolBar", "Settings")
-    tip: qsTranslate("TtoolBar", "Application preferences")
-    onTriggered: showDialog(Nootka.Settings)
-  }
-  Taction { id: aboutAct; onTriggered: showDialog(Nootka.About) }
-  Taction {
-    id: levelAct
-    icon: "levelCreator"
-    text: qsTranslate("TtoolBar", "Level")
-    tip: qsTranslate("TtoolBar", "Levels creator")
-    onTriggered: showDialog(Nootka.LevelCreator)
-  }
-  Taction { // desktop only
-    id: scoreAct
-    icon: "score"
-    text: qsTranslate("TtoolBar", "Score", "it could be 'notation', 'staff' or whatever is associated with that 'place to display musical notes' and this the name is quite short and looks well.")
-    tip: qsTranslate("TtoolBar", "Manage and navigate the score.")
-    onTriggered: mainMenu.open()
-  }
-  Taction {
-    id: examAct
-    icon: "startExam"
-    text: qsTranslate("TtoolBar", "Lessons")
-    tip: qsTranslate("TtoolBar", "Start exercises or an exam")
-    onTriggered: showDialog(Nootka.ExamStart)
-  }
-  Taction {
-    id: chartAct
-    icon: "charts"
-    text: qsTranslate("TtoolBar", "Analyze")
-    tip: qsTranslate("TtoolBar", "Analysis of exam results")
-//     onTriggered: showDialog(Nootka.Charts)
+  Connections {
+    target: Noo
+    onScoreActTriggered: mainMenu.open()
+    onSettingsActTriggered: showDialog(Nootka.Settings)
+    onLevelActTriggered: showDialog(Nootka.LevelCreator)
+//     onChartsActTriggered: showDialog(Nootka.Charts)
+    onExamActTriggered: showDialog(Nootka.ExamStart)
+
+    onAboutActTriggered: showDialog(Nootka.About)
   }
 
   width: GLOB.geometry.width

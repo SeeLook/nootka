@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -108,16 +108,16 @@ TmobileMenu {
               height: Noo.fontSize() * 7.91015625 // (logo ratio) 0.3955078125 * 20
               onClicked: {
                 mainDrawer.close()
-                nootkaWindow.aboutAct.trigger()
+                Noo.aboutAct.trigger()
               }
               Component.onCompleted: mainDrawer.label = this
             }
             MenuButton { action: pitchDetectAct; onClicked: mainDrawer.close() }
             MenuButton { action: tempoAct; onClicked: mainDrawer.close() }
-            MenuButton { action: nootkaWindow.levelAct; onClicked: mainDrawer.close() }
-            MenuButton { action: nootkaWindow.examAct; onClicked: mainDrawer.close() }
-            MenuButton { action: nootkaWindow.settingsAct; onClicked: mainDrawer.close() }
-            MenuButton { action: nootkaWindow.scoreAct }
+            MenuButton { action: Noo.levelAct; onClicked: mainDrawer.close() }
+            MenuButton { action: Noo.examAct; onClicked: mainDrawer.close() }
+            MenuButton { action: Noo.settingsAct; onClicked: mainDrawer.close() }
+            MenuButton { action: Noo.scoreAct }
             Column { // drop-down menu with score actions
               id: scoreMenu
               function open() { visible ? state = "Invisible" : state = "Visible" }

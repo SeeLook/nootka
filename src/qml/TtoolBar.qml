@@ -17,11 +17,11 @@ ToolBar {
 
   Row {
     spacing: toolBar.width / 200
-    HeadButton { id: settAct; taction: nootkaWindow.settingsAct; visible: !GLOB.isExam }
-    HeadButton { taction: nootkaWindow.levelAct; visible: !GLOB.isExam }
-    HeadButton { id: scoreAct; taction: nootkaWindow.scoreAct; visible: !GLOB.singleNoteMode }
-    HeadButton { id: chartAct; taction: nootkaWindow.chartAct; visible: !GLOB.isExam }
-    HeadButton { taction: nootkaWindow.examAct; visible: !GLOB.isExam }
+    HeadButton { id: settAct; taction: Noo.settingsAct; visible: !GLOB.isExam }
+    HeadButton { taction: Noo.levelAct; visible: !GLOB.isExam }
+    HeadButton { id: scoreAct; taction: Noo.scoreAct; visible: !GLOB.singleNoteMode }
+    HeadButton { id: chartAct; taction: Noo.chartsAct; visible: !GLOB.isExam }
+    HeadButton { taction: Noo.examAct; visible: !GLOB.isExam }
     Repeater {
       id: examRepeater
       HeadButton { taction: modelData; visible: taction && taction.enabled }
@@ -44,7 +44,7 @@ ToolBar {
     id: label
     anchors.right: parent.right
     height: toolBar.height
-    onClicked: nootkaWindow.aboutAct.trigger()
+    onClicked: Noo.aboutAct.trigger()
   }
 
 }

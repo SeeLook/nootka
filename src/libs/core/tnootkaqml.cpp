@@ -97,6 +97,24 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qRegisterMetaType<Ttune>();
   qmlRegisterUncreatableType<Ttune>("Nootka", 1, 0, "Ttune", QStringLiteral("You cannot create an instance of the Ttune."));
   qmlRegisterType<TtuneObject>("Nootka", 1, 0, "TtuneObject");
+
+  m_settingsAct = new Taction(QApplication::translate("TtoolBar", "Settings"), QStringLiteral("systemsettings"), this);
+  connect(m_settingsAct, &Taction::triggered, this, &TnootkaQML::settingsActTriggered);
+
+  m_levelAct = new Taction(QApplication::translate("TtoolBar", "Level"), QStringLiteral("levelCreator"), this);
+  connect(m_levelAct, &Taction::triggered, this, &TnootkaQML::levelActTriggered);
+
+  m_chartsAct = new Taction(QApplication::translate("TtoolBar", "Analyze"), QStringLiteral("charts"), this);
+  connect(m_chartsAct, &Taction::triggered, this, &TnootkaQML::chartsActTriggered);
+
+  m_scoreAct = new Taction(QApplication::translate("TtoolBar", "Score", "it could be 'notation', 'staff' or whatever is associated with that 'place to display musical notes' and this the name is quite short and looks well."), QStringLiteral("score"), this);
+  connect(m_scoreAct, &Taction::triggered, this, &TnootkaQML::scoreActTriggered);
+
+  m_examAct = new Taction(QApplication::translate("TtoolBar", "Lessons"), QStringLiteral("startExam"), this);
+  connect(m_examAct, &Taction::triggered, this, &TnootkaQML::examActTriggered);
+
+  m_aboutAct = new Taction(this);
+  connect(m_aboutAct, &Taction::triggered, this, &TnootkaQML::aboutActTriggered);
 }
 
 

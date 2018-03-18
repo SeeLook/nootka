@@ -34,6 +34,7 @@ class TcommonInstrument;
 class TscoreObject;
 class QQuickItem;
 class QQmlEngine;
+class Taction;
 
 
 #define   NOO   TnootkaQML::instance()
@@ -51,6 +52,14 @@ class NOOTKACORE_EXPORT TnootkaQML : public QObject
 
   Q_OBJECT
 
+  Q_PROPERTY(Taction* settingsAct READ settingsAct NOTIFY dummyActionSignal)
+  Q_PROPERTY(Taction* scoreAct READ scoreAct NOTIFY dummyActionSignal)
+  Q_PROPERTY(Taction* melodyAct READ melodyAct NOTIFY dummyActionSignal)
+  Q_PROPERTY(Taction* levelAct READ levelAct NOTIFY dummyActionSignal)
+  Q_PROPERTY(Taction* chartsAct READ chartsAct NOTIFY dummyActionSignal)
+  Q_PROPERTY(Taction* examAct READ examAct NOTIFY dummyActionSignal)
+  Q_PROPERTY(Taction* aboutAct READ aboutAct NOTIFY dummyActionSignal)
+
   Q_PROPERTY(QQuickItem* mainScore READ mainScore WRITE setMainScore)
   Q_PROPERTY(TcommonInstrument* instrument READ instrument WRITE setInstrument)
 
@@ -59,6 +68,14 @@ public:
   ~TnootkaQML() override;
 
   static TnootkaQML* instance() { return m_instance; }
+
+  Taction* settingsAct() { return m_settingsAct; }
+  Taction* scoreAct() { return m_scoreAct; }
+  Taction* melodyAct() { return m_melodyAct; }
+  Taction* levelAct() { return m_levelAct; }
+  Taction* chartsAct() { return m_chartsAct; }
+  Taction* examAct() { return m_examAct; }
+  Taction* aboutAct() { return m_aboutAct; }
 
       /**
        * Dialogues recognized by main QML Dialog instance of main window
@@ -187,6 +204,14 @@ public:
 
 signals:
   void playNote(const Tnote&);
+  void dummyActionSignal();
+  void settingsActTriggered();
+  void scoreActTriggered();
+  void melodyActTriggered();
+  void levelActTriggered();
+  void chartsActTriggered();
+  void examActTriggered();
+  void aboutActTriggered();
 
 protected:
   void connectInstrument();
@@ -206,6 +231,7 @@ private:
   bool                           m_ignoreScore = false; /**< Becomes @p TRUE to ignore @p scoreChangedNote() slot  */
   bool                           m_resetConfig = false;
   QQmlEngine                    *m_qmlEngine = nullptr;
+  Taction                       *m_scoreAct, *m_settingsAct, *m_levelAct, *m_examAct, *m_melodyAct, *m_chartsAct, *m_aboutAct;
 };
 
 #endif // TNOOTKAQML_H
