@@ -51,8 +51,6 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
   }
   m_instance = this;
 
-  m_playAct = new Taction(qTR("QShortcut", "Play"), QStringLiteral("playMelody"), this);
-  m_recModeAct = new Taction(QString(), QString(), this);
   m_showNamesAct = new Taction(tr("Show note names"), QString(), this);
   m_showNamesAct->setCheckable(true);
   m_showNamesAct->setChecked(GLOB->namesOnScore());
@@ -67,11 +65,19 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
   m_zoomOutAct = new Taction(tr("Zoom score out"), QStringLiteral("zoom-out"), this);
   m_zoomInAct = new Taction(tr("Zoom score in"), QStringLiteral("zoom-in"), this);
 
+  m_playAct = new Taction(qTR("QShortcut", "Play"), QStringLiteral("playMelody"), this);
+  m_recModeAct = new Taction(QString(), QString(), this);
   m_openXmlAct = new Taction(qTR("QShortcut", "Open"), QStringLiteral("open"), this);
   connect(m_openXmlAct, &Taction::triggered, this, &TmainScoreObject::openXmlActSlot);
 
   m_saveXmlAct = new Taction(qTR("QShortcut", "Save"), QStringLiteral("save"), this);
   connect(m_saveXmlAct, &Taction::triggered, this, &TmainScoreObject::saveXmlActSlot);
+
+  m_randMelodyAct = new Taction(QGuiApplication::translate("TmelMan", "Generate melody"), QStringLiteral("melody"), this);
+  connect(m_randMelodyAct, &Taction::triggered, this, &TmainScoreObject::randMelodySlot);
+//   m_randMelodyAct->setStatusTip(QGuiApplication::translate("TmelMan", "Generate a melody with random notes."));
+
+  m_melodyActions << m_playAct << m_recModeAct << m_openXmlAct << m_saveXmlAct << m_randMelodyAct;
 
   connect(qApp, &QGuiApplication::paletteChanged, this, &TmainScoreObject::paletteSlot);
 
@@ -300,6 +306,11 @@ void TmainScoreObject::saveXmlActSlot() {
 }
 
 
+void TmainScoreObject::randMelodySlot() {
+  qDebug() << "[TmainScoreObject] random melody";
+}
+
+
 void TmainScoreObject::isExamChangedSlot() {
   m_scoreActions.clear();
   if (GLOB->isExam()) {
@@ -315,8 +326,7 @@ void TmainScoreObject::isExamChangedSlot() {
       }
       singleModeSlot();
   } else {
-      m_scoreActions << m_playAct << m_recModeAct << m_openXmlAct << m_saveXmlAct << m_showNamesAct << m_extraAccidsAct
-                    << m_zoomOutAct << m_zoomInAct << m_deleteLastAct << m_clearScoreAct;
+      m_scoreActions << m_showNamesAct << m_extraAccidsAct << m_zoomOutAct << m_zoomInAct << m_deleteLastAct << m_clearScoreAct;
       if (m_questionMark) {
         delete m_questionMark;
         m_questionMark = nullptr;

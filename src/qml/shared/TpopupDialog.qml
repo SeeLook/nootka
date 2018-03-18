@@ -16,7 +16,7 @@ Dialog {
   width: parent.width * 0.8; height: parent.height * 0.8
   x: (parent.width - width) / 2; y: (parent.height - height) / 2
   background: TipRect { id: rect; color: activPal.window; shadowRadius: Noo.fontSize(); shadowColor: activPal.shadow }
-  scale: 0.1
+  scale: GLOB.useAnimations ? 0.1 : 1.0
   enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}
   exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0.1 }}
 

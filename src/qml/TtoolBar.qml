@@ -10,6 +10,7 @@ ToolBar {
   id: toolBar
 
   property alias scoreAct: scoreAct
+  property alias melodyAct: melodyAct
   property alias examActions: examRepeater.model
 
   height: settAct.height
@@ -20,6 +21,7 @@ ToolBar {
     HeadButton { id: settAct; taction: Noo.settingsAct; visible: !GLOB.isExam }
     HeadButton { taction: Noo.levelAct; visible: !GLOB.isExam }
     HeadButton { id: scoreAct; taction: Noo.scoreAct; visible: !GLOB.singleNoteMode }
+    HeadButton { id: melodyAct; taction: Noo.melodyAct; visible: !GLOB.singleNoteMode && !GLOB.isExam }
     HeadButton { id: chartAct; taction: Noo.chartsAct; visible: !GLOB.isExam }
     HeadButton { taction: Noo.examAct; visible: !GLOB.isExam }
     Repeater {
