@@ -12,6 +12,7 @@
     <file alias="+android/DialogDrawer.qml">qml/+android/DialogDrawer.qml</file>
     <file alias="NoteName.qml">qml/NoteName.qml</file>
     <file alias="ScoreMenuContent.qml">qml/ScoreMenuContent.qml</file>
+    <file alias="MelodyMenuContent.qml">qml/MelodyMenuContent.qml</file>
 
     <file alias="HeadButton.qml">qml/shared/HeadButton.qml</file>
     <file alias="PagesDialog.qml">qml/shared/PagesDialog.qml</file>

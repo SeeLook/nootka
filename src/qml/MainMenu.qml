@@ -9,6 +9,7 @@ import QtQuick.Controls 2.2
 Item {
   property alias toolBar: toolBar
   property var scoreMenu: null
+  property var melodyMenu: null
 
   TtoolBar { id: toolBar }
 
@@ -18,5 +19,13 @@ Item {
       scoreMenu = c.createObject(nootkaWindow.contentItem)
     }
     scoreMenu.open()
+  }
+
+  function melodyOpen() {
+    if (!melodyMenu) {
+      var c = Qt.createComponent("qrc:/MelodyMenuContent.qml")
+      melodyMenu = c.createObject(nootkaWindow.contentItem)
+    }
+    melodyMenu.open()
   }
 }

@@ -49,17 +49,19 @@ class TmainScoreObject : public QObject
   Q_OBJECT
 
   Q_PROPERTY(TscoreObject* scoreObject READ scoreObject WRITE setScoreObject)
-  Q_PROPERTY(Taction* playAct READ playAct)
-  Q_PROPERTY(Taction* recModeAct READ recModeAct)
   Q_PROPERTY(Taction* showNamesAct READ showNamesAct)
   Q_PROPERTY(Taction* extraAccidsAct READ extraAccidsAct)
   Q_PROPERTY(Taction* deleteLastAct READ deleteLastAct)
   Q_PROPERTY(Taction* clearScoreAct READ clearScoreAct)
-  Q_PROPERTY(Taction* openXmlAct READ openXmlAct)
-  Q_PROPERTY(Taction* saveXmlAct READ saveXmlAct)
   Q_PROPERTY(Taction* zoomOutAct READ zoomOutAct)
   Q_PROPERTY(Taction* zoomInAct READ zoomInAct)
   Q_PROPERTY(QList<QObject*> scoreActions READ scoreActions NOTIFY scoreActionsChanged)
+  Q_PROPERTY(Taction* playAct READ playAct)
+  Q_PROPERTY(Taction* recModeAct READ recModeAct)
+  Q_PROPERTY(Taction* openXmlAct READ openXmlAct)
+  Q_PROPERTY(Taction* saveXmlAct READ saveXmlAct)
+  Q_PROPERTY(Taction* randMelodyAct READ randMelodyAct)
+  Q_PROPERTY(QList<QObject*> melodyActions READ melodyActions NOTIFY melodyActionsChanged)
   Q_PROPERTY(QString keyNameText READ keyNameText NOTIFY keyNameTextChanged)
 
 public:
@@ -71,18 +73,22 @@ public:
   TscoreObject* scoreObject() { return m_scoreObj; }
   void setScoreObject(TscoreObject* scoreObj);
 
-  Taction* playAct() { return m_playAct; }
-  Taction* recModeAct() { return m_recModeAct; }
   Taction* showNamesAct() { return m_showNamesAct; }
   Taction* extraAccidsAct() { return m_extraAccidsAct; }
   Taction* deleteLastAct() { return m_deleteLastAct; }
   Taction* clearScoreAct() { return m_clearScoreAct; }
-  Taction* openXmlAct() { return m_openXmlAct; }
-  Taction* saveXmlAct() { return m_saveXmlAct; }
   Taction* zoomOutAct() { return m_zoomOutAct; }
   Taction* zoomInAct() { return m_zoomInAct; }
 
   QList<QObject*> scoreActions() { return m_scoreActions; }
+
+  Taction* playAct() { return m_playAct; }
+  Taction* recModeAct() { return m_recModeAct; }
+  Taction* openXmlAct() { return m_openXmlAct; }
+  Taction* saveXmlAct() { return m_saveXmlAct; }
+  Taction* randMelodyAct() { return m_randMelodyAct; }
+
+  QList<QObject*> melodyActions() { return m_melodyActions; }
 
   QString keyNameText() const;
 
@@ -118,6 +124,7 @@ public:
 
 signals:
   void scoreActionsChanged();
+  void melodyActionsChanged();
   void keyNameTextChanged();
   void correctionFinished();
   // redirected from TscoreObject
@@ -127,6 +134,7 @@ signals:
 protected:
   void openXmlActSlot();
   void saveXmlActSlot();
+  void randMelodySlot();
   void isExamChangedSlot();
   void singleModeSlot();
   void paletteSlot();
@@ -140,8 +148,9 @@ private:
   Taction                   *m_showNamesAct, *m_extraAccidsAct;
   Taction                   *m_zoomOutAct, *m_zoomInAct;
   Taction                   *m_deleteLastAct, *m_clearScoreAct;
-  Taction                   *m_openXmlAct, *m_saveXmlAct;
+  Taction                   *m_openXmlAct, *m_saveXmlAct, *m_randMelodyAct;
   QList<QObject*>            m_scoreActions;
+  QList<QObject*>            m_melodyActions;
 
   QQuickItem                *m_questionMark = nullptr;
   QQuickItem                *m_questionKey = nullptr;

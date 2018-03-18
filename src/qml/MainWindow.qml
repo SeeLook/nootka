@@ -29,6 +29,7 @@ ApplicationWindow {
   Connections {
     target: Noo
     onScoreActTriggered: mainMenu.open()
+    onMelodyActTriggered: mainMenu.melodyOpen()
     onSettingsActTriggered: showDialog(Nootka.Settings)
     onLevelActTriggered: showDialog(Nootka.LevelCreator)
 //     onChartsActTriggered: showDialog(Nootka.Charts)
