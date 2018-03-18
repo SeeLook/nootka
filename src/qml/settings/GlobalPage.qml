@@ -49,7 +49,7 @@ Tflickable {
             scale: 1.7 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
             Image {
               source: Noo.pix("flags-" + flag)
-              sourceSize.height: Noo.fontSize() * 3
+              height: Noo.fontSize() * 3; width: height * (sourceSize.height / sourceSize.width)
               anchors.horizontalCenter: parent.horizontalCenter
               MouseArea {
                 anchors.fill: parent

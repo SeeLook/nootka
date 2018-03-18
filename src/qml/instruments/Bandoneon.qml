@@ -40,13 +40,13 @@ TbandoneonBg {
 
    Image {
      source: Noo.pix("bando-bg")
-     width: factor * 210; height: width * 0.6203877423389619
+     width: factor * 210; height: width * (sourceSize.height / sourceSize.width)
      x: -factor * 5
      z: 1
    }
    Image {
      source: Noo.pix("bando-bg")
-     width: factor * 210; height: width * 0.6203877423389619
+     width: factor * 210; height: width * (sourceSize.height / sourceSize.width)
      x: factor * 225
      z: 2
    }

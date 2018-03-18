@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -19,7 +19,7 @@ TsaxBg {
     cache: false
     source: Noo.pix("saxAlto")
     height: parent.height * 0.9
-    width: height * 0.715
+    width: height * (sourceSize.width/ sourceSize.height)
     x: -width * 0.25
     z: -1
   }

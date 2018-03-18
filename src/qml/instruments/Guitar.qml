@@ -30,7 +30,7 @@ TguitarBg {
     cache: false
     source: GLOB.instrument.isGuitar ? Noo.pix("body" + bodyPix[GLOB.instrument.typeINT - 1]) : ""
     height: parent.height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 4 : 3.1)
-    width: height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 1.452482269503546 : 1.04885993485342)
+    width: height * (sourceSize.width / sourceSize.height)
     x: GLOB.instrument.type === Tinstrument.ClassicalGuitar ? xiiFret : parent.width * 0.65
     y: parent.height - height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 0.95 : 0.97)
     z: -1
@@ -40,7 +40,7 @@ TguitarBg {
     cache: false
     source: GLOB.instrument.isGuitar ? Noo.pix(GLOB.instrument.type === Tinstrument.ClassicalGuitar ? "rosette" : "pickup") : ""
     height: parent.height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 1.55 : 1.3)
-    width: height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 1.20253164556962 : 0.6217948717948718)
+    width: height * (sourceSize.width / sourceSize.height)
     x: GLOB.instrument.type === Tinstrument.ClassicalGuitar ? fbRect.width - height * 0.25 : parent.width * 0.87
     y: parent.height - height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ?  0.95 : 0.88)
     z: -1
