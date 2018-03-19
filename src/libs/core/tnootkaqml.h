@@ -164,6 +164,8 @@ public:
 
   void openFile(const QString& runArg);
 
+  Q_INVOKABLE void setStatusTip(const QString& statusText, int tipPos = 1);
+
 /**
  * All stuff below is responsible for handling note changes in score, instrument and sound in/out.
  * @p TnootkaQML has score and instrument pointers to handle theirs signals when note is changed,
@@ -212,6 +214,7 @@ signals:
   void chartsActTriggered();
   void examActTriggered();
   void aboutActTriggered();
+  void statusTip(const QString& statusText, int tipPos);
 
 protected:
   void connectInstrument();

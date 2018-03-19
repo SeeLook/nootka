@@ -54,9 +54,11 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
   m_showNamesAct = new Taction(tr("Show note names"), QString(), this);
   m_showNamesAct->setCheckable(true);
   m_showNamesAct->setChecked(GLOB->namesOnScore());
+  m_showNamesAct->setTip(tr("Shows names of all notes on the staff."));
 
   m_extraAccidsAct = new Taction(tr("Additional accidentals"), QString(), this);
   m_extraAccidsAct->setCheckable(true);
+  m_extraAccidsAct->setTip(tr("Shows accidentals from the key signature also next to a note. <b>WARING! It never occurs in real scores - use it only for theoretical purposes.</b>"));
 //   m_extraAccidsAct->setChecked(GLOB->????);
 
   m_deleteLastAct = new Taction(tr("Delete note"), QStringLiteral("delete"), this);
@@ -67,6 +69,7 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
 
   m_playAct = new Taction(qTR("QShortcut", "Play"), QStringLiteral("playMelody"), this);
   m_recModeAct = new Taction(QString(), QString(), this);
+  m_recModeAct->setTip(tr("Notes are written on the score one by one. Either playing, selecting fret or note name adds a new note to the staff automatically."));
   m_openXmlAct = new Taction(qTR("QShortcut", "Open"), QStringLiteral("open"), this);
   connect(m_openXmlAct, &Taction::triggered, this, &TmainScoreObject::openXmlActSlot);
 
@@ -75,7 +78,7 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
 
   m_randMelodyAct = new Taction(QGuiApplication::translate("TmelMan", "Generate melody"), QStringLiteral("melody"), this);
   connect(m_randMelodyAct, &Taction::triggered, this, &TmainScoreObject::randMelodySlot);
-//   m_randMelodyAct->setStatusTip(QGuiApplication::translate("TmelMan", "Generate a melody with random notes."));
+  m_randMelodyAct->setTip(tr("Generate a melody with random notes."));
 
   m_melodyActions << m_playAct << m_recModeAct << m_openXmlAct << m_saveXmlAct << m_randMelodyAct;
 

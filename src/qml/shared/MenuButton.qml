@@ -74,6 +74,12 @@ Rectangle {
     anchors.fill: parent
     hoverEnabled: true
     onClicked: buttonClicked()
+    onHoveredChanged: {
+      if (action.tip !== "" && ma.containsMouse)
+        Noo.setStatusTip(action.tip, action.tipPos)
+      else
+        Noo.setStatusTip("", action.tipPos)
+    }
   }
 
   function buttonClicked() {

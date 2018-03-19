@@ -105,6 +105,8 @@ Score {
       scoreObj.allowAdding = Qt.binding(function() { return !GLOB.singleNoteMode })
       enableKeySign = Qt.binding(function() { return GLOB.keySignatureEnabled })
       updateScord()
+      var t = Qt.createComponent("qrc:/StatusTip.qml")
+      t.createObject(nootkaWindow)
     }
   }
   Connections {

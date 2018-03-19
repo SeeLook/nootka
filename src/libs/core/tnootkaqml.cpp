@@ -100,19 +100,22 @@ TnootkaQML::TnootkaQML(QObject* parent) :
 
   m_settingsAct = new Taction(QApplication::translate("TtoolBar", "Settings"), QStringLiteral("systemsettings"), this);
   connect(m_settingsAct, &Taction::triggered, this, &TnootkaQML::settingsActTriggered);
-
+  m_settingsAct->setTip(QApplication::translate("TtoolBar", "Application preferences"), QQuickItem::TopRight);
   m_levelAct = new Taction(QApplication::translate("TtoolBar", "Level"), QStringLiteral("levelCreator"), this);
   connect(m_levelAct, &Taction::triggered, this, &TnootkaQML::levelActTriggered);
-
+  m_levelAct->setTip(QApplication::translate("TtoolBar", "Levels creator"), QQuickItem::TopRight);
   m_chartsAct = new Taction(QApplication::translate("TtoolBar", "Analyze"), QStringLiteral("charts"), this);
   connect(m_chartsAct, &Taction::triggered, this, &TnootkaQML::chartsActTriggered);
-
+  m_chartsAct->setTip(tr("Analysis of exam results"), QQuickItem::TopRight);
   m_scoreAct = new Taction(QApplication::translate("TtoolBar", "Score", "it could be 'notation', 'staff' or whatever is associated with that 'place to display musical notes' and this the name is quite short and looks well."), QStringLiteral("score"), this);
   connect(m_scoreAct, &Taction::triggered, this, &TnootkaQML::scoreActTriggered);
-
+  m_scoreAct->setTip(QApplication::translate("TtoolBar", "Manage and navigate the score."), QQuickItem::TopRight);
+  m_melodyAct = new Taction(QApplication::translate("TtoolBar", "Melody"), QStringLiteral("melody"), this);
+  connect(m_melodyAct, &Taction::triggered, this, &TnootkaQML::melodyActTriggered);
+  m_melodyAct->setTip(tr("Open, save, generate and play a melody."), QQuickItem::TopRight);
   m_examAct = new Taction(QApplication::translate("TtoolBar", "Lessons"), QStringLiteral("startExam"), this);
   connect(m_examAct, &Taction::triggered, this, &TnootkaQML::examActTriggered);
-
+  m_examAct->setTip(QApplication::translate("TtoolBar", "Start exercises or an exam"), QQuickItem::TopRight);
   m_aboutAct = new Taction(this);
   connect(m_aboutAct, &Taction::triggered, this, &TnootkaQML::aboutActTriggered);
 }
@@ -494,6 +497,11 @@ void TnootkaQML::openFile(const QString& runArg) {
         emit GLOB->wantOpenFile(runArg);
     }
   }
+}
+
+
+void TnootkaQML::setStatusTip(const QString& statusText, int tipPos) {
+  emit statusTip(statusText, tipPos);
 }
 
 

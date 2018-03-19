@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -17,7 +17,7 @@ Item {
 
   MouseArea {
     id: area
-    enabled: pitchView.active
+//     enabled: pitchView.active
     anchors.fill: parent
     hoverEnabled: true
     acceptedButtons: Qt.LeftButton
@@ -28,6 +28,8 @@ Item {
           GLOB.minVolume = mv
       }
     }
+    onEntered: Noo.setStatusTip(qsTr("Volume level of input sound.") + "<br>" + qsTr("Drag a knob to adjust minimum input volume."), Item.TopLeft)
+    onExited: Noo.setStatusTip("", Item.TopLeft)
   }
 
   Text {
@@ -71,6 +73,8 @@ Item {
       anchors.fill: parent
       onClicked: pitchView.paused()
       hoverEnabled: true
+      onEntered: Noo.setStatusTip(qsTr("Start/stop pitch detection"), Item.TopLeft)
+      onExited: Noo.setStatusTip("", Item.TopLeft)
     }
   }
 
