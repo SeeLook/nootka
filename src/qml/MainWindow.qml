@@ -37,14 +37,6 @@ ApplicationWindow {
     onExamActTriggered: showDialog(Nootka.ExamStart)
 
     onAboutActTriggered: showDialog(Nootka.About)
-
-//     onStatusTip: {
-//       if (!tip) {
-//         var t = Qt.createComponent("qrc:/StatusTip.qml")
-//         tip = t.createObject(nootkaWindow)
-//       }
-//       tip.text = statusText; tip.tipPos = tipPos
-//     }
   }
 
   width: GLOB.geometry.width

@@ -19,6 +19,7 @@ Old.Dialog {
   property int page: 0
   property alias standardButtons: box.standardButtons
   property alias buttonBox: box
+  property alias dialogObj: dialogObj
 
   // private
   property var currentDialog: null

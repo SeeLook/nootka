@@ -125,7 +125,6 @@ public:
   Q_INVOKABLE Tinstrument instr(int type);
   Q_INVOKABLE QString getXmlToOpen();
   Q_INVOKABLE QString getXmlToSave();
-  Q_INVOKABLE QString aboutQt();
   Q_INVOKABLE QString pix(const QString& imageFileName);
   Q_INVOKABLE QString TR(const QString& context, const QString& text, const QString& disambiguation = QString(), int n = -1);
 
@@ -234,7 +233,8 @@ private:
   bool                           m_ignoreScore = false; /**< Becomes @p TRUE to ignore @p scoreChangedNote() slot  */
   bool                           m_resetConfig = false;
   QQmlEngine                    *m_qmlEngine = nullptr;
-  Taction                       *m_scoreAct, *m_settingsAct, *m_levelAct, *m_examAct, *m_melodyAct, *m_chartsAct, *m_aboutAct;
+  Taction                       *m_scoreAct = nullptr;
+  Taction                       *m_settingsAct, *m_levelAct, *m_examAct, *m_melodyAct, *m_chartsAct, *m_aboutAct;
 };
 
 #endif // TNOOTKAQML_H
