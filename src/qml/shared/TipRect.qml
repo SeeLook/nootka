@@ -13,6 +13,8 @@ Item {
   property alias shadowRadius: shadow.radius
   property alias shadowColor: shadow.color
   property alias border: bg.border
+  property alias horizontalOffset: shadow.horizontalOffset
+  property alias verticalOffset: shadow.verticalOffset
 
   Rectangle {
     id: bg

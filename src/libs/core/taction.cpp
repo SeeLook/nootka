@@ -59,9 +59,10 @@ void Taction::setText(const QString& t) {
 }
 
 
-void Taction::setTip(const QString& t) {
+void Taction::setTip(const QString& t, int pos) {
   if (t != m_tip) {
     m_tip = t;
+    m_tipPos = static_cast<quint8>(pos);
     emit tipChanged();
   }
 }

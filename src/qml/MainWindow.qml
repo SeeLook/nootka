@@ -22,6 +22,7 @@ ApplicationWindow {
   property var examResults: null
   property var executor: null
   property var dialogLoader: null
+  property var tip: null
 
   SystemPalette { id: activPal; colorGroup: SystemPalette.Active }
   SystemPalette { id: disdPal; colorGroup: SystemPalette.Disabled }
@@ -36,6 +37,14 @@ ApplicationWindow {
     onExamActTriggered: showDialog(Nootka.ExamStart)
 
     onAboutActTriggered: showDialog(Nootka.About)
+
+//     onStatusTip: {
+//       if (!tip) {
+//         var t = Qt.createComponent("qrc:/StatusTip.qml")
+//         tip = t.createObject(nootkaWindow)
+//       }
+//       tip.text = statusText; tip.tipPos = tipPos
+//     }
   }
 
   width: GLOB.geometry.width

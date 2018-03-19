@@ -39,6 +39,7 @@ class NOOTKACORE_EXPORT Taction : public QObject
   Q_PROPERTY(QString icon READ icon WRITE setIconTag NOTIFY iconChanged)
   Q_PROPERTY(QString text READ text WRITE setText NOTIFY textChanged)
   Q_PROPERTY(QString tip READ tip WRITE setTip NOTIFY tipChanged)
+  Q_PROPERTY(int tipPos READ tipPos NOTIFY tipChanged)
   Q_PROPERTY(bool checked READ checked WRITE setChecked NOTIFY checkedChanged)
   Q_PROPERTY(bool checkable READ checkable WRITE setCheckable)
   Q_PROPERTY(QObject* shortcut READ shortcut WRITE setShortcut)
@@ -56,7 +57,9 @@ public:
   void setText(const QString& t);
 
   QString tip() const { return m_tip; }
-  void setTip(const QString& t);
+  void setTip(const QString& t, int pos = 1);
+
+  int tipPos() const { return m_tipPos; }
 
   bool checkable() const { return m_checkable; }
   void setCheckable(bool ch);
@@ -92,6 +95,7 @@ private:
   QString                 m_text;
   QString                 m_tip;
   QObject                *m_shortcut = nullptr;
+  quint8                  m_tipPos = 1; /**< It corresponds with @p QQUickItem::TransformOrigin, 1 means Top center  */
 };
 
 #endif // TACTION_H

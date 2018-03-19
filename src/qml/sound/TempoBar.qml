@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -14,6 +14,13 @@ Item {
   property int cnt: 1
   property var hArray: [ 0.6, 0, 0.3, 0, 0.6]
   property var gArray: [ "\ue1d5", "\ue1d9", "\ue1d7", "\ue1d9", "\ue1d5" ]
+
+  MouseArea {
+    anchors.fill: parent
+    hoverEnabled: true
+    onEntered: Noo.setStatusTip(qsTr("Metronome"), Item.TopLeft)
+    onExited: Noo.setStatusTip("", Item.TopLeft)
+  }
 
   Rectangle {
     id: metroText
@@ -39,6 +46,8 @@ Item {
         }
         menu.open()
       }
+      onEntered: Noo.setStatusTip(qsTr("Tempo"), Item.TopLeft)
+      onExited: Noo.setStatusTip("", Item.TopLeft)
     }
   }
 

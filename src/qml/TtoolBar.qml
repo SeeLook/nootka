@@ -14,7 +14,7 @@ ToolBar {
   property alias examActions: examRepeater.model
 
   height: settAct.height
-  background: Rectangle { anchors.fill: parent; color: activPal.window }
+  background: TipRect { anchors.fill: parent; color: activPal.window; radius: 0; verticalOffset: toolBar.height / 12; horizontalOffset: 0 }
 
   Row {
     spacing: toolBar.width / 200

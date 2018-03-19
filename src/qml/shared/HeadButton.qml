@@ -10,7 +10,6 @@ import Nootka 1.0
 
 
 ToolButton {
-  antialiasing: true
   hoverEnabled: true
 
   implicitWidth: Math.max(pix.width, butText.width) + (Noo.isAndroid() ? 4 : factor * 2)
@@ -18,7 +17,6 @@ ToolButton {
 
   property alias pixmap: pix.source
   property alias name: butText.text
-  property alias tip: toolTip.text
   property real factor: nootkaWindow.height / 140
   property alias fontSize: butText.font.pixelSize
   property alias textColor: butText.color
@@ -27,11 +25,19 @@ ToolButton {
 
   background: Rectangle { color: pressed ? activPal.button : (hovered && hiHover ? activPal.base : "transparent") }
 
+  onHoveredChanged: {
+    if (taction && taction.tip !== "") {
+      if (hovered)
+        Noo.setStatusTip(taction.tip, taction.tipPos)
+      else
+        Noo.setStatusTip("", taction.tipPos)
+    }
+  }
+
   onTactionChanged: {
     if (taction) {
       pix.source = taction.icon
       name = taction.text
-      tip = taction.tip
     }
   }
 
@@ -54,20 +60,5 @@ ToolButton {
     anchors.top: pix.bottom
     horizontalAlignment: Text.AlignHCenter
     color: activPal.text
-  }
-
-  ToolTip {
-    id: toolTip
-    delay: 1000
-    timeout: 5000
-    visible: hovered && text !== ""
-    contentItem: Text {
-      text: toolTip.text
-      color: activPal.highlightedText
-    }
-    background: Rectangle {
-      border.color: activPal.highlightedText
-      color: activPal.highlight
-    }
   }
 }
