@@ -52,6 +52,8 @@ public:
 
   Q_INVOKABLE void openFile(const QString& fileName);
 
+  Q_INVOKABLE QString aboutQt();
+
 signals:
   void continueExam(const QString& examFile);
   void openLevel(const QString& levelFile);

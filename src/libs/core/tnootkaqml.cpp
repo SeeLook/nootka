@@ -97,27 +97,6 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qRegisterMetaType<Ttune>();
   qmlRegisterUncreatableType<Ttune>("Nootka", 1, 0, "Ttune", QStringLiteral("You cannot create an instance of the Ttune."));
   qmlRegisterType<TtuneObject>("Nootka", 1, 0, "TtuneObject");
-
-  m_settingsAct = new Taction(QApplication::translate("TtoolBar", "Settings"), QStringLiteral("systemsettings"), this);
-  connect(m_settingsAct, &Taction::triggered, this, &TnootkaQML::settingsActTriggered);
-  m_settingsAct->setTip(QApplication::translate("TtoolBar", "Application preferences"), QQuickItem::TopRight);
-  m_levelAct = new Taction(QApplication::translate("TtoolBar", "Level"), QStringLiteral("levelCreator"), this);
-  connect(m_levelAct, &Taction::triggered, this, &TnootkaQML::levelActTriggered);
-  m_levelAct->setTip(QApplication::translate("TtoolBar", "Levels creator"), QQuickItem::TopRight);
-  m_chartsAct = new Taction(QApplication::translate("TtoolBar", "Analyze"), QStringLiteral("charts"), this);
-  connect(m_chartsAct, &Taction::triggered, this, &TnootkaQML::chartsActTriggered);
-  m_chartsAct->setTip(tr("Analysis of exam results"), QQuickItem::TopRight);
-  m_scoreAct = new Taction(QApplication::translate("TtoolBar", "Score", "it could be 'notation', 'staff' or whatever is associated with that 'place to display musical notes' and this the name is quite short and looks well."), QStringLiteral("score"), this);
-  connect(m_scoreAct, &Taction::triggered, this, &TnootkaQML::scoreActTriggered);
-  m_scoreAct->setTip(QApplication::translate("TtoolBar", "Manage and navigate the score."), QQuickItem::TopRight);
-  m_melodyAct = new Taction(QApplication::translate("TtoolBar", "Melody"), QStringLiteral("melody"), this);
-  connect(m_melodyAct, &Taction::triggered, this, &TnootkaQML::melodyActTriggered);
-  m_melodyAct->setTip(tr("Open, save, generate and play a melody."), QQuickItem::TopRight);
-  m_examAct = new Taction(QApplication::translate("TtoolBar", "Lessons"), QStringLiteral("startExam"), this);
-  connect(m_examAct, &Taction::triggered, this, &TnootkaQML::examActTriggered);
-  m_examAct->setTip(QApplication::translate("TtoolBar", "Start exercises or an exam"), QQuickItem::TopRight);
-  m_aboutAct = new Taction(this);
-  connect(m_aboutAct, &Taction::triggered, this, &TnootkaQML::aboutActTriggered);
 }
 
 
@@ -372,41 +351,6 @@ QString TnootkaQML::getXmlToSave() {
 }
 
 
-QString TnootkaQML::aboutQt() {
-  return "<h1 align=\"center\">"
-  + qTR("QMessageBox", "<h3>About Qt</h3><p>This program uses Qt version %1.</p>").arg(qVersion())
-        .replace(QLatin1String("<p>"), QString()).replace(QLatin1String("</p>"), QString()) + "</h1><br>"
-  + qTR("QMessageBox",
-      "<p>Qt is a C++ toolkit for cross-platform application "
-      "development.</p>"
-      "<p>Qt provides single-source portability across all major desktop "
-      "operating systems. It is also available for embedded Linux and other "
-      "embedded and mobile operating systems.</p>"
-      "<p>Qt is available under three different licensing options designed "
-      "to accommodate the needs of our various users.</p>"
-      "<p>Qt licensed under our commercial license agreement is appropriate "
-      "for development of proprietary/commercial software where you do not "
-      "want to share any source code with third parties or otherwise cannot "
-      "comply with the terms of the GNU LGPL version 3 or GNU LGPL version 2.1.</p>"
-      "<p>Qt licensed under the GNU LGPL version 3 is appropriate for the "
-      "development of Qt&nbsp;applications provided you can comply with the terms "
-      "and conditions of the GNU LGPL version 3.</p>"
-      "<p>Qt licensed under the GNU LGPL version 2.1 is appropriate for the "
-      "development of Qt&nbsp;applications provided you can comply with the terms "
-      "and conditions of the GNU LGPL version 2.1.</p>"
-      "<p>Please see <a href=\"http://%2/\">%2</a> "
-      "for an overview of Qt licensing.</p>"
-      "<p>Copyright (C) %1 The Qt Company Ltd and other "
-      "contributors.</p>"
-      "<p>Qt and the Qt logo are trademarks of The Qt Company Ltd.</p>"
-      "<p>Qt is The Qt Company Ltd product developed as an open source "
-      "project. See <a href=\"http://%3/\">%3</a> for more information.</p>"
-  ).arg(QStringLiteral("2017"),
-        QStringLiteral("qt.io/licensing"),
-        QStringLiteral("qt.io"));
-}
-
-
 QString TnootkaQML::pix(const QString& imageFileName) {
   return Tpath::pix(imageFileName);
 }
@@ -470,6 +414,35 @@ qreal TnootkaQML::bound(qreal min, qreal val, qreal max) {
 
 void TnootkaQML::setQmlEngine(QQmlEngine* e) {
   m_qmlEngine = e;
+  if (m_scoreAct) {
+    delete m_scoreAct;
+    delete m_settingsAct;
+    delete m_levelAct;
+    delete m_chartsAct;
+    delete m_melodyAct;
+    delete m_examAct;
+    delete m_aboutAct;
+  }
+  m_settingsAct = new Taction(QApplication::translate("TtoolBar", "Settings"), QStringLiteral("systemsettings"), this);
+  connect(m_settingsAct, &Taction::triggered, this, &TnootkaQML::settingsActTriggered);
+  m_settingsAct->setTip(QApplication::translate("TtoolBar", "Application preferences"), QQuickItem::TopRight);
+  m_levelAct = new Taction(QApplication::translate("TtoolBar", "Level"), QStringLiteral("levelCreator"), this);
+  connect(m_levelAct, &Taction::triggered, this, &TnootkaQML::levelActTriggered);
+  m_levelAct->setTip(QApplication::translate("TtoolBar", "Levels creator"), QQuickItem::TopRight);
+  m_chartsAct = new Taction(QApplication::translate("TtoolBar", "Analyze"), QStringLiteral("charts"), this);
+  connect(m_chartsAct, &Taction::triggered, this, &TnootkaQML::chartsActTriggered);
+  m_chartsAct->setTip(tr("Analysis of exam results"), QQuickItem::TopRight);
+  m_scoreAct = new Taction(QApplication::translate("TtoolBar", "Score", "it could be 'notation', 'staff' or whatever is associated with that 'place to display musical notes' and this the name is quite short and looks well."), QStringLiteral("score"), this);
+  connect(m_scoreAct, &Taction::triggered, this, &TnootkaQML::scoreActTriggered);
+  m_scoreAct->setTip(QApplication::translate("TtoolBar", "Manage and navigate the score."), QQuickItem::TopRight);
+  m_melodyAct = new Taction(QApplication::translate("TtoolBar", "Melody"), QStringLiteral("melody"), this);
+  connect(m_melodyAct, &Taction::triggered, this, &TnootkaQML::melodyActTriggered);
+  m_melodyAct->setTip(tr("Open, save, generate and play a melody."), QQuickItem::TopRight);
+  m_examAct = new Taction(QApplication::translate("TtoolBar", "Lessons"), QStringLiteral("startExam"), this);
+  connect(m_examAct, &Taction::triggered, this, &TnootkaQML::examActTriggered);
+  m_examAct->setTip(QApplication::translate("TtoolBar", "Start exercises or an exam"), QQuickItem::TopRight);
+  m_aboutAct = new Taction(this);
+  connect(m_aboutAct, &Taction::triggered, this, &TnootkaQML::aboutActTriggered);
 }
 
 

@@ -18,7 +18,7 @@ TRANSLATION CONTEXT CHANGES
   TscoreSettings -> ScorePage, KeySufixEdit,  (rearrange ScorePage)
   TradioClef - Tclef (rearrange Tclef)
   TscoreActions & TmelMan - TmainScoreObject
-  TtoolBar - MainWindow
+  TtoolBar - TnootkaQML
   TtoolBar - exam actions are created in TexamExecutor
   accidssettings -> AccidsPage (but remove line breaks from descriptions)
   TlevelPreviewItem "no level selected" goes to TlevelSelector
