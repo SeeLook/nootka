@@ -27,6 +27,7 @@
 #include <tnootkaqml.h>
 #include <instruments/tcommoninstrument.h>
 #include <exam/textrans.h>
+#include <taction.h>
 #include <tcolor.h>
 #include "tglobals.h"
 #include "texamhelp.h"
@@ -193,6 +194,7 @@ void TtipHandler::showConfirmTip(int time) {
 #endif
     m_confirmTipOn = true;
   }
+  EXECUTOR->checkQuestAct()->shake();
 }
 
 
@@ -339,10 +341,19 @@ void TtipHandler::showWhatNextTip(bool isCorrect, bool toCorrection) {
     whatNextText += br + t + space +
       TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"correct\">") + NOO->pixToHtml(QLatin1String("correct"), m_iconSize) + a)
       + br + TexamHelp::orPressEnterKey();
+    if (EXECUTOR->correctAct())
+      EXECUTOR->correctAct()->shake();
   }
   whatNextText += br + TexamHelp::toStopExamTxt(QLatin1String("<a href=\"stopExam\">")
                + NOO->pixToHtml(QLatin1String("stopExam"), m_iconSize) + a) + QLatin1String("</p>");
   QTimer::singleShot(1000, [=]{ emit wantWhatNextTip(whatNextText, qApp->palette().highlight().color(), getTipPosition(determineTipPos())); });
+  if (!isCorrect) {
+    if (m_exam->melodies())
+      EXECUTOR->newAtemptAct()->shake();
+    else
+      EXECUTOR->repeatQuestAct()->shake();
+  }
+  QTimer::singleShot(500, [=]{ EXECUTOR->nextQuestAct()->shake(); });
 //#endif
 }
 

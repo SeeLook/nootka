@@ -73,6 +73,11 @@ public:
   bool enabled() const { return m_enabled; }
   void setEnabled(bool e);
 
+      /**
+       * Emits @p shakeButton() signal to make corresponding button shaking to attract user attention
+       */
+  void shake() { emit shakeButton(); }
+
   Q_INVOKABLE void trigger();
   Q_INVOKABLE QString key();
 
@@ -86,6 +91,7 @@ signals:
   void triggered();
   void checkedChanged();
   void enabledChanged();
+  void shakeButton();
 
 private:
   bool                    m_checkable = false;
