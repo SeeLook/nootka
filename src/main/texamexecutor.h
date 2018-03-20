@@ -113,6 +113,12 @@ public:
        */
   Q_INVOKABLE void settingsAccepted();
 
+  Taction* checkQuestAct() { return m_checkQuestAct; }
+  Taction* nextQuestAct() { return m_nextQuestAct; }
+  Taction* newAtemptAct() { return m_newAtemptAct; }
+  Taction* repeatQuestAct() { return m_repeatQuestAct; }
+  Taction* correctAct() { return m_correctAct; }
+
 signals:
   void titleChanged();
   void examActionsChanged();

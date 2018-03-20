@@ -625,6 +625,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
                   Tmelody transposedMelody; // questioned melody was transposed, so copy it from score
                   MAIN_SCORE->getMelody(&transposedMelody);
                   m_supp->compareMelodies(&transposedMelody, m_melody->listened(), curQ->lastAttempt());
+//                   m_supp->compareRhythms(&transposedMelody, m_melody->listened(), curQ->lastAttempt());
               } else
                   m_supp->compareMelodies(curQ->melody(), m_melody->listened(), curQ->lastAttempt());
           }
@@ -1141,6 +1142,7 @@ void TexamExecutor::createActions() {
   m_settAct = new Taction(QApplication::translate("TtoolBar", "Settings"), QStringLiteral("exam-settings"), this);
   m_examActions.append(m_settAct);
   connect(m_settAct, &Taction::triggered, this, &TexamExecutor::prepareToSettings);
+  m_settAct->setTip(tr("Exercise or exam preferences"), 2);
   m_helpAct = new Taction(QApplication::translate("TtoolBar", "Help"), QStringLiteral("help"), this);
   m_examActions.append(m_helpAct);
   connect(m_helpAct, &Taction::triggered, this, &TexamExecutor::showExamHelp);
@@ -1155,30 +1157,38 @@ void TexamExecutor::createActions() {
   m_examActions.append(m_repeatQuestAct);
   actionsComp.setData("import QtQuick 2.9; Shortcut { sequence: \"Backspace\" }", QUrl());
   m_repeatQuestAct->setShortcut(createQmlShortcut(&actionsComp));
+  m_repeatQuestAct->setTip(tr("repeat previous question (backspace)").replace(QLatin1String("("), QLatin1String("<br>(")), 2);
   m_nextQuestAct = new Taction(QApplication::translate("TtoolBar", "Next", "like a next question"), QStringLiteral("nextQuest"), this);
   m_examActions.append(m_nextQuestAct);
   connect(m_nextQuestAct, &Taction::triggered, this, &TexamExecutor::askQuestionSlot);
   actionsComp.setData("import QtQuick 2.9; Shortcut { sequence: \"Space\" }", QUrl());
   m_nextQuestAct->setShortcut(createQmlShortcut(&actionsComp));
+  m_nextQuestAct->setTip(tr("next question\n(space %1)").arg(TexamHelp::orRightButtTxt()).replace(QLatin1String("\n"), QLatin1String("<br>")), 2);
+  if (m_level.questionAs.isSound()) {
+    m_playAgainAct = new Taction(QApplication::translate("TtoolBar", "Play"), QStringLiteral("playMelody"), this, false);
+    m_examActions.append(m_playAgainAct);
+    m_playAgainAct->setTip(tr("play sound again") + QStringLiteral("<br>(") +
+          TexamHelp::pressSpaceKey().replace(QStringLiteral("<b>"), QStringLiteral(" ")).replace(QStringLiteral("</b>"), QStringLiteral(")")));
+    m_playAgainAct->setShortcut(createQmlShortcut(&actionsComp)); // Space key
+  }
   if (m_level.canBeMelody()) {
     m_newAtemptAct = new Taction(QApplication::translate("TtoolBar", "Try again"), "prevQuest", this, false);
     m_examActions.append(m_newAtemptAct);
     connect(m_newAtemptAct, &Taction::triggered, this, &TexamExecutor::newAttempt);
-  }
-  if (m_level.questionAs.isSound()) {
-    m_playAgainAct = new Taction(QApplication::translate("TtoolBar", "Play"), QStringLiteral("playMelody"), this, false);
-    m_examActions.append(m_playAgainAct);
+    m_newAtemptAct->setTip(tr("Try this melody once again. (backspace)").replace(QLatin1String("("), QLatin1String("<br>(")));
   }
   m_checkQuestAct = new Taction(QApplication::translate("TtoolBar", "Check", "like a check answer"), QStringLiteral("check"), this, false);
   m_examActions.append(m_checkQuestAct);
   connect(m_checkQuestAct, &Taction::triggered, this, &TexamExecutor::checkAnswerSlot);
   actionsComp.setData("import QtQuick 2.9; Shortcut { sequence: \"Return\" }", QUrl());
   m_checkQuestAct->setShortcut(createQmlShortcut(&actionsComp));
+  m_checkQuestAct->setTip(tr("check answer\n(enter %1)").arg(TexamHelp::orRightButtTxt()).replace(QLatin1String("\n"), QLatin1String("<br>")), QQuickItem::TopRight);
   if (m_exercise) {
     m_correctAct = new Taction(QApplication::translate("TtoolBar", "Correct", "like a correct answer with mistake"), QStringLiteral("correct"), this, false);
     m_examActions.append(m_correctAct);
     connect(m_correctAct, &Taction::triggered, this, &TexamExecutor::correctAnswer);
     m_correctAct->setShortcut(createQmlShortcut(&actionsComp)); // Enter (Return) key
+    m_correctAct->setTip(tr("correct answer\n(enter)").replace(QLatin1String("\n"), QLatin1String("<br>")), QQuickItem::TopRight);
   }
   emit examActionsChanged();
 
@@ -1497,7 +1507,7 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
   m_melody->noteStarted();
   if (m_melody->currentIndex() == 0) // first played note was detected
     m_exam->curQ()->lastAttempt()->setPrepareTime(m_penalty->elapsedTime() - quint32(n.duration));
-  if (m_exercise && GLOB->waitForCorrect()) {
+  if (m_exercise && !m_level.isMelodySet() && GLOB->waitForCorrect()) {
       int expected = m_exam->curQ()->melody()->note(m_melody->currentIndex())->p().chromatic();
       int played = n.pitch.chromatic();
       if (!m_level.requireOctave) {
