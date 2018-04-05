@@ -32,7 +32,7 @@
 #include <exam/texam.h>
 #include <exam/textrans.h>
 #include <exam/tattempt.h>
-#include "texamhelp.h"
+#include "help/texamhelp.h"
 #include <taudioparams.h>
 #include <texamparams.h>
 #include <tscoreparams.h>
@@ -1142,7 +1142,7 @@ void TexamExecutor::createActions() {
   m_settAct = new Taction(QApplication::translate("TtoolBar", "Settings"), QStringLiteral("exam-settings"), this);
   m_examActions.append(m_settAct);
   connect(m_settAct, &Taction::triggered, this, &TexamExecutor::prepareToSettings);
-  m_settAct->setTip(tr("Exercise or exam preferences"), 2);
+  m_settAct->setTip(tr("Exercise or exam preferences"), QQuickItem::TopRight);
   m_helpAct = new Taction(QApplication::translate("TtoolBar", "Help"), QStringLiteral("help"), this);
   m_examActions.append(m_helpAct);
   connect(m_helpAct, &Taction::triggered, this, &TexamExecutor::showExamHelp);
@@ -1157,25 +1157,25 @@ void TexamExecutor::createActions() {
   m_examActions.append(m_repeatQuestAct);
   actionsComp.setData("import QtQuick 2.9; Shortcut { sequence: \"Backspace\" }", QUrl());
   m_repeatQuestAct->setShortcut(createQmlShortcut(&actionsComp));
-  m_repeatQuestAct->setTip(tr("repeat previous question (backspace)").replace(QLatin1String("("), QLatin1String("<br>(")), 2);
+  m_repeatQuestAct->setTip(tr("repeat previous question (backspace)").replace(QLatin1String("("), QLatin1String("<br>(")), QQuickItem::TopRight);
   m_nextQuestAct = new Taction(QApplication::translate("TtoolBar", "Next", "like a next question"), QStringLiteral("nextQuest"), this);
   m_examActions.append(m_nextQuestAct);
   connect(m_nextQuestAct, &Taction::triggered, this, &TexamExecutor::askQuestionSlot);
   actionsComp.setData("import QtQuick 2.9; Shortcut { sequence: \"Space\" }", QUrl());
   m_nextQuestAct->setShortcut(createQmlShortcut(&actionsComp));
-  m_nextQuestAct->setTip(tr("next question\n(space %1)").arg(TexamHelp::orRightButtTxt()).replace(QLatin1String("\n"), QLatin1String("<br>")), 2);
+  m_nextQuestAct->setTip(tr("next question\n(space %1)").arg(TexamHelp::orRightButtTxt()).replace(QLatin1String("\n"), QLatin1String("<br>")), QQuickItem::TopRight);
   if (m_level.questionAs.isSound()) {
     m_playAgainAct = new Taction(QApplication::translate("TtoolBar", "Play"), QStringLiteral("playMelody"), this, false);
     m_examActions.append(m_playAgainAct);
     m_playAgainAct->setTip(tr("play sound again") + QStringLiteral("<br>(") +
-          TexamHelp::pressSpaceKey().replace(QStringLiteral("<b>"), QStringLiteral(" ")).replace(QStringLiteral("</b>"), QStringLiteral(")")));
+          TexamHelp::pressSpaceKey().replace(QStringLiteral("<b>"), QStringLiteral(" ")).replace(QStringLiteral("</b>"), QStringLiteral(")")), QQuickItem::TopRight);
     m_playAgainAct->setShortcut(createQmlShortcut(&actionsComp)); // Space key
   }
   if (m_level.canBeMelody()) {
     m_newAtemptAct = new Taction(QApplication::translate("TtoolBar", "Try again"), "prevQuest", this, false);
     m_examActions.append(m_newAtemptAct);
     connect(m_newAtemptAct, &Taction::triggered, this, &TexamExecutor::newAttempt);
-    m_newAtemptAct->setTip(tr("Try this melody once again. (backspace)").replace(QLatin1String("("), QLatin1String("<br>(")));
+    m_newAtemptAct->setTip(tr("Try this melody once again. (backspace)").replace(QLatin1String("("), QLatin1String("<br>(")), QQuickItem::TopRight);
   }
   m_checkQuestAct = new Taction(QApplication::translate("TtoolBar", "Check", "like a check answer"), QStringLiteral("check"), this, false);
   m_examActions.append(m_checkQuestAct);

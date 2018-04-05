@@ -80,8 +80,6 @@ set(NOOTKA_SRC
   main/trandmelody.cpp
   main/texamview.cpp
   main/tpenalty.cpp
-  main/thelpdialogbase.cpp
-  main/texamhelp.cpp
   main/ttiphandler.cpp
   main/tmainscoreobject.cpp
   main/texamsummary.cpp
@@ -94,6 +92,10 @@ set(NOOTKA_SRC
   dialogs/tlevelselector.cpp
   dialogs/tlevelheaderwdg.cpp
   dialogs/tmelodylistview.cpp
+
+  help/thelpdialogbase.cpp
+  help/texamhelp.cpp
+  help/tmainhelp.cpp
 )
 
 

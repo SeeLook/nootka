@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -86,7 +86,7 @@ public:
       /**
        * Shortcut to global pixToHtml function. @p imageName is only filename without extension and path
        */
-  QString pix(const char* imageName, int height = 32);
+  static QString pix(const char* imageName, int height = 32);
 
       /**
        * Path to Nootka resources
