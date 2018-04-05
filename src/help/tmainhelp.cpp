@@ -19,8 +19,6 @@
 
 #include "tmainhelp.h"
 #include "thelpdialogbase.h"
-#include <graphics/tnotepixmap.h>
-#include <tpath.h>
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qapplication.h>
 #include <QtWidgets/qscroller.h>
@@ -36,38 +34,36 @@
 
 
 QString TmainHelp::exerciseAndExamText() {
-	QString helpTxt;
+  QString helpTxt;
   QString br = QStringLiteral("<br>");
-	helpTxt = youWillLearnText() + QLatin1String(" ");
-	helpTxt += QApplication::translate("TmainHelp", "Much depends on the chosen level. Press %1 button to create your own questions set (a level).").
-			arg(QLatin1String(" &nbsp; ") + pixToHtml(Tpath::img("levelCreator"), getPixSize()) + QLatin1String(" &nbsp; "));
-  helpTxt += br + QApplication::translate("TmainHelp", "Select a level and warm up yourself exercising. Then try to pass an exam.");
-	helpTxt += br + duringExercisingText();
-	helpTxt += br + duringExamsText();
-	return helpTxt;
+  helpTxt = youWillLearnText() + QLatin1String(" ");
+  helpTxt += tr("Much depends on the chosen level. Press %1 button to create your own questions set (a level).").
+      arg(QLatin1String(" &nbsp; ") + ThelpDialogBase::pix("levelCreator", getPixSize()) + QLatin1String(" &nbsp; "));
+  helpTxt += br + tr("Select a level and warm up yourself exercising. Then try to pass an exam.");
+  helpTxt += br + duringExercisingText();
+  helpTxt += br + duringExamsText();
+  return helpTxt;
 }
 
 
 QString TmainHelp::youWillLearnText() {
-	return QApplication::translate("TmainHelp",
-                                 "You will learn by answering questions. To answer, you can play, sing, put in the name of a note, and so on.");
+  return tr("You will learn by answering questions. To answer, you can play, sing, put in the name of a note, and so on.");
 }
 
 
 QString TmainHelp::duringExercisingText() {
   QString nbsp3 = QLatin1String(" &nbsp; ");
-	return QApplication::translate("TmainHelp", "During exercising %1 the program will be your understanding and friendly teacher - it will show you corrected answers if you miss.").arg(nbsp3 + pixToHtml(Tpath::img("practice"), getPixSize() * 1.3) + nbsp3);
+  return tr("During exercising %1 the program will be your understanding and friendly teacher - it will show you corrected answers if you miss.").arg(nbsp3 + ThelpDialogBase::pix("practice", getPixSize() * 1.3) + nbsp3);
 }
 
 
 QString TmainHelp::duringExamsText() {
   QString nbsp3 = QLatin1String(" &nbsp; ");
-	return QApplication::translate("TmainHelp", "During exams %1 Nootka will be your strict and &quot;old school&quot; master. Any mistake will be penalized with additional questions...<br>When you pass an exam you got a certificate!").arg(nbsp3 + pixToHtml(Tpath::img("exam"), getPixSize() * 1.3) + nbsp3);
+  return tr("During exams %1 Nootka will be your strict and &quot;old school&quot; master. Any mistake will be penalized with additional questions...<br>When you pass an exam you got a certificate!").arg(nbsp3 + ThelpDialogBase::pix("exam", getPixSize() * 1.3) + nbsp3);
 }
+/*end static*/
 
 
-
-//#######################################################################################################
 
 
 TmainHelp::TmainHelp(QWidget* parent) :
@@ -82,13 +78,13 @@ TmainHelp::TmainHelp(QWidget* parent) :
   helpTxt += QApplication::translate("TmainHelp", "I. Discovering") + bbrEnd;
   helpTxt += QApplication::translate("TmainHelp", "Exploring the interface of Nootka and how musical scores work. Just click on elements of the interface to see and get to know Nootka. Also, you can play or sing if you have a mic or web-cam.") + "<br>";
   helpTxt += QApplication::translate("TmainHelp", "Press %1 buttons to see help and %2 button to adjust Nootka to your preference.").
-      arg(nbsp3 + pixToHtml(Tpath::img("logo"), pixSize * 2.2) + QLatin1String(" <span style=\"font-size: x-large;\"> + </span> ")
-                            + pixToHtml(Tpath::img("help"), pixSize)  + nbsp3).
-      arg(nbsp3 + pixToHtml(Tpath::img("systemsettings"), pixSize) + nbsp3);
+      arg(nbsp3 + ThelpDialogBase::pix("logo", pixSize * 2.2) + QLatin1String(" <span style=\"font-size: x-large;\"> + </span> ")
+                            + ThelpDialogBase::pix("help", pixSize)  + nbsp3).
+      arg(nbsp3 + ThelpDialogBase::pix("systemsettings", pixSize) + nbsp3);
   helpTxt += ThelpDialogBase::onlineDocP("getting-started");
 
   helpTxt += "<hr><b>" + QApplication::translate("TmainHelp", "II. Exercises and exams") + bbrEnd;
-	helpTxt += exerciseAndExamText();
+  helpTxt += exerciseAndExamText();
   helpTxt += ThelpDialogBase::onlineDocP("exercises");
 
   helpTxt += QLatin1String("<hr><b>") + QApplication::translate("TmainHelp", "III. Analyzing") + bbrEnd;
@@ -96,7 +92,7 @@ TmainHelp::TmainHelp(QWidget* parent) :
   helpTxt += QLatin1String("This feature isn't ready yet in Android version.<br><b>You may transfer Nootka files to desktop computer and see the results in Nootka version there.</b>");
 #else
   helpTxt += QApplication::translate("TmainHelp", "Nootka will tell you about what you've been thinking for so long... and about the progress you've been making so far....<br>Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.").
-    arg(nbsp3 + pixToHtml(Tpath::img("charts"), pixSize) + nbsp3);
+    arg(nbsp3 + ThelpDialogBase::pix("charts", pixSize) + nbsp3);
 #endif
   helpTxt += ThelpDialogBase::onlineDocP("analyze");
   helpTxt += QLatin1String("</td></tr></table>");
@@ -106,7 +102,7 @@ TmainHelp::TmainHelp(QWidget* parent) :
 
   QTextBrowser *helpEdit = new QTextBrowser(this);
   helpEdit->setHtml(helpTxt);
-	helpEdit->setReadOnly(true);
+  helpEdit->setReadOnly(true);
   helpEdit->setOpenExternalLinks(true);
   helpEdit->setTextInteractionFlags(Qt::LinksAccessibleByKeyboard | Qt::LinksAccessibleByMouse);
   QScroller::grabGesture(helpEdit->viewport(), QScroller::LeftMouseButtonGesture);
@@ -114,7 +110,7 @@ TmainHelp::TmainHelp(QWidget* parent) :
   helpEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
   helpEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 #endif
-// 	qDebug() << helpEdit->toHtml();
+//   qDebug() << helpEdit->toHtml();
 
   auto lay = new QVBoxLayout;
   lay->addWidget(helpEdit);

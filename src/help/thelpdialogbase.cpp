@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -45,6 +45,11 @@ QString ThelpDialogBase::m_path = QString();
 QString ThelpDialogBase::onlineDocP(const QString& hash) {
   return QString("<p align=\"right\"><a href=\"http://nootka.sourceforge.net/index.php?L=%1&C=doc#%2\">").arg(QString(qgetenv("LANG")).left(2).toLower()).arg(hash)
         + tr("Open online documentation") + QLatin1String("</a> </p>");
+}
+
+
+QString ThelpDialogBase::pix(const char* imageName, int height) {
+  return NOO->pixToHtml(QString(imageName), height);
 }
 
 
@@ -114,12 +119,6 @@ void ThelpDialogBase::showCheckBox(const QString& label, bool* state) {
   }
   m_stateOfChB = state;
   m_checkBox->setChecked(*state);
-}
-
-
-QString ThelpDialogBase::pix(const char* imageName, int height) {
-  return NOO->pixToHtml(QString(imageName), height);
-//   return pixToHtml(Tpath::img(imageName), height);
 }
 
 

@@ -30,7 +30,7 @@
 #include <taction.h>
 #include <tcolor.h>
 #include "tglobals.h"
-#include "texamhelp.h"
+#include "help/texamhelp.h"
 #include "texamexecutor.h"
 #include "tnameitem.h"
 #include <tsound.h>

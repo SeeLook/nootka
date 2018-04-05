@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,8 +20,7 @@
 #define TMAINHELP_H
 
 
-#include "nootkamiscglobal.h"
-#include <QDialog>
+#include <QtWidgets/qdialog.h>
 
 
 
@@ -29,29 +28,37 @@
  * This is help text displayed in first run wizard.
  * Static methods give access to some excerpt texts. 
  */
-class NOOTKAMISC_EXPORT TmainHelp : public QWidget
+class TmainHelp : public QWidget
 {
-    
-public:
-  explicit TmainHelp(QWidget *parent = 0);
-	
-			/** Whole text of II. paragraph (II. Exercises and exams) */
-	static QString exerciseAndExamText();
-	
-		/** You will learn by answering questions. To answer, you can play, sing, put in the name of a note, and so on. */
-	static QString youWillLearnText();
-	
-		/** During exercising %1 the program will be your understanding and friendly teacher - 
-		 * it will show you corrected answers if you miss. */
-	static QString duringExercisingText();
-	
-		/** During exams %1 Nootka will be your strict and &quot;old school&quot; master.
-		 * Any mistake will be penalized with additional questions...
-		 * When you pass an exam you got a certificate!*/
-	static QString duringExamsText();
-  
-  
-}; 
 
+  Q_OBJECT
+
+public:
+  explicit TmainHelp(QWidget *parent = nullptr);
+
+      /**
+       * Whole text of II. paragraph (II. Exercises and exams)
+       */
+  static QString exerciseAndExamText();
+
+      /**
+       * You will learn by answering questions. To answer, you can play, sing, put in the name of a note, and so on.
+       */
+  static QString youWillLearnText();
+
+      /**
+       * During exercising %1 the program will be your understanding and friendly teacher - 
+       * it will show you corrected answers if you miss.
+       */
+  static QString duringExercisingText();
+
+      /**
+       * During exams %1 Nootka will be your strict and &quot;old school&quot; master.
+       * Any mistake will be penalized with additional questions...
+       * When you pass an exam you got a certificate!
+       */
+  static QString duringExamsText();
+
+};
 
 #endif // TMAINHELP_H
