@@ -48,7 +48,6 @@ Tsound::Tsound(QObject* parent) :
   player(nullptr),
   sniffer(nullptr),
   m_examMode(false),
-  m_melodyNoteIndex(-1),
   m_tempo(60),
   m_quantVal(6)
 {
@@ -122,12 +121,19 @@ void Tsound::play(const Tnote& note) {
 
 
 void Tsound::playMelody(Tmelody* mel) {
-//   if (m_melodyNoteIndex > -1)
-//     m_melodyNoteIndex = m_playedMelody->length();
-//   else {
-//     m_melodyNoteIndex = 0;
-//     m_playedMelody = mel;
-//   }
+  if (player) {
+    if (player->isPlaying()) {
+        stopPlaying();
+        playingFinishedSlot();
+    } else {
+        if (mel->length()) {
+          QList<Tnote> notes;
+          for (int n = 0; n < mel->length(); ++n)
+            notes << mel->note(n)->p();
+          static_cast<TaudioOUT*>(player)->playMelody(notes, mel->tempo());
+        }
+    }
+  }
 }
 
 
@@ -383,12 +389,16 @@ void Tsound::restoreAfterExam() {
 void Tsound::stopPlaying() {
   if (player)
     player->stop();
-//   m_melodyNoteIndex = -1;
 }
 
 
 bool Tsound::isPlayable() {
   return player ? player->isPlayable() : false;
+}
+
+
+bool Tsound::melodyIsPlaying() {
+  return player && player->isPlaying();
 }
 
 
