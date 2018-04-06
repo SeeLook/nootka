@@ -516,7 +516,8 @@ void TexamExecutor::askQuestion(bool isAttempt) {
   m_nextQuestAct->setEnabled(false);
   if (curQ->questionAsSound() && m_playAgainAct)
     m_playAgainAct->setEnabled(true);
-  // TODO tune fork act (play middle A)
+  if (curQ->questionAsSound() && curQ->answerOnScore() && m_tuningForkAct)
+    m_tuningForkAct->setEnabled(true);
   m_penalty->startQuestionTime();
   if (!curQ->answerAsSound() && SOUND->stoppedByUser())
     m_tipHandler->showQuestionTip();
@@ -532,7 +533,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
   m_checkQuestAct->setEnabled(false);
   if (m_playAgainAct)
     m_playAgainAct->setEnabled(false);
-//   TOOLBAR->setAfterAnswer();
+  if (m_tuningForkAct)
+    m_tuningForkAct->setEnabled(false);
   if (curQ->answerAsSound()) {
       SOUND->pauseSinffing(); // but only skip detected for single sound
       MAIN_SCORE->setSelectedItem(-1);
@@ -1165,17 +1167,29 @@ void TexamExecutor::createActions() {
   m_nextQuestAct->setShortcut(createQmlShortcut(&actionsComp));
   m_nextQuestAct->setTip(tr("next question\n(space %1)").arg(TexamHelp::orRightButtTxt()).replace(QLatin1String("\n"), QLatin1String("<br>")), QQuickItem::TopRight);
   if (m_level.questionAs.isSound()) {
+    if (m_level.answersAs[TQAtype::e_asSound].isOnScore()) {
+      m_tuningForkAct = new Taction(Tnote(6, 1, 0).toRichText(), QStringLiteral("fork"), this, false);
+      m_examActions.append(m_tuningForkAct);
+      m_tuningForkAct->setTip(tr("Play <i>middle a</i> like a tuning fork.\n(Press key 'a')").replace(QLatin1String("\n"), QLatin1String("<br>")), QQuickItem::TopRight);
+      connect(m_tuningForkAct, &Taction::triggered, this, &TexamExecutor::playMiddleA);
+      actionsComp.setData("import QtQuick 2.9; Shortcut { sequence: \"a\" }", QUrl());
+      m_tuningForkAct->setShortcut(createQmlShortcut(&actionsComp));
+      actionsComp.setData("import QtQuick 2.9; Shortcut { sequence: \"Space\" }", QUrl()); // revert space key for shortcut
+    }
     m_playAgainAct = new Taction(QApplication::translate("TtoolBar", "Play"), QStringLiteral("playMelody"), this, false);
     m_examActions.append(m_playAgainAct);
     m_playAgainAct->setTip(tr("play sound again") + QStringLiteral("<br>(") +
           TexamHelp::pressSpaceKey().replace(QStringLiteral("<b>"), QStringLiteral(" ")).replace(QStringLiteral("</b>"), QStringLiteral(")")), QQuickItem::TopRight);
     m_playAgainAct->setShortcut(createQmlShortcut(&actionsComp)); // Space key
+    connect(m_playAgainAct, &Taction::triggered, this, &TexamExecutor::repeatSound);
   }
   if (m_level.canBeMelody()) {
     m_newAtemptAct = new Taction(QApplication::translate("TtoolBar", "Try again"), "prevQuest", this, false);
     m_examActions.append(m_newAtemptAct);
     connect(m_newAtemptAct, &Taction::triggered, this, &TexamExecutor::newAttempt);
     m_newAtemptAct->setTip(tr("Try this melody once again. (backspace)").replace(QLatin1String("("), QLatin1String("<br>(")), QQuickItem::TopRight);
+    actionsComp.setData("import QtQuick 2.9; Shortcut { sequence: \"Backspace\" }", QUrl());
+    m_newAtemptAct->setShortcut(createQmlShortcut(&actionsComp));
   }
   m_checkQuestAct = new Taction(QApplication::translate("TtoolBar", "Check", "like a check answer"), QStringLiteral("check"), this, false);
   m_examActions.append(m_checkQuestAct);
@@ -1476,19 +1490,18 @@ QString TexamExecutor::saveExamToFile() {
 
 void TexamExecutor::repeatSound() {
   if (m_exam->curQ()->melody()) {
-    SOUND->playMelody(m_exam->curQ()->melody());
-    if (SOUND->melodyIsPlaying()) // the same methods stops a melody
-      m_exam->curQ()->lastAttempt()->melodyWasPlayed(); // increase only when playing was started
+      SOUND->playMelody(m_exam->curQ()->melody());
+      if (SOUND->melodyIsPlaying()) // the same methods stops a melody
+        m_exam->curQ()->lastAttempt()->melodyWasPlayed(); // increase only when playing was started
   } else
-    SOUND->play(m_exam->curQ()->qa.note);
+      SOUND->play(m_exam->curQ()->qa.note);
   connectPlayingFinished();
 }
 
 
 void TexamExecutor::playMiddleA() {
-  Tnote a1(6, 1, 0);
   SOUND->stopPlaying();
-  SOUND->play(a1);
+  SOUND->play(Tnote(6, 1, 0));
   connectPlayingFinished();
 }
 

@@ -128,8 +128,7 @@ QString TmainScoreObject::keyNameText() const {
 
 void TmainScoreObject::setReadOnly(bool ro) {
   m_scoreObj->setReadOnly(ro);
-  if (ro && m_scoreObj->allowAdding())
-    m_scoreObj->setAllowAdding(false);
+  m_scoreObj->setAllowAdding(!ro);
 }
 
 

@@ -261,6 +261,7 @@ private:
   Taction                     *m_playAgainAct = nullptr;
   Taction                     *m_correctAct = nullptr;
   Taction                     *m_newAtemptAct = nullptr;
+  Taction                     *m_tuningForkAct = nullptr;
   QList<QObject*>              m_examActions;
   EsummaryReason               m_summaryReason = NoReason;
   Tnote::EnameStyle            m_exerciseTmpStyle;
