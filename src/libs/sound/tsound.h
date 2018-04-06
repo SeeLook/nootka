@@ -84,7 +84,7 @@ public:
 
   bool isSniffable() { return (sniffer ? true : false) ; }
 
-  bool melodyIsPlaying() { return m_melodyNoteIndex > -1; }
+  bool melodyIsPlaying();
 
       /**
        * Normalized volume of detected note
@@ -196,7 +196,6 @@ private:
   bool                    m_examMode;
   Tnote                   m_prevLoNote, m_prevHiNote; /**< notes form sniffer ambitus stored during an exam */
   bool                    m_stopSniffOnce, m_userState;;
-  int                     m_melodyNoteIndex;
   Tmelody                *m_playedMelody;
   int                     m_tempo;
   int                     m_quantVal;
