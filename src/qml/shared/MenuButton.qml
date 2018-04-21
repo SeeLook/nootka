@@ -41,6 +41,7 @@ Rectangle {
       id: butText
       text: action ? action.text : ""
       font.bold: true
+      color: activPal.text
     }
   }
 
@@ -61,6 +62,7 @@ Rectangle {
       text: "(" + action.key() + ")"
       font.pixelSize: Noo.fontSize() * 0.8
       x: menuButton.width - width - Noo.fontSize() / 2
+      color: activPal.text
     }
   }
 

@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -56,7 +56,7 @@ Tflickable {
       property real widest: 0
       spacing: Noo.fontSize()
       Repeater {
-        model: [ "Aaron Wolf", "Torsten Philipp", "Vincent Bermel", "Tomasz Matuszewski", "Yves Balhant", "Илья Б." ]
+        model: [ "Aaron Wolf", "Torsten Philipp", "Vincent Bermel", "Tomasz Matuszewski", "Yves Balhant", "Илья Б.", "...and others" ]
         Tile {
           anchors.horizontalCenter: undefined
           property color randCol: Noo.randomColor()

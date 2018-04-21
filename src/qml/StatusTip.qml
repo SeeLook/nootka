@@ -16,27 +16,30 @@ Rectangle {
     onStatusTip: { text.text = statusText; statusTip.tipPos = tipPos }
   }
 
-  color: activPal.base
+  y: statusTip.text === "" ? -1.2 * height : 0
+
+  color: Qt.tint(activPal.text, Noo.alpha(activPal.highlight, 50))
+  border { width: 1; color: activPal.highlight }
   width: nootkaWindow.width * 0.4
   height: Noo.isAndroid() ? nootkaWindow.height / 9 : nootkaWindow.header.height
-  scale: text.text ? 1 : 0
   z: 1000
-  radius: height / 10
 
   x: (tipPos === Item.Top ? 0.3 : (tipPos === Item.TopRight ? 0.6 : 0)) * nootkaWindow.width
 
   Text {
     id: text
+    padding: statusTip.height / 10
     font.pixelSize: nootkaWindow.height / 45
     anchors.fill: parent
     wrapMode: Text.WordWrap; verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignHCenter
-    color: activPal.text
+    color: activPal.base
   }
 
-  Behavior on scale { enabled: GLOB.useAnimations;
+  Behavior on y {
+    enabled: GLOB.useAnimations
     SequentialAnimation {
       PauseAnimation { duration: 150 }
-      NumberAnimation {}
+      NumberAnimation { easing.type: Easing.OutQuad; duration: 150 }
     }
   }
 }

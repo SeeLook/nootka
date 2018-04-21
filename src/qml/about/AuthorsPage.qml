@@ -4,7 +4,6 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-// import QtQuick.Layouts 1.3
 
 import "../"
 
@@ -48,7 +47,7 @@ Tflickable {
 
       Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-de") }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;deutsch "; textFormat: Text.StyledText; color: activPal.text}
-      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Johann C. Weihe</b> "; font.bold: true; color: activPal.text }
+      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Johann C. Weihe</b>,<br>&nbsp;&nbsp;&nbsp;&nbsp;Renato Reinau"; font.bold: true; color: activPal.text }
       Item { width: 10; height: 10 }
 
       Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-es") }
@@ -84,7 +83,7 @@ Tflickable {
             "<ul>" + createLink("Qt", "https://www.qt.io/developers/") + " by Qt Company" +
             createLink("FFTW", "http://www.fftw.org") + " by M. Frigo & S. G. Johnson" +
             createLink("ogg vorbis", "http://vorbis.com") + " by XIPH" +
-            createLink("RtAudio & RtMidi", "https://www.music.mcgill.ca/~gary/rtaudio/index.html") + " by G. P. Scavone" +
+            createLink("RtAudio"/* + " & RtMidi"*/, "https://www.music.mcgill.ca/~gary/rtaudio/index.html") + " by G. P. Scavone" +
             createLink("Tartini", "http://miracle.otago.ac.nz/tartini/index.html") + " by P. McLeod" +
             createLink("SoundTouch", "http://www.surina.net/soundtouch/") + " by Olli Parviainen" +
             createLink("LilyPond emmentaler font", "http://lilypond.org/introduction.html") +
