@@ -16,6 +16,10 @@ Popup {
 
   background: TipRect { color: activPal.window; shadowRadius: Noo.fontSize() }
 
+  scale: GLOB.useAnimations ? 0 : 1.0
+  enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}
+  exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0.0 }}
+
   signal accepted()
 
   Column {
