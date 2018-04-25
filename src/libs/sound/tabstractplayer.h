@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -28,6 +28,10 @@
 
 class QTimer;
 class Tnote;
+class QThread;
+class TaudioParams;
+class ToggScale;
+class Tmelody;
 
 
 #define REST_NR (127)
@@ -43,7 +47,16 @@ public:
 
 
 /**
- * Base abstract class for sound output (playing scale).
+ * Abstract class for sound output. All sound back-ends (RtAudio, Qt audio, MIDI) derive from it.
+ *
+ * To trigger playing three methods are available:
+ * @li @p playNote() - for single note
+ * @li @p playNotes() - for note list (i.e. score notes)
+ * @li @p playMelody() - for melody with defined tempo
+ *
+ * Those methods just stores stuff to play and trigger thread to start playing.
+ * @p playThreadSlot() creates @p playList() with @p TsingleSound list of notes to play,
+ * then abstract @p startPlaying() playing is called which has to be re-implemented by players.
  */
 class NOOTKASOUND_EXPORT TabstractPlayer : public QObject
 {
@@ -52,27 +65,26 @@ class NOOTKASOUND_EXPORT TabstractPlayer : public QObject
 
 public:
   TabstractPlayer(QObject *parent = nullptr);
+  ~TabstractPlayer() override;
 
-  bool isPlayable() const { return playable; }
+  bool isPlayable() const { return p_playable; }
 
   bool isPlaying() const { return p_isPlaying; }
 
       /**
-        * Starts playing given note and then returns true, otherwise gets false.
-        */
-  virtual bool play(int noteNr) = 0;
-
-      /**
        * Immediately stops playing. Emits nothing
        */
-
   virtual void stop() = 0;
 
       /**
        * Does nothing in audio player subclass.
        */
-  virtual void deleteMidi();
-  virtual void setMidiParams();
+  virtual void deleteMidi() {}
+  virtual void setMidiParams() {}
+
+  bool playNote(int noteNr);
+  bool playNotes(QList<Tnote>* notes, int tempo, int firstNote = 0);
+  bool playMelody(Tmelody* melody, int transposition = 0);
 
   enum EplayerType { e_audio, e_midi };
 
@@ -98,24 +110,41 @@ signals:
 protected:
   void setType(EplayerType type) { playerType = type; }
 
-  void preparePlayList(const QList<Tnote>& notes, int tempo, int firstNote, int sampleRate, int transposition, int a440Ddiff);
+  virtual void startPlaying() = 0;
+
+  void preparePlayList(QList<Tnote>* notes, int tempo, int firstNote, int sampleRate, int transposition, int a440Ddiff);
+
+  QThread* playThread() { return m_thread; }
 
 protected:
-  bool             playable;
+  bool                         p_playable;
 
       /**
        * Determines whether noteFinished() signal is emited in offTimer timeOut() slot.
        * Slot is also called by stop() method and then signal can't be emitted.
        */
-  bool                         doEmit;
+  bool                         p_doEmit;
   QTimer                      *offTimer;
   EplayerType                  playerType;
   bool                         p_isPlaying = false;
   static unsigned int          p_posInNote, p_posInOgg;
   static int                   p_playingNoteNr, p_decodingNoteNr, p_playingNoteId;
+  int                          p_tempo = 120;
+  TaudioParams                *p_audioParams = nullptr;
+  ToggScale                   *p_oggScale = nullptr;
 
 private:
-  QList<TsingleSound>           m_playList;
+  QList<TsingleSound>          m_playList;
+  QThread                     *m_thread;
+  int                          m_noteToPlay = REST_NR;
+  QList<Tnote>                 m_emptyList;
+  QList<Tnote>                *m_listToPlay = nullptr;
+  int                          m_firstNote = 0;
+  Tmelody                     *m_melodyToPlay = nullptr;
+  int                          m_transposition = 0;
+
+private:
+  void playThreadSlot();
 
 };
 

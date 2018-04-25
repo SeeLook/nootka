@@ -51,9 +51,11 @@ public:
         /**
          * Starts playing given note and then returns true, otherwise gets false.
          */
-  bool play(int noteNr);
+  bool play(int noteNr) override;
 
-  void playMelody(const QList<Tnote>& notes, int tempo, int firstNote = 0);
+  void playMelody(const QList<Tnote>& notes, int tempo, int firstNote = 0) override;
+
+  void startPlaying() override;
 
   void setAudioOutParams();
 
