@@ -314,7 +314,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
         } else if (m_level.randMelody == Tlevel::e_melodyFromSet) {
             int melodyId = m_rand->get();
             curQ->addMelody(&m_level.melodySet[melodyId], TQAunit::e_srcLevelSet, melodyId);
-        } else
+        } else // Tlevel::e_melodyFromRange
             getRandomMelodyNG(m_questList, curQ->melody(), melodyLength, m_level.onlyCurrKey, m_level.endsOnTonic);
       }
       m_melody->newMelody(curQ->answerAsSound() ? curQ->melody()->length() : 0); // prepare list to store notes played by user or clear it
@@ -453,6 +453,17 @@ void TexamExecutor::askQuestion(bool isAttempt) {
       }
     }
     MAIN_SCORE->unLockScore();
+    if (curQ->melody() && m_level.isMelodySet()) {
+      if (curQ->key.value()) {
+          MAIN_SCORE->setKeySignatureEnabled(true);
+          if (!m_level.manualKey)
+            MAIN_SCORE->setKeySignature(curQ->key);
+      } else {
+          MAIN_SCORE->setKeySignatureEnabled(false);
+      }
+      MAIN_SCORE->setClef(curQ->melody()->clef());
+      MAIN_SCORE->setMeter(curQ->melody()->meter()->meter());
+    }
     if (m_level.useKeySign && !m_level.manualKey) // case either for single mode and melodies
       MAIN_SCORE->lockKeySignature(true); // disables key signature enabled above - user cannot change it when fixed key sign.
   }
@@ -510,7 +521,6 @@ void TexamExecutor::askQuestion(bool isAttempt) {
   } else
       SOUND->stopListen(); // stop sniffing if answer is not a played sound
 
-//   TOOLBAR->setForQuestion(curQ->questionAsSound(), curQ->questionAsSound() && curQ->answerAsNote());
   m_checkQuestAct->setEnabled(true);
   m_repeatQuestAct->setEnabled(false);
   m_nextQuestAct->setEnabled(false);
@@ -1490,7 +1500,8 @@ QString TexamExecutor::saveExamToFile() {
 
 void TexamExecutor::repeatSound() {
   if (m_exam->curQ()->melody()) {
-      SOUND->playMelody(m_exam->curQ()->melody());
+      SOUND->playMelody(m_exam->curQ()->melody(),
+                        m_exam->curQ()->melody()->key() != m_exam->curQ()->key ? m_exam->curQ()->melody()->key().difference(m_exam->curQ()->key) : 0);
       if (SOUND->melodyIsPlaying()) // the same methods stops a melody
         m_exam->curQ()->lastAttempt()->melodyWasPlayed(); // increase only when playing was started
   } else

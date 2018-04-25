@@ -95,8 +95,11 @@ public:
 // redirected from TscoreObject
   void setReadOnly(bool ro);
   void clearScore();
+  void setKeySignatureEnabled(bool enbleKey);
   void setKeySignature(const TkeySignature& key);
   char keySignatureValue();
+  void setClef(int clefType);
+  void setMeter(int meterType);
   Tnote getNote(int id);
   void setSelectedItem(int id);
   void setTechnical(int noteId, quint32 tech);

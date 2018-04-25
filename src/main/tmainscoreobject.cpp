@@ -149,10 +149,27 @@ void TmainScoreObject::clearScore() {
 }
 
 
-void TmainScoreObject::setKeySignature(const TkeySignature& key) { m_scoreObj->setKeySignature(static_cast<int>(key.value())); }
+void TmainScoreObject::setKeySignatureEnabled(bool enableKey) {
+  m_scoreObj->setKeySignatureEnabled(enableKey);
+}
+
+
+void TmainScoreObject::setKeySignature(const TkeySignature& key) {
+  m_scoreObj->setKeySignature(static_cast<int>(key.value()));
+}
 
 char TmainScoreObject::keySignatureValue() {
   return static_cast<char>(m_scoreObj->keySignature());
+}
+
+
+void TmainScoreObject::setClef(int clefType) {
+  m_scoreObj->setClefType(static_cast<Tclef::EclefType>(clefType));
+}
+
+
+void TmainScoreObject::setMeter(int meterType) {
+  m_scoreObj->setMeter(meterType);
 }
 
 
