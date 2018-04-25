@@ -26,15 +26,7 @@
 #include <QtMultimedia/qaudiooutput.h>
 #include <QtCore/qtimer.h>
 #include <QtCore/qdebug.h>
-#include <unistd.h>
-
-
-#if defined(Q_OS_WIN32)
-  #include <windows.h>
-  #define SLEEP(msecs) Sleep(msecs)
-#else
-  #define SLEEP(msecs) usleep(msecs * 1000)
-#endif
+#include <QtCore/qthread.h>
 
 
 /*static*/
@@ -69,6 +61,8 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
     qDebug() << "Nothing of this kind... TaudioOUT already exist!";
     return;
   }
+  p_oggScale = oggScale;
+  p_audioParams = audioParams();
   m_instance = this;
   setType(e_audio);
   m_crossBuffer = new qint16[1000];
@@ -79,7 +73,7 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
   connect(oggScale, &ToggScale::oggReady, this, &TaudioOUT::startPlayingSlot, Qt::DirectConnection);
   // With direct connection playing is called immediately after minimal audio data amount was decoded
   // without event loop delay like for default queued connection
-  connect(oggScale, &ToggScale::noteDecoded, this, &TaudioOUT::decodeNext);
+  connect(oggScale, &ToggScale::noteDecoded, this, &TaudioOUT::decodeNext, Qt::DirectConnection);
 }
 
 
@@ -99,10 +93,10 @@ TaudioOUT::~TaudioOUT()
 
 
 void TaudioOUT::setAudioOutParams() {
-  playable = oggScale->loadAudioData(audioParams()->audioInstrNr);
+  p_playable = oggScale->loadAudioData(audioParams()->audioInstrNr);
   if (m_audioParams->OUTdevName != m_devName)
     createOutputDevice();
-  if (playable) {
+  if (p_playable) {
       ratioOfRate = m_sampleRate / 44100;
       quint32 oggSR = m_sampleRate;
       if (ratioOfRate > 1) { //
@@ -116,7 +110,7 @@ void TaudioOUT::setAudioOutParams() {
       oggScale->setPitchOffset(audioParams()->a440diff - static_cast<qreal>(static_cast<int>(audioParams()->a440diff)));
 
   } else
-      playable = false;
+      p_playable = false;
 }
 
 
@@ -163,15 +157,34 @@ void TaudioOUT::createOutputDevice() {
   connect(m_audioOUT, &QAudioOutput::stateChanged, this, &TaudioOUT::stateChangedSlot);
 }
 
+
 #include <QtCore/qelapsedtimer.h>
 QElapsedTimer pt;
+void TaudioOUT::startPlaying() {
+  pt.start();
+
+  while (m_callBackIsBussy) {
+    playThread()->msleep(1); // TODO: seems like it never occurs in Qt Audio - remove it then
+    //        qDebug() << "Oops! Call back method is in progress when a new note wants to be played!";
+  }
+  oggScale->decodeNote(playList().first().number);
+
+  p_isPlaying = true;
+  if (playList().size() > 1 && p_tempo > 100) // in faster tempo wait for decoding more notes
+    playThread()->msleep(100);
+
+  if (playList().size() > 1)
+    ao()->emitNextNoteStarted();
+}
+
+
 bool TaudioOUT::play(int noteNr) {
-  if (!playable)
+  if (!p_playable)
       return false;
 
   pt.start();
   while (m_callBackIsBussy) {
-      SLEEP(1); // TODO: seems like it never occurs in Qt Audio - remove it then
+    playThread()->msleep(1); // TODO: seems like it never occurs in Qt Audio - remove it then
 //        qDebug() << "Oops! Call back method is in progress when a new note wants to be played!";
   }
 
@@ -179,7 +192,7 @@ bool TaudioOUT::play(int noteNr) {
   playList() << TsingleSound(0, noteNr + static_cast<int>(audioParams()->a440diff), qRound(oggScale->sampleRate() * 1.5));
 
 
-  doEmit = true;
+  p_doEmit = true;
   p_playingNoteNr = 0;
   //   p_playingNoteId = 0; // we have no any idea about current note id here
   p_decodingNoteNr = 0;
@@ -194,12 +207,12 @@ bool TaudioOUT::play(int noteNr) {
 
 
 void TaudioOUT::playMelody(const QList<Tnote>& notes, int tempo, int firstNote) {
-  if (!playable)
+  if (!p_playable)
     return;
 
   pt.start();
   while (m_callBackIsBussy)
-    SLEEP(1);
+    playThread()->msleep(1);
 
   if (firstNote < 0 || firstNote >= notes.count())
     return;
@@ -213,7 +226,7 @@ void TaudioOUT::playMelody(const QList<Tnote>& notes, int tempo, int firstNote) 
   p_decodingNoteNr = 0;
   p_posInNote = 0;
   p_posInOgg = 0;
-  doEmit = true;
+  p_doEmit = true;
   p_isPlaying = true;
 
   oggScale->decodeNote(playList().first().number);
@@ -301,14 +314,14 @@ void TaudioOUT::playingFinishedSlot() {
 //   qDebug() << "stop playing";
   m_audioOUT->stop();
   p_isPlaying = false;
-  if (doEmit)
+  if (p_doEmit)
     emit noteFinished();
-  doEmit = false; // emit once per play/stop cycle
+  p_doEmit = false; // emit once per play/stop cycle
 }
 
 
 void TaudioOUT::stop() {
-  doEmit = false;
+  p_doEmit = false;
   playingFinishedSlot();
 }
 

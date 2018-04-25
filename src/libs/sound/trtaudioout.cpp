@@ -23,17 +23,10 @@
 #include <taudioparams.h>
 #include <music/tnote.h>
 #include <QtCore/qtimer.h>
-#include <unistd.h>
+#include <QtCore/qthread.h>
 
 #include <QtCore/qdebug.h>
 
-
-#if defined(Q_OS_WIN32)
-  #include <windows.h>
-  #define SLEEP(msecs) Sleep(msecs)
-#else
-  #define SLEEP(msecs) usleep(msecs * 1000)
-#endif
 
 
 /*static*/
@@ -81,7 +74,7 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
               p_posInNote = 0;
               playingSound = instance->playList()[p_playingNoteNr];
               p_playingNoteId = playingSound.id;
-              ao()->nextNoteStarted();
+              ao()->emitNextNoteStarted();
           } else
               unfinished = false;
         }
@@ -123,7 +116,7 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
       instance->m_callBackIsBussy = false;
       endState = true;
   }
-  if (instance->doEmit && !areStreamsSplit() && endState)
+  if (instance->p_doEmit && !areStreamsSplit() && endState)
     ao()->emitPlayingFinished(); // emit in duplex mode
 
   return endState;
@@ -144,6 +137,8 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
     qDebug() << "Nothing of this kind... TaudioOUT already exist!";
     return;
   }
+  p_oggScale = oggScale;
+  p_audioParams = audioParams();
   setType(e_audio);
   setAudioOutParams();
   instance = this;
@@ -152,8 +147,7 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
   connect(ao(), &TaudioObject::playingFinished, this, &TaudioOUT::playingFinishedSlot);
   connect(ao(), &TaudioObject::nextNoteStarted, [=]{ emit nextNoteStarted(); });
 
-  connect(oggScale, &ToggScale::noteDecoded, this, &TaudioOUT::decodeNextSlot);
-  connect(oggScale, &ToggScale::oggReady, this, &TaudioOUT::readyToPlaySlot);
+  connect(oggScale, &ToggScale::noteDecoded, this, &TaudioOUT::decodeNextSlot, Qt::DirectConnection);
 }
 
 
@@ -169,8 +163,8 @@ TaudioOUT::~TaudioOUT()
 
 void TaudioOUT::setAudioOutParams() {
 //   qDebug() << "setAudioOutParams";
-  playable = oggScale->loadAudioData(audioParams()->audioInstrNr);
-  if (playable && streamParams()) {
+  p_playable = oggScale->loadAudioData(audioParams()->audioInstrNr);
+  if (p_playable && streamParams()) {
       ratioOfRate = outRate() / 44100;
       quint32 oggSR = outRate();
       if (ratioOfRate > 1) { //
@@ -187,87 +181,34 @@ void TaudioOUT::setAudioOutParams() {
         connect(rtDevice()->emitter(), &TASIOEmitter::resetASIO, this, &TaudioOUT::ASIORestartSlot, Qt::UniqueConnection);
 #endif
   } else
-      playable = false;
+      p_playable = false;
 }
 
 
-bool TaudioOUT::play(int noteNr) {
-  if (!playable /*|| audioParams()->forwardInput*/) // if forwarding is enabled play() makes no sense
-      return false;
-
+void TaudioOUT::startPlaying() {
   while (m_callBackIsBussy) {
-      SLEEP(1);
-      qDebug() << "[TaudioOUT] Oops! Call back method is in progress when a new note wants to be played!";
+    playThread()->usleep(500);
+    qDebug() << "[TaudioOUT] Oops! Call back method is in progress when a new note wants to be played!";
   }
-
-  doEmit = true;
-
-  playList().clear();
-  playList() << TsingleSound(0, noteNr + static_cast<int>(audioParams()->a440diff), qRound(oggScale->sampleRate() * 1.5));
-  p_playingNoteNr = 0;
-//   p_playingNoteId = 0; // we have no any idea about current note id here
-  p_decodingNoteNr = 0;
-  p_posInNote = 0;
-  p_posInOgg = 0;
-  m_singleNotePlayed = true;
-
-  oggScale->decodeNote(playList().first().number);
-  return true;
-}
-
-
-void TaudioOUT::readyToPlaySlot() {
-  if (m_singleNotePlayed) {
-    m_singleNotePlayed = false;
-    p_isPlaying = true;
-    if (areStreamsSplit() && state() != e_playing)
-      openStream();
-    startStream();
-  }
-}
-
-
-void TaudioOUT::playMelody(const QList<Tnote>& notes, int tempo, int firstNote) {
-  if (!playable)
-    return;
-
-  while (m_callBackIsBussy)
-    SLEEP(1);
-
-  if (firstNote < 0 || firstNote >= notes.count()) {
-    qDebug() << "[TaudioOUT] Not such a note in a melody!";
-    return;
-  }
-
-  preparePlayList(notes, tempo, firstNote, oggScale->sampleRate(), GLOB->transposition(), static_cast<int>(audioParams()->a440diff));
-  if (playList().isEmpty()) // naughty user wants to play tied note at the score end
-    return;
-
-  p_playingNoteNr = 0;
-  p_playingNoteId = playList().first().id;
-  p_decodingNoteNr = 0;
-  p_posInNote = 0;
-  p_posInOgg = 0;
-  doEmit = true;
-  p_isPlaying = true;
 
   oggScale->decodeNote(playList().first().number);
   if (!oggScale->isReady()) {
-      int loops = 0;
-      while (!oggScale->isReady() && loops < 40) { // 40ms - max latency
-        SLEEP(1);
-        loops++;
-      }
-//       if (loops) qDebug() << "latency:" << loops << "ms";
+    int loops = 0;
+    while (!oggScale->isReady() && loops < 40) { // 40ms - max latency
+      playThread()->msleep(1);
+      loops++;
+    }
+    //  if (loops) qDebug() << "latency:" << loops << "ms";
   }
 
-  // in faster tempo wait for decoding of some notes
-  QTimer::singleShot(tempo > 100 ? 50 : 1, [=]{
-    if (areStreamsSplit() && state() != e_playing)
-      openStream();
-    startStream();
+  p_isPlaying = true;
+  if (playList().size() > 1 && p_tempo > 100) // in faster tempo wait for decoding more notes
+    playThread()->msleep(100);
+  if (areStreamsSplit() && state() != e_playing)
+    openStream();
+  startStream();
+  if (playList().size() > 1)
     ao()->emitNextNoteStarted();
-  });
 }
 
 
@@ -277,9 +218,9 @@ void TaudioOUT::playingFinishedSlot() {
 
   p_isPlaying = false;
 
-  if (doEmit) {
+  if (p_doEmit) {
     emit noteFinished();
-    doEmit = false;
+    p_doEmit = false;
   }
 }
 
@@ -296,7 +237,7 @@ void TaudioOUT::stop() {
 /**
  * Invokes decoding note from ogg when melody is playing.
  * It is connected to @p ToggScale::noteDecoded emitted when decoding of a note is finished.
- * This way all notes of melody are decoded in paralel just after melody starts playing
+ * This way all notes of melody are decoded in parallel just after melody starts playing
  */
 void TaudioOUT::decodeNextSlot() {
   p_decodingNoteNr++;

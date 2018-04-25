@@ -74,9 +74,9 @@ public:
 
   Q_INVOKABLE void play(const Tnote& note);
 
-  void playMelody(Tmelody* mel);
+  void playMelody(Tmelody* mel, int transposition = 0);
 
-  void playScoreNotes(const QList<Tnote>& notes, int firstNote = 0);
+  void playScoreNotes(QList<Tnote>& notes, int firstNote = 0);
 
   Q_INVOKABLE void playScore();
 

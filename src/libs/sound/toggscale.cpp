@@ -139,7 +139,7 @@ ToggScale::ToggScale() :
 #endif
   moveToThread(m_thread);
   connect(m_thread, &QThread::started, this, &ToggScale::decodeOgg);
-  connect(m_thread, &QThread::finished, [=]{ emit noteDecoded(); });
+  connect(m_thread, &QThread::finished, this, &ToggScale::noteDecoded);
   m_oggConnected = true;
 }
 
@@ -194,7 +194,8 @@ void ToggScale::decodeNote(int noteNr) {
       m_pcmArray[noteNr - LOWEST_NOTE].reserve(m_sampleRate * 2);
       m_currentBuffer = m_pcmArray[noteNr - LOWEST_NOTE].noteData;
   } else {
-      QTimer::singleShot(0, [=]{ emit oggReady(); }); // HACK: emitting it out of this method
+//       QTimer::singleShot(0, [=]{ emit oggReady(); }); // HACK: emitting it out of this method
+      emit oggReady();
       emit noteDecoded();
       return;
   }
@@ -217,7 +218,13 @@ void ToggScale::decodeNote(int noteNr) {
   stopDecoding();
   m_noteInProgress = noteNr;
   /*int ret = */ov_pcm_seek(&m_ogg, (baseNote - m_firstNote) * 44100 * 2 + fasterOffset);
-  m_thread->start();
+  if (QThread::currentThread() == m_thread) {
+      if (m_touchConnected)
+        decodeAndResample();
+      else
+        decodeOgg();
+  } else
+      m_thread->start();
 }
 
 
@@ -362,7 +369,10 @@ void ToggScale::decodeOgg() {
     decNote.stop = crossZeroBeforeMaxAmlp(52920, m_noteInProgress + 47); // 1200ms of a sound
   }
   m_isDecoding = false;
-  m_thread->quit();
+  if (m_thread->isRunning())
+    m_thread->quit();
+  else
+    emit noteDecoded();
 }
 
 
@@ -409,7 +419,10 @@ void ToggScale::decodeAndResample() {
   }
   m_isDecoding = false;
   m_touch->clear();
-  m_thread->quit();
+  if (m_thread->isRunning())
+    m_thread->quit();
+  else
+    emit noteDecoded();
   delete[] tmpTouch;
 }
 

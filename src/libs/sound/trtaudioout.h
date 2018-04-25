@@ -44,27 +44,16 @@ public:
 
   static QStringList getAudioDevicesList();
 
-      /**
-       * Starts playing given note and then returns true, otherwise gets false.
-       */
-  bool play(int noteNr) override;
-
-  void playMelody(const QList<Tnote>& notes, int tempo, int firstNote = 0);
+  void stop() override;
 
   void setAudioOutParams();
-
-  void stop() override;
 
 protected:
   static bool outCallBack(void* outBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status);
 
-      /**
-       * Invoked when @p ToggScale decoded enough amount of audio data.
-       * But only when @p play() was called - single note
-       */
-  void readyToPlaySlot();
-
   void decodeNextSlot();
+
+  void startPlaying() override;
 
 protected:
   static TaudioOUT               *instance; /**< Static pointer of this class instance. */

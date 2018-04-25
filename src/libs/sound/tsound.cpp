@@ -94,9 +94,9 @@ void Tsound::init() {
 
 
 void Tsound::play(const Tnote& note) {
-  bool playing = false;
-  if (player && note.note())
-      playing = player->play(note.chromatic());
+  bool playing = true;
+  if (player && note.isValid())
+    playing = player->playNote(note.chromatic());
 #if defined (Q_OS_ANDROID)
   if (playing) {
     if (sniffer) { // stop sniffer
@@ -107,39 +107,35 @@ void Tsound::play(const Tnote& note) {
     }
   }
 #else
-  if (playing && player->type() == TabstractPlayer::e_midi) {
-    if (sniffer) { // stop sniffer if midi output was started
-      if (!m_stopSniffOnce) { // stop listening just once
-        sniffer->stopListening();
-        m_stopSniffOnce = true;
-      }
-    }
-  }
+//   if (playing && player->type() == TabstractPlayer::e_midi) {
+//     if (sniffer) { // stop sniffer if midi output was started
+//       if (!m_stopSniffOnce) { // stop listening just once
+//         sniffer->stopListening();
+//         m_stopSniffOnce = true;
+//       }
+//     }
+//   }
 #endif
   emit playingChanged();
 }
 
 
-void Tsound::playMelody(Tmelody* mel) {
-  if (player) {
+void Tsound::playMelody(Tmelody* mel, int transposition) {
+  if (player && player->isPlayable()) {
     if (player->isPlaying()) {
         stopPlaying();
         playingFinishedSlot();
     } else {
-        if (mel->length()) {
-          QList<Tnote> notes;
-          for (int n = 0; n < mel->length(); ++n)
-            notes << mel->note(n)->p();
-          static_cast<TaudioOUT*>(player)->playMelody(notes, mel->tempo());
-        }
+        if (mel->length())
+          player->playMelody(mel, transposition);
     }
   }
 }
 
 
-void Tsound::playScoreNotes(const QList<Tnote>& notes, int firstNote) {
-  if (player && player->type() == TabstractPlayer::e_audio)
-    static_cast<TaudioOUT*>(player)->playMelody(notes, m_tempo, firstNote);
+void Tsound::playScoreNotes(QList<Tnote>& notes, int firstNote) {
+  if (player && !notes.isEmpty())
+    player->playNotes(std::addressof(notes), m_tempo, firstNote);
 }
 
 

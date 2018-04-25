@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013=2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,12 +16,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #include "tmidiout.h"
 #include <taudioparams.h>
 #include "rt/RtMidi.h"
-#include <QTimer>
-#include <QDebug>
+#include <QtCore/qtimer.h>
+#include <QtCore/qdebug.h>
+
 
 //------------------ static methods ------------------------------------------------------
 QStringList TmidiOut::getMidiPortsList()
@@ -44,7 +44,7 @@ QStringList TmidiOut::getMidiPortsList()
 
 TmidiOut::TmidiOut(TaudioParams* params, QObject* parent) :
   TabstractPlayer(parent),
-  m_midiOut(0),
+  m_midiOut(nullptr),
   m_params(params),
   m_prevMidiNote(0),
   m_portOpened(false)
@@ -52,7 +52,7 @@ TmidiOut::TmidiOut(TaudioParams* params, QObject* parent) :
     setType(e_midi);
     offTimer = new QTimer();
     setMidiParams();
-    if (playable)
+    if (p_playable)
         connect(offTimer, SIGNAL(timeout()), this, SLOT(midiNoteOff()));
 }
 
@@ -67,13 +67,13 @@ TmidiOut::~TmidiOut()
 void TmidiOut::setMidiParams() {
   deleteMidi();
   offTimer->disconnect();
-  playable = true;
+  p_playable = true;
   try {
     m_midiOut = new RtMidiOut(RtMidi::UNSPECIFIED, "Nootka_MIDI_out");
   }
   catch ( RtMidiError &error ) {
     qDebug() << "can't initialize MIDI";
-    playable = false;
+    p_playable = false;
     return;
   }
 
@@ -95,7 +95,7 @@ void TmidiOut::setMidiParams() {
       openMidiPort();
       qDebug() << "midi device:" << m_params->midiPortName << "instr:" << (int)m_params->midiInstrNr;
   } else
-      playable = false;
+      p_playable = false;
 }
 
 
@@ -108,22 +108,22 @@ void TmidiOut::deleteMidi() {
       m_midiOut->closePort();
     m_portOpened = false;
     delete m_midiOut;
-    m_midiOut = 0;
+    m_midiOut = nullptr;
   }
-  playable = false;
+  p_playable = false;
 }
 
 
 bool TmidiOut::play(int noteNr) {
-  if (!playable)
+  if (!p_playable)
       return false;
   if (m_prevMidiNote) {  // note is played and has to be turned off. Volume is pushed.
-      doEmit = false;
+      p_doEmit = false;
       midiNoteOff();
   }
   if (!m_portOpened)
     openMidiPort();
-  doEmit = true;
+  p_doEmit = true;
   int semiToneOff = 0; // "whole" semitone offset
   quint16 midiBend = 0;
   if (m_params->a440diff != 0.0) {
@@ -159,7 +159,7 @@ bool TmidiOut::play(int noteNr) {
 void TmidiOut::stop() {
   if (offTimer->isActive()) {
     offTimer->stop();
-    doEmit = false;
+    p_doEmit = false;
     midiNoteOff();
   }
 }
@@ -173,7 +173,7 @@ void TmidiOut::openMidiPort() {
       }
       catch (RtMidiError &error){
           qDebug() << "can't open MIDI port";
-          playable = false;
+          p_playable = false;
           return;
       }
       m_portOpened = true;
@@ -222,7 +222,7 @@ void TmidiOut::midiNoteOff() {
 //       }
 //         m_portOpened = false;
 //     }
-  if (doEmit)
+  if (p_doEmit)
     emit noteFinished();
 }
 
