@@ -101,6 +101,15 @@ Tflickable {
     }
 
     Tile {
+      TcheckBox {
+        id: hintsChBox
+        anchors.horizontalCenter: parent.horizontalCenter
+        text: qsTr("show hints")
+        checked: GLOB.showHints
+      }
+    }
+
+    Tile {
       visible: false
       TcuteButton {
         anchors.horizontalCenter: parent.horizontalCenter
@@ -176,12 +185,14 @@ Tflickable {
 
   function save() {
     GLOB.useAnimations = animChBox.checked
+    GLOB.showHints = hintsChBox.checked
     GLOB.lang = langModel.get(langTumb.currentIndex).flag
     GLOB.scale = scaleSlider.value
   }
 
   function defaults() {
     animChBox.checked = true
+    hintsChBox.checked = true
     langTumb.currentIndex = 0
     scaleSlider.value = 1.0
   }

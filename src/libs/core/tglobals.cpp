@@ -128,7 +128,19 @@ Tglobals::~Tglobals() {
 //#######################         PUBLIC         ###########################################
 //##########################################################################################
 
-void Tglobals::setUseAnimations(bool use) { m_useAnimations = use; emit useAnimationsChanged(); }
+void Tglobals::setUseAnimations(bool use) {
+  if (m_useAnimations != use) {
+    m_useAnimations = use;
+    emit useAnimationsChanged();
+  }
+}
+
+void Tglobals::setShowHints(bool showH) {
+  if (showH != m_showHints) {
+    m_showHints = showH;
+    emit showHintsChanged();
+  }
+}
 
 void Tglobals::setGuiScale(qreal sc) {
   if (sc != m_guiScale) {
@@ -458,6 +470,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
   cfg->beginGroup(QLatin1String("common"));
       isFirstRun = cfg->value(QStringLiteral("isFirstRun"), true).toBool();
       m_useAnimations = cfg->value(QStringLiteral("useAnimations"), true).toBool();
+      m_showHints = cfg->value(QStringLiteral("showHints"), true).toBool();
       lang = cfg->value(QStringLiteral("language"), QString()).toString();
   cfg->endGroup();
 
@@ -719,6 +732,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
   cfg->beginGroup(QLatin1String("common"));
       cfg->setValue(QStringLiteral("isFirstRun"), isFirstRun);
       cfg->setValue(QStringLiteral("useAnimations"), m_useAnimations);
+      cfg->setValue(QStringLiteral("showHints"), m_showHints);
       cfg->setValue(QStringLiteral("doubleAccidentals"), S->doubleAccidentalsEnabled);
       cfg->setValue(QStringLiteral("showEnaharmonicNotes"), S->showEnharmNotes);
       cfg->setValue(QStringLiteral("enharmonicNotesColor"), S->enharmNotesColor);

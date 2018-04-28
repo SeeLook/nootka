@@ -474,7 +474,8 @@ void TnootkaQML::openFile(const QString& runArg) {
 
 
 void TnootkaQML::setStatusTip(const QString& statusText, int tipPos) {
-  emit statusTip(statusText, tipPos);
+  if (GLOB->showHints())
+    emit statusTip(statusText, tipPos);
 }
 
 
