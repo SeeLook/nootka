@@ -47,6 +47,7 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
 
   Q_PROPERTY(QRect geometry READ geometry WRITE setGeometry NOTIFY fakeSignal)
   Q_PROPERTY(bool useAnimations READ useAnimations WRITE setUseAnimations NOTIFY useAnimationsChanged)
+  Q_PROPERTY(bool showHints READ showHints WRITE setShowHints NOTIFY showHintsChanged)
   Q_PROPERTY(QString lang READ getLang WRITE setLang)
   Q_PROPERTY(qreal scale READ guiScale WRITE setGuiScale NOTIFY guiScaleChanged)
   /* Score switches */
@@ -85,7 +86,7 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   /* Sound switches */
   Q_PROPERTY(bool audioInEnabled READ audioInEnabled WRITE setAudioInEnabled)
   Q_PROPERTY(int audioInstrument READ audioInstrument WRITE setAudioInstrument)
-  Q_PROPERTY(QString inDevName READ inDevName WRITE setInDevName);
+  Q_PROPERTY(QString inDevName READ inDevName WRITE setInDevName)
   Q_PROPERTY(qreal minDuration READ minDuration WRITE setMinDuration)
   Q_PROPERTY(qreal minVolume READ minVolume WRITE setMinVolume NOTIFY minVolumeChanged)
   Q_PROPERTY(int detectionMethod READ detectionMethod WRITE setDetectionMethod)
@@ -93,7 +94,7 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(qreal skipStillerVal READ skipStillerVal WRITE setSkipStillerVal)
   Q_PROPERTY(bool useFilter READ useFilter WRITE setUseFilter)
   Q_PROPERTY(bool audioOutEnabled READ audioOutEnabled WRITE setAudioOutEnabled)
-  Q_PROPERTY(QString outDevName READ outDevName WRITE setOutDevName);
+  Q_PROPERTY(QString outDevName READ outDevName WRITE setOutDevName)
   Q_PROPERTY(bool forwardInput READ forwardInput WRITE setForwardInput)
   Q_PROPERTY(int midAfreq READ midAfreq WRITE setMidAfreq)
   Q_PROPERTY(bool JACKorASIO READ JACKorASIO WRITE setJACKorASIO)
@@ -134,6 +135,9 @@ public:
       /** To show GUI animations. */
   bool useAnimations() const { return m_useAnimations; }
   void setUseAnimations(bool use);
+
+  bool showHints() const { return m_showHints; }
+  void setShowHints(bool showH);
 
   QString getLang() const { return lang; }
   void setLang(const QString& l) { lang = l; }
@@ -392,6 +396,7 @@ public:
 
 signals:
   void useAnimationsChanged();
+  void showHintsChanged();
   void guiScaleChanged();
   void noteCursorColorChanged();
   void singleNoteModeChanged();
@@ -428,6 +433,7 @@ private:
   qint8                      m_order[6]; /**< Strings order is determined in @param setTune() method */
   QRect                      m_geometry;
   bool                       m_useAnimations;
+  bool                       m_showHints;
   Tinstrument                m_instrument;
   qreal                      m_guiScale;
   bool                       m_isExam = false;

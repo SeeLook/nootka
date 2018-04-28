@@ -14,8 +14,8 @@ ToolButton {
 
   hoverEnabled: true
 
-  implicitWidth: Math.max(pix.width, butText.width) + (Noo.isAndroid() ? 4 : factor * 2)
-  implicitHeight: butText.height + pix.height + Screen.pixelDensity * 2
+  width: Math.max(pix.width, butText.width) + (Noo.isAndroid() ? 4 : factor * 2)
+  height: butText.height + pix.height + Screen.pixelDensity * 2
 
   property alias pixmap: pix.source
   property alias name: butText.text
@@ -25,10 +25,14 @@ ToolButton {
   property Taction taction
   property bool hiHover: true
 
-  background: Rectangle { color: pressed ? activPal.button : (hovered && hiHover ? activPal.base : "transparent") }
+  background: Rectangle {
+    color: activPal.base
+    scale: hovered && hiHover ? 1 : 0
+    Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
+  }
 
   onHoveredChanged: {
-    if (taction && taction.tip !== "") {
+    if (GLOB.showHints && taction && taction.tip !== "") {
       if (hovered)
         Noo.setStatusTip(taction.tip, taction.tipPos)
       else
