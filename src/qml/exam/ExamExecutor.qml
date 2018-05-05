@@ -57,6 +57,10 @@ Texecutor {
       var s = Qt.createComponent("qrc:/exam/ExamTip.qml")
       tipHandler.whatNextTip = s.createObject(executor, { "text": text, "offX": pos.x, "offY": pos.y, "bg": color } )
     }
+    onWantCertificate: {
+      var c = Qt.createComponent("qrc:/exam/Certificate.qml")
+      tipHandler.certTip = c.createObject(nootkaWindow.contentItem.parent)
+    }
   }
 }
 

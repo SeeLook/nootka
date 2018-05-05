@@ -117,6 +117,7 @@
     <file alias="exam/ExamSettingsDialog.qml">qml/exam/ExamSettingsDialog.qml</file>
     <file alias="exam/CorrectNameAnim.qml">qml/exam/CorrectNameAnim.qml</file>
     <file alias="exam/CorrectInstrAnim.qml">qml/exam/CorrectInstrAnim.qml</file>
+    <file alias="exam/Certificate.qml">qml/exam/Certificate.qml</file>
 
     <file alias="qtquickcontrols2.conf">qml/qtquickcontrols2.conf</file>
 <!--     <file alias="+android/qtquickcontrols2.conf">qml/+android/qtquickcontrols2.conf</file> -->

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,76 +17,59 @@
  ***************************************************************************/
 
 
-#ifndef TFINISHTIP_H
-#define TFINISHTIP_H
+#ifndef TNOOTKACERTIFICATE_H
+#define TNOOTKACERTIFICATE_H
 
-#include <graphics/tgraphicstexttip.h>
+#include <QtQuick/qquickpainteditem.h>
 #include <QtWidgets/qapplication.h>
-#include <QtGui/qpalette.h>
 
 
-class QGraphicsView;
-class TgraphicsTextTip;
 class Texam;
-class ThackedTouchTip;
+class QPainter;
+class QGraphicsScene;
+class QGraphicsTextItem;
+class QGraphicsRectItem;
+class QGraphicsPixmapItem;
 
 
 /**
- * QGraphicsTextTip with exam summary like piece of paper.
+ * Generates certificate of an exam and paints it into @p QQuickPaintedItem.
+ * It uses @p QGraphicsScene to render the certificate,
+ * because QML doesn't support pdf export yet.
  */
-class TnootkaCertificate : public QGraphicsObject
+class TnootkaCertificate : public QQuickPaintedItem
 {
 
   Q_OBJECT
 
 public:
-  TnootkaCertificate(QGraphicsView* view, Texam* exam);
+  TnootkaCertificate(QQuickItem* parent = nullptr);
+  ~TnootkaCertificate() override;
 
-  virtual ~TnootkaCertificate();
+  void paint(QPainter* painter) override;
 
-  virtual QRectF boundingRect() const;
-  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
-
-      /** width of a certificate rectangle */
-  qreal width() { return m_width; }
-
-      /** height of a certificate rectangle */
-  qreal height() { return m_height; }
-
-signals:
-      /** Emits what user wants to do:
-        * - @p nextQuest to continue exam and get next question
-        * - @p stopExam to finish exam   */
-  void userAction(const QString&);
-
-protected:
-  void removeHints();
-  void createHints();
-
-protected slots:
-  void saveSlot();
-  void hintClicked();
+  Q_INVOKABLE void save();
+  Q_INVOKABLE void stopExam();
+  Q_INVOKABLE void continueExam();
 
 private:
-      /** Creates QGraphicsTextItem instance with given html text. */
+      /**
+       * Creates @p QGraphicsTextItem instance with given html text.
+       */
   QGraphicsTextItem* createCertItem(const QString& htmlText);
 
-      /** Replaces [___] tags with appropriate text values */
+      /**
+       * Replaces [___] tags with appropriate text values
+       */
   QString fillCert(QString entry);
 
 private:
   Texam                     *m_exam;
-#if defined (Q_OS_ANDROID)
-  ThackedTouchTip           *m_saveHint, *m_closeHint, *m_nextHint;
-#else
-  TgraphicsTextTip          *m_saveHint, *m_closeHint, *m_nextHint;
-#endif
   QGraphicsRectItem         *m_cert;
-  QGraphicsPixmapItem       *m_bgRect;
   QGraphicsTextItem         *m_academyI, *m_dateI, *m_studentI, *m_certHeadI, *m_resultsI, *m_witnesI, *m_boardI, *m_stampI;
   QGraphicsPixmapItem       *m_stampPixmap;
-  qreal                      m_width, m_height;
-  QGraphicsView             *m_view; // QGraphicsView containing those items
+  QGraphicsScene            *m_scene;
+  qreal                      m_certW, m_certH;
 };
 
-#endif // TFINISHTIP_H
+#endif // TNOOTKACERTIFICATE_H

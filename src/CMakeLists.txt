@@ -84,6 +84,7 @@ set(NOOTKA_SRC
   main/tmainscoreobject.cpp
   main/texamsummary.cpp
   main/tstartexamitem.cpp
+  main/tnootkacertificate.cpp
 
   dialogs/tdialogloaderobject.cpp
   dialogs/tlevelcreatoritem.cpp
@@ -120,6 +121,7 @@ target_link_libraries(nootka
     Qt5::Qml
     Qt5::Quick
     Qt5::QuickControls2
+    Qt5::PrintSupport
 )
 
 
