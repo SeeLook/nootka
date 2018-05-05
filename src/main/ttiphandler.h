@@ -57,6 +57,7 @@ class TtipHandler : public QObject
   Q_PROPERTY(QQuickItem* resultTip READ resultTip WRITE setResultTip)
   Q_PROPERTY(QQuickItem* whatNextTip READ whatNextTip WRITE setWhatNextTip)
   Q_PROPERTY(QQuickItem* confirmTip READ confirmTip WRITE setConfirmTip)
+  Q_PROPERTY(QQuickItem* certTip READ certTip WRITE setCertTip)
 
 public:
 
@@ -92,6 +93,9 @@ public:
 
   QQuickItem* confirmTip() { return m_confirmTip; }
   void setConfirmTip(QQuickItem* confItem) { m_confirmTip = confItem; }
+
+  QQuickItem* certTip() { return m_certifyTip; }
+  void setCertTip(QQuickItem* cItem) { m_certifyTip = cItem; }
 
 //    /**
 //     * Cross platform status message:
@@ -159,12 +163,12 @@ public:
 
 //  QString detectedText(const QString& txt); /**< Returns bigger @p txt in question color. Used for 'detected'  message. */
 
-//  bool hasCertificate() { return m_certifyTip != nullptr; }
+  bool hasCertificate() { return m_certifyTip != nullptr; }
 
 //  void clearTryAgainTip();
-//  void clearCertificate();
 //  void clearMelodyCorrectMessage();
-//  void certificateTip(); /**< paper like exam report when finished */
+  void certificateTip();
+  void deleteCertTip();
 
 //      /** Message on a status bar about currently performed exercise/exam.
 //       * It has to be updated whenever correcting melody message is displayed and deleted.*/
@@ -179,13 +183,14 @@ signals:
   void wantResultTip(const QString& text, const QColor& color);
   void wantTryAgainTip();
   void wantWhatNextTip(const QString& text, const QColor& color, const QPointF& pos);
+  void wantCertificate();
 
 //  void buttonClicked(const QString&); /**< This signal is emitted when user click image button (a link) on any tip.*/
-//  void certificateMagicKeys(); /**< When translator wants to see a certificate preview */
+  void certificateMagicKeys(); /**< When translator wants to see a certificate preview */
 //  void correctingFinished(); /**< Emitted when correction animation finish */
 
 protected:
-//  virtual bool eventFilter(QObject* obj, QEvent* event);
+  bool eventFilter(QObject* obj, QEvent* event) override;
   void showConfirmTipSlot();
 
 
@@ -218,6 +223,7 @@ private:
   QQuickItem                        *m_resultTip = nullptr;
   QQuickItem                        *m_whatNextTip = nullptr;
   QQuickItem                        *m_confirmTip = nullptr;
+  QQuickItem                        *m_certifyTip = nullptr;
 
 private:
   void deleteStartTip();

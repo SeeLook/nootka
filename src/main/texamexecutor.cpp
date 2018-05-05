@@ -202,12 +202,12 @@ void TexamExecutor::initializeExecuting() {
   m_incorrectRepeated = false;
   m_isAnswered = true;
   m_penalty = new Tpenalty(m_exam, m_supp);
-//   connect(m_penalty, SIGNAL(certificate()), this, SLOT(displayCertificate()));
+  connect(m_penalty, &Tpenalty::certificate, this, &TexamExecutor::displayCertificate, Qt::UniqueConnection);
   if (m_exercise) {
     if (GLOB->E->suggestExam)
       m_exercise->setSuggestionEnabled(m_supp->qaPossibilities(), m_exam->melodies());
   } else {
-//       connect(m_tipHandler, SIGNAL(certificateMagicKeys()), this, SLOT(displayCertificate()));
+      connect(m_tipHandler, &TtipHandler::certificateMagicKeys, this, &TexamExecutor::displayCertificate, Qt::UniqueConnection);
 //       if (m_level.answerIsNote())
 //         SCORE->enableAccidToKeyAnim(false);
   }
@@ -996,15 +996,15 @@ void TexamExecutor::repeatQuestion() {
 }
 
 
-// void TexamExecutor::displayCertificate() {
-//   m_snifferLocked = true;
-//   SOUND->stopListen();
-//   m_penalty->pauseTime();
+void TexamExecutor::displayCertificate() {
+  m_snifferLocked = true;
+  SOUND->stopListen();
+  m_penalty->pauseTime();
 // #if !defined (Q_OS_ANDROID)
 //   qApp->removeEventFilter(m_supp); // stop grabbing right button and calling checkAnswer()
 // #endif
-//   m_tipHandler->certificateTip();
-// }
+  m_tipHandler->certificateTip();
+}
 
 /**
  * Instrument selection in exams/exercises:
@@ -1711,9 +1711,10 @@ void TexamExecutor::tipLink(const QString& link) {
       showExamHelp();
   else if (link == QLatin1String("correct"))
       correctAnswer();
-//   else if (name == QLatin1String("certClosing"))
-//       unlockAnswerCapturing();
-  else if (link == QLatin1String("newAttempt"))
+  else if (link == QLatin1String("certClosing")) {
+      m_tipHandler->deleteCertTip();
+      unlockAnswerCapturing();
+  } else if (link == QLatin1String("newAttempt"))
       newAttempt();
  }
 
@@ -1735,15 +1736,15 @@ void TexamExecutor::deleteExam() {
 // }
 
 
-// void TexamExecutor::unlockAnswerCapturing() {
-//   if (m_exam->curQ()->answerAsSound())
-//     SOUND->startListen();
-//   m_penalty->continueTime();
+void TexamExecutor::unlockAnswerCapturing() {
+  if (m_exam->curQ()->answerAsSound())
+    SOUND->startListen();
+  m_penalty->continueTime();
 // #if !defined (Q_OS_ANDROID)
 //   qApp->installEventFilter(m_supp); // restore grabbing right mouse button
 // #endif
-//   m_snifferLocked = false;
-// }
+  m_snifferLocked = false;
+}
 
 
 void TexamExecutor::blindQuestion() {

@@ -26,6 +26,7 @@
 #include "main/ttiphandler.h"
 #include "main/texamsummary.h"
 #include "main/tstartexamitem.h"
+#include "main/tnootkacertificate.h"
 #include <qtr.h>
 #include <exam/texam.h>
 
@@ -51,6 +52,7 @@ TdialogLoaderObject::TdialogLoaderObject(QObject* parent) :
     qmlRegisterUncreatableType<TtipHandler>("Nootka.Exam", 1, 0, "TipHandler", QStringLiteral("You cannot create an instance of the TipHandler."));
     qmlRegisterType<TexamSummary>("Nootka.Exam", 1, 0, "TexamSummary");
     qmlRegisterType<TstartExamItem>("Nootka.Exam", 1, 0, "TstartExamItem");
+    qmlRegisterType<TnootkaCertificate>("Nootka.Exam", 1, 0, "CertificateItem");
 
     qRegisterMetaType<Tlevel*>("Tlevel*");
     m_firstTime = false;

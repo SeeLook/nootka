@@ -98,10 +98,8 @@ QString getNiceNoteName(Tnote& note, Tnote::EnameStyle style) {
 }
 
 
-
 TtipHandler::TtipHandler(Texam* exam, QObject *parent) :
   QObject(parent),
-//  m_certifyTip(nullptr),
   m_exam(exam),
   m_timerToConfirm(new QTimer(this)),
 //  m_minimizedQuestion(false), m_melodyCorrectMessage(false),
@@ -109,7 +107,7 @@ TtipHandler::TtipHandler(Texam* exam, QObject *parent) :
   m_iconSize(bigFont() * 1.2)
 {
  connect(m_timerToConfirm, &QTimer::timeout, this, &TtipHandler::showConfirmTipSlot);
-//  qApp->installEventFilter(this);
+ qApp->installEventFilter(this);
 //   int levelMessageDelay = 1;
 //   if (TexecutorSupply::paramsChangedMessage())
 //       levelMessageDelay = 7000;
@@ -263,18 +261,23 @@ void TtipHandler::showTryAgainTip(int time) {
 }
 
 
-//void TtipHandler::certificateTip() {
-//  if (m_certifyTip)
-//    return;
+void TtipHandler::certificateTip() {
+  if (m_certifyTip)
+    return;
 
-//  delete m_questionTip;
-//  clearResultTip();
-//  clearWhatNextTip();
-//  if (!m_certifyTip) {
-//    m_certifyTip = new TnootkaCertificate(m_view, m_exam);
-//    connect(m_certifyTip, SIGNAL(userAction(QString)), this, SLOT(linkActivatedSlot(QString)));
-//  }
-//}
+  deleteQuestionTip();
+  deleteResultTip();
+  deleteWhatNextTip();
+  emit wantCertificate();
+}
+
+
+void TtipHandler::deleteCertTip() {
+  if (m_certifyTip) {
+    m_certifyTip->deleteLater();
+    m_certifyTip = nullptr;
+  }
+}
 
 
 void TtipHandler::showWhatNextTip(bool isCorrect, bool toCorrection) {
@@ -670,8 +673,8 @@ void TtipHandler::clearCanvas() {
 //}
 
 
-//bool TtipHandler::eventFilter(QObject* obj, QEvent* event) {
-//#if defined (Q_OS_ANDROID)
+bool TtipHandler::eventFilter(QObject* obj, QEvent* event) {
+#if defined (Q_OS_ANDROID)
 ////   if (event->type() == QEvent::KeyPress) {
 ////     auto ke = static_cast<QKeyEvent*>(event);
 ////     if (ke->key() == static_cast<int>(Qt::Key_VolumeUp)) {
@@ -679,17 +682,17 @@ void TtipHandler::clearCanvas() {
 ////           emit certificateMagicKeys();
 ////     }
 ////   }
-//#else
-//  if (event->type() == QEvent::MouseButtonPress) {
-//    auto *me = static_cast<QMouseEvent*>(event);
-//    if (me->button() == Qt::MiddleButton && me->modifiers() | Qt::ShiftModifier &&  me->modifiers() | Qt::AltModifier) {
-//        if (m_exam && !m_certifyTip)
-//          emit certificateMagicKeys();
-//    }
-//  }
-//#endif
-//  return QObject::eventFilter(obj, event);
-//}
+#else
+  if (event->type() == QEvent::MouseButtonPress) {
+    auto *me = static_cast<QMouseEvent*>(event);
+    if (me->button() == Qt::MiddleButton && me->modifiers() | Qt::ShiftModifier &&  me->modifiers() | Qt::AltModifier) {
+      if (m_exam && !m_certifyTip)
+        emit certificateMagicKeys();
+    }
+  }
+#endif
+  return QObject::eventFilter(obj, event);
+}
 
 ////##################################################################################################
 ////#################################### PRIVATE #####################################################

@@ -58,6 +58,7 @@ class TexamExecutor : public QQuickItem
   Q_PROPERTY(bool isExercise READ isExercise)
 
   friend class TexamSummary;
+  friend class TnootkaCertificate;
 
 public:
   explicit TexamExecutor(QQuickItem* parent = nullptr);
@@ -175,11 +176,20 @@ protected:
        */
   void suggestDialogClosed(bool startExam);
 
-//   void displayCertificate(); /**< Locks the executor and displays certificate. */
+      /**
+       * Locks the executor and displays certificate.
+       */
+  void displayCertificate();
 
-//       /** It sets m_snifferLocked to false (unlocks) and restores capturing right mouse button (installEventFilter) */
-//   void unlockAnswerCapturing();
-  void blindQuestion(); /**< Routines for questions with the same answers 'blind' */
+      /**
+       * It sets m_snifferLocked to false (unlocks) and restores capturing right mouse button (installEventFilter)
+       */
+  void unlockAnswerCapturing();
+
+      /**
+       * Routines for questions with the same answers 'blind'
+       */
+  void blindQuestion();
 
   void noteOfMelodyStarted(const TnoteStruct& n); /**< When user plays a melody as an answer and start of a note was detected. */
   void noteOfMelodyFinished(const TnoteStruct& n); /**< Played note was finished */
