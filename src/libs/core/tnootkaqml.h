@@ -82,7 +82,7 @@ public:
        * @p NoDialog only creates 'dialog loader' instance but does nothing
        */
   enum Edialogs {
-    NoDialog = 0, Settings = 1, About = 2, LevelCreator = 3, ExamStart = 4, ExamSummary = 5, Charts = 6, QuickAudio = 7
+    NoDialog = 0, Settings = 1, About = 2, LevelCreator = 3, ExamStart = 4, ExamSummary = 5, Charts = 6, Tuner = 7
   };
   Q_ENUM(Edialogs)
 

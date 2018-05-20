@@ -21,6 +21,7 @@
 #include "tlevelpreviewitem.h"
 #include "tlevelselector.h"
 #include "tmelodylistview.h"
+#include "ttunerdialogitem.h"
 #include "main/texamexecutor.h"
 #include "main/texamview.h"
 #include "main/ttiphandler.h"
@@ -46,6 +47,7 @@ TdialogLoaderObject::TdialogLoaderObject(QObject* parent) :
     qmlRegisterType<TlevelPreviewItem>("Nootka.Dialogs", 1, 0, "TlevelPreviewItem");
     qmlRegisterType<TlevelSelector>("Nootka.Dialogs", 1, 0, "TlevelsSelector");
     qmlRegisterType<TmelodyListView>("Nootka.Dialogs", 1, 0, "TmelodyListView");
+    qmlRegisterType<TtunerDialogItem>("Nootka.Dialogs", 1, 0, "TtunerDialogItem");
 
     qmlRegisterType<TexamExecutor>("Nootka.Exam", 1, 0, "Texecutor");
     qmlRegisterType<TexamView>("Nootka.Exam", 1, 0, "Tresults");
