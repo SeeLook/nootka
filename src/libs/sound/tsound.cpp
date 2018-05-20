@@ -21,11 +21,11 @@
   #include "tqtaudioin.h"
   #include "tqtaudioout.h"
 #else
-  #include "tmidiout.h"
+//   #include "tmidiout.h"
   #include "trtaudioout.h"
   #include "trtaudioin.h"
 #endif
-#include "tnootkaqml.h"
+#include <tnootkaqml.h>
 #include "ttickcolors.h"
 #include <tinitcorelib.h>
 #include <taudioparams.h>
@@ -47,7 +47,6 @@ Tsound::Tsound(QObject* parent) :
   QObject(parent),
   player(nullptr),
   sniffer(nullptr),
-  m_examMode(false),
   m_tempo(60),
   m_quantVal(6)
 {
@@ -338,13 +337,13 @@ void Tsound::startListen() {
 
 void Tsound::pauseSinffing() {
   if (sniffer)
-      sniffer->pause();
+    sniffer->pause();
 }
 
 
 void Tsound::unPauseSniffing() {
   if (sniffer)
-      sniffer->unPause();
+    sniffer->unPause();
 }
 
 
@@ -405,6 +404,15 @@ void Tsound::setDefaultAmbitus() {
 }
 
 
+void Tsound::setTunerMode(bool isTuner) {
+  if (isTuner != m_tunerMode) {
+    m_tunerMode = isTuner;
+    emit tunerModeChanged();
+  }
+}
+
+
+
 #if !defined (Q_OS_ANDROID)
 void Tsound::setDumpFileName(const QString& fName) {
   if (sniffer && !GLOB->A->dumpPath.isEmpty())
@@ -415,8 +423,6 @@ void Tsound::setDumpFileName(const QString& fName) {
 //#################################################################################################
 //###################                PRIVATE           ############################################
 //#################################################################################################
-
-
 
 void Tsound::createPlayer() {
   player = new TaudioOUT(GLOB->A);
@@ -482,7 +488,7 @@ void Tsound::playingFinishedSlot() {
 void Tsound::noteStartedSlot(const TnoteStruct& note) {
   m_detectedNote = note.pitch;
   m_detectedNote.setRhythm(Trhythm::Sixteenth, !m_detectedNote.isValid());
-  if (!m_examMode)
+  if (!m_examMode && !m_tunerMode)
     NOO->noteStarted(m_detectedNote);
   emit noteStarted(m_detectedNote);
   emit noteStartedEntire(note);
@@ -504,7 +510,7 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
           m_detectedNote.setRhythm(r);
           qDebug() << "Detected" << note.duration << normDur << note.pitchF << m_detectedNote.rtm.string();
           emit noteFinished();
-          if (!m_examMode)
+          if (!m_examMode && !m_tunerMode)
             NOO->noteFinished(m_detectedNote);
       } else {
           TrhythmList notes;
@@ -522,7 +528,7 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
             m_detectedNote.setRhythm(rr.rhythm(), m_detectedNote.isRest(), rr.hasDot(), rr.isTriplet());
             qDebug() << "Detected" << note.duration << normDur << n << note.pitchF << m_detectedNote.rtm.string();
             emit noteFinished();
-            if (!m_examMode) {
+            if (!m_examMode && !m_tunerMode) {
               if (n == 0) // update rhythm of the last note
                 NOO->noteFinished(m_detectedNote);
               else // but create others
@@ -531,7 +537,8 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
           }
       }
   } else {
-      emit noteFinished();
+      if (!m_examMode && !m_tunerMode)
+        emit noteFinished();
   }
   emit noteFinishedEntire(note);
 }

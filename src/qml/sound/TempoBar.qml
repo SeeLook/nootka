@@ -4,6 +4,8 @@
 
 import QtQuick 2.9
 
+import Nootka 1.0
+
 
 Item {
   id: root
@@ -28,7 +30,6 @@ Item {
     color: ma.containsMouse ? activPal.highlight : (Noo.isAndroid() ? activPal.base : "transparent")
     radius: height / 5
     Text {
-      anchors.horizontalCenter: parent.horizontalCenter
       y: parent.height * -0.7
       x: width * 0.2
       font { family: "Scorek"; pixelSize: parent.height * 0.7 }
@@ -72,7 +73,7 @@ Item {
         x: (parent.width - width) / 2
       }
       Text { // count
-        visible: SOUND.listening && index === hiTick && (!menu || (menu.count && menu.tickEnable))
+        visible: pitchView.active && index === hiTick && (!menu || (menu.count && menu.tickEnable))
         font { pixelSize: parent.height; family: "Scorek" }
         color: activPal.base
         text: cnt
@@ -84,7 +85,7 @@ Item {
 
   Timer {
     id: timer
-    running: visible && SOUND.listening && (!menu || menu.tickEnable); repeat: true
+    running: visible && pitchView.active && (!menu || menu.tickEnable); repeat: true
     interval: (SOUND.tempo < 110 ? 15000 : 30000) / SOUND.tempo
     property real elap: 0
     property real lag: 0
@@ -107,6 +108,30 @@ Item {
       phase += SOUND.tempo < 110 ? 1 : 2
       if (phase > 7) phase = 0
       hiTick = Math.abs(phase - 4)
+    }
+  }
+
+  Rectangle {
+    id: tunerText
+    width: height * 2.5; height: parent.height; x: parent.width - width * 1.1
+    color: tunerArea.containsMouse ? activPal.highlight : (Noo.isAndroid() ? activPal.base : "transparent")
+    radius: height / 5
+    Text {
+      anchors.horizontalCenter: parent.horizontalCenter
+      font { pixelSize: parent.height * 0.7; bold: true }
+      text: "440Hz"
+      color: activPal.text
+    }
+    MouseArea {
+      id: tunerArea
+      hoverEnabled: true
+      anchors.fill: parent
+      onClicked: {
+        nootkaWindow.showDialog(Nootka.Tuner)
+        SOUND.startListen()
+      }
+      onEntered: Noo.setStatusTip(qsTr("Tuner"), Item.TopLeft)
+      onExited: Noo.setStatusTip("", Item.TopLeft)
     }
   }
 }

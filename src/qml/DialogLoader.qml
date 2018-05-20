@@ -104,6 +104,10 @@ Old.Dialog {
           var c = Qt.createComponent("qrc:/exam/ExamSummary.qml")
           currentDialog = c.createObject(container)
           break
+        case Nootka.Tuner:
+          var c = Qt.createComponent("qrc:/sound/TunerDialog.qml")
+          currentDialog = c.createObject(container)
+          break
       }
       SOUND.stopListen()
       open()

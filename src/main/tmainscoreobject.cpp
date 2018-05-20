@@ -195,6 +195,7 @@ void TmainScoreObject::setSelectInReadOnly(bool sel) { m_scoreObj->setSelectInRe
 quint32 TmainScoreObject::technical(int noteId) {
   if (noteId >= 0 && noteId < m_scoreObj->notesCount())
     return m_scoreObj->note(noteId)->technical();
+  return 255;
 }
 
 

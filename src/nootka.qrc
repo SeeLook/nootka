@@ -33,11 +33,12 @@
     <file alias="Tframe.qml">qml/shared/Tframe.qml</file>
     <file alias="TpopupDialog.qml">qml/shared/TpopupDialog.qml</file>
 
-<!--     <file alias="IntonationBar.qml">qml/sound/IntonationBar.qml</file> -->
     <file alias="PitchView.qml">qml/sound/PitchView.qml</file>
     <file alias="sound/VolumeBar.qml">qml/sound/VolumeBar.qml</file>
     <file alias="sound/TempoBar.qml">qml/sound/TempoBar.qml</file>
     <file alias="sound/TempoMenu.qml">qml/sound/TempoMenu.qml</file>
+    <file alias="sound/IntonationBar.qml">qml/sound/IntonationBar.qml</file>
+    <file alias="sound/TunerDialog.qml">qml/sound/TunerDialog.qml</file>
 
     <file alias="score/Score.qml">qml/score/Score.qml</file>
     <file alias="score/Staff.qml">qml/score/Staff.qml</file>

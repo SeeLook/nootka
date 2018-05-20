@@ -56,6 +56,9 @@ class NOOTKASOUND_EXPORT Tsound : public QObject
   Q_PROPERTY(bool listening READ listening NOTIFY listeningChanged)
   Q_PROPERTY(bool playing READ playing NOTIFY playingChanged)
   Q_PROPERTY(Tnote finishedNote READ note NOTIFY noteFinished)
+  Q_PROPERTY(bool tunerMode READ tunerMode NOTIFY tunerModeChanged)
+
+  friend class TtunerDialogItem;
 
 public:
   explicit Tsound(QObject *parent = nullptr);
@@ -164,6 +167,13 @@ public:
        */
   void setDefaultAmbitus();
 
+      /**
+       * Locks/unlocks connections between pitch detection and other widgets (score, instrument)
+       */
+  bool tunerMode() const { return m_tunerMode; }
+  void setTunerMode(bool isTuner);
+
+
 #if !defined (Q_OS_ANDROID)
   void setDumpFileName(const QString& fName);
 #endif
@@ -179,6 +189,7 @@ signals:
   void stoppedByUserChanged();
   void listeningChanged();
   void playingChanged();
+  void tunerModeChanged();
 
       /**
        * When sound got initialized at the very beginning
@@ -193,7 +204,8 @@ private:
   void restoreSniffer(); /**< Brings back sniffer & pitch view state as such as before settings dialog */
 
   Tnote                   m_detectedNote; /**< detected note */
-  bool                    m_examMode;
+  bool                    m_examMode = false;
+  bool                    m_tunerMode = false;
   Tnote                   m_prevLoNote, m_prevHiNote; /**< notes form sniffer ambitus stored during an exam */
   bool                    m_stopSniffOnce, m_userState;;
   Tmelody                *m_playedMelody;

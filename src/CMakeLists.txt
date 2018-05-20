@@ -93,6 +93,7 @@ set(NOOTKA_SRC
   dialogs/tlevelselector.cpp
   dialogs/tlevelheaderwdg.cpp
   dialogs/tmelodylistview.cpp
+  dialogs/ttunerdialogitem.cpp
 
   help/thelpdialogbase.cpp
   help/texamhelp.cpp

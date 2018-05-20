@@ -1,8 +1,9 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
+import QtQuick.Window 2.2
 
 import Nootka 1.0
 
@@ -11,19 +12,23 @@ Item {
   id: intoBar
 
   property real deviation: 0.0
+  property bool active: true
 
-  TtickColors { id: tc; width: (intoBar.width - noteText.width * 3) / 2; divisor: pitchView.tickGap + pitchView.tickWidth }
+  property real tickWidth: Screen.pixelDensity * 0.5
+  property real tickGap: tickWidth * 1.4
+
+  TtickColors { id: tc; width: (intoBar.width - noteText.width * 3) / 2; divisor: tickGap + tickWidth }
 
   Repeater {
     id: iRepLeft
     model: tc.width / tc.divisor
     Rectangle {
-      color: pitchView.active ? (deviation < 0 && iRepLeft.model - index <= (deviation * -2 * iRepLeft.model) ? tc.colorAt(iRepLeft.model - index) : activPal.text) : disdPal.text
-      width: pitchView.tickWidth
-      radius: pitchView.tickWidth / 2
-      height: pitchView.tickWidth * 1.5 + ((intoBar.height - pitchView.tickWidth * 4) / iRepLeft.model) * (iRepLeft.model - index)
+      color: active ? (deviation < 0 && iRepLeft.model - index <= (deviation * -2 * iRepLeft.model) ? tc.colorAt(iRepLeft.model - index) : activPal.text) : disdPal.text
+      width: tickWidth
+      radius: tickWidth / 2
+      height: tickWidth * 1.5 + ((intoBar.height - tickWidth * 4) / iRepLeft.model) * (iRepLeft.model - index)
       y: (parent.height - height) / 2
-      x: (index * pitchView.tickGap) + (index + 2) * pitchView.tickWidth
+      x: (index * tickGap) + (index + 2) * tickWidth
     }
   }
 
@@ -35,19 +40,19 @@ Item {
     font.family: "Nootka"
     font.pixelSize: intoBar.height * 0.8
     text: "n"
-    color: pitchView.active ? activPal.text : disdPal.text
+    color: active ? activPal.text : disdPal.text
   }
 
   Repeater {
     id: iRepRight
     model: tc.width / tc.divisor
     Rectangle {
-      color: pitchView.active ? (deviation > 0 && index <= (deviation * 2 * iRepRight.model) ? tc.colorAt(index) : activPal.text) : disdPal.text
-      width: pitchView.tickWidth
-      radius: pitchView.tickWidth / 2
-      height: pitchView.tickWidth * 1.5 + ((intoBar.height - pitchView.tickWidth * 4) / iRepRight.model) * index
+      color: active ? (deviation > 0 && index <= (deviation * 2 * iRepRight.model) ? tc.colorAt(index) : activPal.text) : disdPal.text
+      width: tickWidth
+      radius: tickWidth / 2
+      height: tickWidth * 1.5 + ((intoBar.height - tickWidth * 4) / iRepRight.model) * index
       y: (parent.height - height) / 2
-      x: noteText.x + noteText.width * 2 + (index * pitchView.tickGap) + (index + 2) * pitchView.tickWidth
+      x: noteText.x + noteText.width * 2 + (index * tickGap) + (index + 2) * tickWidth
     }
   }
 
