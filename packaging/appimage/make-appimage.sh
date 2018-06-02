@@ -68,7 +68,7 @@ cp $TRANS_PATH/qtbase_pl.qm AppDir/usr/share/nootka/lang
 cp $TRANS_PATH/qtbase_ru.qm AppDir/usr/share/nootka/lang
 
 # desktop integration files
-cp AppDir/usr/share/pixmaps/nootka.png AppDir/usr/
+cp AppDir/usr/share/nootka/picts/nootka.png AppDir/usr/
 cp AppDir/usr/share/applications/nootka.desktop AppDir/usr/
 
 
@@ -83,12 +83,16 @@ cp $SRC_DIR/packaging/nootka AppDir/usr/AppRun
 mv AppDir/usr/bin/lib/* AppDir/usr/lib/nootka
 rm -r AppDir/usr/bin/lib/
 
+# Fix for XCB platform plugin - copy X11 library and remove freetype
+cp /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0 AppDir/usr/lib/nootka/libX11.so.6
+rm AppDir/usr/lib/nootka/libfreetype*
+
 # make all contents pointing to itself as a usr/
 cd AppDir/usr
 ln -s ./. usr
 cd ../..
 
 # finally, generate AppImage
-appimagetool --no-appstream AppDir/usr nootka-$VERSION-x86_64.AppImage
+appimagetool AppDir/usr nootka-$VERSION-x86_64.AppImage
 
 

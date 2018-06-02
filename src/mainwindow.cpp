@@ -103,7 +103,11 @@ MainWindow::MainWindow(QWidget *parent) :
 {
   setObjectName(QStringLiteral("MainNootkaWindow"));
 #if !defined (Q_OS_ANDROID)
-  setWindowIcon(QIcon(gl->path + "picts/nootka.png"));
+  #if defined (Q_OS_LINUX)
+    setWindowIcon(QIcon::fromTheme("nootka", QIcon(gl->path + "picts/nootka.png")));
+  #else
+    setWindowIcon(QIcon(gl->path + "picts/nootka.png"));
+  #endif
   int w = qMax(qRound(qApp->primaryScreen()->size().width() * 0.75), 720); // initial width & height adjusted to screen resolution
   int h = qMax(qRound(qApp->primaryScreen()->size().height() * 0.75), 480);
   setMinimumSize(720, 480);
