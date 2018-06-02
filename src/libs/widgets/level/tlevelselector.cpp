@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -76,7 +76,11 @@ TlevelSelector::TlevelSelector(QWidget *parent) :
 
 	m_loadBut = new QPushButton(tr("Load"), this);
 		m_loadBut->setStatusTip(tr("Load level from file"));
-		m_loadBut->setIcon(QIcon(Tcore::gl()->path + "picts/nootka-level.png"));
+#if defined (Q_OS_LINUX) && !defined(Q_OS_ANDROID)
+    m_loadBut->setIcon(QIcon::fromTheme("nootkalevel", QIcon(Tcore::gl()->path + "picts/nootka-level.png")));
+#else
+    m_loadBut->setIcon(QIcon(Tcore::gl()->path + "picts/nootka-level.png"));
+#endif
 	m_removeButt = new QPushButton(tr("Remove"), this);
 		m_removeButt->setStatusTip(TremoveLevel::removeTxt());
 		m_removeButt->setIcon(style()->standardIcon(QStyle::SP_TrashIcon));

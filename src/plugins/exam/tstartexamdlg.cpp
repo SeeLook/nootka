@@ -246,7 +246,11 @@ TstartExamDlg::TstartExamDlg(const QString& nick, TexamParams* examParams, QWidg
   QSettings sett;
 #endif
   QAction *loadExamAct = new QAction(TexTrans::loadExamFileTxt(), this);
+#if defined (Q_OS_LINUX) && !defined(Q_OS_ANDROID)
+    loadExamAct->setIcon(QIcon::fromTheme("nootkaexam", QIcon(Tpath::img("nootka-exam"))));
+#else
     loadExamAct->setIcon(QIcon(Tpath::img("nootka-exam")));
+#endif
 #if !defined (Q_OS_ANDROID)
     loadExamAct->setShortcut(QKeySequence::Open);
 #endif

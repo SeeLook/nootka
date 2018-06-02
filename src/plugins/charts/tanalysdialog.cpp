@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -148,11 +148,11 @@ TanalysDialog::TanalysDialog(Texam* exam, QWidget* parent) :
        setWindowTitle(analyseExamWinTitle());
     setExam(exam);
   } else { // show help in tip
-    QString modKey = "";
+    QString modKey;
 #if defined(Q_OS_MAC)
-    modKey = "CMD";
+    modKey = QStringLiteral("CMD");
 #else
-    modKey = "CTRL";
+    modKey = QStringLiteral("CTRL");
 #endif
     QString helpTipText = "<br>" + tr("Press %1 button to select an exam from a file.").
             arg("<a href=\"charts\"> " + pixToHtml(Tcore::gl()->path + "picts/nootka-exam.png", 38) + " </a>") + "<br>" +
@@ -322,7 +322,11 @@ void TanalysDialog::createActions() {
   }
   m_openButton = new QToolButton(this);
   m_openButton->setToolTip(openAct->text());
-  m_openButton->setIcon(QIcon(Tcore::gl()->path + "picts/nootka-exam.png"));
+#if defined (Q_OS_LINUX) && !defined(Q_OS_ANDROID)
+  m_openButton->setIcon(QIcon::fromTheme("nootkaexam", QIcon(Tpath::img("nootka-exam"))));
+#else
+  m_openButton->setIcon(QIcon(Tpath::img("nootka-exam")));
+#endif
   m_openButton->setMenu(openMenu);
   m_openButton->setPopupMode(QToolButton::InstantPopup);
   QWidgetAction* openToolButtonAction = new QWidgetAction(this);

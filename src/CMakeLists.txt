@@ -8,6 +8,14 @@ set(CMAKE_AUTOMOC ON)
 
 
 find_package(Qt5Widgets REQUIRED)
+if (Qt5Widgets_FOUND)
+    if (Qt5Widgets_VERSION VERSION_LESS 5.4.0)
+        message(FATAL_ERROR "Minimum supported Qt5 version is 5.4.0")
+    endif()
+else()
+    message(SEND_ERROR "The Qt5Widgets library could not be found!")
+endif(Qt5Widgets_FOUND)
+
 find_package(Qt5PrintSupport REQUIRED)
 find_package(Qt5Network REQUIRED)
 

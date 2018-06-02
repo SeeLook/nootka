@@ -564,10 +564,11 @@ const QRect& Tcanvas::getRect(TQAtype::Etype kindOf) {
     case TQAtype::e_asName:
       return NOTENAME->geometry();
     case TQAtype::e_asFretPos:
-          return GUITAR->geometry();
+      return GUITAR->geometry();
     case TQAtype::e_asSound:
       return SOUND->pitchView()->geometry();
   }
+  return GUITAR->geometry(); // fallback - it should never occur but compiler complains
 }
 
 //#################################################################################################

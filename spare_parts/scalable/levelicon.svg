@@ -14,11 +14,11 @@
    height="512"
    id="svg2"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.2 2405546, 2018-03-11"
    sodipodi:docname="levelicon.svg"
-   inkscape:export-filename="/home/tom/DEVELOP/QT5/nootka-beta/src/android/res/nootka-level.png"
-   inkscape:export-xdpi="25.309999"
-   inkscape:export-ydpi="25.309999">
+   inkscape:export-filename="../../picts/hicolor/512x512/mimetypes/nootka-level.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
   <defs
      id="defs4">
     <linearGradient
@@ -1482,13 +1482,13 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.98994949"
-     inkscape:cx="212.08567"
-     inkscape:cy="154.21632"
+     inkscape:cx="288.85726"
+     inkscape:cy="235.02852"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1920"
-     inkscape:window-height="1046"
+     inkscape:window-height="1039"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -1506,7 +1506,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
