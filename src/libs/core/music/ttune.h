@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2006-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -36,6 +36,7 @@ class NOOTKACORE_EXPORT Ttune
   Q_GADGET
 
   Q_PROPERTY(QString name READ tuningName)
+  Q_PROPERTY(int stringNumber READ stringNr)
 
 public:
 
