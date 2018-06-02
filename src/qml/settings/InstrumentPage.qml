@@ -98,10 +98,6 @@ Flickable {
           meter: Tmeter.NoMeter
           scoreObj.onClicked: tuningCombo.currentIndex = tuningCombo.count - 1
           Component.onCompleted: {
-            for (var s = 1; s <= GLOB.tuning.stringNumber; ++s) {
-              score.addNote(GLOB.tuning.string(s))
-              score.scoreObj.note(s - 1).setStringNumber(s)
-            }
             stringNrSpin.valueModified.connect(strNrChanged)
             tuningCombo.activated.connect(tuningSelected)
           }
@@ -203,11 +199,12 @@ Flickable {
 
   function setTuning(t) {
     for (var i = 0; i < 6; ++i) {
-      if (i < t.stringNr()) {
+      if (i < t.stringNumber) {
           if (i >= score.notesCount)
             score.addNote(t.str(i + 1))
           else
-            score.setNote(score.scoreObj.note(i), t.str(i + 1))
+            score.setNote(i, t.str(i + 1))
+          score.scoreObj.note(i).setStringNumber(i + 1)
       } else {
           if (score.notesCount > t.stringNr())
             score.deleteLast()
