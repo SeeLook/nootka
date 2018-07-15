@@ -56,7 +56,7 @@ Tflickable {
       property real widest: 0
       spacing: Noo.fontSize()
       Repeater {
-        model: [ "Aaron Wolf", "Torsten Philipp", "Vincent Bermel", "Tomasz Matuszewski", "Yves Balhant", "Илья Б.", "...and others" ]
+        model: [ "Wayne Bonner", "Aaron Wolf", "Torsten Philipp", "Vincent Bermel", "Tomasz Matuszewski", "Yves Balhant", "Илья Б.", "...and others" ]
         Tile {
           anchors.horizontalCenter: undefined
           property color randCol: Noo.randomColor()
