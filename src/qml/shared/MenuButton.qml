@@ -28,21 +28,20 @@ Rectangle {
   }
 
   Image {
-    x: Noo.fontSize() / 2
     id: icon
+    x: Noo.fontSize() / 2
     sourceSize.height: Noo.fontSize() * 2.2
     anchors.verticalCenter: parent.verticalCenter
     source: action ? action.icon : ""
   }
-  Column {
-    x: Noo.fontSize() * 3.7
+  Text {
+    x: Noo.fontSize() * (action && action.icon !== "" ? 3.7 : 0.8)
     anchors.verticalCenter: parent.verticalCenter
-    Text {
-      id: butText
-      text: action ? action.text : ""
-      font.bold: true
-      color: activPal.text
-    }
+    id: butText
+    text: action ? action.text : ""
+    font.bold: true
+    color: activPal.text
+    width: parent.width - x - Noo.fontSize() / 2; elide: Text.ElideRight
   }
 
   Component {

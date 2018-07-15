@@ -68,7 +68,7 @@ cp $TRANS_PATH/qtbase_pl.qm AppDir/usr/share/nootka/lang
 cp $TRANS_PATH/qtbase_ru.qm AppDir/usr/share/nootka/lang
 
 # desktop integration files
-cp AppDir/usr/share/pixmaps/nootka.png AppDir/usr/
+cp AppDir/usr/share/nootka/picts/nootka.png AppDir/usr/
 cp AppDir/usr/share/applications/nootka.desktop AppDir/usr/
 
 LD_LIBRARY_PATH="$BIN_DIR/AppDir/usr/lib/nootka:$LD_LIBRARY_PATH" linuxdeployqt AppDir/usr/bin/nootka -bundle-non-qt-libs -qmldir=$SRC_DIR/src/qml
@@ -86,6 +86,10 @@ else
   XCB=$($QMAKE -query QT_INSTALL_PLUGINS)
   cp -r $XCB/xcbglintegrations AppDir/usr/plugins/
 fi
+
+# Fix for XCB platform plugin - copy X11 library and remove freetype
+cp /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0 AppDir/usr/lib/libX11.so.6
+rm AppDir/usr/lib/libfreetype*
 
 # make all contents pointing to itself as a usr/
 cd AppDir/usr

@@ -112,22 +112,6 @@ TstartExamItem {
             iconHeight: startDialog.height / 15
             pixmap: Noo.pix("exam"); text: qsTr("Select an exam to continue") + "   ⋮"
             onClicked: menu.open()
-            Menu {
-              id: menu
-              width: Noo.fontSize() * 20
-              background: TipRect { shadowRadius: Noo.fontSize() }
-              Repeater {
-                model: recentModel
-                MenuItem {
-                  padding: 0
-                  width: menu.width
-                  contentItem: MenuButton {
-                    action: modelData
-                    onClicked: menu.close()
-                  }
-                }
-              }
-            }
           }
         }
       }
@@ -166,6 +150,25 @@ TstartExamItem {
         }
       }
     }
+  }
+
+  Menu {
+    id: menu
+    width: Noo.fontSize() * 20; height: startDialog.height * 0.8; y: startDialog.height / 10; x: Noo.fontSize() * 2
+    background: TipRect { shadowRadius: Noo.fontSize() }
+    contentItem: ListView {
+      clip: true
+      ScrollBar.vertical: ScrollBar { active: true }
+      model: recentModel
+      delegate: MenuButton {
+        width: Noo.fontSize() * 20
+        action: modelData
+        onClicked: menu.close()
+      }
+    }
+    scale: GLOB.useAnimations ? 0.1 : 1.0
+    enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}
+    exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0.1 }}
   }
 
   Component.onCompleted: {
