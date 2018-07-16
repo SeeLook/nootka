@@ -47,6 +47,8 @@ public:
 
   Q_INVOKABLE Tlevel* prevLevel() { return m_prevExerciseLevel; }
 
+  Q_INVOKABLE void giveUserNameMessage(); /**< Displays message box with that communicate. */
+
   Q_INVOKABLE void getHelpDialog();
 
 signals:
@@ -61,7 +63,6 @@ private:
   void continueTheLast(); /**< Continue last exam button click slot */
   void examToContSelected(const QString& eFile);
   void levelWasSelected(const Tlevel& level);
-  void giveUserNameMessage(); /**< Displays message box with that communicate. */
 
 private:
   QStringList                m_recentExams;

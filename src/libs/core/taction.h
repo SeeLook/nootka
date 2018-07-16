@@ -41,7 +41,7 @@ class NOOTKACORE_EXPORT Taction : public QObject
   Q_PROPERTY(QString tip READ tip WRITE setTip NOTIFY tipChanged)
   Q_PROPERTY(int tipPos READ tipPos NOTIFY tipChanged)
   Q_PROPERTY(bool checked READ checked WRITE setChecked NOTIFY checkedChanged)
-  Q_PROPERTY(bool checkable READ checkable WRITE setCheckable)
+  Q_PROPERTY(bool checkable READ checkable WRITE setCheckable NOTIFY checkableChanged)
   Q_PROPERTY(QObject* shortcut READ shortcut WRITE setShortcut)
   Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
 
@@ -90,6 +90,7 @@ signals:
   void tipChanged();
   void triggered();
   void checkedChanged();
+  void checkableChanged();
   void enabledChanged();
   void shakeButton();
 

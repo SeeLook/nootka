@@ -43,6 +43,19 @@ TstartExamItem {
           width: Noo.fontSize() * 30
           horizontalAlignment: TextInput.AlignHCenter
           text: GLOB.student
+          background: Rectangle {
+            id: nameBg
+            color: activPal.base
+            border { width: 1; color: activPal.text }
+            SequentialAnimation {
+              id: noNameAnim
+              loops: Animation.Infinite
+              ColorAnimation { target: nameBg; property: "color"; to: "red"; duration: 500 }
+              PauseAnimation { duration: 300 }
+              ColorAnimation { target: nameBg; property: "color"; to: activPal.base; duration: 500 }
+              PauseAnimation { duration: 300 }
+            }
+          }
         }
       }
     }
@@ -154,7 +167,8 @@ TstartExamItem {
 
   Menu {
     id: menu
-    width: Noo.fontSize() * 20; height: startDialog.height * 0.8; y: startDialog.height / 10; x: Noo.fontSize() * 2
+    width: Noo.fontSize() * 20; y: startDialog.height * 0.88 - height; x: Noo.fontSize() * 2
+    height: Math.min(startDialog.height * 0.8, contentItem.contentHeight)
     background: TipRect { shadowRadius: Noo.fontSize() }
     contentItem: ListView {
       clip: true
@@ -183,6 +197,13 @@ TstartExamItem {
   onContinueExam: start(Texecutor.ContinueExam, examFile)
 
   function start(action, argument) {
+    if (userNameIn.text === "") {
+      noNameAnim.running = true
+      giveUserNameMessage()
+      noNameAnim.running = false
+      nameBg.color = activPal.base
+      return
+    }
     GLOB.student = userNameIn.text
     GLOB.isExam = true
     if (!nootkaWindow.executor.init(action, argument)) {

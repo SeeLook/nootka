@@ -75,7 +75,10 @@ void Taction::trigger() {
 
 
 void Taction::setCheckable(bool ch) {
-  m_checkable = ch;
+  if (ch != m_checkable) {
+    m_checkable = ch;
+    emit checkableChanged();
+  }
 }
 
 

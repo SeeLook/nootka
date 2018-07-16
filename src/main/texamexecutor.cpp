@@ -1364,6 +1364,8 @@ void TexamExecutor::stopExamSlot() {
         QStringList recentExams = GLOB->config->value(QLatin1String("recentExams")).toStringList();
         recentExams.removeAll(m_exam->fileName());
         recentExams.prepend(m_exam->fileName());
+        if (recentExams.size() > RECENT_EXAMS_LIMIT)
+          recentExams.removeLast();
         GLOB->config->setValue(QLatin1String("recentExams"), recentExams);
       }
       if (!m_goingClosed) { // if Nootka is closing don't show summary
