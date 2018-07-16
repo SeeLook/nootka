@@ -23,7 +23,7 @@ Rectangle {
   signal clicked()
 
   onActionChanged: {
-    if (action.checkable)
+    if (action && action.checkable)
       radioComp.createObject(menuButton)
   }
 
@@ -35,7 +35,7 @@ Rectangle {
     source: action ? action.icon : ""
   }
   Text {
-    x: Noo.fontSize() * (action && action.icon !== "" ? 3.7 : 0.8)
+    x: Noo.fontSize() * (action && (action.icon !== "" || action.checkable) ? 3.7 : 0.8)
     anchors.verticalCenter: parent.verticalCenter
     id: butText
     text: action ? action.text : ""

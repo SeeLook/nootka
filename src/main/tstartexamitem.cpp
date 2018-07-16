@@ -30,14 +30,15 @@
 #include <exam/textrans.h>
 #include <QtCore/qsettings.h>
 #include <QtCore/qtimer.h>
-#include <QtWidgets/qfiledialog.h>
 #include <QtQml/qqmlengine.h>
-// #include <QtWidgets/qmessagebox.h>
+#include <QtWidgets/qmessagebox.h>
 #if defined (Q_OS_ANDROID)
   #include <touch/ttoucharea.h>
   #include <tfiledialog.h>
   #include <tmtr.h>
   #include <Android/tandroid.h>
+#else
+  #include <QtWidgets/qfiledialog.h>
 #endif
 
 
@@ -64,7 +65,7 @@ TstartExamItem::TstartExamItem(QQuickItem* parent) :
 
   const QString recentExams(QStringLiteral("recentExams"));
   m_recentExams = sett.value(recentExams).toStringList();
-  for (int i = 0; i < m_recentExams.size(); i++) {
+  for (int i = 0; i < m_recentExams.size() && i < RECENT_EXAMS_LIMIT; i++) {
       QFileInfo fi(m_recentExams[i]);
       if (fi.exists()) {
           auto recentAct = new Taction(fi.fileName(), QString(), this);
@@ -80,13 +81,13 @@ TstartExamItem::TstartExamItem(QQuickItem* parent) :
 
   m_prevExerciseLevel = new Tlevel;
 
-  QString exerciseFile = QDir::toNativeSeparators(QFileInfo(sett.fileName()).absolutePath() + "/exercise2.noo");
+  QString exerciseFile = QDir::toNativeSeparators(QFileInfo(sett.fileName()).absolutePath() + QLatin1String("/exercise2.noo"));
   m_prevExerciseLevel->name.clear(); // empty means - no previous level
   if (QFileInfo(exerciseFile).exists()) {
       Texam exam(m_prevExerciseLevel, QString());
       Texam::EerrorType err = exam.loadFromFile(exerciseFile);
       if (err != Texam::e_file_OK && err != Texam::e_file_corrupted) {
-          qDebug() << "exercise file was corrupted... and deleted...";
+          qDebug() << "[TstartExamItem] exercise file was corrupted... and deleted...";
           QFile::remove(exerciseFile);
       }
   }
@@ -126,7 +127,7 @@ void TstartExamItem::giveUserNameMessage() {
 //     name = QStringLiteral("Android");
 //   m_nameEdit->setText(name);
 // #else
-//   QMessageBox::warning(this, QString(), tr("Give a user name!"));
+  QMessageBox::warning(nullptr, QString(), tr("Give a user name!"));
 // #endif
 }
 
