@@ -210,6 +210,7 @@ void TmeasureObject::checkBarLine() {
 
 void TmeasureObject::meterChanged() {
   m_duration = m_score->meter()->duration();
+  updateRhythmicGroups();
 }
 
 

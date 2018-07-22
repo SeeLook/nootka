@@ -96,8 +96,11 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(qreal xLastInActivBar READ xLastInActivBar NOTIFY activeBarChanged)
   Q_PROPERTY(bool allowAdding READ allowAdding WRITE setAllowAdding NOTIFY allowAddingChanged)
   Q_PROPERTY(qreal touched READ touched NOTIFY touchedChanged) 
-  Q_PROPERTY(Trhythm workRhythm READ workRhythm WRITE setWorkRhythm NOTIFY workRtmTextChanged)
-  Q_PROPERTY(QString workRtmText READ workRtmText NOTIFY workRtmTextChanged)
+  Q_PROPERTY(Trhythm workRhythm READ workRhythm WRITE setWorkRhythm NOTIFY workRhythmChanged)
+  Q_PROPERTY(QString workRtmText READ workRtmText NOTIFY workRhythmChanged)
+  Q_PROPERTY(int workRtmValue READ workRtmValue WRITE setWorkRtmValue NOTIFY workRhythmChanged)
+  Q_PROPERTY(bool workRtmRest READ workRtmRest WRITE setWorkRtmRest NOTIFY workRhythmChanged)
+  Q_PROPERTY(bool workRtmDot READ workRtmDot WRITE setWorkRtmDot NOTIFY workRhythmChanged)
 
   friend class TstaffItem;
   friend class TmeasureObject;
@@ -317,6 +320,15 @@ public:
 
   QString workRtmText() const;
 
+  int workRtmValue() const;
+  void setWorkRtmValue(int rtmV);
+
+  bool workRtmRest() const;
+  void setWorkRtmRest(bool hasRest);
+
+  bool workRtmDot() const;
+  void setWorkRtmDot(bool hasDot);
+
       /**
        * Returns text of active note head or appropriate rest symbol if work rhythm is set to rest
        */
@@ -354,6 +366,11 @@ public:
   Q_INVOKABLE void deleteLastNote();
 
   Q_INVOKABLE void clearScore();
+
+      /**
+       * Score item invokes it with key number
+       */
+  Q_INVOKABLE void handleKey(int keyValue, int modifiers);
 
       /**
        * By keeping those objects available we are reducing QML components creation time when called from C++
@@ -414,7 +431,7 @@ signals:
   void scoreWasCleared();
   void cursorAlterChanged();
 
-  void workRtmTextChanged();
+  void workRhythmChanged();
 
   void selectedItemChanged();
   void selectedNoteChanged();

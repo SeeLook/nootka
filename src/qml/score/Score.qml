@@ -58,16 +58,6 @@ Flickable {
       score.lastStaff = lastStaff
     }
     onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
-    onMeterChanged: {
-      if (rtmControl && meter !== Tmeter.NoMeter) {
-          rtmControl.rtm = meter <= Tmeter.Meter_7_4 ? Trhythm.Quarter : Trhythm.Eighth
-          rtmControl.dot = false
-          rtmControl.rest = false
-          rtmControl.triplet = false
-          workRhythm = rtmControl.rhythm
-      } else
-          workRhythm = Noo.rhythm(Trhythm.NoRhythm, false, false, false)
-    }
     onStaffDestroying: { staves.splice(staffNr, 1); lastStaff = staves[staves.length - 1] }
     onNoteWasAdded: {
       if (staves.length > 1)
@@ -142,4 +132,6 @@ Flickable {
   function clearScore() { scoreObj.clearScore() }
 
   function deleteLast() { scoreObj.deleteLastNote() }
+
+  Keys.onPressed: scoreObj.handleKey(event.key, event.modifiers)
 }

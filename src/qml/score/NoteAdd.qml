@@ -18,7 +18,7 @@ TaddNoteItem {
   parent: score.lastStaff
   height: parent ? parent.height : 0
   width: 4
-  x: scoreObj.lastNote ? scoreObj.lastNote.rightX + 1.5 : score.firstStaff.firstNoteX
+  x: scoreObj.lastNote && !score.readOnly ? scoreObj.lastNote.rightX + 1.5 : score.firstStaff.firstNoteX
   z: 11
   visible: scoreObj.allowAdding
 

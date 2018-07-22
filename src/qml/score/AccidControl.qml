@@ -46,7 +46,6 @@ ControlBase {
             model: 4
             ControlButton {
               factor: accidControl.factor
-              height: factor * 2.5
               yOffset: factor * -4.4
               visible: score.enableDoubleAccids || index === 1 || index === 2
               selected: accidControl.selectedId === index
