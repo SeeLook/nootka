@@ -454,10 +454,11 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     }
     MAIN_SCORE->unLockScore();
     if (curQ->melody() && m_level.isMelodySet()) {
-      if (curQ->key.value()) {
+      if (curQ->key.value() || m_level.manualKey) {
           MAIN_SCORE->setKeySignatureEnabled(true);
           if (!m_level.manualKey)
             MAIN_SCORE->setKeySignature(curQ->key);
+          // TODO else fake key
       } else {
           MAIN_SCORE->setKeySignatureEnabled(false);
       }
@@ -631,7 +632,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
           if (curQ->answerOnScore()) { // dictation
               Tmelody answMelody;
               MAIN_SCORE->getMelody(&answMelody);
-              m_supp->compareMelodies(curQ->melody(), &answMelody, curQ->lastAttempt());
+//               m_supp->compareMelodies(curQ->melody(), &answMelody, curQ->lastAttempt());
+//               m_supp->compareWrittenFromPlayed(curQ->melody(), &answMelody, curQ->lastAttempt(), curQ->melody()->key().difference(curQ->key));
           } else { // playing a score
               if (m_level.isMelodySet() && m_level.useKeySign && curQ->melody()->key() != curQ->key) {
                   Tmelody transposedMelody; // questioned melody was transposed, so copy it from score
@@ -776,7 +778,7 @@ void TexamExecutor::correctAnswer() {
   if (m_askingTimer->isActive())
     m_askingTimer->stop();
   m_tipHandler->clearCanvas();
-  TQAunit* curQ = m_exam->answList()->last();
+  auto curQ = m_exam->answList()->last();
   QColor markColor = m_supp->answerColor(curQ);
 //   if (curQ->melody() && (curQ->answerAsNote() || curQ->questionAsNote())) {
 //     SCORE->setReadOnlyReacting(true); // It is undone whenever unLockScore() is called
@@ -856,22 +858,25 @@ void TexamExecutor::correctAnswer() {
 
 void TexamExecutor::newAttempt() {
   m_tipHandler->showTryAgainTip(3000);
-//   QTimer::singleShot(2000, m_tipHandler, SLOT(clearResultTip())); 
+//   QTimer::singleShot(2000, m_tipHandler, SLOT(clearResultTip())); // TODO remove when not used
+  MAIN_SCORE->showNoteNames(false);
   if (m_exam->curQ()->answerOnScore() || m_exam->curQ()->questionOnScore()) { // remove names and marks from score notes
-//     for (int i = 0; i < MAIN_SCORE->notesCount(); ++i) {
-//       if (m_exercise) {
-//           SCORE->deleteNoteName(i);
-//           if (m_exam->curQ()->lastAttempt()->mistakes[i] != TQAunit::e_correct)
-//             SCORE->markQuestion(-1, i); // leave note marks (colored borders) only for correct answers
-//       } else // although clear all marked notes in exams
-//           SCORE->markQuestion(-1, i);
+    int scoreNoteId = 0;
+    QColor mc;
+    for (int i = 0; i < m_exam->curQ()->lastAttempt()->mistakes.size(); ++i) {
+      if (!m_exercise || m_exam->curQ()->lastAttempt()->mistakes[i] == TQAunit::e_correct)
+        mc.setAlpha(0);
+      else
+        mc = m_supp->answerColor(m_exam->curQ()->lastAttempt()->mistakes[i]);
+      scoreNoteId += MAIN_SCORE->markNoteHead(mc, scoreNoteId); // remove all note head marks in exams and those for correct notes in exercises
     }
+  }
   // prepare list to store notes played by user or clear it
   m_melody->newMelody(m_exam->curQ()->answerAsSound() ? m_exam->curQ()->melody()->length() : 0);
-//   m_melody->clearToFix(m_exam->curQ()->melody()->length());
+//   m_melody->clearToFix(m_exam->curQ()->melody()->length()); //FIXME: dead code, why?
   m_penalty->newAttempt();
   if (m_exam->curQ()->answerAsSound())
-        m_exam->curQ()->lastAttempt()->melodyWasPlayed(); // we can suppose that user will play an answer for sure 
+    m_exam->curQ()->lastAttempt()->melodyWasPlayed(); // we can suppose that user will play an answer for sure
   askQuestion(true);
 }
 
@@ -879,8 +884,9 @@ void TexamExecutor::newAttempt() {
 void TexamExecutor::markAnswer(TQAunit* curQ) {
   QColor markColor = m_supp->answerColor(curQ);
   if (curQ->melody()) {
+    int scoreNoteId = 0;
     for (int i = 0; i < curQ->lastAttempt()->mistakes.size(); ++i) {
-      MAIN_SCORE->markNoteHead(m_supp->answerColor(curQ->lastAttempt()->mistakes[i]), i);
+      scoreNoteId += MAIN_SCORE->markNoteHead(m_supp->answerColor(curQ->lastAttempt()->mistakes[i]), scoreNoteId);
     }
   } else {
     switch (curQ->answerAs) {
