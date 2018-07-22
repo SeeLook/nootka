@@ -50,8 +50,6 @@ Score {
 
   TmainScoreObject {
     id: mainObj
-    deleteLastAct.shortcut: Shortcut { sequence: "Del"; enabled: !GLOB.singleNoteMode && !readOnly }
-    clearScoreAct.shortcut: Shortcut { sequence: "Shift+Del"; enabled: !GLOB.singleNoteMode && !readOnly }
     openXmlAct.shortcut: Shortcut { sequence: StandardKey.Open; enabled: !GLOB.singleNoteMode && !GLOB.isExam }
     saveXmlAct.shortcut: Shortcut { sequence: StandardKey.Save; enabled: !GLOB.singleNoteMode && !GLOB.isExam }
     zoomOutAct.shortcut: Shortcut { sequence: StandardKey.ZoomOut; enabled: !GLOB.singleNoteMode }

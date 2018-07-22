@@ -13,7 +13,7 @@ Item {
   height: parent ? parent.height : 0
   width: parent ? parent.width - (score.singleNote ? 0 : parent.alterWidth) : 0
 
-  property string headText: parent ? scoreObj.activeRtmText() : ""
+  property string headText: parent && (score.singleNote || scoreObj.workRtmValue) ? scoreObj.activeRtmText() : ""
   property color color: GLOB.noteCursorColor
   property real yPos: scoreObj.activeYpos
 

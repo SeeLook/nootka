@@ -148,6 +148,7 @@ void TscoreObject::setMeter(int m) {
     if (measuresCount())
       firstMeasure()->meterChanged();
     emit meterChanged();
+    setWorkRhythm(Trhythm(newMeter == Tmeter::NoMeter ? Trhythm::NoRhythm : (newMeter <= Tmeter::Meter_7_4 ? Trhythm::Quarter : Trhythm::Eighth)));
 
     if (!m_singleNote && measuresCount() && firstMeasure()->noteCount() > 0) {
     CHECKTIME (
@@ -233,7 +234,7 @@ CHECKTIME (
 
   Tnote n = newNote;
   fitToRange(n);
-  int noteDur = n.rhythm() == Trhythm::NoRhythm ? 1 : n.duration();
+  int noteDur = n.rhythm() == Trhythm::NoRhythm || m_meter->meter() == Tmeter::NoMeter ? 1 : n.duration();
   if (noteDur > lastMeasure->free()) { // split note that is adding
       int leftDuration = noteDur - lastMeasure->free();
       int lastNoteId = m_segments.count();
@@ -290,7 +291,7 @@ CHECKTIME (
 
 void TscoreObject::setNote(TnoteItem* no, const Tnote& n) {
   if (no) {
-    if (no == lastNote() && no->note()->rtm != n.rtm) {
+    if (m_allowAdding && m_meter->meter() != Tmeter::NoMeter && no == lastNote() && no->note()->rtm != n.rtm) {
       deleteLastNote();
       addNote(n);
       emitLastNote();
@@ -413,7 +414,7 @@ void TscoreObject::noteClicked(qreal yPos) {
   if (!activeNote())
     return;
 
-  Trhythm newRhythm = *m_workRhythm;
+  Trhythm newRhythm = m_meter->meter() == Tmeter::NoMeter ? Trhythm(Trhythm::NoRhythm) : *m_workRhythm;
   if (activeNote()->note()->rhythm() != m_workRhythm->rhythm() || activeNote()->note()->hasDot() != m_workRhythm->hasDot()) {
     if (activeNote() != lastNote()) {
       newRhythm = activeNote()->note()->rtm; // TODO so far it forces old rhythm until note rhythm change will be implemented
@@ -428,13 +429,14 @@ void TscoreObject::noteClicked(qreal yPos) {
   if (m_workRhythm->isRest() || m_clefType == Tclef::NoClef)
     newNote.setNote(0);
 
-  setNote(m_activeNote, newNote);
+  setNote(m_activeNote, newNote); 
 
   emit clicked();
 }
 
 
 void TscoreObject::setCursorAlter(int curAlt) {
+  curAlt = qBound(m_enableDoubleAccids ? -2 : -1, curAlt, m_enableDoubleAccids ? 2 : 1);
   if (curAlt != m_cursorAlter) {
     m_cursorAlter = curAlt;
     emit cursorAlterChanged();
@@ -733,7 +735,7 @@ Trhythm TscoreObject::workRhythm() const {
 void TscoreObject::setWorkRhythm(const Trhythm& r) {
   if (r != *m_workRhythm) {
     m_workRhythm->setRhythm(r);
-    emit workRtmTextChanged();
+    emit workRhythmChanged();
   }
 }
 
@@ -741,6 +743,37 @@ void TscoreObject::setWorkRhythm(const Trhythm& r) {
 QString TscoreObject::workRtmText() const {
   return TnoteItem::getHeadText(workRhythm());
 }
+
+
+int TscoreObject::workRtmValue() const { return static_cast<int>(m_workRhythm->rhythm()); }
+
+void TscoreObject::setWorkRtmValue(int rtmV) {
+  if (static_cast<Trhythm::Erhythm>(rtmV) != m_workRhythm->rhythm()) {
+    m_workRhythm->setRhythmValue(static_cast<Trhythm::Erhythm>(rtmV));
+    emit workRhythmChanged();
+  }
+}
+
+
+bool TscoreObject::workRtmRest() const { return m_workRhythm->isRest(); }
+
+void TscoreObject::setWorkRtmRest(bool hasRest) {
+  if (hasRest != m_workRhythm->isRest()) {
+    m_workRhythm->setRest(hasRest);
+    emit workRhythmChanged();
+  }
+}
+
+
+bool TscoreObject::workRtmDot() const { return m_workRhythm->hasDot(); }
+
+void TscoreObject::setWorkRtmDot(bool hasDot) {
+  if (hasDot != m_workRhythm->hasDot()) {
+    m_workRhythm->setDot(hasDot);
+    emit workRhythmChanged();
+  }
+}
+
 
 
 QString TscoreObject::activeRtmText() {
@@ -912,6 +945,73 @@ void TscoreObject::setBgColor(const QColor& bg) {
   if (bg != m_bgColor) {
     m_bgColor = bg;
     emit bgColorChanged();
+  }
+}
+
+/**
+ * TODO: if there will be TnoteObject implemented with all note/rhythm props
+ * It would replace @p m_cursorAlter && @p m_workRhythm
+ */
+void TscoreObject::handleKey(int keyValue, int modifiers) {
+  if (!m_readOnly) {
+    auto key = static_cast<Qt::Key>(keyValue);
+    auto mod = static_cast<Qt::KeyboardModifiers>(modifiers);
+    if (!m_singleNote && m_meter->meter() != Tmeter::NoMeter) { // For full score (melodies) only
+      bool wasWorkRhythmChanged = false;
+      if (key == Qt::Key_Period && m_workRhythm->rhythm() != Trhythm::Sixteenth) {
+          m_workRhythm->setDot(!m_workRhythm->hasDot());
+          wasWorkRhythmChanged = true;
+      } else if (key == Qt::Key_R) {
+          m_workRhythm->setRest(!m_workRhythm->isRest());
+          if (m_workRhythm->rhythm() == Trhythm::Sixteenth)
+            m_workRhythm->setDot(false);
+          wasWorkRhythmChanged = true;
+      } else if (key == Qt::Key_6) {
+          if (m_workRhythm->rhythm() != Trhythm::Sixteenth) {
+            m_workRhythm->setRhythmValue(Trhythm::Sixteenth);
+            m_workRhythm->setDot(false); // 16th with dot not supported (yet)
+            wasWorkRhythmChanged = true;
+          }
+      } else if (key == Qt::Key_8) {
+          if (m_workRhythm->rhythm() != Trhythm::Eighth) {
+            m_workRhythm->setRhythmValue(Trhythm::Eighth);
+            wasWorkRhythmChanged = true;
+          }
+      } else if (key == Qt::Key_4) {
+          if (m_workRhythm->rhythm() != Trhythm::Quarter) {
+            m_workRhythm->setRhythmValue(Trhythm::Quarter);
+            wasWorkRhythmChanged = true;
+          }
+      } else if (key == Qt::Key_2) {
+          if (m_workRhythm->rhythm() != Trhythm::Half) {
+            m_workRhythm->setRhythmValue(Trhythm::Half);
+            wasWorkRhythmChanged = true;
+          }
+      } else if (key == Qt::Key_1) {
+          if (m_workRhythm->rhythm() != Trhythm::Whole) {
+            m_workRhythm->setRhythmValue(Trhythm::Whole);
+            wasWorkRhythmChanged = true;
+          }
+      }
+      if (wasWorkRhythmChanged) {
+        emit workRhythmChanged();
+        return;
+      }
+      if (key == Qt::Key_Delete) {
+        if (m_allowAdding) {
+          if (mod.testFlag(Qt::ShiftModifier))
+            clearScore();
+          else if (mod.testFlag(Qt::NoModifier))
+            deleteLastNote();
+        }
+        return;
+      }
+    }
+    // accidentals shortcuts (arrows up/down) available either for single note and for melodies
+    if (key == Qt::Key_Up)
+      setCursorAlter(m_cursorAlter + 1);
+    else if (key == Qt::Key_Down)
+      setCursorAlter(m_cursorAlter - 1);
   }
 }
 

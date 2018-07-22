@@ -15,12 +15,8 @@ ControlBase {
   y: Noo.fontSize() / 2
   visible: !scoreObj.touched
 
-  property string rhythmText: Noo.rhythmText(rhythm)
-  property int rtm: Trhythm.Quarter
-  property bool rest: false
-  property bool dot: false
+  property string rhythmText: Noo.rhythmText(scoreObj.workRhythm)
   property bool triplet: false
-  property var rhythm: Noo.rhythm(rtm, rest, dot, triplet)
   property bool tie: false
 
   component: Component {
@@ -36,7 +32,7 @@ ControlBase {
             yOffset: factor / 2
             font { family: "nootka"; pixelSize: factor * 1.8 }
             text: Noo.rhythmText(Noo.rhythm(rhythm, rest, false, false))
-            selected: rhythm === rhythmControl.rtm && rest === rhythmControl.rest
+            selected: rhythm === scoreObj.workRtmValue && rest === scoreObj.workRtmRest
             onEntered: hideTimer.stop()
             onExited: hideTimer.restart()
           }
@@ -51,7 +47,7 @@ ControlBase {
               onLoaded: { item.rhythm = 1 + index / 2; item.rest = index % 2 === 0 }
               Connections {
                 target: item
-                onClicked: { rhythmControl.rtm = item.rhythm; rhythmControl.rest = item.rest; scoreObj.workRhythm = rhythm }
+                onClicked: { scoreObj.workRtmValue = item.rhythm; scoreObj.workRtmRest = item.rest }
               }
             }
           }
@@ -69,10 +65,11 @@ ControlBase {
             id: dotLoad
             sourceComponent: ctrlButtonComp
             onLoaded: { item.rhythm = 0; item.text = "." }
-            Binding { target: dotLoad.item; property: "selected"; value: rhythmControl.dot }
+            Binding { target: dotLoad.item; property: "selected"; value: scoreObj.workRtmDot }
+            Binding { target: dotLoad.item; property: "enabled"; value: scoreObj.workRtmValue !== Trhythm.Sixteenth }
             Connections {
               target: dotLoad.item
-              onClicked: { rhythmControl.dot = !dotLoad.item.selected; scoreObj.workRhythm = rhythm }
+              onClicked: scoreObj.workRtmDot = !scoreObj.workRtmDot
             }
           }
         }
