@@ -25,6 +25,8 @@
 #include <QColor>
 
 
+#define RECENT_EXAMS_LIMIT (15) // max number of recent exams to remember
+
   /** class describes en exam parameters changeable by user. */
 class NOOTKACORE_EXPORT TexamParams
 {

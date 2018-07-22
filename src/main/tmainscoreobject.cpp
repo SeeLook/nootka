@@ -126,6 +126,11 @@ QString TmainScoreObject::keyNameText() const {
 }
 
 
+int TmainScoreObject::notesCount() const {
+  return m_scoreObj->notesCount();
+}
+
+
 void TmainScoreObject::setReadOnly(bool ro) {
   m_scoreObj->setReadOnly(ro);
   m_scoreObj->setAllowAdding(!ro);
@@ -287,10 +292,37 @@ void TmainScoreObject::lockKeySignature(bool lock) {
 }
 
 
-void TmainScoreObject::markNoteHead(const QColor& outColor, int noteNr) {
+int TmainScoreObject::markNoteHead(const QColor& outColor, int noteNr) {
+  int markedCount = 0;
   auto note = m_scoreObj->note(noteNr);
-  if (note)
+  if (note) {
     note->markNoteHead(outColor);
+    markedCount = 1;
+    if (note->note()->rtm.tie()) {
+        noteNr++;
+        while (noteNr < m_scoreObj->notesCount() && m_scoreObj->noteList()[noteNr].rtm.tie() && m_scoreObj->noteList()[noteNr].rtm.tie() != Trhythm::e_tieStart) {
+          auto nextNote = m_scoreObj->note(noteNr);
+          if (nextNote) {
+              nextNote->markNoteHead(outColor);
+              noteNr++;
+              markedCount++;
+          } else
+              break;
+        }
+    } else if (note->note()->isRest()) {
+        noteNr++;
+        while (noteNr < m_scoreObj->notesCount() && m_scoreObj->noteList()[noteNr].isRest()) {
+          auto nextNote = m_scoreObj->note(noteNr);
+          if (nextNote) {
+              nextNote->markNoteHead(outColor);
+              noteNr++;
+              markedCount++;
+          } else
+              break;
+        }
+    }
+  }
+  return markedCount;
 }
 
 

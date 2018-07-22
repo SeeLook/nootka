@@ -93,6 +93,7 @@ public:
   QString keyNameText() const;
 
 // redirected from TscoreObject
+  int notesCount() const;
   void setReadOnly(bool ro);
   void clearScore();
   void setKeySignatureEnabled(bool enbleKey);
@@ -122,7 +123,14 @@ public:
   void forceAccidental(int accid);
   void unLockScore();
   void lockKeySignature(bool lock);
-  void markNoteHead(const QColor& outColor, int noteNr);
+
+      /**
+       * Marks note head of index @p noteNr
+       * If note starts a tie - all tied notes are marked as well.
+       * Also when note is a rest - all contiguous rests are treated as one
+       * Returns how many notes was marked
+       */
+  int markNoteHead(const QColor& outColor, int noteNr);
   void correctNote(const Tnote& goodNote, char keySign, bool corrAccid = false);
 
 signals:

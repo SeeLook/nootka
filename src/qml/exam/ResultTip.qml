@@ -13,7 +13,6 @@ Item {
   property alias color: txt.color
   property alias text: txt.text
 
-  y: GLOB.useAnimations ? -2 * height : targetY
   anchors.horizontalCenter: parent.horizontalCenter
 
   width: txt.width; height: txt.height
@@ -27,8 +26,8 @@ Item {
 
   DropShadow {
     anchors.fill: txt
-    horizontalOffset: executor.height / 200
-    verticalOffset: executor.height / 200
+    horizontalOffset: txt.font.pixelSize / 12
+    verticalOffset: horizontalOffset
     radius: executor.height / 100
     samples: radius * 2 + 1
     color: activPal.shadow
@@ -40,6 +39,7 @@ Item {
   Component.onCompleted: {
     if (GLOB.useAnimations)
       anim.running = true
+    y = GLOB.useAnimations ? -2 * height : targetY
   }
 
   SequentialAnimation {

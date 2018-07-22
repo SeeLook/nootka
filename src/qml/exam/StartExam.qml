@@ -46,7 +46,7 @@ TstartExamItem {
           background: Rectangle {
             id: nameBg
             color: activPal.base
-            border { width: 1; color: activPal.text }
+            border { width: userNameIn.focus ? 2 : 1; color: userNameIn.focus ? activPal.highlight : activPal.text }
             SequentialAnimation {
               id: noNameAnim
               loops: Animation.Infinite

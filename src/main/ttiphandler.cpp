@@ -254,6 +254,7 @@ void TtipHandler::showResultTip(TQAunit* answer, int time) {
 
 
 void TtipHandler::showTryAgainTip(int time) {
+  deleteWhatNextTip();
   deleteTryAgainTip();
 
   emit wantTryAgainTip();
