@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -8,7 +8,8 @@ import QtQuick.Controls 2.2
 
 AbstractButton {
   id: root
-  font.pixelSize: Noo.fontSize()
+  font { pixelSize: Noo.fontSize(); bold: activeFocus }
+  focus: true
 
   property alias radius: bg.radius
   property alias color: bg.color
@@ -24,6 +25,7 @@ AbstractButton {
         id: img
         sourceSize.height: Noo.fontSize() * 2
         anchors.verticalCenter: parent.verticalCenter
+        scale: root.activeFocus ? 1.1 : 1.0
       }
       Text {
         padding: Noo.fontSize() / 3

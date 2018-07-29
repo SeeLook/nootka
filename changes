@@ -1,6 +1,7 @@
 1.5.2 alpha3
      - extended grand staff, beaming notes on every staff separately
      - score supports bowing symbols, read them from XML
+     - keyboard shortcuts for changing rhythm, accidentals, etc.
      - all playing routines moved to separate thread
      - improved level creator
 

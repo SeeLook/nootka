@@ -8,7 +8,8 @@ import QtQuick.Controls 2.2
 
 AbstractButton {
   id: root
-  font.pixelSize: Noo.fontSize()
+  font { pixelSize: Noo.fontSize(); bold: activeFocus }
+  focus: true
 
   property alias radius: bg.radius
   property alias color: bg.color
