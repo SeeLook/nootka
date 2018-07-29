@@ -100,7 +100,7 @@ void TglobalExamStore::prepareGlobalsToExam(const Tlevel& level) {
   }
   m_globals->A->intonation = level.intonation;
 //   m_globals->S->isSingleNoteMode = !level.canBeMelody();
-  m_globals->setRhythmsEnabled(false); // TODO: Read it from level when will be implemented
+//   m_globals->setRhythmsEnabled(false); // TODO: Read it from level when will be implemented
 //   m_globals->L->soundViewEnabled = level.answerIsSound();
 //   if (level.canBeGuitar()) // enable guitar if necessary, but don't disable when it is visible
 //     m_globals->L->guitarEnabled = true;

@@ -20,7 +20,6 @@
 #include "tqaunit.h"
 #include "tattempt.h"
 #include <QtWidgets/qapplication.h>
-#include <QtGui/qcolor.h>
 
 
     /**
@@ -63,11 +62,16 @@ QString wasAnswerOKtext(TQAunit* answer, int attempt) {
           txt += QApplication::translate("AnswerText", "Not bad, but:", "'Not so bad, but:' is perfectly clear, but a little less common in US English. To be a bit shorter, it might just as well be, 'Not bad, but:'") + QLatin1String("<br>");
           QString misMes; // Message with mistakes
           if (curQ.wrongString())
-              misMes = QApplication::translate("AnswerText", "wrong string");
+            misMes = QApplication::translate("AnswerText", "wrong string");
           if (answer->melody() && curQ.littleNotes())
-              misMes = QApplication::translate("AnswerText", "little valid notes", "the amount of correct notes in an answer is little");
+            misMes = QApplication::translate("AnswerText", "little valid notes", "the amount of correct notes in an answer is little");
+          if (answer->melody() && curQ.wrongRhythm()) {
+            addSpaceToNotEmpty(misMes);
+            newLineText(misMes, QApplication::translate("AnswerText", "incorrect rhythm"));
+//             newLineText(misMes, QApplication::translate("AnswerText", "jerkily"));
+          }
           if (curQ.poorEffect()) {
-              addSpaceToNotEmpty(misMes);
+            addSpaceToNotEmpty(misMes);
 #if !defined (Q_OS_ANDROID) // Under mobile - above method does it
               if (!misMes.isEmpty())
                 misMes += QLatin1String("<br>");
