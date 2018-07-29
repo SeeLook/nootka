@@ -121,8 +121,17 @@ QColor& TexecutorSupply::answerColor(quint32 mistake) {
     return GLOB->EquestionColor;
 }
 
-
 /* end of static */
+
+
+TpitchRhythm::TpitchRhythm(const Tnote& note, int index, int transposition) :
+    m_duration(note.duration()),
+    m_index(index)
+{
+  if (!note.isRest())
+    m_pitch = note.chromatic() + transposition;
+}
+
 
 TexecutorSupply::TexecutorSupply(Tlevel* level, QObject* parent) :
   QObject(parent),
@@ -587,6 +596,145 @@ void TexecutorSupply::compareMelodies(Tmelody* q, QList<TnoteStruct>& a, Tattemp
     att->add(tmpUnit.mistake());
   }
   att->updateEffectiveness();
+}
+
+
+void TexecutorSupply::compareWrittenFromPlayed(Tmelody* q, Tmelody* a, Tattempt* attempt, int transposition) {
+  QList<TpitchRhythm> quesList = toPitchRhythm(q, transposition);
+  QList<TpitchRhythm> answList = toPitchRhythm(a, 0); // already transposed
+  int notesCount = qMax(quesList.size(), answList.size());
+  for (int i = 0; i < notesCount; ++i) {
+    TQAunit tmpUnit;
+    if (quesList.size() > i && answList.size() > i) {
+        if (q->clef() != Tclef::NoClef) // if there is some melody in a melody
+          tmpUnit.setMistake(comparePitches(quesList[i].pitch(), answList[i].pitch(), m_level->requireOctave));
+        if (quesList[i].duration() != answList[i].duration()) { // wrong rhythm
+          tmpUnit.setMistake(TQAunit::e_wrongRhythm);
+        }
+    } else {
+        tmpUnit.setMistake(TQAunit::e_wrongNote);
+    }
+    attempt->add(tmpUnit.mistake());
+    if (q->note(quesList[i].index())->p().rtm.tie()) { // copy committed mistake type for every tied note in questioned melody
+      int tieId = quesList[i].index() + 1;
+      while (tieId < q->length() && q->note(tieId)->p().rtm.tie() && q->note(tieId)->p().rtm.tie() != Trhythm::e_tieStart) {
+        attempt->add(tmpUnit.mistake());
+        tieId++;
+      }
+    }
+    // As long as we treat contiguous rests as the single one, we have to keep 'mistake' for every such rest in questioned melody (similar to ties)
+    if (q->note(quesList[i].index())->p().isRest()) {
+      int restId = quesList[i].index() + 1;
+      while (restId < q->length() && q->note(restId)->p().isRest()) {
+        attempt->add(tmpUnit.mistake());
+        restId++;
+      }
+    }
+  }
+  attempt->updateEffectiveness();
+}
+
+
+void TexecutorSupply::comparePlayedFromScore(Tmelody* q, QList<TnoteStruct>& a, Tattempt* att, int transposition) {
+  QList<TpitchRhythm> quesList = toPitchRhythm(q, transposition);
+  int notesCount = qMax(quesList.size(), a.size());
+  qreal tempoSum = 0.0;
+  int tempoCounter = 0;
+  qreal tempoFactor = a.isEmpty() ? 1.0 : static_cast<qreal>(quesList[0].duration()) / a[0].duration;
+  bool lastIsRest = quesList.last().pitch() == 127 && q->meter()->meter() != Tmeter::NoMeter;
+  for (int i = 0; i < notesCount; ++i) {
+    TQAunit tmpUnit;
+    if (a.size() > i && quesList.size() > i) { // skip checking the last note if it is a rest
+      if (!lastIsRest || (lastIsRest && quesList[i].index() < q->length() - 1)) {
+        if (q->clef() != Tclef::NoClef) // if there is some melody in a melody - compare pitches
+          tmpUnit.setMistake(comparePitches(quesList[i].pitch(), a[i].pitchF == 0.0 ? 127 : a[i].pitch.chromatic(), m_level->requireOctave));
+
+        if (q->meter()->meter() != Tmeter::NoMeter) {
+          qreal dur = tempoFactor * a[i].duration;
+          // Calculate quantization as a half of expected rhythm value (without dot).
+          // It avoids some extraordinary values like 4.. or even worst
+          int quantization = qMax(6, quesList[i].duration() / 2);
+          int normDur = qRound(dur / static_cast<qreal>(quantization)) * quantization;
+          Trhythm r(normDur);
+          if (!r.isValid()) {
+              qDebug() << "What shall we do with invalid duration of" << i << normDur << "for" << q->note(i)->p().rtm.string();
+              tmpUnit.setMistake(TQAunit::e_wrongRhythm);
+          } else {
+              if (r.duration() == quesList[i].duration()) {
+                  qreal tempo = 60.0 / ((24.0 / static_cast<qreal>(quesList[i].duration())) * a[i].duration);
+                  tempoCounter++;
+                  tempoSum += tempo;
+                  qDebug() << i << "rhythm was correct. Tempo is" << tempo;
+              } else {
+                  tmpUnit.setMistake(TQAunit::e_wrongRhythm);
+                  qDebug() << i << "WRONG RHYTHM! Expected:" << Trhythm(quesList[i].duration()).string() << "got:" << r.string() << dur << normDur << quantization;
+              }
+          }
+        }
+      }
+      att->add(tmpUnit.mistake());
+      if (q->note(quesList[i].index())->p().rtm.tie()) { // copy committed mistake type for every tied note in questioned melody
+        int tieId = quesList[i].index() + 1;
+        while (tieId < q->length() && q->note(tieId)->p().rtm.tie() && q->note(tieId)->p().rtm.tie() != Trhythm::e_tieStart) {
+          att->add(tmpUnit.mistake());
+          tieId++;
+        }
+      }
+      // As long as we treat contiguous rests as the single one, we have to keep 'mistake' for every such rest in questioned melody (similar to ties)
+      if (q->note(quesList[i].index())->p().isRest()) {
+        int restId = quesList[i].index() + 1;
+        while (restId < q->length() && q->note(restId)->p().isRest()) {
+          att->add(tmpUnit.mistake());
+          restId++;
+        }
+      }
+    }
+  }
+  qDebug() << "average tempo:" << tempoSum / tempoCounter;
+  att->updateEffectiveness();
+}
+
+
+quint32 TexecutorSupply::comparePitches(int p1, int p2, bool requireOctave) {
+  int witoutOctave1 = (p1 + 143) % 12;
+  int witoutOctave2 = (p2 + 143) % 12;
+  if (witoutOctave1 == witoutOctave2) {
+    if (requireOctave)
+      return p1 == p2 ? static_cast<quint32>(TQAunit::e_correct) : static_cast<quint32>(TQAunit::e_wrongOctave);
+  }
+  //TODO intonation check
+  return static_cast<quint32>(TQAunit::e_wrongNote);
+}
+
+QList<TpitchRhythm> TexecutorSupply::toPitchRhythm(Tmelody* m, int transposition) {
+  QList<TpitchRhythm> prList;
+  bool wasRest = false;
+  for (int n = 0; n < m->length(); ++n) {
+    if (m->note(n)->p().isRest()) { // treat a few rests as a single duration
+        if (wasRest)
+            prList.last().append(m->note(n)->p());
+        else {
+            wasRest = true;
+            prList << TpitchRhythm(m->note(n)->p(), n);
+        }
+        continue;
+    } else
+        wasRest = false;
+    if (m->note(n)->p().rtm.tie() < Trhythm::e_tieCont) // no tie or tie starts
+        prList << TpitchRhythm(m->note(n)->p(), n, transposition);
+    else { // note with tie is continued or ends
+        if (prList.isEmpty()) { // TODO: it should never happened, so delete it after testing
+          qDebug() << "[TexecutorSupply] wrong tie in first note of melody";
+          break;
+        }
+        if (prList.last().pitch() != m->note(n)->p().chromatic() + transposition) { // TODO: it should never happened, so delete it after testing
+          qDebug() << "[TexecutorSupply] tied notes are different!" << n << m->note(n)->p().toText();
+          continue;
+        }
+        prList.last().append(m->note(n)->p());
+    }
+  }
+  return prList;
 }
 
 
