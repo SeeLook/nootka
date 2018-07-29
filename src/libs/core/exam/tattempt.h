@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,8 +20,9 @@
 #define TATTEMPT_H
 
 #include "nootkacoreglobal.h"
-#include <QList>
-#include <QXmlStreamWriter>
+#include <QtCore/qxmlstream.h>
+#include <QtCore/qlist.h>
+
 
 /**
  * This class describes an attempt to 'resolve/guess' an exercise/exam question
@@ -36,33 +37,75 @@ public:
 
   virtual ~Tattempt();
 
-  void add(quint32 mistake); /** Adds time and mistake of a note to the lists. */
-  QList<quint32> mistakes; /** Type of mistake of every note in a melody */
+      /**
+       * Adds time and mistake of a note to the lists.
+       */
+  void add(quint32 mistake);
 
-      /** How many times user played or listened to a question melody. */
+      /**
+       * Type of mistake of every note in a melody
+       */
+  QList<quint32> mistakes;
+
+      /**
+       * How many times user played or listened to a question melody.
+       */
   quint16 playedCount() const { return m_playedCounter; }
-  void melodyWasPlayed() { m_playedCounter++; } /** Increases playback counter */
 
-      /** @p TRUE when no mistakes and times in the lists and playback counter is 0 */
+      /**
+       * Increases playback counter
+       */
+  void melodyWasPlayed() { m_playedCounter++; }
+
+      /**
+       * @p TRUE when no mistakes and times in the lists and playback counter is 0
+       */
   bool isEmpty() const { return mistakes.isEmpty() && m_playedCounter == 0; }
 
-  quint32 totalTime() const { return m_totalTime; } /** Total answer time of this attempt. */
+      /**
+       * Total answer time of this attempt.
+       */
+  quint32 totalTime() const { return m_totalTime; }
   void setTotalTime(quint32 tt) { m_totalTime = tt; }
 
-      /** Time spent to prepare playing answer. Between question time start and detected first played note. */
+      /**
+       * Time spent to prepare playing answer. Between question time start and detected first played note.
+       */
   quint32 prepareTime() const { return m_prepTime; }
   void setPrepareTime(quint32 prepTime) { m_prepTime = prepTime; }
 
-  quint32 summary() const { return m_sum; } /** Logical sum of all mistakes in the attempt */
-  bool isCorrect() const { return m_sum == 0; } /** All notes were correct. */
-  bool isNotBad() { return m_sum && !(m_sum & 64 || m_sum & 16); } /** Some note(s) are 'not bad' but none is wrong. */
-  bool isWrong() { return m_sum & 64; } /** Some note(s) are wrong. */
+      /**
+       * Logical sum of all mistakes in the attempt
+       */
+  quint32 summary() const { return m_sum; }
+
+      /**
+       * All notes were correct.
+       */
+  bool isCorrect() const { return m_sum == 0; }
+
+      /**
+       * Some note(s) are 'not bad' but none is wrong.
+       */
+  bool isNotBad() { return m_sum && !(m_sum & 64 || m_sum & 16); }
+
+      /**
+       * Some note(s) are wrong.
+       */
+  bool isWrong() { return m_sum & 64; }
 
   void toXml(QXmlStreamWriter& xml) const;
   void fromXml(QXmlStreamReader& xml);
 
-  qreal effectiveness() const { return m_effectiveness; } /** Effectiveness of the attempt. */
-  void updateEffectiveness(); /** Calculates an effectiveness from mistakes, and logical mistakes sum. */
+      /**
+       * Effectiveness of the attempt.
+       */
+  qreal effectiveness() const { return m_effectiveness; }
+
+      /**
+       * Calculates an effectiveness from mistakes, and logical mistakes sum.
+       */
+  void updateEffectiveness();
 
 private:
 

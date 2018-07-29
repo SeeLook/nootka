@@ -35,7 +35,7 @@ TQAunit::TQAunit(Texam* exam)
 {
   qa.pos();
   style = 50; // (2 + 1) * 16 + 2 // 2 is e_italiano_Si cast to int
-  valid = 0; // correct in assume
+  p_valid = 0; // correct in assume
   time = 0;
   qa_2.pos();
   m_melody = nullptr;
@@ -59,8 +59,8 @@ void TQAunit::copy(const TQAunit& otherUnit) {
   time = otherUnit.time;
   if (otherUnit.melody() || otherUnit.attemptsCount()) {
       deleteMelody();
-      m_melody = 0;
-      attemptList = 0;
+      m_melody = nullptr;
+      attemptList = nullptr;
       idOfMelody = -1;
       m_srcMelody = e_srcNoMelody;
   } else {
@@ -91,18 +91,20 @@ TQAunit::~TQAunit()
 
 void TQAunit::setMistake(Emistake mis) {
   switch (mis) {
-    case e_correct : valid = 0; break;
-    case e_wrongAccid : valid |= 1; break;
-    case e_wrongKey : valid |= 2; break;
-    case e_wrongOctave : valid |= 4; break;
-    case e_wrongStyle : valid |= 8; break;
-    case e_wrongPos : valid |= 16; break;
-    case e_wrongString : valid |= 32; break;
-    case e_wrongIntonation : valid |= 128; break;
-    case e_littleNotes : valid |= 256; break;
-    case e_poorEffect : valid |= 512; break;
-    case e_veryPoor : valid = 1024; break; // If this kind of mistakes are committed...
-    case e_wrongNote : valid = 64; break; //  all above has no sense so '=' instead '|=' is correct
+    case e_correct:           p_valid = 0; break;
+    case e_wrongAccid:        p_valid |= 1; break;
+    case e_wrongKey:          p_valid |= 2; break;
+    case e_wrongOctave:       p_valid |= 4; break;
+    case e_wrongStyle:        p_valid |= 8; break;
+    case e_wrongPos:          p_valid |= 16; break;
+    case e_wrongString:       p_valid |= 32; break;
+    case e_wrongIntonation:   p_valid |= 128; break;
+    case e_littleNotes:       p_valid |= 256; break;
+    case e_poorEffect:        p_valid |= 512; break;
+    case e_wrongTempo:        p_valid |= e_wrongTempo; break;
+    case e_veryPoor:          p_valid = 1024; break; // If this kind of mistakes are committed...
+    case e_wrongNote:         p_valid = 64; break; //  all above has no sense so '=' instead '|=' is correct
+    case e_wrongRhythm:       p_valid |= e_wrongRhythm; break;
   }
 }
 
@@ -212,7 +214,7 @@ bool TQAunit::fromXml(QXmlStreamReader& xml) {
     else if (xml.name() == QLatin1String("t"))
       time = xml.readElementText().toInt();
     else if (xml.name() == QLatin1String("m"))
-      valid = xml.readElementText().toInt();
+      p_valid = xml.readElementText().toInt();
     else if (xml.name() == QLatin1String("answered"))
       m_answered = QVariant(xml.readElementText()).toBool(); // or m_answered = false
     else if (xml.name() == QLatin1String("melody")) {
@@ -239,7 +241,7 @@ bool TQAunit::fromXml(QXmlStreamReader& xml) {
               addMelody(&m_exam->level()->melodySet[id], e_srcLevelSet, id);
           } else {
               ok = false;
-              qDebug() << "[TQAunit]";
+              qDebug() << "[TQAunit] id" << id << "points to not existing melody in the level:" << m_exam->level()->name;
           }
           xml.skipCurrentElement();
       }
@@ -290,7 +292,7 @@ bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit) {
   in >> qaUnit.qa_2.pos();
   quint8 valid_uint8;
   in >> valid_uint8;
-  qaUnit.valid = valid_uint8;
+  qaUnit.p_valid = valid_uint8;
 //     in >> qaUnit.valid;
   qaUnit.updateEffectiveness();
   return ok;

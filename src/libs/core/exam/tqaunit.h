@@ -65,7 +65,9 @@ public:
       e_wrongIntonation = 128, /**< when detected sound is out of range of intonation accuracy */
       e_littleNotes = 256, /**< when number of notes in answered melody is little */
       e_poorEffect = 512, /**< effectiveness of an answered melody is less than 70% (but greater than 50%) */
-      e_veryPoor = 1024 /**< effectiveness less than 50% - CARDINAL MISTAKE */
+      e_veryPoor = 1024, /**< effectiveness less than 50% - CARDINAL MISTAKE */
+      e_wrongRhythm = 2048, /**< more notes has wrong rhythm - CARDINAL MISTAKE */
+      e_wrongTempo = 4096 /**< melody was played to slow or to fast */
   };
 
       /**
@@ -106,12 +108,12 @@ public:
        * setMistake(6);
        * If actual effectiveness is necessary invoke updateEffectiveness() after.
        */
-  void setMistake(quint32 misVal) { valid = misVal; }
+  void setMistake(quint32 misVal) { p_valid = misVal; }
 
       /**
        * set of mistakes as Boolean sum of @p Emistake
        */
-  quint32 mistake() const { return valid; }
+  quint32 mistake() const { return p_valid; }
 
   TQAgroup qa;
   TQAtype::Etype questionAs;
@@ -137,52 +139,83 @@ public:
 
   friend bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit);
 
-  bool isCorrect() const { return valid == e_correct; }
-  bool wrongAccid() const { return valid & e_wrongAccid; }
-  bool wrongKey() const { return valid & e_wrongKey; }
-  bool wrongOctave() const { return valid & e_wrongOctave; }
-  bool wrongStyle() const { return valid & e_wrongStyle; }
-  bool wrongPos() const { return valid & e_wrongPos; }
-  bool wrongString() const { return valid & e_wrongString; }
-  bool wrongNote() const {return valid & e_wrongNote; }
-  bool wrongIntonation() const {return valid & e_wrongIntonation; }
-      /** when number of notes in answered melody is little */
-  bool littleNotes() const {return valid & e_littleNotes; }
+  bool isCorrect() const { return p_valid == e_correct; }
+  bool wrongAccid() const { return p_valid & e_wrongAccid; }
+  bool wrongKey() const { return p_valid & e_wrongKey; }
+  bool wrongOctave() const { return p_valid & e_wrongOctave; }
+  bool wrongStyle() const { return p_valid & e_wrongStyle; }
+  bool wrongPos() const { return p_valid & e_wrongPos; }
+  bool wrongString() const { return p_valid & e_wrongString; }
+  bool wrongNote() const {return p_valid & e_wrongNote; }
+  bool wrongIntonation() const {return p_valid & e_wrongIntonation; }
 
-      /** effectiveness is less than 70% (but greater than 50%) */
-  bool poorEffect() const {return valid & e_poorEffect; }
+      /**
+       * when number of notes in answered melody is little
+       */
+  bool littleNotes() const {return p_valid & e_littleNotes; }
 
-      /** effectiveness of an answered melody is less than 50% */
-  bool veryPoor() const {return valid & e_veryPoor; }
+      /**
+       * effectiveness is less than 70% (but greater than 50%)
+       */
+  bool poorEffect() const {return p_valid & e_poorEffect; }
 
-      /** questionAs == TQAtype::e_onScore; */
+      /**
+       * effectiveness of an answered melody is less than 50%
+       */
+  bool veryPoor() const {return p_valid & e_veryPoor; }
+
+      /**
+       * more notes has wrong rhythm - CARDINAL MISTAKE
+       */
+  bool wrongRhythm() const { return p_valid & e_wrongRhythm; }
+
+      /**
+       * melody was played to slow or to fast
+       */
+  bool wrongTempo() const { return p_valid & e_wrongTempo; }
+
+      /**
+       * questionAs == TQAtype::e_onScore
+       */
   bool questionOnScore() const { return questionAs == TQAtype::e_onScore; }
 
-      /** questionAs == TQAtype::e_asName; */
+      /**
+       * questionAs == TQAtype::e_asName
+       */
   bool questionAsName() const { return questionAs == TQAtype::e_asName; }
 
-      /** questionAs == TQAtype::e_onInstr; */
+      /**
+       * questionAs == TQAtype::e_onInstr
+       */
   bool questionOnInstr() const { return questionAs == TQAtype::e_onInstr; }
 
-      /** questionAs == TQAtype::e_asSound; */
+      /**
+       * questionAs == TQAtype::e_asSound
+       */
   bool questionAsSound() const { return questionAs == TQAtype::e_asSound; }
 
-      /** answerAs == TQAtype::e_onScore; */
+      /**
+       * answerAs == TQAtype::e_onScore
+       */
   bool answerOnScore() const { return answerAs == TQAtype::e_onScore; }
 
-      /** answerAs == TQAtype::e_asName; */
+      /**
+       * answerAs == TQAtype::e_asName
+       */
   bool answerAsName() const { return answerAs == TQAtype::e_asName; }
 
-      /** answerAs == TQAtype::e_onInstr; */
+      /**
+       * answerAs == TQAtype::e_onInstr
+       */
   bool answerOnInstr() const { return answerAs == TQAtype::e_onInstr; }
 
-      /** answerAs == TQAtype::e_asSound; */
+      /**
+       * answerAs == TQAtype::e_asSound
+       */
   bool answerAsSound() const { return answerAs == TQAtype::e_asSound; }
 
   bool isWrong() const { return wrongNote() || wrongPos() || veryPoor(); }
-  bool isNotSoBad() const {
-    return valid && !wrongNote() && !wrongPos();
-  }
+  bool isNotSoBad() const { return p_valid && !wrongNote() && !wrongPos(); }
 
       /**
        * Parent exam or null.
@@ -266,7 +299,7 @@ public:
   bool fromXml(QXmlStreamReader& xml);
 
 protected:
-  quint32                 valid;
+  quint32                 p_valid;
   quint8                  style;
   int                     idOfMelody; /**< Number of another question or an item in a list that contain a melody. */
   QList<Tattempt*>       *attemptList; /**< Pointer to a list with attempts or 0 if no attempts */

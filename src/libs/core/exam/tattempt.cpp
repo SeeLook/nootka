@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,7 +18,7 @@
 
 #include "tattempt.h"
 #include "tqaunit.h"
-#include <QVariant>
+#include <QtCore/qvariant.h>
 
 
 Tattempt::Tattempt() :
@@ -42,18 +42,20 @@ Tattempt::~Tattempt()
 
 void Tattempt::updateEffectiveness() {
   if (mistakes.size()) {
-    qreal effSum = 0.0;
-    m_sum = 0;
-    for (int i = 0; i < mistakes.size(); ++i) {
-      m_sum |= mistakes[i];
-      if (mistakes[i] == TQAunit::e_correct)
+      qreal effSum = 0.0;
+      m_sum = 0;
+      for (int i = 0; i < mistakes.size(); ++i) {
+        quint32 m = mistakes[i];
+        m_sum |= m;
+        if (m == TQAunit::e_correct)
           effSum += CORRECT_EFF;
-      else if (!(mistakes[i] & TQAunit::e_wrongNote) && !(mistakes[i] & TQAunit::e_wrongPos))
+        else if (!(m & TQAunit::e_wrongNote) && !(m & TQAunit::e_wrongPos))
           effSum += NOTBAD_EFF;
-    }
-    m_effectiveness = effSum / (qreal)mistakes.size();
+      }
+      m_effectiveness = effSum / (qreal)mistakes.size();
   } else
-    m_effectiveness = 0.0;
+      m_effectiveness = 0.0;
+
   if (effectiveness() >= 50.0) {
     if (m_sum & TQAunit::e_wrongNote) { // subtract e_wrongNote if summary has sufficient effectiveness
       m_sum = m_sum - TQAunit::e_wrongNote; // attempt was successful
@@ -64,19 +66,19 @@ void Tattempt::updateEffectiveness() {
 
 
 void Tattempt::toXml(QXmlStreamWriter& xml) const {
-  xml.writeStartElement("a"); // a like attempt
+  xml.writeStartElement(QLatin1String("a")); // a like attempt
     if (mistakes.size()) {
-      xml.writeStartElement("mistakes");
+      xml.writeStartElement(QLatin1String("mistakes"));
       for (int i = 0; i < mistakes.size(); ++i)
-        xml.writeTextElement("m", QVariant(mistakes[i]).toString());
+        xml.writeTextElement(QLatin1String("m"), QVariant(mistakes[i]).toString());
       xml.writeEndElement(); // mistakes
     }
     if (m_playedCounter)
-      xml.writeTextElement("p", QVariant(m_playedCounter).toString());
+      xml.writeTextElement(QLatin1String("p"), QVariant(m_playedCounter).toString());
     if (m_totalTime)
-      xml.writeTextElement("tt", QVariant(m_totalTime).toString());
+      xml.writeTextElement(QLatin1String("tt"), QVariant(m_totalTime).toString());
     if (m_prepTime)
-      xml.writeTextElement("pt", QVariant(m_prepTime).toString());
+      xml.writeTextElement(QLatin1String("pt"), QVariant(m_prepTime).toString());
   xml.writeEndElement(); // a
 }
 
@@ -84,20 +86,20 @@ void Tattempt::toXml(QXmlStreamWriter& xml) const {
 void Tattempt::fromXml(QXmlStreamReader& xml) {
   m_playedCounter = 0;
   while (xml.readNextStartElement()) {
-    if (xml.name() == "mistakes") {
-      mistakes.clear();
-      while (xml.readNextStartElement()) {
-        if (xml.name() == "m")
-          mistakes << xml.readElementText().toInt();
-        else
-          xml.skipCurrentElement();
-      }
-      updateEffectiveness();
-    } else if (xml.name() == "p")
+    if (xml.name() == QLatin1String("mistakes")) {
+        mistakes.clear();
+        while (xml.readNextStartElement()) {
+          if (xml.name() == QLatin1String("m"))
+            mistakes << xml.readElementText().toInt();
+          else
+            xml.skipCurrentElement();
+        }
+        updateEffectiveness();
+    } else if (xml.name() == QLatin1String("p"))
         m_playedCounter = xml.readElementText().toInt();
-    else if (xml.name() == "tt")
+    else if (xml.name() == QLatin1String("tt"))
         m_totalTime = xml.readElementText().toInt();
-    else if (xml.name() == "pt")
+    else if (xml.name() == QLatin1String("pt"))
         m_prepTime = xml.readElementText().toInt();
     else
       xml.skipCurrentElement();
