@@ -18,7 +18,10 @@ CheckBox {
     x: chB.leftPadding
     y: chB.height / 2 - height / 2
     radius: Noo.fontSize() * 0.1
-    border.color: chB.enabled ? (chB.down ? activPal.highlight : activPal.dark) : disdPal.text
+    border {
+      color: chB.enabled ? (chB.down ? activPal.highlight : activPal.dark) : disdPal.text
+      width: chB.activeFocus ? 3 : 1
+    }
     color: chB.enabled ? activPal.base : disdPal.base
 
     Rectangle {
@@ -38,6 +41,6 @@ CheckBox {
     y: (chB.height - height) / 2
     leftPadding: indicator.width + font.pixelSize / 2
     color: chB.enabled ? activPal.text : disdPal.text
-    font { family: chB.font.family; pixelSize: chB.font.pixelSize }
+    font { family: chB.font.family; pixelSize: chB.font.pixelSize; bold: chB.activeFocus }
   }
 }
