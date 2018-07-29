@@ -102,7 +102,7 @@ public:
   void setClef(int clefType);
   void setMeter(int meterType);
   Tnote getNote(int id);
-  void setSelectedItem(int id);
+  int setSelectedItem(int id);
   void setTechnical(int noteId, quint32 tech);
   bool selectInReadOnly() const;
   void setSelectInReadOnly(bool sel);
