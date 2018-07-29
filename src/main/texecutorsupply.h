@@ -24,11 +24,38 @@
 #include <exam/tqaunit.h>
 #include <QtCore/qpointer.h>
 
+
 class TequalRand;
 class MainWindow;
 class Texam;
 class QWidget;
 class Tlevel;
+
+
+/**
+ * @class TpitchRhythm is simple container for a melody note that is either a question or an answer.
+ * It stores chromatic number of a note @p pitch(), note @p duration() (summary of tied notes)
+ * and @p index() of a note in melody (or other note list) - if note are tied it is index of first one.
+ */
+class TpitchRhythm {
+public:
+  TpitchRhythm(const Tnote& note, int index, int transposition = 0);
+  TpitchRhythm() {}
+
+  int pitch() const { return m_pitch; }
+  int duration() const { return m_duration; }
+  int index() const { return m_index; }
+
+      /**
+       * Appends duration of given @p note to existing duration
+       */
+  void append(const Tnote& note) { m_duration += note.duration(); }
+
+private:
+  qint16          m_pitch = 127; // rest
+  int             m_duration = 0;
+  qint16          m_index = 0;
+};
 
 
 /**
@@ -139,12 +166,25 @@ public:
 
       /**
        * Compares given melody with list of played notes.
-       * Tattempt::times is filled up and wrong intonation is detected if level requires it.
+       * @p Tattempt::times is filled up and wrong intonation is detected if level requires it.
        * When notes count are not equal, the biggest number is taken
        * and the rest of 'additional' notes are marked as 'wrong'
        * The attempt effectiveness is updated at the end.
        */
   void compareMelodies(Tmelody* q, QList<TnoteStruct>& a, Tattempt* att);
+
+      /**
+       * Compares two given melodies (@p Tmelody pointers)
+       * - first one (question) was played - so it could be transposed
+       * - second one (answer) was written in the score
+       */
+  void compareWrittenFromPlayed(Tmelody* q, Tmelody * a, Tattempt* attempt, int transposition);
+
+  void comparePlayedFromScore(Tmelody* q, QList<TnoteStruct>& a, Tattempt* att, int transposition);
+
+  quint32 comparePitches(int p1, int p2, bool requireOctave);
+
+  QList<TpitchRhythm> toPitchRhythm(Tmelody* m, int transposition);
 
       /**
        * Returns a key signature depend on a current level settings.
