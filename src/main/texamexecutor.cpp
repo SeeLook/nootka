@@ -633,15 +633,16 @@ void TexamExecutor::checkAnswer(bool showResults) {
               Tmelody answMelody;
               MAIN_SCORE->getMelody(&answMelody);
 //               m_supp->compareMelodies(curQ->melody(), &answMelody, curQ->lastAttempt());
-//               m_supp->compareWrittenFromPlayed(curQ->melody(), &answMelody, curQ->lastAttempt(), curQ->melody()->key().difference(curQ->key));
+              m_supp->compareWrittenFromPlayed(curQ->melody(), &answMelody, curQ->lastAttempt(), curQ->melody()->key().difference(curQ->key));
           } else { // playing a score
-              if (m_level.isMelodySet() && m_level.useKeySign && curQ->melody()->key() != curQ->key) {
-                  Tmelody transposedMelody; // questioned melody was transposed, so copy it from score
-                  MAIN_SCORE->getMelody(&transposedMelody);
-                  m_supp->compareMelodies(&transposedMelody, m_melody->listened(), curQ->lastAttempt());
+//               if (m_level.isMelodySet() && m_level.useKeySign && curQ->melody()->key() != curQ->key) {
+//                   Tmelody transposedMelody; // questioned melody was transposed, so copy it from score
+//                   MAIN_SCORE->getMelody(&transposedMelody);
+//                   m_supp->compareMelodies(&transposedMelody, m_melody->listened(), curQ->lastAttempt());
+                  m_supp->comparePlayedFromScore(curQ->melody(), m_melody->listened(), curQ->lastAttempt(), curQ->melody()->key().difference(curQ->key));
 //                   m_supp->compareRhythms(&transposedMelody, m_melody->listened(), curQ->lastAttempt());
-              } else
-                  m_supp->compareMelodies(curQ->melody(), m_melody->listened(), curQ->lastAttempt());
+//               } else
+//                   m_supp->compareMelodies(curQ->melody(), m_melody->listened(), curQ->lastAttempt());
           }
           int goodAllready = 0, notBadAlready = 0, wrongAlready = 0;
           for (int i = 0; i < curQ->lastAttempt()->mistakes.size(); ++i) { // setting mistake type in TQAunit
@@ -1052,6 +1053,7 @@ void TexamExecutor::prepareToExam() {
 
   m_glStore->storeSettings();
   m_glStore->prepareGlobalsToExam(m_level);
+  GLOB->setRhythmsEnabled(m_level.isMelodySet() && m_level.melodySet.first().meter()->meter() != Tmeter::NoMeter); // TODO
 
 
 // #if !defined (Q_OS_ANDROID) // Do not show it user Android - it sucks there
@@ -1533,13 +1535,16 @@ void TexamExecutor::connectPlayingFinished() {
 }
 
 
+int melodySelectionIndex = 0;
 void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
   if (m_melody->wasIndexChanged())
     m_exam->curQ()->lastAttempt()->melodyWasPlayed();
   m_melody->noteStarted();
-  if (m_melody->currentIndex() == 0) // first played note was detected
+  if (m_melody->currentIndex() == 0) { // first played note was detected
     m_exam->curQ()->lastAttempt()->setPrepareTime(m_penalty->elapsedTime() - quint32(n.duration));
-  if (m_exercise && !m_level.isMelodySet() && GLOB->waitForCorrect()) {
+    melodySelectionIndex = 1;
+  }
+  if (m_exercise && m_exam->curQ()->melody()->meter()->meter() == Tmeter::NoMeter && GLOB->waitForCorrect()) {
       int expected = m_exam->curQ()->melody()->note(m_melody->currentIndex())->p().chromatic();
       int played = n.pitch.chromatic();
       if (!m_level.requireOctave) {
@@ -1557,8 +1562,10 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
           MAIN_SCORE->markNoteHead(GLOB->wrongColor(), m_melody->currentIndex());
       }
   } else {
-      if (m_melody->currentIndex() + 1 < m_exam->curQ()->melody()->length()) // highlight next note
-        MAIN_SCORE->setSelectedItem(m_melody->currentIndex() + 1);
+      if (melodySelectionIndex < m_exam->curQ()->melody()->length()) // highlight next note
+        melodySelectionIndex += MAIN_SCORE->setSelectedItem(melodySelectionIndex);
+      else
+        melodySelectionIndex++;
   }
 }
 
@@ -1567,10 +1574,11 @@ void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
   if (m_melody->currentIndex() < 0) // meanwhile new question melody was asked - some undesired note was finished
     return;
 
-  bool waitForCorrect = GLOB->waitForCorrect() && m_exercise;
+  bool waitForCorrect = m_exercise && m_exam->curQ()->melody()->meter()->meter() == Tmeter::NoMeter && GLOB->waitForCorrect();
   if (!waitForCorrect)
     m_melody->setNote(n);
-  if (m_melody->currentIndex() == m_exam->curQ()->melody()->length() - 1) {
+//   if (m_melody->currentIndex() == m_exam->curQ()->melody()->length() - 1) {
+  if (melodySelectionIndex > m_exam->curQ()->melody()->length()) {
     if (waitForCorrect && !m_melody->wasLatestNoteSet())
       return;
     if (GLOB->E->expertsAnswerEnable)

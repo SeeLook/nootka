@@ -997,6 +997,8 @@ void TscoreObject::handleKey(int keyValue, int modifiers) {
         emit workRhythmChanged();
         return;
       }
+    }
+    if (!m_singleNote) { // deleting score and last note available also when there are no rhythms
       if (key == Qt::Key_Delete) {
         if (m_allowAdding) {
           if (mod.testFlag(Qt::ShiftModifier))
