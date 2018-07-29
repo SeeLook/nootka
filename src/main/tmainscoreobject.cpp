@@ -183,8 +183,27 @@ Tnote TmainScoreObject::getNote(int id) {
 }
 
 
-void TmainScoreObject::setSelectedItem(int id) {
-  m_scoreObj->setSelectedItem(m_scoreObj->note(id));
+int TmainScoreObject::setSelectedItem(int id) {
+  auto n = m_scoreObj->note(id);
+  int notesSpan = 0;
+  m_scoreObj->setSelectedItem(n);
+  if (n) {
+    notesSpan = 1;
+    if (n->note()->isRest()) {
+        id++;
+        while (id < m_scoreObj->notesCount() && m_scoreObj->noteList().at(id).isRest()) {
+          notesSpan++;
+          id++;
+        }
+    } else if (n->note()->rtm.tie() == Trhythm::e_tieStart) {
+        id++;
+        while (id < m_scoreObj->notesCount() && m_scoreObj->noteList().at(id).rtm.tie() && m_scoreObj->noteList().at(id).rtm.tie() != Trhythm::e_tieStart) {
+          notesSpan++;
+          id++;
+        }
+    }
+  }
+  return notesSpan;
 }
 
 
