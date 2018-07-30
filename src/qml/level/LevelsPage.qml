@@ -34,18 +34,28 @@ Column {
       width: levelsPage.width / 4
       pixmap: Noo.pix("exam"); iconHeight: levelsPage.height / 15
       text: qsTr("Start exam")
-//       onClicked:
+      onClicked: start(2, selector.currentLevel())
     }
     TiconButton {
       enabled: selector.levelId !== -1 && selector.isSuitable(selector.levelId)
       width: levelsPage.width / 4
       pixmap: Noo.pix("practice"); iconHeight: levelsPage.height / 15
       text: qsTr("Start exercise")
-//       onClicked:
+      onClicked: start(4, selector.currentLevel())
     }
   }
   LinkText {
     text: qsTr("Get more levels <a href=\"%1\">from Nootka home page</a>").arg("https://nootka.sourceforge.io/index.php?C=down#levels")
     anchors.horizontalCenter: parent.horizontalCenter
+  }
+
+  function start(action, argument) {
+    GLOB.isExam = true
+    if (!nootkaWindow.executor.init(action, argument)) {
+        console.log("Executor discarded, deleting it")
+        nootkaWindow.executor.destroy()
+        GLOB.isExam = false
+    }
+    dialLoader.close()
   }
 }
