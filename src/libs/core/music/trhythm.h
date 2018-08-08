@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -26,10 +26,10 @@
 #include <QtCore/qmath.h>
 
 
-const std::string rhythmStrings [6] = {"", "whole", "half", "quarter", "eighth", "16th"};
+static const std::string rhythmStrings [6] = {"", "whole", "half", "quarter", "eighth", "16th"};
 
     /** Almost powers of 2, used to quickly mapping @p Erhythm enumerator into weight of rhythm value */
-const quint8 rtm2weightArr[6] = {0, 1, 2, 4, 8, 16};
+static const quint8 rtm2weightArr[6] = {0, 1, 2, 4, 8, 16};
 
 
     /**
@@ -41,7 +41,7 @@ const quint8 rtm2weightArr[6] = {0, 1, 2, 4, 8, 16};
 #define RVALUE (96)
 
     /** Array with duration values */
-const quint8 durArray[6][3] = {
+static const quint8 durArray[6][3] = {
 //  |  bare note |      dot         |    triplet |
     { 0,             0,                  0           }, // none
     { RVALUE,     (RVALUE * 3) / 2,  (RVALUE * 2) / 3}, // whole note      (96, 144, 64)
@@ -50,6 +50,9 @@ const quint8 durArray[6][3] = {
     { RVALUE / 8, (RVALUE * 3) / 16,  RVALUE / 12    }, // eighth note     (12, 18,   8)
     { RVALUE / 16,(RVALUE * 3) / 32,  RVALUE / 24    }  // sixteenth note  (6,  9,    4)
 };
+
+#define DUR_COUNT   (10) // total number of single notes duration (TODO: no triplets yet)
+static const quint8 durOrder[DUR_COUNT] = { 144, 96, 72, 48, 36, 24, 18, 12, 9, 6 };
 
 class Trhythm;
 
@@ -213,6 +216,12 @@ public:
        * with a few rhythms put into @p solvList
        */
   static void resolve(int problemDur, TrhythmList& solvList);
+
+      /**
+       * Static method returning @p TrhythmList with rhythmic values covering given @p problemDur.
+       * If @p unsolvedDur pointer is set, rest of @p problemDur which can't be expressed with correct rhythmic value is put into it.
+       */
+  static TrhythmList resolve(int problemDur, int* unsolvedDur = nullptr);
 
       /** Returns string with formatted rhythm value i.e. 4 or 8. or 16^3 */
   QString string() const;

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2016-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -212,6 +212,28 @@ void Trhythm::resolve(int problemDur, TrhythmList& solvList) {
   }
 }
 
+
+TrhythmList Trhythm::resolve(int problemDur, int* unsolvedDur) {
+  int workDur = problemDur;
+  TrhythmList rList;
+  for (int d = 0; d < DUR_COUNT; ++d) {
+    while (workDur > durOrder[d]) {
+      rList << Trhythm(durOrder[d]);
+      workDur -= durOrder[d];
+    }
+    if (workDur == durOrder[d]) {
+        rList << Trhythm(durOrder[d]);
+        workDur -= durOrder[d];
+        break;
+    } // else try next loop with smaller rhythmic value
+  }
+  if (workDur > 0) {
+    qDebug() << "[Trhythm] Can not resolve duration of" << problemDur << ". Remains" << workDur;
+    if (unsolvedDur)
+      *unsolvedDur = workDur;
+  }
+  return rList;
+}
 
 
 QString Trhythm::string() const {
