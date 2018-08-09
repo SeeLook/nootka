@@ -70,13 +70,7 @@ To consideration:
 - certificates would have some additional data about melodies
 - bring back isVoice() audio param - average pitch of all chunks or min duration will depend on it
 
-- dialog to configure generated melody and its rhythms
-- rhythms in level and exercise/exam
-
-- managing melodies in levels, adding set of melodies to the level
 - settings for keyboard shortcuts
-- sophisticated and configurable algorithm to generate random melodies
-- option for changing melody key (transposition) - in a level key range as well
 - intervals: creating melody with set of available intervals only
 - intervals: questions related to them in exam/exercises
 - recognizing melodies from *.ogg and *.wav files

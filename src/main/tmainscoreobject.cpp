@@ -168,8 +168,18 @@ char TmainScoreObject::keySignatureValue() {
 }
 
 
+int TmainScoreObject::clefType() const {
+  return static_cast<int>(m_scoreObj->clefType());
+}
+
+
 void TmainScoreObject::setClef(int clefType) {
   m_scoreObj->setClefType(static_cast<Tclef::EclefType>(clefType));
+}
+
+
+int TmainScoreObject::meter() const {
+  return m_scoreObj->meterToInt();
 }
 
 
@@ -220,6 +230,11 @@ quint32 TmainScoreObject::technical(int noteId) {
   if (noteId >= 0 && noteId < m_scoreObj->notesCount())
     return m_scoreObj->note(noteId)->technical();
   return 255;
+}
+
+
+void TmainScoreObject::setMelody(Tmelody* mel) {
+  m_scoreObj->setMelody(mel);
 }
 
 
@@ -378,7 +393,7 @@ void TmainScoreObject::saveXmlActSlot() {
 
 
 void TmainScoreObject::randMelodySlot() {
-  qDebug() << "[TmainScoreObject] random melody";
+  emit melodyGenerate();
 }
 
 

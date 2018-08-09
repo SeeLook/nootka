@@ -56,6 +56,8 @@ Score {
     zoomInAct.shortcut: Shortcut { sequence: StandardKey.ZoomIn; enabled: !GLOB.singleNoteMode }
     recModeAct.text: recordMode ? qsTr("Note by note") : qsTr("Edit")
     recModeAct.icon: recordMode ? "record" : "stopMelody"
+    randMelodyAct.shortcut: Shortcut { sequence: "Ctrl+M"; enabled: !GLOB.singleNoteMode && !GLOB.isExam }
+    onMelodyGenerate: nootkaWindow.showDialog(Nootka.MelodyGenerator)
   }
 
   Timer { id: zoomTimer; interval: 500 }

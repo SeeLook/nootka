@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2018 by Tomasz Bojczuk                                  *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,34 +16,51 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TRANDMELODY_H
-#define TRANDMELODY_H
+#ifndef TRTMSELECTORITEM_H
+#define TRTMSELECTORITEM_H
 
 
-#include <exam/tqagroup.h>
+#include <QtQuick/qquickitem.h>
+#include <music/trtmgroup.h>
 
 
-class TkeySignature;
-class Tmelody;
+#define DOTS_MASK         (16383)
+#define BASIC_MASK        (2097151)
+
 
 /**
- * Generates randomized melody into given reference of @p Tmelody.
- * Length is determined by @p len.
- * Notes are taken form given question list 
- * and key signature is respected if @inKey is set to @p true
- * Melody is finished on tonic note of the given key signature
- * when @p onTonic is set to @p true
+ *
  */
-void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic);
+class TrtmSelectorItem : public QQuickItem
+{
 
-void getRandomMelodyNG(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic, int maxStep = 0);
+  Q_OBJECT
 
-TrhythmList getRandomRhythm(int meter, int barCount, quint32 basicMask, quint32 dotsMask, int rtmDiversity);
+  Q_PROPERTY(quint32 basicMask READ basicMask WRITE setBasicMask NOTIFY basicMaskChanged)
+  Q_PROPERTY(quint32 dotsMask READ dotsMask WRITE setDotsMask NOTIFY dotsMaskChanged)
 
-    /**
-     * Returns @p TRUE when merge was correct
-     */
-bool mergeRhythmAndMelody(const TrhythmList& rList, Tmelody* melody);
+public:
+  explicit TrtmSelectorItem(QQuickItem* parent = nullptr);
 
+  ~TrtmSelectorItem() override;
 
-#endif // TRANDMELODY_H
+  Q_INVOKABLE QString getGroupText(int rtmGrEnum);
+  Q_INVOKABLE void groupChanged(int grId, bool checked);
+
+  quint32 basicMask() const { return m_basicMask; }
+  void setBasicMask(quint32 v);
+  quint32 dotsMask() const { return m_dotsMask; }
+  void setDotsMask(quint32 dm);
+
+  static quint32 bitOf(qreal bitNr) { return qRound(qPow(2.0, bitNr)); }
+
+signals:
+  void basicMaskChanged();
+  void dotsMaskChanged();
+
+private:
+  quint32             m_basicMask = 0;
+  quint32             m_dotsMask = 0;
+};
+
+#endif // TRTMSELECTORITEM_H
