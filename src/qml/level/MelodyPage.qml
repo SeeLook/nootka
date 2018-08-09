@@ -31,7 +31,7 @@ Tflickable {
         spacing: Noo.fontSize()
         anchors.horizontalCenter: parent.horizontalCenter
         Text {
-          text: Noo.TR("TmelodySettings", "Random melody")
+          text: qsTr("Random melody")
           anchors.verticalCenter: parent.verticalCenter
           color: enabled ? activPal.text : disdPal.text
         }
@@ -51,7 +51,7 @@ Tflickable {
       anchors.horizontalCenter: parent.horizontalCenter
       visible: melCombo.currentIndex !== 2
       Tile {
-        description: Noo.TR("TmelodySettings", "Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.")
+        description: qsTr("Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.")
         anchors.horizontalCenter: undefined
         width: Math.max(lenRow.width + Noo.fontSize() * 4, melPage.width * 0.49)
         Row {
@@ -59,7 +59,7 @@ Tflickable {
           spacing: Noo.fontSize()
           anchors.horizontalCenter: parent.horizontalCenter
           Text {
-            text: Noo.TR("TmelodySettings", "Melody length")
+            text: qsTr("Melody length")
             anchors.verticalCenter: parent.verticalCenter
             color: enabled ? activPal.text : disdPal.text
           }
@@ -72,18 +72,10 @@ Tflickable {
           }
         }
       }
-      Tile {
-        anchors.horizontalCenter: undefined
-        width: Math.max(tonicChB.width + Noo.fontSize() * 4, melPage.width * 0.49)
-        description: qsTr("Determines the last note of a melody.<br>When set, melody will be finished on tonic note in actual key signature.")
-        TcheckBox {
-          enabled: melCombo.currentIndex === 0
-          id: tonicChB
-          anchors.horizontalCenter: parent.horizontalCenter
-          text: qsTr("Melody ends on tonic note")
-          checked: creator.endsOnTonic
-          onClicked: creator.endsOnTonic = checked
-        }
+      EndOnTonicTile {
+        width: Math.max(checkBox.width + Noo.fontSize() * 4, melPage.width * 0.49)
+        checked: creator.endsOnTonic
+        checkBox.onClicked: creator.endsOnTonic = checked
       }
     }
     Score {
@@ -93,6 +85,17 @@ Tflickable {
       meter: Tmeter.NoMeter
       enableKeySign: creator.useKeySign
       scoreObj.allowAdding: visible
+    }
+    Tile {
+      description: qsTr("To do ......")
+      TcheckBox {
+//           enabled: melCombo.currentIndex > 0
+          id: inTempoChB
+          anchors.horizontalCenter: parent.horizontalCenter
+          text: qsTr("Play in tempo")
+//           checked: creator.endsOnTonic
+//           onClicked: creator.endsOnTonic = checked
+        }
     }
   }
 
