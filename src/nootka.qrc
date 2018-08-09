@@ -22,6 +22,7 @@
     <file alias="MenuButton.qml">qml/shared/MenuButton.qml</file>
     <file alias="NameStyleSelector.qml">qml/shared/NameStyleSelector.qml</file>
     <file alias="InstrumentSelector.qml">qml/shared/InstrumentSelector.qml</file>
+    <file alias="RhythmSelector.qml">qml/shared/RhythmSelector.qml</file>
     <file alias="TipRect.qml">qml/shared/TipRect.qml</file>
     <file alias="TcheckBox.qml">qml/shared/TcheckBox.qml</file>
     <file alias="Transposition.qml">qml/shared/Transposition.qml</file>
@@ -59,6 +60,7 @@
     <file alias="score/DelControl.qml">qml/score/DelControl.qml</file>
     <file alias="score/ControlBase.qml">qml/score/ControlBase.qml</file>
     <file alias="score/Scordature.qml">qml/score/Scordature.qml</file>
+    <file alias="score/MelGenDialog.qml">qml/score/MelGenDialog.qml</file>
 
     <file alias="Instrument.qml">qml/instruments/Instrument.qml</file>
     <file alias="instruments/Guitar.qml">qml/instruments/Guitar.qml</file>
@@ -94,6 +96,7 @@
     <file alias="level/QuestionsPage.qml">qml/level/QuestionsPage.qml</file>
     <file alias="level/QuestionsBox.qml">qml/level/QuestionsBox.qml</file>
     <file alias="level/MelodyPage.qml">qml/level/MelodyPage.qml</file>
+    <file alias="level/RhythmsPage.qml">qml/level/RhythmsPage.qml</file>
     <file alias="level/AccidsPage.qml">qml/level/AccidsPage.qml</file>
     <file alias="level/RangePage.qml">qml/level/RangePage.qml</file>
     <file alias="level/LevelPreview.qml">qml/level/LevelPreview.qml</file>
@@ -101,6 +104,10 @@
     <file alias="level/RemoveLevel.qml">qml/level/RemoveLevel.qml</file>
     <file alias="level/MelodyListView.qml">qml/level/MelodyListView.qml</file>
     <file alias="level/MelodyWrapper.qml">qml/level/MelodyWrapper.qml</file>
+    <file alias="level/MeterSelector.qml">qml/level/MeterSelector.qml</file>
+    <file alias="level/EndOnTonicTile.qml">qml/level/EndOnTonicTile.qml</file>
+    <file alias="level/CurrentKeyTile.qml">qml/level/CurrentKeyTile.qml</file>
+    <file alias="level/MaxIntervalTile.qml">qml/level/MaxIntervalTile.qml</file>
 
     <file alias="wizard/Wizard.qml">qml/wizard/Wizard.qml</file>
     <file alias="wizard/WizardInstrument.qml">qml/wizard/WizardInstrument.qml</file>

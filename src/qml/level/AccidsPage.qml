@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -146,13 +146,9 @@ Tflickable {
           }
           description: qsTr("if checked, in exam user have to select a key signature, otherwise it is shown by application.")
         }
-        Tile {
-          TcheckBox {
-            text: qsTr("notes in current key signature only")
-            anchors.horizontalCenter: parent.horizontalCenter
-            checked: creator.onlyCurrKey
-            onClicked: creator.onlyCurrKey = checked
-          }
+        CurrentKeyTile {
+          checked: creator.onlyCurrKey
+          checkBox.onClicked: creator.onlyCurrKey = checked
           description: qsTr("Only notes from current key signature are taken. If key signature is disabled accidentals are not used.")
         }
       }
