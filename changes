@@ -1,4 +1,6 @@
 1.5.2 alpha3
+     - added dialog to selecting options of random melody
+     - improvements in algorithm generating melodies
      - extended grand staff, beaming notes on every staff separately
      - score supports bowing symbols, read them from XML
      - keyboard shortcuts for changing rhythm, accidentals, etc.

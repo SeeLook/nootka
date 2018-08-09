@@ -99,7 +99,9 @@ public:
   void setKeySignatureEnabled(bool enbleKey);
   void setKeySignature(const TkeySignature& key);
   char keySignatureValue();
+  int clefType() const;
   void setClef(int clefType);
+  int meter() const;
   void setMeter(int meterType);
   Tnote getNote(int id);
   int setSelectedItem(int id);
@@ -107,6 +109,7 @@ public:
   bool selectInReadOnly() const;
   void setSelectInReadOnly(bool sel);
   quint32 technical(int noteId);
+  void setMelody(Tmelody* mel);
   void getMelody(Tmelody* melody);
 
 // exam/exercise related
@@ -141,6 +144,7 @@ signals:
   // redirected from TscoreObject
   void clicked();
   void readOnlyNoteClicked(int noteId);
+  void melodyGenerate();
 
 protected:
   void openXmlActSlot();
