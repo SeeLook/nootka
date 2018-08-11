@@ -25,7 +25,7 @@
 #include <QtCore/qobject.h>
 
 
-#define BASIC_GR_COUNT      (21) /** Number of enumerators representing basic rhythmic groups (without dots) */
+#define BASIC_GR_COUNT      (22) /** Number of enumerators representing basic rhythmic groups (without dots) */
 
 
 /**
@@ -47,6 +47,7 @@ public:
       Gr_4,
       Gr_8_8,
       Gr_8_16_16,
+      Gr_16_16_16_16,
       Gr_16_16_8,
       Gr_16_8_16,
     // Triple metre (duration: 4. -> one quarter and eight) ==== SIMPLE
