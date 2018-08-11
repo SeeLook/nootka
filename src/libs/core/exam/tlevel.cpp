@@ -40,7 +40,7 @@
  *
  * 3. 0x95121705 (22.06.2014) - XML stream - universal version
  *
- * 4. 0x95121707 (05.02.2018) - new instruments, melodies in Music XML
+ * 4. 0x95121707 (05.02.2018) - rhythms, new instruments, melodies in Music XML
  */
 
 const qint32 Tlevel::levelVersion = 0x95121701;
@@ -143,6 +143,15 @@ Tlevel::Tlevel() :
   requireInTempo = true;
   randMelody = e_randFromRange;
   //   notesList is clean here
+// RHYTHMS
+  basicRhythms = 0;
+  dotsRhythms = 0;
+  meters = 0;
+  rhythmDiversity = 5;
+  barNumber = 4;
+  variableBarNr = true;
+  useRests = false;
+  useTies = false;
 // RANGE - for non guitar Tglobals will returns scale determined by clef
   loNote = GLOB->loString();
   hiNote = Tnote(GLOB->hiString().chromatic() + GLOB->GfretsNumber);
@@ -366,6 +375,29 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
           else
             skipCurrentXmlKey(xml);
         }
+    } else if (xml.name() == QLatin1String("rhythms")) {
+  // RHYTHMS
+        while (xml.readNextStartElement()) {
+          if (xml.name() == QLatin1String("meters"))
+              meters = static_cast<quint16>(QVariant(xml.readElementText()).toInt());
+          else if (xml.name() == QLatin1String("basic"))
+              basicRhythms = static_cast<quint32>(QVariant(xml.readElementText()).toUInt());
+          else if (xml.name() == QLatin1String("dots"))
+              dotsRhythms = static_cast<quint32>(QVariant(xml.readElementText()).toUInt());
+          else if (xml.name() == QLatin1String("diversity"))
+              rhythmDiversity = static_cast<quint8>(QVariant(xml.readElementText()).toInt());
+          else if (xml.name() == QLatin1String("bars")) {
+              variableBarNr = xml.attributes().value(QLatin1String("variable")) == QLatin1String("true");
+              barNumber = static_cast<quint8>(QVariant(xml.readElementText()).toInt());
+          } else if (xml.name() == QLatin1String("randomBars"))
+              variableBarNr = QVariant(xml.readElementText()).toBool();
+          else if (xml.name() == QLatin1String("rests"))
+              useRests = QVariant(xml.readElementText()).toBool();
+          else if (xml.name() == QLatin1String("ties"))
+              useTies = QVariant(xml.readElementText()).toBool();
+          else
+              skipCurrentXmlKey(xml);
+        }
     } else if (xml.name() == QLatin1String("range")) {
   // RANGE
         while (xml.readNextStartElement()) {
@@ -479,10 +511,25 @@ void Tlevel::writeToXml(QXmlStreamWriter& xml) {
         }
       }
     xml.writeEndElement(); // melodies
+  // RHYTHMS
+    if (useRhythms()) { // store only when enabled
+      xml.writeStartElement(QLatin1String("rhythms"));
+        xml.writeTextElement(QLatin1String("meters"), QVariant(meters).toString());
+        xml.writeTextElement(QLatin1String("basic"), QVariant(basicRhythms).toString());
+        xml.writeTextElement(QLatin1String("dots"), QVariant(dotsRhythms).toString());
+        xml.writeTextElement(QLatin1String("diversity"), QVariant(rhythmDiversity).toString());
+        xml.writeStartElement(QLatin1String("bars"));
+          xml.writeAttribute(QLatin1String("variable"), QVariant(variableBarNr).toString());
+          xml.writeCharacters(QVariant(barNumber).toString());
+        xml.writeEndElement(); // bars
+        xml.writeTextElement(QLatin1String("rests"), QVariant(useRests).toString());
+        xml.writeTextElement(QLatin1String("ties"), QVariant(useTies).toString());
+      xml.writeEndElement(); // rhythms
+    }
   // RANGE
     xml.writeStartElement(QLatin1String("range"));
-      xml.writeTextElement(QLatin1String("loFret"), QVariant((qint8)loFret).toString());
-      xml.writeTextElement(QLatin1String("hiFret"), QVariant((qint8)hiFret).toString());
+      xml.writeTextElement(QLatin1String("loFret"), QVariant(static_cast<qint8>(loFret)).toString());
+      xml.writeTextElement(QLatin1String("hiFret"), QVariant(static_cast<qint8>(hiFret)).toString());
       loNote.toXml(xml, QLatin1String("loNote"));
       hiNote.toXml(xml, QLatin1String("hiNote"));
       for (int i = 0; i < 6; i++) {
@@ -723,6 +770,11 @@ bool Tlevel::adjustFretsToScale(char& loF, char& hiF) {
   loF = (char)lowest;
   hiF = (char)highest;
   return true;
+}
+
+
+bool Tlevel::useRhythms() const {
+  return meters && (dotsRhythms || basicRhythms) && barNumber > 1 && melodyLen > 1;
 }
 
 
