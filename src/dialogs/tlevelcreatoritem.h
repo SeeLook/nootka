@@ -37,7 +37,7 @@ class TlevelSelector;
  * then all parameters are updated because exposed level properties have the same NOTIFY signal: @p updateLevel().
  * This signal is also emitted when some property is set and its value influences other level parameters.
  *
- * In general, any user made changes in level creator are saved to @p m_level immediately
+ * In general, any changes made by an user in level creator are saved to @p m_level immediately
  * BUT! There are some parameters that have no sense to be updated this way (notes list for randomization)
  * So @p save() signal is emitted, and QML Level Creator calls function @p saveLevel() for each page if necessary
  */
@@ -83,6 +83,16 @@ class TlevelCreatorItem : public QQuickItem
   Q_PROPERTY(int hiKey READ hiKey WRITE setHiKey NOTIFY updateLevel)
   Q_PROPERTY(bool onlyCurrKey READ onlyCurrKey WRITE setOnlyCurrKey NOTIFY updateLevel)
   Q_PROPERTY(bool manualKey READ manualKey WRITE setManualKey NOTIFY updateLevel)
+  // Rhythms
+  Q_PROPERTY(int meters READ meters WRITE setMeters NOTIFY updateLevel)
+  Q_PROPERTY(quint32 basicRhythms READ basicRhythms WRITE setBasicRhythms NOTIFY updateLevel)
+  Q_PROPERTY(quint32 dotsRhythms READ dotsRhythms WRITE setDotsRhythms NOTIFY updateLevel)
+  Q_PROPERTY(int rhythmDiversity READ rhythmDiversity WRITE setRhythmDiversity NOTIFY updateLevel)
+  Q_PROPERTY(int barNumber READ barNumber WRITE setBarNumber NOTIFY updateLevel)
+  Q_PROPERTY(bool variableBarNr READ variableBarNr WRITE setVariableBarNr NOTIFY updateLevel)
+  Q_PROPERTY(bool useRests READ useRests WRITE setUseRests NOTIFY updateLevel)
+  Q_PROPERTY(bool useTies READ useTies WRITE setUseTies NOTIFY updateLevel)
+  Q_PROPERTY(bool hasRhythms READ hasRhythms NOTIFY hasRhythmsChanged)
 
 public:
   TlevelCreatorItem(QQuickItem* parent = nullptr);
@@ -218,6 +228,32 @@ public:
   bool manualKey() const;
   void setManualKey(bool manual);
 
+  int meters() const;
+  void setMeters(int m);
+
+  quint32 basicRhythms() const;
+  void setBasicRhythms(quint32 br);
+
+  quint32 dotsRhythms() const;
+  void setDotsRhythms(quint32 dr);
+
+  int rhythmDiversity() const;
+  void setRhythmDiversity(int diversity);
+
+  int barNumber() const;
+  void setBarNumber(int bNr);
+
+  bool variableBarNr() const;
+  void setVariableBarNr(bool variabus);
+
+  bool useRests() const;
+  void setUseRests(bool rests);
+
+  bool useTies() const;
+  void setUseTies(bool ties);
+
+  bool hasRhythms() const;
+
   Q_INVOKABLE QStringList keyComboModel();
 
   Q_INVOKABLE void openLevel(const QString& levelFile);
@@ -235,6 +271,7 @@ signals:
   void updateMelodyList();
   void saveStateChanged();
   void save();
+  void hasRhythmsChanged();
 
 protected:
   void whenLevelChanged();
