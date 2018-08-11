@@ -63,7 +63,7 @@ Tflickable {
             anchors.horizontalCenter: parent.horizontalCenter
             text: qsTr("force using appropriate accidental")
             checked: creator.forceAccids
-            onClicked: creator.forceAccChB = checked
+            onClicked: creator.forceAccids = checked
           }
           description: qsTr("if checked, it is possible to select a note<br>with given accidental only.")
         }

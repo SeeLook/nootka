@@ -297,8 +297,11 @@ void TlevelCreatorItem::setIsMelody(bool isMel) {
 int TlevelCreatorItem::melodyLen() const { return m_level->melodyLen; }
 void TlevelCreatorItem::setMelodyLen(int len) {
   if (m_level->melodyLen != len) {
+    bool prevRtmState = m_level->useRhythms();
     m_level->melodyLen = len;
     levelParamChanged();
+    if (m_level->useRhythms() != prevRtmState)
+      emit hasRhythmsChanged();
   }
 }
 
@@ -313,8 +316,12 @@ void TlevelCreatorItem::setEndsOnTonic(bool ends) {
  */
 int TlevelCreatorItem::randMelody() const { return qRound(qLn(static_cast<qreal>(m_level->randMelody) / qLn(2.0))); }
 void TlevelCreatorItem::setRandMelody(int rand) {
-  m_level->randMelody = static_cast<Tlevel::ErandMelody>(qPow(2.0, static_cast<qreal>(rand)));
-  levelParamChanged();
+  auto rCast = static_cast<Tlevel::ErandMelody>(qPow(2.0, static_cast<qreal>(rand)));
+  if (rCast != m_level->randMelody) {
+    m_level->randMelody = rCast;
+    levelParamChanged();
+    emit updateLevel();
+  }
 }
 
 int TlevelCreatorItem::notesInList() const { return m_level->notesList.count(); }
@@ -490,7 +497,6 @@ void TlevelCreatorItem::setManualKey(bool manual) {
   levelParamChanged();
 }
 
-
 QStringList TlevelCreatorItem::keyComboModel() {
   QStringList model;
   for (int i = -7; i < 8; i++) {
@@ -499,6 +505,67 @@ QStringList TlevelCreatorItem::keyComboModel() {
   }
   return model;
 }
+
+
+// Rhythms page
+int TlevelCreatorItem::meters() const { return static_cast<int>(m_level->meters); }
+void TlevelCreatorItem::setMeters(int m) {
+  bool prevRtmState = m_level->useRhythms();
+  m_level->meters = static_cast<quint16>(m);
+  levelParamChanged();
+  if (m_level->useRhythms() != prevRtmState)
+    emit hasRhythmsChanged();
+}
+
+quint32 TlevelCreatorItem::basicRhythms() const { return m_level->basicRhythms; }
+void TlevelCreatorItem::setBasicRhythms(quint32 br) {
+  bool prevRtmState = m_level->useRhythms();
+  m_level->basicRhythms = br;
+  levelParamChanged();
+  if (m_level->useRhythms() != prevRtmState)
+    emit hasRhythmsChanged();
+}
+
+quint32 TlevelCreatorItem::dotsRhythms() const { return m_level->dotsRhythms; }
+void TlevelCreatorItem::setDotsRhythms(quint32 dr) {
+  bool prevRtmState = m_level->useRhythms();
+  m_level->dotsRhythms = dr;
+  levelParamChanged();
+  if (m_level->useRhythms() != prevRtmState)
+    emit hasRhythmsChanged();
+}
+
+int TlevelCreatorItem::rhythmDiversity() const { return m_level->rhythmDiversity; }
+void TlevelCreatorItem::setRhythmDiversity(int diversity) {
+  m_level->rhythmDiversity = diversity;
+  levelParamChanged();
+}
+
+int TlevelCreatorItem::barNumber() const { return m_level->barNumber; }
+void TlevelCreatorItem::setBarNumber(int bNr) {
+  m_level->barNumber = bNr;
+  levelParamChanged();
+}
+
+bool TlevelCreatorItem::variableBarNr() const { return m_level->variableBarNr; }
+void TlevelCreatorItem::setVariableBarNr(bool variabus) {
+  m_level->variableBarNr = variabus;
+  levelParamChanged();
+}
+
+bool TlevelCreatorItem::useRests() const { return m_level->useRests; }
+void TlevelCreatorItem::setUseRests(bool rests) {
+  m_level->useRests = rests;
+  levelParamChanged();
+}
+
+bool TlevelCreatorItem::useTies() const { return m_level->useTies; }
+void TlevelCreatorItem::setUseTies(bool ties) {
+  m_level->useTies = ties;
+  levelParamChanged();
+}
+
+bool TlevelCreatorItem::hasRhythms() const { return m_level->useRhythms(); }
 
 
 void TlevelCreatorItem::openLevel(const QString& levelFile) {

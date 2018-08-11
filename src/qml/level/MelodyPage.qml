@@ -46,11 +46,12 @@ Tflickable {
     }
     Grid {
       id: melGrid
-      spacing: melPage.width / 100
-      columns: Noo.fontSize() * 50 > melPage.width ? 1 : 2
+      spacing: melPage.width / 50
+      columns: Noo.fontSize() * 50 > melPage.width ? 1 : (creator.hasRhythms ? 1 : 2)
       anchors.horizontalCenter: parent.horizontalCenter
       visible: melCombo.currentIndex !== 2
       Tile {
+        visible: !creator.hasRhythms
         description: qsTr("Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.")
         anchors.horizontalCenter: undefined
         width: Math.max(lenRow.width + Noo.fontSize() * 4, melPage.width * 0.49)
@@ -81,21 +82,39 @@ Tflickable {
     Score {
       id: listScore
       visible: melCombo.currentIndex === 1
-      width: parent.width; height: melPage.height - topTile.height - melGrid.height
+      width: parent.width; height: melPage.height - topTile.height - melGrid.height - tempoRange.height
       meter: Tmeter.NoMeter
       enableKeySign: creator.useKeySign
       scoreObj.allowAdding: visible
     }
     Tile {
-      description: qsTr("To do ......")
-      TcheckBox {
-//           enabled: melCombo.currentIndex > 0
-          id: inTempoChB
-          anchors.horizontalCenter: parent.horizontalCenter
-          text: qsTr("Play in tempo")
-//           checked: creator.endsOnTonic
-//           onClicked: creator.endsOnTonic = checked
+      Row {
+        spacing: Noo.fontSize()
+        anchors.horizontalCenter: parent.horizontalCenter
+        TcheckBox {
+            id: inTempoChB
+            text: qsTr("Play in tempo")
+  //           checked: creator.endsOnTonic
+  //           onClicked: creator.endsOnTonic = checked
         }
+        Text {
+          anchors.verticalCenter: parent.verticalCenter
+          text: Math.floor(tempoRange.first.value); font { bold: true; pixelSize: Noo.fontSize() * 0.8 }
+          color: enabled ? activPal.text : disdPal.text
+        }
+        RangeSlider {
+          id: tempoRange
+          width: parent.parent.width / 3
+          first.value: 60; second.value: 120
+          from: 40; to: 180
+          stepSize: 5; snapMode: RangeSlider.SnapAlways
+        }
+        Text {
+          anchors.verticalCenter: parent.verticalCenter
+          text: Math.floor(tempoRange.second.value); font { bold: true; pixelSize: Noo.fontSize() * 0.8 }
+          color: enabled ? activPal.text : disdPal.text
+        }
+      }
     }
   }
 
