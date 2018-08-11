@@ -25,7 +25,7 @@ TrtmSelectorItem::TrtmSelectorItem(QQuickItem* parent) :
   QQuickItem(parent)
 {
 //   quint64 mask = 0;
-//   for (qreal p = 22; p < 36; ++p) {
+//   for (qreal p = 0; p < BASIC_GR_COUNT; ++p) {
 //     mask += bitOf(p);
 //     qDebug() << p << "mask" << mask;
 //   }
@@ -57,7 +57,7 @@ void TrtmSelectorItem::setDotsMask(quint32 dm) {
 }
 
 
-void TrtmSelectorItem::groupChanged(int grId, bool checked) {
+void TrtmSelectorItem::userChangedGroup(int grId, bool checked) {
   if (grId < static_cast<int>(TrtmGroup::Gr_1dot) - 1) {
       auto b = bitOf(static_cast<qreal>(grId));
       if (checked)
@@ -65,6 +65,7 @@ void TrtmSelectorItem::groupChanged(int grId, bool checked) {
       else
         m_basicMask &= ~b;
       emit basicMaskChanged();
+      emit basicGroupChanged();
   } else {
       auto b = bitOf(static_cast<qreal>(grId - static_cast<int>(TrtmGroup::Gr_1dot) + 1));
       if (checked)
@@ -72,5 +73,6 @@ void TrtmSelectorItem::groupChanged(int grId, bool checked) {
       else
         m_dotsMask &= ~b;
       emit dotsMaskChanged();
+      emit dotsGroupChanged();
   }
 }

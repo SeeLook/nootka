@@ -25,11 +25,11 @@
 
 
 #define DOTS_MASK         (16383)
-#define BASIC_MASK        (2097151)
+#define BASIC_MASK        (4194303)
 
 
 /**
- *
+ * C++ logic of QML RhythmmSelector control
  */
 class TrtmSelectorItem : public QQuickItem
 {
@@ -45,7 +45,7 @@ public:
   ~TrtmSelectorItem() override;
 
   Q_INVOKABLE QString getGroupText(int rtmGrEnum);
-  Q_INVOKABLE void groupChanged(int grId, bool checked);
+  Q_INVOKABLE void userChangedGroup(int grId, bool checked);
 
   quint32 basicMask() const { return m_basicMask; }
   void setBasicMask(quint32 v);
@@ -57,6 +57,8 @@ public:
 signals:
   void basicMaskChanged();
   void dotsMaskChanged();
+  void basicGroupChanged();
+  void dotsGroupChanged();
 
 private:
   quint32             m_basicMask = 0;

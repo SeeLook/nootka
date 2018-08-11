@@ -30,8 +30,8 @@ TmelGenItem {
           anchors.horizontalCenter: undefined
           width: rtmSel.width * 1.2; height: Math.max(melGenItem.height, rCol.height)
           RhythmSelector {
-            anchors.horizontalCenter: parent.horizontalCenter
             id: rtmSel
+            x: width / 10
             height: selTile.height * 0.95
           }
         }
@@ -56,25 +56,9 @@ TmelGenItem {
               }
             }
           }
-          Tile {
-            description: qsTr("Smaller values - less number of selected rhythmic note groups will be used, biggest value - melody will consist maximal possible number of selected groups.")
-            Row {
-              id: diverRow
-              anchors.horizontalCenter: parent.horizontalCenter
-              spacing: Noo.fontSize()
-              Text {
-                anchors.verticalCenter: parent.verticalCenter
-                text: qsTr("Rhythmic diversity")
-                color: enabled ? activPal.text : disdPal.text
-              }
-              SpinBox {
-                id: rtmDivSpin
-                editable: true
-                from: 1; to: 10
-                value: rhythmDiversity
-                onValueModified: rhythmDiversity = value
-              }
-            }
+          RhythmDiversityTile {
+            diversity: rhythmDiversity
+            onDiversityModified: rhythmDiversity = value
           }
           EndOnTonicTile {
             anchors.horizontalCenter: parent.horizontalCenter

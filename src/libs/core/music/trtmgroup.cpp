@@ -45,6 +45,7 @@ QString TrtmGroup::text() const {
     case Gr_4: t = quarter; break;
     case Gr_8_8: t = quarter + beam8 + note8; break;
     case Gr_8_16_16: t = quarter + beam8 + note8 + beam16 + note16; break;
+    case Gr_16_16_16_16: t = quarter + beam16 + note16 + beam16 + note16 + beam16 + note16; break;
     case Gr_16_16_8: t = quarter + beam16 + note16 + beam8 + note8; break;
     case Gr_16_8_16: t = quarter + beam16 + note8 + beam8 + note16 ; break;
 
@@ -93,6 +94,7 @@ TrhythmList TrtmGroup::rhythm() const {
     case Gr_4: rl << R4; break;
     case Gr_8_8: rl << R8 << R8; break;
     case Gr_8_16_16: rl << R8 << R16 << R16; break;
+    case Gr_16_16_16_16: rl << R16 << R16 << R16 << R16; break;
     case Gr_16_16_8: rl << R16 << R16 << R8; break;
     case Gr_16_8_16: rl << R16 << R8 << R16; break;
 
