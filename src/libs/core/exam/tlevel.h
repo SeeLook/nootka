@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -51,7 +51,9 @@ public:
       e_otherError
   };
 
-  /** Describes how to generate melody */
+      /**
+       * Describes how to generate melody
+       */
   enum ErandMelody : quint8 {
       e_randFromRange = 1, /**< melody is composed from notes in level range  */
       e_randFromList = 2,  /**< melody is composed from list of notes (@p notesList) */
@@ -117,6 +119,15 @@ public:
   QList<Tnote>       notesList; /**< List with notes from which melody is composed */
   TkeySignature      keyOfrandList; /**< Key signature of note list for composing random melodies */
   QList<Tmelody>     melodySet; /**< List of defined melodies when @p randMelody is @p e_melodyFromSet */
+// RHYTHMS
+  quint32            basicRhythms;
+  quint32            dotsRhythms;
+  quint16            meters; /**< Bits of time signatures used in the level */
+  quint8             rhythmDiversity;
+  quint8             barNumber;
+  bool               variableBarNr; /**< Whether bar number grows or not as exam/exercise is progressing */
+  bool               useRests;
+  bool               useTies;
 // RANGE
   Tnote              loNote; /**< Lowest level note */
   Tnote              hiNote; /**< Highest level note */
@@ -186,6 +197,11 @@ public:
 
       /** Reads 'qaType' key from XML. Determines level var by id and sets it */
   EerrorType qaTypeFromXml(QXmlStreamReader& xml);
+
+      /**
+       * @p TRUE when all rhythms parameters (any meter, any rhythmic group and bar number) are set
+       */
+  bool useRhythms() const;
 
 //------------------------- to fix a level ---------------------------------------------------
 
