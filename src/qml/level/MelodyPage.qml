@@ -23,10 +23,11 @@ Tflickable {
 
     Tile {
       id: topTile
+      readonly property string keyRangeText: "<br>" + qsTr("They will be transposed if key signatures are set to be used and any of them differs from the key(s) defined below.")
       property var descList: [ qsTr("Melodies are composed from a note range defined on the 'Range' page."),
                                qsTr("Melodies are composed from notes selected on the score below."),
                                qsTr("Melodies are randomized from defined list of melodies.") ]
-      description: descList[melCombo.currentIndex]
+      description: descList[melCombo.currentIndex] + (melCombo.currentIndex > 0 ? keyRangeText : "")
       Row {
         spacing: Noo.fontSize()
         anchors.horizontalCenter: parent.horizontalCenter
