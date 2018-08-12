@@ -82,8 +82,8 @@ Tflickable {
             }
             TcheckBox {
               text: qsTr("variable")
-              checked: creator.randomBarNr
-              onClicked: creator.randomBarNr = checked
+              checked: creator.variableBarNr
+              onClicked: creator.variableBarNr = checked
             }
           }
         }

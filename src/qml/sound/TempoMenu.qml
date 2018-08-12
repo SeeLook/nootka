@@ -53,13 +53,13 @@ Popup {
       Text { text: qsTr("round to:"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
       RadioButton {
         id: radio16
-        font { family: "Nootka"; pixelSize: Noo.fontSize() * 2.5 }
+        font { family: "Nootka"; pixelSize: Noo.fontSize() * 2 }
         text: "G"
         checked: SOUND.quantization === 6
       }
       RadioButton {
         id: radio8
-        font { family: "Nootka"; pixelSize: Noo.fontSize() * 2.5 }
+        font { family: "Nootka"; pixelSize: Noo.fontSize() * 2 }
         text: "F"
         checked: SOUND.quantization === 12
       }

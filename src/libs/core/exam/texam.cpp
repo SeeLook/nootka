@@ -16,7 +16,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #include "texam.h"
 #include "tlevel.h"
 #include "tattempt.h"
@@ -414,7 +413,7 @@ Texam::EerrorType Texam::saveToFile(QString fileName) {
       QXmlStreamWriter xml(&arrayXML);
   //     xml.setAutoFormatting(true);
       xml.writeStartDocument();
-      xml.writeComment("\nXML file of Nootka exam data.\nhttp://nootka.sf.net\nThis file should never be opened in other software then Nootka.\nProbably you are doing something illegal!");
+      xml.writeComment("\nXML file of Nootka exam data.\nhttps://nootka.sf.net\nThis file should never be opened in other software then Nootka.\nProbably you are doing something illegal!");
       writeToXml(xml);
       xml.writeEndDocument();
 

@@ -114,6 +114,7 @@ Old.Dialog {
           break
       }
       SOUND.stopListen()
+      SOUND.stopPlaying()
       open()
       if (Noo.isAndroid()) {
         var c = Qt.createComponent("qrc:/+android/DialogDrawer.qml")
