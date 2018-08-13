@@ -432,14 +432,28 @@ void TpitchFinder::detect() {
   }
   data->pcmVolume = m_workVol;
   if (data->noteIndex == NO_NOTE) {
-      m_chunkPitch = 0;
-      m_volume = 0;
+      m_chunkPitch = 0.0f;
+      m_volume = 0.0f;
   } else {
       m_chunkPitch = data->pitch;
       m_volume = static_cast<float>(data->normalVolume());
   }
 
-  if (data->noteIndex != m_prevNoteIndex) { // note changed
+  bool noteChanged = false;
+  if (data->noteIndex != m_prevNoteIndex) { // Tartini changed note
+    noteChanged = true;
+    if (data->noteIndex != NO_NOTE && m_prevNoteIndex != NO_NOTE) {
+      float diff = qAbs(m_currentNote.pitches()->last() - data->pitch);
+      if (diff < 1.0f) {
+        QTextStream o(stdout);
+        o << "\033[01;36m Tartini was mistaken - there is still the same note! "
+        << diff << " " << m_currentNote.pitches()->last() << " " << data->pitch << " " << m_currentNote.duration << " \033[01;00m\n";
+        noteChanged = false;
+      }
+    }
+  }
+
+  if (noteChanged /*data->noteIndex != m_prevNoteIndex*/) { // note changed
     if (m_prevNoteIndex != NO_NOTE && m_newNote.numChunks() >= m_minChunks && m_newNote.maxVol >= m_averVolume * m_skipStillerVal) {
       m_currentNote = m_newNote; // summarize previous note if it was long enough
       m_currentNote.sumarize(m_chunkTime);
