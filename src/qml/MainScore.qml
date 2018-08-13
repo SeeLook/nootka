@@ -33,11 +33,6 @@ Score {
   scoreObj.meter: GLOB.rhythmsEnabled && !GLOB.singleNoteMode ? Tmeter.Meter_4_4 : Tmeter.NoMeter
   focus: true
 
-  onFocusChanged: {
-    if (!focus) // FIXME: space key is stolen if any dialog/popup is invoked, this workaround avoids that but side effects are unknown yet
-      focus = true
-  }
-
   clef: GLOB.clefType
   enableDoubleAccids: GLOB.enableDoubleAccids
   scoreObj.showNoteNames: GLOB.namesOnScore
@@ -54,6 +49,8 @@ Score {
     saveXmlAct.shortcut: Shortcut { sequence: StandardKey.Save; enabled: !GLOB.singleNoteMode && !GLOB.isExam }
     zoomOutAct.shortcut: Shortcut { sequence: StandardKey.ZoomOut; enabled: !GLOB.singleNoteMode }
     zoomInAct.shortcut: Shortcut { sequence: StandardKey.ZoomIn; enabled: !GLOB.singleNoteMode }
+    playAct.shortcut: Shortcut { sequence: " "; enabled: !GLOB.singleNoteMode && !GLOB.isExam }
+    recModeAct.shortcut: Shortcut { sequence: "Ctrl+ "; enabled: !GLOB.singleNoteMode && !GLOB.isExam }
     recModeAct.text: recordMode ? qsTr("Note by note") : qsTr("Edit")
     recModeAct.icon: recordMode ? "record" : "stopMelody"
     randMelodyAct.shortcut: Shortcut { sequence: "Ctrl+M"; enabled: !GLOB.singleNoteMode && !GLOB.isExam }
@@ -153,7 +150,7 @@ Score {
 
   Shortcut {
     enabled: !GLOB.singleNoteMode
-    sequence: StandardKey.MoveToNextChar;
+    sequence: StandardKey.MoveToNextChar
     onActivated: {
       if (currentNote)
         currentNote = scoreObj.getNext(currentNote)
@@ -163,20 +160,12 @@ Score {
   }
   Shortcut {
     enabled: !GLOB.singleNoteMode
-    sequence: StandardKey.MoveToPreviousChar;
+    sequence: StandardKey.MoveToPreviousChar
     onActivated: {
       if (currentNote)
         currentNote = scoreObj.getPrev(currentNote)
       else
         currentNote = scoreObj.note(notesCount - 1)
-    }
-  }
-  Keys.onSpacePressed: {
-    if (!GLOB.singleNoteMode && !GLOB.isExam) {
-      if (event.modifiers & Qt.ControlModifier)
-        recModeAct.triggered()
-      else
-        playAct.triggered()
     }
   }
 
