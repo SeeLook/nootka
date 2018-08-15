@@ -107,4 +107,5 @@ Item {
       }
   }
 
+  Shortcut { sequence: "M"; onActivated: pitchView.paused() }
 }

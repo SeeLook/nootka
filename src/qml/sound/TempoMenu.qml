@@ -44,6 +44,14 @@ Popup {
       stepSize: 10
     }
 
+    TiconButton {
+      width: parent.width - Noo.fontSize()
+      text: qsTr("Tap tempo")
+      pixmap: Noo.pix("fingerpoint")
+      anchors.horizontalCenter: parent.horizontalCenter
+      onClicked: tapTempo()
+    }
+
     ButtonGroup { buttons: radioRow.children }
 
     Row {
@@ -78,7 +86,7 @@ Popup {
     }
 
     TiconButton {
-      text:  Noo.TR("QPlatformTheme", "Apply")
+      text: Noo.TR("QPlatformTheme", "Apply")
       pixmap: Noo.pix("check")
       anchors.horizontalCenter: parent.horizontalCenter
       onClicked: {
@@ -91,6 +99,17 @@ Popup {
     }
   }
 
-  onOpened: SOUND.stopListen()
-  onClosed: SOUND.startListen()
+  onOpened: { SOUND.stopListen(); spaceShort.enabled = true } 
+  onClosed: { SOUND.startListen(); spaceShort.enabled = false } 
+
+  Shortcut { id: spaceShort; sequence: " "; onActivated: tapTempo() }
+
+  property real lastTime: new Date().getTime()
+
+  function tapTempo() {
+    var currTime = new Date().getTime()
+    if (currTime - lastTime < 1500)
+      tempoSpin.value = Math.round(60000 / (currTime - lastTime))
+    lastTime = currTime
+  }
 }

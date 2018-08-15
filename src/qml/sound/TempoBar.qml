@@ -16,6 +16,7 @@ Item {
   property int cnt: 1
   property var hArray: [ 0.6, 0, 0.3, 0, 0.6]
   property var gArray: [ "\ue1d5", "\ue1d9", "\ue1d7", "\ue1d9", "\ue1d5" ]
+  property int countTo: Noo.meter(score.meter).countTo()
 
   MouseArea {
     anchors.fill: parent
@@ -100,7 +101,7 @@ Item {
       interval = Math.max(((SOUND.tempo < 110 ? 15000 : 30000) / SOUND.tempo) - lag, 1)
       lag = 0
       if ((phase + (SOUND.tempo < 110 ? 1 : 2)) % 4 === 0) {
-        if (cnt < 4)
+        if (cnt < countTo)
           cnt++
         else
           cnt = 1

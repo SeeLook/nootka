@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2016-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -82,6 +82,25 @@ QString Tmeter::symbol() const {
 
 void Tmeter::debug(const QString& text) {
   qDebug() << text << "Meter" << QString("%1/%2").arg(upper()).arg(lower());
+}
+
+
+int Tmeter::countTo() const {
+  switch (m_meter) {
+    case Meter_2_4: return 2;
+    case Meter_3_4:
+    case Meter_3_8: return 3;
+    case Meter_4_4: return 4;
+    case Meter_5_4:
+    case Meter_5_8: return 5;
+    case Meter_6_4:
+    case Meter_6_8: return 3;
+    case Meter_7_4:
+    case Meter_7_8: return 7;
+    case Meter_9_8:
+    case Meter_12_8: return 3;
+    default: return 2;
+  }
 }
 
 

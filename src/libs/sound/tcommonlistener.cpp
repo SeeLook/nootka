@@ -210,24 +210,24 @@ void TcommonListener::noteFinishedSlot(TnoteStruct* lastNote) {
       } else if (GLOB->rhythmsEnabled())
           emit noteFinished(m_lastNote);
 
-      if (lastNote->maxPCMvol < LOWEST_PCM) {
-          m_hiPCMnumber = 0;
-          m_loPCMnumber++;
-          if (m_loPCMnumber > MAX_OUT_NUM) {
-            emit lowPCMvolume();
-            m_loPCMnumber = 0;
-          }
-      } else if (lastNote->maxPCMvol > HIGHEST_PCM) {
-          m_loPCMnumber = 0;
-          m_hiPCMnumber++;
-          if (m_hiPCMnumber > MAX_OUT_NUM) {
-            emit hiPCMvolume();
-            m_hiPCMnumber = 0;
-          }
-      } else { // reset counters
-          m_hiPCMnumber = 0;
-          m_loPCMnumber = 0;
-      }
+//       if (lastNote->maxPCMvol < LOWEST_PCM) {
+//           m_hiPCMnumber = 0;
+//           m_loPCMnumber++;
+//           if (m_loPCMnumber > MAX_OUT_NUM) {
+//             emit lowPCMvolume();
+//             m_loPCMnumber = 0;
+//           }
+//       } else if (lastNote->maxPCMvol > HIGHEST_PCM) {
+//           m_loPCMnumber = 0;
+//           m_hiPCMnumber++;
+//           if (m_hiPCMnumber > MAX_OUT_NUM) {
+//             emit hiPCMvolume();
+//             m_hiPCMnumber = 0;
+//           }
+//       } else { // reset counters
+//           m_hiPCMnumber = 0;
+//           m_loPCMnumber = 0;
+//       }
   } else
       m_lastNote.set(); // reset last detected note structure
 }
