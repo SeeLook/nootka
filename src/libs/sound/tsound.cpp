@@ -219,9 +219,10 @@ void Tsound::acceptSettings() {
     sniffer->updateAudioParams();
 #else
   if (doParamsUpdated) {
-      if (player && player->type() == TabstractPlayer::e_audio)
+      if (player && player->type() == TabstractPlayer::e_audio) {
           static_cast<TaudioOUT*>(player)->updateAudioParams();
-      else if (sniffer)
+          static_cast<TaudioOUT*>(player)->setAudioOutParams();
+      } else if (sniffer)
           sniffer->updateAudioParams();
   }
 #endif
@@ -284,7 +285,8 @@ float Tsound::pitch() {
 
 void Tsound::setTempo(int t) {
   if (t != m_tempo && t > 39 && t < 181) {
-    m_tempo = qRound(15000.0 / (qRound(15000.0 / static_cast<qreal>(t) / sniffer->chunkTime()) * sniffer->chunkTime()));
+    //m_tempo = qRound(15000.0 / (qRound(15000.0 / static_cast<qreal>(t) / sniffer->chunkTime()) * sniffer->chunkTime()));
+    m_tempo = t;
     emit tempoChanged();
   }
 }
@@ -487,7 +489,7 @@ void Tsound::playingFinishedSlot() {
 
 void Tsound::noteStartedSlot(const TnoteStruct& note) {
   m_detectedNote = note.pitch;
-  m_detectedNote.setRhythm(Trhythm::Sixteenth, !m_detectedNote.isValid());
+  m_detectedNote.setRhythm(GLOB->rhythmsEnabled() ? Trhythm::Sixteenth : Trhythm::NoRhythm, !m_detectedNote.isValid());
   if (!m_examMode && !m_tunerMode)
     NOO->noteStarted(m_detectedNote);
   emit noteStarted(m_detectedNote);
@@ -495,44 +497,48 @@ void Tsound::noteStartedSlot(const TnoteStruct& note) {
 }
 
 
-// qreal durationBalance = 0.0;
 void Tsound::noteFinishedSlot(const TnoteStruct& note) {
   if (note.pitch.isValid())
     m_detectedNote = note.pitch;
   if (GLOB->rhythmsEnabled()) {
       qreal rFactor = 2500.0 / m_tempo;
-      qreal dur = (note.duration * 1000.0/* + durationBalance*/) / rFactor;
-      int normDur = qRound(dur / static_cast<qreal>(m_quantVal)) * m_quantVal;
-    //   durationBalance = note.duration * 1000.0 - static_cast<qreal>(normDur) * rFactor;
-    //   qDebug() << "[Tsound] rest of duration average" << durationBalance << "of" << note.duration * 1000.0 << normDur * rFactor;
+      qreal dur = (note.duration * 1000.0) / rFactor;
+      int quant = dur > 20.0 ? 12 : 6; // avoid sixteenth dots
+      int normDur = qRound(dur / static_cast<qreal>(quant)) * quant;
       Trhythm r(normDur, m_detectedNote.isRest());
       if (r.isValid()) {
           m_detectedNote.setRhythm(r);
-          qDebug() << "Detected" << note.duration << normDur << note.pitchF << m_detectedNote.rtm.string();
           emit noteFinished();
           if (!m_examMode && !m_tunerMode)
             NOO->noteFinished(m_detectedNote);
+          int realTempo = qRound(60.0 / ((24.0 / static_cast<qreal>(m_detectedNote.duration())) * static_cast<qreal>(note.duration)));
+          qDebug() << "Detected" << note.duration << normDur << note.pitchF << m_detectedNote.rtm.string() << "tempo" << realTempo << "\n";
       } else {
-          TrhythmList notes;
-          Trhythm::resolve(normDur, notes);
+          int rtmRest = 0;
+          TrhythmList notes = Trhythm::resolve(normDur, &rtmRest);
+          if (rtmRest)
+//             qDebug() << "[Tsound] rest====" << rtmRest;
           for (int n = 0; n < notes.count(); ++n) {
             Trhythm& rr = notes[n];
             if (!m_detectedNote.isRest()) {
               if (n == 0)
-                  rr.setTie(Trhythm::e_tieStart);
+                rr.setTie(Trhythm::e_tieStart);
               else if (n == notes.count() - 1)
-                  rr.setTie(Trhythm::e_tieEnd);
+                rr.setTie(Trhythm::e_tieEnd);
               else
                 rr.setTie(Trhythm::e_tieCont);
             }
             m_detectedNote.setRhythm(rr.rhythm(), m_detectedNote.isRest(), rr.hasDot(), rr.isTriplet());
-            qDebug() << "Detected" << note.duration << normDur << n << note.pitchF << m_detectedNote.rtm.string();
+            m_detectedNote.rtm.setTie(rr.tie());
+//             qDebug() << "Split note detected" << note.duration << normDur << n << note.pitchF << m_detectedNote.rtm.string();
             emit noteFinished();
             if (!m_examMode && !m_tunerMode) {
               if (n == 0) // update rhythm of the last note
                 NOO->noteFinished(m_detectedNote);
-              else // but create others
+              else { // but create others
                 NOO->noteStarted(m_detectedNote);
+                NOO->noteFinished(m_detectedNote);
+              }
             }
           }
       }
