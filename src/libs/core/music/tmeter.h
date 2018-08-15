@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -70,6 +70,11 @@ public:
       * 3/4 is 72, 4/4 is 96 (RVALUE), etc. 
       */
   Q_INVOKABLE int duration() const;
+
+      /**
+       * returns number of up to counts depending on meter
+       */
+  Q_INVOKABLE int countTo() const;
 
   void toXml(QXmlStreamWriter& xml) const;
   bool fromXml(QXmlStreamReader& xml);
