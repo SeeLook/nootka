@@ -148,8 +148,16 @@ TexecutorSupply::TexecutorSupply(Tlevel* level, QObject* parent) :
   checkPlayCorrected(level);
   if (m_level->useKeySign && !m_level->isSingleKey)
     m_randKey = new TequalRand(m_level->hiKey.value() - m_level->loKey.value() + 1, m_level->loKey.value());
-  else
-    m_randKey = 0;
+  if (m_level->useRhythms()) {
+    quint16 meterMask = 1;
+    for (int b = 0; b < 12; ++b) {
+      if (m_level->meters & meterMask)
+        m_meterList << meterMask;
+      meterMask <<= 1;
+    }
+    if (m_meterList.count() > 1)
+      m_randMeter = new TequalRand(m_meterList.count());
+  }
 }
 
 
@@ -157,6 +165,8 @@ TexecutorSupply::~TexecutorSupply()
 {
   if (m_randKey)
     delete m_randKey;
+  if (m_randMeter)
+    delete m_randMeter;
 }
 
 
@@ -782,6 +792,31 @@ TkeySignature TexecutorSupply::getKey(Tnote& note) {
 void TexecutorSupply::resetKeyRandom() {
   if (m_randKey)
     m_randKey->reset();
+}
+
+
+int TexecutorSupply::randomMeter() {
+  if (m_meterList.count() > 1 && m_randMeter)
+    return m_meterList.at(m_randMeter->get());
+  return m_meterList.first();
+}
+
+
+void TexecutorSupply::resetMeterRandom() {
+  if (m_randMeter)
+    m_randMeter->reset();
+}
+
+
+int TexecutorSupply::getBarNumber(int questNr, int penallNr) {
+  if (m_level->variableBarNr && m_level->barNumber > 2) {
+    int minBarNr = qMax(2, m_level->barNumber / 8);
+    int step = m_level->barNumber % 2 ? 1 : 2;
+    int changes = (m_level->barNumber - minBarNr) / step + 1;
+    int questPerChange = (m_obligQuestNr + penallNr) / changes;
+    return qMin(static_cast<int>(m_level->barNumber), minBarNr + (questNr / questPerChange) * step);
+  }
+  return m_level->barNumber;
 }
 
 

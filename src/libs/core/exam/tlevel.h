@@ -57,7 +57,7 @@ public:
   enum ErandMelody : quint8 {
       e_randFromRange = 1, /**< melody is composed from notes in level range  */
       e_randFromList = 2,  /**< melody is composed from list of notes (@p notesList) */
-      e_melodyFromSet = 4  /**< random melody from set of melodies. TDOD: NOT YET IMPLEMENTED  */
+      e_melodyFromSet = 4  /**< random melody from set of melodies. (@p melodySet) */
   };
 
 //------------------------- Managing level versions ------------------------------------------------------

@@ -302,9 +302,16 @@ void TexamExecutor::askQuestion(bool isAttempt) {
       int melodyLength = qBound(qMax(2, qRound(m_level.melodyLen * 0.7)), //at least 70% of length but not less than 2
                                       qRound(((6.0 + (qrand() % 5)) / 10.0) * (qreal)m_level.melodyLen), (int)m_level.melodyLen);
       if (m_penalty->isNot()) {
+        TrhythmList rhythms;
         if (!m_level.isMelodySet()) {
           curQ->addMelody(QString("%1").arg(m_exam->count()));
           curQ->melody()->setKey(curQ->key);
+          if (m_level.useRhythms()) {
+            curQ->melody()->setMeter(m_supp->randomMeter());
+            int b = m_supp->getBarNumber(m_exam->count(), m_exam->penalty());
+            rhythms = getRandomRhythm(curQ->melody()->meter()->meter(), b, m_level.basicRhythms, m_level.dotsRhythms, m_level.rhythmDiversity);
+            melodyLength = rhythms.count();
+          }
         }
         if (m_level.randMelody == Tlevel::e_randFromList) {
             QList<TQAgroup> qaList;
@@ -314,8 +321,12 @@ void TexamExecutor::askQuestion(bool isAttempt) {
         } else if (m_level.randMelody == Tlevel::e_melodyFromSet) {
             int melodyId = m_rand->get();
             curQ->addMelody(&m_level.melodySet[melodyId], TQAunit::e_srcLevelSet, melodyId);
-        } else // Tlevel::e_melodyFromRange
+        } else { // Tlevel::e_melodyFromRange
             getRandomMelodyNG(m_questList, curQ->melody(), melodyLength, m_level.onlyCurrKey, m_level.endsOnTonic);
+        }
+        if (!m_level.isMelodySet() && m_level.useRhythms()) {
+          mergeRhythmAndMelody(rhythms, curQ->melody());
+        }
       }
       m_melody->newMelody(curQ->answerAsSound() ? curQ->melody()->length() : 0); // prepare list to store notes played by user or clear it
       m_exam->newAttempt();
@@ -1253,6 +1264,7 @@ void TexamExecutor::exerciseToExam() {
 // #endif
   m_supp->setFinished(false); // exercise had it set to true
   m_supp->resetKeyRandom(); // new set of randomized key signatures when exam requires them
+  m_supp->resetMeterRandom();
   initializeExecuting();
   disconnect(m_stopExamAct, &Taction::triggered, this, &TexamExecutor::stopExerciseSlot);
   connect(m_stopExamAct, &Taction::triggered, this, &TexamExecutor::stopExamSlot);
