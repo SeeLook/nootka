@@ -33,6 +33,7 @@
     <file alias="LinkText.qml">qml/shared/LinkText.qml</file>
     <file alias="Tframe.qml">qml/shared/Tframe.qml</file>
     <file alias="TpopupDialog.qml">qml/shared/TpopupDialog.qml</file>
+    <file alias="Tmenu.qml">qml/shared/Tmenu.qml</file>
 
     <file alias="PitchView.qml">qml/sound/PitchView.qml</file>
     <file alias="sound/VolumeBar.qml">qml/sound/VolumeBar.qml</file>

@@ -73,7 +73,7 @@ Item {
       anchors.fill: parent
       onClicked: pitchView.paused()
       hoverEnabled: true
-      onEntered: Noo.setStatusTip(qsTr("Start/stop pitch detection"), Item.TopLeft)
+      onEntered: Noo.setStatusTip(qsTr("Start/stop pitch detection") + "<br><b>(Ctrl+M)</b>", Item.TopLeft)
       onExited: Noo.setStatusTip("", Item.TopLeft)
     }
   }

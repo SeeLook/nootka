@@ -17,8 +17,7 @@ Rectangle {
   width: parent.width - Noo.fontSize()
   implicitHeight: Noo.fontSize() * 2.8
   anchors.horizontalCenter: parent.horizontalCenter
-  color: ma.containsPress ? activPal.highlight : (ma.containsMouse ? Noo.alpha(activPal.highlight, 50) :  activPal.button)
-  border { width: 1; color: activPal.shadow }
+  color: ma.containsPress ? activPal.highlight : (ma.containsMouse ? Noo.alpha(activPal.highlight, 50) : "transparent"  /*activPal.button*/)
 
   signal clicked()
 
@@ -58,7 +57,7 @@ Rectangle {
     id: shortComp
     Text {
       anchors.verticalCenter: parent.verticalCenter
-      text: "(" + action.key() + ")"
+      text: action.key()
       font.pixelSize: Noo.fontSize() * 0.8
       x: menuButton.width - width - Noo.fontSize() / 2
       color: activPal.text
@@ -66,7 +65,7 @@ Rectangle {
   }
 
   Component.onCompleted: { // shortcut is known only now
-    if (!Noo.isAndroid() && action.shortcut)
+    if (!Noo.isAndroid() && action && action.shortcut)
       shortComp.createObject(menuButton)
   }
 
