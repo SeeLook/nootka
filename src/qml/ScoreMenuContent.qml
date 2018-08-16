@@ -6,17 +6,10 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 
 
-Menu {
+Tmenu {
   id: menu
-  width: Noo.fontSize() * 20
   x: toolBar.scoreAct.x
   y: score.y
-  scale: GLOB.useAnimations ? 0.1 : 1.0
-
-  background: TipRect { shadowRadius: Noo.fontSize() }
-
-  enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}
-  exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0.1 }}
 
   Repeater {
     model: score.scoreActions
@@ -26,6 +19,7 @@ Menu {
       contentItem: MenuButton {
         action: modelData
         onClicked: close()
+        Rectangle { width: parent.width; height: index === count - 1 ? 0 : 1; color: activPal.text; y: parent.height - 1 }
       }
     }
   }

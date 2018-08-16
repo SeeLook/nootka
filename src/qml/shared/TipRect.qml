@@ -22,6 +22,7 @@ Item {
     color: activPal.base
     radius: Noo.fontSize() / 3
     visible: false
+    clip: true
   }
 
   DropShadow {
