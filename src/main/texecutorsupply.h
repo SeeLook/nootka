@@ -198,6 +198,19 @@ public:
        */
   void resetKeyRandom();
 
+      /**
+       * Returns random time signature (integer from @p Tmeter::Emeter) from the meter list defined in level.
+       * It uses @p TequalRand class for it if there are more time signatures
+       */
+  int randomMeter();
+  void resetMeterRandom();
+
+      /**
+       * Gives number of measures for randomized melody.
+       * It is calculated when bar number is variable and the value increases as exam/exercise is progressing
+       */
+  int getBarNumber(int questNr, int penallNr);
+
 signals:
   void rightButtonClicked();
 
@@ -278,7 +291,9 @@ private:
        * LEVEL VALUES REMAINED UNTOUCHED
        */
   int                      m_loFret, m_hiFret;
-  TequalRand              *m_randKey;
+  TequalRand              *m_randKey = nullptr;
+  TequalRand              *m_randMeter = nullptr;
+  QList<int>               m_meterList; /**< List of time signatures available in level  */
 
 };
 

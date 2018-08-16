@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,12 +22,13 @@
 
 #include <QtGlobal>
 
-/** 
- * This class randomizes values in given range 
+/**
+ * This class randomizes values in given range
  * but tries to keep all occurrences with the same number of times.
  * So, for range [1-10] and 10 randoms, every value will occur once.
  * If there will be more randoms then after every @p 10 randoms it will be reset.
  * Also it supports equality for greater number of randoms.
+ *
  * By default begin value of the range is @p 0 and can be changed in constructor.
  * In this case certain random value is 'blocked' after it has been randomized declared number of times.
  * This is called 'depth' and can be set directly by @p setDepth() 
