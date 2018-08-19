@@ -24,10 +24,12 @@
 #include "tnotepair.h"
 #include "music/tmeter.h"
 #include "music/tmelody.h"
+#include "taction.h"
 
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>
 #include <QtQml/qqmlengine.h>
+#include <QtQml/qqmlcontext.h>
 #include <QtCore/qtimer.h>
 
 #include <QtCore/qdebug.h>
@@ -50,8 +52,6 @@ TscoreObject::TscoreObject(QObject* parent) :
   m_workRhythm(new Trhythm()), // quarter by default
   m_allowAdding(false)
 {
-  m_qmlEngine = new QQmlEngine;
-  m_qmlComponent = new QQmlComponent(m_qmlEngine, this);
   m_meter = new Tmeter();
   setMeter(4); // Tmeter::Meter_4_4
   m_measures << new TmeasureObject(0, this);
@@ -83,7 +83,6 @@ TscoreObject::~TscoreObject()
 {
   delete m_meter;
   delete m_qmlComponent;
-  delete m_qmlEngine;
   delete m_workRhythm;
   qDebug() << "[TscoreObject] deleting," << m_segments.count() << "segments to flush";
   qDeleteAll(m_segments);
@@ -948,46 +947,84 @@ void TscoreObject::setBgColor(const QColor& bg) {
   }
 }
 
+
+void TscoreObject::enableActions() {
+  m_deleteLastAct = new Taction(tr("Delete note"), QStringLiteral("delete"), this);
+  connect(m_deleteLastAct, &Taction::triggered, [=]{ if (!m_readOnly && !m_singleNote && m_allowAdding) deleteLastNote(); });
+  m_deleteLastAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"del\"; enabled: !singleNote && !readOnly"));
+
+  m_clearScoreAct = new Taction(tr("Delete all notes"), QStringLiteral("clear-score"), this);
+  connect(m_clearScoreAct, &Taction::triggered, [=]{ if (!m_readOnly) clearScore(); });
+  m_clearScoreAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"Shift+del\"; enabled: !singleNote && !readOnly"));
+
+  m_wholeNoteAct = new Taction(tr("whole note"), QStringLiteral("tipbg"), this);
+  connect(m_wholeNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
+  m_wholeNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"1\""));
+
+  m_halfNoteAct = new Taction(tr("half note"), QStringLiteral("tipbg"), this);
+  connect(m_halfNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
+  m_halfNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"2\""));
+
+  m_quarterNoteAct = new Taction(tr("quarter note"), QStringLiteral("tipbg"), this);
+  connect(m_quarterNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
+  m_quarterNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"4\""));
+
+  m_eighthNoteAct= new Taction(tr("eighth note"), QStringLiteral("tipbg"), this);
+  connect(m_eighthNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
+  m_eighthNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"8\""));
+
+  m_sixteenthNoteAct = new Taction(tr("sixteenth note"), QStringLiteral("tipbg"), this);
+  connect(m_sixteenthNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
+  m_sixteenthNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"6\""));
+
+  m_restNoteAct = new Taction(tr("rest"), QStringLiteral("tipbg"), this);
+  connect(m_restNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
+  m_restNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"R\""));
+
+  m_dotNoteAct = new Taction(tr("dot"), QStringLiteral("tipbg"), this);
+  connect(m_dotNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
+  m_dotNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\".\""));
+}
+
+
 /**
  * TODO: if there will be TnoteObject implemented with all note/rhythm props
  * It would replace @p m_cursorAlter && @p m_workRhythm
  */
-void TscoreObject::handleKey(int keyValue, int modifiers) {
+void TscoreObject::handleNoteAction() {
   if (!m_readOnly) {
-    auto key = static_cast<Qt::Key>(keyValue);
-    auto mod = static_cast<Qt::KeyboardModifiers>(modifiers);
     if (!m_singleNote && m_meter->meter() != Tmeter::NoMeter) { // For full score (melodies) only
       bool wasWorkRhythmChanged = false;
-      if (key == Qt::Key_Period && m_workRhythm->rhythm() != Trhythm::Sixteenth) {
+      if (sender() == m_dotNoteAct && m_workRhythm->rhythm() != Trhythm::Sixteenth) {
           m_workRhythm->setDot(!m_workRhythm->hasDot());
           wasWorkRhythmChanged = true;
-      } else if (key == Qt::Key_R) {
+      } else if (sender() == m_restNoteAct) {
           m_workRhythm->setRest(!m_workRhythm->isRest());
           if (m_workRhythm->rhythm() == Trhythm::Sixteenth)
             m_workRhythm->setDot(false);
           wasWorkRhythmChanged = true;
-      } else if (key == Qt::Key_6) {
+      } else if (sender() == m_sixteenthNoteAct) {
           if (m_workRhythm->rhythm() != Trhythm::Sixteenth) {
             m_workRhythm->setRhythmValue(Trhythm::Sixteenth);
             m_workRhythm->setDot(false); // 16th with dot not supported (yet)
             wasWorkRhythmChanged = true;
           }
-      } else if (key == Qt::Key_8) {
+      } else if (sender() == m_eighthNoteAct) {
           if (m_workRhythm->rhythm() != Trhythm::Eighth) {
             m_workRhythm->setRhythmValue(Trhythm::Eighth);
             wasWorkRhythmChanged = true;
           }
-      } else if (key == Qt::Key_4) {
+      } else if (sender() == m_quarterNoteAct) {
           if (m_workRhythm->rhythm() != Trhythm::Quarter) {
             m_workRhythm->setRhythmValue(Trhythm::Quarter);
             wasWorkRhythmChanged = true;
           }
-      } else if (key == Qt::Key_2) {
+      } else if (sender() == m_halfNoteAct) {
           if (m_workRhythm->rhythm() != Trhythm::Half) {
             m_workRhythm->setRhythmValue(Trhythm::Half);
             wasWorkRhythmChanged = true;
           }
-      } else if (key == Qt::Key_1) {
+      } else if (sender() == m_wholeNoteAct) {
           if (m_workRhythm->rhythm() != Trhythm::Whole) {
             m_workRhythm->setRhythmValue(Trhythm::Whole);
             wasWorkRhythmChanged = true;
@@ -998,31 +1035,21 @@ void TscoreObject::handleKey(int keyValue, int modifiers) {
         return;
       }
     }
-    if (!m_singleNote) { // deleting score and last note available also when there are no rhythms
-      if (key == Qt::Key_Delete) {
-        if (m_allowAdding) {
-          if (mod.testFlag(Qt::ShiftModifier))
-            clearScore();
-          else if (mod.testFlag(Qt::NoModifier))
-            deleteLastNote();
-        }
-        return;
-      }
-    }
     // accidentals shortcuts (arrows up/down) available either for single note and for melodies
-    if (key == Qt::Key_Up)
-      setCursorAlter(m_cursorAlter + 1);
-    else if (key == Qt::Key_Down)
-      setCursorAlter(m_cursorAlter - 1);
+//     if (key == Qt::Key_Up)
+//       setCursorAlter(m_cursorAlter + 1);
+//     else if (key == Qt::Key_Down)
+//       setCursorAlter(m_cursorAlter - 1);
   }
 }
-
 
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
 
 void TscoreObject::addStaff(TstaffItem* st) {
+  m_qmlEngine = QQmlEngine::contextForObject(st)->engine();
+  m_qmlComponent = new QQmlComponent(m_qmlEngine, this);
   st->setNumber(stavesCount());
   m_staves.append(st);
   if (m_staves.count() == 1) { // initialize first measure of first staff
@@ -1253,4 +1280,18 @@ void TscoreObject::resetNoteItem(TnoteItem* noteItem) {
   noteItem->setColor(qApp->palette().text().color());
   noteItem->setNoteNameVisible(m_showNoteNames && m_clefType != Tclef::NoClef);
   noteItem->shiftHead(0.0);
+}
+
+
+QObject* TscoreObject::createQmlShortcut(QQmlComponent* qmlComp, const char* key) {
+  std::string d = "import QtQuick 2.9; Shortcut { sequence: ";
+  d.append(key);
+  d.append(" }");
+  qmlComp->setData(d.c_str(), QUrl());
+  auto shortcut = qmlComp->create(qmlContext(this));
+  if (shortcut)
+    shortcut->setParent(this);
+  else
+    qDebug() << "[TscoreObject] Can't create shortcut";
+  return shortcut;
 }

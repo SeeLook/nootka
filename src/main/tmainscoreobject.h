@@ -30,6 +30,7 @@ class Tnote;
 class TkeySignature;
 class Tmelody;
 class QQuickItem;
+class QQmlComponent;
 class Ttechnical;
 
 
@@ -51,11 +52,11 @@ class TmainScoreObject : public QObject
   Q_PROPERTY(TscoreObject* scoreObject READ scoreObject WRITE setScoreObject)
   Q_PROPERTY(Taction* showNamesAct READ showNamesAct)
   Q_PROPERTY(Taction* extraAccidsAct READ extraAccidsAct)
-  Q_PROPERTY(Taction* deleteLastAct READ deleteLastAct)
-  Q_PROPERTY(Taction* clearScoreAct READ clearScoreAct)
   Q_PROPERTY(Taction* zoomOutAct READ zoomOutAct)
   Q_PROPERTY(Taction* zoomInAct READ zoomInAct)
   Q_PROPERTY(QList<QObject*> scoreActions READ scoreActions NOTIFY scoreActionsChanged)
+  Q_PROPERTY(QList<QObject*> noteActions READ noteActions NOTIFY scoreActionsChanged)
+  Q_PROPERTY(Taction* nextNoteAct READ prevNoteAct)
   Q_PROPERTY(Taction* playAct READ playAct)
   Q_PROPERTY(Taction* recModeAct READ recModeAct)
   Q_PROPERTY(Taction* openXmlAct READ openXmlAct)
@@ -75,12 +76,14 @@ public:
 
   Taction* showNamesAct() { return m_showNamesAct; }
   Taction* extraAccidsAct() { return m_extraAccidsAct; }
-  Taction* deleteLastAct() { return m_deleteLastAct; }
-  Taction* clearScoreAct() { return m_clearScoreAct; }
   Taction* zoomOutAct() { return m_zoomOutAct; }
   Taction* zoomInAct() { return m_zoomInAct; }
 
   QList<QObject*> scoreActions() { return m_scoreActions; }
+  QList<QObject*> noteActions() { return m_noteActions; }
+
+  Taction* nextNoteAct() { return m_nextNoteAct; }
+  Taction* prevNoteAct() { return m_prevNoteAct; }
 
   Taction* playAct() { return m_playAct; }
   Taction* recModeAct() { return m_recModeAct; }
@@ -157,14 +160,17 @@ protected:
   QColor scoreBackgroundColor(const QColor& c, int alpha);
   void checkSingleNoteVisibility();
 
+  QObject* createQmlShortcut(QQmlComponent* qmlComp, const char* key);
+
 private:
   TscoreObject              *m_scoreObj = nullptr;
   Taction                   *m_playAct, *m_recModeAct;
   Taction                   *m_showNamesAct, *m_extraAccidsAct;
   Taction                   *m_zoomOutAct, *m_zoomInAct;
-  Taction                   *m_deleteLastAct, *m_clearScoreAct;
   Taction                   *m_openXmlAct, *m_saveXmlAct, *m_randMelodyAct;
+  Taction                   *m_nextNoteAct, *m_prevNoteAct;
   QList<QObject*>            m_scoreActions;
+  QList<QObject*>            m_noteActions;
   QList<QObject*>            m_melodyActions;
 
   QQuickItem                *m_questionMark = nullptr;
