@@ -52,6 +52,7 @@ class TmeasureObject;
 class TnoteItem;
 class Tmeter;
 class Tmelody;
+class Taction;
 
 
 /**
@@ -101,6 +102,16 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(int workRtmValue READ workRtmValue WRITE setWorkRtmValue NOTIFY workRhythmChanged)
   Q_PROPERTY(bool workRtmRest READ workRtmRest WRITE setWorkRtmRest NOTIFY workRhythmChanged)
   Q_PROPERTY(bool workRtmDot READ workRtmDot WRITE setWorkRtmDot NOTIFY workRhythmChanged)
+
+  Q_PROPERTY(Taction* deleteLastAct READ deleteLastAct)
+  Q_PROPERTY(Taction* clearScoreAct READ clearScoreAct)
+  Q_PROPERTY(Taction* wholeNoteAct READ wholeNoteAct)
+  Q_PROPERTY(Taction* halfNoteAct READ halfNoteAct)
+  Q_PROPERTY(Taction* quarterNoteAct READ quarterNoteAct)
+  Q_PROPERTY(Taction* eighthNoteAct READ eighthNoteAct)
+  Q_PROPERTY(Taction* sixteenthNoteAct READ sixteenthNoteAct)
+  Q_PROPERTY(Taction* restNoteAct READ restNoteAct)
+  Q_PROPERTY(Taction* dotNoteAct READ dotNoteAct)
 
   friend class TstaffItem;
   friend class TmeasureObject;
@@ -367,10 +378,23 @@ public:
 
   Q_INVOKABLE void clearScore();
 
+/* ------------------ Score actions (have to be initialized by enableActions() ) ------------------ */
+  Taction* deleteLastAct() { return m_deleteLastAct; }
+  Taction* clearScoreAct() { return m_clearScoreAct; }
+  Taction* wholeNoteAct() { return m_wholeNoteAct; }
+  Taction* halfNoteAct() { return m_halfNoteAct; }
+  Taction* quarterNoteAct() { return m_quarterNoteAct; }
+  Taction* eighthNoteAct() { return m_eighthNoteAct; }
+  Taction* sixteenthNoteAct() { return m_sixteenthNoteAct; }
+  Taction* restNoteAct() { return m_restNoteAct; }
+  Taction* dotNoteAct() { return m_dotNoteAct; }
+
+  Q_INVOKABLE void enableActions();
+
       /**
-       * Score item invokes it with key number
+       * Common method to handle rhythm keys shortcuts
        */
-  Q_INVOKABLE void handleKey(int keyValue, int modifiers);
+  void handleNoteAction();
 
       /**
        * By keeping those objects available we are reducing QML components creation time when called from C++
@@ -542,6 +566,8 @@ private:
   void fitToRange(Tnote& n);
   void resetNoteItem(TnoteItem* noteItem);
 
+  QObject* createQmlShortcut(QQmlComponent* qmlComp, const char* key);
+
 private:
                               /* Musical parameters */
   Tclef::EclefType                  m_clefType = Tclef::Treble_G;
@@ -593,6 +619,16 @@ private:
   bool                              m_allowAdding;
   bool                              m_touched = false;
   QTimer                           *m_enterTimer, *m_leaveTimer;
+
+  Taction                          *m_deleteLastAct = nullptr;
+  Taction                          *m_clearScoreAct = nullptr;
+  Taction                          *m_wholeNoteAct = nullptr;
+  Taction                          *m_halfNoteAct = nullptr;
+  Taction                          *m_quarterNoteAct = nullptr;
+  Taction                          *m_eighthNoteAct = nullptr;
+  Taction                          *m_sixteenthNoteAct = nullptr;
+  Taction                          *m_restNoteAct = nullptr;
+  Taction                          *m_dotNoteAct = nullptr;
 
 };
 

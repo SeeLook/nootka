@@ -34,9 +34,9 @@ Rectangle {
     source: action ? action.icon : ""
   }
   Text {
+    id: butText
     x: Noo.fontSize() * (action && (action.icon !== "" || action.checkable) ? 3.7 : 0.8)
     anchors.verticalCenter: parent.verticalCenter
-    id: butText
     text: action ? action.text : ""
     font.bold: true
     color: activPal.text
@@ -75,10 +75,12 @@ Rectangle {
     hoverEnabled: true
     onClicked: buttonClicked()
     onHoveredChanged: {
-      if (action.tip !== "" && ma.containsMouse)
-        Noo.setStatusTip(action.tip, action.tipPos)
-      else
-        Noo.setStatusTip("", action.tipPos)
+      if (action) {
+        if (action.tip !== "" && ma.containsMouse)
+          Noo.setStatusTip(action.tip, action.tipPos)
+        else
+          Noo.setStatusTip("", action.tipPos)
+      }
     }
   }
 

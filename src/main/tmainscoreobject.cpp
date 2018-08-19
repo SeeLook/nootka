@@ -33,8 +33,10 @@
 #include <QtGui/qpalette.h>
 #include <QtQml/qqmlengine.h>
 #include <QtQml/qqmlcomponent.h>
+#include <QtQml/qqmlcontext.h>
 #include <QtQuick/qquickitem.h>
 #include <QtCore/qtimer.h>
+#include <string>
 
 #include <QtCore/qdebug.h>
 
@@ -61,9 +63,6 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
   m_extraAccidsAct->setTip(tr("Shows accidentals from the key signature also next to a note. <b>WARING! It never occurs in real scores - use it only for theoretical purposes.</b>"));
 //   m_extraAccidsAct->setChecked(GLOB->????);
 
-  m_deleteLastAct = new Taction(tr("Delete note"), QStringLiteral("delete"), this);
-  m_clearScoreAct = new Taction(tr("Delete all notes"), QStringLiteral("clear-score"), this);
-
   m_zoomOutAct = new Taction(tr("Zoom score out"), QStringLiteral("zoom-out"), this);
   m_zoomInAct = new Taction(tr("Zoom score in"), QStringLiteral("zoom-in"), this);
 
@@ -81,6 +80,20 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
   m_randMelodyAct->setTip(tr("Generate a melody with random notes."));
 
   m_melodyActions << m_playAct << m_recModeAct << m_openXmlAct << m_saveXmlAct << m_randMelodyAct;
+
+  m_nextNoteAct = new Taction(tr("Next note"), QString(), this);
+  m_prevNoteAct = new Taction(tr("Previous note"), QString(), this);
+
+  QQmlComponent actionsComp(NOO->qmlEngine(), this);
+  m_openXmlAct->setShortcut(createQmlShortcut(&actionsComp, "StandardKey.Open; enabled: !GLOB.singleNoteMode && !GLOB.isExam"));
+  m_saveXmlAct->setShortcut(createQmlShortcut(&actionsComp, "StandardKey.Save; enabled: !GLOB.singleNoteMode && !GLOB.isExam"));
+  m_zoomOutAct->setShortcut(createQmlShortcut(&actionsComp, "StandardKey.ZoomOut; enabled: !GLOB.singleNoteMode"));
+  m_zoomInAct->setShortcut(createQmlShortcut(&actionsComp, "StandardKey.ZoomIn; enabled: !GLOB.singleNoteMode"));
+  m_playAct->setShortcut(createQmlShortcut(&actionsComp, "\" \"; enabled: !GLOB.singleNoteMode && !GLOB.isExam"));
+  m_recModeAct->setShortcut(createQmlShortcut(&actionsComp, "\"Ctrl+ \"; enabled: !GLOB.singleNoteMode && !GLOB.isExam"));
+  m_randMelodyAct->setShortcut(createQmlShortcut(&actionsComp, "\"Ctrl+M\"; enabled: !GLOB.singleNoteMode && !GLOB.isExam"));
+  m_nextNoteAct->setShortcut(createQmlShortcut(&actionsComp, "StandardKey.MoveToNextChar"));
+  m_prevNoteAct->setShortcut(createQmlShortcut(&actionsComp, "StandardKey.MoveToPreviousChar"));
 
   connect(qApp, &QGuiApplication::paletteChanged, this, &TmainScoreObject::paletteSlot);
 
@@ -100,12 +113,11 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
     return;
   }
   m_scoreObj = scoreObj;
+  m_scoreObj->enableActions();
   connect(m_scoreObj, &TscoreObject::clicked, this, &TmainScoreObject::clicked);
   connect(m_scoreObj, &TscoreObject::readOnlyNoteClicked, this, &TmainScoreObject::readOnlyNoteClicked);
   connect(m_showNamesAct, &Taction::triggered, [=]{ m_scoreObj->setShowNoteNames(m_showNamesAct->checked()); });
 //   connect(m_extraAccidsAct);
-  connect(m_deleteLastAct, &Taction::triggered, [=]{ m_scoreObj->deleteLastNote(); });
-  connect(m_clearScoreAct, &Taction::triggered, [=]{ m_scoreObj->clearScore(); });
   connect(m_playAct, &Taction::triggered, SOUND, &Tsound::playScore);
   connect(m_recModeAct, &Taction::triggered, [=]{ m_scoreObj->setRecordMode(!m_scoreObj->recordMode()); });
   connect(m_zoomOutAct, &Taction::triggered, [=]{ m_scoreObj->setScaleFactor(qMax(0.4, m_scoreObj->scaleFactor() - 0.2)); });
@@ -117,6 +129,18 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
   connect(m_scoreObj, &TscoreObject::keySignatureChanged, [=]{
     if (GLOB->keySignatureEnabled() && GLOB->showKeyName() && !GLOB->isExam())
       emit keyNameTextChanged();
+  });
+  m_scoreActions << m_scoreObj->deleteLastAct() << m_scoreObj->clearScoreAct();
+  m_noteActions << m_scoreObj->wholeNoteAct() << m_scoreObj->halfNoteAct() << m_scoreObj->quarterNoteAct() << m_scoreObj->eighthNoteAct()
+                << m_scoreObj->sixteenthNoteAct() << m_scoreObj->restNoteAct() << m_scoreObj->dotNoteAct();
+
+  connect(m_nextNoteAct, &Taction::triggered, [=]{
+    if (!GLOB->isSingleNote())
+      m_scoreObj->setSelectedItem(m_scoreObj->selectedItem() ? m_scoreObj->getNext(m_scoreObj->selectedItem()) : m_scoreObj->note(0));
+  });
+  connect(m_prevNoteAct, &Taction::triggered, [=]{
+    if (!GLOB->isSingleNote())
+      m_scoreObj->setSelectedItem(m_scoreObj->selectedItem() ? m_scoreObj->getPrev(m_scoreObj->selectedItem()) : m_scoreObj->note(m_scoreObj->notesCount() - 1));
   });
 }
 
@@ -400,7 +424,7 @@ void TmainScoreObject::randMelodySlot() {
 void TmainScoreObject::isExamChangedSlot() {
   m_scoreActions.clear();
   if (GLOB->isExam()) {
-      m_scoreActions << m_zoomOutAct << m_zoomInAct << m_deleteLastAct << m_clearScoreAct;
+      m_scoreActions << m_zoomOutAct << m_zoomInAct;
       if (!m_questionMark) {
         m_scoreObj->component()->setData("import QtQuick 2.9; Text { anchors.centerIn: parent ? parent : undefined; scale: parent ? parent.height / height : 1; text: \"?\"; font { family: \"Nootka\"; pixelSize: 20 }}", QUrl());
         m_questionMark = qobject_cast<QQuickItem*>(m_scoreObj->component()->create());
@@ -412,12 +436,14 @@ void TmainScoreObject::isExamChangedSlot() {
       }
       singleModeSlot();
   } else {
-      m_scoreActions << m_showNamesAct << m_extraAccidsAct << m_zoomOutAct << m_zoomInAct << m_deleteLastAct << m_clearScoreAct;
+      m_scoreActions << m_showNamesAct << m_extraAccidsAct << m_zoomOutAct << m_zoomInAct;
       if (m_questionMark) {
         delete m_questionMark;
         m_questionMark = nullptr;
       }
   }
+  if (m_scoreObj)
+    m_scoreActions << m_scoreObj->deleteLastAct() << m_scoreObj->clearScoreAct();
   emit scoreActionsChanged();
 }
 
@@ -455,4 +481,18 @@ void TmainScoreObject::checkSingleNoteVisibility() {
     m_scoreObj->note(2)->setVisible(!GLOB->isExam() && GLOB->showEnharmNotes() && GLOB->enableDoubleAccids());
     m_scoreObj->setNote(0, m_scoreObj->noteAt(0)); // refresh
   }
+}
+
+
+QObject* TmainScoreObject::createQmlShortcut(QQmlComponent* qmlComp, const char* key) {
+  std::string d = "import QtQuick 2.9; Shortcut { sequence: ";
+  d.append(key);
+  d.append(" }");
+  qmlComp->setData(d.c_str(), QUrl());
+  auto shortcut = qmlComp->create(qmlContext(this));
+  if (shortcut)
+    shortcut->setParent(this);
+  else
+    qDebug() << "[TmainScoreObject] Can't create shortcut";
+  return shortcut;
 }

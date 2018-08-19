@@ -3,6 +3,7 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
+import QtQuick.Controls 2.2
 
 import Score 1.0
 
@@ -32,6 +33,9 @@ Flickable {
   property alias bgRect: bgRect
   property alias alterText: accidControl.text
 
+  property alias deleteLastAct: scoreObj.deleteLastAct
+  property alias clearScoreAct: scoreObj.clearScoreAct
+
   // private
   property var staves: [ staff0 ]
   property var noteAdd: null
@@ -43,6 +47,8 @@ Flickable {
   width: parent.width
 
   contentWidth: score.width
+
+  ScrollBar.vertical: ScrollBar { active: false; visible: active }
 
   TscoreObject {
     id: scoreObj
@@ -132,6 +138,4 @@ Flickable {
   function clearScore() { scoreObj.clearScore() }
 
   function deleteLast() { scoreObj.deleteLastNote() }
-
-  Keys.onPressed: scoreObj.handleKey(event.key, event.modifiers)
 }

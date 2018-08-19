@@ -22,12 +22,11 @@ Score {
   property alias zoomOutAct: mainObj.zoomOutAct
   property alias openXmlAct: mainObj.openXmlAct
   property alias saveXmlAct: mainObj.saveXmlAct
-  property alias deleteLastAct: mainObj.deleteLastAct
-  property alias clearScoreAct: mainObj.clearScoreAct
   property alias recModeAct: mainObj.recModeAct
   property alias playAct: mainObj.playAct
   property alias scoreActions: mainObj.scoreActions
   property alias melodyActions: mainObj.melodyActions
+  property alias noteActions: mainObj.noteActions
   property alias keyName: keyName
 
   scoreObj.meter: GLOB.rhythmsEnabled && !GLOB.singleNoteMode ? Tmeter.Meter_4_4 : Tmeter.NoMeter
@@ -45,15 +44,8 @@ Score {
 
   TmainScoreObject {
     id: mainObj
-    openXmlAct.shortcut: Shortcut { sequence: StandardKey.Open; enabled: !GLOB.singleNoteMode && !GLOB.isExam }
-    saveXmlAct.shortcut: Shortcut { sequence: StandardKey.Save; enabled: !GLOB.singleNoteMode && !GLOB.isExam }
-    zoomOutAct.shortcut: Shortcut { sequence: StandardKey.ZoomOut; enabled: !GLOB.singleNoteMode }
-    zoomInAct.shortcut: Shortcut { sequence: StandardKey.ZoomIn; enabled: !GLOB.singleNoteMode }
-    playAct.shortcut: Shortcut { sequence: " "; enabled: !GLOB.singleNoteMode && !GLOB.isExam }
-    recModeAct.shortcut: Shortcut { sequence: "Ctrl+ "; enabled: !GLOB.singleNoteMode && !GLOB.isExam }
     recModeAct.text: recordMode ? qsTr("Note by note") : qsTr("Edit")
     recModeAct.icon: recordMode ? "record" : "stopMelody"
-    randMelodyAct.shortcut: Shortcut { sequence: "Ctrl+M"; enabled: !GLOB.singleNoteMode && !GLOB.isExam }
     onMelodyGenerate: nootkaWindow.showDialog(Nootka.MelodyGenerator)
   }
 
@@ -147,26 +139,4 @@ Score {
     z: -1
     radius: width / 3.0
   }
-
-  Shortcut {
-    enabled: !GLOB.singleNoteMode
-    sequence: StandardKey.MoveToNextChar
-    onActivated: {
-      if (currentNote)
-        currentNote = scoreObj.getNext(currentNote)
-      else
-        currentNote = scoreObj.note(0)
-    }
-  }
-  Shortcut {
-    enabled: !GLOB.singleNoteMode
-    sequence: StandardKey.MoveToPreviousChar
-    onActivated: {
-      if (currentNote)
-        currentNote = scoreObj.getPrev(currentNote)
-      else
-        currentNote = scoreObj.note(notesCount - 1)
-    }
-  }
-
 }
