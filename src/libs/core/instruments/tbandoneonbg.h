@@ -119,9 +119,6 @@ signals:
   void factorChanged();
   void sideHighlightChanged();
 
-protected:
-  void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) override;
-
 private:
 
       /**

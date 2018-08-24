@@ -158,6 +158,17 @@ TbandoneonBg::TbandoneonBg(QQuickItem* parent) :
 //   m_circleLeftOpen.item->setObjectName("left_open");
 //   m_circleRightClose.item->setObjectName("right_close");
 //   m_circleRightOpen.item->setObjectName("right_open");
+
+  // FIXME: dirty workaround to set bandoneon in the middle.
+  // It happens due to instrument loader sets (forces) bandoneon item width to window width during loading
+  // but correct width is obtained from factor
+  QTimer::singleShot(50, [=]{
+    if (this->parentItem()) {
+      auto p = qobject_cast<QQuickItem*>(this->parentItem());
+      setFactor(qMin(p->height() / 100.0, p->width() / 430.0) * 0.9);
+      setFactor(qMin(p->height() / 100.0, p->width() / 430.0));
+    }
+  });
 }
 
 
@@ -339,8 +350,6 @@ void TbandoneonBg::setFactor(qreal f) {
     updateCircleSize(m_circleRightClose.item);
     updateCircleSize(m_circleCloseExtra.item);
     emit factorChanged();
-    emit widthChanged();
-    emit heightChanged();
   }
 }
 
@@ -448,14 +457,6 @@ bool TbandoneonBg::canBeRightClose(short chromNoteNr) {
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
-
-void TbandoneonBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
-  if (oldGeometry.width() != newGeometry.width() || oldGeometry.height() != newGeometry.height()) {
-    emit heightChanged();
-    emit widthChanged();
-  }
-}
-
 
 void TbandoneonBg::getNote() {
   if (m_currentIndex < 0)
