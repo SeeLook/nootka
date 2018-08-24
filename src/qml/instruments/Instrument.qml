@@ -9,11 +9,10 @@ import "score"
 
 
 Item {
-  id: root
   property alias instrument: instrLoad.item
   property Score score
 
-  height: GLOB.instrument.isSax ? parent.height : nootkaWindow.height / GLOB.instrument.heightPart
+  height: GLOB.instrument.isSax ? parent.height : (GLOB.instrument ? nootkaWindow.height / GLOB.instrument.heightPart : 0)
   width: nootkaWindow.width * (GLOB.instrument.isSax ? 0.15 : 1)
   y: score.y + (GLOB.instrument.isSax ? 0 : score.height)
   x: GLOB.instrument.isSax ? parent.width - width : 0
@@ -22,7 +21,7 @@ Item {
   Loader {
     id: instrLoad
     anchors.fill: parent
-    source: "qrc:/instruments/" +  GLOB.instrument.qmlFile + ".qml"
+    source: GLOB.instrument ? "qrc:/instruments/" +  GLOB.instrument.qmlFile + ".qml" : ""
     onLoaded: {
       Noo.instrument = instrument
       if (GLOB.instrument.type === Tinstrument.Piano)
