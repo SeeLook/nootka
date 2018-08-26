@@ -96,7 +96,7 @@ void TnotePair::flush() {
   m_noteItem->markNoteHead(Qt::transparent);
   m_noteItem->setNoteNameVisible(false);
   if (m_beam && this == m_beam->last())
-    delete m_beam; // TbeamObject destructor will reset this beam to nullptr
+    m_beam->deleteBeam(); // it will reset this beam to nullptr
   if (this == m_noteItem->staff()->firstNote())
     m_noteItem->staff()->deleteExtraTie();
   if (m_noteItem->tie()) {

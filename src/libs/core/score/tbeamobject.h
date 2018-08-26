@@ -51,6 +51,7 @@ class NOOTKACORE_EXPORT TbeamObject : public QQuickPaintedItem
   friend class TstaffItem;
   friend class TmeasureObject;
   friend class TnoteItem;
+  friend class TnotePair;
 
 public:
   explicit TbeamObject(TnotePair* sn, TmeasureObject* m);
@@ -95,6 +96,10 @@ protected:
        * Returns @p TRUE if this beam becomes broken (not enough notes) and has to be deleted
        */
   bool removeNote(TnotePair* np);
+
+  void setMeasure(TmeasureObject* m);
+
+  void deleteBeam();
 
 private:
   void resetBeam(TnotePair* noteToRemove);

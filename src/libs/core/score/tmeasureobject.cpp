@@ -112,15 +112,15 @@ void TmeasureObject::appendNewNotes(int segmentId, int count) {
 
 
 void TmeasureObject::removeLastNote() {
-  if (m_free == 0) {
-    delete m_barLine;
-    m_barLine = nullptr;
+  if (m_free == 0 && m_barLine) {
+    m_barLine->setVisible(false);
+    m_barLine->setParentItem(nullptr);
   }
   auto noteToRemove = m_notes.takeLast();
   updateRhythmicGroups();
   if (noteToRemove->beam()) {
     if (noteToRemove->beam()->count() < 3)
-      delete noteToRemove->beam();
+      noteToRemove->beam()->deleteBeam();
     else
       noteToRemove->beam()->removeNote(noteToRemove);
     int segId = m_firstInGr[noteToRemove->rhythmGroup()];
@@ -162,6 +162,18 @@ char TmeasureObject::debug() {
 //###################              PROTECTED           ############################################
 //#################################################################################################
 
+void TmeasureObject::flush() {
+  if (m_barLine)
+    m_barLine->setVisible(false);
+  m_notes.clear();
+  setStaff(nullptr);
+  m_allNotesWidth = 0.0;
+  m_gapsSum = 0.0;
+  delete[] m_firstInGr;
+  m_firstInGr = new qint8[1];
+}
+
+
 void TmeasureObject::updateRhythmicGroups() {
   if (duration() == 0)
     return; 
@@ -197,8 +209,12 @@ void TmeasureObject::checkBarLine() {
     if (!m_barLine) {
       m_staff->score()->component()->setData("import QtQuick 2.9; Rectangle { width: 0.3 }", QUrl());
       m_barLine = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
+      m_barLine->setProperty("color", qApp->palette().text().color());
       m_barLine->setParentItem(lastNote);
-      m_barLine->setProperty("color", lastNote->color());
+    }
+    if (!m_barLine->isVisible()) {
+      m_barLine->setParentItem(lastNote);
+      m_barLine->setVisible(true);
     }
     qreal xOff = lastNote == m_staff->lastMeasure()->last()->item() ? 0.2 : 0.0; // fit line at the staff end
     m_barLine->setX(lastNote->rightX() - lastNote->x() + xOff);
@@ -249,7 +265,7 @@ int TmeasureObject::beamGroup(int segmentId) {
     )
     {
         if (prevSeg->note()->rtm.beam() == Trhythm::e_noBeam) // start beam group
-          prevSeg->setBeam(new TbeamObject(prevSeg, this));
+          prevSeg->setBeam(m_score->getBeam(prevSeg, this) /*new TbeamObject(prevSeg, this)*/);
         auto beam = prevSeg->beam();
         if (noteSeg->beam() == nullptr)
           beam->addNote(noteSeg);
@@ -265,9 +281,9 @@ void TmeasureObject::noteGoingRest(TnotePair* np) {
   if (np->beam()) {
     if (np->beam()->count() > 2) {
       if (np->beam()->removeNote(np))
-        delete np->beam();
+        np->beam()->deleteBeam();
     } else
-        delete np->beam();
+        np->beam()->deleteBeam();
     int segId = m_firstInGr[np->rhythmGroup()];
     while (segId < m_notes.count() && m_notes[segId]->rhythmGroup() == np->rhythmGroup()) { // update notes of entire rhythm group
       m_notes[segId]->approve();
@@ -306,14 +322,13 @@ void TmeasureObject::restGoingNote(TnotePair* np) {
         if (newBeam)
           newBeam->addNote(noteInBeam);
         else
-          newBeam = new TbeamObject(noteInBeam, this);
+          newBeam = m_score->getBeam(noteInBeam, this); //new TbeamObject(noteInBeam, this);
       }
       newBeam->prepareBeam();
       newBeam->drawBeam();
     }
   }
 }
-
 
 //#################################################################################################
 //###################              PRIVATE             ############################################

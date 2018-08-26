@@ -164,7 +164,7 @@ TbandoneonBg::TbandoneonBg(QQuickItem* parent) :
   // but correct width is obtained from factor
   QTimer::singleShot(50, [=]{
     if (this->parentItem()) {
-      auto p = qobject_cast<QQuickItem*>(this->parentItem());
+      auto p = this->parentItem();
       setFactor(qMin(p->height() / 100.0, p->width() / 430.0) * 0.9);
       setFactor(qMin(p->height() / 100.0, p->width() / 430.0));
     }
