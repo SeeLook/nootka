@@ -54,7 +54,7 @@ TscoreObject::TscoreObject(QObject* parent) :
 {
   m_meter = new Tmeter();
   setMeter(4); // Tmeter::Meter_4_4
-  m_measures << new TmeasureObject(0, this);
+  m_measures << getMeasure(0); // new TmeasureObject(0, this);
 
   m_widthTimer = new QTimer(this);
   m_widthTimer->setSingleShot(true);
@@ -226,7 +226,7 @@ CHECKTIME (
 
   auto lastMeasure = m_measures.last();
   if (lastMeasure->free() == 0) { // new measure is needed
-    lastMeasure = new TmeasureObject(m_measures.count(), this);
+    lastMeasure = getMeasure(m_measures.count()); // new TmeasureObject(m_measures.count(), this);
     m_measures << lastMeasure;
     lastStaff()->appendMeasure(lastMeasure);
   }
@@ -267,7 +267,7 @@ CHECKTIME (
             }
           }
           appendToNoteList(notesToNext);
-          auto newLastMeasure = new TmeasureObject(m_measures.count(), this); // add a new measure
+          auto newLastMeasure = getMeasure(m_measures.count()); // new TmeasureObject(m_measures.count(), this); // add a new measure
           m_measures << newLastMeasure;
           lastStaff()->appendMeasure(newLastMeasure);
           newLastMeasure->appendNewNotes(lastNoteId, notesToNext.count());
@@ -821,7 +821,7 @@ void TscoreObject::deleteLastNote() {
     auto lastBar = lastMeasure();
     int tempActiveBar = m_activeBarNr;
     if (lastBar->noteCount() == 1 && lastBar != firstMeasure()) {
-        delete m_measures.takeLast();
+        m_spareMeasures << m_measures.takeLast();
         auto lastSt = lastStaff();
         lastSt->setLastMeasureId(lastSt->lastMeasureId() - 1);
         if (lastSt->measuresCount() == 0) {
@@ -829,6 +829,7 @@ void TscoreObject::deleteLastNote() {
           adjust = true;
         }
         m_activeBarNr--;
+        m_spareMeasures.last()->flush();
     } else
         lastBar->removeLastNote();
     auto segToRemove = m_segments.takeLast();
@@ -1207,6 +1208,35 @@ TnotePair* TscoreObject::getSegment(int noteNr, Tnote* n) {
 }
 
 
+TmeasureObject* TscoreObject::getMeasure(int barNr) {
+  if (m_spareMeasures.isEmpty()) {
+      return new TmeasureObject(barNr, this);
+  } else {
+      auto m = m_spareMeasures.takeLast();
+      m->setNumber(barNr);
+      m->meterChanged();
+      return m;
+  }
+}
+
+
+TbeamObject* TscoreObject::getBeam(TnotePair* np, TmeasureObject* m) {
+  if (m_spareBeams.isEmpty()) {
+      return new TbeamObject(np, m);
+  } else {
+      auto b = m_spareBeams.takeLast();
+      b->setMeasure(m);
+      b->addNote(np);
+      return b;
+  }
+}
+
+
+void TscoreObject::storeBeam(TbeamObject* b) {
+  m_spareBeams << b;
+}
+
+
 int TscoreObject::globalNoteNr(qreal yPos) {
   if (isPianoStaff() && yPos > firstStaff()->upperLine() + 13.0)
     yPos -= 10.0;
@@ -1223,16 +1253,20 @@ void TscoreObject::clearScorePrivate() {
       s->flush();
       m_spareSegments << s;
     }
-    qDeleteAll(m_measures);
+    for (TmeasureObject* m : qAsConst(m_measures)) {
+      m->flush();
+      m_spareMeasures << m;
+    }
     m_measures.clear();
     m_segments.clear();
     while (m_staves.count() > 1) {
       auto ls = m_staves.takeLast();
       ls->deleteLater();
     }
-    m_measures << new TmeasureObject(0, this);
+    m_measures << getMeasure(0);
     lastStaff()->appendMeasure(firstMeasure());
     firstStaff()->setFirstMeasureId(0);
+    firstStaff()->setLastMeasureId(0);
   }
 }
 
@@ -1295,3 +1329,14 @@ QObject* TscoreObject::createQmlShortcut(QQmlComponent* qmlComp, const char* key
     qDebug() << "[TscoreObject] Can't create shortcut";
   return shortcut;
 }
+
+
+// Tnote dummyNote;
+//       CHECKTIME (
+//       for (int n = 0; n < 200; ++n) {
+//         auto np = new TnotePair(-1, &dummyNote);
+//         np->setNoteItem(new TnoteItem(st, np));
+//         np->item()->setStaff(nullptr);
+//         m_spareSegments << np;
+//       }
+//       )

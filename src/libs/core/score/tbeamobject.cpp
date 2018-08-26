@@ -68,7 +68,7 @@ TbeamObject::TbeamObject(TnotePair* sn, TmeasureObject* m) :
 
 TbeamObject::~TbeamObject()
 {
-//   qDebug() << "     [BEAM] deleted of id" << first()->index();
+//   qDebug() << "     [BEAM] deleted of id" << (m_notes.isEmpty() ? -1 : first()->index());
   for (TnotePair* np : qAsConst(m_notes)) {
     resetBeam(np);
   }
@@ -76,6 +76,9 @@ TbeamObject::~TbeamObject()
 
 
 void TbeamObject::addNote(TnotePair* np) {
+  if (np == nullptr)
+    return;
+
   if (np->beam() == nullptr)
     np->setBeam(this);
   else
@@ -221,7 +224,7 @@ bool TbeamObject::removeNote(TnotePair* np) {
             if (otherBeam)
               otherBeam->addNote(noteForOtherBeam);
             else
-              otherBeam = new TbeamObject(noteForOtherBeam, m_measure);
+              otherBeam = m_measure->score()->getBeam(noteForOtherBeam, m_measure); //new TbeamObject(noteForOtherBeam, m_measure);
           }
           otherBeam->prepareBeam();
           otherBeam->drawBeam();
@@ -262,6 +265,25 @@ bool TbeamObject::removeNote(TnotePair* np) {
     }
   }
   return deleteBeam;
+}
+
+
+void TbeamObject::setMeasure(TmeasureObject* m) {
+  if (m != m_measure) {
+    m_measure = m;
+  }
+}
+
+
+void TbeamObject::deleteBeam() {
+  m_measure->score()->storeBeam(this);
+  for (TnotePair* np : qAsConst(m_notes)) {
+    resetBeam(np);
+  }
+  m_16beams.clear();
+  m_notes.clear();
+  changeStaff(nullptr);
+  m_measure = nullptr;
 }
 
 

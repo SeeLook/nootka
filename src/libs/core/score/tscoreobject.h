@@ -53,6 +53,7 @@ class TnoteItem;
 class Tmeter;
 class Tmelody;
 class Taction;
+class TbeamObject;
 
 
 /**
@@ -117,6 +118,7 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   friend class TmeasureObject;
   friend class TnoteItem;
   friend class TaddNoteItem;
+  friend class TbeamObject;
 
 public:
   explicit TscoreObject(QObject* parent = nullptr);
@@ -537,6 +539,17 @@ protected:
 
   void setTouched(bool t);
 
+      /**
+       * Common method to obtain a beam object (@p TbeamObject)
+       * Either created on demand or taken from @p m_spareBeams list
+       */
+  TbeamObject* getBeam(TnotePair* np, TmeasureObject* m);
+
+      /**
+       * Saves given beam to the @p m_spareBeams list
+       */
+  void storeBeam(TbeamObject* b);
+
 private:
       /**
        * Appends notes to @p m_notes list, creates corresponding @p TnotePair
@@ -549,6 +562,11 @@ private:
        * Returns @p TnotePair - a segment that can be either created or taken from @p m_spareSegments
        */
   TnotePair* getSegment(int noteNr, Tnote* n);
+
+      /**
+       * Returns @p TmeasureObject - a measure that can be either created or taken from @p m_spareMeasures
+       */
+  TmeasureObject* getMeasure(int barNr = 0);
 
       /**
        * According to actual clef, returns global note number (independent on octave) from given note position
@@ -592,8 +610,10 @@ private:
   QList<TnotePair*>                 m_spareSegments;
   QList<TstaffItem*>                m_staves;
   QList<TmeasureObject*>            m_measures;
+  QList<TmeasureObject*>            m_spareMeasures;
   QList<Tnote>                      m_notes;
   QList<quint8>                     m_meterGroups;
+  QList<TbeamObject*>               m_spareBeams;
                               /* Helper variables */
   TclefOffset                       m_clefOffset;
   qreal                             m_width;

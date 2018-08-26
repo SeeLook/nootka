@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -106,6 +106,9 @@ public:
   char debug();
 
 protected:
+
+  void flush();
+
       /**
        * Sets appropriate @p setRhythmGroup of every note in the measure.
        */
@@ -150,9 +153,8 @@ private:
 private:
   int                            m_number;
   int                            m_duration;
-  int                            m_id;
   TscoreObject                  *m_score;
-  TstaffItem                  *m_staff;
+  TstaffItem                    *m_staff;
   int                            m_free;
   QList<TnotePair*>              m_notes;
   qint8                         *m_firstInGr; /**< qint8 is sufficient - measure never has more than 127 notes */
