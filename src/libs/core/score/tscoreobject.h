@@ -550,6 +550,17 @@ protected:
        */
   void storeBeam(TbeamObject* b);
 
+      /**
+       * Adds empty measure to the score and return its pointer
+       */
+  TmeasureObject* addMeasure();
+
+      /**
+       * squeezes extra note @p np silently, without invoking visual changes
+       * into measure @p m (if provided)
+       */
+  TnotePair* insertSilently(int id, const Tnote& n, TmeasureObject* m = nullptr);
+
 private:
       /**
        * Appends notes to @p m_notes list, creates corresponding @p TnotePair

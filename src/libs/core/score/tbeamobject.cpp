@@ -179,7 +179,6 @@ void TbeamObject::paint(QPainter* painter) {
   }
 }
 
-
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
@@ -196,8 +195,10 @@ void TbeamObject::drawBeam() {
   setX(p1.x());
   setY(qMin(p1.y(), p2.y()) - (first()->note()->rtm.stemDown() ? 2.0 * BEAM_THICK : HALF_THICK));
   setTextureSize(QSize(qCeil(width() * m_measure->staff()->scale()), qCeil(height() * m_measure->staff()->scale())));
-  /** @p update should be call here to invoke @p paint()
-   * but it is invoked by Qt itself whenever width, height, x or y change */
+  /**
+   * @p update() should be called here to invoke @p paint()
+   * but it is invoked by Qt itself whenever width, height, x or y change
+   */
 }
 
 
@@ -210,7 +211,7 @@ bool TbeamObject::removeNote(TnotePair* np) {
   bool deleteBeam = false;
   int noteId = m_notes.indexOf(np);
   if (noteId == -1) { // TODO remove this if does not occur
-    qDebug() << "     [BEAM] of note id" << first()->index() << "hes no note to remove";
+    qDebug() << "     [BEAM] of note id" << first()->index() << "has no note to remove";
     return false;
   }
   if (noteId > 1) { // there are at least two notes at the beam beginning
@@ -271,6 +272,8 @@ bool TbeamObject::removeNote(TnotePair* np) {
 void TbeamObject::setMeasure(TmeasureObject* m) {
   if (m != m_measure) {
     m_measure = m;
+    if (m_measure)
+      changeStaff(m_measure->staff());
   }
 }
 

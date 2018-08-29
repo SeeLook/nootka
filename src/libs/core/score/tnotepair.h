@@ -102,6 +102,11 @@ public:
        */
   void approve();
 
+      /**
+       * Duration of given list of notes (segments)
+       */
+  static int pairsDuration(const QList<TnotePair*>& pairs);
+
 protected:
   TbeamObject* beam() { return m_beam; }
   void setBeam(TbeamObject* b);

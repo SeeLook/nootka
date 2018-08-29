@@ -226,7 +226,7 @@ CHECKTIME (
 
   auto lastMeasure = m_measures.last();
   if (lastMeasure->free() == 0) { // new measure is needed
-    lastMeasure = getMeasure(m_measures.count()); // new TmeasureObject(m_measures.count(), this);
+    lastMeasure = getMeasure(m_measures.count());
     m_measures << lastMeasure;
     lastStaff()->appendMeasure(lastMeasure);
   }
@@ -297,11 +297,15 @@ void TscoreObject::setNote(TnoteItem* no, const Tnote& n) {
       return;
     }
 
+    int durDiff = no->note()->duration() - n.duration();
+
     auto oldNote = *no->wrapper()->note();
     auto newNote = n;
-    newNote.rtm.setBeam(oldNote.rtm.beam()); // TODO as long as we don't change rhythm
-    newNote.rtm.setTie(oldNote.rtm.tie()); // TODO as long as we don't change rhythm
-    fitToRange(newNote);
+    if (!durDiff) {
+      newNote.rtm.setBeam(oldNote.rtm.beam());
+      newNote.rtm.setTie(oldNote.rtm.tie());
+    }
+//     fitToRange(newNote);
     bool fitStaff = false;
     // disconnect tie (if any) if note pitch changed
     QPoint notesForAlterCheck;// x is first note and y is the last note to check
@@ -312,50 +316,60 @@ void TscoreObject::setNote(TnoteItem* no, const Tnote& n) {
       notesForAlterCheck.setX(m_segments[notesForAlterCheck.x()]->item()->measure()->firstNoteId());
       notesForAlterCheck.setY(m_segments[notesForAlterCheck.y()]->item()->measure()->lastNoteId());
       if (oldNote.rtm.tie() == Trhythm::e_tieStart) {
-        m_segments[no->index() + 1]->disconnectTie(TnotePair::e_untieNext);
-      } else { // tie continue or end
-        if (oldNote.rtm.tie() == Trhythm::e_tieCont)
           m_segments[no->index() + 1]->disconnectTie(TnotePair::e_untieNext);
-        m_segments[no->index() - 1]->disconnectTie(TnotePair::e_untiePrev);
+      } else { // tie continue or end
+          if (oldNote.rtm.tie() == Trhythm::e_tieCont)
+            m_segments[no->index() + 1]->disconnectTie(TnotePair::e_untieNext);
+          m_segments[no->index() - 1]->disconnectTie(TnotePair::e_untiePrev);
       }
       newNote.rtm.setTie(Trhythm::e_noTie);
       if (no->wrapper() == no->staff()->firstNote())
         no->staff()->deleteExtraTie();
       fitStaff = true;
     }
-    no->wrapper()->setNote(newNote);
-    // When note or alter are different - check accidentals in whole measure and fit staff if necessary
-    if (!notesForAlterCheck.isNull() || oldNote.note() != newNote.note() || oldNote.alter() != newNote.alter()) {
-      if (notesForAlterCheck.isNull())
-        notesForAlterCheck = QPoint(no->measure()->firstNoteId(), no->measure()->lastNoteId());
-      auto measureToRefresh = m_segments[notesForAlterCheck.x()]->item()->measure();
-      for (int n = notesForAlterCheck.x(); n <= notesForAlterCheck.y(); ++n) {
-        if (m_segments[n]->note()->note() == oldNote.note() || m_segments[n]->note()->note() == newNote.note()) {
-          fitStaff = true;
-          m_segments[n]->item()->updateAlter();
-        }
-        // Update measure sums (notes width)
-        if (m_segments[n]->item()->measure() != measureToRefresh) {
+
+//     no->wrapper()->setNote(newNote);
+    if (durDiff) {
+      CHECKTIME (
+        no->measure()->changeNoteDuration(no->wrapper(), newNote);
+      )
+        adjustScoreWidth();
+    } else {
+        no->wrapper()->setNote(newNote);
+        // When note or alter are different - check accidentals in whole measure and fit staff if necessary
+        if (!notesForAlterCheck.isNull() || oldNote.note() != newNote.note() || oldNote.alter() != newNote.alter()) {
+          if (notesForAlterCheck.isNull())
+            notesForAlterCheck = QPoint(no->measure()->firstNoteId(), no->measure()->lastNoteId());
+          auto measureToRefresh = m_segments[notesForAlterCheck.x()]->item()->measure();
+          for (int n = notesForAlterCheck.x(); n <= notesForAlterCheck.y(); ++n) {
+            if (m_segments[n]->note()->note() == oldNote.note() || m_segments[n]->note()->note() == newNote.note()) {
+              fitStaff = true;
+              m_segments[n]->item()->updateAlter();
+            }
+            // Update measure sums (notes width)
+            if (m_segments[n]->item()->measure() != measureToRefresh) {
+              measureToRefresh->refresh();
+              measureToRefresh = m_segments[n]->item()->measure();
+            }
+          }
           measureToRefresh->refresh();
-          measureToRefresh = m_segments[n]->item()->measure();
         }
-      }
-      measureToRefresh->refresh();
+        // update note range on current staff
+        if (oldNote.note() != newNote.note() || oldNote.octave() != newNote.octave())
+          no->staff()->checkNotesRange();
+        // If there is a beam - prepare it again then draw
+        if (no->wrapper()->beam()) {
+          no->wrapper()->beam()->prepareBeam();
+          if (!fitStaff)
+            no->wrapper()->beam()->drawBeam();
+        }
+        if (fitStaff) {
+          m_segments[notesForAlterCheck.x()]->item()->staff()->fit();
+          if (m_segments[notesForAlterCheck.y()]->item()->staff() != m_segments[notesForAlterCheck.x()]->item()->staff())
+            m_segments[notesForAlterCheck.y()]->item()->staff()->fit();
+        }
     }
-    // update note range on current staff
-    if (oldNote.note() != newNote.note() || oldNote.octave() != newNote.octave())
-      no->staff()->checkNotesRange();
-    // If there is a beam - prepare it again then draw
-    if (no->wrapper()->beam()) {
-      no->wrapper()->beam()->prepareBeam();
-      if (!fitStaff)
-        no->wrapper()->beam()->drawBeam();
-    }
-    if (fitStaff) {
-      m_segments[notesForAlterCheck.x()]->item()->staff()->fit();
-      if (m_segments[notesForAlterCheck.y()]->item()->staff() != m_segments[notesForAlterCheck.x()]->item()->staff())
-        m_segments[notesForAlterCheck.y()]->item()->staff()->fit();
-    }
+
     if (no == m_selectedItem)
       emit selectedNoteChanged();
     if (m_singleNote && m_enharmNotesEnabled && n.isValid()) {
@@ -414,12 +428,12 @@ void TscoreObject::noteClicked(qreal yPos) {
     return;
 
   Trhythm newRhythm = m_meter->meter() == Tmeter::NoMeter ? Trhythm(Trhythm::NoRhythm) : *m_workRhythm;
-  if (activeNote()->note()->rhythm() != m_workRhythm->rhythm() || activeNote()->note()->hasDot() != m_workRhythm->hasDot()) {
-    if (activeNote() != lastNote()) {
-      newRhythm = activeNote()->note()->rtm; // TODO so far it forces old rhythm until note rhythm change will be implemented
-      newRhythm.setRest(m_workRhythm->isRest()); // only changes note to rest if set by user
-    }
-  }
+//   if (activeNote()->note()->rhythm() != m_workRhythm->rhythm() || activeNote()->note()->hasDot() != m_workRhythm->hasDot()) {
+//     if (activeNote() != lastNote()) {
+//       newRhythm = activeNote()->note()->rtm; // TODO so far it forces old rhythm until note rhythm change will be implemented
+//       newRhythm.setRest(m_workRhythm->isRest()); // only changes note to rest if set by user
+//     }
+//   }
 
   int globalNr = globalNoteNr(yPos);
   Tnote newNote(static_cast<char>(56 + globalNr) % 7 + 1, static_cast<char>(56 + globalNr) / 7 - 8,
@@ -1166,12 +1180,37 @@ QPoint TscoreObject::tieRange(TnoteItem* n) {
   return tr;
 }
 
+
 void TscoreObject::setTouched(bool t) {
   if (t != m_touched) {
     m_touched = t;
     emit touchedChanged();
   }
 }
+
+
+TmeasureObject* TscoreObject::addMeasure() {
+  auto lastM = m_measures.last();
+  if (lastM->free())
+    qDebug() << "[TscoreObject] FIXME!!! Last measure is not full but the new one is going to be added";
+  lastM = getMeasure(m_measures.count());
+  m_measures << lastM;
+  lastStaff()->appendMeasure(lastM);
+  return lastM;
+}
+
+
+TnotePair* TscoreObject::insertSilently(int id, const Tnote& n, TmeasureObject* m) {
+  m_notes.insert(id, n);
+  auto np = getSegment(id, &m_notes[id]);
+  m_segments.insert(id, np);
+  for (int s = id + 1; s < m_segments.count(); ++s)
+    m_segments[s]->setIndex(s);
+  if (m)
+    m->insertSilently(id - m->firstNoteId(), np);
+  return np;
+}
+
 
 //#################################################################################################
 //###################              PRIVATE             ############################################

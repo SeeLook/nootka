@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2016-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -35,12 +35,11 @@ class T16beam;
  * This class manages displaying beams of rhythmic group.
  * It paints either eight beam line and 16th beam line(s)
  * By @p addNote() a beam flag of @p TnotePair is set.
- * It that moment @p TnotePair::objeject() can be empty.
+ * At that moment @p TnotePair::objeject() can be empty.
  * After note objects initialization @p prepareBeam() is called
  * where common stem direction of rhythm group is set and stems length.
  * When @p TnoteObject::setX() is called (note and its stem changes position)
- * @p drawBeam() is invoked to refresh beam size and call @p update()
- * to repaint the beam if necessary.
+ * @p drawBeam() is invoked to refresh beam size and call @p update() to repaint the beam if necessary.
  */
 class NOOTKACORE_EXPORT TbeamObject : public QQuickPaintedItem
 {
@@ -57,7 +56,8 @@ public:
   explicit TbeamObject(TnotePair* sn, TmeasureObject* m);
   ~TbeamObject() override;
 
-      /** Adds @p TnotePair to beam group
+      /**
+       * Adds @p TnotePair to beam group
        * and according to adding order sets appropriate beam flag.
        * It changes stem direction of note(s) when necessary.
        * It does not perform painting yet
