@@ -50,6 +50,7 @@ class NOOTKACORE_EXPORT  TstaffItem : public QQuickItem
 
   friend class TscoreObject;
   friend class TnotePair;
+  friend class TmeasureObject;
 
 public:
   explicit TstaffItem(QQuickItem* parent = nullptr);
@@ -166,6 +167,10 @@ protected:
        */
   void createExtraTie(TnoteItem* parent);
   void deleteExtraTie();
+
+  void shiftToMeasure(int measureNr, QList<Tnote>& notesAtStart, QList<TnotePair*>& notesToShift);
+
+  int shiftFromMeasure(int measureNr, int dur, QList<TnotePair*>& notesToShift);
 
 private:
   void findLowestNote(); /**< Checks all Y positions of staff notes to find lowest one */

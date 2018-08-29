@@ -30,6 +30,10 @@ class TstaffItem;
 class TnoteItem;
 class TnotePair;
 class TbeamObject;
+class Tnote;
+
+
+typedef QList<TnotePair*> Tpairs;
 
 
 /**
@@ -66,6 +70,8 @@ public:
        * Measure has to have already space for the whole list!
        */
   void appendNewNotes(int segmentId, int count);
+
+  void insertNotes(Tpairs& nList, int startId = 0);
 
   void removeLastNote();
 
@@ -147,8 +153,52 @@ protected:
        */
   void restGoingNote(TnotePair* np);
 
+      /**
+       * 
+       */
+  void changeNoteDuration(TnotePair* np, const Tnote& newNote);
+
+      /**
+       * Sets beams in measure notes starting from beam group of @p firstGroup
+       * till @p endGroup  or through all groups if not set (-1).
+       */
+  void resolveBeaming(int firstGroup, int endGroup = -1);
+
+      /**
+       * Takes @p dur (duration) of notes at the measure end
+       * and creates a list of notes @p notesToOut to shift to the next measure.
+       * Also, splits last note when needed and ties with the next note.
+       * @p endNote is note number till taking out is performed (by default 0 - whole measure)
+       * Returned value is remaining duration that can't be obtained.
+       */
+  int releaseAtEnd(int dur, Tpairs& notesToOut, QList<Tnote>& newList, int endNote = 0);
+
+      /**
+       * Takes @p dur (duration) of notes at the measure beginning
+       * and packs them into @p notesToOut list.
+       */
+  int releaseAtStart(int dur, Tpairs& notesToOut);
+
+      /**
+       * squeezes extra note @p np silently, without invoking visual changes
+       */
+  void insertSilently(int id, TnotePair* np);
+
 private:
   void clearAccidState();
+
+      /**
+       * Common routine that performs shifting @p notesToOut to the next measure (if not empty)
+       */
+  void shiftReleased(QList<Tnote>& notesAtStart, Tpairs& notesToOut);
+
+  void resolve(int firstId, const Tnote& pitch, int dur, Tpairs* prependList = nullptr);
+
+      /**
+       * Common method calling the staff for notes from the next measure
+       * to fill this one. @p m_free has to be updated before.
+       */
+  void fill();
 
 private:
   int                            m_number;

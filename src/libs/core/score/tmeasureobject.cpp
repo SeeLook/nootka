@@ -30,6 +30,15 @@
 #include <QtCore/qdebug.h>
 
 
+void content(TmeasureObject* m) {
+  QString c = QStringLiteral("| ");
+  for (int n = 0; n < m->noteCount(); ++n)
+    c += QString("(%1)").arg(m->note(n)->index()) + QLatin1String("<") + m->note(n)->note()->toText() + QLatin1String(">") + m->note(n)->note()->rtm.string() + QLatin1String(" ");
+  c += QStringLiteral("|");
+  qDebug() << m->debug() << c;
+}
+
+
 TmeasureObject::TmeasureObject(int nr, TscoreObject* parent) :
   QObject(parent),
   m_number(nr),
@@ -93,9 +102,9 @@ void TmeasureObject::appendNewNotes(int segmentId, int count) {
   }
   if (grWithBeam > -1) {
     auto firstInGrId = m_score->noteSegment(firstNoteId() + m_firstInGr[grWithBeam])->index();
+    TbeamObject *curBeam = nullptr;
     while (firstInGrId < m_score->notesCount()) {
       auto ns = m_score->noteSegment(firstInGrId);
-      TbeamObject *curBeam = nullptr;
       if (ns->beam()) {
         if (ns->beam() != curBeam) {
           ns->beam()->prepareBeam();
@@ -108,6 +117,35 @@ void TmeasureObject::appendNewNotes(int segmentId, int count) {
   refresh();
   m_staff->refresh();
   checkBarLine();
+}
+
+
+void TmeasureObject::insertNotes(Tpairs& nList, int startId) {
+  int listDur = TnotePair::pairsDuration(nList);
+  Tpairs outNotes;
+  if (listDur > m_score->meter()->duration())
+    qDebug() << debug() << "FIXME! Ooh, notes to insert are longer than entire measure can contain!" << listDur;
+  QList<Tnote> newNotes;
+  if (listDur > m_free) {
+    int leftDur = releaseAtEnd(listDur - m_free, outNotes, newNotes, startId);
+    if (leftDur) // TODO it should never happen - DELETE IT!
+      qDebug() << debug() << "FIXME! Can't insert" << listDur << leftDur << listDur - m_free;
+  }
+  for (int n = 0; n < nList.count(); ++n) {
+    auto noteIn = nList[n];
+    m_notes.insert(startId, noteIn);
+    if (noteIn->item() == nullptr)
+      noteIn->setNoteItem(new TnoteItem(m_staff, noteIn));
+    else if (m_staff != noteIn->item()->staff())
+      noteIn->item()->setStaff(m_staff);
+    noteIn->item()->setMeasure(this);
+  }
+  updateRhythmicGroups();
+  checkAccidentals();
+  resolveBeaming(m_notes[startId]->rhythmGroup()); //resolveBeaming(nList.first()->rhythmGroup());
+
+  refresh();
+  shiftReleased(newNotes, outNotes);
 }
 
 
@@ -198,13 +236,12 @@ void TmeasureObject::updateRhythmicGroups() {
       m_firstInGr[gr] = -1; // with '-1' - means no notes yet
   }
   m_free = m_duration - notePos;
-
-//   qDebug() << debug() << "Updating rhythmic groups" << m_free;
 }
 
 
 void TmeasureObject::checkBarLine() {
   if (m_free == 0 && m_score->meter()->meter() != Tmeter::NoMeter) {
+//     qDebug() << debug() << "check bar line";
     auto lastNote = last()->item();
     if (!m_barLine) {
       m_staff->score()->component()->setData("import QtQuick 2.9; Rectangle { width: 0.3 }", QUrl());
@@ -212,10 +249,8 @@ void TmeasureObject::checkBarLine() {
       m_barLine->setProperty("color", qApp->palette().text().color());
       m_barLine->setParentItem(lastNote);
     }
-    if (!m_barLine->isVisible()) {
-      m_barLine->setParentItem(lastNote);
-      m_barLine->setVisible(true);
-    }
+    m_barLine->setParentItem(lastNote);
+    m_barLine->setVisible(true);
     qreal xOff = lastNote == m_staff->lastMeasure()->last()->item() ? 0.2 : 0.0; // fit line at the staff end
     m_barLine->setX(lastNote->rightX() - lastNote->x() + xOff);
     m_barLine->setY(m_staff->upperLine());
@@ -254,6 +289,10 @@ void TmeasureObject::checkAccidentals() {
 int TmeasureObject::beamGroup(int segmentId) {
   int currGr = m_score->noteSegment(segmentId)->rhythmGroup();
   int segId = m_firstInGr[currGr] + 1;
+  if (segId < 0) { // TODO it should never happen - DELETE IT!
+    qDebug() << debug() << "FIXME! beamGroup()";
+    return -1;
+  }
   int grWithBeam = -1;
   while (segId < m_notes.count() && m_notes[segId]->rhythmGroup() == currGr) {
     auto noteSeg = m_notes[segId];
@@ -265,7 +304,7 @@ int TmeasureObject::beamGroup(int segmentId) {
     )
     {
         if (prevSeg->note()->rtm.beam() == Trhythm::e_noBeam) // start beam group
-          prevSeg->setBeam(m_score->getBeam(prevSeg, this) /*new TbeamObject(prevSeg, this)*/);
+          prevSeg->setBeam(m_score->getBeam(prevSeg, this));
         auto beam = prevSeg->beam();
         if (noteSeg->beam() == nullptr)
           beam->addNote(noteSeg);
@@ -322,13 +361,240 @@ void TmeasureObject::restGoingNote(TnotePair* np) {
         if (newBeam)
           newBeam->addNote(noteInBeam);
         else
-          newBeam = m_score->getBeam(noteInBeam, this); //new TbeamObject(noteInBeam, this);
+          newBeam = m_score->getBeam(noteInBeam, this);
       }
       newBeam->prepareBeam();
       newBeam->drawBeam();
     }
   }
 }
+
+
+void TmeasureObject::changeNoteDuration(TnotePair* np, const Tnote& newNote) {
+  int prevDur = np->note()->duration();
+  int newDur = newNote.duration();
+  if (prevDur == newDur) {
+    qDebug() << debug() << "FIXME! calling changeNoteDuration() when duration doesn't changed";
+    return;
+  }
+  Tnote nn = newNote;
+  int nextMeasDur = 0;
+  Tpairs notesToOut;
+  QList<Tnote> newNotes;
+  if (m_free - (newDur - prevDur) < 0) { // There is not enough space for new note - its duration is longer than possible free space in the measure
+    /** 1. Try to release measure (move notes after this @p np one to the next measure) */
+      int leftDur = releaseAtEnd(newDur - prevDur - m_free, notesToOut, newNotes, np->index() - firstNoteId() + 1);
+      if (leftDur) {
+    /** 2. There is still not enough space for new duration - so split duration of this @p np note to fill free space in this measure */
+        nextMeasDur = newDur - (m_free + prevDur);
+        auto thisBarRtms = Trhythm::resolve(m_free + prevDur);
+        nn.setRhythm(thisBarRtms.first());
+        for (int r = 1; r < thisBarRtms.count(); ++r) {
+          if (!newNote.isRest())
+            thisBarRtms[r].setTie(Trhythm::e_tieCont);
+          m_score->insertSilently(np->index() + r, Tnote(newNote, thisBarRtms[r]), this);
+        }
+        if (nextMeasDur)
+          nn.rtm.setTie(newNote.rtm.tie() > Trhythm::e_tieStart ? Trhythm::e_tieCont : Trhythm::e_tieStart);
+      }
+      np->setNote(nn);
+
+      updateRhythmicGroups();
+      checkAccidentals();
+      resolveBeaming(np->rhythmGroup());
+      refresh();
+
+      if (nextMeasDur) {
+    /** 3. At the beginning of the next staff, create new note of the same pitch with remaining duration. */
+        auto rtmToNext = Trhythm::resolve(nextMeasDur);
+        int indexToInsert = rtmToNext.count() > 1 ? 0 : notesToOut.count();
+        for (int r = 0; r < rtmToNext.count(); ++r) {
+          if (!nn.isRest()) {
+            if (r < rtmToNext.count() - 1)
+              rtmToNext[r].setTie(Trhythm::e_tieCont);
+            else
+              rtmToNext[r].setTie(nn.rtm.tie() == Trhythm::e_tieCont ? Trhythm::e_tieCont : Trhythm::e_tieEnd);
+          }
+          m_score->insertSilently(last()->index() + r + 1, Tnote(nn, rtmToNext[r]), this);
+          notesToOut.insert(indexToInsert, m_notes.takeLast());
+        }
+      }
+  } else { // measure duration is less than meter - take notes from the next measure
+      m_free += prevDur - newDur;
+      np->setNote(nn);
+      fill();
+
+      updateRhythmicGroups();
+      checkAccidentals();
+      resolveBeaming(np->rhythmGroup());
+      refresh();
+  }
+  shiftReleased(newNotes, notesToOut);
+}
+
+
+void TmeasureObject::resolveBeaming(int firstGroup, int endGroup) {
+  if (noteCount() < 2)
+    return;
+
+  if (endGroup == -1)
+    endGroup = m_score->groupCount() - 1;
+
+  // delete beams in group range of [firstGroup to endGroup]
+  int noteId = m_firstInGr[firstGroup];
+  if (noteId < 0) { // TODO it should never happen - DELETE IT!
+    qDebug() << debug() << "FIXME! wrong grouping";
+    return;
+  }
+  int grId = firstGroup;
+  while (noteId < noteCount() && grId <= endGroup) {
+    if (m_notes[noteId]->beam())
+      m_notes[noteId]->beam()->deleteBeam();
+    noteId++;
+    if (noteId < noteCount())
+      grId = m_notes[noteId]->rhythmGroup();
+  }
+
+  for (int g = firstGroup; g <= endGroup; ++g) {
+    if (m_firstInGr[g] < 0 || m_firstInGr[g] > noteCount() - 1)
+      break;
+    int gr = beamGroup(m_firstInGr[g] + firstNoteId());
+    if (gr > -1 && gr < m_score->groupCount()) {
+      auto beam = m_notes[m_firstInGr[gr]]->beam();
+      if (beam) {
+        beam->prepareBeam(); // TODO what about more beams in the same group??
+      }
+    }
+  }
+  // approve beam changes for all eighths and sixteenths that have no beam just flag - to revert the flag
+  if (m_firstInGr[firstGroup] >= 0 && m_firstInGr[firstGroup] < noteCount()) {
+    for (int n = m_firstInGr[firstGroup]; n < noteCount(); ++n) {
+      auto note = m_notes[n];
+      if (!note->beam() && !note->note()->isRest() && note->note()->rhythm() > Trhythm::Quarter)
+        note->approve();
+    }
+  }
+}
+
+
+/**
+ *  - iterate through notes in backward order (right to left), take note by note to release required duration
+ *  - create a list from taken notes to send it to the next measure
+ *  - split the latest note (the most right one in the measure) if necessary
+ *  - half of the duration remains in current measure at the end tied with
+ *    a new note that has to be created and push to the beginning of the next measure
+ */
+int TmeasureObject::releaseAtEnd(int dur, Tpairs& notesToOut, QList<Tnote>& newList, int endNote) {
+  int noteNr = m_notes.count() - 1;
+  while (noteNr >= endNote && dur > 0) {
+    auto lastNote = last();
+    int lastDur = lastNote->note()->duration();
+    if (lastDur > dur) { // last note is longer than required space - split it and create and move the rest of its duration to the next measure
+        auto rList = Trhythm::resolve(lastDur - dur);
+        auto lastTie = lastNote->note()->rtm.tie();
+        if (!lastNote->note()->isRest()) {
+          rList.first().setTie(lastTie > Trhythm::e_tieStart ? Trhythm::e_tieCont : Trhythm::e_tieStart);
+        }
+        for (int r = 1; r < rList.count(); ++r) {
+          if (!lastNote->note()->isRest())
+            rList[r].setTie(Trhythm::e_tieCont);
+          m_score->insertSilently(lastNote->index() + r, Tnote(*lastNote->note(), rList[r]), this);
+        }
+        lastNote->setNote(Tnote(*lastNote->note(), rList.first()));
+        // remaining part of the note that goes to next measure
+        auto rtmToNext = Trhythm::resolve(dur);
+        int indexToInsert = rtmToNext.count() > 1 ? 0 : notesToOut.count();
+        for (int r = 0; r < rtmToNext.count(); ++r) {
+          if (!lastNote->note()->isRest()) {
+            if (r < rtmToNext.count() - 1)
+              rtmToNext[r].setTie(Trhythm::e_tieCont);
+            else
+              rtmToNext[r].setTie(lastTie == Trhythm::e_tieCont ? lastTie : Trhythm::e_tieEnd);
+          }
+          m_score->insertSilently(last()->index() + r + 1, Tnote(*lastNote->note(), rtmToNext[r]), this);
+          notesToOut.insert(indexToInsert, m_notes.takeLast());
+//           newList << Tnote(*lastNote->note(), rtmToNext[r]);
+        }
+//         resolve(lastNoteId() + 1, *lastNote->note(), dur, &notesToOut);
+        lastDur = dur; // instead of: dur = 0; m_free += lastDur; lastDur = 0;
+    } else { // last note is the same long or smaller than required space - so move it to the next measure
+        notesToOut << m_notes.takeLast();
+        // TODO maybe clear beams here
+    }
+    dur -= lastDur;
+    m_free += lastDur; // note was taken out so there is more free space in the measure
+    noteNr--;
+  }
+
+  return dur;
+}
+
+
+int TmeasureObject::releaseAtStart(int dur, Tpairs& notesToOut) {
+  int noteNr = 0;
+  int retDur = 0;
+  TnotePair* firstNote;
+  Trhythm::Etie firstTie;
+  while (noteNr < m_notes.count() && dur > 0) {
+    firstNote = first();
+    int firstDur = firstNote->note()->duration();
+    if (firstDur > dur) { // first measure note is longer than required duration - shrink it and create new one
+        auto rList = Trhythm::resolve(firstDur - dur);
+        firstTie = firstNote->note()->rtm.tie();
+        if (!firstNote->note()->isRest())
+          rList.first().setTie(firstTie > Trhythm::e_tieStart ? Trhythm::e_tieCont : Trhythm::e_tieEnd);
+        firstNote->setNote(Tnote(*firstNote->note(), rList.first()));
+        for (int r = 1; r < rList.count(); ++r) {
+          if (!firstNote->note()->isRest())
+            rList[r].setTie(Trhythm::e_tieCont);
+          m_score->insertSilently(firstNoteId(), Tnote(*firstNote->note(), rList[r]), this);
+        }
+        firstDur = dur;
+        retDur = dur;
+        dur = 0;
+    } else { // first note is the same long or smaller than required space - so move it to the next measure
+        notesToOut << m_notes.takeFirst();
+        dur -= firstDur;
+        // TODO maybe clear beams here
+    }
+    m_free += firstDur;
+    noteNr++;
+  }
+
+  if (m_free)
+    fill();
+
+  if (retDur) {
+    // remaining part of the note that goes to previous measure
+    auto rtmToPrev = Trhythm::resolve(retDur);
+    for (int r = 0; r < rtmToPrev.count(); ++r) {
+      if (!firstNote->note()->isRest()) {
+        if (r < rtmToPrev.count() - 1)
+          rtmToPrev[r].setTie(Trhythm::e_tieCont);
+        else
+          rtmToPrev[r].setTie(firstTie == Trhythm::e_tieCont ? firstTie : Trhythm::e_tieStart);
+      }
+      m_score->insertSilently(firstNoteId(), Tnote(*firstNote->note(), rtmToPrev[r]), this);
+      notesToOut.append(m_notes.takeFirst());
+    }
+  }
+
+  return retDur;
+}
+
+
+void TmeasureObject::insertSilently(int id, TnotePair* np) {
+  m_notes.insert(id, np);
+  if (np->item() == nullptr)
+    np->setNoteItem(new TnoteItem(m_staff, np));
+  else if (m_staff != np->item()->staff())
+    np->item()->setStaff(m_staff);
+  np->item()->setMeasure(this);
+  np->item()->setNote(*np->note());
+  if (m_score->showNoteNames())
+    np->item()->setNoteNameVisible(true);
+}
+
 
 //#################################################################################################
 //###################              PRIVATE             ############################################
@@ -337,4 +603,43 @@ void TmeasureObject::restGoingNote(TnotePair* np) {
 void TmeasureObject::clearAccidState() {
   for (int i = 0; i < 7; ++i)
     m_accidsState[i] = 100; // note doesn't occur in a measure
+}
+
+
+void TmeasureObject::shiftReleased(QList<Tnote>& notesAtStart, Tpairs& notesToOut) {
+  if (!notesAtStart.isEmpty() || !notesToOut.isEmpty())
+    m_staff->shiftToMeasure(m_number + 1, notesAtStart, notesToOut);
+}
+
+
+void TmeasureObject::resolve(int firstId, const Tnote& pitch, int dur, Tpairs* prependList) {
+  auto rtmToNext = Trhythm::resolve(dur);
+  for (int r = 0; r < rtmToNext.count(); ++r) {
+    if (!pitch.isRest()) {
+      if (r < rtmToNext.count() - 1)
+        rtmToNext[r].setTie(Trhythm::e_tieCont);
+      else
+        rtmToNext[r].setTie(pitch.rtm.tie() == Trhythm::e_tieCont ? Trhythm::e_tieCont : Trhythm::e_tieEnd);
+    }
+    m_score->insertSilently(lastNoteId() + 1 /*firstId + r*/, Tnote(pitch, rtmToNext[r]), this);
+    if (prependList) {
+      int indexToInsert = rtmToNext.count() > 1 ? 0 : prependList->count();
+      prependList->insert(indexToInsert, m_notes.takeLast());
+    }
+  }
+}
+
+
+void TmeasureObject::fill() {
+  Tpairs notesToShift;
+  m_staff->shiftFromMeasure(m_number + 1, m_free, notesToShift);
+  int lastId = lastNoteId() + 1;
+
+  for (int i = 0; i < notesToShift.count(); ++i)
+    insertSilently(lastId + i, notesToShift[i]);
+
+  updateRhythmicGroups();
+  checkAccidentals();
+  resolveBeaming(0);
+  refresh();
 }
