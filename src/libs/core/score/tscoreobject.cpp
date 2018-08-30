@@ -58,7 +58,7 @@ TscoreObject::TscoreObject(QObject* parent) :
 
   m_widthTimer = new QTimer(this);
   m_widthTimer->setSingleShot(true);
-  connect(m_widthTimer, &QTimer::timeout, this, &TscoreObject::adjustScoreWidth);
+  connect(m_widthTimer, &QTimer::timeout, this, &TscoreObject::adjustScoreWidthSlot);
 
   for (int i = 0; i < 7; i++) // reset accidentals array
     m_accidInKeyArray[i] = 0;
@@ -332,6 +332,8 @@ void TscoreObject::setNote(TnoteItem* no, const Tnote& n) {
     if (durDiff) {
       CHECKTIME (
         no->measure()->changeNoteDuration(no->wrapper(), newNote);
+        if (lastMeasure()->isEmpty())
+          removeLastMeasure();
       )
         adjustScoreWidth();
     } else {
@@ -428,12 +430,6 @@ void TscoreObject::noteClicked(qreal yPos) {
     return;
 
   Trhythm newRhythm = m_meter->meter() == Tmeter::NoMeter ? Trhythm(Trhythm::NoRhythm) : *m_workRhythm;
-//   if (activeNote()->note()->rhythm() != m_workRhythm->rhythm() || activeNote()->note()->hasDot() != m_workRhythm->hasDot()) {
-//     if (activeNote() != lastNote()) {
-//       newRhythm = activeNote()->note()->rtm; // TODO so far it forces old rhythm until note rhythm change will be implemented
-//       newRhythm.setRest(m_workRhythm->isRest()); // only changes note to rest if set by user
-//     }
-//   }
 
   int globalNr = globalNoteNr(yPos);
   Tnote newNote(static_cast<char>(56 + globalNr) % 7 + 1, static_cast<char>(56 + globalNr) / 7 - 8,
@@ -827,6 +823,40 @@ qreal TscoreObject::midLine(TnoteItem* actNote) {
 }
 
 
+void TscoreObject::deleteNote(TnoteItem* n) {
+  if (n == lastNote()) {
+    deleteLastNote();
+    return;
+  }
+  if (n) {
+    int rmId = n->index();
+    if (n->note()->rtm.tie()) {
+      if (n->note()->rtm.tie() == Trhythm::e_tieStart) {
+          m_segments[rmId + 1]->disconnectTie(TnotePair::e_untieNext);
+      } else { // tie continue or end
+          if (n->note()->rtm.tie() == Trhythm::e_tieCont)
+            m_segments[rmId + 1]->disconnectTie(TnotePair::e_untieNext);
+          m_segments[rmId - 1]->disconnectTie(TnotePair::e_untiePrev);
+      }
+    }
+    auto segToRemove = m_segments.takeAt(rmId);
+    auto m = n->measure();
+    int staffNr = m->staff()->number();
+    segToRemove->flush();
+    m_spareSegments << segToRemove;
+    m_notes.removeAt(rmId);
+    for (int s = rmId; s < m_segments.count(); ++s)
+      m_segments[s]->setIndex(s);
+    m->removeNote(n->wrapper());
+    auto lastBar = lastMeasure();
+    if (lastBar->isEmpty())
+      removeLastMeasure();
+    adjustScoreWidth(staffNr);
+  }
+}
+
+
+
 void TscoreObject::deleteLastNote() {
   if (notesCount()) {
     if (lastNote()->note()->rtm.tie() && notesCount() > 1)
@@ -834,18 +864,10 @@ void TscoreObject::deleteLastNote() {
     bool adjust = false;
     auto lastBar = lastMeasure();
     int tempActiveBar = m_activeBarNr;
-    if (lastBar->noteCount() == 1 && lastBar != firstMeasure()) {
-        m_spareMeasures << m_measures.takeLast();
-        auto lastSt = lastStaff();
-        lastSt->setLastMeasureId(lastSt->lastMeasureId() - 1);
-        if (lastSt->measuresCount() == 0) {
-          deleteStaff(lastSt);
-          adjust = true;
-        }
-        m_activeBarNr--;
-        m_spareMeasures.last()->flush();
-    } else
-        lastBar->removeLastNote();
+    if (lastBar->noteCount() == 1)
+      adjust = removeLastMeasure();
+    else
+      lastBar->removeLastNote();
     auto segToRemove = m_segments.takeLast();
     segToRemove->flush();
     m_spareSegments << segToRemove;
@@ -965,7 +987,7 @@ void TscoreObject::setBgColor(const QColor& bg) {
 
 void TscoreObject::enableActions() {
   m_deleteLastAct = new Taction(tr("Delete note"), QStringLiteral("delete"), this);
-  connect(m_deleteLastAct, &Taction::triggered, [=]{ if (!m_readOnly && !m_singleNote && m_allowAdding) deleteLastNote(); });
+  connect(m_deleteLastAct, &Taction::triggered, [=]{ if (!m_readOnly && !m_singleNote && m_allowAdding) deleteNote(m_activeNote); });
   m_deleteLastAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"del\"; enabled: !singleNote && !readOnly"));
 
   m_clearScoreAct = new Taction(tr("Delete all notes"), QStringLiteral("clear-score"), this);
@@ -1124,10 +1146,10 @@ void TscoreObject::deleteStaff(TstaffItem* st) {
 }
 
 
-void TscoreObject::adjustScoreWidth() {
+void TscoreObject::adjustScoreWidth(int firstStaff) {
 CHECKTIME (
   m_adjustInProgress = true;
-  int refreshStaffNr = 0;
+  int refreshStaffNr = firstStaff;
   while (refreshStaffNr < stavesCount()) {
     m_staves[refreshStaffNr]->refresh();
     refreshStaffNr++;
@@ -1367,6 +1389,23 @@ QObject* TscoreObject::createQmlShortcut(QQmlComponent* qmlComp, const char* key
   else
     qDebug() << "[TscoreObject] Can't create shortcut";
   return shortcut;
+}
+
+
+bool TscoreObject::removeLastMeasure() {
+  bool adjust = false;
+  if (measuresCount() > 1) {
+    m_spareMeasures << m_measures.takeLast();
+    auto lastSt = lastStaff();
+    lastSt->setLastMeasureId(lastSt->lastMeasureId() - 1);
+    if (lastSt->measuresCount() == 0) {
+      deleteStaff(lastSt);
+      adjust = true;
+    }
+    m_activeBarNr--;
+    m_spareMeasures.last()->flush();
+  }
+  return adjust;
 }
 
 

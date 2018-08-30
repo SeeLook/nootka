@@ -73,6 +73,8 @@ public:
 
   void insertNotes(Tpairs& nList, int startId = 0);
 
+  void removeNote(TnotePair* n);
+
   void removeLastNote();
 
   TscoreObject* score() { return m_score; }
@@ -171,13 +173,13 @@ protected:
        * @p endNote is note number till taking out is performed (by default 0 - whole measure)
        * Returned value is remaining duration that can't be obtained.
        */
-  int releaseAtEnd(int dur, Tpairs& notesToOut, QList<Tnote>& newList, int endNote = 0);
+  int releaseAtEnd(int dur, Tpairs& notesToOut, int endNote = 0);
 
       /**
        * Takes @p dur (duration) of notes at the measure beginning
        * and packs them into @p notesToOut list.
        */
-  int releaseAtStart(int dur, Tpairs& notesToOut);
+  void releaseAtStart(int dur, Tpairs& notesToOut);
 
       /**
        * squeezes extra note @p np silently, without invoking visual changes
@@ -190,9 +192,7 @@ private:
       /**
        * Common routine that performs shifting @p notesToOut to the next measure (if not empty)
        */
-  void shiftReleased(QList<Tnote>& notesAtStart, Tpairs& notesToOut);
-
-  void resolve(int firstId, const Tnote& pitch, int dur, Tpairs* prependList = nullptr);
+  void shiftReleased(Tpairs& notesToOut);
 
       /**
        * Common method calling the staff for notes from the next measure

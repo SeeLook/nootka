@@ -272,33 +272,20 @@ TnotePair* TstaffItem::lastNote() {
 }
 
 
-void TstaffItem::shiftToMeasure(int measureNr, QList<Tnote>& notesAtStart, QList<TnotePair*>& notesToShift) {
+void TstaffItem::shiftToMeasure(int measureNr, QList<TnotePair*>& notesToShift) {
   TmeasureObject *m;
   if (measureNr == m_scoreObj->measuresCount())
     m = m_scoreObj->addMeasure();
   else
     m = m_scoreObj->measure(measureNr);
-  if (!notesAtStart.isEmpty()) {
-    int firstNoteId = m_scoreObj->measure(measureNr - 1)->lastNoteId() + 1;
-    for (int n = 0; n < notesAtStart.count(); ++n)
-      m_scoreObj->insertSilently(firstNoteId + n, notesAtStart[n], m);
-  }
   if (!notesToShift.isEmpty())
-    m_scoreObj->measure(measureNr)->insertNotes(notesToShift);
+    m->insertNotes(notesToShift);
 }
 
 
-int TstaffItem::shiftFromMeasure(int measureNr, int dur, QList<TnotePair*>& notesToShift) {
-  int retDur = 0;
-  if (measureNr < m_scoreObj->measuresCount()) {
-    retDur = m_scoreObj->measure(measureNr)->releaseAtStart(dur, notesToShift);
-    if (m_scoreObj->measure(measureNr)->isEmpty()) {
-      qDebug() << debug() << "Measure" << measureNr << "is empty - resetting duration" << retDur;
-      retDur = 0; // next (the last) measure is not able to return required duration, no tie required
-//         delete m_measures.takeLast(); // it is empty, so delete it then
-    }
-  }
-  return retDur;
+void TstaffItem::shiftFromMeasure(int measureNr, int dur, QList<TnotePair*>& notesToShift) {
+  if (measureNr < m_scoreObj->measuresCount())
+    m_scoreObj->measure(measureNr)->releaseAtStart(dur, notesToShift);
 }
 
 

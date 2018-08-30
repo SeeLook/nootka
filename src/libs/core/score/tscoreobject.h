@@ -378,6 +378,8 @@ public:
 
   Q_INVOKABLE void deleteLastNote();
 
+  Q_INVOKABLE void deleteNote(TnoteItem* n);
+
   Q_INVOKABLE void clearScore();
 
 /* ------------------ Score actions (have to be initialized by enableActions() ) ------------------ */
@@ -489,7 +491,9 @@ protected:
        * To avoid scaling staves more times than one for width change,
        * a timer guards the width change and call @p adjustScoreWidth() method only after delay
        */
-  void adjustScoreWidth();
+  void adjustScoreWidth(int firstStaff = 0);
+
+  void adjustScoreWidthSlot() { adjustScoreWidth(); }
 
   bool adjustInProgress() { return m_adjustInProgress; }
 
@@ -596,6 +600,11 @@ private:
   void resetNoteItem(TnoteItem* noteItem);
 
   QObject* createQmlShortcut(QQmlComponent* qmlComp, const char* key);
+
+      /**
+       * Removes the last measure, returns @p TRUE if staff was also removed
+       */
+  bool removeLastMeasure();
 
 private:
                               /* Musical parameters */

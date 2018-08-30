@@ -168,9 +168,9 @@ protected:
   void createExtraTie(TnoteItem* parent);
   void deleteExtraTie();
 
-  void shiftToMeasure(int measureNr, QList<Tnote>& notesAtStart, QList<TnotePair*>& notesToShift);
+  void shiftToMeasure(int measureNr, QList<TnotePair*>& notesToShift);
 
-  int shiftFromMeasure(int measureNr, int dur, QList<TnotePair*>& notesToShift);
+  void shiftFromMeasure(int measureNr, int dur, QList<TnotePair*>& notesToShift);
 
 private:
   void findLowestNote(); /**< Checks all Y positions of staff notes to find lowest one */
