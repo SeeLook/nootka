@@ -78,7 +78,6 @@ Flickable {
         if (!delControl) {
           var c = Qt.createComponent("qrc:/score/DelControl.qml")
           delControl = c.createObject(contentItem)
-          delControl.active = Qt.binding(function() { return !readOnly && scoreObj.activeNote !== null && scoreObj.activeNote === scoreObj.lastNote })
         }
         if (!noteAdd) {
           var c = Qt.createComponent("qrc:/score/NoteAdd.qml")
