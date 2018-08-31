@@ -56,9 +56,15 @@ public:
   void setNumber(int nr);
 
       /**
-       * Actual duration of all notes in the measure
+       * Measure duration depending on time signature
+       * TODO Remove it and use TscoreObject::measureDuration()
        */
   int duration() const { return m_duration; }
+
+      /**
+       * Duration in measure starting from note @p id (where id is note number in the measure)
+       */
+  int durationFrom(int id);
 
       /**
        * Free 'rhythm space' remained in the measure
@@ -71,7 +77,12 @@ public:
        */
   void appendNewNotes(int segmentId, int count);
 
+      /**
+       * Inserts given @p nList list of notes starting from @p startId
+       */
   void insertNotes(Tpairs& nList, int startId = 0);
+
+  void insertNote(TnoteItem* afterItem);
 
   void removeNote(TnotePair* n);
 
@@ -199,6 +210,8 @@ private:
        * to fill this one. @p m_free has to be updated before.
        */
   void fill();
+
+  void update(int beamGrToResolve = 0);
 
 private:
   int                            m_number;

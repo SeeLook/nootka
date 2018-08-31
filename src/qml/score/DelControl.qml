@@ -5,6 +5,7 @@
 import QtQuick 2.9
 
 import Score 1.0
+import "../"
 
 
 ControlBase {
@@ -42,6 +43,18 @@ ControlBase {
         textColor: "red"
         onClicked: { scoreObj.deleteNote(activeItem); show = false }
       }
+    }
+  }
+
+  TipRect {
+    y: score.scale * 24
+    width: childrenRect.width; height: childrenRect.height
+    ControlButton {
+      factor: delControl.factor
+      font { family: "Nootka"; pixelSize: factor * 3 }
+      text: "n"
+      textColor: "green"
+      onClicked: { scoreObj.insertNote(activeItem); delControl.show = false }
     }
   }
 }

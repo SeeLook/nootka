@@ -887,6 +887,14 @@ void TscoreObject::deleteLastNote() {
 }
 
 
+void TscoreObject::insertNote(TnoteItem* afterItem) {
+  if (afterItem) {
+    afterItem->measure()->insertNote(afterItem);
+    adjustScoreWidth(afterItem->staff()->number());
+  }
+}
+
+
 void TscoreObject::clearScore() {
   if (notesCount() == 0) {
       setKeySignature(0);
@@ -986,9 +994,13 @@ void TscoreObject::setBgColor(const QColor& bg) {
 
 
 void TscoreObject::enableActions() {
-  m_deleteLastAct = new Taction(tr("Delete note"), QStringLiteral("delete"), this);
-  connect(m_deleteLastAct, &Taction::triggered, [=]{ if (!m_readOnly && !m_singleNote && m_allowAdding) deleteNote(m_activeNote); });
-  m_deleteLastAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"del\"; enabled: !singleNote && !readOnly"));
+  m_deleteNoteAct = new Taction(tr("Delete note"), QStringLiteral("delete"), this);
+  connect(m_deleteNoteAct, &Taction::triggered, [=]{ if (!m_readOnly && !m_singleNote && m_allowAdding) deleteNote(m_activeNote); });
+  m_deleteNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"del\"; enabled: !singleNote && !readOnly"));
+
+  m_insertNoteAct = new Taction(tr("Insert note"), QStringLiteral("fingerpoint"), this);
+  connect(m_insertNoteAct, &Taction::triggered, [=]{ if (!m_readOnly && !m_singleNote && m_allowAdding) insertNote(m_activeNote); });
+  m_insertNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"ins\"; enabled: !singleNote && !readOnly"));
 
   m_clearScoreAct = new Taction(tr("Delete all notes"), QStringLiteral("clear-score"), this);
   connect(m_clearScoreAct, &Taction::triggered, [=]{ if (!m_readOnly) clearScore(); });

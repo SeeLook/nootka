@@ -130,7 +130,7 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
     if (GLOB->keySignatureEnabled() && GLOB->showKeyName() && !GLOB->isExam())
       emit keyNameTextChanged();
   });
-  m_scoreActions << m_scoreObj->deleteLastAct() << m_scoreObj->clearScoreAct();
+  m_scoreActions << m_scoreObj->insertNoteAct() << m_scoreObj->deleteNoteAct() << m_scoreObj->clearScoreAct();
   m_noteActions << m_scoreObj->wholeNoteAct() << m_scoreObj->halfNoteAct() << m_scoreObj->quarterNoteAct() << m_scoreObj->eighthNoteAct()
                 << m_scoreObj->sixteenthNoteAct() << m_scoreObj->restNoteAct() << m_scoreObj->dotNoteAct();
 
@@ -443,7 +443,7 @@ void TmainScoreObject::isExamChangedSlot() {
       }
   }
   if (m_scoreObj)
-    m_scoreActions << m_scoreObj->deleteLastAct() << m_scoreObj->clearScoreAct();
+    m_scoreActions << m_scoreObj->insertNoteAct() << m_scoreObj->deleteNoteAct() << m_scoreObj->clearScoreAct();
   emit scoreActionsChanged();
 }
 

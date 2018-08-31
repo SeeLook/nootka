@@ -81,6 +81,17 @@ void TmeasureObject::setStaff(TstaffItem* st) {
 }
 
 
+int TmeasureObject::durationFrom(int id) {
+  int dur = m_free;
+  if (id < noteCount()) {
+    for (int n = id; n < noteCount(); ++n)
+      dur += note(n)->note()->duration();
+  } else // TODO It should never occur, delete if so
+    qDebug() << debug() << "FIXME! This note doesn't belong to this measure or doesn't exist at all!" << id;
+  return dur;
+}
+
+
 void TmeasureObject::appendNewNotes(int segmentId, int count) {
   // so far we are sure there is enough space for whole note list in this measure
 //   qDebug() << debug() << "append" << count << "note(s) from" << segmentId << "measure duration" << duration();
@@ -140,27 +151,34 @@ void TmeasureObject::insertNotes(Tpairs& nList, int startId) {
       noteIn->item()->setStaff(m_staff);
     noteIn->item()->setMeasure(this);
   }
-  updateRhythmicGroups();
-  checkAccidentals();
-  resolveBeaming(m_notes[startId]->rhythmGroup()); //resolveBeaming(nList.first()->rhythmGroup());
-
-  refresh();
+  update(m_notes[startId]->rhythmGroup()); // nList.first()->rhythmGroup()
   shiftReleased(outNotes);
+}
+
+
+void TmeasureObject::insertNote(TnoteItem* afterItem) {
+  if (afterItem) {
+    int afterIdInBar = afterItem->index() - afterItem->measure()->firstNoteId();
+    int possibleDur = afterItem->measure()->durationFrom(afterIdInBar);
+    int workDur = m_score->workRhythm().duration();
+    // cut note duration if it is longer than possible measure duration starting from the item
+    auto newRtmList = Trhythm::resolve(workDur > possibleDur ? possibleDur : workDur);
+    Tpairs nl;
+    for (Trhythm rtm : qAsConst(newRtmList)) {
+      Tnote newNote(0, 0, 0, Trhythm(rtm.rhythm(), true));
+      auto np = m_score->insertSilently(afterItem->index(), newNote, this);
+      m_notes.removeAt(afterIdInBar);
+      nl << np;
+    }
+    insertNotes(nl, afterIdInBar);
+  }
 }
 
 
 void TmeasureObject::removeNote(TnotePair* n) {
   m_free += n->item()->note()->duration(); // n->note() is already null here
-//   int grToResolve = n->rhythmGroup();
   m_notes.takeAt(n->index() - firstNoteId());
-  qDebug() << debug() << "remove Note" << m_free;
   fill();
-
-//   updateRhythmicGroups();
-//   checkAccidentals();
-//   resolveBeaming(grToResolve);
-//   refresh();
-//   m_staff->refresh();
 }
 
 
@@ -414,10 +432,7 @@ void TmeasureObject::changeNoteDuration(TnotePair* np, const Tnote& newNote) {
       }
       np->setNote(nn);
 
-      updateRhythmicGroups();
-      checkAccidentals();
-      resolveBeaming(np->rhythmGroup());
-      refresh();
+      update(np->rhythmGroup());
 
       if (nextMeasDur) {
     /** 3. At the beginning of the next staff, create new note of the same pitch with remaining duration. */
@@ -437,12 +452,7 @@ void TmeasureObject::changeNoteDuration(TnotePair* np, const Tnote& newNote) {
   } else { // measure duration is less than meter - take notes from the next measure
       m_free += prevDur - newDur;
       np->setNote(nn);
-      fill();
-
-      updateRhythmicGroups();
-      checkAccidentals();
-      resolveBeaming(np->rhythmGroup());
-      refresh();
+      fill(); // it updates measure
   }
   shiftReleased(notesToOut);
 }
@@ -635,8 +645,13 @@ void TmeasureObject::fill() {
   for (int i = 0; i < notesToShift.count(); ++i)
     insertSilently(lastId + i, notesToShift[i]);
 
+  update();
+}
+
+
+void TmeasureObject::update(int beamGrToResolve) {
   updateRhythmicGroups();
   checkAccidentals();
-  resolveBeaming(0);
+  resolveBeaming(beamGrToResolve);
   refresh();
 }
