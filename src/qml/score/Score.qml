@@ -33,7 +33,8 @@ Flickable {
   property alias bgRect: bgRect
   property alias alterText: accidControl.text
 
-  property alias deleteLastAct: scoreObj.deleteLastAct
+  property alias insertNoteAct: scoreObj.insertNoteAct
+  property alias deleteNoteAct: scoreObj.deleteNoteAct
   property alias clearScoreAct: scoreObj.clearScoreAct
 
   // private

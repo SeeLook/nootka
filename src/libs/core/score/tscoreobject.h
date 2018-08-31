@@ -104,7 +104,8 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(bool workRtmRest READ workRtmRest WRITE setWorkRtmRest NOTIFY workRhythmChanged)
   Q_PROPERTY(bool workRtmDot READ workRtmDot WRITE setWorkRtmDot NOTIFY workRhythmChanged)
 
-  Q_PROPERTY(Taction* deleteLastAct READ deleteLastAct)
+  Q_PROPERTY(Taction* insertNoteAct READ insertNoteAct)
+  Q_PROPERTY(Taction* deleteNoteAct READ deleteNoteAct)
   Q_PROPERTY(Taction* clearScoreAct READ clearScoreAct)
   Q_PROPERTY(Taction* wholeNoteAct READ wholeNoteAct)
   Q_PROPERTY(Taction* halfNoteAct READ halfNoteAct)
@@ -380,10 +381,16 @@ public:
 
   Q_INVOKABLE void deleteNote(TnoteItem* n);
 
+      /**
+       * Inserts note before @p afterItem according to current work rhythm
+       */
+  Q_INVOKABLE void insertNote(TnoteItem* afterItem);
+
   Q_INVOKABLE void clearScore();
 
 /* ------------------ Score actions (have to be initialized by enableActions() ) ------------------ */
-  Taction* deleteLastAct() { return m_deleteLastAct; }
+  Taction* insertNoteAct() { return m_insertNoteAct; }
+  Taction* deleteNoteAct() { return m_deleteNoteAct; }
   Taction* clearScoreAct() { return m_clearScoreAct; }
   Taction* wholeNoteAct() { return m_wholeNoteAct; }
   Taction* halfNoteAct() { return m_halfNoteAct; }
@@ -660,7 +667,7 @@ private:
   bool                              m_touched = false;
   QTimer                           *m_enterTimer, *m_leaveTimer;
 
-  Taction                          *m_deleteLastAct = nullptr;
+  Taction                          *m_deleteNoteAct = nullptr;
   Taction                          *m_clearScoreAct = nullptr;
   Taction                          *m_wholeNoteAct = nullptr;
   Taction                          *m_halfNoteAct = nullptr;
@@ -669,6 +676,7 @@ private:
   Taction                          *m_sixteenthNoteAct = nullptr;
   Taction                          *m_restNoteAct = nullptr;
   Taction                          *m_dotNoteAct = nullptr;
+  Taction                          *m_insertNoteAct = nullptr;
 
 };
 
