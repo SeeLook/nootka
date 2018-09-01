@@ -31,7 +31,7 @@ Flickable {
   property alias singleNote: scoreObj.singleNote
   property alias recordMode: scoreObj.recordMode
   property alias bgRect: bgRect
-  property alias alterText: accidControl.text
+  property string alterText: ""
 
   property alias insertNoteAct: scoreObj.insertNoteAct
   property alias deleteNoteAct: scoreObj.deleteNoteAct
@@ -42,6 +42,7 @@ Flickable {
   property var noteAdd: null
   property var delControl: null
   property var cursor: null
+  property var scoreToobox: null
 
   clip: true
   boundsBehavior: Flickable.StopAtBounds
@@ -50,6 +51,8 @@ Flickable {
   contentWidth: score.width
 
   ScrollBar.vertical: ScrollBar { active: false; visible: active }
+
+//   maximumFlickVelocity: 1000 // 2500 by default
 
   TscoreObject {
     id: scoreObj
@@ -70,10 +73,6 @@ Flickable {
       if (staves.length > 1)
         ensureVisible(lastNote.staffItem.y, lastNote.staffItem.height * scale)
     }
-    onScoreWasCleared: {
-      accidControl.show = false
-      rtmControl.show = false
-    }
     onAllowAddingChanged: {
       if (allowAdding) {
         if (!delControl) {
@@ -83,6 +82,10 @@ Flickable {
         if (!noteAdd) {
           var c = Qt.createComponent("qrc:/score/NoteAdd.qml")
           noteAdd = c.createObject(contentItem)
+        }
+        if (!scoreToobox) {
+          var c = Qt.createComponent("qrc:/score/ScoreToolbox.qml")
+          scoreToobox = c.createObject(parent)
         }
       }
     }
@@ -112,16 +115,6 @@ Flickable {
   Staff { // first staff (always exists)
     id: staff0
     meter: Meter { parent: staff0 }
-  }
-
-  AccidControl {
-    id: accidControl
-    active: !readOnly && score.clef !== Tclef.NoClef && (scoreObj.activeNote !== null || (noteAdd && noteAdd.active))
-  }
-
-  RhythmControl {
-    id: rtmControl
-    active: !readOnly && meter !== Tmeter.NoMeter && (scoreObj.activeNote !== null || (noteAdd && noteAdd.active))
   }
 
   function ensureVisible(yy, hh) {
