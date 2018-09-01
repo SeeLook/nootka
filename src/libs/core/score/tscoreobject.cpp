@@ -305,7 +305,7 @@ void TscoreObject::setNote(TnoteItem* no, const Tnote& n) {
       newNote.rtm.setBeam(oldNote.rtm.beam());
       newNote.rtm.setTie(oldNote.rtm.tie());
     }
-//     fitToRange(newNote);
+    fitToRange(newNote);
     bool fitStaff = false;
     // disconnect tie (if any) if note pitch changed
     QPoint notesForAlterCheck;// x is first note and y is the last note to check
@@ -328,7 +328,6 @@ void TscoreObject::setNote(TnoteItem* no, const Tnote& n) {
       fitStaff = true;
     }
 
-//     no->wrapper()->setNote(newNote);
     if (durDiff) {
       CHECKTIME (
         no->measure()->changeNoteDuration(no->wrapper(), newNote);
@@ -683,7 +682,7 @@ void TscoreObject::changeActiveNote(TnoteItem* aNote) {
     auto prevActive = m_activeNote;
     m_activeNote = aNote;
     if (aNote == nullptr) {
-        m_leaveTimer->start(300);
+        m_leaveTimer->start(600);
     } else {
         if (prevActive == nullptr)
           m_enterTimer->start(300);
@@ -800,6 +799,8 @@ Tnote TscoreObject::posToNote(qreal yPos) {
 
 
 void TscoreObject::setAllowAdding(bool allow) {
+  if (m_singleNote)
+    allow = false;
   if (allow != m_allowAdding) {
     m_allowAdding = allow;
     adjustScoreWidth();

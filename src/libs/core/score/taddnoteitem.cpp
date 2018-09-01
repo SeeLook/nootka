@@ -31,12 +31,14 @@ TaddNoteItem::TaddNoteItem(QQuickItem* parent) :
   m_hideTimer = new QTimer(this);
   m_hideTimer->setSingleShot(true);
   connect(m_hideTimer, &QTimer::timeout, [=]{
+      if (m_yPos != 0.0) {
+        m_yPos = 0.0;
+        emit yPosChanged();
+      }
       if (m_active) {
         m_active = false;
         emit activeChanged();
       }
-      m_yPos = 0.0;
-      emit yPosChanged();
   });
 
   setAcceptHoverEvents(true);

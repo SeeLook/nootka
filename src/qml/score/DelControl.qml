@@ -17,6 +17,7 @@ ControlBase {
 
   Connections {
     target: scoreObj
+    enabled: !scoreObj.singleNote && scoreObj.allowAdding
     onActiveNoteChanged: {
       if (scoreObj.activeNote) {
           if (!scoreObj.readOnly && activeItem != scoreObj.activeNote) {
@@ -47,14 +48,16 @@ ControlBase {
   }
 
   TipRect {
-    y: score.scale * 24
+    x: activeItem ? -activeItem.width * score.scale - width * 1.3: 0
     width: childrenRect.width; height: childrenRect.height
     ControlButton {
       factor: delControl.factor
       font { family: "Nootka"; pixelSize: factor * 3 }
       text: "n"
-      textColor: "green"
+      textColor: activPal.text
       onClicked: { scoreObj.insertNote(activeItem); delControl.show = false }
+      Rectangle { y: factor / 10; x: factor / 2; height: factor; width: factor / 6; color: "green" }
+      Rectangle { y: factor / 2; x: factor / 10; width: factor; height: factor / 6; color: "green" }
     }
   }
 }

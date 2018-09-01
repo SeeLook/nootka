@@ -10,8 +10,8 @@ import Score 1.0
 ControlBase {
   id: toolbox
 
-  x: show ? factor / 5 : -width - Noo.fontSize()
-  y: Noo.fontSize() / 2
+  x: show ? 2 : -width - Noo.fontSize()
+  y: score.singleNote || score.meter === Tmeter.NoMeter ? (score.height - height) / 2 : Noo.fontSize() / 2
   visible: !scoreObj.touched
 
   active: !score.readOnly && (scoreObj.activeNote !== null || (score.noteAdd && score.noteAdd.active))
@@ -37,7 +37,7 @@ ControlBase {
       property bool rest: false
       factor: toolbox.factor * 0.9
       yOffset: factor * 0.5
-      font { family: "nootka"; pointSize: factor * 1.8 }
+      font { family: "nootka"; pointSize: factor * 1.6 }
       text: Noo.rhythmText(Noo.rhythm(rhythm, rest, false, false))
       selected: rhythm === scoreObj.workRtmValue && rest === scoreObj.workRtmRest
       onEntered: hideTimer.stop()
@@ -133,7 +133,6 @@ ControlBase {
           model: [ "\uE610", "\uE612" ]
           ControlButton {
             factor: toolbox.factor * 0.9
-            height: factor * 2
             yOffset: factor * -2.5
             font { family: "Scorek"; pixelSize: factor * 2 }
             text: modelData
