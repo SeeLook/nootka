@@ -7,6 +7,7 @@ import QtQuick.Controls 2.2
 
 import "../"
 
+
 Drawer {
   property alias selectedClef: clefMenu.selClef
   width: Noo.fontSize() * 19
@@ -14,21 +15,10 @@ Drawer {
   visible: true
   background: Rectangle { color: activPal.window }
 
-  Flickable {
-    id: flick
-    anchors.fill: parent
-    clip: true
-    contentHeight: clefMenu.height
-    ClefMenu {
-      id: clefMenu
-      onClicked: { close(); score.clef = cl }
-      onSelIdChanged: { // ensure visible
-        var yy = Noo.fontSize() * 7.75 * selId
-        if (flick.contentY >= yy)
-          flick.contentY = yy
-        else if (flick.contentY + flick.height <= yy + Noo.fontSize() * 7.75)
-          flick.contentY = yy + Noo.fontSize() * 7.75 - flick.height
-      }
-    }
+  ClefMenu {
+    id: clefMenu
+    onClicked: { close(); score.clef = cl }
   }
+
+  Component.onCompleted: selectedClef = score.clef
 }
