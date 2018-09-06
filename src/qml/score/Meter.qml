@@ -17,33 +17,36 @@ Text {
   }
 
   font { family: "Scorek"; pixelSize: 8 }
-  color: activPal.text
+  color: meterArea.containsMouse ? GLOB.noteCursorColor : activPal.text
   text: Noo.meter(score.meter).symbol()
   y: score.upperLine - 9
   x: (staff0.keySignItem ? staff0.keySignItem.x + staff0.keySignItem.width : staff0.clef.x + staff0.clef.width) + 1.0
 
   Loader { sourceComponent: score.clef === Tclef.PianoStaffClefs ? lowerMeter : null }
   Component {
-      id: lowerMeter
-      Text {
-        font: meter.font
-        color: meter.color
-        text: meter.text
-        y: 22
-      }
+    id: lowerMeter
+    Text {
+      font: meter.font
+      color: meterArea.containsMouse ? GLOB.noteCursorColor : activPal.text
+      text: meter.text
+      y: 22
+    }
   }
 
   MouseArea {
-      anchors.fill: parent
-      enabled: !score.readOnly
-      property Drawer meterDrawer
-      onClicked: {
-        if (meterDrawer)
-            meterDrawer.open()
-        else {
-            var c = Qt.createComponent("qrc:/score/MeterDrawer.qml")
-            meterDrawer = c.createObject(meter)
-        }
+    id: meterArea
+    y: 6
+    width: parent.width; height: parent.height + (score.clef === Tclef.PianoStaffClefs ? 2 : -20)
+    enabled: !score.readOnly
+    hoverEnabled: true
+    property Drawer meterDrawer
+    onClicked: {
+      if (meterDrawer)
+          meterDrawer.open()
+      else {
+          var c = Qt.createComponent("qrc:/score/MeterDrawer.qml")
+          meterDrawer = c.createObject(meter)
       }
+    }
   }
 }

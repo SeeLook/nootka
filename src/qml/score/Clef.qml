@@ -14,22 +14,14 @@ Text {
   width: 5.5; x: 0.5; y: 5
   text: Noo.clef(score.clef).glyph()
   font { family: "Scorek"; pixelSize: 8 }
-  color: activPal.text
-
-  Loader { sourceComponent: score.clef === Tclef.PianoStaffClefs ? lowerClef : null }
-  Component {
-    id: lowerClef
-    Text { // bass clef at lower staff
-      font: clef.font
-      text: "\ue062"
-      color: clef.color
-      y: clef.y + 15
-    }
-  }
+  color: clefArea.containsMouse ? GLOB.noteCursorColor : activPal.text
 
   MouseArea {
-    anchors.fill: parent
+    id: clefArea
+    y: 5
+    width: parent.width; height: parent.height + (score.clef === Tclef.PianoStaffClefs ? 4 : -12)
     enabled: !score.readOnly && !GLOB.isExam
+    hoverEnabled: true
     property var clefDrawer
     onClicked: {
       if (clefDrawer)
@@ -39,6 +31,17 @@ Text {
          clefDrawer = c.createObject(clef)
       }
       clefDrawer.selectedClef = score.clef
+    }
+  }
+
+  Loader { sourceComponent: score.clef === Tclef.PianoStaffClefs ? lowerClef : null }
+  Component {
+    id: lowerClef
+    Text { // bass clef at lower staff
+      font: clef.font
+      text: "\ue062"
+      color: clefArea.containsMouse ? GLOB.noteCursorColor : activPal.text
+      y: clef.y + 15
     }
   }
 

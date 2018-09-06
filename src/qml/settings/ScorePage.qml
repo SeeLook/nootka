@@ -188,28 +188,22 @@ Column {
 
       }
 
-      Tflickable { // 3rd page (clefs)
-        contentHeight: clefsCol.height + Noo.fontSize() * 2
-        contentWidth: Math.max(width, Noo.fontSize() * 35)
-        Column {
-          id: clefsCol
+      Column { // 3rd page (clefs)
+        width: parent.width
+        spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
+        Text {
+          text: qsTranslate("TscoreSettings", "Select default clef for the application.") + "<br><b>" + qsTranslate("TscoreSettings", "Remember! Not all clefs are suitable for some possible tunings or instrument types!") + "<b>"
+          textFormat: Text.StyledText
+          horizontalAlignment: Text.AlignHCenter
           width: parent.width
-          spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
-          Text {
-            text: qsTranslate("TscoreSettings", "Select default clef for the application.") + "<br><b>" + qsTranslate("TscoreSettings", "Remember! Not all clefs are suitable for some possible tunings or instrument types!") + "<b>"
-            textFormat: Text.StyledText
-            horizontalAlignment: Text.AlignHCenter
-            width: parent.width
-            wrapMode: Text.WordWrap
-            color: activPal.text
-          }
-          ClefMenu {
-            id: clefs
-            columns: width < Noo.fontSize() * 40 ? 1 : 2
-            Component.onCompleted: selClef = GLOB.clefType
-          }
+          wrapMode: Text.WordWrap
+          color: activPal.text
         }
-
+        ClefMenu {
+          id: clefs
+          width: parent.width; height: swipePages.height - Noo.fontSize() * 4
+          Component.onCompleted: selClef = GLOB.clefType
+        }
       }
 
       Tflickable { // 4rd page (note name calling)
