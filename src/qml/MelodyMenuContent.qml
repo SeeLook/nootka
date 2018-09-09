@@ -19,7 +19,7 @@ Tmenu {
       contentItem: MenuButton {
         action: modelData
         onClicked: close()
-        Rectangle { width: parent.width; height: index === count - 1 ? 0 : 1; color: activPal.text; y: parent.height - 1 }
+        Rectangle { width: parent.width; height: index === score.melodyActions.length - 1 ? 0 : 1; color: activPal.text; y: parent.height - 1 }
       }
     }
   }
