@@ -158,6 +158,7 @@ ControlBase {
   Connections {
     target: scoreObj
     onScoreWasCleared: show = false
+    onEditModeChanged: show = scoreObj.editMode && scoreObj.activeNote
   }
 
   Behavior on x { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.3; duration: 300 }}

@@ -52,6 +52,7 @@
     <file alias="score/Tie.qml">qml/score/Tie.qml</file>
     <file alias="score/AddLine.qml">qml/score/AddLine.qml</file>
     <file alias="score/NoteCursor.qml">qml/score/NoteCursor.qml</file>
+    <file alias="score/ScoreCursor.qml">qml/score/ScoreCursor.qml</file>
     <file alias="score/NotePrompt.qml">qml/score/NotePrompt.qml</file>
     <file alias="score/ScoreToolbox.qml">qml/score/ScoreToolbox.qml</file>
     <file alias="score/ControlButton.qml">qml/score/ControlButton.qml</file>

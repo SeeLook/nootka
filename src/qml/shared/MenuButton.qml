@@ -86,10 +86,7 @@ Rectangle {
 
   function buttonClicked() {
     menuButton.clicked()
-    if (action) {
-      if (action.checkable)
-        action.checked = !action.checked
+    if (action)
       action.trigger()
-    }
   }
 }

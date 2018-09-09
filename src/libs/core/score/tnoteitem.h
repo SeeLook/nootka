@@ -182,6 +182,8 @@ protected:
        */
   void checkTie();
 
+  void updateDebug();
+
   void hoverEnterEvent(QHoverEvent* event) override;
   void hoverLeaveEvent(QHoverEvent*) override;
   void hoverMoveEvent(QHoverEvent* event) override;

@@ -14,14 +14,14 @@ Text {
   width: 5.5; x: 0.5; y: 5
   text: Noo.clef(score.clef).glyph()
   font { family: "Scorek"; pixelSize: 8 }
-  color: clefArea.containsMouse ? GLOB.noteCursorColor : activPal.text
+  color: clefArea.containsMouse && (GLOB.singleNoteMode || scoreObj.editMode) ? GLOB.noteCursorColor : activPal.text
 
   MouseArea {
     id: clefArea
     y: 5
     width: parent.width; height: parent.height + (score.clef === Tclef.PianoStaffClefs ? 4 : -12)
-    enabled: !score.readOnly && !GLOB.isExam
-    hoverEnabled: true
+    enabled: !score.readOnly && !GLOB.isExam && (GLOB.singleNoteMode || scoreObj.editMode)
+    hoverEnabled: GLOB.singleNoteMode || scoreObj.editMode
     property var clefDrawer
     onClicked: {
       if (clefDrawer)
@@ -40,7 +40,7 @@ Text {
     Text { // bass clef at lower staff
       font: clef.font
       text: "\ue062"
-      color: clefArea.containsMouse ? GLOB.noteCursorColor : activPal.text
+      color: clef.color
       y: clef.y + 15
     }
   }

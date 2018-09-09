@@ -109,7 +109,7 @@ TnoteItem::TnoteItem(TstaffItem* staffObj, TnotePair* wrapper) :
   m_flag->setParentItem(m_stem);
   m_flag->setX(0.1);
 
-//   m_staff->score()->component()->setData("import QtQuick 2.9; Text { font { pixelSize: 1 }}", QUrl());
+//   m_staff->score()->component()->setData("import QtQuick 2.9; Text { z: -1; font { pixelSize: 2 }}", QUrl());
 //   m_debug = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
 //   m_debug->setParentItem(this);
 
@@ -280,8 +280,7 @@ if (updateStem)
 
   updateNamePos();
 
-//   m_debug->setProperty("text", QString("%1 %2").arg(index()).arg(tieDebug(m_note->rtm.tie())));
-//   m_debug->setY(height() - (2 + index() % 2) * m_debug->height());
+//   updateDebug();
 //   qDebug() << debug() << "set note" << m_note->toText() << m_note->rtm.string() << "note pos" << m_notePosY << "width:" << width();
 }
 
@@ -382,7 +381,14 @@ void TnoteItem::checkTie() {
       updateTieScale();
       m_tie->setX(m_head->width());
   }
+//   updateDebug();
+}
+
+
+void TnoteItem::updateDebug() {
 //   m_debug->setProperty("text", QString("%1 %2").arg(index()).arg(tieDebug(m_note->rtm.tie())));
+//   m_debug->setProperty("text", QString("%1/%2(%3) %4").arg(index()).arg(m_measure->number() + 1).arg(m_wrapper->rhythmGroup()).arg(tieDebug(m_note->rtm.tie())));
+//   m_debug->setProperty("text", QString("%1(%2|%3) %4").arg(index()).arg(m_note->rtm.string()).arg(m_wrapper->rhythmGroup()).arg(tieDebug(m_note->rtm.tie())));
 //   m_debug->setY(height() - (2 + index() % 2) * m_debug->height());
 }
 
@@ -619,7 +625,7 @@ void TnoteItem::keySignatureChanged() {
 
 
 void TnoteItem::hoverEnterEvent(QHoverEvent* event) {
-  if (!m_staff->score()->readOnly()) {
+  if (!m_staff->score()->readOnly() && (m_staff->score()->singleNote() || m_staff->score()->editMode())) {
     if (event->pos().y() > 2.0 && event->pos().y() < height()) {
       m_measure->score()->setHoveredNote(this);
       m_measure->score()->changeActiveNote(this);
@@ -629,7 +635,7 @@ void TnoteItem::hoverEnterEvent(QHoverEvent* event) {
 
 
 void TnoteItem::hoverLeaveEvent(QHoverEvent*) {
-  if (!m_staff->score()->readOnly()) {
+  if (!m_staff->score()->readOnly() && (m_staff->score()->singleNote() || m_staff->score()->editMode())) {
     m_measure->score()->setHoveredNote(nullptr);
     m_measure->score()->changeActiveNote(nullptr);
   }
@@ -637,10 +643,15 @@ void TnoteItem::hoverLeaveEvent(QHoverEvent*) {
 
 
 void TnoteItem::hoverMoveEvent(QHoverEvent* event) {
-  if (!m_staff->score()->readOnly()) {
+  if (!m_staff->score()->readOnly() && (m_staff->score()->singleNote() || m_staff->score()->editMode())) {
 
     if (m_staff->score()->clefType() == Tclef::NoClef)
       return;
+
+    if (m_measure->score()->hoveredNote() != this) {
+      m_measure->score()->setHoveredNote(this);
+      m_measure->score()->changeActiveNote(this);
+    }
 
     if (event->pos().y() > 2.0 && event->pos().y() < height()) {
       if (!m_measure->score()->pressedNote() && m_measure->score()->hoveredNote()
@@ -657,7 +668,7 @@ static QElapsedTimer m_touchDuration;
  * Press event displays note cursor and locks grabbing the mouse - so moving a finger doesn't scroll entire score
  */
 void TnoteItem::mousePressEvent(QMouseEvent* event) {
-  if (!m_staff->score()->readOnly()) {
+  if (!m_staff->score()->readOnly() && (m_staff->score()->singleNote() || m_staff->score()->editMode())) {
     if (event->button() == Qt::LeftButton && event->pos().y() > 2.0 && event->pos().y() < height()) {
       setKeepMouseGrab(true);
       m_measure->score()->setPressedNote(this);
@@ -685,37 +696,41 @@ void TnoteItem::mousePressEvent(QMouseEvent* event) {
  */
 void TnoteItem::mouseReleaseEvent(QMouseEvent* event) {
   if (!m_staff->score()->readOnly()) {
-      if (event->button() == Qt::LeftButton && event->pos().y() > 2.0 && event->pos().y() < height()) {
-          if (keepMouseGrab())
-            setKeepMouseGrab(false);
-          if (m_measure->score()->hoveredNote()) { // mouse
-              if (m_measure->score()->hoveredNote() == this)
-                m_measure->score()->noteClicked(m_measure->score()->activeYpos());
-              m_measure->score()->setPressedNote(nullptr);
-          } else { // touch
-              if (m_touchDuration.elapsed() < 190) { // confirm note
-                  m_measure->score()->touchHideTimer()->stop();
-                  if (m_measure->score()->activeNote() == this) // set note only when it was touched second time
+      if (m_staff->score()->singleNote() || m_staff->score()->editMode()) {
+          if (event->button() == Qt::LeftButton && event->pos().y() > 2.0 && event->pos().y() < height()) {
+              if (keepMouseGrab())
+                setKeepMouseGrab(false);
+              if (m_measure->score()->hoveredNote()) { // mouse
+                  if (m_measure->score()->hoveredNote() == this)
                     m_measure->score()->noteClicked(m_measure->score()->activeYpos());
                   m_measure->score()->setPressedNote(nullptr);
-                  m_measure->score()->changeActiveNote(nullptr);
-              } else { // keep cursor visible
-                  m_measure->score()->touchHideTimer()->start(2500);
+              } else { // touch
+                  if (m_touchDuration.elapsed() < 190) { // confirm note
+                      m_measure->score()->touchHideTimer()->stop();
+                      if (m_measure->score()->activeNote() == this) // set note only when it was touched second time
+                        m_measure->score()->noteClicked(m_measure->score()->activeYpos());
+                      m_measure->score()->setPressedNote(nullptr);
+                      m_measure->score()->changeActiveNote(nullptr);
+                  } else { // keep cursor visible
+                      m_measure->score()->touchHideTimer()->start(2500);
+                  }
+                  m_measure->score()->setTouched(false);
               }
-              m_measure->score()->setTouched(false);
+          } else if (event->button() == Qt::RightButton) {
+              m_measure->score()->setSelectedItem(this);
           }
-      } else if (event->button() == Qt::RightButton) {
-          m_measure->score()->setSelectedItem(this);
+      } else if (!m_staff->score()->singleNote() && !m_staff->score()->editMode()) { // not edit mode but also not read only
+          m_measure->score()->setSelectedItem(this); // no matter what button - select the note
       }
-    } else {
-        if (m_measure->score()->selectInReadOnly())
-          emit m_measure->score()->readOnlyNoteClicked(index());
+  } else {
+      if (m_measure->score()->selectInReadOnly())
+        emit m_measure->score()->readOnlyNoteClicked(index());
   }
 }
 
 
 void TnoteItem::mouseMoveEvent(QMouseEvent* event) {
-  if (!m_staff->score()->readOnly()) {
+  if (!m_staff->score()->readOnly() && (m_staff->score()->singleNote() || m_staff->score()->editMode())) {
     if (event->pos().y() > 2.0 && event->pos().y() < height()) {
       if (m_measure->score()->pressedNote() && !m_measure->score()->touchHideTimer()->isActive() && m_touchDuration.elapsed() > 200
           && static_cast<int>(m_measure->score()->activeYpos()) != static_cast<int>(event->pos().y()))

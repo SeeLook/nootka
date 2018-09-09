@@ -116,7 +116,10 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
   m_scoreObj->enableActions();
   connect(m_scoreObj, &TscoreObject::clicked, this, &TmainScoreObject::clicked);
   connect(m_scoreObj, &TscoreObject::readOnlyNoteClicked, this, &TmainScoreObject::readOnlyNoteClicked);
-  connect(m_showNamesAct, &Taction::triggered, [=]{ m_scoreObj->setShowNoteNames(m_showNamesAct->checked()); });
+  connect(m_showNamesAct, &Taction::triggered, [=]{
+    m_showNamesAct->setChecked(!m_showNamesAct->checked());
+    m_scoreObj->setShowNoteNames(m_showNamesAct->checked());
+  });
 //   connect(m_extraAccidsAct);
   connect(m_playAct, &Taction::triggered, SOUND, &Tsound::playScore);
   connect(m_recModeAct, &Taction::triggered, [=]{ m_scoreObj->setRecordMode(!m_scoreObj->recordMode()); });
@@ -130,17 +133,30 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
     if (GLOB->keySignatureEnabled() && GLOB->showKeyName() && !GLOB->isExam())
       emit keyNameTextChanged();
   });
+  m_scoreActions.prepend(m_scoreObj->editModeAct());
   m_scoreActions << m_scoreObj->insertNoteAct() << m_scoreObj->deleteNoteAct() << m_scoreObj->clearScoreAct();
   m_noteActions << m_scoreObj->wholeNoteAct() << m_scoreObj->halfNoteAct() << m_scoreObj->quarterNoteAct() << m_scoreObj->eighthNoteAct()
                 << m_scoreObj->sixteenthNoteAct() << m_scoreObj->restNoteAct() << m_scoreObj->dotNoteAct();
 
   connect(m_nextNoteAct, &Taction::triggered, [=]{
-    if (!GLOB->isSingleNote())
-      m_scoreObj->setSelectedItem(m_scoreObj->selectedItem() ? m_scoreObj->getNext(m_scoreObj->selectedItem()) : m_scoreObj->note(0));
+    if (!GLOB->isSingleNote()) {
+      auto noteItem = m_scoreObj->selectedItem() ? m_scoreObj->getNext(m_scoreObj->selectedItem()) : m_scoreObj->note(0);
+      if (m_scoreObj->readOnly()) {
+          if (noteItem)
+            emit m_scoreObj->readOnlyNoteClicked(noteItem->index());
+      } else
+          m_scoreObj->setSelectedItem(noteItem);
+    }
   });
   connect(m_prevNoteAct, &Taction::triggered, [=]{
-    if (!GLOB->isSingleNote())
-      m_scoreObj->setSelectedItem(m_scoreObj->selectedItem() ? m_scoreObj->getPrev(m_scoreObj->selectedItem()) : m_scoreObj->note(m_scoreObj->notesCount() - 1));
+    if (!GLOB->isSingleNote()) {
+      auto noteItem = m_scoreObj->selectedItem() ? m_scoreObj->getPrev(m_scoreObj->selectedItem()) : m_scoreObj->note(m_scoreObj->notesCount() - 1);
+      if (m_scoreObj->readOnly()) {
+          if (noteItem)
+            emit m_scoreObj->readOnlyNoteClicked(noteItem->index());
+      } else
+          m_scoreObj->setSelectedItem(noteItem);
+    }
   });
 }
 
@@ -436,14 +452,16 @@ void TmainScoreObject::isExamChangedSlot() {
       }
       singleModeSlot();
   } else {
-      m_scoreActions << m_showNamesAct << m_extraAccidsAct << m_zoomOutAct << m_zoomInAct;
+      m_scoreActions << m_showNamesAct /*<< m_extraAccidsAct*/ << m_zoomOutAct << m_zoomInAct;
       if (m_questionMark) {
         delete m_questionMark;
         m_questionMark = nullptr;
       }
   }
-  if (m_scoreObj)
+  if (m_scoreObj) {
+    m_scoreActions.prepend(m_scoreObj->editModeAct());
     m_scoreActions << m_scoreObj->insertNoteAct() << m_scoreObj->deleteNoteAct() << m_scoreObj->clearScoreAct();
+  }
   emit scoreActionsChanged();
 }
 

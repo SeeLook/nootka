@@ -12,12 +12,12 @@ Text {
   id: meter
 
   Connections {
-      target: score
-      onMeterChanged: text = Noo.meter(score.meter).symbol()
+    target: score
+    onMeterChanged: text = Noo.meter(score.meter).symbol()
   }
 
   font { family: "Scorek"; pixelSize: 8 }
-  color: meterArea.containsMouse ? GLOB.noteCursorColor : activPal.text
+  color: meterArea.containsMouse && scoreObj.editMode ? GLOB.noteCursorColor : activPal.text
   text: Noo.meter(score.meter).symbol()
   y: score.upperLine - 9
   x: (staff0.keySignItem ? staff0.keySignItem.x + staff0.keySignItem.width : staff0.clef.x + staff0.clef.width) + 1.0
@@ -27,7 +27,7 @@ Text {
     id: lowerMeter
     Text {
       font: meter.font
-      color: meterArea.containsMouse ? GLOB.noteCursorColor : activPal.text
+      color: meter.color
       text: meter.text
       y: 22
     }
@@ -37,7 +37,7 @@ Text {
     id: meterArea
     y: 6
     width: parent.width; height: parent.height + (score.clef === Tclef.PianoStaffClefs ? 2 : -20)
-    enabled: !score.readOnly
+    enabled: !score.readOnly && scoreObj.editMode
     hoverEnabled: true
     property Drawer meterDrawer
     onClicked: {
