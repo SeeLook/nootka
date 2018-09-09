@@ -49,8 +49,7 @@ TscoreObject::TscoreObject(QObject* parent) :
   m_clefOffset(TclefOffset(3, 2)),
   m_width(0.0), m_adjustInProgress(false),
   m_nameStyle(static_cast<int>(Tnote::defaultStyle)),
-  m_workRhythm(new Trhythm()), // quarter by default
-  m_allowAdding(false)
+  m_workRhythm(new Trhythm()) // quarter by default
 {
   m_meter = new Tmeter();
   setMeter(4); // Tmeter::Meter_4_4
@@ -607,6 +606,28 @@ void TscoreObject::setReadOnly(bool ro) {
     m_readOnly = ro;
     emit readOnlyChanged();
     setKeyReadOnly(ro);
+    if (!m_readOnly) {
+      setEditMode(false);
+    }
+  }
+}
+
+
+bool TscoreObject::editMode() const {
+  return m_editModeAct && m_editModeAct->checked();
+}
+
+
+void TscoreObject::setEditMode(bool isEdit) {
+  if (isEdit != editMode()) {
+    m_editModeAct->setChecked(isEdit);
+    emit editModeChanged();
+    if (!isEdit && m_activeNote) {
+      m_activeNote = nullptr;
+      emit activeNoteChanged();
+      setActiveNotePos(0.0);
+      setHoveredNote(nullptr);
+    }
   }
 }
 
@@ -1006,6 +1027,11 @@ void TscoreObject::enableActions() {
   m_clearScoreAct = new Taction(tr("Delete all notes"), QStringLiteral("clear-score"), this);
   connect(m_clearScoreAct, &Taction::triggered, [=]{ if (!m_readOnly) clearScore(); });
   m_clearScoreAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"Shift+del\"; enabled: !singleNote && !readOnly"));
+
+  m_editModeAct = new Taction(tr("Edit score"), QString(), this);
+  m_editModeAct->setCheckable(true);
+  connect(m_editModeAct, &Taction::triggered, [=]{ if (!m_readOnly && !m_singleNote) setEditMode(!editMode()); });
+  m_editModeAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"E\"; enabled: !singleNote && !readOnly"));
 
   m_wholeNoteAct = new Taction(tr("whole note"), QStringLiteral("tipbg"), this);
   connect(m_wholeNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);

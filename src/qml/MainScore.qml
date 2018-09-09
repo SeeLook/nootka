@@ -96,6 +96,8 @@ Score {
       updateScord()
       var t = Qt.createComponent("qrc:/StatusTip.qml")
       t.createObject(nootkaWindow)
+      if (!GLOB.singleNoteMode)
+        scoreObj.editModeAct.trigger()
     }
   }
   Connections {

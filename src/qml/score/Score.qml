@@ -91,7 +91,7 @@ Flickable {
     }
     onActiveNoteChanged: {
       if (!cursor) {
-        var c = Qt.createComponent("qrc:/score/NoteCursor.qml")
+        var c = Qt.createComponent("qrc:/score/ScoreCursor.qml")
         cursor = c.createObject(contentItem)
         cursor.parent = Qt.binding(function() { return scoreObj.activeNote })
       }
@@ -101,6 +101,12 @@ Flickable {
   onCurrentNoteChanged: {
     if (currentNote && staves.length > 1)
       ensureVisible(currentNote.staffItem.y, currentNote.staffItem.height * scale)
+  }
+
+  Text { // edit mode symbol
+    visible: scoreObj.editMode; x: Noo.fontSize() / 2; y: Noo.fontSize() / 2
+    text: "\u0080"; font { family: "Nootka"; pixelSize: score.height / 10 }
+    color: Noo.alpha(GLOB.noteCursorColor, 100)
   }
 
   Rectangle { // entire score background & frame when record

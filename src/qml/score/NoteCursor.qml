@@ -11,29 +11,20 @@ Item {
   id: noteCursor
 
   height: parent ? parent.height : 0
-  width: parent ? parent.width - (score.singleNote ? 0 : parent.alterWidth) : 0
+  width: parent ? parent.width : 0
 
   property string headText: parent && (score.singleNote || scoreObj.workRtmValue) ? scoreObj.workRtmText : ""
   property color color: GLOB.noteCursorColor
   property real yPos: scoreObj.activeYpos
 
-  // private
-  property bool allow: true
-
-  visible: yPos > 0 && allow
-
-  Connections { // hide cursor after click on a note to show what was selected
-    target: scoreObj
-    onClicked: allow = false
-    onActiveYposChanged: allow = scoreObj.activeYpos > 0
-  }
+  visible: yPos > 0 && (GLOB.singleNote || scoreObj.editMode)
 
   Rectangle { // highlight
-      width: parent.width + 1
-      height: parent.height
-      x: -1
-      color: Noo.alpha(noteCursor.color, 26)
-      z: -10
+    width: parent.width + 1
+    height: parent.height
+    x: -1
+    color: Noo.alpha(noteCursor.color, 26)
+    z: -10; radius: width / 8
   }
 
   Text {

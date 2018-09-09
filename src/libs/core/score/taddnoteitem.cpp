@@ -80,7 +80,12 @@ void TaddNoteItem::hoverLeaveEvent(QHoverEvent*) {
 void TaddNoteItem::hoverMoveEvent(QHoverEvent* event) {
   int yy = qFloor(event->pos().y());
   if (yy > 1 && yy != static_cast<int>(m_yPos)) {
-    m_yPos = m_scoreObject->clefType() == Tclef::NoClef ? m_scoreObject->upperLine() + 7.0 : qFloor(event->pos().y());
+    if (!m_active) { // sometimes hover enter seems to be omitted - fix that then
+      m_active = true;
+      m_hovered = true;
+      emit activeChanged();
+    }
+    m_yPos = m_scoreObject->clefType() == Tclef::NoClef ? m_scoreObject->upperLine() + 7.0 : yy;
     emit yPosChanged();
   }
 }

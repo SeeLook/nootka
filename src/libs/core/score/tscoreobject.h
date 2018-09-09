@@ -78,6 +78,7 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(QColor nameColor READ nameColor WRITE setNameColor)
   Q_PROPERTY(int nameStyle READ nameStyle WRITE setNameStyle)
   Q_PROPERTY(bool readOnly READ readOnly WRITE setReadOnly NOTIFY readOnlyChanged)
+  Q_PROPERTY(bool editMode READ editMode WRITE setEditMode NOTIFY editModeChanged)
   Q_PROPERTY(bool singleNote READ singleNote WRITE setSingleNote NOTIFY singleNoteChanged)
   Q_PROPERTY(bool enharmNotesEnabled READ enharmNotesEnabled WRITE setEnharmNotesEnabled)
   Q_PROPERTY(bool recordMode READ recordMode WRITE setRecordMode NOTIFY recordModeChanged)
@@ -107,6 +108,7 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(Taction* insertNoteAct READ insertNoteAct)
   Q_PROPERTY(Taction* deleteNoteAct READ deleteNoteAct)
   Q_PROPERTY(Taction* clearScoreAct READ clearScoreAct)
+  Q_PROPERTY(Taction* editModeAct READ editModeAct)
   Q_PROPERTY(Taction* wholeNoteAct READ wholeNoteAct)
   Q_PROPERTY(Taction* halfNoteAct READ halfNoteAct)
   Q_PROPERTY(Taction* quarterNoteAct READ quarterNoteAct)
@@ -222,6 +224,9 @@ public:
 
   bool readOnly() const { return m_readOnly; }
   void setReadOnly(bool ro);
+
+  bool editMode() const;
+  void setEditMode(bool isEdit);
 
   bool singleNote() const { return m_singleNote; }
   void setSingleNote(bool singleN);
@@ -392,6 +397,7 @@ public:
   Taction* insertNoteAct() { return m_insertNoteAct; }
   Taction* deleteNoteAct() { return m_deleteNoteAct; }
   Taction* clearScoreAct() { return m_clearScoreAct; }
+  Taction* editModeAct() { return m_editModeAct; }
   Taction* wholeNoteAct() { return m_wholeNoteAct; }
   Taction* halfNoteAct() { return m_halfNoteAct; }
   Taction* quarterNoteAct() { return m_quarterNoteAct; }
@@ -471,6 +477,7 @@ signals:
   void selectedItemChanged();
   void selectedNoteChanged();
   void readOnlyChanged();
+  void editModeChanged();
   void singleNoteChanged();
   void recordModeChanged();
   void scaleFactorChanged();
@@ -663,13 +670,14 @@ private:
   int                               m_cursorAlter = 0;
   int                               m_activeBarNr = -1;
   Trhythm                          *m_workRhythm;
-  bool                              m_allowAdding;
+  bool                              m_allowAdding = false;
   bool                              m_touched = false;
   QTimer                           *m_enterTimer, *m_leaveTimer;
 
   Taction                          *m_deleteNoteAct = nullptr;
   Taction                          *m_clearScoreAct = nullptr;
   Taction                          *m_wholeNoteAct = nullptr;
+  Taction                          *m_editModeAct = nullptr;
   Taction                          *m_halfNoteAct = nullptr;
   Taction                          *m_quarterNoteAct = nullptr;
   Taction                          *m_eighthNoteAct = nullptr;

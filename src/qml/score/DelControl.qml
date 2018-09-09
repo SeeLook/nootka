@@ -18,6 +18,7 @@ ControlBase {
   Connections {
     target: scoreObj
     enabled: !scoreObj.singleNote && scoreObj.allowAdding
+    onEditModeChanged: delControl.show = scoreObj.editMode && activeItem
     onActiveNoteChanged: {
       if (scoreObj.activeNote) {
           if (!scoreObj.readOnly && activeItem != scoreObj.activeNote) {
