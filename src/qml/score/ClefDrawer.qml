@@ -13,7 +13,7 @@ Drawer {
   width: Noo.fontSize() * 19
   height: nootkaWindow.height
   visible: true
-  background: Rectangle { color: activPal.window }
+  background: TipRect { color: activPal.window; radius: 0 }
 
   ClefMenu {
     id: clefMenu

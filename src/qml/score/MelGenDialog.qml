@@ -58,7 +58,7 @@ TmelGenItem {
           }
           RhythmDiversityTile {
             diversity: rhythmDiversity
-            onDiversityModified: rhythmDiversity = value
+            onDiversityModified: rhythmDiversity = diversity
           }
           EndOnTonicTile {
             anchors.horizontalCenter: parent.horizontalCenter

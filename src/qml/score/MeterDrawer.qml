@@ -11,41 +11,41 @@ import "../"
 
 Drawer { // meter menu
   visible: true
-  width: nootkaWindow.width / 4; height: nootkaWindow.height
-  background: Rectangle { color: activPal.window }
+  width: nootkaWindow.width / 5; height: nootkaWindow.height
+  background: TipRect { color: activPal.window; radius: 0 }
 
-  Flickable {
+  // private
+  property var colorArr: [ 0, 1, 1, 0 ]
+
+  GridView {
+    id: meterGrid
     anchors.fill: parent
     clip: true
     contentHeight: childrenRect.height
-    Grid {
-      width: parent.width
-      leftPadding: Noo.fontSize() / 4
-      topPadding: Noo.fontSize() / 2
-      columns: 2
-      spacing: Noo.fontSize() / 2
-
-      Repeater {
-        model: 12
-        TcuteButton {
-          height: Noo.fontSize() * 5
-          width: parent.width / 2.1
-          color: checked || pressed ? activPal.highlight : activPal.button
-          checkable: true
-          checked: score.scoreObj.meter === Math.pow(2, index)
-          Text {
-            id: buttText
-            anchors.horizontalCenter: parent.horizontalCenter
-            y: -Noo.fontSize() * 3.5
-            font { family: "Scorek"; pixelSize: Noo.fontSize() * 4 }
-            text: Noo.meter(Math.pow(2, index)).symbol()
-            color: pressed ? activPal.highlightedText : activPal.text
-          }
-          onClicked: {
-            score.scoreObj.setMeter(Math.pow(2, index))
-            meter.text = buttText.text
-            close()
-          }
+    cellHeight: Noo.fontSize() * 5
+    cellWidth: parent.width / 2
+    model: 12
+    delegate: Rectangle {
+      height: Noo.fontSize() * 5 - 2
+      width: parent.width / 2 - 2
+      color: score.scoreObj.meter === Math.pow(2, index) ? activPal.highlight :
+              (area.containsMouse ? Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 50)) : (colorArr[index % 4] === 1 ? activPal.alternateBase : activPal.base))
+      Text {
+        id: buttText
+        anchors.horizontalCenter: parent.horizontalCenter
+        y: -Noo.fontSize() * 3.5
+        font { family: "Scorek"; pixelSize: Noo.fontSize() * 4 }
+        text: Noo.meter(Math.pow(2, index)).symbol()
+        color: score.scoreObj.meter === Math.pow(2, index) ? activPal.highlightedText : activPal.text
+      }
+      MouseArea {
+        anchors.fill: parent
+        id: area
+        hoverEnabled: true
+        onClicked: {
+          score.scoreObj.setMeter(Math.pow(2, index))
+          meter.text = buttText.text
+          close()
         }
       }
     }
