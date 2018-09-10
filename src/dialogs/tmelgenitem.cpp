@@ -39,7 +39,7 @@ TmelGenItem::TmelGenItem(QQuickItem* parent) :
   m_basicMask = m_settings->value(QLatin1String("basic"), BASIC_MASK).toUInt();
   m_dotsMask = m_settings->value(QLatin1String("dots"), DOTS_MASK).toUInt();
   m_rtmDiversity = qBound(1, m_settings->value(QLatin1String("rtmDiversity"), 5).toInt(), 10);
-  m_barNumber = qBound(2, m_settings->value(QLatin1String("barNumber"), 4).toInt(), 36) ;
+  m_barNumber = qBound(2, m_settings->value(QLatin1String("barNumber"), 4).toInt(), 32) ;
   m_endsOnTonic = m_settings->value(QLatin1String("endsOnTonic"), true).toBool();
   m_onlyCurrKey = m_settings->value(QLatin1String("onlyCurrKey"), true).toBool();
   m_maxStep = qBound(2, m_settings->value(QLatin1String("maxStep"), 7).toInt(), 36);

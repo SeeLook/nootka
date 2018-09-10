@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -37,7 +37,7 @@ class NOOTKACORE_EXPORT Tclef
 
 public:
   enum EclefType {
-    NoClef = 0,             /**< clef not defined */
+    NoClef = 0,             /**< clef not defined or neutral clef (no pitch) */
     Treble_G = 1,           /**< common treble clef */
     Bass_F = 2,             /**< bass clef */
     Alto_C = 4,
@@ -59,6 +59,7 @@ public:
   Q_INVOKABLE QString name() const; /**< short name of a clef */
   Q_INVOKABLE QString desc() const; /**< a clef description */
   Q_INVOKABLE QString glyph() const;
+  Q_INVOKABLE QString glyphOnStaff() const; /**< Clef symbol on the staff */
 
      /**
       * Adds 'clef' key to XML stream compatible with MusicXML format with current clef

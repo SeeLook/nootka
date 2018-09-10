@@ -103,12 +103,6 @@ Flickable {
       ensureVisible(currentNote.staffItem.y, currentNote.staffItem.height * scale)
   }
 
-  Text { // edit mode symbol
-    visible: scoreObj.editMode; x: Noo.fontSize() / 2; y: Noo.fontSize() / 2
-    text: "\u0080"; font { family: "Nootka"; pixelSize: score.height / 10 }
-    color: Noo.alpha(GLOB.noteCursorColor, 100)
-  }
-
   Rectangle { // entire score background & frame when record
     id: bgRect
     parent: score
@@ -121,6 +115,13 @@ Flickable {
   Staff { // first staff (always exists)
     id: staff0
     meter: Meter { parent: staff0 }
+  }
+
+  Text { // edit mode symbol
+    parent: score.parent; z: 10
+    visible: scoreObj.editMode; x: Noo.fontSize() / 2; y: Noo.fontSize() / 2
+    text: "\u0080"; font { family: "Nootka"; pixelSize: score.height / 10 }
+    color: Noo.alpha(GLOB.noteCursorColor, 200)
   }
 
   function ensureVisible(yy, hh) {

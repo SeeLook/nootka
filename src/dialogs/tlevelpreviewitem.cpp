@@ -70,7 +70,7 @@ void TlevelPreviewItem::setLevel(Tlevel* tl) {
       QString clefString(tr("Clef") + QLatin1String(":")); // "Clef:  "
       if (tl->loNote.isValid() && tl->hiNote.isValid())
         clefString += QString("<br><span style=\"font-family: Scorek; font-size: %1px;\">%2</span></td></tr>")
-              .arg(fontSize * 2).arg(tl->clef.type() == Tclef::PianoStaffClefs ? QStringLiteral("\ue060") : tl->clef.glyph());
+              .arg(fontSize * 2).arg(tl->clef.glyphOnStaff());
       m_levelText += QLatin1String("<td rowspan=\"_ROW_SPAN_\" align=\"center\" valign=\"middle\"><br>") + clefString;
       m_levelText += TRTD + qTR("RangePage", "note range:") + spTDEnd;
       if (tl->loNote.note() && tl->hiNote.note())

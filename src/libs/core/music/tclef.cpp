@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,8 +17,10 @@
  ***************************************************************************/
 
 #include "tclef.h"
+#include <QtCore/qmath.h>
 #include <QtWidgets/qapplication.h>
 #include <QtCore/qxmlstream.h>
+#include <QtCore/qdebug.h>
 
 
 Tclef::EclefType Tclef::defaultType = Tclef::Treble_G;
@@ -97,6 +99,28 @@ QString Tclef::glyph() const {
     case NoClef:
       return QStringLiteral("\ue069");
     default :
+      return QString();
+  }
+}
+
+
+QString Tclef::glyphOnStaff() const {
+  switch(m_type) {
+    case NoClef:
+      return QStringLiteral("\ue041");
+    case Treble_G:
+      return QStringLiteral("\ue042");
+    case Treble_G_8down:
+      return QStringLiteral("\ue045");
+    case Bass_F:
+      return QStringLiteral("\ue043");
+    case Alto_C:
+      return QStringLiteral("\ue044");
+    case Tenor_C:
+      return QStringLiteral("\ue046");
+    case PianoStaffClefs:
+      return QStringLiteral("\ue047");
+    default:
       return QString();
   }
 }
