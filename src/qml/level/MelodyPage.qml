@@ -87,6 +87,7 @@ Tflickable {
       meter: Tmeter.NoMeter
       enableKeySign: creator.useKeySign
       scoreObj.allowAdding: visible
+      scoreObj.editMode: true
     }
     Tile {
       Row {

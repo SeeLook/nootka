@@ -12,20 +12,18 @@ ListView {
   id: clefMenu
   width: parent.width; height: parent.height
   clip: true
-  spacing: 1 //Noo.fontSize() / 2
-//   cacheBuffer: Noo.fontSize() * 56
+  spacing: 1
 
   property int selClef
   // private
   property var clefNr: [0, 1, 2, 4, 8, 32, 128]
-  property var clefButtons: []
 
   signal clicked(var cl)
 
   function checkClef() {
-    for (var c = 0; c < clefButtons.length; ++c) {
+    for (var c = 0; c < 7; ++c) { // so far seven clefs are supported
       if (clefNr[c] === selClef)
-        currentIndex = c
+        clefMenu.currentIndex = c
     }
   }
 
@@ -40,10 +38,8 @@ ListView {
 
   model: 7
   delegate: Rectangle {
-    id: clefButt
-//     x: Noo.fontSize() / 4
     width: clefMenu.width
-    height: Noo.fontSize() * (index === 6 ? 10 : 7.5)
+    height: visible ? Noo.fontSize() * (index === 6 ? 10 : 7.5) : 0
     visible: index !== 0 || score.meter !== Tmeter.NoMeter
     color: index === clefMenu.currentIndex ? activPal.highlight :
                   (area.containsMouse ? Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 50)) : (index % 2 === 1 ? activPal.alternateBase : activPal.base))
@@ -78,13 +74,16 @@ ListView {
           color: index === clefMenu.currentIndex ? activPal.highlightedText : activPal.text
         }
       }
-      Component.onCompleted: clefButtons.push(clefButt)
     }
     MouseArea {
       anchors.fill: parent
       id: area
       hoverEnabled: true
-      onClicked: clefMenu.clicked(clefNr[index])
+      onClicked: {
+        selClef = clefNr[index]
+        clefMenu.currentIndex = index
+        clefMenu.clicked(clefNr[index])
+      }
     }
   }
 }

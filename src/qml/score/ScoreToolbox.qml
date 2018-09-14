@@ -11,10 +11,10 @@ ControlBase {
   id: toolbox
 
   x: show ? 2 : -width - Noo.fontSize()
-  y: score.singleNote || score.meter === Tmeter.NoMeter ? (score.height - height) / 2 : Noo.fontSize() / 2
+  y: score.contentY + (score.singleNote || score.meter === Tmeter.NoMeter ? (score.height - height) / 2 : Noo.fontSize() / 2)
   visible: !scoreObj.touched
 
-  active: !score.readOnly && (scoreObj.activeNote !== null || (score.noteAdd && score.noteAdd.active))
+  active: !score.readOnly && (scoreObj.activeNote || (score.noteAdd && score.noteAdd.active))
 
   factor: Noo.fontSize() * (Noo.isAndroid() ? 1 : 1.2)
 

@@ -613,16 +613,13 @@ void TscoreObject::setReadOnly(bool ro) {
 }
 
 
-bool TscoreObject::editMode() const {
-  return m_editModeAct && m_editModeAct->checked();
-}
-
-
 void TscoreObject::setEditMode(bool isEdit) {
-  if (isEdit != editMode()) {
-    m_editModeAct->setChecked(isEdit);
+  if (isEdit != m_editMode) {
+    m_editMode = isEdit;
+    if (m_editModeAct)
+      m_editModeAct->setChecked(m_editMode);
     emit editModeChanged();
-    if (!isEdit && m_activeNote) {
+    if (!m_editMode && m_activeNote) {
       m_activeNote = nullptr;
       emit activeNoteChanged();
       setActiveNotePos(0.0);
@@ -1016,50 +1013,52 @@ void TscoreObject::setBgColor(const QColor& bg) {
 
 
 void TscoreObject::enableActions() {
-  m_deleteNoteAct = new Taction(tr("Delete note"), QStringLiteral("delete"), this);
-  connect(m_deleteNoteAct, &Taction::triggered, [=]{ if (!m_readOnly && !m_singleNote && m_allowAdding) deleteNote(m_activeNote); });
-  m_deleteNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"del\"; enabled: !singleNote && !readOnly"));
+  if (!m_deleteNoteAct) {
+    m_deleteNoteAct = new Taction(tr("Delete note"), QStringLiteral("delete"), this);
+    connect(m_deleteNoteAct, &Taction::triggered, [=]{ if (!m_readOnly && !m_singleNote && m_allowAdding) deleteNote(m_activeNote); });
+    m_deleteNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"del\"; enabled: !singleNote && !readOnly"));
 
-  m_insertNoteAct = new Taction(tr("Insert note"), QStringLiteral("fingerpoint"), this);
-  connect(m_insertNoteAct, &Taction::triggered, [=]{ if (!m_readOnly && !m_singleNote && m_allowAdding) insertNote(m_activeNote); });
-  m_insertNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"ins\"; enabled: !singleNote && !readOnly"));
+    m_insertNoteAct = new Taction(tr("Insert note"), QStringLiteral("fingerpoint"), this);
+    connect(m_insertNoteAct, &Taction::triggered, [=]{ if (!m_readOnly && !m_singleNote && m_allowAdding) insertNote(m_activeNote); });
+    m_insertNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"ins\"; enabled: !singleNote && !readOnly"));
 
-  m_clearScoreAct = new Taction(tr("Delete all notes"), QStringLiteral("clear-score"), this);
-  connect(m_clearScoreAct, &Taction::triggered, [=]{ if (!m_readOnly) clearScore(); });
-  m_clearScoreAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"Shift+del\"; enabled: !singleNote && !readOnly"));
+    m_clearScoreAct = new Taction(tr("Delete all notes"), QStringLiteral("clear-score"), this);
+    connect(m_clearScoreAct, &Taction::triggered, [=]{ if (!m_readOnly) clearScore(); });
+    m_clearScoreAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"Shift+del\"; enabled: !singleNote && !readOnly"));
 
-  m_editModeAct = new Taction(tr("Edit score"), QString(), this);
-  m_editModeAct->setCheckable(true);
-  connect(m_editModeAct, &Taction::triggered, [=]{ if (!m_readOnly && !m_singleNote) setEditMode(!editMode()); });
-  m_editModeAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"E\"; enabled: !singleNote && !readOnly"));
+    m_editModeAct = new Taction(tr("Edit score"), QString(), this);
+    m_editModeAct->setCheckable(true);
+    connect(m_editModeAct, &Taction::triggered, [=]{ if (!m_readOnly && !m_singleNote) setEditMode(!editMode()); });
+    m_editModeAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"E\"; enabled: !singleNote && !readOnly"));
 
-  m_wholeNoteAct = new Taction(tr("whole note"), QStringLiteral("tipbg"), this);
-  connect(m_wholeNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
-  m_wholeNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"1\""));
+    m_wholeNoteAct = new Taction(tr("whole note"), QStringLiteral("tipbg"), this);
+    connect(m_wholeNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
+    m_wholeNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"1\""));
 
-  m_halfNoteAct = new Taction(tr("half note"), QStringLiteral("tipbg"), this);
-  connect(m_halfNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
-  m_halfNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"2\""));
+    m_halfNoteAct = new Taction(tr("half note"), QStringLiteral("tipbg"), this);
+    connect(m_halfNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
+    m_halfNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"2\""));
 
-  m_quarterNoteAct = new Taction(tr("quarter note"), QStringLiteral("tipbg"), this);
-  connect(m_quarterNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
-  m_quarterNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"4\""));
+    m_quarterNoteAct = new Taction(tr("quarter note"), QStringLiteral("tipbg"), this);
+    connect(m_quarterNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
+    m_quarterNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"4\""));
 
-  m_eighthNoteAct= new Taction(tr("eighth note"), QStringLiteral("tipbg"), this);
-  connect(m_eighthNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
-  m_eighthNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"8\""));
+    m_eighthNoteAct= new Taction(tr("eighth note"), QStringLiteral("tipbg"), this);
+    connect(m_eighthNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
+    m_eighthNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"8\""));
 
-  m_sixteenthNoteAct = new Taction(tr("sixteenth note"), QStringLiteral("tipbg"), this);
-  connect(m_sixteenthNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
-  m_sixteenthNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"6\""));
+    m_sixteenthNoteAct = new Taction(tr("sixteenth note"), QStringLiteral("tipbg"), this);
+    connect(m_sixteenthNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
+    m_sixteenthNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"6\""));
 
-  m_restNoteAct = new Taction(tr("rest"), QStringLiteral("tipbg"), this);
-  connect(m_restNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
-  m_restNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"R\""));
+    m_restNoteAct = new Taction(tr("rest"), QStringLiteral("tipbg"), this);
+    connect(m_restNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
+    m_restNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"R\""));
 
-  m_dotNoteAct = new Taction(tr("dot"), QStringLiteral("tipbg"), this);
-  connect(m_dotNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
-  m_dotNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\".\""));
+    m_dotNoteAct = new Taction(tr("dot"), QStringLiteral("tipbg"), this);
+    connect(m_dotNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
+    m_dotNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\".\""));
+  }
 }
 
 

@@ -225,7 +225,7 @@ public:
   bool readOnly() const { return m_readOnly; }
   void setReadOnly(bool ro);
 
-  bool editMode() const;
+  bool editMode() const { return m_editMode; }
   void setEditMode(bool isEdit);
 
   bool singleNote() const { return m_singleNote; }
@@ -633,6 +633,7 @@ private:
   bool                              m_enableDoubleAccids;
   bool                              m_showNoteNames;
   bool                              m_readOnly = false;
+  bool                              m_editMode = false;
   bool                              m_singleNote = false;
   bool                              m_enharmNotesEnabled = false;
   bool                              m_recordMode = false;

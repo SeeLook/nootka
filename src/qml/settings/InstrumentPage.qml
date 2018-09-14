@@ -91,21 +91,16 @@ Flickable {
         }
         Score {
           id: score
-//           onFocusChanged: { // FIXME: workaround to make score keyboard shortcuts working, but it stop other controls TAB navigation
-//             if (!focus)
-//               focus = true
-//           }
-//           bgRect.border { width: score.activeFocus ? 2 : 0; color: activPal.highlight }
           height: Noo.fontSize() * 20
-          width: Math.min(parent.width * 0.9, Noo.fontSize() * 26)
+          width: Math.min(parent.width * 0.9, Noo.fontSize() * 28)
           anchors.horizontalCenter: parent.horizontalCenter
           clef: GLOB.clefType
           meter: Tmeter.NoMeter
           scoreObj.onClicked: tuningCombo.currentIndex = tuningCombo.count - 1
+          scoreObj.editMode: true
           Component.onCompleted: {
             stringNrSpin.valueModified.connect(strNrChanged)
             tuningCombo.activated.connect(tuningSelected)
-            focus = true
           }
           function strNrChanged() {
             if (stringNrSpin.value > score.notesCount) {

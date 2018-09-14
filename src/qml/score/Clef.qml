@@ -27,8 +27,8 @@ Text {
       if (clefDrawer)
           clefDrawer.open()
       else {
-         var c = Qt.createComponent("qrc:/score/ClefDrawer.qml")
-         clefDrawer = c.createObject(clef)
+         var dC = Qt.createComponent("qrc:/score/ClefDrawer.qml")
+         clefDrawer = dC.createObject(clef)
       }
       clefDrawer.selectedClef = score.clef
     }
