@@ -76,24 +76,28 @@ Flickable {
     onAllowAddingChanged: {
       if (allowAdding) {
         if (!delControl) {
-          var c = Qt.createComponent("qrc:/score/DelControl.qml")
-          delControl = c.createObject(contentItem)
+          var dC = Qt.createComponent("qrc:/score/DelControl.qml")
+          delControl = dC.createObject(contentItem)
         }
         if (!noteAdd) {
-          var c = Qt.createComponent("qrc:/score/NoteAdd.qml")
-          noteAdd = c.createObject(contentItem)
+          var aC = Qt.createComponent("qrc:/score/NoteAdd.qml")
+          noteAdd = aC.createObject(contentItem)
         }
         if (!scoreToobox) {
-          var c = Qt.createComponent("qrc:/score/ScoreToolbox.qml")
-          scoreToobox = c.createObject(parent)
+          var tC = Qt.createComponent("qrc:/score/ScoreToolbox.qml")
+          scoreToobox = tC.createObject(contentItem)
         }
       }
     }
     onActiveNoteChanged: {
       if (!cursor) {
-        var c = Qt.createComponent("qrc:/score/ScoreCursor.qml")
-        cursor = c.createObject(contentItem)
+        var cC = Qt.createComponent("qrc:/score/ScoreCursor.qml")
+        cursor = cC.createObject(contentItem)
         cursor.parent = Qt.binding(function() { return scoreObj.activeNote })
+      }
+      if (!scoreToobox && !readOnly) {
+        var tC = Qt.createComponent("qrc:/score/ScoreToolbox.qml")
+        scoreToobox = tC.createObject(contentItem)
       }
     }
   }
@@ -118,8 +122,7 @@ Flickable {
   }
 
   Text { // edit mode symbol
-    parent: score.parent; z: 10
-    visible: scoreObj.editMode; x: Noo.fontSize() / 2; y: Noo.fontSize() / 2
+    visible: scoreObj.editMode && !singleNote; x: Noo.fontSize() / 2; y: score.contentY + Noo.fontSize() / 2
     text: "\u0080"; font { family: "Nootka"; pixelSize: score.height / 10 }
     color: Noo.alpha(GLOB.noteCursorColor, 200)
   }

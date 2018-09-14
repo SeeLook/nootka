@@ -10,8 +10,7 @@ import "../"
 
 Drawer {
   property alias selectedClef: clefMenu.selClef
-  width: Noo.fontSize() * 19
-  height: nootkaWindow.height
+  width: Noo.fontSize() * 19; height: parent.height
   visible: true
   background: TipRect { color: activPal.window; radius: 0 }
 
