@@ -39,22 +39,25 @@ Flickable {
           color: activPal.text
           text: qsTr("Select a clef and scale of notes appropriate for your instrument.")
         }
-        Score {
-          id: score
-          height: Noo.fontSize() * 20
-          width: Noo.fontSize() * 12
+        Item {
+          height: Noo.fontSize() * 20; width: Noo.fontSize() * 12
           anchors.horizontalCenter: parent.horizontalCenter
-          meter: Tmeter.NoMeter
-          scoreObj.showNoteNames: true
-          scoreObj.nameColor: GLOB.nameColor
-          scoreObj.nameStyle: GLOB.noteNameStyle
-          Component.onCompleted: {
-            addNote(scoreObj.lowestNote())
-            addNote(scoreObj.highestNote())
-          }
-          onClefChanged: {
-            setNote(scoreObj.note(0), scoreObj.lowestNote())
-            setNote(scoreObj.note(1), scoreObj.highestNote())
+          Score {
+            id: score
+            anchors.fill: parent
+            meter: Tmeter.NoMeter
+            scoreObj.editMode: true
+            scoreObj.showNoteNames: true
+            scoreObj.nameColor: GLOB.nameColor
+            scoreObj.nameStyle: GLOB.noteNameStyle
+            Component.onCompleted: {
+              addNote(scoreObj.lowestNote())
+              addNote(scoreObj.highestNote())
+            }
+            onClefChanged: {
+              setNote(scoreObj.note(0), scoreObj.lowestNote())
+              setNote(scoreObj.note(1), scoreObj.highestNote())
+            }
           }
         }
         Transposition {
