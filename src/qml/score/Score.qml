@@ -85,7 +85,7 @@ Flickable {
         }
         if (!scoreToobox) {
           var tC = Qt.createComponent("qrc:/score/ScoreToolbox.qml")
-          scoreToobox = tC.createObject(contentItem)
+          scoreToobox = tC.createObject(parent)
         }
       }
     }
@@ -97,7 +97,7 @@ Flickable {
       }
       if (!scoreToobox && !readOnly) {
         var tC = Qt.createComponent("qrc:/score/ScoreToolbox.qml")
-        scoreToobox = tC.createObject(contentItem)
+        scoreToobox = tC.createObject(parent)
       }
     }
   }

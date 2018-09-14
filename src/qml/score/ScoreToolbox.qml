@@ -11,7 +11,7 @@ ControlBase {
   id: toolbox
 
   x: show ? 2 : -width - Noo.fontSize()
-  y: score.contentY + (score.singleNote || score.meter === Tmeter.NoMeter ? (score.height - height) / 2 : Noo.fontSize() / 2)
+  y: score.singleNote || score.meter === Tmeter.NoMeter ? (score.height - height) / 2 : Noo.fontSize() / 2
   visible: !scoreObj.touched
 
   active: !score.readOnly && (scoreObj.activeNote || (score.noteAdd && score.noteAdd.active))
@@ -37,7 +37,7 @@ ControlBase {
       property bool rest: false
       factor: toolbox.factor * 0.9
       yOffset: factor * 0.5
-      font { family: "nootka"; pointSize: factor * 1.6 }
+      font { family: "nootka"; pixelSize: factor * 2 }
       text: Noo.rhythmText(Noo.rhythm(rhythm, rest, false, false))
       selected: rhythm === scoreObj.workRtmValue && rest === scoreObj.workRtmRest
       onEntered: hideTimer.stop()

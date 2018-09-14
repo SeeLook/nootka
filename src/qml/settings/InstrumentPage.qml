@@ -89,35 +89,38 @@ Flickable {
             delegate: ItemDelegate { text: modelData }
           }
         }
-        Score {
-          id: score
-          height: Noo.fontSize() * 20
+        Item {
+          height: Noo.fontSize() * 18
           width: Math.min(parent.width * 0.9, Noo.fontSize() * 28)
           anchors.horizontalCenter: parent.horizontalCenter
-          clef: GLOB.clefType
-          meter: Tmeter.NoMeter
-          scoreObj.onClicked: tuningCombo.currentIndex = tuningCombo.count - 1
-          scoreObj.editMode: true
-          Component.onCompleted: {
-            stringNrSpin.valueModified.connect(strNrChanged)
-            tuningCombo.activated.connect(tuningSelected)
-          }
-          function strNrChanged() {
-            if (stringNrSpin.value > score.notesCount) {
-                while (stringNrSpin.value > score.notesCount) {
-                  score.addNote(Noo.note(0, 0, 0, 0))
-                  score.scoreObj.lastNote.setStringNumber(score.notesCount)
-                }
-                tuningCombo.currentIndex = tuningCombo.count - 1
-            } else if (stringNrSpin.value < score.notesCount) {
-                while (stringNrSpin.value < score.notesCount)
-                  score.deleteLast()
-                tuningCombo.currentIndex = tuningCombo.count - 1
+          Score {
+            id: score
+            anchors.fill: parent
+            clef: GLOB.clefType
+            meter: Tmeter.NoMeter
+            scoreObj.onClicked: tuningCombo.currentIndex = tuningCombo.count - 1
+            scoreObj.editMode: true
+            Component.onCompleted: {
+              stringNrSpin.valueModified.connect(strNrChanged)
+              tuningCombo.activated.connect(tuningSelected)
             }
-          }
-          function tuningSelected() {
-            if (tuningCombo.currentIndex < tuningCombo.count - 1)
-              setTuning(Noo.tuning((instrSel.instrument === Tinstrument.BassGuitar ? 100 : 0) + tuningCombo.currentIndex))
+            function strNrChanged() {
+              if (stringNrSpin.value > score.notesCount) {
+                  while (stringNrSpin.value > score.notesCount) {
+                    score.addNote(Noo.note(0, 0, 0, 0))
+                    score.scoreObj.lastNote.setStringNumber(score.notesCount)
+                  }
+                  tuningCombo.currentIndex = tuningCombo.count - 1
+              } else if (stringNrSpin.value < score.notesCount) {
+                  while (stringNrSpin.value < score.notesCount)
+                    score.deleteLast()
+                  tuningCombo.currentIndex = tuningCombo.count - 1
+              }
+            }
+            function tuningSelected() {
+              if (tuningCombo.currentIndex < tuningCombo.count - 1)
+                setTuning(Noo.tuning((instrSel.instrument === Tinstrument.BassGuitar ? 100 : 0) + tuningCombo.currentIndex))
+            }
           }
         }
       }

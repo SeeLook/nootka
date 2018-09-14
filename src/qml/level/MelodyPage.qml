@@ -80,14 +80,17 @@ Tflickable {
         checkBox.onClicked: creator.endsOnTonic = checked
       }
     }
-    Score {
-      id: listScore
-      visible: melCombo.currentIndex === 1
+    Item {
       width: parent.width; height: melPage.height - topTile.height - melGrid.height - tempoRange.height
-      meter: Tmeter.NoMeter
-      enableKeySign: creator.useKeySign
-      scoreObj.allowAdding: visible
-      scoreObj.editMode: true
+      Score {
+        id: listScore
+        visible: melCombo.currentIndex === 1
+        anchors.fill: parent
+        meter: Tmeter.NoMeter
+        enableKeySign: creator.useKeySign
+        scoreObj.allowAdding: visible
+        scoreObj.editMode: true
+      }
     }
     Tile {
       Row {
