@@ -61,22 +61,12 @@ int Tmeter::duration() const {
 }
 
 
-// \ue09f  Control character for denominator (lower) digit
-// \ue09e) Control character for numerator (upper) digit
-#define ZERO (0xe080) // first digit
-
+#define ZERO (0xe0c0) // first digit
 
 QString Tmeter::symbol() const {
   if (m_meter == NoMeter)
     return QString();
-
-  QString s = QString::fromUtf8("\ue09e");
-  int u = upper();
-  if (u == 12)
-    s += QString::fromUtf8("\ue081\ue09e\ue082\ue09f\ue088");
-  else
-    s += QString(QChar(ZERO + u)) + QString::fromUtf8("\ue09f") + QString(QChar(ZERO + lower()));
-  return s;
+  return QString(QChar(ZERO + qRound(log(static_cast<qreal>(m_meter)) / 0.69314718055994530941723212145818))); //s;
 }
 
 
