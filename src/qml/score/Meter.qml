@@ -19,7 +19,7 @@ Text {
   font { family: "Scorek"; pixelSize: 8 }
   color: meterArea.containsMouse && scoreObj.editMode ? GLOB.noteCursorColor : activPal.text
   text: Noo.meter(score.meter).symbol()
-  y: score.upperLine - 9
+  y: score.upperLine - 11
   x: (staff0.keySignItem ? staff0.keySignItem.x + staff0.keySignItem.width : staff0.clef.x + staff0.clef.width) + 1.0
 
   Loader { sourceComponent: score.clef === Tclef.PianoStaffClefs ? lowerMeter : null }

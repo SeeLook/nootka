@@ -33,7 +33,7 @@ Drawer { // meter menu
       Text {
         id: buttText
         anchors.horizontalCenter: parent.horizontalCenter
-        y: -Noo.fontSize() * 3.5
+        y: -Noo.fontSize() * 4.5
         font { family: "Scorek"; pixelSize: Noo.fontSize() * 4 }
         text: Noo.meter(Math.pow(2, index)).symbol()
         color: score.scoreObj.meter === Math.pow(2, index) ? activPal.highlightedText : activPal.text

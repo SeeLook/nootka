@@ -31,7 +31,7 @@ ListView {
       color: enabled ? (index % 2 ? activPal.alternateBase : activPal.base) : disdPal.base
       property int mask: Math.pow(2, index)
       TcheckBox {
-        width: Noo.fontSize() * 4
+        width: Noo.fontSize() * 4; y: Noo.fontSize() / 2
         checked: meters & mask
         onClicked: {
           if (checked)
@@ -40,13 +40,15 @@ ListView {
             meters &= ~mask
           metersModified()
         }
-        contentItem: Text {
-          height: Noo.fontSize() * 2
-          text: Noo.meter(Math.pow(2, index)).symbol()
-          topPadding: Noo.fontSize() * -2.2
-          leftPadding: Noo.fontSize() * 1.7
-          color: enabled ? activPal.text : disdPal.text
-          font { family: "Scorek"; pixelSize: Noo.fontSize() * 2 }
+        contentItem: Item {
+          height: Noo.fontSize() * 2; width: Noo.fontSize() * 2
+          Text {
+            y: Noo.fontSize() * -2.8
+            text: Noo.meter(Math.pow(2, index)).symbol()
+            leftPadding: Noo.fontSize() * 1.7
+            color: enabled ? activPal.text : disdPal.text
+            font { family: "Scorek"; pixelSize: Noo.fontSize() * 2 }
+          }
         }
       }
     }
