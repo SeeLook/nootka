@@ -165,11 +165,10 @@ TstartExamItem {
     }
   }
 
-  Menu {
+  Tmenu {
     id: menu
     width: Noo.fontSize() * 20; y: startDialog.height * 0.88 - height; x: Noo.fontSize() * 2
     height: Math.min(startDialog.height * 0.8, contentItem.contentHeight)
-    background: TipRect { shadowRadius: Noo.fontSize() }
     contentItem: ListView {
       clip: true
       ScrollBar.vertical: ScrollBar { active: true }
@@ -178,11 +177,9 @@ TstartExamItem {
         width: Noo.fontSize() * 20
         action: modelData
         onClicked: menu.close()
+        Rectangle { width: parent.width; height: index === recentModel.length - 1 ? 0 : 1; color: activPal.text; y: parent.height - 1 }
       }
     }
-    scale: GLOB.useAnimations ? 0.1 : 1.0
-    enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}
-    exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0.1 }}
   }
 
   Component.onCompleted: {

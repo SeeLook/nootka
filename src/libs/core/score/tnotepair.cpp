@@ -38,6 +38,20 @@ TnotePair::~TnotePair()
 }
 
 
+// void TnotePair::setIndex(int i) {
+//   m_index = static_cast<quint32>(i);
+//   if (m_noteItem)
+//     m_noteItem->updateDebug();
+// }
+// 
+// 
+// void TnotePair::setRhythmGroup(qint8 g) {
+//   m_group = g;
+//   if (m_noteItem)
+//     m_noteItem->updateDebug();
+// }
+
+
 void TnotePair::setNoteItem(TnoteItem* ob) {
   m_noteItem = ob;
 }
