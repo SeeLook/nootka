@@ -275,7 +275,7 @@ void TmeasureObject::updateRhythmicGroups() {
 
 void TmeasureObject::checkBarLine() {
   if (m_free == 0 && m_score->meter()->meter() != Tmeter::NoMeter) {
-    qDebug() << debug() << "check bar line";
+//     qDebug() << debug() << "check bar line";
     auto lastNote = last()->item();
     if (!m_barLine) {
       m_staff->score()->component()->setData("import QtQuick 2.9; Rectangle { width: 0.3 }", QUrl());
@@ -412,14 +412,12 @@ void TmeasureObject::changeNoteDuration(TnotePair* np, const Tnote& newNote) {
     return;
   }
   Tnote nn = newNote;
-  int nextMeasDur = 0;
   Tpairs notesToOut;
   if (m_free - (newDur - prevDur) < 0) { // There is not enough space for new note - its duration is longer than possible free space in the measure
     /** 1. Try to release measure (move notes after this @p np one to the next measure) */
       int leftDur = releaseAtEnd(newDur - prevDur - m_free, notesToOut, np->index() - firstNoteId() + 1);
       if (leftDur) {
-    /** 2. There is still not enough space for new duration - so split duration of this @p np note to fill free space in this measure */
-        nextMeasDur = newDur - (m_free + prevDur);
+    /** 2. There is still not enough space for new duration - so cut duration of this @p np note */
         auto thisBarRtms = Trhythm::resolve(m_free + prevDur);
         nn.setRhythm(thisBarRtms.first());
         for (int r = 1; r < thisBarRtms.count(); ++r) {
@@ -427,28 +425,11 @@ void TmeasureObject::changeNoteDuration(TnotePair* np, const Tnote& newNote) {
             thisBarRtms[r].setTie(Trhythm::e_tieCont);
           m_score->insertSilently(np->index() + r, Tnote(newNote, thisBarRtms[r]), this);
         }
-        if (nextMeasDur)
-          nn.rtm.setTie(newNote.rtm.tie() > Trhythm::e_tieStart ? Trhythm::e_tieCont : Trhythm::e_tieStart);
       }
       np->setNote(nn);
 
       update(np->rhythmGroup());
-
-      if (nextMeasDur) {
-    /** 3. At the beginning of the next staff, create new note of the same pitch with remaining duration. */
-        auto rtmToNext = Trhythm::resolve(nextMeasDur);
-        int indexToInsert = rtmToNext.count() > 1 ? 0 : notesToOut.count();
-        for (int r = 0; r < rtmToNext.count(); ++r) {
-          if (!nn.isRest()) {
-            if (r < rtmToNext.count() - 1)
-              rtmToNext[r].setTie(Trhythm::e_tieCont);
-            else
-              rtmToNext[r].setTie(nn.rtm.tie() == Trhythm::e_tieCont ? Trhythm::e_tieCont : Trhythm::e_tieEnd);
-          }
-          m_score->insertSilently(last()->index() + r + 1, Tnote(nn, rtmToNext[r]), this);
-          notesToOut.insert(indexToInsert, m_notes.takeLast());
-        }
-      }
+      checkBarLine();
   } else { // measure duration is less than meter - take notes from the next measure
       m_free += prevDur - newDur;
       np->setNote(nn);
@@ -646,6 +627,10 @@ void TmeasureObject::fill() {
     insertSilently(lastId + i, notesToShift[i]);
 
   update();
+  if (m_free && m_barLine) {
+    m_barLine->setVisible(false);
+    m_barLine->setParentItem(nullptr);
+  }
 }
 
 
