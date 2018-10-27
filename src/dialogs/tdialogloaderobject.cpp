@@ -30,6 +30,8 @@
 #include "main/texamsummary.h"
 #include "main/tstartexamitem.h"
 #include "main/tnootkacertificate.h"
+#include "charts/tchartitem.h"
+#include "charts/tcharttipitem.h"
 #include <qtr.h>
 #include <exam/texam.h>
 
@@ -61,6 +63,10 @@ TdialogLoaderObject::TdialogLoaderObject(QObject* parent) :
     qmlRegisterType<TnootkaCertificate>("Nootka.Exam", 1, 0, "CertificateItem");
 
     qRegisterMetaType<Tlevel*>("Tlevel*");
+    qRegisterMetaType<Texam*>("Texam*");
+
+    qmlRegisterType<TchartItem>("Nootka.Charts", 1, 0, "TchartItem");
+    qmlRegisterType<TchartTipItem>("Nootka.Charts", 1, 0, "TchartTipItem");
     m_firstTime = false;
   }
 }

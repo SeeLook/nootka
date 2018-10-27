@@ -28,10 +28,10 @@
 TbarChart::TbarChart(Texam* exam, Tchart::Tsettings& settings, QWidget* parent) :
   TmainChart(exam, settings, parent)
 {
-  chartSett.separateWrong = false;
+  p_chartSett.separateWrong = false;
   sort();
   qreal maxTime = 0;
-  if (chartSett.order != Tchart::e_byMistake) {
+  if (p_chartSett.order != Tchart::e_byMistake) {
     for(int i = 0; i < sortedLists.size(); i++)
       maxTime = qMax(maxTime, sortedLists[i].averTime());
     yAxis->setMaxValue((double)maxTime / 10.0);
@@ -47,7 +47,7 @@ TbarChart::TbarChart(Texam* exam, Tchart::Tsettings& settings, QWidget* parent) 
   prepareChart(sortedLists.size());
   
   int lastItem = sortedLists.size();
-  if (hasListUnrelated)
+  if (p_hasListUnrelated)
     lastItem--; // don't show unrelated
   for(int i = 0; i < lastItem; i++) {
     Tbar *bar;

@@ -165,6 +165,16 @@ public:
 
   Q_INVOKABLE void setStatusTip(const QString& statusText, int tipPos = 1);
 
+      /**
+       * Returns text of question/ answer kind depends on given value of @p qaType.
+       * It could be:
+       * @li 0 - as note on the staff
+       * @li 1 - as note name
+       * @li 2 - on instrument
+       * @li 3 - as played sound
+       */
+  Q_INVOKABLE QString qaTypeText(int qaType);
+
 /**
  * All stuff below is responsible for handling note changes in score, instrument and sound in/out.
  * @p TnootkaQML has score and instrument pointers to handle theirs signals when note is changed,

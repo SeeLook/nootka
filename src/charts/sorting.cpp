@@ -107,7 +107,7 @@ QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, Tlevel *level, bool &
         }
       }
       if (!noteList.isEmpty()) {
-				noteList.resume(theSame[j].toRichText(), "<b>" + noteList.for_a_note() + " <big>" + theSame[j].toRichText() + "</big></b>");
+        noteList.resume(theSame[j].toRichText(), "<b>" + noteList.for_a_note() + " <big>" + theSame[j].toRichText() + "</big></b>");
         result << noteList;
       }
     }
@@ -138,7 +138,7 @@ QList<TgroupedQAunit> sortByFret(TgroupedQAunit& answList, Tlevel *level, bool& 
       if (answList[i].qaPtr->questionAs == TQAtype::e_onInstr ||
           answList[i].qaPtr->answerAs == TQAtype::e_onInstr ||
           answList[i].qaPtr->answerAs == TQAtype::e_asSound) { // is a question related to guitar
-        if (f == answList[i].qaPtr->qa.pos.fret())
+        if (f == answList[i].qaPtr->qa.pos().fret())
             fretList.addQAunit(answList[i]);
       } else {
           if (f == level->loFret) // feed unrelated in first loop only
@@ -178,20 +178,20 @@ QList<TgroupedQAunit> sortByKeySignature(TgroupedQAunit& answList, Tlevel *level
     }
     bool tmpBool;
     if (!majors.isEmpty()) {
-			if (!majors.first()->melody()) {
-				QList<TgroupedQAunit> majSorted = sortByNote(majors, level, tmpBool);
-				TgroupedQAunit mS = mergeListOfLists(majSorted);
-				divideQuestionsAndAnswers(result, mS, TQAtype::e_onScore);
-			} else
-					divideQuestionsAndAnswers(result, majors, TQAtype::e_onScore);
+      if (!majors.first()->melody()) {
+        QList<TgroupedQAunit> majSorted = sortByNote(majors, level, tmpBool);
+        TgroupedQAunit mS = mergeListOfLists(majSorted);
+        divideQuestionsAndAnswers(result, mS, TQAtype::e_onScore);
+      } else
+          divideQuestionsAndAnswers(result, majors, TQAtype::e_onScore);
     }
     if (!minors.isEmpty()) {
-			if (!minors.first()->melody()) {
-				QList<TgroupedQAunit> minSorted = sortByNote(minors, level, tmpBool);
-				TgroupedQAunit mS = mergeListOfLists(minSorted);
-				divideQuestionsAndAnswers(result, mS, TQAtype::e_onScore);
-			} else
-					divideQuestionsAndAnswers(result, minors, TQAtype::e_onScore);
+      if (!minors.first()->melody()) {
+        QList<TgroupedQAunit> minSorted = sortByNote(minors, level, tmpBool);
+        TgroupedQAunit mS = mergeListOfLists(minSorted);
+        divideQuestionsAndAnswers(result, mS, TQAtype::e_onScore);
+      } else
+          divideQuestionsAndAnswers(result, minors, TQAtype::e_onScore);
     }
   }
   for (int i = 0; i < result.size(); i++) {
@@ -326,19 +326,20 @@ QList<TgroupedQAunit> sortByQAtype(TgroupedQAunit& answList, Tlevel* level, bool
   for (int q = 0; q < 4; q++) {
     for (int a = 0; a < 4; a++) {
       if (!qaTypesArr[q][a].isEmpty()) {
-				QString fDesc;
-				if (level->canBeMelody()) {
-					if (qaTypesArr[q][a].first()->questionAs == TQAtype::e_onScore)
-						fDesc = TexTrans::playMelodyTxt();
-					else
-						fDesc = TexTrans::writeMelodyTxt();
-				} else
-					fDesc = TquestionAsWdg::questionsTxt() + " " + TquestionAsWdg::qaTypeText(qaTypesArr[q][a].first()->questionAs) + "<br>" +
-                TquestionAsWdg::answersTxt() + " " + TquestionAsWdg::qaTypeText(qaTypesArr[q][a].first()->answerAs);
-        qaTypesArr[q][a].resume( // short: symbols of types, full: texts
-                TnooFont::span(TquestionAsWdg::qaTypeSymbol(qaTypesArr[q][a].first()->questionAs), 25) + "<br>" + 
-                TnooFont::span(TquestionAsWdg::qaTypeSymbol(qaTypesArr[q][a].first()->answerAs), 25),
-                "<b>" + fDesc + "</b>" );
+        QString fDesc;
+        if (level->canBeMelody()) {
+            if (qaTypesArr[q][a].first()->questionAs == TQAtype::e_onScore)
+              fDesc = TexTrans::playMelodyTxt();
+            else
+              fDesc = TexTrans::writeMelodyTxt();
+        } else
+            ;
+//             fDesc = TquestionAsWdg::questionsTxt() + " " + TquestionAsWdg::qaTypeText(qaTypesArr[q][a].first()->questionAs) + "<br>" +
+//                   TquestionAsWdg::answersTxt() + " " + TquestionAsWdg::qaTypeText(qaTypesArr[q][a].first()->answerAs);
+//           qaTypesArr[q][a].resume( // short: symbols of types, full: texts
+//                   TnooFont::span(TquestionAsWdg::qaTypeSymbol(qaTypesArr[q][a].first()->questionAs), 25) + "<br>" + 
+//                   TnooFont::span(TquestionAsWdg::qaTypeSymbol(qaTypesArr[q][a].first()->answerAs), 25),
+//                   "<b>" + fDesc + "</b>" );
         result << qaTypesArr[q][a];
       }
     }
@@ -363,7 +364,7 @@ QList<TgroupedQAunit> sortByMisakes(TgroupedQAunit& answList, Tlevel* level, boo
                << QApplication::translate("AnswerText", "correct positions")       // 8
                << QApplication::translate("AnswerText", "wrong positions")         // 9
                << QApplication::translate("AnswerText", "wrong strings")           // 10
-							 << QApplication::translate("AnswerText", "out of tune")  	         // 11
+               << QApplication::translate("AnswerText", "out of tune")             // 11
   ;
   for (int i = 0; i < answList.size(); i++) {
     if (answList[i].qaPtr->isCorrect()) {
@@ -397,7 +398,7 @@ QList<TgroupedQAunit> sortByMisakes(TgroupedQAunit& answList, Tlevel* level, boo
             mistakesArr[7].addQAunit(answList[i]);
           if (answList[i].qaPtr->wrongString())
             mistakesArr[10].addQAunit(answList[i]);
-					if (answList[i].qaPtr->wrongIntonation())
+          if (answList[i].qaPtr->wrongIntonation())
             mistakesArr[11].addQAunit(answList[i]);
        }
   }

@@ -14,7 +14,6 @@ Tflickable {
   contentHeight: questionCol.height + Noo.fontSize() * 2
   contentWidth: width
 
-  property var qTexts: [ qsTr("as note on the staff"), qsTr("as note name"), qsTr("on instrument"), qsTr("as played sound") ]
   property real spacing: width / 100
   property real padding: width / 200
 
@@ -70,7 +69,7 @@ Tflickable {
             model: 4
             QuestionsBox {
               qId: index
-              questionText: qsTr("Question") + " " + qTexts[index]
+              questionText: qsTr("Question") + " " + Noo.qaTypeText(index)
               questionChecked: creator.questionAs & Math.pow(2, index)
               answerBits: creator.answersAs[index]
             }

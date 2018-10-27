@@ -128,6 +128,10 @@
     <file alias="exam/CorrectInstrAnim.qml">qml/exam/CorrectInstrAnim.qml</file>
     <file alias="exam/Certificate.qml">qml/exam/Certificate.qml</file>
 
+    <file alias="charts/AnalyzeDialog.qml">charts/qml/AnalyzeDialog.qml</file>
+    <file alias="charts/ChartTip.qml">charts/qml/ChartTip.qml</file>
+    <file alias="charts/ChartToolButton.qml">charts/qml/ChartToolButton.qml</file>
+
     <file alias="qtquickcontrols2.conf">qml/qtquickcontrols2.conf</file>
 <!--     <file alias="+android/qtquickcontrols2.conf">qml/+android/qtquickcontrols2.conf</file> -->
 

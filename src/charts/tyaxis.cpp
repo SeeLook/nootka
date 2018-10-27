@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License       *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -26,11 +26,13 @@
 
 
 
-    /** When @p halfAllowed is true given time values are below 60 s for sure.
-    * Minute part (@p mm) can be skipped then. */
+    /**
+     * When @p halfAllowed is true given time values are below 60 s for sure.
+     * Minute part (@p mm) can be skipped then.
+     */
 QString timeFormated(qreal realTime, bool halfAllowed = false) {
   int t = (int)realTime;
-  QString hh = "", mm = halfAllowed ? "" : "0", ss = "", ms = "";
+  QString hh, mm = halfAllowed ? QString() : QStringLiteral("0"), ss, ms;
   int dig = 0;
   if (t / 3600) {
     hh = QString("%1").arg(t / 3600);
@@ -43,8 +45,8 @@ QString timeFormated(qreal realTime, bool halfAllowed = false) {
   }
   ss = QString("%1").arg((t % 3600) % 60, 2, 'i', 0, '0');
   if (realTime - (qreal)t)
-    ms = "." + QString("%1").arg((int)((realTime - (qreal)t) * 10));
-  return (hh.isEmpty() ? "" : hh + ":") + (mm.isEmpty() ? "" : mm + ":") + ss + ms;
+    ms = QLatin1String(".") + QString("%1").arg((int)((realTime - (qreal)t) * 10));
+  return (hh.isEmpty() ? QString() : hh + QStringLiteral(":")) + (mm.isEmpty() ? QString() : mm + QStringLiteral(":")) + ss + ms;
 }
 
 
@@ -54,77 +56,78 @@ TYaxis::TYaxis() :
   m_multi(1),
   m_halfTick(false)
 {
-	m_textPosOffset = (rectBoundText("X").height() / 4);
-	setUnit(e_timeInSec);
+  m_textPosOffset = (rectBoundText("X").height() / 4);
+  setUnit(e_timeInSec);
 }
 
 
 void TYaxis::setMaxValue(qreal val, bool allowHalf) {
-	m_maxVal = val;
-	qreal maxT = m_maxVal;
-	while (maxT > 99) {
-		m_multi = m_multi * 10;
-		maxT = maxT / 10;
-	}
-	m_top = int(maxT) + 1 ;
-	m_loop = m_top;
-	m_multi2 = 1;
-	if (m_top > 9) {
-			m_loop = m_top / 10;
-			m_multi2 = 10;
-	}
-	axisScale = ((length() - (2 * arrowSize)) / (m_top * m_multi));
-	if (allowHalf) { // check is enough place for half ticks
-		if ( ((mapValue((m_loop - 1) * m_multi * m_multi2) - mapValue(m_loop * m_multi * m_multi2))) > m_textPosOffset * 4)
-			m_halfTick = true;
-	}
+  m_maxVal = val;
+  qreal maxT = m_maxVal;
+  while (maxT > 99) {
+    m_multi = m_multi * 10;
+    maxT = maxT / 10;
+  }
+  m_top = int(maxT) + 1 ;
+  m_loop = m_top;
+  m_multi2 = 1;
+  if (m_top > 9) {
+      m_loop = m_top / 10;
+      m_multi2 = 10;
+  }
+  axisScale = ((length() - (2 * arrowSize)) / (m_top * m_multi));
+  if (allowHalf) { // check is enough place for half ticks
+    if ( ((mapValue((m_loop - 1) * m_multi * m_multi2) - mapValue(m_loop * m_multi * m_multi2))) > m_textPosOffset * 4)
+      m_halfTick = true;
+  }
 }
 
 
 void TYaxis::setUnit(TYaxis::Eunit unit) {
-	switch (unit) {
-		case e_timeInSec:
-			m_unitDesc = QObject::tr("time [s]", "unit of Y axis");
-			break;
-		case e_questionNr:
-			m_unitDesc = questionsNumberTxt() + " [ ]";
-			break;
-		case e_prepareTime:
-			m_unitDesc = prepareTimeTxt() + " [s]";
-			break;
-		case e_attemptsCount:
-			m_unitDesc = attemptsNumberTxt()  + " [ ]";
-			break;
+  switch (unit) {
+    case e_timeInSec:
+      m_unitDesc = QObject::tr("time [s]", "unit of Y axis");
+      break;
+    case e_questionNr:
+      m_unitDesc = questionsNumberTxt() + QLatin1String(" [ ]");
+      break;
+    case e_prepareTime:
+      m_unitDesc = prepareTimeTxt() + QLatin1String(" [s]");
+      break;
+    case e_attemptsCount:
+      m_unitDesc = attemptsNumberTxt() + QLatin1String(" [ ]");
+      break;
     case e_effectiveness:
-      m_unitDesc = TexTrans::effectTxt().toLower()  + " [%]";
+      m_unitDesc = TexTrans::effectTxt().toLower() + QLatin1String(" [%]");
       break;
     case e_playedCount:
-      m_unitDesc = playedNumberTxt() + " [ ]";
-	}
-	m_unit = unit;
+      m_unitDesc = playedNumberTxt() + QLatin1String(" [ ]");
+  }
+  m_unit = unit;
 }
 
 
 QPainterPath TYaxis::shape() const {
-	QPainterPath path;
-	path.addRect(boundingRect().adjusted(0, 0, 0, scene()->height()));
-	return path;
+  QPainterPath path;
+  path.addRect(boundingRect().adjusted(0, 0, 0, scene()->height()));
+  return path;
 }
 
 
 void TYaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
   Q_UNUSED(option)
+  Q_UNUSED(widget)
 
   qreal half = axisWidth / 2;
-  QColor bg = widget->palette().base().color();
+  QColor bg = qApp->palette().base().color();
   bg.setAlpha(210);
   painter->setPen(Qt::NoPen);
   painter->setBrush(bg);
   painter->drawRect(-3 * m_textPosOffset, 0, axisWidth * 4, length() - 1);
-  painter->setPen(QPen(widget->palette().text().color(), 2));
+  painter->setPen(QPen(qApp->palette().text().color(), 2));
   painter->drawLine(half, 0, half, length());
   drawArrow(painter, QPointF(half, 0), false);
-  
+
   double shift = 1.0;
   if (m_halfTick && (m_unit == e_timeInSec || m_unit == e_prepareTime || m_multi2 >= 10))
       shift = 0.5;

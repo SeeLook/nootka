@@ -307,4 +307,6 @@ private:
   TQAunit                    *m_skippedUnit;
 };
 
+Q_DECLARE_METATYPE(Texam*)
+
 #endif // TEXAM_H

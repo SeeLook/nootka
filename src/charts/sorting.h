@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,7 +19,7 @@
 #ifndef SORTING_H
 #define SORTING_H
 
-#include <QList>
+#include <QtCore/qlist.h>
 #include <exam/tqatype.h>
 #include "tgroupedqaunit.h"
 

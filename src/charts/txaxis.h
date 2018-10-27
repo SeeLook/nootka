@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,50 +16,48 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TMAINCHART_H
-#define TMAINCHART_H
+#ifndef TXAXIS_H
+#define TXAXIS_H
 
-#include "tchart.h"
-#include "tgroupedqaunit.h"
 
+#include "tabstractaxis.h"
+
+
+class TgroupedQAunit;
 class Tlevel;
-class Tnote;
-class Texam;
+class TQAunit;
 
-/** 
- * This is global class for bar and linear charts.
- * It performs some common methods
+
+/**
+ * This is X axis of charts. It represents questions.
+ * Its size is (length) is calculated automatically by questions number.
  */
-class TmainChart : public Tchart
+class TXaxis : public TabstractAxis
 {
-  Q_OBJECT 
+
 public:
-  
-  TmainChart(Texam *exam, Tsettings &settings, QWidget* parent = 0);
-  virtual ~TmainChart();
-  
+  TXaxis(QList<TQAunit*>* answers = 0, Tlevel* level = 0);
 
+  void setAnswersList(QList<TQAunit*>* answers, Tlevel* level = 0);
+  void setAnswersLists(QList<TgroupedQAunit> &listOfLists, Tlevel *level = 0);
+  void setAnswersForBarChart(QList<TgroupedQAunit> &listOfLists);
+
+      /**
+       * pixel width of question on the axis
+       */
+  int questWidth() { return m_qWidth; }
+
+  virtual QRectF boundingRect();
+  
 protected:
-    /** Sorts exam data by params given in chartSett. 
-     * Initializes sortedLists, hasListUnrelated and kindOfAccids. */
-  void sort();
-	
-      /** Performs common elements for all kinds of charts. */
-  void prepareChart(int maxX);
+  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+  void setTicText(QGraphicsTextItem* tic, TQAunit* unit, int questNr = 0);
 
-  Tsettings chartSett;
-  Texam *currExam;
-  TmainLine *m_mainLine;
-  bool hasListUnrelated;     /** Returns true if list contains unrelated list of questions. */
-  TgroupedQAunit goodAnsw, badAnsw;
-  QList<TgroupedQAunit> sortedLists;
-  int goodSize; // number of lists with good answers
-  QList<char> kindOfAccids;
-  
-protected slots:
-  void sceneMoved();
-  void updateSceneAfterMove();
-
+private:
+  const int                     m_qWidth; /**< pixel width of question on the axis */
+  QList<TQAunit*>              *m_answers;
+  Tlevel                       *m_level;
+  QList<QGraphicsTextItem*>     m_ticTips;
 };
 
-#endif // TMAINCHART_H
+#endif // TXAXIS_H

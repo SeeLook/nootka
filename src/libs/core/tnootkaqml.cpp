@@ -479,6 +479,17 @@ void TnootkaQML::setStatusTip(const QString& statusText, int tipPos) {
 }
 
 
+QString TnootkaQML::qaTypeText(int qaType) {
+  switch (qaType) {
+    case 0: return QApplication::translate("Texam", "as note on the staff");
+    case 1: return QApplication::translate("Texam", "as note name");
+    case 2: return QApplication::translate("Texam", "on instrument");
+    case 3: return QApplication::translate("Texam", "as played sound");
+    default: return QString();
+  }
+}
+
+
 //#################################################################################################
 //###################     CONNECTIONS  NODE            ############################################
 //#################################################################################################

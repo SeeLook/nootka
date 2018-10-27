@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,46 +12,38 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License      *
+ *  You should have received a copy of the GNU General Public License	     *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TGRAPHICSLINE_H
-#define TGRAPHICSLINE_H
-
-#include <QGraphicsLineItem>
-#include <QPen>
-#include "ttiphandler.h"
-
-class TgroupedQAunit;
+#ifndef TSTAFFLINECHART_H
+#define TSTAFFLINECHART_H
 
 
-/** This class represents a line on QGraphicsScene 
- * but it captures hover events and shows description text 
- * in TgraphicsTextTip. 
- * When text is empty, events are ignored. */
-class TgraphicsLine : public TtipHandler
+#include <QtWidgets/qgraphicsitem.h>
+
+
+
+/**
+ * This graphics item paints staff (five lines) from
+ * QPointF @param from to QPointF @param to points.
+ * Its 0,0 orign is at the begin of middle line.
+ */
+class TstaffLineChart : public QGraphicsItem
 {
 
 public:
-  TgraphicsLine(TgroupedQAunit* qaGroup, QString text = "");
-  TgraphicsLine(QString text = "");
-  virtual ~TgraphicsLine();
-    /** Sets a text of a tip appearing on hover event. */
-  void setText(QString text) { m_text = text; }
-  void setPen(QPen pen) { m_line->setPen(pen); }
-  void setLine(qreal x1, qreal y1, qreal x2, qreal y2) { m_line->setLine(x1, y1, x2, y2); }
-  
-protected:
-  virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
-  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+
+  TstaffLineChart();
+  virtual ~TstaffLineChart() {}
+  void setLine(QPointF from, QPointF to);
+
+  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr);
   virtual QRectF boundingRect() const;
-  
-  
+  virtual QPainterPath shape() const;
+
 private:
-  QString m_text;
-  TgroupedQAunit *m_qaGroup;
-  QGraphicsLineItem *m_line;
+  QPoint m_vector;
 };
 
-#endif // TGRAPHICSLINE_H
+#endif // TSTAFFLINECHART_H

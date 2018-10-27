@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License       *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -21,14 +21,24 @@
 #include <exam/tqaunit.h>
 #include <exam/texam.h>
 #include <exam/tlevel.h>
-#include <graphics/tgraphicstexttip.h>
+// #include <graphics/tgraphicstexttip.h>
 #include <music/tnamestylefilter.h>
 #include <tnoofont.h>
-#include <QPainter>
-#include <QGraphicsScene>
-#include <QWidget>
-#include <QDebug>
+#include <QtGui/qtextformat.h>
+#include <QtGui/qtextcursor.h>
+#include <QtCore/qdebug.h>
 
+
+void alignC(QGraphicsTextItem* tip) {
+  tip->setTextWidth(tip->boundingRect().width() * tip->scale());
+  QTextBlockFormat format;
+  format.setAlignment(Qt::AlignCenter);
+  QTextCursor cursor = tip->textCursor();
+  cursor.select(QTextCursor::Document);
+  cursor.mergeBlockFormat(format);
+  cursor.clearSelection();
+  tip->setTextCursor(cursor);
+}
 
 
 TXaxis::TXaxis(QList<TQAunit*>* answers, Tlevel* level) :
@@ -52,10 +62,10 @@ void TXaxis::setAnswersList(QList<TQAunit*> *answers, Tlevel* level) {
   update(boundingRect());
   m_ticTips.clear();
   for (int i = 0; i < m_answers->size(); i++) {
-    QGraphicsTextItem *ticTip = new QGraphicsTextItem();
+    auto ticTip = new QGraphicsTextItem();
     setTicText(ticTip, m_answers->operator[](i), i + 1);
-    scene()->addItem(ticTip);
-    ticTip->setPos(pos().x() + mapValue(i+1) - ticTip->boundingRect().width() / 2 , pos().y() + 15);
+    ticTip->setParentItem(parentItem());
+    ticTip->setPos(pos().x() + mapValue(i+1) - ticTip->boundingRect().width() * ticTip->scale() / 2 , pos().y() + 15);
     m_ticTips << ticTip;
   }
 }
@@ -75,22 +85,23 @@ void TXaxis::setTicText(QGraphicsTextItem *tic, TQAunit* unit, int questNr) {
     altStyleText = QString(" <small><i>(%1)</small></i>").arg(unit->qa.note.toRichText(altStyle, false));
   }
   if (unit->melody())
-// 			txt += "<small>" + QApplication::translate("TXaxis", "%n attempt(s)", "", unit->attemptsCount()) + "</small>";
+//       txt += "<small>" + QApplication::translate("TXaxis", "%n attempt(s)", "", unit->attemptsCount()) + "</small>";
     txt.replace("<br>", "");
   else {
     txt += QString("<b>%1</b>").arg(unit->qa.note.toRichText()) + altStyleText;
     if (unit->questionAs == TQAtype::e_onInstr || unit->answerAs == TQAtype::e_onInstr || unit->answerAs == TQAtype::e_asSound)
-        txt += "<br>" + TnooFont::span(QString::number((int)unit->qa.pos.str()), 15) + 
-              QString("<span style=\"font-size: 15px;\">%1</span>").arg(TfingerPos::romanFret(unit->qa.pos.fret()));
+        txt += "<br>" + TnooFont::span(QString::number((int)unit->qa.pos().str()), 15) + 
+              QString("<span style=\"font-size: 15px;\">%1</span>").arg(TfingerPos::romanFret(unit->qa.pos().fret()));
   }
   if (m_level->useKeySign &&
     (unit->questionAs == TQAtype::e_onScore || unit->answerAs == TQAtype::e_onScore)) {
       txt += "<br><i>" + unit->key.getName() + "</i>";
   }
   tic->setHtml(txt);
-  TgraphicsTextTip::alignCenter(tic);
+  alignC(tic);
   if ((tic->boundingRect().width() * scale()) > m_qWidth)
     tic->setScale(((qreal)m_qWidth * scale()) / tic->boundingRect().width());
+  tic->setScale(tic->scale() * 0.8);
 }
 
 
@@ -101,33 +112,33 @@ void TXaxis::setAnswersLists(QList<TgroupedQAunit>& listOfLists, Tlevel* level) 
     ln += listOfLists[i].size();
   }
   setLength(m_qWidth * (ln + 1));
-  update(boundingRect());
+//   update(boundingRect());
   m_ticTips.clear();
   for (int i = 0; i < listOfLists.size(); i++) {
     for (int j = 0; j < listOfLists[i].size(); j++) {
       cnt++;
-      QGraphicsTextItem *ticTip = new QGraphicsTextItem();
+      auto ticTip = new QGraphicsTextItem();
       setTicText(ticTip, listOfLists[i].operator[](j).qaPtr);
-      scene()->addItem(ticTip);
-      ticTip->setPos(pos().x() + mapValue(cnt) - ticTip->boundingRect().width() / 2 , pos().y() + 15);
+      ticTip->setParentItem(parentItem());
+      ticTip->setPos(pos().x() + mapValue(cnt) - ticTip->boundingRect().width() * ticTip->scale() / 2 , pos().y() + 15);
       m_ticTips << ticTip;
     }
-  }      
+  }
 }
 
 
 void TXaxis::setAnswersForBarChart(QList<TgroupedQAunit>& listOfLists) {
   setLength(m_qWidth * (listOfLists.size() + 1));
-  update(boundingRect());
+//   update(boundingRect());
   m_ticTips.clear();
   for (int i = 0; i < listOfLists.size(); i++) {
-    QGraphicsTextItem *ticTip = new QGraphicsTextItem();
+    auto ticTip = new QGraphicsTextItem();
     ticTip->setHtml(listOfLists[i].description());
-    TgraphicsTextTip::alignCenter(ticTip);
+    alignC(ticTip);
     if ((ticTip->boundingRect().width() * scale()) > m_qWidth)
       ticTip->setScale(((qreal)m_qWidth * scale()) / ticTip->boundingRect().width());
-    scene()->addItem(ticTip);
-		ticTip->setPos(pos().x() + mapValue(i + 1) - (ticTip->boundingRect().width() * ticTip->scale()) / 2 , pos().y() + 15);
+    ticTip->setParentItem(parentItem());
+    ticTip->setPos(pos().x() + mapValue(i + 1) - (ticTip->boundingRect().width() * ticTip->scale()) / 2 , pos().y() + 15);
     m_ticTips << ticTip;
   }
 }
@@ -135,21 +146,21 @@ void TXaxis::setAnswersForBarChart(QList<TgroupedQAunit>& listOfLists) {
 
 void TXaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {  
   Q_UNUSED(option)
-      
+  Q_UNUSED(widget)
+
   qreal half = axisWidth /  2.0;
-  painter->setPen(QPen(widget->palette().text().color(), 2));
+  painter->setPen(QPen(qApp->palette().text().color(), 2));
   painter->drawLine(0, half, length(), half);
   drawArrow(painter, QPointF(length(), half), true);
-  
+
   int b = length() / m_qWidth -1;
   for (int i = 1; i <= b; i++) {
     painter->drawLine(i*m_qWidth, half, i*m_qWidth, half + tickSize);
   }
-  
 }
 
-QRectF TXaxis::boundingRect()
-{
+
+QRectF TXaxis::boundingRect() {
   QRectF rect(0, 0, length(), axisWidth);
   return rect;
 }

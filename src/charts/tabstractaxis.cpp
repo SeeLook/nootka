@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,10 +16,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #include "tabstractaxis.h"
-#include <QApplication>
-#include <QPainter>
 
 
 /* static*/
@@ -28,47 +25,45 @@ const int TabstractAxis::axisWidth = 15;
 const int TabstractAxis::arrowSize = 9;
 
 void TabstractAxis::drawArrow(QPainter *painter, QPointF endPoint, bool isHorizontal) {
-    QPointF points[3];
-    points[0] = endPoint;
-    if (isHorizontal) {
-        points[1] = QPointF(endPoint.x() - arrowSize, endPoint.y() - tickSize);
-        points[2] = QPointF(endPoint.x() - arrowSize, endPoint.y() + tickSize);
-    } else {
-        points[1] = QPointF(endPoint.x() - tickSize, endPoint.y() + arrowSize);
-        points[2] = QPointF(endPoint.x() + tickSize, endPoint.y() + arrowSize);
-    }
-    painter->setBrush(QBrush(painter->pen().color()));
-    painter->drawPolygon(points, 3);
+  QPointF points[3];
+  points[0] = endPoint;
+  if (isHorizontal) {
+      points[1] = QPointF(endPoint.x() - arrowSize, endPoint.y() - tickSize);
+      points[2] = QPointF(endPoint.x() - arrowSize, endPoint.y() + tickSize);
+  } else {
+      points[1] = QPointF(endPoint.x() - tickSize, endPoint.y() + arrowSize);
+      points[2] = QPointF(endPoint.x() + tickSize, endPoint.y() + arrowSize);
+  }
+  painter->setBrush(QBrush(painter->pen().color()));
+  painter->drawPolygon(points, 3);
 }
 
 
-
-
 TabstractAxis::TabstractAxis() :
-    m_font(QApplication::font()),
-    m_length(200),
-    axisScale(1)
+  m_font(qApp->font()),
+  m_length(200),
+  axisScale(1)
 {
 }
 
 void TabstractAxis::setLength(qreal len) {
-    m_length = len;
-    update(boundingRect());
+  m_length = len;
+//   update(boundingRect());
 }
 
 void TabstractAxis::setFont(QFont f) {
-    m_font = f;
-    update(boundingRect());
+  m_font = f;
+//   update(boundingRect());
 }
 
 
 QRectF TabstractAxis::rectBoundText(QString txt) const{
-    const int padd = 2;
-    QFontMetrics metrics(m_font);
-    QRectF rect = metrics.boundingRect(txt);
-    rect.adjust(-padd, -padd, +padd, +padd);
-    rect.translate(-rect.center());
-    return rect;
+  const int padd = 2;
+  QFontMetrics metrics(m_font);
+  QRectF rect = metrics.boundingRect(txt);
+  rect.adjust(-padd, -padd, +padd, +padd);
+  rect.translate(-rect.center());
+  return rect;
 }
 
 

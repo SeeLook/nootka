@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,29 +20,32 @@
 #ifndef TCHART_H
 #define TCHART_H
 
-#include <QGraphicsView>
+#include <QtQuick/qquickpainteditem.h>
+#include <QtWidgets/qgraphicsscene.h>
+#include <QtGui/qpainter.h>
 #include "tmainline.h"
-#include <tscorescene.h>
 
 
 class TYaxis;
 class TXaxis;
+class TqaPtr;
+class TtipInfo;
 
 
-
-/** 
+/**
  * This is base class for charts in Nootka.
  * It has got @p QGraphicsScene *scene() and
  * two axis-es xAxis and yAxis which are created by default.
  */
-class Tchart : public QGraphicsView
+class Tchart : public QQuickPaintedItem
 {
-	Q_OBJECT
-	
-	friend class TmainLine;
-	
+
+  Q_OBJECT
+
+  friend class TmainLine;
+
 public:
-    
+
   enum EanswersOrder {
     e_byNumber,
     e_byNote,
@@ -50,42 +53,66 @@ public:
     e_byAccid,
     e_byKey,
     e_byMistake,
-    e_byQuestAndAnsw, // both above
+    e_byQuestAndAnsw, /**< both above */
     e_byStyle,
     e_byClef,
   };
-  
+
+      /**
+       * Types of charts.
+       */
   enum EchartType {
     e_linear, e_bar, e_pie
-  }; /** Types of charts. */
-
-  struct Tsettings {
-    bool inclWrongAnsw; // include wrong answers to average time of sorted group of answers
-    bool separateWrong; // separate wrong answers and correct/almost good ones
-    EanswersOrder order;
-    EchartType type;
-    TmainLine::EyValue yValue;
   };
 
-  Tchart(QWidget* parent = 0);
-  
-  virtual void setAnalyse(EanswersOrder order) {} // prototype only
+  struct Tsettings {
+    bool                inclWrongAnsw = false; /**< include wrong answers to average time of sorted group of answers */
+    bool                separateWrong = true; /**< separate wrong answers and correct/almost good ones */
+    EanswersOrder       order = e_byNumber;
+    EchartType          type = e_linear;
+    TmainLine::EyValue  yValue = TmainLine::e_questionTime;
+  };
 
-  void zoom(bool in = true); // zoom view, by default zoom in but when false zoom out
-  TscoreScene *scene;
-  
+  explicit Tchart(QQuickItem* parent = nullptr);
+  ~Tchart();
+
+  virtual void setAnalyse(EanswersOrder order) {}
+
+      /**
+       * zoom view, by default zoom in but when false zoom out
+       */
+  void zoom(bool in = true);
+
+  QGraphicsScene* scene;
+
+  void paint(QPainter* painter) override;
+
+      /**
+       * 
+       */
+  void setParentForItem(QGraphicsItem* it);
+
+  void setParentHeight(qreal pH);
+
+  TtipInfo* curQ() { return m_curQ; }
+
+signals:
+  void hoveredChanged();
+
 protected:
-  virtual bool event(QEvent* event);
-  virtual void wheelEvent(QWheelEvent* event);
-  
-  TXaxis *xAxis;
-  TYaxis *yAxis;
-  
-protected slots:
-void ajustChartHeight(); /** Invoked by timer after chart creation to adjust scene height to view height. */
-    
+//   virtual void wheelEvent(QWheelEvent* event);
+
+  void setCurQ(TtipInfo* qa);
+
+protected:
+  TXaxis              *xAxis;
+  TYaxis              *yAxis;
+  QGraphicsRectItem   *p_bgRect;
+
 private:
-    
+  qreal               m_parentHeight = 0.0;
+  TtipInfo           *m_curQ = nullptr;
+
 };
 
 #endif // TCHART_H

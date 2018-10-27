@@ -381,14 +381,14 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l.showStrNr = isGuitar;
   l.loNote = GLOB->loNote();
   if (isGuitar) {
-    if (l.hiFret >= 12) { // adjust highest note to 12th fret
-      l.hiNote = Tnote(GLOB->hiString().chromatic() + 12);
-      l.hiFret = 12;
-    }
-  } else { // find note 4 octaves up from lowest one or keep highest one ot the instrument
-    Tnote up4octaves(l.loNote.note(), l.loNote.octave() + 4, l.loNote.alter());
-    if (up4octaves.chromatic() < l.hiNote.chromatic())
-      l.hiNote = up4octaves;
+      if (l.hiFret >= 12) { // adjust highest note to 12th fret
+        l.hiNote = Tnote(GLOB->hiString().chromatic() + 12);
+        l.hiFret = 12;
+      }
+  } else { // find note 4 octaves up from lowest one or keep highest one of the instrument
+      Tnote up4octaves(l.loNote.note(), l.loNote.octave() + 4, l.loNote.alter());
+      if (up4octaves.chromatic() < l.hiNote.chromatic())
+        l.hiNote = up4octaves;
   }
   //     l.hiFret by constructor
   //     l.intonation = GLOB->A->intonation; // user preferences (in constructor)
