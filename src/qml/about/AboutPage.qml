@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -45,7 +45,7 @@ Flickable {
           color: activPal.text
         }
         Text {
-          text: "Thanks You are here!<br>This is alpha version with limited functionality. There is no lessons (exercises) yet,<br>but there is a brand new score with rhythm support and possibility to load/save music XML files.<br>This is very big milestone...<br>Also there is a new look and layout (settings/level creator dialogues) and there are new instruments (piano, saxophone and bandoneon) along with guitar.<br>Anyway, main purpose of this release is to check all of that and give some feedback.<br>So happy testing,<br>Author<br><br>P.S.<br>Let me know what do you think..."
+          text: "Thanks You are here!<br>This is beta version with functionality almost like older Nootka,<br>but with a brand new score with rhythm support and possibility to load/save music XML files.<br>Also there is a new look and layout and there are new instruments (piano, saxophone and bandoneon) along with guitar.<br>Anyway, main purpose of this release is to check all of that and give some feedback.<br>So happy testing,<br>Author<br><br>P.S.<br>Let me know what do you think..."
           width: parent.width * 0.96
           anchors.horizontalCenter: parent.horizontalCenter
           font { pixelSize: Noo.fontSize() * 1.1 }

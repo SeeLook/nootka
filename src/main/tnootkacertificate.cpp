@@ -86,8 +86,6 @@ TnootkaCertificate::TnootkaCertificate(QQuickItem* parent) :
   m_certHeadI->setPos((m_certW - m_certHeadI->boundingRect().width()) / 2, m_certH);
   m_certH += m_certHeadI->boundingRect().height() + 2 * SPACER;
 //-MARGIN-MARGIN-Exam results-----------------
-//-MARGIN-MARGIN-Exam results-----------------
-//-MARGIN-MARGIN-Exam results-----------------
   m_resultsI = createCertItem(fillCert(tr("Passing the exam on the level <big><b>[LEVELNAME]</b></big>,<br>having answered the required [QUESTNR] questions<br>in time <big><b>[TOTALTIME]</b></big><br>and achieving the score <big><b>[SCORE]</b></big>", "Exam results - double indented, left aligned")));
   m_resultsI->setPos(2 * MARGIN, m_certH);
   m_certH += m_resultsI->boundingRect().height() + SPACER * 5;
@@ -148,17 +146,17 @@ void TnootkaCertificate::paint(QPainter* painter) {
 
   m_cert->setScale(height() / m_certH);
   m_scene->setSceneRect(0.0, 0.0, width(), height());
-  m_scene->render(painter/*, boundingRect(), boundingRect()*/);
+  m_scene->render(painter);
 }
 
 
 void TnootkaCertificate::save() {
 #if defined (Q_OS_ANDROID)
-  QString fileName = TfileDialog::getSaveFileName(0,
+  QString fileName = TfileDialog::getSaveFileName(nullptr,
                         Tandroid::getExternalPath() + QLatin1String("/") + m_exam->userName() + QLatin1String("-") + m_exam->level()->name,
                         QStringLiteral("pdf"));
 #else
-  QString fileName = QFileDialog::getSaveFileName(0, tr("Save certificate"),
+  QString fileName = QFileDialog::getSaveFileName(nullptr, tr("Save certificate"),
           QDir::toNativeSeparators(QDir::homePath() + QLatin1String("/") + m_exam->userName() + QLatin1String("-") + m_exam->level()->name),
                                                   QStringLiteral(" (*.pdf)"));
 #endif
