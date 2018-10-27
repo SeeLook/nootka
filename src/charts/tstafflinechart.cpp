@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,14 +12,15 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License       *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
 #include "tstafflinechart.h"
-#include <QPainter>
-#include <QGraphicsEffect>
-#include <qstyleoption.h>
+#include <QtGui/qpainter.h>
+#include <QtGui/qpalette.h>
+#include <QtWidgets/qapplication.h>
+#include <QtCore/qdebug.h>
 
 
 #define DISTANCE (2)
@@ -40,17 +41,19 @@ void TstaffLineChart::setLine(QPointF from, QPointF to) {
 
 void TstaffLineChart::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
   Q_UNUSED(widget)
+  Q_UNUSED(option)
+
   painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
-  painter->setPen(QPen(option->palette.text().color(), 0.5));
+  painter->setPen(QPen(qApp->palette().text().color(), 0.5));
   for (qreal i = -2.0; i < 3.0; i++)
     painter->drawLine(0.0, i * DISTANCE, m_vector.x(), m_vector.y() + i * DISTANCE);
 }
 
 
 QPainterPath TstaffLineChart::shape() const {
-	QPainterPath path;
-	path.addRect(boundingRect());
-	return path;
+  QPainterPath path;
+  path.addRect(boundingRect());
+  return path;
 }
 
 
@@ -58,8 +61,5 @@ QRectF TstaffLineChart::boundingRect() const {
   QRectF rect(0, qMin<qreal>(-2 * DISTANCE, m_vector.y() -2 * DISTANCE), m_vector.x(), qAbs<qreal>(m_vector.y()) + (DISTANCE * 4));
   return rect;
 }
-
-
-
 
 

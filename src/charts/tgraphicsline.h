@@ -12,53 +12,52 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#ifndef TGRAPHICSLINE_H
+#define TGRAPHICSLINE_H
 
-#ifndef TABSTRACTAXIS_H
-#define TABSTRACTAXIS_H
 
-#include <QGraphicsItem>
-#include <QFont>
+#include "tgroupedqaunit.h"
+#include <QtGui/qpen.h>
+#include <QtWidgets/qgraphicsitem.h>
 
+
+#define CHART_LINE_TYPE (65614)
 
 /**
- * Base class for X and Y axis
- */ 
-class TabstractAxis : public QGraphicsItem
+ * This class represents a line on QGraphicsScene
+ * but it has other type to be handled by chart hover events
+ */
+class TgraphicsLine : public TtipInfo, public QGraphicsItem
 {
+
 public:
-    TabstractAxis();
-    virtual ~TabstractAxis() {}
+  TgraphicsLine(TgroupedQAunit* qaGroup, const QString& text = QString());
+  TgraphicsLine(const QString& text = QString());
+  virtual ~TgraphicsLine();
 
-    void setLength(qreal len);
-    qreal length() const { return m_length; } /** Returns a length of a axis*/
+  QString text() const { return tipText; }
+  void setText( const QString& t) { tipText = t; }
+  void setPen(QPen pen) { m_line->setPen(pen); }
+  void setLine(qreal x1, qreal y1, qreal x2, qreal y2) { m_line->setLine(x1, y1, x2, y2); }
 
-    QFont font() { return m_font; }
+  enum { Type = UserType + 78 }; /**< 65614 */
+  int type() const { return Type; }
 
-    void setFont(QFont f);
-
-    QRectF rectBoundText(QString txt) const;
-        /** Returns value mapped to axis scale. */
-    virtual double mapValue(double val) { return axisScale * val; }
-        /** Paints arrow at the end of axis. */
-    static void drawArrow(QPainter *painter, QPointF endPoint, bool isHorizontal = true);
-    double axisFactor() { return axisScale; } // factor of the axis
+  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+  virtual QRectF boundingRect() const;
 
 protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0) {}
-        /** Default QRectF - is valid for horizontal layout. */
-    virtual QRectF boundingRect() const { return QRectF(0 ,0, m_length, axisWidth); }
-    static const int axisWidth, arrowSize, tickSize;
-    double axisScale;
-
+  void setDefaultText();
+  void init(const QString& t);
 
 private:
-    qreal m_length;
-    QFont m_font;
+  TgroupedQAunit     *m_qaGroup = nullptr;
+  QGraphicsLineItem  *m_line;
 
 };
 
-#endif // TABSTRACTAXIS_H
+#endif // TGRAPHICSLINE_H

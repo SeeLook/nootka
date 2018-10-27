@@ -76,6 +76,8 @@ public:
        */
   Q_INVOKABLE int buttColumsCount() const;
 
+  Q_INVOKABLE Texam* exam() { return m_exam; }
+
 signals:
   void updateExam();
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -26,18 +26,9 @@
 bool TgroupedQAunit::m_skipWrong = true;
 
 
-
-TgroupedQAunit::TgroupedQAunit() :
-  m_desc(""),
-  m_mistakes(0),
-  m_halfMist(0)
-{
-
-}
-
 TgroupedQAunit::~TgroupedQAunit()
 {
-	list.clear();
+  list.clear();
 }
 
 
@@ -59,7 +50,7 @@ void TgroupedQAunit::resume(const QString& desc, const QString& fullDesc) {
     int cnt = 0; // number of answers in average
     qreal effSum = 0.0;
     for (int i = 0; i < list.size(); i++) {
-			effSum += list[i].qaPtr->effectiveness();
+      effSum += list[i].qaPtr->effectiveness();
       if (list[i].qaPtr->isWrong())
         m_mistakes++;
       else if (list[i].qaPtr->isNotSoBad())

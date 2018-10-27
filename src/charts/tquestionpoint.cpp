@@ -12,21 +12,13 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License       *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #include "tquestionpoint.h"
-#include "ttipchart.h"
-#include "ttipmelody.h"
 #include <exam/tqaunit.h>
-#include <QGraphicsSceneHoverEvent>
-#include <QPainter>
-#include <QPalette>
-#include <QGraphicsScene>
-#include <QGraphicsDropShadowEffect>
-
+#include <QtWidgets/QtWidgets>
 
 
 /* static */
@@ -44,28 +36,27 @@ QColor TquestionPoint::m_shadowColor = QColor(63, 63, 63, 180); // gray with tra
 QColor TquestionPoint::m_bgColor = Qt::white;
 
 
-
-
-
-TquestionPoint::TquestionPoint(TqaPtr qaPtr) :
-  TtipHandler(),
-  m_qaPtr(qaPtr)
+TquestionPoint::TquestionPoint(const TqaPtr& ptr) :
+  QGraphicsObject()
 {
-    setColor();
+  p_qaPtr = ptr;
+  setColor();
 }
-  
- 
+
+
+TquestionPoint::~TquestionPoint() {}
+
 
 void TquestionPoint::setColor() {
-  if (m_qaPtr.qaPtr->isCorrect())
-    m_color = m_goodColor;
+  if (p_qaPtr.qaPtr->isCorrect())
+      p_qaPtr.color = m_goodColor;
   else {
-    if (m_qaPtr.qaPtr->isWrong())
-      m_color = m_wrongColor;
-    else
-      m_color = m_notBadColor;
+      if (p_qaPtr.qaPtr->isWrong())
+        p_qaPtr.color = m_wrongColor;
+      else
+        p_qaPtr.color = m_notBadColor;
   }
-  QGraphicsDropShadowEffect *shadow = new QGraphicsDropShadowEffect();
+  auto shadow = new QGraphicsDropShadowEffect();
   shadow->setBlurRadius(10);
   shadow->setColor(qApp->palette().text().color());
   shadow->setOffset(1.0, 1.0);
@@ -73,55 +64,38 @@ void TquestionPoint::setColor() {
 }
 
 
-TquestionPoint::~TquestionPoint() {}
-
-  
 void TquestionPoint::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget) {
   Q_UNUSED(option)
   Q_UNUSED(widget)
-  
+
   QRectF rect = boundingRect();
 #if defined(Q_OS_MAC)
   painter->setFont(QFont("nootka", 35));
 #else
   painter->setFont(QFont("nootka", 25));
 #endif
-  painter->setPen(m_color);
+  painter->setPen(p_qaPtr.color);
   rect.translate(-1, -1);
-  QString glyph = "n";
-  if (m_qaPtr.qaPtr->isWrong())
-    glyph = "N";
-	if (m_qaPtr.qaPtr->melody())
-		glyph = "m";
+  QString glyph = QStringLiteral("n");
+  if (p_qaPtr.qaPtr->isWrong())
+    glyph = QStringLiteral("N");
+  if (p_qaPtr.qaPtr->melody())
+    glyph = QStringLiteral("m");
   painter->drawText(rect, Qt::AlignCenter, glyph);
 }
-  
-  
+
+
 QRectF TquestionPoint::boundingRect() const {
 // QFontMetrics metrics = QFont("nootka", 25);
 // QRectF rect = metrics.boundingRect("n");
   QRectF rect(-9, -29, 24, 41); // values calculated from above, hard-coded for speedy
-	if (m_qaPtr.qaPtr->melody())
-		rect.setRect(-11, -29, 24, 41);
-  else if (m_qaPtr.qaPtr->isWrong())
+  if (p_qaPtr.qaPtr->melody())
+    rect.setRect(-11, -29, 24, 41);
+  else if (p_qaPtr.qaPtr->isWrong())
     rect.setRect(-11, -10, 24, 41);
   return rect;
 }
-  
-  
-void TquestionPoint::hoverEnterEvent(QGraphicsSceneHoverEvent* event ) {
-  if (tip) {
-      if (tip == initObject())
-        return;
-      else
-        deleteTip();
-  }
-  if (m_qaPtr.qaPtr->melody())
-    tip = new TtipMelody(this);
-  else
-    tip = new TtipChart(this);
-  
-  handleTip(event->scenePos());
-}
+
+
 
 

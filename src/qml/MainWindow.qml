@@ -22,6 +22,7 @@ ApplicationWindow {
   property var executor: null
   property var dialogLoader: null
   property var tip: null
+  property var analyzeWindow: null
 
   SystemPalette { id: activPal; colorGroup: SystemPalette.Active }
   SystemPalette { id: disdPal; colorGroup: SystemPalette.Disabled }
@@ -32,7 +33,7 @@ ApplicationWindow {
     onMelodyActTriggered: mainMenu.melodyOpen()
     onSettingsActTriggered: showDialog(Nootka.Settings)
     onLevelActTriggered: showDialog(Nootka.LevelCreator)
-//     onChartsActTriggered: showDialog(Nootka.Charts)
+    onChartsActTriggered: showDialog(Nootka.Charts)
     onExamActTriggered: showDialog(Nootka.ExamStart)
 
     onAboutActTriggered: showDialog(Nootka.About)
@@ -108,6 +109,11 @@ ApplicationWindow {
     if (!dialogLoader) {
       var c = Qt.createComponent("qrc:/DialogLoader.qml")
       dialogLoader = c.createObject(nootkaWindow)
+    }
+    if (page === Nootka.Charts) {
+      var c = Qt.createComponent("qrc:/charts/AnalyzeDialog.qml")
+      analyzeWindow = c.createObject(nootkaWindow)
+      return
     }
     dialogLoader.page = page
   }

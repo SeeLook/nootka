@@ -12,7 +12,7 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License       *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
@@ -21,51 +21,56 @@
 
 
 #include "tabstractaxis.h"
-#include <QApplication>
+
+
+class QWidget;
+class QStyleOptionGraphicsItem;
 
 
 class TYaxis : public TabstractAxis
 {
 
 public:
-  
-    /** Unit of an axis values. */
+
+    /**
+     * Unit of an axis values.
+     */
   enum Eunit {
-    e_timeInSec, // time in seconds (default)
-    e_questionNr, // number of questions
-			// melodies only:
-    e_prepareTime, // time since question start to first played note
-		e_attemptsCount, // number of attempts
-		e_playedCount,
-		e_effectiveness
+    e_timeInSec, /**< time in seconds (default) */
+    e_questionNr, /**< number of questions */
+      // melodies only:
+    e_prepareTime, /**< time since question start to first played note */
+    e_attemptsCount, /**< number of attempts */
+    e_playedCount,
+    e_effectiveness
   };
-  
+
   TYaxis();
-  
+
 
       /** Maximum value of a data on Y axis. 
-			 * @p allowHalf determines when half of an unit vales can be displayed - it also depends on available space. */
+       * @p allowHalf determines when half of an unit vales can be displayed - it also depends on available space. */
   void setMaxValue(qreal val, bool allowHalf = true);
   qreal maxValue() { return m_maxVal; }
   double mapValue(double val) { return length() - TabstractAxis::mapValue(val); }
-  
+
   virtual QRectF boundingRect() const;
-	
-	virtual QPainterPath shape() const;
   
+  virtual QPainterPath shape() const;
+
   void setUnit(Eunit unit); // sets an unit
   Eunit unit() {return m_unit; }
-  
+
   void getYforGrid(QList<double> &yList); // Puts list of Y to yList coordinates to paint grid lines
-  
+
   static QString questionsNumberTxt() { return QApplication::translate("TanalysDialog", "Questions number"); } /** Questions number */
   static QString attemptsNumberTxt() { return QApplication::translate("TanalysDialog", "Attempts number"); } /** Attempts number */
   static QString prepareTimeTxt() { return QApplication::translate("TanalysDialog", "Preparation time"); } /** Preparation time */
   static QString playedNumberTxt() { return QApplication::translate("TanalysDialog", "Played number"); } /** Played number */
-  
+
 protected:
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
-  
+
 private:
   qreal m_maxVal, m_multi, m_multi2;
   int m_textPosOffset; // half of text height

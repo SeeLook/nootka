@@ -69,7 +69,7 @@ Tile {
             spacing: Noo.fontSize() / 2
             TcheckBox {
               id: aChB
-              text: unfold.checked ? qPage.qTexts[index] : ""
+              text: unfold.checked ? Noo.qaTypeText(index) : ""
               checked: answerBits & Math.pow(2, index)
               onClicked: creator.setAnswers(qId, checked ? answerBits | Math.pow(2, index) : answerBits & ~Math.pow(2, index))
             }

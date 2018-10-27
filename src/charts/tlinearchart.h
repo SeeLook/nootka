@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -12,35 +12,32 @@
  *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
  *   GNU General Public License for more details.                          *
  *                                                                         *
- *  You should have received a copy of the GNU General Public License	     *
+ *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TSTAFFLINECHART_H
-#define TSTAFFLINECHART_H
 
-#include <QGraphicsItem>
+#ifndef TLINEARCHART_H
+#define TLINEARCHART_H
+
+#include "tmainchart.h"
 
 
+class QGraphicsTextItem;
 
-/** This graphics item paints staff (five lines) from 
- * QPointF @param from to QPointF @param to points.
- * Its 0,0 orign is at the begin of middle line. */
-class TstaffLineChart : public QGraphicsItem
+
+class TlinearChart : public TmainChart
 {
 
+  Q_OBJECT
+
 public:
+  explicit TlinearChart(QQuickItem* parent = nullptr);
 
-  TstaffLineChart();
-  virtual ~TstaffLineChart() {}
-  void setLine(QPointF from, QPointF to);
+  void init();
 
-  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
-  virtual QRectF boundingRect() const;
-	virtual QPainterPath shape() const;
-  
 private:
-  QPoint m_vector;
+  QGraphicsTextItem* getTextItem(int fontSize);
 };
 
-#endif // TSTAFFLINECHART_H
+#endif // TLINEARCHART_H

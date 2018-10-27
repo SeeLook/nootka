@@ -57,11 +57,15 @@ TexamSummary {
           onClicked: { continueExecutor(); dialLoader.close() }
         }
         TiconButton {
-          enabled: false
+//           enabled: false
           width: buttGrid.buttWidth
           pixmap: Noo.pix("charts"); iconHeight: summDialog.height / 15
           text: qsTr("Analyze")
-  //         onClicked:
+          onClicked: {
+            nootkaWindow.showDialog(6) // 6 - Nootka.Charts
+            nootkaWindow.analyzeWindow.allowOpen = false
+            nootkaWindow.analyzeWindow.exam = summDialog.exam()
+          }
         }
         TiconButton {
           visible: isExercise()
