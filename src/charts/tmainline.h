@@ -20,7 +20,7 @@
 #define TMAINLINE_H
 
 
-#include <QList>
+#include <QtCore/qlist.h>
 
 
 class TquestionPoint;
@@ -31,7 +31,7 @@ class TQAunit;
 
 
 /**
- * This is main line of a chart. 
+ * This is main line of a chart.
  * It paints questions points @p TquestionPoint over the scene.
  * It also performs Tips - information about question 
  */
@@ -42,15 +42,20 @@ public:
 
     /**
      * Kind of data represented by Y value of a point
-     * @p e_questionTime - default and only one available for single note exams.
-     * @p e_effectiveness - Y axis displays effectiveness of single answer 
+     * @p e_questionTime - default and only one available for single note exams
+     * @p e_effectiveness - Y axis displays effectiveness of single answer
      * @p e_prepareTime - Y axis displays time needed to start playing (only for played answers)
-     * @p e_attemptsCount - Y axis displays number of attempts.
+     * @p e_attemptsCount - Y axis displays number of attempts
      * @p e_playedCount - Y axis displays how many times melody was played
      * @p e_mistakesNumber - Y axis displays number of mistakes committed in single answer
      */
   enum EyValue {
-    e_questionTime, e_effectiveness, e_prepareTime, e_attemptsCount, e_playedCount, e_mistakesNumber
+    e_questionTime = 0, /**< - default and only one available for single note exams */
+    e_effectiveness,    /**< - Y axis displays effectiveness of single answer */
+    e_prepareTime,      /**< - Y axis displays time needed to start playing (only for played answers) */
+    e_attemptsCount,    /**< - Y axis displays number of attempts */
+    e_playedCount,      /**< - Y axis displays how many times melody was played */
+    e_mistakesNumber    /**< - Y axis displays number of mistakes committed in single answer */
   };
 
   TmainLine(QList<TQAunit*> *answers, Tchart *chart, EyValue yVal = e_questionTime);

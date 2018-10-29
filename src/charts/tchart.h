@@ -78,11 +78,6 @@ public:
 
   virtual void setAnalyse(EanswersOrder order) {}
 
-      /**
-       * zoom view, by default zoom in but when false zoom out
-       */
-  void zoom(bool in = true);
-
   QGraphicsScene* scene;
 
   void paint(QPainter* painter) override;
@@ -100,8 +95,6 @@ signals:
   void hoveredChanged();
 
 protected:
-//   virtual void wheelEvent(QWheelEvent* event);
-
   void setCurQ(TtipInfo* qa);
 
 protected:

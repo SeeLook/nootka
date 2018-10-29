@@ -43,8 +43,15 @@ static const QString averAnsverTimeTxt() {
   }
 
 static const QString inSecondsTxt() { return QApplication::translate("TexamView", "[in seconds]"); } // [in seconds]
-static const QString totalTimetxt() { return QApplication::translate("TexamView", "Total time"); } // Total time
-static const QString effectTxt() { return QApplication::translate("TexamView", "Effectiveness"); } // Effectiveness
+
+    /**
+     * Total time
+     */
+static const QString totalTimetxt() { return QApplication::translate("TexamView", "Total time"); }
+    /**
+     * Effectiveness
+     */
+static const QString effectTxt() { return QApplication::translate("TexamView", "Effectiveness"); }
 
     /**
      * Number of correct answers
@@ -53,9 +60,15 @@ static const QString corrAnswersNrTxt() {
     return QApplication::translate("TexamView", "Number of correct answers");
   }
 
-static const QString reactTimeTxt() { return QApplication::translate("TexamView", "Time for an answer"); } // Time for an answer
+  /**
+   * Time for an answer
+   */
+static const QString reactTimeTxt() { return QApplication::translate("TexamView", "Time for an answer"); }
 
-static const QString mistakesNrTxt() { return QApplication::translate("TexamView", "Number of mistakes"); } // Number of mistakes
+    /**
+     * Number of mistakes
+     */
+static const QString mistakesNrTxt() { return QApplication::translate("TexamView", "Number of mistakes"); }
 
     /**
      * Number of not bad answers

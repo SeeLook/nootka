@@ -47,8 +47,8 @@ public:
        */
   int questWidth() { return m_qWidth; }
 
-  virtual QRectF boundingRect();
-  
+  QRectF boundingRect() const override;
+
 protected:
   virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
   void setTicText(QGraphicsTextItem* tic, TQAunit* unit, int questNr = 0);

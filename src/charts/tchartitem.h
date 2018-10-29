@@ -33,7 +33,9 @@ class QQuickItem;
 
 
 /**
- *
+ * @class TchartItem is the QML chart control with C++ logic.
+ * It exposes recent exams to QML from @p QSettings through @p Taction list @p recentExamsActions
+ * and loads appropriate file
  */
 class TchartItem : public QQuickItem
 {
@@ -50,6 +52,7 @@ class TchartItem : public QQuickItem
   Q_PROPERTY(QString effectiveness READ effectiveness NOTIFY examChanged)
   Q_PROPERTY(Texam* exam READ exam WRITE setExam)
   Q_PROPERTY(bool allowOpen READ allowOpen WRITE setAllowOpen NOTIFY allowOpenChanged)
+  Q_PROPERTY(bool isMelody READ isMelody NOTIFY examChanged)
 
 public:
   explicit TchartItem(QQuickItem* parent = nullptr);
@@ -76,7 +79,14 @@ public:
   bool allowOpen() const { return m_allowOpen; }
   void setAllowOpen(bool ao);
 
+  bool isMelody() const;
+
   Q_INVOKABLE void changeChartYvalue(int val);
+
+      /**
+       * zoom chart, by default zoom in but when false zoom out
+       */
+  Q_INVOKABLE void zoom(bool in);
 
 signals:
   void actionsPrepared();
@@ -87,6 +97,8 @@ signals:
 protected:
   void hoverChangedSlot();
   void getExamFileSlot();
+
+  void wheelEvent(QWheelEvent* event) override;
 
 private:
       /**

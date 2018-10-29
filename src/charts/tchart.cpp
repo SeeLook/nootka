@@ -72,20 +72,11 @@ void Tchart::setParentHeight(qreal pH) {
 }
 
 
-void Tchart::zoom(bool in) {
-  double coef = 1.125;
-  if (!in)
-      coef = 0.888889;
-//   scale(coef, coef);
-}
-
-
 void Tchart::paint(QPainter* painter) {
 CHECKTIME(
   if (!painter->paintEngine() || boundingRect().width() < 1.0)
     return;
 
-//   qDebug() << "[Tchart] paint chart" << scene->sceneRect() << painter->viewport() << size() << m_parentHeight;
   scene->render(painter);
 )
 }
@@ -97,14 +88,3 @@ void Tchart::setCurQ(TtipInfo* qa) {
     emit hoveredChanged();
   }
 }
-
-
-// void Tchart::wheelEvent(QWheelEvent* event) {
-//   if (event->modifiers() == Qt::ControlModifier) {
-//     if  (event->angleDelta().y() > 0)
-//         zoom(true);
-//     else if  (event->angleDelta().y() < 0)
-//         zoom(false);
-//   } else // normal wheel behavior - scrolling a chart
-//       QGraphicsView::wheelEvent(event);
-// }
