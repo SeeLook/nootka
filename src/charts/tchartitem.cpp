@@ -62,8 +62,8 @@ TchartItem::TchartItem(QQuickItem* parent) :
     }
   }
 
-  m_yValueActs << TexTrans::reactTimeTxt().toLower() << TexTrans::effectTxt().toLower() << TYaxis::attemptsNumberTxt().toLower()
-              << TYaxis::playedNumberTxt().toLower() << TYaxis::prepareTimeTxt().toLower();
+  m_yValueActs << TexTrans::reactTimeTxt().toLower() << TexTrans::effectTxt().toLower() << TYaxis::prepareTimeTxt().toLower()
+               << TYaxis::attemptsNumberTxt().toLower() << TYaxis::playedNumberTxt().toLower();
 
   emit actionsPrepared();
 
@@ -90,7 +90,7 @@ void TchartItem::setTipItem(TchartTipItem* ti) {
 
 
 void TchartItem::setParentHeight(qreal ph) {
-  m_parentHeight = ph; // * 0.8;
+  m_parentHeight = ph;
   m_chart->setParentHeight(ph);
   setSize(m_chart->size());
 }
@@ -112,7 +112,8 @@ QString TchartItem::effectiveness() const {
 
 
 void TchartItem::changeChartYvalue(int val) {
-  qDebug() << "[TchartItem] Y value changed" << val;
+  m_chartSetts.yValue = static_cast<TmainLine::EyValue>(val);
+  drawChart();
 }
 
 
@@ -124,6 +125,7 @@ void TchartItem::setExam(Texam* e) {
     }
     m_exam = e;
     drawChart();
+    emit examChanged();
   }
 }
 
@@ -133,6 +135,18 @@ void TchartItem::setAllowOpen(bool ao) {
     m_allowOpen = ao;
     emit allowOpenChanged();
     qobject_cast<Taction*>(m_recentExamsActs.first())->setEnabled(m_allowOpen);
+  }
+}
+
+
+bool TchartItem::isMelody() const {
+  return m_exam && m_exam->melodies();
+}
+
+
+void TchartItem::zoom(bool in) {
+  if (m_chart) {
+    setParentHeight(m_parentHeight * (in ? 1.125 : 0.888889));
   }
 }
 
@@ -149,6 +163,17 @@ void TchartItem::getExamFileSlot() {
   QString fileName = QFileDialog::getOpenFileName(nullptr, TexTrans::loadExamFileTxt(), GLOB->E->examsDir, TexTrans::examFilterTxt());
   if (!fileName.isEmpty())
     loadExam(fileName);
+}
+
+
+void TchartItem::wheelEvent(QWheelEvent* event) {
+  if (event->modifiers() == Qt::ControlModifier) {
+      if  (event->angleDelta().y() > 0)
+        zoom(true);
+      else if  (event->angleDelta().y() < 0)
+        zoom(false);
+  } else // normal wheel behavior - scrolling a chart
+      QQuickItem::wheelEvent(event);
 }
 
 

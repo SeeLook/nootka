@@ -40,13 +40,13 @@ Window {
         ChartToolButton {
           taction: Taction {
             text: Noo.TR("QShortcut", "Zoom In"); icon: "zoom-in"
-//             onTriggered: 
+            onTriggered: chartItem.zoom(true)
           }
         }
         ChartToolButton {
           taction: Taction {
             text: Noo.TR("QShortcut", "Zoom Out"); icon: "zoom-out"
-//             onTriggered: 
+            onTriggered: chartItem.zoom(false)
           }
         }
         ChartToolButton {
@@ -69,6 +69,7 @@ Window {
         }
         Item { height: 2; width: analyzeWindow.width / 100 }
         Column {
+          visible: chartItem.isMelody
           spacing: toolBar.height / 20
           Text {
             anchors.horizontalCenter: parent.horizontalCenter
@@ -147,8 +148,8 @@ Window {
     Flickable {
       id: chartFlick
       clip: true
-      ScrollBar.vertical: ScrollBar { active: false; visible: active }
-      ScrollBar.horizontal: ScrollBar { active: false; visible: active }
+      ScrollBar.vertical: ScrollBar { active: true; visible: true }
+      ScrollBar.horizontal: ScrollBar { active: true; visible: true}
       width: analyzeWindow.width; height: analyzeWindow.height - toolBar.height
       contentWidth: chartItem.width; contentHeight: chartItem.height
       TchartItem {

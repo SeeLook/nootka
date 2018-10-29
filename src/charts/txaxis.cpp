@@ -160,8 +160,7 @@ void TXaxis::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QW
 }
 
 
-QRectF TXaxis::boundingRect() {
-  QRectF rect(0, 0, length(), axisWidth);
-  return rect;
+QRectF TXaxis::boundingRect() const {
+  return QRectF(0, 0, length(), axisWidth);
 }
 

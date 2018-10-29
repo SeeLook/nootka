@@ -48,36 +48,56 @@ public:
   TYaxis();
 
 
-      /** Maximum value of a data on Y axis. 
-       * @p allowHalf determines when half of an unit vales can be displayed - it also depends on available space. */
+      /**
+       * Maximum value of a data on Y axis.
+       * @p allowHalf determines when half of an unit vales can be displayed - it also depends on available space.
+       */
   void setMaxValue(qreal val, bool allowHalf = true);
   qreal maxValue() { return m_maxVal; }
   double mapValue(double val) { return length() - TabstractAxis::mapValue(val); }
 
   virtual QRectF boundingRect() const;
-  
+
   virtual QPainterPath shape() const;
 
-  void setUnit(Eunit unit); // sets an unit
+      /**
+       * sets an unit
+       */
+  void setUnit(Eunit unit);
   Eunit unit() {return m_unit; }
 
   void getYforGrid(QList<double> &yList); // Puts list of Y to yList coordinates to paint grid lines
 
-  static QString questionsNumberTxt() { return QApplication::translate("TanalysDialog", "Questions number"); } /** Questions number */
-  static QString attemptsNumberTxt() { return QApplication::translate("TanalysDialog", "Attempts number"); } /** Attempts number */
-  static QString prepareTimeTxt() { return QApplication::translate("TanalysDialog", "Preparation time"); } /** Preparation time */
-  static QString playedNumberTxt() { return QApplication::translate("TanalysDialog", "Played number"); } /** Played number */
+      /**
+       * Questions number
+       */
+  static QString questionsNumberTxt() { return QApplication::translate("TanalysDialog", "Questions number"); }
+
+      /**
+       * Attempts number
+       */
+  static QString attemptsNumberTxt() { return QApplication::translate("TanalysDialog", "Attempts number"); }
+
+      /**
+       * Preparation time
+       */
+  static QString prepareTimeTxt() { return QApplication::translate("TanalysDialog", "Preparation time"); }
+
+      /**
+       * Played number
+       */
+  static QString playedNumberTxt() { return QApplication::translate("TanalysDialog", "Played number"); }
 
 protected:
-  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr);
 
 private:
   qreal m_maxVal, m_multi, m_multi2;
-  int m_textPosOffset; // half of text height
+  int m_textPosOffset; /**< half of text height */
   int m_loop, m_top;
   bool m_halfTick;
   Eunit m_unit;
-  QString m_unitDesc; // unit description string f.e: time [s]
+  QString m_unitDesc; /**< unit description string f.e: time [s] */
 
 };
 
