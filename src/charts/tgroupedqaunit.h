@@ -118,20 +118,20 @@ public:
 
       /**
        * Text:
-      * for a fret:
-      */
+       * for a fret:
+       */
   static QString for_a_fret()  { return QGuiApplication::translate("chartStats", "for a fret:", "average reaction time for..."); }
 
       /**
        * Text:
-      * for a key:
-      */
+       * for a key:
+       */
   static QString for_a_key()  { return QGuiApplication::translate("chartStats", "for a key:", "average reaction time for..."); }
 
       /**
        * Text:
-      * for an accidental:
-      */
+       * for an accidental:
+       */
   static QString for_an_accid()  { return QGuiApplication::translate("chartStats", "for an accidental:", "average reaction time for..."); }
 
 

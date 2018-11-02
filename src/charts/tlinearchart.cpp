@@ -27,16 +27,17 @@
 #include <exam/tlevel.h>
 #include <exam/textrans.h>
 #include <exam/tattempt.h>
-// #include <widgets/tquestionaswdg.h>
 // #include <graphics/tgraphicstexttip.h>
 #include <tcolor.h>
 #include <tnoofont.h>
 #include <QtCore/qdebug.h>
 #include <QtCore/qtimer.h>
+
 #include <QtGui/qfontmetrics.h>
 
 
 QColor averColor = QColor(0, 192, 192);
+
 
 TlinearChart::TlinearChart(QQuickItem* parent) :
     TmainChart(parent)
@@ -120,9 +121,8 @@ void TlinearChart::init() {
       }
 
       if (p_currExam->averageReactonTime() > 0) {
-          auto averLine = new TgraphicsLine(nullptr, "<p>" +
-              TexTrans::averAnsverTimeTxt() + 
-              QString("<br><big><b>%1</b></big></p>").arg(Texam::formatReactTime(p_currExam->averageReactonTime(), true)) );
+          auto averLine = new TgraphicsLine(nullptr, TexTrans::averAnsverTimeTxt()
+              + QString("<br><big><b>%1</b></big>").arg(Texam::formatReactTime(p_currExam->averageReactonTime(), true)));
           setParentForItem(averLine);
           averLine->setZValue(15);
           averLine->setPen(QPen(averColor, 2));
@@ -132,9 +132,9 @@ void TlinearChart::init() {
   // rest of cases are available only for melodies
     }
   }
-  
+
   if (p_chartSett.order == e_byNote || p_chartSett.order == e_byFret ||
-          p_chartSett.order == e_byKey || p_chartSett.order == e_byAccid || 
+          p_chartSett.order == e_byKey || p_chartSett.order == e_byAccid ||
           p_chartSett.order == e_byQuestAndAnsw || p_chartSett.order == e_byMistake) {
       sort();
       xAxis->setAnswersLists(sortedLists, p_currExam->level());
@@ -149,51 +149,50 @@ void TlinearChart::init() {
         goodOffset = -1; // do not perform a last loop 
       int cnt = 1;
       if (p_chartSett.yValue != TmainLine::e_questionTime) {
-        QTimer::singleShot(10, this, SLOT(ajustChartHeight()));
         return;
       }
   // paint lines with average time of all the same notes/frets
      for (int i = 0; i < goodSize + goodOffset; i++) { // skip wrong answers if separated
         if (sortedLists[i].size() > 1) {
-        auto averTimeLine = new TgraphicsLine(&sortedLists[i]);
+          auto averTimeLine = new TgraphicsLine(&sortedLists[i]);
 
-        averTimeLine->setText(sortedLists[i].fullDescription());
-        setParentForItem(averTimeLine);
-        averTimeLine->setZValue(46);
-        averTimeLine->setPen(QPen(averColor, 3)); // sea blue
-        averTimeLine->setLine(xAxis->mapValue(cnt - 0.4) + xAxis->pos().x(), yAxis->mapValue(sortedLists[i].averTime() / 10.0),
-          xAxis->mapValue(cnt + sortedLists[i].size() -0.6) + xAxis->pos().x(), yAxis->mapValue(sortedLists[i].averTime() / 10.0));
+          averTimeLine->setText(sortedLists[i].fullDescription());
+          setParentForItem(averTimeLine);
+          averTimeLine->setZValue(46);
+          averTimeLine->setPen(QPen(averColor, 3)); // sea blue
+          averTimeLine->setLine(xAxis->mapValue(cnt - 0.4) + xAxis->pos().x(), yAxis->mapValue(sortedLists[i].averTime() / 10.0),
+            xAxis->mapValue(cnt + sortedLists[i].size() -0.6) + xAxis->pos().x(), yAxis->mapValue(sortedLists[i].averTime() / 10.0));
         }
         cnt += sortedLists[i].size();
       }
       cnt = 1;
       // paint highlights under grouped items
       for (int i = 0; i < sortedLists.size(); i++) {
-          auto groupBg = new QGraphicsRectItem();
-          setParentForItem(groupBg);
-          QColor hiCol = qApp->palette().highlight().color();
-          hiCol.setAlpha(60);
-          if (i%2) {
-            groupBg->setBrush(QBrush(hiCol));
-            groupBg->setPen(Qt::NoPen);
-            groupBg->setRect(xAxis->mapValue(cnt), 0, sortedLists[i].size() * xAxis->questWidth(), yAxis->boundingRect().height());
-            groupBg->setZValue(-1);
-          }
-          cnt += sortedLists[i].size();
+        auto groupBg = new QGraphicsRectItem();
+        setParentForItem(groupBg);
+        QColor hiCol = qApp->palette().highlight().color();
+        hiCol.setAlpha(60);
+        if (i%2) {
+          groupBg->setBrush(QBrush(hiCol));
+          groupBg->setPen(Qt::NoPen);
+          groupBg->setRect(xAxis->mapValue(cnt), 0.0, sortedLists[i].size() * xAxis->questWidth(), yAxis->boundingRect().height());
+          groupBg->setZValue(-1);
+        }
+        cnt += sortedLists[i].size();
       }
   // fret number over the chart
     if (p_chartSett.order == e_byFret) {
       cnt = 1;
-      for (int i = 0; i < goodSize; i++) { 
-        auto fretText = getTextItem(30);
-        QString hintText = "<b>";
+      for (int i = 0; i < goodSize; i++) {
+        auto fretText = getTextItem(20);
+        QString hintText = QLatin1String("<b>");
         if (goodOffset && (i == goodSize -1))
           hintText += QApplication::translate("TlinearChart", "questions unrelated<br>with chart type");
         else
           hintText += QString("%1").arg(TfingerPos::romanFret(sortedLists[i].first()->qa.pos().fret()));
-        hintText += "</b>";
+        hintText += QLatin1String("</b>");
         fretText->setHtml(hintText);
-//         TgraphicsTextTip::alignCenter(fretText);
+        TXaxis::alignC(fretText);
         qreal sc = 1.0;
         if (sortedLists[i].size() * xAxis->questWidth() < fretText->boundingRect().width()) {
             sc = (sortedLists[i].size() * xAxis->questWidth()) / fretText->boundingRect().width();
@@ -212,16 +211,16 @@ void TlinearChart::init() {
       QColor tc = qApp->palette().text().color();
       for (int i = 0; i < goodSize; i++) { 
         auto keyText = getTextItem(16);
-        QString hintText = "<b>";
+        QString hintText = QLatin1String("<b>");
         if (goodOffset && (i == goodSize -1))
           hintText += QApplication::translate("TlinearChart", "questions unrelated<br>with chart type");
         else {
             hintText += QString("%1").arg(sortedLists[i].first()->key.getName());
-            hintText += "<br>" + getWasInAnswOrQuest(TQAtype::e_onScore, sortedLists[i].operator[](0).qaPtr);
+            hintText += QLatin1String("<br>") + getWasInAnswOrQuest(TQAtype::e_onScore, sortedLists[i].operator[](0).qaPtr);
         }
-        hintText += "</b>";
+        hintText += QLatin1String("</b>");
         keyText->setHtml(hintText);
-//         TgraphicsTextTip::alignCenter(keyText);
+        TXaxis::alignC(keyText);
         qreal sc = 1.0;
         if (sortedLists[i].size() * xAxis->questWidth() < keyText->boundingRect().width()) {
             sc = (sortedLists[i].size() * xAxis->questWidth()) / keyText->boundingRect().width();
@@ -236,10 +235,10 @@ void TlinearChart::init() {
 // accidentals over the chart
     if (p_chartSett.order == e_byAccid) {
       cnt = 1;
-      for (int i = 0; i < goodSize; i++) { 
-        QGraphicsTextItem *accidentalText = getTextItem(30);
+      for (int i = 0; i < goodSize; i++) {
+        auto accidentalText = getTextItem(20);
         QString hintText;
-        if (goodOffset && (i == goodSize -1))
+        if (goodOffset && (i == goodSize - 1))
           hintText += QApplication::translate("TlinearChart", "questions unrelated<br>with chart type") + "</span>";
         else 
           if (kindOfAccids[i])
@@ -247,7 +246,7 @@ void TlinearChart::init() {
           else
             hintText += QApplication::translate("TlinearChart", "without accidentals");
         accidentalText->setHtml(hintText);
-//         TgraphicsTextTip::alignCenter(accidentalText);
+        TXaxis::alignC(accidentalText);
         accidentalText->setPos(xAxis->mapValue(cnt) +
         (sortedLists[i].size() * xAxis->questWidth() - accidentalText->boundingRect().width()) / 2, 
                          yAxis->mapValue(yAxis->maxValue()));
@@ -258,7 +257,7 @@ void TlinearChart::init() {
     if (p_chartSett.order == e_byQuestAndAnsw) {
       cnt = 1;
       for (int i = 0; i < goodSize; i++) { 
-        QGraphicsTextItem *qaText = getTextItem(30);
+        auto qaText = getTextItem(20);
         int nootFontSize = QFontMetrics(qApp->font()).boundingRect("A").height() * 2;
         QString hintText;
         if (p_currExam->melodies()) {
@@ -266,11 +265,11 @@ void TlinearChart::init() {
               hintText = TexTrans::playMelodyTxt();
             else
               hintText = TexTrans::writeMelodyTxt();
-        } else // TODO
-//             hintText = TnooFont::span(TquestionAsWdg::qaTypeSymbol(sortedLists[i].first()->questionAs) + "?", nootFontSize) + 
-//               "<br>" + TnooFont::span(TquestionAsWdg::qaTypeSymbol(sortedLists[i].first()->answerAs) + "!", nootFontSize);
+        } else
+            hintText = TnooFont::span(qaSymbol(sortedLists[i].first()->questionAs) + QLatin1String("?"), nootFontSize)
+            + QLatin1String("<br>") + TnooFont::span(qaSymbol(sortedLists[i].first()->answerAs) + QLatin1String("!"), nootFontSize);
         qaText->setHtml(hintText);
-//         TgraphicsTextTip::alignCenter(qaText);
+        TXaxis::alignC(qaText);
         qreal sc = 1.0;
         if (sortedLists[i].size() * xAxis->questWidth() < qaText->boundingRect().width()) {
             sc = (sortedLists[i].size() * xAxis->questWidth()) / qaText->boundingRect().width();
@@ -283,24 +282,21 @@ void TlinearChart::init() {
       }
     }
   }
-//   scene->update();
-//   QTimer::singleShot(10, this, SLOT(ajustChartHeight()));
 }
 
 
 QGraphicsTextItem* TlinearChart::getTextItem(int fontSize) {
-//   QGraphicsTextItem *item = new QGraphicsTextItem();
-//   QFont f;
-//   f.setPixelSize(fontSize);
-//   item->setFont(f);
-//   QColor C(palette().text().color());
-//   C.setAlpha(75);
-//   Tcolor::merge(C, palette().base().color());
-//   item->setDefaultTextColor(C);
-//   setParentForItem(item);
-//   item->setZValue(15);
-//   return item;
-  return nullptr;
+  auto item = new QGraphicsTextItem();
+  QFont f;
+  f.setPixelSize(fontSize);
+  item->setFont(f);
+  QColor C(qApp->palette().text().color());
+  C.setAlpha(75);
+  Tcolor::merge(C, qApp->palette().base().color());
+  item->setDefaultTextColor(C);
+  setParentForItem(item);
+  item->setZValue(15);
+  return item;
 }
 
 

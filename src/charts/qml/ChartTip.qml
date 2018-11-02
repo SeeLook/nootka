@@ -83,8 +83,8 @@ TipRect {
         }
       }
 
-      Column {
-        width: parent.width; padding: Noo.fontSize() / 4
+      Column { // line tip column
+        width: parent.width; padding: Noo.fontSize() / 2
         visible: tipItem.tipType === 1
         Text {
           anchors.horizontalCenter: parent.horizontalCenter

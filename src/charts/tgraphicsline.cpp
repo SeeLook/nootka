@@ -18,6 +18,9 @@
 
 #include "tgraphicsline.h"
 #include "tgroupedqaunit.h"
+#include <exam/texam.h>
+#include <exam/textrans.h>
+
 #include <QtWidgets/qapplication.h>
 
 
@@ -42,6 +45,15 @@ TgraphicsLine::~TgraphicsLine()
 
 QRectF TgraphicsLine::boundingRect() const {
   return m_line->boundingRect().adjusted(0.0, -2.5, 0.0, 5.0);
+}
+
+
+void TgraphicsLine::setText(const QString& ofSomething) {
+  if (m_qaGroup)
+      tipText = ofSomething + QLatin1String("<br>") + TexTrans::averAnsverTimeTxt() + QLatin1String("<br>")
+      + QLatin1String("<big><b>") + Texam::formatReactTime(qRound(m_qaGroup->averTime()), true) + QLatin1String("</b></big>");
+  else
+      tipText = ofSomething;
 }
 
 

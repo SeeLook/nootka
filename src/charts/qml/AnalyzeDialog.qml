@@ -39,13 +39,13 @@ Window {
         }
         ChartToolButton {
           taction: Taction {
-            text: Noo.TR("QShortcut", "Zoom In"); icon: "zoom-in"
+            text: Noo.TR("QShortcut", "Zoom In"); icon: "zoom-in"; shortcut: Shortcut { sequence: StandardKey.ZoomIn }
             onTriggered: chartItem.zoom(true)
           }
         }
         ChartToolButton {
           taction: Taction {
-            text: Noo.TR("QShortcut", "Zoom Out"); icon: "zoom-out"
+            text: Noo.TR("QShortcut", "Zoom Out"); icon: "zoom-out"; shortcut: Shortcut { sequence: StandardKey.ZoomOut }
             onTriggered: chartItem.zoom(false)
           }
         }
@@ -83,7 +83,8 @@ Window {
             font { pixelSize: toolBar.height / 4 }
             model: chartItem.yValueActions
             delegate: ItemDelegate { text: modelData }
-            onActivated: chartItem.changeChartYvalue(index)
+            currentIndex: chartItem.yValue
+            onActivated: chartItem.yValue = index
           }
         }
         Item { height: 2; width: analyzeWindow.width / 100 }
@@ -99,9 +100,10 @@ Window {
             id: orderCombo
             width: analyzeWindow.width / 7
             font { pixelSize: toolBar.height / 4 }
-            model: [ qsTr("question number", "see comment in 'ordered by:' entry"), qsTr("note pitch"), qsTr("fret number"),
-                     qsTr("key signature"), ("accidentals"), qsTr("question type"), qsTr("mistake") ]
+            model: chartItem.xOrderActions
             delegate: ItemDelegate { text: modelData }
+            currentIndex: chartItem.xOrder
+            onActivated: chartItem.xOrder = index
           }
         }
         Item { height: 2; width: analyzeWindow.width / 100 }

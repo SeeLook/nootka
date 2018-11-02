@@ -33,10 +33,10 @@ TgroupedQAunit::~TgroupedQAunit()
 
 
 void TgroupedQAunit::addQAunit(TQAunit* qaUnit, unsigned int questNr) {
-    TqaPtr qaPtr;
-    qaPtr.nr = questNr;
-    qaPtr.qaPtr = qaUnit;
-    list << qaPtr;
+  TqaPtr qaPtr;
+  qaPtr.nr = questNr;
+  qaPtr.qaPtr = qaUnit;
+  list << qaPtr;
 }
 
 

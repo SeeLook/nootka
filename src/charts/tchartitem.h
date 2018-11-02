@@ -44,6 +44,7 @@ class TchartItem : public QQuickItem
 
   Q_PROPERTY(QList<QObject*> recentExamsActions READ recentExamsActions NOTIFY actionsPrepared)
   Q_PROPERTY(QStringList yValueActions READ yValueActions NOTIFY actionsPrepared)
+  Q_PROPERTY(QStringList xOrderActions READ xOrderActions NOTIFY actionsPrepared)
   Q_PROPERTY(int questionNr READ questionNr NOTIFY questionChanged)
   Q_PROPERTY(TchartTipItem* tipItem READ tipItem WRITE setTipItem)
   Q_PROPERTY(qreal parentHeight READ parentHeight WRITE setParentHeight)
@@ -53,6 +54,8 @@ class TchartItem : public QQuickItem
   Q_PROPERTY(Texam* exam READ exam WRITE setExam)
   Q_PROPERTY(bool allowOpen READ allowOpen WRITE setAllowOpen NOTIFY allowOpenChanged)
   Q_PROPERTY(bool isMelody READ isMelody NOTIFY examChanged)
+  Q_PROPERTY(int yValue READ yValue WRITE setYValue NOTIFY yValueChanged)
+  Q_PROPERTY(int xOrder READ xOrder WRITE setXOrder NOTIFY xOrderChanged)
 
 public:
   explicit TchartItem(QQuickItem* parent = nullptr);
@@ -60,6 +63,7 @@ public:
 
   QList<QObject*> recentExamsActions() { return m_recentExamsActs; }
   QStringList yValueActions() { return m_yValueActs; }
+  QStringList xOrderActions() { return m_xOrderActs; }
 
   int questionNr() const;
 
@@ -81,7 +85,11 @@ public:
 
   bool isMelody() const;
 
-  Q_INVOKABLE void changeChartYvalue(int val);
+  int yValue() const;
+  void setYValue(int yV);
+
+  int xOrder() const;
+  void setXOrder(int xO);
 
       /**
        * zoom chart, by default zoom in but when false zoom out
@@ -93,6 +101,8 @@ signals:
   void questionChanged();
   void examChanged();
   void allowOpenChanged();
+  void yValueChanged();
+  void xOrderChanged();
 
 protected:
   void hoverChangedSlot();
@@ -111,9 +121,17 @@ private:
        */
   void drawChart();
 
+      /**
+       * @p TRUE when given exam melody mode is different than current
+       */
+  bool singleOrMelodyChanged(Texam* e);
+
+  void resetChartSettings();
+
 private:
   QList<QObject*>                 m_recentExamsActs;
   QStringList                     m_yValueActs;
+  QStringList                     m_xOrderActs;
   Tchart                         *m_chart = nullptr;
   Texam                          *m_exam = nullptr;
   Tlevel                         *m_level;
