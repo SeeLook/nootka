@@ -14,10 +14,10 @@
    height="1162.6476"
    id="svg2"
    inkscape:version="0.92.2 2405546, 2018-03-11"
-   sodipodi:docname="exit.svg"
-   inkscape:export-filename="../../picts/exit.png"
-   inkscape:export-xdpi="21.129999"
-   inkscape:export-ydpi="21.129999">
+   sodipodi:docname="zoom-out.svg"
+   inkscape:export-filename="../../picts/zoom-out.png"
+   inkscape:export-xdpi="21.137962"
+   inkscape:export-ydpi="21.137962">
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -31,9 +31,9 @@
      inkscape:window-height="1039"
      id="namedview10"
      showgrid="false"
-     inkscape:zoom="0.3337544"
-     inkscape:cx="-290.31806"
-     inkscape:cy="312.08957"
+     inkscape:zoom="0.472"
+     inkscape:cx="910.74185"
+     inkscape:cy="489.75928"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -168,15 +168,15 @@
     <filter
        inkscape:collect="always"
        style="color-interpolation-filters:sRGB"
-       id="filter7168"
+       id="filter1057"
        x="-0.036000002"
        width="1.072"
        y="-0.035999998"
        height="1.072">
       <feGaussianBlur
          inkscape:collect="always"
-         stdDeviation="14.876436"
-         id="feGaussianBlur7170" />
+         stdDeviation="16.062299"
+         id="feGaussianBlur1059" />
     </filter>
   </defs>
   <metadata
@@ -192,37 +192,46 @@
     </rdf:RDF>
   </metadata>
   <g
-     transform="matrix(0.78209789,0,0,0.78209789,-288.13746,937.37052)"
+     transform="matrix(0.5527109,0.53924874,-0.53924874,0.5527109,-306.99307,235.64995)"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:600px;line-height:125%;font-family:Emmentaler;-inkscape-font-specification:Emmentaler;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
      id="text5163" />
   <g
-     transform="matrix(0.78209789,0,0,0.78209789,-288.13746,937.37052)"
+     transform="matrix(0.5527109,0.53924874,-0.53924874,0.5527109,-306.99307,235.64995)"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:600px;line-height:125%;font-family:Emmentaler;-inkscape-font-specification:Emmentaler;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
      id="text5167" />
   <g
-     transform="matrix(-0.55847483,-0.65715374,0,1,303.88189,457.90046)"
+     transform="matrix(0.05842517,-0.84947536,-0.68949009,0.70670297,441.97862,304.99851)"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:600px;line-height:125%;font-family:Emmentaler;-inkscape-font-specification:Emmentaler;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
      id="text5163-8" />
   <g
-     transform="matrix(-0.55847483,-0.65715374,0,1,303.88189,457.90046)"
+     transform="matrix(0.05842517,-0.84947536,-0.68949009,0.70670297,441.97862,304.99851)"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:600px;line-height:125%;font-family:Emmentaler;-inkscape-font-specification:Emmentaler;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none"
      id="text5167-7" />
-  <ellipse
-     style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none"
-     id="path4139"
-     cx="560.86572"
-     cy="545.44916"
-     rx="361.51944"
-     ry="361.51974" />
+  <circle
+     style="opacity:1;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:16.8181839;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+     id="path948"
+     cx="560.98969"
+     cy="566.42017"
+     r="472.12064" />
   <path
-     style="opacity:0.41800005;fill:#2b0000;fill-opacity:1;stroke:none;filter:url(#filter7168)"
-     d="M 673.40077,126.19001 A 495.8812,495.8812 0 0 0 177.51957,622.07121 495.8812,495.8812 0 0 0 673.40077,1117.9525 495.8812,495.8812 0 0 0 1169.282,622.07121 495.8812,495.8812 0 0 0 673.40077,126.19001 Z m -189.50673,247.9406 189.50673,189.50679 189.5068,-189.50679 58.4338,58.43381 -189.5067,189.50679 189.5067,189.50679 -58.4338,58.43381 L 673.40077,680.50502 483.89404,870.01181 425.46014,811.578 614.96697,622.07121 425.46014,432.56442 Z"
-     id="path4142-6"
+     style="opacity:0.42900002;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.98733258;filter:url(#filter1057)"
+     d="m 591.86632,63.305359 c -2.216,-1.8e-4 -4.4338,0.0137 -6.6524,0.041 -141.9888,1.75056 -277.46733,59.833581 -376.63083,161.472651 -99.1636,101.63907 -153.889098,238.50729 -152.138698,380.4961 1.7504,141.98881 59.833698,277.46743 161.472598,376.63086 101.639,99.16343 238.50933,153.88923 380.49813,152.13873 141.9888,-1.7506 277.4654,-59.8337 376.6289,-161.47271 C 1074.2076,870.97293 1128.9331,734.10275 1127.1828,592.11396 1125.4322,450.12515 1067.349,314.6465 965.71002,215.48309 865.65912,117.86913 731.47172,63.316569 591.86632,63.305359 Z m 64.7129,471.189461 h 284.0937 v 128.4414 H 656.57922 527.04792 242.95419 v -128.4414 h 284.09373 z"
+     id="path4142-6-7-7"
      inkscape:connector-curvature="0"
-     transform="matrix(1.0935667,0,0,1.0935676,-128.81078,-90.95317)" />
+     sodipodi:nodetypes="scssssscssccccccccc" />
   <path
-     style="opacity:1;fill:#ff0000;fill-opacity:1;stroke:none"
-     d="M 564.27912,16.278492 A 542.27917,542.27961 0 0 0 22,558.55811 542.27917,542.27961 0 0 0 564.27912,1100.8378 542.27917,542.27961 0 0 0 1106.5583,558.55811 542.27917,542.27961 0 0 0 564.27912,16.278492 Z M 357.04092,287.4183 564.27912,494.65679 771.51745,287.4183 835.41871,351.31962 628.18049,558.55811 835.41871,765.79659 771.51745,829.69791 564.27912,622.45943 357.04092,829.69791 293.13955,765.79659 500.37787,558.55811 293.13955,351.31962 Z"
+     style="opacity:1;fill:#0066ff;fill-opacity:1;stroke:none;stroke-width:0.98733258"
+     d="M 556.65234,20.265625 C 554.43638,20.265448 552.21858,20.279281 550,20.306641 408.01121,22.057203 272.53264,80.140227 173.36914,181.7793 74.205629,283.41837 19.480042,420.28658 21.230469,562.27539 22.980897,704.2642 81.064135,839.74282 182.70312,938.90625 c 101.639,99.16345 238.50924,153.88915 380.49805,152.13865 141.98881,-1.7506 277.46542,-59.8336 376.62891,-161.47263 C 1038.9936,827.93319 1093.7191,691.06301 1091.9688,549.07422 1090.2182,407.08541 1032.135,271.60677 930.49609,172.44336 830.44519,74.829395 696.25782,20.276835 556.65234,20.265625 Z m 64.71289,471.189455 h 284.09375 v 128.4414 H 621.36523 491.83398 207.74023 v -128.4414 h 284.09375 z"
      id="path4142-6-7"
-     inkscape:connector-curvature="0" />
+     inkscape:connector-curvature="0"
+     sodipodi:nodetypes="scssssscssccccccccc" />
+  <g
+     aria-label="+"
+     style="font-style:normal;font-weight:normal;font-size:1384.94958496px;line-height:865.59350586px;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:34.62374115"
+     id="text895"
+     transform="matrix(0.9873326,0,0,0.9873326,0.2684123,8.155374)" />
+  <g
+     aria-label="+"
+     style="font-style:normal;font-weight:normal;font-size:1114.60791016px;line-height:696.62994385px;font-family:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:27.86519814"
+     id="text970" />
 </svg>
