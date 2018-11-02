@@ -21,7 +21,6 @@
 #include <exam/tqaunit.h>
 #include <exam/texam.h>
 #include <exam/tlevel.h>
-// #include <graphics/tgraphicstexttip.h>
 #include <music/tnamestylefilter.h>
 #include <tnoofont.h>
 #include <QtGui/qtextformat.h>
@@ -29,7 +28,7 @@
 #include <QtCore/qdebug.h>
 
 
-void alignC(QGraphicsTextItem* tip) {
+void TXaxis::alignC(QGraphicsTextItem* tip) {
   tip->setTextWidth(tip->boundingRect().width() * tip->scale());
   QTextBlockFormat format;
   format.setAlignment(Qt::AlignCenter);

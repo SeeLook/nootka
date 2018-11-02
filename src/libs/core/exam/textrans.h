@@ -120,23 +120,37 @@ static QString attemptTxt() { return QApplication::translate("Texam", "attempt")
     /**
      * 7 attempts (or other number given as a parameter)
      */
-static QString attemptsTxt(int aCount) {
-    return QApplication::translate("Texam", "%n attempt(s)", "like: '1 attempt' or '121 attempts'", aCount);
-  }
+static QString attemptsTxt(int aCount) { return QApplication::translate("Texam", "%n attempt(s)", "like: '1 attempt' or '121 attempts'", aCount); }
 
     /**
      * Play a melody written in a score
      */
-static QString playDescTxt() {
-    return QApplication::translate("Texam", "Play a melody written in a score");
-  }
+static QString playDescTxt() { return QApplication::translate("Texam", "Play a melody written in a score"); }
 
     /**
      * Listen to a melody and write it on a score
      */
-static QString writeDescTxt() {
-    return QApplication::translate("Texam", "Listen to a melody and write it on a score");
-  }
+static QString writeDescTxt() { return QApplication::translate("Texam", "Listen to a melody and write it on a score"); }
+
+    /**
+     * question
+     */
+static QString questionTxt() { return QApplication::translate("QuestionsBox", "question"); }
+
+    /**
+     * questions
+     */
+static QString questionsTxt() { return QApplication::translate("QuestionsBox", "questions"); }
+
+    /**
+     * answer
+     */
+static QString answerTxt() { return QApplication::translate("QuestionsBox", "answer"); }
+
+    /**
+     * answers
+     */
+static QString answersTxt() { return QApplication::translate("QuestionsBox", "answers"); }
 
 };
 

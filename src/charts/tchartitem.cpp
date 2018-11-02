@@ -64,6 +64,10 @@ TchartItem::TchartItem(QQuickItem* parent) :
 
   m_yValueActs << TexTrans::reactTimeTxt().toLower() << TexTrans::effectTxt().toLower() << TYaxis::prepareTimeTxt().toLower()
                << TYaxis::attemptsNumberTxt().toLower() << TYaxis::playedNumberTxt().toLower();
+  m_xOrderActs << qApp->translate("TanalysDialog", "question number", "see comment in 'ordered by:' entry")
+               << qApp->translate("TanalysDialog", "note pitch") << qApp->translate("TanalysDialog", "fret number")
+               << qApp->translate("TanalysDialog", "accidentals") << qApp->translate("TanalysDialog", "key signature")
+               << qApp->translate("TanalysDialog", "mistake") << qApp->translate("TanalysDialog", "question type");
 
   emit actionsPrepared();
 
@@ -111,10 +115,27 @@ QString TchartItem::effectiveness() const {
 }
 
 
-void TchartItem::changeChartYvalue(int val) {
-  m_chartSetts.yValue = static_cast<TmainLine::EyValue>(val);
-  drawChart();
+int TchartItem::yValue() const { return static_cast<int>(m_chartSetts.yValue); }
+
+void TchartItem::setYValue(int yV) {
+  if (yV != yValue()) {
+    m_chartSetts.yValue = static_cast<TmainLine::EyValue>(yV);
+    drawChart();
+    emit yValueChanged();
+  }
 }
+
+
+int TchartItem::xOrder() const { return static_cast<int>(m_chartSetts.order); }
+
+void TchartItem::setXOrder(int xO) {
+  if (xO != xOrder()) {
+    m_chartSetts.order = static_cast<Tchart::EanswersOrder>(xO);
+    drawChart();
+    emit xOrderChanged();
+  }
+}
+
 
 
 void TchartItem::setExam(Texam* e) {
@@ -123,6 +144,8 @@ void TchartItem::setExam(Texam* e) {
       delete m_exam;
       m_wasExamCreated = false;
     }
+    if (singleOrMelodyChanged(e))
+      resetChartSettings();
     m_exam = e;
     drawChart();
     emit examChanged();
@@ -187,6 +210,7 @@ void TchartItem::loadExam(const QString& examFile) {
   m_exam = new Texam(m_level, QString());
   m_wasExamCreated = true; // delete exam in destructor
   if (m_exam->loadFromFile(examFile) == Texam::e_file_OK) {
+    resetChartSettings();
     drawChart();
     emit examChanged();
   }
@@ -213,4 +237,20 @@ void TchartItem::drawChart() {
 //     else
 //       m_chart = new TbarChart(m_exam, m_chartSetts, this);
   }
+}
+
+
+bool TchartItem::singleOrMelodyChanged(Texam* e) {
+  if (e && m_exam)
+    return e->melodies() != m_exam->melodies();
+  else
+    return true;
+}
+
+
+void TchartItem::resetChartSettings() {
+  m_chartSetts.yValue = TmainLine::e_questionTime;
+  emit yValueChanged();
+  m_chartSetts.order = Tchart::e_byNumber;
+  emit xOrderChanged();
 }

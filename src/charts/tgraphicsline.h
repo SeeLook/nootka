@@ -40,7 +40,12 @@ public:
   virtual ~TgraphicsLine();
 
   QString text() const { return tipText; }
-  void setText( const QString& t) { tipText = t; }
+
+      /**
+       * Sets line tip text to @P ofSomething
+       * When @p TgraphicsLine has @p TgroupedQAunit appropriate sentence with time of the unit is added
+       */
+  void setText( const QString& ofSomething);
   void setPen(QPen pen) { m_line->setPen(pen); }
   void setLine(qreal x1, qreal y1, qreal x2, qreal y2) { m_line->setLine(x1, y1, x2, y2); }
 

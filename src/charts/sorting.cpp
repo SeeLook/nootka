@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,8 +22,31 @@
 #include <exam/textrans.h>
 #include <tfingerpos.h>
 #include <tnoofont.h>
-#include <QApplication>
+#include <qtr.h>
 
+#include <QtGui/qguiapplication.h>
+
+
+QString qaTypeText(int qaType) {
+  switch (qaType) {
+    case 0: return qTR("Texam", "as note on the staff");
+    case 1: return qTR("Texam", "as note name");
+    case 2: return qTR("Texam", "on instrument");
+    case 3: return qTR("Texam", "as played sound");
+    default: return QString();
+  }
+}
+
+
+QString qaSymbol(TQAtype::Etype type) {
+  switch (type) {
+    case TQAtype::e_onScore : return QStringLiteral("s");
+    case TQAtype::e_asName : return QStringLiteral("c");
+    case TQAtype::e_onInstr : return QStringLiteral("g");
+    case TQAtype::e_asSound : return QStringLiteral("n");
+  }
+  return QString();
+}
 
 
 double calcAverTime(TgroupedQAunit& answers, bool skipWrong) {
@@ -333,13 +356,12 @@ QList<TgroupedQAunit> sortByQAtype(TgroupedQAunit& answList, Tlevel* level, bool
             else
               fDesc = TexTrans::writeMelodyTxt();
         } else
-            ;
-//             fDesc = TquestionAsWdg::questionsTxt() + " " + TquestionAsWdg::qaTypeText(qaTypesArr[q][a].first()->questionAs) + "<br>" +
-//                   TquestionAsWdg::answersTxt() + " " + TquestionAsWdg::qaTypeText(qaTypesArr[q][a].first()->answerAs);
-//           qaTypesArr[q][a].resume( // short: symbols of types, full: texts
-//                   TnooFont::span(TquestionAsWdg::qaTypeSymbol(qaTypesArr[q][a].first()->questionAs), 25) + "<br>" + 
-//                   TnooFont::span(TquestionAsWdg::qaTypeSymbol(qaTypesArr[q][a].first()->answerAs), 25),
-//                   "<b>" + fDesc + "</b>" );
+            fDesc = TexTrans::questionsTxt() + QLatin1String(" ") + qaTypeText(qaTypesArr[q][a].first()->questionAs) + QLatin1String("<br>") +
+                  TexTrans::answersTxt() + QLatin1String(" ") + qaTypeText(qaTypesArr[q][a].first()->answerAs);
+        qaTypesArr[q][a].resume( // short: symbols of types, full: texts
+                TnooFont::span(qaSymbol(qaTypesArr[q][a].first()->questionAs), 25) + QLatin1String("<br>")
+                + TnooFont::span(qaSymbol(qaTypesArr[q][a].first()->answerAs), 25),
+                QLatin1String("<b>") + fDesc + QLatin1String("</b>"));
         result << qaTypesArr[q][a];
       }
     }
@@ -404,7 +426,7 @@ QList<TgroupedQAunit> sortByMisakes(TgroupedQAunit& answList, Tlevel* level, boo
   }
   for (int m = 0; m < 12; m++) {
     if (!mistakesArr[m].isEmpty()) {
-      mistakesArr[m].resume(mistakesDesc[m].replace(" ", "<br>"), mistakesDesc[m]);
+      mistakesArr[m].resume(mistakesDesc[m].replace(QLatin1String(" "), QLatin1String("<br>")), mistakesDesc[m]);
       result << mistakesArr[m];
     }
   }
@@ -434,7 +456,7 @@ TgroupedQAunit mergeListOfLists(QList<TgroupedQAunit>& listOfLists) {
   for (int i = 0; i < listOfLists.size(); i++)
     for (int j = 0; j < listOfLists[i].size(); j++)
       result.addQAunit(listOfLists[i].operator[](j));
-    
+
   return result;
 }
 
@@ -446,19 +468,17 @@ void convertToGroupedQAunit(QList<TQAunit*>* examList, TgroupedQAunit& groupped)
 
 
 QString accidToNotka(char acc, int fontSize) {
-  QString result = "";
+  QString result;
   switch (acc) {
       case -2:
-        result = TnooFont::span("B", fontSize); break;
+        result = TnooFont::span(QLatin1String("B"), fontSize); break;
       case -1:
-        result = TnooFont::span("b", fontSize); break;
-      case 0:
-        result = QApplication::translate("chartStats", "none"); break;
+        result = TnooFont::span(QLatin1String("b"), fontSize); break;
       case 1:
-        result = TnooFont::span("#", fontSize); break;
+        result = TnooFont::span(QLatin1String("#"), fontSize); break;
       case 2:
-        result = TnooFont::span("x", fontSize); break;
-      case 3:
+        result = TnooFont::span(QLatin1String("x"), fontSize); break;
+      default:
         result = QApplication::translate("chartStats", "none"); break;
   }
   return result;
@@ -468,9 +488,9 @@ QString accidToNotka(char acc, int fontSize) {
 QString getWasInAnswOrQuest(TQAtype::Etype type, TQAunit* question) {
     QString hintText;
     if (question->answerAs == type)
-      hintText += "!";
+      hintText += QLatin1String("!");
     else
-      hintText += "?";
+      hintText += QLatin1String("?");
     return TnooFont::span(hintText);
 }
 
