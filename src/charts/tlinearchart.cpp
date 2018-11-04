@@ -40,7 +40,7 @@ QColor averColor = QColor(0, 192, 192);
 
 
 TlinearChart::TlinearChart(QQuickItem* parent) :
-    TmainChart(parent)
+  TmainChart(parent)
 {
 }
 

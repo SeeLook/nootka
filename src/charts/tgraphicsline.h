@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -45,14 +45,14 @@ public:
        * Sets line tip text to @P ofSomething
        * When @p TgraphicsLine has @p TgroupedQAunit appropriate sentence with time of the unit is added
        */
-  void setText( const QString& ofSomething);
-  void setPen(QPen pen) { m_line->setPen(pen); }
+  void setText(const QString& ofSomething);
+  void setPen(const QPen& pen) { m_line->setPen(pen); }
   void setLine(qreal x1, qreal y1, qreal x2, qreal y2) { m_line->setLine(x1, y1, x2, y2); }
 
   enum { Type = UserType + 78 }; /**< 65614 */
   int type() const { return Type; }
 
-  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr);
   virtual QRectF boundingRect() const;
 
 protected:

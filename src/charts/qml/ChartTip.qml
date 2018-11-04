@@ -88,7 +88,7 @@ TipRect {
         visible: tipItem.tipType === 1
         Text {
           anchors.horizontalCenter: parent.horizontalCenter
-          color: activPal.text
+          color: activPal.text; textFormat: Text.RichText
           text: tipItem.tipText; horizontalAlignment: Text.AlignHCenter
         }
       }

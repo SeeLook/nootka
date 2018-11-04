@@ -34,7 +34,7 @@ class TlinearChart : public TmainChart
 public:
   explicit TlinearChart(QQuickItem* parent = nullptr);
 
-  void init();
+  void init() override;
 
 private:
   QGraphicsTextItem* getTextItem(int fontSize);

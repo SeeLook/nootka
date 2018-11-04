@@ -18,8 +18,10 @@
 
 #include "tchartitem.h"
 #include "tlinearchart.h"
+#include "tbarchart.h"
 #include "tcharttipitem.h"
 #include "tyaxis.h"
+#include "dialogs/tlevelpreviewitem.h"
 #include <tglobals.h>
 #include <taction.h>
 #include <exam/texam.h>
@@ -173,6 +175,42 @@ void TchartItem::zoom(bool in) {
   }
 }
 
+
+void TchartItem::setChartType(bool lin) {
+  if (lin) {
+      if (m_chartSetts.type != Tchart::e_linear) {
+        m_chartSetts.type = Tchart::e_linear;
+        drawChart();
+      }
+  } else {
+      if (m_chartSetts.type != Tchart::e_bar) {
+        m_chartSetts.type = Tchart::e_bar;
+        if (m_chartSetts.order == Tchart::e_byNumber) {
+          m_chartSetts.order = Tchart::e_byNote;
+          emit xOrderChanged();
+        }
+        drawChart();
+      }
+  }
+}
+
+
+QString TchartItem::chartWindowTitle() const {
+  if (m_exam)
+    return QApplication::translate("AnalyzeDialog", m_exam->isExercise() ? "Analysis of exercise" : "Analysis of exam results");
+  return QApplication::translate("AnalyzeDialog", "Analyze");
+}
+
+
+QString TchartItem::levelName() const {
+  return m_exam ? m_exam->level()->name : QString();
+}
+
+void TchartItem::fillPreview(TlevelPreviewItem* lpi) {
+  if (m_exam && lpi)
+    lpi->setLevel(m_exam->level());
+}
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
@@ -220,11 +258,13 @@ void TchartItem::loadExam(const QString& examFile) {
 void TchartItem::drawChart() {
   if (m_exam) {
     qDebug() << "[TanalyzeObject] preparing new chart of exam" << m_exam->userName() << m_exam->count();
-//     auto chartParent = m_chart->parentItem();
     m_chart->deleteLater();
-//     if (chartSett.type == Tchart::e_linear)
   CHECKTIME(
-    auto newChart = new TlinearChart(this);
+    TmainChart *newChart;
+    if (m_chartSetts.type == Tchart::e_linear)
+      newChart = new TlinearChart(this);
+    else
+      newChart = new TbarChart(this);
     newChart->setExam(m_exam);
     newChart->setChartSettings(m_chartSetts);
     newChart->init();
@@ -234,8 +274,6 @@ void TchartItem::drawChart() {
     m_tipItem->setExam(m_exam);
     setParentHeight(m_parentHeight);
   )
-//     else
-//       m_chart = new TbarChart(m_exam, m_chartSetts, this);
   }
 }
 
@@ -249,6 +287,7 @@ bool TchartItem::singleOrMelodyChanged(Texam* e) {
 
 
 void TchartItem::resetChartSettings() {
+  m_chartSetts.type = Tchart::e_linear;
   m_chartSetts.yValue = TmainLine::e_questionTime;
   emit yValueChanged();
   m_chartSetts.order = Tchart::e_byNumber;

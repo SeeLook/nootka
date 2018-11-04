@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,9 +16,9 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #ifndef TBARCHART_H
 #define TBARCHART_H
+
 
 #include "tmainchart.h"
 
@@ -27,8 +27,10 @@ class TbarChart : public TmainChart
 {
 
 public:
-    TbarChart(Texam* exam, Tchart::Tsettings& settings, QWidget* parent = 0);
-    virtual ~TbarChart();
+  explicit TbarChart(QQuickItem* parent = nullptr);
+  virtual ~TbarChart();
+
+  void init() override;
 };
 
 #endif // TBARCHART_H

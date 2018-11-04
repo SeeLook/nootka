@@ -8,7 +8,7 @@ import QtQuick.Window 2.2
 
 import Nootka 1.0
 import Nootka.Charts 1.0
-import ".."
+import "../"
 
 
 Window {
@@ -19,8 +19,10 @@ Window {
 
   visible: true
   modality: Qt.WindowModal
-  title: qsTr("Analyze")
+  title: chartItem.chartWindowTitle
   width: nootkaWindow.width; height: nootkaWindow.height; x: nootkaWindow.x; y: nootkaWindow.y
+
+  ButtonGroup { id: chartTypeGr }
 
   Column {
     ToolBar {
@@ -52,14 +54,19 @@ Window {
         ChartToolButton {
           taction: Taction {
             text: qsTr("linear chart"); icon: "linearChart"
-//             onTriggered: 
+            onTriggered: chartItem.setChartType(true)
           }
+          ButtonGroup.group: chartTypeGr
+          checked: true
+          checkable: true
         }
         ChartToolButton {
           taction: Taction {
             text: qsTr("bar chart"); icon: "barChart"
-//             onTriggered: 
+            onTriggered: chartItem.setChartType(false)
           }
+          ButtonGroup.group: chartTypeGr
+          checkable: true
         }
         ChartToolButton {
           taction: Taction {
@@ -118,8 +125,41 @@ Window {
           Text {
             anchors.horizontalCenter: parent.horizontalCenter
             text: chartItem.userName === "" ? "-----" : chartItem.userName
-            font { pixelSize: toolBar.height / 3; bold: true }
+            font { pixelSize: toolBar.height / 4; bold: true }
             color: activPal.text
+          }
+        }
+        Item { height: 2; width: analyzeWindow.width / 100 }
+        Column {
+          spacing: toolBar.height / 20
+          Text {
+            anchors.horizontalCenter: parent.horizontalCenter
+            text: qsTr("level:")
+            font { pixelSize: toolBar.height / 4 }
+            color: activPal.text
+          }
+          Rectangle {
+            anchors.horizontalCenter: parent.horizontalCenter
+            width: levelText.width + Noo.fontSize(); height: toolBar.height / 2
+            color: levelArea.containsMouse ? activPal.highlight : "transparent"
+            radius: height / 5
+            Text {
+              id: levelText
+              anchors.centerIn: parent
+              text: chartItem.levelName === "" ? "-----" : chartItem.levelName
+              font { pixelSize: toolBar.height / 4; bold: true }
+              color: activPal.text
+            }
+            MouseArea {
+              id: levelArea
+              hoverEnabled: chartItem.levelName !== ""
+              anchors.fill: parent
+              onClicked: {
+                var c = Qt.createComponent("qrc:/charts/LevelPopup.qml")
+                var lp = c.createObject(analyzeWindow.contentItem)
+                chartItem.fillPreview(lp.levelPreview)
+              }
+            }
           }
         }
         Item { height: 2; width: analyzeWindow.width / 100 }

@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -15,7 +15,7 @@ TlevelPreviewItem {
     color: activPal.base
     Text {
       color: Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 50))
-      font { family: "Nootka"; pixelSize: parent.height }
+      font { family: "Nootka"; pixelSize: parent.width * 0.75 }
       anchors.centerIn: parent
       text: instrumentGlyph
     }

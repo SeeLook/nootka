@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,41 +16,47 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #ifndef TBAR_H
 #define TBAR_H
 
 
-#include "ttiphandler.h"
-#include "tstatisticstip.h"
+#include "tgroupedqaunit.h"
+#include <QtWidgets/qgraphicsitem.h>
 
-class QGraphicsSceneHoverEvent;
+
+#define BAR_TYPE (65615)
+
+
 class TgroupedQAunit;
+class QStyleOptionGraphicsItem;
+class QWidget;
 
-class Tbar : public TtipHandler
+
+class Tbar : public TtipInfo, public QGraphicsObject
 {
 
 public:
-  
-    Tbar(qreal height, TgroupedQAunit* qaGroup, TstatisticsTip::Ekind tipType = TstatisticsTip::e_full);
-    virtual ~Tbar();
-    
-    
-protected:
-    virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
-    virtual QRectF boundingRect() const;
-    
-    virtual void hoverEnterEvent(QGraphicsSceneHoverEvent* event);
-    virtual void hoverMoveEvent(QGraphicsSceneHoverEvent* event);
-    virtual void hoverLeaveEvent(QGraphicsSceneHoverEvent* event);
-  
+
+        /** Determines how many data are shown in tip
+         * @p  e_full - (default) average time, questions number and all kinds of mistakes.
+         * @p e_simple - average time only (It is necessary to give description in constructor). 
+         * @p e_mistakes - sort by mistakes, skips effectiveness and questions number
+         */
+    enum Ekind { e_full, e_simple, e_mistakes };
+
+  Tbar(qreal height, TgroupedQAunit* qaGroup, Tbar::Ekind tipType = Tbar::e_full);
+  virtual ~Tbar();
+
+  enum { Type = UserType + 79 }; /**< 65615 */
+  int type() const override { return Type; }
+
+  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
+  QRectF boundingRect() const override;
+
 private:
-    qreal m_height;
-    TgroupedQAunit *m_qaGroup;
-    qreal m_wrongAt, m_notBadAt; // Keeps position of color gradient for mistakes
-        /** Static type of a tip. Described in TstatisticsTip class. */
-    static TstatisticsTip::Ekind m_tipType;
-    bool m_isUnderMouse;
+  qreal               m_height;
+  TgroupedQAunit     *m_qaGroup;
+  qreal               m_wrongAt, m_notBadAt; /**< Keeps position of color gradient for mistakes */
 };
 
 #endif // TBAR_H
