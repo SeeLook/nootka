@@ -23,8 +23,8 @@ ToolButton {
   property Taction taction
 
   background: Rectangle {
-    color: Noo.alpha(activPal.highlight, 50)
-    scale: hovered ? 1 : 0
+    color: checked ? activPal.highlight : Noo.alpha(activPal.highlight, 50)
+    scale: hovered || checked ? 1 : 0
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
   }
 

@@ -51,6 +51,8 @@ public:
 
   Texam* exam() { return p_currExam; }
 
+  virtual void init() = 0;
+
 protected:
   void hoverMoveEvent(QHoverEvent* event) override;
 

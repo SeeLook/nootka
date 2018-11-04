@@ -30,6 +30,7 @@ class Taction;
 class Tchart;
 class TchartTipItem;
 class QQuickItem;
+class TlevelPreviewItem;
 
 
 /**
@@ -56,6 +57,8 @@ class TchartItem : public QQuickItem
   Q_PROPERTY(bool isMelody READ isMelody NOTIFY examChanged)
   Q_PROPERTY(int yValue READ yValue WRITE setYValue NOTIFY yValueChanged)
   Q_PROPERTY(int xOrder READ xOrder WRITE setXOrder NOTIFY xOrderChanged)
+  Q_PROPERTY(QString chartWindowTitle READ chartWindowTitle NOTIFY examChanged)
+  Q_PROPERTY(QString levelName READ levelName NOTIFY examChanged)
 
 public:
   explicit TchartItem(QQuickItem* parent = nullptr);
@@ -95,6 +98,13 @@ public:
        * zoom chart, by default zoom in but when false zoom out
        */
   Q_INVOKABLE void zoom(bool in);
+
+  Q_INVOKABLE void setChartType(bool lin = true);
+
+  QString chartWindowTitle() const;
+  QString levelName() const;
+
+  Q_INVOKABLE void fillPreview(TlevelPreviewItem* lpi);
 
 signals:
   void actionsPrepared();

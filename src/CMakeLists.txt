@@ -115,6 +115,8 @@ set(NOOTKA_SRC
   charts/tlinearchart.cpp
   charts/tchartitem.cpp
   charts/tcharttipitem.cpp
+  charts/tbarchart.cpp
+  charts/tbar.cpp
 )
 
 if(MINGW)

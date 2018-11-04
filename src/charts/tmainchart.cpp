@@ -23,10 +23,9 @@
 #include "tstafflinechart.h"
 #include "tgraphicsline.h"
 #include "tquestionpoint.h"
-// #include "ttipchart.h"
+#include "tbar.h"
 #include "sorting.h"
 #include <exam/tlevel.h>
-// #include <widgets/tquestionaswdg.h>
 #include <exam/texam.h>
 #include <QtCore/qtimer.h>
 
@@ -154,6 +153,9 @@ void TmainChart::hoverMoveEvent(QHoverEvent* event) {
           p = static_cast<TtipInfo*>(grIt);
       } else if (it->type() == CHART_LINE_TYPE) {
           auto grIt = qgraphicsitem_cast<TgraphicsLine*>(it);
+          p = static_cast<TtipInfo*>(grIt);
+      } else {
+          auto grIt = qgraphicsitem_cast<Tbar*>(it);
           p = static_cast<TtipInfo*>(grIt);
       }
       if (m_hoveredItem != p) {
