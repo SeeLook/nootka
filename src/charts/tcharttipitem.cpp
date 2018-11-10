@@ -73,6 +73,45 @@ bool TchartTipItem::hasSecondScore() const {
 }
 
 
+bool TchartTipItem::leftScoreVisible() const {
+  return m_question && (m_question->qaUnit()->questionOnScore() || m_question->qaUnit()->questionAsSound());
+}
+
+
+bool TchartTipItem::rightScoreVisible() const {
+  return m_question && !m_exam->melodies() && m_question->qaUnit()->answerOnScore();
+}
+
+
+
+QString TchartTipItem::questionText() const {
+  if (m_question && (!m_question->qaUnit()->questionOnScore() || !m_question->qaUnit()->questionAsSound())) {
+    if (m_question->qaUnit()->questionAsName())
+      return QLatin1String("<span style=\"font-size: xx-large;\">") + m_question->qaUnit()->qa.note.toRichText(m_question->qaUnit()->styleOfQuestion())
+             + QLatin1String("</span>");
+    else if (m_question->qaUnit()->questionOnInstr())
+      return m_question->qaUnit()->qa.pos().toHtml();
+  }
+  return QString();
+}
+
+
+QString TchartTipItem::answerText() const {
+  if (m_question && !m_question->qaUnit()->answerOnScore()) {
+    TQAgroup& qaGroup = m_question->qaUnit()->questionAs == m_question->qaUnit()->answerAs ? m_question->qaUnit()->qa_2 : m_question->qaUnit()->qa;
+    if (m_question->qaUnit()->answerAsName())
+      return QLatin1String("<span style=\"font-size: xx-large;\">") + qaGroup.note.toRichText(m_question->qaUnit()->styleOfAnswer())
+             + QLatin1String("</span>");
+    else if (m_question->qaUnit()->answerOnInstr())
+      return qaGroup.pos().toHtml();
+    else if (m_question->qaUnit()->answerAsSound())
+      return QLatin1String(" <span style=\"font-size: xx-large; font-family: Nootka\">n</span>");
+  }
+  return QString();
+}
+
+
+
 void TchartTipItem::setLeftScore(TscoreObject* ls) {
   if (ls != m_leftScore) {
     m_leftScore = ls;
@@ -124,10 +163,19 @@ void TchartTipItem::setQuestion(TtipInfo* q) {
             if (m_question->qaUnit()->melody()) {
                 m_leftScore->setMelody(m_question->qaUnit()->melody(), true, 7);
             } else {
-                if (m_leftScore->notesCount())
-                  m_leftScore->setNote(0, m_question->qaUnit()->qa.note);
-                else
-                  m_leftScore->addNote(m_question->qaUnit()->qa.note);
+                if (m_question->qaUnit()->questionOnScore() || m_question->qaUnit()->questionAsSound()) {
+                  if (m_leftScore->notesCount())
+                    m_leftScore->setNote(0, m_question->qaUnit()->qa.note);
+                  else
+                    m_leftScore->addNote(m_question->qaUnit()->qa.note);
+                }
+                bool qaTheSmaeType = m_question->qaUnit()->questionAs == m_question->qaUnit()->answerAs;
+                if (m_question->qaUnit()->answerOnScore()) {
+                  if (m_secondScore->notesCount())
+                    m_secondScore->setNote(0, qaTheSmaeType ? m_question->qaUnit()->qa_2.note : m_question->qaUnit()->qa.note);
+                  else
+                    m_secondScore->addNote(qaTheSmaeType ? m_question->qaUnit()->qa_2.note : m_question->qaUnit()->qa.note);
+                }
             }
           }
       } else if (m_question->kind == TtipInfo::e_line) {
