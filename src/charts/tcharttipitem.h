@@ -50,6 +50,10 @@ class TchartTipItem : public QQuickItem
   Q_PROPERTY(bool hasSecondScore READ hasSecondScore NOTIFY examChanged)
   Q_PROPERTY(TscoreObject* leftScore READ leftScore WRITE setLeftScore)
   Q_PROPERTY(TscoreObject* secondScore READ secondScore WRITE setSecondScore)
+  Q_PROPERTY(bool leftScoreVisible READ leftScoreVisible NOTIFY questionTipUpdated)
+  Q_PROPERTY(bool rightScoreVisible READ rightScoreVisible NOTIFY questionTipUpdated)
+  Q_PROPERTY(QString questionText READ questionText NOTIFY questionTipUpdated)
+  Q_PROPERTY(QString answerText READ answerText NOTIFY questionTipUpdated)
   Q_PROPERTY(QString resultText READ resultText NOTIFY questionTipUpdated)
   Q_PROPERTY(QString timeText READ timeText NOTIFY questionTipUpdated)
   Q_PROPERTY(int tipType READ tipType NOTIFY tipTypeChanged)
@@ -66,6 +70,10 @@ public:
   QString qaText() const;
   bool isMelody() const;
   bool hasSecondScore() const;
+  bool leftScoreVisible() const;
+  bool rightScoreVisible() const;
+  QString questionText() const;
+  QString answerText() const;
 
   TscoreObject* leftScore() { return m_leftScore; }
   void setLeftScore(TscoreObject* ls);

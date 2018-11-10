@@ -55,20 +55,36 @@ TipRect {
         Row { // score row
           anchors.horizontalCenter: parent.horizontalCenter
           Item {
-            height: Noo.fontSize() * 10; width: tipItem.isMelody ? questTip.width - Noo.fontSize() / 2 : Noo.fontSize() * 7
+            visible: tipItem.leftScoreVisible
+            height: Noo.fontSize() * 10; width: Noo.fontSize() * (tipItem.isMelody ? 22.5 : 7)
             Score {
-              anchors.fill: parent
+              width: parent.width; height: parent.height
               Component.onCompleted: {
                 bgRect.destroy()
                 tipItem.leftScore = scoreObj
               }
             }
           }
-          Loader { sourceComponent: tipItem.isMelody ? null : qComp; anchors.verticalCenter: parent.verticalCenter }
-          Loader { sourceComponent: tipItem.hasSecondScore ? scoreTwoComp : null; anchors.verticalCenter: parent.verticalCenter }
-  //         Text {
-  //           
-  //         }
+          Text {
+            visible: !tipItem.leftScoreVisible; anchors.verticalCenter: parent.verticalCenter
+            text: tipItem.questionText; textFormat: Text.RichText
+            color: activPal.text
+          }
+          Text { // question mark, visible only for single note questions
+            anchors.verticalCenter: parent.verticalCenter
+            visible: !tipItem.isMelody
+            text: "?"; font { pixelSize: Noo.fontSize() * 4; family: "Nootka" }
+            color: GLOB.wrongColor
+          }
+          Text {
+            visible: !tipItem.rightScoreVisible; anchors.verticalCenter: parent.verticalCenter
+            text: tipItem.answerText; textFormat: Text.RichText
+            color: activPal.text
+          }
+          Loader {
+            sourceComponent: tipItem.hasSecondScore ? scoreTwoComp : null; anchors.verticalCenter: parent.verticalCenter
+            visible: tipItem.rightScoreVisible
+          }
         }
         Text {
           anchors.horizontalCenter: parent.horizontalCenter
@@ -101,14 +117,6 @@ TipRect {
     hoverEnabled: true
   }
 
-  Component {
-    id: qComp
-    Text {
-      visible: !tipItem.isMelody
-      text: "?"; font { pixelSize: Noo.fontSize() * 4; family: "Nootka" }
-      color: GLOB.wrongColor
-    }
-  }
   Component {
     id: scoreTwoComp
     Item {
