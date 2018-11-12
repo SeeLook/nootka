@@ -859,7 +859,7 @@ void TnoteItem::updateNamePos() {
  * @p m_underLoLines are used only when grand staff
  */
 void TnoteItem::checkAddLinesVisibility() {
-  bool v = m_head->isVisible() && !m_note->isRest();
+  bool v = m_notePosY != 0.0 && !m_note->isRest();
   bool betweenStaves = staff()->isPianoStaff() &&  m_notePosY >= staff()->upperLine() + 10.0 && m_notePosY < staff()->upperLine() + 21.0;
   for (int i = 0; i < 7; ++i) {
     m_upLines[i]->setVisible(v && m_notePosY > 0.0 && i >= qFloor((m_notePosY - 1.0) / 2.0) && (i != 6 || !staff()->isPianoStaff()));
