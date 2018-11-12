@@ -18,7 +18,7 @@ TipRect {
   width: Noo.fontSize() * 23; height: tipCol.height
   z: 100; y: Math.max(10, Math.min(parent.height - height - 10, tipItem.pos.y - height / 2))
   x: tipItem.pos.x + (tipItem.pos.x > parent.width / 2 ? - (width + 20) : 10)
-  visible: scale > 0 //tipItem.show || tipArea.containsMouse
+  visible: scale > 0
 
   border { color: tipItem.color; width: 1 }
   color: Qt.tint(activPal.base, Noo.alpha(tipItem.color, 50))
@@ -56,7 +56,7 @@ TipRect {
           anchors.horizontalCenter: parent.horizontalCenter
           Item {
             visible: tipItem.leftScoreVisible
-            height: Noo.fontSize() * 10; width: Noo.fontSize() * (tipItem.isMelody ? 22.5 : 7)
+            height: Noo.fontSize() * 10; width: Noo.fontSize() * (tipItem.isMelody ? 22.5 : 9)
             Score {
               width: parent.width; height: parent.height
               Component.onCompleted: {
@@ -77,7 +77,7 @@ TipRect {
             color: GLOB.wrongColor
           }
           Text {
-            visible: !tipItem.rightScoreVisible; anchors.verticalCenter: parent.verticalCenter
+            visible: !tipItem.rightScoreVisible && !tipItem.isMelody; anchors.verticalCenter: parent.verticalCenter
             text: tipItem.answerText; textFormat: Text.RichText
             color: activPal.text
           }
@@ -89,7 +89,7 @@ TipRect {
         Text {
           anchors.horizontalCenter: parent.horizontalCenter
           text: tipItem.resultText; textFormat: Text.StyledText
-          color: tipItem.color
+          color: tipItem.color; horizontalAlignment: Text.AlignHCenter
         }
         Text {
           anchors.horizontalCenter: parent.horizontalCenter
@@ -120,7 +120,7 @@ TipRect {
   Component {
     id: scoreTwoComp
     Item {
-      height: Noo.fontSize() * 10; width: Noo.fontSize() * 7
+      height: Noo.fontSize() * 10; width: Noo.fontSize() * 9
       Score {
         anchors.fill: parent
         Component.onCompleted: {

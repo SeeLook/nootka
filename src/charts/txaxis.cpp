@@ -73,9 +73,9 @@ void TXaxis::setTicText(QGraphicsTextItem *tic, TQAunit* unit, int questNr) {
   QString txt;
   if (questNr)
       txt = QString("%1.<br>").arg(questNr);
-  QString altStyleText = "";
+  QString altStyleText;
   if (m_level->requireStyle || (m_level->questionAs.isName() && m_level->answersAs[TQAtype::e_asName].isName())) {
-    /** Displays alternate to user pref names but only for levels where different styles can occur */
+    /** Display alternate to user pref names but only for levels where different styles can occur */
     Tnote::EnameStyle altStyle;
     if (Tnote::defaultStyle == Tnote::e_italiano_Si || Tnote::defaultStyle == Tnote::e_russian_Ci)
       altStyle = TnameStyleFilter::get(Tnote::e_english_Bb);
@@ -85,17 +85,15 @@ void TXaxis::setTicText(QGraphicsTextItem *tic, TQAunit* unit, int questNr) {
   }
   if (unit->melody())
 //       txt += "<small>" + QApplication::translate("TXaxis", "%n attempt(s)", "", unit->attemptsCount()) + "</small>";
-    txt.replace("<br>", "");
+    txt.replace(QLatin1String("<br>"), QString());
   else {
-    txt += QString("<b>%1</b>").arg(unit->qa.note.toRichText()) + altStyleText;
-    if (unit->questionAs == TQAtype::e_onInstr || unit->answerAs == TQAtype::e_onInstr || unit->answerAs == TQAtype::e_asSound)
-        txt += "<br>" + TnooFont::span(QString::number((int)unit->qa.pos().str()), 15) + 
-              QString("<span style=\"font-size: 15px;\">%1</span>").arg(TfingerPos::romanFret(unit->qa.pos().fret()));
+      txt += QString("<b>%1</b>").arg(unit->qa.note.toRichText()) + altStyleText;
+      if (unit->questionAs == TQAtype::e_onInstr || unit->answerAs == TQAtype::e_onInstr || unit->answerAs == TQAtype::e_asSound)
+        txt += QLatin1String("<br>") + TnooFont::span(QString::number((int)unit->qa.pos().str()), 15)
+            + QString("<span style=\"font-size: 15px;\">%1</span>").arg(TfingerPos::romanFret(unit->qa.pos().fret()));
   }
-  if (m_level->useKeySign &&
-    (unit->questionAs == TQAtype::e_onScore || unit->answerAs == TQAtype::e_onScore)) {
-      txt += "<br><i>" + unit->key.getName() + "</i>";
-  }
+  if (m_level->useKeySign && (unit->questionAs == TQAtype::e_onScore || unit->answerAs == TQAtype::e_onScore))
+      txt += QLatin1String("<br><i>") + unit->key.getName() + QLatin1String("</i>");
   tic->setHtml(txt);
   alignC(tic);
   if ((tic->boundingRect().width() * scale()) > m_qWidth)
@@ -111,7 +109,6 @@ void TXaxis::setAnswersLists(QList<TgroupedQAunit>& listOfLists, Tlevel* level) 
     ln += listOfLists[i].size();
   }
   setLength(m_qWidth * (ln + 1));
-//   update(boundingRect());
   m_ticTips.clear();
   for (int i = 0; i < listOfLists.size(); i++) {
     for (int j = 0; j < listOfLists[i].size(); j++) {
@@ -128,7 +125,6 @@ void TXaxis::setAnswersLists(QList<TgroupedQAunit>& listOfLists, Tlevel* level) 
 
 void TXaxis::setAnswersForBarChart(QList<TgroupedQAunit>& listOfLists) {
   setLength(m_qWidth * (listOfLists.size() + 1));
-//   update(boundingRect());
   m_ticTips.clear();
   for (int i = 0; i < listOfLists.size(); i++) {
     auto ticTip = new QGraphicsTextItem();

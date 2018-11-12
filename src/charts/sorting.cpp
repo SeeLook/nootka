@@ -130,7 +130,8 @@ QList<TgroupedQAunit> sortByNote(TgroupedQAunit& answList, Tlevel *level, bool &
         }
       }
       if (!noteList.isEmpty()) {
-        noteList.resume(theSame[j].toRichText(), "<b>" + noteList.for_a_note() + " <big>" + theSame[j].toRichText() + "</big></b>");
+        noteList.resume(theSame[j].toRichText(), QLatin1String("<b>") + noteList.for_a_note() + QLatin1String(" <big>")
+                                                + theSame[j].toRichText() + QLatin1String("</big></b>"));
         result << noteList;
       }
     }
@@ -169,7 +170,8 @@ QList<TgroupedQAunit> sortByFret(TgroupedQAunit& answList, Tlevel *level, bool& 
       }
     }
     if (!fretList.isEmpty()) {
-      fretList.resume(TfingerPos::romanFret(f), "<b>" + fretList.for_a_fret() + " <big>" + QString("%1").arg(f) + "</big></b>");
+      fretList.resume(TfingerPos::romanFret(f), QLatin1String("<b>") + fretList.for_a_fret() + QLatin1String(" <big>")
+                                                + QString("%1").arg(f) + QLatin1String("</big></b>"));
       result << fretList;
     }
   }
@@ -218,10 +220,10 @@ QList<TgroupedQAunit> sortByKeySignature(TgroupedQAunit& answList, Tlevel *level
     }
   }
   for (int i = 0; i < result.size(); i++) {
-    QString desc = result[i].list.first().qaPtr->key.getName() + "<br>" + getWasInAnswOrQuest(TQAtype::e_onScore, result[i].first());
-    result[i].resume(desc, "<b>" + TgroupedQAunit::for_a_key() + "<big>  " +
-                result[i].first()->key.getName() + "</big></b>" +
-    wereKeys(level->manualKey, result[i].list.first().qaPtr->answerAs));
+    QString desc = result[i].list.first().qaPtr->key.getName() + QLatin1String("<br>") + getWasInAnswOrQuest(TQAtype::e_onScore, result[i].first());
+    result[i].resume(desc, QLatin1String("<b>") + TgroupedQAunit::for_a_key() + QLatin1String("<big>  ")
+                          + result[i].first()->key.getName() + QLatin1String("</big></b>")
+                          + wereKeys(level->manualKey, result[i].list.first().qaPtr->answerAs));
   }
   if (!unrelatedList.isEmpty()) {
       result << unrelatedList; // add unrelatedList at the end of list
@@ -232,9 +234,9 @@ QList<TgroupedQAunit> sortByKeySignature(TgroupedQAunit& answList, Tlevel *level
 
 
 QString wereKeys(bool manualKeys, TQAtype::Etype answerType) {
-  QString wereK = "";
+  QString wereK;
   if (manualKeys && answerType == TQAtype::e_onScore)
-    wereK = "<br><i>(" + QApplication::translate("TlinearChart", "Key signatures given by user") + ")</i>";
+    wereK = QLatin1String("<br><i>(") + QApplication::translate("TlinearChart", "Key signatures given by user") + QLatin1String(")</i>");
   return wereK;
 }
 
@@ -244,7 +246,6 @@ QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, Tlevel* level,
   QList<TgroupedQAunit> result;
   TgroupedQAunit accidsArray[6]; // 0 - bb, 1 - b, 2 - none, 3 - #, 4 - x, 5 - unrelated
   for (int i = 0; i < answList.size(); i++) {
-//    bool accidFound = false;
     if (answList[i].qaPtr->questionAs == TQAtype::e_onScore || answList[i].qaPtr->questionAs == TQAtype::e_asName ||
       answList[i].qaPtr->answerAs == TQAtype::e_onScore || answList[i].qaPtr->answerAs == TQAtype::e_asName) {
         accidsArray[answList[i].qaPtr->qa.note.alter() + 2].addQAunit(answList[i]);
@@ -260,9 +261,9 @@ QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, Tlevel* level,
       TgroupedQAunit accidList = mergeListOfLists(sorted);
       QString fullDesc;
       if (i - 2)
-        fullDesc = "<b>" + TgroupedQAunit::for_an_accid() + "</b><big>  " + accidToNotka(i -2) + "</big>";
+        fullDesc = QLatin1String("<b>") + TgroupedQAunit::for_an_accid() + QLatin1String("</b><big>  ") + accidToNotka(i -2) + QLatin1String("</big>");
             else
-        fullDesc = "<b>" + QApplication::translate("TlinearChart", "for notes without accidentals") + "</b>"; 
+        fullDesc = QLatin1String("<b>") + QApplication::translate("TlinearChart", "for notes without accidentals") + QLatin1String("</b>");
       accidList.resume(accidToNotka(i - 2), fullDesc);
       result << accidList;
       kindOfAccidList << (i - 2);
@@ -358,9 +359,8 @@ QList<TgroupedQAunit> sortByQAtype(TgroupedQAunit& answList, Tlevel* level, bool
         } else
             fDesc = TexTrans::questionsTxt() + QLatin1String(" ") + qaTypeText(qaTypesArr[q][a].first()->questionAs) + QLatin1String("<br>") +
                   TexTrans::answersTxt() + QLatin1String(" ") + qaTypeText(qaTypesArr[q][a].first()->answerAs);
-        qaTypesArr[q][a].resume( // short: symbols of types, full: texts
-                TnooFont::span(qaSymbol(qaTypesArr[q][a].first()->questionAs), 25) + QLatin1String("<br>")
-                + TnooFont::span(qaSymbol(qaTypesArr[q][a].first()->answerAs), 25),
+        qaTypesArr[q][a].resume( // short: symbols of types, full: texts (bold)
+                TnooFont::span(qaSymbol(qaTypesArr[q][a].first()->questionAs), 22) + TnooFont::span(qaSymbol(qaTypesArr[q][a].first()->answerAs), 22),
                 QLatin1String("<b>") + fDesc + QLatin1String("</b>"));
         result << qaTypesArr[q][a];
       }
@@ -389,40 +389,39 @@ QList<TgroupedQAunit> sortByMisakes(TgroupedQAunit& answList, Tlevel* level, boo
                << QApplication::translate("AnswerText", "out of tune")             // 11
   ;
   for (int i = 0; i < answList.size(); i++) {
-    if (answList[i].qaPtr->isCorrect()) {
-      if (answList[i].qaPtr->answerAs == TQAtype::e_onScore || 
-          answList[i].qaPtr->answerAs == TQAtype::e_asName || 
-          answList[i].qaPtr->answerAs == TQAtype::e_asSound) {
-          mistakesArr[0].addQAunit(answList[i]); // correct note
-          if (level->useKeySign && level->manualKey && answList[i].qaPtr->answerAs == TQAtype::e_onScore)
-            mistakesArr[4].addQAunit(answList[i]); // correct key signature
-          // TODO grab correct style here
-      }
-      else
-          mistakesArr[8].addQAunit(answList[i]); // correct position
+      if (answList[i].qaPtr->isCorrect()) {
+        if (answList[i].qaPtr->answerAs == TQAtype::e_onScore || answList[i].qaPtr->answerAs == TQAtype::e_asName
+                            || answList[i].qaPtr->answerAs == TQAtype::e_asSound) {
+            mistakesArr[0].addQAunit(answList[i]); // correct note
+            if (level->useKeySign && level->manualKey && answList[i].qaPtr->answerAs == TQAtype::e_onScore)
+              mistakesArr[4].addQAunit(answList[i]); // correct key signature
+            // TODO grab correct style here
+        } else
+            mistakesArr[8].addQAunit(answList[i]); // correct position
+    } else { // correct, wrongNote & wrongPos exclude themself
+        if (answList[i].qaPtr->wrongNote()) {
+            mistakesArr[1].addQAunit(answList[i]);
+            /** TODO Unfortunately, when a mistake is cardinal it doesn't store was key signature correct
+            * To have correct key but wrong note, TexamExecutor::checkAnswer() has to implement this discrimination */
+        } else {
+            if (answList[i].qaPtr->wrongPos())
+                mistakesArr[9].addQAunit(answList[i]);
+            else { // meanwhile rest of mistakes can occur together
+                if (answList[i].qaPtr->wrongAccid())
+                  mistakesArr[2].addQAunit(answList[i]);
+                if (answList[i].qaPtr->wrongKey())
+                  mistakesArr[5].addQAunit(answList[i]);
+                if (answList[i].qaPtr->wrongOctave())
+                  mistakesArr[3].addQAunit(answList[i]);
+                if (answList[i].qaPtr->wrongStyle())
+                  mistakesArr[7].addQAunit(answList[i]);
+                if (answList[i].qaPtr->wrongString())
+                  mistakesArr[10].addQAunit(answList[i]);
+                if (answList[i].qaPtr->wrongIntonation())
+                  mistakesArr[11].addQAunit(answList[i]);
+            }
+        }
     }
-    else // correct, wrongNote & wrongPos exclude themself
-     if (answList[i].qaPtr->wrongNote())
-       mistakesArr[1].addQAunit(answList[i]);
-       /** TODO Unfortunately, when a mistake is cardinal it doesn't store was key signature correct
-       * To have correct key but wrong note, TexamExecutor::checkAnswer() has to implement this discrimination */
-     else
-       if (answList[i].qaPtr->wrongPos())
-        mistakesArr[9].addQAunit(answList[i]);
-       else { // meanwhile rest of mistakes can occur together
-          if (answList[i].qaPtr->wrongAccid())
-            mistakesArr[2].addQAunit(answList[i]);
-          if (answList[i].qaPtr->wrongKey())
-            mistakesArr[5].addQAunit(answList[i]);
-          if (answList[i].qaPtr->wrongOctave())
-            mistakesArr[3].addQAunit(answList[i]);
-          if (answList[i].qaPtr->wrongStyle())
-            mistakesArr[7].addQAunit(answList[i]);
-          if (answList[i].qaPtr->wrongString())
-            mistakesArr[10].addQAunit(answList[i]);
-          if (answList[i].qaPtr->wrongIntonation())
-            mistakesArr[11].addQAunit(answList[i]);
-       }
   }
   for (int m = 0; m < 12; m++) {
     if (!mistakesArr[m].isEmpty()) {
@@ -453,9 +452,10 @@ void divideQuestionsAndAnswers(QList<TgroupedQAunit>& result, TgroupedQAunit& so
 
 TgroupedQAunit mergeListOfLists(QList<TgroupedQAunit>& listOfLists) {
   TgroupedQAunit result;
-  for (int i = 0; i < listOfLists.size(); i++)
+  for (int i = 0; i < listOfLists.size(); i++) {
     for (int j = 0; j < listOfLists[i].size(); j++)
       result.addQAunit(listOfLists[i].operator[](j));
+  }
 
   return result;
 }
@@ -463,35 +463,35 @@ TgroupedQAunit mergeListOfLists(QList<TgroupedQAunit>& listOfLists) {
 
 void convertToGroupedQAunit(QList<TQAunit*>* examList, TgroupedQAunit& groupped) {
   for (int i = 0; i< examList->size(); i++)
-      groupped.addQAunit(examList->operator[](i), i + 1);
+    groupped.addQAunit(examList->operator[](i), i + 1);
 }
 
 
 QString accidToNotka(char acc, int fontSize) {
   QString result;
   switch (acc) {
-      case -2:
-        result = TnooFont::span(QLatin1String("B"), fontSize); break;
-      case -1:
-        result = TnooFont::span(QLatin1String("b"), fontSize); break;
-      case 1:
-        result = TnooFont::span(QLatin1String("#"), fontSize); break;
-      case 2:
-        result = TnooFont::span(QLatin1String("x"), fontSize); break;
-      default:
-        result = QApplication::translate("chartStats", "none"); break;
+    case -2:
+      result = TnooFont::span(QLatin1String("B"), fontSize); break;
+    case -1:
+      result = TnooFont::span(QLatin1String("b"), fontSize); break;
+    case 1:
+      result = TnooFont::span(QLatin1String("#"), fontSize); break;
+    case 2:
+      result = TnooFont::span(QLatin1String("x"), fontSize); break;
+    default:
+      result = QApplication::translate("chartStats", "none"); break;
   }
   return result;
 }
 
 
 QString getWasInAnswOrQuest(TQAtype::Etype type, TQAunit* question) {
-    QString hintText;
-    if (question->answerAs == type)
-      hintText += QLatin1String("!");
-    else
-      hintText += QLatin1String("?");
-    return TnooFont::span(hintText);
+  QString hintText;
+  if (question->answerAs == type)
+    hintText += QLatin1String("!");
+  else
+    hintText += QLatin1String("?");
+  return TnooFont::span(hintText);
 }
 
 
