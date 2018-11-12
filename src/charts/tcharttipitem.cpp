@@ -64,24 +64,23 @@ QString TchartTipItem::qaText() const {
 
 
 bool TchartTipItem::isMelody() const {
-  return m_exam ? m_exam->melodies() : false;
+  return m_exam && m_exam->melodies();
 }
 
 
 bool TchartTipItem::hasSecondScore() const {
-  return m_exam ? m_exam->level()->questionAs.isOnScore() && m_exam->level()->answersAs[TQAtype::e_onScore].isOnScore() : false;
+  return m_exam && m_exam->level()->answerIsNote();
 }
 
 
 bool TchartTipItem::leftScoreVisible() const {
-  return m_question && (m_question->qaUnit()->questionOnScore() || m_question->qaUnit()->questionAsSound());
+  return m_question && (m_question->qaUnit()->questionOnScore() || (m_question->qaUnit()->questionAsSound() && m_question->qaUnit()->answerAsSound()));
 }
 
 
 bool TchartTipItem::rightScoreVisible() const {
   return m_question && !m_exam->melodies() && m_question->qaUnit()->answerOnScore();
 }
-
 
 
 QString TchartTipItem::questionText() const {
@@ -105,7 +104,7 @@ QString TchartTipItem::answerText() const {
     else if (m_question->qaUnit()->answerOnInstr())
       return qaGroup.pos().toHtml();
     else if (m_question->qaUnit()->answerAsSound())
-      return QLatin1String(" <span style=\"font-size: xx-large; font-family: Nootka\">n</span>");
+      return QString(" <span style=\"font-size: %1px; font-family: Nootka\">n</span>").arg(NOO->fontSize() * 3);
   }
   return QString();
 }
@@ -163,11 +162,13 @@ void TchartTipItem::setQuestion(TtipInfo* q) {
             if (m_question->qaUnit()->melody()) {
                 m_leftScore->setMelody(m_question->qaUnit()->melody(), true, 7);
             } else {
-                if (m_question->qaUnit()->questionOnScore() || m_question->qaUnit()->questionAsSound()) {
+                if (m_question->qaUnit()->questionOnScore() || (m_question->qaUnit()->questionAsSound() && m_question->qaUnit()->answerAsSound())) {
                   if (m_leftScore->notesCount())
                     m_leftScore->setNote(0, m_question->qaUnit()->qa.note);
                   else
                     m_leftScore->addNote(m_question->qaUnit()->qa.note);
+                  if (m_exam->level()->useKeySign)
+                    m_leftScore->setKeySignature(m_question->qaUnit()->key.value());
                 }
                 bool qaTheSmaeType = m_question->qaUnit()->questionAs == m_question->qaUnit()->answerAs;
                 if (m_question->qaUnit()->answerOnScore()) {
@@ -175,6 +176,8 @@ void TchartTipItem::setQuestion(TtipInfo* q) {
                     m_secondScore->setNote(0, qaTheSmaeType ? m_question->qaUnit()->qa_2.note : m_question->qaUnit()->qa.note);
                   else
                     m_secondScore->addNote(qaTheSmaeType ? m_question->qaUnit()->qa_2.note : m_question->qaUnit()->qa.note);
+                  if (m_exam->level()->useKeySign)
+                    m_secondScore->setKeySignature(m_question->qaUnit()->key.value());
                 }
             }
           }
@@ -197,10 +200,12 @@ void TchartTipItem::setExam(Texam* e) {
   if (!m_exam->melodies()) {
     m_leftScore->setClefType(m_exam->level()->clef.type());
     m_leftScore->setMeter(Tmeter::NoMeter);
+    m_leftScore->setKeySignatureEnabled(m_exam->level()->useKeySign);
   }
   if (hasSecondScore()) {
     m_secondScore->setMeter(Tmeter::NoMeter);
     m_secondScore->setClefType(m_exam->level()->clef.type());
+    m_secondScore->setKeySignatureEnabled(m_exam->level()->useKeySign);
   }
 }
 
