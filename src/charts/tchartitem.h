@@ -106,6 +106,9 @@ public:
 
   Q_INVOKABLE void fillPreview(TlevelPreviewItem* lpi);
 
+  Q_INVOKABLE QString chartHelpText() const;
+  Q_INVOKABLE void openExam() { getExamFileSlot(); }
+
 signals:
   void actionsPrepared();
   void questionChanged();

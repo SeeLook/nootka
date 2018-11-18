@@ -17,6 +17,14 @@ Window {
   property alias exam: chartItem.exam
   property alias allowOpen: chartItem.allowOpen
 
+  /** private */
+  property var helpTip: null
+
+  function openExam() {
+    if (allowOpen)
+      chartItem.openExam()
+  }
+
   visible: true
   modality: Qt.WindowModal
   title: chartItem.chartWindowTitle
@@ -199,6 +207,10 @@ Window {
         parentHeight: chartFlick.height
         tipItem: tip.tipItem
         ChartTip { id: tip }
+        onExamChanged: {
+          if (helpTip && exam)
+            helpTip.destroy()
+        }
       }
     }
   }
@@ -222,4 +234,11 @@ Window {
   }
 
   onClosing: analyzeWindow.destroy()
+
+  Component.onCompleted: {
+    if (allowOpen) {
+      var h = Qt.createComponent("qrc:/charts/ChartHelpTip.qml")
+      helpTip = h.createObject(analyzeWindow.contentItem, { "text": chartItem.chartHelpText() } )
+    }
+  }
 }

@@ -28,6 +28,7 @@
 #include <exam/tlevel.h>
 #include <exam/textrans.h>
 #include <texamparams.h>
+#include <tnootkaqml.h>
 
 #include <QtWidgets/qfiledialog.h>
 #include <QtQml/qqmlengine.h>
@@ -35,6 +36,7 @@
 #include <QtCore/qsettings.h>
 #include <QtCore/qfileinfo.h>
 #include <QtCore/qtimer.h>
+
 #include <QtCore/qdebug.h>
 #include "checktime.h"
 
@@ -211,6 +213,21 @@ void TchartItem::fillPreview(TlevelPreviewItem* lpi) {
     lpi->setLevel(m_exam->level());
 }
 
+
+QString TchartItem::chartHelpText() const {
+#if defined(Q_OS_MAC)
+    auto modKey = QStringLiteral("CMD");
+#else
+    auto modKey = QStringLiteral("CTRL");
+#endif
+  return QApplication::translate("AnalyzeDialog", "Press %1 button to select an exam from a file.")
+                        .arg(QLatin1String("<a href=\"charts\"> ") + NOO->pixToHtml("nootka-exam", NOO->fontSize() * 3) + QLatin1String("</a> "))
+            + QLatin1String("<br>") + QApplication::translate("AnalyzeDialog", "Use %1 + mouse wheel or %2 buttons to zoom a chart.")
+                        .arg(modKey).arg(NOO->pixToHtml("zoom-in", NOO->fontSize() * 2) + QLatin1String(" ") + NOO->pixToHtml("zoom-out", NOO->fontSize() * 2))
+            + QLatin1String("<br>") + QApplication::translate("AnalyzeDialog", "Click and Drag the cursor to move the chart.");
+}
+
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
@@ -257,7 +274,6 @@ void TchartItem::loadExam(const QString& examFile) {
 
 void TchartItem::drawChart() {
   if (m_exam) {
-    qDebug() << "[TanalyzeObject] preparing new chart of exam" << m_exam->userName() << m_exam->count();
     m_chart->deleteLater();
   CHECKTIME(
     TmainChart *newChart;
