@@ -63,6 +63,10 @@ TbeamObject::TbeamObject(TnotePair* sn, TmeasureObject* m) :
   addNote(sn);
   setParent(m_measure->score());
   connect(qApp, &QGuiApplication::paletteChanged, [=]{ update(); });
+  connect(this, &QQuickPaintedItem::visibleChanged, [=]{
+    if (isVisible() && count() > 1)
+      drawBeam();
+  });
 }
 
 
