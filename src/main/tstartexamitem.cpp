@@ -23,22 +23,20 @@
 #include "help/tmainhelp.h"
 #include "help/texamhelp.h"
 #include "dialogs/tlevelselector.h"
-// #include <qtr.h>
 #include <tglobals.h>
 #include <taction.h>
 #include <exam/texam.h>
 #include <exam/textrans.h>
+#include <Android/tfiledialog.h>
+
 #include <QtCore/qsettings.h>
 #include <QtCore/qtimer.h>
 #include <QtQml/qqmlengine.h>
 #include <QtWidgets/qmessagebox.h>
 #if defined (Q_OS_ANDROID)
   #include <touch/ttoucharea.h>
-  #include <tfiledialog.h>
   #include <tmtr.h>
   #include <Android/tandroid.h>
-#else
-  #include <QtWidgets/qfiledialog.h>
 #endif
 
 
@@ -143,7 +141,7 @@ void TstartExamItem::examFromFileDialog() {
 #if defined (Q_OS_ANDROID)
   QString fileName = TfileDialog::getOpenFileName(nullptr, GLOB->E->examsDir, QStringLiteral("noo"));
 #else
-  QString fileName = QFileDialog::getOpenFileName(nullptr, TexTrans::loadExamFileTxt(), GLOB->E->examsDir, TexTrans::examFilterTxt());
+  QString fileName = TfileDialog::getOpenFileName(TexTrans::loadExamFileTxt(), GLOB->E->examsDir, TexTrans::examFilterTxt());
 #endif
   if (!fileName.isEmpty())
     examToContSelected(fileName);

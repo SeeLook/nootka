@@ -29,8 +29,8 @@
 #include <exam/textrans.h>
 #include <texamparams.h>
 #include <tnootkaqml.h>
+#include <Android/tfiledialog.h>
 
-#include <QtWidgets/qfiledialog.h>
 #include <QtQml/qqmlengine.h>
 #include <QtQuick/qquickitem.h>
 #include <QtCore/qsettings.h>
@@ -238,7 +238,7 @@ void TchartItem::hoverChangedSlot() {
 
 
 void TchartItem::getExamFileSlot() {
-  QString fileName = QFileDialog::getOpenFileName(nullptr, TexTrans::loadExamFileTxt(), GLOB->E->examsDir, TexTrans::examFilterTxt());
+  QString fileName = TfileDialog::getOpenFileName(TexTrans::loadExamFileTxt(), GLOB->E->examsDir, TexTrans::examFilterTxt());
   if (!fileName.isEmpty())
     loadExam(fileName);
 }

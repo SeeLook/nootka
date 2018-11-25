@@ -58,6 +58,8 @@ set(LIB_NOOTKACORE_SRC
   exam/texam.cpp
   exam/textrans.h
   exam/tresulttext.cpp
+
+  Android/tfiledialog.cpp
 )
 
 

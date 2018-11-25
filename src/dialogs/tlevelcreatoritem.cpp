@@ -24,16 +24,12 @@
 #include <music/ttune.h>
 #include <tglobals.h>
 #include <texamparams.h>
+#include <Android/tfiledialog.h>
 
 #include <QtCore/qtimer.h>
 #include <QtCore/qfileinfo.h>
 #include <QtCore/qdatetime.h>
 #include <QtWidgets/qmessagebox.h>
-#if defined (Q_OS_ANDROID)
-  #include "Android/tfiledialog.h"
-#else
-  #include <QtWidgets/qfiledialog.h>
-#endif
 
 #include <QtCore/qdebug.h>
 #include "checktime.h"
@@ -101,7 +97,7 @@ if (!m_level->canBeGuitar() && !m_level->answerIsSound() ) { // no guitar and no
 #if defined (Q_OS_ANDROID)
   QString fileName = TfileDialog::getSaveFileName(nullptr, fName, QStringLiteral("nel"));
 #else
-  QString fileName = QFileDialog::getSaveFileName(nullptr, tr("Save exam level"), fName, TlevelSelector::levelFilterTxt() + QLatin1String(" (*.nel)"));
+  QString fileName = TfileDialog::getSaveFileName(tr("Save exam level"), fName, TlevelSelector::levelFilterTxt() + QLatin1String(" (*.nel)"));
 #endif
   if (fileName.isEmpty()) {
     qDebug() << "empty file name";
