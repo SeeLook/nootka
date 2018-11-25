@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,6 +23,7 @@
 #include "nootkacoreglobal.h"
 #include <QtWidgets/qapplication.h>
 #include <QtGui/qscreen.h>
+#include <QtGui/qfont.h>
 
 
 /**
@@ -47,6 +48,8 @@ public:
 
   static int screenWidth() { return qApp->screens().first()->geometry().width(); }
   static int screenHeight() { return qApp->screens().first()->geometry().height(); }
+
+  static QFont systemFont;
 
 private:
   static int m_fingerPixels;

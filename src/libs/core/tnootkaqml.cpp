@@ -44,11 +44,10 @@
 #include <QtCore/qbuffer.h>
 #include <QtWidgets/qapplication.h>
 #include <QtGui/qdesktopservices.h>
+
+#include "Android/tfiledialog.h"
 #if defined (Q_OS_ANDROID)
-  #include "Android/tfiledialog.h"
   #include "Android/tmobilemenu.h"
-#else
-  #include <QtWidgets/qfiledialog.h>
 #endif
 
 #include <QtCore/qdebug.h>
@@ -328,7 +327,7 @@ QString TnootkaQML::getXmlToOpen() {
 #if defined (Q_OS_ANDROID)
   openFile = TfileDialog::getOpenFileName(nullptr, GLOB->lastXmlDir(), QStringLiteral("xml"));
 #else
-  openFile = QFileDialog::getOpenFileName(nullptr, qApp->translate("TmelMan", "Open melody file"), GLOB->lastXmlDir(),
+  openFile = TfileDialog::getOpenFileName(qApp->translate("TmelMan", "Open melody file"), GLOB->lastXmlDir(),
                                       qApp->translate("TmelMan", "MusicXML file") + QLatin1String(" (*.xml)"));
 #endif
   if (!openFile.isEmpty())
@@ -342,7 +341,7 @@ QString TnootkaQML::getXmlToSave() {
 #if defined (Q_OS_ANDROID)
   saveFile = TfileDialog::getSaveFileName(nullptr, GLOB->lastXmlDir(), QStringLiteral("xml"));
 #else
-  saveFile = QFileDialog::getSaveFileName(nullptr, qApp->translate("TmelMan", "Save melody as:"), GLOB->lastXmlDir(),
+  saveFile = TfileDialog::getSaveFileName(qApp->translate("TmelMan", "Save melody as:"), GLOB->lastXmlDir(),
                                       qTR("TmelMan", "MusicXML file") + QLatin1String(" (*.xml)"));
 #endif
   if (!saveFile.isEmpty())

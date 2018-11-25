@@ -22,15 +22,15 @@
 #include <exam/tlevel.h>
 #include <help/texamhelp.h>
 #include <tpath.h>
-#include <QtWidgets/QtWidgets>
-#include <QtWidgets/qgraphicsscene.h>
-#include <QtPrintSupport/qprinter.h>
 #include "texamview.h"
+#include <Android/tfiledialog.h>
+
 #if defined (Q_OS_ANDROID)
   #include <Android/tandroid.h>
-  #include <tfiledialog.h>
 #endif
 
+#include <QtWidgets/QtWidgets>
+#include <QtPrintSupport/qprinter.h>
 
 
 #define MARGIN (40.0) // margin of Certificate paper
@@ -156,7 +156,7 @@ void TnootkaCertificate::save() {
                         Tandroid::getExternalPath() + QLatin1String("/") + m_exam->userName() + QLatin1String("-") + m_exam->level()->name,
                         QStringLiteral("pdf"));
 #else
-  QString fileName = QFileDialog::getSaveFileName(nullptr, tr("Save certificate"),
+  QString fileName = TfileDialog::getSaveFileName(tr("Save certificate"),
           QDir::toNativeSeparators(QDir::homePath() + QLatin1String("/") + m_exam->userName() + QLatin1String("-") + m_exam->level()->name),
                                                   QStringLiteral(" (*.pdf)"));
 #endif

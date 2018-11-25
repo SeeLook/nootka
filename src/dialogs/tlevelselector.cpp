@@ -16,23 +16,16 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #include "tlevelselector.h"
 #include "tlevelsdefs.h"
 #include "tlevelpreviewitem.h"
 #include <texamparams.h>
 #include <music/ttune.h>
 #include <tglobals.h>
+#include <Android/tfiledialog.h>
 
 #include <QtCore/qsettings.h>
 #include <QtWidgets/qmessagebox.h>
-#if defined (Q_OS_ANDROID)
-  #include "Android/tfiledialog.h"
-#else
-  #include <QtWidgets/qfiledialog.h>
-#endif
-
-
 
 
 
@@ -187,7 +180,7 @@ void TlevelSelector::loadFromFile(QString levelFile) {
 #if defined (Q_OS_ANDROID)
     levelFile = TfileDialog::getOpenFileName(nullptr, GLOB->E->levelsDir, QStringLiteral("nel"));
 #else
-    levelFile = QFileDialog::getOpenFileName(nullptr, tr("Load exam level"), GLOB->E->levelsDir, levelFilterTxt() + QLatin1String(" (*.nel)"));
+    levelFile = TfileDialog::getOpenFileName(tr("Load exam level"), GLOB->E->levelsDir, levelFilterTxt() + QLatin1String(" (*.nel)"));
 #endif
   QFile file(levelFile);
   Tlevel level = getLevelFromFile(file);

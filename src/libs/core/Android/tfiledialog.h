@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,6 +19,8 @@
 #ifndef TFILEDIALOG_H
 #define TFILEDIALOG_H
 
+
+#if defined (Q_OS_ANDROID)
 
 #include <QtWidgets/qdialog.h>
 #include <QtWidgets/qfilesystemmodel.h>
@@ -98,5 +100,29 @@ private:
   QComboBox               *m_extensionCombo;
 
 };
+
+#else
+
+#include <QtWidgets/qfiledialog.h>
+#include "nootkacoreglobal.h"
+
+
+/**
+ * Provides methods to get open/save file name,
+ * but it reverts default system font size for those dialogues
+ * which is changed when Nootka launches to adjust to real screen size
+ * when there is no High DPI scaling
+ */
+class NOOTKACORE_EXPORT TfileDialog
+{
+
+public:
+  static QString getOpenFileName(const QString &caption = QString(), const QString &dir = QString(),
+                          const QString &filter = QString(), QString *selectedFilter = nullptr, QFileDialog::Options options = 0);
+  static QString getSaveFileName(const QString &caption = QString(), const QString &dir = QString(),
+                          const QString &filter = QString(), QString *selectedFilter = nullptr, QFileDialog::Options options = 0);
+};
+
+#endif
 
 #endif // TFILEDIALOG_H

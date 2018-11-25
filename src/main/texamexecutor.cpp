@@ -43,6 +43,7 @@
 #include <instruments/tcommoninstrument.h>
 #include "tnameitem.h"
 #include "tmainscoreobject.h"
+#include <Android/tfiledialog.h>
 
 #include <QtCore/qdatetime.h>
 #include <QtCore/qtimer.h>
@@ -50,11 +51,6 @@
 #include <QtWidgets/qapplication.h>
 #include <QtCore/qsettings.h>
 #include <QtQml/qqmlengine.h>
-#if defined (Q_OS_ANDROID)
-  #include <Android/tfiledialog.h>
-#else
-  #include <QtWidgets/qfiledialog.h>
-#endif
 
 #include <QtCore/qdebug.h>
 
@@ -1503,7 +1499,7 @@ QString TexamExecutor::saveExamToFile() {
 #if defined (Q_OS_ANDROID)
   QString fileName = TfileDialog::getSaveFileName(nullptr, getExamFileName(m_exam), QStringLiteral("noo"));
 #else
-  QString fileName = QFileDialog::getSaveFileName(nullptr, tr("Save exam results as:"), getExamFileName(m_exam), TexTrans::examFilterTxt());
+  QString fileName = TfileDialog::getSaveFileName(tr("Save exam results as:"), getExamFileName(m_exam), TexTrans::examFilterTxt());
 #endif
   QString noo = QStringLiteral(".noo");
   if (fileName.isEmpty()) {

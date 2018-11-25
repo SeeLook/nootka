@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,6 +18,8 @@
 
 #include "tfiledialog.h"
 #include "tmtr.h"
+
+#if defined (Q_OS_ANDROID)
 #include <qtr.h>
 #include <tpath.h>
 #include <Android/tandroid.h>
@@ -411,5 +413,31 @@ void TfileDialog::createNootkaDir() {
       createNewDir(QLatin1String("Nootka"));
 }
 
+#else
 
+
+#include <QtWidgets/qfiledialog.h>
+
+QString TfileDialog::getOpenFileName(const QString& caption, const QString& dir, const QString& filter, QString* selectedFilter, QFileDialog::Options options) {
+  QString fN;
+  auto f = qApp->font();
+  qApp->setFont(Tmtr::systemFont);
+  fN = QFileDialog::getOpenFileName(nullptr, caption, dir, filter, selectedFilter, options);
+  qApp->setFont(f);
+  return fN;
+}
+
+
+QString TfileDialog::getSaveFileName(const QString& caption, const QString& dir, const QString& filter, QString* selectedFilter, QFileDialog::Options options) {
+  QString fN;
+  auto f = qApp->font();
+  qApp->setFont(Tmtr::systemFont);
+  fN = QFileDialog::getSaveFileName(nullptr, caption, dir, filter, selectedFilter, options);
+  qApp->setFont(f);
+  return fN;
+}
+
+
+
+#endif
 
