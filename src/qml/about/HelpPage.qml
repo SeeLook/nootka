@@ -3,20 +3,26 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
-import QtQuick.Controls 2.2
+
+import "../"
 
 
-Item {
-  id: helpPage
-  visible: true
+Tflickable {
+  property string helpText: dialLoader.dialogObj.mainHelp()
+  contentHeight: text.height;
 
-  width: parent.width
-  height: parent.height
+  Rectangle {
+      anchors.fill: parent
+      color: activPal.base
+  }
 
-  Column {
-    Text {
-      text: "Help"
-    }
+  LinkText {
+    id: text
+    width: parent.width
+    padding: Noo.fontSize()
+    wrapMode: TextEdit.Wrap; textFormat: Text.RichText
+    text: helpText
   }
 }
+
 
