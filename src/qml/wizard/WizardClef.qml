@@ -10,11 +10,11 @@ import "../"
 import "../score"
 
 
-Flickable {
+Tflickable {
   property int clef: noLoader.item ? noLoader.item.score.clef : Noo.instr(nootkaWindow.instrument).clef
   property int transposition: saxLoader.item ? saxLoader.item.transpose.outShift : (noLoader.item ? noLoader.item.transpose.outShift : Noo.instr(nootkaWindow.instrument).transposition)
 
-  clip: true
+  height: parent.height
   contentHeight: mainItem.height
   contentWidth: width
 
@@ -40,7 +40,7 @@ Flickable {
           text: qsTr("Select a clef and scale of notes appropriate for your instrument.")
         }
         Item {
-          height: Noo.fontSize() * 20; width: Noo.fontSize() * 12
+          height: Math.max(Noo.fontSize() * 18, nootkaWindow.height * 0.4); width: Math.max(Noo.fontSize() * 12, nootkaWindow.height / 4)
           anchors.horizontalCenter: parent.horizontalCenter
           Score {
             id: score
@@ -90,8 +90,7 @@ Flickable {
             model: 2
             Score {
               id: sc
-              height: Noo.fontSize() * 20
-              width: Noo.fontSize() * 9
+              height: Math.max(Noo.fontSize() * 18, nootkaWindow.height * 0.4); width: Math.max(Noo.fontSize() * 9, nootkaWindow.height * 0.2)
               meter: Tmeter.NoMeter
               readOnly: true
               clef: index === 1 ? Tclef.Treble_G_8down : Tclef.Treble_G
@@ -104,7 +103,7 @@ Flickable {
         }
         Text {
           width: parent.width
-          wrapMode: Text.WordWrap
+          wrapMode: Text.WordWrap; textFormat: Text.StyledText
           horizontalAlignment: Text.AlignHCenter
           color: activPal.text
           text: "<b><font size=\"5\">Both pictures above show the same note!</font></b><br>(note c in one-line octave)"

@@ -27,59 +27,68 @@ ApplicationWindow {
   SystemPalette { id: activPal; colorGroup: SystemPalette.Active }
   SystemPalette { id: disdPal; colorGroup: SystemPalette.Disabled }
 
-  SwipeView {
-    id: swipe
+  Row {
     anchors.fill: parent
+    Image {
+      source: Noo.pix("wizard-left")
+      height: nootkaWindow.height - footer.height; width: height * 0.246
+    }
+    Item {
+      height: parent.height; width: parent.width - parent.height * 0.246
+      SwipeView {
+        id: swipe
+        anchors.fill: parent
+        clip: true
 
-    Item {
-        AboutPage {}
-//         Image {
-//           source: TcheckBoxpix("wizard-left")
-//           height: nootkaWindow.height
-//           width: nootkaWindow.height * 0.246
-//         }
-    }
-    WizardInstrument {
-      id: instrPage
-    }
-    WizardClef { id: clefPage }
-    WizardOptions { id: optionsPage }
-    Item {
-      Text { text: "Some help"; anchors.centerIn: parent }
+        Item {
+            AboutPage {}
+        }
+        Item {
+          WizardInstrument { id: instrPage }
+        }
+        Item {
+          WizardClef { id: clefPage }
+        }
+        Item {
+          WizardOptions { id: optionsPage }
+        }
+        Item {
+          HelpPage { helpText: HELP.mainHelp(); height: parent.height }
+        }
+      }
     }
   }
 
-  footer: Column {
-    width: parent.width;
-    PageIndicator {
-      count: swipe.count
-      currentIndex: swipe.currentIndex
-      anchors.horizontalCenter: parent.horizontalCenter
+  PageIndicator {
+    count: swipe.count
+    currentIndex: swipe.currentIndex
+    anchors { horizontalCenter: parent.horizontalCenter; bottom: parent.bottom }
+  }
+
+  footer: Rectangle {
+    visible: !Noo.isAndroid()
+    width: parent.width; height: prevBut.height + fontSize
+    color: Qt.darker(activPal.window, 0.9)
+    TcuteButton {
+      anchors.verticalCenter: parent.verticalCenter
+      x: parent.width / 2 - width - fontSize
+      id: prevBut
+      text: Noo.TR("QWizard", "< &Back").replace("&", "")
+      enabled: swipe.currentIndex > 0
+      onClicked: swipe.currentIndex -= 1
     }
-    Item {
-      visible: !Noo.isAndroid()
-      width: parent.width; height: prevBut.height + fontSize
-      TcuteButton {
-        anchors.verticalCenter: parent.verticalCenter
-        x: parent.width / 2 - width - fontSize
-        id: prevBut
-        text: Noo.TR("QWizard", "< &Back").replace("&", "")
-        enabled: swipe.currentIndex > 0
-        onClicked: swipe.currentIndex -= 1
-      }
-      TcuteButton {
-        anchors.verticalCenter: parent.verticalCenter
-        x: parent.width / 2 + fontSize
-        text: Noo.TR("QWizard", "&Next >").replace("&", "")
-        enabled: swipe.currentIndex < swipe.count - 1
-        onClicked: swipe.currentIndex += 1
-      }
-      TcuteButton {
-        anchors.verticalCenter: parent.verticalCenter
-        x: parent.width - width - fontSize
-        text: Noo.TR("QWizard", "&Finish").replace("&", "")
-        onClicked: nootkaWindow.close()
-      }
+    TcuteButton {
+      anchors.verticalCenter: parent.verticalCenter
+      x: parent.width / 2 + fontSize
+      text: Noo.TR("QWizard", "&Next >").replace("&", "")
+      enabled: swipe.currentIndex < swipe.count - 1
+      onClicked: swipe.currentIndex += 1
+    }
+    TcuteButton {
+      anchors.verticalCenter: parent.verticalCenter
+      x: parent.width - width - fontSize
+      text: Noo.TR("QWizard", "&Finish").replace("&", "")
+      onClicked: nootkaWindow.close()
     }
   }
 

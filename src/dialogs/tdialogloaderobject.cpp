@@ -32,6 +32,7 @@
 #include "main/tnootkacertificate.h"
 #include "charts/tchartitem.h"
 #include "charts/tcharttipitem.h"
+#include "help/tmainhelp.h"
 #include <qtr.h>
 #include <exam/texam.h>
 
@@ -101,7 +102,7 @@ QString TdialogLoaderObject::stdButtonIcon(int role) {
 }
 
 
-QString TdialogLoaderObject::buttonRoleIcon(int role) {
+QString TdialogLoaderObject::buttonRoleIcon(int role) const {
   switch (static_cast<QDialogButtonBox::ButtonRole>(role)) {
     case QDialogButtonBox::ApplyRole: return QStringLiteral("check"); // Apply
     case QDialogButtonBox::ResetRole: return QStringLiteral("restore-defaults"); // Restore defaults
@@ -132,7 +133,7 @@ void TdialogLoaderObject::openFile(const QString& fileName) {
 }
 
 
-QString TdialogLoaderObject::aboutQt() {
+QString TdialogLoaderObject::aboutQt() const {
   return "<h1 align=\"center\">"
   + qTR("QMessageBox", "<h3>About Qt</h3><p>This program uses Qt version %1.</p>").arg(qVersion())
         .replace(QLatin1String("<p>"), QString()).replace(QLatin1String("</p>"), QString()) + "</h1><br>"
@@ -164,4 +165,9 @@ QString TdialogLoaderObject::aboutQt() {
   ).arg(QStringLiteral("2017"),
         QStringLiteral("qt.io/licensing"),
         QStringLiteral("qt.io"));
+}
+
+
+QString TdialogLoaderObject::mainHelp() const {
+  return TmainHelp::mainHelp();
 }
