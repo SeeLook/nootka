@@ -35,6 +35,7 @@
 #include "main/tnameitem.h"
 #include "main/tmainscoreobject.h"
 #include "dialogs/tdialogloaderobject.h"
+#include "help/tmainhelp.h"
 
 #if defined (Q_OS_ANDROID)
   #include <Android/tandroid.h>
@@ -91,7 +92,7 @@ int main(int argc, char *argv[])
   TnootkaQML nooObj;
 
   int exitCode;
-  bool firstTime = true;
+  bool firstLoop = true;
   QString confFile;
   do {
 #if !defined (Q_OS_ANDROID)
@@ -133,9 +134,16 @@ int main(int argc, char *argv[])
     e->rootContext()->setContextProperty(QStringLiteral("GLOB"), GLOB);
     e->rootContext()->setContextProperty(QStringLiteral("Noo"), &nooObj);
     e->rootContext()->setContextProperty(QStringLiteral("SOUND"), &sound);
+    bool  wasFirstRun = GLOB->isFirstRun;
     if (GLOB->isFirstRun) {
+      TmainHelp h;
+      e->rootContext()->setContextProperty(QStringLiteral("HELP"), &h);
       nooObj.setQmlEngine(e);
       e->load(QUrl(QStringLiteral("qrc:/wizard/Wizard.qml")));
+      if (firstLoop) {
+        QTextStream o(stdout);
+        o << "\033[01;35m Nootka wizard launch time: " << startElapsed.nsecsElapsed() / 1000000.0 << " [ms]\033[01;00m\n";
+      }
       exitCode = a->exec();
       delete e;
       e = new QQmlApplicationEngine;
@@ -150,7 +158,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<TdialogLoaderObject>("Nootka.Dialogs", 1, 0, "TdialogObject");
     e->load(QUrl(QStringLiteral("qrc:/MainWindow.qml")));
 
-    if (firstTime) {
+    if (firstLoop) {
 #if defined (Q_OS_ANDROID)
      QString androidArg = Tandroid::getRunArgument();
      if (!androidArg.isEmpty())
@@ -160,7 +168,7 @@ int main(int argc, char *argv[])
         nooObj.openFile(QString::fromLocal8Bit(argv[argc - 1]));
 #endif
     }
-    if (firstTime) {
+    if (firstLoop && !wasFirstRun) {
 #if defined (Q_OS_ANDROID)
       qDebug() << "NOOTKA LAUNCH TIME" << startElapsed.nsecsElapsed() / 1000000.0 << " [ms]";
 #else
@@ -169,7 +177,7 @@ int main(int argc, char *argv[])
 #endif
     }
     sound.init();
-    firstTime = false;
+    firstLoop = false;
     exitCode = a->exec();
     delete e;
     delete gl;

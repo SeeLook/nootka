@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,16 +16,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #include "tmainhelp.h"
 #include "thelpdialogbase.h"
-#include <QtWidgets/qboxlayout.h>
+
 #include <QtWidgets/qapplication.h>
-#include <QtWidgets/qscroller.h>
 
 
-
-/*static*/
 #if defined (Q_OS_ANDROID)
   inline int getPixSize() { return qApp->fontMetrics().height() * 1.2; }
 #else
@@ -61,14 +57,8 @@ QString TmainHelp::duringExamsText() {
   QString nbsp3 = QLatin1String(" &nbsp; ");
   return tr("During exams %1 Nootka will be your strict and &quot;old school&quot; master. Any mistake will be penalized with additional questions...<br>When you pass an exam you got a certificate!").arg(nbsp3 + ThelpDialogBase::pix("exam", getPixSize() * 1.3) + nbsp3);
 }
-/*end static*/
 
-
-
-
-TmainHelp::TmainHelp(QWidget* parent) :
-  QWidget(parent)
-{
+QString TmainHelp::mainHelp() {
   int pixSize = getPixSize();
   QString bbrEnd = QLatin1String("</b><br>");
   QString nbsp3 = QLatin1String(" &nbsp; ");
@@ -78,12 +68,12 @@ TmainHelp::TmainHelp(QWidget* parent) :
   helpTxt += QApplication::translate("TmainHelp", "I. Discovering") + bbrEnd;
   helpTxt += QApplication::translate("TmainHelp", "Exploring the interface of Nootka and how musical scores work. Just click on elements of the interface to see and get to know Nootka. Also, you can play or sing if you have a mic or web-cam.") + "<br>";
   helpTxt += QApplication::translate("TmainHelp", "Press %1 buttons to see help and %2 button to adjust Nootka to your preference.").
-      arg(nbsp3 + ThelpDialogBase::pix("logo", pixSize * 2.2) + QLatin1String(" <span style=\"font-size: x-large;\"> + </span> ")
+      arg(nbsp3 + ThelpDialogBase::pix("logo", pixSize * 5) + QLatin1String(" <span style=\"font-size: x-large;\"> + </span> ")
                             + ThelpDialogBase::pix("help", pixSize)  + nbsp3).
       arg(nbsp3 + ThelpDialogBase::pix("systemsettings", pixSize) + nbsp3);
   helpTxt += ThelpDialogBase::onlineDocP("getting-started");
 
-  helpTxt += "<hr><b>" + QApplication::translate("TmainHelp", "II. Exercises and exams") + bbrEnd;
+  helpTxt += QLatin1String("<hr><b>") + QApplication::translate("TmainHelp", "II. Exercises and exams") + bbrEnd;
   helpTxt += exerciseAndExamText();
   helpTxt += ThelpDialogBase::onlineDocP("exercises");
 
@@ -99,22 +89,10 @@ TmainHelp::TmainHelp(QWidget* parent) :
 
   helpTxt += QLatin1String("<hr><b><span style=\"font-size: xx-large;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
           + QApplication::translate("TmainHelp", "Have fun!") + QLatin1String("</span></b>");
-
-  QTextBrowser *helpEdit = new QTextBrowser(this);
-  helpEdit->setHtml(helpTxt);
-  helpEdit->setReadOnly(true);
-  helpEdit->setOpenExternalLinks(true);
-  helpEdit->setTextInteractionFlags(Qt::LinksAccessibleByKeyboard | Qt::LinksAccessibleByMouse);
-  QScroller::grabGesture(helpEdit->viewport(), QScroller::LeftMouseButtonGesture);
-#if defined (Q_OS_ANDROID)
-  helpEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-  helpEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-#endif
-//   qDebug() << helpEdit->toHtml();
-
-  auto lay = new QVBoxLayout;
-  lay->addWidget(helpEdit);
-  setLayout(lay);
+  return helpTxt;
 }
 
- 
+
+TmainHelp::~TmainHelp()
+{}
+

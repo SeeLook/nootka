@@ -33,7 +33,7 @@ Flickable {
     Tile {
       bgColor: Qt.tint(nooLab.bgColor, Qt.rgba(activPal.base.r, activPal.base.g, activPal.base.b, 0.9))
       bgBorder { width: 2; color: nooLab.bgColor }
-      width: parent.width * 0.9
+      width: parent.width - Noo.fontSize()
       Column {
         width: parent.width
         spacing: Noo.fontSize()

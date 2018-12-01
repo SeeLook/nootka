@@ -20,21 +20,22 @@
 #define TMAINHELP_H
 
 
-#include <QtWidgets/qdialog.h>
+#include <QtCore/qobject.h>
 
 
-
-/** 
- * This is help text displayed in first run wizard.
- * Static methods give access to some excerpt texts. 
+/**
+ * This is help text displayed in first run wizard and in help dialog
+ * Static methods give access to some excerpt texts.
+ * When Nootka launches first time, this object is registered for QML and available through @p HELP context
  */
-class TmainHelp : public QWidget
+class TmainHelp : public QObject
 {
 
   Q_OBJECT
 
 public:
-  explicit TmainHelp(QWidget *parent = nullptr);
+  explicit TmainHelp(QObject *parent = nullptr) : QObject(parent) {}
+  ~TmainHelp();
 
       /**
        * Whole text of II. paragraph (II. Exercises and exams)
@@ -58,6 +59,8 @@ public:
        * When you pass an exam you got a certificate!
        */
   static QString duringExamsText();
+
+  Q_INVOKABLE static QString mainHelp();
 
 };
 
