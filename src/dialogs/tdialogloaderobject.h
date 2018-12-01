@@ -48,11 +48,13 @@ public:
       /**
        * icon name by button role
        */
-  Q_INVOKABLE QString buttonRoleIcon(int role);
+  Q_INVOKABLE QString buttonRoleIcon(int role) const;
 
   Q_INVOKABLE void openFile(const QString& fileName);
 
-  Q_INVOKABLE QString aboutQt();
+  Q_INVOKABLE QString aboutQt() const;
+
+  Q_INVOKABLE QString mainHelp() const;
 
 signals:
   void continueExam(const QString& examFile);

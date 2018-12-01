@@ -9,13 +9,13 @@ import "../settings"
 import "../"
 
 
-Flickable {
+Tflickable {
   property alias is7B: seventhNote.is7B
   property alias doubleAccids: dblAccidsChB.checked
   property alias enharmNames: enharmChB.checked
   property alias useKeys: keySignChB.checked
 
-  clip: true
+  height: parent.height
   contentHeight: optCol.height
   contentWidth: width
 

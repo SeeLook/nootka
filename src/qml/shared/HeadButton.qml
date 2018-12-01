@@ -26,7 +26,7 @@ ToolButton {
   property bool hiHover: true
 
   background: Rectangle {
-    color: activPal.base
+    color: Noo.alpha(activPal.highlight, 50)
     scale: hovered && hiHover ? 1 : 0
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
   }

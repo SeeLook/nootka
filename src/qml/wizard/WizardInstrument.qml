@@ -8,10 +8,10 @@ import QtQuick.Controls 2.2
 import "../"
 
 
-Flickable {
+Tflickable {
   property alias instrument: instrSel.instrument
 
-  clip: true
+  height: parent.height
   contentHeight: instrCol.height
   contentWidth: width
 
@@ -33,6 +33,4 @@ Flickable {
       instrument: GLOB.instrument.type
     }
   }
-
-  ScrollBar.vertical: ScrollBar { active: !Noo.isAndroid() }
 }
