@@ -147,7 +147,6 @@ QString TchartTipItem::tipText() const {
 }
 
 
-
 void TchartTipItem::setQuestion(TtipInfo* q) {
   if (m_question != q) {
     bool emitShow = m_question == nullptr || q == nullptr;
@@ -160,7 +159,14 @@ void TchartTipItem::setQuestion(TtipInfo* q) {
           emit questionTipUpdated();
           if (m_leftScore) {
             if (m_question->qaUnit()->melody()) {
-                m_leftScore->setMelody(m_question->qaUnit()->melody(), true, 7);
+                int transposition = 0;
+                auto tempKey = m_question->qaUnit()->melody()->key();
+                if (m_question->qaUnit()->melody()->key() != m_question->qaUnit()->key) {
+                  transposition = m_question->qaUnit()->melody()->key().difference(m_question->qaUnit()->key);
+                  m_question->qaUnit()->melody()->setKey(m_question->qaUnit()->key);
+                }
+                m_leftScore->setMelody(m_question->qaUnit()->melody(), true, 7, transposition);
+                m_question->qaUnit()->melody()->setKey(tempKey);
             } else {
                 if (m_question->qaUnit()->questionOnScore() || (m_question->qaUnit()->questionAsSound() && m_question->qaUnit()->answerAsSound())) {
                   if (m_leftScore->notesCount())
