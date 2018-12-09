@@ -416,8 +416,6 @@ void TfileDialog::createNootkaDir() {
 #else
 
 
-#include <QtWidgets/qfiledialog.h>
-
 QString TfileDialog::getOpenFileName(const QString& caption, const QString& dir, const QString& filter, QString* selectedFilter, QFileDialog::Options options) {
   QString fN;
   auto f = qApp->font();
