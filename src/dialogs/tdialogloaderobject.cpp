@@ -24,6 +24,7 @@
 #include "ttunerdialogitem.h"
 #include "trtmselectoritem.h"
 #include "tmelgenitem.h"
+#include "tpath.h"
 #include "main/texamexecutor.h"
 #include "main/texamview.h"
 #include "main/ttiphandler.h"
@@ -170,4 +171,32 @@ QString TdialogLoaderObject::aboutQt() const {
 
 QString TdialogLoaderObject::mainHelp() const {
   return TmainHelp::mainHelp();
+}
+
+
+QString TdialogLoaderObject::getChanges() const {
+  QFile file(Tpath::main + QLatin1String("changes"));
+  QString chLog;
+  QTextStream in;
+  if(file.open(QFile::ReadOnly | QFile::Text)) {
+    QTextStream in(&file);
+    in.setCodec("UTF-8");
+    QStringList htmlText = in.readAll().replace(QLatin1String("  "), QLatin1String("&nbsp;&nbsp;")).split(QLatin1String("\n"));
+    for (int i = 0; i < htmlText.size(); i++) {
+      if (htmlText[i].startsWith(QLatin1String("0.")) || htmlText[i].startsWith(QLatin1String("1.")))
+        htmlText[i] = QLatin1String("<span style=\"font-size: x-large; color: #0000ff\"><b>&nbsp;") + htmlText[i] + QLatin1String("</b></span>");
+      else if (htmlText[i].contains(QLatin1String("======")))
+        htmlText[i] = QStringLiteral("<br><hr><b><big><center>Nootka ONE</big></b></center><hr>");
+      else if (htmlText[i].contains(QLatin1String("BUG")))
+        htmlText[i] = QStringLiteral("&nbsp;&nbsp;<u>BUG FIXES</u>");
+      else if (htmlText[i].contains(QLatin1String("Under the hood")))
+        htmlText[i] = QStringLiteral("&nbsp;&nbsp;<u>Under the hood</u>");
+      else if (!htmlText[i].contains(QLatin1String("&nbsp;&nbsp; - ")))
+        htmlText[i] = QLatin1String("<b>") + htmlText[i] + QLatin1String("</b>");
+      htmlText[i].append(QLatin1String("<br>"));
+    }
+    chLog = htmlText.join(QString());
+  }
+  file.close();
+  return chLog;
 }
