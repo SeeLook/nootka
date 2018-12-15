@@ -16,6 +16,6 @@ Tflickable {
     width: parent.width
     padding: Noo.fontSize()
     wrapMode: TextEdit.Wrap
-    text: dialLoader.dialogObj.aboutQt()
+    text: dialogObj.aboutQt()
   }
 }

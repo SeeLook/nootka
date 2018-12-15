@@ -13,7 +13,7 @@ Tile {
 
   signal maxModified()
 
-  description: qsTr("Maximal interval between notes used in a melody (in semitones ).")
+  description: qsTr("Maximal interval between notes used in a melody (in semitones).")
   Row {
     anchors.horizontalCenter: parent.horizontalCenter
     spacing: Noo.fontSize() / 2

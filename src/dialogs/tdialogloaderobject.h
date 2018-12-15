@@ -56,6 +56,8 @@ public:
 
   Q_INVOKABLE QString mainHelp() const;
 
+  Q_INVOKABLE QString getChanges() const;
+
 signals:
   void continueExam(const QString& examFile);
   void openLevel(const QString& levelFile);
