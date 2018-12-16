@@ -100,7 +100,8 @@ void TchartItem::setTipItem(TchartTipItem* ti) {
 void TchartItem::setParentHeight(qreal ph) {
   m_parentHeight = ph;
   m_chart->setParentHeight(ph);
-  setSize(m_chart->size());
+  setWidth(m_chart->width());
+  setHeight(m_chart->height());
 }
 
 

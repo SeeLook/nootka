@@ -514,8 +514,8 @@ void TnootkaQML::setInstrument(TcommonInstrument* ci) {
   if (m_instrument != ci) {
     if (m_instrument != nullptr)
       m_nodeConnected = false; // reset connection of instrument signal when instrument type changed
-      m_instrument = ci;
-    if (m_scoreObject && !m_nodeConnected && !GLOB->isExam())
+    m_instrument = ci;
+    if (m_instrument && m_scoreObject && !m_nodeConnected && !GLOB->isExam())
       connectInstrument();
   }
 }
@@ -586,7 +586,8 @@ void TnootkaQML::scoreChangedNoteSlot() {
   auto n = m_scoreObject->selectedNote();
   if (n.isValid())
     n.transpose(GLOB->transposition());
-  m_instrument->setNote(n, getTechicalFromScore());
+  if (m_instrument)
+    m_instrument->setNote(n, getTechicalFromScore());
   emit playNote(n);
   qDebug() << "Got note from score" << n.toText() << n.chromatic();
 }
