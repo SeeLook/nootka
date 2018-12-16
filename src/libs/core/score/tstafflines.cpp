@@ -51,10 +51,10 @@ void TstaffLines::setStaffScale(qreal stScale) {
 
 
 void TstaffLines::paint(QPainter* painter) {
-  painter->setPen(QPen(qApp->palette().text().color(), LINE_WIDTH));
+  painter->setPen(QPen(qApp->palette().color(isEnabled() ? QPalette::Active : QPalette::Disabled, QPalette::Text), LINE_WIDTH));
   for (int l = 0; l < 5; ++l) {
     qreal yy = l * 2.0 + LINE_WIDTH / 2.0;
-    painter->drawLine(QPointF(0.0, yy), QPointF(static_cast<qreal>(width()), yy));
+    painter->drawLine(QPointF(0.0, yy), QPointF(width(), yy));
   }
 }
 

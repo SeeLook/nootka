@@ -141,4 +141,19 @@ Score {
     z: -1
     radius: width / 3.0
   }
+
+  property int emptyStavesCount: Math.round(Math.max(0, (height - scoreObj.stavesHeight) / (scale * 18)))
+
+  Repeater {
+    model: emptyStavesCount
+    TstaffLines {
+      enabled: false
+      scale: mainScore.scale
+      x: (clef === Tclef.PianoStaffClefs ? 2 : 0.5) * scale
+      width: firstStaff.width - (mainScore.clef === Tclef.PianoStaffClefs ? 2 : 1)
+      staffScale: scale
+      y: mainScore.height - scale * 12 - (emptyStavesCount - index - 1) * (scale * 18)
+      transformOrigin: Item.Left
+    }
+  }
 }
