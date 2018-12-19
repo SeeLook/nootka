@@ -32,6 +32,7 @@ class Tmelody;
 class QQuickItem;
 class QQmlComponent;
 class Ttechnical;
+class TstaffLines;
 
 
 #define MAIN_SCORE TmainScoreObject::instance()
@@ -64,6 +65,7 @@ class TmainScoreObject : public QObject
   Q_PROPERTY(Taction* randMelodyAct READ randMelodyAct)
   Q_PROPERTY(QList<QObject*> melodyActions READ melodyActions NOTIFY melodyActionsChanged)
   Q_PROPERTY(QString keyNameText READ keyNameText NOTIFY keyNameTextChanged)
+  Q_PROPERTY(QQuickItem* mainScoreItem READ mainScoreItem WRITE setMainScoreItem)
 
 public:
   explicit TmainScoreObject(QObject* parent = nullptr);
@@ -94,6 +96,9 @@ public:
   QList<QObject*> melodyActions() { return m_melodyActions; }
 
   QString keyNameText() const;
+
+  QQuickItem* mainScoreItem() { return m_mainScoreItem; }
+  void setMainScoreItem(QQuickItem* msItem);
 
 // redirected from TscoreObject
   int notesCount() const;
@@ -162,6 +167,8 @@ protected:
 
   QObject* createQmlShortcut(QQmlComponent* qmlComp, const char* key);
 
+  void checkExtraStaves();
+
 private:
   TscoreObject              *m_scoreObj = nullptr;
   Taction                   *m_playAct, *m_recModeAct;
@@ -177,6 +184,10 @@ private:
   QQuickItem                *m_questionKey = nullptr;
 
   static TmainScoreObject   *m_instance;
+
+  QQuickItem                *m_mainScoreItem = nullptr;
+
+  QList<TstaffLines*>        m_emptyStaves;
 
 };
 

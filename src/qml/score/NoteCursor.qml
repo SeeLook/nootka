@@ -82,7 +82,7 @@ Item {
       }
   }
   Repeater { // lower lines
-      model: (score.firstStaff.height - score.upperLine - (score.clef === Tclef.PianoStaffClefs ? 28 : 12)) / 2
+      model: Math.max(0, (score.firstStaff.height - score.upperLine - (score.clef === Tclef.PianoStaffClefs ? 28 : 12)) / 2)
       AddLine {
         y: score.upperLine + (score.clef === Tclef.PianoStaffClefs ? 30 : 10) + 2 * index - 0.1
         visible: score.upperLine + (score.clef === Tclef.PianoStaffClefs ? 30 : 10) + index * 2 <= yPos

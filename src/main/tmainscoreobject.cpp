@@ -28,6 +28,8 @@
 #include <music/ttechnical.h>
 #include <music/tmelody.h>
 #include <score/tnoteitem.h>
+#include <score/tstaffitem.h>
+#include <score/tstafflines.h>
 
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>
@@ -158,11 +160,18 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
           m_scoreObj->setSelectedItem(noteItem);
     }
   });
+  connect(m_scoreObj, &TscoreObject::stavesHeightChanged, this, &TmainScoreObject::checkExtraStaves);
 }
 
 
 QString TmainScoreObject::keyNameText() const {
   return m_scoreObj ? NOO->majAndMinKeyName(m_scoreObj->keySignature()) : QString();
+}
+
+
+void TmainScoreObject::setMainScoreItem(QQuickItem* msItem) {
+  m_mainScoreItem = msItem;
+  connect(m_mainScoreItem, &QQuickItem::heightChanged, this, &TmainScoreObject::checkExtraStaves);
 }
 
 
@@ -481,7 +490,6 @@ void TmainScoreObject::singleModeSlot() {
 }
 
 
-
 void TmainScoreObject::paletteSlot() {
   if (m_questionMark)
     m_questionMark->setProperty("color", scoreBackgroundColor(GLOB->EquestionColor, 40));
@@ -513,4 +521,38 @@ QObject* TmainScoreObject::createQmlShortcut(QQmlComponent* qmlComp, const char*
   else
     qDebug() << "[TmainScoreObject] Can't create shortcut";
   return shortcut;
+}
+
+
+void TmainScoreObject::checkExtraStaves() {
+  if (m_scoreObj == nullptr || m_mainScoreItem == nullptr)
+    return;
+
+  auto firstStaff = m_scoreObj->firstStaff();
+  int emptyStavesCount = qMax(0, static_cast<int>((m_mainScoreItem->height() - m_scoreObj->stavesHeight()) / (firstStaff->scale() * 16.0)));
+  if (m_emptyStaves.count() != emptyStavesCount) {
+    if (m_emptyStaves.count() > emptyStavesCount) { // remove some staff lines
+        int toRemove = m_emptyStaves.count() - emptyStavesCount;
+        for (int s = 0; s < toRemove; ++s)
+          delete m_emptyStaves.takeLast();
+    } else { // add empty staff lines
+        for (int s = m_emptyStaves.count(); s < emptyStavesCount; ++s) {
+          auto newEmpty = new TstaffLines(m_mainScoreItem);
+          m_emptyStaves << newEmpty;
+          newEmpty->setTransformOrigin(QQuickItem::Left);
+          newEmpty->setEnabled(false);
+        }
+    }
+  }
+  if (emptyStavesCount) {
+    auto sc = firstStaff->scale();
+    for (int s = 0; s < emptyStavesCount; ++s) {
+      auto emptyStaff = m_emptyStaves[s];
+      emptyStaff->setScale(sc);
+      emptyStaff->setX((m_scoreObj->clefType() == Tclef::PianoStaffClefs ? 2.0 : 0.5) * sc);
+      emptyStaff->setWidth(firstStaff->width() - (m_scoreObj->clefType() == Tclef::PianoStaffClefs ? 2.0 : 1.0));
+      emptyStaff->setStaffScale(sc);
+      emptyStaff->setY(m_mainScoreItem->height() - sc * 14.0 - (emptyStavesCount - s - 1) * (sc * 16.0));
+    }
+  }
 }
