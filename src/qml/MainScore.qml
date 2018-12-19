@@ -47,6 +47,7 @@ Score {
     recModeAct.text: recordMode ? qsTr("Note by note") : qsTr("Edit")
     recModeAct.icon: recordMode ? "record" : "stopMelody"
     onMelodyGenerate: nootkaWindow.showDialog(Nootka.MelodyGenerator)
+    mainScoreItem: mainScore
   }
 
   Timer { id: zoomTimer; interval: 500 }
@@ -140,20 +141,5 @@ Score {
     color: Noo.alpha(activPal.highlight, 75)
     z: -1
     radius: width / 3.0
-  }
-
-  property int emptyStavesCount: Math.round(Math.max(0, (height - scoreObj.stavesHeight) / (scale * 18)))
-
-  Repeater {
-    model: emptyStavesCount
-    TstaffLines {
-      enabled: false
-      scale: mainScore.scale
-      x: (clef === Tclef.PianoStaffClefs ? 2 : 0.5) * scale
-      width: firstStaff.width - (mainScore.clef === Tclef.PianoStaffClefs ? 2 : 1)
-      staffScale: scale
-      y: mainScore.height - scale * 12 - (emptyStavesCount - index - 1) * (scale * 18)
-      transformOrigin: Item.Left
-    }
   }
 }
