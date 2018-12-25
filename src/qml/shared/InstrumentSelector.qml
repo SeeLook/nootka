@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -13,15 +13,15 @@ Tumbler {
 
   width: parent.width
   height: Noo.fontSize() * 10
-  visibleItemCount: Math.min(((width / (Noo.fontSize() * 7)) / 2) * 2 - 1, 7)
+  visibleItemCount: Math.min(((width / (height * 0.7)) / 2) * 2 - 1, 7)
   model: 8
   delegate: Component {
     Column {
-      spacing: Noo.fontSize() / 4
+      spacing: instrTumb.height / 40
       opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
       scale: 1.7 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
       Text {
-        font {family: "nootka"; pixelSize: Noo.fontSize() * 3 }
+        font {family: "nootka"; pixelSize: instrTumb.height * 0.3 }
         text: Noo.instr(modelData).glyph
         anchors.horizontalCenter: parent.horizontalCenter
         color: instrTumb.currentIndex === modelData ? activPal.highlightedText : activPal.text
@@ -32,11 +32,11 @@ Tumbler {
       }
       Text {
         anchors.horizontalCenter: parent.horizontalCenter
-        width: Noo.fontSize() * 8
+        width: instrTumb.height * 0.8
         text: Noo.instr(modelData).name.replace(" ", "\n")
         horizontalAlignment: Text.AlignHCenter
         color: activPal.text
-        font { bold: instrTumb.currentIndex === modelData; pixelSize: Noo.fontSize() * 0.8 }
+        font { bold: instrTumb.currentIndex === modelData; pixelSize: instrTumb.height * 0.08 }
       }
     }
   }
@@ -51,15 +51,15 @@ Tumbler {
     dragMargin: width / 2
     path: Path {
       startX: 0
-      startY: Noo.fontSize() * 1.4
+      startY: instrTumb.height * 0.14
       PathLine {
         x: pathView.width
-        y: Noo.fontSize() * 1.4
+        y: instrTumb.height * 0.14
       }
     }
   }
   Rectangle {
-    z: -1; width: Noo.fontSize() * 9; height: parent.height * 0.5
+    z: -1; width: instrTumb.height * 0.9; height: parent.height * 0.5
     x: parent.width / 2 - width / 2; y: 2
     color: activPal.highlight
     radius: width / 12

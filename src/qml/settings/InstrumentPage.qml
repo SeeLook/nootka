@@ -44,11 +44,13 @@ Flickable {
               prefSharpRadio.checked = ins.isSax ? false : true
               tuningCombo.model = instrument === Tinstrument.BassGuitar ? Noo.bassTunings() : Noo.guitarTunings()
               if (ins.isGuitar) {
-                score.clef = ins.clef
-                if (instrument === Tinstrument.BassGuitar)
-                  setTuning(Noo.tuning(Ttune.Bass4_EADG))
-                else
-                  setTuning(Noo.tuning(Ttune.Standard_EADGBE))
+                  score.clef = ins.clef
+                  if (instrument === Tinstrument.BassGuitar)
+                    setTuning(Noo.tuning(Ttune.Bass4_EADG))
+                  else
+                    setTuning(Noo.tuning(Ttune.Standard_EADGBE))
+              } else if (ins.type === Tinstrument.NoInstrument) {
+                  
               }
           }
         }
@@ -187,18 +189,24 @@ Flickable {
         ColorButton { id: selectedColorButt; color: GLOB.selectedColor; title: qsTr("color of a selection") }
       }
     }
-    Component.onCompleted: { // to avoid declaring every property signal in Tglobals.h
+
+  }
+
+  Timer { // workaround
+    running: true
+    interval: 50
+    onTriggered: {
       showOtherPosChB.checked = GLOB.showOtherPos
       fretDots.text = GLOB.markedFrets
       if (GLOB.instrument.isGuitar) {
         if (GLOB.tuning.type === Ttune.Custom)
           tuningCombo.currentIndex = tuningCombo.count - 1
-        else
-          tuningCombo.currentIndex = GLOB.tuning.type - (GLOB.instrument.type === Tinstrument.BassGuitar ? 100 : 0)
+          else
+            tuningCombo.currentIndex = GLOB.tuning.type - (GLOB.instrument.type === Tinstrument.BassGuitar ? 100 : 0)
       }
+      instrSel.instrument = GLOB.instrument.type - (GLOB.instrument.type === 0 ? -1 : 1) // FIXME: workaround for Qt 5.10.1 and above
       instrSel.instrument = GLOB.instrument.type
     }
-
   }
 
   function setTuning(t) {
