@@ -4,7 +4,8 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQuick.Window 2.2
+// import QtQuick.Window 2.2
+// import QtGraphicalEffects 1.0
 
 import "../about"
 import "../"
@@ -21,6 +22,8 @@ ApplicationWindow {
   y: GLOB.geometry.y
 
   property alias instrument: instrPage.instrument
+  property alias swipe: swipe
+  property alias labelColor: aboutPage.color
 
   readonly property int fontSize: Noo.fontSize()
 
@@ -29,9 +32,22 @@ ApplicationWindow {
 
   Row {
     anchors.fill: parent
-    Image {
-      source: Noo.pix("wizard-left")
+    Item {
       height: nootkaWindow.height - footer.height; width: height * 0.246
+      Image {
+        id: leftImg
+        source: Noo.pix("wizard-left")
+        height: nootkaWindow.height - footer.height; width: height * 0.246
+//         smooth: true; visible: false
+      }
+//       Colorize {
+//         property color labelColor: aboutPage.color
+//         anchors.fill: leftImg
+//         source: leftImg
+//         hue: Noo.hue(labelColor)
+//         saturation: Noo.saturation(labelColor)
+//         lightness: Noo.lightness(labelColor)
+//       }
     }
     Item {
       height: parent.height; width: parent.width - parent.height * 0.246
@@ -41,7 +57,11 @@ ApplicationWindow {
         clip: true
 
         Item {
-            AboutPage {}
+          AboutPage {
+            id: aboutPage
+//             property color c: Noo.randomColor()
+//             color: Qt.hsla(Noo.hue(c), Noo.saturation(c), Math.max(0.8, Noo.lightness(c)))
+          }
         }
         Item {
           WizardInstrument { id: instrPage }
@@ -67,8 +87,9 @@ ApplicationWindow {
 
   footer: Rectangle {
     visible: !Noo.isAndroid()
-    width: parent.width; height: prevBut.height + fontSize
-    color: Qt.darker(activPal.window, 0.9)
+    width: parent.width; height: prevBut.height + fontSize + 2
+    color: Qt.tint(activPal.window, Noo.alpha(aboutPage.color, 50)) // Qt.darker(activPal.window, 0.9)
+    Rectangle { color: aboutPage.color; height: fontSize / 6; width: parent.width; anchors.top: parent.top }
     TcuteButton {
       anchors.verticalCenter: parent.verticalCenter
       x: parent.width / 2 - width - fontSize
@@ -93,14 +114,12 @@ ApplicationWindow {
   }
 
   onClosing: {
-    console.log("Wizard is closing:", Noo.instr(instrPage.instrument).name)
-    GLOB.setInstrument(instrPage.instrument)
-    GLOB.clefType = clefPage.clef
-    GLOB.transposition = clefPage.transposition
-    GLOB.seventhIsB = optionsPage.is7B
-    GLOB.enableDoubleAccids = optionsPage.doubleAccids
-    GLOB.keySignatureEnabled = optionsPage.useKeys
-    GLOB.showEnharmNotes = optionsPage.enharmNames
+    console.log("Wizard is closing:", Noo.instr(instrPage.getInstrument()).name)
+    GLOB.setInstrument(instrPage.getInstrument())
+    clefPage.setInstrParams()
+    optionsPage.setOptions()
+    GLOB.keyNameStyle = (Noo.keyNameTranslated() !== "letters" ? (Qt.locale().name.indexOf("ru") === -1 ? 2 : 5) : (is7B ? 3 : 0))
+    GLOB.updateKeySignatureNames()
     GLOB.preferFlats = GLOB.instrument.isSax ? true : false
     Qt.quit()
   }
