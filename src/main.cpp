@@ -121,7 +121,8 @@ int main(int argc, char *argv[])
 #if defined (Q_OS_ANDROID)
     f.setPixelSize(f.pixelSize() * GLOB->guiScale());
 #else
-    f.setPixelSize(Tmtr::fingerPixels() * 0.45 * GLOB->guiScale());
+//     f.setPixelSize(Tmtr::fingerPixels() * 0.45 * GLOB->guiScale());
+    f.setPointSizeF(f.pointSizeF() * GLOB->guiScale());
 #endif
     a->setFont(f);
 

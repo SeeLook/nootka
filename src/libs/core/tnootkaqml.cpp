@@ -347,6 +347,22 @@ QColor TnootkaQML::invert(const QColor& c) {
 }
 
 
+qreal TnootkaQML::hue(const QColor& c) const {
+  return c.hueF();
+}
+
+
+qreal TnootkaQML::saturation(const QColor& c) const {
+  return c.saturationF();
+}
+
+
+qreal TnootkaQML::lightness(const QColor& c) const {
+  return c.saturationF();
+}
+
+
+
 int TnootkaQML::fontSize() {
 #if defined (Q_OS_ANDROID)
   return (qApp->font().pixelSize() > 0 ? qApp->font().pixelSize() : qApp->font().pointSize()) * 0.8 * GLOB->guiScale();
@@ -458,6 +474,16 @@ QString TnootkaQML::qaTypeText(int qaType) {
     case 3: return QApplication::translate("Texam", "as played sound");
     default: return QString();
   }
+}
+
+
+QString TnootkaQML::note7translated() const {
+  return QApplication::translate("Tpage_3", "b", "Give here a name of 7-th note preferred in your country. But only 'b' or 'h' not 'si' or something worst...");
+}
+
+
+QString TnootkaQML::keyNameTranslated() const {
+  return QApplication::translate("Tpage_3", "letters", "DO NOT TRANSLATE IT DIRECTLY. Put here 'letters' or 'solfege' This is country preferred style of naming key signatures. 'letters' means C-major/a-minor names ('major' & 'minor' also are translated by you), 'solfege' means Do-major/La-minor names");
 }
 
 
