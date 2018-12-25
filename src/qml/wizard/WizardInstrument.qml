@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -9,13 +9,15 @@ import "../"
 
 
 Tflickable {
-  property alias instrument: instrSel.instrument
+  id: instrPage
+  property int instrument: -1
 
   height: parent.height
   contentHeight: instrCol.height
   contentWidth: width
 
   Column {
+    y: (instrPage.height - height) / 2
     id: instrCol
     width: parent.width
     spacing: Noo.fontSize() * 3
@@ -29,8 +31,19 @@ Tflickable {
     }
     InstrumentSelector {
       id: instrSel
+      height: nootkaWindow.width / 7
       anchors.horizontalCenter: parent.horizontalCenter
       instrument: GLOB.instrument.type
+    }
+  }
+
+  function getInstrument() { return instrSel.instrument }
+
+  Connections {
+    target: nootkaWindow.swipe
+    onCurrentIndexChanged: {
+      if (nootkaWindow.swipe.currentIndex != 1 && instrPage.instrument != instrSel.instrument)
+        instrPage.instrument = instrSel.instrument
     }
   }
 }

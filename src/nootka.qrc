@@ -114,6 +114,13 @@
     <file alias="wizard/WizardInstrument.qml">qml/wizard/WizardInstrument.qml</file>
     <file alias="wizard/WizardClef.qml">qml/wizard/WizardClef.qml</file>
     <file alias="wizard/WizardOptions.qml">qml/wizard/WizardOptions.qml</file>
+    <file alias="wizard/OptionsContext.qml">qml/wizard/OptionsContext.qml</file>
+    <file alias="wizard/WizardOther.qml">qml/wizard/WizardOther.qml</file>
+    <file alias="wizard/WizardGuitars.qml">qml/wizard/WizardGuitars.qml</file>
+    <file alias="wizard/WizardBass.qml">qml/wizard/WizardBass.qml</file>
+    <file alias="wizard/WizardPiano.qml">qml/wizard/WizardPiano.qml</file>
+    <file alias="wizard/WizardBando.qml">qml/wizard/WizardBando.qml</file>
+    <file alias="wizard/WizardSax.qml">qml/wizard/WizardSax.qml</file>
 
     <file alias="exam/StartExam.qml">qml/exam/StartExam.qml</file>
     <file alias="exam/ExamExecutor.qml">qml/exam/ExamExecutor.qml</file>
