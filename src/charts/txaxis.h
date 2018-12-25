@@ -52,7 +52,7 @@ public:
   static void alignC(QGraphicsTextItem* tip);
 
 protected:
-  virtual void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = 0);
+  void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget = nullptr) override;
   void setTicText(QGraphicsTextItem* tic, TQAunit* unit, int questNr = 0);
 
 private:

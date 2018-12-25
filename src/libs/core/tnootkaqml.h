@@ -140,6 +140,10 @@ public:
   Q_INVOKABLE QColor randomColor(int alpha = 255, int level = 220);
   Q_INVOKABLE QColor invert(const QColor& c);
 
+  Q_INVOKABLE qreal hue(const QColor& c) const;
+  Q_INVOKABLE qreal saturation(const QColor& c) const;
+  Q_INVOKABLE qreal lightness(const QColor& c) const;
+
   Q_INVOKABLE int fontSize();
 
   Q_INVOKABLE QString pixToHtml(const QString& pixName, int height = 0);
@@ -173,6 +177,17 @@ public:
        * @li 3 - as played sound
        */
   Q_INVOKABLE QString qaTypeText(int qaType);
+
+      /**
+       * Name of seventh note according to localization.
+       * Returns 'b' or 'h' depends on translation.
+       */
+  Q_INVOKABLE QString note7translated() const;
+
+      /**
+       * Default style grab from translation 'letters' or 'solfege'
+       */
+  Q_INVOKABLE QString keyNameTranslated() const;
 
 /**
  * All stuff below is responsible for handling note changes in score, instrument and sound in/out.
