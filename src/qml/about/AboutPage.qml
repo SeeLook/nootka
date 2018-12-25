@@ -6,10 +6,10 @@ import QtQuick 2.9
 import "../"
 
 
-Flickable {
-  width: parent.width
+Tflickable {
   height: parent.height
-  clip: true
+
+  property alias color: nooLab.bgColor
 
   contentHeight: aboutCol.height
   contentWidth: width
@@ -18,10 +18,9 @@ Flickable {
     id: aboutCol
     width: parent.width
     spacing: Noo.fontSize()
-    Rectangle {
-      height: Noo.fontSize() * 7
-      width: parent.width
-      color: nooLab.bgColor
+    TipRect {
+      height: Noo.fontSize() * 7; width: parent.width
+      color: nooLab.bgColor; radius: 0
       NootkaLabel {
         id: nooLab
         height: parent.height
@@ -29,9 +28,13 @@ Flickable {
         anchors.centerIn: parent
         bgColor: Noo.randomColor()
       }
+      MouseArea {
+        anchors.fill: parent
+        onClicked: nooLab.bgColor = Noo.randomColor()
+      }
     }
     Tile {
-      bgColor: Qt.tint(nooLab.bgColor, Qt.rgba(activPal.base.r, activPal.base.g, activPal.base.b, 0.9))
+      bgColor: Qt.tint(nooLab.bgColor, Noo.alpha(activPal.base, 230))
       bgBorder { width: 2; color: nooLab.bgColor }
       width: parent.width - Noo.fontSize()
       Column {
