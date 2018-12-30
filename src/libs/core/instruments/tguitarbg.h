@@ -85,7 +85,7 @@ public:
 
   qreal xiiFret() const;
 
-  Q_INVOKABLE qreal strWidth(int str) { return m_strWidth[str]; }
+  Q_INVOKABLE qreal strWidth(int str) const { return m_strWidth[str]; }
 
   bool readOnly() const { return m_readOnly; }
   void setReadOnly(bool ro);
