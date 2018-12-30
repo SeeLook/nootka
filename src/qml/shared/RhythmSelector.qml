@@ -19,7 +19,7 @@ TrtmSelectorItem {
       color: enabled ? (ma.containsMouse ? activPal.highlight : activPal.button ): disdPal.button
       Text {
         anchors.verticalCenter: parent.verticalCenter; horizontalAlignment: Text.AlignHCenter
-        width: parent.width; fontSizeMode: Text.HorizontalFit; font.bold: true
+        width: Noo.fontSize() * 10; fontSizeMode: Text.HorizontalFit; font { bold: true; pixelSize: Noo.fontSize() }
         text: qsTr("rhythmic groups") + "  ⋮"; textFormat: Text.StyledText
         color: enabled ? (ma.containsMouse ? activPal.highlightedText : activPal.buttonText) : disdPal.buttonText
       }

@@ -107,11 +107,11 @@ Tlevel::Tlevel() :
   desc = QObject::tr("All possible options are turned on");
   bool hasGuitar = GLOB->instrument().isGuitar();
 // QUESTIONS
-  questionAs = TQAtype(true, true, hasGuitar, true);
-  answersAs[0] = TQAtype(true, true, hasGuitar, true);
-  answersAs[1] = TQAtype(true, true, hasGuitar, true);
-  answersAs[2] = TQAtype(true, true, false, false);
-  answersAs[3] = TQAtype(true, true, hasGuitar, true);
+  questionAs = TQAtype(true, true, GLOB->instrument().type() != Tinstrument::NoInstrument, true);
+  answersAs[0] = TQAtype(true, true, GLOB->instrument().type() != Tinstrument::NoInstrument, true);
+  answersAs[1] = TQAtype(true, true, GLOB->instrument().type() != Tinstrument::NoInstrument, true);
+  answersAs[2] = TQAtype(true, true, GLOB->instrument().isGuitar(), false);
+  answersAs[3] = TQAtype(true, true, GLOB->instrument().type() != Tinstrument::NoInstrument, true);
   requireOctave = true;
   requireStyle = true;
     /**

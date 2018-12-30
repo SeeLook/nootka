@@ -102,31 +102,33 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l.intonation = 0; // do not check
   llist << l;
   //----------------------------------------------------------------------------
-  l.name = QGuiApplication::translate("Tlevel", "All to V fret");
-  l.desc = QGuiApplication::translate("Tlevel", "All chromatic notes till V-th fret, no sound.<br>Without double accidentals. Key signatures: C, G, D, A");
-  l.questionAs.setAsSound(false);
-  l.answersAs[0] = TQAtype(false, true, true, false);
-  l.answersAs[1] = TQAtype(true, false, true, false);
-  l.answersAs[3] = TQAtype(false, false, false, false);
-  l.withSharps = true;
-  l.withFlats = true;
-  l.withDblAcc = false;
-  l.useKeySign = true;
-  l.manualKey = true;
-  l.loKey = 0;
-  l.hiKey = 3;
-  l.forceAccids = true;
-  l.requireOctave = true;
-  l.requireStyle = false;
-  l.showStrNr = true;
-  l.loNote = GLOB->loString();
-  l.hiNote = Tnote(GLOB->hiString().chromatic() + 5);
-  l.hiFret = 5;// loFret is 0 by constructor
-  l.intonation = 0; // do not check
-  if (GLOB->instrument().type() == Tinstrument::NoInstrument) // force instrument when not defined
-    l.instrument = Tinstrument::ClassicalGuitar;
-  l.melodyLen = 1;
-  llist << l;
+  if (GLOB->instrument().isGuitar()) {
+    l.name = QGuiApplication::translate("Tlevel", "All to V fret");
+    l.desc = QGuiApplication::translate("Tlevel", "All chromatic notes till V-th fret, no sound.<br>Without double accidentals. Key signatures: C, G, D, A");
+    l.questionAs.setAsSound(false);
+    l.answersAs[0] = TQAtype(false, true, true, false);
+    l.answersAs[1] = TQAtype(true, false, true, false);
+    l.answersAs[3] = TQAtype(false, false, false, false);
+    l.withSharps = true;
+    l.withFlats = true;
+    l.withDblAcc = false;
+    l.useKeySign = true;
+    l.manualKey = true;
+    l.loKey = 0;
+    l.hiKey = 3;
+    l.forceAccids = true;
+    l.requireOctave = true;
+    l.requireStyle = false;
+    l.showStrNr = true;
+    l.loNote = GLOB->loString();
+    l.hiNote = Tnote(GLOB->hiString().chromatic() + 5);
+    l.hiFret = 5;// loFret is 0 by constructor
+    l.intonation = 0; // do not check
+    if (GLOB->instrument().type() == Tinstrument::NoInstrument) // force instrument when not defined
+      l.instrument = Tinstrument::ClassicalGuitar;
+    l.melodyLen = 1;
+    llist << l;
+  }
   //----------------------------------------------------------------------------
   if (GLOB->loNote().chromatic() <= Tnote(5, 0).chromatic()) {
     // This level makes sense only when lowest note instrument is lowest or equal than g small note
