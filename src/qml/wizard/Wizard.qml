@@ -91,25 +91,29 @@ ApplicationWindow {
     color: Qt.tint(activPal.window, Noo.alpha(aboutPage.color, 50)) // Qt.darker(activPal.window, 0.9)
     Rectangle { color: aboutPage.color; height: fontSize / 6; width: parent.width; anchors.top: parent.top }
     TcuteButton {
+      id: prevBut
       anchors.verticalCenter: parent.verticalCenter
       x: parent.width / 2 - width - fontSize
-      id: prevBut
       text: Noo.TR("QWizard", "< &Back").replace("&", "")
       enabled: swipe.currentIndex > 0
       onClicked: swipe.currentIndex -= 1
+      Shortcut { sequence: StandardKey.MoveToPreviousChar; onActivated: { if (prevBut.enabled) swipe.currentIndex -= 1 }}
     }
     TcuteButton {
+      id: nextBut
       anchors.verticalCenter: parent.verticalCenter
       x: parent.width / 2 + fontSize
       text: Noo.TR("QWizard", "&Next >").replace("&", "")
       enabled: swipe.currentIndex < swipe.count - 1
       onClicked: swipe.currentIndex += 1
+      Shortcut { sequence: StandardKey.MoveToNextChar; onActivated: { if (nextBut.enabled) swipe.currentIndex += 1 }}
     }
     TcuteButton {
       anchors.verticalCenter: parent.verticalCenter
       x: parent.width - width - fontSize
       text: Noo.TR("QWizard", "&Finish").replace("&", "")
       onClicked: nootkaWindow.close()
+      Shortcut { sequence: "Return"; onActivated: nootkaWindow.close() }
     }
   }
 
@@ -118,8 +122,9 @@ ApplicationWindow {
     GLOB.setInstrument(instrPage.getInstrument())
     clefPage.setInstrParams()
     optionsPage.setOptions()
-    GLOB.keyNameStyle = (Noo.keyNameTranslated() !== "letters" ? (Qt.locale().name.indexOf("ru") === -1 ? 2 : 5) : (is7B ? 3 : 0))
+    GLOB.keyNameStyle = (Noo.keyNameTranslated() !== "letters" ? (Qt.locale().name.indexOf("ru") === -1 ? 2 : 5) : (GLOB.seventhIsB ? 3 : 0))
     GLOB.updateKeySignatureNames()
+    GLOB.audioInstrument = instrPage.getInstrument()
     GLOB.preferFlats = GLOB.instrument.isSax ? true : false
     Qt.quit()
   }

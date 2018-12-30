@@ -8,6 +8,8 @@ import "../"
 
 
 Column {
+  property alias transposition: transpose.outShift
+
   spacing: Noo.fontSize()
   anchors.horizontalCenter: parent.horizontalCenter
   width: parent.width * 0.9

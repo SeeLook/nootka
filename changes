@@ -1,5 +1,6 @@
 1.5.3 beta1
      - restored charts (analysis) with updated look
+     - improved start wizard to handle more supported instruments
 
 1.5.2 alpha3
      - adding/deleting notes to score works like in text editor
