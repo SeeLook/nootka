@@ -17,6 +17,9 @@ Tflickable {
   property real spacing: width / 100
   property real padding: width / 200
 
+  // private
+  property real maxWidth: 0
+
   Column {
     topPadding: qPage.padding
     width: parent.width
@@ -65,13 +68,19 @@ Tflickable {
           padding: qPage.padding
           visible: !creator.isMelody
           Repeater {
-            id: qRep
+            id: questRep
             model: 4
-            QuestionsBox {
-              qId: index
-              questionText: qsTr("Question") + " " + Noo.qaTypeText(index)
-              questionChecked: creator.questionAs & Math.pow(2, index)
-              answerBits: creator.answersAs[index]
+            Item {
+              width: maxWidth; height: qBox.height
+              QuestionsBox {
+                id: qBox
+                qId: index
+                visible: index != 2 || GLOB.instrument.type !== 0
+                questionText: qsTr("Question") + " " + Noo.qaTypeText(index)
+                questionChecked: creator.questionAs & Math.pow(2, index)
+                answerBits: creator.answersAs[index]
+                Component.onCompleted: maxWidth = Math.max(maxWidth, qBox.width)
+              }
             }
           }
         }

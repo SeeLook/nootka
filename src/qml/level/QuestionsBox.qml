@@ -14,10 +14,10 @@ Tile {
   property alias questionChecked: questionChB.checked
   property int answerBits: 0
 
-  property var answSymb: [ "s", "c", "g", "n" ]
+  property var answSymb: [ "s", "c", GLOB.instrument.glyph, "n" ]
 
   width: col.width + Noo.fontSize() * 3
-  anchors.horizontalCenter: undefined
+//   anchors.horizontalCenter: undefined
 
   description: unfold.checked ? qsTr("Select the type of answers for this kind of question.") : ""
 
@@ -61,9 +61,9 @@ Tile {
         spacing: Noo.fontSize() / 2
         columns: unfold.checked ? 1 : 4
         Repeater {
-          id: aRep
           model: 4
           Row {
+            visible: (index !== 2 || qId !== 2) || GLOB.instrument.isGuitar
             property alias checked: aChB.checked
             layoutDirection: unfold.checked ? Qt.RightToLeft : Qt.LeftToRight
             spacing: Noo.fontSize() / 2

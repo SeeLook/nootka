@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -38,7 +38,7 @@ QString qaTypeSymbol(TQAtype::Etype type) {
   switch (type) {
     case TQAtype::e_onScore : symbol = "s"; break;
     case TQAtype::e_asName : symbol = "c"; break;
-    case TQAtype::e_onInstr : symbol = "g"; break;
+    case TQAtype::e_onInstr : symbol = GLOB->instrument().glyph(); break;
     case TQAtype::e_asSound : symbol = "n"; break;
   }
   return symbol;

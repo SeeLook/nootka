@@ -50,7 +50,7 @@ Flickable {
                   else
                     setTuning(Noo.tuning(Ttune.Standard_EADGBE))
               } else if (ins.type === Tinstrument.NoInstrument) {
-                  
+                  setTuning(GLOB.tuning.raw())
               }
           }
         }
@@ -78,14 +78,18 @@ Flickable {
     Tile {
       visible: instrSel.instrument <= Tinstrument.BassGuitar
       Column {
-        spacing: Noo.fontSize() / 4
+        spacing: Noo.fontSize()
         width: parent.width
         Row {
           spacing: Noo.fontSize()
           anchors.horizontalCenter: parent.horizontalCenter
-          Text { text: qsTr("tuning of the guitar"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
+          Text {
+            text: instrSel.instrument === 0 ? qsTr("scale of an instrument") : qsTr("tuning of the guitar")
+            anchors.verticalCenter: parent.verticalCenter; color: activPal.text
+          }
           ComboBox {
             id: tuningCombo
+            visible: instrSel.instrument !== 0
             width: Noo.fontSize() * 16
             model: GLOB.instrument.type === Tinstrument.BassGuitar ? Noo.bassTunings() : Noo.guitarTunings()
             delegate: ItemDelegate { text: modelData }
@@ -93,12 +97,11 @@ Flickable {
         }
         Item {
           height: Noo.fontSize() * 18
-          width: Math.min(parent.width * 0.9, Noo.fontSize() * 28)
+          width: Math.min(parent.width * 0.9, Noo.fontSize() * (instrSel.instrument === 0 ? 14 : 28))
           anchors.horizontalCenter: parent.horizontalCenter
           Score {
             id: score
             anchors.fill: parent
-            clef: GLOB.clefType
             meter: Tmeter.NoMeter
             scoreObj.onClicked: tuningCombo.currentIndex = tuningCombo.count - 1
             scoreObj.editMode: true
@@ -126,8 +129,8 @@ Flickable {
           }
         }
       }
-      description: qsTr("Select appropriate tuning from the list or prepare your own.") + "<br>" + 
-                    qsTr("Remember to select the appropriate clef in Score settings.")
+      description: instrSel.instrument === 0 ? "" : qsTr("Select appropriate tuning from the list or prepare your own.") + "<br>"
+                    + qsTr("Remember to select the appropriate clef in Score settings.")
     }
 
     Tile {
@@ -174,6 +177,7 @@ Flickable {
     }
 
     Tile {
+      visible: instrSel.instrument !== 0
       Row {
         spacing: Noo.fontSize()
         anchors.horizontalCenter: parent.horizontalCenter
@@ -182,6 +186,7 @@ Flickable {
       }
     }
     Tile {
+      visible: instrSel.instrument !== 0
       Row {
         spacing: Noo.fontSize()
         anchors.horizontalCenter: parent.horizontalCenter
@@ -198,14 +203,15 @@ Flickable {
     onTriggered: {
       showOtherPosChB.checked = GLOB.showOtherPos
       fretDots.text = GLOB.markedFrets
+      instrSel.instrument = GLOB.instrument.type - (GLOB.instrument.type === 0 ? -1 : 1) // FIXME: workaround for Qt 5.10.1 and above
+      score.clef = GLOB.clefType
+      instrSel.instrument = GLOB.instrument.type
       if (GLOB.instrument.isGuitar) {
         if (GLOB.tuning.type === Ttune.Custom)
           tuningCombo.currentIndex = tuningCombo.count - 1
-          else
-            tuningCombo.currentIndex = GLOB.tuning.type - (GLOB.instrument.type === Tinstrument.BassGuitar ? 100 : 0)
+        else
+          tuningCombo.currentIndex = GLOB.tuning.type - (GLOB.instrument.type === Tinstrument.BassGuitar ? 100 : 0)
       }
-      instrSel.instrument = GLOB.instrument.type - (GLOB.instrument.type === 0 ? -1 : 1) // FIXME: workaround for Qt 5.10.1 and above
-      instrSel.instrument = GLOB.instrument.type
     }
   }
 
@@ -213,10 +219,10 @@ Flickable {
     for (var i = 0; i < 6; ++i) {
       if (i < t.stringNumber) {
           if (i >= score.notesCount)
-            score.addNote(t.str(i + 1))
+            score.addNote(Noo.transpose(t.str(i + 1), -1 * transp.outShift))
           else
-            score.setNote(i, t.str(i + 1))
-          score.scoreObj.note(i).setStringNumber(i + 1)
+            score.setNote(i, Noo.transpose(t.str(i + 1), -1 * transp.outShift))
+          score.scoreObj.note(i).setStringNumber(Noo.instr(instrSel.instrument).isGuitar ? i + 1 : 0)
       } else {
           if (score.notesCount > t.stringNr())
             score.deleteLast()

@@ -37,22 +37,26 @@ Tflickable {
           width: parent.width
           spacing: Noo.fontSize() / 2
           Text { text: qsTr("note range:"); color: activPal.text; anchors.horizontalCenter: parent.horizontalCenter }
-          Score {
-            id: rangeScore
+          Item {
             height: Noo.fontSize() * 20
             width: Noo.fontSize() * 12
             anchors.horizontalCenter: parent.horizontalCenter
-            meter: Tmeter.NoMeter
-            clef: creator.clef
-            Component.onCompleted: {
-              rangeScore.addNote(creator.loNote)
-              rangeScore.addNote(creator.hiNote)
-            }
-            Connections {
-              target: rangeScore.scoreObj
-              onClicked: {
-                creator.loNote = rangeScore.scoreObj.noteAt(0)
-                creator.hiNote = rangeScore.scoreObj.noteAt(1)
+            Score {
+              id: rangeScore
+              anchors.fill: parent
+              scoreObj.editMode: true
+              meter: Tmeter.NoMeter
+              clef: creator.clef
+              Component.onCompleted: {
+                rangeScore.addNote(creator.loNote)
+                rangeScore.addNote(creator.hiNote)
+              }
+              Connections {
+                target: rangeScore.scoreObj
+                onClicked: {
+                  creator.loNote = rangeScore.scoreObj.noteAt(0)
+                  creator.hiNote = rangeScore.scoreObj.noteAt(1)
+                }
               }
             }
           }
