@@ -16,6 +16,10 @@ Column {
   width: parent ? parent.width : 0
   spacing: Noo.fontSize()
 
+  function getNote(noteNr) {
+    return score.scoreObj.noteAt(noteNr)
+  }
+
   Text {
     width: parent.width
     font { pixelSize: Noo.fontSize() * 2; bold: true }
@@ -40,8 +44,8 @@ Column {
         addNote(scoreObj.highestNote())
       }
       onClefChanged: {
-        setNote(scoreObj.note(0), scoreObj.lowestNote())
-        setNote(scoreObj.note(1), scoreObj.highestNote())
+        score.scoreObj.setNote(0, score.scoreObj.lowestNote())
+        score.scoreObj.setNote(1, score.scoreObj.highestNote())
       }
     }
   }
