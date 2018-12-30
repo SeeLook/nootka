@@ -44,6 +44,9 @@ class NOOTKACORE_EXPORT Tinstrument {
   Q_PROPERTY(QString qmlFile READ qmlFile)
   Q_PROPERTY(qreal heightPart READ heightPart)
   Q_PROPERTY(int transposition READ transposition)
+  Q_PROPERTY(qreal skipStillerVal READ skipStillerVal)
+  Q_PROPERTY(qreal minSplitVol READ minSplitVol)
+  Q_PROPERTY(int fretNumber READ fretNumber)
 
 public:
 
@@ -97,6 +100,10 @@ public:
   qreal heightPart() const;
 
   int transposition() const;
+
+  qreal skipStillerVal() const;
+  qreal minSplitVol() const;
+  int fretNumber() const;
 
 private:
   Etype             m_type;

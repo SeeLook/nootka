@@ -74,6 +74,11 @@ public:
        */
   Q_INVOKABLE int changedStrings() const;
 
+      /**
+       * Raw copy of the tuning (rather CPU expensive)
+       */
+  Q_INVOKABLE Ttune raw() { return *m_tuning; }
+
 signals:
   void tuningChanged();
   void scordatureChanged();

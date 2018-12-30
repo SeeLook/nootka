@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -15,7 +15,6 @@
  *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
-
 
 #include "tinstrument.h"
 #include <QtGui/qguiapplication.h>
@@ -100,4 +99,34 @@ qreal Tinstrument::heightPart() const {
 
 int Tinstrument::transposition() const {
   return transArray[static_cast<int>(m_type)];
+}
+
+
+qreal Tinstrument::skipStillerVal() const {
+  switch (m_type) {
+    case ClassicalGuitar:
+    case ElectricGuitar:
+    case BassGuitar: return 80.0;
+    default: return 0.0;
+  }
+}
+
+
+qreal Tinstrument::minSplitVol() const {
+  switch (m_type) {
+    case ClassicalGuitar: return 7.0;
+    case ElectricGuitar:
+    case BassGuitar: return 10.0;
+    default: return 0;
+  }
+}
+
+
+int Tinstrument::fretNumber() const {
+  switch (m_type) {
+    case ClassicalGuitar: return 19;
+    case ElectricGuitar: return 23;
+    case BassGuitar: return 20;
+    default: return 0;
+  }
 }

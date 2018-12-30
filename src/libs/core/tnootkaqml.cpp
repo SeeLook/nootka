@@ -145,6 +145,11 @@ Tnote TnootkaQML::note(int chroma,  bool sharp) {
 }
 
 
+Tnote TnootkaQML::emptyNote() {
+  return Tnote();
+}
+
+
 Tnote TnootkaQML::transpose(Tnote n, int semitones) {
   n.transpose(semitones);
   return n;
@@ -541,7 +546,7 @@ void TnootkaQML::setInstrument(TcommonInstrument* ci) {
     if (m_instrument != nullptr)
       m_nodeConnected = false; // reset connection of instrument signal when instrument type changed
     m_instrument = ci;
-    if (m_instrument && m_scoreObject && !m_nodeConnected && !GLOB->isExam())
+    if (m_scoreObject && !m_nodeConnected && !GLOB->isExam())
       connectInstrument();
   }
 }
@@ -549,7 +554,8 @@ void TnootkaQML::setInstrument(TcommonInstrument* ci) {
 
 void TnootkaQML::connectInstrument() {
   m_nodeConnected = true;
-  connect(m_instrument, &TcommonInstrument::noteChanged, this, &TnootkaQML::instrumentChangesNoteSlot);
+  if (m_instrument)
+    connect(m_instrument, &TcommonInstrument::noteChanged, this, &TnootkaQML::instrumentChangesNoteSlot);
 }
 
 
