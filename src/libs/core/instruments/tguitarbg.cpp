@@ -63,14 +63,14 @@ QPointF TguitarBg::fretToPos(const TfingerPos& pos) const {
   qreal xPos = m_fbRect.x();
   if (pos.fret())
     xPos = m_fretsPos[pos.fret() - 1] - qRound(m_fretWidth / 1.5);
-  return QPointF(xPos, m_fbRect.y() + m_strGap * (pos.str() - 1) + m_strGap / 5.0);
+  return QPointF(xPos, m_fbRect.y() + m_strGap * (pos.str() - 1) + m_strGap / 2.0 - (pos.str() < 7 ? strWidth(pos.str() - 1) / 2.0 : 0.0));
 }
 
 
 void TguitarBg::setNote(const Tnote& n, quint32 noteDataValue) {
   Q_UNUSED(noteDataValue)
   if (!p_note.compareNotes(n)) {
-    short noteNr = n.chromatic() - GLOB->transposition();
+    short noteNr = n.chromatic();
     bool foundPos = false;
     bool doShow = n.isValid();
     for (int s = 0; s < 6; ++ s) {
@@ -84,7 +84,7 @@ void TguitarBg::setNote(const Tnote& n, quint32 noteDataValue) {
               m_fingerItems[strNr]->setVisible(true);
               auto p = fretToPos(TfingerPos(static_cast<unsigned char>(strNr + 1), static_cast<unsigned char>(fret)));
               m_fingerItems[strNr]->setX(p.x());
-              m_fingerItems[strNr]->setY(p.y() - m_fingerItems[strNr]->height() * 0.15);
+              m_fingerItems[strNr]->setY(m_stringItems[strNr]->y() - m_fingerItems[strNr]->height() / 2.0);
               m_stringItems[strNr]->setVisible(false);
           }
           foundPos = true;
@@ -98,10 +98,8 @@ void TguitarBg::setNote(const Tnote& n, quint32 noteDataValue) {
     setOutOfScale(!foundPos && n.isValid());
     if (outOfScale())
         p_note.setNote(0); // invalidate it
-    else {
+    else
         p_note = n;
-        p_note.transpose(GLOB->transposition());
-    }
   }
   if (m_highlightedString && !n.isValid()) {
     m_highlightedString->setVisible(false);
@@ -120,7 +118,7 @@ void TguitarBg::setFingerPos(const TfingerPos& fp) {
         if (fp.isValid() && fp.str() == s + 1) {
             m_fingerItems[s]->setVisible(true);
             m_fingerItems[s]->setX(p.x());
-            m_fingerItems[s]->setY(p.y() - m_fingerItems[s]->height() * 0.15);
+            m_fingerItems[s]->setY(m_stringItems[s]->y() - m_fingerItems[s]->height() / 2.0);
         } else
             m_fingerItems[s]->setVisible(false);
         m_stringItems[s]->setVisible(false);
@@ -283,7 +281,6 @@ void TguitarBg::paint(QPainter* painter) {
 
     }
   }
-  qDebug() << "Guitar painted in" << paintTimer.nsecsElapsed() / 1000000.0 << "ms";
 }
 
 
@@ -373,7 +370,7 @@ void TguitarBg::applyCorrect() {
       if (m_goodPos.fret() > 0) {
           auto p = fretToPos(m_goodPos);
           p_goodItem->setX(p.x());
-          p_goodItem->setY(p.y() - p_goodItem->height() * 0.15);
+          p_goodItem->setY(m_stringItems[m_goodPos.str() - 1]->y() - m_fingerItems[m_goodPos.str() - 1]->height() / 2.0);
       }
       p_goodItem->setVisible(true);
       markSelected(GLOB->correctColor());
@@ -465,7 +462,6 @@ void TguitarBg::hoverMoveEvent(QHoverEvent* event) {
 
 
 void TguitarBg::mousePressEvent(QMouseEvent* event) {
-CHECKTIME (
   if (event->buttons() & Qt::LeftButton) {
     if (m_curStr < 7) {
       m_selectedPos.setPos(m_curStr + 1, m_curFret);
@@ -481,7 +477,6 @@ CHECKTIME (
       hoverLeaveEvent(nullptr); // hide highlight that covers selected fret/string
     }
   }
-)
 }
 
 //################################################################################################
@@ -509,6 +504,8 @@ void TguitarBg::paintFingerAtPoint(QPoint p) {
   if (m_curStr != strNr || m_curFret != fretNr) {
     if (fretNr > 0 && fretNr < 99) { // show finger
         m_fingerPos = fretToPos(TfingerPos(static_cast<unsigned char>(strNr + 1), static_cast<unsigned char>(fretNr)));
+        if (strNr < 6)
+          m_fingerPos.setY(m_stringItems[strNr]->y() - m_fingerItems[0]->height() / 2.0);
 //       if (m_curStr != 7) m_workStrings[m_curStr]->hide();
     } else { // show string line
         m_fingerPos.setX(0.0);
@@ -523,34 +520,34 @@ void TguitarBg::paintFingerAtPoint(QPoint p) {
 
 void TguitarBg::setTune() {
   for (int i = 0; i < GLOB->Gtune()->stringNr(); i++) {
-    if (GLOB->Gtune()->strChromatic(i + 1) + GLOB->transposition() > 14) { // highest than cis1
+    if (GLOB->Gtune()->strChromatic(i + 1) > 14) { // highest than cis1
         m_strColors[i] = QColor(255, 255, 255, 125); // are nylon
         m_widthFromPitch[i] = 2; // and thinner
-    } else if (GLOB->Gtune()->strChromatic(i + 1) + GLOB->transposition() > 10) { // highest than gis
+    } else if (GLOB->Gtune()->strChromatic(i + 1) > 10) { // highest than gis
         m_strColors[i] = QColor(255, 255, 255, 125); // are nylon
         m_widthFromPitch[i] = 2.5; // and more thick
-    } else if (GLOB->Gtune()->strChromatic(i + 1) + GLOB->transposition() > 4) { // highest than dis
+    } else if (GLOB->Gtune()->strChromatic(i + 1) > 4) { // highest than dis
         m_strColors[i] = QColor(255, 255, 255, 150); // are nylon
         m_widthFromPitch[i] = 3; // and more thick
-    } else if (GLOB->Gtune()->strChromatic(i + 1) + GLOB->transposition() > 0) { // highest than b-1(contra)
+    } else if (GLOB->Gtune()->strChromatic(i + 1) > 0) { // highest than b-1(contra)
         m_strColors[i] = QColor(194, 148, 50); // are gold-plated
         m_widthFromPitch[i] = 3; // and more thick
-    } else if (GLOB->Gtune()->strChromatic(i + 1) + GLOB->transposition() > -5) { // highest than g-1(contra) 1-st string of bass
+    } else if (GLOB->Gtune()->strChromatic(i + 1) > -5) { // highest than g-1(contra) 1-st string of bass
         m_strColors[i] = QColor(194, 148, 50); // #C29432" // are gold-plated
         m_widthFromPitch[i] = 3.5; // and more thick
-    } else if (GLOB->Gtune()->strChromatic(i + 1) + GLOB->transposition() > -10) { // highest than d-1(contra)
+    } else if (GLOB->Gtune()->strChromatic(i + 1) > -10) { // highest than d-1(contra)
         m_strColors[i] = QColor(194, 148, 50); // are gold-plated
         m_widthFromPitch[i] = 4; // and more thick
-    } else if (GLOB->Gtune()->strChromatic(i + 1) + GLOB->transposition() > -15) { // highest than gis-2(subcontra)
+    } else if (GLOB->Gtune()->strChromatic(i + 1) > -15) { // highest than gis-2(subcontra)
         m_strColors[i] = QColor(194, 148, 50); // are gold-plated
         m_widthFromPitch[i] = 4.5; // and more thick
-    } else if (GLOB->Gtune()->strChromatic(i + 1) + GLOB->transposition() > -20) { // highest than dis-1(contra)
+    } else if (GLOB->Gtune()->strChromatic(i + 1) > -20) { // highest than dis-1(contra)
         m_strColors[i] = QColor(194, 148, 50); // are gold-plated
         m_widthFromPitch[i] = 5; // and more thick
-    } else if (GLOB->Gtune()->strChromatic(i + 1) + GLOB->transposition() > -25) { // highest than
+    } else if (GLOB->Gtune()->strChromatic(i + 1) > -25) { // highest than
         m_strColors[i] = QColor(194, 148, 50); // are gold-plated
         m_widthFromPitch[i] = 6; // and more thick
-    } else if (GLOB->Gtune()->strChromatic(i + 1) + GLOB->transposition() > -30) { // highest than
+    } else if (GLOB->Gtune()->strChromatic(i + 1) > -30) { // highest than
         m_strColors[i] = QColor(194, 148, 50); // are gold-plated
         m_widthFromPitch[i] = 7; // and more thick
     }

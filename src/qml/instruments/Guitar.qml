@@ -53,7 +53,7 @@ TguitarBg {
     height: width * 0.65
     radius: width * 0.5
     x: fingerPos.x
-    y: fingerPos.y - height * 0.15
+    y: fingerPos.y
     visible: false
   }
 
@@ -61,10 +61,10 @@ TguitarBg {
     id: fingerShadow
     z: 5
     anchors.fill: finger
-    horizontalOffset: stringsGap / 7
-    verticalOffset: stringsGap / 7
-    color: activPal.shadow
-    radius: 8.0
+    horizontalOffset: finger.height / 6
+    verticalOffset: finger.height / 6
+    color: "black"
+    radius: Noo.fontSize() / 3
     source: finger
     visible: active && fingerPos.x > 0
   }
