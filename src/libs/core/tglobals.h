@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -66,10 +66,11 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(int clefType READ clefType WRITE setClefType NOTIFY clefTypeChanged)
 
   /* Note name switches */
-  Q_PROPERTY(qreal namesOnScore READ namesOnScore WRITE setNamesOnScore NOTIFY namesOnScoreChanged)
+  Q_PROPERTY(bool namesOnScore READ namesOnScore WRITE setNamesOnScore NOTIFY namesOnScoreChanged)
   Q_PROPERTY(int noteNameStyle READ noteNameStyle WRITE setNoteNameStyle NOTIFY noteNameStyleChanged)
   Q_PROPERTY(bool seventhIsB READ seventhIsB WRITE setSeventhIsB NOTIFY seventhIsBChanged)
   Q_PROPERTY(QColor nameColor READ nameColor WRITE setNameColor NOTIFY nameColorChanged)
+  Q_PROPERTY(bool scientificOctaves READ scientificOctaves WRITE setScientificOctaves NOTIFY noteNameStyleChanged)
 
   /* Instrument switches */
   Q_PROPERTY(Tinstrument instrument READ instrument NOTIFY instrumentChanged)
@@ -194,6 +195,12 @@ public:
 
   int noteNameStyle() const;
   void setNoteNameStyle(int nameStyle);
+
+      /**
+       * As long as it corresponds with note name style, any change invokes @p noteNameStyleChanged() signal
+       */
+  bool scientificOctaves() const;
+  void setScientificOctaves(bool sciO);
 
   /* ------------------ Instrument switches ------------------ */
   QColor fingerColor() const { return GfingerColor; }

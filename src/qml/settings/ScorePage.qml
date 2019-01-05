@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -232,20 +232,61 @@ Column {
             }
           }
           Tile {
-            TcheckBox {
-              id: namesOnScoreChB
-              text: qsTr("Show names of all notes on the score")
+            ButtonGroup { id: octaveGr }
+            Column {
               anchors.horizontalCenter: parent.horizontalCenter
-              checked: GLOB.namesOnScore
+              width: parent.width * 0.9
+              spacing: Noo.fontSize()
+              Row {
+                anchors.horizontalCenter: parent.horizontalCenter
+                spacing: Noo.fontSize() * 2
+                Text { anchors.verticalCenter: parent.verticalCenter; text: qsTr("Octave numbers"); color: activPal.text }
+                RadioButton {
+                  id: scientificRadio
+                  text: qsTr("scientific")
+                  ButtonGroup.group: octaveGr
+                  checked: GLOB.scientificOctaves
+                }
+                RadioButton {
+                  id: musicalRadio
+                  text: qsTr("musical")
+                  ButtonGroup.group: octaveGr
+                  checked: !GLOB.scientificOctaves
+                }
+              }
+              Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                color: activPal.text; textFormat: Text.RichText; font.pixelSize: Noo.fontSize() * 0.9
+                text: "<table>"
+                    + "<tr><td> <b>"+ Noo.TR("TnoteName", "Octaves") + ":</b> </td><td> <b>" + qsTr("scientific") + "</b> </td><td> <b>" + qsTr("musical") + "</b> </td></tr>"
+                    + "<tr><td>"+ Noo.TR("TnoteName", "Subcontra octave") + "</td><td align=\"center\">C<sub>0</sub></td><td align=\"center\">C<sub>2</sub></td></tr>"
+                    + "<tr><td>"+ Noo.TR("TnoteName", "Contra octave") + "</td><td align=\"center\">C<sub>1</sub></td><td align=\"center\">C<sub>1</sub></td></tr>"
+                    + "<tr><td>"+ Noo.TR("TnoteName", "Great octave") + "</td><td align=\"center\">C<sub>2</sub></td><td align=\"center\">C</td></tr>"
+                    + "<tr><td>"+ Noo.TR("TnoteName", "Small octave") + "</td><td align=\"center\">C<sub>3</sub></td><td align=\"center\">c</td></tr>"
+                    + "<tr><td>"+ Noo.TR("TnoteName", "One-line octave") + "</td><td align=\"center\">C<sub>4</sub></td><td align=\"center\">c<sup>1</sup></td></tr>"
+                    + "<tr><td>"+ Noo.TR("TnoteName", "Two-line octave") + "</td><td align=\"center\">C<sub>5</sub></td><td align=\"center\">c<sup>2</sup></td></tr>"
+                + "</table>"
+              }
             }
+            description: qsTr("Scientific (international) pitch notation is widely used in technical sources and tuning devices/applications, when the other notation style is used more in music publications.")
           }
           Tile {
-            enabled: namesOnScoreChB.checked
-            Row {
-              spacing: Noo.fontSize()
+            Column {
               anchors.horizontalCenter: parent.horizontalCenter
-              TlabelText { text: qsTr("names highlight color") }
-              ColorButton { id: nameColorButt; color: GLOB.nameColor; title: qsTr("names highlight color") }
+              spacing: Noo.fontSize()
+              TcheckBox {
+                id: namesOnScoreChB
+                text: qsTr("Show names of all notes on the score")
+                anchors.horizontalCenter: parent.horizontalCenter
+                checked: GLOB.namesOnScore
+              }
+              Row {
+                spacing: Noo.fontSize()
+                enabled: namesOnScoreChB.checked
+                anchors.horizontalCenter: parent.horizontalCenter
+                TlabelText { text: qsTr("names highlight color") }
+                ColorButton { id: nameColorButt; color: GLOB.nameColor; title: qsTr("names highlight color") }
+              }
             }
           }
           Component.onCompleted: {
@@ -276,6 +317,7 @@ Column {
           GLOB.updateKeySignatureNames()
         }
       }
+      GLOB.scientificOctaves = scientificRadio.checked
       GLOB.noteNameStyle = nameStyleSel.style
       GLOB.seventhIsB = is7BSelector.is7B
       GLOB.namesOnScore = namesOnScoreChB.checked
@@ -292,6 +334,7 @@ Column {
       clefs.selClef = GLOB.instrument.clef
 
       enableKeyChB.checked = false
+      musicalRadio.checked = true
     }
 
     function help() { Noo.openHelpLink("score-settings") }

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -239,6 +239,16 @@ void Tglobals::setNoteNameStyle(int nameStyle) {
   if (newNameStyle != S->nameStyleInNoteName) {
     S->nameStyleInNoteName = static_cast<Tnote::EnameStyle>(nameStyle);
     Tnote::defaultStyle = S->nameStyleInNoteName;
+    emit noteNameStyleChanged();
+  }
+}
+
+bool Tglobals::scientificOctaves() const { return S->scientificOctaves; }
+
+void Tglobals::setScientificOctaves(bool sciO) {
+  if (sciO != S->scientificOctaves) {
+    S->scientificOctaves = sciO;
+    Tnote::scientificOctaves = sciO;
     emit noteNameStyleChanged();
   }
 }
@@ -493,6 +503,8 @@ void Tglobals::loadSettings(QSettings* cfg) {
       S->tempo = cfg->value(QStringLiteral("tempo"), 120).toInt();
       S->scoreScale = cfg->value(QStringLiteral("scoreScale"), 1.0).toReal();
       S->lastXmlDir = cfg->value(QStringLiteral("lastXmlDir"), QDir::homePath()).toString();
+      S->scientificOctaves = cfg->value(QStringLiteral("scientificOctaves"), false).toBool();
+      Tnote::scientificOctaves = S->scientificOctaves;
 #if defined (Q_OS_ANDROID)
       S->lastXmlDir = cfg->value(QStringLiteral("lastXmlDir"), Tandroid::getExternalPath()).toString();
       if (!QFileInfo::exists(S->lastXmlDir)) // reset if doesn't exist
@@ -762,6 +774,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue(QStringLiteral("tempo"), S->tempo);
       cfg->setValue(QStringLiteral("scoreScale"), S->scoreScale);
       cfg->setValue(QStringLiteral("lastXmlDir"), S->lastXmlDir);
+      cfg->setValue(QStringLiteral("scientificOctaves"), S->scientificOctaves);
   cfg->endGroup();
 
   cfg->beginGroup(QLatin1String("noteName"));
