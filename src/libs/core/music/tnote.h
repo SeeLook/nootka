@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2006-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -15,7 +15,6 @@
  *  You should have received a copy of the GNU General Public License      *
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
-
 
 #ifndef TNOTE_H
 #define TNOTE_H
@@ -213,8 +212,18 @@ public:
        */
   bool isValid() const { return (note() > 0 && note() < 8); }
 
-      /** Static value determines default name style for a note */
+      /**
+       * Static value determines default name style for a note
+       */
   static EnameStyle defaultStyle;
+
+      /**
+       * Determines whether to use International Pitch Notation,
+       * when octaves are numbered from 0 (-3 here, sub contra octave).
+       * This is global static switch, a change influences any further note name.
+       * By default it is @p FALSE
+       */
+  static bool scientificOctaves;
 
   bool operator==(const Tnote N2) const {
     return (note() == N2.note() && octave() == N2.octave() && p_alterValue == N2.p_alterValue && rtm == N2.rtm);
@@ -329,6 +338,9 @@ public:
        * Negative values shift down (drops), positive ones shift up (rise)
        */
   void transpose(int interval);
+
+  static QString shortOctaveName(int o);
+  static QString fullOctaveName(int o);
 
 protected:
   char                  p_note = 0;

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -87,7 +87,9 @@ public:
 
   Q_INVOKABLE QString octaveName(int oNr) const;
   Q_INVOKABLE QString octavesLink() const;
-  Q_INVOKABLE QString noteButtonText(int noteNr, int nStyle = -1);
+  Q_INVOKABLE QString octavesLinkStatus() const;
+  Q_INVOKABLE QString noteButtonText(int noteNr, int nStyle = -1, bool fakeIs7b = false);
+  Q_INVOKABLE QString octaveStatusTip(int oNr) const;
 
   void askQuestion(const Tnote& note, Tnote::EnameStyle questStyle);
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -81,6 +81,13 @@ public:
   Tnote::EnameStyle solfegeStyle; /**< e_italiano_Si is default */
   bool namesOnScore; /**< show/hide note names on the score */
   QColor nameColor; /**< color of note name highlight */
+
+      /**
+       * Determines whether to use International Pitch Notation,
+       * when octaves are numbered from 0 (-3 here, sub contra octave).
+       * By default it is @p FALSE
+       */
+  bool scientificOctaves;
 
 };
 
