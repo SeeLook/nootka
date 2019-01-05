@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -564,7 +564,7 @@ void TscoreObject::setShowNoteNames(bool showNames) {
     if (notesCount()) {
     CHECKTIME (
       for (int n = 0; n < notesCount(); ++n)
-        m_segments[n]->item()->setNoteNameVisible(m_showNoteNames && m_clefType != Tclef::NoClef);
+        m_segments[n]->item()->setNoteNameVisible(m_showNoteNames && m_clefType != Tclef::NoClef && !m_singleNote);
     )
     }
   }
@@ -587,15 +587,13 @@ void TscoreObject::setNameColor(const QColor& nameC) {
 
 
 void TscoreObject::setNameStyle(int nameS) {
-  if (m_nameStyle != nameS) {
-    m_nameStyle = nameS;
-    if (m_showNoteNames) {
-      if (notesCount()) {
-      CHECKTIME(
-        for (int n = 0; n < notesCount(); ++n) // with hope that all items have name item created
-          m_segments[n]->item()->nameItem()->setProperty("text", m_notes[n].styledName());
-      )
-      }
+  m_nameStyle = nameS;
+  if (m_showNoteNames) {
+    if (notesCount()) {
+    CHECKTIME(
+      for (int n = 0; n < notesCount(); ++n) // with hope that all items have name item created
+        m_segments[n]->item()->nameItem()->setProperty("text", m_notes[n].styledName());
+    )
     }
   }
 }
