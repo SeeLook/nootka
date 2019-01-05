@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -86,7 +86,7 @@ TnameItem {
         checked: !disabled && index === step - 1
         ButtonGroup.group: stepsGr
         font { pixelSize: height * 0.8; family: "Serif"; bold: true }
-        text: noteButtonText(index + 1, buttonNameStyle)
+        text: noteButtonText(index + 1, buttonNameStyle, GLOB.seventhIsB)
         onClicked: { step = index + 1; noteButtonClicked() }
       }
     }
@@ -118,11 +118,21 @@ TnameItem {
     y: parent.height * 0.65
     leftPadding: parent.width / 60
     spacing: parent.width / 20
-    LinkText {
+    Text {
+      anchors.verticalCenter: parent.verticalCenter
+      color: activPal.text
+      onLinkActivated: Qt.openUrlExternally(link)
       enabled: !disabled
       text: octavesLink()
       font { pixelSize: buttHeight * 0.4; family: "Sans"; bold: true }
-      anchors.verticalCenter: parent.verticalCenter
+      MouseArea {
+        anchors.fill: parent
+        acceptedButtons: Qt.NoButton
+        cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+        hoverEnabled: GLOB.showHints
+        onEntered: Noo.setStatusTip(octavesLinkStatus())
+        onExited: Noo.setStatusTip("")
+      }
     }
     Repeater {
       model: 4
@@ -133,9 +143,11 @@ TnameItem {
         checkable: true
         checked: !disabled && index === (octave + 2) / 2
         ButtonGroup.group: octavesGr
-        font { pixelSize: height * 0.5; family: "Sans"; bold: true }
-        text: octaveName(index * 2 - 2)
+        font { pixelSize: height * (GLOB.scientificOctaves ? 0.8 : 0.5); family: "Sans"; bold: true }
+        text: GLOB.scientificOctaves ? index * 2 + 1 : octaveName(index * 2 - 2)
         onClicked: octave = index * 2 - 2
+        hoverEnabled: GLOB.showHints
+        onHoveredChanged: Noo.setStatusTip(hovered ? octaveStatusTip(index * 2 - 2) : "")
       }
     }
   }
@@ -153,9 +165,11 @@ TnameItem {
         checkable: true
         checked: !disabled && index === (octave + 3) / 2
         ButtonGroup.group: octavesGr
-        font { pixelSize: height * 0.5; family: "Sans"; bold: true }
-        text: octaveName(index * 2 - 3)
+        font { pixelSize: height * (GLOB.scientificOctaves ? 0.8 : 0.5); family: "Sans"; bold: true }
+        text: GLOB.scientificOctaves ? index * 2 : octaveName(index * 2 - 3)
         onClicked: octave = index * 2 - 3
+        hoverEnabled: GLOB.showHints
+        onHoveredChanged: Noo.setStatusTip(hovered ? octaveStatusTip(index * 2 - 3) : "")
       }
     }
   }

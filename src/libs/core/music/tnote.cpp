@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2006-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,7 +16,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #include "tnote.h"
 #include "tnamestylefilter.h"
 
@@ -26,6 +25,7 @@
 #include <unistd.h>
 
 #include <QtCore/qvariant.h>
+#include <QtGui/qguiapplication.h>
 
 
 std::string IntToString(int num) {
@@ -61,11 +61,20 @@ static qint8 chromaticMap[8] { 0, 1, 3, 5, 6, 8, 10, 12 };
 
 static char setChromaticMap[12][2] { {1, 0}, {1, 1}, {2, 0}, {2, 1}, {3, 0}, {4, 0}, {4, 1}, {5, 0}, {5, 1}, {6, 0}, {6, 1}, {7, 0} };
 
+const char* const fullOctaveNames[8] = { QT_TR_NOOP("Subcontra octave"), QT_TR_NOOP("Contra octave"), QT_TR_NOOP("Great octave"),
+                                         QT_TR_NOOP("Small octave"), QT_TR_NOOP("One-line octave"), QT_TR_NOOP("Two-line octave"),
+                                         QT_TR_NOOP("Three-line octave"), QT_TR_NOOP("Four-line octave") };
+
+static const char* const shortOctaveNames[8] = { QT_TR_NOOP("Sub"), 	QT_TR_NOOP("Contra"), QT_TR_NOOP("Great"), QT_TR_NOOP("Small"),
+    QT_TR_NOOP("1-line"), QT_TR_NOOP("2-line"), QT_TR_NOOP("3-line"), QT_TR_NOOP("4-line") };
+
+
 /*static*/
 std::string Tnote::m_solmization[7] = {"Do", "Re", "Mi", "Fa", "Sol", "La", "Si"};
 std::string Tnote::m_solmizationRu[7] = {"До", "Ре", "Ми", "Фа", "Соль", "Ля", "Си"};
 
 Tnote::EnameStyle Tnote::defaultStyle = Tnote::e_norsk_Hb;
+bool Tnote::scientificOctaves = false;
 
 
 //#############################################################################################
@@ -276,7 +285,7 @@ std::string Tnote::getName(Tnote::EnameStyle notation, bool showOctave) const {
           }
           break;
     case e_nederl_Bis:
-        noteStr = Letters[note()-1];
+        noteStr = Letters[note() - 1];
         if (note() == 7) noteStr = "B";
         switch( alter() ){
           case e_Natural: break;
@@ -305,36 +314,42 @@ std::string Tnote::getName(Tnote::EnameStyle notation, bool showOctave) const {
         break;
   }
   if (showOctave)
-      noteStr = noteStr + CharToString(octave());
+      noteStr = noteStr + CharToString(octave() + (scientificOctaves ? 3 : 0));
   return noteStr;
 }
 
 
 QString Tnote::toRichText(Tnote::EnameStyle notation, bool showOctave) const {
-  QString result = toText(notation, false);
+  QString richText = toText(notation, false);
     if (notation == Tnote::e_italiano_Si ||
         notation == Tnote::e_russian_Ci ||
         notation == Tnote::e_english_Bb ||
         notation == Tnote::e_norsk_Hb ) {
         if (alter())
-          result.replace(QString::fromStdString(signsAcid[alter() + 2]), QString("<sub>%1</sub>").arg(accidInSpan(alter())));
+          richText.replace(QString::fromStdString(signsAcid[alter() + 2]), QString("<sub>%1</sub>").arg(accidInSpan(alter())));
     }
     if (alter() == -2)
-        result.replace(QLatin1String("B"), QLatin1String("!")); // store capital B otherwise toLower() make it lower
-    result = result.toLower(); // it converts double flat (B) to single flat (b)
+        richText.replace(QLatin1String("B"), QLatin1String("!")); // store capital B otherwise toLower() make it lower
+    richText = richText.toLower(); // it converts double flat (B) to single flat (b)
     if (alter() == -2)
-        result.replace(QLatin1String("!"), QLatin1String("B")); // bring back capital B
+        richText.replace(QLatin1String("!"), QLatin1String("B")); // bring back capital B
     if (showOctave) {
-        if (octave() < 0) { //first letter capitalize
-          QString l1 = result.mid(0, 1).toUpper();
-          result.replace(0, 1, l1);
-          if (octave() < -1)
-              result = result + QString("<sub>%1</sub>").arg(int(octave()*(-1)-1));
-        }
-        if (octave() > 0)
-            result = result + QString("<sup>%1</sup>").arg((int)octave());
+      if (scientificOctaves) {
+          QString l1 = richText.mid(0, 1).toUpper();
+          richText.replace(0, 1, l1);
+          richText += QString("<sub>%1</sub>").arg(static_cast<int>(octave() + 3));
+      } else {
+          if (octave() < 0) { //first letter capitalize
+            QString l1 = richText.mid(0, 1).toUpper();
+            richText.replace(0, 1, l1);
+            if (octave() < -1)
+                richText += QString("<sub>%1</sub>").arg(static_cast<int>(octave() * (-1) - 1));
+          }
+          if (octave() > 0)
+              richText += QString("<sup>%1</sup>").arg(static_cast<int>(octave()));
+      }
     }
-    return result;
+    return richText;
 }
 
 
@@ -350,13 +365,19 @@ QString Tnote::styledName(bool showOctave) const {
     } else // e_deutsch_His & e_nederl_Bis (full name)
           name = toText(notation, false).toLower();
     if (showOctave) {
-      if (octave() > 0)
-          name += QString(QChar(390 + octave())); // 391 is fist glyph of sup script digit
-      else if (octave() < 0) {
-        QString firstLetter = name.mid(0, 1).toUpper();
-        name.replace(0, 1, firstLetter);
-        if (octave() < -1) // 397 is fist glyph of sub script digit,
-          name += QString(QChar(395 - octave())); // and -1 octave is just with capital letter but without digit, only -2 has 1 digit and etc
+      if (scientificOctaves) {
+          QString firstLetter = name.mid(0, 1).toUpper();
+          name.replace(0, 1, firstLetter);
+          name += QString(QChar(435 + octave()));
+      } else {
+          if (octave() > 0)
+              name += QString(QChar(390 + octave())); // 391 is fist glyph of sup script digit
+          else if (octave() < 0) {
+              QString firstLetter = name.mid(0, 1).toUpper();
+              name.replace(0, 1, firstLetter);
+              if (octave() < -1) // 397 is fist glyph of sub script digit,
+                name += QString(QChar(395 - octave())); // and -1 octave is just with capital letter but without digit, only -2 has 1 digit and etc
+          }
       }
     }
   }
@@ -410,6 +431,16 @@ void Tnote::fromXml(QXmlStreamReader& xml, const QString& prefix) {
 void Tnote::transpose(int interval) {
   if (isValid() && interval != 0)
     setChromatic(chromatic() + static_cast<short>(interval));
+}
+
+
+QString Tnote::shortOctaveName(int o) {
+  return o > -4 && o < 5 ? QGuiApplication::translate("TnoteName", shortOctaveNames[o + 3]) : QString();
+}
+
+
+QString Tnote::fullOctaveName(int o) {
+  return o > -4 && o < 5 ? QGuiApplication::translate("TnoteName", fullOctaveNames[o + 3]) : QString();
 }
 
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,10 +27,6 @@
 #include <QtCore/qdebug.h>
 
 
-static const char* const shortOctaveNames[8] = { QT_TR_NOOP("Sub"), 	QT_TR_NOOP("Contra"), QT_TR_NOOP("Great"), QT_TR_NOOP("Small"),
-  QT_TR_NOOP("1-line"), QT_TR_NOOP("2-line"), QT_TR_NOOP("3-line"), QT_TR_NOOP("4-line") };
-
-
 TnameItem* TnameItem::m_instance = nullptr;
 
 
@@ -54,10 +50,9 @@ TnameItem::TnameItem(QQuickItem* parent) :
         emit bgColorChanged();
       }
   });
-  connect(GLOB, &Tglobals::showEnharmNotesChanged, [=]{
-    if (m_note.isValid())
-      emit nameTextChanged();
-  });
+  connect(GLOB, &Tglobals::showEnharmNotesChanged, this, &TnameItem::nameTextChanged);
+  connect(GLOB, &Tglobals::noteNameStyleChanged, this, &TnameItem::nameTextChanged);
+  connect(GLOB, &Tglobals::seventhIsBChanged, this, &TnameItem::nameTextChanged);
 }
 
 
@@ -190,23 +185,34 @@ QString TnameItem::nameText() const {
 
 
 QString TnameItem::octaveName(int oNr) const {
-  return oNr > -4 && oNr < 5 ? tr(shortOctaveNames[oNr + 3]) : QString();
+  return Tnote::shortOctaveName(oNr);
 }
 
 
 QString TnameItem::octavesLink() const {
-  // TODO: here is a status tip, make it available when tips will back
-  QString l = tr("Click to see what <i>octaves</i> are at \"http://en.wikipedia.org/wiki/Octave\"",
-                                "You can change this link to article in your language. Leave quotation marks around the address!");
+  QString l = octavesLinkStatus();
   return QLatin1String("<a href=") + l.mid(l.indexOf("\"")) + QLatin1String(">") + tr("Octaves") + QLatin1String(":</a>");
+}
+
+
+QString TnameItem::octavesLinkStatus() const {
+  return tr("Click to see what <i>octaves</i> are at \"http://en.wikipedia.org/wiki/Octave\"",
+     "You can change this link to article in your language, but please KEEP QUOTATION MARKS AROUND THAT ADDRESS!");
 }
 
 
 /**
  * Text on name buttons depends on style
+ * but @p fakeIs7b is only to re-invoke this from QML when 7th note is changed from settings
  */
-QString TnameItem::noteButtonText(int noteNr, int nStyle) {
+QString TnameItem::noteButtonText(int noteNr, int nStyle, bool fakeIs7b) {
+  Q_UNUSED(fakeIs7b)
   return Tnote(static_cast<char>(noteNr), 0, 0).toText(static_cast<Tnote::EnameStyle>(nStyle), false);
+}
+
+
+QString TnameItem::octaveStatusTip(int oNr) const {
+  return oNr > -4 && oNr < 5 ? Tnote::fullOctaveName(oNr) + QLatin1String("<br>") + tr("The octave <b>%n</b> in International Pitch Notation", "", oNr + 3) : QString();
 }
 
 
