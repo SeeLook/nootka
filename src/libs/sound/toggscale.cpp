@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -41,46 +41,47 @@
 
 /*Static*/
 size_t ToggScale::readOggStatic(void* dst, size_t size1, size_t size2, void* fh) {
-    SoggFile* of = reinterpret_cast<SoggFile*>(fh);
-    size_t len = size1 * size2;
-    if ( of->curPtr + len > of->filePtr + of->fileSize ) {
-        len = of->filePtr + of->fileSize - of->curPtr;
-    }
-    memcpy( dst, of->curPtr, len );
-    of->curPtr += len;
-    return len;
+  SoggFile* of = reinterpret_cast<SoggFile*>(fh);
+  size_t len = size1 * size2;
+  if ( of->curPtr + len > of->filePtr + of->fileSize ) {
+      len = of->filePtr + of->fileSize - of->curPtr;
+  }
+  memcpy( dst, of->curPtr, len );
+  of->curPtr += len;
+  return len;
 }
 
 int ToggScale::seekOggStatic(void* fh, ogg_int64_t offset, int type) {
-    SoggFile* of = reinterpret_cast<SoggFile*>(fh);
-    switch(type) {
-      case SEEK_SET:
-            of->curPtr = of->filePtr + offset; break;
-        case SEEK_CUR:
-            of->curPtr += offset; break;
-        case SEEK_END:
-            of->curPtr = of->filePtr + of->fileSize - offset; break;
-        default:
-            return -1;
-    }
-    if ( of->curPtr < of->filePtr ) {
-        of->curPtr = of->filePtr; return -1;
-    }
-    if ( of->curPtr > of->filePtr + of->fileSize ) {
-        of->curPtr = of->filePtr + of->fileSize; return -1;
-    }
-    return 0;
+  SoggFile* of = reinterpret_cast<SoggFile*>(fh);
+  switch(type) {
+    case SEEK_SET:
+          of->curPtr = of->filePtr + offset; break;
+      case SEEK_CUR:
+          of->curPtr += offset; break;
+      case SEEK_END:
+          of->curPtr = of->filePtr + of->fileSize - offset; break;
+      default:
+          return -1;
+  }
+  if ( of->curPtr < of->filePtr ) {
+      of->curPtr = of->filePtr; return -1;
+  }
+  if ( of->curPtr > of->filePtr + of->fileSize ) {
+      of->curPtr = of->filePtr + of->fileSize; return -1;
+  }
+  return 0;
 }
 
 
 int ToggScale::closeOggStatic(void* fh) {
-    return 0;
+  Q_UNUSED(fh)
+  return 0;
 }
 
 
 long int ToggScale::tellOggStatic(void* fh) {
-    SoggFile* of = reinterpret_cast<SoggFile*>(fh);
-    return (of->curPtr - of->filePtr);
+  SoggFile* of = reinterpret_cast<SoggFile*>(fh);
+  return (of->curPtr - of->filePtr);
 }
 
 //###########################################################################
@@ -112,6 +113,7 @@ class TdecodedNote {
 
 
 #define LOWEST_NOTE (-35)
+#define HIGHEST_NOTE (63)
 
 
 int minDataAmount = 10000;
@@ -170,8 +172,11 @@ void ToggScale::deleteData() {
 
 
 qint16 ToggScale::getNoteSample(int noteNr, int offset) {
-  if (m_pcmArray[noteNr - LOWEST_NOTE].noteData)
-    return m_pcmArray[noteNr - LOWEST_NOTE].noteData[offset];
+  if (noteNr >= LOWEST_NOTE && noteNr <= HIGHEST_NOTE) {
+      if (m_pcmArray[noteNr - LOWEST_NOTE].noteData)
+        return m_pcmArray[noteNr - LOWEST_NOTE].noteData[offset];
+  } else
+      return 0;
 
   // TODO: It should never happen, so delete condition after tests
   qDebug() << "[ToggScale] note" << noteNr << "has been not decoded yet !!!!!";
@@ -190,11 +195,10 @@ uint ToggScale::stopLoopSample(int noteNr) {
 
 
 void ToggScale::decodeNote(int noteNr) {
-  if (m_pcmArray[noteNr - LOWEST_NOTE].noteData == nullptr) {
+  if (noteNr >= LOWEST_NOTE && noteNr <= HIGHEST_NOTE && m_pcmArray[noteNr - LOWEST_NOTE].noteData == nullptr) {
       m_pcmArray[noteNr - LOWEST_NOTE].reserve(m_sampleRate * 2);
       m_currentBuffer = m_pcmArray[noteNr - LOWEST_NOTE].noteData;
   } else {
-//       QTimer::singleShot(0, [=]{ emit oggReady(); }); // HACK: emitting it out of this method
       emit oggReady();
       emit noteDecoded();
       return;
@@ -339,7 +343,7 @@ bool ToggScale::loadAudioData(int instrument) {
 
 void ToggScale::stopDecoding() {
   if (m_isDecoding) {
-      qDebug("decoding in progress");
+      qDebug("[ToggScale] decoding in progress");
       do {
         SLEEP(1);
       } while (m_isDecoding);

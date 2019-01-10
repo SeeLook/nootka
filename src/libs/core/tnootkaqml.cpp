@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -305,7 +305,7 @@ QString TnootkaQML::getXmlToOpen() {
   openFile = TfileDialog::getOpenFileName(nullptr, GLOB->lastXmlDir(), QStringLiteral("xml"));
 #else
   openFile = TfileDialog::getOpenFileName(qApp->translate("TmelMan", "Open melody file"), GLOB->lastXmlDir(),
-                                      qApp->translate("TmelMan", "MusicXML file") + QLatin1String(" (*.xml)"));
+                                          qApp->translate("TmelMan", "MusicXML file") + QLatin1String(" (*.xml *.musicxml)"));
 #endif
   if (!openFile.isEmpty())
     GLOB->setLastXmlDir(QFileInfo(openFile).absoluteDir().path());
@@ -315,11 +315,12 @@ QString TnootkaQML::getXmlToOpen() {
 
 QString TnootkaQML::getXmlToSave() {
   QString saveFile;
+  QString filter;
 #if defined (Q_OS_ANDROID)
   saveFile = TfileDialog::getSaveFileName(nullptr, GLOB->lastXmlDir(), QStringLiteral("xml"));
 #else
   saveFile = TfileDialog::getSaveFileName(qApp->translate("TmelMan", "Save melody as:"), GLOB->lastXmlDir(),
-                                      qTR("TmelMan", "MusicXML file") + QLatin1String(" (*.xml)"));
+                                          qTR("TmelMan", "MusicXML file") + QLatin1String(" (*.musicxml *.xml)"), &filter);
 #endif
   if (!saveFile.isEmpty())
     GLOB->setLastXmlDir(QFileInfo(saveFile).absoluteDir().path());
@@ -455,7 +456,7 @@ void TnootkaQML::openFile(const QString& runArg) {
   if (QFile::exists(runArg)) {
     QFile file(runArg);
     auto ext = QFileInfo(file).suffix();
-    if (ext == QLatin1String("xml")) { // TODO mxl - compressed format
+    if (ext == QLatin1String("xml") || ext == QLatin1String("musicxml")) {
         auto fullPath = QDir(file.fileName()).absolutePath();
         m_scoreObject->openMusicXml(fullPath);
     } else {

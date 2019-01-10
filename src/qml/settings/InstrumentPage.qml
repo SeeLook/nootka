@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -203,9 +203,11 @@ Flickable {
     onTriggered: {
       showOtherPosChB.checked = GLOB.showOtherPos
       fretDots.text = GLOB.markedFrets
+      var tmpTrans = GLOB.transposition
       instrSel.instrument = GLOB.instrument.type - (GLOB.instrument.type === 0 ? -1 : 1) // FIXME: workaround for Qt 5.10.1 and above
       score.clef = GLOB.clefType
       instrSel.instrument = GLOB.instrument.type
+      transp.shift = tmpTrans
       if (GLOB.instrument.isGuitar) {
         if (GLOB.tuning.type === Ttune.Custom)
           tuningCombo.currentIndex = tuningCombo.count - 1
