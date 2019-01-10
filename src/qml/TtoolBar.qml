@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelapook@gmail.com)   *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelapook@gmail.com)   *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -14,7 +14,8 @@ ToolBar {
   property alias examActions: examRepeater.model
 
   height: settAct.height
-  background: Rectangle { anchors.fill: parent; color: activPal.window }
+  background: TipRect { anchors.fill: parent; color: activPal.window; radius: 0 }
+  z: 6
 
   Row {
     spacing: toolBar.width / 200
