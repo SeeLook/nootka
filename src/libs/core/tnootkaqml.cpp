@@ -574,7 +574,9 @@ void TnootkaQML::instrumentChangesNoteSlot() {
       m_scoreObject->setTechnical(0, m_instrument->technical());
   } else {
       if (m_scoreObject->selectedItem()) {
-          rawNote.setRhythm(m_scoreObject->selectedItem()->note()->rtm);
+          auto r = m_scoreObject->selectedItem()->note()->rtm;
+          r.setRest(false);
+          rawNote.setRhythm(r);
           m_scoreObject->setNote(m_scoreObject->selectedItem(), rawNote);
       } else {
           rawNote.setRhythm(m_scoreObject->workRhythm());

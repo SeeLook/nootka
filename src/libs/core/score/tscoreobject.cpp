@@ -293,6 +293,7 @@ void TscoreObject::setNote(TnoteItem* no, const Tnote& n) {
       deleteLastNote();
       addNote(n);
       emitLastNote();
+      setSelectedItem(lastNote());
       return;
     }
 
@@ -881,7 +882,7 @@ void TscoreObject::deleteLastNote() {
     bool adjust = false;
     auto lastBar = lastMeasure();
     int tempActiveBar = m_activeBarNr;
-    if (lastBar->noteCount() == 1)
+    if (lastBar->noteCount() == 1 && measuresCount() > 1)
       adjust = removeLastMeasure();
     else
       lastBar->removeLastNote();
