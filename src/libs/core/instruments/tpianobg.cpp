@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -30,15 +30,12 @@
 #include "checktime.h"
 
 
-const char* const octaveNames[8] = { QT_TR_NOOP("Subcontra"), QT_TR_NOOP("Contra"), QT_TR_NOOP("Great"), QT_TR_NOOP("Small"),
-                          QT_TR_NOOP("One-line"), QT_TR_NOOP("Two-line"), QT_TR_NOOP("Three-line"), QT_TR_NOOP("Four-line") };
-
-
 TpianoBg::TpianoBg(QQuickItem* parent) :
   TcommonInstrument(parent),
   m_keyWidth(32.0),
   m_firstOctave(-3)
-{}
+{
+}
 
 
 TpianoBg::~TpianoBg() {}
@@ -48,7 +45,6 @@ void TpianoBg::setKeyWidth(qreal kw) {
   if (m_keyWidth != kw) {
     m_keyWidth = kw;
     calculateMetrics(width());
-    update();
   }
 }
 
@@ -56,21 +52,16 @@ void TpianoBg::setKeyWidth(qreal kw) {
 void TpianoBg::setNote(const Tnote& n, quint32 noteDataValue) {
   Q_UNUSED(noteDataValue)
   if (!p_note.compareNotes(n)) {
+    int keyNr = -1;
+    bool isWhite = true;
     if (n.isValid()) {
-        Tnote sharpNote = Tnote(n.chromatic());
-        int o = sharpNote.octave() - m_firstOctave;
-        int kw = qFloor(m_keyWidth);
-        bool isWhite = sharpNote.alter() == 0;
-        int keyNr = o * 7 + sharpNote.note() - (isWhite ? 1 : 0);
-        if (isWhite)
-          m_keyRect.setRect(m_margin + keyNr * kw, m_keyWidth, m_keyWidth, height() - m_keyWidth);
-        else
-          m_keyRect.setRect(m_margin + keyNr * kw - m_keyWidth * 0.4, m_keyWidth, m_keyWidth * 0.8, height() / 2.0);
-    } else {
-        m_keyRect.setX(0.0); // hide
+      Tnote sharpNote = Tnote(n.chromatic());
+      int o = sharpNote.octave() - m_firstOctave;
+      isWhite = sharpNote.alter() == 0;
+      keyNr = o * 7 + sharpNote.note() - (isWhite ? 1 : 0);
     }
     p_note = n;
-    emit selectedRectChanged();
+    emit wantKeyToSelect(keyNr, isWhite);
   }
 }
 
@@ -85,7 +76,7 @@ void TpianoBg::setFirstOctave(int firstO) {
   auto fo = static_cast<char>(firstO);
   if (fo != m_firstOctave) {
     m_firstOctave = fo;
-    update();
+    emit firstOctaveChanged();
   }
 }
 
@@ -93,46 +84,26 @@ void TpianoBg::setFirstOctave(int firstO) {
 void TpianoBg::setReadOnly(bool ro) {
   if (ro != m_readOnly) {
     m_readOnly = ro;
-    setAcceptedMouseButtons(m_readOnly ? Qt::NoButton : Qt::LeftButton);
+    emit readOnlyChanged();
   }
-}
-
-
-void TpianoBg::paint(QPainter* painter) {
-CHECKTIME (
-  int kw = qFloor(m_keyWidth);
-  auto keyPix = QPixmap(Tpath::img("pianokey")).scaled(qRound(m_keyWidth * 0.8), height() / 2, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-  painter->setPen(QPen(Qt::black, m_keyWidth / 16, Qt::SolidLine));
-  painter->setBrush(Qt::white);
-  for (int k = 0; k < m_keysNumber; ++k) {
-    painter->drawRoundedRect(m_margin + k * kw, 1, kw, height() - 2, m_keyWidth / 5, m_keyWidth / 5);
-    if (k % 7 != 0 && k % 7 != 3)
-      painter->drawPixmap(m_margin + k * kw - qRound(m_keyWidth * 0.4), kw, keyPix);
-  }
-  painter->setBrush(Qt::black);
-  painter->drawRect(0, 0, width(), kw);
-  if (m_margin > 0) {
-    painter->drawRect(0, kw, m_margin, height() - kw);
-    painter->drawRect(width() - m_margin, kw, m_margin, height() - kw);
-  }
-  painter->setPen(Qt::white);
-  QFont f;
-  f.setPixelSize(qRound(m_keyWidth * 0.6));
-  painter->setFont(f);
-  int octavesNr = m_keysNumber / 7;
-  for (int k = 0; k < octavesNr; ++k) {
-    if (m_firstOctave + 3 + k < 8)
-      painter->drawText(QRect(m_margin + k * 7 * kw, 0, 7 * kw, m_keyWidth), Qt::AlignCenter, octaveNames[m_firstOctave + 3 + k]);
-    if (k < octavesNr - 1 || m_keysNumber - (m_keysNumber / 7) * 7 > 0) { // do not draw a tick of last octave when it is completed
-      int xx = m_margin + (k + 1) * 7 * kw;
-      painter->drawLine(xx, qRound(m_keyWidth / 2.0), xx, qRound(m_keyWidth - 1.0));
-    }
-  }
-)
 }
 
 
 void TpianoBg::markSelected(const QColor& markColor) {
+  int borderWidth = qRound(m_keyWidth / (markColor.alpha() ? 8.0 : 16.0));
+  markBorder(m_keyHighlight, borderWidth, markColor);
+}
+
+
+void TpianoBg::applyCorrect() {
+  int keyNr = -1;
+  bool isWhite = true;
+  Tnote sharpNote = Tnote(p_note.chromatic());
+  int o = sharpNote.octave() - m_firstOctave;
+  isWhite = sharpNote.alter() == 0;
+  keyNr = o * 7 + sharpNote.note() - (isWhite ? 1 : 0);
+  emit wantKeyToSelect(keyNr, isWhite);
+  markSelected(GLOB->correctColor());
 }
 
 
@@ -141,10 +112,48 @@ void TpianoBg::showNoteName() {
 
 
 void TpianoBg::correct(const Tnote& n, quint32 noteData) {
-  markSelected(GLOB->correctColor());
-  setNote(n, noteData);
-  QTimer::singleShot(1500, [=]{ emit correctionFinished(); }); // Fake so far
+  Q_UNUSED(noteData)
+  p_wrongItem = m_keyHighlight;
+  p_note = n;
+  p_goodItem = m_keyHighlight;
+  emit correctInstrument();
 }
+
+
+QString TpianoBg::octaveName(int oNr) const {
+  return Tnote::shortOctaveName(oNr);
+}
+
+
+
+void TpianoBg::selectKey(QQuickItem* keyItem) {
+  if (keyItem != m_selectedKey) {
+    m_selectedKey = keyItem;
+    emit selectedKeyChanged();
+  }
+}
+
+
+void TpianoBg::setSelectedKey(QQuickItem* it) {
+  selectKey(it);
+  if (!m_readOnly && m_selectedKey) {
+    int keyNr = m_selectedKey->property("nr").toInt();
+    Tnote newNote(static_cast<char>(keyNr % 7 + 1), m_firstOctave + static_cast<char>(keyNr / 7), 0);
+    if (m_selectedKey->z() > 0) { // black key
+      newNote.setNote(newNote.note() - 1);
+      newNote.setAlter(Tnote::e_Sharp);
+    }
+    p_note = newNote;
+    emit noteChanged();
+  }
+}
+
+
+void TpianoBg::setKeyHighlight(QQuickItem* hi) {
+  m_keyHighlight = hi;
+  qDebug() << "[TpianoBg] m_keyHighlight" << m_keyHighlight;
+}
+
 
 //#################################################################################################
 //###################              PROTECTED           ############################################
@@ -153,60 +162,23 @@ void TpianoBg::correct(const Tnote& n, quint32 noteData) {
 void TpianoBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
   if (oldGeometry.width() != newGeometry.width() || oldGeometry.height() != newGeometry.height()) {
     calculateMetrics(qFloor(newGeometry.width()));
-    update();
+    emit widthChanged();
+    emit heightChanged();
   }
 }
-
-
-void TpianoBg::hoverLeaveEvent(QHoverEvent*) {
-  TcommonInstrument::hoverLeaveEvent(nullptr);
-  m_keyRect = QRectF();
-  emit keyRectChanged();
-}
-
-
-void TpianoBg::hoverMoveEvent(QHoverEvent* event) {
-  if (event->pos().y() > m_keyWidth) {
-    int kw = qFloor(m_keyWidth);
-    int keyNr = qFloor((event->pos().x() - m_margin) / kw);
-    Tnote newNote(static_cast<char>(keyNr % 7 + 1), m_firstOctave + static_cast<char>(keyNr / 7), 0);
-    bool isWhite = true;
-    if (event->pos().y() < height() / 2) { // black keys
-      if (keyNr % 7 != 0 && keyNr % 7 != 3) {
-        newNote.setNote(newNote.note() - 1);
-        newNote.setAlter(Tnote::e_Sharp);
-        isWhite = false;
-      }
-    }
-    if (m_activeNote != newNote) {
-      m_activeNote.setNote(newNote.note()); m_activeNote.setOctave(newNote.octave()); m_activeNote.setAlter(newNote.alter());
-      if (isWhite)
-        m_keyRect.setRect(m_margin + keyNr * kw, m_keyWidth, m_keyWidth, height() - m_keyWidth);
-      else
-        m_keyRect.setRect(m_margin + keyNr * kw - m_keyWidth * 0.4, m_keyWidth, m_keyWidth * 0.8, height() / 2.0);
-      emit keyRectChanged();
-    }
-  }
-}
-
-
-void TpianoBg::mousePressEvent(QMouseEvent* event) {
-CHECKTIME(
-  if (event->buttons() & Qt::LeftButton) {
-    p_note = m_activeNote;
-    emit selectedRectChanged();
-    emit noteChanged();
-  }
-)
-}
-
 
 
 void TpianoBg::calculateMetrics(int newWidth) {
+  int oldKeysNr = m_keysNumber;
   m_keysNumber = newWidth / qRound(m_keyWidth);
   if (m_keysNumber > 56) {
     m_keysNumber = 56;
+    int oldKeyWidth = m_keyWidth;
     m_keyWidth = newWidth / m_keysNumber;
+    if (oldKeyWidth != m_keyWidth)
+      emit keyWidthChanged();
   }
   m_margin = (newWidth - m_keysNumber * qFloor(m_keyWidth)) / 2;
+  if (oldKeysNr != m_keysNumber)
+    emit keysNumberChanged();
 }

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -31,10 +31,13 @@ class NOOTKACORE_EXPORT TpianoBg : public TcommonInstrument
 
   Q_OBJECT
 
-  Q_PROPERTY(qreal keyWidth READ keyWidth WRITE setKeyWidth)
-  Q_PROPERTY(QRectF keyRect READ keyRect NOTIFY keyRectChanged)
-  Q_PROPERTY(bool readOnly READ readOnly WRITE setReadOnly)
-  Q_PROPERTY(int firstOctave READ firstOctave WRITE setFirstOctave)
+  Q_PROPERTY(qreal keyWidth READ keyWidth WRITE setKeyWidth NOTIFY keyWidthChanged)
+  Q_PROPERTY(bool readOnly READ readOnly WRITE setReadOnly NOTIFY readOnlyChanged)
+  Q_PROPERTY(int firstOctave READ firstOctave WRITE setFirstOctave NOTIFY firstOctaveChanged)
+  Q_PROPERTY(int keysNumber READ keysNumber NOTIFY keysNumberChanged)
+  Q_PROPERTY(QQuickItem* selectedKey READ selectedKey WRITE setSelectedKey NOTIFY selectedKeyChanged)
+  Q_PROPERTY(QQuickItem* keyHighlight READ keyHighlight WRITE setKeyHighlight)
+  Q_PROPERTY(int margin READ margin NOTIFY keyWidthChanged)
 
 public:
   explicit TpianoBg(QQuickItem* parent = nullptr);
@@ -42,8 +45,6 @@ public:
 
   qreal keyWidth() const { return m_keyWidth; }
   void setKeyWidth(qreal kw);
-
-  QRectF keyRect() const { return m_keyRect; }
 
   void setNote(const Tnote& n, quint32 noteDataValue = 255) override;
 
@@ -59,23 +60,39 @@ public:
   bool readOnly() const { return m_readOnly; }
   void setReadOnly(bool ro);
 
-  void paint(QPainter* painter) override;
+  void paint(QPainter*) override {}
 
   void markSelected(const QColor & markColor) override;
+
+  Q_INVOKABLE void applyCorrect() override;
 
   void showNoteName() override;
 
   void correct(const Tnote& n, quint32 noteData) override;
 
+  int keysNumber() const { return m_keysNumber; }
+  int margin() const { return m_margin; }
+
+  Q_INVOKABLE QString octaveName(int oNr) const;
+
+  QQuickItem* selectedKey() { return m_selectedKey; }
+  void setSelectedKey(QQuickItem* it);
+
+  QQuickItem* keyHighlight() { return m_keyHighlight; }
+  void setKeyHighlight(QQuickItem* hi);
+
+  Q_INVOKABLE void selectKey(QQuickItem* keyItem);
+
 signals:
-  void keyRectChanged();
-  void selectedRectChanged();
+  void keyWidthChanged();
+  void keysNumberChanged();
+  void firstOctaveChanged();
+  void selectedKeyChanged();
+  void wantKeyToSelect(int k, bool isWhite);
+  void readOnlyChanged();
 
 protected:
   void geometryChanged(const QRectF & newGeometry, const QRectF & oldGeometry) override;
-  void hoverLeaveEvent(QHoverEvent*) override;
-  void hoverMoveEvent(QHoverEvent* event) override;
-  void mousePressEvent(QMouseEvent* event) override;
 
 private:
   void calculateMetrics(int newWidth);
@@ -83,11 +100,11 @@ private:
 private:
   int                   m_keysNumber;
   qreal                 m_keyWidth;
-  QRectF                m_keyRect;
   int                   m_margin;
-  Tnote                 m_activeNote;
   char                  m_firstOctave;
   bool                  m_readOnly = false;
+  QQuickItem           *m_selectedKey = nullptr;
+  QQuickItem           *m_keyHighlight = nullptr; /**< Key highlighting item (Rectangle) */
 };
 
 #endif // TPIANOBG_H
