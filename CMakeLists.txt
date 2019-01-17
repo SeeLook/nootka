@@ -94,9 +94,9 @@ if(APPLE)
   install( CODE "
       execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/install.sh ${CMAKE_INSTALL_PREFIX} ${SOUNDTOUCH_LIBRARY} ${FFTW3_LIBRARIES} ${VORBIS_LIBRARIES} )
   " )
-	install(FILES "${CMAKE_SOURCE_DIR}/picts/nootka.icns" DESTINATION "${INS_PREF}") # icns for mac
-	install(FILES "${CMAKE_SOURCE_DIR}/picts/nootka-levels.icns" DESTINATION "${INS_PREF}")
-	install(FILES "${CMAKE_SOURCE_DIR}/picts/nootka-exam.icns" DESTINATION "${INS_PREF}")
+  install(FILES "${CMAKE_SOURCE_DIR}/picts/nootka.icns" DESTINATION "${INS_PREF}") # icns for mac
+  install(FILES "${CMAKE_SOURCE_DIR}/picts/nootka-levels.icns" DESTINATION "${INS_PREF}")
+  install(FILES "${CMAKE_SOURCE_DIR}/picts/nootka-exam.icns" DESTINATION "${INS_PREF}")
 endif(APPLE)
 
 
@@ -115,7 +115,7 @@ if(APPLE OR WIN32)
   else (WIN32)
     set(QT_TRANSLATIONS_DIR "${QT_BINARY_DIR}/../../translations")
   endif (WIN32)
-	install(FILES gpl DESTINATION "${INS_PREF}")
+  install(FILES gpl DESTINATION "${INS_PREF}")
  LIST(APPEND langs
    "${QT_TRANSLATIONS_DIR}/qtbase_cs.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_de.qm"
@@ -130,8 +130,8 @@ endif(APPLE OR WIN32)
 install(FILES ${langs} DESTINATION "${INS_PREF}/lang")
 
 if(APPLE)
-  file(GLOB mimeTrans "${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/*.lproj" )
-  install(DIRECTORY ${mimeTrans} DESTINATION ${INS_PREF})
+  file(GLOB MIME_TRANS "${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/*.lproj" )
+  install(DIRECTORY ${MIME_TRANS} DESTINATION ${INS_PREF})
 endif(APPLE)
 
 
@@ -141,32 +141,53 @@ install(FILES ${snds} DESTINATION "${INS_PREF}/sounds")
 # files related with Linux (mime, desktop entry, icons)
 if(UNIX AND NOT APPLE)
     install(FILES mime/nootka.desktop DESTINATION share/applications)
-    if (DPKG_CMD) # deb packager doesn't accept symbolic links
-			install(FILES picts/nootka.png picts/nootka-level.png picts/nootka-exam.png DESTINATION share/pixmaps)
-    else (DPKG_CMD) # but others do
-			install(FILES mime/nootka.png mime/nootka-level.png mime/nootka-exam.png DESTINATION share/pixmaps)
-			install(FILES gpl DESTINATION "${INS_PREF}") # no gpl for Debian-s - they have copyright instead
-    endif (DPKG_CMD)
+    install(FILES mime/nootka.appdata.xml DESTINATION share/metainfo)
+    install(FILES mime/nootka.xml DESTINATION share/mime/packages)
+    if (NOT DPKG_CMD) # deb packager doesn't accept symbolic links
+      install(FILES gpl DESTINATION "${INS_PREF}") # no gpl for Debian-s - they have copyright instead
+    endif (NOT DPKG_CMD)
+  # Icons in standard location
+    install(FILES picts/hicolor/16x16/apps/nootka.png DESTINATION share/icons/hicolor/16x16/apps/)
+    install(FILES picts/hicolor/24x24/apps/nootka.png DESTINATION share/icons/hicolor/24x24/apps/)
+    install(FILES picts/hicolor/32x32/apps/nootka.png DESTINATION share/icons/hicolor/32x32/apps/)
+    install(FILES picts/hicolor/48x48/apps/nootka.png DESTINATION share/icons/hicolor/48x48/apps/)
+    install(FILES picts/hicolor/64x64/apps/nootka.png DESTINATION share/icons/hicolor/64x64/apps/)
+    install(FILES picts/hicolor/128x128/apps/nootka.png DESTINATION share/icons/hicolor/128x128/apps/)
+    install(FILES picts/hicolor/256x256/apps/nootka.png DESTINATION share/icons/hicolor/256x256/apps/)
+    install(FILES picts/nootka.png DESTINATION share/icons/hicolor/512x512/apps/)
+    install(FILES picts/hicolor/16x16/mimetypes/nootkaexam.png DESTINATION share/icons/hicolor/16x16/mimetypes/)
+    install(FILES picts/hicolor/24x24/mimetypes/nootkaexam.png DESTINATION share/icons/hicolor/24x24/mimetypes/)
+    install(FILES picts/hicolor/32x32/mimetypes/nootkaexam.png DESTINATION share/icons/hicolor/32x32/mimetypes/)
+    install(FILES picts/hicolor/48x48/mimetypes/nootkaexam.png DESTINATION share/icons/hicolor/48x48/mimetypes/)
+    install(FILES picts/hicolor/64x64/mimetypes/nootkaexam.png DESTINATION share/icons/hicolor/64x64/mimetypes/)
+    install(FILES picts/hicolor/128x128/mimetypes/nootkaexam.png DESTINATION share/icons/hicolor/128x128/mimetypes/)
+    install(FILES picts/nootka-exam.png DESTINATION share/icons/hicolor/256x256/mimetypes/ RENAME nootkaexam.png)
+    install(FILES picts/hicolor/512x512/mimetypes/nootkaexam.png DESTINATION share/icons/hicolor/512x512/mimetypes/)
+    install(FILES picts/hicolor/16x16/mimetypes/nootkalevel.png DESTINATION share/icons/hicolor/16x16/mimetypes/)
+    install(FILES picts/hicolor/24x24/mimetypes/nootkalevel.png DESTINATION share/icons/hicolor/24x24/mimetypes/)
+    install(FILES picts/hicolor/32x32/mimetypes/nootkalevel.png DESTINATION share/icons/hicolor/32x32/mimetypes/)
+    install(FILES picts/hicolor/48x48/mimetypes/nootkalevel.png DESTINATION share/icons/hicolor/48x48/mimetypes/)
+    install(FILES picts/hicolor/64x64/mimetypes/nootkalevel.png DESTINATION share/icons/hicolor/64x64/mimetypes/)
+    install(FILES picts/hicolor/128x128/mimetypes/nootkalevel.png DESTINATION share/icons/hicolor/128x128/mimetypes/)
+    install(FILES picts/nootka-level.png DESTINATION share/icons/hicolor/256x256/mimetypes/ RENAME nootkalevel.png)
+    install(FILES picts/hicolor/512x512/mimetypes/nootkalevel.png DESTINATION share/icons/hicolor/512x512/mimetypes/)
     install( CODE "
-      execute_process(COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/mime )
-      execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/mime/install-mime.sh ${CMAKE_INSTALL_PREFIX} ${CMAKE_CURRENT_BINARY_DIR}/mime ${CMAKE_CURRENT_SOURCE_DIR}/mime)" )
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/mime/nootka.xml DESTINATION share/mime/packages)
-		install( CODE "
       execute_process(COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/doc )
       execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/make-chlog.sh ${Nootka_VERSION_FULL} ${CMAKE_CURRENT_BINARY_DIR}/doc/changelog ${CMAKE_CURRENT_SOURCE_DIR})
-	" )
+  " )
   if (DPKG_CMD) # Debian changelog
       install(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.Debian.gz" DESTINATION share/doc/nootka RENAME changelog.gz)
   endif (DPKG_CMD)
-	install(FILES copyright DESTINATION share/doc/nootka)
-	install(FILES packaging/nootka.1.gz DESTINATION share/man/man1)
+  install(FILES copyright DESTINATION share/doc/nootka)
+  install(FILES packaging/nootka.1.gz DESTINATION share/man/man1)
 endif(UNIX AND NOT APPLE)
 
 if(WIN32)
-#  get_filename_component(MAKE_DIR "${CMAKE_RC_COMPILER}" DIRECTORY) # it works ether with make and ninja
+  get_filename_component(VORBIS_DIR "${VORBIS_LIBRARIES}" DIRECTORY)
+  get_filename_component(MAKE_DIR "${CMAKE_RC_COMPILER}" DIRECTORY) # it works ether with make and ninja
   install(FILES picts/nootka-exam.ico picts/nootka.ico picts/nootka-levels.ico picts/pack.ico picts/logo.bmp picts/logo-left.bmp DESTINATION "${INS_PREF}/picts") #ico
   install(FILES packaging/nsis/nootka-utf8.nsi packaging/nsis/fileasoc.nsh ${CMAKE_BINARY_DIR}/nsis/NSIS.definitions.nsh DESTINATION "${INS_PREF}")
-  install(FILES packaging/nsis/qt.conf DESTINATION "${INS_PREF}")
+  install(FILES "${FFTW3_LIBRARIES}" "${VORBIS_LIBRARIES}" "${VORBIS_DIR}/libvorbis.dll" "${VORBIS_DIR}/libogg.dll" DESTINATION "${INS_PREF}")
 endif(WIN32)
 
 ###########################################################################
