@@ -4,7 +4,7 @@
 # creates directory structure with all stuff (libraries, icons, etc.),            #
 # then creates AppImage                                                           #
 #                                                                                 #
-# Copyright (C) 2011-2018 by Tomasz Bojczuk <seelook@gmail.com>                   #
+# Copyright (C) 2011-2019 by Tomasz Bojczuk <seelook@gmail.com>                   #
 #                                                                                 #
 # Arguments:                                                                      #
 # - source directory                                                              #
@@ -27,6 +27,7 @@ VERSION=$4
 
 printf "\033[01;35mCreating directory AppDir for AppImage of Nootka-$VERSION"
 printf "\033[01;00m"
+echo "\n"
 echo "qmake found in: $QMAKE"
 
 cd $BIN_DIR
@@ -56,9 +57,10 @@ mkdir AppDir
 #Install to AppDir
 make DESTDIR="AppDir/" install
 
+export PATH="$QMAKE:$PATH"
 
 # Qt base translations
-TRANS_PATH=$($QMAKE -query QT_INSTALL_TRANSLATIONS)
+TRANS_PATH=$(qmake -query QT_INSTALL_TRANSLATIONS)
 cp $TRANS_PATH/qtbase_cs.qm AppDir/usr/share/nootka/lang
 cp $TRANS_PATH/qtbase_de.qm AppDir/usr/share/nootka/lang
 cp $TRANS_PATH/qtbase_es.qm AppDir/usr/share/nootka/lang
@@ -83,7 +85,7 @@ if [ -d AppDir/usr/plugins/xcbglintegrations ]; then
   echo "xcbglintegrations plugin was found"
 else
   echo "xcbglintegrations is missing, copying it manually"
-  XCB=$($QMAKE -query QT_INSTALL_PLUGINS)
+  XCB=$(qmake -query QT_INSTALL_PLUGINS)
   cp -r $XCB/xcbglintegrations AppDir/usr/plugins/
 fi
 
@@ -97,6 +99,6 @@ ln -s ./. usr
 cd ../..
 
 # finally, generate AppImage
-appimagetool --no-appstream AppDir/usr nootka-$VERSION-x86_64.AppImage
+appimagetool AppDir/usr nootka-$VERSION-x86_64.AppImage
 
 
