@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,6 +20,7 @@
 #include <taudioparams.h>
 #include <QtCore/qstringlist.h>
 #include <QtCore/qfileinfo.h>
+
 #include <QtCore/qdebug.h>
 
 
@@ -127,7 +128,7 @@ void TrtAudio::setJACKorASIO(bool jack) {
     abortStream();
     closeStream();
     delete m_rtAduio;
-    m_rtAduio = 0;
+    m_rtAduio = nullptr;
     m_JACKorASIO = jack;
     createRtAudio();
   }
