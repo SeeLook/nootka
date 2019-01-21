@@ -151,7 +151,6 @@ void TpianoBg::setSelectedKey(QQuickItem* it) {
 
 void TpianoBg::setKeyHighlight(QQuickItem* hi) {
   m_keyHighlight = hi;
-  qDebug() << "[TpianoBg] m_keyHighlight" << m_keyHighlight;
 }
 
 

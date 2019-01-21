@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9 
@@ -62,7 +62,7 @@ Column {
           Tile {
             description: qsTr("Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.")
             Row {
-              spacing: Noo.fontSize()
+              spacing: Noo.fontSize() * 2
               anchors.horizontalCenter: parent.horizontalCenter
               TlabelText { text: qsTr("input device") }
               ComboBox {
@@ -76,7 +76,7 @@ Column {
                 id: jackInChB
                 text: Noo.isWindows() ? "ASIO" : "JACK"
                 anchors.verticalCenter: parent.verticalCenter
-                onClicked: {
+                onCheckedChanged: {
                   SOUND.setJACKorASIO(jackInChB.checked)
                   inDevCombo.model = SOUND.inputDevices()
                   outDevCombo.model = SOUND.outputDevices()
@@ -268,21 +268,25 @@ Column {
           width: parent.width
           spacing: Noo.fontSize()
 
-          Row {
-            spacing: Noo.fontSize()
-            anchors.horizontalCenter: parent.horizontalCenter
-            TlabelText { text: qsTr("output device") }
-            ComboBox {
-              id: outDevCombo
-              width: Noo.fontSize() * 20
-              model: SOUND.outputDevices()
-              delegate: ItemDelegate { text: modelData }
-            }
-            TcheckBox {
-              visible: false // TODO
-              id: jackOutChB
-              text: "JACK"
-              anchors.verticalCenter: parent.verticalCenter
+          Tile {
+            Row {
+              spacing: Noo.fontSize() * 2
+              anchors.horizontalCenter: parent.horizontalCenter
+              TlabelText { text: qsTr("output device") }
+              ComboBox {
+                id: outDevCombo
+                width: Noo.fontSize() * 20
+                model: SOUND.outputDevices()
+                delegate: ItemDelegate { text: modelData }
+              }
+              TcheckBox {
+                id: jackOutChB
+                visible: !Noo.isAndroid() && !Noo.isMac()
+                anchors.verticalCenter: parent.verticalCenter
+                text: jackInChB.text
+                checked: jackInChB.checked
+                onClicked: jackInChB.checked = jackOutChB.checked
+              }
             }
           }
           Tile {
