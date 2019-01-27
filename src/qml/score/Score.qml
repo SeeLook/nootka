@@ -86,6 +86,7 @@ Flickable {
         if (!scoreToobox) {
           var tC = Qt.createComponent("qrc:/score/ScoreToolbox.qml")
           scoreToobox = tC.createObject(parent)
+          alterText = Qt.binding(function() { return scoreToobox.text })
         }
       }
     }

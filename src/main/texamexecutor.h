@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -56,6 +56,8 @@ class TexamExecutor : public QQuickItem
   Q_PROPERTY(QList<QObject*> examActions READ examActions NOTIFY examActionsChanged)
   Q_PROPERTY(TtipHandler* tipHandler READ tipHandler NOTIFY tipHandlerCreated)
   Q_PROPERTY(bool isExercise READ isExercise)
+  Q_PROPERTY(bool showPitchView READ showPitchView NOTIFY questionChanged)
+  Q_PROPERTY(bool showPlayView READ showPlayView NOTIFY questionChanged)
 
   friend class TexamSummary;
   friend class TnootkaCertificate;
@@ -71,6 +73,9 @@ public:
   QList<QObject*> examActions() { return m_examActions; }
 
   TtipHandler* tipHandler();
+
+  bool showPitchView() const;
+  bool showPlayView() const;
 
       /**
        * Describes reason of starting executor
@@ -126,6 +131,7 @@ signals:
   void tipHandlerCreated();
   void examSummary();
   void showSettings();
+  void questionChanged();
 
 protected:
 

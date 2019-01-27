@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -101,7 +101,7 @@ TlevelsSelector {
         }
         TiconButton {
           enabled: isRemovable(view.currentIndex)
-          pixmap: Noo.pix("delete"); text: qsTr("Remove")
+          pixmap: Noo.pix("delete"); text: Noo.TR("QFileDialog", "Remove")
           onClicked: {
             var c = Qt.createComponent("qrc:/level/RemoveLevel.qml")
             var rmLevelDialog = c.createObject(lSelector, { "levelName": levelName(view.currentIndex), "levelFile": levelFile(view.currentIndex) })

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -773,8 +773,12 @@ bool Tlevel::adjustFretsToScale(char& loF, char& hiF) {
 }
 
 
+/**
+ * FIXME
+ * It is possible that first melody in the list will be without meter whether another one will have one
+ */
 bool Tlevel::useRhythms() const {
-  return meters && (dotsRhythms || basicRhythms) && barNumber > 1 && melodyLen > 1;
+  return canBeMelody() && ((meters && (dotsRhythms || basicRhythms)) || (isMelodySet() && melodySet.first().meter()->meter() != Tmeter::NoMeter));
 }
 
 

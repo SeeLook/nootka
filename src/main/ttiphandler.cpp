@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -497,7 +497,7 @@ void TtipHandler::showQuestionTip() {
           if (level->forceAccids)
               questText += getTextHowAccid((Tnote::Ealter)question->qa.note.alter());
       } else if (question->answerOnInstr()) {
-            questText += tr("Listened sound show on the guitar");
+            questText += tr("Listened sound show on the instrument");
             if (level->showStrNr)
               questText += br + sp + onStringTxt(question->qa.pos().str());
       } else if (question->answerAsSound()) {
@@ -855,7 +855,7 @@ QPointF TtipHandler::getTipPosition(TtipHandler::EtipPos tp) {
 * For details, see table in tip_positions.html file
 */
 TtipHandler::EtipPos TtipHandler::determineTipPos() {
- EtipPos tipPos;
+ EtipPos tipPos = e_bottomRight;
  switch (m_exam->curQ()->questionAs) {
    /** Question is note on the score, so place a tip over name if not used or over guitar if visible but if not - in bottom-right corner. */
    case TQAtype::e_onScore : {
