@@ -38,6 +38,7 @@ TRANSLATION CONTEXT CHANGES
 small glitches:
  - sometimes setting a note doesn't scale tie - probably due to note width is not refreshed
  - meter can be too close to key signature - probably related with clef change
+ - chart tip for non guitars still displays string/fret with goofy values
 
 ============================================================================
 

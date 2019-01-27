@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -15,7 +15,7 @@ Column {
   spacing: levelsPage.width / 50
   LevelsSelector {
     id: selector
-    width: parent.width; height: levelsPage.height - buttRow.height - levelsPage.width / 50 - Noo.fontSize() * 3
+    width: parent.width; height: levelsPage.height - buttRow.height - levelsPage.width / 25 - Noo.fontSize() * 3
     Component.onCompleted: creator.selector = selector
   }
   Row {

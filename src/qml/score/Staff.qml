@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -20,7 +20,7 @@ TstaffItem {
   property real firstNoteX: (meter ? meter.x + meter.width : (keySignItem ? keySignItem.x + keySignItem.width : clef.x + clef.width)) + 1.0
 
   height: linesCount
-  scale: score.singleNote ? score.height / linesCount :
+  scale: score.singleNote ? Math.min(score.height / linesCount, score.width / 46) :
                             (Math.min(score.height, Math.max(Screen.height / 4, Screen.pixelDensity * 70)) / linesCount) * score.scaleFactor
   width: score.width / scale
   transformOrigin: Item.TopLeft

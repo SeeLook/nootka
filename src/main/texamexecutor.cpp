@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -323,6 +323,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
         if (!m_level.isMelodySet() && m_level.useRhythms()) {
           mergeRhythmAndMelody(rhythms, curQ->melody());
         }
+        curQ->melody()->setTempo(SOUND->tempo());
       }
       m_melody->newMelody(curQ->answerAsSound() ? curQ->melody()->length() : 0); // prepare list to store notes played by user or clear it
       m_exam->newAttempt();
@@ -518,6 +519,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
       INSTRUMENT->setEnabled(true);
   }
 
+  emit questionChanged();
   if (curQ->answerAsSound()) {
 //       SOUND->prepareAnswer();
       if (curQ->questionAsSound())
@@ -1060,7 +1062,7 @@ void TexamExecutor::prepareToExam() {
 
   m_glStore->storeSettings();
   m_glStore->prepareGlobalsToExam(m_level);
-  GLOB->setRhythmsEnabled(m_level.isMelodySet() && m_level.melodySet.first().meter()->meter() != Tmeter::NoMeter); // TODO
+  GLOB->setRhythmsEnabled(m_level.useRhythms());
 
 
 // #if !defined (Q_OS_ANDROID) // Do not show it user Android - it sucks there
@@ -1848,3 +1850,13 @@ QString TexamExecutor::title() const {
 
 
 TtipHandler* TexamExecutor::tipHandler() { return m_tipHandler; }
+
+
+bool TexamExecutor::showPitchView() const {
+  return m_exam == nullptr || (m_exam->count() && m_exam->curQ()->answerAsSound());
+}
+
+
+bool TexamExecutor::showPlayView() const {
+  return false;
+}
