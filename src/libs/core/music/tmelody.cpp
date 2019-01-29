@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -58,6 +58,7 @@ Tmelody::Tmelody(const QString& title, const TkeySignature& k) :
 Tmelody::Tmelody(const Tmelody& other)
 {
   m_title = other.title();
+  m_composer = other.composer();
   m_tempo = other.tempo();
   m_clef = other.clef();
   m_meter = new Tmeter;
@@ -272,7 +273,7 @@ bool Tmelody::saveToMusicXml(const QString& xmlFileName) {
       xml.writeStartElement(QStringLiteral("identification"));
         xml.writeStartElement(QStringLiteral("creator"));
           xml.writeAttribute(QStringLiteral("type"), QStringLiteral("composer"));
-          xml.writeCharacters(QStringLiteral("Nootka The Composer"));
+          xml.writeCharacters(composer());
         xml.writeEndElement(); // creator composer
         xml.writeStartElement(QStringLiteral("encoding"));
           xml.writeTextElement(QStringLiteral("software"), QLatin1String("Nootka ") + QString(NOOTKA_VERSION));
@@ -313,9 +314,24 @@ bool Tmelody::grabFromMusicXml(const QString& xmlFileName) {
       }
     }
     while (xml.readNextStartElement()) {
-      qDebug() << "partwise" << xml.name();
-      // TODO - grab melody info (title and so...)
-      if (xml.name() == QLatin1String("part")) {
+      if (xml.name() == QLatin1String("work")) {
+          while (xml.readNextStartElement()) {
+            if (xml.name() == QLatin1String("work-title"))
+              m_title = xml.readElementText();
+            else
+              xml.skipCurrentElement();
+          }
+      } else if (xml.name() == QLatin1String("identification")) {
+          while (xml.readNextStartElement()) {
+            if (xml.name() == QLatin1String("creator")) {
+                if (xml.attributes().value("type").toString() == QLatin1String("composer"))
+                  m_composer = xml.readElementText();
+                else
+                  xml.skipCurrentElement();
+            } else
+                xml.skipCurrentElement();
+          }
+      } else if (xml.name() == QLatin1String("part")) {
           if (!fromXml(xml))
             ok = false;
       } else
