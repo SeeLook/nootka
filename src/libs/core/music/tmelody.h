@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -48,6 +48,9 @@ public:
   QString title() const { return m_title; }
   void setTitle(const QString& t) { m_title = t; }
 
+  QString composer() const { return m_composer; }
+  void setComposer(const QString& c) { m_composer = c; }
+
       /**
        * A length of the melody (notes number)
        */
@@ -87,6 +90,7 @@ public:
 
 private:
   QString              m_title;
+  QString              m_composer;
   QList<Tmeasure>      m_measures;
   QList<Tchunk*>       m_notes; /**< List of pointers to ordered notes */
   int                  m_tempo;
