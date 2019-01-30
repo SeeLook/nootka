@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -75,7 +75,7 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
   connect(m_openXmlAct, &Taction::triggered, this, &TmainScoreObject::openXmlActSlot);
 
   m_saveXmlAct = new Taction(qTR("QShortcut", "Save"), QStringLiteral("save"), this);
-  connect(m_saveXmlAct, &Taction::triggered, this, &TmainScoreObject::saveXmlActSlot);
+  connect(m_saveXmlAct, &Taction::triggered, this, &TmainScoreObject::getMelodyNameSlot);
 
   m_randMelodyAct = new Taction(QGuiApplication::translate("TmelMan", "Generate melody"), QStringLiteral("melody"), this);
   connect(m_randMelodyAct, &Taction::triggered, this, &TmainScoreObject::randMelodySlot);
@@ -423,6 +423,15 @@ void TmainScoreObject::correctNote(const Tnote& goodNote, char keySign, bool cor
 }
 
 
+void TmainScoreObject::saveMusicXml(const QString& fileName, const QString& title, const QString& composer) {
+  QString fn = fileName;
+  if (fileName.isEmpty()) // ask for file name if this parameter was empty
+    fn = NOO->getXmlToSave(composer + QLatin1String(" - ") + title);
+  if (!fn.isEmpty())
+    m_scoreObj->saveMusicXml(fn, title, composer);
+}
+
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
@@ -434,10 +443,8 @@ void TmainScoreObject::openXmlActSlot() {
 }
 
 
-void TmainScoreObject::saveXmlActSlot() {
-  SOUND->stopListen();
-  m_scoreObj->saveMusicXml(NOO->getXmlToSave());
-  SOUND->startListen();
+void TmainScoreObject::getMelodyNameSlot() {
+  emit melodyNameDialog();
 }
 
 

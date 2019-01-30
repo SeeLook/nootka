@@ -313,13 +313,13 @@ QString TnootkaQML::getXmlToOpen() {
 }
 
 
-QString TnootkaQML::getXmlToSave() {
+QString TnootkaQML::getXmlToSave(const QString& fileName) {
   QString saveFile;
   QString filter;
 #if defined (Q_OS_ANDROID)
   saveFile = TfileDialog::getSaveFileName(nullptr, GLOB->lastXmlDir(), QStringLiteral("xml"));
 #else
-  saveFile = TfileDialog::getSaveFileName(qApp->translate("TmelMan", "Save melody as:"), GLOB->lastXmlDir(),
+  saveFile = TfileDialog::getSaveFileName(qApp->translate("TmelMan", "Save melody as:"), GLOB->lastXmlDir() + QDir::separator() + fileName,
                                           qTR("TmelMan", "MusicXML file") + QLatin1String(" (*.musicxml *.xml)"), &filter);
 #endif
   if (!saveFile.isEmpty())

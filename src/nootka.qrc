@@ -61,6 +61,7 @@
     <file alias="score/ControlBase.qml">qml/score/ControlBase.qml</file>
     <file alias="score/Scordature.qml">qml/score/Scordature.qml</file>
     <file alias="score/MelGenDialog.qml">qml/score/MelGenDialog.qml</file>
+    <file alias="score/MelodyNameDialog.qml">qml/score/MelodyNameDialog.qml</file>
 
     <file alias="Instrument.qml">qml/instruments/Instrument.qml</file>
     <file alias="instruments/Guitar.qml">qml/instruments/Guitar.qml</file>

@@ -462,13 +462,14 @@ void TscoreObject::openMusicXml(const QString& musicFile) {
 }
 
 
-void TscoreObject::saveMusicXml(const QString& musicFile) {
+void TscoreObject::saveMusicXml(const QString& musicFile, const QString& title, const QString& composer) {
   if (!musicFile.isEmpty()) {
     QString fileName = musicFile;
     if (musicFile.right(4) != QLatin1String(".xml") && musicFile.right(9) != QLatin1String(".musicxml"))
       fileName += QLatin1String(".musicxml"); // prefer musicxml extension
-    auto melody = new Tmelody(QStringLiteral("Nootka melody"), TkeySignature(static_cast<char>(keySignature())));
+    auto melody = new Tmelody(title, TkeySignature(static_cast<char>(keySignature())));
     getMelody(melody);
+    melody->setComposer(composer);
     melody->saveToMusicXml(fileName);
     delete melody;
   }

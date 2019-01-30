@@ -342,7 +342,7 @@ public:
     /** Guessing solfege name style from current locale setting. F.e.: ru is e_russian_Ci */
   Tnote::EnameStyle getSolfegeStyle();
 
-  QString lastXmlDir() const;
+  Q_INVOKABLE QString lastXmlDir() const;
   void setLastXmlDir(const QString& lastXml);
 
   //============ guitar settings =============================================================
