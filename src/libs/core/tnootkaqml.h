@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -124,7 +124,7 @@ public:
   Q_INVOKABLE Ttune tuning(const Tnote& s1, const Tnote& s2, const Tnote& s3, const Tnote& s4, const Tnote& s5, const Tnote& s6);
   Q_INVOKABLE Tinstrument instr(int type);
   Q_INVOKABLE QString getXmlToOpen();
-  Q_INVOKABLE QString getXmlToSave();
+  Q_INVOKABLE QString getXmlToSave(const QString& fileName = QString());
   Q_INVOKABLE QString pix(const QString& imageFileName);
   Q_INVOKABLE QString TR(const QString& context, const QString& text, const QString& disambiguation = QString(), int n = -1);
 

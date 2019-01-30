@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -144,6 +144,8 @@ public:
   int markNoteHead(const QColor& outColor, int noteNr);
   void correctNote(const Tnote& goodNote, char keySign, bool corrAccid = false);
 
+  Q_INVOKABLE void saveMusicXml(const QString& fileName, const QString& title = QString(), const QString& composer = QString());
+
 signals:
   void scoreActionsChanged();
   void melodyActionsChanged();
@@ -153,14 +155,15 @@ signals:
   void clicked();
   void readOnlyNoteClicked(int noteId);
   void melodyGenerate();
+  void melodyNameDialog();
 
 protected:
   void openXmlActSlot();
-  void saveXmlActSlot();
   void randMelodySlot();
   void isExamChangedSlot();
   void singleModeSlot();
   void paletteSlot();
+  void getMelodyNameSlot();
 
   QColor scoreBackgroundColor(const QColor& c, int alpha);
   void checkSingleNoteVisibility();

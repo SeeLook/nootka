@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -179,7 +179,7 @@ public:
   void setCursorAlter(int curAlt);
 
   Q_INVOKABLE void openMusicXml(const QString& musicFile);
-  Q_INVOKABLE void saveMusicXml(const QString& musicFile);
+  Q_INVOKABLE void saveMusicXml(const QString& musicFile, const QString& title = QString(), const QString& composer = QString());
 
       /**
        * Sets given melody to score.
