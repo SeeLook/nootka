@@ -54,6 +54,7 @@ class Tmeter;
 class Tmelody;
 class Taction;
 class TbeamObject;
+class QQuickItem;
 
 
 /**
@@ -159,6 +160,8 @@ public:
        * Returns a note item of @p TnoteItem
        */
   Q_INVOKABLE TnoteItem* note(int noteId);
+
+  QQuickItem* noteHead(int noteId);
 
       /**
        * Returns note of given @p item or invalid (empty) one if item is null
@@ -419,6 +422,8 @@ public:
   QQmlComponent* component() { return m_qmlComponent; }
   QQmlEngine* qmlEngine() { return m_qmlEngine; }
 
+  TclefOffset clefOffset() const { return m_clefOffset; }
+
 signals:
   void meterChanged();
 
@@ -487,8 +492,6 @@ signals:
 
 protected:
   void addStaff(TstaffItem* st);
-
-  TclefOffset clefOffset() const { return m_clefOffset; }
 
       /**
        * Shifts @p count measures starting from @p measureNr by setting first and last ids

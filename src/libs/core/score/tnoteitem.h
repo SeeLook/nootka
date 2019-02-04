@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -145,6 +145,13 @@ public:
        * but when it is the same, outline is unset (what means reset the mark)
        */
   void markNoteHead(const QColor& outlineColor);
+
+      /**
+       * Returns Y coordinate of the note head for given note @p n.
+       * But it doesn't take care of Scorek font overlay,
+       * so to get proper text item position @p 15.0 has to be subtracted
+       */
+  qreal getHeadY(const Tnote& n);
 
 signals:
   void noteChanged();

@@ -789,29 +789,28 @@ void TexamExecutor::correctAnswer() {
     m_askingTimer->stop();
   m_tipHandler->clearCanvas();
   auto curQ = m_exam->answList()->last();
-  QColor markColor = m_supp->answerColor(curQ);
+//   QColor markColor = m_supp->answerColor(curQ);
 //   if (curQ->melody() && (curQ->answerAsNote() || curQ->questionAsNote())) {
 //     SCORE->setReadOnlyReacting(true); // It is undone whenever unLockScore() is called
 //   }
   if (curQ->answerOnScore()) {
     if (curQ->melody()) {
-
+      if (m_level.manualKey && curQ->key.value() != MAIN_SCORE->keySignatureValue())
+        MAIN_SCORE->correctKeySignature(curQ->key);
     } else {
         Tnote goodNote = curQ->questionOnScore() ? curQ->qa_2.note : curQ->qa.note;
-        char key = MAIN_SCORE->keySignatureValue();
-        bool correctAccid = curQ->wrongAccid() || curQ->wrongOctave();
-//         if (curQ->wrongAccid() || curQ->wrongOctave()) // it corrects wrong octave as well
-//             SCORE->correctAccidental(goodNote);
-//         else if (curQ->wrongNote()) {/*
-            if (m_level.manualKey /*&& curQ->key.value() != SCORE->keySignature().value()*/)
-              key = curQ->key.value();
-//               SCORE->correctKeySignature(curQ->key);
+//         bool correctAccid = curQ->wrongAccid() || curQ->wrongOctave();
+        if (curQ->wrongAccid() || curQ->wrongOctave()) // it corrects wrong octave as well
+          MAIN_SCORE->correctNote(goodNote, true);
+        else if (curQ->wrongNote()) {
+//             if (m_level.manualKey && curQ->key.value() != MAIN_SCORE->keySignatureValue())
+//               MAIN_SCORE->correctKeySignature(curQ->key);
             m_exercise->setCorrectedNoteId(0);
-//             SCORE->correctNote(goodNote, markColor);
-//         }
-//         if (curQ->wrongKey())
-//             SCORE->correctKeySignature(curQ->key);*/
-        MAIN_SCORE->correctNote(goodNote, key, correctAccid);
+            MAIN_SCORE->correctNote(goodNote, false);
+        }
+        if (curQ->wrongKey())
+          MAIN_SCORE->correctKeySignature(curQ->key);
+//         MAIN_SCORE->correctNote(goodNote, correctAccid);
         correctAnimObject = MAIN_SCORE;
     }
   } else if (curQ->answerOnInstr()) {

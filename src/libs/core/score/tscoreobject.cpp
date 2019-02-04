@@ -414,6 +414,11 @@ TnoteItem* TscoreObject::note(int noteId) {
 }
 
 
+QQuickItem* TscoreObject::noteHead(int noteId) {
+  return noteId > -1 && noteId < notesCount() ? m_segments[noteId]->item()->head() : nullptr;
+}
+
+
 Tnote TscoreObject::noteOfItem(TnoteItem* item) const {
   return item ? *item->note() : Tnote();
 }
