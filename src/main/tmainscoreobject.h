@@ -142,7 +142,9 @@ public:
        * Returns how many notes was marked
        */
   int markNoteHead(const QColor& outColor, int noteNr);
-  void correctNote(const Tnote& goodNote, char keySign, bool corrAccid = false);
+
+  void correctNote(const Tnote& goodNote, bool corrAccid = false);
+  void correctKeySignature(const TkeySignature& keySign);
 
   Q_INVOKABLE void saveMusicXml(const QString& fileName, const QString& title = QString(), const QString& composer = QString());
 
@@ -172,6 +174,10 @@ protected:
 
   void checkExtraStaves();
 
+  protected slots:
+    void applyCorrectSlot();
+    void correctionFinishedSlot();
+
 private:
   TscoreObject              *m_scoreObj = nullptr;
   Taction                   *m_playAct, *m_recModeAct;
@@ -191,6 +197,8 @@ private:
   QQuickItem                *m_mainScoreItem = nullptr;
 
   QList<TstaffLines*>        m_emptyStaves;
+  Tnote                     *m_goodNote;
+  QObject                   *m_animationObj = nullptr;
 
 };
 

@@ -234,16 +234,7 @@ void TnoteItem::setNote(const Tnote& n) {
     m_notePosY = staff()->upperLine() + (m_note->rhythm() == Trhythm::Whole ? 2.0 : 4.0);
   else {
     if (m_note->isValid()) {
-        m_notePosY = staff()->score()->clefOffset().total() + staff()->upperLine() - (n.octave() * 7 + (n.note() - 1));
-        if (staff()->isPianoStaff()) {
-          if (m_note->onUpperStaff()) {
-              if (m_notePosY > staff()->upperLine() + 13.0)
-                m_notePosY += 10.0;
-          } else {
-              if (m_notePosY > staff()->upperLine() + 3.0)
-                m_notePosY += 10.0;
-          }
-        }
+        m_notePosY = getHeadY(n);
     } else {
         if (staff()->score()->singleNote()) {
             m_notePosY = 0.0;
@@ -503,6 +494,21 @@ void TnoteItem::markNoteHead(const QColor& outlineColor) {
       m_head->setProperty("style", 1); // In Qt private qquicktext_p.h it is second value of enum TextStyle
       m_head->setProperty("styleColor", outlineColor);
   }
+}
+
+
+qreal TnoteItem::getHeadY(const Tnote& n) {
+  qreal yPos = staff()->score()->clefOffset().total() + staff()->upperLine() - (n.octave() * 7 + (n.note() - 1));
+  if (staff()->isPianoStaff()) {
+    if (n.onUpperStaff()) {
+      if (yPos > staff()->upperLine() + 13.0)
+        yPos += 10.0;
+    } else {
+      if (yPos > staff()->upperLine() + 3.0)
+        yPos += 10.0;
+    }
+  }
+  return yPos;
 }
 
 

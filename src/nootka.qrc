@@ -134,6 +134,7 @@
     <file alias="exam/ExamSettingsDialog.qml">qml/exam/ExamSettingsDialog.qml</file>
     <file alias="exam/CorrectNameAnim.qml">qml/exam/CorrectNameAnim.qml</file>
     <file alias="exam/CorrectInstrAnim.qml">qml/exam/CorrectInstrAnim.qml</file>
+    <file alias="exam/CorrectNoteAnim.qml">qml/exam/CorrectNoteAnim.qml</file>
     <file alias="exam/Certificate.qml">qml/exam/Certificate.qml</file>
 
     <file alias="charts/AnalyzeDialog.qml">charts/qml/AnalyzeDialog.qml</file>

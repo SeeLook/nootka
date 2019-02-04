@@ -55,6 +55,8 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
   }
   m_instance = this;
 
+  m_goodNote = new Tnote();
+
   m_showNamesAct = new Taction(tr("Show note names"), QString(), this);
   m_showNamesAct->setCheckable(true);
   m_showNamesAct->setChecked(GLOB->namesOnScore());
@@ -105,6 +107,7 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
 
 TmainScoreObject::~TmainScoreObject()
 {
+  delete m_goodNote;
   m_instance = nullptr;
 }
 
@@ -409,17 +412,35 @@ int TmainScoreObject::markNoteHead(const QColor& outColor, int noteNr) {
 }
 
 
-void TmainScoreObject::correctNote(const Tnote& goodNote, char keySign, bool corrAccid) {
+void TmainScoreObject::correctNote(const Tnote& goodNote,  bool corrAccid) {
   if (m_scoreObj->singleNote()) {
-    m_scoreObj->setNote(0, goodNote);
-    if (keySign != keySignatureValue())
-      m_scoreObj->setKeySignature(keySign);
-    if (corrAccid) {
-      // TODO
-    }
-    markNoteHead(GLOB->correctColor(), 0);
+      if (corrAccid) {
+        // FIXME probably it is not necessary - animation is universal for any kind of score mistake
+      }
+      auto noteItem = m_scoreObj->note(0);
+      if (!m_animationObj) {
+        QQmlComponent comp(m_scoreObj->qmlEngine(), QUrl(QStringLiteral("qrc:/exam/CorrectNoteAnim.qml")));
+        m_animationObj = qobject_cast<QObject*>(comp.create());
+        m_animationObj->setParent(this);
+        connect(m_animationObj, SIGNAL(finished()), this, SLOT(correctionFinishedSlot()));
+        connect(m_animationObj, SIGNAL(applyCorrect()), this, SLOT(applyCorrectSlot()));
+      }
+      m_animationObj->setProperty("noteHead", QVariant::fromValue(m_scoreObj->noteHead(0)));
+      m_animationObj->setProperty("endY", noteItem->getHeadY(goodNote) - 15.0);
+      m_animationObj->setProperty("running", true);
+      *m_goodNote = goodNote;
+  } else
+      QTimer::singleShot(1500, [=]{ emit correctionFinished(); }); // TODO Fake so far
+}
+
+
+void TmainScoreObject::correctKeySignature(const TkeySignature& keySign) {
+  if (m_questionKey) {
+    m_questionKey->setProperty("text", keySign.getName()  + QLatin1String("<br>!"));
+    m_questionKey->setProperty("color", GLOB->EanswerColor);
   }
-  QTimer::singleShot(1500, [=]{ emit correctionFinished(); }); // Fake so far
+  if (keySign != keySignatureValue())
+    m_scoreObj->setKeySignature(keySign.value());
 }
 
 
@@ -500,6 +521,17 @@ void TmainScoreObject::singleModeSlot() {
 void TmainScoreObject::paletteSlot() {
   if (m_questionMark)
     m_questionMark->setProperty("color", scoreBackgroundColor(GLOB->EquestionColor, 40));
+}
+
+
+void TmainScoreObject::applyCorrectSlot() {
+  markNoteHead(GLOB->correctColor(), 0);
+}
+
+
+void TmainScoreObject::correctionFinishedSlot() {
+  m_scoreObj->setNote(0, *m_goodNote);
+  emit correctionFinished();
 }
 
 
