@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -22,26 +22,67 @@ Popup {
 
   signal accepted()
 
+  // private
+  property var beatFactor: [ 1, 2, 0.75, 0.5 ]
+
   Column {
     spacing: Noo.fontSize() / 2
 
     Row {
       spacing: Noo.fontSize()
-      anchors.horizontalCenter: parent.horizontalCenter
-      Text { text: qsTr("tempo"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
-      SpinBox {
-        id: tempoSpin
-        from: 40; to: 180; editable: true
-        value: SOUND.tempo
+      Tumbler {
+        id: beatUnitTumb
+        background: Rectangle { color: activPal.base }
+        anchors.verticalCenter: parent.verticalCenter
+        height: Noo.fontSize() * 6; width: Noo.fontSize() * 2
+        model: tempoBar.beatModel
+        visibleItemCount: 3; wrap: true
+        currentIndex: SOUND.beatUnit
+        delegate: Text {
+          text: modelData
+          color: activPal.text
+          height: Noo.fontSize() * 2.5
+          horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
+          opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
+          font { pixelSize: Noo.fontSize() * 2; family: "Scorek" }
+          MouseArea {
+            id: tumblerArea
+            anchors.fill: parent
+            onClicked: {
+//               var prevBeatFactor = beatFactor[beatUnitTumb.currentIndex]
+              beatUnitTumb.currentIndex = beatUnitTumb.currentIndex === beatUnitTumb.count - 1 ? beatUnitTumb.currentIndex = 0 : beatUnitTumb.currentIndex + 1
+//               tempoSpin.value /= prevBeatFactor / beatFactor[beatUnitTumb.currentIndex]
+            }
+          }
+        }
       }
-    }
-    Slider {
-      width: parent.width * 0.96
-      anchors.horizontalCenter: parent.horizontalCenter
-      value: tempoSpin.value
-      from: 40; to: 180;
-      onValueChanged: tempoSpin.value = value
-      stepSize: 10
+      Text {
+        anchors.verticalCenter: parent.verticalCenter
+        text: "="
+        color: activPal.text
+        font { pixelSize: Noo.fontSize() * 2 }
+      }
+      Column {
+        anchors.verticalCenter: parent.verticalCenter
+        Row {
+          spacing: Noo.fontSize()
+          anchors.horizontalCenter: parent.horizontalCenter
+          Text { text: qsTr("tempo"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
+          SpinBox {
+            id: tempoSpin
+            from: 40; to: 180 * beatFactor[beatUnitTumb.currentIndex]; editable: true
+            value: SOUND.tempo
+          }
+        }
+        Slider {
+          width: parent.width * 0.96
+          anchors.horizontalCenter: parent.horizontalCenter
+          value: tempoSpin.value
+          from: 40; to: 180 * beatFactor[beatUnitTumb.currentIndex]
+          onValueChanged: tempoSpin.value = value
+          stepSize: 10
+        }
+      }
     }
 
     TiconButton {
@@ -50,27 +91,6 @@ Popup {
       pixmap: Noo.pix("fingerpoint")
       anchors.horizontalCenter: parent.horizontalCenter
       onClicked: tapTempo()
-    }
-
-    ButtonGroup { buttons: radioRow.children }
-
-    Row {
-      id: radioRow
-      spacing: Noo.fontSize()
-      anchors.horizontalCenter: parent.horizontalCenter
-      Text { text: qsTr("round to:"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
-      RadioButton {
-        id: radio16
-        font { family: "Nootka"; pixelSize: Noo.fontSize() * 2 }
-        text: "G"
-        checked: SOUND.quantization === 6
-      }
-      RadioButton {
-        id: radio8
-        font { family: "Nootka"; pixelSize: Noo.fontSize() * 2 }
-        text: "F"
-        checked: SOUND.quantization === 12
-      }
     }
 
     TcheckBox {
@@ -85,12 +105,41 @@ Popup {
       checked: true
     }
 
+    ButtonGroup { buttons: radioRow.children }
+    Item {
+      anchors.horizontalCenter: parent.horizontalCenter
+      width: parent.width; height: radioRow.height
+      MouseArea {
+        anchors.fill: parent; hoverEnabled: true
+        onEntered: Noo.setStatusTip(qsTr("Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy."), Item.TopLeft)
+        onExited: Noo.setStatusTip("", Item.TopLeft)
+      }
+      Row {
+        id: radioRow
+        spacing: Noo.fontSize()
+        anchors.horizontalCenter: parent.horizontalCenter
+        Text { text: qsTr("round to:"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
+        RadioButton {
+          id: radio16
+          font { family: "Nootka"; pixelSize: Noo.fontSize() * 2 }
+          text: "G"
+          checked: SOUND.quantization === 6
+        }
+        RadioButton {
+          id: radio8
+          font { family: "Nootka"; pixelSize: Noo.fontSize() * 2 }
+          text: "F"
+          checked: SOUND.quantization === 12
+        }
+      }
+    }
+
     TiconButton {
       text: Noo.TR("QPlatformTheme", "Apply")
       pixmap: Noo.pix("check")
       anchors.horizontalCenter: parent.horizontalCenter
       onClicked: {
-        SOUND.tempo = tempoSpin.value
+        SOUND.setMetronome(tempoSpin.value, beatUnitTumb.currentIndex)
         SOUND.quantization = radio16.checked ? 6 : 12 // See Tsound doc for values explanation
         tempoSpin.value = SOUND.tempo
         accepted()
@@ -99,8 +148,8 @@ Popup {
     }
   }
 
-  onOpened: { SOUND.stopListen(); spaceShort.enabled = true } 
-  onClosed: { SOUND.startListen(); spaceShort.enabled = false } 
+  onOpened: { SOUND.stopListen(); spaceShort.enabled = true; tempoSpin.value = SOUND.tempo; beatUnitTumb.currentIndex = SOUND.beatUnit }
+  onClosed: { SOUND.startListen(); spaceShort.enabled = false }
 
   Shortcut { id: spaceShort; sequence: " "; onActivated: tapTempo() }
 

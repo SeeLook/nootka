@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2016-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -190,4 +190,15 @@ void Tmeter::fillMeterGroups(QList<quint8>& durationList) {
 }
 
 
+Tmeter::EbeatUnit Tmeter::optimalBeat(Tmeter::Emeter m) {
+  if (m <= Meter_7_4) // all time signatures with quarter
+    return BeatQuarter;
+  return BeatEighth;
+}
+
+
+qreal Tmeter::beatTempoFactor(Tmeter::EbeatUnit bu) {
+  static const qreal beatsArray[4] = { 1.0, 2.0, 0.75, 0.5 };
+  return beatsArray[static_cast<int>(bu)];
+}
 

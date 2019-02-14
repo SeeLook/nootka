@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -134,7 +134,9 @@ void Tsound::playMelody(Tmelody* mel, int transposition) {
 
 void Tsound::playScoreNotes(QList<Tnote>& notes, int firstNote) {
   if (player && !notes.isEmpty())
-    player->playNotes(std::addressof(notes), m_tempo, firstNote);
+    player->playNotes(std::addressof(notes), // beat unit has to be converted to quarter here
+                      qRound(static_cast<qreal>(m_tempo) / Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(m_beatUnit))),
+                      firstNote);
 }
 
 
@@ -288,6 +290,27 @@ void Tsound::setTempo(int t) {
     //m_tempo = qRound(15000.0 / (qRound(15000.0 / static_cast<qreal>(t) / sniffer->chunkTime()) * sniffer->chunkTime()));
     m_tempo = t;
     emit tempoChanged();
+  }
+}
+
+
+void Tsound::setBeatUnit(int bu) {
+  if (bu != m_beatUnit) {
+    m_beatUnit = bu;
+    m_tempo *= Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(bu));
+    emit tempoChanged();
+  }
+}
+
+
+void Tsound::setMetronome(int t, int beat) {
+  if (beat != m_beatUnit || t != m_tempo) {
+    int quarterTempo = t / Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(beat));
+    if (quarterTempo >= 40 && quarterTempo <= 180) {
+      m_tempo = t;
+      m_beatUnit = beat;
+      emit tempoChanged();
+    }
   }
 }
 
@@ -501,7 +524,7 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
   if (note.pitch.isValid())
     m_detectedNote = note.pitch;
   if (GLOB->rhythmsEnabled()) {
-      qreal rFactor = 2500.0 / m_tempo;
+      qreal rFactor = 2500.0 / (m_tempo / Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(m_beatUnit)));
       qreal dur = (note.duration * 1000.0) / rFactor;
       int quant = dur > 20.0 ? 12 : 6; // avoid sixteenth dots
       int normDur = qRound(dur / static_cast<qreal>(quant)) * quant;

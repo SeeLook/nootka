@@ -71,6 +71,9 @@ public:
   int tempo() const { return m_tempo; }
   void setTempo(int tmp) { m_tempo = tmp; }
 
+  Tmeter::EbeatUnit beat() const { return m_beat; }
+  void setBeat(Tmeter::EbeatUnit bu) { m_beat = bu; }
+
   TkeySignature const key() { return m_key; }
   void setKey(const TkeySignature& k) { m_key = k; }
 
@@ -94,6 +97,7 @@ private:
   QList<Tmeasure>      m_measures;
   QList<Tchunk*>       m_notes; /**< List of pointers to ordered notes */
   int                  m_tempo;
+  Tmeter::EbeatUnit    m_beat = Tmeter::BeatQuarter;
   TkeySignature        m_key;
   Tmeter              *m_meter = nullptr;
   Tclef::EclefType     m_clef;

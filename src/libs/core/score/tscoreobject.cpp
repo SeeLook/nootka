@@ -457,12 +457,17 @@ void TscoreObject::setCursorAlter(int curAlt) {
 }
 
 
-void TscoreObject::openMusicXml(const QString& musicFile) {
+void TscoreObject::openMusicXml(const QString& musicFile, Tmelody* melody) {
   if (!musicFile.isEmpty()) {
-    auto melody = new Tmelody();
+    bool melodyCreated = false;
+    if (!melody) {
+      melody = new Tmelody();
+      melodyCreated = true;
+    }
     if (melody->grabFromMusicXml(musicFile))
       setMelody(melody);
-    delete melody;
+    if (melodyCreated)
+      delete melody;
   }
 }
 

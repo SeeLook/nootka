@@ -111,6 +111,22 @@ void Tmelody::toXml(QXmlStreamWriter& xml) {
             xml.writeTextElement(QStringLiteral("staves"), QStringLiteral("2"));
           Tclef(m_clef).toXml(xml);
         xml.writeEndElement(); // attributes
+        xml.writeStartElement(QStringLiteral("direction"));
+          xml.writeAttribute(QStringLiteral("placement"), QStringLiteral("above"));
+          xml.writeStartElement(QStringLiteral("direction-type"));
+            xml.writeStartElement(QStringLiteral("metronome"));
+              QString beatUnitString = QStringLiteral("quarter");
+              if (beat() == Tmeter::BeatEighth)
+                beatUnitString = QStringLiteral("eighth");
+              else if (beat() == Tmeter::BeatHalf)
+                QStringLiteral("half");
+              xml.writeTextElement(QStringLiteral("beat-unit"), beatUnitString);
+              if (beat() == Tmeter::BeatQuarterDot)
+                xml.writeEmptyElement(QStringLiteral("beat-unit-dot"));
+              xml.writeTextElement(QStringLiteral("per-minute"), QString::number(tempo()));
+            xml.writeEndElement(); // metronome
+          xml.writeEndElement(); // direction-type
+        xml.writeEndElement(); // direction
       }
       int staffNr_1 = 1, staffNr_2 = 2;
       int *staffPtr = 0;
@@ -134,6 +150,7 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
   m_notes.clear();
   m_measures.clear();
   m_meter->setMeter(Tmeter::NoMeter);
+  setTempo(0); // reset tempo, try to read from XML
   while (xml.readNextStartElement()) {
 /** [measure] */
     if (xml.name() == QLatin1String("measure")) {
@@ -226,7 +243,7 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
               if (xml.name() == QLatin1String("direction-type")) {
                   while (xml.readNextStartElement()) {
                     if (xml.name() == QLatin1String("words")) { // fingering and bowing can be read this way
-                        QString words = xml.readElementText();
+                        auto words = xml.readElementText();
                         if (words == QLatin1String("(A)"))
                             technical.setBowing(Ttechnical::BowDown);
                         else if (words == QLatin1String("(C)"))
@@ -237,9 +254,55 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
                           if (isNumber)
                             technical.setFinger(finger);
                         }
+                    } else if (xml.name() == QLatin1String("metronome")) {
+                        int tempoWillBe = 120;
+                        auto beatWillBe = Tmeter::EbeatUnit::BeatQuarter;
+                        bool dotWillBe = false;
+                        while (xml.readNextStartElement()) {
+                          if (xml.name() == QLatin1String("beat-unit")) {
+                              auto beatUnit = xml.readElementText();
+                              if (beatUnit == QLatin1String("quarter"))
+                                  beatWillBe = Tmeter::BeatQuarter;
+                              else if (beatUnit == QLatin1String("eighth"))
+                                  beatWillBe = Tmeter::BeatEighth;
+                              else if (beatUnit == QLatin1String("half"))
+                                  beatWillBe = Tmeter::BeatHalf;
+                              else
+                                  qDebug() << "[Tmelody] Unknown 'beat-unit' value. Stay with 'quarter' beat.";
+                          } else if (xml.name() == QLatin1String("beat-unit-dot")) {
+                              dotWillBe = true;
+                              xml.skipCurrentElement();
+                          } else if (xml.name() == QLatin1String("per-minute")) {
+                              tempoWillBe = xml.readElementText().toInt();
+                          } else
+                              xml.skipCurrentElement();
+                        }
+                        if (dotWillBe) {
+                          if (beatWillBe == Tmeter::BeatQuarter)
+                            beatWillBe = Tmeter::BeatQuarterDot;
+                          else
+                            qDebug() << "[Tmelody] Metronome beat with dot only supports quarter. Ignore dot then!";
+                        }
+                        int quarterTempo = tempoWillBe / Tmeter::beatTempoFactor(beatWillBe);
+                        if (nr == 1 || tempo() == 0) { // read metronome tempo but only for 1st bar or if not yet set
+                          if (quarterTempo >= 40 && quarterTempo <= 180) {
+                              setTempo(tempoWillBe);
+                              setBeat(beatWillBe);
+                          } else // too fast or to slow
+                              qDebug() << "[Tmelody]" << beatWillBe << "for tempo" << tempoWillBe << "is not supported. (Too fast or too slow)";
+                        }
                     } else
                         xml.skipCurrentElement();
                   }
+              } else if (xml.name() == QLatin1String("sound")) {
+                  int t = xml.attributes().value(QStringLiteral("tempo")).toInt();
+                  if (m_tempo == 0) { // always prefer 'metronome' tag, so skip this, if tempo has been set already
+                    if (t >= 40 && t <= 180) // but keep tempo in Nootka supported boundaries
+                      setTempo(t);
+                    else if (t > 180)
+                      setTempo(180);
+                  }
+                  xml.skipCurrentElement();
               } else
                   xml.skipCurrentElement();
             }
@@ -254,6 +317,8 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
         xml.skipCurrentElement();
 
   }
+  if (tempo() == 0)
+    setTempo(120);
   return ok;
 }
 
@@ -265,7 +330,7 @@ bool Tmelody::saveToMusicXml(const QString& xmlFileName) {
     xml.setAutoFormatting(true);
     xml.setAutoFormattingIndent(2);
     xml.writeStartDocument();
-    xml.writeDTD(QStringLiteral("<!DOCTYPE score-partwise PUBLIC \"-//Recordare//DTD MusicXML 3.0 Partwise//EN\" \"http://www.musicxml.org/dtds/partwise.dtd\">"));
+    xml.writeDTD(QStringLiteral("<!DOCTYPE score-partwise PUBLIC \"-//Recordare//DTD MusicXML 3.1 Partwise//EN\" \"http://www.musicxml.org/dtds/partwise.dtd\">"));
     xml.writeStartElement(QStringLiteral("score-partwise"));
       xml.writeStartElement(QStringLiteral("work"));
         xml.writeTextElement(QStringLiteral("work-title"), title());

@@ -181,7 +181,13 @@ public:
   int cursorAlter() const { return m_cursorAlter; }
   void setCursorAlter(int curAlt);
 
-  Q_INVOKABLE void openMusicXml(const QString& musicFile);
+      /**
+       * Grabs melody from file and sets it into score.
+       * If @p melody parameter is set - it loads XML file to it,
+       * so this method caller can read more from opened melody
+       */
+  Q_INVOKABLE void openMusicXml(const QString& musicFile, Tmelody* melody = nullptr);
+
   Q_INVOKABLE void saveMusicXml(const QString& musicFile, const QString& title = QString(), const QString& composer = QString());
 
       /**

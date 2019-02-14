@@ -1,5 +1,6 @@
 1.5.3 beta1
      - added support for scientific octave numbers in note names
+     - read/save melody title, composer, tempo, beat
      - restored charts (analysis) with updated look
      - improved start wizard to handle more supported instruments
 

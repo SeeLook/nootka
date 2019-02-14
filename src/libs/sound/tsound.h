@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -51,6 +51,7 @@ class NOOTKASOUND_EXPORT Tsound : public QObject
   Q_OBJECT
 
   Q_PROPERTY(int tempo READ tempo WRITE setTempo NOTIFY tempoChanged)
+  Q_PROPERTY(int beatUnit READ beatUnit WRITE setBeatUnit NOTIFY tempoChanged)
   Q_PROPERTY(int quantization READ quantization WRITE setQuantization NOTIFY quantizationChanged)
   Q_PROPERTY(bool stoppedByUser READ stoppedByUser WRITE setStoppedByUser NOTIFY stoppedByUserChanged)
   Q_PROPERTY(bool listening READ listening NOTIFY listeningChanged)
@@ -136,6 +137,11 @@ public:
   int tempo() const { return m_tempo; }
   void setTempo(int t);
 
+  int beatUnit() const { return m_beatUnit; }
+  void setBeatUnit(int bu);
+
+  Q_INVOKABLE void setMetronome(int t, int beat);
+
       /**
        * Quantization value determines accuracy of detecting rhythm of played note by its duration.
        */
@@ -210,6 +216,7 @@ private:
   bool                    m_stopSniffOnce, m_userState;;
   Tmelody                *m_playedMelody;
   int                     m_tempo;
+  int                     m_beatUnit = 0; /**< corresponds with Tmeter::EbeatUnit enum. Quarter by default */
   int                     m_quantVal;
 
   static Tsound          *m_instance;
