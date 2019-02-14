@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -94,6 +94,25 @@ public:
   static Emeter valueToMeter(int up, int lo);
 
   void fillMeterGroups(QList<quint8>& durationList);
+
+  enum EbeatUnit {
+    BeatQuarter = 0,
+    BeatEighth = 1,
+    BeatQuarterDot = 2,
+    BeatHalf = 3
+  };
+
+  Q_ENUM(EbeatUnit)
+
+  static EbeatUnit optimalBeat(Emeter m);
+
+  Q_INVOKABLE EbeatUnit optimalBeat() const { return optimalBeat(m_meter); }
+
+      /**
+       * Returns tempo multiplexer depending on beat unit:
+       * i.e.: for eighth note it is @p 2 as such as tempo with eighths is 2 times faster than tempo with quarters
+       */
+  Q_INVOKABLE static qreal beatTempoFactor(EbeatUnit bu);
 
 private:
   Emeter        m_meter;

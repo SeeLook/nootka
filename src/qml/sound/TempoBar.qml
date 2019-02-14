@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -8,15 +8,18 @@ import Nootka 1.0
 
 
 Item {
-  id: root
+  id: tempoBar
 
   // private
-  property var menu: null
+  property var tMenu: null
   property int hiTick: -1
   property int cnt: 1
   property var hArray: [ 0.6, 0, 0.3, 0, 0.6]
   property var gArray: [ "\ue1d5", "\ue1d9", "\ue1d7", "\ue1d9", "\ue1d5" ]
   property int countTo: Noo.meter(score.meter).countTo()
+
+  // protected
+  property var beatModel: [ "\ue1d5", "\ue1d7", "\ue1d5\ue1e7", "\ue1d3" ]
 
   MouseArea {
     anchors.fill: parent
@@ -34,7 +37,7 @@ Item {
       y: parent.height * -0.7
       x: width * 0.2
       font { family: "Scorek"; pixelSize: parent.height * 0.7 }
-      text: "\ue1d5=" + SOUND.tempo
+      text:  beatModel[SOUND.beatUnit] + "=" + SOUND.tempo
       color: activPal.text
     }
     MouseArea {
@@ -42,11 +45,11 @@ Item {
       hoverEnabled: true
       anchors.fill: parent
       onClicked: {
-        if (!menu) {
+        if (!tMenu) {
           var c = Qt.createComponent("qrc:/sound/TempoMenu.qml")
-          menu = c.createObject(root)
+          tMenu = c.createObject(tempoBar)
         }
-        menu.open()
+        tMenu.open()
       }
       onEntered: Noo.setStatusTip(qsTr("Tempo"), Item.TopLeft)
       onExited: Noo.setStatusTip("", Item.TopLeft)
@@ -58,7 +61,7 @@ Item {
     model: 5
     Rectangle {
       readonly property color bgColor: Qt.tint(activPal.window, Noo.alpha(activPal.base, 100))
-      x: root.width / 3 + index * (parent.height) - width / 2
+      x: tempoBar.width / 3 + index * (parent.height) - width / 2
       y:  parent.height * (Math.abs(0.6 - hArray[index]) / 5)
       width: parent.height * (0.9 - (Math.abs(0.6 - hArray[index]) / 3)); height: parent.height * 0.8 + hArray[index] * parent.height
       radius: width / 2
@@ -74,7 +77,7 @@ Item {
         x: (parent.width - width) / 2
       }
       Text { // count
-        visible: pitchView.active && index === hiTick && (!menu || (menu.count && menu.tickEnable))
+        visible: pitchView.active && index === hiTick && (!tMenu || (tMenu.count && tMenu.tickEnable))
         font { pixelSize: parent.height; family: "Scorek" }
         color: activPal.base
         text: cnt
@@ -86,7 +89,7 @@ Item {
 
   Timer {
     id: timer
-    running: visible && pitchView.active && (!menu || menu.tickEnable); repeat: true
+    running: visible && pitchView.active && (!tMenu || tMenu.tickEnable); repeat: true
     interval: (SOUND.tempo < 110 ? 15000 : 30000) / SOUND.tempo
     property real elap: 0
     property real lag: 0
