@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -33,6 +33,9 @@ unsigned int            TabstractPlayer::p_posInOgg = 0;
 int                     TabstractPlayer::p_playingNoteNr = -1;
 int                     TabstractPlayer::p_decodingNoteNr = -1;
 int                     TabstractPlayer::p_playingNoteId = -1;
+int                     TabstractPlayer::p_prevNote = -100;
+unsigned int            TabstractPlayer::p_shiftOfPrev = 0;
+unsigned int            TabstractPlayer::p_lastPosOfPrev = 0;
 
 
 TabstractPlayer::TabstractPlayer(QObject* parent) :
@@ -104,10 +107,16 @@ void TabstractPlayer::preparePlayList(QList<Tnote>* notes, int tempo, int firstN
 
 
 void TabstractPlayer::playThreadSlot() {
+  if (!m_playList.isEmpty() && p_playingNoteNr <= m_playList.size() - 1 && p_posInNote < m_playList[p_playingNoteNr].samplesCount) {
+      // something still is playing
+      p_prevNote = m_playList[p_playingNoteNr].number;
+  } else {
+      p_prevNote = -100;
+      p_shiftOfPrev = 0;
+      p_lastPosOfPrev = 0;
+  }
   p_playingNoteNr = 0;
   p_decodingNoteNr = 0;
-  p_posInNote = 0;
-  p_posInOgg = 0;
   p_doEmit = true;
   m_playList.clear();
   if (m_noteToPlay != REST_NR) { // single note

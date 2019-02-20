@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -54,11 +54,28 @@ QStringList TaudioOUT::getAudioDevicesList() {
 TaudioOUT*              TaudioOUT::instance = nullptr;
 
 
+#define CROSS_SMP (2200) // 50ms
+
+
+/**
+ * Dirty mixing of two given samples
+ */
+qint16 mix(qint16 sampleA, qint16 sampleB) {
+//   return static_cast<qint16>((static_cast<qint32>(sampleA) + static_cast<qint32>(sampleB)) / 2); It cracks
+  qint32 a32 = static_cast<qint32>(sampleA), b32 = static_cast<qint32>(sampleB);
+  if (sampleA < 0 && sampleB < 0 )
+    return static_cast<qint16>((a32 + b32) - ((a32 * b32) / INT16_MIN));
+  else if (sampleA > 0 && sampleB > 0 )
+    return static_cast<qint16>((a32 + b32) - ((a32 * b32) / INT16_MAX));
+  else
+    return sampleA + sampleB;
+}
+
 bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status) {
   Q_UNUSED(status)
   instance->m_callBackIsBussy = true;
 //   if (status) // It doesn't harm if occurs
-//       qDebug() << "Stream underflow detected!";
+//       qDebug() << "[trtaudioout] Stream underflow detected!";
 
   bool endState = true;
   if (!instance->playList().isEmpty() && p_playingNoteNr < instance->playList().size()) {
@@ -68,6 +85,9 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
       qint16 sample = 0;
       for (int i = 0; i < nBufferFrames / instance->ratioOfRate; i++) {
         if (p_posInNote >= playingSound.samplesCount) {
+          p_prevNote = playingSound.number == REST_NR ? -100 : playingSound.number;
+          p_shiftOfPrev = 0;
+          p_lastPosOfPrev = p_posInNote;
           p_playingNoteNr++;
           if (p_playingNoteNr < instance->playList().size()) {
               p_posInOgg = 0;
@@ -84,11 +104,12 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
 
           if (p_posInOgg < 61740) { // 1.4 sec of samples
               sample = instance->oggScale->getNoteSample(playingSound.number, p_posInOgg);
-              if (p_posInOgg > playingSound.samplesCount - 220) { // fade out 5ms
+              if (p_posInOgg < 220) // fade in 5ms
+                sample = static_cast<qint16>(sample * (1.0 - (static_cast<qreal>(220 - p_posInOgg) / 220.0)));
+              if (p_playingNoteNr == instance->playList().size() - 1 && p_posInOgg > playingSound.samplesCount - 220) { // fade out 5ms the last one
                   qreal m = 1.0 - (static_cast<qreal>(p_posInOgg + 221 - playingSound.samplesCount) / 220.0);
                   sample = static_cast<qint16>(sample * (m < 0.0 ? 0.0 : m));
-              } else if (p_posInOgg < 220) // fade in 5ms
-                  sample = static_cast<qint16>(sample * (1.0 - (static_cast<qreal>(220 - p_posInOgg) / 220.0)));
+              }
               if (instance->oggScale->soundContinuous() && p_posInNote > 44100) { // fade out long continuous sound
                 // slowly fade it out to minimize loop jump effect
                 sample = static_cast<qint16>(sample * (1.0 - static_cast<qreal>(p_posInNote - 44100) / static_cast<qreal>(playingSound.samplesCount)));
@@ -97,6 +118,14 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
               }
           }
           p_posInOgg++;
+        }
+        if (unfinished && p_prevNote > -100 && p_shiftOfPrev < CROSS_SMP) { // fade out previous note, and mix it with the current one
+          qint16 sample2 = instance->oggScale->getNoteSample(p_prevNote, p_lastPosOfPrev + p_shiftOfPrev);
+          sample2 = static_cast<qint16>(static_cast<qreal>(sample2) * (static_cast<qreal>(CROSS_SMP - p_shiftOfPrev) / 2200.0));
+          sample = mix(sample, sample2);
+          p_shiftOfPrev++;
+          if (p_shiftOfPrev == CROSS_SMP)
+            p_prevNote = -100;
         }
         for (int r = 0; r < instance->ratioOfRate; r++) {
           *out++ = sample; // left channel
@@ -201,6 +230,12 @@ void TaudioOUT::startPlaying() {
     //  if (loops) qDebug() << "latency:" << loops << "ms";
   }
 
+  if (p_prevNote > -100) {
+    p_shiftOfPrev = 0;
+    p_lastPosOfPrev = p_posInNote;
+  }
+  p_posInNote = 0;
+  p_posInOgg = 0;
   p_isPlaying = true;
   if (playList().size() > 1 && p_tempo > 100) // in faster tempo wait for decoding more notes
     playThread()->msleep(100);
@@ -226,6 +261,29 @@ void TaudioOUT::playingFinishedSlot() {
 
 
 void TaudioOUT::stop() {
+  if (m_callBackIsBussy) {
+    qDebug() << "[TrtAudioOUT] Stopping when outCallBack is running. Wait 2ms!";
+    QTimer::singleShot(2, [=]{ this->stop(); });
+  }
+
+  /**
+   * To avoid cracking at the end of last played note
+   * when it is still playing, cheat the system by:
+   * - setting samplesCount (duration) to the actual position in played note (pos in ogg) plus 220 (5ms of fade out)
+   * - remove from the list remaining notes (if any),
+   * so p_playingNoteNr will be the last one and outCallBack will fade it out
+   */
+  if (!playList().isEmpty() && p_playingNoteNr <= playList().size() - 1 && p_posInNote < playList()[p_playingNoteNr].samplesCount) {
+    playList()[p_playingNoteNr].samplesCount = p_posInOgg + 219;
+    int toRemove = playList().size() - p_playingNoteNr - 1;
+    for (int n = 0; n < toRemove; ++n)
+      playList().removeLast();
+    QTimer::singleShot(50, [=]{ this->stop(); });
+    return;
+  }
+  p_prevNote = -100;
+  p_shiftOfPrev = 0;
+  p_lastPosOfPrev = 0;
   p_isPlaying = false;
   if (areStreamsSplit() || getCurrentApi() == RtAudio::LINUX_PULSE)
     closeStream();

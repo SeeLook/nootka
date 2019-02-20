@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -169,6 +169,12 @@ void TaudioOUT::startPlaying() {
   }
   oggScale->decodeNote(playList().first().number);
 
+  if (p_prevNote > -100) {
+    p_shiftOfPrev = 0;
+    p_lastPosOfPrev = p_posInNote;
+  }
+  p_posInNote = 0;
+  p_posInOgg = 0;
   p_isPlaying = true;
   if (playList().size() > 1 && p_tempo > 100) // in faster tempo wait for decoding more notes
     playThread()->msleep(100);
@@ -255,6 +261,9 @@ void TaudioOUT::outCallBack(char *data, qint64 maxLen, qint64 &wasRead) {
     qint16 sample = 0;
     for (int i = 0; i < (maxLen / 2) / ratioOfRate; i++) {
       if (p_posInNote >= playingSound.samplesCount) {
+        p_prevNote = playingSound.number;
+        p_shiftOfPrev = 0;
+        p_lastPosOfPrev = p_posInNote;
         p_playingNoteNr++;
         if (p_playingNoteNr < playList().size()) {
             p_posInOgg = 0;
@@ -271,11 +280,12 @@ void TaudioOUT::outCallBack(char *data, qint64 maxLen, qint64 &wasRead) {
 
         if (p_posInOgg < 61740) { // 1.4 sec of samples
           sample = oggScale->getNoteSample(playingSound.number, p_posInOgg);
-          if (p_posInOgg > playingSound.samplesCount - 220) { // fade out 5ms
+          if (p_posInOgg < 220) // fade in 5ms
+            sample = static_cast<qint16>(sample * (1.0 - (static_cast<qreal>(220 - p_posInOgg) / 220.0)));
+          if (p_playingNoteNr == playList().size() - 1 && p_posInOgg > playingSound.samplesCount - 220) { // fade out 5ms the last one
             qreal m = 1.0 - (static_cast<qreal>(p_posInOgg + 221 - playingSound.samplesCount) / 220.0);
             sample = static_cast<qint16>(sample * (m < 0.0 ? 0.0 : m));
-          } else if (p_posInOgg < 220) // fade in 5ms
-            sample = static_cast<qint16>(sample * (1.0 - (static_cast<qreal>(220 - p_posInOgg) / 220.0)));
+          }
           if (oggScale->soundContinuous() && p_posInNote > 44100) { // fade out long continuous sound
             // slowly fade it out to minimize loop jump effect
             sample = static_cast<qint16>(sample * (1.0 - static_cast<qreal>(p_posInNote - 44100) / static_cast<qreal>(playingSound.samplesCount)));
@@ -284,6 +294,12 @@ void TaudioOUT::outCallBack(char *data, qint64 maxLen, qint64 &wasRead) {
           }
         }
         p_posInOgg++;
+      }
+      if (unfinished && p_prevNote > -100 && p_shiftOfPrev < CROSS_SMP) { // fade out previous note, and mix it with the current one
+        qint16 sample2 = oggScale->getNoteSample(p_prevNote, p_lastPosOfPrev + p_shiftOfPrev);
+        sample2 = static_cast<qint16>(static_cast<qreal>(sample2) * (static_cast<qreal>(CROSS_SMP - p_shiftOfPrev) / 2200.0));
+        sample = mix(sample, sample2);
+        p_shiftOfPrev++;
       }
       for (int r = 0; r < ratioOfRate; r++)
         *out++ = sample; // left channel
@@ -321,6 +337,15 @@ void TaudioOUT::playingFinishedSlot() {
 
 
 void TaudioOUT::stop() {
+  // TODO fade out latest played note to avoid cracks: Simply uncomment code below
+//   if (!playList().isEmpty() && p_playingNoteNr <= playList().size() - 1 && p_posInNote < playList()[p_playingNoteNr].samplesCount) {
+//     playList()[p_playingNoteNr].samplesCount = p_posInOgg + 219;
+//     int toRemove = playList().size() - p_playingNoteNr - 1;
+//     for (int n = 0; n < toRemove; ++n)
+//       playList().removeLast();
+//     QTimer::singleShot(50, [=]{ this->stop(); });
+//     return;
+//   }
   p_doEmit = false;
   playingFinishedSlot();
 }
