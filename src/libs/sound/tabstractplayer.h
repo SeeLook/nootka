@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -132,6 +132,8 @@ protected:
   int                          p_tempo = 120;
   TaudioParams                *p_audioParams = nullptr;
   ToggScale                   *p_oggScale = nullptr;
+  static int                   p_prevNote; /**< Previously played note number, when -100 means invalid  */
+  static unsigned int          p_shiftOfPrev, p_lastPosOfPrev; /**< Helpers for previously played note */
 
 private:
   QList<TsingleSound>          m_playList;
