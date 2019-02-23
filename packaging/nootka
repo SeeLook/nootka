@@ -6,6 +6,17 @@ tmp="${dirname#?}"
 if [ "${dirname%$tmp}" != "/" ]; then
   dirname=$PWD/$dirname
 fi
-LD_LIBRARY_PATH=$dirname/lib/nootka:$LD_LIBRARY_PATH
+
+# library path to point into package path
+LD_LIBRARY_PATH=$dirname/lib/nootka:$dirname/lib:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH
-$dirname/bin/nootka "$@" 
+
+# QML path to override existing QML installation in host system (if any)
+QML2_IMPORT_PATH=$dirname/qml
+export QML2_IMPORT_PATH
+
+# ignore host system QML style (if any) to avoid any look-ish surprises
+QT_QUICK_CONTROLS_STYLE=
+export QT_QUICK_CONTROLS_STYLE
+
+$dirname/bin/nootka "$@"

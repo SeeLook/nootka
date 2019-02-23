@@ -74,6 +74,8 @@ cp AppDir/usr/share/nootka/picts/nootka.png AppDir/usr/
 cp AppDir/usr/share/applications/nootka.desktop AppDir/usr/
 
 LD_LIBRARY_PATH="$BIN_DIR/AppDir/usr/lib/nootka:$LD_LIBRARY_PATH" linuxdeployqt AppDir/usr/bin/nootka -bundle-non-qt-libs -qmldir=$SRC_DIR/src/qml
+# launch it twice to find more libs
+LD_LIBRARY_PATH="$BIN_DIR/AppDir/usr/lib/nootka:$LD_LIBRARY_PATH" linuxdeployqt AppDir/usr/bin/nootka -bundle-non-qt-libs -qmldir=$SRC_DIR/src/qml
 
 # qt.conf with translations path pointing inside AppDir and plugins path
 cp $SRC_DIR/packaging/appimage/qt.conf AppDir/usr/bin/
@@ -91,6 +93,7 @@ fi
 
 # Fix for XCB platform plugin - copy X11 library and remove freetype
 cp /usr/lib/x86_64-linux-gnu/libX11.so.6.3.0 AppDir/usr/lib/libX11.so.6
+cp /lib/x86_64-linux-gnu/libnsl-2.23.so AppDir/usr/lib/libnsl.so.1
 rm AppDir/usr/lib/libfreetype*
 
 # make all contents pointing to itself as a usr/
