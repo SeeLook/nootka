@@ -98,6 +98,16 @@ public:
        */
   int playingNoteId() const { return p_playingNoteId; }
 
+  void runMetronome(unsigned int beatTempo);
+  void stopMetronome();
+  qint16 getBeatsample(unsigned int sampleNr) const { return m_beatArray[sampleNr]; }
+
+  bool tickBeforePlay() const { return m_tickBeforePlay; }
+  void setTickBeforePlay(bool tbp) { m_tickBeforePlay = tbp; }
+
+  bool tickDuringPlay() const { return m_tickDuringPlay; }
+  void setTickDuringPlay(bool tdp) { m_tickDuringPlay = tdp; }
+
 signals:
       /**
        * This signal is emitted when playing of a note/melody is finished.
@@ -134,6 +144,9 @@ protected:
   ToggScale                   *p_oggScale = nullptr;
   static int                   p_prevNote; /**< Previously played note number, when -100 means invalid  */
   static unsigned int          p_shiftOfPrev, p_lastPosOfPrev; /**< Helpers for previously played note */
+  static unsigned int          p_beatPeriod; /**< Samples number of single metronome period, 0 - no metronome  */
+  static unsigned int          p_beatBytes; /**< Number of bytes in single beat sample */
+  static unsigned int          p_beatOffset; /**< Callback position in beat period */
 
 private:
   QList<TsingleSound>          m_playList;
@@ -144,6 +157,9 @@ private:
   int                          m_firstNote = 0;
   Tmelody                     *m_melodyToPlay = nullptr;
   int                          m_transposition = 0;
+  qint16                      *m_beatArray = nullptr;
+  bool                         m_tickBeforePlay = false;
+  bool                         m_tickDuringPlay = false;
 
 private:
   void playThreadSlot();

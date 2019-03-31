@@ -67,7 +67,7 @@ Popup {
         Row {
           spacing: Noo.fontSize()
           anchors.horizontalCenter: parent.horizontalCenter
-          Text { text: qsTr("tempo"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
+          Text { text: qsTr("tempo"); font.pixelSize: Noo.fontSize(); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
           SpinBox {
             id: tempoSpin
             from: 40; to: 180 * beatFactor[beatUnitTumb.currentIndex]; editable: true
@@ -105,6 +105,26 @@ Popup {
       checked: true
     }
 
+    TcheckBox {
+      visible: false
+      id: beforeTickChB
+      text: qsTr("Tick first, then play")
+      checked: SOUND.tickBeforePlay
+    }
+
+    TcheckBox {
+      id: playTickChB
+      text: qsTr("Tick during play")
+      checked: SOUND.tickDuringPlay
+    }
+
+    TcheckBox { // TODO
+      visible: false
+      id: sniffTickChB
+      text: qsTr("Tick when pitch detecting")
+//       checked: true
+    }
+
     ButtonGroup { buttons: radioRow.children }
     Item {
       anchors.horizontalCenter: parent.horizontalCenter
@@ -118,7 +138,7 @@ Popup {
         id: radioRow
         spacing: Noo.fontSize()
         anchors.horizontalCenter: parent.horizontalCenter
-        Text { text: qsTr("round to:"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
+        Text { text: qsTr("round to:"); font.pixelSize: Noo.fontSize(); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
         RadioButton {
           id: radio16
           font { family: "Nootka"; pixelSize: Noo.fontSize() * 2 }
@@ -141,6 +161,8 @@ Popup {
       onClicked: {
         SOUND.setMetronome(tempoSpin.value, beatUnitTumb.currentIndex)
         SOUND.quantization = radio16.checked ? 6 : 12 // See Tsound doc for values explanation
+        SOUND.tickBeforePlay = beforeTickChB.checked
+        SOUND.tickDuringPlay = playTickChB.checked
         tempoSpin.value = SOUND.tempo
         accepted()
         close()
@@ -148,7 +170,7 @@ Popup {
     }
   }
 
-  onOpened: { SOUND.stopListen(); spaceShort.enabled = true; tempoSpin.value = SOUND.tempo; beatUnitTumb.currentIndex = SOUND.beatUnit }
+  onOpened: { SOUND.stop(); spaceShort.enabled = true; tempoSpin.value = SOUND.tempo; beatUnitTumb.currentIndex = SOUND.beatUnit }
   onClosed: { SOUND.startListen(); spaceShort.enabled = false }
 
   Shortcut { id: spaceShort; sequence: " "; onActivated: tapTempo() }
