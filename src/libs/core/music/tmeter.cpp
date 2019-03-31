@@ -198,7 +198,7 @@ Tmeter::EbeatUnit Tmeter::optimalBeat(Tmeter::Emeter m) {
 
 
 qreal Tmeter::beatTempoFactor(Tmeter::EbeatUnit bu) {
-  static const qreal beatsArray[4] = { 1.0, 2.0, 0.75, 0.5 };
+  static const qreal beatsArray[4] = { 1.0, 2.0, 0.66666666666, 0.5 };
   return beatsArray[static_cast<int>(bu)];
 }
 

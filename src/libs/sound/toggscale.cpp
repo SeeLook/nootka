@@ -44,30 +44,32 @@ size_t ToggScale::readOggStatic(void* dst, size_t size1, size_t size2, void* fh)
   SoggFile* of = reinterpret_cast<SoggFile*>(fh);
   size_t len = size1 * size2;
   if ( of->curPtr + len > of->filePtr + of->fileSize ) {
-      len = of->filePtr + of->fileSize - of->curPtr;
+    len = of->filePtr + of->fileSize - of->curPtr;
   }
-  memcpy( dst, of->curPtr, len );
+  memcpy(dst, of->curPtr, len);
   of->curPtr += len;
   return len;
 }
 
 int ToggScale::seekOggStatic(void* fh, ogg_int64_t offset, int type) {
-  SoggFile* of = reinterpret_cast<SoggFile*>(fh);
+  auto of = reinterpret_cast<SoggFile*>(fh);
   switch(type) {
     case SEEK_SET:
-          of->curPtr = of->filePtr + offset; break;
-      case SEEK_CUR:
-          of->curPtr += offset; break;
-      case SEEK_END:
-          of->curPtr = of->filePtr + of->fileSize - offset; break;
-      default:
-          return -1;
+      of->curPtr = of->filePtr + offset; break;
+    case SEEK_CUR:
+      of->curPtr += offset; break;
+    case SEEK_END:
+      of->curPtr = of->filePtr + of->fileSize - offset; break;
+    default:
+      return -1;
   }
   if ( of->curPtr < of->filePtr ) {
-      of->curPtr = of->filePtr; return -1;
+    of->curPtr = of->filePtr;
+    return -1;
   }
   if ( of->curPtr > of->filePtr + of->fileSize ) {
-      of->curPtr = of->filePtr + of->fileSize; return -1;
+    of->curPtr = of->filePtr + of->fileSize;
+    return -1;
   }
   return 0;
 }
@@ -320,9 +322,9 @@ bool ToggScale::loadAudioData(int instrument) {
 
     if (ret < 0) {
       qDebug() << "[ToggScale] Can't open ogg stream";
-      return false;
       delete m_oggInMemory;
       m_oggInMemory = nullptr;
+      return false;
     }
     //   vorbis_info *oggInfo = ov_info(&m_ogg, -1);
     //   qDebug() << oggInfo->rate << oggInfo->channels << (bool)ov_seekable(&m_ogg);

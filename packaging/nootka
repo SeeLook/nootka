@@ -19,4 +19,7 @@ export QML2_IMPORT_PATH
 QT_QUICK_CONTROLS_STYLE=
 export QT_QUICK_CONTROLS_STYLE
 
+
+unset QT_QPA_PLATFORM
+
 $dirname/bin/nootka "$@"

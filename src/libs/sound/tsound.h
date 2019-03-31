@@ -37,10 +37,10 @@ class TaudioIN;
 
 
 /**
- * Tsound is a wrapper of TaudioIN & TaudioOUT classes
- * to manage them. It enables/disables them depends on Tglobals,
+ * @class Tsound is a wrapper of @p TaudioIN & @p TaudioOUT classes
+ * to manage them. It enables/disables them depends on @p Tglobals,
  * pauses sniffing when playback is proceeding.
- * Also it has got TpitchView to show volume meter & pitch detection state.
+ * Also it has got @p TpitchView to show volume meter & pitch detection state.
  *
  * It has single instance available through @p instance()
  * defined also as a macro @p SOUND
@@ -58,6 +58,8 @@ class NOOTKASOUND_EXPORT Tsound : public QObject
   Q_PROPERTY(bool playing READ playing NOTIFY playingChanged)
   Q_PROPERTY(Tnote finishedNote READ note NOTIFY noteFinished)
   Q_PROPERTY(bool tunerMode READ tunerMode NOTIFY tunerModeChanged)
+  Q_PROPERTY(bool tickBeforePlay READ tickBeforePlay WRITE setTickBeforePlay NOTIFY tickStateChanged)
+  Q_PROPERTY(bool tickDuringPlay READ tickDuringPlay WRITE setTickDuringPlay NOTIFY tickStateChanged)
 
   friend class TtunerDialogItem;
 
@@ -125,6 +127,11 @@ public:
   Q_INVOKABLE void startListen();
 
       /**
+       * Stops both, playing and listening
+       */
+  Q_INVOKABLE void stop();
+
+      /**
        * Returns recently detected note.
        */
   Q_INVOKABLE Tnote note() const { return m_detectedNote; }
@@ -159,6 +166,12 @@ public:
   void unPauseSniffing();
   bool isSnifferPaused();
   bool isSniferStopped();
+
+  bool tickBeforePlay() const;
+  void setTickBeforePlay(bool tbp);
+
+  bool tickDuringPlay() const;
+  void setTickDuringPlay(bool tdp);
 
       /**
        * Prepares sound to exam.
@@ -196,6 +209,7 @@ signals:
   void listeningChanged();
   void playingChanged();
   void tunerModeChanged();
+  void tickStateChanged();
 
       /**
        * When sound got initialized at the very beginning

@@ -71,6 +71,7 @@ qint16 mix(qint16 sampleA, qint16 sampleB) {
     return sampleA + sampleB;
 }
 
+
 bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status) {
   Q_UNUSED(status)
   instance->m_callBackIsBussy = true;
@@ -127,6 +128,16 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
           if (p_shiftOfPrev == CROSS_SMP)
             p_prevNote = -100;
         }
+        qint16 beatSample = 0;
+        if (instance->tickDuringPlay() && p_beatPeriod) {
+          if (p_beatOffset < p_beatBytes)
+            beatSample = instance->getBeatsample(p_beatOffset);
+          p_beatOffset++;
+          if (p_beatOffset >= p_beatPeriod)
+            p_beatOffset = 0;
+        }
+        if (beatSample)
+          sample = mix(sample, beatSample);
         for (int r = 0; r < instance->ratioOfRate; r++) {
           *out++ = sample; // left channel
           *out++ = sample; // right channel
@@ -137,10 +148,22 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
       instance->m_callBackIsBussy = false;
       endState = p_playingNoteNr >= instance->playList().size();
   } else { // flush buffer with zeros if no sound will be played
-      auto out = static_cast<qint32*>(outBuff); // 4 bytes for both channels at once
+//       auto out = static_cast<qint32*>(outBuff); // 4 bytes for both channels at once
+      auto out = static_cast<qint16*>(outBuff);
+      qint16 beatSample = 0;
+      if (instance->tickDuringPlay() && p_beatPeriod) {
+        if (p_beatOffset < p_beatBytes)
+          beatSample = instance->getBeatsample(p_beatOffset);
+        p_beatOffset++;
+        if (p_beatOffset >= p_beatPeriod)
+          p_beatOffset = 0;
+      }
       for (int i = 0; i < nBufferFrames / instance->ratioOfRate; i++) {
-        for (int r = 0; r < instance->ratioOfRate; r++)
-          *out++ = 0; // both channels at once channel
+        for (int r = 0; r < instance->ratioOfRate; r++) {
+//           *out++ = 0; // both channels at once channel
+          *out++ = beatSample; // left channel
+          *out++ = beatSample; // right channel
+        }
       }
       instance->m_callBackIsBussy = false;
       endState = true;

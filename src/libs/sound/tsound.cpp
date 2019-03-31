@@ -94,8 +94,10 @@ void Tsound::init() {
 
 void Tsound::play(const Tnote& note) {
   bool playing = true;
-  if (player && note.isValid())
+  if (player && note.isValid()) {
+    player->runMetronome(0); // reset metronome
     playing = player->playNote(note.chromatic());
+  }
 #if defined (Q_OS_ANDROID)
   if (playing) {
     if (sniffer) { // stop sniffer
@@ -133,10 +135,12 @@ void Tsound::playMelody(Tmelody* mel, int transposition) {
 
 
 void Tsound::playScoreNotes(QList<Tnote>& notes, int firstNote) {
-  if (player && !notes.isEmpty())
+  if (player && !notes.isEmpty()) {
+    player->runMetronome(m_tempo);
     player->playNotes(std::addressof(notes), // beat unit has to be converted to quarter here
                       qRound(static_cast<qreal>(m_tempo) / Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(m_beatUnit))),
                       firstNote);
+  }
 }
 
 
@@ -382,6 +386,24 @@ bool Tsound::isSniferStopped() {
 }
 
 
+bool Tsound::tickBeforePlay() const { return player ? player->tickBeforePlay() : false; }
+void Tsound::setTickBeforePlay(bool tbp) {
+  if (player && tbp != player->tickBeforePlay()) {
+    player->setTickBeforePlay(tbp);
+    emit tickStateChanged();
+  }
+}
+
+
+bool Tsound::tickDuringPlay() const { return player ? player->tickDuringPlay() : false; }
+void Tsound::setTickDuringPlay(bool tdp) {
+  if (player && tdp != player->tickDuringPlay()) {
+    player->setTickDuringPlay(tdp);
+    emit tickStateChanged();
+  }
+}
+
+
 void Tsound::prepareToExam(Tnote loNote, Tnote hiNote) {
   m_examMode = true;
   if (sniffer) {
@@ -409,6 +431,12 @@ void Tsound::restoreAfterExam() {
 void Tsound::stopPlaying() {
   if (player)
     player->stop();
+}
+
+
+void Tsound::stop() {
+  stopPlaying();
+  stopListen();
 }
 
 
