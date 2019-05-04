@@ -36,8 +36,8 @@ unsigned int                       TrtAudio::m_bufferFrames = 1024;
 bool                               TrtAudio::m_isAlsaDefault = false;
 QString                            TrtAudio::m_inDevName = "anything";
 QString                            TrtAudio::m_outDevName = "anything";
-TrtAudio::callBackType             TrtAudio::m_cbIn = 0;
-TrtAudio::callBackType             TrtAudio::m_cbOut = 0;
+TrtAudio::callBackType             TrtAudio::m_cbIn = nullptr;
+TrtAudio::callBackType             TrtAudio::m_cbOut = nullptr;
 TaudioObject*                      TrtAudio::m_ao = nullptr;
 RtAudioCallback                    TrtAudio::m_callBack = TrtAudio::duplexCallBack;
 bool                               TrtAudio::m_JACKorASIO = false;
@@ -136,6 +136,7 @@ void TrtAudio::setJACKorASIO(bool jack) {
 
 
 bool TrtAudio::switchAPI(RtAudio::Api rtApi) {
+  Q_UNUSED(rtApi)
   return false;
 }
 
@@ -162,7 +163,7 @@ void TrtAudio::printSupportedFormats(RtAudio::DeviceInfo& devInfo) {
 
 void TrtAudio::printSupportedSampleRates(RtAudio::DeviceInfo& devInfo) {
   QString sRates;
-  for (int i = 0; i < devInfo.sampleRates.size(); i++)
+  for (unsigned int i = 0; i < devInfo.sampleRates.size(); i++)
     sRates += QString("%1 ").arg(devInfo.sampleRates.at(i));
   qDebug() << "[TrtAudio] supported sample rates:"<< sRates;
 }
@@ -221,27 +222,26 @@ void TrtAudio::updateAudioParams() {
 #endif
     forceUpdate = false; // no more
     m_audioUpdated = true;
-    if (audioParams()->forwardInput || getCurrentApi() == RtAudio::WINDOWS_ASIO) {
+    if (audioParams()->forwardInput || getCurrentApi() == RtAudio::WINDOWS_ASIO)
       m_areSplit = false;
-    } else {
+    else
       m_areSplit = true;
-    }
   // preparing devices
     int inDevId = -1, outDevId = -1;
-    int devCount = getDeviceCount();
+    unsigned int devCount = getDeviceCount();
     m_isAlsaDefault = false;
     streamOptions->flags = !RTAUDIO_ALSA_USE_DEFAULT; // reset options flags
     if (devCount) {
       RtAudio::DeviceInfo devInfo;
-      for(int i = 0; i < devCount; i++) { // Is there device on the list ??
+      for(unsigned int i = 0; i < devCount; i++) { // Is there device on the list ??
           if (getDeviceInfo(devInfo, i)) {
             if (devInfo.probed) {
               if (m_inParams && devInfo.inputChannels > 0 && convDevName(devInfo) == audioParams()->INdevName) {
-                inDevId = i;
+                inDevId = static_cast<int>(i);
                 m_inDevName = convDevName(devInfo);
               }
               if (m_outParams && devInfo.outputChannels > 0 && convDevName(devInfo) == audioParams()->OUTdevName) {
-                outDevId = i;
+                outDevId = static_cast<int>(i);
                 m_outDevName = convDevName(devInfo);
               }
             }
@@ -252,7 +252,7 @@ void TrtAudio::updateAudioParams() {
             inDevId = getDefaultIn();
             if (inDevId > -1) {
               RtAudio::DeviceInfo inputInfo;
-              getDeviceInfo(inputInfo, inDevId);
+              getDeviceInfo(inputInfo, static_cast<unsigned int>(inDevId));
               if (inputInfo.inputChannels <= 0) {
                 qDebug("[TrtAudio] wrong default input device");
                 deleteInParams();
@@ -264,7 +264,7 @@ void TrtAudio::updateAudioParams() {
         if (getCurrentApi() != RtAudio::LINUX_ALSA) {
           outDevId = getDefaultOut();
           RtAudio::DeviceInfo outInfo;
-          getDeviceInfo(outInfo, outDevId);
+          getDeviceInfo(outInfo, static_cast<unsigned int>(outDevId));
           if (outDevId > -1) {
             if (outInfo.outputChannels <= 0) {
               qDebug("[TrtAudio] wrong default output device");
@@ -288,17 +288,17 @@ void TrtAudio::updateAudioParams() {
     }
   // setting device parameters
     if (m_inParams) {
-      m_inParams->deviceId = inDevId;
+      m_inParams->deviceId = static_cast<unsigned int>(inDevId);
       m_inParams->nChannels = 1;
       m_inParams->firstChannel = 0;
     }
     if (m_outParams) {
-      m_outParams->deviceId = outDevId;
+      m_outParams->deviceId = static_cast<unsigned int>(outDevId);
       m_outParams->nChannels = 2;
       m_outParams->firstChannel = 0;
     }
     RtAudio::DeviceInfo inDevInfo, outDevInfo;
-    if (m_inParams && !getDeviceInfo(inDevInfo, inDevId))
+    if (m_inParams && !getDeviceInfo(inDevInfo, static_cast<unsigned int>(inDevId)))
       deleteInParams();
     else {
       if (areStreamsSplit())
@@ -306,7 +306,7 @@ void TrtAudio::updateAudioParams() {
       else
         m_inSR = determineSampleRate(inDevInfo);
     }
-    if (m_outParams && !getDeviceInfo(outDevInfo, outDevId))
+    if (m_outParams && !getDeviceInfo(outDevInfo, static_cast<unsigned int>(outDevId)))
       deleteOutParams();
     else
       m_outSR = determineSampleRate(outDevInfo); // 44100 is preferred
@@ -316,7 +316,7 @@ void TrtAudio::updateAudioParams() {
       m_inSR = m_sampleRate;
       m_outSR = m_sampleRate;
     }
-#if !defined (Q_OS_MAC) // Mac has reaction for this flag - it open streams with 15 buffer frames
+#if !defined (Q_OS_MAC) // Mac has reaction for this flag - it opens streams with 15 buffer frames
     streamOptions->flags |= RTAUDIO_MINIMIZE_LATENCY;
 #endif
     if (audioParams()->forwardInput && m_inParams && m_outParams)
@@ -366,15 +366,15 @@ bool TrtAudio::openStream() {
     if (rtDevice()) {
       m_bufferFrames = m_preferredBF; // reset when it was overridden by another rt API
       if (m_areSplit) {
-        bool splitTry = false;
-        if (m_type == e_input)
-          splitTry = listen();
-        else
-          splitTry = play();
-        if (!splitTry) {
-          qDebug() << "[TrtAudio] Cannot open split stream";
-          return false;
-        }
+          bool splitTry = false;
+          if (m_type == e_input)
+            splitTry = listen();
+          else
+            splitTry = play();
+          if (!splitTry) {
+            qDebug() << "[TrtAudio] Cannot open split stream";
+            return false;
+          }
       } else if (!rtDevice()->isStreamOpen()) {
           rtDevice()->openStream(m_outParams, m_inParams, RTAUDIO_SINT16, sampleRate(), &m_bufferFrames, m_callBack, nullptr, streamOptions);
           qDebug() << "[TrtAudio] audio opened in duplex mode";
@@ -384,9 +384,9 @@ bool TrtAudio::openStream() {
         ao()->emitStreamOpened();
         if (m_isAlsaDefault) {
             if (m_inParams)
-              m_inDevName = "ALSA default";
+              m_inDevName = QLatin1String("ALSA default");
             if (m_outParams)
-              m_outDevName = "ALSA default";
+              m_outDevName = QLatin1String("ALSA default");
         } else {
             RtAudio::DeviceInfo di;
             if (m_inParams && getDeviceInfo(di, m_inParams->deviceId))
@@ -508,7 +508,7 @@ bool TrtAudio::isRunning() {
 
 
 
-bool TrtAudio::getDeviceInfo(RtAudio::DeviceInfo& devInfo, int id) {
+bool TrtAudio::getDeviceInfo(RtAudio::DeviceInfo& devInfo, unsigned int id) {
   try {
       devInfo = rtDevice()->getDeviceInfo(id);
   }
@@ -580,7 +580,7 @@ quint32 TrtAudio::determineSampleRate(RtAudio::DeviceInfo& devInfo) {
 //   return devInfo.preferredSampleRate;
   for (int i = 0; i < devInfo.sampleRates.size(); i++) {
     unsigned int &sr = devInfo.sampleRates.at(i);
-    if ( sr == 44100 || sr == 48000 || sr == 88200 || sr == 96000 || sr == 176400 || sr == 192000)
+    if (sr == 44100 || sr == 48000 || sr == 88200 || sr == 96000 || sr == 176400 || sr == 192000)
       return sr;
   }
   if (devInfo.sampleRates.size() > 0)
@@ -601,24 +601,25 @@ void TrtAudio::restartASIO() {
 //#################################################################################################
 int TrtAudio::duplexCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
   if (m_cbOut) {
-    if (m_cbOut(outBuffer, nBufferFrames, status))
+    if (m_cbOut(outBuffer, nBufferFrames, status)) {
       if (m_cbIn)
         m_cbIn(inBuffer, nBufferFrames, status);
-  } else
-      if (m_cbIn)
-        m_cbIn(inBuffer, nBufferFrames, status);
+    }
+  } else if (m_cbIn)
+      m_cbIn(inBuffer, nBufferFrames, status);
   return 0;
 }
 
 
 int TrtAudio::passInputCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
-  qint16 *in = (qint16*)inBuffer;
-  qint16 *out = (qint16*)outBuffer;
-  if (m_cbOut(outBuffer, nBufferFrames, status)) // none playing is performed
-      for (int i = 0; i < nBufferFrames; i++) { // then forward input
-          *out++ = *(in + i); // left channel
-          *out++ = *(in + i); // right channel
-      }
+  auto in = static_cast<qint16*>(inBuffer);
+  auto out = static_cast<qint16*>(outBuffer);
+  if (m_cbOut(outBuffer, nBufferFrames, status)) { // none playing is performed
+    for (int i = 0; i < nBufferFrames; i++) { // then forward input
+      *out++ = *(in + i); // left channel
+      *out++ = *(in + i); // right channel
+    }
+  }
   m_cbIn(inBuffer, nBufferFrames, status);
   return 0;
 }
