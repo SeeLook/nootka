@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -109,7 +109,7 @@ bool loadNootkaFont(QGuiApplication* a) {
   int fid = fd.addApplicationFont(Tpath::main + QLatin1String("fonts/nootka.ttf"));
   int fid2 = fd.addApplicationFont(Tpath::main + QLatin1String("fonts/Scorek.otf"));
   if (fid == -1 || fid2 == -1) {
-    qDebug() << "Can not load Nootka fonts!";
+    qDebug() << "Can not load Nootka fonts!\nDid you forget to invoke\n  make runinplace\nafter first compilation?\n";
     return false;
   }
   return true;

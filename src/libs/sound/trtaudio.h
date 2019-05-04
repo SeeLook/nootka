@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -148,7 +148,7 @@ protected:
   static bool hasCallBackIn() { return (bool)m_cbIn; }
   static bool hasCallBackOut() { return (bool)m_cbOut; }
 
-  static bool getDeviceInfo(RtAudio::DeviceInfo &devInfo, int id);
+  static bool getDeviceInfo(RtAudio::DeviceInfo &devInfo, unsigned int id);
   static RtAudio::Api getCurrentApi(); /**< Returns current RtAudio API is instance exists or @p RtAudio::UNSPECIFIED */
   static unsigned int getDeviceCount(); /**< Returns number of available audio devices or 0 if none or error occurred. */
   static int getDefaultIn(); /**< Returns default input device for current API or -1 if error. */
