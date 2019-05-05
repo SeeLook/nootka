@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2018-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -22,13 +22,13 @@ TipRect {
   anchors { centerIn: parent }
 
   Column {
-    width: parent.width
+//     width: parent.width
     padding: Noo.fontSize()
     Text {
       z: 200
       id: txt
       color: activPal.text
-      wrapMode: Text.WordWrap; textFormat: Text.RichText; horizontalAlignment: Text.AlignHCenter
+      textFormat: Text.RichText; horizontalAlignment: Text.AlignHCenter
       onLinkActivated: analyzeWindow.openExam()
       MouseArea {
         anchors.fill: parent

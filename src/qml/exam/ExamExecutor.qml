@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -46,11 +46,11 @@ Texecutor {
     }
     onWantResultTip: {
       var r = Qt.createComponent("qrc:/exam/ResultTip.qml")
-      tipHandler.resultTip = r.createObject(executor, { "text": text, "color": color } )
+      tipHandler.resultTip = r.createObject(nootkaWindow, { "text": text, "color": color } )
     }
     onWantTryAgainTip: {
       var a = Qt.createComponent("qrc:/exam/ResultTip.qml")
-      tipHandler.tryAgainTip = a.createObject(executor, { "text": qsTranslate("TtipHandler", "Try again!"),
+      tipHandler.tryAgainTip = a.createObject(nootkaWindow, { "text": qsTranslate("TtipHandler", "Try again!"),
                                                             "color": GLOB.wrongColor, "targetY": executor.height / 10 } )
     }
     onWantWhatNextTip:  {
