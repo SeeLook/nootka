@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -31,7 +31,7 @@ void TquestionPoint::setColors(QColor goodColor, QColor wrongColor, QColor notBa
 }
 QColor TquestionPoint::m_goodColor = Qt::darkGreen;
 QColor TquestionPoint::m_wrongColor = Qt::red;
-QColor TquestionPoint::m_notBadColor = QColor("#FF8000");
+QColor TquestionPoint::m_notBadColor = QColor(0xFF, 0x80, 0);
 QColor TquestionPoint::m_shadowColor = QColor(63, 63, 63, 180); // gray with transparency
 QColor TquestionPoint::m_bgColor = Qt::white;
 

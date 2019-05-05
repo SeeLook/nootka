@@ -72,8 +72,10 @@ inline qreal multiScale() {
 
 QString getTextHowAccid(Tnote::Ealter accid) {
   QString S = QString("<br><span style=\"color: %1\">").arg(GLOB->GselectedColor.name());
-  if (accid) S += qApp->translate("TtipHandler", "Use %1").arg(QString::fromStdString(signsAcid[accid + 2]));
-  else S += qApp->translate("TtipHandler", " Don't use accidentals!");
+  if (accid)
+    S += qApp->translate("TtipHandler", "Use %1").arg(QString::fromStdString(Tnote::alterSymbol(static_cast<int>(accid) + 2)));
+  else
+    S += qApp->translate("TtipHandler", " Don't use accidentals!");
   S +=  QLatin1String("</span>");
   return S;
 }

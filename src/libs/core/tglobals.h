@@ -316,7 +316,7 @@ public:
   Q_INVOKABLE void updateKeySignatureNames();
 
       /** This method return application install path - path from where Nootka was started. */
-  static QString getInstPath(QString appInstPath);
+  static QString getInstPath(const QString& appInstPath);
   static QString& path; /**< Reference to Tpath::main - Nootka resources path */
 
   void storeSettings(QSettings* cfg); /**< Saves settings stored in @p cfg */

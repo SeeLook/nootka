@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -51,13 +51,13 @@ void TabstractAxis::setLength(qreal len) {
 //   update(boundingRect());
 }
 
-void TabstractAxis::setFont(QFont f) {
+void TabstractAxis::setFont(const QFont& f) {
   m_font = f;
 //   update(boundingRect());
 }
 
 
-QRectF TabstractAxis::rectBoundText(QString txt) const{
+QRectF TabstractAxis::rectBoundText(const QString& txt) const{
   const int padd = 2;
   QFontMetrics metrics(m_font);
   QRectF rect = metrics.boundingRect(txt);

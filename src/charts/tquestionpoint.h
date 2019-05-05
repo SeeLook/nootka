@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -43,7 +43,7 @@ public:
   virtual QRectF boundingRect() const;
 
   static void setColors(QColor goodColor = Qt::green, QColor wrongColor = Qt::red,
-                        QColor notBadColor = QColor("#FF8000"), QColor shadowColor = QColor(63, 63, 63, 180),
+                        QColor notBadColor = QColor(0xFF, 0x80, 0), QColor shadowColor = QColor(63, 63, 63, 180),
                         QColor bgColor = Qt::white);
 
   static QColor bgColor() { return m_bgColor; }

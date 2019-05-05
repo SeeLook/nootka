@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -161,7 +161,7 @@ void Tclef::toXml(QXmlStreamWriter& xml) {
 
 void Tclef::fromXml(QXmlStreamReader& xml) {
   QString sign;
-  int line, oc = 0;
+  int line = 0, oc = 0;
   while (xml.readNextStartElement()) {
     if (xml.name() == QLatin1String("sign"))
         sign = xml.readElementText();

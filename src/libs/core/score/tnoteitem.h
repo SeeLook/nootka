@@ -137,8 +137,8 @@ public:
   };
   Q_ENUM(EbowDirection)
 
-  Q_INVOKABLE EbowDirection bowing() const;
-  Q_INVOKABLE void setBowing(EbowDirection bowDir);
+  Q_INVOKABLE TnoteItem::EbowDirection bowing() const;
+  Q_INVOKABLE void setBowing(TnoteItem::EbowDirection bowDir);
 
       /**
        * If @p outLineColor differs from note color, outline is set over note head,

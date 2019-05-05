@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -43,7 +43,7 @@ QVariant TtextBrowser::loadResource(int type, const QUrl& name) {
 QString ThelpDialogBase::m_path = QString();
 
 QString ThelpDialogBase::onlineDocP(const QString& hash) {
-  return QString("<p align=\"right\"><a href=\"http://nootka.sourceforge.net/index.php?L=%1&C=doc#%2\">").arg(QString(qgetenv("LANG")).left(2).toLower()).arg(hash)
+  return QString("<p align=\"right\"><a href=\"http://nootka.sourceforge.net/index.php?L=%1&C=doc#%2\">").arg(QString(qgetenv("LANG")).left(2).toLower(), hash)
         + tr("Open online documentation") + QLatin1String("</a> </p>");
 }
 

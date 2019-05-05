@@ -300,7 +300,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
 //           " among:" << list.size();
     }
 
-    qsrand(QDateTime::currentDateTime().toTime_t());
+    qsrand(QDateTime::currentDateTimeUtc().toTime_t());
 
     if (m_level->canBeMelody()) {
         if (m_level->isMelodySet())

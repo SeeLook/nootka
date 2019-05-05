@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -69,8 +69,8 @@ QString TmainHelp::mainHelp() {
   helpTxt += QApplication::translate("TmainHelp", "Exploring the interface of Nootka and how musical scores work. Just click on elements of the interface to see and get to know Nootka. Also, you can play or sing if you have a mic or web-cam.") + "<br>";
   helpTxt += QApplication::translate("TmainHelp", "Press %1 buttons to see help and %2 button to adjust Nootka to your preference.").
       arg(nbsp3 + ThelpDialogBase::pix("logo", pixSize * 5) + QLatin1String(" <span style=\"font-size: x-large;\"> + </span> ")
-                            + ThelpDialogBase::pix("help", pixSize)  + nbsp3).
-      arg(nbsp3 + ThelpDialogBase::pix("systemsettings", pixSize) + nbsp3);
+                            + ThelpDialogBase::pix("help", pixSize)  + nbsp3,
+          nbsp3 + ThelpDialogBase::pix("systemsettings", pixSize) + nbsp3);
   helpTxt += ThelpDialogBase::onlineDocP("getting-started");
 
   helpTxt += QLatin1String("<hr><b>") + QApplication::translate("TmainHelp", "II. Exercises and exams") + bbrEnd;

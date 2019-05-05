@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2018 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2018-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -73,6 +73,11 @@ TchartItem::TchartItem(QQuickItem* parent) :
                << qApp->translate("TanalysDialog", "accidentals") << qApp->translate("TanalysDialog", "key signature")
                << qApp->translate("TanalysDialog", "mistake") << qApp->translate("TanalysDialog", "question type");
 
+  /** NOTE
+   * Clazy tool blames emit call beneath that probably emit has no effect because it is made from constructor.
+   * However clazy seems to be paranoid sometimes, cause it works fine.
+   * To keep it quiet one may add 'no-incorrect-emit' to level 1 check when it is invoking.
+   */
   emit actionsPrepared();
 
   m_chart = new Tchart(this); // default "empty" chart
@@ -224,7 +229,7 @@ QString TchartItem::chartHelpText() const {
   return QApplication::translate("AnalyzeDialog", "Press %1 button to select an exam from a file.")
                         .arg(QLatin1String("<a href=\"charts\"> ") + NOO->pixToHtml("nootka-exam", NOO->fontSize() * 3) + QLatin1String("</a> "))
             + QLatin1String("<br>") + QApplication::translate("AnalyzeDialog", "Use %1 + mouse wheel or %2 buttons to zoom a chart.")
-                        .arg(modKey).arg(NOO->pixToHtml("zoom-in", NOO->fontSize() * 2) + QLatin1String(" ") + NOO->pixToHtml("zoom-out", NOO->fontSize() * 2))
+                        .arg(modKey, NOO->pixToHtml("zoom-in", NOO->fontSize() * 2) + QLatin1String(" ") + NOO->pixToHtml("zoom-out", NOO->fontSize() * 2))
             + QLatin1String("<br>") + QApplication::translate("AnalyzeDialog", "Click and Drag the cursor to move the chart.");
 }
 

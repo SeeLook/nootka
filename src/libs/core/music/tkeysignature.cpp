@@ -81,7 +81,7 @@ void TkeySignature::setNameStyle(Tnote::EnameStyle style, const QString& majSuf,
     }
 }
 
-Tnote TkeySignature::inKey(TkeySignature k, Tnote n) {
+Tnote TkeySignature::inKey(TkeySignature k, const Tnote& n) {
     return inKeyPrivate(k.value(), n);
 }
 

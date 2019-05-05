@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -59,7 +59,7 @@ void TlevelPreviewItem::setLevel(Tlevel* tl) {
   Tinstrument instr(tl ? tl->instrument : Tinstrument::NoInstrument);
   if (tl) {
       const QString spTDEnd = QStringLiteral(" </td>");
-      const QString nbsp = QStringLiteral("&nbsp;");
+//       const QString nbsp = QStringLiteral("&nbsp;");
       const QString TRTD = QStringLiteral("<tr><td>");
       const QString TDTREnd = QStringLiteral("</td></tr>");
       QFontMetrics fm(qApp->font());

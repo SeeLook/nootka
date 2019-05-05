@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -92,7 +92,7 @@ if (!m_level->canBeGuitar() && !m_level->answerIsSound() ) { // no guitar and no
 // Saving to file
   QLatin1String dotNel(".nel");
   QString fName = QDir::toNativeSeparators(GLOB->E->levelsDir + QLatin1String("/") + m_level->name);
-  if (QFileInfo(fName  + dotNel).exists())
+  if (QFileInfo::exists(fName  + dotNel))
     fName += QLatin1String("-") + QDateTime::currentDateTime().toString(QLatin1String("(dd-MMM-hhmmss)"));
 #if defined (Q_OS_ANDROID)
   QString fileName = TfileDialog::getSaveFileName(nullptr, fName, QStringLiteral("nel"));
@@ -575,7 +575,7 @@ void TlevelCreatorItem::openLevel(const QString& levelFile) {
           selector()->loadFromFile(levelFile);
           *m_level = *m_selector->currentLevel();
       } else
-          qDebug() << "[TlevelCreatorItem] device too slow to open file as command line argument.";
+          qDebug() << "[TlevelCreatorItem] device is too slow to open file as command line argument.";
     });
 }
 

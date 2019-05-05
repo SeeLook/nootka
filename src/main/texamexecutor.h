@@ -95,7 +95,7 @@ public:
 
   EsummaryReason summaryReason() const { return m_summaryReason; }
 
-  Q_INVOKABLE bool init(EexecOrigin whatToDo, const QVariant& arg);
+  Q_INVOKABLE bool init(TexamExecutor::EexecOrigin whatToDo, const QVariant& arg);
 
   bool isInitialized() const { return m_supp != nullptr && m_tipHandler != nullptr; }
 

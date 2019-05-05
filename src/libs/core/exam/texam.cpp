@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -127,7 +127,7 @@ QString Texam::formatReactTime(quint16 timeX10, bool withUnit) {
 //#################################################################################################
 //###################             CONSTRUCTOR          ############################################
 //#################################################################################################
-Texam::Texam(Tlevel* l, QString userName):
+Texam::Texam(Tlevel* l, const QString& userName):
   m_fileName(QString()),
   m_userName(userName),
   m_totalTime(0),  m_attempts(0),
@@ -398,7 +398,7 @@ bool Texam::loadFromXml(QXmlStreamReader& xml) {
 }
 
 
-Texam::EerrorType Texam::saveToFile(QString fileName) {
+Texam::EerrorType Texam::saveToFile(const QString& fileName) {
   if (!fileName.isEmpty())
     setFileName(fileName); // m_fileName becomes fileName
   if (m_fileName.isEmpty())
@@ -642,7 +642,7 @@ void Texam::convertToVersion2() {
     // version 1 didn't put proper Tnote::EnameStyle to file - we fixing it
     hasStyle = true;
     qDebug("Fixing styles of note names in file");
-    qsrand(QDateTime::currentDateTime().toTime_t());
+    qsrand(QDateTime::currentDateTimeUtc().toTime_t());
    if (m_level->requireStyle) { // prepare styles array to imitate switching
       randStyles[0] = Tnote::e_italiano_Si;
       if (GLOB->seventhIsB()) {
