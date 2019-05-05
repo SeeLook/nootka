@@ -37,10 +37,6 @@ typedef std::vector<Tnote> TnotesList;
 #define ON_UPPER_BIT_MASK (128)
 
 
-const std::string Letters [7] = { "C", "D", "E", "F", "G", "A", "H"};
-const std::string signsAcid[5] = { "bb", "b", "", "#", "x", };
-
-
 /**
  * This class provides the descriptions of musical.
  * It helps to convert the letter notation (C D E ...) to solfege (Do Re Mi).
@@ -111,6 +107,11 @@ public:
    else
      p_alterValue |= 128;
   }
+
+      /**
+       * returns std string representing letter of accidental (alter) symbol
+       */
+  static std::string alterSymbol(int id);
 
         /**
          * Construct object of Tnote from number of note, number of octave
@@ -225,15 +226,17 @@ public:
        */
   static bool scientificOctaves;
 
-  bool operator==(const Tnote N2) const {
+  bool operator==(const Tnote& N2) const {
     return (note() == N2.note() && octave() == N2.octave() && p_alterValue == N2.p_alterValue && rtm == N2.rtm);
   }
 
-  bool operator!=(const Tnote N2) const {
+  bool operator!=(const Tnote& N2) const {
     return ( note() != N2.note() || octave() != N2.octave() || p_alterValue != N2.p_alterValue || rtm != N2.rtm);
   }
 
-        /** Splits current note on two given rhythmic values */
+        /**
+         * Splits current note on two given rhythmic values
+         */
   Tnote split(const Trhythm& r1, const Trhythm& r2) {
     setRhythm(r1);
     return Tnote(note(), octave(), p_alterValue, r2);
