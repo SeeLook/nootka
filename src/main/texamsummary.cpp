@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -38,7 +38,7 @@
  * returns 2 columns row of table
  */
 QString row2(const QString& S1, const QString& S2) {
-  return QString("<tr><td>%1: </td><td><b>%2</b></td></tr>").arg(S1).arg(S2);
+  return QString("<tr><td>%1: </td><td><b>%2</b></td></tr>").arg(S1, S2);
 }
 
 

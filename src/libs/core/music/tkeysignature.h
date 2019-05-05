@@ -95,7 +95,7 @@ public:
        * In the method it checks all possibilities of the note n (flats, sharps, natural,
        * and returns either founded note or Tnote(0,0,0) if didn't find.
        */
-  static Tnote inKey(TkeySignature k, Tnote n);
+  static Tnote inKey(TkeySignature k, const Tnote& n);
   Tnote inKey(const Tnote& n) const;
   bool isMinor() const { return m_isMinor; }
   void setMinor(bool isMinor) { m_isMinor = isMinor; }

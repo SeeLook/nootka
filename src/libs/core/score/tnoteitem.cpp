@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -120,7 +120,7 @@ TnoteItem::TnoteItem(TstaffItem* staffObj, TnotePair* wrapper) :
   setAcceptedMouseButtons(Qt::LeftButton | Qt::RightButton);
 
   updateNoteHead();
-  connect(qApp, &QGuiApplication::paletteChanged, [=]{ setColor(qApp->palette().text().color()); });
+  connect(qApp, &QGuiApplication::paletteChanged, this, [=]{ setColor(qApp->palette().text().color()); });
 }
 
 
@@ -167,11 +167,11 @@ void TnoteItem::setColor(const QColor& c) {
   m_alter->setProperty("color", c);
   m_flag->setProperty("color", c);
   m_stem->setProperty("color", c);
-  for (auto line : m_upLines)
+  for (auto line : qAsConst(m_upLines))
     line->setProperty("color", c);
-  for (auto line : m_loLines)
+  for (auto line : qAsConst(m_loLines))
     line->setProperty("color", c);
-  for (auto line : m_underLoLines)
+  for (auto line : qAsConst(m_underLoLines))
     line->setProperty("color", c);
   if (m_tie)
     m_tie->setProperty("color", c);

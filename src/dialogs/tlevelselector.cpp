@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -120,7 +120,7 @@ void TlevelSelector::findLevels() {
 }
 
 
-void TlevelSelector::addLevel(const Tlevel& lev, QString levelFile, bool check) {
+void TlevelSelector::addLevel(const Tlevel& lev, const QString& levelFile, bool check) {
   if (check && !levelFile.isEmpty()) { // check for duplicates
     int pos = -1;
     for (int i = 0; i < m_levels.size(); i++)

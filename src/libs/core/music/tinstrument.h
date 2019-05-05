@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -65,7 +65,7 @@ public:
   Tinstrument(Etype type = NoInstrument);
 
   Etype type() const { return m_type; }
-  Q_INVOKABLE void setType(Etype t) { m_type = t; }
+  Q_INVOKABLE void setType(Tinstrument::Etype t) { m_type = t; }
   int typeINT() const { return static_cast<int>(m_type); }
 
     /**

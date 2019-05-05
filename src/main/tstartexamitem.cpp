@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -81,7 +81,7 @@ TstartExamItem::TstartExamItem(QQuickItem* parent) :
 
   QString exerciseFile = QDir::toNativeSeparators(QFileInfo(sett.fileName()).absolutePath() + QLatin1String("/exercise2.noo"));
   m_prevExerciseLevel->name.clear(); // empty means - no previous level
-  if (QFileInfo(exerciseFile).exists()) {
+  if (QFileInfo::exists(exerciseFile)) {
       Texam exam(m_prevExerciseLevel, QString());
       Texam::EerrorType err = exam.loadFromFile(exerciseFile);
       if (err != Texam::e_file_OK && err != Texam::e_file_corrupted) {
@@ -92,6 +92,11 @@ TstartExamItem::TstartExamItem(QQuickItem* parent) :
   if (!TlevelSelector::checkLevel(*m_prevExerciseLevel).isEmpty())
       m_prevExerciseLevel->name.clear(); // Returned string means that the level doesn't match to current settings
 
+  /** NOTE
+   * Clazy tool blames emit call beneath that probably emit has no effect because it is made from constructor.
+   * However clazy seems to be paranoid sometimes, cause it works fine.
+   * To keep it quiet one may add 'no-incorrect-emit' to level 1 check when it is invoking.
+   */
   emit lastExamFileChanged();
   emit recentModelChanged();
   emit openActChanged();

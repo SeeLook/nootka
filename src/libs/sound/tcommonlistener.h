@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -226,7 +226,7 @@ protected slots:
   void noteStartedSlot(qreal pitch, qreal freq, qreal duration);
   void noteFinishedSlot(TnoteStruct* lastNote);
 
-  void setState(Estate st) { m_state = st; emit stateChanged((int)st); }
+  void setState(TcommonListener::Estate st) { m_state = st; emit stateChanged((int)st); }
 
 
 private:

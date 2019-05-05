@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -26,7 +26,7 @@
 
 
 void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic) {
-  qsrand(QDateTime::currentDateTime().toTime_t());
+  qsrand(QDateTime::currentDateTimeUtc().toTime_t());
   for (int i = 0; i < len; ++i) {
     int randVal = qrand() % qList.size();
     Tnote pitch = qList[randVal].note;
@@ -124,7 +124,7 @@ void getRandomMelodyNG(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey
       qListPtr = &inKeyList;
   }
 
-  qsrand(QDateTime::currentDateTime().toTime_t());
+  qsrand(QDateTime::currentDateTimeUtc().toTime_t());
 
       /**
        * Randomize main melody step. 2 - is diatonic, 4 is for steps by third

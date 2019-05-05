@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,8 +27,8 @@ QFont Tmtr::systemFont = QFont();
 void Tmtr::init(QApplication *a) {
   systemFont = a->font();
   if (a->screens().size()) {
-    m_shortScreenSide = qMin(a->screens()[0]->geometry().height(), a->screens()[0]->geometry().width());
-    m_longScreenSide = qMax(a->screens()[0]->geometry().height(), a->screens()[0]->geometry().width());
-    m_fingerPixels = a->screens()[0]->geometry().width() / (a->screens()[0]->physicalSize().width() / 7.0);
+    m_shortScreenSide = qMin(a->screens().at(0)->geometry().height(), a->screens().at(0)->geometry().width());
+    m_longScreenSide = qMax(a->screens().at(0)->geometry().height(), a->screens().at(0)->geometry().width());
+    m_fingerPixels = a->screens().at(0)->geometry().width() / (a->screens().at(0)->physicalSize().width() / 7.0);
   }
 }

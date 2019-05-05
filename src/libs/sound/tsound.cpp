@@ -496,7 +496,7 @@ void Tsound::createSniffer() {
 //   sniffer->setAmbitus(Tnote(-31), Tnote(82)); // fixed ambitus bounded Tartini capacities
   connect(sniffer, &TaudioIN::noteStarted, this, &Tsound::noteStartedSlot);
   connect(sniffer, &TaudioIN::noteFinished, this, &Tsound::noteFinishedSlot);
-  connect(sniffer, &TaudioIN::stateChanged, [=]{ emit listeningChanged(); });
+  connect(sniffer, &TaudioIN::stateChanged, this, &Tsound::listeningChanged);
   m_userState = false; // user didn't stop sniffing yet
 }
 

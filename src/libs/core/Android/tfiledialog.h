@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,6 +18,9 @@
 
 #ifndef TFILEDIALOG_H
 #define TFILEDIALOG_H
+
+
+#include <QtCore/qglobal.h>
 
 
 #if defined (Q_OS_ANDROID)

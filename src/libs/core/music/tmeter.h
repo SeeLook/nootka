@@ -45,8 +45,8 @@ public:
 
   Tmeter(Emeter meter = NoMeter) : m_meter(meter) {}
 
-  Q_INVOKABLE Emeter meter() const { return m_meter; }
-  Q_INVOKABLE void setMeter(Emeter m) { m_meter = m; }
+  Q_INVOKABLE Tmeter::Emeter meter() const { return m_meter; }
+  Q_INVOKABLE void setMeter(Tmeter::Emeter m) { m_meter = m; }
 
       /**
       * Returns upper digit of time signature
@@ -106,13 +106,13 @@ public:
 
   static EbeatUnit optimalBeat(Emeter m);
 
-  Q_INVOKABLE EbeatUnit optimalBeat() const { return optimalBeat(m_meter); }
+  Q_INVOKABLE Tmeter::EbeatUnit optimalBeat() const { return optimalBeat(m_meter); }
 
       /**
        * Returns tempo multiplexer depending on beat unit:
        * i.e.: for eighth note it is @p 2 as such as tempo with eighths is 2 times faster than tempo with quarters
        */
-  Q_INVOKABLE static qreal beatTempoFactor(EbeatUnit bu);
+  Q_INVOKABLE static qreal beatTempoFactor(Tmeter::EbeatUnit bu);
 
 private:
   Emeter        m_meter;

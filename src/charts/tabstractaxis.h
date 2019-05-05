@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -44,9 +44,9 @@ public:
 
   QFont font() { return m_font; }
 
-  void setFont(QFont f);
+  void setFont(const QFont& f);
 
-  QRectF rectBoundText(QString txt) const;
+  QRectF rectBoundText(const QString& txt) const;
 
       /**
        * Returns value mapped to axis scale.

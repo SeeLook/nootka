@@ -65,7 +65,7 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   }
   m_instance = this;
 
-  qsrand(QDateTime::currentDateTime().toTime_t());
+  qsrand(QDateTime::currentDateTimeUtc().toTime_t());
 
   qRegisterMetaType<Tclef>();
   qmlRegisterUncreatableType<Tclef>("Score", 1, 0, "Tclef", QStringLiteral("You cannot create an instance of the Tclef."));

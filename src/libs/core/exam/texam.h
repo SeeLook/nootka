@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -41,7 +41,7 @@ public:
       * An exam constructor.
       * @p Tlevel has to be pointer to existing exam level
       */
-  explicit Texam(Tlevel *l, QString userName);
+  explicit Texam(Tlevel *l, const QString& userName);
   ~Texam();
 
     /** Magic numbers in exam file to identify it.*/
@@ -232,7 +232,7 @@ public:
   void increasePenaltys(int penaltyNr) { m_penaltysNr += penaltyNr; }
 
   EerrorType loadFromFile(const QString &fileName);
-  EerrorType saveToFile(QString fileName = QString());
+  EerrorType saveToFile(const QString& fileName = QString());
 
   void writeToXml(QXmlStreamWriter& xml);
   bool loadFromXml(QXmlStreamReader& xml);

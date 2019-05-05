@@ -44,7 +44,7 @@ TnameItem::TnameItem(QQuickItem* parent) :
   m_instance = this;
   m_note.setOctave(-4);
   m_bgColor = qApp->palette().base().color();
-  connect(qApp, &QGuiApplication::paletteChanged, [=]{
+  connect(qApp, &QGuiApplication::paletteChanged, this, [=]{
     if (!m_questionAsked) { // update color only when question is not asked
         changeNameBgColor(qApp->palette().base().color());
         emit bgColorChanged();

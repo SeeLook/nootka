@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,7 +27,6 @@
 #include <exam/tlevel.h>
 #include <exam/textrans.h>
 #include <exam/tattempt.h>
-// #include <graphics/tgraphicstexttip.h>
 #include <tcolor.h>
 #include <tnoofont.h>
 #include <QtCore/qdebug.h>
@@ -208,7 +207,7 @@ void TlinearChart::init() {
   // key signature names over the chart
     if (p_chartSett.order == e_byKey) {
       cnt = 1;
-      QColor tc = qApp->palette().text().color();
+//       QColor tc = qApp->palette().text().color();
       for (int i = 0; i < goodSize; i++) { 
         auto keyText = getTextItem(16);
         QString hintText = QLatin1String("<b>");

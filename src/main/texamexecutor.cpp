@@ -79,7 +79,7 @@ void debugStyle(TQAunit &qa) {
  */
 QString getExamFileName(Texam* e) {
   QString fName = QDir::toNativeSeparators(GLOB->E->examsDir + QLatin1String("/") + e->userName() + QLatin1String("-") + e->level()->name);
-  if (QFileInfo(fName  + QLatin1String(".noo")).exists())
+  if (QFileInfo::exists(fName  + QLatin1String(".noo")))
     fName += QLatin1String("-") + QDateTime::currentDateTime().toString(QLatin1String("(dd-MMM-hhmmss)"));
   return fName;
 }
@@ -1470,9 +1470,7 @@ bool TexamExecutor::closeNootka() {
       auto msg = new QMessageBox(nullptr);
       msg->setText(tr("Psssst... Exam is going.<br><br>"
                       "Select <b>%1</b> to check, save and exit<br>"
-                      "or <b>%2</b> to continue.<br>")
-                  .arg(qTR("QShortcut", "Save"))
-                  .arg(qTR("QPlatformTheme", "Retry")));
+                      "or <b>%2</b> to continue.<br>").arg(qTR("QShortcut", "Save"), qTR("QPlatformTheme", "Retry")));
       msg->setStandardButtons(QMessageBox::Retry | QMessageBox::Save);
       msg->setWindowTitle(QStringLiteral("Psssst..."));
       if (!GLOB->E->closeWithoutConfirm)

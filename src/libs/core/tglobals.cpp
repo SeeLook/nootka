@@ -43,7 +43,7 @@
 QString& Tglobals::path = Tpath::main;
 Tglobals* Tglobals::m_instance = nullptr;
 
-QString Tglobals::getInstPath(QString appInstPath) {
+QString Tglobals::getInstPath(const QString& appInstPath) {
     QString p;
     QDir d = QDir(appInstPath);
 #if defined (Q_OS_WIN)

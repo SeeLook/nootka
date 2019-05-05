@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -48,8 +48,15 @@ class NOOTKACORE_EXPORT TQAunit
 
 public:
 
-  TQAunit(const TQAunit& otherUnit) { copy(otherUnit); } /** Copy constructor */
-  TQAunit(Texam* exam = 0); /** Pointer to exam that keeps this unit */
+      /**
+       * Copy constructor
+       */
+  TQAunit(const TQAunit& otherUnit) { copy(otherUnit); }
+
+      /**
+       * Pointer to exam that keeps this unit
+       */
+  TQAunit(Texam* exam = nullptr);
 
   ~TQAunit();
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -81,7 +81,7 @@ public:
        * Also corresponding file name.
        * when @param check is true it checks list for duplicates
        */
-  void addLevel(const Tlevel &lev, QString levelFile = QString(), bool check = false);
+  void addLevel(const Tlevel &lev, const QString& levelFile = QString(), bool check = false);
 
   Q_INVOKABLE Tlevel* currentLevel();
 
