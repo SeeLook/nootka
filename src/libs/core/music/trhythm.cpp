@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2016-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -37,6 +37,7 @@ inline quint8 rHash(const Trhythm& r) {
  * or null if no such duration
  */
 static quint8  rArray[RVALUE + 1];
+const std::string Trhythm::rhythmStrings[6] = { "", "whole", "half", "quarter", "eighth", "16th" };
 
 void Trhythm::initialize() {
   for (int d = 0; d < RVALUE + 1; ++d)

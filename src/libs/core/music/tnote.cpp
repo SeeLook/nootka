@@ -28,6 +28,17 @@
 #include <QtGui/qguiapplication.h>
 
 
+const std::string Letters [7] = { "C", "D", "E", "F", "G", "A", "H"};
+const std::string signsAcid[5] = { "bb", "b", "", "#", "x", };
+
+
+std::string Tnote::alterSymbol(int id) {
+  if (id > -1 && id < 5)
+    return signsAcid[id];
+  return "";
+}
+
+
 std::string IntToString(int num) {
   std::ostringstream myStream;
   myStream << num << std::flush;

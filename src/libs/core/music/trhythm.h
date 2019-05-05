@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,8 +25,6 @@
 #include <QtCore/qdatastream.h>
 #include <QtCore/qmath.h>
 
-
-static const std::string rhythmStrings [6] = {"", "whole", "half", "quarter", "eighth", "16th"};
 
     /** Almost powers of 2, used to quickly mapping @p Erhythm enumerator into weight of rhythm value */
 static const quint8 rtm2weightArr[6] = {0, 1, 2, 4, 8, 16};
@@ -72,6 +70,7 @@ class NOOTKACORE_EXPORT Trhythm
 
 public:
 
+  static const std::string rhythmStrings[6];
       /**
        * Initialize class @p Trhythm with values of duration.
        * Without this, @p setRhythm(int) will not work.
@@ -112,9 +111,6 @@ public:
     setRhythm(rhythmDuration);
     setRest(rest);
   }
-
-      /** Copy constructor */
-  Trhythm(const Trhythm& r) { setRhythm(r); }
 
       /** Sets rhythm parameters, Resets all previous values! */
   void setRhythm(Erhythm nVal, bool rest = false, bool dot = false, bool triplet = false) {
