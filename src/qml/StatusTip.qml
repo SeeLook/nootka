@@ -16,15 +16,14 @@ TipRect {
     onStatusTip: { text.text = statusText; statusTip.tipPos = tipPos }
   }
 
+  x: (tipPos === Item.Top ? 0.3 : (tipPos === Item.TopRight ? 0.6 : 0)) * nootkaWindow.width
   y: statusTip.text === "" ? -1.2 * height : 0
-
-  color: Qt.tint(activPal.text, Noo.alpha(activPal.highlight, 50))
+  z: 500
   radius: 0
   width: nootkaWindow.width * 0.4
   height: Noo.isAndroid() ? nootkaWindow.height / 9 : nootkaWindow.header.height
-  z: 1000
 
-  x: (tipPos === Item.Top ? 0.3 : (tipPos === Item.TopRight ? 0.6 : 0)) * nootkaWindow.width
+  color: Qt.tint(activPal.text, Noo.alpha(activPal.highlight, 50))
 
   Text {
     id: text

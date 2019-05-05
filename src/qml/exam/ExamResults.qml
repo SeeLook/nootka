@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -15,7 +15,7 @@ Grid {
   columns: 2
   width: parent.width
   height: visible ? childrenRect.height : 0
-  y: 1; z: 10
+  y: 1; z: 5
   verticalItemAlignment: Grid.AlignVCenter; horizontalItemAlignment: Grid.AlignHCenter
 
   visible: !results.isExercise
