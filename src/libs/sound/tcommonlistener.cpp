@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -36,7 +36,7 @@ TcommonListener::TcommonListener(TaudioParams* params, QObject* parent) :
   QObject(parent),
   m_audioParams(params),
   m_volume(0.0f),
-  m_stoppedByUser(false),
+  m_stoppedByUser(params->stoppedByUser),
   m_loPitch(15), m_hiPitch(140),
   m_noteWasStarted(false),
   m_currentRange(1),
@@ -72,6 +72,12 @@ TcommonListener::TcommonListener(TaudioParams* params, QObject* parent) :
 
 TcommonListener::~TcommonListener() {
   delete m_pitchFinder;
+}
+
+
+void TcommonListener::setStoppedByUser(bool userStop) {
+  m_stoppedByUser = userStop;
+  m_audioParams->stoppedByUser = userStop;
 }
 
 

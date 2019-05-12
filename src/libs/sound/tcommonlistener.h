@@ -152,7 +152,7 @@ public:
       /**
        * Stores user action when he stopped sniffing himself.
        */
-  void setStoppedByUser(bool userStop) { m_stoppedByUser = userStop; }
+  void setStoppedByUser(bool userStop);
   bool stoppedByUser() const { return m_stoppedByUser; }
 
       /**
