@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -44,6 +44,7 @@ public:
   int     detectMethod; /**< pitch detection method (0 - MPM, 1 - auto-correlation, 2 - MPM modified cepstrum) */
   quint8  intonation; /**< accuracy of intonation in detected note - corresponds with @p Eaccuracy */
   qreal   minSplitVol; /**< minimum volume change to split the same note (0.0 - no split) */
+  bool    stoppedByUser; /**< Stores user action when he stopped sniffing himself @default FALSE */
 
       /**
        * multiplexer of sound volume (aka %)

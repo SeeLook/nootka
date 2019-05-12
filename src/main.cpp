@@ -119,10 +119,10 @@ int main(int argc, char *argv[])
 
     auto f = a->font();
 #if defined (Q_OS_ANDROID)
-    f.setPixelSize(f.pixelSize() * GLOB->guiScale());
+    f.setPixelSize(f.pixelSize() * gl->guiScale());
 #else
-//     f.setPixelSize(Tmtr::fingerPixels() * 0.45 * GLOB->guiScale());
-    f.setPointSizeF(f.pointSizeF() * GLOB->guiScale());
+//     f.setPixelSize(Tmtr::fingerPixels() * 0.45 * gl->guiScale());
+    f.setPointSizeF(f.pointSizeF() * gl->guiScale());
 #endif
     a->setFont(f);
 
@@ -132,11 +132,11 @@ int main(int argc, char *argv[])
 
 // creating main window
     e = new QQmlApplicationEngine;
-    e->rootContext()->setContextProperty(QStringLiteral("GLOB"), GLOB);
+    e->rootContext()->setContextProperty(QStringLiteral("GLOB"), gl);
     e->rootContext()->setContextProperty(QStringLiteral("Noo"), &nooObj);
     e->rootContext()->setContextProperty(QStringLiteral("SOUND"), &sound);
-    bool  wasFirstRun = GLOB->isFirstRun;
-    if (GLOB->isFirstRun) {
+    bool  wasFirstRun = gl->isFirstRun;
+    if (gl->isFirstRun) {
       TmainHelp h;
       e->rootContext()->setContextProperty(QStringLiteral("HELP"), &h);
       nooObj.setQmlEngine(e);
@@ -148,10 +148,10 @@ int main(int argc, char *argv[])
       exitCode = a->exec();
       delete e;
       e = new QQmlApplicationEngine;
-      e->rootContext()->setContextProperty(QStringLiteral("GLOB"), GLOB);
+      e->rootContext()->setContextProperty(QStringLiteral("GLOB"), gl);
       e->rootContext()->setContextProperty(QStringLiteral("Noo"), &nooObj);
       e->rootContext()->setContextProperty(QStringLiteral("SOUND"), &sound);
-      GLOB->isFirstRun = false;
+      gl->isFirstRun = false;
     }
     nooObj.setQmlEngine(e);
     qmlRegisterType<TnameItem>("Nootka.Main", 1, 0, "TnameItem");

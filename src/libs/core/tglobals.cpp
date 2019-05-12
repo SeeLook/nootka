@@ -653,6 +653,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
     A->minSplitVol = cfg->value(QStringLiteral("minVolumeToSplit"), 10.0).toReal();
     A->skipStillerVal = cfg->value(QStringLiteral("skipStillerThan"), 80.0).toReal();
     A->transposition = cfg->value(QStringLiteral("transposition"), 0).toInt();
+    A->stoppedByUser = cfg->value(QStringLiteral("stoppedByUser"), false).toBool();
   cfg->endGroup();
 
 //   cfg->beginGroup(QLatin1String("layout"));
@@ -842,6 +843,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue(QStringLiteral("minVolumeToSplit"), A->minSplitVol);
       cfg->setValue(QStringLiteral("skipStillerThan"), A->skipStillerVal);
       cfg->setValue(QStringLiteral("transposition"), A->transposition);
+      cfg->setValue(QStringLiteral("stoppedByUser"), A->stoppedByUser);
 #if !defined (Q_OS_ANDROID)
       cfg->setValue(QLatin1String("dumpPath"), A->dumpPath);
 #endif
