@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2018-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -86,7 +86,7 @@ TmelGenItem {
         dialLoader.title = Noo.TR("TmelodySettings", "Random melody")
         dialLoader.standardButtons = DialogButtonBox.Close | DialogButtonBox.Help | DialogButtonBox.RestoreDefaults
         var b = dialLoader.buttonBox.standardButton(DialogButtonBox.RestoreDefaults)
-        b.text = Noo.TR("TmelMan", "Generate melody")
+        b.text = Noo.TR("TmainScoreObject", "Generate melody")
         b.DialogButtonBox.buttonRole = DialogButtonBox.ActionRole
         b.pixmap = Noo.pix("melody")
         b.clicked.connect(doGenerate)

@@ -125,12 +125,12 @@ void TstartExamItem::continueTheLast() {
 
 void TstartExamItem::giveUserNameMessage() {
 // #if defined (Q_OS_ANDROID)
-//   QString name = QInputDialog::getText(this, tr("Give a user name!"), tr("Enter your name or nick-name."));
+//   QString name = QInputDialog::getText(this, tr("Give an user name!"), tr("Enter your name or nick-name."));
 //   if (name.isEmpty())
 //     name = QStringLiteral("Android");
 //   m_nameEdit->setText(name);
 // #else
-  QMessageBox::warning(nullptr, QString(), tr("Give a user name!"));
+  QMessageBox::warning(nullptr, QString(), QApplication::translate("StartExam", "Give an user name!"));
 // #endif
 }
 

@@ -304,8 +304,8 @@ QString TnootkaQML::getXmlToOpen() {
 #if defined (Q_OS_ANDROID)
   openFile = TfileDialog::getOpenFileName(nullptr, GLOB->lastXmlDir(), QStringLiteral("xml"));
 #else
-  openFile = TfileDialog::getOpenFileName(qApp->translate("TmelMan", "Open melody file"), GLOB->lastXmlDir(),
-                                          qApp->translate("TmelMan", "MusicXML file") + QLatin1String(" (*.xml *.musicxml)"));
+  openFile = TfileDialog::getOpenFileName(qApp->translate("TmainScoreObject", "Open melody file"), GLOB->lastXmlDir(),
+                                          qApp->translate("TmainScoreObject", "MusicXML file") + QLatin1String(" (*.xml *.musicxml)"));
 #endif
   if (!openFile.isEmpty())
     GLOB->setLastXmlDir(QFileInfo(openFile).absoluteDir().path());
@@ -319,8 +319,8 @@ QString TnootkaQML::getXmlToSave(const QString& fileName) {
 #if defined (Q_OS_ANDROID)
   saveFile = TfileDialog::getSaveFileName(nullptr, GLOB->lastXmlDir(), QStringLiteral("xml"));
 #else
-  saveFile = TfileDialog::getSaveFileName(qApp->translate("TmelMan", "Save melody as:"), GLOB->lastXmlDir() + QDir::separator() + fileName,
-                                          qTR("TmelMan", "MusicXML file") + QLatin1String(" (*.musicxml *.xml)"), &filter);
+  saveFile = TfileDialog::getSaveFileName(qApp->translate("TmainScoreObject", "Save melody as:"), GLOB->lastXmlDir() + QDir::separator() + fileName,
+                                          qTR("TmainScoreObject", "MusicXML file") + QLatin1String(" (*.musicxml *.xml)"), &filter);
 #endif
   if (!saveFile.isEmpty())
     GLOB->setLastXmlDir(QFileInfo(saveFile).absoluteDir().path());
@@ -425,12 +425,12 @@ void TnootkaQML::setQmlEngine(QQmlEngine* e) {
   m_chartsAct = new Taction(QApplication::translate("TtoolBar", "Analyze"), QStringLiteral("charts"), this);
   connect(m_chartsAct, &Taction::triggered, this, &TnootkaQML::chartsActTriggered);
   m_chartsAct->setTip(tr("Analysis of exam results"), QQuickItem::TopRight);
-  m_scoreAct = new Taction(QApplication::translate("TtoolBar", "Score", "it could be 'notation', 'staff' or whatever is associated with that 'place to display musical notes' and this the name is quite short and looks well."), QStringLiteral("score"), this);
+  m_scoreAct = new Taction(QApplication::translate("TmainScoreObject", "Score", "it could be 'notation', 'staff' or whatever is associated with that 'place to display musical notes' and this the name is quite short and looks well."), QStringLiteral("score"), this);
   connect(m_scoreAct, &Taction::triggered, this, &TnootkaQML::scoreActTriggered);
-  m_scoreAct->setTip(QApplication::translate("TtoolBar", "Manage and navigate the score."), QQuickItem::TopRight);
-  m_melodyAct = new Taction(QApplication::translate("TtoolBar", "Melody"), QStringLiteral("melody"), this);
+  m_scoreAct->setTip(QApplication::translate("TmainScoreObject", "Manage and navigate the score."), QQuickItem::TopRight);
+  m_melodyAct = new Taction(QApplication::translate("TmainScoreObject", "Melody"), QStringLiteral("melody"), this);
   connect(m_melodyAct, &Taction::triggered, this, &TnootkaQML::melodyActTriggered);
-  m_melodyAct->setTip(tr("Open, save, generate and play a melody."), QQuickItem::TopRight);
+  m_melodyAct->setTip(QApplication::translate("TmainScoreObject", "Open, save, generate and play a melody."), QQuickItem::TopRight);
   m_examAct = new Taction(QApplication::translate("TtoolBar", "Lessons"), QStringLiteral("startExam"), this);
   connect(m_examAct, &Taction::triggered, this, &TnootkaQML::examActTriggered);
   m_examAct->setTip(QApplication::translate("TtoolBar", "Start exercises or an exam"), QQuickItem::TopRight);
@@ -484,12 +484,12 @@ QString TnootkaQML::qaTypeText(int qaType) {
 
 
 QString TnootkaQML::note7translated() const {
-  return QApplication::translate("Tpage_3", "b", "Give here a name of 7-th note preferred in your country. But only 'b' or 'h' not 'si' or something worst...");
+  return QApplication::translate("Notation", "b", "Give here a name of 7-th note preferred in your country. But only 'b' or 'h' not 'si' or something worst...");
 }
 
 
 QString TnootkaQML::keyNameTranslated() const {
-  return QApplication::translate("Tpage_3", "letters", "DO NOT TRANSLATE IT DIRECTLY. Put here 'letters' or 'solfege' This is country preferred style of naming key signatures. 'letters' means C-major/a-minor names ('major' & 'minor' also are translated by you), 'solfege' means Do-major/La-minor names");
+  return QApplication::translate("Notation", "letters", "DO NOT TRANSLATE IT DIRECTLY. Put here 'letters' or 'solfege' This is country preferred style of naming key signatures. 'letters' means C-major/a-minor names ('major' & 'minor' also are translated by you), 'solfege' means Do-major/La-minor names");
 }
 
 

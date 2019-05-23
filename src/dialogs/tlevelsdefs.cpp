@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2019 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -104,7 +104,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
   //----------------------------------------------------------------------------
   if (GLOB->instrument().isGuitar()) {
     l.name = QGuiApplication::translate("Tlevel", "All to V fret");
-    l.desc = QGuiApplication::translate("Tlevel", "All chromatic notes till V-th fret, no sound.<br>Without double accidentals. Key signatures: C, G, D, A");
+    l.desc = QGuiApplication::translate("Tlevel", "All chromatic notes till 5th fret, no sound.<br>Without double accidentals. Key signatures: C, G, D, A");
     l.questionAs.setAsSound(false);
     l.answersAs[0] = TQAtype(false, true, true, false);
     l.answersAs[1] = TQAtype(true, false, true, false);

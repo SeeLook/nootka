@@ -79,7 +79,7 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
   m_saveXmlAct = new Taction(qTR("QShortcut", "Save"), QStringLiteral("save"), this);
   connect(m_saveXmlAct, &Taction::triggered, this, &TmainScoreObject::getMelodyNameSlot);
 
-  m_randMelodyAct = new Taction(QGuiApplication::translate("TmelMan", "Generate melody"), QStringLiteral("melody"), this);
+  m_randMelodyAct = new Taction(tr("Generate melody"), QStringLiteral("melody"), this);
   connect(m_randMelodyAct, &Taction::triggered, this, &TmainScoreObject::randMelodySlot);
   m_randMelodyAct->setTip(tr("Generate a melody with random notes."));
 

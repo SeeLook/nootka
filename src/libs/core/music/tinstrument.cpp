@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,8 +27,10 @@
 //#################################################################################################
 
 static const char* const nameArray[INSTR_COUNT] = {
-  QT_TR_NOOP("other instrument"), QT_TR_NOOP("Classical Guitar"), QT_TR_NOOP("Electric Guitar"), QT_TR_NOOP("Bass Guitar"),
-  QT_TR_NOOP("Piano"), QT_TR_NOOP("Bandoneon"), QT_TR_NOOP("Alt Saxophone"), QT_TR_NOOP("Tenor Saxophone")
+  QT_TRANSLATE_NOOP("Tinstrument", "other instrument"), QT_TRANSLATE_NOOP("Tinstrument", "Classical Guitar"),
+  QT_TRANSLATE_NOOP("Tinstrument", "Electric Guitar"), QT_TRANSLATE_NOOP("Tinstrument", "Bass Guitar"),
+  QT_TRANSLATE_NOOP("Tinstrument", "Piano"), QT_TRANSLATE_NOOP("Tinstrument", "Bandoneon"),
+  QT_TRANSLATE_NOOP("Tinstrument", "Alt Saxophone"), QT_TRANSLATE_NOOP("Tinstrument", "Tenor Saxophone")
 };
 
 

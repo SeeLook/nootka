@@ -26,6 +26,7 @@
 
 #include <QtCore/qsettings.h>
 #include <QtWidgets/qmessagebox.h>
+#include <QtWidgets/qapplication.h>
 
 
 
@@ -51,7 +52,7 @@ TlevelSelector::TlevelSelector(QQuickItem* parent) :
   QQuickItem(parent)
 {
   m_fakeLevel.desc.clear();
-  m_fakeLevel.name = tr("no level selected");
+  m_fakeLevel.name = QApplication::translate("TlevelPreviewItem", "no level selected");
   m_fakeLevel.loNote = Tnote();
   m_fakeLevel.hiNote = Tnote();
   m_fakeLevel.hiFret = 0;
