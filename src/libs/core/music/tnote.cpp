@@ -72,12 +72,17 @@ static qint8 chromaticMap[8] { 0, 1, 3, 5, 6, 8, 10, 12 };
 
 static char setChromaticMap[12][2] { {1, 0}, {1, 1}, {2, 0}, {2, 1}, {3, 0}, {4, 0}, {4, 1}, {5, 0}, {5, 1}, {6, 0}, {6, 1}, {7, 0} };
 
-const char* const fullOctaveNames[8] = { QT_TR_NOOP("Subcontra octave"), QT_TR_NOOP("Contra octave"), QT_TR_NOOP("Great octave"),
-                                         QT_TR_NOOP("Small octave"), QT_TR_NOOP("One-line octave"), QT_TR_NOOP("Two-line octave"),
-                                         QT_TR_NOOP("Three-line octave"), QT_TR_NOOP("Four-line octave") };
+const char* const fullOctaveNames[8] = { QT_TRANSLATE_NOOP("TnoteName", "Subcontra octave"), QT_TRANSLATE_NOOP("TnoteName", "Contra octave"),
+  QT_TRANSLATE_NOOP("TnoteName", "Great octave"), QT_TRANSLATE_NOOP("TnoteName", "Small octave"),
+  QT_TRANSLATE_NOOP("TnoteName", "One-line octave"), QT_TRANSLATE_NOOP("TnoteName", "Two-line octave"),
+  QT_TRANSLATE_NOOP("TnoteName", "Three-line octave"), QT_TRANSLATE_NOOP("TnoteName", "Four-line octave")
+};
 
-static const char* const shortOctaveNames[8] = { QT_TR_NOOP("Sub"), 	QT_TR_NOOP("Contra"), QT_TR_NOOP("Great"), QT_TR_NOOP("Small"),
-    QT_TR_NOOP("1-line"), QT_TR_NOOP("2-line"), QT_TR_NOOP("3-line"), QT_TR_NOOP("4-line") };
+static const char* const shortOctaveNames[8] = { QT_TRANSLATE_NOOP("TnoteName", "Sub"), QT_TRANSLATE_NOOP("TnoteName", "Contra"),
+  QT_TRANSLATE_NOOP("TnoteName", "Great"), QT_TRANSLATE_NOOP("TnoteName", "Small"),
+  QT_TRANSLATE_NOOP("TnoteName", "1-line"), QT_TRANSLATE_NOOP("TnoteName", "2-line"),
+  QT_TRANSLATE_NOOP("TnoteName", "3-line"), QT_TRANSLATE_NOOP("TnoteName", "4-line")
+};
 
 
 /*static*/

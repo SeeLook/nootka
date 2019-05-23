@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -52,7 +52,7 @@ Tflickable {
             TcheckBox {
               id: autoNextChB
               anchors.horizontalCenter: parent.horizontalCenter
-              text: qsTr("ask next question automatically")
+              text: qsTranslate("TexamHelp", "ask next question automatically")
             }
           }
           Tile {
@@ -61,7 +61,7 @@ Tflickable {
             TcheckBox {
               id: expertAnswChB
               anchors.horizontalCenter: parent.horizontalCenter
-              text: qsTr("check answers without requiring confirmation")
+              text: qsTranslate("TexamHelp", "check answers without requiring confirmation")
               onClicked: {
                 if (expertAnswChB.checked) {
                   expertDialog.open()
@@ -75,7 +75,7 @@ Tflickable {
           TcheckBox {
             id: correctChB
             anchors.horizontalCenter: parent.horizontalCenter
-            text: qsTr("correct mistakes (exercises only)")
+            text: qsTranslate("TexamHelp", "correct mistakes (exercises only)")
           }
           description: qsTr("When you will make mistake, the program will show you automatically how a correct answer should be.")
         }

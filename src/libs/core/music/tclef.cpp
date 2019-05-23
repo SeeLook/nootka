@@ -55,10 +55,10 @@ QString Tclef::desc() const {
   switch(m_type) {
     case Treble_G:
       return QApplication::translate("Tclef", "clef G") + br +
-             QApplication::translate("TradioClef", "Common used clef (for violin, flute, saxophones, etc.)");
+             QApplication::translate("Tclef", "Common used clef (for violin, flute, saxophones, etc.)");
     case Treble_G_8down:
       return QApplication::translate("Tclef", "clef G dropped octave down") + br +
-             QApplication::translate("TradioClef", "Clef for guitars (classical, electric and so)");
+             QApplication::translate("Tclef", "Clef for guitars (classical, electric and so)");
     case Bass_F:
       return QApplication::translate("Tclef", "clef F") + br +
              QApplication::translate("Tclef", "Clef for bass guitar and double bass, also used for cello and trombone.");
@@ -66,7 +66,7 @@ QString Tclef::desc() const {
       return QString();// QApplication::translate("Tclef", "clef F dropped octave down"); used no more
     case Alto_C:
       return QApplication::translate("Tclef", "clef C") + br +
-             QApplication::translate("TradioClef", "Sometimes it is called clef for viola and mostly used for this instrument.");
+             QApplication::translate("Tclef", "Sometimes it is called clef for viola and mostly used for this instrument.");
     case Tenor_C:
       return QApplication::translate("Tclef", "clef C");
     case PianoStaffClefs:

@@ -17,10 +17,9 @@ Item {
 
   MouseArea {
     id: area
-//     enabled: pitchView.active
     anchors.fill: parent
     hoverEnabled: true
-    acceptedButtons: Qt.LeftButton
+    acceptedButtons: pitchView.active ? Qt.LeftButton : Qt.NoButton
     onPositionChanged: {
       if (pressedButtons && mouseX > vRep.itemAt(1).x && mouseX < vRep.itemAt(vRep.model - 2).x) {
         var mv = (mouseX - minVolText.width) / tc.width
@@ -28,7 +27,8 @@ Item {
           GLOB.minVolume = mv
       }
     }
-    onEntered: Noo.setStatusTip(qsTr("Volume level of input sound.") + "<br>" + qsTr("Drag a knob to adjust minimum input volume."), Item.TopLeft)
+    onEntered: Noo.setStatusTip(qsTr("Volume level of input sound.") + (pitchView.active ? "<br>" + qsTr("Drag a knob to adjust minimum input volume.") : ""),
+                                Item.TopLeft)
     onExited: Noo.setStatusTip("", Item.TopLeft)
   }
 

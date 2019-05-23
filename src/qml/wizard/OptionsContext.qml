@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2018-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -27,7 +27,7 @@ Column {
     wrapMode: Text.WordWrap
     horizontalAlignment: Text.AlignHCenter
     color: activPal.text
-    text: qsTr("7th note can be B or H, depends on country<br>What is the name of 7th note in your country?")
+    text: qsTranslate("WizardOptions", "7th note can be B or H, depends on country<br>What is the name of 7th note in your country?")
   }
 
   Select7note {
@@ -42,11 +42,11 @@ Column {
     anchors.horizontalCenter: parent.horizontalCenter
     RadioButton {
       id: lettersRadio
-      text: qsTranslate("TnotationRadioGroup", "letter names")
+      text: qsTranslate("NameStyleSelector", "letter names")
       checked: Noo.keyNameTranslated() !== "solfege"
     }
     RadioButton {
-      text: qsTranslate("TnotationRadioGroup", "solfege names")
+      text: qsTranslate("NameStyleSelector", "solfege names")
       checked: Noo.keyNameTranslated() === "solfege"
     }
   }
@@ -61,15 +61,15 @@ Column {
       anchors.horizontalCenter: parent.horizontalCenter
       TcheckBox {
         id: dblAccidsChB
-        text: qsTr("I know about double sharps (x) and double flats (bb)")
+        text: qsTranslate("WizardOptions", "I know about double sharps (x) and double flats (bb)")
       }
       TcheckBox {
         id: enharmChB
-        text: qsTr("I know that e# is the same as f")
+        text: qsTranslate("WizardOptions", "I know that e# is the same as f")
       }
       TcheckBox {
         id: keySignChB
-        text: qsTr("I know about key signatures")
+        text: qsTranslate("WizardOptions", "I know about key signatures")
       }
     }
   }

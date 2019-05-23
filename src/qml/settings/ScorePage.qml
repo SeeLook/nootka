@@ -32,7 +32,7 @@ Column {
 
       delegate: Component {
         TcuteButton {
-          text: (index + 1) + ". " + qsTranslate("TscoreSettings", head)
+          text: (index + 1) + ". " + qsTr(head)
           onClicked: { swipePages.currentIndex = index; headList.currentIndex = index }
           checked: headList.currentIndex === index
         }
@@ -58,10 +58,10 @@ Column {
               spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
               width: parent.width
               Tile {
-                description: qsTranslate("TscoreSettings", "When enabled, a score displays only a single note.")
+                description: qsTr("When enabled, a score displays only a single note.")
                 TcheckBox {
                   id: singleNoteModeChB
-                  text: qsTranslate("TscoreSettings", "use single note only")
+                  text: qsTr("use single note only")
                   checked: GLOB.singleNoteMode
                   anchors.horizontalCenter: parent.horizontalCenter
                 }
@@ -69,12 +69,11 @@ Column {
 
               Tile {
                 enabled: singleNoteModeChB.checked
-                description: qsTranslate("TscoreSettings",
-                                        "Shows enharmonic variants of notes.<br>i.e.: the note E is also Fb (F flat) <i>and</i> Dx (D with double sharp).")
+                description: qsTr("Shows enharmonic variants of notes.<br>i.e.: the note E is also Fb (F flat) <i>and</i> Dx (D with double sharp).")
                 TcheckBox {
                   id: showEnharmNotesChB
                   checked: GLOB.showEnharmNotes
-                  text: qsTranslate("TscoreSettings", "show enharmonic variants of notes")
+                  text: qsTr("show enharmonic variants of notes")
                   anchors.horizontalCenter: parent.horizontalCenter
                 }
               }
@@ -83,8 +82,8 @@ Column {
                 Row {
                   spacing: Noo.fontSize()
                   anchors.horizontalCenter: parent.horizontalCenter
-                  TlabelText { text: qsTranslate("TscoreSettings", "color of enharmonic notes") }
-                  ColorButton { id: enharmNoteColor; title: qsTranslate("TscoreSettings", "color of enharmonic notes") }
+                  TlabelText { text: qsTr("color of enharmonic notes") }
+                  ColorButton { id: enharmNoteColor; title: qsTr("color of enharmonic notes") }
                 }
               }
             }
@@ -100,10 +99,10 @@ Column {
             }
           }
           Tile {
-            description: qsTranslate("TscoreSettings", "If checked, you can use double sharps and double flats.")
+            description: qsTr("If checked, you can use double sharps and double flats.")
             TcheckBox {
               id: doubleAccidsChB
-              text: qsTranslate("TscoreSettings", "use double accidentals")
+              text: qsTr("use double accidentals")
               anchors.horizontalCenter: parent.horizontalCenter
               checked: GLOB.enableDoubleAccids
             }
@@ -112,8 +111,8 @@ Column {
             Row {
               spacing: Noo.fontSize()
               anchors.horizontalCenter: parent.horizontalCenter
-              TlabelText { text: qsTranslate("TscoreSettings", "note-cursor color") }
-              ColorButton { id: pointerColorButt; color: GLOB.noteCursorColor; title: qsTranslate("TscoreSettings", "note-cursor color") }
+              TlabelText { text: qsTr("note-cursor color") }
+              ColorButton { id: pointerColorButt; color: GLOB.noteCursorColor; title: qsTr("note-cursor color") }
             }
           }
         }
@@ -131,7 +130,7 @@ Column {
           spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
           TcheckBox {
             id: enableKeyChB
-            text: qsTranslate("TscoreSettings", "enable key signature")
+            text: qsTr("enable key signature")
             anchors.horizontalCenter: parent.horizontalCenter
             checked: GLOB.keySignatureEnabled
           }
@@ -145,7 +144,7 @@ Column {
                 enabled: enableKeyChB.checked
                 TcheckBox {
                   id: showKeyNamesChB
-                  text: qsTranslate("TscoreSettings", "show names of key signature")
+                  text: qsTr("show names of key signature")
                   anchors.horizontalCenter: parent.horizontalCenter
                   checked: GLOB.showKeyName
                 }
@@ -164,7 +163,7 @@ Column {
                   }
                   Column {
                     Text {
-                      text: qsTranslate("TscoreSettings", "Naming extension")
+                      text: qsTr("Naming extension")
                       anchors.horizontalCenter: parent.horizontalCenter
                       color: enabled ? activPal.text : disdPal.text
                     }
@@ -192,7 +191,8 @@ Column {
         width: parent.width
         spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
         Text {
-          text: qsTranslate("TscoreSettings", "Select default clef for the application.") + "<br><b>" + qsTranslate("TscoreSettings", "Remember! Not all clefs are suitable for some possible tunings or instrument types!") + "<b>"
+          text: qsTr("Select default clef for the application.") + "<br><b>"
+              + qsTr("Remember! Not all clefs are suitable for some possible tunings or instrument types!") + "<b>"
           textFormat: Text.StyledText
           horizontalAlignment: Text.AlignHCenter
           width: parent.width
@@ -215,7 +215,7 @@ Column {
           spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
           anchors.horizontalCenter: parent.horizontalCenter
           Tile {
-            description: qsTranslate("NameStyleSelector", "Naming style of note. The main difference is the 7th note.<br>Is it B and B flat, or H and B?")
+            description: qsTr("Naming style of note. The main difference is the 7th note.<br>Is it B and B flat, or H and B?")
             Column {
               anchors.horizontalCenter: parent.horizontalCenter
               spacing: Noo.fontSize() * 2

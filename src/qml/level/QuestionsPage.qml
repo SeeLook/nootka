@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -173,7 +173,7 @@ Tflickable {
           checked: creator.showStrNr
           onClicked: creator.showStrNr = checked
         }
-        description: qsTr("Shows on which string an answer has to be given.<br>Be careful, sometimes it is needed and sometimes it makes no sense.")
+        description: qsTr("Shows on which string an answer has to be given. Be careful, sometimes it is needed and sometimes it makes no sense.")
       }
       Tile {
         anchors.horizontalCenter: undefined
@@ -186,7 +186,7 @@ Tflickable {
           checked: creator.onlyLowPos
           onClicked: creator.onlyLowPos = checked
         }
-        description: qsTr("if checked, the lowest position in selected fret range is required,<br>otherwise all possible positions of the note are acceptable.<br>To use this, all strings have to be available!")
+        description: qsTr("if checked, the lowest position in selected fret range is required, otherwise all possible positions of the note are acceptable. To use this, all strings have to be available!")
       }
     }
   }
