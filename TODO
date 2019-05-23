@@ -11,27 +11,9 @@
 ================              TODO LIST               ======================
 ============================================================================
 
-French and Hungarian translations have wrongly translated 'solfege' statement
-
 TRANSLATION CONTEXT CHANGES
-  TpitchView -> PitchView
-  TvolumeView -> VolumeBar
-  TaboutNootka -> AuthorsPage
-  TscoreSettings -> ScorePage, KeySufixEdit,  (rearrange ScorePage)
-  TradioClef - Tclef (rearrange Tclef)
-  TscoreActions & TmelMan - TmainScoreObject
-  TtoolBar - TnootkaQML
-  TtoolBar - exam actions are created in TexamExecutor
-  accidssettings -> AccidsPage (but remove line breaks from descriptions)
-  TlevelPreviewItem "no level selected" goes to TlevelSelector
-  TprogressWidget -> TexamView
-  TexpertAnswerHelp -> ExamPage
-  tleveldefs.cpp - "All chromatic notes till V-th" - change to 5th and adjust other translations
-  TquestionAsWdg - spread into Texam (kind of question texts) and QustionsBox
-  Tpage_3 -> WizardOptions !! Change that context in TnootkaQML as well
-
-  NameStyleSelector - text "Naming style of note. The main difference is the 7th note.<br>Is it B and B flat, or H and B?" has to go into ScorePage or its sub-page with name settings
-  AdioInSettings ??? copy "semitone(s)" text to Transposition context but remove %n
+  QuestionPage - remove line breaks
+  AudioInSettings ??? copy "semitone(s)" text to Transposition context but remove %n
 
 ============================================================================
 

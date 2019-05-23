@@ -603,7 +603,7 @@
     </message>
 </context>
 <context>
-    <name>TanalysDialog</name>
+    <name>AnalyzeDialog</name>
     <message>
         <location filename="../src/plugins/charts/tanalysdialog.cpp" line="88"/>
         <source>ordered by:</source>
@@ -938,6 +938,22 @@ je viděli a poslechli si správně.</translation>
 <context>
     <name>Texam</name>
     <message>
+        <source>as note on the staff</source>
+        <translation>Jako nota v notovém zápisu</translation>
+    </message>
+    <message>
+        <source>as note name</source>
+        <translation>Jako název noty</translation>
+    </message>
+    <message>
+        <source>as position on the fingerboard</source>
+        <translation>Jako poloha na hmatníku</translation>
+    </message>
+    <message>
+        <source>as played sound</source>
+        <translation>Jako přehrávaný zvuk</translation>
+    </message>
+    <message>
         <location filename="../src/libs/core/exam/textrans.h" line="75"/>
         <source>play melody</source>
         <translation>Přehrát melodii</translation>
@@ -1204,7 +1220,7 @@ není platným souborem zkoušky!</translation>
     </message>
 </context>
 <context>
-    <name>TexamSettings</name>
+    <name>ExamPage</name>
     <message>
         <location filename="../src/plugins/settings/texamsettings.cpp" line="39"/>
         <source>When you will make mistake, the program will show you automatically how a correct answer should be.</source>
@@ -1547,7 +1563,7 @@ není platným souborem zkoušky!</translation>
     </message>
 </context>
 <context>
-    <name>TexpertAnswerHelp</name>
+    <name>ExamPage</name>
     <message>
         <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="27"/>
         <source>Experts mode</source>
@@ -1943,8 +1959,8 @@ není platným souborem zkoušky!</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="102"/>
-        <source>All chromatic notes till V-th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
-        <translation>Všechny chromatické noty až do V. pražce, bez zvuku.&lt;br&gt;Bez dvojitých posuvek. Předznamenání: C, G, D, A</translation>
+        <source>All chromatic notes till 5th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
+        <translation>Všechny chromatické noty až do 5. pražce, bez zvuku.&lt;br&gt;Bez dvojitých posuvek. Předznamenání: C, G, D, A</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="130"/>
@@ -2392,7 +2408,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
 </context>
 <context>
-    <name>TmelMan</name>
+    <name>TmainScoreObject</name>
     <message>
         <location filename="../src/libs/main/gui/tmelman.cpp" line="39"/>
         <source>Play melody</source>
@@ -2601,11 +2617,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/plugins/settings/tnotationradiogroup.cpp" line="38"/>
         <source>Naming style</source>
         <translation>Styl názvů</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/settings/tnotationradiogroup.cpp" line="39"/>
-        <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
-        <translation>Způsob nazývání not. Hlavní rozdíl je u sedmé noty.&lt;br&gt;Zda je to B a Bb, nebo H a B?</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tnotationradiogroup.cpp" line="47"/>
@@ -2869,7 +2880,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
 </context>
 <context>
-    <name>TprogressWidget</name>
+    <name>TexamView</name>
     <message>
         <location filename="../src/libs/main/exam/tprogresswidget.cpp" line="116"/>
         <source>Answered questions</source>
@@ -2903,7 +2914,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
 </context>
 <context>
-    <name>TquestionAsWdg</name>
+    <name>QuestionsPage</name>
     <message>
         <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="42"/>
         <source>question</source>
@@ -2923,26 +2934,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="45"/>
         <source>answers</source>
         <translation>Odpovědi</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="46"/>
-        <source>as note on the staff</source>
-        <translation>Jako nota v notovém zápisu</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="47"/>
-        <source>as note name</source>
-        <translation>Jako název noty</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="48"/>
-        <source>as position on the fingerboard</source>
-        <translation>Jako poloha na hmatníku</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="49"/>
-        <source>as played sound</source>
-        <translation>Jako přehrávaný zvuk</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/widgets/tquestionaswdg.cpp" line="53"/>
@@ -3071,7 +3062,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
 </context>
 <context>
-    <name>TradioClef</name>
+    <name>Tclef</name>
     <message>
         <location filename="../src/libs/score/widgets/tselectclef.cpp" line="193"/>
         <source>Common used clef (for violin, flute, saxophones, etc.)</source>
@@ -3117,7 +3108,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
 </context>
 <context>
-    <name>TscoreActions</name>
+    <name>TmainScoreObject</name>
     <message>
         <location filename="../src/libs/main/score/tscoreactions.cpp" line="35"/>
         <source>Score</source>
@@ -3159,6 +3150,9 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <source>Zoom score in</source>
         <translation>Přiblížit notový zápis</translation>
     </message>
+</context>
+<context>
+    <name>TscoreObject</name>
     <message>
         <location filename="../src/libs/main/score/tscoreactions.cpp" line="57"/>
         <source>Previous note</source>
@@ -3230,7 +3224,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
 </context>
 <context>
-    <name>TscoreSettings</name>
+    <name>ScorePage</name>
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="140"/>
         <source>enable key signature</source>
@@ -3346,6 +3340,11 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <source>show names of key signature</source>
         <translation>Ukázat názvy tónin</translation>
     </message>
+    <message>
+        <location filename="../src/plugins/settings/tnotationradiogroup.cpp" line="39"/>
+        <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
+        <translation>Způsob nazývání not. Hlavní rozdíl je u sedmé noty.&lt;br&gt;Zda je to B a Bb, nebo H a B?</translation>
+    </message>
 </context>
 <context>
     <name>TsettingsDialog</name>
@@ -3423,7 +3422,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
 </context>
 <context>
-    <name>TstartExamDlg</name>
+    <name>StartExam</name>
     <message>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="61"/>
         <source>Start exercises or an exam</source>
@@ -3497,7 +3496,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="406"/>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="411"/>
-        <source>Give a user name!</source>
+        <source>Give an user name!</source>
         <translation>Zadejte nějaké uživatelské jméno!</translation>
     </message>
     <message>
@@ -3961,8 +3960,8 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="34"/>
-        <source>Sharps will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
-        <translation>Ve zkušebních otázkách a odpovědích se budou používat křížky.&lt;br&gt;Musí to být zaškrtnuto, když se používají tóniny s křížky.</translation>
+        <source>Sharps will be used in questions and answers. It has to be checked, if keys with sharps are used.</source>
+        <translation>Ve zkušebních otázkách a odpovědích se budou používat křížky. Musí to být zaškrtnuto, když se používají tóniny s křížky.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="36"/>
@@ -3971,8 +3970,8 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="37"/>
-        <source>Flats will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
-        <translation>Ve zkušebních otázkách a odpovědích se budou používat béčka.&lt;br&gt;Musí to být zaškrtnuto, když se používají tóniny s béčky.</translation>
+        <source>Flats will be used in questions and answers. It has to be checked, if keys with flats are used.</source>
+        <translation>Ve zkušebních otázkách a odpovědích se budou používat béčka. Musí to být zaškrtnuto, když se používají tóniny s béčky.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="39"/>
@@ -3981,7 +3980,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="69"/>
-        <source>only one, selected key signature for whole exam.</source>
+        <source>Only one, selected key signature for whole exam.</source>
         <translation>Pouze jedna vybraná tónina pro celou zkoušku.</translation>
     </message>
     <message>
@@ -4006,8 +4005,8 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="52"/>
-        <source>if checked, it is possible to select a note&lt;br&gt;with given accidental only.</source>
-        <translation>Je-li zaškrtnuto, je možné vybrat notu&lt;br&gt;jen s danou posuvkou.</translation>
+        <source>if checked, it is possible to select a note with given accidental only.</source>
+        <translation>Je-li zaškrtnuto, je možné vybrat notu jen s danou posuvkou.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="68"/>
@@ -4021,7 +4020,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="71"/>
-        <source>random key signature from selected range.</source>
+        <source>Random key signature from selected range.</source>
         <translation>Náhodně vybraná tónina z vybraného rozsahu.</translation>
     </message>
     <message>
@@ -4131,7 +4130,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
 </context>
 <context>
-    <name>questionsSettings</name>
+    <name>QuestionsPage</name>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="143"/>
         <source>require octave</source>
@@ -4164,13 +4163,13 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="163"/>
-        <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, sometimes it is needed and sometimes it makes no sense.</source>
-        <translation>Ukazuje, na které struně má být dána odpověď.&lt;br&gt;U tohoto buďte opatrní, kdy je to potřeba a kdy to nedává smysl.</translation>
+        <source>Shows on which string an answer has to be given. Be careful, sometimes it is needed and sometimes it makes no sense.</source>
+        <translation>Ukazuje, na které struně má být dána odpověď. U tohoto buďte opatrní, kdy je to potřeba a kdy to nedává smysl.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="172"/>
-        <source>if checked, the lowest position in selected fret range is required,&lt;br&gt;otherwise all possible positions of the note are acceptable.&lt;br&gt;To use this, all strings have to be available!</source>
-        <translation>Je-li zaškrtnuto, jsou v rozsahu vybraných pražců vyžadovány nejnižší polohy, &lt;br&gt;jinak jsou používány všechny možné polohy noty.&lt;br&gt;Aby se to dalo použít, je třeba, aby byly dostupné všechny noty!</translation>
+        <source>if checked, the lowest position in selected fret range is required, otherwise all possible positions of the note are acceptable. To use this, all strings have to be available!</source>
+        <translation>Je-li zaškrtnuto, jsou v rozsahu vybraných pražců vyžadovány nejnižší polohy,  jinak jsou používány všechny možné polohy noty. Aby se to dalo použít, je třeba, aby byly dostupné všechny noty!</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="171"/>

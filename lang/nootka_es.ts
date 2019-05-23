@@ -560,7 +560,7 @@
     </message>
 </context>
 <context>
-    <name>TanalysDialog</name>
+    <name>AnalyzeDialog</name>
     <message>
         <source>Analyze</source>
         <translation>Analizar</translation>
@@ -836,6 +836,22 @@
 <context>
     <name>Texam</name>
     <message>
+        <source>as note on the staff</source>
+        <translation>como nota en el pentagrama</translation>
+    </message>
+    <message>
+        <source>as note name</source>
+        <translation>como nombre de nota</translation>
+    </message>
+    <message>
+        <source>as position on the fingerboard</source>
+        <translation>como posición en el diapasón</translation>
+    </message>
+    <message>
+        <source>as played sound</source>
+        <translation>como sonido interpretado</translation>
+    </message>
+    <message>
         <source>play melody</source>
         <translation>interpretar melodía</translation>
     </message>
@@ -1071,7 +1087,7 @@
     </message>
 </context>
 <context>
-    <name>TexamSettings</name>
+    <name>ExamPage</name>
     <message>
         <source>When you will make mistake, the program will show you automatically how a correct answer should be.</source>
         <translation>Cuando cometas un error, el programa te mostrará automáticamente cómo debería ser una respuesta correcta.</translation>
@@ -1359,7 +1375,7 @@
     </message>
 </context>
 <context>
-    <name>TexpertAnswerHelp</name>
+    <name>ExamPage</name>
     <message>
         <source>Experts mode</source>
         <translation>Modo de expertos</translation>
@@ -1704,8 +1720,8 @@
         <translation>Usar todas las notas hasta el traste V</translation>
     </message>
     <message>
-        <source>All chromatic notes till V-th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
-        <translation>Todas las notas cromáticas hasta el traste V, sin sonido.&lt;br&gt;Sin alteraciones dobles. Armaduras: C, G, D, A</translation>
+        <source>All chromatic notes till 5th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
+        <translation>Todas las notas cromáticas hasta el traste 5, sin sonido.&lt;br&gt;Sin alteraciones dobles. Armaduras: C, G, D, A</translation>
     </message>
     <message>
         <source>Ear training</source>
@@ -2055,7 +2071,7 @@
     </message>
 </context>
 <context>
-    <name>TmelMan</name>
+    <name>TmainScoreObject</name>
     <message>
         <source>Play</source>
         <translation>Interpretar</translation>
@@ -2216,10 +2232,6 @@
     <message>
         <source>Naming style</source>
         <translation>Estilo de nomenclatura</translation>
-    </message>
-    <message>
-        <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
-        <translation>Estilo de nomenclatura de la nota. La principal diferencia está en la 7ª nota.&lt;br&gt;¿Es B y B bemol, o H y B?</translation>
     </message>
     <message>
         <source>letter names</source>
@@ -2461,7 +2473,7 @@
     </message>
 </context>
 <context>
-    <name>TprogressWidget</name>
+    <name>TexamView</name>
     <message>
         <source>Answered questions</source>
         <translation>Preguntas respondidas</translation>
@@ -2490,7 +2502,7 @@
     </message>
 </context>
 <context>
-    <name>TquestionAsWdg</name>
+    <name>QuestionsPage</name>
     <message>
         <source>Select the type of answers for a question.</source>
         <translation>Seleccionar el tipo de respuestas para una pregunta.</translation>
@@ -2510,22 +2522,6 @@
     <message>
         <source>answers</source>
         <translation>respuestas</translation>
-    </message>
-    <message>
-        <source>as note on the staff</source>
-        <translation>como nota en el pentagrama</translation>
-    </message>
-    <message>
-        <source>as note name</source>
-        <translation>como nombre de nota</translation>
-    </message>
-    <message>
-        <source>as position on the fingerboard</source>
-        <translation>como posición en el diapasón</translation>
-    </message>
-    <message>
-        <source>as played sound</source>
-        <translation>como sonido interpretado</translation>
     </message>
 </context>
 <context>
@@ -2623,7 +2619,7 @@
     </message>
 </context>
 <context>
-    <name>TradioClef</name>
+    <name>Tclef</name>
     <message>
         <source>Common used clef (for violin, flute, saxophones, etc.)</source>
         <translation>Clave común usada (para violín, flauta, saxofón, etc.)</translation>
@@ -2661,7 +2657,7 @@
     </message>
 </context>
 <context>
-    <name>TscoreActions</name>
+    <name>TmainScoreObject</name>
     <message>
         <source>Score</source>
         <comment>it could be &apos;notation&apos;, &apos;staff&apos; or whatever is associated with that &apos;place to display musical notes&apos; and this the name is quite short and looks well.</comment>
@@ -2691,6 +2687,17 @@
         <source>Zoom score in</source>
         <translation>Acercar el pentagrama</translation>
     </message>
+    <message>
+        <source>Shows names of all notes on the staff.</source>
+        <translation>Mostrar los nombres de todas las notas en la partitura.</translation>
+    </message>
+    <message>
+        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
+        <translation>Mostrar las alteraciones de la armadura también junto a las notas. &lt;b&gt;¡ADVERTENCIA! Nunca sucede en las partituras reales - úsalo solamente para propósitos teóricos.&lt;/b&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>TscoreObject</name>
     <message>
         <source>Previous note</source>
         <translation>Nota previa</translation>
@@ -2723,14 +2730,6 @@
         <source>Delete all notes</source>
         <translation>Borrar todas las notas</translation>
     </message>
-    <message>
-        <source>Shows names of all notes on the staff.</source>
-        <translation>Mostrar los nombres de todas las notas en la partitura.</translation>
-    </message>
-    <message>
-        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
-        <translation>Mostrar las alteraciones de la armadura también junto a las notas. &lt;b&gt;¡ADVERTENCIA! Nunca sucede en las partituras reales - úsalo solamente para propósitos teóricos.&lt;/b&gt;</translation>
-    </message>
 </context>
 <context>
     <name>TscoreClef</name>
@@ -2758,7 +2757,7 @@
     </message>
 </context>
 <context>
-    <name>TscoreSettings</name>
+    <name>ScorePage</name>
     <message>
         <source>use single note only</source>
         <translation>usar solamente nota única</translation>
@@ -2847,6 +2846,10 @@
         <source>show names of key signature</source>
         <translation>mostrar nombres de armadura</translation>
     </message>
+    <message>
+        <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
+        <translation>Estilo de nomenclatura de la nota. La principal diferencia está en la 7ª nota.&lt;br&gt;¿Es B y B bemol, o H y B?</translation>
+    </message>
 </context>
 <context>
     <name>TsettingsDialog</name>
@@ -2911,7 +2914,7 @@
     </message>
 </context>
 <context>
-    <name>TstartExamDlg</name>
+    <name>StartExam</name>
     <message>
         <source>Start exercises or an exam</source>
         <translation>Comenzar ejercicios o un examen</translation>
@@ -2981,7 +2984,7 @@
         <translation>¡No se ha seleccionado nivel!</translation>
     </message>
     <message>
-        <source>Give a user name!</source>
+        <source>Give an user name!</source>
         <translation>¡Dar un nombre de usuario!</translation>
     </message>
     <message>
@@ -3371,16 +3374,16 @@
         <translation># - sostenidos</translation>
     </message>
     <message>
-        <source>Sharps will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
-        <translation>Los sostenidos se usarán en preguntas y respuestas.&lt;br&gt;Tiene que comprobarse si se usan armaduras con sostenidos.</translation>
+        <source>Sharps will be used in questions and answers. It has to be checked, if keys with sharps are used.</source>
+        <translation>Los sostenidos se usarán en preguntas y respuestas. Tiene que comprobarse si se usan armaduras con sostenidos.</translation>
     </message>
     <message>
         <source>b - flats</source>
         <translation>b - bemoles</translation>
     </message>
     <message>
-        <source>Flats will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
-        <translation>Los bemoles se usarán en preguntas y respuestas.&lt;br&gt;Tiene que comprobarse si se usan armaduras con bemoles.</translation>
+        <source>Flats will be used in questions and answers. It has to be checked, if keys with flats are used.</source>
+        <translation>Los bemoles se usarán en preguntas y respuestas. Tiene que comprobarse si se usan armaduras con bemoles.</translation>
     </message>
     <message>
         <source>x, bb - double accidentals</source>
@@ -3395,8 +3398,8 @@
         <translation>forzar el uso de la alteración apropiada</translation>
     </message>
     <message>
-        <source>if checked, it is possible to select a note&lt;br&gt;with given accidental only.</source>
-        <translation>si se selecciona, es posible seleccionar una nota&lt;br&gt;con solamente el accidental dado.</translation>
+        <source>if checked, it is possible to select a note with given accidental only.</source>
+        <translation>si se selecciona, es posible seleccionar una nota con solamente el accidental dado.</translation>
     </message>
     <message>
         <source>use key signatures</source>
@@ -3407,20 +3410,20 @@
         <translation>armadura única</translation>
     </message>
     <message>
-        <source>only one, selected key signature&lt;br&gt;for whole exam.</source>
-        <translation>solamente una armadura seleccionada&lt;br&gt;para todo el examen.</translation>
+        <source>Only one, selected key signature for whole exam.</source>
+        <translation>Solamente una armadura seleccionada para todo el examen.</translation>
     </message>
     <message>
         <source>range of keys</source>
         <translation>rango de armaduras</translation>
     </message>
     <message>
-        <source>random key signature from selected range.</source>
-        <translation>armadura aleatoria del rango seleccionado.</translation>
+        <source>Random key signature from selected range.</source>
+        <translation>Armadura aleatoria del rango seleccionado.</translation>
     </message>
     <message>
-        <source>Select a key signature.&lt;br&gt;Appropriate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
-        <translation>Seleccionar una armadura.&lt;br&gt;¡Las alteraciones apropiadas usadas en el examen&lt;br&gt; serán automáticamente seleccionadas!</translation>
+        <source>Select a key signature. Appropriate accidentals used in exam will be automatically selected.</source>
+        <translation>Seleccionar una armadura. Las alteraciones apropiadas usadas en el examen serán automáticamente seleccionadas.</translation>
     </message>
     <message>
         <source>select a key signature manually</source>
@@ -3529,7 +3532,7 @@
     </message>
 </context>
 <context>
-    <name>questionsSettings</name>
+    <name>QuestionsPage</name>
     <message>
         <source>Melody length</source>
         <translation>Longitud de la melodía</translation>
@@ -3571,16 +3574,16 @@
         <translation>mostrar el número de la cuerda en las preguntas</translation>
     </message>
     <message>
-        <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, sometimes it is needed and sometimes it makes no sense.</source>
-        <translation>Muestra en cuál cuerda tiene que darse la respuesta.&lt;br&gt;Sé cuidadoso, a veces se necesita y a veces no tiene sentido.</translation>
+        <source>Shows on which string an answer has to be given. Be careful, sometimes it is needed and sometimes it makes no sense.</source>
+        <translation>Muestra en cuál cuerda tiene que darse la respuesta. Sé cuidadoso, a veces se necesita y a veces no tiene sentido.</translation>
     </message>
     <message>
         <source>notes in the lowest position only</source>
         <translation>solamente las notas en la posición más baja</translation>
     </message>
     <message>
-        <source>if checked, the lowest position in selected fret range is required,&lt;br&gt;otherwise all possible positions of the note are acceptable.&lt;br&gt;To use this, all strings have to be available!</source>
-        <translation>si se selecciona, se requiere la posición más baja en el rango de trastes seleccionado, &lt;br&gt; en caso contrario son aceptables todas las posiciones posibles de la nota.&lt;br&gt;Para usar esto, ¡todas las cuerdas tienen que estar disponibles!</translation>
+        <source>if checked, the lowest position in selected fret range is required, otherwise all possible positions of the note are acceptable. To use this, all strings have to be available!</source>
+        <translation>si se selecciona, se requiere la posición más baja en el rango de trastes seleccionado,   en caso contrario son aceptables todas las posiciones posibles de la nota. Para usar esto, ¡todas las cuerdas tienen que estar disponibles!</translation>
     </message>
     <message>
         <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>

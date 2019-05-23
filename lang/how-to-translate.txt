@@ -45,18 +45,20 @@ Translation online trough LaunchPad:
     * (Only in Qt Linguist)To approve translated entry you can use [CTRL+Enter] - it will be automatically marked as finished.
     * Do not remove any special characters like \n %1 %n or HTML tags like <br> and <whatever>.
     * To copy original entry use [CTRL+b] and then just translate.
-      Obviously you can move this mischievous characters and tags
-      to make whole translated sentence proper in your language
-    * Often use [CTRL+s] to save your work
+      Obviously you can move this mischievous characters and HTML tags
+      to make whole translated sentence proper in your language.
+    * Often use [CTRL+s] to save your work.
     * PLEASE BE RESPONSIBLE !!! USE KIND WORDS AND OFFICIAL MUSICAL TERMS.
-      DO NOT USE SOME SLANG WORDS EVEN MUSICAL. Nootka is used by children and pupils
+      DO NOT USE SOME SLANG WORDS EVEN MUSICAL. Nootka is used by children and pupils.
   ***************************************************************
   ***************************************************************
 
   =====================================================================
 When translation will be ready or ( you give up :-( ), send me what you have:
     seelook@gmail.com
-      How to give some info about translator (you) you will find during translation
-      Have good fun !!!
+
+How to give some info about translator (you) you will find during translation
+
+Have fun !!!
 
 

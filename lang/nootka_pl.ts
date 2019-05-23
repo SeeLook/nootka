@@ -675,7 +675,7 @@
     </message>
 </context>
 <context>
-    <name>TanalysDialog</name>
+    <name>AnalyzeDialog</name>
     <message>
         <location filename="../src/plugins/charts/tanalysdialog.cpp" line="90"/>
         <source>level:</source>
@@ -1080,11 +1080,6 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation>basowy</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/music/tclef.cpp" line="42"/>
-        <source>bass dropped</source>
-        <translation>basowy obniżony</translation>
-    </message>
-    <message>
         <location filename="../src/libs/core/music/tclef.cpp" line="44"/>
         <source>alto</source>
         <translation>altowy</translation>
@@ -1115,11 +1110,6 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation>klucz F</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/music/tclef.cpp" line="64"/>
-        <source>clef F dropped octave down</source>
-        <translation>klucz F obniżony o oktawę</translation>
-    </message>
-    <message>
         <location filename="../src/libs/core/music/tclef.cpp" line="66"/>
         <location filename="../src/libs/core/music/tclef.cpp" line="68"/>
         <source>clef C</source>
@@ -1130,9 +1120,45 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <source>treble and bass clefs</source>
         <translation>klucz wiolinowy i basowy</translation>
     </message>
+    <message>
+        <location filename="../src/libs/score/widgets/tselectclef.cpp" line="193"/>
+        <source>Common used clef (for violin, flute, saxophones, etc.)</source>
+        <translation>Najbardziej rozpowszechniony klucz (dla skrzypiec, fletu, saksofonów, itp.)</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/score/widgets/tselectclef.cpp" line="196"/>
+        <source>Clef for guitars (classical, electric and so)</source>
+        <translation>Klucz dla gitar (klasycznej, elektrycznej, itp.)</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/score/widgets/tselectclef.cpp" line="199"/>
+        <source> Bottom clef on the grand staff but also used for cello, trombone, etc.</source>
+        <translation>Klucz na dolnej pięciolinii zapisu fortepianowego ale również dla wiolonczeli, puzonu, itp.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/score/widgets/tselectclef.cpp" line="205"/>
+        <source>Sometimes it is called clef for viola and mostly used for this instrument.</source>
+        <translation>Nazywany również kluczem altówkowym i najczęściej używany dla tego instrumentu.</translation>
+    </message>
 </context>
 <context>
     <name>Texam</name>
+    <message>
+        <source>as note on the staff</source>
+        <translation>jako nuta na pięciolinii</translation>
+    </message>
+    <message>
+        <source>as note name</source>
+        <translation>jako nazwa nuty</translation>
+    </message>
+    <message>
+        <source>on instrument</source>
+        <translation>na instrumencie</translation>
+    </message>
+    <message>
+        <source>as played sound</source>
+        <translation>jako grany dźwięk</translation>
+    </message>
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="75"/>
         <source>play melody</source>
@@ -1425,7 +1451,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     </message>
 </context>
 <context>
-    <name>TexamSettings</name>
+    <name>ExamPage</name>
     <message>
         <location filename="../src/plugins/settings/texamsettings.cpp" line="39"/>
         <source>When you will make mistake, the program will show you automatically how a correct answer should be.</source>
@@ -1664,7 +1690,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/plugins/exam/texamsummary.cpp" line="232"/>
         <source>Progress of exercises</source>
-        <translation>Postęp egzaminu</translation>
+        <translation>Postęp ćwiczeń</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/texamsummary.cpp" line="233"/>
@@ -1780,7 +1806,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     </message>
 </context>
 <context>
-    <name>TexpertAnswerHelp</name>
+    <name>ExamPage</name>
     <message>
         <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="27"/>
         <source>Experts mode</source>
@@ -2180,8 +2206,8 @@ nie jest poprawnym plikiem egzaminu!</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="102"/>
-        <source>All chromatic notes till V-th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
-        <translation>Wszystkie chromatyczne dźwięki do V progu, bez dźwięku.&lt;br&gt;Bez podwójnych znaków. Tonacje: C, G, D, A</translation>
+        <source>All chromatic notes till 5th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
+        <translation>Wszystkie chromatyczne dźwięki do 5-go progu, bez dźwięku.&lt;br&gt;Bez podwójnych znaków. Tonacje: C, G, D, A</translation>
     </message>
     <message>
         <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="130"/>
@@ -2633,7 +2659,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
 </context>
 <context>
-    <name>TmelMan</name>
+    <name>TmainScoreObject</name>
     <message>
         <source>Play</source>
         <translation type="vanished">Graj</translation>
@@ -2703,7 +2729,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
 </context>
 <context>
-    <name>TmelodySettings</name>
+    <name>MelodyPage</name>
     <message>
         <location filename="../src/plugins/level/tmelodysettings.cpp" line="58"/>
         <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
@@ -2858,11 +2884,6 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/plugins/settings/tnotationradiogroup.cpp" line="38"/>
         <source>Naming style</source>
         <translation>Styl nazw</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/settings/tnotationradiogroup.cpp" line="39"/>
-        <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
-        <translation>Sposób nazywania nut. Podstawowa różnica to 7-my dźwięk.&lt;br&gt;Czy jest to  B i Bb, czy też H i B ?</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tnotationradiogroup.cpp" line="47"/>
@@ -3064,7 +3085,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
 </context>
 <context>
-    <name>Tpage_2</name>
+    <name>WizardOther</name>
     <message>
         <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="241"/>
         <source>Select a clef and scale of notes appropriate for your instrument.</source>
@@ -3072,7 +3093,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
 </context>
 <context>
-    <name>Tpage_3</name>
+    <name>WizardOptions</name>
     <message>
         <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="314"/>
         <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
@@ -3093,14 +3114,15 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <source>I know about key signatures</source>
         <translation>Wiem co to są tonacje</translation>
     </message>
+</context>
+<context>
+    <name>Notation</name>
     <message>
-        <location filename="../src/libs/misc/tmisctrans.h" line="32"/>
         <source>b</source>
         <comment>Give here a name of 7-th note preferred in your country. But only &apos;b&apos; or &apos;h&apos; not &apos;si&apos; or something worst...</comment>
         <translation>h</translation>
     </message>
     <message>
-        <location filename="../src/libs/misc/tmisctrans.h" line="37"/>
         <source>letters</source>
         <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country preferred style of naming key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
         <translation>letters</translation>
@@ -3130,7 +3152,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
 </context>
 <context>
-    <name>TprogressWidget</name>
+    <name>TexamView</name>
     <message>
         <location filename="../src/libs/main/exam/tprogresswidget.cpp" line="116"/>
         <source>Answered questions</source>
@@ -3164,7 +3186,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
 </context>
 <context>
-    <name>TquestionAsWdg</name>
+    <name>QuestionsBox</name>
     <message>
         <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="42"/>
         <source>question</source>
@@ -3186,57 +3208,9 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation>odpowiedzi</translation>
     </message>
     <message>
-        <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="46"/>
-        <source>as note on the staff</source>
-        <translation>jako nuta na pięciolinii</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="47"/>
-        <source>as note name</source>
-        <translation>jako nazwa nuty</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="48"/>
-        <source>as position on the fingerboard</source>
-        <translation>jako pozycja na gryfie</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="49"/>
-        <source>as played sound</source>
-        <translation>jako grany dźwięk</translation>
-    </message>
-    <message>
         <location filename="../src/libs/widgets/widgets/tquestionaswdg.cpp" line="53"/>
         <source>Select the type of answers for a question.</source>
         <translation>Zaznacz rodzaje odpowiedzi dla pytania.</translation>
-    </message>
-</context>
-<context>
-    <name>TradioClef</name>
-    <message>
-        <location filename="../src/libs/score/widgets/tselectclef.cpp" line="193"/>
-        <source>Common used clef (for violin, flute, saxophones, etc.)</source>
-        <translation>Najbardziej rozpowszechniony klucz (dla skrzypiec, fletu, saksofonów, itp.)</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/score/widgets/tselectclef.cpp" line="196"/>
-        <source>Clef for guitars (classical, electric and so)</source>
-        <translation>Klucz dla gitar (klasycznej, elektrycznej, itp.)</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/score/widgets/tselectclef.cpp" line="199"/>
-        <source> Bottom clef on the grand staff but also used for cello, trombone, etc.</source>
-        <translation>Klucz na dolnej pięciolinii zapisu fortepianowego ale również dla wiolonczeli, puzonu, itp.</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/score/widgets/tselectclef.cpp" line="202"/>
-        <source> Clef for bass guitar and double bass.</source>
-        <translation>Klucz dla gitary basowej i kontrabasu.</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/score/widgets/tselectclef.cpp" line="205"/>
-        <source>Sometimes it is called clef for viola and mostly used for this instrument.</source>
-        <translation>Nazywany również kluczem altówkowym i najczęściej używany dla tego instrumentu.</translation>
     </message>
 </context>
 <context>
@@ -3258,7 +3232,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
 </context>
 <context>
-    <name>TscoreActions</name>
+    <name>TmainScoreObject</name>
     <message>
         <location filename="../src/libs/main/score/tscoreactions.cpp" line="35"/>
         <source>Score</source>
@@ -3300,6 +3274,9 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <source>Zoom score in</source>
         <translation>Powiększ zapis nutowy</translation>
     </message>
+</context>
+<context>
+    <name>TscoreObject</name>
     <message>
         <location filename="../src/libs/main/score/tscoreactions.cpp" line="57"/>
         <source>Previous note</source>
@@ -3340,10 +3317,6 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <source>Delete all notes</source>
         <translation>Usuń wszystkie nuty</translation>
     </message>
-    <message>
-        <source>Score</source>
-        <translation type="vanished">Nuty</translation>
-    </message>
 </context>
 <context>
     <name>TscoreClef</name>
@@ -3375,7 +3348,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
 </context>
 <context>
-    <name>TscoreSettings</name>
+    <name>ScorePage</name>
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="140"/>
         <source>enable key signature</source>
@@ -3491,6 +3464,11 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <source>show names of key signature</source>
         <translation>pokazuj nazwy tonacji</translation>
     </message>
+    <message>
+        <location filename="../src/plugins/settings/tnotationradiogroup.cpp" line="39"/>
+        <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
+        <translation>Sposób nazywania nut. Podstawowa różnica to 7-my dźwięk.&lt;br&gt;Czy jest to  B i Bb, czy też H i B ?</translation>
+    </message>
 </context>
 <context>
     <name>TsettingsDialog</name>
@@ -3562,7 +3540,7 @@ nutowy</translation>
     </message>
 </context>
 <context>
-    <name>TstartExamDlg</name>
+    <name>StartExam</name>
     <message>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="61"/>
         <source>Start exercises or an exam</source>
@@ -3610,7 +3588,7 @@ nutowy</translation>
     <message>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="240"/>
         <source>To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file.</source>
-        <translation>Żeby rozpocząć ćwiczenie lub egzamin, wpisz swoje imię i wybierz poziom.&lt;br&gt;Żeby kontynuować poprzedni egzamin, wybierz go z listy lub wczytaj z pliku.</translation>
+        <translation>Żeby rozpocząć ćwiczenie lub egzamin, wpisz swoje imię i wybierz poziom. Żeby kontynuować poprzedni egzamin, wybierz go z listy lub wczytaj z pliku.</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="256"/>
@@ -3648,7 +3626,7 @@ nutowy</translation>
     <message>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="406"/>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="411"/>
-        <source>Give a user name!</source>
+        <source>Give an user name!</source>
         <translation>Podaj jakąś nazwę użytkownika!</translation>
     </message>
     <message>
@@ -4076,7 +4054,7 @@ nutowy</translation>
     </message>
 </context>
 <context>
-    <name>TvolumeView</name>
+    <name>VolumeBar</name>
     <message>
         <location filename="../src/libs/sound/widgets/tvolumeview.cpp" line="42"/>
         <source>Shows volume level of input sound and indicates when the note was pitch-detected.</source>
@@ -4119,8 +4097,8 @@ nutowy</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="34"/>
-        <source>Sharps will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
-        <translation>Krzyżyki będą używane w pytaniach i odpowiedziach.&lt;br&gt;Musi być zaznaczone gdy są używane tonacje z krzyżykami.</translation>
+        <source>Sharps will be used in questions and answers. It has to be checked, if keys with sharps are used.</source>
+        <translation>Krzyżyki będą używane w pytaniach i odpowiedziach. Musi być zaznaczone gdy są używane tonacje z krzyżykami.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="36"/>
@@ -4129,8 +4107,8 @@ nutowy</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="37"/>
-        <source>Flats will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
-        <translation>Bemole będą używane w pytaniach i odpowiedziach.&lt;br&gt;Musi być zaznaczone gdy są używane tonacje z bemolami.</translation>
+        <source>Flats will be used in questions and answers. It has to be checked, if keys with flats are used.</source>
+        <translation>Bemole będą używane w pytaniach i odpowiedziach. Musi być zaznaczone gdy są używane tonacje z bemolami.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="39"/>
@@ -4168,8 +4146,8 @@ nutowy</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="52"/>
-        <source>if checked, it is possible to select a note&lt;br&gt;with given accidental only.</source>
-        <translation>Gdy zaznaczone, odpowiedź będzie wymagała podania nuty&lt;br&gt;z góry określonym znakiem.</translation>
+        <source>if checked, it is possible to select a note with given accidental only.</source>
+        <translation>Gdy zaznaczone, odpowiedź będzie wymagała podania nuty z góry określonym znakiem.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="68"/>
@@ -4177,8 +4155,8 @@ nutowy</translation>
         <translation>pojedyncza tonacja</translation>
     </message>
     <message>
-        <source>only one, selected key signature&lt;br&gt;for whole exam.</source>
-        <translation type="vanished">tylko jedna, wybrana tonacja&lt;br&gt;dla całego egzaminu.</translation>
+        <source>Only one, selected key signature for whole exam.</source>
+        <translation>Jedna, wybrana tonacja dla całego egzaminu.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="70"/>
@@ -4187,8 +4165,8 @@ nutowy</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="71"/>
-        <source>random key signature from selected range.</source>
-        <translation>losowo wybrana tonacja z zaznaczonego zakresu.</translation>
+        <source>Random key signature from selected range.</source>
+        <translation>Losowo wybrana tonacja z zaznaczonego zakresu.</translation>
     </message>
     <message>
         <source>Select a key signature.&lt;br&gt;Appropriate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
@@ -4309,7 +4287,7 @@ nutowy</translation>
     </message>
 </context>
 <context>
-    <name>questionsSettings</name>
+    <name>QuestionsPage</name>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="143"/>
         <source>require octave</source>
@@ -4362,13 +4340,13 @@ nutowy</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="163"/>
-        <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, sometimes it is needed and sometimes it makes no sense.</source>
-        <translation>Pokazuje, na której strunie ma być odpowiedź.&lt;br&gt;Ostrożnie z tym, kiedy ta opcja jest potrzebna, a kiedy nie ma sensu.</translation>
+        <source>Shows on which string an answer has to be given. Be careful, sometimes it is needed and sometimes it makes no sense.</source>
+        <translation>Pokazuje, na której strunie ma być odpowiedź. Ostrożnie z tym, kiedy ta opcja jest potrzebna, a kiedy nie ma sensu.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="172"/>
-        <source>if checked, the lowest position in selected fret range is required,&lt;br&gt;otherwise all possible positions of the note are acceptable.&lt;br&gt;To use this, all strings have to be available!</source>
-        <translation>Gdy zaznaczone, wymagana jest najniższa pozycja dźwięku w wybranym zakresie progów,&lt;br&gt;jeżeli nie - używane są wszystkie możliwe pozycje zadanej nuty.&lt;br&gt;Dla tej opcji wszystkie struny muszą być dostępne!</translation>
+        <source>if checked, the lowest position in selected fret range is required, otherwise all possible positions of the note are acceptable. To use this, all strings have to be available!</source>
+        <translation>Gdy zaznaczone, wymagana jest najniższa pozycja dźwięku w wybranym zakresie progów, jeżeli nie - używane są wszystkie możliwe pozycje zadanej nuty. Dla tej opcji wszystkie struny muszą być dostępne!</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="171"/>

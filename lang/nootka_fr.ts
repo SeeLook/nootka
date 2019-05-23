@@ -486,7 +486,7 @@ version</translation>
     </message>
 </context>
 <context>
-    <name>TanalysDialog</name>
+    <name>AnalyzeDialog</name>
     <message>
         <source>Analyze</source>
         <translation>Analyse</translation>
@@ -756,6 +756,22 @@ version</translation>
 <context>
     <name>Texam</name>
     <message>
+        <source>as note on the staff</source>
+        <translation>note sur la portée</translation>
+    </message>
+    <message>
+        <source>as note name</source>
+        <translation>nom de la note</translation>
+    </message>
+    <message>
+        <source>as position on the fingerboard</source>
+        <translation>position sur la touche</translation>
+    </message>
+    <message>
+        <source>as played sound</source>
+        <translation>son joué</translation>
+    </message>
+    <message>
         <source>play melody</source>
         <translation>Jouer la mélodie</translation>
     </message>
@@ -971,7 +987,7 @@ version</translation>
     </message>
 </context>
 <context>
-    <name>TexamSettings</name>
+    <name>ExamPage</name>
     <message>
         <source>When you will make mistake, the program will show you automatically how a correct answer should be.</source>
         <translation>En cas d&apos;erreur, le programme vous indiquera automatiquement ce que serait une réponse correcte.</translation>
@@ -1247,7 +1263,7 @@ version</translation>
     </message>
 </context>
 <context>
-    <name>TexpertAnswerHelp</name>
+    <name>ExamPage</name>
     <message>
         <source>Experts mode</source>
         <translation>Mode experts</translation>
@@ -1592,7 +1608,7 @@ version</translation>
         <translation>Jusqu&apos;à la 5e frette</translation>
     </message>
     <message>
-        <source>All chromatic notes till V-th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
+        <source>All chromatic notes till 5th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
         <translation>Toutes les notes chromatiques jusqu&apos;à la 5e frette, pas de son. &lt;br&gt; Pas d&apos;altération double. &lt;br&gt;Tonalités : do (C), sol (G), ré (D), la (A)</translation>
     </message>
     <message>
@@ -1939,7 +1955,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
 </context>
 <context>
-    <name>TmelMan</name>
+    <name>TmainScoreObject</name>
     <message>
         <source>Generate a melody with random notes.</source>
         <translation>Génère une mélodie avec des notes aléatoires.</translation>
@@ -2084,10 +2100,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <source>Naming style</source>
         <translation>Style de dénomination</translation>
-    </message>
-    <message>
-        <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
-        <translation>Style de dénomination des notes. La principale différence porte sur la 7e note.&lt;br&gt;Est-elle représentée par si et si bémol (B et Bb) ou par H et B en notation allemande ?</translation>
     </message>
     <message>
         <source>letter names</source>
@@ -2299,7 +2311,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <source>letters</source>
         <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country preferred style of naming key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
-        <translation>solfège</translation>
+        <translation>solfege</translation>
     </message>
     <message>
         <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
@@ -2335,7 +2347,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
 </context>
 <context>
-    <name>TprogressWidget</name>
+    <name>TexamView</name>
     <message>
         <source>Answered questions</source>
         <translation>Questions répondues</translation>
@@ -2363,7 +2375,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
 </context>
 <context>
-    <name>TquestionAsWdg</name>
+    <name>QuestionsPage</name>
     <message>
         <source>Select the type of answers for a question.</source>
         <translation>Sélectionnez le type de réponse associé à un type de question.</translation>
@@ -2383,22 +2395,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <source>answers</source>
         <translation>Réponses</translation>
-    </message>
-    <message>
-        <source>as note on the staff</source>
-        <translation>note sur la portée</translation>
-    </message>
-    <message>
-        <source>as note name</source>
-        <translation>nom de la note</translation>
-    </message>
-    <message>
-        <source>as position on the fingerboard</source>
-        <translation>position sur la touche</translation>
-    </message>
-    <message>
-        <source>as played sound</source>
-        <translation>son joué</translation>
     </message>
 </context>
 <context>
@@ -2496,7 +2492,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
 </context>
 <context>
-    <name>TradioClef</name>
+    <name>Tclef</name>
     <message>
         <source>Common used clef (for violin, flute, saxophones, etc.)</source>
         <translation>Clé utilisée pour le violon, la flûte, le saxophone, etc.</translation>
@@ -2534,7 +2530,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
 </context>
 <context>
-    <name>TscoreActions</name>
+    <name>TmainScoreObject</name>
     <message>
         <source>Score</source>
         <comment>it could be &apos;notation&apos;, &apos;staff&apos; or whatever is associated with that &apos;place to display musical notes&apos; and this the name is quite short and looks well.</comment>
@@ -2560,6 +2556,17 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <source>Zoom score in</source>
         <translation>Augmenter la taille de la portée</translation>
     </message>
+    <message>
+        <source>Shows names of all notes on the staff.</source>
+        <translation>Affiche le nom de toutes les notes sur la portée.</translation>
+    </message>
+    <message>
+        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
+        <translation>Affiche aussi les altérations près des notes. &lt;b&gt;Attention ! Ce n&apos;est jamais le cas dans une partition : à utiliser uniquement de manière théorique.&lt;/b&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>TscoreObject</name>
     <message>
         <source>Previous note</source>
         <translation>Note précédente</translation>
@@ -2592,14 +2599,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <source>Delete all notes</source>
         <translation>Supprimer toutes les notes</translation>
     </message>
-    <message>
-        <source>Shows names of all notes on the staff.</source>
-        <translation>Affiche le nom de toutes les notes sur la portée.</translation>
-    </message>
-    <message>
-        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
-        <translation>Affiche aussi les altérations près des notes. &lt;b&gt;Attention ! Ce n&apos;est jamais le cas dans une partition : à utiliser uniquement de manière théorique.&lt;/b&gt;</translation>
-    </message>
 </context>
 <context>
     <name>TscoreClef</name>
@@ -2627,7 +2626,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
 </context>
 <context>
-    <name>TscoreSettings</name>
+    <name>ScorePage</name>
     <message>
         <source>use single note only</source>
         <translation>Note unique</translation>
@@ -2716,6 +2715,10 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <source>show names of key signature</source>
         <translation>Afficher le nom de la tonalité</translation>
     </message>
+    <message>
+        <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
+        <translation>Style de dénomination des notes. La principale différence porte sur la 7e note.&lt;br&gt;Est-elle représentée par si et si bémol (B et Bb) ou par H et B en notation allemande ?</translation>
+    </message>
 </context>
 <context>
     <name>TsettingsDialog</name>
@@ -2780,7 +2783,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
 </context>
 <context>
-    <name>TstartExamDlg</name>
+    <name>StartExam</name>
     <message>
         <source>Start exercises or an exam</source>
         <translation>Débuter un exercice ou un examen</translation>
@@ -2830,7 +2833,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>Aucun niveau n&apos;a été sélectionné !</translation>
     </message>
     <message>
-        <source>Give a user name!</source>
+        <source>Give an user name!</source>
         <translation>Donnez un nom d&apos;utilisateur !</translation>
     </message>
     <message>
@@ -3211,16 +3214,16 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>#  dièses</translation>
     </message>
     <message>
-        <source>Sharps will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
-        <translation>Les dièses seront utilisés dans les questions et les réponses des examens.&lt;br&gt;Cochez cette case pour utiliser les tonalités écrites avec des dièses.</translation>
+        <source>Sharps will be used in questions and answers. It has to be checked, if keys with sharps are used.</source>
+        <translation>Les dièses seront utilisés dans les questions et les réponses des examens. Cochez cette case pour utiliser les tonalités écrites avec des dièses.</translation>
     </message>
     <message>
         <source>b - flats</source>
         <translation>b  bémols</translation>
     </message>
     <message>
-        <source>Flats will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
-        <translation>Les bémols seront utilisés dans les questions et les réponses des examens.&lt;br&gt;Cochez cette case pour utiliser les tonalités écrites avec des bémols.</translation>
+        <source>Flats will be used in questions and answers. It has to be checked, if keys with flats are used.</source>
+        <translation>Les bémols seront utilisés dans les questions et les réponses des examens. Cochez cette case pour utiliser les tonalités écrites avec des bémols.</translation>
     </message>
     <message>
         <source>x, bb - double accidentals</source>
@@ -3231,8 +3234,8 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>Forcer l&apos;utilisation d&apos;altérations appropriées</translation>
     </message>
     <message>
-        <source>if checked, it is possible to select a note&lt;br&gt;with given accidental only.</source>
-        <translation>Lorsque cette case est cochée, il est seulement possible&lt;br&gt;de choisir une note avec l&apos;altération appropriée.</translation>
+        <source>if checked, it is possible to select a note with given accidental only.</source>
+        <translation>Lorsque cette case est cochée, il est seulement possible de choisir une note avec l&apos;altération appropriée.</translation>
     </message>
     <message>
         <source>use key signatures</source>
@@ -3247,7 +3250,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>Ensemble des tonalités</translation>
     </message>
     <message>
-        <source>random key signature from selected range.</source>
+        <source>Random key signature from selected range.</source>
         <translation>Tonalité aléatoire dans un ensemble choisi.</translation>
     </message>
     <message>
@@ -3267,12 +3270,12 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>Altérations</translation>
     </message>
     <message>
-        <source>only one, selected key signature for whole exam.</source>
+        <source>Only one, selected key signature for whole exam.</source>
         <translation>Une seule tonalité pour l&apos;examen complet.</translation>
     </message>
     <message>
-        <source>Select a key signature. Appropriate accidentals used in exam will be automatically selected!</source>
-        <translation>Sélectionnez une tonalité. Pour l&apos;examen, les altérations appropriées seront sélectionnées automatiquement !</translation>
+        <source>Select a key signature. Appropriate accidentals used in exam will be automatically selected</source>
+        <translation>Sélectionnez une tonalité. Pour l&apos;examen, les altérations appropriées seront sélectionnées automatiquement.</translation>
     </message>
     <message>
         <source>if checked, in exam user have to select a key signature, otherwise it is shown by application.</source>
@@ -3349,7 +3352,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
 </context>
 <context>
-    <name>questionsSettings</name>
+    <name>QuestionsPage</name>
     <message>
         <source>single note</source>
         <translation>Note unique</translation>
@@ -3375,15 +3378,15 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <translation>Afficher le nombre de cordes dans les questions</translation>
     </message>
     <message>
-        <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, sometimes it is needed and sometimes it makes no sense.</source>
-        <translation>Affiche sur quelle corde la réponse doit être donnée.&lt;br&gt;Attention, ceci peut être nécessaire ou, parfois, ne pas avoir de sens.</translation>
+        <source>Shows on which string an answer has to be given. Be careful, sometimes it is needed and sometimes it makes no sense.</source>
+        <translation>Affiche sur quelle corde la réponse doit être donnée. Attention, ceci peut être nécessaire ou, parfois, ne pas avoir de sens.</translation>
     </message>
     <message>
         <source>notes in the lowest position only</source>
         <translation>Uniquement les notes dans les positions les plus basses</translation>
     </message>
     <message>
-        <source>if checked, the lowest position in selected fret range is required,&lt;br&gt;otherwise all possible positions of the note are acceptable.&lt;br&gt;To use this, all strings have to be available!</source>
+        <source>if checked, the lowest position in selected fret range is required, otherwise all possible positions of the note are acceptable. To use this, all strings have to be available!</source>
         <translation>Lorsque cette case est cochée, seule la position la plus basse (par exemple une corde a vide) pour jouer une note donnée est utilisée dans les questions/réponses. Sinon, toutes les positions possibles peuvent être utilisées. Toutes les cordes doivent être disponibles pour utiliser ce paramètre !</translation>
     </message>
 </context>
