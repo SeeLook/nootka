@@ -2,6 +2,125 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="xx_XX">
 <context>
+    <name>AccidsPage</name>
+    <message>
+        <source>accidentals</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source># - sharps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>b - flats</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>x, bb - double accidentals</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>force using appropriate accidental</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>single key</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>range of keys</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a key signature. Appropriate accidentals used in this level will be selected automatically.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>select a key signature manually</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>if checked, in exam user have to select a key signature, otherwise it is shown by application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Only notes from current key signature are taken. If key signature is disabled accidentals are not used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>notes in current key signature only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sharps will be used in questions and answers. It has to be checked, if keys with sharps are used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Flats will be used in questions and answers. It has to be checked, if keys with flats are used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>if checked, it is possible to select a note with given accidental only.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Only one, selected key signature for whole exam.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Random key signature from selected range.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AnalyzeDialog</name>
+    <message>
+        <source>linear chart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>bar chart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Y value:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ordered by:</source>
+        <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>student name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>level:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Question number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Analyze</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Press %1 button to select an exam from a file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click and Drag the cursor to move the chart.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>AnswerText</name>
     <message>
         <source>Good answer!</source>
@@ -82,255 +201,132 @@
         <source>wrong strings</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>AudioInSettings</name>
     <message>
-        <source>input device</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>minimum note duration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>[milliseconds]</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Only sounds longer than the selected time will be pitch-detected.&lt;br&gt;Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>pitch detection mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>minimum volume</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Minimum volume of a sound to be pitch-detected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>middle A</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>frequency:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The base frequency of &lt;i&gt;middle a&lt;/i&gt;.&lt;br&gt;Detection of the proper pitch of notes is relative to this value. This also affects the pitch of played sounds.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>interval:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>none</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shifts the frequency of &lt;i&gt;middle a&lt;/i&gt;. It can be used as a transposition.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>up</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>down</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Test</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Stop</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Check, are your audio input settings appropriate?&lt;br&gt;And how well does pitch detection work for your selected settings?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Detected pitch</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>enable pitch detection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>no devices found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Frequency of detected note. You can use this for tuning.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <source>%n semitone(s)</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Input device and pitch detection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&apos;Middle a&apos; and transposition</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Advanced</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>split when volume rise</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>skip stiller than</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>noise filter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>adjust to instrument</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Test the settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Helps to properly detect the same notes repeated quickly on the guitar.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Skips stiller sounds, below given percent of average volume. It prevents detecting of harmonics on classical or acoustic guitar but requires playing with similar strength.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>It is rather necessary for mic input but may be switched off for instrument line-in plugged with less noise.</source>
+        <source>incorrect rhythm</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>AudioOutSettings</name>
+    <name>Certificate</name>
     <message>
-        <source>play sound</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Selected notes and guitar positions will be played.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>real audio playback</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>audio device for output</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>midi playback</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>midi port</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>instrument</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Grand Piano</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Harpsichord</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Classical Guitar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Acoustic Guitar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Electric Guitar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Electric Guitar (Overdriven)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Bass Guitar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Violin</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sax</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Flute</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>no midi ports</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>no devices found</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>forward input to output</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>All sounds captured by audio input will be forwarded directly to output device.</source>
+        <source>Stop exam</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>Einstrument</name>
+    <name>EndOnTonicTile</name>
     <message>
-        <source>other instrument</source>
+        <source>Determines the last note of a melody.&lt;br&gt;When set, melody will be finished on tonic note in actual key signature.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Classical Guitar</source>
+        <source>Melody ends on tonic note</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ExamPage</name>
+    <message>
+        <source>Default name for every new exam or exercise.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Electric Guitar</source>
+        <source>When you will make mistake, the program will show you automatically how a correct answer should be.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Bass Guitar</source>
+        <source>color of questions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>color of answers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>color of &apos;not bad&apos; answers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>suggest an exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Watch exercising progress and when it is going well, suggest to start an exam on the exercise level.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>wait for correct note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When melody is played from score, every note is checked immediately and next note can be played only when the previous one was correct. When unset, notes are checked only after playing the last one (or check button was clicked).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>show wrong played</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When answer was played (or sung) and it was wrong also the detected wrong note is shown.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>extra names</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To improve association of note in the score or position on the instrument to note name, Nootka will display names even if neither question nor answer is related to it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>repeat a question</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A question with an incorrect answer will be asked once again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>close without confirm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If checked, an application will not ask to answer pending question just mark it as wrong, save an exam to file (in directory: %1) and close itself without any confirmation needed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Experts mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You are about to enter expert mode.&lt;br&gt; In this mode you don&apos;t need to confirm every answer,&lt;br&gt;&lt;b&gt;but remember the following:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selecting a note on the score or a position on the fingerboard invokes automatic checking of your answer, so select a key signature first, if required.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When an answer is the name of a note &lt;b&gt;first select a proper accidental and an octave&lt;/b&gt; and then click a note button - this automatically invokes checking.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When you have to play a note as an answer - the first detected sound will be taken, so be sure that your input device captures exactly what you want.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When the last note of question that is a melody was played - checking starts.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ExamSummary</name>
+    <message>
+        <source>Analyze</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pass an exam</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -355,6 +351,332 @@
     </message>
     <message>
         <source>Nootka exam file</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>GlobalPage</name>
+    <message>
+        <source>default</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>enable animations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>show hints</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scaling factor of visible texts and others GUI elements.&lt;br&gt;Requires application restart.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>scale</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>InstrumentPage</name>
+    <message>
+        <source>Instrument</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>number of frets:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>number of strings:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>scale of an instrument</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>tuning of the guitar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select appropriate tuning from the list or prepare your own.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remember to select the appropriate clef in Score settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Difference between score notation and real sound pitch.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>preferred accidentals:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source># - sharps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>b - flats</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Choose which accidentals will be shown on the staff.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>show all possibilities of a note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>As you know, the same note can be played in several places on the fingerboard.&lt;br&gt;If checked, all of them will be shown.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>marked frets</source>
+        <comment>or frets with dots/marks</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Put numbers of frets marked with dot. Separate the numbers with comma. Add ! (exclamation mark) after a number to paint a dot twice.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>color of a pointer on an instrument</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>color of a selection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom tuning</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LevelCreator</name>
+    <message>
+        <source>Levels</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Questions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Melody</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rhythms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Accidentals</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Range</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Answers</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LevelsPage</name>
+    <message>
+        <source>Start exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start exercise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Get more levels &lt;a href=&quot;%1&quot;&gt;from Nootka home page&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>LevelsSelector</name>
+    <message>
+        <source>Load</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MainMenuMobile</name>
+    <message>
+        <source>Pitch recognition</source>
+        <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Metronome</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>exit</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MainScore</name>
+    <message>
+        <source>Note by note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MaxIntervalTile</name>
+    <message>
+        <source>Maximal interval between notes used in a melody (in semitones).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Max interval</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MelGenDialog</name>
+    <message>
+        <source>Measures number</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MelodyNameDialog</name>
+    <message>
+        <source>Title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nootka melody</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Composer</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MelodyPage</name>
+    <message>
+        <source>They will be transposed if key signatures are set to be used and any of them differs from the key(s) defined below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Melodies are composed from a note range defined on the &apos;Range&apos; page.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Melodies are composed from notes selected on the score below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Melodies are randomized from defined list of melodies.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Random melody</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>in selected range</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>from notes below</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>from the list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Melody length</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play in tempo</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>NameStyleSelector</name>
+    <message>
+        <source>Naming style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scandinavian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>German</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Italian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>English</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dutch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Russian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>letter names</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>solfege names</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Notation</name>
+    <message>
+        <source>b</source>
+        <comment>Give here a name of 7-th note preferred in your country. But only &apos;b&apos; or &apos;h&apos; not &apos;si&apos; or something worst...</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>letters</source>
+        <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country preferred style of naming key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>OutScaleTip</name>
+    <message>
+        <source>Out of instrument scale!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -388,36 +710,474 @@
     </message>
 </context>
 <context>
+    <name>QuestionsBox</name>
+    <message>
+        <source>Select the type of answers for this kind of question.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>answers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>question</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>questions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>answer</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QuestionsPage</name>
+    <message>
+        <source>single note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>melodies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Kind of questions and answers:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Question</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>require octave</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>if checked, selecting of valid octave is required</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>use different naming styles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>if checked, note names are switched between letters and solfege.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>show string number in questions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>notes in the lowest position only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shows on which string an answer has to be given. Be careful, sometimes it is needed and sometimes it makes no sense.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>if checked, the lowest position in selected fret range is required, otherwise all possible positions of the note are acceptable. To use this, all strings have to be available!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RangePage</name>
+    <message>
+        <source>note range:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>adjust fret range</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust fret range in a level to currently selected note range</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>fret range:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>from</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>to</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>adjust note range</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust note range in a level to currently selected fret range</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Uncheck strings if you want to skip them in an exam.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>available strings:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RemoveLevel</name>
+    <message>
+        <source>Remove level %1 from the list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Also delete level file:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RhythmDiversityTile</name>
+    <message>
+        <source>Smaller values - less number of selected rhythmic note groups will be used, biggest value - melody will consist maximal possible number of selected groups.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rhythmic diversity</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RhythmSelector</name>
+    <message>
+        <source>rhythmic groups</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Filters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>basic rhythms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>rhythms with dots</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>RhythmsPage</name>
+    <message>
+        <source>Select any rhythm and time signature to be used in this level, otherwise melodies will not have rhythmic values, just bare note-heads.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Number of measures in a melody. If &apos;variable&apos; is set, it will grow up to the given value as an exercise or an exam is progressing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>variable</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ScoreMenuContent</name>
+    <message>
+        <source>notes</source>
+        <comment>musical notes of course</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ScorePage</name>
+    <message>
+        <source>Score settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Key signatures</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clefs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notes naming</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use rhythms or only bare note heads.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>enable rhythms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Octave numbers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>scientific</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>musical</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scientific (international) pitch notation is widely used in technical sources and tuning devices/applications, when the other notation style is used more in music publications.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show names of all notes on the score</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>names highlight color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When enabled, a score displays only a single note.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>use single note only</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shows enharmonic variants of notes.&lt;br&gt;i.e.: the note E is also Fb (F flat) &lt;i&gt;and&lt;/i&gt; Dx (D with double sharp).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>show enharmonic variants of notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>color of enharmonic notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If checked, you can use double sharps and double flats.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>use double accidentals</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>note-cursor color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>enable key signature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>show names of key signature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Naming extension</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select default clef for the application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remember! Not all clefs are suitable for some possible tunings or instrument types!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Select7note</name>
     <message>
         <source>7th note is:</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>SoundPage</name>
     <message>
-        <source>7th note is &lt;b&gt;B&lt;/b&gt; and with flat is &lt;b&gt;Bb&lt;/b&gt; or &lt;b&gt;bes&lt;/b&gt; or &lt;b&gt;bs&lt;/b&gt;</source>
+        <source>listening</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>7th note is &lt;b&gt;H&lt;/b&gt; and with flat is &lt;b&gt;Hb&lt;/b&gt; or &lt;b&gt;B&lt;/b&gt;</source>
+        <source>playing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>enable pitch detection</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>input device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Only sounds longer than the selected time will be pitch-detected.&lt;br&gt;Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>minimum note duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>[milliseconds]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimum volume of a sound to be pitch-detected</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>minimum volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The base frequency of &lt;i&gt;middle a&lt;/i&gt;.&lt;br&gt;Detection of the proper pitch of notes is relative to this value. This also affects the pitch of played sounds.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>middle A</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>[Hz]</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>pitch detection mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Helps to properly detect the same notes repeated quickly on the guitar.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>split when volume rise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Skips stiller sounds, below given percent of average volume. It prevents detecting of harmonics on classical or acoustic guitar but requires playing with similar strength.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>skip stiller than</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It is rather necessary for mic input but may be switched off for an instrument plugged line-in with less noise.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>noise filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>play sound</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>output device</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All sounds captured by audio input will be forwarded directly to output device.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>forward input to output</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>no devices found</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frequency of detected note. You can use this for tuning.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>Tabout</name>
+    <name>StartExam</name>
     <message>
-        <source>Welcome on board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.&lt;br&gt;It is specially designed for guitarists but others will find many usable features as well.</source>
+        <source>student name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
+        <source>Enter your name or nick-name.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
+        <source>To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
+        <source>Start exercise on level:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No level was selected!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pass new exam on level:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select an exam to continue</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Latest exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start exercises or an exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Give an user name!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SupportPage</name>
+    <message>
+        <source>Donate Nootka campaign</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Through PayPal or a card</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>or send email for an account number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You also can help with making Nootka better.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -636,62 +1396,13 @@
     </message>
 </context>
 <context>
-    <name>Tcanvas</name>
+    <name>TchartTipItem</name>
     <message>
-        <source>%1 was detected</source>
-        <comment>note name</comment>
+        <source>question</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Try again!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To correct an answer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To try this melody again</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To see corrected answer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To see some hints</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To check the answer confirm it:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Check in exam help %1 how to do it automatically</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select any note to play it again.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>too low</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>too high</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You are exercising on level</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Exam started on level</source>
+        <source>answer</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -738,15 +1449,93 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>clef F dropped octave down</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>clef C</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>treble and bass clefs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>neutral</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clef for bass guitar and double bass, also used for cello and trombone.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>percussion clef</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For rhythms only, note pitch is undefined.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Common used clef (for violin, flute, saxophones, etc.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clef for guitars (classical, electric and so)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sometimes it is called clef for viola and mostly used for this instrument.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TempoBar</name>
+    <message>
+        <source>Metronome</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tempo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tuner</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TempoMenu</name>
+    <message>
+        <source>tempo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tap tempo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable metronome ticking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Count up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tick first, then play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tick during play</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tick when pitch detecting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>round to:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -779,6 +1568,30 @@
         <source>Listen to a melody and write it on a score</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Listen to a melody and repeat it on your instrument</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>repeat melody</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>as note on the staff</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>as note name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>on instrument</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>as played sound</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TexamExecutor</name>
@@ -796,14 +1609,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Such a pity.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Save exam results as:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -812,15 +1617,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This note was not played!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Exercises with Nootka</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>finish exercising</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -828,11 +1625,43 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>stop the exam</source>
+        <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
+        <source>Exercise or exam preferences</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>repeat previous question (backspace)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>next question
+(space %1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play &lt;i&gt;middle a&lt;/i&gt; like a tuning fork.
+(Press key &apos;a&apos;)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>play sound again</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Try this melody once again. (backspace)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>check answer
+(enter %1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>correct answer
+(enter)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -966,133 +1795,6 @@
     </message>
 </context>
 <context>
-    <name>TexamSettings</name>
-    <message>
-        <source>When you will make mistake, the program will show you automatically how a correct answer should be.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Preview time of corrected answer when next question is asked automatically.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delay before every next question when it is asked automatically.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>A time of displaying incorrect answers.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>suggest an exam</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Watch exercising progress and when it is going well, suggest to start an exam on the exercise level.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>show wrong played</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>When answer was played (or sung) and it was wrong also the detected wrong note is shown.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>repeat a question</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>A question with an incorrect answer will be asked once again.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>close without confirm</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If checked, an application will not ask to answer pending question just mark it as wrong, save an exam to file (in directory: %1) and close itself without any confirmation needed.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Student Name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Default name for every new exam or exercise.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>questions</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>color of questions</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>color of wrong answers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>answers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>color of answers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&apos;not bad&apos;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>color of &apos;not bad&apos; answers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>after mistake:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>continue</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>wait</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>stop</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>When &lt;b&gt;&apos;ask next question automatically&apos;&lt;/b&gt; is checked and you commit a mistake, the program can: &lt;b&gt;continue asking immediately&lt;/b&gt;, &lt;b&gt;wait defined period of time&lt;/b&gt; or &lt;b&gt;stop questioning&lt;/b&gt;, to give you possibility to analyze what was wrong.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>extra names</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To improve association of note in the score or position on the guitar to note name, Nootka will display names even if neither question nor answer is related to it.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>colors</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>exercises</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>exams</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>TexamSummary</name>
     <message>
         <source>Exam results</source>
@@ -1100,22 +1802,6 @@
     </message>
     <message>
         <source>student:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Number of questions:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>times:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Time taken to answer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Analyze</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1162,31 +1848,11 @@
         <source>Progress of exercises</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Pass an exam</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Finish exercise and pass an exam on this level.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Finish this exercise</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Send exam file</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>TexamView</name>
     <message>
         <source>Exam results</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Effectiveness of whole exam (and effectiveness of current question).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1225,6 +1891,43 @@
         <source>(counted as half of a mistake)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Answered questions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unanswered questions</source>
+        <comment>could be also: &apos;rest of the questions&apos; or &apos;remaining questions&apos;</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total questions in this exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>penalties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exam effectiveness (this question effectiveness)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Answer time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exam time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Progress of the exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exam was finished</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TexecutorSupply</name>
@@ -1242,37 +1945,6 @@
     </message>
 </context>
 <context>
-    <name>TexpertAnswerHelp</name>
-    <message>
-        <source>Experts mode</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You are about to enter expert mode.&lt;br&gt; In this mode you don&apos;t need to confirm every answer,&lt;br&gt;&lt;b&gt;but remember the following:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Selecting a note on the score or a position on the fingerboard invokes automatic checking of your answer, so select a key signature first, if required.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>When an answer is the name of a note &lt;b&gt;first select a proper accidental and an octave&lt;/b&gt; and then click a note button - this automatically invokes checking.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>When you have to play a note as an answer - the first detected sound will be taken, so be sure that your input device captures exactly what you want.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>When the last note of question that is a melody was played - checking starts.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Always remind me about this</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>TfileDialog</name>
     <message>
         <source>Memory card</source>
@@ -1284,47 +1956,9 @@
     </message>
 </context>
 <context>
-    <name>TfingerBoard</name>
-    <message>
-        <source>Select a string or fret and click to see it on the staff.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This note is beyond the scale of the guitar!</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TfirstRunWizard</name>
-    <message>
-        <source>First run wizard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>What instrument do you play?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>When writing notation for bass guitar, the &lt;b&gt;bass clef&lt;/b&gt; is used but the played notes sound an octave lower. The proper clef is &lt;b&gt;bass dropped clef&lt;/b&gt; (with the digit &quot;eight&quot; written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;b&gt;&lt;big&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>TglobalSettings</name>
     <message>
-        <source>Application language</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Select a language.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;To take effect, this requires restarting the application!&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1356,92 +1990,6 @@
     </message>
 </context>
 <context>
-    <name>TguitarSettings</name>
-    <message>
-        <source>tuning of the guitar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>scale of an instrument</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select appropriate tuning from the list or prepare your own.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remember to select the appropriate clef in Score settings.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Instrument</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>right-handed players</source>
-        <comment>When translation will be too long try to add &apos;
-&apos; - line break between words.</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Uncheck this if you are left-handed&lt;br&gt;and your guitar is strung for left-handed playing (changed string order)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>number of frets:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>number of strings:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>preferred accidentals:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Choose which accidentals will be shown on the staff.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source># - sharps</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>b - flats</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Put numbers of frets marked with dot. Separate the numbers with comma. Add ! (exclamation mark) after a number to paint a dot twice.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>marked frets</source>
-        <comment>or frets with dots/marks</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>show all possibilities of a note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>As you know, the same note can be played in several places on the fingerboard.&lt;br&gt;If checked, all of them will be shown.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>color of string/fret pointer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>color of selected string/fret</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Custom tuning</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>ThelpDialogBase</name>
     <message>
         <source>Nootka help</source>
@@ -1451,88 +1999,43 @@
         <source>always show this help window</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>TintonationCombo</name>
     <message>
-        <source>intonation accuracy</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>do not check</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>gums pain</source>
-        <comment>We used to say that gums or teeth are paining when music is out of tune but it isn&apos;t official term.</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>violinist beginner</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>old strings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>well tuned instrument</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>perfect</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>cents</source>
-        <comment>unit of measure used for musical intervals. This text always is used in context: &apos; ±	[5, 10, 20, 30] cents &apos; </comment>
+        <source>Open online documentation</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>TlaySettings</name>
+    <name>Tinstrument</name>
     <message>
-        <source>tool bar</source>
+        <source>other instrument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>auto hide</source>
+        <source>Classical Guitar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>text under icons</source>
+        <source>Electric Guitar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>icons only</source>
+        <source>Bass Guitar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>text only</source>
+        <source>Piano</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>hints</source>
+        <source>Bandoneon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>sound bar</source>
+        <source>Alt Saxophone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>There is no Nootka without a score!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>But you can hide even all the rest of widgets to see a score only.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>guitar</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show or hide main window elements.</source>
+        <source>Tenor Saxophone</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1587,10 +2090,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>All chromatic notes till V-th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Ear training</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1630,35 +2129,19 @@
         <source>Play melody composed from pentatonic scale, every time in different key signature.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Some note of C-major scale point on the instrument, or give its name or show in the score.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All chromatic notes till 5th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>TlevelCreatorDlg</name>
+    <name>TlevelCreatorItem</name>
     <message>
-        <source>Questions</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Accidentals</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Range</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Check</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Check, Are your settings for the level possible to perform.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>level not saved!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Level was changed and not saved!</source>
+        <source>Level creator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1667,6 +2150,22 @@
     </message>
     <message>
         <source>Cannot open file for writing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Level validation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Level seems to be correct</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>level not saved!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Level was changed and not saved!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1710,19 +2209,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Level validation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Level seems to be correct</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;center&gt;&lt;b&gt;It seems the level has some mistakes:&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Levels creator</source>
+        <source>Seems like this level has some mistakes</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1742,17 +2229,9 @@
     </message>
 </context>
 <context>
-    <name>TlevelPreview</name>
+    <name>TlevelPreviewItem</name>
     <message>
         <source>Level summary:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>no level selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>fix an instrument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1780,11 +2259,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>note range:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>fret range:</source>
+        <source>no level selected</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1809,22 +2284,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Load</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Load level from file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Load exam&apos;s level</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>File: %1 
  is not Nootka level file!</source>
         <translation type="unfinished"></translation>
@@ -1842,6 +2301,10 @@
     </message>
     <message>
         <source>Range of notes in the level is beyond the scale of your instrument</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Load exam level</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1921,24 +2384,45 @@
     </message>
 </context>
 <context>
-    <name>TmainView</name>
+    <name>TmainScoreObject</name>
     <message>
-        <source>score menu</source>
+        <source>Show note names</source>
         <translation type="unfinished"></translation>
     </message>
-</context>
-<context>
-    <name>TmelMan</name>
+    <message>
+        <source>Shows names of all notes on the staff.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Additional accidentals</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zoom score out</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zoom score in</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Notes are written on the score one by one. Either playing, selecting fret or note name adds a new note to the staff automatically.</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <source>Generate a melody with random notes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Melody</source>
+        <source>Next note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Open, save, generate and play a melody.</source>
+        <source>Previous note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1954,59 +2438,43 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Play melody</source>
+        <source>Score</source>
+        <comment>it could be &apos;notation&apos;, &apos;staff&apos; or whatever is associated with that &apos;place to display musical notes&apos; and this the name is quite short and looks well.</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Note by note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Notes are written on the score one by one. Either playing, selecting fret or note name adds a new note to the staff automatically.</source>
+        <source>Manage and navigate the score.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Generate melody</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Melody</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open, save, generate and play a melody.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
-    <name>TmelodySettings</name>
+    <name>TnameItem</name>
     <message>
-        <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
+        <source>Octaves</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Melody length</source>
+        <source>Click to see what &lt;i&gt;octaves&lt;/i&gt; are at &quot;http://en.wikipedia.org/wiki/Octave&quot;</source>
+        <comment>You can change this link to article in your language, but please KEEP QUOTATION MARKS AROUND THAT ADDRESS!</comment>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Melody ends on tonic note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Determines the last note of a melody.&lt;br&gt;When set, melody will be finished on tonic note in actual key signature.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>in selected range</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>from notes below</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Melodies are composed from a note range defined on the &apos;Range&apos; page.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Melodies are composed from notes selected on the score below.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Random melody</source>
-        <translation type="unfinished"></translation>
+    <message numerus="yes">
+        <source>The octave &lt;b&gt;%n&lt;/b&gt; in International Pitch Notation</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -2069,76 +2537,9 @@
     </message>
 </context>
 <context>
-    <name>TnotationRadioGroup</name>
+    <name>TnootkaQML</name>
     <message>
-        <source>Naming style</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>letter names</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>solfege names</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Scandinavian</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Italian</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>German</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>English</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Dutch</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Russian</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TnoteControl</name>
-    <message>
-        <source>Click to add a new note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Click %1 to remove a note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Click %1 to edit note name</source>
+        <source>Analysis of exam results</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2208,46 +2609,6 @@
         <source>Four-line octave</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Next note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Previous note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Click to see what &lt;i&gt;octaves&lt;/i&gt; are at &quot;http://en.wikipedia.org/wiki/Octave&quot;</source>
-        <comment>You can change this link to article in your language. Leave quotation matks around the address!</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Octaves</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TnoteNameSettings</name>
-    <message>
-        <source>names highlight color</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>show octave in name of note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shows formatted note name. For small octave - the name is small letter,&lt;br&gt;for great octave - the name starts with a capital letter,&lt;br&gt;for one-line, digit &lt;sup&gt;1&lt;/sup&gt; is added, and so on.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>note name on the staff</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shows names of all notes on the staff.</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>TouchHelp</name>
@@ -2265,126 +2626,185 @@
     </message>
 </context>
 <context>
-    <name>Tpage_2</name>
+    <name>Transposition</name>
     <message>
-        <source>Select a clef and scale of notes appropriate for your instrument.</source>
+        <source>Transposition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <source>semitone(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>down</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>Tpage_3</name>
+    <name>TscoreObject</name>
     <message>
-        <source>b</source>
-        <comment>Give here a name of 7-th note preferred in your country. But only &apos;b&apos; or &apos;h&apos; not &apos;si&apos; or something worst...</comment>
+        <source>Delete note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>letters</source>
-        <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country preferred style of naming key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
+        <source>Insert note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
+        <source>Delete all notes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>I know about double sharps (x) and double flats (bb)</source>
+        <source>Edit score</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>I know that e# is the same as f</source>
+        <source>whole note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>I know about key signatures</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TpitchView</name>
-    <message>
-        <source>Intonation - clarity of the sound. Is it in tune.</source>
+        <source>half note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Click note symbol to change it.</source>
+        <source>quarter note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Pitch recognition</source>
-        <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TprogressWidget</name>
-    <message>
-        <source>Answered questions</source>
+        <source>eighth note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Unanswered questions</source>
-        <comment>could be also: &apos;rest of the questions&apos; or &apos;remaining questions&apos;</comment>
+        <source>sixteenth note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Total questions in this exam</source>
+        <source>rest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>penalties</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Progress of the exam</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Exam was finished</source>
+        <source>dot</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>TquestionAsWdg</name>
+    <name>TscoreSettings</name>
     <message>
-        <source>Select the type of answers for a question.</source>
+        <source>in the major keys:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>question</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>questions</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>answer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>answers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>as note on the staff</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>as note name</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>as position on the fingerboard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>as played sound</source>
+        <source>for example</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>TquestionTip</name>
+    <name>TsettingsDialog</name>
+    <message>
+        <source>application&apos;s settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Common</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Score</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Instrument</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sound</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exercises</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TsettingsDialogBase</name>
+    <message>
+        <source>Open online documentation</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TstartExamDlg</name>
+    <message>
+        <source>To exercise or to pass an exam?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exam results</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Load an exam file</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TstatisticTip</name>
+    <message>
+        <source>Statistics</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TsuggestExam</name>
+    <message>
+        <source>Start an exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You are very good in this exercise!&lt;br&gt;Would you like to pass an exam on the same level and got a certificate?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sure! Lets start an exam!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not now, ask me for a moment.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Not in this exercise.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Never more suggest me to start an exam!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>OK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No thanks, but check entire melody from now.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TtipHandler</name>
+    <message>
+        <source>Try again!</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <source>Use %1</source>
         <translation type="unfinished"></translation>
@@ -2406,6 +2826,30 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>To check the answer confirm it:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check in exam help %1 how to do it automatically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To correct an answer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To try this melody again</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To see corrected answer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To see some hints</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Change enharmonically and show on the staff</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2424,6 +2868,10 @@
     </message>
     <message>
         <source>Show on the guitar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Point on the instrument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2469,443 +2917,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Listened sound show on the guitar</source>
+        <source>Listened sound show on the instrument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Play or sing listened sound</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TradioClef</name>
-    <message>
-        <source>Common used clef (for violin, flute, saxophones, etc.)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Clef for guitars (classical, electric and so)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> Bottom clef on the grand staff but also used for cello, trombone, etc.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> Clef for bass guitar and double bass.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sometimes it is called clef for viola and mostly used for this instrument.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TremoveLevel</name>
-    <message>
-        <source>Also delete level file:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove level %1 from the list</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TscoreActions</name>
-    <message>
-        <source>Score</source>
-        <comment>it could be &apos;notation&apos;, &apos;staff&apos; or whatever is associated with that &apos;place to display musical notes&apos; and this the name is quite short and looks well.</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Manage and navigate the score.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Additional accidentals</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show note names</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zoom score out</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zoom score in</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Previous note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>First note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Staff above</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Staff below</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Last note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Next note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delete note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Delete all notes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shows names of all notes on the staff.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TscoreClef</name>
-    <message>
-        <source>Click to select another clef.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TscoreKeySignature</name>
-    <message>
-        <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TscoreNote</name>
-    <message>
-        <source>Click to enter a note, use horizontal scroll to change accidental.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Right mouse button just selects a note.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TscoreSettings</name>
-    <message>
-        <source>use single note only</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>When enabled, a score displays only a single note.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>show enharmonic variants of notes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shows enharmonic variants of notes.&lt;br&gt;i.e.: the note E is also Fb (F flat) &lt;i&gt;and&lt;/i&gt; Dx (D with double sharp).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>color of enharmonic notes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>use double accidentals</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If checked, you can use double sharps and double flats.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>tempo of played notes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>note-cursor color</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>enable key signature</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Naming extension</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>in the major keys:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>in the minor keys:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Default clef</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select default clef for the application.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remember! Not all clefs are suitable for some possible tunings or instrument types!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Score settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Key signatures</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Clefs</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Notes naming</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>for example</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>show names of key signature</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TsettingsDialog</name>
-    <message>
-        <source>application&apos;s settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Simple exam settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Simple exercise settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Common</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Score</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Instrument</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sound</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Exercises</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Exam</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Appearance</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Restore default settings for above parameters.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>listening</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>playing</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TsettingsDialogBase</name>
-    <message>
-        <source>Open online documentation</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TstartExamDlg</name>
-    <message>
-        <source>Start exercises or an exam</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>student name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enter your name or nick-name.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select a level suitable for you&lt;br&gt;or create new one.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Dialog window for creating new level&lt;br&gt;will be opened.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Create new level</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Click and select an exam to continue</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>recent opened exams:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Start exercise on level:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Continue the latest exam:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No level was selected!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Give a user name!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Pass new exam on level:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To exercise or to pass an exam?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Exam results</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Load an exam file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Continue exam</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Latest exam</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TstatisticTip</name>
-    <message>
-        <source>Statistics</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TsuggestExam</name>
-    <message>
-        <source>Start an exam</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You are very good in this exercise!&lt;br&gt;Would you like to pass an exam on the same level and got a certificate?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sure! Lets start an exam!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Not now, ask me for a moment.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Not in this exercise.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Never more suggest me to start an exam!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TsupportNootka</name>
-    <message>
-        <source>You also can help with making Nootka better.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Donate Nootka campaign</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Through PayPal or a card</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>or send email for an account number</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is too old for that…&lt;br&gt;Donate Nootka, please.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2943,23 +2959,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Analyze</source>
-        <comment>could be Chart as well</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Analysis of exam results</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>About Nootka</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Level</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2980,17 +2979,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Exercise or exam preferences</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Next</source>
         <comment>like a next question</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>next question
-(space %1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2999,25 +2989,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>repeat previous question (backspace)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Check</source>
         <comment>like a check answer</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>check answer
-(enter %1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>play sound again</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3026,21 +3003,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>correct answer
-(enter)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Play &lt;i&gt;middle a&lt;/i&gt; like a tuning fork.
-(Press key &apos;a&apos;)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Try again</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Try this melody once again. (backspace)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3048,11 +3011,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Next</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Correct</source>
+        <source>Analyze</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3096,9 +3055,9 @@
     </message>
 </context>
 <context>
-    <name>TupdateChecker</name>
+    <name>TunerDialog</name>
     <message>
-        <source>Checking for updates. Please wait...</source>
+        <source>Nooter - Nootka tuner</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3153,9 +3112,9 @@
     </message>
 </context>
 <context>
-    <name>TvolumeView</name>
+    <name>VolumeBar</name>
     <message>
-        <source>Shows volume level of input sound and indicates when the note was pitch-detected.</source>
+        <source>Volume level of input sound.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3163,7 +3122,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Switch on/off pitch detection</source>
+        <source>Start/stop pitch detection</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3175,89 +3134,63 @@
     </message>
 </context>
 <context>
-    <name>about translator</name>
+    <name>Wizard</name>
     <message>
-        <source>translator</source>
-        <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
+        <source>First run wizard</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
-    <name>accidSettings</name>
+    <name>WizardBass</name>
     <message>
-        <source># - sharps</source>
+        <source>Musical notation for bass guitar uses bass clef (clef F), but the notes sound one octave lower. It means bass guitar is transposing instrument and it transposes one octave down.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WizardGuitars</name>
+    <message>
+        <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below &lt;br&gt;(even if some editors are forgetting about this digit).&lt;br&gt;Try to understand this.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WizardInstrument</name>
+    <message>
+        <source>What instrument do you play?</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WizardOptions</name>
+    <message>
+        <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Sharps will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
+        <source>I know about double sharps (x) and double flats (bb)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>b - flats</source>
+        <source>I know that e# is the same as f</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Flats will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
+        <source>I know about key signatures</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>WizardOther</name>
     <message>
-        <source>x, bb - double accidentals</source>
+        <source>Select a clef and scale of notes appropriate for your instrument.</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>WizardSax</name>
     <message>
-        <source>force using appropriate accidental</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>if checked, it is possible to select a note&lt;br&gt;with given accidental only.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>use key signatures</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>single key</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>range of keys</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>random key signature from selected range.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>select a key signature manually</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>notes in current key signature only</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Elements are disabled because appropriate types of questions or answers are not selected.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>accidentals</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>only one, selected key signature for whole exam.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select a key signature. Appropriate accidentals used in exam will be automatically selected!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>if checked, in exam user have to select a key signature, otherwise it is shown by application.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Only notes from current key signature are taken. If key signature is disabled accidentals are not used.</source>
+        <source>Saxophones are transposing instruments.&lt;br&gt;It means that note pitch in the score doesn&apos;t correspond directly to note which is played - it transposes by interval (number of semitones) according to kind of saxophone.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3285,118 +3218,6 @@
     </message>
     <message>
         <source>none</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>levelSettings</name>
-    <message>
-        <source>Get more levels &lt;a href=&quot;%1&quot;&gt;from Nootka home page&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Save level settings to file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Start exam</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Start an exam on selected level</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Start exercise</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Start an exercise on selected level</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>main</name>
-    <message>
-        <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.ttf manually.&lt;/center&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>questionsSettings</name>
-    <message>
-        <source>single note</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>require octave</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>if checked, selecting of valid octave is required</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>use different naming styles</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>if checked, note names are switched between letters and solfege.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>show string number in questions</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, sometimes it is needed and sometimes it makes no sense.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>notes in the lowest position only</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>if checked, the lowest position in selected fret range is required,&lt;br&gt;otherwise all possible positions of the note are acceptable.&lt;br&gt;To use this, all strings have to be available!</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>rangeSettings</name>
-    <message>
-        <source>adjust fret range</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Adjust fret range in a level to currently selected note range</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>from</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>to</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>adjust note range</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Adjust note range in a level to currently selected fret range</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>available strings:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Uncheck strings if you want to skip them in an exam.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

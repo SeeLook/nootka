@@ -715,7 +715,7 @@
     </message>
 </context>
 <context>
-    <name>TanalysDialog</name>
+    <name>AnalyzeDialog</name>
     <message>
         <location filename="../src/plugins/charts/tanalysdialog.cpp" line="88"/>
         <source>ordered by:</source>
@@ -1174,6 +1174,22 @@
 <context>
     <name>Texam</name>
     <message>
+        <source>as note on the staff</source>
+        <translation>нота на нотном стане</translation>
+    </message>
+    <message>
+        <source>as note name</source>
+        <translation>название ноты</translation>
+    </message>
+    <message>
+        <source>as position on the fingerboard</source>
+        <translation>позиция на грифе</translation>
+    </message>
+    <message>
+        <source>as played sound</source>
+        <translation>сыграный звук</translation>
+    </message>
+    <message>
         <location filename="../src/libs/core/exam/textrans.h" line="75"/>
         <source>play melody</source>
         <translation>проиграть мелодию</translation>
@@ -1459,7 +1475,7 @@
     </message>
 </context>
 <context>
-    <name>TexamSettings</name>
+    <name>ExamPage</name>
     <message>
         <location filename="../src/plugins/settings/texamsettings.cpp" line="39"/>
         <source>When you will make mistake, the program will show you automatically how a correct answer should be.</source>
@@ -1814,7 +1830,7 @@
     </message>
 </context>
 <context>
-    <name>TexpertAnswerHelp</name>
+    <name>ExamPage</name>
     <message>
         <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="27"/>
         <source>Experts mode</source>
@@ -2214,7 +2230,7 @@
     </message>
     <message>
         <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="102"/>
-        <source>All chromatic notes till V-th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
+        <source>All chromatic notes till 5th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
         <translation>Все ноты хроматически до 5-го лада, без звука.&lt;br&gt;Без двойных знаков альтерации. Тональности: До, Соль, Ре, Ля</translation>
     </message>
     <message>
@@ -2680,7 +2696,7 @@
     </message>
 </context>
 <context>
-    <name>TmelMan</name>
+    <name>TmainScoreObject</name>
     <message>
         <source>Play</source>
         <translation>Воспроизведение</translation>
@@ -2906,11 +2922,6 @@
         <location filename="../src/plugins/settings/tnotationradiogroup.cpp" line="38"/>
         <source>Naming style</source>
         <translation>Система обозначения нот</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/settings/tnotationradiogroup.cpp" line="39"/>
-        <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
-        <translation>Стиль обозначения нот. Не забудьте указать, как называется седьмая нота&lt;br&gt;это B и Bb, или H и B ?</translation>
     </message>
     <message>
         <location filename="../src/plugins/settings/tnotationradiogroup.cpp" line="47"/>
@@ -3174,7 +3185,7 @@
     </message>
 </context>
 <context>
-    <name>TprogressWidget</name>
+    <name>TexamView</name>
     <message>
         <location filename="../src/libs/main/exam/tprogresswidget.cpp" line="116"/>
         <source>Answered questions</source>
@@ -3208,7 +3219,7 @@
     </message>
 </context>
 <context>
-    <name>TquestionAsWdg</name>
+    <name>QuestionsPage</name>
     <message>
         <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="42"/>
         <source>question</source>
@@ -3230,33 +3241,13 @@
         <translation>ответы</translation>
     </message>
     <message>
-        <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="46"/>
-        <source>as note on the staff</source>
-        <translation>нота на нотном стане</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="47"/>
-        <source>as note name</source>
-        <translation>название ноты</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="48"/>
-        <source>as position on the fingerboard</source>
-        <translation>позиция на грифе</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="49"/>
-        <source>as played sound</source>
-        <translation>сыграный звук</translation>
-    </message>
-    <message>
         <location filename="../src/libs/widgets/widgets/tquestionaswdg.cpp" line="53"/>
         <source>Select the type of answers for a question.</source>
         <translation>Выберите тип ответов для вопроса.</translation>
     </message>
 </context>
 <context>
-    <name>TradioClef</name>
+    <name>Tclef</name>
     <message>
         <location filename="../src/libs/score/widgets/tselectclef.cpp" line="193"/>
         <source>Common used clef (for violin, flute, saxophones, etc.)</source>
@@ -3302,7 +3293,7 @@
     </message>
 </context>
 <context>
-    <name>TscoreActions</name>
+    <name>TmainScoreObject</name>
     <message>
         <location filename="../src/libs/main/score/tscoreactions.cpp" line="35"/>
         <source>Score</source>
@@ -3344,6 +3335,9 @@
         <source>Zoom score in</source>
         <translation>Увеличить масштаб нотной записи</translation>
     </message>
+</context>
+<context>
+    <name>TscoreObject</name>
     <message>
         <location filename="../src/libs/main/score/tscoreactions.cpp" line="57"/>
         <source>Previous note</source>
@@ -3384,10 +3378,6 @@
         <source>Delete all notes</source>
         <translation>Удалить все ноты</translation>
     </message>
-    <message>
-        <source>Score</source>
-        <translation>Нотоносец</translation>
-    </message>
 </context>
 <context>
     <name>TscoreClef</name>
@@ -3419,7 +3409,7 @@
     </message>
 </context>
 <context>
-    <name>TscoreSettings</name>
+    <name>ScorePage</name>
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="140"/>
         <source>enable key signature</source>
@@ -3535,6 +3525,11 @@
         <source>show names of key signature</source>
         <translation>отображать название тональности</translation>
     </message>
+    <message>
+        <location filename="../src/plugins/settings/tnotationradiogroup.cpp" line="39"/>
+        <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
+        <translation>Стиль обозначения нот. Не забудьте указать, как называется седьмая нота&lt;br&gt;это B и Bb, или H и B ?</translation>
+    </message>
 </context>
 <context>
     <name>TsettingsDialog</name>
@@ -3606,7 +3601,7 @@
     </message>
 </context>
 <context>
-    <name>TstartExamDlg</name>
+    <name>StartExam</name>
     <message>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="61"/>
         <source>Start exercises or an exam</source>
@@ -3692,7 +3687,7 @@
     <message>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="406"/>
         <location filename="../src/plugins/exam/tstartexamdlg.cpp" line="411"/>
-        <source>Give a user name!</source>
+        <source>Give an user name!</source>
         <translation>Введите имя пользователя!</translation>
     </message>
     <message>
@@ -4173,8 +4168,8 @@
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="34"/>
-        <source>Sharps will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
-        <translation>Диезы будут использованы в вопросах и ответах экзамена.&lt;br&gt;Опция должна быть включена, если используются тональности с диезами.</translation>
+        <source>Sharps will be used in questions and answers. It has to be checked, if keys with sharps are used.</source>
+        <translation>Диезы будут использованы в вопросах и ответах экзамена. Опция должна быть включена, если используются тональности с диезами.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="36"/>
@@ -4183,8 +4178,8 @@
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="37"/>
-        <source>Flats will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
-        <translation>Бемоли будут использованы в вопросах и ответах экзамена.&lt;br&gt;Опция должна быть включена, если используются тональности с бемолями.</translation>
+        <source>Flats will be used in questions and answers. It has to be checked, if keys with flats are used.</source>
+        <translation>Бемоли будут использованы в вопросах и ответах экзамена. Опция должна быть включена, если используются тональности с бемолями.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="39"/>
@@ -4193,8 +4188,8 @@
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="69"/>
-        <source>only one, selected key signature for whole exam.</source>
-        <translation>только одна тональность используется во всем экзамене.</translation>
+        <source>Only one, selected key signature for whole exam.</source>
+        <translation>Только одна тональность используется во всем экзамене.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="86"/>
@@ -4222,7 +4217,7 @@
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="52"/>
-        <source>if checked, it is possible to select a note&lt;br&gt;with given accidental only.</source>
+        <source>if checked, it is possible to select a note with given accidental only.</source>
         <translation>возможно выбрать ноту только с данным знаком альтерации.</translation>
     </message>
     <message>
@@ -4231,7 +4226,7 @@
         <translation>одна тональность</translation>
     </message>
     <message>
-        <source>only one, selected key signature&lt;br&gt;for whole exam.</source>
+        <source>only one, selected key signature for whole exam.</source>
         <translation>только одна тональность используется во всем экзамене.</translation>
     </message>
     <message>
@@ -4241,12 +4236,12 @@
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="71"/>
-        <source>random key signature from selected range.</source>
-        <translation>случайные  ключевые знаки для тональностей из диапазона.</translation>
+        <source>Random key signature from selected range.</source>
+        <translation>Случайные  ключевые знаки для тональностей из диапазона.</translation>
     </message>
     <message>
-        <source>Select a key signature.&lt;br&gt;Appropriate accidentals used in exam&lt;br&gt;will be automatically selected !</source>
-        <translation>Выберите тональность.&lt;br&gt;Соответствующие знаки альтерации для экзамена&lt;br&gt;будут выбраны автоматически !</translation>
+        <source>Select a key signature. Appropriate accidentals used in exam will be automatically selected !</source>
+        <translation>Выберите тональность. Соответствующие знаки альтерации для экзамена будут выбраны автоматически !</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/accidsettings.cpp" line="114"/>
@@ -4363,7 +4358,7 @@
     </message>
 </context>
 <context>
-    <name>questionsSettings</name>
+    <name>QuestionsPage</name>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="143"/>
         <source>require octave</source>
@@ -4418,13 +4413,13 @@
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="163"/>
-        <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, sometimes it is needed and sometimes it makes no sense.</source>
+        <source>Shows on which string an answer has to be given. Be careful, sometimes it is needed and sometimes it makes no sense.</source>
         <translation>Нутка будет показывать, какую струну нужно использовать для ответа.</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="172"/>
-        <source>if checked, the lowest position in selected fret range is required,&lt;br&gt;otherwise all possible positions of the note are acceptable.&lt;br&gt;To use this, all strings have to be available!</source>
-        <translation>Требовать самую низкую позицию (ближе к головке грифа) в выбранном диапазоне ладов,&lt;br&gt;иначе принимаются все возможные позиции!</translation>
+        <source>if checked, the lowest position in selected fret range is required, otherwise all possible positions of the note are acceptable. To use this, all strings have to be available!</source>
+        <translation>Требовать самую низкую позицию (ближе к головке грифа) в выбранном диапазоне ладов, иначе принимаются все возможные позиции!</translation>
     </message>
     <message>
         <location filename="../src/plugins/level/questionssettings.cpp" line="171"/>

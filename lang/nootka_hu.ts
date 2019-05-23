@@ -487,7 +487,7 @@
     </message>
 </context>
 <context>
-    <name>TanalysDialog</name>
+    <name>AnalyzeDialog</name>
     <message>
         <source>Analyze</source>
         <translation>Kiértékelés</translation>
@@ -758,6 +758,22 @@
 <context>
     <name>Texam</name>
     <message>
+        <source>as note on the staff</source>
+        <translation>hangjegy a kottán</translation>
+    </message>
+    <message>
+        <source>as note name</source>
+        <translation>hang megnevezése</translation>
+    </message>
+    <message>
+        <source>as position on the fingerboard</source>
+        <translation>helye a fogólapon</translation>
+    </message>
+    <message>
+        <source>as played sound</source>
+        <translation>lejátszott hang</translation>
+    </message>
+    <message>
         <source>play melody</source>
         <translation>dallam lejátszása</translation>
     </message>
@@ -974,7 +990,7 @@
     </message>
 </context>
 <context>
-    <name>TexamSettings</name>
+    <name>ExamPage</name>
     <message>
         <source>When you will make mistake, the program will show you automatically how a correct answer should be.</source>
         <translation>Ha hibázik, a program automatikusan megmutatja a helyes választ.</translation>
@@ -1250,7 +1266,7 @@
     </message>
 </context>
 <context>
-    <name>TexpertAnswerHelp</name>
+    <name>ExamPage</name>
     <message>
         <source>Experts mode</source>
         <translation>Haladó mód</translation>
@@ -1601,7 +1617,7 @@
         <translation>Ötödik bundig minden</translation>
     </message>
     <message>
-        <source>All chromatic notes till V-th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
+        <source>All chromatic notes till 5th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
         <translation>Minden kromatikus hang az ötödik bundig, hang nélkül. &lt;br&gt;Dupla módosító jelek nélkül. Hangnemek: C, G, D, A</translation>
     </message>
     <message>
@@ -1941,7 +1957,7 @@ nem Nootka fájl!</translation>
     </message>
 </context>
 <context>
-    <name>TmelMan</name>
+    <name>TmainScoreObject</name>
     <message>
         <source>Generate a melody with random notes.</source>
         <translation>Dallam generálása véletlenszerű hangokból.</translation>
@@ -2086,10 +2102,6 @@ nem Nootka fájl!</translation>
     <message>
         <source>Naming style</source>
         <translation>Nevezéktan</translation>
-    </message>
-    <message>
-        <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
-        <translation>Hangok nevezéktana. A fő különbség a 7. hang. &lt;br&gt;Önnél B és bés B vagy H és B?</translation>
     </message>
     <message>
         <source>letter names</source>
@@ -2294,7 +2306,7 @@ nem Nootka fájl!</translation>
     <message>
         <source>letters</source>
         <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country preferred style of naming key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
-        <translation>dó ré mi fá szó lá ti</translation>
+        <translation>solfege</translation>
     </message>
     <message>
         <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
@@ -2330,7 +2342,7 @@ nem Nootka fájl!</translation>
     </message>
 </context>
 <context>
-    <name>TprogressWidget</name>
+    <name>TexamView</name>
     <message>
         <source>Answered questions</source>
         <translation>Megválaszolt kérdések</translation>
@@ -2358,7 +2370,7 @@ nem Nootka fájl!</translation>
     </message>
 </context>
 <context>
-    <name>TquestionAsWdg</name>
+    <name>QuestionsPage</name>
     <message>
         <source>Select the type of answers for a question.</source>
         <translation>Válassz ki a válasz típusát a kérdésekhez.</translation>
@@ -2378,22 +2390,6 @@ nem Nootka fájl!</translation>
     <message>
         <source>answers</source>
         <translation>válaszok</translation>
-    </message>
-    <message>
-        <source>as note on the staff</source>
-        <translation>hangjegy a kottán</translation>
-    </message>
-    <message>
-        <source>as note name</source>
-        <translation>hang megnevezése</translation>
-    </message>
-    <message>
-        <source>as position on the fingerboard</source>
-        <translation>helye a fogólapon</translation>
-    </message>
-    <message>
-        <source>as played sound</source>
-        <translation>lejátszott hang</translation>
     </message>
 </context>
 <context>
@@ -2492,7 +2488,7 @@ nem Nootka fájl!</translation>
     </message>
 </context>
 <context>
-    <name>TradioClef</name>
+    <name>Tclef</name>
     <message>
         <source>Common used clef (for violin, flute, saxophones, etc.)</source>
         <translation>Legtöbbet használt kulcs (hegedűhöz, fuvolához, szakszofonhoz, stb.)</translation>
@@ -2530,7 +2526,7 @@ nem Nootka fájl!</translation>
     </message>
 </context>
 <context>
-    <name>TscoreActions</name>
+    <name>TmainScoreObject</name>
     <message>
         <source>Score</source>
         <comment>it could be &apos;notation&apos;, &apos;staff&apos; or whatever is associated with that &apos;place to display musical notes&apos; and this the name is quite short and looks well.</comment>
@@ -2556,6 +2552,17 @@ nem Nootka fájl!</translation>
         <source>Zoom score in</source>
         <translation>Nagyítás</translation>
     </message>
+    <message>
+        <source>Shows names of all notes on the staff.</source>
+        <translation>Összes hang megnevezése a kottán.</translation>
+    </message>
+    <message>
+        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
+        <translation>Mutassa a hangnemhez tartozó módosító jelzőket a hangok mellett is.&lt;br&gt;FIGYELEM! Igazi kottákban ez nem fordul elő - csak gyakorlásként használja.&lt;/b&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>TscoreObject</name>
     <message>
         <source>Previous note</source>
         <translation>Előző hang</translation>
@@ -2588,14 +2595,6 @@ nem Nootka fájl!</translation>
         <source>Delete all notes</source>
         <translation>Összes hang törlése</translation>
     </message>
-    <message>
-        <source>Shows names of all notes on the staff.</source>
-        <translation>Összes hang megnevezése a kottán.</translation>
-    </message>
-    <message>
-        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
-        <translation>Mutassa a hangnemhez tartozó módosító jelzőket a hangok mellett is.&lt;br&gt;FIGYELEM! Igazi kottákban ez nem fordul elő - csak gyakorlásként használja.&lt;/b&gt;</translation>
-    </message>
 </context>
 <context>
     <name>TscoreClef</name>
@@ -2623,7 +2622,7 @@ nem Nootka fájl!</translation>
     </message>
 </context>
 <context>
-    <name>TscoreSettings</name>
+    <name>ScorePage</name>
     <message>
         <source>use single note only</source>
         <translation>csak egy hangot használjon</translation>
@@ -2712,6 +2711,10 @@ nem Nootka fájl!</translation>
         <source>show names of key signature</source>
         <translation>hangnem megnevezése</translation>
     </message>
+    <message>
+        <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
+        <translation>Hangok nevezéktana. A fő különbség a 7. hang. &lt;br&gt;Önnél B és bés B vagy H és B?</translation>
+    </message>
 </context>
 <context>
     <name>TsettingsDialog</name>
@@ -2769,7 +2772,7 @@ nem Nootka fájl!</translation>
     </message>
 </context>
 <context>
-    <name>TstartExamDlg</name>
+    <name>StartExam</name>
     <message>
         <source>Start exercises or an exam</source>
         <translation>Gyakorlás vagy vizsga indítása</translation>
@@ -2819,7 +2822,7 @@ nem Nootka fájl!</translation>
         <translation>Szint nem lett kiválasztva!</translation>
     </message>
     <message>
-        <source>Give a user name!</source>
+        <source>Give an user name!</source>
         <translation>Adjon meg egy felhasználónevet!</translation>
     </message>
     <message>
@@ -3201,16 +3204,16 @@ nem Nootka fájl!</translation>
         <translation># - keresztek</translation>
     </message>
     <message>
-        <source>Sharps will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with sharps are used.</source>
-        <translation>Legyenek keresztes módosítók a kérdésekben és válaszokban.&lt;br&gt;Ki kell jelölni, ha a hangnem tartalmaz keresztet.</translation>
+        <source>Sharps will be used in questions and answers. It has to be checked, if keys with sharps are used.</source>
+        <translation>Legyenek keresztes módosítók a kérdésekben és válaszokban. Ki kell jelölni, ha a hangnem tartalmaz keresztet.</translation>
     </message>
     <message>
         <source>b - flats</source>
         <translation>b - bék</translation>
     </message>
     <message>
-        <source>Flats will be used in questions and answers.&lt;br&gt;It has to be checked, if keys with flats are used.</source>
-        <translation>Legyenek bés módosítók a kérdésekben és válaszokban.&lt;br&gt;Ki kell jelölni, ha a hangnem tartalmaz bés hangokat.</translation>
+        <source>Flats will be used in questions and answers. It has to be checked, if keys with flats are used.</source>
+        <translation>Legyenek bés módosítók a kérdésekben és válaszokban. Ki kell jelölni, ha a hangnem tartalmaz bés hangokat.</translation>
     </message>
     <message>
         <source>x, bb - double accidentals</source>
@@ -3221,8 +3224,8 @@ nem Nootka fájl!</translation>
         <translation>megfelelő módosítók kötelezővé tétele</translation>
     </message>
     <message>
-        <source>if checked, it is possible to select a note&lt;br&gt;with given accidental only.</source>
-        <translation>Ha ki van jelölve, akkor hangot választani&lt;br&gt; csak a megadott módosítóval lehet.</translation>
+        <source>if checked, it is possible to select a note with given accidental only.</source>
+        <translation>Ha ki van jelölve, akkor hangot választani  csak a megadott módosítóval lehet.</translation>
     </message>
     <message>
         <source>use key signatures</source>
@@ -3237,8 +3240,8 @@ nem Nootka fájl!</translation>
         <translation>hangnemek tartománya</translation>
     </message>
     <message>
-        <source>random key signature from selected range.</source>
-        <translation>véletlenszerű hangnem a kiválasztott tartományból.</translation>
+        <source>Random key signature from selected range.</source>
+        <translation>Véletlenszerű hangnem a kiválasztott tartományból.</translation>
     </message>
     <message>
         <source>select a key signature manually</source>
@@ -3257,8 +3260,8 @@ nem Nootka fájl!</translation>
         <translation>módosítók</translation>
     </message>
     <message>
-        <source>only one, selected key signature for whole exam.</source>
-        <translation>teljes vizsgára csak egy kiválasztott hangnem.</translation>
+        <source>Only one, selected key signature for whole exam.</source>
+        <translation>Teljes vizsgára csak egy kiválasztott hangnem.</translation>
     </message>
     <message>
         <source>Select a key signature. Appropriate accidentals used in this level will be selected automatically.</source>
@@ -3339,7 +3342,7 @@ nem Nootka fájl!</translation>
     </message>
 </context>
 <context>
-    <name>questionsSettings</name>
+    <name>QuestionsPage</name>
     <message>
         <source>single note</source>
         <translation>egyedülálló hang</translation>
@@ -3365,16 +3368,16 @@ nem Nootka fájl!</translation>
         <translation>mutasson húr számot a kérdésekben</translation>
     </message>
     <message>
-        <source>Shows on which string an answer has to be given.&lt;br&gt;Be careful, sometimes it is needed and sometimes it makes no sense.</source>
-        <translation>Megmutatja, hogy a választ melyik húron várja.&lt;br&gt;Legyen óvatos, olykor nagyon hasznos, olykor pedig egyáltalán nincs értelme.</translation>
+        <source>Shows on which string an answer has to be given. Be careful, sometimes it is needed and sometimes it makes no sense.</source>
+        <translation>Megmutatja, hogy a választ melyik húron várja. Legyen óvatos, olykor nagyon hasznos, olykor pedig egyáltalán nincs értelme.</translation>
     </message>
     <message>
         <source>notes in the lowest position only</source>
         <translation>hangok csak a legmélyebb pozícióban</translation>
     </message>
     <message>
-        <source>if checked, the lowest position in selected fret range is required,&lt;br&gt;otherwise all possible positions of the note are acceptable.&lt;br&gt;To use this, all strings have to be available!</source>
-        <translation>ha ki van választva, akkor a fogólapon a legmélyebb pozíció kell,&lt;br&gt;máskülönben minden lehetséges pozíció elfogadható.&lt;br&gt;Ehhez minden húr elérhető kell, hogy legyen!</translation>
+        <source>if checked, the lowest position in selected fret range is required, otherwise all possible positions of the note are acceptable. To use this, all strings have to be available!</source>
+        <translation>ha ki van választva, akkor a fogólapon a legmélyebb pozíció kell, máskülönben minden lehetséges pozíció elfogadható. Ehhez minden húr elérhető kell, hogy legyen!</translation>
     </message>
 </context>
 <context>
