@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -61,10 +61,7 @@ ControlBase {
             selected: selectedId === index
             font { family: "scorek"; pixelSize: factor * 3 }
             text: accidGlyphs[index]
-            onClicked: {
-              scoreObj.cursorAlter = accidArray[(selectedId === index ? -1 : index) + 1]
-              score.alterText = toolbox.text
-            }
+            onClicked: scoreObj.cursorAlter = accidArray[(selectedId === index ? -1 : index) + 1]
             onEntered: hideTimer.stop()
             onExited: hideTimer.restart()
           }

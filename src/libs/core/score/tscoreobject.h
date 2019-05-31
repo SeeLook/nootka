@@ -71,6 +71,7 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(int keySignature READ keySignature WRITE setKeySignature NOTIFY keySignatureChanged)
   Q_PROPERTY(int notesCount READ notesCount)
   Q_PROPERTY(int cursorAlter READ cursorAlter WRITE setCursorAlter NOTIFY cursorAlterChanged)
+  Q_PROPERTY(QString alterText READ alterText NOTIFY cursorAlterChanged)
                         /* Score switches */
   Q_PROPERTY(bool keySignatureEnabled READ keySignatureEnabled WRITE setKeySignatureEnabled NOTIFY keySignatureEnabledChanged)
   Q_PROPERTY(bool keyReadOnly READ keyReadOnly WRITE setKeyReadOnly NOTIFY keyReadOnlyChanged)
@@ -180,6 +181,7 @@ public:
        */
   int cursorAlter() const { return m_cursorAlter; }
   void setCursorAlter(int curAlt);
+  QString alterText();
 
       /**
        * Grabs melody from file and sets it into score.

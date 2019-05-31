@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -31,6 +31,7 @@
 #include "main/texamsummary.h"
 #include "main/tstartexamitem.h"
 #include "main/tnootkacertificate.h"
+#include "main/tpiechartitem.h"
 #include "charts/tchartitem.h"
 #include "charts/tcharttipitem.h"
 #include "help/tmainhelp.h"
@@ -63,6 +64,7 @@ TdialogLoaderObject::TdialogLoaderObject(QObject* parent) :
     qmlRegisterType<TexamSummary>("Nootka.Exam", 1, 0, "TexamSummary");
     qmlRegisterType<TstartExamItem>("Nootka.Exam", 1, 0, "TstartExamItem");
     qmlRegisterType<TnootkaCertificate>("Nootka.Exam", 1, 0, "CertificateItem");
+    qmlRegisterType<TpieChartItem>("Nootka.Exam", 1, 0, "TpieChartItem");
 
     qRegisterMetaType<Tlevel*>("Tlevel*");
     qRegisterMetaType<Texam*>("Texam*");

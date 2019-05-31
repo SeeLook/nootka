@@ -440,7 +440,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
           } else
               MAIN_SCORE->setKeySignature(curQ->key);
       }
-      if (curQ->questionOnScore()) {// note has to be another than question
+      if (curQ->questionOnScore()) { // note has to be another than question
           if (m_penalty->isNot())
               curQ->qa_2.note = m_supp->forceEnharmAccid(curQ->qa.note); // curQ->qa_2.note is expected note
           if (!m_level.manualKey && curQ->qa_2.note == curQ->qa.note) {

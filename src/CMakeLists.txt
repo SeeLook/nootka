@@ -85,6 +85,7 @@ set(NOOTKA_SRC
   main/texamsummary.cpp
   main/tstartexamitem.cpp
   main/tnootkacertificate.cpp
+  main/tpiechartitem.cpp
 
   dialogs/tdialogloaderobject.cpp
   dialogs/tlevelcreatoritem.cpp
