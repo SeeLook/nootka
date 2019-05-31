@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -82,6 +82,7 @@ Tflickable {
     }
     Item {
       width: parent.width; height: melPage.height - topTile.height - melGrid.height - tempoRange.height
+      visible: melCombo.currentIndex === 1
       Score {
         id: listScore
         visible: melCombo.currentIndex === 1
@@ -93,11 +94,13 @@ Tflickable {
       }
     }
     Tile {
+      description: "Not implemented yet!"
       Row {
         spacing: Noo.fontSize()
         anchors.horizontalCenter: parent.horizontalCenter
         TcheckBox {
             id: inTempoChB
+            anchors.verticalCenter: parent.verticalCenter
             text: qsTr("Play in tempo")
   //           checked: creator.endsOnTonic
   //           onClicked: creator.endsOnTonic = checked
@@ -109,6 +112,7 @@ Tflickable {
         }
         RangeSlider {
           id: tempoRange
+          anchors.verticalCenter: parent.verticalCenter
           width: parent.parent.width / 3
           first.value: 60; second.value: 120
           from: 40; to: 180

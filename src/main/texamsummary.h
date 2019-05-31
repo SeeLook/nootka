@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -40,6 +40,8 @@ class TexamSummary : public QQuickItem
   // Exam properties
   Q_PROPERTY(QString student READ student NOTIFY updateExam)
   Q_PROPERTY(QString results READ results NOTIFY updateExam)
+  Q_PROPERTY(QList<int> kindOfMistakes READ kindOfMistakes NOTIFY updateExam)
+  Q_PROPERTY(bool hasVariousMistakes READ hasVariousMistakes NOTIFY updateExam)
 
 public:
   explicit TexamSummary(QQuickItem* parent = nullptr);
@@ -49,6 +51,13 @@ public:
 
   QString student() const;
   QString results() const { return m_results; }
+
+  QList<int> kindOfMistakes() { return m_kindOfMistakes; }
+
+      /**
+       * @p TRUE when there are more than one kind of mistake
+       */
+  bool hasVariousMistakes() { return m_kindOfMistakes.count() > 1; }
 
   Q_INVOKABLE QString title() const;
 
@@ -95,6 +104,7 @@ private:
   TlevelPreviewItem           *m_levelPreview = nullptr;
   bool                         m_accepted = false;
   QString                      m_results;
+  QList<int>                   m_kindOfMistakes;
 };
 
 #endif // TEXAMSUMMARY_H

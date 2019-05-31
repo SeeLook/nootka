@@ -3,6 +3,7 @@
      - read/save melody title, composer, tempo, beat
      - restored charts (analysis) with updated look
      - improved start wizard to handle more supported instruments
+     - exam summary displays pie chart with kinds of mistake
 
 1.5.2 alpha3
      - adding/deleting notes to score works like in text editor
