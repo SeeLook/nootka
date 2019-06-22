@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -30,7 +30,10 @@
 Tchart::Tchart(QQuickItem* parent) :
   QQuickPaintedItem(parent)
 {
+//   setRenderTarget(QQuickPaintedItem::Image);
 //   setRenderTarget(QQuickPaintedItem::FramebufferObject);
+//   setPerformanceHint(QQuickPaintedItem::FastFBOResizing);
+
   setAntialiasing(true);
   scene = new QGraphicsScene(this);
 
@@ -50,7 +53,10 @@ Tchart::Tchart(QQuickItem* parent) :
 }
 
 
-Tchart::~Tchart() {}
+Tchart::~Tchart() {
+  if (m_sceneImage)
+    delete m_sceneImage;
+}
 
 
 void Tchart::setParentForItem(QGraphicsItem* it) {
@@ -72,12 +78,35 @@ void Tchart::setParentHeight(qreal pH) {
 }
 
 
+void Tchart::update() {
+  if (m_renderState != e_renderInProgress) {
+    m_renderState = e_renderInProgress;
+    CHECKTIME (
+      if (m_sceneImage)
+        delete m_sceneImage;
+      m_sceneImage = new QImage(scene->sceneRect().size().toSize(), QImage::Format_ARGB32);
+      m_sceneImage->fill(Qt::transparent);
+      QPainter painter;
+      painter.begin(m_sceneImage);
+      painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
+      scene->render(&painter);
+      painter.end();
+      m_renderState = e_renderFinished;
+    )
+    QQuickPaintedItem::update();
+  }
+}
+
+
 void Tchart::paint(QPainter* painter) {
 CHECKTIME(
   if (!painter->paintEngine() || boundingRect().width() < 1.0)
     return;
 
-  scene->render(painter);
+  if (m_renderState == e_renderFinished)
+    painter->drawImage(0, 0, *m_sceneImage);
+  else
+    qDebug() << "[Tchart] chart image not ready yet!";
 )
 }
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -206,7 +206,6 @@ protected:
 private:
 //  double                          m_scale;
 
-//  TnootkaCertificate             *m_certifyTip;
   Texam                             *m_exam;
   QTimer                            *m_timerToConfirm;
   qreal                              m_prevWidth;
@@ -216,7 +215,6 @@ private:
   EtipPos                            m_questTipPosType; /**< Kind of question tip position */
   int                                m_iconSize; /**< Icon image size on tips calculated from actual font metrics. */
   QPointF                            m_lastTipPos;
-  bool                               m_confirmTipOn = false;
   QQuickItem                        *m_startTip = nullptr;
   QQuickItem                        *m_tryAgainTip = nullptr;
   QQuickItem                        *m_questionTip = nullptr;

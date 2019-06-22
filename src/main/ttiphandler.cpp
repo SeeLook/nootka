@@ -38,8 +38,6 @@
 #include <texamparams.h>
 #if defined (Q_OS_ANDROID)
   #include <tmtr.h>
-#else
-//  #include <gui/tstatuslabel.h>
 #endif
 #include <QtWidgets/qapplication.h>
 #include <QtGui/qpalette.h>
@@ -186,14 +184,15 @@ void TtipHandler::showStartTip() {
 
 
 void TtipHandler::showConfirmTip(int time) {
-  if (!m_confirmTipOn) {
+  if (m_confirmTip || m_timerToConfirm->isActive()) { // TODO: remove when checked, it should never occur
+    QTextStream o(stdout);
+    o << "\033[01;31m [TtipHandler] confirm tip exists or its timer is active. FIX IT!" << m_confirmTip << m_timerToConfirm->isActive();
+  }
 #if defined (Q_OS_ANDROID)
     showConfirmTip();
 #else
     m_timerToConfirm->start(time + 1); // add 1 to show it immediately when time = 0
 #endif
-    m_confirmTipOn = true;
-  }
   EXECUTOR->checkQuestAct()->shake();
 }
 
@@ -727,7 +726,6 @@ void TtipHandler::deleteQuestionTip() {
 
 void TtipHandler::deleteConfirmTip() {
   if (m_confirmTip) {
-    m_confirmTipOn = false;
     m_confirmTip->deleteLater();
     m_confirmTip = nullptr;
   }
