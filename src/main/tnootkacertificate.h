@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -46,7 +46,15 @@ public:
   TnootkaCertificate(QQuickItem* parent = nullptr);
   ~TnootkaCertificate() override;
 
+  enum ErenderState {
+    e_noRendered, e_renderInProgress, e_renderFinished
+  };
+  Q_ENUM(ErenderState)
+
+  void update();
   void paint(QPainter* painter) override;
+
+  void geometryChanged(const QRectF & newGeometry, const QRectF & oldGeometry) override;
 
   Q_INVOKABLE void save();
   Q_INVOKABLE void stopExam();
@@ -65,11 +73,13 @@ private:
 
 private:
   Texam                     *m_exam;
-  QGraphicsRectItem         *m_cert;
+  QGraphicsRectItem         *m_cert = nullptr;
   QGraphicsTextItem         *m_academyI, *m_dateI, *m_studentI, *m_certHeadI, *m_resultsI, *m_witnesI, *m_boardI, *m_stampI;
   QGraphicsPixmapItem       *m_stampPixmap;
   QGraphicsScene            *m_scene;
   qreal                      m_certW, m_certH;
+  QImage                    *m_sceneImage = nullptr;
+  ErenderState               m_renderState = e_noRendered;
 };
 
 #endif // TNOOTKACERTIFICATE_H

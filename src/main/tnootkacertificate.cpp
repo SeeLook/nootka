@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -69,26 +69,26 @@ TnootkaCertificate::TnootkaCertificate(QQuickItem* parent) :
   m_certW = 2 * MARGIN + m_academyI->boundingRect().width() + 2 * m_dateI->boundingRect().width();
   m_academyI->setPos(MARGIN, SPACER);
   m_dateI->setPos(MARGIN + m_academyI->boundingRect().width() + m_dateI->boundingRect().width(), SPACER);
-  m_certH = qMax(m_academyI->boundingRect().height(), m_dateI->boundingRect().height()) + 5 * SPACER;
+  m_certH = qMax(m_academyI->boundingRect().height(), m_dateI->boundingRect().height()) + 5.0 * SPACER;
 //-MARGIN-MARGIN- Student HELMUT has been awarded the
   m_studentI = createCertItem(fillCert(tr("Student <big><b>[STUDENT]</b></big> has been awarded the", "2nd line, single indent")));
   m_studentI->setPos(2 * MARGIN, m_certH);
-  m_certH += m_studentI->boundingRect().height() + 4 * SPACER;
+  m_certH += m_studentI->boundingRect().height() + 4.0 * SPACER;
 // -----Certificate Of Exam Completion-------- (middle)
   QString Fake;
   if (!m_exam->isFinished())
     Fake = QStringLiteral("<h3>Translators preview of</h3>");
   m_certHeadI = createCertItem(Fake + tr("<h1>Certificate Of Exam Completion</h1>", "Main header - centered"));
   alignCenter(m_certHeadI);
-  if (m_certHeadI->boundingRect().width() > m_certW - 2 * SPACER)
-    m_certHeadI->setScale((m_certW - 2 * SPACER) / m_certHeadI->boundingRect().width());
+  if (m_certHeadI->boundingRect().width() > m_certW - 2.0 * SPACER)
+    m_certHeadI->setScale((m_certW - 2.0 * SPACER) / m_certHeadI->boundingRect().width());
   m_certHeadI->setPos((m_certW - m_certHeadI->boundingRect().width() * m_certHeadI->scale()) / 2, m_certH);
   m_certHeadI->setPos((m_certW - m_certHeadI->boundingRect().width()) / 2, m_certH);
-  m_certH += m_certHeadI->boundingRect().height() + 2 * SPACER;
+  m_certH += m_certHeadI->boundingRect().height() + 2.0 * SPACER;
 //-MARGIN-MARGIN-Exam results-----------------
   m_resultsI = createCertItem(fillCert(tr("Passing the exam on the level <big><b>[LEVELNAME]</b></big>,<br>having answered the required [QUESTNR] questions<br>in time <big><b>[TOTALTIME]</b></big><br>and achieving the score <big><b>[SCORE]</b></big>", "Exam results - double indented, left aligned")));
   m_resultsI->setPos(2 * MARGIN, m_certH);
-  m_certH += m_resultsI->boundingRect().height() + SPACER * 5;
+  m_certH += m_resultsI->boundingRect().height() + SPACER * 5.0;
 //-MARGIN--As a witness to this accomplishment
   m_witnesI = createCertItem(fillCert(tr("As a witness to this accomplishment,<br>we hereby award this certificate on <b>[DATE]</b>.", "Under results - single indent")));
   m_witnesI->setPos(MARGIN, m_certH);
@@ -102,12 +102,12 @@ TnootkaCertificate::TnootkaCertificate(QQuickItem* parent) :
   m_stampPixmap = new QGraphicsPixmapItem(QPixmap(Tpath::img("stamp")));
   m_stampPixmap->setParentItem(m_cert);
   m_stampPixmap->setZValue(100);
-  qreal stampYpos = m_boardI->pos().y() + m_boardI->boundingRect().height() - 2 * SPACER;
+  qreal stampYpos = m_boardI->pos().y() + m_boardI->boundingRect().height() - 2.0 * SPACER;
 
-  m_stampI = createCertItem(QStringLiteral(".......................<br>") + tr("<i>stamp</i>", "bottom, centered"));
+  m_stampI = createCertItem(QLatin1String(".......................<br>") + tr("<i>stamp</i>", "bottom, centered"));
   alignCenter(m_stampI);
   m_stampI->setPos((m_certW - m_stampI->boundingRect().width()) / 2, stampYpos + m_stampPixmap->boundingRect().height() - SPACER);
-  m_certH = m_stampI->pos().y() + m_stampI->boundingRect().height() + 2 * SPACER;
+  m_certH = m_stampI->pos().y() + m_stampI->boundingRect().height() + 2.0 * SPACER;
 
   m_stampPixmap->setPos((m_certW - m_stampPixmap->boundingRect().width()) / 2.0,
                         m_stampI->y() + m_stampI->boundingRect().height() / 2 - m_stampPixmap->boundingRect().height());
@@ -126,7 +126,7 @@ TnootkaCertificate::TnootkaCertificate(QQuickItem* parent) :
   QFontMetricsF fm = QFontMetricsF(nf);
   nf.setPointSize(nf.pointSize() * (boundingRect().height() / fm.boundingRect(bgSymbol).height()));
   waterMark->setFont(nf);
-  QColor penTrans = QColor(QStringLiteral("#E1E1E1"));
+  QColor penTrans = QColor(0xE1, 0xE1, 0xE1);
   penTrans.setAlpha(80);
   waterMark->setBrush(QBrush(penTrans));
   waterMark->setParentItem(m_cert);
@@ -137,16 +137,48 @@ TnootkaCertificate::TnootkaCertificate(QQuickItem* parent) :
 }
 
 
-TnootkaCertificate::~TnootkaCertificate() {}
+TnootkaCertificate::~TnootkaCertificate() {
+  if (m_sceneImage)
+    delete m_sceneImage;
+}
+
+
+void TnootkaCertificate::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
+  Q_UNUSED(oldGeometry)
+  if (newGeometry.width() > 0.0 && newGeometry.height() > 0.0 && m_cert)
+    update();
+}
+
+
+void TnootkaCertificate::update() {
+  if (m_renderState != e_renderInProgress) {
+    m_renderState = e_renderInProgress;
+    m_cert->setScale(width() / m_certW);
+    m_scene->setSceneRect(0.0, 0.0, width(), height());
+    if (m_sceneImage)
+      delete m_sceneImage;
+    m_sceneImage = new QImage(m_scene->sceneRect().size().toSize(), QImage::Format_ARGB32);
+    m_sceneImage->fill(Qt::transparent);
+    QPainter painter;
+    painter.begin(m_sceneImage);
+    painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
+    m_scene->render(&painter);
+    painter.end();
+    m_renderState = e_renderFinished;
+    QQuickPaintedItem::update();
+  }
+}
 
 
 void TnootkaCertificate::paint(QPainter* painter) {
   if (!painter->paintEngine() || boundingRect().width() < 1.0)
     return;
 
-  m_cert->setScale(height() / m_certH);
-  m_scene->setSceneRect(0.0, 0.0, width(), height());
-  m_scene->render(painter);
+//   m_cert->setScale(height() / m_certH);
+//   m_scene->setSceneRect(0.0, 0.0, width(), height());
+//   m_scene->render(painter);
+  if (m_renderState == e_renderFinished)
+    painter->drawImage(0, 0, *m_sceneImage);
 }
 
 
