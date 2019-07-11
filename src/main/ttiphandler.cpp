@@ -184,12 +184,11 @@ void TtipHandler::showStartTip() {
 
 
 void TtipHandler::showConfirmTip(int time) {
-  if (m_confirmTip || m_timerToConfirm->isActive()) { // TODO: remove when checked, it should never occur
-    QTextStream o(stdout);
-    o << "\033[01;31m [TtipHandler] confirm tip exists or its timer is active. FIX IT!" << m_confirmTip << m_timerToConfirm->isActive();
-  }
+  if (m_timerToConfirm->isActive())
+    m_timerToConfirm->stop();
+  deleteConfirmTip();
 #if defined (Q_OS_ANDROID)
-    showConfirmTip();
+    showConfirmTipSlot();
 #else
     m_timerToConfirm->start(time + 1); // add 1 to show it immediately when time = 0
 #endif
@@ -201,7 +200,7 @@ void TtipHandler::showConfirmTipSlot() {
   m_timerToConfirm->stop();
   const QString br_ = QStringLiteral("<br>- ");
   const QString a = QStringLiteral("</a>");
-  QString tipText = QLatin1String("<p style=\"text-align: center; font-size: large;\">") + tr("To check the answer confirm it:") + br_ +
+  QString tipText = QLatin1String("<p style=\"text-align: center;\">") + tr("To check the answer confirm it:") + br_ +
     TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"checkAnswer\">") + NOO->pixToHtml(QLatin1String("check"), m_iconSize) + a) + br_ +
     TexamHelp::pressEnterKey() + br_ + TexamHelp::orRightButtTxt() + QLatin1String("<br>") +
     tr("Check in exam help %1 how to do it automatically").arg(QStringLiteral("<a href=\"examHelp\">") +

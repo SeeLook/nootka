@@ -42,7 +42,7 @@ Texecutor {
     }
     onWantConfirmTip: {
       var s = Qt.createComponent("qrc:/exam/ExamTip.qml")
-      tipHandler.confirmTip = s.createObject(executor, { "text": text, "offX": pos.x, "offY": pos.y, "bg": color } )
+      tipHandler.confirmTip = s.createObject(executor, { "text": text, "offX": pos.x, "offY": pos.y, "bg": color, "showExit": true } )
     }
     onWantResultTip: {
       var r = Qt.createComponent("qrc:/exam/ResultTip.qml")

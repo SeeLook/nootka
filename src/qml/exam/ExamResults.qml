@@ -32,11 +32,51 @@ Grid {
       hi: popLoader.item && popLoader.item.senderIndex === index
     }
     ProgressBar {
+      id: control
       property int index: 2
       anchors.verticalCenter: parent.verticalCenter
-      width: resultsItem.width / 5
+      width: resultsItem.width / 5; height: nootkaWindow.width / 70
       from: 0; to: results.progressMax
       value: results.progressValue
+      hoverEnabled: true
+
+      background: Rectangle { // can not be null to handle mouse click/tap
+        width: control.width; height: control.height * 0.8; y: control.height * 0.1
+        color: "transparent"
+      }
+
+      contentItem: Item {
+        width: control.width; height: control.height * 0.8; y: control.height * 0.1
+        Row {
+          anchors.fill: parent
+          Repeater {
+            model: control.width / (control.height / 2.63) // 2.63 is '!' glyph factor
+            Text {
+              font { family: "Nootka"; pixelSize: control.height }
+              text: "!"
+              color: x < control.position * control.width ? GLOB.correctColor : GLOB.wrongColor
+              scale: x < control.position * control.width ? 1 : 0.8
+              Behavior on color { enabled: GLOB.useAnimations; ColorAnimation { duration: 1000 } }
+              Behavior on scale { enabled: GLOB.useAnimations; PropertyAnimation { duration: 1000 } }
+            }
+          }
+        }
+        Rectangle {
+          id: percentRect
+          width: percentText.width; height: control.height
+          anchors.centerIn: parent
+          color: activPal.window
+          opacity: control.hovered ? 1 : 0
+          Behavior on opacity { enabled: GLOB.useAnimations; PropertyAnimation {} }
+          Text {
+            id: percentText
+            anchors.centerIn: parent
+            font.pointSize: percentRect.height * 0.8
+            text: " " + Math.round(control.position * 100) + " % "
+          }
+        }
+      }
+
       MouseArea {
         anchors.fill: parent.background
         onClicked: resultsItem.more(parent)
@@ -105,12 +145,10 @@ Grid {
     Popup {
       id: resPop
       property int senderIndex: -1
-//       parent: nootkaWindow.contentItem
       x: (nootkaWindow.width - width) / 2
-//       y: resultsItem.y + resultsItem.height + Noo.fontSize()
-      scale: 0.01
-      enter: Transition { enabled: GLOB.useAnimations; SpringAnimation { property: "scale"; to: 1.0; spring: 2; damping: 0.2; epsilon: 0.005 }}
-      exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; from: 1.0; to: 0.1 }} // duration 250 ms
+      scale: 0
+      enter: Transition { enabled: GLOB.useAnimations; SpringAnimation { property: "scale"; to: 1; spring: 2; damping: 0.2; epsilon: 0.005 }}
+      exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; from: 1; to: 0 }} // duration 250 ms
       background: TipRect { color: activPal.button; shadowRadius: Screen.height / 90 }
       y: resultsItem.height + Noo.fontSize() / 2
       Column {
