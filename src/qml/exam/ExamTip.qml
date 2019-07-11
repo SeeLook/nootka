@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -17,6 +17,7 @@ TipRect {
   property color bg: activPal.base
   property real offX: 0
   property real offY: 0
+  property alias showExit: exitImg.visible
 
   // private
   property real eW: 0
@@ -45,6 +46,18 @@ TipRect {
       anchors.fill: parent
       acceptedButtons: Qt.NoButton
       cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
+    }
+  }
+
+  Image {
+    id: exitImg
+    visible: false
+    anchors { right: parent.right; top: parent.top; margins: tip.width / 80 }
+    source: Noo.pix("exit")
+    sourceSize.width: tip.width / 20
+    MouseArea {
+      anchors.fill: parent
+      onClicked: tip.visible = false
     }
   }
 

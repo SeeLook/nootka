@@ -460,7 +460,7 @@ void TmainScoreObject::saveMusicXml(const QString& fileName, const QString& titl
 void TmainScoreObject::openXmlActSlot() {
   SOUND->stopListen();
   auto m = new Tmelody();
-  m_scoreObj->openMusicXml(NOO->getXmlToOpen(), m);
+  m_scoreObj->openMusicXml(NOO->getXmlToOpen(), m, GLOB->instrument().type() != Tinstrument::Bandoneon && !GLOB->instrument().isGuitar());
   SOUND->setMetronome(m->tempo(), m->beat());
   delete m;
   SOUND->startListen();

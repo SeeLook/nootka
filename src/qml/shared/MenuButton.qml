@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -21,6 +21,9 @@ Rectangle {
 
   signal clicked()
 
+  // private
+  property var shortText: null
+
   onActionChanged: {
     if (action && action.checkable)
       radioComp.createObject(menuButton)
@@ -40,13 +43,15 @@ Rectangle {
     text: action ? action.text : ""
     font.bold: true
     color: activPal.text
-    width: parent.width - x - Noo.fontSize() / 2; elide: Text.ElideRight
+    width: parent.width - x - Noo.fontSize() - (shortText ? shortText.width : 0)
+    fontSizeMode: Text.Fit; minimumPixelSize: Noo.fontSize() / 2; minimumPointSize: minimumPixelSize
+    elide: Text.ElideRight
   }
 
   Component {
     id: radioComp
     TcheckBox {
-      anchors {verticalCenter: parent.verticalCenter}
+      anchors.verticalCenter: parent.verticalCenter
       checked: menuButton.action.checked
       onClicked: buttonClicked()
       x: (Noo.fontSize() * 3.5 - width) / 2
@@ -66,7 +71,7 @@ Rectangle {
 
   Component.onCompleted: { // shortcut is known only now
     if (!Noo.isAndroid() && action && action.shortcut)
-      shortComp.createObject(menuButton)
+      shortText = shortComp.createObject(menuButton)
   }
 
   MouseArea {

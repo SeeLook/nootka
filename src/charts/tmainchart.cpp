@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -124,7 +124,7 @@ void TmainChart::sort() {
 
 void TmainChart::prepareChart(int maxX) {
 // Grid lines
-  QColor lineColor = qApp->palette().foreground().color();
+  QColor lineColor = qApp->palette().windowText().color();
   if (p_chartSett.type != e_bar) { // vertical lines only for linear chart
       for(int i = 5; i < maxX; i++) {
         if (i % 5 == 0) {

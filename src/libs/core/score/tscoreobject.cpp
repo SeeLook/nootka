@@ -293,7 +293,6 @@ void TscoreObject::setNote(TnoteItem* no, const Tnote& n) {
       deleteLastNote();
       addNote(n);
       emitLastNote();
-      setSelectedItem(lastNote());
       return;
     }
 
@@ -442,7 +441,13 @@ void TscoreObject::noteClicked(qreal yPos) {
   if (m_workRhythm->isRest() || m_clefType == Tclef::NoClef)
     newNote.setNote(0);
 
-  setNote(m_activeNote, newNote); 
+  bool selectLastNoteAgain = m_activeNote == lastNote() && m_activeNote->note()->rtm != newRhythm;
+  setNote(m_activeNote, newNote);
+  if (selectLastNoteAgain) { // clicked note is the last one and changed its rhythm, so it was deleted and added again
+    m_activeNote = lastNote();
+    setSelectedItem(lastNote());
+    emit activeNoteChanged();
+  }
 
   emit clicked();
 }
@@ -463,7 +468,7 @@ QString TscoreObject::alterText() {
 }
 
 
-void TscoreObject::openMusicXml(const QString& musicFile, Tmelody* melody) {
+void TscoreObject::openMusicXml(const QString& musicFile, Tmelody* melody, bool ignoreTechnical) {
   if (!musicFile.isEmpty()) {
     bool melodyCreated = false;
     if (!melody) {
@@ -471,7 +476,7 @@ void TscoreObject::openMusicXml(const QString& musicFile, Tmelody* melody) {
       melodyCreated = true;
     }
     if (melody->grabFromMusicXml(musicFile))
-      setMelody(melody);
+      setMelody(melody, ignoreTechnical);
     if (melodyCreated)
       delete melody;
   }
