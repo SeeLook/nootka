@@ -226,6 +226,9 @@ void TrtAudio::updateAudioParams() {
       m_areSplit = false;
     else
       m_areSplit = true;
+
+    m_areSplit = false; //FIXME This is temporary solution to allow ticking during listening
+
   // preparing devices
     int inDevId = -1, outDevId = -1;
     unsigned int devCount = getDeviceCount();

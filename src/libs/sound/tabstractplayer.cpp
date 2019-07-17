@@ -48,6 +48,7 @@ unsigned int            TabstractPlayer::p_lastPosOfPrev = 0;
 unsigned int            TabstractPlayer::p_beatPeriod = 0;
 unsigned int            TabstractPlayer::p_beatBytes = 7984; // beat file frames number (initial, finally obtained from file)
 unsigned int            TabstractPlayer::p_beatOffset = 0;
+bool                    TabstractPlayer::p_lastNotePlayed = false;
 
 
 TabstractPlayer::TabstractPlayer(QObject* parent) :
@@ -150,7 +151,25 @@ void TabstractPlayer::runMetronome(unsigned int beatTempo) {
 
 
 void TabstractPlayer::stopMetronome() {
+  p_beatPeriod = 0;
 }
+
+
+bool TabstractPlayer::tickBeforePlay() const { return p_audioParams && p_audioParams->countBefore; }
+void TabstractPlayer::setTickBeforePlay(bool tbp) {
+  if (p_audioParams)
+    p_audioParams->countBefore = tbp;
+}
+
+
+
+bool TabstractPlayer::tickDuringPlay() const { return p_audioParams && p_audioParams->audibleMetro; }
+void TabstractPlayer::setTickDuringPlay(bool tdp) {
+  if (p_audioParams)
+    // TODO wait for busy callback to avoid cracks
+    p_audioParams->audibleMetro = tdp;
+}
+
 
 
 //#################################################################################################

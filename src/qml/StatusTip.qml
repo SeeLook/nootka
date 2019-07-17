@@ -28,7 +28,7 @@ TipRect {
   Text {
     id: text
     padding: statusTip.height / 10
-    font.pixelSize: nootkaWindow.height / 45
+    font.pixelSize: nootkaWindow.height / 50
     anchors.fill: parent
     wrapMode: Text.WordWrap; verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignHCenter
     color: activPal.base

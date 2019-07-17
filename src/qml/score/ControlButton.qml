@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -30,7 +30,7 @@ Rectangle {
     height: factor * 3
     style: Text.Normal
     styleColor: selected ? activPal.highlightedText : activPal.shadow
-    color: activPal.text
+    color: cb.enabled ? activPal.text : disdPal.text
   }
   MouseArea {
     anchors.fill: parent

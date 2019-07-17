@@ -87,7 +87,7 @@ ControlBase {
         Loader { // triplet
           id: tripLoad
           sourceComponent: ctrlButtonComp
-          onLoaded: { item.rhythm = 0; item.text = "\u0183" }
+          onLoaded: { item.rhythm = 0; item.text = "\u0183"; item.enabled = false }
           Binding { target: tripLoad.item; property: "selected"; value: toolbox.triplet }
 //           Connections {
 //             target: tripLoad.item

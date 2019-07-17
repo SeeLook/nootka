@@ -34,6 +34,10 @@
     <file alias="Tframe.qml">qml/shared/Tframe.qml</file>
     <file alias="TpopupDialog.qml">qml/shared/TpopupDialog.qml</file>
     <file alias="Tmenu.qml">qml/shared/Tmenu.qml</file>
+    <file alias="RectButton.qml">qml/shared/RectButton.qml</file>
+
+<!--  Unused    -->
+<!--     <file alias="TprogressBar.qml">qml/shared/TprogressBar.qml</file> -->
 
     <file alias="PitchView.qml">qml/sound/PitchView.qml</file>
     <file alias="sound/VolumeBar.qml">qml/sound/VolumeBar.qml</file>
