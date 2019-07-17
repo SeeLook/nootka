@@ -40,7 +40,7 @@ class Tmelody;
 class NOOTKASOUND_EXPORT TsingleSound {
 public:
   TsingleSound(int nId = -1, qint16 nr = REST_NR, quint32 samples = 0) : id(nId), number(nr), samplesCount(samples) {}
-  int id; /** Note id in the melody */
+  int id; /**< Note id in the melody */
   qint8 number; /**< number of note (chromatic) - none (rest) by default */
   quint32 samplesCount; /**< Number of samples the note takes */
 };
@@ -102,11 +102,11 @@ public:
   void stopMetronome();
   qint16 getBeatsample(unsigned int sampleNr) const { return m_beatArray[sampleNr]; }
 
-  bool tickBeforePlay() const { return m_tickBeforePlay; }
-  void setTickBeforePlay(bool tbp) { m_tickBeforePlay = tbp; }
+  bool tickBeforePlay() const;
+  void setTickBeforePlay(bool tbp);
 
-  bool tickDuringPlay() const { return m_tickDuringPlay; }
-  void setTickDuringPlay(bool tdp) { m_tickDuringPlay = tdp; }
+  bool tickDuringPlay() const;
+  void setTickDuringPlay(bool tdp);
 
 signals:
       /**
@@ -147,6 +147,7 @@ protected:
   static unsigned int          p_beatPeriod; /**< Samples number of single metronome period, 0 - no metronome  */
   static unsigned int          p_beatBytes; /**< Number of bytes in single beat sample */
   static unsigned int          p_beatOffset; /**< Callback position in beat period */
+  static bool                  p_lastNotePlayed; /**< @p TRUE set in callback only when last note just has been played */
 
 private:
   QList<TsingleSound>          m_playList;
@@ -158,8 +159,6 @@ private:
   Tmelody                     *m_melodyToPlay = nullptr;
   int                          m_transposition = 0;
   qint16                      *m_beatArray = nullptr;
-  bool                         m_tickBeforePlay = false;
-  bool                         m_tickDuringPlay = false;
 
 private:
   void playThreadSlot();

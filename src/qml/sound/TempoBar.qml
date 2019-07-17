@@ -5,6 +5,7 @@
 import QtQuick 2.9
 
 import Nootka 1.0
+import "../"
 
 
 Item {
@@ -19,7 +20,7 @@ Item {
   property int countTo: Noo.meter(score.meter).countTo()
 
   // protected
-  property var beatModel: [ "\ue1d5", "\ue1d7", "\ue1d5\ue1e7", "\ue1d3" ]
+  property var beatModel: [ "\ue1d5", "\ue1d7", "\ue1d5 \ue1e7", "\ue1d3" ]
 
   MouseArea {
     anchors.fill: parent
@@ -28,32 +29,28 @@ Item {
     onExited: Noo.setStatusTip("", Item.TopLeft)
   }
 
-  Rectangle {
+  RectButton {
     id: metroText
-    width: height * 2.5; height: parent.height
-    color: ma.containsMouse ? activPal.highlight : (Noo.isAndroid() ? activPal.base : "transparent")
-    radius: height / 5
-    Text {
-      y: parent.height * -0.7
-      x: width * 0.2
-      font { family: "Scorek"; pixelSize: parent.height * 0.7 }
-      text:  beatModel[SOUND.beatUnit] + "=" + SOUND.tempo
-      color: activPal.text
-    }
-    MouseArea {
-      id: ma
-      hoverEnabled: true
-      anchors.fill: parent
-      onClicked: {
-        if (!tMenu) {
-          var c = Qt.createComponent("qrc:/sound/TempoMenu.qml")
-          tMenu = c.createObject(tempoBar)
-        }
-        tMenu.open()
+    forcedHeight: parent.height; yOffset: parent.height * -0.7
+    statusTip: qsTr("Tempo")
+    font { family: "Scorek"; pixelSize: parent.height * 0.7 }
+    text:  beatModel[SOUND.beatUnit] + "=" + SOUND.tempo
+    onClicked: {
+      if (!tMenu) {
+        var c = Qt.createComponent("qrc:/sound/TempoMenu.qml")
+        tMenu = c.createObject(tempoBar)
       }
-      onEntered: Noo.setStatusTip(qsTr("Tempo"), Item.TopLeft)
-      onExited: Noo.setStatusTip("", Item.TopLeft)
+      tMenu.open()
     }
+  }
+
+  RectButton {
+    x: metroText.width + Noo.fontSize()
+    font { family: "Nootka"; pixelSize: parent.height }
+    text: "\u018f"
+    statusTip: qsTr("Audible metronome.<br>Use earphones! Otherwise ticking will disturb proper pitch detection!")
+    checked: SOUND.tickDuringPlay
+    onClicked: SOUND.tickDuringPlay = !SOUND.tickDuringPlay
   }
 
   Repeater {
@@ -115,27 +112,14 @@ Item {
     }
   }
 
-  Rectangle {
-    id: tunerText
-    width: height * 2.5; height: parent.height; x: parent.width - width * 1.1
-    color: tunerArea.containsMouse ? activPal.highlight : (Noo.isAndroid() ? activPal.base : "transparent")
-    radius: height / 5
-    Text {
-      anchors.horizontalCenter: parent.horizontalCenter
-      font { pixelSize: parent.height * 0.7; bold: true }
-      text: "440Hz"
-      color: activPal.text
-    }
-    MouseArea {
-      id: tunerArea
-      hoverEnabled: true
-      anchors.fill: parent
-      onClicked: {
-        nootkaWindow.showDialog(Nootka.Tuner)
-        SOUND.startListen()
-      }
-      onEntered: Noo.setStatusTip(qsTr("Tuner"), Item.TopLeft)
-      onExited: Noo.setStatusTip("", Item.TopLeft)
+  RectButton {
+    x: parent.width - width * 1.1
+    text: "440Hz"
+    font { pixelSize: parent.height * 0.8; bold: true }
+    statusTip: qsTr("Tuner")
+    onClicked: {
+      nootkaWindow.showDialog(Nootka.Tuner)
+      SOUND.startListen()
     }
   }
 }

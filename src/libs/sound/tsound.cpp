@@ -353,12 +353,17 @@ bool Tsound::playing() const {
 void Tsound::stopListen() {
   if (sniffer)
     sniffer->stopListening();
+  if (player)
+    player->stopMetronome();
 }
 
 
 void Tsound::startListen() {
-  if (sniffer)
+  if (sniffer) {
+    if (player && player->tickDuringPlay())
+      player->runMetronome(qRound(static_cast<qreal>(m_tempo) / Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(m_beatUnit))));
     sniffer->startListening();
+  }
 }
 
 
@@ -388,12 +393,13 @@ bool Tsound::tickBeforePlay() const { return player ? player->tickBeforePlay() :
 void Tsound::setTickBeforePlay(bool tbp) {
   if (player && tbp != player->tickBeforePlay()) {
     player->setTickBeforePlay(tbp);
+    GLOB->A->countBefore = tbp;
     emit tickStateChanged();
   }
 }
 
 
-bool Tsound::tickDuringPlay() const { return player ? player->tickDuringPlay() : false; }
+bool Tsound::tickDuringPlay() const { return player && player->tickDuringPlay(); }
 void Tsound::setTickDuringPlay(bool tdp) {
   if (player && tdp != player->tickDuringPlay()) {
     player->setTickDuringPlay(tdp);

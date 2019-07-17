@@ -96,8 +96,10 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
               playingSound = instance->playList()[p_playingNoteNr];
               p_playingNoteId = playingSound.id;
               ao()->emitNextNoteStarted();
-          } else
+          } else {
               unfinished = false;
+              p_lastNotePlayed = true; // inform beating routine to stop
+          }
         }
         if (unfinished && playingSound.number < REST_NR) {
           if (instance->oggScale->soundContinuous() && p_posInOgg > instance->oggScale->stopLoopSample(playingSound.number))
@@ -151,14 +153,20 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
 //       auto out = static_cast<qint32*>(outBuff); // 4 bytes for both channels at once
       auto out = static_cast<qint16*>(outBuff);
       qint16 beatSample = 0;
-      if (instance->tickDuringPlay() && p_beatPeriod) {
-        if (p_beatOffset < p_beatBytes)
-          beatSample = instance->getBeatsample(p_beatOffset);
-        p_beatOffset++;
-        if (p_beatOffset >= p_beatPeriod)
-          p_beatOffset = 0;
-      }
       for (int i = 0; i < nBufferFrames / instance->ratioOfRate; i++) {
+        beatSample = 0;
+        if (instance->tickDuringPlay() && p_beatPeriod) {
+          if (p_beatOffset < p_beatBytes)
+            beatSample = instance->getBeatsample(p_beatOffset);
+          p_beatOffset++;
+          if (p_beatOffset >= p_beatPeriod) {
+            p_beatOffset = 0;
+            if (p_lastNotePlayed) { // play last beat when last note was finished, then stop metronome ticking
+              p_lastNotePlayed = false;
+              p_beatPeriod = 0;
+            }
+          }
+        }
         for (int r = 0; r < instance->ratioOfRate; r++) {
 //           *out++ = 0; // both channels at once channel
           *out++ = beatSample; // left channel
@@ -243,6 +251,7 @@ void TaudioOUT::startPlaying() {
     qDebug() << "[TaudioOUT] Oops! Call back method is in progress when a new note wants to be played!";
   }
 
+  p_lastNotePlayed = false;
   oggScale->decodeNote(playList().first().number);
   if (!oggScale->isReady()) {
     int loops = 0;

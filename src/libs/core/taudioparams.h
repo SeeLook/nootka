@@ -45,6 +45,8 @@ public:
   quint8  intonation; /**< accuracy of intonation in detected note - corresponds with @p Eaccuracy */
   qreal   minSplitVol; /**< minimum volume change to split the same note (0.0 - no split) */
   bool    stoppedByUser; /**< Stores user action when he stopped sniffing himself @default FALSE */
+  bool    audibleMetro; /**< Audible metronome ticking */
+  bool    countBefore; /**< Before playing or sniffing play a measure of ticking */
 
       /**
        * multiplexer of sound volume (aka %)

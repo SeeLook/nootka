@@ -6,6 +6,7 @@ import QtQuick 2.9
 import QtGraphicalEffects 1.0
 
 import Nootka 1.0
+import "../"
 
 
 Item {
@@ -13,7 +14,7 @@ Item {
 
   property real volume: 0.05
 
-  TtickColors { id: tc; width: volBar.width - minVolText.width - noteText.width * 2; divisor: pitchView.tickGap + pitchView.tickWidth }
+  TtickColors { id: tc; width: volBar.width - minVolText.width - micButt.width * 2; divisor: pitchView.tickGap + pitchView.tickWidth }
 
   MouseArea {
     id: area
@@ -54,28 +55,14 @@ Item {
       }
   }
 
-  Rectangle {
-    x: volBar.width - width
-    width: noteText.width * 1.5
-    height: parent.height
-    color: ma.containsMouse ? activPal.highlight : "transparent"
-    radius: height / 5
-    Text {
-        id: noteText
-        anchors.centerIn: parent
-        font.family: "Nootka"
-        font.pixelSize: volBar.height
-        text: "r"
-        color: pitchView.active ? "red" : activPal.text
-    }
-    MouseArea {
-      id: ma
-      anchors.fill: parent
-      onClicked: pitchView.paused()
-      hoverEnabled: true
-      onEntered: Noo.setStatusTip(qsTr("Start/stop pitch detection") + "<br><b>(M)</b>", Item.TopLeft)
-      onExited: Noo.setStatusTip("", Item.TopLeft)
-    }
+  RectButton {
+    id: micButt
+    statusTip: qsTr("Start/stop pitch detection") + "<br><b>(M)</b>"
+    x: volBar.width - width * 1.5
+    font { family: "Nootka"; pixelSize: volBar.height }
+    text: "r"
+    onClicked: pitchView.paused()
+    checked: SOUND.listening
   }
 
   DropShadow {

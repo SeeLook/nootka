@@ -654,6 +654,8 @@ void Tglobals::loadSettings(QSettings* cfg) {
     A->skipStillerVal = cfg->value(QStringLiteral("skipStillerThan"), 80.0).toReal();
     A->transposition = cfg->value(QStringLiteral("transposition"), 0).toInt();
     A->stoppedByUser = cfg->value(QStringLiteral("stoppedByUser"), false).toBool();
+    A->audibleMetro = cfg->value(QStringLiteral("audibleMetro"), false).toBool();
+    A->countBefore = cfg->value(QStringLiteral("countBefore"), false).toBool();
   cfg->endGroup();
 
 //   cfg->beginGroup(QLatin1String("layout"));
@@ -844,6 +846,8 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue(QStringLiteral("skipStillerThan"), A->skipStillerVal);
       cfg->setValue(QStringLiteral("transposition"), A->transposition);
       cfg->setValue(QStringLiteral("stoppedByUser"), A->stoppedByUser);
+      cfg->setValue(QStringLiteral("audibleMetro"), A->audibleMetro);
+      cfg->setValue(QStringLiteral("countBefore"), A->countBefore);
 #if !defined (Q_OS_ANDROID)
       cfg->setValue(QLatin1String("dumpPath"), A->dumpPath);
 #endif
