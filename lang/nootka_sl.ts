@@ -138,7 +138,7 @@
     <message>
         <source>none</source>
         <translatorcomment>none, brez, nič, ničesar, 0, </translatorcomment>
-        <translation>ne</translation>
+        <translation>0</translation>
     </message>
     <message>
         <source>Shifts the frequency of &lt;i&gt;middle a&lt;/i&gt;. It can be used as a transposition.</source>
@@ -551,7 +551,7 @@
     </message>
     <message>
         <source>mistake</source>
-        <translation>napak</translation>
+        <translation>narobe</translation>
     </message>
     <message>
         <source>Level summary:</source>
@@ -1044,7 +1044,7 @@
     </message>
     <message>
         <source>Student Name:</source>
-        <translation>Ime študenta:</translation>
+        <translation>Ime učenca:</translation>
     </message>
     <message>
         <source>Default name for every new exam or exercise.</source>
@@ -1120,11 +1120,11 @@
     </message>
     <message>
         <source>wait for correct note</source>
-        <translation type="unfinished"></translation>
+        <translation>počakaj na pravilno noto</translation>
     </message>
     <message>
         <source>When melody is played from score, every note is checked immediately and next note can be played only when the previous one was correct. When unset, notes are checked only after playing the last one (or check button was clicked).</source>
-        <translation type="unfinished"></translation>
+        <translation>Ko se predvaja melodija iz notacije, je vsaka nota sproti preverjana in naslednja nota se lahko zaigra le če je bila prejšnja prepoznana kot pravilna. Ko je izklopljena nastavitev, so note preverjane po zadnji zaigrani (ali pritisnjen gumb Preveri)</translation>
     </message>
 </context>
 <context>
@@ -1610,7 +1610,7 @@
     </message>
     <message>
         <source>open strings</source>
-        <translation>odprte strune (odprtih strunah)</translation>
+        <translation>odprte strune</translation>
     </message>
     <message>
         <source>The simplest. No key signatures, no double accidentals and no sound.&lt;br&gt;Automatically adjusted to current tune.</source>
@@ -1941,7 +1941,7 @@
     </message>
     <message>
         <source>During exercising %1 the program will be your understanding and friendly teacher - it will show you corrected answers if you miss.</source>
-        <translation>Med vadbo %1 bo program vaš razumevajoč in prijateljski učitelj. - če se zmotite, vam bo pokazal popravljen odgovor.</translation>
+        <translation>Med vadbo %1 bo program vaš razumevajoč in prijazen učitelj. - če se zmotite, vam bo pokazal popravljen odgovor.</translation>
     </message>
     <message>
         <source>During exams %1 Nootka will be your strict and &amp;quot;old school&amp;quot; master. Any mistake will be penalized with additional questions...&lt;br&gt;When you pass an exam you got a certificate!</source>
@@ -2959,7 +2959,7 @@
     </message>
     <message>
         <source>No thanks, but check entire melody from now.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ne hvala, toda od sedaj preverjaj celotno melodijo.</translation>
     </message>
 </context>
 <context>
@@ -3428,7 +3428,7 @@
     <name>questionsSettings</name>
     <message>
         <source>single note</source>
-        <translation>posamična nota(ena sama nota)</translation>
+        <translation>posamična nota</translation>
     </message>
     <message>
         <source>require octave</source>
