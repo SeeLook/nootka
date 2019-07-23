@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -137,6 +137,8 @@ TaboutNootka::TaboutNootka(QWidget *parent) :
                         QStringLiteral("<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>"));
   translStr += transRow("ru", QStringLiteral("русский"),
                         QStringLiteral("Sergei Ivanov (tico-tico),<br>&nbsp;&nbsp;Timur Artykov"), QString());
+  translStr += transRow("sl", QStringLiteral("slovenščina"),
+                        QStringLiteral("Grega Trček"), QString());
   translStr += QLatin1String("</table>");
   QString otherStr = getHeader(tr("Other projects")) +
       tr("However this application could not exist without various open source projects.<br>Especially:") +

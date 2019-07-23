@@ -8,7 +8,7 @@ project(nootka)
 
 SET(Nootka_VERSION_MAJOR  "1")
 SET(Nootka_VERSION_MINOR  "4")
-SET(Nootka_VERSION_PATCH  "5")
+SET(Nootka_VERSION_PATCH  "6")
 
 SET(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
 SET(Nootka_VERSION_FULL  "${Nootka_VERSION}.${Nootka_VERSION_PATCH}")
@@ -115,12 +115,14 @@ if(APPLE OR WIN32)
  LIST(APPEND langs
    "${QT_TRANSLATIONS_DIR}/qtbase_cs.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_de.qm"
+   "${QT_TRANSLATIONS_DIR}/qtbase_es.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_fr.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_hu.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_pl.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_ru.qm"
+#    "${QT_TRANSLATIONS_DIR}/qtbase_sl.qm"
       # So far not provided by Qt
-      #"${CMAKE_CURRENT_SOURCE_DIR}/lang/qtbase/qtbase_es.qm"
+      #"${CMAKE_CURRENT_SOURCE_DIR}/lang/qtbase/qtbase_sl.qm"
 
   )
 endif(APPLE OR WIN32)

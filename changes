@@ -1,4 +1,6 @@
 1.4.6
+  Nootka says: I speak Slovenian
+     - added Slovenian translation
      - more user friendly method of checking played notes in exercises
     BUGS FIXES
      - keep random generated melody in clef range
@@ -7,6 +9,9 @@
      - set of scaled icons for above
      - added appdata XML file for better desktop integration and packaging
      - Flatpack package available
+    ANDROID
+     - asking for permissions: required by newer Androids
+     - added arm64_v8a and x86_64 versions
 
 1.4.5
   Nootka says: I speak Hungarian

@@ -1,5 +1,5 @@
 /**************************************************************************
-*   Copyright (C) 2016-2017 by Tomasz Bojczuk                             *
+*   Copyright (C) 2016-2019 by Tomasz Bojczuk                             *
 *   tomaszbojczuk@gmail.com                                               *
 *                                                                         *
 *   This program is free software; you can redistribute it and/or modify  *
@@ -31,12 +31,15 @@ TdonorsWidget::TdonorsWidget(QWidget* parent) :
     headLab->setAlignment(Qt::AlignCenter);
     headLab->setWordWrap(true);
   QString sponText = QLatin1String("<ul>");
+    sponText += QLatin1String("<li>Jose1711</li>");
+    sponText += QLatin1String("<li>Wayne Bonner</li>");
     sponText += QLatin1String("<li>Aaron Wolf</li>");
     sponText += QLatin1String("<li>Torsten Philipp</li>");
     sponText += QLatin1String("<li>Vincent Bermel</li>");
     sponText += QLatin1String("<li>Tomasz Matuszewski</li>");
     sponText += QLatin1String("<li>Yves Balhant</li>");
     sponText += QString::fromUtf8("<li>Илья Б.</li>");
+    sponText += QLatin1String("<li>...and others</li>");
     sponText += QLatin1String("</ul>");
     sponText += QLatin1String("<p style=\"text-align: center;\"><b><big>THANK YOU!</b></big>");
   QLabel *sponLab = new QLabel(sponText, this);
