@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -107,7 +107,7 @@ void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
 #if (QT_VERSION < QT_VERSION_CHECK(5, 3, 0))
   qtlang = QStringLiteral("qt_");
 #else
-  if (loc.language() == QLocale::Spanish) // So far, there are missing
+  if (loc.language() == QLocale::Spanish || loc.language() == QLocale::Slovenian) // So far, there are missing
     translationsPath = Tpath::lang(); // TODO Check when those qtbase translations will be shipped with Qt
 #endif
   if (qt.load(loc, qtlang, QString(), translationsPath))
