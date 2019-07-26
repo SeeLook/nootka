@@ -20,7 +20,7 @@
 #if defined (Q_OS_ANDROID)
   #include "ttouchstyle.h"
   #include <Android/tandroid.h>
-  // #include <QtWidgets/qstylefactory.h>
+  #include <QtAndroidExtras/qandroidfunctions.h>
 #endif
 #include <tinitcorelib.h>
 #include <tmtr.h>
@@ -34,11 +34,12 @@
 
 static QString logFile;
 
-/** It allows to grab all debug messages into nootka-log.txt file */
+/**
+ * It allows to grab all debug messages into nootka-log.txt file
+ */
 void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
   Q_UNUSED(context)
   Q_UNUSED(type)
-//   if (type == QtDebugMsg) {
 #if defined (Q_OS_ANDROID)
     QFile outFile(logFile);
 #else
@@ -47,7 +48,6 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
     outFile.open(QIODevice::WriteOnly | QIODevice::Append);
     QTextStream ts(&outFile);
     ts << msg << endl;
-//   }
 }
 
 
@@ -60,53 +60,54 @@ int main(int argc, char *argv[])
 #if defined (Q_OS_ANDROID)
   qputenv("QT_ANDROID_VOLUME_KEYS", "1"); // Handle volume keys by Qt, lock native Android behavior
 
-  // log to any writable storage
-  logFile = Tandroid::getExternalPath() + QStringLiteral("/nootka-log.txt");
-  if (QFile::exists(logFile))
-    QFile::remove(logFile);
-  qInstallMessageHandler(myMessageOutput);
+  // log to any writable storage, if write acces is granted
+  if (Tandroid::hasWriteAccess()) {
+    logFile = Tandroid::getExternalPath() + QStringLiteral("/nootka-log.txt");
+    if (QFile::exists(logFile))
+      QFile::remove(logFile);
+    qInstallMessageHandler(myMessageOutput);
+  }
   qDebug() << "==== NOOTKA LOG =======\n" << QDateTime::currentDateTime().toString();
 #endif
 
-	QTranslator qtTranslator;
-	QTranslator nooTranslator;
-	QPointer<QApplication> a = 0;
-	MainWindow *w = 0;
-	int exitCode;
-	bool firstTime = true;
-	QString confFile;
-	resetConfig = false;
-	do {
+  QTranslator qtTranslator;
+  QTranslator nooTranslator;
+  QPointer<QApplication> a = nullptr;
+  MainWindow *w = nullptr;
+  int exitCode;
+  bool firstTime = true;
+  QString confFile;
+  resetConfig = false;
+  do {
 #if !defined (Q_OS_ANDROID)
-		if (a) delete a;
-		if (resetConfig) { // delete config file - new Nootka instance will start with first run wizard
-				QFile f(confFile);
-				f.remove();
-		}
-		resetConfig = false;
+      if (a) delete a;
+      if (resetConfig) { // delete config file - new Nootka instance will start with first run wizard
+          QFile f(confFile);
+          f.remove();
+      }
+      resetConfig = false;
 #endif
-		a = new QApplication(argc, argv);
-    Tmtr::init(a);
+      a = new QApplication(argc, argv);
+      Tmtr::init(a);
 #if defined (Q_OS_ANDROID)
-    a->setStyle(new TtouchStyle);
-//     a->setStyle(QStyleFactory::create("Fusion"));
+      a->setStyle(new TtouchStyle);
 #endif
-		gl = new Tglobals();
-		gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
-		confFile = gl->config->fileName();
-		if (!initCoreLibrary())
-			return 110;
-		prepareTranslations(a, qtTranslator, nooTranslator);
-		if (!loadNootkaFont(a))
-			return 111;
+      gl = new Tglobals();
+      gl->path = Tglobals::getInstPath(qApp->applicationDirPath());
+      confFile = gl->config->fileName();
+      if (!initCoreLibrary())
+          return 110;
+      prepareTranslations(a, qtTranslator, nooTranslator);
+      if (!loadNootkaFont(a))
+          return 111;
 
 // creating main window
-    w = new MainWindow();
+      w = new MainWindow();
 
 #if defined (Q_OS_ANDROID)
-    w->showFullScreen();
+      w->showFullScreen();
 #else
-    w->show();
+      w->show();
 #endif
 
     if (firstTime) {

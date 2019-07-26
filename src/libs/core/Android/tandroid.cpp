@@ -22,6 +22,9 @@
 #include <QtAndroidExtras/qandroidjnienvironment.h>
 #include <QtCore/qdatetime.h>
 #include <QtCore/qfileinfo.h>
+#include <QtWidgets/qmessagebox.h>
+#include <QtWidgets/qapplication.h>
+
 #include <QtCore/qdebug.h>
 
 
@@ -47,6 +50,13 @@ int Tandroid::getAPIlevelNr() {
 }
 
 
+bool Tandroid::hasWriteAccess() {
+  if (QtAndroid::androidSdkVersion() < 23)
+    return true;
+  else
+    return QtAndroid::checkPermission(QStringLiteral("android.permission.WRITE_EXTERNAL_STORAGE")) == QtAndroid::PermissionResult::Granted;
+}
+
 QString Tandroid::getExternalPath() {
   QString extPath;
   if (getAPIlevelNr() < 19) { // look for SD card only before Kitkat, otherwise it is inaccessible
@@ -61,6 +71,15 @@ QString Tandroid::getExternalPath() {
       }
     }
   }
+
+  if(QtAndroid::androidSdkVersion() >= 23) {
+      const QString PermissionID("android.permission.WRITE_EXTERNAL_STORAGE");
+      if (QtAndroid::checkPermission(PermissionID) != QtAndroid::PermissionResult::Granted) {
+          auto perms = QtAndroid::requestPermissionsSync(QStringList() << PermissionID);
+          qDebug() << PermissionID << (perms[PermissionID] == QtAndroid::PermissionResult::Granted);
+      }
+  }
+
   if (extPath.isEmpty())
     extPath = qgetenv("EXTERNAL_STORAGE"); // return primary storage path (device internal)
   if (!QFileInfo(extPath).isWritable()) {

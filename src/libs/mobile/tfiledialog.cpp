@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -110,7 +110,7 @@ public:
 
   QString getName() { return m_edit->text(); }
 
-  static QString dirName(QWidget* parent = 0) {
+  static QString dirName(QWidget* parent = nullptr) {
     TnewDirMessage newDir(parent);
     if (newDir.exec() == Accepted && !newDir.getName().isEmpty())
       return newDir.getName();
@@ -130,7 +130,10 @@ private:
 
 /* static */
 QString TfileDialog::getOpenFileName(QWidget* parent, const QString& directory, const QString& filter) {
-  TfileDialog openDialog(parent, directory, filter, TfileDialog::e_acceptOpen);
+  QString dirCp = directory;
+  if (dirCp.isEmpty())
+    dirCp = Tandroid::getExternalPath();
+  TfileDialog openDialog(parent, dirCp, filter, TfileDialog::e_acceptOpen);
   if (openDialog.exec() == QFileDialog::Accepted)
     return openDialog.selectedFile();
   else
@@ -279,11 +282,13 @@ TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QStrin
 // Adjust width of menu list according to widest text
   QTimer::singleShot(100, [=] { m_menu->setFixedWidth(m_menu->sizeHintForColumn(0) + 2 * m_menu->frameWidth()); });
 
-  QString externalStorage = Tandroid::getExternalPath();
-  if (mode == e_acceptSave && externalStorage == m_fileModel->rootPath()) {
-    // Ask to create Nootka folder but only when file dialog is called with external storage path (first launch)
-    if (!externalStorage.isEmpty() && !QFileInfo::exists(externalStorage + QLatin1String("/Nootka")))
-      QTimer::singleShot(200, [=] { createNootkaDir(); });
+  if (Tandroid::hasWriteAccess()) {
+    QString externalStorage = Tandroid::getExternalPath();
+    if (mode == e_acceptSave && externalStorage == m_fileModel->rootPath()) {
+      // Ask to create Nootka folder but only when file dialog is called with external storage path (first launch)
+      if (!externalStorage.isEmpty() && !QFileInfo::exists(externalStorage + QLatin1String("/Nootka")))
+        QTimer::singleShot(200, [=] { createNootkaDir(); });
+    }
   }
 }
 

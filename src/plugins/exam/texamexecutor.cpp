@@ -52,6 +52,7 @@
 #include <gui/tmainview.h>
 #if defined (Q_OS_ANDROID)
   #include <tfiledialog.h>
+  #include <Android/tandroid.h>
 #else
   #include <level/tfixleveldialog.h>
   #include <gui/tstatuslabel.h>
@@ -78,7 +79,12 @@ void debugStyle(TQAunit &qa) {
         /** Returns a file name generated from user name and level,
         * but when such a file exists in current exam directory some time mark is added. */
 QString getExamFileName(Texam* e) {
-  QString fName = QDir::toNativeSeparators(Tcore::gl()->E->examsDir + QLatin1String("/") + e->userName() + QLatin1String("-") + e->level()->name);
+#if defined (Q_OS_ANDROID)
+  if (Tcore::gl()->E->examsDir.isEmpty())
+    Tcore::gl()->E->examsDir = Tandroid::getExternalPath();
+#endif
+  QString fName = QDir::toNativeSeparators(Tcore::gl()->E->examsDir + QLatin1String("/") + e->userName()
+                                           + QLatin1String("-") + e->level()->name);
   if (QFileInfo(fName  + QLatin1String(".noo")).exists())
     fName += QLatin1String("-")+ QDateTime::currentDateTime().toString(QLatin1String("(dd-MMM-hhmmss)"));
   return fName;
