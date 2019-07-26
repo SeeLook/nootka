@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -133,7 +133,8 @@ private:
   QMainWindow                      *m_mainWindow;
   QWidget                          *m_status;
   QGraphicsView                    *m_score, *m_guitar;
-  QWidget                          *m_results, *m_progress, *m_container, *m_touchedWidget;
+  QPointer<QWidget>                 m_results, m_progress;
+  QWidget                          *m_container, *m_touchedWidget;
   TpitchView                       *m_pitch;
   TnoteName                        *m_name;
   TtoolBar                         *m_tool;

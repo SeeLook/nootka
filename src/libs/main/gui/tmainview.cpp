@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -225,6 +225,8 @@ void TmainView::takeNoteName() {
 
 
 void TmainView::addExamViews(QWidget* resultsW, QWidget* progressW) {
+  if (m_results)
+    qDebug() << "[TmainView] results widget exists. MEMORY LEAK!!!!!!!";
 	m_results = resultsW;
 	m_progress = progressW;
 	m_results->hide();
@@ -251,11 +253,8 @@ void TmainView::addExamViews(QWidget* resultsW, QWidget* progressW) {
 
 void TmainView::takeExamViews() {
   delete m_results;
-  m_results = nullptr;
   delete m_progress;
-  m_progress = nullptr;
   delete m_resultLay;
-  m_resultLay = nullptr;
 }
 
 
