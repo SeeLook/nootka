@@ -55,6 +55,7 @@ SetCompressor lzma
 !insertmacro MUI_LANGUAGE "Russian"
 !insertmacro MUI_LANGUAGE "Spanish"
 !insertmacro MUI_LANGUAGE "Hungarian"
+!insertmacro MUI_LANGUAGE "Slovenian"
 
 
 ; Reserve files
@@ -78,6 +79,7 @@ LangString NelDesc ${LANG_POLISH} "Poziom egzaminu programu Nootka"
 LangString NelDesc ${LANG_RUSSIAN} "Файл Нутки с уровнем"
 LangString NelDesc ${LANG_SPANISH} "Fichero de nivel de Nootka"
 LangString NelDesc ${LANG_HUNGARIAN} "Nootka szint fájl"
+LangString NelDesc ${LANG_SLOVENIAN} "Nootka stopenjska datoteka"
 
 LangString NootkaAct ${LANG_ENGLISH} "Open with Nootka"
 LangString NootkaAct ${LANG_CZECH} "Otevřít v Nootka"
@@ -87,6 +89,7 @@ LangString NootkaAct ${LANG_POLISH} "Otwórz w programie Nootka"
 LangString NootkaAct ${LANG_RUSSIAN} "Открыть в Нутке"
 LangString NootkaAct ${LANG_SPANISH} "Abrir con Nootka"
 LangString NootkaAct ${LANG_HUNGARIAN} "Megnyitás Nootka-val"
+LangString NootkaAct ${LANG_SLOVENIAN} "Odpri z Nootko"
 
 LangString NooDesc ${LANG_ENGLISH} "Nootka exam file"
 LangString NooDesc ${LANG_CZECH} "Zkušební soubor programu Nootka"
@@ -96,6 +99,7 @@ LangString NooDesc ${LANG_POLISH} "Plik egzaminu programu Nootka"
 LangString NooDesc ${LANG_RUSSIAN} "Файл Нутки с экзаменом"
 LangString NooDesc ${LANG_SPANISH} "Fichero de examen de Nootka"
 LangString NooDesc ${LANG_HUNGARIAN} "Nootka vizsga fájl"
+LangString NooDesc ${LANG_SLOVENIAN} "Nootka izpitna datoteka"
 
 Section -AssociateMime
 ;FILE ASSOCIATION
@@ -204,6 +208,7 @@ Section "GrupaGlowna" SEC01
 		File "picts\help-frame.png"
 		File "picts\flags-ru.png"
 		File "picts\flags-es.png"
+		File "picts\flags-sl.png"
 		File "picts\appearance.png"
 		File "picts\author.png"
 		File "picts\melody-play.png"
@@ -256,6 +261,7 @@ Section "GrupaGlowna" SEC01
 		File "lang\nootka_hu.qm"
 		File "lang\nootka_ru.qm"
 		File "lang\nootka_es.qm"
+		File "lang\nootka_sl.qm"
 		File "lang\qtbase_de.qm"
 		File "lang\qtbase_cs.qm"
 		File "lang\qtbase_fr.qm"
@@ -263,6 +269,7 @@ Section "GrupaGlowna" SEC01
 		File "lang\qtbase_pl.qm"
 		File "lang\qtbase_ru.qm"
 		File "lang\qtbase_es.qm"
+		File "lang\qtbase_sl.qm"
   SetOutPath "$INSTDIR\fonts"
 		File "fonts\README"
 		File "fonts\nootka.ttf"
@@ -295,6 +302,7 @@ SectionEnd
    LangString UninstallMess ${LANG_RUSSIAN} "Вы действительно хотите удалить Нутку и все компоненты программы?"
    LangString UninstallMess ${LANG_SPANISH} "¿Quiere realmente desinstalar Nootka y todos sus componentes?"
    LangString UninstallMess ${LANG_HUNGARIAN} "Biztos, hogy törli Nootka-t minden komponensével együtt?"
+   LangString UninstallMess ${LANG_SLOVENIAN} "Ste prepričani, da bi res radi odstranili Nootko in še vse ostale njene komponente?"
 
 Function un.onInit
 !insertmacro MUI_UNGETLANGUAGE
@@ -341,6 +349,7 @@ Section Uninstall
   Delete "$INSTDIR\picts\flags-hu.png"
   Delete "$INSTDIR\picts\logo.png"
   Delete "$INSTDIR\picts\flags-cs.png"
+  Delete "$INSTDIR\picts\flags-sl.png"
   Delete "$INSTDIR\picts\help.png"
   Delete "$INSTDIR\picts\help-frame.png"
   Delete "$INSTDIR\picts\flags-ru.png"
@@ -398,6 +407,7 @@ Section Uninstall
   Delete "$INSTDIR\lang\qtbase_hu.qm"
   Delete "$INSTDIR\lang\qtbase_ru.qm"
   Delete "$INSTDIR\lang\qtbase_es.qm"
+  Delete "$INSTDIR\lang\qtbase_sl.qm"
   Delete "$INSTDIR\lang\nootka_pl.qm"
   Delete "$INSTDIR\lang\nootka_cs.qm"
   Delete "$INSTDIR\lang\nootka_fr.qm"
@@ -405,6 +415,7 @@ Section Uninstall
   Delete "$INSTDIR\lang\nootka_hu.qm"
   Delete "$INSTDIR\lang\nootka_ru.qm"
   Delete "$INSTDIR\lang\nootka_es.qm"
+  Delete "$INSTDIR\lang\nootka_sl.qm"
   Delete "$INSTDIR\libvorbis.dll"
   Delete "$INSTDIR\libogg.dll"
   Delete "$INSTDIR\fonts\README"
