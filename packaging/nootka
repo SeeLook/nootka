@@ -8,4 +8,5 @@ if [ "${dirname%$tmp}" != "/" ]; then
 fi
 LD_LIBRARY_PATH=$dirname/lib/nootka:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH
+unset QT_QPA_PLATFORM
 $dirname/bin/nootka "$@" 

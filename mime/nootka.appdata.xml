@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2018 SeeLook CC-0 -->
+<!-- Copyright 2018-2019 SeeLook CC-0 -->
 <component type="desktop-application">
-  <id type="desktop">nootka.desktop</id>
+  <id>nootka.desktop</id>
   <name>Nootka</name>
   <developer_name>SeeLook</developer_name>
   <metadata_license>CC0-1.0</metadata_license>
@@ -40,9 +40,11 @@
   <url type="homepage">https://nootka.sourceforge.io</url>
   <url type="bugtracker">https://sourceforge.net/p/nootka/bugs/</url>
   <url type="donation">https://sourceforge.net/p/nootka/donate/</url>
-  <url type="translate">https://sourceforge.net/p/nootka/hg/ci/default/tree/lang/how-to-translate.txt</url>
 
-  <content_rating type="oars-1.0">
+<!-- Not honored by appimagetool  -->
+<!--   <url type="translate">https://sourceforge.net/p/nootka/hg/ci/default/tree/lang/how-to-translate.txt</url> -->
+
+  <!--<content_rating type="oars-1.0">
     <content_attribute id="violence-cartoon">none</content_attribute>
     <content_attribute id="violence-fantasy">none</content_attribute>
     <content_attribute id="violence-realistic">none</content_attribute>
@@ -63,10 +65,11 @@
     <content_attribute id="social-contacts">none</content_attribute>
     <content_attribute id="money-purchasing">none</content_attribute>
     <content_attribute id="money-gambling">none</content_attribute>
-  </content_rating>
-  <updatecontact>seelook_AT_gmail.com</updatecontact>
+  </content_rating>-->
+  <update_contact>seelook_AT_gmail.com</update_contact>
 
   <releases>
+    <release date="2018-07-28" version="1.4.6"/>
     <release date="2018-01-14" version="1.4.5"/>
   </releases>
 
