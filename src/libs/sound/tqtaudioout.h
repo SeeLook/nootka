@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,7 +18,7 @@
 
 
 #ifndef TQTAUDIOOUT_H
-#define TRTAUDIOOUT_H
+#define TQTAUDIOOUT_H
 
 
 #include "nootkasoundglobal.h"
@@ -41,7 +41,7 @@ class NOOTKASOUND_EXPORT TaudioOUT : public TabstractPlayer
   Q_OBJECT
 
 public:
-  TaudioOUT(TaudioParams* _params, QObject* parent = 0);
+  TaudioOUT(TaudioParams* _params, QObject* parent = nullptr);
   virtual ~TaudioOUT();
 
   static QStringList getAudioDevicesList();

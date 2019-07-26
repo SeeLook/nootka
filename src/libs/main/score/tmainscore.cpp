@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -425,8 +425,10 @@ void TmainScore::isExamExecuting(bool isIt) {
 			scoreScene()->addItem(m_questMark);
       m_questMark->setZValue(4);
       if (insertMode() == e_single) {
-        staff()->noteSegment(1)->setColor(qApp->palette().text().color()); // it may have color of enharmonic notes
-        staff()->noteSegment(2)->setColor(qApp->palette().text().color()); // when disabled - color is not black
+          staff()->noteSegment(1)->setColor(qApp->palette().text().color()); // it may have color of enharmonic notes
+          staff()->noteSegment(2)->setColor(qApp->palette().text().color()); // when disabled - color is not black
+      } else {
+          staff()->setSelectableNotes(false);
       }
 	} else {
       connect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(whenNoteWasChanged(int,Tnote)));
@@ -436,13 +438,15 @@ void TmainScore::isExamExecuting(bool isIt) {
 // 			disconnect(this, SIGNAL(noteWasChanged(int,Tnote)), this, SLOT(expertNoteChanged()));
 			if (m_questMark) {
 				delete m_questMark;
-				m_questMark = 0;
+        m_questMark = nullptr;
 			}
 			delete m_questKey;
-			m_questKey = 0;
+      m_questKey = nullptr;
 			setClefDisabled(false);
 			setNoteNameEnabled(true);
       enableAccidToKeyAnim(Tcore::gl()->useAnimations);
+      if (insertMode() == e_multi)
+        staff()->setSelectableNotes(true);
 	}
 	m_acts->setForExam(isIt);
 }

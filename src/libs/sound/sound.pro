@@ -99,14 +99,24 @@ MOBILITY =
 
 
 android {
-# fftw and ogg are symbolic links point to those libraries built statically - they contain two folders arm7 and x86 
+# fftw and ogg are symbolic links point to those libraries built statically
+# - for supported mobile architectures.
+# They contain apropriate folders: arm7, x86, arm64
 
   contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
     LIBS += -Bstatic -L$$PWD/fftw/armv7/ -lfftw3f -L$$PWD/ogg/armv7/ -loggstatic -Bdynamic
   }
 
+  contains(ANDROID_TARGET_ARCH,arm64-v8a) {
+    LIBS += -Bstatic -L$$PWD/fftw/arm64/ -lfftw3f -L$$PWD/ogg/arm64/ -loggstatic -Bdynamic
+  }
+
   contains(ANDROID_TARGET_ARCH,x86) {
     LIBS += -Bstatic -L$$PWD/fftw/x86/ -lfftw3f -L$$PWD/ogg/x86/ -loggstatic -Bdynamic
+  }
+
+  contains(ANDROID_TARGET_ARCH,x86_64) {
+    LIBS += -Bstatic -L$$PWD/fftw/x86_64/ -lfftw3f -L$$PWD/ogg/x86_64/ -loggstatic -Bdynamic
   }
   
   QMAKE_CXXFLAGS_RELEASE -= -O0
@@ -116,7 +126,7 @@ android {
 
   QMAKE_CXXFLAGS_DEBUG += -fsigned-char -O1
 
-# There are links to folders with apparent headers due to Android environment does not includes standard /usr/include 
+# There are links to folders with apparent headers due to Android environment does not includes standard /usr/include
   INCLUDEPATH += fftw ogg vorbis
 }
 
