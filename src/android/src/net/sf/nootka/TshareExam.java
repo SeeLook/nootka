@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2016-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,31 +23,54 @@ import java.lang.String;
 import android.content.Intent;
 import java.io.File;
 import android.net.Uri;
+import android.util.Log;
+import android.app.Activity;
+import android.os.Build;
+import android.os.Build.VERSION_CODES;
+
+/**
+ * Following module requires Android Support Repository from Android extras installed (through SDK manager)
+ * There is appropriate information to use it during buid process in
+ * src/android/build.gradle
+ */
+import android.support.v4.content.FileProvider;
 
 
-public class TshareExam 
+public class TshareExam extends Activity
 {
 
-    /** 
+    /**
       * @fn send(String title, String message, String filePath)
       * Displays chooser dialog to send/share exam file
       * @p title - is head text of that dialog
       * @p message - is message content when send by email was chosen.
-     */
+      */
   public static void send(String title, String message, String filePath) {
     if (QtNative.activity() == null)
         return;
+
     Intent shareIntent = new Intent(Intent.ACTION_SEND);
-//       shareIntent.setType("application/noo");
     shareIntent.setType("*/*");
     shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Nootka");
     shareIntent.putExtra(Intent.EXTRA_TEXT, message);
   // We can be sure that file exists - Nootka checked it before
     File attachment = new File(filePath);
-    Uri uri = Uri.fromFile(attachment);
+    Uri uri;
+    if (Build.VERSION.SDK_INT < 24) {
+        uri = Uri.fromFile(attachment);
+    } else {
+        uri = FileProvider.getUriForFile(QtNative.activity(), "net.sf.nootka.provider", attachment);
+        shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+    }
     shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
-    QtNative.activity().startActivity(Intent.createChooser(shareIntent, title));
+    try {
+        QtNative.activity().startActivity(Intent.createChooser(shareIntent, title));
+    } catch (Exception e) {
+        String msgTag = "Send_exam_file_error";
+        Log.e(msgTag, e.toString());
+        e.printStackTrace();
+    }
   }
 
 }

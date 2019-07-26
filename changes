@@ -3,6 +3,7 @@
      - added Slovenian translation
      - more user friendly method of checking played notes in exercises
     BUGS FIXES
+     - fixed crash after finishing exam/exercise
      - keep random generated melody in clef range
     LINUX
      - use standard path for icons (app, mime) (/usr/share/icons/hicolor)

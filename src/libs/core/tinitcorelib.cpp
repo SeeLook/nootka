@@ -115,7 +115,7 @@ void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
 
 #if defined (Q_OS_ANDROID)
   // Try to load Nootka translation from user available location to give translators a way to check their work
-  if (!noo.load(loc, QStringLiteral("nootka_"), QString(), Tandroid::getExternalPath() + "/Nootka"))
+  if (Tandroid::hasWriteAccess() && !noo.load(loc, QStringLiteral("nootka_"), QString(), Tandroid::getExternalPath() + "/Nootka"))
   // if there is not - look for it in standard path
 #endif
   noo.load(loc, QStringLiteral("nootka_"), QString(), Tpath::lang());

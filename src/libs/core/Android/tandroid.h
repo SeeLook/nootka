@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -35,6 +35,9 @@ namespace Tandroid {
 
       /** Returns path to external storage (SD card). */
   QString getExternalPath();
+
+      /** @p TRUE when write access to device is granted. API 23 and above */
+  bool hasWriteAccess();
 
       /** Returns command line argument (usually exam/level file name. */
   QString getRunArgument();

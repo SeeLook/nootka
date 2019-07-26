@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -59,13 +59,13 @@ QString Tglobals::getInstPath(QString appInstPath) {
   return p;
 }
 
-TtouchProxy* onlyOneTouchProxy = 0; // It is available through TtouchProxy::instance()
+TtouchProxy* onlyOneTouchProxy = nullptr; // It is available through TtouchProxy::instance()
 
 /*end static*/
 
 
 Tglobals::Tglobals() :
-  m_tune(0)
+  m_tune(nullptr)
 {
   version = NOOTKA_VERSION;
 //    path ; Is declared in main()
@@ -91,7 +91,7 @@ Tglobals::Tglobals() :
 #endif
   loadSettings(config);
 
-  if (Tcore::gl() == 0)
+  if (Tcore::gl() == nullptr)
     Tcore::setGlobals(this);
   else {
     qDebug() << "Tglobals instance has already existed. Application is terminating!";
@@ -223,12 +223,14 @@ void Tglobals::loadSettings(QSettings* cfg) {
       E->expertsAnswerEnable = cfg->value("expertsAnswerEnable", false).toBool();
       E->studentName = cfg->value("studentName", QString()).toString();
 #if defined (Q_OS_ANDROID)
-      E->examsDir = cfg->value("examsDir", Tandroid::getExternalPath()).toString();
+//      E->examsDir = cfg->value("examsDir", Tandroid::getExternalPath()).toString();
+      E->examsDir = cfg->value("examsDir", QString()).toString();
       if (!QFileInfo::exists(E->examsDir)) // reset if doesn't exist
-        E->examsDir = Tandroid::getExternalPath();
-      E->levelsDir = cfg->value("levelsDir", Tandroid::getExternalPath()).toString();
+        E->examsDir.clear(); // = Tandroid::getExternalPath();
+//      E->levelsDir = cfg->value("levelsDir", Tandroid::getExternalPath()).toString();
+      E->levelsDir = cfg->value("levelsDir", QString()).toString();
       if (!QFileInfo::exists(E->levelsDir))
-        E->levelsDir = Tandroid::getExternalPath();
+        E->levelsDir.clear(); // = Tandroid::getExternalPath();
 #else
       E->examsDir = cfg->value("examsDir", QDir::homePath()).toString();
       if (!QFileInfo::exists(E->examsDir)) // reset if doesn't exist
