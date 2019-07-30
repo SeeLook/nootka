@@ -138,7 +138,7 @@
     <message>
         <source>none</source>
         <translatorcomment>none, brez, nič, ničesar, 0, </translatorcomment>
-        <translation>0</translation>
+        <translation>nič</translation>
     </message>
     <message>
         <source>Shifts the frequency of &lt;i&gt;middle a&lt;/i&gt;. It can be used as a transposition.</source>
