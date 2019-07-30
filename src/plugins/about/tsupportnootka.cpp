@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -50,19 +50,19 @@ TsupportNootka::TsupportNootka(QWidget *parent) :
   supp += QLatin1String("<ul>");
 #if !defined (Q_OS_ANDROID)
   supp += coloredLi("#42DA06", tr("Donate Nootka campaign"))
-        + tr("Feature by feature and Nootka became big and complex project.<br>"
-          "To be able developing this application further,<br>"
-          "to finish version for Android (and other mobile systems later on),<br>"
-          "an equipment capable for that is needed.<br>"
-          "Simply, the PC I'm working on is too old for that…<br>"
-          "Donate Nootka, please.")
+//         + tr("Feature by feature and Nootka became big and complex project.<br>"
+//           "To be able developing this application further,<br>"
+//           "to finish version for Android (and other mobile systems later on),<br>"
+//           "an equipment capable for that is needed.<br>"
+//           "Simply, the PC I'm working on is too old for that…<br>"
+//           "Donate Nootka, please.")
         + QLatin1String("<br><a href=\"https://nootka.sourceforge.io/index.php?C=donate\">")
         + tr("Through PayPal or a card") + QLatin1String("</a>")
         + QLatin1String("<p align=\"center\"><a href=\"mailto:seelook@gmail.com\">")
         + tr("or send email for an account number") + QLatin1String("</a></p>") + endLi;
-  supp += QLatin1String("<li><big><b style=\"color: #0000C0;\">Translate Nootka</b></big><br>It does not require any programming skills. Just read <a href=\"https://sourceforge.net/p/nootka/hg/ci/default/tree/lang/how-to-translate.txt\">the instructions</a>,<br>translate and send your work.<br></li>");
 #endif
-  supp += QLatin1String("<li><big><b style=\"color: #00AAFF;\">Help with new version</b></big><br>Read how to get <a href=\"https://nootka.sourceforge.io/index.php?C=doc#compile-debug\">development version</a> and get involved in testing or more.<br></li>");
+  supp += QLatin1String("<br><li><big><b style=\"color: #00AAFF;\">Help with incoming Nootka 2 (rhythms, other instruments, etc...)</b></big><br>Read how to get <a href=\"https://nootka.sourceforge.io/index.php?C=doc#compile-debug\">development version</a> and get involved in testing, even or more.<br></li><br>");
+  supp += QLatin1String("<li><big><b style=\"color: #0000C0;\">Translate Nootka</b></big><br>It does not require any programming skills. Just read <a href=\"https://sourceforge.net/p/nootka/hg/ci/default/tree/lang/how-to-translate.txt\">the instructions</a>,<br>translate and send your work.<br></li>");
 #if defined (Q_OS_ANDROID)
   supp += coloredLi("#C90000", "Rate this app") + QLatin1String("Go to <a href=\"https://play.google.com/store/apps/details?id=net.sf.nootka\">Google Play</a>, rate it nicely and put a comment in your native language.") + br + endLi;
 #else

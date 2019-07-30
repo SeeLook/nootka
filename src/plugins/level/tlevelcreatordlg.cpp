@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -37,6 +37,7 @@
   #include <ttouchmenu.h>
   #include <tfiledialog.h>
   #include <tmenuwidget.h>
+  #include <Android/tandroid.h>
 #endif
 
 
@@ -188,6 +189,10 @@ void TlevelCreatorDlg::saveToFile() {
   newLevel.name = nameList[0];
   newLevel.desc = nameList[1];
 // Saving to file
+#if defined (Q_OS_ANDROID)
+  if (Tcore::gl()->E->examsDir.isEmpty())
+    Tcore::gl()->E->examsDir = Tandroid::getExternalPath();
+#endif
   QLatin1String dotNel(".nel");
   QString fName = QDir::toNativeSeparators(Tcore::gl()->E->levelsDir + QLatin1String("/") + newLevel.name);
   if (QFileInfo(fName  + dotNel).exists())
