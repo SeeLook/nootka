@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2018-2019 SeeLook CC-0 -->
+<!-- Copyright 2019 SeeLook CC-0 -->
 <component type="desktop-application">
   <id>nootka.desktop</id>
   <name>Nootka</name>
@@ -14,10 +14,10 @@
     </p>
     <p>Features:</p>
     <ul>
-      <li>interactive interface to discover the rules of musical notation</li>
-      <li>exercises with possibility to create own sets</li>
-      <li>analyze of results</li>
-      <li>accurate method for detecting sung and played sounds and melodies</li>
+      <li>Interactive interface to discover the rules of musical notation</li>
+      <li>Exercises with possibility to create own sets</li>
+      <li>Analyze of exam/exercises results</li>
+      <li>Accurate method for detecting sung and played sounds and melodies</li>
     </ul>
   </description>
 
@@ -38,13 +38,11 @@
   </screenshots>
 
   <url type="homepage">https://nootka.sourceforge.io</url>
-  <url type="bugtracker">https://sourceforge.net/p/nootka/bugs/</url>
-  <url type="donation">https://sourceforge.net/p/nootka/donate/</url>
+  <url type="bugtracker">https://sourceforge.io/p/nootka/bugs/</url>
+  <url type="donation">https://sourceforge.io/p/nootka/donate/</url>
+  <url type="translate">https://sourceforge.io/p/nootka/hg/ci/default/tree/lang/how-to-translate.txt</url>
 
-<!-- Not honored by appimagetool  -->
-<!--   <url type="translate">https://sourceforge.net/p/nootka/hg/ci/default/tree/lang/how-to-translate.txt</url> -->
-
-  <!--<content_rating type="oars-1.0">
+  <content_rating type="oars-1.0">
     <content_attribute id="violence-cartoon">none</content_attribute>
     <content_attribute id="violence-fantasy">none</content_attribute>
     <content_attribute id="violence-realistic">none</content_attribute>
@@ -65,12 +63,13 @@
     <content_attribute id="social-contacts">none</content_attribute>
     <content_attribute id="money-purchasing">none</content_attribute>
     <content_attribute id="money-gambling">none</content_attribute>
-  </content_rating>-->
+  </content_rating>
+
   <update_contact>seelook_AT_gmail.com</update_contact>
+  <translation type="qt">nootka</translation>
 
   <releases>
-    <release date="2018-07-28" version="1.4.6"/>
-    <release date="2018-01-14" version="1.4.5"/>
+    <release date="2019-08-01" version="1.4.6"/>
   </releases>
 
 </component>
