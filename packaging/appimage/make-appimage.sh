@@ -102,7 +102,7 @@ cd AppDir/usr
 ln -s ./. usr
 cd ../..
 
-# finally, generate AppImage
-appimagetool AppDir/usr nootka-$VERSION-x86_64.AppImage
+# finally, generate AppImage (appdata.xml is not compatible between appimage and flatpack, so skip it here)
+appimagetool --no-appstream AppDir/usr nootka-$VERSION-x86_64.AppImage
 
 
