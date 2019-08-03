@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -34,6 +34,7 @@ Tflickable {
         ListElement { flag:"hu"; lang: "magyar" }
         ListElement { flag:"pl"; lang: "polski" }
         ListElement { flag:"ru"; lang: "русский" }
+        ListElement { flag:"sl"; lang: "slovenščina" }
       }
 
       Tumbler {

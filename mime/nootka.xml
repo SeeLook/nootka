@@ -11,6 +11,7 @@
     <comment xml:lang="hu">Nootka szint fájl</comment>
     <comment xml:lang="pl">Poziom egzaminu programu Nootka</comment>
     <comment xml:lang="ru">Файл Нутки с уровнем</comment>
+    <comment xml:lang="sl">Nootka stopenjska datoteka</comment>
     <icon name="nootkalevel" />
     <glob pattern="*.nel"/>
     <acronym>NEL</acronym>
@@ -28,6 +29,7 @@
     <comment xml:lang="hu">Nootka vizsga fájl</comment>
     <comment xml:lang="pl">Plik egzaminu programu Nootka</comment>
     <comment xml:lang="ru">Файл Нутки с экзаменом</comment>
+    <comment xml:lang="sl">Nootka izpitna datoteka</comment>
     <icon name="nootkaexam" />
     <glob pattern="*.noo" />
   </mime-type>

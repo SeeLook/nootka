@@ -11,9 +11,21 @@
 ================              TODO LIST               ======================
 ============================================================================
 
-TRANSLATION CONTEXT CHANGES
-  QuestionPage - remove line breaks
-  AudioInSettings ??? copy "semitone(s)" text to Transposition context but remove %n
+---------------- For incoming stable release version 2.0 ----------------------------
+    - manual adding/editing ties
+    - finish tuner, functionality similar to Android one
+    - music XML import dialog, to select voice or staff if multiple and so
+    - exam summary - give more valuable info, wear it nicely
+    - migrate on preferred 48000 sample rate (ogg files and audio methods)
+
+---------------- For next stable Nootka version 2.2 ---------------------------------
+    - MIDI input & revert MIDI out of course
+    - adding actually edited score melody to current level
+    - editing melody from currently selected/composed level
+    - triplet support
+
+-------------------------------------------------------------------------------------
+
 
 ============================================================================
 
@@ -21,39 +33,36 @@ small glitches:
  - sometimes setting a note doesn't scale tie - probably due to note width is not refreshed
  - meter can be too close to key signature - probably related with clef change
  - chart tip for non guitars still displays string/fret with goofy values
+ - sometimes app crash on exit - possible some note objects are note deleted in proper order
 
 ============================================================================
 
-missing in action (comparing to previous major version)
+
+
+CHANGES OF TRANSLATION CONTEXT
+  QuestionPage - remove line breaks
+  AudioInSettings ??? copy "semitone(s)" text to Transposition context but remove %n
+
+============================================================================
+MISSING IN ACTION (comparing to previous major version) - do we really need them?
  - left hand guitar (do we really need this?)
  - question mark and note name over instrument during exam/exercises (remember about actual name style)
  - no intonation gradients
- - no input sound test (rather better solution will replace it)
 
 revert exam times: 
     - next question delay
     - correction preview
 
-============================================================================
-To consideration:
-- additional settings options [Android]:
-    - disable screen locking (TRUE by default)
-    - full screen mode (TRUE by default)
-    - home button actions
-
-
-- NotaData of Tartini might be cleaned
 
 
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
-@@@@@@@@@@@@@                        FEATURES FOR FURTHER RELEASES         @@@@@@@@@@@@@@@@@@@@@@@
+@@@@@@@@@@@@@                        IDEAS FOR FURTHER RELEASES         @@@@@@@@@@@@@@@@@@@@@@@
 @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
 ==== SMALL NEW FEATURES/IMPROVEMENTS =============================================================
-- triplets and editable ties
+- NotaData of Tartini might be cleaned
 - add minimal zoom value depends on screen resolution
 - average effectiveness line in chart
-- make exam summary pretty
 - certificates would have some additional data about melodies
 - bring back isVoice() audio param - average pitch of all chunks or min duration will depend on it
 
@@ -67,7 +76,6 @@ To consideration:
 - keep exam file in /tmp and restore it when crash or so
 - add sound during wizard and About dialog (???)
 - options for adjusting pitch detection range to  1.score, 2. instrument scale (???)
-- migrate on preferring 48000 sample rate (ogg files and audio methods)
 
 - unlock left-handed guitar then implement frets zoom to respect transforms
 
@@ -77,7 +85,13 @@ TEXAMEXECUTOR
      Also for questions in "hint" - don't show octave when only name is required 
 
 
-TO CONSIDER:
-  - In wizard: option for single note mode for very beginners
+============================================================================
+To consideration:
+  - additional settings options [Android]:
+    - disable screen locking (TRUE by default)
+    - full screen mode (TRUE by default)
+    - home button actions
+
+    - In wizard: option for single note mode for very beginners
 
 

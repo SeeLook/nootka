@@ -33,6 +33,25 @@
      - many improvements of user interface
      - option for enable/disable animations
 
+======
+
+
+1.4.6
+  Nootka says: I speak Slovenian
+     - added Slovenian translation
+     - more user friendly method of checking played notes in exercises
+    BUGS FIXES
+     - fixed crash after finishing exam/exercise
+     - keep random generated melody in clef range
+    LINUX
+     - use standard path for icons (app, mime) (/usr/share/icons/hicolor)
+     - set of scaled icons for above
+     - added appdata XML file for better desktop integration and packaging
+     - Flatpack package available
+    ANDROID
+     - asking for permissions: required by newer Androids
+     - added arm64_v8a and x86_64 versions
+
 1.4.5
   Nootka says: I speak Hungarian
      - added Hungarian translations
@@ -307,8 +326,6 @@
      - under newer Windows Os-es version WASAPI or ASIO is used and DS for XP
      - merged audio input and output callback methods
      - ported binary format of *.nel files to XML
-
-======
 
 1.0.1
      - finished German translation

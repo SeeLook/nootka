@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -73,6 +73,11 @@ Tflickable {
       Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-ru") }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;русский "; textFormat: Text.StyledText; color: activPal.text }
       Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Sergei Ivanov (tico-tico)<br>&nbsp;&nbsp;&nbsp;&nbsp;Timur Artykov</b> "; color: activPal.text }
+      Item { width: 10; height: 10 }
+
+      Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-sl") }
+      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;slovenščina "; textFormat: Text.StyledText; color: activPal.text }
+      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Grega Trček</b> "; color: activPal.text }
       Item { width: 10; height: 10 }
     }
 
