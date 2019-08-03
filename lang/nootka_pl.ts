@@ -756,7 +756,7 @@
     <message>
         <location filename="../src/plugins/charts/tanalysdialog.cpp" line="159"/>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
-        <translation>Użyj %1 i kółka myszy lub przycisków %2 aby zmienić rozmiar wykresu. </translation>
+        <translation>Użyj %1 i kółka myszy lub przycisków %2 aby zmienić rozmiar wykresu.</translation>
     </message>
     <message>
         <location filename="../src/plugins/charts/tanalysdialog.cpp" line="161"/>
@@ -1385,7 +1385,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.h" line="50"/>
         <source>ask next question automatically</source>
-        <translation>automatycznie zadaj następne pytanie </translation>
+        <translation>automatycznie zadaj następne pytanie</translation>
     </message>
     <message>
         <location filename="../src/libs/misc/help/texamhelp.h" line="54"/>
@@ -1607,6 +1607,49 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <source>exams</source>
         <translation>egzaminy</translation>
     </message>
+    <message>
+        <source>wait for correct note</source>
+        <translation>czekaj na poprawny dźwięk</translation>
+    </message>
+    <message>
+        <source>When melody is played from score, every note is checked immediately and next note can be played only when the previous one was correct. When unset, notes are checked only after playing the last one (or check button was clicked).</source>
+        <translation>Podczas grania melodii z nut, każdy zagrany dźwięk jest od razu sprawdzany, a następna nuta może być zagrana tylko wtedy gdy poprzednia była poprawna. Kiedy wyłączone, dźwięki są sprawdzane dopiero po zagraniu całej melodii (lub po naciśnięciu przycisku sprawdź).</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="27"/>
+        <source>Experts mode</source>
+        <translation>Tryb eksperta</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="31"/>
+        <source>You are about to enter expert mode.&lt;br&gt; In this mode you don&apos;t need to confirm every answer,&lt;br&gt;&lt;b&gt;but remember the following:</source>
+        <translation>Jesteś blisko wejścia w tryb odpowiedzi eksperta.&lt;br&gt; Nie musisz w nim potwierdzać każdej odpowiedzi,&lt;br&gt;&lt;b&gt;ale pamiętaj o niżej wymienionych zasadach:</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="32"/>
+        <source>Selecting a note on the score or a position on the fingerboard invokes automatic checking of your answer, so select a key signature first, if required.</source>
+        <translation>Wybranie nuty na pięciolinii lub pozycji na podstrunnicy skutkuje sprawdzeniem twojej odpowiedzi, Zaznacz najpierw tonację gdy jest to wymagane.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="33"/>
+        <source>When an answer is the name of a note &lt;b&gt;first select a proper accidental and an octave&lt;/b&gt; and then click a note button - this automatically invokes checking.</source>
+        <translation>Gdy odpowiedź jest nazwą dźwięku &lt;b&gt;najpierw zaznacz&lt;/b&gt; właściwy znak i oktawę i dopiero wtedy kliknij przycisk z nazwą dźwięku - to wywołuje sprawdzanie.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="34"/>
+        <source>When you have to play a note as an answer - the first detected sound will be taken, so be sure that your input device captures exactly what you want.</source>
+        <translation>Kiedy jako odpowiedź masz zagrać dźwięk -- ten pierwszy rozpoznany jest brany jako odpowiedź. Upewnij się, że twoje urządzenie wejściowe odbiera dokładnie to co chcesz.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="35"/>
+        <source>When the last note of question that is a melody was played - checking starts.</source>
+        <translation>Kiedy zostanie zagrana ostatnia nuta pytania będącego melodią - rozpocznie się sprawdzanie.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="38"/>
+        <source>Always remind me about this</source>
+        <translation>Zawsze mi o tym przypominaj</translation>
+    </message>
 </context>
 <context>
     <name>TexamSummary</name>
@@ -1786,6 +1829,37 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <source>Effectiveness of whole exam (and effectiveness of current question).</source>
         <translation>Efektywność całego egzaminu (i efektywność bieżącego pytania).</translation>
     </message>
+    <message>
+        <location filename="../src/libs/main/exam/tprogresswidget.cpp" line="116"/>
+        <source>Answered questions</source>
+        <translation>Ukończone pytania</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/main/exam/tprogresswidget.cpp" line="117"/>
+        <source>Unanswered questions</source>
+        <comment>could be also: &apos;rest of the questions&apos; or &apos;remaining questions&apos;</comment>
+        <translation>Pozostałe pytania</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/main/exam/tprogresswidget.cpp" line="120"/>
+        <source>penalties</source>
+        <translation>karne</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/main/exam/tprogresswidget.cpp" line="119"/>
+        <source>Total questions in this exam</source>
+        <translation>Wszystkie pytania w tym egzaminie</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/main/exam/tprogresswidget.h" line="56"/>
+        <source>Progress of the exam</source>
+        <translation>Postęp egzaminu</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/main/exam/tprogresswidget.h" line="57"/>
+        <source>Exam was finished</source>
+        <translation>Egzamin został ukończony</translation>
+    </message>
 </context>
 <context>
     <name>TexecutorSupply</name>
@@ -1803,44 +1877,6 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <location filename="../src/plugins/exam/texecutorsupply.cpp" line="94"/>
         <source>Guitar fret number was changed!</source>
         <translation>W gitarze zmieniła się liczba progów!</translation>
-    </message>
-</context>
-<context>
-    <name>ExamPage</name>
-    <message>
-        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="27"/>
-        <source>Experts mode</source>
-        <translation>Tryb eksperta</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="31"/>
-        <source>You are about to enter expert mode.&lt;br&gt; In this mode you don&apos;t need to confirm every answer,&lt;br&gt;&lt;b&gt;but remember the following:</source>
-        <translation>Jesteś blisko wejścia w tryb odpowiedzi eksperta.&lt;br&gt; Nie musisz w nim potwierdzać każdej odpowiedzi,&lt;br&gt;&lt;b&gt;ale pamiętaj o niżej wymienionych zasadach:</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="32"/>
-        <source>Selecting a note on the score or a position on the fingerboard invokes automatic checking of your answer, so select a key signature first, if required.</source>
-        <translation>Wybranie nuty na pięciolinii lub pozycji na podstrunnicy skutkuje sprawdzeniem twojej odpowiedzi, Zaznacz najpierw tonację gdy jest to wymagane.</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="33"/>
-        <source>When an answer is the name of a note &lt;b&gt;first select a proper accidental and an octave&lt;/b&gt; and then click a note button - this automatically invokes checking.</source>
-        <translation>Gdy odpowiedź jest nazwą dźwięku &lt;b&gt;najpierw zaznacz&lt;/b&gt; właściwy znak i oktawę i dopiero wtedy kliknij przycisk z nazwą dźwięku - to wywołuje sprawdzanie.</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="34"/>
-        <source>When you have to play a note as an answer - the first detected sound will be taken, so be sure that your input device captures exactly what you want.</source>
-        <translation>Kiedy jako odpowiedź masz zagrać dźwięk -- ten pierwszy rozpoznany jest brany jako odpowiedź. Upewnij się, że twoje urządzenie wejściowe odbiera dokładnie to co chcesz.</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="35"/>
-        <source>When the last note of question that is a melody was played - checking starts.</source>
-        <translation>Kiedy zostanie zagrana ostatnia nuta pytania będącego melodią - rozpocznie się sprawdzanie.</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/misc/help/texpertanswerhelp.cpp" line="38"/>
-        <source>Always remind me about this</source>
-        <translation>Zawsze mi o tym przypominaj</translation>
     </message>
 </context>
 <context>
@@ -2727,6 +2763,47 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <source>Save melody as:</source>
         <translation>Zapisz melodię jako:</translation>
     </message>
+    <message>
+        <location filename="../src/libs/main/score/tscoreactions.cpp" line="35"/>
+        <source>Score</source>
+        <comment>it could be &apos;notation&apos;, &apos;staff&apos; or whatever is associated with that &apos;place to display musical notes&apos; and this the name is quite short and looks well.</comment>
+        <translation>Nuty</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/main/score/tscoreactions.cpp" line="36"/>
+        <source>Manage and navigate the score.</source>
+        <translation>Zarządzaj i nawiguj zapisem nutowym.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/main/score/tscoreactions.cpp" line="43"/>
+        <source>Additional accidentals</source>
+        <translation>Dodatkowe znaki</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/main/score/tscoreactions.cpp" line="44"/>
+        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
+        <translation>Pokaż znaki z tonacji także przy nucie. &lt;b&gt;UWAGA! Nigdy nie zapisuje się ich w prawdziwych nutach - wykorzystywać tylko w celach teoretycznych.&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/main/score/tscoreactions.cpp" line="46"/>
+        <source>Show note names</source>
+        <translation>Pokaż nazwy nut</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/main/score/tscoreactions.cpp" line="47"/>
+        <source>Shows names of all notes on the staff.</source>
+        <translation>Pokazuje nazwy wszystkich nut na pięciolinii.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/main/score/tscoreactions.cpp" line="51"/>
+        <source>Zoom score out</source>
+        <translation>Pomniejsz zapis nutowy</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/main/score/tscoreactions.cpp" line="52"/>
+        <source>Zoom score in</source>
+        <translation>Powiększ zapis nutowy</translation>
+    </message>
 </context>
 <context>
     <name>MelodyPage</name>
@@ -2979,7 +3056,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/libs/main/notename/tnotename.cpp" line="34"/>
         <source>Subcontra octave</source>
-        <translation>oktawa Subkontra </translation>
+        <translation>oktawa Subkontra</translation>
     </message>
     <message>
         <location filename="../src/libs/main/notename/tnotename.cpp" line="35"/>
@@ -3030,7 +3107,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/libs/main/notename/tnotename.cpp" line="119"/>
         <source>Click to see what &lt;i&gt;octaves&lt;/i&gt; are at &quot;http://en.wikipedia.org/wiki/Octave&quot;</source>
         <comment>You can change this link to article in your language. Leave quotation matks around the address!</comment>
-        <translation>Kliknij aby zobaczyć czym są &lt;i&gt;oktawy&lt;/i&gt; na &quot;http://pl.wikipedia.org/wiki/Materia%C5%82_d%C5%BAwi%C4%99kowy&quot;</translation>
+        <translation>Kliknij aby zobaczyć czym są &lt;i&gt;oktawy&lt;/i&gt; na &quot;https://pl.wikipedia.org/wiki/Materia%C5%82_d%C5%BAwi%C4%99kowy&quot;</translation>
     </message>
     <message>
         <location filename="../src/libs/main/notename/tnotename.cpp" line="122"/>
@@ -3065,290 +3142,6 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <source>Shows formatted note name. For small octave - the name is small letter,&lt;br&gt;for great octave - the name starts with a capital letter,&lt;br&gt;for one-line, digit &lt;sup&gt;1&lt;/sup&gt; is added, and so on.</source>
         <translation>Pokazuje sformatowaną nazwę nuty. Dla oktawy małej - nazwa to mała litera,&lt;br&gt;dla oktawy wielkiej - nazwa zaczyna się od wielkiej litery.&lt;br&gt;dla razkreślnej - dodana jest cyfra&lt;sup&gt;1&lt;/sup&gt;, itd.</translation>
     </message>
-</context>
-<context>
-    <name>TouchHelp</name>
-    <message>
-        <location filename="../src/libs/core/touch/ttouchproxy.cpp" line="29"/>
-        <source>To edit a note in a score:&lt;br&gt;Touch area about some note and move a finger to select its pitch.&lt;br&gt;Then take the finger away to add/remove an accidental or a note.&lt;br&gt;Touch and move again to continue selecting the pitch.&lt;br&gt;To set the note - tap it quickly again.&lt;br&gt;To scroll the score with multiple staves - use two fingers.</source>
-        <translation>Żeby edytować nutę na pięciolinii:&lt;br&gt;Dotknij obszaru wokół nuty i poruszaj palcem żeby wybrać jej wysokość.&lt;br&gt;Zabierz palec żeby dodać/usunąć znak lub nutę.&lt;br&gt;Znowu dotknij i poruszaj palcem żeby zmienić wysokość.&lt;br&gt;Żeby ustawić nutę - dotknij ją szybko jeszcze raz.&lt;br&gt;Do przewijania wielu pięciolinii użyj dwóch palców.</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/core/touch/ttouchproxy.cpp" line="39"/>
-        <source>Touch a clef for a while to change it.</source>
-        <translation>Dotknij klucza przez chwilę żeby go zmienić.</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/core/touch/ttouchproxy.cpp" line="45"/>
-        <source>Tap a fret you want to select - zoomed preview will appear.&lt;br&gt;You may drag it right or left to change the fret.&lt;br&gt;Tap desired string on the preview to set the position.</source>
-        <translation>Dotknij wybrany próg - pojawi się jego powiększenie.&lt;br&gt;Można je przeciągać w prawo lub w lewo żeby zmienić próg.&lt;br&gt;Dotknij wybranej struny na powiększeniu żeby ustawić pozycję.</translation>
-    </message>
-</context>
-<context>
-    <name>WizardOther</name>
-    <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="241"/>
-        <source>Select a clef and scale of notes appropriate for your instrument.</source>
-        <translation>Wybierz klucz i skalę dźwięków właściwe dla swojego instrumentu.</translation>
-    </message>
-</context>
-<context>
-    <name>WizardOptions</name>
-    <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="314"/>
-        <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
-        <translation>7-ma nuta może nazywać się H lub B, w zależności od kraju. &lt;br&gt;Która nazwa jest odpowiednia dla ciebie?</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="322"/>
-        <source>I know about double sharps (x) and double flats (bb)</source>
-        <translation>Wiem, co to są podwójne krzyżyki (x) i podwójne bemole (bb)</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="325"/>
-        <source>I know that e# is the same as f</source>
-        <translation>Wiem, że e# to to samo co f</translation>
-    </message>
-    <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="328"/>
-        <source>I know about key signatures</source>
-        <translation>Wiem co to są tonacje</translation>
-    </message>
-</context>
-<context>
-    <name>Notation</name>
-    <message>
-        <source>b</source>
-        <comment>Give here a name of 7-th note preferred in your country. But only &apos;b&apos; or &apos;h&apos; not &apos;si&apos; or something worst...</comment>
-        <translation>h</translation>
-    </message>
-    <message>
-        <source>letters</source>
-        <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country preferred style of naming key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
-        <translation>letters</translation>
-    </message>
-</context>
-<context>
-    <name>TpitchView</name>
-    <message>
-        <source>pitch detection</source>
-        <translation type="vanished">rozpoznawanie nut</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="73"/>
-        <source>Pitch recognition</source>
-        <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
-        <translation>Rozpoznawanie nut</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="198"/>
-        <source>Intonation - clarity of the sound. Is it in tune.</source>
-        <translation>Intonacja - czystość dźwięku. Czy stroi.</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="200"/>
-        <source>Click note symbol to change it.</source>
-        <translation>Kliknij symbol nuty żeby zmienić.</translation>
-    </message>
-</context>
-<context>
-    <name>TexamView</name>
-    <message>
-        <location filename="../src/libs/main/exam/tprogresswidget.cpp" line="116"/>
-        <source>Answered questions</source>
-        <translation>Ukończone pytania</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/main/exam/tprogresswidget.cpp" line="117"/>
-        <source>Unanswered questions</source>
-        <comment>could be also: &apos;rest of the questions&apos; or &apos;remaining questions&apos;</comment>
-        <translation>Pozostałe pytania</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/main/exam/tprogresswidget.cpp" line="120"/>
-        <source>penalties</source>
-        <translation>karne</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/main/exam/tprogresswidget.cpp" line="119"/>
-        <source>Total questions in this exam</source>
-        <translation>Wszystkie pytania w tym egzaminie</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/main/exam/tprogresswidget.h" line="56"/>
-        <source>Progress of the exam</source>
-        <translation>Postęp egzaminu</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/main/exam/tprogresswidget.h" line="57"/>
-        <source>Exam was finished</source>
-        <translation>Egzamin został ukończony</translation>
-    </message>
-</context>
-<context>
-    <name>QuestionsBox</name>
-    <message>
-        <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="42"/>
-        <source>question</source>
-        <translation>pytanie</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="43"/>
-        <source>questions</source>
-        <translation>pytania</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="44"/>
-        <source>answer</source>
-        <translation>odpowiedź</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="45"/>
-        <source>answers</source>
-        <translation>odpowiedzi</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/widgets/widgets/tquestionaswdg.cpp" line="53"/>
-        <source>Select the type of answers for a question.</source>
-        <translation>Zaznacz rodzaje odpowiedzi dla pytania.</translation>
-    </message>
-</context>
-<context>
-    <name>TremoveLevel</name>
-    <message>
-        <location filename="../src/libs/widgets/level/tlevelselector.cpp" line="368"/>
-        <source>Also delete level file:</source>
-        <translation>Usuń także plik poziomu:</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/widgets/level/tlevelselector.cpp" line="372"/>
-        <source>Remove</source>
-        <translation>Usuń</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/widgets/level/tlevelselector.h" line="134"/>
-        <source>Remove level %1 from the list</source>
-        <translation>Usuń poziom %1 z listy</translation>
-    </message>
-</context>
-<context>
-    <name>TmainScoreObject</name>
-    <message>
-        <location filename="../src/libs/main/score/tscoreactions.cpp" line="35"/>
-        <source>Score</source>
-        <comment>it could be &apos;notation&apos;, &apos;staff&apos; or whatever is associated with that &apos;place to display musical notes&apos; and this the name is quite short and looks well.</comment>
-        <translation>Nuty</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/main/score/tscoreactions.cpp" line="36"/>
-        <source>Manage and navigate the score.</source>
-        <translation>Zarządzaj i nawiguj zapisem nutowym.</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/main/score/tscoreactions.cpp" line="43"/>
-        <source>Additional accidentals</source>
-        <translation>Dodatkowe znaki</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/main/score/tscoreactions.cpp" line="44"/>
-        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
-        <translation>Pokaż znaki z tonacji także przy nucie. &lt;b&gt;UWAGA! Nigdy nie zapisuje się ich w prawdziwych nutach - wykorzystywać tylko w celach teoretycznych.&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/main/score/tscoreactions.cpp" line="46"/>
-        <source>Show note names</source>
-        <translation>Pokaż nazwy nut</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/main/score/tscoreactions.cpp" line="47"/>
-        <source>Shows names of all notes on the staff.</source>
-        <translation>Pokazuje nazwy wszystkich nut na pięciolinii.</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/main/score/tscoreactions.cpp" line="51"/>
-        <source>Zoom score out</source>
-        <translation>Pomniejsz zapis nutowy</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/main/score/tscoreactions.cpp" line="52"/>
-        <source>Zoom score in</source>
-        <translation>Powiększ zapis nutowy</translation>
-    </message>
-</context>
-<context>
-    <name>TscoreObject</name>
-    <message>
-        <location filename="../src/libs/main/score/tscoreactions.cpp" line="57"/>
-        <source>Previous note</source>
-        <translation>Poprzednia nuta</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/main/score/tscoreactions.cpp" line="59"/>
-        <source>First note</source>
-        <translation>Pierwsza nuta</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/main/score/tscoreactions.cpp" line="61"/>
-        <source>Staff above</source>
-        <translation>Pięciolinia powyżej</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/main/score/tscoreactions.cpp" line="63"/>
-        <source>Staff below</source>
-        <translation>Pięciolinia poniżej</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/main/score/tscoreactions.cpp" line="65"/>
-        <source>Last note</source>
-        <translation>Ostatnia nuta</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/main/score/tscoreactions.cpp" line="67"/>
-        <source>Next note</source>
-        <translation>Następna nuta</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/main/score/tscoreactions.cpp" line="70"/>
-        <source>Delete note</source>
-        <translation>Usuń nutę</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/main/score/tscoreactions.cpp" line="74"/>
-        <source>Delete all notes</source>
-        <translation>Usuń wszystkie nuty</translation>
-    </message>
-</context>
-<context>
-    <name>TscoreClef</name>
-    <message>
-        <location filename="../src/libs/score/tscoreclef.cpp" line="187"/>
-        <source>Click to select another clef.</source>
-        <translation>Kliknij żeby wybrać inny klucz.</translation>
-    </message>
-</context>
-<context>
-    <name>TscoreKeySignature</name>
-    <message>
-        <location filename="../src/libs/score/tscorekeysignature.cpp" line="90"/>
-        <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
-        <translation>Tonacja - żeby ją zmienić, kliknij powyżej lub poniżej pięciolinii lub użyj kółka myszy.</translation>
-    </message>
-</context>
-<context>
-    <name>TscoreNote</name>
-    <message>
-        <location filename="../src/libs/score/tscorenote.cpp" line="101"/>
-        <source>Click to enter a note, use horizontal scroll to change accidental.</source>
-        <translation>Kliknij żeby wprowadzić nutę, przewijanie w poziomie zmienia znak.</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/score/tscorenote.cpp" line="102"/>
-        <source>Right mouse button just selects a note.</source>
-        <translation>Prawy klawisz myszy tylko zaznacza nutę.</translation>
-    </message>
-</context>
-<context>
-    <name>ScorePage</name>
     <message>
         <location filename="../src/plugins/settings/tscoresettings.cpp" line="140"/>
         <source>enable key signature</source>
@@ -3468,6 +3261,209 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/plugins/settings/tnotationradiogroup.cpp" line="39"/>
         <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
         <translation>Sposób nazywania nut. Podstawowa różnica to 7-my dźwięk.&lt;br&gt;Czy jest to  B i Bb, czy też H i B ?</translation>
+    </message>
+</context>
+<context>
+    <name>TouchHelp</name>
+    <message>
+        <location filename="../src/libs/core/touch/ttouchproxy.cpp" line="29"/>
+        <source>To edit a note in a score:&lt;br&gt;Touch area about some note and move a finger to select its pitch.&lt;br&gt;Then take the finger away to add/remove an accidental or a note.&lt;br&gt;Touch and move again to continue selecting the pitch.&lt;br&gt;To set the note - tap it quickly again.&lt;br&gt;To scroll the score with multiple staves - use two fingers.</source>
+        <translation>Żeby edytować nutę na pięciolinii:&lt;br&gt;Dotknij obszaru wokół nuty i poruszaj palcem żeby wybrać jej wysokość.&lt;br&gt;Zabierz palec żeby dodać/usunąć znak lub nutę.&lt;br&gt;Znowu dotknij i poruszaj palcem żeby zmienić wysokość.&lt;br&gt;Żeby ustawić nutę - dotknij ją szybko jeszcze raz.&lt;br&gt;Do przewijania wielu pięciolinii użyj dwóch palców.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/core/touch/ttouchproxy.cpp" line="39"/>
+        <source>Touch a clef for a while to change it.</source>
+        <translation>Dotknij klucza przez chwilę żeby go zmienić.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/core/touch/ttouchproxy.cpp" line="45"/>
+        <source>Tap a fret you want to select - zoomed preview will appear.&lt;br&gt;You may drag it right or left to change the fret.&lt;br&gt;Tap desired string on the preview to set the position.</source>
+        <translation>Dotknij wybrany próg - pojawi się jego powiększenie.&lt;br&gt;Można je przeciągać w prawo lub w lewo żeby zmienić próg.&lt;br&gt;Dotknij wybranej struny na powiększeniu żeby ustawić pozycję.</translation>
+    </message>
+</context>
+<context>
+    <name>WizardOther</name>
+    <message>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="241"/>
+        <source>Select a clef and scale of notes appropriate for your instrument.</source>
+        <translation>Wybierz klucz i skalę dźwięków właściwe dla swojego instrumentu.</translation>
+    </message>
+</context>
+<context>
+    <name>WizardOptions</name>
+    <message>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="314"/>
+        <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
+        <translation>7-ma nuta może nazywać się H lub B, w zależności od kraju. &lt;br&gt;Która nazwa jest odpowiednia dla ciebie?</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="322"/>
+        <source>I know about double sharps (x) and double flats (bb)</source>
+        <translation>Wiem, co to są podwójne krzyżyki (x) i podwójne bemole (bb)</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="325"/>
+        <source>I know that e# is the same as f</source>
+        <translation>Wiem, że e# to to samo co f</translation>
+    </message>
+    <message>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="328"/>
+        <source>I know about key signatures</source>
+        <translation>Wiem co to są tonacje</translation>
+    </message>
+</context>
+<context>
+    <name>Notation</name>
+    <message>
+        <source>b</source>
+        <comment>Give here a name of 7-th note preferred in your country. But only &apos;b&apos; or &apos;h&apos; not &apos;si&apos; or something worst...</comment>
+        <translation>h</translation>
+    </message>
+    <message>
+        <source>letters</source>
+        <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country preferred style of naming key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
+        <translation>letters</translation>
+    </message>
+</context>
+<context>
+    <name>TpitchView</name>
+    <message>
+        <source>pitch detection</source>
+        <translation type="vanished">rozpoznawanie nut</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="73"/>
+        <source>Pitch recognition</source>
+        <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
+        <translation>Rozpoznawanie nut</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="198"/>
+        <source>Intonation - clarity of the sound. Is it in tune.</source>
+        <translation>Intonacja - czystość dźwięku. Czy stroi.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/sound/widgets/tpitchview.cpp" line="200"/>
+        <source>Click note symbol to change it.</source>
+        <translation>Kliknij symbol nuty żeby zmienić.</translation>
+    </message>
+</context>
+<context>
+    <name>QuestionsBox</name>
+    <message>
+        <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="42"/>
+        <source>question</source>
+        <translation>pytanie</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="43"/>
+        <source>questions</source>
+        <translation>pytania</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="44"/>
+        <source>answer</source>
+        <translation>odpowiedź</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/widgets/widgets/tquestionaswdg.h" line="45"/>
+        <source>answers</source>
+        <translation>odpowiedzi</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/widgets/widgets/tquestionaswdg.cpp" line="53"/>
+        <source>Select the type of answers for a question.</source>
+        <translation>Zaznacz rodzaje odpowiedzi dla pytania.</translation>
+    </message>
+</context>
+<context>
+    <name>TremoveLevel</name>
+    <message>
+        <location filename="../src/libs/widgets/level/tlevelselector.cpp" line="368"/>
+        <source>Also delete level file:</source>
+        <translation>Usuń także plik poziomu:</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/widgets/level/tlevelselector.cpp" line="372"/>
+        <source>Remove</source>
+        <translation>Usuń</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/widgets/level/tlevelselector.h" line="134"/>
+        <source>Remove level %1 from the list</source>
+        <translation>Usuń poziom %1 z listy</translation>
+    </message>
+</context>
+<context>
+    <name>TscoreObject</name>
+    <message>
+        <location filename="../src/libs/main/score/tscoreactions.cpp" line="57"/>
+        <source>Previous note</source>
+        <translation>Poprzednia nuta</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/main/score/tscoreactions.cpp" line="59"/>
+        <source>First note</source>
+        <translation>Pierwsza nuta</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/main/score/tscoreactions.cpp" line="61"/>
+        <source>Staff above</source>
+        <translation>Pięciolinia powyżej</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/main/score/tscoreactions.cpp" line="63"/>
+        <source>Staff below</source>
+        <translation>Pięciolinia poniżej</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/main/score/tscoreactions.cpp" line="65"/>
+        <source>Last note</source>
+        <translation>Ostatnia nuta</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/main/score/tscoreactions.cpp" line="67"/>
+        <source>Next note</source>
+        <translation>Następna nuta</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/main/score/tscoreactions.cpp" line="70"/>
+        <source>Delete note</source>
+        <translation>Usuń nutę</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/main/score/tscoreactions.cpp" line="74"/>
+        <source>Delete all notes</source>
+        <translation>Usuń wszystkie nuty</translation>
+    </message>
+</context>
+<context>
+    <name>TscoreClef</name>
+    <message>
+        <location filename="../src/libs/score/tscoreclef.cpp" line="187"/>
+        <source>Click to select another clef.</source>
+        <translation>Kliknij żeby wybrać inny klucz.</translation>
+    </message>
+</context>
+<context>
+    <name>TscoreKeySignature</name>
+    <message>
+        <location filename="../src/libs/score/tscorekeysignature.cpp" line="90"/>
+        <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
+        <translation>Tonacja - żeby ją zmienić, kliknij powyżej lub poniżej pięciolinii lub użyj kółka myszy.</translation>
+    </message>
+</context>
+<context>
+    <name>TscoreNote</name>
+    <message>
+        <location filename="../src/libs/score/tscorenote.cpp" line="101"/>
+        <source>Click to enter a note, use horizontal scroll to change accidental.</source>
+        <translation>Kliknij żeby wprowadzić nutę, przewijanie w poziomie zmienia znak.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/score/tscorenote.cpp" line="102"/>
+        <source>Right mouse button just selects a note.</source>
+        <translation>Prawy klawisz myszy tylko zaznacza nutę.</translation>
     </message>
 </context>
 <context>
@@ -3688,6 +3684,10 @@ nutowy</translation>
         <location filename="../src/plugins/exam/texercises.cpp" line="116"/>
         <source>Sure! Lets start an exam!</source>
         <translation>Jasne! Zacznijmy egzamin!</translation>
+    </message>
+    <message>
+        <source>No thanks, but check entire melody from now.</source>
+        <translation>Nie dzięki, ale od teraz sprawdzaj całą melodię.</translation>
     </message>
     <message>
         <location filename="../src/plugins/exam/texercises.cpp" line="117"/>

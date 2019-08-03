@@ -124,6 +124,10 @@ if(APPLE OR WIN32)
    "${QT_TRANSLATIONS_DIR}/qtbase_hu.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_pl.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_ru.qm"
+#    "${QT_TRANSLATIONS_DIR}/qtbase_sl.qm"
+      # So far not provided by Qt
+      #"${CMAKE_CURRENT_SOURCE_DIR}/lang/qtbase/qtbase_sl.qm"
+
   )
 endif(APPLE OR WIN32)
 

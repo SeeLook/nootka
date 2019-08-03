@@ -184,6 +184,7 @@ QString TdialogLoaderObject::getChanges() const {
     QTextStream in(&file);
     in.setCodec("UTF-8");
     QStringList htmlText = in.readAll().replace(QLatin1String("  "), QLatin1String("&nbsp;&nbsp;")).split(QLatin1String("\n"));
+    htmlText.prepend(QStringLiteral("<b><big><center>Nootka TWO</big></b></center><br>"));
     for (int i = 0; i < htmlText.size(); i++) {
       if (htmlText[i].startsWith(QLatin1String("0.")) || htmlText[i].startsWith(QLatin1String("1.")))
         htmlText[i] = QLatin1String("<span style=\"font-size: x-large; color: #0000ff\"><b>&nbsp;") + htmlText[i] + QLatin1String("</b></span>");
