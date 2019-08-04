@@ -38,46 +38,48 @@ Tflickable {
     Grid {
       columns: 4
       spacing: Noo.fontSize() / 2
+      columnSpacing: Noo.fontSize() * 2; rowSpacing: Noo.fontSize() / 2
       verticalItemAlignment: Grid.AlignVCenter
       anchors.horizontalCenter: parent.horizontalCenter
-      Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-cs"); }
-      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;český "; textFormat: Text.StyledText; color: activPal.text }
-      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Pavel Fric</b> "; color: activPal.text }
-      LinkText { text: " <a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>" }
 
-      Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-de") }
-      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;deutsch "; textFormat: Text.StyledText; color: activPal.text}
-      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Johann C. Weihe</b>,<br>&nbsp;&nbsp;&nbsp;&nbsp;Renato Reinau"; font.bold: true; color: activPal.text }
+      Image { sourceSize.height: Noo.fontSize() * 3; source: Noo.pix("flags-cs"); }
+      Text { text: "český"; textFormat: Text.StyledText; color: activPal.text }
+      Text { text: "Pavel Fric "; color: activPal.text; font.bold: true }
+      LinkText { text: "<a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>" }
+
+      Image { sourceSize.height: Noo.fontSize() * 3; source: Noo.pix("flags-de") }
+      Text { text: "deutsch"; textFormat: Text.StyledText; color: activPal.text}
+      Text { text: "Johann C. Weihe,<br>Renato Reinau"; font.bold: true; color: activPal.text }
       Item { width: 10; height: 10 }
 
-      Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-es") }
-      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;español "; textFormat: Text.StyledText; color: activPal.text }
-      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>José Luis Marín</b> "; font.bold: true; color: activPal.text }
-      LinkText { text: " <a href=\"mailto:jsls@gmx.com\">jsls@gmx.com</a>" }
+      Image { sourceSize.height: Noo.fontSize() * 3; source: Noo.pix("flags-es") }
+      Text { text: "español"; textFormat: Text.StyledText; color: activPal.text }
+      Text { text: "José Luis Marín"; font.bold: true; color: activPal.text }
+      LinkText { text: "<a href=\"mailto:jsls@gmx.com\">jsls@gmx.com</a>" }
 
-      Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-fr") }
-      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;français "; textFormat: Text.StyledText; color: activPal.text }
-      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Olivier Devineau,<br>&nbsp;&nbsp;&nbsp;&nbsp;Jean-Marc Lartigue</b> "; color: activPal.text }
+      Image { sourceSize.height: Noo.fontSize() * 3; source: Noo.pix("flags-fr") }
+      Text { text: "français"; textFormat: Text.StyledText; color: activPal.text }
+      Text { text: "Olivier Devineau,<br>Jean-Marc Lartigue"; font.bold: true; color: activPal.text }
       Item { width: 10; height: 10 }
 
-      Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-hu") }
-      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;magyar "; textFormat: Text.StyledText; color: activPal.text }
-      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Gábor Kertész</b> "; color: activPal.text }
+      Image { sourceSize.height: Noo.fontSize() * 3; source: Noo.pix("flags-hu") }
+      Text { text: "magyar"; textFormat: Text.StyledText; color: activPal.text }
+      Text { text: "Gábor Kertész"; font.bold: true; color: activPal.text }
       LinkText { text: "<a href=\"mailto:kergab@gmail.com\">kergab@gmail.com</a>" }
 
-      Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-pl") }
-      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;polski "; textFormat: Text.StyledText; color: activPal.text }
-      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Tomasz Bojczuk</b> "; color: activPal.text }
+      Image { sourceSize.height: Noo.fontSize() * 3; source: Noo.pix("flags-pl") }
+      Text { text: "polski"; textFormat: Text.StyledText; color: activPal.text }
+      Text { text: "Tomasz Bojczuk"; font.bold: true; color: activPal.text }
       LinkText { text: "<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>" }
 
-      Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-ru") }
-      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;русский "; textFormat: Text.StyledText; color: activPal.text }
-      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Sergei Ivanov (tico-tico)<br>&nbsp;&nbsp;&nbsp;&nbsp;Timur Artykov</b> "; color: activPal.text }
+      Image { sourceSize.height: Noo.fontSize() * 3; source: Noo.pix("flags-ru") }
+      Text { text: "русский"; textFormat: Text.StyledText; color: activPal.text }
+      Text { text: "Sergei Ivanov (tico-tico),<br>Timur Artykov"; font.bold: true; color: activPal.text }
       Item { width: 10; height: 10 }
 
-      Image { sourceSize.height: Noo.fontSize() * 2; source: Noo.pix("flags-sl") }
-      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;slovenščina "; textFormat: Text.StyledText; color: activPal.text }
-      Text { text: "&nbsp;&nbsp;&nbsp;&nbsp;<b>Grega Trček</b> "; color: activPal.text }
+      Image { sourceSize.height: Noo.fontSize() * 3; source: Noo.pix("flags-sl") }
+      Text { text: "slovenščina"; textFormat: Text.StyledText; color: activPal.text }
+      Text { text: "Grega Trček"; font.bold: true; color: activPal.text }
       Item { width: 10; height: 10 }
     }
 

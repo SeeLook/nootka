@@ -13,8 +13,8 @@
 
 ---------------- For incoming stable release version 2.0 ----------------------------
     - manual adding/editing ties
-    - finish tuner, functionality similar to Android one
-    - music XML import dialog, to select voice or staff if multiple and so
+    - finish tuner, functionality similar to Android one (show tuning, middle A freq)
+    - music XML import dialog, to select voice or staff if there are more, and so
     - exam summary - give more valuable info, wear it nicely
     - migrate on preferred 48000 sample rate (ogg files and audio methods)
 
@@ -49,7 +49,7 @@ MISSING IN ACTION (comparing to previous major version) - do we really need them
  - question mark and note name over instrument during exam/exercises (remember about actual name style)
  - no intonation gradients
 
-revert exam times: 
+revert exam times (if we really need that):
     - next question delay
     - correction preview
 
