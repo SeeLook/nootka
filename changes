@@ -2,6 +2,7 @@
      - metronome can tick audibly, also during pitch detection
      - added support for scientific octave numbers in note names
      - read/save melody title, composer, tempo, beat
+     - level can consist set of melodies loaded from files
      - restored charts (analysis) with updated look
      - improved start wizard to handle more supported instruments
      - exam summary displays pie chart with kinds of mistake
@@ -23,6 +24,7 @@
      - added bandoneon and saxophone views
      - audio plays different sounds (piano, bandoneon, sax)
      - real support for transposing instruments
+     - new Nootka icons (application, level/exam files)
      - more stuff ported to QML
 
 1.5.0 alpha1
@@ -33,7 +35,6 @@
      - many improvements of user interface
      - option for enable/disable animations
 
-======
 
 
 1.4.6
@@ -326,6 +327,9 @@
      - under newer Windows Os-es version WASAPI or ASIO is used and DS for XP
      - merged audio input and output callback methods
      - ported binary format of *.nel files to XML
+
+======
+
 
 1.0.1
      - finished German translation
