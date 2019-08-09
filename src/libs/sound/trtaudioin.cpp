@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -60,8 +60,8 @@ bool TaudioIN::inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudi
 
 
 
-TaudioIN*              TaudioIN::m_instance = 0;
-bool                  TaudioIN::m_goingDelete = false;
+TaudioIN*               TaudioIN::m_instance = nullptr;
+bool                    TaudioIN::m_goingDelete = false;
 
 //#################################################################################################
 //###################              CONSTRUCTOR         ############################################
@@ -89,7 +89,7 @@ TaudioIN::~TaudioIN()
   m_goingDelete = true;
   closeStream();
   finder()->blockSignals(true);
-  m_instance = 0;
+  m_instance = nullptr;
   deleteInParams();
   resetCallBack();
 }

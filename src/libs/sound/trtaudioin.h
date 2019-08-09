@@ -65,12 +65,11 @@ protected:
   void ASIORestartSlot();
 #endif
 
-protected slots:
   void playingFinishedSlot();
 
 private:
-  static        TaudioIN* m_instance; /**< Keeps static pointer of TaudioIN instance. static inCallBack uses it to has access. */
-  static bool   m_goingDelete; /**< is set to @p FALSE when destructor starts. It prevents to performs callbacks routines then. */
+  static TaudioIN     *m_instance; /**< Keeps static pointer of TaudioIN instance. static inCallBack uses it to has access. */
+  static bool          m_goingDelete; /**< is set to @p FALSE when destructor starts. It prevents to performs callbacks routines then. */
 
 };
 

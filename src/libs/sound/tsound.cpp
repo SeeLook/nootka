@@ -93,6 +93,7 @@ void Tsound::init() {
 void Tsound::play(const Tnote& note) {
   bool playing = true;
   if (player && note.isValid()) {
+    m_stopSniffOnce = true;
     player->runMetronome(0); // reset metronome
     playing = player->playNote(note.chromatic());
   }
@@ -115,7 +116,6 @@ void Tsound::play(const Tnote& note) {
 //     }
 //   }
 #endif
-  emit playingChanged();
 }
 
 
@@ -123,40 +123,39 @@ void Tsound::playMelody(Tmelody* mel, int transposition) {
   if (player && player->isPlayable()) {
     if (player->isPlaying()) {
         stopPlaying();
-        playingFinishedSlot();
     } else {
-        if (mel->length())
+        if (mel->length()) {
+          m_stopSniffOnce = true;
           player->playMelody(mel, transposition);
+        }
     }
   }
 }
 
 
-void Tsound::playScoreNotes(QList<Tnote>& notes, int firstNote) {
-  if (player && !notes.isEmpty()) {
-    player->runMetronome(m_tempo);
-    player->playNotes(std::addressof(notes), // beat unit has to be converted to quarter here
-                      qRound(static_cast<qreal>(m_tempo) / Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(m_beatUnit))),
-                      firstNote);
-  }
-}
-
-
-void Tsound::playScore() {
-  if (!player->isPlaying()) {
-      playScoreNotes(NOO->scoreNoteList(), NOO->selectedNoteId() > -1 ? NOO->selectedNoteId() : 0);
-      if (player->isPlaying()) {
-        if (sniffer) { // stop sniffer if midi output was started
-          if (!m_stopSniffOnce) { // stop listening just once
-            sniffer->stopListening();
-            m_stopSniffOnce = true;
-          }
+void Tsound::playNoteList(QList<Tnote>& notes, int firstNote, int countdownDuration) {
+  if (player) {
+    if (!player->isPlaying()) {
+        if (!notes.isEmpty()) {
+          player->runMetronome(m_tempo);
+          m_stopSniffOnce = true;
+          player->playNotes(std::addressof(notes), // beat unit has to be converted to quarter here
+                            qRound(static_cast<qreal>(m_tempo) / Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(m_beatUnit))),
+                            firstNote,
+                            countdownDuration);
         }
-        emit playingChanged();
-      }
-  } else {
-      stopPlaying();
-      playingFinishedSlot();
+//         if (player->isPlaying()) {
+//           if (sniffer) { // stop sniffer if midi output was started
+//             if (!m_stopSniffOnce) { // stop listening just once
+// //               sniffer->stopListening();
+//               m_stopSniffOnce = true;
+//             }
+//           }
+// //           emit playingChanged();
+//         }
+    } else {
+        stopPlaying();
+    }
   }
 }
 
@@ -251,34 +250,6 @@ void Tsound::setJACKorASIO(bool setOn) {
 }
 
 
-// void Tsound::prepareToConf() {
-//   if (player) {
-// //     player->stop();
-// // #if !defined (Q_OS_ANDROID)
-// //     player->deleteMidi();
-// // #endif
-//   }
-//   if (sniffer) {
-//     m_userState = sniffer->stoppedByUser();
-// //     sniffer->stopListening();
-// //     blockSignals(true);
-//     sniffer->setStoppedByUser(false);
-//   }
-// }
-
-
-// void Tsound::restoreAfterConf() {
-// // #if !defined (Q_OS_ANDROID)
-// //   if (GLOB->A->midiEnabled) {
-// //     if (player)
-// //       player->setMidiParams();
-// //   }
-// // #endif
-//   if (sniffer)
-//     restoreSniffer();
-// }
-
-
 float Tsound::pitch() {
   if (sniffer)
     return sniffer->lastNotePitch();
@@ -346,7 +317,7 @@ bool Tsound::listening() const {
 
 
 bool Tsound::playing() const {
-  return player ? player->isPlaying() : false;
+  return player && player->isPlaying();
 }
 
 
@@ -405,6 +376,11 @@ void Tsound::setTickDuringPlay(bool tdp) {
     player->setTickDuringPlay(tdp);
     emit tickStateChanged();
   }
+}
+
+
+int Tsound::playingNoteId() const {
+  return player && player->playingNoteId();
 }
 
 
@@ -477,14 +453,16 @@ void Tsound::setDumpFileName(const QString& fName) {
 }
 #endif
 
+
 //#################################################################################################
 //###################                PRIVATE           ############################################
 //#################################################################################################
 
 void Tsound::createPlayer() {
   player = new TaudioOUT(GLOB->A);
+  connect(player, &TaudioOUT::playingStarted, this, &Tsound::playingStartedSlot);
   connect(player, &TaudioOUT::nextNoteStarted, this, &Tsound::selectNextNote);
-  connect(player, &TaudioOUT::noteFinished, this, &Tsound::playingFinishedSlot);
+  connect(player, &TaudioOUT::playingFinished, this, &Tsound::playingFinishedSlot);
   m_stopSniffOnce = false;
 }
 
@@ -530,12 +508,19 @@ void Tsound::restoreSniffer() {
 //###################            PRIVATE SLOTS         ############################################
 //#################################################################################################
 
+void Tsound::playingStartedSlot() {
+  emit playingChanged();
+  if (sniffer)
+    sniffer->stopListening();
+}
+
 
 void Tsound::playingFinishedSlot() {
   if (!m_examMode && sniffer) {
-    if (m_stopSniffOnce)
+    if (m_stopSniffOnce) {
       sniffer->startListening();
-    m_stopSniffOnce = false;
+      m_stopSniffOnce = false;
+    }
   }
   emit plaingFinished();
   emit playingChanged();
@@ -606,6 +591,7 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
 
 
 void Tsound::selectNextNote() {
-  if (player->playingNoteId() != NOO->selectedNoteId())
-    NOO->selectPlayingNote(player->playingNoteId());
+  if (player->playingNoteId() > -1 && player->playingNoteId() != NOO->selectedNoteId())
+      NOO->selectPlayingNote(player->playingNoteId());
+  emit playingNoteIdChanged();
 }

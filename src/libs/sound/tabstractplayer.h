@@ -24,17 +24,12 @@
 #include <nootkasoundglobal.h>
 #include <QtCore/qobject.h>
 #include <QtCore/qlist.h>
+#include <QtCore/qthread.h>
 
 
-class QTimer;
-class Tnote;
-class QThread;
-class TaudioParams;
-class ToggScale;
-class Tmelody;
 
-
-#define REST_NR (127)
+#define REST_NR (127) /**< Chromatic note number impossible to achieve identifying rest */
+#define CNTDWN_ID (-7) /**< Nonexistent index of played note identifying countdown intro is playing */
 
 
 class NOOTKASOUND_EXPORT TsingleSound {
@@ -46,6 +41,61 @@ public:
 };
 
 
+class Tmelody;
+class QTimer;
+class Tnote;
+class TaudioParams;
+class ToggScale;
+class TabstractPlayer;
+
+
+/**
+ * @p QThread subclass to perform audio data preparation for @p TabstractPlayer
+ * @p run() creates @p playList() with @p TsingleSound list of notes to play,
+ * then signal @p audioDataReady() is emitted to invoke @p TabstractPlayer::startPlaying() over player instance.
+ */
+class NOOTKASOUND_EXPORT TplayerThread : public QThread
+{
+
+  Q_OBJECT
+
+  friend class TabstractPlayer;
+
+public:
+  TplayerThread(TabstractPlayer* pl);
+  void run() override;
+
+signals:
+  void audioDataReady();
+
+protected:
+  QList<TsingleSound>& playList() { return m_playList; }
+
+  int noteTopPlay() { return m_noteToPlay; }
+  void setNoteToPLay(int ntp) { m_noteToPlay = ntp; }
+
+  int firstNote() { return m_firstNote; }
+  void setFirstNote(int fn) { m_firstNote = fn; }
+
+  void setListToPlay(QList<Tnote>* ltp) { m_listToPlay = ltp; }
+  void setMelodyToPlay(Tmelody* m) { m_melodyToPlay = m; }
+  void setTransposition(int tra) { m_transposition = tra; }
+
+  void preparePlayList(QList<Tnote>* notes, int tempo, int firstNote, int sampleRate, int transposition, int a440Ddiff);
+
+private:
+  TabstractPlayer             *m_player; /**< Instance of player (audio Rt, Qt) */
+  QList<TsingleSound>          m_playList;
+  int                          m_noteToPlay = REST_NR;
+  QList<Tnote>                *m_listToPlay = nullptr;
+  int                          m_firstNote = 0;
+  Tmelody                     *m_melodyToPlay = nullptr;
+  int                          m_transposition = 0;
+
+};
+
+
+
 /**
  * Abstract class for sound output. All sound back-ends (RtAudio, Qt audio, MIDI) derive from it.
  *
@@ -53,15 +103,14 @@ public:
  * @li @p playNote() - for single note
  * @li @p playNotes() - for note list (i.e. score notes)
  * @li @p playMelody() - for melody with defined tempo
- *
  * Those methods just stores stuff to play and trigger thread to start playing.
- * @p playThreadSlot() creates @p playList() with @p TsingleSound list of notes to play,
- * then abstract @p startPlaying() playing is called which has to be re-implemented by players.
  */
 class NOOTKASOUND_EXPORT TabstractPlayer : public QObject
 {
 
   Q_OBJECT
+
+  friend class TplayerThread;
 
 public:
   TabstractPlayer(QObject *parent = nullptr);
@@ -83,18 +132,20 @@ public:
   virtual void setMidiParams() {}
 
   bool playNote(int noteNr);
-  bool playNotes(QList<Tnote>* notes, int tempo, int firstNote = 0);
+  bool playNotes(QList<Tnote>* notes, int tempo, int firstNote = 0, int countdownDur = 0);
   bool playMelody(Tmelody* melody, int transposition = 0);
 
   enum EplayerType { e_audio, e_midi };
 
   EplayerType type() { return playerType; }
 
-  QList<TsingleSound>& playList() { return m_playList; }
+  QList<TsingleSound>& playList() { return m_playThreaad->playList(); }
 
       /**
        * Number (id) of actually played note, if note list of @p playMelody comes from score
        * this number corresponds with note id on the score
+       * or
+       * CNTDWN_ID (-7) if empty bar is played before melody
        */
   int playingNoteId() const { return p_playingNoteId; }
 
@@ -109,10 +160,12 @@ public:
   void setTickDuringPlay(bool tdp);
 
 signals:
+  void playingStarted();
+
       /**
        * This signal is emitted when playing of a note/melody is finished.
        */
-  void noteFinished();
+  void playingFinished();
 
   void nextNoteStarted();
 
@@ -122,15 +175,15 @@ protected:
 
   virtual void startPlaying() = 0;
 
-  void preparePlayList(QList<Tnote>* notes, int tempo, int firstNote, int sampleRate, int transposition, int a440Ddiff);
+  void preparePlayList(QList<Tnote>* notes, int tempo, int firstNote, int sampleRate, int transposition, int a440diff);
 
-  QThread* playThread() { return m_thread; }
+  QThread* playThread() { return m_playThreaad; }
 
 protected:
   bool                         p_playable;
 
       /**
-       * Determines whether noteFinished() signal is emited in offTimer timeOut() slot.
+       * Determines whether @p playingFinished() signal is emited (Mostly in Qt Audio in offTimer timeOut() slot).
        * Slot is also called by stop() method and then signal can't be emitted.
        */
   bool                         p_doEmit;
@@ -140,6 +193,7 @@ protected:
   static unsigned int          p_posInNote, p_posInOgg;
   static int                   p_playingNoteNr, p_decodingNoteNr, p_playingNoteId;
   int                          p_tempo = 120;
+  int                          p_countdownDur = 0; /**< countdown duration before melody will be played */
   TaudioParams                *p_audioParams = nullptr;
   ToggScale                   *p_oggScale = nullptr;
   static int                   p_prevNote; /**< Previously played note number, when -100 means invalid  */
@@ -150,14 +204,7 @@ protected:
   static bool                  p_lastNotePlayed; /**< @p TRUE set in callback only when last note just has been played */
 
 private:
-  QList<TsingleSound>          m_playList;
-  QThread                     *m_thread;
-  int                          m_noteToPlay = REST_NR;
-  QList<Tnote>                 m_emptyList;
-  QList<Tnote>                *m_listToPlay = nullptr;
-  int                          m_firstNote = 0;
-  Tmelody                     *m_melodyToPlay = nullptr;
-  int                          m_transposition = 0;
+  TplayerThread               *m_playThreaad;
   qint16                      *m_beatArray = nullptr;
 
 private:

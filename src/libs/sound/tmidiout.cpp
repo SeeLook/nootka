@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -223,7 +223,7 @@ void TmidiOut::midiNoteOff() {
 //         m_portOpened = false;
 //     }
   if (p_doEmit)
-    emit noteFinished();
+    emit playingFinished();
 }
 
 

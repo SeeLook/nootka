@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -31,33 +31,40 @@
  */
 class NOOTKASOUND_EXPORT TaudioObject : public QObject
 {
+
   Q_OBJECT
 
 public:
   explicit TaudioObject(QObject* parent = nullptr) : QObject(parent) {}
 
   void emitStreamOpened() { emit streamOpened(); }
-  void emitParamsUpdated() { emit paramsUpdated(); }
-  void emitPlayingFinished() { emit playingFinished(); }
-  void emitNextNoteStarted() { emit nextNoteStarted(); }
-
-signals:
-  void streamOpened();
 
       /**
        * Emitted after @p TrtAudio::updateAudioParams()
        */
-  void paramsUpdated();
+  void emitParamsUpdated() { emit paramsUpdated(); }
 
       /**
-       * Emitted when all note data were send
+       * When a single note or a melody starts playing
        */
-  void playingFinished();
+  void emitPlayingStarted() { emit playingStarted(); }
+
+      /**
+       * Emitted when all note data were send to output buffer through callback
+       */
+  void emitPlayingFinished() { emit playingFinished(); }
 
       /**
        * In out callback, when next note of melody is going to be played,
        * to synchronize note selected on the score 
        */
+  void emitNextNoteStarted() { emit nextNoteStarted(); }
+
+signals:
+  void streamOpened();
+  void paramsUpdated();
+  void playingStarted();
+  void playingFinished();
   void nextNoteStarted();
 
 };

@@ -24,6 +24,8 @@
 #include <QtCore/qdebug.h>
 
 
+#define                            PREF_BUFF_FR (512) /**< Preferred frame size of audio buffer */
+
 /*static*/
 RtAudio*                           TrtAudio::m_rtAduio = nullptr;
 RtAudio::StreamParameters*         TrtAudio::m_inParams = nullptr;
@@ -45,9 +47,7 @@ bool                               TrtAudio::forceUpdate = false;
 bool                               TrtAudio::m_sendPlayingFinished = false;
 TrtAudio::EaudioState              TrtAudio::m_state = TrtAudio::e_idle;
 bool                               TrtAudio::m_areSplit = true;
-
-int                                m_preferredBF = 512;
-bool                               m_audioUpdated = false;
+bool                               TrtAudio::m_playCallbackInvolved = false;
 
 
 void TrtAudio::createRtAudio() {
@@ -208,7 +208,6 @@ TrtAudio::~TrtAudio()
     delete m_ao;
     m_ao = nullptr;
   }
-
 }
 
 
@@ -221,13 +220,15 @@ void TrtAudio::updateAudioParams() {
     setJACKorASIO(audioParams()->JACKorASIO);
 #endif
     forceUpdate = false; // no more
-    m_audioUpdated = true;
+    m_paramsUpdated = true;
     if (audioParams()->forwardInput || getCurrentApi() == RtAudio::WINDOWS_ASIO)
       m_areSplit = false;
     else
       m_areSplit = true;
 
-    m_areSplit = false; //FIXME This is temporary solution to allow ticking during listening
+    //FIXME This is temporary solution to force duplex mode and allow ticking during listening
+    //      It has to be default behaviour
+    m_areSplit = false;
 
   // preparing devices
     int inDevId = -1, outDevId = -1;
@@ -367,7 +368,7 @@ bool TrtAudio::play() {
 bool TrtAudio::openStream() {
   try {
     if (rtDevice()) {
-      m_bufferFrames = m_preferredBF; // reset when it was overridden by another rt API
+      m_bufferFrames = PREF_BUFF_FR; // reset when it was overridden by another rt API
       if (m_areSplit) {
           bool splitTry = false;
           if (m_type == e_input)
@@ -397,12 +398,12 @@ bool TrtAudio::openStream() {
             if (m_outParams && getDeviceInfo(di, m_outParams->deviceId))
               m_outDevName = convDevName(di);
         }
-        if (m_audioUpdated) { // print params once
+        if (m_paramsUpdated) { // print params once
           if (m_inParams)
             qDebug() << currentRtAPI() << "IN:" << m_inDevName << "samplerate:" << inRate() << ", buffer size:" << m_bufferFrames;
           if (m_outParams)
             qDebug() << currentRtAPI() << "OUT:" << m_outDevName << "samplerate:" << outRate() << ", buffer size:" << m_bufferFrames;
-          m_audioUpdated = false;
+          m_paramsUpdated = false;
         }
         return true;
     } else

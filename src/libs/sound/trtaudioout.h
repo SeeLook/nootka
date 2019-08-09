@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -32,10 +32,11 @@ class Tnote;
 
 
 /**
- * Nootka audio output through RtAudio
+ * Nootka audio output through @p RtAudio
  */
 class NOOTKASOUND_EXPORT TaudioOUT : public TabstractPlayer, public TrtAudio
 {
+
   Q_OBJECT
 
 public:
@@ -55,18 +56,19 @@ protected:
 
   void startPlaying() override;
 
-protected:
-  static TaudioOUT               *instance; /**< Static pointer of this class instance. */
-  ToggScale                      *oggScale;
-  int                             ratioOfRate; /**< ratio of current sample rate to 44100 */
-
-private:
   void updateSlot() { setAudioOutParams(); }
+  void playingFinishedDelay();
   void playingFinishedSlot();
 
 #if defined(Q_OS_WIN)
   void ASIORestartSlot();
 #endif
+  
+
+protected:
+  static TaudioOUT               *instance; /**< Static pointer of this class instance. */
+  ToggScale                      *oggScale;
+  int                             ratioOfRate; /**< ratio of current sample rate to 44100 */
 
 private:
   bool                          m_callBackIsBussy;
