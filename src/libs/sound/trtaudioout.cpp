@@ -176,8 +176,10 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
       instance->m_callBackIsBussy = false;
       endState = true;
   }
-  if (instance->p_doEmit && !areStreamsSplit() && endState)
+  if (instance->p_doEmit && !areStreamsSplit() && endState) {
     ao()->emitPlayingFinished(); // emit in duplex mode
+    instance->p_doEmit = false;
+  }
 
   return endState;
 }
@@ -204,8 +206,10 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
   instance = this;
   forceUpdate = true;
   connect(ao(), &TaudioObject::paramsUpdated, this, &TaudioOUT::updateSlot);
-  connect(ao(), &TaudioObject::playingFinished, this, &TaudioOUT::playingFinishedSlot);
-  connect(ao(), &TaudioObject::nextNoteStarted, [=]{ emit nextNoteStarted(); });
+
+  connect(ao(), &TaudioObject::playingStarted, this, &TaudioOUT::playingStarted);
+  connect(ao(), &TaudioObject::nextNoteStarted, this, &TaudioOUT::nextNoteStarted, Qt::DirectConnection);
+  connect(ao(), &TaudioObject::playingFinished, this, &TaudioOUT::playingFinishedDelay);
 
   connect(oggScale, &ToggScale::noteDecoded, this, &TaudioOUT::decodeNextSlot, Qt::DirectConnection);
 }
@@ -245,18 +249,24 @@ void TaudioOUT::setAudioOutParams() {
 }
 
 
+/**
+ * This method is invoked in other thread by direct connection,
+ * so sleeps doesn't freeze main thread
+ */
 void TaudioOUT::startPlaying() {
   while (m_callBackIsBussy) {
-    playThread()->usleep(500);
     qDebug() << "[TaudioOUT] Oops! Call back method is in progress when a new note wants to be played!";
+    QThread::currentThread()->usleep(500);
   }
 
+  ao()->emitPlayingStarted();
+  setPlayCallbackInvolved(true);
   p_lastNotePlayed = false;
   oggScale->decodeNote(playList().first().number);
   if (!oggScale->isReady()) {
     int loops = 0;
     while (!oggScale->isReady() && loops < 40) { // 40ms - max latency
-      playThread()->msleep(1);
+      QThread::currentThread()->msleep(1);
       loops++;
     }
     //  if (loops) qDebug() << "latency:" << loops << "ms";
@@ -270,7 +280,7 @@ void TaudioOUT::startPlaying() {
   p_posInOgg = 0;
   p_isPlaying = true;
   if (playList().size() > 1 && p_tempo > 100) // in faster tempo wait for decoding more notes
-    playThread()->msleep(100);
+    QThread::currentThread()->msleep(100);
   if (areStreamsSplit() && state() != e_playing)
     openStream();
   startStream();
@@ -279,16 +289,23 @@ void TaudioOUT::startPlaying() {
 }
 
 
+/**
+ * Invoke @p playingFinished with delay to give output audio device consume data was sent.
+ * Due to ao()->emitPlayingFinished() is sent from another thread, we don't want to use lambda connection.
+ * Below slot is performed in main thread already, timers are happy
+ */
+void TaudioOUT::playingFinishedDelay() {
+  QTimer::singleShot(500, this, [=]{ playingFinishedSlot(); });
+}
+
+
 void TaudioOUT::playingFinishedSlot() {
   if (areStreamsSplit() && state() == e_playing)
     closeStream();
 
   p_isPlaying = false;
-
-  if (p_doEmit) {
-    emit noteFinished();
-    p_doEmit = false;
-  }
+  setPlayCallbackInvolved(false);
+  emit playingFinished();
 }
 
 
@@ -317,7 +334,7 @@ void TaudioOUT::stop() {
   p_shiftOfPrev = 0;
   p_lastPosOfPrev = 0;
   p_isPlaying = false;
-  if (areStreamsSplit() || getCurrentApi() == RtAudio::LINUX_PULSE)
+  if (areStreamsSplit() /*|| getCurrentApi() == RtAudio::LINUX_PULSE*/)
     closeStream();
   else
     abortStream();

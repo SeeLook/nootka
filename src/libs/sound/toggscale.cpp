@@ -443,6 +443,8 @@ void ToggScale::adjustSoundTouch() {
       if (m_sampleRate != 44100) {
         qreal newRate =  44100.0 / static_cast<qreal>(m_sampleRate);
         m_touch->setRate(newRate);
+        QTextStream o(stdout);
+        o << "\033[01;36m Audio data will be resampled to " << m_sampleRate << "\n";
       }
 //       qDebug() << "SoundTouch sampleRate" << m_sampleRate << "pitch offset" << m_innerOffset + m_pitchOffset;
       if (!m_touchConnected)

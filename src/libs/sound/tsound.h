@@ -60,6 +60,7 @@ class NOOTKASOUND_EXPORT Tsound : public QObject
   Q_PROPERTY(bool tunerMode READ tunerMode NOTIFY tunerModeChanged)
   Q_PROPERTY(bool tickBeforePlay READ tickBeforePlay WRITE setTickBeforePlay NOTIFY tickStateChanged)
   Q_PROPERTY(bool tickDuringPlay READ tickDuringPlay WRITE setTickDuringPlay NOTIFY tickStateChanged)
+  Q_PROPERTY(int playingNoteId READ playingNoteId NOTIFY playingNoteIdChanged)
 
   friend class TtunerDialogItem;
 
@@ -82,9 +83,7 @@ public:
 
   void playMelody(Tmelody* mel, int transposition = 0);
 
-  void playScoreNotes(QList<Tnote>& notes, int firstNote = 0);
-
-  Q_INVOKABLE void playScore();
+  void playNoteList(QList<Tnote>& notes, int firstNote, int countdownDuration = 0);
 
   bool isPlayable();
 
@@ -111,16 +110,6 @@ public:
 
   Q_INVOKABLE void setJACKorASIO(bool setOn);
 
-    /**
-     * Before Nootka config dialog is created a few things have to be done.
-     * stop sniffing, playing, delete midi, which blocks audio devices,
-     */
-//   Q_INVOKABLE void prepareToConf();
-
-      /**
-       * Also, when user will discard config, it has to restore its state.
-       */
-//   Q_INVOKABLE void restoreAfterConf();
   Q_INVOKABLE void acceptSettings();
 
   Q_INVOKABLE void stopListen();
@@ -173,6 +162,8 @@ public:
   bool tickDuringPlay() const;
   void setTickDuringPlay(bool tdp);
 
+  int playingNoteId() const;
+
       /**
        * Prepares sound to exam.
        * Given notes in params are level range notes and are put to sniffer ambitus.
@@ -210,6 +201,7 @@ signals:
   void playingChanged();
   void tunerModeChanged();
   void tickStateChanged();
+  void playingNoteIdChanged();
 
       /**
        * When sound got initialized at the very beginning
@@ -235,10 +227,11 @@ private:
 
   static Tsound          *m_instance;
 
-private slots:
-    /*
-     * Is performed when note stops playing, then sniffing is unlocked
-     */
+private:
+  void playingStartedSlot();
+      /**
+       * Is performed when note or melody stops playing, then sniffing is unlocked
+       */
   void playingFinishedSlot();
 
   void noteStartedSlot(const TnoteStruct& note);

@@ -331,7 +331,7 @@ void TaudioOUT::playingFinishedSlot() {
   m_audioOUT->stop();
   p_isPlaying = false;
   if (p_doEmit)
-    emit noteFinished();
+    emit playingFinished();
   p_doEmit = false; // emit once per play/stop cycle
 }
 

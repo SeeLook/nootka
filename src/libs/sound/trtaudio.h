@@ -139,14 +139,21 @@ protected:
   static bool isOpened(); /**< Checks rtAudio instance and returns @p TRUE when it is opened. */
   static bool isRunning(); /**< Checks rtAudio instance and returns @p TRUE when it is running. */
 
+      /**
+       * @p TRUE when playing is performed.
+       * It is used to determine whether skip input data in duplex mode
+       */
+  static bool playCallbackInvolved() { return m_playCallbackInvolved; }
+  static void setPlayCallbackInvolved(bool p) { m_playCallbackInvolved = p; }
+
       /** Static instance of 'signal emitter'
         * It emits following signals:
         * @p streamOpened() - when stream is opening
         */
   static TaudioObject* ao() { return m_ao; }
 
-  static bool hasCallBackIn() { return (bool)m_cbIn; }
-  static bool hasCallBackOut() { return (bool)m_cbOut; }
+  static bool hasCallBackIn() { return static_cast<bool>(m_cbIn); }
+  static bool hasCallBackOut() { return static_cast<bool>(m_cbOut); }
 
   static bool getDeviceInfo(RtAudio::DeviceInfo &devInfo, unsigned int id);
   static RtAudio::Api getCurrentApi(); /**< Returns current RtAudio API is instance exists or @p RtAudio::UNSPECIFIED */
@@ -175,6 +182,7 @@ private:
 
 private:
   TaudioParams                           *m_audioParams;
+  bool                                    m_paramsUpdated = false;
   static RtAudio                         *m_rtAduio;
   EdevType                                m_type;
   static bool                             m_sendPlayingFinished;
@@ -191,6 +199,7 @@ private:
   static TaudioObject                    *m_ao;
   static RtAudioCallback                  m_callBack;
   static bool                             m_JACKorASIO;
+  static bool                             m_playCallbackInvolved;
 };
 
 #endif // TRTAUDIOABSTRACT_H
