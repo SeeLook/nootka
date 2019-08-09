@@ -106,9 +106,8 @@ Popup {
     }
 
     TcheckBox {
-      visible: false
       id: beforeTickChB
-      text: qsTr("Tick before play")
+      text: qsTr("Tick before")
       checked: SOUND.tickBeforePlay
     }
 

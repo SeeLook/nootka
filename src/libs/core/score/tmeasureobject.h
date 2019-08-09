@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -65,6 +65,12 @@ public:
        * Duration in measure starting from note @p id (where id is note number in the measure)
        */
   int durationFrom(int id);
+
+      /**
+       * Duration of notes before given @p it item.
+       * @ret 0 when no item was found
+       */
+  int durationBefore(TnoteItem* it);
 
       /**
        * Free 'rhythm space' remained in the measure

@@ -34,7 +34,7 @@ Item {
     forcedHeight: parent.height; yOffset: parent.height * -0.7
     statusTip: qsTr("Tempo")
     font { family: "Scorek"; pixelSize: parent.height * 0.7 }
-    text:  beatModel[SOUND.beatUnit] + "=" + SOUND.tempo
+    text: beatModel[SOUND.beatUnit] + "=" + SOUND.tempo
     onClicked: {
       if (!tMenu) {
         var c = Qt.createComponent("qrc:/sound/TempoMenu.qml")
@@ -86,11 +86,17 @@ Item {
 
   Timer {
     id: timer
-    running: visible && pitchView.active && (!tMenu || tMenu.tickEnable); repeat: true
+    running: visible && pitchView.active && (!tMenu || tMenu.tickEnable)
+    repeat: true
     interval: (SOUND.tempo < 110 ? 15000 : 30000) / SOUND.tempo
     property real elap: 0
     property real lag: 0
     property int phase: 0
+    onRunningChanged: {
+      if (running) {
+        cnt = 1; elap = 0; lag = 0; phase = 0; hiTick = 4
+      }
+    }
     onTriggered: {
       var currTime = new Date().getTime()
       if (elap > 0) {
