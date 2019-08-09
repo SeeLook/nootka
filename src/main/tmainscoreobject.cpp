@@ -30,6 +30,7 @@
 #include <score/tnoteitem.h>
 #include <score/tstaffitem.h>
 #include <score/tstafflines.h>
+#include <score/tmeasureobject.h>
 
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>
@@ -126,7 +127,7 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
     m_scoreObj->setShowNoteNames(m_showNamesAct->checked());
   });
 //   connect(m_extraAccidsAct);
-  connect(m_playAct, &Taction::triggered, SOUND, &Tsound::playScore);
+  connect(m_playAct, &Taction::triggered, this, &TmainScoreObject::playScoreSlot);
   connect(m_recModeAct, &Taction::triggered, [=]{ m_scoreObj->setRecordMode(!m_scoreObj->recordMode()); });
   connect(m_zoomOutAct, &Taction::triggered, [=]{ m_scoreObj->setScaleFactor(qMax(0.4, m_scoreObj->scaleFactor() - 0.2)); });
   connect(m_zoomInAct, &Taction::triggered, [=]{ m_scoreObj->setScaleFactor(qMin(m_scoreObj->scaleFactor() + 0.2, 1.4)); });
@@ -535,6 +536,19 @@ void TmainScoreObject::applyCorrectSlot() {
 void TmainScoreObject::correctionFinishedSlot() {
   m_scoreObj->setNote(0, *m_goodNote);
   emit correctionFinished();
+}
+
+
+void TmainScoreObject::playScoreSlot() {
+  int countDownDur = 0;
+  if (SOUND->tickDuringPlay()) {
+    // play from selected note but tick from current bar beginning, so calculate initial duration
+    if (m_scoreObj->selectedItem() && m_scoreObj->selectedItem()->index() > 0)
+      countDownDur = m_scoreObj->selectedItem()->measure()->durationBefore(m_scoreObj->selectedItem());
+  }
+  if (SOUND->tickBeforePlay() && countDownDur == 0) // do not count before when playing starts in the middle of a bar
+    countDownDur += m_scoreObj->meter()->duration();
+  SOUND->playNoteList(m_scoreObj->noteList(), m_scoreObj->selectedItem() ? m_scoreObj->selectedItem()->index() : 0, countDownDur);
 }
 
 

@@ -119,7 +119,7 @@ void Tmelody::toXml(QXmlStreamWriter& xml) {
               if (beat() == Tmeter::BeatEighth)
                 beatUnitString = QStringLiteral("eighth");
               else if (beat() == Tmeter::BeatHalf)
-                QStringLiteral("half");
+                beatUnitString = QStringLiteral("half");
               xml.writeTextElement(QStringLiteral("beat-unit"), beatUnitString);
               if (beat() == Tmeter::BeatQuarterDot)
                 xml.writeEmptyElement(QStringLiteral("beat-unit-dot"));

@@ -166,6 +166,7 @@ protected:
   void singleModeSlot();
   void paletteSlot();
   void getMelodyNameSlot();
+  void playScoreSlot();
 
   QColor scoreBackgroundColor(const QColor& c, int alpha);
   void checkSingleNoteVisibility();

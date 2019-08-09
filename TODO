@@ -12,6 +12,8 @@
 ============================================================================
 
 ---------------- For incoming stable release version 2.0 ----------------------------
+    - fix detecting last note duration in exercises/exams
+    - add an option to skip rests (pitch detection gaps) and treat their duration as previous note was longer
     - manual adding/editing ties
     - finish tuner, functionality similar to Android one (show tuning, middle A freq)
     - music XML import dialog, to select voice or staff if there are more, and so

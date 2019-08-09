@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -89,6 +89,21 @@ int TmeasureObject::durationFrom(int id) {
   } else // TODO It should never occur, delete if so
     qDebug() << debug() << "FIXME! This note doesn't belong to this measure or doesn't exist at all!" << id;
   return dur;
+}
+
+
+int TmeasureObject::durationBefore(TnoteItem* it) {
+  int dur = 0;
+  bool found = false;
+  for (int n = 0; n < noteCount(); ++n) {
+    if (note(n)->item() != it)
+        dur += note(n)->note()->duration();
+    else {
+      found = true;
+      break;
+    }
+  }
+  return found ? dur : 0;
 }
 
 
