@@ -263,7 +263,7 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
     qDebug() << "There is no 'level' key in that XML";
     return e_noLevelInXml;
   }
-  name = xml.attributes().value("name").toString();
+  name = xml.attributes().value(QLatin1String("name")).toString();
   if (name.isEmpty()) {
       qDebug() << "Level key has empty 'name' attribute";
       return e_otherError;
@@ -341,8 +341,12 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
                     skipCurrentXmlKey(xml);
               }
           } else if (xml.name() == QLatin1String("melody")) {
+              auto t = xml.attributes().value(QLatin1String("title")).toString();
+              auto c = xml.attributes().value(QLatin1String("composer")).toString();
               melodySet << Tmelody();
               melodySet.last().fromXml(xml); // TODO: no validation here, could be vulnerable
+              melodySet.last().setTitle(t);
+              melodySet.last().setComposer(c);
           } else
               skipCurrentXmlKey(xml);
         }
@@ -455,10 +459,10 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
 
 void Tlevel::writeToXml(QXmlStreamWriter& xml) {
   xml.writeStartElement(QLatin1String("level"));
-    xml.writeAttribute("name", name);
-    xml.writeTextElement("description", desc);
+    xml.writeAttribute(QLatin1String("name"), name);
+    xml.writeTextElement(QLatin1String("description"), desc);
   // QUESTIONS
-    xml.writeStartElement("questions");
+    xml.writeStartElement(QLatin1String("questions"));
       questionAs.toXml(-1, xml);
       for (int i = 0; i < 4; i++)
         answersAs[i].toXml(i, xml);
@@ -505,6 +509,11 @@ void Tlevel::writeToXml(QXmlStreamWriter& xml) {
         } else if (randMelody == e_melodyFromSet) {
             for (int m = 0; m < melodySet.count(); ++m) {
               xml.writeStartElement(QLatin1String("melody"));
+              Tmelody& mel = melodySet[m];
+              if (!mel.title().isEmpty())
+                xml.writeAttribute(QLatin1String("title"), mel.title());
+              if (!mel.composer().isEmpty())
+                xml.writeAttribute(QLatin1String("composer"), mel.composer());
               melodySet[m].toXml(xml);
               xml.writeEndElement(); // melody
             }

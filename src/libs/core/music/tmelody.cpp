@@ -379,7 +379,9 @@ bool Tmelody::grabFromMusicXml(const QString& xmlFileName) {
       }
     }
     while (xml.readNextStartElement()) {
-      if (xml.name() == QLatin1String("work")) {
+      if (xml.name() == QLatin1String("movement-title")) {
+          m_title = xml.readElementText();
+      } else if (xml.name() == QLatin1String("work")) {
           while (xml.readNextStartElement()) {
             if (xml.name() == QLatin1String("work-title"))
               m_title = xml.readElementText();
@@ -404,7 +406,7 @@ bool Tmelody::grabFromMusicXml(const QString& xmlFileName) {
     }
     file.close();
   }
-    return ok;
+  return ok;
 }
 
 
