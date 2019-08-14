@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2018 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2018-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -26,33 +26,11 @@
 
 class TscoreObject;
 class Tmelody;
-
-
-/**
- * @todo docs
- */
-// class TmelodyModel : public QAbstractListModel
-// {
-// 
-//   Q_OBJECT
-// 
-// public:
-//   enum EmelListRoles {
-//     ScoreRole = Qt::UserRole + 1, MelodyRole
-//   };
-// 
-//   TmelodyModel(QObject* parent = nullptr);
-// 
-//   void addMelody(Tmelody* melody, TscoreObject* score);
-// 
-//   QHash<int, QByteArray> roleNames() const override;
-// };
-
 class Tlevel;
 
 
 /**
- * @todo write docs
+ * @class TmelodyListView manages melody previews logic displayed by QML
  */
 class TmelodyListView : public QQuickItem
 {
@@ -74,6 +52,8 @@ public:
   Q_INVOKABLE void removeMelody(int id);
 
   Q_INVOKABLE void setScore(int id, TscoreObject* score);
+  Q_INVOKABLE QString title(int melId);
+  Q_INVOKABLE QString composer(int melId);
 
 signals:
   void addScore();
@@ -92,7 +72,7 @@ private:
 
       TscoreObject    *score = nullptr;
       Tmelody         *melody = nullptr;
-      bool             delMelody = false; /**< if @p TRUE destructor will delete melody instance  */
+      bool             delMelody = false; /**< if @p TRUE destructor will delete melody instance */
   };
 
   Tlevel                    *m_level = nullptr;

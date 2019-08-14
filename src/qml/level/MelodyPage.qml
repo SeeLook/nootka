@@ -38,7 +38,7 @@ Tflickable {
         }
         ComboBox {
           id: melCombo
-          width: Noo.fontSize() * 15
+          width: Noo.fontSize() * 20
           model: [ qsTr("in selected range"), qsTr("from notes below"), qsTr("from the list") ]
           currentIndex: creator.randMelody
           onActivated: creator.randMelody = currentIndex

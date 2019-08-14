@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2018 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2018-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -123,6 +123,22 @@ void TmelodyListView::setScore(int id, TscoreObject* score) {
         qDebug() << "[TmelodyListView] score already set for item" << id;
   }
 }
+
+QString TmelodyListView::title(int melId) {
+  if (melId > -1 && melId < m_melodies.count() && m_melodies[melId].melody)
+    return m_melodies[melId].melody->title();
+  else
+    return QString();
+}
+
+
+QString TmelodyListView::composer(int melId) {
+  if (melId > -1 && melId < m_melodies.count() && m_melodies[melId].melody)
+    return m_melodies[melId].melody->composer();
+  else
+    return QString();
+}
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################

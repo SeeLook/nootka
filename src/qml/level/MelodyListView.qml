@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2018-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -21,7 +21,15 @@ TmelodyListView {
   property var wrappers: []
 
   Row {
+    Text {
+      visible: !melView.visible
+      width: melListView.width - Noo.fontSize() * 4
+      text: "\n\n" + qsTr("Add here melodies from Music XML files.\nConsider to divide long pieces on parts in external software first.")
+      horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap
+    }
     Tflickable {
+      id: melView
+      visible: false
       width: melListView.width - Noo.fontSize() * 4; height: melListView.height
       contentHeight: melColumn.height
       Column {
@@ -46,9 +54,7 @@ TmelodyListView {
         width: Noo.fontSize() * 3
         font { pixelSize: Noo.fontSize() * 2; bold: true; family: "Sans" }
         text: "+"; textColor: "green"
-        onClicked: {
-          loadMelody()
-        }
+        onClicked: loadMelody()
       }
       TcuteButton {
         width: Noo.fontSize() * 3
@@ -61,10 +67,11 @@ TmelodyListView {
   }
   onAddScore: {
     var c = Qt.createComponent("qrc:/level/MelodyWrapper.qml")
-    var s = c.createObject(melColumn, { "nr": melodiesCount - 1 })
+    var s = c.createObject(melColumn, { "nr": melodiesCount - 1, "title": title(melodiesCount - 1), "composer": composer(melodiesCount - 1) })
     s.width = Qt.binding(function() { return melColumn.width - 10 })
     wrappers.push(s)
     setScore(s.nr, s.scoreObj)
+    melView.visible = true
   }
 
   onMelodiesChanged: creator.melodyListChanged()
@@ -79,5 +86,7 @@ TmelodyListView {
       for (var i = 0; i < wrappers.length; ++i)
         wrappers[i].nr = i
     }
+    if (wrappers.length < 1)
+      melView.visible = false
   }
 }
