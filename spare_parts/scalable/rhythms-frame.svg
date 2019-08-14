@@ -14,7 +14,7 @@
    viewBox="0 0 29.683865 27.959492"
    id="svg4160"
    version="1.1"
-   inkscape:version="0.92.2 2405546, 2018-03-11"
+   inkscape:version="0.92.4 5da689c313, 2019-01-14"
    sodipodi:docname="rhythms-frame.svg"
    inkscape:export-filename="../../picts/rhythms-frame.png"
    inkscape:export-xdpi="775.7652"
@@ -810,13 +810,13 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="22.4"
-     inkscape:cx="5.2879169"
-     inkscape:cy="11.566311"
+     inkscape:cx="15.64506"
+     inkscape:cy="14.423454"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1920"
-     inkscape:window-height="1039"
+     inkscape:window-width="1600"
+     inkscape:window-height="1163"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -853,7 +853,7 @@
        y="267.89709"
        ry="2.6451859" />
     <rect
-       style="opacity:1;fill:#ff8838;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:53.14960861;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
+       style="opacity:1;fill:#b3b3b3;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:53.14960861;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;paint-order:normal"
        id="rect6156"
        width="15.0931"
        height="21.248718"
@@ -864,7 +864,7 @@
     <path
        inkscape:connector-curvature="0"
        style="opacity:0.803;fill:#4d4d4d;fill-opacity:1;stroke-width:0.99999994;filter:url(#filter6757)"
-       d="m 1.9392537,268.93889 c -1.46542601,0.005 -2.60402201,0.71823 -2.60402201,2.18366 v 17.53968 c 0,1.46543 1.306008,2.23008 2.77143301,2.22551 l 13.4237233,-0.0418 c 1.465427,-0.005 2.518485,-0.76009 2.518485,-2.22552 v -17.53968 c 0,-1.46543 -1.22047,-2.18822 -2.685896,-2.18366 z m 2.8661244,1.0573 H 12.95174 c 0.275436,3.8e-4 0.507264,0.20627 0.540162,0.47974 l 2.178955,18.20251 c 0.0024,0.0213 0.0037,0.0427 0.0037,0.0641 v 0.0549 c 4.69e-4,0.30083 -0.242988,0.54511 -0.543823,0.54565 H 2.6667057 2.6264257 c -0.326328,-4.3e-4 -0.579056,-0.28571 -0.540161,-0.60972 l 2.178955,-18.25744 c 0.0329,-0.27347 0.2647254,-0.47936 0.5401614,-0.47974 z m 5.5499269,1.95557 -0.09521,0.50903 -1.1096188,-0.20508 c -0.00797,-0.001 0.0273,0.01 0.027469,0.0165 l 0.097046,2.85278 0.4760747,0.0879 -1.1663822,6.31531 -0.1647947,0.76905 h 1.1846925 l 0.10437,-0.56214 1.1682125,-6.31531 0.507203,0.0934 1.109619,-2.62757 c 0.0025,-0.006 -0.003,-0.0131 -0.01099,-0.0146 l -1.098635,-0.20325 0.09521,-0.50903 z"
+       d="m 2.3159278,268.85518 c -1.46542602,0.005 -2.60402202,0.71823 -2.60402202,2.18366 v 17.53968 c 0,1.46543 1.30600802,2.23008 2.77143302,2.22551 l 13.4237232,-0.0418 c 1.465427,-0.005 2.518485,-0.76009 2.518485,-2.22552 v -17.53968 c 0,-1.46543 -1.22047,-2.18822 -2.685896,-2.18366 z m 2.8661244,1.0573 h 8.1463618 c 0.275436,3.8e-4 0.507264,0.20627 0.540162,0.47974 l 2.178955,18.20251 c 0.0024,0.0213 0.0037,0.0427 0.0037,0.0641 v 0.0549 c 4.69e-4,0.30083 -0.242988,0.54511 -0.543823,0.54565 H 3.0433798 3.0030998 c -0.326328,-4.3e-4 -0.579056,-0.28571 -0.540161,-0.60972 l 2.178955,-18.25744 c 0.0329,-0.27347 0.2647254,-0.47936 0.5401614,-0.47974 z m 5.5499268,1.95557 -0.09521,0.50903 -1.1096189,-0.20508 c -0.008,-0.001 0.0273,0.01 0.02747,0.0165 l 0.09705,2.85278 0.4760749,0.0879 -1.1663819,6.31531 -0.164795,0.76905 h 1.184693 l 0.1043699,-0.56214 1.168212,-6.31531 0.507203,0.0934 1.109619,-2.62757 c 0.0025,-0.006 -0.003,-0.0131 -0.01099,-0.0146 l -1.098635,-0.20325 0.09521,-0.50903 z"
        id="rect3894-43-3-0"
        sodipodi:nodetypes="sssssssssccccsccccccccccccccccccccccccc" />
     <path

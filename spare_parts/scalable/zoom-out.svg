@@ -13,7 +13,7 @@
    width="1162.9213"
    height="1162.6476"
    id="svg2"
-   inkscape:version="0.92.2 2405546, 2018-03-11"
+   inkscape:version="0.92.4 5da689c313, 2019-01-14"
    sodipodi:docname="zoom-out.svg"
    inkscape:export-filename="../../picts/zoom-out.png"
    inkscape:export-xdpi="21.137962"
@@ -27,12 +27,12 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1920"
-     inkscape:window-height="1039"
+     inkscape:window-width="1600"
+     inkscape:window-height="1163"
      id="namedview10"
      showgrid="false"
      inkscape:zoom="0.472"
-     inkscape:cx="910.74185"
+     inkscape:cx="546.33507"
      inkscape:cy="489.75928"
      inkscape:window-x="0"
      inkscape:window-y="0"
@@ -187,7 +187,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -214,13 +214,13 @@
      cy="566.42017"
      r="472.12064" />
   <path
-     style="opacity:0.42900002;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.98733258;filter:url(#filter1057)"
+     style="opacity:0.754;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.98733258;filter:url(#filter1057)"
      d="m 591.86632,63.305359 c -2.216,-1.8e-4 -4.4338,0.0137 -6.6524,0.041 -141.9888,1.75056 -277.46733,59.833581 -376.63083,161.472651 -99.1636,101.63907 -153.889098,238.50729 -152.138698,380.4961 1.7504,141.98881 59.833698,277.46743 161.472598,376.63086 101.639,99.16343 238.50933,153.88923 380.49813,152.13873 141.9888,-1.7506 277.4654,-59.8337 376.6289,-161.47271 C 1074.2076,870.97293 1128.9331,734.10275 1127.1828,592.11396 1125.4322,450.12515 1067.349,314.6465 965.71002,215.48309 865.65912,117.86913 731.47172,63.316569 591.86632,63.305359 Z m 64.7129,471.189461 h 284.0937 v 128.4414 H 656.57922 527.04792 242.95419 v -128.4414 h 284.09373 z"
      id="path4142-6-7-7"
      inkscape:connector-curvature="0"
      sodipodi:nodetypes="scssssscssccccccccc" />
   <path
-     style="opacity:1;fill:#0066ff;fill-opacity:1;stroke:none;stroke-width:0.98733258"
+     style="opacity:1;fill:#00a0a0;fill-opacity:1;stroke:none;stroke-width:0.98733258"
      d="M 556.65234,20.265625 C 554.43638,20.265448 552.21858,20.279281 550,20.306641 408.01121,22.057203 272.53264,80.140227 173.36914,181.7793 74.205629,283.41837 19.480042,420.28658 21.230469,562.27539 22.980897,704.2642 81.064135,839.74282 182.70312,938.90625 c 101.639,99.16345 238.50924,153.88915 380.49805,152.13865 141.98881,-1.7506 277.46542,-59.8336 376.62891,-161.47263 C 1038.9936,827.93319 1093.7191,691.06301 1091.9688,549.07422 1090.2182,407.08541 1032.135,271.60677 930.49609,172.44336 830.44519,74.829395 696.25782,20.276835 556.65234,20.265625 Z m 64.71289,471.189455 h 284.09375 v 128.4414 H 621.36523 491.83398 207.74023 v -128.4414 h 284.09375 z"
      id="path4142-6-7"
      inkscape:connector-curvature="0"
