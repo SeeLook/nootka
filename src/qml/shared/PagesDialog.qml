@@ -1,16 +1,15 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQuick.Window 2.2
 
 
 /**
  * Implements a dialog with navigation list on the left
  * Model has following fields:
- * 'icon', 'text' and 'page' - with path to qml file
+ * 'icon', 'text' and 'page' - with path to QML file
  */
 Item {
 
@@ -21,7 +20,7 @@ Item {
   property var buttons: []
   property alias mobileButt: mobBut
 
-  anchors { fill: parent; leftMargin: Screen.pixelDensity }
+  anchors { fill: parent; leftMargin: Noo.fontSize() / 4 }
 
   Rectangle { z: 2; color: activPal.base; x: navList.x; y: navList.y; width: navList.width; height: navList.height }
   Rectangle { // highlight
@@ -40,7 +39,7 @@ Item {
   Column {
     height: parent.height
     width: navList.width
-    spacing: Screen.pixelDensity
+    spacing: Noo.fontSize() / 4
     z: 3
 
     // navigation list on the left
@@ -60,8 +59,8 @@ Item {
           id: delegateButt
           name: buttonText
           pixmap: Noo.pix(iconName)
-          factor: Screen.pixelDensity * (Noo.isAndroid() ? 1.1 : 1.6)
-          fontSize: Noo.fontSize() * (Noo.isAndroid() ? 0.8 : 0.9)
+          factor: Noo.fontSize() * (Noo.isAndroid() ? 0.5 : 0.7)
+          fontSize: Noo.fontSize() * (Noo.isAndroid() ? 0.8 : 1)
           hiHover: false
           onClicked: {
             if (navList.prevButt !== delegateButt) {
@@ -134,9 +133,9 @@ Item {
   // pages container on the right
   StackView {
     id: stack
-    x: navList.width + Screen.pixelDensity
+    x: navList.width + Noo.fontSize() / 4
     z: -1 // below navigation list
-    width: parent.width - navList.width - Screen.pixelDensity * 2
+    width: parent.width - navList.width
     height: parent.height
     // fade animations
     replaceEnter: Transition { enabled: GLOB.useAnimations; PropertyAnimation { property: "opacity"; from: 0; to: 1; duration: 500 }}
