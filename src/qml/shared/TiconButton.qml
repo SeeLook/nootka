@@ -16,6 +16,9 @@ AbstractButton {
   property alias pixmap: img.source
   property alias iconHeight: img.sourceSize.height
 
+  scale: GLOB.useAnimations && pressed ? 0.9 : 1.0
+  Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
+
   contentItem: Column {
     padding: Noo.fontSize() / 4
     Row {

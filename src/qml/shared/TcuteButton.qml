@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -14,6 +14,9 @@ AbstractButton {
   property alias radius: bg.radius
   property alias color: bg.color
   property alias textColor: butText.color
+
+  scale: GLOB.useAnimations && pressed ? 0.9 : 1.0
+  Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
 
   contentItem: Text {
     id: butText

@@ -71,8 +71,9 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
   m_zoomOutAct = new Taction(tr("Zoom score out"), QStringLiteral("zoom-out"), this);
   m_zoomInAct = new Taction(tr("Zoom score in"), QStringLiteral("zoom-in"), this);
 
-  m_playAct = new Taction(qTR("QShortcut", "Play"), QStringLiteral("playMelody"), this);
-  m_recModeAct = new Taction(QString(), QString(), this);
+  m_playAct = new Taction(qTR("TtoolBar", "Play"), QStringLiteral("playMelody"), this);
+  m_recModeAct = new Taction(qApp->translate("MainScore", "Note by note"), QString(), this);
+  m_recModeAct->setCheckable(true);
   m_recModeAct->setTip(tr("Notes are written on the score one by one. Either playing, selecting fret or note name adds a new note to the staff automatically."));
   m_openXmlAct = new Taction(qTR("QShortcut", "Open"), QStringLiteral("open"), this);
   connect(m_openXmlAct, &Taction::triggered, this, &TmainScoreObject::openXmlActSlot);

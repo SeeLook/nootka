@@ -463,7 +463,7 @@ void TscoreObject::setCursorAlter(int curAlt) {
 
 
 QString TscoreObject::alterText() {
-  static const QString accids = QStringLiteral("\ue264\ue260\0\ue262\ue263");
+  static const QString accids = QStringLiteral("\ue264\ue260 \ue262\ue263");
   return accids.mid(m_cursorAlter + 2, 1);
 }
 
