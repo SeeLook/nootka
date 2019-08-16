@@ -24,6 +24,9 @@ Rectangle {
   // private
   property var shortText: null
 
+  scale: GLOB.useAnimations && ma.pressed ? 0.9 : 1.0
+  Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
+
   onActionChanged: {
     if (action && action.checkable)
       radioComp.createObject(menuButton)
@@ -31,10 +34,12 @@ Rectangle {
 
   Image {
     id: icon
-    x: Noo.fontSize() / 2
-    sourceSize.height: Noo.fontSize() * 2.2
-    anchors.verticalCenter: parent.verticalCenter
     source: action ? action.icon : ""
+    x: Noo.fontSize() / 2
+    height: Noo.fontSize() * 2.2; width: height * (sourceSize.width / sourceSize.height)
+    anchors.verticalCenter: parent.verticalCenter
+    scale: GLOB.useAnimations && !ma.pressed && ma.containsMouse ? 1.2 : 1.0
+    Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
   }
   Text {
     id: butText

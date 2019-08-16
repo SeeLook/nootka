@@ -102,15 +102,16 @@ TnootkaCertificate::TnootkaCertificate(QQuickItem* parent) :
   m_stampPixmap = new QGraphicsPixmapItem(QPixmap(Tpath::img("stamp")));
   m_stampPixmap->setParentItem(m_cert);
   m_stampPixmap->setZValue(100);
+  m_stampPixmap->setScale((width() / 3.0) / m_stampPixmap->pixmap().size().width());
   qreal stampYpos = m_boardI->pos().y() + m_boardI->boundingRect().height() - 2.0 * SPACER;
 
   m_stampI = createCertItem(QLatin1String(".......................<br>") + tr("<i>stamp</i>", "bottom, centered"));
   alignCenter(m_stampI);
-  m_stampI->setPos((m_certW - m_stampI->boundingRect().width()) / 2, stampYpos + m_stampPixmap->boundingRect().height() - SPACER);
+  m_stampI->setPos((m_certW - m_stampI->boundingRect().width()) / 2, stampYpos + m_stampPixmap->boundingRect().height() * m_stampPixmap->scale() - SPACER);
   m_certH = m_stampI->pos().y() + m_stampI->boundingRect().height() + 2.0 * SPACER;
 
-  m_stampPixmap->setPos((m_certW - m_stampPixmap->boundingRect().width()) / 2.0,
-                        m_stampI->y() + m_stampI->boundingRect().height() / 2 - m_stampPixmap->boundingRect().height());
+  m_stampPixmap->setPos((m_certW - m_stampPixmap->boundingRect().width() * m_stampPixmap->scale()) / 2.0,
+                        m_stampI->y() + m_stampI->boundingRect().height() / 2 - m_stampPixmap->boundingRect().height() * m_stampPixmap->scale());
 
   QPixmap bgPix = QPixmap(Tpath::img("certBg")).scaled(m_certW, m_certH);
   auto paper = new QGraphicsPixmapItem(bgPix);

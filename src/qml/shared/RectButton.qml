@@ -44,4 +44,6 @@ AbstractButton {
     if (statusTip !== "")
         Noo.setStatusTip(hovered ? statusTip : "", statusPos)
   }
+
+  onClicked: focus = false // keep focus free
 }

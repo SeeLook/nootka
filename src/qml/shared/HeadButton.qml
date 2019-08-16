@@ -40,35 +40,31 @@ ToolButton {
     }
   }
 
-  onTactionChanged: {
-    if (taction) {
-      pix.source = taction.icon
-      name = taction.text
-    }
-  }
-
   onClicked: {
     if (taction)
       taction.trigger()
     focus = false
   }
 
-  Image {
-    id: pix
-    y: Screen.pixelDensity
-    sourceSize.height: factor * 8
-    anchors.horizontalCenter: butText.horizontalCenter
-    transformOrigin: Image.Center; scale: pressed ? 0.7 : 1.0
-    Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
-  }
-
   Text {
     id: butText
+    text: taction ? taction.text : ""
     font.pixelSize: Math.min(factor * 2.5, Noo.fontSize())
     anchors.horizontalCenter: parent.horizontalCenter
-    anchors.top: pix.bottom
+    anchors.bottom: parent.bottom
     horizontalAlignment: Text.AlignHCenter
     color: activPal.text
+  }
+
+  Image {
+    id: pix
+    source: taction ? taction.icon : ""
+    y: Screen.pixelDensity + (GLOB.useAnimations && !pressed && hiHover && hovered ? (root.height - height - Screen.pixelDensity) / 2 : 0)
+    height: factor * 8; width: height * (sourceSize.width / sourceSize.height)
+    anchors.horizontalCenter: butText.horizontalCenter
+    transformOrigin: Image.Center; scale: pressed ? 0.9 : (GLOB.useAnimations && hiHover && hovered ? root.height / height : 1.0)
+    Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
+    Behavior on y { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
   }
 
   Connections {

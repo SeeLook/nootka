@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,7 +24,7 @@
 #if defined (Q_OS_ANDROID)
     #define SCR_FACTOR (0.9)
 #else
-    #define SCR_FACTOR (0.6)
+    #define SCR_FACTOR (1.7)
 #endif
 
 
@@ -66,7 +66,7 @@ TexamHelp::TexamHelp(const QString& questColorTxt, const QString& answColorTxt, 
     + br + br + br + QString("<span style=\"%1\">").arg(questColorTxt) +
     tr("Questions are marked with this color and \"?\" mark.") + QLatin1String("</span>") +br +
     tr("To give an answer, select it on <span style=\"%1\">Nootka's element with that color.</span><br>")
-      .arg(answColorTxt) + br + br + QString("%1").arg(pix("scr", width() * SCR_FACTOR)) + br + br +
+      .arg(answColorTxt) + br + br + QString("%1").arg(pix("scr", qRound(static_cast<qreal>(width()) * SCR_FACTOR))) + br + br +
     tr("To check the answer confirm it:") + br_
 #if defined (Q_OS_ANDROID)
     + tapIconTxt(pix("check", iconsSize))

@@ -28,13 +28,6 @@ ToolButton {
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
   }
 
-  onTactionChanged: {
-    if (taction) {
-      pix.source = taction.icon
-      toolTip.text = taction.text
-    }
-  }
-
   onClicked: {
     if (taction)
       taction.trigger()
@@ -43,9 +36,11 @@ ToolButton {
 
   Image {
     id: pix
-    y: Screen.pixelDensity; x: Noo.isAndroid() ? 2 : factor
-    sourceSize.height: factor * 10
-    transformOrigin: Image.Center; scale: pressed ? 0.7 : 1.0
+    source: taction ? taction.icon : ""
+    height: factor * 10; width: height * (sourceSize.width / sourceSize.height)
+    y: Screen.pixelDensity
+    transformOrigin: Image.Center
+    scale: pressed ? 0.6 : (hovered ? 1.0 : 0.8)
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
   }
 
@@ -53,9 +48,9 @@ ToolButton {
     id: toolTip
     delay: 1000
     timeout: 5000
-    visible: hovered && text !== ""
+    visible: hovered && contentItem.text !== ""
     contentItem: Text {
-      text: toolTip.text
+      text: taction ? taction.text : ""
       color: activPal.highlightedText
     }
     enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1 }}

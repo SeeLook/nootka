@@ -44,8 +44,7 @@ Score {
 
   TmainScoreObject {
     id: mainObj
-    recModeAct.text: recordMode ? qsTr("Note by note") : qsTr("Edit")
-    recModeAct.icon: recordMode ? "record" : "stopMelody"
+    recModeAct.checked: recordMode
     onMelodyGenerate: nootkaWindow.showDialog(Nootka.MelodyGenerator)
     mainScoreItem: mainScore
     onMelodyNameDialog: {

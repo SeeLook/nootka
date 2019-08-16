@@ -259,6 +259,7 @@ void TaudioOUT::startPlaying() {
     QThread::currentThread()->usleep(500);
   }
 
+  p_isPlaying = true;
   ao()->emitPlayingStarted();
   setPlayCallbackInvolved(true);
   p_lastNotePlayed = false;
@@ -278,7 +279,6 @@ void TaudioOUT::startPlaying() {
   }
   p_posInNote = 0;
   p_posInOgg = 0;
-  p_isPlaying = true;
   if (playList().size() > 1 && p_tempo > 100) // in faster tempo wait for decoding more notes
     QThread::currentThread()->msleep(100);
   if (areStreamsSplit() && state() != e_playing)

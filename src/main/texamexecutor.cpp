@@ -1208,6 +1208,9 @@ void TexamExecutor::createActions() {
           TexamHelp::pressSpaceKey().replace(QStringLiteral("<b>"), QStringLiteral(" ")).replace(QStringLiteral("</b>"), QStringLiteral(")")), QQuickItem::TopRight);
     m_playAgainAct->setShortcut(createQmlShortcut(&actionsComp)); // Space key
     connect(m_playAgainAct, &Taction::triggered, this, &TexamExecutor::repeatSound);
+    connect(SOUND, &Tsound::playingChanged, this, [=]{
+      m_playAgainAct->setIconTag(SOUND->melodyIsPlaying() ? QStringLiteral("stopMelody") : QStringLiteral("playMelody"));
+    });
   }
   if (m_level.canBeMelody()) {
     m_newAtemptAct = new Taction(QApplication::translate("TtoolBar", "Try again"), "prevQuest", this, false);
@@ -1618,7 +1621,8 @@ void TexamExecutor::showExamHelp() {
 // #if !defined (Q_OS_ANDROID)
 //   qApp->removeEventFilter(m_supp);
 // #endif
-  auto examHelpDialog = new TexamHelp(Tcolor::bgTag(GLOB->EquestionColor), Tcolor::bgTag(GLOB->EanswerColor), &GLOB->E->showHelpOnStart, nullptr);
+  auto examHelpDialog = new TexamHelp(Tcolor::bgTag(Tcolor::alpha(GLOB->EquestionColor, 40)),
+                                      Tcolor::bgTag(Tcolor::alpha(GLOB->EanswerColor, 40)), &GLOB->E->showHelpOnStart, nullptr);
   examHelpDialog->exec();
   delete examHelpDialog;
 // #if !defined (Q_OS_ANDROID)
