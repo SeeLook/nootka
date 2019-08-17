@@ -86,7 +86,7 @@ Rectangle {
     onClicked: buttonClicked()
     onHoveredChanged: {
       if (action) {
-        if (action.tip !== "" && ma.containsMouse)
+        if (GLOB.showHints && action.tip !== "" && ma.containsMouse)
           Noo.setStatusTip(action.tip, action.tipPos)
         else
           Noo.setStatusTip("", action.tipPos)

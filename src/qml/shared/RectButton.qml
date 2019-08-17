@@ -41,9 +41,9 @@ AbstractButton {
   }
 
   onHoveredChanged: {
-    if (statusTip !== "")
-        Noo.setStatusTip(hovered ? statusTip : "", statusPos)
+    if (GLOB.showHints && statusTip !== "")
+      Noo.setStatusTip(hovered ? statusTip : "", statusPos)
   }
 
-  onClicked: focus = false // keep focus free
+  onClicked: focus = false // keep focus free - do not lock up space key
 }
