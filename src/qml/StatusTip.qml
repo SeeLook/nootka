@@ -23,7 +23,7 @@ TipRect {
   width: nootkaWindow.width * 0.4
   height: Noo.isAndroid() ? nootkaWindow.height / 9 : nootkaWindow.header.height
 
-  color: Qt.tint(activPal.text, Noo.alpha(activPal.highlight, 50))
+  color: Qt.tint(activPal.text, Noo.alpha(Noo.messageColor, 100))
 
   Text {
     id: text

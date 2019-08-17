@@ -39,11 +39,13 @@
 #include "tcolor.h"
 
 #include <QtQml/qqmlengine.h>
+#include <QtCore/qtimer.h>
 #include <QtCore/qfileinfo.h>
 #include <QtCore/qdatetime.h>
 #include <QtCore/qbuffer.h>
 #include <QtWidgets/qapplication.h>
 #include <QtGui/qdesktopservices.h>
+#include <QtGui/qpalette.h>
 
 #include "Android/tfiledialog.h"
 #if defined (Q_OS_ANDROID)
@@ -436,6 +438,7 @@ void TnootkaQML::setQmlEngine(QQmlEngine* e) {
   m_examAct->setTip(QApplication::translate("TtoolBar", "Start exercises or an exam"), QQuickItem::TopRight);
   m_aboutAct = new Taction(this);
   connect(m_aboutAct, &Taction::triggered, this, &TnootkaQML::aboutActTriggered);
+  m_mesageColor = qApp->palette().highlight().color();
 }
 
 
@@ -466,9 +469,35 @@ void TnootkaQML::openFile(const QString& runArg) {
 }
 
 
+void TnootkaQML::setMessageColor(const QColor& mc) {
+  if (m_mesageColor != mc) {
+    m_mesageColor = mc;
+    emit messageColorChanged();
+  }
+}
+
+
 void TnootkaQML::setStatusTip(const QString& statusText, int tipPos) {
-  if (GLOB->showHints())
+  if ((GLOB->showHints() && (!m_messageTimer || (m_messageTimer && !m_messageTimer->isActive()))))
     emit statusTip(statusText, tipPos);
+}
+
+
+void TnootkaQML::showTimeMessage(const QString& message, int time, int pos) {
+  if (!m_messageTimer) {
+    m_messageTimer = new QTimer(this);
+    m_messageTimer->setSingleShot(true);
+    connect(m_messageTimer, &QTimer::timeout, this, [=]{
+      emit statusTip(QString(), pos);
+      QTimer::singleShot(300, this, [=] { setMessageColor(qApp->palette().highlight().color()); } );// restore default status background color
+    });
+  }
+  if (m_messageTimer->isActive()) {
+    qDebug() << "[TnootkaQML] status message timer is active.Message\n" << message << " will not show.\n Try to avoid such a situation!";
+    return;
+  }
+  emit statusTip(message, pos);
+  m_messageTimer->start(time);
 }
 
 

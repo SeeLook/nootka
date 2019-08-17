@@ -151,7 +151,7 @@ TexamExecutor::~TexamExecutor() {
     delete m_rand;
   deleteExam();
   m_instance = nullptr;
-  qDebug() << "[TexamExecutor] destroyed";
+//   qDebug() << "[TexamExecutor] destroyed";
 }
 
 
@@ -1175,10 +1175,13 @@ void TexamExecutor::createActions() {
   m_examActions.append(m_helpAct);
   connect(m_helpAct, &Taction::triggered, this, &TexamExecutor::showExamHelp);
   m_stopExamAct = new Taction(QApplication::translate("TtoolBar", "Stop"), QStringLiteral("stopExam"), this);
-  if (m_exercise)
-    connect(m_stopExamAct, &Taction::triggered, this, &TexamExecutor::stopExerciseSlot);
-  else
-    connect(m_stopExamAct, &Taction::triggered, this, &TexamExecutor::stopExamSlot);
+  if (m_exercise) {
+      connect(m_stopExamAct, &Taction::triggered, this, &TexamExecutor::stopExerciseSlot);
+      m_stopExamAct->setTip(tr("finish exercising"), QQuickItem::TopRight);
+  } else {
+      connect(m_stopExamAct, &Taction::triggered, this, &TexamExecutor::stopExamSlot);
+      m_stopExamAct->setTip(tr("stop the exam"), QQuickItem::TopRight);
+  }
   m_examActions.append(m_stopExamAct);
   m_repeatQuestAct = new Taction(QApplication::translate("TtoolBar", "Repeat", "like a repeat question"), QStringLiteral("prevQuest"), this, false);
   connect(m_repeatQuestAct, &Taction::triggered, this, &TexamExecutor::repeatQuestion);
@@ -1268,6 +1271,7 @@ void TexamExecutor::exerciseToExam() {
   initializeExecuting();
   disconnect(m_stopExamAct, &Taction::triggered, this, &TexamExecutor::stopExerciseSlot);
   connect(m_stopExamAct, &Taction::triggered, this, &TexamExecutor::stopExamSlot);
+  m_stopExamAct->setTip(qTR("TexamExecutor", "stop the exam"), QQuickItem::TopRight);
   clearWidgets();
   emit examActionsChanged();
   emit titleChanged();
@@ -1343,16 +1347,9 @@ void TexamExecutor::continueExercise() {
 void TexamExecutor::stopExamSlot() {
   if (!m_isAnswered && !GLOB->E->closeWithoutConfirm) {
     m_shouldBeTerminated = true;
-//   int messageDuration = 2000;
-#if defined (Q_OS_ANDROID)
-  messageDuration = 5000;
-#else
-    QColor c = GLOB->GfingerColor;
-    c.setAlpha(30);
-//     STATUS->setBackground(c);
-#endif
-//     m_tipHandler->setStatusMessage(tr("Give an answer first!<br>Then the exam will end."), messageDuration);
-    qDebug() << "[TexamExecutor] Give an answer first! Then the exam will end.";
+    int messageDuration = 3000;
+    NOO->setMessageColor(GLOB->EquestionColor);
+    NOO->showTimeMessage(tr("Give an answer first!<br>Then the exam will end."), messageDuration, QQuickItem::Top);
     return;
   }
   if (!m_isAnswered)
@@ -1404,7 +1401,8 @@ void TexamExecutor::closeExecutor() {
 //   STATUS->setBackground(-1);
 //   STATUS->setMessage(QString());
 // #endif
-//   m_tipHandler->setStatusMessage(tr("Such a pity."), 5000);
+  NOO->setMessageColor(QColor(0, 0xa0, 0xa0));
+  NOO->showTimeMessage(tr("Such a pity."), 5000, QQuickItem::Top);
 
   m_tipHandler->clearCanvas();
   clearWidgets();
@@ -1422,10 +1420,13 @@ void TexamExecutor::prepareToSettings() {
 
 void TexamExecutor::settingsAccepted() {
   if (m_exercise) {
-    if (GLOB->E->suggestExam)
-      m_exercise->setSuggestionEnabled(m_supp->qaPossibilities(), m_exam->melodies());
-    else
-      m_exercise->setSuggestionEnabled(0);
+      if (GLOB->E->suggestExam)
+        m_exercise->setSuggestionEnabled(m_supp->qaPossibilities(), m_exam->melodies());
+      else
+        m_exercise->setSuggestionEnabled(0);
+  } else {
+      if (GLOB->E->autoNextQuest)
+        m_stopExamAct->setEnabled(true);
   }
   if (m_exam->count() && m_exam->curQ()->answerAsSound() && !SOUND->isSnifferPaused())//!SOUND->pitchView()->isPaused())
     startSniffing();
@@ -1840,13 +1841,10 @@ QString TexamExecutor::title() const {
   if (!m_tipHandler)
     return QStringLiteral("Nootka");
 
-  if (m_exercise) {
+  if (m_exercise)
       return tr("Exercises with Nootka");
-//       TOOLBAR->startExamAct->setStatusTip(tr("finish exercising"));
-  } else {
+  else
       return tr("EXAM!") + QLatin1String(" ") + m_exam->userName() + QLatin1String(" - ") + m_level.name;
-//       TOOLBAR->startExamAct->setStatusTip(tr("stop the exam"));
-  }
 }
 
 

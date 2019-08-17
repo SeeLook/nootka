@@ -35,6 +35,7 @@ class TscoreObject;
 class QQuickItem;
 class QQmlEngine;
 class Taction;
+class QTimer;
 
 
 #define   NOO   TnootkaQML::instance()
@@ -63,6 +64,8 @@ class NOOTKACORE_EXPORT TnootkaQML : public QObject
   Q_PROPERTY(QQuickItem* mainScore READ mainScore WRITE setMainScore)
   Q_PROPERTY(TcommonInstrument* instrument READ instrument WRITE setInstrument)
 
+  Q_PROPERTY(QColor messageColor READ messageColor WRITE setMessageColor NOTIFY messageColorChanged)
+
 public:
   explicit TnootkaQML(QObject* parent = nullptr);
   ~TnootkaQML() override;
@@ -76,6 +79,9 @@ public:
   Taction* chartsAct() { return m_chartsAct; }
   Taction* examAct() { return m_examAct; }
   Taction* aboutAct() { return m_aboutAct; }
+
+  QColor messageColor() { return m_mesageColor; }
+  void setMessageColor(const QColor& mc);
 
       /**
        * Dialogues recognized by main QML Dialog instance of main window
@@ -167,7 +173,14 @@ public:
 
   void openFile(const QString& runArg);
 
+      /**
+       * Emits signal with given text to QML to display status message on Nootka window at given position
+       * @p tipPos value represents QQuickItem::TransformOrigin enumerator.
+       * @p default 1 is top center of window
+       */
   Q_INVOKABLE void setStatusTip(const QString& statusText, int tipPos = 1);
+
+  void showTimeMessage(const QString& message, int time, int pos = 1);
 
       /**
        * Returns text of question/ answer kind depends on given value of @p qaType.
@@ -239,6 +252,7 @@ signals:
   void examActTriggered();
   void aboutActTriggered();
   void statusTip(const QString& statusText, int tipPos);
+  void messageColorChanged();
 
 protected:
   void connectInstrument();
@@ -260,6 +274,9 @@ private:
   QQmlEngine                    *m_qmlEngine = nullptr;
   Taction                       *m_scoreAct = nullptr;
   Taction                       *m_settingsAct, *m_levelAct, *m_examAct, *m_melodyAct, *m_chartsAct, *m_aboutAct;
+
+  QColor                         m_mesageColor;
+  QTimer                        *m_messageTimer = nullptr;
 };
 
 #endif // TNOOTKAQML_H
