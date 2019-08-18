@@ -5,14 +5,12 @@ TARGET = NootkaUpdaterPlugin
 TEMPLATE = lib
 
 
-SOURCES +=  tupdaterplugin.cpp\
-            tupdatechecker.cpp\
+SOURCES +=  tupdatechecker.cpp\
             updatefunctions.cpp\
             tupdateruleswdg.cpp\
             tupdatesummary.cpp\
 
-HEADERS +=  tupdaterplugin.h\
-            tupdatechecker.h\
+HEADERS +=  tupdatechecker.h\
             updatefunctions.h\
             tupdateruleswdg.h\
             tupdatesummary.h\

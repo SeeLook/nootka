@@ -178,6 +178,10 @@ int main(int argc, char *argv[])
 #endif
     }
     sound.init();
+
+    if (firstLoop && !wasFirstRun && gl->config->value("Updates/enableUpdates", true).toBool())
+      TdialogLoaderObject::updateCheckInBackground();
+
     firstLoop = false;
     exitCode = a->exec();
     delete e;

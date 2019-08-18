@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,28 +20,28 @@
 #include "updatefunctions.h"
 #include "tupdatesummary.h"
 #include <nootkaconfig.h>
-#include <tinitcorelib.h>
+#include <tglobals.h>
 
 
 
 void getUpdateRules(TupdateRules& updateRules) {
 
-  Tcore::gl()->config->beginGroup("Updates");
-    updateRules.enable = Tcore::gl()->config->value("enableUpdates", true).toBool();
-    updateRules.recentDate = Tcore::gl()->config->value("recentDate", QDate(2012, 12, 31)).toDate();
-    updateRules.period = EupdatePeriod(Tcore::gl()->config->value("period", 0).toInt());
-    updateRules.checkForAll = Tcore::gl()->config->value("checkForAll", true).toBool();
-  Tcore::gl()->config->endGroup();
+  GLOB->config->beginGroup(QLatin1String("Updates"));
+  updateRules.enable = GLOB->config->value(QLatin1String("enableUpdates"), true).toBool();
+  updateRules.recentDate = GLOB->config->value(QLatin1String("recentDate"), QDate(2012, 12, 31)).toDate();
+  updateRules.period = EupdatePeriod(GLOB->config->value(QLatin1String("period"), 0).toInt());
+  updateRules.checkForAll = GLOB->config->value(QLatin1String("checkForAll"), true).toBool();
+  GLOB->config->endGroup();
   updateRules.curentVersion = NOOTKA_VERSION;
 }
 
 void saveUpdateRules(TupdateRules& updateRules) {
-  Tcore::gl()->config->beginGroup("Updates");
-    Tcore::gl()->config->setValue("enableUpdates", updateRules.enable);
-    Tcore::gl()->config->setValue("recentDate", updateRules.recentDate);
-    Tcore::gl()->config->setValue("period", (int)updateRules.period);
-    Tcore::gl()->config->setValue("checkForAll", updateRules.checkForAll);
-  Tcore::gl()->config->endGroup();
+  GLOB->config->beginGroup(QLatin1String("Updates"));
+  GLOB->config->setValue(QLatin1String("enableUpdates"), updateRules.enable);
+  GLOB->config->setValue(QLatin1String("recentDate"), updateRules.recentDate);
+  GLOB->config->setValue(QLatin1String("period"), (int)updateRules.period);
+  GLOB->config->setValue(QLatin1String("checkForAll"), updateRules.checkForAll);
+  GLOB->config->endGroup();
 }
 
 
@@ -67,15 +67,15 @@ bool isUpdateNecessary(TupdateRules& updateRules) {
 
 bool isNewVersionStable(QString version) {
   bool nonStable = false;
-  nonStable = version.contains("alpha");
-  nonStable = version.contains("beta");
-  nonStable = version.contains("rc");
+  nonStable = version.contains(QLatin1String("alpha"));
+  nonStable = version.contains(QLatin1String("beta"));
+  nonStable = version.contains(QLatin1String("rc"));
   return !nonStable;
 }
 
 
-void showUpdateSummary(QString version, QString changes, QWidget* parent, TupdateRules* rules) {
-  TupdateSummary *sumaryDlg = new TupdateSummary(version, changes, rules, parent);
+void showUpdateSummary(QString version, QString changes, TupdateRules* rules) {
+  auto sumaryDlg = new TupdateSummary(version, changes, rules);
   sumaryDlg->exec();
   delete sumaryDlg;
 }

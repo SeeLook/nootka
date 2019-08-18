@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -16,25 +16,45 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tupdaterplugin.h"
-#include "tupdatechecker.h"
+#ifndef UPDATEFUNCTIONS_H
+#define UPDATEFUNCTIONS_H
+
+#include <QtCore/qdatetime.h>
+
+class QWidget;
 
 
-void TupdaterPlugin::init(const QString& argument, TpluginObject* ob, QWidget* parent, Texam* exam) {
-  Q_UNUSED(exam)
-  m_sender = ob;
-  m_updater = new TupdateChecker(this, parent);
-  connect(m_updater, &TupdateChecker::updateMessage, [=](int v){ m_sender->emitValue(v); });
-  if (argument.isEmpty())
-    m_updater->check(false);
-  else
-    m_updater->check(true);
-}
+enum EupdatePeriod { e_daily = 0, e_weekly = 1, e_monthly = 2 };
 
 
-TupdaterPlugin::~TupdaterPlugin() {
-  delete m_updater;
-}
+struct TupdateRules {
+  bool enable; /**< is updating enabled */
+  QDate recentDate; /**< date of recent update */
+  EupdatePeriod period; /**< how often checking has to be perform */
+  bool checkForAll; /**< if true check for all versions (alpha, beta, rc) */
+  QString curentVersion; /**< current Nootka version taken from settings */
+};
 
 
+    /**
+     * Fulfills &updateRules with configuration file content.
+     */
+void getUpdateRules(TupdateRules &updateRules);
 
+    /**
+     * Compares date of recent checking, current date, update period
+     * and determine is update necessary.
+     */
+bool isUpdateNecessary(TupdateRules &updateRules);
+
+bool isNewVersionStable(QString version);
+
+    /**
+     * Stores rules in Nootka configuration file
+     */
+void saveUpdateRules(TupdateRules &updateRules);
+
+void showUpdateSummary(QString version, QString changes, TupdateRules *rules = nullptr);
+
+
+#endif // UPDATEFUNCTIONS_H

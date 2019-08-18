@@ -31,9 +31,13 @@ class TdialogLoaderObject : public QObject
 
   Q_OBJECT
 
+  Q_PROPERTY(QString updateMessage READ updateMessage NOTIFY updateMessageChanged)
+
 public:
   TdialogLoaderObject(QObject* parent = nullptr);
   ~TdialogLoaderObject() override;
+
+  QString updateMessage() { return m_updateMessage; }
 
       /**
        * Returns translated text according to Qt @p ButtonDialogBox enumerator
@@ -58,12 +62,18 @@ public:
 
   Q_INVOKABLE QString getChanges() const;
 
+  static void updateCheckInBackground();
+
+  Q_INVOKABLE void checkForUpdates();
+
 signals:
   void continueExam(const QString& examFile);
   void openLevel(const QString& levelFile);
+  void updateMessageChanged();
 
 private:
   static bool                    m_firstTime;
+  QString                        m_updateMessage;
 
 };
 
