@@ -120,6 +120,23 @@ set(NOOTKA_SRC
   charts/tbar.cpp
 )
 
+option(ENABLE_UPDATER "Enable online checking for new Nootka versions" ON)
+
+if(ENABLE_UPDATER)
+  message(STATUS "check for updates\t\t TRUE")
+  find_package(Qt5Network)
+  list(APPEND NOOTKA_SRC
+    updater/tupdatechecker.cpp
+    updater/updatefunctions.cpp
+    updater/tupdateruleswdg.cpp
+    updater/tupdatesummary.cpp
+  )
+
+else(ENABLE_UPDATER)
+    message(STATUS "check for updates\t\t FALSE")
+endif(ENABLE_UPDATER)
+
+
 if(MINGW)
     add_custom_command( OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/nootico.o
                        COMMAND windres.exe -I${CMAKE_CURRENT_SOURCE_DIR} -i${CMAKE_CURRENT_SOURCE_DIR}/../picts/nootka-icon.rc

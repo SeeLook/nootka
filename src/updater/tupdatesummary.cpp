@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,56 +19,63 @@
 
 #include "tupdatesummary.h"
 #include "tupdateruleswdg.h"
+#include <nootkaconfig.h>
 #include <tpath.h>
 #include <qtr.h>
+
+#include <QtCore/qversionnumber.h>
 #include <QtWidgets/qboxlayout.h>
 #include <QtWidgets/qlabel.h>
 #include <QtWidgets/qpushbutton.h>
 #include <QtWidgets/qtextedit.h>
 #include <QtWidgets/qscroller.h>
 
+#include <QtCore/qdebug.h>
 
-TupdateSummary::TupdateSummary(QString version, QString changes, TupdateRules* updateRules, QWidget* parent): 
-  QDialog(parent, Qt::WindowStaysOnTopHint),
+
+TupdateSummary::TupdateSummary(QString version, QString changes, TupdateRules* updateRules):
+  QDialog(nullptr, Qt::WindowStaysOnTopHint),
   m_updateRules(updateRules)
 {
 #if defined (Q_OS_ANDROID)
   showMaximized();
 #else
-	setWindowIcon(QIcon(Tpath::img("nootka")));
-	setWindowTitle(tr("Updates"));
+  setWindowIcon(QIcon(Tpath::img("nootka")));
+  setWindowTitle(tr("Updates"));
 #endif
-  QVBoxLayout *mainLay = new QVBoxLayout;
-  QLabel *lab = new QLabel(this);
+  auto mainLay = new QVBoxLayout;
+  auto lab = new QLabel(this);
   mainLay->addWidget(lab);
   lab->setAlignment(Qt::AlignCenter);
-  if (!version.isEmpty()) {
+  auto currVers = QVersionNumber::fromString(NOOTKA_VERSION);
+  auto onlineVers = QVersionNumber::fromString(version);
+  if (onlineVers > currVers) { //  new version is available, display what is new there
 #if defined (Q_OS_ANDROID)
-    lab->setText(QStringLiteral("<p style=\"font-size: large;\">") +
-      tr("New Nootka %1 is available.").arg(version) + QStringLiteral("<br>") +
-      tr("To get it, visit <a href=\"http://nootka.sourceforge.net/index.php?C=down\">Nootka site</a>.")
-                 + QStringLiteral("</p>"));
+      lab->setText(QLatin1String("<p style=\"font-size: large;\">")
+      + tr("New Nootka %1 is available.").arg(version) + QLatin1String("<br>")
+      + tr("To get it, visit <a href=\"https://nootka.sourceforge.io/index.php/download/\">Nootka site</a>.") + QLatin1String("</p>"));
 #else
-    lab->setText(QStringLiteral("<br><p style=\"font-size: xx-large;\">") +
-      tr("New Nootka %1 is available.").arg(version) + QStringLiteral("<br>") +
-      tr("To get it, visit <a href=\"http://nootka.sourceforge.net/index.php?C=down\">Nootka site</a>.")
-                 + QStringLiteral("</p><br>"));
+      lab->setText(QLatin1String("<br><p style=\"font-size: xx-large;\">")
+      + tr("New Nootka %1 is available.").arg(version) + QLatin1String("<br>")
+      + tr("To get it, visit <a href=\"https://nootka.sourceforge.io/index.php/download/\">Nootka site</a>.") + QLatin1String("</p><br>"));
 #endif
-    lab->setOpenExternalLinks(true);
-    QTextEdit *news = new QTextEdit(this);
+      lab->setOpenExternalLinks(true);
+      auto news = new QTextEdit(this);
 #if defined (Q_OS_ANDROID)
-    news->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    news->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    news->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+      news->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+      news->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+      news->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
 #endif
-    QScroller::grabGesture(news->viewport(), QScroller::LeftMouseButtonGesture);
-    news->setReadOnly(true);
-    mainLay->addWidget(news);
-    news->setText(tr("News:") + changes);
-  } else {
-    lab->setText(QStringLiteral("<br><p style=\"font-size: xx-large;\">")
-                 + tr("No changes found.<br>This version is up to date.") + QStringLiteral("</p><br>"));
-  }
+      QScroller::grabGesture(news->viewport(), QScroller::LeftMouseButtonGesture);
+      news->setReadOnly(true);
+      mainLay->addWidget(news);
+      news->setText(tr("News:") + changes);
+  } else if (currVers > onlineVers)
+    lab->setText(QLatin1String("<br><p style=\"font-size: x-large;\">")
+      + changes + QLatin1String("</p><br>"));
+  else
+    lab->setText(QLatin1String("<br><p style=\"font-size: xx-large;\">")
+              + tr("No changes found.<br>This version is up to date.") + QLatin1String("</p><br>"));
   if (m_updateRules) {
     m_rulesWidget = new TupdateRulesWdg(m_updateRules, this);
     mainLay->addWidget(m_rulesWidget);
@@ -76,10 +83,9 @@ TupdateSummary::TupdateSummary(QString version, QString changes, TupdateRules* u
   mainLay->addSpacing(10);
   m_okButton = new QPushButton(qTR("QDialogButtonBox", "Ok"), this);
   mainLay->addWidget(m_okButton, 0, Qt::AlignCenter);
-  
+
   setLayout(mainLay);
-  
-  connect(m_okButton, SIGNAL(clicked()), this, SLOT(okButtonSlot()));
+  connect(m_okButton, &QPushButton::clicked, this, &TupdateSummary::okButtonSlot);
 }
 
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,34 +20,36 @@
 #ifndef TUPDATESUMMARY_H
 #define TUPDATESUMMARY_H
 
-#include <QDialog>
 
-class QPushButton;
+#include <QtWidgets/qdialog.h>
+
+
 class TupdateRulesWdg;
 class TupdateRules;
 
 
 
-/** Displays dialog with summary of nootka-updater. 
- * If @param version is emty - displays no updates found.
- * When TupdateRules is given - it shows config widget inside. 
+/**
+ * Displays dialog with summary of Nootka-updater.
+ * Version are determined and compared from strings by @p QVersionNumber
+ * When @p TupdateRules is given - it shows configuration widget inside.
  */
 class TupdateSummary : public QDialog
 {
 
   Q_OBJECT
-  
+
 public:
-    TupdateSummary(QString version, QString changes, TupdateRules *updateRules = 0, QWidget *parent = 0);
-    virtual ~TupdateSummary();
-    
+  TupdateSummary(QString version, QString changes, TupdateRules *updateRules = nullptr);
+  ~TupdateSummary() override;
+
 protected slots:
-    void okButtonSlot();
-    
+  void okButtonSlot();
+
 private:
-    TupdateRules *m_updateRules;
-    TupdateRulesWdg *m_rulesWidget;
-    QPushButton *m_okButton;
+  TupdateRules      *m_updateRules;
+  TupdateRulesWdg   *m_rulesWidget;
+  QPushButton       *m_okButton;
 };
 
 #endif // TUPDATESUMMARY_H

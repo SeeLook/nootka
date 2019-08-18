@@ -37,6 +37,7 @@
 #include "help/tmainhelp.h"
 #include <qtr.h>
 #include <exam/texam.h>
+#include "updater/tupdatechecker.h"
 
 #include <QtCore/qdir.h>
 #include <QtWidgets/qdialogbuttonbox.h>
@@ -202,4 +203,26 @@ QString TdialogLoaderObject::getChanges() const {
   }
   file.close();
   return chLog;
+}
+
+
+void TdialogLoaderObject::updateCheckInBackground() {
+  auto updater = new TupdateChecker(qApp);
+  connect(updater, &TupdateChecker::updateMessage, [=](QString m){
+    if (m.isEmpty() || m.contains(QLatin1String("error")) || m.contains(QLatin1String("No need")))
+      updater->deleteLater();
+  });
+  updater->check(true); // do not display update window when no updates found
+}
+
+
+void TdialogLoaderObject::checkForUpdates() {
+  auto updater = new TupdateChecker(qApp);
+  connect(updater, &TupdateChecker::updateMessage, [=](QString m){
+    m_updateMessage = m;
+    emit updateMessageChanged();
+    if (m.isEmpty() || m.contains(QLatin1String("error")))
+      updater->deleteLater();
+  });
+  updater->check(false); // Any way show update window
 }

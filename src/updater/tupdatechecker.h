@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,7 +29,7 @@
 class QNetworkAccessManager;
 
 /**
- * Connects with nootka.sf.net to check updates.
+ * Connects with nootka.sldc.pl to check updates.
  * Displays summary dialog after and console output.
  * Also emits signals with output communicates.
  */
@@ -39,27 +39,30 @@ class TupdateChecker : public QObject
   Q_OBJECT
 
 public:
-  TupdateChecker(QObject *parent = 0, QWidget* parentWidget = 0);
+  TupdateChecker(QObject *parent = nullptr);
   virtual ~TupdateChecker();
 
-    /** Performs checking.
-     * When @param checkRules = true it checks is it necessary in nootka config.
+    /**
+     * Performs checking.
+     * When @param checkRules = @p true it checks is it necessary in nootka config.
      * Doesn't display dialog when no new version was found.
-     * otherwise forces connection and when versions are the sane displays 'no update found'. */
+     * otherwise forces connection and when versions are the same displays 'no update found'.
+     */
   void check(bool checkRules = true);
 
 signals:
-  void updateMessage(int); /**< int values of type @p Torders::Eupdater with updater states */
+  void updateMessage(QString);
 
-protected slots:
+protected:
   void replySlot(QNetworkReply* netReply);
 
-      /** Grabs connection errors if any. */
+      /**
+       * Grabs connection errors, if any.
+       */
   void errorSlot(QNetworkReply::NetworkError err);
 
 
 private:
-  QWidget                   *m_parentWidget;
   QNetworkAccessManager     *m_netManager;
   QNetworkReply             *m_reply;
   QString                    m_curVersion;

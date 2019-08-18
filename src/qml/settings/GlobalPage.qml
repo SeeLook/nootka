@@ -111,10 +111,20 @@ Tflickable {
     }
 
     Tile {
-      visible: false
-      TcuteButton {
+      Column {
+        spacing: Noo.fontSize()
+        width: parent.width * 0.9
         anchors.horizontalCenter: parent.horizontalCenter
-        text: qsTranslate("TglobalSettings", "Check for updates")
+        TcuteButton {
+          anchors.horizontalCenter: parent.horizontalCenter
+          text: qsTranslate("TglobalSettings", "Check for updates")
+          onClicked: dialogObj.checkForUpdates()
+        }
+        Text {
+          color: activPal.text
+          height: Noo.fontSize() * 3; width: parent.width; verticalAlignment: Text.AlignVCenter
+          text: dialogObj.updateMessage; wrapMode: Text.WordWrap
+        }
       }
     }
 
