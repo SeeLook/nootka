@@ -1044,6 +1044,7 @@ void TexamExecutor::prepareToExam() {
   connect(MAIN_SCORE, &TmainScoreObject::clicked, this, &TexamExecutor::expertAnswersSlot);
   if (NOTENAME)
     connect(NOTENAME, &TnameItem::noteButtonClicked, this, &TexamExecutor::expertAnswersSlot);
+  if (INSTRUMENT)
   connect(INSTRUMENT, &TcommonInstrument::noteChanged, this, &TexamExecutor::expertAnswersSlot);
   if (m_level.instrument != Tinstrument::NoInstrument)
     connect(SOUND, &Tsound::noteStarted, this, &TexamExecutor::expertAnswersSlot);
@@ -1132,7 +1133,8 @@ void TexamExecutor::restoreAfterExam() {
     NOTENAME->setDisabled(false);
     NOTENAME->setButtonNameStyle(GLOB->S->nameStyleInNoteName);
   }
-  INSTRUMENT->setEnabled(true);
+  if (INSTRUMENT)
+    INSTRUMENT->setEnabled(true);
 
   if (m_tipHandler)
       m_tipHandler->deleteLater();
@@ -1147,7 +1149,8 @@ void TexamExecutor::restoreAfterExam() {
 
 void TexamExecutor::disableWidgets() {
   MAIN_SCORE->setReadOnly(true);
-  INSTRUMENT->setEnabled(false);
+  if (INSTRUMENT)
+    INSTRUMENT->setEnabled(false);
   if (NOTENAME)
     NOTENAME->setDisabled(true);
 }
@@ -1159,8 +1162,10 @@ void TexamExecutor::clearWidgets() {
     NOTENAME->setNote(Tnote());
     NOTENAME->setMarkColor(Qt::transparent);
   }
-  INSTRUMENT->setNote(Tnote());
-  INSTRUMENT->markSelected(Qt::transparent);
+  if (INSTRUMENT) {
+    INSTRUMENT->setNote(Tnote());
+    INSTRUMENT->markSelected(Qt::transparent);
+  }
 //   SOUND->restoreAfterAnswer();
 }
 

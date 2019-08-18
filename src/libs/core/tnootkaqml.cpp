@@ -543,7 +543,8 @@ void TnootkaQML::noteStarted(const Tnote& n) {
 
 
 void TnootkaQML::noteFinished(const Tnote& n) {
-  m_instrument->setNote(n);
+  if (m_instrument)
+    m_instrument->setNote(n);
   Tnote transNote = n;
   if (transNote.isValid())
     transNote.transpose(-GLOB->transposition());
@@ -685,10 +686,12 @@ int TnootkaQML::getTechicalFromScore() {
 void TnootkaQML::selectPlayingNote(int id) {
   m_ignoreScore = true;
   m_scoreObject->setSelectedItem(m_scoreObject->note(id));
-  auto n = m_scoreObject->selectedNote();
-  if (n.isValid())
-    n.transpose(GLOB->transposition());
-  m_instrument->setNote(n, getTechicalFromScore());
+  if (m_instrument) {
+    auto n = m_scoreObject->selectedNote();
+    if (n.isValid())
+      n.transpose(GLOB->transposition());
+    m_instrument->setNote(n, getTechicalFromScore());
+  }
 }
 
 
