@@ -94,7 +94,7 @@ Tflickable {
       }
     }
     Tile {
-      description: "Not implemented yet!"
+      visible: false
       Row {
         spacing: Noo.fontSize()
         anchors.horizontalCenter: parent.horizontalCenter
@@ -102,8 +102,6 @@ Tflickable {
             id: inTempoChB
             anchors.verticalCenter: parent.verticalCenter
             text: qsTr("Play in tempo")
-  //           checked: creator.endsOnTonic
-  //           onClicked: creator.endsOnTonic = checked
         }
         Text {
           anchors.verticalCenter: parent.verticalCenter

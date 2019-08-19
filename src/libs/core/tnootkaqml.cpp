@@ -592,7 +592,7 @@ void TnootkaQML::connectInstrument() {
 
 void TnootkaQML::instrumentChangesNoteSlot() {
   Tnote rawNote = m_instrument->note();
-  qDebug() << "instrument send note" << rawNote.toText();
+//   qDebug() << "instrument send note" << rawNote.toText();
   m_ignoreScore = true;
   emit playNote(m_instrument->note()); // not yet transposed - to sound properly
   rawNote.transpose(-GLOB->transposition());
@@ -654,7 +654,7 @@ void TnootkaQML::scoreChangedNoteSlot() {
   if (m_instrument)
     m_instrument->setNote(n, getTechicalFromScore());
   emit playNote(n);
-  qDebug() << "Got note from score" << n.toText() << n.chromatic();
+//   qDebug() << "Got note from score" << n.toText() << n.chromatic();
 }
 
 

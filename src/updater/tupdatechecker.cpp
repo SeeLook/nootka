@@ -82,7 +82,7 @@ void TupdateChecker::check(bool checkRules){
 TupdateChecker::~TupdateChecker()
 {
   if (m_reply) {
-    qDebug() << "Update checking doesn't finish, trying to abort...";
+    qDebug() << "[TupdateChecker] Update checking doesn't finish, trying to abort...";
     disconnect(m_netManager, &QNetworkAccessManager::finished, this, &TupdateChecker::replySlot);
     disconnect(m_reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error), this, &TupdateChecker::errorSlot);
     m_reply->abort();
@@ -110,7 +110,7 @@ void TupdateChecker::replySlot(QNetworkReply* netReply) {
     else
       m_success = false;
     if (m_success) {
-        auto currVers = QVersionNumber::fromString(NOOTKA_VERSION);
+        auto currVers = QVersionNumber::fromString(QLatin1String(NOOTKA_VERSION));
         auto onlineVers = QVersionNumber::fromString(newVersionStr);
         emit updateMessage(QStringLiteral("success"));
         replyLines.removeFirst();
