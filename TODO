@@ -16,15 +16,26 @@
     - add an option to skip rests (pitch detection gaps) and treat their duration as previous note was longer
     - manual adding/editing ties
     - finish tuner, functionality similar to Android one (show tuning, middle A freq)
+    - level creator:
+      - some pages make no sense for particular cases (i.e. for single note melody & rhythm page, etc.)
+      - so implement disabling unused pages, colorize panel icons properly for that
+      - question page icon might change depends on is there single note or a melody
+      - those three ways of generating melodies (range, notes, list) might be exposed more clearly
+        especially list of melodies imported from files which seems to be very important feature
     - music XML import dialog, to select voice or staff if there are more, and so
     - exam summary - give more valuable info, wear it nicely
+    - charts suck. For exams with many questions it wastes a lot of RAM. Make them QML
     - migrate on preferred 48000 sample rate (ogg files and audio methods)
 
 ---------------- For next stable Nootka version 2.2 ---------------------------------
     - MIDI input & revert MIDI out of course
     - adding actually edited score melody to current level
     - editing melody from currently selected/composed level
-    - triplet support
+    - switch for selecting imported melodies from the list one by one or in random order
+    - support for triplets
+    - exams control melody tempo, either fixed value from melody or random from declared range (or increased every question)
+    - viewing entire melody in stats, playing them and single notes as well
+      so far, user can play whatever tempo he likes
 
 -------------------------------------------------------------------------------------
 
@@ -42,6 +53,7 @@ small glitches:
 
 
 CHANGES OF TRANSLATION CONTEXT
+  TupdateSummary has an download address built in translation - extracted it outside, but translations has to be updated
   QuestionPage - remove line breaks
   AudioInSettings ??? copy "semitone(s)" text to Transposition context but remove %n
 

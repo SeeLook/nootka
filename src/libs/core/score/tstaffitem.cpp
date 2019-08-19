@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -41,7 +41,7 @@ TstaffItem::TstaffItem(QQuickItem* parent) :
 
 
 TstaffItem::~TstaffItem() {
-  qDebug() << "[TstaffObject]" << m_number << " is going delete";
+//   qDebug() << "[TstaffObject]" << m_number << " is going delete";
 }
 
 
@@ -121,7 +121,7 @@ char TstaffItem::debug() {
 
 void TstaffItem::fit() {
   if ((m_number == 0 && m_scoreObj->measure(m_firstMeasureId)->isEmpty()) || m_lastMeasureId == -1 || measuresCount() < 1) {
-    qDebug() << debug() << "Empty staff - nothing to fit";
+//     qDebug() << debug() << "Empty staff - nothing to fit";
     return;
   }
 

@@ -149,7 +149,6 @@ void TscoreObject::setMeter(int m) {
     setWorkRhythm(Trhythm(newMeter == Tmeter::NoMeter ? Trhythm::NoRhythm : (newMeter <= Tmeter::Meter_7_4 ? Trhythm::Quarter : Trhythm::Eighth)));
 
     if (!m_singleNote && measuresCount() && firstMeasure()->noteCount() > 0) {
-    CHECKTIME (
       clearScorePrivate();
       QList<Tnote> oldList = m_notes;
       m_notes.clear();
@@ -163,7 +162,6 @@ void TscoreObject::setMeter(int m) {
       }
       m_activeBarNr = 0;
       adjustScoreWidth();
-    )
     }
     emitLastNote();
   }
@@ -216,7 +214,7 @@ void solveList(const Tnote& n, int dur, QList<Tnote>& outList) {
 }
 
 void TscoreObject::addNote(const Tnote& newNote, bool fromQML) {
-CHECKTIME (
+// CHECKTIME (
 
   if (m_singleNote) {
     qDebug() << "[TscoreObject] FIXME! Trying to add note in single mode";
@@ -283,7 +281,7 @@ CHECKTIME (
       setSelectedItem(lastNote());
     emit noteWasAdded();
   }
-)
+// ) // CHECKTIME
 }
 
 
@@ -328,11 +326,9 @@ void TscoreObject::setNote(TnoteItem* no, const Tnote& n) {
     }
 
     if (durDiff) {
-      CHECKTIME (
         no->measure()->changeNoteDuration(no->wrapper(), newNote);
         if (lastMeasure()->isEmpty())
           removeLastMeasure();
-      )
         adjustScoreWidth();
     } else {
         no->wrapper()->setNote(newNote);
@@ -585,10 +581,8 @@ void TscoreObject::setShowNoteNames(bool showNames) {
   if (m_showNoteNames != showNames) {
     m_showNoteNames = showNames;
     if (notesCount()) {
-    CHECKTIME (
       for (int n = 0; n < notesCount(); ++n)
         m_segments[n]->item()->setNoteNameVisible(m_showNoteNames && m_clefType != Tclef::NoClef && !m_singleNote);
-    )
     }
   }
 }
@@ -599,10 +593,8 @@ void TscoreObject::setNameColor(const QColor& nameC) {
     m_nameColor = nameC;
     if (m_showNoteNames) {
       if (notesCount()) {
-      CHECKTIME(
         for (int n = 0; n < notesCount(); ++n) // with hope that all items have name item created
           m_segments[n]->item()->nameItem()->setProperty("styleColor", m_nameColor);
-      )
       }
     }
   }
@@ -613,10 +605,8 @@ void TscoreObject::setNameStyle(int nameS) {
   m_nameStyle = nameS;
   if (m_showNoteNames) {
     if (notesCount()) {
-    CHECKTIME(
       for (int n = 0; n < notesCount(); ++n) // with hope that all items have name item created
         m_segments[n]->item()->nameItem()->setProperty("text", m_notes[n].styledName());
-    )
     }
   }
 }
@@ -1206,7 +1196,6 @@ void TscoreObject::deleteStaff(TstaffItem* st) {
 
 
 void TscoreObject::adjustScoreWidth(int firstStaff) {
-CHECKTIME (
   m_adjustInProgress = true;
   int refreshStaffNr = firstStaff;
   while (refreshStaffNr < stavesCount()) {
@@ -1215,7 +1204,6 @@ CHECKTIME (
   }
   m_adjustInProgress = false;
   updateStavesPos();
-)
 }
 
 
