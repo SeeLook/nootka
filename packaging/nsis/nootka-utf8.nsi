@@ -56,6 +56,7 @@ SetCompressor lzma
 !insertmacro MUI_LANGUAGE "Spanish"
 !insertmacro MUI_LANGUAGE "Hungarian"
 !insertmacro MUI_LANGUAGE "Slovenian"
+!insertmacro MUI_LANGUAGE "Italian"
 
 
 ; Reserve files
@@ -80,6 +81,7 @@ LangString NelDesc ${LANG_RUSSIAN} "Файл Нутки с уровнем"
 LangString NelDesc ${LANG_SPANISH} "Fichero de nivel de Nootka"
 LangString NelDesc ${LANG_HUNGARIAN} "Nootka szint fájl"
 LangString NelDesc ${LANG_SLOVENIAN} "Nootka stopenjska datoteka"
+LangString NelDesc ${LANG_ITALIAN} "File del livello di Nootka"
 
 LangString NootkaAct ${LANG_ENGLISH} "Open with Nootka"
 LangString NootkaAct ${LANG_CZECH} "Otevřít v Nootka"
@@ -90,6 +92,7 @@ LangString NootkaAct ${LANG_RUSSIAN} "Открыть в Нутке"
 LangString NootkaAct ${LANG_SPANISH} "Abrir con Nootka"
 LangString NootkaAct ${LANG_HUNGARIAN} "Megnyitás Nootka-val"
 LangString NootkaAct ${LANG_SLOVENIAN} "Odpri z Nootko"
+LangString NootkaAct ${LANG_ITALIAN} "Apri con Nootka"
 
 LangString NooDesc ${LANG_ENGLISH} "Nootka exam file"
 LangString NooDesc ${LANG_CZECH} "Zkušební soubor programu Nootka"
@@ -100,6 +103,7 @@ LangString NooDesc ${LANG_RUSSIAN} "Файл Нутки с экзаменом"
 LangString NooDesc ${LANG_SPANISH} "Fichero de examen de Nootka"
 LangString NooDesc ${LANG_HUNGARIAN} "Nootka vizsga fájl"
 LangString NooDesc ${LANG_SLOVENIAN} "Nootka izpitna datoteka"
+LangString NooDesc ${LANG_ITALIAN} "File per gli esami di Nootka"
 
 Section -AssociateMime
 ;FILE ASSOCIATION
@@ -194,6 +198,7 @@ SectionEnd
   LangString UninstallMess ${LANG_SPANISH} "¿Quiere realmente desinstalar Nootka y todos sus componentes?"
   LangString UninstallMess ${LANG_HUNGARIAN} "Biztos, hogy törli Nootka-t minden komponensével együtt?"
   LangString UninstallMess ${LANG_SLOVENIAN} "Ste prepričani, da bi res radi odstranili Nootko in še vse ostale njene komponente?"
+  LangString UninstallMess ${LANG_ITALIAN} "Vuoi davvero rimuovere Nootka e tutti i suoi componenti?"
 
 Function un.onInit
 !insertmacro MUI_UNGETLANGUAGE

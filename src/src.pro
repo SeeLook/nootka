@@ -88,16 +88,22 @@ ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 TR_DIR = "$$system(dirname $$QMAKESPEC)/../translations"
 
 lang.path = /assets/lang
-lang.files += lang/nootka_pl.qm
 lang.files += lang/nootka_cs.qm
 lang.files += lang/nootka_de.qm
-lang.files += lang/nootka_fr.qm
-lang.files += lang/nootka_ru.qm
 lang.files += lang/nootka_es.qm
+lang.files += lang/nootka_fr.qm
+lang.files += lang/nootka_hu.qm
+lang.files += lang/nootka_it.qm
+lang.files += lang/nootka_pl.qm
+lang.files += lang/nootka_ru.qm
+lang.files += lang/nootka_sl.qm
+lang.files += lang/qtbase_sl.qm
 lang.files += $$system(ls $$TR_DIR/qtbase_cs.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_de.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_es.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_fr.qm)
+lang.files += $$system(ls $$TR_DIR/qtbase_hu.qm)
+lang.files += $$system(ls $$TR_DIR/qtbase_it.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_pl.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_ru.qm)
 
