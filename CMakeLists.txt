@@ -103,6 +103,7 @@ endif(APPLE)
 install(FILES changes DESTINATION "${INS_PREF}")
 file(GLOB ICONS_PNG "${CMAKE_CURRENT_SOURCE_DIR}/picts/*.png") #png-s for all
 install(FILES ${ICONS_PNG} DESTINATION "${INS_PREF}/picts")
+install(DIRECTORY picts/flags DESTINATION "${INS_PREF}/picts")
 install(DIRECTORY fonts DESTINATION "${INS_PREF}")
 
 file(GLOB langs "${CMAKE_CURRENT_SOURCE_DIR}/lang/*.qm")
@@ -122,6 +123,7 @@ if(APPLE OR WIN32)
    "${QT_TRANSLATIONS_DIR}/qtbase_es.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_fr.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_hu.qm"
+   "${QT_TRANSLATIONS_DIR}/qtbase_it.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_pl.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_ru.qm"
 #    "${QT_TRANSLATIONS_DIR}/qtbase_sl.qm"
@@ -192,6 +194,7 @@ if(WIN32)
   install(FILES picts/nootka-exam.ico picts/nootka.ico picts/nootka-levels.ico picts/pack.ico picts/logo.bmp picts/logo-left.bmp DESTINATION "${INS_PREF}/picts") #ico
   install(FILES packaging/nsis/nootka-utf8.nsi packaging/nsis/fileasoc.nsh ${CMAKE_BINARY_DIR}/nsis/NSIS.definitions.nsh DESTINATION "${INS_PREF}")
   install(FILES "${FFTW3_LIBRARIES}" "${VORBIS_LIBRARIES}" "${VORBIS_DIR}/libvorbis.dll" "${VORBIS_DIR}/libogg.dll" DESTINATION "${INS_PREF}")
+  install(FILES packaging/nsis/qt.conf DESTINATION "${INS_PREF}")
 endif(WIN32)
 
 ###########################################################################

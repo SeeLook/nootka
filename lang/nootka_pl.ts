@@ -3395,6 +3395,29 @@ Sprawdź czy jego parametry są właściwe..</translation>
     </message>
 </context>
 <context>
+    <name>Transposition</name>
+    <message>
+      <source>Transposition</source>
+      <translation>Transpozycja</translation>
+    </message>
+    <message numerus="yes">
+      <source>semitone(s)</source>
+      <translation>
+        <numerusform>półton</numerusform>
+        <numerusform>półtony</numerusform>
+        <numerusform>półtonów</numerusform>
+      </translation>
+    </message>
+    <message>
+      <source>up</source>
+      <translation>w górę</translation>
+    </message>
+    <message>
+      <source>down</source>
+      <translation>w dół</translation>
+    </message>
+</context>
+<context>
     <name>TscoreObject</name>
     <message>
         <location filename="../src/libs/main/score/tscoreactions.cpp" line="57"/>

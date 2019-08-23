@@ -66,6 +66,7 @@ cp $TRANS_PATH/qtbase_de.qm AppDir/usr/share/nootka/lang
 cp $TRANS_PATH/qtbase_es.qm AppDir/usr/share/nootka/lang
 cp $TRANS_PATH/qtbase_fr.qm AppDir/usr/share/nootka/lang
 cp $TRANS_PATH/qtbase_hu.qm AppDir/usr/share/nootka/lang
+cp $TRANS_PATH/qtbase_it.qm AppDir/usr/share/nootka/lang
 cp $TRANS_PATH/qtbase_pl.qm AppDir/usr/share/nootka/lang
 cp $TRANS_PATH/qtbase_ru.qm AppDir/usr/share/nootka/lang
 

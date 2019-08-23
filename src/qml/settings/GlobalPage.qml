@@ -25,13 +25,14 @@ Tflickable {
 
       ListModel {
         id: langModel
-        ListElement { flag: "";  lang: QT_TR_NOOP("default") }
+        ListElement { flag: "default";  lang: QT_TR_NOOP("default") }
         ListElement { flag:"cs"; lang: "český" }
         ListElement { flag:"de"; lang: "deutsch" }
         ListElement { flag:"en"; lang: "english" }
         ListElement { flag:"es"; lang: "español" }
         ListElement { flag:"fr"; lang: "français" }
         ListElement { flag:"hu"; lang: "magyar" }
+        ListElement { flag:"it"; lang: "italiano" }
         ListElement { flag:"pl"; lang: "polski" }
         ListElement { flag:"ru"; lang: "русский" }
         ListElement { flag:"sl"; lang: "slovenščina" }
@@ -49,7 +50,7 @@ Tflickable {
             opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
             scale: 1.7 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
             Image {
-              source: Noo.pix("flags-" + flag)
+              source: Noo.pix("flags/" + flag)
               height: Noo.fontSize() * 3; width: height * (sourceSize.height / sourceSize.width)
               anchors.horizontalCenter: parent.horizontalCenter
               MouseArea {
@@ -185,7 +186,7 @@ Tflickable {
     interval: 50
     onTriggered: {
       for (var i = 0; i < langModel.count; ++i) {
-        if (langModel.get(i).flag === GLOB.lang) {
+        if (langModel.get(i).flag === GLOB.lang || (i == 0 && GLOB.lang === "")) {
           langTumb.currentIndex = i + 1 // FIXME: workaround for Qt 5.10.1
           langTumb.currentIndex = i
           break
@@ -197,7 +198,7 @@ Tflickable {
   function save() {
     GLOB.useAnimations = animChBox.checked
     GLOB.showHints = hintsChBox.checked
-    GLOB.lang = langModel.get(langTumb.currentIndex).flag
+    GLOB.lang = langTumb.currentIndex === 0 ? "" : langModel.get(langTumb.currentIndex).flag
     GLOB.scale = scaleSlider.value
   }
 

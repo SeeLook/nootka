@@ -1,4 +1,6 @@
 1.5.3 beta1
+  Nootka says: I speak Italian
+     - added Italian translation
      - metronome can tick audibly, also during pitch detection
      - added support for scientific octave numbers in note names
      - read/save melody title, composer, tempo, beat
