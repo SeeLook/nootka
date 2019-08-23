@@ -55,6 +55,7 @@ TaudioOUT*              TaudioOUT::instance = nullptr;
 
 
 #define CROSS_SMP (2200) // 50ms
+#define INVALID_NOTE_NR (-100)
 
 
 /**
@@ -79,16 +80,16 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
 //       qDebug() << "[trtaudioout] Stream underflow detected!";
 
   bool endState = true;
-  if (!instance->playList().isEmpty() && p_playingNoteNr < instance->playList().size()) {
+  if (!instance->playList().isEmpty() && p_playingNoteNr < instance->playList().size() && p_ticksCountBefore == 0) {
       TsingleSound& playingSound = instance->playList()[p_playingNoteNr];
       auto out = static_cast<qint16*>(outBuff);
       bool unfinished = true;
       qint16 sample = 0;
       for (int i = 0; i < nBufferFrames / instance->ratioOfRate; i++) {
         if (p_posInNote >= playingSound.samplesCount) {
-          p_prevNote = playingSound.number == REST_NR ? -100 : playingSound.number;
+          p_prevNote = playingSound.number == REST_NR || p_posInOgg > 61740 ? INVALID_NOTE_NR : playingSound.number;
           p_shiftOfPrev = 0;
-          p_lastPosOfPrev = p_posInNote;
+          p_lastPosOfPrev = p_posInOgg; // < 61740 ? p_posInNote : 0;
           p_playingNoteNr++;
           if (p_playingNoteNr < instance->playList().size()) {
               p_posInOgg = 0;
@@ -122,13 +123,13 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
           }
           p_posInOgg++;
         }
-        if (unfinished && p_prevNote > -100 && p_shiftOfPrev < CROSS_SMP) { // fade out previous note, and mix it with the current one
+        if (unfinished && p_prevNote > INVALID_NOTE_NR && p_shiftOfPrev < CROSS_SMP) { // fade out previous note, and mix it with the current one
           qint16 sample2 = instance->oggScale->getNoteSample(p_prevNote, p_lastPosOfPrev + p_shiftOfPrev);
           sample2 = static_cast<qint16>(static_cast<qreal>(sample2) * (static_cast<qreal>(CROSS_SMP - p_shiftOfPrev) / 2200.0));
           sample = mix(sample, sample2);
           p_shiftOfPrev++;
           if (p_shiftOfPrev == CROSS_SMP)
-            p_prevNote = -100;
+            p_prevNote = INVALID_NOTE_NR;
         }
         qint16 beatSample = 0;
         if (instance->tickDuringPlay() && p_beatPeriod) {
@@ -149,13 +150,12 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
       }
       instance->m_callBackIsBussy = false;
       endState = p_playingNoteNr >= instance->playList().size();
-  } else { // flush buffer with zeros if no sound will be played
-//       auto out = static_cast<qint32*>(outBuff); // 4 bytes for both channels at once
+  } else { // if no sound will be played: flush buffer with zeros or play a tick
       auto out = static_cast<qint16*>(outBuff);
       qint16 beatSample = 0;
       for (int i = 0; i < nBufferFrames / instance->ratioOfRate; i++) {
         beatSample = 0;
-        if (instance->tickDuringPlay() && p_beatPeriod) {
+        if (p_beatPeriod && ((instance->tickBeforePlay() && p_ticksCountBefore > 0) || instance->tickDuringPlay())) {
           if (p_beatOffset < p_beatBytes)
             beatSample = instance->getBeatsample(p_beatOffset);
           p_beatOffset++;
@@ -165,16 +165,19 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
               p_lastNotePlayed = false;
               p_beatPeriod = 0;
             }
+            if (p_ticksCountBefore > 0)
+              p_ticksCountBefore--;
+            else if (!instance->tickDuringPlay())
+              p_beatPeriod = 0;
           }
         }
         for (int r = 0; r < instance->ratioOfRate; r++) {
-//           *out++ = 0; // both channels at once channel
           *out++ = beatSample; // left channel
           *out++ = beatSample; // right channel
         }
       }
       instance->m_callBackIsBussy = false;
-      endState = true;
+      endState = p_ticksCountBefore == 0 && (instance->playList().isEmpty() || p_playingNoteNr >= instance->playList().size());
   }
   if (instance->p_doEmit && !areStreamsSplit() && endState) {
     ao()->emitPlayingFinished(); // emit in duplex mode
@@ -273,7 +276,7 @@ void TaudioOUT::startPlaying() {
     //  if (loops) qDebug() << "latency:" << loops << "ms";
   }
 
-  if (p_prevNote > -100) {
+  if (p_prevNote > INVALID_NOTE_NR) {
     p_shiftOfPrev = 0;
     p_lastPosOfPrev = p_posInNote;
   }
@@ -303,6 +306,7 @@ void TaudioOUT::playingFinishedSlot() {
   if (areStreamsSplit() && state() == e_playing)
     closeStream();
 
+  p_lastNotePlayed = false;
   p_isPlaying = false;
   setPlayCallbackInvolved(false);
   emit playingFinished();
@@ -312,7 +316,7 @@ void TaudioOUT::playingFinishedSlot() {
 void TaudioOUT::stop() {
   if (m_callBackIsBussy) {
     qDebug() << "[TrtAudioOUT] Stopping when outCallBack is running. Wait 2ms!";
-    QTimer::singleShot(2, [=]{ this->stop(); });
+    QTimer::singleShot(2, this, [=]{ this->stop(); });
   }
 
   /**
@@ -330,10 +334,11 @@ void TaudioOUT::stop() {
     QTimer::singleShot(50, [=]{ this->stop(); });
     return;
   }
-  p_prevNote = -100;
+  p_prevNote = INVALID_NOTE_NR;
   p_shiftOfPrev = 0;
   p_lastPosOfPrev = 0;
   p_isPlaying = false;
+  p_ticksCountBefore = 0;
   if (areStreamsSplit() /*|| getCurrentApi() == RtAudio::LINUX_PULSE*/)
     closeStream();
   else

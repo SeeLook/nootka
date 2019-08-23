@@ -55,7 +55,7 @@ Tflickable {
           Also there is a new look and a layout and there are new instruments (piano, saxophone and bandoneon) along with guitars.<br>
           <br>
           For more details about news in this release take a look at 'Changes' page.<br>
-          Also <a href=\"https://sourceforge.net/p/nootka/hg/ci/default/tree/TODO\">here is a link to TODO list</a> to explain what is planed next.<br>
+          Also <a href=\"https://sourceforge.net/p/nootka/hg/ci/default/tree/TODO.md\">here is a link to TODO list</a> to explain what is planed next.<br>
           <br>
           Anyway, main purpose of this release is to check all of that and give some feedback.<br>
           So happy testing,<br>

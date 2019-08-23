@@ -323,7 +323,9 @@ void TexamExecutor::askQuestion(bool isAttempt) {
         if (!m_level.isMelodySet() && m_level.useRhythms()) {
           mergeRhythmAndMelody(rhythms, curQ->melody());
         }
-        curQ->melody()->setTempo(SOUND->tempo());
+        // So far we don't force tempo, just adjust it to user currently set
+        // We can change melody tempo due to this melody is never write back
+        curQ->melody()->setTempo(Tmeter::quarterTempo(SOUND->tempo(), SOUND->beatUnit()) * Tmeter::beatTempoFactor(curQ->melody()->beat()));
       }
       m_melody->newMelody(curQ->answerAsSound() ? curQ->melody()->length() : 0); // prepare list to store notes played by user or clear it
       m_exam->newAttempt();
@@ -548,7 +550,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 
 
 void TexamExecutor::checkAnswer(bool showResults) {
-  TQAunit* curQ = m_exam->curQ();
+  auto curQ = m_exam->curQ();
   m_penalty->stopQuestionTime();
   m_checkQuestAct->setEnabled(false);
   if (m_playAgainAct)
@@ -1064,10 +1066,6 @@ void TexamExecutor::prepareToExam() {
   m_glStore->prepareGlobalsToExam(m_level);
   GLOB->setRhythmsEnabled(m_level.useRhythms());
 
-
-// #if !defined (Q_OS_ANDROID) // Do not show it user Android - it sucks there
-//   SOUND->pitchView()->setVisible(GLOB->L->soundViewEnabled);
-// #endif
 //   INSTRUMENT->setVisible(GLOB->L->guitarEnabled);
   if (m_level.canBeSound()) {
     SOUND->acceptSettings();
@@ -1526,10 +1524,13 @@ QString TexamExecutor::saveExamToFile() {
 
 void TexamExecutor::repeatSound() {
   if (m_exam->curQ()->melody()) {
+      int nrTicksBefore = SOUND->tickBeforePlay() ? m_exam->curQ()->melody()->meter()->countTo() : 0;
+      SOUND->runMetronome(nrTicksBefore);
       SOUND->playMelody(m_exam->curQ()->melody(),
-                        m_exam->curQ()->melody()->key() != m_exam->curQ()->key ? m_exam->curQ()->melody()->key().difference(m_exam->curQ()->key) : 0);
-      if (SOUND->melodyIsPlaying()) // the same methods stops a melody
-        m_exam->curQ()->lastAttempt()->melodyWasPlayed(); // increase only when playing was started
+                        m_exam->curQ()->melody()->key() != m_exam->curQ()->key ? m_exam->curQ()->melody()->key().difference(m_exam->curQ()->key) : 0
+                       );
+      if (SOUND->melodyIsPlaying()) // the same method can stop a melody
+        m_exam->curQ()->lastAttempt()->melodyWasPlayed(); // so increase only when playing was started
   } else
       SOUND->play(m_exam->curQ()->qa.note);
   connectPlayingFinished();
@@ -1857,10 +1858,10 @@ TtipHandler* TexamExecutor::tipHandler() { return m_tipHandler; }
 
 
 bool TexamExecutor::showPitchView() const {
-  return m_exam == nullptr || (m_exam->count() && m_exam->curQ()->answerAsSound());
+  return m_exam && m_exam->count() && m_exam->curQ()->answerAsSound();
 }
 
 
-bool TexamExecutor::showPlayView() const {
-  return false;
+bool TexamExecutor::showRtmView() const {
+  return m_exam && m_exam->count() && (m_exam->curQ()->answerAsSound() || m_exam->curQ()->questionAsSound()) && m_level.useRhythms();
 }

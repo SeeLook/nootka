@@ -2,6 +2,7 @@
   Nootka says: I speak Italian
      - added Italian translation
      - metronome can tick audibly, also during pitch detection
+     - audible and/or visible countdown before playing and listening
      - added support for scientific octave numbers in note names
      - read/save melody title, composer, tempo, beat
      - level can consist set of melodies loaded from files

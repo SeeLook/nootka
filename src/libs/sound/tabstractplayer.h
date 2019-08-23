@@ -133,7 +133,7 @@ public:
 
   bool playNote(int noteNr);
   bool playNotes(QList<Tnote>* notes, int tempo, int firstNote = 0, int countdownDur = 0);
-  bool playMelody(Tmelody* melody, int transposition = 0);
+  bool playMelody(Tmelody* melody, int transposition = 0, int countdownDur = 0);
 
   enum EplayerType { e_audio, e_midi };
 
@@ -149,7 +149,7 @@ public:
        */
   int playingNoteId() const { return p_playingNoteId; }
 
-  void runMetronome(unsigned int beatTempo);
+  void setMetronome(unsigned int beatTempo);
   void stopMetronome();
   qint16 getBeatsample(unsigned int sampleNr) const { return m_beatArray[sampleNr]; }
 
@@ -158,6 +158,17 @@ public:
 
   bool tickDuringPlay() const;
   void setTickDuringPlay(bool tdp);
+
+      /**
+       * Number of metronome ticks before melody will be played.
+       * Also before audio input will be processed (pitch detection started).
+       * It counts down, so becomes null when done,
+       * so has to be set every time it is needed.
+       */
+  static int ticksCountBefore() { return p_ticksCountBefore; }
+  static void setTicksCountBefore(int tcb) { p_ticksCountBefore = tcb; }
+
+  bool doTicking() const;
 
 signals:
   void playingStarted();
@@ -202,6 +213,7 @@ protected:
   static unsigned int          p_beatBytes; /**< Number of bytes in single beat sample */
   static unsigned int          p_beatOffset; /**< Callback position in beat period */
   static bool                  p_lastNotePlayed; /**< @p TRUE set in callback only when last note just has been played */
+  static int                   p_ticksCountBefore; /**<   Number of metronome ticks before playing melody or sniffing */
 
 private:
   TplayerThread               *m_playThreaad;

@@ -57,7 +57,7 @@ class TexamExecutor : public QQuickItem
   Q_PROPERTY(TtipHandler* tipHandler READ tipHandler NOTIFY tipHandlerCreated)
   Q_PROPERTY(bool isExercise READ isExercise)
   Q_PROPERTY(bool showPitchView READ showPitchView NOTIFY questionChanged)
-  Q_PROPERTY(bool showPlayView READ showPlayView NOTIFY questionChanged)
+  Q_PROPERTY(bool showRtmView READ showRtmView NOTIFY questionChanged)
 
   friend class TexamSummary;
   friend class TnootkaCertificate;
@@ -75,7 +75,7 @@ public:
   TtipHandler* tipHandler();
 
   bool showPitchView() const;
-  bool showPlayView() const;
+  bool showRtmView() const;
 
       /**
        * Describes reason of starting executor

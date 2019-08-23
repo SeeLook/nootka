@@ -19,15 +19,13 @@ Item {
   height: parent.height * 0.9
   width: parent.width * 0.4
 
-  visible: !executor || executor.showPitchView
-
   // protected
   property real tickWidth: Screen.pixelDensity * 0.5
   property real tickGap: tickWidth * 1.4
 
   TempoBar {
     id: tempoBar
-    visible: !GLOB.singleNoteMode && GLOB.rhythmsEnabled
+    visible: !GLOB.singleNoteMode && GLOB.rhythmsEnabled && (!executor || executor.showRtmView)
     y: parent.height * 0.05
     width: parent.width
     height: parent.height * 0.45
@@ -35,6 +33,7 @@ Item {
 
   VolumeBar {
     id: volBar
+    visible: !executor || executor.showPitchView
     y: parent.height * (tempoBar.visible ? 0.55 : 0.27)
     width: parent.width
     height: parent.height * 0.45

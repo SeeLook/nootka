@@ -34,8 +34,7 @@ class TnoteStruct;
 
 /**
  * Class describing a musical melody - sequence of notes (Tchunk)
- * Also it is able to save/load a melody into/from MusicXML structure
- * Default tempo of a melody is 120 bpm.
+ * Also it is able to save/load a melody into/from MusicXML structure.
  */
 class NOOTKACORE_EXPORT Tmelody
 {
@@ -70,6 +69,16 @@ public:
 
   int tempo() const { return m_tempo; }
   void setTempo(int tmp) { m_tempo = tmp; }
+
+      /**
+       * Tempo of quarter notes (per minute), independent on beat unit
+       */
+  int quarterTempo() const { return Tmeter::quarterTempo(m_tempo, m_beat); }
+
+      /**
+       * Set both tempo and beat at once
+       */
+  void setMetronome(int mTempo, Tmeter::EbeatUnit beatUnit) { setTempo(mTempo); setBeat(beatUnit); }
 
   Tmeter::EbeatUnit beat() const { return m_beat; }
   void setBeat(Tmeter::EbeatUnit bu) { m_beat = bu; }
