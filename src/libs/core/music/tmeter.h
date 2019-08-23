@@ -49,13 +49,13 @@ public:
   Q_INVOKABLE void setMeter(Tmeter::Emeter m) { m_meter = m; }
 
       /**
-      * Returns upper digit of time signature
-      */
+       * Returns upper digit of time signature
+       */
   Q_INVOKABLE int upper() const;
 
       /**
-      * Returns lower digit of time signature
-      */
+       * Returns lower digit of time signature
+       */
   Q_INVOKABLE int lower() const;
 
       /**
@@ -65,10 +65,10 @@ public:
   Q_INVOKABLE QString symbol() const;
 
       /**
-      * Returns numeric value representing duration of single measure,
-      * which is based on Trhythm calculation (RVALUE)
-      * 3/4 is 72, 4/4 is 96 (RVALUE), etc. 
-      */
+       * Returns numeric value representing duration of single measure,
+       * which is based on Trhythm calculation (RVALUE)
+       * 3/4 is 72, 4/4 is 96 (RVALUE), etc. 
+       */
   Q_INVOKABLE int duration() const;
 
       /**
@@ -80,8 +80,8 @@ public:
   bool fromXml(QXmlStreamReader& xml);
 
       /**
-      * Prints current meter to std out with given text
-      */
+       * Prints current meter to std out with given text
+       */
   Q_INVOKABLE void debug(const QString& text = QString());
 
   bool operator==(const Tmeter& m) const { return meter() == m.meter(); }
@@ -113,6 +113,20 @@ public:
        * i.e.: for eighth note it is @p 2 as such as tempo with eighths is 2 times faster than tempo with quarters
        */
   Q_INVOKABLE static qreal beatTempoFactor(Tmeter::EbeatUnit bu);
+
+      /**
+       * Tempo of quarter notes (per minute), independent on beat unit
+       */
+  static int quarterTempo(int beatTempo, Tmeter::EbeatUnit beatUnit) {
+    return qRound(static_cast<qreal>(beatTempo) / beatTempoFactor(beatUnit));
+  }
+
+      /**
+       * Tempo of quarter notes (per minute), independent on beat unit
+       */
+  static int quarterTempo(int beatTempo, int beatUnit) {
+    return Tmeter::quarterTempo(beatTempo, static_cast<EbeatUnit>(beatUnit));
+  }
 
 private:
   Emeter        m_meter;

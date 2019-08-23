@@ -63,7 +63,7 @@ protected:
 #if defined(Q_OS_WIN)
   void ASIORestartSlot();
 #endif
-  
+
 
 protected:
   static TaudioOUT               *instance; /**< Static pointer of this class instance. */
@@ -71,8 +71,8 @@ protected:
   int                             ratioOfRate; /**< ratio of current sample rate to 44100 */
 
 private:
-  bool                          m_callBackIsBussy;
-  bool                          m_singleNotePlayed = false;
+  bool                            m_callBackIsBussy;
+  bool                            m_singleNotePlayed = false;
 
 };
 

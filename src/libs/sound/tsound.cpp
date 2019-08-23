@@ -94,7 +94,7 @@ void Tsound::play(const Tnote& note) {
   bool playing = true;
   if (player && note.isValid()) {
     m_stopSniffOnce = true;
-    player->runMetronome(0); // reset metronome
+    stopMetronome();
     playing = player->playNote(note.chromatic());
   }
 #if defined (Q_OS_ANDROID)
@@ -119,14 +119,14 @@ void Tsound::play(const Tnote& note) {
 }
 
 
-void Tsound::playMelody(Tmelody* mel, int transposition) {
+void Tsound::playMelody(Tmelody* mel, int transposition, int countdownDuration) {
   if (player && player->isPlayable()) {
     if (player->isPlaying()) {
         stopPlaying();
     } else {
         if (mel->length()) {
           m_stopSniffOnce = true;
-          player->playMelody(mel, transposition);
+          player->playMelody(mel, transposition, 0);
         }
     }
   }
@@ -137,10 +137,10 @@ void Tsound::playNoteList(QList<Tnote>& notes, int firstNote, int countdownDurat
   if (player) {
     if (!player->isPlaying()) {
         if (!notes.isEmpty()) {
-          player->runMetronome(m_tempo);
+          runMetronome(firstNote == 0 && tickBeforePlay() ? Tmeter(static_cast<Tmeter::Emeter>(m_currentMeter)).countTo() : 0);
           m_stopSniffOnce = true;
           player->playNotes(std::addressof(notes), // beat unit has to be converted to quarter here
-                            qRound(static_cast<qreal>(m_tempo) / Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(m_beatUnit))),
+                            Tmeter::quarterTempo(m_tempo, m_beatUnit),
                             firstNote,
                             countdownDuration);
         }
@@ -260,7 +260,6 @@ float Tsound::pitch() {
 
 void Tsound::setTempo(int t) {
   if (t != m_tempo && t > 39 && t < 181) {
-    //m_tempo = qRound(15000.0 / (qRound(15000.0 / static_cast<qreal>(t) / sniffer->chunkTime()) * sniffer->chunkTime()));
     m_tempo = t;
     emit tempoChanged();
   }
@@ -268,22 +267,50 @@ void Tsound::setTempo(int t) {
 
 
 void Tsound::setBeatUnit(int bu) {
-  if (bu != m_beatUnit) {
-    m_beatUnit = bu;
-    m_tempo *= Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(bu));
-    emit tempoChanged();
+  if (bu < 0 || bu > 3)
+      qDebug() << "[Tsound] FIXME! trying to set unsupported beat unit" << bu;
+  else {
+      if (bu != m_beatUnit) {
+        m_beatUnit = bu;
+        m_tempo *= Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(bu));
+        emit tempoChanged();
+      }
   }
 }
 
 
+void Tsound::setCurrentMeter(int curMet) {
+  m_currentMeter = curMet;
+}
+
+
+
 void Tsound::setMetronome(int t, int beat) {
   if (beat != m_beatUnit || t != m_tempo) {
-    int quarterTempo = t / Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(beat));
+    int quarterTempo = Tmeter::quarterTempo(t, beat);
     if (quarterTempo >= 40 && quarterTempo <= 180) {
       m_tempo = t;
       m_beatUnit = beat;
       emit tempoChanged();
     }
+  }
+}
+
+
+void Tsound::runMetronome(int preTicksNr) {
+  if (player && !m_metronomeIsRun && player->doTicking()) {
+    player->setMetronome(m_tempo);
+    if (player->tickBeforePlay() && preTicksNr) {
+      qreal preTicksSeconds = static_cast<qreal>(preTicksNr) * (60.0 / static_cast<qreal>(Tmeter::quarterTempo(m_tempo, m_beatUnit)));
+      while (preTicksSeconds < 2.0) { // Multiple number of pre-ticks if it is to short (less than 2 sec) - to give user time to catch up
+        preTicksNr += preTicksNr;
+        preTicksSeconds += preTicksSeconds;
+      }
+      player->setTicksCountBefore(preTicksNr /** Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(m_beatUnit))*/);
+      emit countdownPrepare(preTicksNr);
+    }
+    m_metronomeIsRun = true;
+    emit metroRunningChanged();
   }
 }
 
@@ -324,15 +351,14 @@ bool Tsound::playing() const {
 void Tsound::stopListen() {
   if (sniffer)
     sniffer->stopListening();
-  if (player)
-    player->stopMetronome();
+  stopMetronome();
 }
 
 
 void Tsound::startListen() {
   if (sniffer) {
-    if (player && player->tickDuringPlay())
-      player->runMetronome(qRound(static_cast<qreal>(m_tempo) / Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(m_beatUnit))));
+    if (!sniffer->stoppedByUser())
+      runMetronome(Tmeter(static_cast<Tmeter::Emeter>(m_currentMeter)).countTo());
     sniffer->startListening();
   }
 }
@@ -524,6 +550,7 @@ void Tsound::playingFinishedSlot() {
   }
   emit plaingFinished();
   emit playingChanged();
+  stopMetronome();
 }
 
 
@@ -541,7 +568,7 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
   if (note.pitch.isValid())
     m_detectedNote = note.pitch;
   if (GLOB->rhythmsEnabled()) {
-      qreal rFactor = 2500.0 / (m_tempo / Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(m_beatUnit)));
+      qreal rFactor = 2500.0 / Tmeter::quarterTempo(m_tempo, m_beatUnit);
       qreal dur = (note.duration * 1000.0) / rFactor;
       int quant = dur > 20.0 ? 12 : 6; // avoid sixteenth dots
       int normDur = qRound(dur / static_cast<qreal>(quant)) * quant;
@@ -594,4 +621,14 @@ void Tsound::selectNextNote() {
   if (player->playingNoteId() > -1 && player->playingNoteId() != NOO->selectedNoteId())
       NOO->selectPlayingNote(player->playingNoteId());
   emit playingNoteIdChanged();
+}
+
+
+void Tsound::stopMetronome() {
+  if (m_metronomeIsRun) {
+    if (player)
+      player->stopMetronome();
+    m_metronomeIsRun = false;
+    emit metroRunningChanged();
+  }
 }

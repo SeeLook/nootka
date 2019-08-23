@@ -63,17 +63,22 @@ void TplayerThread::run() {
                       GLOB->transposition(), static_cast<int>(m_player->p_audioParams->a440diff));
       m_listToPlay = nullptr;
   } else if (m_melodyToPlay) { // melody (from Tmelody)
-      for (int n = 0; n < m_melodyToPlay->length(); ++n) { // TODO: !! Where is beat unit of melody !!!!!!
+      qreal rateFactor = m_player->p_oggScale->sampleRate() / 1000.0;
+      if (m_player->p_countdownDur > 0)
+        playList() << TsingleSound(CNTDWN_ID, REST_NR, qRound(((m_player->p_countdownDur / 24.0) * (60000.0 / m_melodyToPlay->quarterTempo())) * rateFactor));
+      for (int n = 0; n < m_melodyToPlay->length(); ++n) {
         const Tnote& tmpN = m_melodyToPlay->note(n)->p();
-        int samplesDuration = qRound(((tmpN.duration() > 0 ? tmpN.duration() / 24.0 : 1.0) * (60000.0 / m_melodyToPlay->tempo())) * (m_player->p_oggScale->sampleRate() / 1000.0));
+        int samplesDur =
+          qRound(((tmpN.duration() > 0 ? tmpN.duration() / 24.0 : 1.0) * (60000.0 / m_melodyToPlay->quarterTempo())) * rateFactor);
         if (tmpN.rtm.tie() > Trhythm::e_tieStart) { // append duration if tie is continued or at end
           if (playList().isEmpty())
             continue; // do not start playing in the middle of tied notes
-            playList().last().samplesCount += samplesDuration;
+            playList().last().samplesCount += samplesDur;
         } else
           playList() << TsingleSound(n,
-                                    tmpN.isValid() ? tmpN.chromatic() + GLOB->transposition() + m_transposition + m_player->p_audioParams->a440diff : REST_NR,
-                                    samplesDuration);
+                                     tmpN.isValid() ? tmpN.chromatic() + GLOB->transposition() + m_transposition + m_player->p_audioParams->a440diff : REST_NR,
+                                     samplesDur
+                                    );
       }
       m_melodyToPlay = nullptr;
   }
@@ -93,11 +98,11 @@ void TplayerThread::preparePlayList(QList<Tnote>* notes, int tempo, int firstNot
     const Tnote& tmpN = notes->at(n);
     int samplesDuration = qRound(((tmpN.duration() > 0 ? tmpN.duration() / 24.0 : 1.0) * (60000.0 / tempo)) * (sampleRate / 1000.0));
     if (tmpN.rtm.tie() > Trhythm::e_tieStart) { // append duration if tie is continued or at end
-      if (playList().isEmpty())
-        continue; // do not start playing in the middle of tied notes
+        if (playList().isEmpty())
+          continue; // do not start playing in the middle of tied notes
         playList().last().samplesCount += samplesDuration;
     } else
-      playList() << TsingleSound(n, tmpN.isValid() ? tmpN.chromatic() + transposition + a440diff : REST_NR, samplesDuration);
+        playList() << TsingleSound(n, tmpN.isValid() ? tmpN.chromatic() + transposition + a440diff : REST_NR, samplesDuration);
   }
 }
 
@@ -120,6 +125,7 @@ unsigned int            TabstractPlayer::p_beatPeriod = 0;
 unsigned int            TabstractPlayer::p_beatBytes = 7984; // beat file frames number (initial, finally obtained from file)
 unsigned int            TabstractPlayer::p_beatOffset = 0;
 bool                    TabstractPlayer::p_lastNotePlayed = false;
+int                     TabstractPlayer::p_ticksCountBefore = 0;
 
 
 TabstractPlayer::TabstractPlayer(QObject* parent) :
@@ -164,12 +170,13 @@ bool TabstractPlayer::playNotes(QList<Tnote>* notes, int tempo, int firstNote, i
 }
 
 
-bool TabstractPlayer::playMelody(Tmelody* melody, int transposition) {
+bool TabstractPlayer::playMelody(Tmelody* melody, int transposition, int countdownDur) {
   if (!p_playable)
     return false;
   m_playThreaad->wait();
   m_playThreaad->setMelodyToPlay(melody);
   m_playThreaad->setTransposition(transposition);
+  p_countdownDur = countdownDur;
   m_playThreaad->start();
   return true;
 }
@@ -181,7 +188,7 @@ bool TabstractPlayer::playMelody(Tmelody* melody, int transposition) {
  * But of course, read it once, and store decoded data in array.
  * TODO: consider to save decoded data somewhere into cache.
  */
-void TabstractPlayer::runMetronome(unsigned int beatTempo) {
+void TabstractPlayer::setMetronome(unsigned int beatTempo) {
   if (!m_beatArray) {
     auto stdFile = fopen(Tpath::sound("beat").toStdString().c_str(), "r");
     if(!stdFile) {
@@ -215,7 +222,7 @@ void TabstractPlayer::runMetronome(unsigned int beatTempo) {
     ov_clear(&oggFile);
   }
   p_beatOffset = 0;
-  p_beatPeriod = beatTempo ? (44100 * 60) / beatTempo : 0;
+  p_beatPeriod = beatTempo ? (44100 * 60) / beatTempo : 0; //FIXME what if sample rate is 48000Hz?
 }
 
 
@@ -237,4 +244,9 @@ void TabstractPlayer::setTickDuringPlay(bool tdp) {
   if (p_audioParams)
     // TODO wait for busy callback to avoid cracks
     p_audioParams->audibleMetro = tdp;
+}
+
+
+bool TabstractPlayer::doTicking() const {
+  return p_audioParams && (p_audioParams->audibleMetro || p_audioParams->countBefore);
 }

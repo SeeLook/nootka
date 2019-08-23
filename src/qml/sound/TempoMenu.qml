@@ -9,7 +9,7 @@ import ".."
 
 
 Popup {
-  property alias tickEnable: metroVisibleChB.checked
+  property alias enableMetronome: metroVisibleChB.checked
   property alias count: countChB.checked
 
   margins: Noo.fontSize()
@@ -100,16 +100,18 @@ Popup {
     }
 
     TcheckBox {
+      x: Noo.fontSize()
       id: countChB
+      enabled: metroVisibleChB.checked
       text: qsTr("Count up")
       checked: true
     }
 
-    TcheckBox {
-      id: beforeTickChB
-      text: qsTr("Tick before")
-      checked: SOUND.tickBeforePlay
-    }
+//     TcheckBox {
+//       id: beforeTickChB
+//       text: qsTr("Tick before")
+//       checked: SOUND.tickBeforePlay
+//     }
 
     ButtonGroup { buttons: radioRow.children }
     Item {
@@ -147,7 +149,7 @@ Popup {
       onClicked: {
         SOUND.setMetronome(tempoSpin.value, beatUnitTumb.currentIndex)
         SOUND.quantization = radio16.checked ? 6 : 12 // See Tsound doc for values explanation
-        SOUND.tickBeforePlay = beforeTickChB.checked
+//         SOUND.tickBeforePlay = beforeTickChB.checked
         tempoSpin.value = SOUND.tempo
         accepted()
         close()

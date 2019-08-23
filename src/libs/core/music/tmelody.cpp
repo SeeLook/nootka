@@ -151,15 +151,21 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
   m_measures.clear();
   m_meter->setMeter(Tmeter::NoMeter);
   setTempo(0); // reset tempo, try to read from XML
+  int barNr = 0;
   while (xml.readNextStartElement()) {
 /** [measure] */
     if (xml.name() == QLatin1String("measure")) {
-      int nr = xml.attributes().value(QStringLiteral("number")).toInt();
-      m_measures << Tmeasure(nr);
+      int tmpBarNr = xml.attributes().value(QStringLiteral("number")).toInt();
+      barNr++;
+      if (tmpBarNr != barNr) {
+        qDebug() << "[Tmelody] Something wrong with measure numbers!" << barNr << "was expected, but" << tmpBarNr << "was read.\n"
+                 << "Better check integrity of this music XML file!";
+      }
+      m_measures << Tmeasure(barNr);
       while (xml.readNextStartElement()) {
 /** [attributes] */
         if (xml.name() == QLatin1String("attributes")) {
-          if (nr == 1) {
+          if (barNr == 1) {
             Tclef::EclefType clef1 = Tclef::NoClef, clef2 = Tclef::NoClef;
             int staffCnt = 1;
             while (xml.readNextStartElement()) {
@@ -283,8 +289,8 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
                           else
                             qDebug() << "[Tmelody] Metronome beat with dot only supports quarter. Ignore dot then!";
                         }
-                        int quarterTempo = tempoWillBe / Tmeter::beatTempoFactor(beatWillBe);
-                        if (nr == 1 || tempo() == 0) { // read metronome tempo but only for 1st bar or if not yet set
+                        int quarterTempo = Tmeter::quarterTempo(tempoWillBe, beatWillBe);
+                        if (barNr == 1 || tempo() == 0) { // read metronome tempo but only for 1st bar or if not yet set
                           if (quarterTempo >= 40 && quarterTempo <= 180) {
                               setTempo(tempoWillBe);
                               setBeat(beatWillBe);
@@ -310,15 +316,15 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
         else
             xml.skipCurrentElement();
       }
-      if (lastMeasure().number() != m_measures.size()) {
-        qDebug() << "[Tmelody] Wrong measure number" << lastMeasure().number() << m_measures.size();
-      }
     } else
         xml.skipCurrentElement();
 
   }
-  if (tempo() == 0)
-    setTempo(120);
+  if (tempo() == 0) {
+    setBeat(m_meter->optimalBeat());
+    setTempo(qRound(60.0 * Tmeter::beatTempoFactor(m_beat)));
+    qDebug() << "[Tmelody] Tempo was not read from this melody file. Set it to" << m_tempo << "with beat" << m_beat;
+  }
   return ok;
 }
 

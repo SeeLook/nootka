@@ -45,6 +45,7 @@
     <file alias="sound/TempoMenu.qml">qml/sound/TempoMenu.qml</file>
     <file alias="sound/IntonationBar.qml">qml/sound/IntonationBar.qml</file>
     <file alias="sound/TunerDialog.qml">qml/sound/TunerDialog.qml</file>
+    <file alias="sound/CountdownItem.qml">qml/sound/CountdownItem.qml</file>
 
     <file alias="score/Score.qml">qml/score/Score.qml</file>
     <file alias="score/Staff.qml">qml/score/Staff.qml</file>

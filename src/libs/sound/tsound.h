@@ -40,10 +40,10 @@ class TaudioIN;
  * @class Tsound is a wrapper of @p TaudioIN & @p TaudioOUT classes
  * to manage them. It enables/disables them depends on @p Tglobals,
  * pauses sniffing when playback is proceeding.
- * Also it has got @p TpitchView to show volume meter & pitch detection state.
  *
  * It has single instance available through @p instance()
- * defined also as a macro @p SOUND
+ * defined also as a macro @p SOUND, also available from QML under this name.
+ * It exposes needed properties and methods to QML
  */
 class NOOTKASOUND_EXPORT Tsound : public QObject
 {
@@ -61,6 +61,7 @@ class NOOTKASOUND_EXPORT Tsound : public QObject
   Q_PROPERTY(bool tickBeforePlay READ tickBeforePlay WRITE setTickBeforePlay NOTIFY tickStateChanged)
   Q_PROPERTY(bool tickDuringPlay READ tickDuringPlay WRITE setTickDuringPlay NOTIFY tickStateChanged)
   Q_PROPERTY(int playingNoteId READ playingNoteId NOTIFY playingNoteIdChanged)
+  Q_PROPERTY(bool metroRunning READ metroRunning NOTIFY metroRunningChanged)
 
   friend class TtunerDialogItem;
 
@@ -81,7 +82,7 @@ public:
 
   Q_INVOKABLE void play(const Tnote& note);
 
-  void playMelody(Tmelody* mel, int transposition = 0);
+  void playMelody(Tmelody* mel, int transposition = 0, int countdownDuration = 0);
 
   void playNoteList(QList<Tnote>& notes, int firstNote, int countdownDuration = 0);
 
@@ -136,7 +137,23 @@ public:
   int beatUnit() const { return m_beatUnit; }
   void setBeatUnit(int bu);
 
+      /**
+       * Currently set meter in main score.
+       * Due to main score lays above sound in libraries hierarchy,
+       * main score controls it when its meter changes
+       */
+  Q_INVOKABLE int currentMeter() const { return m_currentMeter; }
+  Q_INVOKABLE void setCurrentMeter(int curMet);
+
   Q_INVOKABLE void setMetronome(int t, int beat);
+
+      /**
+       * Runs metronome routines placed in @p player but only when @p tickBeforePlay or @p tickDuringPlay are set.
+       * If @p preTicksNr is set and @p tickBeforePlay is enabled,
+       * calculates tick number to countdown before playing or listening.
+       * Emits @p countdownPrepare(int preTicksNr) to initialize QML part of pre-ticking
+       */
+  void runMetronome(int preTicksNr = 0);
 
       /**
        * Quantization value determines accuracy of detecting rhythm of played note by its duration.
@@ -165,6 +182,13 @@ public:
   int playingNoteId() const;
 
       /**
+       * Property about state of a metronome.
+       * It is automatically initialized when @p runMetronome() is invoked
+       * and disabled when playing and listening are not performed
+       */
+  bool metroRunning() { return m_metronomeIsRun; }
+
+      /**
        * Prepares sound to exam.
        * Given notes in params are level range notes and are put to sniffer ambitus.
        */
@@ -182,7 +206,6 @@ public:
        */
   bool tunerMode() const { return m_tunerMode; }
   void setTunerMode(bool isTuner);
-
 
 #if !defined (Q_OS_ANDROID)
   void setDumpFileName(const QString& fName);
@@ -202,6 +225,8 @@ signals:
   void tunerModeChanged();
   void tickStateChanged();
   void playingNoteIdChanged();
+  void metroRunningChanged();
+  void countdownPrepare(int tickCount);
 
       /**
        * When sound got initialized at the very beginning
@@ -215,6 +240,8 @@ private:
   void deleteSniffer();
   void restoreSniffer(); /**< Brings back sniffer & pitch view state as such as before settings dialog */
 
+  void stopMetronome();
+
   Tnote                   m_detectedNote; /**< detected note */
   bool                    m_examMode = false;
   bool                    m_tunerMode = false;
@@ -223,7 +250,9 @@ private:
   Tmelody                *m_playedMelody;
   int                     m_tempo;
   int                     m_beatUnit = 0; /**< corresponds with Tmeter::EbeatUnit enum. Quarter by default */
+  int                     m_currentMeter = 0;
   int                     m_quantVal;
+  bool                    m_metronomeIsRun = false;
 
   static Tsound          *m_instance;
 

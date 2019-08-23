@@ -89,7 +89,7 @@ int Tmeter::countTo() const {
     case Meter_7_8: return 7;
     case Meter_9_8:
     case Meter_12_8: return 3;
-    default: return 2;
+    default: return 4;
   }
 }
 
@@ -191,8 +191,10 @@ void Tmeter::fillMeterGroups(QList<quint8>& durationList) {
 
 
 Tmeter::EbeatUnit Tmeter::optimalBeat(Tmeter::Emeter m) {
-  if (m <= Meter_7_4) // all time signatures with quarter
+  if (m <= Meter_7_4) // all time signatures with quarter, also when no meter NoMeter
     return BeatQuarter;
+  if (m == Meter_6_8 || m == Meter_9_8 || m == Meter_12_8)
+    return BeatQuarterDot;
   return BeatEighth;
 }
 

@@ -166,6 +166,8 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
     }
   });
   connect(m_scoreObj, &TscoreObject::stavesHeightChanged, this, &TmainScoreObject::checkExtraStaves);
+  connect(m_scoreObj, &TscoreObject::meterChanged, this, [=]{ SOUND->setCurrentMeter(m_scoreObj->meterToInt()); });
+  SOUND->setCurrentMeter(m_scoreObj->meterToInt());
 }
 
 
@@ -547,8 +549,6 @@ void TmainScoreObject::playScoreSlot() {
     if (m_scoreObj->selectedItem() && m_scoreObj->selectedItem()->index() > 0)
       countDownDur = m_scoreObj->selectedItem()->measure()->durationBefore(m_scoreObj->selectedItem());
   }
-  if (SOUND->tickBeforePlay() && countDownDur == 0) // do not count before when playing starts in the middle of a bar
-    countDownDur += m_scoreObj->meter()->duration();
   SOUND->playNoteList(m_scoreObj->noteList(), m_scoreObj->selectedItem() ? m_scoreObj->selectedItem()->index() : 0, countDownDur);
 }
 
