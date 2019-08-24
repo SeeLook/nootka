@@ -49,8 +49,8 @@ class NOOTKASOUND_EXPORT TrtAudio
 {
 
 public:
-  enum EdevType {  e_input, e_output  };
-  typedef bool (*callBackType)(void*, unsigned int, const RtAudioStreamStatus&);
+  enum EdevType { e_input, e_output };
+  typedef bool (*callBackType)(void*, void*, unsigned int); // output, input, frames number
 
   TrtAudio(TaudioParams *audioP, TrtAudio::EdevType type, TrtAudio::callBackType cb);
   ~TrtAudio();
@@ -118,9 +118,9 @@ protected:
   void deleteInParams() { delete m_inParams; m_inParams = nullptr; }
 
       /**
-       * Sets pointer to appropriate callback method to 0.
+       * Sets pointer to appropriate callback method to null.
        */
-  void resetCallBack() { if (m_type == e_input) m_cbIn = 0; else m_cbOut = 0; }
+  void resetCallBack() { if (m_type == e_input) m_cbIn = nullptr; else m_cbOut = nullptr; }
 
       /**
        * Examines available sample rates to check more appropriate.
@@ -176,7 +176,6 @@ protected:
 
 private:
   static int duplexCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*);
-  static int passInputCallBack(void *outBuffer, void *inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*);
   static int playCallBack(void *outBuffer, void*, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*);
   static int listenCallBack(void*, void *inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*);
 

@@ -48,20 +48,18 @@ QStringList TaudioIN::getAudioDevicesList() {
 }
 
 
-bool TaudioIN::inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& st) {
+bool TaudioIN::inCallBack(void*, void* inBuff, unsigned int nBufferFrames) {
   if (m_goingDelete || instance()->isStoped())
     return true;
-  if (st)
-    qDebug() << "[TaudioIN] input buffer underflow";
 
   instance()->finder()->copyToBuffer(inBuff, nBufferFrames);
   return false;
 }
 
 
-
 TaudioIN*               TaudioIN::m_instance = nullptr;
 bool                    TaudioIN::m_goingDelete = false;
+
 
 //#################################################################################################
 //###################              CONSTRUCTOR         ############################################
@@ -83,6 +81,7 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject* parent) :
   connect(ao(), &TaudioObject::paramsUpdated, this, &TaudioIN::updateSlot);
   connect(ao(), &TaudioObject::playingFinished, this, &TaudioIN::playingFinishedSlot);
 }
+
 
 TaudioIN::~TaudioIN()
 {
@@ -118,7 +117,7 @@ void TaudioIN::setAudioInParams() {
 
 void TaudioIN::startListening() {
   if (!streamParams()) {
-      qDebug() << "Can not start listening due to uninitialized input";
+      qDebug() << "[TrtAudioIn] Can not start listening due to uninitialized input";
       return;
   }
   if (detectingState() != e_detecting) {

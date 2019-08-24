@@ -213,22 +213,20 @@ TrtAudio::~TrtAudio()
 
 void TrtAudio::updateAudioParams() {
 // reopen audio device only when necessary
-  if (forceUpdate || (m_inParams && m_inDevName != audioParams()->INdevName) || (m_outParams && m_outDevName != m_audioParams->OUTdevName) ||
-      (audioParams()->forwardInput && m_callBack == &duplexCallBack) || (!audioParams()->forwardInput && m_callBack == &passInputCallBack) ) {
+  if (forceUpdate || (m_inParams && m_inDevName != audioParams()->INdevName) || (m_outParams && m_outDevName != m_audioParams->OUTdevName)) {
     closeStream();
 #if defined (Q_OS_LINUX) || defined (Q_OS_WIN)
     setJACKorASIO(audioParams()->JACKorASIO);
 #endif
-    forceUpdate = false; // no more
+    forceUpdate = false; // reset
     m_paramsUpdated = true;
-    if (audioParams()->forwardInput || getCurrentApi() == RtAudio::WINDOWS_ASIO)
+//     if (audioParams()->forwardInput || getCurrentApi() == RtAudio::WINDOWS_ASIO)
       m_areSplit = false;
-    else
-      m_areSplit = true;
-
-    //FIXME This is temporary solution to force duplex mode and allow ticking during listening
-    //      It has to be default behaviour
-    m_areSplit = false;
+//     else
+//       m_areSplit = true;
+    // FIXME This is temporary solution to force duplex mode and allow ticking during listening
+    //      It has to be default behavior
+    // TODO and clean the code then
 
   // preparing devices
     int inDevId = -1, outDevId = -1;
@@ -323,9 +321,9 @@ void TrtAudio::updateAudioParams() {
 #if !defined (Q_OS_MAC) // Mac has reaction for this flag - it opens streams with 15 buffer frames
     streamOptions->flags |= RTAUDIO_MINIMIZE_LATENCY;
 #endif
-    if (audioParams()->forwardInput && m_inParams && m_outParams)
-        m_callBack = &passInputCallBack;
-    else
+//     if (audioParams()->forwardInput && m_inParams && m_outParams)
+//         m_callBack = &passInputCallBack;
+//     else
         m_callBack = &duplexCallBack;
   }
   ao()->emitParamsUpdated();
@@ -380,6 +378,9 @@ bool TrtAudio::openStream() {
             return false;
           }
       } else if (!rtDevice()->isStreamOpen()) {
+          // TODO: Seems like PulseAudio (probably WasAPI also) can nicely work with small, even 64bit buffer
+          // Of course it makes sense only when input is forwarding
+          // set it somewhere here and add option in audio settings
           rtDevice()->openStream(m_outParams, m_inParams, RTAUDIO_SINT16, sampleRate(), &m_bufferFrames, m_callBack, nullptr, streamOptions);
           qDebug() << "[TrtAudio] audio opened in duplex mode";
       }
@@ -419,9 +420,9 @@ bool TrtAudio::openStream() {
 
 void TrtAudio::apiStopOrClose() {
   if (getCurrentApi() == RtAudio::LINUX_ALSA)
-      closeStream();
+    closeStream();
   else
-      stopStream();
+    stopStream();
 }
 
 
@@ -604,33 +605,26 @@ void TrtAudio::restartASIO() {
 //###################              PRIVATE             ############################################
 //#################################################################################################
 int TrtAudio::duplexCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
+//   Q_UNUSED(status)
+  if (status & RTAUDIO_INPUT_OVERFLOW)
+    qDebug() << "[TrtAudio] input buffer overflow";
+  else if (status & RTAUDIO_OUTPUT_UNDERFLOW)
+    qDebug() << "[TrtAudio] output buffer underflow";
+
   if (m_cbOut) {
-    if (m_cbOut(outBuffer, nBufferFrames, status)) {
+    if (m_cbOut(outBuffer, inBuffer, nBufferFrames)) {
       if (m_cbIn)
-        m_cbIn(inBuffer, nBufferFrames, status);
+        m_cbIn(nullptr, inBuffer, nBufferFrames);
     }
   } else if (m_cbIn)
-      m_cbIn(inBuffer, nBufferFrames, status);
-  return 0;
-}
-
-
-int TrtAudio::passInputCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
-  auto in = static_cast<qint16*>(inBuffer);
-  auto out = static_cast<qint16*>(outBuffer);
-  if (m_cbOut(outBuffer, nBufferFrames, status)) { // none playing is performed
-    for (int i = 0; i < nBufferFrames; i++) { // then forward input
-      *out++ = *(in + i); // left channel
-      *out++ = *(in + i); // right channel
-    }
-  }
-  m_cbIn(inBuffer, nBufferFrames, status);
+      m_cbIn(nullptr, inBuffer, nBufferFrames);
   return 0;
 }
 
 
 int TrtAudio::playCallBack(void* outBuffer, void*, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
-  if (m_cbOut(outBuffer, nBufferFrames, status)) {
+  Q_UNUSED(status)
+  if (m_cbOut(nullptr, outBuffer, nBufferFrames)) {
     if (m_sendPlayingFinished) {
       m_sendPlayingFinished = false;
       ao()->emitPlayingFinished();
@@ -641,7 +635,8 @@ int TrtAudio::playCallBack(void* outBuffer, void*, unsigned int nBufferFrames, d
 
 
 int TrtAudio::listenCallBack(void*, void* inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
-  m_cbIn(inBuffer, nBufferFrames, status);
+  Q_UNUSED(status)
+  m_cbIn(nullptr, inBuffer, nBufferFrames);
   return 0;
 }
 
