@@ -73,11 +73,8 @@ qint16 mix(qint16 sampleA, qint16 sampleB) {
 }
 
 
-bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status) {
-  Q_UNUSED(status)
+bool TaudioOUT::outCallBack(void* outBuff, void* inBuff, unsigned int nBufferFrames) {
   instance->m_callBackIsBussy = true;
-//   if (status) // It doesn't harm if occurs
-//       qDebug() << "[trtaudioout] Stream underflow detected!";
 
   bool endState = true;
   if (!instance->playList().isEmpty() && p_playingNoteNr < instance->playList().size() && p_ticksCountBefore == 0) {
@@ -171,6 +168,9 @@ bool TaudioOUT::outCallBack(void* outBuff, unsigned int nBufferFrames, const RtA
               p_beatPeriod = 0;
           }
         }
+        if (instance->audioParams()->forwardInput)
+          beatSample = mix(beatSample, *(static_cast<qint16*>(inBuff) + i));
+
         for (int r = 0; r < instance->ratioOfRate; r++) {
           *out++ = beatSample; // left channel
           *out++ = beatSample; // right channel
@@ -339,7 +339,7 @@ void TaudioOUT::stop() {
   p_lastPosOfPrev = 0;
   p_isPlaying = false;
   p_ticksCountBefore = 0;
-  if (areStreamsSplit() /*|| getCurrentApi() == RtAudio::LINUX_PULSE*/)
+  if (areStreamsSplit() || getCurrentApi() == RtAudio::LINUX_PULSE)
     closeStream();
   else
     abortStream();

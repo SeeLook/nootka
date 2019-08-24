@@ -50,7 +50,7 @@ public:
   void setAudioOutParams();
 
 protected:
-  static bool outCallBack(void* outBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& status);
+  static bool outCallBack(void* outBuff, void* inBuff, unsigned int nBufferFrames);
 
   void decodeNextSlot();
 

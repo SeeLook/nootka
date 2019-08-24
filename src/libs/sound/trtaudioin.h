@@ -35,7 +35,7 @@ class NOOTKASOUND_EXPORT TaudioIN : public TcommonListener, public TrtAudio
     Q_OBJECT
 
 public:
-    explicit TaudioIN(TaudioParams *params, QObject *parent = 0);
+    explicit TaudioIN(TaudioParams *params, QObject *parent = nullptr);
     ~TaudioIN();
 
   static TaudioIN* instance() { return m_instance; }
@@ -58,7 +58,7 @@ public slots:
   virtual void stopListening();
 
 protected:
-  static bool inCallBack(void* inBuff, unsigned int nBufferFrames, const RtAudioStreamStatus& st);
+  static bool inCallBack(void*, void* inBuff, unsigned int nBufferFrames);
 
 
 #if defined(Q_OS_WIN)
