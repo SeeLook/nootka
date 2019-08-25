@@ -121,9 +121,10 @@ Tflickable {
             id: repeatTile
             anchors.horizontalCenter: undefined
             width: Math.max(repeatChB.width + Noo.fontSize() * 4, qPage.width * 0.3)
-            description: qsTranslate("Texam", "Listen to a melody and repeat it on your instrument")
+            description: "<b>Not yet implemented!</b><br>" + qsTranslate("Texam", "Listen to a melody and repeat it on your instrument")
             TcheckBox {
               id: repeatChB
+              enabled: false
               anchors.horizontalCenter: parent.horizontalCenter
               text: qsTranslate("Texam", "repeat melody")
               checked: creator.repeatMelody

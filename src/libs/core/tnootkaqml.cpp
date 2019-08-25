@@ -423,7 +423,7 @@ void TnootkaQML::setQmlEngine(QQmlEngine* e) {
   m_settingsAct->setTip(QApplication::translate("TtoolBar", "Application preferences"), QQuickItem::TopRight);
   m_levelAct = new Taction(QApplication::translate("TtoolBar", "Level"), QStringLiteral("levelCreator"), this);
   connect(m_levelAct, &Taction::triggered, this, &TnootkaQML::levelActTriggered);
-  m_levelAct->setTip(QApplication::translate("TtoolBar", "Levels creator"), QQuickItem::TopRight);
+  m_levelAct->setTip(QApplication::translate("TtoolBar", "Level creator"), QQuickItem::TopRight);
   m_chartsAct = new Taction(QApplication::translate("TtoolBar", "Analyze"), QStringLiteral("charts"), this);
   connect(m_chartsAct, &Taction::triggered, this, &TnootkaQML::chartsActTriggered);
   m_chartsAct->setTip(tr("Analysis of exam results"), QQuickItem::TopRight);

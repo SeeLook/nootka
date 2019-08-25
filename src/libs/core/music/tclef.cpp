@@ -35,7 +35,7 @@ QString Tclef::name() const {
     case Bass_F:
       return QApplication::translate("Tclef", "bass");
     case Bass_F_8down:
-      return QApplication::translate("Tclef", "bass dropped");
+      return QStringLiteral("bass dropped"); // just in case it would appear somewhere - but if shouldn't - not used any more
     case Alto_C:
       return QApplication::translate("Tclef", "alto");
     case Tenor_C:

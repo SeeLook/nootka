@@ -536,10 +536,6 @@
         <source>Note by note</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Edit</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>MaxIntervalTile</name>
@@ -556,6 +552,14 @@
     <name>MelGenDialog</name>
     <message>
         <source>Measures number</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MelodyListView</name>
+    <message>
+        <source>Add here melodies from Music XML files.
+Consider to divide long pieces on parts in external software first.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1499,6 +1503,14 @@
         <source>Tuner</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Countdown before playing or listening.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audible metronome.&lt;br&gt;Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TempoMenu</name>
@@ -1511,23 +1523,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enable metronome ticking</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Count up</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Tick first, then play</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Tick during play</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Tick when pitch detecting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1536,6 +1532,10 @@
     </message>
     <message>
         <source>round to:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Metronome visible</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1662,6 +1662,22 @@
     <message>
         <source>correct answer
 (enter)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>finish exercising</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>stop the exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Such a pity.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1956,7 +1972,7 @@
     </message>
 </context>
 <context>
-    <name>TglobalSettings</name>
+    <name>GlobalPage</name>
     <message>
         <source>Select a language.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;To take effect, this requires restarting the application!&lt;/span&gt;</source>
         <translation type="unfinished"></translation>
@@ -2963,7 +2979,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Levels creator</source>
+        <source>Level creator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3062,6 +3078,13 @@
     </message>
 </context>
 <context>
+    <name>TupdateChecker</name>
+    <message>
+        <source>Checking for updates. Please wait...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TupdateRulesWdg</name>
     <message>
         <source>check for Nootka updates</source>
@@ -3095,10 +3118,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>News:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3108,6 +3127,10 @@
     </message>
     <message>
         <source>Updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To get it, visit %1 Nootka site</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
