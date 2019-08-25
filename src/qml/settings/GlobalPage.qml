@@ -21,7 +21,7 @@ Tflickable {
     width: parent.width
 
     Tile {
-      description: qsTranslate("TglobalSettings", "Select a language.<br><span style=\"color: red;\">To take effect, this requires restarting the application!</span>")
+      description: qsTr("Select a language.<br><span style=\"color: red;\">To take effect, this requires restarting the application!</span>")
 
       ListModel {
         id: langModel
@@ -60,7 +60,7 @@ Tflickable {
             }
             Text {
               anchors.horizontalCenter: parent.horizontalCenter
-              text: flag === "" ? qsTranslate("TglobalSettings", lang) : lang
+              text: flag === "default" ? qsTr(lang) : lang
               color: activPal.text
               font { bold: langTumb.currentIndex === index; pixelSize: Noo.fontSize() * 0.8 }
             }
@@ -118,7 +118,7 @@ Tflickable {
         anchors.horizontalCenter: parent.horizontalCenter
         TcuteButton {
           anchors.horizontalCenter: parent.horizontalCenter
-          text: qsTranslate("TglobalSettings", "Check for updates")
+          text: qsTr("Check for updates")
           onClicked: dialogObj.checkForUpdates()
         }
         Text {
@@ -158,18 +158,18 @@ Tflickable {
     Item { height: Noo.fontSize() * 3; width: parent.width }
 
     Tile {
-      description: qsTranslate("TglobalSettings", "All settings will be reset to their default values!<br>Nootka will start up with the first-run wizard.")
+      description: qsTr("All settings will be reset to their default values!<br>Nootka will start up with the first-run wizard.")
       descriptionColor: "red"
       TcuteButton {
         anchors.horizontalCenter: parent.horizontalCenter
-        text: qsTranslate("TglobalSettings", "Restore all default settings")
+        text: qsTr("Restore all default settings")
         onClicked: restoreDialog.open()
         MessageDialog {
           id: restoreDialog
           icon: StandardIcon.Critical
           standardButtons: StandardButton.Ok | StandardButton.Abort
-          title: qsTranslate("TglobalSettings", "Restore all default settings")
-          text: qsTranslate("TglobalSettings", "All settings will be reset to their default values!<br>Nootka will start up with the first-run wizard.")
+          title: qsTr("Restore all default settings")
+          text: qsTr("All settings will be reset to their default values!<br>Nootka will start up with the first-run wizard.")
           onAccepted: {
             Noo.setResetConfig(true)
             Qt.quit()

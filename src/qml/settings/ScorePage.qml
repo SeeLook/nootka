@@ -130,7 +130,7 @@ Column {
           spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
           TcheckBox {
             id: enableKeyChB
-            text: qsTr("enable key signature")
+            text: qsTr("use key signatures")
             anchors.horizontalCenter: parent.horizontalCenter
             checked: GLOB.keySignatureEnabled
           }

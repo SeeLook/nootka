@@ -11,7 +11,7 @@ if [ ! -f "$SRC_DIR/main.cpp" ]; then
   exit
 fi
 
-for TS in $(ls *.ts); do
+for TS in $(ls nootka_*.ts); do
   echo $TS
-  lupdate-qt5 -recursive $SRC_DIR -ts $TS
+#   lupdate -recursive $SRC_DIR -ts $TS
 done

@@ -78,7 +78,7 @@ Tflickable {
         width: parent.width
         TcheckBox {
           id: useKeysChB
-          text: Noo.TR("TscoreSettings", "enable key signature")
+          text: Noo.TR("ScorePage", "use key signatures")
           anchors.horizontalCenter: parent.horizontalCenter
           checked: creator.useKeySign
           onClicked: creator.useKeySign = checked

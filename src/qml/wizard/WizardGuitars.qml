@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2018-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -44,6 +44,6 @@ Column {
     wrapMode: Text.WordWrap; textFormat: Text.StyledText
     horizontalAlignment: Text.AlignHCenter
     color: activPal.text
-    text: "<b><font size=\"5\">Both pictures above show the same note!</font></b><br>(note c in one-line octave)"
+    text: "<b><font size=\"5\">" + qsTr("Both pictures above show the same note!%1(note c in one-line octave)").arg("</font></b><br>")
   }
 }

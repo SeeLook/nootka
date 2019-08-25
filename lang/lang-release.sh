@@ -10,7 +10,9 @@ if [ ! -f  nootka_pl.ts ]; then
   exit
 fi
 
-for TS in $(ls *.ts); do
-  echo ${TS%.*}
-  lrelease-qt5 ${TS%.*}.ts -qm ${TS%.*}.qm
+for TS in $(ls nootka_*.ts); do
+  if [ ! "$(echo $TS|grep _xx )" ]; then
+    echo ${TS%.*}
+    lrelease ${TS%.*}.ts -qm ${TS%.*}.qm
+  fi
 done

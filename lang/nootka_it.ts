@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="it_IT">
+<TS version="2.1" language="it_IT">
 <context>
     <name>AccidsPage</name>
     <message>
@@ -134,7 +134,7 @@
     <message>
         <source>Not bad, but:</source>
         <comment>&apos;Not so bad, but:&apos; is perfectly clear, but a little less common in US English. To be a bit shorter, it might just as well be, &apos;Not bad, but:&apos;</comment>
-        <translation>Non male, ma...</translation>
+        <translation>Non male, ma:</translation>
     </message>
     <message>
         <source>wrong string</source>
@@ -143,7 +143,7 @@
     <message>
         <source>little valid notes</source>
         <comment>the amount of correct notes in an answer is little</comment>
-        <translation>Alcune note sono corrette, altre no.</translation>
+        <translation>alcune note sono corrette, altre no</translation>
     </message>
     <message>
         <source>poor effectiveness</source>
@@ -376,6 +376,22 @@
         <source>scale</source>
         <translation>scala</translation>
     </message>
+    <message>
+        <source>Select a language.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;To take effect, this requires restarting the application!&lt;/span&gt;</source>
+        <translation>Seleziona una lingua.&lt;br&gt;&lt;span style=&quot;color: red&quot;&gt;Affinché le modifiche abbiano luogo, riavviare l&apos;applicazione.&lt;/span&gt;</translation>
+    </message>
+    <message>
+        <source>Check for updates</source>
+        <translation>Controllo aggiornamenti disponibili</translation>
+    </message>
+    <message>
+        <source>Restore all default settings</source>
+        <translation>Ripristina le impostazioni predefinite</translation>
+    </message>
+    <message>
+        <source>All settings will be reset to their default values!&lt;br&gt;Nootka will start up with the first-run wizard.</source>
+        <translation>Tutte le impostazioni saranno resettate ai loro valori predefiniti!&lt;br&gt;Nootka si avvierà come la prima volta.</translation>
+    </message>
 </context>
 <context>
     <name>InstrumentPage</name>
@@ -527,7 +543,7 @@
     </message>
     <message>
         <source>exit</source>
-        <translation>esci</translation>
+        <translation type="vanished">esci</translation>
     </message>
 </context>
 <context>
@@ -538,7 +554,7 @@
     </message>
     <message>
         <source>Edit</source>
-        <translation>Modifica</translation>
+        <translation type="vanished">Modifica</translation>
     </message>
 </context>
 <context>
@@ -557,6 +573,14 @@
     <message>
         <source>Measures number</source>
         <translation>Numero di battute</translation>
+    </message>
+</context>
+<context>
+    <name>MelodyListView</name>
+    <message>
+        <source>Add here melodies from Music XML files.
+Consider to divide long pieces on parts in external software first.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -665,12 +689,12 @@
     <message>
         <source>b</source>
         <comment>Give here a name of 7-th note preferred in your country. But only &apos;b&apos; or &apos;h&apos; not &apos;si&apos; or something worst...</comment>
-        <translation>si</translation>
+        <translation>b</translation>
     </message>
     <message>
         <source>letters</source>
         <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country preferred style of naming key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
-        <translation>Nomenclatura anglosassone</translation>
+        <translation>solfege</translation>
     </message>
 </context>
 <context>
@@ -974,7 +998,7 @@
         <translation>colore del cursore delle note</translation>
     </message>
     <message>
-        <source>enable key signature</source>
+        <source>use key signatures</source>
         <translation>abilita l&apos;armatura di chiave</translation>
     </message>
     <message>
@@ -1073,7 +1097,7 @@
     </message>
     <message>
         <source>split when volume rise</source>
-        <translation>dividi quando il volume sale del:</translation>
+        <translation>dividi quando il volume sale del</translation>
     </message>
     <message>
         <source>Skips stiller sounds, below given percent of average volume. It prevents detecting of harmonics on classical or acoustic guitar but requires playing with similar strength.</source>
@@ -1424,7 +1448,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>bass dropped</source>
-        <translation>basso ottavato</translation>
+        <translation type="vanished">basso ottavato</translation>
     </message>
     <message>
         <source>alto</source>
@@ -1501,6 +1525,14 @@ non è un file di esame valido!</translation>
         <source>Tuner</source>
         <translation>Accordatore</translation>
     </message>
+    <message>
+        <source>Countdown before playing or listening.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audible metronome.&lt;br&gt;Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TempoMenu</name>
@@ -1514,7 +1546,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Enable metronome ticking</source>
-        <translation>Attiva il click del metronomo</translation>
+        <translation type="vanished">Attiva il click del metronomo</translation>
     </message>
     <message>
         <source>Count up</source>
@@ -1522,15 +1554,15 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Tick first, then play</source>
-        <translation>Prima il click, poi suona</translation>
+        <translation type="vanished">Prima il click, poi suona</translation>
     </message>
     <message>
         <source>Tick during play</source>
-        <translation>Click durante la riproduzione</translation>
+        <translation type="vanished">Click durante la riproduzione</translation>
     </message>
     <message>
         <source>Tick when pitch detecting</source>
-        <translation>Click quando vi è il riconoscimento dell&apos;altezza</translation>
+        <translation type="vanished">Click quando vi è il riconoscimento dell&apos;altezza</translation>
     </message>
     <message>
         <source>Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy.</source>
@@ -1539,6 +1571,10 @@ non è un file di esame valido!</translation>
     <message>
         <source>round to:</source>
         <translation>arrotonda a:</translation>
+    </message>
+    <message>
+        <source>Metronome visible</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1667,6 +1703,22 @@ non è un file di esame valido!</translation>
 (enter)</source>
         <translation>correggi la risposta (enter)</translation>
     </message>
+    <message>
+        <source>finish exercising</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>stop the exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Such a pity.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TexamHelp</name>
@@ -1696,7 +1748,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source> Briefly: Nootka give you a question and you give an answer...</source>
-        <translation>In breve: Nootka ti pone una domanda, tu dai la risposta...</translation>
+        <translation> In breve: Nootka ti pone una domanda, tu dai la risposta...</translation>
     </message>
     <message>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
@@ -1959,25 +2011,6 @@ non è un file di esame valido!</translation>
     </message>
 </context>
 <context>
-    <name>TglobalSettings</name>
-    <message>
-        <source>Select a language.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;To take effect, this requires restarting the application!&lt;/span&gt;</source>
-        <translation>Seleziona una lingua.&lt;br&gt;&lt;span style=&quot;color: red&quot;&gt;Affinché le modifiche abbiano luogo, riavviare l&apos;applicazione.&lt;/span&gt;</translation>
-    </message>
-    <message>
-        <source>Check for updates</source>
-        <translation>Controllo aggiornamenti disponibili</translation>
-    </message>
-    <message>
-        <source>Restore all default settings</source>
-        <translation>Ripristina le impostazioni predefinite</translation>
-    </message>
-    <message>
-        <source>All settings will be reset to their default values!&lt;br&gt;Nootka will start up with the first-run wizard.</source>
-        <translation>Tutte le impostazioni saranno resettate ai loro valori predefiniti!&lt;br&gt;Nootka si avvierà come la prima volta.</translation>
-    </message>
-</context>
-<context>
     <name>TgraphicsLine</name>
     <message>
         <source>progress line</source>
@@ -2134,7 +2167,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Some note of C-major scale point on the instrument, or give its name or show in the score.</source>
-        <translation>Alcune note della scala di Do maggiore verranno segnate sullo strumento, saranno o da nominare o da segnare sul pentagramma</translation>
+        <translation>Alcune note della scala di Do maggiore verranno segnate sullo strumento, saranno o da nominare o da segnare sul pentagramma.</translation>
     </message>
     <message>
         <source>All chromatic notes till 5th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
@@ -2395,7 +2428,7 @@ Controlla se tutto i parametri sono corretti.</translation>
     </message>
     <message>
         <source>Shows names of all notes on the staff.</source>
-        <translation>Mostra il nome di tutte le nore sullo spartito</translation>
+        <translation>Mostra il nome di tutte le nore sullo spartito.</translation>
     </message>
     <message>
         <source>Additional accidentals</source>
@@ -2803,7 +2836,7 @@ Controlla se tutto i parametri sono corretti.</translation>
     </message>
     <message>
         <source>No thanks, but check entire melody from now.</source>
-        <translation>No, grazie.Ma controlla l&apos;intera melodia da adesso. </translation>
+        <translation>No, grazie.Ma controlla l&apos;intera melodia da adesso.</translation>
     </message>
 </context>
 <context>
@@ -2971,7 +3004,7 @@ Controlla se tutto i parametri sono corretti.</translation>
         <translation>Livello</translation>
     </message>
     <message>
-        <source>Levels creator</source>
+        <source>Level creator</source>
         <translation>Generatore di livelli</translation>
     </message>
     <message>
@@ -3070,6 +3103,13 @@ Controlla se tutto i parametri sono corretti.</translation>
     </message>
 </context>
 <context>
+    <name>TupdateChecker</name>
+    <message>
+        <source>Checking for updates. Please wait...</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TupdateRulesWdg</name>
     <message>
         <source>check for Nootka updates</source>
@@ -3104,30 +3144,34 @@ Controlla se tutto i parametri sono corretti.</translation>
     </message>
     <message>
         <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
-        <translation>Per scaricarla, visita &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;il sito ufficiale di Nootka</translation>
+        <translation type="vanished">Per scaricarla, visita &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;il sito ufficiale di Nootka</translation>
     </message>
     <message>
         <source>News:</source>
-        <translation>Novità</translation>
+        <translation>Novità:</translation>
     </message>
     <message>
         <source>No changes found.&lt;br&gt;This version is up to date.</source>
-        <translation>Non è stata trovata nessuna versione nuova. &lt;br&gt; Quella che hai è già aggiornata alla più recente</translation>
+        <translation>Non è stata trovata nessuna versione nuova. &lt;br&gt; Quella che hai è già aggiornata alla più recente.</translation>
     </message>
     <message>
         <source>Updates</source>
         <translation>Aggiornamenti</translation>
+    </message>
+    <message>
+        <source>To get it, visit %1 Nootka site</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>VolumeBar</name>
     <message>
         <source>Volume level of input sound.</source>
-        <translation>Volume in ingresso</translation>
+        <translation>Volume in ingresso.</translation>
     </message>
     <message>
         <source>Drag a knob to adjust minimum input volume.</source>
-        <translation>Trascina la manopola per aggiustare il volume minimo di ingresso</translation>
+        <translation>Trascina la manopola per aggiustare il volume minimo di ingresso.</translation>
     </message>
     <message>
         <source>Start/stop pitch detection</source>
@@ -3161,6 +3205,10 @@ Controlla se tutto i parametri sono corretti.</translation>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below &lt;br&gt;(even if some editors are forgetting about this digit).&lt;br&gt;Try to understand this.</source>
         <translatorcomment>Actually I am not sure that it is a must the digit eight below. Check Berben edition. Or to double check try to see piccolo flute parts: no eight above...</translatorcomment>
         <translation>La chitarra si scrive in chiave di violino (chiave di SOL), ma i suoi suoni reali sono tutti un&apos;ottava sotto da quella scritta.</translation>
+    </message>
+    <message>
+        <source>Both pictures above show the same note!%1(note c in one-line octave)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
