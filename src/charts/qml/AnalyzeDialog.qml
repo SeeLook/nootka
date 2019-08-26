@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2018-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -19,6 +19,7 @@ Window {
 
   /** private */
   property var helpTip: null
+  property int upTextSize: Math.round(toolBar.height * 0.25)
 
   function openExam() {
     if (allowOpen)
@@ -85,66 +86,75 @@ Window {
         Item { height: 2; width: analyzeWindow.width / 100 }
         Column {
           visible: chartItem.isMelody
-          spacing: toolBar.height / 20
           Text {
             anchors.horizontalCenter: parent.horizontalCenter
             text: qsTr("Y value:")
-            font { pixelSize: toolBar.height / 4 }
-            color: activPal.text
+            font { pixelSize: upTextSize }
+            color: activPal.text;  verticalAlignment: Text.AlignVCenter
+            height: toolBar.height * 0.5
           }
           ComboBox {
             id: yCombo
-            width: analyzeWindow.width / 7
-            font { pixelSize: toolBar.height / 4 }
+            width: analyzeWindow.width / 7; height: toolBar.height * 0.48
+            font { pixelSize: toolBar.height / 5 }
             model: chartItem.yValueActions
             delegate: ItemDelegate { text: modelData }
             currentIndex: chartItem.yValue
             onActivated: chartItem.yValue = index
+            background: Rectangle {
+              anchors.fill: parent
+              color: activPal.base
+            }
           }
         }
         Item { height: 2; width: analyzeWindow.width / 100 }
         Column {
-          spacing: toolBar.height / 20
           Text {
             anchors.horizontalCenter: parent.horizontalCenter
             text: qsTr("ordered by:", "Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...")
-            font { pixelSize: toolBar.height / 4 }
-            color: activPal.text
+            font { pixelSize: upTextSize }
+            color: activPal.text; verticalAlignment: Text.AlignVCenter
+            height: toolBar.height * 0.5
           }
           ComboBox {
             id: orderCombo
-            width: analyzeWindow.width / 7
-            font { pixelSize: toolBar.height / 4 }
+            width: analyzeWindow.width / 7; height: toolBar.height * 0.48
+            font { pixelSize: toolBar.height / 5 }
             model: chartItem.xOrderActions
             delegate: ItemDelegate { text: modelData }
             currentIndex: chartItem.xOrder
             onActivated: chartItem.xOrder = index
+            background: Rectangle {
+              anchors.fill: parent
+              color: activPal.base
+            }
           }
         }
         Item { height: 2; width: analyzeWindow.width / 100 }
         Column {
-          spacing: toolBar.height / 20
           Text {
             anchors.horizontalCenter: parent.horizontalCenter
             text: qsTr("student name:")
-            font { pixelSize: toolBar.height / 4 }
-            color: activPal.text
+            font { pixelSize: upTextSize }
+            color: activPal.text; verticalAlignment: Text.AlignVCenter
+            height: toolBar.height * 0.5
           }
           Text {
             anchors.horizontalCenter: parent.horizontalCenter
             text: chartItem.userName === "" ? "-----" : chartItem.userName
             font { pixelSize: toolBar.height / 4; bold: true }
-            color: activPal.text
+            color: activPal.text;  verticalAlignment: Text.AlignVCenter
+            height: toolBar.height * 0.5
           }
         }
         Item { height: 2; width: analyzeWindow.width / 100 }
         Column {
-          spacing: toolBar.height / 20
           Text {
             anchors.horizontalCenter: parent.horizontalCenter
             text: qsTr("level:")
-            font { pixelSize: toolBar.height / 4 }
-            color: activPal.text
+            font { pixelSize: upTextSize }
+            color: activPal.text; verticalAlignment: Text.AlignVCenter
+            height: toolBar.height * 0.5
           }
           Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
@@ -172,12 +182,13 @@ Window {
         }
         Item { height: 2; width: analyzeWindow.width / 100 }
         Column {
-          spacing: toolBar.height / 20
           Text {
             anchors.horizontalCenter: parent.horizontalCenter
             text: chartItem.questionCount
-            font { pixelSize: toolBar.height / 4 }
+            font { pixelSize: upTextSize }
             color: activPal.text; horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            height: toolBar.height * 0.5
           }
           Text {
             anchors.horizontalCenter: parent.horizontalCenter
@@ -240,5 +251,6 @@ Window {
       var h = Qt.createComponent("qrc:/charts/ChartHelpTip.qml")
       helpTip = h.createObject(analyzeWindow.contentItem, { "text": chartItem.chartHelpText() } )
     }
+    SOUND.stop()
   }
 }
