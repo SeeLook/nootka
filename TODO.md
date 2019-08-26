@@ -1,5 +1,5 @@
-![Nootka logo](./picts/logo.png)
-#...to play scores#
+#Nootka
+###...to play scores#
 
 ***
 
@@ -28,6 +28,8 @@
   - adding actually edited score melody to current level
   - editing melody from currently selected/composed level
   - switch for selecting imported melodies from the list one by one or in random order
+  - add violin support and revert pitch accuracy check.
+    It has small usage for currently supported instruments, but for violin can be perfect
   - support for triplets
   - exams control melody tempo, either fixed value from melody or random from declared range (or increased every question)
   - viewing entire melody in stats, playing them and single notes as well

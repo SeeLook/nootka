@@ -2376,7 +2376,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>To give an answer, select it on &lt;span style=&quot;%1&quot;&gt;Nootka&apos;s element with that color.&lt;/span&gt;&lt;br&gt;</source>
-        <translation>Da odgovorite, ga izberite &lt;span style=&quot;%1&quot;&gt;na Nootkinem elementu s to barvo.&lt;/span&gt;&lt;br&gt;</translation>
+        <translation>Za podajanje odgovora, izberite &lt;span style=&quot;%1&quot;&gt;Nootkin element s to barvo.&lt;/span&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <source>To check the answer confirm it:</source>
@@ -2408,7 +2408,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Just click this settings button to adjust an exercise or an exam to your current needs.</source>
-        <translation>Kliknite le ta nastavitveni gumb za nastavitev vadbe ali izpita vašim trenutnim potrebam.</translation>
+        <translation>Le kliknete na nastavitveni gumb za nastavitev vadbe ali izpita vašim trenutnim potrebam.</translation>
     </message>
     <message>
         <source>GOOD LUCK!</source>
@@ -3951,10 +3951,10 @@ Consider to divide long pieces on parts in external software first.</source>
     <message numerus="yes">
         <source>semitone(s)</source>
         <translation>
-        <numerusform>polton</numerusform>
-        <numerusform>poltona</numerusform>
-        <numerusform>poltoni</numerusform>
-        <numerusform>poltoni</numerusform>
+            <numerusform>polton</numerusform>
+            <numerusform>poltona</numerusform>
+            <numerusform>poltoni</numerusform>
+            <numerusform>poltoni</numerusform>
         </translation>
     </message>
     <message>
