@@ -244,7 +244,7 @@
     </message>
     <message>
         <source>color of &apos;not bad&apos; answers</source>
-        <translation>Colore della risposta &quot;non male, ma...&quot;</translation>
+        <translation>Colore di una risposta &quot;non male, ma...&quot;</translation>
     </message>
     <message>
         <source>suggest an exam</source>
@@ -292,7 +292,7 @@
     </message>
     <message>
         <source>If checked, an application will not ask to answer pending question just mark it as wrong, save an exam to file (in directory: %1) and close itself without any confirmation needed.</source>
-        <translation>Se attivato, l&apos;applicazione non chiederà la risposta la domanda in corso e la segnerà come sbagliata, salverà l&apos;esame su un file (nella directory: %1) e si chiuderà senza bisogno di conferme.</translation>
+        <translation>Se attivato, l&apos;applicazione non chiederà di rispondere alla domanda in corso e la segnerà come sbagliata, salverà l&apos;esame su un file (nella directory: %1) e si chiuderà senza bisogno di conferme.</translation>
     </message>
     <message>
         <source>Experts mode</source>
@@ -370,11 +370,11 @@
     </message>
     <message>
         <source>Scaling factor of visible texts and others GUI elements.&lt;br&gt;Requires application restart.</source>
-        <translation>Scala del testo visibile e altri elementi dell&apos;interfaccia grafica.&lt;br&gt;Richiede il riavvio dell&apos;applicazione.</translation>
+        <translation>Scalatura del testo e altri elementi dell&apos;interfaccia grafica.&lt;br&gt;Richiede il riavvio dell&apos;applicazione.</translation>
     </message>
     <message>
         <source>scale</source>
-        <translation>scala</translation>
+        <translation>scalatura</translation>
     </message>
     <message>
         <source>Select a language.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;To take effect, this requires restarting the application!&lt;/span&gt;</source>
@@ -441,15 +441,15 @@
     </message>
     <message>
         <source>Choose which accidentals will be shown on the staff.</source>
-        <translation>Scegli quali alterazioni verranno mostrate nel pentagramma.</translation>
+        <translation>Scegli se mostrare sul pentagramma diesis o bemolli.</translation>
     </message>
     <message>
         <source>show all possibilities of a note</source>
-        <translation>mostra tutte le possibilità di una nota</translation>
+        <translation>mostra tutte le possibili posizioni di una nota</translation>
     </message>
     <message>
         <source>As you know, the same note can be played in several places on the fingerboard.&lt;br&gt;If checked, all of them will be shown.</source>
-        <translation>Come sai, la stessa nota può essere suonata in diverse posizioni sulla tastiera. &lt;br&gt;Se selezionato, tutte le possibilità verranno mostrate.</translation>
+        <translation>Come sai, la stessa nota può essere suonata in diverse posizioni sulla tastiera delle chitarra. &lt;br&gt;Se selezionato, tutte le possibilità verranno mostrate.</translation>
     </message>
     <message>
         <source>marked frets</source>
@@ -789,7 +789,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>if checked, note names are switched between letters and solfege.</source>
-        <translation>Se selezionato, i nomi delle note sarà passata da quella anglosassone a quella classica.</translation>
+        <translation>Se selezionato, la nomenclatura sarà passata sia quella anglosassone che quella classica.</translation>
     </message>
     <message>
         <source>show string number in questions</source>
@@ -896,7 +896,7 @@ Consider to divide long pieces on parts in external software first.</source>
     <name>RhythmsPage</name>
     <message>
         <source>Select any rhythm and time signature to be used in this level, otherwise melodies will not have rhythmic values, just bare note-heads.</source>
-        <translation>Seleziona un ritmo e un metro per questo livello, altrimenti le melodie non avranno valori ritmici, solo semplici note senza gambo.</translation>
+        <translation type="unfinished">fsSeleziona un ritmo e un metro per questo livello, altrimenti le melodie non avranno valori ritmici, ma solo semplici note senza gambo.</translation>
     </message>
     <message>
         <source>Number of measures in a melody. If &apos;variable&apos; is set, it will grow up to the given value as an exercise or an exam is progressing.</source>
@@ -923,7 +923,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Key signatures</source>
-        <translation>Armatura di chiave</translation>
+        <translation>Tonalità</translation>
     </message>
     <message>
         <source>Clefs</source>
@@ -935,11 +935,11 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Use rhythms or only bare note heads.</source>
-        <translation>Usa rimti o solo senza ritmo.</translation>
+        <translation>Scegliere se avere un parametro ritmico definito o si preferiscono semplici note senza gambo.</translation>
     </message>
     <message>
         <source>enable rhythms</source>
-        <translation>abilita ritmi</translation>
+        <translation>abilita parametri ritmici</translation>
     </message>
     <message>
         <source>Octave numbers</source>
@@ -967,7 +967,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>When enabled, a score displays only a single note.</source>
-        <translation>Quando attivo, uno spartito mostra solo una singola nota.</translation>
+        <translation>Quando attivo,lo spartito mostra solo una singola nota.</translation>
     </message>
     <message>
         <source>use single note only</source>
@@ -975,7 +975,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Shows enharmonic variants of notes.&lt;br&gt;i.e.: the note E is also Fb (F flat) &lt;i&gt;and&lt;/i&gt; Dx (D with double sharp).</source>
-        <translation>Mostra le possibili varianti enarmoniche delle note. &lt;br&gt;per esempio: la nota Mi è anche Fa bemolle &lt;i&gt;e&lt;i&gt; Re doppiodiesis.</translation>
+        <translation>Mostra le possibili varianti enarmoniche delle note. &lt;br&gt;per esempio: la nota Mi è anche Fa bemolle &lt;i&gt;e&lt;/i&gt; Re doppiodiesis.</translation>
     </message>
     <message>
         <source>show enharmonic variants of notes</source>
@@ -999,11 +999,11 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>use key signatures</source>
-        <translation>abilita l&apos;armatura di chiave</translation>
+        <translation>attiva armature di chiave (tonalità)</translation>
     </message>
     <message>
         <source>show names of key signature</source>
-        <translation>mostra i nomi della armatura di chiave</translation>
+        <translation>mostra i nomi delle tonalità</translation>
     </message>
     <message>
         <source>Naming extension</source>
@@ -1053,7 +1053,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Only sounds longer than the selected time will be pitch-detected.&lt;br&gt;Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness.</source>
-        <translation>Verrà analizzata l&apos;altezza solo dei suoni più lunghi della durata selezionata. &lt;br&gt;Selezionando un valore minimo più lingo, si eviterà di catturare suoni indesiderati, ma diminuirà la velocità di risposta.</translation>
+        <translation>Verrà analizzata l&apos;altezza solo dei suoni più lunghi della durata selezionata. &lt;br&gt;Selezionando un valore minimo più lungo, si eviterà di catturare suoni indesiderati, ma diminuirà la velocità di risposta.</translation>
     </message>
     <message>
         <source>minimum note duration</source>
@@ -1804,7 +1804,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>ask next question automatically</source>
-        <translation>possa alla domanda successi automaticamente</translation>
+        <translation>passa alla domanda successiva automaticamente</translation>
     </message>
     <message>
         <source>or right mouse button</source>
@@ -1816,7 +1816,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>To get question</source>
-        <translation>Per ottenere una domanda</translation>
+        <translation>Per una domanda</translation>
     </message>
     <message>
         <source>press &lt;b&gt;space&lt;/b&gt; key</source>
@@ -2246,7 +2246,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Seems like this level has some mistakes</source>
-        <translation>Sembra che questo livello non abbia errori</translation>
+        <translation>Sembra che questo livello abbia  qualche errore</translation>
     </message>
 </context>
 <context>
@@ -2284,7 +2284,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>none</source>
-        <translation>nulla</translation>
+        <translation>nessuna</translation>
     </message>
     <message>
         <source>proper octave is required</source>
@@ -2368,7 +2368,7 @@ Controlla se tutto i parametri sono corretti.</translation>
     <name>TmainHelp</name>
     <message>
         <source>Much depends on the chosen level. Press %1 button to create your own questions set (a level).</source>
-        <translation>Molto dipende dal livelo scelto. Premi %1 per creare le tue domande (un livello).</translation>
+        <translation>Molto dipende dal livelo scelto. Premi %1 per creare la tua raccolta di domande (un livello personalizzato).</translation>
     </message>
     <message>
         <source>Select a level and warm up yourself exercising. Then try to pass an exam.</source>
@@ -2401,7 +2401,7 @@ Controlla se tutto i parametri sono corretti.</translation>
     </message>
     <message>
         <source>Press %1 buttons to see help and %2 button to adjust Nootka to your preference.</source>
-        <translation>Premi il tasto %1 per aiuto e il tasto %2 per adattare Nootka alle tue preferenze.</translation>
+        <translation>Premi il tasto %1 per ottenere aiuto e il tasto %2 per adattare Nootka alle tue preferenze.</translation>
     </message>
     <message>
         <source>II. Exercises and exams</source>
@@ -2530,7 +2530,7 @@ Controlla se tutto i parametri sono corretti.</translation>
     <message>
         <source>Student &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; has been awarded the</source>
         <comment>2nd line, single indent</comment>
-        <translation>L&apos;allievo&lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; ha conseguito</translation>
+        <translation>L&apos;allievo &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; ha conseguito</translation>
     </message>
     <message>
         <source>&lt;h1&gt;Certificate Of Exam Completion&lt;/h1&gt;</source>
@@ -2551,7 +2551,7 @@ Controlla se tutto i parametri sono corretti.</translation>
         <source>&lt;small&gt;&lt;i&gt;examining board:&lt;/i&gt;&lt;br&gt;&lt;i&gt;president:&lt;/i&gt;&lt;b&gt; Nootka itself&lt;/b&gt;&lt;br&gt;&lt;b&gt;professor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Mrs RAM&lt;/b&gt; his assistant&lt;br&gt;&lt;i&gt;secretary:&lt;/i&gt;&lt;b&gt; Mr Disk&lt;/b&gt;&lt;/small&gt;</source>
         <comment>Right aligned and centered</comment>
         <translatorcomment>:</translatorcomment>
-        <translation>&lt;small&gt;&lt;i&gt;commissione:&lt;/i&gt;&lt;br&gt;&lt;i&gt;presidente:&lt;/i&gt;&lt;b&gt;Nootka in persona&lt;/b&gt;&lt;br&gt;&lt;b&gt;prof. Processore &lt;/b&gt;&amp;amp;&lt;br&gt;&lt;b&gt;Sig.ra RAM &lt;/b&gt;suo assistente&lt;br&gt;&lt;i&gt;il segretario: &lt;/i&gt;&lt;b&gt;Sig. Disco&lt;/b&gt;&lt;/small&gt;</translation>
+        <translation>&lt;small&gt;&lt;i&gt;commissione:&lt;/i&gt;&lt;br&gt;&lt;i&gt;presidente:&lt;/i&gt;&lt;b&gt;Nootka in persona&lt;/b&gt;&lt;br&gt;&lt;b&gt;prof. Processore &lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Sig.ra RAM&lt;/b&gt; suo assistente&lt;br&gt;&lt;i&gt;il segretario: &lt;/i&gt;&lt;b&gt; Sig. Disco&lt;/b&gt;&lt;/small&gt;</translation>
     </message>
     <message>
         <source>&lt;i&gt;stamp&lt;/i&gt;</source>
@@ -2668,7 +2668,7 @@ Controlla se tutto i parametri sono corretti.</translation>
     <name>Transposition</name>
     <message>
         <source>Transposition</source>
-        <translation>Trasposizione</translation>
+        <translation>Trasporto</translation>
     </message>
     <message numerus="yes">
         <source>semitone(s)</source>
