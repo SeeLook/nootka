@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -16,22 +16,24 @@ Tumbler {
   visibleItemCount: Math.min(((width / (height * 0.7)) / 2) * 2 - 1, 7)
   model: 8
   delegate: Component {
-    Column {
-      spacing: instrTumb.height / 40
+    Item {
       opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
-      scale: 1.7 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
+      scale: (1.7 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)) * (textMa.pressed ? 0.8 : 1.0)
       Text {
+        id: instrGlyph
+        property color tc: Noo.randomColor()
         font {family: "nootka"; pixelSize: instrTumb.height * 0.3 }
         text: Noo.instr(modelData).glyph
         anchors.horizontalCenter: parent.horizontalCenter
-        color: instrTumb.currentIndex === modelData ? activPal.highlightedText : activPal.text
+        color: instrTumb.currentIndex === modelData ? activPal.highlightedText : tc
         MouseArea {
+          id: textMa
           anchors.fill: parent
           onClicked: instrTumb.currentIndex = modelData
         }
       }
       Text {
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors { horizontalCenter: parent.horizontalCenter; top: instrGlyph.bottom }
         width: instrTumb.height * 0.8
         text: Noo.instr(modelData).name.replace(" ", "\n")
         horizontalAlignment: Text.AlignHCenter
