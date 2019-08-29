@@ -35,57 +35,37 @@ Tflickable {
       text: qsTranslate("TaboutNootka", "editing and/or recording of samples:") + "<br><b>Sergei Ivanov (tico-tico)</b><br>"
     }
     TextBackground { text: qsTranslate("TaboutNootka", "Translators"); }
-    Grid {
-      columns: 4
-      spacing: Noo.fontSize() / 2
-      columnSpacing: Noo.fontSize() * 2; rowSpacing: Noo.fontSize() / 2
-      verticalItemAlignment: Grid.AlignVCenter
+
+    ListModel {
+      id: trModel
+      ListElement { flag:"cs"; lang: "český";       trr: "Pavel Fric";      web: "<a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>" }
+      ListElement { flag:"de"; lang: "deutsch";     trr: "Johann C. Weihe,<br>Renato Reinau"; web: "" }
+      ListElement { flag:"es"; lang: "español";     trr: "José Luis Marín"; web: "<a href=\"mailto:jsls@gmx.com\">jsls@gmx.com</a>" }
+      ListElement { flag:"fr"; lang: "français";    trr: "Olivier Devineau,<br>Jean-Marc Lartigue"; web: "" }
+      ListElement { flag:"hu"; lang: "magyar";      trr: "Gábor Kertész";   web: "<a href=\"mailto:kergab@gmail.com\">kergab@gmail.com</a>"  }
+      ListElement { flag:"it"; lang: "italiano";    trr: "Gianluca 'Kununna' Fiorentino"; web: "" }
+      ListElement { flag:"pl"; lang: "polski";      trr: "Tomasz Bojczuk";  web: "<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>" }
+      ListElement { flag:"ru"; lang: "русский";     trr: "Sergei Ivanov (tico-tico),<br>Timur Artykov"; web: "" }
+      ListElement { flag:"sl"; lang: "slovenščina"; trr: "Grega Trček";     web: "" }
+    }
+
+    Column {
       anchors.horizontalCenter: parent.horizontalCenter
-
-      Image { sourceSize.height: Noo.fontSize() * 3; source: Noo.pix("flags/cs"); }
-      Text { text: "český"; textFormat: Text.StyledText; color: activPal.text }
-      Text { text: "Pavel Fric "; color: activPal.text; font.bold: true }
-      LinkText { text: "<a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>" }
-
-      Image { sourceSize.height: Noo.fontSize() * 3; source: Noo.pix("flags/de") }
-      Text { text: "deutsch"; textFormat: Text.StyledText; color: activPal.text}
-      Text { text: "Johann C. Weihe,<br>Renato Reinau"; font.bold: true; color: activPal.text }
-      Item { width: 10; height: 10 }
-
-      Image { sourceSize.height: Noo.fontSize() * 3; source: Noo.pix("flags/es") }
-      Text { text: "español"; textFormat: Text.StyledText; color: activPal.text }
-      Text { text: "José Luis Marín"; font.bold: true; color: activPal.text }
-      LinkText { text: "<a href=\"mailto:jsls@gmx.com\">jsls@gmx.com</a>" }
-
-      Image { sourceSize.height: Noo.fontSize() * 3; source: Noo.pix("flags/fr") }
-      Text { text: "français"; textFormat: Text.StyledText; color: activPal.text }
-      Text { text: "Olivier Devineau,<br>Jean-Marc Lartigue"; font.bold: true; color: activPal.text }
-      Item { width: 10; height: 10 }
-
-      Image { sourceSize.height: Noo.fontSize() * 3; source: Noo.pix("flags/hu") }
-      Text { text: "magyar"; textFormat: Text.StyledText; color: activPal.text }
-      Text { text: "Gábor Kertész"; font.bold: true; color: activPal.text }
-      LinkText { text: "<a href=\"mailto:kergab@gmail.com\">kergab@gmail.com</a>" }
-
-      Image { sourceSize.height: Noo.fontSize() * 3; source: Noo.pix("flags/it") }
-      Text { text: "italiano"; textFormat: Text.StyledText; color: activPal.text }
-      Text { text: "Gianluca Fiorentino"; font.bold: true; color: activPal.text }
-      Item { width: 10; height: 10 }
-
-      Image { sourceSize.height: Noo.fontSize() * 3; source: Noo.pix("flags/pl") }
-      Text { text: "polski"; textFormat: Text.StyledText; color: activPal.text }
-      Text { text: "Tomasz Bojczuk"; font.bold: true; color: activPal.text }
-      LinkText { text: "<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>" }
-
-      Image { sourceSize.height: Noo.fontSize() * 3; source: Noo.pix("flags/ru") }
-      Text { text: "русский"; textFormat: Text.StyledText; color: activPal.text }
-      Text { text: "Sergei Ivanov (tico-tico),<br>Timur Artykov"; font.bold: true; color: activPal.text }
-      Item { width: 10; height: 10 }
-
-      Image { sourceSize.height: Noo.fontSize() * 3; source: Noo.pix("flags/sl") }
-      Text { text: "slovenščina"; textFormat: Text.StyledText; color: activPal.text }
-      Text { text: "Grega Trček"; font.bold: true; color: activPal.text }
-      Item { width: 10; height: 10 }
+      spacing: Noo.fontSize() / 2
+      Repeater {
+        model: trModel
+        Row {
+          spacing: Noo.fontSize()
+          Image { height: Noo.fontSize() * 3; width: height; source: Noo.pix("flags/" + flag); anchors.verticalCenter: parent.verticalCenter }
+          Text { text: lang; textFormat: Text.PlainText; color: activPal.text; width: Noo.fontSize() * 9; anchors.verticalCenter: parent.verticalCenter  }
+          Text {
+            text: trr; color: activPal.text; font.bold: true;
+            textFormat: Text.StyledText; width: Noo.fontSize() * 16; fontSizeMode: Text.Fit; minimumPixelSize: Noo.fontSize() / 2;  minimumPointSize: minimumPixelSize
+            anchors.verticalCenter: parent.verticalCenter
+          }
+          LinkText { text: web; anchors.verticalCenter: parent.verticalCenter }
+        }
+      }
     }
 
     TextBackground { text: qsTranslate("TaboutNootka", "Other projects"); }

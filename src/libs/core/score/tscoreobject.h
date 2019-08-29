@@ -118,6 +118,8 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(Taction* sixteenthNoteAct READ sixteenthNoteAct)
   Q_PROPERTY(Taction* restNoteAct READ restNoteAct)
   Q_PROPERTY(Taction* dotNoteAct READ dotNoteAct)
+  Q_PROPERTY(Taction* riseAct READ riseAct)
+  Q_PROPERTY(Taction* lowerAct READ lowerAct)
 
   friend class TstaffItem;
   friend class TmeasureObject;
@@ -416,6 +418,8 @@ public:
   Taction* sixteenthNoteAct() { return m_sixteenthNoteAct; }
   Taction* restNoteAct() { return m_restNoteAct; }
   Taction* dotNoteAct() { return m_dotNoteAct; }
+  Taction* riseAct() { return m_riseAct; }
+  Taction* lowerAct() { return m_lowerAct; }
 
   Q_INVOKABLE void enableActions();
 
@@ -697,6 +701,8 @@ private:
   Taction                          *m_restNoteAct = nullptr;
   Taction                          *m_dotNoteAct = nullptr;
   Taction                          *m_insertNoteAct = nullptr;
+  Taction                          *m_riseAct = nullptr;
+  Taction                          *m_lowerAct = nullptr;
 
 };
 
