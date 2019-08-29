@@ -17,7 +17,8 @@ Rectangle {
   width: parent.width - Noo.fontSize()
   implicitHeight: Noo.fontSize() * 2.8
   anchors.horizontalCenter: parent.horizontalCenter
-  color: ma.containsPress ? activPal.highlight : (ma.containsMouse ? Noo.alpha(activPal.highlight, 50) : "transparent"  /*activPal.button*/)
+  color: ma.containsPress ? activPal.highlight : (ma.containsMouse ? Noo.alpha(activPal.highlight, 50) : "transparent")
+  enabled: !action || action.enabled
 
   signal clicked()
 
@@ -40,6 +41,7 @@ Rectangle {
     anchors.verticalCenter: parent.verticalCenter
     scale: GLOB.useAnimations && !ma.pressed && ma.containsMouse ? 1.2 : 1.0
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
+    visible: menuButton.enabled
   }
   Text {
     id: butText
@@ -47,7 +49,7 @@ Rectangle {
     anchors.verticalCenter: parent.verticalCenter
     text: action ? action.text : ""
     font.bold: true
-    color: activPal.text
+    color: enabled ? activPal.text : disdPal.text
     width: parent.width - x - Noo.fontSize() - (shortText ? shortText.width : 0)
     fontSizeMode: Text.Fit; minimumPixelSize: Noo.fontSize() / 2; minimumPointSize: minimumPixelSize
     elide: Text.ElideRight
@@ -70,7 +72,7 @@ Rectangle {
       text: action.key()
       font.pixelSize: Noo.fontSize() * 0.8
       x: menuButton.width - width - Noo.fontSize() / 2
-      color: activPal.text
+      color: enabled ? activPal.text : disdPal.text
     }
   }
 

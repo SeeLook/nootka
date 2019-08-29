@@ -616,9 +616,15 @@ void TscoreObject::setReadOnly(bool ro) {
   if (m_readOnly != ro) {
     m_readOnly = ro;
     emit readOnlyChanged();
+    if (m_deleteNoteAct && !m_singleNote) {
+      m_deleteNoteAct->setEnabled(!ro);
+      m_clearScoreAct->setEnabled(!ro);
+      m_editModeAct->setEnabled(!ro);
+      m_insertNoteAct->setEnabled(!ro);
+    }
     setKeyReadOnly(ro);
     if (!m_readOnly) {
-      setEditMode(false);
+      setEditMode(true);
     }
   }
 }
@@ -1027,20 +1033,20 @@ void TscoreObject::enableActions() {
   if (!m_deleteNoteAct) {
     m_deleteNoteAct = new Taction(tr("Delete note"), QStringLiteral("delete"), this);
     connect(m_deleteNoteAct, &Taction::triggered, [=]{ if (!m_readOnly && !m_singleNote && m_allowAdding) deleteNote(m_activeNote); });
-    m_deleteNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"del\"; enabled: !singleNote && !readOnly"));
+    m_deleteNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"del\"; enabled: !score.singleNote && !score.readOnly"));
 
     m_insertNoteAct = new Taction(tr("Insert note"), QStringLiteral("fingerpoint"), this);
     connect(m_insertNoteAct, &Taction::triggered, [=]{ if (!m_readOnly && !m_singleNote && m_allowAdding) insertNote(m_activeNote); });
-    m_insertNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"ins\"; enabled: !singleNote && !readOnly"));
+    m_insertNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"ins\"; enabled: !score.singleNote && !score.readOnly"));
 
     m_clearScoreAct = new Taction(tr("Delete all notes"), QStringLiteral("clear-score"), this);
     connect(m_clearScoreAct, &Taction::triggered, [=]{ if (!m_readOnly) clearScore(); });
-    m_clearScoreAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"Shift+del\"; enabled: !singleNote && !readOnly"));
+    m_clearScoreAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"Shift+del\"; enabled: !score.singleNote && !score.readOnly"));
 
     m_editModeAct = new Taction(tr("Edit score"), QString(), this);
     m_editModeAct->setCheckable(true);
     connect(m_editModeAct, &Taction::triggered, [=]{ if (!m_readOnly && !m_singleNote) setEditMode(!editMode()); });
-    m_editModeAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"E\"; enabled: !singleNote && !readOnly"));
+    m_editModeAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"E\"; enabled: !score.singleNote && !score.readOnly"));
 
     m_wholeNoteAct = new Taction(tr("whole note"), QStringLiteral("tipbg"), this);
     connect(m_wholeNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
@@ -1069,6 +1075,14 @@ void TscoreObject::enableActions() {
     m_dotNoteAct = new Taction(tr("dot"), QStringLiteral("tipbg"), this);
     connect(m_dotNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
     m_dotNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\".\""));
+
+    m_riseAct = new Taction(tr("rise"), QStringLiteral("tipbg"), this);
+    connect(m_riseAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
+    m_riseAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"#\""));
+  
+    m_lowerAct = new Taction(tr("lower"), QStringLiteral("tipbg"), this);
+    connect(m_lowerAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
+    m_lowerAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"@\""));
   }
 }
 
@@ -1121,11 +1135,10 @@ void TscoreObject::handleNoteAction() {
         return;
       }
     }
-    // accidentals shortcuts (arrows up/down) available either for single note and for melodies
-//     if (key == Qt::Key_Up)
-//       setCursorAlter(m_cursorAlter + 1);
-//     else if (key == Qt::Key_Down)
-//       setCursorAlter(m_cursorAlter - 1);
+    if (sender() == m_riseAct)
+      setCursorAlter(m_cursorAlter + 1);
+    else if (sender() == m_lowerAct)
+      setCursorAlter(m_cursorAlter - 1);
   }
 }
 

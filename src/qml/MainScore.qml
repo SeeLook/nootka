@@ -27,6 +27,7 @@ Score {
   property alias scoreActions: mainObj.scoreActions
   property alias melodyActions: mainObj.melodyActions
   property alias noteActions: mainObj.noteActions
+  property alias notesMenuAct: mainObj.notesMenuAct
   property alias keyName: keyName
 
   scoreObj.meter: GLOB.rhythmsEnabled && !GLOB.singleNoteMode ? Tmeter.Meter_4_4 : Tmeter.NoMeter

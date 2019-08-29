@@ -704,7 +704,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
       autoNext = false; // when mistake and e_stop - the same like autoNext = false;
 
   if (showResults) {
-    if (!(GLOB->waitForCorrect() && m_exercise && m_melody))
+    if (!(GLOB->waitForCorrect() && curQ->answerAsSound() && m_exercise && m_melody))
       m_tipHandler->showResultTip(curQ); // tip duration is calculated by itself (inside resultTip() method)
     if ((!m_exercise || (m_exercise && curQ->isCorrect())) && !autoNext)
       m_tipHandler->showWhatNextTip(curQ->isCorrect());

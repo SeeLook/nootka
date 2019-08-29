@@ -1,10 +1,11 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
 
 import Score 1.0
+
 
 /**
  * Control displaying prompt for adding note or note cursor when hovered/pressed
@@ -26,7 +27,7 @@ TaddNoteItem {
     id: note
     visible: !active && !score.readOnly
     font { family: "nootka"; pixelSize: 8 }
-    color: Noo.alpha(activPal.highlight, 200)
+    color: Noo.alpha(GLOB.noteCursorColor, 200)
     x: (4 - width) / 2
     y: 15
     text: Noo.rhythmText(scoreObj.workRhythm)

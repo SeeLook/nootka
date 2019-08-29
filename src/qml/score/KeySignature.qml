@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -20,56 +20,50 @@ Item {
   height: 10
 
   function accidOffset(c) {
-      var accidOff = 1
-      switch (c) {
-        case Tclef.Bass_F:
-        case Tclef.Bass_F_8down:
-          accidOff = -1; break;
-        case Tclef.Tenor_C:
-          accidOff = 2; break;
-        case Tclef.Alto_C:
-          accidOff = 0; break;
-        case Tclef.PianoStaffClefs:
-          accidOff = 3; break;
-      }
-      return accidOff;
+    var accidOff = 1
+    switch (c) {
+      case Tclef.Bass_F:
+      case Tclef.Bass_F_8down:
+        accidOff = -1; break;
+      case Tclef.Tenor_C:
+        accidOff = 2; break;
+      case Tclef.Alto_C:
+        accidOff = 0; break;
+      case Tclef.PianoStaffClefs:
+        accidOff = 3; break;
+    }
+    return accidOff;
   }
 
-  Repeater {
-      id: accidRep
+  Loader { sourceComponent: accidsComp; y: 0 }
+  Loader { sourceComponent: score.clef === Tclef.PianoStaffClefs ? accidsComp : null; y: 12 }
+
+  Component {
+    id: accidsComp
+    Repeater {
       model: 7
       Text {
         font { family: "Scorek"; pixelSize: 8 }
         color: activPal.text
         text: score.keySignature < 0 ? "\ue260" : (score.keySignature > 0 ? "\ue262" : "") // flat or sharp symbols
         x: index * 1.8
-        y: (score.keySignature < 0 ? flatPos[index] : sharpPos[index]) - accidOffset(score.clef)
-                          + (score.clef === Tclef.Tenor_C && score.keySignature > 0 && (index === 0 || index === 2) ? 7 : 0)
+        y: parent.y + (score.keySignature < 0 ? flatPos[index] : sharpPos[index]) - accidOffset(score.clef)
+        + (score.clef === Tclef.Tenor_C && score.keySignature > 0 && (index === 0 || index === 2) ? 7 : 0)
         opacity: index < Math.abs(score.keySignature) ? 1.0 : 0.0
         Behavior on opacity { enabled: GLOB.useAnimations; NumberAnimation { property: "opacity"; duration: 300 }}
       }
+    }
   }
 
-  Loader { sourceComponent: score.clef === Tclef.PianoStaffClefs ? lowerAccids : null }
+  Loader { sourceComponent: mAreaComp; y: 13 }
+  Loader { sourceComponent: score.clef === Tclef.PianoStaffClefs ? mAreaComp : null; y: 34 }
+
   Component {
-      id: lowerAccids
-      Repeater {
-        model: 7
-        Text { // accidentals at lower staff
-          property var upperAccid: accidRep.itemAt(index)
-          font { family: "Scorek"; pixelSize: 8 }
-          color: activPal.text
-          text: upperAccid ? upperAccid.text : ""
-          y: upperAccid ? upperAccid.y + 24 : 0
-          x: upperAccid ? upperAccid.x : 0
-          opacity: upperAccid ? upperAccid.opacity : 0
-        }
-      }
-  }
-
-  MouseArea { // occupy only selected part of staff height
-      width: parent.width; height: 14; y: 13 - (score.clef === Tclef.PianoStaffClefs ? 2 : 0)
+    id: mAreaComp
+    MouseArea { // area at lower staff
+      width: keySig.width; height: 14
       enabled: !scoreObj.readOnly || !scoreObj.keyReadOnly
+      hoverEnabled: true
       onClicked: {
         if (mouseY < 7)
           keyUp()
@@ -82,28 +76,9 @@ Item {
         else if (wheel.angleDelta.y < 0)
           deltaDown()
       }
-  }
-
-  Loader { sourceComponent: score.clef === Tclef.PianoStaffClefs ? lowerArea : null }
-  Component {
-      id: lowerArea
-      MouseArea { // area at lower staff
-          parent: keySig
-          width: keySig.width; height: 14; y: 34
-          enabled: !scoreObj.readOnly || !scoreObj.keyReadOnly
-          onClicked: {
-            if (mouseY < 7)
-              keyUp()
-            else
-              keyDown()
-          }
-          onWheel: {
-            if (wheel.angleDelta.y > 0)
-              deltaUp()
-            else if (wheel.angleDelta.y < 0)
-              deltaDown()
-          }
-      }
+      onEntered: Noo.setStatusTip(qsTr("Key signature - to change it, click above or below the staff or use mouse wheel."), Item.TopLeft)
+      onExited: Noo.setStatusTip("", Item.TopLeft)
+    }
   }
 
   // stops switching keys too quick (by wheel on touch pad)

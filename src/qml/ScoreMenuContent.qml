@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -18,6 +18,7 @@ Tmenu {
     MenuItem {
       padding: 0
       width: menu.width
+      enabled: modelData.enabled
       contentItem: MenuButton {
         action: modelData
         onClicked: close()
@@ -25,28 +26,24 @@ Tmenu {
       }
     }
   }
-  MenuItem {
-    padding: 0
-    width: menu.width
-    contentItem: MenuButton {
-      action: Taction {
-        text: qsTr("notes", "musical notes of course") + "   ⋮"; icon: "help"
-        onTriggered: {
-          notesLoader.active = true;
-          notesLoader.item.open()
-          close()
-        }
-      }
+
+  Connections {
+    target: score.notesMenuAct
+    onTriggered: {
+      notesLoader.active = true;
+      notesLoader.item.open()
+      close()
     }
   }
 
-  property var rGlyphs: [ "C", "D", "E", "F", "G", "\ue109", "." ]
+  property var rGlyphs: [ "#", "b", "C", "D", "E", "F", "G", "\ue109", "." ]
   Loader { id: notesLoader; sourceComponent: notesComp; active: false }
   Component {
     id: notesComp
     Tmenu {
       id: noteMenu
-      x: menu.width / 4; y: menu.height * -0.9
+      parent: menu.parent
+      x: menu.x +  menu.width / 4; y: score.y + menu.width / 8
       Repeater {
         model: score.noteActions
         MenuItem {

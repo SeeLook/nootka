@@ -90,6 +90,8 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
   m_nextNoteAct = new Taction(tr("Next note"), QString(), this);
   m_prevNoteAct = new Taction(tr("Previous note"), QString(), this);
 
+  m_notesMenuAct = new Taction(tr("notes", "musical notes of course") + QStringLiteral("   ⋮"), QStringLiteral("score"), this);
+
   QQmlComponent actionsComp(NOO->qmlEngine(), this);
   m_openXmlAct->setShortcut(createQmlShortcut(&actionsComp, "StandardKey.Open; enabled: !GLOB.singleNoteMode && !GLOB.isExam"));
   m_saveXmlAct->setShortcut(createQmlShortcut(&actionsComp, "StandardKey.Save; enabled: !GLOB.singleNoteMode && !GLOB.isExam"));
@@ -141,8 +143,9 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
       emit keyNameTextChanged();
   });
   m_scoreActions.prepend(m_scoreObj->editModeAct());
-  m_scoreActions << m_scoreObj->insertNoteAct() << m_scoreObj->deleteNoteAct() << m_scoreObj->clearScoreAct();
-  m_noteActions << m_scoreObj->wholeNoteAct() << m_scoreObj->halfNoteAct() << m_scoreObj->quarterNoteAct() << m_scoreObj->eighthNoteAct()
+  m_scoreActions << m_scoreObj->insertNoteAct() << m_scoreObj->deleteNoteAct() << m_scoreObj->clearScoreAct() << m_notesMenuAct;
+  m_noteActions << m_scoreObj->riseAct() << m_scoreObj->lowerAct()
+                << m_scoreObj->wholeNoteAct() << m_scoreObj->halfNoteAct() << m_scoreObj->quarterNoteAct() << m_scoreObj->eighthNoteAct()
                 << m_scoreObj->sixteenthNoteAct() << m_scoreObj->restNoteAct() << m_scoreObj->dotNoteAct();
 
   connect(m_nextNoteAct, &Taction::triggered, [=]{
@@ -188,8 +191,11 @@ int TmainScoreObject::notesCount() const {
 
 
 void TmainScoreObject::setReadOnly(bool ro) {
-  m_scoreObj->setReadOnly(ro);
-  m_scoreObj->setAllowAdding(!ro);
+  if (ro != m_scoreObj->readOnly()) {
+    m_scoreObj->setReadOnly(ro);
+    m_scoreObj->setAllowAdding(!ro);
+    m_notesMenuAct->setEnabled(!ro);
+  }
 }
 
 
@@ -504,7 +510,7 @@ void TmainScoreObject::isExamChangedSlot() {
   }
   if (m_scoreObj) {
     m_scoreActions.prepend(m_scoreObj->editModeAct());
-    m_scoreActions << m_scoreObj->insertNoteAct() << m_scoreObj->deleteNoteAct() << m_scoreObj->clearScoreAct();
+    m_scoreActions << m_scoreObj->insertNoteAct() << m_scoreObj->deleteNoteAct() << m_scoreObj->clearScoreAct() << m_notesMenuAct;
   }
   emit scoreActionsChanged();
 }

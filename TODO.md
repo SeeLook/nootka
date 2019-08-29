@@ -39,19 +39,17 @@
 ============================================================================
 
 ### small glitches:
+ - melody won't play in exercises/exams (first question OK but further is worst)
  - sometimes setting a note doesn't scale tie - probably due to note width is not refreshed
  - meter can be too close to key signature - probably related with clef change
  - chart tip for non guitars still displays string/fret with goofy values
+
+### and crashes:
+ - when level is saved and added to list, it crashes when it is selected and exercise is going to be started
  - sometimes app crash on exit - possible some note objects are note deleted in proper order
 
-============================================================================
-
-
-
-## CHANGES OF TRANSLATION CONTEXT
-  - TupdateSummary has an download address built in translation - extracted it outside, but translations has to be updated
-  - QuestionPage - remove line breaks
-  - AudioInSettings ??? copy "semitone(s)" text to Transposition context but remove %n
+### Translation context changes:
+ - TscoreKeySignature to KeySignature
 
 ============================================================================
 
