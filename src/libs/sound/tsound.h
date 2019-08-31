@@ -145,7 +145,7 @@ public:
   Q_INVOKABLE int currentMeter() const { return m_currentMeter; }
   Q_INVOKABLE void setCurrentMeter(int curMet);
 
-  Q_INVOKABLE void setMetronome(int t, int beat);
+  Q_INVOKABLE void setMetronome(int metronomeTempo, int metronomeBeat);
 
       /**
        * Runs metronome routines placed in @p player but only when @p tickBeforePlay or @p tickDuringPlay are set.
