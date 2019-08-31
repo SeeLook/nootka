@@ -71,14 +71,14 @@ void TplayerThread::run() {
         int samplesDur =
           qRound(((tmpN.duration() > 0 ? tmpN.duration() / 24.0 : 1.0) * (60000.0 / m_melodyToPlay->quarterTempo())) * rateFactor);
         if (tmpN.rtm.tie() > Trhythm::e_tieStart) { // append duration if tie is continued or at end
-          if (playList().isEmpty())
-            continue; // do not start playing in the middle of tied notes
-            playList().last().samplesCount += samplesDur;
+            if (playList().isEmpty())
+              continue; // do not start playing in the middle of tied notes
+              playList().last().samplesCount += samplesDur;
         } else
-          playList() << TsingleSound(n,
-                                     tmpN.isValid() ? tmpN.chromatic() + GLOB->transposition() + m_transposition + m_player->p_audioParams->a440diff : REST_NR,
-                                     samplesDur
-                                    );
+            playList() << TsingleSound(n,
+                                      tmpN.isValid() ? tmpN.chromatic() + GLOB->transposition() + m_transposition + m_player->p_audioParams->a440diff : REST_NR,
+                                      samplesDur
+                                      );
       }
       m_melodyToPlay = nullptr;
   }

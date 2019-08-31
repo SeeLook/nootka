@@ -25,7 +25,7 @@ Item {
 
   TempoBar {
     id: tempoBar
-    visible: !GLOB.singleNoteMode && GLOB.rhythmsEnabled && (!executor || executor.showRtmView)
+    visible: !GLOB.singleNoteMode && ((GLOB.rhythmsEnabled && !executor) || (executor && executor.showRtmView))
     y: parent.height * 0.05
     width: parent.width
     height: parent.height * 0.45

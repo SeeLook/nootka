@@ -304,8 +304,8 @@ void TexamExecutor::askQuestion(bool isAttempt) {
           curQ->melody()->setKey(curQ->key);
           if (m_level.useRhythms()) {
             curQ->melody()->setMeter(m_supp->randomMeter());
-            int b = m_supp->getBarNumber(m_exam->count(), m_exam->penalty());
-            rhythms = getRandomRhythm(curQ->melody()->meter()->meter(), b, m_level.basicRhythms, m_level.dotsRhythms, m_level.rhythmDiversity);
+            int barsNr = m_supp->getBarNumber(m_exam->count(), m_exam->penalty());
+            rhythms = getRandomRhythm(curQ->melody()->meter()->meter(), barsNr, m_level.basicRhythms, m_level.dotsRhythms, m_level.rhythmDiversity);
             melodyLength = rhythms.count();
           }
         }
@@ -323,9 +323,6 @@ void TexamExecutor::askQuestion(bool isAttempt) {
         if (!m_level.isMelodySet() && m_level.useRhythms()) {
           mergeRhythmAndMelody(rhythms, curQ->melody());
         }
-        // So far we don't force tempo, just adjust it to user currently set
-        // We can change melody tempo due to this melody is never write back
-        curQ->melody()->setTempo(Tmeter::quarterTempo(SOUND->tempo(), SOUND->beatUnit()) * Tmeter::beatTempoFactor(curQ->melody()->beat()));
       }
       m_melody->newMelody(curQ->answerAsSound() ? curQ->melody()->length() : 0); // prepare list to store notes played by user or clear it
       m_exam->newAttempt();
@@ -419,8 +416,11 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 
   if (curQ->questionAsSound()) {
     if (curQ->melody()) {
-      if (!isAttempt) // play melody but not when user tries again
-        repeatSound();
+      if (!isAttempt) {
+        // Meter was not set yet on score, set sound meter then to properly calculate metronome tempo & beat
+        SOUND->setCurrentMeter(static_cast<int>(curQ->melody()->meter()->meter()));
+        repeatSound(); // play melody but not when user tries again
+      }
     } else {
         SOUND->play(curQ->qa.note);
         if (curQ->answerAsSound())
@@ -530,8 +530,8 @@ void TexamExecutor::askQuestion(bool isAttempt) {
           QTimer::singleShot(WAIT_TIME, [=]{ startSniffing(); });
           // Give a student some time to prepare itself for next question in expert mode
           // It avoids capture previous played sound as current answer
-  } else
-      SOUND->stopListen(); // stop sniffing if answer is not a played sound
+  } //else
+      //SOUND->stopListen(); // stop sniffing if answer is not a played sound
 
   m_checkQuestAct->setEnabled(true);
   m_repeatQuestAct->setEnabled(false);
@@ -1524,8 +1524,11 @@ QString TexamExecutor::saveExamToFile() {
 
 void TexamExecutor::repeatSound() {
   if (m_exam->curQ()->melody()) {
-      int nrTicksBefore = SOUND->tickBeforePlay() ? m_exam->curQ()->melody()->meter()->countTo() : 0;
-      SOUND->runMetronome(nrTicksBefore);
+      if (!SOUND->melodyIsPlaying()) {
+        m_exam->curQ()->melody()->setMetronome(SOUND->tempo(), static_cast<Tmeter::EbeatUnit>(SOUND->beatUnit()));
+        int nrTicksBefore = SOUND->tickBeforePlay() ? m_exam->curQ()->melody()->meter()->countTo() : 0;
+        SOUND->runMetronome(nrTicksBefore);
+      }
       SOUND->playMelody(m_exam->curQ()->melody(),
                         m_exam->curQ()->melody()->key() != m_exam->curQ()->key ? m_exam->curQ()->melody()->key().difference(m_exam->curQ()->key) : 0
                        );
@@ -1863,5 +1866,5 @@ bool TexamExecutor::showPitchView() const {
 
 
 bool TexamExecutor::showRtmView() const {
-  return m_exam && m_exam->count() && (m_exam->curQ()->answerAsSound() || m_exam->curQ()->questionAsSound()) && m_level.useRhythms();
+  return m_exam && m_exam->count() && (m_exam->curQ()->answerAsSound() || m_exam->curQ()->questionAsSound()) && m_level.canBeMelody();
 }
