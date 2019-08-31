@@ -106,6 +106,9 @@ public:
 
   static EbeatUnit optimalBeat(Emeter m);
 
+      /**
+       * Optimal beat unit for current meter
+       */
   Q_INVOKABLE Tmeter::EbeatUnit optimalBeat() const { return optimalBeat(m_meter); }
 
       /**

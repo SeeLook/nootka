@@ -215,6 +215,9 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
   connect(ao(), &TaudioObject::playingFinished, this, &TaudioOUT::playingFinishedDelay);
 
   connect(oggScale, &ToggScale::noteDecoded, this, &TaudioOUT::decodeNextSlot, Qt::DirectConnection);
+
+  // open stream if has not opened yet to avoid delay (Pulse Audio) when playing is already wanted
+  QTimer::singleShot(500, this, [=]{ if (!isOpened()) openStream(); });
 }
 
 
@@ -339,10 +342,10 @@ void TaudioOUT::stop() {
   p_lastPosOfPrev = 0;
   p_isPlaying = false;
   p_ticksCountBefore = 0;
-  if (areStreamsSplit() || getCurrentApi() == RtAudio::LINUX_PULSE)
+  if (areStreamsSplit()/* || getCurrentApi() == RtAudio::LINUX_PULSE*/)
     closeStream();
-  else
-    abortStream();
+//   else
+//     abortStream();
 }
 
 

@@ -187,6 +187,7 @@ bool TabstractPlayer::playMelody(Tmelody* melody, int transposition, int countdo
  * It should take a few ms only on low end Android gizmo.
  * But of course, read it once, and store decoded data in array.
  * TODO: consider to save decoded data somewhere into cache.
+ * TODO: there is no any resampling, for 44100/48000 is bearable but for higher rates could be funny
  */
 void TabstractPlayer::setMetronome(unsigned int beatTempo) {
   if (!m_beatArray) {
@@ -222,12 +223,13 @@ void TabstractPlayer::setMetronome(unsigned int beatTempo) {
     ov_clear(&oggFile);
   }
   p_beatOffset = 0;
-  p_beatPeriod = beatTempo ? (44100 * 60) / beatTempo : 0; //FIXME what if sample rate is 48000Hz?
+  p_beatPeriod = beatTempo ? (p_oggScale->sampleRate() * 60) / beatTempo : 0;
 }
 
 
 void TabstractPlayer::stopMetronome() {
   p_beatPeriod = 0;
+  p_ticksCountBefore = 0; // stop counting before as well
 }
 
 
