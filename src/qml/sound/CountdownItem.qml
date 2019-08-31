@@ -15,23 +15,18 @@ TipRect {
   x: height * 2; y: Noo.fontSize() / 2
   z: 100
   color: Qt.tint(activPal.text, Noo.alpha("#00a0a0", 100))
-  visible: counter <= tickCount && (SOUND.listening || SOUND.playing)
+  visible: counter <= tickCount && (SOUND.listening || SOUND.playing) && SOUND.metroRunning
 
   // private
   property int counter: 1
 
   Connections {
     target: tempoBar
-    onCntChanged: counter++
+    onCntChanged: {
+      if (SOUND.metroRunning)
+        counter++
+    }
   }
-
-//   Connections {
-//     target: SOUND
-//     onMetroRunningChanged: {
-//       if (SOUND.metroRunning)
-//         counter = 1
-//     }
-//   }
 
   Row {
     id: row

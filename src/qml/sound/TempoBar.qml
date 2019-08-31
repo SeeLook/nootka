@@ -33,12 +33,23 @@ Item {
       statusTip: qsTr("Tempo")
       font { family: "Scorek"; pixelSize: parent.height * 0.7 }
       text: beatModel[SOUND.beatUnit] + "=" + SOUND.tempo
-      onClicked: {
-        if (!tMenu) {
-          var c = Qt.createComponent("qrc:/sound/TempoMenu.qml")
-          tMenu = c.createObject(tempoBar)
+      MouseArea {
+        anchors.fill: parent
+        onClicked: {
+          if (!tMenu) {
+            var c = Qt.createComponent("qrc:/sound/TempoMenu.qml")
+            tMenu = c.createObject(tempoBar)
+          }
+          tMenu.open()
         }
-        tMenu.open()
+        onWheel: {
+          if (!SOUND.metroRunning) {
+            if (wheel.angleDelta.y > 0)
+              SOUND.tempo = SOUND.tempo + (wheel.modifiers & Qt.ControlModifier ? 10 : 1)
+            else if (wheel.angleDelta.y < 0)
+              SOUND.tempo = SOUND.tempo - (wheel.modifiers & Qt.ControlModifier ? 10 : 1)
+          }
+        }
       }
     }
 
@@ -102,7 +113,7 @@ Item {
 
     Timer {
       id: timer
-      running: visible && SOUND.metroRunning //&& (!tMenu || tMenu.tickEnable)
+      running: tempoBar.visible && SOUND.metroRunning
       repeat: true
       interval: (SOUND.tempo < 110 ? 15000 : 30000) / SOUND.tempo
       property real elap: 0
@@ -110,7 +121,9 @@ Item {
       property int phase: 0
       onRunningChanged: {
         if (running) {
-          cnt = 1; elap = 0; lag = 0; phase = 0; hiTick = 4
+            elap = 0; lag = 0; phase = 0; hiTick = 4
+        } else {
+            cnt = 1 // reset it here - countdown number depends on it when running
         }
       }
       onTriggered: {
