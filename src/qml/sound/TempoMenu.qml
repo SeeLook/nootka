@@ -20,10 +20,12 @@ Popup {
   enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}
   exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0.0 }}
 
+//   y: 100
+
   signal accepted()
 
   // private
-  property var beatFactor: [ 1, 2, 0.75, 0.5 ]
+  property var beatFactor: [ 1, 2, 0.66666666666, 0.5 ]
 
   Column {
     spacing: Noo.fontSize() / 2
@@ -31,27 +33,31 @@ Popup {
     Row {
       spacing: Noo.fontSize()
       Tumbler {
-        id: beatUnitTumb
+        id: buTumb
+        property int prevIndex: -1
         background: Rectangle { color: activPal.base }
         anchors.verticalCenter: parent.verticalCenter
         height: Noo.fontSize() * 6; width: Noo.fontSize() * 2
         model: tempoBar.beatModel
         visibleItemCount: 3; wrap: true
         currentIndex: SOUND.beatUnit
-        delegate: Text {
-          text: modelData
-          color: activPal.text
-          height: Noo.fontSize() * 2.5
-          horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
+        onCurrentIndexChanged: {
+          if (prevIndex > -1)
+            tempoSpin.value = Math.round(tempoSpin.value * (beatFactor[currentIndex] / beatFactor[prevIndex]))
+          prevIndex = currentIndex
+        }
+        delegate: Rectangle {
+          color: index === buTumb.currentIndex ? activPal.highlight : activPal.base
           opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
-          font { pixelSize: Noo.fontSize() * 2; family: "Scorek" }
-          MouseArea {
-            id: tumblerArea
-            anchors.fill: parent
-            onClicked: {
-//               var prevBeatFactor = beatFactor[beatUnitTumb.currentIndex]
-              beatUnitTumb.currentIndex = beatUnitTumb.currentIndex === beatUnitTumb.count - 1 ? beatUnitTumb.currentIndex = 0 : beatUnitTumb.currentIndex + 1
-//               tempoSpin.value /= prevBeatFactor / beatFactor[beatUnitTumb.currentIndex]
+          Text {
+            text: modelData
+            y: height * 0.325; height: parent.height; width: parent.width
+            color: activPal.text
+            horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
+            font { pixelSize: parent.height * 0.75; family: "Scorek" }
+            MouseArea {
+              anchors.fill: parent
+              onClicked: buTumb.currentIndex = index
             }
           }
         }
@@ -70,15 +76,17 @@ Popup {
           Text { text: qsTr("tempo"); font.pixelSize: Noo.fontSize(); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
           SpinBox {
             id: tempoSpin
-            from: 40; to: 180 * beatFactor[beatUnitTumb.currentIndex]; editable: true
+            focus: false
+            from: 40; to: Math.min(240, 180 * beatFactor[buTumb.currentIndex]); editable: true
             value: SOUND.tempo
           }
         }
         Slider {
+          focus: false
           width: parent.width * 0.96
           anchors.horizontalCenter: parent.horizontalCenter
           value: tempoSpin.value
-          from: 40; to: 180 * beatFactor[beatUnitTumb.currentIndex]
+          from: 40; to: tempoSpin.to
           onValueChanged: tempoSpin.value = value
           stepSize: 10
         }
@@ -91,6 +99,7 @@ Popup {
       pixmap: Noo.pix("fingerpoint")
       anchors.horizontalCenter: parent.horizontalCenter
       onClicked: tapTempo()
+      focus: true
     }
 
     TcheckBox {
@@ -106,12 +115,6 @@ Popup {
       text: qsTr("Count up")
       checked: true
     }
-
-//     TcheckBox {
-//       id: beforeTickChB
-//       text: qsTr("Tick before")
-//       checked: SOUND.tickBeforePlay
-//     }
 
     ButtonGroup { buttons: radioRow.children }
     Item {
@@ -132,33 +135,22 @@ Popup {
           font { family: "Nootka"; pixelSize: Noo.fontSize() * 2 }
           text: "G"
           checked: SOUND.quantization === 6
+          onClicked: SOUND.quantization = 6
         }
         RadioButton {
           id: radio8
           font { family: "Nootka"; pixelSize: Noo.fontSize() * 2 }
           text: "F"
           checked: SOUND.quantization === 12
+          onClicked: SOUND.quantization = 12
         }
       }
     }
 
-    TiconButton {
-      text: Noo.TR("QPlatformTheme", "Apply")
-      pixmap: Noo.pix("check")
-      anchors.horizontalCenter: parent.horizontalCenter
-      onClicked: {
-        SOUND.setMetronome(tempoSpin.value, beatUnitTumb.currentIndex)
-        SOUND.quantization = radio16.checked ? 6 : 12 // See Tsound doc for values explanation
-//         SOUND.tickBeforePlay = beforeTickChB.checked
-        tempoSpin.value = SOUND.tempo
-        accepted()
-        close()
-      }
-    }
   }
 
-  onOpened: { SOUND.stop(); spaceShort.enabled = true; tempoSpin.value = SOUND.tempo; beatUnitTumb.currentIndex = SOUND.beatUnit }
-  onClosed: { SOUND.startListen(); spaceShort.enabled = false }
+  onAboutToShow: { SOUND.stop(); spaceShort.enabled = true; tempoSpin.value = SOUND.tempo; buTumb.currentIndex = SOUND.beatUnit }
+  onAboutToHide: { SOUND.startListen(); spaceShort.enabled = false; SOUND.setMetronome(tempoSpin.value, buTumb.currentIndex) }
 
   Shortcut { id: spaceShort; sequence: " "; onActivated: tapTempo() }
 

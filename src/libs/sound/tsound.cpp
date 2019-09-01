@@ -259,7 +259,7 @@ float Tsound::pitch() {
 
 
 void Tsound::setTempo(int t) {
-  if (t != m_tempo && t > 39 && t < 181) {
+  if (t != m_tempo && t > 39 && t < qMin(240, qRound(181.0 * Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(m_beatUnit))))) {
     m_tempo = t;
     emit tempoChanged();
   }
@@ -267,16 +267,14 @@ void Tsound::setTempo(int t) {
 
 
 void Tsound::setBeatUnit(int bu) {
-  if (bu < 0 || bu > 3)
-      qDebug() << "[Tsound] FIXME! trying to set unsupported beat unit" << bu;
-  else {
-      if (bu != m_beatUnit) {
-        int oldBu = m_beatUnit;
-        m_beatUnit = bu;
-        m_tempo = qRound(static_cast<qreal>(m_tempo) * 
-                         Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(m_beatUnit)) / Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(oldBu)));
-        emit tempoChanged();
-      }
+  if (bu > -1 && bu < 4) {
+    if (bu != m_beatUnit) {
+      int oldBu = m_beatUnit;
+      m_beatUnit = bu;
+      m_tempo = qMin(240, qRound(static_cast<qreal>(m_tempo) * 
+                        Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(m_beatUnit)) / Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(oldBu))));
+      emit tempoChanged();
+    }
   }
 }
 
@@ -307,7 +305,7 @@ void Tsound::runMetronome(int preTicksNr) {
     player->setMetronome(m_tempo);
     if (player->tickBeforePlay() && preTicksNr) {
       qreal preTicksSeconds = static_cast<qreal>(preTicksNr) * (60.0 / static_cast<qreal>(m_tempo));
-      while (preTicksSeconds < 3.0) { // Multiple number of countdown ticks if it is to short (less than 3 sec) - to give user time to catch up
+      while (preTicksSeconds < 2.0) { // Multiple number of countdown ticks if it is to short (less than 2 sec) - to give user time to catch up
         preTicksNr += preTicksNr;
         preTicksSeconds += preTicksSeconds;
       }
