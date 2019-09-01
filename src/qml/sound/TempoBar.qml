@@ -30,7 +30,8 @@ Item {
     RectButton {
       id: metroText
       forcedHeight: parent.height; yOffset: parent.height * -0.7
-      statusTip: qsTr("Tempo")
+      statusTip: qsTr("Tempo") + " - " + qsTr("beats per minute")
+      + "<br>" + qsTr("Mouse wheel changes tempo promptly (also with %1 key). Click for more options.").arg(Noo.isMac() ? "CMD" : "CTRL")
       font { family: "Scorek"; pixelSize: parent.height * 0.7 }
       text: beatModel[SOUND.beatUnit] + "=" + SOUND.tempo
       MouseArea {

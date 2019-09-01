@@ -1076,11 +1076,11 @@ void TscoreObject::enableActions() {
     connect(m_dotNoteAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
     m_dotNoteAct->setShortcut(createQmlShortcut(m_qmlComponent, "\".\""));
 
-    m_riseAct = new Taction(tr("rise"), QStringLiteral("tipbg"), this);
+    m_riseAct = new Taction(tr("rise", "as such as sharps rise note"), QStringLiteral("tipbg"), this);
     connect(m_riseAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
     m_riseAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"#\""));
   
-    m_lowerAct = new Taction(tr("lower"), QStringLiteral("tipbg"), this);
+    m_lowerAct = new Taction(tr("lower", "as such as flats lower note"), QStringLiteral("tipbg"), this);
     connect(m_lowerAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
     m_lowerAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"@\""));
   }
@@ -1135,10 +1135,22 @@ void TscoreObject::handleNoteAction() {
         return;
       }
     }
-    if (sender() == m_riseAct)
-      setCursorAlter(m_cursorAlter + 1);
-    else if (sender() == m_lowerAct)
-      setCursorAlter(m_cursorAlter - 1);
+    if (sender() == m_riseAct) {
+        if (m_cursorAlter < 1) // flats or none
+          setCursorAlter(1); // set sharp
+        else if (m_cursorAlter == 1 && m_enableDoubleAccids) // single sharp
+          setCursorAlter(2); // set double sharp
+        else
+          setCursorAlter(0); // or none
+      
+    } else if (sender() == m_lowerAct) {
+        if (m_cursorAlter > -1) // sharps of none
+          setCursorAlter(-1); // set flat
+        else if (m_cursorAlter == -1 && m_enableDoubleAccids) // single flat
+          setCursorAlter(-2); // set double flat
+        else
+          setCursorAlter(0); // or none
+    }
   }
 }
 

@@ -22,6 +22,7 @@
   - exam summary - give more valuable info, wear it nicely
   - charts suck. For exams with many questions it wastes a lot of RAM. Make them QML
   - migrate on preferred 48000 sample rate (ogg files and audio methods)
+  - add Italian tempo names to tempo menu
 
 ### For next stable Nootka version 2.2
   - MIDI input & revert MIDI out of course
@@ -43,6 +44,7 @@
  - sometimes setting a note doesn't scale tie - probably due to note width is not refreshed
  - meter can be too close to key signature - probably related with clef change
  - chart tip for non guitars still displays string/fret with goofy values
+ - space key for tapping tempo doesn't work well
 
 ### and crashes:
  - when level is saved and added to list, it crashes when it is selected and exercise is going to be started
