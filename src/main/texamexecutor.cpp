@@ -1683,41 +1683,45 @@ void TexamExecutor::expertAnswersSlot() {
 }
 
 
-// /** This slot is invoked  during correction of melody on the score.
-//  * Each note can be clicked and:
-//  * - corrected if score is an answer
-//  * - shows position on the instrument
-//  * - plays its sound
-//  * - displays message with detected pitch if note was played wrong  */
-// void TexamExecutor::correctNoteOfMelody(int noteNr) {
-//   if (m_exam->curQ()->melody()) {
-//     SCORE->selectNote(noteNr);
-//     if (noteNr < m_exam->curQ()->lastAttempt()->mistakes.size()) {
-//       quint32 &m = m_exam->curQ()->lastAttempt()->mistakes[noteNr];
-//       if (m_exam->curQ()->answerAsNote() && m_exam->curQ()->melody()->length() > noteNr) { // only dictations can be corrected
-//         if (m && !m_melody->fixed(noteNr) && !SCORE->isCorrectAnimPending()) { // fix if it has not been fixed yet
-//           m_exercise->setCorrectedNoteId(noteNr);
-//           SCORE->correctNote(m_exam->curQ()->melody()->note(noteNr)->p(), m_supp->answerColor(m), noteNr);
-//           m_melody->setFixed(noteNr);
-//           if (m_melody->numberOfFixed() > m_exam->curQ()->melody()->length() / 2) { // to much fixed - block new attempt
-//             TOOLBAR->removeAction(TOOLBAR->attemptAct);
-//             m_tipHandler->whatNextTip(true); // it will cheat m_tipHandler that question is correct and 'new attempt' will be blocked as well
-//           }
-//         }
-//       }
-//       if (SOUND->isPlayable() && m_exam->curQ()->melody()->length() > noteNr)
-//           SOUND->play(m_exam->curQ()->melody()->note(noteNr)->p());
-//       if (INSTRUMENT->isVisible() && m_exam->curQ()->melody()->length() > noteNr)
-//         INSTRUMENT->setFinger(m_exam->curQ()->melody()->note(noteNr)->p());
-//       if (m && m_exam->curQ()->answerAsSound()) {
-//         if (m_melody->listened()[noteNr].pitch.isValid())
-//           m_tipHandler->detectedNoteTip(m_melody->listened()[noteNr].pitch);
-//         else
-//           m_tipHandler->setStatusMessage(m_tipHandler->detectedText(tr("This note was not played!")), 3000);
-//       }
-//     }
-//   }
-// }
+/**
+ * This slot is invoked  during correction of melody on the score.
+ * Each note can be clicked and:
+ * - corrected if score is an answer
+ * - shows position on the instrument
+ * - plays its sound
+ * - displays message with detected pitch if note was played wrong
+ */
+void TexamExecutor::correctNoteOfMelody(int noteNr) {
+  /*
+  if (m_exam->curQ()->melody()) {
+    MAIN_SCORE->setSelectedItem(noteNr);
+    if (noteNr < m_exam->curQ()->lastAttempt()->mistakes.size()) {
+      quint32 &m = m_exam->curQ()->lastAttempt()->mistakes[noteNr];
+      if (m_exam->curQ()->answerOnScore() && m_exam->curQ()->melody()->length() > noteNr) { // only dictations can be corrected
+        if (m && !m_melody->fixed(noteNr) && !SCORE->isCorrectAnimPending()) { // fix if it has not been fixed yet
+          m_exercise->setCorrectedNoteId(noteNr);
+          SCORE->correctNote(m_exam->curQ()->melody()->note(noteNr)->p(), m_supp->answerColor(m), noteNr);
+          m_melody->setFixed(noteNr);
+          if (m_melody->numberOfFixed() > m_exam->curQ()->melody()->length() / 2) { // to much fixed - block new attempt
+            TOOLBAR->removeAction(TOOLBAR->attemptAct);
+            m_tipHandler->whatNextTip(true); // it will cheat m_tipHandler that question is correct and 'new attempt' will be blocked as well
+          }
+        }
+      }
+      if (SOUND->isPlayable() && m_exam->curQ()->melody()->length() > noteNr)
+          SOUND->play(m_exam->curQ()->melody()->note(noteNr)->p());
+      if (INSTRUMENT->isVisible() && m_exam->curQ()->melody()->length() > noteNr)
+        INSTRUMENT->setFinger(m_exam->curQ()->melody()->note(noteNr)->p());
+      if (m && m_exam->curQ()->answerAsSound()) {
+        if (m_melody->listened()[noteNr].pitch.isValid())
+          m_tipHandler->detectedNoteTip(m_melody->listened()[noteNr].pitch);
+        else
+          m_tipHandler->setStatusMessage(m_tipHandler->detectedText(tr("This note was not played!")), 3000);
+      }
+    }
+  }
+  */
+}
 // 
 // 
 // void TexamExecutor::rightButtonSlot() {
