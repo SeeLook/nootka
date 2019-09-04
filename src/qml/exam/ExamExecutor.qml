@@ -51,7 +51,7 @@ Texecutor {
     onWantTryAgainTip: {
       var a = Qt.createComponent("qrc:/exam/ResultTip.qml")
       tipHandler.tryAgainTip = a.createObject(nootkaWindow, { "text": qsTranslate("TtipHandler", "Try again!"),
-                                                            "color": GLOB.wrongColor, "targetY": executor.height / 10 } )
+                                                            "color": GLOB.wrongColor, "targetY": executor.height / 12 } )
     }
     onWantWhatNextTip:  {
       var s = Qt.createComponent("qrc:/exam/ExamTip.qml")

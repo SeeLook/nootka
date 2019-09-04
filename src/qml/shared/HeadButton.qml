@@ -19,7 +19,7 @@ ToolButton {
 
   property alias pixmap: pix.source
   property alias name: butText.text
-  property real factor: nootkaWindow.height / 140
+  property real factor: nootkaWindow.width / 240 //Math.min(nootkaWindow.height / 140, nootkaWindow.width / 220)
   property alias fontSize: butText.font.pixelSize
   property alias textColor: butText.color
   property Taction taction

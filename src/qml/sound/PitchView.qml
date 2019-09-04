@@ -17,7 +17,7 @@ Item {
   signal paused()
 
   height: parent.height * 0.9
-  width: parent.width * 0.4
+  width: parent.width * 0.43
 
   // protected
   property real tickWidth: Screen.pixelDensity * 0.5

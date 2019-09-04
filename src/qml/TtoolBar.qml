@@ -38,13 +38,14 @@ ToolBar {
       if (!pitchView) {
         var c = Qt.createComponent("qrc:/PitchView.qml")
         pitchView = c.createObject(toolBar)
-        pitchView.x = Qt.binding(function() { return label.x - toolBar.width * 0.403 })
+        pitchView.x = Qt.binding(function() { return (label.visible ? label.x : toolBar.width) - toolBar.width * 0.433 })
       }
     }
   }
 
   NootkaLabel {
     id: label
+    visible: !executor
     anchors.right: parent.right
     height: toolBar.height
     onClicked: Noo.aboutAct.trigger()
