@@ -102,7 +102,6 @@ TtipHandler::TtipHandler(Texam* exam, QObject *parent) :
   QObject(parent),
   m_exam(exam),
   m_timerToConfirm(new QTimer(this)),
-//  m_minimizedQuestion(false), m_melodyCorrectMessage(false),
   m_questTipPosType(e_bottomRight),
   m_iconSize(bigFont() * 1.2)
 {
@@ -533,20 +532,22 @@ void TtipHandler::showQuestionTip() {
 //}
 
 
-//void TtipHandler::melodyCorrectMessage() {
-//  if (m_melodyCorrectMessage)
-//    return;
+void TtipHandler::melodyCorrectMessage() {
+  if (m_melodyCorrectMessage)
+    return;
 
-//  m_melodyCorrectMessage = true;
-//  QString message = QString("<span style=\"color: %1;\"><big>").arg(GLOB->EanswerColor.name()) +
-//                    tr("Click incorrect notes to see<br>and to listen to them corrected.") + QLatin1String("</big></span>");
-//#if defined (Q_OS_ANDROID)
+  m_melodyCorrectMessage = true;
+  NOO->setMessageColor(GLOB->EanswerColor);
+  QString message = /*QString("<span style=\"color: %1;\"><big>").arg(GLOB->EanswerColor.name()) +*/
+                    tr("Click incorrect notes to see<br>and to listen to them corrected.");// + QLatin1String("</big></span>");
+  NOO->showTimeMessage(message, 7000, QQuickItem::TopRight);
+// #if defined (Q_OS_ANDROID)
 //  tMessage->setMessage(message, 10000); // temporary message on a tip
-//#else
+// #else
 //  STATUS->setBackground(-1);
 //  setStatusMessage(message); // permanent message on status label
-//#endif
-//}
+// #endif
+}
 
 
 ///** @p prevTime param is to call clearing method after this time. */

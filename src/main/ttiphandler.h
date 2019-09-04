@@ -97,12 +97,10 @@ public:
   QQuickItem* certTip() { return m_certifyTip; }
   void setCertTip(QQuickItem* cItem) { m_certifyTip = cItem; }
 
-//    /**
-//     * Cross platform status message:
-//     * - status bar on desktops (@p TstatusLabel)
-//     * - pop up message on screen bottom for mobile (@p TtouchMessage)
-//     */
-//  void setStatusMessage(const QString& text, int duration = 0);
+      /**
+       * Cross platform status message:
+       */
+//   void setStatusMessage(const QString& text, int duration = 0);
 
       /**
        * Replaces exam pointer given in constructor to the new one.
@@ -135,8 +133,16 @@ public:
      * "Try again" text
      */
  void showTryAgainTip(int time);
- void showConfirmTip(int time = 0); /**< tip about confirm an answer appears after given time */
-//  void melodyCorrectMessage(); /**< Status message about how to correct a melody notes. */
+
+    /**
+     * Tip about confirm an answer appears after given time
+     */
+ void showConfirmTip(int time = 0);
+
+    /**
+     * Status message about how to correct a melody notes.
+     */
+ void melodyCorrectMessage();
 
 //      /** 'to low' or 'to high' text above pitch view @p pitchDiff is float part of pitch */
 //  void outOfTuneTip(float pitchDiff);
@@ -211,7 +217,8 @@ private:
   qreal                              m_prevWidth;
 //  TfingerPos                     m_goodPos;
  QPointF                             m_posOfQuestTips[TIP_POS_NUM];
-//  bool                           m_minimizedQuestion, m_melodyCorrectMessage;
+//   bool                               m_minimizedQuestion = false;
+  bool                               m_melodyCorrectMessage = false;
   EtipPos                            m_questTipPosType; /**< Kind of question tip position */
   int                                m_iconSize; /**< Icon image size on tips calculated from actual font metrics. */
   QPointF                            m_lastTipPos;

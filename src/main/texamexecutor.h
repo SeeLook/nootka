@@ -205,7 +205,7 @@ protected:
        * Should be called when settings dialog is going to be displayed.
        */
   void prepareToSettings();
-//   void correctNoteOfMelody(int noteNr);
+  void correctNoteOfMelody(int noteNr);
 
 protected slots:
   void correctionFinishedSlot();
