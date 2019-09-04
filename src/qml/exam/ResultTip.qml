@@ -9,11 +9,11 @@ import QtGraphicalEffects 1.0
 Item {
   id: resultTip
 
-  property real targetY: executor.height / 50
+  property real targetY: executor.height / 80
   property alias color: txt.color
   property alias text: txt.text
 
-  anchors.horizontalCenter: parent.horizontalCenter
+  anchors { right: parent.right; rightMargin: parent.width / 12 }
 
   width: txt.width; height: txt.height
   z: 501 // above status tip rectangle
