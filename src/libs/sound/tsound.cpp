@@ -27,7 +27,7 @@
 #endif
 #include <tnootkaqml.h>
 #include "ttickcolors.h"
-#include <tinitcorelib.h>
+#include <tglobals.h>
 #include <taudioparams.h>
 #include <music/tmelody.h>
 

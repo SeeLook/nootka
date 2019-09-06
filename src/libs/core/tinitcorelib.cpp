@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "tinitcorelib.h"
+#include "tglobals.h"
 #include "music/ttune.h"
 #include "music/tkeysignature.h"
 #include "tcolor.h"
@@ -33,8 +34,6 @@
   #include "Android/tandroid.h"
 #endif
 
-
-Tglobals* Tcore::m_gl = nullptr;
 
 
 bool initCoreLibrary() {

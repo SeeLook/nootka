@@ -18,16 +18,7 @@
 
 
 #include <tinitcorelib.h>
-#include <QtWidgets/qapplication.h>
-#include <QtGui/qicon.h>
-#include <QtQml/qqmlapplicationengine.h>
-#include <QtQml/qqmlcontext.h>
-#include <QtCore/qtranslator.h>
-#include <QtCore/qdatetime.h>
-#include <QtCore/qpointer.h>
-#include <QtCore/qfile.h>
-#include <QtCore/qsettings.h>
-
+#include <tglobals.h>
 #include <tmtr.h>
 #include <tpath.h>
 #include <tnootkaqml.h>
@@ -41,11 +32,22 @@
   #include <Android/tandroid.h>
 #endif
 
-#include <QtCore/qdebug.h>
+#include <QtWidgets/qapplication.h>
+#include <QtGui/qicon.h>
+#include <QtQml/qqmlapplicationengine.h>
+#include <QtQml/qqmlcontext.h>
+#include <QtCore/qtranslator.h>
+#include <QtCore/qdatetime.h>
+#include <QtCore/qpointer.h>
+#include <QtCore/qfile.h>
+#include <QtCore/qsettings.h>
 #include <QtCore/qelapsedtimer.h>
+
+#include <QtCore/qdebug.h>
 
 
 static QString logFile;
+
 
 /**
  * It allows to grab all debug messages into nootka-log.txt file
@@ -130,7 +132,6 @@ int main(int argc, char *argv[])
 
     Tsound sound;
 
-// creating main window
     e = new QQmlApplicationEngine;
     e->rootContext()->setContextProperty(QStringLiteral("GLOB"), gl);
     e->rootContext()->setContextProperty(QStringLiteral("Noo"), &nooObj);
