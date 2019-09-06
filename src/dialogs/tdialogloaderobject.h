@@ -66,6 +66,14 @@ public:
 
   Q_INVOKABLE void checkForUpdates();
 
+      /**
+       * Do routines related to version change, show support window or other actions.
+       * Returns @p TRUE if dialog will be invoked, or @p FALSE if no action will be proceeded.
+       * @p nootWin should be QObject instance of QML main window.
+       * Also it stores current version in settings - it should be only place where it is done
+       */
+  static bool checkVersion(QObject* nootWin);
+
 signals:
   void continueExam(const QString& examFile);
   void openLevel(const QString& levelFile);

@@ -153,6 +153,9 @@ int main(int argc, char *argv[])
       e->rootContext()->setContextProperty(QStringLiteral("Noo"), &nooObj);
       e->rootContext()->setContextProperty(QStringLiteral("SOUND"), &sound);
       gl->isFirstRun = false;
+      gl->config->setValue(QLatin1String("version"), gl->version);
+      // TODO: storing current version in settings avoids opening 'about' window next launch
+      //       but if there will be another window - delete line above
     }
     nooObj.setQmlEngine(e);
     qmlRegisterType<TnameItem>("Nootka.Main", 1, 0, "TnameItem");
@@ -180,8 +183,14 @@ int main(int argc, char *argv[])
     }
     sound.init();
 
-    if (firstLoop && !wasFirstRun && gl->config->value("Updates/enableUpdates", true).toBool())
-      TdialogLoaderObject::updateCheckInBackground();
+    if (firstLoop && !wasFirstRun) {
+      // show some dialog when version was changed (news or other info)
+      if (!TdialogLoaderObject::checkVersion(e->rootObjects().first())) {
+        // or check updates if no version changed
+        if (gl->config->value(QLatin1String("Updates/enableUpdates"), true).toBool())
+          TdialogLoaderObject::updateCheckInBackground();
+      }
+    }
 
     firstLoop = false;
     exitCode = a->exec();
