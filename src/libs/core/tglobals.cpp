@@ -94,7 +94,7 @@ Tglobals::Tglobals(QObject* parent) :
   L = new TlayoutParams();
   m_tuneObject = new TtuneObject(this);
 
-#if defined(Q_OS_WIN32) || defined(Q_OS_MAC) // I hate mess in Win registry
+#if defined(Q_OS_WIN32) || defined(Q_OS_MAC)
   config = new QSettings(QSettings::IniFormat, QSettings::UserScope, QStringLiteral("Nootka"), qApp->applicationName());
 #else
   config = new QSettings();
@@ -102,7 +102,6 @@ Tglobals::Tglobals(QObject* parent) :
   loadSettings(config);
 
   if (!m_instance) {
-      Tcore::setGlobals(this); // TODO remove it, use GLOB macro instead
       m_instance = this;
   } else {
       qDebug() << "Tglobals instance has already existed. Application is terminating!";
@@ -119,7 +118,6 @@ Tglobals::~Tglobals() {
   delete L;
   delete m_tune;
   delete config;
-  Tcore::reset();
   m_instance = nullptr;
 }
 

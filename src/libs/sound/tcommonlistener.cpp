@@ -20,7 +20,7 @@
 #include "tcommonlistener.h"
 #include "tpitchfinder.h"
 #include <taudioparams.h>
-#include <tinitcorelib.h>
+#include <tglobals.h>
 #include <QtCore/qdir.h>
 #include <QtCore/qdatetime.h>
 
