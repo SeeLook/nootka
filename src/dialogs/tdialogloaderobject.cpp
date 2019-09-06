@@ -24,7 +24,7 @@
 #include "ttunerdialogitem.h"
 #include "trtmselectoritem.h"
 #include "tmelgenitem.h"
-#include "tpath.h"
+#include <tpath.h>
 #include "main/texamexecutor.h"
 #include "main/texamview.h"
 #include "main/ttiphandler.h"
@@ -38,8 +38,12 @@
 #include <qtr.h>
 #include <exam/texam.h>
 #include "updater/tupdatechecker.h"
+#include <tglobals.h>
 
 #include <QtCore/qdir.h>
+#include <QtCore/qsettings.h>
+#include <QtCore/qversionnumber.h>
+#include <QtCore/qmetaobject.h>
 #include <QtWidgets/qdialogbuttonbox.h>
 #include <QtCore/qdebug.h>
 
@@ -225,4 +229,22 @@ void TdialogLoaderObject::checkForUpdates() {
       updater->deleteLater();
   });
   updater->check(false); // Any way show update window
+}
+
+
+bool TdialogLoaderObject::checkVersion(QObject* nootWin) {
+  QString configVersion = GLOB->config->value(QLatin1String("version"), QString()).toString();
+  auto confVerNr = QVersionNumber::fromString(configVersion);
+  auto currVerNr = QVersionNumber::fromString(GLOB->version);
+  if (configVersion.isEmpty() || currVerNr > confVerNr) {
+      QTimer::singleShot(1500, [=]{
+        // TODO: so far we are displaying 'about' dialog with communicate for testers, but show 'support' here later
+        if (nootWin && QString(nootWin->metaObject()->className()).contains("MainWindow_QMLTYPE")) {
+          QMetaObject::invokeMethod(nootWin, "showDialog", Q_ARG(QVariant, 2));
+          GLOB->config->setValue(QLatin1String("version"), GLOB->version);
+        }
+      });
+      return true;
+  }
+  return false;
 }

@@ -204,7 +204,7 @@ bool TlevelSelector::removeLevel(int id, bool removeFile) {
     if (removeFile) {
       QFile levF(m_levels[id].file);
       if (!levF.remove())
-        qDebug() << "Can't remove level file" << levF.fileName() ;
+        qDebug() << "[TlevelSelector] Can't remove level file" << levF.fileName() ;
     }
     m_levels.removeAt(id);
     m_levelsModel.removeAt(id);
@@ -224,9 +224,8 @@ void TlevelSelector::updateRecentLevels() {
     if (!m_levels[i].file.isEmpty())
       recentLevels << m_levels[i].file;
   }
-  GLOB->config->setValue(QStringLiteral("recentLevels"), recentLevels);
+  GLOB->config->setValue(QLatin1String("recentLevels"), recentLevels);
 }
-
 
 //##########################################################################################################
 //########################################## PRIVATE #######################################################
