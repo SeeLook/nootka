@@ -31,6 +31,11 @@
 #include <QtCore/qfile.h>
 #include <QtCore/qdatastream.h>
 
+#if defined (Q_OS_WIN)
+  #include <fcntl.h>
+  #include <io.h>
+#endif
+
 #include <QtCore/qdebug.h>
 #include "checktime.h"
 
@@ -191,14 +196,29 @@ bool TabstractPlayer::playMelody(Tmelody* melody, int transposition, int countdo
  */
 void TabstractPlayer::setMetronome(unsigned int beatTempo) {
   if (!m_beatArray) {
+    OggVorbis_File oggFile;
+#if defined (Q_OS_WIN)
+    _setmode(_fileno(stdin), _O_BINARY);
+    auto stdFile = fopen(Tpath::sound("beat").toStdString().c_str(), "rb");
+    if(!stdFile) {
+      qDebug() << "[TabstractPlayer] Can't open metronome beat file";
+      p_beatBytes = 0;
+      return;
+    }
+    if (ov_open_callbacks(stdFile, &oggFile, nullptr, 0, OV_CALLBACKS_DEFAULT) < 0) {
+        qDebug() << "ERROR: Failed to open input as Vorbis\n";
+        fclose(stdFile);
+        return;
+    }
+#else
     auto stdFile = fopen(Tpath::sound("beat").toStdString().c_str(), "r");
     if(!stdFile) {
       qDebug() << "[TabstractPlayer] Can't open metronome beat file";
       p_beatBytes = 0;
       return;
     }
-    OggVorbis_File oggFile;
     ov_open(stdFile, &oggFile, NULL, 0);
+#endif
     m_beatArray = new qint16[20000];
     int bitStream;
     long bytes;
@@ -220,6 +240,7 @@ void TabstractPlayer::setMetronome(unsigned int beatTempo) {
 //     m_beatArray = new qint16[beatFile.size() / 2];
 //     p_beatBytes = beatStream.readRawData(reinterpret_cast<char*>(m_beatArray), beatFile.size()) / 2;
 //     beatFile.close();
+    fclose(stdFile);
     ov_clear(&oggFile);
   }
   p_beatOffset = 0;
