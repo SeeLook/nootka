@@ -206,7 +206,7 @@ void TabstractPlayer::setMetronome(unsigned int beatTempo) {
       return;
     }
     if (ov_open_callbacks(stdFile, &oggFile, nullptr, 0, OV_CALLBACKS_DEFAULT) < 0) {
-        qDebug() << "ERROR: Failed to open input as Vorbis\n";
+        qDebug() << "[TabstractPlayer] Failed to open input file as Ogg format";
         fclose(stdFile);
         return;
     }
@@ -240,8 +240,8 @@ void TabstractPlayer::setMetronome(unsigned int beatTempo) {
 //     m_beatArray = new qint16[beatFile.size() / 2];
 //     p_beatBytes = beatStream.readRawData(reinterpret_cast<char*>(m_beatArray), beatFile.size()) / 2;
 //     beatFile.close();
+//     ov_clear(&oggFile);
     fclose(stdFile);
-    ov_clear(&oggFile);
   }
   p_beatOffset = 0;
   p_beatPeriod = beatTempo ? (p_oggScale->sampleRate() * 60) / beatTempo : 0;
