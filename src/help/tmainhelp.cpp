@@ -18,6 +18,7 @@
 
 #include "tmainhelp.h"
 #include "thelpdialogbase.h"
+#include <tnootkaqml.h>
 
 #include <QtWidgets/qapplication.h>
 
@@ -25,7 +26,10 @@
 #if defined (Q_OS_ANDROID)
   inline int getPixSize() { return qApp->fontMetrics().height() * 1.2; }
 #else
-  inline int getPixSize() { return qApp->fontMetrics().height() * 1.5; }
+  inline int getPixSize() {
+//     return qApp->fontMetrics().height() * 1.5;
+    return qRound(static_cast<qreal>(NOO->fontSize()) * 3.0);
+  }
 #endif
 
 
@@ -49,13 +53,13 @@ QString TmainHelp::youWillLearnText() {
 
 QString TmainHelp::duringExercisingText() {
   QString nbsp3 = QLatin1String(" &nbsp; ");
-  return tr("During exercising %1 the program will be your understanding and friendly teacher - it will show you corrected answers if you miss.").arg(nbsp3 + ThelpDialogBase::pix("practice", getPixSize() * 1.3) + nbsp3);
+  return tr("During exercising %1 the program will be your understanding and friendly teacher - it will show you corrected answers if you miss.").arg(nbsp3 + ThelpDialogBase::pix("practice", getPixSize()) + nbsp3);
 }
 
 
 QString TmainHelp::duringExamsText() {
   QString nbsp3 = QLatin1String(" &nbsp; ");
-  return tr("During exams %1 Nootka will be your strict and &quot;old school&quot; master. Any mistake will be penalized with additional questions...<br>When you pass an exam you got a certificate!").arg(nbsp3 + ThelpDialogBase::pix("exam", getPixSize() * 1.3) + nbsp3);
+  return tr("During exams %1 Nootka will be your strict and &quot;old school&quot; master. Any mistake will be penalized with additional questions...<br>When you pass an exam you got a certificate!").arg(nbsp3 + ThelpDialogBase::pix("exam", getPixSize()) + nbsp3);
 }
 
 QString TmainHelp::mainHelp() {

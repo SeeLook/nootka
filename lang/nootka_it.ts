@@ -45,7 +45,7 @@
     </message>
     <message>
         <source>Only notes from current key signature are taken. If key signature is disabled accidentals are not used.</source>
-        <translation>Si utilizzano solo note di questa tonalità. Se la tonalità è stata disabilitata, le alterazione non vengono utlizzate.</translation>
+        <translation>Si utilizzano solo note di questa tonalità. Se la tonalità è stata disabilitata, le alterazione non vengono utilizzate.</translation>
     </message>
     <message>
         <source>notes in current key signature only</source>
@@ -134,7 +134,7 @@
     <message>
         <source>Not bad, but:</source>
         <comment>&apos;Not so bad, but:&apos; is perfectly clear, but a little less common in US English. To be a bit shorter, it might just as well be, &apos;Not bad, but:&apos;</comment>
-        <translation>Non male, ma:</translation>
+        <translation>Non male, ma...</translation>
     </message>
     <message>
         <source>wrong string</source>
@@ -458,7 +458,7 @@
     </message>
     <message>
         <source>Put numbers of frets marked with dot. Separate the numbers with comma. Add ! (exclamation mark) after a number to paint a dot twice.</source>
-        <translation>Metti i numeri dei tasti segnati con il pallino. Separa i numeri con una virgola. Aggiungi &quot;!&quot; (punto esclamativo) per mettere il dopplio pallino.</translation>
+        <translation>Metti i numeri dei tasti segnati con il pallino. Separa i numeri con una virgola. Aggiungi &quot;!&quot; (punto esclamativo) per mettere il doppio pallino.</translation>
     </message>
     <message>
         <source>color of a pointer on an instrument</source>
@@ -543,7 +543,7 @@
     </message>
     <message>
         <source>exit</source>
-        <translation type="vanished">esci</translation>
+        <translation>esci</translation>
     </message>
 </context>
 <context>
@@ -554,7 +554,7 @@
     </message>
     <message>
         <source>Edit</source>
-        <translation type="vanished">Modifica</translation>
+        <translation>Modifica</translation>
     </message>
 </context>
 <context>
@@ -580,7 +580,7 @@
     <message>
         <source>Add here melodies from Music XML files.
 Consider to divide long pieces on parts in external software first.</source>
-        <translation type="unfinished"></translation>
+        <translation>Carica qui una melodia da un file &lt;i&gt;Music XML&lt;/i&gt;. Puoi pensare di dividere un brano lungo in più parte con un software esterno.</translation>
     </message>
 </context>
 <context>
@@ -614,7 +614,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Melodies are randomized from defined list of melodies.</source>
-        <translation>Le melodie venogono generata in maniera casuale partendo dalla lista delle melodie.</translation>
+        <translation>Le melodie vengono generata in maniera casuale partendo dalla lista delle melodie.</translation>
     </message>
     <message>
         <source>Random melody</source>
@@ -805,7 +805,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>if checked, the lowest position in selected fret range is required, otherwise all possible positions of the note are acceptable. To use this, all strings have to be available!</source>
-        <translation>Se selezionato, verrà richiesto di utilizzare la posizione più bassa nel intervallo selezionato; altrimenti tutte le possibili posizioni della nota sono accetabili. Per utilizare ciò, devono essere disponibili tutte le corde!</translation>
+        <translation>Se selezionato, verrà richiesto di utilizzare la posizione più bassa nel intervallo selezionato; altrimenti tutte le possibili posizioni della nota sono accettabili. Per utilizzare ciò, devono essere disponibili tutte le corde!</translation>
     </message>
 </context>
 <context>
@@ -896,7 +896,7 @@ Consider to divide long pieces on parts in external software first.</source>
     <name>RhythmsPage</name>
     <message>
         <source>Select any rhythm and time signature to be used in this level, otherwise melodies will not have rhythmic values, just bare note-heads.</source>
-        <translation type="unfinished">fsSeleziona un ritmo e un metro per questo livello, altrimenti le melodie non avranno valori ritmici, ma solo semplici note senza gambo.</translation>
+        <translation>Seleziona un ritmo e un metro per questo livello, altrimenti le melodie non avranno valori ritmici, ma solo semplici note senza gambo.</translation>
     </message>
     <message>
         <source>Number of measures in a melody. If &apos;variable&apos; is set, it will grow up to the given value as an exercise or an exam is progressing.</source>
@@ -1105,7 +1105,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>skip stiller than</source>
-        <translation>evita suoni piu&apos; deboli di</translation>
+        <translation>evita suoni più deboli di</translation>
     </message>
     <message>
         <source>It is rather necessary for mic input but may be switched off for an instrument plugged line-in with less noise.</source>
@@ -1152,7 +1152,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file.</source>
-        <translation>Per iniziare a esercitarsi o procedere ad un nuovo esame insierisci il tuo nome e seleziona un livello. Per continuare con l&apos;esame precedente, selezionalo dalla lista o caricalo da un file.</translation>
+        <translation>Per iniziare a esercitarsi o procedere ad un nuovo esame inserisci il tuo nome e seleziona un livello. Per continuare con l&apos;esame precedente, selezionalo dalla lista o caricalo da un file.</translation>
     </message>
     <message>
         <source>Start exercise on level:</source>
@@ -1448,7 +1448,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>bass dropped</source>
-        <translation type="vanished">basso ottavato</translation>
+        <translation>basso ottavato</translation>
     </message>
     <message>
         <source>alto</source>
@@ -1496,7 +1496,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>For rhythms only, note pitch is undefined.</source>
-        <translation>Per notazione ritimca, l&apos;altezza delle note rimane indeterminata.</translation>
+        <translation>Per notazione ritmica, l&apos;altezza delle note rimane indeterminata.</translation>
     </message>
     <message>
         <source>Common used clef (for violin, flute, saxophones, etc.)</source>
@@ -1527,11 +1527,11 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Countdown before playing or listening.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stacca il tempo prima di suonare o ascoltare.</translation>
     </message>
     <message>
         <source>Audible metronome.&lt;br&gt;Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
-        <translation type="unfinished"></translation>
+        <translation>Metronomo attivo.&lt;br&gt;Usa un paio di cuffie! Altrimenti il click interferirà con il riconoscimento delle altezze!</translation>
     </message>
 </context>
 <context>
@@ -1546,7 +1546,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Enable metronome ticking</source>
-        <translation type="vanished">Attiva il click del metronomo</translation>
+        <translation>Attiva il click del metronomo</translation>
     </message>
     <message>
         <source>Count up</source>
@@ -1554,15 +1554,15 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Tick first, then play</source>
-        <translation type="vanished">Prima il click, poi suona</translation>
+        <translation>Prima il click, poi suona</translation>
     </message>
     <message>
         <source>Tick during play</source>
-        <translation type="vanished">Click durante la riproduzione</translation>
+        <translation>Click durante la riproduzione</translation>
     </message>
     <message>
         <source>Tick when pitch detecting</source>
-        <translation type="vanished">Click quando vi è il riconoscimento dell&apos;altezza</translation>
+        <translation>Click quando vi è il riconoscimento dell&apos;altezza</translation>
     </message>
     <message>
         <source>Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy.</source>
@@ -1574,7 +1574,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Metronome visible</source>
-        <translation type="unfinished"></translation>
+        <translation>Metronomo visibile</translation>
     </message>
 </context>
 <context>
@@ -1705,19 +1705,19 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>finish exercising</source>
-        <translation type="unfinished"></translation>
+        <translation>finisci l&apos;esercitazione</translation>
     </message>
     <message>
         <source>stop the exam</source>
-        <translation type="unfinished"></translation>
+        <translation>interrompi l&apos;esame</translation>
     </message>
     <message>
         <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
-        <translation type="unfinished"></translation>
+        <translation>Prima rispondi,&lt;br&gt;Poi l&apos;esame finirà.</translation>
     </message>
     <message>
         <source>Such a pity.</source>
-        <translation type="unfinished"></translation>
+        <translation>Che peccato!</translation>
     </message>
 </context>
 <context>
@@ -2313,11 +2313,11 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Level is not suitable for current instrument type</source>
-        <translation>Il livello non è utilizzabile per lo strumento precedentemente utilizzato</translation>
+        <translation>Il livello non è fruibile per lo strumento precedentemente utilizzato</translation>
     </message>
     <message>
         <source>Level is not suitable for current tuning and/or fret number</source>
-        <translation>Il livello non è utlizzabile per la accordatura e/o il numero di tasti</translation>
+        <translation>Il livello non è fruibile per la accordatura e/o il numero di tasti</translation>
     </message>
     <message>
         <source>File: %1 
@@ -2368,7 +2368,7 @@ Controlla se tutto i parametri sono corretti.</translation>
     <name>TmainHelp</name>
     <message>
         <source>Much depends on the chosen level. Press %1 button to create your own questions set (a level).</source>
-        <translation>Molto dipende dal livelo scelto. Premi %1 per creare la tua raccolta di domande (un livello personalizzato).</translation>
+        <translation>Molto dipende dal livello scelto. Premi %1 per creare la tua raccolta di domande (un livello personalizzato).</translation>
     </message>
     <message>
         <source>Select a level and warm up yourself exercising. Then try to pass an exam.</source>
@@ -2428,7 +2428,7 @@ Controlla se tutto i parametri sono corretti.</translation>
     </message>
     <message>
         <source>Shows names of all notes on the staff.</source>
-        <translation>Mostra il nome di tutte le nore sullo spartito.</translation>
+        <translation>Mostra il nome di tutte le note sullo spartito.</translation>
     </message>
     <message>
         <source>Additional accidentals</source>
@@ -2836,7 +2836,7 @@ Controlla se tutto i parametri sono corretti.</translation>
     </message>
     <message>
         <source>No thanks, but check entire melody from now.</source>
-        <translation>No, grazie.Ma controlla l&apos;intera melodia da adesso.</translation>
+        <translation>No, grazie. Ma controlla l&apos;intera melodia da adesso.</translation>
     </message>
 </context>
 <context>
@@ -3106,7 +3106,7 @@ Controlla se tutto i parametri sono corretti.</translation>
     <name>TupdateChecker</name>
     <message>
         <source>Checking for updates. Please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sto controllando se ci sono aggiornamenti. attendere prego...</translation>
     </message>
 </context>
 <context>
@@ -3144,7 +3144,7 @@ Controlla se tutto i parametri sono corretti.</translation>
     </message>
     <message>
         <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
-        <translation type="vanished">Per scaricarla, visita &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;il sito ufficiale di Nootka</translation>
+        <translation>Per scaricarla, visita &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;il sito ufficiale di Nootka</translation>
     </message>
     <message>
         <source>News:</source>
@@ -3160,7 +3160,7 @@ Controlla se tutto i parametri sono corretti.</translation>
     </message>
     <message>
         <source>To get it, visit %1 Nootka site</source>
-        <translation type="unfinished"></translation>
+        <translation>Per scaricarlo, visita %1 il sito di Nootka</translation>
     </message>
 </context>
 <context>
@@ -3208,7 +3208,7 @@ Controlla se tutto i parametri sono corretti.</translation>
     </message>
     <message>
         <source>Both pictures above show the same note!%1(note c in one-line octave)</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrambe le immagini sopra mostrano la stessa nota!%1(la nota Do nel registro centrale)</translation>
     </message>
 </context>
 <context>
