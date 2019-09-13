@@ -179,7 +179,7 @@ bool TaudioOUT::outCallBack(void* outBuff, void* inBuff, unsigned int nBufferFra
       instance->m_callBackIsBussy = false;
       endState = p_ticksCountBefore == 0 && (instance->playList().isEmpty() || p_playingNoteNr >= instance->playList().size());
   }
-  if (instance->p_doEmit && !areStreamsSplit() && endState) {
+  if (instance->p_doEmit && endState) {
     ao()->emitPlayingFinished(); // emit in duplex mode
     instance->p_doEmit = false;
   }
@@ -217,7 +217,14 @@ TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
   connect(oggScale, &ToggScale::noteDecoded, this, &TaudioOUT::decodeNextSlot, Qt::DirectConnection);
 
   // open stream if has not opened yet to avoid delay (Pulse Audio) when playing is already wanted
-  QTimer::singleShot(500, this, [=]{ if (!isOpened()) openStream(); });
+  QTimer::singleShot(500, this, [=]{
+    if (!isOpened()) {
+      openStream();
+      if (getCurrentApi() == RtAudio::LINUX_PULSE)
+        closeStream(); // HACK: Fixes strange delay of input data
+    }
+    setAudioOutParams();
+  });
 }
 
 
@@ -232,7 +239,7 @@ TaudioOUT::~TaudioOUT()
 
 
 void TaudioOUT::setAudioOutParams() {
-//   qDebug() << "setAudioOutParams";
+//   qDebug() << "[TaudioOUT] setAudioOutParams";
   p_playable = oggScale->loadAudioData(audioParams()->audioInstrNr);
   if (p_playable && streamParams()) {
       ratioOfRate = outRate() / 44100;
@@ -287,8 +294,7 @@ void TaudioOUT::startPlaying() {
   p_posInOgg = 0;
   if (playList().size() > 1 && p_tempo > 100) // in faster tempo wait for decoding more notes
     QThread::currentThread()->msleep(100);
-  if (areStreamsSplit() && state() != e_playing)
-    openStream();
+
   startStream();
   if (playList().size() > 1)
     ao()->emitNextNoteStarted();
@@ -306,9 +312,6 @@ void TaudioOUT::playingFinishedDelay() {
 
 
 void TaudioOUT::playingFinishedSlot() {
-  if (areStreamsSplit() && state() == e_playing)
-    closeStream();
-
   p_lastNotePlayed = false;
   p_isPlaying = false;
   setPlayCallbackInvolved(false);
@@ -342,10 +345,6 @@ void TaudioOUT::stop() {
   p_lastPosOfPrev = 0;
   p_isPlaying = false;
   p_ticksCountBefore = 0;
-  if (areStreamsSplit()/* || getCurrentApi() == RtAudio::LINUX_PULSE*/)
-    closeStream();
-//   else
-//     abortStream();
 }
 
 

@@ -123,8 +123,6 @@ void TaudioIN::startListening() {
   if (detectingState() != e_detecting) {
     resetVolume();
     if (!stoppedByUser()) {
-      if (areStreamsSplit() && detectingState() != e_detecting)
-        openStream();
       if (startStream())
         setState(e_detecting);
 //       qDebug() << "start listening";
@@ -138,8 +136,6 @@ void TaudioIN::stopListening() {
 //     qDebug() << "stop listening";
     resetVolume();
     resetChunkPitch();
-    if (areStreamsSplit() || rtDevice()->getCurrentApi() != RtAudio::LINUX_PULSE)
-      abortStream();
     setState(e_stopped);
     finder()->stop(true);
   }
