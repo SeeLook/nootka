@@ -25,11 +25,11 @@ ToolButton {
   property Taction taction
   property bool hiHover: true
 
-  background: Rectangle {
-    color: Noo.alpha(activPal.highlight, 50)
-    scale: hovered && hiHover ? 1 : 0
-    Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
-  }
+  background: Item {} // Rectangle {
+//     color: Noo.alpha(activPal.highlight, 50)
+//     scale: hovered && hiHover ? 1 : 0
+//     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
+//   }
 
   onHoveredChanged: {
     if (GLOB.showHints && taction && taction.tip !== "") {
@@ -58,6 +58,7 @@ ToolButton {
 
   Image {
     id: pix
+    mipmap: true
     source: taction ? taction.icon : ""
     y: Screen.pixelDensity + (GLOB.useAnimations && !pressed && hiHover && hovered ? (root.height - height - Screen.pixelDensity) / 2 : 0)
     height: factor * 8; width: height * (sourceSize.width / sourceSize.height)
