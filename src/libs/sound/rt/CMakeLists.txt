@@ -21,7 +21,6 @@ add_definitions(-D__WINDOWS_WASAPI__)
 add_definitions(-D__WINDOWS_DS__)
 add_definitions(-D__WINDOWS_ASIO__)
 add_definitions(-D__WINDOWS_MM__)
-# set(WIN_LIBS winmm ole32 dsound uuid ksuser) # uuid & ksuser are required by WASAPI
 
 
 set(LIB_RTAUDIO_SRC
@@ -35,6 +34,6 @@ set(LIB_RTAUDIO_SRC
 )
 
 add_library(RtAudio SHARED ${LIB_RTAUDIO_SRC} )
-target_link_libraries(RtAudio Qt5::Core ${CMAKE_THREAD_LIBS_INIT} winmm ole32 dsound uuid ksuser)
+target_link_libraries(RtAudio Qt5::Core ${CMAKE_THREAD_LIBS_INIT} winmm ole32 dsound mfuuid ksuser mfplat wmcodecdspuuid)
 
 install(TARGETS RtAudio DESTINATION .)
