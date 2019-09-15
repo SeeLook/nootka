@@ -79,22 +79,24 @@ TmelGenItem {
     }
   }
 
+  property var defButt: null
   Component.onCompleted: {
     if (Noo.isAndroid()) {
         dialLoader.buttons = [DialogButtonBox.Close, DialogButtonBox.Help, DialogButtonBox.RestoreDefaults]
     } else {
         dialLoader.title = Noo.TR("TmelodySettings", "Random melody")
         dialLoader.standardButtons = DialogButtonBox.Close | DialogButtonBox.Help | DialogButtonBox.RestoreDefaults
-        var b = dialLoader.buttonBox.standardButton(DialogButtonBox.RestoreDefaults)
-        b.text = Noo.TR("TmainScoreObject", "Generate melody")
-        b.DialogButtonBox.buttonRole = DialogButtonBox.ActionRole
-        b.pixmap = Noo.pix("melody")
-        b.clicked.connect(doGenerate)
+        defButt = dialLoader.buttonBox.standardButton(DialogButtonBox.RestoreDefaults)
+        defButt.text = Noo.TR("TmainScoreObject", "Generate melody")
+        defButt.DialogButtonBox.buttonRole = DialogButtonBox.ActionRole
+        defButt.pixmap = Noo.pix("melody")
+        defButt.clicked.connect(doGenerate)
     }
   }
 
   function doGenerate() {
     generate()
+    defButt.clicked.disconnect(doGenerate)
     dialLoader.close()
   }
 

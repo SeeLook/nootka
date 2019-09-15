@@ -22,11 +22,11 @@ ToolButton {
   property real factor: analyzeWindow.height / 150
   property Taction taction
 
-  background: Rectangle {
-    color: checked ? activPal.highlight : Noo.alpha(activPal.highlight, 50)
-    scale: hovered || checked ? 1 : 0
-    Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
-  }
+  background: Item {} // Rectangle {
+//     color: checked ? activPal.highlight : Noo.alpha(activPal.highlight, 50)
+//     scale: hovered || checked ? 1 : 0
+//     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
+//   }
 
   onClicked: {
     if (taction)
@@ -36,11 +36,11 @@ ToolButton {
 
   Image {
     id: pix
+    anchors.centerIn: parent
     source: taction ? taction.icon : ""
     height: factor * 10; width: height * (sourceSize.width / sourceSize.height)
-    y: Screen.pixelDensity
     transformOrigin: Image.Center
-    scale: pressed ? 0.6 : (hovered ? 1.0 : 0.8)
+    scale: pressed ? 0.6 : (hovered ? 1.1 : 0.8)
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
   }
 
