@@ -146,9 +146,9 @@
       <image
          sodipodi:absref="/home/tom/DEVELOP/QT5/nootka-devel/spare_parts/scalable/pack_pliki/package-large.html"
          xlink:href="pack_pliki/package-large.html"
-         height="1020.0000"
+         width="1012.0000"
          id="image2122"
-         width="1012.0000" />
+         height="1020.0000" />
     </pattern>
     <linearGradient
        id="linearGradient2246"
@@ -171,9 +171,9 @@
       <image
          sodipodi:absref="/home/tom/DEVELOP/QT5/nootka-devel/spare_parts/scalable/pack_pliki/rpmlogo-200.html"
          xlink:href="pack_pliki/rpmlogo-200.html"
-         height="200.00000"
+         width="200.00000"
          id="image2262"
-         width="200.00000" />
+         height="200.00000" />
     </pattern>
     <linearGradient
        id="linearGradient2730"
@@ -1346,15 +1346,15 @@
      bordercolor="#666666"
      borderopacity="1.0"
      id="base"
-     inkscape:cx="96.312962"
-     inkscape:cy="35.087166"
+     inkscape:cx="76.766292"
+     inkscape:cy="70.69385"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:window-height="1163"
-     inkscape:window-width="1600"
+     inkscape:window-height="1043"
+     inkscape:window-width="1920"
      inkscape:window-x="0"
      inkscape:window-y="0"
-     inkscape:zoom="2.4799525"
+     inkscape:zoom="4.959905"
      pagecolor="#ffffff"
      showgrid="false"
      inkscape:window-maximized="1"
@@ -1371,19 +1371,19 @@
      d="M 118.36827,3.3139814 114.5532,116.06228 86.727879,128.80714 13.183365,104.23759 11.631735,3.4519674 34.835546,1.1928634 Z"
      id="path2127"
      sodipodi:nodetypes="ccccccc"
-     style="fill:#008000;fill-opacity:1;fill-rule:evenodd;stroke-width:1.00000003pt"
+     style="fill:#009494;fill-opacity:1;fill-rule:evenodd;stroke-width:1.00000003pt"
      inkscape:connector-curvature="0" />
   <path
      d="M 118.36827,3.3139814 114.5532,116.06228 86.727879,128.80714 90.403039,6.3848425 Z"
      id="path2135"
      sodipodi:nodetypes="ccccc"
-     style="fill:#009f00;fill-opacity:1;fill-rule:evenodd;stroke-width:1.00000003pt"
+     style="fill:#006464;fill-opacity:1;fill-rule:evenodd;stroke-width:1.00000003pt"
      inkscape:connector-curvature="0" />
   <path
      d="M 89.351409,6.6850455 85.745389,127.0571 14.239466,102.90214 12.195148,3.8171729 Z"
      id="path2136"
      sodipodi:nodetypes="ccccc"
-     style="fill:#37c871;fill-opacity:1;fill-rule:evenodd;stroke-width:1.00000003pt"
+     style="fill:#008080;fill-opacity:1;fill-rule:evenodd;stroke-width:1.00000003pt"
      inkscape:connector-curvature="0" />
   <g
      id="g1268"
@@ -1410,13 +1410,13 @@
   <text
      xml:space="preserve"
      style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:22.38767052px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:sans-serif;letter-spacing:0px;word-spacing:0px;fill:#ffff00;fill-opacity:1;stroke:none;stroke-width:0.99999994"
-     x="4.7769914"
-     y="-97.305672"
+     x="25.188833"
+     y="-98.095512"
      id="text1263"
-     transform="rotate(92.215966)"><tspan
+     transform="matrix(-0.03866626,1.006913,-0.99925218,0.15931264,0,0)"><tspan
        sodipodi:role="line"
        id="tspan1261"
-       x="4.7769914"
-       y="-97.305672"
-       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ffff00;stroke-width:0.99999994">NOOTKA</tspan></text>
+       x="25.188833"
+       y="-98.095512"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ffff00;stroke-width:0.99999994">NooTkA</tspan></text>
 </svg>
