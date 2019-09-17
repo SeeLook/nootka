@@ -4,8 +4,6 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-// import QtQuick.Window 2.2
-// import QtGraphicalEffects 1.0
 
 import "../about"
 import "../"
@@ -38,16 +36,7 @@ ApplicationWindow {
         id: leftImg
         source: Noo.pix("wizard-left")
         height: nootkaWindow.height - footer.height; width: height * 0.246
-//         smooth: true; visible: false
       }
-//       Colorize {
-//         property color labelColor: aboutPage.color
-//         anchors.fill: leftImg
-//         source: leftImg
-//         hue: Noo.hue(labelColor)
-//         saturation: Noo.saturation(labelColor)
-//         lightness: Noo.lightness(labelColor)
-//       }
     }
     Item {
       height: parent.height; width: parent.width - parent.height * 0.246
@@ -55,12 +44,14 @@ ApplicationWindow {
         id: swipe
         anchors.fill: parent
         clip: true
+//         Item {
+//           SoundInfo {}
+//         }
 
         Item {
           AboutPage {
             id: aboutPage
-//             property color c: Noo.randomColor()
-//             color: Qt.hsla(Noo.hue(c), Noo.saturation(c), Math.max(0.8, Noo.lightness(c)))
+            color: "#00a0a0"
           }
         }
         Item {
@@ -74,6 +65,9 @@ ApplicationWindow {
         }
         Item {
           HelpPage { helpText: HELP.mainHelp(); height: parent.height }
+        }
+        Item {
+          SoundInfo {}
         }
       }
     }
