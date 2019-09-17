@@ -54,7 +54,7 @@ Column {
   Tile {
     bgColor: Qt.tint(nootkaWindow.labelColor, Noo.alpha(activPal.base, 230))
     bgBorder { width: 2; color: nootkaWindow.labelColor }
-    width: innerCol.width + Noo.fontSize() * 2
+    width: innerCol.width + Noo.fontSize() * 4
     Column {
       id: innerCol
       spacing: Noo.fontSize()
