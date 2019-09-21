@@ -34,14 +34,14 @@ Column {
       width: levelsPage.width / 4
       pixmap: Noo.pix("exam"); iconHeight: levelsPage.height / 15
       text: qsTr("Start exam")
-      onClicked: start(2, selector.currentLevel())
+      onClicked: start(2, selector.currentLevelVar())
     }
     TiconButton {
       enabled: selector.levelId !== -1 && selector.isSuitable(selector.levelId)
       width: levelsPage.width / 4
       pixmap: Noo.pix("practice"); iconHeight: levelsPage.height / 15
       text: qsTr("Start exercise")
-      onClicked: start(4, selector.currentLevel())
+      onClicked: start(4, selector.currentLevelVar())
     }
   }
   LinkText {
