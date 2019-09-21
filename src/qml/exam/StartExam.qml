@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -85,7 +85,7 @@ TstartExamItem {
             enabled: selector.levelId > -1 || prevLevelName() !== ""
             iconHeight: startDialog.height / 15
             pixmap: Noo.pix("practice"); text: qsTr("Start exercise on level:")
-              onClicked: start(Texecutor.StartExercise, selector.levelId > -1 ? selector.currentLevel() : prevLevel())
+              onClicked: start(Texecutor.StartExercise, selector.levelId > -1 ? selector.currentLevelVar() : prevLevel())
           }
           Text {
             anchors.verticalCenter: parent.verticalCenter
@@ -102,7 +102,7 @@ TstartExamItem {
             enabled: selector.levelId !== -1
             iconHeight: startDialog.height / 15
             pixmap: Noo.pix("exam"); text: qsTr("Pass new exam on level:")
-            onClicked: start(Texecutor.NewExam, selector.currentLevel())
+            onClicked: start(Texecutor.NewExam, selector.currentLevelVar())
           }
           Text {
             anchors.verticalCenter: parent.verticalCenter

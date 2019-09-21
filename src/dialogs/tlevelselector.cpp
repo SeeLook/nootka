@@ -144,6 +144,12 @@ Tlevel* TlevelSelector::currentLevel() {
 }
 
 
+QVariant TlevelSelector::currentLevelVar() {
+  return QVariant::fromValue(currentLevel());
+}
+
+
+
 bool TlevelSelector::isRemovable(int id) const {
   return id >= 0 && id < m_levels.count() ? !m_levels[id].file.isEmpty() : false;
 }

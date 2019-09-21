@@ -83,7 +83,13 @@ public:
        */
   void addLevel(const Tlevel &lev, const QString& levelFile = QString(), bool check = false);
 
-  Q_INVOKABLE Tlevel* currentLevel();
+  Tlevel* currentLevel();
+
+      /**
+       * QML version of above method, where @p Tlevel pointer is wrapped by @p QVariant.
+       * Win OS can't recognize bare Tlevel* from QML
+       */
+  Q_INVOKABLE QVariant currentLevelVar();
 
       /**
        * Shows the level with given @p id in the level preview

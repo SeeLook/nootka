@@ -1825,8 +1825,7 @@ bool TexamExecutor::castLevelFromQVariant(const QVariant& v) {
   if (l) {
       m_level = *l;
       return true;
-  } else { // TODO It should never happened, delete it when checked
-      qDebug() << "[TexamExecutor] CAN'T CAST Tlevel* FROM QVariant!!!";
+  } else {
       return false;
   }
 }
