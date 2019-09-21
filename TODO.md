@@ -8,6 +8,7 @@
 ============================================================================
 
 ### For incoming stable release version 2.0
+  - during exams automatically adjust quantization according to melody shortest rhythm
   - fix detecting last note duration in exercises/exams
   - add an option to skip rests (pitch detection gaps) and treat their duration as previous note was longer
   - manual adding/editing ties
@@ -35,11 +36,14 @@
   - exams control melody tempo, either fixed value from melody or random from declared range (or increased every question)
   - viewing entire melody in stats, playing them and single notes as well
     so far, user can play whatever tempo he likes
+  - option for randomizing timbre (instrument sound) in every dictation melody
 
 
 ============================================================================
 
 ### small glitches:
+ - icons in help texts are scaled by its width (despite parameter is called height), but width of them differs so it look a bit weird
+ - when exercise becomes exam tips are blended
  - melody won't play in exercises/exams (first question OK but further is worst)
  - sometimes setting a note doesn't scale tie - probably due to note width is not refreshed
  - meter can be too close to key signature - probably related with clef change

@@ -24,14 +24,12 @@
 #include <QtCore/qpoint.h>
 #include <QtGui/qcolor.h>
 #include <exam/tqatype.h>
-//#include <tfingerpos.h>
 
 
 #define TIP_POS_NUM (4) /**< Number of possible tip positions depends on question/answer combination */
 
 class Tnote;
 class TnoteName;
-//class TnootkaCertificate;
 class QTimer;
 class TexamExecutor;
 class QTimer;
@@ -152,7 +150,7 @@ public:
 //        * and start point on the animation depends on question type.  */
 //  void correctToGuitar(TQAtype::Etype& question, int prevTime, TfingerPos& goodPos);
 
-  void clearCanvas();
+  void clearTips(bool resTipAlso = true);
 
       /**
        * Returns point size of 'A' letter multiplied by 2.
@@ -179,7 +177,11 @@ public:
 //      /** Message on a status bar about currently performed exercise/exam.
 //       * It has to be updated whenever correcting melody message is displayed and deleted.*/
 //  void levelStatusMessage();
-//  void playMelodyAgainMessage(); /**< displays message text: Select any note to play it again. */
+
+      /**
+       * displays message text: Select any note to play it again.
+       */
+ void playMelodyAgainMessage();
 
 signals:
   void tipChanged();
