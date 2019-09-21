@@ -263,7 +263,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     if (!GLOB->E->autoNextQuest) {
       if (!m_exercise)
         m_stopExamAct->setEnabled(false);
-      m_tipHandler->clearCanvas();
+      m_tipHandler->clearTips();
     }
     m_incorrectRepeated = false;
     m_answRequire.octave = m_level.requireOctave;
@@ -704,7 +704,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
       autoNext = false; // when mistake and e_stop - the same like autoNext = false;
 
   if (showResults) {
-    if (!(GLOB->waitForCorrect() && curQ->answerAsSound() && m_exercise && m_melody))
+//     if (!(GLOB->waitForCorrect() && curQ->answerAsSound() && m_exercise && m_melody))
       m_tipHandler->showResultTip(curQ); // tip duration is calculated by itself (inside resultTip() method)
     if ((!m_exercise || (m_exercise && curQ->isCorrect())) && !autoNext)
       m_tipHandler->showWhatNextTip(curQ->isCorrect());
@@ -789,7 +789,7 @@ void TexamExecutor::correctAnswer() {
   QObject* correctAnimObject = nullptr;
   if (m_askingTimer->isActive())
     m_askingTimer->stop();
-  m_tipHandler->clearCanvas();
+  m_tipHandler->clearTips(false);
   auto curQ = m_exam->answList()->last();
 //   QColor markColor = m_supp->answerColor(curQ);
 //   if (curQ->melody() && (curQ->answerAsNote() || curQ->questionAsNote())) {
@@ -870,11 +870,12 @@ void TexamExecutor::correctAnswer() {
 void TexamExecutor::newAttempt() {
   m_tipHandler->showTryAgainTip(3000);
 //   QTimer::singleShot(2000, m_tipHandler, SLOT(clearResultTip())); // TODO remove when not used
-  MAIN_SCORE->showNoteNames(false);
+//   MAIN_SCORE->showNoteNames(false);
   if (m_exam->curQ()->answerOnScore() || m_exam->curQ()->questionOnScore()) { // remove names and marks from score notes
     int scoreNoteId = 0;
     QColor mc;
     for (int i = 0; i < m_exam->curQ()->lastAttempt()->mistakes.size(); ++i) {
+      MAIN_SCORE->showNoteName(i, false);
       if (!m_exercise || m_exam->curQ()->lastAttempt()->mistakes[i] == TQAunit::e_correct)
         mc.setAlpha(0);
       else
@@ -965,7 +966,7 @@ void TexamExecutor::repeatQuestion() {
   TQAunit curQ(*m_exam->curQ()); // copy last unit as a new one
 
   if (!GLOB->E->autoNextQuest)
-      m_tipHandler->clearCanvas();
+      m_tipHandler->clearTips();
   curQ.setMistake(TQAunit::e_correct);
 
   if (curQ.answerOnScore())
@@ -1278,7 +1279,7 @@ void TexamExecutor::exerciseToExam() {
   clearWidgets();
   emit examActionsChanged();
   emit titleChanged();
-  m_tipHandler->clearCanvas();
+  m_tipHandler->clearTips();
   m_tipHandler->showStartTip();
 }
 
@@ -1407,7 +1408,7 @@ void TexamExecutor::closeExecutor() {
   NOO->setMessageColor(QColor(0, 0xa0, 0xa0));
   NOO->showTimeMessage(tr("Such a pity."), 5000, QQuickItem::Top);
 
-  m_tipHandler->clearCanvas();
+  m_tipHandler->clearTips();
   clearWidgets();
   restoreAfterExam();
   GLOB->setIsExam(false);
@@ -1513,11 +1514,11 @@ QString TexamExecutor::saveExamToFile() {
       msg->setText(tr("If you don't save to file<br>you lost all results!"));
       msg->setStandardButtons(QMessageBox::Save | QMessageBox::Discard);
       if (msg->exec() == QMessageBox::Save)
-          fileName = saveExamToFile();
+        fileName = saveExamToFile();
       delete msg;
   }
   if (!fileName.isEmpty() && fileName.right(4) != noo)
-      fileName += noo;
+    fileName += noo;
   return fileName;
 }
 
@@ -1555,14 +1556,13 @@ void TexamExecutor::connectPlayingFinished() {
 }
 
 
-int melodySelectionIndex = 0;
 void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
   if (m_melody->wasIndexChanged())
     m_exam->curQ()->lastAttempt()->melodyWasPlayed();
   m_melody->noteStarted();
   if (m_melody->currentIndex() == 0) { // first played note was detected
     m_exam->curQ()->lastAttempt()->setPrepareTime(m_penalty->elapsedTime() - quint32(n.duration));
-    melodySelectionIndex = 1;
+    m_melodySelectionIndex = 1; // reset it here
   }
   if (m_exercise && m_exam->curQ()->melody()->meter()->meter() == Tmeter::NoMeter && GLOB->waitForCorrect()) {
       int expected = m_exam->curQ()->melody()->note(m_melody->currentIndex())->p().chromatic();
@@ -1582,10 +1582,10 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
           MAIN_SCORE->markNoteHead(GLOB->wrongColor(), m_melody->currentIndex());
       }
   } else {
-      if (melodySelectionIndex < m_exam->curQ()->melody()->length()) // highlight next note
-        melodySelectionIndex += MAIN_SCORE->setSelectedItem(melodySelectionIndex);
+      if (m_melodySelectionIndex < m_exam->curQ()->melody()->length()) // highlight next note
+        m_melodySelectionIndex += MAIN_SCORE->setSelectedItem(m_melodySelectionIndex);
       else
-        melodySelectionIndex++;
+        m_melodySelectionIndex++;
   }
 }
 
@@ -1597,19 +1597,14 @@ void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
   bool waitForCorrect = m_exercise && m_exam->curQ()->melody()->meter()->meter() == Tmeter::NoMeter && GLOB->waitForCorrect();
   if (!waitForCorrect)
     m_melody->setNote(n);
-//   if (m_melody->currentIndex() == m_exam->curQ()->melody()->length() - 1) {
-  if (melodySelectionIndex > m_exam->curQ()->melody()->length()) {
+  if ((waitForCorrect && m_melody->currentIndex() == m_exam->curQ()->melody()->length() - 1) || m_melodySelectionIndex > m_exam->curQ()->melody()->length()) {
     if (waitForCorrect && !m_melody->wasLatestNoteSet())
       return;
     if (GLOB->E->expertsAnswerEnable)
         checkAnswer();
     else {
-        if (waitForCorrect)
-            checkAnswer();
-        else {
-  //       m_tipHandler->playMelodyAgainMessage();
-            m_tipHandler->showConfirmTip(800);
-        }
+      m_tipHandler->playMelodyAgainMessage();
+      m_tipHandler->showConfirmTip(800);
       SOUND->stopListen();
     }
   }

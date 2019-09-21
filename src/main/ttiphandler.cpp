@@ -361,13 +361,15 @@ void TtipHandler::showWhatNextTip(bool isCorrect, bool toCorrection) {
 }
 
 
-//void TtipHandler::playMelodyAgainMessage() {
-//#if defined (Q_OS_ANDROID)
+void TtipHandler::playMelodyAgainMessage() {
+  NOO->setMessageColor(GLOB->EanswerColor);
+  NOO->showTimeMessage(tr("Select any note to play it again."), 3000);
+// #if defined (Q_OS_ANDROID)
 //  tMessage->setMessage(detectedText(tr("Select any note to play it again.")), 3000);
-//#else
+// #else
 //  STATUS->setMessage(detectedText(tr("Select any note to play it again.")), 3000);
-//#endif
-//}
+// #endif
+}
 
 
 void TtipHandler::showQuestionTip() {
@@ -375,8 +377,8 @@ void TtipHandler::showQuestionTip() {
     deleteResultTip();
   deleteQuestionTip();
 
-  QString br = QStringLiteral("<br>");
-  QString sp = QStringLiteral(" ");
+  auto br = QStringLiteral("<br>");
+  auto sp = QStringLiteral(" ");
   QString questText;
   QString attemptText;
   auto question = m_exam->curQ();
@@ -614,11 +616,12 @@ void TtipHandler::melodyCorrectMessage() {
 //}
 
 
-void TtipHandler::clearCanvas() {
+void TtipHandler::clearTips(bool resTipAlso) {
   deleteStartTip();
   deleteQuestionTip();
   deleteConfirmTip();
-  deleteResultTip();
+  if (resTipAlso)
+    deleteResultTip();
   deleteTryAgainTip();
   deleteWhatNextTip();
 //  clearMelodyCorrectMessage();
