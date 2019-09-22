@@ -376,6 +376,22 @@
         <source>scale</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Select a language.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;To take effect, this requires restarting the application!&lt;/span&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check for updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Restore all default settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All settings will be reset to their default values!&lt;br&gt;Nootka will start up with the first-run wizard.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>InstrumentPage</name>
@@ -458,6 +474,13 @@
     </message>
 </context>
 <context>
+    <name>KeySignature</name>
+    <message>
+        <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LevelCreator</name>
     <message>
         <source>Levels</source>
@@ -523,10 +546,6 @@
     </message>
     <message>
         <source>Metronome</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>exit</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -887,14 +906,6 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
 </context>
 <context>
-    <name>ScoreMenuContent</name>
-    <message>
-        <source>notes</source>
-        <comment>musical notes of course</comment>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>ScorePage</name>
     <message>
         <source>Score settings</source>
@@ -977,10 +988,6 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>enable key signature</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>show names of key signature</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1000,11 +1007,42 @@ Consider to divide long pieces on parts in external software first.</source>
         <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>use key signatures</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Select7note</name>
     <message>
         <source>7th note is:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SoundInfo</name>
+    <message>
+        <source>Nootka can hear You!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nootka Recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Be sure your system is able to record what are you playing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust minimal note volume a little below of your input volume level.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Aim to play loud and clear and avoid dirty sounds specific to your instrument.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rhythms detection during exercises and exams is more &apos;humane&apos; - Nootka knows what rhythm to expect. In contrary to playing to &apos;empty&apos; score when high rhythmic precision is required, so better use metronome then.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1425,10 +1463,6 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>bass dropped</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>alto</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1509,6 +1543,14 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Audible metronome.&lt;br&gt;Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>beats per minute</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mouse wheel changes tempo promptly (also with %1 key). Click for more options.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1968,25 +2010,6 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Directory named &lt;b&gt;Nootka&lt;/b&gt; will be created in&lt;br&gt;%1&lt;br&gt;Application files will be written there.</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>GlobalPage</name>
-    <message>
-        <source>Select a language.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;To take effect, this requires restarting the application!&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Check for updates</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Restore all default settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>All settings will be reset to their default values!&lt;br&gt;Nootka will start up with the first-run wizard.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2474,6 +2497,11 @@ Consider to divide long pieces on parts in external software first.</source>
         <source>Open, save, generate and play a melody.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>notes</source>
+        <comment>musical notes of course</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TnameItem</name>
@@ -2708,6 +2736,16 @@ Consider to divide long pieces on parts in external software first.</source>
         <source>dot</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>rise</source>
+        <comment>as such as sharps rise note</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>lower</source>
+        <comment>as such as flats lower note</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TscoreSettings</name>
@@ -2938,6 +2976,14 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Play or sing listened sound</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select any note to play it again.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3174,6 +3220,10 @@ Consider to divide long pieces on parts in external software first.</source>
     <name>WizardGuitars</name>
     <message>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below &lt;br&gt;(even if some editors are forgetting about this digit).&lt;br&gt;Try to understand this.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Both pictures above show the same note!%1(note c in one-line octave)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
