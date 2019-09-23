@@ -11,8 +11,8 @@ endif()
 project(nootka)
 
 set(Nootka_VERSION_MAJOR  "1")
-set(Nootka_VERSION_MINOR  "5")
-set(Nootka_VERSION_PATCH  "3-beta1")
+set(Nootka_VERSION_MINOR  "7")
+set(Nootka_VERSION_PATCH  "0-beta1")
 
 
 set(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
