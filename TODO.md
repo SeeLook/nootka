@@ -23,7 +23,7 @@
   - music XML import dialog, to select voice or staff if there are more, and so
   - exam summary - give more valuable info, wear it nicely
   - charts suck. For exams with many questions it wastes a lot of RAM. Make them QML
-  - migrate on preferred 48000 sample rate (ogg files and audio methods)
+  - migrate on preferred 48000 sample rate (ogg files and audio methods). DO NOT forget to resize output samples length
   - add Italian tempo names to tempo menu
 
 ### For next stable Nootka version 2.2

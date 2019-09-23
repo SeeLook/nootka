@@ -584,7 +584,7 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
           if (!m_examMode && !m_tunerMode)
             NOO->noteFinished(m_detectedNote);
           int realTempo = qRound(60.0 / ((24.0 / static_cast<qreal>(m_detectedNote.duration())) * static_cast<qreal>(note.duration)));
-          qDebug() << "Detected" << note.duration << normDur << note.pitchF << m_detectedNote.rtm.string() << "tempo" << realTempo << "\n";
+//           qDebug() << "Detected" << note.duration << normDur << note.pitchF << m_detectedNote.rtm.string() << "tempo" << realTempo << "\n";
       } else {
           int rtmRest = 0;
           TrhythmList notes = Trhythm::resolve(normDur, &rtmRest);

@@ -366,9 +366,9 @@ void TpitchFinder::processed() {
             if (restDur < m_minChunks) {
                 if (m_plaingWasDetected) {
                   m_lastDetectedNote.duration += restDur * m_chunkTime;
-                  QTextStream o(stdout);
-                  o << "\033[01;37m   [TpitchFinder] NOTE finished FIXED " << m_lastDetectedNote.pitchF << " "
-                    << m_lastDetectedNote.duration * 1000.0 << " \033[01;00m\n";
+//                   QTextStream o(stdout);
+//                   o << "\033[01;37m   [TpitchFinder] NOTE finished FIXED " << m_lastDetectedNote.pitchF << " "
+//                     << m_lastDetectedNote.duration * 1000.0 << " \033[01;00m\n";
                   emit noteFinished(&m_lastDetectedNote);
                   // TODO; if it occurs, Tsound might split previously detected duration and it will improper
                 }
@@ -424,8 +424,8 @@ void TpitchFinder::detect() {
   FilterState filterState;
   m_channel->processNewChunk(&filterState);
   AnalysisData *data = m_channel->dataAtCurrentChunk();
-  if (data == 0) {
-    qDebug() << "Uh-uh! There is no Analysis data in processed chunk!";
+  if (data == 0) { // In fact, it never happens
+    qDebug() << "[TpitchFinder] Uh-uh! There is no Analysis data in processed chunk!";
     incrementChunk();
     m_isBussy = false;
     return;
@@ -445,9 +445,9 @@ void TpitchFinder::detect() {
     if (data->noteIndex != NO_NOTE && m_prevNoteIndex != NO_NOTE) {
       float diff = qAbs(m_currentNote.pitches()->last() - data->pitch);
       if (diff < 1.0f) {
-        QTextStream o(stdout);
-        o << "\033[01;36m Tartini was mistaken - there is still the same note! "
-        << diff << " " << m_currentNote.pitches()->last() << " " << data->pitch << " " << m_currentNote.duration << " \033[01;00m\n";
+//         QTextStream o(stdout);
+//         o << "\033[01;36m Tartini was mistaken - there is still the same note! "
+//         << diff << " " << m_currentNote.pitches()->last() << " " << data->pitch << " " << m_currentNote.duration << " \033[01;00m\n";
         noteChanged = false;
       }
     }
