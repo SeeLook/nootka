@@ -10,6 +10,7 @@
 ### For incoming stable release version 2.0
   - during exams automatically adjust quantization according to melody shortest rhythm
   - fix detecting last note duration in exercises/exams
+  - randomly generated melodies have no rests yet, but see below for a reason
   - add an option to skip rests (pitch detection gaps) and treat their duration as previous note was longer
   - manual adding/editing ties
   - finish tuner, functionality similar to Android one (show tuning, middle A freq)

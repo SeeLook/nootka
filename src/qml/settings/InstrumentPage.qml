@@ -50,7 +50,7 @@ Flickable {
                   else
                     setTuning(Noo.tuning(Ttune.Standard_EADGBE))
               } else if (ins.type === Tinstrument.NoInstrument) {
-                  setTuning(GLOB.tuning.raw())
+                  setTuning(Noo.tuning(score.scoreObj.lowestNote(), score.scoreObj.highestNote(), Noo.emptyNote(), Noo.emptyNote(), Noo.emptyNote(), Noo.emptyNote()))
               }
           }
         }
