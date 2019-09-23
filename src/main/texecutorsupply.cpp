@@ -674,10 +674,10 @@ void TexecutorSupply::comparePlayedFromScore(Tmelody* q, QList<TnoteStruct>& a, 
                   qreal tempo = 60.0 / ((24.0 / static_cast<qreal>(quesList[i].duration())) * a[i].duration);
                   tempoCounter++;
                   tempoSum += tempo;
-                  qDebug() << i << "rhythm was correct. Tempo is" << tempo;
+//                   qDebug() << i << "rhythm was correct. Tempo is" << tempo;
               } else {
                   tmpUnit.setMistake(TQAunit::e_wrongRhythm);
-                  qDebug() << i << "WRONG RHYTHM! Expected:" << Trhythm(quesList[i].duration()).string() << "got:" << r.string() << dur << normDur << quantization;
+//                   qDebug() << i << "WRONG RHYTHM! Expected:" << Trhythm(quesList[i].duration()).string() << "got:" << r.string() << dur << normDur << quantization;
               }
           }
         }
@@ -700,7 +700,7 @@ void TexecutorSupply::comparePlayedFromScore(Tmelody* q, QList<TnoteStruct>& a, 
       }
     }
   }
-  qDebug() << "average tempo:" << tempoSum / tempoCounter;
+//   qDebug() << "average tempo:" << tempoSum / tempoCounter;
   att->updateEffectiveness();
 }
 

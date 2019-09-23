@@ -56,6 +56,7 @@ TaudioOUT*              TaudioOUT::instance = nullptr;
 
 #define CROSS_SMP (2200) // 50ms
 #define INVALID_NOTE_NR (-100)
+#define SAMPLE_LEN (79380) // 1.8sec (70560) // 1.6 //(66150) 1.5 //61740 1.4
 
 
 /**
@@ -84,9 +85,9 @@ bool TaudioOUT::outCallBack(void* outBuff, void* inBuff, unsigned int nBufferFra
       qint16 sample = 0;
       for (int i = 0; i < nBufferFrames / instance->ratioOfRate; i++) {
         if (p_posInNote >= playingSound.samplesCount) {
-          p_prevNote = playingSound.number == REST_NR || p_posInOgg > 61740 ? INVALID_NOTE_NR : playingSound.number;
+          p_prevNote = playingSound.number == REST_NR || p_posInOgg > SAMPLE_LEN ? INVALID_NOTE_NR : playingSound.number;
           p_shiftOfPrev = 0;
-          p_lastPosOfPrev = p_posInOgg; // < 61740 ? p_posInNote : 0;
+          p_lastPosOfPrev = p_posInOgg; // < SAMPLE_LEN ? p_posInNote : 0;
           p_playingNoteNr++;
           if (p_playingNoteNr < instance->playList().size()) {
               p_posInOgg = 0;
@@ -103,7 +104,7 @@ bool TaudioOUT::outCallBack(void* outBuff, void* inBuff, unsigned int nBufferFra
           if (instance->oggScale->soundContinuous() && p_posInOgg > instance->oggScale->stopLoopSample(playingSound.number))
             p_posInOgg = instance->oggScale->startLoopSample(playingSound.number);
 
-          if (p_posInOgg < 61740) { // 1.4 sec of samples
+          if (p_posInOgg < SAMPLE_LEN) { // 1.4 sec of samples
               sample = instance->oggScale->getNoteSample(playingSound.number, p_posInOgg);
               if (p_posInOgg < 220) // fade in 5ms
                 sample = static_cast<qint16>(sample * (1.0 - (static_cast<qreal>(220 - p_posInOgg) / 220.0)));
