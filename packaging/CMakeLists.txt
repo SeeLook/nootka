@@ -45,7 +45,6 @@ set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application to learn classical score notat
  natural sound of classical guitar
  accurate pitch detection method
  support for different name-callings of the notes
- exams and exercises with different levels
  levels creator with wide range of settings
  numerous settings to personalize for user needs and capabilities
  .
