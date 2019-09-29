@@ -174,6 +174,19 @@ void TstartExamItem::levelWasSelected(const Tlevel& level) {
 }
 
 
+QString TstartExamItem::exerOrExamHelpTxt() {
+  QLatin1String br("<br>");
+  return QLatin1String("<center><h2>") + ThelpDialogBase::pix("practice", 64) + QLatin1String(" ") +
+  QApplication::translate("TstartExamDlg", "To exercise or to pass an exam?") +
+  QLatin1String(" ") + ThelpDialogBase::pix("exam", 64) + QLatin1String("</h2>") + TmainHelp::youWillLearnText() + br + br +
+  QLatin1String("</center><hr><table><tr><td style=\"padding: 10px;\" align=\"center\">") +
+  TmainHelp::duringExercisingText() + br + TexamHelp::exerciseFeaturesText() +
+  QLatin1String("</td></tr><tr><td style=\"padding: 10px;\" align=\"center\">") +
+  TmainHelp::duringExamsText() + br + TexamHelp::examFeaturesText() + QLatin1String("</td></tr></table>") +
+  ThelpDialogBase::onlineDocP(QStringLiteral("start-exam"));
+}
+
+
 void TstartExamItem::getHelpDialog() {
   auto help = new ThelpDialogBase(nullptr);
 #if defined (Q_OS_ANDROID)
@@ -181,17 +194,17 @@ void TstartExamItem::getHelpDialog() {
 #else
   help->setFixedSize(width() * 0.8, height() * 0.8);
 #endif
-  QLatin1String br("<br>");
-  QString ht = QLatin1String("<center><h2>") + help->pix("practice", 64) + QLatin1String(" ") +
-  QApplication::translate("TstartExamDlg", "To exercise or to pass an exam?") +
-  QLatin1String(" ") + help->pix("exam", 64) + QLatin1String("</h2>") + TmainHelp::youWillLearnText() + br + br +
-  QLatin1String("</center><hr><table><tr><td style=\"padding: 10px;\" align=\"center\">") +
-  TmainHelp::duringExercisingText() + br + TexamHelp::exerciseFeaturesText() +
-  QLatin1String("</td></tr><tr><td style=\"padding: 10px;\" align=\"center\">") +
-  TmainHelp::duringExamsText() + br + TexamHelp::examFeaturesText() + QLatin1String("</td></tr></table>") +
-  help->onlineDocP(QStringLiteral("start-exam"));
+//   QLatin1String br("<br>");
+//   QString ht = QLatin1String("<center><h2>") + help->pix("practice", 64) + QLatin1String(" ") +
+//   QApplication::translate("TstartExamDlg", "To exercise or to pass an exam?") +
+//   QLatin1String(" ") + help->pix("exam", 64) + QLatin1String("</h2>") + TmainHelp::youWillLearnText() + br + br +
+//   QLatin1String("</center><hr><table><tr><td style=\"padding: 10px;\" align=\"center\">") +
+//   TmainHelp::duringExercisingText() + br + TexamHelp::exerciseFeaturesText() +
+//   QLatin1String("</td></tr><tr><td style=\"padding: 10px;\" align=\"center\">") +
+//   TmainHelp::duringExamsText() + br + TexamHelp::examFeaturesText() + QLatin1String("</td></tr></table>") +
+//   help->onlineDocP(QStringLiteral("start-exam"));
 
-  help->helpText()->setHtml(ht);
+  help->helpText()->setHtml(exerOrExamHelpTxt());
   help->showCheckBox(&GLOB->E->showVeryBeginHelp);
 //     qDebug() << help->helpText()->toHtml();
   help->exec();
