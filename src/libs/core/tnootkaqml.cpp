@@ -371,7 +371,7 @@ QString TnootkaQML::pixToHtml(const QString& pixName, int height) {
 
   QByteArray byteArray;
   QBuffer buffer(&byteArray);
-  pix.scaled(qRound(height * (static_cast<qreal>(pix.height()) / static_cast<qreal>(pix.width()))),
+  pix.scaled(qRound(height * (static_cast<qreal>(pix.width()) / static_cast<qreal>(pix.height()))),
                                height, Qt::KeepAspectRatio, Qt::SmoothTransformation).save(&buffer, "PNG");
   return QString("<img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/>";
 }
