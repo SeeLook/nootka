@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -47,7 +47,15 @@ public:
 
   Q_INVOKABLE Tlevel* prevLevel() { return m_prevExerciseLevel; }
 
-  Q_INVOKABLE void giveUserNameMessage(); /**< Displays message box with that communicate. */
+      /**
+       * Displays message box with that communicate.
+       */
+  Q_INVOKABLE void giveUserNameMessage();
+
+      /**
+       * Help text (HTML) about what is exercise and exam
+       */
+  static QString exerOrExamHelpTxt();
 
   Q_INVOKABLE void getHelpDialog();
 
@@ -59,8 +67,16 @@ signals:
 
 private:
   void examFromFileDialog();
-  void continuePrevExam(); /**< when some action with exam file path was clicked. */
-  void continueTheLast(); /**< Continue last exam button click slot */
+
+      /**
+       * when some action with exam file path was clicked.
+       */
+  void continuePrevExam();
+
+      /**
+       * Continue last exam button click slot
+       */
+  void continueTheLast();
   void examToContSelected(const QString& eFile);
   void levelWasSelected(const Tlevel& level);
 

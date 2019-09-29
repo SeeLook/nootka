@@ -1637,6 +1637,13 @@ void TexamExecutor::showExamHelp() {
 }
 
 
+QString TexamExecutor::examHelpText() {
+  TexamHelp examHelpDialog(Tcolor::bgTag(Tcolor::alpha(GLOB->EquestionColor, 40)), Tcolor::bgTag(Tcolor::alpha(GLOB->EanswerColor, 40)), &GLOB->E->showHelpOnStart, nullptr);
+  return examHelpDialog.helpText()->toHtml();
+}
+
+
+
 void TexamExecutor::sniffAfterPlaying() {
   disconnect(SOUND, &Tsound::plaingFinished, this, &TexamExecutor::sniffAfterPlaying);
   if (m_soundTimer->isActive())

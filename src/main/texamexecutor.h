@@ -125,6 +125,8 @@ public:
   Taction* repeatQuestAct() { return m_repeatQuestAct; }
   Taction* correctAct() { return m_correctAct; }
 
+  static QString examHelpText();
+
 signals:
   void titleChanged();
   void examActionsChanged();

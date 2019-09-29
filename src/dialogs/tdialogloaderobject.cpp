@@ -181,6 +181,16 @@ QString TdialogLoaderObject::mainHelp() const {
 }
 
 
+QString TdialogLoaderObject::exerOrExamHelp() const {
+  return TstartExamItem::exerOrExamHelpTxt();
+}
+
+
+QString TdialogLoaderObject::examHelp() const {
+  return TexamExecutor::examHelpText();
+}
+
+
 QString TdialogLoaderObject::getChanges() const {
   QFile file(Tpath::main + QLatin1String("changes"));
   QString chLog;
@@ -207,6 +217,25 @@ QString TdialogLoaderObject::getChanges() const {
   }
   file.close();
   return chLog;
+}
+
+
+QString TdialogLoaderObject::getLicense() {
+  QFile file(Tpath::main + QLatin1String("gpl"));
+  QString license;
+  QTextStream in;
+  if (!file.exists()) { // Debian based
+    QDir d(Tpath::main);
+    d.cdUp();
+    file.setFileName(d.path() + QLatin1String("/doc/nootka/copyright"));
+  }
+  if(file.open(QFile::ReadOnly | QFile::Text)) {
+    QTextStream in(&file);
+    in.setCodec("UTF-8");
+    license = in.readAll();
+  }
+  file.close();
+  return license;
 }
 
 
@@ -240,7 +269,8 @@ bool TdialogLoaderObject::checkVersion(QObject* nootWin) {
       QTimer::singleShot(1500, [=]{
         // TODO: so far we are displaying 'about' dialog with communicate for testers, but show 'support' here later
         if (nootWin && QString(nootWin->metaObject()->className()).contains("MainWindow_QMLTYPE")) {
-          QMetaObject::invokeMethod(nootWin, "showDialog", Q_ARG(QVariant, 2));
+          QMetaObject::invokeMethod(nootWin, "showDialog",
+ Q_ARG(QVariant, 2));
           GLOB->config->setValue(QLatin1String("version"), GLOB->version);
         }
       });

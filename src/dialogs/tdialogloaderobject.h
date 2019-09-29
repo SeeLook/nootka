@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -59,8 +59,12 @@ public:
   Q_INVOKABLE QString aboutQt() const;
 
   Q_INVOKABLE QString mainHelp() const;
+  Q_INVOKABLE QString exerOrExamHelp() const;
+  Q_INVOKABLE QString examHelp() const;
 
   Q_INVOKABLE QString getChanges() const;
+
+  Q_INVOKABLE QString getLicense();
 
   static void updateCheckInBackground();
 

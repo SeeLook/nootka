@@ -208,25 +208,6 @@ QString TnootkaQML::majAndMinKeyName(int key) {
 }
 
 
-QString TnootkaQML::getLicense() {
-  QFile file(Tpath::main + QLatin1String("gpl"));
-  QString license;
-  QTextStream in;
-  if (!file.exists()) { // Debian based
-      QDir d(Tpath::main);
-      d.cdUp();
-      file.setFileName(d.path() + QLatin1String("/doc/nootka/copyright"));
-  }
-  if(file.open(QFile::ReadOnly | QFile::Text)) {
-      QTextStream in(&file);
-      in.setCodec("UTF-8");
-      license = in.readAll();
-  }
-  file.close();
-  return license;
-}
-
-
 bool TnootkaQML::isAndroid()  {
 #if defined (Q_OS_ANDROID)
   return true;
