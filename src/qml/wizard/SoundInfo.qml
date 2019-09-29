@@ -47,7 +47,7 @@ Tflickable {
         text: qsTr("Nootka Recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:") + "<ul>"
         + "<li>" + qsTr("Be sure your system is able to record what are you playing.") + "</li>"
         + "<li>" + qsTr("Adjust minimal note volume a little below of your input volume level.") + "</li><br>"
-        + Noo.pixToHtml("min-vol", width * 14) + "<br>"
+        + Noo.pixToHtml("min-vol", Noo.fontSize() * 3) + "<br>"
         + "<li>" + qsTr("Aim to play loud and clear and avoid dirty sounds specific to your instrument.") + "</li>"
         + "<li>" + qsTr("Rhythms detection during exercises and exams is more 'humane' - Nootka knows what rhythm to expect. In contrary to playing to 'empty' score when high rhythmic precision is required, so better use metronome then.") + "</li>"
         + "</ul><br>"

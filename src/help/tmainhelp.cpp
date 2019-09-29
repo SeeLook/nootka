@@ -63,7 +63,7 @@ QString TmainHelp::duringExamsText() {
 }
 
 QString TmainHelp::mainHelp() {
-  int pixSize = getPixSize();
+  int pixHeight = getPixSize();
   QString bbrEnd = QLatin1String("</b><br>");
   QString nbsp3 = QLatin1String(" &nbsp; ");
   QString helpTxt = QLatin1String("<br><b>") + QApplication::translate("TmainHelp", "Using Nootka may be divided into three stages:", "Don't try to translate the entries in this context/section too strict, rather use some nice words into your language to describe it. The statements like '%1' are images(icons) inside the text");
@@ -72,9 +72,9 @@ QString TmainHelp::mainHelp() {
   helpTxt += QApplication::translate("TmainHelp", "I. Discovering") + bbrEnd;
   helpTxt += QApplication::translate("TmainHelp", "Exploring the interface of Nootka and how musical scores work. Just click on elements of the interface to see and get to know Nootka. Also, you can play or sing if you have a mic or web-cam.") + "<br>";
   helpTxt += QApplication::translate("TmainHelp", "Press %1 buttons to see help and %2 button to adjust Nootka to your preference.").
-      arg(nbsp3 + ThelpDialogBase::pix("logo", pixSize * 5) + QLatin1String(" <span style=\"font-size: x-large;\"> + </span> ")
-                            + ThelpDialogBase::pix("help", pixSize)  + nbsp3,
-          nbsp3 + ThelpDialogBase::pix("systemsettings", pixSize) + nbsp3);
+      arg(nbsp3 + ThelpDialogBase::pix("logo", pixHeight) + QLatin1String(" <span style=\"font-size: x-large;\"> + </span> ")
+                            + ThelpDialogBase::pix("help", pixHeight)  + nbsp3,
+          nbsp3 + ThelpDialogBase::pix("systemsettings", pixHeight) + nbsp3);
   helpTxt += ThelpDialogBase::onlineDocP("getting-started");
 
   helpTxt += QLatin1String("<hr><b>") + QApplication::translate("TmainHelp", "II. Exercises and exams") + bbrEnd;
@@ -86,7 +86,7 @@ QString TmainHelp::mainHelp() {
   helpTxt += QLatin1String("This feature isn't ready yet in Android version.<br><b>You may transfer Nootka files to desktop computer and see the results in Nootka version there.</b>");
 #else
   helpTxt += QApplication::translate("TmainHelp", "Nootka will tell you about what you've been thinking for so long... and about the progress you've been making so far....<br>Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.").
-    arg(nbsp3 + ThelpDialogBase::pix("charts", pixSize) + nbsp3);
+    arg(nbsp3 + ThelpDialogBase::pix("charts", pixHeight) + nbsp3);
 #endif
   helpTxt += ThelpDialogBase::onlineDocP("analyze");
   helpTxt += QLatin1String("</td></tr></table>");

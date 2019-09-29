@@ -43,7 +43,6 @@
 ============================================================================
 
 ### small glitches:
- - icons in help texts are scaled by its width (despite parameter is called height), but width of them differs so it look a bit weird
  - when exercise becomes exam tips are blended
  - melody won't play in exercises/exams (first question OK but further is worst)
  - sometimes setting a note doesn't scale tie - probably due to note width is not refreshed

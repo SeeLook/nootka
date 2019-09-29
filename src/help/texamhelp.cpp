@@ -20,16 +20,11 @@
 #include <tglobals.h>
 
 
-// Width of exam screenshot
-#if defined (Q_OS_ANDROID)
-    #define SCR_FACTOR (0.9)
-#else
-    #define SCR_FACTOR (1.7)
-#endif
+#define SCR_FACTOR (0.9)
 
 
-QString br = QStringLiteral("<br>");
-QString br_ = QStringLiteral("<br>- ");
+QString br = QLatin1String("<br>");
+QString br_ = QLatin1String("<br>- ");
 
 QString TexamHelp::exerciseFeaturesText() {
  return tr("When your exercising will go well Nootka will suggest you to start an exam.");
@@ -50,7 +45,7 @@ TexamHelp::TexamHelp(const QString& questColorTxt, const QString& answColorTxt, 
   resize((GLOB->geometry().width() / 10) * 8, (GLOB->geometry().height() / 10) * 8);
 #endif
   const int iconsSize = fontMetrics().boundingRect("A").height() * 2;
-  const int bigIconSize = iconsSize * 2;
+  const int bigIconSize = (iconsSize * 3) / 2;
   helpText()->setHtml(
     QString("<center><h2>%1").arg(pix("help", bigIconSize)) + br +
     tr("How does an exercise or an exam work?") + QLatin1String("</h2>") + br
@@ -66,7 +61,7 @@ TexamHelp::TexamHelp(const QString& questColorTxt, const QString& answColorTxt, 
     + br + br + br + QString("<span style=\"%1\">").arg(questColorTxt) +
     tr("Questions are marked with this color and \"?\" mark.") + QLatin1String("</span>") +br +
     tr("To give an answer, select it on <span style=\"%1\">Nootka's element with that color.</span><br>")
-      .arg(answColorTxt) + br + br + QString("%1").arg(pix("scr", qRound(static_cast<qreal>(width()) * SCR_FACTOR))) + br + br +
+    .arg(answColorTxt) + br + br + QString("%1").arg(pix("scr", qRound(static_cast<qreal>(width()) * 0.4013104013104013  * SCR_FACTOR))) + br + br +
     tr("To check the answer confirm it:") + br_
 #if defined (Q_OS_ANDROID)
     + tapIconTxt(pix("check", iconsSize))
