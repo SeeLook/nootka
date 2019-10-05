@@ -16,15 +16,15 @@ Item {
   PagesDialog { id: pages }
 
   Component.onCompleted: {
-    pages.addItem("nootka-frame", qsTr("About"), "about/About")
-    pages.addItem("help-frame", Noo.TR("QShortcut", "Help"), "about/Help")
+    pages.addItem("about", qsTr("About"), "about/About")
+    pages.addItem("help", Noo.TR("QShortcut", "Help"), "about/Help")
     pages.addItem("author", qsTr("Authors"), "about/Authors")
     pages.addItem("license", qsTr("License"), "about/License")
     pages.addItem("support", qsTr("Support"), "about/Support")
     pages.addItem("donors",
                   qsTr("Donors", "Would be 'Sponsors' or even 'Backers' - translate as such as You fill, what sounds/looks better in Your language"),
                   "about/Donors")
-    pages.addItem("chlog", qsTr("Changes"), "about/Changes")
+    pages.addItem("changes", qsTr("Changes"), "about/Changes")
     pages.addItem("qt", "Qt", "about/Qt")
     if (Noo.isAndroid()) {
         dialLoader.buttons = [DialogButtonBox.Close]
