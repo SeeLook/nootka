@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -17,12 +17,11 @@ Item {
   Component.onCompleted: {
     if (!GLOB.isExam) {
       pages.addItem("global", qsTr("Common"), "settings/Global")
-      pages.addItem("scoreSett", qsTr("Score"), "settings/Score")
-      pages.addItem("instrSett", qsTr("Instrument"), "settings/Instrument")
-      pages.addItem("soundSett", qsTr("Sound"), "settings/Sound")
+      pages.addItem("score", qsTr("Score"), "settings/Score")
+      pages.addItem("instrument", qsTr("Instrument"), "settings/Instrument")
+      pages.addItem("sound", qsTr("Sound"), "settings/Sound")
     }
-    pages.addItem("questionsSett", qsTr("Exercises") + "\n& " + qsTr("Exam"), "settings/Exam")
-//     pages.addItem("appearance", qsTr("Appearance"), "settings/Appearance")
+    pages.addItem("questions", qsTr("Exercises") + "\n& " + qsTr("Exam"), "settings/Exam")
     if (Noo.isAndroid()) {
         dialLoader.buttons = [DialogButtonBox.Apply, DialogButtonBox.RestoreDefaults, DialogButtonBox.Help, DialogButtonBox.Cancel]
     } else {
