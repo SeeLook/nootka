@@ -4,7 +4,7 @@
 ; HM NIS Edit Wizard helper defines
 !define PRODUCT_NAME "Nootka"
 !define PRODUCT_PUBLISHER "Nootka"
-!define PRODUCT_WEB_SITE "http://nootka.sf.net"
+!define PRODUCT_WEB_SITE "https://nootka.sourceforge.io"
 !define PRODUCT_DIR_REGKEY "Software\Microsoft\Windows\CurrentVersion\App Paths\nootka.exe"
 !define PRODUCT_UNINST_KEY "Software\Microsoft\Windows\CurrentVersion\Uninstall\${PRODUCT_NAME}"
 !define PRODUCT_UNINST_ROOT_KEY "HKLM"
@@ -161,6 +161,10 @@ Section "MainGroup" SEC01
   SetOutPath "$INSTDIR\picts"
     File "picts\*.ico"
     File "picts\*.png"
+  SetOutPath "$INSTDIR\picts\flags"
+    File "picts\flags\*.png"
+  SetOutPath "$INSTDIR\picts\pane"
+    File "picts\pane\*.png"
 
   SetOutPath "$INSTDIR\lang"
     File "lang\*.qm"
