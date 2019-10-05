@@ -36,7 +36,7 @@
     <message>
         <location filename="../src/qml/level/AccidsPage.qml" line="137"/>
         <source>Select a key signature. Appropriate accidentals used in this level will be selected automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybrat tóninu. Příslušné posuvky používané v této úrovni budou vybrány automaticky.</translation>
     </message>
     <message>
         <source>Select a key signature. Appropriate accidentals used in exam will be automatically selected!</source>
@@ -154,7 +154,7 @@
     <message>
         <location filename="../src/charts/tchartitem.cpp" line="233"/>
         <source>Click and Drag the cursor to move the chart.</source>
-        <translation>Klepněte a táhněte ukazovátko pro posun grafu.</translation>
+        <translation>Klepněte a táhněte ukazatel pro posun grafu.</translation>
     </message>
     <message>
         <location filename="../src/charts/tchartitem.cpp" line="119"/>
@@ -297,7 +297,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/libs/core/exam/tresulttext.cpp" line="70"/>
         <source>incorrect rhythm</source>
-        <translation type="unfinished"></translation>
+        <translation>Nesprávný rytmus</translation>
     </message>
     <message>
         <location filename="../src/libs/core/exam/tresulttext.cpp" line="79"/>
@@ -424,7 +424,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/qml/exam/Certificate.qml" line="113"/>
         <source>Stop exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Zastavit zkoušku</translation>
     </message>
 </context>
 <context>
@@ -472,12 +472,12 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="127"/>
         <source>wait for correct note</source>
-        <translation type="unfinished"></translation>
+        <translation>Počkat na správnou notu</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="129"/>
         <source>When melody is played from score, every note is checked immediately and next note can be played only when the previous one was correct. When unset, notes are checked only after playing the last one (or check button was clicked).</source>
-        <translation type="unfinished"></translation>
+        <translation>Když je melodie hrána z notového zápisu, každá nota je okamžitě ověřena a další notu lze zahrát, jen když byla předchozí nota zahrána správně. Když je toto nastavení zrušeno, noty jsou ověřovány je po zahrání té poslední (nebo když bylo klepnuto na ověřovací tlačítko).</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="135"/>
@@ -492,7 +492,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="145"/>
         <source>To improve association of note in the score or position on the instrument to note name, Nootka will display names even if neither question nor answer is related to it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro vylepšení spojení mezi notou v notovém zápisu nebo polohou na nástroji a názvem noty, Nootka bude zobrazovat názvy, i když se k tomu nepojí ani otázka ani odpověď.</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="161"/>
@@ -700,12 +700,12 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/qml/settings/GlobalPage.qml" line="100"/>
         <source>enable animations</source>
-        <translation type="unfinished"></translation>
+        <translation>Povolit animace</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/GlobalPage.qml" line="109"/>
         <source>show hints</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat rady</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/GlobalPage.qml" line="121"/>
@@ -715,18 +715,18 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/qml/settings/GlobalPage.qml" line="133"/>
         <source>Scaling factor of visible texts and others GUI elements.&lt;br&gt;Requires application restart.</source>
-        <translation type="unfinished"></translation>
+        <translation>Násobek zvětšení viditelných textů a dalších prvků rozhraní.&lt;br&gt;Vyžaduje opětovné spuštění programu.</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/GlobalPage.qml" line="139"/>
         <source>scale</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvětšení</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/GlobalPage.qml" line="161"/>
         <location filename="../src/qml/settings/GlobalPage.qml" line="172"/>
         <source>All settings will be reset to their default values!&lt;br&gt;Nootka will start up with the first-run wizard.</source>
-        <translation>Všechna nastavení programu budou smazána!&lt;br&gt;Nootka se spustí s průvodcem prvním spuštěním.</translation>
+        <translation>Budou obnoveny výchozí hodnoty všech nastavení programu!&lt;br&gt;Nootka se spustí s průvodcem prvním spuštěním.</translation>
     </message>
 </context>
 <context>
@@ -765,13 +765,13 @@ není platným souborem zkoušky!</translation>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="184"/>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="185"/>
         <source>color of a pointer on an instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Barva ukazovátka nástroje</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="193"/>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="194"/>
         <source>color of a selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Barva výběru</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="31"/>
@@ -806,7 +806,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="138"/>
         <source>Difference between score notation and real sound pitch.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rozdíl mezi notovým zápisem hudby a výškou tónu skutečného zvuku.</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="149"/>
@@ -870,7 +870,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/qml/level/LevelCreator.qml" line="23"/>
         <source>Rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>Rytmy</translation>
     </message>
     <message>
         <location filename="../src/qml/level/LevelCreator.qml" line="24"/>
@@ -967,7 +967,7 @@ ale nebyla uložena!</translation>
     <message>
         <location filename="../src/dialogs/tlevelpreviewitem.cpp" line="120"/>
         <source>Answers</source>
-        <translation type="unfinished"></translation>
+        <translation>Odpovědi</translation>
     </message>
 </context>
 <context>
@@ -1008,7 +1008,7 @@ ale nebyla uložena!</translation>
     <message>
         <location filename="../src/qml/+android/MainMenuMobile.qml" line="68"/>
         <source>Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Metronom</translation>
     </message>
 </context>
 <context>
@@ -1024,12 +1024,12 @@ ale nebyla uložena!</translation>
     <message>
         <location filename="../src/qml/level/MaxIntervalTile.qml" line="16"/>
         <source>Maximal interval between notes used in a melody (in semitones).</source>
-        <translation type="unfinished"></translation>
+        <translation>Největší interval mezi notami použitými v melodii (v půltónech).</translation>
     </message>
     <message>
         <location filename="../src/qml/level/MaxIntervalTile.qml" line="22"/>
         <source>Max interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Největší interval</translation>
     </message>
 </context>
 <context>
@@ -1037,7 +1037,7 @@ ale nebyla uložena!</translation>
     <message>
         <location filename="../src/qml/score/MelGenDialog.qml" line="48"/>
         <source>Measures number</source>
-        <translation type="unfinished"></translation>
+        <translation>Číslo taktu</translation>
     </message>
 </context>
 <context>
@@ -1046,7 +1046,8 @@ ale nebyla uložena!</translation>
         <location filename="../src/qml/level/MelodyListView.qml" line="27"/>
         <source>Add here melodies from Music XML files.
 Consider to divide long pieces on parts in external software first.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sem přidejte melodie ze souborů Music XML.
+Nejprve zvažte rozdělení dlouhých děl na party ve vnějším programu.</translation>
     </message>
 </context>
 <context>
@@ -1054,17 +1055,17 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <location filename="../src/qml/score/MelodyNameDialog.qml" line="30"/>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Název</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyNameDialog.qml" line="36"/>
         <source>Nootka melody</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodie Nootka</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyNameDialog.qml" line="46"/>
         <source>Composer</source>
-        <translation type="unfinished"></translation>
+        <translation>Skladatel</translation>
     </message>
 </context>
 <context>
@@ -1072,7 +1073,7 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="26"/>
         <source>They will be transposed if key signatures are set to be used and any of them differs from the key(s) defined below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Budou transponovány, pokud jsou předznamenání nastavena tak, aby se používala, a všechna se liší tónin(y) stanovené níže.</translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="27"/>
@@ -1087,7 +1088,7 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="29"/>
         <source>Melodies are randomized from defined list of melodies.</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodie jsou založeny na náhodném výběru ze stanoveného seznamu melodií.</translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="35"/>
@@ -1107,7 +1108,7 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="42"/>
         <source>from the list</source>
-        <translation type="unfinished"></translation>
+        <translation>ze seznamu</translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="56"/>
@@ -1122,7 +1123,7 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="104"/>
         <source>Play in tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Hrát v tempu</translation>
     </message>
 </context>
 <context>
@@ -1193,7 +1194,7 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <location filename="../src/qml/instruments/OutScaleTip.qml" line="21"/>
         <source>Out of instrument scale!</source>
-        <translation type="unfinished"></translation>
+        <translation>Mimo rozsah nástroje!</translation>
     </message>
 </context>
 <context>
@@ -1237,7 +1238,7 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <location filename="../src/qml/level/QuestionsBox.qml" line="22"/>
         <source>Select the type of answers for this kind of question.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyberte druh odpovědi na tento druh otázky.</translation>
     </message>
     <message>
         <location filename="../src/qml/level/QuestionsBox.qml" line="59"/>
@@ -1301,17 +1302,17 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <location filename="../src/qml/level/QuestionsPage.qml" line="49"/>
         <source>melodies</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodie</translation>
     </message>
     <message>
         <location filename="../src/qml/level/QuestionsPage.qml" line="63"/>
         <source>Kind of questions and answers:</source>
-        <translation type="unfinished"></translation>
+        <translation>Druh otázek a odpovědí:</translation>
     </message>
     <message>
         <location filename="../src/qml/level/QuestionsPage.qml" line="79"/>
         <source>Question</source>
-        <translation type="unfinished"></translation>
+        <translation>Otázka</translation>
     </message>
     <message>
         <location filename="../src/qml/level/QuestionsPage.qml" line="160"/>
@@ -1415,12 +1416,12 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <location filename="../src/qml/level/RhythmDiversityTile.qml" line="16"/>
         <source>Smaller values - less number of selected rhythmic note groups will be used, biggest value - melody will consist maximal possible number of selected groups.</source>
-        <translation type="unfinished"></translation>
+        <translation>Menší hodnoty - použije se menší počet vybraných notových skupin, největší hodnota - melodie se bude skládat z největšího možného počtu vybraných skupin.</translation>
     </message>
     <message>
         <location filename="../src/qml/level/RhythmDiversityTile.qml" line="22"/>
         <source>Rhythmic diversity</source>
-        <translation type="unfinished"></translation>
+        <translation>Rytmická rozmanitost</translation>
     </message>
 </context>
 <context>
@@ -1428,22 +1429,22 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <location filename="../src/qml/shared/RhythmSelector.qml" line="23"/>
         <source>rhythmic groups</source>
-        <translation type="unfinished"></translation>
+        <translation>Rytmické skupiny</translation>
     </message>
     <message>
         <location filename="../src/qml/shared/RhythmSelector.qml" line="86"/>
         <source>Filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtry</translation>
     </message>
     <message>
         <location filename="../src/qml/shared/RhythmSelector.qml" line="88"/>
         <source>basic rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>Základní rytmy</translation>
     </message>
     <message>
         <location filename="../src/qml/shared/RhythmSelector.qml" line="97"/>
         <source>rhythms with dots</source>
-        <translation type="unfinished"></translation>
+        <translation>Rytmy s tečkami</translation>
     </message>
 </context>
 <context>
@@ -1451,17 +1452,17 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <location filename="../src/qml/level/RhythmsPage.qml" line="23"/>
         <source>Select any rhythm and time signature to be used in this level, otherwise melodies will not have rhythmic values, just bare note-heads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyberte jakýkoli rytmus a taktové označení, kteří se použijí v této úrovni, jinak nebudou mít melodie rytmické hodnoty, jen prosté notové hlavičky.</translation>
     </message>
     <message>
         <location filename="../src/qml/level/RhythmsPage.qml" line="66"/>
         <source>Number of measures in a melody. If &apos;variable&apos; is set, it will grow up to the given value as an exercise or an exam is progressing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Počet taktů v melodii. Pokud je nastavena tato proměnná, poroste počet až k zadané hodnotě, jak bude cvičení nebo zkouška postupovat.</translation>
     </message>
     <message>
         <location filename="../src/qml/level/RhythmsPage.qml" line="84"/>
         <source>variable</source>
-        <translation type="unfinished"></translation>
+        <translation>Proměnná</translation>
     </message>
 </context>
 <context>
@@ -1470,7 +1471,7 @@ Consider to divide long pieces on parts in external software first.</source>
         <location filename="../src/qml/ScoreMenuContent.qml" line="33"/>
         <source>notes</source>
         <comment>musical notes of course</comment>
-        <translation type="unfinished"></translation>
+        <translation>Noty</translation>
     </message>
 </context>
 <context>
@@ -1550,12 +1551,12 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="92"/>
         <source>Use rhythms or only bare note heads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Použít rytmy nebo jen prosté notové hlavičky.</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="96"/>
         <source>enable rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>Povolit rytmy</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="105"/>
@@ -1570,24 +1571,24 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="243"/>
         <source>Octave numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Čísla oktáv</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="246"/>
         <location filename="../src/qml/settings/ScorePage.qml" line="261"/>
         <source>scientific</source>
-        <translation type="unfinished"></translation>
+        <translation>Vědecký</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="252"/>
         <location filename="../src/qml/settings/ScorePage.qml" line="261"/>
         <source>musical</source>
-        <translation type="unfinished"></translation>
+        <translation>Hudební</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="271"/>
         <source>Scientific (international) pitch notation is widely used in technical sources and tuning devices/applications, when the other notation style is used more in music publications.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vědecký (mezinárodní) zápis výšek tónů se široce používá v technických zdrojích a ladicích zařízeních(programech, zatímco jiný styl notového zápisu se více používá v hudebních publikacích.</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="102"/>
@@ -1678,7 +1679,7 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <location filename="../src/qml/settings/SoundPage.qml" line="164"/>
         <source>[Hz]</source>
-        <translation type="unfinished"></translation>
+        <translation>[Hz]</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/SoundPage.qml" line="185"/>
@@ -1688,7 +1689,7 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <location filename="../src/qml/settings/SoundPage.qml" line="275"/>
         <source>output device</source>
-        <translation type="unfinished"></translation>
+        <translation>Výstupní zařízení</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/SoundPage.qml" line="63"/>
@@ -1914,7 +1915,7 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <location filename="../src/qml/exam/StartExam.qml" line="126"/>
         <source>Select an exam to continue</source>
-        <translation type="unfinished"></translation>
+        <translation>Vyberte zkoušku pro pokračování</translation>
     </message>
     <message>
         <source>Select a level suitable for you&lt;br&gt;or create new one.</source>
@@ -2208,7 +2209,7 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="161"/>
         <source>Click and Drag the cursor to move the chart.</source>
-        <translation>Klepněte a táhněte ukazovátko pro posun grafu.</translation>
+        <translation>Klepněte a táhněte ukazatel pro posun grafu.</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="193"/>
@@ -2362,7 +2363,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/libs/core/music/tclef.cpp" line="46"/>
         <source>neutral</source>
-        <translation type="unfinished"></translation>
+        <translation>neutrální</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tclef.cpp" line="57"/>
@@ -2382,17 +2383,17 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/libs/core/music/tclef.cpp" line="64"/>
         <source>Clef for bass guitar and double bass, also used for cello and trombone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Klíč pro basovou kytaru a zdvojený bas, také používaný pro violoncello a pozoun (trombón).</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tclef.cpp" line="75"/>
         <source>percussion clef</source>
-        <translation type="unfinished"></translation>
+        <translation>Klíč bicích</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tclef.cpp" line="76"/>
         <source>For rhythms only, note pitch is undefined.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jen pro rytmy, výška tónu noty není stanovena.</translation>
     </message>
     <message>
         <source>clef F dropped octave down</source>
@@ -2438,27 +2439,27 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="33"/>
         <source>Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempo</translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="50"/>
         <source>Countdown before playing or listening.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odpočítávání před hraním nebo poslechem.</translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="97"/>
         <source>Audible metronome.&lt;br&gt;Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
-        <translation type="unfinished"></translation>
+        <translation>Slyšitelný metronom.&lt;br&gt;Použijte sluchátka! V opačném případě bude tikání narušovat náležité zjišťování výšky tónů!</translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="143"/>
         <source>Tuner</source>
-        <translation type="unfinished"></translation>
+        <translation>Ladička</translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="154"/>
         <source>Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Metronom</translation>
     </message>
 </context>
 <context>
@@ -2466,32 +2467,32 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/qml/sound/TempoMenu.qml" line="70"/>
         <source>tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempo</translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoMenu.qml" line="90"/>
         <source>Tap tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaťukat tempo</translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoMenu.qml" line="98"/>
         <source>Metronome visible</source>
-        <translation type="unfinished"></translation>
+        <translation>Metronom viditelný</translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoMenu.qml" line="106"/>
         <source>Count up</source>
-        <translation type="unfinished"></translation>
+        <translation>Spočítat</translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoMenu.qml" line="122"/>
         <source>Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zjištěné rytmické jednotky jsou zaokrouhleny (kvantizace). Nejkratší jednotky vyžadují více rytmické přesnosti.</translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoMenu.qml" line="129"/>
         <source>round to:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaokrouhlit na:</translation>
     </message>
 </context>
 <context>
@@ -2509,7 +2510,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/libs/core/tnootkaqml.cpp" line="508"/>
         <source>on instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Na nástroji</translation>
     </message>
     <message>
         <source>as position on the fingerboard</source>
@@ -2553,17 +2554,17 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="133"/>
         <source>Listen to a melody and write it on a score</source>
-        <translation>Poslechněte si melodii  zapište ji do notového zápisu</translation>
+        <translation>Poslechněte si melodii a zapište ji do notového zápisu</translation>
     </message>
     <message>
         <location filename="../src/qml/level/QuestionsPage.qml" line="124"/>
         <source>Listen to a melody and repeat it on your instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Poslechněte si melodii a zopakujte ji na svém nástroji</translation>
     </message>
     <message>
         <location filename="../src/qml/level/QuestionsPage.qml" line="129"/>
         <source>repeat melody</source>
-        <translation type="unfinished"></translation>
+        <translation>Zopakovat melodii</translation>
     </message>
 </context>
 <context>
@@ -3021,17 +3022,17 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/main/texamview.cpp" line="263"/>
         <source>Exam effectiveness (this question effectiveness)</source>
-        <translation type="unfinished"></translation>
+        <translation>Účinnost v celé zkoušce (účinnost této otázky)</translation>
     </message>
     <message>
         <location filename="../src/main/texamview.cpp" line="274"/>
         <source>Answer time</source>
-        <translation type="unfinished"></translation>
+        <translation>Čas odpovědi</translation>
     </message>
     <message>
         <location filename="../src/main/texamview.cpp" line="279"/>
         <source>Exam time</source>
-        <translation type="unfinished"></translation>
+        <translation>Čas zkoušky</translation>
     </message>
     <message>
         <location filename="../src/main/texamview.cpp" line="228"/>
@@ -3171,22 +3172,22 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/libs/core/music/tinstrument.cpp" line="32"/>
         <source>Piano</source>
-        <translation type="unfinished"></translation>
+        <translation>Piano</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tinstrument.cpp" line="32"/>
         <source>Bandoneon</source>
-        <translation type="unfinished"></translation>
+        <translation>Bandoneon (knoflíková tahací harmonika)</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tinstrument.cpp" line="33"/>
         <source>Alt Saxophone</source>
-        <translation type="unfinished"></translation>
+        <translation>Altový saxofon</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tinstrument.cpp" line="33"/>
         <source>Tenor Saxophone</source>
-        <translation type="unfinished"></translation>
+        <translation>Tenorový saxofon</translation>
     </message>
 </context>
 <context>
@@ -3303,7 +3304,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/dialogs/tlevelsdefs.cpp" line="80"/>
         <source>Some note of C-major scale point on the instrument, or give its name or show in the score.</source>
-        <translation type="unfinished"></translation>
+        <translation>Některá nota v rozsahu C Dur ukazuje na nástroj, nebo zadejte její název noty, nebo ukažte notu v notovém zápisu.</translation>
     </message>
     <message>
         <location filename="../src/dialogs/tlevelsdefs.cpp" line="106"/>
@@ -3489,7 +3490,7 @@ ale nebyla uložena!</translation>
     <message>
         <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="731"/>
         <source>Seems like this level has some mistakes</source>
-        <translation type="unfinished"></translation>
+        <translation>Vypadá to na to, že úroveň má některé chyby</translation>
     </message>
 </context>
 <context>
@@ -3586,7 +3587,7 @@ ale nebyla uložena!</translation>
     <message>
         <location filename="../src/dialogs/tlevelselector.cpp" line="184"/>
         <source>Load exam level</source>
-        <translation type="unfinished"></translation>
+        <translation>Nahrát úroveň zkoušky</translation>
     </message>
     <message>
         <source>Load</source>
@@ -4183,7 +4184,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/qml/shared/Transposition.qml" line="25"/>
         <source>Transposition</source>
-        <translation type="unfinished"></translation>
+        <translation>Transpozice</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/qml/shared/Transposition.qml" line="33"/>
@@ -4279,7 +4280,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1032"/>
         <source>Insert note</source>
-        <translation type="unfinished"></translation>
+        <translation>Vložit notu</translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1036"/>
@@ -4289,42 +4290,42 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1040"/>
         <source>Edit score</source>
-        <translation type="unfinished"></translation>
+        <translation>Upravit noty</translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1045"/>
         <source>whole note</source>
-        <translation type="unfinished"></translation>
+        <translation>Celá nota</translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1049"/>
         <source>half note</source>
-        <translation type="unfinished"></translation>
+        <translation>Půlová nota</translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1053"/>
         <source>quarter note</source>
-        <translation type="unfinished"></translation>
+        <translation>Čtvrťová nota</translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1057"/>
         <source>eighth note</source>
-        <translation type="unfinished"></translation>
+        <translation>Osminová nota</translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1061"/>
         <source>sixteenth note</source>
-        <translation type="unfinished"></translation>
+        <translation>Šestnáctinová nota</translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1065"/>
         <source>rest</source>
-        <translation type="unfinished"></translation>
+        <translation>Pomlka</translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1069"/>
         <source>dot</source>
-        <translation type="unfinished"></translation>
+        <translation>Tečka</translation>
     </message>
 </context>
 <context>
@@ -4462,7 +4463,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/main/texercises.cpp" line="118"/>
         <source>No thanks, but check entire melody from now.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ne děkuji, ale celou melodii odteď zkontrolovat.</translation>
     </message>
     <message>
         <location filename="../src/main/texercises.cpp" line="119"/>
@@ -4631,7 +4632,7 @@ je viděli a poslechli si správně.</translation>
     <message>
         <location filename="../src/main/ttiphandler.cpp" line="500"/>
         <source>Listened sound show on the instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázání poslechnutého zvuku na nástroji</translation>
     </message>
     <message>
         <location filename="../src/main/ttiphandler.cpp" line="90"/>
@@ -4642,7 +4643,7 @@ je viděli a poslechli si správně.</translation>
         <location filename="../src/main/ttiphandler.cpp" line="407"/>
         <location filename="../src/main/ttiphandler.cpp" line="448"/>
         <source>Point on the instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukázat na nástroji</translation>
     </message>
     <message>
         <location filename="../src/main/ttiphandler.cpp" line="434"/>
@@ -4936,7 +4937,7 @@ je viděli a poslechli si správně.</translation>
     <message>
         <location filename="../src/qml/sound/TunerDialog.qml" line="69"/>
         <source>Nooter - Nootka tuner</source>
-        <translation type="unfinished"></translation>
+        <translation>Nooter - ladička Nootky</translation>
     </message>
 </context>
 <context>
@@ -4995,7 +4996,7 @@ je viděli a poslechli si správně.</translation>
     <message>
         <location filename="../src/updater/tupdatesummary.cpp" line="56"/>
         <source>To get it, visit %1 Nootka site</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro její získání navštivte stránku Nootky %1</translation>
     </message>
     <message>
         <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
@@ -5032,7 +5033,7 @@ je viděli a poslechli si správně.</translation>
     <message>
         <location filename="../src/qml/sound/VolumeBar.qml" line="31"/>
         <source>Volume level of input sound.</source>
-        <translation type="unfinished"></translation>
+        <translation>Úroveň hlasitosti vstupního zvuku.</translation>
     </message>
     <message>
         <location filename="../src/qml/sound/VolumeBar.qml" line="31"/>
@@ -5042,7 +5043,7 @@ je viděli a poslechli si správně.</translation>
     <message>
         <location filename="../src/qml/sound/VolumeBar.qml" line="60"/>
         <source>Start/stop pitch detection</source>
-        <translation type="unfinished"></translation>
+        <translation>Zapnout/Vypnout zjištění výšky tónu</translation>
     </message>
 </context>
 <context>
@@ -5066,7 +5067,7 @@ je viděli a poslechli si správně.</translation>
     <message>
         <location filename="../src/qml/wizard/WizardBass.qml" line="35"/>
         <source>Musical notation for bass guitar uses bass clef (clef F), but the notes sound one octave lower. It means bass guitar is transposing instrument and it transposes one octave down.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hudební notace pro basovou kytaru používá basový klíč (klíč F), ale noty znějí o oktávu výše. To znamená, že basová kytara transponuje nástroj a transponuje jej o oktávu níže.</translation>
     </message>
 </context>
 <context>
@@ -5126,7 +5127,7 @@ je viděli a poslechli si správně.</translation>
     <message>
         <location filename="../src/qml/wizard/WizardSax.qml" line="23"/>
         <source>Saxophones are transposing instruments.&lt;br&gt;It means that note pitch in the score doesn&apos;t correspond directly to note which is played - it transposes by interval (number of semitones) according to kind of saxophone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Syxofony jsou transponující nástroje&lt;br&gt;To znamená, že výška tónu noty v notovém zápisu neodpovídá přímo notě, která se hraje - transponuje o interval (počet půltónů) podle druhu saxofonu.</translation>
     </message>
 </context>
 <context>
