@@ -104,6 +104,7 @@ install(FILES changes DESTINATION "${INS_PREF}")
 file(GLOB ICONS_PNG "${CMAKE_CURRENT_SOURCE_DIR}/picts/*.png") #png-s for all
 install(FILES ${ICONS_PNG} DESTINATION "${INS_PREF}/picts")
 install(DIRECTORY picts/flags DESTINATION "${INS_PREF}/picts")
+install(DIRECTORY picts/pane DESTINATION "${INS_PREF}/picts")
 install(DIRECTORY fonts DESTINATION "${INS_PREF}")
 
 file(GLOB langs "${CMAKE_CURRENT_SOURCE_DIR}/lang/*.qm")
