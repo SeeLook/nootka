@@ -15,8 +15,6 @@
   - manual adding/editing ties
   - finish tuner, functionality similar to Android one (show tuning, middle A freq)
   - level creator:
-    - some pages make no sense for particular cases (i.e. for single note melody & rhythm page, etc.)
-    - so implement disabling unused pages, colorize panel icons properly for that
     - question page icon might change depends on is there single note or a melody
     - those three ways of generating melodies (range, notes, list) might be exposed more clearly
       especially list of melodies imported from files which seems to be very important feature
