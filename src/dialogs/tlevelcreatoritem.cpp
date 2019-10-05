@@ -43,6 +43,8 @@ TlevelCreatorItem::TlevelCreatorItem(QQuickItem* parent) :
   m_level->desc.clear();
   m_title = tr("Level creator");
   m_answersList << m_level->answersAs[0].value() << m_level->answersAs[1].value() << m_level->answersAs[2].value() << m_level->answersAs[3].value();
+
+  QTimer::singleShot(500, this, [=]{ emit updateLevel(); });
 }
 
 

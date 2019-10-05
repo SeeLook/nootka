@@ -17,12 +17,12 @@ TlevelCreatorItem {
   PagesDialog { id: pages }
 
   Component.onCompleted: {
-    pages.addItem("levelsSett", qsTr("Levels"), "level/Levels")
-    pages.addItem("questionsSett", qsTr("Questions"), "level/Questions")
-    pages.addItem("melodySett", qsTr("Melody"), "level/Melody")
-    pages.addItem("rhythms-frame", qsTr("Rhythms"), "level/Rhythms")
-    pages.addItem("accidSett", qsTr("Accidentals"),  "level/Accids")
-    pages.addItem("rangeSett", qsTr("Range"),  "level/Range")
+    pages.addItem("levels", qsTr("Levels"), "level/Levels")
+    pages.addItem("questions", qsTr("Questions"), "level/Questions")
+    pages.addItem("melody", qsTr("Melody"), "level/Melody")
+    pages.addItem("rhythms", qsTr("Rhythms"), "level/Rhythms")
+    pages.addItem("accidentals", qsTr("Accidentals"),  "level/Accids")
+    pages.addItem("range", qsTr("Range"),  "level/Range")
     if (Noo.isAndroid()) {
         dialLoader.buttons = [DialogButtonBox.Close, DialogButtonBox.Help, DialogButtonBox.RestoreDefaults]
     } else {
@@ -37,8 +37,14 @@ TlevelCreatorItem {
   }
 
   onSaveStateChanged: {
-    pages.buttons[0].pixmap = Noo.pix(creator.notSaved ? "notSaved" : "levelsSett")
-    dialLoader.title = creator.title // TODO: it doesn't work
+    pages.buttons[0].pixmap = Noo.pix(creator.notSaved ? "pane/notSaved" : "pane/levels")
+    dialLoader.title = creator.title
+  }
+
+  onUpdateLevel: {
+    pages.buttons[2].enabled = creator.isMelody // melody button
+    pages.buttons[3].enabled = creator.isMelody // rhythms button
+    pages.buttons[5].enabled = !creator.isMelody || (creator.isMelody && creator.randMelody == 0) // range button
   }
 
   onSave: {
