@@ -24,19 +24,24 @@ Rectangle {
   height: factor * 3
   radius: factor / 5
 
+  scale: ma.containsMouse ? (ma.pressed ? 0.8 : 1.5) : 1
+  Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
+  Behavior on color { enabled: GLOB.useAnimations; ColorAnimation { duration: 150 }}
+
   Text {
     id: txt
     x: (factor * 2 - width) / 2
     height: factor * 3
     style: Text.Normal
-    styleColor: selected ? activPal.highlightedText : activPal.shadow
     color: cb.enabled ? activPal.text : disdPal.text
   }
+
   MouseArea {
+    id: ma
     anchors.fill: parent
     hoverEnabled: true
     onClicked: cb.clicked()
-    onEntered: { txt.style = Text.Outline;  cb.entered() }
-    onExited: { txt.style = Text.Normal; cb.exited() }
+    onEntered: cb.entered()
+    onExited: cb.exited()
   }
 }

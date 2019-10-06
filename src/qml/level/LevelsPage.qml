@@ -45,7 +45,7 @@ Column {
     }
   }
   LinkText {
-    text: qsTr("Get more levels <a href=\"%1\">from Nootka home page</a>").arg("https://nootka.sourceforge.io/index.php?C=down#levels")
+    text: qsTr("Get more levels <a href=\"%1\">from Nootka home page</a>").arg("https://nootka.sourceforge.io/index.php/download/#levels")
     anchors.horizontalCenter: parent.horizontalCenter
   }
 
