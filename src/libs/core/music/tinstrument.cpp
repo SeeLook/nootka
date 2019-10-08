@@ -33,31 +33,6 @@ static const char* const nameArray[INSTR_COUNT] = {
   QT_TRANSLATE_NOOP("Tinstrument", "Alt Saxophone"), QT_TRANSLATE_NOOP("Tinstrument", "Tenor Saxophone")
 };
 
-
-static const char* const glyphArray[INSTR_COUNT] = {
-  "v", "h", "i", "j", "f", "e", "P", "Q"
-};
-
-
-static const quint8 clefArray[INSTR_COUNT] = {
-  1, 8, 8, 2, 128, 128, 1, 1
-};
-
-
-static const char* const qmlFileArray[INSTR_COUNT] = {
-  "", "Guitar", "Guitar", "Guitar", "Piano", "Bandoneon", "Sax", "Sax"
-};
-
-
-static const qreal heightArray[INSTR_COUNT] = {
-  0.0, 4.0, 4.0, 4.0, 5.0, 3.0, 1.0, 1.0
-};
-
-
-static const qint8 transArray[INSTR_COUNT] = {
-  0, 0, 0, -12, 0, 0, -9, -14
-};
-
 //#################################################################################################
 //###################              Tinstrument         ############################################
 //#################################################################################################
@@ -79,27 +54,35 @@ QString Tinstrument::staticName(Tinstrument::Etype t) {
 
 
 QString Tinstrument::glyph() const {
+  static const char* const glyphArray[INSTR_COUNT] = { "v", "h", "i", "j", "f", "e", "P", "Q" };
   return QString(glyphArray[static_cast<int>(m_type)]);
 }
 
 
 int Tinstrument::clef() const {
+  static const quint8 clefArray[INSTR_COUNT] = { 1, 8, 8, 2, 128, 128, 1, 1 };
+  
   return clefArray[static_cast<int>(m_type)];
 }
 
 
 QString Tinstrument::qmlFile() const {
+  static const char* const qmlFileArray[INSTR_COUNT] = {
+    "", "Guitar", "Guitar", "Guitar", "Piano", "Bandoneon", "Sax", "Sax"
+  };
   return QString(qmlFileArray[static_cast<int>(m_type)]);
 }
 
 
 
 qreal Tinstrument::heightPart() const {
+  static const qreal heightArray[INSTR_COUNT] = { 0.0, 4.0, 4.0, 4.0, 5.0, 3.0, 1.0, 1.0 };
   return heightArray[static_cast<int>(m_type)];
 }
 
 
 int Tinstrument::transposition() const {
+  static const qint8 transArray[INSTR_COUNT] = { 0, 0, 0, -12, 0, 0, -9, -14 };
   return transArray[static_cast<int>(m_type)];
 }
 
