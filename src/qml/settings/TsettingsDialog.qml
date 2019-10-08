@@ -18,7 +18,7 @@ Item {
     if (!GLOB.isExam) {
       pages.addItem("global", qsTr("Common"), "settings/Global")
       pages.addItem("score", qsTr("Score"), "settings/Score")
-      pages.addItem("instrument", qsTr("Instrument"), "settings/Instrument")
+      pages.addItem("i-0" + GLOB.instrument.typeINT, qsTr("Instrument"), "settings/Instrument")
       pages.addItem("sound", qsTr("Sound"), "settings/Sound")
     }
     pages.addItem("questions", qsTr("Exercises") + "\n& " + qsTr("Exam"), "settings/Exam")
