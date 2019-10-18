@@ -1,0 +1,257 @@
+/***************************************************************************
+ *   Copyright (C) 2019 by Tomasz Bojczuk                                  *
+ *   seelook@gmail.com                                                     *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *  You should have received a copy of the GNU General Public License      *
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
+ ***************************************************************************/
+
+#include "tlinchartdelegate.h"
+#include "tchartitem.h"
+#include <exam/texam.h>
+#include <exam/tlevel.h>
+#include <music/tnamestylefilter.h>
+#include <tglobals.h>
+#include <tnoofont.h>
+
+#include <QtGui/qguiapplication.h>
+#include <QtGui/qpalette.h>
+#include <QtCore/qdebug.h>
+
+
+/**
+ *    (0.1)            Y                 |
+ *    |                |                 |
+ *    |                |                 |
+ *    | h (0.75)       |                 |
+ *    |                |                 | total delegate height
+ *    |                |                 |
+ *    (0.8333)         ---------- X      |
+ *                                       |
+ */
+
+#define HH ((0.8333333333333333 - 0.1))
+
+TlinChartDelegate::TlinChartDelegate(QQuickItem* parent) :
+  QQuickPaintedItem(parent)
+{
+  setRenderTarget(QQuickPaintedItem::FramebufferObject);
+  setAntialiasing(true);
+
+  m_qInf = new TtipInfo();
+
+  connect(qApp, &QGuiApplication::paletteChanged, this, [=]{ update(); });
+  connect(this, &QQuickItem::heightChanged, this, [=]{ emit pointYChanged(); });
+}
+
+
+TlinChartDelegate::~TlinChartDelegate()
+{
+  delete m_qInf;
+}
+
+
+qreal TlinChartDelegate::pointY() const {
+  qreal h = height() * HH;
+//   if (m_chart->settings()->yValue) //TODO
+  return h * 0.1 + h - ((static_cast<qreal>(m_qInf->qaUnit()->time) / 10.0) / m_chart->mainChart()->maxValue()) * h;
+}
+
+
+void TlinChartDelegate::setChart(TchartItem* ch) {
+  if (!m_chart) {
+    m_chart = ch;
+    emit examChanged();
+    connect(m_chart, &TchartItem::examChanged, this, [=]{
+      if (m_nrInchart > -1) { // reset @p qaPtr associated with this delegate
+        int tmpNr = m_nrInchart;
+        m_nrInchart = -1;
+        setChartNr(tmpNr);
+      }
+      emit examChanged();
+      emit pointYChanged();
+      update();
+    });
+  }
+}
+
+
+void TlinChartDelegate::setChartNr(int n) {
+  if (m_nrInchart != n) {
+    if (n > -1 && n < m_chart->exam()->count()) {
+        m_nrInchart = n;
+        if (m_chart->settings()->order == Tchart::e_byNumber) {
+            m_qInf->setQAUnit(getUnit(n));
+            m_qInf->setNr(n + 1);
+        } else {
+            auto qaPtr = m_chart->mainChart()->getSortedPtr(n);
+            m_qInf->setQAUnit(qaPtr->qaPtr);
+            m_qInf->setNr(qaPtr->nr + 1);
+            m_qInf->setColor(qaPtr->color);
+            m_qInf->setGr(qaPtr->grNr);
+        }
+        if (m_qInf->qaUnit()->isCorrect())
+          m_qInf->setColor(GLOB->correctColor());
+        else if (m_qInf->qaUnit()->isNotSoBad())
+          m_qInf->setColor(GLOB->notBadColor());
+        else
+          m_qInf->setColor(GLOB->wrongColor());
+        setZ(2000 - m_nrInchart); // keep z stack in reverse order as delegates are created for proper overlapping
+        emit nrChanged();
+    } else {
+        qDebug() << "[TlinChartDelegate] FIXME! not such a question in exam!";
+    }
+  }
+}
+
+
+QColor TlinChartDelegate::pointColor() const {
+  return m_qInf->color();
+}
+
+
+QString TlinChartDelegate::pointSymbol() const {
+  return m_qInf->qaUnit() && m_qInf->qaUnit()->isWrong() ? QStringLiteral("M") : QStringLiteral("G");
+}
+
+
+qreal TlinChartDelegate::averageY() const {
+//   if (m_chart->settings()->yValue) //TODO
+  if (m_chart->settings()->order == Tchart::e_byNumber)
+    return m_chart->averageTime();
+  else if (m_qInf->grNr() > -1) {
+    auto gr = m_chart->mainChart()->group(m_qInf->grNr());
+    if (gr->size() > 1)
+      return m_chart->mainChart()->group(m_qInf->grNr())->averTime() / 10.0;
+  }
+  return 0.0;
+}
+
+
+QString TlinChartDelegate::nrText() const {
+  QString att;
+  if (m_qInf->qaUnit()->melody())
+    att = QLatin1String("<br><font size=\"1\">(")
+        + QApplication::translate("TXaxis", "%n attempt(s)", "", m_qInf->qaUnit()->attemptsCount()) + QLatin1String(")</font>");
+  return m_chart->settings()->order == Tchart::e_byNumber ? QString::number(m_nrInchart + 1) + att : QString();
+}
+
+
+QString TlinChartDelegate::noteText() const {
+  if (m_qInf->qaUnit()->melody())
+    return QString();
+
+  QString altStyleText;
+  auto l = m_chart->exam()->level();
+  if (l->requireStyle || (l->questionAs.isName() && l->answersAs[TQAtype::e_asName].isName())) {
+    /** Display alternate to user pref names but only for levels where different styles can occur */
+    Tnote::EnameStyle altStyle;
+    if (Tnote::defaultStyle == Tnote::e_italiano_Si || Tnote::defaultStyle == Tnote::e_russian_Ci)
+      altStyle = TnameStyleFilter::get(Tnote::e_english_Bb);
+    else
+      altStyle = TnameStyleFilter::get(Tnote::e_italiano_Si);
+    Tnote::EnameStyle defStyle = Tnote::defaultStyle;
+    Tnote::defaultStyle = altStyle;
+    altStyleText = QString(" <font size=\"1\">(%1)</font>").arg(m_qInf->qaUnit()->qa.note.styledName(false));
+    Tnote::defaultStyle = defStyle;
+  }
+  return m_qInf->qaUnit()->qa.note.styledName() + altStyleText;
+}
+
+
+QString TlinChartDelegate::posText() const {
+  if (!m_qInf->qaUnit()->melody()) {
+    if (m_qInf->qaUnit()->questionAs == TQAtype::e_onInstr || m_qInf->qaUnit()->answerAs == TQAtype::e_onInstr || m_qInf->qaUnit()->answerAs == TQAtype::e_asSound)
+      return QString::number(static_cast<int>(m_qInf->qaUnit()->qa.pos().str())) + QLatin1String(" ")
+        + TfingerPos::romanFret(m_qInf->qaUnit()->qa.pos().fret());
+  }
+  return QString();
+}
+
+
+QString TlinChartDelegate::keyText() const {
+  if (m_chart->exam()->level()->useKeySign && (m_qInf->qaUnit()->questionAs == TQAtype::e_onScore || m_qInf->qaUnit()->answerAs == TQAtype::e_onScore))
+    return m_qInf->qaUnit()->key.getName();
+  return QString();
+}
+
+
+void TlinChartDelegate::pointEntered() {
+  m_qInf->setCursorPos(QPointF(x(), pointY()));
+  m_chart->tipEntered(m_qInf);
+}
+
+
+void TlinChartDelegate::pointExited() {
+  m_chart->tipExited();
+}
+
+
+void TlinChartDelegate::lineEntered()
+{
+}
+
+
+void TlinChartDelegate::lineExited()
+{
+}
+
+
+void TlinChartDelegate::paint(QPainter* painter) {
+  if (m_nrInchart < 1)
+    return;
+  
+  painter->setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
+
+  if (m_qInf->grNr() > 0 && m_qInf->grNr() % 2 && m_qInf->qaUnit() != m_chart->mainChart()->group(m_qInf->grNr())->first()) {
+    painter->setPen(Qt::NoPen);
+    auto hiC = qApp->palette().highlight().color();
+    hiC.setAlpha(40);
+    painter->setBrush(hiC);
+    painter->drawRect(QRectF(0.0, 0.0, width(), height() * 0.85));
+  }
+
+  qreal h = height() * HH;
+  if ((m_nrInchart + 1) % 5 == 0) {
+    painter->setPen(QPen(qApp->palette().text().color(), 1.0, Qt::DashLine));
+    painter->drawLine(QPointF(width() - height() / 300.0, height() * 0.1), QPointF(width() - height() / 300.0, height() * 0.8333333333333333));
+  }
+  painter->setPen(QPen(qApp->palette().text().color(), 0.75));
+  qreal t = static_cast<qreal>(getUnit(m_nrInchart - 1)->time) / 10.0;
+  qreal y1 = h * 0.1 + h - (t / m_chart->mainChart()->maxValue()) * h;
+  qreal d = h * 0.0075;
+  for (qreal i = -2.0; i < 3.0; i++)
+    painter->drawLine(QPointF(0.0, y1 + i * d), QPointF(width(), pointY() + i * d));
+
+  if (m_chart->settings()->order == Tchart::e_byNumber && m_nrInchart > 0) {
+//     if (!m_qInf->qaUnit()->isWrong() || (m_qInf->qaUnit()->isWrong() && m_chart->settings()->inclWrongAnsw)) {
+    if (m_chart->mainChart()->averChunk(m_nrInchart - 1) > 0.0) {
+        painter->setPen(QPen(qApp->palette().highlight().color(), height() / 150.0, Qt::DotLine));
+        painter->drawLine(QPointF(0.0, h * 0.1 + h - (m_chart->mainChart()->averChunk(m_nrInchart - 1) / 10.0 / m_chart->mainChart()->maxValue()) * h),
+                          QPointF(width(), h * 0.1 + h - (m_chart->mainChart()->averChunk(m_nrInchart) / 10.0 / m_chart->mainChart()->maxValue()) * h));
+    }
+//     }
+  }
+}
+
+
+//#################################################################################################
+//###################                PROTECTED         ############################################
+//#################################################################################################
+
+TQAunit *TlinChartDelegate::getUnit(int qNr) const {
+  if (m_chart->settings()->order == Tchart::e_byNumber)
+    return m_chart->exam()->question(qNr);
+  else
+    return m_chart->mainChart()->getSorted(qNr);
+}

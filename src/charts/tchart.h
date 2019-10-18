@@ -20,15 +20,16 @@
 #ifndef TCHART_H
 #define TCHART_H
 
-#include <QtQuick/qquickpainteditem.h>
+#include <QtQuick/qquickitem.h>
 #include <QtWidgets/qgraphicsscene.h>
 #include <QtGui/qpainter.h>
+#include <QtGui/qguiapplication.h>
 #include "tmainline.h"
 
 
 class TYaxis;
 class TXaxis;
-class TqaPtr;
+struct TqaPtr;
 class TtipInfo;
 class TrenderChart;
 
@@ -38,13 +39,12 @@ class TrenderChart;
  * It has got @p QGraphicsScene *scene() and
  * two axis-es xAxis and yAxis which are created by default.
  */
-class Tchart : public QQuickPaintedItem
+class Tchart : public QQuickItem
 {
 
   Q_OBJECT
 
   friend class TmainLine;
-  friend class TrenderChart;
 
 public:
 
@@ -67,8 +67,22 @@ public:
     e_linear, e_bar, e_pie
   };
 
-  enum ErenderState {
-    e_noRendered, e_renderInProgress, e_renderFinished
+      /**
+       * Kind of data represented by Y value of a point
+       * @p e_questionTime - default and only one available for single note exams
+       * @p e_effectiveness - Y axis displays effectiveness of single answer
+       * @p e_prepareTime - Y axis displays time needed to start playing (only for played answers)
+       * @p e_attemptsCount - Y axis displays number of attempts
+       * @p e_playedCount - Y axis displays how many times melody was played
+       * @p e_mistakesNumber - Y axis displays number of mistakes committed in single answer
+       */
+  enum EyValue {
+    e_YquestionTime = 0, /**< - default and only one available for single note exams */
+    e_Yeffectiveness,    /**< - Y axis displays effectiveness of single answer */
+    e_YprepareTime,      /**< - Y axis displays time needed to start playing (only for played answers) */
+    e_YattemptsCount,    /**< - Y axis displays number of attempts */
+    e_YplayedCount,      /**< - Y axis displays how many times melody was played */
+    e_YmistakesNumber    /**< - Y axis displays number of mistakes committed in single answer */
   };
 
   struct Tsettings {
@@ -76,45 +90,86 @@ public:
     bool                separateWrong = true; /**< separate wrong answers and correct/almost good ones */
     EanswersOrder       order = e_byNumber;
     EchartType          type = e_linear;
-    TmainLine::EyValue  yValue = TmainLine::e_questionTime;
+    EyValue             yValue = e_YquestionTime;
+  };
+
+  /**
+   * Unit of an axis values.
+   */
+  enum Eunit {
+    e_timeInSec, /**< time in seconds (default) */
+    e_questionNr, /**< number of questions */
+    // melodies only:
+    e_prepareTime, /**< time since question start to first played note */
+    e_attemptsCount, /**< number of attempts */
+    e_playedCount,
+    e_effectiveness
   };
 
   explicit Tchart(QQuickItem* parent = nullptr);
-  ~Tchart();
 
   virtual void setAnalyse(EanswersOrder order) { Q_UNUSED(order) }
 
-  QGraphicsScene* scene;
+//   QGraphicsScene* scene;
 
-  void paint(QPainter* painter) override;
+  qreal maxValue() const { return m_maxValue; }
+  void setMaxValue(qreal m, bool allowHalf = true);
 
-  void update();
+  Eunit unit();
+  void setUnit(Eunit unit);
 
       /**
-       * 
+       * Questions number
        */
-  void setParentForItem(QGraphicsItem* it);
+  static QString questionsNumberTxt() { return QGuiApplication::translate("TanalysDialog", "Questions number"); }
+  
+      /**
+       * Attempts number
+       */
+  static QString attemptsNumberTxt() { return QGuiApplication::translate("TanalysDialog", "Attempts number"); }
+  
+      /**
+       * Preparation time
+       */
+  static QString prepareTimeTxt() { return QGuiApplication::translate("TanalysDialog", "Preparation time"); }
+  
+      /**
+       * Played number
+       */
+  static QString playedNumberTxt() { return QGuiApplication::translate("TanalysDialog", "Played number"); }
 
-  void setParentHeight(qreal pH);
+  QString yAxisLabel() const { return m_unitDesc; }
 
-  TtipInfo* curQ() { return m_curQ; }
+      /**
+       * Exactly number of items on X axis, usually equivalent of number of questions on linear chart
+       * but also number of bars on bar chart
+       */
+  int xCount() { return p_xCount; }
+
+  QList<qreal> yTickList() const { return m_yTickList; }
+
+      /**
+       * @p p_averChunks is a list of average reaction times for every next question.
+       * Means, for first quest it is reaction time for second it is average of them both and so on
+       * When wrong answers are excluded from average corresponding value is the same as latest average of correct/not bad answer
+       * @p averChunk() method gives access to those partial average values
+       */
+  qreal averChunk(int qNr) { return p_averChunks[qNr]; }
 
 signals:
   void hoveredChanged();
 
 protected:
-  void setCurQ(TtipInfo* qa);
-  void updateFromRenderer() { QQuickPaintedItem::update(); }
+//   TXaxis              *xAxis;
+//   TYaxis              *yAxis;
 
-protected:
-  TXaxis              *xAxis;
-  TYaxis              *yAxis;
-  QGraphicsRectItem   *p_bgRect;
+  int                 p_xCount = 0;
+  QList<qreal>        p_averChunks;
 
 private:
-  qreal               m_parentHeight = 0.0;
-  TtipInfo           *m_curQ = nullptr;
-  QImage             *m_sceneImage = nullptr;
-  ErenderState        m_renderState = e_noRendered;
+  qreal               m_maxValue;
+  Eunit               m_unit;
+  QString             m_unitDesc; /**< unit description string f.e: time [s] */
+  QList<qreal>        m_yTickList;
 };
 #endif // TCHART_H

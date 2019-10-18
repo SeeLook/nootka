@@ -22,11 +22,7 @@ ToolButton {
   property real factor: analyzeWindow.height / 150
   property Taction taction
 
-  background: Item {} // Rectangle {
-//     color: checked ? activPal.highlight : Noo.alpha(activPal.highlight, 50)
-//     scale: hovered || checked ? 1 : 0
-//     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
-//   }
+  background: Item {}
 
   onClicked: {
     if (taction)
@@ -36,6 +32,7 @@ ToolButton {
 
   Image {
     id: pix
+    mipmap: true
     anchors.centerIn: parent
     source: taction ? taction.icon : ""
     height: factor * 10; width: height * (sourceSize.width / sourceSize.height)

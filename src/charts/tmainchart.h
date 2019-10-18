@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,8 +29,7 @@
 class Tlevel;
 class Tnote;
 class Texam;
-class TquestionPoint;
-class QTimer;
+class TQAunit;
 
 
 /**
@@ -53,9 +52,20 @@ public:
 
   virtual void init() = 0;
 
-protected:
-  void hoverMoveEvent(QHoverEvent* event) override;
+  int qCount() const { return p_sortedLists.count(); }
+  int goodCount() const { return p_goodAnsw.size(); }
+  int badCount() const { return p_badAnsw.size(); }
+  TgroupedQAunit* group(int grNr) { return &p_sortedLists[grNr]; }
 
+  QString ticText(TQAunit* unit, int questNr = 0);
+
+      /**
+       * Returns @p TQAunit pointer of @p unitNr question in @p p_sortedLists
+       */
+  TQAunit* getSorted(int unitNr);
+  TqaPtr* getSortedPtr(int ptrNr);
+
+protected:
       /**
        * Sorts exam data by params given in chartSett. 
        * Initializes sortedLists, hasListUnrelated and kindOfAccids.
@@ -67,22 +77,16 @@ protected:
        */
   void prepareChart(int maxX);
 
-  void enterTimeOut();
-  void leaveTimeOut();
-
 protected:
   Tsettings                   p_chartSett;
   Texam                      *p_currExam = nullptr;
-  TmainLine                  *p_mainLine = nullptr;
+//   TmainLine                  *p_mainLine = nullptr;
   bool                        p_hasListUnrelated; /**< Returns true if list contains unrelated list of questions. */
-  TgroupedQAunit              goodAnsw, badAnsw;
-  QList<TgroupedQAunit>       sortedLists;
-  int                         goodSize; /**< number of lists with good answers */
-  QList<char>                 kindOfAccids;
+  TgroupedQAunit              p_goodAnsw, p_badAnsw;
+  QList<TgroupedQAunit>       p_sortedLists;
+  int                         p_goodSize; /**< number of lists with good answers */
+  QList<char>                 p_kindOfAccids;
 
-private:
-  TtipInfo                   *m_hoveredItem = nullptr;
-  QTimer                     *m_enterTimer, *m_leaveTimer;
 };
 
 #endif // TMAINCHART_H

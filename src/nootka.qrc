@@ -145,6 +145,8 @@
     <file alias="exam/Certificate.qml">qml/exam/Certificate.qml</file>
 
     <file alias="charts/AnalyzeDialog.qml">charts/qml/AnalyzeDialog.qml</file>
+    <file alias="charts/ChartView.qml">charts/qml/ChartView.qml</file>
+    <file alias="charts/LinearDelegate.qml">charts/qml/LinearDelegate.qml</file>
     <file alias="charts/ChartTip.qml">charts/qml/ChartTip.qml</file>
     <file alias="charts/ChartToolButton.qml">charts/qml/ChartToolButton.qml</file>
     <file alias="charts/LevelPopup.qml">charts/qml/LevelPopup.qml</file>

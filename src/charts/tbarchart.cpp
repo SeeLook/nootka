@@ -17,8 +17,8 @@
  ***************************************************************************/
 
 #include "tbarchart.h"
-#include "tyaxis.h"
-#include "txaxis.h"
+// #include "tyaxis.h"
+// #include "txaxis.h"
 #include "tbar.h"
 #include <exam/texam.h>
 #include <QtCore/qdebug.h>
@@ -38,30 +38,30 @@ void TbarChart::init() {
   sort();
   qreal maxTime = 0.0;
   if (p_chartSett.order != Tchart::e_byMistake) {
-      for(int i = 0; i < sortedLists.size(); i++)
-        maxTime = qMax(maxTime, sortedLists[i].averTime());
-      yAxis->setMaxValue((double)maxTime / 10.0);
+      for(int i = 0; i < p_sortedLists.size(); i++)
+        maxTime = qMax(maxTime, p_sortedLists[i].averTime());
+//       yAxis->setMaxValue((double)maxTime / 10.0);
   } else { // For e_byMistake we are looking for highest amount of questions in a group
-      for(int i = 0; i < sortedLists.size(); i++)
-        maxTime = qMax(maxTime, (qreal)sortedLists[i].size());
-      yAxis->setMaxValue((double)maxTime);
-      yAxis->setUnit(TYaxis::e_questionNr);
+      for(int i = 0; i < p_sortedLists.size(); i++)
+        maxTime = qMax(maxTime, (qreal)p_sortedLists[i].size());
+//       yAxis->setMaxValue((double)maxTime);
+//       yAxis->setUnit(TYaxis::e_questionNr);
   }
 
-  xAxis->setAnswersForBarChart(sortedLists);
-  prepareChart(sortedLists.size());
+//   xAxis->setAnswersForBarChart(p_sortedLists); // TODO
+  prepareChart(p_sortedLists.size());
 
-  int lastItem = sortedLists.size();
-  if (p_hasListUnrelated)
-    lastItem--; // don't show unrelated
-  for(int i = 0; i < lastItem; i++) {
-    Tbar *bar;
-    if (p_chartSett.order != Tchart::e_byMistake)
-      bar = new Tbar(yAxis->axisFactor() * (sortedLists[i].averTime() / 10.0), &sortedLists[i]);
-    else // Y value is number of questions, bar generates tip and has to know about type to skip some data
-      bar = new Tbar(yAxis->axisFactor() * (sortedLists[i].size()), &sortedLists[i], Tbar::e_mistakes);
-    setParentForItem(bar);
-    bar->setPos(xAxis->mapValue(i + 1) + xAxis->pos().x(), yAxis->boundingRect().height() - 2);
-  }
+//   int lastItem = p_sortedLists.size();
+//   if (p_hasListUnrelated)
+//     lastItem--; // don't show unrelated
+//   for(int i = 0; i < lastItem; i++) {
+//     Tbar *bar;
+//     if (p_chartSett.order != Tchart::e_byMistake)
+//       bar = new Tbar(yAxis->axisFactor() * (p_sortedLists[i].averTime() / 10.0), &p_sortedLists[i]);
+//     else // Y value is number of questions, bar generates tip and has to know about type to skip some data
+//       bar = new Tbar(yAxis->axisFactor() * (p_sortedLists[i].size()), &p_sortedLists[i], Tbar::e_mistakes);
+//     setParentForItem(bar);
+//     bar->setPos(xAxis->mapValue(i + 1) + xAxis->pos().x(), yAxis->boundingRect().height() - 2);
+//   }
 }
 

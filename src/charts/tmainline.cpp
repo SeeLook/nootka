@@ -56,13 +56,13 @@ TmainLine::TmainLine(QList<TQAunit*>* answers, Tchart* chart, TmainLine::EyValue
     tmpQA.qaPtr = m_answers->operator[](i);
     tmpQA.nr = i + 1;
     auto p = new TquestionPoint(tmpQA);
-    m_chart->setParentForItem(p);
+//     m_chart->setParentForItem(p);
     p->setZValue(50);
     p->setPos(xPos, yValue(m_answers->operator[](i), yVal));
     m_points << p;
     if (i) {
       auto line = new TstaffLineChart();
-      m_chart->setParentForItem(line);
+//       m_chart->setParentForItem(line);
       line->setLine(m_points[i - 1]->pos(), p->pos());
       line->setZValue(45);
       m_lines << line;
@@ -83,12 +83,12 @@ TmainLine::TmainLine(QList<TgroupedQAunit >& listOfLists, Tchart* chart, TmainLi
     for (int j = 0; j < listOfLists[i].size(); j++) {
       double xPos = m_chart->xAxis->mapValue(cnt+1) + m_chart->xAxis->pos().x();
       m_points << new TquestionPoint(listOfLists[i].operator[](j));
-      m_chart->setParentForItem(m_points[cnt]);
+//       m_chart->setParentForItem(m_points[cnt]);
       m_points[cnt]->setZValue(50);
       m_points[cnt]->setPos(xPos, yValue(listOfLists[i].operator[](j).qaPtr, yVal));
       if (cnt) {
         auto line = new TstaffLineChart();
-        m_chart->setParentForItem(line);
+//         m_chart->setParentForItem(line);
         line->setLine(m_points[cnt-1]->pos(), m_points[cnt]->pos());
         line->setZValue(45);
         m_lines << line;

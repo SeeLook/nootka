@@ -17,31 +17,27 @@
  ***************************************************************************/
 
 #include "tmainchart.h"
-#include "tmainline.h"
-#include "txaxis.h"
-#include "tyaxis.h"
-#include "tstafflinechart.h"
-#include "tgraphicsline.h"
-#include "tquestionpoint.h"
+// #include "tmainline.h"
+// #include "txaxis.h"
+// #include "tyaxis.h"
+// #include "tstafflinechart.h"
+// #include "tgraphicsline.h"
+// #include "tquestionpoint.h"
 #include "tbar.h"
 #include "sorting.h"
 #include <exam/tlevel.h>
 #include <exam/texam.h>
-#include <QtCore/qtimer.h>
+#include <music/tnamestylefilter.h>
+#include <tnoofont.h>
 
-
+// #include <QtCore/qtimer.h>
 
 
 TmainChart::TmainChart(QQuickItem* parent):
   Tchart(parent),
   p_hasListUnrelated(false),
-  goodSize(0)
-{
-  setAcceptHoverEvents(true);
-  m_enterTimer = new QTimer(this);
-  connect(m_enterTimer, &QTimer::timeout, this, &TmainChart::enterTimeOut);
-  m_leaveTimer = new QTimer(this);
-  connect(m_leaveTimer, &QTimer::timeout, this, &TmainChart::leaveTimeOut);
+  p_goodSize(0)
+{  
 }
 
 
@@ -61,129 +57,124 @@ void TmainChart::setChartSettings(const Tchart::Tsettings& s) {
 }
 
 
+QString TmainChart::ticText(TQAunit* unit, int questNr) {
+  if (!unit)
+    return QString();
+
+  QString txt;
+  if (questNr)
+    txt = QString("%1.<br>").arg(questNr);
+  QString altStyleText;
+  auto l = p_currExam->level();
+  if (l->requireStyle || (l->questionAs.isName() && l->answersAs[TQAtype::e_asName].isName())) {
+    /** Display alternate to user pref names but only for levels where different styles can occur */
+    Tnote::EnameStyle altStyle;
+    if (Tnote::defaultStyle == Tnote::e_italiano_Si || Tnote::defaultStyle == Tnote::e_russian_Ci)
+      altStyle = TnameStyleFilter::get(Tnote::e_english_Bb);
+    else
+      altStyle = TnameStyleFilter::get(Tnote::e_italiano_Si);
+    altStyleText = QString(" <small><i>(%1)</small></i>").arg(unit->qa.note.toRichText(altStyle, false));
+  }
+  if (unit->melody()) {
+      txt += "<small>" + QApplication::translate("TXaxis", "%n attempt(s)", "", unit->attemptsCount()) + "</small>";
+      txt.replace(QLatin1String("<br>"), QString());
+  } else {
+      txt += QString("<b>%1</b>").arg(unit->qa.note.toRichText()) + altStyleText;
+      if (unit->questionAs == TQAtype::e_onInstr || unit->answerAs == TQAtype::e_onInstr || unit->answerAs == TQAtype::e_asSound)
+        txt += QLatin1String("<br>") + TnooFont::span(QString::number(static_cast<int>(unit->qa.pos().str())), 15)
+        + QString("<span style=\"font-size: 15px;\">%1</span>").arg(TfingerPos::romanFret(unit->qa.pos().fret()));
+  }
+  if (l->useKeySign && (unit->questionAs == TQAtype::e_onScore || unit->answerAs == TQAtype::e_onScore))
+    txt += QLatin1String("<br><i>") + unit->key.getName() + QLatin1String("</i>");
+  return txt;
+}
+
+
+TQAunit* TmainChart::getSorted(int unitNr) {
+  int cnt = 0;
+  for (int i = 0; i < p_sortedLists.count(); i++) {
+    if (unitNr < cnt + p_sortedLists[i].size())
+      return p_sortedLists[i][unitNr - cnt].qaPtr;
+    cnt += p_sortedLists[i].size();
+  }
+  qDebug() << "[TmainChart] BOOOOOM, looking for sorted question failed";
+  return nullptr;
+}
+
+
+TqaPtr* TmainChart::getSortedPtr(int ptrNr) {
+  int cnt = 0;
+  for (int i = 0; i < p_sortedLists.count(); i++) {
+    if (ptrNr < cnt + p_sortedLists[i].size())
+      return &p_sortedLists[i][ptrNr - cnt];
+    cnt += p_sortedLists[i].size();
+  }
+  qDebug() << "[TmainChart] BOOOOOM, looking for sorted pointer failed";
+  return nullptr;
+}
+
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
 
 void TmainChart::sort() {
-    TgroupedQAunit::setSkipWrong(!p_chartSett.inclWrongAnsw);
-    if (p_chartSett.separateWrong) {
-        divideGoodAndBad(p_currExam->answList(), goodAnsw, badAnsw);
-        if (p_chartSett.order == e_byNote)
-          sortedLists = sortByNote(goodAnsw, p_currExam->level(), p_hasListUnrelated);
-        else
-          if (p_chartSett.order == e_byFret)
-            sortedLists = sortByFret(goodAnsw, p_currExam->level(), p_hasListUnrelated);
-          else
-            if (p_chartSett.order == e_byKey)
-              sortedLists = sortByKeySignature(goodAnsw, p_currExam->level(), p_hasListUnrelated);
-            else
-              if (p_chartSett.order == e_byAccid)
-              sortedLists = sortByAccidental(goodAnsw, p_currExam->level(), p_hasListUnrelated, kindOfAccids);
-        // e_byQuestAndAnsw & e_byMistake never separate wrong answers
-        goodSize = sortedLists.size(); // number without wrong answers
-        if (p_chartSett.order == e_byNote)
-          sortedLists.append(sortByNote(badAnsw, p_currExam->level(), p_hasListUnrelated));
-        else
-          if (p_chartSett.order == e_byFret)
-            sortedLists.append(sortByFret(badAnsw, p_currExam->level(), p_hasListUnrelated));
-          else
-            if (p_chartSett.order == e_byKey)
-              sortedLists.append(sortByKeySignature(badAnsw, p_currExam->level(), p_hasListUnrelated));
-            else
-              if (p_chartSett.order == e_byAccid)
-              sortedLists.append(sortByAccidental(badAnsw, p_currExam->level(), p_hasListUnrelated, kindOfAccids));
-    } else {
-        TgroupedQAunit convList;
-        convertToGroupedQAunit(p_currExam->answList(), convList);
-        switch (p_chartSett.order) {
-          case e_byNote:
-            sortedLists = sortByNote(convList, p_currExam->level(), p_hasListUnrelated);
-            break;
-          case e_byFret:
-            sortedLists = sortByFret(convList, p_currExam->level(), p_hasListUnrelated);
-            break;
-          case e_byKey:
-            sortedLists = sortByKeySignature(convList, p_currExam->level(), p_hasListUnrelated);
-            break;
-          case e_byAccid:
-            sortedLists = sortByAccidental(convList, p_currExam->level(), p_hasListUnrelated, kindOfAccids);
-            break;
-          case e_byQuestAndAnsw: // in this case wrong answers aren't separate
-            sortedLists = sortByQAtype(convList, p_currExam->level(), p_hasListUnrelated);
-            break;
-          case e_byMistake:
-            sortedLists = sortByMisakes(convList, p_currExam->level(), p_hasListUnrelated);
-            break;
-          default: break;
-        }
-        goodSize = sortedLists.size();
+  TgroupedQAunit::setSkipWrong(!p_chartSett.inclWrongAnsw);
+  if (p_chartSett.separateWrong) {
+      divideGoodAndBad(p_currExam->answList(), p_goodAnsw, p_badAnsw);
+      if (p_chartSett.order == e_byNote)
+        p_sortedLists = sortByNote(p_goodAnsw, p_currExam->level(), p_hasListUnrelated);
+      else if (p_chartSett.order == e_byFret)
+        p_sortedLists = sortByFret(p_goodAnsw, p_currExam->level(), p_hasListUnrelated);
+      else if (p_chartSett.order == e_byKey)
+        p_sortedLists = sortByKeySignature(p_goodAnsw, p_currExam->level(), p_hasListUnrelated);
+      else if (p_chartSett.order == e_byAccid)
+        p_sortedLists = sortByAccidental(p_goodAnsw, p_currExam->level(), p_hasListUnrelated, p_kindOfAccids);
+      // e_byQuestAndAnsw & e_byMistake never separate wrong answers
+      p_goodSize = p_sortedLists.size(); // number without wrong answers
+      if (p_chartSett.order == e_byNote)
+        p_sortedLists.append(sortByNote(p_badAnsw, p_currExam->level(), p_hasListUnrelated));
+      else if (p_chartSett.order == e_byFret)
+        p_sortedLists.append(sortByFret(p_badAnsw, p_currExam->level(), p_hasListUnrelated));
+      else if (p_chartSett.order == e_byKey)
+        p_sortedLists.append(sortByKeySignature(p_badAnsw, p_currExam->level(), p_hasListUnrelated));
+      else if (p_chartSett.order == e_byAccid)
+        p_sortedLists.append(sortByAccidental(p_badAnsw, p_currExam->level(), p_hasListUnrelated, p_kindOfAccids));
+  } else {
+      TgroupedQAunit convList;
+      convertToGroupedQAunit(p_currExam->answList(), convList);
+      switch (p_chartSett.order) {
+        case e_byNote:
+          p_sortedLists = sortByNote(convList, p_currExam->level(), p_hasListUnrelated);
+          break;
+        case e_byFret:
+          p_sortedLists = sortByFret(convList, p_currExam->level(), p_hasListUnrelated);
+          break;
+        case e_byKey:
+          p_sortedLists = sortByKeySignature(convList, p_currExam->level(), p_hasListUnrelated);
+          break;
+        case e_byAccid:
+          p_sortedLists = sortByAccidental(convList, p_currExam->level(), p_hasListUnrelated, p_kindOfAccids);
+          break;
+        case e_byQuestAndAnsw: // in this case wrong answers aren't separate
+          p_sortedLists = sortByQAtype(convList, p_currExam->level(), p_hasListUnrelated);
+          break;
+        case e_byMistake:
+          p_sortedLists = sortByMisakes(convList, p_currExam->level(), p_hasListUnrelated);
+          break;
+        default: break;
+      }
+      p_goodSize = p_sortedLists.size();
+  }
+  for (int i = 0; i < p_sortedLists.count(); i++) {
+    for (int j = 0; j < p_sortedLists[i].size(); j++) {
+      p_sortedLists[i][j].grNr = i;
     }
+  }
 }
 
 
 void TmainChart::prepareChart(int maxX) {
-// Grid lines
-  QColor lineColor = qApp->palette().windowText().color();
-  if (p_chartSett.type != e_bar) { // vertical lines only for linear chart
-      for(int i = 5; i < maxX; i++) {
-        if (i % 5 == 0) {
-          auto l = new QGraphicsLineItem(xAxis->mapValue(i) + xAxis->pos().x(), 0.0, xAxis->mapValue(i) + xAxis->pos().x(), yAxis->length(), p_bgRect);
-          l->setPen(QPen(QBrush(lineColor), 1, Qt::DashLine));
-        }
-      }
-  }
-  QList<double> listY;
-  yAxis->getYforGrid(listY);
-  if (listY.size()) {
-      for(int i = 0; i < listY.size(); i++) {
-        auto l = new QGraphicsLineItem(xAxis->pos().x(), listY[i], xAxis->pos().x() + xAxis->length(), listY[i], p_bgRect);
-        l->setPen(QPen(QBrush(lineColor), 1, Qt::DashLine));
-      }
-  }
+  p_xCount = maxX;
 }
 
-
-void TmainChart::hoverMoveEvent(QHoverEvent* event) {
-  auto it = scene->itemAt(event->pos(), p_bgRect->transform());
-  if (it && it->type() >= QUESTION_POINT_TYPE) {
-      TtipInfo* p = nullptr;
-      if (it->type() == QUESTION_POINT_TYPE) {
-          auto grIt = qgraphicsitem_cast<TquestionPoint*>(it);
-          p = static_cast<TtipInfo*>(grIt);
-      } else if (it->type() == CHART_LINE_TYPE) {
-          auto grIt = qgraphicsitem_cast<TgraphicsLine*>(it);
-          p = static_cast<TtipInfo*>(grIt);
-      } else {
-          auto grIt = qgraphicsitem_cast<Tbar*>(it);
-          p = static_cast<TtipInfo*>(grIt);
-      }
-      if (m_hoveredItem != p) {
-        m_enterTimer->start(300);
-        m_leaveTimer->stop();
-        m_hoveredItem = p;
-        m_hoveredItem->setCursorPos(event->pos());
-      }
-  } else if (m_hoveredItem) {
-      m_enterTimer->stop();
-      m_leaveTimer->start(500);
-  }
-}
-
-
-void TmainChart::enterTimeOut() {
-  m_enterTimer->stop();
-  if (m_hoveredItem)
-    setCurQ(m_hoveredItem);
-  else
-    qDebug() << "[TmainChart] FIXME! No hovered item!";
-  emit hoveredChanged();
-}
-
-
-void TmainChart::leaveTimeOut() {
-  m_leaveTimer->stop();
-  m_hoveredItem = nullptr;
-  setCurQ(nullptr);
-  emit hoveredChanged();
-}

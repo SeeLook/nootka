@@ -30,6 +30,7 @@ Window {
   modality: Qt.WindowModal
   title: chartItem.chartWindowTitle
   width: nootkaWindow.width; height: nootkaWindow.height; x: nootkaWindow.x; y: nootkaWindow.y
+  color: activPal.base
 
   ButtonGroup { id: chartTypeGr }
 
@@ -51,13 +52,13 @@ Window {
         ChartToolButton {
           taction: Taction {
             text: Noo.TR("QShortcut", "Zoom In"); icon: "zoom-in"; shortcut: Shortcut { sequence: StandardKey.ZoomIn }
-            onTriggered: chartItem.zoom(true)
+            onTriggered: chartView.sc = Math.min(2.0, chartView.sc * 1.125)
           }
         }
         ChartToolButton {
           taction: Taction {
             text: Noo.TR("QShortcut", "Zoom Out"); icon: "zoom-out"; shortcut: Shortcut { sequence: StandardKey.ZoomOut }
-            onTriggered: chartItem.zoom(false)
+            onTriggered: chartView.sc = Math.max(0.5, chartView.sc * 0.888889)
           }
         }
         ChartToolButton {
@@ -206,23 +207,22 @@ Window {
         }
       }
     }
-    Flickable {
-      id: chartFlick
-      clip: true
-      ScrollBar.vertical: ScrollBar { active: true; visible: true }
-      ScrollBar.horizontal: ScrollBar { active: true; visible: true}
-      width: analyzeWindow.width; height: analyzeWindow.height - toolBar.height
-      contentWidth: chartItem.width; contentHeight: chartItem.height
-      TchartItem {
-        id: chartItem
-        parentHeight: chartFlick.height
-        tipItem: tip.tipItem
-        ChartTip { id: tip }
-        onExamChanged: {
-          if (helpTip && exam)
-            helpTip.destroy()
-        }
+
+    property TchartItem chartItem: TchartItem {
+      id: chartItem
+      tipItem: tip.tipItem
+      parent: chartView; anchors.fill: parent
+      ChartTip { id: tip; parent: chartView.list }
+      onExamChanged: {
+        if (helpTip && exam)
+          helpTip.destroy()
+        chartView.list.contentX = chartView.list.originX
       }
+    }
+
+    ChartView {
+      id: chartView
+      width: analyzeWindow.width; height: analyzeWindow.height - toolBar.height
     }
   }
 

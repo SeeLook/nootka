@@ -105,12 +105,12 @@ set(NOOTKA_SRC
   charts/tgroupedqaunit.cpp
   charts/sorting.cpp
   charts/tabstractaxis.cpp
-  charts/txaxis.cpp
+#   charts/txaxis.cpp
   charts/tyaxis.cpp
-  charts/tquestionpoint.cpp
-  charts/tgraphicsline.cpp
-  charts/tmainline.cpp
-  charts/tstafflinechart.cpp
+#   charts/tquestionpoint.cpp
+#   charts/tgraphicsline.cpp
+#   charts/tmainline.cpp
+#   charts/tstafflinechart.cpp
   charts/tchart.cpp
   charts/tmainchart.cpp
   charts/tlinearchart.cpp
@@ -118,6 +118,7 @@ set(NOOTKA_SRC
   charts/tcharttipitem.cpp
   charts/tbarchart.cpp
   charts/tbar.cpp
+  charts/tlinchartdelegate.cpp
 )
 
 option(ENABLE_UPDATER "Enable online checking for new Nootka versions" ON)
