@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2018 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2018-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,7 +20,7 @@
 #define TCHARTITEM_H
 
 
-#include "tchart.h"
+#include "tmainchart.h"
 #include <QtQuick/qquickitem.h>
 
 
@@ -31,6 +31,7 @@ class Tchart;
 class TchartTipItem;
 class QQuickItem;
 class TlevelPreviewItem;
+class QTimer;
 
 
 /**
@@ -43,12 +44,10 @@ class TchartItem : public QQuickItem
 
   Q_OBJECT
 
+      /** Properties of analysis window */
   Q_PROPERTY(QList<QObject*> recentExamsActions READ recentExamsActions NOTIFY actionsPrepared)
   Q_PROPERTY(QStringList yValueActions READ yValueActions NOTIFY actionsPrepared)
   Q_PROPERTY(QStringList xOrderActions READ xOrderActions NOTIFY actionsPrepared)
-  Q_PROPERTY(int questionNr READ questionNr NOTIFY questionChanged)
-  Q_PROPERTY(TchartTipItem* tipItem READ tipItem WRITE setTipItem)
-  Q_PROPERTY(qreal parentHeight READ parentHeight WRITE setParentHeight)
   Q_PROPERTY(QString userName READ userName NOTIFY examChanged)
   Q_PROPERTY(QString questionCount READ questionCount NOTIFY examChanged)
   Q_PROPERTY(QString effectiveness READ effectiveness NOTIFY examChanged)
@@ -59,22 +58,22 @@ class TchartItem : public QQuickItem
   Q_PROPERTY(int xOrder READ xOrder WRITE setXOrder NOTIFY xOrderChanged)
   Q_PROPERTY(QString chartWindowTitle READ chartWindowTitle NOTIFY examChanged)
   Q_PROPERTY(QString levelName READ levelName NOTIFY examChanged)
+      /** Properties of chart (list view) and its delegate */
+  Q_PROPERTY(int chartModel READ chartModel NOTIFY examChanged)
+  Q_PROPERTY(QString yAxisLabel READ yAxisLabel NOTIFY examChanged)
+  Q_PROPERTY(QList<qreal> yAxisGridModel READ yAxisGridModel NOTIFY examChanged)
+  Q_PROPERTY(qreal averageTime READ averageTime NOTIFY examChanged)
+
+  Q_PROPERTY(TchartTipItem* tipItem READ tipItem WRITE setTipItem)
 
 public:
   explicit TchartItem(QQuickItem* parent = nullptr);
   ~TchartItem() override;
 
+// Properties of analysis window
   QList<QObject*> recentExamsActions() { return m_recentExamsActs; }
   QStringList yValueActions() { return m_yValueActs; }
   QStringList xOrderActions() { return m_xOrderActs; }
-
-  int questionNr() const;
-
-  TchartTipItem* tipItem() { return m_tipItem; }
-  void setTipItem(TchartTipItem* ti);
-
-  qreal parentHeight() const { return m_parentHeight; }
-  void setParentHeight(qreal ph);
 
   QString userName() const;
   QString questionCount() const;
@@ -94,11 +93,6 @@ public:
   int xOrder() const;
   void setXOrder(int xO);
 
-      /**
-       * zoom chart, by default zoom in but when false zoom out
-       */
-  Q_INVOKABLE void zoom(bool in);
-
   Q_INVOKABLE void setChartType(bool lin = true);
 
   QString chartWindowTitle() const;
@@ -109,6 +103,35 @@ public:
   Q_INVOKABLE QString chartHelpText() const;
   Q_INVOKABLE void openExam() { getExamFileSlot(); }
 
+
+// Properties of chart (list view) and its delegate
+  int chartModel() const;
+
+  TmainChart* mainChart() { return static_cast<TmainChart*>(m_chart); }
+
+  QString yAxisLabel() const;
+
+      /**
+       * List of y values for help grid lines
+       */
+  QList<qreal> yAxisGridModel() const;
+  Q_INVOKABLE qreal maxYValue() const;
+  Q_INVOKABLE QString timeFormated(qreal realTime, bool halfAllowed = false) const;
+  qreal averageTime() const;
+
+  Tchart::Tsettings* settings() { return &m_chartSetts; }
+
+// Properties of a tip with question/line/bar info
+
+      /**
+       * QML instance of @p TchartTipItem
+       */  
+  TchartTipItem* tipItem() { return m_tipItem; }
+  void setTipItem(TchartTipItem* ti);
+
+  Q_INVOKABLE void tipEntered(TtipInfo* ti);
+  Q_INVOKABLE void tipExited();
+
 signals:
   void actionsPrepared();
   void questionChanged();
@@ -118,10 +141,10 @@ signals:
   void xOrderChanged();
 
 protected:
-  void hoverChangedSlot();
   void getExamFileSlot();
 
-  void wheelEvent(QWheelEvent* event) override;
+  void enterTimeOut();
+  void leaveTimeOut();
 
 private:
       /**
@@ -151,8 +174,10 @@ private:
   bool                            m_wasExamCreated = false;
   Tchart::Tsettings               m_chartSetts;
   TchartTipItem                  *m_tipItem = nullptr;
-  qreal                           m_parentHeight = 0.0;
   bool                            m_allowOpen = true;
+  TtipInfo                       *m_hoveredItem = nullptr;
+  TtipInfo                       *m_currentItem = nullptr;
+  QTimer                         *m_enterTimer, *m_leaveTimer;
 };
 
 #endif // TCHARTITEM_H

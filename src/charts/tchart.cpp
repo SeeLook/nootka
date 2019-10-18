@@ -22,98 +22,80 @@
 #include "tyaxis.h"
 #include "tabstractaxis.h"
 #include "tgroupedqaunit.h"
+#include <exam/textrans.h>
 
 #include <QtCore/qdebug.h>
 #include "checktime.h"
 
 
 Tchart::Tchart(QQuickItem* parent) :
-  QQuickPaintedItem(parent)
+  QQuickItem(parent)
 {
-//   setRenderTarget(QQuickPaintedItem::Image);
-//   setRenderTarget(QQuickPaintedItem::FramebufferObject);
-//   setPerformanceHint(QQuickPaintedItem::FastFBOResizing);
+//   scene = new QGraphicsScene(this);
 
-  setAntialiasing(true);
-  scene = new QGraphicsScene(this);
+//   p_bgRect = scene->addRect(0.0, 0.0, 100.0, 350.0, Qt::NoPen, Qt::NoBrush);
 
-  p_bgRect = scene->addRect(0.0, 0.0, 100.0, 350.0, Qt::NoPen, Qt::NoBrush);
-
-  yAxis = new TYaxis();
-  yAxis->setParentItem(p_bgRect);
-  yAxis->setLength(300);
-  yAxis->setMaxValue(9);
-  yAxis->setPos(45, 0);
+//   yAxis = new TYaxis();
+//   yAxis->setParentItem(p_bgRect);
+//   yAxis->setLength(300);
+//   yAxis->setMaxValue(9);
+//   yAxis->setPos(45, 0);
 //   yAxis->setZValue(55);
 
-  xAxis = new TXaxis();
-  xAxis->setParentItem(p_bgRect);
-  xAxis->setLength(550);
-  xAxis->setPos(52, yAxis->boundingRect().height() - 7);
+//   xAxis = new TXaxis();
+//   xAxis->setParentItem(p_bgRect);
+//   xAxis->setLength(550);
+//   xAxis->setPos(52, yAxis->boundingRect().height() - 7);
 }
 
 
-Tchart::~Tchart() {
-  if (m_sceneImage)
-    delete m_sceneImage;
-}
-
-
-void Tchart::setParentForItem(QGraphicsItem* it) {
-  it->setParentItem(p_bgRect);
-}
-
-
-void Tchart::setParentHeight(qreal pH) {
-  if (pH != m_parentHeight) {
-    p_bgRect->setRect(scene->sceneRect().x() / p_bgRect->scale(), scene->sceneRect().y() / p_bgRect->scale(),
-                      scene->sceneRect().width() / p_bgRect->scale(), scene->sceneRect().height() / p_bgRect->scale());
-    p_bgRect->setScale(pH / (p_bgRect->boundingRect().height()));
-    scene->setSceneRect(scene->sceneRect().x(), scene->sceneRect().y(),
-                        p_bgRect->boundingRect().width() * p_bgRect->scale(), p_bgRect->boundingRect().height() * p_bgRect->scale());
-    setSize(QSizeF(scene->sceneRect().width() - scene->sceneRect().x(), scene->sceneRect().height() - scene->sceneRect().y()));
-    m_parentHeight = pH;
-    update();
+void Tchart::setMaxValue(qreal m, bool allowHalf) {
+  qreal multi1 = 1.0;
+  m_maxValue = m;
+  qreal maxT = m_maxValue;
+  while (maxT > 99.0) {
+    multi1 = multi1 * 10.0;
+    maxT = maxT / 10.0;
   }
-}
-
-
-void Tchart::update() {
-  if (m_renderState != e_renderInProgress) {
-    m_renderState = e_renderInProgress;
-    CHECKTIME (
-      if (m_sceneImage)
-        delete m_sceneImage;
-      m_sceneImage = new QImage(scene->sceneRect().size().toSize(), QImage::Format_ARGB32);
-      m_sceneImage->fill(Qt::transparent);
-      QPainter painter;
-      painter.begin(m_sceneImage);
-      painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
-      scene->render(&painter);
-      painter.end();
-      m_renderState = e_renderFinished;
-    )
-    QQuickPaintedItem::update();
+  int topVal = static_cast<int>(maxT) + 1;
+  int loopCnt = topVal;
+  qreal multi2 = 1.0;
+  if (topVal > 9) {
+    loopCnt = topVal / 10.0;
+    multi2 = 10.0;
   }
-}
-
-
-void Tchart::paint(QPainter* painter) {
-CHECKTIME(
-  if (!painter->paintEngine() || boundingRect().width() < 1.0)
-    return;
-
-  if (m_renderState == e_renderFinished)
-    painter->drawImage(0, 0, *m_sceneImage);
-  else
-    qDebug() << "[Tchart] chart image not ready yet!";
-)
-}
-
-
-void Tchart::setCurQ(TtipInfo* qa) {
-  if (qa != m_curQ) {
-    m_curQ = qa;
-    emit hoveredChanged();
+  qreal shift = allowHalf && (m_unit == e_timeInSec || m_unit == e_prepareTime || multi2 >= 10.0) ? 0.5 : 1.0;
+  m_yTickList.clear();
+  for (qreal i = shift; i <= static_cast<qreal>(loopCnt); i += shift) {
+    m_yTickList << i * multi1 * multi2;
   }
+//   axisScale = ((length() - (2 * arrowSize)) / (m_top * m_multi));
+//   if (allowHalf) { // check is enough place for half ticks
+//     if ( ((mapValue((m_loop - 1) * m_multi * m_multi2) - mapValue(m_loop * m_multi * m_multi2))) > m_textPosOffset * 4)
+//       m_halfTick = true;
+//   }
+}
+
+
+void Tchart::setUnit(Tchart::Eunit unit) {
+  switch (unit) {
+    case e_timeInSec:
+      m_unitDesc = QObject::tr("time [s]", "unit of Y axis");
+      break;
+    case e_questionNr:
+      m_unitDesc = questionsNumberTxt() + QLatin1String(" [ ]");
+      break;
+    case e_prepareTime:
+      m_unitDesc = prepareTimeTxt() + QLatin1String(" [s]");
+      break;
+    case e_attemptsCount:
+      m_unitDesc = attemptsNumberTxt() + QLatin1String(" [ ]");
+      break;
+    case e_effectiveness:
+      m_unitDesc = TexTrans::effectTxt().toLower() + QLatin1String(" [%]");
+      break;
+    case e_playedCount:
+      m_unitDesc = playedNumberTxt() + QLatin1String(" [ ]");
+  }
+  m_unit = unit;
 }

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -50,15 +50,16 @@ void TgroupedQAunit::resume(const QString& desc, const QString& fullDesc) {
     int cnt = 0; // number of answers in average
     qreal effSum = 0.0;
     for (int i = 0; i < list.size(); i++) {
-      effSum += list[i].qaPtr->effectiveness();
-      if (list[i].qaPtr->isWrong())
+      TqaPtr& p = list[i];
+      effSum += p.qaPtr->effectiveness();
+      if (p.qaPtr->isWrong())
         m_mistakes++;
-      else if (list[i].qaPtr->isNotSoBad())
+      else if (p.qaPtr->isNotSoBad())
         m_halfMist++;
-      if (skipWrong() && (list[i].qaPtr->wrongNote() || list[i].qaPtr->wrongPos()) ) 
-          badTime += list[i].qaPtr->time;
+      if (skipWrong() && (p.qaPtr->wrongNote() || p.qaPtr->wrongPos()) ) 
+          badTime += p.qaPtr->time;
       else {
-        okTime += list[i].qaPtr->time;
+        okTime += p.qaPtr->time;
         cnt++;
       }
     }

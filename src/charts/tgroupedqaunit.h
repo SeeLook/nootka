@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -34,6 +34,7 @@ struct TqaPtr {
   quint16        nr; /**< question number in global exam */
   QColor         color;
   QPointF        pos;
+  int            grNr = -1; /**< Number of group if question list is sorted to analysis */
 };
 
 
@@ -42,6 +43,7 @@ class TtipInfo
 {
 
 public:
+  
   enum Ekind : quint8 { e_point = 0, e_line = 1 };
   TqaPtr*   qaPtr() { return &p_qaPtr; }
   TQAunit*  qaUnit() { return p_qaPtr.qaPtr; }
@@ -50,8 +52,13 @@ public:
   QPointF   cursorPos() const { return p_qaPtr.pos; }
   Ekind     kind = e_point;
   QString   tipText;
+  int       grNr() { return p_qaPtr.grNr; }
 
   void setCursorPos(const QPointF& p) { p_qaPtr.pos = p; }
+  void setQAUnit(TQAunit* u) { p_qaPtr.qaPtr = u; }
+  void setNr(int n) { p_qaPtr.nr = n; }
+  void setColor(const QColor& c) { p_qaPtr.color = c; }
+  void setGr(int gn) { p_qaPtr.grNr = gn; }
 
 protected:
   TqaPtr            p_qaPtr;
@@ -93,6 +100,7 @@ public:
        * Calculates mistakes and average time after appending all questions to the list.
        * Sets description. It doesn't add mistakes to average.
        * If group contains only mistakes average time is calculated from mistakes time.
+       * @param grNr - is number of group in the list
        * @param desc - is short, single line description (html is accepted),
        * @param fullDesc - full description, multi lines accepted.
        */

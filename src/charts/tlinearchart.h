@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -35,9 +35,6 @@ public:
   explicit TlinearChart(QQuickItem* parent = nullptr);
 
   void init() override;
-
-private:
-  QGraphicsTextItem* getTextItem(int fontSize);
 };
 
 #endif // TLINEARCHART_H

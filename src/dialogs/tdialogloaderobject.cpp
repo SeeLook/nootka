@@ -34,6 +34,7 @@
 #include "main/tpiechartitem.h"
 #include "charts/tchartitem.h"
 #include "charts/tcharttipitem.h"
+#include "charts/tlinchartdelegate.h"
 #include "help/tmainhelp.h"
 #include <qtr.h>
 #include <exam/texam.h>
@@ -76,6 +77,7 @@ TdialogLoaderObject::TdialogLoaderObject(QObject* parent) :
 
     qmlRegisterType<TchartItem>("Nootka.Charts", 1, 0, "TchartItem");
     qmlRegisterType<TchartTipItem>("Nootka.Charts", 1, 0, "TchartTipItem");
+    qmlRegisterType<TlinChartDelegate>("Nootka.Charts", 1, 0, "TlinChartDelegate");
     m_firstTime = false;
   }
 }

@@ -56,11 +56,11 @@ void TquestionPoint::setColor() {
       else
         p_qaPtr.color = m_notBadColor;
   }
-  auto shadow = new QGraphicsDropShadowEffect();
-  shadow->setBlurRadius(10);
-  shadow->setColor(qApp->palette().text().color());
-  shadow->setOffset(1.0, 1.0);
-  setGraphicsEffect(shadow);
+//   auto shadow = new QGraphicsDropShadowEffect();
+//   shadow->setBlurRadius(10);
+//   shadow->setColor(qApp->palette().text().color());
+//   shadow->setOffset(1.0, 1.0);
+//   setGraphicsEffect(shadow);
 }
 
 

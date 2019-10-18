@@ -80,6 +80,11 @@ TchartItem::TchartItem(QQuickItem* parent) :
    */
   emit actionsPrepared();
 
+  m_enterTimer = new QTimer(this);
+  connect(m_enterTimer, &QTimer::timeout, this, &TchartItem::enterTimeOut);
+  m_leaveTimer = new QTimer(this);
+  connect(m_leaveTimer, &QTimer::timeout, this, &TchartItem::leaveTimeOut);
+
   m_chart = new Tchart(this); // default "empty" chart
 }
 
@@ -87,26 +92,6 @@ TchartItem::TchartItem(QQuickItem* parent) :
 TchartItem::~TchartItem() {
   if (m_wasExamCreated)
     delete m_exam;
-}
-
-
-int TchartItem::questionNr() const {
-  return m_chart->curQ() ? m_chart->curQ()->nr() : 0;
-}
-
-
-void TchartItem::setTipItem(TchartTipItem* ti) {
-  if (ti != m_tipItem) {
-    m_tipItem = ti;
-  }
-}
-
-
-void TchartItem::setParentHeight(qreal ph) {
-  m_parentHeight = ph;
-  m_chart->setParentHeight(ph);
-  setWidth(m_chart->width());
-  setHeight(m_chart->height());
 }
 
 
@@ -129,7 +114,7 @@ int TchartItem::yValue() const { return static_cast<int>(m_chartSetts.yValue); }
 
 void TchartItem::setYValue(int yV) {
   if (yV != yValue()) {
-    m_chartSetts.yValue = static_cast<TmainLine::EyValue>(yV);
+    m_chartSetts.yValue = static_cast<Tchart::EyValue>(yV);
     drawChart();
     emit yValueChanged();
   }
@@ -147,18 +132,18 @@ void TchartItem::setXOrder(int xO) {
 }
 
 
-
 void TchartItem::setExam(Texam* e) {
   if (e != m_exam) {
     if (m_wasExamCreated) {
       delete m_exam;
       m_wasExamCreated = false;
     }
+    m_tipItem->setExam(e);
     if (singleOrMelodyChanged(e))
       resetChartSettings();
     m_exam = e;
     drawChart();
-    emit examChanged();
+//     emit examChanged();
   }
 }
 
@@ -174,13 +159,6 @@ void TchartItem::setAllowOpen(bool ao) {
 
 bool TchartItem::isMelody() const {
   return m_exam && m_exam->melodies();
-}
-
-
-void TchartItem::zoom(bool in) {
-  if (m_chart) {
-    setParentHeight(m_parentHeight * (in ? 1.125 : 0.888889));
-  }
 }
 
 
@@ -214,6 +192,7 @@ QString TchartItem::levelName() const {
   return m_exam ? m_exam->level()->name : QString();
 }
 
+
 void TchartItem::fillPreview(TlevelPreviewItem* lpi) {
   if (m_exam && lpi)
     lpi->setLevel(m_exam->level());
@@ -234,14 +213,80 @@ QString TchartItem::chartHelpText() const {
 }
 
 
+int TchartItem::chartModel() const {
+  return m_chart ? m_chart->xCount() : 0;
+}
+
+
+QString TchartItem::yAxisLabel() const {
+  return m_chart ? m_chart->yAxisLabel() : QString();
+}
+
+
+QList<qreal> TchartItem::yAxisGridModel() const {
+  return m_chart ? m_chart->yTickList() : QList<qreal>();
+}
+
+
+qreal TchartItem::maxYValue() const {
+  return m_chart ? m_chart->maxValue() : 1.0;
+}
+
+
+QString TchartItem::timeFormated(qreal realTime, bool halfAllowed) const {
+  int t = static_cast<int>(realTime);
+  QString hh, mm = halfAllowed ? QString() : QStringLiteral("0"), ss, ms;
+  int dig = 0;
+  if (t / 3600) {
+    hh = QString("%1").arg(t / 3600);
+    dig = 2;
+  }
+  int dig2 = 0;
+  if ((t % 3600) / 60) {
+    mm = QString("%1").arg((t % 3600) / 60, dig, 'i', 0, '0');
+    dig2 = 2;
+  }
+  ss = QString("%1").arg((t % 3600) % 60, 2, 'i', 0, '0');
+  if (realTime - (qreal)t)
+    ms = QLatin1String(".") + QString("%1").arg((int)((realTime - (qreal)t) * 10));
+  return (hh.isEmpty() ? QString() : hh + QLatin1String(":")) + (mm.isEmpty() ? QString() : mm + QLatin1String(":")) + ss + ms;
+}
+
+
+qreal TchartItem::averageTime() const {
+  return m_exam ? static_cast<qreal>(m_exam->averageReactonTime()) / 10.0 : 0.0;
+}
+
+//#################################################################################################
+//#############  Properties of a tip with question/line/bar info ##################################
+//#################################################################################################
+
+void TchartItem::setTipItem(TchartTipItem* ti) {
+  if (ti != m_tipItem) {
+    m_tipItem = ti;
+  }
+}
+
+
+void TchartItem::tipEntered(TtipInfo* ti) {
+//   if (m_hoveredItem != ti) {
+    m_enterTimer->start(300);
+    m_leaveTimer->stop();
+    m_hoveredItem = ti;
+//     m_hoveredItem->setCursorPos(event->pos());
+//   }
+}
+
+
+void TchartItem::tipExited() {
+  m_enterTimer->stop();
+  m_leaveTimer->start(500);
+}
+
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
-
-void TchartItem::hoverChangedSlot() {
-  m_tipItem->setQuestion(m_chart->curQ() ? m_chart->curQ() : nullptr);
-}
-
 
 void TchartItem::getExamFileSlot() {
   QString fileName = TfileDialog::getOpenFileName(TexTrans::loadExamFileTxt(), GLOB->E->examsDir, TexTrans::examFilterTxt());
@@ -250,14 +295,21 @@ void TchartItem::getExamFileSlot() {
 }
 
 
-void TchartItem::wheelEvent(QWheelEvent* event) {
-  if (event->modifiers() == Qt::ControlModifier) {
-      if  (event->angleDelta().y() > 0)
-        zoom(true);
-      else if  (event->angleDelta().y() < 0)
-        zoom(false);
-  } else // normal wheel behavior - scrolling a chart
-      QQuickItem::wheelEvent(event);
+void TchartItem::enterTimeOut() {
+  m_enterTimer->stop();
+  if (m_hoveredItem)
+    m_tipItem->setQuestion(m_hoveredItem);
+  else
+    qDebug() << "[TmainChart] FIXME! No hovered item!";
+//   emit hoveredChanged();
+}
+
+
+void TchartItem::leaveTimeOut() {
+  m_leaveTimer->stop();
+  m_hoveredItem = nullptr;
+  m_tipItem->setQuestion(nullptr);
+//   emit hoveredChanged();
 }
 
 
@@ -269,11 +321,12 @@ void TchartItem::loadExam(const QString& examFile) {
   if (m_exam)
     delete m_exam;
   m_exam = new Texam(m_level, QString());
+  m_tipItem->setExam(m_exam);
   m_wasExamCreated = true; // delete exam in destructor
   if (m_exam->loadFromFile(examFile) == Texam::e_file_OK) {
     resetChartSettings();
     drawChart();
-    emit examChanged();
+//     emit examChanged();
   }
 }
 
@@ -291,10 +344,11 @@ void TchartItem::drawChart() {
     newChart->setChartSettings(m_chartSetts);
     newChart->init();
     m_chart = newChart;
-    m_chart->setParentHeight(height());
-    connect(m_chart, &Tchart::hoveredChanged, this, &TchartItem::hoverChangedSlot);
-    m_tipItem->setExam(m_exam);
-    setParentHeight(m_parentHeight);
+//     m_chart->setParentHeight(height());
+//     connect(m_chart, &Tchart::hoveredChanged, this, &TchartItem::hoverChangedSlot);
+//     m_tipItem->setExam(m_exam);
+//     setParentHeight(m_parentHeight);
+    emit examChanged();
   )
   }
 }
@@ -310,7 +364,7 @@ bool TchartItem::singleOrMelodyChanged(Texam* e) {
 
 void TchartItem::resetChartSettings() {
   m_chartSetts.type = Tchart::e_linear;
-  m_chartSetts.yValue = TmainLine::e_questionTime;
+  m_chartSetts.yValue = Tchart::e_YquestionTime;
   emit yValueChanged();
   m_chartSetts.order = Tchart::e_byNumber;
   emit xOrderChanged();

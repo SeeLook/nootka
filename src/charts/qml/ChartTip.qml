@@ -14,17 +14,21 @@ TipRect {
   id: questTip
   property alias tipItem: tipItem
 
-  shadowRadius: Noo.fontSize()
+  shadowRadius: Noo.fontSize() * 3; horizontalOffset: Noo.fontSize() / 3; verticalOffset: horizontalOffset
   width: Noo.fontSize() * 23; height: tipCol.height
-  z: 100; y: Math.max(10, Math.min(parent.height - height - 10, tipItem.pos.y - height / 2))
-  x: tipItem.pos.x + (tipItem.pos.x > parent.width / 2 ? - (width + 20) : 10)
+  z: 5000
+  x: Noo.bound(parent.height / 12, tipItem.pos.x - chartView.list.contentX, parent.width - width * 1.2)
+  y: tipItem.pos.y > parent.height / 2 ? tipItem.pos.y - height - parent.height / 14 : tipItem.pos.y + parent.height / 20
   visible: scale > 0
 
-  border { color: tipItem.color; width: 1 }
+  border { color: tipItem.color; width: Noo.fontSize() / 7 }
   color: Qt.tint(activPal.base, Noo.alpha(tipItem.color, 50))
 
   scale: tipItem.show || tipArea.containsMouse ? 1 : 0
+
   Behavior on scale { NumberAnimation { duration: 200 }}
+  Behavior on x { NumberAnimation { duration: 200 }}
+  Behavior on y { NumberAnimation { duration: 200 }}
 
   TchartTipItem {
     id: tipItem
