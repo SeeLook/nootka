@@ -87,12 +87,11 @@ Flickable {
             text: instrSel.instrument === 0 ? qsTr("scale of an instrument") : qsTr("tuning of the guitar")
             anchors.verticalCenter: parent.verticalCenter; color: activPal.text
           }
-          ComboBox {
+          TcomboBox {
             id: tuningCombo
             visible: instrSel.instrument !== 0
-            width: Noo.fontSize() * 16
+            width: Noo.fontSize() * 18
             model: GLOB.instrument.type === Tinstrument.BassGuitar ? Noo.bassTunings() : Noo.guitarTunings()
-            delegate: ItemDelegate { text: modelData }
           }
         }
         Item {
