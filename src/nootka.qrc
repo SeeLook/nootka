@@ -36,6 +36,7 @@
     <file alias="Tmenu.qml">qml/shared/Tmenu.qml</file>
     <file alias="RectButton.qml">qml/shared/RectButton.qml</file>
     <file alias="PaneButton.qml">qml/shared/PaneButton.qml</file>
+    <file alias="TcomboBox.qml">qml/shared/TcomboBox.qml</file>
 
 <!--  Unused    -->
 <!--     <file alias="TprogressBar.qml">qml/shared/TprogressBar.qml</file> -->

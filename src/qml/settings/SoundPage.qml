@@ -65,11 +65,10 @@ Column {
               spacing: Noo.fontSize() * 2
               anchors.horizontalCenter: parent.horizontalCenter
               TlabelText { text: qsTr("input device") }
-              ComboBox {
+              TcomboBox {
                 id: inDevCombo
                 width: Noo.fontSize() * 20
                 model: SOUND.inputDevices()
-                delegate: ItemDelegate { text: modelData }
               }
               TcheckBox {
                 visible: !Noo.isAndroid() && !Noo.isMac()
@@ -183,11 +182,10 @@ Column {
                   anchors.horizontalCenter: parent.horizontalCenter
                   spacing: Noo.fontSize()
                   TlabelText { text: qsTr("pitch detection mode") }
-                  ComboBox {
+                  TcomboBox {
                     id: methodCombo
                     width: Noo.fontSize() * 20
                     model: ["MPM", "autocorrelation", "MPM + modified cepstrum"]
-                    delegate: ItemDelegate { text: modelData }
                   }
                 }
               }
@@ -273,11 +271,10 @@ Column {
               spacing: Noo.fontSize() * 2
               anchors.horizontalCenter: parent.horizontalCenter
               TlabelText { text: qsTr("output device") }
-              ComboBox {
+              TcomboBox {
                 id: outDevCombo
                 width: Noo.fontSize() * 20
                 model: SOUND.outputDevices()
-                delegate: ItemDelegate { text: modelData }
               }
               TcheckBox {
                 id: jackOutChB

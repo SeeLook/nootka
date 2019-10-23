@@ -36,7 +36,7 @@ Tflickable {
           anchors.verticalCenter: parent.verticalCenter
           color: enabled ? activPal.text : disdPal.text
         }
-        ComboBox {
+        TcomboBox {
           id: melCombo
           width: Noo.fontSize() * 20
           model: [ qsTr("in selected range"), qsTr("from notes below"), qsTr("from the list") ]
