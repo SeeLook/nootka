@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -35,7 +35,7 @@ Tile {
       Text {
         text: answSymb[qId] + "?"
         anchors.verticalCenter: parent.verticalCenter
-        font { family: "nootka"; pixelSize: Noo.fontSize() * 2 }
+        font { family: "nootka"; pixelSize: Noo.fontSize() * 2.5 }
         color: activPal.text
       }
       Text {
@@ -74,10 +74,11 @@ Tile {
               onClicked: creator.setAnswers(qId, checked ? answerBits | Math.pow(2, index) : answerBits & ~Math.pow(2, index))
             }
             Text {
-              font { family: "nootka"; pixelSize: Noo.fontSize() * 2 }
+              font { family: "nootka"; pixelSize: Noo.fontSize() * 2.5 }
               text: answSymb[index]
               width: unfold.checked ? Noo.fontSize() * 3 : undefined
               horizontalAlignment: Text.AlignHCenter
+              color: activPal.text
             }
           }
         }

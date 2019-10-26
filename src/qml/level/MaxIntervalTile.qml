@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2018-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -22,7 +22,7 @@ Tile {
       text: qsTr("Max interval")
       color: activPal.text
     }
-    SpinBox {
+    TspinBox {
       id: maxSpin
       from: 2; to: 36
       value: 0

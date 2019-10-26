@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -86,7 +86,7 @@ Tflickable {
               anchors.horizontalCenter: parent.horizontalCenter
               spacing: Noo.fontSize() / 2
               Text { text: qsTr("from"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
-              SpinBox {
+              TspinBox {
                 id: loFretSpin
                 from: 0; to: GLOB.fretNumber
                 value: creator.loFret
@@ -97,7 +97,7 @@ Tflickable {
                 }
               }
               Text { text: qsTr("to"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
-              SpinBox {
+              TspinBox {
                 id: hiFretSpin
                 from: 0; to: GLOB.fretNumber
                 value: creator.hiFret

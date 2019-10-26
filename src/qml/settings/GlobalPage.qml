@@ -140,7 +140,7 @@ Tflickable {
           anchors.verticalCenter: parent.verticalCenter
           font.pixelSize: (Noo.fontSize() / GLOB.scale) * scaleSlider.value
         }
-        Slider {
+        Tslider {
           id: scaleSlider
           from: 0.5; to: 1.5; stepSize: 0.1; snapMode: Slider.SnapAlways
           value: GLOB.scale

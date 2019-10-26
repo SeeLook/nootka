@@ -66,12 +66,12 @@ Flickable {
       Row {
         spacing: Noo.fontSize()
         Text { text: qsTr("number of frets:"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
-        SpinBox { id: fretsNrSpin; from: 15; to: 24; value: GLOB.fretNumber }
+        TspinBox { id: fretsNrSpin; from: 15; to: 24; value: GLOB.fretNumber }
       }
       Row {
         spacing: Noo.fontSize()
         Text { text: qsTr("number of strings:"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
-        SpinBox { id: stringNrSpin; from: 3; to: 6; value: GLOB.stringNumber() }
+        TspinBox { id: stringNrSpin; from: 3; to: 6; value: GLOB.stringNumber() }
       }
     }
 
@@ -144,8 +144,8 @@ Flickable {
         spacing: Noo.fontSize()
         anchors.horizontalCenter: parent.horizontalCenter
         TlabelText { text: qsTr("preferred accidentals:") }
-        RadioButton { id: prefSharpRadio; text: qsTr("# - sharps"); checked: !GLOB.preferFlats }
-        RadioButton { id: prefFlatRadio; text: qsTr("b - flats"); checked: GLOB.preferFlats }
+        TradioButton { id: prefSharpRadio; text: qsTr("# - sharps"); checked: !GLOB.preferFlats }
+        TradioButton { id: prefFlatRadio; text: qsTr("b - flats"); checked: GLOB.preferFlats }
       }
       description: qsTr("Choose which accidentals will be shown on the staff.")
     }

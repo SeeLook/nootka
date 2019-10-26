@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -24,7 +24,11 @@ ApplicationWindow {
   property var tip: null
   property var analyzeWindow: null
 
-  SystemPalette { id: activPal; colorGroup: SystemPalette.Active }
+  SystemPalette {
+    id: activPal
+    property color dimText: Qt.tint(activPal.base, Noo.alpha(activPal.text, 150))
+    colorGroup: SystemPalette.Active
+  }
   SystemPalette { id: disdPal; colorGroup: SystemPalette.Disabled }
 
   Connections {

@@ -36,24 +36,27 @@ Tflickable {
             spacing: qPage.width / 50
             anchors.horizontalCenter: parent.horizontalCenter
             Text {
-              font { family: "Nootka"; pixelSize: Noo.fontSize() * 2 }
+              font { family: "Nootka"; pixelSize: Noo.fontSize() * 3 }
               color: activPal.highlight; text: "n"
+              anchors.verticalCenter: parent.verticalCenter
             }
-            RadioButton {
+            TradioButton {
               text: qsTr("single note")
               checked: !creator.isMelody
               onClicked: creator.isMelody = !checked
               anchors.verticalCenter: parent.verticalCenter
             }
-            RadioButton {
+            Rectangle { color: activPal.dimText; width: parent.height / 12; height: parent.height * 0.9; anchors.verticalCenter: parent.verticalCenter }
+            TradioButton {
               text: qsTr("melodies")
               checked: creator.isMelody
               onClicked: creator.isMelody = checked
               anchors.verticalCenter: parent.verticalCenter
             }
             Text {
-              font { family: "Nootka"; pixelSize: Noo.fontSize() * 2 }
+              font { family: "Nootka"; pixelSize: Noo.fontSize() * 3 }
               color: Noo.invert(activPal.highlight); text: "m"
+              anchors.verticalCenter: parent.verticalCenter
             }
           }
         }

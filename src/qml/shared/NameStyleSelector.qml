@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -41,39 +41,38 @@ Item {
     }
 
     Tframe {
-
       Column {
         id: styleColumn
         spacing: Noo.fontSize() / 2
-        RadioButton { // 0
+        TradioButton { // 0
           default property int style: Nootka.Norsk_Hb
           text: qsTr("Scandinavian") + " (C, C#, Db ... Hb, H)"
           visible: !seventhIsB
           onVisibleChanged: if (!visible && checked) root.style = Nootka.English_Bb // fix when that name style is not supported when 7th is H
         }
-        RadioButton { // 1
+        TradioButton { // 1
           default property int style: Nootka.Deutsch_His
           text: qsTr("German") + " (C, Cis, Des ... B, H)"
           visible: !seventhIsB
           onVisibleChanged: if (!visible && checked) root.style = Nootka.Nederl_Bis
         }
-        RadioButton { // 2
+        TradioButton { // 2
           default property int style: Nootka.Italiano_Si
             text: qsTr("Italian") + " (Do, Do#, Reb ... Sib, Si)"
         }
-        RadioButton { // 3
+        TradioButton { // 3
           default property int style: Nootka.English_Bb
           text: qsTr("English") + " (C, C#, Db ... Bb, B)"
           visible: seventhIsB
           onVisibleChanged: if (!visible && checked) root.style = Nootka.Norsk_Hb
         }
-        RadioButton { // 4
+        TradioButton { // 4
           default property int style: Nootka.Nederl_Bis
           text: qsTr("Dutch") + " (C, Cis, Des ... Bes, B)"
           visible: seventhIsB
           onVisibleChanged: if (!visible && checked) root.style = Nootka.Deutsch_His
         }
-        RadioButton { // 5
+        TradioButton { // 5
           default property int style: Nootka.Russian_Ci
           text: qsTr("Russian") + " (До, До# Реb ... Сиb, Си)"
         }

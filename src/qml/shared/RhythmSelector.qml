@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2018-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -44,7 +44,7 @@ TrtmSelectorItem {
     model: 35
     delegate: Component {
       Rectangle {
-        height: Noo.fontSize() * 2; width: parent.width
+        height: Noo.fontSize() * 2.5; width: parent.width
         color: enabled ? (index % 2 ? activPal.alternateBase : activPal.base) : disdPal.base
         MouseArea {
           anchors.fill: parent
@@ -59,7 +59,7 @@ TrtmSelectorItem {
           }
           Text {
             font { pixelSize: Noo.fontSize() * 1.5; family: "Scorek" }
-            y: -font.pixelSize
+            y: -font.pixelSize * 0.8
             text: getGroupText(index + 1)
             color: enabled ? activPal.text : disdPal.text
           }

@@ -40,12 +40,12 @@ Column {
   Row {
     spacing: Noo.fontSize()
     anchors.horizontalCenter: parent.horizontalCenter
-    RadioButton {
+    TradioButton {
       id: lettersRadio
       text: qsTranslate("NameStyleSelector", "letter names")
       checked: Noo.keyNameTranslated() !== "solfege"
     }
-    RadioButton {
+    TradioButton {
       text: qsTranslate("NameStyleSelector", "solfege names")
       checked: Noo.keyNameTranslated() === "solfege"
     }

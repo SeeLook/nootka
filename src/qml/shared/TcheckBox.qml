@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -12,25 +12,27 @@ CheckBox {
 
   font.pixelSize: Noo.fontSize()
 
-  indicator: Rectangle {
-    implicitWidth: Noo.fontSize() * 1.3
-    implicitHeight: Noo.fontSize() * 1.3
-    x: chB.leftPadding
-    y: chB.height / 2 - height / 2
-    radius: Noo.fontSize() * 0.1
-    border {
-      color: chB.enabled ? (chB.down ? activPal.highlight : activPal.dark) : disdPal.text
-      width: chB.activeFocus ? 3 : 1
-    }
+  indicator: TipRect {
+    implicitWidth: Noo.fontSize() * 1.75; implicitHeight: Noo.fontSize() * 1.75
+    x: chB.leftPadding; y: (chB.height - height) / 2
+    horizontalOffset: rised ? Noo.fontSize() / 8 : 0; verticalOffset: horizontalOffset
+    rised: !chB.down
     color: chB.enabled ? activPal.base : disdPal.base
+    scale: chB.pressed ? 0.9 : 1.0
+    Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
 
     Rectangle {
-      width: Noo.fontSize() * 0.8
-      height: Noo.fontSize() * 0.8
-      x: Noo.fontSize() * 0.25
-      y: Noo.fontSize() * 0.25
-      radius: Noo.fontSize() * 0.1
-      color: chB.enabled ? (chB.down ? activPal.highlight : activPal.dark) : disdPal.text
+      width: parent.width; height: parent.height / 7
+      anchors.centerIn: parent
+      color: chB.enabled ? activPal.dimText : disdPal.text
+      rotation: 45; radius: height / 2
+      visible: chB.checked
+    }
+    Rectangle {
+      width: parent.width; height: parent.height / 7
+      anchors.centerIn: parent
+      color: chB.enabled ? activPal.dimText : disdPal.text
+      rotation: 135; radius: height / 2
       visible: chB.checked
     }
   }
@@ -38,9 +40,9 @@ CheckBox {
   contentItem: Text {
     id: content
     text: chB.text
-    y: (chB.height - height) / 2
-    leftPadding: indicator.width + font.pixelSize / 2
+    topPadding: Noo.fontSize() * 0.4
+    leftPadding: indicator.width + Noo.fontSize() / 2
     color: chB.enabled ? activPal.text : disdPal.text
-    font { family: chB.font.family; pixelSize: chB.font.pixelSize; bold: chB.activeFocus }
+    font { pixelSize: chB.font.pixelSize; family: chB.font.family }
   }
 }

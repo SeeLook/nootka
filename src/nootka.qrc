@@ -25,6 +25,7 @@
     <file alias="RhythmSelector.qml">qml/shared/RhythmSelector.qml</file>
     <file alias="TipRect.qml">qml/shared/TipRect.qml</file>
     <file alias="TcheckBox.qml">qml/shared/TcheckBox.qml</file>
+    <file alias="TradioButton.qml">qml/shared/TradioButton.qml</file>
     <file alias="Transposition.qml">qml/shared/Transposition.qml</file>
     <file alias="TlabelText.qml">qml/shared/TlabelText.qml</file>
     <file alias="Tflickable.qml">qml/shared/Tflickable.qml</file>
@@ -37,6 +38,8 @@
     <file alias="RectButton.qml">qml/shared/RectButton.qml</file>
     <file alias="PaneButton.qml">qml/shared/PaneButton.qml</file>
     <file alias="TcomboBox.qml">qml/shared/TcomboBox.qml</file>
+    <file alias="TspinBox.qml">qml/shared/TspinBox.qml</file>
+    <file alias="Tslider.qml">qml/shared/Tslider.qml</file>
 
 <!--  Unused    -->
 <!--     <file alias="TprogressBar.qml">qml/shared/TprogressBar.qml</file> -->
