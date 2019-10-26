@@ -48,8 +48,7 @@ TmelGenItem {
                 text: qsTr("Measures number")
                 color: enabled ? activPal.text : disdPal.text
               }
-              SpinBox {
-                editable: true
+              TspinBox {
                 from: 2; to: 32
                 value: barNumber
                 onValueModified: barNumber = value

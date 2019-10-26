@@ -65,33 +65,19 @@ Item {
     checked: SOUND.listening
   }
 
-  DropShadow {
-      id: knobShad
-      anchors.fill: knob
-      horizontalOffset: pitchView.tickWidth
-      verticalOffset: pitchView.tickWidth
-      color: activPal.shadow
-      radius: 8.0
-      source: knob
-      visible: pitchView.active && (area.pressed || area.containsMouse)
-  }
-
-  Rectangle {
-      id: knob
-      x: minVolText.width + GLOB.minVolume * tc.width - radius
-      y: (volBar.height - height) / 2
-      visible: false
-      height: volBar.height * 0.9
-      width: height
+  TipRect {
+    x: minVolText.width + GLOB.minVolume * tc.width - radius
+    y: (volBar.height - height) / 2
+    horizontalOffset: area.pressed ? 0 : pitchView.tickWidth
+    verticalOffset: horizontalOffset
+    visible: pitchView.active && (area.pressed || area.containsMouse)
+    height: volBar.height * 0.9; width: height; radius: height / 2
+    color: activPal.highlight
+    Rectangle {
+      anchors.fill: parent; scale: 0.5
       radius: height / 2
-      color: activPal.highlight
-      Rectangle {
-        height: parent.height / 2.5
-        width: height
-        anchors.centerIn: parent
-        radius: height / 2
-        color: activPal.highlightedText
-      }
+      color: activPal.highlightedText
+    }
   }
 
   Shortcut { sequence: "M"; onActivated: pitchView.paused(); enabled: !executor || executor.showPitchView }

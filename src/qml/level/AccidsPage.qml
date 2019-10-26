@@ -86,7 +86,7 @@ Tflickable {
         ButtonGroup { id: keysGr }
         Tile {
           enabled: useKeysChB.checked
-          RadioButton {
+          TradioButton {
             text: qsTr("single key")
             ButtonGroup.group: keysGr
             anchors.horizontalCenter: parent.horizontalCenter
@@ -97,7 +97,7 @@ Tflickable {
         }
         Tile {
           enabled: useKeysChB.checked
-          RadioButton {
+          TradioButton {
             id: rangeKeysChB
             text: qsTr("range of keys")
             ButtonGroup.group: keysGr

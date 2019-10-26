@@ -241,13 +241,13 @@ Column {
                 anchors.horizontalCenter: parent.horizontalCenter
                 spacing: Noo.fontSize() * 2
                 Text { anchors.verticalCenter: parent.verticalCenter; text: qsTr("Octave numbers"); color: activPal.text }
-                RadioButton {
+                TradioButton {
                   id: scientificRadio
                   text: qsTr("scientific")
                   ButtonGroup.group: octaveGr
                   checked: GLOB.scientificOctaves
                 }
-                RadioButton {
+                TradioButton {
                   id: musicalRadio
                   text: qsTr("musical")
                   ButtonGroup.group: octaveGr

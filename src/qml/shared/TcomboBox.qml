@@ -21,7 +21,7 @@ ComboBox {
     }
     contentItem: Text {
       text: modelData
-      color: activPal.text; //font: cb.font
+      color: itDel.enabled ? activPal.text : disdPal.text
       elide: Text.ElideRight
       verticalAlignment: Text.AlignVCenter
       scale: GLOB.useAnimations && itDel.pressed ? 0.9 : 1.0
@@ -32,18 +32,18 @@ ComboBox {
   
   indicator: Text {
     x: cb.width - width
-    color: activPal.text; text: "⋮"; font.pixelSize: cb.height * 0.6
+    color: cb.enabled ? activPal.text : disdPal.text; text: "⋮"; font.pixelSize: cb.height * 0.6
     anchors.verticalCenter: parent.verticalCenter
   }
   
   contentItem: Text {
     font: cb.font; leftPadding: cb.height / 3
-    text: displayText; color: activPal.text
+    text: displayText; color: cb.enabled ? activPal.text : disdPal.text
     verticalAlignment: Text.AlignVCenter; elide: Text.ElideRight
   }
   
   background: TipRect {
-    color: Qt.lighter(activPal.window, 1.2); radius: 0
+    color: cb.enabled ? activPal.button : disdPal.button; radius: 0
     rised: !cb.pressed
   }
   

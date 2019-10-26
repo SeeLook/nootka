@@ -74,14 +74,14 @@ Popup {
           spacing: Noo.fontSize()
           anchors.horizontalCenter: parent.horizontalCenter
           Text { text: qsTr("tempo"); font.pixelSize: Noo.fontSize(); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
-          SpinBox {
+          TspinBox {
             id: tempoSpin
             focus: false
             from: 40; to: Math.min(240, 180 * beatFactor[buTumb.currentIndex]); editable: true
             value: SOUND.tempo
           }
         }
-        Slider {
+        Tslider {
           focus: false
           width: parent.width * 0.96
           anchors.horizontalCenter: parent.horizontalCenter
@@ -130,14 +130,14 @@ Popup {
         spacing: Noo.fontSize()
         anchors.horizontalCenter: parent.horizontalCenter
         Text { text: qsTr("round to:"); font.pixelSize: Noo.fontSize(); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
-        RadioButton {
+        TradioButton {
           id: radio16
           font { family: "Nootka"; pixelSize: Noo.fontSize() * 2 }
           text: "G"
           checked: SOUND.quantization === 6
           onClicked: SOUND.quantization = 6
         }
-        RadioButton {
+        TradioButton {
           id: radio8
           font { family: "Nootka"; pixelSize: Noo.fontSize() * 2 }
           text: "F"

@@ -65,9 +65,8 @@ Tflickable {
             anchors.verticalCenter: parent.verticalCenter
             color: enabled ? activPal.text : disdPal.text
           }
-          SpinBox {
+          TspinBox {
             id: lenSpin
-            editable: true
             from: 1; to: 50
             value: creator.melodyLen
             onValueModified: creator.melodyLen = lenSpin.value
@@ -94,7 +93,7 @@ Tflickable {
       }
     }
     Tile {
-      visible: false
+      visible: false // TODO
       Row {
         spacing: Noo.fontSize()
         anchors.horizontalCenter: parent.horizontalCenter
@@ -108,7 +107,7 @@ Tflickable {
           text: Math.floor(tempoRange.first.value); font { bold: true; pixelSize: Noo.fontSize() * 0.8 }
           color: enabled ? activPal.text : disdPal.text
         }
-        RangeSlider {
+        RangeSlider { // TODO so far it is only one RangeSlider in Nootka - set its style here according to Tslider
           id: tempoRange
           anchors.verticalCenter: parent.verticalCenter
           width: parent.parent.width / 3

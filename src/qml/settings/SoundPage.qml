@@ -90,7 +90,7 @@ Column {
               spacing: Noo.fontSize()
               anchors.horizontalCenter: parent.horizontalCenter
               TlabelText { text: qsTr("minimum note duration") }
-              SpinBox {
+              TspinBox {
                 id: minDurSpin
                 from: 50; to: 1000
                 stepSize: 10
@@ -106,7 +106,7 @@ Column {
               spacing: Noo.fontSize()
               anchors.horizontalCenter: parent.horizontalCenter
               Text { text: qsTr("minimum volume"); anchors.verticalCenter: parent.verticalCenter; color: enabled ? activPal.text : disdPal.text }
-              Slider {
+              Tslider {
                 anchors.verticalCenter: parent.verticalCenter
                 width: Math.min(Noo.fontSize() * 15, parent.parent.width / 3)
                 from: 10; to: 80
@@ -114,7 +114,7 @@ Column {
                 onValueChanged: volSpin.value = value
                 stepSize: 5
               }
-              SpinBox {
+              TspinBox {
                 id: volSpin
                 from: 10; to: 80
                 value: Math.ceil(GLOB.minVolume * 100)
@@ -153,12 +153,11 @@ Column {
                     text: "\ue1d7"
                   }
                 }
-                SpinBox {
+                TspinBox {
                   id: freqSpin
                   anchors.verticalCenter: parent.verticalCenter;
                   from: 391; to: 493 // in range of two semitones up and down around middle A (440Hz)
                   value: 440
-                  editable: true
                 }
                 TlabelText { text: qsTr("[Hz]") }
               }
@@ -175,6 +174,38 @@ Column {
                 id: advSwitch
                 text: qsTr("Advanced")
                 checked: false
+
+                // There is only one Switch control in Nootka, so far. Style it here
+                indicator: Rectangle {
+                  implicitWidth: Noo.fontSize() * 4; implicitHeight: Noo.fontSize()
+                  x: advSwitch.leftPadding; y: parent.height / 2 - height / 2
+                  radius: Noo.fontSize()
+                  color: advSwitch.checked ? activPal.highlight : activPal.button
+                  border.color: enabled ? activPal.text : disdPal.text //advSwitch.checked ? "#17a81a" : "#cccccc"
+                  
+                  TipRect {
+                    x: advSwitch.checked ? parent.width - width : 0
+                    anchors.verticalCenter: parent.verticalCenter
+                    Behavior on x { enabled: GLOB.useAnimations; NumberAnimation { duration: 300 }}
+                    width: Noo.fontSize() * 2; height: Noo.fontSize() * 2
+                    radius: Noo.fontSize()
+                    rised: !advSwitch.pressed
+                    color: advSwitch.pressed ? activPal.highlight : activPal.button
+                    Rectangle {
+                      anchors.fill: parent; scale: 0.5
+                      radius: height / 2
+                      color: activPal.highlightedText
+                    }
+                  }
+                }
+                
+                contentItem: Text {
+                  text: advSwitch.text
+                  opacity: enabled ? 1.0 : 0.3
+                  color: enabled ? activPal.text : disdPal.text //advSwitch.down ? "#17a81a" : "#21be2b"
+                  verticalAlignment: Text.AlignVCenter
+                  leftPadding: advSwitch.indicator.width + advSwitch.spacing
+                }
               }
               Tile {
                 visible: advSwitch.checked
@@ -200,11 +231,10 @@ Column {
                     anchors.verticalCenter: parent.verticalCenter
                     text: qsTr("split when volume rise")
                   }
-                  SpinBox {
+                  TspinBox {
                     id: splitVolSpin
                     from: 5; to: 50
                     enabled: splitVolChB.checked
-                    editable: true
                   }
                   TlabelText { text: "%" }
                 }
@@ -220,11 +250,10 @@ Column {
                     anchors.verticalCenter: parent.verticalCenter
                     text: qsTr("skip stiller than")
                   }
-                  SpinBox {
+                  TspinBox {
                     id: skipStillerSpin
                     from: 10; to: 95
                     enabled: skipStillerChB.checked
-                    editable: true
                   }
                   TlabelText { text: "%" }
                 }

@@ -5,6 +5,8 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 
+import "../"
+
 
 Item {
   property alias is7B: bButt.checked
@@ -25,8 +27,8 @@ Item {
       y: (parent.height - height) / 2
       spacing: Noo.fontSize() / 2
       Text { text: qsTr("7th note is:"); color: enabled ? activPal.text : disdPal.text; anchors.verticalCenter: parent.verticalCenter }
-      RadioButton { id: bButt; text: "B" }
-      RadioButton { text: "H"; checked: !bButt.checked }
+      TradioButton { id: bButt; text: "B" }
+      TradioButton { text: "H"; checked: !bButt.checked }
     }
 
     Text {
