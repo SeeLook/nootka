@@ -22,8 +22,6 @@
 
 #include "tchart.h"
 #include "tgroupedqaunit.h"
-#include <QtWidgets/qapplication.h>
-#include <QtGui/qpalette.h>
 
 
 class Tlevel;
@@ -33,8 +31,9 @@ class TQAunit;
 
 
 /**
- * This is global class for bar and linear charts.
- * It performs some common methods
+ * This is abstract class for bar and linear charts.
+ * It performs some common methods.
+ * Deriving class has to implement pure virtual @p init() method
  */
 class TmainChart : public Tchart
 {
@@ -42,8 +41,7 @@ class TmainChart : public Tchart
   Q_OBJECT
 
 public:
-  explicit TmainChart(QQuickItem* parent = nullptr);
-  virtual ~TmainChart();
+  explicit TmainChart(QObject* parent = nullptr);
 
   void setExam(Texam* e);
   void setChartSettings(const Tsettings& s);
@@ -80,7 +78,6 @@ protected:
 protected:
   Tsettings                   p_chartSett;
   Texam                      *p_currExam = nullptr;
-//   TmainLine                  *p_mainLine = nullptr;
   bool                        p_hasListUnrelated; /**< Returns true if list contains unrelated list of questions. */
   TgroupedQAunit              p_goodAnsw, p_badAnsw;
   QList<TgroupedQAunit>       p_sortedLists;

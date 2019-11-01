@@ -16,14 +16,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #ifndef TLINEARCHART_H
 #define TLINEARCHART_H
 
+
 #include "tmainchart.h"
 
-
-class QGraphicsTextItem;
 
 
 class TlinearChart : public TmainChart
@@ -32,7 +30,7 @@ class TlinearChart : public TmainChart
   Q_OBJECT
 
 public:
-  explicit TlinearChart(QQuickItem* parent = nullptr);
+  explicit TlinearChart(QObject* parent = nullptr);
 
   void init() override;
 };

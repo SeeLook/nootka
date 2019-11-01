@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,8 +27,7 @@ class TbarChart : public TmainChart
 {
 
 public:
-  explicit TbarChart(QQuickItem* parent = nullptr);
-  virtual ~TbarChart();
+  explicit TbarChart(QObject* parent = nullptr);
 
   void init() override;
 };

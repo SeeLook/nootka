@@ -18,34 +18,13 @@
 
 
 #include "tchart.h"
-#include "txaxis.h"
-#include "tyaxis.h"
-#include "tabstractaxis.h"
 #include "tgroupedqaunit.h"
 #include <exam/textrans.h>
 
-#include <QtCore/qdebug.h>
-#include "checktime.h"
 
-
-Tchart::Tchart(QQuickItem* parent) :
-  QQuickItem(parent)
+Tchart::Tchart(QObject* parent) :
+  QObject(parent)
 {
-//   scene = new QGraphicsScene(this);
-
-//   p_bgRect = scene->addRect(0.0, 0.0, 100.0, 350.0, Qt::NoPen, Qt::NoBrush);
-
-//   yAxis = new TYaxis();
-//   yAxis->setParentItem(p_bgRect);
-//   yAxis->setLength(300);
-//   yAxis->setMaxValue(9);
-//   yAxis->setPos(45, 0);
-//   yAxis->setZValue(55);
-
-//   xAxis = new TXaxis();
-//   xAxis->setParentItem(p_bgRect);
-//   xAxis->setLength(550);
-//   xAxis->setPos(52, yAxis->boundingRect().height() - 7);
 }
 
 

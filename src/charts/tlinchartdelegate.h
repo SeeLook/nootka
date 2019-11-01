@@ -99,10 +99,27 @@ signals:
 protected:
   TQAunit* getUnit(int qNr) const;
 
+      /**
+       * Progress line is fancy information about changes of average time for every next question.
+       * Values are taken from @p TchartItem::TmainChart::averChunk()
+       * @p m_prevAverY and @p m_thisAverY hold Y values to paint that line
+       * and this methods calculates those values which depend on height as well.
+       * They are also used to catch mouse hover over that line
+       */
+  void calcProgressRangeY();
+
+  void setProgressHoverred(bool ph);
+
+  void hoverEnterEvent (QHoverEvent* e) override;
+  void hoverMoveEvent (QHoverEvent* e) override;
+  void hoverLeaveEvent (QHoverEvent*) override;
+
 private:
   TchartItem              *m_chart = nullptr;
   TtipInfo                *m_qInf;
   int                      m_nrInchart = -1;
+  qreal                    m_prevAverY = 0.0, m_thisAverY = 0.0;
+  bool                     m_progressHoverred = false;
 };
 
 #endif // TLINCHARTDELEGATE_H

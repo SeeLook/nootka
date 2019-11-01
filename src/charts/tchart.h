@@ -21,30 +21,20 @@
 #define TCHART_H
 
 #include <QtQuick/qquickitem.h>
-#include <QtWidgets/qgraphicsscene.h>
-#include <QtGui/qpainter.h>
 #include <QtGui/qguiapplication.h>
-#include "tmainline.h"
 
 
-class TYaxis;
-class TXaxis;
 struct TqaPtr;
 class TtipInfo;
-class TrenderChart;
 
 
 /**
  * This is base class for charts in Nootka.
- * It has got @p QGraphicsScene *scene() and
- * two axis-es xAxis and yAxis which are created by default.
  */
-class Tchart : public QQuickItem
+class Tchart : public QObject
 {
 
   Q_OBJECT
-
-  friend class TmainLine;
 
 public:
 
@@ -61,7 +51,10 @@ public:
   };
 
       /**
-       * Types of charts.
+       * Types of charts:
+       * @p e_linear
+       * @p e_bar
+       * @p e_pie (not yet implemented)
        */
   enum EchartType {
     e_linear, e_bar, e_pie
@@ -106,11 +99,9 @@ public:
     e_effectiveness
   };
 
-  explicit Tchart(QQuickItem* parent = nullptr);
+  explicit Tchart(QObject* parent = nullptr);
 
   virtual void setAnalyse(EanswersOrder order) { Q_UNUSED(order) }
-
-//   QGraphicsScene* scene;
 
   qreal maxValue() const { return m_maxValue; }
   void setMaxValue(qreal m, bool allowHalf = true);
@@ -121,22 +112,22 @@ public:
       /**
        * Questions number
        */
-  static QString questionsNumberTxt() { return QGuiApplication::translate("TanalysDialog", "Questions number"); }
+  static QString questionsNumberTxt() { return QGuiApplication::translate("AnalyzeDialog", "Questions number"); }
   
       /**
        * Attempts number
        */
-  static QString attemptsNumberTxt() { return QGuiApplication::translate("TanalysDialog", "Attempts number"); }
+  static QString attemptsNumberTxt() { return QGuiApplication::translate("AnalyzeDialog", "Attempts number"); }
   
       /**
        * Preparation time
        */
-  static QString prepareTimeTxt() { return QGuiApplication::translate("TanalysDialog", "Preparation time"); }
+  static QString prepareTimeTxt() { return QGuiApplication::translate("AnalyzeDialog", "Preparation time"); }
   
       /**
        * Played number
        */
-  static QString playedNumberTxt() { return QGuiApplication::translate("TanalysDialog", "Played number"); }
+  static QString playedNumberTxt() { return QGuiApplication::translate("AnalyzeDialog", "Played number"); }
 
   QString yAxisLabel() const { return m_unitDesc; }
 
@@ -154,15 +145,12 @@ public:
        * When wrong answers are excluded from average corresponding value is the same as latest average of correct/not bad answer
        * @p averChunk() method gives access to those partial average values
        */
-  qreal averChunk(int qNr) { return p_averChunks[qNr]; }
+  qreal averChunk(int qNr) { return qNr > -1 && qNr < p_averChunks.size() ? p_averChunks[qNr] : 0.0; }
 
 signals:
   void hoveredChanged();
 
 protected:
-//   TXaxis              *xAxis;
-//   TYaxis              *yAxis;
-
   int                 p_xCount = 0;
   QList<qreal>        p_averChunks;
 
@@ -171,5 +159,6 @@ private:
   Eunit               m_unit;
   QString             m_unitDesc; /**< unit description string f.e: time [s] */
   QList<qreal>        m_yTickList;
+
 };
 #endif // TCHART_H

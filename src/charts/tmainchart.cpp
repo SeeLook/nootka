@@ -17,32 +17,19 @@
  ***************************************************************************/
 
 #include "tmainchart.h"
-// #include "tmainline.h"
-// #include "txaxis.h"
-// #include "tyaxis.h"
-// #include "tstafflinechart.h"
-// #include "tgraphicsline.h"
-// #include "tquestionpoint.h"
-#include "tbar.h"
 #include "sorting.h"
 #include <exam/tlevel.h>
 #include <exam/texam.h>
 #include <music/tnamestylefilter.h>
 #include <tnoofont.h>
 
-// #include <QtCore/qtimer.h>
 
-
-TmainChart::TmainChart(QQuickItem* parent):
+TmainChart::TmainChart(QObject* parent):
   Tchart(parent),
   p_hasListUnrelated(false),
   p_goodSize(0)
 {  
 }
-
-
-TmainChart::~TmainChart()
-{}
 
 
 void TmainChart::setExam(Texam* e) {
@@ -76,7 +63,7 @@ QString TmainChart::ticText(TQAunit* unit, int questNr) {
     altStyleText = QString(" <small><i>(%1)</small></i>").arg(unit->qa.note.toRichText(altStyle, false));
   }
   if (unit->melody()) {
-      txt += "<small>" + QApplication::translate("TXaxis", "%n attempt(s)", "", unit->attemptsCount()) + "</small>";
+      txt += "<small>" + QGuiApplication::translate("TXaxis", "%n attempt(s)", "", unit->attemptsCount()) + "</small>";
       txt.replace(QLatin1String("<br>"), QString());
   } else {
       txt += QString("<b>%1</b>").arg(unit->qa.note.toRichText()) + altStyleText;

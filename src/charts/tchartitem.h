@@ -22,6 +22,7 @@
 
 #include "tmainchart.h"
 #include <QtQuick/qquickitem.h>
+#include <QtGui/qguiapplication.h>
 
 
 class Texam;
@@ -155,6 +156,26 @@ public:
        */
   int averLineGroup() const { return m_averLineGr; }
   void setAverLineGroup(int averGr);
+
+      /**
+       * Questions number
+       */
+  static QString questionsNumberTxt() { return QGuiApplication::translate("AnalyzeDialog", "Questions number"); }
+  
+      /**
+       * Attempts number
+       */
+  static QString attemptsNumberTxt() { return QGuiApplication::translate("AnalyzeDialog", "Attempts number"); }
+  
+      /**
+       * Preparation time
+       */
+  static QString prepareTimeTxt() { return QGuiApplication::translate("AnalyzeDialog", "Preparation time"); }
+  
+      /**
+       * Played number
+       */
+  static QString playedNumberTxt() { return QGuiApplication::translate("AnalyzeDialog", "Played number"); }
 
 signals:
   void recentExamsChanged();
