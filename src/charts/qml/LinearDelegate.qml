@@ -16,10 +16,10 @@ TlinChartDelegate {
     color: chartItem.averLineGroup === groupNr ? "#00c0c0" : (groupNr % 2 ? "#008080" : "#00a0a0")
     x: width / 2; z: 1
     y: parent.height * 0.1 + maxDataHeight - (averageY / chartItem.maxYValue()) * maxDataHeight - height / 2
-    width: parent.width; height: lThick * 1.3
+    width: parent.width; height: lThick / 2
     MouseArea {
       id: averMa
-      width: parent.width; height: parent.height * 3; y: -parent.height
+      width: parent.width; height: parent.height * 5; y: -2 * parent.height
       hoverEnabled: true
       onEntered: lineEntered(mouseX, parent.y)
       onExited: lineExited()
@@ -68,7 +68,7 @@ TlinChartDelegate {
   Text {
     id: nText
     color: pointColor; text: pointSymbol
-    y: pointY - (pointSymbol === "M" ? height * 0.3 : height)
+    y: pointY - (pointSymbol === "M" ? height * 0.3 : height * 0.8)
     x: parent.width - (pointSymbol === "M" ? width * 0.5 : width / 3)
     font { pixelSize: lineDel.width / 2; family: "Nootka" }
     visible: false

@@ -27,7 +27,6 @@
 #include <tglobals.h>
 #include <tnoofont.h>
 
-#include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>
 #include <QtCore/qdebug.h>
 
@@ -51,11 +50,15 @@ TlinChartDelegate::TlinChartDelegate(QQuickItem* parent) :
 {
   setRenderTarget(QQuickPaintedItem::FramebufferObject);
   setAntialiasing(true);
+  setAcceptHoverEvents(true);
 
   m_qInf = new TtipInfo();
 
   connect(qApp, &QGuiApplication::paletteChanged, this, [=]{ update(); });
-  connect(this, &QQuickItem::heightChanged, this, [=]{ emit pointYChanged(); });
+  connect(this, &QQuickItem::heightChanged, this, [=]{
+    calcProgressRangeY();
+    emit pointYChanged();
+  });
 }
 
 
@@ -98,6 +101,7 @@ void TlinChartDelegate::setChartNr(int n) {
         if (m_chart->settings()->order == Tchart::e_byNumber) {
             m_qInf->setQAUnit(getUnit(n));
             m_qInf->setNr(n + 1);
+            calcProgressRangeY();
         } else {
             auto qaPtr = m_chart->mainChart()->getSortedPtr(n);
             if (qaPtr) {
@@ -153,7 +157,7 @@ QString TlinChartDelegate::nrText() const {
   QString att;
   if (m_qInf->qaUnit()->melody())
     att = QLatin1String("<br><font size=\"1\">(")
-        + QApplication::translate("Texam", "%n attempt(s)", "", m_qInf->qaUnit()->attemptsCount()) + QLatin1String(")</font>");
+        + QGuiApplication::translate("Texam", "%n attempt(s)", "", m_qInf->qaUnit()->attemptsCount()) + QLatin1String(")</font>");
   return m_chart->settings()->order == Tchart::e_byNumber ? QString("<big><b>%1</b></big>").arg(m_nrInchart + 1) + att : QString();
 }
 
@@ -296,16 +300,13 @@ void TlinChartDelegate::paint(QPainter* painter) {
   if (m_chart->settings()->yValue == Tchart::e_YplayedCount)
     y1 = height() * 0.1 + h - (static_cast<qreal>(getUnit(m_nrInchart - 1)->totalPlayBacks()) / m_chart->mainChart()->maxValue()) * h;
   qreal d = h * 0.0075;
-  for (qreal i = -5.0; i < 0.0; i++)
+  for (qreal i = -3.0; i < 2.0; i++)
     painter->drawLine(QPointF(0.0, y1 + i * d), QPointF(width(), pointY() + i * d));
 
-  if (m_chart->settings()->order == Tchart::e_byNumber && m_nrInchart > 0) {
+  if (m_prevAverY) {
 //     if (!m_qInf->qaUnit()->isWrong() || (m_qInf->qaUnit()->isWrong() && m_chart->settings()->inclWrongAnsw)) {
-    if (m_chart->mainChart()->averChunk(m_nrInchart - 1) > 0.0) {
-        painter->setPen(QPen(qApp->palette().highlight().color(), height() / 150.0, Qt::DotLine));
-        painter->drawLine(QPointF(0.0, height() * 0.1 + h - (m_chart->mainChart()->averChunk(m_nrInchart - 1) / 10.0 / m_chart->mainChart()->maxValue()) * h),
-                          QPointF(width(), height() * 0.1 + h - (m_chart->mainChart()->averChunk(m_nrInchart) / 10.0 / m_chart->mainChart()->maxValue()) * h));
-    }
+        painter->setPen(QPen(Qt::magenta, height() / 200.0, Qt::DashDotLine));
+        painter->drawLine(QPointF(0.0, m_prevAverY), QPointF(width(), m_thisAverY));
 //     }
   }
 }
@@ -320,4 +321,57 @@ TQAunit *TlinChartDelegate::getUnit(int qNr) const {
     return m_chart->exam()->question(qNr);
   else
     return m_chart->mainChart()->getSorted(qNr);
+}
+
+
+void TlinChartDelegate::setProgressHoverred(bool ph) {
+  if (ph != m_progressHoverred) {
+    m_progressHoverred = ph;
+    if (m_progressHoverred) {
+        m_chart->lineTip()->setCursorPos(QPointF(parentItem()->x(), qMin(m_prevAverY, m_thisAverY)));
+        m_chart->lineTip()->tipText = QLatin1String("<b>") + QGuiApplication::translate("TgraphicsLine", "progress line").toUpper()
+            + QLatin1String("</b><br><span style=\"color: #ff00ff; font-size: x-large; font-family: 'Courier New', Courier, monospace;\"><b> \\ </b></span>")
+            + QGuiApplication::translate("TgraphicsLine", "descending - you are progressing better")
+            + QLatin1String("<br><span style=\"color: #ff00ff; font-size: x-large; font-family: 'Courier New', Courier, monospace;\"><b> / </b></span>")
+            + QGuiApplication::translate("TgraphicsLine", "ascending - you are thinking too much");
+        m_chart->lineTip()->setColor(Qt::magenta);
+        m_chart->tipEntered(m_chart->lineTip());
+    } else {
+        m_chart->tipExited();
+    }
+  }
+}
+
+
+void TlinChartDelegate::hoverEnterEvent(QHoverEvent* e) {
+  if ((e->posF().y() > m_prevAverY && e->posF().y() < m_thisAverY) || (e->posF().y() < m_prevAverY && e->posF().y() > m_thisAverY))
+    setProgressHoverred(true);
+}
+
+
+void TlinChartDelegate::hoverMoveEvent(QHoverEvent* e) {
+  if (m_prevAverY) {
+    if ((e->posF().y() > m_prevAverY && e->posF().y() < m_thisAverY) || (e->posF().y() < m_prevAverY && e->posF().y() > m_thisAverY))
+      setProgressHoverred(true);
+    else
+      setProgressHoverred(false);
+  }
+}
+
+
+void TlinChartDelegate::hoverLeaveEvent(QHoverEvent*) {
+  setProgressHoverred(false);
+}
+
+
+void TlinChartDelegate::calcProgressRangeY() {
+  if (m_chart->settings()->order == Tchart::e_byNumber && (!m_chart->isMelody() || m_chart->settings()->yValue == Tchart::e_YquestionTime)
+      && m_nrInchart > 0 && m_chart->mainChart()->averChunk(m_nrInchart - 1) > 0.0) {
+      qreal h = height() * HH;
+      m_prevAverY = height() * 0.1 + h - (m_chart->mainChart()->averChunk(m_nrInchart - 1) / 10.0 / m_chart->mainChart()->maxValue()) * h;
+      m_thisAverY = height() * 0.1 + h - (m_chart->mainChart()->averChunk(m_nrInchart) / 10.0 / m_chart->mainChart()->maxValue()) * h;
+  } else {
+      m_prevAverY = 0.0;
+      m_thisAverY = 0.0;
+  }
 }

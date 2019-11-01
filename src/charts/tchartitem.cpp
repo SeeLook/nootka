@@ -20,7 +20,7 @@
 #include "tlinearchart.h"
 #include "tbarchart.h"
 #include "tcharttipitem.h"
-#include "tyaxis.h"
+// #include "tyaxis.h"
 #include "dialogs/tlevelpreviewitem.h"
 #include <tglobals.h>
 #include <taction.h>
@@ -88,8 +88,8 @@ TchartItem::TchartItem(QQuickItem* parent) :
   m_lineTip = new TtipInfo();
   m_lineTip->kind = TtipInfo::e_line;
 
-  m_yValueActs << TexTrans::reactTimeTxt().toLower() << TexTrans::effectTxt().toLower() << TYaxis::prepareTimeTxt().toLower()
-               << TYaxis::attemptsNumberTxt().toLower() << TYaxis::playedNumberTxt().toLower();
+  m_yValueActs << TexTrans::reactTimeTxt().toLower() << TexTrans::effectTxt().toLower() << prepareTimeTxt().toLower()
+               << attemptsNumberTxt().toLower() << playedNumberTxt().toLower();
   m_xOrderActs << qApp->translate("AnalyzeDialog", "question number", "see comment in 'ordered by:' entry")
                << qApp->translate("AnalyzeDialog", "note pitch") << qApp->translate("AnalyzeDialog", "fret number")
                << qApp->translate("AnalyzeDialog", "accidentals") << qApp->translate("AnalyzeDialog", "key signature")
@@ -369,9 +369,9 @@ void TchartItem::loadExam(const QString& examFile) {
 
 void TchartItem::drawChart() {
   if (m_exam) {
-    m_chart->deleteLater();
-  m_chart = nullptr;
-  emit chartModelChanged();
+    delete m_chart;
+    m_chart = nullptr;
+    emit chartModelChanged();
   CHECKTIME(
     TmainChart *newChart;
     if (m_chartSetts.type == Tchart::e_linear)
