@@ -465,10 +465,11 @@ void Tglobals::setSelectedColor(const QColor& sc) { GselectedColor = sc; emit se
 void Tglobals::loadSettings(QSettings* cfg) {
   // In fact, values without group are stored under 'General' key, but using it explicitly makes group '%General' - different.
   // It is messy, so get rid of directly calling that group
-  if (cfg->contains(QLatin1String("General/geometry"))) // old config key
-    m_geometry = cfg->value(QStringLiteral("General/geometry"), QRect()).toRect();
-  else
-    m_geometry = cfg->value(QStringLiteral("geometry"), QRect()).toRect();
+  if (cfg->contains(QLatin1String("General/geometry"))) { // old config key
+      m_geometry = cfg->value(QStringLiteral("General/geometry"), QRect()).toRect();
+      cfg->remove(QLatin1String("General/geometry")); // and remove it to grab new one next launch
+  } else
+      m_geometry = cfg->value(QStringLiteral("geometry"), QRect()).toRect();
   if (m_geometry.width() < 720 || m_geometry.height() < 480) {
     m_geometry.setWidth(qMax(qRound(qApp->primaryScreen()->size().width() * 0.75), 720));
     m_geometry.setHeight(qMax(qRound(qApp->primaryScreen()->size().height() * 0.75), 480));
