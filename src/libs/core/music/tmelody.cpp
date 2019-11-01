@@ -323,7 +323,7 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
   if (tempo() == 0) {
     setBeat(m_meter->optimalBeat());
     setTempo(qRound(60.0 * Tmeter::beatTempoFactor(m_beat)));
-    qDebug() << "[Tmelody] Tempo was not read from this melody file. Set it to" << m_tempo << "with beat" << m_beat;
+//     qDebug() << "[Tmelody] Tempo was not read from this melody file. Set it to" << m_tempo << "with beat" << m_beat;
   }
   return ok;
 }

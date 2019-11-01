@@ -1,6 +1,7 @@
 1.7.1 beta2
      - disabling level creator pages which are currently unused
      - added help topic selector on 'help page' with all the context
+     - make controls look (check boxes, radios, sliders) consistent 
 
 1.7.0 beta1
   Nootka says: I speak Italian

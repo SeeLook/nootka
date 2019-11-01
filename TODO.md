@@ -20,9 +20,8 @@
       especially list of melodies imported from files which seems to be very important feature
   - music XML import dialog, to select voice or staff if there are more, and so
   - exam summary - give more valuable info, wear it nicely
-  - charts suck. For exams with many questions it wastes a lot of RAM. Make them QML
+  - \[Taction\] add common method for creating key shortcuts
   - migrate on preferred 48000 sample rate (ogg files and audio methods). DO NOT forget to resize output samples length
-  - add Italian tempo names to tempo menu
 
 ### For next stable Nootka version 2.2
   - MIDI input & revert MIDI out of course
@@ -36,6 +35,7 @@
   - viewing entire melody in stats, playing them and single notes as well
     so far, user can play whatever tempo he likes
   - option for randomizing timbre (instrument sound) in every dictation melody
+  - add Italian tempo names to tempo menu
 
 
 ============================================================================
@@ -47,6 +47,7 @@
  - meter can be too close to key signature - probably related with clef change
  - chart tip for non guitars still displays string/fret with goofy values
  - space key for tapping tempo doesn't work well
+ - dialog buttons change width when clicked which looks weird
 
 ### and crashes:
  - when level is saved and added to list, it crashes when it is selected and exercise is going to be started
