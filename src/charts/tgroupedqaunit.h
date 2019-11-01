@@ -100,9 +100,9 @@ public:
        * Calculates mistakes and average time after appending all questions to the list.
        * Sets description. It doesn't add mistakes to average.
        * If group contains only mistakes average time is calculated from mistakes time.
-       * @param grNr - is number of group in the list
-       * @param desc - is short, single line description (html is accepted),
-       * @param fullDesc - full description, multi lines accepted.
+       * @p grNr - is number of group in the list
+       * @p desc - is short, single line description (HTML is accepted),
+       * @p fullDesc - full description, multi lines accepted.
        */
   void resume(const QString& desc, const QString& fullDesc);
   qreal averTime() const { return m_averTime; }
@@ -114,8 +114,8 @@ public:
     if (index < list.size())
       return list[index];
     else {
-      qDebug() << "TgroupedQAunit operator[] would return pointer out of list scope! Last possible returned!";
-      return list[list.size() - 1];
+      qDebug() << "[TgroupedQAunit] operator[] would return pointer out of list scope! Last possible returned!";
+      return list.last();
     }
   }
       /**

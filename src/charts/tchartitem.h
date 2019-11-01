@@ -34,6 +34,9 @@ class TlevelPreviewItem;
 class QTimer;
 
 
+#define NO_AVER_GR (-100)
+
+
 /**
  * @class TchartItem is the QML chart control with C++ logic.
  * It exposes recent exams to QML from @p QSettings through @p Taction list @p recentExamsActions
@@ -45,9 +48,10 @@ class TchartItem : public QQuickItem
   Q_OBJECT
 
       /** Properties of analysis window */
-  Q_PROPERTY(QList<QObject*> recentExamsActions READ recentExamsActions NOTIFY actionsPrepared)
-  Q_PROPERTY(QStringList yValueActions READ yValueActions NOTIFY actionsPrepared)
-  Q_PROPERTY(QStringList xOrderActions READ xOrderActions NOTIFY actionsPrepared)
+  Q_PROPERTY(QList<QObject*> recentExamsActions READ recentExamsActions NOTIFY recentExamsChanged)
+  Q_PROPERTY(QList<QObject*> miscSettModel READ miscSettModel NOTIFY recentExamsChanged)
+  Q_PROPERTY(QStringList yValueActions READ yValueActions NOTIFY yValueActionsChanged)
+  Q_PROPERTY(QStringList xOrderActions READ xOrderActions NOTIFY xOrderActionsChanged)
   Q_PROPERTY(QString userName READ userName NOTIFY examChanged)
   Q_PROPERTY(QString questionCount READ questionCount NOTIFY examChanged)
   Q_PROPERTY(QString effectiveness READ effectiveness NOTIFY examChanged)
@@ -59,10 +63,12 @@ class TchartItem : public QQuickItem
   Q_PROPERTY(QString chartWindowTitle READ chartWindowTitle NOTIFY examChanged)
   Q_PROPERTY(QString levelName READ levelName NOTIFY examChanged)
       /** Properties of chart (list view) and its delegate */
-  Q_PROPERTY(int chartModel READ chartModel NOTIFY examChanged)
+  Q_PROPERTY(int chartType READ chartType WRITE setChartType NOTIFY examChanged)
+  Q_PROPERTY(int chartModel READ chartModel NOTIFY chartModelChanged)
   Q_PROPERTY(QString yAxisLabel READ yAxisLabel NOTIFY examChanged)
   Q_PROPERTY(QList<qreal> yAxisGridModel READ yAxisGridModel NOTIFY examChanged)
   Q_PROPERTY(qreal averageTime READ averageTime NOTIFY examChanged)
+  Q_PROPERTY(int averLineGroup READ averLineGroup NOTIFY averLineGroupChanged)
 
   Q_PROPERTY(TchartTipItem* tipItem READ tipItem WRITE setTipItem)
 
@@ -72,6 +78,7 @@ public:
 
 // Properties of analysis window
   QList<QObject*> recentExamsActions() { return m_recentExamsActs; }
+  QList<QObject*> miscSettModel() { return m_miscSettModel; }
   QStringList yValueActions() { return m_yValueActs; }
   QStringList xOrderActions() { return m_xOrderActs; }
 
@@ -93,7 +100,8 @@ public:
   int xOrder() const;
   void setXOrder(int xO);
 
-  Q_INVOKABLE void setChartType(bool lin = true);
+  int chartType() const { return static_cast<int>(m_chartSetts.type); }
+  void setChartType(int chT = 0); // linear by default
 
   QString chartWindowTitle() const;
   QString levelName() const;
@@ -116,8 +124,13 @@ public:
        */
   QList<qreal> yAxisGridModel() const;
   Q_INVOKABLE qreal maxYValue() const;
-  Q_INVOKABLE QString timeFormated(qreal realTime, bool halfAllowed = false) const;
+  QString timeFormated(qreal realTime, bool halfAllowed = false) const;
   qreal averageTime() const;
+
+      /**
+       * Text of Y axis grid line value formatted apparently to Y unit
+       */
+  Q_INVOKABLE QString yAxisTickText(int id);
 
   Tchart::Tsettings* settings() { return &m_chartSetts; }
 
@@ -129,16 +142,33 @@ public:
   TchartTipItem* tipItem() { return m_tipItem; }
   void setTipItem(TchartTipItem* ti);
 
-  Q_INVOKABLE void tipEntered(TtipInfo* ti);
-  Q_INVOKABLE void tipExited();
+  void tipEntered(TtipInfo* ti);
+  void tipExited();
+
+  TtipInfo* lineTip() { return m_lineTip; }
+
+      /**
+       * @p averLineGroup defines group of what average line cursor was entered.
+       * By default it is none: NO_AVER_GR (-100)
+       * Average line consists of chunk lines of every delegate, 
+       * so it allows do discriminate which delegates have to highlight chunk-lines apparently
+       */
+  int averLineGroup() const { return m_averLineGr; }
+  void setAverLineGroup(int averGr);
 
 signals:
-  void actionsPrepared();
+  void recentExamsChanged();
+  void yValueActionsChanged();
+  void xOrderActionsChanged();
   void questionChanged();
+  void chartModelChanged();
   void examChanged();
   void allowOpenChanged();
   void yValueChanged();
   void xOrderChanged();
+  void averLineGroupChanged();
+  void lockXorderList(int itNr, bool state);
+  void resetChartPos();
 
 protected:
   void getExamFileSlot();
@@ -166,6 +196,8 @@ private:
 
 private:
   QList<QObject*>                 m_recentExamsActs;
+  QList<QObject*>                 m_miscSettModel;
+  Taction                        *m_inclWrongAct, *m_wrongSeparateAct;
   QStringList                     m_yValueActs;
   QStringList                     m_xOrderActs;
   Tchart                         *m_chart = nullptr;
@@ -177,7 +209,9 @@ private:
   bool                            m_allowOpen = true;
   TtipInfo                       *m_hoveredItem = nullptr;
   TtipInfo                       *m_currentItem = nullptr;
+  TtipInfo                       *m_lineTip; /**< Instance of @p TtipInfo representing kind of TtipInfo::e_line */
   QTimer                         *m_enterTimer, *m_leaveTimer;
+  int                             m_averLineGr = NO_AVER_GR;
 };
 
 #endif // TCHARTITEM_H

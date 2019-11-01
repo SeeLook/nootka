@@ -46,17 +46,25 @@ Window {
           visible: allowOpen
           taction: Taction {
             text: Noo.TR("QShortcut", "Open"); icon: "nootka-exam"
-            onTriggered: menu.open()
+            onTriggered: filesMenu.open()
           }
         }
         ChartToolButton {
           taction: Taction {
+            text: qsTr("Settings of a chart"); icon: "chartSett"
+            onTriggered: settMenu.open()
+          }
+        }
+        ChartToolButton {
+          taction: Taction {
+            enabled: chartView.list.count > 0
             text: Noo.TR("QShortcut", "Zoom In"); icon: "zoom-in"; shortcut: Shortcut { sequence: StandardKey.ZoomIn }
             onTriggered: chartView.sc = Math.min(2.0, chartView.sc * 1.125)
           }
         }
         ChartToolButton {
           taction: Taction {
+            enabled: chartView.list.count > 0
             text: Noo.TR("QShortcut", "Zoom Out"); icon: "zoom-out"; shortcut: Shortcut { sequence: StandardKey.ZoomOut }
             onTriggered: chartView.sc = Math.max(0.5, chartView.sc * 0.888889)
           }
@@ -64,16 +72,17 @@ Window {
         ChartToolButton {
           taction: Taction {
             text: qsTr("linear chart"); icon: "linearChart"
-            onTriggered: chartItem.setChartType(true)
+            onTriggered: chartItem.chartType = 0
           }
           ButtonGroup.group: chartTypeGr
           checked: true
           checkable: true
         }
         ChartToolButton {
+          visible: !chartItem.isMelody
           taction: Taction {
             text: qsTr("bar chart"); icon: "barChart"
-            onTriggered: chartItem.setChartType(false)
+            onTriggered: chartItem.chartType = 1
           }
           ButtonGroup.group: chartTypeGr
           checkable: true
@@ -92,43 +101,34 @@ Window {
             text: qsTr("Y value:")
             font { pixelSize: upTextSize }
             color: activPal.text;  verticalAlignment: Text.AlignVCenter
-            height: toolBar.height * 0.5
+            height: toolBar.height * 0.48
           }
-          ComboBox {
+          TcomboBox {
             id: yCombo
             width: analyzeWindow.width / 7; height: toolBar.height * 0.48
             font { pixelSize: toolBar.height / 5 }
             model: chartItem.yValueActions
-            delegate: ItemDelegate { text: modelData }
             currentIndex: chartItem.yValue
             onActivated: chartItem.yValue = index
-            background: Rectangle {
-              anchors.fill: parent
-              color: activPal.base
-            }
           }
         }
         Item { height: 2; width: analyzeWindow.width / 100 }
         Column {
+          visible: !chartItem.isMelody
           Text {
             anchors.horizontalCenter: parent.horizontalCenter
             text: qsTr("ordered by:", "Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...")
             font { pixelSize: upTextSize }
             color: activPal.text; verticalAlignment: Text.AlignVCenter
-            height: toolBar.height * 0.5
+            height: toolBar.height * 0.48
           }
-          ComboBox {
+          TcomboBox {
             id: orderCombo
             width: analyzeWindow.width / 7; height: toolBar.height * 0.48
             font { pixelSize: toolBar.height / 5 }
             model: chartItem.xOrderActions
-            delegate: ItemDelegate { text: modelData }
             currentIndex: chartItem.xOrder
             onActivated: chartItem.xOrder = index
-            background: Rectangle {
-              anchors.fill: parent
-              color: activPal.base
-            }
           }
         }
         Item { height: 2; width: analyzeWindow.width / 100 }
@@ -157,6 +157,18 @@ Window {
             color: activPal.text; verticalAlignment: Text.AlignVCenter
             height: toolBar.height * 0.5
           }
+//           RectButton {
+//             enabled: chartItem.levelName !== ""
+//             height: toolBar.height / 2
+//             font { pixelSize: toolBar.height / 4; bold: true }
+//             anchors.horizontalCenter: parent.horizontalCenter
+//             text: chartItem.levelName === "" ? "-----" : chartItem.levelName
+//             onClicked: {
+//               var c = Qt.createComponent("qrc:/charts/LevelPopup.qml")
+//               var lp = c.createObject(analyzeWindow.contentItem)
+//               chartItem.fillPreview(lp.levelPreview)
+//             }
+//           }
           Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             width: levelText.width + Noo.fontSize(); height: toolBar.height / 2
@@ -216,8 +228,9 @@ Window {
       onExamChanged: {
         if (helpTip && exam)
           helpTip.destroy()
-        chartView.list.contentX = chartView.list.originX
       }
+      onLockXorderList: orderCombo.lock(itNr, state)
+      onResetChartPos: chartView.list.positionViewAtBeginning()
     }
 
     ChartView {
@@ -227,8 +240,8 @@ Window {
   }
 
   Tmenu {
-    id: menu
-    x: examActButt.width; y: toolBar.height / 2
+    id: filesMenu
+    x: examActButt.width / 2; y: toolBar.height
     height: Math.min(analyzeWindow.height - toolBar.height, contentItem.contentHeight); width: Noo.fontSize() * 20
 
     contentItem: ListView {
@@ -238,7 +251,25 @@ Window {
       delegate: MenuButton {
         action: modelData
         width: Noo.fontSize() * 20
-        onClicked: menu.close()
+        onClicked: filesMenu.close()
+        Rectangle { width: parent.width; height: index === chartItem.recentExamsActions.length - 1 ? 0 : 1; color: activPal.text; y: parent.height - 1;  }
+      }
+    }
+  }
+
+  Tmenu {
+    id: settMenu
+    x: examActButt.width; y: toolBar.height
+    height: Math.min(analyzeWindow.height - toolBar.height, contentItem.contentHeight); width: Noo.fontSize() * 30
+    
+    contentItem: ListView {
+      clip: true
+      ScrollBar.vertical: ScrollBar { active: true }
+      model: chartItem.miscSettModel
+      delegate: MenuButton {
+        action: modelData
+        width: Noo.fontSize() * 30
+        onClicked: settMenu.close()
         Rectangle { width: parent.width; height: index === chartItem.recentExamsActions.length - 1 ? 0 : 1; color: activPal.text; y: parent.height - 1;  }
       }
     }

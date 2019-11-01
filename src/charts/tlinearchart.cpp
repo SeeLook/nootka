@@ -71,7 +71,7 @@ void TlinearChart::init() {
       break;
     }
     case Tchart::e_Yeffectiveness: {
-      setMaxValue(100.0); // 100% looks good for this kind
+      setMaxValue(110.0); // 110% looks good cause 100% is real maximum and happens often, so all chart goes little down
       setUnit(e_effectiveness);
       break;
     }

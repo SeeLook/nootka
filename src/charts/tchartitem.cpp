@@ -29,6 +29,7 @@
 #include <exam/textrans.h>
 #include <texamparams.h>
 #include <tnootkaqml.h>
+#include <qtr.h>
 #include <Android/tfiledialog.h>
 
 #include <QtQml/qqmlengine.h>
@@ -66,19 +67,41 @@ TchartItem::TchartItem(QQuickItem* parent) :
     }
   }
 
+  m_inclWrongAct = new Taction(qApp->translate("AnalyzeDialog", "include time of wrong answers to average"), QString(), this);
+  m_inclWrongAct->setCheckable(true);
+  connect(m_inclWrongAct, &Taction::triggered, this, [=]{
+    m_inclWrongAct->setChecked(!m_inclWrongAct->checked());
+    m_chartSetts.inclWrongAnsw = m_inclWrongAct->checked();
+    drawChart();
+  });
+  m_miscSettModel << m_inclWrongAct;
+  m_wrongSeparateAct = new Taction(qApp->translate("AnalyzeDialog", "show wrong answers separately"), QString(), this);
+  m_wrongSeparateAct->setCheckable(true);
+  m_wrongSeparateAct->setChecked(m_chartSetts.separateWrong);
+  connect(m_wrongSeparateAct, &Taction::triggered, this, [=]{
+    m_wrongSeparateAct->setChecked(!m_wrongSeparateAct->checked());
+    m_chartSetts.separateWrong = m_wrongSeparateAct->checked();
+    drawChart();
+  });
+  m_miscSettModel << m_wrongSeparateAct;
+
+  m_lineTip = new TtipInfo();
+  m_lineTip->kind = TtipInfo::e_line;
+
   m_yValueActs << TexTrans::reactTimeTxt().toLower() << TexTrans::effectTxt().toLower() << TYaxis::prepareTimeTxt().toLower()
                << TYaxis::attemptsNumberTxt().toLower() << TYaxis::playedNumberTxt().toLower();
-  m_xOrderActs << qApp->translate("TanalysDialog", "question number", "see comment in 'ordered by:' entry")
-               << qApp->translate("TanalysDialog", "note pitch") << qApp->translate("TanalysDialog", "fret number")
-               << qApp->translate("TanalysDialog", "accidentals") << qApp->translate("TanalysDialog", "key signature")
-               << qApp->translate("TanalysDialog", "mistake") << qApp->translate("TanalysDialog", "question type");
+  m_xOrderActs << qApp->translate("AnalyzeDialog", "question number", "see comment in 'ordered by:' entry")
+               << qApp->translate("AnalyzeDialog", "note pitch") << qApp->translate("AnalyzeDialog", "fret number")
+               << qApp->translate("AnalyzeDialog", "accidentals") << qApp->translate("AnalyzeDialog", "key signature")
+               << qApp->translate("AnalyzeDialog", "mistake") << qApp->translate("AnalyzeDialog", "question type");
 
   /** NOTE
-   * Clazy tool blames emit call beneath that probably emit has no effect because it is made from constructor.
+   * Clazy tool blames emit call beneath that probably this emitting has no effect because it is made from constructor.
    * However clazy seems to be paranoid sometimes, cause it works fine.
    * To keep it quiet one may add 'no-incorrect-emit' to level 1 check when it is invoking.
    */
-  emit actionsPrepared();
+  emit recentExamsChanged();
+  emit xOrderActionsChanged();
 
   m_enterTimer = new QTimer(this);
   connect(m_enterTimer, &QTimer::timeout, this, &TchartItem::enterTimeOut);
@@ -92,6 +115,7 @@ TchartItem::TchartItem(QQuickItem* parent) :
 TchartItem::~TchartItem() {
   if (m_wasExamCreated)
     delete m_exam;
+  delete m_lineTip;
 }
 
 
@@ -138,12 +162,10 @@ void TchartItem::setExam(Texam* e) {
       delete m_exam;
       m_wasExamCreated = false;
     }
-    m_tipItem->setExam(e);
     if (singleOrMelodyChanged(e))
       resetChartSettings();
     m_exam = e;
     drawChart();
-//     emit examChanged();
   }
 }
 
@@ -162,21 +184,20 @@ bool TchartItem::isMelody() const {
 }
 
 
-void TchartItem::setChartType(bool lin) {
-  if (lin) {
-      if (m_chartSetts.type != Tchart::e_linear) {
-        m_chartSetts.type = Tchart::e_linear;
-        drawChart();
-      }
-  } else {
-      if (m_chartSetts.type != Tchart::e_bar) {
-        m_chartSetts.type = Tchart::e_bar;
+void TchartItem::setChartType(int chT) {
+  auto chType = static_cast<Tchart::EchartType>(chT);
+  if (chType != m_chartSetts.type) {
+    m_chartSetts.type = chType;
+    if (chType == Tchart::e_bar) {
         if (m_chartSetts.order == Tchart::e_byNumber) {
           m_chartSetts.order = Tchart::e_byNote;
           emit xOrderChanged();
         }
-        drawChart();
-      }
+        emit lockXorderList(static_cast<int>(Tchart::e_byNumber), true); // disable 'order by number' from bar chart - it makes no sense there
+    } else {
+        emit lockXorderList(static_cast<int>(Tchart::e_byNumber), false); // restore 'order by number'
+    }
+    drawChart();
   }
 }
 
@@ -257,6 +278,18 @@ qreal TchartItem::averageTime() const {
   return m_exam ? static_cast<qreal>(m_exam->averageReactonTime()) / 10.0 : 0.0;
 }
 
+
+QString TchartItem::yAxisTickText(int id) {
+  if (m_chart && id > -1 && id < m_chart->yTickList().size()) {
+    if (m_chartSetts.yValue == Tchart::e_YquestionTime)
+      return timeFormated(m_chart->yTickList()[id]);
+    return QString::number(m_chart->yTickList()[id])
+                  + (m_chartSetts.yValue == Tchart::e_Yeffectiveness ? QLatin1String("%") : QString());
+  }
+  return QString();
+}
+
+
 //#################################################################################################
 //#############  Properties of a tip with question/line/bar info ##################################
 //#################################################################################################
@@ -273,7 +306,6 @@ void TchartItem::tipEntered(TtipInfo* ti) {
     m_enterTimer->start(300);
     m_leaveTimer->stop();
     m_hoveredItem = ti;
-//     m_hoveredItem->setCursorPos(event->pos());
 //   }
 }
 
@@ -281,6 +313,14 @@ void TchartItem::tipEntered(TtipInfo* ti) {
 void TchartItem::tipExited() {
   m_enterTimer->stop();
   m_leaveTimer->start(500);
+}
+
+
+void TchartItem::setAverLineGroup(int averGr) {
+  if (averGr != m_averLineGr) {
+    m_averLineGr = averGr;
+    emit averLineGroupChanged();
+  }
 }
 
 
@@ -301,7 +341,6 @@ void TchartItem::enterTimeOut() {
     m_tipItem->setQuestion(m_hoveredItem);
   else
     qDebug() << "[TmainChart] FIXME! No hovered item!";
-//   emit hoveredChanged();
 }
 
 
@@ -309,7 +348,6 @@ void TchartItem::leaveTimeOut() {
   m_leaveTimer->stop();
   m_hoveredItem = nullptr;
   m_tipItem->setQuestion(nullptr);
-//   emit hoveredChanged();
 }
 
 
@@ -321,12 +359,10 @@ void TchartItem::loadExam(const QString& examFile) {
   if (m_exam)
     delete m_exam;
   m_exam = new Texam(m_level, QString());
-  m_tipItem->setExam(m_exam);
   m_wasExamCreated = true; // delete exam in destructor
   if (m_exam->loadFromFile(examFile) == Texam::e_file_OK) {
     resetChartSettings();
     drawChart();
-//     emit examChanged();
   }
 }
 
@@ -334,6 +370,8 @@ void TchartItem::loadExam(const QString& examFile) {
 void TchartItem::drawChart() {
   if (m_exam) {
     m_chart->deleteLater();
+  m_chart = nullptr;
+  emit chartModelChanged();
   CHECKTIME(
     TmainChart *newChart;
     if (m_chartSetts.type == Tchart::e_linear)
@@ -344,10 +382,8 @@ void TchartItem::drawChart() {
     newChart->setChartSettings(m_chartSetts);
     newChart->init();
     m_chart = newChart;
-//     m_chart->setParentHeight(height());
-//     connect(m_chart, &Tchart::hoveredChanged, this, &TchartItem::hoverChangedSlot);
-//     m_tipItem->setExam(m_exam);
-//     setParentHeight(m_parentHeight);
+    m_tipItem->setExam(m_exam);
+    emit chartModelChanged();
     emit examChanged();
   )
   }
@@ -368,4 +404,14 @@ void TchartItem::resetChartSettings() {
   emit yValueChanged();
   m_chartSetts.order = Tchart::e_byNumber;
   emit xOrderChanged();
+  if (m_exam) {
+    emit lockXorderList(static_cast<int>(Tchart::e_byNumber), false);
+    emit lockXorderList(static_cast<int>(Tchart::e_byNote), m_exam->melodies());
+    emit lockXorderList(static_cast<int>(Tchart::e_byFret), m_exam->melodies());
+    emit lockXorderList(static_cast<int>(Tchart::e_byAccid), m_exam->melodies());
+    emit lockXorderList(static_cast<int>(Tchart::e_byKey), m_exam->melodies());
+    emit lockXorderList(static_cast<int>(Tchart::e_byMistake), m_exam->melodies());
+    emit lockXorderList(static_cast<int>(Tchart::e_byQuestAndAnsw), m_exam->melodies());
+  }
+  emit resetChartPos();
 }

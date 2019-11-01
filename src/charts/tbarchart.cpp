@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -36,20 +36,27 @@ TbarChart::~TbarChart(){}
 void TbarChart::init() {
   p_chartSett.separateWrong = false;
   sort();
-  qreal maxTime = 0.0;
   if (p_chartSett.order != Tchart::e_byMistake) {
-      for(int i = 0; i < p_sortedLists.size(); i++)
+      qreal maxTime = 0.0;
+      for (int i = 0; i < p_sortedLists.size(); i++) {
         maxTime = qMax(maxTime, p_sortedLists[i].averTime());
+      }
+      setMaxValue(maxTime / 10.0);
+      setUnit(Tchart::e_timeInSec);
 //       yAxis->setMaxValue((double)maxTime / 10.0);
   } else { // For e_byMistake we are looking for highest amount of questions in a group
-      for(int i = 0; i < p_sortedLists.size(); i++)
-        maxTime = qMax(maxTime, (qreal)p_sortedLists[i].size());
+      int maxSize = 0;
+      for (int i = 0; i < p_sortedLists.size(); i++) {
+        maxSize = qMax(maxSize, p_sortedLists[i].size());
+      }
+      setMaxValue(static_cast<qreal>(maxSize));
+      setUnit(Tchart::e_questionNr);
 //       yAxis->setMaxValue((double)maxTime);
 //       yAxis->setUnit(TYaxis::e_questionNr);
   }
 
 //   xAxis->setAnswersForBarChart(p_sortedLists); // TODO
-  prepareChart(p_sortedLists.size());
+  prepareChart(p_sortedLists.size() - (p_hasListUnrelated ? 1 : 0));
 
 //   int lastItem = p_sortedLists.size();
 //   if (p_hasListUnrelated)

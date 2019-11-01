@@ -13,30 +13,32 @@ TlinChartDelegate {
 
   Rectangle { // average line
     visible: averageY > 0.0
-    color: "#00a0a0"
+    color: chartItem.averLineGroup === groupNr ? "#00c0c0" : (groupNr % 2 ? "#008080" : "#00a0a0")
     x: width / 2; z: 1
-    y: maxDataHeight * 0.1 + maxDataHeight - (averageY / chartItem.maxYValue()) * maxDataHeight - height / 2
+    y: parent.height * 0.1 + maxDataHeight - (averageY / chartItem.maxYValue()) * maxDataHeight - height / 2
     width: parent.width; height: lThick * 1.3
     MouseArea {
-      anchors.fill: parent
+      id: averMa
+      width: parent.width; height: parent.height * 3; y: -parent.height
       hoverEnabled: true
-      onEntered: lineEntered()
+      onEntered: lineEntered(mouseX, parent.y)
       onExited: lineExited()
     }
   }
-  Rectangle {
+
+  Rectangle { // X axis line (partial)
     color: activPal.text
     y: parent.height - width + lThick / 2
     width: parent.width; height: lThick
-    Rectangle {
+    Rectangle { // X tick
       color: activPal.text
       x: parent.width - lThick; y: lThick
       width: lThick; height: lThick * 2
-      Column {
-        y: lThick * 1.5
+      Column { // X value (description)
+        y: lThick * 2
         anchors.horizontalCenter: parent.horizontalCenter
         Text { // question number
-          text: nrText; font { pixelSize: lineDel.width / 6 }
+          text: nrText; font { pixelSize: lineDel.width / 7 }
           anchors.horizontalCenter: parent.horizontalCenter
           color: activPal.text; textFormat: Text.StyledText; horizontalAlignment: Text.AlignHCenter
         }
@@ -44,15 +46,15 @@ TlinChartDelegate {
           width: childrenRect.width; height: lineDel.width / 4
           anchors.horizontalCenter: parent.horizontalCenter
           Text {
-            y: -lineDel.width / 4
+            y: -lineDel.width / (nrText === "" ? 5 : 4.5)
             text: noteText; font { pixelSize: lineDel.width / 5; family: "Scorek" }
             color: activPal.text; textFormat: Text.StyledText
           }
         }
         Text { // position on instrument
-          text: posText; font { pixelSize: lineDel.width / 6; bold: true }
+          text: posText; font { pixelSize: lineDel.width / 6 }
           anchors.horizontalCenter: parent.horizontalCenter
-          color: activPal.text; textFormat: Text.PlainText
+          color: activPal.text; textFormat: Text.RichText
         }
         Text { // key signature
           text: keyText; font { pixelSize: lineDel.width / 6; italic: true }
@@ -66,8 +68,8 @@ TlinChartDelegate {
   Text {
     id: nText
     color: pointColor; text: pointSymbol
-    y: pointY - (pointSymbol === "G" ? height * 0.8 : height * 0.1)
-    x: parent.width - (pointSymbol === "G" ? width / 3 : width * 0.5)
+    y: pointY - (pointSymbol === "M" ? height * 0.3 : height)
+    x: parent.width - (pointSymbol === "M" ? width * 0.5 : width / 3)
     font { pixelSize: lineDel.width / 2; family: "Nootka" }
     visible: false
   }
@@ -88,6 +90,32 @@ TlinChartDelegate {
       hoverEnabled: true
       onEntered: pointEntered()
       onExited: pointExited()
+    }
+  }
+
+  Component {
+    id: hintComp
+    Text {
+      z: -1
+      x: (parent.width - width) / 2; y: parent.height * 0.05
+      color: Noo.alpha(activPal.text, 75)
+      textFormat: Text.RichText
+    }
+  }
+
+  property var hintText: null
+
+  onNrChanged: {
+    if (groupNr > -1) {
+      var h = getHintText()
+      if (h !== "") {
+          if (!hintText)
+            hintText = hintComp.createObject(lineDel)
+          hintText.text = h
+      } else {
+        if (hintText)
+          hintText.destroy()
+      }
     }
   }
 }

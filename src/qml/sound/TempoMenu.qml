@@ -20,8 +20,6 @@ Popup {
   enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}
   exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0.0 }}
 
-//   y: 100
-
   signal accepted()
 
   // private
@@ -52,7 +50,7 @@ Popup {
           Text {
             text: modelData
             y: height * 0.325; height: parent.height; width: parent.width
-            color: activPal.text
+            color: index === buTumb.currentIndex ? activPal.highlightedText : activPal.text
             horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
             font { pixelSize: parent.height * 0.75; family: "Scorek" }
             MouseArea {
