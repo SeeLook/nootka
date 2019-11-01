@@ -45,8 +45,8 @@ void TgroupedQAunit::resume(const QString& desc, const QString& fullDesc) {
     m_fullDesc = fullDesc;
     m_mistakes = 0;
     m_halfMist = 0;
-    double okTime = 0.0;
-    double badTime = 0.0;
+    qreal okTime = 0.0;
+    qreal badTime = 0.0;
     int cnt = 0; // number of answers in average
     qreal effSum = 0.0;
     for (int i = 0; i < list.size(); i++) {
@@ -57,17 +57,17 @@ void TgroupedQAunit::resume(const QString& desc, const QString& fullDesc) {
       else if (p.qaPtr->isNotSoBad())
         m_halfMist++;
       if (skipWrong() && (p.qaPtr->wrongNote() || p.qaPtr->wrongPos()) ) 
-          badTime += p.qaPtr->time;
+          badTime += static_cast<qreal>(p.qaPtr->time);
       else {
-        okTime += p.qaPtr->time;
+        okTime += static_cast<qreal>(p.qaPtr->time);
         cnt++;
       }
     }
     if (cnt)
-      m_averTime = okTime / cnt;
+      m_averTime = okTime / static_cast<qreal>(cnt);
     else
-      m_averTime = badTime / list.size();
-    m_effectiveness = effSum / list.size();
+      m_averTime = badTime / static_cast<qreal>(list.size());
+    m_effectiveness = effSum / static_cast<qreal>(list.size());
 }
 
 

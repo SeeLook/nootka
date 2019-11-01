@@ -17,6 +17,7 @@ ToolButton {
 
   width: pix.width + (Noo.isAndroid() ? 4 : factor * 2)
   height: pix.height + Screen.pixelDensity * 2
+  enabled: (taction && taction.enabled) || !taction
 
   property alias pixmap: pix.source
   property real factor: analyzeWindow.height / 150
@@ -37,7 +38,7 @@ ToolButton {
     source: taction ? taction.icon : ""
     height: factor * 10; width: height * (sourceSize.width / sourceSize.height)
     transformOrigin: Image.Center
-    scale: pressed ? 0.6 : (hovered ? 1.1 : 0.8)
+    scale: !enabled || pressed ? 0.6 : (hovered ? 1.1 : 0.8)
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
   }
 

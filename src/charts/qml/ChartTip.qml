@@ -104,12 +104,15 @@ TipRect {
       }
 
       Column { // line tip column
-        width: parent.width; padding: Noo.fontSize() / 2
+        padding: Noo.fontSize() / 2
+        width: parent.width
         visible: tipItem.tipType === 1
         Text {
+          width: parent.width - Noo.fontSize()
           anchors.horizontalCenter: parent.horizontalCenter
           color: activPal.text; textFormat: Text.RichText
           text: tipItem.tipText; horizontalAlignment: Text.AlignHCenter
+          wrapMode: Text.WordWrap
         }
       }
     }

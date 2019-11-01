@@ -18,14 +18,54 @@ Flickable {
   clip: true
   contentHeight: height * sc
 
-  Repeater {
+  Timer { id: zoomTimer; interval: 100 }
+  MouseArea {
+    anchors.fill: parent
+    enabled: list.count > 0
+    onWheel: {
+      if (wheel.modifiers & Qt.ControlModifier) {
+        if (wheel.angleDelta.y > 0) {
+          if (!zoomTimer.running) {
+            sc = Math.min(2.0, sc * 1.125)
+            zoomTimer.running = true
+          }
+        } else if (wheel.angleDelta.y < 0) {
+          if (!zoomTimer.running) {
+            sc = Math.max(0.5, sc * 0.888889)
+            zoomTimer.running = true
+          }
+        }
+      } else
+          wheel.accepted = false
+    }
+  }
+
+  Repeater { // Y grid lines
     model: chartItem.yAxisGridModel.length
     Rectangle {
       visible: list.count > 0; z: 0
-      y: maxDataHeight * 0.1 + maxDataHeight - (chartItem.yAxisGridModel[index] / chartItem.maxYValue()) * maxDataHeight
+      y: contentHeight * 0.1 + maxDataHeight - (chartItem.yAxisGridModel[index] / chartItem.maxYValue()) * maxDataHeight
       color: Noo.alpha(activPal.text, 100)
-      width: parent.width - list.height / 12; height: lThick / 2
+      width: Math.min(parent.width - list.height / 12, list.contentWidth); height: lThick / 3
       x: list.height / 12
+    }
+  }
+
+  Component {
+    id: lineComp
+    LinearDelegate {
+      chart: chartItem
+      chartNr: modelIndex
+      height: chartView.height * sc; width: height / 6
+    }
+  }
+
+  Component {
+    id: barComp
+    BarDelegate {
+      chart: chartItem
+      groupNr: modelIndex
+      height: chartView.height * sc; width: height / 6
     }
   }
   
@@ -39,13 +79,15 @@ Flickable {
 
     model: chartItem.chartModel
 
-    delegate: LinearDelegate {
-      chart: chartItem
-      chartNr: index
-      height: chartView.height * sc; width: height / 6
+    delegate: Component {
+      Loader {
+        property int modelIndex: index
+        z: 2000 - modelIndex; // for proper overlapping keep 'z' stack in reverse order as delegates are created
+        sourceComponent: chartItem.chartType === 0 ? lineComp : barComp
+      }
     }
 
-    header: Item { // fake, just to force space on the left
+    header: Item { // fake, just to force space on the chart left
       visible: list.count > 0
       height: list.height; width: height / 12
     }
@@ -57,6 +99,15 @@ Flickable {
         color: activPal.text
         y: parent.height - parent.width + lThick / 2
         width: parent.width / 1.3; height: lThick
+        Repeater { // X arrow
+          model: 2
+          Rectangle {
+            x: parent.width
+            color: activPal.text; radius: width / 2
+            height: lThick; width: lThick * 5
+            rotation: index === 0 ? 155 : -155; transformOrigin: Item.Left
+          }
+        }
       }
     }
 
@@ -64,11 +115,11 @@ Flickable {
       visible: list.count > 0
       color: Noo.alpha(activPal.base, 200)
       height: list.height; width: height / 12
-      Rectangle {
+      Rectangle { // Y axis line
         color: activPal.text
-        x: parent.width; y: parent.height / 20 + lThick / 2
-        width: lThick; height: parent.height * 0.7833333333333333
-        Repeater {
+        x: parent.width; y: parent.height * 0.01 + lThick / 2
+        width: lThick; height: parent.height * 0.8233333333333333
+        Repeater { // Y arrow
           model: 2
           Rectangle {
             color: activPal.text; radius: width / 2
@@ -76,25 +127,25 @@ Flickable {
             rotation: index === 0 ? 25 : -25; transformOrigin: Item.Top
           }
         }
-        Text {
-          font { pixelSize: lThick * 6; bold: true }
-          y: (parent.height - height) / 2; x: -list.height / 8
+        Text { // Y label
+          font { pixelSize: lThick * 5; bold: true }
+          y: (parent.height - height) / 2; x: -width / 2 - height
           color: activPal.text
           text: chartItem.yAxisLabel
           rotation: -90
         }
       }
-      Repeater {
+      Repeater { // ticks and Y values (text)
         model: chartItem.yAxisGridModel.length
         Rectangle {
-          y: maxDataHeight * 0.1 + maxDataHeight - (chartItem.yAxisGridModel[index] / chartItem.maxYValue()) * maxDataHeight - lThick / 4
+          y: contentHeight * 0.1 + maxDataHeight - (chartItem.yAxisGridModel[index] / chartItem.maxYValue()) * maxDataHeight - lThick / 4
           color: activPal.text
           width: lThick * 1.5; height: lThick
           x: parent.width - width
           Text {
-            color: activPal.text; text: chartItem.timeFormated(chartItem.yAxisGridModel[index])
-            font { pixelSize: lThick * 4 }
-            y: -height; x: lThick * 3
+            color: activPal.text; text: index < chartItem.yAxisGridModel.length ? chartItem.yAxisTickText(index) : ""
+            font { pixelSize: lThick * 3.5 }
+            y: -height + lThick / 2; x: lThick * 3
           }
         }
       }

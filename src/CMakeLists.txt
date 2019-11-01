@@ -119,6 +119,7 @@ set(NOOTKA_SRC
   charts/tbarchart.cpp
   charts/tbar.cpp
   charts/tlinchartdelegate.cpp
+  charts/tbarchartdelegate.cpp
 )
 
 option(ENABLE_UPDATER "Enable online checking for new Nootka versions" ON)

@@ -40,6 +40,7 @@ class TlinChartDelegate : public QQuickPaintedItem {
 
   Q_PROPERTY(TchartItem* chart READ chart WRITE setChart NOTIFY examChanged)
   Q_PROPERTY(int chartNr READ chartNr WRITE setChartNr NOTIFY nrChanged)
+  Q_PROPERTY(int groupNr READ groupNr NOTIFY nrChanged)
   Q_PROPERTY(qreal pointY READ pointY NOTIFY pointYChanged)
   Q_PROPERTY(QColor pointColor READ pointColor NOTIFY examChanged)
   Q_PROPERTY(QString pointSymbol READ pointSymbol NOTIFY examChanged)
@@ -51,7 +52,7 @@ class TlinChartDelegate : public QQuickPaintedItem {
   Q_PROPERTY(QString keyText READ keyText NOTIFY examChanged)
 
 public:
-  TlinChartDelegate(QQuickItem* parent = nullptr);
+  explicit TlinChartDelegate(QQuickItem* parent = nullptr);
   ~TlinChartDelegate() override;
 
   void paint(QPainter* painter) override;
@@ -61,6 +62,7 @@ public:
 
   int chartNr() const { return m_nrInchart; }
   void setChartNr(int n);
+  int groupNr() const;
 
   qreal pointY() const;
   QColor pointColor() const;
@@ -81,8 +83,13 @@ public:
 
   Q_INVOKABLE void pointEntered();
   Q_INVOKABLE void pointExited();
-  Q_INVOKABLE void lineEntered();
+  Q_INVOKABLE void lineEntered(qreal posX, qreal posY);
   Q_INVOKABLE void lineExited();
+
+      /**
+       * 
+       */
+  Q_INVOKABLE QString getHintText();
 
 signals:
   void nrChanged();

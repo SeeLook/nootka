@@ -55,7 +55,7 @@ public:
   int qCount() const { return p_sortedLists.count(); }
   int goodCount() const { return p_goodAnsw.size(); }
   int badCount() const { return p_badAnsw.size(); }
-  TgroupedQAunit* group(int grNr) { return &p_sortedLists[grNr]; }
+  TgroupedQAunit* group(int grNr) { return grNr > -1 && grNr < p_sortedLists.size() ? &p_sortedLists[grNr] : nullptr; }
 
   QString ticText(TQAunit* unit, int questNr = 0);
 

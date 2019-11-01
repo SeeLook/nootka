@@ -12,19 +12,51 @@ ComboBox {
   height: Noo.fontSize() * 2
   scale: GLOB.useAnimations && cb.pressed ? 0.9 : 1.0
   Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
+
+  /**
+   * locks/unlocks @p itemNr among combo box delegates depending on @p state:
+   * @p true - lock; @p false - unlock
+   */
+  function lock(itemNr, state) {
+    if (itemNr < lockList.length)
+      lockList[itemNr] = state
+    else
+      console.log("[TcomboBox] not such an item. FixMe!", itemNr)
+  }
+
+  // private
+  property var lockList: []
+
+  onCountChanged: {
+    var loops = Math.max(count, lockList.length)
+    for (var i = 0; i < loops; i++) {
+      if (i < lockList.length) {
+        if (lockList.length < count)
+          lockList.splice(i, 1)
+        else
+          lockList[i] = false
+      } else {
+          if (count > lockList.length)
+            lockList.push(false)
+      }
+    }
+  }
   
   delegate: ItemDelegate {
     id: itDel
-    width: cb.width
+    width: Noo.fontSize() * 20; height: Noo.fontSize() * 2.5
+    hoverEnabled: true
+    enabled: !lockList[index]
     background: Rectangle {
-      color: itDel.pressed ? activPal.highlight : (itDel.highlighted ? Noo.alpha(activPal.highlight, 50) : "transparent")
+      color: cb.currentIndex === index || itDel.down ? activPal.highlight : (itDel.hovered ? Noo.alpha(activPal.highlight, 70) : "transparent")
     }
     contentItem: Text {
       text: modelData
-      color: itDel.enabled ? activPal.text : disdPal.text
-      elide: Text.ElideRight
+      color: itDel.enabled ? (cb.currentIndex === index || itDel.down ? activPal.highlightedText : activPal.text) : disdPal.text
+      elide: Text.ElideRight; textFormat: Text.StyledText
       verticalAlignment: Text.AlignVCenter
       scale: GLOB.useAnimations && itDel.pressed ? 0.9 : 1.0
+      font { strikeout: !itDel.enabled; bold: cb.currentIndex === index }
       Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
     }
     highlighted: cb.highlightedIndex === index
@@ -49,7 +81,7 @@ ComboBox {
   
   popup: Tmenu {
     y: cb.height - 1
-    width: cb.width
+    width: Noo.fontSize() * 20
     implicitHeight: contentItem.implicitHeight
     padding: 1
     transformOrigin: Item.Top
@@ -63,6 +95,6 @@ ComboBox {
       ScrollIndicator.vertical: ScrollIndicator { }
     }
     
-    background: TipRect { shadowRadius: Noo.fontSize(); color: Qt.lighter(activPal.window, 1.2) }
+    background: TipRect { shadowRadius: Noo.fontSize(); color: activPal.window }
   }
 }

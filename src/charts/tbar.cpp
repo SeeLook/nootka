@@ -33,10 +33,10 @@
 #define WIDTH (30) // default width of a bar
 
 
-QString trStyle(QColor c) {
-  c.setAlpha(50);
-  return QString("style=\"%1\"").arg(Tcolor::bgTag(c));
-}
+// QString trStyle(QColor c) {
+//   c.setAlpha(50);
+//   return QString("style=\"%1\"").arg(Tcolor::bgTag(c));
+// }
 
 
 Tbar::Tbar(qreal height, TgroupedQAunit* qaGroup, Tbar::Ekind tipType) :

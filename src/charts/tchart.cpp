@@ -54,7 +54,7 @@ void Tchart::setMaxValue(qreal m, bool allowHalf) {
   m_maxValue = m;
   qreal maxT = m_maxValue;
   while (maxT > 99.0) {
-    multi1 = multi1 * 10.0;
+    multi1 *= 10.0;
     maxT = maxT / 10.0;
   }
   int topVal = static_cast<int>(maxT) + 1;
@@ -64,7 +64,7 @@ void Tchart::setMaxValue(qreal m, bool allowHalf) {
     loopCnt = topVal / 10.0;
     multi2 = 10.0;
   }
-  qreal shift = allowHalf && (m_unit == e_timeInSec || m_unit == e_prepareTime || multi2 >= 10.0) ? 0.5 : 1.0;
+  qreal shift = allowHalf && (m_unit == e_timeInSec || m_unit == e_prepareTime) && multi2 > 1.0 ? 0.5 : 1.0;
   m_yTickList.clear();
   for (qreal i = shift; i <= static_cast<qreal>(loopCnt); i += shift) {
     m_yTickList << i * multi1 * multi2;
