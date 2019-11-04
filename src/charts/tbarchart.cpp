@@ -29,20 +29,18 @@ TbarChart::TbarChart(QObject* parent) :
 void TbarChart::init() {
   p_chartSett.separateWrong = false;
   sort();
-  if (p_chartSett.order != Tchart::e_byMistake) {
+  if (p_chartSett.order != e_byMistake) {
       qreal maxTime = 0.0;
       for (int i = 0; i < p_sortedLists.size(); i++) {
         maxTime = qMax(maxTime, p_sortedLists[i].averTime());
       }
-      setMaxValue(maxTime / 10.0);
-      setUnit(Tchart::e_timeInSec);
+      setYaxisParams(maxTime / 10.0, Tchart::e_timeInSec);
   } else { // For e_byMistake we are looking for highest amount of questions in a group
       int maxSize = 0;
       for (int i = 0; i < p_sortedLists.size(); i++) {
         maxSize = qMax(maxSize, p_sortedLists[i].size());
       }
-      setMaxValue(static_cast<qreal>(maxSize));
-      setUnit(Tchart::e_questionNr);
+      setYaxisParams(static_cast<qreal>(maxSize), e_questionNr);
   }
   prepareChart(p_sortedLists.size() - (p_hasListUnrelated ? 1 : 0));
 }
