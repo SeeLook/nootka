@@ -37,37 +37,33 @@ void TlinearChart::init() {
       quint32 prepTime = 0;
       for(int i = 0; i < p_currExam->count(); i++)
         prepTime = qMax(prepTime, p_currExam->question(i)->attempt(0)->prepareTime());
-      setMaxValue(static_cast<qreal>(prepTime) / 10.0);
-      setUnit(e_prepareTime);
+      setYaxisParams(static_cast<qreal>(prepTime) / 10.0, e_prepareTime);
       break;
     }
     case Tchart::e_YattemptsCount: {
       int attemptsNr = 0;
       for(int i = 0; i < p_currExam->count(); i++)
         attemptsNr = qMax(attemptsNr, p_currExam->question(i)->attemptsCount());
-      setMaxValue(static_cast<qreal>(attemptsNr), false);
-      setUnit(e_attemptsCount);
+      setYaxisParams(static_cast<qreal>(attemptsNr), e_attemptsCount);
       break;
     }
     case Tchart::e_YplayedCount: {
       int playedNr = 0;
       for(int i = 0; i < p_currExam->count(); i++)
         playedNr = qMax(playedNr, p_currExam->question(i)->totalPlayBacks());
-      setMaxValue(static_cast<qreal>(playedNr), false);
-      setUnit(e_playedCount);
+      setYaxisParams(static_cast<qreal>(playedNr), e_playedCount);
       break;
     }
     case Tchart::e_Yeffectiveness: {
-      setMaxValue(110.0); // 110% looks good cause 100% is real maximum and happens often, so all chart goes little down
-      setUnit(e_effectiveness);
+      // 110% looks good cause 100% is real maximum and happens often, so all chart goes little down
+      setYaxisParams(110.0, e_effectiveness);
       break;
     }
     default: {
       quint16 maxTime = 0;
       for(int i = 0; i < p_currExam->count(); i++)
         maxTime = qMax(maxTime, p_currExam->question(i)->time);
-      setMaxValue(static_cast<qreal>(maxTime) / 10.0);
-      setUnit(e_timeInSec);
+      setYaxisParams(static_cast<qreal>(maxTime) / 10.0, e_timeInSec);
       break;
     }
   }

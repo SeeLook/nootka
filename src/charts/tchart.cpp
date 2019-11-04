@@ -28,31 +28,43 @@ Tchart::Tchart(QObject* parent) :
 }
 
 
-void Tchart::setMaxValue(qreal m, bool allowHalf) {
-  qreal multi1 = 1.0;
-  m_maxValue = m;
-  qreal maxT = m_maxValue;
-  while (maxT > 99.0) {
-    multi1 *= 10.0;
-    maxT = maxT / 10.0;
+void Tchart::setYaxisParams(qreal maxV, Tchart::Eunit yUnit) {
+  m_maxValue = maxV;
+  qreal maxYtick = m_maxValue, step = 1.0;
+  if (yUnit == e_effectiveness) {
+      maxYtick = 110.0;
+      step = 25.0;
+  } else {
+      if (m_maxValue < 2.0) {
+          maxYtick = 2.0;
+          if (yUnit == e_timeInSec || yUnit == e_prepareTime)
+            step = 0.5;
+      } else if (m_maxValue < 8.0) {
+          // step = 1.0; max is max
+      } else if (m_maxValue < 11.0) {
+          step = 2.0;
+      } else if (m_maxValue < 30.0)  {
+//           maxYtick = m_maxValue < 21.0 ? 20.0 : 30.0;
+          step = 5.0;
+      } else if (m_maxValue < 60.0) {
+          step = 10.0;
+          maxYtick = static_cast<qreal>(static_cast<int>(m_maxValue / 10.0) * 10);
+      } else if (m_maxValue < 111.0) {
+          step = yUnit == e_timeInSec || yUnit == e_prepareTime ? 30.0 : 25.0;
+      } else if (m_maxValue < 601.0) {
+          step = yUnit == e_timeInSec || yUnit == e_prepareTime ? 60.0 : 100.0;
+      } else if (m_maxValue < 1000.0) {
+          step = yUnit == e_timeInSec || yUnit == e_prepareTime ? 300.0 : 250.0;
+      } else if (m_maxValue < 10000.0) {
+          step = m_maxValue < 7001.0 ? 1000.0 : 2500.0;
+      } else {
+          step = yUnit == e_timeInSec || yUnit == e_prepareTime ? 7200.0 : 10000.0;
+      }
   }
-  int topVal = static_cast<int>(maxT) + 1;
-  int loopCnt = topVal;
-  qreal multi2 = 1.0;
-  if (topVal > 9) {
-    loopCnt = topVal / 10.0;
-    multi2 = 10.0;
+  for (qreal i = step; i < maxYtick + 0.1; i += step) {
+    m_yTickList << i;
   }
-  qreal shift = allowHalf && (m_unit == e_timeInSec || m_unit == e_prepareTime) && multi2 > 1.0 ? 0.5 : 1.0;
-  m_yTickList.clear();
-  for (qreal i = shift; i <= static_cast<qreal>(loopCnt); i += shift) {
-    m_yTickList << i * multi1 * multi2;
-  }
-//   axisScale = ((length() - (2 * arrowSize)) / (m_top * m_multi));
-//   if (allowHalf) { // check is enough place for half ticks
-//     if ( ((mapValue((m_loop - 1) * m_multi * m_multi2) - mapValue(m_loop * m_multi * m_multi2))) > m_textPosOffset * 4)
-//       m_halfTick = true;
-//   }
+  setUnit(yUnit);
 }
 
 

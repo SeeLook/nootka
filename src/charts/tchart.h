@@ -49,6 +49,7 @@ public:
     e_byStyle,
     e_byClef,
   };
+  Q_ENUM(EanswersOrder)
 
       /**
        * Types of charts:
@@ -104,7 +105,7 @@ public:
   virtual void setAnalyse(EanswersOrder order) { Q_UNUSED(order) }
 
   qreal maxValue() const { return m_maxValue; }
-  void setMaxValue(qreal m, bool allowHalf = true);
+  void setYaxisParams(qreal maxV, Eunit yUnit);
 
   Eunit unit();
   void setUnit(Eunit unit);
