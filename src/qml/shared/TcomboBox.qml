@@ -10,6 +10,7 @@ ComboBox {
   id: cb
 
   height: Noo.fontSize() * 2
+  font.pixelSize: Noo.fontSize()
   scale: GLOB.useAnimations && cb.pressed ? 0.9 : 1.0
   Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
 

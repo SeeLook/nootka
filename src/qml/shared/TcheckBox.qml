@@ -13,7 +13,7 @@ CheckBox {
   font.pixelSize: Noo.fontSize()
 
   indicator: TipRect {
-    implicitWidth: Noo.fontSize() * 1.75; implicitHeight: Noo.fontSize() * 1.75
+    implicitWidth: chB.font.pixelSize * 1.75; implicitHeight: chB.font.pixelSize * 1.75
     x: chB.leftPadding; y: (chB.height - height) / 2
     horizontalOffset: rised ? Noo.fontSize() / 8 : 0; verticalOffset: horizontalOffset
     rised: !chB.down
@@ -40,8 +40,8 @@ CheckBox {
   contentItem: Text {
     id: content
     text: chB.text
-    topPadding: Noo.fontSize() * 0.4
-    leftPadding: indicator.width + Noo.fontSize() / 2
+    topPadding: chB.font.pixelSize * 0.4
+    leftPadding: indicator.width + chB.font.pixelSize / 2
     color: chB.enabled ? activPal.text : disdPal.text
     font { pixelSize: chB.font.pixelSize; family: chB.font.family }
   }

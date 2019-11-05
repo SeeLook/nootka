@@ -11,6 +11,7 @@ SpinBox {
 
   editable: true
   height: Noo.fontSize() * 3; width: Noo.fontSize() * 12
+  font.pixelSize: Noo.fontSize()
 
   contentItem: TextInput {
     z: 2
