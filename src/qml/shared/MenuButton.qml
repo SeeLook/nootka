@@ -16,6 +16,7 @@ Rectangle {
   property alias iconHeight: icon.height
   property alias containsMouse: ma.containsMouse
   property alias containsPress: ma.containsPress
+  property alias textColor: butText.color
 
   width: parent.width - Noo.fontSize()
   implicitHeight: Noo.fontSize() * 2.8

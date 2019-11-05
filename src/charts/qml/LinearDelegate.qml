@@ -57,7 +57,7 @@ TlinChartDelegate {
           color: activPal.text; textFormat: Text.RichText
         }
         Text { // key signature
-          text: keyText; font { pixelSize: lineDel.width / 6; italic: true }
+          text: keyText; font { pixelSize: lineDel.width / 7; italic: true }
           anchors.horizontalCenter: parent.horizontalCenter
           color: activPal.text; textFormat: Text.PlainText
         }

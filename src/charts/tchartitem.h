@@ -40,8 +40,23 @@ class QTimer;
 
 /**
  * @class TchartItem is the QML chart control with C++ logic.
- * It exposes recent exams to QML from @p QSettings through @p Taction list @p recentExamsActions
- * and loads appropriate file
+ * It exposes recent exams to QML from @p QSettings through @p Taction list @p recentExamsActions.
+ * Has @p loadExamAct and loads file from system and adds that file to the above list.
+ * Keeps @p selectedFileId number to inform QML what item should be highlighted to user.
+ *
+ * Displays @p xOrderActions and @p yValueActions which determines exam data sorting.
+ * It manages creation of appropriate chart type @p chartType, 
+ * prepares exam data to expose in suitable model through @p chartModel
+ * and exposes other exam features to QML:
+ * - Y axis label: @p yAxisLabel
+ * - Y axis grid lines: @p yAxisGridModel
+ * Most of that data are tied common signal @p examChanged()
+ *
+ * It handles information about average line(s) of linear chart.
+ * Tracks which group is actually highlighted @p averLineGroup
+ *
+ * Also it redirects from chert view delegate to QML what chart item is currently hovered
+ * and sends information what has to be displayed in corresponding tip.
  */
 class TchartItem : public QQuickItem
 {
@@ -50,6 +65,7 @@ class TchartItem : public QQuickItem
 
       /** Properties of analysis window */
   Q_PROPERTY(QList<QObject*> recentExamsActions READ recentExamsActions NOTIFY recentExamsChanged)
+  Q_PROPERTY(int selectedFileId READ selectedFileId NOTIFY selectedFileIdChanged)
   Q_PROPERTY(QList<QObject*> miscSettModel READ miscSettModel NOTIFY recentExamsChanged)
   Q_PROPERTY(QStringList yValueActions READ yValueActions NOTIFY yValueActionsChanged)
   Q_PROPERTY(QStringList xOrderActions READ xOrderActions NOTIFY xOrderActionsChanged)
@@ -63,6 +79,7 @@ class TchartItem : public QQuickItem
   Q_PROPERTY(int xOrder READ xOrder WRITE setXOrder NOTIFY xOrderChanged)
   Q_PROPERTY(QString chartWindowTitle READ chartWindowTitle NOTIFY examChanged)
   Q_PROPERTY(QString levelName READ levelName NOTIFY examChanged)
+
       /** Properties of chart (list view) and its delegate */
   Q_PROPERTY(int chartType READ chartType WRITE setChartType NOTIFY examChanged)
   Q_PROPERTY(int chartModel READ chartModel NOTIFY chartModelChanged)
@@ -79,9 +96,16 @@ public:
 
 // Properties of analysis window
   QList<QObject*> recentExamsActions() { return m_recentExamsActs; }
+  
+      /**
+       * Number of actually loaded file matching position on the recent exams list
+       * or @p -1 if none
+       */
+  int selectedFileId() const { return m_selectedFileId; }
   QList<QObject*> miscSettModel() { return m_miscSettModel; }
   QStringList yValueActions() { return m_yValueActs; }
   QStringList xOrderActions() { return m_xOrderActs; }
+  Q_INVOKABLE Taction* loadExamAct() { return m_loadExamAct; }
 
   QString userName() const;
   QString questionCount() const;
@@ -125,7 +149,7 @@ public:
        */
   QList<qreal> yAxisGridModel() const;
   Q_INVOKABLE qreal maxYValue() const;
-  QString timeFormated(qreal realTime, bool halfAllowed = false) const;
+  QString timeFormated(qreal realTime) const;
   qreal averageTime() const;
 
       /**
@@ -179,6 +203,7 @@ public:
 
 signals:
   void recentExamsChanged();
+  void selectedFileIdChanged();
   void yValueActionsChanged();
   void xOrderActionsChanged();
   void questionChanged();
@@ -190,6 +215,11 @@ signals:
   void averLineGroupChanged();
   void lockXorderList(int itNr, bool state);
   void resetChartPos();
+
+      /**
+       * Emits error message when loading exam fails
+       */
+  void loadExamFailed(const QString& message);
 
 protected:
   void getExamFileSlot();
@@ -214,11 +244,13 @@ private:
   bool singleOrMelodyChanged(Texam* e);
 
   void resetChartSettings();
+  void checkMiscOpts();
 
 private:
   QList<QObject*>                 m_recentExamsActs;
+  int                             m_selectedFileId = -1;
   QList<QObject*>                 m_miscSettModel;
-  Taction                        *m_inclWrongAct, *m_wrongSeparateAct;
+  Taction                        *m_loadExamAct, *m_inclWrongAct, *m_wrongSeparateAct;
   QStringList                     m_yValueActs;
   QStringList                     m_xOrderActs;
   Tchart                         *m_chart = nullptr;
