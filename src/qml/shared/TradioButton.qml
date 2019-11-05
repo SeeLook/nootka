@@ -9,11 +9,12 @@ import QtQuick.Controls 2.2
 RadioButton {
   id: rb
   property alias textColor: content.color
+  property real textScale: 1.0
 
   font.pixelSize: Noo.fontSize()
 
   indicator: TipRect {
-    implicitWidth: Noo.fontSize() * 2; implicitHeight: Noo.fontSize() * 2
+    implicitWidth: rb.font.pixelSize * 2; implicitHeight: rb.font.pixelSize * 2
     x: rb.leftPadding; y: (rb.height - height) / 2
     horizontalOffset: rised ? Noo.fontSize() / 8 : 0; verticalOffset: horizontalOffset
     radius: implicitWidth / 2
@@ -34,9 +35,9 @@ RadioButton {
   contentItem: Text {
     id: content
     text: rb.text
-    topPadding: Noo.fontSize() * 0.4
-    leftPadding: indicator.width + Noo.fontSize() / 2
+    topPadding: rb.font.pixelSize * 0.4
+    leftPadding: indicator.width + rb.font.pixelSize / 2
     color: rb.enabled ? activPal.text : disdPal.text
-    font { pixelSize: rb.font.pixelSize; family: rb.font.family }
+    font { pixelSize: rb.font.pixelSize * textScale; family: rb.font.family }
   }
 }

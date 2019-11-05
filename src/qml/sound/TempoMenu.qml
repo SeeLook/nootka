@@ -130,15 +130,15 @@ Popup {
         Text { text: qsTr("round to:"); font.pixelSize: Noo.fontSize(); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
         TradioButton {
           id: radio16
-          font { family: "Nootka"; pixelSize: Noo.fontSize() * 2 }
-          text: "G"
+          font { family: "Nootka" }
+          text: "G"; textScale: 2.0
           checked: SOUND.quantization === 6
           onClicked: SOUND.quantization = 6
         }
         TradioButton {
           id: radio8
-          font { family: "Nootka"; pixelSize: Noo.fontSize() * 2 }
-          text: "F"
+          font { family: "Nootka" }
+          text: "F"; textScale: 2.0
           checked: SOUND.quantization === 12
           onClicked: SOUND.quantization = 12
         }

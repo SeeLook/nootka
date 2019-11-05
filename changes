@@ -1,7 +1,10 @@
 1.7.1 beta2
+     - improved charts (exam results analysis)
      - disabling level creator pages which are currently unused
      - added help topic selector on 'help page' with all the context
-     - make controls look (check boxes, radios, sliders) consistent 
+     - make controls look (check boxes, radios, sliders) consistent
+    Under the hood:
+     - reduced memory usage for charts with many questions
 
 1.7.0 beta1
   Nootka says: I speak Italian
