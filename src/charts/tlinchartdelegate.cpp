@@ -69,17 +69,19 @@ TlinChartDelegate::~TlinChartDelegate()
 
 
 qreal TlinChartDelegate::pointY() const {
-  qreal h = height() * HH;
-  if (m_chart->settings()->yValue == Tchart::e_YquestionTime)
-    return height() * 0.1 + h - ((static_cast<qreal>(m_qInf->qaUnit()->time) / 10.0) / m_chart->mainChart()->maxValue()) * h;
-  if (m_chart->settings()->yValue == Tchart::e_Yeffectiveness)
-    return height() * 0.1 + h - (m_qInf->qaUnit()->effectiveness() / m_chart->mainChart()->maxValue()) * h;
-  if (m_chart->settings()->yValue == Tchart::e_YprepareTime && m_chart->exam()->melodies())
-    return height() * 0.1 + h - ((static_cast<qreal>(m_qInf->qaUnit()->attempt(0)->prepareTime()) / 10.0) / m_chart->mainChart()->maxValue()) * h;
-  if (m_chart->settings()->yValue == Tchart::e_YattemptsCount)
-    return height() * 0.1 + h - (static_cast<qreal>(m_qInf->qaUnit()->attemptsCount()) / m_chart->mainChart()->maxValue()) * h;
-  if (m_chart->settings()->yValue == Tchart::e_YplayedCount)
-    return height() * 0.1 + h - (static_cast<qreal>(m_qInf->qaUnit()->totalPlayBacks()) / m_chart->mainChart()->maxValue()) * h;
+  if (m_qInf->qaUnit()) {
+    qreal h = height() * HH;
+    if (m_chart->settings()->yValue == Tchart::e_YquestionTime)
+      return height() * 0.1 + h - ((static_cast<qreal>(m_qInf->qaUnit()->time) / 10.0) / m_chart->mainChart()->maxValue()) * h;
+    if (m_chart->settings()->yValue == Tchart::e_Yeffectiveness)
+      return height() * 0.1 + h - (m_qInf->qaUnit()->effectiveness() / m_chart->mainChart()->maxValue()) * h;
+    if (m_chart->settings()->yValue == Tchart::e_YprepareTime && m_chart->exam()->melodies())
+      return height() * 0.1 + h - ((static_cast<qreal>(m_qInf->qaUnit()->attempt(0)->prepareTime()) / 10.0) / m_chart->mainChart()->maxValue()) * h;
+    if (m_chart->settings()->yValue == Tchart::e_YattemptsCount)
+      return height() * 0.1 + h - (static_cast<qreal>(m_qInf->qaUnit()->attemptsCount()) / m_chart->mainChart()->maxValue()) * h;
+    if (m_chart->settings()->yValue == Tchart::e_YplayedCount)
+      return height() * 0.1 + h - (static_cast<qreal>(m_qInf->qaUnit()->totalPlayBacks()) / m_chart->mainChart()->maxValue()) * h;
+  }
 
   qDebug() << "[TlinChartDelegate] There is no Y value for given chart type FIXME!";
   return 0.0;
@@ -135,7 +137,8 @@ QColor TlinChartDelegate::pointColor() const { return m_qInf->color(); }
  * 'm' - for melodies, 'M' - sixteenth upside down (wrongs), 'g' - just sixteenth
  */
 QString TlinChartDelegate::pointSymbol() const {
-  return m_qInf->qaUnit()->melody() ? QStringLiteral("m") : (m_qInf->qaUnit() && m_qInf->qaUnit()->isWrong() ? QStringLiteral("M") : QStringLiteral("G"));
+  return m_qInf->qaUnit() && m_qInf->qaUnit()->melody() ? QStringLiteral("m") :
+                                        (m_qInf->qaUnit() && m_qInf->qaUnit()->isWrong() ? QStringLiteral("M") : QStringLiteral("G"));
 }
 
 
@@ -155,7 +158,7 @@ qreal TlinChartDelegate::averageY() const {
 
 QString TlinChartDelegate::nrText() const {
   QString att;
-  if (m_qInf->qaUnit()->melody())
+  if (m_qInf->qaUnit() && m_qInf->qaUnit()->melody())
     att = QLatin1String("<br><font size=\"1\">(")
         + QGuiApplication::translate("Texam", "%n attempt(s)", "", m_qInf->qaUnit()->attemptsCount()) + QLatin1String(")</font>");
   return m_chart->settings()->order == Tchart::e_byNumber ? QString("<big><b>%1</b></big>").arg(m_nrInchart + 1) + att : QString();
@@ -163,7 +166,7 @@ QString TlinChartDelegate::nrText() const {
 
 
 QString TlinChartDelegate::noteText() const {
-  if (m_qInf->qaUnit()->melody())
+  if (!m_qInf->qaUnit() || m_qInf->qaUnit()->melody())
     return QString();
 
   QString altStyleText;
@@ -185,7 +188,7 @@ QString TlinChartDelegate::noteText() const {
 
 
 QString TlinChartDelegate::posText() const {
-  if (!m_qInf->qaUnit()->melody()) {
+  if (m_qInf->qaUnit() && !m_qInf->qaUnit()->melody()) {
     if (m_qInf->qaUnit()->questionAs == TQAtype::e_onInstr || m_qInf->qaUnit()->answerAs == TQAtype::e_onInstr || m_qInf->qaUnit()->answerAs == TQAtype::e_asSound)
       return QLatin1String("<span style=\"font-family: 'Nootka';\">") + QString::number(static_cast<int>(m_qInf->qaUnit()->qa.pos().str())) + QLatin1String("</span>")
         + TfingerPos::romanFret(m_qInf->qaUnit()->qa.pos().fret());
@@ -195,8 +198,10 @@ QString TlinChartDelegate::posText() const {
 
 
 QString TlinChartDelegate::keyText() const {
-  if (m_chart->exam()->level()->useKeySign && (m_qInf->qaUnit()->questionAs == TQAtype::e_onScore || m_qInf->qaUnit()->answerAs == TQAtype::e_onScore))
-    return m_qInf->qaUnit()->key.getName();
+  if (m_qInf->qaUnit()) {
+    if (m_chart->exam()->level()->useKeySign && (m_qInf->qaUnit()->questionAs == TQAtype::e_onScore || m_qInf->qaUnit()->answerAs == TQAtype::e_onScore))
+      return m_qInf->qaUnit()->key.getName();
+  }
   return QString();
 }
 

@@ -44,7 +44,7 @@ ToolButton {
 
   ToolTip {
     id: toolTip
-    delay: 1000
+    delay: 750
     timeout: 5000
     visible: hovered && contentItem.text !== ""
     contentItem: Text {

@@ -10,25 +10,25 @@ import "../"
 TipRect {
   id: helpTip
   property alias text: txt.text
+  property color hintColor: GLOB.correctColor
 
   shadowRadius: Noo.fontSize()
   width: txt.width  + 2 * Noo.fontSize()
   height: txt.height + 2 * Noo.fontSize()
   z: 150
 
-  border { color: GLOB.correctColor; width: 1 }
-  color: Qt.tint(activPal.base, Noo.alpha(GLOB.correctColor, 50))
+  border { color: hintColor; width: 1 }
+  color: Qt.tint(activPal.base, Noo.alpha(hintColor, 50))
 
   anchors { centerIn: parent }
 
   Column {
-//     width: parent.width
     padding: Noo.fontSize()
     Text {
       z: 200
       id: txt
       color: activPal.text
-      textFormat: Text.RichText; horizontalAlignment: Text.AlignHCenter
+      textFormat: Text.StyledText; horizontalAlignment: Text.AlignHCenter
       onLinkActivated: analyzeWindow.openExam()
       MouseArea {
         anchors.fill: parent

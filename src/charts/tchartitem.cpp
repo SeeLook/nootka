@@ -20,7 +20,6 @@
 #include "tlinearchart.h"
 #include "tbarchart.h"
 #include "tcharttipitem.h"
-// #include "tyaxis.h"
 #include "dialogs/tlevelpreviewitem.h"
 #include <tglobals.h>
 #include <taction.h>
@@ -46,16 +45,16 @@ TchartItem::TchartItem(QQuickItem* parent) :
   QQuickItem(parent),
   m_level(new Tlevel)
 {
-  auto loadExamAct = new Taction(TexTrans::loadExamFileTxt(), QStringLiteral("nootka-exam"), this);
-  connect(loadExamAct, &Taction::triggered, this, &TchartItem::getExamFileSlot);
+  m_loadExamAct = new Taction(TexTrans::loadExamFileTxt(), QStringLiteral("nootka-exam"), this);
+  connect(m_loadExamAct, &Taction::triggered, this, &TchartItem::getExamFileSlot);
   //TODO create common method in Taction for creating shortcut
   QQmlEngine e;
   QQmlComponent c(&e, this);
   c.setData("import QtQuick 2.9; Shortcut { sequence: StandardKey.Open }", QUrl());
   auto openShort = c.create();
   openShort->setParent(this);
-  loadExamAct->setShortcut(openShort);
-  m_recentExamsActs << loadExamAct;
+  m_loadExamAct->setShortcut(openShort);
+
   QStringList recentExams = GLOB->config->value(QStringLiteral("recentExams")).toStringList();
   for (int i = 0; i < recentExams.size(); i++) {
     QFileInfo fi(recentExams[i]);
@@ -74,16 +73,18 @@ TchartItem::TchartItem(QQuickItem* parent) :
     m_chartSetts.inclWrongAnsw = m_inclWrongAct->checked();
     drawChart();
   });
-  m_miscSettModel << m_inclWrongAct;
   m_wrongSeparateAct = new Taction(qApp->translate("AnalyzeDialog", "show wrong answers separately"), QString(), this);
   m_wrongSeparateAct->setCheckable(true);
   m_wrongSeparateAct->setChecked(m_chartSetts.separateWrong);
   connect(m_wrongSeparateAct, &Taction::triggered, this, [=]{
     m_wrongSeparateAct->setChecked(!m_wrongSeparateAct->checked());
     m_chartSetts.separateWrong = m_wrongSeparateAct->checked();
+    m_inclWrongAct->setEnabled(!m_chartSetts.separateWrong); // nothing to include when wrongs are separated
     drawChart();
   });
-  m_miscSettModel << m_wrongSeparateAct;
+  m_miscSettModel << m_wrongSeparateAct << m_inclWrongAct;
+  m_wrongSeparateAct->setEnabled(false);
+  m_inclWrongAct->setEnabled(false);
 
   m_lineTip = new TtipInfo();
   m_lineTip->kind = TtipInfo::e_line;
@@ -150,6 +151,7 @@ int TchartItem::xOrder() const { return static_cast<int>(m_chartSetts.order); }
 void TchartItem::setXOrder(int xO) {
   if (xO != xOrder()) {
     m_chartSetts.order = static_cast<Tchart::EanswersOrder>(xO);
+    checkMiscOpts();
     drawChart();
     emit xOrderChanged();
   }
@@ -227,7 +229,7 @@ QString TchartItem::chartHelpText() const {
     auto modKey = QStringLiteral("CTRL");
 #endif
   return QApplication::translate("AnalyzeDialog", "Press %1 button to select an exam from a file.")
-                        .arg(QLatin1String("<a href=\"charts\"> ") + NOO->pixToHtml("nootka-exam", NOO->fontSize() * 3) + QLatin1String("</a> "))
+                        .arg(QLatin1String("<a href=\"charts\"> ") + NOO->pixToHtml("chartSett", NOO->fontSize() * 3) + QLatin1String("</a> "))
             + QLatin1String("<br>") + QApplication::translate("AnalyzeDialog", "Use %1 + mouse wheel or %2 buttons to zoom a chart.")
                         .arg(modKey, NOO->pixToHtml("zoom-in", NOO->fontSize() * 2) + QLatin1String(" ") + NOO->pixToHtml("zoom-out", NOO->fontSize() * 2))
             + QLatin1String("<br>") + QApplication::translate("AnalyzeDialog", "Click and Drag the cursor to move the chart.");
@@ -235,7 +237,7 @@ QString TchartItem::chartHelpText() const {
 
 
 int TchartItem::chartModel() const {
-  return m_chart ? m_chart->xCount() : 0;
+  return m_exam && m_chart ? m_chart->xCount() : 0;
 }
 
 
@@ -254,23 +256,25 @@ qreal TchartItem::maxYValue() const {
 }
 
 
-QString TchartItem::timeFormated(qreal realTime, bool halfAllowed) const {
+QString TchartItem::timeFormated(qreal realTime) const {
   int t = static_cast<int>(realTime);
-  QString hh, mm = halfAllowed ? QString() : QStringLiteral("0"), ss, ms;
+  QString hh, mm, ss, ms, u;
   int dig = 0;
-  if (t / 3600) {
+  if (m_chart->maxValue() > 3599.0 && t / 3600) {
     hh = QString("%1").arg(t / 3600);
     dig = 2;
   }
   int dig2 = 0;
-  if ((t % 3600) / 60) {
+  if (m_chart->maxValue() > 59.0 && (t % 3600) / 60) {
     mm = QString("%1").arg((t % 3600) / 60, dig, 'i', 0, '0');
     dig2 = 2;
   }
-  ss = QString("%1").arg((t % 3600) % 60, 2, 'i', 0, '0');
-  if (realTime - (qreal)t)
-    ms = QLatin1String(".") + QString("%1").arg((int)((realTime - (qreal)t) * 10));
-  return (hh.isEmpty() ? QString() : hh + QLatin1String(":")) + (mm.isEmpty() ? QString() : mm + QLatin1String(":")) + ss + ms;
+  ss = QString("%1").arg((t % 3600) % 60, m_chart->maxValue() > 59.0 && realTime > 9.0 ? 2 : 1, 'i', 0, '0');
+  if (realTime - static_cast<qreal>(t))
+    ms = QLatin1String(".") + QString("%1").arg((int)((realTime - static_cast<qreal>(t)) * 10.0));
+  if (m_chart->maxValue() < 60.0)
+    u = QStringLiteral("s");
+  return (hh.isEmpty() ? QString() : hh + QLatin1String(":")) + (mm.isEmpty() ? QString() : mm + QLatin1String(":")) + ss + ms + u;
 }
 
 
@@ -281,8 +285,10 @@ qreal TchartItem::averageTime() const {
 
 QString TchartItem::yAxisTickText(int id) {
   if (m_chart && id > -1 && id < m_chart->yTickList().size()) {
-    if (m_chartSetts.yValue == Tchart::e_YquestionTime)
-      return timeFormated(m_chart->yTickList()[id]);
+    if ((m_chartSetts.yValue == Tchart::e_YquestionTime || m_chartSetts.yValue == Tchart::e_YprepareTime)
+        && m_chartSetts.order != Tchart::e_byMistake)
+          return timeFormated(m_chart->yTickList()[id]);
+
     return QString::number(m_chart->yTickList()[id])
                   + (m_chartSetts.yValue == Tchart::e_Yeffectiveness ? QLatin1String("%") : QString());
   }
@@ -359,10 +365,40 @@ void TchartItem::loadExam(const QString& examFile) {
   if (m_exam)
     delete m_exam;
   m_exam = new Texam(m_level, QString());
-  m_wasExamCreated = true; // delete exam in destructor
   if (m_exam->loadFromFile(examFile) == Texam::e_file_OK) {
-    resetChartSettings();
-    drawChart();
+      m_wasExamCreated = true; // delete exam in destructor
+      resetChartSettings();
+      drawChart();
+      bool foundTheSame = false;
+      for (int e = 0; e < m_recentExamsActs.size(); e++) {
+        if (m_recentExamsActs[e]->property("file").toString() == examFile) {
+          m_selectedFileId = e;
+          emit selectedFileIdChanged();
+          foundTheSame = true;
+          break;
+        }
+      }
+      if (!foundTheSame) {
+        QFileInfo fi(examFile);
+        auto act = new Taction(fi.fileName(), QString(), this);
+        act->setProperty("file", examFile);
+        m_recentExamsActs.prepend(act);
+        connect(act, &Taction::triggered, this, [=]{ loadExam(sender()->property("file").toString()); });
+        emit recentExamsChanged();
+        m_selectedFileId = 0;
+        emit selectedFileIdChanged();
+      }
+  } else {
+      delete m_exam;
+      m_exam = nullptr;
+      emit chartModelChanged();
+      emit loadExamFailed(QLatin1String("<h4>")
+                + qTR("TexamExecutor", "File: %1 \n is not valid exam file!").arg(examFile)
+                                                .replace(QLatin1String("\n"), QLatin1String("<br>"))
+                                                .replace(QLatin1String(":"), QLatin1String(":<br>"))
+                + QLatin1String("</h4>"));
+      m_selectedFileId = -1;
+      emit selectedFileIdChanged();
   }
 }
 
@@ -404,14 +440,35 @@ void TchartItem::resetChartSettings() {
   emit yValueChanged();
   m_chartSetts.order = Tchart::e_byNumber;
   emit xOrderChanged();
+  checkMiscOpts();
   if (m_exam) {
     emit lockXorderList(static_cast<int>(Tchart::e_byNumber), false);
     emit lockXorderList(static_cast<int>(Tchart::e_byNote), m_exam->melodies());
     emit lockXorderList(static_cast<int>(Tchart::e_byFret), m_exam->melodies());
-    emit lockXorderList(static_cast<int>(Tchart::e_byAccid), m_exam->melodies());
-    emit lockXorderList(static_cast<int>(Tchart::e_byKey), m_exam->melodies());
+    emit lockXorderList(static_cast<int>(Tchart::e_byAccid),
+                        m_exam->melodies() || !(m_exam->level()->withSharps || m_exam->level()->withFlats || m_exam->level()->withDblAcc));
+    emit lockXorderList(static_cast<int>(Tchart::e_byKey),
+                        m_exam->melodies() || !(m_exam->level()->useKeySign && !m_exam->level()->isSingleKey));
     emit lockXorderList(static_cast<int>(Tchart::e_byMistake), m_exam->melodies());
     emit lockXorderList(static_cast<int>(Tchart::e_byQuestAndAnsw), m_exam->melodies());
   }
   emit resetChartPos();
+}
+
+
+void TchartItem::checkMiscOpts() {
+  if (m_chartSetts.order == Tchart::e_byNumber) {
+      if (!isMelody()) {
+        m_wrongSeparateAct->setEnabled(false);
+        m_inclWrongAct->setEnabled(false);
+      }
+  } else if (m_chartSetts.order == Tchart::e_byMistake || m_chartSetts.order == Tchart::e_byQuestAndAnsw) {
+      m_wrongSeparateAct->setChecked(false); // with this kind of sorting separating wrongs makes no sense.
+      m_chartSetts.separateWrong = false;  // Uncheck when necessary
+      m_wrongSeparateAct->setEnabled(false);
+      m_inclWrongAct->setEnabled(true);
+  } else {
+      m_wrongSeparateAct->setEnabled(!isMelody() && m_chartSetts.type != Tchart::e_bar);
+      m_inclWrongAct->setEnabled(!m_chartSetts.separateWrong);
+  }  
 }

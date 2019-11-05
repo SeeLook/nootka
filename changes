@@ -1,5 +1,6 @@
 1.7.1 beta2
      - improved charts (exam results analysis)
+     - added handy drawer with exam list and chart options
      - disabling level creator pages which are currently unused
      - added help topic selector on 'help page' with all the context
      - make controls look (check boxes, radios, sliders) consistent
