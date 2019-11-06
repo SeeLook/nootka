@@ -71,7 +71,7 @@ TchartItem::TchartItem(QQuickItem* parent) :
   connect(m_inclWrongAct, &Taction::triggered, this, [=]{
     m_inclWrongAct->setChecked(!m_inclWrongAct->checked());
     m_chartSetts.inclWrongAnsw = m_inclWrongAct->checked();
-    drawChart();
+    drawChart(false);
   });
   m_wrongSeparateAct = new Taction(qApp->translate("AnalyzeDialog", "show wrong answers separately"), QString(), this);
   m_wrongSeparateAct->setCheckable(true);
@@ -80,7 +80,7 @@ TchartItem::TchartItem(QQuickItem* parent) :
     m_wrongSeparateAct->setChecked(!m_wrongSeparateAct->checked());
     m_chartSetts.separateWrong = m_wrongSeparateAct->checked();
     m_inclWrongAct->setEnabled(!m_chartSetts.separateWrong); // nothing to include when wrongs are separated
-    drawChart();
+    drawChart(false);
   });
   m_miscSettModel << m_wrongSeparateAct << m_inclWrongAct;
   m_wrongSeparateAct->setEnabled(false);
@@ -140,7 +140,7 @@ int TchartItem::yValue() const { return static_cast<int>(m_chartSetts.yValue); }
 void TchartItem::setYValue(int yV) {
   if (yV != yValue()) {
     m_chartSetts.yValue = static_cast<Tchart::EyValue>(yV);
-    drawChart();
+    drawChart(false); // do not rewind chart, just switch Y value
     emit yValueChanged();
   }
 }
@@ -403,11 +403,12 @@ void TchartItem::loadExam(const QString& examFile) {
 }
 
 
-void TchartItem::drawChart() {
+void TchartItem::drawChart(bool resetModel) {
   if (m_exam) {
     delete m_chart;
     m_chart = nullptr;
-    emit chartModelChanged();
+    if (resetModel)
+      emit chartModelChanged();
   CHECKTIME(
     TmainChart *newChart;
     if (m_chartSetts.type == Tchart::e_linear)
@@ -420,7 +421,9 @@ void TchartItem::drawChart() {
     m_chart = newChart;
     m_tipItem->setExam(m_exam);
     emit chartModelChanged();
+    m_ignoreSignalExamChanged = resetModel;
     emit examChanged();
+    m_ignoreSignalExamChanged = false;
   )
   }
 }

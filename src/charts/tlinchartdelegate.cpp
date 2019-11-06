@@ -83,7 +83,6 @@ qreal TlinChartDelegate::pointY() const {
       return height() * 0.1 + h - (static_cast<qreal>(m_qInf->qaUnit()->totalPlayBacks()) / m_chart->mainChart()->maxValue()) * h;
   }
 
-  qDebug() << "[TlinChartDelegate] There is no Y value for given chart type FIXME!";
   return 0.0;
 }
 
@@ -92,6 +91,18 @@ void TlinChartDelegate::setChart(TchartItem* ch) {
   if (!m_chart) {
     m_chart = ch;
     emit examChanged();
+    connect(m_chart, &TchartItem::examChanged, this, [=]{
+        if (m_chart->ignoreSignalExamChanged())
+          return;
+        if (m_nrInchart > -1) { // reset @p qaPtr associated with this delegate
+          int tmpNr = m_nrInchart;
+          m_nrInchart = -1;
+          setChartNr(tmpNr);
+        }
+        emit examChanged();
+        emit pointYChanged();
+        update();
+    });
   }
 }
 
@@ -120,8 +131,6 @@ void TlinChartDelegate::setChartNr(int n) {
         else
           m_qInf->setColor(GLOB->wrongColor());
         emit nrChanged();
-    } else {
-        qDebug() << "[TlinChartDelegate] FIXME! not such a question in exam!";
     }
   }
 }
