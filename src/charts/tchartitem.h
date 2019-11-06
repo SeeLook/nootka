@@ -201,6 +201,16 @@ public:
        */
   static QString playedNumberTxt() { return QGuiApplication::translate("AnalyzeDialog", "Played number"); }
 
+      /**
+       * Every chart delegate instances (either for bar or linear chart) reacts on @p examChanged() signal
+       * to update its state.
+       * But when chart model is reset (it becomes 0 for a while), QML chart view has to destroy all delegates,
+       * so corresponding routines have to be ignored and this method signalizes it.
+       * So delegate corresponding slot to @p examChanged() has to check @p ignoreSignalExamChanged() state
+       * before it will refer to exam data.
+       */
+  bool ignoreSignalExamChanged() const { return m_ignoreSignalExamChanged; }
+
 signals:
   void recentExamsChanged();
   void selectedFileIdChanged();
@@ -235,8 +245,11 @@ private:
 
       /**
        * Using @p m_exam initializes chart depending on settings
+       * Deletes previous chart object, and sends @p chartModelChanged()
+       * but only when @p resetModel is @p true. When @p false chart view remains where it is.
+       * Then it creates new chart object (bar or linear) and sends @p examChanged() to inform QML controls to update
        */
-  void drawChart();
+  void drawChart(bool resetModel = true);
 
       /**
        * @p TRUE when given exam melody mode is different than current
@@ -265,6 +278,7 @@ private:
   TtipInfo                       *m_lineTip; /**< Instance of @p TtipInfo representing kind of TtipInfo::e_line */
   QTimer                         *m_enterTimer, *m_leaveTimer;
   int                             m_averLineGr = NO_AVER_GR;
+  bool                            m_ignoreSignalExamChanged = false;
 };
 
 #endif // TCHARTITEM_H

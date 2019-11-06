@@ -58,6 +58,17 @@ void TbarChartDelegate::setChart(TchartItem* ch) {
   if (!m_chart) {
     m_chart = ch;
     emit examChanged();
+    connect(m_chart, &TchartItem::examChanged, this, [=]{
+        if (m_chart->ignoreSignalExamChanged())
+          return;
+        if (m_groupNr > -1) { // reset @p group associated with this delegate
+          int tmpNr = m_groupNr;
+          m_groupNr = -1;
+          setGroupNr(tmpNr);
+        }
+        emit examChanged();
+        update();
+    });
   }
 }
 
@@ -73,8 +84,7 @@ void TbarChartDelegate::setGroupNr(int gr) {
           if (m_barInfo)
             delete m_barInfo;
           m_barInfo = nullptr;
-      } else //FIXME: it should never happened - delete it ASAP
-          qDebug() << "[TbarChartDelegate] BoOOm!! not such a group !!!";
+      }
     }
     emit groupNrChanged();
     update();
