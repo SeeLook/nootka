@@ -20,6 +20,8 @@ Drawer {
   y: analyzeWindow.height / 15 + Screen.pixelDensity * 2
   width: parent.height * 0.4; height: parent.height - y
 
+  closePolicy: chartItem.keepDrawerOpened() ? Popup.NoAutoClose : Popup.CloseOnEscape | Popup.CloseOnPressOutside
+
   background: TipRect { color: activPal.window; radius: 0; verticalOffset: 0; horizontalOffset: pinBox.checked ? 0 : Noo.fontSize() / 5 }
 
   property int fSize: Math.min(Noo.fontSize(), width / 25)
@@ -168,7 +170,11 @@ Drawer {
     hoverEnabled: true
     font.pixelSize: fSize
     anchors { right: parent.right; bottom: parent.bottom }
-    onClicked: chartDrawer.closePolicy = checked ? Popup.NoAutoClose : Popup.CloseOnEscape | Popup.CloseOnPressOutside
+    checked: chartItem.keepDrawerOpened()
+    onClicked: { 
+      chartDrawer.closePolicy = checked ? Popup.NoAutoClose : Popup.CloseOnEscape | Popup.CloseOnPressOutside
+      chartItem.setKeepDrawer(checked)
+    }
     ToolTip {
       delay: 500
       timeout: 5000

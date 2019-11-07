@@ -211,6 +211,9 @@ public:
        */
   bool ignoreSignalExamChanged() const { return m_ignoreSignalExamChanged; }
 
+  Q_INVOKABLE bool keepDrawerOpened() const { return m_keepDrawerOpened; }
+  Q_INVOKABLE void setKeepDrawer(bool k) { m_keepDrawerOpened = k; }
+
 signals:
   void recentExamsChanged();
   void selectedFileIdChanged();
@@ -279,6 +282,7 @@ private:
   QTimer                         *m_enterTimer, *m_leaveTimer;
   int                             m_averLineGr = NO_AVER_GR;
   bool                            m_ignoreSignalExamChanged = false;
+  bool                            m_keepDrawerOpened;
 };
 
 #endif // TCHARTITEM_H
