@@ -26,6 +26,7 @@ Window {
     if (allowOpen)
       chartItem.openExam()
   }
+
   function openDrawer() { drawerAct.trigger() }
 
   visible: true
@@ -240,5 +241,7 @@ Window {
       helpTip = h.createObject(analyzeWindow.contentItem, { "text": chartItem.chartHelpText() } )
     }
     SOUND.stop()
+    if (chartItem.keepDrawerOpened())
+      openDrawer()
   }
 }

@@ -45,6 +45,9 @@ TchartItem::TchartItem(QQuickItem* parent) :
   QQuickItem(parent),
   m_level(new Tlevel)
 {
+  GLOB->config->beginGroup(QStringLiteral("Charts"));
+  m_keepDrawerOpened = GLOB->config->value(QStringLiteral("keepDrawerOpened"), false).toBool();
+  GLOB->config->endGroup();
   m_loadExamAct = new Taction(TexTrans::loadExamFileTxt(), QStringLiteral("nootka-exam"), this);
   connect(m_loadExamAct, &Taction::triggered, this, &TchartItem::getExamFileSlot);
   //TODO create common method in Taction for creating shortcut
@@ -114,6 +117,9 @@ TchartItem::TchartItem(QQuickItem* parent) :
 
 
 TchartItem::~TchartItem() {
+  GLOB->config->beginGroup(QStringLiteral("Charts"));
+  GLOB->config->setValue(QStringLiteral("keepDrawerOpened"), m_keepDrawerOpened);
+  GLOB->config->endGroup();
   if (m_wasExamCreated)
     delete m_exam;
   delete m_lineTip;
