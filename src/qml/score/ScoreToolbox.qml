@@ -126,6 +126,7 @@ ControlBase {
       Grid {
         visible: scoreObj.enableTechnical
         columns: score.meter === Tmeter.NoMeter ? 1 : 2
+        anchors.horizontalCenter: parent.horizontalCenter
         Repeater {
           model: [ "\uE610", "\uE612" ]
           ControlButton {

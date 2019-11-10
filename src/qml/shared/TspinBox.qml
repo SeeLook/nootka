@@ -10,12 +10,12 @@ SpinBox {
   id: sb
 
   editable: true
-  height: Noo.fontSize() * 3; width: Noo.fontSize() * 12
+  height: sb.font.pixelSize * 3; width: sb.font.pixelSize * 12
   font.pixelSize: Noo.fontSize()
 
   contentItem: TextInput {
     z: 2
-    width: Noo.fontSize() * 6
+    width: sb.width - 2 * sb.height
     text: sb.textFromValue(sb.value, sb.locale)
     
     font: sb.font
@@ -31,13 +31,13 @@ SpinBox {
 
   background: Rectangle {
     color: sb.enabled ? activPal.base : disdPal.base
-    width: Noo.fontSize() * 6; height: Noo.fontSize() * 3
-    x: Noo.fontSize() * 3
+    width: sb.width - sb.height; height: sb.height
+    x: sb.height / 2
   }
 
   up.indicator: TipRect {
-    x: sb.mirrored ? 0 : sb.width - sb.height - Noo.fontSize() / 5
-    implicitHeight: Noo.fontSize() * 3; implicitWidth: Noo.fontSize() * 2.8
+    x: sb.mirrored ? 0 : sb.width - sb.height
+    implicitHeight: sb.height; implicitWidth: sb.height
     color: sb.enabled ? activPal.button : disdPal.button
     rised: !sb.up.pressed
     scale: sb.up.pressed ? 0.9 : 1.0
@@ -54,8 +54,8 @@ SpinBox {
   }
   
   down.indicator: TipRect {
-    x: sb.mirrored ? sb.width - sb.height - Noo.fontSize() / 5 : 0
-    implicitHeight: Noo.fontSize() * 3; implicitWidth: Noo.fontSize() * 2.8
+    x: sb.mirrored ? sb.width - sb.height : 0
+    implicitHeight: sb.height; implicitWidth: sb.height
     color: sb.enabled ? activPal.button : disdPal.button
     rised: !sb.down.pressed
     scale: sb.down.pressed ? 0.9 : 1.0

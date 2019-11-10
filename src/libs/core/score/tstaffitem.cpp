@@ -232,7 +232,6 @@ void TstaffItem::checkNotesRange(bool doEmit) {
     emit hiNotePosChanged(m_number, (oldHi - m_hiNotePos) * scale());
   if (doEmit && oldLo != m_loNotePos)
     emit loNotePosChanged(m_number, (m_loNotePos - oldLo) * scale());
-  return;
 }
 
 

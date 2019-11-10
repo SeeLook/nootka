@@ -33,12 +33,12 @@ QString tdAlign() {
 }
 
 
-QString qaTypeSymbol(TQAtype::Etype type) {
+QString qaTypeSymbol(TQAtype::Etype type, Tlevel* l) {
   QString symbol;
   switch (type) {
     case TQAtype::e_onScore : symbol = "s"; break;
     case TQAtype::e_asName : symbol = "c"; break;
-    case TQAtype::e_onInstr : symbol = GLOB->instrument().glyph(); break;
+    case TQAtype::e_onInstr : symbol = Tinstrument(l->instrument).glyph(); break;
     case TQAtype::e_asSound : symbol = "n"; break;
   }
   return symbol;
@@ -102,16 +102,16 @@ void TlevelPreviewItem::setLevel(Tlevel* tl) {
       QString tmp;
       const QString space = QStringLiteral(" ");
       if (tl->questionAs.isOnScore())
-        tmp += qaTypeSymbol(TQAtype::e_onScore) + space;
+        tmp += qaTypeSymbol(TQAtype::e_onScore, tl) + space;
       if (tl->questionAs.isName())
-        tmp += qaTypeSymbol(TQAtype::e_asName) + space;
+        tmp += qaTypeSymbol(TQAtype::e_asName, tl) + space;
       if (tl->questionAs.isOnInstr())
-        tmp += qaTypeSymbol(TQAtype::e_onInstr) + space;
+        tmp += qaTypeSymbol(TQAtype::e_onInstr, tl) + space;
       if (tl->questionAs.isSound()) {
         if (tl->canBeMelody())
           tmp += QLatin1String("m");
         else
-          tmp += qaTypeSymbol(TQAtype::e_asSound) + space;
+          tmp += qaTypeSymbol(TQAtype::e_asSound, tl) + space;
       }
 
       m_levelText += TnooFont::span(tmp, fontSize);
@@ -119,16 +119,16 @@ void TlevelPreviewItem::setLevel(Tlevel* tl) {
       tmp.clear();
       m_levelText += TRTD + QGuiApplication::translate("LevelCreator", "Answers") + QLatin1String(": </td><td align=\"center\">"); // ANSWERS
       if (tl->answerIsNote())
-              tmp += qaTypeSymbol(TQAtype::e_onScore) + space;
+        tmp += qaTypeSymbol(TQAtype::e_onScore, tl) + space;
       if (tl->answerIsName())
-              tmp += qaTypeSymbol(TQAtype::e_asName) + space;
+        tmp += qaTypeSymbol(TQAtype::e_asName, tl) + space;
       if (tl->answerIsGuitar())
-              tmp += qaTypeSymbol(TQAtype::e_onInstr) + space;
+        tmp += qaTypeSymbol(TQAtype::e_onInstr, tl) + space;
       if (tl->answerIsSound()) {
         if (tl->canBeMelody())
           tmp += QLatin1String("m");
         else
-          tmp += qaTypeSymbol(TQAtype::e_asSound) + space;
+          tmp += qaTypeSymbol(TQAtype::e_asSound, tl) + space;
       }
       m_levelText += TnooFont::span(tmp, fontSize);
       m_levelText += TDTREnd;
