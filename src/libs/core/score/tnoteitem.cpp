@@ -762,7 +762,7 @@ QQuickItem* TnoteItem::createAddLine() {
   auto line = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
   line->setParentItem(this);
   line->setWidth(3.5);
-  line->setHeight(0.2);
+  line->setHeight(m_staff->height() * m_staff->scale() < 200.0 ? 0.3 : 0.2); // for smaller views, keep line thicker to avoid disappearing
   line->setX(m_staff->score()->singleNote() ? 1.0 : -0.5);
   line->setVisible(false);
   line->setProperty("color", qApp->palette().text().color());
