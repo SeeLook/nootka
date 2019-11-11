@@ -123,6 +123,7 @@ TchartItem::~TchartItem() {
   if (m_wasExamCreated)
     delete m_exam;
   delete m_lineTip;
+  delete m_level;
 }
 
 
@@ -370,6 +371,8 @@ void TchartItem::leaveTimeOut() {
 void TchartItem::loadExam(const QString& examFile) {
   if (m_exam)
     delete m_exam;
+  delete m_level;
+  m_level = new Tlevel();
   m_exam = new Texam(m_level, QString());
   if (m_exam->loadFromFile(examFile) == Texam::e_file_OK) {
       m_wasExamCreated = true; // delete exam in destructor
