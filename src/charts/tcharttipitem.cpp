@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2018 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2018-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,11 +24,26 @@
 #include <exam/tlevel.h>
 #include <exam/tresulttext.h>
 #include <exam/textrans.h>
+#include <exam/tattempt.h>
 #include <score/tscoreobject.h>
+#include <score/tstaffitem.h>
+#include <score/tnoteitem.h>
+#include <tglobals.h>
+#include <qtr.h>
 
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>
 #include <QtCore/qdebug.h>
+
+
+QColor answerColor(quint32 mistake) {
+  if (mistake == static_cast<quint32>(TQAunit::e_correct))
+    return GLOB->correctColor();
+  if (!(mistake & TQAunit::e_wrongPos) && !(mistake & TQAunit::e_wrongNote) && !(mistake & TQAunit::e_veryPoor))
+    return GLOB->notBadColor();
+  else
+    return GLOB->wrongColor();
+}
 
 
 TchartTipItem::TchartTipItem(QQuickItem* parent) :
@@ -58,8 +73,9 @@ QPointF TchartTipItem::pos() const {
 
 
 QString TchartTipItem::qaText() const {
-  return m_question ? tr("question") + QLatin1String(": <b>") + NOO->qaTypeText(m_question->qaUnit()->questionAs) + QLatin1String("</b><br>") +
-          tr("answer") + QLatin1String(": <b>") + NOO->qaTypeText(m_question->qaUnit()->answerAs) : QString();
+  return m_question ? qTR("QuestionsBox", "question") + QLatin1String(": <b>") + NOO->qaTypeText(m_question->qaUnit()->questionAs)
+                      + QLatin1String("</b><br>") + qTR("QuestionsBox", "answer") + QLatin1String(": <b>")
+                      + NOO->qaTypeText(m_question->qaUnit()->answerAs) : QString();
 }
 
 
@@ -69,12 +85,14 @@ bool TchartTipItem::isMelody() const {
 
 
 bool TchartTipItem::hasSecondScore() const {
-  return m_exam && m_exam->level()->answerIsNote();
+  return m_exam && !m_exam->melodies() && m_exam->level()->answerIsNote();
 }
 
 
 bool TchartTipItem::leftScoreVisible() const {
-  return m_question && (m_question->qaUnit()->questionOnScore() || (m_question->qaUnit()->questionAsSound() && m_question->qaUnit()->answerAsSound()));
+  return m_question && (m_question->qaUnit()->melody()
+                        || (m_question->qaUnit()->questionOnScore()
+                        || (m_question->qaUnit()->questionAsSound() && m_question->qaUnit()->answerAsSound())));
 }
 
 
@@ -110,6 +128,30 @@ QString TchartTipItem::answerText() const {
 }
 
 
+qreal TchartTipItem::yScoreLeftOff() const {
+  return m_leftScore && m_exam->melodies() ? m_leftScore->firstStaff()->hiNotePos() * -m_leftScore->firstStaff()->scale() : 0.0;
+}
+
+
+qreal TchartTipItem::yScoreRightOff() const {
+  return m_secondScore && m_exam->melodies() ? m_secondScore->firstStaff()->hiNotePos() * -m_secondScore->firstStaff()->scale() : 0.0;
+}
+
+
+qreal TchartTipItem::leftScoreHeight() const {
+  return m_leftScore ? (m_leftScore->firstStaff()->minHeight() - 2.0) * m_leftScore->firstStaff()->scale() : 0.0;
+}
+
+
+qreal TchartTipItem::rightScoreHeight() const {
+  return m_secondScore ? (m_secondScore->firstStaff()->minHeight() - 2.0) * m_secondScore->firstStaff()->scale() : 0.0;
+}
+
+
+int TchartTipItem::attempts() const {
+  return m_question ? m_question->qaUnit()->attemptsCount() : 0;
+}
+
 
 void TchartTipItem::setLeftScore(TscoreObject* ls) {
   if (ls != m_leftScore) {
@@ -126,16 +168,23 @@ void TchartTipItem::setSecondScore(TscoreObject* ss) {
 
 
 QString TchartTipItem::resultText() const {
-  return m_question ? wasAnswerOKtext(m_question->qaUnit()) : QString();
+  if (m_question || m_lastUnit) {
+    auto u = m_question ? m_question->qaUnit() : m_lastUnit;
+    return wasAnswerOKtext(u).replace(QLatin1String("<br>"), QLatin1String(" "));
+  }
+  return QString();
 }
 
 
 QString TchartTipItem::timeText() const {
   if (m_question) {
     QString txt;
-    if (m_question->qaUnit()->melody() && !m_question->qaUnit()->isWrong())
-      txt += TexTrans::effectTxt() + QString(": <b>%1%</b><br>").arg(m_question->qaUnit()->effectiveness(), 0, 'f', 1, '0');
-    txt += TexTrans::reactTimeTxt() + QString("<font size=\"4\"><b>  %1</b></font>").arg(Texam::formatReactTime(m_question->qaUnit()->time, true));
+    if (m_question->qaUnit()->melody()) {
+      txt += qApp->translate("ChartTip", "Melody was played <b>%n</b> times", "", m_question->qaUnit()->totalPlayBacks()) + QLatin1String("<br>");
+      if (!m_question->qaUnit()->isWrong())
+        txt += TexTrans::effectTxt() + QString(": <b>%1%</b>, ").arg(m_question->qaUnit()->effectiveness(), 0, 'f', 1, '0');
+    }
+    txt += TexTrans::reactTimeTxt() + QString("<b>  %1</b>").arg(Texam::formatReactTime(m_question->qaUnit()->time, true));
     return txt;
   }
   return QString();
@@ -150,6 +199,8 @@ QString TchartTipItem::tipText() const {
 void TchartTipItem::setQuestion(TtipInfo* q) {
   if (m_question != q) {
     bool emitShow = m_question == nullptr || q == nullptr;
+    if (m_question)
+      m_lastUnit = m_question->qaUnit();
     m_question = q;
     if (emitShow)
       emit showChanged();
@@ -176,16 +227,17 @@ void TchartTipItem::setQuestion(TtipInfo* q) {
                   if (m_exam->level()->useKeySign)
                     m_leftScore->setKeySignature(m_question->qaUnit()->key.value());
                 }
-                bool qaTheSmaeType = m_question->qaUnit()->questionAs == m_question->qaUnit()->answerAs;
+                bool qaTheSameType = m_question->qaUnit()->questionAs == m_question->qaUnit()->answerAs;
                 if (m_question->qaUnit()->answerOnScore()) {
                   if (m_secondScore->notesCount())
-                    m_secondScore->setNote(0, qaTheSmaeType ? m_question->qaUnit()->qa_2.note : m_question->qaUnit()->qa.note);
+                    m_secondScore->setNote(0, qaTheSameType ? m_question->qaUnit()->qa_2.note : m_question->qaUnit()->qa.note);
                   else
-                    m_secondScore->addNote(qaTheSmaeType ? m_question->qaUnit()->qa_2.note : m_question->qaUnit()->qa.note);
+                    m_secondScore->addNote(qaTheSameType ? m_question->qaUnit()->qa_2.note : m_question->qaUnit()->qa.note);
                   if (m_exam->level()->useKeySign)
                     m_secondScore->setKeySignature(m_question->qaUnit()->key.value());
                 }
             }
+            emit questionWasSet();
           }
       } else if (m_question->kind == TtipInfo::e_line) {
           emit lineTipUpdated();
@@ -201,6 +253,7 @@ void TchartTipItem::setQuestion(TtipInfo* q) {
 
 void TchartTipItem::setExam(Texam* e) {
   m_exam = e;
+  m_lastUnit = nullptr;
   m_leftScore->clearScore();
   emit examChanged();
   if (!m_exam->melodies()) {
@@ -218,4 +271,45 @@ void TchartTipItem::setExam(Texam* e) {
 
 int TchartTipItem::tipType() const {
   return m_kindOfTip;
+}
+
+
+void TchartTipItem::setAttemptNr(int attNr) {
+  if (m_lastUnit && m_lastUnit->attemptsCount()) {
+    for (int n = 0; n < m_leftScore->notesCount(); ++n) {
+      if (attNr > 0)
+        m_leftScore->note(n)->markNoteHead(answerColor(m_lastUnit->attempt(attNr - 1)->mistakes[n]));
+      else
+        m_leftScore->note(n)->markNoteHead(Qt::transparent);
+    }
+  }
+}
+
+
+QString TchartTipItem::attemptDetails(int attNr) const {
+  if (m_lastUnit && m_lastUnit->attemptsCount() && attNr > 0) {
+    static const QString coma = QStringLiteral(", ");
+    return QString("<b>%1: </b>").arg((attNr)) + qApp->translate("ChartTip", "played", "a melody was played (and number follows)")
+          + QString(" <b>%1</b>").arg(m_lastUnit->attempt(attNr - 1)->playedCount()) + coma + TexTrans::effectTxt().toLower()
+          + QString(": <b>%1%</b>").arg(m_lastUnit->attempt(attNr - 1)->effectiveness(), 0, 'f', 1, '0') + coma
+          + qApp->translate("ChartTip", "time") + ": " + QString("<b>  %1</b>").arg(Texam::formatReactTime(m_lastUnit->attempt(attNr - 1)->totalTime(), true));
+  }
+  return QString();
+}
+
+
+QString TchartTipItem::attemptResult(int attNr) const {
+  if (m_lastUnit && attNr > 0) {
+    QColor attemptColor = GLOB->correctColor();
+    if (m_lastUnit->attempt(attNr - 1)->summary()) { // something was wrong
+      if (m_lastUnit->attempt(attNr - 1)->summary() & TQAunit::e_wrongNote)
+        attemptColor = GLOB->wrongColor();
+      else
+        attemptColor = GLOB->notBadColor();
+    }
+    return QString("<font color=\"%1\">").arg(attemptColor.name())
+    + wasAnswerOKtext(m_lastUnit, attNr).replace(QLatin1String("<br>"), QLatin1String(" "))
+    + QLatin1String("</font>");
+  }
+  return QString();
 }

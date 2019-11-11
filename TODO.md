@@ -20,6 +20,8 @@
       especially list of melodies imported from files which seems to be very important feature
   - music XML import dialog, to select voice or staff if there are more, and so
   - exam summary - give more valuable info, wear it nicely
+  - charts - show preview of entire melody, chart tip is not suitable for it
+  - charts - revert analyzing latest exercise
   - \[Taction\] add common method for creating key shortcuts
   - migrate on preferred 48000 sample rate (ogg files and audio methods). DO NOT forget to resize output samples length
 
