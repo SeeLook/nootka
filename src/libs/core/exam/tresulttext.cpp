@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,7 +19,7 @@
 #include "tresulttext.h"
 #include "tqaunit.h"
 #include "tattempt.h"
-#include <QtWidgets/qapplication.h>
+#include <QtGui/qguiapplication.h>
 
 
     /**
@@ -54,21 +54,20 @@ QString wasAnswerOKtext(TQAunit* answer, int attempt) {
   else
     curQ.setMistake(answer->mistake());
   if (curQ.isCorrect()) {
-    txt += QApplication::translate("AnswerText", "Good answer!", "or 'Good!' or 'Correct!' would be somewhat more specific than merely 'It was good!' (previous version) 'It' in this case certainly does refer to a specific thing, which is in this case the answer, but it might be momentarily confused with some other specific thing, such as a shoe or a crocodile, or the wind on one's back. I know that's probably confusing, but the implied subject of 'Correct! is in a certain sense much more specific than a mere 'It' and is more certain to refer to the answer.");
+    txt += QGuiApplication::translate("AnswerText", "Good answer!", "or 'Good!' or 'Correct!' would be somewhat more specific than merely 'It was good!' (previous version) 'It' in this case certainly does refer to a specific thing, which is in this case the answer, but it might be momentarily confused with some other specific thing, such as a shoe or a crocodile, or the wind on one's back. I know that's probably confusing, but the implied subject of 'Correct! is in a certain sense much more specific than a mere 'It' and is more certain to refer to the answer.");
   } else
       if (curQ.wrongNote() || curQ.wrongPos() || curQ.veryPoor())
-          txt += QApplication::translate("AnswerText", "Wrong answer!");
+          txt += QGuiApplication::translate("AnswerText", "Wrong answer!");
       else {
-          txt += QApplication::translate("AnswerText", "Not bad, but:", "'Not so bad, but:' is perfectly clear, but a little less common in US English. To be a bit shorter, it might just as well be, 'Not bad, but:'") + QLatin1String("<br>");
+          txt += QGuiApplication::translate("AnswerText", "Not bad, but:", "'Not so bad, but:' is perfectly clear, but a little less common in US English. To be a bit shorter, it might just as well be, 'Not bad, but:'") + QLatin1String("<br>");
           QString misMes; // Message with mistakes
           if (curQ.wrongString())
-            misMes = QApplication::translate("AnswerText", "wrong string");
+            misMes = QGuiApplication::translate("AnswerText", "wrong string");
           if (answer->melody() && curQ.littleNotes())
-            misMes = QApplication::translate("AnswerText", "little valid notes", "the amount of correct notes in an answer is little");
+            misMes = QGuiApplication::translate("AnswerText", "little valid notes", "the amount of correct notes in an answer is little");
           if (answer->melody() && curQ.wrongRhythm()) {
             addSpaceToNotEmpty(misMes);
-            newLineText(misMes, QApplication::translate("AnswerText", "incorrect rhythm"));
-//             newLineText(misMes, QApplication::translate("AnswerText", "jerkily"));
+            newLineText(misMes, QGuiApplication::translate("AnswerText", "incorrect rhythm"));
           }
           if (curQ.poorEffect()) {
             addSpaceToNotEmpty(misMes);
@@ -76,27 +75,26 @@ QString wasAnswerOKtext(TQAunit* answer, int attempt) {
               if (!misMes.isEmpty())
                 misMes += QLatin1String("<br>");
 #endif
-              misMes += QApplication::translate("AnswerText", "poor effectiveness");
+              misMes += QGuiApplication::translate("AnswerText", "poor effectiveness");
           }
 
           if (curQ.wrongAccid()) {
-              misMes = QApplication::translate("AnswerText", "wrong accidental");
+              misMes = QGuiApplication::translate("AnswerText", "wrong accidental");
           }
           if (curQ.wrongKey()) {
               addSpaceToNotEmpty(misMes);
-              newLineText(misMes, QApplication::translate("AnswerText", "wrong key signature"));
+              newLineText(misMes, QGuiApplication::translate("AnswerText", "wrong key signature"));
           }
           if (curQ.wrongOctave()) {
               addSpaceToNotEmpty(misMes);
-              newLineText(misMes, QApplication::translate("AnswerText", "wrong octave"));
+              newLineText(misMes, QGuiApplication::translate("AnswerText", "wrong octave"));
           }
           if (curQ.wrongIntonation()) {
               addSpaceToNotEmpty(misMes);
-              newLineText(misMes, QApplication::translate("AnswerText", "out of tune"));
+              newLineText(misMes, QGuiApplication::translate("AnswerText", "out of tune"));
           }
           txt += misMes;
       }
-//   txt += QLatin1String("</span><br>");
   return txt;
 
 }
