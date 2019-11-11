@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2018 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2018-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -26,6 +26,7 @@
 class TtipInfo;
 class TscoreObject;
 class Texam;
+class TQAunit;
 
 
 /**
@@ -34,7 +35,12 @@ class Texam;
  * Depends of TtipInfo::Ekind a bunch of signals is emitted and QML ChartItem is set.
  * @p questionUpdated signal is general type for all kinds of tips (to update tip color and position)
  * @p questionTipUpdated and @p lineTipUpdated() are apparently for question tip and line tip
- * @p showChanged is emitted to inform QML about tip visibility
+ * @p showChanged is emitted when question or bar get/loose hover to inform QML about tip visibility.
+ *
+ * All above is done when just after user holds mouse pointer over some chart item,
+ * but when answer as melody is previewed and attempt number is selected only chart tip has hover.
+ * This is why @p m_lastUnit stores pointer to latest tipped question
+ * and @p attemptDetails(), @p attemptResult(), @p setAttemptNr() are methods available from QML
  */
 class TchartTipItem : public QQuickItem
 {
@@ -52,12 +58,17 @@ class TchartTipItem : public QQuickItem
   Q_PROPERTY(TscoreObject* secondScore READ secondScore WRITE setSecondScore)
   Q_PROPERTY(bool leftScoreVisible READ leftScoreVisible NOTIFY questionTipUpdated)
   Q_PROPERTY(bool rightScoreVisible READ rightScoreVisible NOTIFY questionTipUpdated)
+  Q_PROPERTY(qreal yScoreLeftOff READ yScoreLeftOff NOTIFY questionWasSet)
+  Q_PROPERTY(qreal yScoreRightOff READ yScoreRightOff NOTIFY questionWasSet)
+  Q_PROPERTY(qreal leftScoreHeight READ leftScoreHeight NOTIFY questionWasSet)
+  Q_PROPERTY(qreal rightScoreHeight READ rightScoreHeight NOTIFY questionWasSet)
   Q_PROPERTY(QString questionText READ questionText NOTIFY questionTipUpdated)
   Q_PROPERTY(QString answerText READ answerText NOTIFY questionTipUpdated)
   Q_PROPERTY(QString resultText READ resultText NOTIFY questionTipUpdated)
   Q_PROPERTY(QString timeText READ timeText NOTIFY questionTipUpdated)
   Q_PROPERTY(int tipType READ tipType NOTIFY tipTypeChanged)
   Q_PROPERTY(QString tipText READ tipText NOTIFY lineTipUpdated)
+  Q_PROPERTY(qreal attempts READ attempts NOTIFY questionTipUpdated)
 
 public:
   explicit TchartTipItem(QQuickItem* parent = nullptr);
@@ -74,6 +85,11 @@ public:
   bool rightScoreVisible() const;
   QString questionText() const;
   QString answerText() const;
+  qreal yScoreLeftOff() const;
+  qreal yScoreRightOff() const;
+  qreal leftScoreHeight() const;
+  qreal rightScoreHeight() const;
+  int attempts() const;
 
   TscoreObject* leftScore() { return m_leftScore; }
   void setLeftScore(TscoreObject* ls);
@@ -91,12 +107,18 @@ public:
 
   int tipType() const;
 
+  Q_INVOKABLE void setAttemptNr(int attNr);
+  Q_INVOKABLE QString attemptDetails (int attNr) const;
+  Q_INVOKABLE QString attemptResult (int attNr) const;
+
 signals:
   void examChanged();
   void questionUpdated();
   void questionTipUpdated();
+  void questionWasSet();
   void lineTipUpdated();
   void tipTypeChanged();
+  void attemptTextChanged();
   void showChanged();
 
 private:
@@ -105,6 +127,13 @@ private:
   TscoreObject            *m_secondScore = nullptr;
   Texam                   *m_exam = nullptr;
   int                      m_kindOfTip = -1;
+
+      /**
+       * Pointer to latest hovered unit.
+       * It is valid until new exam is set, but when mouse leaves question point it may not make sense.
+       * So far used only to get melody attempt mistakes
+       */
+  TQAunit                 *m_lastUnit = nullptr;
 };
 
 #endif // TCHARTTIPITEM_H
