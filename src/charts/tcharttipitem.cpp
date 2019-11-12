@@ -73,9 +73,23 @@ QPointF TchartTipItem::pos() const {
 
 
 QString TchartTipItem::qaText() const {
-  return m_question ? qTR("QuestionsBox", "question") + QLatin1String(": <b>") + NOO->qaTypeText(m_question->qaUnit()->questionAs)
-                      + QLatin1String("</b><br>") + qTR("QuestionsBox", "answer") + QLatin1String(": <b>")
-                      + NOO->qaTypeText(m_question->qaUnit()->answerAs) : QString();
+  if (m_question) {
+    if (m_question->qaUnit()->melody()) {
+        QString qaT = qTR("QuestionsBox", "question") + QLatin1String(": <b>");
+        if (m_question->qaUnit()->questionOnScore() && m_question->qaUnit()->answerAsSound())
+          qaT += TexTrans::playMelodyTxt();
+        else if (m_question->qaUnit()->questionAsSound() && m_question->qaUnit()->answerOnScore())
+          qaT += TexTrans::writeMelodyTxt();
+        else
+          return QString();
+        return qaT + QLatin1String("</b>");
+    } else {
+        return qTR("QuestionsBox", "question") + QLatin1String(": <b>") + NOO->qaTypeText(m_question->qaUnit()->questionAs)
+                + QLatin1String("</b><br>") + qTR("QuestionsBox", "answer") + QLatin1String(": <b>")
+                + NOO->qaTypeText(m_question->qaUnit()->answerAs);
+    }
+  }
+  return QString();
 }
 
 

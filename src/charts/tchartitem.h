@@ -106,6 +106,7 @@ public:
   QStringList yValueActions() { return m_yValueActs; }
   QStringList xOrderActions() { return m_xOrderActs; }
   Q_INVOKABLE Taction* loadExamAct() { return m_loadExamAct; }
+  Q_INVOKABLE Taction* exerciseAct() { return m_exerciseAct; }
 
   QString userName() const;
   QString questionCount() const;
@@ -266,7 +267,7 @@ private:
   QList<QObject*>                 m_recentExamsActs;
   int                             m_selectedFileId = -1;
   QList<QObject*>                 m_miscSettModel;
-  Taction                        *m_loadExamAct, *m_inclWrongAct, *m_wrongSeparateAct;
+  Taction                        *m_loadExamAct, *m_exerciseAct = nullptr, *m_inclWrongAct, *m_wrongSeparateAct;
   QStringList                     m_yValueActs;
   QStringList                     m_xOrderActs;
   Tchart                         *m_chart = nullptr;
