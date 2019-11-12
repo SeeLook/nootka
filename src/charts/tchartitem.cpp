@@ -58,6 +58,17 @@ TchartItem::TchartItem(QQuickItem* parent) :
   openShort->setParent(this);
   m_loadExamAct->setShortcut(openShort);
 
+  QString exerciseFile = QDir::toNativeSeparators(QFileInfo(GLOB->config->fileName()).absolutePath() + "/exercise2.noo");
+  if (QFileInfo(exerciseFile).exists()) {
+    Tlevel lev;
+    Texam ex(&lev, QString());
+    ex.loadFromFile(exerciseFile);
+    m_exerciseAct = new Taction(qApp->translate("AnalyzeDialog", "Recent exercise on level")
+                        + QLatin1String(": ") + lev.name, QStringLiteral("practice"), this);
+    m_exerciseAct->setProperty("file", exerciseFile);
+    connect(m_exerciseAct, &Taction::triggered, this, [=]{ loadExam(sender()->property("file").toString()); });
+  }
+
   QStringList recentExams = GLOB->config->value(QStringLiteral("recentExams")).toStringList();
   for (int i = 0; i < recentExams.size(); i++) {
     QFileInfo fi(recentExams[i]);
@@ -378,24 +389,26 @@ void TchartItem::loadExam(const QString& examFile) {
       m_wasExamCreated = true; // delete exam in destructor
       resetChartSettings();
       drawChart();
-      bool foundTheSame = false;
-      for (int e = 0; e < m_recentExamsActs.size(); e++) {
-        if (m_recentExamsActs[e]->property("file").toString() == examFile) {
-          m_selectedFileId = e;
-          emit selectedFileIdChanged();
-          foundTheSame = true;
-          break;
-        }
-      }
-      if (!foundTheSame) {
-        QFileInfo fi(examFile);
-        auto act = new Taction(fi.fileName(), QString(), this);
-        act->setProperty("file", examFile);
-        m_recentExamsActs.prepend(act);
-        connect(act, &Taction::triggered, this, [=]{ loadExam(sender()->property("file").toString()); });
-        emit recentExamsChanged();
-        m_selectedFileId = 0;
-        emit selectedFileIdChanged();
+      if (sender() != m_exerciseAct) {
+          bool foundTheSame = false;
+          for (int e = 0; e < m_recentExamsActs.size(); e++) {
+            if (m_recentExamsActs[e]->property("file").toString() == examFile) {
+              m_selectedFileId = e;
+              foundTheSame = true;
+              break;
+            }
+          }
+          if (!foundTheSame) {
+            QFileInfo fi(examFile);
+            auto act = new Taction(fi.fileName(), QString(), this);
+            act->setProperty("file", examFile);
+            m_recentExamsActs.prepend(act);
+            connect(act, &Taction::triggered, this, [=]{ loadExam(sender()->property("file").toString()); });
+            emit recentExamsChanged();
+            m_selectedFileId = 0;
+          }
+      } else {
+          m_selectedFileId = -1;
       }
   } else {
       delete m_exam;
@@ -407,8 +420,8 @@ void TchartItem::loadExam(const QString& examFile) {
                                                 .replace(QLatin1String(":"), QLatin1String(":<br>"))
                 + QLatin1String("</h4>"));
       m_selectedFileId = -1;
-      emit selectedFileIdChanged();
   }
+  emit selectedFileIdChanged();
 }
 
 

@@ -42,10 +42,7 @@ Drawer {
       Column {
         visible: chartItem.allowOpen
         width: parent.width
-        MenuButton {
-          width: parent.width
-          action: chartItem.loadExamAct()
-        }
+        MenuButton { width: parent.width; action: chartItem.loadExamAct() }
         ListView {
           id: recentList
           width: parent.width; height: Math.min(Noo.fontSize() * 16.8, Noo.fontSize() * count * 2.8) // 6 items visible
@@ -62,7 +59,11 @@ Drawer {
             textColor: containsPress || recentList.currentIndex === index ? activPal.highlightedText : activPal.text
             Rectangle { width: parent.width; height: 1; color: activPal.window; y: parent.height - 1;  }
           }
-          ScrollBar.horizontal: ScrollBar { active: true; visible: true; }
+          ScrollBar.vertical: ScrollBar { active: true; visible: true }
+        }
+        MenuButton {
+          visible: chartItem.exerciseAct(); width: parent.width; action: chartItem.exerciseAct()
+          Rectangle { width: parent.width; height: 1; color: activPal.dimText; y: parent.height - 1;  }
         }
       }
 
