@@ -523,6 +523,8 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 
   emit questionChanged();
   if (curQ->answerAsSound()) {
+      if (curQ->melody() && curQ->melody()->note(0)->p().rhythm() > Trhythm::NoRhythm)
+        SOUND->setQuantization(m_supp->findQuantization(curQ->melody()));
 //       SOUND->prepareAnswer();
       if (curQ->questionAsSound())
           connect(SOUND, &Tsound::plaingFinished, this, &TexamExecutor::sniffAfterPlaying); // sniffing after finished sound

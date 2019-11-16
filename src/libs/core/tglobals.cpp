@@ -648,7 +648,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
 #endif
     A->minDuration = cfg->value(QStringLiteral("minimalDuration"), 0.15).toReal(); // 150 ms
     setMidAfreq(cfg->value(QStringLiteral("midAfreq"), 440).toInt());
-    A->intonation = (quint8)qBound(0, cfg->value(QStringLiteral("intonation"), 3).toInt(), 5);
+    A->intonation = static_cast<quint8>(qBound(0, cfg->value(QStringLiteral("intonation"), 3).toInt(), 5));
     A->forwardInput = cfg->value(QStringLiteral("forwardInput"), false).toBool();
     A->equalLoudness = cfg->value(QStringLiteral("equalLoudness"), true).toBool();
     A->minSplitVol = cfg->value(QStringLiteral("minVolumeToSplit"), 10.0).toReal();
@@ -657,6 +657,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
     A->stoppedByUser = cfg->value(QStringLiteral("stoppedByUser"), false).toBool();
     A->audibleMetro = cfg->value(QStringLiteral("audibleMetro"), false).toBool();
     A->countBefore = cfg->value(QStringLiteral("countBefore"), false).toBool();
+    A->quantization = cfg->value(QStringLiteral("quantization"), 6).toInt();
   cfg->endGroup();
 
 //   cfg->beginGroup(QLatin1String("layout"));
@@ -847,6 +848,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue(QStringLiteral("stoppedByUser"), A->stoppedByUser);
       cfg->setValue(QStringLiteral("audibleMetro"), A->audibleMetro);
       cfg->setValue(QStringLiteral("countBefore"), A->countBefore);
+      cfg->setValue(QStringLiteral("quantization"), A->quantization);
 #if !defined (Q_OS_ANDROID)
       cfg->setValue(QLatin1String("dumpPath"), A->dumpPath);
 #endif

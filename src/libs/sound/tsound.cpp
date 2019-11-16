@@ -59,6 +59,8 @@ Tsound::Tsound(QObject* parent) :
   qRegisterMetaType<Tchunk>("Tchunk");
   qRegisterMetaType<TnoteStruct>("TnoteStruct");
   qmlRegisterType<TtickColors>("Nootka", 1, 0, "TtickColors");
+
+  setQuantization(GLOB->A->quantization);
 }
 
 Tsound::~Tsound()
@@ -320,10 +322,13 @@ void Tsound::runMetronome(int preTicksNr) {
 
 /**
  * @p m_quantVal is expressed in @p Trhythm duration of: Sixteenth triplet -> 4 or just Sixteenth -> 6 or Eighth -> 12
+ * TODO: Triplets are not yet supported, so enable the code when they will be...
  */
 void Tsound::setQuantization(int q) {
-  if ((q == 4 || q == 6 || q == 12) && q != m_quantVal) {
+  if ((/*q == 4 || */q == 6 || q == 12) && q != m_quantVal) {
     m_quantVal = q;
+    GLOB->A->quantization = m_quantVal;
+    emit quantizationChanged();
   }
 }
 
