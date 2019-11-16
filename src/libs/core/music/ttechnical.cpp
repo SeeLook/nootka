@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2018 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2018-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -87,7 +87,7 @@ void Ttechnical::fromXml(QXmlStreamReader& xml) {
   if (s > 0 && s < 7)
     m_fingerPos.setPos(s, f == 50 ? 0 : f); // set fret to 0 if its value was not set
   else
-    m_fingerPos.setData(255); // invalid
+    m_fingerPos.setData(NO_TECHNICALS); // invalid
 }
 
 

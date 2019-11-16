@@ -645,7 +645,7 @@ int TnootkaQML::selectedNoteId() const {
 
 
 int TnootkaQML::getTechicalFromScore() {
-  quint32 technical = 255; // empty by default
+  quint32 technical = NO_TECHNICALS; // empty by default
   if (GLOB->instrument().type() == Tinstrument::Bandoneon && m_scoreObject->selectedItem()) {
     auto selectedSegment = m_scoreObject->noteSegment(m_scoreObject->selectedItem()->index());
     Ttechnical dataToSet = selectedSegment->technical();

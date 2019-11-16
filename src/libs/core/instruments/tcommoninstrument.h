@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,6 +22,7 @@
 
 #include "nootkacoreglobal.h"
 #include "music/tnote.h"
+#include "music/ttechnical.h"
 #include <QtQuick/qquickpainteditem.h>
 
 
@@ -53,7 +54,7 @@ public:
   QQuickItem* goodItem() { return p_goodItem; }
 
   Tnote note() const { return p_note; }
-  virtual void setNote(const Tnote& n, quint32 noteDataValue = 255) = 0;
+  virtual void setNote(const Tnote& n, quint32 noteDataValue = NO_TECHNICALS) = 0;
 
       /**
        * @p noteData is extra information about note needed for some instruments (guitars, bandoneon).

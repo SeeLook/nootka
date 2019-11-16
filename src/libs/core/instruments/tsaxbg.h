@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -45,13 +45,13 @@ public:
   TsaxBg(QQuickItem* parent = nullptr);
   ~TsaxBg();
 
-  void setNote(const Tnote& n, quint32 noteDataValue = 255) override;
+  void setNote(const Tnote& n, quint32 noteDataValue = NO_TECHNICALS) override;
 
   void askQuestion(const Tnote& n, quint32 noteDataValue) override;
 
   void highlightAnswer(const Tnote&, quint32) override {}
 
-  int technical() override { return 0; } // Fake - saxophone has no extra note data
+  int technical() override { return NO_TECHNICALS; } // Fake - saxophone has no extra note data
 
   int flapNumber() const { return m_flapNumber; }
 

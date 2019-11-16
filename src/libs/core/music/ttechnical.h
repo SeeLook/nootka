@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2018 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2018-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -28,6 +28,8 @@
 #define ON_UPPER (1) // first bit
 #define BOW_DIRECTION (6) // 2nd and 3rd bits
 #define FINGERING (56) // 4th to 6th bits
+
+#define NO_TECHNICALS (255) // 255 means that there is no any technical information
 
 
 /**
@@ -59,7 +61,7 @@ public:
       /**
        * Resets all extra note parameters to null
        */
-  void reset() { m_fingerPos.setData(255); m_otherData = 0; }
+  void reset() { m_fingerPos.setData(NO_TECHNICALS); m_otherData = 0; }
 
   TfingerPos& fingerPos() { return m_fingerPos; }
   void setFingerPos(TfingerPos fp) { m_fingerPos.setData(fp.data()); }
