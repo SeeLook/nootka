@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -210,6 +210,12 @@ public:
        * It is calculated when bar number is variable and the value increases as exam/exercise is progressing
        */
   int getBarNumber(int questNr, int penallNr);
+
+      /**
+       * Looks for shortest rhythmic value in given melody to determine optimal quantization value.
+       * So far supported are 6 (16th) and 12 (8th)
+       */
+  int findQuantization(Tmelody* m);
 
 signals:
   void rightButtonClicked();

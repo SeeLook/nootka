@@ -8,7 +8,7 @@
 ============================================================================
 
 ### For incoming stable release version 2.0
-  - during exams automatically adjust quantization according to melody shortest rhythm
+  - There is no right mouse button to check/ask question - do we need that???
   - fix detecting last note duration in exercises/exams
   - randomly generated melodies have no rests yet, but see below for a reason
   - add an option to skip rests (pitch detection gaps) and treat their duration as previous note was longer

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,7 +21,8 @@
 #include <taudioparams.h>
 #include <tscoreparams.h>
 #include <exam/tlevel.h>
-#include <tlayoutparams.h>
+#include <tsound.h>
+// #include <tlayoutparams.h>
 
 
 
@@ -49,9 +50,10 @@ void TglobalExamStore::storeSettings() {
   namesOnScore = m_globals->S->namesOnScore;
   OUTenabled = m_globals->A->OUTenabled;
   INenabled = m_globals->A->INenabled;
-  showSoundView = m_globals->L->soundViewEnabled;
-  showGuitar = m_globals->L->guitarEnabled;
+//   showSoundView = m_globals->L->soundViewEnabled;
+//   showGuitar = m_globals->L->guitarEnabled;
   enableRhythms = m_globals->rhythmsEnabled();
+  quantization = SOUND->quantization();
 }
 
 
@@ -75,6 +77,7 @@ void TglobalExamStore::restoreSettings() {
   m_globals->A->INenabled = INenabled;
   m_globals->A->OUTenabled = OUTenabled;
   m_globals->setRhythmsEnabled(enableRhythms);
+  SOUND->setQuantization(quantization);
 //   m_globals->L->soundViewEnabled = showSoundView;
 //   m_globals->L->guitarEnabled = showGuitar;
 }

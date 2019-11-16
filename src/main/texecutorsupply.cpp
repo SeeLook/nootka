@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -819,6 +819,18 @@ int TexecutorSupply::getBarNumber(int questNr, int penallNr) {
   return m_level->barNumber;
 }
 
+
+int TexecutorSupply::findQuantization(Tmelody* m) {
+  int q = 12;
+  for (int n = 0; n < m->length(); ++n) {
+    // Look for duration less than 12 (8th), then return quantization of 6 (16th)
+    if (m->note(n)->p().duration() < 12) {
+      q = 6;
+      break;
+    }
+  }
+  return q;
+}
 
 
 //##########################################################################################

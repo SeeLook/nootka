@@ -118,6 +118,7 @@ Popup {
     Item {
       anchors.horizontalCenter: parent.horizontalCenter
       width: parent.width; height: radioRow.height
+      enabled: !executor
       MouseArea {
         anchors.fill: parent; hoverEnabled: true
         onEntered: Noo.setStatusTip(qsTr("Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy."), Item.TopLeft)

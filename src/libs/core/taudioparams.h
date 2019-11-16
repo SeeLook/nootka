@@ -47,6 +47,7 @@ public:
   bool    stoppedByUser; /**< Stores user action when he stopped sniffing himself @default FALSE */
   bool    audibleMetro; /**< Audible metronome ticking */
   bool    countBefore; /**< Before playing or sniffing play a measure of ticking */
+  int     quantization; /**< Can be 6 or 12 (rhythmic duration of 16th or 8th), 4 (16th triplet is not yet supported) */
 
       /**
        * multiplexer of sound volume (aka %)
