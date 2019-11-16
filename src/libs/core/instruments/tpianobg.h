@@ -46,13 +46,13 @@ public:
   qreal keyWidth() const { return m_keyWidth; }
   void setKeyWidth(qreal kw);
 
-  void setNote(const Tnote& n, quint32 noteDataValue = 255) override;
+  void setNote(const Tnote& n, quint32 noteDataValue = NO_TECHNICALS) override;
 
   void askQuestion(const Tnote& n, quint32 noteDataValue) override;
 
   void highlightAnswer(const Tnote&, quint32) override {}
 
-  int technical() override { return 0; } // Fake - piano has no extra note data
+  int technical() override { return NO_TECHNICALS; } // Fake - piano has no extra note data
 
   int firstOctave() const { return static_cast<int>(m_firstOctave); }
   void setFirstOctave(int firstO);
