@@ -12,7 +12,6 @@
   - fix detecting last note duration in exercises/exams
   - randomly generated melodies have no rests yet, but see below for a reason
   - add an option to skip rests (pitch detection gaps) and treat their duration as previous note was longer
-  - manual adding/editing ties
   - finish tuner, functionality similar to Android one (show tuning, middle A freq)
   - level creator:
     - question page icon might change depends on is there single note or a melody
@@ -21,7 +20,6 @@
   - music XML import dialog, to select voice or staff if there are more, and so
   - exam summary - give more valuable info, wear it nicely
   - charts - show preview of entire melody, chart tip is not suitable for it
-  - charts - revert analyzing latest exercise
   - \[Taction\] add common method for creating key shortcuts
   - migrate on preferred 48000 sample rate (ogg files and audio methods). DO NOT forget to resize output samples length
 

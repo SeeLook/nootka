@@ -36,7 +36,7 @@ Tmenu {
     }
   }
 
-  property var rGlyphs: [ "#", "b", "C", "D", "E", "F", "G", "\ue109", "." ]
+  property var rGlyphs: [ "#", "b", "C", "D", "E", "F", "G", "\ue109", ".", "\ue18c" ]
   Loader { id: notesLoader; sourceComponent: notesComp; active: false }
   Component {
     id: notesComp
@@ -50,6 +50,7 @@ Tmenu {
           padding: 0
           width: menu.width
           contentItem: MenuButton {
+            id: mb
             action: modelData
             onClicked: close()
             Rectangle { width: parent.width; height: index === score.noteActions.length - 1 ? 0 : 1; color: activPal.text; y: parent.height - 1 }
@@ -58,6 +59,8 @@ Tmenu {
               color: activPal.text
               x: (Noo.fontSize() * 3.2 - width) / 2; anchors.verticalCenter: parent.verticalCenter
               font { pixelSize: Noo.fontSize() * 1.5; family: "nootka"; }
+              scale: GLOB.useAnimations && !mb.containsPress && mb.containsMouse ? 1.4 : 1.0
+              Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
             }
           }
         }

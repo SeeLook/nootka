@@ -420,6 +420,7 @@ public:
   Taction* dotNoteAct() { return m_dotNoteAct; }
   Taction* riseAct() { return m_riseAct; }
   Taction* lowerAct() { return m_lowerAct; }
+  Taction* tieAct() { return m_tieAct; }
 
   Q_INVOKABLE void enableActions();
 
@@ -435,6 +436,15 @@ public:
   QQmlEngine* qmlEngine() { return m_qmlEngine; }
 
   TclefOffset clefOffset() const { return m_clefOffset; }
+
+      /**
+       * Connects or disconnects selected note (if any) with previous one if their pitches are the same.
+       * Set/unset ties, emits @p hasTieChanged() to inform score toolbox.
+       * Checks alters of all affected notes (adding tie on measure beginning changes the rule of displaying alter)
+       * Fit staff if necessary.
+       * Adds/removes extra tie at the staff beginning when needed
+       */
+  Q_INVOKABLE void checkTieOfSelected();
 
 signals:
   void meterChanged();
@@ -703,6 +713,7 @@ private:
   Taction                          *m_insertNoteAct = nullptr;
   Taction                          *m_riseAct = nullptr;
   Taction                          *m_lowerAct = nullptr;
+  Taction                          *m_tieAct = nullptr;
 
 };
 
