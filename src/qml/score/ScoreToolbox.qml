@@ -20,7 +20,7 @@ ControlBase {
 
   property string rhythmText: Noo.rhythmText(scoreObj.workRhythm)
   property bool triplet: false
-  property bool tie: false
+  property bool tie: scoreObj.selectedItem && scoreObj.selectedItem.hasTie
 
   // Accidentals
   property int selectedId: idArray[scoreObj.cursorAlter + 2]
@@ -87,7 +87,7 @@ ControlBase {
         Loader { // triplet
           id: tripLoad
           sourceComponent: ctrlButtonComp
-          onLoaded: { item.rhythm = 0; item.text = "\u0183"; item.enabled = false }
+          onLoaded: { item.rhythm = 0; item.text = " " /*"\u0183"*/ }
           Binding { target: tripLoad.item; property: "selected"; value: toolbox.triplet }
 //           Connections {
 //             target: tripLoad.item
@@ -108,17 +108,23 @@ ControlBase {
       }
 
       ControlButton { // tie
-        visible: false //score.meter !== Tmeter.NoMeter
+        visible: score.meter !== Tmeter.NoMeter
         anchors.horizontalCenter: parent.horizontalCenter
-        factor: toolbox.factor * 1.2
+        factor: toolbox.factor
         selected: toolbox.tie
-        height: factor * 1.5
-        yOffset: factor * -2.2
+        height: factor * 1.5; width: factor * 2.7
+        yOffset: factor * -2.3
         font { family: "nootka"; pointSize: factor * 3.6 }
         text: "\ue18c"
-//         onClicked: toolbox.tie = !selected
-        onEntered: hideTimer.stop()
-        onExited: hideTimer.restart()
+        onClicked: scoreObj.checkTieOfSelected()
+        onEntered: {
+          hideTimer.stop()
+          Noo.setStatusTip(qsTr("Tie - connect or disconnect selected note with previous one if both notes have the same pitch.") + "<br><b>(L)</b>", Item.Top)
+        }
+        onExited: {
+          hideTimer.restart()
+          Noo.setStatusTip("", Item.Top)
+        }
       }
 
       Rectangle { visible: scoreObj.enableTechnical; width: toolbox.width; height: 1; color: activPal.text }

@@ -30,7 +30,7 @@ Rectangle {
 
   Text {
     id: txt
-    x: (factor * 2 - width) / 2
+    x: (cb.width - width) / 2
     height: factor * 3
     style: Text.Normal
     color: cb.enabled ? activPal.text : disdPal.text

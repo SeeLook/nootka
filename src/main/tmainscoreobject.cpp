@@ -146,7 +146,7 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
   m_scoreActions << m_scoreObj->insertNoteAct() << m_scoreObj->deleteNoteAct() << m_scoreObj->clearScoreAct() << m_notesMenuAct;
   m_noteActions << m_scoreObj->riseAct() << m_scoreObj->lowerAct()
                 << m_scoreObj->wholeNoteAct() << m_scoreObj->halfNoteAct() << m_scoreObj->quarterNoteAct() << m_scoreObj->eighthNoteAct()
-                << m_scoreObj->sixteenthNoteAct() << m_scoreObj->restNoteAct() << m_scoreObj->dotNoteAct();
+                << m_scoreObj->sixteenthNoteAct() << m_scoreObj->restNoteAct() << m_scoreObj->dotNoteAct() << m_scoreObj->tieAct();
 
   connect(m_nextNoteAct, &Taction::triggered, [=]{
     if (!GLOB->isSingleNote()) {

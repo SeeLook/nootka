@@ -1083,6 +1083,12 @@ void TscoreObject::enableActions() {
     m_lowerAct = new Taction(tr("lower", "as such as flats lower note"), QStringLiteral("tipbg"), this);
     connect(m_lowerAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
     m_lowerAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"@\""));
+
+    m_tieAct = new Taction(QGuiApplication::translate("ScoreToolbox", "tie",
+                                                      "To translate it properly, check please meaning of 'tie' in musical context."),
+                           QStringLiteral("tipbg"), this);
+    connect(m_tieAct, &Taction::triggered, this, &TscoreObject::checkTieOfSelected);
+    m_tieAct->setShortcut(createQmlShortcut(m_qmlComponent, "\"l\""));
   }
 }
 
@@ -1150,6 +1156,54 @@ void TscoreObject::handleNoteAction() {
           setCursorAlter(-2); // set double flat
         else
           setCursorAlter(0); // or none
+    }
+  }
+}
+
+
+void TscoreObject::checkTieOfSelected() {
+  if (m_selectedItem && m_selectedItem->index() > 0) {
+    auto prevNote = m_segments[m_selectedItem->index() - 1];
+    auto n = *m_selectedItem->note();
+    if (m_selectedItem->note()->rtm.tie() > Trhythm::e_tieStart) { // disconnect
+        prevNote->disconnectTie(TnotePair::e_untiePrev);
+        n.rtm.setTie(n.rtm.tie() == Trhythm::e_tieEnd ? Trhythm::e_noTie : Trhythm::e_tieStart);
+        m_selectedItem->wrapper()->setNote(n);
+        emit m_selectedItem->hasTieChanged();
+        if (m_selectedItem->staff()->firstNote()->item() == m_selectedItem)
+          m_selectedItem->staff()->deleteExtraTie();
+    } else {
+        if (!m_selectedItem->note()->isRest() && m_selectedItem->note()->chromatic() == prevNote->note()->chromatic()) {
+          n.rtm.setTie(n.rtm.tie() == Trhythm::e_noTie ? Trhythm::e_tieEnd : Trhythm::e_tieCont);
+          m_selectedItem->wrapper()->setNote(n);
+          auto pn = *prevNote->note();
+          pn.rtm.setTie(pn.rtm.tie() == Trhythm::e_noTie ? Trhythm::e_tieStart : Trhythm::e_tieCont);
+          prevNote->setNote(pn);
+          emit m_selectedItem->hasTieChanged();
+          if (m_selectedItem->staff()->firstNote()->item() == m_selectedItem)
+            m_selectedItem->staff()->createExtraTie(m_selectedItem);
+        }
+    }
+    auto notesForAlterCheck = tieRange(prevNote->item());
+    bool fitStaff = false;
+    auto measureToRefresh = m_segments[notesForAlterCheck.x()]->item()->measure();
+    notesForAlterCheck.setX(m_segments[notesForAlterCheck.x()]->item()->measure()->firstNoteId());
+    notesForAlterCheck.setY(m_segments[notesForAlterCheck.y()]->item()->measure()->lastNoteId());
+    for (int i = notesForAlterCheck.x(); i <= notesForAlterCheck.y(); ++i) {
+      if (m_segments[i]->note()->note() == n.note()) {
+        fitStaff = true;
+        m_segments[i]->item()->updateAlter();
+      }
+      if (m_segments[i]->item()->measure() != measureToRefresh) {
+        measureToRefresh->refresh();
+        measureToRefresh = m_segments[i]->item()->measure();
+      }
+    }
+    measureToRefresh->refresh();
+    if (fitStaff) {
+      m_segments[notesForAlterCheck.x()]->item()->staff()->fit();
+      if (m_segments[notesForAlterCheck.y()]->item()->staff() != m_segments[notesForAlterCheck.x()]->item()->staff())
+        m_segments[notesForAlterCheck.y()]->item()->staff()->fit();
     }
   }
 }
