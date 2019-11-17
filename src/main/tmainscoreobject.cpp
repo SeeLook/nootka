@@ -93,15 +93,15 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
   m_notesMenuAct = new Taction(tr("notes", "musical notes of course") + QStringLiteral("   ⋮"), QStringLiteral("score"), this);
 
   QQmlComponent actionsComp(NOO->qmlEngine(), this);
-  m_openXmlAct->setShortcut(createQmlShortcut(&actionsComp, "StandardKey.Open; enabled: !GLOB.singleNoteMode && !GLOB.isExam"));
-  m_saveXmlAct->setShortcut(createQmlShortcut(&actionsComp, "StandardKey.Save; enabled: !GLOB.singleNoteMode && !GLOB.isExam"));
-  m_zoomOutAct->setShortcut(createQmlShortcut(&actionsComp, "StandardKey.ZoomOut; enabled: !GLOB.singleNoteMode"));
-  m_zoomInAct->setShortcut(createQmlShortcut(&actionsComp, "StandardKey.ZoomIn; enabled: !GLOB.singleNoteMode"));
-  m_playAct->setShortcut(createQmlShortcut(&actionsComp, "\" \"; enabled: !GLOB.singleNoteMode && !GLOB.isExam"));
-  m_recModeAct->setShortcut(createQmlShortcut(&actionsComp, "\"Ctrl+ \"; enabled: !GLOB.singleNoteMode && !GLOB.isExam"));
-  m_randMelodyAct->setShortcut(createQmlShortcut(&actionsComp, "\"Ctrl+M\"; enabled: !GLOB.singleNoteMode && !GLOB.isExam"));
-  m_nextNoteAct->setShortcut(createQmlShortcut(&actionsComp, "StandardKey.MoveToNextChar"));
-  m_prevNoteAct->setShortcut(createQmlShortcut(&actionsComp, "StandardKey.MoveToPreviousChar"));
+  m_openXmlAct->createQmlShortcut(&actionsComp, "StandardKey.Open; enabled: !GLOB.singleNoteMode && !GLOB.isExam");
+  m_saveXmlAct->createQmlShortcut(&actionsComp, "StandardKey.Save; enabled: !GLOB.singleNoteMode && !GLOB.isExam");
+  m_zoomOutAct->createQmlShortcut(&actionsComp, "StandardKey.ZoomOut; enabled: !GLOB.singleNoteMode");
+  m_zoomInAct->createQmlShortcut(&actionsComp, "StandardKey.ZoomIn; enabled: !GLOB.singleNoteMode");
+  m_playAct->createQmlShortcut(&actionsComp, "\" \"; enabled: !GLOB.singleNoteMode && !GLOB.isExam");
+  m_recModeAct->createQmlShortcut(&actionsComp, "\"Ctrl+ \"; enabled: !GLOB.singleNoteMode && !GLOB.isExam");
+  m_randMelodyAct->createQmlShortcut(&actionsComp, "\"Ctrl+M\"; enabled: !GLOB.singleNoteMode && !GLOB.isExam");
+  m_nextNoteAct->createQmlShortcut(&actionsComp, "StandardKey.MoveToNextChar");
+  m_prevNoteAct->createQmlShortcut(&actionsComp, "StandardKey.MoveToPreviousChar");
 
   connect(qApp, &QGuiApplication::paletteChanged, this, &TmainScoreObject::paletteSlot);
 
@@ -569,20 +569,6 @@ void TmainScoreObject::checkSingleNoteVisibility() {
     m_scoreObj->note(2)->setVisible(!GLOB->isExam() && GLOB->showEnharmNotes() && GLOB->enableDoubleAccids());
     m_scoreObj->setNote(0, m_scoreObj->noteAt(0)); // refresh
   }
-}
-
-
-QObject* TmainScoreObject::createQmlShortcut(QQmlComponent* qmlComp, const char* key) {
-  std::string d = "import QtQuick 2.9; Shortcut { sequence: ";
-  d.append(key);
-  d.append(" }");
-  qmlComp->setData(d.c_str(), QUrl());
-  auto shortcut = qmlComp->create(qmlContext(this));
-  if (shortcut)
-    shortcut->setParent(this);
-  else
-    qDebug() << "[TmainScoreObject] Can't create shortcut";
-  return shortcut;
 }
 
 

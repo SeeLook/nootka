@@ -53,12 +53,8 @@ TstartExamItem::TstartExamItem(QQuickItem* parent) :
   connect(loadExamAct, &Taction::triggered, this, &TstartExamItem::examFromFileDialog);
   QQmlEngine e;
   QQmlComponent c(&e, this);
-  c.setData("import QtQuick 2.9; Shortcut { sequence: StandardKey.Open }", QUrl());
-  auto openShort = c.create();
-  openShort->setParent(this);
-  loadExamAct->setShortcut(openShort);
+  loadExamAct->createQmlShortcut(&c, "StandardKey.Open");
   m_recentModel << loadExamAct;
-//   m_examMenu->addSeparator();
 //   m_examMenu->addAction(tr("recent opened exams:"));
 
   const QString recentExams(QStringLiteral("recentExams"));

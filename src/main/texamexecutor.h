@@ -231,7 +231,6 @@ private:
        * otherwise return @p FALSE
        */
   bool castLevelFromQVariant(const QVariant& v);
-  QObject* createQmlShortcut(QQmlComponent* qmlComp);
 
 private:
 

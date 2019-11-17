@@ -1192,14 +1192,12 @@ void TexamExecutor::createActions() {
   m_repeatQuestAct = new Taction(QApplication::translate("TtoolBar", "Repeat", "like a repeat question"), QStringLiteral("prevQuest"), this, false);
   connect(m_repeatQuestAct, &Taction::triggered, this, &TexamExecutor::repeatQuestion);
   m_examActions.append(m_repeatQuestAct);
-  actionsComp.setData("import QtQuick 2.9; Shortcut { sequence: \"Backspace\" }", QUrl());
-  m_repeatQuestAct->setShortcut(createQmlShortcut(&actionsComp));
+  m_repeatQuestAct->createQmlShortcut(&actionsComp, "\"Backspace\"");
   m_repeatQuestAct->setTip(tr("repeat previous question (backspace)").replace(QLatin1String("("), QLatin1String("<br>(")), QQuickItem::TopRight);
   m_nextQuestAct = new Taction(QApplication::translate("TtoolBar", "Next", "like a next question"), QStringLiteral("nextQuest"), this);
   m_examActions.append(m_nextQuestAct);
   connect(m_nextQuestAct, &Taction::triggered, this, &TexamExecutor::askQuestionSlot);
-  actionsComp.setData("import QtQuick 2.9; Shortcut { sequence: \"Space\" }", QUrl());
-  m_nextQuestAct->setShortcut(createQmlShortcut(&actionsComp));
+  m_nextQuestAct->createQmlShortcut(&actionsComp, "\"Space\"");
   m_nextQuestAct->setTip(tr("next question\n(space %1)").arg(TexamHelp::orRightButtTxt()).replace(QLatin1String("\n"), QLatin1String("<br>")), QQuickItem::TopRight);
   if (m_level.questionAs.isSound()) {
     if (m_level.answersAs[TQAtype::e_asSound].isOnScore()) {
@@ -1207,15 +1205,13 @@ void TexamExecutor::createActions() {
       m_examActions.append(m_tuningForkAct);
       m_tuningForkAct->setTip(tr("Play <i>middle a</i> like a tuning fork.\n(Press key 'a')").replace(QLatin1String("\n"), QLatin1String("<br>")), QQuickItem::TopRight);
       connect(m_tuningForkAct, &Taction::triggered, this, &TexamExecutor::playMiddleA);
-      actionsComp.setData("import QtQuick 2.9; Shortcut { sequence: \"a\" }", QUrl());
-      m_tuningForkAct->setShortcut(createQmlShortcut(&actionsComp));
-      actionsComp.setData("import QtQuick 2.9; Shortcut { sequence: \"Space\" }", QUrl()); // revert space key for shortcut
+      m_tuningForkAct->createQmlShortcut(&actionsComp, "\"a\"");
     }
     m_playAgainAct = new Taction(QApplication::translate("TtoolBar", "Play"), QStringLiteral("playMelody"), this, false);
     m_examActions.append(m_playAgainAct);
     m_playAgainAct->setTip(tr("play sound again") + QStringLiteral("<br>(") +
           TexamHelp::pressSpaceKey().replace(QStringLiteral("<b>"), QStringLiteral(" ")).replace(QStringLiteral("</b>"), QStringLiteral(")")), QQuickItem::TopRight);
-    m_playAgainAct->setShortcut(createQmlShortcut(&actionsComp)); // Space key
+    m_playAgainAct->createQmlShortcut(&actionsComp, "\"Space\"");
     connect(m_playAgainAct, &Taction::triggered, this, &TexamExecutor::repeatSound);
     connect(SOUND, &Tsound::playingChanged, this, [=]{
       m_playAgainAct->setIconTag(SOUND->melodyIsPlaying() ? QStringLiteral("stopMelody") : QStringLiteral("playMelody"));
@@ -1226,20 +1222,18 @@ void TexamExecutor::createActions() {
     m_examActions.append(m_newAtemptAct);
     connect(m_newAtemptAct, &Taction::triggered, this, &TexamExecutor::newAttempt);
     m_newAtemptAct->setTip(tr("Try this melody once again. (backspace)").replace(QLatin1String("("), QLatin1String("<br>(")), QQuickItem::TopRight);
-    actionsComp.setData("import QtQuick 2.9; Shortcut { sequence: \"Backspace\" }", QUrl());
-    m_newAtemptAct->setShortcut(createQmlShortcut(&actionsComp));
+    m_newAtemptAct->createQmlShortcut(&actionsComp, "\"Backspace\"");
   }
   m_checkQuestAct = new Taction(QApplication::translate("TtoolBar", "Check", "like a check answer"), QStringLiteral("check"), this, false);
   m_examActions.append(m_checkQuestAct);
   connect(m_checkQuestAct, &Taction::triggered, this, &TexamExecutor::checkAnswerSlot);
-  actionsComp.setData("import QtQuick 2.9; Shortcut { sequence: \"Return\" }", QUrl());
-  m_checkQuestAct->setShortcut(createQmlShortcut(&actionsComp));
+  m_checkQuestAct->createQmlShortcut(&actionsComp, "\"Return\"");
   m_checkQuestAct->setTip(tr("check answer\n(enter %1)").arg(TexamHelp::orRightButtTxt()).replace(QLatin1String("\n"), QLatin1String("<br>")), QQuickItem::TopRight);
   if (m_exercise) {
     m_correctAct = new Taction(QApplication::translate("TtoolBar", "Correct", "like a correct answer with mistake"), QStringLiteral("correct"), this, false);
     m_examActions.append(m_correctAct);
     connect(m_correctAct, &Taction::triggered, this, &TexamExecutor::correctAnswer);
-    m_correctAct->setShortcut(createQmlShortcut(&actionsComp)); // Enter (Return) key
+    m_correctAct->createQmlShortcut(&actionsComp, "\"Return\"");
     m_correctAct->setTip(tr("correct answer\n(enter)").replace(QLatin1String("\n"), QLatin1String("<br>")), QQuickItem::TopRight);
   }
   emit examActionsChanged();
@@ -1838,17 +1832,6 @@ bool TexamExecutor::castLevelFromQVariant(const QVariant& v) {
       return false;
   }
 }
-
-
-QObject* TexamExecutor::createQmlShortcut(QQmlComponent* qmlComp) {
-  auto shortcut = qmlComp->create(qmlContext(this));
-  if (shortcut)
-    shortcut->setParent(this);
-  else
-    qDebug() << "[TexamExecutor] Can't create shortcut";
-  return shortcut;
-}
-
 
 //#################################################################################################
 //###################                QML               ############################################

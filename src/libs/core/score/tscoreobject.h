@@ -638,8 +638,6 @@ private:
   void fitToRange(Tnote& n);
   void resetNoteItem(TnoteItem* noteItem);
 
-  QObject* createQmlShortcut(QQmlComponent* qmlComp, const char* key);
-
       /**
        * Removes the last measure, returns @p TRUE if staff was also removed
        */

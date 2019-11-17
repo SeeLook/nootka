@@ -50,13 +50,8 @@ TchartItem::TchartItem(QQuickItem* parent) :
   GLOB->config->endGroup();
   m_loadExamAct = new Taction(TexTrans::loadExamFileTxt(), QStringLiteral("nootka-exam"), this);
   connect(m_loadExamAct, &Taction::triggered, this, &TchartItem::getExamFileSlot);
-  //TODO create common method in Taction for creating shortcut
-  QQmlEngine e;
-  QQmlComponent c(&e, this);
-  c.setData("import QtQuick 2.9; Shortcut { sequence: StandardKey.Open }", QUrl());
-  auto openShort = c.create();
-  openShort->setParent(this);
-  m_loadExamAct->setShortcut(openShort);
+  QQmlComponent c(NOO->qmlEngine(), this);
+  m_loadExamAct->createQmlShortcut(&c, "StandardKey.Open");
 
   QString exerciseFile = QDir::toNativeSeparators(QFileInfo(GLOB->config->fileName()).absolutePath() + "/exercise2.noo");
   if (QFileInfo(exerciseFile).exists()) {
