@@ -49,6 +49,7 @@ class NOOTKACORE_EXPORT TnoteItem : public QQuickItem
   Q_PROPERTY(int index READ index)
   Q_PROPERTY(TstaffItem* staffItem READ staff)
   Q_PROPERTY(qreal rightX READ rightX NOTIFY rightXChanged)
+  Q_PROPERTY(bool hasTie READ hasTie NOTIFY hasTieChanged)
 
   friend class TscoreObject;
   friend class TstaffItem;
@@ -100,6 +101,8 @@ public:
        * shortcut to X coordinate of right note corner plus gap related to rhythm and staff gap factor
        */
   qreal rightX() const;
+
+  bool hasTie() const;
 
   void setHeight(qreal hh);
 
@@ -158,6 +161,7 @@ signals:
   void notePosYchanged();
   void alterWidthChanged();
   void rightXChanged();
+  void hasTieChanged();
 
 protected:
   QString getAccidText();
@@ -209,7 +213,6 @@ private:
   QQuickItem                  *m_head, *m_alter, *m_stem, *m_flag;
   QVector<QQuickItem*>         m_upLines, m_loLines, m_underLoLines;
   qreal                        m_stemHeight;
-  QString                      m_accidText;
   QQuickItem                  *m_tie = nullptr;
   QQuickItem                  *m_name = nullptr;
   QQuickItem                  *m_stringNumber = nullptr;
