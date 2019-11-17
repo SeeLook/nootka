@@ -173,8 +173,6 @@ protected:
   QColor scoreBackgroundColor(const QColor& c, int alpha);
   void checkSingleNoteVisibility();
 
-  QObject* createQmlShortcut(QQmlComponent* qmlComp, const char* key);
-
   void checkExtraStaves();
 
   protected slots:

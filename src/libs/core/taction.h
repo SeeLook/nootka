@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,6 +23,8 @@
 #include <nootkacoreglobal.h>
 #include <QtCore/qobject.h>
 
+
+class QQmlComponent;
 
 /**
  * Describes action (icon, text, checked).
@@ -68,7 +70,7 @@ public:
   void setChecked(bool ch);
 
   QObject* shortcut() { return m_shortcut; }
-  void setShortcut (QObject* s);
+  void setShortcut(QObject* s);
 
   bool enabled() const { return m_enabled; }
   void setEnabled(bool e);
@@ -79,7 +81,17 @@ public:
   void shake() { emit shakeButton(); }
 
   Q_INVOKABLE void trigger();
-  Q_INVOKABLE QString key();
+  Q_INVOKABLE QString key() const;
+
+      /**
+       * Creates QML Shortcut object (if there is not already)
+       * with given @p keySequence. It could be either simple key text: \"M\" (wrapped with quotas)
+       * or standard key: StandardKey.Open (no quotas)
+       * or any of above followed by other parameters: \"E\"; enabled: !score.singleNote.
+       * In such a case this @p Taction parent has to belong to proper context where those params are available.
+       * But if this parameter is null, @p qmlComp data is used directly.
+       */
+  void createQmlShortcut(QQmlComponent* qmlComp, const char* keySequence);
 
 public slots:
   void triggerSlot() { trigger(); }

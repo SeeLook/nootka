@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,6 +19,7 @@
 #include "taction.h"
 #include "tpath.h"
 
+#include <QtQml/qqmlcomponent.h>
 #include <QtCore/qdebug.h>
 
 
@@ -109,7 +110,27 @@ void Taction::setEnabled(bool e) {
 }
 
 
-QString Taction::key() {
+QString Taction::key() const {
   return m_shortcut ? m_shortcut->property("nativeText").toString() : QString();
+}
+
+
+void Taction::createQmlShortcut(QQmlComponent* qmlComp, const char* keySequence) {
+  if (m_shortcut) {
+    qDebug() << "[Taction] name:" << m_text << "has shortcut already! Ignored!";
+    return;
+  }
+  if (keySequence) { // for empty key sequence, QML component data will be used
+    std::string d = "import QtQuick 2.9; Shortcut { sequence: ";
+    d.append(keySequence);
+    d.append(" }");
+    qmlComp->setData(d.c_str(), QUrl());
+  }
+  auto sc = qmlComp->create(qmlContext(parent()));
+  if (sc) {
+      sc->setParent(this);
+      setShortcut(sc);
+  } else
+      qDebug() << "[Taction] Can't create shortcut for" << keySequence;
 }
 
