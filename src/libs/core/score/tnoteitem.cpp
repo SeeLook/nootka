@@ -33,33 +33,12 @@
 #include "checktime.h"
 
 
-/** Unicode numbers of accidentals in Scorek font. */
-static const QString accCharTable[6] = {
-          QStringLiteral("\ue264"), // [0] = bb - double flat
-          QStringLiteral("\ue260"), // [1] = b - flat
-          QString(),                // [2] = none
-          QStringLiteral("\ue262"), // [3] = # - sharp
-          QStringLiteral("\ue263"), // [4] = x - double sharp
-          QStringLiteral("\ue261")  // [5] = neutral
-};
-
 /**
  * Width of every accidental for Scorek font of pixel size set to 7.0
  * It was measured by QML and corresponds to QFont size @p QFont::setPointSizeF(5.5) (except of neutral)
  */
 // static const qreal accWidthTable[6] = { 2.78125, 1.671875, 0.0, 1.765625, 2.03125, 2.34375 };
 
-/**
- * Static array with space definitions for each rhythm value
- */
-const qreal rtmGapArray[5][3] = {
-//  | bare | dot | triplet |
-    { 5.0,   6.0,   4.5}, // whole note
-    { 4.0,   5.0,   3.3}, // half note
-    { 2.0,   2.5,   1.3}, // quarter note
-    { 1.0,   1.5,   0.3}, // eighth note
-    { 0.15,  0.5,   0.0}  // sixteenth note
-};
 
 
 QString tieDebug(Trhythm::Etie t) {
@@ -310,6 +289,11 @@ qreal TnoteItem::rightX() const {
 }
 
 
+bool TnoteItem::hasTie() const {
+  return m_note->rtm.tie() > Trhythm::e_tieStart;
+}
+
+
 void TnoteItem::setHeight(qreal hh) {
   if (hh != height()) {
     QQuickItem::setHeight(hh);
@@ -334,6 +318,18 @@ void TnoteItem::setHeight(qreal hh) {
 qreal TnoteItem::rhythmFactor() const {
   if (m_note->rhythm() == Trhythm::NoRhythm)
     return 0.75;
+
+  /**
+   * Static array with space definitions for each rhythm value
+   */
+  const qreal rtmGapArray[5][3] = {
+//  | bare | dot | triplet |
+    { 5.0,   6.0,   4.5}, // whole note
+    { 4.0,   5.0,   3.3}, // half note
+    { 2.0,   2.5,   1.3}, // quarter note
+    { 1.0,   1.5,   0.3}, // eighth note
+    { 0.15,  0.5,   0.0}  // sixteenth note
+  };
 
   int add = m_note->hasDot() ? 1 : (m_note->isTriplet() ? 2 : 0);
   return rtmGapArray[static_cast<int>(m_note->rhythm()) - 1][add];
@@ -556,8 +552,18 @@ qreal TnoteItem::getHeadY(const Tnote& n) {
 //#################################################################################################
 
 QString TnoteItem::getAccidText() {
-  if (!m_note->isValid() || (m_note->rtm.tie() && m_note->rtm.tie() != Trhythm::e_tieStart)) // accidental only for starting tie
+  if (!m_note->isValid())
     return QString();
+
+  /** Unicode numbers of accidentals in Scorek font. */
+  static const QString accCharTable[6] = {
+    QStringLiteral("\ue264"), // [0] = bb - double flat
+    QStringLiteral("\ue260"), // [1] = b - flat
+    QString(),                // [2] = none
+    QStringLiteral("\ue262"), // [3] = # - sharp
+    QStringLiteral("\ue263"), // [4] = x - double sharp
+    QStringLiteral("\ue261")  // [5] = neutral
+  };
 
   QString a = accCharTable[m_note->alter() + 2];
   qint8 accidInKey = m_staff->score()->accidInKey(m_note->note() - 1);
@@ -574,27 +580,32 @@ QString TnoteItem::getAccidText() {
       }
     }
   }
-  int id = index() - 1; // check the previous notes for accidentals
-  while (id >= 0 && m_staff->score()->noteSegment(id)->item()->measure() == measure()) {
-    auto checkNote = m_staff->score()->noteSegment(id)->note();
-    if (checkNote->note() == m_note->note()) {
-      if (checkNote->rtm.tie() && checkNote->rtm.tie() != Trhythm::e_tieStart) {
-        // Ignore notes prolonged with ties - they could be continued from the previous measure
-        // and then, the accidental has to be displayed again in current measure
+
+  if (m_note->rtm.tie() > Trhythm::e_tieStart) {
+      a.clear(); // do not display accidental of first note in measure if it has tie
+  } else {
+      int id = index() - 1; // check the previous notes for accidentals
+      Tnote* checkNote;
+      while (id > -1 && m_staff->score()->noteSegment(id)->item()->measure() == measure()) {
+        checkNote = m_staff->score()->noteSegment(id)->note();
+        if (checkNote->note() == m_note->note()) {
+          if (checkNote->rtm.tie() > Trhythm::e_tieStart && checkNote->alter() == m_note->alter()) {
+            // Ignore notes prolonged with ties - they could be continued from the previous measure
+            // and then, the accidental has to be displayed again in current measure
+            id--;
+            continue;
+          }
+          if (checkNote->alter() != 0 && m_note->alter() == 0) {
+              if (a.isEmpty())
+                a = accCharTable[5]; // and add neutral when some of previous notes with the same step had an accidental
+          } else if (checkNote->alter() == m_note->alter()) // do not display it twice
+              a.clear();
+          else if (accidInKey == m_note->alter() && checkNote->alter() != m_note->alter())
+              a = accCharTable[m_note->alter() + 2]; // There is already accidental in key signature but some of the previous notes had another one, show it again
+          break;
+        }
         id--;
-        continue;
       }
-      char prevAlter = checkNote->alter();
-      if (prevAlter != 0 && m_note->alter() == 0) {
-          if (a.isEmpty())
-            a = accCharTable[5]; // and add neutral when some of previous notes with the same step had an accidental
-      } else if (prevAlter == m_note->alter()) // do not display it twice
-          a.clear();
-      else if (accidInKey == m_note->alter() && prevAlter != m_note->alter())
-          a = accCharTable[m_note->alter() + 2]; // There is already accidental in key signature but some of the previous notes had another one, show it again
-      break;
-    }
-    id--;
   }
 //   if (m_staff->score()->remindAccids() && m_measure->number() > 0) { TODO
 //     auto prevMeas = m_staff->score()->measure(m_measure->number() - 1);
@@ -771,12 +782,9 @@ QQuickItem* TnoteItem::createAddLine() {
 
 
 void TnoteItem::updateAlter() {
-  if ((m_note->rtm.tie() == Trhythm::e_tieCont || m_note->rtm.tie() == Trhythm::e_tieEnd))
-    m_accidText.clear();
-  else
-    m_accidText = getAccidText();
-  m_alter->setProperty("text", m_accidText);
-  if (!m_accidText.isEmpty())
+  auto accidText = getAccidText();
+  m_alter->setProperty("text", accidText);
+  if (!accidText.isEmpty())
     m_alter->setX(-m_alter->width() - 0.1);
 }
 
