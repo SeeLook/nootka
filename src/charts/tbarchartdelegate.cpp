@@ -40,7 +40,7 @@ QString trStyle(QColor c) {
 TbarChartDelegate::TbarChartDelegate(QQuickItem* parent) :
   QQuickPaintedItem(parent)
 {
-  setRenderTarget(QQuickPaintedItem::FramebufferObject);
+//   setRenderTarget(QQuickPaintedItem::FramebufferObject);
   setAntialiasing(true);
 
   connect(qApp, &QGuiApplication::paletteChanged, this, [=]{ update(); });

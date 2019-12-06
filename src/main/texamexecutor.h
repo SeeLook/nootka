@@ -282,7 +282,7 @@ private:
   QList<QObject*>              m_examActions;
   EsummaryReason               m_summaryReason = NoReason;
   Tnote::EnameStyle            m_exerciseTmpStyle;
-  bool                         m_askAfterSummary;
+  bool                         m_askAfterSummary = false;
   bool                         m_disconnectAfterAnim = false;
   int                          m_melodySelectionIndex = 0;
 

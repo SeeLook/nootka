@@ -427,6 +427,7 @@ void TnootkaQML::setQmlEngine(QQmlEngine* e) {
  * Opening files from command line argument starts here, but it is a bit clumsy:
  * - for Music XML is fine, we have @p TscoreObject here so just call @p openMusicXml()
  * - but for exam and level files only @p wantOpenFile() signal is emitted
+ *   with 700ms delay to give main window time for initialize
  * - then @p MainWindow.qml handles it and creates @p DialogLoader.qml
  * - 'dialog loader' invokes @p TdialogLoaderObject::openFile() of its object
  * - and there the file is distinguished (exam or level) and appropriate signal is emitted
@@ -444,7 +445,7 @@ void TnootkaQML::openFile(const QString& runArg) {
         auto fullPath = QDir(file.fileName()).absolutePath();
         m_scoreObject->openMusicXml(fullPath);
     } else {
-        emit GLOB->wantOpenFile(runArg);
+        QTimer::singleShot(700, this, [=]{ emit GLOB->wantOpenFile(runArg); });
     }
   }
 }

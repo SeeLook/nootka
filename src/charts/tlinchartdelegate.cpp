@@ -48,7 +48,7 @@
 TlinChartDelegate::TlinChartDelegate(QQuickItem* parent) :
   QQuickPaintedItem(parent)
 {
-  setRenderTarget(QQuickPaintedItem::FramebufferObject);
+//   setRenderTarget(QQuickPaintedItem::FramebufferObject);
   setAntialiasing(true);
   setAcceptHoverEvents(true);
 
