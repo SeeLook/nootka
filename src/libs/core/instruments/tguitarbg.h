@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -41,6 +41,7 @@ class NOOTKACORE_EXPORT TguitarBg : public TcommonInstrument
   Q_PROPERTY(qreal xiiFret READ xiiFret NOTIFY stringsGapChanged)
   Q_PROPERTY(QRect fbRect READ fbRect NOTIFY stringsGapChanged)
   Q_PROPERTY(bool readOnly READ readOnly WRITE setReadOnly)
+  Q_PROPERTY(bool pressed READ pressed NOTIFY pressedChanged)
 
 
 public:
@@ -90,6 +91,9 @@ public:
   bool readOnly() const { return m_readOnly; }
   void setReadOnly(bool ro);
 
+  bool pressed() const { return m_pressed; }
+  void setPressed(bool pr);
+
       /**
        * Updates fingerboard to actual settings (guitar type string/fret number, marks)
        */
@@ -110,11 +114,13 @@ signals:
   void stringsGapChanged();
   void fingerPosChanged();
   void stringChanged();
+  void pressedChanged();
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) override;
   void hoverMoveEvent(QHoverEvent* event) override;
   void mousePressEvent(QMouseEvent* event) override;
+  void mouseReleaseEvent (QMouseEvent*) override;
 
   void paintFingerAtPoint(QPoint p);
 
@@ -141,6 +147,7 @@ private:
   QQuickItem  *m_highlightedString = nullptr;
   quint32      m_latestHighlightedData = 255; /**< Store technical data to properly resize highlighted string */
   TfingerPos   m_selectedPos, m_goodPos;
+  bool         m_pressed = false;
 
 };
 

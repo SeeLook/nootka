@@ -7,7 +7,7 @@ import QtQuick.Controls 2.2
 
 
 AbstractButton {
-  id: root
+  id: cutButt
   font { pixelSize: Noo.fontSize(); bold: activeFocus }
   focus: true
 
@@ -15,23 +15,23 @@ AbstractButton {
   property alias color: bg.color
   property alias textColor: butText.color
 
-  scale: GLOB.useAnimations && pressed ? 0.9 : 1.0
+  scale: GLOB.useAnimations && pressed ? 0.8 : (cutButt.checked ? 0.9 : 1.0)
   Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
 
   contentItem: Text {
     id: butText
     padding: Noo.fontSize() / 3
-    font: root.font
+    font: cutButt.font
     horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
     minimumPixelSize: 8
     fontSizeMode: Text.HorizontalFit
     color: enabled ? (checked ? activPal.highlightedText : activPal.text) : disdPal.text
-    text: root.text
+    text: cutButt.text
   }
 
   background: TipRect {
     id: bg
-    color: enabled ? (root.checked ? activPal.highlight : activPal.button) : disdPal.button
-    rised: !root.checked && !root.pressed
+    color: enabled ? (cutButt.checked ? activPal.highlight : activPal.button) : disdPal.button
+    rised: !cutButt.checked && !cutButt.pressed
   }
 }
