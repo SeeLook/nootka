@@ -323,6 +323,14 @@ void TguitarBg::setReadOnly(bool ro) {
 }
 
 
+void TguitarBg::setPressed(bool pr) {
+  if (pr != m_pressed) {
+    m_pressed = pr;
+    emit pressedChanged();
+  }
+}
+
+
 void TguitarBg::updateGuitar() {
   setTune();
   geometryChanged(QRectF(x(), y(), width(), height()), QRectF());
@@ -449,10 +457,6 @@ void TguitarBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeom
 }
 
 
-//#################################################################################################
-//###################              PROTECTED           ############################################
-//#################################################################################################
-
 void TguitarBg::hoverMoveEvent(QHoverEvent* event) {
   if (!active())
     hoverEnterEvent(nullptr);
@@ -476,12 +480,16 @@ void TguitarBg::mousePressEvent(QMouseEvent* event) {
       emit noteChanged();
       hoverLeaveEvent(nullptr); // hide highlight that covers selected fret/string
     }
+    setPressed(true);
   }
 }
 
-//################################################################################################
-//################################################ PROTECTED #####################################
-//################################################################################################
+
+void TguitarBg::mouseReleaseEvent(QMouseEvent*) {
+  setPressed(false);
+  hoverEnterEvent(nullptr);
+}
+
 
 void TguitarBg::paintFingerAtPoint(QPoint p) {
   int strNr = 7, fretNr = 99;

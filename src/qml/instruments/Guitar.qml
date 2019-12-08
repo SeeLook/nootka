@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -66,7 +66,8 @@ TguitarBg {
     color: "black"
     radius: Noo.fontSize() / 3
     source: finger
-    visible: active && fingerPos.x > 0
+    opacity: active && fingerPos.x > 0 ? 1 : 0
+    Behavior on opacity { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
   }
 
   Rectangle {
