@@ -24,7 +24,6 @@ TstartExamItem {
     Row {
       id: upperRow
       spacing: Noo.fontSize() * 4
-      width: parent.width * 0.98
       anchors.horizontalCenter: parent.horizontalCenter
       TiconButton {
         pixmap: Noo.pix("help"); iconHeight: startDialog.height / 15
@@ -40,7 +39,7 @@ TstartExamItem {
           anchors.verticalCenter: parent.verticalCenter
           placeholderText: qsTr("Enter your name or nick-name.")
           font.pixelSize: Noo.fontSize(); maximumLength: 40
-          width: Noo.fontSize() * 30
+          width: Noo.fontSize() * 25
           horizontalAlignment: TextInput.AlignHCenter
           text: GLOB.student
           background: Rectangle {
@@ -56,6 +55,14 @@ TstartExamItem {
               PauseAnimation { duration: 300 }
             }
           }
+        }
+      }
+      TiconButton {
+        pixmap: Noo.pix("levelCreator"); iconHeight: startDialog.height / 15
+        text: Noo.TR("TlevelCreatorItem", "Level creator")
+        onClicked: {
+          dialLoader.close()
+          nootkaWindow.showDialog(3) // Nootka.LevelCreator
         }
       }
     }
