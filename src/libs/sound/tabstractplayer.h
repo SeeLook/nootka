@@ -170,6 +170,8 @@ public:
 
   bool doTicking() const;
 
+  void setPitchOffset(qreal pitchOff);
+
 signals:
   void playingStarted();
 

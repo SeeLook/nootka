@@ -71,6 +71,10 @@ QString Tglobals::systemUserName() {
   #endif
 }
 
+qreal Tglobals::pitchOfFreq(int freq) {
+  return -36.3763165622959152488 + 39.8631371386483481 * log10(static_cast<qreal>(freq));
+}
+
 /*end static*/
 
 
@@ -359,14 +363,17 @@ bool Tglobals::forwardInput() const { return A->forwardInput; }
 void Tglobals::setForwardInput(bool fi) { A->forwardInput = fi; }
 
 
-qreal pitchOfFreq(int freq) {
-  return -36.3763165622959152488 + 39.8631371386483481 * log10(static_cast<qreal>(freq));
-}
-
 int Tglobals::midAfreq() const { return A->midAfreq; }
 void Tglobals::setMidAfreq(int midA) {
-  A->midAfreq = qBound(391, midA, 493); // in range of two semitones up and down around middle A (440Hz)
-  A->a440diff = midA == 440 ? 0.0 : pitchOfFreq(A->midAfreq) - pitchOfFreq(440);
+  if (midA != A->midAfreq) {
+    if (midA < 391 || midA > 493) {
+      qDebug() << "[Tglobals] middle A frequency out of supported range. Revert to 440Hz" ;
+      midA = 440;
+    }
+    A->midAfreq = midA; // in range of two semitones up and down around middle A (440Hz)
+    A->a440diff = midA == 440 ? 0.0 : pitchOfFreq(A->midAfreq) - pitchOfFreq(440);
+    emit midAfreqChanged();
+  }
 }
 
 bool Tglobals::JACKorASIO() const { return A->JACKorASIO; }

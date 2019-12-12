@@ -152,7 +152,7 @@ Item {
       id: tunerButt
       enabled: !executor
       textColor: enabled ? activPal.text : disdPal.text
-      text: "440Hz"
+      text: GLOB.midAfreq + "Hz"
       font { pixelSize: parent.height * 0.8; bold: true }
       statusTip: qsTr("Tuner")
       onClicked: {

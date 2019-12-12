@@ -18,12 +18,10 @@
 
 #include "trtaudioin.h"
 #include "taudioparams.h"
-#include <tglobals.h>
 #if defined(Q_OS_WIN)
   #include "tasioemitter.h"
 #endif
 #include <QtCore/qdebug.h>
-
 
 
 /*static */
