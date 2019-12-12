@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -28,7 +28,10 @@ class TnoteStruct;
 
 
 /**
- *
+ * The logic of Nooter (Nootka tuner)
+ * It saves changes of user action over middle A frequency QML spin box
+ * to immediately adjust pitch detection of the tuner
+ * and when dialog is closed, it saves that frequency globally
  */
 class TtunerDialogItem : public QQuickItem
 {
@@ -39,6 +42,7 @@ class TtunerDialogItem : public QQuickItem
   Q_PROPERTY(qreal frequency READ frequency NOTIFY frequencyChanged)
   Q_PROPERTY(QString noteName READ noteName NOTIFY noteNameChanged)
   Q_PROPERTY(QStringList tuningModel READ tuningModel NOTIFY tuningModelChanged)
+  Q_PROPERTY(int workFreq READ workFreq WRITE setWorkFreq NOTIFY workFreqChanged)
 
 public:
   explicit TtunerDialogItem(QQuickItem* parent = nullptr);
@@ -49,11 +53,15 @@ public:
   QString noteName() const;
   QStringList tuningModel();
 
+  int workFreq() const { return m_workFreq; }
+  void setWorkFreq(int wFreq);
+
 signals:
   void deviationChanged();
   void frequencyChanged();
   void noteNameChanged();
   void tuningModelChanged();
+  void workFreqChanged();
 
 private:
   void delayedInit();
@@ -64,6 +72,7 @@ private:
   QTimer            *m_timer;
   bool               m_stoppedByUserState;
   qreal              m_frequency = 0.0;
+  int                m_workFreq = 440;
 };
 
 #endif // TTUNERDIALOGITEM_H

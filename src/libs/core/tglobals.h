@@ -97,7 +97,7 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(bool audioOutEnabled READ audioOutEnabled WRITE setAudioOutEnabled)
   Q_PROPERTY(QString outDevName READ outDevName WRITE setOutDevName)
   Q_PROPERTY(bool forwardInput READ forwardInput WRITE setForwardInput)
-  Q_PROPERTY(int midAfreq READ midAfreq WRITE setMidAfreq)
+  Q_PROPERTY(int midAfreq READ midAfreq WRITE setMidAfreq NOTIFY midAfreqChanged)
   Q_PROPERTY(bool JACKorASIO READ JACKorASIO WRITE setJACKorASIO)
 
   /* Exam */
@@ -128,6 +128,8 @@ public:
        * Also available through @p GLOB macro
        */
   static Tglobals* instance() { return m_instance; }
+
+  static qreal pitchOfFreq(int freq);
 
       /** Geometry of main Nootka window */
   QRect geometry() const { return m_geometry; }
@@ -430,6 +432,7 @@ signals:
   void correctColorChanged();
   void notBadColorChanged();
   void wrongColorChanged(); /**< To silence warning about non-NOTIFYable properties */
+  void midAfreqChanged();
   void fakeSignal();
   void wantOpenFile(const QString& fileName); /**< Emitted when Nootka starts with an argument which is exam or level file  */
 

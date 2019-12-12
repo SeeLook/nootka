@@ -273,3 +273,8 @@ void TabstractPlayer::setTickDuringPlay(bool tdp) {
 bool TabstractPlayer::doTicking() const {
   return p_audioParams && (p_audioParams->audibleMetro || p_audioParams->countBefore);
 }
+
+
+void TabstractPlayer::setPitchOffset(qreal pitchOff) {
+  p_oggScale->setPitchOffset(pitchOff);
+}

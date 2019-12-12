@@ -477,6 +477,8 @@ void Tsound::setTunerMode(bool isTuner) {
   if (isTuner != m_tunerMode) {
     m_tunerMode = isTuner;
     emit tunerModeChanged();
+    if (!m_tunerMode && player) // approve changed middle A frequency (if any)
+      player->setPitchOffset(GLOB->A->a440diff - static_cast<qreal>(static_cast<int>(GLOB->A->a440diff)));
   }
 }
 
