@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -78,48 +78,46 @@ void TexamView::updateExam() {
 
 void TexamView::questionStart() {
   m_questionTime.start();
+  m_answerDuration = 0;
   m_showReact = true;
   countTime();
 }
 
 
 quint16 TexamView::questionTime() {
-  return quint16(qRound(m_questionTime.elapsed() / 100.0));
+  return quint16(qRound(static_cast<qreal>(m_questionTime.elapsed()) / 100.0));
 }
 
 
 void TexamView::questionStop() {
   m_showReact = false;
-  quint16 t = quint16(qRound(m_questionTime.elapsed() / 100.0));
+  m_answerDuration += m_questionTime.elapsed();
+  auto t = static_cast<quint16>(qRound(static_cast<qreal>(m_answerDuration) / 100.0));
   if (m_exam->melodies()) {
-    m_exam->curQ()->time += t; // total time of all attempts
-    m_exam->curQ()->lastAttempt()->setTotalTime(t);
+      m_exam->curQ()->time += t; // total time of all attempts
+      m_exam->curQ()->lastAttempt()->setTotalTime(t);
   } else
-    m_exam->curQ()->time = t; // just elapsed time of single answer
-  if (isVisible()) {
+      m_exam->curQ()->time = t; // just elapsed time of single answer
+  if (isVisible())
     emit reactTextChanged();
-//     m_reactTimeLab->setText(space + Texam::formatReactTime(m_exam->curQ()->time) + space);
-  }
 }
 
 
 void TexamView::pause() {
-  m_pausedAt = m_questionTime.elapsed();
+  m_answerDuration += m_questionTime.elapsed();
   doNotdisplayTime();
 }
 
 
 void TexamView::go() {
   m_questionTime.start();
-  m_questionTime = m_questionTime.addMSecs(-m_pausedAt);
   displayTime();
 }
 
 
 void TexamView::startExam(Texam* exam, int totalNr) {
   m_exam = exam;
-  m_totalTime = QTime(0, 0);
-  m_startExamTime = int(m_exam->totalTime());
+  m_startExamTime = static_cast<int>(m_exam->totalTime());
   m_showReact = false;
   m_totalTime.start();
   countTime();
@@ -160,12 +158,6 @@ void TexamView::effectUpdate() {
 
 void TexamView::questionCountUpdate() {
   if (m_exam && isVisible()) {
-//     m_mistLab->setText(QString("%1").arg(m_exam->mistakes()));
-//     if (m_exam->halfMistaken()) {
-//         m_halfLab->show();
-//         m_halfLab->setText(QString("%1").arg(m_exam->halfMistaken()));
-//     }
-//     m_corrLab->setText(QString("%1").arg(m_exam->corrects()));
     emit answersNumberChanged();
   }
 }
