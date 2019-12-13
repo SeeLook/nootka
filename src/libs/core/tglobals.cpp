@@ -802,7 +802,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue(QStringLiteral("showOtherPos"), GshowOtherPos);
       cfg->setValue(QStringLiteral("fingerColor"), GfingerColor);
       cfg->setValue(QStringLiteral("selectedColor"), GselectedColor);
-      cfg->setValue(QStringLiteral("tune"), qVariantFromValue(*Gtune()));
+      cfg->setValue(QStringLiteral("tune"), QVariant::fromValue(*Gtune()));
       cfg->setValue(QStringLiteral("flatsPrefered"), GpreferFlats);
       cfg->setValue(QStringLiteral("dotsOnFrets"), GmarkedFrets);
   cfg->endGroup();

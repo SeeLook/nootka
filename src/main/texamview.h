@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,7 +22,7 @@
 
 
 #include <QtQuick/qquickitem.h>
-#include <QtCore/qdatetime.h>
+#include <QtCore/qelapsedtimer.h>
 #include <QtCore/qtimer.h>
 
 
@@ -150,11 +150,11 @@ protected:
 private:
   bool                 m_showReact; /**< switches whether displays pending question time counter */
   QString              m_effectivenessText;
-  QTime                m_questionTime; /**< Elapsing time of a question - started with questionStart() and stopped with questionStop() */
+  QElapsedTimer        m_questionTime; /**< Elapsing time of a question - started with questionStart() and stopped with questionStop() */
   int                  m_startExamTime; /**< Elapsed time from previous exam sessions */
   QTimer              *m_timer;
-  QTime                m_totalTime; /**< Total time of an exam */
-  int                  m_pausedAt; /**< when m_averTime was paused */
+  QElapsedTimer        m_totalTime; /**< Total time of an exam */
+  int                  m_answerDuration = 0; /**< Duration time of current answer, it can be paused during exercise, so it is combined after answer resume. */
   Texam               *m_exam;
   static TexamView    *m_instance;
 
