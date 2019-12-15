@@ -29,14 +29,13 @@ TpianoBg {
     correctAnim.start()
   }
 
-//   Image { // piano background
-//     cache: false
-//     source: Noo.pix("piano-bg")
-//     width: parent.width
-//     height: width * (sourceSize.height / sourceSize.width)
-//     y: parent.height - height
-//     z: -1
-//   }
+  Image { // piano background
+    cache: false
+    source: Noo.pix("pianoBg")
+    width: score.width; height: width * (sourceSize.height / sourceSize.width)
+    y: -height
+    z: -1
+  }
 
   Component {
     id: blackKeyComp
