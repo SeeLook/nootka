@@ -2303,7 +2303,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/charts/tyaxis.h" line="84"/>
         <source>Preparation time</source>
-        <translation>Čas na přípravu </translation>
+        <translation>Čas na přípravu</translation>
     </message>
     <message>
         <location filename="../src/charts/tyaxis.h" line="89"/>
@@ -4587,7 +4587,7 @@ je viděli a poslechli si správně.</translation>
     <message>
         <location filename="../src/main/ttiphandler.cpp" line="76"/>
         <source> Don&apos;t use accidentals!</source>
-        <translation>Nepoužívat posuvky!</translation>
+        <translation> Nepoužívat posuvky!</translation>
     </message>
     <message>
         <location filename="../src/main/ttiphandler.cpp" line="83"/>
@@ -4708,7 +4708,7 @@ je viděli a poslechli si správně.</translation>
     </message>
 </context>
 <context>
-    <name>TtipMelody</name>
+    <name>ChartTip</name>
     <message>
         <location filename="../src/charts/ttipmelody.cpp" line="62"/>
         <source>of</source>
@@ -4719,9 +4719,9 @@ je viděli a poslechli si správně.</translation>
         <location filename="../src/charts/ttipmelody.cpp" line="67"/>
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
         <translation>
-            <numerusform>Melodie byla hrána &lt;b&gt;%n&lt;/b&gt;krát</numerusform>
-            <numerusform>Melodie byla hrána &lt;b&gt;%n&lt;/b&gt;krát</numerusform>
-            <numerusform>Melodie byla hrána &lt;b&gt;%n&lt;/b&gt;krát</numerusform>
+            <numerusform>Melodie byla hrána &lt;b&gt;%n&lt;/b&gt; krát</numerusform>
+            <numerusform>Melodie byla hrána &lt;b&gt;%n&lt;/b&gt; krát</numerusform>
+            <numerusform>Melodie byla hrána &lt;b&gt;%n&lt;/b&gt; krát</numerusform>
         </translation>
     </message>
     <message>
@@ -4889,22 +4889,22 @@ je viděli a poslechli si správně.</translation>
     <message>
         <location filename="../src/libs/core/music/ttune.cpp" line="33"/>
         <source>Standard: E A D G B E </source>
-        <translation>Standardní: E A D G H E</translation>
+        <translation>Standardní: E A D G H E </translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/ttune.cpp" line="36"/>
         <source>Dropped D: D A D G B E </source>
-        <translation>Podladěné D:D A D G H E</translation>
+        <translation>Podladěné D:D A D G H E </translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/ttune.cpp" line="38"/>
         <source>Dummy Lute: D A D F# B E </source>
-        <translation>Napodobená loutna: D A D F# H E</translation>
+        <translation>Napodobená loutna: D A D F# H E </translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/ttune.cpp" line="40"/>
         <source>Open: D A D G A D </source>
-        <translation>Otevřené: D A D G A D</translation>
+        <translation>Otevřené: D A D G A D </translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/ttune.cpp" line="42"/>
