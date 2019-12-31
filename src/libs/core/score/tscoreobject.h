@@ -336,6 +336,13 @@ public:
   TnoteItem* selectedItem() { return m_selectedItem; }
   void setSelectedItem(TnoteItem* item);
 
+      /**
+       * Selects next note towards currently selected one or selects first note if none was selected.
+       * IF @p keep, keeps currently note selected when it is the last in the score,
+       * if @p skipTies and currently selected note is tied, it selects next note after tie.
+       */
+  void selectNext(bool keep, bool skipTies);
+
   Tnote selectedNote() const { return noteOfItem(m_selectedItem); }
 
   QColor bgColor() const { return m_bgColor; }

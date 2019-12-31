@@ -83,7 +83,6 @@ TscoreObject::~TscoreObject()
   delete m_meter;
   delete m_qmlComponent;
   delete m_workRhythm;
-  qDebug() << "[TscoreObject] deleting," << m_segments.count() << "segments to flush";
   qDeleteAll(m_segments);
   qDeleteAll(m_spareSegments);
 }
@@ -1017,6 +1016,22 @@ void TscoreObject::setSelectedItem(TnoteItem* item) {
     m_selectedItem = item;
     emit selectedItemChanged();
     emit selectedNoteChanged();
+  }
+}
+
+
+void TscoreObject::selectNext(bool keep, bool skipTies) {
+  if (m_selectedItem) {
+    TnoteItem* next = nullptr;
+    if (skipTies && m_selectedItem->note()->rtm.tie() < Trhythm::e_tieEnd) {
+        auto tr = tieRange(m_selectedItem);
+        next = note(tr.y());
+    } else
+        next = getNext(m_selectedItem);
+    if (next)
+      setSelectedItem(next);
+    else if (!keep)
+      setSelectedItem(nullptr);
   }
 }
 
