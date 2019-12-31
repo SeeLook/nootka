@@ -4243,7 +4243,7 @@ nicht öffnen</translation>
     </message>
 </context>
 <context>
-    <name>TtipMelody</name>
+    <name>ChartTip</name>
     <message numerus="yes">
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
         <translation>

@@ -4380,7 +4380,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
 </context>
 <context>
-    <name>TtipMelody</name>
+    <name>ChartTip</name>
     <message>
         <source>of</source>
         <comment>It will give text: &apos;Attempt x of y&apos;</comment>

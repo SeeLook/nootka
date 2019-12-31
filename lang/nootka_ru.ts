@@ -4950,7 +4950,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
 </context>
 <context>
-    <name>TtipMelody</name>
+    <name>ChartTip</name>
     <message>
         <location filename="../src/charts/ttipmelody.cpp" line="62"/>
         <source>of</source>
