@@ -2,88 +2,101 @@
     <qresource prefix="/">
         <file>fonts/nootka.ttf</file>
         <file>fonts/Scorek.otf</file>
+        <file>changes</file>
+        <file>gpl</file>
+
+        <file>picts/flags/cs.png</file>
+        <file>picts/flags/de.png</file>
+        <file>picts/flags/default.png</file>
+        <file>picts/flags/en.png</file>
+        <file>picts/flags/es.png</file>
+        <file>picts/flags/fr.png</file>
+        <file>picts/flags/hu.png</file>
+        <file>picts/flags/it.png</file>
+        <file>picts/flags/pl.png</file>
+        <file>picts/flags/ru.png</file>
+        <file>picts/flags/sl.png</file>
+
+        <file>picts/pane/about.png</file>
+        <file>picts/pane/accidentals.png</file>
+        <file>picts/pane/author.png</file>
+        <file>picts/pane/changes.png</file>
+        <file>picts/pane/donors.png</file>
+        <file>picts/pane/global.png</file>
+        <file>picts/pane/help.png</file>
+        <file>picts/pane/i-00.png</file>
+        <file>picts/pane/i-01.png</file>
+        <file>picts/pane/i-02.png</file>
+        <file>picts/pane/i-03.png</file>
+        <file>picts/pane/i-04.png</file>
+        <file>picts/pane/i-05.png</file>
+        <file>picts/pane/i-06.png</file>
+        <file>picts/pane/i-07.png</file>
+        <file>picts/pane/levels.png</file>
+        <file>picts/pane/license.png</file>
+        <file>picts/pane/melody.png</file>
+        <file>picts/pane/notSaved.png</file>
+        <file>picts/pane/qt.png</file>
+        <file>picts/pane/questions.png</file>
+        <file>picts/pane/range.png</file>
+        <file>picts/pane/rhythms.png</file>
+        <file>picts/pane/score.png</file>
+        <file>picts/pane/sound.png</file>
+        <file>picts/pane/support.png</file>
+
+        <file>picts/bando-bg.png</file>
+        <file>picts/bando-button.png</file>
         <file>picts/body-bass.png</file>
         <file>picts/body-electro.png</file>
         <file>picts/body.png</file>
-        <file>picts/bando-bg.png</file>
-        <file>picts/rosette.png</file>
+        <file>picts/certBg.png</file>
+        <file>picts/charts.png</file>
+        <file>picts/chartSett.png</file>
+        <file>picts/check.png</file>
         <file>picts/clear-score.png</file>
         <file>picts/correct.png</file>
+        <file>picts/delete.png</file>
+        <file>picts/exam-settings.png</file>
         <file>picts/exam.png</file>
+        <file>picts/exit.png</file>
         <file>picts/fingbg-el.png</file>
         <file>picts/fingbg.png</file>
-        <file>picts/flags-.png</file>
-        <file>picts/flags-cs.png</file>
-        <file>picts/flags-de.png</file>
-        <file>picts/flags-en.png</file>
-        <file>picts/flags-es.png</file>
-        <file>picts/flags-fr.png</file>
-        <file>picts/flags-pl.png</file>
-        <file>picts/flags-ru.png</file>
+        <file>picts/fingerpoint.png</file>
+        <file>picts/fork.png</file>
+        <file>picts/fullscreen.png</file>
         <file>picts/help.png</file>
         <file>picts/levelCreator.png</file>
         <file>picts/logo.png</file>
+        <file>picts/melody-play.png</file>
+        <file>picts/melody-rec.png</file>
+        <file>picts/melody.png</file>
+        <file>picts/min-vol.png</file>
         <file>picts/nextQuest.png</file>
         <file>picts/nootka-exam.png</file>
+        <file>picts/nootka-level.png</file>
         <file>picts/nootka.png</file>
+        <file>picts/open.png</file>
+        <file>picts/pianoBg.png</file>
+        <file>picts/pianokey.png</file>
         <file>picts/pickup.png</file>
+        <file>picts/playMelody.png</file>
         <file>picts/practice.png</file>
         <file>picts/prevQuest.png</file>
         <file>picts/record.png</file>
+        <file>picts/restore-defaults.png</file>
+        <file>picts/rosette.png</file>
+        <file>picts/save.png</file>
+        <file>picts/saxAlto.png</file>
+        <file>picts/score.png</file>
+        <file>picts/scr.png</file>
+        <file>picts/stamp.png</file>
         <file>picts/startExam.png</file>
         <file>picts/stopExam.png</file>
+        <file>picts/stopMelody.png</file>
         <file>picts/systemsettings.png</file>
+        <file>picts/tipbg.png</file>
+        <file>picts/wizard-left.png</file>
         <file>picts/zoom-in.png</file>
         <file>picts/zoom-out.png</file>
-        <file>picts/melody.png</file>
-        <file>picts/score.png</file>
-        <file>picts/melody-play.png</file>
-        <file>picts/melody-rec.png</file>
-        <file>picts/questionsSett.png</file>
-        <file>picts/fork.png</file>
-        <file>picts/check.png</file>
-        <file>picts/exam-settings.png</file>
-        <file>picts/playMelody.png</file>
-        <file>picts/stopMelody.png</file>
-        <file>picts/nootka-level.png</file>
-        <file>picts/stamp.png</file>
-        <file>picts/certBg.png</file>
-        <file>picts/exit.png</file>
-        <file>mobile/dirUp.png</file>
-        <file>mobile/newDir.png</file>
-        <file>mobile/card.png</file>
-        <file>mobile/dir.png</file>
-        <file>mobile/volume.png</file>
-        <file>picts/scr.png</file>
-        <file>picts/fingerpoint.png</file>
-        <file>picts/open.png</file>
-        <file>picts/save.png</file>
-        <file>picts/tipbg.png</file>
-        <file>picts/delete.png</file>
-        <file>picts/saxAlto.png</file>
-<!-- settings -->
-        <file>picts/global.png</file>
-        <file>picts/scoreSett.png</file>
-        <file>picts/soundSett.png</file>
-        <file>picts/instrSett.png</file>
-        <file>picts/appearance.png</file>
-<!-- about -->
-        <file>picts/author.png</file>
-        <file>picts/chlog.png</file>
-        <file>picts/license.png</file>
-        <file>picts/support.png</file>
-        <file>changes</file>
-        <file>gpl</file>
-        <file>picts/qt.png</file>
-        <file>picts/help-frame.png</file>
-        <file>picts/nootka-frame.png</file>
-        <file>picts/donors.png</file>
-<!-- level -->
-        <file>picts/accidSett.png</file>
-        <file>picts/levelsSett.png</file>
-        <file>picts/rangeSett.png</file>
-        <file>picts/melodySett.png</file>
-        <file>picts/notSaved.png</file>
-
     </qresource>
 </RCC>
