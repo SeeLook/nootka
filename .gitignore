@@ -73,3 +73,5 @@ Thumbs.db
 
 # Kdevelop
 *.kdev4
+
+*local.properties
