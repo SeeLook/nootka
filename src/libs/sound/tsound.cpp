@@ -92,6 +92,7 @@ void Tsound::init() {
 }
 
 
+//TODO: Clear dead code here
 void Tsound::play(const Tnote& note) {
 //   bool playing = true;
   if (player && note.isValid()) {
@@ -100,14 +101,14 @@ void Tsound::play(const Tnote& note) {
     /*playing = */player->playNote(note.chromatic());
   }
 #if defined (Q_OS_ANDROID)
-  if (playing) {
+//  if (playing) {
     if (sniffer) { // stop sniffer
       if (!m_stopSniffOnce) { // stop listening just once
         sniffer->stopListening();
         m_stopSniffOnce = true;
       }
     }
-  }
+//  }
 #else
 //   if (playing && player->type() == TabstractPlayer::e_midi) {
 //     if (sniffer) { // stop sniffer if midi output was started

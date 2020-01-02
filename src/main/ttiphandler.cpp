@@ -47,10 +47,10 @@
 
 
 #if defined (Q_OS_ANDROID)
-inline QString getTipText(const char* iconName, const char* barText) {
-  return pixToHtml(Tpath::img(iconName), qRound(Tmtr::fingerPixels() * 0.7)) + QLatin1String("<br>") +
-         QApplication::translate("TtoolBar", barText);
-}
+//inline QString getTipText(const char* iconName, const char* barText) {
+//  return pixToHtml(Tpath::img(iconName), qRound(Tmtr::fingerPixels() * 0.7)) + QLatin1String("<br>") +
+//         QApplication::translate("TtoolBar", barText);
+//}
 
 
 QFont smalTipFont(QWidget* w) {

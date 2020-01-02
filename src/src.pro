@@ -5,48 +5,84 @@ QT += multimedia androidextras core widgets quick quickcontrols2 printsupport
 TARGET = Nootka2
 TEMPLATE = app
 
-SOURCES += main.cpp \
-           main/tnameitem.cpp\
+SOURCES +=  main.cpp \
+            main/tnameitem.cpp \
           \
-           dialogs/tdialogloaderobject.cpp\
-           dialogs/tlevelcreatoritem.cpp\
-           dialogs/tlevelpreviewitem.cpp\
-           dialogs/tlevelsdefs.cpp\
-           dialogs/tlevelselector.cpp\
-           dialogs/tlevelheaderwdg.cpp\
+            main/texamexecutor.cpp \
+            main/texecutorsupply.cpp \
+            main/tglobalexamstore.cpp \
+            main/texercises.cpp \
+            main/tequalrand.cpp \
+            main/texammelody.cpp \
+            main/trandmelody.cpp \
+            main/texamview.cpp \
+            main/tpenalty.cpp \
+            main/ttiphandler.cpp \
+            main/tmainscoreobject.cpp \
+            main/texamsummary.cpp \
+            main/tstartexamitem.cpp \
+            main/tnootkacertificate.cpp \
+            main/tpiechartitem.cpp \
           \
-           main/texamexecutor.cpp\
-           main/texecutorsupply.cpp\
-           main/tglobalexamstore.cpp\
-           main/texercises.cpp\
-           main/tequalrand.cpp\
-           main/texammelody.cpp\
-           main/trandmelody.cpp\
-           main/texamview.cpp\
-           main/tpenalty.cpp\
-           main/thelpdialogbase.cpp\
-           main/texamhelp.cpp\
+            dialogs/tdialogloaderobject.cpp \
+            dialogs/tlevelcreatoritem.cpp \
+            dialogs/tlevelpreviewitem.cpp \
+            dialogs/tlevelsdefs.cpp \
+            dialogs/tlevelselector.cpp \
+            dialogs/tlevelheaderwdg.cpp \
+            dialogs/tmelodylistview.cpp \
+            dialogs/ttunerdialogitem.cpp \
+            dialogs/trtmselectoritem.cpp \
+            dialogs/tmelgenitem.cpp \
+          \
+            help/thelpdialogbase.cpp \
+            help/texamhelp.cpp \
+            help/tmainhelp.cpp \
+          \
+            updater/tupdatechecker.cpp \
+            updater/updatefunctions.cpp \
+            updater/tupdateruleswdg.cpp \
+            updater/tupdatesummary.cpp \
+          \
 
-HEADERS  += main/tnameitem.h\
+HEADERS  += main/tnameitem.h \
           \
-           dialogs/tdialogloaderobject.h\
-           dialogs/tlevelcreatoritem.h\
-           dialogs/tlevelpreviewitem.h\
-           dialogs/tlevelsdefs.h\
-           dialogs/tlevelselector.h\
-           dialogs/tlevelheaderwdg.h\
+            main/texamexecutor.h \
+            main/texecutorsupply.h \
+            main/tglobalexamstore.h \
+            main/texercises.h \
+            main/tequalrand.h \
+            main/texammelody.h \
+            main/trandmelody.h \
+            main/texamview.h \
+            main/tpenalty.h \
+            main/ttiphandler.h \
+            main/tmainscoreobject.h \
+            main/texamsummary.h \
+            main/tstartexamitem.h \
+            main/tnootkacertificate.h \
+            main/tpiechartitem.h \
           \
-           main/texamexecutor.h\
-           main/texecutorsupply.h\
-           main/tglobalexamstore.h\
-           main/texercises.h\
-           main/tequalrand.h\
-           main/texammelody.h\
-           main/trandmelody.h\
-           main/texamview.h\
-           main/tpenalty.h\
-           main/thelpdialogbase.h\
-           main/texamhelp.h\
+            dialogs/tdialogloaderobject.h \
+            dialogs/tlevelcreatoritem.h \
+            dialogs/tlevelpreviewitem.h \
+            dialogs/tlevelsdefs.h \
+            dialogs/tlevelselector.h \
+            dialogs/tlevelheaderwdg.h \
+            dialogs/tmelodylistview.h \
+            dialogs/ttunerdialogitem.h \
+            dialogs/trtmselectoritem.h \
+            dialogs/tmelgenitem.h \
+          \
+            help/thelpdialogbase.h \
+            help/texamhelp.h \
+            help/tmainhelp.h \
+          \
+            updater/tupdatechecker.h \
+            updater/updatefunctions.h \
+            updater/tupdateruleswdg.h \
+            updater/tupdatesummary.h \
+          \
 
 
 

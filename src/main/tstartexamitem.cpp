@@ -34,7 +34,6 @@
 #include <QtQml/qqmlengine.h>
 #include <QtWidgets/qmessagebox.h>
 #if defined (Q_OS_ANDROID)
-  #include <touch/ttoucharea.h>
   #include <tmtr.h>
   #include <Android/tandroid.h>
 #endif

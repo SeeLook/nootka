@@ -29,6 +29,8 @@
 #include <QtCore/qthread.h>
 
 
+#define CROSS_SMP (2200) // 50ms
+
 /*static*/
 QStringList TaudioOUT::getAudioDevicesList() {
   QStringList devNamesList;
@@ -42,6 +44,20 @@ QString                TaudioOUT::m_devName = QStringLiteral("anything");
 TaudioOUT*             TaudioOUT::m_instance = nullptr;
 /*end static*/
 
+
+/**
+ * Dirty mixing of two given samples
+ */
+qint16 mix(qint16 sampleA, qint16 sampleB) {
+//   return static_cast<qint16>((static_cast<qint32>(sampleA) + static_cast<qint32>(sampleB)) / 2); It cracks
+  qint32 a32 = static_cast<qint32>(sampleA), b32 = static_cast<qint32>(sampleB);
+  if (sampleA < 0 && sampleB < 0 )
+    return static_cast<qint16>((a32 + b32) - ((a32 * b32) / INT16_MIN));
+  else if (sampleA > 0 && sampleB > 0 )
+    return static_cast<qint16>((a32 + b32) - ((a32 * b32) / INT16_MAX));
+  else
+    return sampleA + sampleB;
+}
 
 
 TaudioOUT::TaudioOUT(TaudioParams *_params, QObject *parent) :
@@ -179,8 +195,9 @@ void TaudioOUT::startPlaying() {
   if (playList().size() > 1 && p_tempo > 100) // in faster tempo wait for decoding more notes
     playThread()->msleep(100);
 
-  if (playList().size() > 1)
-    ao()->emitNextNoteStarted();
+  //TODO: Make order with ao() - it is not declared under Nootka Qt audio classes
+//  if (playList().size() > 1)
+//    ao()->emitNextNoteStarted();
 }
 
 
@@ -212,6 +229,7 @@ bool TaudioOUT::play(int noteNr) {
 }
 
 
+//TODO adjust code to new abstract player with thread
 void TaudioOUT::playMelody(const QList<Tnote>& notes, int tempo, int firstNote) {
   if (!p_playable)
     return;
@@ -223,7 +241,7 @@ void TaudioOUT::playMelody(const QList<Tnote>& notes, int tempo, int firstNote) 
   if (firstNote < 0 || firstNote >= notes.count())
     return;
 
-  preparePlayList(notes, tempo, firstNote, oggScale->sampleRate(), GLOB->transposition(), static_cast<int>(audioParams()->a440diff));
+//  preparePlayList(notes, tempo, firstNote, oggScale->sampleRate(), GLOB->transposition(), static_cast<int>(audioParams()->a440diff));
   if (playList().isEmpty()) // naughty user wants to play tied note at the score end
     return;
 

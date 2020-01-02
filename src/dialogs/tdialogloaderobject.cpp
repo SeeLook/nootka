@@ -32,10 +32,12 @@
 #include "main/tstartexamitem.h"
 #include "main/tnootkacertificate.h"
 #include "main/tpiechartitem.h"
-#include "charts/tchartitem.h"
-#include "charts/tcharttipitem.h"
-#include "charts/tlinchartdelegate.h"
-#include "charts/tbarchartdelegate.h"
+#if !defined (Q_OS_ANDROID)
+  #include "charts/tchartitem.h"
+  #include "charts/tcharttipitem.h"
+  #include "charts/tlinchartdelegate.h"
+  #include "charts/tbarchartdelegate.h"
+#endif
 #include "help/tmainhelp.h"
 #include <qtr.h>
 #include <exam/texam.h>
@@ -76,10 +78,12 @@ TdialogLoaderObject::TdialogLoaderObject(QObject* parent) :
     qRegisterMetaType<Tlevel*>("Tlevel*");
     qRegisterMetaType<Texam*>("Texam*");
 
+#if !defined (Q_OS_ANDROID)
     qmlRegisterType<TchartItem>("Nootka.Charts", 1, 0, "TchartItem");
     qmlRegisterType<TchartTipItem>("Nootka.Charts", 1, 0, "TchartTipItem");
     qmlRegisterType<TlinChartDelegate>("Nootka.Charts", 1, 0, "TlinChartDelegate");
     qmlRegisterType<TbarChartDelegate>("Nootka.Charts", 1, 0, "TbarChartDelegate");
+#endif
     m_firstTime = false;
   }
 }

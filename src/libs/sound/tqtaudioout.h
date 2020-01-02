@@ -51,9 +51,9 @@ public:
         /**
          * Starts playing given note and then returns true, otherwise gets false.
          */
-  bool play(int noteNr) override;
+  bool play(int noteNr);
 
-  void playMelody(const QList<Tnote>& notes, int tempo, int firstNote = 0) override;
+  void playMelody(const QList<Tnote>& notes, int tempo, int firstNote = 0);
 
   void startPlaying() override;
 
@@ -62,7 +62,7 @@ public:
       /**
        * Immediately stops playing.
        */
-  void stop();
+  void stop() override;
 
   TaudioParams* audioParams() { return m_audioParams; }
 
