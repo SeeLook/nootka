@@ -9,7 +9,6 @@
     <file alias="NootkaLabel.qml">qml/NootkaLabel.qml</file>
     <file alias="MainScore.qml">qml/MainScore.qml</file>
     <file alias="DialogLoader.qml">qml/DialogLoader.qml</file>
-    <file alias="+android/DialogDrawer.qml">qml/+android/DialogDrawer.qml</file>
     <file alias="NoteName.qml">qml/NoteName.qml</file>
     <file alias="ScoreMenuContent.qml">qml/ScoreMenuContent.qml</file>
     <file alias="MelodyMenuContent.qml">qml/MelodyMenuContent.qml</file>

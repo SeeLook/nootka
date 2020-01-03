@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2018-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -80,17 +80,13 @@ TmelGenItem {
 
   property var defButt: null
   Component.onCompleted: {
-    if (Noo.isAndroid()) {
-        dialLoader.buttons = [DialogButtonBox.Close, DialogButtonBox.Help, DialogButtonBox.RestoreDefaults]
-    } else {
-        dialLoader.title = Noo.TR("TmelodySettings", "Random melody")
-        dialLoader.standardButtons = DialogButtonBox.Close | DialogButtonBox.Help | DialogButtonBox.RestoreDefaults
-        defButt = dialLoader.buttonBox.standardButton(DialogButtonBox.RestoreDefaults)
-        defButt.text = Noo.TR("TmainScoreObject", "Generate melody")
-        defButt.DialogButtonBox.buttonRole = DialogButtonBox.ActionRole
-        defButt.pixmap = Noo.pix("melody")
-        defButt.clicked.connect(doGenerate)
-    }
+    dialLoader.title = Noo.TR("TmelodySettings", "Random melody")
+    dialLoader.standardButtons = DialogButtonBox.Close | DialogButtonBox.Help | DialogButtonBox.RestoreDefaults
+    defButt = dialLoader.buttonBox.standardButton(DialogButtonBox.RestoreDefaults)
+    defButt.text = Noo.TR("TmainScoreObject", "Generate melody")
+    defButt.DialogButtonBox.buttonRole = DialogButtonBox.ActionRole
+    defButt.pixmap = Noo.pix("melody")
+    defButt.clicked.connect(doGenerate)
   }
 
   function doGenerate() {

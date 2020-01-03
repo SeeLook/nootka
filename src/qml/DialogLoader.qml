@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -23,8 +23,6 @@ Old.Dialog {
 
   // private
   property var currentDialog: null
-  property var dialogDrawer: null
-  property var buttons: []
 
   TdialogObject {
     id: dialogObj
@@ -51,8 +49,8 @@ Old.Dialog {
     }
     DialogButtonBox {
       id: box
-      visible: !Noo.isAndroid() && standardButtons != 0
-      width: parent.width; height: Noo.isAndroid() ? 0 : Noo.fontSize() * 3
+      visible: standardButtons !== 0
+      width: parent.width; height: Noo.fontSize() * 3
       padding: Noo.fontSize() / 4
       spacing: Noo.fontSize()
       delegate: TiconButton {
@@ -77,11 +75,9 @@ Old.Dialog {
 
   onPageChanged: {
     if (page > 0) {
-      if (Noo.isAndroid()) {
-          standardButtons = 0
-      } else {
-          width = nootkaWindow.width * 0.9
-          height = nootkaWindow.height * 0.9
+      if (!Noo.isAndroid()) {
+        width = nootkaWindow.width * 0.9
+        height = nootkaWindow.height * 0.9
       }
       switch (page) {
         case Nootka.Settings:
@@ -116,13 +112,8 @@ Old.Dialog {
       SOUND.stopListen()
       SOUND.stopPlaying()
       open()
-      if (Noo.isAndroid()) {
-        var c = Qt.createComponent("qrc:/+android/DialogDrawer.qml")
-        dialogDrawer = c.createObject(currentDialog)
-      }
     }
   }
-
 
   onVisibleChanged: {
     if (visible === false && currentDialog) {

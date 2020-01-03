@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -26,16 +26,7 @@ Item {
                   "about/Donors")
     pages.addItem("changes", qsTr("Changes"), "about/Changes")
     pages.addItem("qt", "Qt", "about/Qt")
-    if (Noo.isAndroid()) {
-        dialLoader.buttons = [DialogButtonBox.Close]
-    } else {
-        dialLoader.standardButtons = DialogButtonBox.Close
-        dialLoader.title = qsTr("About Nootka")
-    }
-  }
-
-  Connections {
-    target: pages.mobileButt
-    onClicked: dialLoader.dialogDrawer.open()
+    dialLoader.standardButtons = DialogButtonBox.Close
+    dialLoader.title = qsTr("About Nootka")
   }
 }

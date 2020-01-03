@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -190,12 +190,8 @@ TstartExamItem {
   }
 
   Component.onCompleted: {
-    if (Noo.isAndroid()) {
-        dialLoader.buttons = []
-    } else {
-        dialLoader.standardButtons = 0
-        dialLoader.title = qsTr("Start exercises or an exam")
-    }
+    dialLoader.standardButtons = 0
+    dialLoader.title = qsTr("Start exercises or an exam")
   }
 
   onContinueExam: start(Texecutor.ContinueExam, examFile)

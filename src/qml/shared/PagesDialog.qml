@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -17,7 +17,6 @@ Item {
   property alias pages: navList.pages
   property alias currentPage: stack.currentItem
   property var buttons: []
-  property alias mobileButt: mobBut
 
   anchors { fill: parent; leftMargin: Noo.fontSize() / 4 }
 
@@ -41,7 +40,7 @@ Item {
     ListView {
       id: navList
       clip: true
-      height: parent.height - (Noo.isAndroid() ? mobBut.height : 0)
+      height: parent.height
       width: maxWidth
       z: 3 // above stack
       topMargin: Noo.fontSize() / 2
@@ -106,24 +105,6 @@ Item {
       }
 
       Behavior on contentY { enabled: GLOB.useAnimations; NumberAnimation { duration: 300; easing.type: Easing.OutBounce }}
-    }
-
-    Button {
-      id: mobBut
-      visible: Noo.isAndroid()
-      width: navList.width
-      height: Noo.fontSize() * 2
-      background: Rectangle {
-        anchors.fill: parent
-        color: mobBut.down ? activPal.highlight : activPal.text
-      }
-      contentItem: Text {
-        text: ". . ."
-        font.bold: true
-        color: mobBut.down ? activPal.highlightedText : activPal.base
-        horizontalAlignment: Text.AlignHCenter
-        verticalAlignment: Text.AlignVCenter
-      }
     }
 
   }
