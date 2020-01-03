@@ -58,7 +58,7 @@ Old.Dialog {
       }
       background: Rectangle {
         anchors.fill: parent
-        color: Qt.darker(activPal.window, 1.1)
+        color: Noo.isAndroid() ? activPal.base : Qt.darker(activPal.window, 1.1)
       }
       onClicked: {
         switch (button.DialogButtonBox.buttonRole) {

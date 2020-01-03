@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -55,15 +55,27 @@ Tflickable {
       Repeater {
         model: trModel
         Row {
-          spacing: Noo.fontSize()
-          Image { height: Noo.fontSize() * 3; width: height; source: Noo.pix("flags/" + flag); anchors.verticalCenter: parent.verticalCenter }
-          Text { text: lang; textFormat: Text.PlainText; color: activPal.text; width: Noo.fontSize() * 9; anchors.verticalCenter: parent.verticalCenter  }
+          spacing: Noo.fontSize() * (Noo.isAndroid() ? 0.25 : 1)
+          Image {
+            height: Noo.fontSize() * 3; width: height
+            source: Noo.pix("flags/" + flag)
+            anchors.verticalCenter: parent.verticalCenter
+          }
+          Text {
+            text: lang; textFormat: Text.PlainText; color: activPal.text
+            width: Noo.fontSize() * (Noo.isAndroid() ? 6 : 9)
+            font.pixelSize: Noo.fontSize() * (Noo.isAndroid() ? 0.8 : 1)
+            anchors.verticalCenter: parent.verticalCenter
+          }
           Text {
             text: trr; color: activPal.text; font.bold: true;
             textFormat: Text.StyledText; width: Noo.fontSize() * 16; fontSizeMode: Text.Fit; minimumPixelSize: Noo.fontSize() / 2;  minimumPointSize: minimumPixelSize
             anchors.verticalCenter: parent.verticalCenter
           }
-          LinkText { text: web; anchors.verticalCenter: parent.verticalCenter }
+          LinkText {
+            text: web; anchors.verticalCenter: parent.verticalCenter
+            font.pixelSize: Noo.fontSize() * (Noo.isAndroid() ? 0.8 : 1)
+          }
         }
       }
     }

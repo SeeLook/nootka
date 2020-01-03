@@ -12,13 +12,13 @@ import Nootka 1.0
 AbstractButton {
   id: root
 
-  hoverEnabled: true
+  hoverEnabled: !Noo.isAndroid()
 
-  width: Math.max(pix.width, butText.width) + (Noo.isAndroid() ? 4 : factor * 2)
+  width: Math.max(pix.width, butText.width) + factor * 2
 
   property alias pixmap: pix.source
   property alias name: butText.text
-  property real factor: Noo.fontSize() * (Noo.isAndroid() ? 0.5 : 0.7)
+  property real factor: Noo.fontSize() * (Noo.isAndroid() ? 0.45 : 0.7)
 
   contentItem: Column {
     width: parent.width
@@ -34,7 +34,7 @@ AbstractButton {
       Image {
         id: pix
         mipmap: true
-        height: factor * 7.5; width: height * (sourceSize.width / sourceSize.height)
+        height: parent.height * 0.9; width: height * (sourceSize.width / sourceSize.height)
         anchors.centerIn: parent
         visible: enabled
       }
@@ -44,7 +44,7 @@ AbstractButton {
         anchors.fill: pix
         visible: !enabled
       }
-      transformOrigin: Image.Center; scale: !enabled || pressed ? 0.9 : (GLOB.useAnimations && hovered ? 1.4 : 1.0)
+      transformOrigin: Image.Center; scale: !enabled || pressed ? 0.8 : (GLOB.useAnimations && hovered ? 1.4 : 1.0)
       Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
       Behavior on color { enabled: GLOB.useAnimations; ColorAnimation { duration: 150 }}
     }
@@ -53,7 +53,7 @@ AbstractButton {
       id: butText
       z: 0
       color: enabled ? "#000000" : "#999999"
-      font.pixelSize: Noo.fontSize() * (Noo.isAndroid() ? 0.8 : 1)
+      font.pixelSize: Noo.fontSize() * (Noo.isAndroid() ? 0.7 : 1)
       horizontalAlignment: Text.AlignHCenter
       anchors.horizontalCenter: parent.horizontalCenter
     }

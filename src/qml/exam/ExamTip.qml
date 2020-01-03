@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -25,7 +25,7 @@ TipRect {
 
   color: Qt.tint(activPal.base, Noo.alpha(bg, 50))
   border { width: Noo.fontSize() / 6; color: bg }
-  shadowRadius: Screen.height / 90
+  shadowRadius: Noo.fontSize() * 3; horizontalOffset: Noo.fontSize() / 3; verticalOffset: horizontalOffset
   z: 200
   x: Noo.bound(shadowRadius, offX - width / 2, executor.width - width - shadowRadius)
   y: Noo.bound(shadowRadius, offY - height / 2, executor.height - height - shadowRadius)
