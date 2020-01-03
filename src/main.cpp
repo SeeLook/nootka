@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -34,6 +34,7 @@
 
 #include <QtWidgets/qapplication.h>
 #include <QtGui/qicon.h>
+#include <QtGui/qpalette.h>
 #include <QtQml/qqmlapplicationengine.h>
 #include <QtQml/qqmlcontext.h>
 #include <QtCore/qtranslator.h>
@@ -122,6 +123,10 @@ int main(int argc, char *argv[])
     auto f = a->font();
 #if defined (Q_OS_ANDROID)
     f.setPixelSize(f.pixelSize() * gl->guiScale());
+    auto pal = qApp->palette();
+    pal.setColor(QPalette::Active, QPalette::Highlight, QColor(0, 128, 128)); // Teal color of highlight for Android
+    pal.setColor(QPalette::Active, QPalette::Shadow, QColor(144, 144, 144)); // Dark gray for shadow
+    qApp->setPalette(pal);
 #else
 //     f.setPixelSize(Tmtr::fingerPixels() * 0.45 * gl->guiScale());
     f.setPointSizeF(f.pointSizeF() * gl->guiScale());
