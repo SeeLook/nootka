@@ -124,6 +124,10 @@ ApplicationWindow {
   }
 
   onClosing: {
+    if (Noo.isAndroid() && dialogLoader && dialogLoader.visible) {
+      close.accepted = false
+      dialogLoader.close()
+    }
     if (executor) {
       if (!executor.closeNootka())
         close.accepted = false
