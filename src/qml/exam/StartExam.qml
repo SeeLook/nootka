@@ -16,22 +16,23 @@ TstartExamItem {
   width: parent.width; height: parent.height
 
   Column {
+    id: startCol
     width: parent.width; height: parent.height
 
-    spacing: Noo.fontSize()
+    spacing: Noo.fontSize() * (Noo.isAndroid() ? 0.5 : 1)
     topPadding: Noo.fontSize() / 4
 
     Row {
       id: upperRow
-      spacing: Noo.fontSize() * 4
+      spacing: Noo.fontSize() * (Noo.isAndroid() ? 2 : 4)
       anchors.horizontalCenter: parent.horizontalCenter
       TiconButton {
         pixmap: Noo.pix("help"); iconHeight: startDialog.height / 15
-        text: Noo.TR("QShortcut", "Help")
+        text: Noo.isAndroid() ? "" : Noo.TR("QShortcut", "Help")
         onClicked: getHelpDialog()
       }
       Row {
-        spacing: Noo.fontSize()
+        spacing: Noo.fontSize() * (Noo.isAndroid() ? 0.5 : 1)
         anchors.verticalCenter: parent.verticalCenter
         Text { text: qsTr("student name:"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
         TextField {
@@ -39,7 +40,7 @@ TstartExamItem {
           anchors.verticalCenter: parent.verticalCenter
           placeholderText: qsTr("Enter your name or nick-name.")
           font.pixelSize: Noo.fontSize(); maximumLength: 40
-          width: Noo.fontSize() * 25
+          width: Noo.fontSize() * (Noo.isAndroid() ? 19 : 25)
           horizontalAlignment: TextInput.AlignHCenter
           text: GLOB.student
           background: Rectangle {
@@ -59,7 +60,7 @@ TstartExamItem {
       }
       TiconButton {
         pixmap: Noo.pix("levelCreator"); iconHeight: startDialog.height / 15
-        text: Noo.TR("TlevelCreatorItem", "Level creator")
+        text: Noo.isAndroid() ? "" :  Noo.TR("TlevelCreatorItem", "Level creator")
         onClicked: {
           dialLoader.close()
           nootkaWindow.showDialog(3) // Nootka.LevelCreator
@@ -68,31 +69,37 @@ TstartExamItem {
     }
 
     Text {
+      visible: !Noo.isAndroid()
+      id: infoText
       text: qsTr("To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file.")
       anchors.horizontalCenter: parent.horizontalCenter
       width: parent.width * 0.9; horizontalAlignment: Text.AlignHCenter; color: activPal.text
       font { bold: true; pixelSize: Noo.fontSize() * 0.8 }
+      wrapMode: Text.WordWrap
     }
 
     LevelsSelector {
       id: selector
       anchors.horizontalCenter: parent.horizontalCenter
-      width: parent.width * 0.98; height: parent.height - upperRow.height - row1.height - row2.height - Noo.fontSize() * 6
+      width: parent.width - Noo.fontSize()
+      height: parent.height - upperRow.height - row1.height - row2.height
+              - (Noo.isAndroid() ? startCol.spacing * 4 : infoText.height - startCol.spacing * 6)
     }
 
     Row {
       id: row1
       anchors.horizontalCenter: parent.horizontalCenter
-      spacing: Noo.fontSize()
+      spacing: Noo.fontSize() * (Noo.isAndroid() ? 0.5 : 1)
       Tframe {
-        width: startDialog.width * 0.48
+        width: startDialog.width / 2 - Noo.fontSize()
         Row {
-          spacing: Noo.fontSize()
+          spacing: Noo.fontSize() * (Noo.isAndroid() ? 0.5 : 1)
           TiconButton {
             enabled: selector.levelId > -1 || prevLevelName() !== ""
             iconHeight: startDialog.height / 15
-            pixmap: Noo.pix("practice"); text: qsTr("Start exercise on level:")
-              onClicked: start(Texecutor.StartExercise, selector.levelId > -1 ? selector.currentLevelVar() : prevLevel())
+            pixmap: Noo.isAndroid() ? "" :  Noo.pix("practice")
+            text: qsTr("Start exercise on level:")
+            onClicked: start(Texecutor.StartExercise, selector.levelId > -1 ? selector.currentLevelVar() : prevLevel())
           }
           Text {
             anchors.verticalCenter: parent.verticalCenter
@@ -102,13 +109,14 @@ TstartExamItem {
         }
       }
       Tframe {
-        width: startDialog.width * 0.48
+        width: startDialog.width / 2 - Noo.fontSize()
         Row {
-          spacing: Noo.fontSize()
+          spacing: Noo.fontSize() * (Noo.isAndroid() ? 0.5 : 1)
           TiconButton {
             enabled: selector.levelId !== -1
             iconHeight: startDialog.height / 15
-            pixmap: Noo.pix("exam"); text: qsTr("Pass new exam on level:")
+            pixmap: Noo.isAndroid() ? "" : Noo.pix("exam")
+            text: qsTr("Pass new exam on level:")
             onClicked: start(Texecutor.NewExam, selector.currentLevelVar())
           }
           Text {
@@ -127,10 +135,10 @@ TstartExamItem {
         id: contFrame
         border.width: 0
         Row {
-          spacing: Noo.fontSize()
           TiconButton {
             iconHeight: startDialog.height / 15
-            pixmap: Noo.pix("exam"); text: qsTr("Select an exam to continue") + "   ⋮"
+            pixmap:  Noo.isAndroid() ? "" : Noo.pix("exam")
+            text: qsTr("Select an exam to continue") + "   ⋮"
             onClicked: menu.open()
           }
         }
@@ -140,11 +148,12 @@ TstartExamItem {
         anchors {left: contFrame.right; leftMargin: Noo.fontSize() }
         width: parent.width - contFrame.width - exitFrame.width - 2 * Noo.fontSize()
         Row {
-          spacing: Noo.fontSize()
+          spacing: Noo.fontSize() * (Noo.isAndroid() ? 0.5 : 1)
           TiconButton {
             id: lastExamButt
             iconHeight: startDialog.height / 15
-            pixmap: Noo.pix("exam"); text: qsTr("Latest exam")
+            pixmap: Noo.isAndroid() ? "" : Noo.pix("exam")
+            text: qsTr("Latest exam")
             enabled: lastExamFile !== ""
             onClicked: start(Texecutor.ContinueExam, lastExamFile)
           }
