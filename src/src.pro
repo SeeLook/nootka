@@ -1,8 +1,16 @@
+#=================================================================
+# This file is part of Nootka (http://nootka.sf.net)
+# Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)
+# on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)
+#
+# Main Nootka executable
+#=================================================================
+
 
 QT += multimedia androidextras core widgets quick quickcontrols2 printsupport
 
 
-TARGET = Nootka2
+TARGET = Nootka
 TEMPLATE = app
 
 SOURCES +=  main.cpp \
@@ -93,7 +101,6 @@ android {
   QMAKE_CXXFLAGS_RELEASE += -fsigned-char
   QMAKE_CXXFLAGS_DEBUG += -fsigned-char -O1
   ANDROID_EXTRA_LIBS += $$OUT_PWD/libs/core/libNootkaCore.so\
-#                         $$OUT_PWD/libs/mobile/libNootkaMobile.so\
                         $$OUT_PWD/libs/sound/libNootkaSound.so\
 
 }
@@ -101,7 +108,6 @@ android {
 INCLUDEPATH += libs/core libs/mobile libs/sound libs/main
 
 LIBS += -Llibs/core/ -lNootkaCore \
-#         -Llibs/mobile/ -lNootkaMobile \
         -Llibs/sound -lNootkaSound \
 
 RESOURCES += nootka.qrc
