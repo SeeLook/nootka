@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -124,8 +124,8 @@ Flickable {
   Text { // edit mode symbol
     opacity: scoreObj.editMode && !singleNote ? 1 : 0
     Behavior on opacity { enabled: GLOB.useAnimations; NumberAnimation { duration: 500 }}
-    x: Noo.fontSize() / 2; y: score.contentY + Noo.fontSize() / 2
-    text: "\u0080"; font { family: "Nootka"; pixelSize: Noo.fontSize() * 3 }
+    x: Noo.fontSize() * 3; y: score.contentY + Noo.fontSize() / 2
+    text: "\u0080"; font { family: "Nootka"; pixelSize: Noo.fontSize() * 2 }
     color: Noo.alpha(GLOB.noteCursorColor, 200)
   }
 

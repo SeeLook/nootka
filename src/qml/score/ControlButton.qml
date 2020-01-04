@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -12,6 +12,7 @@ Rectangle {
   property bool selected: false
   property alias text: txt.text
   property alias font: txt.font
+  property alias textHeight: txt.height
   property alias textColor: txt.color
   property alias yOffset: txt.y
 
@@ -31,7 +32,6 @@ Rectangle {
   Text {
     id: txt
     x: (cb.width - width) / 2
-    height: factor * 3
     style: Text.Normal
     color: cb.enabled ? activPal.text : disdPal.text
   }
