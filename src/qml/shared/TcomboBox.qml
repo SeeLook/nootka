@@ -9,7 +9,7 @@ import QtQuick.Controls 2.2
 ComboBox {
   id: cb
 
-  height: nooFM.height * 2
+  height: Noo.fontSize() * 2
   font.pixelSize: Noo.fontSize()
   scale: GLOB.useAnimations && cb.pressed ? 0.9 : 1.0
   Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
@@ -82,7 +82,7 @@ ComboBox {
 
   popup: Tmenu {
     y: cb.height - 1
-    implicitWidth: nooFM.height * 15
+    implicitWidth: Noo.fontSize() * 15
     implicitHeight: contentItem.implicitHeight
     padding: 1
     transformOrigin: Item.Top

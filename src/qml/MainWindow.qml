@@ -13,6 +13,7 @@ ApplicationWindow {
   visible: true
   title: "Nootka"
   color: activPal.window
+  visibility: Noo.isAndroid() ? "FullScreen" : "AutomaticVisibility"
 
   property alias mainMenu: mainMenu
 
@@ -30,7 +31,6 @@ ApplicationWindow {
     colorGroup: SystemPalette.Active
   }
   SystemPalette { id: disdPal; colorGroup: SystemPalette.Disabled }
-  FontMetrics { id: nooFM }
 
   Connections {
     target: Noo

@@ -353,7 +353,7 @@ qreal TnootkaQML::lightness(const QColor& c) const {
 
 int TnootkaQML::fontSize() {
 #if defined (Q_OS_ANDROID)
-  return (qApp->font().pixelSize() > 0 ? qApp->font().pixelSize() : qApp->font().pointSize()) * 0.8 * GLOB->guiScale();
+  return Tmtr::fingerPixels() * 0.3 * GLOB->guiScale();
 #else
   return Tmtr::fingerPixels() * 0.45 * GLOB->guiScale();
 #endif
