@@ -153,12 +153,22 @@ public:
   Q_INVOKABLE int fontSize();
   Q_INVOKABLE int fingerPixels();
 
+      /**
+       * height or width of a screen (less of them)
+       */
+  Q_INVOKABLE int shortScreenSide();
+
+      /**
+       * height or width of a screen (bigger of them)
+       */
+  Q_INVOKABLE int longScreenSide();
+
   Q_INVOKABLE QString pixToHtml(const QString& pixName, int height = 0);
 
       /**
        * Calls @p QDesktopServices::openUrl with Nootka site doc at given @p hash
        */
-  Q_INVOKABLE  void openHelpLink(const QString& hash);
+  Q_INVOKABLE void openHelpLink(const QString& hash);
 
   Q_INVOKABLE qreal bound(qreal min, qreal val, qreal max);
 

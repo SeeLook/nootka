@@ -359,10 +359,11 @@ int TnootkaQML::fontSize() {
 #endif
 }
 
+int TnootkaQML::fingerPixels() { return Tmtr::fingerPixels(); }
 
-int TnootkaQML::fingerPixels() {
-  return Tmtr::fingerPixels();
-}
+int TnootkaQML::shortScreenSide() { return Tmtr::shortScreenSide(); }
+
+int TnootkaQML::longScreenSide() { return Tmtr::longScreenSide(); }
 
 
 QString TnootkaQML::pixToHtml(const QString& pixName, int height) {
