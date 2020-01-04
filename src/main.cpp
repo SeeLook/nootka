@@ -124,7 +124,7 @@ int main(int argc, char *argv[])
 #if defined (Q_OS_ANDROID)
     f.setPixelSize(f.pixelSize() * gl->guiScale());
     auto pal = qApp->palette();
-    pal.setColor(QPalette::Active, QPalette::Highlight, QColor(0, 128, 128)); // Teal color of highlight for Android
+    pal.setColor(QPalette::Active, QPalette::Highlight, QColor(0, 160, 160)); // Teal color of highlight for Android
     pal.setColor(QPalette::Active, QPalette::Shadow, QColor(144, 144, 144)); // Dark gray for shadow
     qApp->setPalette(pal);
 #else

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -151,6 +151,7 @@ public:
   Q_INVOKABLE qreal lightness(const QColor& c) const;
 
   Q_INVOKABLE int fontSize();
+  Q_INVOKABLE int fingerPixels();
 
   Q_INVOKABLE QString pixToHtml(const QString& pixName, int height = 0);
 

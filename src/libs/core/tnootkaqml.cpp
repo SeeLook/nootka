@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -351,13 +351,17 @@ qreal TnootkaQML::lightness(const QColor& c) const {
 }
 
 
-
 int TnootkaQML::fontSize() {
 #if defined (Q_OS_ANDROID)
   return (qApp->font().pixelSize() > 0 ? qApp->font().pixelSize() : qApp->font().pointSize()) * 0.8 * GLOB->guiScale();
 #else
   return Tmtr::fingerPixels() * 0.45 * GLOB->guiScale();
 #endif
+}
+
+
+int TnootkaQML::fingerPixels() {
+  return Tmtr::fingerPixels();
 }
 
 
