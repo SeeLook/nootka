@@ -53,7 +53,7 @@ AbstractButton {
       id: butText
       z: 0
       color: enabled ? "#000000" : "#999999"
-      font.pixelSize: Noo.fontSize() * (Noo.isAndroid() ? 0.7 : 1)
+      font.pixelSize: Noo.fontSize() * (Noo.isAndroid() ? 0.8 : 1)
       horizontalAlignment: Text.AlignHCenter
       anchors.horizontalCenter: parent.horizontalCenter
     }
