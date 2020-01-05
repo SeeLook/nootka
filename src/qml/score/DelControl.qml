@@ -50,8 +50,9 @@ ControlBase {
 
   TipRect {
     x: activeItem ? -activeItem.width * score.scale - width * 1.3: 0
-    width: childrenRect.width; height: childrenRect.height
+    width: controlButt.width; height: controlButt.height
     ControlButton {
+      id: controlButt
       factor: delControl.factor
       font { family: "Nootka"; pixelSize: factor * 3 }
       text: "n"
