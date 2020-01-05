@@ -63,7 +63,7 @@ TexamSummary {
           onClicked: { continueExecutor(); dialLoader.close() }
         }
         TiconButton {
-//           enabled: false
+          visible: !Noo.isAndroid()
           width: buttGrid.buttWidth
           pixmap: Noo.pix("charts"); iconHeight: summDialog.height / 15
           text: qsTr("Analyze")
