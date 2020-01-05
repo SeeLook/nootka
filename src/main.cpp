@@ -92,7 +92,7 @@ int main(int argc, char *argv[])
   Tglobals *gl = nullptr;
   QPointer<QApplication> a = nullptr;
   QQmlApplicationEngine *e = nullptr;
-  TnootkaQML nooObj;
+  auto nooObj = new TnootkaQML();
 
   int exitCode;
   bool firstLoop = true;
@@ -101,11 +101,11 @@ int main(int argc, char *argv[])
 #if !defined (Q_OS_ANDROID)
     if (a)
       delete a;
-    if (nooObj.resetConfig()) { // delete config file - new Nootka instance will start with first run wizard
+    if (nooObj->resetConfig()) { // delete config file - new Nootka instance will start with first run wizard
       QFile f(confFile);
       f.remove();
     }
-    nooObj.setResetConfig(false);
+    nooObj->setResetConfig(false);
 #endif
     a = new QApplication(argc, argv);
     Tmtr::init(a);
@@ -134,17 +134,17 @@ int main(int argc, char *argv[])
 
     a->setWindowIcon(QIcon(Tpath::img("nootka")));
 
-    Tsound sound;
+    auto sound = new Tsound();
 
     e = new QQmlApplicationEngine;
     e->rootContext()->setContextProperty(QStringLiteral("GLOB"), gl);
-    e->rootContext()->setContextProperty(QStringLiteral("Noo"), &nooObj);
-    e->rootContext()->setContextProperty(QStringLiteral("SOUND"), &sound);
+    e->rootContext()->setContextProperty(QStringLiteral("Noo"), nooObj);
+    e->rootContext()->setContextProperty(QStringLiteral("SOUND"), sound);
     bool  wasFirstRun = gl->isFirstRun;
     if (gl->isFirstRun) {
       TmainHelp h;
       e->rootContext()->setContextProperty(QStringLiteral("HELP"), &h);
-      nooObj.setQmlEngine(e);
+      nooObj->setQmlEngine(e);
       e->load(QUrl(QStringLiteral("qrc:/wizard/Wizard.qml")));
       if (firstLoop) {
         QTextStream o(stdout);
@@ -154,14 +154,14 @@ int main(int argc, char *argv[])
       delete e;
       e = new QQmlApplicationEngine;
       e->rootContext()->setContextProperty(QStringLiteral("GLOB"), gl);
-      e->rootContext()->setContextProperty(QStringLiteral("Noo"), &nooObj);
-      e->rootContext()->setContextProperty(QStringLiteral("SOUND"), &sound);
+      e->rootContext()->setContextProperty(QStringLiteral("Noo"), nooObj);
+      e->rootContext()->setContextProperty(QStringLiteral("SOUND"), sound);
       gl->isFirstRun = false;
       gl->config->setValue(QLatin1String("version"), gl->version);
       // TODO: storing current version in settings avoids opening 'about' window next launch
       //       but if there will be another window - delete line above
     }
-    nooObj.setQmlEngine(e);
+    nooObj->setQmlEngine(e);
     qmlRegisterType<TnameItem>("Nootka.Main", 1, 0, "TnameItem");
     qmlRegisterType<TmainScoreObject>("Nootka.Main", 1, 0, "TmainScoreObject");
     qmlRegisterType<TdialogLoaderObject>("Nootka.Dialogs", 1, 0, "TdialogObject");
@@ -171,10 +171,10 @@ int main(int argc, char *argv[])
 #if defined (Q_OS_ANDROID)
      QString androidArg = Tandroid::getRunArgument();
      if (!androidArg.isEmpty())
-       nooObj.openFile(androidArg);
+       nooObj->openFile(androidArg);
 #else
       if (argc > 1)
-        nooObj.openFile(QString::fromLocal8Bit(argv[argc - 1]));
+        nooObj->openFile(QString::fromLocal8Bit(argv[argc - 1]));
 #endif
     }
     if (firstLoop && !wasFirstRun) {
@@ -185,7 +185,7 @@ int main(int argc, char *argv[])
       o << "\033[01;35m Nootka launch time: " << startElapsed.nsecsElapsed() / 1000000.0 << " [ms]\033[01;00m\n";
 #endif
     }
-    sound.init();
+    sound->init();
 
     if (firstLoop && !wasFirstRun) {
       // show some dialog when version was changed (news or other info)
@@ -198,18 +198,23 @@ int main(int argc, char *argv[])
 
     firstLoop = false;
     exitCode = a->exec();
+
+    delete sound;
     delete e;
     delete gl;
 #if defined (Q_OS_ANDROID)
-    if (nooObj.resetConfig()) { // delete config file - new Nootka instance will start with first run wizard
+    if (nooObj->resetConfig()) { // delete config file - new Nootka instance will start with first run wizard
         QFile f(confFile);
         f.remove();
         Tandroid::restartNootka(); // and call Nootka after delay
     }
-    nooObj.setResetConfig(false); // do - while loop doesn't work with Android
+    nooObj->setResetConfig(false); // do - while loop doesn't work with Android
     qApp->quit(); // HACK: calling QApplication::quick() solves hang on x86 when Qt uses native (usually obsolete) SSL libraries
 #endif
-  } while (nooObj.resetConfig());
+  } while (nooObj->resetConfig());
+
+  delete nooObj;
+  qInstallMessageHandler(0);
 
   delete a;
   return exitCode;
