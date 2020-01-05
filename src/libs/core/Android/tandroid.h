@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,29 +20,46 @@
 #ifndef TANDROID_H
 #define TANDROID_H
 
+
 #include <QtCore/qstring.h>
+
 
 /**
  * Android functions requiring invoking native methods through JNI
  */
 namespace Tandroid {
 
-      /** Sets phone/tablet screen saving disabled. */
+      /**
+       * Sets phone/tablet screen saving disabled.
+       */
   void setScreenLockDisabled();
 
-      /** Returns a number of Android API on a hosting device. */
+      /**
+       * Returns a number of Android API on a hosting device.
+       */
   int getAPIlevelNr();
 
-      /** Returns path to external storage (SD card). */
+      /**
+       * Returns path to external storage (SD card).
+       */
   QString getExternalPath();
 
-      /** Returns command line argument (usually exam/level file name. */
+      /**
+       * @p TRUE when write access to device is granted. API 23 and above
+       */
+  bool hasWriteAccess();
+
+      /**
+       * Returns command line argument (usually exam/level file name.
+       */
   QString getRunArgument();
 
   void sendExam(const QString& title, const QString& message, const QString& filePath);
 
-      /** Restarts the application by calling java code with delay.
-       * WARING! Application has to be terminated just after this method. */
+      /**
+       * Restarts the application by calling java code with delay.
+       * WARING! Application has to be terminated just after this method.
+       */
   void restartNootka();
 
   QString accountName();

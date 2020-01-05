@@ -19,6 +19,7 @@
             </intent-filter>
             <!--      Nootka  file associations     -->
             <intent-filter android:icon="@drawable/level" android:label="Nootka level" android:priority="1" >
+              <action android:name="android.intent.action.SEND" />
               <action android:name="android.intent.action.VIEW" />
               <action android:name="android.intent.action.EDIT" /> 
               <action android:name="android.intent.action.PICK" />
@@ -30,6 +31,7 @@
               <data android:pathPattern=".*\\.nel" />
             </intent-filter>
             <intent-filter android:icon="@drawable/level" android:label="Nootka level" android:priority="1">
+              <action android:name="android.intent.action.SEND" />
               <action android:name="android.intent.action.VIEW" />
               <category android:name="android.intent.category.DEFAULT" />
               <category android:name="android.intent.category.BROWSABLE" />
@@ -37,6 +39,7 @@
               <data android:scheme="https" android:host="*" android:pathPattern=".*\\.nel" />
             </intent-filter>
             <intent-filter>
+              <action android:name="android.intent.action.SEND" />
               <action android:name="android.intent.action.VIEW" />
               <category android:name="android.intent.category.DEFAULT" />
               <category android:name="android.intent.category.BROWSABLE" />
@@ -52,6 +55,7 @@
               <data android:mimeType="application/nel" android:host="*" android:pathPattern=".*\\.nel" />
             </intent-filter>-->
             <intent-filter android:icon="@drawable/exam" android:label="Nootka exam" android:priority="1" >
+              <action android:name="android.intent.action.SEND" />
               <action android:name="android.intent.action.VIEW" />
               <action android:name="android.intent.action.EDIT" /> 
               <action android:name="android.intent.action.PICK" />
@@ -69,6 +73,7 @@
               <data android:mimeType="application/noo" android:host="*" android:pathPattern=".*\\.noo" />
             </intent-filter>-->
             <intent-filter>
+              <action android:name="android.intent.action.SEND" />
               <action android:name="android.intent.action.VIEW" />
               <category android:name="android.intent.category.DEFAULT" />
               <category android:name="android.intent.category.BROWSABLE" />
