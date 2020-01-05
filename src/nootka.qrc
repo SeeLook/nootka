@@ -3,7 +3,6 @@
     <file alias="MainWindow.qml">qml/MainWindow.qml</file>
     <file alias="MainMenu.qml">qml/MainMenu.qml</file>
     <file alias="+android/MainMenu.qml">qml/+android/MainMenuMobile.qml</file>
-<!--     <file alias="+linux/MainMenu.qml">qml/+android/MainMenuMobile.qml</file> -->
     <file alias="FlyItem.qml">qml/+android/FlyItem.qml</file>
     <file alias="TtoolBar.qml">qml/TtoolBar.qml</file>
     <file alias="NootkaLabel.qml">qml/NootkaLabel.qml</file>
@@ -19,6 +18,7 @@
     <file alias="Tile.qml">qml/shared/Tile.qml</file>
     <file alias="ClefMenu.qml">qml/shared/ClefMenu.qml</file>
     <file alias="MenuButton.qml">qml/shared/MenuButton.qml</file>
+    <file alias="+android/MenuButton.qml">qml/+android/shared/MenuButton.qml</file>
     <file alias="NameStyleSelector.qml">qml/shared/NameStyleSelector.qml</file>
     <file alias="InstrumentSelector.qml">qml/shared/InstrumentSelector.qml</file>
     <file alias="RhythmSelector.qml">qml/shared/RhythmSelector.qml</file>
