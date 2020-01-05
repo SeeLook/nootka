@@ -83,7 +83,7 @@ TstartExamItem {
       anchors.horizontalCenter: parent.horizontalCenter
       width: parent.width - Noo.fontSize()
       height: parent.height - upperRow.height - row1.height - row2.height
-              - (Noo.isAndroid() ? startCol.spacing * 4 : infoText.height - startCol.spacing * 6)
+              - (Noo.isAndroid() ? startCol.spacing * 4 : infoText.height + startCol.spacing * 6)
     }
 
     Row {
