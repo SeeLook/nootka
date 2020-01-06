@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -43,6 +43,9 @@ class TtunerDialogItem : public QQuickItem
   Q_PROPERTY(QString noteName READ noteName NOTIFY noteNameChanged)
   Q_PROPERTY(QStringList tuningModel READ tuningModel NOTIFY tuningModelChanged)
   Q_PROPERTY(int workFreq READ workFreq WRITE setWorkFreq NOTIFY workFreqChanged)
+#if defined (Q_OS_ANDROID)
+
+#endif
 
 public:
   explicit TtunerDialogItem(QQuickItem* parent = nullptr);
@@ -55,6 +58,12 @@ public:
 
   int workFreq() const { return m_workFreq; }
   void setWorkFreq(int wFreq);
+
+#if defined (Q_OS_ANDROID)
+  Q_INVOKABLE int maxVolRange() const;
+  Q_INVOKABLE int currentVol() const;
+  Q_INVOKABLE void setVol(int v);
+#endif
 
 signals:
   void deviationChanged();

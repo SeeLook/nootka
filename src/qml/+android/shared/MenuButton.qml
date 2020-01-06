@@ -49,6 +49,7 @@ Rectangle {
     width: parent.width - x - Noo.fontSize()
     fontSizeMode: Text.Fit; minimumPixelSize: Noo.fontSize() / 2; minimumPointSize: minimumPixelSize
     elide: Text.ElideRight
+    textFormat: Text.StyledText
   }
 
   Component {

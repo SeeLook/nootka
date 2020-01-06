@@ -62,18 +62,13 @@ TmobileMenu {
     }
   }
 
-  property var tempoBar: null
   Taction {
-    id: tempoAct
-    text: qsTr("Metronome")
+    id: tunerAct
+    text: Noo.TR("TunerDialog", "Nooter - Nootka tuner").replace("-", "<br><font size=\"1\">") + "</font>"
     icon: "fork"
     onTriggered: {
-      if (!tempoBar) {
-        var c = Qt.createComponent("qrc:/sound/TempoBar.qml")
-        tempoBar = c.createObject(nootkaWindow.contentItem,
-                  { "z": 10, "height": nootkaWindow.height * 0.08, "y": nootkaWindow.height * 0.85, "width": nootkaWindow.width / 2, "x": nootkaWindow.width / 4 })
-        console.log("tempoBar", tempoBar)
-      }
+      nootkaWindow.showDialog(Nootka.Tuner)
+      SOUND.startListen()
     }
   }
 
@@ -113,7 +108,7 @@ TmobileMenu {
               Component.onCompleted: mainDrawer.label = this
             }
             MenuButton { action: pitchDetectAct; onClicked: mainDrawer.close() }
-            MenuButton { action: tempoAct; onClicked: mainDrawer.close() }
+            MenuButton { action: tunerAct; onClicked: mainDrawer.close() }
             MenuButton { action: Noo.levelAct; onClicked: mainDrawer.close() }
             MenuButton { action: Noo.examAct; onClicked: mainDrawer.close() }
             MenuButton { action: Noo.settingsAct; onClicked: mainDrawer.close() }
@@ -166,6 +161,11 @@ TmobileMenu {
   onFlyClicked: {
     if (currentFly)
       currentFly.taction.trigger()
+  }
+
+  Connections {
+    target: SOUND
+    onVolumeKeyPressed: nootkaWindow.showDialog(Nootka.Tuner)
   }
 
   Repeater {

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,6 +23,7 @@
 #include "nootkasoundglobal.h"
 #include <QtCore/qobject.h>
 #include <music/tnote.h>
+#include <QtCore/qelapsedtimer.h>
 
 
 class Tglobals;
@@ -82,7 +83,7 @@ public:
 
   Q_INVOKABLE void play(const Tnote& note);
 
-  void playMelody(Tmelody* mel, int transposition = 0, int countdownDuration = 0);
+  void playMelody(Tmelody* mel, int transposition = 0);
 
   void playNoteList(QList<Tnote>& notes, int firstNote, int countdownDuration = 0);
 
@@ -227,11 +228,20 @@ signals:
   void playingNoteIdChanged();
   void metroRunningChanged();
   void countdownPrepare(int tickCount);
+  void volumeKeyPressed();
+  void volumeUpPressed();
+  void volumeDownPressed();
 
       /**
        * When sound got initialized at the very beginning
        */
   void initialized();
+
+protected:
+#if defined (Q_OS_ANDROID)
+  bool eventFilter(QObject* watched, QEvent* event) override;
+  QElapsedTimer m_volKeyTimer; /**< Time between volume keys release to avoid too many. */
+#endif
 
 private:
   void createPlayer();

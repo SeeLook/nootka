@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -34,6 +34,8 @@
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qtimer.h>
 #include <QtCore/qdebug.h>
+#include <QtGui/qevent.h>
+#include <QtGui/qguiapplication.h>
 
 
 /* static */
@@ -89,6 +91,10 @@ void Tsound::init() {
         sniffer->startListening();
       emit initialized();
   });
+#if defined (Q_OS_ANDROID)
+  qApp->installEventFilter(this);
+  m_volKeyTimer.start();
+#endif
 }
 
 
@@ -122,7 +128,7 @@ void Tsound::play(const Tnote& note) {
 }
 
 
-void Tsound::playMelody(Tmelody* mel, int transposition, int countdownDuration) {
+void Tsound::playMelody(Tmelody* mel, int transposition) {
   if (player && player->isPlayable()) {
     if (player->isPlaying()) {
         stopPlaying();
@@ -249,6 +255,8 @@ QString Tsound::currentOutDevName() const { return TaudioOUT::outputName(); }
 void Tsound::setJACKorASIO(bool setOn) {
 #if !defined (Q_OS_MAC) && !defined(Q_OS_ANDROID)
   TaudioIN::setJACKorASIO(setOn);
+#else
+  Q_UNUSED(setOn)
 #endif
 }
 
@@ -544,6 +552,46 @@ void Tsound::restoreSniffer() {
 }
 
 //#################################################################################################
+//###################                PROTECTED         ############################################
+//#################################################################################################
+#if defined (Q_OS_ANDROID)
+bool Tsound::eventFilter(QObject* watched, QEvent* event) {
+  if (event->type() == QEvent::KeyPress) {
+      auto ke = static_cast<QKeyEvent*>(event);
+      if (ke->key() == Qt::Key_VolumeDown || ke->key() == Qt::Key_VolumeUp) {
+        if (m_volKeyTimer.elapsed() > 100) {
+            if (!m_tunerMode) {
+                QTimer::singleShot(10, this, &Tsound::volumeKeyPressed);
+            } else {
+                if (ke->key() == Qt::Key_VolumeDown)
+                    QTimer::singleShot(10, this, &Tsound::volumeDownPressed);
+                else
+                    QTimer::singleShot(10, this, &Tsound::volumeUpPressed);
+            }
+            m_volKeyTimer.start();
+        }
+      }
+  }/* else if (event->type() == QEvent::KeyRelease) {
+    auto ke = static_cast<QKeyEvent*>(event);
+    if (ke->key() == Qt::Key_VolumeDown || ke->key() == Qt::Key_VolumeUp) {
+      if (m_volKeyTimer.elapsed() > 100) {
+          if (!m_tunerMode) {
+              QTimer::singleShot(10, this, &Tsound::volumeKeyPressed);
+          } else {
+              if (ke->key() == Qt::Key_VolumeDown)
+                  QTimer::singleShot(10, this, &Tsound::volumeDownPressed);
+              else
+                  QTimer::singleShot(10, this, &Tsound::volumeUpPressed);
+          }
+          m_volKeyTimer.start();
+      }
+    }
+  }*/
+  return QObject::eventFilter(watched, event);
+}
+#endif
+
+//#################################################################################################
 //###################            PRIVATE SLOTS         ############################################
 //#################################################################################################
 
@@ -591,7 +639,7 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
           emit noteFinished();
           if (!m_examMode && !m_tunerMode)
             NOO->noteFinished(m_detectedNote);
-          int realTempo = qRound(60.0 / ((24.0 / static_cast<qreal>(m_detectedNote.duration())) * static_cast<qreal>(note.duration)));
+//          int realTempo = qRound(60.0 / ((24.0 / static_cast<qreal>(m_detectedNote.duration())) * static_cast<qreal>(note.duration)));
 //           qDebug() << "Detected" << note.duration << normDur << note.pitchF << m_detectedNote.rtm.string() << "tempo" << realTempo << "\n";
       } else {
           int rtmRest = 0;

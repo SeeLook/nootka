@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,6 +25,10 @@
 
 #include <QtCore/qtimer.h>
 #include <QtCore/qdebug.h>
+#if defined (Q_OS_ANDROID)
+  #include <QtAndroidExtras/qandroidfunctions.h>
+  #include <QtAndroidExtras/qandroidjnienvironment.h>
+#endif
 
 
 TtunerDialogItem::TtunerDialogItem(QQuickItem* parent) :
@@ -66,13 +70,13 @@ QStringList TtunerDialogItem::tuningModel() {
   if (GLOB->instrument().isGuitar() && t->stringNr() > 2) { // guitar
       for (int i = 1; i <= t->stringNr(); i++) {
         float offPitch = TnoteStruct::pitchToFreq(t->str(i).toMidi() + pitch440Offset);
-        model << QString("<span style=\"font-family: nootka;\">%1</span>%2 = %3 Hz").arg(i).arg((t->str(i)).toRichText()).arg(offPitch, 0, 'f', 1);
+        model << QString("%1;%2 Hz").arg((t->str(i)).styledName()).arg(offPitch, 0, 'f', 1);
       }
   } else { // no guitar - C-major scale frequencies
       for (int i = 1; i < 8; i++) {
         Tnote n(i, 1, 0);
         float offPitch = TnoteStruct::pitchToFreq(n.toMidi() + pitch440Offset);
-        model << QString("<b>%1</b> = %2 Hz").arg(n.toRichText()).arg(offPitch, 0, 'f', 1);
+        model << QString("%1;%2 Hz").arg(n.styledName()).arg(offPitch, 0, 'f', 1);
       }
   }
   return model;
@@ -95,6 +99,22 @@ void TtunerDialogItem::setWorkFreq(int wFreq) {
   }
 }
 
+
+#if defined (Q_OS_ANDROID)
+int TtunerDialogItem::maxVolRange() const {
+  return QAndroidJniObject::callStaticMethod<jint>("net/sf/nootka/ToutVolume", "maxStreamVolume");
+}
+
+
+int TtunerDialogItem::currentVol() const {
+  return QAndroidJniObject::callStaticMethod<jint>("net/sf/nootka/ToutVolume", "streamVolume");
+}
+
+
+void TtunerDialogItem::setVol(int v) {
+  QAndroidJniObject::callStaticMethod<void>("net/sf/nootka/ToutVolume", "setStreamVolume", "(I)V", v);
+}
+#endif
 
 //#################################################################################################
 //###################              PRIVATE             ############################################
