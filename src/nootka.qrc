@@ -23,7 +23,7 @@
     <file alias="InstrumentSelector.qml">qml/shared/InstrumentSelector.qml</file>
     <file alias="RhythmSelector.qml">qml/shared/RhythmSelector.qml</file>
     <file alias="TipRect.qml">qml/shared/TipRect.qml</file>
-    <file alias="+android/TipRect.qml">qml/+android/shared/TipRect.qml</file>
+<!--     <file alias="+android/TipRect.qml">qml/+android/shared/TipRect.qml</file> -->
     <file alias="TcheckBox.qml">qml/shared/TcheckBox.qml</file>
     <file alias="TradioButton.qml">qml/shared/TradioButton.qml</file>
     <file alias="Transposition.qml">qml/shared/Transposition.qml</file>
