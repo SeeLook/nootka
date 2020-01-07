@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2019 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2019-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -16,15 +16,16 @@ Slider {
     width: sl.availableWidth; height: implicitHeight
     radius: height / 2
     color: sl.enabled ? activPal.mid : disdPal.mid
-    
+
     Rectangle {
       width: sl.visualPosition * parent.width; height: parent.height
       color:  sl.enabled ? activPal.highlight : disdPal.highlight
       radius: parent.radius
     }
   }
-  
+
   handle: TipRect {
+    scale: Noo.isAndroid() && pressed ? 1.3 : 1
     x: sl.leftPadding + sl.visualPosition * (sl.availableWidth - width / 2)
     y: sl.topPadding + sl.availableHeight / 2 - height / 2
     implicitWidth: Noo.fontSize() * 2; implicitHeight: Noo.fontSize() * 2
