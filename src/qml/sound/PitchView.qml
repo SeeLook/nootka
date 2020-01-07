@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -34,9 +34,20 @@ Item {
   VolumeBar {
     id: volBar
     visible: !executor || executor.showPitchView
+    active: pitchView.active
     y: parent.height * (tempoBar.visible ? 0.55 : 0.27)
-    width: parent.width
+    width: parent.width - micButt.width * 2
     height: parent.height * 0.45
+    Shortcut { sequence: "M"; onActivated: pitchView.paused(); enabled: !executor || executor.showPitchView }
+    RectButton {
+      id: micButt
+      statusTip: qsTr("Start/stop pitch detection") + "<br><b>(M)</b>"
+      x: volBar.width + width * 0.5
+      font { family: "Nootka"; pixelSize: volBar.height }
+      text: "r"
+      onClicked: pitchView.paused()
+      checked: SOUND.listening
+    }
   }
 
   onPaused: {

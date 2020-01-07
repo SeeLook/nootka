@@ -74,12 +74,13 @@ TtunerDialogItem {
     y: spacing
     width: (tunerDialog.width - exTile.width) - Noo.fontSize()
     x: exTile.width + Noo.fontSize() / 2
-    spacing: (parent.height - freqTile.height - (Noo.isAndroid() ? volRow.height : 0) - intoBar.height - freqTexts.height) / 5
+    spacing: (parent.height - freqTile.height - (volRow.visible ? volRow.height : 0) - intoBar.height - freqTexts.height - inputCol.height) / 6
 
     MiddleA440 {
       id: freqTile
       showDesc: !Noo.isAndroid()
-      width: (tunerDialog.width - exTile.width) * (Noo.isAndroid() ? 0.98 : 0.8)
+      anchors.horizontalCenter: parent.horizontalCenter
+      width: (tunerDialog.width - exTile.width) - Noo.fontSize() * (Noo.isAndroid() ? 1 : 10)
       value: GLOB.midAfreq
       onValueChanged: workFreq = value
     }
@@ -139,6 +140,29 @@ TtunerDialogItem {
         font { pixelSize: Noo.fontSize() * 2 }
         text: Noo.TR("SoundPage", "[Hz]")
         color: activPal.text
+      }
+    }
+
+    Column {
+      id: inputCol
+      anchors.horizontalCenter: parent.horizontalCenter
+      visible: Noo.isAndroid()
+      spacing: Noo.fontSize() / 2
+      VolumeBar {
+        id: volBar
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: (tunerDialog.width - exTile.width) * 0.9
+        height: Noo.fontSize() * 2
+        Timer {
+          repeat: true; interval: 75; running: inputCol.visible && SOUND.listening
+          onTriggered: volBar.volume = SOUND.inputVol()
+        }
+      }
+      Text {
+        id: minText
+        anchors.horizontalCenter: parent.horizontalCenter
+        text: Noo.TR("SoundPage", "Minimum volume of a sound to be pitch-detected")
+        color: activPal.text; font.pixelSize: Noo.fontSize()
       }
     }
   }
