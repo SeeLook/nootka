@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -48,14 +48,10 @@ ApplicationWindow {
         id: swipe
         anchors.fill: parent
         clip: true
-//         Item {
-//           SoundInfo {}
-//         }
-
         Item {
           AboutPage {
             id: aboutPage
-            color: "#00a0a0"
+            color: activPal.highlight
           }
         }
         Item {
@@ -68,7 +64,11 @@ ApplicationWindow {
           WizardOptions { id: optionsPage }
         }
         Item {
-          HelpPage { helpText: HELP.mainHelp(); height: parent.height }
+          HelpPage {
+            helpText: HELP.mainHelp()
+            enableTOC: false;
+            height: parent.height
+          }
         }
         Item {
           SoundInfo {}
@@ -77,34 +77,43 @@ ApplicationWindow {
     }
   }
 
-  PageIndicator {
-    count: swipe.count
-    currentIndex: swipe.currentIndex
-    anchors { horizontalCenter: parent.horizontalCenter; bottom: parent.bottom }
-  }
-
   footer: Rectangle {
-    visible: !Noo.isAndroid()
     width: parent.width; height: prevBut.height + fontSize + 2
     color: Qt.tint(activPal.window, Noo.alpha(aboutPage.color, 50)) // Qt.darker(activPal.window, 0.9)
     Rectangle { color: aboutPage.color; height: fontSize / 6; width: parent.width; anchors.top: parent.top }
-    TcuteButton {
-      id: prevBut
+    Row {
+      x: (parent.width - width - 8 * fontSize) / 2
       anchors.verticalCenter: parent.verticalCenter
-      x: parent.width / 2 - width - fontSize
-      text: Noo.TR("QWizard", "< &Back").replace("&", "")
-      enabled: swipe.currentIndex > 0
-      onClicked: swipe.currentIndex -= 1
-      Shortcut { sequence: StandardKey.MoveToPreviousChar; onActivated: { if (prevBut.enabled) swipe.currentIndex -= 1 }}
-    }
-    TcuteButton {
-      id: nextBut
-      anchors.verticalCenter: parent.verticalCenter
-      x: parent.width / 2 + fontSize
-      text: Noo.TR("QWizard", "&Next >").replace("&", "")
-      enabled: swipe.currentIndex < swipe.count - 1
-      onClicked: swipe.currentIndex += 1
-      Shortcut { sequence: StandardKey.MoveToNextChar; onActivated: { if (nextBut.enabled) swipe.currentIndex += 1 }}
+      spacing: fontSize * 2
+      TcuteButton {
+        id: prevBut
+        anchors.verticalCenter: parent.verticalCenter
+        text: Noo.TR("QWizard", "< &Back").replace("&", "")
+        enabled: swipe.currentIndex > 0
+        onClicked: swipe.currentIndex -= 1
+        Shortcut { sequence: StandardKey.MoveToPreviousChar; onActivated: { if (prevBut.enabled) swipe.currentIndex -= 1 }}
+      }
+      PageIndicator {
+        id: pi
+        count: swipe.count
+        currentIndex: swipe.currentIndex
+        anchors.verticalCenter: parent.verticalCenter
+        delegate: Rectangle {
+          implicitWidth: nextBut.height / 2; implicitHeight: implicitWidth
+          radius: width / 2
+          color: labelColor
+          opacity: index === pi.currentIndex ? 0.95 : (pressed ? 0.7 : 0.45)
+          Behavior on opacity { OpacityAnimator { duration: 100 }}
+        }
+      }
+      TcuteButton {
+        id: nextBut
+        anchors.verticalCenter: parent.verticalCenter
+        text: Noo.TR("QWizard", "&Next >").replace("&", "")
+        enabled: swipe.currentIndex < swipe.count - 1
+        onClicked: swipe.currentIndex += 1
+        Shortcut { sequence: StandardKey.MoveToNextChar; onActivated: { if (nextBut.enabled) swipe.currentIndex += 1 }}
+      }
     }
     TcuteButton {
       anchors.verticalCenter: parent.verticalCenter
@@ -116,7 +125,6 @@ ApplicationWindow {
   }
 
   onClosing: {
-    console.log("Wizard is closing:", Noo.instr(instrPage.getInstrument()).name)
     GLOB.setInstrument(instrPage.getInstrument())
     clefPage.setInstrParams()
     optionsPage.setOptions()

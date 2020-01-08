@@ -1,10 +1,11 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
 
 import "../"
+import "../sound"
 
 
 Tflickable {
@@ -19,7 +20,7 @@ Tflickable {
     anchors.verticalCenter: parent.verticalCenter
     Column {
       id: sCol
-      width: parent.width * 0.98
+      width: parent.width - Noo.fontSize() * 2
       spacing: Noo.fontSize()
       Row {
         spacing: Noo.fontSize() * 2
@@ -46,9 +47,23 @@ Tflickable {
         color: activPal.text; textFormat: Text.RichText
         text: qsTr("Nootka Recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:") + "<ul>"
         + "<li>" + qsTr("Be sure your system is able to record what are you playing.") + "</li>"
-        + "<li>" + qsTr("Adjust minimal note volume a little below of your input volume level.") + "</li><br>"
-        + Noo.pixToHtml("min-vol", Noo.fontSize() * 3) + "<br>"
-        + "<li>" + qsTr("Aim to play loud and clear and avoid dirty sounds specific to your instrument.") + "</li>"
+        + "<li>" + qsTr("Adjust minimal note volume a little below of your input volume level.") + "</li><ul>"
+      }
+      VolumeBar {
+        id: volBar
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width * 0.9
+        height: Noo.fontSize() * 2
+        Timer {
+          repeat: true; interval: 100; running: true
+          onTriggered: volBar.volume = Math.random() * 0.9
+        }
+      }
+      Text {
+        width: parent.width * 0.96; wrapMode: Text.WordWrap
+        anchors.horizontalCenter: parent.horizontalCenter
+        color: activPal.text; textFormat: Text.RichText
+        text: "<ul><li>" + qsTr("Aim to play loud and clear and avoid dirty sounds specific to your instrument.") + "</li>"
         + "<li>" + qsTr("Rhythms detection during exercises and exams is more 'humane' - Nootka knows what rhythm to expect. In contrary to playing to 'empty' score when high rhythmic precision is required, so better use metronome then.") + "</li>"
         + "</ul><br>"
       }
