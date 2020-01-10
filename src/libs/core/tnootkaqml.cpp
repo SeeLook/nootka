@@ -48,9 +48,6 @@
 #include <QtGui/qpalette.h>
 
 #include "Android/tfiledialog.h"
-#if defined (Q_OS_ANDROID)
-  #include "Android/tmobilemenu.h"
-#endif
 
 #include <QtCore/qdebug.h>
 
@@ -88,9 +85,6 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qmlRegisterType<TbandoneonBg>("Nootka", 1, 0, "TbandoneonBg");
   qmlRegisterType<TsaxBg>("Nootka", 1, 0, "TsaxBg");
   qmlRegisterType<Taction>("Nootka", 1, 0, "Taction");
-#if defined (Q_OS_ANDROID)
-  qmlRegisterType<TmobileMenu>("Nootka", 1, 0, "TmobileMenu");
-#endif
 
   qmlRegisterUncreatableType<TnootkaQML>("Nootka", 1, 0, "Nootka", QStringLiteral("You cannot create an instance of the TnootkaQML."));
   qRegisterMetaType<Tinstrument>();

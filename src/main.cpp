@@ -30,6 +30,7 @@
 
 #if defined (Q_OS_ANDROID)
   #include <Android/tandroid.h>
+  #include "mobile/tmobilemenu.h"
 #endif
 
 #include <QtWidgets/qapplication.h>
@@ -165,6 +166,10 @@ int main(int argc, char *argv[])
     qmlRegisterType<TnameItem>("Nootka.Main", 1, 0, "TnameItem");
     qmlRegisterType<TmainScoreObject>("Nootka.Main", 1, 0, "TmainScoreObject");
     qmlRegisterType<TdialogLoaderObject>("Nootka.Dialogs", 1, 0, "TdialogObject");
+#if defined (Q_OS_ANDROID)
+    qmlRegisterType<TmobileMenu>("Nootka", 1, 0, "TmobileMenu");
+#endif
+
     e->load(QUrl(QStringLiteral("qrc:/MainWindow.qml")));
 
     if (firstLoop) {

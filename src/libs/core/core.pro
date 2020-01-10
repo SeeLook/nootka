@@ -64,7 +64,6 @@ SOURCES +=  tinitcorelib.cpp \
           \
             Android/tandroid.cpp \
             Android/tfiledialog.cpp \
-            Android/tmobilemenu.cpp \
 
 HEADERS  += nootkaconfig.h \
             texamparams.h \
@@ -122,7 +121,6 @@ HEADERS  += nootkaconfig.h \
           \
             Android/tandroid.h \
             Android/tfiledialog.h \
-            Android/tmobilemenu.h \
 
 
 CONFIG += mobility warn_off

@@ -14,8 +14,9 @@ TARGET = Nootka
 TEMPLATE = app
 
 SOURCES +=  main.cpp \
-            main/tnameitem.cpp \
+            mobile/tmobilemenu.cpp \
           \
+            main/tnameitem.cpp \
             main/texamexecutor.cpp \
             main/texecutorsupply.cpp \
             main/tglobalexamstore.cpp \
@@ -53,8 +54,9 @@ SOURCES +=  main.cpp \
             updater/tupdatesummary.cpp \
           \
 
-HEADERS  += main/tnameitem.h \
+HEADERS  += mobile/tmobilemenu.h \
           \
+            main/tnameitem.h \
             main/texamexecutor.h \
             main/texecutorsupply.h \
             main/tglobalexamstore.h \
