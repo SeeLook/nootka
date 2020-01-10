@@ -49,10 +49,8 @@ TmobileMenu {
     }
   }
 
-  Taction {
-    id: pitchDetectAct
-    text: qsTr("Pitch recognition", "Android menu entry, could be 'Note recognition' or 'detection' as well")
-    icon: "delete"
+  Connections {
+    target: pitchDetectAct
     onTriggered: {
       SOUND.stoppedByUser = !SOUND.stoppedByUser
       if (SOUND.listening)
@@ -155,7 +153,6 @@ TmobileMenu {
     }
   }
 
-
   onClicked: mainDrawer.open()
 
   onFlyClicked: {
@@ -171,16 +168,21 @@ TmobileMenu {
   Repeater {
     model: flyActions
     FlyItem {
-      visible: extra
-      x: flyX(index); y: flyY(index); width: fingerPixels() * 1.5; height: fingerPixels() * 1.5
       taction: modelData
+      x: extra ? flyX(index) : -width; y: extra ? flyY(index) : -height
+      scale: (extra ? 0.99 : 0.01)
       color: currentFly === this ? activPal.highlight : activPal.button
     }
   }
-  Component.onCompleted: {
-    addAction(score.playAct)
-    addAction(score.recModeAct)
-    addAction(pitchDetectAct)
-    addAction(score.clearScoreAct)
+
+  Connections {
+    target: SOUND
+    onInitialized: {
+      addAction(score.playAct)
+      addAction(score.recModeAct)
+      addAction(score.clearScoreAct)
+      addAction(score.randMelodyAct)
+      addAction(pitchDetectAct)
+    }
   }
 }

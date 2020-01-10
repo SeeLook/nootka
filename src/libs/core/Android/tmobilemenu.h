@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -36,7 +36,8 @@ class TmobileMenu : public QQuickItem
   Q_PROPERTY(bool pressed READ pressed NOTIFY pressedChanged)
   Q_PROPERTY(bool extra READ extra NOTIFY extraChanged)
   Q_PROPERTY(QQuickItem* currentFly READ currentFly NOTIFY currentFlyChanged)
-  Q_PROPERTY(QVariantList flyActions READ flyActions NOTIFY flyActionsChanged)
+  Q_PROPERTY(QList<QObject*> flyActions READ flyActions NOTIFY flyActionsChanged)
+  Q_PROPERTY(Taction* pitchDetectAct READ pitchDetectAct NOTIFY flyActionsChanged)
 
 
 public:
@@ -49,7 +50,9 @@ public:
 
   QQuickItem* currentFly() { return m_currentFlyItem; }
 
-  QVariantList flyActions() { return m_flyActions; }
+  QList<QObject*> flyActions() { return m_flyActions; }
+
+  Taction* pitchDetectAct() { return m_pitchDetectAct; }
 
   Q_INVOKABLE void addAction(Taction* a);
 
@@ -75,7 +78,8 @@ private:
   bool                        m_pressed = false;
   bool                        m_extra = false;
   QQuickItem                 *m_currentFlyItem = nullptr;
-  QVariantList                m_flyActions;
+  Taction                    *m_pitchDetectAct;
+  QList<QObject*>             m_flyActions;
 };
 
 #endif // TMOBILEMENU_H

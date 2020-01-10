@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,6 +21,7 @@
 #include "tmtr.h"
 #include "taction.h"
 
+#include <QtGui/qguiapplication.h>
 #include <QtCore/qmath.h>
 #include <QtCore/qdebug.h>
 
@@ -30,6 +31,10 @@ TmobileMenu::TmobileMenu(QQuickItem* parent) :
 {
   setAntialiasing(true);
   setAcceptedMouseButtons(Qt::LeftButton);
+
+  m_pitchDetectAct = new Taction(QGuiApplication::translate("MainMenuMobile", "Pitch recognition",
+                                                            "Android menu entry, could be 'Note recognition' or 'detection' as well"),
+                                 QStringLiteral("mic"), this);
 }
 
 
@@ -37,7 +42,7 @@ TmobileMenu::~TmobileMenu() {}
 
 
 void TmobileMenu::addAction(Taction* a) {
-  m_flyActions.append(QVariant::fromValue(a));
+  m_flyActions.append(a);
   emit flyActionsChanged();
 }
 

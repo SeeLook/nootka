@@ -97,5 +97,7 @@
         <file>picts/wizard-left.png</file>
         <file>picts/zoom-in.png</file>
         <file>picts/zoom-out.png</file>
+
+        <file alias="picts/mic.png">picts/flat/mic.png</file>
     </qresource>
 </RCC>
