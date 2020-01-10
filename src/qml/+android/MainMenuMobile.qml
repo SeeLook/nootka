@@ -175,14 +175,4 @@ TmobileMenu {
     }
   }
 
-  Connections {
-    target: SOUND
-    onInitialized: {
-      addAction(score.playAct)
-      addAction(score.recModeAct)
-      addAction(score.clearScoreAct)
-      addAction(score.randMelodyAct)
-      addAction(pitchDetectAct)
-    }
-  }
 }

@@ -305,6 +305,11 @@ void TmainScoreObject::getMelody(Tmelody* melody) {
 }
 
 
+Taction * TmainScoreObject::clearScoreAct() {
+  return m_scoreObj ? m_scoreObj->clearScoreAct() : nullptr;
+}
+
+
 void TmainScoreObject::askQuestion(Tmelody* mel, bool ignoreTechnical, const TkeySignature& melodyKey) {
   m_scoreObj->setBgColor(scoreBackgroundColor(GLOB->EquestionColor, 20));
   int transposition = 0;

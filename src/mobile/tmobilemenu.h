@@ -74,6 +74,8 @@ protected:
   void mouseMoveEvent(QMouseEvent* event) override;
   void mouseReleaseEvent(QMouseEvent* event) override;
 
+  void init();
+
 private:
   bool                        m_pressed = false;
   bool                        m_extra = false;

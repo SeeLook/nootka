@@ -18,8 +18,10 @@
 
 
 #include "tmobilemenu.h"
-#include "tmtr.h"
-#include "taction.h"
+#include <tmtr.h>
+#include <taction.h>
+#include <tsound.h>
+#include <main/tmainscoreobject.h>
 
 #include <QtGui/qguiapplication.h>
 #include <QtCore/qmath.h>
@@ -35,6 +37,7 @@ TmobileMenu::TmobileMenu(QQuickItem* parent) :
   m_pitchDetectAct = new Taction(QGuiApplication::translate("MainMenuMobile", "Pitch recognition",
                                                             "Android menu entry, could be 'Note recognition' or 'detection' as well"),
                                  QStringLiteral("mic"), this);
+  connect(SOUND, &Tsound::initialized, this, &TmobileMenu::init);
 }
 
 
@@ -115,4 +118,11 @@ void TmobileMenu::mouseReleaseEvent(QMouseEvent* event) {
   }
   if (event->pos().x() < Tmtr::fingerPixels() && event->pos().y() < Tmtr::fingerPixels())
     emit clicked();
+}
+
+
+void TmobileMenu::init() {
+  m_flyActions << MAIN_SCORE->playAct() << MAIN_SCORE->recModeAct() << MAIN_SCORE->clearScoreAct()
+               << MAIN_SCORE->randMelodyAct() << m_pitchDetectAct;
+  emit flyActionsChanged();
 }

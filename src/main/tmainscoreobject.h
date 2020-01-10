@@ -122,6 +122,8 @@ public:
   void setMelody(Tmelody* mel);
   void getMelody(Tmelody* melody);
 
+  Taction* clearScoreAct();
+
 // exam/exercise related
   void askQuestion(const Tnote& note, quint32 technicalData = 255);
   void askQuestion(const Tnote& note, const TkeySignature& key, quint32 technicalData = 255);
