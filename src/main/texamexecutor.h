@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -124,6 +124,10 @@ public:
   Taction* newAtemptAct() { return m_newAtemptAct; }
   Taction* repeatQuestAct() { return m_repeatQuestAct; }
   Taction* correctAct() { return m_correctAct; }
+  Taction* stopExamAct() { return m_stopExamAct; }
+  Taction* playAgainAct() { return m_playAgainAct; }
+  Taction* tuningForkAct() { return m_tuningForkAct; }
+  Taction* clearScoreAct(); // redirected from main score
 
   static QString examHelpText();
 

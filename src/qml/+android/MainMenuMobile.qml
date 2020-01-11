@@ -18,7 +18,7 @@ TmobileMenu {
 
   function open() { mainDrawer.scoreMenu.open() }
 
-  z: 1000
+  z: 2000
   width: fingerPixels()
   height: fingerPixels()
 
@@ -165,14 +165,10 @@ TmobileMenu {
     onVolumeKeyPressed: nootkaWindow.showDialog(Nootka.Tuner)
   }
 
-  Repeater {
-    model: flyActions
-    FlyItem {
-      taction: modelData
-      x: extra ? flyX(index) : -width; y: extra ? flyY(index) : -height
-      scale: (extra ? 0.99 : 0.01)
-      color: currentFly === this ? activPal.highlight : activPal.button
-    }
-  }
+  FlyItem { taction: fly1act; index: 0 }
+  FlyItem { taction: fly2act; index: 1 }
+  FlyItem { taction: fly3act; index: 2 }
+  FlyItem { taction: fly4act; index: 3 }
+  FlyItem { taction: fly5act; index: 4 }
 
 }

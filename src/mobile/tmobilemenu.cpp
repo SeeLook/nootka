@@ -20,6 +20,7 @@
 #include "tmobilemenu.h"
 #include <tmtr.h>
 #include <taction.h>
+#include <tglobals.h>
 #include <tsound.h>
 #include <main/tmainscoreobject.h>
 
@@ -28,9 +29,16 @@
 #include <QtCore/qdebug.h>
 
 
+TmobileMenu* TmobileMenu::m_instance = nullptr;
+
+
 TmobileMenu::TmobileMenu(QQuickItem* parent) :
   QQuickItem(parent)
 {
+  if (m_instance)
+    qDebug() << "[TmobileMenu] FIXME! Instance already exists";
+
+  m_instance = this;
   setAntialiasing(true);
   setAcceptedMouseButtons(Qt::LeftButton);
 
@@ -41,12 +49,8 @@ TmobileMenu::TmobileMenu(QQuickItem* parent) :
 }
 
 
-TmobileMenu::~TmobileMenu() {}
-
-
-void TmobileMenu::addAction(Taction* a) {
-  m_flyActions.append(a);
-  emit flyActionsChanged();
+TmobileMenu::~TmobileMenu() {
+  m_instance = nullptr;
 }
 
 
@@ -55,24 +59,15 @@ int TmobileMenu::fingerPixels() const {
 }
 
 
+#define FLY_ANGLE (0.375246) //(qDegreesToRadians(86.0) / 4.0)
+#define FLY_OFF (1.53589) //(qDegreesToRadians(88.0))
+
 qreal TmobileMenu::flyX(int itemNr) {
-  if (m_flyActions.size() > 1) {
-      qreal angle = qDegreesToRadians(86.0) / (m_flyActions.size() - 1);
-      qreal off = qDegreesToRadians(88.0);
-      qreal r = Tmtr::fingerPixels() * 5;
-      return qSin(off - itemNr * angle) * r;
-  } else
-      return  Tmtr::fingerPixels() / 10.0;
+  return qSin(FLY_OFF - itemNr * FLY_ANGLE) * static_cast<qreal>(Tmtr::fingerPixels() * 5);
 }
 
 qreal TmobileMenu::flyY(int itemNr) {
-  if (m_flyActions.size() > 1) {
-      qreal angle = qDegreesToRadians(86.0) / (m_flyActions.size() - 1);
-      qreal off = qDegreesToRadians(88.0);
-      qreal r = Tmtr::fingerPixels() * 5;
-      return qCos(off - itemNr * angle) * r;
-  } else
-      return Tmtr::fingerPixels() * 5;
+  return qCos(FLY_OFF - itemNr * FLY_ANGLE) * static_cast<qreal>(Tmtr::fingerPixels() * 5);
 }
 
 
@@ -88,16 +83,16 @@ void TmobileMenu::mousePressEvent(QMouseEvent*) {
 
 void TmobileMenu::mouseMoveEvent(QMouseEvent* event) {
   if (event->pos().x() > Tmtr::fingerPixels() * 1.5 || event->pos().y() > Tmtr::fingerPixels() * 1.5) {
-      m_extra = true;
-      emit extraChanged();
+      m_showFlys = true;
+      emit showFlysChanged();
       auto fly = childAt(event->pos().x(), event->pos().y());
       if (fly != m_currentFlyItem) {
         m_currentFlyItem = fly;
         currentFlyChanged();
       }
   } else {
-      m_extra = false;
-      emit extraChanged();
+      m_showFlys = false;
+      emit showFlysChanged();
       if (m_currentFlyItem) {
         m_currentFlyItem = nullptr;
         emit currentFlyChanged();
@@ -109,8 +104,8 @@ void TmobileMenu::mouseMoveEvent(QMouseEvent* event) {
 void TmobileMenu::mouseReleaseEvent(QMouseEvent* event) {
   m_pressed = false;
   emit pressedChanged();
-  m_extra = false;
-  emit extraChanged();
+  m_showFlys = false;
+  emit showFlysChanged();
   if (m_currentFlyItem) {
     emit flyClicked();
     m_currentFlyItem = nullptr;
@@ -122,7 +117,39 @@ void TmobileMenu::mouseReleaseEvent(QMouseEvent* event) {
 
 
 void TmobileMenu::init() {
-  m_flyActions << MAIN_SCORE->playAct() << MAIN_SCORE->recModeAct() << MAIN_SCORE->clearScoreAct()
-               << MAIN_SCORE->randMelodyAct() << m_pitchDetectAct;
-  emit flyActionsChanged();
+  singleNoteModeSlot();
+  connect(GLOB, &Tglobals::singleNoteModeChanged, this, &TmobileMenu::singleNoteModeSlot);
+}
+
+
+void TmobileMenu::singleNoteModeSlot() {
+  if (GLOB->isSingleNote())
+    setFlyActions(nullptr, nullptr, nullptr, nullptr, m_pitchDetectAct);
+  else
+    setFlyActions(MAIN_SCORE->playAct(), MAIN_SCORE->recModeAct(), MAIN_SCORE->clearScoreAct(),
+                  MAIN_SCORE->randMelodyAct(), m_pitchDetectAct);
+}
+
+
+void TmobileMenu::setFlyActions(Taction* a1, Taction* a2, Taction* a3, Taction* a4, Taction* a5) {
+  if (m_1flyAct != a1) {
+    m_1flyAct = a1;
+    emit fly1actChanged();
+  }
+  if (m_2flyAct != a2) {
+    m_2flyAct = a2;
+    emit fly2actChanged();
+  }
+  if (m_3flyAct != a3) {
+    m_3flyAct = a3;
+    emit fly3actChanged();
+  }
+  if (m_4flyAct != a4) {
+    m_4flyAct = a4;
+    emit fly4actChanged();
+  }
+  if (m_5flyAct != a5) {
+    m_5flyAct = a5;
+    emit fly5actChanged();
+  }
 }
