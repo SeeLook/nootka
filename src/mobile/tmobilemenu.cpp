@@ -45,6 +45,7 @@ TmobileMenu::TmobileMenu(QQuickItem* parent) :
   m_pitchDetectAct = new Taction(QGuiApplication::translate("MainMenuMobile", "Pitch recognition",
                                                             "Android menu entry, could be 'Note recognition' or 'detection' as well"),
                                  QStringLiteral("mic"), this);
+  m_pitchDetectAct->setBgColor(Qt::blue);
   connect(SOUND, &Tsound::initialized, this, &TmobileMenu::init);
 }
 

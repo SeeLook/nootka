@@ -1188,13 +1188,16 @@ void TexamExecutor::createActions() {
       connect(m_stopExamAct, &Taction::triggered, this, &TexamExecutor::stopExamSlot);
       m_stopExamAct->setTip(tr("stop the exam"), QQuickItem::TopRight);
   }
+  m_stopExamAct->setBgColor(Qt::red);
   m_examActions.append(m_stopExamAct);
   m_repeatQuestAct = new Taction(QApplication::translate("TtoolBar", "Repeat", "like a repeat question"), QStringLiteral("prevQuest"), this, false);
   connect(m_repeatQuestAct, &Taction::triggered, this, &TexamExecutor::repeatQuestion);
+  m_repeatQuestAct->setBgColor(qApp->palette().highlight().color());
   m_examActions.append(m_repeatQuestAct);
   m_repeatQuestAct->createQmlShortcut(&actionsComp, "\"Backspace\"");
   m_repeatQuestAct->setTip(tr("repeat previous question (backspace)").replace(QLatin1String("("), QLatin1String("<br>(")), QQuickItem::TopRight);
   m_nextQuestAct = new Taction(QApplication::translate("TtoolBar", "Next", "like a next question"), QStringLiteral("nextQuest"), this);
+  m_nextQuestAct->setBgColor(qApp->palette().highlight().color());
   m_examActions.append(m_nextQuestAct);
   connect(m_nextQuestAct, &Taction::triggered, this, &TexamExecutor::askQuestionSlot);
   m_nextQuestAct->createQmlShortcut(&actionsComp, "\"Space\"");
@@ -1208,6 +1211,7 @@ void TexamExecutor::createActions() {
       m_tuningForkAct->createQmlShortcut(&actionsComp, "\"a\"");
     }
     m_playAgainAct = new Taction(QApplication::translate("TtoolBar", "Play"), QStringLiteral("playMelody"), this, false);
+    m_playAgainAct->setBgColor(QColor(0, 255, 0));
     m_examActions.append(m_playAgainAct);
     m_playAgainAct->setTip(tr("play sound again") + QStringLiteral("<br>(") +
           TexamHelp::pressSpaceKey().replace(QStringLiteral("<b>"), QStringLiteral(" ")).replace(QStringLiteral("</b>"), QStringLiteral(")")), QQuickItem::TopRight);
@@ -1219,18 +1223,21 @@ void TexamExecutor::createActions() {
   }
   if (m_level.canBeMelody()) {
     m_newAtemptAct = new Taction(QApplication::translate("TtoolBar", "Try again"), "prevQuest", this, false);
+    m_newAtemptAct->setBgColor(qApp->palette().highlight().color());
     m_examActions.append(m_newAtemptAct);
     connect(m_newAtemptAct, &Taction::triggered, this, &TexamExecutor::newAttempt);
     m_newAtemptAct->setTip(tr("Try this melody once again. (backspace)").replace(QLatin1String("("), QLatin1String("<br>(")), QQuickItem::TopRight);
     m_newAtemptAct->createQmlShortcut(&actionsComp, "\"Backspace\"");
   }
   m_checkQuestAct = new Taction(QApplication::translate("TtoolBar", "Check", "like a check answer"), QStringLiteral("check"), this, false);
+  m_checkQuestAct->setBgColor(GLOB->correctColor());
   m_examActions.append(m_checkQuestAct);
   connect(m_checkQuestAct, &Taction::triggered, this, &TexamExecutor::checkAnswerSlot);
   m_checkQuestAct->createQmlShortcut(&actionsComp, "\"Return\"");
   m_checkQuestAct->setTip(tr("check answer\n(enter %1)").arg(TexamHelp::orRightButtTxt()).replace(QLatin1String("\n"), QLatin1String("<br>")), QQuickItem::TopRight);
   if (m_exercise) {
     m_correctAct = new Taction(QApplication::translate("TtoolBar", "Correct", "like a correct answer with mistake"), QStringLiteral("correct"), this, false);
+    m_correctAct->setBgColor(Qt::green);
     m_examActions.append(m_correctAct);
     connect(m_correctAct, &Taction::triggered, this, &TexamExecutor::correctAnswer);
     m_correctAct->createQmlShortcut(&actionsComp, "\"Return\"");

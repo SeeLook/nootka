@@ -72,7 +72,9 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
   m_zoomInAct = new Taction(tr("Zoom score in"), QStringLiteral("zoom-in"), this);
 
   m_playAct = new Taction(qTR("TtoolBar", "Play"), QStringLiteral("playMelody"), this);
+  m_playAct->setBgColor(QColor(0, 255, 0));
   m_recModeAct = new Taction(qApp->translate("MainScore", "Note by note"), QStringLiteral("record"), this);
+  m_recModeAct->setBgColor(Qt::red);
   m_recModeAct->setCheckable(true);
   m_recModeAct->setTip(tr("Notes are written on the score one by one. Either playing, selecting fret or note name adds a new note to the staff automatically."));
   m_openXmlAct = new Taction(qTR("QShortcut", "Open"), QStringLiteral("open"), this);
@@ -82,6 +84,7 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
   connect(m_saveXmlAct, &Taction::triggered, this, &TmainScoreObject::getMelodyNameSlot);
 
   m_randMelodyAct = new Taction(tr("Generate melody"), QStringLiteral("melody"), this);
+  m_randMelodyAct->setBgColor(qApp->palette().highlight().color());
   connect(m_randMelodyAct, &Taction::triggered, this, &TmainScoreObject::randMelodySlot);
   m_randMelodyAct->setTip(tr("Generate a melody with random notes."));
 
@@ -142,6 +145,7 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
     if (GLOB->keySignatureEnabled() && GLOB->showKeyName() && !GLOB->isExam())
       emit keyNameTextChanged();
   });
+  m_scoreObj->clearScoreAct()->setBgColor(QColor(255, 140, 0)); // orange
   m_scoreActions.prepend(m_scoreObj->editModeAct());
   m_scoreActions << m_scoreObj->insertNoteAct() << m_scoreObj->deleteNoteAct() << m_scoreObj->clearScoreAct() << m_notesMenuAct;
   m_noteActions << m_scoreObj->riseAct() << m_scoreObj->lowerAct()
