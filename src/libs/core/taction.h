@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,9 +22,11 @@
 
 #include <nootkacoreglobal.h>
 #include <QtCore/qobject.h>
+#include <QtGui/qcolor.h>
 
 
 class QQmlComponent;
+
 
 /**
  * Describes action (icon, text, checked).
@@ -46,6 +48,7 @@ class NOOTKACORE_EXPORT Taction : public QObject
   Q_PROPERTY(bool checkable READ checkable WRITE setCheckable NOTIFY checkableChanged)
   Q_PROPERTY(QObject* shortcut READ shortcut WRITE setShortcut)
   Q_PROPERTY(bool enabled READ enabled WRITE setEnabled NOTIFY enabledChanged)
+  Q_PROPERTY(QColor bgColor READ bgColor WRITE setBgColor NOTIFY bgColorChanged)
 
 public:
   explicit Taction(QObject* parent = nullptr);
@@ -76,7 +79,15 @@ public:
   void setEnabled(bool e);
 
       /**
-       * Emits @p shakeButton() signal to make corresponding button shaking to attract user attention
+       * Color used to highlight an item associated with this action
+       */
+  QColor bgColor() const { return m_bgColor; }
+  void setBgColor(const QColor& bgC);
+
+      /**
+       * Emits @p shakeButton() signal
+       * - to make corresponding tool button shaking to attract user attention
+       * - or to display flying button under Android
        */
   void shake() { emit shakeButton(); }
 
@@ -104,6 +115,7 @@ signals:
   void checkedChanged();
   void checkableChanged();
   void enabledChanged();
+  void bgColorChanged();
   void shakeButton();
 
 private:
@@ -115,6 +127,7 @@ private:
   QString                 m_tip;
   QObject                *m_shortcut = nullptr;
   quint8                  m_tipPos = 1; /**< It corresponds with @p QQUickItem::TransformOrigin, 1 means Top center  */
+  QColor                  m_bgColor;
 };
 
 #endif // TACTION_H

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,12 +20,17 @@
 #include "tpath.h"
 
 #include <QtQml/qqmlcomponent.h>
+#include <QtGui/qguiapplication.h>
+#include <QtGui/qpalette.h>
+
 #include <QtCore/qdebug.h>
 
 
 Taction::Taction(QObject* parent) :
   QObject(parent)
 {
+  m_bgColor = qApp->palette().base().color();
+  m_bgColor.setAlpha(0);
 }
 
 
@@ -35,6 +40,8 @@ Taction::Taction(const QString& txt, const QString& ico, QObject* parent, bool i
   m_iconTag(ico),
   m_text(txt)
 {
+  m_bgColor = qApp->palette().base().color();
+  m_bgColor.setAlpha(0);
 }
 
 
@@ -108,6 +115,15 @@ void Taction::setEnabled(bool e) {
     emit enabledChanged();
   }
 }
+
+
+void Taction::setBgColor(const QColor& bgC) {
+  if (bgC != m_bgColor) {
+    m_bgColor = bgC;
+    emit bgColorChanged();
+  }
+}
+
 
 
 QString Taction::key() const {
