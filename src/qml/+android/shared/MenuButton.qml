@@ -34,14 +34,13 @@ Rectangle {
   Image {
     id: icon
     source: action ? action.icon : ""
-    x: Noo.fontSize() / 2
     height: Noo.fontSize() * 2.2; width: height * (sourceSize.width / sourceSize.height)
     anchors.verticalCenter: parent.verticalCenter
     visible: menuButton.enabled
   }
   Text {
     id: butText
-    x: Noo.fontSize() * (action && (action.icon !== "" || action.checkable) ? 4.2 : 0.8)
+    x: Noo.fontSize() * (action && (action.icon !== "" || action.checkable) ? 4.0 : 0.8)
     anchors.verticalCenter: parent.verticalCenter
     text: action ? action.text : ""
     font { pixelSize: Noo.fontSize() * 1.1 }

@@ -65,7 +65,8 @@ TexamSummary {
         TiconButton {
           visible: !Noo.isAndroid()
           width: buttGrid.buttWidth
-          pixmap: Noo.pix("charts"); iconHeight: summDialog.height / 15
+          pixmap: Noo.isAndroid() ? "" : Noo.pix("charts")
+          iconHeight: summDialog.height / 15
           text: qsTr("Analyze")
           onClicked: {
             nootkaWindow.showDialog(6) // 6 - Nootka.Charts
