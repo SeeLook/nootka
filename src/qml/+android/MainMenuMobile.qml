@@ -18,6 +18,7 @@ TmobileMenu {
 
   function open() { mainDrawer.scoreMenu.open() }
 
+  parent: nootkaWindow.contentItem.parent
   z: 250
   width: fingerPixels()
   height: fingerPixels()

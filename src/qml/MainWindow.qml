@@ -74,7 +74,7 @@ ApplicationWindow {
       if (GLOB.isExam) {
           if (!executor) {
               var e = Qt.createComponent("qrc:/exam/ExamExecutor.qml")
-              executor = e.createObject(nootkaWindow)
+              executor = e.createObject(nootkaWindow.contentItem.parent)
           }
           if (!examResults) {
               var c = Qt.createComponent("qrc:/exam/ExamResults.qml")
