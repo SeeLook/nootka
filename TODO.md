@@ -12,7 +12,6 @@
   - fix detecting last note duration in exercises/exams
   - randomly generated melodies have no rests yet, but see below for a reason
   - add an option to skip rests (pitch detection gaps) and treat their duration as previous note was longer
-  - finish tuner, functionality similar to Android one (show tuning, middle A freq)
   - level creator:
     - question page icon might change depends on is there single note or a melody
     - those three ways of generating melodies (range, notes, list) might be exposed more clearly
@@ -20,6 +19,7 @@
   - music XML import dialog, to select voice or staff if there are more, and so
   - exam summary - give more valuable info, wear it nicely
   - charts - show preview of entire melody, chart tip is not suitable for it
+  - add QML control for displaying single note using Bravura texts/glyphs system (to use in chart and question tips)
   - migrate on preferred 48000 sample rate (ogg files and audio methods). DO NOT forget to resize output samples length
 
 ### For next stable Nootka version 2.2
@@ -49,7 +49,6 @@
  - dialog buttons change width when clicked which looks weird
 
 ### and crashes:
- - when level is saved and added to list, it crashes when it is selected and exercise is going to be started
  - sometimes app crash on exit - possible some note objects are note deleted in proper order
 
 ### Translation context changes:
