@@ -13,11 +13,11 @@ TcuteButton {
   property int index: 0
   property bool canShow: taction && taction.enabled
 
-  z: 2000
   x: canShow && (showFlys || shaked) ? flyX(index) : -width
   y: canShow && (showFlys || shaked) ? flyY(index) : -height
   scale: canShow && (showFlys || shaked) ? 0.99 : 0.01
-  color: currentFly === this || pressed ? activPal.highlight : activPal.button
+  color: Qt.tint(activPal.base, Noo.alpha(taction ? taction.bgColor : activPal.base, currentFly === this || pressed ? 200 : 50))
+  border { width: 2; color: taction ? taction.bgColor : "transparent" }
   width: Noo.fingerPixels() * 1.5; height: Noo.fingerPixels() * 1.5
   radius: width / 2
 
@@ -48,6 +48,11 @@ TcuteButton {
   Timer {
     id: shakeTimer
     interval: 2500
-    onTriggered: shaked = false
+    onTriggered: {
+      if (pressed)
+        shakeTimer.start()
+      else
+        shaked = false
+    }
   }
 }

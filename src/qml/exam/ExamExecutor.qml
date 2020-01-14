@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -13,13 +13,18 @@ import "../"
 Texecutor {
   id: executor
 
+  z: 100
+
   //private
   property var examSettDialog: null
 
   anchors.fill: parent
 
   onTitleChanged: nootkaWindow.title = title
-  onExamActionsChanged: nootkaWindow.mainMenu.toolBar.examActions = examActions
+  onExamActionsChanged: {
+    if (!Noo.isAndroid())
+      nootkaWindow.mainMenu.toolBar.examActions = examActions
+  }
   onExamSummary: nootkaWindow.showDialog(Nootka.ExamSummary)
   onShowSettings: {
     if (!examSettDialog) {
@@ -42,7 +47,7 @@ Texecutor {
     }
     onWantConfirmTip: {
       var s = Qt.createComponent("qrc:/exam/ExamTip.qml")
-      tipHandler.confirmTip = s.createObject(executor, { "text": text, "offX": pos.x, "offY": pos.y, "bg": color, "showExit": true } )
+      tipHandler.confirmTip = s.createObject(executor, { "text": text, "offX": pos.x, "offY": pos.y, "bg": color, "showExit": !Noo.isAndroid() } )
     }
     onWantResultTip: {
       var r = Qt.createComponent("qrc:/exam/ResultTip.qml")

@@ -18,7 +18,7 @@ TmobileMenu {
 
   function open() { mainDrawer.scoreMenu.open() }
 
-  z: 2000
+  z: 250
   width: fingerPixels()
   height: fingerPixels()
 
@@ -109,7 +109,14 @@ TmobileMenu {
             MenuButton { action: tunerAct; onClicked: mainDrawer.close() }
             MenuButton { action: Noo.levelAct; onClicked: mainDrawer.close() }
             MenuButton { action: Noo.examAct; onClicked: mainDrawer.close() }
-            MenuButton { action: Noo.settingsAct; onClicked: mainDrawer.close() }
+            MenuButton {
+              action: Taction {
+                text: Noo.settingsAct.text
+                icon: GLOB.isExam ? "exam-settings" : "systemsettings"
+                onTriggered: Noo.settingsAct.trigger()
+              }
+              onClicked: mainDrawer.close()
+            }
             MenuButton { action: Noo.scoreAct }
             Column { // drop-down menu with score actions
               id: scoreMenu
@@ -146,7 +153,7 @@ TmobileMenu {
               ]
               Component.onCompleted: mainDrawer.scoreMenu = this
             }
-            MenuButton { onClicked: nootkaWindow.close(); action: Taction { icon: "exit"; text: Noo.TR("QShortcut", "Exit") } }
+            MenuButton { onClicked: nootkaWindow.close(); action: Taction { icon: "close"; text: Noo.TR("QShortcut", "Close") } }
           }
         }
       }
