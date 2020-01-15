@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   viewBox="0 0 12 12"
+   version="1.1"
+   id="svg6"
+   sodipodi:docname="mic.svg"
+   inkscape:version="0.92.4 5da689c313, 2019-01-14"
+   width="12"
+   height="12"
+   inkscape:export-filename="../../../picts/flat/mic.png"
+   inkscape:export-xdpi="2044.9126"
+   inkscape:export-ydpi="2044.9126">
+  <metadata
+     id="metadata10">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
+     id="namedview8"
+     showgrid="false"
+     inkscape:zoom="14.75"
+     inkscape:cx="-8.7682775"
+     inkscape:cy="3.7600597"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg6"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <defs
+     id="defs3051">
+    <style
+       type="text/css"
+       id="current-color-scheme">
+      .ColorScheme-Text {
+        color:#4d4d4d;
+      }
+      </style>
+  </defs>
+  <path
+     style="fill:currentColor;fill-opacity:1;stroke:none"
+     d="M 6.1547005,0 C 5.0875019,0 4.2288118,0.8298659 4.1664193,1.8808594 H 6.350013 V 2.6445312 H 4.1547005 V 3.1484375 H 6.350013 V 3.9101562 H 4.1547005 V 4.4160156 H 6.350013 V 5.1777344 H 4.1547005 V 6 c 0,1.108 0.892,2 2,2 1.108,0 2,-0.892 2,-2 V 2 c 0,-1.108 -0.892,-2 -2,-2 z m -2,5.1777344 c -3.99999996,5.8815106 -2,2.9407556 0,0 z m 0,-1.2675782 c -3.99999996,6.7265628 -2,3.3632813 0,0 z m 0.011719,-2.0292968 c -4.00781246,8.0794266 -2.0039063,4.0397135 0,0 z M 2.1547005,5 v 1 c 0,1.847 1.286,3.405469 3,3.855469 V 11 h -1 v 1 h 4 v -1 h -1 V 9.855469 C 8.8687005,9.404469 10.154701,7.845 10.154701,6 V 5 H 9.1547005 v 1 c 0,1.645 -1.355,3 -3,3 -1.645,0 -3,-1.355 -3,-3 V 5 Z"
+     id="path4"
+     inkscape:connector-curvature="0"
+     sodipodi:nodetypes="sccccccccccccssssscccccccsccccccccsccssscc" />
+</svg>
