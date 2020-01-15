@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -176,7 +176,7 @@ TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QStrin
   f.setPixelSize(qMin<int>(bSize / 5, fontMetrics().height()));
   m_menu->setFont(f);
   m_menu->setObjectName(QLatin1String("fileMenu")); // revert colors
-  m_menu->setStyleSheet(m_menu->styleSheet() + QLatin1String(" QListWidget#fileMenu { background: palette(text); color: palette(base); }"));
+  m_menu->setStyleSheet(m_menu->styleSheet() + QLatin1String(" QListWidget#fileMenu { background: palette(base); color: palette(text); }"));
   QScroller::grabGesture(m_menu->viewport(), QScroller::LeftMouseButtonGesture);
 
   QStringList filters = filter.split(QLatin1String("|"));
@@ -190,9 +190,9 @@ TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QStrin
   }
   if (filters.size() != 1 || fileIcon.isNull()) { // if more or none filters or other file types use standard icons
     if (mode == e_acceptSave)
-      fileIcon = style()->standardIcon(QStyle::SP_DialogSaveButton);
+      fileIcon = QIcon(Tpath::img("save"));
     else
-      fileIcon = style()->standardIcon(QStyle::SP_DialogOpenButton);
+      fileIcon = QIcon(Tpath::img("open"));
   }
   m_acceptItem = addMenuItem(fileIcon,
                 mode == e_acceptSave ? qTR("QShortcut", "Save") : qTR("QShortcut", "Open"));
@@ -390,7 +390,7 @@ void TfileDialog::createNewDir(const QString& newDir) {
 
 
 QListWidgetItem* TfileDialog::addMenuItem(const QIcon& icon, const QString& text) {
-  QListWidgetItem *menuButton = new QListWidgetItem(m_menu);
+  auto menuButton = new QListWidgetItem(m_menu);
   menuButton->setIcon(icon);
   if (!text.isEmpty())
     menuButton->setText(text);
