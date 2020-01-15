@@ -33,6 +33,7 @@ Rectangle {
 
   Image {
     id: icon
+    x: Noo.fontSize() * 0.2
     source: action ? action.icon : ""
     height: Noo.fontSize() * 2.2; width: height * (sourceSize.width / sourceSize.height)
     anchors.verticalCenter: parent.verticalCenter
@@ -40,7 +41,7 @@ Rectangle {
   }
   Text {
     id: butText
-    x: Noo.fontSize() * (action && (action.icon !== "" || action.checkable) ? 4.0 : 0.8)
+    x: Noo.fontSize() * (action && (action.icon !== "" || action.checkable) ? 4.2 : 0.8)
     anchors.verticalCenter: parent.verticalCenter
     text: action ? action.text : ""
     font { pixelSize: Noo.fontSize() * 1.1 }

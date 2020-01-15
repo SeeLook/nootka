@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -15,13 +15,22 @@ TmobileMenu {
 
   property Item toolBar: null // fake, for main window information
   property alias drawer: mainDrawer
+  property var scoreMenu: null
 
-  function open() { mainDrawer.scoreMenu.open() }
+  function open() {
+    if (!scoreMenu) {
+      var c = Qt.createComponent("qrc:/ScoreMenuContent.qml")
+      scoreMenu = c.createObject(nootkaWindow.contentItem, { "width": Noo.fontSize() * 15 })
+    }
+    scoreMenu.open()
+  }
+
+  onClicked: mainDrawer.open()
 
   parent: nootkaWindow.contentItem.parent
   z: 250
   width: fingerPixels()
-  height: fingerPixels()
+  height: fingerPixels() * 1.1
 
   Rectangle {
     id: bg
@@ -50,17 +59,6 @@ TmobileMenu {
     }
   }
 
-  Connections {
-    target: pitchDetectAct
-    onTriggered: {
-      SOUND.stoppedByUser = !SOUND.stoppedByUser
-      if (SOUND.listening)
-        SOUND.stopListen()
-      else
-        SOUND.startListen()
-    }
-  }
-
   Taction {
     id: tunerAct
     text: Noo.TR("TunerDialog", "Nooter - Nootka tuner").replace("-", "<br><font size=\"1\">") + "</font>"
@@ -73,10 +71,8 @@ TmobileMenu {
 
   Drawer {
     id: mainDrawer
-    property Item scoreMenu: null
     property NootkaLabel label: null
-    width: Noo.fontSize() * 20
-    height: nootkaWindow.height
+    width: Noo.fontSize() * 20; height: nootkaWindow.height
     onVisibleChanged: {
       if (visible) {
         if (!drawerLoad.active)
@@ -118,50 +114,13 @@ TmobileMenu {
               }
               onClicked: mainDrawer.close()
             }
-            MenuButton { action: Noo.scoreAct }
-            Column { // drop-down menu with score actions
-              id: scoreMenu
-              function open() { visible ? state = "Invisible" : state = "Visible" }
-              spacing: fingerPixels() / 8
-              width: parent.width - Noo.fontSize() / 2
-              x: -parent.width
-              visible: false
-              MenuButton { action: score.playAct; onClicked: mainDrawer.close() }
-              MenuButton { action: score.showNamesAct; onClicked: mainDrawer.close() }
-//               MenuButton { action: score.extraAccidsAct; onClicked: mainDrawer.close() } // Not implemented yet
-              MenuButton { action: score.zoomInAct; onClicked: mainDrawer.close() }
-              MenuButton { action: score.zoomOutAct; onClicked: mainDrawer.close() }
-              MenuButton { action: score.openXmlAct; onClicked: mainDrawer.close() }
-              MenuButton { action: score.saveXmlAct; onClicked: mainDrawer.close() }
-              MenuButton { action: score.clearScoreAct; onClicked: mainDrawer.close() }
-              states: [ State { name: "Visible"; when: scoreMenu.visible }, State { name: "Invisible"; when: !scoreMenu.visible } ]
-
-              transitions: [
-                Transition {
-                  from: "Invisible"; to: "Visible"
-                  SequentialAnimation {
-                    PropertyAction { target: scoreMenu; property: "visible"; value: true }
-                    NumberAnimation { target: scoreMenu; property: "x"; to: Noo.fontSize() / 2; duration: 300 }
-                  }
-                },
-                Transition {
-                  from: "Visible"; to: "Invisible"
-                  SequentialAnimation {
-                    NumberAnimation { target: scoreMenu; property: "x"; to: -parent.width; duration: 300 }
-                    PropertyAction { target: scoreMenu; property: "visible"; value: false }
-                  }
-                }
-              ]
-              Component.onCompleted: mainDrawer.scoreMenu = this
-            }
+            MenuButton { action: Noo.scoreAct; onClicked: mainDrawer.close() }
             MenuButton { onClicked: nootkaWindow.close(); action: Taction { icon: "close"; text: Noo.TR("QShortcut", "Close") } }
           }
         }
       }
     }
   }
-
-  onClicked: mainDrawer.open()
 
   onFlyClicked: {
     if (currentFly)

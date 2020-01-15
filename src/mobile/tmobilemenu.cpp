@@ -120,6 +120,13 @@ void TmobileMenu::mouseReleaseEvent(QMouseEvent* event) {
 void TmobileMenu::init() {
   singleNoteModeSlot();
   connect(GLOB, &Tglobals::singleNoteModeChanged, this, &TmobileMenu::singleNoteModeSlot);
+  connect(m_pitchDetectAct, &Taction::triggered, this, [=] {
+    SOUND->setStoppedByUser(!SOUND->stoppedByUser());
+    if (SOUND->listening())
+      SOUND->stopListen();
+    else
+      SOUND->startListen();
+  });
 }
 
 
@@ -128,7 +135,7 @@ void TmobileMenu::singleNoteModeSlot() {
     setFlyActions(nullptr, nullptr, nullptr, nullptr, m_pitchDetectAct);
   else
     setFlyActions(MAIN_SCORE->playAct(), MAIN_SCORE->recModeAct(), MAIN_SCORE->clearScoreAct(),
-                  MAIN_SCORE->randMelodyAct(), m_pitchDetectAct);
+                  MAIN_SCORE->scoreMenuAct(), m_pitchDetectAct);
 }
 
 

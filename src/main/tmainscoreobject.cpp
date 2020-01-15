@@ -146,8 +146,12 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
       emit keyNameTextChanged();
   });
   m_scoreObj->clearScoreAct()->setBgColor(QColor(255, 140, 0)); // orange
+#if !defined (Q_OS_ANDROID)
   m_scoreActions.prepend(m_scoreObj->editModeAct());
   m_scoreActions << m_scoreObj->insertNoteAct() << m_scoreObj->deleteNoteAct() << m_scoreObj->clearScoreAct() << m_notesMenuAct;
+#else
+  m_scoreActions << m_scoreObj->clearScoreAct() << m_randMelodyAct << m_openXmlAct << m_saveXmlAct;
+#endif
   m_noteActions << m_scoreObj->riseAct() << m_scoreObj->lowerAct()
                 << m_scoreObj->wholeNoteAct() << m_scoreObj->halfNoteAct() << m_scoreObj->quarterNoteAct() << m_scoreObj->eighthNoteAct()
                 << m_scoreObj->sixteenthNoteAct() << m_scoreObj->restNoteAct() << m_scoreObj->dotNoteAct() << m_scoreObj->tieAct();
@@ -309,9 +313,15 @@ void TmainScoreObject::getMelody(Tmelody* melody) {
 }
 
 
-Taction * TmainScoreObject::clearScoreAct() {
+Taction* TmainScoreObject::clearScoreAct() {
   return m_scoreObj ? m_scoreObj->clearScoreAct() : nullptr;
 }
+
+
+Taction* TmainScoreObject::scoreMenuAct() {
+  return NOO->scoreAct();
+}
+
 
 
 void TmainScoreObject::askQuestion(Tmelody* mel, bool ignoreTechnical, const TkeySignature& melodyKey) {
@@ -517,8 +527,12 @@ void TmainScoreObject::isExamChangedSlot() {
       }
   }
   if (m_scoreObj) {
+#if !defined (Q_OS_ANDROID)
     m_scoreActions.prepend(m_scoreObj->editModeAct());
     m_scoreActions << m_scoreObj->insertNoteAct() << m_scoreObj->deleteNoteAct() << m_scoreObj->clearScoreAct() << m_notesMenuAct;
+#else
+    m_scoreActions << m_scoreObj->clearScoreAct() << m_randMelodyAct << m_openXmlAct << m_saveXmlAct;
+#endif
   }
   emit scoreActionsChanged();
 }

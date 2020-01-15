@@ -123,6 +123,7 @@ public:
   void getMelody(Tmelody* melody);
 
   Taction* clearScoreAct();
+  Taction* scoreMenuAct();
 
 // exam/exercise related
   void askQuestion(const Tnote& note, quint32 technicalData = 255);

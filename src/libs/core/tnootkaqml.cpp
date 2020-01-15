@@ -408,6 +408,7 @@ void TnootkaQML::setQmlEngine(QQmlEngine* e) {
   connect(m_chartsAct, &Taction::triggered, this, &TnootkaQML::chartsActTriggered);
   m_chartsAct->setTip(tr("Analysis of exam results"), QQuickItem::TopRight);
   m_scoreAct = new Taction(QApplication::translate("TmainScoreObject", "Score", "it could be 'notation', 'staff' or whatever is associated with that 'place to display musical notes' and this the name is quite short and looks well."), QStringLiteral("score"), this);
+  m_scoreAct->setBgColor(qApp->palette().highlight().color());
   connect(m_scoreAct, &Taction::triggered, this, &TnootkaQML::scoreActTriggered);
   m_scoreAct->setTip(QApplication::translate("TmainScoreObject", "Manage and navigate the score."), QQuickItem::TopRight);
   m_melodyAct = new Taction(QApplication::translate("TmainScoreObject", "Melody"), QStringLiteral("melody"), this);
