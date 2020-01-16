@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -20,6 +20,9 @@ Popup {
   enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}
   exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0.0 }}
 
+  x: Noo.isAndroid() ? (nootkaWindow.width - width) / 2 : 0
+  y: Noo.isAndroid() ? (nootkaWindow.height - height) / 2 : 0
+
   signal accepted()
 
   // private
@@ -36,7 +39,7 @@ Popup {
         background: Rectangle { color: activPal.base }
         anchors.verticalCenter: parent.verticalCenter
         height: Noo.fontSize() * 6; width: Noo.fontSize() * 2
-        model: tempoBar.beatModel
+        model: [ "\ue1d5", "\ue1d7", "\ue1d5 \ue1e7", "\ue1d3" ]
         visibleItemCount: 3; wrap: true
         currentIndex: SOUND.beatUnit
         onCurrentIndexChanged: {
@@ -102,20 +105,70 @@ Popup {
 
     TcheckBox {
       id: metroVisibleChB
+      visible: !Noo.isAndroid()
       text: qsTr("Metronome visible")
       checked: true
     }
 
     TcheckBox {
-      x: Noo.fontSize()
       id: countChB
+      visible: !Noo.isAndroid()
+      x: Noo.fontSize()
       enabled: metroVisibleChB.checked
       text: qsTr("Count up")
       checked: true
     }
 
-    ButtonGroup { buttons: radioRow.children }
+    Rectangle {
+      visible: Noo.isAndroid()
+      width: parent.width
+      height: Noo.fontSize() * 2.8
+      anchors.horizontalCenter: parent.horizontalCenter
+      color: ma.containsPress ? Noo.alpha(activPal.highlight, 50) : "transparent"
+      Rectangle { color: activPal.text; width: parent.width; height: 1; y: -1 }
+      Text {
+        anchors.verticalCenter: parent.verticalCenter
+        text: "\u0190"; font { family: "Nootka"; pixelSize: Noo.fontSize() * 2.5 }
+        color: SOUND.tickBeforePlay ? "#00a0a0" : activPal.text
+      }
+      Text {
+        anchors.verticalCenter: parent.verticalCenter
+        x: Noo.fontSize() * 4; font.pixelSize: Noo.fontSize()
+        text: qsTr("Count up")
+      }
+      MouseArea {
+        id: ma
+        anchors.fill: parent
+        onClicked: SOUND.tickBeforePlay = !SOUND.tickBeforePlay
+      }
+      Rectangle { color: activPal.text; width: parent.width; height: 1; y: parent.height + Noo.fontSize() / 4 - 1 }
+    }
+    Rectangle {
+      visible: Noo.isAndroid()
+      width: parent.width
+      height: Noo.fontSize() * 2.8
+      anchors.horizontalCenter: parent.horizontalCenter
+      color: ma2.containsPress ? Noo.alpha(activPal.highlight, 50) : "transparent"
+      Text {
+        anchors.verticalCenter: parent.verticalCenter
+        text: "\u018f"; font { family: "Nootka"; pixelSize: Noo.fontSize() * 2.5 }
+        color: SOUND.tickDuringPlay ? "#00a0a0" : activPal.text
+      }
+      Text {
+        anchors.verticalCenter: parent.verticalCenter
+        x: Noo.fontSize() * 4; font.pixelSize: Noo.fontSize()
+        text: Noo.TR("TempoBar", "Audible metronome")
+      }
+      MouseArea {
+        id: ma2
+        anchors.fill: parent
+        onClicked: SOUND.tickDuringPlay = !SOUND.tickDuringPlay
+      }
+      Rectangle { color: activPal.text; width: parent.width; height: 1; anchors.bottom: parent.bottom }
+    }
+
     Item {
+      ButtonGroup { buttons: radioRow.children }
       anchors.horizontalCenter: parent.horizontalCenter
       width: parent.width; height: radioRow.height
       enabled: !executor

@@ -9,13 +9,16 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="760mm"
+   width="1000mm"
    height="1000mm"
-   viewBox="0 0 760 1000"
+   viewBox="0 0 1000 1000"
    version="1.1"
    id="svg8"
    sodipodi:docname="metronome.svg"
-   inkscape:version="0.92.2 2405546, 2018-03-11">
+   inkscape:version="0.92.4 5da689c313, 2019-01-14"
+   inkscape:export-filename="../../../picts/flat/metronome.png"
+   inkscape:export-xdpi="6.5023999"
+   inkscape:export-ydpi="6.5023999">
   <defs
      id="defs2" />
   <sodipodi:namedview
@@ -26,13 +29,13 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.12374369"
-     inkscape:cx="409.27141"
-     inkscape:cy="1761.0347"
+     inkscape:cx="2979.0994"
+     inkscape:cy="2100.4459"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1600"
-     inkscape:window-height="1163"
+     inkscape:window-width="1920"
+     inkscape:window-height="1043"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1" />
@@ -55,7 +58,7 @@
      transform="translate(0,703)">
     <path
        style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-feature-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:15;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
-       d="m 181.10764,-681.56855 a 26.9538,26.9538 0 0 0 -26.76098,23.75825 L 46.541197,245.42414 a 26.9538,26.9538 0 0 0 26.760976,30.14442 h 1.959116 616.646561 a 26.9538,26.9538 0 0 0 26.95224,-26.95229 v -2.71484 a 26.9538,26.9538 0 0 0 -0.19684,-3.20145 L 610.8654,-657.82513 a 26.9538,26.9538 0 0 0 -26.76097,-23.74342 z m 23.92536,53.90267 h 355.15164 l 61.06501,510.09455 c -25.80744,-0.0694 -118.25622,-0.32983 -210.80838,-0.62029 l 55.06883,-282.45817 23.86594,4.65357 53.56651,-123.37609 c 0.1229,-0.28324 -0.19603,-0.60079 -0.57194,-0.674 l -51.62041,-10.06301 4.67031,-23.95506 -52.90543,-10.31553 -4.67031,23.95506 -52.25364,-10.18746 c -0.37587,-0.0732 1.31281,0.51028 1.32032,0.819 l 3.29986,134.46223 22.39149,4.36577 -57.04465,292.59171 c -90.83913,-0.30358 -178.64728,-0.63455 -211.20206,-0.90247 z"
+       d="m 298.50175,-681.56855 a 26.9538,26.9538 0 0 0 -26.76098,23.75825 L 163.93531,245.42413 a 26.9538,26.9538 0 0 0 26.76097,30.14442 h 1.95912 616.64656 a 26.9538,26.9538 0 0 0 26.95224,-26.95229 v -2.71484 a 26.9538,26.9538 0 0 0 -0.19684,-3.20145 l -107.79785,-900.5251 a 26.9538,26.9538 0 0 0 -26.76097,-23.74342 z m 23.92536,53.90267 h 355.15164 l 61.06501,510.09455 c -25.80744,-0.0694 -118.25622,-0.32983 -210.80838,-0.62029 l 55.06883,-282.45817 23.86594,4.65357 53.56651,-123.37609 c 0.1229,-0.28324 -0.19603,-0.60079 -0.57194,-0.674 l -51.62041,-10.06301 4.67031,-23.95506 -52.90543,-10.31553 -4.67031,23.95506 -52.25364,-10.18746 c -0.37587,-0.0732 1.31281,0.51028 1.32032,0.819 l 3.29986,134.46223 22.39149,4.36577 -57.04465,292.59171 c -90.83913,-0.30358 -178.64728,-0.63455 -211.20206,-0.90247 z"
        id="path4518"
        inkscape:connector-curvature="0" />
   </g>

@@ -403,11 +403,10 @@ bool Tsound::isSniferStopped() {
 }
 
 
-bool Tsound::tickBeforePlay() const { return player ? player->tickBeforePlay() : false; }
+bool Tsound::tickBeforePlay() const { return player && player->tickBeforePlay(); }
 void Tsound::setTickBeforePlay(bool tbp) {
   if (player && tbp != player->tickBeforePlay()) {
     player->setTickBeforePlay(tbp);
-    GLOB->A->countBefore = tbp;
     emit tickStateChanged();
   }
 }

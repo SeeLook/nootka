@@ -106,7 +106,7 @@ Item {
       enabled: !SOUND.metroRunning
       font { family: "Nootka"; pixelSize: parent.height }
       text: "\u018f"
-      statusTip: qsTr("Audible metronome.<br>Use earphones! Otherwise ticking will disturb proper pitch detection!")
+      statusTip: qsTr("Audible metronome") + ".<br>" + qsTr("Use earphones! Otherwise ticking will disturb proper pitch detection!")
       checked: SOUND.tickDuringPlay
       textColor: checked ? "#00a0a0" : activPal.text
       onClicked: SOUND.tickDuringPlay = !SOUND.tickDuringPlay

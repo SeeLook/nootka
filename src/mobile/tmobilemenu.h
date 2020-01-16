@@ -44,7 +44,8 @@ class TmobileMenu : public QQuickItem
   Q_PROPERTY(bool pressed READ pressed NOTIFY pressedChanged)
   Q_PROPERTY(bool showFlys READ showFlys NOTIFY showFlysChanged)
   Q_PROPERTY(QQuickItem* currentFly READ currentFly NOTIFY currentFlyChanged)
-  Q_PROPERTY(Taction* pitchDetectAct READ pitchDetectAct NOTIFY pitchActChanged)
+  Q_PROPERTY(Taction* pitchDetectAct READ pitchDetectAct NOTIFY actionsChanged)
+  Q_PROPERTY(Taction* tempoAct READ tempoAct NOTIFY actionsChanged)
   Q_PROPERTY(Taction* fly1act READ fly1act NOTIFY fly1actChanged)
   Q_PROPERTY(Taction* fly2act READ fly2act NOTIFY fly2actChanged)
   Q_PROPERTY(Taction* fly3act READ fly3act NOTIFY fly3actChanged)
@@ -69,6 +70,7 @@ public:
   QQuickItem* currentFly() { return m_currentFlyItem; }
 
   Taction* pitchDetectAct() { return m_pitchDetectAct; }
+  Taction* tempoAct() { return m_tempoAct; }
   Taction* fly1act() { return m_1flyAct; }
   Taction* fly2act() { return m_2flyAct; }
   Taction* fly3act() { return m_3flyAct; }
@@ -85,7 +87,7 @@ signals:
   void clicked();
   void showFlysChanged();
   void currentFlyChanged();
-  void pitchActChanged();
+  void actionsChanged();
   void flyClicked();
   void fly1actChanged();
   void fly2actChanged();
@@ -118,6 +120,7 @@ private:
   bool                        m_showFlys = false;
   QQuickItem                 *m_currentFlyItem = nullptr;
   Taction                    *m_pitchDetectAct;
+  Taction                    *m_tempoAct;
   Taction                    *m_1flyAct = nullptr;
   Taction                    *m_2flyAct = nullptr;
   Taction                    *m_3flyAct = nullptr;

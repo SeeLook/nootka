@@ -86,6 +86,7 @@
         <file alias="picts/help.png">picts/flat/help.png</file>
         <file alias="picts/levelCreator.png">picts/flat/levelCreator.png</file>
         <file alias="picts/melody.png">picts/flat/melody.png</file>
+        <file alias="picts/metronome.png">picts/flat/metronome.png</file>
         <file alias="picts/mic.png">picts/flat/mic.png</file>
         <file alias="picts/open.png">picts/flat/open.png</file>
         <file alias="picts/nextQuest.png">picts/flat/nextQuest.png</file>

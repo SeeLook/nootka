@@ -46,6 +46,10 @@ TmobileMenu::TmobileMenu(QQuickItem* parent) :
                                                             "Android menu entry, could be 'Note recognition' or 'detection' as well"),
                                  QStringLiteral("mic"), this);
   m_pitchDetectAct->setBgColor(Qt::blue);
+
+  m_tempoAct = new Taction(tr("Tempo"), QStringLiteral("metronome"), this);
+  m_tempoAct->setBgColor(QColor(0, 102, 0)); // dark green
+
   connect(SOUND, &Tsound::initialized, this, &TmobileMenu::init);
 }
 
@@ -134,7 +138,7 @@ void TmobileMenu::singleNoteModeSlot() {
   if (GLOB->isSingleNote())
     setFlyActions(nullptr, nullptr, nullptr, nullptr, m_pitchDetectAct);
   else
-    setFlyActions(MAIN_SCORE->playAct(), MAIN_SCORE->recModeAct(), MAIN_SCORE->clearScoreAct(),
+    setFlyActions(MAIN_SCORE->playAct(), MAIN_SCORE->recModeAct(), m_tempoAct,
                   MAIN_SCORE->scoreMenuAct(), m_pitchDetectAct);
 }
 

@@ -15,7 +15,10 @@ TmobileMenu {
 
   property Item toolBar: null // fake, for main window information
   property alias drawer: mainDrawer
+
+  // private
   property var scoreMenu: null
+  property var tempoMenu: null
 
   function open() {
     if (!scoreMenu) {
@@ -69,6 +72,18 @@ TmobileMenu {
     }
   }
 
+  Connections {
+    target: tempoAct
+    onTriggered: {
+      if (!tempoMenu) {
+        var tm = Qt.createComponent("qrc:/sound/TempoMenu.qml")
+        tempoMenu = tm.createObject(nootkaWindow.contentItem)
+      }
+      tempoMenu.open()
+      mainDrawer.close()
+    }
+  }
+
   Drawer {
     id: mainDrawer
     property NootkaLabel label: null
@@ -103,9 +118,19 @@ TmobileMenu {
               Component.onCompleted: mainDrawer.label = this
             }
             MenuButton { action: pitchDetectAct; onClicked: mainDrawer.close() }
-            MenuButton { action: tunerAct; onClicked: mainDrawer.close() }
-            MenuButton { action: Noo.levelAct; onClicked: mainDrawer.close() }
+            MenuButton {
+              visible: !GLOB.singleNoteMode
+              action: tempoAct
+              Text {
+                property var beatModel: [ "\ue1d5", "\ue1d7", "\ue1d5 \ue1e7", "\ue1d3" ]
+                x: parent.width - width - Noo.fontSize(); y: parent.height * -0.55
+                font { family: "Scorek"; pixelSize: parent.height * 0.6 }
+                text: beatModel[SOUND.beatUnit] + "=" + SOUND.tempo
+              }
+            }
             MenuButton { action: Noo.examAct; onClicked: mainDrawer.close() }
+            MenuButton { action: Noo.levelAct; onClicked: mainDrawer.close() }
+            MenuButton { action: Noo.scoreAct; onClicked: mainDrawer.close() }
             MenuButton {
               action: Taction {
                 text: Noo.settingsAct.text
@@ -114,7 +139,7 @@ TmobileMenu {
               }
               onClicked: mainDrawer.close()
             }
-            MenuButton { action: Noo.scoreAct; onClicked: mainDrawer.close() }
+            MenuButton { action: tunerAct; onClicked: mainDrawer.close() }
             MenuButton { onClicked: nootkaWindow.close(); action: Taction { icon: "close"; text: Noo.TR("QShortcut", "Close") } }
           }
         }
