@@ -107,6 +107,10 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
   m_prevNoteAct->createQmlShortcut(&actionsComp, "StandardKey.MoveToPreviousChar");
 
   connect(qApp, &QGuiApplication::paletteChanged, this, &TmainScoreObject::paletteSlot);
+  connect(SOUND, &Tsound::playingChanged, this, [=]{
+    m_playAct->setIconTag(SOUND->playing() ? QLatin1String("stopMelody") : QLatin1String("playMelody"));
+    m_playAct->setText(SOUND->playing() ? qTR("QShortcut", "Stop") : qTR("TtoolBar", "Play"));
+  });
 
   isExamChangedSlot();
 }
