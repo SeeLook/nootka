@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -33,11 +33,13 @@ class TaudioParams;
 class QAudioOutput;
 class TaudioBuffer;
 
+
 /**
- * Implementation of guitar sound player using Qt Multimedia
+ * Implementation of sound player using Qt Multimedia
  */
 class NOOTKASOUND_EXPORT TaudioOUT : public TabstractPlayer
 {
+
   Q_OBJECT
 
 public:
@@ -47,13 +49,6 @@ public:
   static QStringList getAudioDevicesList();
   static QString outputName() { return m_devName; }
   static TaudioOUT* instance() { return m_instance; }
-
-        /**
-         * Starts playing given note and then returns true, otherwise gets false.
-         */
-  bool play(int noteNr);
-
-  void playMelody(const QList<Tnote>& notes, int tempo, int firstNote = 0);
 
   void startPlaying() override;
 
@@ -67,7 +62,6 @@ public:
   TaudioParams* audioParams() { return m_audioParams; }
 
 protected:
-  int crossCount() { return m_crossCount; } /**< counts samples of crossing buffer */
   void createOutputDevice();
 
   void decodeNext();
@@ -79,7 +73,7 @@ protected:
   ToggScale                      *oggScale;
   int                             ratioOfRate; // ratio of current sample rate to 44100
 
-private slots:
+private:
   void outCallBack(char* data, qint64 maxLen, qint64& wasRead);
 //   void updateSlot() { setAudioOutParams(); }
   void playingFinishedSlot();
@@ -88,19 +82,14 @@ private slots:
 
 
 private:
-  static QString      m_devName;
-  static TaudioOUT   *m_instance;
-  int                 m_maxSamples; /**< Duration of a sound counted in samples */
-  int                 m_bufferFrames, m_sampleRate;
-  qint16             *m_crossBuffer; /**< buffer with data of part of previous note to fade out */
-  bool                m_doCrossFade;
-  float               m_cross; /**< current volume factor of fading effect */
-  int                 m_crossCount;
-  bool                m_callBackIsBussy;
-  TaudioParams       *m_audioParams;
-  QAudioOutput       *m_audioOUT;
-  TaudioBuffer       *m_buffer;
-  QAudioDeviceInfo    m_deviceInfo;
+  static QString                   m_devName;
+  static TaudioOUT                *m_instance;
+  int                              m_bufferFrames, m_sampleRate;
+  bool                             m_callBackIsBussy;
+  TaudioParams                    *m_audioParams;
+  QAudioOutput                    *m_audioOUT;
+  TaudioBuffer                    *m_buffer;
+  QAudioDeviceInfo                 m_deviceInfo;
 };
 
 #endif // TRTAUDIOOUT_H
