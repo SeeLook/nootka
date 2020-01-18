@@ -67,7 +67,6 @@
         <file>picts/saxAlto.png</file>
         <file>picts/scr.png</file>
         <file>picts/stamp.png</file>
-        <file>picts/stopMelody.png</file>
         <file>picts/tipbg.png</file>
         <file>picts/wizard-left.png</file>
 
@@ -92,6 +91,7 @@
         <file alias="picts/nextQuest.png">picts/flat/nextQuest.png</file>
         <file alias="picts/prevQuest.png">picts/flat/prevQuest.png</file>
         <file alias="picts/playMelody.png">picts/flat/playMelody.png</file>
+        <file alias="picts/stopMelody.png">picts/flat/stopMelody.png</file>
         <file alias="picts/record.png">picts/flat/record.png</file>
         <file alias="picts/restore-defaults.png">picts/flat/restore-defaults.png</file>
         <file alias="picts/save.png">picts/flat/save.png</file>
