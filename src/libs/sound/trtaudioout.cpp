@@ -59,21 +59,6 @@ TaudioOUT*              TaudioOUT::instance = nullptr;
 #define SAMPLE_LEN (79380) // 1.8sec (70560) // 1.6 //(66150) 1.5 //61740 1.4
 
 
-/**
- * Dirty mixing of two given samples
- */
-qint16 mix(qint16 sampleA, qint16 sampleB) {
-//   return static_cast<qint16>((static_cast<qint32>(sampleA) + static_cast<qint32>(sampleB)) / 2); It cracks
-  qint32 a32 = static_cast<qint32>(sampleA), b32 = static_cast<qint32>(sampleB);
-  if (sampleA < 0 && sampleB < 0 )
-    return static_cast<qint16>((a32 + b32) - ((a32 * b32) / INT16_MIN));
-  else if (sampleA > 0 && sampleB > 0 )
-    return static_cast<qint16>((a32 + b32) - ((a32 * b32) / INT16_MAX));
-  else
-    return sampleA + sampleB;
-}
-
-
 bool TaudioOUT::outCallBack(void* outBuff, void* inBuff, unsigned int nBufferFrames) {
   instance->m_callBackIsBussy = true;
 

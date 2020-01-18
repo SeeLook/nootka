@@ -239,3 +239,15 @@ bool TabstractPlayer::doTicking() const {
 void TabstractPlayer::setPitchOffset(qreal pitchOff) {
   p_oggScale->setPitchOffset(pitchOff);
 }
+
+
+qint16 TabstractPlayer::mix(qint16 sampleA, qint16 sampleB) {
+//   return static_cast<qint16>((static_cast<qint32>(sampleA) + static_cast<qint32>(sampleB)) / 2); It cracks
+  qint32 a32 = static_cast<qint32>(sampleA), b32 = static_cast<qint32>(sampleB);
+  if (sampleA < 0 && sampleB < 0 )
+    return static_cast<qint16>((a32 + b32) - ((a32 * b32) / INT16_MIN));
+  else if (sampleA > 0 && sampleB > 0 )
+    return static_cast<qint16>((a32 + b32) - ((a32 * b32) / INT16_MAX));
+  else
+    return sampleA + sampleB;
+}

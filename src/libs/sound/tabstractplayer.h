@@ -172,6 +172,11 @@ public:
 
   void setPitchOffset(qreal pitchOff);
 
+      /**
+       * Dirty mixing of two given samples
+       */
+  static qint16 mix(qint16 sampleA, qint16 sampleB);
+
 signals:
   void playingStarted();
 
