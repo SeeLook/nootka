@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -188,60 +188,21 @@ bool TabstractPlayer::playMelody(Tmelody* melody, int transposition, int countdo
 
 
 /**
- * Reading metronome beat from ogg file takes really less, so let's do it this way.
- * It should take a few ms only on low end Android gizmo.
- * But of course, read it once, and store decoded data in array.
- * TODO: consider to save decoded data somewhere into cache.
- * TODO: there is no any resampling, for 44100/48000 is bearable but for higher rates could be funny
+ * TODO: there is no any re-sampling, for 44100/48000 is bearable but for higher rates could be funny
  */
 void TabstractPlayer::setMetronome(unsigned int beatTempo) {
   if (!m_beatArray) {
-    OggVorbis_File oggFile;
-#if defined (Q_OS_WIN)
-    _setmode(_fileno(stdin), _O_BINARY);
-    auto stdFile = fopen(Tpath::sound("beat").toStdString().c_str(), "rb");
-    if(!stdFile) {
-      qDebug() << "[TabstractPlayer] Can't open metronome beat file";
-      p_beatBytes = 0;
+    QFile beatFile(Tpath::sound("beat", ".raw48-16"));
+    if (!beatFile.exists()) {
+      qDebug() << "[TabstractPlayer] Can't open metronome beat file" << beatFile.fileName();
+      p_beatPeriod = 0; // disable metronome
       return;
     }
-    if (ov_open_callbacks(stdFile, &oggFile, nullptr, 0, OV_CALLBACKS_DEFAULT) < 0) {
-        qDebug() << "[TabstractPlayer] Failed to open input file as Ogg format";
-        fclose(stdFile);
-        return;
-    }
-#else
-    auto stdFile = fopen(Tpath::sound("beat").toStdString().c_str(), "r");
-    if(!stdFile) {
-      qDebug() << "[TabstractPlayer] Can't open metronome beat file";
-      p_beatBytes = 0;
-      return;
-    }
-    ov_open(stdFile, &oggFile, NULL, 0);
-#endif
-    m_beatArray = new qint16[20000];
-    int bitStream;
-    long bytes;
-    p_beatBytes = 0;
-    do {
-      bytes = ov_read(&oggFile, reinterpret_cast<char*>(m_beatArray) + p_beatBytes, 20000 - p_beatBytes, 0, 2, 1, &bitStream);
-      p_beatBytes += bytes;
-    } while (bytes > 0);
-    p_beatBytes = p_beatBytes / 2;
-// Below dead code reads from raw audio (48000Hz/16bits) file instead of ogg
-//     p_beatBytes = ov_read(&oggFile, reinterpret_cast<char*>(m_beatArray), 20000, 0, 2, 1, &bitStream) / 2;
-//     QFile beatFile(Tpath::sound("beat", ".raw"));
-//     if (!beatFile.exists()) {
-//       p_beatPeriod = 0; // disable metronome
-//       return;
-//     }
-//     beatFile.open(QIODevice::ReadOnly);
-//     QDataStream beatStream(&beatFile);
-//     m_beatArray = new qint16[beatFile.size() / 2];
-//     p_beatBytes = beatStream.readRawData(reinterpret_cast<char*>(m_beatArray), beatFile.size()) / 2;
-//     beatFile.close();
-//     ov_clear(&oggFile);
-    fclose(stdFile);
+    beatFile.open(QIODevice::ReadOnly);
+    QDataStream beatStream(&beatFile);
+    m_beatArray = new qint16[beatFile.size() / 2];
+    p_beatBytes = beatStream.readRawData(reinterpret_cast<char*>(m_beatArray), beatFile.size()) / 2;
+    beatFile.close();
   }
   p_beatOffset = 0;
   p_beatPeriod = beatTempo ? (p_oggScale->sampleRate() * 60) / beatTempo : 0;

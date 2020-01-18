@@ -143,6 +143,7 @@ endif(APPLE)
 
 
 file(GLOB snds "${CMAKE_CURRENT_SOURCE_DIR}/sounds/*.ogg")
+list(APPEND snds "${CMAKE_CURRENT_SOURCE_DIR}/sounds/beat.raw48-16")
 install(FILES ${snds} DESTINATION "${INS_PREF}/sounds")
 
 # files related with Linux (mime, desktop entry, icons)
