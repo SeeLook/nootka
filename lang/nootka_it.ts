@@ -1530,8 +1530,12 @@ non è un file di esame valido!</translation>
         <translation>Stacca il tempo prima di suonare o ascoltare.</translation>
     </message>
     <message>
-        <source>Audible metronome.&lt;br&gt;Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
-        <translation>Metronomo attivo.&lt;br&gt;Usa un paio di cuffie! Altrimenti il click interferirà con il riconoscimento delle altezze!</translation>
+        <source>Audible metronome</source>
+        <translation>Metronomo udibile</translation>
+    </message>
+    <message>
+        <source>Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
+        <translation>Usa un paio di cuffie! Altrimenti il click interferirà con il riconoscimento delle altezze!</translation>
     </message>
 </context>
 <context>

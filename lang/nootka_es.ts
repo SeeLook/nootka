@@ -2219,7 +2219,11 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Audible metronome.&lt;br&gt;Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
+        <source>Audible metronome</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

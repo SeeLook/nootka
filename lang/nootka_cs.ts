@@ -2447,9 +2447,14 @@ není platným souborem zkoušky!</translation>
         <translation>Odpočítávání před hraním nebo poslechem.</translation>
     </message>
     <message>
+    <location filename="../src/qml/sound/TempoBar.qml" line="97"/>
+        <source>Audible metronome</source>
+        <translation>Slyšitelný metronom</translation>
+    </message>
+    <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="97"/>
-        <source>Audible metronome.&lt;br&gt;Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
-        <translation>Slyšitelný metronom.&lt;br&gt;Použijte sluchátka! V opačném případě bude tikání narušovat náležité zjišťování výšky tónů!</translation>
+        <source>Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
+        <translation>Použijte sluchátka! V opačném případě bude tikání narušovat náležité zjišťování výšky tónů!</translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="143"/>

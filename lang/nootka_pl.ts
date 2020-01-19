@@ -2662,9 +2662,14 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation>Odliczaj przed graniem lub słuchaniem.</translation>
     </message>
     <message>
+    <location filename="../src/qml/sound/TempoBar.qml" line="109"/>
+        <source>Audible metronome</source>
+        <translation>Metronom słyszalny</translation>
+    </message>
+    <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="109"/>
-        <source>Audible metronome.&lt;br&gt;Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
-        <translation>Metronom słyszalny.&lt;br&gt;Użyj słuchawek! W przeciwnym wypadku stukanie zakłóci poprawne wykrywanie dźwięków!</translation>
+        <source>Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
+        <translation>Użyj słuchawek! W przeciwnym wypadku stukanie zakłóci poprawne wykrywanie dźwięków!</translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="157"/>

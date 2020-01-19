@@ -119,6 +119,67 @@
         <source>Click and Drag the cursor to move the chart.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Settings of a chart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Questions number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Attempts number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Preparation time</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Played number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Recent exercise on level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>include time of wrong answers to average</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>show wrong answers separately</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>question number</source>
+        <comment>see comment in &apos;ordered by:&apos; entry</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>note pitch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>fret number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>accidentals</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>key signature</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>mistake</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>question type</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AnswerText</name>
@@ -210,6 +271,30 @@
     <name>Certificate</name>
     <message>
         <source>Stop exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ChartDrawer</name>
+    <message>
+        <source>keep opened</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ChartTip</name>
+    <message>
+        <source>of</source>
+        <comment>It will give text: &apos;Attempt x of y&apos;</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>played</source>
+        <comment>a melody was played (and number follows)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>time</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -394,6 +479,13 @@
     </message>
 </context>
 <context>
+    <name>HelpPage</name>
+    <message>
+        <source>Help topics</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>InstrumentPage</name>
     <message>
         <source>Instrument</source>
@@ -542,10 +634,6 @@
     <message>
         <source>Pitch recognition</source>
         <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Metronome</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -700,6 +788,13 @@ Consider to divide long pieces on parts in external software first.</source>
     <name>OutScaleTip</name>
     <message>
         <source>Out of instrument scale!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PitchView</name>
+    <message>
+        <source>Start/stop pitch detection</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1013,6 +1108,18 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
 </context>
 <context>
+    <name>ScoreToolbox</name>
+    <message>
+        <source>Tie - connect or disconnect selected note with previous one if both notes have the same pitch.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>tie</source>
+        <comment>To translate it properly, check please meaning of &apos;tie&apos; in musical context.</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Select7note</name>
     <message>
         <source>7th note is:</source>
@@ -1224,6 +1331,15 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
 </context>
 <context>
+    <name>TXaxis</name>
+    <message numerus="yes">
+        <source>%n attempt(s)</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+</context>
+<context>
     <name>TaboutNootka</name>
     <message>
         <source>About Nootka</source>
@@ -1424,29 +1540,6 @@ Consider to divide long pieces on parts in external software first.</source>
         <source>Questions number</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Attempts number</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Preparation time</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Played number</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>TchartTipItem</name>
-    <message>
-        <source>question</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>answer</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>Tclef</name>
@@ -1542,15 +1635,19 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Audible metronome.&lt;br&gt;Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>beats per minute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Mouse wheel changes tempo promptly (also with %1 key). Click for more options.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audible metronome</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1632,6 +1729,10 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>as played sound</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Let&apos;s start</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2504,6 +2605,13 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
 </context>
 <context>
+    <name>TmobileMenu</name>
+    <message>
+        <source>Tempo</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TnameItem</name>
     <message>
         <source>Octaves</source>
@@ -2988,29 +3096,6 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
 </context>
 <context>
-    <name>TtipMelody</name>
-    <message>
-        <source>of</source>
-        <comment>It will give text: &apos;Attempt x of y&apos;</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message numerus="yes">
-        <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>played</source>
-        <comment>a melody was played (and number follows)</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>time</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>TtoolBar</name>
     <message>
         <source>Settings</source>
@@ -3122,6 +3207,10 @@ Consider to divide long pieces on parts in external software first.</source>
         <source>Nooter - Nootka tuner</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>output volume</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TupdateChecker</name>
@@ -3188,10 +3277,6 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Drag a knob to adjust minimum input volume.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Start/stop pitch detection</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
