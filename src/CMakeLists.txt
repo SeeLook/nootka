@@ -140,7 +140,7 @@ if(MINGW)
 endif(MINGW)
 
 
-qt5_add_resources(NOOTKA_SRC nootka.qrc)
+qt5_add_resources(NOOTKA_SRC nootka.qrc charts/charts.qrc)
 
 
 add_executable(nootka WIN32 ${NOOTKA_SRC} ${NOOTKA_EXE_ICON})

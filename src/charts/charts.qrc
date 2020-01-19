@@ -1,0 +1,16 @@
+<RCC>
+  <qresource prefix="/">
+
+    <file alias="charts/AnalyzeDialog.qml">qml/AnalyzeDialog.qml</file>
+    <file alias="charts/ChartView.qml">qml/ChartView.qml</file>
+    <file alias="charts/LinearDelegate.qml">qml/LinearDelegate.qml</file>
+    <file alias="charts/BarDelegate.qml">qml/BarDelegate.qml</file>
+    <file alias="charts/ChartTip.qml">qml/ChartTip.qml</file>
+    <file alias="charts/ChartToolButton.qml">qml/ChartToolButton.qml</file>
+    <file alias="charts/LevelPopup.qml">qml/LevelPopup.qml</file>
+    <file alias="charts/ChartHelpTip.qml">qml/ChartHelpTip.qml</file>
+    <file alias="charts/ChartDrawer.qml">qml/ChartDrawer.qml</file>
+
+  </qresource>
+</RCC>
+
