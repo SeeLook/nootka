@@ -204,8 +204,8 @@ int main(int argc, char *argv[])
     firstLoop = false;
     exitCode = a->exec();
 
-    delete sound;
     delete e;
+    delete sound;
     delete gl;
 #if defined (Q_OS_ANDROID)
     if (nooObj->resetConfig()) { // delete config file - new Nootka instance will start with first run wizard
