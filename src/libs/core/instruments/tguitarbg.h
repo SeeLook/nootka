@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -28,6 +28,9 @@
 /**
  * This is static background of guitar QML component.
  * It re-paints its content only when size changes (user scales main window)
+ *
+ * On desktops it handles mouse hover/press events to manage selecting position
+ * but under mobile mouse is locked and @p pressedAt() method has to be used
  */
 class NOOTKACORE_EXPORT TguitarBg : public TcommonInstrument
 {
@@ -109,12 +112,20 @@ public:
 
   Q_INVOKABLE void applyCorrect() override;
 
+      /**
+       * Simulates mouse press/touch at given position.
+       * Simply calculates what note is at that place on the fretboard
+       * and sets it
+       */
+  Q_INVOKABLE void pressedAt(qreal px, qreal py);
+
 signals:
   void fretWidthChanged();
   void stringsGapChanged();
   void fingerPosChanged();
   void stringChanged();
   void pressedChanged();
+  void clearGuitar();
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) override;

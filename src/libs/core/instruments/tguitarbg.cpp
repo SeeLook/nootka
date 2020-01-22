@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -56,6 +56,12 @@ TguitarBg::TguitarBg(QQuickItem* parent) :
     if (GLOB->instrument().isGuitar())
       update();
   });
+
+  // Android has QML mouse area instead
+#if defined (Q_OS_ANDROID)
+  setAcceptHoverEvents(false);
+  setAcceptedMouseButtons(Qt::NoButton);
+#endif
 }
 
 
@@ -343,6 +349,9 @@ void TguitarBg::markSelected(const QColor& markColor) {
     markBorder(m_stringItems[s], borderWidth, markColor);
     markBorder(m_fingerItems[s], borderWidth, markColor);
   }
+#if defined (Q_OS_ANDROID)
+  emit clearGuitar();
+#endif
 }
 
 
@@ -398,6 +407,13 @@ void TguitarBg::finishCorrectAnim() {
   TcommonInstrument::finishCorrectAnim();
 }
 
+
+void TguitarBg::pressedAt(qreal px, qreal py) {
+  paintFingerAtPoint(QPointF(px, py).toPoint());
+  // skip press point set - not used in that event handler
+  auto me = new QMouseEvent(QEvent::MouseButtonPress, QPointF(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
+  mousePressEvent(me);
+}
 
 //#################################################################################################
 //###################              PROTECTED           ############################################
