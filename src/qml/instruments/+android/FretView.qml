@@ -11,33 +11,59 @@ import "../"
 
 TipRect {
   id: fView
-  clip: true
-  visible: false
-  width: instrItem.fretWidth * 1.5; height: instrItem.height * 1.3
+  z: 10
+  height: Math.max(Noo.fingerPixels() * 4, instrItem.height * 1.1)
+  width: instrItem.fretWidth * 1.5 * vScale
   y: parent.height - height
+  scale: 0
+  Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation {} }
 
-  TguitarBg {
-    id: gBg
-    height: parent.height; width: instrItem.width * 1.3
-    x: fView.x * -1.3
-    Image { // rosette/pickup
-      cache: false
-      source: GLOB.instrument.isGuitar ? Noo.pix(GLOB.instrument.type === Tinstrument.ClassicalGuitar ? "rosette" : "pickup") : ""
-      height: parent.height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 1.55 : 1.3)
-      width: height * (sourceSize.width / sourceSize.height)
-      x: GLOB.instrument.type === Tinstrument.ClassicalGuitar ? gBg.fbRect.width - height * 0.25 : parent.width * 0.87
-      y: parent.height - height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ?  0.95 : 0.88)
-      z: -1
+  property real vScale: height / instrItem.height
+
+  Item { // overlay
+    parent: fView.parent
+    anchors.fill: parent
+    z: 9
+    visible: fView.scale === 1
+    MouseArea {
+      anchors.fill: parent
+      onClicked: fView.scale = 0
     }
   }
-  MouseArea {
+
+  Connections {
+    target: instrItem
+    onNoteWasSet: gBg.note = instrItem.note
+  }
+
+  Item {
     anchors.fill: parent
-    drag.target: fView
-    drag.axis: Drag.XAxis
-    cursorShape: drag.active ? Qt.DragMoveCursor : Qt.ArrowCursor
-    onClicked: {
-      gBg.pressedAt(gBg.x * -1 + mouse.x, mouse.y)
-      instrItem.pressedAt(gBg.x / -1.3 + mouse.x, mouse.y / 1.3)
+    clip: true
+    TguitarBg {
+      id: gBg
+      height: parent.height; width: instrItem.width * vScale
+      x: fView.x * -vScale
+      note: instrItem.note
+      Image { // rosette/pickup
+        cache: false
+        source: GLOB.instrument.isGuitar ? Noo.pix(GLOB.instrument.type === Tinstrument.ClassicalGuitar ? "rosette" : "pickup") : ""
+        height: parent.height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 1.55 : 1.3)
+        width: height * (sourceSize.width / sourceSize.height)
+        x: GLOB.instrument.type === Tinstrument.ClassicalGuitar ? gBg.fbRect.width - height * 0.25 : parent.width * 0.87
+        y: parent.height - height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ?  0.95 : 0.88)
+        z: -1
+      }
+    }
+    MouseArea {
+      anchors.fill: parent
+      drag.target: fView
+      drag.minimumX: 0; drag.maximumX: instrItem.width - width
+      drag.axis: Drag.XAxis
+      cursorShape: drag.active ? Qt.DragMoveCursor : Qt.ArrowCursor
+      onClicked: {
+        gBg.pressedAt(gBg.x * -1 + mouse.x, mouse.y)
+        instrItem.pressedAt(gBg.x / -vScale + mouse.x, mouse.y / vScale)
+      }
     }
   }
 }

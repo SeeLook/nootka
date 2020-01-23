@@ -50,7 +50,8 @@ TguitarBg {
 
   OutScaleTip { visible: !active && outOfScale }
 
-  onClearGuitar: { if (fretView) fretView.visible = false }
+  onClearGuitar: { if (fretView) fretView.scale = 0 }
+  onEnabledChanged: { if (fretView && !enabled) fretView.scale = 0 }
 
   property var fretView: null
   MouseArea {
@@ -61,9 +62,11 @@ TguitarBg {
             var fv = Qt.createComponent("qrc:/instruments/FretView.qml")
             fretView = fv.createObject(nootkaWindow.contentItem.parent)
           }
-          fretView.visible = !fretView.visible
-          if (fretView.visible)
-            fretView.x = Noo.bound(0, mouse.x, width - fretView.width)
+          if (fretView.scale === 0) {
+              fretView.scale = 1
+              fretView.x = Noo.bound(0, mouse.x, width - fretView.width)
+          } else
+              fretView.scale = 0
       } else
           pressedAt(mouse.x, mouse.y)
     }

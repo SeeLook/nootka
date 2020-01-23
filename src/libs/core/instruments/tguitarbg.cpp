@@ -106,6 +106,9 @@ void TguitarBg::setNote(const Tnote& n, quint32 noteDataValue) {
         p_note.setNote(0); // invalidate it
     else
         p_note = n;
+#if defined (Q_OS_ANDROID)
+    emit noteWasSet();
+#endif
   }
   if (m_highlightedString && !n.isValid()) {
     m_highlightedString->setVisible(false);

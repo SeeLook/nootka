@@ -126,6 +126,7 @@ signals:
   void stringChanged();
   void pressedChanged();
   void clearGuitar();
+  void noteWasSet();
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) override;
