@@ -124,6 +124,7 @@ void TmobileMenu::mouseReleaseEvent(QMouseEvent* event) {
 void TmobileMenu::init() {
   singleNoteModeSlot();
   connect(GLOB, &Tglobals::singleNoteModeChanged, this, &TmobileMenu::singleNoteModeSlot);
+  connect(GLOB, &Tglobals::isExamChanged, this, &TmobileMenu::singleNoteModeSlot);
   connect(m_pitchDetectAct, &Taction::triggered, this, [=] {
     SOUND->setStoppedByUser(!SOUND->stoppedByUser());
     if (SOUND->listening())

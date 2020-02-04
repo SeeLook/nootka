@@ -1205,6 +1205,7 @@ void TexamExecutor::createActions() {
   if (m_level.questionAs.isSound()) {
     if (m_level.answersAs[TQAtype::e_asSound].isOnScore()) {
       m_tuningForkAct = new Taction(Tnote(6, 1, 0).toRichText(), QStringLiteral("fork"), this, false);
+      m_tuningForkAct->setBgColor(qApp->palette().highlight().color());
       m_examActions.append(m_tuningForkAct);
       m_tuningForkAct->setTip(tr("Play <i>middle a</i> like a tuning fork.\n(Press key 'a')").replace(QLatin1String("\n"), QLatin1String("<br>")), QQuickItem::TopRight);
       connect(m_tuningForkAct, &Taction::triggered, this, &TexamExecutor::playMiddleA);

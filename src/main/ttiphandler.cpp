@@ -33,6 +33,7 @@
 #include "help/texamhelp.h"
 #include "texamexecutor.h"
 #include "tnameitem.h"
+#include "tmainscoreobject.h"
 #include <tsound.h>
 #include <tpath.h>
 #include <texamparams.h>
@@ -400,7 +401,7 @@ void TtipHandler::showQuestionTip() {
 #if defined (Q_OS_ANDROID)
   MOBILE_MENU->setFlyActions(EXECUTOR->playAgainAct(), EXECUTOR->tuningForkAct(),
                              EXECUTOR->checkQuestAct(),
-                             question->melody() && question->answerOnScore() ? EXECUTOR->clearScoreAct() : nullptr,
+                             question->melody() && question->answerOnScore() ? MAIN_SCORE->scoreMenuAct() : nullptr,
                              nullptr);
 #endif
 

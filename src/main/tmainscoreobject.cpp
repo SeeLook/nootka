@@ -535,7 +535,9 @@ void TmainScoreObject::isExamChangedSlot() {
     m_scoreActions.prepend(m_scoreObj->editModeAct());
     m_scoreActions << m_scoreObj->insertNoteAct() << m_scoreObj->deleteNoteAct() << m_scoreObj->clearScoreAct() << m_notesMenuAct;
 #else
-    m_scoreActions << m_scoreObj->clearScoreAct() << m_randMelodyAct << m_openXmlAct << m_saveXmlAct;
+    m_scoreActions << m_scoreObj->clearScoreAct();
+    if (!GLOB->isExam())
+      m_scoreActions << m_randMelodyAct << m_openXmlAct << m_saveXmlAct;
 #endif
   }
   emit scoreActionsChanged();
