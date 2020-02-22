@@ -28,11 +28,9 @@
  * Android functions requiring invoking native methods through JNI
  */
 namespace Tandroid {
+  void keepScreenOn(bool on);
 
-      /**
-       * Sets phone/tablet screen saving disabled.
-       */
-  void setScreenLockDisabled();
+  void disableRotation(bool disRot);
 
       /**
        * Returns a number of Android API on a hosting device.

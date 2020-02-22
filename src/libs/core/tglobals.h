@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -311,6 +311,15 @@ public:
 
   QString examsDir() const;
 
+#if defined (Q_OS_ANDROID)
+  Q_INVOKABLE void keepScreenOn(bool on);
+  Q_INVOKABLE void setDisableRotation(bool disRot);
+  Q_INVOKABLE bool isKeepScreenOn() { return  m_keepScreenOn; }
+  Q_INVOKABLE bool disableRotation() { return  m_disableRotation; }
+  Q_INVOKABLE bool fullScreen() { return m_fullScreen; }
+  Q_INVOKABLE void setFullScreen(bool fs) { m_fullScreen = fs; }
+#endif
+
       /**
        * Updates key signature names according to name style and major/minor suffixes.
        * Emits @p keyNameChanged() to inform MainScore.qml
@@ -447,6 +456,11 @@ private:
   Tinstrument                m_instrument;
   qreal                      m_guiScale;
   bool                       m_isExam = false;
+#if defined (Q_OS_ANDROID)
+  bool                       m_keepScreenOn;
+  bool                       m_disableRotation;
+  bool                       m_fullScreen;
+#endif
 
 };
 #endif // TGLOBALS_H

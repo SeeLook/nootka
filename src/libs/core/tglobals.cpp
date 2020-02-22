@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -313,7 +313,7 @@ void Tglobals::setMarkedFrets(const QString& frets) {
     }
     bool ok;
     int frNr = fr[i].toInt(&ok);
-    if (ok && frNr > 0 && frNr <= GfretsNumber)
+    if (ok && frNr > 0 && static_cast<uint>(frNr) <= GfretsNumber)
       GmarkedFrets << fr[i] + exMark;
   }
 }
@@ -449,7 +449,7 @@ QString Tglobals::examsDir() const { return E->examsDir; }
 
 void Tglobals::setGuitarParams(int fretNr, const Ttune& tun) {
   bool doEmit = false;
-  if (fretNr != GfretsNumber) {
+  if (static_cast<uint>(fretNr) != GfretsNumber) {
     GfretsNumber = fretNr;
     doEmit = true;
   }
@@ -667,6 +667,12 @@ void Tglobals::loadSettings(QSettings* cfg) {
     A->quantization = cfg->value(QStringLiteral("quantization"), 6).toInt();
   cfg->endGroup();
 
+#if defined (Q_OS_ANDROID)
+  m_keepScreenOn = cfg->value(QStringLiteral("keepScreenOn"), true).toBool();
+  m_disableRotation = cfg->value(QStringLiteral("disableRotation"), true).toBool();
+  m_fullScreen = cfg->value(QStringLiteral("fullScreen"), true).toBool();
+#endif
+
 //   cfg->beginGroup(QLatin1String("layout"));
 //     L->guitarEnabled = cfg->value(QStringLiteral("guitarEnabled"), true).toBool();
 // #if defined (Q_OS_ANDROID)
@@ -861,6 +867,12 @@ void Tglobals::storeSettings(QSettings* cfg) {
 #endif
   cfg->endGroup();
 
+#if defined (Q_OS_ANDROID)
+  cfg->setValue(QStringLiteral("keepScreenOn"), m_keepScreenOn);
+  cfg->setValue(QStringLiteral("disableRotation"), m_disableRotation);
+  cfg->setValue(QStringLiteral("fullScreen"), m_fullScreen);
+#endif
+
 //   cfg->beginGroup(QLatin1String("layout"));
 //       cfg->setValue(QStringLiteral("toolBarAutoHide"), L->toolBarAutoHide);
 //       cfg->setValue(QStringLiteral("iconTextOnToolBar"), (int)L->iconTextOnToolBar);
@@ -876,3 +888,24 @@ void Tglobals::storeSettings(QSettings* cfg) {
 //     cfg->setValue(QStringLiteral("initialAnimAccepted"), TtouchParams::i()->initialAnimAccepted);
 //   cfg->endGroup();
 }
+
+
+#if defined (Q_OS_ANDROID)
+
+void Tglobals::setDisableRotation(bool disRot) {
+  if (disRot != m_disableRotation) {
+    Tandroid::disableRotation(disRot);
+    m_disableRotation = disRot;
+  }
+}
+
+
+void Tglobals::keepScreenOn(bool on) {
+  if (on != m_keepScreenOn) {
+    Tandroid::keepScreenOn(on);
+    m_keepScreenOn = on;
+  }
+}
+
+#endif
+

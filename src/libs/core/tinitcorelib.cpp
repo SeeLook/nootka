@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -35,7 +35,6 @@
 #endif
 
 
-
 bool initCoreLibrary() {
   if (GLOB == nullptr) {
     qDebug() << "Tglobals was not created. Construct it first!";
@@ -60,7 +59,8 @@ bool initCoreLibrary() {
 #endif
 #if defined (Q_OS_ANDROID)
   qApp->addLibraryPath(qApp->applicationDirPath());
-  Tandroid::setScreenLockDisabled(); // TODO: interact with some settings option
+  Tandroid::keepScreenOn(GLOB->isKeepScreenOn());
+  Tandroid::disableRotation(GLOB->disableRotation());
 #endif
 
   return true;

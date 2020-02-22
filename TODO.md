@@ -98,10 +98,6 @@
 
 ============================================================================
 #### To consideration:
-  - additional settings options [Android]:
-      - disable screen locking (TRUE by default)
-      - full screen mode (TRUE by default)
-      - home button actions
   - In wizard: option for single note mode for very beginners
 
 

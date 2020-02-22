@@ -13,7 +13,7 @@ ApplicationWindow {
   visible: true
   title: "Nootka"
   color: activPal.window
-  visibility: Noo.isAndroid() ? "FullScreen" : "AutomaticVisibility"
+  visibility: Noo.isAndroid() && GLOB.fullScreen() ? "FullScreen" : "AutomaticVisibility"
 
   property alias mainMenu: mainMenu
 
@@ -112,8 +112,8 @@ ApplicationWindow {
 
   function showDialog(page) {
     if (!dialogLoader) {
-      var c = Qt.createComponent("qrc:/DialogLoader.qml")
-      dialogLoader = c.createObject(nootkaWindow)
+      var d = Qt.createComponent("qrc:/DialogLoader.qml")
+      dialogLoader = d.createObject(nootkaWindow)
     }
     if (page === Nootka.Charts) {
       var c = Qt.createComponent("qrc:/charts/AnalyzeDialog.qml")

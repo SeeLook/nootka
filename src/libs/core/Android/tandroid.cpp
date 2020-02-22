@@ -28,20 +28,38 @@
 #include <QtCore/qdebug.h>
 
 
-void Tandroid::setScreenLockDisabled() {
-  QAndroidJniObject activity = QtAndroid::androidActivity();
-  if (activity.isValid()) {
-    QAndroidJniObject window = activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
-    if (window.isValid()) {
-      const int FLAG_KEEP_SCREEN_ON = 128;
-      const int FLAG_FULLSCREEN = 1024;
-//      const int FLAG_FORCE_NOT_FULLSCREEN = 2048;
-      window.callMethod<void>("addFlags", "(I)V", FLAG_KEEP_SCREEN_ON | FLAG_FULLSCREEN);
-      QAndroidJniEnvironment env;
-      if (env->ExceptionCheck())
-        env->ExceptionClear();
+void Tandroid::keepScreenOn(bool on) {
+  QtAndroid::runOnAndroidThread([on]{
+    QAndroidJniObject activity = QtAndroid::androidActivity();
+    if (activity.isValid()) {
+      QAndroidJniObject window =
+          activity.callObjectMethod("getWindow", "()Landroid/view/Window;");
+
+      if (window.isValid()) {
+        const int FLAG_KEEP_SCREEN_ON = 128;
+        if (on)
+          window.callMethod<void>("addFlags", "(I)V", FLAG_KEEP_SCREEN_ON);
+        else
+          window.callMethod<void>("clearFlags", "(I)V", FLAG_KEEP_SCREEN_ON);
+      }
     }
-  }
+    QAndroidJniEnvironment env;
+    if (env->ExceptionCheck())
+      env->ExceptionClear();
+  });
+}
+
+
+void Tandroid::disableRotation(bool disRot) {
+  int orientation = disRot ? 0 : 10; // SCREEN_ORIENTATION_LANDSCAPE or SCREEN_ORIENTATION_FULL_SENSOR
+  QtAndroid::runOnAndroidThread([orientation]{
+    QAndroidJniObject activity = QtAndroid::androidActivity();
+    if (activity.isValid())
+      activity.callMethod<void>("setRequestedOrientation" , "(I)V", orientation);
+    QAndroidJniEnvironment env;
+    if (env->ExceptionCheck())
+      env->ExceptionClear();
+  });
 }
 
 

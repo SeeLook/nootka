@@ -6,6 +6,8 @@
      - disabling level creator pages which are currently unused
      - added help topic selector on 'help page' with all the context
      - make controls look (check boxes, radios, sliders) consistent
+    ANDROID
+     - configurable options for full screen, rotation and lock
     Under the hood:
      - reduced memory usage for charts with many questions
 
