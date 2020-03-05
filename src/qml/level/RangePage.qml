@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -135,7 +135,7 @@ Tflickable {
               TcheckBox {
                 checked: creator.usedStrings & Math.pow(2, index)
                 text: index + 1
-                font { family: "nootka"; pixelSize: Noo.fontSize() * 2 }
+                font { family: "nootka"; pixelSize: Noo.fontSize() * 3 }
                 onClicked: creator.usedStrings = checked ? creator.usedStrings | Math.pow(2, index) : creator.usedStrings & ~Math.pow(2, index)
               }
             }

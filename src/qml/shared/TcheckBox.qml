@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -13,7 +13,7 @@ CheckBox {
   font.pixelSize: Noo.fontSize()
 
   indicator: TipRect {
-    implicitWidth: chB.font.pixelSize * 1.75; implicitHeight: chB.font.pixelSize * 1.75
+    implicitWidth: Noo.fontSize() * 1.75; implicitHeight: Noo.fontSize() * 1.75
     x: chB.leftPadding; y: (chB.height - height) / 2
     horizontalOffset: rised ? Noo.fontSize() / 8 : 0; verticalOffset: horizontalOffset
     rised: !chB.down
@@ -39,6 +39,7 @@ CheckBox {
 
   contentItem: Text {
     id: content
+    y: (chB.height - height) / 2
     text: chB.text
     topPadding: chB.font.pixelSize * 0.4
     leftPadding: indicator.width + chB.font.pixelSize / 2
