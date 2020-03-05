@@ -10,6 +10,7 @@
      - configurable options for full screen, rotation and lock
     Under the hood:
      - reduced memory usage for charts with many questions
+     - migrated version control to GIT, keep entire Nootka code history
 
 1.7.0 beta1
   Nootka says: I speak Italian

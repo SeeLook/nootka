@@ -75,3 +75,5 @@ Thumbs.db
 *.kdev4
 
 *local.properties
+*CMakeLists.txt.user
+*android.iml

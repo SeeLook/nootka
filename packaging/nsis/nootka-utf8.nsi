@@ -236,7 +236,7 @@ Section Uninstall
 
   RMDir "$SMPROGRAMS\Nootka"
   RMDir "$INSTDIR\sounds"
-  RMDir "$INSTDIR\picts"
+  RMDir  /r "$INSTDIR\picts"
   RMDir "$INSTDIR\lang"
   RMDir "$INSTDIR\fonts"
   RMDir "$INSTDIR\platforms"
