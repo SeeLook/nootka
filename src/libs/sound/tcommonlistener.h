@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -60,11 +60,11 @@ public:
        */
   enum Estate { e_detecting = 0, e_paused = 1, e_stopped = 2 };
 
-        /** 
-         * Stops emitting signals about pitch detection, but detection is still performed.
-         * It also resets last chunk pitch to ignore detection
-         * It helps to sniff whole sound/note from begin to its end.
-         */
+      /**
+       * Stops emitting signals about pitch detection, but detection is still performed.
+       * It also resets last chunk pitch to ignore detection
+       * It helps to sniff whole sound/note from begin to its end.
+       */
   void pause() { m_LastChunkPitch = 0.0; if (m_state == e_detecting) setState(e_paused); }
 
       /**
@@ -133,12 +133,12 @@ public:
       /**
        * Returns @p TRUE when @p pitch is in ambitus
        */
-  bool inRange(qreal pitch) const {
-    if (pitch >= m_loPitch && pitch <= m_hiPitch) return true;
-    else return false;
-  }
+  bool inRange(qreal pitch) const { return (pitch >= m_loPitch && pitch <= m_hiPitch); }
 
-  bool noteWasStarted() const { return m_noteWasStarted; } /**< @p TRUE when note started but not finished. */
+      /**
+       * @p TRUE when note started but not finished.
+       */
+  bool noteWasStarted() const { return m_noteWasStarted; }
 
       /**
        * Sets pitch detection method. Currently three are available:

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -109,15 +109,13 @@ qreal TcommonListener::chunkTime() const {
 }
 
 
-/** Range of notes is increased semitone down and up.
- * This 46 and 48 are its sign.
- * Normally 47 is offset of midi note to Nootka Tnote. */
 void TcommonListener::setAmbitus(Tnote loNote, Tnote hiNote) {
-  m_loPitch = loNote.toMidi() - 1;
-  m_hiPitch = hiNote.toMidi() + 1;
-  m_loNote = loNote;
-  m_hiNote = hiNote;
-  TpitchFinder::Erange range = loNote.chromatic() > Tnote(5, -2, 0).chromatic() ? TpitchFinder::e_middle : TpitchFinder::e_low;
+  m_loNote = Tnote(loNote.chromatic() + m_audioParams->transposition);
+  m_hiNote = Tnote(hiNote.chromatic() + m_audioParams->transposition);
+  m_loPitch = m_loNote.toMidi() - 1;
+  m_hiPitch = m_hiNote.toMidi() + 1;
+  TpitchFinder::Erange range = m_loNote.chromatic() > Tnote(5, -2, 0).chromatic() ? TpitchFinder::e_middle : TpitchFinder::e_low;
+// TODO: seems like we never use e_high (makes sense for flute maybe) - remove dead code then
 //  TpitchFinder::Erange range = TpitchFinder::e_middle;
 //  if (loNote.chromatic() > Tnote(6, 0, 0).chromatic())
 //    range = TpitchFinder::e_high;
@@ -133,13 +131,13 @@ if (static_cast<int>(range) != m_currentRange) {
     if (!isStop)
       startListening();
   }
-//  qDebug() << "Ambitus set to:" << Tnote(m_loPitch - 47).toText() << "--" << Tnote(m_hiPitch - 47).toText();
+//   qDebug() << "[TcommonListener] Ambitus set to" << range << m_loNote.toText() << "--" << m_hiNote.toText();
 }
 
 
 void TcommonListener::setDetectionMethod(int method) {
-  method = qBound<int>(0, method, 2);
-  finder()->aGl()->analysisType = EanalysisModes(method);
+  method = qBound(0, method, 2);
+  finder()->aGl()->analysisType = static_cast<EanalysisModes>(method);
   m_audioParams->detectMethod = method;
 }
 
@@ -182,9 +180,10 @@ void TcommonListener::pitchInChunkSlot(float pitch) {
 void TcommonListener::noteStartedSlot(qreal pitch, qreal freq, qreal duration) {
   if (!isPaused()) {
       if (pitch > 0.0) {
-          m_lastNote.set(pitch - m_audioParams->a440diff, freq, duration);
+          m_lastNote.set(pitch + m_audioParams->a440diff, freq, duration);
           if (inRange(m_lastNote.pitchF)) {
             m_noteWasStarted = true;
+            m_lastNote.pitch.transpose(-m_audioParams->transposition);
             emit noteStarted(m_lastNote);
           }
       } else { // zero pitch means rest
@@ -211,8 +210,10 @@ void TcommonListener::noteFinishedSlot(TnoteStruct* lastNote) {
       else
         m_lastNote.set(0.0, 0.0, lastNote->duration);
       if (lastNote->pitchF > 0.0) {
-          if (inRange(m_lastNote.pitchF))
+          if (inRange(m_lastNote.pitchF)) {
+            m_lastNote.pitch.transpose(-m_audioParams->transposition);
             emit noteFinished(m_lastNote);
+          }
       } else if (GLOB->rhythmsEnabled())
           emit noteFinished(m_lastNote);
 

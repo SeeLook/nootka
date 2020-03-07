@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -87,7 +87,7 @@ public:
      *               It starts form about F in small octave.
      * @p e_middle - for guitars, cello and so - corresponds with treble dropped and bass clefs
      *               It starts form about F in contra octave.
-     * @p e_low - for bass guitar and double bass - corresponds with bass dropped clef
+     * @p e_low - for bass guitar and double bass - corresponds with bass clef, piano staff
      *               It is sufficient to detect lowest notes.
      */
   enum Erange {
@@ -95,6 +95,7 @@ public:
     e_middle = 1,
     e_low = 2
   };
+  Q_ENUM(Erange)
 
   TartiniParams* aGl() { return m_aGl; } /**< global settings for pitch recognition. */
 
