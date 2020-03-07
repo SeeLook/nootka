@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -88,7 +88,7 @@ void TsaxBg::setNote(const Tnote& n, quint32 noteDataValue) {
 CHECKTIME (
   bool out = false;
   if (n.isValid()) {
-      int ch = n.chromatic() - GLOB->transposition();
+      int ch = n.chromatic();
 //       qDebug() << "setNote" << n.toText() << ch;
       if (!p_note.isValid() || ch != p_note.chromatic()) {
         p_note.setChromatic(ch);

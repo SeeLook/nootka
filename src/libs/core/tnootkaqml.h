@@ -218,6 +218,11 @@ public:
  * @p TnootkaQML has score and instrument pointers to handle theirs signals when note is changed,
  * but sound is managed outside (through @p Tsound) due to all audio stuff is in sound library layer above.
  * So @p playNote() signal is emitted apparently and @p noteStarted(), @p noteFinished() methods are invoked by @p Tscound
+ *
+ * TRANSPOSITION
+ * Only notes to be played have to be transposed according @p GLOB->transposition()
+ * to sound properly for current transposing instrument.
+ * Pitch detected notes are already transposed back to score visual notation.
  */
   QQuickItem* mainScore() { return m_mainScore; }
   void setMainScore(QQuickItem* ms);

@@ -508,35 +508,31 @@ QString TnootkaQML::keyNameTranslated() const {
 //###################     CONNECTIONS  NODE            ############################################
 //#################################################################################################
 void TnootkaQML::noteStarted(const Tnote& n) {
-  Tnote transNote = n;
-  if (transNote.isValid())
-    transNote.transpose(-GLOB->transposition());
+  Tnote note = n;
   if (m_scoreObject->keySignature() < 0 || (m_scoreObject->keySignature() == 0 && GLOB->GpreferFlats))
-    transNote = transNote.showWithFlat();
+    note = note.showWithFlat();
   m_ignoreScore = true;
   if (m_scoreObject->singleNote()) {
-      if (!transNote.isRest()) {
-        transNote.setRhythm(Trhythm::NoRhythm);
-        m_scoreObject->setNote(0, transNote);
+      if (!note.isRest()) {
+        note.setRhythm(Trhythm::NoRhythm);
+        m_scoreObject->setNote(0, note);
       }
   } else
-      m_scoreObject->addNote(transNote, true);
+      m_scoreObject->addNote(note, true);
 }
 
 
 void TnootkaQML::noteFinished(const Tnote& n) {
+  Tnote note = n;
   if (m_instrument)
-    m_instrument->setNote(n);
-  Tnote transNote = n;
-  if (transNote.isValid())
-    transNote.transpose(-GLOB->transposition());
+    m_instrument->setNote(note);
   if (m_scoreObject->keySignature() < 0 || (m_scoreObject->keySignature() == 0 && GLOB->GpreferFlats))
-    transNote = transNote.showWithFlat();
+    note = note.showWithFlat();
   m_ignoreScore = true;
   if (m_scoreObject->singleNote())
-    transNote.setRhythm(Trhythm::NoRhythm);
-  if (m_scoreObject->selectedItem() && (!m_scoreObject->singleNote() || (m_scoreObject->singleNote() && !transNote.isRest())))
-    m_scoreObject->setNote(m_scoreObject->selectedItem(), transNote);
+    note.setRhythm(Trhythm::NoRhythm);
+  if (m_scoreObject->selectedItem() && (!m_scoreObject->singleNote() || (m_scoreObject->singleNote() && !note.isRest())))
+    m_scoreObject->setNote(m_scoreObject->selectedItem(), note);
 //   else // naughty user pressed arrow key
   // TODO remember to treat tied notes as a single one when setNote will be implemented
 }
@@ -573,26 +569,26 @@ void TnootkaQML::connectInstrument() {
 
 
 void TnootkaQML::instrumentChangesNoteSlot() {
-  Tnote rawNote = m_instrument->note();
-//   qDebug() << "instrument send note" << rawNote.toText();
   m_ignoreScore = true;
-  emit playNote(m_instrument->note()); // not yet transposed - to sound properly
-  rawNote.transpose(-GLOB->transposition());
+  Tnote noteToPlay = m_instrument->note();
+  noteToPlay.transpose(GLOB->transposition());
+  emit playNote(noteToPlay);
+  Tnote instrNote = m_instrument->note();
   if (m_scoreObject->keySignature() < 0 || (m_scoreObject->keySignature() == 0 && GLOB->GpreferFlats))
-    rawNote = rawNote.showWithFlat();
+    instrNote = instrNote.showWithFlat();
 
   if (m_scoreObject->singleNote()) {
-      m_scoreObject->setNote(0, rawNote);
+      m_scoreObject->setNote(0, instrNote);
       m_scoreObject->setTechnical(0, m_instrument->technical());
   } else {
       if (m_scoreObject->selectedItem()) {
           auto r = m_scoreObject->selectedItem()->note()->rtm;
           r.setRest(false);
-          rawNote.setRhythm(r);
-          m_scoreObject->setNote(m_scoreObject->selectedItem(), rawNote);
+          instrNote.setRhythm(r);
+          m_scoreObject->setNote(m_scoreObject->selectedItem(), instrNote);
       } else {
-          rawNote.setRhythm(m_scoreObject->workRhythm());
-          m_scoreObject->addNote(rawNote, true);
+          instrNote.setRhythm(m_scoreObject->workRhythm());
+          m_scoreObject->addNote(instrNote, true);
       }
       if (GLOB->instrument().type() == Tinstrument::Bandoneon) {
         auto seg = m_scoreObject->selectedItem() ? m_scoreObject->noteSegment(m_scoreObject->selectedItem()->index()) : m_scoreObject->lastSegment();
@@ -630,13 +626,12 @@ void TnootkaQML::scoreChangedNoteSlot() {
     m_ignoreScore = false;
     return;
   }
-  auto n = m_scoreObject->selectedNote();
-  if (n.isValid())
-    n.transpose(GLOB->transposition());
+  auto scoreNote = m_scoreObject->selectedNote();
   if (m_instrument)
-    m_instrument->setNote(n, getTechicalFromScore());
-  emit playNote(n);
-//   qDebug() << "Got note from score" << n.toText() << n.chromatic();
+    m_instrument->setNote(scoreNote, getTechicalFromScore());
+  if (scoreNote.isValid())
+    scoreNote.transpose(GLOB->transposition());
+  emit playNote(scoreNote);
 }
 
 
@@ -668,12 +663,8 @@ int TnootkaQML::getTechicalFromScore() {
 void TnootkaQML::selectPlayingNote(int id) {
   m_ignoreScore = true;
   m_scoreObject->setSelectedItem(m_scoreObject->note(id));
-  if (m_instrument) {
-    auto n = m_scoreObject->selectedNote();
-    if (n.isValid())
-      n.transpose(GLOB->transposition());
-    m_instrument->setNote(n, getTechicalFromScore());
-  }
+  if (m_instrument)
+    m_instrument->setNote(m_scoreObject->selectedNote(), getTechicalFromScore());
 }
 
 
