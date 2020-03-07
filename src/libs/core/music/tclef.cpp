@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -35,7 +35,7 @@ QString Tclef::name() const {
     case Bass_F:
       return QApplication::translate("Tclef", "bass");
     case Bass_F_8down:
-      return QStringLiteral("bass dropped"); // just in case it would appear somewhere - but if shouldn't - not used any more
+      return QStringLiteral("bass dropped"); // just in case it would appear somewhere - but it shouldn't - not used any more
     case Alto_C:
       return QApplication::translate("Tclef", "alto");
     case Tenor_C:

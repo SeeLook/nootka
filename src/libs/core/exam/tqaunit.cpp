@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -168,7 +168,7 @@ void TQAunit::toXml(QXmlStreamWriter& xml) {
       key.toXml(xml);
     xml.writeTextElement(QLatin1String("t"), QVariant(time).toString());
     if (time == 0)
-      qDebug() << "Answer time is 0 - faster than light speed?";
+      qDebug() << "[TQAunit] Answer time is 0 - faster than light speed?";
     xml.writeTextElement("m", QVariant(mistake()).toString());
     if (!answered()) // in most cases saved unit is answered
       xml.writeTextElement("answered", QVariant(answered()).toString());
