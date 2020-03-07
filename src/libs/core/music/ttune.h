@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2006-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -95,7 +95,13 @@ public:
 
   static Ttune stdTune; /**< standard EADGBE tuning template */
   static Ttune tunes[4]; /**< templates for guitar tuning */
-  static Ttune bassTunes[4]; /**< templates for bass guitar tuning */
+
+      /**
+       * Templates for bass guitar tuning
+       * As long as bass guitar transposes one octave down
+       * keep in mind that those string notes are not transposed.
+       */
+  static Ttune bassTunes[4];
 
       /**
        * Copies given tuning to this one.

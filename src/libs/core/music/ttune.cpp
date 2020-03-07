@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2006-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -42,14 +42,14 @@ void Ttune::prepareDefinedTunes() {
   tunes[3] = Ttune(QGuiApplication::translate("Ttune", "Kouyanbaba: D A D A D F "), Tnote(4, 1, 0), Tnote(2, 1, 0),
                    Tnote(6, 0, 0), Tnote(2, 0, 0), Tnote(6, -1, 0),Tnote(2, -1, 0), Kouyanbaba_DADADF);
 
-  bassTunes[0] = Ttune(QGuiApplication::translate("Ttune", "Standard bass: E A D G"), Tnote(5, -1, 0), Tnote(2, -1, 0),
-                        Tnote(6, -2, 0), Tnote(3, -2, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Bass4_EADG);
-  bassTunes[1] = Ttune(QGuiApplication::translate("Ttune", "Bass in fifths: C G D A"), Tnote(6, -1, 0), Tnote(2, -1, 0),
-                        Tnote(5, -2, 0), Tnote(1, -2, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Bass4_5ths_CGDA);
-  bassTunes[2] = Ttune(QGuiApplication::translate("Ttune", "5-str. bass: B E A D G"), Tnote(5, -1, 0), Tnote(2, -1, 0),
-                        Tnote(6, -2, 0), Tnote(3, -2, 0), Tnote(7, -3, 0), Tnote(0, 0, 0), Bass5_BEADG);
-  bassTunes[3] = Ttune(QGuiApplication::translate("Ttune", "6-str. bass: B E A D G C"), Tnote(1, 0, 0), Tnote(5, -1, 0), Tnote(2, -1, 0),
-                        Tnote(6, -2, 0), Tnote(3, -2, 0), Tnote(7, -3, 0), Bass6_BEADGC);
+  bassTunes[0] = Ttune(QGuiApplication::translate("Ttune", "Standard bass: E A D G"), Tnote(5, 0, 0), Tnote(2, 0, 0),
+                        Tnote(6, -1, 0), Tnote(3, -1, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Bass4_EADG);
+  bassTunes[1] = Ttune(QGuiApplication::translate("Ttune", "Bass in fifths: C G D A"), Tnote(6, 0, 0), Tnote(2, 0, 0),
+                        Tnote(5, -1, 0), Tnote(1, -1, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Bass4_5ths_CGDA);
+  bassTunes[2] = Ttune(QGuiApplication::translate("Ttune", "5-str. bass: B E A D G"), Tnote(5, 0, 0), Tnote(2, 0, 0),
+                        Tnote(6, -1, 0), Tnote(3, -1, 0), Tnote(7, -2, 0), Tnote(0, 0, 0), Bass5_BEADG);
+  bassTunes[3] = Ttune(QGuiApplication::translate("Ttune", "6-str. bass: B E A D G C"), Tnote(1, 1, 0), Tnote(5, 0, 0), Tnote(2, 0, 0),
+                        Tnote(6, -1, 0), Tnote(3, -1, 0), Tnote(7, -2, 0), Bass6_BEADGC);
 }
 
 
