@@ -247,7 +247,7 @@ QDataStream &operator>> (QDataStream &in, Ttune &t) {
             if (t == Ttune::tunes[i]) {
                 t.p_tuning = Ttune::tunes[i].type();
                 break;
-            } else if (t == Ttune::tunes[i]) {
+            } else if (t == Ttune::bassTunes[i]) {
                 t.p_tuning = Ttune::bassTunes[i].type();
                 break;
             }
