@@ -221,9 +221,9 @@ Flickable {
     for (var i = 0; i < 6; ++i) {
       if (i < t.stringNumber) {
           if (i >= score.notesCount)
-            score.addNote(Noo.transpose(t.str(i + 1), -1 * transp.outShift))
+            score.addNote(t.str(i + 1))
           else
-            score.setNote(i, Noo.transpose(t.str(i + 1), -1 * transp.outShift))
+            score.setNote(i, t.str(i + 1))
           score.scoreObj.note(i).setStringNumber(Noo.instr(instrSel.instrument).isGuitar ? i + 1 : 0)
       } else {
           if (score.notesCount > t.stringNr())
