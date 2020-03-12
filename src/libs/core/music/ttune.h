@@ -111,6 +111,11 @@ public:
   static QString definedName(Etunings t);
 
       /**
+       * Transposes this tuning by @p semi semitones
+       */
+  void transpose(int semi);
+
+      /**
        * Makes translations in defined tunes. Has to be invoked once per app launch
        */
   static void prepareDefinedTunes();
