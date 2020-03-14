@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2015 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -79,7 +79,8 @@ void TXaxis::setTicText(QGraphicsTextItem *tic, TQAunit* unit, int questNr) {
     txt.replace("<br>", "");
   else {
     txt += QString("<b>%1</b>").arg(unit->qa.note.toRichText()) + altStyleText;
-    if (unit->questionAs == TQAtype::e_asFretPos || unit->answerAs == TQAtype::e_asFretPos || unit->answerAs == TQAtype::e_asSound)
+    if (m_level->instrument != e_noInstrument
+       && (unit->questionAs == TQAtype::e_asFretPos || unit->answerAs == TQAtype::e_asFretPos || unit->answerAs == TQAtype::e_asSound))
         txt += "<br>" + TnooFont::span(QString::number((int)unit->qa.pos.str()), 15) + 
               QString("<span style=\"font-size: 15px;\">%1</span>").arg(TfingerPos::romanFret(unit->qa.pos.fret()));
   }
