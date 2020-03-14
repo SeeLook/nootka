@@ -92,7 +92,7 @@
     </message>
     <message>
         <source>Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.</source>
-        <translation>Prepričaj se da je vhodna naprava (mikrofon, spletna kamera, glasbilo, ipd.) priključena, pravilno nastavljena, in delujoča.</translation>
+        <translation>Prepričaj se, da je vhodna naprava (mikrofon, spletna kamera, glasbilo, ipd.) priključena, pravilno nastavljena, in delujoča.</translation>
     </message>
     <message>
         <source>minimum note duration</source>
@@ -104,7 +104,7 @@
     </message>
     <message>
         <source>Only sounds longer than the selected time will be pitch-detected.&lt;br&gt;Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness.</source>
-        <translation>Le zvoki daljši od izbranega časa bodo zaznani kot višina tona.&lt;br&gt;Izbiranje daljšega trajanja note pomaga pri ogibanju zajema zvoka s prečk (t.i. fret noise) kot tudi drugih nepričakovanih zvokov, vendar to zmanjša odzivnost.</translation>
+        <translation>Le zvoki daljši od izbranega časa bodo zaznani kot višina tona.&lt;br&gt;Izbiranje daljšega trajanja note pomaga pri izogibanju zajema zvoka s prečk (t.i. fret noise), kot tudi drugih nepričakovanih zvokov, vendar to zmanjša odzivnost.</translation>
     </message>
     <message>
         <source>pitch detection mode</source>
@@ -163,7 +163,7 @@
     </message>
     <message>
         <source>Check, are your audio input settings appropriate?&lt;br&gt;And how well does pitch detection work for your selected settings?</source>
-        <translation>Preverite, so vaše nastavitve za audio priključek ustrezne?&lt;br&gt;In kako dobro deluje občutljivost na višino tona s trenutnimi nastavitvami?</translation>
+        <translation>Preverite, so vaše nastavitve za avdio priključek ustrezne?&lt;br&gt;In kako dobro deluje občutljivost na višino tona s trenutnimi nastavitvami?</translation>
     </message>
     <message>
         <source>Detected pitch</source>
@@ -205,7 +205,7 @@
     </message>
     <message>
         <source>split when volume rise</source>
-        <translation>razdeli ko se glasnost poveča za</translation>
+        <translation>razdeli, ko se glasnost poveča za</translation>
     </message>
     <message>
         <source>skip stiller than</source>
@@ -234,8 +234,7 @@
     </message>
     <message>
         <source>It is rather necessary for mic input but may be switched off for instrument line-in plugged with less noise.</source>
-        <translatorcomment>Je potrebno pri vključitvi mikrofona, vendar pa je zaradi nekaj šuma bolje, da je izklopjeno kadar je na vhodu priključen inštrument. (ver.)</translatorcomment>
-        <translation>Potrebno za vključitev mikrofona vendar je bolje, če je izklopljeno, zavoljo manj šuma na vhodnem kanalu priključenega inštrumenta.</translation>
+        <translation>Ponavadi je to potrebno za priključen mikrofon, vendar se lahko izklopi za priključena glasbila z manj šuma na vhodnem kanalu.</translation>
     </message>
 </context>
 <context>
@@ -274,7 +273,7 @@
     </message>
     <message>
         <source>Harpsichord</source>
-        <translation>harpsikord</translation>
+        <translation>čembalo</translation>
     </message>
     <message>
         <source>Classical Guitar</source>
@@ -330,7 +329,7 @@
     <name>Einstrument</name>
     <message>
         <source>other instrument</source>
-        <translation>drug inštrument</translation>
+        <translation>drugo glasbilo</translation>
     </message>
     <message>
         <source>Classical Guitar</source>
@@ -353,7 +352,7 @@
     </message>
     <message>
         <source>Application for learning musical score notation</source>
-        <translation>Aplikacija za učenje notacije v glasbenih partiturah</translation>
+        <translation>Aplikacija za učenje glasbene notacije</translation>
     </message>
     <message>
         <source>Nootka level file</source>
@@ -418,11 +417,11 @@
     <name>Tabout</name>
     <message>
         <source>Welcome on board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.&lt;br&gt;It is specially designed for guitarists but others will find many usable features as well.</source>
-        <translation>Dobrodošli na krovu.&lt;br&gt;Nootka je odprtokodna aplikacija v pomoč pri učenju (in poučevanju) klasične notacije partitur. &lt;br&gt;Je posebno zasnovana za kitariste a bodo tudi drugi v njej našli marsikatero uporabnost.</translation>
+        <translation>Dobrodošli na krovu.&lt;br&gt;Nootka je odprtokodna aplikacija v pomoč pri učenju (in poučevanju) klasičnega notnega zapisa. &lt;br&gt;Je posebno zasnovana za kitariste vendar bodo tudi drugi v njej našli mnogokatero uporabnost.</translation>
     </message>
     <message>
         <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
-        <translation>To je beta verzija in so še lahko prisotni kakšni hrošči ali pa se lahko program začne vesti v nepričakovani maniri. Prav tako vsebuje še nedokončane funkcije. &lt;br&gt;Kljub temu ste dobrodošli, da ga sprobate!</translation>
+        <translation>To je beta verzija in so še lahko prisotni kakšni hrošči ali pa se lahko program začne vesti v nepričakovanih manirah. Prav tako vsebuje še nedokončane funkcije. &lt;br&gt;Kljub temu ste dobrodošli, da ga preizkusite!</translation>
     </message>
     <message>
         <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
@@ -430,11 +429,11 @@
     </message>
     <message>
         <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
-        <translation>&lt;br&gt;V podporo temu projektu in prav tako v izogib okužbi vašega PC-ja&lt;br&gt;&lt;br&gt;PROSIMO, uporabite uradno projektno stran za dolpoteg posodobitev, novih izdaj in ogled novic.&lt;/b&gt;</translation>
+        <translation>&lt;br&gt;V podporo temu projektu in prav tako za izogibanje morebitni okužbi vašega PC-ja&lt;br&gt;&lt;br&gt;PROSIMO, uporabite uradno projektno stran za nalaganje posodobitev, novih izdaj in ogled novic.&lt;/b&gt;</translation>
     </message>
     <message>
         <source>See a &lt;a href=&quot;https://nootka.sourceforge.io&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
-        <translation>Poglej &lt;a href=&quot;https://nootka.sourceforge.io&quot;&gt;spletno stran programa&lt;/a&gt; za dodatne podrobnosti in prihodnje izdaje.&lt;/p&gt;&lt;p&gt;Kakršnekoli hrošče, predloge, prevode ipd, poročajte na: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;z vsem spoštovanjem&lt;br&gt;Avtor</translation>
+        <translation>Poglej &lt;a href=&quot;https://nootka.sourceforge.io&quot;&gt;spletno stran programa&lt;/a&gt; za dodatne podrobnosti in prihodnje izdaje.&lt;/p&gt;&lt;p&gt;Kakršnekoli hrošče, predloge, prevode ipd., sporočite na: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;s spoštovanjem&lt;br&gt;Avtor</translation>
     </message>
 </context>
 <context>
@@ -481,7 +480,7 @@
     </message>
     <message>
         <source>However this application could not exist without various open source projects.&lt;br&gt;Especially:</source>
-        <translation>Kakorkoli, ta aplikacija ne bi mogla obstajati brez drugih podobnih odprto-kodnih projektov.&lt;br&gt;Še posebno:</translation>
+        <translation>Kakorkoli, ta aplikacija ne bi mogla obstajati brez drugih podobnih odprtokodnih projektov.&lt;br&gt;Še posebno:</translation>
     </message>
     <message>
         <source>Thanks</source>
@@ -568,11 +567,11 @@
     </message>
     <message>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
-        <translation>Uporabi %1 + miškin kolešček ali %2 gumbe za približan pogled sheme.</translation>
+        <translation>Uporabi %1 + miškin kolešček ali %2 gumbe za približanje sheme.</translation>
     </message>
     <message>
         <source>Click and Drag the cursor to move the chart.</source>
-        <translation>Klik in Vleči kurzor za premikanje po grafu.</translation>
+        <translation>Klikni in Vleči kazalec za premikanje po grafu.</translation>
     </message>
     <message>
         <source>Question number</source>
@@ -602,7 +601,7 @@
     </message>
     <message>
         <source>include time of wrong answers to average</source>
-        <translation>upoštevaj čas za povprečje napačnih odgovorov</translation>
+        <translation>upoštevaj čas napačnih odgovorov v povprečje</translation>
     </message>
     <message>
         <source>show wrong answers separately</source>
@@ -642,7 +641,7 @@
     </message>
     <message>
         <source>Attempts number</source>
-        <translation>Število poizkusov</translation>
+        <translation>Število poskusov</translation>
     </message>
     <message>
         <source>Preparation time</source>
@@ -663,7 +662,7 @@
     </message>
     <message>
         <source>Try again!</source>
-        <translation>Poizkusi ponovno!</translation>
+        <translation>Poskusi ponovno!</translation>
     </message>
     <message>
         <source>To correct an answer</source>
@@ -671,7 +670,7 @@
     </message>
     <message>
         <source>To try this melody again</source>
-        <translation>Znova poizkusi to melodijo</translation>
+        <translation>Znova poskusi to melodijo</translation>
     </message>
     <message>
         <source>To see corrected answer</source>
@@ -704,7 +703,7 @@
     </message>
     <message>
         <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
-        <translation>Kliknite nepravilne note za ogled&lt;br&gt;in slišanje popravljenih.</translation>
+        <translation>Kliknite nepravilne note za ogled&lt;br&gt;in poslušanje popravljenih.</translation>
     </message>
     <message>
         <source>You are exercising on level</source>
@@ -778,21 +777,20 @@
     </message>
     <message>
         <source>write melody</source>
-        <translatorcomment>zapisuj melodijo</translatorcomment>
-        <translation>zapiši melodijo</translation>
+        <translation>zapisuj melodijo</translation>
     </message>
     <message>
         <source>attempt</source>
-        <translation>poizkus</translation>
+        <translation>poskus</translation>
     </message>
     <message numerus="yes">
         <source>%n attempt(s)</source>
         <comment>like: &apos;1 attempt&apos; or &apos;121 attempts&apos;</comment>
         <translation>
-            <numerusform>%n poizkus</numerusform>
-            <numerusform>%n poizkusa</numerusform>
-            <numerusform>%n poizkusi</numerusform>
-            <numerusform>%n poizkusov</numerusform>
+            <numerusform>%n poskus</numerusform>
+            <numerusform>%n poskusa</numerusform>
+            <numerusform>%n poskusi</numerusform>
+            <numerusform>%n poskusov</numerusform>
         </translation>
     </message>
     <message>
@@ -801,25 +799,25 @@
     </message>
     <message>
         <source>Listen to a melody and write it on a score</source>
-        <translation>Poslušaj melodijo in jo zapiši v črtovje</translation>
+        <translation>Poslušaj melodijo in jo zapisuj v črtovje</translation>
     </message>
 </context>
 <context>
     <name>TexamExecutor</name>
     <message>
         <source>&lt;b&gt;Exam file seems to be corrupted&lt;/b&gt;&lt;br&gt;Better start new exam on the same level</source>
-        <translation>&lt;b&gt;Izgleda da je izpitna datoteka neustrezno spremenjena&lt;/b&gt;&lt;br&gt;Najbolje da začnete na tej stopnji nov izpit</translation>
+        <translation>&lt;b&gt;Izpitna datoteka je izgleda neustrezno spremenjena&lt;/b&gt;&lt;br&gt;Najbolje, da začnete na tej stopnji nov izpit</translation>
     </message>
     <message>
         <source>File: %1 
  is not valid exam file!</source>
         <translation>Datoteka: %1 
- ni ustrena izpitna datoteka!</translation>
+ ni ustrezna izpitna datoteka!</translation>
     </message>
     <message>
         <source>Level &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;makes no sense because there are no questions to ask.&lt;br&gt;It can be re-adjusted.&lt;br&gt;Repair it in Level Creator and try again.</source>
-        <translatorcomment>Stopnja &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;nima nobenega smisla ker ni vprašanj za zastavit.&lt;br&gt;Lahko se ponovno prilagodi.&lt;br&gt;Popravi v Ustvarjalec Stopenj in poizkusi ponovno. (ver.)</translatorcomment>
-        <translation>Stopnja &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;nima nobenega smisla ker manjkajo vprašanja za zastavljanje.&lt;br&gt;Lahko se ponovno prilagodi.&lt;br&gt;Popravi v Stopnji Ustvarjalec in poizkusi ponovno.</translation>
+        <translatorcomment>Stopnja &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;nima nobenega smisla, ker ni nobenih vprašanj.&lt;br&gt;Lahko se ponovno prilagodi.&lt;br&gt;Popravi v Ustvarjalec Stopenj in poizkusi ponovno. (ver.)</translatorcomment>
+        <translation>Stopnja &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;nima nobenega smisla ker manjkajo vprašanja za zastavljanje.&lt;br&gt;Lahko se ponovno prilagodi.&lt;br&gt;Popravite v Stopnji Ustvarjalec in poskusite ponovno.</translation>
     </message>
     <message>
         <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
@@ -831,11 +829,11 @@
     </message>
     <message>
         <source>Save exam results as:</source>
-        <translation>Shrani izptni rezultat kot:</translation>
+        <translation>Shrani izpitni rezultat kot:</translation>
     </message>
     <message>
         <source>If you don&apos;t save to file&lt;br&gt;you lost all results!</source>
-        <translation>Če ne shranite v datoteko&lt;br&gt;boste izgubili vse rezultate!</translation>
+        <translation>Če ne shranite v datoteko,&lt;br&gt;boste izgubili vse rezultate!</translation>
     </message>
     <message>
         <source>This note was not played!</source>
@@ -859,7 +857,7 @@
     </message>
     <message>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
-        <translation>Psssst... Pravkar smo med izpitom.&lt;br&gt;&lt;br&gt;Izberi &lt;b&gt;%1&lt;/b&gt; za preverbo, shrani in izhod &lt;br&gt;ali &lt;b&gt;%2&lt;/b&gt; za nadaljevanje.&lt;br&gt;</translation>
+        <translation>Psssst... Pravkar smo med izpitom.&lt;br&gt;&lt;br&gt;Izberi &lt;b&gt;%1&lt;/b&gt; za preverjanje, shrani in izhod &lt;br&gt;ali &lt;b&gt;%2&lt;/b&gt; za nadaljevanje.&lt;br&gt;</translation>
     </message>
 </context>
 <context>
@@ -870,7 +868,8 @@
     </message>
     <message>
         <source>Exams can be saved to files and continued later. Moreover, exam files can be opened to analyze.</source>
-        <translation>Izpiti so lahko shranjeni v datoteke in se nadaljujejo kasneje. Več, izpitne datoteke se lahko odprejo za analizo.</translation>
+        <translation>Izpiti so lahko shranjeni v datoteke in se
+	nadaljujejo kasneje. Več, izpitne datoteke se lahko odprejo za analizo.</translation>
     </message>
     <message>
         <source>Exam will be completed when you give answers to all questions.&lt;br&gt;The number of questions depends on the level of the exam.</source>
@@ -891,7 +890,7 @@
     </message>
     <message>
         <source> Briefly: Nootka give you a question and you give an answer...</source>
-        <translation> Na kratko: Nootka vam bo zastavila vprašanje in vi podate odgovor...</translation>
+        <translation> Na kratko: Nootka vam bo zastavila vprašanje in vi odgovorite nanj...</translation>
     </message>
     <message>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
@@ -903,7 +902,7 @@
     </message>
     <message>
         <source>To check the answer confirm it:</source>
-        <translation>Za preverbo odgovora, ga potrdite:</translation>
+        <translation>Za preverjanje odgovora, ga potrdite:</translation>
     </message>
     <message>
         <source>Exercises</source>
@@ -1124,7 +1123,7 @@
     </message>
     <message>
         <source>When melody is played from score, every note is checked immediately and next note can be played only when the previous one was correct. When unset, notes are checked only after playing the last one (or check button was clicked).</source>
-        <translation>Ko se predvaja melodija iz notacije, je vsaka nota sproti preverjana in naslednja nota se lahko zaigra le če je bila prejšnja prepoznana kot pravilna. Ko je izklopljena nastavitev, so note preverjane po zadnji zaigrani (ali pritisnjen gumb Preveri)</translation>
+        <translation>Ko se predvaja melodija iz notacije, je vsaka nota sproti preverjana in naslednja nota se lahko zaigra le, če je bila prejšnja prepoznana kot pravilna. Ko je izklopljena nastavitev, so note preverjane po zadnji zaigrani (ali pritisnjen gumb Preveri)</translation>
     </message>
 </context>
 <context>
@@ -1267,7 +1266,7 @@
     <name>TexecutorSupply</name>
     <message>
         <source>Instrument type was changed!</source>
-        <translation>Tip inštrumenta je bil spremenjen!</translation>
+        <translation>Tip glasbila je bil spremenjen!</translation>
     </message>
     <message>
         <source>Tuning of the guitar was changed to:</source>
@@ -1275,7 +1274,7 @@
     </message>
     <message>
         <source>Guitar fret number was changed!</source>
-        <translation>Število kitarskih prečk je bilo stpremenjeno!</translation>
+        <translation>Število kitarskih prečk je bilo spremenjeno!</translation>
     </message>
 </context>
 <context>
@@ -1302,7 +1301,7 @@
     </message>
     <message>
         <source>When the last note of question that is a melody was played - checking starts.</source>
-        <translation>Ko je zaigrana zadnja nota vprašanja, ki je melodija - se začne preverba.</translation>
+        <translation>Ko je zaigrana zadnja nota vprašanja, ki je melodija - se začne preveritev.</translation>
     </message>
     <message>
         <source>Always remind me about this</source>
@@ -1328,8 +1327,8 @@
     </message>
     <message>
         <source>This note is beyond the scale of the guitar!</source>
-        <translatorcomment>Ta nota gre preko registrov na kitari! (ver.)</translatorcomment>
-        <translation>Ta nota je preko lestvice na kitari!</translation>
+        <translatorcomment>Ta nota gre preko razpona ubiralke na kitari!</translatorcomment>
+        <translation>Ta nota je preko razpona kitare!</translation>
     </message>
 </context>
 <context>
@@ -1344,11 +1343,11 @@
     </message>
     <message>
         <source>When writing notation for bass guitar, the &lt;b&gt;bass clef&lt;/b&gt; is used but the played notes sound an octave lower. The proper clef is &lt;b&gt;bass dropped clef&lt;/b&gt; (with the digit &quot;eight&quot; written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.</source>
-        <translation>Ko se piše notacijo za bas kitaro, se uporabi &lt;b&gt;basovski ključ&lt;/b&gt; zaigrane note pa zvenijo oktavo nižje. Pravilni ključ je &lt;b&gt;znižani basovski ključ&lt;/b&gt; (s podpisano s števko &quot;osem&quot; ) V tem ključu note zvenijo natanko tako kot so napisane. Ta ključ je uporabljen v Nootki za bas kitaro.</translation>
+        <translation>Ko se piše notacijo za bas kitaro, se uporabi &lt;b&gt;basovski ključ&lt;/b&gt; zaigrane note pa zvenijo oktavo nižje. Pravilni ključ je &lt;b&gt;znižani basovski ključ&lt;/b&gt; (s podpisano s številko &quot;osem&quot; ) V tem ključu note zvenijo natanko tako kot so napisane. Ta ključ je uporabljen v Nootki za bas kitaro.</translation>
     </message>
     <message>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;b&gt;&lt;big&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
-        <translation>Kitarska notacija uprablja violinski ključ s podpisano števko &quot;osem&quot; (tudi, če nekateri uredniki pozabijo na to števko).&lt;br&gt;&lt;br&gt;To poizkušajte razumeti. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;b&gt;&lt;big&gt;Obe sliki zgoraj prikazujeta isto noto: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(nota c v enkrat črtani oktavi)&lt;/p&gt;</translation>
+        <translation>Kitarska notacija uprablja violinski ključ s podpisano številko &quot;osem&quot; (tudi, če nekateri uredniki pozabijo na to številko).&lt;br&gt;&lt;br&gt;To poskušajte razumeti. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;b&gt;&lt;big&gt;Obe sliki zgoraj prikazujeta isto noto: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(nota c v enkrat črtani oktavi)&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -1560,7 +1559,7 @@
     </message>
     <message>
         <source>sound bar</source>
-        <translation>zvočni indikator (stolpec)(?)glasnost</translation>
+        <translation>indikator glasnosti</translation>
     </message>
     <message>
         <source>There is no Nootka without a score!</source>
@@ -1933,7 +1932,7 @@
     </message>
     <message>
         <source>Select a level and warm up yourself exercising. Then try to pass an exam.</source>
-        <translation>Izberi stopnjo in se ogrej za vadbo. Potem poizkušaj opraviti izpit.</translation>
+        <translation>Izberi stopnjo in se ogrej za vadbo. Potem poskušaj opraviti izpit.</translation>
     </message>
     <message>
         <source>You will learn by answering questions. To answer, you can play, sing, put in the name of a note, and so on.</source>
@@ -2303,7 +2302,7 @@
     </message>
     <message>
         <source>Shows formatted note name. For small octave - the name is small letter,&lt;br&gt;for great octave - the name starts with a capital letter,&lt;br&gt;for one-line, digit &lt;sup&gt;1&lt;/sup&gt; is added, and so on.</source>
-        <translation>Prikaže oblikovano ime note. Za malo oktavo - je ime mala črka,&lt;br&gt;za veliko oktavo - se ime začne z veliko črko,&lt;br&gt;za enkrat črtano oktavo, števka &lt;sup&gt;1&lt;/sup&gt; dodana, itd.</translation>
+        <translation>Prikaže oblikovano ime note. Za malo oktavo - je ime mala črka,&lt;br&gt;za veliko oktavo - se ime začne z veliko črko,&lt;br&gt;za enkrat črtano oktavo, številka &lt;sup&gt;1&lt;/sup&gt; dodana, itd.</translation>
     </message>
     <message>
         <source>note name on the staff</source>
@@ -2726,8 +2725,7 @@
     </message>
     <message>
         <source>Naming extension</source>
-        <translatorcomment>What is this... I&apos;,m not familiar with it.</translatorcomment>
-        <translation>Imenska razširitev(?)</translation>
+        <translation>Razširjeno poimenovanje</translation>
     </message>
     <message>
         <source>in the major keys:</source>
@@ -2878,7 +2876,7 @@
     </message>
     <message>
         <source>Start exercise on level:</source>
-        <translation>Začno vajo na stopnji:</translation>
+        <translation>Začni vajo na stopnji:</translation>
     </message>
     <message>
         <source>Continue the latest exam:</source>
@@ -3128,11 +3126,11 @@
     </message>
     <message>
         <source>Try again</source>
-        <translation>Poizkusi znova</translation>
+        <translation>Poskusi znova</translation>
     </message>
     <message>
         <source>Try this melody once again. (backspace)</source>
-        <translation>Poizkusi to melodijo znova. (backspace)</translation>
+        <translation>Poskusi to melodijo znova. (backspace)</translation>
     </message>
     <message>
         <source>Lessons</source>
@@ -3421,7 +3419,7 @@
     <name>main</name>
     <message>
         <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.ttf manually.&lt;/center&gt;</source>
-        <translation>&lt;center&gt;Ne morem naložiti pisave.&lt;br&gt;Poizkusite ročno inštalirati nootka.ttf.&lt;/center&gt;</translation>
+        <translation>&lt;center&gt;Ne morem naložiti pisave.&lt;br&gt;Poskusite ročno inštalirati nootka.ttf.&lt;/center&gt;</translation>
     </message>
 </context>
 <context>

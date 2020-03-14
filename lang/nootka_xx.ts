@@ -413,11 +413,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
+        <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
+        <source>See a &lt;a href=&quot;https://nootka.sourceforge.io&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1089,6 +1089,14 @@
     </message>
     <message>
         <source>exams</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>wait for correct note</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When melody is played from score, every note is checked immediately and next note can be played only when the previous one was correct. When unset, notes are checked only after playing the last one (or check button was clicked).</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2523,10 +2531,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Manage and navigate the score.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Additional accidentals</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2580,6 +2584,10 @@
     </message>
     <message>
         <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manage and navigate the score</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2877,6 +2885,10 @@
         <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>No thanks, but check entire melody from now.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TsupportNootka</name>
@@ -2902,10 +2914,6 @@
     </message>
     <message>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is too old for that…&lt;br&gt;Donate Nootka, please.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3136,10 +3144,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>News:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3149,6 +3153,10 @@
     </message>
     <message>
         <source>Updates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To get it, visit &lt;a href=&quot;https://nootka.sourceforge.io/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
