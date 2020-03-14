@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -201,36 +201,31 @@ void Tglobals::loadSettings(QSettings* cfg) {
 // Exam settings
   cfg->beginGroup("exam");
       if (cfg->contains("questionColor"))
-          EquestionColor = cfg->value("questionColor").value<QColor>();
-      else {
-              EquestionColor = QColor("red");
-              EquestionColor.setAlpha(40);
-          }
+        EquestionColor = cfg->value("questionColor").value<QColor>();
+      else
+        EquestionColor = QColor("red");
+      EquestionColor.setAlpha(40);
       if (cfg->contains("answerColor"))
-          EanswerColor = cfg->value("answerColor").value<QColor>();
-      else {
-              EanswerColor = QColor("green");
-              EanswerColor.setAlpha(40);
-          }
+        EanswerColor = cfg->value("answerColor").value<QColor>();
+      else
+        EanswerColor = QColor("green");
+      EanswerColor.setAlpha(40);
       if (cfg->contains("notBadColor"))
-          EnotBadColor = cfg->value("notBadColor").value<QColor>();
-      else {
-              EnotBadColor = QColor("#FF8000");
-              EnotBadColor.setAlpha(40);
-          }
+        EnotBadColor = cfg->value("notBadColor").value<QColor>();
+      else
+        EnotBadColor = QColor(255, 128, 0);
+      EnotBadColor.setAlpha(40);
       E->autoNextQuest = cfg->value("autoNextQuest", false).toBool();
       E->repeatIncorrect = cfg->value("repeatIncorrect", true).toBool();
       E->expertsAnswerEnable = cfg->value("expertsAnswerEnable", false).toBool();
       E->studentName = cfg->value("studentName", QString()).toString();
 #if defined (Q_OS_ANDROID)
-//      E->examsDir = cfg->value("examsDir", Tandroid::getExternalPath()).toString();
-      E->examsDir = cfg->value("examsDir", QString()).toString();
+      E->examsDir = cfg->value(QStringLiteral("examsDir"), Tandroid::getExternalPath()).toString();
       if (!QFileInfo::exists(E->examsDir)) // reset if doesn't exist
-        E->examsDir.clear(); // = Tandroid::getExternalPath();
-//      E->levelsDir = cfg->value("levelsDir", Tandroid::getExternalPath()).toString();
-      E->levelsDir = cfg->value("levelsDir", QString()).toString();
+        E->examsDir = Tandroid::getExternalPath();
+      E->levelsDir = cfg->value(QStringLiteral("levelsDir"), Tandroid::getExternalPath()).toString();
       if (!QFileInfo::exists(E->levelsDir))
-        E->levelsDir.clear(); // = Tandroid::getExternalPath();
+        E->levelsDir = Tandroid::getExternalPath();
 #else
       E->examsDir = cfg->value("examsDir", QDir::homePath()).toString();
       if (!QFileInfo::exists(E->examsDir)) // reset if doesn't exist

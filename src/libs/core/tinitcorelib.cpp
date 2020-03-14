@@ -115,7 +115,9 @@ void prepareTranslations(QApplication* a, QTranslator& qt, QTranslator& noo) {
 
 #if defined (Q_OS_ANDROID)
   // Try to load Nootka translation from user available location to give translators a way to check their work
-  if (Tandroid::hasWriteAccess() && !noo.load(loc, QStringLiteral("nootka_"), QString(), Tandroid::getExternalPath() + "/Nootka"))
+  bool trLoaded = Tandroid::hasWriteAccess() && noo.load(loc, QStringLiteral("nootka_"),
+                                                          QString(), Tandroid::getExternalPath() + "/Nootka");
+  if (!trLoaded)
   // if there is not - look for it in standard path
 #endif
   noo.load(loc, QStringLiteral("nootka_"), QString(), Tpath::lang());
@@ -131,7 +133,7 @@ bool loadNootkaFont(QApplication* a) {
     QFontDatabase fd;
   int fid = fd.addApplicationFont(Tpath::main + QLatin1String("fonts/nootka.ttf"));
   if (fid == -1) {
-      QMessageBox::critical(0, QString(), a->translate("main", "<center>Can not load a font.<br>Try to install nootka.ttf manually.</center>"));
+      QMessageBox::critical(nullptr, QString(), a->translate("main", "<center>Can not load a font.<br>Try to install nootka.ttf manually.</center>"));
       return false;
   }
   return true;
