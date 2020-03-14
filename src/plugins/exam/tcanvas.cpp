@@ -116,7 +116,10 @@ void Tcanvas::setStatusMessage(const QString& text, int duration) {
 #if defined (Q_OS_ANDROID)
   tMessage->setMessage(text, duration);
 #else
-  STATUS->setMessage(text, duration);
+  if (duration)
+    STATUS->setMessage(text, duration);
+  else
+    STATUS->setMessage(text);
 #endif
 }
 
