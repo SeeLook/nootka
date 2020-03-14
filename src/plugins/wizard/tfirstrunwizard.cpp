@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -36,6 +36,7 @@
 #include <tlayoutparams.h>
 #include <tpath.h>
 #include <qtr.h>
+#include <tmtr.h>
 #include <QtWidgets/QtWidgets>
 
 
@@ -252,6 +253,7 @@ void Tpage_2::setNoteForInstrument(int instr) {
       m_scoreHint = new TroundedLabel(this);
       m_lay->addWidget(m_scoreHint);
 #if defined (Q_OS_ANDROID)
+      m_score->setMinimumHeight(Tmtr::shortScreenSide() - fontMetrics().boundingRect(QLatin1String("A")).height() * 8);
       m_scoreHint->setAlignment(Qt::AlignCenter);
       m_scoreHint->setText(qTR("TouchHelp", "Touch a clef for a while to change it."));
 #else
