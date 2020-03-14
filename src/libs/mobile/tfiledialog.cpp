@@ -220,6 +220,7 @@ TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QStrin
     m_editName->setReadOnly(true);
 
   m_extensionCombo = new QComboBox(this);
+  m_extensionCombo->setFixedWidth(bSize * 1.5);
 
 // file list
   m_list = new QListView(this);
