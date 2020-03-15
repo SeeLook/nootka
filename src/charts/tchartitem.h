@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2018-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2018-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -186,17 +186,17 @@ public:
        * Questions number
        */
   static QString questionsNumberTxt() { return QGuiApplication::translate("AnalyzeDialog", "Questions number"); }
-  
+
       /**
        * Attempts number
        */
   static QString attemptsNumberTxt() { return QGuiApplication::translate("AnalyzeDialog", "Attempts number"); }
-  
+
       /**
        * Preparation time
        */
   static QString prepareTimeTxt() { return QGuiApplication::translate("AnalyzeDialog", "Preparation time"); }
-  
+
       /**
        * Played number
        */

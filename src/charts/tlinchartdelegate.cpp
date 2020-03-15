@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2019 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2019-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -197,10 +197,15 @@ QString TlinChartDelegate::noteText() const {
 
 
 QString TlinChartDelegate::posText() const {
-  if (m_qInf->qaUnit() && !m_qInf->qaUnit()->melody()) {
-    if (m_qInf->qaUnit()->questionAs == TQAtype::e_onInstr || m_qInf->qaUnit()->answerAs == TQAtype::e_onInstr || m_qInf->qaUnit()->answerAs == TQAtype::e_asSound)
-      return QLatin1String("<span style=\"font-family: 'Nootka';\">") + QString::number(static_cast<int>(m_qInf->qaUnit()->qa.pos().str())) + QLatin1String("</span>")
-        + TfingerPos::romanFret(m_qInf->qaUnit()->qa.pos().fret());
+  if (m_qInf->qaUnit()
+      && Tinstrument(m_qInf->qaUnit()->exam()->level()->instrument).isGuitar()
+      && !m_qInf->qaUnit()->melody()) {
+    if (m_qInf->qaUnit()->questionAs == TQAtype::e_onInstr
+      || m_qInf->qaUnit()->answerAs == TQAtype::e_onInstr
+      || m_qInf->qaUnit()->answerAs == TQAtype::e_asSound)
+        return QLatin1String("<span style=\"font-family: 'Nootka';\">")
+              + QString::number(static_cast<int>(m_qInf->qaUnit()->qa.pos().str())) + QLatin1String("</span>")
+              + TfingerPos::romanFret(m_qInf->qaUnit()->qa.pos().fret());
   }
   return QString();
 }

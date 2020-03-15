@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2018-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2018-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -464,7 +464,7 @@ void TchartItem::resetChartSettings() {
   if (m_exam) {
     emit lockXorderList(static_cast<int>(Tchart::e_byNumber), false);
     emit lockXorderList(static_cast<int>(Tchart::e_byNote), m_exam->melodies());
-    emit lockXorderList(static_cast<int>(Tchart::e_byFret), m_exam->melodies());
+    emit lockXorderList(static_cast<int>(Tchart::e_byFret), m_exam->melodies() || !Tinstrument(m_exam->level()->instrument).isGuitar());
     emit lockXorderList(static_cast<int>(Tchart::e_byAccid),
                         m_exam->melodies() || !(m_exam->level()->withSharps || m_exam->level()->withFlats || m_exam->level()->withDblAcc));
     emit lockXorderList(static_cast<int>(Tchart::e_byKey),
