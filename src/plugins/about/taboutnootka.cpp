@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -46,11 +46,12 @@ QString getHeader(const QString& text) {
 
 QString transRow (const char* flag, const QString& lang, const QString& name, const QString& mailAndSite) {
   return QString("<tr valign=\"middle\" align=\"center\">"
-                 "<td>&nbsp;&nbsp;<img src=\"%1\">&nbsp;&nbsp;</td>"
-                 "<td>&nbsp;&nbsp;&nbsp; %2 &nbsp;&nbsp;&nbsp;</td>"
-                 "<td> <b>&nbsp; %3 &nbsp;</b> </td>"
-                 "<td>&nbsp;&nbsp; %4 </td></tr>")
+                 "<td>&nbsp;&nbsp;<img src=\"%1\" height=\"%2\">&nbsp;&nbsp;</td>"
+                 "<td>&nbsp;&nbsp;&nbsp; %3 &nbsp;&nbsp;&nbsp;</td>"
+                 "<td> <b>&nbsp; %4 &nbsp;</b> </td>"
+                 "<td>&nbsp;&nbsp; %5 </td></tr>")
       .arg(Tpath::main + QLatin1String("picts/flags-") + QString(flag) + QLatin1String(".png"))
+      .arg(qApp->fontMetrics().height())
       .arg(lang)
       .arg(name)
       .arg(mailAndSite);
