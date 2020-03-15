@@ -93,6 +93,7 @@ ELSE(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
       ${CMAKE_SOURCE_DIR}/libogg/include
       ${CMAKE_SOURCE_DIR}}/../libogg/include
       ${CMAKE_BINARY_DIR}/libogg/include
+      ${CMAKE_BINARY_DIR}/../libogg/include
   )
   IF(WIN32)
     find_library(VORBIS_LIBRARY
