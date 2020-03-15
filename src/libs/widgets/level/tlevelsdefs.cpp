@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2020 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -434,4 +434,59 @@ void getExampleLevels(QList<Tlevel>& llist) {
   }
   llist << l;
 //----------------------------------------------------------------------------
+  if (l.instrument == e_noInstrument) {
+    l = Tlevel();
+    l.name = QApplication::translate("Tlevel", "Piano - play single notes");
+    l.desc = QApplication::translate("Tlevel", "Play randomized note by note on grand staff");
+    l.questionAs.setAsFret(false); // no guitar
+    l.questionAs.setAsName(false); // no names
+    l.questionAs.setAsSound(false); // don't play
+    l.answersAs[0] = TQAtype(false, false, false, true); // score only
+    l.answersAs[1] = TQAtype(false, false, false,false);
+    l.answersAs[2] = TQAtype(false, false, false,false);
+    l.answersAs[3] = TQAtype(false, false, false,false);
+    l.clef = Tclef::e_pianoStaff;
+    l.withSharps = true;
+    l.withFlats = true;
+    l.withDblAcc = false;
+    l.useKeySign = false;
+    l.manualKey = false;
+    l.melodyLen = 1;
+    l.loKey = 0;
+    l.hiKey = 0;
+    l.hiNote = Tcore::gl()->hiNote().chromatic() > Tnote(1, 3).chromatic() ? Tnote(1, 3) : Tcore::gl()->hiNote();
+    l.intonation = 0; // No intonation check - this is piano
+    llist << l;
+
+    l = Tlevel();
+    l.name = QApplication::translate("Tlevel", "Piano - play short melody");
+    l.desc = QApplication::translate("Tlevel", "Play melody assembled from random notes on grand staff");
+    l.questionAs.setAsFret(false); // no guitar
+    l.questionAs.setAsName(false); // no names
+    l.questionAs.setAsSound(false); // don't play
+    l.answersAs[0] = TQAtype(false, false, false, true); // score only
+    l.answersAs[1] = TQAtype(false, false, false,false);
+    l.answersAs[2] = TQAtype(false, false, false,false);
+    l.answersAs[3] = TQAtype(false, false, false,false);
+    l.clef = Tclef::e_pianoStaff;
+    l.withSharps = true;
+    l.withFlats = true;
+    l.withDblAcc = false;
+    l.useKeySign = true;
+    l.manualKey = false;
+    l.loKey = 0; // F-major
+    l.hiKey = 0; // D-major
+    l.forceAccids = false;
+    l.requireOctave = true;
+    l.requireStyle = false;
+    l.showStrNr = false;
+    l.onlyLowPos = true;
+    l.melodyLen = 10;
+    l.endsOnTonic = false;
+    l.onlyCurrKey = true;
+    l.randMelody = Tlevel::e_randFromRange;
+    l.hiNote = Tcore::gl()->hiNote().chromatic() > Tnote(1, 3).chromatic() ? Tnote(1, 3) : Tcore::gl()->hiNote();
+    l.intonation = 0; // No intonation check - this is piano
+    llist << l;
+  }
 }

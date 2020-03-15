@@ -324,7 +324,7 @@
         <translation>Wszystkie dźwięki przechwycone przez wejście dźwiękowe będą bezpośrednio odtwarzane przez wyjście.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="204"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="205"/>
         <source>no devices found</source>
         <translation>nie znaleziono urządzenia</translation>
     </message>
@@ -339,7 +339,7 @@
         <translation>port midi</translation>
     </message>
     <message>
-        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="183"/>
+        <location filename="../src/plugins/settings/audiooutsettings.cpp" line="184"/>
         <source>no midi ports</source>
         <translation>brak portów midi</translation>
     </message>
@@ -914,74 +914,74 @@ nie jest poprawnym plikiem egzaminu!</translation>
 <context>
     <name>Tcanvas</name>
     <message>
-        <location filename="../src/plugins/exam/tcanvas.cpp" line="191"/>
+        <location filename="../src/plugins/exam/tcanvas.cpp" line="194"/>
         <source>%1 was detected</source>
         <comment>note name</comment>
         <translation>%1 było wykryte (usłyszane)</translation>
     </message>
     <message>
-        <location filename="../src/plugins/exam/tcanvas.cpp" line="197"/>
+        <location filename="../src/plugins/exam/tcanvas.cpp" line="200"/>
         <source>Try again!</source>
         <translation>Spróbuj jeszcze raz!</translation>
     </message>
     <message>
-        <location filename="../src/plugins/exam/tcanvas.cpp" line="289"/>
+        <location filename="../src/plugins/exam/tcanvas.cpp" line="292"/>
         <source>To correct an answer</source>
         <translation>Żeby poprawić odpowiedź</translation>
     </message>
     <message>
-        <location filename="../src/plugins/exam/tcanvas.cpp" line="292"/>
+        <location filename="../src/plugins/exam/tcanvas.cpp" line="295"/>
         <source>To try this melody again</source>
         <translation>Żeby spróbować tą melodię jeszcze raz</translation>
     </message>
     <message>
-        <location filename="../src/plugins/exam/tcanvas.cpp" line="300"/>
+        <location filename="../src/plugins/exam/tcanvas.cpp" line="303"/>
         <source>To see corrected answer</source>
         <translation>Żeby zobaczyć poprawną odpowiedź</translation>
     </message>
     <message>
-        <location filename="../src/plugins/exam/tcanvas.cpp" line="302"/>
+        <location filename="../src/plugins/exam/tcanvas.cpp" line="305"/>
         <source>To see some hints</source>
         <translation>Żeby zobaczyć jakieś wskazówki</translation>
     </message>
     <message>
-        <location filename="../src/plugins/exam/tcanvas.cpp" line="341"/>
+        <location filename="../src/plugins/exam/tcanvas.cpp" line="344"/>
         <source>To check the answer confirm it:</source>
         <translation>Aby sprawdzić odpowiedź, potwierdź ją:</translation>
     </message>
     <message>
-        <location filename="../src/plugins/exam/tcanvas.cpp" line="344"/>
+        <location filename="../src/plugins/exam/tcanvas.cpp" line="347"/>
         <source>Check in exam help %1 how to do it automatically</source>
         <translation>Sprawdź w pomocy %1 jak zrobić to automatycznie</translation>
     </message>
     <message>
-        <location filename="../src/plugins/exam/tcanvas.cpp" line="361"/>
-        <location filename="../src/plugins/exam/tcanvas.cpp" line="363"/>
+        <location filename="../src/plugins/exam/tcanvas.cpp" line="364"/>
+        <location filename="../src/plugins/exam/tcanvas.cpp" line="366"/>
         <source>Select any note to play it again.</source>
         <translation>Zaznacz nutę żeby zagrać ją jeszcze raz.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/exam/tcanvas.cpp" line="391"/>
+        <location filename="../src/plugins/exam/tcanvas.cpp" line="394"/>
         <source>too low</source>
         <translation>za nisko</translation>
     </message>
     <message>
-        <location filename="../src/plugins/exam/tcanvas.cpp" line="393"/>
+        <location filename="../src/plugins/exam/tcanvas.cpp" line="396"/>
         <source>too high</source>
         <translation>za wysoko</translation>
     </message>
     <message>
-        <location filename="../src/plugins/exam/tcanvas.cpp" line="412"/>
+        <location filename="../src/plugins/exam/tcanvas.cpp" line="415"/>
         <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
         <translation>Kliknij niepoprawne nuty żeby zobaczyć&lt;br&gt;i posłuchać tych właściwych.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/exam/tcanvas.cpp" line="479"/>
+        <location filename="../src/plugins/exam/tcanvas.cpp" line="482"/>
         <source>You are exercising on level</source>
         <translation>Ćwiczysz na poziomie</translation>
     </message>
     <message>
-        <location filename="../src/plugins/exam/tcanvas.cpp" line="481"/>
+        <location filename="../src/plugins/exam/tcanvas.cpp" line="484"/>
         <source>Exam started on level</source>
         <translation>Egzamin uruchomiony na poziomie</translation>
     </message>
@@ -1759,7 +1759,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation>Karta pamięci</translation>
     </message>
     <message>
-        <location filename="../src/libs/mobile/tfiledialog.cpp" line="414"/>
+        <location filename="../src/libs/mobile/tfiledialog.cpp" line="415"/>
         <source>Directory named &lt;b&gt;Nootka&lt;/b&gt; will be created in&lt;br&gt;%1&lt;br&gt;Application files will be written there.</source>
         <translation>Zostanie utworzony katalog o nazwie &lt;b&gt;Nootka&lt;/b&gt; w&lt;br&gt;%1&lt;br&gt;Będą tam zapisywane pliki programu.</translation>
     </message>
@@ -1780,22 +1780,22 @@ nie jest poprawnym plikiem egzaminu!</translation>
 <context>
     <name>TfirstRunWizard</name>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="56"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="57"/>
         <source>First run wizard</source>
         <translation>Kreator pierwszego uruchomienia</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="75"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="76"/>
         <source>What instrument do you play?</source>
         <translation>Na jakim instrumencie grasz?</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="207"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="208"/>
         <source>When writing notation for bass guitar, the &lt;b&gt;bass clef&lt;/b&gt; is used but the played notes sound an octave lower. The proper clef is &lt;b&gt;bass dropped clef&lt;/b&gt; (with the digit &quot;eight&quot; written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.</source>
         <translation>Do zapisu nut dla gitary basowej używany jest &lt;b&gt;klucz basowy&lt;/b&gt; ale grane dźwięki brzmią wtedy oktawę niżej. Właściwy klucz to &lt;b&gt;basowy obniżony&lt;/b&gt; (z cyfrą &quot;osiem&quot; poniżej), w którym dźwięki dokładnie brzmią tak jak są zapisane i ten klucz używany jest dla gitary basowej w programie Nootka.</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="210"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="211"/>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;b&gt;&lt;big&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
         <translation>Zapis gitarowy używa klucza wiolinowego z cyfrą &quot;osiem&quot; poniżej (nawet jeżeli niektórzy wydawcy o tej cyfrze zapominają).&lt;br&gt;&lt;br&gt;Spróbuj to zrozumieć. &lt;br&gt;&lt;br&gt;&lt;p&gt;%1 %2 &lt;br&gt;&lt;b&gt;&lt;big&gt;Obydwa obrazki powyżej pokazują tą samą nutę: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(dźwięk c w oktawie razkreślnej&lt;/p&gt;</translation>
     </message>
@@ -2192,6 +2192,26 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="397"/>
         <source>Play melody composed from pentatonic scale, every time in different key signature.</source>
         <translation>Graj melodię złożoną z losowych dźwięków skali pentatonicznej, za każdym razem w innej tonacji.</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="439"/>
+        <source>Piano - play single notes</source>
+        <translation>Fortepian - graj pojedyncze nuty</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="440"/>
+        <source>Play randomized note by note on grand staff</source>
+        <translation>Graj losowe nuty w zapisie fortepianowym, dźwięk po dźwięku</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="461"/>
+        <source>Piano - play short melody</source>
+        <translation>Fortepian - graj krótką melodię</translation>
+    </message>
+    <message>
+        <location filename="../src/libs/widgets/level/tlevelsdefs.cpp" line="462"/>
+        <source>Play melody assembled from random notes on grand staff</source>
+        <translation>Graj melodię złożoną z losowych nut w zapisie fortepianowym</translation>
     </message>
 </context>
 <context>
@@ -3006,7 +3026,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>Tpage_2</name>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="238"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="239"/>
         <source>Select a clef and scale of notes appropriate for your instrument.</source>
         <translation>Wybierz klucz i skalę dźwięków właściwe dla swojego instrumentu.</translation>
     </message>
@@ -3014,22 +3034,22 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>Tpage_3</name>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="311"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="313"/>
         <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
         <translation>7-ma nuta może nazywać się H lub B, w zależności od kraju. &lt;br&gt;Która nazwa jest odpowiednia dla ciebie?</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="335"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="337"/>
         <source>I know about double sharps (x) and double flats (bb)</source>
         <translation>Wiem, co to są podwójne krzyżyki (x) i podwójne bemole (bb)</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="338"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="340"/>
         <source>I know that e# is the same as f</source>
         <translation>Wiem, że e# to to samo co f</translation>
     </message>
     <message>
-        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="341"/>
+        <location filename="../src/plugins/wizard/tfirstrunwizard.cpp" line="343"/>
         <source>I know about key signatures</source>
         <translation>Wiem co to są tonacje</translation>
     </message>
@@ -3825,9 +3845,8 @@ nutowy</translation>
         <translation>Kampania „Wspomóż Nootkę”</translation>
     </message>
     <message>
-        <location filename="../src/plugins/about/tsupportnootka.cpp" line="53"/>
         <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is too old for that…&lt;br&gt;Donate Nootka, please.</source>
-        <translation>Funkcja za funkcją i Nootka stała się dużym i złożonym projektem.&lt;br&gt;Żeby móc rozwijać ten program dalej,&lt;br&gt; dokończyć wersję na Androida, (a później na inne mobilne systemy),&lt;br&gt;potrzebny jest sprzęt który temu podoła.&lt;br&gt; Po prostu komputer na którym pracuję jest na to za stary…&lt;br&gt;Wspomóż Nootkę darowizną.</translation>
+        <translation type="vanished">Funkcja za funkcją i Nootka stała się dużym i złożonym projektem.&lt;br&gt;Żeby móc rozwijać ten program dalej,&lt;br&gt; dokończyć wersję na Androida, (a później na inne mobilne systemy),&lt;br&gt;potrzebny jest sprzęt który temu podoła.&lt;br&gt; Po prostu komputer na którym pracuję jest na to za stary…&lt;br&gt;Wspomóż Nootkę darowizną.</translation>
     </message>
     <message>
         <location filename="../src/plugins/about/tsupportnootka.cpp" line="60"/>
@@ -4022,12 +4041,12 @@ nutowy</translation>
         <translation>Spróbuj tą melodię jeszcze raz. (backspace)</translation>
     </message>
     <message>
-        <location filename="../src/plugins/exam/tcanvas.cpp" line="253"/>
+        <location filename="../src/plugins/exam/tcanvas.cpp" line="256"/>
         <source>Next</source>
         <translation>Następne</translation>
     </message>
     <message>
-        <location filename="../src/plugins/exam/tcanvas.cpp" line="279"/>
+        <location filename="../src/plugins/exam/tcanvas.cpp" line="282"/>
         <source>Correct</source>
         <translation>Popraw</translation>
     </message>
@@ -4383,7 +4402,7 @@ nutowy</translation>
 <context>
     <name>main</name>
     <message>
-        <location filename="../src/libs/core/tinitcorelib.cpp" line="134"/>
+        <location filename="../src/libs/core/tinitcorelib.cpp" line="136"/>
         <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.ttf manually.&lt;/center&gt;</source>
         <translation>&lt;center&gt;Nie mogę wczytać czcionki.&lt;br&gt;Spróbuj ręcznie zainstalować nootka.ttf.&lt;/center&gt;</translation>
     </message>
