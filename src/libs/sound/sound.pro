@@ -135,6 +135,7 @@ LIBS += -L../core/ -lNootkaCore -L../mobile/ -lNootkaMobile -L../score/ -lNootka
 INCLUDEPATH += ../core ../mobile ../score
 
 sounds.path = /assets/sounds
+sounds.files += sounds/piano.ogg
 sounds.files += sounds/classical-guitar.ogg
 sounds.files += sounds/electric-guitar.ogg
 sounds.files += sounds/bass-guitar.ogg

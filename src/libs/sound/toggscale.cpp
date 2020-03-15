@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -71,7 +71,8 @@ int ToggScale::seekOggStatic(void* fh, ogg_int64_t offset, int type) {
 
 
 int ToggScale::closeOggStatic(void* fh) {
-    return 0;
+  Q_UNUSED(fh)
+  return 0;
 }
 
 
@@ -144,7 +145,6 @@ qint16 ToggScale::getSample(int offset) {
 }
 
 
-
 void ToggScale::setNote(int noteNr) {
   if (noteNr == m_prevNote) {
     emit oggReady();
@@ -207,7 +207,9 @@ bool ToggScale::loadAudioData(int instrument) {
         m_firstNote = -24; m_lastNote = 21;
         break;
       default:
-        return false;
+        fileName = Tpath::sound("piano");
+        m_firstNote = -23; m_lastNote = 61;
+        break;
     }
   } else
       return false;

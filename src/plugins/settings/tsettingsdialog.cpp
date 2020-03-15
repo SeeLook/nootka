@@ -147,7 +147,7 @@ void TsettingsDialog::saveSettings() {
   if (m_guitarSett) {
 			m_guitarSett->saveSettings();
 			if (!m_audioSettingsPage) // when no audio settings set appropriate audio-out instrument
-				Tcore::gl()->A->audioInstrNr = qBound(1, m_guitarSett->currentInstrument(), 3);
+				Tcore::gl()->A->audioInstrNr = qBound(0, m_guitarSett->currentInstrument(), 3);
 			if (!m_laySett)
 				Tcore::gl()->L->guitarEnabled = (Tcore::gl()->instrument != e_noInstrument);
 	}

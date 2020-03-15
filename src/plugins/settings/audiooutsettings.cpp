@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -143,10 +143,11 @@ AudioOutSettings::AudioOutSettings(TaudioParams* aParams, QWidget* parent) :
     
     audioOrMidiChanged();
 #endif
+    m_audioInstrCombo->addItem(instruments[0].name); // piano
 		m_audioInstrCombo->addItem(instruments[2].name); // Classical guitar
 		m_audioInstrCombo->addItem(instruments[4].name); // Electric guitar
 		m_audioInstrCombo->addItem(instruments[6].name); // Bass guitar
-		m_audioInstrCombo->setCurrentIndex(m_params->audioInstrNr - 1);
+		m_audioInstrCombo->setCurrentIndex(m_params->audioInstrNr);
     
 #if !defined (Q_OS_ANDROID)
     connect(radioGr, SIGNAL(buttonClicked(int)), this, SLOT(audioOrMidiChanged()));
@@ -213,7 +214,7 @@ void AudioOutSettings::saveSettings() {
     m_params->OUTenabled = m_audioOutEnableGr->isChecked();
     if (m_audioOutEnableGr->isChecked()) {
       m_params->OUTdevName = m_audioOutDevListCombo->currentText();
-      m_params->audioInstrNr = m_audioInstrCombo->currentIndex() + 1;
+      m_params->audioInstrNr = m_audioInstrCombo->currentIndex();
 #if !defined (Q_OS_ANDROID)
       m_params->forwardInput = m_playInputChB->isChecked();
 //       m_params->playDetected = m_playDetectedChB->isChecked();
@@ -238,7 +239,7 @@ void AudioOutSettings::restoreDefaults() {
     //    m_playDetectedChB->setChecked(false);
     m_playInputChB->setChecked(false);
 #endif
-		m_audioInstrCombo->setCurrentIndex(0);
+		m_audioInstrCombo->setCurrentIndex(1);
 }
 
 
@@ -258,7 +259,7 @@ void AudioOutSettings::adjustOutToInstrument(TaudioParams* out, int instr) {
 	} 
 	else
 #endif
-		out->audioInstrNr = qBound(1, instr, 3);
+		out->audioInstrNr = qBound(0, instr, 3);
 }
 
 
@@ -270,7 +271,7 @@ void AudioOutSettings::whenInstrumentChanged(int instr) {
 	else
 		m_audioRadioButt->setChecked(true);
 #endif
-	m_audioInstrCombo->setCurrentIndex(qBound(0, instr - 1, 2));
+	m_audioInstrCombo->setCurrentIndex(qBound(0, instr, 3));
 #if !defined (Q_OS_ANDROID)
 	audioOrMidiChanged();
 #endif
