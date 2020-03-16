@@ -27,7 +27,7 @@ cp -r $SRC_DIR/packaging $DST_DIR
 cp -r $SRC_DIR/picts $DST_DIR
 mkdir $DST_DIR/sounds
 mkdir -p $DST_DIR/.hg/cache
-cp $SRC_DIR/sounds/*-guitar.ogg $DST_DIR/sounds/
+cp $SRC_DIR/sounds/*.ogg $DST_DIR/sounds/
 cp -r $SRC_DIR/src $DST_DIR
 cp $SRC_DIR/changes $DST_DIR
 cp $SRC_DIR/copyright $DST_DIR

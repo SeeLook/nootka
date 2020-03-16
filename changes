@@ -1,3 +1,10 @@
+1.4.7
+     - a few improvements for instruments other than guitar
+    BUGS FIXES
+     - properly display answer result messages
+    ANDROID
+     - fix write access for newer Android versions
+
 1.4.6
   Nootka says: I speak Slovenian
      - added Slovenian translation
