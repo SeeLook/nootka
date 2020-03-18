@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2019 SeeLook CC-0 -->
+<!-- Copyright 2020 SeeLook CC-0 -->
 <component type="desktop-application">
   <id>nootka.desktop</id>
   <name>Nootka</name>
@@ -38,9 +38,9 @@
   </screenshots>
 
   <url type="homepage">https://nootka.sourceforge.io</url>
-  <url type="bugtracker">https://sourceforge.io/p/nootka/bugs/</url>
-  <url type="donation">https://sourceforge.io/p/nootka/donate/</url>
-  <url type="translate">https://sourceforge.io/p/nootka/hg/ci/default/tree/lang/how-to-translate.txt</url>
+  <url type="bugtracker">https://sourceforge.net/p/nootka/bugs/</url>
+  <url type="donation">https://sourceforge.net/p/nootka/donate/</url>
+  <url type="translate">https://sourceforge.net/p/nootka/hg/ci/default/tree/lang/how-to-translate.txt</url>
 
   <content_rating type="oars-1.0">
     <content_attribute id="violence-cartoon">none</content_attribute>
@@ -69,7 +69,7 @@
   <translation type="qt">nootka</translation>
 
   <releases>
-    <release date="2019-08-01" version="1.4.6"/>
+    <release date="2020-03-16" version="1.4.7"/>
   </releases>
 
 </component>

@@ -135,7 +135,7 @@ if(APPLE)
 endif(APPLE)
 
 
-file(GLOB snds "${CMAKE_CURRENT_SOURCE_DIR}/sounds/*-guitar.ogg")
+file(GLOB snds "${CMAKE_CURRENT_SOURCE_DIR}/sounds/*.ogg")
 install(FILES ${snds} DESTINATION "${INS_PREF}/sounds")
 
 # files related with Linux (mime, desktop entry, icons)
