@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -56,8 +56,12 @@ Tflickable {
       property real widest: 0
       spacing: Noo.fontSize()
       Repeater {
-        model: [ "Jose1711", "Wayne Bonner", "Aaron Wolf", "Torsten Philipp", "Vincent Bermel", "Tomasz Matuszewski", "Yves Balhant", "Илья Б.", "...and others" ]
+        model: [ "Tony Nederpel", "Jose1711", "Wayne Bonner", "Aaron Wolf",
+                 "Torsten Philipp", "Vincent Bermel", "Tomasz Matuszewski",
+                 "Yves Balhant", "Илья Б.", "...and others"
+               ]
         Tile {
+          id: donTile
           anchors.horizontalCenter: undefined
           property color randCol: Noo.randomColor()
           width: tt.width + Noo.fontSize() * 4
@@ -75,10 +79,15 @@ Tflickable {
             id: ma
             anchors.fill: parent
             hoverEnabled: true
-            onEntered: randCol = Noo.randomColor()
+            onEntered: {
+              randCol = Noo.randomColor()
+              donTile.scale = 1.5
+            }
+            onExited: donTile.scale = 1
             onClicked: randCol = Noo.randomColor()
           }
           Behavior on randCol { ColorAnimation { duration: 300 }}
+          Behavior on scale { NumberAnimation { duration: 300}}
         }
       }
     }
