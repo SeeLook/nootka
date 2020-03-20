@@ -386,16 +386,32 @@ public:
        * is sorted number from highest (0) to lowest (5)
        */
   qint8 strOrder(qint8 strNr) { return m_order[strNr]; }
-  Tnote hiString(); /**< Returns the highest (usually first - 0) string. */
-  Tnote loString(); /**< Returns the lowest (usually last) string */
 
-      /** The highest available note in current tune with current fret number */
+      /**
+       * Returns the highest (usually first - 0) string.
+       */
+  Tnote hiString();
+
+      /**
+       * Returns the lowest (usually last) string
+       */
+  Tnote loString();
+
+      /**
+       * The highest available note in current tune with current fret number
+       */
   Tnote hiNote() { return Tnote(hiString().chromatic() + GfretsNumber); }
-  Tnote loNote() { return loString(); } // the same as loString()
 
-      /** It says witch accidentals are preferred while user clicks guitar
-       * and note is calculated. Default are sharps*/
-  bool GpreferFlats; // default false
+      /**
+       * The same as @p loString()
+       */
+  Tnote loNote() { return loString(); }
+
+      /**
+       * It says witch accidentals are preferred while user clicks guitar
+       * and note is calculated. Default are sharps (@p false)
+       */
+  bool GpreferFlats;
   QList<QVariant> GmarkedFrets;
 
 

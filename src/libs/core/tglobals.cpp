@@ -505,6 +505,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
       else
           S->pointerColor = Tcolor::invert(qApp->palette().highlight().color());
       S->clef = Tclef::EclefType(cfg->value(QStringLiteral("clef"), (int)Tclef::Treble_G_8down).toInt());
+      //TODO convert dropped bass clef
       // Rhythms has to be enabled when no clef (percussion)
       S->rhythmsEnabled = cfg->value(QStringLiteral("rhythmsEnabled"), true).toBool() || S->clef == Tclef::NoClef;
       S->isSingleNoteMode = cfg->value(QStringLiteral("singleNoteMode"), false).toBool();
@@ -519,7 +520,6 @@ void Tglobals::loadSettings(QSettings* cfg) {
         S->lastXmlDir = Tandroid::getExternalPath();
 #endif
   cfg->endGroup();
-
 
 //common for score widget and note name
   cfg->beginGroup(QLatin1String("common"));
@@ -570,13 +570,13 @@ void Tglobals::loadSettings(QSettings* cfg) {
           GselectedColor = cfg->value(QStringLiteral("selectedColor")).value<QColor>();
       else
           GselectedColor = QColor(51, 153, 255); // nice blue as default
-      QVariant tun = cfg->value(QStringLiteral("tune"));
+      auto tun = cfg->value(QStringLiteral("tune"));
       if (tun.isValid()) {
           Ttune tmpTune = tun.value<Ttune>();
           setTune(tmpTune);
       } else
           setTune(Ttune::stdTune);
-      GpreferFlats = cfg->value(QStringLiteral("flatsPrefered"), false).toBool(); //false;
+      GpreferFlats = cfg->value(QStringLiteral("flatsPrefered"), false).toBool();;
       QList<QVariant> fretsList;
       fretsList << 5 << 7 << 9 << "12!" << 15 << 17;
       GmarkedFrets = cfg->value(QStringLiteral("dotsOnFrets"), fretsList).toList();
@@ -673,6 +673,26 @@ void Tglobals::loadSettings(QSettings* cfg) {
   m_fullScreen = cfg->value(QStringLiteral("fullScreen"), true).toBool();
 #endif
 
+  bool transposeTuning = S->clef == Tclef::Bass_F_8down;
+  if (S->clef == Tclef::Bass_F_8down) {
+    // This is clear: old Nootka had dropped down bass clef, now there is just bass clef
+    // so clef is changed and transposition is added
+    qDebug() << "[Tglobals] Dropped bass clef detected. Converting to ordinary bass clef.";
+    S->clef = Tclef::Bass_F;
+    if (A->transposition == 0) {
+      qDebug() << "[Tglobals] Adding sound transposition one octave down due to bass clef conversion.";
+      A->transposition = -12;
+    }
+  }
+  // But in-between versions (1.5 to 1.7.0) bass clef might have low notes and so tuning.
+  // -12 is note B in contra octave (-2) and it is lowest note achieve on the Nootka score
+  // So try to fix that here, with hope there are no false positives
+  if (transposeTuning || (S->clef != Tclef::Tenor_C && loNote().chromatic() < -12)) {
+    qDebug() << "[Tglobals] Tuning transposed one octave up to fit score capability.";
+    m_tune->riseOctaveUp(); // As long as we are transposing all strings the same step, string order doesn't change.
+  }
+
+// TODO cleanup code below
 //   cfg->beginGroup(QLatin1String("layout"));
 //     L->guitarEnabled = cfg->value(QStringLiteral("guitarEnabled"), true).toBool();
 // #if defined (Q_OS_ANDROID)
@@ -703,7 +723,7 @@ void Tglobals::setTune(const Ttune& t) {
   delete m_tune;
   m_tune = new Ttune(t.name, t.str(1), t.str(2), t.str(3), t.str(4), t.str(5), t.str(6), t.type());
   m_tuneObject->setTune(m_tune);
-  // creating array with guitar strings in order of their height
+  // creating array with guitar strings ordered by their pitch height
   char openStr[6];
   for (int i = 0; i < 6; i++) {
     m_order[i] = i;
