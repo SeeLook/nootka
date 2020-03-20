@@ -56,6 +56,7 @@ public:
     Bass6_BEADGC = 103
   };
   Q_ENUM(Etunings)
+
       /**
        * @p tuneName is the name, @p S(1-6) are notes.
        * Empty notes (Tnote()) can control strings number
@@ -111,9 +112,17 @@ public:
   static QString definedName(Etunings t);
 
       /**
-       * Transposes this tuning by @p semi semitones
+       * This method simply rises tuning one octave up.
+       * The ONLY ONE PURPOSE of this method is to convert/fix
+       * bass dropped down clef of old Nootka to ordinary bass clef.
+       * It automatically detects tuning type @p Etunings
        */
-  void transpose(int semi);
+  void riseOctaveUp();
+
+      /**
+       * Returns tuning type form given tuning @p t
+       */
+  static Etunings findTuning(const Ttune& t);
 
       /**
        * Makes translations in defined tunes. Has to be invoked once per app launch
@@ -139,13 +148,13 @@ public:
        * @p stringNr is real string number (1 to 6)
        */
   Tnote &operator[] (quint8 stringNr) { return stringsArray[stringNr - 1]; }
-  bool operator==(Ttune& T2) {
-      return ( stringsArray[0]==T2[1] && stringsArray[1]==T2[2] && stringsArray[2]==T2[3] &&
-                stringsArray[3]==T2[4] && stringsArray[4]==T2[5] && stringsArray[5]==T2[6] );
+  bool operator== (Ttune& T2) const {
+      return ( stringsArray[0] == T2[1] && stringsArray[1] == T2[2] && stringsArray[2] == T2[3] &&
+                stringsArray[3] == T2[4] && stringsArray[4] == T2[5] && stringsArray[5] == T2[6] );
   }
-  bool operator!=(Ttune& T2) {
-      return ( stringsArray[0]!=T2[1] || stringsArray[1]!=T2[2] || stringsArray[2]!=T2[3] ||
-              stringsArray[3]!=T2[4] || stringsArray[4]!=T2[5] || stringsArray[5]!=T2[6] );
+  bool operator!= (Ttune& T2) const {
+      return ( stringsArray[0] != T2[1] || stringsArray[1] != T2[2] || stringsArray[2] != T2[3] ||
+              stringsArray[3] != T2[4] || stringsArray[4] != T2[5] || stringsArray[5] != T2[6] );
   }
 
 protected:

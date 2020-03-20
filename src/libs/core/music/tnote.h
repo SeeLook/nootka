@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2006-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -341,6 +341,11 @@ public:
        * Negative values shift down (drops), positive ones shift up (rise)
        */
   void transpose(int interval);
+
+      /**
+       * Simple rises this note one octave up
+       */
+  inline void riseOctaveUp() { if (isValid()) p_octave++; }
 
   static QString shortOctaveName(int o);
   static QString fullOctaveName(int o);

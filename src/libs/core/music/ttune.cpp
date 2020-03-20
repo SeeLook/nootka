@@ -115,11 +115,31 @@ QString Ttune::definedName(Ttune::Etunings t) {
 }
 
 
-void Ttune::transpose(int semi) {
-  for (int i = 0; i < 6; ++i) {
-    if (stringsArray[i].isValid())
-      stringsArray[i].transpose(semi);
+void Ttune::riseOctaveUp() {
+  for (int i = 0; i < 6; ++i)
+    stringsArray[i].riseOctaveUp();
+  p_tuning = findTuning(*this);
+}
+
+
+Ttune::Etunings Ttune::findTuning(const Ttune& t) {
+  if (t.stringNr() == 0)
+    return Ttune::NoTuning;
+  else if (t.stringNr() < 3)
+    return Ttune::Scale;
+  else {
+    if (t == Ttune::stdTune)
+        return Ttune::Standard_EADGBE;
+    else {
+        for (int i = 0; i < 4; ++i) {
+          if (t == Ttune::tunes[i])
+            return Ttune::tunes[i].type();
+          else if (t == Ttune::bassTunes[i])
+            return Ttune::bassTunes[i].type();
+        }
+    }
   }
+  return Ttune::Custom;
 }
 
 //##################################################################################################
@@ -132,27 +152,17 @@ void Ttune::transpose(int semi) {
  * 0 - standard EADGBE
  * 1 to 4 - classical/electric 6 strings defined (@p tunes array)
  * 100 to 103 - bass 4-6 strings defined (@p bassTunes array)
+ *
+ * FIXME: We skip Ttune::SCALE type and write it as such as Ttune::Custom
+ * It doesn't harm, just jet...
  */
 void Ttune::toXml(QXmlStreamWriter& xml, bool isExam) {
   int id = -1; // user defined tuning
   if (isExam) { // determine is tuning built-in or user defined
       xml.writeStartElement(QStringLiteral("tuning"));
-      if (operator==(stdTune))
-          id = 0;
-      else {
-          for (int i = 0; i < 4; ++i) {
-            if (operator==(tunes[i])) {
-              id = i + 1;  break;
-            }
-          }
-      }
-      if (id == -1) { // defined tuning still not found - try bass
-        for (int i = 0; i < 4; ++i) {
-          if (operator==(bassTunes[i])) {
-            id = i + 100;  break;
-          }
-        }
-      }
+      id = static_cast<int>(findTuning(*this));
+      if (id < -1)
+        id = -1;
       xml.writeAttribute(QStringLiteral("id"), QVariant(id).toString());
   } else
       xml.writeStartElement(QStringLiteral("staff-details"));
