@@ -157,6 +157,7 @@ Section "MainGroup" SEC01
   
   SetOutPath "$INSTDIR\sounds"
     File "sounds\*.ogg"
+    File "sounds\*.raw48-16"
 
   SetOutPath "$INSTDIR\picts"
     File "picts\*.ico"
