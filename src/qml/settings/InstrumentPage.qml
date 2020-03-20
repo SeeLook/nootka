@@ -166,7 +166,7 @@ Flickable {
         spacing: Noo.fontSize()
         anchors.horizontalCenter: parent.horizontalCenter
         Text { text: qsTr("marked frets", "or frets with dots/marks"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
-        TextField {
+        TtextField {
           id: fretDots
           width: Noo.fontSize() * 15
           maximumLength: 30

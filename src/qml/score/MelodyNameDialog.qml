@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2019 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2019-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -29,7 +29,7 @@ TpopupDialog {
         color: activPal.text
         text: qsTr("Title")
       }
-      TextField {
+      TtextField {
         id: melodyTitle
         font.pixelSize: Noo.fontSize(); maximumLength: 100
         width: melNamDial.width - Noo.fontSize() * 10
@@ -45,7 +45,7 @@ TpopupDialog {
         color: activPal.text
         text: qsTr("Composer")
       }
-      TextField {
+      TtextField {
         id: composer
         font.pixelSize: Noo.fontSize(); maximumLength: 100
         width: melNamDial.width - Noo.fontSize() * 10

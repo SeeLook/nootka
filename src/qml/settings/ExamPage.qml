@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -32,7 +32,7 @@ Tflickable {
             spacing: Noo.fontSize()
             anchors.horizontalCenter: parent.horizontalCenter
             Text { text: Noo.TR("StartExam", "student name:"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
-            TextField {
+            TtextField {
               id: userNameIn
               anchors.verticalCenter: parent.verticalCenter
               placeholderText: Noo.TR("StartExam", "Enter your name or nick-name.")

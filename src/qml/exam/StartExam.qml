@@ -35,7 +35,7 @@ TstartExamItem {
         spacing: Noo.fontSize() * (Noo.isAndroid() ? 0.5 : 1)
         anchors.verticalCenter: parent.verticalCenter
         Text { text: qsTr("student name:"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
-        TextField {
+        TtextField {
           id: userNameIn
           anchors.verticalCenter: parent.verticalCenter
           placeholderText: qsTr("Enter your name or nick-name.")
@@ -43,19 +43,6 @@ TstartExamItem {
           width: Noo.fontSize() * (Noo.isAndroid() ? 19 : 25)
           horizontalAlignment: TextInput.AlignHCenter
           text: GLOB.student
-          background: Rectangle {
-            id: nameBg
-            color: activPal.base
-            border { width: userNameIn.focus ? 2 : 1; color: userNameIn.focus ? activPal.highlight : activPal.text }
-            SequentialAnimation {
-              id: noNameAnim
-              loops: Animation.Infinite
-              ColorAnimation { target: nameBg; property: "color"; to: "red"; duration: 500 }
-              PauseAnimation { duration: 300 }
-              ColorAnimation { target: nameBg; property: "color"; to: activPal.base; duration: 500 }
-              PauseAnimation { duration: 300 }
-            }
-          }
         }
       }
       TiconButton {
@@ -198,6 +185,15 @@ TstartExamItem {
     }
   }
 
+  SequentialAnimation {
+    id: noNameAnim
+    loops: Animation.Infinite
+    ColorAnimation { target: userNameIn.bg; property: "color"; to: "red"; duration: 500 }
+    PauseAnimation { duration: 300 }
+    ColorAnimation { target: userNameIn.bg; property: "color"; to: activPal.base; duration: 500 }
+    PauseAnimation { duration: 300 }
+  }
+
   Component.onCompleted: {
     dialLoader.standardButtons = 0
     dialLoader.title = qsTr("Start exercises or an exam")
@@ -210,7 +206,7 @@ TstartExamItem {
       noNameAnim.running = true
       giveUserNameMessage()
       noNameAnim.running = false
-      nameBg.color = activPal.base
+      userNameIn.bg.color = activPal.base
       return
     }
     GLOB.student = userNameIn.text

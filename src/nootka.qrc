@@ -40,6 +40,7 @@
     <file alias="TcomboBox.qml">qml/shared/TcomboBox.qml</file>
     <file alias="TspinBox.qml">qml/shared/TspinBox.qml</file>
     <file alias="Tslider.qml">qml/shared/Tslider.qml</file>
+    <file alias="TtextField.qml">qml/shared/TtextField.qml</file>
 
 <!--  Unused    -->
 <!--     <file alias="TprogressBar.qml">qml/shared/TprogressBar.qml</file> -->
