@@ -9,6 +9,7 @@
 
 ### For incoming stable release version 2.0
   - There is no right mouse button to check/ask question - do we need that???
+  - (Settings) When tuning changes clef, set it for global and vice versa - change tuning clef when score one changes
   - fix detecting last note duration in exercises/exams
   - randomly generated melodies have no rests yet, but see below for a reason
   - add an option to skip rests (pitch detection gaps) and treat their duration as previous note was longer
@@ -47,6 +48,7 @@
  - chart tip for non guitars still displays string/fret with goofy values
  - space key for tapping tempo doesn't work well
  - dialog buttons change width when clicked which looks weird
+ - chart tips with melody can disappear when mouse is over +- buttons (Qt Quick 2 style depends)
 
 ### and crashes:
  - sometimes app crash on exit - possible some note objects are note deleted in proper order
@@ -71,7 +73,7 @@
 ***
 
 ### SMALL NEW FEATURES/IMPROVEMENTS
-  - NotaData of Tartini might be cleaned
+  - NoteData of Tartini might be cleaned
   - add minimal zoom value depends on screen resolution
   - average effectiveness line in chart
   - certificates would have some additional data about melodies
@@ -87,8 +89,6 @@
   - keep exam file in /tmp and restore it when crash or so
   - add sound during wizard and About dialog (???)
   - options for adjusting pitch detection range to  1.score, 2. instrument scale (???)
-
-  - unlock left-handed guitar then implement frets zoom to respect transforms
 
 
 #### TEXAMEXECUTOR
