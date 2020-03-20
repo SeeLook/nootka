@@ -298,3 +298,14 @@ bool getTQAunitFromStream(QDataStream &in, TQAunit &qaUnit) {
   return ok;
 }
 
+
+void TQAunit::riseOctaveUp() {
+  qa.note.riseOctaveUp();
+  qa_2.note.riseOctaveUp();
+  if (m_melody && m_srcMelody == e_srcThisUnit) {
+    if (m_melody->clef() == Tclef::Bass_F_8down)
+      m_melody->setClef(Tclef::Bass_F);
+    for (int n = 0; n < m_melody->length(); ++n)
+      m_melody->note(n)->p().riseOctaveUp();
+  }
+}

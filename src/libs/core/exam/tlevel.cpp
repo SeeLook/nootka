@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -87,7 +87,7 @@ void Tlevel::fretFromXml(QXmlStreamReader& xml, char& fr, Tlevel::EerrorType& er
   fr = (char)QVariant(xml.readElementText()).toInt();
   if (fr < 0 || fr > 24) { // max frets number
     fr = 0;
-    qDebug() << "Fret number in" << xml.name() << "was wrong but fixed";
+    qDebug() << "[Tlevel] Fret number in" << xml.name() << "was wrong but fixed";
     err = Tlevel::e_levelFixed;
   }
 }
@@ -258,29 +258,28 @@ Tlevel::EerrorType Tlevel::qaTypeFromXml(QXmlStreamReader& xml) {
 
 Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
   EerrorType er = e_level_OK;
-//   if (xml.readNextStartElement()) {
+
   if (xml.name() != QLatin1String("level")) {
-    qDebug() << "There is no 'level' key in that XML";
+    qDebug() << "[Tlevel] There is no 'level' key in that XML";
     return e_noLevelInXml;
   }
   name = xml.attributes().value(QLatin1String("name")).toString();
   if (name.isEmpty()) {
-      qDebug() << "Level key has empty 'name' attribute";
+      qDebug() << "[Tlevel] Level key has empty 'name' attribute";
       return e_otherError;
   } else if (name.size() > 29) {
       name = name.left(29);
       er = e_levelFixed;
-      qDebug() << "Name of a level was reduced to 29 characters:" << name;
+      qDebug() << "[Tlevel] Name of a level was reduced to 29 characters:" << name;
   }
   melodySet.clear();
-//   }
+
   while (xml.readNextStartElement()) {
     if (xml.name() == QLatin1String("description"))
       desc = xml.readElementText();
   // QUESTIONS
     else if (xml.name() == QLatin1String("questions")) {
       while (xml.readNextStartElement()) {
-//         qDebug() << "questions->" << xml.name();
         if (xml.name() == QLatin1String("qaType")) {
           er = qaTypeFromXml(xml);
           if (er == e_otherError)
@@ -293,15 +292,15 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
             showStrNr = QVariant(xml.readElementText()).toBool();
         else if (xml.name() == QLatin1String("clef")) {
             clef.setClef(Tclef::EclefType(QVariant(xml.readElementText()).toInt()));
-            if (clef.name().isEmpty()) { // when clef has improper value its name returns empty string
-              qDebug() << "Level had wrong/undefined clef. It was fixed to treble dropped.";
+            if (clef.name().isEmpty()) { // when clef has improper/unsupported value its name returns empty string
+              qDebug() << "[Tlevel] Level had wrong/undefined clef. It was fixed to treble dropped.";
               clef.setClef(Tclef::Treble_G_8down);
               er = e_levelFixed;
             }
         } else if (xml.name() == QLatin1String("instrument")) {
             instrument = Tinstrument::Etype(QVariant(xml.readElementText()).toInt());
             if (Tinstrument::staticName(instrument).isEmpty()) {
-              qDebug() << "Level had wrong instrument type. It was fixed to classical guitar.";
+              qDebug() << "[Tlevel] Level had wrong instrument type. It was fixed to classical guitar.";
               instrument = Tinstrument::ClassicalGuitar;
               er = e_levelFixed;
             }
@@ -425,18 +424,18 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
   }
   if (canBeGuitar() && fixFretRange() == e_levelFixed) {
     er = e_levelFixed;
-    qDebug() << "Lowest fret in range was bigger than the highest one. Fixed";
+    qDebug() << "[Tlevel] Lowest fret in range was bigger than the highest one. Fixed";
   }
   if (useKeySign && !isSingleKey && fixKeyRange() == e_levelFixed) {
     er = e_levelFixed;
-    qDebug() << "Lowest key in range was higher than the highest one. Fixed";
+    qDebug() << "[Tlevel] Lowest key in range was higher than the highest one. Fixed";
   }
   if (loNote.note() == 0 || hiNote.note() == 0) {
-    qDebug() << "Note range is wrong.";
-    return e_otherError;
+      qDebug() << "[Tlevel] Note range is wrong.";
+      return e_otherError;
   } else if (fixNoteRange() == e_levelFixed) {
-    er = e_levelFixed;
-    qDebug() << "Lowest note in range was higher than the highest one. Fixed";
+      er = e_levelFixed;
+      qDebug() << "[Tlevel] Lowest note in range was higher than the highest one. Fixed";
   }
   if (notesList.isEmpty()) {
       if (randMelody == e_randFromList) {
@@ -450,7 +449,7 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
       }
   }
   if (xml.hasError()) {
-    qDebug() << "level has error" << xml.errorString() << xml.lineNumber();
+    qDebug() << "[Tlevel] level has error" << xml.errorString() << xml.lineNumber();
     return e_otherError;
   }
   return er;
@@ -577,6 +576,31 @@ bool Tlevel::saveToFile(Tlevel& level, const QString& levelFile) {
       return false;
 }
 
+//#################################################################################################
+//###################      FIXES FOR LEVEL CONTENT     ############################################
+//#################################################################################################
+
+void Tlevel::convFromDropedBass() {
+  if (clef.type() == Tclef::Bass_F_8down)
+    clef.setClef(Tclef::Bass_F);
+
+  loNote.riseOctaveUp();
+  hiNote.riseOctaveUp();
+  if (!notesList.isEmpty()) {
+    for (int n = 0; n < notesList.count(); ++n)
+      notesList[n].riseOctaveUp();
+  }
+  if (!melodySet.isEmpty()) {
+    for (int m = 0; m < melodySet.count(); ++m) {
+      auto mel = &melodySet[m];
+      if (mel->clef() == Tclef::Bass_F_8down)
+        mel->setClef(Tclef::Bass_F);
+      for (int n = 0; n < mel->length(); ++n)
+        mel->note(n)->p().riseOctaveUp();
+    }
+  }
+}
+
 
 Tclef Tlevel::fixClef(quint16 cl) {
     if (cl == 0) // For backward compatibility - 'no clef' never occurs
@@ -589,7 +613,7 @@ Tclef Tlevel::fixClef(quint16 cl) {
           return Tclef(Tclef::Treble_G);
     }
     if (cl != 2 && cl != 4 && cl != 8 && cl != 16 && cl != 32 && cl != 64 && cl != 128) {
-        qDebug() << "Fixed clef type. Previous value was:" << cl;
+        qDebug() << "[Tlevel] Fixed clef type. Previous value was:" << cl;
         return Tclef(Tclef::Treble_G_8down); // some previous mess - when levels didn't' support clefs
     }
 
@@ -615,7 +639,7 @@ Tinstrument::Etype Tlevel::fixInstrument(quint8 instr) {
     } else if (instr < 4) { // simple cast to detect an instrument
           return (Tinstrument::Etype)instr;
     } else {
-        qDebug() << "Tlevel::instrument had some stupid value. FIXED";
+        qDebug() << "[Tlevel]  Tlevel::instrument had some stupid value. FIXED";
         return GLOB->instrument().type();
     }
 }
@@ -769,7 +793,7 @@ bool Tlevel::adjustFretsToScale(char& loF, char& hiF) {
       if (!usedStrings[st])
           continue;
       int diff = no - GLOB->Gtune()->str(GLOB->strOrder(st) + 1).chromatic();
-      if (diff >= 0 && diff <= GLOB->GfretsNumber) { // found
+      if (diff >= 0 && diff <= static_cast<int>(GLOB->GfretsNumber)) { // found
           lowest = qMin<int>(lowest, diff);
           tmpLow = qMin<int>(tmpLow, diff);
       }

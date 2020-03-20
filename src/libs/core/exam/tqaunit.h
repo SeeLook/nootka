@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -305,11 +305,19 @@ public:
   void toXml(QXmlStreamWriter& xml);
   bool fromXml(QXmlStreamReader& xml);
 
+      /**
+       * This method simply rises all unit notes one octave up.
+       * The ONLY ONE PURPOSE of this method is to convert/fix
+       * bass dropped down clef of old Nootka to ordinary bass clef,
+       * so all notes has to transposed octave up
+       */
+  void riseOctaveUp();
+
 protected:
   quint32                 p_valid;
   quint8                  style;
   int                     idOfMelody; /**< Number of another question or an item in a list that contain a melody. */
-  QList<Tattempt*>       *attemptList; /**< Pointer to a list with attempts or 0 if no attempts */
+  QList<Tattempt*>       *attemptList; /**< Pointer to a list with attempts or @p nullptr if no attempts */
 
       /**
        * Deletes this melody if exists and belongs to this unit.
