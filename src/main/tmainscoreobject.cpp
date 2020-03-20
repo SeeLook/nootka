@@ -482,7 +482,7 @@ void TmainScoreObject::saveMusicXml(const QString& fileName, const QString& titl
   if (fileName.isEmpty()) // ask for file name if this parameter was empty
     fn = NOO->getXmlToSave(composer + QLatin1String(" - ") + title);
   if (!fn.isEmpty())
-    m_scoreObj->saveMusicXml(fn, title, composer);
+    m_scoreObj->saveMusicXml(fn, title, composer, GLOB->transposition());
 }
 
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -92,13 +92,25 @@ public:
   Tmeter* meter() const { return m_meter; }
   void setMeter(int m);
 
-  void toXml(QXmlStreamWriter& xml);
+      /**
+       * @p trans is instrument transposition in semitones,
+       * but doesn't changes notes pitch.
+       * For music XML structure it is converted to tags:
+       * <chromatic> (less than 12)
+       * <octave-change> above 12
+       * but <diatonic> key is never used so far
+       * see: http://usermanuals.musicxml.com/MusicXML/MusicXML.htm#EL-MusicXML-transpose.htm
+       */
+  void toXml(QXmlStreamWriter& xml, int trans = 0);
   bool fromXml(QXmlStreamReader& xml);
 
-  bool saveToMusicXml(const QString& xmlFileName);
+  bool saveToMusicXml(const QString& xmlFileName, int transposition = 0);
   bool grabFromMusicXml(const QString& xmlFileName);
 
-  void fromNoteStruct(QList<TnoteStruct>& ns); /**< Converts given list to melody */
+      /**
+       * Converts given list to melody
+       */
+  void fromNoteStruct(QList<TnoteStruct>& ns);
 
 private:
   QString              m_title;

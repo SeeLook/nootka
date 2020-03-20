@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -30,7 +30,10 @@
 
 
 /* local static */
-/** Prints warning message and sets given clef reference to current default clef type. */
+
+/**
+ * Prints warning message and sets given clef reference to current default clef type.
+ */
 void unsupportedClef(Tclef::EclefType& clefType) {
   qDebug() << "[Tmelody] Unsupported clef. Set to default" << Tclef(Tclef::defaultType).name();
   clefType = Tclef::defaultType;
@@ -96,7 +99,7 @@ void Tmelody::addNote(const Tchunk& n) {
 }
 
 
-void Tmelody::toXml(QXmlStreamWriter& xml) {
+void Tmelody::toXml(QXmlStreamWriter& xml, int trans) {
   for (int m = 0; m < m_measures.size(); ++m) {
     xml.writeStartElement(QStringLiteral("measure"));
       Tmeasure& meas = measure(m);
@@ -110,6 +113,12 @@ void Tmelody::toXml(QXmlStreamWriter& xml) {
           if (m_clef == Tclef::PianoStaffClefs)
             xml.writeTextElement(QStringLiteral("staves"), QStringLiteral("2"));
           Tclef(m_clef).toXml(xml);
+          if (trans) {
+            xml.writeStartElement(QStringLiteral("transpose"));
+              xml.writeTextElement(QStringLiteral("chromatic"), QString::number(trans % 12));
+              xml.writeTextElement(QStringLiteral("octave-change"), QString::number(trans / 12));
+            xml.writeEndElement(); // transpose
+          }
         xml.writeEndElement(); // attributes
         xml.writeStartElement(QStringLiteral("direction"));
           xml.writeAttribute(QStringLiteral("placement"), QStringLiteral("above"));
@@ -329,7 +338,7 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
 }
 
 
-bool Tmelody::saveToMusicXml(const QString& xmlFileName) {
+bool Tmelody::saveToMusicXml(const QString& xmlFileName, int transposition) {
   QFile file(xmlFileName);
   if (file.open(QIODevice::WriteOnly)) {
     QXmlStreamWriter xml(&file);
@@ -360,7 +369,7 @@ bool Tmelody::saveToMusicXml(const QString& xmlFileName) {
       xml.writeEndElement(); //part-list
       xml.writeStartElement(QStringLiteral("part"));
         xml.writeAttribute(QStringLiteral("id"), QStringLiteral("P1"));
-        toXml(xml);
+        toXml(xml, transposition);
       xml.writeEndElement(); // part
     xml.writeEndElement(); // score-partwise
     xml.writeEndDocument();
@@ -419,8 +428,8 @@ bool Tmelody::grabFromMusicXml(const QString& xmlFileName) {
 void Tmelody::fromNoteStruct(QList<TnoteStruct>& ns) {
   for (int i = 0; i < ns.size(); ++i)
     addNote(Tchunk(ns[i].pitch));
-  // TODO convert rhythm as well
 }
+
 
 
 

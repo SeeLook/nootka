@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -190,9 +190,10 @@ public:
        * If @p melody parameter is set - it loads XML file to it,
        * so this method caller can read more from opened melody
        */
-      Q_INVOKABLE void openMusicXml(const QString& musicFile, Tmelody* melody = nullptr, bool ignoreTechnical = false);
+  Q_INVOKABLE void openMusicXml(const QString& musicFile, Tmelody* melody = nullptr, bool ignoreTechnical = false);
 
-  Q_INVOKABLE void saveMusicXml(const QString& musicFile, const QString& title = QString(), const QString& composer = QString());
+  Q_INVOKABLE void saveMusicXml(const QString& musicFile, const QString& title = QString(),
+                                const QString& composer = QString(), int transposition = 0);
 
       /**
        * Sets given melody to score.

@@ -478,7 +478,8 @@ void TscoreObject::openMusicXml(const QString& musicFile, Tmelody* melody, bool 
 }
 
 
-void TscoreObject::saveMusicXml(const QString& musicFile, const QString& title, const QString& composer) {
+void TscoreObject::saveMusicXml(const QString& musicFile, const QString& title,
+                                const QString& composer, int transposition) {
   if (!musicFile.isEmpty()) {
     QString fileName = musicFile;
     if (musicFile.right(4) != QLatin1String(".xml") && musicFile.right(9) != QLatin1String(".musicxml"))
@@ -486,7 +487,7 @@ void TscoreObject::saveMusicXml(const QString& musicFile, const QString& title, 
     auto melody = new Tmelody(title, TkeySignature(static_cast<char>(keySignature())));
     getMelody(melody);
     melody->setComposer(composer);
-    melody->saveToMusicXml(fileName);
+    melody->saveToMusicXml(fileName, transposition);
     delete melody;
   }
 }
