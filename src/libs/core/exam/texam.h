@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -288,7 +288,19 @@ protected:
        * Compares number of units with number got from file and prints message if doesn't match.
        */
   bool checkQuestionNumber(int questNr);
-  void clearAnswList(); /** Wipes @p m_answList and all units pointed by it. */
+
+      /**
+       * Wipes @p m_answList and all units pointed by it.
+       */
+  void clearAnswList();
+
+      /**
+       * Transposes entire exam one octave up
+       * level, notes and melodies in all question units,
+       * tuning stored in the exam.
+       * Any occurrence of @p Tclef::Bass_F_8down is changed into @p Tclef::Bass_F
+       */
+  void transposeAfterBassDropped();
 
 private:
   QString                     m_fileName, m_userName;

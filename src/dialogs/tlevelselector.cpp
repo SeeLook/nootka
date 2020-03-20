@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -254,7 +254,7 @@ Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
           QXmlStreamReader xml(in.device());
           if (!xml.readNextStartElement()) // open first XML node
             er = Tlevel::e_noLevelInXml;
-          else 
+          else
             er = level.loadFromXml(xml);
           switch (er) {
             case Tlevel::e_levelFixed:
@@ -274,6 +274,12 @@ Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
               return level;
          } else if (!wasLevelValid)
              QMessageBox::warning(nullptr, QLatin1String(" "), tr("Level file\n %1 \n was corrupted and repaired!\n Check please, if its parameters are as expected.").arg(file.fileName()));
+         if (wasLevelFile) {
+           if (level.clef.type() == Tclef::Bass_F_8down) {
+             qDebug() << "[TlevelSelector] OBSOLETE bass dropped clef detected. Converting level to ordinary bass clef.";
+             level.convFromDropedBass();
+           }
+        }
   } else {
       if (!file.fileName().isEmpty()) // skip empty file names (ignored by user)
         Tlevel::fileIOerrorMsg(file);

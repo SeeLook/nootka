@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -159,7 +159,7 @@ Texam::~Texam()
 //#################################################################################################
 void Texam::setExercise() {
   if (count()) {
-    qDebug() << "Exam has got questions already. Can't set it as an exercise!";
+    qDebug() << "[Texam] Exam has got questions already. Can't set it as an exercise!";
     return;
   }
   setFileName(QDir::toNativeSeparators(QFileInfo(GLOB->config->fileName()).absolutePath() + QLatin1String("/exercise2.noo")));
@@ -175,7 +175,7 @@ void Texam::setLevel(Tlevel* l) {
 
 void Texam::setFileName(const QString& fileName) {
   if (isExercise()) {
-    qDebug() << "Can not set a file name for exercise";
+    qDebug() << "[Texam] Can not set a file name for exercise";
     return;
   }
   m_fileName = fileName;
@@ -186,12 +186,12 @@ void Texam::skipLast(bool skip) {
   if (skip != (bool)m_skippedUnit) {
     if (skip) {
         if (m_skippedUnit)
-          qDebug() << "Previously skipped question unit will be overridden by newly skipped.";
+          qDebug() << "[Texam] Previously skipped question unit will be overridden by newly skipped.";
         delete m_skippedUnit;
         m_skippedUnit = m_answList.takeLast();
     } else {
         if (!m_skippedUnit)
-          qDebug() << "There is no skipped unit to revert it back!";
+          qDebug() << "[Texam] There is no skipped unit to revert it back!";
         else {
           m_answList << m_skippedUnit;
           m_skippedUnit = 0;
@@ -235,7 +235,7 @@ Texam::EerrorType Texam::loadFromFile(const QString& fileName) {
               QXmlStreamReader xml(unZipXml);
               isExamFileOk = loadFromXml(xml);
           } else {
-              qDebug() << "Problems with decompressing exam file";
+              qDebug() << "[Texam] Problems with decompressing exam file";
               return e_file_not_valid;
           }
       } else {
@@ -246,10 +246,6 @@ Texam::EerrorType Texam::loadFromFile(const QString& fileName) {
       m_melody = m_level->canBeMelody();
       updateEffectiveness();
       updateAverageReactTime(true);
-//     if ((count() - mistakes()))
-//         m_averReactTime = m_okTime / (count() - mistakes());
-//     else
-//         m_averReactTime = 0.0;
 
       if (!isExamFileOk)
           result = e_file_corrupted;
@@ -259,6 +255,12 @@ Texam::EerrorType Texam::loadFromFile(const QString& fileName) {
       result = e_cant_open;
   }
   updateBlackCount();
+
+  if (m_level->clef.type() == Tclef::Bass_F_8down) {
+    qDebug() << "[Texam] OBSOLETE bass dropped clef detected. Converting exam to ordinary bass clef.";
+    transposeAfterBassDropped();
+  }
+
   return result;
 }
 
@@ -320,31 +322,29 @@ bool Texam::loadFromXml(QXmlStreamReader& xml) {
   int questNr = 0;
   if (xml.readNextStartElement()) {
     if (xml.name() != QLatin1String("exam")) {
-      qDebug() << "There is no 'exam' key in that XML";
+      qDebug() << "[Texam] There is no 'exam' key in that XML";
       return false;
     }
     m_userName = xml.attributes().value(QStringLiteral("user")).toString();
     if (m_userName.isEmpty() || m_userName.size() > 30) {
-      qDebug() << "Exam has wrong user name";
+      qDebug() << "[Texam] Exam has wrong user name";
       return false;
     }
   }
   while (xml.readNextStartElement()) {
-//     qDebug() << "exam" << xml.name();
     if (xml.name() == QLatin1String("head")) {
         while (xml.readNextStartElement()) {
-  //         qDebug() << "head" << xml.name();
           if (xml.name() == QLatin1String("level")) {
-            Tlevel::EerrorType err = m_level->loadFromXml(xml);
-            if (err != Tlevel::e_level_OK) {
-              qDebug() << "Exam has wrong level definition" << (int)err;
-              ok = false;
-            }
+              auto err = m_level->loadFromXml(xml);
+              if (err != Tlevel::e_level_OK) {
+                qDebug() << "[Texam] Exam has wrong level definition" << static_cast<int>(err);
+                ok = false;
+              }
           } else if (xml.name() == QLatin1String("tuning")) {
-            if (!m_tune.fromXml(xml, true)) {
-              qDebug() << "Exam has wrong tuning";
-              ok = false;
-            }
+              if (!m_tune.fromXml(xml, true)) {
+                qDebug() << "[Texam] Exam has wrong tuning";
+                ok = false;
+              }
           } else if (xml.name() == QLatin1String("totalTime"))
               m_totalTime = xml.readElementText().toInt();
           else if (xml.name() == QLatin1String("questNr"))
@@ -352,7 +352,7 @@ bool Texam::loadFromXml(QXmlStreamReader& xml) {
           else if (xml.name() == QLatin1String("averReactTime"))
               m_averReactTime = xml.readElementText().toInt();
           else if (xml.name() == QLatin1String("mistNr"))
-            m_mistNr = xml.readElementText().toInt();
+              m_mistNr = xml.readElementText().toInt();
           else if (xml.name() == QLatin1String("halfMistNr"))
               m_halfMistNr = xml.readElementText().toInt();
           else if (xml.name() == QLatin1String("penaltysNr"))
@@ -387,9 +387,9 @@ bool Texam::loadFromXml(QXmlStreamReader& xml) {
   }
   if (m_tmpMist != m_mistNr || m_tmpHalf != m_halfMistNr) {
     if (m_tmpMist != m_mistNr)
-      qDebug() << "Mistakes number do not match. Exam file corrupted!" << m_tmpMist << m_mistNr;
+      qDebug() << "[Texam] Mistakes number do not match. Exam file corrupted!" << m_tmpMist << m_mistNr;
     else if (m_tmpHalf != m_halfMistNr)
-      qDebug() << "'Not bad' number do not match. Exam file corrupted!" << m_tmpHalf << m_halfMistNr;
+      qDebug() << "[Texam] 'Not bad' number do not match. Exam file corrupted!" << m_tmpHalf << m_halfMistNr;
     m_mistNr = m_tmpMist; // we try to fix exam file to give proper number of mistakes
     m_halfMistNr = m_tmpHalf;
     ok = false;
@@ -425,7 +425,7 @@ Texam::EerrorType Texam::saveToFile(const QString& fileName) {
       QMessageBox::critical(nullptr, QString(), QObject::tr("Cannot save exam file:\n%1").arg(QString::fromLocal8Bit(qPrintable(file.errorString()))));
       return e_cant_open;
   }
-  qDebug() << "Exam saved to:" << m_fileName;
+  qDebug() << "[Texam] Exam saved to:" << m_fileName;
   return e_file_OK;
 }
 
@@ -473,7 +473,7 @@ void Texam::newAttempt() {
     else if (curQ()->isWrong())
       m_mistNr--;
     else
-      qDebug() << "new attempt called for correct answer!";
+      qDebug() << "[Texam] A new attempt called for correct answer!";
     curQ()->unsetAnswered();
   }
 }
@@ -568,10 +568,10 @@ void Texam::updateBlackCount() {
 bool Texam::readPenaltyFromXml(QList<TQAunit>& blackList, QXmlStreamReader& xml) {
   bool ok = true;
   while (xml.readNextStartElement()) {
-    if (xml.name() == "u") {
+    if (xml.name() == QLatin1String("u")) {
         blackList << TQAunit(this);
         if (!blackList.last().fromXml(xml)) {
-          qDebug() << "Exam has wrong unit" << blackList.size();
+          qDebug() << "[Texam] Exam has wrong unit" << blackList.size();
           blackList.removeLast();
           ok = false;
         }
@@ -585,14 +585,14 @@ bool Texam::readPenaltyFromXml(QList<TQAunit>& blackList, QXmlStreamReader& xml)
 bool Texam::readAnswerFromXml(QList<TQAunit*>& list, QXmlStreamReader& xml) {
   bool ok = true;
   while (xml.readNextStartElement()) {
-    if (xml.name() == "u") {
+    if (xml.name() == QLatin1String("u")) {
       list << new TQAunit(this);
       if (list.last()->fromXml(xml)) {
           grabFromLastUnit();
           if (melodies())
             m_attempts += curQ()->attemptsCount();
       } else {
-          qDebug() << "Exam has wrong unit" << list.size();
+          qDebug() << "[Texam] Exam has wrong unit" << list.size();
           list.removeLast();
           ok = false;
       }
@@ -619,8 +619,8 @@ void Texam::grabFromLastUnit() {
 bool Texam::checkQuestionNumber(int questNr) {
   bool ok = true;
   if (questNr != m_answList.size()) {
-    qDebug() << "Exam questions number read from file" << questNr <<
-    "and those calculated" << m_answList.size() << "do not match. Exam file corrupted.";
+    qDebug() << "[Texam] Exam questions number read from file" << questNr
+             << "and those calculated" << m_answList.size() << "do not match. Exam file corrupted.";
     ok = false;
   }
   return ok;
@@ -634,14 +634,27 @@ void Texam::clearAnswList() {
 }
 
 
-/** This method exist for backward compatibility but is has very rare usage in 'modern' Nootka times  */
+void Texam::transposeAfterBassDropped() {
+  if (m_tune.type() == Ttune::Custom)
+    m_tune.riseOctaveUp();
+  m_level->convFromDropedBass();
+  for (int a = 0; a < m_answList.size(); ++a)
+    m_answList[a]->riseOctaveUp();
+  for (int b = 0; b < m_blackList.size(); ++b)
+    m_blackList[b].riseOctaveUp();
+}
+
+
+/**
+ * This method exist for backward compatibility but is has very rare usage in 'modern' Nootka times
+ */
 void Texam::convertToVersion2() {
   bool hasStyle = false;
   Tnote::EnameStyle randStyles[3];
   if (m_level->canBeName()) {
     // version 1 didn't put proper Tnote::EnameStyle to file - we fixing it
     hasStyle = true;
-    qDebug("Fixing styles of note names in file");
+    qDebug() << "[Texam] Fixing styles of note names in file";
     qsrand(QDateTime::currentDateTimeUtc().toTime_t());
    if (m_level->requireStyle) { // prepare styles array to imitate switching
       randStyles[0] = Tnote::e_italiano_Si;
@@ -708,7 +721,6 @@ void Texam::convertToVersion2() {
       }
     }
   }
-//   qDebug() << "Converted to exam version 2!!!  black list:" << m_blackList.size() << "penaltys:" << m_penaltysNr;
 }
 
 
