@@ -13,8 +13,8 @@ import Nootka.Dialogs 1.0
 
 Old.Dialog {
   id: dialLoader
-  width: Noo.isAndroid() ? parent.width : nootkaWindow.width * 0.9
-  height: Noo.isAndroid() ? parent.height : nootkaWindow.height * 0.9
+  width: nootkaWindow.width * (Noo.isAndroid() ? 1 : 0.9)
+  height: nootkaWindow.height * (Noo.isAndroid() ? 1 : 0.9)
 
   property int page: 0
   property alias standardButtons: box.standardButtons
