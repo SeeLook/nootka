@@ -12,7 +12,7 @@ Item {
   property alias instrument: instrLoad.item
   property Score score
 
-  height: GLOB.instrument.isSax ? parent.height : (GLOB.instrument.type ? nootkaWindow.height / GLOB.instrument.heightPart : 0)
+  height: GLOB.instrument.getItemHeight(nootkaWindow.height)
   width: nootkaWindow.width * (GLOB.instrument.isSax ? 0.15 : 1)
   y: score.y + (GLOB.instrument.isSax ? 0 : score.height)
   x: GLOB.instrument.isSax ? parent.width - width : 0
@@ -24,7 +24,7 @@ Item {
     source: GLOB.instrument.type ? "qrc:/instruments/" +  GLOB.instrument.qmlFile + ".qml" : ""
     onLoaded: {
       if (GLOB.instrument.type === Tinstrument.Piano)
-        instrument.firstOctave = Noo.octave(score.scoreObj.lowestNote())
+        instrument.setAmbitus(score.scoreObj.lowestNote(), score.scoreObj.highestNote())
     }
   }
 
@@ -33,6 +33,6 @@ Item {
   Connections {
     target: score
     enabled: GLOB.instrument.type === Tinstrument.Piano
-    onClefChanged: instrument.firstOctave = Noo.octave(score.scoreObj.lowestNote())
+    onClefChanged: instrument.setAmbitus(score.scoreObj.lowestNote(), score.scoreObj.highestNote())
   }
 }

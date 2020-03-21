@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -61,7 +61,6 @@ QString Tinstrument::glyph() const {
 
 int Tinstrument::clef() const {
   static const quint8 clefArray[INSTR_COUNT] = { 1, 8, 8, 2, 128, 128, 1, 1 };
-  
   return clefArray[static_cast<int>(m_type)];
 }
 
@@ -71,13 +70,6 @@ QString Tinstrument::qmlFile() const {
     "", "Guitar", "Guitar", "Guitar", "Piano", "Bandoneon", "Sax", "Sax"
   };
   return QString(qmlFileArray[static_cast<int>(m_type)]);
-}
-
-
-
-qreal Tinstrument::heightPart() const {
-  static const qreal heightArray[INSTR_COUNT] = { 0.0, 4.0, 4.0, 4.0, 5.0, 3.0, 1.0, 1.0 };
-  return heightArray[static_cast<int>(m_type)];
 }
 
 
@@ -112,6 +104,25 @@ int Tinstrument::fretNumber() const {
     case ClassicalGuitar: return 19;
     case ElectricGuitar: return 23;
     case BassGuitar: return 20;
+    default: return 0;
+  }
+}
+
+
+int Tinstrument::getItemHeight(int mainWindowHeight) {
+  switch (m_type) {
+    case ClassicalGuitar:
+    case ElectricGuitar:
+    case BassGuitar:
+      return mainWindowHeight / 4;
+    case Piano:
+      return mainWindowHeight / 5;
+    case Bandoneon:
+      return mainWindowHeight / 3;
+    case AltSax:
+    case TenorSax:
+      return mainWindowHeight;
+
     default: return 0;
   }
 }

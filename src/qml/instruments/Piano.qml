@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -12,7 +12,7 @@ TpianoBg {
 
   anchors.fill: parent
 
-  keyWidth: Noo.fontSize() * 2
+  keyWidth: height / (Noo.isAndroid() ? 5.5 : 5)
 
   onWantKeyToSelect: selectKey(k > -1 ? (isWhite ? whiteRep.itemAt(k) : whiteRep.itemAt(k).black) : null)
 
@@ -44,7 +44,7 @@ TpianoBg {
       property int nr: index
       source: Noo.pix("pianokey")
       width: Math.round(keyWidth * 0.8); height: instrItem.height / 2
-      x: -keyWidth * 0.4; y: keyWidth
+      x: -keyWidth * 0.4; y: octaveCover.height
       z: 3
       MouseArea {
         id: ma
@@ -111,17 +111,19 @@ TpianoBg {
   }
 
   Rectangle {
-    width: instrItem.width; height: keyWidth; color: "black"
+    id: octaveCover
+    width: instrItem.width; height: Noo.fontSize() * (Noo.isAndroid() ? 1 : 1.5)
+    color: "black"
     Repeater {
       model: Math.floor(keysNumber / 7)
       Rectangle {
         x: margin + index * width
-        width: keyWidth * 7; height: keyWidth
+        width: keyWidth * 7; height: parent.height
         color: index % 2 ? Qt.rgba(1, 1, 1, 0.2) : "black"
         Text {
           anchors.centerIn: parent
           text: octaveName(firstOctave + index) + (GLOB.scientificOctaves ? "  [%1]".arg(firstOctave + index + 3) : "")
-          font { pixelSize: Math.round(keyWidth * 0.6)}
+          font { pixelSize: parent.height * 0.8 }
           color: "white"
         }
       }

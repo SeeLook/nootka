@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -42,7 +42,6 @@ class NOOTKACORE_EXPORT Tinstrument {
   Q_PROPERTY(bool isGuitar READ isGuitar)
   Q_PROPERTY(bool isSax READ isSax)
   Q_PROPERTY(QString qmlFile READ qmlFile)
-  Q_PROPERTY(qreal heightPart READ heightPart)
   Q_PROPERTY(int transposition READ transposition)
   Q_PROPERTY(qreal skipStillerVal READ skipStillerVal)
   Q_PROPERTY(qreal minSplitVol READ minSplitVol)
@@ -94,16 +93,16 @@ public:
        */
   QString qmlFile() const;
 
-      /**
-       * Main Nootka window height divider (height of instrument component)
-       */
-  qreal heightPart() const;
-
   int transposition() const;
 
   qreal skipStillerVal() const;
   qreal minSplitVol() const;
   int fretNumber() const;
+
+      /**
+       * Returns desired instrument item height calculated from Nootka main window height
+       */
+  Q_INVOKABLE int getItemHeight(int mainWindowHeight);
 
 private:
   Etype             m_type;

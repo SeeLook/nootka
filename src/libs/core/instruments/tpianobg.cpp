@@ -45,6 +45,7 @@ void TpianoBg::setKeyWidth(qreal kw) {
   if (m_keyWidth != kw) {
     m_keyWidth = kw;
     calculateMetrics(width());
+    emit keyWidthChanged();
   }
 }
 
@@ -154,6 +155,14 @@ void TpianoBg::setKeyHighlight(QQuickItem* hi) {
 }
 
 
+void TpianoBg::setAmbitus(const Tnote& loNote, const Tnote& hiNote) {
+  m_loNote = loNote;
+  m_hiNote = hiNote;
+  setFirstOctave(m_loNote.octave());
+  calculateMetrics(width());
+}
+
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
@@ -169,15 +178,9 @@ void TpianoBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeome
 
 void TpianoBg::calculateMetrics(int newWidth) {
   int oldKeysNr = m_keysNumber;
-  m_keysNumber = newWidth / qRound(m_keyWidth);
-  if (m_keysNumber > 56) {
-    m_keysNumber = 56;
-    int oldKeyWidth = m_keyWidth;
-    m_keyWidth = newWidth / m_keysNumber;
-    if (oldKeyWidth != m_keyWidth)
-      emit keyWidthChanged();
-  }
+  int oldMargin = m_margin;
+  m_keysNumber = static_cast<int>(m_hiNote.octave() - m_loNote.octave() + 1) * 7;
   m_margin = (newWidth - m_keysNumber * qFloor(m_keyWidth)) / 2;
-  if (oldKeysNr != m_keysNumber)
+  if (oldKeysNr != m_keysNumber || oldMargin != m_margin)
     emit keysNumberChanged();
 }

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -37,7 +37,7 @@ class NOOTKACORE_EXPORT TpianoBg : public TcommonInstrument
   Q_PROPERTY(int keysNumber READ keysNumber NOTIFY keysNumberChanged)
   Q_PROPERTY(QQuickItem* selectedKey READ selectedKey WRITE setSelectedKey NOTIFY selectedKeyChanged)
   Q_PROPERTY(QQuickItem* keyHighlight READ keyHighlight WRITE setKeyHighlight)
-  Q_PROPERTY(int margin READ margin NOTIFY keyWidthChanged)
+  Q_PROPERTY(int margin READ margin NOTIFY keysNumberChanged)
 
 public:
   explicit TpianoBg(QQuickItem* parent = nullptr);
@@ -83,6 +83,8 @@ public:
 
   Q_INVOKABLE void selectKey(QQuickItem* keyItem);
 
+  Q_INVOKABLE void setAmbitus(const Tnote& loNote, const Tnote& hiNote);
+
 signals:
   void keyWidthChanged();
   void keysNumberChanged();
@@ -105,6 +107,7 @@ private:
   bool                  m_readOnly = false;
   QQuickItem           *m_selectedKey = nullptr;
   QQuickItem           *m_keyHighlight = nullptr; /**< Key highlighting item (Rectangle) */
+  Tnote                 m_loNote, m_hiNote;
 };
 
 #endif // TPIANOBG_H
