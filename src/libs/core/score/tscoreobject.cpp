@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -974,7 +974,7 @@ Tnote TscoreObject::highestNote() {
     case Tclef::Treble_G_8down: return Tnote(4, 3);
     case Tclef::Bass_F: return Tnote(6, 2);
     case Tclef::Alto_C: return Tnote(5, 3);
-    case Tclef::Tenor_C: return Tnote(3, 4);
+    case Tclef::Tenor_C: return Tnote(3, 3);
     case Tclef::PianoStaffClefs: return Tnote(1, 4);
     default: return Tnote(); // percussion clef (no clef) and unsupported dropped bass
   }
