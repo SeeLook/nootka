@@ -20,6 +20,8 @@
 #if defined (Q_OS_ANDROID)
   #include "tqtaudioin.h"
   #include "tqtaudioout.h"
+  #include <QtAndroidExtras/qandroidfunctions.h>
+  #include <QtAndroidExtras/qandroidjnienvironment.h>
 #else
 //   #include "tmidiout.h"
   #include "trtaudioout.h"
@@ -93,6 +95,8 @@ void Tsound::init() {
       emit initialized();
   });
 #if defined (Q_OS_ANDROID)
+  m_currVol = currentVol();
+  m_maxVol = maxVolRange();
   qApp->installEventFilter(this);
   m_volKeyTimer.start();
 #endif
@@ -492,6 +496,22 @@ void Tsound::setTunerMode(bool isTuner) {
 }
 
 
+#if defined (Q_OS_ANDROID)
+int Tsound::maxVolRange() const {
+  return QAndroidJniObject::callStaticMethod<jint>("net/sf/nootka/ToutVolume", "maxStreamVolume");
+}
+
+
+int Tsound::currentVol() const {
+  return QAndroidJniObject::callStaticMethod<jint>("net/sf/nootka/ToutVolume", "streamVolume");
+}
+
+
+void Tsound::setVol(int v) {
+  QAndroidJniObject::callStaticMethod<void>("net/sf/nootka/ToutVolume", "setStreamVolume", "(I)V", v);
+}
+#endif
+
 
 #if !defined (Q_OS_ANDROID)
 void Tsound::setDumpFileName(const QString& fName) {
@@ -561,7 +581,17 @@ bool Tsound::eventFilter(QObject* watched, QEvent* event) {
       if (ke->key() == Qt::Key_VolumeDown || ke->key() == Qt::Key_VolumeUp) {
         if (m_volKeyTimer.elapsed() > 100) {
             if (!m_tunerMode) {
-                QTimer::singleShot(10, this, &Tsound::volumeKeyPressed);
+                if (playing()) {
+                    QAndroidJniObject::callStaticMethod<void>("net/sf/nootka/ToutVolume", "show");
+                    if (ke->key() == Qt::Key_VolumeDown)
+                      m_currVol--;
+                    else
+                      m_currVol++;
+                    m_currVol = qBound(0, m_currVol, m_maxVol);
+                    setVol(m_currVol);
+                    m_currVol = QAndroidJniObject::callStaticMethod<jint>("net/sf/nootka/ToutVolume", "streamVolume");
+                } else
+                    QTimer::singleShot(10, this, &Tsound::volumeKeyPressed);
             } else {
                 if (ke->key() == Qt::Key_VolumeDown)
                     QTimer::singleShot(10, this, &Tsound::volumeDownPressed);
@@ -571,22 +601,7 @@ bool Tsound::eventFilter(QObject* watched, QEvent* event) {
             m_volKeyTimer.start();
         }
       }
-  }/* else if (event->type() == QEvent::KeyRelease) {
-    auto ke = static_cast<QKeyEvent*>(event);
-    if (ke->key() == Qt::Key_VolumeDown || ke->key() == Qt::Key_VolumeUp) {
-      if (m_volKeyTimer.elapsed() > 100) {
-          if (!m_tunerMode) {
-              QTimer::singleShot(10, this, &Tsound::volumeKeyPressed);
-          } else {
-              if (ke->key() == Qt::Key_VolumeDown)
-                  QTimer::singleShot(10, this, &Tsound::volumeDownPressed);
-              else
-                  QTimer::singleShot(10, this, &Tsound::volumeUpPressed);
-          }
-          m_volKeyTimer.start();
-      }
-    }
-  }*/
+  }
   return QObject::eventFilter(watched, event);
 }
 #endif

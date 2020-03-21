@@ -59,12 +59,6 @@ public:
   int workFreq() const { return m_workFreq; }
   void setWorkFreq(int wFreq);
 
-#if defined (Q_OS_ANDROID)
-  Q_INVOKABLE int maxVolRange() const;
-  Q_INVOKABLE int currentVol() const;
-  Q_INVOKABLE void setVol(int v);
-#endif
-
 signals:
   void deviationChanged();
   void frequencyChanged();

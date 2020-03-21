@@ -99,23 +99,6 @@ void TtunerDialogItem::setWorkFreq(int wFreq) {
   }
 }
 
-
-#if defined (Q_OS_ANDROID)
-int TtunerDialogItem::maxVolRange() const {
-  return QAndroidJniObject::callStaticMethod<jint>("net/sf/nootka/ToutVolume", "maxStreamVolume");
-}
-
-
-int TtunerDialogItem::currentVol() const {
-  return QAndroidJniObject::callStaticMethod<jint>("net/sf/nootka/ToutVolume", "streamVolume");
-}
-
-
-void TtunerDialogItem::setVol(int v) {
-  QAndroidJniObject::callStaticMethod<void>("net/sf/nootka/ToutVolume", "setStreamVolume", "(I)V", v);
-}
-#endif
-
 //#################################################################################################
 //###################              PRIVATE             ############################################
 //#################################################################################################

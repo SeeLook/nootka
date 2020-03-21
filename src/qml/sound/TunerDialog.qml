@@ -98,11 +98,11 @@ TtunerDialogItem {
       Tslider {
         id: volSlider
         width: (tunerDialog.width - exTile.width) * 0.5
-        to: Noo.isAndroid() ? maxVolRange() : 100
-        value: Noo.isAndroid() ? currentVol() : 50
+        to: Noo.isAndroid() ? SOUND.maxVolRange() : 100
+        value: Noo.isAndroid() ? SOUND.currentVol() : 50
         onValueChanged: {
           if (Noo.isAndroid())
-            setVol(value)
+            SOUND.setVol(value)
         }
       }
     }

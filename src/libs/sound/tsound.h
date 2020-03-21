@@ -208,7 +208,11 @@ public:
   bool tunerMode() const { return m_tunerMode; }
   void setTunerMode(bool isTuner);
 
-#if !defined (Q_OS_ANDROID)
+#if defined (Q_OS_ANDROID)
+  Q_INVOKABLE int maxVolRange() const;
+  Q_INVOKABLE int currentVol() const;
+  Q_INVOKABLE void setVol(int v);
+#else
   void setDumpFileName(const QString& fName);
 #endif
 
@@ -265,6 +269,11 @@ private:
   bool                    m_metronomeIsRun = false;
 
   static Tsound          *m_instance;
+
+#if defined (Q_OS_ANDROID)
+  int                     m_maxVol; /**< Maximal volume of Android device */
+  int                     m_currVol; /**< Current volume of Android device */
+#endif
 
 private:
   void playingStartedSlot();
