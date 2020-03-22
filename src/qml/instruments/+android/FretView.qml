@@ -55,6 +55,7 @@ TipRect {
       }
     }
     MouseArea {
+      enabled: fView.scale === 1
       anchors.fill: parent
       drag.target: fView
       drag.minimumX: 0; drag.maximumX: instrItem.width - width
