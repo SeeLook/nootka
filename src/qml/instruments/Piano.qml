@@ -37,25 +37,6 @@ TpianoBg {
     z: -1
   }
 
-  Component {
-    id: blackKeyComp
-    Image {
-      id: blackKey
-      property int nr: index
-      source: Noo.pix("pianokey")
-      width: Math.round(keyWidth * 0.8); height: instrItem.height / 2
-      x: -keyWidth * 0.4; y: octaveCover.height
-      z: 3
-      MouseArea {
-        id: ma
-        anchors.fill: parent
-        hoverEnabled: !readOnly
-        onEntered: activeKey = blackKey
-        onClicked: selectedKey = blackKey
-      }
-    }
-  }
-
   Row {
     Rectangle {
       width: (instrItem.width - keysNumber * Math.floor(keyWidth)) / 2
@@ -65,23 +46,8 @@ TpianoBg {
     Repeater {
       id: whiteRep
       model: keysNumber
-      Rectangle {
-        id: key
-        property int nr: index
-        property Item black: null
-        width: keyWidth; height: instrItem.height; radius: width / 5; color: "white"
-        border { width: Math.round(keyWidth / 16); color: "black" }
-        MouseArea {
-          id: ma
-          anchors.fill: parent
-          hoverEnabled: !readOnly
-          onEntered: activeKey = key
-          onClicked: selectedKey = key
-        }
-        Component.onCompleted: {
-          if (index % 7 !== 0 && index % 7 !== 3)
-            black = blackKeyComp.createObject(key, { "nr": index })
-        }
+      PianoKeyWhite {
+        nr: index
       }
     }
     Rectangle {

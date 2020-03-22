@@ -79,6 +79,8 @@
     <file alias="instruments/+android/Guitar.qml">qml/instruments/+android/Guitar.qml</file>
     <file alias="instruments/FretView.qml">qml/instruments/+android/FretView.qml</file>
     <file alias="instruments/Piano.qml">qml/instruments/Piano.qml</file>
+    <file alias="instruments/PianoKeyBlack.qml">qml/instruments/PianoKeyBlack.qml</file>
+    <file alias="instruments/PianoKeyWhite.qml">qml/instruments/PianoKeyWhite.qml</file>
     <file alias="instruments/Bandoneon.qml">qml/instruments/Bandoneon.qml</file>
     <file alias="instruments/Sax.qml">qml/instruments/Sax.qml</file>
     <file alias="instruments/OutScaleTip.qml">qml/instruments/OutScaleTip.qml</file>
