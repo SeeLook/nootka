@@ -116,7 +116,11 @@ int Tinstrument::getItemHeight(int mainWindowHeight) {
     case BassGuitar:
       return mainWindowHeight / 4;
     case Piano:
+#if defined (Q_OS_ANDROID)
+      return qRound(static_cast<qreal>(mainWindowHeight) * 0.22);
+#else
       return mainWindowHeight / 5;
+#endif
     case Bandoneon:
       return mainWindowHeight / 3;
     case AltSax:

@@ -126,6 +126,13 @@ QString TpianoBg::octaveName(int oNr) const {
 }
 
 
+int TpianoBg::zoomViewX(qreal xPos, qreal zoomKeyW) {
+  qreal k = (xPos - static_cast<qreal>(m_margin)) / m_keyWidth; // key number
+  return qBound(0.0,
+                static_cast<qreal>(qFloor(k / 7.0) * 7 * m_keyWidth + m_margin) + 3.5 * m_keyWidth - zoomKeyW * 3.5,
+                width() - zoomKeyW * 7.0);
+}
+
 
 void TpianoBg::selectKey(QQuickItem* keyItem) {
   if (keyItem != m_selectedKey) {

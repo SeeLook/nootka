@@ -11,14 +11,15 @@ TpianoBg {
   id: instrItem
 
   anchors.fill: parent
-
   keyWidth: height / (Noo.isAndroid() ? 5.5 : 5)
-
   onWantKeyToSelect: selectKey(k > -1 ? (isWhite ? whiteRep.itemAt(k) : whiteRep.itemAt(k).black) : null)
+
+  function getKey(keyNr) { return whiteRep.itemAt(keyNr) }
 
 //   private
   property var activeKey: null
   property var correctAnim: null
+  property var pianoZoom: null
 
   onCorrectInstrument: {
     if (!correctAnim) {
@@ -48,6 +49,8 @@ TpianoBg {
       model: keysNumber
       PianoKeyWhite {
         nr: index
+        onEntered: activeKey = key
+        onClicked: selectedKey = key
       }
     }
     Rectangle {
@@ -85,7 +88,7 @@ TpianoBg {
       Rectangle {
         x: margin + index * width
         width: keyWidth * 7; height: parent.height
-        color: index % 2 ? Qt.rgba(1, 1, 1, 0.2) : "black"
+        color: index % 2 ? "#303030" : "black"
         Text {
           anchors.centerIn: parent
           text: octaveName(firstOctave + index) + (GLOB.scientificOctaves ? "  [%1]".arg(firstOctave + index + 3) : "")
@@ -94,5 +97,17 @@ TpianoBg {
         }
       }
     }
+  }
+
+  Component.onCompleted: {
+    if (Noo.isAndroid() && Noo.fingerPixels() * 4 > height * 1.1) {
+      var pz = Qt.createComponent("qrc:/instruments/PianoZoom.qml")
+      pianoZoom = pz.createObject(nootkaWindow.contentItem.parent)
+    }
+  }
+
+  Component.onDestruction: {
+    if (pianoZoom)
+      pianoZoom.destroy() // it belongs to another parent
   }
 }

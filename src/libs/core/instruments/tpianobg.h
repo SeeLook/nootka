@@ -75,6 +75,12 @@ public:
 
   Q_INVOKABLE QString octaveName(int oNr) const;
 
+      /**
+       * Calculates zoom view X coordinate from clicked @p xPos of piano widget.
+       * @p zoomKeyW is the width of piano key in zoomed preview
+       */
+  Q_INVOKABLE int zoomViewX(qreal xPos, qreal zoomKeyW);
+
   QQuickItem* selectedKey() { return m_selectedKey; }
   void setSelectedKey(QQuickItem* it);
 

@@ -19,7 +19,7 @@ Image {
     id: ma
     anchors.fill: parent
     hoverEnabled: !instrItem.readOnly
-    onEntered: instrItem.activeKey = blackKey
-    onClicked: instrItem.selectedKey = blackKey
+    onEntered: whiteKey.entered(blackKey)
+    onClicked: whiteKey.clicked(blackKey)
   }
 }

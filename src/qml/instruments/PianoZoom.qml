@@ -1,0 +1,97 @@
+/** This file is part of Nootka (http://nootka.sf.net)               *
+ * Copyright (C) 2020 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
+
+import QtQuick 2.9
+
+import "../"
+
+
+TipRect {
+  id: octaveView
+
+  property bool zoomed: false
+  property int octave: ((octaveView.x + octaveView.width / 2) / parent.width) * octCount
+  property int octCount: instrItem.keysNumber / 7
+  property int zoomKey: instrItem.selectedKey && Math.floor(instrItem.selectedKey.nr / 7) === octave ? instrItem.selectedKey.nr % 7 : -1
+
+  scale: zoomed ? 1 : 0
+  Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation {} }
+  Behavior on x { enabled: GLOB.useAnimations; NumberAnimation {} }
+
+  width: keyRow.width; height: keyRow.height
+  y: parent.height - height - 1
+  z: 200
+  color: "black"
+
+  Item { // overlay
+    parent: octaveView.parent
+    width: parent.width; height: zoomed ? parent.height : instrItem.height
+    y: nootkaWindow.height - height
+    z: 199
+    MouseArea {
+      anchors.fill: parent
+      hoverEnabled: !instrItem.readOnly
+      onClicked: {
+        if (!zoomed)
+          octaveView.x = instrItem.zoomViewX(mouse.x, octaveView.height / 6)
+        octaveView.zoomed = !octaveView.zoomed
+      }
+    }
+  }
+
+  MouseArea {
+    enabled: zoomed
+    anchors.fill: parent
+    drag.target: octaveView
+    drag.minimumX: 0; drag.maximumX: instrItem.width - width
+    drag.axis: Drag.XAxis
+    drag.threshold: height * 0.3
+    cursorShape: drag.active ? Qt.DragMoveCursor : Qt.ArrowCursor
+    drag.filterChildren: true
+    drag.onActiveChanged: {
+      if (!drag.active)
+        octaveView.x = Noo.bound(0, instrItem.margin + (octave * 7 + 3.5) * instrItem.keyWidth - octaveView.width / 2, nootkaWindow.width - octaveView.width)
+    }
+
+    Row {
+      id: keyRow
+      Repeater {
+        id: keyRep
+        model: 7
+        PianoKeyWhite {
+          nr: index
+          enabled: zoomed
+          height: Math.max(Noo.fingerPixels() * 4, instrItem.height * 1.1)
+          width: height / 4
+          onClicked: {
+            var k = instrItem.getKey(octave * 7 + key.nr)
+            instrItem.selectedKey = key.z > 0 ? k.black : k
+          }
+        }
+      }
+    }
+
+    Rectangle { // piano key highlight
+      id: keyHigh
+      parent: zoomKey > -1 ? (instrItem.selectedKey.z > 0 ? keyRep.itemAt(zoomKey).black : keyRep.itemAt(zoomKey)) : null
+      anchors.fill: parent ? parent : undefined
+      color: GLOB.selectedColor
+      border { width: Math.round(width / 16); color: "black" }
+      radius: width / 5
+      z: 2
+    }
+
+    Rectangle {
+      width: keyRow.width; height: Noo.fontSize() * (Noo.isAndroid() ? 1 : 1.5) + 2
+      y: -2
+      color: octave % 2 ? "#303030" : "black"
+      Text {
+        anchors.centerIn: parent
+        text: octaveName(firstOctave + octave) + (GLOB.scientificOctaves ? "  [%1]".arg(firstOctave + index + 3) : "")
+        font { pixelSize: parent.height * 0.8 }
+        color: "white"
+      }
+    }
+  }
+}

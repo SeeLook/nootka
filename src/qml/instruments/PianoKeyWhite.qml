@@ -11,6 +11,9 @@ Rectangle {
   property int nr: -1
   property Item black: null
 
+  signal entered(var key)
+  signal clicked(var key)
+
   width: instrItem.keyWidth; height: instrItem.height;
   radius: width / 5; color: "white"
   border { width: Math.round(width / 16); color: "black" }
@@ -19,8 +22,8 @@ Rectangle {
     id: ma
     anchors.fill: parent
     hoverEnabled: !instrItem.readOnly
-    onEntered: instrItem.activeKey = whiteKey
-    onClicked: instrItem.selectedKey = whiteKey
+    onEntered: whiteKey.entered(whiteKey)
+    onClicked: whiteKey.clicked(whiteKey)
   }
 
   Component.onCompleted: {
