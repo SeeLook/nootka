@@ -104,37 +104,30 @@ TtipHandler::TtipHandler(Texam* exam, QObject *parent) :
   QObject(parent),
   m_exam(exam),
   m_timerToConfirm(new QTimer(this)),
+  m_timerOfWhatNext(new QTimer(this)),
   m_questTipPosType(e_bottomRight),
   m_iconSize(bigFont() * 1.2)
 {
  connect(m_timerToConfirm, &QTimer::timeout, this, &TtipHandler::showConfirmTipSlot);
+ connect(m_timerOfWhatNext, &QTimer::timeout, this, [=]{
+   m_timerOfWhatNext->stop();
+   emit wantWhatNextTip(m_whatNextText, qApp->palette().highlight().color(), getTipPosition(determineTipPos()));
+  });
  qApp->installEventFilter(this);
 //   int levelMessageDelay = 1;
 //   if (TexecutorSupply::paramsChangedMessage())
 //       levelMessageDelay = 7000;
 //  QTimer::singleShot(levelMessageDelay, this, SLOT(levelStatusMessage()));
-  m_prevWidth = EXECUTOR->width();
-  connect(EXECUTOR, &TexamExecutor::widthChanged, [=]{
-    qreal sc = EXECUTOR->width() / m_prevWidth;
-    for (int t = 0; t < TIP_POS_NUM; ++t) {
-      if (!m_posOfQuestTips[t].isNull())
-        m_posOfQuestTips[t] = QPointF(m_posOfQuestTips[t].x() * sc, m_posOfQuestTips[t].y() * sc);
-    }
-    m_prevWidth = EXECUTOR->width();
-  });
 }
 
-TtipHandler::~TtipHandler()
-{}
+TtipHandler::~TtipHandler() {
+  m_timerToConfirm->stop();
+  m_timerOfWhatNext->stop();
+}
 
 
 void TtipHandler::changeExam(Texam* newExam) {
   m_exam = newExam;
-}
-
-
-void TtipHandler::setTipPos(const QPointF& p) {
-  m_posOfQuestTips[static_cast<int>(m_questTipPosType)] = p;
 }
 
 
@@ -345,7 +338,7 @@ void TtipHandler::showWhatNextTip(bool isCorrect, bool toCorrection) {
   if (isCorrect)
     deleteQuestionTip();
   deleteWhatNextTip();
-  QString whatNextText = QLatin1String("<p style=\"text-align: center; font-size: large;\">") + startTipText();
+  m_whatNextText = QLatin1String("<p style=\"text-align: center; font-size: large;\">") + startTipText();
   const QString br = QStringLiteral("<br>");
   const QString space = QStringLiteral(" ");
   const QString a = QStringLiteral("</a>");
@@ -356,7 +349,7 @@ void TtipHandler::showWhatNextTip(bool isCorrect, bool toCorrection) {
       t = tr("To try this melody again");
       href = QStringLiteral("<a href=\"newAttempt\">");
     }
-    whatNextText += br + t + space +
+    m_whatNextText += br + t + space +
         TexamHelp::clickSomeButtonTxt(href + NOO->pixToHtml(QLatin1String("prevQuest"), m_iconSize) + a)
         + space + TexamHelp::orPressBackSpace();
   }
@@ -364,15 +357,16 @@ void TtipHandler::showWhatNextTip(bool isCorrect, bool toCorrection) {
     QString t = tr("To see corrected answer");
     if (m_exam->curQ()->melody())
         t = tr("To see some hints");
-    whatNextText += br + t + space +
+    m_whatNextText += br + t + space +
       TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"correct\">") + NOO->pixToHtml(QLatin1String("correct"), m_iconSize) + a)
       + br + TexamHelp::orPressEnterKey();
     if (EXECUTOR->correctAct())
       EXECUTOR->correctAct()->shake();
   }
-  whatNextText += br + TexamHelp::toStopExamTxt(QLatin1String("<a href=\"stopExam\">")
+  m_whatNextText += br + TexamHelp::toStopExamTxt(QLatin1String("<a href=\"stopExam\">")
                + NOO->pixToHtml(QLatin1String("stopExam"), m_iconSize) + a) + QLatin1String("</p>");
-  QTimer::singleShot(1000, [=]{ emit wantWhatNextTip(whatNextText, qApp->palette().highlight().color(), getTipPosition(determineTipPos())); });
+  m_timerOfWhatNext->start(1000);
+//   QTimer::singleShot(1000, [=]{ emit wantWhatNextTip(m_whatNextText, qApp->palette().highlight().color(), getTipPosition(determineTipPos())); });
   if (!isCorrect) {
     if (m_exam->melodies())
       EXECUTOR->newAtemptAct()->shake();
@@ -405,6 +399,7 @@ void TtipHandler::showQuestionTip() {
                              nullptr);
 #endif
 
+  deleteWhatNextTip();
   if (!GLOB->E->autoNextQuest)
     deleteResultTip();
   deleteQuestionTip();
@@ -539,7 +534,10 @@ void TtipHandler::showQuestionTip() {
   }
   questText += QLatin1String("</center>");
   m_questTipPosType = determineTipPos();
-  emit wantQuestionTip(questText, m_posOfQuestTips[m_questTipPosType].isNull() ? getTipPosition(m_questTipPosType) : m_posOfQuestTips[m_questTipPosType]);
+  QPointF p(m_factorPosOfQT[m_questTipPosType].x() * EXECUTOR->width(), m_factorPosOfQT[m_questTipPosType].y() * EXECUTOR->height());
+  if (m_factorPosOfQT[m_questTipPosType].isNull())
+    p = getTipPosition(m_questTipPosType);
+  emit wantQuestionTip(questText, p);
 //  m_questionTip->setMinimized(m_minimizedQuestion);
 }
 
@@ -752,6 +750,8 @@ void TtipHandler::deleteTryAgainTip() {
 
 void TtipHandler::deleteQuestionTip() {
   if (m_questionTip) {
+    m_factorPosOfQT[m_questTipPosType].setX((m_questionTip->x() + m_questionTip->width() / 2.0) / EXECUTOR->width());
+    m_factorPosOfQT[m_questTipPosType].setY((m_questionTip->y() + m_questionTip->height() / 2.0) / EXECUTOR->height());
     m_questionTip->deleteLater();
     m_questionTip = nullptr;
   }
@@ -775,6 +775,7 @@ void TtipHandler::deleteResultTip() {
 
 
 void TtipHandler::deleteWhatNextTip() {
+  m_timerOfWhatNext->stop();
   if (m_whatNextTip) {
     m_whatNextTip->deleteLater();
     m_whatNextTip = nullptr;
@@ -782,18 +783,17 @@ void TtipHandler::deleteWhatNextTip() {
 }
 
 
-
 QPointF TtipHandler::getTipPosition(TtipHandler::EtipPos tp) {
-  qreal offY = NOO->isAndroid() ? 0.0 : EXECUTOR->height() / 14; // controls coordinates are sifted by tool bar height
+  qreal offY = NOO->isAndroid() ? 0.0 : EXECUTOR->height() / 14.0; // controls coordinates are shifted by tool bar height
   if (tp == e_nameOver && NOTENAME)
-    return QPointF(NOTENAME->x() + NOTENAME->width() / 2.0, NOTENAME->y() + NOTENAME->height() / 2.0 + offY);
+      return QPointF(NOTENAME->x() + NOTENAME->width() / 2.0, NOTENAME->y() + NOTENAME->height() / 2.0 + offY);
   else if (tp == e_scoreOver)
-    return QPointF(NOO->mainScore()->x() + NOO->mainScore()->width() / 2.0, NOO->mainScore()->y() + NOO->mainScore()->height() / 2.0 + offY);
-  else if (tp == e_instrumentOver && !GLOB->instrument().isSax())
-    return QPointF(NOO->instrument()->x() + NOO->instrument()->width() / 2.0,
+      return QPointF( NOO->mainScore()->x() + NOO->mainScore()->width() / 2.0, NOO->mainScore()->y() + NOO->mainScore()->height() / 2.0 + offY);
+  else if (tp == e_instrumentOver && !GLOB->instrument().isSax()) {
+      return QPointF(NOO->instrument()->x() + NOO->instrument()->width() / 2.0,
                    NOO->mainScore()->y() + NOO->mainScore()->height() + NOO->instrument()->height() / 2.0 + offY);
-  else
-    return QPointF(EXECUTOR->width() * 0.75, EXECUTOR->height() * 0.7);
+  } else
+      return QPointF(EXECUTOR->width() * 0.75, EXECUTOR->height() * 0.7);
 }
 
 

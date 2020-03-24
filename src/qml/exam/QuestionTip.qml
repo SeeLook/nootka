@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -9,7 +9,7 @@ ExamTip {
   id: examTip
 
   bg: GLOB.wrongColor
-  font.pixelSize: Noo.fontSize() * 1.25
+  font.pixelSize: Noo.fontSize() * (Noo.isAndroid() ? 1 : 1.25)
   width: textItem.width + height / 2
 
   MouseArea {
@@ -33,10 +33,6 @@ ExamTip {
   Component.onCompleted: {
     if (GLOB.useAnimations)
       rotation = 360
-  }
-  Component.onDestruction: {
-    if (tipHandler)
-      tipHandler.tipPos = Qt.point((x + width / 2) / scale, (y + height / 2) / scale)
   }
 
   Behavior on scale { NumberAnimation { duration: 300 }}

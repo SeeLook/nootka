@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -48,7 +48,6 @@ class TtipHandler : public QObject
 
   Q_OBJECT
 
-  Q_PROPERTY(QPointF tipPos READ tipPos WRITE setTipPos)
   Q_PROPERTY(QQuickItem* startTip READ startTip WRITE setStartTip)
   Q_PROPERTY(QQuickItem* tryAgainTip READ tryAgainTip WRITE setTryAgainTip)
   Q_PROPERTY(QQuickItem* questionTip READ questionTip WRITE setQuestionTip)
@@ -64,15 +63,12 @@ public:
      * Number of enumerators has to correspond with @p TIP_POS_NUM definition
      */
   enum EtipPos {
-    e_instrumentOver = 0, e_scoreOver = 1, e_nameOver = 2, e_bottomRight
+    e_instrumentOver = 0, e_scoreOver = 1, e_nameOver = 2, e_bottomRight = 3
   };
   Q_ENUM(EtipPos)
 
   TtipHandler(Texam* exam, QObject* parent = nullptr);
   ~TtipHandler() override;
-
-  QPointF tipPos() const { return m_lastTipPos; }
-  void setTipPos(const QPointF& p);
 
   QQuickItem* startTip() { return m_startTip; }
   void setStartTip(QQuickItem* stTip) { m_startTip = stTip; }
@@ -215,15 +211,20 @@ private:
 //  double                          m_scale;
 
   Texam                             *m_exam;
-  QTimer                            *m_timerToConfirm;
-  qreal                              m_prevWidth;
+  QTimer                            *m_timerToConfirm, *m_timerOfWhatNext;
+  QString                            m_whatNextText;
 //  TfingerPos                     m_goodPos;
- QPointF                             m_posOfQuestTips[TIP_POS_NUM];
+
+    /**
+     * @p m_factorPosOfQT - factor position of Question Tip
+     * Coordinates of every array element represent position of the tip center point
+     * as a factor of main window width and height - in range [0.0 - 1.0]
+     */
+ QPointF                             m_factorPosOfQT[TIP_POS_NUM];
 //   bool                               m_minimizedQuestion = false;
   bool                               m_melodyCorrectMessage = false;
   EtipPos                            m_questTipPosType; /**< Kind of question tip position */
   int                                m_iconSize; /**< Icon image size on tips calculated from actual font metrics. */
-  QPointF                            m_lastTipPos;
   QQuickItem                        *m_startTip = nullptr;
   QQuickItem                        *m_tryAgainTip = nullptr;
   QQuickItem                        *m_questionTip = nullptr;
@@ -240,14 +241,6 @@ private:
   void deleteWhatNextTip();
   void deleteConfirmTip();
   QPointF getTipPosition(EtipPos tp);
-//  void setResultPos();
-//  void setWhatNextPos();
-//  void setStartTipPos();
-//  void setQuestionPos();
-//  void setTryAgainPos();
-//  void setConfirmPos();
-//  void setOutTunePos();
-//  void updateRelatedPoint();
  EtipPos determineTipPos();
 
 };
