@@ -76,39 +76,44 @@ QPointF TguitarBg::fretToPos(const TfingerPos& pos) const {
 void TguitarBg::setNote(const Tnote& n, quint32 noteDataValue) {
   Q_UNUSED(noteDataValue)
   if (!p_note.compareNotes(n)) {
-    short noteNr = n.chromatic();
-    bool foundPos = false;
-    bool doShow = n.isValid();
-    for (int s = 0; s < 6; ++ s) {
-      auto strNr = GLOB->strOrder(s);
-      int fret = noteNr - GLOB->Gtune()->strChromatic(strNr + 1);
-      if (doShow && fret >= 0 && fret <= static_cast<int>(GLOB->GfretsNumber)) { // found
-          if (fret == 0) { // open string
-              m_fingerItems[strNr]->setVisible(false);
-              m_stringItems[strNr]->setVisible(true);
-          } else { // some fret
-              m_fingerItems[strNr]->setVisible(true);
-              auto p = fretToPos(TfingerPos(static_cast<unsigned char>(strNr + 1), static_cast<unsigned char>(fret)));
-              m_fingerItems[strNr]->setX(p.x());
-              m_fingerItems[strNr]->setY(m_stringItems[strNr]->y() - m_fingerItems[strNr]->height() / 2.0);
-              m_stringItems[strNr]->setVisible(false);
-          }
-          foundPos = true;
-          if (!GLOB->GshowOtherPos)
-            doShow = false;
-      } else { // not found on this string or no need to show - hide then
-          m_fingerItems[strNr]->setVisible(false);
-          m_stringItems[strNr]->setVisible(false);
+      short noteNr = n.chromatic();
+      bool foundPos = false;
+      bool doShow = n.isValid();
+      for (int s = 0; s < 6; ++ s) {
+        auto strNr = GLOB->strOrder(s);
+        int fret = noteNr - GLOB->Gtune()->strChromatic(strNr + 1);
+        if (doShow && fret >= 0 && fret <= static_cast<int>(GLOB->GfretsNumber)) { // found
+            if (fret == 0) { // open string
+                m_fingerItems[strNr]->setVisible(false);
+                m_stringItems[strNr]->setVisible(true);
+            } else { // some fret
+                m_fingerItems[strNr]->setVisible(true);
+                auto p = fretToPos(TfingerPos(static_cast<unsigned char>(strNr + 1), static_cast<unsigned char>(fret)));
+                m_fingerItems[strNr]->setX(p.x());
+                m_fingerItems[strNr]->setY(m_stringItems[strNr]->y() - m_fingerItems[strNr]->height() / 2.0);
+                m_stringItems[strNr]->setVisible(false);
+            }
+            foundPos = true;
+            if (!GLOB->GshowOtherPos)
+              doShow = false;
+        } else { // not found on this string or no need to show - hide then
+            m_fingerItems[strNr]->setVisible(false);
+            m_stringItems[strNr]->setVisible(false);
+        }
       }
-    }
-    setOutOfScale(!foundPos && n.isValid());
-    if (outOfScale())
+      setOutOfScale(!foundPos && n.isValid());
+      if (outOfScale())
         p_note.setNote(0); // invalidate it
-    else
+      else
         p_note = n;
 #if defined (Q_OS_ANDROID)
-    emit noteWasSet();
+      emit noteWasSet();
 #endif
+  } else {
+    if (p_wrongItem)
+      p_wrongItem->setVisible(false);
+    if (p_goodItem)
+      p_goodItem->setVisible(false);
   }
   if (m_highlightedString && !n.isValid()) {
     m_highlightedString->setVisible(false);
