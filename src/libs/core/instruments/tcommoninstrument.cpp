@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -30,6 +30,11 @@ TcommonInstrument::TcommonInstrument(QQuickItem* parent) :
 }
 
 
+TcommonInstrument::~TcommonInstrument() {
+  restoreAfterExam();
+}
+
+
 void TcommonInstrument::markBorder(QQuickItem* item, int borderWidth, const QColor& borderColor) {
   auto border = qvariant_cast<QObject*>(item->property("border"));
   if (border) {
@@ -37,6 +42,12 @@ void TcommonInstrument::markBorder(QQuickItem* item, int borderWidth, const QCol
     if (borderWidth)
       border->setProperty("color", borderColor);
   }
+}
+
+
+void TcommonInstrument::restoreAfterExam() {
+  p_goodItem = nullptr;
+  p_wrongItem = nullptr;
 }
 
 

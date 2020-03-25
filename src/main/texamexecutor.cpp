@@ -1117,15 +1117,7 @@ void TexamExecutor::restoreAfterExam() {
     GLOB->E->suggestExam = m_exercise->suggestInFuture();
   }
 
-//   SOUND->pitchView()->setVisible(GLOB->L->soundViewEnabled);
-//   INSTRUMENT->setVisible(GLOB->L->guitarEnabled);
-  
-// #if defined (Q_OS_ANDROID) // revert actions
-//   if (!m_level.answerIsSound()) {
-//     SOUND->pitchView()->pauseAction()->setVisible(true);
-//     MAINVIEW->flyActions()->append(SOUND->pitchView()->pauseAction());
-//   }
-// #endif
+
   SOUND->acceptSettings();
 //   SOUND->pitchView()->setIntonationAccuracy(GLOB->A->intonation);
 //   SOUND->pitchView()->enableAccuracyChange(true);
@@ -1134,8 +1126,11 @@ void TexamExecutor::restoreAfterExam() {
     NOTENAME->setDisabled(false);
     NOTENAME->setButtonNameStyle(GLOB->S->nameStyleInNoteName);
   }
-  if (INSTRUMENT)
+  if (INSTRUMENT) {
+    INSTRUMENT->restoreAfterExam();
     INSTRUMENT->setEnabled(true);
+//   INSTRUMENT->deleteRangeBox();
+  }
 
   if (m_tipHandler)
       m_tipHandler->deleteLater();
@@ -1143,7 +1138,6 @@ void TexamExecutor::restoreAfterExam() {
   emit titleChanged();
 
   MAIN_SCORE->setReadOnly(false);
-//   INSTRUMENT->deleteRangeBox();
   SOUND->restoreAfterExam();
 }
 

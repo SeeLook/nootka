@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -42,6 +42,7 @@ class NOOTKACORE_EXPORT TcommonInstrument : public QQuickPaintedItem
 
 public:
   TcommonInstrument(QQuickItem* parent = nullptr);
+  ~TcommonInstrument() override;
 
       /**
        * @p TRUE when mouse cursor is over
@@ -101,6 +102,12 @@ public:
        * Changes border of given @p item but only if the item has border property (QML Rectangle)
        */
   void markBorder(QQuickItem* item, int borderWidth, const QColor& borderColor);
+
+      /**
+       * Reset wrong/good item pointers to null to be sure that
+       * nothing spoils normal instrument behavior
+       */
+  void restoreAfterExam();
 
 signals:
   void activeChanged();
