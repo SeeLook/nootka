@@ -11,7 +11,7 @@ import "../"
 
 TipRect {
   id: fView
-  z: 200
+  z: 99
   height: Math.max(Noo.fingerPixels() * 4, instrItem.height * 1.1)
   width: instrItem.fretWidth * 1.5 * vScale
   y: parent.height - height
@@ -23,7 +23,7 @@ TipRect {
   Item { // overlay
     parent: fView.parent
     anchors.fill: parent
-    z: 199
+    z: 98
     visible: fView.scale === 1
     MouseArea {
       anchors.fill: parent

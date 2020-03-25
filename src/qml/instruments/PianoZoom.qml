@@ -15,20 +15,26 @@ TipRect {
   property int octCount: instrItem.keysNumber / 7
   property int zoomKey: instrItem.selectedKey && Math.floor(instrItem.selectedKey.nr / 7) === octave ? instrItem.selectedKey.nr % 7 : -1
 
+  enabled: instrItem.enabled
   scale: zoomed ? 1 : 0
   Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation {} }
   Behavior on x { enabled: GLOB.useAnimations; NumberAnimation {} }
 
   width: keyRow.width; height: keyRow.height
   y: parent.height - height - 1
-  z: 200
+  z: 99
   color: "black"
+
+  onEnabledChanged: {
+    if (!instrItem.enabled)
+      zoomed = false // reset zoom/scale when piano becomes disable
+  }
 
   Item { // overlay
     parent: octaveView.parent
     width: parent.width; height: zoomed ? parent.height : instrItem.height
     y: nootkaWindow.height - height
-    z: 199
+    z: 98
     MouseArea {
       anchors.fill: parent
       hoverEnabled: !instrItem.readOnly
