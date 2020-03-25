@@ -6,8 +6,10 @@
      - disabling level creator pages which are currently unused
      - added help topic selector on 'help page' with all the context
      - make controls look (check boxes, radios, sliders) consistent
+     - fixed/improved transposition of bass, transitions from dropped clef
     ANDROID
      - configurable options for full screen, rotation and lock
+     - added zoom for selecting piano keys
     Under the hood:
      - reduced memory usage for charts with many questions
      - migrated version control to GIT, keep entire Nootka code history
