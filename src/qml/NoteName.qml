@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -29,8 +29,8 @@ TnameItem {
   }
 
   // private
-  property real buttHeight: height / 12
-  property real buttWidth: width / 9
+  property real buttHeight: height / (Noo.isAndroid() ? 10 : 12)
+  property real buttWidth: width / (Noo.isAndroid() ? 8 : 9)
   property var correctAnim: null
 
   Rectangle {
