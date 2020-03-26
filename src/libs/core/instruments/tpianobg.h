@@ -37,7 +37,7 @@ class NOOTKACORE_EXPORT TpianoBg : public TcommonInstrument
   Q_PROPERTY(int keysNumber READ keysNumber NOTIFY keysNumberChanged)
   Q_PROPERTY(QQuickItem* selectedKey READ selectedKey WRITE setSelectedKey NOTIFY selectedKeyChanged)
   Q_PROPERTY(QQuickItem* keyHighlight READ keyHighlight WRITE setKeyHighlight)
-  Q_PROPERTY(int margin READ margin NOTIFY keysNumberChanged)
+  Q_PROPERTY(qreal margin READ margin NOTIFY keyWidthChanged)
 
 public:
   explicit TpianoBg(QQuickItem* parent = nullptr);
@@ -71,7 +71,7 @@ public:
   void correct(const Tnote& n, quint32 noteData) override;
 
   int keysNumber() const { return m_keysNumber; }
-  int margin() const { return m_margin; }
+  qreal margin() const { return m_margin; }
 
   Q_INVOKABLE QString octaveName(int oNr) const;
 
@@ -103,12 +103,12 @@ protected:
   void geometryChanged(const QRectF & newGeometry, const QRectF & oldGeometry) override;
 
 private:
-  void calculateMetrics(int newWidth);
+  void calculateMetrics(qreal newWidth);
 
 private:
   int                   m_keysNumber;
   qreal                 m_keyWidth;
-  int                   m_margin;
+  qreal                 m_margin;
   char                  m_firstOctave;
   bool                  m_readOnly = false;
   QQuickItem           *m_selectedKey = nullptr;

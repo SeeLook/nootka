@@ -11,7 +11,6 @@ TpianoBg {
   id: instrItem
 
   anchors.fill: parent
-  keyWidth: height / (Noo.isAndroid() ? 5.5 : 5)
   onWantKeyToSelect: selectKey(k > -1 ? (isWhite ? whiteRep.itemAt(k) : whiteRep.itemAt(k).black) : null)
 
   function getKey(keyNr) { return whiteRep.itemAt(keyNr) }
@@ -33,30 +32,27 @@ TpianoBg {
   Image { // piano background
     cache: false
     source: Noo.pix("pianoBg")
-    width: score.width; height: width * (sourceSize.height / sourceSize.width)
+    width: instrItem.width; height: width * (sourceSize.height / sourceSize.width)
     y: -height
     z: -1
   }
 
-  Row {
-    Rectangle {
-      width: (instrItem.width - keysNumber * Math.floor(keyWidth)) / 2
-      height: instrItem.height
-      color: "black"
-    }
-    Repeater {
-      id: whiteRep
-      model: keysNumber
-      PianoKeyWhite {
-        nr: index
-        onEntered: activeKey = key
-        onClicked: selectedKey = key
+  Rectangle { // black background
+    width: instrItem.width; height: instrItem.height
+    color: "black"
+
+    Row { // keys
+      id: keysRow
+      anchors.horizontalCenter: parent.horizontalCenter
+      Repeater {
+        id: whiteRep
+        model: keysNumber
+        PianoKeyWhite {
+          nr: index
+          onEntered: activeKey = key
+          onClicked: selectedKey = key
+        }
       }
-    }
-    Rectangle {
-      width: (instrItem.width - keysNumber * Math.floor(keyWidth)) / 2
-      height: instrItem.height
-      color: "black"
     }
   }
 
@@ -86,7 +82,7 @@ TpianoBg {
     Repeater {
       model: Math.floor(keysNumber / 7)
       Rectangle {
-        x: margin + index * width
+        x: keysRow.x + index * width
         width: keyWidth * 7; height: parent.height
         color: index % 2 ? "#303030" : "black"
         Text {

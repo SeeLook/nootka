@@ -45,7 +45,6 @@ void TpianoBg::setKeyWidth(qreal kw) {
   if (m_keyWidth != kw) {
     m_keyWidth = kw;
     calculateMetrics(width());
-    emit keyWidthChanged();
   }
 }
 
@@ -183,11 +182,15 @@ void TpianoBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeome
 }
 
 
-void TpianoBg::calculateMetrics(int newWidth) {
+void TpianoBg::calculateMetrics(qreal newWidth) {
   int oldKeysNr = m_keysNumber;
-  int oldMargin = m_margin;
+  qreal oldMargin = m_margin;
+  qreal oldKeyW = m_keyWidth;
   m_keysNumber = static_cast<int>(m_hiNote.octave() - m_loNote.octave() + 1) * 7;
-  m_margin = (newWidth - m_keysNumber * qFloor(m_keyWidth)) / 2;
-  if (oldKeysNr != m_keysNumber || oldMargin != m_margin)
+  m_keyWidth = qMin(newWidth / static_cast<qreal>(m_keysNumber + 1), height() / 3.5); // 3.5 of height tops
+  m_margin = (newWidth - m_keysNumber * m_keyWidth * 1.125) / 2.0; // 0.125 is thickness of key border line
+  if (oldKeysNr != m_keysNumber)
     emit keysNumberChanged();
+  if (m_keyWidth != oldKeyW || oldMargin != m_margin)
+    emit keyWidthChanged();
 }
