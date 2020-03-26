@@ -626,8 +626,8 @@ void TmainScoreObject::checkExtraStaves() {
     for (int s = 0; s < emptyStavesCount; ++s) {
       auto emptyStaff = m_emptyStaves[s];
       emptyStaff->setScale(sc);
-      emptyStaff->setX((m_scoreObj->clefType() == Tclef::PianoStaffClefs ? 2.0 : 0.5) * sc);
-      emptyStaff->setWidth(firstStaff->width() - (m_scoreObj->clefType() == Tclef::PianoStaffClefs ? 2.0 : 1.0));
+      emptyStaff->setX((m_scoreObj->clefType() == Tclef::PianoStaffClefs ? 3 : 0.5) * sc);
+      emptyStaff->setWidth(firstStaff->width() - (m_scoreObj->clefType() == Tclef::PianoStaffClefs ? 3.5 : 1.0));
       emptyStaff->setStaffScale(sc);
       emptyStaff->setY(m_mainScoreItem->height() - sc * 14.0 - (emptyStavesCount - s - 1) * (sc * 16.0));
     }

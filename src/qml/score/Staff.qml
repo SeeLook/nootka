@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -31,8 +31,8 @@ TstaffItem {
 
   TstaffLines {
       id: upperStaff
-      x: score.clef === Tclef.PianoStaffClefs ? 2 : 0.5
-      width: staff.width - (score.clef === Tclef.PianoStaffClefs ? 2 : 1)
+      x: score.clef === Tclef.PianoStaffClefs ? 3 : 0.5
+      width: staff.width - (score.clef === Tclef.PianoStaffClefs ? 3.5 : 1)
       y: upperLine - 0.1
       staffScale: staff.scale
   }
@@ -41,8 +41,8 @@ TstaffItem {
   Component {
       id: lowerStaff
       TstaffLines {
-        x: score.clef === Tclef.PianoStaffClefs ? 2 : 0.5
-        width: staff.width - (score.clef === Tclef.PianoStaffClefs ? 2 : 1)
+        x: score.clef === Tclef.PianoStaffClefs ? 3 : 0.5
+        width: staff.width - (score.clef === Tclef.PianoStaffClefs ? 3.5 : 1)
         y: upperLine - 0.1 + 22
         staffScale: staff.scale
       }
@@ -52,10 +52,9 @@ TstaffItem {
   Component {
       id: brace
       Text {
-        visible: score.clef === Tclef.PianoStaffClefs
-        text: "\ue000"
-        font {family: "scorek"; pixelSize: 30 }
-        y: -17
+        text: "\ue003"
+        font {family: "scorek"; pixelSize: 21 }
+        y: -14; x: 3.1
         color: activPal.text
       }
   }
