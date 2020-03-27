@@ -10,6 +10,9 @@ import Nootka 1.0
 TpianoBg {
   id: instrItem
 
+  property alias keysX: keysRow.x
+  property alias keysWidth: keysRow.width
+
   anchors.fill: parent
   onWantKeyToSelect: selectKey(k > -1 ? (isWhite ? whiteRep.itemAt(k) : whiteRep.itemAt(k).black) : null)
 

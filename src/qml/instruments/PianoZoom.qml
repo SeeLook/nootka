@@ -11,7 +11,7 @@ TipRect {
   id: octaveView
 
   property bool zoomed: false
-  property int octave: ((octaveView.x + octaveView.width / 2) / parent.width) * octCount
+  property int octave: (octaveView.x / (instrItem.width - width * 0.99)) * octCount
   property int octCount: instrItem.keysNumber / 7
   property int zoomKey: instrItem.selectedKey && Math.floor(instrItem.selectedKey.nr / 7) === octave ? instrItem.selectedKey.nr % 7 : -1
 
@@ -40,7 +40,7 @@ TipRect {
       hoverEnabled: !instrItem.readOnly
       onClicked: {
         if (!zoomed)
-          octaveView.x = instrItem.zoomViewX(mouse.x, octaveView.height / 6)
+          octaveView.x = instrItem.zoomViewX(mouse.x, octaveView.height / 4)
         octaveView.zoomed = !octaveView.zoomed
       }
     }
@@ -55,10 +55,6 @@ TipRect {
     drag.threshold: height * 0.3
     cursorShape: drag.active ? Qt.DragMoveCursor : Qt.ArrowCursor
     drag.filterChildren: true
-    drag.onActiveChanged: {
-      if (!drag.active)
-        octaveView.x = Noo.bound(0, instrItem.margin + (octave * 7 + 3.5) * instrItem.keyWidth - octaveView.width / 2, nootkaWindow.width - octaveView.width)
-    }
 
     Row {
       id: keyRow

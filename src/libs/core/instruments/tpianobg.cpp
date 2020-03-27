@@ -126,10 +126,9 @@ QString TpianoBg::octaveName(int oNr) const {
 
 
 int TpianoBg::zoomViewX(qreal xPos, qreal zoomKeyW) {
-  qreal k = (xPos - static_cast<qreal>(m_margin)) / m_keyWidth; // key number
-  return qBound(0.0,
-                static_cast<qreal>(qFloor(k / 7.0) * 7 * m_keyWidth + m_margin) + 3.5 * m_keyWidth - zoomKeyW * 3.5,
-                width() - zoomKeyW * 7.0);
+  int k = qBound(1, qFloor((xPos - m_margin) / m_keyWidth), m_keysNumber); // key number
+  qreal o = static_cast<qreal>(qBound(0, k / 7, m_keysNumber / 7)) + 0.15; // octave
+  return qBound(0.0, (o * (width() - zoomKeyW * 7.0)) / static_cast<qreal>(m_keysNumber / 7), width() - zoomKeyW * 7.0);
 }
 
 
@@ -188,7 +187,7 @@ void TpianoBg::calculateMetrics(qreal newWidth) {
   qreal oldKeyW = m_keyWidth;
   m_keysNumber = static_cast<int>(m_hiNote.octave() - m_loNote.octave() + 1) * 7;
   m_keyWidth = qMin(newWidth / static_cast<qreal>(m_keysNumber + 1), height() / 3.5); // 3.5 of height tops
-  m_margin = (newWidth - m_keysNumber * m_keyWidth * 1.125) / 2.0; // 0.125 is thickness of key border line
+  m_margin = (newWidth - m_keysNumber * m_keyWidth) / 2.0;
   if (oldKeysNr != m_keysNumber)
     emit keysNumberChanged();
   if (m_keyWidth != oldKeyW || oldMargin != m_margin)
