@@ -130,7 +130,7 @@ TmobileMenu {
             }
             MenuButton { action: Noo.examAct; onClicked: mainDrawer.close() }
             MenuButton { action: Noo.levelAct; onClicked: mainDrawer.close() }
-            MenuButton { action: Noo.scoreAct; onClicked: mainDrawer.close() }
+            MenuButton { visible: !GLOB.singleNoteMode; action: Noo.scoreAct; onClicked: mainDrawer.close() }
             MenuButton {
               action: Taction {
                 text: Noo.settingsAct.text
