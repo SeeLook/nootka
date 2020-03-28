@@ -112,7 +112,7 @@ INCLUDEPATH += libs/core libs/mobile libs/sound libs/main
 LIBS += -Llibs/core/ -lNootkaCore \
         -Llibs/sound -lNootkaSound \
 
-RESOURCES += nootka.qrc
+RESOURCES += nootka-android.qrc
 
 DISTFILES += \
     android/AndroidManifest.xml \

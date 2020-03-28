@@ -1,8 +1,12 @@
+<!--
+  QML files for Android Nootka verion
+-->
 <RCC>
   <qresource prefix="/">
     <file alias="MainWindow.qml">qml/MainWindow.qml</file>
-    <file alias="MainMenu.qml">qml/MainMenu.qml</file>
-    <file alias="TtoolBar.qml">qml/TtoolBar.qml</file>
+    <file alias="MainMenu.qml">qml/+android/MainMenuMobile.qml</file>
+    <file alias="FlyItem.qml">qml/+android/FlyItem.qml</file>
+<!--     <file alias="TtoolBar.qml">qml/TtoolBar.qml</file> -->
     <file alias="NootkaLabel.qml">qml/NootkaLabel.qml</file>
     <file alias="MainScore.qml">qml/MainScore.qml</file>
     <file alias="DialogLoader.qml">qml/DialogLoader.qml</file>
@@ -15,11 +19,12 @@
     <file alias="PagesDialog.qml">qml/shared/PagesDialog.qml</file>
     <file alias="Tile.qml">qml/shared/Tile.qml</file>
     <file alias="ClefMenu.qml">qml/shared/ClefMenu.qml</file>
-    <file alias="MenuButton.qml">qml/shared/MenuButton.qml</file>
+    <file alias="MenuButton.qml">qml/+android/shared/MenuButton.qml</file>
     <file alias="NameStyleSelector.qml">qml/shared/NameStyleSelector.qml</file>
     <file alias="InstrumentSelector.qml">qml/shared/InstrumentSelector.qml</file>
     <file alias="RhythmSelector.qml">qml/shared/RhythmSelector.qml</file>
     <file alias="TipRect.qml">qml/shared/TipRect.qml</file>
+<!--     <file alias="TipRect.qml">qml/+android/shared/TipRect.qml</file> -->
     <file alias="TcheckBox.qml">qml/shared/TcheckBox.qml</file>
     <file alias="TradioButton.qml">qml/shared/TradioButton.qml</file>
     <file alias="Transposition.qml">qml/shared/Transposition.qml</file>
@@ -38,12 +43,9 @@
     <file alias="Tslider.qml">qml/shared/Tslider.qml</file>
     <file alias="TtextField.qml">qml/shared/TtextField.qml</file>
 
-<!--  Unused    -->
-<!--     <file alias="TprogressBar.qml">qml/shared/TprogressBar.qml</file> -->
-
-    <file alias="PitchView.qml">qml/sound/PitchView.qml</file>
+<!--     <file alias="PitchView.qml">qml/sound/PitchView.qml</file> -->
     <file alias="sound/VolumeBar.qml">qml/sound/VolumeBar.qml</file>
-    <file alias="sound/TempoBar.qml">qml/sound/TempoBar.qml</file>
+<!--     <file alias="sound/TempoBar.qml">qml/sound/TempoBar.qml</file> -->
     <file alias="sound/TempoMenu.qml">qml/sound/TempoMenu.qml</file>
     <file alias="sound/IntonationBar.qml">qml/sound/IntonationBar.qml</file>
     <file alias="sound/TunerDialog.qml">qml/sound/TunerDialog.qml</file>
@@ -71,10 +73,12 @@
     <file alias="score/MelodyNameDialog.qml">qml/score/MelodyNameDialog.qml</file>
 
     <file alias="Instrument.qml">qml/instruments/Instrument.qml</file>
-    <file alias="instruments/Guitar.qml">qml/instruments/Guitar.qml</file>
+    <file alias="instruments/Guitar.qml">qml/instruments/+android/Guitar.qml</file>
+    <file alias="instruments/FretView.qml">qml/instruments/+android/FretView.qml</file>
     <file alias="instruments/Piano.qml">qml/instruments/Piano.qml</file>
     <file alias="instruments/PianoKeyBlack.qml">qml/instruments/PianoKeyBlack.qml</file>
     <file alias="instruments/PianoKeyWhite.qml">qml/instruments/PianoKeyWhite.qml</file>
+    <file alias="instruments/PianoZoom.qml">qml/instruments/+android/PianoZoom.qml</file>
     <file alias="instruments/Bandoneon.qml">qml/instruments/Bandoneon.qml</file>
     <file alias="instruments/Sax.qml">qml/instruments/Sax.qml</file>
     <file alias="instruments/OutScaleTip.qml">qml/instruments/OutScaleTip.qml</file>
@@ -101,6 +105,7 @@
     <file alias="settings/Select7note.qml">qml/settings/Select7note.qml</file>
     <file alias="settings/ExamPage.qml">qml/settings/ExamPage.qml</file>
     <file alias="settings/MiddleA440.qml">qml/settings/MiddleA440.qml</file>
+    <file alias="settings/PhonePage.qml">qml/settings/+android/PhonePage.qml</file>
 
     <file alias="LevelCreator.qml">qml/level/LevelCreator.qml</file>
     <file alias="level/LevelsPage.qml">qml/level/LevelsPage.qml</file>
@@ -147,16 +152,6 @@
     <file alias="exam/CorrectInstrAnim.qml">qml/exam/CorrectInstrAnim.qml</file>
     <file alias="exam/CorrectNoteAnim.qml">qml/exam/CorrectNoteAnim.qml</file>
     <file alias="exam/Certificate.qml">qml/exam/Certificate.qml</file>
-
-    <file alias="charts/AnalyzeDialog.qml">charts/qml/AnalyzeDialog.qml</file>
-    <file alias="charts/ChartView.qml">charts/qml/ChartView.qml</file>
-    <file alias="charts/LinearDelegate.qml">charts/qml/LinearDelegate.qml</file>
-    <file alias="charts/BarDelegate.qml">charts/qml/BarDelegate.qml</file>
-    <file alias="charts/ChartTip.qml">charts/qml/ChartTip.qml</file>
-    <file alias="charts/ChartToolButton.qml">charts/qml/ChartToolButton.qml</file>
-    <file alias="charts/LevelPopup.qml">charts/qml/LevelPopup.qml</file>
-    <file alias="charts/ChartHelpTip.qml">charts/qml/ChartHelpTip.qml</file>
-    <file alias="charts/ChartDrawer.qml">charts/qml/ChartDrawer.qml</file>
 
     <file alias="qtquickcontrols2.conf">qml/qtquickcontrols2.conf</file>
 
