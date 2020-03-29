@@ -12,7 +12,7 @@ Tflickable {
   height: parent.height
   contentHeight: sTile.height
   contentWidth: width
-  
+
   Tile {
     id: sTile
     bgColor: Qt.tint(nootkaWindow.labelColor, Noo.alpha(activPal.base, 230))
@@ -52,8 +52,7 @@ Tflickable {
       VolumeBar {
         id: volBar
         anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width * 0.9
-        height: Noo.fontSize() * 2
+        width: parent.width * 0.9; height: Noo.fontSize() * 2
         Timer {
           repeat: true; interval: 100; running: true
           onTriggered: volBar.volume = Math.random() * 0.9

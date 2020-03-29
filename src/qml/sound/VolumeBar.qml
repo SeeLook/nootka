@@ -48,7 +48,7 @@ Item {
 
   Repeater {
     id: vRep
-    model: tc.width / tc.divisor
+    model: Math.max(tc.width / tc.divisor, 0)
     Rectangle {
       color: active ? (index < volume * vRep.model ? tc.colorAt(index) : activPal.text) : disdPal.text
       width: index <= GLOB.minVolume * vRep.model ? tickWidth / 2 : tickWidth
