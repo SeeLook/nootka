@@ -389,6 +389,9 @@ qreal TnootkaQML::bound(qreal min, qreal val, qreal max) {
 
 void TnootkaQML::setQmlEngine(QQmlEngine* e) {
   m_qmlEngine = e;
+  if (GLOB->isFirstRun) // Wizard - actions are not needed yet
+    return;
+
   if (m_scoreAct) {
     delete m_scoreAct;
     delete m_settingsAct;
