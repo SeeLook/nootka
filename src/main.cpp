@@ -142,9 +142,10 @@ int main(int argc, char *argv[])
     e->rootContext()->setContextProperty(QStringLiteral("Noo"), nooObj);
     e->rootContext()->setContextProperty(QStringLiteral("SOUND"), sound);
     bool  wasFirstRun = gl->isFirstRun;
+    TmainHelp* hlp = nullptr; // keep help object live after wizard, Qt deletes it with some delay
     if (gl->isFirstRun) {
-      TmainHelp h;
-      e->rootContext()->setContextProperty(QStringLiteral("HELP"), &h);
+      hlp = new TmainHelp();
+      e->rootContext()->setContextProperty(QStringLiteral("HELP"), hlp);
       nooObj->setQmlEngine(e);
       e->load(QUrl(QStringLiteral("qrc:/wizard/Wizard.qml")));
       if (firstLoop) {
@@ -152,7 +153,8 @@ int main(int argc, char *argv[])
         o << "\033[01;35m Nootka wizard launch time: " << startElapsed.nsecsElapsed() / 1000000.0 << " [ms]\033[01;00m\n";
       }
       exitCode = a->exec();
-      delete e;
+      e->deleteLater(); // Android crashes without a delayed destroy
+      qApp->quit();
       e = new QQmlApplicationEngine;
       e->rootContext()->setContextProperty(QStringLiteral("GLOB"), gl);
       e->rootContext()->setContextProperty(QStringLiteral("Noo"), nooObj);
@@ -204,6 +206,8 @@ int main(int argc, char *argv[])
     firstLoop = false;
     exitCode = a->exec();
 
+    if (hlp)
+      delete hlp;
     delete e;
     delete sound;
     delete gl;

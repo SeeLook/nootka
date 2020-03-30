@@ -23,8 +23,6 @@ ApplicationWindow {
   property alias swipe: swipe
   property alias labelColor: aboutPage.color
 
-  readonly property int fontSize: Noo.fontSize()
-
   SystemPalette {
     id: activPal
     property color dimText: Qt.tint(activPal.base, Noo.alpha(activPal.text, 150))
@@ -78,13 +76,13 @@ ApplicationWindow {
   }
 
   footer: Rectangle {
-    width: parent.width; height: prevBut.height + fontSize + 2
-    color: Qt.tint(activPal.window, Noo.alpha(aboutPage.color, 50)) // Qt.darker(activPal.window, 0.9)
-    Rectangle { color: aboutPage.color; height: fontSize / 6; width: parent.width; anchors.top: parent.top }
+    width: parent.width; height: prevBut.height + Noo.fontSize() + 2
+    color: Qt.tint(activPal.window, Noo.alpha(aboutPage.color, 50))
+    Rectangle { color: aboutPage.color; height: Noo.fontSize() / 6; width: parent.width; anchors.top: parent.top }
     Row {
-      x: (parent.width - width - 8 * fontSize) / 2
+      x: (parent.width - width - 8 * Noo.fontSize()) / 2
       anchors.verticalCenter: parent.verticalCenter
-      spacing: fontSize * 2
+      spacing: Noo.fontSize() * 2
       TcuteButton {
         id: prevBut
         anchors.verticalCenter: parent.verticalCenter
@@ -117,7 +115,7 @@ ApplicationWindow {
     }
     TcuteButton {
       anchors.verticalCenter: parent.verticalCenter
-      x: parent.width - width - fontSize
+      x: parent.width - width - Noo.fontSize()
       text: Noo.TR("QWizard", "&Finish").replace("&", "")
       onClicked: nootkaWindow.close()
       Shortcut { sequence: "Return"; onActivated: nootkaWindow.close() }
