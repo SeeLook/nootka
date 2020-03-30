@@ -218,8 +218,12 @@ void TchartItem::setChartType(int chT) {
 
 
 QString TchartItem::chartWindowTitle() const {
-  if (m_exam)
-    return QApplication::translate("AnalyzeDialog", m_exam->isExercise() ? "Analysis of exercise" : "Analysis of exam results");
+  if (m_exam) {
+    if (m_exam->isExercise())
+      return QApplication::translate("AnalyzeDialog", "Analysis of exercise");
+    else
+      return QApplication::translate("AnalyzeDialog", "Analysis of exam results");
+  }
   return QApplication::translate("AnalyzeDialog", "Analyze");
 }
 

@@ -21,7 +21,7 @@ Tflickable {
 
     TcheckBox {
       id: screenOnChB
-      text: qsTr("keep screen on")
+      text: qsTr("screen always on")
       checked: GLOB.isKeepScreenOn()
     }
     TcheckBox {
@@ -31,7 +31,7 @@ Tflickable {
     }
     TcheckBox {
       id: fullScrChB
-      text: qsTr("use full screen")
+      text: qsTr("full screen")
       checked: GLOB.fullScreen()
     }
 

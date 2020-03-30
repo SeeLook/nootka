@@ -45,9 +45,9 @@ Tflickable {
         width: parent.width * 0.96; wrapMode: Text.WordWrap
         anchors.horizontalCenter: parent.horizontalCenter
         color: activPal.text; textFormat: Text.RichText
-        text: qsTr("Nootka Recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:") + "<ul>"
+        text: qsTr("Nootka recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:") + "<ul>"
         + "<li>" + qsTr("Be sure your system is able to record what are you playing.") + "</li>"
-        + "<li>" + qsTr("Adjust minimal note volume a little below of your input volume level.") + "</li><ul>"
+        + "<li>" + qsTr("Adjust minimal note volume a little below of your input volume level.") + "</li></ul>"
       }
       VolumeBar {
         id: volBar
