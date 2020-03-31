@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -22,7 +22,7 @@ Tflickable {
     "Simply play with Nootka a lot to check all possible angles.<br><a href=\"https://sourceforge.net/p/nootka/bugs/milestone/Issues%20with%20beta/\">Create Ticket (call a bug)</a> when something doesn't work/look good enough.",
     "<a href=\"https://nootka.sourceforge.io/index.php?C=donate\">" + qsTr("Through PayPal or a card") + "</a><br><a href=\"mailto:seelook.gmail.com\">" + qsTr("or send email for an account number") + "</a>",
     "Nootka uses natural sounds, so audio samples of bandoneon and saxophones are needed.<br>Home made samples should be sufficient, just <a href=\"mailto:seelook.gmail.com\">write message</a> for details.",
-    "It does not require any programming skills. Just read <a href=\"https://sourceforge.net/p/nootka/hg/ci/default/tree/lang/how-to-translate.txt\">the instructions</a>,<br>translate and send your work.",
+    "It does not require any programming skills. Just read <a href=\"https://sourceforge.net/p/nootka/git/ci/master/tree/lang/how-to-translate.txt\">the instructions</a>,<br>translate and send your work.",
     Noo.isAndroid() ?
     "Go to <a href=\"https://play.google.com/store/apps/details?id=net.sf.nootka\">Google Play</a>,<br>rate it nicely and put a comment in your native language." :
     "There are a lot of services. For example:<br><a href=\"https://play.google.com/store/apps/details?id=net.sf.nootka\">Google Play</a>, <a href=\"https://www.linux-apps.com/p/1127020/\">Linux Apps</a>, <a href=\"http://www.softpedia.com/get/Others/Home-Education/Nootka.shtml\">Softpedia</a>",
@@ -67,7 +67,7 @@ Tflickable {
       model: colors.length
       delegate: Component {
         Tile {
-          visible: !Noo.isAndroid() || index != 0
+          visible: !Noo.isAndroid() || index !== 0
           width: tt.width + Noo.fontSize() * 4
           anchors.horizontalCenter: undefined
           bgBorder { color: colors[index]; width: 2 }

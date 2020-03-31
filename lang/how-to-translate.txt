@@ -19,7 +19,7 @@ Translation with Qt Linguist or lokalize (this is recommended way)
 
   1a. or use other software for translators, i.e. lokalize.
       
-  2. Download Nootka language file: https://sourceforge.net/p/nootka/hg/ci/default/tree/lang/nootka_xx.ts
+  2. Download Nootka language file: https://sourceforge.net/p/nootka/git/ci/master/tree/lang/nootka_xx.ts
       and change that xx in file name to your language code to get file name like f.e.: nootka_en.ts
 
   3. Open this file by Qt Linguist and translate - this is very easy.
