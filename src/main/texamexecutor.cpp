@@ -1601,9 +1601,9 @@ void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
     if (GLOB->E->expertsAnswerEnable)
         checkAnswer();
     else {
-      m_tipHandler->playMelodyAgainMessage();
-      m_tipHandler->showConfirmTip(800);
-      SOUND->stopListen();
+        m_tipHandler->playMelodyAgainMessage();
+        m_tipHandler->showConfirmTip(800);
+        SOUND->stopListen();
     }
   }
 }
@@ -1613,7 +1613,8 @@ void TexamExecutor::noteOfMelodySelected(int nr) {
   m_melody->setCurrentIndex(nr);
   MAIN_SCORE->setSelectedItem(nr);
   SOUND->startListen();
-//   m_tipHandler->clearConfirmTip();
+  m_tipHandler->deleteConfirmTip();
+  m_melodySelectionIndex = nr + 1;
 //   if (isExercise() && INSTRUMENT->isVisible() && m_exam->curQ()->melody()) // in exercises, display guitar position of clicked note for a hint
 //       INSTRUMENT->setFinger(m_exam->curQ()->melody()->note(nr)->g());
 }

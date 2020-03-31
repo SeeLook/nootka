@@ -190,8 +190,6 @@ void TtipHandler::showConfirmTip(int time) {
   Q_UNUSED(time);
 //  showConfirmTipSlot();
 #else
-  if (m_timerToConfirm->isActive())
-    m_timerToConfirm->stop();
   deleteConfirmTip();
   m_timerToConfirm->start(time + 1); // add 1 to show it immediately when time = 0
 #endif
@@ -213,7 +211,6 @@ void TtipHandler::showConfirmTipSlot() {
 
 
 void TtipHandler::showResultTip(TQAunit* answer, int time) {
-  m_timerToConfirm->stop();
   deleteResultTip();
   deleteConfirmTip();
 
@@ -759,6 +756,7 @@ void TtipHandler::deleteQuestionTip() {
 
 
 void TtipHandler::deleteConfirmTip() {
+  m_timerToConfirm->stop();
   if (m_confirmTip) {
     m_confirmTip->deleteLater();
     m_confirmTip = nullptr;
