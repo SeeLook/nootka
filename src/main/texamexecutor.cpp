@@ -1133,7 +1133,7 @@ void TexamExecutor::restoreAfterExam() {
   }
 
   if (m_tipHandler)
-      m_tipHandler->deleteLater();
+    m_tipHandler->deleteLater();
   m_tipHandler = nullptr;
   emit titleChanged();
 

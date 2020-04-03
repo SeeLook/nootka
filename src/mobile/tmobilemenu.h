@@ -28,6 +28,7 @@
 
 class Taction;
 class TtipHandler;
+class QTimer;
 
 
 /**
@@ -51,6 +52,8 @@ class TmobileMenu : public QQuickItem
   Q_PROPERTY(Taction* fly3act READ fly3act NOTIFY fly3actChanged)
   Q_PROPERTY(Taction* fly4act READ fly4act NOTIFY fly4actChanged)
   Q_PROPERTY(Taction* fly5act READ fly5act NOTIFY fly5actChanged)
+  Q_PROPERTY(bool showText READ showText NOTIFY showTextChanged)
+  Q_PROPERTY(bool forceText READ forceText NOTIFY forceTextChanged)
 
 
 public:
@@ -67,6 +70,22 @@ public:
 
   bool showFlys() const { return m_showFlys; }
 
+      /**
+       * It becomes @p TRUE when flying actions are exposed for a long (2sec).
+       * Then @p Taction::text() appears next to the flying button icon.
+       */
+  bool showText() const { return m_showText; }
+
+      /**
+       * When set to @p TRUE, flying action text is always displayed.
+       * Used i.e. when exercise starts and first actions are displayed
+       */
+  bool forceText() const { return m_forceText; }
+  void setForceText(bool forceT);
+
+      /**
+       * Currently touched flying button or @p null
+       */
   QQuickItem* currentFly() { return m_currentFlyItem; }
 
   Taction* pitchDetectAct() { return m_pitchDetectAct; }
@@ -94,6 +113,8 @@ signals:
   void fly3actChanged();
   void fly4actChanged();
   void fly5actChanged();
+  void showTextChanged();
+  void forceTextChanged();
 
 protected:
   void mousePressEvent(QMouseEvent*) override;
@@ -106,6 +127,9 @@ protected:
        */
   void init();
   void singleNoteModeSlot();
+
+  void setFlyItem(QQuickItem* fi);
+  void setPressed(bool pr);
 
       /**
        * @p TtipHandler is very aware what is exam/exercise phase (questioning, answering, correcting)
@@ -126,6 +150,9 @@ private:
   Taction                    *m_3flyAct = nullptr;
   Taction                    *m_4flyAct = nullptr;
   Taction                    *m_5flyAct = nullptr;
+  QTimer                     *m_flyTimer;
+  bool                        m_showText = false;
+  bool                        m_forceText = false;
 };
 
 #endif // TMOBILEMENU_H
