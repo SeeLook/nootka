@@ -166,11 +166,21 @@ QString TtipHandler::startTipText() {
 
 void TtipHandler::showStartTip() {
 #if defined (Q_OS_ANDROID)
-  QString tipText = QString("<table><tr><td style=\"font-size: %1px; vertical-align: middle;\">").arg(bigFont())
-      + QGuiApplication::translate("Texam", "Let's start")
-      + QLatin1String("  <a href=\"nextQuest\">")
-      + NOO->pixToHtml(QLatin1String("nextQuest"), m_iconSize) + QLatin1String("</a>")
-      + QLatin1String("</td></tr></table>");
+  QTimer::singleShot(500, this, [=]{
+    m_startAct = new Taction(QGuiApplication::translate("Texam", "Let's start!"), QStringLiteral("nextQuest"), this);
+    m_startAct->setBgColor(qApp->palette().highlight().color());
+    connect(m_startAct, &Taction::triggered, EXECUTOR->nextQuestAct(), &Taction::trigger);
+    MOBILE_MENU->setForceText(true);
+    MOBILE_MENU->setFlyActions(EXECUTOR->stopExamAct(), nullptr,
+                               m_startAct, nullptr, nullptr);
+    m_startAct->shake();
+    EXECUTOR->stopExamAct()->shake();
+  });
+//  QString tipText = QString("<table><tr><td style=\"font-size: %1px; vertical-align: middle;\">").arg(bigFont())
+//      + QGuiApplication::translate("Texam", "Let's start")
+//      + QLatin1String("  <a href=\"nextQuest\">")
+//      + NOO->pixToHtml(QLatin1String("nextQuest"), m_iconSize) + QLatin1String("</a>")
+//      + QLatin1String("</td></tr></table>");
 #else
   QString tipText = QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75))
       + startTipText() + QLatin1String(".<br>")
@@ -178,17 +188,17 @@ void TtipHandler::showStartTip() {
                                  + NOO->pixToHtml(QLatin1String("stopExam"), m_iconSize)
                                  + QLatin1String("</a>"))
       + QLatin1String("</p>");
-#endif
-  QTimer::singleShot(200, [=]{
-    emit wantStartTip(tipText, qApp->palette().highlight().color(), QPointF(EXECUTOR->width() / 2.0, EXECUTOR->height() / 2.0));
+  QTimer::singleShot(200, this, [=]{
+    emit wantStartTip(tipText, qApp->palette().highlight().color(),
+                      QPointF(EXECUTOR->width() / 2.0, EXECUTOR->height() / 2.0));
   });
+#endif
 }
 
 
 void TtipHandler::showConfirmTip(int time) {
 #if defined (Q_OS_ANDROID)
   Q_UNUSED(time);
-//  showConfirmTipSlot();
 #else
   deleteConfirmTip();
   m_timerToConfirm->start(time + 1); // add 1 to show it immediately when time = 0
@@ -295,42 +305,6 @@ void TtipHandler::showWhatNextTip(bool isCorrect, bool toCorrection) {
   if (prevAct)
     prevAct->shake();
   QTimer::singleShot(500, [=]{ EXECUTOR->nextQuestAct()->shake(); });
-//  m_nextTip = new ThackedTouchTip(getTipText("nextQuest", "Next"), m_view->palette().highlight().color());
-//  m_scene->addItem(m_nextTip);
-//  m_nextTip->setFont(smalTipFont(m_view));
-//  connect(m_nextTip, &ThackedTouchTip::clicked, [=] {
-//      QTimer::singleShot(10, [=] { linkActivatedSlot(QLatin1String("nextQuest")); });
-//  });
-//  int maxTipWidth = qRound(m_view->fontMetrics().boundingRect(QApplication::translate("TtoolBar", "Next")).width() * 1.5);
-//  if (!isCorrect) {
-//    m_prevTip = new ThackedTouchTip(getTipText("prevQuest", m_exam->melodies() ? "Try again" : "Repeat"),
-//                                     m_view->palette().highlight().color());
-//    m_scene->addItem(m_prevTip);
-//    m_prevTip->setFont(smalTipFont(m_view));
-//    maxTipWidth = qMax(maxTipWidth,
-//           qRound(m_view->fontMetrics().boundingRect(QApplication::translate("TtoolBar", m_exam->melodies() ? "Try again" : "Repeat")).width() * 1.5));
-//    m_prevTip->setTextWidth(maxTipWidth);
-//    if (m_exam->melodies())
-//      connect(m_prevTip, &ThackedTouchTip::clicked, [=] {
-//          QTimer::singleShot(10, [=] { linkActivatedSlot(QLatin1String("newAttempt")); });
-//      });
-//    else
-//      connect(m_prevTip, &ThackedTouchTip::clicked, [=] {
-//          QTimer::singleShot(10, [=] { linkActivatedSlot(QLatin1String("prevQuest")); });
-//      });
-//  }
-//  if (toCorrection) {
-//    m_correctTip = new ThackedTouchTip(getTipText("correct", "Correct"), GLOB->EanswerColor);
-//    m_scene->addItem(m_correctTip);
-//    m_correctTip->setFont(smalTipFont(m_view));
-//    connect(m_correctTip, &ThackedTouchTip::clicked, [=] {
-//      QTimer::singleShot(10, [=] { linkActivatedSlot(QLatin1String("correct")); });
-//    });
-//    maxTipWidth = qMax(maxTipWidth,
-//                           qRound(m_view->fontMetrics().boundingRect(QApplication::translate("TtoolBar", "Correct")).width() * 1.5));
-//    m_correctTip->setTextWidth(maxTipWidth); // keep the same width if both tips are displayed
-//  }
-//  m_nextTip->setTextWidth(maxTipWidth);
 #else
   if (isCorrect)
     deleteQuestionTip();
@@ -730,10 +704,18 @@ bool TtipHandler::eventFilter(QObject* obj, QEvent* event) {
 ////##################################################################################################
 
 void TtipHandler::deleteStartTip() {
+#if defined (Q_OS_ANDROID)
+  if (m_startAct) {
+    MOBILE_MENU->setForceText(false);
+    delete m_startAct;
+    m_startAct = nullptr;
+  }
+#else
   if (m_startTip) {
     m_startTip->deleteLater();
     m_startTip = nullptr;
   }
+#endif
 }
 
 

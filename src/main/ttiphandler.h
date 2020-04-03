@@ -36,6 +36,7 @@ class QTimer;
 class Texam;
 class TQAunit;
 class QQuickItem;
+class Taction;
 
 
 /**
@@ -232,6 +233,9 @@ private:
   QQuickItem                        *m_whatNextTip = nullptr;
   QQuickItem                        *m_confirmTip = nullptr;
   QQuickItem                        *m_certifyTip = nullptr;
+#if defined (Q_OS_ANDROID)
+  Taction                           *m_startAct = nullptr;
+#endif
 
 private:
   void deleteStartTip();
