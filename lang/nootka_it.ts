@@ -119,6 +119,75 @@
         <source>Click and Drag the cursor to move the chart.</source>
         <translation>Clicca e trascina il cursore per muoverti sul grafico.</translation>
     </message>
+    <message>
+        <source>Settings of a chart</source>
+        <translation>Impostazioni del grafico</translation>
+    </message>
+    <message>
+        <source>Questions number</source>
+        <translation>Numero delle domande</translation>
+    </message>
+    <message>
+        <source>Attempts number</source>
+        <translation>Numero di tentativi</translation>
+    </message>
+    <message>
+        <source>Preparation time</source>
+        <translation>Tempo di preparazione</translation>
+    </message>
+    <message>
+        <source>Played number</source>
+        <translation>Numero di ripetizioni</translation>
+    </message>
+    <message>
+        <source>Recent exercise on level</source>
+        <translation>Esercizi recenti per il livello</translation>
+    </message>
+    <message>
+        <source>include time of wrong answers to average</source>
+        <translation>includi il tempo per la risposta sbagliata nella media</translation>
+    </message>
+    <message>
+        <source>show wrong answers separately</source>
+        <translation>mostra le domande sbagliate separatamente</translation>
+    </message>
+    <message>
+        <source>question number</source>
+        <comment>see comment in &apos;ordered by:&apos; entry</comment>
+        <translation>Domanda numero</translation>
+    </message>
+    <message>
+        <source>note pitch</source>
+        <translation>altezza della nota</translation>
+    </message>
+    <message>
+        <source>fret number</source>
+        <translation>Numero del tasto</translation>
+    </message>
+    <message>
+        <source>accidentals</source>
+        <translation>alterazioni</translation>
+    </message>
+    <message>
+        <source>key signature</source>
+        <translation>armatura di chiave</translation>
+    </message>
+    <message>
+        <source>mistake</source>
+        <translation>errore</translation>
+    </message>
+    <message>
+        <source>question type</source>
+        <translation>Tipo di domanda</translation>
+    </message>
+    <message>
+        <source>Analysis of exercise</source>
+        <translation>Analisi dell&apos;esercizio</translation>
+    </message>
+    <message>
+        <source>Analysis of exam results</source>
+        <translation>Analisi dei risultati degli esami</translation>
+    </message>
 </context>
 <context>
     <name>AnswerText</name>
@@ -211,6 +280,37 @@
     <message>
         <source>Stop exam</source>
         <translation>Fine esame</translation>
+    </message>
+</context>
+<context>
+    <name>ChartDrawer</name>
+    <message>
+        <source>keep opened</source>
+        <translation>lascia aperto</translation>
+    </message>
+</context>
+<context>
+    <name>ChartTip</name>
+    <message>
+        <source>of</source>
+        <comment>It will give text: &apos;Attempt x of y&apos;</comment>
+        <translation>su</translation>
+    </message>
+    <message numerus="yes">
+        <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
+        <translation type="vanished">
+            <numerusform>La melodia è stata suonata &lt;b&gt;%n&lt;/b&gt; volta</numerusform>
+            <numerusform>La melodia è stata suonata &lt;b&gt;%n&lt;/b&gt; volte</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>played</source>
+        <comment>a melody was played (and number follows)</comment>
+        <translation>suonata</translation>
+    </message>
+    <message>
+        <source>time</source>
+        <translation>volta</translation>
     </message>
 </context>
 <context>
@@ -394,6 +494,13 @@
     </message>
 </context>
 <context>
+    <name>HelpPage</name>
+    <message>
+        <source>Help topics</source>
+        <translation>Argomeni</translation>
+    </message>
+</context>
+<context>
     <name>InstrumentPage</name>
     <message>
         <source>Instrument</source>
@@ -474,6 +581,13 @@
     </message>
 </context>
 <context>
+    <name>KeySignature</name>
+    <message>
+        <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
+        <translation>Armatura di chiave - per cambiarla, clicca o sopra o sotto il pentagrama oppure usa la rotellina del mouse.</translation>
+    </message>
+</context>
+<context>
     <name>LevelCreator</name>
     <message>
         <source>Levels</source>
@@ -539,11 +653,11 @@
     </message>
     <message>
         <source>Metronome</source>
-        <translation>Metronomo</translation>
+        <translation type="vanished">Metronomo</translation>
     </message>
     <message>
         <source>exit</source>
-        <translation>esci</translation>
+        <translation type="vanished">esci</translation>
     </message>
 </context>
 <context>
@@ -554,7 +668,7 @@
     </message>
     <message>
         <source>Edit</source>
-        <translation>Modifica</translation>
+        <translation type="vanished">Modifica</translation>
     </message>
 </context>
 <context>
@@ -702,6 +816,29 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <source>Out of instrument scale!</source>
         <translation>Fuori registro!</translation>
+    </message>
+</context>
+<context>
+    <name>PhonePage</name>
+    <message>
+        <source>screen always on</source>
+        <translation>schermo sempre acceso</translation>
+    </message>
+    <message>
+        <source>disable screen rotation</source>
+        <translation>
+disabilita la rotazione dello schermo</translation>
+    </message>
+    <message>
+        <source>full screen</source>
+        <translation>full screen</translation>
+    </message>
+</context>
+<context>
+    <name>PitchView</name>
+    <message>
+        <source>Start/stop pitch detection</source>
+        <translation>Avvia/ferma il riconoscimento delle altezze</translation>
     </message>
 </context>
 <context>
@@ -912,7 +1049,7 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <source>notes</source>
         <comment>musical notes of course</comment>
-        <translation>note</translation>
+        <translation type="vanished">note</translation>
     </message>
 </context>
 <context>
@@ -1023,10 +1160,49 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
 </context>
 <context>
+    <name>ScoreToolbox</name>
+    <message>
+        <source>Tie - connect or disconnect selected note with previous one if both notes have the same pitch.</source>
+        <translation>Legatura - collega o scollega la nota selezionata con quella precedente se entrambe le note hanno la stessa altezza.</translation>
+    </message>
+    <message>
+        <source>tie</source>
+        <comment>To translate it properly, check please meaning of &apos;tie&apos; in musical context.</comment>
+        <translation>Legatura</translation>
+    </message>
+</context>
+<context>
     <name>Select7note</name>
     <message>
         <source>7th note is:</source>
         <translation>La settima nota è:</translation>
+    </message>
+</context>
+<context>
+    <name>SoundInfo</name>
+    <message>
+        <source>Nootka can hear You!</source>
+        <translation>Nootka ti ascolta!</translation>
+    </message>
+    <message>
+        <source>Nootka recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Be sure your system is able to record what are you playing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust minimal note volume a little below of your input volume level.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Aim to play loud and clear and avoid dirty sounds specific to your instrument.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rhythms detection during exercises and exams is more &apos;humane&apos; - Nootka knows what rhythm to expect. In contrary to playing to &apos;empty&apos; score when high rhythmic precision is required, so better use metronome then.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1204,6 +1380,16 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
         <translation>Richiede un po&apos; di inglese (e di italiano), quindi, se riesci a capire quello che c&apos;è scritto qui sotto, magari potrebbe interessarti.</translation>
+    </message>
+</context>
+<context>
+    <name>TXaxis</name>
+    <message numerus="yes">
+        <source>%n attempt(s)</source>
+        <translation>
+            <numerusform>%n tentativo</numerusform>
+            <numerusform>%n tentativi</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -1410,26 +1596,26 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Attempts number</source>
-        <translation>Numero di tentativi</translation>
+        <translation type="vanished">Numero di tentativi</translation>
     </message>
     <message>
         <source>Preparation time</source>
-        <translation>Tempo di preparazione</translation>
+        <translation type="vanished">Tempo di preparazione</translation>
     </message>
     <message>
         <source>Played number</source>
-        <translation>Numero di ripetizioni</translation>
+        <translation type="vanished">Numero di ripetizioni</translation>
     </message>
 </context>
 <context>
     <name>TchartTipItem</name>
     <message>
         <source>question</source>
-        <translation>Domanda</translation>
+        <translation type="vanished">Domanda</translation>
     </message>
     <message>
         <source>answer</source>
-        <translation>Risposta</translation>
+        <translation type="vanished">Risposta</translation>
     </message>
 </context>
 <context>
@@ -1448,7 +1634,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>bass dropped</source>
-        <translation>basso ottavato</translation>
+        <translation type="vanished">basso ottavato</translation>
     </message>
     <message>
         <source>alto</source>
@@ -1537,6 +1723,14 @@ non è un file di esame valido!</translation>
         <source>Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
         <translation>Usa un paio di cuffie! Altrimenti il click interferirà con il riconoscimento delle altezze!</translation>
     </message>
+    <message>
+        <source>beats per minute</source>
+        <translation>BPM</translation>
+    </message>
+    <message>
+        <source>Mouse wheel changes tempo promptly (also with %1 key). Click for more options.</source>
+        <translation>La rotellina del mouse immediatamente (anche con il tasto %1). Clicca per più opzioni.</translation>
+    </message>
 </context>
 <context>
     <name>TempoMenu</name>
@@ -1550,7 +1744,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Enable metronome ticking</source>
-        <translation>Attiva il click del metronomo</translation>
+        <translation type="vanished">Attiva il click del metronomo</translation>
     </message>
     <message>
         <source>Count up</source>
@@ -1558,15 +1752,15 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Tick first, then play</source>
-        <translation>Prima il click, poi suona</translation>
+        <translation type="vanished">Prima il click, poi suona</translation>
     </message>
     <message>
         <source>Tick during play</source>
-        <translation>Click durante la riproduzione</translation>
+        <translation type="vanished">Click durante la riproduzione</translation>
     </message>
     <message>
         <source>Tick when pitch detecting</source>
-        <translation>Click quando vi è il riconoscimento dell&apos;altezza</translation>
+        <translation type="vanished">Click quando vi è il riconoscimento dell&apos;altezza</translation>
     </message>
     <message>
         <source>Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy.</source>
@@ -1634,6 +1828,14 @@ non è un file di esame valido!</translation>
     <message>
         <source>as played sound</source>
         <translation>suono reale</translation>
+    </message>
+    <message>
+        <source>Let&apos;s start</source>
+        <translation type="vanished">Iniziamo!</translation>
+    </message>
+    <message>
+        <source>Let&apos;s start!</source>
+        <translation>Iniziamo!</translation>
     </message>
 </context>
 <context>
@@ -1906,6 +2108,14 @@ non è un file di esame valido!</translation>
     <message>
         <source>Progress of exercises</source>
         <translation>Progressi negli esercizi</translation>
+    </message>
+    <message>
+        <source>Send exam file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Number of questions:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2499,6 +2709,18 @@ Controlla se tutto i parametri sono corretti.</translation>
         <source>Open, save, generate and play a melody.</source>
         <translation>Apri, salva, genera e suona una melodia.</translation>
     </message>
+    <message>
+        <source>notes</source>
+        <comment>musical notes of course</comment>
+        <translation>note</translation>
+    </message>
+</context>
+<context>
+    <name>TmobileMenu</name>
+    <message>
+        <source>Tempo</source>
+        <translation>Tempo</translation>
+    </message>
 </context>
 <context>
     <name>TnameItem</name>
@@ -2736,6 +2958,16 @@ Controlla se tutto i parametri sono corretti.</translation>
         <source>dot</source>
         <translation>punto</translation>
     </message>
+    <message>
+        <source>rise</source>
+        <comment>as such as sharps rise note</comment>
+        <translation>alza</translation>
+    </message>
+    <message>
+        <source>lower</source>
+        <comment>as such as flats lower note</comment>
+        <translation>abbassa</translation>
+    </message>
 </context>
 <context>
     <name>TscoreSettings</name>
@@ -2777,6 +3009,14 @@ Controlla se tutto i parametri sono corretti.</translation>
     <message>
         <source>Exam</source>
         <translation>Esame</translation>
+    </message>
+    <message>
+        <source>Phone</source>
+        <translation>Telefono</translation>
+    </message>
+    <message>
+        <source>Tablet</source>
+        <translation>Tablet</translation>
     </message>
 </context>
 <context>
@@ -2968,29 +3208,14 @@ Controlla se tutto i parametri sono corretti.</translation>
         <source>Play or sing listened sound</source>
         <translation>Suona o canta i suoni ascoltati</translation>
     </message>
-</context>
-<context>
-    <name>ChartTip</name>
     <message>
-        <source>of</source>
-        <comment>It will give text: &apos;Attempt x of y&apos;</comment>
-        <translation>su</translation>
-    </message>
-    <message numerus="yes">
-        <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
-        <translation>
-            <numerusform>La melodia è stata suonata &lt;b&gt;%n&lt;/b&gt; volta</numerusform>
-            <numerusform>La melodia è stata suonata &lt;b&gt;%n&lt;/b&gt; volte</numerusform>
-        </translation>
+        <source>Select any note to play it again.</source>
+        <translatorcomment>I&apos;m not pretty sure I got the sense of it...</translatorcomment>
+        <translation>Seleziona una nota per suonarla di nuovo.</translation>
     </message>
     <message>
-        <source>played</source>
-        <comment>a melody was played (and number follows)</comment>
-        <translation>suonata</translation>
-    </message>
-    <message>
-        <source>time</source>
-        <translation>volta</translation>
+        <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
+        <translation>Clicca sulle note sbagliate per vedere&lt;br&gt;e per sentirle corrette.</translation>
     </message>
 </context>
 <context>
@@ -3105,6 +3330,10 @@ Controlla se tutto i parametri sono corretti.</translation>
         <source>Nooter - Nootka tuner</source>
         <translation>Nootore - il Nootka-accordatore</translation>
     </message>
+    <message>
+        <source>output volume</source>
+        <translation>volume in uscita</translation>
+    </message>
 </context>
 <context>
     <name>TupdateChecker</name>
@@ -3148,7 +3377,7 @@ Controlla se tutto i parametri sono corretti.</translation>
     </message>
     <message>
         <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
-        <translation>Per scaricarla, visita &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;il sito ufficiale di Nootka</translation>
+        <translation type="vanished">Per scaricarla, visita &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;il sito ufficiale di Nootka</translation>
     </message>
     <message>
         <source>News:</source>
@@ -3179,7 +3408,7 @@ Controlla se tutto i parametri sono corretti.</translation>
     </message>
     <message>
         <source>Start/stop pitch detection</source>
-        <translation>Avvia/ferma il riconoscimento delle altezze</translation>
+        <translation type="vanished">Avvia/ferma il riconoscimento delle altezze</translation>
     </message>
 </context>
 <context>

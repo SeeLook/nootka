@@ -34,7 +34,7 @@
         <translation>Только одна тональность используется во всем экзамене.</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/AccidsPage.qml" line="137"/>
+        <location filename="../src/qml/level/AccidsPage.qml" line="135"/>
         <source>Select a key signature. Appropriate accidentals used in this level will be selected automatically.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -43,12 +43,12 @@
         <translation type="vanished">Выберите тональность. Соответствующие знаки альтерации для экзамена будут выбраны автоматически !</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/AccidsPage.qml" line="147"/>
+        <location filename="../src/qml/level/AccidsPage.qml" line="145"/>
         <source>if checked, in exam user have to select a key signature, otherwise it is shown by application.</source>
         <translation>Если включено, то пользователь должен выбрать тональность, иначе она отображается приложением.</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/AccidsPage.qml" line="152"/>
+        <location filename="../src/qml/level/AccidsPage.qml" line="150"/>
         <source>Only notes from current key signature are taken. If key signature is disabled accidentals are not used.</source>
         <translation>Принимаются только ноты из текущей тональности. Если тональности отлючены, то знаки альтерации не используются.</translation>
     </message>
@@ -103,7 +103,7 @@
         <translation type="vanished">Элементы не активны, потому что соответствующие типы вопросов или ответов не выбраны.</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/AccidsPage.qml" line="142"/>
+        <location filename="../src/qml/level/AccidsPage.qml" line="140"/>
         <source>select a key signature manually</source>
         <translation>выбирать тональность вручую</translation>
     </message>
@@ -124,44 +124,51 @@
 <context>
     <name>AnalyzeDialog</name>
     <message>
-        <location filename="../src/charts/qml/AnalyzeDialog.qml" line="114"/>
+        <location filename="../src/charts/qml/AnalyzeDialog.qml" line="111"/>
+        <location filename="../src/charts/qml/ChartDrawer.qml" line="107"/>
         <source>ordered by:</source>
         <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
         <translation>упорядочить по:</translation>
     </message>
     <message>
-        <location filename="../src/charts/qml/AnalyzeDialog.qml" line="137"/>
+        <location filename="../src/charts/qml/AnalyzeDialog.qml" line="129"/>
         <source>student name:</source>
         <translation>имя ученика:</translation>
     </message>
     <message>
-        <location filename="../src/charts/qml/AnalyzeDialog.qml" line="154"/>
+        <location filename="../src/charts/qml/AnalyzeDialog.qml" line="146"/>
         <source>level:</source>
         <translation>уровень:</translation>
     </message>
     <message>
+        <location filename="../src/charts/tchartitem.cpp" line="104"/>
         <source>note pitch</source>
-        <translation type="vanished">высоте ноты</translation>
+        <translation>высоте ноты</translation>
     </message>
     <message>
+        <location filename="../src/charts/tchartitem.cpp" line="104"/>
         <source>fret number</source>
-        <translation type="vanished">номеру лада</translation>
+        <translation>номеру лада</translation>
     </message>
     <message>
+        <location filename="../src/charts/tchartitem.cpp" line="105"/>
         <source>key signature</source>
-        <translation type="vanished">тональности</translation>
+        <translation>тональности</translation>
     </message>
     <message>
+        <location filename="../src/charts/tchartitem.cpp" line="105"/>
         <source>accidentals</source>
-        <translation type="vanished">знакам альтерации</translation>
+        <translation>знакам альтерации</translation>
     </message>
     <message>
+        <location filename="../src/charts/tchartitem.cpp" line="106"/>
         <source>question type</source>
-        <translation type="vanished">типу вопроса</translation>
+        <translation>типу вопроса</translation>
     </message>
     <message>
+        <location filename="../src/charts/tchartitem.cpp" line="106"/>
         <source>mistake</source>
-        <translation type="vanished">ошибкам</translation>
+        <translation>ошибкам</translation>
     </message>
     <message>
         <source>Level summary:</source>
@@ -172,12 +179,12 @@
         <translation type="vanished">Строй</translation>
     </message>
     <message>
-        <location filename="../src/charts/tchartitem.cpp" line="233"/>
+        <location filename="../src/charts/tchartitem.cpp" line="252"/>
         <source>Click and Drag the cursor to move the chart.</source>
         <translation>Щелкните мышью и тащите, чтобы передвинуть график.</translation>
     </message>
     <message>
-        <location filename="../src/charts/tchartitem.cpp" line="119"/>
+        <location filename="../src/charts/tchartitem.cpp" line="142"/>
         <source>Question number</source>
         <translation>Количество вопросов</translation>
     </message>
@@ -192,8 +199,9 @@
         <translation type="vanished">Открыть экзамен для анализа</translation>
     </message>
     <message>
+        <location filename="../src/charts/tchartitem.cpp" line="61"/>
         <source>Recent exercise on level</source>
-        <translation type="vanished">Недавнее упражнение</translation>
+        <translation>Недавнее упражнение</translation>
     </message>
     <message>
         <source>recent opened exams:</source>
@@ -204,20 +212,21 @@
         <translation type="vanished">Закрыть анализ</translation>
     </message>
     <message>
+        <location filename="../src/charts/qml/AnalyzeDialog.qml" line="50"/>
         <source>Settings of a chart</source>
-        <translation type="vanished">Настройки диаграммы</translation>
+        <translation>Настройки диаграммы</translation>
     </message>
     <message>
         <source>Maximize</source>
         <translation type="vanished">Максимально увеличить</translation>
     </message>
     <message>
-        <location filename="../src/charts/qml/AnalyzeDialog.qml" line="65"/>
+        <location filename="../src/charts/qml/ChartDrawer.qml" line="83"/>
         <source>linear chart</source>
         <translation>линейная диаграмма</translation>
     </message>
     <message>
-        <location filename="../src/charts/qml/AnalyzeDialog.qml" line="74"/>
+        <location filename="../src/charts/qml/ChartDrawer.qml" line="94"/>
         <source>bar chart</source>
         <translation>столбчатый график</translation>
     </message>
@@ -226,33 +235,37 @@
         <translation type="vanished">ОК</translation>
     </message>
     <message>
-        <location filename="../src/charts/tchartitem.cpp" line="229"/>
+        <location filename="../src/charts/tchartitem.cpp" line="248"/>
         <source>Press %1 button to select an exam from a file.</source>
         <translation>Нажмите кнопку %1 для загрузки экзамена из файла.</translation>
     </message>
     <message>
-        <location filename="../src/charts/tchartitem.cpp" line="209"/>
+        <location filename="../src/charts/tchartitem.cpp" line="227"/>
         <source>Analyze</source>
         <translation>Анализ</translation>
     </message>
     <message>
-        <location filename="../src/charts/qml/AnalyzeDialog.qml" line="91"/>
+        <location filename="../src/charts/qml/AnalyzeDialog.qml" line="92"/>
+        <location filename="../src/charts/qml/ChartDrawer.qml" line="126"/>
         <source>Y value:</source>
         <translation>Y значение:</translation>
     </message>
     <message>
+        <location filename="../src/charts/tchartitem.cpp" line="103"/>
         <source>question number</source>
         <comment>see comment in &apos;ordered by:&apos; entry</comment>
-        <translation type="vanished">номеру вопроса</translation>
+        <translation>номеру вопроса</translation>
     </message>
     <message>
-        <location filename="../src/charts/tchartitem.cpp" line="231"/>
+        <location filename="../src/charts/tchartitem.cpp" line="250"/>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
         <translation>Используйте %1 + колесо мыши или кнопки %2 для изменения масштаба диаграммы.</translation>
     </message>
     <message>
+        <location filename="../src/charts/tchart.h" line="116"/>
+        <location filename="../src/charts/tchartitem.h" line="188"/>
         <source>Questions number</source>
-        <translation type="vanished">Количество вопросов</translation>
+        <translation>Количество вопросов</translation>
     </message>
     <message>
         <source>zoom in</source>
@@ -263,32 +276,42 @@
         <translation type="vanished">уменьшить</translation>
     </message>
     <message>
+        <location filename="../src/charts/tchartitem.cpp" line="78"/>
         <source>include time of wrong answers to average</source>
-        <translation type="vanished">включить время неправильных ответов в среднее</translation>
+        <translation>включить время неправильных ответов в среднее</translation>
     </message>
     <message>
+        <location filename="../src/charts/tchartitem.cpp" line="85"/>
         <source>show wrong answers separately</source>
-        <translation type="vanished">показывать неправильные ответы отдельно</translation>
+        <translation>показывать неправильные ответы отдельно</translation>
     </message>
     <message>
+        <location filename="../src/charts/tchartitem.cpp" line="225"/>
         <source>Analysis of exam results</source>
-        <translation type="vanished">Анализ результатов экзамена</translation>
+        <translation>Анализ результатов экзамена</translation>
     </message>
     <message>
+        <location filename="../src/charts/tchartitem.cpp" line="223"/>
         <source>Analysis of exercise</source>
-        <translation type="vanished">Анализ упражнения</translation>
+        <translation>Анализ упражнения</translation>
     </message>
     <message>
+        <location filename="../src/charts/tchart.h" line="121"/>
+        <location filename="../src/charts/tchartitem.h" line="193"/>
         <source>Attempts number</source>
-        <translation type="vanished">Число попыток</translation>
+        <translation>Число попыток</translation>
     </message>
     <message>
+        <location filename="../src/charts/tchart.h" line="126"/>
+        <location filename="../src/charts/tchartitem.h" line="198"/>
         <source>Preparation time</source>
-        <translation type="vanished">Время подготовки</translation>
+        <translation>Время подготовки</translation>
     </message>
     <message>
+        <location filename="../src/charts/tchart.h" line="131"/>
+        <location filename="../src/charts/tchartitem.h" line="203"/>
         <source>Played number</source>
-        <translation type="vanished">Количество сыгранных</translation>
+        <translation>Количество сыгранных</translation>
     </message>
 </context>
 <context>
@@ -317,7 +340,7 @@
     </message>
     <message>
         <location filename="../src/libs/core/exam/tresulttext.cpp" line="67"/>
-        <location filename="../src/main/texamsummary.cpp" line="119"/>
+        <location filename="../src/main/texamsummary.cpp" line="120"/>
         <source>little valid notes</source>
         <comment>the amount of correct notes in an answer is little</comment>
         <translation>мало правильных нот</translation>
@@ -328,74 +351,74 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libs/core/exam/tresulttext.cpp" line="79"/>
-        <location filename="../src/main/texamsummary.cpp" line="124"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="78"/>
+        <location filename="../src/main/texamsummary.cpp" line="125"/>
         <source>poor effectiveness</source>
         <translation>низкая эффективность</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/exam/tresulttext.cpp" line="83"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="82"/>
         <source>wrong accidental</source>
         <translation>неправильный знак альтерации</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/exam/tresulttext.cpp" line="87"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="86"/>
         <source>wrong key signature</source>
         <translation>неправильная тональность</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/exam/tresulttext.cpp" line="91"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="90"/>
         <source>wrong octave</source>
         <translation>неправильная октава</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="378"/>
+        <location filename="../src/charts/sorting.cpp" line="386"/>
         <source>correct notes</source>
         <translation>правильные ноты</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="379"/>
+        <location filename="../src/charts/sorting.cpp" line="387"/>
         <source>wrong notes</source>
         <translation>неправильные ноты</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="380"/>
+        <location filename="../src/charts/sorting.cpp" line="388"/>
         <source>wrong accidentals</source>
         <translation>неправильные знаки альтерации</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="381"/>
+        <location filename="../src/charts/sorting.cpp" line="389"/>
         <source>wrong octaves</source>
         <translation>неправильные октавы</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="382"/>
+        <location filename="../src/charts/sorting.cpp" line="390"/>
         <source>correct key signatures</source>
         <translation>правильные тональности</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="383"/>
+        <location filename="../src/charts/sorting.cpp" line="391"/>
         <source>wrong key signatures</source>
         <translation>неправильные тональности</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="386"/>
+        <location filename="../src/charts/sorting.cpp" line="394"/>
         <source>correct positions</source>
         <translation>правильные позиции</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="387"/>
+        <location filename="../src/charts/sorting.cpp" line="395"/>
         <source>wrong positions</source>
         <translation>неправильные позиции</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="388"/>
+        <location filename="../src/charts/sorting.cpp" line="396"/>
         <source>wrong strings</source>
         <translation>неправильные струны</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="389"/>
-        <location filename="../src/libs/core/exam/tresulttext.cpp" line="95"/>
+        <location filename="../src/charts/sorting.cpp" line="397"/>
+        <location filename="../src/libs/core/exam/tresulttext.cpp" line="94"/>
         <source>out of tune</source>
         <translation>не в тон</translation>
     </message>
@@ -453,6 +476,43 @@
         <location filename="../src/qml/exam/Certificate.qml" line="113"/>
         <source>Stop exam</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ChartDrawer</name>
+    <message>
+        <location filename="../src/charts/qml/ChartDrawer.qml" line="184"/>
+        <source>keep opened</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ChartTip</name>
+    <message>
+        <location filename="../src/charts/qml/ChartTip.qml" line="121"/>
+        <source>of</source>
+        <comment>It will give text: &apos;Attempt x of y&apos;</comment>
+        <translation>из</translation>
+    </message>
+    <message numerus="yes">
+        <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
+        <translatorcomment>Plural in Russian starts from 5 only (&quot;5 raz&quot;). 2, 3, 4 use dual form (&quot;raza&quot;).</translatorcomment>
+        <translation type="vanished">
+            <numerusform>Мелодия была проиграна &lt;b&gt;%n&lt;/b&gt; раз</numerusform>
+            <numerusform>Мелодия была проиграна &lt;b&gt;%n&lt;/b&gt; раза</numerusform>
+            <numerusform>Мелодия была проиграна &lt;b&gt;%n&lt;/b&gt; раз</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tcharttipitem.cpp" line="306"/>
+        <source>played</source>
+        <comment>a melody was played (and number follows)</comment>
+        <translation>сыграна</translation>
+    </message>
+    <message>
+        <location filename="../src/charts/tcharttipitem.cpp" line="309"/>
+        <source>time</source>
+        <translation>время</translation>
     </message>
 </context>
 <context>
@@ -664,12 +724,12 @@
 <context>
     <name>ExamSummary</name>
     <message>
-        <location filename="../src/qml/exam/ExamSummary.qml" line="69"/>
+        <location filename="../src/qml/exam/ExamSummary.qml" line="70"/>
         <source>Analyze</source>
         <translation>Анализ</translation>
     </message>
     <message>
-        <location filename="../src/qml/exam/ExamSummary.qml" line="80"/>
+        <location filename="../src/qml/exam/ExamSummary.qml" line="85"/>
         <source>Pass an exam</source>
         <translation>Сдать экзамен</translation>
     </message>
@@ -758,6 +818,14 @@
     </message>
 </context>
 <context>
+    <name>HelpPage</name>
+    <message>
+        <location filename="../src/qml/about/HelpPage.qml" line="29"/>
+        <source>Help topics</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>InstrumentPage</name>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="68"/>
@@ -780,12 +848,12 @@
         <translation>настройка инструмента</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/InstrumentPage.qml" line="132"/>
+        <location filename="../src/qml/settings/InstrumentPage.qml" line="131"/>
         <source>Select appropriate tuning from the list or prepare your own.</source>
         <translation>Выберите строй гитары из списка или создайте собственный.</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/InstrumentPage.qml" line="133"/>
+        <location filename="../src/qml/settings/InstrumentPage.qml" line="132"/>
         <source>Remember to select the appropriate clef in Score settings.</source>
         <translation>Не забудьте выбрать соотвествующий ключ в настройке нотоносца.</translation>
     </message>
@@ -817,27 +885,27 @@
         <translation type="vanished">Отключите, если Вы левша&lt;br&gt;и на гитаре изменен порядок струн.</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/InstrumentPage.qml" line="147"/>
+        <location filename="../src/qml/settings/InstrumentPage.qml" line="146"/>
         <source>preferred accidentals:</source>
         <translation>предпочитаемые знаки альтерации:</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/InstrumentPage.qml" line="151"/>
+        <location filename="../src/qml/settings/InstrumentPage.qml" line="150"/>
         <source>Choose which accidentals will be shown on the staff.</source>
         <translation>Выберите, какие знаки альтерации показывать.</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/InstrumentPage.qml" line="148"/>
+        <location filename="../src/qml/settings/InstrumentPage.qml" line="147"/>
         <source># - sharps</source>
         <translation># - диезы</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/InstrumentPage.qml" line="138"/>
+        <location filename="../src/qml/settings/InstrumentPage.qml" line="137"/>
         <source>Difference between score notation and real sound pitch.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/InstrumentPage.qml" line="149"/>
+        <location filename="../src/qml/settings/InstrumentPage.qml" line="148"/>
         <source>b - flats</source>
         <translation>b - бемоли</translation>
     </message>
@@ -847,18 +915,18 @@
         <translation>Введите номера ладов, помеченных точкой. Разделяйте номера запятой. Добавьте &quot;!&quot; (восклицательный знак) после номера, чтобы нарисовать двойную точку.</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/InstrumentPage.qml" line="169"/>
+        <location filename="../src/qml/settings/InstrumentPage.qml" line="168"/>
         <source>marked frets</source>
         <comment>or frets with dots/marks</comment>
         <translation>Помеченные лады</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/InstrumentPage.qml" line="158"/>
+        <location filename="../src/qml/settings/InstrumentPage.qml" line="157"/>
         <source>show all possibilities of a note</source>
         <translation>показывать все варианты ноты</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/InstrumentPage.qml" line="161"/>
+        <location filename="../src/qml/settings/InstrumentPage.qml" line="160"/>
         <source>As you know, the same note can be played in several places on the fingerboard.&lt;br&gt;If checked, all of them will be shown.</source>
         <translation>Как вы знаете, одна и та же нота может быть сыграна в разных местах грифа.&lt;br&gt;Эта опция ключает отображение всех вариантов.</translation>
     </message>
@@ -871,11 +939,19 @@
         <translation type="vanished">цвет выбранной струны/лада</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="262"/>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="272"/>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="295"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="237"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="247"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="270"/>
         <source>Custom tuning</source>
         <translation>Свой строй</translation>
+    </message>
+</context>
+<context>
+    <name>KeySignature</name>
+    <message>
+        <location filename="../src/qml/score/KeySignature.qml" line="79"/>
+        <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
+        <translation type="unfinished">Тональность. Для её изменения кликните выше или ниже нотоносца или используйте колесо мыши.</translation>
     </message>
 </context>
 <context>
@@ -972,7 +1048,7 @@
         <translation type="vanished">&lt;center&gt;&lt;b&gt;Похоже, что уровень содержит ошибки:&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/LevelCreator.qml" line="32"/>
+        <location filename="../src/qml/level/LevelCreator.qml" line="30"/>
         <source>Check</source>
         <translation>Проверить</translation>
     </message>
@@ -1001,17 +1077,17 @@
 <context>
     <name>LevelsPage</name>
     <message>
-        <location filename="../src/qml/level/LevelsPage.qml" line="36"/>
+        <location filename="../src/qml/level/LevelsPage.qml" line="37"/>
         <source>Start exam</source>
         <translation>Начать экзамен</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/LevelsPage.qml" line="43"/>
+        <location filename="../src/qml/level/LevelsPage.qml" line="44"/>
         <source>Start exercise</source>
         <translation>Начать упражнения</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/LevelsPage.qml" line="48"/>
+        <location filename="../src/qml/level/LevelsPage.qml" line="50"/>
         <location filename="../src/libs/core/exam/textrans.h" line="101"/>
         <source>Get more levels &lt;a href=&quot;%1&quot;&gt;from Nootka home page&lt;/a&gt;</source>
         <translation>Скачайте больше уровней с &lt;a href=&quot;%1&quot;&gt;домашней страницы Нутки&lt;/a&gt;</translation>
@@ -1028,21 +1104,16 @@
 <context>
     <name>MainMenuMobile</name>
     <message>
-        <location filename="../src/qml/+android/MainMenuMobile.qml" line="54"/>
+        <location filename="../src/mobile/tmobilemenu.cpp" line="46"/>
         <source>Pitch recognition</source>
         <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
         <translation>Распознавание нот</translation>
-    </message>
-    <message>
-        <location filename="../src/qml/+android/MainMenuMobile.qml" line="68"/>
-        <source>Metronome</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MainScore</name>
     <message>
-        <location filename="../src/main/tmainscoreobject.cpp" line="75"/>
+        <location filename="../src/main/tmainscoreobject.cpp" line="76"/>
         <source>Note by note</source>
         <translation>Нота за нотой</translation>
     </message>
@@ -1148,7 +1219,7 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation>Длина мелодии</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/MelodyPage.qml" line="104"/>
+        <location filename="../src/qml/level/MelodyPage.qml" line="103"/>
         <source>Play in tempo</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1156,32 +1227,32 @@ Consider to divide long pieces on parts in external software first.</source>
 <context>
     <name>NameStyleSelector</name>
     <message>
-        <location filename="../src/qml/shared/NameStyleSelector.qml" line="50"/>
+        <location filename="../src/qml/shared/NameStyleSelector.qml" line="49"/>
         <source>Scandinavian</source>
         <translation>Скандинавская</translation>
     </message>
     <message>
-        <location filename="../src/qml/shared/NameStyleSelector.qml" line="62"/>
+        <location filename="../src/qml/shared/NameStyleSelector.qml" line="61"/>
         <source>Italian</source>
         <translation>Итальянская</translation>
     </message>
     <message>
-        <location filename="../src/qml/shared/NameStyleSelector.qml" line="56"/>
+        <location filename="../src/qml/shared/NameStyleSelector.qml" line="55"/>
         <source>German</source>
         <translation>Германская</translation>
     </message>
     <message>
-        <location filename="../src/qml/shared/NameStyleSelector.qml" line="66"/>
+        <location filename="../src/qml/shared/NameStyleSelector.qml" line="65"/>
         <source>English</source>
         <translation>Английская</translation>
     </message>
     <message>
-        <location filename="../src/qml/shared/NameStyleSelector.qml" line="72"/>
+        <location filename="../src/qml/shared/NameStyleSelector.qml" line="71"/>
         <source>Dutch</source>
         <translation>Голландская</translation>
     </message>
     <message>
-        <location filename="../src/qml/shared/NameStyleSelector.qml" line="78"/>
+        <location filename="../src/qml/shared/NameStyleSelector.qml" line="77"/>
         <source>Russian</source>
         <translation>Русская</translation>
     </message>
@@ -1204,13 +1275,13 @@ Consider to divide long pieces on parts in external software first.</source>
 <context>
     <name>Notation</name>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="516"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="501"/>
         <source>b</source>
         <comment>Give here a name of 7-th note preferred in your country. But only &apos;b&apos; or &apos;h&apos; not &apos;si&apos; or something worst...</comment>
         <translation>b</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="521"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="506"/>
         <source>letters</source>
         <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country preferred style of naming key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
         <translation>solfege</translation>
@@ -1221,6 +1292,32 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <location filename="../src/qml/instruments/OutScaleTip.qml" line="21"/>
         <source>Out of instrument scale!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PhonePage</name>
+    <message>
+        <location filename="../src/qml/settings/+android/PhonePage.qml" line="24"/>
+        <source>screen always on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/settings/+android/PhonePage.qml" line="29"/>
+        <source>disable screen rotation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/settings/+android/PhonePage.qml" line="34"/>
+        <source>full screen</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PitchView</name>
+    <message>
+        <location filename="../src/qml/sound/PitchView.qml" line="44"/>
+        <source>Start/stop pitch detection</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1362,7 +1459,7 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">Не беспокойтесь. Это окно появляется один раз, после выхода новой версии Нутки.&lt;br&gt;Эту информацию всегда можно посмотреть в окне «О Нутке»</translation>
     </message>
     <message>
-        <location filename="../src/charts/tyaxis.cpp" line="89"/>
+        <location filename="../src/charts/tchart.cpp" line="74"/>
         <source>time [s]</source>
         <comment>unit of Y axis</comment>
         <translation>время [с]</translation>
@@ -1420,12 +1517,12 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">Выберите тип ответов для вопроса.</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/QuestionsPage.qml" line="148"/>
+        <location filename="../src/qml/level/QuestionsPage.qml" line="151"/>
         <source>require octave</source>
         <translation>требовать правильную октаву</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/QuestionsPage.qml" line="152"/>
+        <location filename="../src/qml/level/QuestionsPage.qml" line="155"/>
         <source>if checked, selecting of valid octave is required</source>
         <translation>при ответе требовать правильную октаву</translation>
     </message>
@@ -1448,52 +1545,52 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">Определяет последнюю ноту мелодии.&lt;br&gt;Если включено, мелодия будет завершаться тоникой соответствующей основной тональности.</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/QuestionsPage.qml" line="43"/>
+        <location filename="../src/qml/level/QuestionsPage.qml" line="44"/>
         <source>single note</source>
         <translation>одна нота</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/QuestionsPage.qml" line="49"/>
+        <location filename="../src/qml/level/QuestionsPage.qml" line="51"/>
         <source>melodies</source>
         <translation>мелодий</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/QuestionsPage.qml" line="63"/>
+        <location filename="../src/qml/level/QuestionsPage.qml" line="66"/>
         <source>Kind of questions and answers:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/level/QuestionsPage.qml" line="79"/>
+        <location filename="../src/qml/level/QuestionsPage.qml" line="82"/>
         <source>Question</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/level/QuestionsPage.qml" line="160"/>
+        <location filename="../src/qml/level/QuestionsPage.qml" line="163"/>
         <source>use different naming styles</source>
         <translation>использовать другой стиль обозначения нот</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/QuestionsPage.qml" line="164"/>
+        <location filename="../src/qml/level/QuestionsPage.qml" line="167"/>
         <source>if checked, note names are switched between letters and solfege.</source>
         <translation>если выбрано, то обозначение нот меняется между буквенным и слоговым.</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/QuestionsPage.qml" line="173"/>
+        <location filename="../src/qml/level/QuestionsPage.qml" line="176"/>
         <source>show string number in questions</source>
         <translation>показывать номер струны в вопросе</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/QuestionsPage.qml" line="177"/>
+        <location filename="../src/qml/level/QuestionsPage.qml" line="180"/>
         <source>Shows on which string an answer has to be given. Be careful, sometimes it is needed and sometimes it makes no sense.</source>
         <translation>Нутка будет показывать, какую струну нужно использовать для ответа.</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/QuestionsPage.qml" line="190"/>
+        <location filename="../src/qml/level/QuestionsPage.qml" line="193"/>
         <source>if checked, the lowest position in selected fret range is required, otherwise all possible positions of the note are acceptable. To use this, all strings have to be available!</source>
         <translation>Требовать самую низкую позицию (ближе к головке грифа) в выбранном диапазоне ладов, иначе принимаются все возможные позиции!</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/QuestionsPage.qml" line="186"/>
+        <location filename="../src/qml/level/QuestionsPage.qml" line="189"/>
         <source>notes in the lowest position only</source>
         <translation>ноты в нижних позициях</translation>
     </message>
@@ -1617,17 +1714,8 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/level/RhythmsPage.qml" line="84"/>
+        <location filename="../src/qml/level/RhythmsPage.qml" line="83"/>
         <source>variable</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ScoreMenuContent</name>
-    <message>
-        <location filename="../src/qml/ScoreMenuContent.qml" line="33"/>
-        <source>notes</source>
-        <comment>musical notes of course</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1806,9 +1894,23 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
 </context>
 <context>
+    <name>ScoreToolbox</name>
+    <message>
+        <location filename="../src/qml/score/ScoreToolbox.qml" line="124"/>
+        <source>Tie - connect or disconnect selected note with previous one if both notes have the same pitch.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1104"/>
+        <source>tie</source>
+        <comment>To translate it properly, check please meaning of &apos;tie&apos; in musical context.</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Select7note</name>
     <message>
-        <location filename="../src/qml/settings/Select7note.qml" line="27"/>
+        <location filename="../src/qml/settings/Select7note.qml" line="29"/>
         <source>7th note is:</source>
         <translation>7-я нота:</translation>
     </message>
@@ -1819,6 +1921,39 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <source>7th note is &lt;b&gt;H&lt;/b&gt; and with flat is &lt;b&gt;Hb&lt;/b&gt; or &lt;b&gt;B&lt;/b&gt;</source>
         <translation type="vanished">7-я нота это &lt;b&gt;H&lt;/b&gt;, с бемолем &lt;b&gt;Hb&lt;/b&gt; или &lt;b&gt;B&lt;/b&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>SoundInfo</name>
+    <message>
+        <location filename="../src/qml/wizard/SoundInfo.qml" line="36"/>
+        <source>Nootka can hear You!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/wizard/SoundInfo.qml" line="48"/>
+        <source>Nootka recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/wizard/SoundInfo.qml" line="49"/>
+        <source>Be sure your system is able to record what are you playing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/wizard/SoundInfo.qml" line="50"/>
+        <source>Adjust minimal note volume a little below of your input volume level.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/wizard/SoundInfo.qml" line="65"/>
+        <source>Aim to play loud and clear and avoid dirty sounds specific to your instrument.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/wizard/SoundInfo.qml" line="66"/>
+        <source>Rhythms detection during exercises and exams is more &apos;humane&apos; - Nootka knows what rhythm to expect. In contrary to playing to &apos;empty&apos; score when high rhythmic precision is required, so better use metronome then.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1842,7 +1977,7 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">Среднее ля и транспозиция</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="185"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="180"/>
         <source>pitch detection mode</source>
         <translation>режим определения высоты звука</translation>
     </message>
@@ -1862,32 +1997,32 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation>воспроизведение звука</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="93"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="92"/>
         <source>minimum note duration</source>
         <translation>минимальная длительность ноты</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="275"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="267"/>
         <source>output device</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="89"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="88"/>
         <source>Only sounds longer than the selected time will be pitch-detected.&lt;br&gt;Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness.</source>
         <translation>Определяются только ноты, длиннее данного времени.&lt;br&gt;Б&lt;i&gt;о&lt;/i&gt;льшие значения позволяют снизить ошибку в определении высоты звука, но уменьшают скорость реакции алгоритма.</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="109"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="108"/>
         <source>minimum volume</source>
         <translation>минимальная громкость</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="105"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="104"/>
         <source>Minimum volume of a sound to be pitch-detected</source>
         <translation>Уровень громкости, при превышениие которого запускается алгоритм определения высоты звука</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="135"/>
+        <location filename="../src/qml/settings/MiddleA440.qml" line="22"/>
         <source>middle A</source>
         <translation>среднее ля</translation>
     </message>
@@ -1896,42 +2031,42 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">частота:</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="177"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="140"/>
         <source>Advanced</source>
         <translation>Расширенные</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="203"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="197"/>
         <source>split when volume rise</source>
         <translation>делить при повышении громкости</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="196"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="190"/>
         <source>Helps to properly detect the same notes repeated quickly on the guitar.</source>
         <translation>Помогает правильно определять одинаковые ноты, быстро играемые на гитаре.</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="164"/>
+        <location filename="../src/qml/settings/MiddleA440.qml" line="49"/>
         <source>[Hz]</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="223"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="216"/>
         <source>skip stiller than</source>
         <translation>пропускать длительнее, чем</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="216"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="209"/>
         <source>Skips stiller sounds, below given percent of average volume. It prevents detecting of harmonics on classical or acoustic guitar but requires playing with similar strength.</source>
         <translation>Пропускает длительные звуки, ниже указанного процента усредненной громкости. Это предотвращает определение гармоник на классической или акустической гитаре, но требует игры с одинаковой силой звукоизвлечения.</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="236"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="228"/>
         <source>It is rather necessary for mic input but may be switched off for an instrument plugged line-in with less noise.</source>
         <translation>Это более необходимо для ввода через микрофон, но может быть выключено, если инструмент подключен к линейному входу с меньшим уровнем шумов.</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="240"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="232"/>
         <source>noise filter</source>
         <translation>фильтр шума</translation>
     </message>
@@ -1952,7 +2087,7 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">Проверьте правильность настроек входного устройства и&lt;br&gt;насколько правильно работает алгоритм определения высоты звука.</translation>
     </message>
     <message>
-        <location filename="../src/qml/sound/TunerDialog.qml" line="48"/>
+        <location filename="../src/qml/sound/TunerDialog.qml" line="22"/>
         <source>Frequency of detected note. You can use this for tuning.</source>
         <translation>Частота обнаруженной ноты. Можно использовать её для настройки.</translation>
     </message>
@@ -1969,7 +2104,7 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">интервал:</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="100"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="99"/>
         <source>[milliseconds]</source>
         <translation>[мс]</translation>
     </message>
@@ -1978,7 +2113,7 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">нет</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="129"/>
+        <location filename="../src/qml/settings/MiddleA440.qml" line="16"/>
         <source>The base frequency of &lt;i&gt;middle a&lt;/i&gt;.&lt;br&gt;Detection of the proper pitch of notes is relative to this value. This also affects the pitch of played sounds.</source>
         <translation>Базовая частота &lt;i&gt;среднего ля&lt;/i&gt;.&lt;br&gt;Определение высоты нот зависит от этого значения. Оно так же влияет на воспроизводимые звуки.</translation>
     </message>
@@ -2007,13 +2142,13 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">Обнаруженная нота</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="307"/>
-        <location filename="../src/qml/settings/SoundPage.qml" line="322"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="298"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="312"/>
         <source>no devices found</source>
         <translation>устройства не найдены</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="261"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="253"/>
         <source>play sound</source>
         <translation>проигрывать звук</translation>
     </message>
@@ -2030,12 +2165,12 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">выходное аудиоустройство</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="297"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="288"/>
         <source>forward input to output</source>
         <translation>перенаправить ввод в вывод</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="293"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="284"/>
         <source>All sounds captured by audio input will be forwarded directly to output device.</source>
         <translation>Все звуки, захваченные на входе аудио будут перенаправлены напрямую на устройство вывода аудио.</translation>
     </message>
@@ -2055,7 +2190,7 @@ Consider to divide long pieces on parts in external software first.</source>
 <context>
     <name>StartExam</name>
     <message>
-        <location filename="../src/qml/exam/StartExam.qml" line="190"/>
+        <location filename="../src/qml/exam/StartExam.qml" line="199"/>
         <source>Start exercises or an exam</source>
         <translation>Начать упражнение или экзамен</translation>
     </message>
@@ -2070,7 +2205,7 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation>Введите своё имя или ник.</translation>
     </message>
     <message>
-        <location filename="../src/qml/exam/StartExam.qml" line="126"/>
+        <location filename="../src/qml/exam/StartExam.qml" line="128"/>
         <source>Select an exam to continue</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2099,7 +2234,7 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">Помощь</translation>
     </message>
     <message>
-        <location filename="../src/qml/exam/StartExam.qml" line="64"/>
+        <location filename="../src/qml/exam/StartExam.qml" line="61"/>
         <source>To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file.</source>
         <translation>Чтобы начать упражнение или экзамен, введите своё имя и выберите уровень. Чтобы продолжить предыдущий экзамен, выберите его из списка или загрузите из файла.</translation>
     </message>
@@ -2108,7 +2243,7 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">недавно открытые экзамены:</translation>
     </message>
     <message>
-        <location filename="../src/qml/exam/StartExam.qml" line="87"/>
+        <location filename="../src/qml/exam/StartExam.qml" line="88"/>
         <source>Start exercise on level:</source>
         <translation>Начать упражнение на уровне:</translation>
     </message>
@@ -2117,7 +2252,7 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">Продолжить экзамен</translation>
     </message>
     <message>
-        <location filename="../src/qml/exam/StartExam.qml" line="140"/>
+        <location filename="../src/qml/exam/StartExam.qml" line="143"/>
         <source>Latest exam</source>
         <translation>Недавний экзамен</translation>
     </message>
@@ -2126,18 +2261,18 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">Продолжить последний экзамен:</translation>
     </message>
     <message>
-        <location filename="../src/qml/exam/StartExam.qml" line="92"/>
-        <location filename="../src/qml/exam/StartExam.qml" line="109"/>
+        <location filename="../src/qml/exam/StartExam.qml" line="93"/>
+        <location filename="../src/qml/exam/StartExam.qml" line="111"/>
         <source>No level was selected!</source>
         <translation>Уровень не был выбран!</translation>
     </message>
     <message>
-        <location filename="../src/main/tstartexamitem.cpp" line="133"/>
+        <location filename="../src/main/tstartexamitem.cpp" line="128"/>
         <source>Give an user name!</source>
         <translation>Введите имя пользователя!</translation>
     </message>
     <message>
-        <location filename="../src/qml/exam/StartExam.qml" line="104"/>
+        <location filename="../src/qml/exam/StartExam.qml" line="106"/>
         <source>Pass new exam on level:</source>
         <translation>Начать экзамен на уровне:</translation>
     </message>
@@ -2174,24 +2309,36 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation>Кампания спонсирования Нутки</translation>
     </message>
     <message>
-        <location filename="../src/qml/about/SupportPage.qml" line="20"/>
+        <location filename="../src/qml/about/SupportPage.qml" line="23"/>
         <source>Through PayPal or a card</source>
         <translation>Перевести с PayPal или карты</translation>
     </message>
     <message>
-        <location filename="../src/qml/about/SupportPage.qml" line="20"/>
+        <location filename="../src/qml/about/SupportPage.qml" line="23"/>
         <source>or send email for an account number</source>
         <translation>или отправить письмо для номера счета</translation>
     </message>
     <message>
-        <location filename="../src/qml/about/SupportPage.qml" line="41"/>
+        <location filename="../src/qml/about/SupportPage.qml" line="45"/>
         <source>You also can help with making Nootka better.</source>
         <translation>Вы можете помочь сделать Нутку лучше.</translation>
     </message>
     <message>
-        <location filename="../src/qml/about/SupportPage.qml" line="54"/>
+        <location filename="../src/qml/about/SupportPage.qml" line="58"/>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
         <translation>Требуется совсем немного - лишь начальное знание английского языка.&lt;br&gt;Если вы можете прочитать текст внизу, значит наверняка чем-нибудь будете полезны.</translation>
+    </message>
+</context>
+<context>
+    <name>TXaxis</name>
+    <message numerus="yes">
+        <location filename="../src/charts/tmainchart.cpp" line="66"/>
+        <source>%n attempt(s)</source>
+        <translation type="unfinished">
+            <numerusform>%n попытка</numerusform>
+            <numerusform>%n попытки</numerusform>
+            <numerusform>%n попыток</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -2216,7 +2363,7 @@ Consider to divide long pieces on parts in external software first.</source>
 <context>
     <name>TaboutNootka</name>
     <message>
-        <location filename="../src/qml/about/TaboutNootka.qml" line="33"/>
+        <location filename="../src/qml/about/TaboutNootka.qml" line="30"/>
         <source>About Nootka</source>
         <translation>О Нутке</translation>
     </message>
@@ -2261,7 +2408,7 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation>Аудио</translation>
     </message>
     <message>
-        <location filename="../src/qml/about/AuthorsPage.qml" line="106"/>
+        <location filename="../src/qml/about/AuthorsPage.qml" line="98"/>
         <source>Thanks</source>
         <translation>Спасибо</translation>
     </message>
@@ -2281,12 +2428,12 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation>Oбработка и/или запись сэмплов:</translation>
     </message>
     <message>
-        <location filename="../src/qml/about/AuthorsPage.qml" line="91"/>
+        <location filename="../src/qml/about/AuthorsPage.qml" line="83"/>
         <source>Other projects</source>
         <translation>Другие проекты</translation>
     </message>
     <message>
-        <location filename="../src/qml/about/AuthorsPage.qml" line="94"/>
+        <location filename="../src/qml/about/AuthorsPage.qml" line="86"/>
         <source>However this application could not exist without various open source projects.&lt;br&gt;Especially:</source>
         <translation>Однако это приложение не появилось бы без помощи других проектов.&lt;br&gt;Особенно:</translation>
     </message>
@@ -2326,44 +2473,37 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="93"/>
-        <location filename="../src/charts/tchartitem.cpp" line="71"/>
         <source>question number</source>
         <comment>see comment in &apos;ordered by:&apos; entry</comment>
         <translation>номеру вопроса</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="94"/>
-        <location filename="../src/charts/tchartitem.cpp" line="72"/>
         <source>note pitch</source>
         <translation>высоте ноты</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="95"/>
-        <location filename="../src/charts/tchartitem.cpp" line="72"/>
         <source>fret number</source>
         <translation>номеру лада</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="96"/>
-        <location filename="../src/charts/tchartitem.cpp" line="73"/>
         <source>key signature</source>
         <translation>тональности</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="97"/>
-        <location filename="../src/charts/tchartitem.cpp" line="73"/>
         <source>accidentals</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="98"/>
-        <location filename="../src/charts/tchartitem.cpp" line="74"/>
         <source>question type</source>
         <translation>типу вопроса</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="99"/>
-        <location filename="../src/charts/tchartitem.cpp" line="74"/>
         <source>mistake</source>
         <translation>ошибкам</translation>
     </message>
@@ -2469,39 +2609,32 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation>Анализ упражнения</translation>
     </message>
     <message>
-        <location filename="../src/charts/tbar.cpp" line="62"/>
-        <location filename="../src/charts/tstatisticstip.cpp" line="50"/>
-        <location filename="../src/charts/tyaxis.h" line="74"/>
+        <location filename="../src/charts/tbarchartdelegate.cpp" line="113"/>
         <source>Questions number</source>
         <translation>Количество вопросов</translation>
     </message>
     <message>
-        <location filename="../src/charts/tyaxis.h" line="79"/>
         <source>Attempts number</source>
-        <translation>Число попыток</translation>
+        <translation type="vanished">Число попыток</translation>
     </message>
     <message>
-        <location filename="../src/charts/tyaxis.h" line="84"/>
         <source>Preparation time</source>
-        <translation>Время подготовки</translation>
+        <translation type="vanished">Время подготовки</translation>
     </message>
     <message>
-        <location filename="../src/charts/tyaxis.h" line="89"/>
         <source>Played number</source>
-        <translation>Количество сыгранных</translation>
+        <translation type="vanished">Количество сыгранных</translation>
     </message>
 </context>
 <context>
     <name>TchartTipItem</name>
     <message>
-        <location filename="../src/charts/tcharttipitem.cpp" line="61"/>
         <source>question</source>
-        <translation>вопрос</translation>
+        <translation type="vanished">вопрос</translation>
     </message>
     <message>
-        <location filename="../src/charts/tcharttipitem.cpp" line="62"/>
         <source>answer</source>
-        <translation>ответ</translation>
+        <translation type="vanished">ответ</translation>
     </message>
 </context>
 <context>
@@ -2622,25 +2755,37 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/sound/TempoBar.qml" line="50"/>
+        <location filename="../src/qml/sound/TempoBar.qml" line="33"/>
+        <source>beats per minute</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/sound/TempoBar.qml" line="34"/>
+        <source>Mouse wheel changes tempo promptly (also with %1 key). Click for more options.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/sound/TempoBar.qml" line="62"/>
         <source>Countdown before playing or listening.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/qml/sound/TempoBar.qml" line="109"/>
         <source>Audible metronome</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/qml/sound/TempoBar.qml" line="109"/>
         <source>Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/sound/TempoBar.qml" line="143"/>
+        <location filename="../src/qml/sound/TempoBar.qml" line="157"/>
         <source>Tuner</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/sound/TempoBar.qml" line="154"/>
+        <location filename="../src/qml/sound/TempoBar.qml" line="168"/>
         <source>Metronome</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2648,32 +2793,33 @@ Consider to divide long pieces on parts in external software first.</source>
 <context>
     <name>TempoMenu</name>
     <message>
-        <location filename="../src/qml/sound/TempoMenu.qml" line="70"/>
+        <location filename="../src/qml/sound/TempoMenu.qml" line="77"/>
         <source>tempo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/sound/TempoMenu.qml" line="90"/>
+        <location filename="../src/qml/sound/TempoMenu.qml" line="99"/>
         <source>Tap tempo</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/sound/TempoMenu.qml" line="98"/>
+        <location filename="../src/qml/sound/TempoMenu.qml" line="109"/>
         <source>Metronome visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/sound/TempoMenu.qml" line="106"/>
+        <location filename="../src/qml/sound/TempoMenu.qml" line="118"/>
+        <location filename="../src/qml/sound/TempoMenu.qml" line="137"/>
         <source>Count up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/sound/TempoMenu.qml" line="122"/>
+        <location filename="../src/qml/sound/TempoMenu.qml" line="177"/>
         <source>Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/sound/TempoMenu.qml" line="129"/>
+        <location filename="../src/qml/sound/TempoMenu.qml" line="184"/>
         <source>round to:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2681,17 +2827,17 @@ Consider to divide long pieces on parts in external software first.</source>
 <context>
     <name>Texam</name>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="506"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="491"/>
         <source>as note on the staff</source>
         <translation>нота на нотном стане</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="507"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="492"/>
         <source>as note name</source>
         <translation>название ноты</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="508"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="493"/>
         <source>on instrument</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2700,7 +2846,7 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">позиция на грифе</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="509"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="494"/>
         <source>as played sound</source>
         <translation>сыграный звук</translation>
     </message>
@@ -2740,13 +2886,18 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation>Прослушать мелодию и записать ее на нотоносце</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/QuestionsPage.qml" line="124"/>
+        <location filename="../src/qml/level/QuestionsPage.qml" line="127"/>
         <source>Listen to a melody and repeat it on your instrument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/level/QuestionsPage.qml" line="129"/>
+        <location filename="../src/qml/level/QuestionsPage.qml" line="132"/>
         <source>repeat melody</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/main/ttiphandler.cpp" line="170"/>
+        <source>Let&apos;s start!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2769,75 +2920,75 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation>Уровень &lt;b&gt;%1&lt;b&gt;&lt;br&gt;не имеет смысла, т.к. нечего спрашивать.&lt;br&gt;Он может не соответствовать текущей настойке инструмента.&lt;br&gt;Исправьте уровень в Редакторе уровней и попробуйте снова.</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1176"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1173"/>
         <source>Exercise or exam preferences</source>
         <translation>Настройки экзамена или упражнения</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1194"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1192"/>
         <source>repeat previous question (backspace)</source>
         <translation>повторить предыдущий вопрос (backspace)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1200"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1198"/>
         <source>next question
 (space %1)</source>
         <translation>следующий вопрос
 (пробел %1)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1205"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1204"/>
         <source>Play &lt;i&gt;middle a&lt;/i&gt; like a tuning fork.
 (Press key &apos;a&apos;)</source>
         <translation>Играть &lt;i&gt;среднее a&lt;/i&gt; как камертон.
 (Нажмите клавишу &apos;a&apos;)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1213"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1211"/>
         <source>play sound again</source>
         <translation>проиграть звук снова</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1225"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1224"/>
         <source>Try this melody once again. (backspace)</source>
         <translation>Попробовать эту мелодию еще раз. (backspace)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1234"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1232"/>
         <source>check answer
 (enter %1)</source>
         <translation>проверить ответ
 (Enter %1)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1240"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1239"/>
         <source>correct answer
 (enter)</source>
         <translation>Показать правильный ответ
 (Enter)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1355"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1354"/>
         <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
         <translation>Сначала дайте ответ!&lt;br&gt;Потом экзамен закончится.</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1408"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1407"/>
         <source>Such a pity.</source>
         <translation>Очень жаль.</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1478"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1477"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
         <translation>Тссс... Идет экзамен.&lt;br&gt;&lt;br&gt;Выберите &lt;b&gt;%1&lt;/b&gt; чтобы проверить, сохранить или выйти&lt;br&gt;или &lt;b&gt;%2&lt;/b&gt; чтобы продолжить.&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1508"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1507"/>
         <source>Save exam results as:</source>
         <translation>Сохранить результат экзамена как:</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1513"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1512"/>
         <source>If you don&apos;t save to file&lt;br&gt;you lost all results!</source>
         <translation>Если вы не сохраните экзамен в файл&lt;br&gt;все результаты будут потеряны!</translation>
     </message>
@@ -2846,22 +2997,22 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">Эта нота не была сыграна!</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1851"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1852"/>
         <source>Exercises with Nootka</source>
         <translation>Упражнения с Нуткой</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1183"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1180"/>
         <source>finish exercising</source>
         <translation>закончить упражнение</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1853"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1854"/>
         <source>EXAM!</source>
         <translation>ЭКЗАМЕН!</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1186"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1183"/>
         <source>stop the exam</source>
         <translation>остановить экзамен</translation>
     </message>
@@ -2889,92 +3040,93 @@ Consider to divide long pieces on parts in external software first.</source>
 <context>
     <name>TexamHelp</name>
     <message>
-        <location filename="../src/help/texamhelp.cpp" line="35"/>
+        <location filename="../src/help/texamhelp.cpp" line="30"/>
         <source>When your exercising will go well Nootka will suggest you to start an exam.</source>
         <translation>Если упражнения выполняются без ошибок, Нутка будет предлагать начать экзамен.</translation>
     </message>
     <message>
-        <location filename="../src/help/texamhelp.cpp" line="40"/>
+        <location filename="../src/help/texamhelp.cpp" line="35"/>
         <source>Exams can be saved to files and continued later. Moreover, exam files can be opened to analyze.</source>
         <translation>Экзамен может быть сохранён в файл, чтобы возобновить его сдачу позднее. Кроме того, файл экзамена может быть открыт для анализа.</translation>
     </message>
     <message>
-        <location filename="../src/help/texamhelp.cpp" line="41"/>
+        <location filename="../src/help/texamhelp.cpp" line="36"/>
         <source>Exam will be completed when you give answers to all questions.&lt;br&gt;The number of questions depends on the level of the exam.</source>
         <translation>Экзамен завершится, когда Вы ответите на все вопросы.&lt;br&gt;Количество вопросов зависит от сложности экзамена.</translation>
     </message>
     <message>
-        <location filename="../src/help/texamhelp.cpp" line="42"/>
+        <location filename="../src/help/texamhelp.cpp" line="37"/>
         <source>If you make a mistake, the question will asked two more times and the total number of questions will be increased. These are penalty questions.</source>
         <translation>Если вы сделаете ошибку, вопрос будет спрошен дважды и общее количество вопросов увеличится. Это штрафные вопросы.</translation>
     </message>
     <message>
-        <location filename="../src/help/texamhelp.cpp" line="42"/>
+        <location filename="../src/help/texamhelp.cpp" line="37"/>
         <source>When answer is &apos;not bad&apos;, you get one penalty more.</source>
         <translation>Когда ответ &quot;неплох, но..&quot;, вы получите еще штрафной вопрос.</translation>
     </message>
     <message>
-        <location filename="../src/help/texamhelp.cpp" line="56"/>
+        <location filename="../src/qml/about/HelpPage.qml" line="49"/>
+        <location filename="../src/help/texamhelp.cpp" line="51"/>
         <source>How does an exercise or an exam work?</source>
         <translation>Как работают упражнения и экзамены?</translation>
     </message>
     <message>
-        <location filename="../src/help/texamhelp.cpp" line="58"/>
+        <location filename="../src/help/texamhelp.cpp" line="53"/>
         <source> Briefly: Nootka give you a question and you give an answer...</source>
         <translation>Вкратце: Нутка задаёт вопрос, и Вы на него отвечаете...</translation>
     </message>
     <message>
-        <location filename="../src/help/texamhelp.cpp" line="67"/>
+        <location filename="../src/help/texamhelp.cpp" line="62"/>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
         <translation>Вопросы отмечены этим цветом и знаком &quot;?&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/help/texamhelp.cpp" line="68"/>
+        <location filename="../src/help/texamhelp.cpp" line="63"/>
         <source>To give an answer, select it on &lt;span style=&quot;%1&quot;&gt;Nootka&apos;s element with that color.&lt;/span&gt;&lt;br&gt;</source>
         <translation>Чтобы дать ответ, выберите его на &lt;span style=&quot;%1&quot;&gt;элементе Нутки, отмеченным этим цветом.&lt;/span&gt;&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/help/texamhelp.cpp" line="78"/>
+        <location filename="../src/help/texamhelp.cpp" line="73"/>
         <source>Exercises</source>
         <translation>Упражнения</translation>
     </message>
     <message>
-        <location filename="../src/help/texamhelp.cpp" line="80"/>
+        <location filename="../src/help/texamhelp.cpp" line="75"/>
         <source>If you made a mistake during an exercise, Nootka can show you correct answer. To see it:</source>
         <translation>Если Вы сделали ошибку во время упражнения, то Нутка может показать правильный ответ. Для этого:</translation>
     </message>
     <message>
-        <location filename="../src/help/texamhelp.cpp" line="86"/>
+        <location filename="../src/help/texamhelp.cpp" line="81"/>
         <source>You can every time click button %1 to pause or stop exercising and to see your results.</source>
         <translation>В любое время вы можете нажать %1 чтобы приостановить или закончить упражнение и увидеть свои результаты.</translation>
     </message>
     <message>
-        <location filename="../src/help/texamhelp.cpp" line="89"/>
+        <location filename="../src/help/texamhelp.cpp" line="84"/>
         <source>Exams</source>
         <translation>Экзамены</translation>
     </message>
     <message>
-        <location filename="../src/help/texamhelp.cpp" line="91"/>
+        <location filename="../src/help/texamhelp.cpp" line="86"/>
         <source>If you made a mistake during an exam and you want to repeat the question:</source>
         <translation>Если вы сделали ошибку во время экзамена и хотите повторить вопрос:</translation>
     </message>
     <message>
-        <location filename="../src/help/texamhelp.cpp" line="100"/>
+        <location filename="../src/help/texamhelp.cpp" line="95"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../src/help/texamhelp.cpp" line="102"/>
+        <location filename="../src/help/texamhelp.cpp" line="97"/>
         <source>Just click this settings button to adjust an exercise or an exam to your current needs.</source>
         <translation>Просто щелкните эту кнопку настроек, чтобы подогнать упражнение или экзамен под ваши потребности. </translation>
     </message>
     <message>
-        <location filename="../src/help/texamhelp.cpp" line="106"/>
+        <location filename="../src/help/texamhelp.cpp" line="101"/>
         <source>GOOD LUCK!</source>
         <translation>УДАЧИ!</translation>
     </message>
     <message>
-        <location filename="../src/help/texamhelp.cpp" line="70"/>
+        <location filename="../src/help/texamhelp.cpp" line="65"/>
         <source>To check the answer confirm it:</source>
         <translation>Чтобы проверить ответ - подтвердите его:</translation>
     </message>
@@ -3052,12 +3204,12 @@ Consider to divide long pieces on parts in external software first.</source>
 <context>
     <name>TexamSummary</name>
     <message>
-        <location filename="../src/main/texamsummary.cpp" line="139"/>
+        <location filename="../src/main/texamsummary.cpp" line="140"/>
         <source>Exam results</source>
         <translation>Результат экзамена</translation>
     </message>
     <message>
-        <location filename="../src/main/texamsummary.cpp" line="152"/>
+        <location filename="../src/main/texamsummary.cpp" line="153"/>
         <source>student:</source>
         <translation>ученик:</translation>
     </message>
@@ -3066,8 +3218,9 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">время:</translation>
     </message>
     <message>
+        <location filename="../src/main/texamsummary.cpp" line="210"/>
         <source>Number of questions:</source>
-        <translation type="vanished">Количество вопросов:</translation>
+        <translation>Количество вопросов:</translation>
     </message>
     <message>
         <source>Time taken to answer</source>
@@ -3086,47 +3239,47 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">Отмена</translation>
     </message>
     <message>
-        <location filename="../src/main/texamsummary.cpp" line="129"/>
+        <location filename="../src/main/texamsummary.cpp" line="130"/>
         <source>Results:</source>
         <translation>Результаты:</translation>
     </message>
     <message>
-        <location filename="../src/main/texamsummary.cpp" line="83"/>
+        <location filename="../src/main/texamsummary.cpp" line="84"/>
         <source>Kinds of mistakes</source>
         <translation>Типы ошибок</translation>
     </message>
     <message>
-        <location filename="../src/main/texamsummary.cpp" line="87"/>
+        <location filename="../src/main/texamsummary.cpp" line="88"/>
         <source>Wrong notes</source>
         <translation>Неправильные ноты</translation>
     </message>
     <message>
-        <location filename="../src/main/texamsummary.cpp" line="91"/>
+        <location filename="../src/main/texamsummary.cpp" line="92"/>
         <source>Wrong accidentals</source>
         <translation>Неправильные знаки альтерации</translation>
     </message>
     <message>
-        <location filename="../src/main/texamsummary.cpp" line="95"/>
+        <location filename="../src/main/texamsummary.cpp" line="96"/>
         <source>Wrong key signatures</source>
         <translation>Неправильные тональности</translation>
     </message>
     <message>
-        <location filename="../src/main/texamsummary.cpp" line="99"/>
+        <location filename="../src/main/texamsummary.cpp" line="100"/>
         <source>Wrong octaves</source>
         <translation>Неправильные октавы</translation>
     </message>
     <message>
-        <location filename="../src/main/texamsummary.cpp" line="103"/>
+        <location filename="../src/main/texamsummary.cpp" line="104"/>
         <source>Wrong note names</source>
         <translation>Неправильное название нот</translation>
     </message>
     <message>
-        <location filename="../src/main/texamsummary.cpp" line="115"/>
+        <location filename="../src/main/texamsummary.cpp" line="116"/>
         <source>Out of tune</source>
         <translation>Не в тон</translation>
     </message>
     <message>
-        <location filename="../src/main/texamsummary.cpp" line="137"/>
+        <location filename="../src/main/texamsummary.cpp" line="138"/>
         <source>Progress of exercises</source>
         <translation>Выполнено</translation>
     </message>
@@ -3143,11 +3296,12 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">Закончить упражнение</translation>
     </message>
     <message>
+        <location filename="../src/main/texamsummary.cpp" line="211"/>
         <source>Send exam file</source>
-        <translation type="vanished">Отправить файл экзамена</translation>
+        <translation>Отправить файл экзамена</translation>
     </message>
     <message>
-        <location filename="../src/main/texamsummary.cpp" line="107"/>
+        <location filename="../src/main/texamsummary.cpp" line="108"/>
         <source>Wrong positions on guitar</source>
         <translation>Неправильная позиция на грифе</translation>
     </message>
@@ -3156,7 +3310,7 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">Анализ</translation>
     </message>
     <message>
-        <location filename="../src/main/texamsummary.cpp" line="111"/>
+        <location filename="../src/main/texamsummary.cpp" line="112"/>
         <source>Wrong strings</source>
         <translation>Неправильная струна</translation>
     </message>
@@ -3209,7 +3363,7 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation>(рассматривается как пол-ошибки)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamview.cpp" line="284"/>
+        <location filename="../src/main/texamview.cpp" line="276"/>
         <source>Exam results</source>
         <translation>Результаты экзамена</translation>
     </message>
@@ -3218,38 +3372,38 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">Эффективность всего экзамена (и эффективность текущего вопроса).</translation>
     </message>
     <message>
-        <location filename="../src/main/texamview.cpp" line="218"/>
+        <location filename="../src/main/texamview.cpp" line="210"/>
         <source>Answered questions</source>
         <translation>Отвеченные вопросы</translation>
     </message>
     <message>
-        <location filename="../src/main/texamview.cpp" line="219"/>
+        <location filename="../src/main/texamview.cpp" line="211"/>
         <source>Unanswered questions</source>
         <comment>could be also: &apos;rest of the questions&apos; or &apos;remaining questions&apos;</comment>
         <translation>Осталось вопросов</translation>
     </message>
     <message>
-        <location filename="../src/main/texamview.cpp" line="229"/>
+        <location filename="../src/main/texamview.cpp" line="221"/>
         <source>penalties</source>
         <translation>штрафы</translation>
     </message>
     <message>
-        <location filename="../src/main/texamview.cpp" line="263"/>
+        <location filename="../src/main/texamview.cpp" line="255"/>
         <source>Exam effectiveness (this question effectiveness)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main/texamview.cpp" line="274"/>
+        <location filename="../src/main/texamview.cpp" line="266"/>
         <source>Answer time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main/texamview.cpp" line="279"/>
+        <location filename="../src/main/texamview.cpp" line="271"/>
         <source>Exam time</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main/texamview.cpp" line="228"/>
+        <location filename="../src/main/texamview.cpp" line="220"/>
         <source>Total questions in this exam</source>
         <translation>Общее количество вопросов в экзамене</translation>
     </message>
@@ -3328,17 +3482,17 @@ Consider to divide long pieces on parts in external software first.</source>
 <context>
     <name>TgraphicsLine</name>
     <message>
-        <location filename="../src/charts/tgraphicsline.cpp" line="66"/>
+        <location filename="../src/charts/tlinchartdelegate.cpp" line="351"/>
         <source>progress line</source>
         <translation>Время на ответ</translation>
     </message>
     <message>
-        <location filename="../src/charts/tgraphicsline.cpp" line="68"/>
+        <location filename="../src/charts/tlinchartdelegate.cpp" line="353"/>
         <source>descending - you are progressing better</source>
         <translation>Понижается - Вы отвечаете быстрее</translation>
     </message>
     <message>
-        <location filename="../src/charts/tgraphicsline.cpp" line="70"/>
+        <location filename="../src/charts/tlinchartdelegate.cpp" line="355"/>
         <source>ascending - you are thinking too much</source>
         <translation>Повышается - Вы слишком долго думаете</translation>
     </message>
@@ -3346,7 +3500,8 @@ Consider to divide long pieces on parts in external software first.</source>
 <context>
     <name>ThelpDialogBase</name>
     <message>
-        <location filename="../src/help/thelpdialogbase.cpp" line="70"/>
+        <location filename="../src/qml/about/HelpPage.qml" line="47"/>
+        <location filename="../src/help/thelpdialogbase.cpp" line="71"/>
         <source>Nootka help</source>
         <translation>Справка по Нутке</translation>
     </message>
@@ -3356,7 +3511,8 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation>всегда показывать это окно</translation>
     </message>
     <message>
-        <location filename="../src/help/thelpdialogbase.cpp" line="47"/>
+        <location filename="../src/qml/about/HelpPage.qml" line="50"/>
+        <location filename="../src/help/thelpdialogbase.cpp" line="48"/>
         <source>Open online documentation</source>
         <translation>Открыть руководство в интернете</translation>
     </message>
@@ -3619,89 +3775,89 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation>Редактор уровней</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="100"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="102"/>
         <source>Save exam level</source>
         <translation>Сохранить экзаменационный уровень</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="110"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="112"/>
         <source>Cannot open file for writing</source>
         <translation>Не могу открыть файл для записи</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="124"/>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="729"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="126"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="731"/>
         <source>Level validation</source>
         <translation>Проверка корректности уровня</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="124"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="126"/>
         <source>Level seems to be correct</source>
         <translation>Похоже, что уровень в порядке</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="598"/>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="745"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="600"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="747"/>
         <source>level not saved!</source>
         <translation>уровень не сохранён!</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="598"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="600"/>
         <source>Level was changed and not saved!</source>
         <translation>Уровень был изменён, но не сохранён!</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="620"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="622"/>
         <source>There aren&apos;t any questions or answers selected.&lt;br&gt;Level makes no sense.</source>
         <translation>Ни один вопрос не выбран.&lt;br&gt;Уровень не имеет смысла.</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="639"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="641"/>
         <source>&lt;li&gt;Range of frets is beyond the scale of this level&lt;/li&gt;</source>
         <translation>&lt;li&gt;Диапазон ладов выходит за пределы диапазона нот уровня&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="652"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="654"/>
         <source>&lt;li&gt;In range of notes some accidentals are used&lt;br&gt;but not available in this level&lt;/li&gt;</source>
         <translation>&lt;li&gt;В диапазоне нот используются знаки альтерции,&lt;br&gt;но они отключены для этого уровня&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="656"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="658"/>
         <source>&lt;li&gt;Force appropriate accidental is enabled but any accidental was selected.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Было выбрано использование принудительных знаков альтерации, но ни диезы, ни бемоли не разрешены на вкладке зн. альтерации.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="662"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="664"/>
         <source>&lt;li&gt;Questions and answers as note names will be the same. To avoid that level has to use flats and sharps and/or double accidentals and/or to use different name styles.&lt;/li&gt;</source>
         <translation>&lt;li&gt;&quot;Название ноты&quot; используется и для вопросов, и для ответов. В таком случае для избежания повторений, должно быть разрешено использование знаков альтерации и/или использование другого стиля обозначения нот.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="666"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="668"/>
         <source>&lt;li&gt;&apos;Use different naming styles&apos; was checked but neither questions nor answers as note name are checked.&lt;br&gt;Check this type of answer/question or uncheck &apos;Use different naming styles&apos;.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Было выбрано &quot;использовать другой стиль обозначния нот&quot;, но ни в ответах, ни в вопросах не выбрано &quot;название ноты&quot;.&lt;br&gt;Либо разрешите такие вопросы/ответы, либо выключите &quot;использовать другой стиль обозначния нот&quot;.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="670"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="672"/>
         <source>&lt;li&gt;Questions and answers as notes on the staff will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Вопросы и ответы, как ноты на нотоносце, будут одинаковыми. Чтобы избежать этого, надо вручную выбрать тональность или обязательные знаки альтерации.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="675"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="677"/>
         <source>&lt;li&gt;Manual selecting of a key signature was checked but answer as note on the staff was not checked.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Ручной выбор тональности включён, но ни один ответ &quot;нота на нотоносце&quot; не выбран.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="686"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="688"/>
         <source>&lt;li&gt;Fret range is not enough to find any note in different positions. At least &lt;b&gt;%1&lt;/b&gt; frets range is required.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Диапазон ладов недостаточен. По крайней мере требуется &lt;b&gt;%1&lt;/b&gt;.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="708"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="710"/>
         <source>&lt;li&gt;Possible missing a tonic note for some key signatures in selected note range .&lt;/li&gt;</source>
         <translation>&lt;li&gt;Возможно отсутствует тоника для некоторых тональностей в выбранном диапазоне нот.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="731"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="733"/>
         <source>Seems like this level has some mistakes</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3810,7 +3966,7 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation>Уровень не подходит для текущего строя и/или количества ладов</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelselector.cpp" line="184"/>
+        <location filename="../src/dialogs/tlevelselector.cpp" line="190"/>
         <source>Load exam level</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3827,14 +3983,14 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">Удалить</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelselector.cpp" line="267"/>
+        <location filename="../src/dialogs/tlevelselector.cpp" line="272"/>
         <source>File: %1 
  is not Nootka level file!</source>
         <translation>Файл: %1 
  это не файл уровня Нутки!</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelselector.cpp" line="271"/>
+        <location filename="../src/dialogs/tlevelselector.cpp" line="276"/>
         <source>Level file
  %1 
  was corrupted and repaired!
@@ -3862,26 +4018,24 @@ Consider to divide long pieces on parts in external software first.</source>
 <context>
     <name>TlinearChart</name>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="239"/>
+        <location filename="../src/charts/sorting.cpp" line="244"/>
         <source>Key signatures given by user</source>
         <translation>Тональности пользователя</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="266"/>
+        <location filename="../src/charts/sorting.cpp" line="271"/>
         <source>for notes without accidentals</source>
         <translatorcomment>can&apos;t found</translatorcomment>
         <translation>для нот без знаков альтерации</translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="189"/>
-        <location filename="../src/charts/tlinearchart.cpp" line="215"/>
-        <location filename="../src/charts/tlinearchart.cpp" line="241"/>
+        <location filename="../src/charts/tlinchartdelegate.cpp" line="268"/>
         <source>questions unrelated&lt;br&gt;with chart type</source>
         <translatorcomment>can&apos;t found</translatorcomment>
         <translation>вопросы не связанные&lt;br&gt;с типом диаграммы</translation>
     </message>
     <message>
-        <location filename="../src/charts/tlinearchart.cpp" line="246"/>
+        <location filename="../src/charts/tlinchartdelegate.cpp" line="276"/>
         <source>without accidentals</source>
         <translatorcomment>can&apos;t found</translatorcomment>
         <translation>без знаков альтерации</translation>
@@ -3890,68 +4044,68 @@ Consider to divide long pieces on parts in external software first.</source>
 <context>
     <name>TmainHelp</name>
     <message>
-        <location filename="../src/help/tmainhelp.cpp" line="36"/>
+        <location filename="../src/help/tmainhelp.cpp" line="40"/>
         <source>Much depends on the chosen level. Press %1 button to create your own questions set (a level).</source>
         <translation>Это зависит от выбранного уровня. Нажмите %1 чтобы создать свой собственный набор вопросов (уровень).</translation>
     </message>
     <message>
-        <location filename="../src/help/tmainhelp.cpp" line="38"/>
+        <location filename="../src/help/tmainhelp.cpp" line="42"/>
         <source>Select a level and warm up yourself exercising. Then try to pass an exam.</source>
         <translation>Выберите уровень и потренируйтесь, выполняя упражнения. Потом попробуйте сдать экзамен.</translation>
     </message>
     <message>
-        <location filename="../src/help/tmainhelp.cpp" line="46"/>
+        <location filename="../src/help/tmainhelp.cpp" line="50"/>
         <source>You will learn by answering questions. To answer, you can play, sing, put in the name of a note, and so on.</source>
         <translation>Вы будете учиться, отвечая на вопросы. Может потребоваться сыграть на инструменте, спеть, выбрать правильную ноту и так далее.</translation>
     </message>
     <message>
-        <location filename="../src/help/tmainhelp.cpp" line="52"/>
+        <location filename="../src/help/tmainhelp.cpp" line="56"/>
         <source>During exercising %1 the program will be your understanding and friendly teacher - it will show you corrected answers if you miss.</source>
         <translation>Во время выполнения упражнений %1 программа будет понимающим и дружелюбным наставником. В случае ошибки она покажет Вам правильный ответ.</translation>
     </message>
     <message>
-        <location filename="../src/help/tmainhelp.cpp" line="58"/>
+        <location filename="../src/help/tmainhelp.cpp" line="62"/>
         <source>During exams %1 Nootka will be your strict and &amp;quot;old school&amp;quot; master. Any mistake will be penalized with additional questions...&lt;br&gt;When you pass an exam you got a certificate!</source>
         <translation>Во время экзаменов %1 Нутка будет строгим и бескомпромиссным учителем. Любая ошибка приведет к штрафу в виде дополнительных вопросов...&lt;br&gt;При успешном завершении экзамена вы получите сертификат!</translation>
     </message>
     <message>
-        <location filename="../src/help/tmainhelp.cpp" line="65"/>
+        <location filename="../src/help/tmainhelp.cpp" line="69"/>
         <source>Using Nootka may be divided into three stages:</source>
         <comment>Don&apos;t try to translate the entries in this context/section too strict, rather use some nice words into your language to describe it. The statements like &apos;%1&apos; are images(icons) inside the text</comment>
         <translation>Использование Нутки можно разделить на три этапа:</translation>
     </message>
     <message>
-        <location filename="../src/help/tmainhelp.cpp" line="68"/>
+        <location filename="../src/help/tmainhelp.cpp" line="72"/>
         <source>I. Discovering</source>
         <translation>I. Изучение</translation>
     </message>
     <message>
-        <location filename="../src/help/tmainhelp.cpp" line="69"/>
+        <location filename="../src/help/tmainhelp.cpp" line="73"/>
         <source>Exploring the interface of Nootka and how musical scores work. Just click on elements of the interface to see and get to know Nootka. Also, you can play or sing if you have a mic or web-cam.</source>
         <translation>Изучайте интерфейс Нутки и устройство нотоносца. Просто щелкайте мышью по элементам интерфейса и осваивайте Нутку. Также Вы можете играть на инструменте или петь при наличии микрофона.</translation>
     </message>
     <message>
-        <location filename="../src/help/tmainhelp.cpp" line="70"/>
+        <location filename="../src/help/tmainhelp.cpp" line="74"/>
         <source>Press %1 buttons to see help and %2 button to adjust Nootka to your preference.</source>
         <translation>Используйте кнопки %1 для получения помощи, а %2 для настройки Нутки под ваши предпочтения.</translation>
     </message>
     <message>
-        <location filename="../src/help/tmainhelp.cpp" line="76"/>
+        <location filename="../src/help/tmainhelp.cpp" line="80"/>
         <source>II. Exercises and exams</source>
         <translation>II. Упражнения и экзамены</translation>
     </message>
     <message>
-        <location filename="../src/help/tmainhelp.cpp" line="80"/>
+        <location filename="../src/help/tmainhelp.cpp" line="84"/>
         <source>III. Analyzing</source>
         <translation>III. Анализ результатов</translation>
     </message>
     <message>
-        <location filename="../src/help/tmainhelp.cpp" line="84"/>
+        <location filename="../src/help/tmainhelp.cpp" line="88"/>
         <source>Nootka will tell you about what you&apos;ve been thinking for so long... and about the progress you&apos;ve been making so far....&lt;br&gt;Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.</source>
         <translation>Нутка покажет Вам, чего вы успели достичь. &lt;br&gt;Нажмите %1 чтобы увидеть и проанализировать результаты экзаменов, найти свои слабые места и улучшить результаты.</translation>
     </message>
     <message>
-        <location filename="../src/help/tmainhelp.cpp" line="91"/>
+        <location filename="../src/help/tmainhelp.cpp" line="95"/>
         <source>Have fun!</source>
         <translation>Развлекайтесь!</translation>
     </message>
@@ -3983,53 +4137,53 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">Нота за нотой</translation>
     </message>
     <message>
-        <location filename="../src/main/tmainscoreobject.cpp" line="77"/>
+        <location filename="../src/main/tmainscoreobject.cpp" line="79"/>
         <source>Notes are written on the score one by one. Either playing, selecting fret or note name adds a new note to the staff automatically.</source>
         <translation>Ноты записываются на нотоносце одна за другой. Звукоизвлечение, выбор лада или названия ноты автоматически добавляют новую ноту на нотоносец.</translation>
     </message>
     <message>
-        <location filename="../src/main/tmainscoreobject.cpp" line="84"/>
+        <location filename="../src/main/tmainscoreobject.cpp" line="86"/>
         <source>Generate melody</source>
         <translation>Генерировать мелодию</translation>
     </message>
     <message>
-        <location filename="../src/main/tmainscoreobject.cpp" line="86"/>
+        <location filename="../src/main/tmainscoreobject.cpp" line="89"/>
         <source>Generate a melody with random notes.</source>
         <translation>Генерирует мелодию из случайных нот.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="433"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="417"/>
         <source>Melody</source>
         <translation>Мелодия</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="435"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="419"/>
         <source>Open, save, generate and play a melody.</source>
         <translation>Открыть, записать, генерировать и воспроизвести мелодию.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="309"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="284"/>
         <source>Open melody file</source>
         <translation>Открыть файл мелодии</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="310"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="285"/>
         <source>MusicXML file</source>
         <translation>Файл MusicXML</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="324"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="299"/>
         <source>Save melody as:</source>
         <translation>Сохранить мелодию, как:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="430"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="413"/>
         <source>Score</source>
         <comment>it could be &apos;notation&apos;, &apos;staff&apos; or whatever is associated with that &apos;place to display musical notes&apos; and this the name is quite short and looks well.</comment>
         <translation>Нотоносец</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="432"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="416"/>
         <source>Manage and navigate the score.</source>
         <translation>Управление и перемещение по нотному стану.</translation>
     </message>
@@ -4064,14 +4218,20 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation>Увеличить масштаб нотной записи</translation>
     </message>
     <message>
-        <location filename="../src/main/tmainscoreobject.cpp" line="90"/>
+        <location filename="../src/main/tmainscoreobject.cpp" line="93"/>
         <source>Next note</source>
         <translation>Следующая нота</translation>
     </message>
     <message>
-        <location filename="../src/main/tmainscoreobject.cpp" line="91"/>
+        <location filename="../src/main/tmainscoreobject.cpp" line="94"/>
         <source>Previous note</source>
         <translation>Предыдущая нота</translation>
+    </message>
+    <message>
+        <location filename="../src/main/tmainscoreobject.cpp" line="96"/>
+        <source>notes</source>
+        <comment>musical notes of course</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4118,6 +4278,14 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <source>Random melody</source>
         <translation type="vanished">Случайная мелодия</translation>
+    </message>
+</context>
+<context>
+    <name>TmobileMenu</name>
+    <message>
+        <location filename="../src/mobile/tmobilemenu.cpp" line="51"/>
+        <source>Tempo</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4218,7 +4386,7 @@ Consider to divide long pieces on parts in external software first.</source>
 <context>
     <name>TnootkaQML</name>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="429"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="412"/>
         <source>Analysis of exam results</source>
         <translation>Анализ результатов экзамена</translation>
     </message>
@@ -4518,70 +4686,82 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">Следующая нота</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1028"/>
+        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1051"/>
         <source>Delete note</source>
         <translation>Удалить ноту</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1032"/>
+        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1055"/>
         <source>Insert note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1036"/>
+        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1059"/>
         <source>Delete all notes</source>
         <translation>Удалить все ноты</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1040"/>
+        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1063"/>
         <source>Edit score</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1045"/>
+        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1068"/>
         <source>whole note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1049"/>
+        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1072"/>
         <source>half note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1053"/>
+        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1076"/>
         <source>quarter note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1057"/>
+        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1080"/>
         <source>eighth note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1061"/>
+        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1084"/>
         <source>sixteenth note</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1065"/>
+        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1088"/>
         <source>rest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1069"/>
+        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1092"/>
         <source>dot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1096"/>
+        <source>rise</source>
+        <comment>as such as sharps rise note</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/libs/core/score/tscoreobject.cpp" line="1100"/>
+        <source>lower</source>
+        <comment>as such as flats lower note</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>TscoreSettings</name>
     <message>
-        <location filename="../src/qml/settings/KeySufixEdit.qml" line="21"/>
+        <location filename="../src/qml/settings/KeySufixEdit.qml" line="25"/>
         <source>in the major keys:</source>
         <translation>в мажоре:</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/KeySufixEdit.qml" line="31"/>
+        <location filename="../src/qml/settings/KeySufixEdit.qml" line="38"/>
         <source>for example</source>
         <translation>например</translation>
     </message>
@@ -4589,7 +4769,7 @@ Consider to divide long pieces on parts in external software first.</source>
 <context>
     <name>TsettingsDialog</name>
     <message>
-        <location filename="../src/qml/settings/TsettingsDialog.qml" line="30"/>
+        <location filename="../src/qml/settings/TsettingsDialog.qml" line="29"/>
         <source>application&apos;s settings</source>
         <translation>настройки приложения</translation>
     </message>
@@ -4607,6 +4787,16 @@ Consider to divide long pieces on parts in external software first.</source>
         <location filename="../src/qml/settings/TsettingsDialog.qml" line="24"/>
         <source>Exam</source>
         <translation>Экзамен</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/settings/TsettingsDialog.qml" line="26"/>
+        <source>Phone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/settings/TsettingsDialog.qml" line="26"/>
+        <source>Tablet</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/TsettingsDialog.qml" line="22"/>
@@ -4670,7 +4860,8 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation>Загрузить файл экзамена</translation>
     </message>
     <message>
-        <location filename="../src/main/tstartexamitem.cpp" line="186"/>
+        <location filename="../src/qml/about/HelpPage.qml" line="48"/>
+        <location filename="../src/main/tstartexamitem.cpp" line="175"/>
         <source>To exercise or to pass an exam?</source>
         <translation>Начать упражнение или сдать экзамен?</translation>
     </message>
@@ -4678,8 +4869,7 @@ Consider to divide long pieces on parts in external software first.</source>
 <context>
     <name>TstatisticTip</name>
     <message>
-        <location filename="../src/charts/tbar.cpp" line="53"/>
-        <location filename="../src/charts/tstatisticstip.cpp" line="40"/>
+        <location filename="../src/charts/tbarchartdelegate.cpp" line="104"/>
         <source>Statistics</source>
         <translation>Статистика</translation>
     </message>
@@ -4766,43 +4956,44 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">Было обнаружена нота %1</translation>
     </message>
     <message>
-        <location filename="../src/qml/exam/ExamExecutor.qml" line="53"/>
+        <location filename="../src/qml/exam/ExamExecutor.qml" line="58"/>
         <source>Try again!</source>
         <translation>Попробуйте еще раз!</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="331"/>
+        <location filename="../src/main/ttiphandler.cpp" line="317"/>
         <source>To correct an answer</source>
         <translation>Для корректировки ответа</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="334"/>
+        <location filename="../src/main/ttiphandler.cpp" line="320"/>
         <source>To try this melody again</source>
         <translation>Чтобы попробовать эту мелодию еще раз</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="342"/>
+        <location filename="../src/main/ttiphandler.cpp" line="328"/>
         <source>To see corrected answer</source>
         <translation>Чтобы посмотреть правильный ответ</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="344"/>
+        <location filename="../src/main/ttiphandler.cpp" line="330"/>
         <source>To see some hints</source>
         <translation>Чтобы посмотреть некоторые подсказки</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="203"/>
+        <location filename="../src/main/ttiphandler.cpp" line="214"/>
         <source>To check the answer confirm it:</source>
         <translation>Для проверки ответа подтвердите его:</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="206"/>
+        <location filename="../src/main/ttiphandler.cpp" line="217"/>
         <source>Check in exam help %1 how to do it automatically</source>
         <translation>В справке по экзамену %1 описано, как сделать это автоматически</translation>
     </message>
     <message>
+        <location filename="../src/main/ttiphandler.cpp" line="354"/>
         <source>Select any note to play it again.</source>
-        <translation type="vanished">Выберите любую ноту, чтобы проиграть ее еще раз.</translation>
+        <translation>Выберите любую ноту, чтобы проиграть ее еще раз.</translation>
     </message>
     <message>
         <source>too low</source>
@@ -4813,8 +5004,9 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">слишком высоко</translation>
     </message>
     <message>
+        <location filename="../src/main/ttiphandler.cpp" line="544"/>
         <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
-        <translation type="vanished">Щелкните по неправильным нотам, чтобы увидеть&lt;br&gt;и послушать исправленные.</translation>
+        <translation>Щелкните по неправильным нотам, чтобы увидеть&lt;br&gt;и послушать исправленные.</translation>
     </message>
     <message>
         <source>You are exercising on level</source>
@@ -4825,120 +5017,120 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">начался экзамен на уровне</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="74"/>
+        <location filename="../src/main/ttiphandler.cpp" line="76"/>
         <source>Use %1</source>
         <translation>Используйте %1</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="76"/>
+        <location filename="../src/main/ttiphandler.cpp" line="78"/>
         <source> Don&apos;t use accidentals!</source>
         <translation> Не используйте знаки альтерации!</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="83"/>
+        <location filename="../src/main/ttiphandler.cpp" line="85"/>
         <source>on %1 string.</source>
         <translation>на %1 струне.</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="92"/>
+        <location filename="../src/main/ttiphandler.cpp" line="94"/>
         <source>Play</source>
         <translation>Сыграйте</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="395"/>
+        <location filename="../src/main/ttiphandler.cpp" line="393"/>
         <source>Change enharmonically and show on the staff</source>
         <translation>Измените энгармонически и покажите ноту на нотном стане</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="397"/>
+        <location filename="../src/main/ttiphandler.cpp" line="395"/>
         <source>Given note show on the staff</source>
         <translation>Покажите данную ноту на нотном стане</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="399"/>
-        <location filename="../src/main/ttiphandler.cpp" line="436"/>
-        <location filename="../src/main/ttiphandler.cpp" line="491"/>
+        <location filename="../src/main/ttiphandler.cpp" line="397"/>
+        <location filename="../src/main/ttiphandler.cpp" line="434"/>
+        <location filename="../src/main/ttiphandler.cpp" line="489"/>
         <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
         <translation>&lt;br&gt;в тональности &lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="402"/>
-        <location filename="../src/main/ttiphandler.cpp" line="464"/>
+        <location filename="../src/main/ttiphandler.cpp" line="400"/>
+        <location filename="../src/main/ttiphandler.cpp" line="462"/>
         <source>Give name of</source>
         <translation>Назовите ноту</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="405"/>
-        <location filename="../src/main/ttiphandler.cpp" line="446"/>
+        <location filename="../src/main/ttiphandler.cpp" line="403"/>
+        <location filename="../src/main/ttiphandler.cpp" line="444"/>
         <source>Show on the guitar</source>
         <translation>Покажите на гитарном грифе</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="500"/>
+        <location filename="../src/main/ttiphandler.cpp" line="498"/>
         <source>Listened sound show on the instrument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="90"/>
+        <location filename="../src/main/ttiphandler.cpp" line="92"/>
         <source>Play or sing</source>
         <translation>Спойте или сыграйте</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="407"/>
-        <location filename="../src/main/ttiphandler.cpp" line="448"/>
+        <location filename="../src/main/ttiphandler.cpp" line="405"/>
+        <location filename="../src/main/ttiphandler.cpp" line="446"/>
         <source>Point on the instrument</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="434"/>
+        <location filename="../src/main/ttiphandler.cpp" line="432"/>
         <source>Show on the staff</source>
         <translation>Покажите на нотном стане</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="440"/>
+        <location filename="../src/main/ttiphandler.cpp" line="438"/>
         <source>Change enharmonically and give name of</source>
         <translation>Измените энгармонически и назовите ноту</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="460"/>
+        <location filename="../src/main/ttiphandler.cpp" line="458"/>
         <source>Show on the staff note played on</source>
         <translation>Покажите на нотном стане ноту в позиции</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="487"/>
+        <location filename="../src/main/ttiphandler.cpp" line="485"/>
         <source>Guess a key signature</source>
         <translation>Угадайте основную тональность</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="489"/>
+        <location filename="../src/main/ttiphandler.cpp" line="487"/>
         <source>Listened sound show on the staff</source>
         <translation>Покажите услышанный звук на нотоносце</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="443"/>
+        <location filename="../src/main/ttiphandler.cpp" line="441"/>
         <source>Use another style to give name of</source>
         <translation>Используйте другой стиль, чтобы назвать</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="410"/>
+        <location filename="../src/main/ttiphandler.cpp" line="408"/>
         <source>Play or sing a melody.</source>
         <translation>Играйте или пойте мелодию.</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="462"/>
+        <location filename="../src/main/ttiphandler.cpp" line="460"/>
         <source>&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
         <translation>в тональности &lt;b&gt;%1&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="466"/>
+        <location filename="../src/main/ttiphandler.cpp" line="464"/>
         <source>Show sound from position:</source>
         <comment>... and string + fret numbers folowing</comment>
         <translation>Покажите ноту, находящуюся в позиции:</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="496"/>
+        <location filename="../src/main/ttiphandler.cpp" line="494"/>
         <source>Give name of listened sound</source>
         <translation>Назовите услышанный звук</translation>
     </message>
@@ -4947,56 +5139,26 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">Покажите на грифе услышанный звук</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="504"/>
+        <location filename="../src/main/ttiphandler.cpp" line="502"/>
         <source>Play or sing listened sound</source>
         <translation>Сыграйте или спойте услышанный звук</translation>
     </message>
 </context>
 <context>
-    <name>ChartTip</name>
-    <message>
-        <location filename="../src/charts/ttipmelody.cpp" line="62"/>
-        <source>of</source>
-        <comment>It will give text: &apos;Attempt x of y&apos;</comment>
-        <translation>из</translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../src/charts/ttipmelody.cpp" line="67"/>
-        <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
-        <translatorcomment>Plural in Russian starts from 5 only (&quot;5 raz&quot;). 2, 3, 4 use dual form (&quot;raza&quot;).</translatorcomment>
-        <translation>
-            <numerusform>Мелодия была проиграна &lt;b&gt;%n&lt;/b&gt; раз</numerusform>
-            <numerusform>Мелодия была проиграна &lt;b&gt;%n&lt;/b&gt; раза</numerusform>
-            <numerusform>Мелодия была проиграна &lt;b&gt;%n&lt;/b&gt; раз</numerusform>
-        </translation>
-    </message>
-    <message>
-        <location filename="../src/charts/ttipmelody.cpp" line="112"/>
-        <source>played</source>
-        <comment>a melody was played (and number follows)</comment>
-        <translation>сыграна</translation>
-    </message>
-    <message>
-        <location filename="../src/charts/ttipmelody.cpp" line="113"/>
-        <source>time</source>
-        <translation>время</translation>
-    </message>
-</context>
-<context>
     <name>TtoolBar</name>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="421"/>
-        <location filename="../src/main/texamexecutor.cpp" line="1173"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="404"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1170"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="423"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="406"/>
         <source>Application preferences</source>
         <translation>Настройки приложения</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="427"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="410"/>
         <source>Analyze</source>
         <translation>Анализ</translation>
     </message>
@@ -5018,12 +5180,12 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">О Нутке</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="424"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="407"/>
         <source>Level</source>
         <translation>Уровень</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="426"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="409"/>
         <source>Level creator</source>
         <translation>Редактор уровней</translation>
     </message>
@@ -5032,22 +5194,22 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">Начать!</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="436"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="420"/>
         <source>Lessons</source>
         <translation>Уроки</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="438"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="422"/>
         <source>Start exercises or an exam</source>
         <translation>Начать упражнение или экзамен</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1177"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1174"/>
         <source>Help</source>
         <translation>Помощь</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1180"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1177"/>
         <source>Stop</source>
         <translation>Стоп</translation>
     </message>
@@ -5056,7 +5218,7 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">Настройки экзамена или упражнения</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1195"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1193"/>
         <source>Next</source>
         <comment>like a next question</comment>
         <translation>Следующий</translation>
@@ -5068,7 +5230,7 @@ Consider to divide long pieces on parts in external software first.</source>
 (пробел %1)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1189"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1187"/>
         <source>Repeat</source>
         <comment>like a repeat question</comment>
         <translation>Повтор</translation>
@@ -5078,7 +5240,7 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">повторить предыдущий вопрос (backspace)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1229"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1227"/>
         <source>Check</source>
         <comment>like a check answer</comment>
         <translation>Проверить</translation>
@@ -5090,7 +5252,7 @@ Consider to divide long pieces on parts in external software first.</source>
 (Enter %1)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1211"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1208"/>
         <source>Play</source>
         <translation>Сыграйте</translation>
     </message>
@@ -5099,7 +5261,7 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="vanished">проиграть звук снова</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1236"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1234"/>
         <source>Correct</source>
         <comment>like a correct answer with mistake</comment>
         <translation>Ответ</translation>
@@ -5117,7 +5279,7 @@ Consider to divide long pieces on parts in external software first.</source>
 (Нажмите клавишу &apos;a&apos;)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1222"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1220"/>
         <source>Try again</source>
         <translation>Еще раз</translation>
     </message>
@@ -5137,47 +5299,47 @@ Consider to divide long pieces on parts in external software first.</source>
 <context>
     <name>Ttune</name>
     <message>
-        <location filename="../src/libs/core/music/ttune.cpp" line="33"/>
+        <location filename="../src/libs/core/music/ttune.cpp" line="34"/>
         <source>Standard: E A D G B E </source>
         <translation>Стандартный: E A D G B E </translation>
     </message>
     <message>
-        <location filename="../src/libs/core/music/ttune.cpp" line="36"/>
+        <location filename="../src/libs/core/music/ttune.cpp" line="37"/>
         <source>Dropped D: D A D G B E </source>
         <translation>Dropped D: D A D G B E </translation>
     </message>
     <message>
-        <location filename="../src/libs/core/music/ttune.cpp" line="38"/>
+        <location filename="../src/libs/core/music/ttune.cpp" line="39"/>
         <source>Dummy Lute: D A D F# B E </source>
         <translation>Dummy Lute: D A D F# B E </translation>
     </message>
     <message>
-        <location filename="../src/libs/core/music/ttune.cpp" line="40"/>
+        <location filename="../src/libs/core/music/ttune.cpp" line="41"/>
         <source>Open: D A D G A D </source>
         <translation>Open: D A D G A D </translation>
     </message>
     <message>
-        <location filename="../src/libs/core/music/ttune.cpp" line="42"/>
+        <location filename="../src/libs/core/music/ttune.cpp" line="43"/>
         <source>Kouyanbaba: D A D A D F </source>
         <translation>Kouyanbaba: D A D A D F </translation>
     </message>
     <message>
-        <location filename="../src/libs/core/music/ttune.cpp" line="45"/>
+        <location filename="../src/libs/core/music/ttune.cpp" line="46"/>
         <source>Standard bass: E A D G</source>
         <translation>Стандартный бас: E A D G</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/music/ttune.cpp" line="47"/>
+        <location filename="../src/libs/core/music/ttune.cpp" line="48"/>
         <source>Bass in fifths: C G D A</source>
         <translation>Бас по квинтам: C G D A</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/music/ttune.cpp" line="49"/>
+        <location filename="../src/libs/core/music/ttune.cpp" line="50"/>
         <source>5-str. bass: B E A D G</source>
         <translation>Пятиструнный бас: B E A D G</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/music/ttune.cpp" line="51"/>
+        <location filename="../src/libs/core/music/ttune.cpp" line="52"/>
         <source>6-str. bass: B E A D G C</source>
         <translation>Шестиструнный бас: B E A D G C</translation>
     </message>
@@ -5185,7 +5347,12 @@ Consider to divide long pieces on parts in external software first.</source>
 <context>
     <name>TunerDialog</name>
     <message>
-        <location filename="../src/qml/sound/TunerDialog.qml" line="69"/>
+        <location filename="../src/qml/sound/TunerDialog.qml" line="95"/>
+        <source>output volume</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/qml/sound/TunerDialog.qml" line="172"/>
         <source>Nooter - Nootka tuner</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5285,19 +5452,14 @@ Consider to divide long pieces on parts in external software first.</source>
 <context>
     <name>VolumeBar</name>
     <message>
-        <location filename="../src/qml/sound/VolumeBar.qml" line="31"/>
+        <location filename="../src/qml/sound/VolumeBar.qml" line="35"/>
         <source>Volume level of input sound.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/qml/sound/VolumeBar.qml" line="31"/>
+        <location filename="../src/qml/sound/VolumeBar.qml" line="35"/>
         <source>Drag a knob to adjust minimum input volume.</source>
         <translation>Переместите ползунок для изменения этого параметра.</translation>
-    </message>
-    <message>
-        <location filename="../src/qml/sound/VolumeBar.qml" line="60"/>
-        <source>Start/stop pitch detection</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5311,7 +5473,7 @@ Consider to divide long pieces on parts in external software first.</source>
 <context>
     <name>Wizard</name>
     <message>
-        <location filename="../src/qml/wizard/Wizard.qml" line="16"/>
+        <location filename="../src/qml/wizard/Wizard.qml" line="14"/>
         <source>First run wizard</source>
         <translation>Мастер настройки</translation>
     </message>
@@ -5340,7 +5502,7 @@ Consider to divide long pieces on parts in external software first.</source>
 <context>
     <name>WizardInstrument</name>
     <message>
-        <location filename="../src/qml/wizard/WizardInstrument.qml" line="25"/>
+        <location filename="../src/qml/wizard/WizardInstrument.qml" line="28"/>
         <source>What instrument do you play?</source>
         <translation>На каком инструменте Вы играете?</translation>
     </message>
@@ -5395,30 +5557,30 @@ Consider to divide long pieces on parts in external software first.</source>
 <context>
     <name>chartStats</name>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="482"/>
+        <location filename="../src/charts/sorting.cpp" line="490"/>
         <source>none</source>
         <translation>нет</translation>
     </message>
     <message>
-        <location filename="../src/charts/tgroupedqaunit.h" line="117"/>
+        <location filename="../src/charts/tgroupedqaunit.h" line="125"/>
         <source>for a note:</source>
         <comment>average reaction time for...</comment>
         <translation>для ноты:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tgroupedqaunit.h" line="123"/>
+        <location filename="../src/charts/tgroupedqaunit.h" line="131"/>
         <source>for a fret:</source>
         <comment>average reaction time for...</comment>
         <translation>для лада:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tgroupedqaunit.h" line="129"/>
+        <location filename="../src/charts/tgroupedqaunit.h" line="137"/>
         <source>for a key:</source>
         <comment>average reaction time for...</comment>
         <translation>для тональности:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tgroupedqaunit.h" line="135"/>
+        <location filename="../src/charts/tgroupedqaunit.h" line="143"/>
         <source>for an accidental:</source>
         <comment>average reaction time for...</comment>
         <translation>для знаков альтерации:</translation>

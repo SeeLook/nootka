@@ -180,6 +180,14 @@
         <source>question type</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Analysis of exercise</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Analysis of exam results</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>AnswerText</name>
@@ -792,6 +800,21 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
 </context>
 <context>
+    <name>PhonePage</name>
+    <message>
+        <source>screen always on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>disable screen rotation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>full screen</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>PitchView</name>
     <message>
         <source>Start/stop pitch detection</source>
@@ -1133,10 +1156,6 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Nootka Recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Be sure your system is able to record what are you playing.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1150,6 +1169,10 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Rhythms detection during exercises and exams is more &apos;humane&apos; - Nootka knows what rhythm to expect. In contrary to playing to &apos;empty&apos; score when high rhythmic precision is required, so better use metronome then.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nootka recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1732,7 +1755,7 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Let&apos;s start</source>
+        <source>Let&apos;s start!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2005,6 +2028,14 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Progress of exercises</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Number of questions:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Send exam file</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2894,6 +2925,14 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Exam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Phone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tablet</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

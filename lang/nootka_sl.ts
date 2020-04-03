@@ -98,31 +98,31 @@
     <message>
         <source>question number</source>
         <comment>see comment in &apos;ordered by:&apos; entry</comment>
-        <translation type="vanished">številka vprašanja</translation>
+        <translation>številka vprašanja</translation>
     </message>
     <message>
         <source>note pitch</source>
-        <translation type="vanished">višina note</translation>
+        <translation>višina note</translation>
     </message>
     <message>
         <source>fret number</source>
-        <translation type="vanished">številka prečke</translation>
+        <translation>številka prečke</translation>
     </message>
     <message>
         <source>key signature</source>
-        <translation type="vanished">tonovski način</translation>
+        <translation>tonovski način</translation>
     </message>
     <message>
         <source>accidentals</source>
-        <translation type="vanished">predznaki</translation>
+        <translation>predznaki</translation>
     </message>
     <message>
         <source>question type</source>
-        <translation type="vanished">tip vprašanja</translation>
+        <translation>tip vprašanja</translation>
     </message>
     <message>
         <source>mistake</source>
-        <translation type="vanished">narobe</translation>
+        <translation>narobe</translation>
     </message>
     <message>
         <source>Level summary:</source>
@@ -161,7 +161,7 @@
     </message>
     <message>
         <source>Recent exercise on level</source>
-        <translation type="vanished">Nedavne vadbe na stopnji</translation>
+        <translation>Nedavne vadbe na stopnji</translation>
     </message>
     <message>
         <source>recent opened exams:</source>
@@ -173,15 +173,15 @@
     </message>
     <message>
         <source>include time of wrong answers to average</source>
-        <translation type="vanished">upoštevaj čas napačnih odgovorov v povprečje</translation>
+        <translation>upoštevaj čas napačnih odgovorov v povprečje</translation>
     </message>
     <message>
         <source>show wrong answers separately</source>
-        <translation type="vanished">napačne odgovore prikaži ločeno</translation>
+        <translation>napačne odgovore prikaži ločeno</translation>
     </message>
     <message>
         <source>Settings of a chart</source>
-        <translation type="vanished">Nastavitve grafa</translation>
+        <translation>Nastavitve grafa</translation>
     </message>
     <message>
         <source>Maximize</source>
@@ -201,28 +201,28 @@
     </message>
     <message>
         <source>Analysis of exam results</source>
-        <translation type="vanished">Analiza izpitnih rezultatov</translation>
+        <translation>Analiza izpitnih rezultatov</translation>
     </message>
     <message>
         <source>Analysis of exercise</source>
-        <translation type="vanished">Analiza vadbe</translation>
+        <translation>Analiza vadbe</translation>
     </message>
     <message>
         <source>Questions number</source>
-        <translation type="vanished">Številka vprašanja</translation>
+        <translation>Številka vprašanja</translation>
     </message>
     <message>
         <source>Attempts number</source>
-        <translation type="vanished">Število poskusov</translation>
+        <translation>Število poskusov</translation>
     </message>
     <message>
         <source>Preparation time</source>
-        <translation type="vanished">Čas priprave</translation>
+        <translation>Čas priprave</translation>
     </message>
     <message>
         <source>Played number</source>
         <translatorcomment>Število predvajanj</translatorcomment>
-        <translation type="vanished">Število igranj</translation>
+        <translation>Število igranj</translation>
     </message>
 </context>
 <context>
@@ -561,6 +561,39 @@
     </message>
 </context>
 <context>
+    <name>ChartDrawer</name>
+    <message>
+        <source>keep opened</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ChartTip</name>
+    <message>
+        <source>of</source>
+        <comment>It will give text: &apos;Attempt x of y&apos;</comment>
+        <translation>od</translation>
+    </message>
+    <message numerus="yes">
+        <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
+        <translation type="vanished">
+            <numerusform>Melodija se je predvajala &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
+            <numerusform>Melodija se je predvajala &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
+            <numerusform>Melodija se je predvajala &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
+            <numerusform>Melodija se je predvajala &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>played</source>
+        <comment>a melody was played (and number follows)</comment>
+        <translation>predvajala</translation>
+    </message>
+    <message>
+        <source>time</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
     <name>Einstrument</name>
     <message>
         <source>other instrument</source>
@@ -836,6 +869,13 @@
     </message>
 </context>
 <context>
+    <name>HelpPage</name>
+    <message>
+        <source>Help topics</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>InstrumentPage</name>
     <message>
         <source>Instrument</source>
@@ -916,6 +956,13 @@
     </message>
 </context>
 <context>
+    <name>KeySignature</name>
+    <message>
+        <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
+        <translation type="unfinished">Tonovski način - za spremembo, kliknite zgoraj ali pa pod črtovjem oziroma uprabite kolešček miške.</translation>
+    </message>
+</context>
+<context>
     <name>LevelCreator</name>
     <message>
         <source>Levels</source>
@@ -978,10 +1025,6 @@
         <source>Pitch recognition</source>
         <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
         <translation>Prepoznava višine tona</translation>
-    </message>
-    <message>
-        <source>Metronome</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1145,6 +1188,28 @@ Consider to divide long pieces on parts in external software first.</source>
     <name>OutScaleTip</name>
     <message>
         <source>Out of instrument scale!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PhonePage</name>
+    <message>
+        <source>screen always on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>disable screen rotation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>full screen</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PitchView</name>
+    <message>
+        <source>Start/stop pitch detection</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1358,14 +1423,6 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
 </context>
 <context>
-    <name>ScoreMenuContent</name>
-    <message>
-        <source>notes</source>
-        <comment>musical notes of course</comment>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>ScorePage</name>
     <message>
         <source>use single note only</source>
@@ -1495,6 +1552,18 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
 </context>
 <context>
+    <name>ScoreToolbox</name>
+    <message>
+        <source>Tie - connect or disconnect selected note with previous one if both notes have the same pitch.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>tie</source>
+        <comment>To translate it properly, check please meaning of &apos;tie&apos; in musical context.</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Select7note</name>
     <message>
         <source>7th note is:</source>
@@ -1507,6 +1576,33 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <source>7th note is &lt;b&gt;H&lt;/b&gt; and with flat is &lt;b&gt;Hb&lt;/b&gt; or &lt;b&gt;B&lt;/b&gt;</source>
         <translation type="vanished">sedma nota je &lt;b&gt;H&lt;/b&gt; in z nižajem je &lt;b&gt;Hb&lt;/b&gt; ali &lt;b&gt;B&lt;/b&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>SoundInfo</name>
+    <message>
+        <source>Nootka can hear You!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nootka recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Be sure your system is able to record what are you playing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust minimal note volume a little below of your input volume level.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Aim to play loud and clear and avoid dirty sounds specific to your instrument.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rhythms detection during exercises and exams is more &apos;humane&apos; - Nootka knows what rhythm to expect. In contrary to playing to &apos;empty&apos; score when high rhythmic precision is required, so better use metronome then.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1726,6 +1822,18 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
         <translation>Potrebno je le nekaj malega Angleščine, in če znate prebrati text spodaj, se bo zagotovo našlo tudi za Vas kaj primernega v čemer bi mogoče sodelovali.</translation>
+    </message>
+</context>
+<context>
+    <name>TXaxis</name>
+    <message numerus="yes">
+        <source>%n attempt(s)</source>
+        <translation type="unfinished">
+            <numerusform>%n poskus</numerusform>
+            <numerusform>%n poskusa</numerusform>
+            <numerusform>%n poskusi</numerusform>
+            <numerusform>%n poskusov</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -1954,15 +2062,15 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Attempts number</source>
-        <translation>Število poskusov</translation>
+        <translation type="vanished">Število poskusov</translation>
     </message>
     <message>
         <source>Preparation time</source>
-        <translation>Čas priprave</translation>
+        <translation type="vanished">Čas priprave</translation>
     </message>
     <message>
         <source>Played number</source>
-        <translation>Število igranj</translation>
+        <translation type="vanished">Število igranj</translation>
     </message>
 </context>
 <context>
@@ -2030,11 +2138,11 @@ Consider to divide long pieces on parts in external software first.</source>
     <name>TchartTipItem</name>
     <message>
         <source>question</source>
-        <translation>vprašanje</translation>
+        <translation type="vanished">vprašanje</translation>
     </message>
     <message>
         <source>answer</source>
-        <translation>odgovor</translation>
+        <translation type="vanished">odgovor</translation>
     </message>
 </context>
 <context>
@@ -2154,6 +2262,14 @@ Consider to divide long pieces on parts in external software first.</source>
         <source>Metronome</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>beats per minute</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mouse wheel changes tempo promptly (also with %1 key). Click for more options.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TempoMenu</name>
@@ -2241,6 +2357,10 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>on instrument</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Let&apos;s start!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2485,7 +2605,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Number of questions:</source>
-        <translation type="vanished">Število vprašanj:</translation>
+        <translation>Število vprašanj:</translation>
     </message>
     <message>
         <source>times:</source>
@@ -2559,7 +2679,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Send exam file</source>
-        <translation type="vanished">Pošlji izpitno datoteko</translation>
+        <translation>Pošlji izpitno datoteko</translation>
     </message>
 </context>
 <context>
@@ -3546,12 +3666,24 @@ Consider to divide long pieces on parts in external software first.</source>
         <source>Previous note</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>notes</source>
+        <comment>musical notes of course</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TmainView</name>
     <message>
         <source>score menu</source>
         <translation type="vanished">meni črtovja</translation>
+    </message>
+</context>
+<context>
+    <name>TmobileMenu</name>
+    <message>
+        <source>Tempo</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4093,6 +4225,16 @@ Consider to divide long pieces on parts in external software first.</source>
         <source>dot</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>rise</source>
+        <comment>as such as sharps rise note</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>lower</source>
+        <comment>as such as flats lower note</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TscoreSettings</name>
@@ -4158,6 +4300,14 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <source>playing</source>
         <translation type="vanished">predvajanje</translation>
+    </message>
+    <message>
+        <source>Phone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tablet</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4382,31 +4532,13 @@ Consider to divide long pieces on parts in external software first.</source>
         <source>Play or sing listened sound</source>
         <translation>Zaigraj ali zapoj poslušani zvok</translation>
     </message>
-</context>
-<context>
-    <name>ChartTip</name>
     <message>
-        <source>of</source>
-        <comment>It will give text: &apos;Attempt x of y&apos;</comment>
-        <translation>od</translation>
-    </message>
-    <message numerus="yes">
-        <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
-        <translation>
-            <numerusform>Melodija se je predvajala &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
-            <numerusform>Melodija se je predvajala &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
-            <numerusform>Melodija se je predvajala &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
-            <numerusform>Melodija se je predvajala &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
-        </translation>
+        <source>Select any note to play it again.</source>
+        <translation type="unfinished">Izberi katerokoli noto za ponovno predvajanje.</translation>
     </message>
     <message>
-        <source>played</source>
-        <comment>a melody was played (and number follows)</comment>
-        <translation>predvajala</translation>
-    </message>
-    <message>
-        <source>time</source>
-        <translation></translation>
+        <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
+        <translation type="unfinished">Kliknite nepravilne note za ogled&lt;br&gt;in poslušanje popravljenih.</translation>
     </message>
 </context>
 <context>
@@ -4586,6 +4718,10 @@ Consider to divide long pieces on parts in external software first.</source>
         <source>Nooter - Nootka tuner</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>output volume</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TupdateChecker</name>
@@ -4668,10 +4804,6 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Volume level of input sound.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Start/stop pitch detection</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

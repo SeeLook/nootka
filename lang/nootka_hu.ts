@@ -107,31 +107,31 @@
     <message>
         <source>question number</source>
         <comment>see comment in &apos;ordered by:&apos; entry</comment>
-        <translation type="vanished">kérdés száma</translation>
+        <translation>kérdés száma</translation>
     </message>
     <message>
         <source>note pitch</source>
-        <translation type="vanished">hangmagasság</translation>
+        <translation>hangmagasság</translation>
     </message>
     <message>
         <source>fret number</source>
-        <translation type="vanished">bund száma</translation>
+        <translation>bund száma</translation>
     </message>
     <message>
         <source>key signature</source>
-        <translation type="vanished">hangnem</translation>
+        <translation>hangnem</translation>
     </message>
     <message>
         <source>accidentals</source>
-        <translation type="vanished">módosító jelek</translation>
+        <translation>módosító jelek</translation>
     </message>
     <message>
         <source>question type</source>
-        <translation type="vanished">kérdés típusa</translation>
+        <translation>kérdés típusa</translation>
     </message>
     <message>
         <source>mistake</source>
-        <translation type="vanished">hiba</translation>
+        <translation>hiba</translation>
     </message>
     <message>
         <source>Level summary:</source>
@@ -169,7 +169,7 @@
     </message>
     <message>
         <source>Recent exercise on level</source>
-        <translation type="vanished">Legutóbbi gyakorlat ezen a szinten</translation>
+        <translation>Legutóbbi gyakorlat ezen a szinten</translation>
     </message>
     <message>
         <source>recent opened exams:</source>
@@ -181,15 +181,15 @@
     </message>
     <message>
         <source>include time of wrong answers to average</source>
-        <translation type="vanished">a rossz válaszok idejét is vegye figyelembe az átlag számításhoz</translation>
+        <translation>a rossz válaszok idejét is vegye figyelembe az átlag számításhoz</translation>
     </message>
     <message>
         <source>show wrong answers separately</source>
-        <translation type="vanished">a rossz válaszokat mutassa külön</translation>
+        <translation>a rossz válaszokat mutassa külön</translation>
     </message>
     <message>
         <source>Settings of a chart</source>
-        <translation type="vanished">Diagram beállításai</translation>
+        <translation>Diagram beállításai</translation>
     </message>
     <message>
         <source>Maximize</source>
@@ -209,27 +209,27 @@
     </message>
     <message>
         <source>Analysis of exam results</source>
-        <translation type="vanished">Vizsga eredményének kiértékelése</translation>
+        <translation>Vizsga eredményének kiértékelése</translation>
     </message>
     <message>
         <source>Analysis of exercise</source>
-        <translation type="vanished">Gyakorlás kiértékelése</translation>
+        <translation>Gyakorlás kiértékelése</translation>
     </message>
     <message>
         <source>Questions number</source>
-        <translation type="vanished">Kérdések száma</translation>
+        <translation>Kérdések száma</translation>
     </message>
     <message>
         <source>Attempts number</source>
-        <translation type="vanished">Próbálkozások száma</translation>
+        <translation>Próbálkozások száma</translation>
     </message>
     <message>
         <source>Preparation time</source>
-        <translation type="vanished">Felkészülési idő</translation>
+        <translation>Felkészülési idő</translation>
     </message>
     <message>
         <source>Played number</source>
-        <translation type="vanished">Játszott sorszám</translation>
+        <translation>Játszott sorszám</translation>
     </message>
 </context>
 <context>
@@ -338,6 +338,37 @@
     <message>
         <source>Stop exam</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ChartDrawer</name>
+    <message>
+        <source>keep opened</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ChartTip</name>
+    <message>
+        <source>of</source>
+        <comment>It will give text: &apos;Attempt x of y&apos;</comment>
+        <translatorcomment>Hell no, it&apos;s not gonna work for hungarian...</translatorcomment>
+        <translation>ennek</translation>
+    </message>
+    <message numerus="yes">
+        <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
+        <translation type="vanished">
+            <numerusform>A dallam&lt;b&gt;%n&lt;/b&gt; alkalommal hangzott el</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>played</source>
+        <comment>a melody was played (and number follows)</comment>
+        <translation>lejátszva</translation>
+    </message>
+    <message>
+        <source>time</source>
+        <translation>idő</translation>
     </message>
 </context>
 <context>
@@ -597,6 +628,13 @@
     </message>
 </context>
 <context>
+    <name>HelpPage</name>
+    <message>
+        <source>Help topics</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>InstrumentPage</name>
     <message>
         <source>tuning of the guitar</source>
@@ -692,6 +730,13 @@
     <message>
         <source>color of a selection</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>KeySignature</name>
+    <message>
+        <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
+        <translation type="unfinished">Hangnem - változtatáshoz kattintson a kotta fölé vagy alá vagy használja a görgőt.</translation>
     </message>
 </context>
 <context>
@@ -834,10 +879,6 @@ jelek</translation>
         <source>Pitch recognition</source>
         <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
         <translation>Hangmagasság érzékelés</translation>
-    </message>
-    <message>
-        <source>Metronome</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -991,6 +1032,28 @@ Consider to divide long pieces on parts in external software first.</source>
     <name>OutScaleTip</name>
     <message>
         <source>Out of instrument scale!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PhonePage</name>
+    <message>
+        <source>screen always on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>disable screen rotation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>full screen</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PitchView</name>
+    <message>
+        <source>Start/stop pitch detection</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1218,14 +1281,6 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
 </context>
 <context>
-    <name>ScoreMenuContent</name>
-    <message>
-        <source>notes</source>
-        <comment>musical notes of course</comment>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>ScorePage</name>
     <message>
         <source>names highlight color</source>
@@ -1373,6 +1428,18 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
 </context>
 <context>
+    <name>ScoreToolbox</name>
+    <message>
+        <source>Tie - connect or disconnect selected note with previous one if both notes have the same pitch.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>tie</source>
+        <comment>To translate it properly, check please meaning of &apos;tie&apos; in musical context.</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Select7note</name>
     <message>
         <source>7th note is:</source>
@@ -1385,6 +1452,33 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <source>7th note is &lt;b&gt;H&lt;/b&gt; and with flat is &lt;b&gt;Hb&lt;/b&gt; or &lt;b&gt;B&lt;/b&gt;</source>
         <translation type="vanished">A 7. hangjegy &lt;b&gt;H&lt;/b&gt; és fél hanggal leszálltva &lt;b&gt;Hb&lt;/b&gt; vagy &lt;b&gt;B&lt;/b&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>SoundInfo</name>
+    <message>
+        <source>Nootka can hear You!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nootka recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Be sure your system is able to record what are you playing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust minimal note volume a little below of your input volume level.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Aim to play loud and clear and avoid dirty sounds specific to your instrument.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rhythms detection during exercises and exams is more &apos;humane&apos; - Nootka knows what rhythm to expect. In contrary to playing to &apos;empty&apos; score when high rhythmic precision is required, so better use metronome then.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1747,6 +1841,15 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
 </context>
 <context>
+    <name>TXaxis</name>
+    <message numerus="yes">
+        <source>%n attempt(s)</source>
+        <translation type="unfinished">
+            <numerusform>%n próbálkozás(ok)</numerusform>
+        </translation>
+    </message>
+</context>
+<context>
     <name>Tabout</name>
     <message>
         <source>Welcome on board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.&lt;br&gt;It is specially designed for guitarists but others will find many usable features as well.</source>
@@ -1969,26 +2072,26 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Attempts number</source>
-        <translation>Próbálkozások száma</translation>
+        <translation type="vanished">Próbálkozások száma</translation>
     </message>
     <message>
         <source>Preparation time</source>
-        <translation>Felkészülési idő</translation>
+        <translation type="vanished">Felkészülési idő</translation>
     </message>
     <message>
         <source>Played number</source>
-        <translation>Játszott sorszám</translation>
+        <translation type="vanished">Játszott sorszám</translation>
     </message>
 </context>
 <context>
     <name>TchartTipItem</name>
     <message>
         <source>question</source>
-        <translation>kérdés</translation>
+        <translation type="vanished">kérdés</translation>
     </message>
     <message>
         <source>answer</source>
-        <translation>válasz</translation>
+        <translation type="vanished">válasz</translation>
     </message>
 </context>
 <context>
@@ -2110,6 +2213,14 @@ Consider to divide long pieces on parts in external software first.</source>
         <source>Metronome</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>beats per minute</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mouse wheel changes tempo promptly (also with %1 key). Click for more options.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TempoMenu</name>
@@ -2193,6 +2304,10 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>on instrument</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Let&apos;s start!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2436,7 +2551,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Number of questions:</source>
-        <translation type="vanished">Kérdések száma:</translation>
+        <translation>Kérdések száma:</translation>
     </message>
     <message>
         <source>times:</source>
@@ -2508,7 +2623,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Send exam file</source>
-        <translation type="vanished">Vizsga fájl küldése</translation>
+        <translation>Vizsga fájl küldése</translation>
     </message>
 </context>
 <context>
@@ -3255,6 +3370,11 @@ nem Nootka fájl!</translation>
         <source>Previous note</source>
         <translation>Előző hang</translation>
     </message>
+    <message>
+        <source>notes</source>
+        <comment>musical notes of course</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TmainView</name>
@@ -3300,6 +3420,13 @@ nem Nootka fájl!</translation>
     <message>
         <source>Random melody</source>
         <translation type="vanished">Véletlenszerű dallam</translation>
+    </message>
+</context>
+<context>
+    <name>TmobileMenu</name>
+    <message>
+        <source>Tempo</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3854,6 +3981,16 @@ nem Nootka fájl!</translation>
         <source>dot</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>rise</source>
+        <comment>as such as sharps rise note</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>lower</source>
+        <comment>as such as flats lower note</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TscoreSettings</name>
@@ -3919,6 +4056,14 @@ nem Nootka fájl!</translation>
     <message>
         <source>playing</source>
         <translation type="vanished">lejátszás</translation>
+    </message>
+    <message>
+        <source>Phone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tablet</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4022,7 +4167,7 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>Select any note to play it again.</source>
-        <translation type="vanished">Válasszon egy hangjegyet ismételt lejátszáshoz.</translation>
+        <translation>Válasszon egy hangjegyet ismételt lejátszáshoz.</translation>
     </message>
     <message>
         <source>too low</source>
@@ -4034,7 +4179,7 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
-        <translation type="vanished">Kattintson a hibás hangokra megtekintéshez &lt;br&gt; és hallgassa meg őket helyesen.</translation>
+        <translation>Kattintson a hibás hangokra megtekintéshez &lt;br&gt; és hallgassa meg őket helyesen.</translation>
     </message>
     <message>
         <source>You are exercising on level</source>
@@ -4138,30 +4283,6 @@ nem Nootka fájl!</translation>
     <message>
         <source>Play or sing listened sound</source>
         <translation>Hallott hang lejátszása vagy éneklése</translation>
-    </message>
-</context>
-<context>
-    <name>ChartTip</name>
-    <message>
-        <source>of</source>
-        <comment>It will give text: &apos;Attempt x of y&apos;</comment>
-        <translatorcomment>Hell no, it&apos;s not gonna work for hungarian...</translatorcomment>
-        <translation>ennek</translation>
-    </message>
-    <message numerus="yes">
-        <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
-        <translation>
-            <numerusform>A dallam&lt;b&gt;%n&lt;/b&gt; alkalommal hangzott el</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>played</source>
-        <comment>a melody was played (and number follows)</comment>
-        <translation>lejátszva</translation>
-    </message>
-    <message>
-        <source>time</source>
-        <translation>idő</translation>
     </message>
 </context>
 <context>
@@ -4341,6 +4462,10 @@ nem Nootka fájl!</translation>
         <source>Nooter - Nootka tuner</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>output volume</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TupdateChecker</name>
@@ -4427,10 +4552,6 @@ nem Nootka fájl!</translation>
     <message>
         <source>Drag a knob to adjust minimum input volume.</source>
         <translation>A minimum bemeneti hangerő állításához húzza meg a gombot.</translation>
-    </message>
-    <message>
-        <source>Start/stop pitch detection</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

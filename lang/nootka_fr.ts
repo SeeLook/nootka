@@ -110,31 +110,31 @@
     <message>
         <source>question number</source>
         <comment>see comment in &apos;ordered by:&apos; entry</comment>
-        <translation type="vanished">nombre de questions</translation>
+        <translation>nombre de questions</translation>
     </message>
     <message>
         <source>note pitch</source>
-        <translation type="vanished">hauteur de note</translation>
+        <translation>hauteur de note</translation>
     </message>
     <message>
         <source>fret number</source>
-        <translation type="vanished">nombre de frettes</translation>
+        <translation>nombre de frettes</translation>
     </message>
     <message>
         <source>key signature</source>
-        <translation type="vanished">armure</translation>
+        <translation>armure</translation>
     </message>
     <message>
         <source>accidentals</source>
-        <translation type="vanished">altérations</translation>
+        <translation>altérations</translation>
     </message>
     <message>
         <source>question type</source>
-        <translation type="vanished">type de question</translation>
+        <translation>type de question</translation>
     </message>
     <message>
         <source>mistake</source>
-        <translation type="vanished">erreurs</translation>
+        <translation>erreurs</translation>
     </message>
     <message>
         <source>Level summary:</source>
@@ -172,7 +172,7 @@
     </message>
     <message>
         <source>Recent exercise on level</source>
-        <translation type="vanished">Exercice récent de niveau</translation>
+        <translation>Exercice récent de niveau</translation>
     </message>
     <message>
         <source>recent opened exams:</source>
@@ -184,15 +184,15 @@
     </message>
     <message>
         <source>include time of wrong answers to average</source>
-        <translation type="vanished">Inclure le temps des mauvaises réponses dans la moyenne</translation>
+        <translation>Inclure le temps des mauvaises réponses dans la moyenne</translation>
     </message>
     <message>
         <source>show wrong answers separately</source>
-        <translation type="vanished">Afficher séparément les réponses incorrectes</translation>
+        <translation>Afficher séparément les réponses incorrectes</translation>
     </message>
     <message>
         <source>Settings of a chart</source>
-        <translation type="vanished">Paramètres du graphique</translation>
+        <translation>Paramètres du graphique</translation>
     </message>
     <message>
         <source>Maximize</source>
@@ -212,27 +212,27 @@
     </message>
     <message>
         <source>Analysis of exam results</source>
-        <translation type="vanished">Analyser les résultats d&apos;un examen</translation>
+        <translation>Analyser les résultats d&apos;un examen</translation>
     </message>
     <message>
         <source>Analysis of exercise</source>
-        <translation type="vanished">Analyse de l&apos;exercice</translation>
+        <translation>Analyse de l&apos;exercice</translation>
     </message>
     <message>
         <source>Questions number</source>
-        <translation type="vanished">Nombre de questions</translation>
+        <translation>Nombre de questions</translation>
     </message>
     <message>
         <source>Attempts number</source>
-        <translation type="vanished">Nombre d&apos;essais</translation>
+        <translation>Nombre d&apos;essais</translation>
     </message>
     <message>
         <source>Preparation time</source>
-        <translation type="vanished">Temps de préparation</translation>
+        <translation>Temps de préparation</translation>
     </message>
     <message>
         <source>Played number</source>
-        <translation type="vanished">Nombre de fois joué</translation>
+        <translation>Nombre de fois joué</translation>
     </message>
 </context>
 <context>
@@ -373,6 +373,37 @@
     <message>
         <source>Stop exam</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ChartDrawer</name>
+    <message>
+        <source>keep opened</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ChartTip</name>
+    <message>
+        <source>of</source>
+        <comment>It will give text: &apos;Attempt x of y&apos;</comment>
+        <translation>sur</translation>
+    </message>
+    <message numerus="yes">
+        <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
+        <translation type="vanished">
+            <numerusform>La mélodie a été jouée &lt;b&gt;%n&lt;/b&gt; fois</numerusform>
+            <numerusform>La mélodie a été jouée &lt;b&gt;%n&lt;/b&gt; fois</numerusform>
+        </translation>
+    </message>
+    <message>
+        <source>played</source>
+        <comment>a melody was played (and number follows)</comment>
+        <translation>Joué</translation>
+    </message>
+    <message>
+        <source>time</source>
+        <translation>temps</translation>
     </message>
 </context>
 <context>
@@ -632,6 +663,13 @@
     </message>
 </context>
 <context>
+    <name>HelpPage</name>
+    <message>
+        <source>Help topics</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>InstrumentPage</name>
     <message>
         <source>tuning of the guitar</source>
@@ -727,6 +765,13 @@
     <message>
         <source>color of a selection</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>KeySignature</name>
+    <message>
+        <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
+        <translation type="unfinished">Armure : pour la modifier, cliquez au-dessus ou au-dessous de la portée ou utilisez la molette de la souris.</translation>
     </message>
 </context>
 <context>
@@ -868,10 +913,6 @@
         <source>Pitch recognition</source>
         <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
         <translation>Détection</translation>
-    </message>
-    <message>
-        <source>Metronome</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1025,6 +1066,28 @@ Consider to divide long pieces on parts in external software first.</source>
     <name>OutScaleTip</name>
     <message>
         <source>Out of instrument scale!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PhonePage</name>
+    <message>
+        <source>screen always on</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>disable screen rotation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>full screen</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>PitchView</name>
+    <message>
+        <source>Start/stop pitch detection</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1252,14 +1315,6 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
 </context>
 <context>
-    <name>ScoreMenuContent</name>
-    <message>
-        <source>notes</source>
-        <comment>musical notes of course</comment>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>ScorePage</name>
     <message>
         <source>names highlight color</source>
@@ -1403,6 +1458,18 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
 </context>
 <context>
+    <name>ScoreToolbox</name>
+    <message>
+        <source>Tie - connect or disconnect selected note with previous one if both notes have the same pitch.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>tie</source>
+        <comment>To translate it properly, check please meaning of &apos;tie&apos; in musical context.</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Select7note</name>
     <message>
         <source>7th note is:</source>
@@ -1415,6 +1482,33 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <source>7th note is &lt;b&gt;H&lt;/b&gt; and with flat is &lt;b&gt;Hb&lt;/b&gt; or &lt;b&gt;B&lt;/b&gt;</source>
         <translation type="vanished">La 7e note est &lt;b&gt;H&lt;/b&gt; et &lt;b&gt;Hb&lt;/b&gt; ou &lt;b&gt;B&lt;/b&gt; altérée en notation allemande.</translation>
+    </message>
+</context>
+<context>
+    <name>SoundInfo</name>
+    <message>
+        <source>Nootka can hear You!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Nootka recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Be sure your system is able to record what are you playing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust minimal note volume a little below of your input volume level.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Aim to play loud and clear and avoid dirty sounds specific to your instrument.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rhythms detection during exercises and exams is more &apos;humane&apos; - Nootka knows what rhythm to expect. In contrary to playing to &apos;empty&apos; score when high rhythmic precision is required, so better use metronome then.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1726,6 +1820,16 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
 </context>
 <context>
+    <name>TXaxis</name>
+    <message numerus="yes">
+        <source>%n attempt(s)</source>
+        <translation type="unfinished">
+            <numerusform>%n essai</numerusform>
+            <numerusform>%n essais</numerusform>
+        </translation>
+    </message>
+</context>
+<context>
     <name>Tabout</name>
     <message>
         <source>Welcome on board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.&lt;br&gt;It is specially designed for guitarists but others will find many usable features as well.</source>
@@ -1950,26 +2054,26 @@ version</translation>
     </message>
     <message>
         <source>Attempts number</source>
-        <translation>Nombre d&apos;essais</translation>
+        <translation type="vanished">Nombre d&apos;essais</translation>
     </message>
     <message>
         <source>Preparation time</source>
-        <translation>Temps de préparation</translation>
+        <translation type="vanished">Temps de préparation</translation>
     </message>
     <message>
         <source>Played number</source>
-        <translation>Nombre de fois joué</translation>
+        <translation type="vanished">Nombre de fois joué</translation>
     </message>
 </context>
 <context>
     <name>TchartTipItem</name>
     <message>
         <source>question</source>
-        <translation>Question</translation>
+        <translation type="vanished">Question</translation>
     </message>
     <message>
         <source>answer</source>
-        <translation>Réponse</translation>
+        <translation type="vanished">Réponse</translation>
     </message>
 </context>
 <context>
@@ -2091,6 +2195,14 @@ version</translation>
         <source>Metronome</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>beats per minute</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Mouse wheel changes tempo promptly (also with %1 key). Click for more options.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TempoMenu</name>
@@ -2175,6 +2287,10 @@ version</translation>
     </message>
     <message>
         <source>on instrument</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Let&apos;s start!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2415,7 +2531,7 @@ version</translation>
     </message>
     <message>
         <source>Number of questions:</source>
-        <translation type="vanished">Nombre de questions&#xa0;:</translation>
+        <translation>Nombre de questions&#xa0;:</translation>
     </message>
     <message>
         <source>times:</source>
@@ -2487,7 +2603,7 @@ version</translation>
     </message>
     <message>
         <source>Send exam file</source>
-        <translation type="vanished">Envoyer un fichier examen</translation>
+        <translation>Envoyer un fichier examen</translation>
     </message>
 </context>
 <context>
@@ -3240,6 +3356,11 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <source>Previous note</source>
         <translation>Note précédente</translation>
     </message>
+    <message>
+        <source>notes</source>
+        <comment>musical notes of course</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TmainView</name>
@@ -3285,6 +3406,13 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <source>Random melody</source>
         <translation type="vanished">Mélodie aléatoire</translation>
+    </message>
+</context>
+<context>
+    <name>TmobileMenu</name>
+    <message>
+        <source>Tempo</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3693,6 +3821,16 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <source>dot</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>rise</source>
+        <comment>as such as sharps rise note</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>lower</source>
+        <comment>as such as flats lower note</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TscoreSettings</name>
@@ -3758,6 +3896,14 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <source>playing</source>
         <translation type="vanished">Sortie</translation>
+    </message>
+    <message>
+        <source>Phone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Tablet</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3892,7 +4038,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>Select any note to play it again.</source>
-        <translation type="vanished">Sélectionner une note à rejouer.</translation>
+        <translation>Sélectionner une note à rejouer.</translation>
     </message>
     <message>
         <source>too low</source>
@@ -3904,7 +4050,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
-        <translation type="vanished">Cliquez sur les notes incorrectes pour les voir&lt;br&gt;et les écouter corrigées.</translation>
+        <translation>Cliquez sur les notes incorrectes pour les voir&lt;br&gt;et les écouter corrigées.</translation>
     </message>
     <message>
         <source>You are exercising on level</source>
@@ -4012,30 +4158,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <source>Listened sound show on the instrument</source>
         <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ChartTip</name>
-    <message>
-        <source>of</source>
-        <comment>It will give text: &apos;Attempt x of y&apos;</comment>
-        <translation>sur</translation>
-    </message>
-    <message numerus="yes">
-        <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
-        <translation>
-            <numerusform>La mélodie a été jouée &lt;b&gt;%n&lt;/b&gt; fois</numerusform>
-            <numerusform>La mélodie a été jouée &lt;b&gt;%n&lt;/b&gt; fois</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>played</source>
-        <comment>a melody was played (and number follows)</comment>
-        <translation>Joué</translation>
-    </message>
-    <message>
-        <source>time</source>
-        <translation>temps</translation>
     </message>
 </context>
 <context>
@@ -4214,6 +4336,10 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
         <source>Nooter - Nootka tuner</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>output volume</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TupdateChecker</name>
@@ -4300,10 +4426,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <source>Drag a knob to adjust minimum input volume.</source>
         <translation>Déplacez le curseur pour ajuster le volume d&apos;entrée minimum.</translation>
-    </message>
-    <message>
-        <source>Start/stop pitch detection</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
