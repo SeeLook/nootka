@@ -63,15 +63,19 @@ TexamSummary {
           onClicked: { continueExecutor(); dialLoader.close() }
         }
         TiconButton {
-          visible: !Noo.isAndroid()
+          visible: !Noo.isAndroid() || !isExercise()
           width: buttGrid.buttWidth
-          pixmap: Noo.isAndroid() ? "" : Noo.pix("charts")
+          pixmap: Noo.pix(Noo.isAndroid() ? "nootka-exam" : "charts")
           iconHeight: summDialog.height / 15
-          text: qsTr("Analyze")
+          text: Noo.isAndroid() ? Noo.TR("QShortcut", "Send") : qsTr("Analyze")
           onClicked: {
-            nootkaWindow.showDialog(6) // 6 - Nootka.Charts
-            nootkaWindow.analyzeWindow.allowOpen = false
-            nootkaWindow.analyzeWindow.exam = summDialog.exam()
+            if (Noo.isAndroid()) {
+                sendExam()
+            } else {
+                nootkaWindow.showDialog(6) // 6 - Nootka.Charts
+                nootkaWindow.analyzeWindow.allowOpen = false
+                nootkaWindow.analyzeWindow.exam = summDialog.exam()
+            }
           }
         }
         TiconButton {

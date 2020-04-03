@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -86,18 +86,13 @@ public:
   Q_INVOKABLE int buttColumsCount() const;
 
   Q_INVOKABLE Texam* exam() { return m_exam; }
+#if defined (Q_OS_ANDROID)
+  Q_INVOKABLE void sendExam();
+#endif
+
 
 signals:
   void updateExam();
-
-protected:
-//   void closeSlot();
-//   void analyseSlot();
-//   void continueSlot();
-//   void startExamSlot();
-// #if defined (Q_OS_ANDROID)
-//   void sendExamSlot();
-// #endif
 
 private:
   Texam                       *m_exam = nullptr;

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -28,6 +28,7 @@
 #include <tpath.h>
 #if defined (Q_OS_ANDROID)
   #include <Android/tandroid.h>
+  #include <qtr.h>
 #endif
 #include <QtCore/qtimer.h>
 
@@ -198,4 +199,16 @@ bool TexamSummary::enableContinue() const {
 int TexamSummary::buttColumsCount() const {
   return (!enableContinue() && isExercise()) || (enableContinue() && !isExercise()) ? 3 : 2;
 }
+
+
+#if defined (Q_OS_ANDROID)
+void TexamSummary::sendExam() {
+  QString space = QStringLiteral(" ");
+  QString br = QStringLiteral("\n");
+  QString message = qTR("TexamSummary", "student:") + space + m_exam->userName() + br;
+  message += qTR("AnalyzeDialog", "level:") + space + m_exam->level()->name + br;
+  message += qTR("TexamSummary", "Number of questions:") + space + QString::number(m_exam->count()) + br;
+  Tandroid::sendExam(tr("Send exam file"), message, m_exam->fileName());
+}
+#endif
 
