@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2016-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -32,6 +32,8 @@ import android.os.Build.VERSION_CODES;
  * Following module requires Android Support Repository from Android extras installed (through SDK manager)
  * There is appropriate information to use it during buid process in
  * src/android/build.gradle
+ * TODO: Remember to change provider name to 'nootka' when will reache stable
+ *     it corresponds with manifest entries
  */
 import android.support.v4.content.FileProvider;
 
@@ -59,7 +61,7 @@ public class TshareExam extends Activity
     if (Build.VERSION.SDK_INT < 24) {
         uri = Uri.fromFile(attachment);
     } else {
-        uri = FileProvider.getUriForFile(QtNative.activity(), "net.sf.nootka.provider", attachment);
+        uri = FileProvider.getUriForFile(QtNative.activity(), "net.sf.nootkabeta.provider", attachment);
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
     }
     shareIntent.putExtra(Intent.EXTRA_STREAM, uri);

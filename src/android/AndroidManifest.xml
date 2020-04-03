@@ -2,7 +2,7 @@
 <manifest package="net.sf.nootkabeta"
           xmlns:android="http://schemas.android.com/apk/res/android"
           android:versionName="1.7.1-beta2"
-          android:versionCode="33"
+          android:versionCode="41"
           android:installLocation="auto">
     <application android:hardwareAccelerated="true"
                  android:name="org.qtproject.qt5.android.bindings.QtApplication"
@@ -118,6 +118,18 @@
             <meta-data android:name="android.app.background_running" android:value="false"/>
             <!-- Background running -->
         </activity>
+
+        <provider
+          android:name="android.support.v4.content.FileProvider"
+          android:authorities="net.sf.nootkabeta.provider"
+          android:exported="false"
+          android:grantUriPermissions="true">
+          <!-- resource file to create -->
+          <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/file_paths">
+          </meta-data>
+        </provider>
     </application>
     <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="28"/>
     <supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" android:smallScreens="true"/>
