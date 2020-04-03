@@ -207,7 +207,7 @@ void TexamSummary::sendExam() {
   QString br = QStringLiteral("\n");
   QString message = qTR("TexamSummary", "student:") + space + m_exam->userName() + br;
   message += qTR("AnalyzeDialog", "level:") + space + m_exam->level()->name + br;
-  message += qTR("TexamSummary", "Number of questions:") + space + QString::number(m_exam->count()) + br;
+  message += tr("Number of questions:") + space + QString::number(m_exam->count()) + br;
   Tandroid::sendExam(tr("Send exam file"), message, m_exam->fileName());
 }
 #endif
