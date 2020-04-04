@@ -14,7 +14,6 @@
   - randomly generated melodies have no rests yet, but see below for a reason
   - add an option to skip rests (pitch detection gaps) and treat their duration as previous note was longer
   - level creator:
-    - question page icon might change depends on is there single note or a melody
     - those three ways of generating melodies (range, notes, list) might be exposed more clearly
       especially list of melodies imported from files which seems to be very important feature
   - music XML import dialog, to select voice or staff if there are more, and so

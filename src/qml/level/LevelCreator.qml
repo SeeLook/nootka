@@ -18,13 +18,13 @@ TlevelCreatorItem {
 
   Component.onCompleted: {
     pages.addItem("levels", qsTr("Levels"), "level/Levels")
-    pages.addItem("questions", qsTr("Questions"), "level/Questions")
+    pages.addItem("questionNote", qsTr("Questions"), "level/Questions")
     pages.addItem("melody", qsTr("Melody"), "level/Melody")
     pages.addItem("rhythms", qsTr("Rhythms"), "level/Rhythms")
-    pages.addItem("accidentals", qsTr("Accidentals"),  "level/Accids")
-    pages.addItem("range", qsTr("Range"),  "level/Range")
+    pages.addItem("accidentals", qsTr("Accidentals"), "level/Accids")
+    pages.addItem("range", qsTr("Range"), "level/Range")
 
-    dialLoader.title = creator.title
+    dialLoader.title = title
     dialLoader.standardButtons = DialogButtonBox.Close | DialogButtonBox.Help | DialogButtonBox.RestoreDefaults
     var b = dialLoader.buttonBox.standardButton(DialogButtonBox.RestoreDefaults)
     b.text = qsTr("Check")
@@ -34,14 +34,15 @@ TlevelCreatorItem {
   }
 
   onSaveStateChanged: {
-    pages.buttons[0].pixmap = Noo.pix(creator.notSaved ? "pane/notSaved" : "pane/levels")
-    dialLoader.title = creator.title
+    pages.buttons[0].pixmap = Noo.pix(notSaved ? "pane/notSaved" : "pane/levels")
+    dialLoader.title = title
   }
 
   onUpdateLevel: {
-    pages.buttons[2].enabled = creator.isMelody // melody button
-    pages.buttons[3].enabled = creator.isMelody // rhythms button
-    pages.buttons[5].enabled = !creator.isMelody || (creator.isMelody && creator.randMelody == 0) // range button
+    pages.buttons[1].pixmap = Noo.pix("pane/question" + (isMelody ? "Melody" : "Note"))
+    pages.buttons[2].enabled = isMelody // melody button
+    pages.buttons[3].enabled = isMelody // rhythms button
+    pages.buttons[5].enabled = !isMelody || (isMelody && randMelody == 0) // range button
   }
 
   onSave: {
