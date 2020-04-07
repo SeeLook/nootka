@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2018-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -60,7 +60,7 @@ Tflickable {
             meters: creator.meters
             onMetersModified: creator.meters = meters
           }
-          description: "Time signatures to use in this level."
+          description: qsTr("Time signatures to use in this level.")
         }
         Tile {
           description: qsTr("Number of measures in a melody. If 'variable' is set, it will grow up to the given value as an exercise or an exam is progressing.")

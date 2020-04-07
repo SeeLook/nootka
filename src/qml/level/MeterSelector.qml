@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2018-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -45,7 +45,7 @@ ListView {
           Text {
             y: Noo.fontSize() * -2.8
             text: Noo.meter(Math.pow(2, index)).symbol()
-            leftPadding: Noo.fontSize() * 1.7
+            leftPadding: Noo.fontSize() * 2.5
             color: enabled ? activPal.text : disdPal.text
             font { family: "Scorek"; pixelSize: Noo.fontSize() * 2 }
           }
