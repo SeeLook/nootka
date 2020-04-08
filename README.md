@@ -4,13 +4,12 @@
 
 
 <img align="left" width="20%" height="20%" src="picts/hicolor/256x256/apps/nootka.png"/>
-[https://nootka.sourceforge.io](https://nootka.sourceforge.io/)
-
 **Nootka** is an application to discover and learn classical score notation.  
 It helps to understand the rules of reading and writing scores
 and helps with developing skills of playing and singing notes from a score.  
 The application is free and open source.  
-It works under Windows, Linux, Mac and Android.
+It works under Windows, Linux, Mac and Android...
+[https://nootka.sourceforge.io](https://nootka.sourceforge.io/)
 
 ### Features
 - interactive interface to discover the rules of musical notation
