@@ -1,6 +1,8 @@
 <img src="picts/logo.png" width="25%" height="25%"/>
 ... to play scores
-============================
+----------------------------------
+
+
 <img align="left" width="20%" height="20%" src="picts/hicolor/256x256/apps/nootka.png"/>
 [https://nootka.sourceforge.io](https://nootka.sourceforge.io/)
 
