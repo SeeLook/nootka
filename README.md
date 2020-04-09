@@ -1,25 +1,29 @@
-<img src="picts/logo.png" width="25%" height="25%"/>
-... to play scores
-----------------------------------
+<img src="picts/logo.png"/>
+<h1 style="text-align: right">...to play scores</h1>
 
 
-<img align="left" width="20%" height="20%" src="picts/hicolor/256x256/apps/nootka.png"/>
-**Nootka** is an application to discover and learn classical score notation.  
-It helps to understand the rules of reading and writing scores
-and helps with developing skills of playing and singing notes from a score.  
-The application is free and open source.  
-It works under Windows, Linux, Mac and Android...
-[https://nootka.sourceforge.io](https://nootka.sourceforge.io/)
+  
+  <b>Nootka</b> is an application to discover and learn classical score notation.  
+  It helps to understand the rules of reading and writing scores
+  and helps with developing skills of playing and singing notes from a score.  
+  The application is free and open source.  
+  It works under Windows, Linux, Mac and Android...  
+
+  [https://nootka.sourceforge.io](https://nootka.sourceforge.io/)
+
+
 
 ### Features
 - interactive interface to discover the rules of musical notation
-- exercises with possibility to create own sets
+- exercises where user can play or can guess a note on a score or its name
+- possibility to create own rules for exercises
 - accurate method for detecting sung and played sounds and melodies
 - natural sound of instruments
 - clefs (treble, bass and others) and grand stave
-- analyze of results
+- analyze of results (charts)
 - different kinds of guitars and theirs tuning
-- piano, bandoneon and saxophones (experimental)
+- support piano, bandoneon and saxophones (experimental)
+- built-in metronome
 - Czech, French, German, Hungarian, Italian, Polish, Spanish, Slovenian and Russian translations
 
 
