@@ -44,6 +44,8 @@ public:
       return QIcon(Tpath::img("nootka-level"));
     else if (info.suffix().contains(QLatin1String("noo")))
       return QIcon(Tpath::img("nootka-exam"));
+    else if (info.suffix().contains(QLatin1String("xml"))) // either *.xml or *.musicxml
+      return QIcon(Tpath::img("melody"));
     else
       return m_realProvider->icon(info);
   }
@@ -211,7 +213,7 @@ TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QStrin
 // upper location label, file name edit, extension combo
   m_locationLab = new QLabel(this);
   m_locationLab->setAlignment(Qt::AlignRight);
-  m_locationLab->setFixedWidth(Tmtr::longScreenSide() / 3);
+  m_locationLab->setFixedWidth(qApp->fontMetrics().height() * 7);
 
   m_editName = new QLineEdit(this);
   m_editName->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
@@ -219,6 +221,16 @@ TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QStrin
     m_editName->setReadOnly(true);
 
   m_extensionCombo = new QComboBox(this);
+  if (!filter.isEmpty()) {
+    int filterCharsLen = 0, longestId = 0;
+    for (int f = 0; f < filters.size(); ++f) {
+      if (filters[f].length() > filterCharsLen) {
+        filterCharsLen = filters[f].length();
+        longestId = f;
+      }
+    }
+    m_extensionCombo->setFixedWidth(qApp->fontMetrics().boundingRect(filters[longestId]).width() + qApp->fontMetrics().height() * 1.5);
+  }
 
 // file list
   m_list = new QListView(this);

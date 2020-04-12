@@ -279,7 +279,7 @@ Tinstrument TnootkaQML::instr(int type) {
 QString TnootkaQML::getXmlToOpen() {
   QString openFile;
 #if defined (Q_OS_ANDROID)
-  openFile = TfileDialog::getOpenFileName(nullptr, GLOB->lastXmlDir(), QStringLiteral("xml"));
+  openFile = TfileDialog::getOpenFileName(nullptr, GLOB->lastXmlDir(), QStringLiteral("xml|musicxml"));
 #else
   openFile = TfileDialog::getOpenFileName(qApp->translate("TmainScoreObject", "Open melody file"), GLOB->lastXmlDir(),
                                           qApp->translate("TmainScoreObject", "MusicXML file") + QLatin1String(" (*.xml *.musicxml)"));
@@ -294,7 +294,8 @@ QString TnootkaQML::getXmlToSave(const QString& fileName) {
   QString saveFile;
   QString filter;
 #if defined (Q_OS_ANDROID)
-  saveFile = TfileDialog::getSaveFileName(nullptr, GLOB->lastXmlDir(), QStringLiteral("xml"));
+  saveFile = TfileDialog::getSaveFileName(nullptr, GLOB->lastXmlDir() + QLatin1String("/") + fileName,
+                                          QStringLiteral("musicxml|xml"));
 #else
   saveFile = TfileDialog::getSaveFileName(qApp->translate("TmainScoreObject", "Save melody as:"), GLOB->lastXmlDir() + QDir::separator() + fileName,
                                           qTR("TmainScoreObject", "MusicXML file") + QLatin1String(" (*.musicxml *.xml)"), &filter);
