@@ -97,7 +97,7 @@ if (!m_level->canBeGuitar() && !m_level->answerIsSound() ) { // no guitar and no
   if (QFileInfo::exists(fName  + dotNel))
     fName += QLatin1String("-") + QDateTime::currentDateTime().toString(QLatin1String("(dd-MMM-hhmmss)"));
 #if defined (Q_OS_ANDROID)
-  QString fileName = TfileDialog::getSaveFileName(nullptr, fName, QStringLiteral("nel"));
+  QString fileName = TfileDialog::getSaveFileName(fName, QStringLiteral("nel"));
 #else
   QString fileName = TfileDialog::getSaveFileName(tr("Save exam level"), fName, TlevelSelector::levelFilterTxt() + QLatin1String(" (*.nel)"));
 #endif

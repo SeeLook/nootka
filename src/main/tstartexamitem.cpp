@@ -139,7 +139,7 @@ void TstartExamItem::continuePrevExam() {
 
 void TstartExamItem::examFromFileDialog() {
 #if defined (Q_OS_ANDROID)
-  QString fileName = TfileDialog::getOpenFileName(nullptr, GLOB->E->examsDir, QStringLiteral("noo"));
+  QString fileName = TfileDialog::getOpenFileName(GLOB->E->examsDir, QStringLiteral("noo"));
 #else
   QString fileName = TfileDialog::getOpenFileName(TexTrans::loadExamFileTxt(), GLOB->E->examsDir, TexTrans::examFilterTxt());
 #endif

@@ -185,9 +185,9 @@ void TnootkaCertificate::paint(QPainter* painter) {
 
 void TnootkaCertificate::save() {
 #if defined (Q_OS_ANDROID)
-  QString fileName = TfileDialog::getSaveFileName(nullptr,
-                        Tandroid::getExternalPath() + QLatin1String("/") + m_exam->userName() + QLatin1String("-") + m_exam->level()->name,
-                        QStringLiteral("pdf"));
+  QString fileName = TfileDialog::getSaveFileName(Tandroid::getExternalPath() + QLatin1String("/")
+                                                  + m_exam->userName() + QLatin1String("-") + m_exam->level()->name,
+                                                  QStringLiteral("pdf"));
 #else
   QString fileName = TfileDialog::getSaveFileName(tr("Save certificate"),
           QDir::toNativeSeparators(QDir::homePath() + QLatin1String("/") + m_exam->userName() + QLatin1String("-") + m_exam->level()->name),

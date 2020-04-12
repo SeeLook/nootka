@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -54,14 +54,17 @@ class TfileDialog : public QDialog
   Q_OBJECT
 
 public:
-  enum EacceptMode { e_acceptSave, e_acceptOpen }; /**< File dialog type: for opening or saving */
+      /**
+       * File dialog type: for opening or saving
+       */
+  enum EacceptMode { e_acceptSave, e_acceptOpen };
   Q_ENUM(EacceptMode)
 
-  explicit TfileDialog(QWidget* parent, const QString& directory, const QString& filter, EacceptMode mode);
-  ~TfileDialog();
+  explicit TfileDialog(const QString& directory, const QString& filter, EacceptMode mode);
+  ~TfileDialog() override;
 
-  static QString getSaveFileName(QWidget* parent = nullptr, const QString& directory = QString(), const QString& filter = QString());
-  static QString getOpenFileName(QWidget* parent = nullptr, const QString& directory = QString(), const QString& filter = QString());
+  static QString getSaveFileName(const QString& directory = QString(), const QString& filter = QString());
+  static QString getOpenFileName(const QString& directory = QString(), const QString& filter = QString());
 
   QString selectedFile() const { return m_selectedFile; }
 

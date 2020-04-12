@@ -185,7 +185,7 @@ QString TlevelSelector::levelFile(int id) const {
 void TlevelSelector::loadFromFile(QString levelFile) {
   if (levelFile.isEmpty())
 #if defined (Q_OS_ANDROID)
-    levelFile = TfileDialog::getOpenFileName(nullptr, GLOB->E->levelsDir, QStringLiteral("nel"));
+    levelFile = TfileDialog::getOpenFileName(GLOB->E->levelsDir, QStringLiteral("nel"));
 #else
     levelFile = TfileDialog::getOpenFileName(tr("Load exam level"), GLOB->E->levelsDir, levelFilterTxt() + QLatin1String(" (*.nel)"));
 #endif

@@ -73,7 +73,7 @@ class TnewDirMessage : public QDialog
 {
 
 public:
-  explicit TnewDirMessage(QWidget* parent = 0) :
+  explicit TnewDirMessage(QWidget* parent = nullptr) :
     QDialog(parent)
   {
     auto label = new QLabel(qTR("QFileDialog", "Create New Folder"), this);
@@ -133,8 +133,8 @@ private:
 
 
 /* static */
-QString TfileDialog::getOpenFileName(QWidget* parent, const QString& directory, const QString& filter) {
-  TfileDialog openDialog(parent, directory, filter, TfileDialog::e_acceptOpen);
+QString TfileDialog::getOpenFileName(const QString& directory, const QString& filter) {
+  TfileDialog openDialog(directory, filter, TfileDialog::e_acceptOpen);
   if (openDialog.exec() == QFileDialog::Accepted)
     return openDialog.selectedFile();
   else
@@ -142,8 +142,8 @@ QString TfileDialog::getOpenFileName(QWidget* parent, const QString& directory, 
 }
 
 
-QString TfileDialog::getSaveFileName(QWidget* parent, const QString& directory, const QString& filter) {
-  TfileDialog saveDialog(parent, directory, filter, TfileDialog::e_acceptSave);
+QString TfileDialog::getSaveFileName(const QString& directory, const QString& filter) {
+  TfileDialog saveDialog(directory, filter, TfileDialog::e_acceptSave);
   if (saveDialog.exec() == QFileDialog::Accepted)
     return saveDialog.selectedFile();
   else
@@ -156,8 +156,8 @@ QString TfileDialog::getSaveFileName(QWidget* parent, const QString& directory, 
 //###################           class TfileDialog      ############################################
 //#################################################################################################
 //#################################################################################################
-TfileDialog::TfileDialog(QWidget *parent, const QString& directory, const QString& filter, EacceptMode mode) :
-  QDialog(parent),
+TfileDialog::TfileDialog(const QString& directory, const QString& filter, EacceptMode mode) :
+  QDialog(nullptr),
   m_acceptMode(mode),
   m_newDirItem(nullptr)
 {

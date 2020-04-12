@@ -1502,7 +1502,7 @@ bool TexamExecutor::closeNootka() {
 
 QString TexamExecutor::saveExamToFile() {
 #if defined (Q_OS_ANDROID)
-  QString fileName = TfileDialog::getSaveFileName(nullptr, getExamFileName(m_exam), QStringLiteral("noo"));
+  QString fileName = TfileDialog::getSaveFileName(getExamFileName(m_exam), QStringLiteral("noo"));
 #else
   QString fileName = TfileDialog::getSaveFileName(tr("Save exam results as:"), getExamFileName(m_exam), TexTrans::examFilterTxt());
 #endif
