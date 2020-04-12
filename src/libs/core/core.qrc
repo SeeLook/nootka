@@ -57,8 +57,6 @@
         <file>picts/fingbg.png</file>
         <file>picts/fingerpoint.png</file>
         <file>picts/logo.png</file>
-        <file>picts/nootka-exam.png</file>
-        <file>picts/nootka-level.png</file>
         <file>picts/nootka.png</file>
         <file>picts/pianoBg.png</file>
         <file>picts/pianokey.png</file>
@@ -89,6 +87,8 @@
         <file alias="picts/metronome.png">picts/flat/metronome.png</file>
         <file alias="picts/mic.png">picts/flat/mic.png</file>
         <file alias="picts/open.png">picts/flat/open.png</file>
+        <file alias="picts/nootka-exam.png">picts/flat/nootka-exam.png</file>
+        <file alias="picts/nootka-level.png">picts/flat/levelCreator.png</file>
         <file alias="picts/nextQuest.png">picts/flat/nextQuest.png</file>
         <file alias="picts/prevQuest.png">picts/flat/prevQuest.png</file>
         <file alias="picts/playMelody.png">picts/flat/playMelody.png</file>
