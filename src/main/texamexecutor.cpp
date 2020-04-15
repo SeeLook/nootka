@@ -463,16 +463,18 @@ void TexamExecutor::askQuestion(bool isAttempt) {
       }
     }
     MAIN_SCORE->unLockScore();
-    if (curQ->melody() && m_level.isMelodySet()) {
+    if (curQ->melody()) {
       if (curQ->key.value() || m_level.manualKey) {
           MAIN_SCORE->setKeySignatureEnabled(true);
-          if (!m_level.manualKey)
+          if (m_level.manualKey) // set fake key
+            MAIN_SCORE->setKeySignature(TkeySignature((qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) + m_level.loKey.value()));
+          else
             MAIN_SCORE->setKeySignature(curQ->key);
-          // TODO else fake key
       } else {
           MAIN_SCORE->setKeySignatureEnabled(false);
       }
-      MAIN_SCORE->setClef(curQ->melody()->clef());
+      if (m_level.isMelodySet()) // only melody set can change clef during exam
+        MAIN_SCORE->setClef(curQ->melody()->clef());
       MAIN_SCORE->setMeter(curQ->melody()->meter()->meter());
     }
     if (m_level.useKeySign && !m_level.manualKey) // case either for single mode and melodies

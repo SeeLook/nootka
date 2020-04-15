@@ -497,7 +497,7 @@ void TscoreObject::setMelody(Tmelody* melody, bool ignoreTechnical, int notesAmo
 CHECKTIME (
   clearScorePrivate();
   m_notes.clear();
-  setMeter(melody->meter()->meter());
+  setMeter(static_cast<int>(melody->meter()->meter()));
   setClefType(melody->clef());
   int newKey = static_cast<int>(melody->key().value());
   if (newKey != keySignature()) {
