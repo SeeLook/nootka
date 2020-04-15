@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -622,22 +622,25 @@ void TexecutorSupply::compareWrittenFromPlayed(Tmelody* q, Tmelody* a, Tattempt*
           tmpUnit.setMistake(TQAunit::e_wrongRhythm);
         }
     } else {
+        // If user put more notes than question has - the overload is mistake
         tmpUnit.setMistake(TQAunit::e_wrongNote);
     }
     attempt->add(tmpUnit.mistake());
-    if (q->note(quesList[i].index())->p().rtm.tie()) { // copy committed mistake type for every tied note in questioned melody
-      int tieId = quesList[i].index() + 1;
-      while (tieId < q->length() && q->note(tieId)->p().rtm.tie() && q->note(tieId)->p().rtm.tie() != Trhythm::e_tieStart) {
-        attempt->add(tmpUnit.mistake());
-        tieId++;
+    if (quesList.size() > i) {
+      if (q->note(quesList[i].index())->p().rtm.tie()) { // copy committed mistake type for every tied note in questioned melody
+        int tieId = quesList[i].index() + 1;
+        while (tieId < q->length() && q->note(tieId)->p().rtm.tie() && q->note(tieId)->p().rtm.tie() != Trhythm::e_tieStart) {
+          attempt->add(tmpUnit.mistake());
+          tieId++;
+        }
       }
-    }
-    // As long as we treat contiguous rests as the single one, we have to keep 'mistake' for every such rest in questioned melody (similar to ties)
-    if (q->note(quesList[i].index())->p().isRest()) {
-      int restId = quesList[i].index() + 1;
-      while (restId < q->length() && q->note(restId)->p().isRest()) {
-        attempt->add(tmpUnit.mistake());
-        restId++;
+      // As long as we treat contiguous rests as the single one, we have to keep 'mistake' for every such rest in questioned melody (similar to ties)
+      if (q->note(quesList[i].index())->p().isRest()) {
+        int restId = quesList[i].index() + 1;
+        while (restId < q->length() && q->note(restId)->p().isRest()) {
+          attempt->add(tmpUnit.mistake());
+          restId++;
+        }
       }
     }
   }
@@ -715,6 +718,7 @@ quint32 TexecutorSupply::comparePitches(int p1, int p2, bool requireOctave) {
   //TODO intonation check
   return static_cast<quint32>(TQAunit::e_wrongNote);
 }
+
 
 QList<TpitchRhythm> TexecutorSupply::toPitchRhythm(Tmelody* m, int transposition) {
   QList<TpitchRhythm> prList;
