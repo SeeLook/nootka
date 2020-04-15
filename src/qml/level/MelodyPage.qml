@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -48,11 +48,12 @@ Tflickable {
     Grid {
       id: melGrid
       spacing: melPage.width / 50
-      columns: Noo.fontSize() * 50 > melPage.width ? 1 : (creator.hasRhythms ? 1 : 2)
+      columns: Noo.fontSize() * 50 > melPage.width ? 1 : (melLenTile.visible ? 2 : 1)
       anchors.horizontalCenter: parent.horizontalCenter
       visible: melCombo.currentIndex !== 2
       Tile {
-        visible: !creator.hasRhythms
+        id: melLenTile
+        visible: creator.isMelody && !creator.hasRhythms
         description: qsTr("Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.")
         anchors.horizontalCenter: undefined
         width: Math.max(lenRow.width + Noo.fontSize() * 4, melPage.width * 0.49)

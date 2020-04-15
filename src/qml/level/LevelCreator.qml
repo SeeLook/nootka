@@ -41,7 +41,7 @@ TlevelCreatorItem {
   onUpdateLevel: {
     pages.buttons[1].pixmap = Noo.pix("pane/question" + (isMelody ? "Melody" : "Note"))
     pages.buttons[2].enabled = isMelody // melody button
-    pages.buttons[3].enabled = isMelody // rhythms button
+    pages.buttons[3].enabled = isMelody && randMelody != 2 // rhythms button (melody but not from the list)
     pages.buttons[5].enabled = !isMelody || (isMelody && randMelody == 0) // range button
   }
 
