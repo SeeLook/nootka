@@ -51,9 +51,10 @@ Old.Dialog {
       id: box
       visible: standardButtons !== 0
       width: parent.width; height: Noo.fontSize() * 3
-      padding: Noo.fontSize() / 4
       spacing: Noo.fontSize()
+      alignment: Qt.AlignVCenter
       delegate: TiconButton {
+        width: Math.min(box.width / 2, (box.width - Noo.fontSize() * (box.count + 1)) / box.count)
         pixmap: Noo.pix(dialogObj.buttonRoleIcon(DialogButtonBox.buttonRole))
       }
       background: Rectangle {
