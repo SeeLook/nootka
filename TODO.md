@@ -46,7 +46,6 @@
  - meter can be too close to key signature - probably related with clef change
  - chart tip for non guitars still displays string/fret with goofy values
  - space key for tapping tempo doesn't work well
- - dialog buttons change width when clicked which looks weird
  - chart tips with melody can disappear when mouse is over +- buttons (Qt Quick 2 style depends)
 
 ### and crashes:
