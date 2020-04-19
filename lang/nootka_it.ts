@@ -1043,6 +1043,10 @@ disabilita la rotazione dello schermo</translation>
         <source>variable</source>
         <translation>variabile</translation>
     </message>
+    <message>
+        <source>Time signatures to use in this level.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ScoreMenuContent</name>
@@ -1186,23 +1190,24 @@ disabilita la rotazione dello schermo</translation>
     </message>
     <message>
         <source>Nootka recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nootka riconosce le note suonate e le rispettive durate (ritmo). Ma per ottenere una maggiore accuratezza si richiedono alcune procedure e un po&apos; di pazienza. Ecco qualche consiglio:</translation>
     </message>
     <message>
         <source>Be sure your system is able to record what are you playing.</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Maybe you can explain it in a better form. I undrestood, but someone could say &quot;do u want me to open up another software to record it?&quot;</translatorcomment>
+        <translation>Assicurati che il tuo sistema sia in grado di registrare quello che suoni.</translation>
     </message>
     <message>
         <source>Adjust minimal note volume a little below of your input volume level.</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposta il volume minimo delle note leggermente sotto il volume di ingresso nel livello.</translation>
     </message>
     <message>
         <source>Aim to play loud and clear and avoid dirty sounds specific to your instrument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Suona un po&apos; più forte e pulito.</translation>
     </message>
     <message>
         <source>Rhythms detection during exercises and exams is more &apos;humane&apos; - Nootka knows what rhythm to expect. In contrary to playing to &apos;empty&apos; score when high rhythmic precision is required, so better use metronome then.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il ricoscimento ritmico durante gli esercizi e gli esami è più &quot;umano&quot; - Nootka sa che ritmo aspettarsi. Al contrario, partire da uno spartito vuoto richiede una chiarissima precisione ritmica e ti consiglio l&apos;uso di un metronomo in cuffia.</translation>
     </message>
 </context>
 <context>
@@ -1616,6 +1621,13 @@ non è un file di esame valido!</translation>
     <message>
         <source>answer</source>
         <translation type="vanished">Risposta</translation>
+    </message>
+    <message numerus="yes">
+        <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
+        <translation>
+            <numerusform>La melodia è stata suonata &lt;b&gt;%n&lt;/b&gt; volta</numerusform>
+            <numerusform>La melodia è stata suonata &lt;b&gt;%n&lt;/b&gt; volte</numerusform>
+        </translation>
     </message>
 </context>
 <context>

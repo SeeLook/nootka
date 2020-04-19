@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2018-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2018-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -194,7 +194,7 @@ QString TchartTipItem::timeText() const {
   if (m_question) {
     QString txt;
     if (m_question->qaUnit()->melody()) {
-      txt += qApp->translate("ChartTip", "Melody was played <b>%n</b> times", "", m_question->qaUnit()->totalPlayBacks()) + QLatin1String("<br>");
+      txt += tr("Melody was played <b>%n</b> times", "", m_question->qaUnit()->totalPlayBacks()) + QLatin1String("<br>");
       if (!m_question->qaUnit()->isWrong())
         txt += TexTrans::effectTxt() + QString(": <b>%1%</b>, ").arg(m_question->qaUnit()->effectiveness(), 0, 'f', 1, '0');
     }
