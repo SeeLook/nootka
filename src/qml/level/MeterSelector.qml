@@ -27,11 +27,12 @@ ListView {
   model: 12
   delegate: Component {
     Rectangle {
-      width: Noo.fontSize() * 4; height: Noo.fontSize() * 3
+      width: Noo.fontSize() * 5; height: Noo.fontSize() * 3
       color: enabled ? (index % 2 ? activPal.alternateBase : activPal.base) : disdPal.base
       property int mask: Math.pow(2, index)
       TcheckBox {
-        width: Noo.fontSize() * 4; y: Noo.fontSize() / 2
+        width: Noo.fontSize() * 5
+        x: -y; y: Noo.fontSize() * 0.2
         checked: meters & mask
         onClicked: {
           if (checked)
@@ -43,11 +44,11 @@ ListView {
         contentItem: Item {
           height: Noo.fontSize() * 2; width: Noo.fontSize() * 2
           Text {
-            y: Noo.fontSize() * -2.8
+            y: Noo.fontSize() * -3
             text: Noo.meter(Math.pow(2, index)).symbol()
             leftPadding: Noo.fontSize() * 2.5
             color: enabled ? activPal.text : disdPal.text
-            font { family: "Scorek"; pixelSize: Noo.fontSize() * 2 }
+            font { family: "Scorek"; pixelSize: Noo.fontSize() * 2.2 }
           }
         }
       }
