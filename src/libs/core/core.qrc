@@ -54,7 +54,6 @@
         <file>picts/body.png</file>
         <file>picts/certBg.png</file>
         <file>picts/delete.png</file>
-        <file>picts/exam.png</file>
         <file>picts/fingbg-el.png</file>
         <file>picts/fingbg.png</file>
         <file>picts/fingerpoint.png</file>
@@ -63,7 +62,6 @@
         <file>picts/pianoBg.png</file>
         <file>picts/pianokey.png</file>
         <file>picts/pickup.png</file>
-        <file>picts/practice.png</file>
         <file>picts/rosette.png</file>
         <file>picts/saxAlto.png</file>
         <file>picts/scr.png</file>
@@ -80,6 +78,7 @@
         <file alias="picts/clear-score.png">picts/flat/clear-score.png</file>
         <file alias="picts/close.png">picts/flat/close.png</file>
         <file alias="picts/correct.png">picts/flat/correct.png</file>
+        <file alias="picts/exam.png">picts/flat/exam.png</file>
         <file alias="picts/exam-settings.png">picts/flat/exam-settings.png</file>
         <file alias="picts/exit.png">picts/flat/exit.png</file>
         <file alias="picts/fork.png">picts/flat/fork.png</file>
@@ -93,10 +92,12 @@
         <file alias="picts/nootka-level.png">picts/flat/levelCreator.png</file>
         <file alias="picts/nextQuest.png">picts/flat/nextQuest.png</file>
         <file alias="picts/prevQuest.png">picts/flat/prevQuest.png</file>
+        <file alias="picts/practice.png">picts/flat/practice.png</file>
         <file alias="picts/playMelody.png">picts/flat/playMelody.png</file>
         <file alias="picts/stopMelody.png">picts/flat/stopMelody.png</file>
         <file alias="picts/record.png">picts/flat/record.png</file>
         <file alias="picts/restore-defaults.png">picts/flat/restore-defaults.png</file>
+        <file alias="picts/send.png">picts/flat/send.png</file>
         <file alias="picts/save.png">picts/flat/save.png</file>
         <file alias="picts/score.png">picts/flat/score.png</file>
         <file alias="picts/startExam.png">picts/flat/startExam.png</file>

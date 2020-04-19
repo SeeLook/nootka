@@ -65,7 +65,7 @@ TexamSummary {
         TiconButton {
           visible: !Noo.isAndroid() || !isExercise()
           width: buttGrid.buttWidth
-          pixmap: Noo.pix(Noo.isAndroid() ? "nootka-exam" : "charts")
+          pixmap: Noo.pix(Noo.isAndroid() ? "send" : "charts")
           iconHeight: summDialog.height / 15
           text: Noo.isAndroid() ? Noo.TR("QShortcut", "Send") : qsTr("Analyze")
           onClicked: {
