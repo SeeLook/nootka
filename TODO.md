@@ -10,7 +10,6 @@
 ### For incoming stable release version 2.0
   - There is no right mouse button to check/ask question - do we need that???
   - (Settings) When tuning changes clef, set it for global and vice versa - change tuning clef when score one changes
-  - fix detecting last note duration in exercises/exams
   - randomly generated melodies have no rests yet, but see below for a reason
   - add an option to skip rests (pitch detection gaps) and treat their duration as previous note was longer
   - level creator:

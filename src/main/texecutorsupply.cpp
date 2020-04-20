@@ -670,7 +670,8 @@ void TexecutorSupply::comparePlayedFromScore(Tmelody* q, QList<TnoteStruct>& a, 
           int normDur = qRound(dur / static_cast<qreal>(quantization)) * quantization;
           Trhythm r(normDur);
           if (!r.isValid()) {
-              qDebug() << "What shall we do with invalid duration of" << i << normDur << "for" << q->note(i)->p().rtm.string();
+              if (a[i].duration) // null duration means note was not played by user. skip debug message then
+                qDebug() << "====" << i << "note has invalid duration of" << normDur << ", expected:" << q->note(i)->p().rtm.string();
               tmpUnit.setMistake(TQAunit::e_wrongRhythm);
           } else {
               if (r.duration() == quesList[i].duration()) {
@@ -678,7 +679,7 @@ void TexecutorSupply::comparePlayedFromScore(Tmelody* q, QList<TnoteStruct>& a, 
                   tempoCounter++;
                   tempoSum += tempo;
 //                   qDebug() << i << "rhythm was correct. Tempo is" << tempo;
-              } else {
+              } else if (i < notesCount - 1) { // do note check last note duration - it is very hard to play it correctly
                   tmpUnit.setMistake(TQAunit::e_wrongRhythm);
 //                   qDebug() << i << "WRONG RHYTHM! Expected:" << Trhythm(quesList[i].duration()).string() << "got:" << r.string() << dur << normDur << quantization;
               }
