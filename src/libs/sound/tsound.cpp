@@ -377,10 +377,17 @@ void Tsound::stopListen() {
 }
 
 
-void Tsound::startListen() {
+/**
+ * Starts pitch detection.
+ * But in fact, only when user didn't stop it before.
+ * By default skips initial count down (@p skipPreTicking)
+ * - it avoids counting down after dialog windows are closed,
+ * so exams executor should call it with @p FALSE
+ */
+void Tsound::startListen(bool skipPreTicking) {
   if (sniffer) {
     if (!sniffer->stoppedByUser())
-      runMetronome(Tmeter(static_cast<Tmeter::Emeter>(m_currentMeter)).countTo());
+      runMetronome(skipPreTicking ? 0 : Tmeter(static_cast<Tmeter::Emeter>(m_currentMeter)).countTo());
     sniffer->startListening();
   }
 }

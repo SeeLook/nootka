@@ -1667,7 +1667,7 @@ void TexamExecutor::startSniffing() {
   if (SOUND->isSnifferPaused())
     SOUND->unPauseSniffing();
   else
-    SOUND->startListen();
+    SOUND->startListen(false);
 }
 
 

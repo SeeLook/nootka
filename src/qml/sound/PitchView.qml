@@ -55,7 +55,7 @@ Item {
     if (SOUND.listening)
       SOUND.stopListen()
     else
-      SOUND.startListen()
+      SOUND.startListen(false)
   }
 
   Timer {

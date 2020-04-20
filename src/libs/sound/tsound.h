@@ -115,7 +115,7 @@ public:
   Q_INVOKABLE void acceptSettings();
 
   Q_INVOKABLE void stopListen();
-  Q_INVOKABLE void startListen();
+  Q_INVOKABLE void startListen(bool skipPreTicking = true);
 
       /**
        * Stops both, playing and listening
