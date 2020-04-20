@@ -562,12 +562,15 @@ void TexamExecutor::checkAnswer(bool showResults) {
   if (m_tuningForkAct)
     m_tuningForkAct->setEnabled(false);
   if (curQ->answerAsSound()) {
+    if (curQ->melody())
+      SOUND->stopListen();
+    else
       SOUND->pauseSinffing(); // but only skip detected for single sound
-      MAIN_SCORE->setSelectedItem(-1);
-      disconnect(SOUND, &Tsound::plaingFinished, this, &TexamExecutor::sniffAfterPlaying);
-      disconnect(SOUND, &Tsound::noteStartedEntire, this, &TexamExecutor::noteOfMelodyStarted);
-      disconnect(SOUND, &Tsound::noteFinishedEntire, this, &TexamExecutor::noteOfMelodyFinished);
-      disconnect(MAIN_SCORE, &TmainScoreObject::readOnlyNoteClicked, this, &TexamExecutor::noteOfMelodySelected);
+    MAIN_SCORE->setSelectedItem(-1);
+    disconnect(SOUND, &Tsound::plaingFinished, this, &TexamExecutor::sniffAfterPlaying);
+    disconnect(SOUND, &Tsound::noteStartedEntire, this, &TexamExecutor::noteOfMelodyStarted);
+    disconnect(SOUND, &Tsound::noteFinishedEntire, this, &TexamExecutor::noteOfMelodyFinished);
+    disconnect(MAIN_SCORE, &TmainScoreObject::readOnlyNoteClicked, this, &TexamExecutor::noteOfMelodySelected);
   }
   if (m_exam->melodies() && SOUND->melodyIsPlaying())
     SOUND->stopPlaying();
