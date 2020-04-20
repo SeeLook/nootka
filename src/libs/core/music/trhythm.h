@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -26,7 +26,9 @@
 #include <QtCore/qmath.h>
 
 
-    /** Almost powers of 2, used to quickly mapping @p Erhythm enumerator into weight of rhythm value */
+    /**
+     * Almost powers of 2, used to quickly mapping @p Erhythm enumerator into weight of rhythm value
+     */
 static const quint8 rtm2weightArr[6] = {0, 1, 2, 4, 8, 16};
 
 
@@ -38,7 +40,9 @@ static const quint8 rtm2weightArr[6] = {0, 1, 2, 4, 8, 16};
      */
 #define RVALUE (96)
 
-    /** Array with duration values */
+    /**
+     * Array with duration values
+     */
 static const quint8 durArray[6][3] = {
 //  |  bare note |      dot         |    triplet |
     { 0,             0,                  0           }, // none
@@ -55,6 +59,7 @@ static const quint8 durOrder[DUR_COUNT] = { 144, 96, 72, 48, 36, 24, 18, 12, 9, 
 class Trhythm;
 
 typedef QList<Trhythm> TrhythmList;
+
 
 /**
  * This class describes musical note value (relative duration)
@@ -77,18 +82,24 @@ public:
        */
   static void initialize();
 
-      /** Describes note duration */
+      /**
+       * Describes note duration
+       */
   enum Erhythm : quint8 {
     NoRhythm = 0, Whole = 1, Half = 2, Quarter = 3, Eighth = 4, Sixteenth = 5
   };
   Q_ENUM(Erhythm)
 
-      /** Additional note preferences */
+      /**
+       * Additional note preferences
+       */
   enum Eprefs : quint8 {
     e_rest = 1, e_dot = 2, e_triplet = 4, e_stemDown = 8
   };
 
-      /** It covers 16&32 bits of @p m_prefs value. It is mapped into @enum Ebeam then */
+      /**
+       * It covers 16&32 bits of @p m_prefs value. It is mapped into @enum Ebeam then
+       */
   enum Ebeam : quint8 {
     e_noBeam = 0, e_beamStart = 16, e_beamCont = 32, e_beamEnd = 48
   };
@@ -99,45 +110,67 @@ public:
   };
   Q_ENUM(Etie)
 
-      /** DEFAULT CONSTRUCTOR: by default it is quarter (without dot) */
+      /**
+       * DEFAULT CONSTRUCTOR: by default it is quarter (without dot)
+       */
   Trhythm(Erhythm nVal = Quarter, bool rest = false, bool dot = false, bool triplet = false)
   {
     setRhythm(nVal, rest, dot, triplet);
   }
 
-      /** Creates rhythm from given duration value */
+      /**
+       * Creates rhythm from given duration value
+       */
   Trhythm(int rhythmDuration, bool rest = false)
   {
     setRhythm(rhythmDuration);
     setRest(rest);
   }
 
-      /** Sets rhythm parameters, Resets all previous values! */
+      /**
+       * Sets rhythm parameters, Resets all previous values!
+       */
   void setRhythm(Erhythm nVal, bool rest = false, bool dot = false, bool triplet = false) {
     m_r = nVal;
     m_prefs = (rest ? 1 : 0) + (dot ? 2 : (triplet ? 4 : 0));
   }
 
   Erhythm rhythm() const { return m_r; }
-  void setRhythmValue(Erhythm nVal) { m_r = nVal; } /**< Changes rhythmic value only, state of dot, triplet, beams remains unchanged */
 
-      /** It converts std::string into rhythm value. Doesn't change state of triplet, dot or beam. */
+      /**
+       * Changes rhythmic value only, state of dot, triplet, beams remains unchanged
+       */
+  void setRhythmValue(Erhythm nVal) { m_r = nVal; }
+
+      /**
+       * It converts std::string into rhythm value. Doesn't change state of triplet, dot or beam.
+       */
   void setRhythmValue(const std::string& nVal);
 
-      /** Makes quick copy of another Trhythm instance. */
+      /**
+       * Makes quick copy of another @p Trhythm instance.
+       */
   void setRhythm(const Trhythm& r) { m_r = r.rhythm(); m_prefs = r.parameters(); }
 
-      /** Converts given value into rhythm */
+      /**
+       * Converts given value into rhythm
+       */
   void setRhythm(quint16 durationValue);
 
-      /** Rhythm value: i.e. sixteen is 16, quarter is 4, half is 2 and so on */
+      /**
+       * Rhythm value: i.e. sixteen is 16, quarter is 4, half is 2 and so on
+       */
   quint8 weight() const { return rtm2weightArr[m_r]; }
 
-      /** Rhythm is valid when it is different than @p Trhythm::NoRhythm */
-  bool isValid() { return m_r != NoRhythm; }
+      /**
+       * Rhythm is valid when it is different than @p Trhythm::NoRhythm
+       */
+  bool isValid() const { return m_r != NoRhythm; }
 
-      /** Whole note is 96, half is 48, quarter is 24 and with dot is 36. Single eight triplet is 8.
-       * Base value is defined in @p RVALUE macro */
+      /**
+       * Whole note is 96, half is 48, quarter is 24 and with dot is 36. Single eight triplet is 8.
+       * Base value is defined in @p RVALUE macro
+       */
   int duration() const {
       return durArray[m_r][hasDot() ? 1 : (isTriplet() ? 2 : 0)];
   }
@@ -151,22 +184,30 @@ public:
   }
 
   bool hasDot() const { return m_prefs & e_dot; }
+
+      /**
+       * Allows to set dot only if no triplet
+       */
   void setDot(bool dot) {
       if (dot) {
-        if (!isTriplet())
+          if (!isTriplet())
             m_prefs |= e_dot;
       } else
           m_prefs &= ~e_dot;
-  } /**< Allows to set dot only if no triplet */
+  }
 
   bool isTriplet() const { return m_prefs & e_triplet; }
+
+      /**
+       * Allows to set triplet only if no dot
+       */
   void setTriplet(bool tri) {
       if (tri) {
         if (!hasDot())
             m_prefs |= e_triplet;
       } else
           m_prefs &= ~e_triplet;
-  } /**< Allows to set triplet only if no dot */
+  }
 
   void setBeam(Ebeam b) {
       m_prefs &= ~e_beamEnd; // reset previous beam to none (~e_beamEnd is reverted bin of 48 to set those bits to 0)
@@ -219,12 +260,16 @@ public:
        */
   static TrhythmList resolve(int problemDur, int* unsolvedDur = nullptr);
 
-      /** Returns string with formatted rhythm value i.e. 4 or 8. or 16^3 */
+      /**
+       * Returns string with formatted rhythm value i.e. 4 or 8. or 16^3
+       */
   QString string() const;
 
   QString xmlType() const;
 
-      /** Prints current rhythm parameters to std out with given text */
+      /**
+       * Prints current rhythm parameters to std out with given text
+       */
   void debug(const char* text = 0) const;
 
   bool operator==(const Trhythm& r) const {
@@ -239,7 +284,10 @@ public:
   friend QDataStream& operator >> (QDataStream &in, Trhythm &r);
 
 protected:
-  quint8 parameters() const { return m_prefs; } /**< For copy purposes */
+      /**
+       * For copy purposes
+       */
+  quint8 parameters() const { return m_prefs; }
   void setParameters(quint8 p) { m_prefs = p; }
 
 private:
