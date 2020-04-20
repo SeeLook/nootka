@@ -317,7 +317,7 @@ void Tsound::setMetronome(int metronomeTempo, int metronomeBeat) {
 
 
 void Tsound::runMetronome(int preTicksNr) {
-  if (player && !m_metronomeIsRun && player->doTicking()) {
+  if (!GLOB->isSingleNote() && player && !m_metronomeIsRun && player->doTicking()) {
     player->setMetronome(m_tempo);
     if (player->tickBeforePlay() && preTicksNr) {
       qreal preTicksSeconds = static_cast<qreal>(preTicksNr) * (60.0 / static_cast<qreal>(m_tempo));

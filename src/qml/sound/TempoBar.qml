@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -172,7 +172,7 @@ Item {
   Connections {
     target: SOUND
     onCountdownPrepare: {
-      if (SOUND.tickBeforePlay) {
+      if (SOUND.tickBeforePlay && !GLOB.singleNoteMode) {
         if (!preCountItem) {
           var d = Qt.createComponent("qrc:/sound/CountdownItem.qml")
           preCountItem = d.createObject(score)
