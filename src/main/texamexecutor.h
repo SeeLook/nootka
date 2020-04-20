@@ -173,14 +173,29 @@ protected:
 
   void showExamHelp();
   void expertAnswersSlot();
-  void startSniffing();     /**< Invokes Tsound::go() */
-  void sniffAfterPlaying(); /**< Starts sniffing when asked note is finished */
+
+      /**
+       * Invokes @p Tsound::startListen()
+       */
+  void startSniffing();
+
+      /**
+       * Starts sniffing when asked note is finished
+       */
+  void sniffAfterPlaying();
 //   void rightButtonSlot();
   Q_INVOKABLE void tipLink(const QString& link);
   void markAnswer(TQAunit* curQ);
-//   void delayerTip(); /**< This is QTimer slot invoking m_canvas->whatNextTip(true) method. */
-  void exerciseToExam(); /**< Stops exercising and starts exam. */
-  void stopSound(); /**< Common method called by exercises and exams to disable sniffing, lock right button, etc. */
+
+      /**
+       * Stops exercising and starts exam.
+       */
+  void exerciseToExam();
+
+      /**
+       * Common method called by exercises and exams to disable sniffing, lock right button, etc.
+       */
+  void stopSound();
 
       /**
        * Performs routines after dialog window closed as such as 
@@ -203,9 +218,20 @@ protected:
        */
   void blindQuestion();
 
-  void noteOfMelodyStarted(const TnoteStruct& n); /**< When user plays a melody as an answer and start of a note was detected. */
-  void noteOfMelodyFinished(const TnoteStruct& n); /**< Played note was finished */
-  void noteOfMelodySelected(int nr); /**< Note of score to play was clicked */
+      /**
+       * When user plays a melody as an answer and start of a note was detected.
+       */
+  void noteOfMelodyStarted(const TnoteStruct& n);
+
+      /**
+       * Played note was finished
+       */
+  void noteOfMelodyFinished(const TnoteStruct& n);
+
+      /**
+       * Note of score to play was clicked
+       */
+  void noteOfMelodySelected(int nr);
 
       /**
        * Should be called when settings dialog is going to be displayed.
@@ -221,14 +247,29 @@ private:
   void createActions();
   void prepareToExam();
   void restoreAfterExam();
-  void disableWidgets(); /**< Disables score, noteName and guitar*/
+
+      /**
+       * Disables controls of score, note name and instrument
+       */
+  void disableWidgets();
   void clearWidgets();
-  void closeExecutor(); /**< Clears canvas and invokes restoreAfterExam() */
-  void initializeExecuting(); /**< Performs some initial routines on exam/exercise variables */
+
+      /**
+       * closing routines and invokes @p restoreAfterExam()
+       */
+  void closeExecutor();
+
+      /**
+       * Performs some initial routines on exam/exercise variables
+       */
+  void initializeExecuting();
 
   QString saveExamToFile();
 
-  void connectPlayingFinished(); /**< Checks @p m_soundTimer and connects @p playingFinished() of @p Tsound */
+      /**
+       * Checks @p m_soundTimer and connects @p playingFinished() of @p Tsound
+       */
+  void connectPlayingFinished();
 
       /**
        * Casts @p QVariant @p v to @p Tlevel* and if casted, assigns it to @p m_level and returns @p TRUE

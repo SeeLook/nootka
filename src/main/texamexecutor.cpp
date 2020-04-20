@@ -1166,7 +1166,6 @@ void TexamExecutor::clearWidgets() {
     INSTRUMENT->setNote(Tnote());
     INSTRUMENT->markSelected(Qt::transparent);
   }
-//   SOUND->restoreAfterAnswer();
 }
 
 
@@ -1244,11 +1243,6 @@ void TexamExecutor::createActions() {
     m_correctAct->setTip(tr("correct answer\n(enter)").replace(QLatin1String("\n"), QLatin1String("<br>")), QQuickItem::TopRight);
   }
   emit examActionsChanged();
-
-//   if (m_level.questionAs.isSound() && m_level.answersAs[TQAtype::e_asSound].isNote()) {
-//     TOOLBAR->createTuneForkAction();
-//     connect(TOOLBAR->tuneForkAct, SIGNAL(triggered()), this, SLOT(playMiddleA()));
-//   }
 }
 
 
@@ -1772,15 +1766,6 @@ void TexamExecutor::deleteExam() {
     m_exam = nullptr;
   }
 }
-
-
-// void TexamExecutor::delayerTip() {
-//   m_lockRightButt = false;
-//   m_tipHandler->whatNextTip(!(!m_exercise && GLOB->E->repeatIncorrect && !m_incorrectRepeated));
-//   /** When exam mode and mistake occurred it will be true,
-//    * so whatNextTip(false) is invoked - whatNextTip displays repeat question hint
-//    * otherwise (exercise and/or correct answer) @p whatNextTip(true) goes. */
-// }
 
 
 void TexamExecutor::unlockAnswerCapturing() {
