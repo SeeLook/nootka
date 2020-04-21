@@ -141,7 +141,7 @@ public:
   static QColor& answerColor(const TQAunit* answer);
 
       /**
-       * Returns color depends on answer type.
+       * Determines color by mistake type.
        */
   static QColor& answerColor(quint32 mistake);
 

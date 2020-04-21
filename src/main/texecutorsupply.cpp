@@ -113,7 +113,7 @@ QColor& TexecutorSupply::answerColor(const TQAunit* answer) {
 
 
 QColor& TexecutorSupply::answerColor(quint32 mistake) {
-  if (mistake == (quint32)TQAunit::e_correct)
+  if (mistake == 0) // correct: TQAunit::e_correct
     return GLOB->EanswerColor;
   else if (!(mistake & TQAunit::e_wrongPos) && !(mistake & TQAunit::e_wrongNote) && !(mistake & TQAunit::e_veryPoor))
     return GLOB->EnotBadColor;
@@ -659,23 +659,24 @@ void TexecutorSupply::comparePlayedFromScore(Tmelody* q, QList<TnoteStruct>& a, 
     TQAunit tmpUnit;
     if (a.size() > i && quesList.size() > i) { // skip checking the last note if it is a rest
       if (!lastIsRest || (lastIsRest && quesList[i].index() < q->length() - 1)) {
+        auto answ = &a[i];
         if (q->clef() != Tclef::NoClef) // if there is some melody in a melody - compare pitches
-          tmpUnit.setMistake(comparePitches(quesList[i].pitch(), a[i].pitchF == 0.0 ? 127 : a[i].pitch.chromatic(), m_level->requireOctave));
+          tmpUnit.setMistake(comparePitches(quesList[i].pitch(), answ->pitchF == 0.0 ? 127 : answ->pitch.chromatic(), m_level->requireOctave));
 
         if (q->meter()->meter() != Tmeter::NoMeter) {
-          qreal dur = tempoFactor * a[i].duration;
+          qreal dur = tempoFactor * answ->duration;
           // Calculate quantization as a half of expected rhythm value (without dot).
           // It avoids some extraordinary values like 4.. or even worst
           int quantization = qMax(6, quesList[i].duration() / 2);
           int normDur = qRound(dur / static_cast<qreal>(quantization)) * quantization;
-          Trhythm r(normDur);
-          if (!r.isValid()) {
-              if (a[i].duration) // null duration means note was not played by user. skip debug message then
+          answ->pitch.rtm.setRhythm(normDur); // store detected duration in answers list
+          if (!answ->pitch.rtm.isValid()) {
+              if (answ->duration) // null duration means note was not played by user. skip debug message then
                 qDebug() << "====" << i << "note has invalid duration of" << normDur << ", expected:" << q->note(i)->p().rtm.string();
               tmpUnit.setMistake(TQAunit::e_wrongRhythm);
           } else {
-              if (r.duration() == quesList[i].duration()) {
-                  qreal tempo = 60.0 / ((24.0 / static_cast<qreal>(quesList[i].duration())) * a[i].duration);
+              if (answ->pitch.rtm.duration() == quesList[i].duration()) {
+                  qreal tempo = 60.0 / ((24.0 / static_cast<qreal>(quesList[i].duration())) * answ->duration);
                   tempoCounter++;
                   tempoSum += tempo;
 //                   qDebug() << i << "rhythm was correct. Tempo is" << tempo;
