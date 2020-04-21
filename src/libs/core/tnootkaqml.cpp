@@ -478,10 +478,9 @@ void TnootkaQML::showTimeMessage(const QString& message, int time, int pos) {
       QTimer::singleShot(300, this, [=] { setMessageColor(qApp->palette().highlight().color()); } );// restore default status background color
     });
   }
-  if (m_messageTimer->isActive()) {
-    qDebug() << "[TnootkaQML] status message timer is active.Message\n" << message << " will not show.\n Try to avoid such a situation!";
-    return;
-  }
+  if (m_messageTimer->isActive())
+    m_messageTimer->stop();
+
   emit statusTip(message, pos);
   m_messageTimer->start(time);
 }
