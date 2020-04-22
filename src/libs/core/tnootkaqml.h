@@ -190,6 +190,10 @@ public:
        */
   Q_INVOKABLE void setStatusTip(const QString& statusText, int tipPos = 1);
 
+      /**
+       * Displays status message in declared period @p time
+       * at position @p pos - top center by default (see @p QQuickItem::TransformOrigin)
+       */
   void showTimeMessage(const QString& message, int time, int pos = 1);
 
       /**
@@ -292,6 +296,7 @@ private:
 
   QColor                         m_mesageColor;
   QTimer                        *m_messageTimer = nullptr;
+  int                            m_messagePos;
 };
 
 #endif // TNOOTKAQML_H

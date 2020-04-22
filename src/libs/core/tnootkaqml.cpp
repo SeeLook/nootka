@@ -474,10 +474,11 @@ void TnootkaQML::showTimeMessage(const QString& message, int time, int pos) {
     m_messageTimer = new QTimer(this);
     m_messageTimer->setSingleShot(true);
     connect(m_messageTimer, &QTimer::timeout, this, [=]{
-      emit statusTip(QString(), pos);
+      emit statusTip(QString(), m_messagePos);
       QTimer::singleShot(300, this, [=] { setMessageColor(qApp->palette().highlight().color()); } );// restore default status background color
     });
   }
+  m_messagePos = pos;
   if (m_messageTimer->isActive())
     m_messageTimer->stop();
 
