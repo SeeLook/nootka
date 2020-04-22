@@ -295,6 +295,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
         curQ->qa.note = m_supp->determineAccid(curQ->qa.note);
     }
     if (m_exam->melodies()) {
+      disconnect(MAIN_SCORE, &TmainScoreObject::readOnlyNoteClicked, this, &TexamExecutor::correctNoteOfMelody);
       int melodyLength = qBound(qMax(2, qRound(m_level.melodyLen * 0.7)), //at least 70% of length but not less than 2
                                       qRound(((6.0 + (qrand() % 5)) / 10.0) * (qreal)m_level.melodyLen), (int)m_level.melodyLen);
       if (m_penalty->isNot()) {
@@ -799,9 +800,11 @@ void TexamExecutor::correctAnswer() {
   m_tipHandler->clearTips(false);
   auto curQ = m_exam->answList()->last();
 //   QColor markColor = m_supp->answerColor(curQ);
-//   if (curQ->melody() && (curQ->answerAsNote() || curQ->questionAsNote())) {
-//     SCORE->setReadOnlyReacting(true); // It is undone whenever unLockScore() is called
-//   }
+  if (curQ->melody()) {
+    MAIN_SCORE->setSelectInReadOnly(true);
+    connect(MAIN_SCORE, &TmainScoreObject::readOnlyNoteClicked, this, &TexamExecutor::correctNoteOfMelody);
+    m_tipHandler->melodyCorrectMessage();
+  }
   if (curQ->answerOnScore()) {
     if (curQ->melody()) {
       if (m_level.manualKey && curQ->key.value() != MAIN_SCORE->keySignatureValue())
@@ -1149,6 +1152,8 @@ void TexamExecutor::restoreAfterExam() {
 
 void TexamExecutor::disableWidgets() {
   MAIN_SCORE->setReadOnly(true);
+  if (!GLOB->isSingleNote())
+    MAIN_SCORE->setSelectedItem(-1);
   if (INSTRUMENT)
     INSTRUMENT->setEnabled(false);
   if (NOTENAME)
@@ -1614,8 +1619,10 @@ void TexamExecutor::noteOfMelodySelected(int nr) {
   SOUND->startListen();
   m_tipHandler->deleteConfirmTip();
   m_melodySelectionIndex = nr + 1;
-//   if (isExercise() && INSTRUMENT->isVisible() && m_exam->curQ()->melody()) // in exercises, display guitar position of clicked note for a hint
-//       INSTRUMENT->setFinger(m_exam->curQ()->melody()->note(nr)->g());
+// TODO: do we really need this?
+// During exercises, display instrument position of clicked note for a hint
+//   if (isExercise() && INSTRUMENT && m_exam->curQ()->melody())
+//     INSTRUMENT->setNote(m_exam->curQ()->melody()->note(nr)->p(), m_exam->curQ()->melody()->note(nr)->g().data());
 }
 
 
@@ -1686,44 +1693,56 @@ void TexamExecutor::expertAnswersSlot() {
 /**
  * This slot is invoked  during correction of melody on the score.
  * Each note can be clicked and:
- * - corrected if score is an answer
+ * - corrected or show hint, if score is an answer
  * - shows position on the instrument
  * - plays its sound
  * - displays message with detected pitch if note was played wrong
  */
 void TexamExecutor::correctNoteOfMelody(int noteNr) {
-  /*
   if (m_exam->curQ()->melody()) {
     MAIN_SCORE->setSelectedItem(noteNr);
     if (noteNr < m_exam->curQ()->lastAttempt()->mistakes.size()) {
       quint32 &m = m_exam->curQ()->lastAttempt()->mistakes[noteNr];
       if (m_exam->curQ()->answerOnScore() && m_exam->curQ()->melody()->length() > noteNr) { // only dictations can be corrected
-        if (m && !m_melody->fixed(noteNr) && !SCORE->isCorrectAnimPending()) { // fix if it has not been fixed yet
-          m_exercise->setCorrectedNoteId(noteNr);
-          SCORE->correctNote(m_exam->curQ()->melody()->note(noteNr)->p(), m_supp->answerColor(m), noteNr);
-          m_melody->setFixed(noteNr);
-          if (m_melody->numberOfFixed() > m_exam->curQ()->melody()->length() / 2) { // to much fixed - block new attempt
-            TOOLBAR->removeAction(TOOLBAR->attemptAct);
-            m_tipHandler->whatNextTip(true); // it will cheat m_tipHandler that question is correct and 'new attempt' will be blocked as well
+          if (m && !MAIN_SCORE->isCorrectAnimPending()) { // fix, if it has not been fixed yet
+            if (!m_melody->fixed(noteNr))
+              m_exercise->setCorrectedNoteId(noteNr); // TODO we are not using it anymore
+            if (m_level.useRhythms()) {
+                // TODO It is impossible for now to correct melody with rhythms
+                // because when some middle note changes rhythms, ties are added and notes number changes.
+                // So score answer don't match what was checked before.
+                // So far we just displaying status message with correct note
+                NOO->setMessageColor(m_supp->answerColor(m));
+                m_tipHandler->shouldBeNoteTip(m_exam->curQ()->melody()->note(noteNr)->p());
+            } else if (!m_melody->fixed(noteNr))
+                MAIN_SCORE->correctNote(m_exam->curQ()->melody()->note(noteNr)->p()); // selected note item is corrected
+            if (!m_melody->fixed(noteNr))
+              m_melody->setFixed(noteNr);
+            if (m_melody->numberOfFixed() > m_exam->curQ()->melody()->length() / 2) { // too much notes fixed - hide 'new attempt'
+              m_newAtemptAct->setEnabled(false);
+              m_tipHandler->showWhatNextTip(true); // cheat m_tipHandler that question is correct so 'new attempt' will not show
+            }
           }
-        }
+      } else {
+          NOO->setMessageColor(GLOB->wrongColor());
+          NOO->showTimeMessage(tr("There is not such a note in this melody!"), 3000);
       }
       if (SOUND->isPlayable() && m_exam->curQ()->melody()->length() > noteNr)
-          SOUND->play(m_exam->curQ()->melody()->note(noteNr)->p());
-      if (INSTRUMENT->isVisible() && m_exam->curQ()->melody()->length() > noteNr)
-        INSTRUMENT->setFinger(m_exam->curQ()->melody()->note(noteNr)->p());
+        SOUND->play(m_exam->curQ()->melody()->note(noteNr)->p());
+      if (INSTRUMENT && m_exam->curQ()->melody()->length() > noteNr)
+        INSTRUMENT->setNote(m_exam->curQ()->melody()->note(noteNr)->p());
       if (m && m_exam->curQ()->answerAsSound()) {
-        if (m_melody->listened()[noteNr].pitch.isValid())
+        NOO->setMessageColor(m_supp->answerColor(m));
+        if (m_level.useRhythms() || m_melody->listened()[noteNr].pitch.isValid())
           m_tipHandler->detectedNoteTip(m_melody->listened()[noteNr].pitch);
         else
-          m_tipHandler->setStatusMessage(m_tipHandler->detectedText(tr("This note was not played!")), 3000);
+          NOO->showTimeMessage(tr("This note was not played!"), 3000);
       }
     }
   }
-  */
 }
-// 
-// 
+
+
 // void TexamExecutor::rightButtonSlot() {
 //   if (m_lockRightButt)
 //       return;

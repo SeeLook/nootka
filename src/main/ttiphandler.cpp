@@ -249,18 +249,20 @@ void TtipHandler::showResultTip(TQAunit* answer, int time) {
 }
 
 
-//QString TtipHandler::detectedText(const QString& txt) {
-//  return QString("<span style=\"color: %1;\"><big>").arg(GLOB->EquestionColor.name()) + txt + QLatin1String("</big></span>");
-//}
+void TtipHandler::detectedNoteTip(const Tnote& note) {
+  auto noteText = QStringLiteral("<big><b>") + (note.isValid() ? note.toRichText() : QStringLiteral("Rest"));
+  if (m_exam->level()->useRhythms() && note.rtm.isValid())
+    noteText += QLatin1String(" (") + note.rtm.string() + QLatin1String(")");
+  NOO->showTimeMessage(tr("%1 was detected", "note name").arg(noteText + QLatin1String("</b></big>")), 5000, QQuickItem::Top);
+}
 
 
-//void TtipHandler::detectedNoteTip(const Tnote& note) {
-//  Tnote n = note;
-//  if (n.isValid())
-//    setStatusMessage(QLatin1String("<table valign=\"middle\" align=\"center\"><tr><td> ") +
-//        wrapPixToHtml(n, m_exam->level()->clef.type(),  TkeySignature(0), m_view->height() / 260.0) + QLatin1String(" ") +
-//        detectedText(tr("%1 was detected", "note name").arg(n.toRichText())) + QLatin1String("</td></tr></table>"), 5000);
-//}
+void TtipHandler::shouldBeNoteTip(const Tnote& note) {
+  auto noteText = QStringLiteral("<big><b>") + (note.isValid() ? note.toRichText() : QStringLiteral("Rest"));
+  if (m_exam->level()->useRhythms() && note.rtm.isValid())
+    noteText += QLatin1String(" (") + note.rtm.string() + QLatin1String(")");
+  NOO->showTimeMessage(tr("It should be %1", "note name follows").arg(noteText + QLatin1String("</b></big>")), 5000, QQuickItem::Top);
+}
 
 
 void TtipHandler::showTryAgainTip(int time) {
@@ -351,12 +353,7 @@ void TtipHandler::showWhatNextTip(bool isCorrect, bool toCorrection) {
 
 void TtipHandler::playMelodyAgainMessage() {
   NOO->setMessageColor(GLOB->EanswerColor);
-  NOO->showTimeMessage(tr("Select any note to play it again."), 3000);
-// #if defined (Q_OS_ANDROID)
-//  tMessage->setMessage(detectedText(tr("Select any note to play it again.")), 3000);
-// #else
-//  STATUS->setMessage(detectedText(tr("Select any note to play it again.")), 3000);
-// #endif
+  NOO->showTimeMessage(tr("Select any note to play it again."), 3000, QQuickItem::Top);
 }
 
 
@@ -535,20 +532,8 @@ void TtipHandler::showQuestionTip() {
 
 
 void TtipHandler::melodyCorrectMessage() {
-  if (m_melodyCorrectMessage)
-    return;
-
-  m_melodyCorrectMessage = true;
   NOO->setMessageColor(GLOB->EanswerColor);
-  QString message = /*QString("<span style=\"color: %1;\"><big>").arg(GLOB->EanswerColor.name()) +*/
-                    tr("Click incorrect notes to see<br>and to listen to them corrected.");// + QLatin1String("</big></span>");
-  NOO->showTimeMessage(message, 7000, QQuickItem::TopRight);
-// #if defined (Q_OS_ANDROID)
-//  tMessage->setMessage(message, 10000); // temporary message on a tip
-// #else
-//  STATUS->setBackground(-1);
-//  setStatusMessage(message); // permanent message on status label
-// #endif
+  NOO->showTimeMessage(tr("Click incorrect notes to see<br>and to listen to them corrected."), 7000, QQuickItem::Top);
 }
 
 

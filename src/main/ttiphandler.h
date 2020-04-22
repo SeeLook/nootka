@@ -159,15 +159,12 @@ public:
 //      /** Paints rectangle around given type of widget to mark where is answer. */
 //  const QRect& getRect(TQAtype::Etype kindOf);
 
-//      /** Displays message on main window status label with given note as the detected. */
-//  void detectedNoteTip(const Tnote& note);
-
-//  QString detectedText(const QString& txt); /**< Returns bigger @p txt in question color. Used for 'detected'  message. */
+ void detectedNoteTip(const Tnote& note);
+ void shouldBeNoteTip(const Tnote& note);
 
   bool hasCertificate() { return m_certifyTip != nullptr; }
 
 //  void clearTryAgainTip();
-//  void clearMelodyCorrectMessage();
   void certificateTip();
   void deleteCertTip();
 
@@ -223,7 +220,6 @@ private:
      */
  QPointF                             m_factorPosOfQT[TIP_POS_NUM];
 //   bool                               m_minimizedQuestion = false;
-  bool                               m_melodyCorrectMessage = false;
   EtipPos                            m_questTipPosType; /**< Kind of question tip position */
   int                                m_iconSize; /**< Icon image size on tips calculated from actual font metrics. */
   QQuickItem                        *m_startTip = nullptr;
