@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -151,6 +151,13 @@ public:
   void correctNote(const Tnote& goodNote, bool corrAccid = false);
   void correctKeySignature(const TkeySignature& keySign);
 
+      /**
+       * @p TRUE if correction animation was started.
+       * In this moment @p m_correctNoteId stores note item id,
+       * otherwise it is -1
+       */
+  bool isCorrectAnimPending() { return m_correctNoteId > -1; }
+
   Q_INVOKABLE void saveMusicXml(const QString& fileName, const QString& title = QString(), const QString& composer = QString());
 
 signals:
@@ -204,6 +211,7 @@ private:
   QList<TstaffLines*>        m_emptyStaves;
   Tnote                     *m_goodNote;
   QObject                   *m_animationObj = nullptr;
+  int                        m_correctNoteId = -1; /**< keeps id of note with correction anim, -1 no note, no anim */
 
 };
 
