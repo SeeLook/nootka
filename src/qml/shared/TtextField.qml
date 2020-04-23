@@ -14,7 +14,7 @@ TextField {
   selectByMouse: true
   selectedTextColor: activPal.highlightedText
   selectionColor: activPal.highlight
-  placeholderTextColor: disdPal.text
+//   placeholderTextColor: disdPal.text // TODO: not compatible with Qt 5.9 (5.12 and above)
   color: enabled ? activPal.text : disdPal.text
 
   background: TipRect {
