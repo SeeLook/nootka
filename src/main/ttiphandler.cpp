@@ -674,10 +674,12 @@ bool TtipHandler::eventFilter(QObject* obj, QEvent* event) {
 ////   }
 #else
   if (event->type() == QEvent::MouseButtonPress) {
-    auto *me = static_cast<QMouseEvent*>(event);
-    if (me->button() == Qt::MiddleButton && me->modifiers() | Qt::ShiftModifier &&  me->modifiers() | Qt::AltModifier) {
-      if (m_exam && !m_certifyTip)
-        emit certificateMagicKeys();
+    auto me = static_cast<QMouseEvent*>(event);
+    if (me) {
+      if (me->button() == Qt::MiddleButton && me->modifiers() & Qt::ShiftModifier &&  me->modifiers() & Qt::AltModifier) {
+        if (m_exam && !m_certifyTip)
+          emit certificateMagicKeys();
+      }
     }
   }
 #endif
