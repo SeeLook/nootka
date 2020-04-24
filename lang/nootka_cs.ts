@@ -381,7 +381,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/charts/sorting.cpp" line="395"/>
         <source>wrong positions</source>
-        <translation> Nesprávné polohy</translation>
+        <translation>Nesprávné polohy</translation>
     </message>
     <message>
         <location filename="../src/charts/sorting.cpp" line="396"/>
@@ -922,7 +922,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/qml/score/KeySignature.qml" line="79"/>
         <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
-        <translation type="unfinished">Předznamenání - pro jeho změnu klepněte nad nebo pod osnovu nebo použijte kolečko myši.</translation>
+        <translation>Předznamenání - pro jeho změnu klepněte nad nebo pod osnovu nebo použijte kolečko myši.</translation>
     </message>
 </context>
 <context>
@@ -1185,17 +1185,17 @@ Nejprve zvažte rozdělení dlouhých děl na party ve vnějším programu.</tra
         <translation>ze seznamu</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/MelodyPage.qml" line="56"/>
+        <location filename="../src/qml/level/MelodyPage.qml" line="57"/>
         <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
         <translation>Nejvyšší počet not v melodii. Délka melodie je náhodná hodnota mezi 70 % and 100 % toho čísla.</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/MelodyPage.qml" line="64"/>
+        <location filename="../src/qml/level/MelodyPage.qml" line="65"/>
         <source>Melody length</source>
         <translation>Délka melodie</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/MelodyPage.qml" line="103"/>
+        <location filename="../src/qml/level/MelodyPage.qml" line="104"/>
         <source>Play in tempo</source>
         <translation>Hrát v tempu</translation>
     </message>
@@ -1251,13 +1251,13 @@ Nejprve zvažte rozdělení dlouhých děl na party ve vnějším programu.</tra
 <context>
     <name>Notation</name>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="501"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="502"/>
         <source>b</source>
         <comment>Give here a name of 7-th note preferred in your country. But only &apos;b&apos; or &apos;h&apos; not &apos;si&apos; or something worst...</comment>
         <translation>h</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="506"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="507"/>
         <source>letters</source>
         <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country preferred style of naming key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
         <translation>letters</translation>
@@ -1553,6 +1553,11 @@ Nejprve zvažte rozdělení dlouhých děl na party ve vnějším programu.</tra
         <location filename="../src/qml/level/RhythmsPage.qml" line="23"/>
         <source>Select any rhythm and time signature to be used in this level, otherwise melodies will not have rhythmic values, just bare note-heads.</source>
         <translation>Vyberte jakýkoli rytmus a taktové označení, kteří se použijí v této úrovni, jinak nebudou mít melodie rytmické hodnoty, jen prosté notové hlavičky.</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/level/RhythmsPage.qml" line="63"/>
+        <source>Time signatures to use in this level.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/qml/level/RhythmsPage.qml" line="66"/>
@@ -2467,6 +2472,15 @@ není platným souborem zkoušky!</translation>
         <source>answer</source>
         <translation type="vanished">Odpověď</translation>
     </message>
+    <message numerus="yes">
+        <location filename="../src/charts/tcharttipitem.cpp" line="197"/>
+        <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
+        <translation>
+            <numerusform>Melodie byla hrána &lt;b&gt;%n&lt;/b&gt; krát</numerusform>
+            <numerusform>Melodie byla hrána &lt;b&gt;%n&lt;/b&gt; krát</numerusform>
+            <numerusform>Melodie byla hrána &lt;b&gt;%n&lt;/b&gt; krát</numerusform>
+        </translation>
+    </message>
 </context>
 <context>
     <name>Tclef</name>
@@ -2658,17 +2672,17 @@ není platným souborem zkoušky!</translation>
 <context>
     <name>Texam</name>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="491"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="492"/>
         <source>as note on the staff</source>
         <translation>Jako nota v notovém zápisu</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="492"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="493"/>
         <source>as note name</source>
         <translation>Jako název noty</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="493"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="494"/>
         <source>on instrument</source>
         <translation>Na nástroji</translation>
     </message>
@@ -2677,7 +2691,7 @@ není platným souborem zkoušky!</translation>
         <translation type="vanished">Jako poloha na hmatníku</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="494"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="495"/>
         <source>as played sound</source>
         <translation>Jako přehrávaný zvuk</translation>
     </message>
@@ -2752,99 +2766,105 @@ není platným souborem zkoušky!</translation>
         <translation>Úroveň &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nemá smysl, protože nemá žádnou otázku, kterou by bylo možné zadat.&lt;br&gt;Může být nenastavena na nynější ladění.&lt;br&gt;Opravte to v tvůrci úrovní a zkuste to znovu.</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1173"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1182"/>
         <source>Exercise or exam preferences</source>
         <translation>Nastavení cvičení nebo zkoušky</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1192"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1201"/>
         <source>repeat previous question (backspace)</source>
         <translation>Opakovat předchozí otázku (klávesa Backspace)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1198"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1207"/>
         <source>next question
 (space %1)</source>
         <translation>Další otázku
 (mezerník %1)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1204"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1213"/>
         <source>Play &lt;i&gt;middle a&lt;/i&gt; like a tuning fork.
 (Press key &apos;a&apos;)</source>
         <translation>Přehrát &lt;i&gt;jednočárkované A&lt;/i&gt; (A1) jako ladička.
 (Stiskněte &apos;a&apos;)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1211"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1220"/>
         <source>play sound again</source>
         <translation>Přehrát zvuk znovu</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1224"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1233"/>
         <source>Try this melody once again. (backspace)</source>
         <translation>Zkuste tuto melodii ještě jednou. (Backspace)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1232"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1241"/>
         <source>check answer
 (enter %1)</source>
         <translation>Ověřit odpověď
 (klávesa Enter %1)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1239"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1248"/>
         <source>correct answer
 (enter)</source>
         <translation>Správná odpověď
 (zadejte)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1354"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1358"/>
         <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
         <translation>Nejprve odpovězte!&lt;br&gt;Potom bude zkouška dokončena.</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1407"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1411"/>
         <source>Such a pity.</source>
         <translation>Jaká škoda.</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1477"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1481"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
         <translation>Pssst... Zkouška trvá.&lt;br&gt;&lt;br&gt;Vyberte &lt;b&gt;%1&lt;/b&gt; &lt;br&gt; pro ověření, uložení a ukončení&lt;br&gt;nebo &lt;b&gt;%2&lt;/b&gt; pro pokračování.&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1507"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1511"/>
         <source>Save exam results as:</source>
         <translation>Uložit výsledky zkoušky jako:</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1512"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1516"/>
         <source>If you don&apos;t save to file&lt;br&gt;you lost all results!</source>
         <translation>Pokud soubor neuložíte&lt;br&gt;ztratíte všechny výsledky!</translation>
     </message>
     <message>
-        <source>This note was not played!</source>
-        <translation type="vanished">Tato nota nebla přehrána!</translation>
+        <location filename="../src/main/texamexecutor.cpp" line="1728"/>
+        <source>There is not such a note in this melody!</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1852"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1739"/>
+        <source>This note was not played!</source>
+        <translation>Tato nota nebla přehrána!</translation>
+    </message>
+    <message>
+        <location filename="../src/main/texamexecutor.cpp" line="1861"/>
         <source>Exercises with Nootka</source>
         <translation>Cvičení s Nootkou</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1180"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1189"/>
         <source>finish exercising</source>
         <translation>Dokončit cvičení</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1854"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1863"/>
         <source>EXAM!</source>
         <translation>ZKOUŠKA!</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1183"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1192"/>
         <source>stop the exam</source>
         <translation>Zastavit zkoušku</translation>
     </message>
@@ -3239,12 +3259,12 @@ není platným souborem zkoušky!</translation>
 <context>
     <name>TfileDialog</name>
     <message>
-        <location filename="../src/libs/core/Android/tfiledialog.cpp" line="208"/>
+        <location filename="../src/libs/core/Android/tfiledialog.cpp" line="210"/>
         <source>Memory card</source>
         <translation>Paměťová karta</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/Android/tfiledialog.cpp" line="411"/>
+        <location filename="../src/libs/core/Android/tfiledialog.cpp" line="423"/>
         <source>Directory named &lt;b&gt;Nootka&lt;/b&gt; will be created in&lt;br&gt;%1&lt;br&gt;Application files will be written there.</source>
         <translation>Adresář pojmenovaný jako &lt;b&gt;Nootka&lt;/b&gt; bude vytvořen v&lt;br&gt;%1&lt;br&gt;Zde budou zapsány soubory programu.</translation>
     </message>
@@ -3922,12 +3942,12 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Vytvořit melodii z náhodných not.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="417"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="418"/>
         <source>Melody</source>
         <translation>Melodie</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="419"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="420"/>
         <source>Open, save, generate and play a melody.</source>
         <translation>Otevřít, uložit, vytvořit a přehrát melodii.</translation>
     </message>
@@ -3942,18 +3962,18 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Soubor MusicXML</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="299"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="300"/>
         <source>Save melody as:</source>
         <translation>Uložit melodii jako:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="413"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="414"/>
         <source>Score</source>
         <comment>it could be &apos;notation&apos;, &apos;staff&apos; or whatever is associated with that &apos;place to display musical notes&apos; and this the name is quite short and looks well.</comment>
         <translation>Noty</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="416"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="417"/>
         <source>Manage and navigate the score.</source>
         <translation>Spravovat a pohybovat se v notovém zápisu.</translation>
     </message>
@@ -4155,7 +4175,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TnootkaQML</name>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="412"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="413"/>
         <source>Analysis of exam results</source>
         <translation>Rozbor výsledků zkoušky</translation>
     </message>
@@ -4719,9 +4739,10 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
 <context>
     <name>TtipHandler</name>
     <message>
+        <location filename="../src/main/ttiphandler.cpp" line="256"/>
         <source>%1 was detected</source>
         <comment>note name</comment>
-        <translation type="vanished">%1 byl zjištěn</translation>
+        <translation>%1 byl zjištěn</translation>
     </message>
     <message>
         <location filename="../src/qml/exam/ExamExecutor.qml" line="58"/>
@@ -4729,22 +4750,22 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Zkuste znovu!</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="317"/>
+        <location filename="../src/main/ttiphandler.cpp" line="319"/>
         <source>To correct an answer</source>
         <translation>Pro opravu odpovědi</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="320"/>
+        <location filename="../src/main/ttiphandler.cpp" line="322"/>
         <source>To try this melody again</source>
         <translation>Pro opětovný pokus o tuto melodii</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="328"/>
+        <location filename="../src/main/ttiphandler.cpp" line="330"/>
         <source>To see corrected answer</source>
         <translation>Prozobrazení správné odpovědi</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="330"/>
+        <location filename="../src/main/ttiphandler.cpp" line="332"/>
         <source>To see some hints</source>
         <translation>Pro zobrazení nějakých rad</translation>
     </message>
@@ -4759,7 +4780,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation>Prověřte v nápovědě ke zkoušce %1, jak to dělat automaticky</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="354"/>
+        <location filename="../src/main/ttiphandler.cpp" line="356"/>
         <source>Select any note to play it again.</source>
         <translation>Vyberte nějakou notu pro její opětovné přehrání.</translation>
     </message>
@@ -4772,7 +4793,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <translation type="vanished">Příliš vysoko</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="544"/>
+        <location filename="../src/main/ttiphandler.cpp" line="536"/>
         <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
         <translation>Klepněte na nesprávné noty, abyste&lt;br&gt;
 je viděli a poslechli si správně.</translation>
@@ -4806,37 +4827,43 @@ je viděli a poslechli si správně.</translation>
         <translation>Přehrát</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="393"/>
+        <location filename="../src/main/ttiphandler.cpp" line="264"/>
+        <source>It should be %1</source>
+        <comment>note name follows</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/main/ttiphandler.cpp" line="390"/>
         <source>Change enharmonically and show on the staff</source>
         <translation>Změnit enharmonicky a ukázat v notové osnově</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="395"/>
+        <location filename="../src/main/ttiphandler.cpp" line="392"/>
         <source>Given note show on the staff</source>
         <translation>Ukázání dané noty v notové osnově</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="397"/>
-        <location filename="../src/main/ttiphandler.cpp" line="434"/>
-        <location filename="../src/main/ttiphandler.cpp" line="489"/>
+        <location filename="../src/main/ttiphandler.cpp" line="394"/>
+        <location filename="../src/main/ttiphandler.cpp" line="431"/>
+        <location filename="../src/main/ttiphandler.cpp" line="486"/>
         <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
         <translation>&lt;br&gt;&lt;b&gt;v tónině %1.&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="400"/>
-        <location filename="../src/main/ttiphandler.cpp" line="462"/>
+        <location filename="../src/main/ttiphandler.cpp" line="397"/>
+        <location filename="../src/main/ttiphandler.cpp" line="459"/>
         <source>Give name of</source>
         <translation>Udejte název</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="403"/>
-        <location filename="../src/main/ttiphandler.cpp" line="444"/>
+        <location filename="../src/main/ttiphandler.cpp" line="400"/>
+        <location filename="../src/main/ttiphandler.cpp" line="441"/>
         <source>Show on the guitar</source>
         <translation>Ukázat na kytaře</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="498"/>
+        <location filename="../src/main/ttiphandler.cpp" line="495"/>
         <source>Listened sound show on the instrument</source>
         <translation>Ukázání poslechnutého zvuku na nástroji</translation>
     </message>
@@ -4846,60 +4873,60 @@ je viděli a poslechli si správně.</translation>
         <translation>Přehrát nebo zazpívat</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="405"/>
-        <location filename="../src/main/ttiphandler.cpp" line="446"/>
+        <location filename="../src/main/ttiphandler.cpp" line="402"/>
+        <location filename="../src/main/ttiphandler.cpp" line="443"/>
         <source>Point on the instrument</source>
         <translation>Ukázat na nástroji</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="432"/>
+        <location filename="../src/main/ttiphandler.cpp" line="429"/>
         <source>Show on the staff</source>
         <translation>Ukázat v notovém zápisu</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="438"/>
+        <location filename="../src/main/ttiphandler.cpp" line="435"/>
         <source>Change enharmonically and give name of</source>
         <translation>Změnit enharmonicky a udat název</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="458"/>
+        <location filename="../src/main/ttiphandler.cpp" line="455"/>
         <source>Show on the staff note played on</source>
         <translation>Ukázat přehranou notu v notovém zápisu</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="485"/>
+        <location filename="../src/main/ttiphandler.cpp" line="482"/>
         <source>Guess a key signature</source>
         <translation>Hádat předznamenání</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="487"/>
+        <location filename="../src/main/ttiphandler.cpp" line="484"/>
         <source>Listened sound show on the staff</source>
         <translation>Ukázání poslechnutého zvuku v notovém zápisu</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="441"/>
+        <location filename="../src/main/ttiphandler.cpp" line="438"/>
         <source>Use another style to give name of</source>
         <translation>Použít jiný styl pro udání názvu</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="408"/>
+        <location filename="../src/main/ttiphandler.cpp" line="405"/>
         <source>Play or sing a melody.</source>
         <translation>Přehrát nebo zazpívat melodii.</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="460"/>
+        <location filename="../src/main/ttiphandler.cpp" line="457"/>
         <source>&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
         <translation>&lt;b&gt;v tónině %1.&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="464"/>
+        <location filename="../src/main/ttiphandler.cpp" line="461"/>
         <source>Show sound from position:</source>
         <comment>... and string + fret numbers folowing</comment>
         <translation>Ukázat zvuk z polohy:</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="494"/>
+        <location filename="../src/main/ttiphandler.cpp" line="491"/>
         <source>Give name of listened sound</source>
         <translation>Udat název poslechnutého zvuku</translation>
     </message>
@@ -4908,7 +4935,7 @@ je viděli a poslechli si správně.</translation>
         <translation type="vanished">Ukázání poslechnutého zvuku na kytaře</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="502"/>
+        <location filename="../src/main/ttiphandler.cpp" line="499"/>
         <source>Play or sing listened sound</source>
         <translation>Zahrajte nebo zazpívejte poslechnutý zvuk</translation>
     </message>
@@ -4916,13 +4943,13 @@ je viděli a poslechli si správně.</translation>
 <context>
     <name>TtoolBar</name>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="404"/>
-        <location filename="../src/main/texamexecutor.cpp" line="1170"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="405"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1179"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="406"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="407"/>
         <source>Application preferences</source>
         <translation>Nastavení programu</translation>
     </message>
@@ -4944,37 +4971,37 @@ je viděli a poslechli si správně.</translation>
         <translation type="vanished">O programu Nootka</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="407"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="408"/>
         <source>Level</source>
         <translation>Úroveň</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="409"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="410"/>
         <source>Level creator</source>
         <translation>Tvůrce úrovní</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="410"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="411"/>
         <source>Analyze</source>
         <translation>Rozbor</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="420"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="421"/>
         <source>Lessons</source>
         <translation>Lekce</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="422"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="423"/>
         <source>Start exercises or an exam</source>
         <translation>Začít cvičení nebo zkoušku</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1174"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1183"/>
         <source>Help</source>
         <translation>Nápověda</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1177"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1186"/>
         <source>Stop</source>
         <translation>Zastavit</translation>
     </message>
@@ -4983,7 +5010,7 @@ je viděli a poslechli si správně.</translation>
         <translation type="vanished">Nastavení cvičení nebo zkoušky</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1193"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1202"/>
         <source>Next</source>
         <comment>like a next question</comment>
         <translation>Další</translation>
@@ -4995,7 +5022,7 @@ je viděli a poslechli si správně.</translation>
 (mezerník %1)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1187"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1196"/>
         <source>Repeat</source>
         <comment>like a repeat question</comment>
         <translation>Opakovat</translation>
@@ -5005,7 +5032,7 @@ je viděli a poslechli si správně.</translation>
         <translation type="vanished">Opakovat předchozí otázku (klávesa Backspace)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1227"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1236"/>
         <source>Check</source>
         <comment>like a check answer</comment>
         <translation>Ověřit</translation>
@@ -5017,7 +5044,7 @@ je viděli a poslechli si správně.</translation>
 (klávesa Enter %1)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1208"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1217"/>
         <source>Play</source>
         <translation>Přehrát</translation>
     </message>
@@ -5026,7 +5053,7 @@ je viděli a poslechli si správně.</translation>
         <translation type="vanished">Přehrát zvuk znovu</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1234"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1243"/>
         <source>Correct</source>
         <comment>like a correct answer with mistake</comment>
         <translation>Správně</translation>
@@ -5044,7 +5071,7 @@ je viděli a poslechli si správně.</translation>
 (Stiskněte &apos;a&apos;)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1220"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1229"/>
         <source>Try again</source>
         <translation>Zkusit znovu</translation>
     </message>

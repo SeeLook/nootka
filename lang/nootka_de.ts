@@ -409,7 +409,7 @@
     <name>Certificate</name>
     <message>
         <source>Stop exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Prüfung Abbrechen</translation>
     </message>
 </context>
 <context>
@@ -621,7 +621,7 @@ Check answer just after last note of melody was played.</translatorcomment>
     </message>
     <message>
         <source>To improve association of note in the score or position on the instrument to note name, Nootka will display names even if neither question nor answer is related to it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Um die Verknüpfung der Notennamen mit der Notation oder der Position auf der Gitarre zu verbessern, wird Nootka die Namen ,unabhängig von der Frage.anzeigen.</translation>
     </message>
 </context>
 <context>
@@ -811,7 +811,7 @@ Check answer just after last note of melody was played.</translatorcomment>
     <name>KeySignature</name>
     <message>
         <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
-        <translation type="unfinished">Generalvorzeichen - um es zu ändern, klicke über oder unter die Notenschrift oder benutze das Mausrad.</translation>
+        <translation>Generalvorzeichen - um es zu ändern, klicke über oder unter die Notenschrift oder benutze das Mausrad.</translation>
     </message>
 </context>
 <context>
@@ -922,7 +922,7 @@ Check answer just after last note of melody was played.</translatorcomment>
     </message>
     <message>
         <source>Answers</source>
-        <translation type="unfinished"></translation>
+        <translation>Antworten</translation>
     </message>
 </context>
 <context>
@@ -1128,7 +1128,7 @@ Consider to divide long pieces on parts in external software first.</source>
     <name>PitchView</name>
     <message>
         <source>Start/stop pitch detection</source>
-        <translation type="unfinished"></translation>
+        <translation>Schalte Tonhöhenerkennung an/aus</translation>
     </message>
 </context>
 <context>
@@ -1273,7 +1273,7 @@ Consider to divide long pieces on parts in external software first.</source>
     <name>QuestionsBox</name>
     <message>
         <source>Select the type of answers for this kind of question.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wähle den Antworttyp für die Frage.</translation>
     </message>
     <message>
         <source>answers</source>
@@ -1376,7 +1376,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Question</source>
-        <translation type="unfinished"></translation>
+        <translation>Frage</translation>
     </message>
 </context>
 <context>
@@ -1479,6 +1479,10 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>variable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time signatures to use in this level.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2011,8 +2015,8 @@ Consider to divide long pieces on parts in external software first.</source>
     <name>TXaxis</name>
     <message numerus="yes">
         <source>%n attempt(s)</source>
-        <translation type="unfinished">
-            <numerusform>%n Versuch(e)</numerusform>
+        <translation>
+            <numerusform>%n Versuch</numerusform>
             <numerusform>%n Versuche</numerusform>
         </translation>
     </message>
@@ -2158,7 +2162,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Level summary:</source>
-        <translation type="unfinished"></translation>
+        <translation>Levelzusammenfassung:</translation>
     </message>
     <message>
         <source>Tuning</source>
@@ -2196,7 +2200,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>recent opened exams:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zuletzt geöffnete Prüfungen:</translation>
     </message>
     <message>
         <source>Close analyzer window</source>
@@ -2264,6 +2268,13 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <source>answer</source>
         <translation type="vanished">Antwort</translation>
+    </message>
+    <message numerus="yes">
+        <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
+        <translation>
+            <numerusform>Melodie wurde &lt;b&gt;%n&lt;/b&gt; mal gespielt</numerusform>
+            <numerusform>Melodie wurde &lt;b&gt;%n&lt;/b&gt; mal gespielt</numerusform>
+        </translation>
     </message>
 </context>
 <context>
@@ -2554,7 +2565,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>This note was not played!</source>
-        <translation type="vanished">Diese Note wurde nicht gespielt!</translation>
+        <translation>Diese Note wurde nicht gespielt!</translation>
     </message>
     <message>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
@@ -2598,6 +2609,10 @@ Consider to divide long pieces on parts in external software first.</source>
 (enter)</source>
         <translation>Richtige Antwort
 (enter)</translation>
+    </message>
+    <message>
+        <source>There is not such a note in this melody!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2852,8 +2867,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Number of correct answers</source>
-        <translation>Richtige Antworten
-</translation>
+        <translation>Richtige Antworten</translation>
     </message>
     <message>
         <source>Effectiveness</source>
@@ -3413,7 +3427,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Load exam level</source>
-        <translation type="unfinished"></translation>
+        <translation>Lade Prüfungslevel</translation>
     </message>
 </context>
 <context>
@@ -4238,7 +4252,7 @@ nicht öffnen</translation>
     <message>
         <source>%1 was detected</source>
         <comment>note name</comment>
-        <translation type="vanished">%1 wurde erkannt</translation>
+        <translation>%1 wurde erkannt</translation>
     </message>
     <message>
         <source>Try again!</source>
@@ -4389,6 +4403,11 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Listened sound show on the instrument</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It should be %1</source>
+        <comment>note name follows</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>

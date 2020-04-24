@@ -2944,7 +2944,11 @@ nie jest poprawnym plikiem egzaminu!</translation>
     </message>
     <message>
         <source>This note was not played!</source>
-        <translation type="vanished">Ta nuta nie była zagrana!</translation>
+        <translation>Ta nuta nie była zagrana!</translation>
+    </message>
+    <message>
+        <source>There is not such a note in this melody!</source>
+        <translation>Nie ma takiej nuty w tej melodii!</translation>
     </message>
     <message>
         <location filename="../src/main/texamexecutor.cpp" line="1854"/>
@@ -4787,7 +4791,12 @@ nutowy</translation>
     <message>
         <source>%1 was detected</source>
         <comment>note name</comment>
-        <translation type="vanished">%1 było wykryte (usłyszane)</translation>
+        <translation>wykryto %1</translation>
+    </message>
+    <message>
+        <source>It should be %1</source>
+        <comment>note name follows</comment>
+    <translation>Powinno być %1</translation>
     </message>
     <message>
         <location filename="../src/qml/exam/ExamExecutor.qml" line="58"/>

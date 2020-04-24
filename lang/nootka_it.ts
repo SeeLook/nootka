@@ -1937,6 +1937,14 @@ non è un file di esame valido!</translation>
         <source>Such a pity.</source>
         <translation>Che peccato!</translation>
     </message>
+    <message>
+        <source>This note was not played!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There is not such a note in this melody!</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TexamHelp</name>
@@ -2749,7 +2757,7 @@ Controlla se tutto i parametri sono corretti.</translation>
         <source>The octave &lt;b&gt;%n&lt;/b&gt; in International Pitch Notation</source>
         <translation>
             <numerusform>L&apos;ottava &lt;b&gt;%n&lt;/b&gt; nel International Pitch Notation</numerusform>
-            <numerusform></numerusform>
+            <numerusform>L&apos;ottava &lt;b&gt;%n&lt;/b&gt; nel International Pitch Notation</numerusform>
         </translation>
     </message>
 </context>
@@ -3228,6 +3236,16 @@ Controlla se tutto i parametri sono corretti.</translation>
     <message>
         <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
         <translation>Clicca sulle note sbagliate per vedere&lt;br&gt;e per sentirle corrette.</translation>
+    </message>
+    <message>
+        <source>%1 was detected</source>
+        <comment>note name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It should be %1</source>
+        <comment>note name follows</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

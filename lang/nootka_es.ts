@@ -101,7 +101,7 @@
     </message>
     <message>
         <source>Select a key signature. Appropriate accidentals used in this level will be selected automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar una armadura. Las alteraciones apropiadas usadas en el examen serán automáticamente seleccionadas.</translation>
     </message>
 </context>
 <context>
@@ -614,7 +614,7 @@
     </message>
     <message>
         <source>To improve association of note in the score or position on the instrument to note name, Nootka will display names even if neither question nor answer is related to it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Para mejorar la asociación de la nota en el pentagrama o de su posición en la guitarra, Nootka mostrará los nombres incluso si ni la pregunta ni la respuesta están relacionadas con ella.</translation>
     </message>
 </context>
 <context>
@@ -804,7 +804,7 @@
     <name>KeySignature</name>
     <message>
         <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
-        <translation type="unfinished">Armadura - para cambiarla, pulsa encima o debajo del pentagrama o usa la rueda del ratón.</translation>
+        <translation>Armadura - para cambiarla, pulsa encima o debajo del pentagrama o usa la rueda del ratón.</translation>
     </message>
 </context>
 <context>
@@ -1121,7 +1121,7 @@ Consider to divide long pieces on parts in external software first.</source>
     <name>PitchView</name>
     <message>
         <source>Start/stop pitch detection</source>
-        <translation type="unfinished"></translation>
+        <translation>Activar/desactivar la detección de tono</translation>
     </message>
 </context>
 <context>
@@ -1436,6 +1436,10 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>variable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Time signatures to use in this level.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2221,6 +2225,13 @@ Consider to divide long pieces on parts in external software first.</source>
         <source>answer</source>
         <translation type="vanished">respuesta</translation>
     </message>
+    <message numerus="yes">
+        <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
+        <translation type="unfinished">
+            <numerusform>La melodía fue ejecutada &lt;b&gt;%n&lt;/b&gt; vez</numerusform>
+            <numerusform>La melodía fue ejecutada &lt;b&gt;%n&lt;/b&gt; veces</numerusform>
+        </translation>
+    </message>
 </context>
 <context>
     <name>Tclef</name>
@@ -2492,7 +2503,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>This note was not played!</source>
-        <translation type="vanished">¡Esta nota no fue interpretada!</translation>
+        <translation>¡Esta nota no fue interpretada!</translation>
     </message>
     <message>
         <source>Exercises with Nootka</source>
@@ -2551,6 +2562,10 @@ Consider to divide long pieces on parts in external software first.</source>
 (enter)</source>
         <translation>respuesta correcta
 (enter)</translation>
+    </message>
+    <message>
+        <source>There is not such a note in this melody!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4200,7 +4215,7 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <source>%1 was detected</source>
         <comment>note name</comment>
-        <translation type="vanished">%1 fue detectado</translation>
+        <translation>%1 fue detectado</translation>
     </message>
     <message>
         <source>Try again!</source>
@@ -4351,6 +4366,11 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Listened sound show on the instrument</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It should be %1</source>
+        <comment>note name follows</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>

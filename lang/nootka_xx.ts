@@ -1022,6 +1022,10 @@ Consider to divide long pieces on parts in external software first.</source>
         <source>variable</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Time signatures to use in this level.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ScorePage</name>
@@ -1565,6 +1569,15 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
 </context>
 <context>
+    <name>TchartTipItem</name>
+    <message numerus="yes">
+        <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+</context>
+<context>
     <name>Tclef</name>
     <message>
         <source>treble</source>
@@ -1844,6 +1857,14 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Such a pity.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>There is not such a note in this melody!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This note was not played!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3131,6 +3152,16 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 was detected</source>
+        <comment>note name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It should be %1</source>
+        <comment>note name follows</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>

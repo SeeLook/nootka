@@ -1421,6 +1421,10 @@ Consider to divide long pieces on parts in external software first.</source>
         <source>variable</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Time signatures to use in this level.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ScorePage</name>
@@ -2144,6 +2148,15 @@ Consider to divide long pieces on parts in external software first.</source>
         <source>answer</source>
         <translation type="vanished">odgovor</translation>
     </message>
+    <message numerus="yes">
+        <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
+        <translation type="unfinished">
+            <numerusform>Melodija se je predvajala &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
+            <numerusform>Melodija se je predvajala &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
+            <numerusform>Melodija se je predvajala &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
+            <numerusform>Melodija se je predvajala &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
+        </translation>
+    </message>
 </context>
 <context>
     <name>Tclef</name>
@@ -2399,7 +2412,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>This note was not played!</source>
-        <translation type="vanished">Ni bila zaigrana ta nota!</translation>
+        <translation>Ni bila zaigrana ta nota!</translation>
     </message>
     <message>
         <source>Exercises with Nootka</source>
@@ -2460,6 +2473,10 @@ Consider to divide long pieces on parts in external software first.</source>
 (enter)</source>
         <translation>pravilen odgovor
 (enter)</translation>
+    </message>
+    <message>
+        <source>There is not such a note in this melody!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4539,6 +4556,16 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
         <translation type="unfinished">Kliknite nepravilne note za ogled&lt;br&gt;in poslušanje popravljenih.</translation>
+    </message>
+    <message>
+        <source>%1 was detected</source>
+        <comment>note name</comment>
+        <translation type="unfinished">%1 je bil zaznan</translation>
+    </message>
+    <message>
+        <source>It should be %1</source>
+        <comment>note name follows</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

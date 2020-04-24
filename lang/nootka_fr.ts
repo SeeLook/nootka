@@ -1313,6 +1313,10 @@ Consider to divide long pieces on parts in external software first.</source>
         <source>variable</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Time signatures to use in this level.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ScorePage</name>
@@ -2075,6 +2079,13 @@ version</translation>
         <source>answer</source>
         <translation type="vanished">Réponse</translation>
     </message>
+    <message numerus="yes">
+        <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
+        <translation type="unfinished">
+            <numerusform>La mélodie a été jouée &lt;b&gt;%n&lt;/b&gt; fois</numerusform>
+            <numerusform>La mélodie a été jouée &lt;b&gt;%n&lt;/b&gt; fois</numerusform>
+        </translation>
+    </message>
 </context>
 <context>
     <name>Tclef</name>
@@ -2328,7 +2339,7 @@ version</translation>
     </message>
     <message>
         <source>This note was not played!</source>
-        <translation type="vanished">Cette note n&apos;a pas été jouée&#xa0;!</translation>
+        <translation>Cette note n&apos;a pas été jouée&#xa0;!</translation>
     </message>
     <message>
         <source>Exercises with Nootka</source>
@@ -2388,6 +2399,10 @@ version</translation>
 (enter)</source>
         <translation>réponse correcte
 (Entrée)</translation>
+    </message>
+    <message>
+        <source>There is not such a note in this melody!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4006,7 +4021,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <source>%1 was detected</source>
         <comment>note name</comment>
-        <translation type="vanished">%1 a été détecté</translation>
+        <translation>%1 a été détecté</translation>
     </message>
     <message>
         <source>Try again!</source>
@@ -4157,6 +4172,11 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>Listened sound show on the instrument</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It should be %1</source>
+        <comment>note name follows</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>

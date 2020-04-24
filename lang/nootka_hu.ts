@@ -1279,6 +1279,10 @@ Consider to divide long pieces on parts in external software first.</source>
         <source>variable</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Time signatures to use in this level.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>ScorePage</name>
@@ -2093,6 +2097,12 @@ Consider to divide long pieces on parts in external software first.</source>
         <source>answer</source>
         <translation type="vanished">válasz</translation>
     </message>
+    <message numerus="yes">
+        <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
+        <translation type="unfinished">
+            <numerusform>A dallam&lt;b&gt;%n&lt;/b&gt; alkalommal hangzott el</numerusform>
+        </translation>
+    </message>
 </context>
 <context>
     <name>Tclef</name>
@@ -2345,7 +2355,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>This note was not played!</source>
-        <translation type="vanished">Ez a hang nem volt lejátszva!</translation>
+        <translation>Ez a hang nem volt lejátszva!</translation>
     </message>
     <message>
         <source>Exercises with Nootka</source>
@@ -2406,6 +2416,10 @@ Consider to divide long pieces on parts in external software first.</source>
 (enter)</source>
         <translation>helyes válasz
 (enter)</translation>
+    </message>
+    <message>
+        <source>There is not such a note in this melody!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4135,7 +4149,7 @@ nem Nootka fájl!</translation>
     <message>
         <source>%1 was detected</source>
         <comment>note name</comment>
-        <translation type="vanished">%1 hangot észleltem</translation>
+        <translation>%1 hangot észleltem</translation>
     </message>
     <message>
         <source>Try again!</source>
@@ -4283,6 +4297,11 @@ nem Nootka fájl!</translation>
     <message>
         <source>Play or sing listened sound</source>
         <translation>Hallott hang lejátszása vagy éneklése</translation>
+    </message>
+    <message>
+        <source>It should be %1</source>
+        <comment>note name follows</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
