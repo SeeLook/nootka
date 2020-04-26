@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2018-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -32,6 +32,14 @@ Column {
     font { pixelSize: Noo.fontSize() * 2; bold: true }
     text: Noo.noteName(Noo.note(13 + transpose.outShift, false), 0, false)
     color: activPal.text
+  }
+
+  Text {
+    text: "Saxophone support is new and not well tested,\nso please give some feedback or call a bug."
+    color: "red"
+    width: parent.width
+    font { pixelSize: Noo.fontSize() * 1.5; bold: true }
+    horizontalAlignment: Text.AlignHCenter
   }
 
   Connections {
