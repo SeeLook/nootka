@@ -52,10 +52,6 @@ TguitarBg::TguitarBg(QQuickItem* parent) :
   p_wrongItem = m_fingerItems[0];
 
   connect(GLOB, &Tglobals::guitarParamsChanged, this, &TguitarBg::updateGuitar);
-  connect(GLOB, &Tglobals::instrumentChanged, [=] {
-    if (GLOB->instrument().isGuitar())
-      update();
-  });
 
   // Android has QML mouse area instead
 #if defined (Q_OS_ANDROID)

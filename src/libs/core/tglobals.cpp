@@ -448,17 +448,13 @@ QString Tglobals::examsDir() const { return E->examsDir; }
 
 
 void Tglobals::setGuitarParams(int fretNr, const Ttune& tun) {
-  bool doEmit = false;
-  if (static_cast<uint>(fretNr) != GfretsNumber) {
+  if (static_cast<uint>(fretNr) != GfretsNumber)
     GfretsNumber = fretNr;
-    doEmit = true;
-  }
-  if (tun.type() == Ttune::Custom || tun.type() != tuning()->typeInt()) {
+
+  if (tun.type() == Ttune::Custom || tun.type() != tuning()->typeInt())
     setTune(tun);
-    doEmit = true;
-  }
-  if (doEmit)
-    emit guitarParamsChanged();
+
+  emit guitarParamsChanged();
 }
 
 
