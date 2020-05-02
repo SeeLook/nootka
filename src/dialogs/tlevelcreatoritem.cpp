@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -70,7 +70,7 @@ bool TlevelCreatorItem::notSaved() const { return !m_titleExtension.isEmpty(); }
 
 void TlevelCreatorItem::saveLevel() {
   emit save();
-if (!m_level->canBeGuitar() && !m_level->answerIsSound() ) { // no guitar and no played sound  
+if (!m_level->canBeGuitar() && !m_level->answerIsSound() ) { // no guitar and no played sound
     // adjust fret range - validation will skip it for non guitar levels
     m_level->loFret = 0; // Set range to fret number and rest will be done by function preparing question list
     m_level->hiFret = GLOB->GfretsNumber;
