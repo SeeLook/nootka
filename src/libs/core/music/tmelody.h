@@ -83,7 +83,7 @@ public:
   Tmeter::EbeatUnit beat() const { return m_beat; }
   void setBeat(Tmeter::EbeatUnit bu) { m_beat = bu; }
 
-  TkeySignature const key() { return m_key; }
+  TkeySignature key() const { return m_key; }
   void setKey(const TkeySignature& k) { m_key = k; }
 
   Tclef::EclefType clef() const { return m_clef; }

@@ -64,8 +64,10 @@ Tmelody::Tmelody(const Tmelody& other)
   m_composer = other.composer();
   m_tempo = other.tempo();
   m_clef = other.clef();
+  m_key = other.key();
   m_meter = new Tmeter;
   setMeter(other.meter()->meter());
+  m_beat = other.beat();
   for (int n = 0; n < other.length(); ++n)
     addNote(other.chunk(n));
 }
