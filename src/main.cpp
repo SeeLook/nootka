@@ -151,8 +151,12 @@ int main(int argc, char *argv[])
       nooObj->setQmlEngine(e);
       e->load(QUrl(QStringLiteral("qrc:/wizard/Wizard.qml")));
       if (firstLoop) {
+#if defined (Q_OS_ANDROID)
+        qDebug() << "Nootka wizard launch time" << startElapsed.nsecsElapsed() / 1000000.0 << " [ms]";
+#else
         QTextStream o(stdout);
         o << "\033[01;35m Nootka wizard launch time: " << startElapsed.nsecsElapsed() / 1000000.0 << " [ms]\033[01;00m\n";
+#endif
       }
       exitCode = a->exec();
       e->deleteLater(); // Android crashes without a delayed destroy
