@@ -280,7 +280,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 
     } else {
         if (!m_exam->melodies()) // leave them empty for melody - there are all notes and positions
-            curQ->qa = m_questList[m_rand->get()];
+          curQ->qa = m_questList[m_rand->get()];
         curQ->questionAs = m_level.questionAs.next();
         curQ->answerAs = m_level.answersAs[curQ->questionAs].next();
     }
@@ -318,6 +318,8 @@ void TexamExecutor::askQuestion(bool isAttempt) {
         } else if (m_level.randMelody == Tlevel::e_melodyFromSet) {
             int melodyId = m_rand->get();
             curQ->addMelody(&m_level.melodySet[melodyId], TQAunit::e_srcLevelSet, melodyId);
+            if (!m_level.useKeySign) // respect melody key to avoid transposition
+              curQ->key = curQ->melody()->key();
         } else { // Tlevel::e_melodyFromRange
             getRandomMelodyNG(m_questList, curQ->melody(), melodyLength, m_level.onlyCurrKey, m_level.endsOnTonic);
         }
@@ -328,7 +330,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
       m_melody->newMelody(curQ->answerAsSound() ? curQ->melody()->length() : 0); // prepare list to store notes played by user or clear it
       m_exam->newAttempt();
       curQ->lastAttempt()->melodyWasPlayed(); // it was played once for sure 
-      if (m_exercise) 
+      if (m_exercise)
         m_melody->clearToFix(melodyLength);
     }
 //    qDebug() << curQ->qa.note.toText() << "Q" << (int)curQ->questionAs
@@ -420,6 +422,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
       if (!isAttempt) {
         // Meter was not set yet on score, set sound meter then to properly calculate metronome tempo & beat
         SOUND->setCurrentMeter(static_cast<int>(curQ->melody()->meter()->meter()));
+        SOUND->setTempo(curQ->melody()->tempo());
         repeatSound(); // play melody but not when user tries again
       }
     } else {
@@ -467,7 +470,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     if (curQ->melody()) {
       if (curQ->key.value() || m_level.manualKey) {
           MAIN_SCORE->setKeySignatureEnabled(true);
-          if (m_level.manualKey) // set fake key
+          if (m_level.useKeySign && m_level.manualKey) // set fake key
             MAIN_SCORE->setKeySignature(TkeySignature((qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) + m_level.loKey.value()));
           else
             MAIN_SCORE->setKeySignature(curQ->key);

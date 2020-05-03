@@ -757,7 +757,7 @@ QList<TpitchRhythm> TexecutorSupply::toPitchRhythm(Tmelody* m, int transposition
 TkeySignature TexecutorSupply::getKey(Tnote& note) {
   Tnote tmpNote = note;
   TkeySignature key; // C-major by default
-  if (m_level->isSingleKey) { //for single key
+  if (m_level->isSingleKey) { // for single key
       key = m_level->loKey;
       if (m_level->onlyCurrKey) {
         if (!m_level->canBeMelody()) {
@@ -770,7 +770,7 @@ TkeySignature TexecutorSupply::getKey(Tnote& note) {
   } else { // for many key signatures
       if (m_randKey)
           key = TkeySignature(m_randKey->get());
-      if (m_level->onlyCurrKey && !m_level->canBeMelody()) { // if note is in current key only
+      if (note.isValid() && m_level->onlyCurrKey && !m_level->canBeMelody()) { // if note is in current key only
           int keyRangeWidth = m_level->hiKey.value() - m_level->loKey.value();
           int patience = 0; // we are looking for suitable key
           char keyOff = key.value() - m_level->loKey.value();
