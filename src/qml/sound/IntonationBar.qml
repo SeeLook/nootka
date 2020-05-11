@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -34,13 +34,17 @@ Item {
 
   Text {
     id: noteText
+    property real dev: Math.abs(deviation)
     anchors.top: parent.Top
     x: (intoBar.width - width) / 2
     anchors.verticalCenter: parent.verticalCenter
     font.family: "Nootka"
     font.pixelSize: intoBar.height * 0.8
     text: "n"
-    color: active ? activPal.text : disdPal.text
+    color: active ? (dev > 0 ? (dev > 0.3 ? "red" : (dev > 0.1 ? "yellow" : "lime")) : activPal.text) : disdPal.text
+    scale: dev > 0 ? 1 + (1 - dev * 2) : 1
+    Behavior on scale { NumberAnimation { duration: 150 }}
+    Behavior on color { ColorAnimation { duration: 150 }}
   }
 
   Repeater {
