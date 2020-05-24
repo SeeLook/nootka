@@ -8,7 +8,7 @@ if [ "${dirname%$tmp}" != "/" ]; then
 fi
 
 # library path to point into package path
-LD_LIBRARY_PATH=$dirname/lib:$LD_LIBRARY_PATH
+LD_LIBRARY_PATH=$dirname/lib/nootka:$LD_LIBRARY_PATH
 export LD_LIBRARY_PATH
 
 # QML path to override existing QML installation in host system (if any)

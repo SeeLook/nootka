@@ -34,16 +34,24 @@ cd $BIN_DIR
 
 if [ "$( whereis linuxdeployqt | grep '\/' )" ]; then
   echo "-- linuxdeployqt was found"
+  LIN_DEP_QT=linuxdeployqt
 else
-  echo "install linuxdeployqt first"
-  exit
+  echo "-- fetching linuxdeployqt"
+  wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
+  chmod a+x linuxdeployqt-continuous-x86_64.AppImage
+  LIN_DEP_QT=./linuxdeployqt-continuous-x86_64.AppImage
+#   exit
 fi
 
 if [ "$( whereis appimagetool | grep '\/' )" ]; then
   echo "-- appimagetool was found"
+  APP_IMG_TOOL=appimagetool
 else
-  echo "install appimagetool first"
-  exit
+  echo "-- fetching appimagetool"
+  wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+  chmod a+x appimagetool-x86_64.AppImage
+  APP_IMG_TOOL=./appimagetool-x86_64.AppImage
+#   exit
 fi
 
 
@@ -74,9 +82,9 @@ cp $TRANS_PATH/qtbase_ru.qm AppDir/usr/share/nootka/lang
 cp AppDir/usr/share/nootka/picts/nootka.png AppDir/usr/
 cp AppDir/usr/share/applications/nootka.desktop AppDir/usr/
 
-LD_LIBRARY_PATH="$BIN_DIR/AppDir/usr/lib/nootka:$LD_LIBRARY_PATH" linuxdeployqt AppDir/usr/bin/nootka -bundle-non-qt-libs -qmldir=$SRC_DIR/src/qml
+LD_LIBRARY_PATH="$BIN_DIR/AppDir/usr/lib/nootka:$LD_LIBRARY_PATH" $LIN_DEP_QT AppDir/usr/bin/nootka -bundle-non-qt-libs -qmldir=$SRC_DIR/src/qml
 # launch it twice to find more libs
-LD_LIBRARY_PATH="$BIN_DIR/AppDir/usr/lib/nootka:$LD_LIBRARY_PATH" linuxdeployqt AppDir/usr/bin/nootka -bundle-non-qt-libs -qmldir=$SRC_DIR/src/qml
+LD_LIBRARY_PATH="$BIN_DIR/AppDir/usr/lib/nootka:$LD_LIBRARY_PATH" $LIN_DEP_QT AppDir/usr/bin/nootka -bundle-non-qt-libs -qmldir=$SRC_DIR/src/qml
 
 # qt.conf with translations path pointing inside AppDir and plugins path
 cp $SRC_DIR/packaging/appimage/qt.conf AppDir/usr/bin/
@@ -103,6 +111,6 @@ ln -s ./. usr
 cd ../..
 
 # finally, generate AppImage (appdata.xml is not compatible between appimage and flatpack, so skip it here)
-appimagetool --no-appstream AppDir/usr nootka-$VERSION-x86_64.AppImage
+$APP_IMG_TOOL --no-appstream AppDir/usr nootka-$VERSION-x86_64.AppImage
 
 
