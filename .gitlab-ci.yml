@@ -1,6 +1,17 @@
-## AppImage
-build:AppImage:
-  image: appimagecrafters/docker-linuxdeploy-qt
+build-amd64:
+    image: appimagecrafters/appimage-builder
+    before_script:
+      # update appimage-builder 
+      - apt-get update
+      - apt-get install -y git wget
+
+      # app build requirements
+      - echo 'deb http://archive.neon.kde.org/user/ bionic main' > /etc/apt/sources.list.d/neon.list
+      - wget -qO - https://archive.neon.kde.org/public.key | apt-key add -
+      - apt-get update
+      - apt-get install -y mesa-common-dev libsoundtouch-dev libfftw3-dev libasound2-dev libogg-dev libvorbis-dev libpulse-dev libjack-dev cmake build-essential
+      - apt-get install -y qt5-default qtdeclarative5-dev qtquickcontrols2-5-dev qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-dialogs
+
   stage: build
   script:
     - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr .
