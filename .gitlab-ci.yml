@@ -1,5 +1,6 @@
 build-amd64:
-  image: appimagecrafters/appimage-builder
+  image: appimagecrafters/docker-linuxdeploy-qt
+  stage: build
   before_script:
     # update appimage-builder
     - apt-get update
@@ -12,8 +13,7 @@ build-amd64:
     - apt-get update
     - apt-get install -y mesa-common-dev libsoundtouch-dev libfftw3-dev libasound2-dev libogg-dev libvorbis-dev libpulse-dev libjack-dev cmake build-essential
     - apt-get install -y qt5-default qtdeclarative5-dev qtquickcontrols2-5-dev qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-dialogs
-
-  stage: build
+  #stage: build
   script:
     - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr .
     - DESTDIR=AppDir make install
