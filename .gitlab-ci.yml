@@ -1,0 +1,13 @@
+## AppImage
+build:AppImage:
+  image: appimagecrafters/docker-linuxdeploy-qt
+  stage: build
+  script:
+    - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr .
+    - DESTDIR=AppDir make install
+    - export QML_SOURCES_PATHS=$PWD/src/qml
+    - linuxdeploy --appdir=AppDir --desktop-file=AppDir/usr/share/applications/nootka.desktop -bundle-non-qt-libs --plugin qt --output appimage
+
+  artifacts:
+    paths:
+      - Qt_AppImage_Template*.AppImage*
