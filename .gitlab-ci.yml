@@ -1,8 +1,7 @@
 build-amd64:
-  image: appimagecrafters/docker-linuxdeploy-qt
-  stage: build
+  image: appimagecrafters/appimage-builder
   before_script:
-    # update appimage-builder
+    # update docker
     - apt-get update
     - apt-get install -y git wget
     - pip3 install --upgrade git+https://www.opencode.net/azubieta/appimagecraft.git
@@ -18,8 +17,9 @@ build-amd64:
     - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr .
     - DESTDIR=AppDir make install
     - export QML_SOURCES_PATHS=$PWD/src/qml
-    - linuxdeploy --appdir=AppDir --desktop-file=AppDir/usr/share/applications/nootka.desktop -bundle-non-qt-libs --plugin qt --output appimage
+    - appimage-builder --skip-test
+    #- linuxdeploy --appdir=AppDir --desktop-file=AppDir/usr/share/applications/nootka.desktop -bundle-non-qt-libs --plugin qt --output appimage
 
   artifacts:
     paths:
-      - Qt_AppImage_Template*.AppImage*
+      - '*.AppImage*'
