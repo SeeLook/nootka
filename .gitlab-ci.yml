@@ -14,7 +14,7 @@ build-amd64:
     - apt-get install -y qt5-default qtdeclarative5-dev qtquickcontrols2-5-dev qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-dialogs qttranslations5-l10n
   #stage: build
   script:
-    - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr .
+    - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake .
     - DESTDIR=AppDir make install
     - make appimage
     #- export QML_SOURCES_PATHS=$PWD/src/qml
