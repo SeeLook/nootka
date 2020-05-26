@@ -62,8 +62,11 @@ set(LIB_NOOTKACORE_SRC
   Android/tfiledialog.cpp
 )
 
-
-add_library(NootkaCore SHARED ${LIB_NOOTKACORE_SRC} )
+if (WITH_STATIC_LIB)
+  add_library(NootkaCore STATIC ${LIB_NOOTKACORE_SRC} )
+else ()
+  add_library(NootkaCore SHARED ${LIB_NOOTKACORE_SRC} )
+endif ()
 target_link_libraries(NootkaCore
   Qt5::Widgets
   Qt5::Qml
@@ -72,14 +75,16 @@ target_link_libraries(NootkaCore
 )
 
 
-if(UNIX AND NOT APPLE)   # Linux path for Nootka library
-  install(TARGETS NootkaCore DESTINATION lib/nootka)
-else(UNIX AND NOT APPLE)
-  if(WIN32)       # Windows
-    install(TARGETS NootkaCore DESTINATION .)
-  else(WIN32)       # MacOs
-    install(TARGETS NootkaCore DESTINATION "${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/Frameworks")
-  endif(WIN32)
-endif(UNIX AND NOT APPLE)
+if (NOT WITH_STATIC_LIB)
+  if(UNIX AND NOT APPLE)   # Linux path for Nootka library
+    install(TARGETS NootkaCore DESTINATION lib/nootka)
+  else(UNIX AND NOT APPLE)
+    if(WIN32)       # Windows
+      install(TARGETS NootkaCore DESTINATION .)
+    else(WIN32)       # MacOs
+      install(TARGETS NootkaCore DESTINATION "${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/Frameworks")
+    endif(WIN32)
+  endif(UNIX AND NOT APPLE)
+endif (NOT WITH_STATIC_LIB)
 
 

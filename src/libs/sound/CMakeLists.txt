@@ -399,7 +399,11 @@ else (WIN32)
   )
 endif(WIN32)
 
-add_library(NootkaSound SHARED ${LIB_NOOTKASOUND_SRC} )
+if (WITH_STATIC_LIB)
+  add_library(NootkaSound STATIC ${LIB_NOOTKASOUND_SRC} )
+else ()
+  add_library(NootkaSound SHARED ${LIB_NOOTKASOUND_SRC} )
+endif ()
 target_link_libraries(NootkaSound
     Qt5::Core
     Qt5::Qml
@@ -416,19 +420,20 @@ target_link_libraries(NootkaSound
     ${CoreFoundation_LIB}
 )
 
-if(UNIX AND NOT APPLE)   # Linux path for Nootka binary
-  install(TARGETS NootkaSound DESTINATION lib/nootka)
-else(UNIX AND NOT APPLE)
-  if(WIN32)       # Windows
-    install(TARGETS NootkaSound DESTINATION .)
-    install(FILES ${FFTW3_LIBRARIES} DESTINATION .)
-    install(FILES ${VORBIS_LIBRARIES} DESTINATION .)
-    get_filename_component(VORBIS_DIR "${VORBIS_LIBRARIES}" DIRECTORY)
-    install(FILES ${VORBIS_DIR}/libogg.dll ${VORBIS_DIR}/libvorbis.dll DESTINATION .)
-  else(WIN32)       # MacOs
-    install(TARGETS NootkaSound DESTINATION "${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/Frameworks")
-  endif(WIN32)
-endif(UNIX AND NOT APPLE)
-
+if (NOT WITH_STATIC_LIB)
+  if(UNIX AND NOT APPLE)   # Linux path for Nootka binary
+    install(TARGETS NootkaSound DESTINATION lib/nootka)
+  else(UNIX AND NOT APPLE)
+    if(WIN32)       # Windows
+      install(TARGETS NootkaSound DESTINATION .)
+      install(FILES ${FFTW3_LIBRARIES} DESTINATION .)
+      install(FILES ${VORBIS_LIBRARIES} DESTINATION .)
+      get_filename_component(VORBIS_DIR "${VORBIS_LIBRARIES}" DIRECTORY)
+      install(FILES ${VORBIS_DIR}/libogg.dll ${VORBIS_DIR}/libvorbis.dll DESTINATION .)
+    else(WIN32)       # MacOs
+      install(TARGETS NootkaSound DESTINATION "${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/Frameworks")
+    endif(WIN32)
+  endif(UNIX AND NOT APPLE)
+endif (NOT WITH_STATIC_LIB)
 
 

@@ -30,24 +30,27 @@ if(UNIX AND NOT APPLE)
   set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,-z,relro")
 # rpath rules
   option(OBS_SUSE_QUIRKS "Must be ON for Suse machines in Open Build Services" OFF)
-  set(NOOTKA_LIB_PATH "${CMAKE_INSTALL_PREFIX}/lib/nootka")
-  set(CMAKE_SKIP_BUILD_RPATH  FALSE) # use, i.e. don't skip the full RPATH for the build tree
-  if(OBS_SUSE_QUIRKS)
-    set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
-    message("Build for Suse OBS")
-  else(OBS_SUSE_QUIRKS)
-    set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE) # when building, don't use the install RPATH already (but later on when installing)
-  endif(OBS_SUSE_QUIRKS)
-  set(CMAKE_INSTALL_RPATH "${NOOTKA_LIB_PATH}")
-  # add the automatically determined parts of the RPATH
-  # which point to directories outside the build tree to the install RPATH
-  set(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE)
 
-  # the RPATH to be used when installing, but only if it's not a system directory
-  list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${NOOTKA_LIB_PATH}" isSystemDir)
-  if("${isSystemDir}" STREQUAL "-1")
+  if (NOT WITH_STATIC_LIB) # no rpaths when Nootka libraries are linked statically
+    set(NOOTKA_LIB_PATH "${CMAKE_INSTALL_PREFIX}/lib/nootka")
+    set(CMAKE_SKIP_BUILD_RPATH  FALSE) # use, i.e. don't skip the full RPATH for the build tree
+    if(OBS_SUSE_QUIRKS)
+      set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
+      message("Build for Suse OBS")
+    else(OBS_SUSE_QUIRKS)
+      set(CMAKE_BUILD_WITH_INSTALL_RPATH FALSE) # when building, don't use the install RPATH already (but later on when installing)
+    endif(OBS_SUSE_QUIRKS)
     set(CMAKE_INSTALL_RPATH "${NOOTKA_LIB_PATH}")
-  endif("${isSystemDir}" STREQUAL "-1")
+    # add the automatically determined parts of the RPATH
+    # which point to directories outside the build tree to the install RPATH
+    set(CMAKE_INSTALL_RPATH_USE_LINK_PATH FALSE)
+
+    # the RPATH to be used when installing, but only if it's not a system directory
+    list(FIND CMAKE_PLATFORM_IMPLICIT_LINK_DIRECTORIES "${NOOTKA_LIB_PATH}" isSystemDir)
+    if("${isSystemDir}" STREQUAL "-1")
+      set(CMAKE_INSTALL_RPATH "${NOOTKA_LIB_PATH}")
+    endif("${isSystemDir}" STREQUAL "-1")
+  endif (NOT WITH_STATIC_LIB)
 endif(UNIX AND NOT APPLE)
 
 if (APPLE) # Mac RPath
@@ -59,6 +62,8 @@ endif (APPLE)
 if (CMAKE_BUILD_TYPE MATCHES Debug)
   add_definitions(-DQT_QML_DEBUG)
 endif ()
+
+option (WITH_STATIC_LIB "Link Nootka libraries statically - used for AppImage" OFF)
 
 add_subdirectory( libs/core )     # libNootkaCore
 add_subdirectory( libs/sound )    # libNootkaSound
