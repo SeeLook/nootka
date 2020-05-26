@@ -6,22 +6,19 @@ build-amd64:
     - apt-get install -y git wget
     - pip3 install --upgrade git+https://www.opencode.net/azubieta/appimagecraft.git
 
-    # app build requirements
+    # Nootka build requirements
     - echo 'deb http://archive.neon.kde.org/user/ bionic main' > /etc/apt/sources.list.d/neon.list
     - wget -qO - https://archive.neon.kde.org/public.key | apt-key add -
     - apt-get update
-    - apt-get install -y mesa-common-dev libsoundtouch-dev libfftw3-dev libasound2-dev libogg-dev libvorbis-dev libpulse-dev libjack-dev cmake build-essential libfuse2
+    - apt-get install -y mesa-common-dev libsoundtouch-dev libfftw3-dev libasound2-dev libogg-dev libvorbis-dev libpulse-dev libjack-dev cmake build-essential
     - apt-get install -y qt5-default qtdeclarative5-dev qtquickcontrols2-5-dev qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-dialogs qttranslations5-l10n
-    - modprobe fuse
   #stage: build
   script:
-    - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DQT_QMAKE_EXECUTABLE=/usr/lib/qt5/bin/qmake .
+    - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_STATIC_LIB=ON .
     - DESTDIR=AppDir make install
-    - make appimage
-    #- export QML_SOURCES_PATHS=$PWD/src/qml
-    #- appimage-builder --skip-test
-    #- linuxdeploy --appdir=AppDir --desktop-file=AppDir/usr/share/applications/nootka.desktop -bundle-non-qt-libs --plugin qt --output appimage
+    - export QML_SOURCES_PATHS=$PWD/src/qml
+    - appimage-builder --skip-test
 
   artifacts:
     paths:
-      - 'Nootka*.AppImage*'
+      - '*.AppImage*'
