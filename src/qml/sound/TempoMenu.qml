@@ -140,6 +140,8 @@ Popup {
         id: ma
         anchors.fill: parent
         onClicked: SOUND.tickBeforePlay = !SOUND.tickBeforePlay
+        onPressAndHold: Noo.setStatusTip(Noo.TR("TempoBar", "Countdown before playing or listening."))
+        onReleased: Noo.setStatusTip("")
       }
       Rectangle { color: activPal.text; width: parent.width; height: 1; y: parent.height + Noo.fontSize() / 4 - 1 }
     }
@@ -163,6 +165,8 @@ Popup {
         id: ma2
         anchors.fill: parent
         onClicked: SOUND.tickDuringPlay = !SOUND.tickDuringPlay
+        onPressAndHold: Noo.setStatusTip(Noo.TR("TempoBar", "Audible metronome") + ".<br>" + Noo.TR("TempoBar", "Use earphones! Otherwise ticking will disturb proper pitch detection!"))
+        onReleased: Noo.setStatusTip("")
       }
       Rectangle { color: activPal.text; width: parent.width; height: 1; anchors.bottom: parent.bottom }
     }
@@ -173,9 +177,17 @@ Popup {
       width: parent.width; height: radioRow.height
       enabled: !executor
       MouseArea {
-        anchors.fill: parent; hoverEnabled: true
+        anchors.fill: parent; hoverEnabled: !Noo.isAndroid()
         onEntered: Noo.setStatusTip(qsTr("Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy."), Item.TopLeft)
         onExited: Noo.setStatusTip("", Item.TopLeft)
+        onPressAndHold: {
+          if (Noo.isAndroid())
+            Noo.setStatusTip(qsTr("Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy."))
+        }
+        onReleased: {
+          if (Noo.isAndroid())
+            Noo.setStatusTip("")
+        }
       }
       Row {
         id: radioRow

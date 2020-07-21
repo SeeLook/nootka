@@ -23,7 +23,7 @@ TmobileMenu {
   function open() {
     if (!scoreMenu) {
       var c = Qt.createComponent("qrc:/ScoreMenuContent.qml")
-      scoreMenu = c.createObject(nootkaWindow.contentItem, { "width": Noo.fontSize() * 15 })
+      scoreMenu = c.createObject(nootkaWindow.contentItem.parent, { "width": Noo.fontSize() * 15, "z": -1 })
     }
     scoreMenu.open()
   }

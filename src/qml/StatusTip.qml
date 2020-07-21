@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2018-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -21,7 +21,7 @@ TipRect {
   z: 500
   radius: 0
   width: nootkaWindow.width * 0.4
-  height: Noo.isAndroid() ? nootkaWindow.height / 9 : nootkaWindow.header.height
+  height: nootkaWindow.header.height
 
   color: Qt.tint(activPal.text, Noo.alpha(Noo.messageColor, 100))
 

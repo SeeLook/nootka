@@ -129,7 +129,7 @@ TnameItem {
         anchors.fill: parent
         acceptedButtons: Qt.NoButton
         cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
-        hoverEnabled: GLOB.showHints
+        hoverEnabled: !Noo.isAndroid() && GLOB.showHints
         onEntered: Noo.setStatusTip(octavesLinkStatus())
         onExited: Noo.setStatusTip("")
       }
@@ -146,8 +146,13 @@ TnameItem {
         font { pixelSize: height * (GLOB.scientificOctaves ? 0.8 : 0.5); family: "Sans"; bold: true }
         text: GLOB.scientificOctaves ? index * 2 + 1 : octaveName(index * 2 - 2)
         onClicked: octave = index * 2 - 2
-        hoverEnabled: GLOB.showHints
+        hoverEnabled: !Noo.isAndroid() && GLOB.showHints
         onHoveredChanged: Noo.setStatusTip(hovered ? octaveStatusTip(index * 2 - 2) : "")
+        onPressAndHold: Noo.setStatusTip(octaveStatusTip(index * 2 - 2))
+        onReleased: {
+          if (Noo.isAndroid())
+            Noo.setStatusTip("")
+        }
       }
     }
   }
@@ -168,8 +173,13 @@ TnameItem {
         font { pixelSize: height * (GLOB.scientificOctaves ? 0.8 : 0.5); family: "Sans"; bold: true }
         text: GLOB.scientificOctaves ? index * 2 : octaveName(index * 2 - 3)
         onClicked: octave = index * 2 - 3
-        hoverEnabled: GLOB.showHints
+        hoverEnabled: !Noo.isAndroid() && GLOB.showHints
         onHoveredChanged: Noo.setStatusTip(hovered ? octaveStatusTip(index * 2 - 3) : "")
+        onPressAndHold: Noo.setStatusTip(octaveStatusTip(index * 2 - 3))
+        onReleased: {
+          if (Noo.isAndroid())
+            Noo.setStatusTip("")
+        }
       }
     }
   }
