@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2018-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -44,7 +44,7 @@ TrtmSelectorItem {
     model: 35
     delegate: Component {
       Rectangle {
-        height: Noo.fontSize() * 2.5; width: parent.width
+        height: Noo.fontSize() * 2.5; width: parent ? parent.width : 0
         color: enabled ? (index % 2 ? activPal.alternateBase : activPal.base) : disdPal.base
         MouseArea {
           anchors.fill: parent
