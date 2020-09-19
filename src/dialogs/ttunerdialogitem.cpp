@@ -99,6 +99,36 @@ void TtunerDialogItem::setWorkFreq(int wFreq) {
   }
 }
 
+
+int TtunerDialogItem::pitch() const {
+  return SOUND->note().isValid() ? static_cast<int>(SOUND->note().chromatic()) : 0;
+}
+
+
+int TtunerDialogItem::lowestNote() const {
+  return static_cast<int>(GLOB->loNote().chromatic()) - 3;
+}
+
+
+int TtunerDialogItem::highestNote() const {
+  return static_cast<int>(GLOB->hiString().chromatic()) + 3;
+}
+
+
+QString TtunerDialogItem::styledName(int chroma) const {
+  return Tnote(chroma).styledName();
+}
+
+
+bool TtunerDialogItem::isOpenString(int chroma) const {
+  for (int s = 1; s <= GLOB->stringNumber(); ++s) {
+    if (GLOB->Gtune()->strChromatic(s) == chroma)
+      return true;
+  }
+  return false;
+}
+
+
 //#################################################################################################
 //###################              PRIVATE             ############################################
 //#################################################################################################

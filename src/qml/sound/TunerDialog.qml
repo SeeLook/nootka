@@ -107,6 +107,53 @@ TtunerDialogItem {
       }
     }
 
+    Tumbler {
+        id: pitchTumb
+        width: parent.width
+        height: Noo.fontSize() * 4
+        visibleItemCount: ((width / (Noo.fontSize() * 5)) / 2) * 2 - 1
+        model: highestNote() - lowestNote()
+        currentIndex: pitch - lowestNote()
+        delegate: Component {
+          Column {
+            spacing: Noo.fontSize() / 4
+            opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
+            scale: 1.7 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
+            Rectangle {
+              anchors.horizontalCenter: parent.horizontalCenter
+              width: Math.max(childrenRect.width, childrenRect.height / 2.3); height: width
+              radius: height / 2
+              color: "transparent"
+              border { width: isOpenString(lowestNote() + modelData) ? 2 : 0; color: activPal.text }
+              Text {
+                text: styledName(lowestNote() + modelData)
+                color: activPal.text
+                y: height * -0.2; x: (Math.max(width, height / 2.3) - width) / 2
+                font { family: "Scorek"; pixelSize: Noo.fontSize() * 1.5 }
+              }
+            }
+          }
+        }
+        contentItem: PathView {
+          id: pathView
+          model: pitchTumb.model
+          delegate: pitchTumb.delegate
+//           clip: true
+          pathItemCount: pitchTumb.visibleItemCount + 1
+          preferredHighlightBegin: 0.5
+          preferredHighlightEnd: 0.5
+          dragMargin: width / 2
+          path: Path {
+            startX: 0
+            startY: Noo.fontSize() * 1.4
+            PathLine {
+              x: pathView.width
+              y: Noo.fontSize() * 1.4
+            }
+          }
+        }
+      }
+
     IntonationBar {
       id: intoBar
       anchors.horizontalCenter: parent.horizontalCenter

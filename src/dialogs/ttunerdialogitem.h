@@ -43,9 +43,7 @@ class TtunerDialogItem : public QQuickItem
   Q_PROPERTY(QString noteName READ noteName NOTIFY noteNameChanged)
   Q_PROPERTY(QStringList tuningModel READ tuningModel NOTIFY tuningModelChanged)
   Q_PROPERTY(int workFreq READ workFreq WRITE setWorkFreq NOTIFY workFreqChanged)
-#if defined (Q_OS_ANDROID)
-
-#endif
+  Q_PROPERTY(int pitch READ pitch NOTIFY noteNameChanged)
 
 public:
   explicit TtunerDialogItem(QQuickItem* parent = nullptr);
@@ -58,6 +56,16 @@ public:
 
   int workFreq() const { return m_workFreq; }
   void setWorkFreq(int wFreq);
+
+  int pitch() const;
+
+      /**
+       * Lowest note in actual tuning - chromatic number
+       */
+  Q_INVOKABLE int lowestNote() const;
+  Q_INVOKABLE int highestNote() const;
+  Q_INVOKABLE QString styledName(int chroma) const;
+  Q_INVOKABLE bool isOpenString(int chroma) const;
 
 signals:
   void deviationChanged();
