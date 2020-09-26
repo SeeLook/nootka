@@ -106,7 +106,7 @@ int TtunerDialogItem::pitch() const {
 
 
 int TtunerDialogItem::lowestNote() const {
-  return static_cast<int>(GLOB->loNote().chromatic()) - 3;
+  return static_cast<int>(GLOB->loNote().chromatic()) - 5;
 }
 
 
@@ -128,6 +128,14 @@ bool TtunerDialogItem::isOpenString(int chroma) const {
   return false;
 }
 
+
+int TtunerDialogItem::whichString(int chroma) const {
+  for (int s = 1; s <= GLOB->stringNumber(); ++s) {
+    if (GLOB->Gtune()->strChromatic(s) == chroma)
+      return GLOB->strOrder(s - 1) + 1;
+  }
+  return 0;
+}
 
 //#################################################################################################
 //###################              PRIVATE             ############################################

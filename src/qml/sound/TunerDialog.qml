@@ -74,7 +74,7 @@ TtunerDialogItem {
     y: spacing
     width: (tunerDialog.width - exTile.width) - Noo.fontSize()
     x: exTile.width + Noo.fontSize() / 2
-    spacing: (parent.height - freqTile.height - (volRow.visible ? volRow.height : 0) - intoBar.height - freqTexts.height - inputCol.height) / 6
+    spacing: (parent.height - freqTile.height - (volRow.visible ? volRow.height : 0) - pitchCol.height - inputCol.height) / 6
 
     MiddleA440 {
       id: freqTile
@@ -107,28 +107,45 @@ TtunerDialogItem {
       }
     }
 
-    Tumbler {
+    Column {
+      id: pitchCol
+      spacing: Noo.fontSize()
+      width: parent.width
+
+      Tumbler {
         id: pitchTumb
-        width: parent.width
-        height: Noo.fontSize() * 4
+        width: parent.width; height: Noo.fontSize() * 4
+        anchors.horizontalCenter: parent.horizontalCenter
         visibleItemCount: ((width / (Noo.fontSize() * 5)) / 2) * 2 - 1
         model: highestNote() - lowestNote()
         currentIndex: pitch - lowestNote()
+        wrap: false
         delegate: Component {
           Column {
             spacing: Noo.fontSize() / 4
             opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
             scale: 1.7 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
-            Rectangle {
+            Item {
+              property int strNr: whichString(lowestNote() + modelData)
               anchors.horizontalCenter: parent.horizontalCenter
-              width: Math.max(childrenRect.width, childrenRect.height / 2.3); height: width
-              radius: height / 2
-              color: "transparent"
-              border { width: isOpenString(lowestNote() + modelData) ? 2 : 0; color: activPal.text }
               Text {
+                visible: parent.strNr > 0
+                x: strNameTxt.x + (strNameTxt.width - width) / 2
+                text: parent.strNr > 0 ? parent.strNr : ""
+                font { family: "Nootka"; pixelSize: Noo.fontSize() * 1.5 }
+                property real dev: Math.abs(deviation)
+                color: pitchTumb.currentIndex === index ? (dev > 0 ? (dev > 0.3 ? "red" : (dev > 0.1 ? "yellow" : "lime")) : activPal.text) : activPal.text
+                Behavior on color { ColorAnimation { duration: 150 }}
+                y: pitchTumb.currentIndex === index ? 0 : -height / 2
+                transformOrigin: Item.Top
+                scale: pitchTumb.currentIndex === index ? 1.6 : 1
+              }
+              Text {
+                id: strNameTxt
+                visible: pitchTumb.currentIndex !== index
                 text: styledName(lowestNote() + modelData)
                 color: activPal.text
-                y: height * -0.2; x: (Math.max(width, height / 2.3) - width) / 2
+                y: height * -0.2; x: -width / 2
                 font { family: "Scorek"; pixelSize: Noo.fontSize() * 1.5 }
               }
             }
@@ -136,13 +153,12 @@ TtunerDialogItem {
         }
         contentItem: PathView {
           id: pathView
+          interactive: false
           model: pitchTumb.model
           delegate: pitchTumb.delegate
-//           clip: true
           pathItemCount: pitchTumb.visibleItemCount + 1
           preferredHighlightBegin: 0.5
           preferredHighlightEnd: 0.5
-          dragMargin: width / 2
           path: Path {
             startX: 0
             startY: Noo.fontSize() * 1.4
@@ -154,39 +170,32 @@ TtunerDialogItem {
         }
       }
 
-    IntonationBar {
-      id: intoBar
-      anchors.horizontalCenter: parent.horizontalCenter
-      width: parent.width * (Noo.isAndroid() ? 0.98 : 0.89); height: Noo.fontSize() * (Noo.isAndroid() ? 2 : 3)
-      deviation: tunerDialog.deviation
-    }
+      IntonationBar {
+        id: intoBar
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: parent.width * (Noo.isAndroid() ? 0.98 : 0.89); height: Noo.fontSize() * 3
+        deviation: tunerDialog.deviation
+        pitchText: noteName
+      }
 
-    Row {
-      id: freqTexts
-      anchors.horizontalCenter: parent.horizontalCenter
-      spacing: Noo.fontSize()
-      TipRect {
-        width: Noo.fontSize() * 5; height: Noo.fontSize() * 3; radius: height / 8; color: activPal.base
-        Text {
-          y: height * -0.24; x: (parent.width - width) / 2
-          font { family: "Scorek"; pixelSize: Noo.fontSize() * 2 }
-          text: noteName
-          color: activPal.text; textFormat: Text.StyledText
+      Row {
+        id: freqTexts
+        x: (parent.width - width) / 2 + Noo.fontSize() * 2.5 // keep bg rect in the middle
+        spacing: Noo.fontSize()
+        TipRect {
+          width: Noo.fontSize() * 12; height: Noo.fontSize() * 3; radius: height / 8; color: activPal.base
+          Text {
+            anchors.centerIn: parent
+            font { pixelSize: Noo.fontSize() * 2; bold: true }
+            text: frequency; color: activPal.text
+          }
         }
-      }
-      TipRect {
-        width: Noo.fontSize() * 12; height: Noo.fontSize() * 3; radius: height / 8; color: activPal.base
         Text {
-          anchors.centerIn: parent
-          font { pixelSize: Noo.fontSize() * 2; bold: true }
-          text: frequency; color: activPal.text
+          anchors.verticalCenter: parent.verticalCenter
+          font { pixelSize: Noo.fontSize() * 2 }
+          text: Noo.TR("SoundPage", "[Hz]")
+          color: activPal.text
         }
-      }
-      Text {
-        anchors.verticalCenter: parent.verticalCenter
-        font { pixelSize: Noo.fontSize() * 2 }
-        text: Noo.TR("SoundPage", "[Hz]")
-        color: activPal.text
       }
     }
 

@@ -6,6 +6,7 @@ import QtQuick 2.9
 import QtQuick.Window 2.2
 
 import Nootka 1.0
+import "../"
 
 
 Item {
@@ -13,11 +14,12 @@ Item {
 
   property real deviation: 0.0
   property bool active: true
+  property alias pitchText: noteText.text
 
   property real tickWidth: Screen.pixelDensity * 0.5
   property real tickGap: tickWidth * 1.4
 
-  TtickColors { id: tc; width: (intoBar.width - noteText.width * 3) / 2; divisor: tickGap + tickWidth }
+  TtickColors { id: tc; width: (intoBar.width - textWrap.width * 2) / 2; divisor: tickGap + tickWidth }
 
   Repeater {
     id: iRepLeft
@@ -32,19 +34,20 @@ Item {
     }
   }
 
-  Text {
-    id: noteText
-    property real dev: Math.abs(deviation)
+  TipRect {
+    id: textWrap
+    width: height * 1.7; height: parent.height * 1; radius: height / 8
+    color: Qt.tint(activPal.base, Noo.alpha(active ? (dev > 0 ? (dev > 0.3 ? "red" : (dev > 0.1 ? "yellow" : "lime")) : activPal.base) : disdPal.base, 50))
+    Behavior on color { ColorAnimation { duration: 150 }}
     anchors.top: parent.Top
     x: (intoBar.width - width) / 2
-    anchors.verticalCenter: parent.verticalCenter
-    font.family: "Nootka"
-    font.pixelSize: intoBar.height * 0.8
-    text: "n"
-    color: active ? (dev > 0 ? (dev > 0.3 ? "red" : (dev > 0.1 ? "yellow" : "lime")) : activPal.text) : disdPal.text
-    scale: dev > 0 ? 1 + (1 - dev * 2) : 1
-    Behavior on scale { NumberAnimation { duration: 150 }}
-    Behavior on color { ColorAnimation { duration: 150 }}
+    property real dev: Math.abs(deviation)
+    Text {
+      id: noteText
+      y: height * -0.26; x: (parent.width - width) / 2
+      font { family: "Scorek"; pixelSize: parent.height * 0.8 }
+      color: activPal.text; textFormat: Text.StyledText
+    }
   }
 
   Repeater {
@@ -56,7 +59,7 @@ Item {
       radius: tickWidth / 2
       height: tickWidth * 1.5 + ((intoBar.height - tickWidth * 4) / iRepRight.model) * index
       y: (parent.height - height) / 2
-      x: noteText.x + noteText.width * 2 + (index * tickGap) + (index + 2) * tickWidth
+      x: textWrap.x + textWrap.width * 1.5 + (index * tickGap) + (index + 2) * tickWidth
     }
   }
 

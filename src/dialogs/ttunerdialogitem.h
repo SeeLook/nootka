@@ -67,6 +67,12 @@ public:
   Q_INVOKABLE QString styledName(int chroma) const;
   Q_INVOKABLE bool isOpenString(int chroma) const;
 
+      /**
+       * Returns real string number [1 - 6] of a given note
+       * or @p 0 if not such a string
+       */
+  Q_INVOKABLE int whichString(int chroma) const;
+
 signals:
   void deviationChanged();
   void frequencyChanged();
