@@ -197,7 +197,7 @@ QString TlinChartDelegate::noteText() const {
 
 
 QString TlinChartDelegate::posText() const {
-  if (m_qInf->qaUnit()
+  if (m_qInf->qaUnit() && m_qInf->qaUnit()->exam()
       && Tinstrument(m_qInf->qaUnit()->exam()->level()->instrument).isGuitar()
       && !m_qInf->qaUnit()->melody()) {
     if (m_qInf->qaUnit()->questionAs == TQAtype::e_onInstr
