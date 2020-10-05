@@ -189,7 +189,8 @@ void TchartItem::setAllowOpen(bool ao) {
   if (ao != m_allowOpen) {
     m_allowOpen = ao;
     emit allowOpenChanged();
-    qobject_cast<Taction*>(m_recentExamsActs.first())->setEnabled(m_allowOpen);
+    if (!m_recentExamsActs.isEmpty())
+      qobject_cast<Taction*>(m_recentExamsActs.first())->setEnabled(m_allowOpen);
   }
 }
 
