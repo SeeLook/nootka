@@ -653,7 +653,7 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
   if (GLOB->rhythmsEnabled()) {
       qreal rFactor = 2500.0 / Tmeter::quarterTempo(m_tempo, m_beatUnit);
       qreal dur = (note.duration * 1000.0) / rFactor;
-      int quant = dur > 20.0 ? 12 : 6; // avoid sixteenth dots
+      int quant = dur > 20.0 ? 12 : m_quantVal; // avoid sixteenth dots
       int normDur = qRound(dur / static_cast<qreal>(quant)) * quant;
       Trhythm r(normDur, m_detectedNote.isRest());
       if (r.isValid()) {
