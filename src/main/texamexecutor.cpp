@@ -1706,41 +1706,42 @@ void TexamExecutor::correctNoteOfMelody(int noteNr) {
     MAIN_SCORE->setSelectedItem(noteNr);
     if (noteNr < m_exam->curQ()->lastAttempt()->mistakes.size()) {
       quint32 &m = m_exam->curQ()->lastAttempt()->mistakes[noteNr];
-      if (m_exam->curQ()->answerOnScore() && m_exam->curQ()->melody()->length() > noteNr) { // only dictations can be corrected
-          if (m && !MAIN_SCORE->isCorrectAnimPending()) { // fix, if it has not been fixed yet
-            if (!m_melody->fixed(noteNr))
-              m_exercise->setCorrectedNoteId(noteNr); // TODO we are not using it anymore
-            if (m_level.useRhythms()) {
-                // TODO It is impossible for now to correct melody with rhythms
-                // because when some middle note changes rhythms, ties are added and notes number changes.
-                // So score answer don't match what was checked before.
-                // So far we just displaying status message with correct note
-                NOO->setMessageColor(m_supp->answerColor(m));
-                m_tipHandler->shouldBeNoteTip(m_exam->curQ()->melody()->note(noteNr)->p());
-            } else if (!m_melody->fixed(noteNr))
-                MAIN_SCORE->correctNote(m_exam->curQ()->melody()->note(noteNr)->p()); // selected note item is corrected
-            if (!m_melody->fixed(noteNr))
-              m_melody->setFixed(noteNr);
-            if (m_melody->numberOfFixed() > m_exam->curQ()->melody()->length() / 2) { // too much notes fixed - hide 'new attempt'
-              m_newAtemptAct->setEnabled(false);
-              m_tipHandler->showWhatNextTip(true); // cheat m_tipHandler that question is correct so 'new attempt' will not show
+      if (m_exam->curQ()->answerOnScore()) {
+          if (m_exam->curQ()->melody()->length() > noteNr) { // only dictations can be corrected
+            if (m && !MAIN_SCORE->isCorrectAnimPending()) { // fix, if it has not been fixed yet
+              if (!m_melody->fixed(noteNr))
+                m_exercise->setCorrectedNoteId(noteNr); // TODO we are not using it anymore
+              if (m_level.useRhythms()) {
+                  // TODO It is impossible for now to correct melody with rhythms
+                  // because when some middle note changes rhythms, ties are added and notes number changes.
+                  // So score answer don't match what was checked before.
+                  // So far we just displaying status message with correct note
+                  NOO->setMessageColor(m_supp->answerColor(m));
+                  m_tipHandler->shouldBeNoteTip(m_exam->curQ()->melody()->note(noteNr)->p());
+              } else if (!m_melody->fixed(noteNr))
+                  MAIN_SCORE->correctNote(m_exam->curQ()->melody()->note(noteNr)->p()); // selected note item is corrected
+              if (!m_melody->fixed(noteNr))
+                m_melody->setFixed(noteNr);
+              if (m_melody->numberOfFixed() > m_exam->curQ()->melody()->length() / 2) { // too much notes fixed - hide 'new attempt'
+                m_newAtemptAct->setEnabled(false);
+                m_tipHandler->showWhatNextTip(true); // cheat m_tipHandler that question is correct so 'new attempt' will not show
+              }
             }
+          } else {
+              NOO->setMessageColor(GLOB->wrongColor());
+              NOO->showTimeMessage(tr("There is not such a note in this melody!"), 3000);
           }
-      } else {
-          NOO->setMessageColor(GLOB->wrongColor());
-          NOO->showTimeMessage(tr("There is not such a note in this melody!"), 3000);
+      } else if (m_exam->curQ()->answerAsSound()) {
+          NOO->setMessageColor(m_supp->answerColor(m));
+          if (m_level.useRhythms() || m_melody->listened()[noteNr].pitch.isValid())
+            m_tipHandler->detectedNoteTip(m_melody->listened()[noteNr].pitch);
+          else
+            NOO->showTimeMessage(tr("This note was not played!"), 3000);
       }
       if (SOUND->isPlayable() && m_exam->curQ()->melody()->length() > noteNr)
         SOUND->play(m_exam->curQ()->melody()->note(noteNr)->p());
       if (INSTRUMENT && m_exam->curQ()->melody()->length() > noteNr)
         INSTRUMENT->setNote(m_exam->curQ()->melody()->note(noteNr)->p());
-      if (m && m_exam->curQ()->answerAsSound()) {
-        NOO->setMessageColor(m_supp->answerColor(m));
-        if (m_level.useRhythms() || m_melody->listened()[noteNr].pitch.isValid())
-          m_tipHandler->detectedNoteTip(m_melody->listened()[noteNr].pitch);
-        else
-          NOO->showTimeMessage(tr("This note was not played!"), 3000);
-      }
     }
   }
 }
