@@ -320,6 +320,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
             curQ->addMelody(&m_level.melodySet[melodyId], TQAunit::e_srcLevelSet, melodyId);
             if (!m_level.useKeySign) // respect melody key to avoid transposition
               curQ->key = curQ->melody()->key();
+            melodyLength = curQ->melody()->length();
         } else { // Tlevel::e_melodyFromRange
             getRandomMelodyNG(m_questList, curQ->melody(), melodyLength, m_level.onlyCurrKey, m_level.endsOnTonic);
         }
