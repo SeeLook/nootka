@@ -74,7 +74,9 @@ TbeamObject::~TbeamObject()
 {
 //   qDebug() << "     [BEAM] deleted of id" << (m_notes.isEmpty() ? -1 : first()->index());
   for (TnotePair* np : qAsConst(m_notes)) {
-    resetBeam(np);
+    np->addChange(TnotePair::e_beamChanged);
+    np->setBeam(nullptr);
+//     resetBeam(np);
   }
 }
 
