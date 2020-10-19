@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
-<manifest package="net.sf.nootkabeta"
+<manifest package="net.sf.nootka"
           xmlns:android="http://schemas.android.com/apk/res/android"
-          android:versionName="1.7.1-beta2"
-          android:versionCode="41"
+          android:versionName="1.7.2-beta2"
+          android:versionCode="43"
           android:installLocation="auto">
     <application android:hardwareAccelerated="true"
                  android:name="org.qtproject.qt5.android.bindings.QtApplication"
@@ -131,7 +131,7 @@
           </meta-data>
         </provider>
     </application>
-    <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="28"/>
+    <uses-sdk android:minSdkVersion="16" android:targetSdkVersion="29"/>
     <supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" android:smallScreens="true"/>
 
     <!-- The following comment will be replaced upon deployment with default permissions based on the dependencies of the application.
