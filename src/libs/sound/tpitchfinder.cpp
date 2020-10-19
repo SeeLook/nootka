@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -110,7 +110,7 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_readPos = 0;
   m_doProcess = true;
   m_thread->start(QThread::HighestPriority);
-  m_lastDetectedNote.init(0, 0, 0);
+  m_lastDetectedNote.init(0, 0, 0.0);
 }
 
 
@@ -204,6 +204,7 @@ void TpitchFinder::stop(bool resetAfter) {
   m_plaingWasDetected = false;
   m_restStarted = false;
   m_restNote.endChunk = 0;
+  m_lastDetectedNote.init(0, 0, 0.0);
 #if !defined (Q_OS_ANDROID)
   destroyDumpFile();
 #endif
@@ -378,6 +379,7 @@ void TpitchFinder::processed() {
 //                   qDebug() << "=======[TpitchFinder] rest finished" << m_restNote.duration * 1000.0;
                   emit noteFinished(&m_restNote);
                   m_restStarted = false;
+                  m_lastDetectedNote.init(0, 0, 0.0); // reset
                 }
             }
           }
@@ -410,7 +412,8 @@ void TpitchFinder::processed() {
     }
     if (restDur * m_chunkTime > 4000) {
       m_restStarted = false;
-      m_lastDetectedNote.endChunk = m_chunkNum;
+      m_lastDetectedNote.init(0, 0, 0.0);
+//       m_lastDetectedNote.endChunk = m_chunkNum;
     }
   }
 //   qDebug() << "[TpitchFinder] processed, volume" << m_volume << "state" << (m_state == e_silence ? "silence" : (m_state == e_noticed ? "noticed" : "playing"));
@@ -439,21 +442,21 @@ void TpitchFinder::detect() {
       m_volume = static_cast<float>(data->normalVolume());
   }
 
-  bool noteChanged = false;
-  if (data->noteIndex != m_prevNoteIndex) { // Tartini changed note
-    noteChanged = true;
-    if (data->noteIndex != NO_NOTE && m_prevNoteIndex != NO_NOTE) {
-      float diff = qAbs(m_currentNote.pitches()->last() - data->pitch);
-      if (diff < 1.0f) {
-//         QTextStream o(stdout);
-//         o << "\033[01;36m Tartini was mistaken - there is still the same note! "
-//         << diff << " " << m_currentNote.pitches()->last() << " " << data->pitch << " " << m_currentNote.duration << " \033[01;00m\n";
-        noteChanged = false;
-      }
-    }
-  }
+//   bool noteChanged = false;
+//   if (data->noteIndex != m_prevNoteIndex) { // Tartini changed note
+//     noteChanged = true;
+//     if (data->noteIndex != NO_NOTE && m_prevNoteIndex != NO_NOTE) {
+//       float diff = qAbs(m_currentNote.pitches()->last() - data->pitch);
+//       if (diff < 1.0f) {
+// //         QTextStream o(stdout);
+// //         o << "\033[01;36m Tartini was mistaken - there is still the same note! "
+// //         << diff << " " << m_currentNote.pitches()->last() << " " << data->pitch << " " << m_currentNote.duration << " \033[01;00m\n";
+//         noteChanged = false;
+//       }
+//     }
+//   }
 
-  if (noteChanged /*data->noteIndex != m_prevNoteIndex*/) { // note changed
+  if (/*noteChanged */ data->noteIndex != m_prevNoteIndex) { // note changed
     if (m_prevNoteIndex != NO_NOTE && m_newNote.numChunks() >= m_minChunks && m_newNote.maxVol >= m_averVolume * m_skipStillerVal) {
       m_currentNote = m_newNote; // summarize previous note if it was long enough
       m_currentNote.sumarize(m_chunkTime);
