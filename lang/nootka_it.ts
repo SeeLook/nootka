@@ -298,7 +298,7 @@
     </message>
     <message numerus="yes">
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
-        <translation type="vanished">
+        <translation>
             <numerusform>La melodia è stata suonata &lt;b&gt;%n&lt;/b&gt; volta</numerusform>
             <numerusform>La melodia è stata suonata &lt;b&gt;%n&lt;/b&gt; volte</numerusform>
         </translation>
@@ -653,11 +653,11 @@
     </message>
     <message>
         <source>Metronome</source>
-        <translation type="vanished">Metronomo</translation>
+        <translation>Metronomo</translation>
     </message>
     <message>
         <source>exit</source>
-        <translation type="vanished">esci</translation>
+        <translation>esci</translation>
     </message>
 </context>
 <context>
@@ -668,7 +668,7 @@
     </message>
     <message>
         <source>Edit</source>
-        <translation type="vanished">Modifica</translation>
+        <translation>Modifica</translation>
     </message>
 </context>
 <context>
@@ -826,8 +826,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>disable screen rotation</source>
-        <translation>
-disabilita la rotazione dello schermo</translation>
+        <translation>disabilita la rotazione dello schermo</translation>
     </message>
     <message>
         <source>full screen</source>
@@ -1045,7 +1044,7 @@ disabilita la rotazione dello schermo</translation>
     </message>
     <message>
         <source>Time signatures to use in this level.</source>
-        <translation type="unfinished"></translation>
+        <translation>Indicazione metrica da usare in questo livello.</translation>
     </message>
 </context>
 <context>
@@ -1053,7 +1052,7 @@ disabilita la rotazione dello schermo</translation>
     <message>
         <source>notes</source>
         <comment>musical notes of course</comment>
-        <translation type="vanished">note</translation>
+        <translation>note</translation>
     </message>
 </context>
 <context>
@@ -1601,26 +1600,26 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Attempts number</source>
-        <translation type="vanished">Numero di tentativi</translation>
+        <translation>Numero di tentativi</translation>
     </message>
     <message>
         <source>Preparation time</source>
-        <translation type="vanished">Tempo di preparazione</translation>
+        <translation>Tempo di preparazione</translation>
     </message>
     <message>
         <source>Played number</source>
-        <translation type="vanished">Numero di ripetizioni</translation>
+        <translation>Numero di ripetizioni</translation>
     </message>
 </context>
 <context>
     <name>TchartTipItem</name>
     <message>
         <source>question</source>
-        <translation type="vanished">Domanda</translation>
+        <translation>Domanda</translation>
     </message>
     <message>
         <source>answer</source>
-        <translation type="vanished">Risposta</translation>
+        <translation>Risposta</translation>
     </message>
     <message numerus="yes">
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
@@ -1646,7 +1645,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>bass dropped</source>
-        <translation type="vanished">basso ottavato</translation>
+        <translation>basso ottavato</translation>
     </message>
     <message>
         <source>alto</source>
@@ -1756,7 +1755,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Enable metronome ticking</source>
-        <translation type="vanished">Attiva il click del metronomo</translation>
+        <translation>Attiva il click del metronomo</translation>
     </message>
     <message>
         <source>Count up</source>
@@ -1764,15 +1763,15 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Tick first, then play</source>
-        <translation type="vanished">Prima il click, poi suona</translation>
+        <translation>Prima il click, poi suona</translation>
     </message>
     <message>
         <source>Tick during play</source>
-        <translation type="vanished">Click durante la riproduzione</translation>
+        <translation>Click durante la riproduzione</translation>
     </message>
     <message>
         <source>Tick when pitch detecting</source>
-        <translation type="vanished">Click quando vi è il riconoscimento dell&apos;altezza</translation>
+        <translation>Click quando vi è il riconoscimento dell&apos;altezza</translation>
     </message>
     <message>
         <source>Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy.</source>
@@ -1843,7 +1842,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Let&apos;s start</source>
-        <translation type="vanished">Iniziamo!</translation>
+        <translation>Iniziamo!</translation>
     </message>
     <message>
         <source>Let&apos;s start!</source>
@@ -1939,11 +1938,11 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>This note was not played!</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa nota non è stata suonata!</translation>
     </message>
     <message>
         <source>There is not such a note in this melody!</source>
-        <translation type="unfinished"></translation>
+        <translation>Non c&apos;è questa nota nella melodia!</translation>
     </message>
 </context>
 <context>
@@ -2131,11 +2130,11 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Send exam file</source>
-        <translation type="unfinished"></translation>
+        <translation>Invia il file d&apos;esame</translation>
     </message>
     <message>
         <source>Number of questions:</source>
-        <translation type="unfinished"></translation>
+        <translation>Numero delle domande:</translation>
     </message>
 </context>
 <context>
@@ -3240,12 +3239,12 @@ Controlla se tutto i parametri sono corretti.</translation>
     <message>
         <source>%1 was detected</source>
         <comment>note name</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 è stata riconosciuta</translation>
     </message>
     <message>
         <source>It should be %1</source>
         <comment>note name follows</comment>
-        <translation type="unfinished"></translation>
+        <translation>Dovrebbe essere %1</translation>
     </message>
 </context>
 <context>
@@ -3407,7 +3406,7 @@ Controlla se tutto i parametri sono corretti.</translation>
     </message>
     <message>
         <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
-        <translation type="vanished">Per scaricarla, visita &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;il sito ufficiale di Nootka</translation>
+        <translation>Per scaricarla, visita &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;il sito ufficiale di Nootka</translation>
     </message>
     <message>
         <source>News:</source>
@@ -3438,7 +3437,7 @@ Controlla se tutto i parametri sono corretti.</translation>
     </message>
     <message>
         <source>Start/stop pitch detection</source>
-        <translation type="vanished">Avvia/ferma il riconoscimento delle altezze</translation>
+        <translation>Avvia/ferma il riconoscimento delle altezze</translation>
     </message>
 </context>
 <context>
