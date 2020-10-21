@@ -37,12 +37,8 @@ cp $SRC_DIR/gpl $DST_DIR
 cp $SRC_DIR/README.md $DST_DIR
 cp $SRC_DIR/TODO.md $DST_DIR
 cp $SRC_DIR/cmake_uninstall.cmake.in $DST_DIR
-if [ -f $SRC_DIR/.hg/cache/branchheads ]; then
-    cp $SRC_DIR/.hg/cache/branchheads $DST_DIR/.hg/cache/
-fi
-if [ -f $SRC_DIR/.hg/cache/branchheads-served ]; then
-    cp $SRC_DIR/.hg/cache/branchheads-served $DST_DIR/.hg/cache/branchheads
-fi
+
+# TODO git commits number here (Mac needs it only)
 
 tar -cjf $DST_DIR.tar.bz2 $DST_DIR
 
