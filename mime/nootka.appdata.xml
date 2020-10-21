@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2018-2019 SeeLook CC-0 -->
+<!-- Copyright 2018-2020 SeeLook CC-0 -->
 <component type="desktop-application">
   <id>nootka.desktop</id>
   <name>Nootka</name>
@@ -10,12 +10,16 @@
 
   <description>
     <p>
-      ​Application to learn classical score notation. It helps to understand the rules of reading and writing scores and helps with developing skills of playing and singing notes. Simply: users looks at piece of a score, plays it, Nootka is listening to it, checks and shows was it played well. All in real time.
+      ​Application  helps understand the basics of music notation reading and practicing playing musical scores.
+    </p>
+    <p>
+      ​Long story short: the user plays notes (melody) displayed by the app, which then in real time checks if the note was played correctly.
     </p>
     <p>Features:</p>
     <ul>
       <li>interactive interface to discover the rules of musical notation</li>
       <li>exercises with possibility to create own sets</li>
+      <li>importing melodies from musicxml, using them in exercises</li>
       <li>analyze of results</li>
       <li>accurate method for detecting sung and played sounds and melodies</li>
     </ul>
@@ -29,11 +33,11 @@
   <screenshots>
     <screenshot type="default">
       <caption>Main window</caption>
-      <image>https://nootka.sourceforge.io/screenshots/melody-02.png</image>
+      <image>https://nootka.sourceforge.io/screenshots/N2-main.png</image>
     </screenshot>
     <screenshot type="default">
       <caption>Some exercise</caption>
-      <image>https://nootka.sourceforge.io/screenshots/exer-02.png</image>
+      <image>https://nootka.sourceforge.io/screenshots/N2-exer</image>
     </screenshot>
   </screenshots>
 
@@ -69,7 +73,7 @@
   <update_contact>seelook_AT_gmail.com</update_contact>
 
   <releases>
-    <release date="2019-01-14" version="1.5.3"/>
+    <release date="2020-10-21" version="1.7.2"/>
   </releases>
 
 </component>

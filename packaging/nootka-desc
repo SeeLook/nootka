@@ -1,15 +1,16 @@
- Application to learn classical score notation.
- It helps to understand the rules of reading and writing scores
- and helps with developing skills of playing and singing notes.
+ ​Application  helps understand the basics of music notation reading
+ and practicing playing musical scores.
+ ​Long story short: the user plays notes (melody) displayed by the app,
+ which then in real time checks if the note was played correctly.
  .
  Features:
  .
  interactive interface to discover the rules of musical notation
  exercises with possibility to create own sets
+ importing melodies from musicxml, using them in exercises
  accurate method for detecting sung and played sounds
- natural sound of guitars
- clefs (treble, bass and others) and grand stave
+ support for different instruments (guitars, piano, sax)
+ clefs (treble, bass and others) and grand staff
  analyze of results
- different kinds of guitars and theirs tuning
  .
- http://nootka.sf.net
+ https://nootka.sourceforge.io

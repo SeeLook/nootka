@@ -1,7 +1,15 @@
-1.7.1 beta2
+1.7.2 beta2
+     - improved rhythm detection
+     - bug fixes
+    ANDROID
+     - improved controls for navigating exams (check, next, etc.)
+     - use long press to display description of some controls
+     - vol keys invoke tuner but control volume when playing
+
+1.7.1 (never released)
      - improved analysis charts (look and behavior)
      - added handy drawer with exam list and chart options
-     - improved tuner, added middle a frequency settings there
+     - improved tuner, added middle 'a' frequency settings there
      - notes with the same pitches can be tied by user
      - disabling level creator pages which are currently unused
      - added help topic selector on 'help page' with all the context
