@@ -12,7 +12,7 @@ project(nootka)
 
 set(Nootka_VERSION_MAJOR  "1")
 set(Nootka_VERSION_MINOR  "7")
-set(Nootka_VERSION_PATCH  "2-beta2")
+set(Nootka_VERSION_PATCH  "3-git")
 
 
 set(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
