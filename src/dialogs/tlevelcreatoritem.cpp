@@ -713,8 +713,16 @@ QString TlevelCreatorItem::validateLevel() {
       }
     }
   }
-
-  // TODO: when level is set of melodies but any melody was added
+// Note list is empty
+  if (m_level->canBeMelody() && m_level->randMelody == Tlevel::e_randFromList) {
+    if (m_level->notesList.count() < 2)
+      res += tr("<li>There are not enough selected notes to create a melody.</li>");
+  }
+// When level is set of melodies but no melody was added
+  if (m_level->canBeMelody() && m_level->randMelody == Tlevel::e_melodyFromSet) {
+    if (m_level->melodySet.isEmpty())
+      res += tr("<li>No melody was added.</li>");
+  }
 
 // Resume warnings
   if (!res.isEmpty()) {
