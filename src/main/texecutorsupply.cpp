@@ -304,7 +304,7 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
 
     if (m_level->canBeMelody()) {
         if (m_level->isMelodySet())
-          m_obligQuestNr = qBound(5, m_level->melodySet.count(), 30);
+          m_obligQuestNr = m_level->melodySet.count() * m_level->repeatNrInSet;
         else
           m_obligQuestNr = qBound(5, 250 / m_level->melodyLen, 30); // longer melody - less questions
     } else
