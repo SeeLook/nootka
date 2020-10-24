@@ -313,10 +313,16 @@ public:
        */
   void riseOctaveUp();
 
+      /**
+       * Number of another question (@p e_srcOtherUnit)
+       * or an item in a list (@p e_srcLevelSet) that contain a melody.
+       */
+  int idOfMelody() const { return p_idOfMelody; }
+
 protected:
   quint32                 p_valid;
   quint8                  style;
-  int                     idOfMelody; /**< Number of another question or an item in a list that contain a melody. */
+  int                     p_idOfMelody;
   QList<Tattempt*>       *attemptList; /**< Pointer to a list with attempts or @p nullptr if no attempts */
 
       /**
