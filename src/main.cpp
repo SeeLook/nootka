@@ -44,6 +44,7 @@
 #include <QtCore/qfile.h>
 #include <QtCore/qsettings.h>
 #include <QtCore/qelapsedtimer.h>
+#include <QtCore/qloggingcategory.h>
 
 #include <QtCore/qdebug.h>
 
@@ -65,7 +66,7 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 #endif
     outFile.open(QIODevice::WriteOnly | QIODevice::Append);
     QTextStream ts(&outFile);
-    ts << msg << endl;
+    ts << msg << "\n";
 
 }
 
@@ -73,6 +74,10 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 int main(int argc, char *argv[])
 {
 //   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
+  // It mutes QML warnings about connections syntax introduced in Qt 5.15
+  // TODO when Qt version requirements will rise to 5.15 or above, change syntax and remove that
+  QLoggingCategory::setFilterRules(QStringLiteral("qt.qml.connections=false"));
 
 #if defined (Q_OS_ANDROID)
   qputenv("QT_ANDROID_VOLUME_KEYS", "1"); // Handle volume keys by Qt, lock native Android behavior
