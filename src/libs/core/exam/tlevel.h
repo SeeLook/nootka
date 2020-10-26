@@ -58,7 +58,7 @@ public:
   enum ErandMelody : quint8 {
       e_randFromRange = 1, /**< melody is composed from notes in level range  */
       e_randFromList = 2,  /**< melody is composed from list of notes (@p notesList) */
-      e_melodyFromSet = 4  /**< random melody from set of melodies. (@p melodySet) */
+      e_melodyFromSet = 4  /**< melody from set of melodies (either randomized or asked in the list order). (@p melodySet) */
   };
 
 //------------------------- Managing level versions ------------------------------------------------------
@@ -134,6 +134,8 @@ public:
   QList<Tnote>       notesList; /**< List with notes from which melody is composed */
   TkeySignature      keyOfrandList; /**< Key signature of note list for composing random melodies */
   QList<Tmelody>     melodySet; /**< List of defined melodies when @p randMelody is @p e_melodyFromSet */
+  bool               randOrderInSet; /**< order of melodies in the set, @p TRUE means random */
+  quint8             repeatNrInSet; /**< How many times a question is repeated with a melody */
 // RHYTHMS
   quint32            basicRhythms;
   quint32            dotsRhythms;
