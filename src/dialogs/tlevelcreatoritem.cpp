@@ -344,6 +344,18 @@ void TlevelCreatorItem::setKeyOfRandList(int key) {
   levelParamChanged();
 }
 
+bool TlevelCreatorItem::randomOrder() const { return m_level->randOrderInSet; }
+void TlevelCreatorItem::setRandomOrder(bool randO) {
+  m_level->randOrderInSet = randO;
+  levelParamChanged();
+}
+
+int TlevelCreatorItem::repeatsNumber() const { return m_level->repeatNrInSet; }
+void TlevelCreatorItem::setRepeatsNumber(int rNr) {
+  m_level->repeatNrInSet = static_cast<quint8>(rNr);
+  levelParamChanged();
+}
+
 
 // Range page
 int TlevelCreatorItem::loFret() const { return static_cast<int>(m_level->loFret); }

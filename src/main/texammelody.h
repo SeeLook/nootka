@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -35,7 +35,7 @@ class TnoteStruct;
  * then @p wasIndexChenged() returns @p TRUE but invoking @p noteStarted() 
  * will reset it to @p FALSE again.
  * This way can be counted how many times user started to play a melody.
- * 
+ *
  * It also manages of a list of fixed melody notes during correction.
  * List is stored in @p attemptFix() and can be reset by @p clearToFix().
  * Then @p setFixed() sets given note to @p TRUE and @p fixed() returns its state.
@@ -100,6 +100,20 @@ public:
        */
   bool wasLatestNoteSet() const { return m_indexOfSaved == m_currentIndex; }
 
+      /**
+       * Counts how many times the same melody was asked
+       */
+  int repeatCounter() const { return m_repeatCounter; }
+  void setRepeat(int r) { m_repeatCounter = r; }
+
+      /**
+       * Increases repeat counter
+       */
+  void nextRepeat() { m_repeatCounter++; }
+
+  int lastMelodyId() const { return m_lastMelodyId; }
+  void setLastMelodyId(int li) { m_lastMelodyId = li; }
+
 private:
 
   QList<TnoteStruct>        m_listened;
@@ -109,6 +123,8 @@ private:
   int                       m_numberOfFixed;
 
   QList<bool>               m_attemptFix;
+  int                       m_repeatCounter = 1;
+  int                       m_lastMelodyId = 0;
 };
 
 #endif // TEXAMMELODY_H

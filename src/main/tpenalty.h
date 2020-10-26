@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -58,7 +58,10 @@ class Tpenalty : public QObject
 public:
   Tpenalty(Texam* exam, TexecutorSupply* supply);
 
-  bool isNot() { return m_blackQuestNr == -1 && m_blackNumber == -1; } /** @p TRUE when a question is not a penalty */
+      /**
+       * @p TRUE when a question is not a penalty
+       */
+  bool isNot() { return m_blackQuestNr == -1 && m_blackNumber == -1; }
 
       /**
        * Check state of counters and if it is time for penalty
@@ -68,12 +71,33 @@ public:
   bool ask();
 
   void updatePenalStep();
-  void nextQuestion(); /**< Increases counter of question, resets m_blackQuestNr. Starts timer */
-  void checkAnswer(); /**< Checks last answer and when not valid adds penalty(s) to black list. */
-  void newAttempt(); /**< Prepares @p Texam to continue answering and updates counters. */
+
+      /**
+       * Increases counter of question, resets @p m_blackQuestNr. Starts timer
+       */
+  void nextQuestion();
+
+      /**
+       * Checks last answer and when not valid adds penalty(s) to black list.
+       */
+  void checkAnswer();
+
+      /**
+       * Prepares @p Texam to continue answering and updates counters.
+       */
+  void newAttempt();
+
   void setMelodyPenalties();
-  void releaseBlackList(); /**< If asked question was penalty and answer was correct it removes penalty from black list. */
-  void checkForCert(); /**< Checks could be exam finished and emits @p certificate() when it can. */
+
+      /**
+       * If asked question was penalty and answer was correct it removes penalty from black list.
+       */
+  void releaseBlackList();
+
+      /**
+       * Checks could be exam finished and emits @p certificate() when it can.
+       */
+  void checkForCert();
 
       /**
        * Sets @p m_blackQuestNr to the last question from the black list
@@ -82,17 +106,53 @@ public:
        */
   void setBlackQuestion();
 
-  // Methods only forwarding functionality of TexamView and TprogressWidget classes
-  void pauseTime(); /**< Pauses exam view timers. */
-  void continueTime(); /**< Continues exam view timers. */
-  void updateExamTimes(); /**< Updates exam variables with already elapsed times. */
-  void stopTimeView(); /**< Stops refreshing elapsing time on the exam view labels. */
-  void startQuestionTime(); /**< Initializes counting time for a new question. */
-  void stopQuestionTime(); /**< Stops counting time of the current question and updates counters and labels. */
-  quint32 elapsedTime(); /**< Elapsed time of current question. */
+      /**
+       * Pauses exam view timers.
+       * Forwarded functionality of @p TexamView and @p TprogressWidget classes
+       */
+  void pauseTime();
+
+      /**
+       * Continues exam view timers.
+       * Forwarded functionality of @p TexamView and @p TprogressWidget classes
+       */
+  void continueTime();
+
+      /**
+       * Updates exam variables with already elapsed times.
+       * Forwarded functionality of @p TexamView and @p TprogressWidget classes
+       */
+  void updateExamTimes();
+
+      /**
+       * Stops refreshing elapsing time on the exam view labels.
+       * Forwarded functionality of @p TexamView and @p TprogressWidget classes
+       */
+  void stopTimeView();
+
+      /**
+       * Initializes counting time for a new question.
+       * Forwarded functionality of @p TexamView and @p TprogressWidget classes
+       */
+  void startQuestionTime();
+
+      /**
+       * Stops counting time of the current question and updates counters and labels.
+       * Forwarded functionality of @p TexamView and @p TprogressWidget classes
+       */
+  void stopQuestionTime();
+
+      /**
+       * Elapsed time of current question.
+       * Forwarded functionality of @p TexamView and @p TprogressWidget classes
+       */
+  quint32 elapsedTime();
 
 signals:
-  void certificate(); /**< Emitted when last mandatory question was correct, so certificate can be displayed. */
+      /**
+       * Emitted when last mandatory question was correct, so certificate can be displayed.
+       */
+  void certificate();
 
 private:
   Texam                    *m_exam;

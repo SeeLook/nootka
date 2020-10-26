@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -65,6 +65,8 @@ class TlevelCreatorItem : public QQuickItem
   Q_PROPERTY(bool endsOnTonic READ endsOnTonic WRITE setEndsOnTonic NOTIFY updateLevel)
   Q_PROPERTY(int randMelody READ randMelody WRITE setRandMelody NOTIFY updateLevel)
   Q_PROPERTY(int keyOfRandList READ keyOfRandList WRITE setKeyOfRandList NOTIFY updateLevel)
+  Q_PROPERTY(bool randomOrder READ randomOrder WRITE setRandomOrder NOTIFY updateLevel)
+  Q_PROPERTY(qreal repeatsNumber READ repeatsNumber WRITE setRepeatsNumber NOTIFY updateLevel)
   // Range
   Q_PROPERTY(int loFret READ loFret WRITE setLoFret NOTIFY updateLevel)
   Q_PROPERTY(int hiFret READ hiFret WRITE setHiFret NOTIFY updateLevel)
@@ -164,6 +166,12 @@ public:
 
   int keyOfRandList() const;
   void setKeyOfRandList(int key);
+
+  bool randomOrder() const;
+  void setRandomOrder(bool randO);
+
+  int repeatsNumber() const;
+  void setRepeatsNumber(int rNr);
 
   // Range page
   int loFret() const;

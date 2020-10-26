@@ -510,18 +510,18 @@ void Texam::sumarizeAnswer() {
 
 void Texam::addPenalties() {
   if (!curQ()->isCorrect()) {
-    if (melodies())
-        m_blackNumbers.append(-1); // one more random melody
+    if (melodies()) // for any kind of mistake add one more random melody or mistaken one if not random and melody set
+      m_blackNumbers.append(m_level->isMelodySet() && !m_level->randOrderInSet ? count() - 1 : -1);
     if (curQ()->isNotSoBad()) {
-        if (!isExercise() /*&& !melodies() */&& !isFinished())
-            m_penaltysNr++;
+        if (!isExercise() && !isFinished())
+          m_penaltysNr++;
         if (!melodies())
           m_halfMistNr++;
     } else {
         if (melodies())
           m_blackNumbers.append(count() - 1); // repeat current melody in some further question
-        if (!isExercise() /*&& !melodies() */&& !isFinished())
-            m_penaltysNr += 2;
+        if (!isExercise() && !isFinished())
+          m_penaltysNr += 2;
         if (!melodies())
           m_mistNr++;
     }

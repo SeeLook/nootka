@@ -172,8 +172,29 @@ bool TexamExecutor::continueInit() {
   m_supp = new TexecutorSupply(&m_level, this);
   // TODO: when level has its own list of notes for melodies - it is wasting energy!
   m_supp->createQuestionsList(m_questList);
-  if (m_exam->melodies())
+
+  if (m_exam->melodies()) {
     m_melody = new TexamMelody(this);
+    if (m_level.randMelody == Tlevel::e_randFromList && !m_level.randOrderInSet) {
+      // Determine id of melody in the set and initialize appropriate variables
+      auto lastQ = m_exam->count() ? nullptr : m_exam->curQ();
+      if (lastQ) { // exam is continued, so find latest melody id and how many times it was asked already
+        int q = m_exam->count() - 1;
+        int repeatNr = 1;
+        while (q >= 0 && lastQ->idOfMelody() == m_exam->question(q)->idOfMelody()) {
+          q--;
+          repeatNr++;
+        }
+        m_melody->setLastMelodyId(lastQ->idOfMelody() + (repeatNr >= m_level.repeatNrInSet ? 1 : 0));
+        if (m_melody->lastMelodyId() >= m_level.melodySet.count()) {
+          qDebug() << "[TexamExecutor] FIXME! Melody ID in the set is greater than melodies number there!";
+          m_melody->setLastMelodyId(m_level.melodySet.count() - 1);
+        }
+        m_melody->setRepeat(repeatNr);
+      }
+      // for newly started exam, above variables are initialized by default
+    }
+  }
   if (m_questList.isEmpty() && !m_level.isMelodySet()) {
     QMessageBox::critical(nullptr, QString(), tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
     return false;
@@ -245,7 +266,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
   if (!isAttempt) { // add new question to the list
     m_penalty->setMelodyPenalties();
     if (m_exam->count() && m_exercise) // Check answer only after summarize
-        m_exercise->checkAnswer();
+      m_exercise->checkAnswer();
     TQAunit Q(m_exam);
     m_exam->addQuestion(Q);
   }
@@ -298,35 +319,62 @@ void TexamExecutor::askQuestion(bool isAttempt) {
       disconnect(MAIN_SCORE, &TmainScoreObject::readOnlyNoteClicked, this, &TexamExecutor::correctNoteOfMelody);
       int melodyLength = qBound(qMax(2, qRound(m_level.melodyLen * 0.7)), //at least 70% of length but not less than 2
                                       qRound(((6.0 + (qrand() % 5)) / 10.0) * (qreal)m_level.melodyLen), (int)m_level.melodyLen);
+      qDebug() << "========== Asking melody" << m_exam->count();
       if (m_penalty->isNot()) {
-        TrhythmList rhythms;
-        if (!m_level.isMelodySet()) {
-          curQ->addMelody(QString("%1").arg(m_exam->count()));
-          curQ->melody()->setKey(curQ->key);
-          if (m_level.useRhythms()) {
-            curQ->melody()->setMeter(m_supp->randomMeter());
-            int barsNr = m_supp->getBarNumber(m_exam->count(), m_exam->penalty());
-            rhythms = getRandomRhythm(curQ->melody()->meter()->meter(), barsNr, m_level.basicRhythms, m_level.dotsRhythms, m_level.rhythmDiversity);
-            melodyLength = rhythms.count();
+          TrhythmList rhythms;
+          if (!m_level.isMelodySet()) {
+            curQ->addMelody(QString("%1").arg(m_exam->count()));
+            curQ->melody()->setKey(curQ->key);
+            if (m_level.useRhythms()) {
+              curQ->melody()->setMeter(m_supp->randomMeter());
+              int barsNr = m_supp->getBarNumber(m_exam->count(), m_exam->penalty());
+              rhythms = getRandomRhythm(curQ->melody()->meter()->meter(), barsNr, m_level.basicRhythms, m_level.dotsRhythms, m_level.rhythmDiversity);
+              melodyLength = rhythms.count();
+            }
           }
-        }
-        if (m_level.randMelody == Tlevel::e_randFromList) {
-            QList<TQAgroup> qaList;
-            m_supp->listForRandomNotes(curQ->key, qaList);
-            // ignore in key (4th param) of level, notes from list are already in key (if required)
-            getRandomMelodyNG(qaList, curQ->melody(), melodyLength, false, false);
-        } else if (m_level.randMelody == Tlevel::e_melodyFromSet) {
-            int melodyId = m_rand->get();
-            curQ->addMelody(&m_level.melodySet[melodyId], TQAunit::e_srcLevelSet, melodyId);
-            if (!m_level.useKeySign) // respect melody key to avoid transposition
-              curQ->key = curQ->melody()->key();
-            melodyLength = curQ->melody()->length();
-        } else { // Tlevel::e_melodyFromRange
-            getRandomMelodyNG(m_questList, curQ->melody(), melodyLength, m_level.onlyCurrKey, m_level.endsOnTonic);
-        }
-        if (!m_level.isMelodySet() && m_level.useRhythms()) {
-          mergeRhythmAndMelody(rhythms, curQ->melody());
-        }
+          if (m_level.randMelody == Tlevel::e_randFromList) {
+              QList<TQAgroup> qaList;
+              m_supp->listForRandomNotes(curQ->key, qaList);
+              // ignore in key (4th param) of level, notes from list are already in key (if required)
+              getRandomMelodyNG(qaList, curQ->melody(), melodyLength, false, false);
+          } else if (m_level.randMelody == Tlevel::e_melodyFromSet) {
+            // Randomize melody number or get it in order of the melody set
+              int melodyId = m_melody->lastMelodyId();
+              if (m_level.randOrderInSet) {
+                  melodyId = m_rand->get();
+              } else {
+                // Set the next melody ID:
+                // It may be the same ID when repetition number is not fulfilled
+                // or the next melody when repeated enough or this is exercise
+                  qDebug() << "[MELODY SET] ID" << m_melody->lastMelodyId() << "repeat" << m_melody->repeatCounter() << "of" << m_level.repeatNrInSet;
+                  m_melody->nextRepeat();
+                  if (m_exercise || m_melody->repeatCounter() > m_level.repeatNrInSet) {
+                    m_melody->setRepeat(1);
+                    m_melody->setLastMelodyId(melodyId + 1);
+                    if (m_melody->lastMelodyId() >= m_level.melodySet.count()) {
+                      if (m_exercise) {
+                          m_melody->setLastMelodyId(0); // start from the first melody
+                          qDebug() << "[TexamExecutor] All melodies were exercised, starting again.";
+                      } else { // TODO It should never happen, delete when tested
+                          if (m_exam->count() < m_supp->obligQuestions() + m_exam->penalty())
+                            qDebug() << "[TexamExecutor] FIXME! Trying to get melody out of the list!";
+                          m_melody->setLastMelodyId(m_level.melodySet.count() - 1);
+                      }
+                    }
+                  }
+              }
+              curQ->addMelody(&m_level.melodySet[melodyId], TQAunit::e_srcLevelSet, melodyId);
+              if (!m_level.useKeySign) // respect melody key to avoid transposition
+                curQ->key = curQ->melody()->key();
+              melodyLength = curQ->melody()->length();
+          } else { // Tlevel::e_melodyFromRange
+              getRandomMelodyNG(m_questList, curQ->melody(), melodyLength, m_level.onlyCurrKey, m_level.endsOnTonic);
+          }
+          if (!m_level.isMelodySet() && m_level.useRhythms()) {
+            mergeRhythmAndMelody(rhythms, curQ->melody());
+          }
+      } else {
+          melodyLength = curQ->melody()->length();
       }
       m_melody->newMelody(curQ->answerAsSound() ? curQ->melody()->length() : 0); // prepare list to store notes played by user or clear it
       m_exam->newAttempt();
