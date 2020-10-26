@@ -847,6 +847,17 @@ bool Tlevel::useRhythms() const {
 }
 
 
+int Tlevel::keysInRange() const {
+  if (!useKeySign || isSingleKey)
+    return 1;
+  if (hiKey.value() - loKey.value() < 0) {
+    qDebug() << "[Tlevel] FIXME! Key range is invalid!";
+    return 1;
+  }
+  return hiKey.value() - loKey.value() + 1;
+}
+
+
 Tlevel::EerrorType Tlevel::fixFretRange() {
   if (loFret > hiFret) {
     char tmpFret = loFret;

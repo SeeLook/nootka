@@ -253,6 +253,12 @@ public:
        */
   bool useRhythms() const;
 
+      /**
+       * Returns number of key signatures in the range of keys
+       * or @p 1 if no keys in use, or just a single key
+       */
+  int keysInRange() const;
+
 //------------------------- to fix a level ---------------------------------------------------
 
       /**

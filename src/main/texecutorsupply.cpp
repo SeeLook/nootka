@@ -147,7 +147,7 @@ TexecutorSupply::TexecutorSupply(Tlevel* level, QObject* parent) :
   calcQAPossibleCount();
   checkPlayCorrected(level);
   if (m_level->useKeySign && !m_level->isSingleKey)
-    m_randKey = new TequalRand(m_level->hiKey.value() - m_level->loKey.value() + 1, m_level->loKey.value());
+    m_randKey = new TequalRand(m_level->keysInRange(), m_level->loKey.value());
   if (m_level->useRhythms()) {
     quint16 meterMask = 1;
     for (int b = 0; b < 12; ++b) {
@@ -304,14 +304,14 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
 
     if (m_level->canBeMelody()) {
         if (m_level->isMelodySet())
-          m_obligQuestNr = m_level->melodySet.count() * m_level->repeatNrInSet;
+          m_obligQuestNr = m_level->melodySet.count() * m_level->repeatNrInSet * m_level->keysInRange();
         else
           m_obligQuestNr = qBound(5, 250 / m_level->melodyLen, 30); // longer melody - less questions
     } else
         m_obligQuestNr = qBound(20, list.size() * 4, 250);
 
     if (m_level->useKeySign && !m_level->isSingleKey)
-        m_obligQuestNr = qMax(m_obligQuestNr, (m_level->hiKey.value() - m_level->loKey.value() + 1) * 5);
+        m_obligQuestNr = qMax(m_obligQuestNr, m_level->keysInRange() * 5);
     m_obligQuestNr = qMax(qaPossibilities() * 4, m_obligQuestNr);
 }
 
