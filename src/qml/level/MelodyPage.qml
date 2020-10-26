@@ -26,13 +26,13 @@ Tflickable {
       readonly property string keyRangeText: "<br>" + qsTr("They will be transposed if key signatures are set to be used and any of them differs from the key(s) defined below.")
       property var descList: [ qsTr("Melodies are composed from a note range defined on the 'Range' page."),
                                qsTr("Melodies are composed from notes selected on the score below."),
-                               qsTr("Melodies are randomized from defined list of melodies.") ]
+                               qsTr("Melodies are selected from the list.") ]
       description: descList[melCombo.currentIndex] + (melCombo.currentIndex > 0 ? keyRangeText : "")
       Row {
         spacing: Noo.fontSize()
         anchors.horizontalCenter: parent.horizontalCenter
         Text {
-          text: qsTr("Random melody")
+          text: Noo.TR("LevelCreator", "Melody")
           anchors.verticalCenter: parent.verticalCenter
           color: enabled ? activPal.text : disdPal.text
         }
@@ -48,12 +48,12 @@ Tflickable {
     Grid {
       id: melGrid
       spacing: melPage.width / 50
-      columns: Noo.fontSize() * 50 > melPage.width ? 1 : (melLenTile.visible ? 2 : 1)
+      columns: Noo.fontSize() * 50 > melPage.width ? 1 : 2 // (melLenTile.visible ? 2 : 1)
       anchors.horizontalCenter: parent.horizontalCenter
-      visible: melCombo.currentIndex !== 2
+
       Tile {
         id: melLenTile
-        visible: creator.isMelody && !creator.hasRhythms
+        visible: creator.isMelody && !creator.hasRhythms && melCombo.currentIndex !== 2
         description: qsTr("Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.")
         anchors.horizontalCenter: undefined
         width: Math.max(lenRow.width + Noo.fontSize() * 4, melPage.width * 0.49)
@@ -75,9 +75,46 @@ Tflickable {
         }
       }
       EndOnTonicTile {
+        visible: melCombo.currentIndex !== 2
         width: Math.max(checkBox.width + Noo.fontSize() * 4, melPage.width * 0.49)
         checked: creator.endsOnTonic
         checkBox.onClicked: creator.endsOnTonic = checked
+      }
+
+      Tile {
+        width: Math.max(randOrderChB.width + Noo.fontSize() * 4, melPage.width * 0.49)
+        visible: melCombo.currentIndex === 2
+        anchors.horizontalCenter: undefined
+        TcheckBox {
+          id: randOrderChB
+          anchors.horizontalCenter: parent.horizontalCenter
+          text: qsTr("random order")
+          checked: creator.randomOrder
+          onClicked: creator.randomOrder = checked
+        }
+        description: qsTr("When checked, melodies from the list will be asked in random order.")
+      }
+      Tile {
+        width: Math.max(repeatRow.width + Noo.fontSize() * 4, melPage.width * 0.49)
+        visible: melCombo.currentIndex === 2
+        anchors.horizontalCenter: undefined
+        description: qsTr("How many times during an exam a melody from the list has to be played or written correctly.")
+        Row {
+          id: repeatRow
+          spacing: Noo.fontSize()
+          anchors.horizontalCenter: parent.horizontalCenter
+          Text {
+            text: qsTr("number of repeats")
+            anchors.verticalCenter: parent.verticalCenter
+            color: enabled ? activPal.text : disdPal.text
+          }
+          TspinBox {
+            id: repeatSpin
+            from: 1; to: 15
+            value: creator.repeatsNumber
+            onValueModified: creator.repeatsNumber = repeatSpin.value
+          }
+        }
       }
     }
     Item {
@@ -149,7 +186,7 @@ Tflickable {
           var c = Qt.createComponent("qrc:/level/MelodyListView.qml")
           melListView = c.createObject(melodyCol)
           melListView.width = Qt.binding(function() { return melodyCol.width - 10 })
-          melListView.height = Qt.binding(function() { return melPage.height - topTile.height })
+          melListView.height = Qt.binding(function() { return melPage.height - topTile.height - melGrid.height })
         }
         melListView.setLevel(creator.level())
     } else if (melListView) {
