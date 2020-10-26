@@ -43,7 +43,7 @@ TQAunit::TQAunit(Texam* exam)
   m_effectiveness = 0.0;
   m_exam = exam;
   m_srcMelody = e_srcNoMelody;
-  idOfMelody = -1;
+  p_idOfMelody = -1;
   m_answered = false;
 }
 
@@ -61,12 +61,12 @@ void TQAunit::copy(const TQAunit& otherUnit) {
       deleteMelody();
       m_melody = nullptr;
       attemptList = nullptr;
-      idOfMelody = -1;
+      p_idOfMelody = -1;
       m_srcMelody = e_srcNoMelody;
   } else {
       m_melody = otherUnit.melody();
       attemptList = otherUnit.attemptList;
-      idOfMelody = otherUnit.idOfMelody;
+      p_idOfMelody = otherUnit.p_idOfMelody;
       m_srcMelody = otherUnit.melodySource();
   }
   m_answered = otherUnit.answered();
@@ -138,7 +138,7 @@ void TQAunit::addMelody(Tmelody* mel, TQAunit::EmelodySrc source, int id) {
   deleteMelody();
   m_srcMelody = source;
   m_melody = mel;
-  idOfMelody = id;
+  p_idOfMelody = id;
 }
 
 
@@ -180,9 +180,9 @@ void TQAunit::toXml(QXmlStreamWriter& xml) {
             xml.writeAttribute(QLatin1String("title"), melody()->title());
             melody()->toXml(xml);
         } else if (m_srcMelody == e_srcOtherUnit)
-            xml.writeAttribute(QLatin1String("qNr"), QVariant(idOfMelody).toString());
+            xml.writeAttribute(QLatin1String("qNr"), QVariant(p_idOfMelody).toString());
         else if (m_srcMelody == e_srcLevelSet)
-            xml.writeAttribute(QLatin1String("id"), QVariant(idOfMelody).toString());
+            xml.writeAttribute(QLatin1String("id"), QVariant(p_idOfMelody).toString());
       xml.writeEndElement();
       xml.writeStartElement(QLatin1String("attempts"));
       for (int i = 0; i < attemptsCount(); ++i) {
