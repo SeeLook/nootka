@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -29,6 +29,7 @@ Grid {
       index: 1
       width: height * 4
       score: results.answersText
+      onGetTip: showTip(results.answersHint())
       hi: popLoader.item && popLoader.item.senderIndex === index
     }
     ProgressBar {
@@ -38,7 +39,16 @@ Grid {
       width: resultsItem.width / 5; height: nootkaWindow.width / 70
       from: 0; to: results.progressMax
       value: results.progressValue
-      hoverEnabled: true
+      hoverEnabled: !Noo.isAndroid()
+
+      onHoveredChanged: {
+        if (GLOB.showHints) {
+          if (hovered)
+            Noo.setStatusTip(results.progressHint(), Item.Top)
+          else
+            Noo.setStatusTip("", Item.Top)
+        }
+      }
 
       background: Rectangle { // can not be null to handle mouse click/tap
         width: control.width; height: control.height * 0.8; y: control.height * 0.1
@@ -86,6 +96,7 @@ Grid {
       index: 3
       width: height * 4
       score: results.totalText
+      onGetTip: showTip(results.summaryHint())
       hi: popLoader.item && popLoader.item.senderIndex === index
     }
   }
@@ -97,18 +108,21 @@ Grid {
     ResultLabel {
       index: 4
       score: results.correctAnswers
+      onGetTip: showTip(results.correctHint())
       bg: GLOB.correctColor
       hi: popLoader.item && popLoader.item.senderIndex === index
     }
     ResultLabel {
       index: 5
       score: results.halfAnswers
+      onGetTip: showTip(results.halfHint())
       bg: GLOB.notBadColor
       hi: popLoader.item && popLoader.item.senderIndex === index
     }
     ResultLabel {
       index: 6
       score: results.wrongAnswers
+      onGetTip: showTip(results.wrongHint())
       bg: GLOB.wrongColor
       hi: popLoader.item && popLoader.item.senderIndex === index
     }
@@ -117,24 +131,28 @@ Grid {
       index: 7
       width: height * 4
       score: results.effectiveness
+      onGetTip: showTip(results.effectHint())
       hi: popLoader.item && popLoader.item.senderIndex === index
     }
     ResultLabel {
       index: 8
       width: height * 2.5
       score: results.averText
+      onGetTip: showTip(results.averageHint())
       hi: popLoader.item && popLoader.item.senderIndex === index
     }
     ResultLabel {
       index: 9
       width: height * 2.5
       score: results.reactText
+      onGetTip: showTip(results.answerTimeTxt())
       hi: popLoader.item && popLoader.item.senderIndex === index
     }
     ResultLabel {
       index: 10
       width: height * 3
       score: results.totalTimeText
+      onGetTip: showTip(results.examTimeTxt())
       hi: popLoader.item && popLoader.item.senderIndex === index
     }
   }
