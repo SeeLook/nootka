@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -53,7 +53,9 @@ int TexamView::halfAnswers() const { return m_exam ? m_exam->halfMistaken() : 0;
 int TexamView::wrongAnswers() const { return m_exam ? m_exam->mistakes() : 0; }
 
 QString TexamView::reactText() const {
-  return m_exam && m_exam->count() ? QString("%1").arg(Texam::formatReactTime(m_questionTime.elapsed() / 100 + m_exam->curQ()->time)) : QLatin1String(" 0.0 ");
+  if (!m_exam || m_exam->count() <1)
+    return QLatin1String(" 0.0 ");
+  return QString("%1").arg(Texam::formatReactTime((m_showReact ? m_questionTime.elapsed() / 100 : 0) + m_exam->curQ()->time));
 }
 QString TexamView::effectiveness() const { return m_effectivenessText; }
 QString TexamView::averText() const {
@@ -253,12 +255,12 @@ QString TexamView::wrongHint() const {
 QString TexamView::effectHint() const {
   QString eff = effectiveness();
   return (eff.contains(QLatin1String("(")) ? tr("Exam effectiveness (this question effectiveness)") : TexTrans::effectTxt())
-        + QLatin1String(": ") + effectiveness();
+      + QLatin1String(": ") + effectiveness();
 }
 
 
 QString TexamView::averageHint() const {
-  return TexTrans::averAnsverTimeTxt() + QString(": <b>%1</b> ").arg(averText()) + TexTrans::inSecondsTxt();
+  return TexTrans::averAnsverTimeTxt() + QString(": <b>%1</b>").arg(averText());
 }
 
 
