@@ -13,10 +13,6 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// $Id: InterpolateShannon.h 179 2014-01-06 18:41:42Z oparviai $
-//
-////////////////////////////////////////////////////////////////////////////////
-//
 // License :
 //
 //  SoundTouch audio processing library
@@ -61,10 +57,15 @@ protected:
                         const SAMPLETYPE *src, 
                         int &srcSamples);
 
-    float fract;
+    double fract;
 
 public:
     InterpolateShannon();
+
+    int getLatency() const
+    {
+        return 3;
+    }
 };
 
 }

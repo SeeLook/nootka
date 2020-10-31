@@ -8,13 +8,6 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2014-01-07 20:24:28 +0200 (Tue, 07 Jan 2014) $
-// File revision : $Revision: 3 $
-//
-// $Id: STTypes.h 183 2014-01-07 18:24:28Z oparviai $
-//
-////////////////////////////////////////////////////////////////////////////////
-//
 // License :
 //
 //  SoundTouch audio processing library
@@ -60,23 +53,12 @@ typedef unsigned long   ulong;
     #include "soundtouch_config.h"
 #endif
 
-#ifndef _WINDEF_
-    // if these aren't defined already by Windows headers, define now
-
-#if defined(__APPLE__)
-   typedef signed char BOOL;
-#else
-   typedef int BOOL;
-#endif 
-
-    #define FALSE   0
-    #define TRUE    1
-
-#endif  // _WINDEF_
-
 
 namespace soundtouch
 {
+    /// Max allowed number of channels
+    #define SOUNDTOUCH_MAX_CHANNELS     16
+
     /// Activate these undef's to overrule the possible sampletype 
     /// setting inherited from some other header file:
     //#undef SOUNDTOUCH_INTEGER_SAMPLES
@@ -89,7 +71,7 @@ namespace soundtouch
     /// runtime performance so recommendation is to keep this off.
     // #define USE_MULTICH_ALWAYS
 
-    #if (defined(__SOFTFP__))
+    #if (defined(__SOFTFP__) && defined(ANDROID))
         // For Android compilation: Force use of Integer samples in case that
         // compilation uses soft-floating point emulation - soft-fp is way too slow
         #undef  SOUNDTOUCH_FLOAT_SAMPLES
@@ -157,16 +139,19 @@ namespace soundtouch
         #endif // SOUNDTOUCH_FLOAT_SAMPLES
 
         #ifdef SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS
-            // Allow MMX optimizations
-            #define SOUNDTOUCH_ALLOW_MMX   1
+            // Allow MMX optimizations (not available in X64 mode)
+            #if (!_M_X64)
+                #define SOUNDTOUCH_ALLOW_MMX   1
+            #endif
         #endif
 
     #else
 
         // floating point samples
         typedef float  SAMPLETYPE;
-        // data type for sample accumulation: Use double to utilize full precision.
-        typedef double LONG_SAMPLETYPE;
+        // data type for sample accumulation: Use float also here to enable
+        // efficient autovectorization
+        typedef float LONG_SAMPLETYPE;
 
         #ifdef SOUNDTOUCH_ALLOW_X86_OPTIMIZATIONS
             // Allow SSE optimizations
@@ -174,6 +159,12 @@ namespace soundtouch
         #endif
 
     #endif  // SOUNDTOUCH_INTEGER_SAMPLES
+
+    #if ((SOUNDTOUCH_ALLOW_SSE) || (__SSE__) || (SOUNDTOUCH_USE_NEON))
+        #if SOUNDTOUCH_ALLOW_NONEXACT_SIMD_OPTIMIZATION
+            #define ST_SIMD_AVOID_UNALIGNED
+        #endif
+    #endif
 
 };
 
@@ -186,6 +177,7 @@ namespace soundtouch
 #else
     // use c++ standard exceptions
     #include <stdexcept>
+    #include <string>
     #define ST_THROW_RT_ERROR(x)    {throw std::runtime_error(x);}
 #endif
 

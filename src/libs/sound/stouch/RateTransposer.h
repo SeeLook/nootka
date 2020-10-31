@@ -14,13 +14,6 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// Last changed  : $Date: 2014-01-06 20:40:23 +0200 (Mon, 06 Jan 2014) $
-// File revision : $Revision: 4 $
-//
-// $Id: RateTransposer.h 178 2014-01-06 18:40:23Z oparviai $
-//
-////////////////////////////////////////////////////////////////////////////////
-//
 // License :
 //
 //  SoundTouch audio processing library
@@ -81,15 +74,16 @@ protected:
     static ALGORITHM algorithm;
 
 public:
-    float rate;
+    double rate;
     int numChannels;
 
     TransposerBase();
     virtual ~TransposerBase();
 
     virtual int transpose(FIFOSampleBuffer &dest, FIFOSampleBuffer &src);
-    virtual void setRate(float newRate);
+    virtual void setRate(double newRate);
     virtual void setChannels(int channels);
+    virtual int getLatency() const = 0;
 
     // static factory function
     static TransposerBase *newInstance();
@@ -118,7 +112,7 @@ protected:
     /// Output sample buffer
     FIFOSampleBuffer outputBuffer;
 
-    BOOL bUseAAFilter;
+    bool bUseAAFilter;
 
 
     /// Transposes sample rate by applying anti-alias filter to prevent folding. 
@@ -132,33 +126,21 @@ public:
     RateTransposer();
     virtual ~RateTransposer();
 
-    /// Operator 'new' is overloaded so that it automatically creates a suitable instance 
-    /// depending on if we're to use integer or floating point arithmetics.
-//    static void *operator new(size_t s);
-
-    /// Use this function instead of "new" operator to create a new instance of this class. 
-    /// This function automatically chooses a correct implementation, depending on if 
-    /// integer ot floating point arithmetics are to be used.
-//    static RateTransposer *newInstance();
-
     /// Returns the output buffer object
     FIFOSamplePipe *getOutput() { return &outputBuffer; };
-
-    /// Returns the store buffer object
-//    FIFOSamplePipe *getStore() { return &storeBuffer; };
 
     /// Return anti-alias filter object
     AAFilter *getAAFilter();
 
     /// Enables/disables the anti-alias filter. Zero to disable, nonzero to enable
-    void enableAAFilter(BOOL newMode);
+    void enableAAFilter(bool newMode);
 
     /// Returns nonzero if anti-alias filter is enabled.
-    BOOL isAAFilterEnabled() const;
+    bool isAAFilterEnabled() const;
 
     /// Sets new target rate. Normal rate = 1.0, smaller values represent slower 
     /// rate, larger faster rates.
-    virtual void setRate(float newRate);
+    virtual void setRate(double newRate);
 
     /// Sets the number of channels, 1 = mono, 2 = stereo
     void setChannels(int channels);
@@ -172,6 +154,9 @@ public:
 
     /// Returns nonzero if there aren't any samples available for outputting.
     int isEmpty() const;
+
+    /// Return approximate initial input-output latency
+    int getLatency() const;
 };
 
 }

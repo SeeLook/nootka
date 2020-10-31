@@ -13,10 +13,6 @@
 ///
 ////////////////////////////////////////////////////////////////////////////////
 //
-// $Id: InterpolateShannon.cpp 179 2014-01-06 18:41:42Z oparviai $
-//
-////////////////////////////////////////////////////////////////////////////////
-//
 // License :
 //
 //  SoundTouch audio processing library
@@ -180,6 +176,6 @@ int InterpolateShannon::transposeMulti(SAMPLETYPE *pdest,
                     int &srcSamples)
 {
     // not implemented
-    assert(FALSE);
+    assert(false);
     return 0;
 }
