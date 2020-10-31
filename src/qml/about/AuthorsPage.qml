@@ -89,7 +89,7 @@ Tflickable {
             createLink("ogg vorbis", "http://vorbis.com") + " by XIPH" +
             createLink("RtAudio"/* + " & RtMidi"*/, "https://www.music.mcgill.ca/~gary/rtaudio/index.html") + " by G. P. Scavone" +
             createLink("Tartini", "http://miracle.otago.ac.nz/tartini/index.html") + " by P. McLeod" +
-            createLink("SoundTouch", "http://www.surina.net/soundtouch/") + " by Olli Parviainen" +
+            createLink("SoundTouch " + SOUND.soundTouchVersion(), "http://www.surina.net/soundtouch/") + " by Olli Parviainen" +
             createLink("LilyPond emmentaler font", "http://lilypond.org/introduction.html") +
             createLink("Bravura SMuFL font", "https://www.smufl.org/fonts/") +
             "</ul>"

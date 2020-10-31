@@ -75,6 +75,8 @@ public:
 
   static Tsound* instance() { return m_instance; }
 
+  Q_INVOKABLE static QString soundTouchVersion();
+
       /**
        * Initializes sound stack with delay to keep GUI creation quick.
        * It has to be called before audio input and output will be used

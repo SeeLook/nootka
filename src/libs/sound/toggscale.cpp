@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -443,12 +443,12 @@ void ToggScale::decodeAndResample() {
 void ToggScale::adjustSoundTouch() {
   if (m_innerOffset != 0.0 || m_pitchOffset != 0.0 || m_sampleRate != 44100) { // SoundTouch has got a job
       m_touch->setSampleRate(44100);
-      m_touch->setPitchSemiTones(static_cast<float>(m_innerOffset + m_pitchOffset));
+      m_touch->setPitchSemiTones(m_innerOffset + m_pitchOffset);
       if (m_sampleRate != 44100) {
         qreal newRate =  44100.0 / static_cast<qreal>(m_sampleRate);
         m_touch->setRate(newRate);
       }
-//       qDebug() << "SoundTouch sampleRate" << m_sampleRate << "pitch offset" << m_innerOffset + m_pitchOffset;
+      qDebug() << "SoundTouch sampleRate" << m_sampleRate << "pitch offset" << m_innerOffset + m_pitchOffset;
       if (!m_touchConnected)
         connect(m_thread, &QThread::started, this, &ToggScale::decodeAndResample);
       m_touchConnected = true;

@@ -132,6 +132,8 @@ unsigned int            TabstractPlayer::p_beatOffset = 0;
 bool                    TabstractPlayer::p_lastNotePlayed = false;
 int                     TabstractPlayer::p_ticksCountBefore = 0;
 
+QString                 TabstractPlayer::soundTouchVersion() { return SOUNDTOUCH_VERSION; }
+
 
 TabstractPlayer::TabstractPlayer(QObject* parent) :
   QObject(parent),

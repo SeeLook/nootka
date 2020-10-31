@@ -43,6 +43,9 @@
 /* static */
 Tsound* Tsound::m_instance = nullptr;
 
+QString Tsound::soundTouchVersion() { return TabstractPlayer::soundTouchVersion(); }
+
+
 
 #define INT_FACTOR (1.2)
 

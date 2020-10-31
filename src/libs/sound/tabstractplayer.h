@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -176,6 +176,8 @@ public:
        * Dirty mixing of two given samples
        */
   static qint16 mix(qint16 sampleA, qint16 sampleB);
+
+  static QString soundTouchVersion();
 
 signals:
   void playingStarted();
