@@ -313,7 +313,6 @@ QString TchartItem::yAxisTickText(int id) {
   return QString();
 }
 
-
 //#################################################################################################
 //#############  Properties of a tip with question/line/bar info ##################################
 //#################################################################################################
@@ -325,12 +324,20 @@ void TchartItem::setTipItem(TchartTipItem* ti) {
 }
 
 
+/**
+ * Overloaded method called from QML
+ * It invokes @p tipEntered(question) when the question info exists
+ */
+void TchartItem::tipEntered() {
+  if (m_tipItem && m_tipItem->question())
+    tipEntered(m_tipItem->question());
+}
+
+
 void TchartItem::tipEntered(TtipInfo* ti) {
-//   if (m_hoveredItem != ti) {
-    m_enterTimer->start(300);
-    m_leaveTimer->stop();
-    m_hoveredItem = ti;
-//   }
+  m_enterTimer->start(300);
+  m_leaveTimer->stop();
+  m_hoveredItem = ti;
 }
 
 

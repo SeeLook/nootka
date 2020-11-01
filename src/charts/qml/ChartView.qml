@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2019 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2019-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -8,7 +8,7 @@ import QtQuick.Controls 2.2
 
 Flickable {
   id: chartView
-  
+
   property alias list: list
   property real sc: 1.0
   property real lThick: (height / 150.0) * sc
@@ -68,12 +68,12 @@ Flickable {
       height: chartView.height * sc; width: height / 6
     }
   }
-  
+
   ListView {
     id: list
     z: 1
     width: parent.width; height: chartView.height * sc
-    
+
     orientation: ListView.Horizontal
     boundsBehavior: Flickable.StopAtBounds
 

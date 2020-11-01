@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -43,7 +43,7 @@ class TtipInfo
 {
 
 public:
-  
+
   enum Ekind : quint8 { e_point = 0, e_line = 1 };
   TqaPtr*   qaPtr() { return &p_qaPtr; }
   TQAunit*  qaUnit() { return p_qaPtr.qaPtr; }
@@ -150,7 +150,7 @@ private:
   quint16         m_halfMist = 0;
   qreal           m_averTime, m_effectiveness;
   static bool     m_skipWrong;
- 
+
 };
 
 

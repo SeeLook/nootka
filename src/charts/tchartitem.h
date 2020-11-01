@@ -55,7 +55,7 @@ class QTimer;
  * It handles information about average line(s) of linear chart.
  * Tracks which group is actually highlighted @p averLineGroup
  *
- * Also it redirects from chert view delegate to QML what chart item is currently hovered
+ * Also it redirects from chart view delegate to QML what chart item is currently hovered
  * and sends information what has to be displayed in corresponding tip.
  */
 class TchartItem : public QQuickItem
@@ -96,7 +96,7 @@ public:
 
 // Properties of analysis window
   QList<QObject*> recentExamsActions() { return m_recentExamsActs; }
-  
+
       /**
        * Number of actually loaded file matching position on the recent exams list
        * or @p -1 if none
@@ -169,7 +169,8 @@ public:
   void setTipItem(TchartTipItem* ti);
 
   void tipEntered(TtipInfo* ti);
-  void tipExited();
+  Q_INVOKABLE void tipEntered();
+  Q_INVOKABLE void tipExited();
 
   TtipInfo* lineTip() { return m_lineTip; }
 

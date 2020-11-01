@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2018-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2018-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -102,6 +102,7 @@ public:
   QString tipText() const;
 
   void setQuestion(TtipInfo* q);
+  TtipInfo* question() { return m_question; }
 
   void setExam(Texam* e);
 

@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2018-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -12,6 +12,7 @@ import "../"
 
 TipRect {
   id: questTip
+
   property alias tipItem: tipItem
 
   width: tipItem.width; height: tipItem.height
@@ -26,7 +27,21 @@ TipRect {
   color: Qt.tint(activPal.base, Noo.alpha(tipItem.color, 50))
   radius: Noo.fontSize()
 
-  scale: tipItem.show || tipArea.containsMouse ? 1 : 0
+  scale: tipItem.show ? 1 : 0
+
+  // overlay area to catch when mouse exits a tip and hide it
+  MouseArea {
+    id: overArea
+    parent: questTip.parent
+    anchors.fill: parent
+    z: 4999
+    visible: false
+    hoverEnabled: true
+    onEntered: {
+      visible = false
+      chartItem.tipExited()
+    }
+  }
 
   Behavior on scale { NumberAnimation { duration: 200 }}
   Behavior on x { NumberAnimation { duration: 200 }}
@@ -111,7 +126,7 @@ TipRect {
 
     TspinBox {
       id: attemptSpin
-      z: 10; y: scoreRow.y + scoreRow.height - Noo.fontSize()
+      y: scoreRow.y + scoreRow.height - Noo.fontSize()
       anchors.horizontalCenter: parent.horizontalCenter
       visible: tipItem.isMelody && tipItem.tipType === 0
       width: Noo.fontSize() * 15
@@ -169,12 +184,21 @@ TipRect {
         wrapMode: Text.WordWrap
       }
     }
-
-    MouseArea {
-      id: tipArea
-      anchors.fill: parent
-      hoverEnabled: true
-    }
-
   } // tipItem
+
+  MouseArea {
+    id: tipArea
+    anchors.fill: parent
+    hoverEnabled: true
+    onEntered: chartItem.tipEntered()
+    onExited: overArea.visible = true
+    onClicked: { // area covers a spin box, so handle click over it manually
+      if (tipItem.childAt(mouse.x, mouse.y) === attemptSpin) {
+        if (mapToItem(attemptSpin, mouse.x, mouse.y).x > attemptSpin.width / 2)
+          attemptSpin.increase()
+        else
+          attemptSpin.decrease()
+      }
+    }
+  }
 }
