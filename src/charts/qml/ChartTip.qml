@@ -135,7 +135,25 @@ TipRect {
       textFromValue: function(value) {
         return Noo.TR("Texam", "attempt") + " " + value + " " + qsTr("of", "It will give text: 'Attempt x of y'") + " " + to
       }
-      onValueModified: tipItem.setAttemptNr(value)
+      function pressed(m) {
+        if (m.x > width / 2)
+          up.pressed = true
+        else
+          down.pressed = true
+      }
+      function released() {
+        if (down.pressed || up.pressed) {
+          var prevV = value
+          if (up.pressed)
+            increase()
+          else
+            decrease()
+          if (prevV !== value)
+            tipItem.setAttemptNr(value)
+        }
+        up.pressed = false
+        down.pressed = false
+      }
     }
 
     Column {
@@ -192,13 +210,7 @@ TipRect {
     hoverEnabled: true
     onEntered: chartItem.tipEntered()
     onExited: overArea.visible = true
-    onClicked: { // area covers a spin box, so handle click over it manually
-      if (tipItem.childAt(mouse.x, mouse.y) === attemptSpin) {
-        if (mapToItem(attemptSpin, mouse.x, mouse.y).x > attemptSpin.width / 2)
-          attemptSpin.increase()
-        else
-          attemptSpin.decrease()
-      }
-    }
+    onPressed: attemptSpin.pressed(mapToItem(attemptSpin, mouse.x, mouse.y))
+    onReleased: attemptSpin.released()
   }
 }

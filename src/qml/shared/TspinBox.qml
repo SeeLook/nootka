@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2019 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2019-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -17,13 +17,13 @@ SpinBox {
     z: 2
     width: sb.width - 2 * sb.height
     text: sb.textFromValue(sb.value, sb.locale)
-    
+
     font: sb.font
     color: sb.enabled ? activPal.text : disdPal.text
     selectionColor: activPal.highlight
     selectedTextColor: activPal.highlightedText
     horizontalAlignment: Qt.AlignHCenter; verticalAlignment: Qt.AlignVCenter
-    
+
     readOnly: !sb.editable
     validator: sb.validator
     inputMethodHints: Qt.ImhFormattedNumbersOnly
@@ -52,7 +52,7 @@ SpinBox {
       rotation: 90
     }
   }
-  
+
   down.indicator: TipRect {
     x: sb.mirrored ? sb.width - sb.height : 0
     implicitHeight: sb.height; implicitWidth: sb.height
