@@ -182,9 +182,8 @@ void TchartTipItem::setSecondScore(TscoreObject* ss) {
 
 
 QString TchartTipItem::resultText() const {
-  if (m_question || m_lastUnit) {
-    auto u = m_question ? m_question->qaUnit() : m_lastUnit;
-    return wasAnswerOKtext(u).replace(QLatin1String("<br>"), QLatin1String(" "));
+  if (m_question && m_question->qaUnit()) {
+    return wasAnswerOKtext(m_question->qaUnit()).replace(QLatin1String("<br>"), QLatin1String(" "));
   }
   return QString();
 }
@@ -213,8 +212,6 @@ QString TchartTipItem::tipText() const {
 void TchartTipItem::setQuestion(TtipInfo* q) {
   if (m_question != q) {
     bool emitShow = m_question == nullptr || q == nullptr;
-    if (m_question)
-      m_lastUnit = m_question->qaUnit();
     m_question = q;
     if (emitShow)
       emit showChanged();
@@ -267,7 +264,6 @@ void TchartTipItem::setQuestion(TtipInfo* q) {
 
 void TchartTipItem::setExam(Texam* e) {
   m_exam = e;
-  m_lastUnit = nullptr;
   m_leftScore->clearScore();
   emit examChanged();
   if (!m_exam->melodies()) {
@@ -289,10 +285,11 @@ int TchartTipItem::tipType() const {
 
 
 void TchartTipItem::setAttemptNr(int attNr) {
-  if (m_lastUnit && m_lastUnit->attemptsCount()) {
+  auto lastUnit = m_question ? m_question->qaUnit() : nullptr;
+  if (lastUnit && lastUnit->attemptsCount()) {
     for (int n = 0; n < m_leftScore->notesCount(); ++n) {
       if (attNr > 0)
-        m_leftScore->note(n)->markNoteHead(answerColor(m_lastUnit->attempt(attNr - 1)->mistakes[n]));
+        m_leftScore->note(n)->markNoteHead(answerColor(lastUnit->attempt(attNr - 1)->mistakes[n]));
       else
         m_leftScore->note(n)->markNoteHead(Qt::transparent);
     }
@@ -301,28 +298,30 @@ void TchartTipItem::setAttemptNr(int attNr) {
 
 
 QString TchartTipItem::attemptDetails(int attNr) const {
-  if (m_lastUnit && m_lastUnit->attemptsCount() && attNr > 0) {
+  auto lastUnit = m_question ? m_question->qaUnit() : nullptr;
+  if (attNr > 0 && lastUnit && lastUnit->attemptsCount() && lastUnit->attempt(attNr - 1)) {
     static const QString coma = QStringLiteral(", ");
     return QString("<b>%1: </b>").arg((attNr)) + qApp->translate("ChartTip", "played", "a melody was played (and number follows)")
-          + QString(" <b>%1</b>").arg(m_lastUnit->attempt(attNr - 1)->playedCount()) + coma + TexTrans::effectTxt().toLower()
-          + QString(": <b>%1%</b>").arg(m_lastUnit->attempt(attNr - 1)->effectiveness(), 0, 'f', 1, '0') + coma
-          + qApp->translate("ChartTip", "time") + ": " + QString("<b>  %1</b>").arg(Texam::formatReactTime(m_lastUnit->attempt(attNr - 1)->totalTime(), true));
+          + QString(" <b>%1</b>").arg(lastUnit->attempt(attNr - 1)->playedCount()) + coma + TexTrans::effectTxt().toLower()
+          + QString(": <b>%1%</b>").arg(lastUnit->attempt(attNr - 1)->effectiveness(), 0, 'f', 1, '0') + coma
+          + qApp->translate("ChartTip", "time") + ": " + QString("<b>  %1</b>").arg(Texam::formatReactTime(lastUnit->attempt(attNr - 1)->totalTime(), true));
   }
   return QString();
 }
 
 
 QString TchartTipItem::attemptResult(int attNr) const {
-  if (m_lastUnit && attNr > 0) {
+  if (m_question && attNr > 0) {
+    auto lastUnit = m_question->qaUnit();
     QColor attemptColor = GLOB->correctColor();
-    if (m_lastUnit->attempt(attNr - 1)->summary()) { // something was wrong
-      if (m_lastUnit->attempt(attNr - 1)->summary() & TQAunit::e_wrongNote)
+    if (lastUnit->attempt(attNr - 1) && lastUnit->attempt(attNr - 1)->summary()) { // something was wrong
+      if (lastUnit->attempt(attNr - 1)->summary() & TQAunit::e_wrongNote)
         attemptColor = GLOB->wrongColor();
       else
         attemptColor = GLOB->notBadColor();
     }
     return QString("<font color=\"%1\">").arg(attemptColor.name())
-    + wasAnswerOKtext(m_lastUnit, attNr).replace(QLatin1String("<br>"), QLatin1String(" "))
+    + wasAnswerOKtext(lastUnit, attNr).replace(QLatin1String("<br>"), QLatin1String(" "))
     + QLatin1String("</font>");
   }
   return QString();

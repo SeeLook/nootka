@@ -37,10 +37,8 @@ class TQAunit;
  * @p questionTipUpdated and @p lineTipUpdated() are apparently for question tip and line tip
  * @p showChanged is emitted when question or bar get/loose hover to inform QML about tip visibility.
  *
- * All above is done when just after user holds mouse pointer over some chart item,
- * but when answer as melody is previewed and attempt number is selected only chart tip has hover.
- * This is why @p m_lastUnit stores pointer to latest tipped question
- * and @p attemptDetails(), @p attemptResult(), @p setAttemptNr() are methods available from QML
+ * For melodies with attempts to play them
+ * @p attemptDetails(), @p attemptResult(), @p setAttemptNr() are methods available from QML
  */
 class TchartTipItem : public QQuickItem
 {
@@ -128,13 +126,6 @@ private:
   TscoreObject            *m_secondScore = nullptr;
   Texam                   *m_exam = nullptr;
   int                      m_kindOfTip = -1;
-
-      /**
-       * Pointer to latest hovered unit.
-       * It is valid until new exam is set, but when mouse leaves question point it may not make sense.
-       * So far used only to get melody attempt mistakes
-       */
-  TQAunit                 *m_lastUnit = nullptr;
 };
 
 #endif // TCHARTTIPITEM_H

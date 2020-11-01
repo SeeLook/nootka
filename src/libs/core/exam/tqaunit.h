@@ -238,7 +238,7 @@ public:
       /**
        * Pointer to given attempt
        */
-  Tattempt* attempt(int nr) { return attemptList->operator[](nr); }
+  Tattempt* attempt(int nr) { return attemptList && nr < attemptsCount() ? attemptList->operator[](nr) : nullptr; }
 
       /**
        * Pointer to the last attempt
