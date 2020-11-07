@@ -319,7 +319,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
       disconnect(MAIN_SCORE, &TmainScoreObject::readOnlyNoteClicked, this, &TexamExecutor::correctNoteOfMelody);
       int melodyLength = qBound(qMax(2, qRound(m_level.melodyLen * 0.7)), //at least 70% of length but not less than 2
                                       qRound(((6.0 + (qrand() % 5)) / 10.0) * (qreal)m_level.melodyLen), (int)m_level.melodyLen);
-      qDebug() << "========== Asking melody" << m_exam->count();
+//       qDebug() << "========== Asking melody" << m_exam->count();
       if (m_penalty->isNot()) {
           TrhythmList rhythms;
           if (!m_level.isMelodySet()) {
@@ -346,7 +346,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
                 // Set the next melody ID:
                 // It may be the same ID when repetition number is not fulfilled
                 // or the next melody when repeated enough or this is exercise
-                  qDebug() << "[MELODY SET] ID" << m_melody->lastMelodyId() << "repeat" << m_melody->repeatCounter() << "of" << m_level.repeatNrInSet;
+//                   qDebug() << "[MELODY SET] ID" << m_melody->lastMelodyId() << "repeat" << m_melody->repeatCounter() << "of" << m_level.repeatNrInSet;
                   m_melody->nextRepeat();
                   if (m_exercise || m_melody->repeatCounter() > m_level.repeatNrInSet) {
                     m_melody->setRepeat(1);

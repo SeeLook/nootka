@@ -236,8 +236,8 @@ void TnoteItem::setNote(const Tnote& n) {
     updateStem = true;
   }
 
-if (updateStem)
-  checkStem();
+  if (updateStem)
+    checkStem();
 
   updateAlter();
   updateWidth();
@@ -422,9 +422,10 @@ void TnoteItem::setNoteNameVisible(bool nameVisible) {
  */
 QString TnoteItem::getHeadText(const Trhythm& r) {
   if (r.rhythm() == Trhythm::NoRhythm)
-      return QStringLiteral("\uf4be"); // just black note-head
-      if (r.isRest())
-        return QString(QChar(0xe4e2 + static_cast<int>(r.rhythm())));
+    return QStringLiteral("\uf4be"); // just black note-head
+
+  if (r.isRest())
+    return QString(QChar(0xe4e2 + static_cast<int>(r.rhythm())));
   else {
       if (r.rhythm() == Trhythm::Whole)
         return QStringLiteral("\uf468");
