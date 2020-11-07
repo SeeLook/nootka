@@ -28,12 +28,13 @@
 
 
 // This part of code is directly taken from Tartini musicnotes.h --------------------
-  /** Converts the frequencies freq (in hertz) into their note number on the midi scale
-    i.e. the number of semi-tones above C0
-    Note: The note's pitch will contain its fractional part
-    Reference = http://www.borg.com/~jglatt/tutr/notenum.htm
-    @param freq The frequency in Hz
-    @return The pitch in fractional part semitones from the midi scale. */
+  /**
+   * Converts the frequencies freq (in hertz) into their note number on the midi scale
+   * i.e. the number of semi-tones above C0
+   * NOTE: The note's pitch will contain its fractional part
+   * Reference = http://www.borg.com/~jglatt/tutr/notenum.htm
+   * @param freq The frequency in Hz
+   * @return The pitch in fractional part semitones from the midi scale. */
 inline qreal freq2pitch(qreal freq)
 {
 #ifdef log2
@@ -43,7 +44,9 @@ inline qreal freq2pitch(qreal freq)
 #endif
 }
 
-    /** Does the opposite of the function above */
+    /**
+     * Does the opposite of the function @p freq2pitch()
+     */
 inline qreal pitch2freq(qreal note) {
   return TnoteStruct::pitchToFreq(note);
 }
@@ -70,6 +73,7 @@ class QFile;
  */
 class NOOTKASOUND_EXPORT TpitchFinder : public QObject
 {
+
   Q_OBJECT
 
 public:
@@ -77,27 +81,32 @@ public:
   virtual ~TpitchFinder();
 
   enum EnoteState {
-    e_silence, // nothing was noticed in processed chunk - probably silence
-    e_noticed, // note was noticed by Tartini and is loud enough but is too short for Nootka
-    e_playing  // note is playing longer then minimal duration
+    e_silence, /**< Nothing was noticed in processed chunk - probably silence */
+    e_noticed, /**< note was noticed by Tartini and is loud enough but is too short for Nootka */
+    e_playing  /**< note is playing longer then minimal duration */
   };
+  Q_ENUM(EnoteState)
 
-  /** Those are levels of pitch detection ranges.
-     * @p e_high - for violin, flute, piccolo - corresponds with treble clef.
-     *               It starts form about F in small octave.
-     * @p e_middle - for guitars, cello and so - corresponds with treble dropped and bass clefs
-     *               It starts form about F in contra octave.
-     * @p e_low - for bass guitar and double bass - corresponds with bass clef, piano staff
-     *               It is sufficient to detect lowest notes.
-     */
+      /**
+       * Those are levels of pitch detection ranges.
+       * @p e_high - for violin, flute, piccolo - corresponds with treble clef.
+       *               It starts form about F in small octave.
+       * @p e_middle - for guitars, cello and so - corresponds with treble dropped and bass clefs
+       *               It starts form about F in contra octave.
+       * @p e_low - for bass guitar and double bass - corresponds with bass clef, piano staff
+       *               It is sufficient to detect lowest notes.
+       */
   enum Erange {
-    e_high = 0,
-    e_middle = 1,
-    e_low = 2
+    e_high = 0,   /**< for violin, flute, piccolo - corresponds with treble clef. It starts form about F in small octave. */
+    e_middle = 1, /**< for guitars, cello and so - corresponds with treble dropped and bass clefs. It starts form about F in contra octave. */
+    e_low = 2     /**< for bass guitar and double bass - corresponds with bass clef, piano staff It is sufficient to detect lowest notes. */
   };
   Q_ENUM(Erange)
 
-  TartiniParams* aGl() { return m_aGl; } /**< global settings for pitch recognition. */
+      /**
+       * global settings for pitch recognition.
+       */
+  TartiniParams* aGl() { return m_aGl; }
 
   bool isBussy() const { return m_isBussy; }
 
@@ -127,30 +136,48 @@ public:
        */
   void stop(bool resetAfter = false);
 
-      /** Changes default 44100 sample rate to given value. It takes effect only after resetFinder().
-        * @p range is TaudioParams::Erange cast. Default is e_middle
-        * Better don't call this during processing. */
+      /**
+       * Changes default 44100 sample rate to given value. It takes effect only after resetFinder().
+       * @p range is TaudioParams::Erange cast. Default is e_middle
+       * Better don't call this during processing.
+       */
   void setSampleRate(unsigned int sRate, int range = 1);
 
-        /** Only notes with volume above this value are sending.
-          * If note has got such volume it is observed till its end - even below. */
+      /**
+       * Only notes with volume above this value are sending.
+       * If note has got such volume it is observed till its end - even below.
+       */
   void setMinimalVolume(float vol) { m_minVolume = vol; }
 
-  qreal chunkTime() const { return m_chunkTime; } /**< Duration time of chunk for current sample rate and frames per chunk. */
-  void setMinimalDuration(float dur) { m_minDuration = dur; m_minChunks = qRound((qreal)m_minDuration / m_chunkTime); }
-  float minimalDuration() const { return m_minDuration; } /**< Minimum acceptable duration of a note to be pitch-detected. */
-  int minChunksNumber() const { return m_minChunks; } /**< Minimal number of chunks in note to be pitch-detected. */
+      /**
+       * Duration time of chunk for current sample rate and frames per chunk.
+       */
+  qreal chunkTime() const { return m_chunkTime; }
 
-      /** Determines whether increased volume of played note split it.
+  void setMinimalDuration(float dur) { m_minDuration = dur; m_minChunks = qRound((qreal)m_minDuration / m_chunkTime); }
+
+      /**
+       * Minimum acceptable duration of a note to be pitch-detected.
+       */
+  float minimalDuration() const { return m_minDuration; }
+
+      /**
+       * Minimal number of chunks in note to be pitch-detected.
+       */
+  int minChunksNumber() const { return m_minChunks; }
+
+      /**
+       * Determines whether increased volume of played note split it.
        * Tartini doesn't detect this so extra checking will be done if @p TRUE.
-       * Volume threshold can be set through @p setSplitValue() */
+       * Volume threshold can be set through @p setSplitValue()
+       */
   void setSplitByVolChange(bool sp) { m_splitByVol = sp; }
   bool isSplitByVolume() const { return m_splitByVol; }
 
   void setSplitVolume(qreal volToSplit) { m_minVolToSplit = qMax<qreal>(volToSplit, 0.05); }
   qreal minVolumeToSplit() const { return m_minVolToSplit; }
 
-      /** 
+      /**
        * multiplexer of sound volume (aka %) that determines minimum volume of next note to be pitch-detected.
        * i.e. - value of 0.8 determines that note has to have at least 80% volume of average volume
        */
@@ -159,9 +186,11 @@ public:
 
   TnoteStruct* lastNote() { return &m_currentNote; }
 
-      /** In offline mode pitch detecting isn't performed in separate thread.
+      /**
+       * In offline mode pitch detecting isn't performed in separate thread.
        * After collecting audio data in buffer, detection is performed
-       * and no data is retrieving until detection in current chunk is finished. */
+       * and no data is retrieving until detection in current chunk is finished.
+       */
   bool isOffline() const { return m_isOffline; }
   void setOffLine(bool off);
 
@@ -182,7 +211,8 @@ public:
       return e_high;
     else if (m_rateRatio == 2.0f)
       return e_low;
-    else return e_middle;
+    else
+      return e_middle;
   }
 
   float pcmVolume() const { return m_pcmVolume; }
@@ -223,7 +253,7 @@ private:
   void detect();
 
       /**
-       * Cleans all buffers, sets m_chunkNum to 0.
+       * Cleans all buffers, sets @p m_chunkNum to 0.
        */
   void resetFinder();
   void createDumpFile();
