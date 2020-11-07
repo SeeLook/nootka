@@ -22,6 +22,6 @@ build-amd64:
     - appimage-builder --skip-test
 
   artifacts:
-    name:  "Nootka-$VERSION"
+    name:  "Nootka-$(head -1 $PWD/changes | sed 's/\ /-/g')-b$(git rev-list HEAD --count)"
     paths:
       - '*.AppImage*'

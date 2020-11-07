@@ -35,6 +35,17 @@ AppDir:
       - libvorbis-dev
       - libpulse-dev
       - libjack-dev
+      - libxcb-render-util0
+      - libxcb-sync1
+      - libxcb-xinerama0
+      - libxcb-xkb1
+      - libxdamage1
+      - libxdmcp6
+      - libxext6
+      - libxfixes3
+      - libxrender1
+      - libxshmfence1
+      - libxxf86vm1
       - qml-module-qtquick2
       - qml-module-qtquick-dialogs
       - qml-module-qtquick-controls
@@ -43,7 +54,6 @@ AppDir:
 
       
       # the following X libs are not resolved by apt
-      - libxrender1
       - libxcursor1
 
     exclude:
