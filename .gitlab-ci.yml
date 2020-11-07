@@ -17,7 +17,8 @@ build-amd64:
     - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_STATIC_LIB=ON .
     - DESTDIR=AppDir make install
     - export QML_SOURCES_PATHS=$PWD/src/qml
-    - export VERSION="head -1 $PWD/changes | sed 's/\ /-/g'"
+    - export VERSION="$(head -1 $PWD/changes | sed 's/\ /-/g')"
+    - echo "$(git rev-list HEAD --count)"
     - appimage-builder --skip-test
 
   artifacts:
