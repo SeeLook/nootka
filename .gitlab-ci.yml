@@ -16,11 +16,12 @@ build-amd64:
   script:
     - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_STATIC_LIB=ON .
     - DESTDIR=AppDir make install
+    - mv AppDir/usr/share/metainfo/nootka.appdata.xml AppDir/usr/share/metainfo/sf.net.nootka.appdata.xml
     - export QML_SOURCES_PATHS=$PWD/src/qml
-    - export VERSION="$(head -1 $PWD/changes | sed 's/\ /-/g')"
-    - echo "$(git rev-list HEAD --count)"
+    - export VERSION="$(head -1 $PWD/changes | sed 's/\ /-/g')"-b"$(git rev-list HEAD --count)"
     - appimage-builder --skip-test
 
   artifacts:
+    name:  "Nootka-$VERSION"
     paths:
       - '*.AppImage*'
