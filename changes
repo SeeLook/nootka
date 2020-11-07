@@ -1,6 +1,7 @@
 1.7.3 git
      - exam melodies can be played in order from melody set
      - user can define repeats number of melodies from the set
+     - updated SoundTouch library version to 2.2 (Windows&Android)
 
 1.7.2 beta2
      - improved rhythm detection
