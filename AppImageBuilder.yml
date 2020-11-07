@@ -7,7 +7,7 @@ AppDir:
     id: sf.net.nootka
     name: Nootka
     icon: nootka
-    version: 1.7.1-beta2 #!ENV ${VERSION}
+    version: !ENV ${VERSION}
     exec: usr/bin/nootka
 
   apt:
@@ -26,6 +26,8 @@ AppDir:
       - libqt5svg5
       - libqt5opengl5
       - libqt5quickwidgets5
+      - libqt5x11extras5
+      - libqt5printsupport5
       - libsoundtouch-dev
       - libfftw3-dev
       - libasound2-dev
@@ -37,6 +39,7 @@ AppDir:
       - qml-module-qtquick-dialogs
       - qml-module-qtquick-controls
       - qml-module-qtquick-controls2
+      - qml-module-qtquick-window2
 
       
       # the following X libs are not resolved by apt
