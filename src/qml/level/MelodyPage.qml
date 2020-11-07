@@ -98,7 +98,7 @@ Tflickable {
         width: Math.max(repeatRow.width + Noo.fontSize() * 4, melPage.width * 0.49)
         visible: melCombo.currentIndex === 2
         anchors.horizontalCenter: undefined
-        description: qsTr("How many times during an exam a melody from the list has to be played or written correctly.")
+        description: qsTr("How many times during an exam a melody from the list has to be played or written correctly. Warning! It multiplies question number.")
         Row {
           id: repeatRow
           spacing: Noo.fontSize()
