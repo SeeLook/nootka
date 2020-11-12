@@ -58,8 +58,8 @@ MouseArea {
       anchors.fill: parent
       interactive: false
       readOnly: true
-      bgColor: wrapArea.held ? Qt.tint(activPal.base, Noo.alpha(activPal.text, 50)) : (nr === melListView.currentMelody ? Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 50)) : activPal.base)
-      //bgColor: nr === melListView.currentMelody ? Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 50)) : activPal.base
+      bgColor: Qt.tint(activPal.base, Noo.alpha(wrapArea.held ? activPal.text : (nr === melListView.currentMelody ? activPal.highlight : activPal.base), 50))
+      Behavior on bgColor { enabled: GLOB.useAnimations; ColorAnimation { duration: 150 } }
     }
 
     Rectangle { // this is part of covering rectangle
@@ -107,8 +107,11 @@ MouseArea {
   DropArea {
     anchors { fill: parent; margins: 10 }
     onEntered: {
-      if (drag.source.nr !== wrapArea.nr)
+      if (drag.source.nr !== wrapArea.nr) {
+        if (drag.source.nr === melListView.currentMelody)
+          melListView.currentMelody = wrapper.nr
         melListView.moveMelody(drag.source.nr, wrapArea.nr)
+      }
     }
   }
 }

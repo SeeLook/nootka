@@ -26,7 +26,7 @@ TmelodyListView {
     Text {
       visible: !melView.visible
       width: melListView.width - Noo.fontSize() * 4
-      text: "\n\n" + qsTr("Add here melodies from Music XML files.\nConsider to divide long pieces on parts in external software first.")
+      text: "\n\n" + qsTr("Add here melodies from Music XML files.\nBut better keep them short, so divide them first in some external software.")
       horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap
     }
     Item {
@@ -51,7 +51,11 @@ TmelodyListView {
         }
         move: Transition {
           enabled: GLOB.useAnimations
-          NumberAnimation { property: "y"; from: -Noo.fontSize() * 4 }
+          NumberAnimation { property: "y" }
+        }
+        moveDisplaced: Transition {
+          enabled: GLOB.useAnimations
+          NumberAnimation { property: "y" }
         }
         model: melMod
         delegate: MelodyWrapper {
@@ -70,7 +74,30 @@ TmelodyListView {
         width: Noo.fontSize() * 3
         font { pixelSize: Noo.fontSize() * 2; bold: true; family: "Sans" }
         text: "+"; textColor: "green"
-        onClicked: loadMelody()
+        onClicked: {
+          loadMelody()
+          melView.positionViewAtEnd()
+        }
+      }
+      TcuteButton {
+        width: Noo.fontSize() * 3
+        font { pixelSize: Noo.fontSize() * 2; bold: true; family: "Nootka" }
+        text: "\u2191"; textColor: enabled ? "#008080" : disdPal.text
+        enabled: currentMelody > 0
+        onClicked: {
+          moveMelody(currentMelody, currentMelody - 1)
+          currentMelody--
+        }
+      }
+      TcuteButton {
+        width: Noo.fontSize() * 3
+        font { pixelSize: Noo.fontSize() * 2; bold: true; family: "Nootka" }
+        text: "\u2193"; textColor: enabled ? "#008080" : disdPal.text
+        enabled: currentMelody > -1 && currentMelody < melMod.count - 1
+        onClicked: {
+          moveMelody(currentMelody, currentMelody + 1)
+          currentMelody++
+        }
       }
       TcuteButton {
         width: Noo.fontSize() * 3
@@ -82,7 +109,7 @@ TmelodyListView {
     }
   }
   onAppendMelody: melMod.append({})
-  onInsertMelody: melMod.insert(melId, {})
+  onInsertMelody: melMod.insert(melId, {}) // TODO not implemented yet
 
   onMelodiesChanged: creator.melodyListChanged()
 

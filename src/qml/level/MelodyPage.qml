@@ -189,6 +189,7 @@ Tflickable {
           melListView.height = Qt.binding(function() { return melPage.height - topTile.height - melGrid.height })
         }
         melListView.setLevel(creator.level())
+        melListView.currentMelody = -1 // reset selection
     } else if (melListView) {
         melListView.destroy()
     }
