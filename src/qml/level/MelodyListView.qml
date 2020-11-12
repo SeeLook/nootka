@@ -26,15 +26,15 @@ TmelodyListView {
     Text {
       visible: !melView.visible
       width: melListView.width - Noo.fontSize() * 4
-      text: "\n\n" + qsTr("Add here melodies from Music XML files.\nBut better keep them short, so divide them first in some external software.")
+      text: "\n" + qsTr("Add here melodies from Music XML files.\nBut better keep them short, so divide them first in some external software.")
       horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap
     }
     Item {
       id: viewItem
+      visible: melView.count > 0
       width: melListView.width - Noo.fontSize() * 4; height: melListView.height
       ListView {
         id: melView
-        visible: count > 0
         clip: true; spacing: 1
         anchors { fill: parent; margins: 5 }
         add: Transition {
