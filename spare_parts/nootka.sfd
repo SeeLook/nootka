@@ -21,7 +21,7 @@ OS2Version: 0
 OS2_WeightWidthSlopeOnly: 0
 OS2_UseTypoMetrics: 1
 CreationTime: 1411211154
-ModificationTime: 1566554742
+ModificationTime: 1605211409
 PfmFamily: 17
 TTFWeight: 500
 TTFWidth: 5
@@ -86,7 +86,7 @@ NameList: Adobe Glyph List
 DisplaySize: -128
 AntiAlias: 1
 FitToEm: 1
-WinInfo: 372 12 6
+WinInfo: 8580 12 6
 BeginPrivate: 0
 EndPrivate
 Grid
@@ -103,7 +103,7 @@ Grid
  2000 300.199996948 l 1024
   Named: "middle"
 EndSplineSet
-BeginChars: 65539 72
+BeginChars: 65539 74
 
 StartChar: .notdef
 Encoding: 65536 -1 0
@@ -6260,6 +6260,35 @@ SplineSet
  1410.45703125 -2.2763671875 1410.45703125 -2.2763671875 1391.29003906 -2.2763671875 c 0,151,152
  1372.86035156 -2.2763671875 1372.86035156 -2.2763671875 1359.58984375 9.51953125 c 128,-1,153
  1346.3203125 21.314453125 1346.3203125 21.314453125 1346.3203125 47.853515625 c 0,140,141
+EndSplineSet
+EndChar
+
+StartChar: arrowup
+Encoding: 8593 8593 72
+Width: 893
+Flags: WO
+HStem: 439.212 20G<423.891 463.891>
+LayerCount: 2
+Fore
+SplineSet
+443.87890625 459.211914062 m 5,0,-1
+ 840.331054688 63.001953125 l 5,1,-1
+ 47.6689453125 62.759765625 l 5,2,-1
+ 443.87890625 459.211914062 l 5,0,-1
+EndSplineSet
+EndChar
+
+StartChar: arrowdown
+Encoding: 8595 8595 73
+Width: 893
+HStem: 456.212 20G<66.6567 839.331>
+LayerCount: 2
+Fore
+SplineSet
+442.87890625 79.759765625 m 5,0,-1
+ 46.6689453125 476.211914062 l 5,1,-1
+ 839.331054688 475.969726562 l 5,2,-1
+ 442.87890625 79.759765625 l 5,0,-1
 EndSplineSet
 EndChar
 EndChars
