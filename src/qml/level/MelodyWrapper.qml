@@ -1,24 +1,23 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2018-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
 
+import Nootka.Dialogs 1.0
 import Score 1.0
 import "../score"
 
 
-Item {
-  property int nr: 0
-  property alias title: titleText.text
-  property alias composer: composerText.text
-  property alias score: score
-  property alias scoreObj: score.scoreObj
+TmelodyWrapper {
+  score: sc.scoreObj
+  melodyView: melListView
 
   height: Noo.fontSize() * 10
+  x: 5
 
   Score {
-    id: score
+    id: sc
     anchors.fill: parent
     readOnly: true
     bgColor: nr === melListView.currentMelody ? Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 50)) : activPal.base
@@ -30,14 +29,14 @@ Item {
     x: parent.width - scoreCover.width - width
     gradient: Gradient {
       GradientStop { position: 0.0; color: "transparent" }
-      GradientStop { position: 0.75; color: score.bgColor }
+      GradientStop { position: 0.75; color: sc.bgColor }
     }
   }
   Rectangle {
     id: scoreCover
     height: parent.height; width: parent.width - parent.height * 4
     anchors { right: parent.right }
-    color: score.bgColor
+    color: sc.bgColor
   }
 
   Text {
@@ -47,7 +46,7 @@ Item {
   }
 
   Text {
-    id: titleText
+    text: title
     x: parent.width - scoreCover.width
     y: Noo.fontSize() / 4
     font { bold: true; pixelSize: Noo.fontSize() * 1.3 }
@@ -57,7 +56,7 @@ Item {
   }
 
   Text {
-    id: composerText
+    text: composer
     anchors { right: parent.right; rightMargin: Noo.fontSize() / 4 }
     y: Noo.fontSize() * 1.5
     color: wrapArea.containsMouse ? activPal.text : Noo.alpha(activPal.text, 150)

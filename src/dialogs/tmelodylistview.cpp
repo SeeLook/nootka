@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2018-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2018-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -32,10 +32,6 @@
 #endif
 
 #include <QtCore/qdebug.h>
-#include "checktime.h"
-
-
-#define MELODY_LENGHT (15)
 
 
 TmelodyListView::TmelodyListView(QQuickItem* parent) :
@@ -50,15 +46,20 @@ TmelodyListView::~TmelodyListView()
 }
 
 
+void TmelodyListView::setMelodyModel(QObject* mm) {
+  if (mm != m_melodyModel) {
+    m_melodyModel = mm;
+  }
+}
+
+
 /**
  * Load melodies with delay to give time for score creation,
  * otherwise score complains with warnings
  */
 void TmelodyListView::setLevel(Tlevel* l) {
-//   if (m_level != l) {
-    m_level = l;
-    QTimer::singleShot(50, [=]{ loadMelodies(); });
-//   }
+  m_level = l;
+  QTimer::singleShot(50, [=]{ loadMelodies(); });
 }
 
 
@@ -83,9 +84,9 @@ void TmelodyListView::loadMelody() {
   if (!musicXMLfile.isEmpty()) {
     auto melody = new Tmelody();
     if (melody->grabFromMusicXml(musicXMLfile)) {
-      m_melodies << TscoreMelody(nullptr, melody);
+      m_melodies << TmelodyAtList(melody);
       m_melodies.last().delMelody = true;
-      emit addScore();
+      emit appendMelody();
       emit melodiesChanged();
       m_listWasChanged = true;
     }
@@ -96,9 +97,6 @@ void TmelodyListView::loadMelody() {
 /**
  * @p m_emitWhenRemove is a switch determining when @p melodiesChanged() signal is emitted,
  * to inform level creator about level change. Normally it happens when user adds/removes a melody from the list.
- * But when other level was set and it has less number of melodies than current one
- * @p loadMelodies() emits @p removeScore() signal and QML invokes @p removeMelody().
- * We don't want emitting @p melodiesChanged() then, so @p m_emitWhenRemove is set to false
  */
 void TmelodyListView::removeMelody(int id) {
   if (id >= 0 && id < m_melodies.count()) {
@@ -113,30 +111,8 @@ void TmelodyListView::removeMelody(int id) {
 }
 
 
-void TmelodyListView::setScore(int id, TscoreObject* score) {
-  if (id >= 0 && id < m_melodies.count()) {
-    if (m_melodies[id].score == nullptr) {
-        m_melodies[id].score = score;
-        if (m_melodies[id].melody)
-          score->setMelody(m_melodies[id].melody, false, MELODY_LENGHT);
-    } else
-        qDebug() << "[TmelodyListView] score already set for item" << id;
-  }
-}
-
-QString TmelodyListView::title(int melId) {
-  if (melId > -1 && melId < m_melodies.count() && m_melodies[melId].melody)
-    return m_melodies[melId].melody->title();
-  else
-    return QString();
-}
-
-
-QString TmelodyListView::composer(int melId) {
-  if (melId > -1 && melId < m_melodies.count() && m_melodies[melId].melody)
-    return m_melodies[melId].melody->composer();
-  else
-    return QString();
+Tmelody* TmelodyListView::getMelody(int melId) {
+  return melId > -1 && melId < m_melodies.count() ? m_melodies[melId].melody : nullptr;
 }
 
 //#################################################################################################
@@ -144,37 +120,21 @@ QString TmelodyListView::composer(int melId) {
 //#################################################################################################
 
 void TmelodyListView::loadMelodies() {
-CHECKTIME(
+  QMetaObject::invokeMethod(m_melodyModel, "clear");
+  clearMelodyList();
   for (int m = 0; m < m_level->melodySet.count(); ++m) {
-    if (m < m_melodies.count()) {
-        if (m_melodies[m].delMelody) {
-          delete m_melodies[m].melody;
-          m_melodies[m].delMelody = false;
-        }
-        m_melodies[m].melody = &m_level->melodySet[m];
-        m_melodies[m].score->setMelody(m_melodies[m].melody, false, MELODY_LENGHT);
-    } else {
-        m_melodies << TscoreMelody(nullptr, &m_level->melodySet[m]);
-        emit addScore();
-    }
-  }
-  if (m_level->melodySet.count() < m_melodies.count()) {
-    int nrToRemove = m_melodies.count() - m_level->melodySet.count();
-    for (int r = 0; r < nrToRemove; ++r) {
-      m_emitWhenRemove = false;
-      emit removeScore(m_level->melodySet.count() + r);
-    }
+    m_melodies << TmelodyAtList(&m_level->melodySet[m]);
+    emit appendMelody();
   }
   m_listWasChanged = false;
-)
 }
 
 
 void TmelodyListView::clearMelodyList() {
-  for (int m = 0; m < m_melodies.count(); ++m) {
+  int melCnt = m_melodies.count();
+  for (int m = 0; m < melCnt; ++m) {
     if (m_melodies[m].delMelody) {
       delete m_melodies[m].melody;
-      m_melodies[m].delMelody = false;
     }
   }
   m_melodies.clear();

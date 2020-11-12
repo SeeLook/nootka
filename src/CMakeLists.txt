@@ -99,6 +99,7 @@ set(NOOTKA_SRC
   dialogs/tlevelselector.cpp
   dialogs/tlevelheaderwdg.cpp
   dialogs/tmelodylistview.cpp
+  dialogs/tmelodywrapper.cpp
   dialogs/ttunerdialogitem.cpp
   dialogs/trtmselectoritem.cpp
   dialogs/tmelgenitem.cpp

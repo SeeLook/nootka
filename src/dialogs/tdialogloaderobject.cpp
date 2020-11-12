@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,6 +21,7 @@
 #include "tlevelpreviewitem.h"
 #include "tlevelselector.h"
 #include "tmelodylistview.h"
+#include "tmelodywrapper.h"
 #include "ttunerdialogitem.h"
 #include "trtmselectoritem.h"
 #include "tmelgenitem.h"
@@ -63,6 +64,7 @@ TdialogLoaderObject::TdialogLoaderObject(QObject* parent) :
     qmlRegisterType<TlevelPreviewItem>("Nootka.Dialogs", 1, 0, "TlevelPreviewItem");
     qmlRegisterType<TlevelSelector>("Nootka.Dialogs", 1, 0, "TlevelsSelector");
     qmlRegisterType<TmelodyListView>("Nootka.Dialogs", 1, 0, "TmelodyListView");
+    qmlRegisterType<TmelodyWrapper>("Nootka.Dialogs", 1, 0, "TmelodyWrapper");
     qmlRegisterType<TtunerDialogItem>("Nootka.Dialogs", 1, 0, "TtunerDialogItem");
     qmlRegisterType<TrtmSelectorItem>("Nootka.Dialogs", 1, 0, "TrtmSelectorItem");
     qmlRegisterType<TmelGenItem>("Nootka.Dialogs", 1, 0, "TmelGenItem");

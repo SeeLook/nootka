@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2018-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2018-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,21 +29,28 @@ class Tmelody;
 class Tlevel;
 
 
+#define MELODY_LENGHT (15)
+
+
 /**
  * @class TmelodyListView manages melody previews logic displayed by QML
+ * During level edition it keeps list of pointers to every melody in a set.
+ * @class TmelodyAtList stores that pointer corresponding @p bool value
+ * which informs was the melody created here or it was in the level before.
  */
 class TmelodyListView : public QQuickItem
 {
 
   Q_OBJECT
 
-  Q_PROPERTY(int melodiesCount READ melodiesCount NOTIFY melodiesChanged)
+  Q_PROPERTY(QObject* melodyModel READ melodyModel WRITE setMelodyModel)
 
 public:
   explicit TmelodyListView(QQuickItem* parent = nullptr);
   ~TmelodyListView() override;
 
-  int melodiesCount() const { return m_melodies.count(); }
+  QObject* melodyModel() { return m_melodyModel; }
+  void setMelodyModel(QObject* mm);
 
   Q_INVOKABLE void setLevel(Tlevel* l);
   Q_INVOKABLE void save();
@@ -51,34 +58,36 @@ public:
   Q_INVOKABLE void loadMelody();
   Q_INVOKABLE void removeMelody(int id);
 
-  Q_INVOKABLE void setScore(int id, TscoreObject* score);
-  Q_INVOKABLE QString title(int melId);
-  Q_INVOKABLE QString composer(int melId);
+  Tmelody* getMelody(int melId);
 
 signals:
-  void addScore();
+  void appendMelody();
+  void insertMelody(int melId);
   void melodiesChanged();
-  void removeScore(int id);
+  void melodiesCountChanged();
 
 protected:
   void loadMelodies();
   void clearMelodyList();
 
 private:
-  class TscoreMelody
+  /**
+   * Simple class structure to store pointer to a @p Tmelody.
+   * @p delMelody value informs should the melody be deleted because was created here
+   */
+  class TmelodyAtList
   {
-    public:
-      TscoreMelody(TscoreObject* _score = nullptr, Tmelody *_melody = nullptr) : score(_score), melody(_melody) {}
-
-      TscoreObject    *score = nullptr;
-      Tmelody         *melody = nullptr;
-      bool             delMelody = false; /**< if @p TRUE destructor will delete melody instance */
+      public:
+        TmelodyAtList(Tmelody* _melody = nullptr) : melody(_melody) {}
+        Tmelody         *melody = nullptr;
+        bool             delMelody = false; /**< if @p TRUE destructor will delete melody instance */
   };
 
   Tlevel                    *m_level = nullptr;
-  QVector<TscoreMelody>      m_melodies;
-  bool                       m_listWasChanged = false;
+  QVector<TmelodyAtList>     m_melodies;
+  bool                       m_listWasChanged = false; /**< Only when @p TRUE list is saved to a level. */
   bool                       m_emitWhenRemove = true;
+  QObject                   *m_melodyModel = nullptr;
 };
 
 #endif // TMELODYLISTVIEW_H

@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2018-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -17,8 +17,9 @@ TmelodyListView {
 
   property int currentMelody: -1
 
-  // private
-  property var wrappers: []
+  melodyModel: ListModel {
+    id: melMod
+  }
 
   Row {
     Text {
@@ -27,23 +28,33 @@ TmelodyListView {
       text: "\n\n" + qsTr("Add here melodies from Music XML files.\nConsider to divide long pieces on parts in external software first.")
       horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap
     }
-    Tflickable {
+    ListView {
       id: melView
-      visible: false
+      visible: count > 0
+      clip: true; spacing: 1
       width: melListView.width - Noo.fontSize() * 4; height: melListView.height
-      contentHeight: melColumn.height
-      Column {
-        id: melColumn
-  //       clip: true
-        width: parent.width
-        spacing: 1; padding: 5
-        add: Transition {
-          enabled: GLOB.useAnimations
-          NumberAnimation { property: "x"; from: -melListView.width; to: 5 }
-        }
-        move: Transition {
-          enabled: GLOB.useAnimations
-          NumberAnimation { property: "y" }
+      add: Transition {
+        enabled: GLOB.useAnimations
+        NumberAnimation { property: "x"; from: -melListView.width; to: 5 }
+      }
+      remove: Transition {
+        enabled: GLOB.useAnimations
+        NumberAnimation { property: "x"; to: -melListView.width }
+      }
+      populate: Transition {
+        enabled: GLOB.useAnimations
+        NumberAnimation { property: "x"; from: -melListView.width; to: 5 }
+      }
+      move: Transition {
+        enabled: GLOB.useAnimations
+        NumberAnimation { property: "y"; to: -Noo.fontSize() * 4 }
+      }
+      model: melMod
+      delegate: MelodyWrapper {
+        nr: index
+        width: melView.width - 10
+        Component.onCompleted: {
+          updateMelody()
         }
       }
     }
@@ -65,28 +76,14 @@ TmelodyListView {
       }
     }
   }
-  onAddScore: {
-    var c = Qt.createComponent("qrc:/level/MelodyWrapper.qml")
-    var s = c.createObject(melColumn, { "nr": melodiesCount - 1, "title": title(melodiesCount - 1), "composer": composer(melodiesCount - 1) })
-    s.width = Qt.binding(function() { return melColumn.width - 10 })
-    wrappers.push(s)
-    setScore(s.nr, s.scoreObj)
-    melView.visible = true
-  }
+  onAppendMelody: melMod.append({})
+  onInsertMelody: melMod.insert(melId, {})
 
   onMelodiesChanged: creator.melodyListChanged()
-  onRemoveScore: removeWrapper(id)
 
   function removeWrapper(id) {
-    if (id < wrappers.length) {
-      removeMelody(id)
-      wrappers[id].destroy()
-      wrappers.splice(id, 1)
-      currentMelody = -1
-      for (var i = 0; i < wrappers.length; ++i)
-        wrappers[i].nr = i
-    }
-    if (wrappers.length < 1)
-      melView.visible = false
+    melMod.remove(id)
+    removeMelody(id)
+    currentMelody = -1
   }
 }
