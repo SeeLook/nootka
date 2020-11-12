@@ -111,6 +111,16 @@ void TmelodyListView::removeMelody(int id) {
 }
 
 
+void TmelodyListView::swapMelodies(int from, int to) {
+  if (from > -1 && from < m_melodies.count() && to > -1 && to < m_melodies.count()) {
+      m_melodies.move(from, to);
+      m_listWasChanged = true;
+      emit melodiesChanged();
+  } else
+      qDebug() << "[TmelodyListView] FIXME! Wrong melodies to swap";
+}
+
+
 Tmelody* TmelodyListView::getMelody(int melId) {
   return melId > -1 && melId < m_melodies.count() ? m_melodies[melId].melody : nullptr;
 }

@@ -57,6 +57,7 @@ public:
 
   Q_INVOKABLE void loadMelody();
   Q_INVOKABLE void removeMelody(int id);
+  Q_INVOKABLE void swapMelodies(int from, int to);
 
   Tmelody* getMelody(int melId);
 

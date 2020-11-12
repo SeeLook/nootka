@@ -16,6 +16,7 @@ TmelodyListView {
   id: melListView
 
   property int currentMelody: -1
+  property alias viewRoot: viewItem
 
   melodyModel: ListModel {
     id: melMod
@@ -28,33 +29,37 @@ TmelodyListView {
       text: "\n\n" + qsTr("Add here melodies from Music XML files.\nConsider to divide long pieces on parts in external software first.")
       horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap
     }
-    ListView {
-      id: melView
-      visible: count > 0
-      clip: true; spacing: 1
+    Item {
+      id: viewItem
       width: melListView.width - Noo.fontSize() * 4; height: melListView.height
-      add: Transition {
-        enabled: GLOB.useAnimations
-        NumberAnimation { property: "x"; from: -melListView.width; to: 5 }
-      }
-      remove: Transition {
-        enabled: GLOB.useAnimations
-        NumberAnimation { property: "x"; to: -melListView.width }
-      }
-      populate: Transition {
-        enabled: GLOB.useAnimations
-        NumberAnimation { property: "x"; from: -melListView.width; to: 5 }
-      }
-      move: Transition {
-        enabled: GLOB.useAnimations
-        NumberAnimation { property: "y"; to: -Noo.fontSize() * 4 }
-      }
-      model: melMod
-      delegate: MelodyWrapper {
-        nr: index
-        width: melView.width - 10
-        Component.onCompleted: {
-          updateMelody()
+      ListView {
+        id: melView
+        visible: count > 0
+        clip: true; spacing: 1
+        anchors { fill: parent; margins: 5 }
+        add: Transition {
+          enabled: GLOB.useAnimations
+          NumberAnimation { property: "x"; from: -melListView.width; to: 0 }
+        }
+        remove: Transition {
+          enabled: GLOB.useAnimations
+          NumberAnimation { property: "x"; to: -melListView.width }
+        }
+        populate: Transition {
+          enabled: GLOB.useAnimations
+          NumberAnimation { property: "x"; from: -melListView.width; to: 0 }
+        }
+        move: Transition {
+          enabled: GLOB.useAnimations
+          NumberAnimation { property: "y"; from: -Noo.fontSize() * 4 }
+        }
+        model: melMod
+        delegate: MelodyWrapper {
+          nr: index
+          width: melView.width - 10
+          Component.onCompleted: {
+            updateMelody()
+          }
         }
       }
     }
@@ -70,7 +75,7 @@ TmelodyListView {
       TcuteButton {
         width: Noo.fontSize() * 3
         font { pixelSize: Noo.fontSize() * 2; bold: true; family: "Sans" }
-        text: "-"; textColor: "red"
+        text: "-"; textColor: enabled ? "red" : disdPal.text
         enabled: currentMelody > -1
         onClicked: removeWrapper(currentMelody)
       }
@@ -85,5 +90,9 @@ TmelodyListView {
     melMod.remove(id)
     removeMelody(id)
     currentMelody = -1
+  }
+  function moveMelody(from, to) {
+    melMod.move(from, to, 1)
+    swapMelodies(from, to)
   }
 }

@@ -8,66 +8,107 @@ import Nootka.Dialogs 1.0
 import Score 1.0
 import "../score"
 
-
-TmelodyWrapper {
-  score: sc.scoreObj
-  melodyView: melListView
+MouseArea {
+  id: wrapArea
 
   height: Noo.fontSize() * 10
-  x: 5
 
-  Score {
-    id: sc
-    anchors.fill: parent
-    readOnly: true
-    bgColor: nr === melListView.currentMelody ? Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 50)) : activPal.base
-  }
+  property bool held: false
+  property alias nr: wrapper.nr
 
-  Rectangle { // this is part of covering rectangle
-    height: parent.height; width: parent.height
-    rotation: -90;
-    x: parent.width - scoreCover.width - width
-    gradient: Gradient {
-      GradientStop { position: 0.0; color: "transparent" }
-      GradientStop { position: 0.75; color: sc.bgColor }
+  function updateMelody() { wrapper.updateMelody() }
+
+  hoverEnabled: true
+  drag.target: wrapArea.held ? wrapper : undefined
+  drag.axis: Drag.YAxis
+
+  onPressAndHold: wrapArea.held = true
+  onReleased: wrapArea.held = false
+  onClicked: melListView.currentMelody = nr
+
+  TmelodyWrapper {
+    id: wrapper
+
+    score: sc.scoreObj
+    melodyView: melListView
+
+    width: wrapArea.width; height: wrapArea.height
+
+    Drag.active: wrapArea.held
+    Drag.source: wrapArea
+    Drag.hotSpot.x: width / 2
+    Drag.hotSpot.y: height / 2
+
+    anchors {
+      horizontalCenter: parent.horizontalCenter
+      verticalCenter: parent.verticalCenter
     }
-  }
-  Rectangle {
-    id: scoreCover
-    height: parent.height; width: parent.width - parent.height * 4
-    anchors { right: parent.right }
-    color: sc.bgColor
-  }
 
-  Text {
-    x: Noo.fontSize() / 2; y: Noo.fontSize() / 2
-    font { family: "Sans"; bold: true }
-    text: nr + 1; color: Noo.alpha(activPal.text, 150)
-  }
+    states: State {
+      when: wrapArea.held
+      ParentChange { target: wrapper; parent: melListView.viewRoot }
+      AnchorChanges {
+        target: wrapper
+        anchors { horizontalCenter: undefined; verticalCenter: undefined }
+      }
+    }
 
-  Text {
-    text: title
-    x: parent.width - scoreCover.width
-    y: Noo.fontSize() / 4
-    font { bold: true; pixelSize: Noo.fontSize() * 1.3 }
-    color: wrapArea.containsMouse ? activPal.text : Noo.alpha(activPal.text, 150)
-    width: Noo.fontSize() * 25; elide: Text.ElideRight
-    Behavior on color { enabled: GLOB.useAnimations; ColorAnimation {} }
-  }
+    Score {
+      id: sc
+      anchors.fill: parent
+      interactive: false
+      readOnly: true
+      bgColor: wrapArea.held ? Qt.tint(activPal.base, Noo.alpha(activPal.text, 50)) : (nr === melListView.currentMelody ? Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 50)) : activPal.base)
+      //bgColor: nr === melListView.currentMelody ? Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 50)) : activPal.base
+    }
 
-  Text {
-    text: composer
-    anchors { right: parent.right; rightMargin: Noo.fontSize() / 4 }
-    y: Noo.fontSize() * 1.5
-    color: wrapArea.containsMouse ? activPal.text : Noo.alpha(activPal.text, 150)
-    maximumLineCount: 1
-    Behavior on color { enabled: GLOB.useAnimations; ColorAnimation {} }
-  }
+    Rectangle { // this is part of covering rectangle
+      height: parent.height; width: parent.height
+      rotation: -90;
+      x: parent.width - scoreCover.width - width
+      gradient: Gradient {
+        GradientStop { position: 0.0; color: "transparent" }
+        GradientStop { position: 0.75; color: sc.bgColor }
+      }
+    }
+    Rectangle {
+      id: scoreCover
+      height: parent.height; width: parent.width - parent.height * 4
+      anchors { right: parent.right }
+      color: sc.bgColor
+    }
 
-  MouseArea {
-    id: wrapArea
-    anchors.fill: parent
-    hoverEnabled: true
-    onClicked: melListView.currentMelody = nr
+    Text {
+      x: Noo.fontSize() / 2; y: Noo.fontSize() / 2
+      font { family: "Sans"; bold: true }
+      text: nr + 1; color: Noo.alpha(activPal.text, 150)
+    }
+
+    Text {
+      text: wrapper.title
+      x: parent.width - scoreCover.width
+      y: Noo.fontSize() / 4
+      font { bold: true; pixelSize: Noo.fontSize() * 1.3 }
+      color: wrapArea.containsMouse ? activPal.text : Noo.alpha(activPal.text, 150)
+      width: Noo.fontSize() * 25; elide: Text.ElideRight
+      Behavior on color { enabled: GLOB.useAnimations; ColorAnimation {} }
+    }
+
+    Text {
+      text: wrapper.composer
+      anchors { right: parent.right; rightMargin: Noo.fontSize() / 4 }
+      y: Noo.fontSize() * 1.5
+      color: wrapArea.containsMouse ? activPal.text : Noo.alpha(activPal.text, 150)
+      maximumLineCount: 1
+      Behavior on color { enabled: GLOB.useAnimations; ColorAnimation {} }
+    }
+  } // TmelodyWrapper
+
+  DropArea {
+    anchors { fill: parent; margins: 10 }
+    onEntered: {
+      if (drag.source.nr !== wrapArea.nr)
+        melListView.moveMelody(drag.source.nr, wrapArea.nr)
+    }
   }
 }
