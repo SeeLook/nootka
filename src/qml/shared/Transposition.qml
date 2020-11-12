@@ -36,7 +36,13 @@ Grid {
   ButtonGroup { buttons: radioCol.children }
   Column {
     id: radioCol
-    TradioButton { id: upRadio; text: "<b><font size=\"6\">\u2191</font></b> " + qsTr("up") }
-    TradioButton { id: downRadio; text: "<b><font size=\"6\">\u2193</font></b> " + qsTr("down") }
+    Row {
+      TlabelText { text: "\u2191"; font { pixelSize: Noo.fontSize() * 2.5; family: "Nootka" }}
+      TradioButton { id: upRadio; text: qsTr("up") }
+    }
+    Row {
+      TlabelText { text: "\u2193"; font { pixelSize: Noo.fontSize() * 2.5; family: "Nootka" }}
+      TradioButton { id: downRadio; text: qsTr("down") }
+    }
   }
 }

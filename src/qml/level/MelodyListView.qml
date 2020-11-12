@@ -72,7 +72,7 @@ TmelodyListView {
       leftPadding: Noo.fontSize() / 2; topPadding: Noo.fontSize()
       TcuteButton {
         width: Noo.fontSize() * 3
-        font { pixelSize: Noo.fontSize() * 2; bold: true; family: "Sans" }
+        font { pixelSize: Noo.fontSize() * 2.5; bold: true; family: "Sans" }
         text: "+"; textColor: "green"
         onClicked: {
           loadMelody()
@@ -81,7 +81,7 @@ TmelodyListView {
       }
       TcuteButton {
         width: Noo.fontSize() * 3
-        font { pixelSize: Noo.fontSize() * 2; bold: true; family: "Nootka" }
+        font { pixelSize: Noo.fontSize() * 2.5; family: "Nootka" }
         text: "\u2191"; textColor: enabled ? "#008080" : disdPal.text
         enabled: currentMelody > 0
         onClicked: {
@@ -91,7 +91,7 @@ TmelodyListView {
       }
       TcuteButton {
         width: Noo.fontSize() * 3
-        font { pixelSize: Noo.fontSize() * 2; bold: true; family: "Nootka" }
+        font { pixelSize: Noo.fontSize() * 2.5; family: "Nootka" }
         text: "\u2193"; textColor: enabled ? "#008080" : disdPal.text
         enabled: currentMelody > -1 && currentMelody < melMod.count - 1
         onClicked: {
@@ -101,7 +101,7 @@ TmelodyListView {
       }
       TcuteButton {
         width: Noo.fontSize() * 3
-        font { pixelSize: Noo.fontSize() * 2; bold: true; family: "Sans" }
+        font { pixelSize: Noo.fontSize() * 2.5; bold: true; family: "Sans" }
         text: "-"; textColor: enabled ? "red" : disdPal.text
         enabled: currentMelody > -1
         onClicked: removeWrapper(currentMelody)
