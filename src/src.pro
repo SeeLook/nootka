@@ -40,6 +40,7 @@ SOURCES +=  main.cpp \
             dialogs/tlevelselector.cpp \
             dialogs/tlevelheaderwdg.cpp \
             dialogs/tmelodylistview.cpp \
+            dialogs/tmelodywrapper.cpp \
             dialogs/ttunerdialogitem.cpp \
             dialogs/trtmselectoritem.cpp \
             dialogs/tmelgenitem.cpp \
@@ -80,6 +81,7 @@ HEADERS  += mobile/tmobilemenu.h \
             dialogs/tlevelselector.h \
             dialogs/tlevelheaderwdg.h \
             dialogs/tmelodylistview.h \
+            dialogs/tmelodywrapper.h \
             dialogs/ttunerdialogitem.h \
             dialogs/trtmselectoritem.h \
             dialogs/tmelgenitem.h \
