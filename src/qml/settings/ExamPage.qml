@@ -177,7 +177,9 @@ Tflickable {
 
   TpopupDialog {
     id: expertDialog
-    bgColor: Qt.tint(activPal.window, Noo.alpha("red", 20)); shadowColor: "red"
+    bgColor: Qt.tint(activPal.window, Noo.alpha("red", 20))
+    border { color: "red"; width: Noo.fontSize() / 4.0 }
+    modal: true
     Tflickable {
       height: parent.height; contentHeight: expCol.height
       Column {

@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -15,8 +15,9 @@ TpopupDialog {
 
   signal remove(var fromDisk)
 
-  bgColor: Qt.tint(activPal.window, Noo.alpha("red", 20)); shadowColor: "red"
-  visible: true
+  bgColor: Qt.tint(activPal.window, Noo.alpha("red", 20))
+  border { color: "red"; width: Noo.fontSize() / 4.0 }
+  visible: true; modal: true
   width: innerCol.width * 1.2; height: innerCol.height + Noo.fontSize() * 5
 
   Column {
