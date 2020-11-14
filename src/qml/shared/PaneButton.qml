@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2019 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2019-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -44,7 +44,7 @@ AbstractButton {
         anchors.fill: pix
         visible: !enabled
       }
-      transformOrigin: Image.Center; scale: !enabled || pressed ? 0.8 : (GLOB.useAnimations && hovered ? 1.4 : 1.0)
+      transformOrigin: Image.Center; scale: !enabled || pressed ? 0.8 : (GLOB.useAnimations && hovered ? 1.2 : 1.0)
       Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
       Behavior on color { enabled: GLOB.useAnimations; ColorAnimation { duration: 150 }}
     }
@@ -52,7 +52,7 @@ AbstractButton {
     Text {
       id: butText
       z: 0
-      color: enabled ? "#000000" : "#999999"
+      color: enabled ? (Noo.isAndroid() ? "#ffffff" : "#000000") : "#999999"
       font.pixelSize: Noo.fontSize() * (Noo.isAndroid() ? 0.8 : 1)
       horizontalAlignment: Text.AlignHCenter
       anchors.horizontalCenter: parent.horizontalCenter

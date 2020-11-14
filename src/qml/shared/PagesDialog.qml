@@ -20,7 +20,10 @@ Item {
 
   anchors { fill: parent; leftMargin: Noo.fontSize() / 4 }
 
-  Rectangle { z: 2; color: "#ffffff"; x: navList.x; y: navList.y; width: navList.width; height: navList.height }
+  Rectangle {
+    color: Noo.isAndroid() ? "#000000" : "#ffffff"
+    z: 2; x: navList.x; y: navList.y; width: navList.width; height: navList.height
+  }
 
   function addItem(icon, text, page) {
     navList.pages.push("qrc:/" + page + "Page.qml")
