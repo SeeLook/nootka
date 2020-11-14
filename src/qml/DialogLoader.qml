@@ -76,6 +76,9 @@ Old.Dialog {
 
   onPageChanged: {
     if (page > 0) {
+      if (Noo.isAndroid())
+        mainMenu.drawer.interactive = false
+
       dialLoader.width = nootkaWindow.width * (Noo.isAndroid() ? 1 : 0.9)
       dialLoader.height = nootkaWindow.height * (Noo.isAndroid() ? 1 : 0.9)
       switch (page) {
@@ -116,6 +119,9 @@ Old.Dialog {
 
   onVisibleChanged: {
     if (visible === false && currentDialog) {
+      if (Noo.isAndroid())
+        mainMenu.drawer.interactive = true
+
       if (page !== Nootka.ExamStart)
         SOUND.startListen()
       currentDialog.destroy()
