@@ -23,6 +23,7 @@ Tflickable {
 
     Tile {
       id: topTile
+      width: parent.width * (Noo.isAndroid() ? 0.98 : 1)
       readonly property string keyRangeText: "<br>" + qsTr("They will be transposed if key signatures are set to be used and any of them differs from the key(s) defined below.")
       property var descList: [ qsTr("Melodies are composed from a note range defined on the 'Range' page."),
                                qsTr("Melodies are composed from notes selected on the score below."),
@@ -47,7 +48,7 @@ Tflickable {
     }
     Grid {
       id: melGrid
-      spacing: melPage.width / 50
+      spacing: melPage.width / (Noo.isAndroid() ? 100 : 50)
       columns: Noo.fontSize() * 50 > melPage.width ? 1 : 2 // (melLenTile.visible ? 2 : 1)
       anchors.horizontalCenter: parent.horizontalCenter
 
@@ -56,7 +57,7 @@ Tflickable {
         visible: creator.isMelody && !creator.hasRhythms && melCombo.currentIndex !== 2
         description: qsTr("Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.")
         anchors.horizontalCenter: undefined
-        width: Math.max(lenRow.width + Noo.fontSize() * 4, melPage.width * 0.49)
+        width: melGrid.columns === 1 ? melPage.width * 0.98 : Math.max(lenRow.width + Noo.fontSize() * 4, melPage.width * 0.48)
         Row {
           id: lenRow
           spacing: Noo.fontSize()
@@ -76,13 +77,13 @@ Tflickable {
       }
       EndOnTonicTile {
         visible: melCombo.currentIndex !== 2
-        width: Math.max(checkBox.width + Noo.fontSize() * 4, melPage.width * 0.49)
+        width: melGrid.columns === 1 ? melPage.width * 0.98 : Math.max(checkBox.width + Noo.fontSize() * 4, melPage.width * 0.48)
         checked: creator.endsOnTonic
         checkBox.onClicked: creator.endsOnTonic = checked
       }
 
       Tile {
-        width: Math.max(randOrderChB.width + Noo.fontSize() * 4, melPage.width * 0.49)
+        width: melGrid.columns === 1 ? melPage.width * 0.98 : Math.max(randOrderChB.width + Noo.fontSize() * 4, melPage.width * 0.48)
         visible: melCombo.currentIndex === 2
         anchors.horizontalCenter: undefined
         TcheckBox {
@@ -95,7 +96,7 @@ Tflickable {
         description: qsTr("When checked, melodies from the list will be asked in random order.")
       }
       Tile {
-        width: Math.max(repeatRow.width + Noo.fontSize() * 4, melPage.width * 0.49)
+        width: melGrid.columns === 1 ? melPage.width * 0.98 : Math.max(repeatRow.width + Noo.fontSize() * 4, melPage.width * 0.48)
         visible: melCombo.currentIndex === 2
         anchors.horizontalCenter: undefined
         description: qsTr("How many times during an exam a melody from the list has to be played or written correctly. Warning! It multiplies question number.")
@@ -118,7 +119,7 @@ Tflickable {
       }
     }
     Item {
-      width: parent.width; height: melPage.height - topTile.height - melGrid.height - tempoRange.height
+      width: parent.width; height: melPage.height - topTile.height - melGrid.height //- tempoRange.height
       visible: melCombo.currentIndex === 1
       Score {
         id: listScore
@@ -186,7 +187,6 @@ Tflickable {
           var c = Qt.createComponent("qrc:/level/MelodyListView.qml")
           melListView = c.createObject(melodyCol)
           melListView.width = Qt.binding(function() { return melodyCol.width - 10 })
-          melListView.height = Qt.binding(function() { return melPage.height - topTile.height - melGrid.height })
         }
         melListView.setLevel(creator.level())
         melListView.currentMelody = -1 // reset selection

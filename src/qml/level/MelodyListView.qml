@@ -15,6 +15,8 @@ import "../"
 TmelodyListView {
   id: melListView
 
+  implicitHeight: viewRow.height
+
   property int currentMelody: -1
   property alias viewRoot: viewItem
 
@@ -23,6 +25,7 @@ TmelodyListView {
   }
 
   Row {
+    id: viewRow
     Text {
       visible: !melView.visible
       width: melListView.width - Noo.fontSize() * 4
@@ -32,7 +35,7 @@ TmelodyListView {
     Item {
       id: viewItem
       visible: melView.count > 0
-      width: melListView.width - Noo.fontSize() * 4; height: melListView.height
+      width: melListView.width - Noo.fontSize() * 4; height: Math.max(buttCol.height, melPage.height) //melListView.height
       ListView {
         id: melView
         clip: true; spacing: 1
@@ -68,8 +71,9 @@ TmelodyListView {
       }
     }
     Column {
-      spacing: Noo.fontSize() * 2
-      leftPadding: Noo.fontSize() / 2; topPadding: Noo.fontSize()
+      id: buttCol
+      spacing: Noo.fontSize() * (Noo.isAndroid() ? 0.7 : 1)
+      leftPadding: Noo.fontSize() / 2; topPadding: Noo.fontSize() / (Noo.isAndroid() ? 2 : 1)
       TcuteButton {
         width: Noo.fontSize() * 3
         font { pixelSize: Noo.fontSize() * 2.5; bold: true; family: "Sans" }
@@ -79,6 +83,7 @@ TmelodyListView {
           melView.positionViewAtEnd()
         }
       }
+      Item { width: 1; height: Noo.fontSize() * (Noo.isAndroid() ? 0.5 : 1.5) }
       TcuteButton {
         width: Noo.fontSize() * 3
         font { pixelSize: Noo.fontSize() * 2.5; family: "Nootka" }
@@ -99,6 +104,7 @@ TmelodyListView {
           currentMelody++
         }
       }
+      Item { width: 1; height: Noo.fontSize() * (Noo.isAndroid() ? 0.5 : 1.5) }
       TcuteButton {
         width: Noo.fontSize() * 3
         font { pixelSize: Noo.fontSize() * 2.5; bold: true; family: "Sans" }
