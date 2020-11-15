@@ -67,7 +67,7 @@ Tflickable {
       model: colors.length
       delegate: Component {
         Tile {
-          visible: !Noo.isAndroid() || index !== 0
+          visible: !Noo.isAndroid() || index !== 1
           width: tt.width + Noo.fontSize() * 4
           anchors.horizontalCenter: undefined
           bgBorder { color: colors[index]; width: 2 }
