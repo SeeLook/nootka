@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -95,10 +95,13 @@ public:
   int     startChunk;       /**< Chunk in which note was noticed */
   int     endChunk;         /**< Last chunk with this note */
   float   maxVol;           /**< Loudest volume occurred */
-  float   minVol;           /**< Less volume occurred */
+  float   minVol;           /**< Quietest volume occurred */
   float   maxPCMvol;        /**< Maximal Raw PCM volume during whole note */
 
-  int     numChunks() { return endChunk - startChunk + 1; } /** Note duration in chunks */
+      /**
+       * Note duration in chunks
+       */
+  int     numChunks() { return endChunk - startChunk + 1; }
 
       /**
        * Average pitch of all chunk pitches
@@ -121,9 +124,9 @@ public:
   qreal   averageShortFreq() { return pitchToFreq(shortAverage()); }
 
       /**
-       * Pointer to list of pitches
+       * Pointer to list @p QVector of pitches
        */
-  QList<qreal>* pitches() { return &m_pList; }
+  QVector<qreal>* pitches() { return &m_pList; }
 
       /**
        * Static method that converts given pitch to a frequency (in Hz)
@@ -136,7 +139,7 @@ public:
   qreal getAverage(unsigned int start, unsigned int stop);
 
 private:
-  QList<qreal>            m_pList;
+  QVector<qreal>          m_pList;
   qreal                   m_totalAver, m_shortAver;
 
   void  getTotalAverage() {
@@ -146,7 +149,7 @@ private:
   void getShortAverage() {
     m_shortAver = getAverage(3, 6);
   }
-};
 
+};
 
 #endif // TNOTESTRUCT_H
