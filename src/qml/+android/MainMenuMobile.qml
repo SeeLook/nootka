@@ -33,16 +33,16 @@ TmobileMenu {
   parent: nootkaWindow.contentItem.parent
   z: 250
   width: fingerPixels()
-  height: fingerPixels() * 1.1
+  height: fingerPixels() * 1.3
 
   Rectangle {
     id: bg
-    width: fingerPixels() / 2; height: fingerPixels(); x: fingerPixels() / 10; y:  fingerPixels() / 10;
+    width: fingerPixels() * 0.7; height: fingerPixels() * 1.3; x: fingerPixels() / 10; y:  fingerPixels() / 10;
     color: Noo.alpha(activPal.highlight, pressed ? 255 : 25)
     radius: fingerPixels() / 10
     Column {
       width: parent.width
-      spacing: fingerPixels() * 0.15625
+      spacing: bg.width / 4
       topPadding: spacing
       Rectangle {
         width: bg.width / 4; height: width; radius: width / 2
@@ -90,9 +90,12 @@ TmobileMenu {
     width: Noo.fontSize() * 20; height: nootkaWindow.height
     onVisibleChanged: {
       if (visible) {
-        if (!drawerLoad.active)
-          drawerLoad.active = true
-        label.bgColor = Noo.randomColor()
+          if (!drawerLoad.active)
+            drawerLoad.active = true
+          label.bgColor = Noo.randomColor()
+          SOUND.stopListen()
+      } else {
+          SOUND.startListen()
       }
     }
     Loader {
