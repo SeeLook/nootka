@@ -64,7 +64,6 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_minDuration(0.15),
   m_rateRatio(1.0),
   m_volume(0),
-  m_state(e_silence), m_prevState(e_silence),
   m_pcmVolume(0.0f), m_workVol(0.0f),
   m_splitByVol(true), m_minVolToSplit(0.1),
   m_skipStillerVal(0.0), m_averVolume(0.0)
@@ -110,7 +109,11 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_readPos = 0;
   m_doProcess = true;
   m_thread->start(QThread::HighestPriority);
-  m_lastDetectedNote.init(0, 0, 0.0);
+
+
+  m_whenToStart = e_startWithNote;
+  m_newNote.init(0, 0, 0.0);
+  m_startedNote.init(0, 0, 0.0);
 }
 
 
@@ -199,12 +202,10 @@ void TpitchFinder::stop(bool resetAfter) {
   m_framesReady = 0;
   m_volume = 0.0;
   m_doReset = resetAfter;
-  m_state = e_silence;
-  m_prevState = e_silence;
-  m_plaingWasDetected = false;
-  m_restStarted = false;
+  m_playingWasStarted = false;
   m_restNote.endChunk = 0;
-  m_lastDetectedNote.init(0, 0, 0.0);
+  m_newNote.init(0, 0, 0.0);
+  m_startedNote.init(0, 0, 0.0);
 #if !defined (Q_OS_ANDROID)
   destroyDumpFile();
 #endif
@@ -317,7 +318,7 @@ void TpitchFinder::detectingThread() {
       }
 
       startPitchDetection();
-      processed();
+//       processed();
       loops++;
     }
     if (m_isOffline)
@@ -355,71 +356,6 @@ void TpitchFinder::startPitchDetection() {
   detect();
 }
 
-
-void TpitchFinder::processed() {
-  emit pitchInChunk(m_chunkPitch);
-  if (m_state != m_prevState) {
-    if (m_prevState == e_noticed) {
-      if (m_state == e_playing) {
-        if (m_lastDetectedNote.endChunk) {
-          int restDur = m_currentNote.startChunk - m_lastDetectedNote.endChunk - 1;
-          if (restDur > 0) {
-            if (restDur < m_minChunks) {
-                if (m_plaingWasDetected) {
-                  m_lastDetectedNote.duration += restDur * m_chunkTime;
-//                   QTextStream o(stdout);
-//                   o << "\033[01;37m   [TpitchFinder] NOTE finished FIXED " << m_lastDetectedNote.pitchF << " "
-//                     << m_lastDetectedNote.duration * 1000.0 << " \033[01;00m\n";
-                  emit noteFinished(&m_lastDetectedNote);
-                  // TODO; if it occurs, Tsound might split previously detected duration and it will improper
-                }
-            } else {
-                if (m_plaingWasDetected && m_restStarted) {
-                  m_restNote.duration = restDur * m_chunkTime;
-//                   qDebug() << "=======[TpitchFinder] rest finished" << m_restNote.duration * 1000.0;
-                  emit noteFinished(&m_restNote);
-                  m_restStarted = false;
-                  m_lastDetectedNote.init(0, 0, 0.0); // reset
-                }
-            }
-          }
-        }
-        m_plaingWasDetected = true;
-//         qDebug() << "=======[TpitchFinder] NOTE started" << m_currentNote.pitchF << m_currentNote.duration * 1000.0;
-        emit noteStarted(m_currentNote.getAverage(3, minChunksNumber()), m_currentNote.freq, m_currentNote.duration); // new note started
-      }
-    } else if (m_prevState == e_playing) {
-        if (m_state == e_silence || m_state == e_noticed) {
-//           qDebug() << "=======[TpitchFinder] NOTE finished" << m_currentNote.pitchF << m_currentNote.duration * 1000.0;
-          emit noteFinished(&m_currentNote); // previous note was finished
-          m_lastDetectedNote = m_currentNote;
-          if (m_averVolume == 0.0)
-            m_averVolume = m_currentNote.maxVol;
-          else
-            m_averVolume = (m_averVolume + m_currentNote.maxVol) / 2.0;
-        }
-    }
-  }
-  m_prevState = m_state;
-  emit volume(m_volume);
-
-  if (m_state != e_playing) {
-    int restDur = (m_state == e_silence ? m_chunkNum : m_newNote.startChunk) - m_lastDetectedNote.endChunk - 1;
-    if (!m_restStarted && m_plaingWasDetected && restDur >= m_minChunks) {
-//       qDebug() << "=======[TpitchFinder] rest started" << restDur * m_chunkTime * 1000.0;
-      emit noteStarted(-1.0, 0.0, restDur * m_chunkTime);
-      m_restStarted = true;
-    }
-    if (restDur * m_chunkTime > 4000) {
-      m_restStarted = false;
-      m_lastDetectedNote.init(0, 0, 0.0);
-//       m_lastDetectedNote.endChunk = m_chunkNum;
-    }
-  }
-//   qDebug() << "[TpitchFinder] processed, volume" << m_volume << "state" << (m_state == e_silence ? "silence" : (m_state == e_noticed ? "noticed" : "playing"));
-}
-
-
 //##########################################################################################################
 //########################################## PRIVATE #######################################################
 //##########################################################################################################
@@ -442,51 +378,76 @@ void TpitchFinder::detect() {
       m_volume = static_cast<float>(data->normalVolume());
   }
 
-//   bool noteChanged = false;
-//   if (data->noteIndex != m_prevNoteIndex) { // Tartini changed note
-//     noteChanged = true;
-//     if (data->noteIndex != NO_NOTE && m_prevNoteIndex != NO_NOTE) {
-//       float diff = qAbs(m_currentNote.pitches()->last() - data->pitch);
-//       if (diff < 1.0f) {
-// //         QTextStream o(stdout);
-// //         o << "\033[01;36m Tartini was mistaken - there is still the same note! "
-// //         << diff << " " << m_currentNote.pitches()->last() << " " << data->pitch << " " << m_currentNote.duration << " \033[01;00m\n";
-//         noteChanged = false;
-//       }
-//     }
-//   }
+  emit pitchInChunk(m_chunkPitch);
+  emit volume(m_volume);
 
-  if (/*noteChanged */ data->noteIndex != m_prevNoteIndex) { // note changed
-    if (m_prevNoteIndex != NO_NOTE && m_newNote.numChunks() >= m_minChunks && m_newNote.maxVol >= m_averVolume * m_skipStillerVal) {
-      m_currentNote = m_newNote; // summarize previous note if it was long enough
-      m_currentNote.sumarize(m_chunkTime);
-    }
-    if (data->noteIndex != NO_NOTE) { // initialize a new note when it is valid
-        m_newNote.init(data->noteIndex, m_chunkNum, data->pitch);
-        m_state = e_noticed;
-    } else
-        m_state = e_silence;
-  } else { // note is still playing
-    if (data->noteIndex != NO_NOTE) {
+  bool noteChanged = data->noteIndex != m_prevNoteIndex; //false;
+
+  if (noteChanged) {
+      if (m_playingWasStarted) {
+        if (m_startedNote.numChunks() >= m_minChunks) {
+          m_currentNote = m_startedNote;
+          m_currentNote.sumarize(m_chunkTime);
+          m_startedNote.init(0, 0, 0.0);
+//           qDebug() << "finished" << m_currentNote.index << m_currentNote.pitchF;
+          emit noteFinished(&m_currentNote);
+        }
+        m_averVolume = m_averVolume == 0.0 ? m_currentNote.maxVol : (m_averVolume + m_currentNote.maxVol) / 2.0;
+      }
+      m_newNote.init(data->noteIndex, m_chunkNum, data->pitch);
+  } else {
       m_newNote.update(m_chunkNum, data->pitch, m_volume);
       m_newNote.maxPCMvol = qMax(m_newNote.maxPCMvol, m_pcmVolume);
+
       if (m_newNote.maxVol >= m_minVolume && m_newNote.maxVol >= m_averVolume * m_skipStillerVal) { // note was loud enough
         if (m_newNote.numChunks() == m_minChunks) { // note is accepted by Nootka
-            m_currentNote = m_newNote;
-            m_currentNote.sumarize(m_chunkTime);
-            m_state = e_playing;
-        } else if (m_splitByVol && m_newNote.numChunks() > m_minChunks) { // the same note for Tartini can be split by Nootka
-            if (m_volume - m_newNote.minVol >= m_minVolToSplit && m_volume >= m_averVolume * m_skipStillerVal) {
-              m_currentNote = m_newNote;
-              m_currentNote.endChunk--;
-              m_currentNote.sumarize(m_chunkTime);
-              m_newNote.init(data->noteIndex, m_chunkNum, qreal(data->pitch));
-              m_state = e_noticed;
+            if (m_playingWasStarted) {
+              int restDur = m_newNote.startChunk - m_currentNote.endChunk;
+              if (restDur > 0) {
+                //               if (restDur * m_chunkTime > 4000.0) TODO
+                if (restDur >= m_minChunks) {
+//                   qDebug() << "REST started" << data->noteIndex;
+                    emit noteStarted(-1.0, 0.0, restDur * m_chunkTime);
+                    m_restNote.duration = restDur * m_chunkTime;
+//                     qDebug() << "REST finished" << data->noteIndex;
+                    emit noteFinished(&m_restNote);
+                } else {
+                    m_currentNote.duration += restDur * m_chunkTime;
+                    m_currentNote.endChunk = m_newNote.startChunk - 1;
+//                     qDebug() << "elongated" << m_currentNote.index << m_currentNote.pitchF;
+                    emit noteFinished(&m_currentNote);
+                    // TODO; if it occurs, Tsound might split previously detected duration and it will improper
+                }
+              }
+            }
+            if (!m_playingWasStarted) {
+//               if (m_whenToStart == e_startWithNote)
+                m_playingWasStarted = true;
+            }
+            m_startedNote = m_newNote;
+            m_startedNote.sumarize(m_chunkTime);
+//             qDebug() << "started" << m_startedNote.index << m_startedNote.pitchF;
+            emit noteStarted(m_startedNote.getAverage(3, minChunksNumber()), m_startedNote.freq, m_startedNote.duration);
+        } else {
+            if (m_startedNote.numChunks() >= m_minChunks) {
+              m_startedNote.update(m_chunkNum, data->pitch, m_volume);
+              m_startedNote.maxPCMvol = qMax(m_startedNote.maxPCMvol, m_pcmVolume);
+            }
+            if (m_splitByVol && m_startedNote.numChunks() > m_minChunks) { // the same note for Tartini can be split by Nootka
+              if (m_volume - m_startedNote.minVol >= m_minVolToSplit && m_volume >= m_averVolume * m_skipStillerVal) {
+                m_currentNote = m_startedNote;
+                m_currentNote.endChunk--;
+                m_currentNote.sumarize(m_chunkTime);
+                m_startedNote.init(0, 0, 0.0);
+//                 qDebug() << "split" << m_currentNote.index << m_currentNote.pitchF;
+                emit noteFinished(&m_currentNote);
+                m_newNote.init(data->noteIndex, m_chunkNum, static_cast<qreal>(data->pitch));
+              }
             }
         }
       }
-    }
   }
+
   m_prevNoteIndex = data->noteIndex;
   if (!m_isOffline && m_chunkNum > 1000 && data->noteIndex == NO_NOTE)
     m_doReset = true;
@@ -500,7 +461,6 @@ void TpitchFinder::resetFinder() {
   m_doReset = false;
   if (m_channel) {
       delete m_channel;
-      m_lastDetectedNote.endChunk = m_lastDetectedNote.endChunk - m_chunkNum; // negative value to rich proper rest duration after reset
       m_chunkNum = 0;
       m_averVolume = 0.0;
       m_transforms->uninit();
@@ -545,10 +505,3 @@ void TpitchFinder::destroyDumpFile() {
 void TpitchFinder::threadFinished() {
 //  qDebug() << "[TpitchFinder] Thread finished";
 }
-
-
-
-
-
-
-

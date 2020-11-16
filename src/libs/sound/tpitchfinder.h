@@ -80,12 +80,12 @@ public:
   explicit TpitchFinder(QObject *parent = 0);
   virtual ~TpitchFinder();
 
-  enum EnoteState {
-    e_silence, /**< Nothing was noticed in processed chunk - probably silence */
-    e_noticed, /**< note was noticed by Tartini and is loud enough but is too short for Nootka */
-    e_playing  /**< note is playing longer then minimal duration */
+  enum EwhenToStart {
+    e_startWithNote, /**< start detecting after first played note */
+    e_startOnSpot,
+    e_startAfterDelay
   };
-  Q_ENUM(EnoteState)
+  Q_ENUM(EwhenToStart)
 
       /**
        * Those are levels of pitch detection ranges.
@@ -230,10 +230,17 @@ public:
 #endif
 
 signals:
-  void pitchInChunk(float); /** Pitch in chunk that has been just processed */
+      /**
+       * Pitch in chunk that has been just processed
+       */
+  void pitchInChunk(float);
   void volume(float);
   void noteStarted(qreal pitch, qreal freq, qreal duration);
-  void noteFinished(TnoteStruct*); /** Emitting parameters of finished note (pitch, freq, duration) */
+
+      /**
+       * Emitting parameters of finished note (pitch, freq, duration)
+       */
+  void noteFinished(TnoteStruct*);
 
 protected slots:
       /**
@@ -241,10 +248,6 @@ protected slots:
        */
   void startPitchDetection();
 
-      /**
-       * Performs signal emitting after chunk was done
-       */
-  void processed();
   void detectingThread();
   void threadFinished();
 
@@ -282,12 +285,11 @@ private:
   float                 m_rateRatio; /**< multiplexer of the sample rate determined from pitch detection range */
   QMutex                m_mutex;
   float                 m_volume, m_chunkPitch;
-  EnoteState            m_state, m_prevState;
+  EwhenToStart          m_whenToStart;
   float                 m_pcmVolume, m_workVol;
-  TnoteStruct           m_newNote, m_currentNote;
-  TnoteStruct           m_restNote, m_lastDetectedNote;
-  bool                  m_plaingWasDetected = false;
-  bool                  m_restStarted = false;
+  TnoteStruct           m_newNote, m_currentNote, m_startedNote;
+  TnoteStruct           m_restNote;
+  bool                  m_playingWasStarted = false; /**< @p TRUE when first note/rest was noticed and signals are emitting*/
   bool                  m_splitByVol;
   qreal                 m_minVolToSplit, m_chunkTime, m_skipStillerVal, m_averVolume;
   int                   m_minChunks;
