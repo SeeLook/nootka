@@ -97,6 +97,7 @@ if(APPLE)
   install(FILES "${CMAKE_SOURCE_DIR}/picts/nootka.icns" DESTINATION "${INS_PREF}") # icns for mac
   install(FILES "${CMAKE_SOURCE_DIR}/picts/nootka-levels.icns" DESTINATION "${INS_PREF}")
   install(FILES "${CMAKE_SOURCE_DIR}/picts/nootka-exam.icns" DESTINATION "${INS_PREF}")
+  install(FILES "${CMAKE_SOURCE_DIR}/packaging/mac/qt.conf" DESTINATION "${INS_PREF}")
 endif(APPLE)
 
 

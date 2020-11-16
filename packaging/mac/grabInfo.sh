@@ -1,6 +1,6 @@
 #!/bin/sh
 # This script calls makeInfoPlist.sh to generate nice info.plist file
-# with current version number and buid number taken from hg directory
+# with current version number and build number taken from current git commits number
 #
 
 VERSION=$1

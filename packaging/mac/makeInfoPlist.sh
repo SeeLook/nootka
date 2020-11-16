@@ -2,8 +2,7 @@
 
 VERSION=$1
 SRC=$2
-BUILD=$[$(cat $SRC/.hg/cache/branch2-served | head -1| awk '{print $2}') + 870]
-
+BUILD=$(git -C $SRC rev-list HEAD --count)
 
 cat <<EOF
 <?xml version="1.0" encoding="UTF-8"?>
