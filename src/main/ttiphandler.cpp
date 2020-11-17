@@ -123,6 +123,9 @@ TtipHandler::TtipHandler(Texam* exam, QObject *parent) :
 TtipHandler::~TtipHandler() {
   m_timerToConfirm->stop();
   m_timerOfWhatNext->stop();
+#if defined (Q_OS_ANDROID)
+  MOBILE_MENU->setExamMenuEntries(nullptr, nullptr, nullptr, nullptr);
+#endif
 }
 
 
@@ -173,6 +176,7 @@ void TtipHandler::showStartTip() {
     MOBILE_MENU->setForceText(true);
     MOBILE_MENU->setFlyActions(EXECUTOR->stopExamAct(), nullptr,
                                m_startAct, nullptr, nullptr);
+    MOBILE_MENU->setExamMenuEntries(m_startAct, EXECUTOR->stopExamAct(), nullptr, nullptr);
     m_startAct->shake();
     EXECUTOR->stopExamAct()->shake();
   });
@@ -302,6 +306,8 @@ void TtipHandler::showWhatNextTip(bool isCorrect, bool toCorrection) {
                              toCorrection ? EXECUTOR->correctAct() : nullptr,
                              EXECUTOR->stopExamAct(), nullptr,
                              prevAct);
+  MOBILE_MENU->setExamMenuEntries(EXECUTOR->nextQuestAct(), prevAct, toCorrection ? EXECUTOR->correctAct() : nullptr,
+                                  EXECUTOR->stopExamAct());
   if (toCorrection && EXECUTOR->correctAct())
     EXECUTOR->correctAct()->shake();
   if (prevAct)
@@ -365,6 +371,8 @@ void TtipHandler::showQuestionTip() {
                              EXECUTOR->checkQuestAct(),
                              question->melody() && question->answerOnScore() ? MAIN_SCORE->scoreMenuAct() : nullptr,
                              nullptr);
+  MOBILE_MENU->setExamMenuEntries(EXECUTOR->playAgainAct(), EXECUTOR->tuningForkAct(),
+                                  EXECUTOR->checkQuestAct(), EXECUTOR->stopExamAct());
 #endif
 
   deleteWhatNextTip();

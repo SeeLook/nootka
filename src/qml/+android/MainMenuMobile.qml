@@ -120,6 +120,15 @@ TmobileMenu {
               }
               Component.onCompleted: mainDrawer.label = this
             }
+            Repeater {
+              model: examActions
+              MenuButton {
+                action: modelData
+                visible: action && action.enabled
+                onClicked: mainDrawer.close()
+                color: Noo.alpha(containsPress ? activPal.highlight : (action ? action.bgColor : "transparent"), 50)
+              }
+            }
             MenuButton { action: pitchDetectAct; onClicked: mainDrawer.close() }
             MenuButton {
               visible: !GLOB.singleNoteMode

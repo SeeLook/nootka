@@ -16,7 +16,6 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-
 #include "tmobilemenu.h"
 #include <tmtr.h>
 #include <taction.h>
@@ -61,6 +60,7 @@ TmobileMenu::TmobileMenu(QQuickItem* parent) :
     }
   });
 
+  m_examActions << nullptr << nullptr << nullptr << nullptr;
 
   connect(SOUND, &Tsound::initialized, this, &TmobileMenu::init);
 }
@@ -94,7 +94,6 @@ void TmobileMenu::setForceText(bool forceT) {
     emit forceTextChanged();
   }
 }
-
 
 //#################################################################################################
 //###################              PROTECTED           ############################################
@@ -199,4 +198,15 @@ void TmobileMenu::setFlyActions(Taction* a1, Taction* a2, Taction* a3, Taction* 
     m_5flyAct = a5;
     emit fly5actChanged();
   }
+}
+
+
+void TmobileMenu::setExamMenuEntries(Taction* a1, Taction* a2, Taction* a3, Taction* a4) {
+  m_examActions[0] = a1;
+  m_examActions[1] = a2;
+  m_examActions[2] = a3;
+  m_examActions[3] = a4;
+  // Emit with delay to allow menu drawer hide.
+  // Otherwise user may see the next entries or even tap any by chance
+  QTimer::singleShot(500, this, &TmobileMenu::examActionsChanged);
 }

@@ -54,6 +54,7 @@ class TmobileMenu : public QQuickItem
   Q_PROPERTY(Taction* fly5act READ fly5act NOTIFY fly5actChanged)
   Q_PROPERTY(bool showText READ showText NOTIFY showTextChanged)
   Q_PROPERTY(bool forceText READ forceText NOTIFY forceTextChanged)
+  Q_PROPERTY(QList<QObject*> examActions READ examActions NOTIFY examActionsChanged)
 
 
 public:
@@ -96,6 +97,15 @@ public:
   Taction* fly4act() { return m_4flyAct; }
   Taction* fly5act() { return m_5flyAct; }
 
+      /**
+       * List of four actions for navigating exam/exercises.
+       * They appear a top of the menu, corresponds with flying actions during exams
+       * and are invoked next to @p setFlyActions() by @p TtipHandler class.
+       * QML MainMenuMobile drawer uses it as a model,
+       * so it is recreated every time @p examActionsChanged() is emitted.
+       */
+  QList<QObject*> examActions() { return m_examActions; }
+
   Q_INVOKABLE int fingerPixels() const;
 
   Q_INVOKABLE qreal flyX(int itemNr);
@@ -115,6 +125,7 @@ signals:
   void fly5actChanged();
   void showTextChanged();
   void forceTextChanged();
+  void examActionsChanged();
 
 protected:
   void mousePressEvent(QMouseEvent*) override;
@@ -138,6 +149,12 @@ protected:
        */
   void setFlyActions(Taction* a1, Taction* a2, Taction* a3, Taction* a4, Taction* a5);
 
+      /**
+       * The same as @p setFlyActions()
+       * but for mobile menu drawer entries to navigate exam/exercise
+       */
+  void setExamMenuEntries(Taction* a1, Taction* a2, Taction* a3, Taction* a4);
+
 private:
   static TmobileMenu*         m_instance;
   bool                        m_pressed = false;
@@ -150,6 +167,7 @@ private:
   Taction                    *m_3flyAct = nullptr;
   Taction                    *m_4flyAct = nullptr;
   Taction                    *m_5flyAct = nullptr;
+  QList<QObject*>             m_examActions;
   QTimer                     *m_flyTimer;
   bool                        m_showText = false;
   bool                        m_forceText = false;
