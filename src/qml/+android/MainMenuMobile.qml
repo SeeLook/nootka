@@ -125,6 +125,11 @@ TmobileMenu {
               MenuButton {
                 action: modelData
                 visible: action && action.enabled
+                Rectangle {
+                  width: Noo.fontSize() * 3; height: parent.height
+                  z: -1
+                  color: action ? Noo.alpha(action.bgColor, 50) : "transparent"
+                }
               }
             }
             MenuButton { action: pitchDetectAct }

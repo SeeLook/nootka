@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -14,7 +12,7 @@
    viewBox="0 0 108 108.00001"
    version="1.1"
    id="svg927"
-   inkscape:version="0.92.4 5da689c313, 2019-01-14"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
    sodipodi:docname="check.svg"
    inkscape:export-filename="../../../picts/flat/check.png"
    inkscape:export-xdpi="60.207409"
@@ -75,7 +73,7 @@
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
      inkscape:cx="217.09768"
-     inkscape:cy="78.861387"
+     inkscape:cy="-35.424327"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -87,7 +85,8 @@
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
-     fit-margin-bottom="0" />
+     fit-margin-bottom="0"
+     inkscape:document-rotation="0" />
   <metadata
      id="metadata924">
     <rdf:RDF>
@@ -126,5 +125,6 @@
            height="40.714287"
            x="549.28571"
            y="125.5201" /></flowRegion><flowPara
-         id="flowPara1985" /></flowRoot>  </g>
+         id="flowPara1985" /></flowRoot>
+  </g>
 </svg>
