@@ -19,10 +19,10 @@ Tflickable {
                           "Translate Nootka", Noo.isAndroid() ? "Rate this app" : "Vote on Nootka",
                           /*"Report an issue",*/ "Express your opinion" ]
   property var texts: [
-    "Simply play with Nootka a lot to check all possible angles.<br><a href=\"https://sourceforge.net/p/nootka/bugs/milestone/Issues%20with%20beta/\">Create Ticket (call a bug)</a> when something doesn't work/look good enough.",
+    "Simply play with Nootka a lot to check all possible angles.<br><a href=\"https://sourceforge.net/p/nootka/bugs/milestone/Issues%20with%20beta/\">Create Ticket (call a bug)</a> when something doesn't work<br>or doesn't look good enough.",
     "<a href=\"https://nootka.sourceforge.io/index.php?C=donate\">" + qsTr("Through PayPal or a card") + "</a><br><a href=\"mailto:seelook.gmail.com\">" + qsTr("or send email for an account number") + "</a>",
-    "Nootka uses natural sounds, so audio samples of bandoneon and saxophones are needed.<br>Home made samples should be sufficient, just <a href=\"mailto:seelook.gmail.com\">write message</a> for details.",
-    "It does not require any programming skills. Just read <a href=\"https://sourceforge.net/p/nootka/git/ci/master/tree/lang/how-to-translate.txt\">the instructions</a>,<br>translate and send your work.",
+    "Nootka uses natural sounds,<br>so audio samples of bandoneon and saxophones are needed.<br>Home made samples should be sufficient,<br>just <a href=\"mailto:seelook.gmail.com\">write message</a> for details.",
+    "It does not require any programming skills.<br>Just read <a href=\"https://sourceforge.net/p/nootka/git/ci/master/tree/lang/how-to-translate.txt\">the instructions</a>,<br>translate and send your work.",
     Noo.isAndroid() ?
     "Go to <a href=\"https://play.google.com/store/apps/details?id=net.sf.nootka\">Google Play</a>,<br>rate it nicely and put a comment in your native language." :
     "There are a lot of services. For example:<br><a href=\"https://play.google.com/store/apps/details?id=net.sf.nootka\">Google Play</a>, <a href=\"https://www.linux-apps.com/p/1127020/\">Linux Apps</a>, <a href=\"http://www.softpedia.com/get/Others/Home-Education/Nootka.shtml\">Softpedia</a>",
@@ -32,9 +32,9 @@ Tflickable {
 
   Flow {
     id: suppFlow
-    width: parent.width
+    width: parent.width - Noo.fontSize() * 2
     height: childrenRect.height
-    anchors.margins: Noo.fontSize()
+    anchors { margins: Noo.fontSize(); horizontalCenter: parent.horizontalCenter }
     spacing: Noo.fontSize() / 2
 
     Tile {
@@ -65,18 +65,16 @@ Tflickable {
 
     Repeater {
       model: colors.length
-      delegate: Component {
-        Tile {
-          visible: !Noo.isAndroid() || index !== 1
-          width: tt.width + Noo.fontSize() * 4
-          anchors.horizontalCenter: undefined
-          bgBorder { color: colors[index]; width: 2 }
-          bgColor: Qt.tint(colors[index], Qt.rgba(activPal.base.r, activPal.base.g, activPal.base.b, 0.9))
-          LinkText {
-            id: tt
-            text: "<b><font size=\"5\" color=\"" + colors[index] +"\">" + headers[index] + "</font></b><br>" + texts[index]
-            anchors.horizontalCenter: parent.horizontalCenter
-          }
+      Tile {
+        visible: !Noo.isAndroid() || index !== 1
+        width: Noo.isAndroid() ? suppFlow.width : (tt.width + Noo.fontSize() * 4)
+        anchors.horizontalCenter: undefined
+        bgBorder { color: colors[index]; width: 2 }
+        bgColor: Qt.tint(colors[index], Qt.rgba(activPal.base.r, activPal.base.g, activPal.base.b, 0.9))
+        LinkText {
+          id: tt
+          text: "<b><font size=\"5\" color=\"" + colors[index] +"\">" + headers[index] + "</font></b><br>" + texts[index]
+          anchors.horizontalCenter: parent.horizontalCenter
         }
       }
     }
