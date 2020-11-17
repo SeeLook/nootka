@@ -23,6 +23,10 @@ Rectangle {
   anchors.horizontalCenter: parent.horizontalCenter
   color: ma.containsPress ? Noo.alpha(activPal.highlight, 50) : "transparent"
   enabled: !action || action.enabled
+  scale: GLOB.useAnimations && ma.containsMouse ? 1.2 : 1
+  transformOrigin: Item.Left
+
+  Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 } }
 
   signal clicked()
 
@@ -65,20 +69,12 @@ Rectangle {
   MouseArea {
     id: ma
     anchors.fill: parent
-//     hoverEnabled: true
     onClicked: buttonClicked()
-//     onHoveredChanged: {
-//       if (action) {
-//         if (GLOB.showHints && action.tip !== "" && ma.containsMouse)
-//           Noo.setStatusTip(action.tip, action.tipPos)
-//         else
-//           Noo.setStatusTip("", action.tipPos)
-//       }
-//     }
   }
 
   function buttonClicked() {
     menuButton.clicked()
+    mainDrawer.close()
     if (action)
       action.trigger()
   }

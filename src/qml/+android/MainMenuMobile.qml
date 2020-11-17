@@ -80,7 +80,6 @@ TmobileMenu {
         tempoMenu = tm.createObject(nootkaWindow.contentItem)
       }
       tempoMenu.open()
-      mainDrawer.close()
     }
   }
 
@@ -114,6 +113,7 @@ TmobileMenu {
             NootkaLabel {
               id: nooLabel
               height: Noo.fontSize() * 7.91015625 // (logo ratio) 0.3955078125 * 20
+              enabled: !GLOB.isExam
               onClicked: {
                 mainDrawer.close()
                 Noo.aboutAct.trigger()
@@ -125,11 +125,9 @@ TmobileMenu {
               MenuButton {
                 action: modelData
                 visible: action && action.enabled
-                onClicked: mainDrawer.close()
-                color: Noo.alpha(containsPress ? activPal.highlight : (action ? action.bgColor : "transparent"), 50)
               }
             }
-            MenuButton { action: pitchDetectAct; onClicked: mainDrawer.close() }
+            MenuButton { action: pitchDetectAct }
             MenuButton {
               visible: !GLOB.singleNoteMode
               action: tempoAct
@@ -140,18 +138,17 @@ TmobileMenu {
                 text: beatModel[SOUND.beatUnit] + "=" + SOUND.tempo
               }
             }
-            MenuButton { action: Noo.examAct; onClicked: mainDrawer.close() }
-            MenuButton { action: Noo.levelAct; onClicked: mainDrawer.close() }
-            MenuButton { visible: !GLOB.singleNoteMode; action: Noo.scoreAct; onClicked: mainDrawer.close() }
+            MenuButton { action: Noo.examAct }
+            MenuButton { action: Noo.levelAct }
+            MenuButton { visible: !GLOB.singleNoteMode; action: Noo.scoreAct }
             MenuButton {
               action: Taction {
                 text: Noo.settingsAct.text
                 icon: GLOB.isExam ? "exam-settings" : "systemsettings"
                 onTriggered: Noo.settingsAct.trigger()
               }
-              onClicked: mainDrawer.close()
             }
-            MenuButton { action: tunerAct; onClicked: mainDrawer.close() }
+            MenuButton { action: tunerAct }
             MenuButton { onClicked: nootkaWindow.close(); action: Taction { icon: "close"; text: Noo.TR("QShortcut", "Close") } }
           }
         }
