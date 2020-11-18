@@ -161,13 +161,12 @@ if (APPLE)
   add_custom_target(deploy
     COMMAND echo "deploying..."
     COMMAND echo ${QT_BINARY_DIR}/../../bin
-    COMMAND ${QT_BINARY_DIR}/../../bin/macdeployqt ${CMAKE_INSTALL_PREFIX}/nootka.app -executable=${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/Frameworks/libNootkaUpdaterPlugin.dylib ${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/Frameworks/libNootkaSound.dylib
+    COMMAND ${QT_BINARY_DIR}/../../bin/macdeployqt ${CMAKE_INSTALL_PREFIX}/nootka.app -executable=${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/Frameworks/libNootkaSound.dylib -qmldir ${CMAKE_SOURCE_DIR}/src/qml
   )
 endif(APPLE)
 
 if (UNIX AND NOT APPLE)
   # appimage target
-  # install linuxdeployqt & appimagetool first - they have to be in $PATH
   # To correctly generate AppImage set install prefix to '/usr'
   # and when using with older Linux system (i.e. Ubuntu Trusty 14.04)
   # call
