@@ -115,7 +115,29 @@ int main(int argc, char *argv[])
     }
     nooObj->setResetConfig(false);
 #endif
+
+#if defined (Q_OS_MAC)
+    // HACK: Add command line arguments that forces using freetype font engine
+    // because qt.conf doesn't work
+    int new_argc = argc + 2;
+    std::vector<std::unique_ptr<char>> new_argv_aux(new_argc);
+    for (int ii = 0; ii < argc; ++ii) {
+      new_argv_aux[ii].reset(new char[strlen(argv[ii]) + 1]);
+      strcpy(new_argv_aux[ii].get(), argv[ii]);
+    }
+    new_argv_aux[argc].reset(new char[strlen("-platform") + 1]);
+    strcpy(new_argv_aux[argc].get(), "-platform");
+    new_argv_aux[argc + 1].reset(new char[strlen("cocoa:fontengine=freetype") + 1]);
+    strcpy(new_argv_aux[argc + 1].get(), "cocoa:fontengine=freetype");
+
+    std::vector<char*> new_argv(new_argv_aux.size());
+    for (size_t ii = 0; ii < new_argv_aux.size(); ++ii)
+      new_argv[ii] = new_argv_aux[ii].get();
+
+    a = new QApplication(new_argc, new_argv.data());
+#else
     a = new QApplication(argc, argv);
+#endif
     Tmtr::init(a);
 
     gl = new Tglobals();
