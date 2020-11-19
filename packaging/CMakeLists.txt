@@ -161,7 +161,7 @@ if (APPLE)
   add_custom_target(deploy
     COMMAND echo "deploying..."
     COMMAND echo ${QT_BINARY_DIR}/../../bin
-    COMMAND ${QT_BINARY_DIR}/../../bin/macdeployqt ${CMAKE_INSTALL_PREFIX}/nootka.app -executable=${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/Frameworks/libNootkaSound.dylib -qmldir ${CMAKE_SOURCE_DIR}/src/qml
+    COMMAND ${QT_BINARY_DIR}/../../bin/macdeployqt ${CMAKE_INSTALL_PREFIX}/nootka.app -qmldir=${CMAKE_SOURCE_DIR}/src/qml
   )
 endif(APPLE)
 
