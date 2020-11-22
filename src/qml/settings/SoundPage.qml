@@ -64,9 +64,10 @@ Column {
             Row {
               spacing: Noo.fontSize() * 2
               anchors.horizontalCenter: parent.horizontalCenter
-              TlabelText { text: qsTr("input device") }
+              TlabelText { text: qsTr("input device"); anchors.verticalCenter: parent.verticalCenter }
               TcomboBox {
                 id: inDevCombo
+                anchors.verticalCenter: parent.verticalCenter
                 width: Noo.fontSize() * 20
                 model: SOUND.inputDevices()
               }
@@ -147,7 +148,7 @@ Column {
                   radius: Noo.fontSize()
                   color: advSwitch.checked ? activPal.highlight : activPal.button
                   border.color: enabled ? activPal.text : disdPal.text //advSwitch.checked ? "#17a81a" : "#cccccc"
-                  
+
                   TipRect {
                     x: advSwitch.checked ? parent.width - width : 0
                     anchors.verticalCenter: parent.verticalCenter
@@ -163,7 +164,7 @@ Column {
                     }
                   }
                 }
-                
+
                 contentItem: Text {
                   text: advSwitch.text
                   opacity: enabled ? 1.0 : 0.3
@@ -264,9 +265,10 @@ Column {
             Row {
               spacing: Noo.fontSize() * 2
               anchors.horizontalCenter: parent.horizontalCenter
-              TlabelText { text: qsTr("output device") }
+              TlabelText { text: qsTr("output device"); anchors.verticalCenter: parent.verticalCenter }
               TcomboBox {
                 id: outDevCombo
+                anchors.verticalCenter: parent.verticalCenter
                 width: Noo.fontSize() * 20
                 model: SOUND.outputDevices()
               }

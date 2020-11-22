@@ -64,8 +64,9 @@ ComboBox {
   }
 
   indicator: Text {
-    x: cb.width - width
-    color: cb.enabled ? activPal.text : disdPal.text; text: "⋮"; font.pixelSize: cb.height * 0.6
+    x: cb.width - width * (Noo.isAndroid() || Noo.isMac() ? 1.2 : 1)
+    color: cb.enabled ? activPal.text : disdPal.text; text: "⋮"
+    font { pixelSize: cb.height * 0.7; bold: true }
     anchors.verticalCenter: parent.verticalCenter
   }
 
