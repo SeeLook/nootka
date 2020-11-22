@@ -163,6 +163,11 @@ if (APPLE)
     COMMAND echo ${QT_BINARY_DIR}/../../bin
     COMMAND ${QT_BINARY_DIR}/../../bin/macdeployqt ${CMAKE_INSTALL_PREFIX}/nootka.app -qmldir=${CMAKE_SOURCE_DIR}/src/qml
   )
+
+  add_custom_target(dmg
+    COMMAND echo "creating dmg image..."
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/mac/create-dmg.sh ${Nootka_VERSION_FULL} ${CMAKE_SOURCE_DIR} ${CMAKE_INSTALL_PREFIX}
+  )
 endif(APPLE)
 
 if (UNIX AND NOT APPLE)
