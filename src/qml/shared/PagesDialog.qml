@@ -18,7 +18,7 @@ Item {
   property alias currentPage: stack.currentItem
   property var buttons: []
 
-  anchors { fill: parent; leftMargin: Noo.fontSize() / 4 }
+  anchors { fill: parent; leftMargin: Noo.isAndroid() ? 0 : Noo.fontSize() / 4 }
 
   Rectangle {
     color: Noo.isAndroid() ? "#000000" : "#ffffff"
@@ -115,9 +115,9 @@ Item {
   // pages container on the right
   StackView {
     id: stack
-    x: navList.width + Noo.fontSize() / 4
+    x: navList.width + (Noo.isAndroid() ? 0 : Noo.fontSize() / 4)
     z: -1 // below navigation list
-    width: parent.width - navList.width
+    width: parent.width - navList.width - (Noo.isAndroid() ? 0 : Noo.fontSize() / 4)
     height: parent.height
     // fade animations
     replaceEnter: Transition { enabled: GLOB.useAnimations; PropertyAnimation { property: "opacity"; from: 0; to: 1; duration: 500 }}
