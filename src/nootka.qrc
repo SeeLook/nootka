@@ -101,6 +101,7 @@
     <file alias="settings/Select7note.qml">qml/settings/Select7note.qml</file>
     <file alias="settings/ExamPage.qml">qml/settings/ExamPage.qml</file>
     <file alias="settings/MiddleA440.qml">qml/settings/MiddleA440.qml</file>
+    <file alias="settings/TbuttonBar.qml">qml/settings/TbuttonBar.qml</file>
 
     <file alias="LevelCreator.qml">qml/level/LevelCreator.qml</file>
     <file alias="level/LevelsPage.qml">qml/level/LevelsPage.qml</file>

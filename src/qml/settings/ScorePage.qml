@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -11,36 +11,19 @@ import "../"
 
 
 Column {
-
     spacing: Noo.fontSize()
-    width: parent.width
+    width: parent.width; height: parent.height
     topPadding: Noo.fontSize() / 2
 
-    ListView {
+    TbuttonBar {
       id: headList
-      orientation: ListView.Horizontal
-      spacing: Noo.fontSize()
-      width: parent.width; height: Noo.fontSize() * 2
-      currentIndex: 0
-
-      model: ListModel {
-        ListElement { head: QT_TR_NOOP("Score settings") }
-        ListElement { head: QT_TR_NOOP("Key signatures") }
-        ListElement { head: QT_TR_NOOP("Clefs") }
-        ListElement { head: QT_TR_NOOP("Notes naming") }
-      }
-
-      delegate: Component {
-        TcuteButton {
-          text: (index + 1) + ". " + qsTr(head)
-          onClicked: { swipePages.currentIndex = index; headList.currentIndex = index }
-          checked: headList.currentIndex === index
-        }
-      }
+      model: [ qsTr("Score settings"), qsTr("Key signatures"), qsTr("Clefs"), qsTr("Notes naming") ]
+      onCurrentIndexChanged: swipePages.currentIndex = currentIndex
     }
+
     StackLayout {
       id: swipePages
-      height: parent.height - headList.height - Noo.fontSize() * 1.5
+      height: parent.height - headList.height - Noo.fontSize() / 2
       width: parent.width
 
       Tflickable { // 1st page (general)
@@ -258,7 +241,7 @@ Column {
                 anchors.horizontalCenter: parent.horizontalCenter
                 color: activPal.text; textFormat: Text.RichText; font.pixelSize: Noo.fontSize() * 0.9
                 text: "<table>"
-                    + "<tr><td> <b>"+ Noo.TR("TnoteName", "Octaves") + ":</b> </td><td> <b>" + qsTr("scientific") + "</b> </td><td> <b>" + qsTr("musical") + "</b> </td></tr>"
+                    + "<tr><td> <b>"+ Noo.TR("TnameItem", "Octaves") + ":</b> </td><td> <b>" + qsTr("scientific") + "</b> </td><td> <b>" + qsTr("musical") + "</b> </td></tr>"
                     + "<tr><td>"+ Noo.TR("TnoteName", "Subcontra octave") + "</td><td align=\"center\">C<sub>0</sub></td><td align=\"center\">C<sub>2</sub></td></tr>"
                     + "<tr><td>"+ Noo.TR("TnoteName", "Contra octave") + "</td><td align=\"center\">C<sub>1</sub></td><td align=\"center\">C<sub>1</sub></td></tr>"
                     + "<tr><td>"+ Noo.TR("TnoteName", "Great octave") + "</td><td align=\"center\">C<sub>2</sub></td><td align=\"center\">C</td></tr>"

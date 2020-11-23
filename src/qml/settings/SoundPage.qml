@@ -14,27 +14,15 @@ Column {
   width: parent.width; height: parent.height
   topPadding: Noo.fontSize() / 2
 
-  ListView {
+  TbuttonBar {
     id: headList
-    orientation: ListView.Horizontal
-    spacing: Noo.fontSize()
-    width: parent.width; height: Noo.fontSize() * 2
-
-    model: ListModel {
-      ListElement { head: QT_TR_NOOP("listening") }
-      ListElement { head: QT_TR_NOOP("playing") }
-    }
-
-    delegate: TcuteButton {
-      text: qsTr(head)
-      onClicked: { stack.currentIndex = index; headList.currentIndex = index }
-      checked: index === stack.currentIndex
-    }
+    model: [ qsTr("listening"), qsTr("playing") ]
+    onCurrentIndexChanged: stack.currentIndex = currentIndex
   }
 
   StackLayout {
     id: stack
-    height: parent.height - headList.height - Noo.fontSize() * 1.5
+    height: parent.height - headList.height - Noo.fontSize() / 2
     width: parent.width
     currentIndex: -1
 
