@@ -55,6 +55,7 @@ TmobileMenu {
         color: score.recordMode ? "red" : "black"
       }
       Rectangle {
+        id: pitchDot
         width: bg.width / 4; height: width; radius: width / 2
         anchors.horizontalCenter: parent.horizontalCenter
         color: SOUND.listening ? "blue" : "black"
@@ -169,6 +170,7 @@ TmobileMenu {
   Connections {
     target: SOUND
     onVolumeKeyPressed: nootkaWindow.showDialog(Nootka.Tuner)
+    onListeningChanged: pitchDot.scale = 1
   }
 
   FlyItem { taction: fly1act; index: 0 }
@@ -176,5 +178,11 @@ TmobileMenu {
   FlyItem { taction: fly3act; index: 2 }
   FlyItem { taction: fly4act; index: 3 }
   FlyItem { taction: fly5act; index: 4 }
+
+  Timer {
+    repeat: true; interval: 75
+    running: SOUND.listening
+    onTriggered: pitchDot.scale = 1 + SOUND.inputVol()
+  }
 
 }
