@@ -3,6 +3,9 @@
      - melodies order in set is editable
      - user can define repeats number of melodies from the set
      - updated SoundTouch library version to 2.2 (Windows&Android)
+    ANDROID
+     - display menu entries to navigate exam (along with quick buttons)
+     - indicate input volume by scaling menu button dot
 
 1.7.2 beta2
      - improved rhythm detection
