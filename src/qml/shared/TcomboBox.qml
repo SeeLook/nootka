@@ -54,7 +54,7 @@ ComboBox {
     contentItem: Text {
       text: modelData
       color: itDel.enabled ? (cb.currentIndex === index || itDel.down ? activPal.highlightedText : activPal.text) : disdPal.text
-      elide: Text.ElideRight; textFormat: Text.StyledText
+      textFormat: Text.StyledText
       verticalAlignment: Text.AlignVCenter
       scale: GLOB.useAnimations && itDel.pressed ? 0.9 : 1.0
       font { strikeout: !itDel.enabled; bold: cb.currentIndex === index }

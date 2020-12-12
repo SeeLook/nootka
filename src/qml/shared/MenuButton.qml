@@ -50,12 +50,13 @@ Rectangle {
   Text {
     id: butText
     x: Noo.fontSize() * (action && (action.icon !== "" || action.checkable) ? 3.7 : 0.8)
-    anchors.verticalCenter: parent.verticalCenter
     text: action ? action.text : ""
-    font.bold: true
+    font { bold: true; pixelSize: Noo.fontSize() }
     color: enabled ? activPal.text : disdPal.text
     width: parent.width - x - Noo.fontSize() - (shortText ? shortText.width : 0)
-    fontSizeMode: Text.Fit; minimumPixelSize: Noo.fontSize() / 2; minimumPointSize: minimumPixelSize
+    height: parent.height
+    verticalAlignment: Text.AlignVCenter
+    fontSizeMode: Text.HorizontalFit; minimumPixelSize: Noo.fontSize() / 2; minimumPointSize: minimumPixelSize
     elide: Text.ElideRight
   }
 
