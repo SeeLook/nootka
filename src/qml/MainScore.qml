@@ -82,9 +82,10 @@ Score {
     parent: firstStaff
     visible: GLOB.showKeyName && enableKeySign
     x: clef === Tclef.PianoStaffClefs ? 7.5 : 5.5
-    y: clef === Tclef.PianoStaffClefs ? 3.7 : 6.2
+    y: clef === Tclef.PianoStaffClefs ? 4.2 : 7
     color: activPal.text
-    font { family: "Sans"; pixelSize: 2 }
+    font { pixelSize: 12 }
+    transformOrigin: Item.TopLeft; scale: 1.0 / 6.0
     text: GLOB.showKeyName && enableKeySign ? mainObj.keyNameText : ""
   }
 
