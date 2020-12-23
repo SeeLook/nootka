@@ -63,13 +63,14 @@ Tflickable {
           }
           Text {
             text: lang; textFormat: Text.PlainText; color: activPal.text
-            width: Noo.fontSize() * (Noo.isAndroid() ? 6 : 9)
+            width: Noo.fontSize() * (Noo.isAndroid() ? 5 : 8)
             font.pixelSize: Noo.fontSize() * (Noo.isAndroid() ? 0.8 : 1)
             anchors.verticalCenter: parent.verticalCenter
           }
           Text {
             text: trr; color: activPal.text; font.bold: true;
-            textFormat: Text.StyledText; width: Noo.fontSize() * 16; fontSizeMode: Text.Fit; minimumPixelSize: Noo.fontSize() / 2;  minimumPointSize: minimumPixelSize
+            textFormat: Text.StyledText; width: Noo.fontSize() * (web === "" ? 24 : 16)
+            fontSizeMode: Text.Fit; minimumPixelSize: Noo.fontSize() / 2;  minimumPointSize: minimumPixelSize
             anchors.verticalCenter: parent.verticalCenter
           }
           LinkText {
