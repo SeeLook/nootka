@@ -73,7 +73,10 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
 
 int main(int argc, char *argv[])
 {
-//   QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#if defined (Q_OS_WIN)
+  // It works under Win
+  QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
 
   // It mutes QML warnings about connections syntax introduced in Qt 5.15
   // TODO when Qt version requirements will rise to 5.15 or above, change syntax and remove that
