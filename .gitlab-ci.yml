@@ -4,7 +4,7 @@ build-amd64:
     # update docker
     - apt-get update
     - apt-get install -y git wget
-    - pip3 install --upgrade git+https://www.opencode.net/azubieta/appimagecraft.git
+    - pip3 install --upgrade git+https://www.opencode.net/azubieta/appimage-builder.git
 
     # Nootka build requirements
     - echo 'deb http://archive.neon.kde.org/user/ bionic main' > /etc/apt/sources.list.d/neon.list
