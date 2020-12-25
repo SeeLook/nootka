@@ -1,7 +1,9 @@
 version: 1
+script:
+  - rm -rf AppDir || true
 
 AppDir:
-  path: AppDir
+  path: ./AppDir
 
   app_info:
     id: sf.net.nootka
@@ -19,7 +21,6 @@ AppDir:
       - sourceline: 'deb [arch=amd64] http://archive.ubuntu.com/ubuntu/ bionic-backports main restricted universe multiverse'
       - sourceline: 'deb http://archive.neon.kde.org/user bionic main'
         key_url: 'http://archive.neon.kde.org/public.key'
-
 
     include:
       - libqt5qml5
@@ -51,8 +52,6 @@ AppDir:
       - qml-module-qtquick-controls
       - qml-module-qtquick-controls2
       - qml-module-qtquick-window2
-
-      
       # the following X libs are not resolved by apt
       - libxcursor1
 
@@ -85,12 +84,6 @@ AppDir:
       - /share/pixmaps
       - usr/include
 
-  runtime:
-    generator: wrapper
-    env:
-      PATH: '${APPDIR}/usr/bin:${APPDIR}/bin:${PATH}'
-      APPDIR_LIBRARY_PATH: "$APPDIR/lib/x86_64-linux-gnu:$APPDIR/usr/lib/x86_64-linux-gnu:$APPDIR/usr/lib/x86_64-linux-gnu/pulseaudio"
-
   test:
     debian:
       image: debian:stable
@@ -116,7 +109,6 @@ AppDir:
       use_host_x: True
       env:
         - QT_DEBUG_PLUGINS=1
-
 
 AppImage:
   update-information: None
