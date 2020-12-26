@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -33,16 +33,15 @@ Grid {
     TlabelText { text: qsTr("semitone(s)", "", shiftSpin.value); width: Noo.fontSize() * 12 }
   }
 
-  ButtonGroup { buttons: radioCol.children }
+  ButtonGroup { id: upDownGroup }
   Column {
-    id: radioCol
     Row {
       TlabelText { text: "\u2191"; font { pixelSize: Noo.fontSize() * 2.5; family: "Nootka" }}
-      TradioButton { id: upRadio; text: qsTr("up") }
+      TradioButton { id: upRadio; text: qsTr("up"); ButtonGroup.group: upDownGroup }
     }
     Row {
       TlabelText { text: "\u2193"; font { pixelSize: Noo.fontSize() * 2.5; family: "Nootka" }}
-      TradioButton { id: downRadio; text: qsTr("down") }
+      TradioButton { id: downRadio; text: qsTr("down"); ButtonGroup.group: upDownGroup }
     }
   }
 }
