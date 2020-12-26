@@ -10,8 +10,18 @@ set(CMAKE_AUTOMOC ON)
 find_package(Qt5Widgets REQUIRED)
 if (Qt5Widgets_FOUND)
     if (Qt5Widgets_VERSION VERSION_LESS 5.9.0)
-        message(FATAL_ERROR "Minimum supported Qt5 version is 5.9.0")
-    endif()
+        message(FATAL_ERROR "Minimum supported Qt version is 5.9.0")
+    else()
+        if (Qt5Widgets_VERSION VERSION_GREATER 5.14 AND CMAKE_BUILD_TYPE MATCHES Release)
+          # TODO
+          # Nootka is not compatible with Qt 6 - needs porting,
+          # to keep less demanding of Qt 5 version (5.9 so far enough).
+          # Hide warnings then of Qt 5.15 for clean release build.
+          #
+          message("===== For RELEASE build suppress Qt 5.15 warnings about deprecated declarations ====")
+          set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-deprecated-declarations")
+        endif()
+    endif(Qt5Widgets_VERSION VERSION_LESS 5.9.0)
 else()
     message(SEND_ERROR "The Qt5Widgets library could not be found!")
 endif(Qt5Widgets_FOUND)
@@ -22,6 +32,14 @@ find_package(Qt5Quick REQUIRED)
 find_package(Qt5QuickControls2 REQUIRED)
 find_package(Qt5Widgets REQUIRED)
 find_package(Qt5PrintSupport REQUIRED)
+
+
+if(UNIX AND NOT APPLE)
+  if (PACKAGE_ARCHITECTURE MATCHES "arm" OR PACKAGE_ARCHITECTURE MATCHES "aarch64")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsigned-char")
+    message("Set additional flag -fsigned-char for ${PACKAGE_ARCHITECTURE} arch")
+  endif(PACKAGE_ARCHITECTURE MATCHES "arm" OR PACKAGE_ARCHITECTURE MATCHES "aarch64")
+endif(UNIX AND NOT APPLE)
 
 
 if(UNIX AND NOT APPLE)
@@ -63,7 +81,9 @@ if (CMAKE_BUILD_TYPE MATCHES Debug)
   add_definitions(-DQT_QML_DEBUG)
 endif ()
 
+
 option (WITH_STATIC_LIB "Link Nootka libraries statically - used for AppImage" OFF)
+
 
 add_subdirectory( libs/core )     # libNootkaCore
 add_subdirectory( libs/sound )    # libNootkaSound
@@ -120,7 +140,9 @@ set(NOOTKA_SRC
   charts/tbarchartdelegate.cpp
 )
 
+
 option(ENABLE_UPDATER "Enable online checking for new Nootka versions" ON)
+
 
 if(ENABLE_UPDATER)
   message(STATUS "check for updates\t\t TRUE")
