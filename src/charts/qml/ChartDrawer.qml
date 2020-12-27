@@ -52,7 +52,7 @@ Drawer {
           currentIndex: chartItem.selectedFileId
           clip: true
           delegate: MenuButton {
-            width: parent.width
+            width: parent ? parent.width : 0
             action: modelData
             color: containsPress || recentList.currentIndex === index ? activPal.highlight :
                     (containsMouse ? Noo.alpha(activPal.highlight, 50) : (index % 2 ? activPal.alternateBase : activPal.base))

@@ -20,7 +20,7 @@ Rectangle {
 
   width: parent.width - Noo.fontSize()
   implicitHeight: Noo.fontSize() * 2.8
-  anchors.horizontalCenter: parent.horizontalCenter
+  anchors.horizontalCenter: parent ? parent.horizontalCenter : undefined
   color: ma.containsPress ? activPal.highlight : (ma.containsMouse ? Noo.alpha(activPal.highlight, 50) : "transparent")
   enabled: !action || action.enabled
 
