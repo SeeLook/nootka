@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -36,58 +36,53 @@ TlevelsSelector {
         currentIndex: -1
         ScrollBar.vertical: ScrollBar { active: false; visible: active }
         model: levelsModel
-        delegate: Component {
-          Item {
-            width: view.width; height: delegateRow.height
-            Rectangle {
-              anchors.fill: parent
-              color: index === view.currentIndex ? activPal.highlight :
-                  (area.containsMouse ? Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 50)) : (index % 2 === 1 ? activPal.alternateBase : activPal.base))
+        delegate: Rectangle {
+          width: view.width; height: delegateRow.height
+          color: index === view.currentIndex ? activPal.highlight :
+              (area.containsMouse ? Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 50)) : (index % 2 === 1 ? activPal.alternateBase : activPal.base))
+          Row {
+            id: delegateRow
+            width: parent.width
+            padding: width / 100
+            Text {
+              anchors.verticalCenter: parent.verticalCenter
+              font { family: "Nootka"; pixelSize: Noo.fontSize() * 1.7 }
+              width: Noo.fontSize() * 2.5
+              color: index === view.currentIndex ? activPal.highlightedText : isMelody(index) ? Noo.invert(activPal.highlight) : activPal.highlight
+              text: isMelody(index) ? "m" : "n"
+              horizontalAlignment: Text.AlignHCenter
             }
-            Row {
-              id: delegateRow
-              width: parent.width
-              padding: width / 100
+            Column {
+              width: parent.width - Noo.fontSize() * 3
+              spacing: Noo.fontSize() / 4
+              anchors.verticalCenter: parent.verticalCenter
               Text {
-                anchors.verticalCenter: parent.verticalCenter
-                font { family: "Nootka"; pixelSize: Noo.fontSize() * 1.7 }
-                width: Noo.fontSize() * 2.5
-                color: index === view.currentIndex ? activPal.highlightedText : isMelody(index) ? Noo.invert(activPal.highlight) : activPal.highlight
-                text: isMelody(index) ? "m" : "n"
-                horizontalAlignment: Text.AlignHCenter
+                width: parent.width
+                font { pixelSize: Noo.fontSize(); bold: true }
+                text: modelData
+                color: index === view.currentIndex ? activPal.highlightedText : (isSuitable(index) ? activPal.text : disdPal.text)
+                elide: Text.ElideRight
               }
-              Column {
-                width: parent.width - Noo.fontSize() * 3
-                spacing: Noo.fontSize() / 4
-                anchors.verticalCenter: parent.verticalCenter
-                Text {
-                  width: parent.width
-                  font { pixelSize: Noo.fontSize(); bold: true }
-                  text: modelData
-                  color: index === view.currentIndex ? activPal.highlightedText : (isSuitable(index) ? activPal.text : disdPal.text)
-                  elide: Text.ElideRight
-                }
-                Text {
-                  visible: text !== ""
-                  width: parent.width
-                  text: desc(index)
-                  font.pixelSize: Noo.fontSize() * 0.8
-                  color: index === view.currentIndex ? activPal.highlightedText : activPal.text
-                  wrapMode: Text.WordWrap; maximumLineCount: 2; elide: Text.ElideRight
-                }
-              }
-            }
-            MouseArea {
-              anchors.fill: parent
-              id: area
-              hoverEnabled: true
-              onClicked: {
-                view.currentIndex = index
-                showLevel(index)
+              Text {
+                visible: text !== ""
+                width: parent.width
+                text: desc(index)
+                font.pixelSize: Noo.fontSize() * 0.8
+                color: index === view.currentIndex ? activPal.highlightedText : activPal.text
+                wrapMode: Text.WordWrap; maximumLineCount: 2; elide: Text.ElideRight
               }
             }
           }
-        }
+          MouseArea {
+            anchors.fill: parent
+            id: area
+            hoverEnabled: true
+            onClicked: {
+              view.currentIndex = index
+              showLevel(index)
+            }
+          }
+        } // Rectangle
       }
 
       Row {
