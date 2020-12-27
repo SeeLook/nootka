@@ -74,16 +74,18 @@ TlevelPreviewItem {
 
           PreviewItem {
             id: noteRangeIt
+            index: 1
             handleWidth: true
-            height: Noo.fontSize() * 2
+            height: Noo.fontSize() * 2.5
             text: Noo.TR("RangePage", "note range:").replace(":", " ")
             text2: noteRange
             textItem2.font { family: "Scorek"; pixelSize: Noo.fontSize() * 1.6 }
-            textItem2.y: height * -0.9
+            textItem2.y: Noo.fontSize() * -1.44
           }
 
           PreviewItem {
             id: fretRangeIt
+            aboveItem: noteRangeIt
             handleWidth: true
             text: Noo.TR("RangePage", "fret range:").replace(":", " ")
             text2: fretRange
@@ -91,36 +93,49 @@ TlevelPreviewItem {
 
           PreviewItem {
             id: keyRangeIt
+            aboveItem: fretRangeIt
             handleWidth: true
             text: qsTranslate("TlevelPreviewItem", "key signature:").replace(":", " ")
             text2: keyRange
+            textItem2.font.bold: true
           }
 
           PreviewItem {
             id: accidentalsIt
+            aboveItem: keyRangeIt
             handleWidth: true
             text: Noo.TR("AccidsPage", "accidentals") + " "
             text2: accidentals === "" ? qsTranslate("TlevelPreviewItem", "none") : accidentals
-            textItem2.font { family: accidentals === "" ? "default" : "Nootka"; pixelSize: Noo.fontSize() * (accidentals === "" ? 1.2 : 1.8) }
+            textItem2.font { family: accidentals === "" ? Noo.fontFamily() : "Nootka"; pointSize: Noo.fontSize() * (accidentals === "" ? 1 : 1.5) }
           }
 
           PreviewItem {
+            id: questionsIt
+            aboveItem: accidentalsIt
             handleWidth: true
             text: Noo.TR("LevelCreator", "Questions") + " "
-            text2: questions
-            textItem2.font { family: "Nootka"; pixelSize: Noo.fontSize() * 2.2 }
+            text2: questions === "" ? qsTr("not selected") : questions
+            textItem2.color: questions === "" ? "red" : activPal.text
+            textItem2.font { family: questions === "" ? Noo.fontFamily() : "Nootka"; pointSize: Noo.fontSize() * (questions === "" ? 1 : 1.5) }
           }
 
           PreviewItem {
+            id: answersIt
+            aboveItem: questionsIt
             handleWidth: true
             text: qsTranslate("LevelCreator", "Answers") + " "
-            text2: answers
-            textItem2.font { family: "Nootka"; pixelSize: Noo.fontSize() * 2.2 }
+            text2: answers === "" ? qsTr("not selected") : answers
+            textItem2.color: answers === "" ? "red" : activPal.text
+            textItem2.font { family: answers === "" ? Noo.fontFamily() : "Nootka"; pointSize: Noo.fontSize() * (answers === "" ? 1 : 1.5) }
           }
 
           PreviewItem {
+            aboveItem: answersIt
             text: " "
+            width: answersIt.width
             text2: requireOctave
+            textItem2 { width: width; horizontalAlignment: Text.AlignHCenter }
+            showBottomLine: true
           }
         } // Column
 
@@ -131,6 +146,7 @@ TlevelPreviewItem {
             layHorizontal: false
             text: "<br>" + qsTranslate("TlevelPreviewItem", "Clef") + ":"
             textItem2.font { family: "Scorek"; pixelSize: Noo.fontSize() * 4 }
+            //textItem2.y
             text2: clef
           }
         }

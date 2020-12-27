@@ -56,7 +56,6 @@ void TlevelPreviewItem::setLevel(Tlevel* tl) {
   m_validLevel = tl != nullptr;
   if (tl) {
       static const QString space = QStringLiteral(" ");
-      static const QString notSelected = QStringLiteral("<font color=\"red\">=====</font>");// tr("not set");
       m_instrGlyph = Tinstrument(tl->instrument).glyph();
       m_header = getLevelSumary(tl->name);
       m_description = tl->desc;
@@ -91,41 +90,35 @@ void TlevelPreviewItem::setLevel(Tlevel* tl) {
       if (tl->withDblAcc)
         m_accidentals += (m_questions.isEmpty() ? QString() : space) + QLatin1String("x B");
 
-      if (tl->questionAs.isOnScore() || tl->questionAs.isName() || tl->questionAs.isOnInstr() || tl->questionAs.isSound()) {
-          m_questions.clear();
-          if (tl->questionAs.isOnScore())
-            m_questions += qaTypeSymbol(TQAtype::e_onScore, tl);
-          if (tl->questionAs.isName())
-            m_questions += (m_questions.isEmpty() ? QString() : space) + qaTypeSymbol(TQAtype::e_asName, tl);
-          if (tl->questionAs.isOnInstr())
-            m_questions += (m_questions.isEmpty() ? QString() : space) + qaTypeSymbol(TQAtype::e_onInstr, tl);
-          if (tl->questionAs.isSound()) {
-            m_questions += m_questions.isEmpty() ? QString() : space;
-            if (tl->canBeMelody())
-              m_questions += QLatin1String("m");
-            else
-              m_questions += qaTypeSymbol(TQAtype::e_asSound, tl);
-          }
-      } else
-          m_questions = notSelected;
+      m_questions.clear();
+      if (tl->questionAs.isOnScore())
+        m_questions += qaTypeSymbol(TQAtype::e_onScore, tl);
+      if (tl->questionAs.isName())
+        m_questions += (m_questions.isEmpty() ? QString() : space) + qaTypeSymbol(TQAtype::e_asName, tl);
+      if (tl->questionAs.isOnInstr())
+        m_questions += (m_questions.isEmpty() ? QString() : space) + qaTypeSymbol(TQAtype::e_onInstr, tl);
+      if (tl->questionAs.isSound()) {
+        m_questions += m_questions.isEmpty() ? QString() : space;
+        if (tl->canBeMelody())
+          m_questions += QLatin1String("m");
+        else
+          m_questions += qaTypeSymbol(TQAtype::e_asSound, tl);
+      }
 
-      if (tl->answerIsGuitar() || tl->answerIsNote() || tl->answerIsName() || tl->answerIsSound()) {
-          m_answers.clear();
-          if (tl->answerIsNote())
-            m_answers += qaTypeSymbol(TQAtype::e_onScore, tl);
-          if (tl->answerIsName())
-            m_answers += (m_answers.isEmpty() ? QString() : space) + qaTypeSymbol(TQAtype::e_asName, tl);
-          if (tl->answerIsGuitar())
-            m_answers += (m_answers.isEmpty() ? QString() : space) + qaTypeSymbol(TQAtype::e_onInstr, tl);
-          if (tl->answerIsSound()) {
-            m_answers += m_answers.isEmpty() ? QString() : space;
-            if (tl->canBeMelody())
-              m_answers += QLatin1String("m");
-            else
-              m_answers += qaTypeSymbol(TQAtype::e_asSound, tl);
-          }
-      } else
-          m_answers = notSelected;
+      m_answers.clear();
+      if (tl->answerIsNote())
+        m_answers += qaTypeSymbol(TQAtype::e_onScore, tl);
+      if (tl->answerIsName())
+        m_answers += (m_answers.isEmpty() ? QString() : space) + qaTypeSymbol(TQAtype::e_asName, tl);
+      if (tl->answerIsGuitar())
+        m_answers += (m_answers.isEmpty() ? QString() : space) + qaTypeSymbol(TQAtype::e_onInstr, tl);
+      if (tl->answerIsSound()) {
+        m_answers += m_answers.isEmpty() ? QString() : space;
+        if (tl->canBeMelody())
+          m_answers += QLatin1String("m");
+        else
+          m_answers += qaTypeSymbol(TQAtype::e_asSound, tl);
+      }
 
       if (tl->canBeName() || tl->canBeScore() || tl->canBeSound())
         m_requireOctave = tl->requireOctave ? tr("proper octave is required") : tr("octave does no matter");
