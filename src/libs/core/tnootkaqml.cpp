@@ -356,6 +356,11 @@ int TnootkaQML::fontSize() {
 #endif
 }
 
+QString TnootkaQML::fontFamily() {
+  return Tmtr::systemFont.family();
+}
+
+
 int TnootkaQML::fingerPixels() { return Tmtr::fingerPixels(); }
 
 int TnootkaQML::shortScreenSide() { return Tmtr::shortScreenSide(); }

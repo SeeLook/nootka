@@ -151,6 +151,7 @@ public:
   Q_INVOKABLE qreal lightness(const QColor& c) const;
 
   Q_INVOKABLE int fontSize();
+  Q_INVOKABLE QString fontFamily();
   Q_INVOKABLE int fingerPixels();
 
       /**
