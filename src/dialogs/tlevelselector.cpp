@@ -51,20 +51,6 @@ QString TlevelSelector::checkLevel(const Tlevel& l) {
 TlevelSelector::TlevelSelector(QQuickItem* parent) :
   QQuickItem(parent)
 {
-  m_fakeLevel.desc.clear();
-  m_fakeLevel.name = QApplication::translate("TlevelPreviewItem", "no level selected");
-  m_fakeLevel.loNote = Tnote();
-  m_fakeLevel.hiNote = Tnote();
-  m_fakeLevel.hiFret = 0;
-  m_fakeLevel.questionAs.setOnScore(false);
-  m_fakeLevel.questionAs.setAsName(false);
-  m_fakeLevel.questionAs.setOnInstr(false);
-  m_fakeLevel.questionAs.setAsSound(false);
-  m_fakeLevel.useKeySign = false;
-  m_fakeLevel.withDblAcc = false;
-  m_fakeLevel.withFlats = false;
-  m_fakeLevel.withSharps = false;
-  m_fakeLevel.instrument = Tinstrument::NoInstrument;
   findLevels();
 }
 
@@ -80,7 +66,7 @@ TlevelSelector::~TlevelSelector() {
 void TlevelSelector::setLevelPreview(TlevelPreviewItem* lpi) {
   m_levelPreview = lpi;
   if (m_levelPreview)
-    m_levelPreview->setLevel(&m_fakeLevel);
+    m_levelPreview->setLevel(nullptr);
 }
 
 
@@ -157,7 +143,7 @@ bool TlevelSelector::isRemovable(int id) const {
 
 void TlevelSelector::showLevel(int id) {
   if (id >= 0 && id < m_levels.count() && m_levelPreview)
-      m_levelPreview->setLevel(&m_levels[id].level);
+    m_levelPreview->setLevel(&m_levels[id].level);
   emit levelChanged();
 }
 
@@ -216,7 +202,7 @@ bool TlevelSelector::removeLevel(int id, bool removeFile) {
     m_levelsModel.removeAt(id);
     emit levelsModelChanged();
     if (m_levelPreview)
-      m_levelPreview->setLevel(&m_fakeLevel);
+      m_levelPreview->setLevel(nullptr);
     updateRecentLevels();
     return true;
   }

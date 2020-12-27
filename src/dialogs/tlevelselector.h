@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -141,7 +141,6 @@ private:
   QList<SlevelContener>           m_levels;
   QStringList                     m_levelsModel;
   TlevelPreviewItem              *m_levelPreview;
-  Tlevel                          m_fakeLevel; /**< Default @p Tlevel with empty name. Can be used for references */
   int                             m_currentLevelId = -1;
 
   Tlevel getLevelFromFile(QFile &file);

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,10 +17,9 @@
  ***************************************************************************/
 
 #include "tlevelpreviewitem.h"
-#include "exam/tlevel.h"
-#include "music/tinstrument.h"
+#include <exam/tlevel.h>
+#include <music/tinstrument.h>
 #include <qtr.h>
-#include <tnoofont.h>
 #include <tglobals.h>
 
 #include <QtGui/qguiapplication.h>
@@ -28,20 +27,18 @@
 #include <QtCore/qdebug.h>
 
 
-QString tdAlign() {
-  return QStringLiteral("<td valign=\"middle\" align=\"center\">");
+QString qaTypeSymbol(TQAtype::Etype type, Tlevel* l) {
+  switch (type) {
+    case TQAtype::e_onScore : return QStringLiteral("s");
+    case TQAtype::e_asName : return QStringLiteral("c");
+    case TQAtype::e_onInstr : return Tinstrument(l->instrument).glyph();
+    case TQAtype::e_asSound : return QStringLiteral("n");
+    default : return QString();
+  }
 }
 
-
-QString qaTypeSymbol(TQAtype::Etype type, Tlevel* l) {
-  QString symbol;
-  switch (type) {
-    case TQAtype::e_onScore : symbol = "s"; break;
-    case TQAtype::e_asName : symbol = "c"; break;
-    case TQAtype::e_onInstr : symbol = Tinstrument(l->instrument).glyph(); break;
-    case TQAtype::e_asSound : symbol = "n"; break;
-  }
-  return symbol;
+QString getLevelSumary(const QString& levelName) {
+  return QGuiApplication::translate("TlevelPreviewItem", "Level summary:") + QLatin1String("<br><b>") + levelName + QLatin1String("</b>");
 }
 
 
@@ -56,99 +53,88 @@ TlevelPreviewItem::~TlevelPreviewItem() {}
 
 
 void TlevelPreviewItem::setLevel(Tlevel* tl) {
-  Tinstrument instr(tl ? tl->instrument : Tinstrument::NoInstrument);
+  m_validLevel = tl != nullptr;
   if (tl) {
-      const QString spTDEnd = QStringLiteral(" </td>");
-//       const QString nbsp = QStringLiteral("&nbsp;");
-      const QString TRTD = QStringLiteral("<tr><td>");
-      const QString TDTREnd = QStringLiteral("</td></tr>");
-      QFontMetrics fm(qApp->font());
-      int fontSize = fm.height() * 1.3;
-      m_levelText = QLatin1String("<center>") + tr("Level summary:") + QLatin1String("<br><b>") + tl->name + QLatin1String("</b><br>");
-      m_levelText += QLatin1String("<table border=\"1\" cellpadding=\"3\">");
-      m_levelText += QLatin1String("<tr><td colspan=\"2\" align=\"center\" valign=\"middle\">") + instr.name() + spTDEnd;
-      QString clefString(tr("Clef") + QLatin1String(":")); // "Clef:  "
-      if (tl->loNote.isValid() && tl->hiNote.isValid())
-        clefString += QString("<br><span style=\"font-family: Scorek; font-size: %1px;\">%2</span></td></tr>")
-              .arg(fontSize * 2).arg(tl->clef.glyphOnStaff());
-      m_levelText += QLatin1String("<td rowspan=\"_ROW_SPAN_\" align=\"center\" valign=\"middle\"><br>") + clefString;
-      m_levelText += TRTD + qTR("RangePage", "note range:") + spTDEnd;
-      if (tl->loNote.note() && tl->hiNote.note())
-        m_levelText += tdAlign() + tl->loNote.toRichText() + QLatin1String(" - ") + tl->hiNote.toRichText() + TDTREnd;
-      if (tl->canBeGuitar()) { // level uses guitar
-          m_levelText += TRTD + qTR("RangePage", "fret range:") + spTDEnd;
-          m_levelText += tdAlign() + QString("%1 - %2").arg(int(tl->loFret)).arg(int(tl->hiFret)) + TDTREnd;
-      }
-      if (tl->useKeySign) {
-          m_levelText += TRTD + tr("key signature:") + spTDEnd + tdAlign();
-          m_levelText += tl->loKey.getMajorName().remove(QLatin1String("-") + GLOB->majorKeyNameSufix());
-          m_levelText += QLatin1String(" (") + tl->loKey.accidNumber(true) + QLatin1String(")");
-          if (!tl->isSingleKey) {
-              m_levelText += QLatin1String(" - ") + tl->hiKey.getMajorName().remove(QLatin1String("-") + GLOB->majorKeyNameSufix());
-              m_levelText += QLatin1String(" (") + tl->hiKey.accidNumber(true) + QLatin1String(")");
-          }
-          m_levelText += TDTREnd;
-      }
-      m_levelText += TRTD + tr("accidentals:") + spTDEnd + tdAlign();
-      if (!tl->withSharps && !tl->withFlats && !tl->withDblAcc)
-          m_levelText += tr("none");
-      else {
-          if (tl->withSharps) m_levelText += TnooFont::span(QLatin1String(" #"));
-          if (tl->withFlats) m_levelText += TnooFont::span(QLatin1String(" b"));
-          if (tl->withDblAcc) m_levelText += TnooFont::span(QLatin1String(" x B"));
-      }
-      m_levelText += TDTREnd;
-      m_levelText += TRTD + qTR("LevelCreator", "Questions") + QLatin1String(": </td>") + tdAlign(); // QUESTIONS
-      QString tmp;
-      const QString space = QStringLiteral(" ");
-      if (tl->questionAs.isOnScore())
-        tmp += qaTypeSymbol(TQAtype::e_onScore, tl) + space;
-      if (tl->questionAs.isName())
-        tmp += qaTypeSymbol(TQAtype::e_asName, tl) + space;
-      if (tl->questionAs.isOnInstr())
-        tmp += qaTypeSymbol(TQAtype::e_onInstr, tl) + space;
-      if (tl->questionAs.isSound()) {
-        if (tl->canBeMelody())
-          tmp += QLatin1String("m");
-        else
-          tmp += qaTypeSymbol(TQAtype::e_asSound, tl) + space;
-      }
+      static const QString space = QStringLiteral(" ");
+      static const QString notSelected = QStringLiteral("<font color=\"red\">=====</font>");// tr("not set");
+      m_instrGlyph = Tinstrument(tl->instrument).glyph();
+      m_header = getLevelSumary(tl->name);
+      m_description = tl->desc;
+      m_instrument = Tinstrument(tl ? tl->instrument : Tinstrument::NoInstrument).name();
+      m_clef = tl->clef.glyphOnStaff();
 
-      m_levelText += TnooFont::span(tmp, fontSize);
-      m_levelText += TDTREnd;
-      tmp.clear();
-      m_levelText += TRTD + QGuiApplication::translate("LevelCreator", "Answers") + QLatin1String(": </td><td align=\"center\">"); // ANSWERS
-      if (tl->answerIsNote())
-        tmp += qaTypeSymbol(TQAtype::e_onScore, tl) + space;
-      if (tl->answerIsName())
-        tmp += qaTypeSymbol(TQAtype::e_asName, tl) + space;
-      if (tl->answerIsGuitar())
-        tmp += qaTypeSymbol(TQAtype::e_onInstr, tl) + space;
-      if (tl->answerIsSound()) {
-        if (tl->canBeMelody())
-          tmp += QLatin1String("m");
-        else
-          tmp += qaTypeSymbol(TQAtype::e_asSound, tl) + space;
-      }
-      m_levelText += TnooFont::span(tmp, fontSize);
-      m_levelText += TDTREnd;
-      if (tl->canBeName() || tl->canBeScore() || tl->canBeSound()) {
-        m_levelText += QLatin1String("<tr><td colspan=\"2\" align=\"center\">");
-        if (tl->requireOctave)
-            m_levelText += tr("proper octave is required");
-        else
-            m_levelText += tr("octave does no matter");
-        m_levelText += TDTREnd;
-      }
-      m_levelText += QLatin1String("</table></center>");
-      m_levelText.replace(QLatin1String("_ROW_SPAN_"), QString("%1").arg(m_levelText.count(QLatin1String("<tr>"))));
-      m_levelText += QLatin1String("<br><br>") + tl->desc;
+      if (tl->randMelody == Tlevel::e_randFromRange) // makes sense for single note and melody from range
+        m_noteRange = tl->loNote.styledName() + QLatin1String(" - ") + tl->hiNote.styledName();
+      else
+        m_noteRange.clear();
+
+      if (GLOB->instrument().isGuitar() && tl->canBeGuitar())
+        m_fretRange = QString("<b>%1 - %2</b>").arg(static_cast<int>(tl->loFret)).arg(static_cast<int>(tl->hiFret));
+      else
+        m_fretRange.clear();
+
+      if (tl->useKeySign) {
+          m_keyRange = tl->loKey.getMajorName().remove(QLatin1String("-") + GLOB->majorKeyNameSufix());
+          m_keyRange += QLatin1String(" (") + tl->loKey.accidNumber(true) + QLatin1String(")");
+          if (!tl->isSingleKey) {
+            m_keyRange += QLatin1String(" - ") + tl->hiKey.getMajorName().remove(QLatin1String("-") + GLOB->majorKeyNameSufix());
+            m_keyRange += QLatin1String(" (") + tl->hiKey.accidNumber(true) + QLatin1String(")");
+          }
+      } else
+          m_keyRange.clear();
+
+      m_accidentals.clear(); // none by default
+      if (tl->withSharps)
+        m_accidentals += QLatin1String("#");
+      if (tl->withFlats)
+        m_accidentals += (m_accidentals.isEmpty() ? QString() : space) + QLatin1String("b");
+      if (tl->withDblAcc)
+        m_accidentals += (m_questions.isEmpty() ? QString() : space) + QLatin1String("x B");
+
+      if (tl->questionAs.isOnScore() || tl->questionAs.isName() || tl->questionAs.isOnInstr() || tl->questionAs.isSound()) {
+          m_questions.clear();
+          if (tl->questionAs.isOnScore())
+            m_questions += qaTypeSymbol(TQAtype::e_onScore, tl);
+          if (tl->questionAs.isName())
+            m_questions += (m_questions.isEmpty() ? QString() : space) + qaTypeSymbol(TQAtype::e_asName, tl);
+          if (tl->questionAs.isOnInstr())
+            m_questions += (m_questions.isEmpty() ? QString() : space) + qaTypeSymbol(TQAtype::e_onInstr, tl);
+          if (tl->questionAs.isSound()) {
+            m_questions += m_questions.isEmpty() ? QString() : space;
+            if (tl->canBeMelody())
+              m_questions += QLatin1String("m");
+            else
+              m_questions += qaTypeSymbol(TQAtype::e_asSound, tl);
+          }
+      } else
+          m_questions = notSelected;
+
+      if (tl->answerIsGuitar() || tl->answerIsNote() || tl->answerIsName() || tl->answerIsSound()) {
+          m_answers.clear();
+          if (tl->answerIsNote())
+            m_answers += qaTypeSymbol(TQAtype::e_onScore, tl);
+          if (tl->answerIsName())
+            m_answers += (m_answers.isEmpty() ? QString() : space) + qaTypeSymbol(TQAtype::e_asName, tl);
+          if (tl->answerIsGuitar())
+            m_answers += (m_answers.isEmpty() ? QString() : space) + qaTypeSymbol(TQAtype::e_onInstr, tl);
+          if (tl->answerIsSound()) {
+            m_answers += m_answers.isEmpty() ? QString() : space;
+            if (tl->canBeMelody())
+              m_answers += QLatin1String("m");
+            else
+              m_answers += qaTypeSymbol(TQAtype::e_asSound, tl);
+          }
+      } else
+          m_answers = notSelected;
+
+      if (tl->canBeName() || tl->canBeScore() || tl->canBeSound())
+        m_requireOctave = tl->requireOctave ? tr("proper octave is required") : tr("octave does no matter");
+      else
+        m_requireOctave.clear();
   } else {
-    
+      m_header = getLevelSumary(tr("no level selected"));
+      m_instrGlyph = QStringLiteral("?");
   }
-  if (instr.glyph() != m_instrGlyph) {
-    m_instrGlyph = instr.glyph();
-    emit instrumentGlyphChanged();
-  }
-  emit levelHtmlChanged();
+
+  emit levelChanged();
 }

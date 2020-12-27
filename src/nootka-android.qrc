@@ -118,6 +118,7 @@
     <file alias="level/AccidsPage.qml">qml/level/AccidsPage.qml</file>
     <file alias="level/RangePage.qml">qml/level/RangePage.qml</file>
     <file alias="level/LevelPreview.qml">qml/level/LevelPreview.qml</file>
+    <file alias="level/PreviewItem.qml">qml/level/PreviewItem.qml</file>
     <file alias="level/LevelsSelector.qml">qml/level/LevelsSelector.qml</file>
     <file alias="level/RemoveLevel.qml">qml/level/RemoveLevel.qml</file>
     <file alias="level/MelodyListView.qml">qml/level/MelodyListView.qml</file>
