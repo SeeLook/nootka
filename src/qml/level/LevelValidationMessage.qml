@@ -38,7 +38,7 @@ TpopupDialog {
   ListView {
     id: lv
     width: Noo.fontSize() * 40; height: contentHeight
-    spacing: 1
+    spacing: 2; clip: true
     delegate: Rectangle {
       width: lv.width; height: mText.height + Noo.fontSize() / 2
       color: index % 2 === 1 ? "transparent" : Noo.alpha(activPal.base, 50)

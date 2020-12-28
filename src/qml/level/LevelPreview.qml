@@ -76,11 +76,11 @@ TlevelPreviewItem {
             id: noteRangeIt
             index: 1
             handleWidth: true
-            height: Noo.fontSize() * 2.5
+            height: Noo.fontSize() * 2
             text: Noo.TR("RangePage", "note range:").replace(":", " ")
             text2: noteRange
             textItem2.font { family: "Scorek"; pixelSize: Noo.fontSize() * 1.6 }
-            textItem2.y: Noo.fontSize() * -1.44
+            textItem2.y: Noo.fontSize() * -1.6
           }
 
           PreviewItem {
@@ -106,7 +106,7 @@ TlevelPreviewItem {
             handleWidth: true
             text: Noo.TR("AccidsPage", "accidentals") + " "
             text2: accidentals === "" ? qsTranslate("TlevelPreviewItem", "none") : accidentals
-            textItem2.font { family: accidentals === "" ? Noo.fontFamily() : "Nootka"; pointSize: Noo.fontSize() * (accidentals === "" ? 1 : 1.5) }
+            textItem2.font { family: accidentals === "" ? Noo.fontFamily() : "Nootka"; pixelSize: Noo.fontSize() * (accidentals === "" ? 1 : 1.7) }
           }
 
           PreviewItem {
@@ -116,7 +116,7 @@ TlevelPreviewItem {
             text: Noo.TR("LevelCreator", "Questions") + " "
             text2: questions === "" ? qsTr("not selected") : questions
             textItem2.color: questions === "" ? "red" : activPal.text
-            textItem2.font { family: questions === "" ? Noo.fontFamily() : "Nootka"; pointSize: Noo.fontSize() * (questions === "" ? 1 : 1.5) }
+            textItem2.font { family: questions === "" ? Noo.fontFamily() : "Nootka"; pixelSize: Noo.fontSize() * (questions === "" ? 1 : 2) }
           }
 
           PreviewItem {
@@ -126,7 +126,7 @@ TlevelPreviewItem {
             text: qsTranslate("LevelCreator", "Answers") + " "
             text2: answers === "" ? qsTr("not selected") : answers
             textItem2.color: answers === "" ? "red" : activPal.text
-            textItem2.font { family: answers === "" ? Noo.fontFamily() : "Nootka"; pointSize: Noo.fontSize() * (answers === "" ? 1 : 1.5) }
+            textItem2.font { family: answers === "" ? Noo.fontFamily() : "Nootka"; pixelSize: Noo.fontSize() * (answers === "" ? 1 : 2) }
           }
 
           PreviewItem {

@@ -36,6 +36,7 @@ Rectangle {
     x: Noo.fontSize(); y: layHorizontal ? (parent.height - height) / 2 : 0
     textFormat: Text.StyledText
     color: activPal.text
+    font.pixelSize: Noo.fontSize()
   }
   Text {
     id: txt2
@@ -44,6 +45,7 @@ Rectangle {
     horizontalAlignment: handleWidth ? Text.AlignHCenter : undefined
     textFormat: Text.StyledText
     color: activPal.text
+    font.pixelSize: Noo.fontSize()
   }
 
   Rectangle {
