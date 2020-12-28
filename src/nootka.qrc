@@ -122,6 +122,7 @@
     <file alias="level/CurrentKeyTile.qml">qml/level/CurrentKeyTile.qml</file>
     <file alias="level/MaxIntervalTile.qml">qml/level/MaxIntervalTile.qml</file>
     <file alias="level/RhythmDiversityTile.qml">qml/level/RhythmDiversityTile.qml</file>
+    <file alias="level/LevelValidationMessage.qml">qml/level/LevelValidationMessage.qml</file>
 
     <file alias="wizard/Wizard.qml">qml/wizard/Wizard.qml</file>
     <file alias="wizard/WizardInstrument.qml">qml/wizard/WizardInstrument.qml</file>

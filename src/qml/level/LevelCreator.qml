@@ -50,5 +50,10 @@ TlevelCreatorItem {
       pages.pages[2].saveLevel()
   }
 
+  onWantValidationMessage: {
+    var c = Qt.createComponent("qrc:/level/LevelValidationMessage.qml")
+    c.createObject(creator, { "caption": title, "message": message, "accent": accent })
+  }
+
   function help() { Noo.openHelpLink("level-creator") }
 }

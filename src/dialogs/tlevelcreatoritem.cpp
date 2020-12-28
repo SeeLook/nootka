@@ -32,7 +32,6 @@
 #include <QtWidgets/qmessagebox.h>
 
 #include <QtCore/qdebug.h>
-#include "checktime.h"
 
 
 TlevelCreatorItem::TlevelCreatorItem(QQuickItem* parent) :
@@ -79,7 +78,7 @@ if (!m_level->canBeGuitar() && !m_level->answerIsSound() ) { // no guitar and no
     for (int str = 0; str < 6; str++)
       m_level->usedStrings[str] = true;
   }
-  QString validMessage = validateLevel();
+  QStringList validMessage = validateLevel();
   if (!validMessage.isEmpty()) {
     showValidationMessage(validMessage);
     return;
@@ -121,9 +120,9 @@ if (!m_level->canBeGuitar() && !m_level->answerIsSound() ) { // no guitar and no
 
 
 void TlevelCreatorItem::checkLevel() {
-  QString validMessage =  validateLevel();
+  QStringList validMessage = validateLevel();
   if (validMessage.isEmpty())
-    QMessageBox::information(nullptr, tr("Level validation"), tr("Level seems to be correct"));
+    emit wantValidationMessage(tr("Level validation"), QStringList(tr("Level seems to be correct")), Qt::green);
   else
     showValidationMessage(validMessage);
 }
@@ -132,7 +131,6 @@ void TlevelCreatorItem::checkLevel() {
 // Questions page
 int TlevelCreatorItem::questionAs() const { return m_level->questionAs.value(); }
 void TlevelCreatorItem::setQuestionAs(int qAs) {
-CHECKTIME (
   bool prevState = m_level->questionAs.isOnScore();
   bool doEmit = false;
   m_level->questionAs.setOnScore(qAs & 1);
@@ -185,7 +183,6 @@ CHECKTIME (
   levelParamChanged();
   if (doEmit)
     emit updateLevel();
-)
 }
 
 /** TODO: it is not used, @p setAnswers() is called directly from QML instead */
@@ -205,7 +202,6 @@ void TlevelCreatorItem::setAnswersAs(QList<int> aAs) {
 
 
 void TlevelCreatorItem::setAnswers(int questionType, int answersValue) {
-CHECKTIME (
   if (questionType >= 0 && questionType < 4) {
     m_level->answersAs[questionType].setValue(answersValue);
     m_answersList[questionType] = answersValue;
@@ -218,7 +214,6 @@ CHECKTIME (
     levelParamChanged();
     emit updateLevel();
   }
-)
 }
 
 bool TlevelCreatorItem::requireOctave() const { return m_level->requireOctave; }
@@ -369,13 +364,11 @@ void TlevelCreatorItem::setLoFret(int lf) {
 
 int TlevelCreatorItem::hiFret() const { return static_cast<int>(m_level->hiFret); }
 void TlevelCreatorItem::setHiFret(int hf) {
-CHECKTIME (
   if (static_cast<char>(hf) != m_level->hiFret) {
     m_level->hiFret = static_cast<char>(hf);
     levelParamChanged();
     emit updateLevel();
   }
-)
 }
 
 Tnote TlevelCreatorItem::loNote() const { return m_level->loNote; }
@@ -627,11 +620,11 @@ void TlevelCreatorItem::whenLevelChanged() {
 }
 
 
-QString TlevelCreatorItem::validateLevel() {
-  QString res;
+QStringList TlevelCreatorItem::validateLevel() {
+  QStringList res;
 // Check has a level sense - are there an questions and answers
   if (!m_level->canBeScore() && ! m_level->canBeName() && !m_level->canBeGuitar() && !m_level->canBeSound()) {
-      res = tr("There aren't any questions or answers selected.<br>Level makes no sense.");
+      res << tr("There aren't any questions or answers selected.<br>Level makes no sense.");
       return res;
   }
 // checking range
@@ -640,22 +633,22 @@ QString TlevelCreatorItem::validateLevel() {
     // only when guitar is enabled otherwise frets range was adjusted automatically
     int hiAvailStr, loAvailStr, cnt = -1;
     do {
-        cnt ++;
+      cnt ++;
     } while (!m_level->usedStrings[GLOB->strOrder(cnt)] && cnt < GLOB->Gtune()->stringNr());
     hiAvailStr = GLOB->strOrder(cnt);
     cnt = GLOB->Gtune()->stringNr();
     do {
-        cnt--;
+      cnt--;
     } while (!m_level->usedStrings[GLOB->strOrder(cnt)] && cnt >= 0);
     loAvailStr = GLOB->strOrder(cnt);
-    if (m_level->loNote.chromatic() > GLOB->Gtune()->str(hiAvailStr + 1).chromatic() + m_level->hiFret ||
-        m_level->hiNote.chromatic() < GLOB->Gtune()->str(loAvailStr + 1).chromatic() + m_level->loFret)
-          res += tr("<li>Range of frets is beyond the scale of this level</li>");
+    if (m_level->loNote.chromatic() > GLOB->Gtune()->str(hiAvailStr + 1).chromatic() + m_level->hiFret
+        || m_level->hiNote.chromatic() < GLOB->Gtune()->str(loAvailStr + 1).chromatic() + m_level->loFret)
+          res << tr("<li>Range of frets is beyond the scale of this level</li>");
   }
 // Check is level range fit to instrument scale
   if (m_level->canBeGuitar() || m_level->answerIsSound()) {
     if (!m_level->inScaleOf(GLOB->loString().chromatic(), GLOB->hiString().chromatic() + GLOB->GfretsNumber))
-      res += "<li>" + TlevelSelector::rangeBeyondScaleTxt() + "</li>";
+      res << "<li>" + TlevelSelector::rangeBeyondScaleTxt() + "</li>";
   }
 // checking are accidentals needed because of hi and low notes in range
   char acc = 0;
@@ -663,30 +656,30 @@ QString TlevelCreatorItem::validateLevel() {
   if (m_level->hiNote.alter()) acc = m_level->hiNote.alter();
   if (acc) {
       if ( (acc == 1 && !m_level->withSharps) || (acc == -1 && !m_level->withFlats))
-          res += tr("<li>In range of notes some accidentals are used<br>but not available in this level</li>");
+          res << tr("<li>In range of notes some accidentals are used<br>but not available in this level</li>");
   }
 // Force accidentals enabled but any accidental was selected
   if (m_level->forceAccids && (!m_level->withFlats && !m_level->withSharps && !m_level->withDblAcc))
-    res += tr("<li>Force appropriate accidental is enabled but any accidental was selected.</li>");
+    res << tr("<li>Force appropriate accidental is enabled but any accidental was selected.</li>");
 // When no accidentals and no style and question and answers are note name
   if ((m_level->questionAs.isName() && m_level->answersAs[TQAtype::e_asName].isName())) {
     if ((m_level->withFlats && m_level->withSharps) || m_level->withDblAcc || m_level->requireStyle) {
         // do nothing - level is valid
     } else 
-        res += tr("<li>Questions and answers as note names will be the same. To avoid that level has to use flats and sharps and/or double accidentals and/or to use different name styles.</li>");
+        res << tr("<li>Questions and answers as note names will be the same. To avoid that level has to use flats and sharps and/or double accidentals and/or to use different name styles.</li>");
   }
 // Check is possible of using naming style
   if (m_level->requireStyle && !m_level->canBeName())
-      res += tr("<li>'Use different naming styles' was checked but neither questions nor answers as note name are checked.<br>Check this type of answer/question or uncheck 'Use different naming styles'.</li>");
+      res << tr("<li>'Use different naming styles' was checked but neither questions nor answers as note name are checked.<br>Check this type of answer/question or uncheck 'Use different naming styles'.</li>");
 // Check are questions and answers as note on the staff have sense (are different)
   if (m_level->questionAs.isOnScore() && m_level->answersAs[TQAtype::e_onScore].isOnScore())
     if (!m_level->manualKey && !m_level->forceAccids)
-      res += tr("<li>Questions and answers as notes on the staff will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.</li>");
+      res << tr("<li>Questions and answers as notes on the staff will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.</li>");
 // Check is possible of manualKey
   if (m_level->useKeySign && m_level->manualKey) {
     if (!m_level->answersAs[TQAtype::e_onScore].isOnScore() && !m_level->answersAs[TQAtype::e_asName].isOnScore() &&
       !m_level->answersAs[TQAtype::e_onInstr].isOnScore() && !m_level->answersAs[TQAtype::e_asSound].isOnScore() )
-        res += tr("<li>Manual selecting of a key signature was checked but answer as note on the staff was not checked.</li>");
+        res << tr("<li>Manual selecting of a key signature was checked but answer as note on the staff was not checked.</li>");
   }
 // 'Fret to fret' has to have suitable fret range to be possible
   if (m_level->questionAs.isOnInstr() && m_level->answersAs[TQAtype::e_onInstr].isOnInstr()) {
@@ -697,7 +690,7 @@ QString TlevelCreatorItem::validateLevel() {
       startStr = GLOB->Gtune()->str(GLOB->strOrder(i) + 1).chromatic();
     }
     if (m_level->hiFret - m_level->loFret < minRange)
-      res += tr("<li>Fret range is not enough to find any note in different positions. At least <b>%1</b> frets range is required.</li>").arg(minRange);
+      res << tr("<li>Fret range is not enough to find any note in different positions. At least <b>%1</b> frets range is required.</li>").arg(minRange);
   }
 // Melodies finished on tonic have to contain the tonic note in range
   if (m_level->canBeMelody() && m_level->endsOnTonic) {
@@ -719,7 +712,7 @@ QString TlevelCreatorItem::validateLevel() {
           }
         }
         if (!found) {
-          res += tr("<li>Possible missing a tonic note for some key signatures in selected note range .</li>");
+          res << tr("<li>Possible missing a tonic note for some key signatures in selected note range .</li>");
           break;
         }
       }
@@ -728,32 +721,27 @@ QString TlevelCreatorItem::validateLevel() {
 // Note list is empty
   if (m_level->canBeMelody() && m_level->randMelody == Tlevel::e_randFromList) {
     if (m_level->notesList.count() < 2)
-      res += tr("<li>There are not enough selected notes to create a melody.</li>");
+      res << tr("<li>There are not enough selected notes to create a melody.</li>");
   }
 // When level is set of melodies but no melody was added
   if (m_level->canBeMelody() && m_level->randMelody == Tlevel::e_melodyFromSet) {
     if (m_level->melodySet.isEmpty())
-      res += tr("<li>No melody was added.</li>");
+      res << tr("<li>No melody was added to the list.</li>");
   }
 
-// Resume warnings
-  if (!res.isEmpty()) {
-    res.prepend(QLatin1String("<ul>"));
-    res += QLatin1String("</ul></center>");
-  }
   return res;
-
 }
 
 
-void TlevelCreatorItem::showValidationMessage(QString& message) {
+void TlevelCreatorItem::showValidationMessage(QStringList& message) {
   if (!message.isEmpty()) {
     QString title = tr("Level validation");
-    if (message.contains(QLatin1String("</li>"))) { // when <li> exist - warring
-        message.prepend(QLatin1String("<center><b>") + tr("Seems like this level has some mistakes") + QLatin1String(":</b><br>"));
-        QMessageBox::warning(nullptr, title, message); 
+    if (message.last().contains(QLatin1String("</li>"))) { // when <li> exist - show warning
+        message.replaceInStrings(QLatin1String("</li>"), QString());
+        message.replaceInStrings(QLatin1String("<li>"), QString());
+        emit wantValidationMessage(tr("Seems like this level has some mistakes") + QLatin1String(":"), message, Qt::yellow);
     } else // no questions nor answers
-        QMessageBox::critical(nullptr, title, message); 
+        emit wantValidationMessage(title, message, Qt::red);
   }
 }
 

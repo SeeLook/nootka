@@ -280,12 +280,13 @@ signals:
   void saveStateChanged();
   void save();
   void hasRhythmsChanged();
+  void wantValidationMessage(const QString& title, const QStringList& message, const QColor& accent);
 
 protected:
   void whenLevelChanged();
 
-  QString validateLevel();
-  void showValidationMessage(QString& message);
+  QStringList validateLevel();
+  void showValidationMessage(QStringList& message);
 
 private:
       /**
