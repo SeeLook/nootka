@@ -20,17 +20,25 @@ TlevelPreviewItem {
       anchors.centerIn: parent
       text: instrumentGlyph
     }
-    MouseArea {
-      id: viewArea
+    PinchArea {
+      id: pinchArea
       anchors.fill: parent
-      onWheel: {
-        if (wheel.modifiers & Qt.ControlModifier) {
+      pinch.target: levCol
+      pinch.minimumScale: 0.5
+      pinch.maximumScale: 2.0
+      pinch.dragAxis: Pinch.XandYAxis
+      // HACK: keeping MouseArea inside PinchArea makes it working
+      MouseArea {
+        anchors.fill: parent
+        onWheel: {
+          if (wheel.modifiers & Qt.ControlModifier) {
             if (wheel.angleDelta.y > 0)
               zoom(true)
-            else if (wheel.angleDelta.y < 0)
-              zoom(false)
-        } else
+              else if (wheel.angleDelta.y < 0)
+                zoom(false)
+          } else
             wheel.accepted = false
+        }
       }
     }
   }
@@ -144,9 +152,9 @@ TlevelPreviewItem {
         Column {
           PreviewItem {
             layHorizontal: false
+            height: textItem2.height * 0.7; textItem2.y: Noo.fontSize()
             text: "<br>" + qsTranslate("TlevelPreviewItem", "Clef") + ":"
             textItem2.font { family: "Scorek"; pixelSize: Noo.fontSize() * 4 }
-            //textItem2.y
             text2: clef
           }
         }
@@ -175,7 +183,8 @@ TlevelPreviewItem {
 
   Timer { id: zoomTimer; interval: 100 }
 
-  Row {
+  Row { // no zoom buttons under Android
+    visible: !Noo.isAndroid()
     anchors { right: parent.right; bottom: parent.bottom }
     HeadButton {
       factor: Noo.fontSize() / 3; hiHover: false
