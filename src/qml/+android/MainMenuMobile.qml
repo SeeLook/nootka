@@ -30,7 +30,7 @@ TmobileMenu {
 
   onClicked: mainDrawer.open()
 
-  parent: nootkaWindow
+  parent: nootkaWindow.contentItem
   z: 250
   width: fingerPixels()
   height: fingerPixels() * 1.3
