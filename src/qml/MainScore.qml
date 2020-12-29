@@ -56,24 +56,37 @@ Score {
   }
 
   Timer { id: zoomTimer; interval: 500 }
-  MouseArea {
+  PinchArea {
     anchors.fill: parent
-    z: -1
-    onWheel: {
-      if (wheel.modifiers & Qt.ControlModifier) {
-          if (wheel.angleDelta.y > 0) {
-              if (!zoomTimer.running) {
-                zoomInAct.trigger()
-                zoomTimer.running = true
-              }
-          } else if (wheel.angleDelta.y < 0) {
-              if (!zoomTimer.running) {
-                zoomOutAct.trigger()
-                zoomTimer.running = true
-              }
-          }
-      } else
-          wheel.accepted = false
+    pinch.dragAxis: Pinch.XandYAxis
+    onPinchFinished: {
+      if (pinch.scale > 1.2)
+        zoom(true)
+      else if (pinch.scale < 0.8)
+        zoom(false)
+    }
+    // HACK: keeping MouseArea inside PinchArea makes it working
+    MouseArea {
+      anchors.fill: parent
+      z: -1
+      onWheel: {
+        if (wheel.modifiers & Qt.ControlModifier) {
+            if (wheel.angleDelta.y > 0)
+              zoom(true)
+            else if (wheel.angleDelta.y < 0)
+              zoom(false)
+        } else
+            wheel.accepted = false
+      }
+    }
+  }
+  function zoom(zoomIn) {
+    if (!zoomTimer.running) {
+      if (zoomIn)
+        zoomInAct.trigger()
+      else
+        zoomOutAct.trigger()
+      zoomTimer.running = true
     }
   }
 

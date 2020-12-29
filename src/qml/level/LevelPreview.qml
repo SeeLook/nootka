@@ -21,7 +21,6 @@ TlevelPreviewItem {
       text: instrumentGlyph
     }
     PinchArea {
-      id: pinchArea
       anchors.fill: parent
       pinch.target: levCol
       pinch.minimumScale: 0.5
@@ -34,10 +33,10 @@ TlevelPreviewItem {
           if (wheel.modifiers & Qt.ControlModifier) {
             if (wheel.angleDelta.y > 0)
               zoom(true)
-              else if (wheel.angleDelta.y < 0)
-                zoom(false)
+            else if (wheel.angleDelta.y < 0)
+              zoom(false)
           } else
-            wheel.accepted = false
+              wheel.accepted = false
         }
       }
     }
