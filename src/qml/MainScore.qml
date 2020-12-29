@@ -60,9 +60,9 @@ Score {
     anchors.fill: parent
     pinch.dragAxis: Pinch.XandYAxis
     onPinchFinished: {
-      if (pinch.scale > 1.2)
+      if (pinch.scale > 1.4)
         zoom(true)
-      else if (pinch.scale < 0.8)
+      else if (pinch.scale < 0.7)
         zoom(false)
     }
     // HACK: keeping MouseArea inside PinchArea makes it working

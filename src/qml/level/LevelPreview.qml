@@ -26,6 +26,7 @@ TlevelPreviewItem {
       pinch.minimumScale: 0.5
       pinch.maximumScale: 2.0
       pinch.dragAxis: Pinch.XandYAxis
+      onPinchFinished: viewFlick.returnToBounds()
       // HACK: keeping MouseArea inside PinchArea makes it working
       MouseArea {
         anchors.fill: parent
@@ -46,8 +47,9 @@ TlevelPreviewItem {
   property real maxValueWidth: Noo.fontSize() * 10
 
   Tflickable {
+    id: viewFlick
     anchors.fill: parent
-    contentWidth: Math.max(width, width * levCol.scale)
+    contentWidth: Math.max(viewFlick.width, levCol.width * levCol.scale)
     contentHeight: levCol.height * levCol.scale
     Column {
       id: levCol
@@ -151,7 +153,7 @@ TlevelPreviewItem {
         Column {
           PreviewItem {
             layHorizontal: false
-            height: textItem2.height * 0.7; textItem2.y: Noo.fontSize()
+            height: textItem2.height * 0.75; textItem2.y: Noo.fontSize()
             text: "<br>" + qsTranslate("TlevelPreviewItem", "Clef") + ":"
             textItem2.font { family: "Scorek"; pixelSize: Noo.fontSize() * 4 }
             text2: clef
