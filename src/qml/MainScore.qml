@@ -57,6 +57,7 @@ Score {
 
   Timer { id: zoomTimer; interval: 500 }
   PinchArea {
+    z: -1
     anchors.fill: parent
     pinch.dragAxis: Pinch.XandYAxis
     onPinchFinished: {
@@ -68,7 +69,7 @@ Score {
     // HACK: keeping MouseArea inside PinchArea makes it working
     MouseArea {
       anchors.fill: parent
-      z: -1
+      //z: -1
       onWheel: {
         if (wheel.modifiers & Qt.ControlModifier) {
             if (wheel.angleDelta.y > 0)
