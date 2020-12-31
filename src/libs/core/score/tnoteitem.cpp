@@ -806,7 +806,7 @@ void TnoteItem::updateWidth() {
 void TnoteItem::updateNoteHead() {
   QString headText = getHeadText();
   if (m_note->hasDot())
-    headText.append(QStringLiteral("\ue1e7"));
+    headText.append(QStringLiteral("\ue1e8"));
   m_head->setProperty("text", headText);
 }
 
