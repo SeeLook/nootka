@@ -36,17 +36,20 @@ Popup {
       Tumbler {
         id: buTumb
         property int prevIndex: -1
-        background: Rectangle { color: activPal.base }
+
+        background: TipRect { color: buTumb.enabled ? activPal.base : disdPal.base; radius: 0 }
         anchors.verticalCenter: parent.verticalCenter
         height: Noo.fontSize() * 6; width: Noo.fontSize() * 2
         model: [ "\ue1d5", "\ue1d7", "\ue1d5 \ue1e7", "\ue1d3" ]
         visibleItemCount: 3; wrap: true
         currentIndex: SOUND.beatUnit
+
         onCurrentIndexChanged: {
           if (prevIndex > -1)
             tempoSpin.value = Math.round(tempoSpin.value * (beatFactor[currentIndex] / beatFactor[prevIndex]))
           prevIndex = currentIndex
         }
+
         delegate: Rectangle {
           color: index === buTumb.currentIndex ? activPal.highlight : activPal.base
           opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
@@ -62,6 +65,7 @@ Popup {
             }
           }
         }
+
         MouseArea {
           anchors.fill: parent
           z: -1
@@ -78,13 +82,15 @@ Popup {
             buTumb.currentIndex = ci
           }
         }
-      }
+      } // Tumbler
+
       Text {
         anchors.verticalCenter: parent.verticalCenter
         text: "="
         color: activPal.text
         font { pixelSize: Noo.fontSize() * 2 }
       }
+
       Column {
         anchors.verticalCenter: parent.verticalCenter
         Row {
@@ -108,7 +114,8 @@ Popup {
           stepSize: 10
         }
       }
-    }
+
+    } // Row
 
     TiconButton {
       width: parent.width - Noo.fontSize()
