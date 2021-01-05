@@ -9,8 +9,8 @@ import Nootka.Main 1.0
 
 
 /**
- * To use it, simply add:
- * AudioAnalyze {} to Nootka MainWindow.qml
+ * To get this, invoke:
+ * mootka --nootini
  */
 TaudioAnalyzeItem {
   id: aa

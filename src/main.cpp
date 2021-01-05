@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -31,6 +31,8 @@
 #if defined (Q_OS_ANDROID)
   #include <Android/tandroid.h>
   #include "mobile/tmobilemenu.h"
+#else
+  #include "nootini/taudioanalyzeitem.h"
 #endif
 
 #include <QtWidgets/qapplication.h>
@@ -67,7 +69,6 @@ void myMessageOutput(QtMsgType type, const QMessageLogContext &context, const QS
     outFile.open(QIODevice::WriteOnly | QIODevice::Append);
     QTextStream ts(&outFile);
     ts << msg << "\n";
-
 }
 
 
@@ -184,6 +185,7 @@ int main(int argc, char *argv[])
     qmlRegisterType<TnameItem>("Nootka.Main", 1, 0, "TnameItem");
     qmlRegisterType<TmainScoreObject>("Nootka.Main", 1, 0, "TmainScoreObject");
     qmlRegisterType<TdialogLoaderObject>("Nootka.Dialogs", 1, 0, "TdialogObject");
+
 #if defined (Q_OS_ANDROID)
     qmlRegisterType<TmobileMenu>("Nootka", 1, 0, "TmobileMenu");
 #endif
@@ -196,8 +198,13 @@ int main(int argc, char *argv[])
      if (!androidArg.isEmpty())
        nooObj->openFile(androidArg);
 #else
-      if (argc > 1)
-        nooObj->openFile(QString::fromLocal8Bit(argv[argc - 1]));
+      if (argc > 1) {
+        if (QString::fromLocal8Bit(argv[argc - 1]).contains(QLatin1String("--nootini")) && !e->rootObjects().isEmpty()) {
+            qmlRegisterType<TaudioAnalyzeItem>("Nootka.Main", 1, 0, "TaudioAnalyzeItem");
+            QMetaObject::invokeMethod(e->rootObjects().first(), "audioAnalyze");
+        } else
+            nooObj->openFile(QString::fromLocal8Bit(argv[argc - 1]));
+      }
 #endif
     }
     if (firstLoop && !wasFirstRun) {

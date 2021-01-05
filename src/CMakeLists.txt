@@ -139,7 +139,7 @@ set(NOOTKA_SRC
   charts/tlinchartdelegate.cpp
   charts/tbarchartdelegate.cpp
 
-  audio/taudioanalyzeitem.cpp
+  nootini/taudioanalyzeitem.cpp
 )
 
 
