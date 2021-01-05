@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -205,6 +205,8 @@ void TcommonListener::noteFinishedSlot(TnoteStruct* lastNote) {
       // non guitar pitch is average of all pitches
       qreal midiPitch = lastNote->pitchF > 0.0 ? lastNote->getAverage(3,
                              GLOB->instrument().type() == Tinstrument::NoInstrument ? lastNote->pitches()->size() : finder()->minChunksNumber()) : 0.0;
+      m_lastNote.startChunk = lastNote->startChunk;
+      m_lastNote.endChunk = lastNote->endChunk;
       if (lastNote->pitchF > 0.0)
         m_lastNote.set(midiPitch - m_audioParams->a440diff, pitch2freq(midiPitch), lastNote->duration);
       else

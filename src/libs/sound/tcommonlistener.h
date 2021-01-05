@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -75,6 +75,11 @@ public:
   bool isStoped() { return m_state == e_stopped; }
 
   Estate detectingState() { return m_state; }
+
+      /**
+       * Instance of @p TpitchFinder
+       */
+  TpitchFinder* finder() { return m_pitchFinder; }
 
       /**
        * Current volume of detecting sound or 0 if silence
@@ -193,6 +198,8 @@ signals:
   void lowPCMvolume();
   void hiPCMvolume();
 
+  void volumeChanged();
+
 
 public slots:
       /**
@@ -208,11 +215,6 @@ public slots:
 
 protected:
       /**
-       * Instance of @p TpitchFinder
-       */
-  TpitchFinder* finder() { return m_pitchFinder; }
-
-      /**
        * Sets volume to 0
        */
   void resetVolume() { m_volume = 0.0; }
@@ -221,7 +223,7 @@ protected:
 
 protected slots:
   void pitchInChunkSlot(float pitch);
-  void volumeSlot(float vol) { m_volume = vol; }
+  void volumeSlot(float vol) { m_volume = vol; emit volumeChanged(); }
   void updateSlot() { setAudioInParams(); }
   void noteStartedSlot(qreal pitch, qreal freq, qreal duration);
   void noteFinishedSlot(TnoteStruct* lastNote);
