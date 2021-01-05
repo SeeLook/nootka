@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -669,8 +669,6 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
       } else {
           int rtmRest = 0;
           TrhythmList notes = Trhythm::resolve(normDur, &rtmRest);
-          if (rtmRest)
-//             qDebug() << "[Tsound] rest====" << rtmRest;
           for (int n = 0; n < notes.count(); ++n) {
             Trhythm& rr = notes[n];
             if (!m_detectedNote.isRest()) {

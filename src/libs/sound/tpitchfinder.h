@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -57,6 +57,7 @@ class Channel;
 class NoteData;
 class MyTransforms;
 class QFile;
+class TonSetLogic;
 
 
 /**
@@ -154,12 +155,11 @@ public:
        */
   qreal chunkTime() const { return m_chunkTime; }
 
-  void setMinimalDuration(float dur) { m_minDuration = dur; m_minChunks = qRound((qreal)m_minDuration / m_chunkTime); }
-
       /**
        * Minimum acceptable duration of a note to be pitch-detected.
        */
   float minimalDuration() const { return m_minDuration; }
+  void setMinimalDuration(float dur);
 
       /**
        * Minimal number of chunks in note to be pitch-detected.
@@ -215,7 +215,20 @@ public:
       return e_middle;
   }
 
+      /**
+       * Max volume in current chunk of raw or filtered PCM audio data
+       */
   float pcmVolume() const { return m_pcmVolume; }
+
+      /**
+       * The energy of volume change. See @p TonSetLogic class
+       */
+  float energy() const;
+
+      /**
+       * @p TRUE only in chunk when note is beginning
+       */
+  bool isOnSet() const;
 
 #if !defined (Q_OS_ANDROID)
       /**
@@ -293,6 +306,7 @@ private:
   bool                  m_splitByVol;
   qreal                 m_minVolToSplit, m_chunkTime, m_skipStillerVal, m_averVolume;
   int                   m_minChunks;
+  TonSetLogic          *m_onSet;
 #if !defined (Q_OS_ANDROID)
   int                   m_dumpSufixNr = 0;
   QString               m_dumpPath, m_dumpName;

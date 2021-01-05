@@ -354,6 +354,7 @@ set(LIB_NOOTKASOUND_SRC
   trtaudioout.cpp
   tsound.cpp
   ttickcolors.cpp
+  tonsetlogic.cpp
 
   tartini/analysisdata.cpp
   tartini/array1d.h
