@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -60,6 +60,22 @@ Popup {
               anchors.fill: parent
               onClicked: buTumb.currentIndex = index
             }
+          }
+        }
+        MouseArea {
+          anchors.fill: parent
+          z: -1
+          onWheel: {
+            var ci = buTumb.currentIndex
+            if (wheel.angleDelta.y > 0)
+              ci--
+            else if (wheel.angleDelta.y < 0)
+              ci++
+            if (ci >= buTumb.count)
+              ci = 0
+            else if (ci < 0)
+              ci = buTumb.count - 1
+            buTumb.currentIndex = ci
           }
         }
       }
