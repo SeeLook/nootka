@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -46,6 +46,7 @@ class NOOTKACORE_EXPORT Tinstrument {
   Q_PROPERTY(qreal skipStillerVal READ skipStillerVal)
   Q_PROPERTY(qreal minSplitVol READ minSplitVol)
   Q_PROPERTY(int fretNumber READ fretNumber)
+  Q_PROPERTY(bool isFadeOut READ isFadeOut)
 
 public:
 
@@ -74,9 +75,9 @@ public:
 
   QString static staticName(Etype t);
 
-    /**
-     * letter of instrument symbol (singer for NoInstrument).
-     */
+      /**
+       * letter of instrument symbol (singer glyph for NoInstrument).
+       */
   QString glyph() const;
 
       /**
@@ -93,11 +94,26 @@ public:
        */
   QString qmlFile() const;
 
+      /**
+       * Default transposition of the instrument
+       */
   int transposition() const;
 
   qreal skipStillerVal() const;
   qreal minSplitVol() const;
+
+      /**
+       * Number of frets for guitars or null for other instruments
+       */
   int fretNumber() const;
+
+      /**
+       * @p True for guitars and piano - instruments with sound that fades out.
+       * In contrary the sound of saxophones, bandoneon, bowed strings, etc.
+       * is continuous.
+       * @p NoInstrument type is defined as continuous here as well.
+       */
+  bool isFadeOut() const;
 
       /**
        * Returns desired instrument item height calculated from Nootka main window height

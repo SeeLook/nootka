@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,9 +17,8 @@
  ***************************************************************************/
 
 #include "tinstrument.h"
-#include <QtGui/qguiapplication.h>
 
-#include <QtCore/qdebug.h>
+#include <QtGui/qguiapplication.h>
 
 
 //#################################################################################################
@@ -128,5 +127,17 @@ int Tinstrument::getItemHeight(int mainWindowHeight) {
       return mainWindowHeight;
 
     default: return 0;
+  }
+}
+
+
+bool Tinstrument::isFadeOut() const {
+  switch (m_type) {
+    case ClassicalGuitar:
+    case ElectricGuitar:
+    case BassGuitar:
+    case Piano:
+      return true;
+    default: return false;
   }
 }
