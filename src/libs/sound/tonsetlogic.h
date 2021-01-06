@@ -21,7 +21,7 @@
 
 
 #include <QtCore/qlist.h>
-// #include <QtCore/qobject.h>
+#include <QtCore/qobject.h>
 
 
 class NoteData;
@@ -52,19 +52,19 @@ private:
 class TonSetLogic
 {
 
-//   Q_GADGET
+  Q_GADGET
 
 public:
   TonSetLogic();
   ~TonSetLogic();
 
-  enum EnoteVolume {
+  enum EvolumeState {
     e_volInitial = 0,
     e_volOnSet, /**< moment when new note was detected */
     e_volPending,
     e_volSilence
   };
-//   Q_ENUM(EnoteVolume);
+  Q_ENUM(EvolumeState);
 
       /**
        * The method to perform look up for note beginning in audio data.
@@ -90,7 +90,9 @@ public:
   quint32 chunkNr() const { return m_chunkNr; }
   quint32 startedAt() const { return m_startedAt; }
   quint32 finishedAt() const { return m_finishedAt; }
-  EnoteVolume noteVolume() const { return m_noteVolume; }
+  EvolumeState volumeState() const { return m_volumeState; }
+
+  void skipNote();
 
       /**
        * Resets states of all variables
@@ -105,7 +107,7 @@ private:
   bool                              m_noteWasStarted = false, m_restWasStarted = false;
   quint32                           m_chunkNr = 0;
   quint32                           m_startedAt = 0, m_finishedAt = 0, m_silenceAt = 0;
-  EnoteVolume                       m_noteVolume = e_volInitial;
+  EvolumeState                      m_volumeState = e_volInitial;
   int                               m_minDuration;
   float                             m_totalMaxVol;
 };

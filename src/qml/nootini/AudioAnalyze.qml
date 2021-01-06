@@ -48,6 +48,7 @@ TaudioAnalyzeItem {
   Shortcut {
     sequence: "Shift+backspace"
     onActivated: {
+      tip.nr = -1
       audioModel.clear()
       for (var n = 0; n < noteRects.length; ++n)
         noteRects[n].destroy()
@@ -73,8 +74,8 @@ TaudioAnalyzeItem {
         id: ma
         anchors.fill: parent
         hoverEnabled: true;
-        onEntered: tip.mD = audioModel.get(index)
-        onExited: tip.mD = null
+        onEntered: tip.nr = index
+        onExited: tip.nr = -1
       }
     }
     Rectangle { width: parent.width; height: 1; color: activPal.text; y: parent.height / 2 }
@@ -99,15 +100,18 @@ TaudioAnalyzeItem {
 
   Rectangle {
     id: tip
-    property var mD: null
-    visible: mD
+    property int nr: -1
+    property var mD: audioModel.get(nr)
+    visible: nr > -1
+    border { color: activPal.text; width: 1 }
+    radius: Noo.fontSize()
     width: Noo.fontSize() * 40; height: contText.height + Noo.fontSize()
     x: (parent.width - width) / 2; y: -height - Noo.fontSize()
     Text {
       id: contText
       anchors.centerIn: parent
       color: activPal.text
-      text: tip.mD ? "volume: " + tip.mD.vol + "\ndynamic: " + tip.mD.energy: ""
+      text: tip.mD ? tip.nr + "\nvolume: " + tip.mD.vol + "\ndynamic: " + tip.mD.energy: ""
     }
   }
 

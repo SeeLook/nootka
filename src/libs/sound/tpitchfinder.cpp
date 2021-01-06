@@ -202,6 +202,8 @@ void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
 }
 
 
+//TODO remove all related to those variables
+bool d_noteStarted = false, d_restStarted = false;
 void TpitchFinder::stop(bool resetAfter) {
 //   qDebug() << "[TpitchFinder] stop";
   m_framesReady = 0;
@@ -213,6 +215,7 @@ void TpitchFinder::stop(bool resetAfter) {
   m_onSet->reset();
   m_newNote.init(NO_NOTE, 0, 0.0);
   m_startedNote.init(NO_NOTE, 0, 0.0);
+  d_noteStarted = false; d_restStarted = false;
 #if !defined (Q_OS_ANDROID)
   destroyDumpFile();
 #endif
@@ -261,7 +264,7 @@ void TpitchFinder::copyToBuffer(void* data, unsigned int nBufferFrames) {
 
 float TpitchFinder::energy() const { return m_onSet->dynamicValue(); }
 
-bool TpitchFinder::isOnSet() const { return m_onSet->noteVolume() == TonSetLogic::e_volOnSet; }
+bool TpitchFinder::isOnSet() const { return m_onSet->volumeState() == TonSetLogic::e_volOnSet; }
 
 
 void TpitchFinder::setMinimalDuration(float dur) {
@@ -380,7 +383,7 @@ void TpitchFinder::startPitchDetection() {
 void TpitchFinder::detect() {
   FilterState filterState;
   m_channel->processNewChunk(&filterState);
-  AnalysisData *data = m_channel->dataAtCurrentChunk();
+  auto data = m_channel->dataAtCurrentChunk();
 
   if (data == 0) { // In fact, it never happens
     qDebug() << "[TpitchFinder] Uh-uh! There is no Analysis data in processed chunk!";
@@ -411,7 +414,7 @@ void TpitchFinder::detect() {
       m_newNote.update(m_onSet->chunkNr(), data->pitch, m_volume);
   }
 
-  if (m_onSet->noteVolume() == TonSetLogic::e_volPending) {
+  if (m_onSet->volumeState() == TonSetLogic::e_volPending) {
     if (data->noteIndex == m_startedNote.index)
       m_startedNote.update(m_onSet->chunkNr(), data->pitch, m_volume);
   }
@@ -422,17 +425,26 @@ void TpitchFinder::detect() {
           m_restNote.freq = 0.0; // reset that weirdo
           m_restNote.endChunk = m_onSet->startedAt() - 1;
           m_restNote.duration = m_restNote.numChunks() * m_chunkTime;
+          d_restStarted = false;
           emit noteFinished(&m_restNote);
-//           qDebug() << "Rest finished";
+//           qDebug() << "Rest finished" << m_onSet->chunkNr() - 1;
         }
-        m_startedNote = m_newNote;
-        m_startedNote.startChunk = m_onSet->startedAt();
-        m_startedNote.endChunk = m_onSet->chunkNr();
-        m_startedNote.sumarize(m_chunkTime);
-        emit noteStarted(m_startedNote.getAverage(3, minChunksNumber()), m_startedNote.freq, m_startedNote.duration);
-//         qDebug() << "Note started" << m_startedNote.pitchF;
+        if (m_newNote.maxVol > m_minVolume) {
+          m_startedNote = m_newNote;
+          m_startedNote.startChunk = m_onSet->startedAt();
+          m_startedNote.endChunk = m_onSet->chunkNr();
+          m_startedNote.sumarize(m_chunkTime);
+
+          d_noteStarted = true;
+          if (d_restStarted) {
+            qDebug() << "[TpitchFinder] note started but rest not finished!!!!" << m_startedNote.pitch.toText();
+          }
+          emit noteStarted(m_startedNote.getAverage(3, minChunksNumber()), m_startedNote.freq, m_startedNote.duration);
+//           qDebug() << m_onSet->chunkNr() - 1 << "Note started" << m_startedNote.pitchF;
+        } else
+          qDebug() << "[TpitchFinder] note not loud enough - skipping";
     } else
-        qDebug() << "[TpitchFinder] note started by volume but Tartini didn't detected it.";
+        qDebug() << "[TpitchFinder] note started by volume but Tartini didn't detected it." << m_onSet->chunkNr();
   }
 
   if (m_onSet->noteFinished()) {
@@ -440,18 +452,24 @@ void TpitchFinder::detect() {
       m_startedNote.endChunk = m_onSet->finishedAt();
       m_currentNote = m_startedNote;
       m_currentNote.sumarize(m_chunkTime);
+      d_noteStarted = false;
       emit noteFinished(&m_currentNote);
-//       qDebug() << "finished note" << m_currentNote.pitchF;
+//       qDebug() << m_onSet->chunkNr() - 1 << "finished note" << m_currentNote.pitchF;
       m_startedNote.init(NO_NOTE, 0, 0.0);
-    }
+    } else qDebug() << m_onSet->chunkNr() - 1 << "XXXX onset finished, but what????";
   }
 
   if (m_onSet->restStarted()) {
-//     qDebug() << "Rest started";
+//     qDebug() << "Rest started" << m_onSet->chunkNr();
     m_restNote.startChunk = m_onSet->finishedAt() + 1;
     m_restNote.endChunk = m_onSet->chunkNr();
     m_restNote.duration = m_restNote.numChunks() * m_chunkTime;
     m_restNote.freq = 19.73; // use some weird value to mark that rest was started
+
+    d_restStarted = true;
+    if (d_noteStarted) {
+      qDebug() << "[TpitchFinder] REST started but NOTE not finished!!!!" << m_startedNote.pitch.toText();
+    }
     emit noteStarted(-1.0, 0.0, m_restNote.duration);
   }
 
