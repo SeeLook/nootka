@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -51,6 +51,8 @@ public:
   ~TexamMelody();
 
   QList<TnoteStruct>& listened() { return m_listened; }
+
+  TnoteStruct* currentNote() { return m_listened.isEmpty() || m_currentIndex < 0 ? nullptr : &m_listened[m_currentIndex]; }
 
       /**
        * Clears list of notes and adds @p length number of empty notes. Sets index to 0.
