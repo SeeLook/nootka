@@ -190,6 +190,7 @@ void TcommonListener::noteStartedSlot(qreal pitch, qreal freq, qreal duration) {
           if (GLOB->rhythmsEnabled()) {
             m_noteWasStarted = true;
             m_lastNote.pitch.setNote(0);
+            m_lastNote.pitch.rtm.setRest(true);
             m_lastNote.duration = duration;
             emit noteStarted(m_lastNote);
           }
@@ -216,8 +217,10 @@ void TcommonListener::noteFinishedSlot(TnoteStruct* lastNote) {
             m_lastNote.pitch.transpose(-m_audioParams->transposition);
             emit noteFinished(m_lastNote);
           }
-      } else if (GLOB->rhythmsEnabled())
+      } else if (GLOB->rhythmsEnabled()) {
+          m_lastNote.pitch.rtm.setRest(true);
           emit noteFinished(m_lastNote);
+      }
 
 //       if (lastNote->maxPCMvol < LOWEST_PCM) {
 //           m_hiPCMnumber = 0;
