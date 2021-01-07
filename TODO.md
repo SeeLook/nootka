@@ -10,18 +10,17 @@
 ### For incoming stable release version 2.0
   - There is no right mouse button to check/ask question - do we need that???
   - (Settings) When tuning changes clef, set it for global and vice versa - change tuning clef when score one changes
-  - randomly generated melodies have no rests yet, but see below for a reason
   - level creator:
-    - those three ways of generating melodies (range, notes, list) might be exposed more clearly
-      especially list of melodies imported from files which seems to be very important feature
-  - music XML import dialog, to select voice or staff if there are more, and so
+     - fix storing melody list in temporary/edited level
   - exam summary - give more valuable info, wear it nicely
   - charts - show preview of entire melody, chart tip is not suitable for it
-  - add QML control for displaying single note using Bravura texts/glyphs system (to use in chart and question tips)
   - migrate on preferred 48000 sample rate (ogg files and audio methods). DO NOT forget to resize output samples length
 
 ### For next stable Nootka version 2.2
   - MIDI input & revert MIDI out of course
+  - add rests option for random melodies in exams
+  - add set of rhythm patterns for melodies generated from random notes (similar to melody list)
+  - music XML import dialog, to select voice or staff if there are more, and so
   - adding actually edited score melody to current level
   - editing melody from currently selected/composed level
   - switch for selecting imported melodies from the list one by one or in random order
@@ -32,6 +31,7 @@
   - viewing entire melody in stats, playing them and single notes as well
     so far, user can play whatever tempo he likes
   - option for randomizing timbre (instrument sound) in every dictation melody
+  - add QML control for displaying single note using Bravura texts/glyphs system (to use in chart and question tips)
   - add Italian tempo names to tempo menu
 
 
@@ -41,7 +41,6 @@
  - when exercise becomes exam tips are blended
  - melody won't play in exercises/exams (first question OK but further is worst)
  - sometimes setting a note doesn't scale tie - probably due to note width is not refreshed
- - meter can be too close to key signature - probably related with clef change
  - chart tip for non guitars still displays string/fret with goofy values
  - space key for tapping tempo doesn't work well
  - chart tips with melody can disappear when mouse is over +- buttons (Qt Quick 2 style depends)

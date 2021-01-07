@@ -15,6 +15,7 @@ TEMPLATE = lib
 
 SOURCES +=  tabstractplayer.cpp\
             tpitchfinder.cpp\
+            tonsetlogic.cpp\
             tcommonlistener.cpp\
             tqtaudioin.cpp\
             tqtaudioout.cpp\
@@ -51,6 +52,7 @@ HEADERS  += tartiniparams.h\
             taudioobject.h\
             tabstractplayer.h\
             tpitchfinder.h\
+            tonsetlogic.h\
             tcommonlistener.h\
             tqtaudioin.h\
             tqtaudioout.h\
