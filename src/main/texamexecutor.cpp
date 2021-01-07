@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -1611,6 +1611,13 @@ void TexamExecutor::connectPlayingFinished() {
 
 
 void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
+  if (n.pitch.isRest() && m_melody->currentIndex() > 0) { // no rhythms - no rest here, no need for check
+    // If rest is detected but sound is expected - skip it.
+    // Do not jump to the next note
+    if (!m_exam->curQ()->melody()->note(m_melody->currentIndex())->p().isRest())
+      return;
+  }
+
   if (m_melody->wasIndexChanged())
     m_exam->curQ()->lastAttempt()->melodyWasPlayed();
   m_melody->noteStarted();
@@ -1649,8 +1656,24 @@ void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
     return;
 
   bool waitForCorrect = m_exercise && m_exam->curQ()->melody()->meter()->meter() == Tmeter::NoMeter && GLOB->waitForCorrect();
-  if (!waitForCorrect)
-    m_melody->setNote(n);
+  if (!waitForCorrect) {
+    bool doSetNote = true;
+    if (n.pitch.isRest()) { // no rest here when rhythms are disabled
+      if (!m_exam->curQ()->melody()->note(m_melody->currentIndex())->p().isRest()) {
+        // append rest duration to previously detected note,
+        // but only when that note was at least 1,5 sec long.
+        // Longer would be faded out, so help an user here.
+        // But shorter notes will be treat as mistakes - user cut them.
+        // TODO this 1.5 is debatable - might be to long for some fade-out instruments
+        auto currNote = m_melody->currentNote();
+        if (currNote && GLOB->instrument().isFadeOut() && currNote->duration > 1.5)
+          m_melody->currentNote()->duration += n.duration;
+        doSetNote = false;
+      }
+    }
+    if (doSetNote)
+      m_melody->setNote(n);
+  }
   if ((waitForCorrect && m_melody->currentIndex() == m_exam->curQ()->melody()->length() - 1) || m_melodySelectionIndex > m_exam->curQ()->melody()->length()) {
     if (waitForCorrect && !m_melody->wasLatestNoteSet())
       return;
