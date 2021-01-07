@@ -18,7 +18,6 @@
 
 
 #include "texammelody.h"
-#include <music/tnotestruct.h>
 #include <QtCore/qdebug.h>
 
 

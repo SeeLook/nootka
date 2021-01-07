@@ -19,10 +19,9 @@
 #ifndef TEXAMMELODY_H
 #define TEXAMMELODY_H
 
+
+#include <music/tnotestruct.h>
 #include <QtCore/qobject.h>
-
-
-class TnoteStruct;
 
 
 /**
