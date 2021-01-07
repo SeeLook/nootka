@@ -43,8 +43,6 @@ class NOOTKACORE_EXPORT Tinstrument {
   Q_PROPERTY(bool isSax READ isSax)
   Q_PROPERTY(QString qmlFile READ qmlFile)
   Q_PROPERTY(int transposition READ transposition)
-  Q_PROPERTY(qreal skipStillerVal READ skipStillerVal)
-  Q_PROPERTY(qreal minSplitVol READ minSplitVol)
   Q_PROPERTY(int fretNumber READ fretNumber)
   Q_PROPERTY(bool isFadeOut READ isFadeOut)
 
@@ -98,9 +96,6 @@ public:
        * Default transposition of the instrument
        */
   int transposition() const;
-
-  qreal skipStillerVal() const;
-  qreal minSplitVol() const;
 
       /**
        * Number of frets for guitars or null for other instruments

@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9 
@@ -176,44 +176,6 @@ Column {
               }
               Tile {
                 visible: advSwitch.checked
-                description: qsTr("Helps to properly detect the same notes repeated quickly on the guitar.")
-                Row {
-                  anchors.horizontalCenter: parent.horizontalCenter
-                  spacing: Noo.fontSize()
-                  TcheckBox {
-                    id: splitVolChB
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: qsTr("split when volume rise")
-                  }
-                  TspinBox {
-                    id: splitVolSpin
-                    from: 5; to: 50
-                    enabled: splitVolChB.checked
-                  }
-                  TlabelText { text: "%" }
-                }
-              }
-              Tile {
-                visible: advSwitch.checked
-                description: qsTr("Skips stiller sounds, below given percent of average volume. It prevents detecting of harmonics on classical or acoustic guitar but requires playing with similar strength.")
-                Row {
-                  anchors.horizontalCenter: parent.horizontalCenter
-                  spacing: Noo.fontSize()
-                  TcheckBox {
-                    id: skipStillerChB
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: qsTr("skip stiller than")
-                  }
-                  TspinBox {
-                    id: skipStillerSpin
-                    from: 10; to: 95
-                    enabled: skipStillerChB.checked
-                  }
-                  TlabelText { text: "%" }
-                }
-              }
-              Tile {
-                visible: advSwitch.checked
                 description: qsTr("It is rather necessary for mic input but may be switched off for an instrument plugged line-in with less noise.")
                 TcheckBox {
                   id: noiseFilterChB
@@ -224,10 +186,9 @@ Column {
             }
           }
 
-        }
-      }
-
-    }
+        } // Column
+      } // inCol Column
+    } // listening Tflickable
 
     Tflickable { // "playing" page
       contentHeight: outCol.height
@@ -290,10 +251,6 @@ Column {
       inDevCombo.currentIndex = inDevCombo.find(SOUND.currentInDevName())
     minDurSpin.value = Math.ceil(GLOB.minDuration * 1000)
     methodCombo.currentIndex = GLOB.detectionMethod
-    splitVolChB.checked = GLOB.minSplitVol > 0
-    splitVolSpin.value = GLOB.minSplitVol
-    skipStillerChB.checked = GLOB.skipStillerVal > 0
-    skipStillerSpin.value = GLOB.skipStillerVal
     noiseFilterChB.checked = GLOB.useFilter
     enableInChB.checked = GLOB.audioInEnabled
     jackInChB.checked = GLOB.JACKorASIO
@@ -312,8 +269,6 @@ Column {
       GLOB.minDuration = minDurSpin.value / 1000.0
       GLOB.minVolume = volSpin.value / 100.0
       GLOB.detectionMethod = methodCombo.currentIndex
-      GLOB.minSplitVol = splitVolChB.checked ? splitVolSpin.value : 0
-      GLOB.skipStillerVal = skipStillerChB.checked ? skipStillerSpin.value : 0
       GLOB.useFilter = noiseFilterChB.checked
       GLOB.midAfreq = freqSpin.value
       GLOB.JACKorASIO = jackInChB.checked
@@ -335,10 +290,6 @@ Column {
     volSpin.value = 40
     freqSpin.value = 440
     methodCombo.currentIndex = 2
-    splitVolChB.checked = true
-    splitVolSpin.value = 10
-    skipStillerChB.checked = true
-    skipStillerSpin.value = 80
     noiseFilterChB.checked = true
     freqSpin.value = 440
     jackInChB.checked = false

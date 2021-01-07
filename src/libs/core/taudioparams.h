@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -43,18 +43,11 @@ public:
   qreal   minDuration; /**< minimal duration of a sound above which it is detected */
   int     detectMethod; /**< pitch detection method (0 - MPM, 1 - auto-correlation, 2 - MPM modified cepstrum) */
   quint8  intonation; /**< accuracy of intonation in detected note - corresponds with @p Eaccuracy */
-  qreal   minSplitVol; /**< minimum volume change to split the same note (0.0 - no split) */
   bool    stoppedByUser; /**< Stores user action when he stopped sniffing himself @default FALSE */
   bool    audibleMetro; /**< Audible metronome ticking */
   bool    countBefore; /**< Before playing or sniffing play a measure of ticking */
   int     quantization; /**< Can be 6 or 12 (rhythmic duration of 16th or 8th), 4 (16th triplet is not yet supported) */
 
-      /**
-       * multiplexer of sound volume (aka %)
-       * that determines minimum volume of next note to be pitch-detected.
-       * i.e. - value of 0.8 determines that note has to have at least 80% volume of average volume
-       */
-  qreal   skipStillerVal;
   bool    equalLoudness; /**< if TRUE - noise filters are performed - FALSE by default */
 // duplex mode
   bool    forwardInput; /**< if true, all captured audio data is pushed to output */

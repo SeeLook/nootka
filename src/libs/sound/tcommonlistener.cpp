@@ -85,9 +85,6 @@ void TcommonListener::setAudioInParams() {
   setDetectionMethod(m_audioParams->detectMethod);
   setMinimalVolume(m_audioParams->minimalVol);
   finder()->setMinimalDuration(m_audioParams->minDuration);
-  finder()->setSplitByVolChange(m_audioParams->minSplitVol > 0.0);
-  finder()->setSplitVolume(m_audioParams->minSplitVol / 100.0);
-  finder()->setSkipStillerVal(m_audioParams->skipStillerVal / 100.0);
   finder()->aGl()->equalLoudness = m_audioParams->equalLoudness;
   m_volume = 0.0;
 }

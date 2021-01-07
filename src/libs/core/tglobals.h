@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -91,8 +91,6 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(qreal minDuration READ minDuration WRITE setMinDuration)
   Q_PROPERTY(qreal minVolume READ minVolume WRITE setMinVolume NOTIFY minVolumeChanged)
   Q_PROPERTY(int detectionMethod READ detectionMethod WRITE setDetectionMethod)
-  Q_PROPERTY(qreal minSplitVol READ minSplitVol WRITE setMinSplitVol)
-  Q_PROPERTY(qreal skipStillerVal READ skipStillerVal WRITE setSkipStillerVal)
   Q_PROPERTY(bool useFilter READ useFilter WRITE setUseFilter)
   Q_PROPERTY(bool audioOutEnabled READ audioOutEnabled WRITE setAudioOutEnabled)
   Q_PROPERTY(QString outDevName READ outDevName WRITE setOutDevName)
@@ -241,12 +239,6 @@ public:
 
   int detectionMethod() const;
   void setDetectionMethod(int m);
-
-  qreal minSplitVol() const;
-  void setMinSplitVol(qreal msv);
-
-  qreal skipStillerVal() const;
-  void setSkipStillerVal(qreal ssv);
 
   bool useFilter() const;
   void setUseFilter(bool use);

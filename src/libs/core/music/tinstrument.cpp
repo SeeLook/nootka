@@ -78,26 +78,6 @@ int Tinstrument::transposition() const {
 }
 
 
-qreal Tinstrument::skipStillerVal() const {
-  switch (m_type) {
-    case ClassicalGuitar:
-    case ElectricGuitar:
-    case BassGuitar: return 80.0;
-    default: return 0.0;
-  }
-}
-
-
-qreal Tinstrument::minSplitVol() const {
-  switch (m_type) {
-    case ClassicalGuitar: return 7.0;
-    case ElectricGuitar:
-    case BassGuitar: return 10.0;
-    default: return 0;
-  }
-}
-
-
 int Tinstrument::fretNumber() const {
   switch (m_type) {
     case ClassicalGuitar: return 19;

@@ -66,9 +66,7 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_minDuration(0.15),
   m_rateRatio(1.0),
   m_volume(0),
-  m_pcmVolume(0.0f), m_workVol(0.0f),
-  m_splitByVol(true), m_minVolToSplit(0.1),
-  m_skipStillerVal(0.0), m_averVolume(0.0)
+  m_pcmVolume(0.0f), m_workVol(0.0f)
 {
   m_aGl = new TartiniParams();
   m_aGl->chanells = 1;
@@ -98,7 +96,6 @@ TpitchFinder::TpitchFinder(QObject* parent) :
   m_onSet = new TonSetLogic();
 
   m_framesReady = 0;
-  m_averVolume = 0.0;
   m_currentNote.init(0, 0, 0);
   setSampleRate(m_aGl->rate);
   m_channel = new Channel(this, aGl()->windowSize);
@@ -556,7 +553,6 @@ void TpitchFinder::resetFinder() {
   if (m_channel) {
       delete m_channel;
       m_chunkNum = 0;
-      m_averVolume = 0.0;
       m_transforms->uninit();
       m_channel = new Channel(this, aGl()->windowSize);
       m_transforms->init(m_aGl, aGl()->windowSize, 0, aGl()->rate);

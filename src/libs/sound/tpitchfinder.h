@@ -166,24 +166,6 @@ public:
        */
   int minChunksNumber() const { return m_minChunks; }
 
-      /**
-       * Determines whether increased volume of played note split it.
-       * Tartini doesn't detect this so extra checking will be done if @p TRUE.
-       * Volume threshold can be set through @p setSplitValue()
-       */
-  void setSplitByVolChange(bool sp) { m_splitByVol = sp; }
-  bool isSplitByVolume() const { return m_splitByVol; }
-
-  void setSplitVolume(qreal volToSplit) { m_minVolToSplit = qMax<qreal>(volToSplit, 0.05); }
-  qreal minVolumeToSplit() const { return m_minVolToSplit; }
-
-      /**
-       * multiplexer of sound volume (aka %) that determines minimum volume of next note to be pitch-detected.
-       * i.e. - value of 0.8 determines that note has to have at least 80% volume of average volume
-       */
-  void setSkipStillerVal(qreal skipStill) { m_skipStillerVal = skipStill; }
-  qreal skipStillerValue() const { return m_skipStillerVal; }
-
   TnoteStruct* lastNote() { return &m_currentNote; }
 
       /**
@@ -303,8 +285,7 @@ private:
   TnoteStruct           m_newNote, m_currentNote, m_startedNote;
   TnoteStruct           m_restNote;
   bool                  m_playingWasStarted = false; /**< @p TRUE when first note/rest was noticed and signals are emitting*/
-  bool                  m_splitByVol;
-  qreal                 m_minVolToSplit, m_chunkTime, m_skipStillerVal, m_averVolume;
+  qreal                 m_chunkTime;
   int                   m_minChunks;
   TonSetLogic          *m_onSet;
 #if !defined (Q_OS_ANDROID)

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -344,12 +344,6 @@ void Tglobals::setMinVolume(qreal mv) {
 int Tglobals::detectionMethod() const { return A->detectMethod; }
 void Tglobals::setDetectionMethod(int m) { A->detectMethod = m; }
 
-qreal Tglobals::minSplitVol() const { return A->minSplitVol; }
-void Tglobals::setMinSplitVol(qreal msv) { A->minSplitVol = msv; }
-
-qreal Tglobals::skipStillerVal() const { return A->skipStillerVal; }
-void Tglobals::setSkipStillerVal(qreal ssv) { A->skipStillerVal = ssv; }
-
 bool Tglobals::useFilter() const { return A->equalLoudness; }
 void Tglobals::setUseFilter(bool use) { A->equalLoudness = use; }
 
@@ -654,8 +648,6 @@ void Tglobals::loadSettings(QSettings* cfg) {
     A->intonation = static_cast<quint8>(qBound(0, cfg->value(QStringLiteral("intonation"), 3).toInt(), 5));
     A->forwardInput = cfg->value(QStringLiteral("forwardInput"), false).toBool();
     A->equalLoudness = cfg->value(QStringLiteral("equalLoudness"), true).toBool();
-    A->minSplitVol = cfg->value(QStringLiteral("minVolumeToSplit"), 10.0).toReal();
-    A->skipStillerVal = cfg->value(QStringLiteral("skipStillerThan"), 80.0).toReal();
     A->transposition = cfg->value(QStringLiteral("transposition"), 0).toInt();
     A->stoppedByUser = cfg->value(QStringLiteral("stoppedByUser"), false).toBool();
     A->audibleMetro = cfg->value(QStringLiteral("audibleMetro"), false).toBool();
@@ -871,8 +863,6 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue(QStringLiteral("intonation"), A->intonation);
       cfg->setValue(QStringLiteral("forwardInput"), A->forwardInput);
       cfg->setValue(QStringLiteral("equalLoudness"), A->equalLoudness);
-      cfg->setValue(QStringLiteral("minVolumeToSplit"), A->minSplitVol);
-      cfg->setValue(QStringLiteral("skipStillerThan"), A->skipStillerVal);
       cfg->setValue(QStringLiteral("transposition"), A->transposition);
       cfg->setValue(QStringLiteral("stoppedByUser"), A->stoppedByUser);
       cfg->setValue(QStringLiteral("audibleMetro"), A->audibleMetro);
