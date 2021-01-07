@@ -35,5 +35,6 @@ else
   ln -s $SRC_DIR/picts $DST_DIR
   ln -s $SRC_DIR/lang $DST_DIR
   ln -s $SRC_DIR/sounds $DST_DIR
+  ln -s $SRC_DIR/levels $DST_DIR
 fi
 

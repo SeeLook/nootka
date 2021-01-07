@@ -1,0 +1,15 @@
+This directory contains Nootka exam levels distributed with the application.
+They will be automatically loaded and visible inside Nootka on the level list.
+
+Levels in this directory must have extra translatable tags:
+<nameTR>translate("Levels", "Level name here", "Keep it short, please - 29 characters max")</nameTR>
+<descriptionTR>translate("Levels", "Level description here")</descriptionTR>
+
+Of course <level> tag must have some "name" attribute.
+<level name="Level name here">
+
+and to detect them correctly, lupdate has to be invoked in such a way:
+lupdate -extensions cpp,h,qml,nel -recursive ../src ../levels -ts some_file.ts
+from inside lang directory
+
+Do not forget to add those level files to install scripts (cmake) and NSIS

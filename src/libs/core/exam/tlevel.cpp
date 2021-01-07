@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -269,10 +269,6 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
   if (name.isEmpty()) {
       qDebug() << "[Tlevel] Level key has empty 'name' attribute";
       return e_otherError;
-  } else if (name.size() > 29) {
-      name = name.left(29);
-      er = e_levelFixed;
-      qDebug() << "[Tlevel] Name of a level was reduced to 29 characters:" << name;
   }
   melodySet.clear();
   randOrderInSet = true;
@@ -281,6 +277,14 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
   while (xml.readNextStartElement()) {
     if (xml.name() == QLatin1String("description"))
       desc = xml.readElementText();
+    else if (xml.name() == QLatin1String("nameTR"))
+      name = QApplication::translate("Levels", xml.readElementText()
+                                    .replace(QLatin1String("translate(\"Levels\", \""), QString())
+                                    .replace(QLatin1String("\")"), QString()).toLocal8Bit());
+    else if (xml.name() == QLatin1String("descriptionTR"))
+      desc = QApplication::translate("Levels", xml.readElementText()
+                                    .replace(QLatin1String("translate(\"Levels\", \""), QString())
+                                    .replace(QLatin1String("\")"), QString()).toLocal8Bit());
   // QUESTIONS
     else if (xml.name() == QLatin1String("questions")) {
       while (xml.readNextStartElement()) {
@@ -435,20 +439,25 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
     } else
         skipCurrentXmlKey(xml);
   }
+  if (name.size() > 29) {
+    name = name.left(29);
+    er = e_levelFixed;
+    qDebug() << "[Tlevel] Name of a level was reduced to 29 characters:" << name;
+  }
   if (canBeGuitar() && fixFretRange() == e_levelFixed) {
     er = e_levelFixed;
-    qDebug() << "[Tlevel] Lowest fret in range was bigger than the highest one. Fixed";
+    qDebug() << "[Tlevel] Lowest fret in the range was bigger than the highest one. Fixed";
   }
   if (useKeySign && !isSingleKey && fixKeyRange() == e_levelFixed) {
     er = e_levelFixed;
-    qDebug() << "[Tlevel] Lowest key in range was higher than the highest one. Fixed";
+    qDebug() << "[Tlevel] Lowest key in the range was higher than the highest one. Fixed";
   }
   if (loNote.note() == 0 || hiNote.note() == 0) {
       qDebug() << "[Tlevel] Note range is wrong.";
       return e_otherError;
   } else if (fixNoteRange() == e_levelFixed) {
       er = e_levelFixed;
-      qDebug() << "[Tlevel] Lowest note in range was higher than the highest one. Fixed";
+      qDebug() << "[Tlevel] Lowest note in the range was higher than the highest one. Fixed";
   }
   if (notesList.isEmpty()) {
       if (randMelody == e_randFromList) {
