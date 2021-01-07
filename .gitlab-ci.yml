@@ -1,7 +1,6 @@
 appimage-amd64:
   image: ubuntu:16.04
   before_script:
-    # update docker
     - apt-get update
     - apt-get install -y mesa-common-dev libsoundtouch-dev libfftw3-dev libasound2-dev libogg-dev libvorbis-dev libpulse-dev libjack-dev cmake git wget build-essential software-properties-common
     - add-apt-repository -y -u ppa:beineri/opt-qt-5.12.9-xenial
@@ -16,4 +15,4 @@ appimage-amd64:
   artifacts:
     name:  "Nootka-$(head -1 $PWD/changes | sed 's/\ /-/g')-b$(git rev-list HEAD --count)"
     paths:
-      - '*.AppImage*'
+      - 'nootka-*.AppImage*'
