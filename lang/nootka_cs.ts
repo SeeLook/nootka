@@ -455,7 +455,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/charts/qml/ChartDrawer.qml" line="184"/>
         <source>keep opened</source>
-        <translation type="unfinished"></translation>
+        <translation>Ponechat otevřeno</translation>
     </message>
 </context>
 <context>
@@ -793,7 +793,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/qml/about/HelpPage.qml" line="29"/>
         <source>Help topics</source>
-        <translation type="unfinished"></translation>
+        <translation>Témata nápovědy</translation>
     </message>
 </context>
 <context>
@@ -1276,17 +1276,17 @@ Nejprve zvažte rozdělení dlouhých děl na party ve vnějším programu.</tra
     <message>
         <location filename="../src/qml/settings/+android/PhonePage.qml" line="24"/>
         <source>screen always on</source>
-        <translation type="unfinished"></translation>
+        <translation>Obrazovka vždy zapnuta</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/+android/PhonePage.qml" line="29"/>
         <source>disable screen rotation</source>
-        <translation type="unfinished"></translation>
+        <translation>Zakázat otočení obrazovky</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/+android/PhonePage.qml" line="34"/>
         <source>full screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Celá obrazovka</translation>
     </message>
 </context>
 <context>
@@ -1557,7 +1557,7 @@ Nejprve zvažte rozdělení dlouhých děl na party ve vnějším programu.</tra
     <message>
         <location filename="../src/qml/level/RhythmsPage.qml" line="63"/>
         <source>Time signatures to use in this level.</source>
-        <translation type="unfinished"></translation>
+        <translation>Taktová označení k použití v této úrovni.</translation>
     </message>
     <message>
         <location filename="../src/qml/level/RhythmsPage.qml" line="66"/>
@@ -1757,13 +1757,13 @@ Nejprve zvažte rozdělení dlouhých děl na party ve vnějším programu.</tra
     <message>
         <location filename="../src/qml/score/ScoreToolbox.qml" line="124"/>
         <source>Tie - connect or disconnect selected note with previous one if both notes have the same pitch.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ligatura- připojit nebo odpojit vybranou notu od předchozí, pokud mají obě noty stejnou výšku tónu.</translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1104"/>
         <source>tie</source>
         <comment>To translate it properly, check please meaning of &apos;tie&apos; in musical context.</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ligatura</translation>
     </message>
 </context>
 <context>
@@ -1787,32 +1787,32 @@ Nejprve zvažte rozdělení dlouhých děl na party ve vnějším programu.</tra
     <message>
         <location filename="../src/qml/wizard/SoundInfo.qml" line="36"/>
         <source>Nootka can hear You!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nootka tě slyší!</translation>
     </message>
     <message>
         <location filename="../src/qml/wizard/SoundInfo.qml" line="48"/>
         <source>Nootka recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nootka rozpoznává přehrávané zvuky a jejich trvání (rytmy). K dosažení přesných výsledků však vyžaduje určité přípravy a trochu trpělivosti. Zde je několik vodítek:</translation>
     </message>
     <message>
         <location filename="../src/qml/wizard/SoundInfo.qml" line="49"/>
         <source>Be sure your system is able to record what are you playing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ujistěte se, že je váš systém schopen zaznamenat, co hrajete.</translation>
     </message>
     <message>
         <location filename="../src/qml/wizard/SoundInfo.qml" line="50"/>
         <source>Adjust minimal note volume a little below of your input volume level.</source>
-        <translation type="unfinished"></translation>
+        <translation>Upravte nejmenší hlasitost noty mírně pod úroveň vstupní hlasitosti.</translation>
     </message>
     <message>
         <location filename="../src/qml/wizard/SoundInfo.qml" line="65"/>
         <source>Aim to play loud and clear and avoid dirty sounds specific to your instrument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Snažte se hrát hlasitě a jasně a vyhněte se nečistým zvukům specifickým pro váš nástroj.</translation>
     </message>
     <message>
         <location filename="../src/qml/wizard/SoundInfo.qml" line="66"/>
         <source>Rhythms detection during exercises and exams is more &apos;humane&apos; - Nootka knows what rhythm to expect. In contrary to playing to &apos;empty&apos; score when high rhythmic precision is required, so better use metronome then.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zjišťování rytmů během cvičení a zkoušek je „lidštější“ - Nootka ví, jaký rytmus lze očekávat. Na rozdíl od hraní „prostého“ notového zápisu, když je vyžadována vysoká rytmická přesnost, je lepší použít metronom.</translation>
     </message>
 </context>
 <context>
@@ -2602,12 +2602,12 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="33"/>
         <source>beats per minute</source>
-        <translation type="unfinished"></translation>
+        <translation>M. M. (úderů za minutu)</translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="34"/>
         <source>Mouse wheel changes tempo promptly (also with %1 key). Click for more options.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolečko myši mění tempo okamžitě (také pomocí klávesy %1). Klepnutím zobrazíte další volby.</translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="62"/>
@@ -2743,7 +2743,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/main/ttiphandler.cpp" line="170"/>
         <source>Let&apos;s start!</source>
-        <translation type="unfinished"></translation>
+        <translation>Začněme!</translation>
     </message>
 </context>
 <context>
@@ -2841,7 +2841,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/main/texamexecutor.cpp" line="1728"/>
         <source>There is not such a note in this melody!</source>
-        <translation type="unfinished"></translation>
+        <translation>V této melodii není taková nota!</translation>
     </message>
     <message>
         <location filename="../src/main/texamexecutor.cpp" line="1739"/>
@@ -4021,7 +4021,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/main/tmainscoreobject.cpp" line="96"/>
         <source>notes</source>
         <comment>musical notes of course</comment>
-        <translation type="unfinished">Noty</translation>
+        <translation>Noty</translation>
     </message>
 </context>
 <context>
@@ -4075,7 +4075,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/mobile/tmobilemenu.cpp" line="51"/>
         <source>Tempo</source>
-        <translation type="unfinished">Tempo</translation>
+        <translation>Tempo</translation>
     </message>
 </context>
 <context>
@@ -4533,13 +4533,13 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1096"/>
         <source>rise</source>
         <comment>as such as sharps rise note</comment>
-        <translation type="unfinished"></translation>
+        <translation>Zvýšit</translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1100"/>
         <source>lower</source>
         <comment>as such as flats lower note</comment>
-        <translation type="unfinished"></translation>
+        <translation>Snížit</translation>
     </message>
 </context>
 <context>
@@ -4580,12 +4580,12 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/qml/settings/TsettingsDialog.qml" line="26"/>
         <source>Phone</source>
-        <translation type="unfinished"></translation>
+        <translation>Telefon</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/TsettingsDialog.qml" line="26"/>
         <source>Tablet</source>
-        <translation type="unfinished"></translation>
+        <translation>Tablet</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/TsettingsDialog.qml" line="22"/>
@@ -4830,7 +4830,7 @@ je viděli a poslechli si správně.</translation>
         <location filename="../src/main/ttiphandler.cpp" line="264"/>
         <source>It should be %1</source>
         <comment>note name follows</comment>
-        <translation type="unfinished"></translation>
+        <translation>Mělo by to být %1</translation>
     </message>
     <message>
         <location filename="../src/main/ttiphandler.cpp" line="390"/>
@@ -5141,7 +5141,7 @@ je viděli a poslechli si správně.</translation>
     <message>
         <location filename="../src/qml/sound/TunerDialog.qml" line="95"/>
         <source>output volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Výstupní hlasitost</translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TunerDialog.qml" line="172"/>

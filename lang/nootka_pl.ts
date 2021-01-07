@@ -130,7 +130,7 @@
         <translation>imię ucznia:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tchartitem.cpp" line="227"/>
+        <location filename="../src/charts/tchartitem.cpp" line="228"/>
         <source>Analyze</source>
         <translation>Analiza</translation>
     </message>
@@ -192,17 +192,17 @@
         <translation type="vanished">Strój</translation>
     </message>
     <message>
-        <location filename="../src/charts/tchartitem.cpp" line="248"/>
+        <location filename="../src/charts/tchartitem.cpp" line="249"/>
         <source>Press %1 button to select an exam from a file.</source>
         <translation>Naciśnij przycisk %1 żeby wybrać plik egzaminu.</translation>
     </message>
     <message>
-        <location filename="../src/charts/tchartitem.cpp" line="250"/>
+        <location filename="../src/charts/tchartitem.cpp" line="251"/>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
         <translation>Użyj %1 i kółka myszy lub przycisków %2 aby zmienić rozmiar wykresu.</translation>
     </message>
     <message>
-        <location filename="../src/charts/tchartitem.cpp" line="252"/>
+        <location filename="../src/charts/tchartitem.cpp" line="253"/>
         <source>Click and Drag the cursor to move the chart.</source>
         <translation>Kliknij i przeciągnij kursor żeby przesunąć wykres.</translation>
     </message>
@@ -247,7 +247,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     </message>
     <message>
         <location filename="../src/charts/tchart.h" line="116"/>
-        <location filename="../src/charts/tchartitem.h" line="188"/>
+        <location filename="../src/charts/tchartitem.h" line="189"/>
         <source>Questions number</source>
         <translation>Liczba pytań</translation>
     </message>
@@ -262,30 +262,30 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation>pokaż niepoprawne odpowiedzi oddzielnie</translation>
     </message>
     <message>
-        <location filename="../src/charts/tchartitem.cpp" line="225"/>
+        <location filename="../src/charts/tchartitem.cpp" line="226"/>
         <source>Analysis of exam results</source>
         <translation>Analiza wyników egzaminu</translation>
     </message>
     <message>
-        <location filename="../src/charts/tchartitem.cpp" line="223"/>
+        <location filename="../src/charts/tchartitem.cpp" line="224"/>
         <source>Analysis of exercise</source>
         <translation>Analiza ćwiczenia</translation>
     </message>
     <message>
         <location filename="../src/charts/tchart.h" line="121"/>
-        <location filename="../src/charts/tchartitem.h" line="193"/>
+        <location filename="../src/charts/tchartitem.h" line="194"/>
         <source>Attempts number</source>
         <translation>Liczba prób</translation>
     </message>
     <message>
         <location filename="../src/charts/tchart.h" line="126"/>
-        <location filename="../src/charts/tchartitem.h" line="198"/>
+        <location filename="../src/charts/tchartitem.h" line="199"/>
         <source>Preparation time</source>
         <translation>Czas przygotowania</translation>
     </message>
     <message>
         <location filename="../src/charts/tchart.h" line="131"/>
-        <location filename="../src/charts/tchartitem.h" line="203"/>
+        <location filename="../src/charts/tchartitem.h" line="204"/>
         <source>Played number</source>
         <translation>Liczba zagranych</translation>
     </message>
@@ -465,7 +465,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
 <context>
     <name>ChartTip</name>
     <message>
-        <location filename="../src/charts/qml/ChartTip.qml" line="121"/>
+        <location filename="../src/charts/qml/ChartTip.qml" line="136"/>
         <source>of</source>
         <comment>It will give text: &apos;Attempt x of y&apos;</comment>
         <translation>z</translation>
@@ -479,13 +479,13 @@ nie jest poprawnym plikiem egzaminu!</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/charts/tcharttipitem.cpp" line="306"/>
+        <location filename="../src/charts/tcharttipitem.cpp" line="304"/>
         <source>played</source>
         <comment>a melody was played (and number follows)</comment>
         <translation>zagrane</translation>
     </message>
     <message>
-        <location filename="../src/charts/tcharttipitem.cpp" line="309"/>
+        <location filename="../src/charts/tcharttipitem.cpp" line="307"/>
         <source>time</source>
         <translation>czas</translation>
     </message>
@@ -662,32 +662,32 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation>Żeby poprawić kojarzenie nuty na pięciolinii lub pozycji na instrumencie z nazwą dźwięku, Nootka będzie wyświetlać nazwy dźwięków nawet gdy rodzaj pytania i odpowiedzi nie jest z tym związany.</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ExamPage.qml" line="186"/>
+        <location filename="../src/qml/settings/ExamPage.qml" line="188"/>
         <source>Experts mode</source>
         <translation>Tryb eksperta</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ExamPage.qml" line="193"/>
+        <location filename="../src/qml/settings/ExamPage.qml" line="195"/>
         <source>You are about to enter expert mode.&lt;br&gt; In this mode you don&apos;t need to confirm every answer,&lt;br&gt;&lt;b&gt;but remember the following:</source>
         <translation>Jesteś blisko wejścia w tryb odpowiedzi eksperta.&lt;br&gt; Nie musisz w nim potwierdzać każdej odpowiedzi,&lt;br&gt;&lt;b&gt;ale pamiętaj o niżej wymienionych zasadach:</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ExamPage.qml" line="193"/>
+        <location filename="../src/qml/settings/ExamPage.qml" line="195"/>
         <source>Selecting a note on the score or a position on the fingerboard invokes automatic checking of your answer, so select a key signature first, if required.</source>
         <translation>Wybranie nuty na pięciolinii lub pozycji na podstrunnicy skutkuje sprawdzeniem twojej odpowiedzi, Zaznacz najpierw tonację gdy jest to wymagane.</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ExamPage.qml" line="193"/>
+        <location filename="../src/qml/settings/ExamPage.qml" line="195"/>
         <source>When an answer is the name of a note &lt;b&gt;first select a proper accidental and an octave&lt;/b&gt; and then click a note button - this automatically invokes checking.</source>
         <translation>Gdy odpowiedź jest nazwą dźwięku &lt;b&gt;najpierw zaznacz&lt;/b&gt; właściwy znak i oktawę i dopiero wtedy kliknij przycisk z nazwą dźwięku - to wywołuje sprawdzanie.</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ExamPage.qml" line="193"/>
+        <location filename="../src/qml/settings/ExamPage.qml" line="195"/>
         <source>When you have to play a note as an answer - the first detected sound will be taken, so be sure that your input device captures exactly what you want.</source>
         <translation>Kiedy jako odpowiedź masz zagrać dźwięk -- ten pierwszy rozpoznany jest brany jako odpowiedź. Upewnij się, że twoje urządzenie wejściowe odbiera dokładnie to co chcesz.</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ExamPage.qml" line="193"/>
+        <location filename="../src/qml/settings/ExamPage.qml" line="195"/>
         <source>When the last note of question that is a melody was played - checking starts.</source>
         <translation>Kiedy zostanie zagrana ostatnia nuta pytania będącego melodią - rozpocznie się sprawdzanie.</translation>
     </message>
@@ -1044,9 +1044,18 @@ ale nie zapisany!</translation>
         <translation type="vanished">Kreator poziomów</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelpreviewitem.cpp" line="120"/>
+        <location filename="../src/qml/level/LevelPreview.qml" line="126"/>
         <source>Answers</source>
         <translation>Odpowiedzi</translation>
+    </message>
+</context>
+<context>
+    <name>LevelPreview</name>
+    <message>
+        <location filename="../src/qml/level/LevelPreview.qml" line="117"/>
+        <location filename="../src/qml/level/LevelPreview.qml" line="127"/>
+        <source>not selected</source>
+        <translation>nie wybrane</translation>
     </message>
 </context>
 <context>
@@ -1071,7 +1080,7 @@ ale nie zapisany!</translation>
 <context>
     <name>LevelsSelector</name>
     <message>
-        <location filename="../src/qml/level/LevelsSelector.qml" line="99"/>
+        <location filename="../src/qml/level/LevelsSelector.qml" line="94"/>
         <source>Load</source>
         <translation>Wczytaj</translation>
     </message>
@@ -1079,7 +1088,7 @@ ale nie zapisany!</translation>
 <context>
     <name>MainMenuMobile</name>
     <message>
-        <location filename="../src/mobile/tmobilemenu.cpp" line="46"/>
+        <location filename="../src/mobile/tmobilemenu.cpp" line="45"/>
         <source>Pitch recognition</source>
         <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
         <translation>Rozpoznawanie nut</translation>
@@ -1121,11 +1130,17 @@ ale nie zapisany!</translation>
 <context>
     <name>MelodyListView</name>
     <message>
-        <location filename="../src/qml/level/MelodyListView.qml" line="27"/>
         <source>Add here melodies from Music XML files.
 Consider to divide long pieces on parts in external software first.</source>
-        <translation>Dodaj tutaj melodie z plików Music XML.
+        <translation type="vanished">Dodaj tutaj melodie z plików Music XML.
 Rozważ najpierw możliwość podzielenia dłuższych utworów na części w innym programie.</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/level/MelodyListView.qml" line="32"/>
+        <source>Add here melodies from Music XML files.
+But better keep them short, so divide them first in some external software.</source>
+        <translation>Dodaj tutaj melodie z plików Music XML.
+Ale lepiej żeby były krótkie, więc podziel je najpierw w innym programie do edycji nut.</translation>
     </message>
 </context>
 <context>
@@ -1149,12 +1164,12 @@ Rozważ najpierw możliwość podzielenia dłuższych utworów na części w inn
 <context>
     <name>MelodyPage</name>
     <message>
-        <location filename="../src/qml/level/MelodyPage.qml" line="57"/>
+        <location filename="../src/qml/level/MelodyPage.qml" line="58"/>
         <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
         <translation>Maksymalna liczba dźwięków w melodii. Długość melodii jest losową wartością między 70% a 100% tej liczby.</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/MelodyPage.qml" line="65"/>
+        <location filename="../src/qml/level/MelodyPage.qml" line="66"/>
         <source>Melody length</source>
         <translation>Długość melodii</translation>
     </message>
@@ -1167,47 +1182,70 @@ Rozważ najpierw możliwość podzielenia dłuższych utworów na części w inn
         <translation type="vanished">Określa ostatni dźwięk melodii.&lt;br&gt;Kiedy włączone, melodia będzie się kończyć dźwiękiem tonicznym aktualnej tonacji.</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/MelodyPage.qml" line="42"/>
+        <location filename="../src/qml/level/MelodyPage.qml" line="43"/>
         <source>in selected range</source>
         <translation>w wybranym zakresie</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/MelodyPage.qml" line="42"/>
+        <location filename="../src/qml/level/MelodyPage.qml" line="43"/>
         <source>from notes below</source>
         <translation>z poniższych dźwięków</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/MelodyPage.qml" line="27"/>
+        <location filename="../src/qml/level/MelodyPage.qml" line="28"/>
         <source>Melodies are composed from a note range defined on the &apos;Range&apos; page.</source>
         <translation>Melodie będą komponowane z zakresu dźwięków określonego na karcie &quot;Zakres&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/MelodyPage.qml" line="26"/>
+        <location filename="../src/qml/level/MelodyPage.qml" line="27"/>
         <source>They will be transposed if key signatures are set to be used and any of them differs from the key(s) defined below.</source>
         <translation>Będą transponowane jeżeli tonacje są zaznaczone do użycia i któraś z nich różni się od tonacji określonej poniżej.</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/MelodyPage.qml" line="28"/>
+        <location filename="../src/qml/level/MelodyPage.qml" line="29"/>
         <source>Melodies are composed from notes selected on the score below.</source>
         <translation>Melodie będą komponowane z wybranych poniżej nut.</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/MelodyPage.qml" line="29"/>
+        <location filename="../src/qml/level/MelodyPage.qml" line="30"/>
+        <source>Melodies are selected from the list.</source>
+        <translation>Melodie są wybierane z listy.</translation>
+    </message>
+    <message>
         <source>Melodies are randomized from defined list of melodies.</source>
-        <translation>Melodie są losowane ze zdefiniowanej listy.</translation>
+        <translation type="vanished">Melodie są losowane ze zdefiniowanej listy.</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/MelodyPage.qml" line="35"/>
         <source>Random melody</source>
-        <translation>Losowa melodia</translation>
+        <translation type="vanished">Losowa melodia</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/MelodyPage.qml" line="42"/>
+        <location filename="../src/qml/level/MelodyPage.qml" line="43"/>
         <source>from the list</source>
         <translation>z listy</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/MelodyPage.qml" line="104"/>
+        <location filename="../src/qml/level/MelodyPage.qml" line="92"/>
+        <source>random order</source>
+        <translation>losowa kolejność</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/level/MelodyPage.qml" line="96"/>
+        <source>When checked, melodies from the list will be asked in random order.</source>
+        <translation>Kiedy zaznaczone, melodie z tej listy będą pojawiały się w losowej kolejności.</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/level/MelodyPage.qml" line="102"/>
+        <source>How many times during an exam a melody from the list has to be played or written correctly. Warning! It multiplies question number.</source>
+        <translation>Ile razy podczas egzaminu ma być poprawnie zagrana lub zapisana dana melodia z listy. Uwaga! To pomnaża ilość pytań.</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/level/MelodyPage.qml" line="108"/>
+        <source>number of repeats</source>
+        <translation>liczba powrórzeń</translation>
+    </message>
+    <message>
+        <location filename="../src/qml/level/MelodyPage.qml" line="142"/>
         <source>Play in tempo</source>
         <translation>Graj w tempie</translation>
     </message>
@@ -1263,13 +1301,13 @@ Rozważ najpierw możliwość podzielenia dłuższych utworów na części w inn
 <context>
     <name>Notation</name>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="502"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="509"/>
         <source>b</source>
         <comment>Give here a name of 7-th note preferred in your country. But only &apos;b&apos; or &apos;h&apos; not &apos;si&apos; or something worst...</comment>
         <translation>h</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="507"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="514"/>
         <source>letters</source>
         <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country preferred style of naming key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
         <translation>letters</translation>
@@ -1589,12 +1627,12 @@ Rozważ najpierw możliwość podzielenia dłuższych utworów na części w inn
 <context>
     <name>RemoveLevel</name>
     <message>
-        <location filename="../src/qml/level/RemoveLevel.qml" line="30"/>
+        <location filename="../src/qml/level/RemoveLevel.qml" line="31"/>
         <source>Remove level %1 from the list</source>
         <translation>Usuń poziom %1 z listy</translation>
     </message>
     <message>
-        <location filename="../src/qml/level/RemoveLevel.qml" line="35"/>
+        <location filename="../src/qml/level/RemoveLevel.qml" line="36"/>
         <source>Also delete level file:</source>
         <translation>Usuń także plik poziomu:</translation>
     </message>
@@ -1665,13 +1703,13 @@ Rozważ najpierw możliwość podzielenia dłuższych utworów na części w inn
         <translation type="vanished">nazwy nut na pięciolinii</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="279"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="262"/>
         <source>Show names of all notes on the score</source>
         <translation>Pokaż nazwy wszystkich nut na pięciolinii</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="287"/>
-        <location filename="../src/qml/settings/ScorePage.qml" line="288"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="270"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="271"/>
         <source>names highlight color</source>
         <translation>kolor podświetlenia nazw</translation>
     </message>
@@ -1684,12 +1722,12 @@ Rozważ najpierw możliwość podzielenia dłuższych utworów na części w inn
         <translation type="vanished">Pokazuje sformatowaną nazwę nuty. Dla oktawy małej - nazwa to mała litera,&lt;br&gt;dla oktawy wielkiej - nazwa zaczyna się od wielkiej litery.&lt;br&gt;dla razkreślnej - dodana jest cyfra&lt;sup&gt;1&lt;/sup&gt;, itd.</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="133"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="116"/>
         <source>use key signatures</source>
         <translation>używaj tonacji</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="166"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="149"/>
         <source>Naming extension</source>
         <translation>Dopełnienie nazwy</translation>
     </message>
@@ -1702,76 +1740,76 @@ Rozważ najpierw możliwość podzielenia dłuższych utworów na części w inn
         <translation type="vanished">w tonacjach&lt;br&gt;molowych:</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="114"/>
-        <location filename="../src/qml/settings/ScorePage.qml" line="115"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="97"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="98"/>
         <source>note-cursor color</source>
         <translation>kolor wskazującej nuty</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="64"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="47"/>
         <source>use single note only</source>
         <translation>tylko jedna nuta</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="61"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="44"/>
         <source>When enabled, a score displays only a single note.</source>
         <translation>Gdy zaznaczone, zapis nutowy pokazuje tylko jedną nutę.</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="76"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="59"/>
         <source>show enharmonic variants of notes</source>
         <translation>pokaż inne enharmoniczne warianty nuty</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="72"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="55"/>
         <source>Shows enharmonic variants of notes.&lt;br&gt;i.e.: the note E is also Fb (F flat) &lt;i&gt;and&lt;/i&gt; Dx (D with double sharp).</source>
         <translation>Pokazuje enharmoniczne warianty dźwięku.&lt;br&gt;Np.: Nuta E to także Fb (F z bemolem) i Dx (D z podwójnym krzyżykiem).</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="85"/>
-        <location filename="../src/qml/settings/ScorePage.qml" line="86"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="68"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="69"/>
         <source>color of enharmonic notes</source>
         <translation>kolor enharmonicznych dźwięków</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="92"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="75"/>
         <source>Use rhythms or only bare note heads.</source>
         <translation>Rytmy lub same główki nut.</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="96"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="79"/>
         <source>enable rhythms</source>
         <translation>używaj rytmów</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="105"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="88"/>
         <source>use double accidentals</source>
         <translation>używaj podwójnych znaków</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="243"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="226"/>
         <source>Octave numbers</source>
         <translation>Numery oktaw</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="246"/>
-        <location filename="../src/qml/settings/ScorePage.qml" line="261"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="229"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="244"/>
         <source>scientific</source>
         <translation>naukowe</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="252"/>
-        <location filename="../src/qml/settings/ScorePage.qml" line="261"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="235"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="244"/>
         <source>musical</source>
         <translation>muzyczne</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="271"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="254"/>
         <source>Scientific (international) pitch notation is widely used in technical sources and tuning devices/applications, when the other notation style is used more in music publications.</source>
         <translation>Naukowa (międzynarodowa) notacja jest szeroko wykorzystywana w tekstach technicznych i urządzeniach/aplikacjach do strojenia, natomiast drugi styl notacji wykorzystuje się bardziej w publikacjach muzycznych.</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="102"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="85"/>
         <source>If checked, you can use double sharps and double flats.</source>
         <translation>Kiedy jest zaznaczone, można używać podwójnych krzyżyków i bemoli.</translation>
     </message>
@@ -1780,27 +1818,27 @@ Rozważ najpierw możliwość podzielenia dłuższych utworów na części w inn
         <translation type="vanished">tempo granych nut</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="195"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="178"/>
         <source>Remember! Not all clefs are suitable for some possible tunings or instrument types!</source>
         <translation>Pamiętaj! Nie wszystkie klucze są odpowiednie dla aktualnego stroju lub typu instrumentu!</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="27"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="20"/>
         <source>Score settings</source>
         <translation>Ustawienia zapisu nutowego</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="28"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="20"/>
         <source>Key signatures</source>
         <translation>Tonacje</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="29"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="20"/>
         <source>Clefs</source>
         <translation>Klucze</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="30"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="20"/>
         <source>Notes naming</source>
         <translation>Nazewnictwo nut</translation>
     </message>
@@ -1809,7 +1847,7 @@ Rozważ najpierw możliwość podzielenia dłuższych utworów na części w inn
         <translation type="vanished">Domyślny klucz</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="194"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="177"/>
         <source>Select default clef for the application.</source>
         <translation>Wybierz domyślny klucz dla programu.</translation>
     </message>
@@ -1818,12 +1856,12 @@ Rozważ najpierw możliwość podzielenia dłuższych utworów na części w inn
         <translation type="vanished">na przykład</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="147"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="130"/>
         <source>show names of key signature</source>
         <translation>pokazuj nazwy tonacji</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/ScorePage.qml" line="218"/>
+        <location filename="../src/qml/settings/ScorePage.qml" line="201"/>
         <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
         <translation>Sposób nazywania nut. Podstawowa różnica to 7-my dźwięk.&lt;br&gt;Czy jest to  B i Bb, czy też H i B ?</translation>
     </message>
@@ -1894,7 +1932,7 @@ Rozważ najpierw możliwość podzielenia dłuższych utworów na części w inn
 <context>
     <name>SoundPage</name>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="67"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="55"/>
         <source>input device</source>
         <translation>urządzenie wejściowe</translation>
     </message>
@@ -1904,22 +1942,22 @@ Rozważ najpierw możliwość podzielenia dłuższych utworów na części w inn
         <translation>[Hz]</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="180"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="169"/>
         <source>pitch detection mode</source>
         <translation>Tryb wykrywania wysokości dźwięku</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="99"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="88"/>
         <source>[milliseconds]</source>
         <translation>[milisekund]</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="24"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="19"/>
         <source>listening</source>
         <translation>słuchanie</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="25"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="19"/>
         <source>playing</source>
         <translation>odtwarzanie</translation>
     </message>
@@ -1929,7 +1967,7 @@ Rozważ najpierw możliwość podzielenia dłuższych utworów na części w inn
         <translation>środkowe A</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="267"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="256"/>
         <source>output device</source>
         <translation>urządzenie wyjściowe</translation>
     </message>
@@ -1946,32 +1984,32 @@ Rozważ najpierw możliwość podzielenia dłuższych utworów na części w inn
         <translation type="vanished">brak</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="52"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="40"/>
         <source>enable pitch detection</source>
         <translation>włącz rozpoznawanie dźwięków</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="63"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="51"/>
         <source>Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.</source>
         <translation>Upewnij się, że twoje urządzenie wejściowe (mikrofon, kamera internetowa, instrument podłączony do wejścia liniowego) jest właściwie skonfigurowane i działa.</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="92"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="81"/>
         <source>minimum note duration</source>
         <translation>minimalny czas dźwięku</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="88"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="77"/>
         <source>Only sounds longer than the selected time will be pitch-detected.&lt;br&gt;Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness.</source>
         <translation>Tylko dźwięki dłuższe niż podany czas są wykrywane.&lt;br&gt;Wydłużenie czasu nuty zapobiega przechwytywaniu szumów lub innych niechcianych dźwięków ale obniża reakcję programu.</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="108"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="97"/>
         <source>minimum volume</source>
         <translation>minimalna głośność</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="104"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="93"/>
         <source>Minimum volume of a sound to be pitch-detected</source>
         <translation>Minimalna głośność jaką musi mieć zagrany dźwięk żeby wyznaczyć jego wysokość</translation>
     </message>
@@ -2018,37 +2056,37 @@ Rozważ najpierw możliwość podzielenia dłuższych utworów na części w inn
         <translation type="vanished">&apos;Środkowe a&apos; i transpozycja</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="140"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="129"/>
         <source>Advanced</source>
         <translation>Zaawansowane</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="197"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="186"/>
         <source>split when volume rise</source>
         <translation>rozdziel gdy zwiększy się głośność</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="190"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="179"/>
         <source>Helps to properly detect the same notes repeated quickly on the guitar.</source>
         <translation>Pomaga prawidłowo wykryć te same dźwięki szybko powtarzane po sobie na gitarze.</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="216"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="205"/>
         <source>skip stiller than</source>
         <translation>pomiń cichsze niż</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="209"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="198"/>
         <source>Skips stiller sounds, below given percent of average volume. It prevents detecting of harmonics on classical or acoustic guitar but requires playing with similar strength.</source>
         <translation>Pomija cichsze dźwięki, poniżej podanego procentu ze średniej głośności. Zapobiega to wykrywaniu flażoletów na gitarze klasycznej bądź akustycznej, ale wymaga gry z podobną głośnością.</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="228"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="217"/>
         <source>It is rather necessary for mic input but may be switched off for an instrument plugged line-in with less noise.</source>
         <translation>Jest raczej potrzebny dla wejścia mikrofonowego ale może być wyłączony dla instrumentu podłączonego kablem, który generuje mniejsze szumy.</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="232"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="221"/>
         <source>noise filter</source>
         <translation>filtr szumów</translation>
     </message>
@@ -2077,13 +2115,13 @@ Rozważ najpierw możliwość podzielenia dłuższych utworów na części w inn
         <translation type="vanished">Wykryty dźwięk</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="298"/>
-        <location filename="../src/qml/settings/SoundPage.qml" line="312"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="288"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="302"/>
         <source>no devices found</source>
         <translation>nie znaleziono urządzenia</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="253"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="242"/>
         <source>play sound</source>
         <translation>odtwarzaj dźwięk</translation>
     </message>
@@ -2100,12 +2138,12 @@ Rozważ najpierw możliwość podzielenia dłuższych utworów na części w inn
         <translation type="vanished">urządzenie dźwiękowe do odtwarzania</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="288"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="278"/>
         <source>forward input to output</source>
         <translation>odtwarzaj dźwięk wejściowy</translation>
     </message>
     <message>
-        <location filename="../src/qml/settings/SoundPage.qml" line="284"/>
+        <location filename="../src/qml/settings/SoundPage.qml" line="274"/>
         <source>All sounds captured by audio input will be forwarded directly to output device.</source>
         <translation>Wszystkie dźwięki przechwycone przez wejście dźwiękowe będą bezpośrednio odtwarzane przez wyjście.</translation>
     </message>
@@ -2346,7 +2384,7 @@ Rozważ najpierw możliwość podzielenia dłuższych utworów na części w inn
         <translation>Audio</translation>
     </message>
     <message>
-        <location filename="../src/qml/about/AuthorsPage.qml" line="98"/>
+        <location filename="../src/qml/about/AuthorsPage.qml" line="99"/>
         <source>Thanks</source>
         <translation>Podziękowania</translation>
     </message>
@@ -2366,12 +2404,12 @@ Rozważ najpierw możliwość podzielenia dłuższych utworów na części w inn
         <translation>edycja i/lub nagrywanie sampli:</translation>
     </message>
     <message>
-        <location filename="../src/qml/about/AuthorsPage.qml" line="83"/>
+        <location filename="../src/qml/about/AuthorsPage.qml" line="84"/>
         <source>Other projects</source>
         <translation>Inne projekty</translation>
     </message>
     <message>
-        <location filename="../src/qml/about/AuthorsPage.qml" line="86"/>
+        <location filename="../src/qml/about/AuthorsPage.qml" line="87"/>
         <source>However this application could not exist without various open source projects.&lt;br&gt;Especially:</source>
         <translation>Jednakże ta aplikacja nie mogła by istnieć bez różnych projektów open source,&lt;br&gt;a w szczególności:</translation>
     </message>
@@ -2581,7 +2619,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation type="vanished">odpowiedź</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/charts/tcharttipitem.cpp" line="197"/>
+        <location filename="../src/charts/tcharttipitem.cpp" line="196"/>
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
         <translation>
             <numerusform>Melodia była grana &lt;b&gt;%n&lt;/b&gt; raz</numerusform>
@@ -2755,12 +2793,13 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation>Odliczaj</translation>
     </message>
     <message>
-        <location filename="../src/qml/sound/TempoMenu.qml" line="177"/>
+        <location filename="../src/qml/sound/TempoMenu.qml" line="181"/>
+        <location filename="../src/qml/sound/TempoMenu.qml" line="185"/>
         <source>Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy.</source>
         <translation>Wykrywane wartości rytmiczne są zaokrąglane (kwantyzacja). Krótsze wartości wymagają większej precyzji rytmicznej.</translation>
     </message>
     <message>
-        <location filename="../src/qml/sound/TempoMenu.qml" line="184"/>
+        <location filename="../src/qml/sound/TempoMenu.qml" line="196"/>
         <source>round to:</source>
         <translation>zaokrąglij do:</translation>
     </message>
@@ -2768,22 +2807,22 @@ nie jest poprawnym plikiem egzaminu!</translation>
 <context>
     <name>Texam</name>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="492"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="499"/>
         <source>as note on the staff</source>
         <translation>jako nuta na pięciolinii</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="493"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="500"/>
         <source>as note name</source>
         <translation>jako nazwa nuty</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="494"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="501"/>
         <source>on instrument</source>
         <translation>na instrumencie</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="495"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="502"/>
         <source>as played sound</source>
         <translation>jako grany dźwięk</translation>
     </message>
@@ -2837,7 +2876,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation type="vanished">Zacznijmy</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="170"/>
+        <location filename="../src/main/ttiphandler.cpp" line="173"/>
         <source>Let&apos;s start!</source>
         <translation>Zacznijmy!</translation>
     </message>
@@ -2865,103 +2904,105 @@ nie jest poprawnym plikiem egzaminu!</translation>
 nie jest poprawnym plikiem egzaminu!</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="178"/>
+        <location filename="../src/main/texamexecutor.cpp" line="199"/>
         <source>Level &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;makes no sense because there are no questions to ask.&lt;br&gt;It can be re-adjusted.&lt;br&gt;Repair it in Level Creator and try again.</source>
         <translation>Poziom &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nie ma sensu, bo nie ma w nim żadnego pytania, które można zadać.&lt;br&gt;Możliwe, że nie jest dopasowany do bieżącego stroju gitary.&lt;br&gt;Napraw to w Kreatorze Poziomów i spróbuj ponownie.</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1175"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1234"/>
         <source>Exercise or exam preferences</source>
         <translation>Preferencje ćwiczeń lub egzaminu</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1194"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1253"/>
         <source>repeat previous question (backspace)</source>
         <translation>powtórz poprzednie pytanie (backspace)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1200"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1259"/>
         <source>next question
 (space %1)</source>
         <translation>następne pytanie
 (spacja %1)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1206"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1265"/>
         <source>Play &lt;i&gt;middle a&lt;/i&gt; like a tuning fork.
 (Press key &apos;a&apos;)</source>
         <translation>Zagraj &lt;i&gt;środkowe a&lt;/i&gt; jak kamerton.
 (klawisz &apos;a&apos;)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1213"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1272"/>
         <source>play sound again</source>
         <translation>ponownie zagraj dźwięk</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1226"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1285"/>
         <source>Try this melody once again. (backspace)</source>
         <translation>Spróbuj tą melodię jeszcze raz. (backspace)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1234"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1293"/>
         <source>check answer
 (enter %1)</source>
         <translation>sprawdź odpowiedź
 (enter %1)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1241"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1300"/>
         <source>correct answer
 (enter)</source>
         <translation>popraw odpowiedź
 (enter)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1356"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1410"/>
         <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
         <translation>Najpierw odpowiedz!&lt;br&gt;Potem egzamin zostanie zakończony.</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1409"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1463"/>
         <source>Such a pity.</source>
         <translation>Jaka szkoda.</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1479"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1533"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
         <translation>Psssst... Trwa egzamin.&lt;br&gt;&lt;br&gt;Wybierz &lt;b&gt;%1&lt;/b&gt; żeby sprawdzić, zapisać i wyjść&lt;br&gt;lub &lt;b&gt;%2&lt;/b&gt; aby kontynuować.&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1509"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1563"/>
         <source>Save exam results as:</source>
         <translation>Zapisz wyniki egzaminu jako:</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1514"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1568"/>
         <source>If you don&apos;t save to file&lt;br&gt;you lost all results!</source>
         <translation>Jeżeli nie zapiszesz do pliku&lt;br&gt;stracisz dotychczasowe wyniki!</translation>
     </message>
     <message>
+        <location filename="../src/main/texamexecutor.cpp" line="1788"/>
         <source>This note was not played!</source>
         <translation>Ta nuta nie była zagrana!</translation>
     </message>
     <message>
+        <location filename="../src/main/texamexecutor.cpp" line="1781"/>
         <source>There is not such a note in this melody!</source>
         <translation>Nie ma takiej nuty w tej melodii!</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1854"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1914"/>
         <source>Exercises with Nootka</source>
         <translation>Ćwiczenia z Nootką</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1182"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1241"/>
         <source>finish exercising</source>
         <translation>zakończ ćwiczenie</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1856"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1916"/>
         <source>EXAM!</source>
         <translation>EGZAMIN!</translation>
     </message>
@@ -2978,7 +3019,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation type="vanished">Zakończ</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1185"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1244"/>
         <source>stop the exam</source>
         <translation>zatrzymaj egzamin</translation>
     </message>
@@ -3314,7 +3355,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation>(liczone jako pół błędu)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamview.cpp" line="276"/>
+        <location filename="../src/main/texamview.cpp" line="278"/>
         <source>Exam results</source>
         <translation>Wyniki egzaminu</translation>
     </message>
@@ -3323,38 +3364,38 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation type="vanished">Efektywność całego egzaminu (i efektywność bieżącego pytania).</translation>
     </message>
     <message>
-        <location filename="../src/main/texamview.cpp" line="210"/>
+        <location filename="../src/main/texamview.cpp" line="212"/>
         <source>Answered questions</source>
         <translation>Ukończone pytania</translation>
     </message>
     <message>
-        <location filename="../src/main/texamview.cpp" line="211"/>
+        <location filename="../src/main/texamview.cpp" line="213"/>
         <source>Unanswered questions</source>
         <comment>could be also: &apos;rest of the questions&apos; or &apos;remaining questions&apos;</comment>
         <translation>Pozostałe pytania</translation>
     </message>
     <message>
-        <location filename="../src/main/texamview.cpp" line="221"/>
+        <location filename="../src/main/texamview.cpp" line="223"/>
         <source>penalties</source>
         <translation>karne</translation>
     </message>
     <message>
-        <location filename="../src/main/texamview.cpp" line="255"/>
+        <location filename="../src/main/texamview.cpp" line="257"/>
         <source>Exam effectiveness (this question effectiveness)</source>
         <translation>Skuteczność egzaminu (skuteczność tej odpowiedzi)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamview.cpp" line="266"/>
+        <location filename="../src/main/texamview.cpp" line="268"/>
         <source>Answer time</source>
         <translation>Czas odpowiedzi</translation>
     </message>
     <message>
-        <location filename="../src/main/texamview.cpp" line="271"/>
+        <location filename="../src/main/texamview.cpp" line="273"/>
         <source>Exam time</source>
         <translation>Czas egzaminu</translation>
     </message>
     <message>
-        <location filename="../src/main/texamview.cpp" line="220"/>
+        <location filename="../src/main/texamview.cpp" line="222"/>
         <source>Total questions in this exam</source>
         <translation>Wszystkie pytania w tym egzaminie</translation>
     </message>
@@ -3721,95 +3762,105 @@ nie jest poprawnym plikiem egzaminu!</translation>
 <context>
     <name>TlevelCreatorItem</name>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="44"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="43"/>
         <source>Level creator</source>
         <translation>Kreator poziomów</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="102"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="101"/>
         <source>Save exam level</source>
         <translation>Zapisz poziom egzaminu</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="112"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="111"/>
         <source>Cannot open file for writing</source>
         <translation>Nie mogę otworzyć pliku żeby zapisać</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="126"/>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="731"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="125"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="738"/>
         <source>Level validation</source>
         <translation>Poprawność poziomu</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="126"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="125"/>
         <source>Level seems to be correct</source>
         <translation>Poziom wygląda na poprawny</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="600"/>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="747"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="605"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="755"/>
         <source>level not saved!</source>
         <translation>poziom nie zapisany!</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="600"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="605"/>
         <source>Level was changed and not saved!</source>
         <translation>Poziom egzaminu został zmieniony
 ale nie zapisany!</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="622"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="627"/>
         <source>There aren&apos;t any questions or answers selected.&lt;br&gt;Level makes no sense.</source>
         <translation>Nie zaznaczono żadnych pytań ani odpowiedzi.&lt;br&gt;Poziom nie ma sensu.</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="641"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="646"/>
         <source>&lt;li&gt;Range of frets is beyond the scale of this level&lt;/li&gt;</source>
         <translation>&lt;li&gt;Zakres progów jest poza skalą tego poziomu&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="654"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="659"/>
         <source>&lt;li&gt;In range of notes some accidentals are used&lt;br&gt;but not available in this level&lt;/li&gt;</source>
         <translation>&lt;li&gt;W zakresie dźwięków użyte zostały znaki&lt;br&gt;lecz nie zostały one zaznaczone dla tego poziomu&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="658"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="663"/>
         <source>&lt;li&gt;Force appropriate accidental is enabled but any accidental was selected.&lt;/li&gt;</source>
         <translation>&lt;li&gt;&apos;Wymuś używanie odpowiedniego znaku&apos; jest zaznaczone ale żaden znak nie został wybrany.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="664"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="669"/>
         <source>&lt;li&gt;Questions and answers as note names will be the same. To avoid that level has to use flats and sharps and/or double accidentals and/or to use different name styles.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Odpowiedź jako nuta na pięciolinii będzie taka sama jak pytanie. Żeby tego uniknąć poziom musi używać krzyżyki i bemole oraz/lub podwójne znaki, a także różne style nazw nut.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="668"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="673"/>
         <source>&lt;li&gt;&apos;Use different naming styles&apos; was checked but neither questions nor answers as note name are checked.&lt;br&gt;Check this type of answer/question or uncheck &apos;Use different naming styles&apos;.&lt;/li&gt;</source>
-        <translation>&lt;li&gt;&quot;Używaj różnych nazw nut&quot; jest zaznaczone ale ani pytanie ani odpowiedź jako nazwa nuty nie została wybrana.&lt;br&gt;Zaznacz ten rodzaj pytania/odpowiedzi lub wyłącz &quot;różne nazw nut&quot;.&lt;/li&gt;</translation>
+        <translation>&lt;li&gt;&quot;Używaj różnych nazw nut&quot; jest zaznaczone ale ani pytanie ani odpowiedź jako nazwa nuty nie została wybrana.&lt;br&gt;Zaznacz ten rodzaj pytania/odpowiedzi lub wyłącz &quot;różne nazwy nut&quot;.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="672"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="677"/>
         <source>&lt;li&gt;Questions and answers as notes on the staff will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Odpowiedź jako nuta na pięciolinii będzie taka sama jak pytanie. Żeby tego uniknąć &quot;ręczny wybór tonacji&quot; lub &quot;wymuś odpowiedni znak&quot; muszą być zaznaczone.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="677"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="682"/>
         <source>&lt;li&gt;Manual selecting of a key signature was checked but answer as note on the staff was not checked.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Został zaznaczony ręczny wybór tonacji ale żadna odpowiedź jako nuta na pięciolinii nie została wybrana.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="688"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="693"/>
         <source>&lt;li&gt;Fret range is not enough to find any note in different positions. At least &lt;b&gt;%1&lt;/b&gt; frets range is required.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Zakres progów jest niewystarczający żeby znaleźć jakąś nutę w różnych pozycjach. Konieczny jest zakres co najmniej &lt;b&gt;%1&lt;/b&gt; progów.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="710"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="715"/>
         <source>&lt;li&gt;Possible missing a tonic note for some key signatures in selected note range .&lt;/li&gt;</source>
         <translation>&lt;li&gt;Możliwy brak tonicznego dźwięku dla niektórych tonacji z wybranego zakresu.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="733"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="724"/>
+        <source>&lt;li&gt;There are not enough selected notes to create a melody.&lt;/li&gt;</source>
+        <translation>&lt;li&gt;Za mało wybranych nut aby tworzyć melodię.&lt;/li&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="729"/>
+        <source>&lt;li&gt;No melody was added to the list.&lt;/li&gt;</source>
+        <translation>&lt;li&gt;Nie dodano żadnej melodii do listy.&lt;/li&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="742"/>
         <source>Seems like this level has some mistakes</source>
         <translation>Wygląda na to, że ten poziom ma jakieś błędy</translation>
     </message>
@@ -3839,12 +3890,12 @@ ale nie zapisany!</translation>
 <context>
     <name>TlevelPreviewItem</name>
     <message>
-        <location filename="../src/dialogs/tlevelpreviewitem.cpp" line="67"/>
+        <location filename="../src/dialogs/tlevelpreviewitem.cpp" line="41"/>
         <source>Level summary:</source>
         <translation>Właściwości poziomu:</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelselector.cpp" line="55"/>
+        <location filename="../src/dialogs/tlevelpreviewitem.cpp" line="128"/>
         <source>no level selected</source>
         <translation>nie wybrano poziomu</translation>
     </message>
@@ -3853,32 +3904,31 @@ ale nie zapisany!</translation>
         <translation type="vanished">napraw typ instrumentu</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelpreviewitem.cpp" line="83"/>
+        <location filename="../src/qml/level/LevelPreview.qml" line="98"/>
         <source>key signature:</source>
         <translation>tonacja:</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelpreviewitem.cpp" line="92"/>
         <source>accidentals:</source>
-        <translation>znaki:</translation>
+        <translation type="vanished">znaki:</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelpreviewitem.cpp" line="94"/>
+        <location filename="../src/qml/level/LevelPreview.qml" line="108"/>
         <source>none</source>
         <translation>brak</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelpreviewitem.cpp" line="138"/>
+        <location filename="../src/dialogs/tlevelpreviewitem.cpp" line="124"/>
         <source>proper octave is required</source>
         <translation>wymagana właściwa oktawa</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelpreviewitem.cpp" line="140"/>
+        <location filename="../src/dialogs/tlevelpreviewitem.cpp" line="124"/>
         <source>octave does no matter</source>
         <translation>oktawa nieistotna</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelpreviewitem.cpp" line="70"/>
+        <location filename="../src/qml/level/LevelPreview.qml" line="147"/>
         <source>Clef</source>
         <translation>Klucz</translation>
     </message>
@@ -3910,7 +3960,7 @@ ale nie zapisany!</translation>
         <translation>Poziom nie jest odpowiedni dla aktualnego stroju i/lub liczby progów</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelselector.cpp" line="190"/>
+        <location filename="../src/dialogs/tlevelselector.cpp" line="176"/>
         <source>Load exam level</source>
         <translation>Wczytaj poziom egzaminu</translation>
     </message>
@@ -3927,14 +3977,14 @@ ale nie zapisany!</translation>
         <translation type="vanished">Usuń</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelselector.cpp" line="272"/>
+        <location filename="../src/dialogs/tlevelselector.cpp" line="258"/>
         <source>File: %1 
  is not Nootka level file!</source>
         <translation>Plik: %1 
  nie jest plikiem poziomu programu Nootka!</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelselector.cpp" line="276"/>
+        <location filename="../src/dialogs/tlevelselector.cpp" line="262"/>
         <source>Level file
  %1 
  was corrupted and repaired!
@@ -4093,12 +4143,12 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation>Wygeneruj melodię z losowo dobranych nut.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="418"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="425"/>
         <source>Melody</source>
         <translation>Melodia</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="420"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="427"/>
         <source>Open, save, generate and play a melody.</source>
         <translation>Otwórz, zapisz, generuj i odtwarzaj melodie.</translation>
     </message>
@@ -4118,13 +4168,13 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <translation>Zapisz melodię jako:</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="414"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="421"/>
         <source>Score</source>
         <comment>it could be &apos;notation&apos;, &apos;staff&apos; or whatever is associated with that &apos;place to display musical notes&apos; and this the name is quite short and looks well.</comment>
         <translation>Nuty</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="417"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="424"/>
         <source>Manage and navigate the score.</source>
         <translation>Zarządzaj i nawiguj zapisem nutowym.</translation>
     </message>
@@ -4185,7 +4235,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TmobileMenu</name>
     <message>
-        <location filename="../src/mobile/tmobilemenu.cpp" line="51"/>
+        <location filename="../src/mobile/tmobilemenu.cpp" line="50"/>
         <source>Tempo</source>
         <translation>Tempo</translation>
     </message>
@@ -4287,7 +4337,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TnootkaQML</name>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="413"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="420"/>
         <source>Analysis of exam results</source>
         <translation>Analiza wyników egzaminu</translation>
     </message>
@@ -4478,12 +4528,12 @@ Sprawdź czy jego parametry są właściwe..</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/qml/shared/Transposition.qml" line="39"/>
+        <location filename="../src/qml/shared/Transposition.qml" line="40"/>
         <source>up</source>
         <translation>w górę</translation>
     </message>
     <message>
-        <location filename="../src/qml/shared/Transposition.qml" line="40"/>
+        <location filename="../src/qml/shared/Transposition.qml" line="44"/>
         <source>down</source>
         <translation>w dół</translation>
     </message>
@@ -4789,14 +4839,16 @@ nutowy</translation>
 <context>
     <name>TtipHandler</name>
     <message>
+        <location filename="../src/main/ttiphandler.cpp" line="260"/>
         <source>%1 was detected</source>
         <comment>note name</comment>
         <translation>wykryto %1</translation>
     </message>
     <message>
+        <location filename="../src/main/ttiphandler.cpp" line="268"/>
         <source>It should be %1</source>
         <comment>note name follows</comment>
-    <translation>Powinno być %1</translation>
+        <translation>Powinno być %1</translation>
     </message>
     <message>
         <location filename="../src/qml/exam/ExamExecutor.qml" line="58"/>
@@ -4804,37 +4856,37 @@ nutowy</translation>
         <translation>Spróbuj jeszcze raz!</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="317"/>
+        <location filename="../src/main/ttiphandler.cpp" line="325"/>
         <source>To correct an answer</source>
         <translation>Żeby poprawić odpowiedź</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="320"/>
+        <location filename="../src/main/ttiphandler.cpp" line="328"/>
         <source>To try this melody again</source>
         <translation>Żeby spróbować tą melodię jeszcze raz</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="328"/>
+        <location filename="../src/main/ttiphandler.cpp" line="336"/>
         <source>To see corrected answer</source>
         <translation>Żeby zobaczyć poprawną odpowiedź</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="330"/>
+        <location filename="../src/main/ttiphandler.cpp" line="338"/>
         <source>To see some hints</source>
         <translation>Żeby zobaczyć jakieś wskazówki</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="214"/>
+        <location filename="../src/main/ttiphandler.cpp" line="218"/>
         <source>To check the answer confirm it:</source>
         <translation>Aby sprawdzić odpowiedź, potwierdź ją:</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="217"/>
+        <location filename="../src/main/ttiphandler.cpp" line="221"/>
         <source>Check in exam help %1 how to do it automatically</source>
         <translation>Sprawdź w pomocy %1 jak zrobić to automatycznie</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="354"/>
+        <location filename="../src/main/ttiphandler.cpp" line="362"/>
         <source>Select any note to play it again.</source>
         <translation>Zaznacz nutę żeby zagrać ją jeszcze raz.</translation>
     </message>
@@ -4880,37 +4932,37 @@ nutowy</translation>
         <translation>Zagraj</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="393"/>
+        <location filename="../src/main/ttiphandler.cpp" line="398"/>
         <source>Change enharmonically and show on the staff</source>
         <translation>Zamień enharmonicznie i pokaż w nutach</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="395"/>
+        <location filename="../src/main/ttiphandler.cpp" line="400"/>
         <source>Given note show on the staff</source>
         <translation>Podaną nutę pokaż na pięciolinii</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="397"/>
-        <location filename="../src/main/ttiphandler.cpp" line="434"/>
-        <location filename="../src/main/ttiphandler.cpp" line="489"/>
+        <location filename="../src/main/ttiphandler.cpp" line="402"/>
+        <location filename="../src/main/ttiphandler.cpp" line="439"/>
+        <location filename="../src/main/ttiphandler.cpp" line="494"/>
         <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
         <translation>&lt;br&gt;&lt;b&gt;w tonacji %1.&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="400"/>
-        <location filename="../src/main/ttiphandler.cpp" line="462"/>
+        <location filename="../src/main/ttiphandler.cpp" line="405"/>
+        <location filename="../src/main/ttiphandler.cpp" line="467"/>
         <source>Give name of</source>
         <translation>Podaj nazwę</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="403"/>
-        <location filename="../src/main/ttiphandler.cpp" line="444"/>
+        <location filename="../src/main/ttiphandler.cpp" line="408"/>
+        <location filename="../src/main/ttiphandler.cpp" line="449"/>
         <source>Show on the guitar</source>
         <translation>Pokaż na gitarze</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="498"/>
+        <location filename="../src/main/ttiphandler.cpp" line="503"/>
         <source>Listened sound show on the instrument</source>
         <translation>Usłyszany dźwięk wskaż na instrumencie</translation>
     </message>
@@ -4920,60 +4972,60 @@ nutowy</translation>
         <translation>Zagraj lub zaśpiewaj</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="405"/>
-        <location filename="../src/main/ttiphandler.cpp" line="446"/>
+        <location filename="../src/main/ttiphandler.cpp" line="410"/>
+        <location filename="../src/main/ttiphandler.cpp" line="451"/>
         <source>Point on the instrument</source>
         <translation>Pokaż na instrumencie</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="432"/>
+        <location filename="../src/main/ttiphandler.cpp" line="437"/>
         <source>Show on the staff</source>
         <translation>Pokaż na pięciolinii</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="438"/>
+        <location filename="../src/main/ttiphandler.cpp" line="443"/>
         <source>Change enharmonically and give name of</source>
         <translation>Zamień enharmonicznie i podaj nazwę</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="458"/>
+        <location filename="../src/main/ttiphandler.cpp" line="463"/>
         <source>Show on the staff note played on</source>
         <translation>Pokaż w nutach dźwięk grany na</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="485"/>
+        <location filename="../src/main/ttiphandler.cpp" line="490"/>
         <source>Guess a key signature</source>
         <translation>Odgadnij tonację</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="487"/>
+        <location filename="../src/main/ttiphandler.cpp" line="492"/>
         <source>Listened sound show on the staff</source>
         <translation>Usłyszany dźwięk pokaż w nutach</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="441"/>
+        <location filename="../src/main/ttiphandler.cpp" line="446"/>
         <source>Use another style to give name of</source>
         <translation>Użyj innego stylu żeby podać nazwę</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="408"/>
+        <location filename="../src/main/ttiphandler.cpp" line="413"/>
         <source>Play or sing a melody.</source>
         <translation>Zagraj lub zaśpiewaj melodię.</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="460"/>
+        <location filename="../src/main/ttiphandler.cpp" line="465"/>
         <source>&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
         <translation>&lt;b&gt;w tonacji %1.&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="464"/>
+        <location filename="../src/main/ttiphandler.cpp" line="469"/>
         <source>Show sound from position:</source>
         <comment>... and string + fret numbers folowing</comment>
         <translation>Pokaż dźwięk z pozycji:</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="494"/>
+        <location filename="../src/main/ttiphandler.cpp" line="499"/>
         <source>Give name of listened sound</source>
         <translation>Podaj nazwę usłyszanego dźwięku</translation>
     </message>
@@ -4982,7 +5034,7 @@ nutowy</translation>
         <translation type="vanished">Usłyszany dźwięk pokaż na gitarze</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="502"/>
+        <location filename="../src/main/ttiphandler.cpp" line="507"/>
         <source>Play or sing listened sound</source>
         <translation>Zagraj lub zaśpiewaj usłyszany dźwięk</translation>
     </message>
@@ -4990,13 +5042,13 @@ nutowy</translation>
 <context>
     <name>TtoolBar</name>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="405"/>
-        <location filename="../src/main/texamexecutor.cpp" line="1172"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="412"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1231"/>
         <source>Settings</source>
         <translation>Opcje</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="407"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="414"/>
         <source>Application preferences</source>
         <translation>Preferencje aplikacji</translation>
     </message>
@@ -5018,37 +5070,37 @@ nutowy</translation>
         <translation type="vanished">O aplikacji Nootka</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="408"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="415"/>
         <source>Level</source>
         <translation>Poziom</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="410"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="417"/>
         <source>Level creator</source>
         <translation>Kreator poziomów</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="411"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="418"/>
         <source>Analyze</source>
         <translation>Analiza</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="421"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="428"/>
         <source>Lessons</source>
         <translation>Lekcje</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="423"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="430"/>
         <source>Start exercises or an exam</source>
         <translation>Rozpocznij ćwiczenia lub egzamin</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1176"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1235"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1179"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1238"/>
         <source>Stop</source>
         <translation>Stop</translation>
     </message>
@@ -5057,7 +5109,7 @@ nutowy</translation>
         <translation type="vanished">Preferencje ćwiczeń lub egzaminu</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1195"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1254"/>
         <source>Next</source>
         <comment>like a next question</comment>
         <translation>Następne</translation>
@@ -5069,7 +5121,7 @@ nutowy</translation>
 (spacja %1)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1189"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1248"/>
         <source>Repeat</source>
         <comment>like a repeat question</comment>
         <translation>Powtórz</translation>
@@ -5079,7 +5131,7 @@ nutowy</translation>
         <translation type="vanished">powtórz poprzednie pytanie (backspace)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1229"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1288"/>
         <source>Check</source>
         <comment>like a check answer</comment>
         <translation>Sprawdź</translation>
@@ -5091,7 +5143,7 @@ nutowy</translation>
 (enter %1)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1210"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1269"/>
         <source>Play</source>
         <translation>Zagraj</translation>
     </message>
@@ -5100,7 +5152,7 @@ nutowy</translation>
         <translation type="vanished">ponownie zagraj dźwięk</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1236"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1295"/>
         <source>Correct</source>
         <comment>like a correct answer with mistake</comment>
         <translation>Popraw</translation>
@@ -5118,7 +5170,7 @@ nutowy</translation>
 (klawisz &apos;a&apos;)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1222"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1281"/>
         <source>Try again</source>
         <translation>Jeszcze raz</translation>
     </message>
@@ -5191,7 +5243,7 @@ nutowy</translation>
         <translation>głośność dźwięku</translation>
     </message>
     <message>
-        <location filename="../src/qml/sound/TunerDialog.qml" line="172"/>
+        <location filename="../src/qml/sound/TunerDialog.qml" line="228"/>
         <source>Nooter - Nootka tuner</source>
         <translation>Nooter - tuner Nootki</translation>
     </message>
