@@ -11,7 +11,6 @@
   - There is no right mouse button to check/ask question - do we need that???
   - (Settings) When tuning changes clef, set it for global and vice versa - change tuning clef when score one changes
   - randomly generated melodies have no rests yet, but see below for a reason
-  - add an option to skip rests (pitch detection gaps) and treat their duration as previous note was longer
   - level creator:
     - those three ways of generating melodies (range, notes, list) might be exposed more clearly
       especially list of melodies imported from files which seems to be very important feature
@@ -70,7 +69,6 @@
 ***
 
 ### SMALL NEW FEATURES/IMPROVEMENTS
-  - NoteData of Tartini might be cleaned
   - add minimal zoom value depends on screen resolution
   - average effectiveness line in chart
   - certificates would have some additional data about melodies

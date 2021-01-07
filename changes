@@ -1,4 +1,5 @@
 1.7.3 git
+     - new way of detecting note/rest duration (rhythms)
      - exam melodies from melody set can be played in order
      - melodies order in set is editable
      - user can define repeats number of melodies from the set
@@ -9,6 +10,8 @@
      - indicate input volume by scaling menu button dot
     LINUX
      - fixed AppImage issues - works under Wayland as well
+    MAC
+     - available again, with Qt using freetype (rendering score)
 
 1.7.2 beta2
      - improved rhythm detection
