@@ -40,7 +40,7 @@ else
   echo "-- fetching linuxdeployqt"
   wget -c -nv "https://www.opencode.net/seelook/nootka-build/raw/master/3rdParty/linuxdeployqt-5-x86_64.AppImage"
   chmod a+x linuxdeployqt-5-x86_64.AppImage
-  LIN_DEP_QT=./linuxdeployqt-5-x86_64.AppImage
+  LIN_DEP_QT="./linuxdeployqt-5-x86_64.AppImage --appimage-extract-and-run"
 #   exit
 fi
 
@@ -51,7 +51,7 @@ else
   echo "-- fetching appimagetool"
   wget https://www.opencode.net/seelook/nootka-build/raw/master/3rdParty/appimagetool-x86_64.AppImage
   chmod a+x appimagetool-x86_64.AppImage
-  APP_IMG_TOOL=./appimagetool-x86_64.AppImage
+  APP_IMG_TOOL="./appimagetool-x86_64.AppImage --appimage-extract-and-run"
 #   exit
 fi
 
