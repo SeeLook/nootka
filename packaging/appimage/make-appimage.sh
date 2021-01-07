@@ -4,7 +4,7 @@
 # creates directory structure with all stuff (libraries, icons, etc.),            #
 # then creates AppImage                                                           #
 #                                                                                 #
-# Copyright (C) 2011-2019 by Tomasz Bojczuk <seelook@gmail.com>                   #
+# Copyright (C) 2011-2021 by Tomasz Bojczuk <seelook@gmail.com>                   #
 #                                                                                 #
 # Arguments:                                                                      #
 # - source directory                                                              #
@@ -38,9 +38,9 @@ if [ "$( whereis linuxdeployqt | grep '\/' )" ]; then
   LIN_DEP_QT=linuxdeployqt
 else
   echo "-- fetching linuxdeployqt"
-  wget -c -nv "https://github.com/probonopd/linuxdeployqt/releases/download/continuous/linuxdeployqt-continuous-x86_64.AppImage"
-  chmod a+x linuxdeployqt-continuous-x86_64.AppImage
-  LIN_DEP_QT=./linuxdeployqt-continuous-x86_64.AppImage
+  wget -c -nv "https://www.opencode.net/seelook/nootka-build/raw/master/3rdParty/linuxdeployqt-5-x86_64.AppImage"
+  chmod a+x linuxdeployqt-5-x86_64.AppImage
+  LIN_DEP_QT=./linuxdeployqt-5-x86_64.AppImage
 #   exit
 fi
 
@@ -49,7 +49,7 @@ if [ "$( whereis appimagetool | grep '\/' )" ]; then
   APP_IMG_TOOL=appimagetool
 else
   echo "-- fetching appimagetool"
-  wget https://github.com/AppImage/AppImageKit/releases/download/continuous/appimagetool-x86_64.AppImage
+  wget https://www.opencode.net/seelook/nootka-build/raw/master/3rdParty/appimagetool-x86_64.AppImage
   chmod a+x appimagetool-x86_64.AppImage
   APP_IMG_TOOL=./appimagetool-x86_64.AppImage
 #   exit
