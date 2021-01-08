@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,9 +22,11 @@
 #include <texamparams.h>
 #include <music/ttune.h>
 #include <tglobals.h>
+#include <tpath.h>
 #include <Android/tfiledialog.h>
 
 #include <QtCore/qsettings.h>
+#include <QtCore/qdiriterator.h>
 #include <QtWidgets/qmessagebox.h>
 #include <QtWidgets/qapplication.h>
 
@@ -76,14 +78,18 @@ void TlevelSelector::setCurrentIndex(int ci) {
 
 
 void TlevelSelector::findLevels() {
-  Tlevel lev = Tlevel();
+  Tlevel lev;
 // from predefined list
-  QList<Tlevel> llist;
-  getExampleLevels(llist);
-  for (int i = 0; i < llist.size(); i++) {
-    addLevel(llist[i]);
+  QList<Tlevel> levels;
+  getExampleLevels(levels);
+  for (int i = 0; i < levels.size(); i++) {
+    addLevel(levels[i]);
     checkLast();
   }
+
+// from files shipped with Nootka installation (levels directory)
+  addLevelsFormInstallDir(Tpath::levels()); // general purpose levels
+  addLevelsFormInstallDir(Tpath::levels() + QLatin1String("/") + GLOB->instrument().levelsDir()); // instrument specific levels
 
 // from constructor (Master of Masters)
   addLevel(lev);
@@ -94,7 +100,7 @@ void TlevelSelector::findLevels() {
   for (int i = recentLevels.size() - 1; i >= 0; i--) {
     QFile file(recentLevels[i]);
     if (file.exists()) {
-        Tlevel level = getLevelFromFile(file);
+        auto level = getLevelFromFile(file);
         if (!level.name.isEmpty()) {
             addLevel(level, file.fileName());
             checkLast();
@@ -284,6 +290,25 @@ void TlevelSelector::checkLast() {
       m_levels.last().level.desc = QLatin1String("<font color=\"red\">") + notSuitableText + QLatin1String("</font>");
   }
 }
+
+
+void TlevelSelector::addLevelsFormInstallDir(const QString& dirPath) {
+  QDir instrDIrPath(dirPath);
+  if (!instrDIrPath.exists())
+    return;
+
+  QDirIterator nelFiles(dirPath, QStringList() << QStringLiteral("*.nel"), QDir::Files);
+  while (nelFiles.hasNext()) {
+    QFile file(nelFiles.next());
+    auto level = getLevelFromFile(file);
+    if (!level.name.isEmpty()) {
+        addLevel(level);
+        checkLast();
+    } else
+        qDebug() << "[TlevelSelector] built-in level is corrupted:\n  =>" << file.fileName();
+  }
+}
+
 
 
 

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -30,6 +30,11 @@ class TlevelPreviewItem;
 
 /**
  * @p TlevelSelector is C++ logic of LevelSelector.qml
+ * Creates list of available Nootka levels:
+ *  1. In hard-coded, build-in list
+ *  2. In default install directory, inside 'levels' directory
+ *  3. In @p Tlevel constructor - 'master of masters'
+ *  4. In latest used files
  */
 class TlevelSelector : public QQuickItem
 {
@@ -54,9 +59,10 @@ public:
 
       /**
        * It's looking for levels:
-       * 1. in Tlevel constructor
-       * 2. In default install directory
-       * 3. In latest used files
+       * 1. In hard-coded, build-in list
+       * 2. In default install directory, inside 'levels' directory
+       * 3. In @p Tlevel constructor - 'master of masters'
+       * 4. In latest used files
        */
   void findLevels();
 
@@ -77,9 +83,9 @@ public:
   };
 
       /**
-       * Adds level @param lev to list. 
-       * Also corresponding file name.
-       * when @param check is true it checks list for duplicates
+       * Adds level @p lev to list.
+       * Also corresponding file name if set.
+       * when @p check is true it checks list for duplicates
        */
   void addLevel(const Tlevel &lev, const QString& levelFile = QString(), bool check = false);
 
@@ -136,6 +142,14 @@ signals:
 
 protected:
   void checkLast();
+
+      /**
+       * Looks up in @p dirPath for level files.
+       * Adds them to the list.
+       * It is intended to search 'levels' directory in Nootka install path,
+       * so it skips file name, so such the level can be removed from the list.
+       */
+  void addLevelsFormInstallDir(const QString& dirPath);
 
 private:
   QList<SlevelContener>           m_levels;

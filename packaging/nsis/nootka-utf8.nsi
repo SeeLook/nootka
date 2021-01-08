@@ -173,6 +173,9 @@ Section "MainGroup" SEC01
   SetOutPath "$INSTDIR\fonts"
     File "fonts\*.*"
 
+  SetOutPath "$INSTDIR\levels"
+    File /nonfatal /a /r "levels\*"
+
 SectionEnd
 
 Section -AdditionalIcons
@@ -238,6 +241,7 @@ Section Uninstall
   RMDir "$SMPROGRAMS\Nootka"
   RMDir "$INSTDIR\sounds"
   RMDir  /r "$INSTDIR\picts"
+  RMDir  /r "$INSTDIR\levels"
   RMDir "$INSTDIR\lang"
   RMDir "$INSTDIR\fonts"
   RMDir "$INSTDIR\platforms"
