@@ -6,24 +6,33 @@
 # ! ! ! ! ! ! ! ! ! TODO LIST ! ! ! ! ! ! ! ! !
 
 ============================================================================
+### Bugs to fix:
+  - Exams: For non guitars single note question "give name of:" has nothing more
+  - certificate for i.e. piano has strange size - probably font size/DPI scaling related issue
 
 ### For incoming stable release version 2.0
-  - There is no right mouse button to check/ask question - do we need that???
+  - Fix editing score under Android
+  - Default font size - initial value is taken wrongly, so probably all adjustments have to be reviewed
   - (Settings) When tuning changes clef, set it for global and vice versa - change tuning clef when score one changes
   - level creator:
      - fix storing melody list in temporary/edited level
+  - add country flags info to About
+  - make difference between background color of *.nel *.noo icons - to better distinguish them
+  - add more levels, in separate files, distributed with the installers
+  - "Got It!" clues in some crucial parts: Android quick menu, pitch detection and so on
   - exam summary - give more valuable info, wear it nicely
   - charts - show preview of entire melody, chart tip is not suitable for it
   - migrate on preferred 48000 sample rate (ogg files and audio methods). DO NOT forget to resize output samples length
 
-### For next stable Nootka version 2.2
+### For next stable Nootka version 2.2 and up
   - MIDI input & revert MIDI out of course
   - add rests option for random melodies in exams
-  - add set of rhythm patterns for melodies generated from random notes (similar to melody list)
+  - adding set of rhythm patterns for melodies generated from random notes (similar to melody list)
+  - time stamps in question/answer units - to better track exam progress
   - music XML import dialog, to select voice or staff if there are more, and so
   - adding actually edited score melody to current level
   - editing melody from currently selected/composed level
-  - switch for selecting imported melodies from the list one by one or in random order
+  - add score helpers: transposition, folding ties
   - add violin support and revert pitch accuracy check.
     It has small usage for currently supported instruments, but for violin can be perfect
   - support for triplets
@@ -41,12 +50,7 @@
  - when exercise becomes exam tips are blended
  - melody won't play in exercises/exams (first question OK but further is worst)
  - sometimes setting a note doesn't scale tie - probably due to note width is not refreshed
- - chart tip for non guitars still displays string/fret with goofy values
  - space key for tapping tempo doesn't work well
- - chart tips with melody can disappear when mouse is over +- buttons (Qt Quick 2 style depends)
-
-### and crashes:
- - sometimes app crash on exit - possible some note objects are note deleted in proper order
 
 ### Translation context changes:
  - TscoreKeySignature to KeySignature
@@ -57,6 +61,7 @@
  - left hand guitar (do we really need this?)
  - question mark and note name over instrument during exam/exercises (remember about actual name style)
  - no intonation gradients
+ - There is no right mouse button to check/ask question - do we need that???
 
  - revert exam times (if we really need that):  
     next question delay  
