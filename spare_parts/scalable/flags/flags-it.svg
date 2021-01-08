@@ -12,13 +12,13 @@
    version="1.1"
    width="512"
    height="512"
-   sodipodi:docname="flags-pl.svg"
+   sodipodi:docname="flags-it.svg"
    inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07, custom)"
-   inkscape:export-filename="../../../picts/flags/pl.png"
+   inkscape:export-filename="../../../picts/flags/it.png"
    inkscape:export-xdpi="48"
    inkscape:export-ydpi="48">
   <metadata
-     id="metadata20" />
+     id="metadata21" />
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -28,13 +28,13 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1238"
-     inkscape:window-height="754"
-     id="namedview18"
+     inkscape:window-width="1126"
+     inkscape:window-height="835"
+     id="namedview19"
      showgrid="false"
      inkscape:zoom="0.71777344"
-     inkscape:cx="234.92859"
-     inkscape:cy="216.56598"
+     inkscape:cx="240.31725"
+     inkscape:cy="210.89205"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="0"
@@ -93,7 +93,7 @@
          y="0"
          x="0">
         <metadata
-           id="metadata3683">
+           id="metadata4604">
           <rdf:RDF>
             <cc:Work
                rdf:about="">
@@ -105,24 +105,30 @@
         </metadata>
         <g
            id="flag"
-           fill-rule="evenodd">
+           fill-rule="evenodd"
+           stroke-width="1pt"
+           transform="matrix(.48166 0 0 .72249 0 .0000024116)">
           <rect
-             id="rect149"
-             transform="scale(-1)"
-             height="512"
-             width="512"
-             y="-512"
-             x="-512"
+             id="rect171"
+             height="708.66"
+             width="1063"
+             y="0"
+             x="0"
              fill="#fff" />
           <rect
-             id="rect148"
-             transform="scale(-1)"
-             height="256"
-             width="512"
-             y="-512"
-             x="-512"
-             stroke-width="1pt"
-             fill="#df0000" />
+             id="rect403"
+             height="708.66"
+             width="354.33"
+             y="0"
+             x="0"
+             fill="#005700" />
+          <rect
+             id="rect135"
+             height="708.66"
+             width="354.33"
+             y="0"
+             x="708.66"
+             fill="#fc0000" />
         </g>
       </svg>
     </g>

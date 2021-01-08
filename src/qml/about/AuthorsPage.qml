@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -57,7 +57,7 @@ Tflickable {
         Row {
           spacing: Noo.fontSize() * (Noo.isAndroid() ? 0.25 : 1)
           Image {
-            height: Noo.fontSize() * 3; width: height
+            height: Noo.fontSize() * 3.5; width: height
             source: Noo.pix("flags/" + flag)
             anchors.verticalCenter: parent.verticalCenter
           }
@@ -93,6 +93,7 @@ Tflickable {
             createLink("SoundTouch " + SOUND.soundTouchVersion(), "http://www.surina.net/soundtouch/") + " by Olli Parviainen" +
             createLink("LilyPond emmentaler font", "http://lilypond.org/introduction.html") +
             createLink("Bravura SMuFL font", "https://www.smufl.org/fonts/") +
+            createLink("Country flags images", "https://github.com/joielechong/iso-country-flags-svg-collection") +
             "</ul>"
       wrapMode: Text.WordWrap
     }
