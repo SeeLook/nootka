@@ -105,7 +105,7 @@ install(DIRECTORY picts/flags DESTINATION "${INS_PREF}/picts")
 install(DIRECTORY picts/pane DESTINATION "${INS_PREF}/picts")
 install(DIRECTORY fonts DESTINATION "${INS_PREF}")
 
-install(DIRECTORY levels/ DESTINATION "${INS_PREF}/levels")
+install(DIRECTORY "levels/" DESTINATION "${INS_PREF}/levels")
 
 file(GLOB langs "${CMAKE_CURRENT_SOURCE_DIR}/lang/*.qm")
 if(APPLE OR WIN32)
