@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -82,6 +82,17 @@ public:
       return QStringLiteral("assets:/lang");
 #else
       return main + QLatin1String("lang");
+#endif
+  }
+
+        /**
+         * Path with defined Nootka levels *.nel files
+         */
+  static QString levels() {
+#if defined (Q_OS_ANDROID)
+    return QStringLiteral("assets:/levels");
+#else
+    return main + QLatin1String("levels");
 #endif
   }
 

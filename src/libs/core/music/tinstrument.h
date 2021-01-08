@@ -111,6 +111,12 @@ public:
   bool isFadeOut() const;
 
       /**
+       * Name of subdirectory in the 'levels' directory
+       * with level *.nel files for actual instrument
+       */
+  QString levelsDir() const;
+
+      /**
        * Returns desired instrument item height calculated from Nootka main window height
        */
   Q_INVOKABLE int getItemHeight(int mainWindowHeight);

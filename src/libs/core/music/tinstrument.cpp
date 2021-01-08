@@ -88,6 +88,31 @@ int Tinstrument::fretNumber() const {
 }
 
 
+bool Tinstrument::isFadeOut() const {
+  switch (m_type) {
+    case ClassicalGuitar:
+    case ElectricGuitar:
+    case BassGuitar:
+    case Piano:
+      return true;
+    default: return false;
+  }
+}
+
+
+QString Tinstrument::levelsDir() const {
+  switch (m_type) {
+    case ClassicalGuitar:
+    case ElectricGuitar:
+      return QStringLiteral("guitar");
+    case BassGuitar:
+      return QStringLiteral("bass-guitar");
+    case Piano:
+      return QStringLiteral("piano");
+    default: return QString();
+  }
+}
+
 int Tinstrument::getItemHeight(int mainWindowHeight) {
   switch (m_type) {
     case ClassicalGuitar:
@@ -107,17 +132,5 @@ int Tinstrument::getItemHeight(int mainWindowHeight) {
       return mainWindowHeight;
 
     default: return 0;
-  }
-}
-
-
-bool Tinstrument::isFadeOut() const {
-  switch (m_type) {
-    case ClassicalGuitar:
-    case ElectricGuitar:
-    case BassGuitar:
-    case Piano:
-      return true;
-    default: return false;
   }
 }
