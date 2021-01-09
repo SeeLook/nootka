@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -138,16 +138,20 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
   });
 //   connect(m_extraAccidsAct);
   connect(m_playAct, &Taction::triggered, this, &TmainScoreObject::playScoreSlot);
-  connect(m_recModeAct, &Taction::triggered, [=]{ m_scoreObj->setRecordMode(!m_scoreObj->recordMode()); });
-  connect(m_zoomOutAct, &Taction::triggered, [=]{ m_scoreObj->setScaleFactor(qMax(0.4, m_scoreObj->scaleFactor() - 0.2)); });
-  connect(m_zoomInAct, &Taction::triggered, [=]{ m_scoreObj->setScaleFactor(qMin(m_scoreObj->scaleFactor() + 0.2, 1.4)); });
+  connect(m_recModeAct, &Taction::triggered, this, [=]{ m_scoreObj->setRecordMode(!m_scoreObj->recordMode()); });
+  connect(m_zoomOutAct, &Taction::triggered, this, [=]{ m_scoreObj->setScaleFactor(qMax(0.4, m_scoreObj->scaleFactor() - 0.2)); });
+  connect(m_zoomInAct, &Taction::triggered, this, [=]{ m_scoreObj->setScaleFactor(qMin(m_scoreObj->scaleFactor() + 0.2, 1.4)); });
   connect(GLOB, &Tglobals::isExamChanged, this, &TmainScoreObject::isExamChangedSlot);
   connect(m_scoreObj, &TscoreObject::singleNoteChanged, this, &TmainScoreObject::singleModeSlot);
   connect(GLOB, &Tglobals::showEnharmNotesChanged, this, &TmainScoreObject::checkSingleNoteVisibility);
   connect(GLOB, &Tglobals::enableDoubleAccidsChanged, this, &TmainScoreObject::checkSingleNoteVisibility);
-  connect(m_scoreObj, &TscoreObject::keySignatureChanged, [=]{
+  connect(m_scoreObj, &TscoreObject::keySignatureChanged, this, [=]{
     if (GLOB->keySignatureEnabled() && GLOB->showKeyName() && !GLOB->isExam())
       emit keyNameTextChanged();
+  });
+  connect(m_scoreObj->clearScoreAct(), &Taction::triggered, this, [=]{
+    if (!m_scoreObj->singleNote())
+      SOUND->stopPlaying();
   });
   m_scoreObj->clearScoreAct()->setBgColor(QColor(255, 140, 0)); // orange
 #if !defined (Q_OS_ANDROID)
@@ -160,7 +164,7 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
                 << m_scoreObj->wholeNoteAct() << m_scoreObj->halfNoteAct() << m_scoreObj->quarterNoteAct() << m_scoreObj->eighthNoteAct()
                 << m_scoreObj->sixteenthNoteAct() << m_scoreObj->restNoteAct() << m_scoreObj->dotNoteAct() << m_scoreObj->tieAct();
 
-  connect(m_nextNoteAct, &Taction::triggered, [=]{
+  connect(m_nextNoteAct, &Taction::triggered, this, [=]{
     if (!GLOB->isSingleNote()) {
       auto noteItem = m_scoreObj->selectedItem() ? m_scoreObj->getNext(m_scoreObj->selectedItem()) : m_scoreObj->note(0);
       if (m_scoreObj->readOnly()) {
@@ -170,7 +174,7 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
           m_scoreObj->setSelectedItem(noteItem);
     }
   });
-  connect(m_prevNoteAct, &Taction::triggered, [=]{
+  connect(m_prevNoteAct, &Taction::triggered, this, [=]{
     if (!GLOB->isSingleNote()) {
       auto noteItem = m_scoreObj->selectedItem() ? m_scoreObj->getPrev(m_scoreObj->selectedItem()) : m_scoreObj->note(m_scoreObj->notesCount() - 1);
       if (m_scoreObj->readOnly()) {
