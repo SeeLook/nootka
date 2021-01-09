@@ -44,15 +44,15 @@ QStringList TaudioIN::getAudioDevicesList() {
 }
 
 
-TaudioIN*              TaudioIN::m_instance = 0;
+TaudioIN*              TaudioIN::m_instance = nullptr;
 QString                TaudioIN::m_deviceName = QStringLiteral("anything");
 
 
 TaudioIN::TaudioIN(TaudioParams* params, QObject *parent) :
   TcommonListener(params, parent),
   m_audioParams(params),
-  m_audioIN(0),
-  m_inBuffer(0)
+  m_audioIN(nullptr),
+  m_inBuffer(nullptr)
 {
   if (m_instance) {
     qDebug() << "Nothing of this kind... TaudioIN already exist!";
@@ -97,7 +97,7 @@ void TaudioIN::startListening() {
     resetChunkPitch();
   }
   if (!stoppedByUser() && detectingState() != e_detecting) {
-//    qDebug() << "[TaudioIN] start listening";
+//     qDebug() << "[TaudioIN] start listening";
     setState(e_detecting);
   }
 }
@@ -106,7 +106,7 @@ void TaudioIN::startListening() {
 void TaudioIN::stopListening() {
   m_touchHandler->skip();
   if (detectingState() != e_stopped) {
-//    qDebug() << "[TaudioIN] Stop listening";
+//     qDebug() << "[TaudioIN] Stop listening";
     setState(e_stopped);
     finder()->stop(true);
   }

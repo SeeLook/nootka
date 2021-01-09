@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -12,6 +12,9 @@ Tmenu {
   id: menu
   x: Noo.isAndroid() ? (nootkaWindow.width - width) / 2 : toolBar.scoreAct.x
   y: Noo.isAndroid() ? (nootkaWindow.height - height) / 2 : score.y
+
+  onAboutToShow: SOUND.stopListen()
+  onAboutToHide: SOUND.startListen()
 
   Repeater {
     model: score.scoreActions
@@ -44,6 +47,7 @@ Tmenu {
       id: noteMenu
       parent: menu.parent
       x: menu.x +  menu.width / 4; y: score.y + menu.width / 8
+
       Repeater {
         model: score.noteActions
         MenuItem {
@@ -65,6 +69,7 @@ Tmenu {
           }
         }
       }
+
     }
-  }
+  } // Component
 }
