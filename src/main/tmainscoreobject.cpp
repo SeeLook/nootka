@@ -150,7 +150,7 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
       emit keyNameTextChanged();
   });
   connect(m_scoreObj->clearScoreAct(), &Taction::triggered, this, [=]{
-    if (!m_scoreObj->singleNote())
+    if (!m_scoreObj->singleNote() && !GLOB->isExam())
       SOUND->stopPlaying();
   });
   m_scoreObj->clearScoreAct()->setBgColor(QColor(255, 140, 0)); // orange
