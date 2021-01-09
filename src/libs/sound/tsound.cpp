@@ -520,6 +520,20 @@ int Tsound::currentVol() const {
 void Tsound::setVol(int v) {
   QAndroidJniObject::callStaticMethod<void>("net/sf/nootka/ToutVolume", "setStreamVolume", "(I)V", v);
 }
+
+
+void Tsound::setTouchHandling(bool th) {
+  if (sniffer) {
+    auto audioIn = qobject_cast<TaudioIN*>(sniffer);
+    if (audioIn) {
+      GLOB->setTouchStopsSniff(th);
+      if (th)
+        audioIn->startTouchHandle();
+      else
+        audioIn->stopTouchHandle();
+    }
+  }
+}
 #endif
 
 

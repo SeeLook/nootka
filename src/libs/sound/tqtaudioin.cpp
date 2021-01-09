@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,6 +20,8 @@
 #include "tpitchfinder.h"
 #include "taudiobuffer.h"
 #include <taudioparams.h>
+#include <tglobals.h>
+
 #include <QtMultimedia/qaudioinput.h>
 #include <QtCore/qiodevice.h>
 #include <QtCore/qthread.h>
@@ -70,7 +72,6 @@ TaudioIN::~TaudioIN() {
   delete m_touchHandler;
   m_audioIN->blockSignals(true); // otherwise stop() will activate it again
   m_audioIN->stop();
-//  finder()->blockSignals(true);
 
   m_audioParams->INdevName = m_deviceName; // store device name at the app exit
   m_deviceName = QStringLiteral("anything");
@@ -194,42 +195,52 @@ TtouchHandler::TtouchHandler(TcommonListener* sniffer) :
 {
   m_touchTimer = new QTimer(this);
   connect(m_touchTimer, &QTimer::timeout, this, &TtouchHandler::touchTimerSlot);
-  qApp->installEventFilter(this);
+  m_installed = GLOB->touchStopsSniff();
+  if (GLOB->touchStopsSniff())
+    qApp->installEventFilter(this);
 }
 
 
 void TtouchHandler::stopHandling() {
-  qApp->removeEventFilter(this);
-  touchTimerSlot();
+  if (m_installed) {
+    qApp->removeEventFilter(this);
+    m_touchTimer->stop();
+    m_touched = false;
+    m_installed = false;
+    qDebug() << "[TtouchHandler] Handling touch events disabled";
+  }
 }
 
 
 void TtouchHandler::startHandling() {
-  qApp->installEventFilter(this);
+  if (!m_installed) {
+    qApp->installEventFilter(this);
+    m_installed = true;
+    qDebug() << "[TtouchHandler] Handling touch events enabled";
+  }
 }
 
 
 bool TtouchHandler::eventFilter(QObject* obj, QEvent* event) {
   if (event->type() == QEvent::TouchBegin) {
-    if (!m_touched) {
-      m_touched = true;
-      if (m_sniffer->detectingState() == TaudioIN::e_detecting) {
-        m_sniffer->stopListening();
-        m_touchTimer->start(TOUCH_PAUSE);
+      if (!m_touched) {
+        m_touched = true;
+        if (m_sniffer->detectingState() == TaudioIN::e_detecting) {
+          m_sniffer->stopListening();
+          m_touchTimer->start(TOUCH_PAUSE);
+        }
       }
-    }
   } else if (event->type() == QEvent::TouchEnd) {
-    if (m_touched) {
-      m_touched = false;
-      if (m_touchTimer->isActive()) {
-        m_touchTimer->stop();
-        m_touchTimer->start(TOUCH_PAUSE);
+      if (m_touched) {
+        m_touched = false;
+        if (m_touchTimer->isActive()) {
+          m_touchTimer->stop();
+          m_touchTimer->start(TOUCH_PAUSE);
+        }
       }
-    }
   }
   return QObject::eventFilter(obj, event);
 }
-
 
 
 void TtouchHandler::touchTimerSlot() {

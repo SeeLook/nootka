@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2016 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -40,6 +40,9 @@ class TtouchHandler : public QObject
 public:
   TtouchHandler(TcommonListener* sniffer);
 
+      /**
+       * Stops touch timer
+       */
   void skip() { m_touchTimer->stop(); }
 
   void stopHandling();
@@ -53,6 +56,7 @@ private:
   bool                  m_touched = false;
   QTimer               *m_touchTimer;
   TcommonListener      *m_sniffer;
+  bool                  m_installed;
 };
 
 
@@ -81,7 +85,9 @@ public:
 
   void updateAudioParams();
 
-      /** Stops handling touch events by filter which stops sniffing  */
+      /**
+       * Stops handling touch events  to suspend sniffing
+       */
   void stopTouchHandle() { m_touchHandler->stopHandling(); }
   void startTouchHandle() { m_touchHandler->startHandling(); }
 
@@ -89,13 +95,15 @@ public slots:
   virtual void startListening();
   virtual void stopListening();
 
-
 protected slots:
   void bufferReady(const char* data, qint64& dataLenght);
   void stateChangedSlot(QAudio::State s);
 
 private:
-  void createInputDevice(); /** Deletes existing @p m_audioIN (when names are different) and creates a new one */
+      /**
+       * Deletes existing @p m_audioIN (when names are different) and creates a new one
+       */
+  void createInputDevice();
 
 private:
   static TaudioIN       *m_instance;

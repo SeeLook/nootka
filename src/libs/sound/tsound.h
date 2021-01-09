@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -214,6 +214,7 @@ public:
   Q_INVOKABLE int maxVolRange() const;
   Q_INVOKABLE int currentVol() const;
   Q_INVOKABLE void setVol(int v);
+  Q_INVOKABLE void setTouchHandling(bool th);
 #else
   void setDumpFileName(const QString& fName);
 #endif

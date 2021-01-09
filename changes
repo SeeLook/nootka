@@ -8,10 +8,11 @@
     ANDROID
      - display menu entries to navigate exam (along with quick buttons)
      - indicate input volume by scaling menu button dot
+     - option for suspending mic when screen was touched
     LINUX
      - fixed AppImage issues - works under Wayland as well
     MAC
-     - available again, with Qt using freetype (rendering score)
+     - available again, no need for chasing font different way
 
 1.7.2 beta2
      - improved rhythm detection

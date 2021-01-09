@@ -659,6 +659,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
   m_keepScreenOn = cfg->value(QStringLiteral("keepScreenOn"), true).toBool();
   m_disableRotation = cfg->value(QStringLiteral("disableRotation"), true).toBool();
   m_fullScreen = cfg->value(QStringLiteral("fullScreen"), true).toBool();
+  m_touchStopsSniff = cfg->value(QStringLiteral("touchStopsSniff"), true).toBool();
 #endif
 
   bool transposeTuning = S->clef == Tclef::Bass_F_8down;
@@ -877,6 +878,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
   cfg->setValue(QStringLiteral("keepScreenOn"), m_keepScreenOn);
   cfg->setValue(QStringLiteral("disableRotation"), m_disableRotation);
   cfg->setValue(QStringLiteral("fullScreen"), m_fullScreen);
+  cfg->setValue(QStringLiteral("touchStopsSniff"), m_touchStopsSniff);
 #endif
 
 //   cfg->beginGroup(QLatin1String("layout"));

@@ -305,11 +305,13 @@ public:
 
 #if defined (Q_OS_ANDROID)
   Q_INVOKABLE void keepScreenOn(bool on);
-  Q_INVOKABLE void setDisableRotation(bool disRot);
   Q_INVOKABLE bool isKeepScreenOn() { return  m_keepScreenOn; }
-  Q_INVOKABLE bool disableRotation() { return  m_disableRotation; }
-  Q_INVOKABLE bool fullScreen() { return m_fullScreen; }
+  Q_INVOKABLE bool disableRotation() const{ return  m_disableRotation; }
+  Q_INVOKABLE bool fullScreen() const { return m_fullScreen; }
+  Q_INVOKABLE void setDisableRotation(bool disRot);
   Q_INVOKABLE void setFullScreen(bool fs) { m_fullScreen = fs; }
+  Q_INVOKABLE bool touchStopsSniff() const { return m_touchStopsSniff;}
+  Q_INVOKABLE void setTouchStopsSniff(bool touchSniff) { m_touchStopsSniff = touchSniff; }
 #endif
 
       /**
@@ -468,6 +470,7 @@ private:
   bool                       m_keepScreenOn;
   bool                       m_disableRotation;
   bool                       m_fullScreen;
+  bool                       m_touchStopsSniff;
 #endif
 
 };
