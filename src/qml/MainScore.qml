@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -115,8 +115,7 @@ Score {
       scoreObj.allowAdding = Qt.binding(function() { return !GLOB.singleNoteMode })
       enableKeySign = Qt.binding(function() { return GLOB.keySignatureEnabled })
       updateScord()
-      var t = Qt.createComponent("qrc:/StatusTip.qml")
-      t.createObject(nootkaWindow)
+      Qt.createComponent("qrc:/StatusTip.qml").createObject(nootkaWindow)
       if (!GLOB.singleNoteMode)
         scoreObj.editModeAct.trigger()
     }
