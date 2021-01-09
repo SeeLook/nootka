@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -305,8 +305,10 @@ void TnoteItem::setHeight(qreal hh) {
       if (m_underLoLines.isEmpty()) {
         m_staff->score()->component()->setData("import QtQuick 2.9; Rectangle {}", QUrl());
         for (int l = 0; l < 2; ++l) {
-          m_underLoLines << createAddLine();
-          m_underLoLines.last()->setY(m_staff->upperLine() + 32.0 + l * 2.0 - 0.1);
+          auto line = createAddLine();
+          line->setY(m_staff->upperLine() + 32.0 + l * 2.0 - 0.1);
+          line->setProperty("color", m_head->property("color"));
+          m_underLoLines << line;
         }
       }
     }
