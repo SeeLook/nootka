@@ -177,7 +177,7 @@ TlevelPreviewItem {
         text: " "
         textItem2.width: levelPrev.width * 0.9 / levCol.scale
         textItem2.wrapMode: Text.WordWrap
-        text2: description
+        text2: description.replace("\n", "<br>")
       }
     } // levCol Column
   }
