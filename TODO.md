@@ -9,17 +9,19 @@
 ### Bugs to fix:
   - Exams: For non guitars single note question "give name of:" has nothing more
   - certificate for i.e. piano has strange size - probably font size/DPI scaling related issue
+  - for melody set level selection accidentals to use makes no sense
 
 ### For incoming stable release version 2.0
   - Fix editing score under Android
   - Default font size - initial value is taken wrongly, so probably all adjustments have to be reviewed
   - (Settings) When tuning changes clef, set it for global and vice versa - change tuning clef when score one changes
   - level creator:
-     - fix storing melody list in temporary/edited level
-  - add country flags info to About
+     - fix storing melody list in temporary/edited level - use that level list instead of creating pointers
   - make difference between background color of *.nel *.noo icons - to better distinguish them
   - add more levels, in separate files, distributed with the installers
   - "Got It!" clues in some crucial parts: Android quick menu, pitch detection and so on
+  - Android: some shortcuts to change rhythmic value
+  - store the latest melody titles and composers
   - exam summary - give more valuable info, wear it nicely
   - charts - show preview of entire melody, chart tip is not suitable for it
   - migrate on preferred 48000 sample rate (ogg files and audio methods). DO NOT forget to resize output samples length
