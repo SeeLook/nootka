@@ -140,6 +140,19 @@ int main(int argc, char *argv[])
     pal.setColor(QPalette::Active, QPalette::Highlight, QColor(0, 160, 160)); // Teal color of highlight for Android
     pal.setColor(QPalette::Active, QPalette::Shadow, QColor(144, 144, 144)); // Dark gray for shadow
     qApp->setPalette(pal);
+#elif defined (Q_OS_WIN)
+    QSettings accent(QStringLiteral("HKEY_USERS\\.DEFAULT\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Accent"),
+                     QSettings::NativeFormat);
+    if (accent.contains(QLatin1String("StartColorMenu"))) {
+      int color = accent.value(QLatin1String("StartColorMenu")).toInt();
+      int r = color & 0xff;
+      int g = (color >> 8) & 0xff;
+      int b = (color >> 16) & 0xff;
+      auto pal = qApp->palette();
+      pal.setColor(QPalette::Active, QPalette::Highlight, QColor(r, g, b, 127)); // alpha 127
+      qApp->setPalette(pal);
+    }
+    f.setPointSizeF(f.pointSizeF() * gl->guiScale());
 #else
     f.setPointSizeF(f.pointSizeF() * gl->guiScale());
 #endif
