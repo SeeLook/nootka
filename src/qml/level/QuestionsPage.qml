@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -122,9 +122,10 @@ Tflickable {
           }
           Tile {
             id: repeatTile
+            visible: false // TODO in some next release
             anchors.horizontalCenter: undefined
             width: Math.max(repeatChB.width + Noo.fontSize() * 4, qPage.width * 0.3)
-            description: "<b>Not yet implemented!</b><br>" + qsTranslate("Texam", "Listen to a melody and repeat it on your instrument")
+            description: qsTranslate("Texam", "Listen to a melody and repeat it on your instrument")
             TcheckBox {
               id: repeatChB
               enabled: false
