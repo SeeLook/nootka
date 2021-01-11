@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2018-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -17,7 +17,11 @@ Dialog {
 
   width: parent.width * 0.8; height: parent.height * 0.8
   x: (parent.width - width) / 2; y: (parent.height - height) / 2
-  background: TipRect { id: rect; color: activPal.window; shadowRadius: Noo.fontSize(); shadowColor: activPal.shadow }
+  background: TipRect {
+    id: rect
+    color: activPal.window; shadowColor: activPal.shadow
+    shadowRadius: Noo.fontSize() * (Noo.isAndroid() ? 0.5 : 1)
+  }
   scale: GLOB.useAnimations ? 0 : 1.0
   enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}
   exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0 }}
