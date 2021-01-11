@@ -10,6 +10,15 @@
   - Exams: For non guitars single note question "give name of:" has nothing more
   - certificate for i.e. piano has strange size - probably font size/DPI scaling related issue
   - for melody set level selection accidentals to use makes no sense
+  - do not allow selecting rests to start playing from them
+  - jump to first tied note when playing position is changed
+
+### To test:
+  - melodies with ties and multiple rests (either playing or writing)
+  - single note exams: playing note by note (times between questions)
+  - no rhythms melodies - wait for correct note option
+  - no rhythms melodies - mixed with other melodies
+  - levels with melodies to be played and written in one
 
 ### For incoming stable release version 2.0
   - Fix editing score under Android
@@ -29,6 +38,7 @@
 ### For next stable Nootka version 2.2 and up
   - MIDI input & revert MIDI out of course
   - add rests option for random melodies in exams
+  - implement repeating a melody that was heard
   - adding set of rhythm patterns for melodies generated from random notes (similar to melody list)
   - time stamps in question/answer units - to better track exam progress
   - music XML import dialog, to select voice or staff if there are more, and so
@@ -44,6 +54,7 @@
   - option for randomizing timbre (instrument sound) in every dictation melody
   - add QML control for displaying single note using Bravura texts/glyphs system (to use in chart and question tips)
   - add Italian tempo names to tempo menu
+  - read-only levels, password protected, when teacher doesn't want user to see melodies inside
 
 
 ============================================================================
