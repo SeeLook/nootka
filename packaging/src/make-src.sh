@@ -1,6 +1,6 @@
 #! /bin/bash
 # Script for building Nootka source tar-ball package
-# It usualy is invoked by make src
+# It usually is invoked by make src
 # USAGE:
 # make-src.sh version build-directory source-directory
 # 
@@ -22,6 +22,7 @@ mkdir $DST_DIR
 
 cp -r $SRC_DIR/fonts $DST_DIR
 cp -r $SRC_DIR/lang $DST_DIR
+cp -r $SRC_DIR/levels $DST_DIR
 cp -r $SRC_DIR/mime $DST_DIR
 cp -r $SRC_DIR/packaging $DST_DIR
 cp -r $SRC_DIR/picts $DST_DIR
