@@ -63,6 +63,7 @@
 #define SOUND_DURATION (1500) //[ms]
 
 #define INSTRUMENT NOO->instrument()
+#define CURR_Q (m_exam->curQ())
 
 
 #if !defined (Q_OS_ANDROID)
@@ -177,7 +178,7 @@ bool TexamExecutor::continueInit() {
     m_melody = new TexamMelody(this);
     if (m_level.randMelody == Tlevel::e_melodyFromSet && !m_level.randOrderInSet) {
       // Determine id of melody in the set and initialize appropriate variables
-      auto lastQ = m_exam->count() ? m_exam->curQ() : nullptr;
+      auto lastQ = m_exam->count() ? CURR_Q : nullptr;
       if (lastQ) { // exam is continued, so find latest melody id and how many times it was asked already
         int q = m_exam->count() - 1;
         int repeatNr = 1;
@@ -270,7 +271,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     TQAunit Q(m_exam);
     m_exam->addQuestion(Q);
   }
-  auto curQ = m_exam->curQ();
+  auto curQ = CURR_Q;
   m_isAnswered = false;
   if (!isAttempt) {
     clearWidgets();
@@ -623,7 +624,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 
 
 void TexamExecutor::checkAnswer(bool showResults) {
-  auto curQ = m_exam->curQ();
+  auto curQ = CURR_Q;
   m_penalty->stopQuestionTime();
   m_checkQuestAct->setEnabled(false);
   if (m_playAgainAct)
@@ -942,27 +943,27 @@ void TexamExecutor::newAttempt() {
   m_tipHandler->showTryAgainTip(3000);
 //   QTimer::singleShot(2000, m_tipHandler, SLOT(clearResultTip())); // TODO remove when not used
 //   MAIN_SCORE->showNoteNames(false);
-  if (m_exam->curQ()->answerOnScore() || m_exam->curQ()->questionOnScore()) { // remove names and marks from score notes
+  if (CURR_Q->answerOnScore() || CURR_Q->questionOnScore()) { // remove names and marks from score notes
     int scoreNoteId = 0;
     QColor mc;
-    for (int i = 0; i < m_exam->curQ()->lastAttempt()->mistakes.size(); ++i) {
+    for (int i = 0; i < CURR_Q->lastAttempt()->mistakes.size(); ++i) {
       MAIN_SCORE->showNoteName(i, false);
-      if (!m_exercise || m_exam->curQ()->lastAttempt()->mistakes[i] == TQAunit::e_correct)
+      if (!m_exercise || CURR_Q->lastAttempt()->mistakes[i] == TQAunit::e_correct)
         mc.setAlpha(0);
       else
-        mc = m_supp->answerColor(m_exam->curQ()->lastAttempt()->mistakes[i]);
+        mc = m_supp->answerColor(CURR_Q->lastAttempt()->mistakes[i]);
       scoreNoteId += MAIN_SCORE->markNoteHead(mc, scoreNoteId); // remove all note head marks in exams and those for correct notes in exercises
     }
   }
-  if (m_exam->curQ()->answerAsSound()) // prepare list to store notes played by user
-    m_melody->newMelody(m_exam->curQ()->melody(), m_exam->curQ()->melody()->key().difference(m_exam->curQ()->key));
+  if (CURR_Q->answerAsSound()) // prepare list to store notes played by user
+    m_melody->newMelody(CURR_Q->melody(), CURR_Q->melody()->key().difference(CURR_Q->key));
   else // or clear it
     m_melody->newMelody(nullptr);
-  m_melody->newMelody(m_exam->curQ()->answerAsSound() ? m_exam->curQ()->melody() : nullptr);
+  m_melody->newMelody(CURR_Q->answerAsSound() ? CURR_Q->melody() : nullptr);
 
   m_penalty->newAttempt();
-  if (m_exam->curQ()->answerAsSound())
-    m_exam->curQ()->lastAttempt()->melodyWasPlayed(); // we can suppose that user will play an answer for sure
+  if (CURR_Q->answerAsSound())
+    CURR_Q->lastAttempt()->melodyWasPlayed(); // we can suppose that user will play an answer for sure
   askQuestion(true);
 }
 
@@ -1037,7 +1038,7 @@ void TexamExecutor::repeatQuestion() {
 //     INSTRUMENT->deleteNoteName();
 //   }
 // for melodies it never comes here - questions are newer repeated - copying of TQAunit is safe 
-  TQAunit curQ(*m_exam->curQ()); // copy last unit as a new one
+  TQAunit curQ(*CURR_Q); // copy last unit as a new one
 
   if (!GLOB->E->autoNextQuest)
       m_tipHandler->clearTips();
@@ -1080,8 +1081,8 @@ void TexamExecutor::repeatQuestion() {
   m_nextQuestAct->setEnabled(false);
   m_checkQuestAct->setEnabled(true);
 //       TOOLBAR->startExamAct->setDisabled(true);
-//   TOOLBAR->setForQuestion(m_exam->curQ()->questionAsSound(), m_exam->curQ()->questionAsSound() && m_exam->curQ()->answerAsNote());
-  if (m_exam->curQ()->questionAsSound())
+//   TOOLBAR->setForQuestion(CURR_Q->questionAsSound(), CURR_Q->questionAsSound() && CURR_Q->answerAsNote());
+  if (CURR_Q->questionAsSound())
     repeatSound();
   m_tipHandler->showQuestionTip();
   m_penalty->startQuestionTime();
@@ -1360,8 +1361,8 @@ void TexamExecutor::stopExerciseSlot() {
         m_exam->skipLast(true);
       }
       // user still can take new attempt to correct a melody, so hide it
-      if (m_isAnswered && m_exam->curQ()->melody() && m_exam->curQ()->answerOnScore() && !m_exam->curQ()->isCorrect()) 
-        m_exam->curQ()->melody()->setTitle(m_exam->curQ()->melody()->title() + QLatin1String(";skip"));
+      if (m_isAnswered && CURR_Q->melody() && CURR_Q->answerOnScore() && !CURR_Q->isCorrect()) 
+        CURR_Q->melody()->setTitle(CURR_Q->melody()->title() + QLatin1String(";skip"));
       m_penalty->updateExamTimes();
       m_exerciseTmpStyle = GLOB->S->nameStyleInNoteName;
       GLOB->S->nameStyleInNoteName = m_glStore->nameStyleInNoteName; // restore to show charts in user defined style
@@ -1378,7 +1379,7 @@ void TexamExecutor::stopExerciseSlot() {
 
 void TexamExecutor::finishExerciseAfterSummary() {
   restoreExerciseAfterSummary();
-  if ((m_exam->count() == 1 && m_exam->curQ()->answered()) || m_exam->count() > 1)
+  if ((m_exam->count() == 1 && CURR_Q->answered()) || m_exam->count() > 1)
     m_exam->saveToFile();
   closeExecutor();
 }
@@ -1387,10 +1388,10 @@ void TexamExecutor::finishExerciseAfterSummary() {
 void TexamExecutor::restoreExerciseAfterSummary() {
   if (m_summaryReason == SumFinishExer) {
     m_summaryReason = NoReason;
-    if (m_isAnswered && m_exam->curQ()->melody() && m_exam->curQ()->answerOnScore() && !m_exam->curQ()->isCorrect()) // revert melody title
-      m_exam->curQ()->melody()->setTitle(m_exam->curQ()->melody()->title().remove(QLatin1String(";skip")));
+    if (m_isAnswered && CURR_Q->melody() && CURR_Q->answerOnScore() && !CURR_Q->isCorrect()) // revert melody title
+      CURR_Q->melody()->setTitle(CURR_Q->melody()->title().remove(QLatin1String(";skip")));
     if (m_isAnswered)
-        m_exam->curQ()->setAnswered();
+        CURR_Q->setAnswered();
     GLOB->S->nameStyleInNoteName = m_exerciseTmpStyle;
 // #if !defined (Q_OS_ANDROID)
 //     qApp->installEventFilter(m_supp);
@@ -1408,7 +1409,7 @@ void TexamExecutor::continueExercise() {
   if (m_askAfterSummary) // ask next question if questioning was stopped
       askQuestion();
   else {// restore sniffing if necessary
-      if (m_exam->curQ()->answerAsSound())
+      if (CURR_Q->answerAsSound())
         startSniffing();
   }
 }
@@ -1498,7 +1499,7 @@ void TexamExecutor::settingsAccepted() {
       if (GLOB->E->autoNextQuest)
         m_stopExamAct->setEnabled(true);
   }
-  if (m_exam->count() && m_exam->curQ()->answerAsSound() && !SOUND->isSnifferPaused())//!SOUND->pitchView()->isPaused())
+  if (m_exam->count() && CURR_Q->answerAsSound() && !SOUND->isSnifferPaused())//!SOUND->pitchView()->isPaused())
     startSniffing();
 // #if !defined (Q_OS_ANDROID)
 //   qApp->installEventFilter(m_supp);
@@ -1524,7 +1525,7 @@ void TexamExecutor::suggestDialogClosed(bool startExam) {
 // #if !defined (Q_OS_ANDROID)
 //       qApp->installEventFilter(m_supp);
 // #endif
-      if (m_exam->curQ()->answerAsSound())
+      if (CURR_Q->answerAsSound())
             startSniffing();
   }
 }
@@ -1590,19 +1591,17 @@ QString TexamExecutor::saveExamToFile() {
 
 
 void TexamExecutor::repeatSound() {
-  if (m_exam->curQ()->melody()) {
+  if (CURR_Q->melody()) {
       if (!SOUND->melodyIsPlaying()) {
-        m_exam->curQ()->melody()->setMetronome(SOUND->tempo(), static_cast<Tmeter::EbeatUnit>(SOUND->beatUnit()));
-        int nrTicksBefore = SOUND->tickBeforePlay() ? m_exam->curQ()->melody()->meter()->countTo() : 0;
+        CURR_Q->melody()->setMetronome(SOUND->tempo(), static_cast<Tmeter::EbeatUnit>(SOUND->beatUnit()));
+        int nrTicksBefore = SOUND->tickBeforePlay() ? CURR_Q->melody()->meter()->countTo() : 0;
         SOUND->runMetronome(nrTicksBefore);
       }
-      SOUND->playMelody(m_exam->curQ()->melody(),
-                        m_exam->curQ()->melody()->key() != m_exam->curQ()->key ? m_exam->curQ()->melody()->key().difference(m_exam->curQ()->key) : 0
-                       );
+      SOUND->playMelody(CURR_Q->melody(), CURR_Q->melody()->key() != CURR_Q->key ? CURR_Q->melody()->key().difference(CURR_Q->key) : 0);
       if (SOUND->melodyIsPlaying()) // the same method can stop a melody
-        m_exam->curQ()->lastAttempt()->melodyWasPlayed(); // so increase only when playing was started
+        CURR_Q->lastAttempt()->melodyWasPlayed(); // so increase only when playing was started
   } else
-      SOUND->play(m_exam->curQ()->qa.note);
+      SOUND->play(CURR_Q->qa.note);
   connectPlayingFinished();
 }
 
@@ -1617,7 +1616,7 @@ void TexamExecutor::playMiddleA() {
 void TexamExecutor::connectPlayingFinished() {
   if (m_soundTimer->isActive())
       m_soundTimer->stop();
-  if (m_exam->curQ()->answerAsSound())
+  if (CURR_Q->answerAsSound())
     connect(SOUND, &Tsound::plaingFinished, this, &TexamExecutor::sniffAfterPlaying);
 }
 
@@ -1631,22 +1630,22 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
   }
 
   if (m_melody->wasIndexChanged())
-    m_exam->curQ()->lastAttempt()->melodyWasPlayed();
+    CURR_Q->lastAttempt()->melodyWasPlayed();
   m_melody->noteStarted();
   if (m_melody->currentIndex() == 0) { // first played note was detected
-    m_exam->curQ()->lastAttempt()->setPrepareTime(m_penalty->elapsedTime() - quint32(n.duration));
+    CURR_Q->lastAttempt()->setPrepareTime(m_penalty->elapsedTime() - quint32(n.duration));
     m_melodySelectionIndex = 1; // reset it here
   }
-  if (m_exercise && m_exam->curQ()->melody()->meter()->meter() == Tmeter::NoMeter && GLOB->waitForCorrect()) {
+  if (m_exercise && CURR_Q->melody()->meter()->meter() == Tmeter::NoMeter && GLOB->waitForCorrect()) {
     // no need to call real note id - no rests or ties when no meter
-      int expected = m_exam->curQ()->melody()->note(m_melody->currentIndex())->p().chromatic();
+      int expected = CURR_Q->melody()->note(m_melody->currentIndex())->p().chromatic();
       int played = n.pitch.chromatic();
       if (!m_level.requireOctave) {
         expected = expected % 12;
         played = played % 12;
       }
       if (expected == played) {
-          if (m_melody->currentIndex() + 1 < m_exam->curQ()->melody()->length()) // highlight next note
+          if (m_melody->currentIndex() + 1 < CURR_Q->melody()->length()) // highlight next note
             MAIN_SCORE->setSelectedItem(m_melody->currentIndex() + 1);
           MAIN_SCORE->markNoteHead(GLOB->correctColor(), m_melody->currentIndex());
           if (GLOB->extraNames())
@@ -1656,7 +1655,7 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
           MAIN_SCORE->markNoteHead(GLOB->wrongColor(), m_melody->currentIndex());
       }
   } else { //TODO Use m_melody->realNoteId() to get score note id
-      if (m_melodySelectionIndex < m_exam->curQ()->melody()->length()) // highlight next note
+      if (m_melodySelectionIndex < CURR_Q->melody()->length()) // highlight next note
         m_melodySelectionIndex += MAIN_SCORE->setSelectedItem(m_melodySelectionIndex); // tied notes respected
       else
         m_melodySelectionIndex++;
@@ -1668,7 +1667,7 @@ void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
   if (m_melody->currentIndex() < 0) // meanwhile new question melody was asked - some undesired note was finished
     return;
 
-  bool waitForCorrect = m_exercise && m_exam->curQ()->melody()->meter()->meter() == Tmeter::NoMeter && GLOB->waitForCorrect();
+  bool waitForCorrect = m_exercise && CURR_Q->melody()->meter()->meter() == Tmeter::NoMeter && GLOB->waitForCorrect();
   if (!waitForCorrect) {
     bool doSetNote = true;
     if (n.pitch.isRest()) { // no rest here when rhythms are disabled
@@ -1688,7 +1687,7 @@ void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
     if (doSetNote)
       m_melody->setNote(n);
   }
-  if ((waitForCorrect && m_melody->currentIndex() == m_exam->curQ()->melody()->length() - 1) || m_melodySelectionIndex > m_exam->curQ()->melody()->length()) {
+  if ((waitForCorrect && m_melody->currentIndex() == CURR_Q->melody()->length() - 1) || m_melodySelectionIndex > CURR_Q->melody()->length()) {
     if (waitForCorrect && !m_melody->wasLatestNoteSet())
       return;
     if (GLOB->E->expertsAnswerEnable)
@@ -1710,8 +1709,8 @@ void TexamExecutor::noteOfMelodySelected(int nr) {
   m_melodySelectionIndex = nr + 1;
 // TODO: do we really need this?
 // During exercises, display instrument position of clicked note for a hint
-//   if (isExercise() && INSTRUMENT && m_exam->curQ()->melody())
-//     INSTRUMENT->setNote(m_exam->curQ()->melody()->note(nr)->p(), m_exam->curQ()->melody()->note(nr)->g().data());
+//   if (isExercise() && INSTRUMENT && CURR_Q->melody())
+//     INSTRUMENT->setNote(CURR_Q->melody()->note(nr)->p(), CURR_Q->melody()->note(nr)->g().data());
 }
 
 
@@ -1750,10 +1749,10 @@ void TexamExecutor::startSniffing() {
   if (m_soundTimer->isActive())
     m_soundTimer->stop();
 #if !defined (Q_OS_ANDROID)
-    if (m_exam->curQ()->answerAsSound() && !GLOB->A->dumpPath.isEmpty()) {
+    if (CURR_Q->answerAsSound() && !GLOB->A->dumpPath.isEmpty()) {
       QString dumpFileName = QString("Question-%1").arg(m_exam->count(), 3, 'i', 0, '0');
       if (m_melody)
-        dumpFileName += QString("-attempt%1").arg(m_exam->curQ()->attemptsCount());
+        dumpFileName += QString("-attempt%1").arg(CURR_Q->attemptsCount());
       SOUND->setDumpFileName(dumpFileName);
     }
 #endif
@@ -1770,10 +1769,10 @@ void TexamExecutor::expertAnswersSlot() {
       return;
   }
   // ignore slot when some dialog window appears or answer for melody
-  if (m_snifferLocked || (m_exam->count() && m_exam->curQ()->melody())) 
+  if (m_snifferLocked || (m_exam->count() && CURR_Q->melody())) 
       return;
 
-  if (m_exam->curQ()->answerAsSound())
+  if (CURR_Q->answerAsSound())
       SOUND->pauseSinffing();
   QTimer::singleShot(0, [=]{ checkAnswer(); });
 }
@@ -1788,12 +1787,12 @@ void TexamExecutor::expertAnswersSlot() {
  * - displays message with detected pitch if note was played wrong
  */
 void TexamExecutor::correctNoteOfMelody(int noteNr) {
-  if (m_exam->curQ()->melody()) {
+  if (CURR_Q->melody()) {
     MAIN_SCORE->setSelectedItem(noteNr);
-    if (noteNr < m_exam->curQ()->lastAttempt()->mistakes.size()) {
-      quint32 &m = m_exam->curQ()->lastAttempt()->mistakes[noteNr];
-      if (m_exam->curQ()->answerOnScore()) {
-          if (m_exam->curQ()->melody()->length() > noteNr) { // only dictations can be corrected
+    if (noteNr < CURR_Q->lastAttempt()->mistakes.size()) {
+      quint32 &m = CURR_Q->lastAttempt()->mistakes[noteNr];
+      if (CURR_Q->answerOnScore()) {
+          if (CURR_Q->melody()->length() > noteNr) { // only dictations can be corrected
             if (m && !MAIN_SCORE->isCorrectAnimPending()) { // fix, if it has not been fixed yet
               if (!m_melody->fixed(noteNr))
                 m_exercise->setCorrectedNoteId(noteNr); // TODO we are not using it anymore
@@ -1803,12 +1802,12 @@ void TexamExecutor::correctNoteOfMelody(int noteNr) {
                   // So score answer don't match what was checked before.
                   // So far we just displaying status message with correct note
                   NOO->setMessageColor(m_supp->answerColor(m));
-                  m_tipHandler->shouldBeNoteTip(m_exam->curQ()->melody()->note(noteNr)->p());
+                  m_tipHandler->shouldBeNoteTip(CURR_Q->melody()->note(noteNr)->p());
               } else if (!m_melody->fixed(noteNr))
-                  MAIN_SCORE->correctNote(m_exam->curQ()->melody()->note(noteNr)->p()); // selected note item is corrected
+                  MAIN_SCORE->correctNote(CURR_Q->melody()->note(noteNr)->p()); // selected note item is corrected
               if (!m_melody->fixed(noteNr))
                 m_melody->setFixed(noteNr);
-              if (m_melody->numberOfFixed() > m_exam->curQ()->melody()->length() / 2) { // too much notes fixed - hide 'new attempt'
+              if (m_melody->numberOfFixed() > CURR_Q->melody()->length() / 2) { // too much notes fixed - hide 'new attempt'
                 m_newAtemptAct->setEnabled(false);
                 m_tipHandler->showWhatNextTip(true); // cheat m_tipHandler that question is correct so 'new attempt' will not show
               }
@@ -1817,7 +1816,7 @@ void TexamExecutor::correctNoteOfMelody(int noteNr) {
               NOO->setMessageColor(GLOB->wrongColor());
               NOO->showTimeMessage(tr("There is not such a note in this melody!"), 3000);
           }
-      } else if (m_exam->curQ()->answerAsSound()) {
+      } else if (CURR_Q->answerAsSound()) {
           auto corrNote = m_melody->listenedFromReal(noteNr);
           if (corrNote) {
               NOO->setMessageColor(m_supp->answerColor(m));
@@ -1828,10 +1827,10 @@ void TexamExecutor::correctNoteOfMelody(int noteNr) {
           } else
               qDebug() << "[TexamExecutor] FIXME! Wrong corrected note" << noteNr << ". It shouldn't happen at all!";
       }
-      if (SOUND->isPlayable() && m_exam->curQ()->melody()->length() > noteNr)
-        SOUND->play(m_exam->curQ()->melody()->note(noteNr)->p());
-      if (INSTRUMENT && m_exam->curQ()->melody()->length() > noteNr)
-        INSTRUMENT->setNote(m_exam->curQ()->melody()->note(noteNr)->p());
+      if (SOUND->isPlayable() && CURR_Q->melody()->length() > noteNr)
+        SOUND->play(CURR_Q->melody()->note(noteNr)->p());
+      if (INSTRUMENT && CURR_Q->melody()->length() > noteNr)
+        INSTRUMENT->setNote(CURR_Q->melody()->note(noteNr)->p());
     }
   }
 }
@@ -1882,7 +1881,7 @@ void TexamExecutor::deleteExam() {
 
 
 void TexamExecutor::unlockAnswerCapturing() {
-  if (m_exam->curQ()->answerAsSound())
+  if (CURR_Q->answerAsSound())
     SOUND->startListen();
   m_penalty->continueTime();
 // #if !defined (Q_OS_ANDROID)
@@ -1907,21 +1906,21 @@ void TexamExecutor::correctionFinishedSlot() {
 //   if (sender() == SCORE) { // show name on score only when it is enabled and corrected
 //     if (GLOB->E->showNameOfAnswered && m_exercise->idOfCorrectedNote() > -1) {
 //       Tnote::EnameStyle tmpStyle = Tnote::defaultStyle; // store current name style
-//       Tnote::defaultStyle = m_exam->curQ()->styleOfQuestion(); // set style of question
+//       Tnote::defaultStyle = CURR_Q->styleOfQuestion(); // set style of question
 //       SCORE->noteFromId(m_exercise->idOfCorrectedNote())->showNoteName(QColor(GLOB->EanswerColor.lighter().name())); // show note name
 //       Tnote::defaultStyle = tmpStyle; // restore style
 //     }
 //   }
   m_nextQuestAct->setEnabled(true);
-  if (GLOB->E->autoNextQuest && GLOB->E->afterMistake != TexamParams::e_stop && !m_exam->curQ()->melody()) {
+  if (GLOB->E->autoNextQuest && GLOB->E->afterMistake != TexamParams::e_stop && !CURR_Q->melody()) {
     m_askingTimer->start(GLOB->E->correctPreview); // new question will be started after preview time
   }
-  if (m_exam->curQ()->melody()) { // despite of 'auto' settings when melody - auto next question will not work
+  if (CURR_Q->melody()) { // despite of 'auto' settings when melody - auto next question will not work
       m_tipHandler->showWhatNextTip(false, false);
 //     connect(SCORE, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctNoteOfMelody); // only once per answer
   } else if (!GLOB->E->autoNextQuest || GLOB->E->afterMistake == TexamParams::e_stop)
         m_tipHandler->showWhatNextTip(!(!m_exercise && GLOB->E->repeatIncorrect && !m_incorrectRepeated));
-//   if (m_exam->curQ()->melody() && (m_exam->curQ()->questionOnScore() || m_exam->curQ()->answerOnScore()))
+//   if (CURR_Q->melody() && (CURR_Q->questionOnScore() || CURR_Q->answerOnScore()))
 //       m_tipHandler->melodyCorrectMessage();
 //   if (!GLOB->E->autoNextQuest || !GLOB->E->showCorrected || GLOB->E->afterMistake == TexamParams::e_stop)
 //       QTimer::singleShot(4000, m_tipHandler, SLOT(clearResultTip())); // exam will stop so clear result tip after correction
@@ -1962,10 +1961,10 @@ TtipHandler* TexamExecutor::tipHandler() { return m_tipHandler; }
 
 
 bool TexamExecutor::showPitchView() const {
-  return m_exam && m_exam->count() && m_exam->curQ()->answerAsSound();
+  return m_exam && m_exam->count() && CURR_Q->answerAsSound();
 }
 
 
 bool TexamExecutor::showRtmView() const {
-  return m_exam && m_exam->count() && (m_exam->curQ()->answerAsSound() || m_exam->curQ()->questionAsSound()) && m_level.canBeMelody();
+  return m_exam && m_exam->count() && (CURR_Q->answerAsSound() || CURR_Q->questionAsSound()) && m_level.canBeMelody();
 }
