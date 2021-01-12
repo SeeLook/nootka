@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -143,7 +143,7 @@ public:
       /**
        * Marks note head of index @p noteNr
        * If note starts a tie - all tied notes are marked as well.
-       * Also when note is a rest - all contiguous rests are treated as one
+       * Also when note is a rest - all continuous rests are treated as one
        * Returns how many notes was marked
        */
   int markNoteHead(const QColor& outColor, int noteNr);
