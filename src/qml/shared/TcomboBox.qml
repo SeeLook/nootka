@@ -57,7 +57,7 @@ ComboBox {
       textFormat: Text.StyledText
       verticalAlignment: Text.AlignVCenter
       scale: GLOB.useAnimations && itDel.pressed ? 0.9 : 1.0
-      font { strikeout: !itDel.enabled; bold: cb.currentIndex === index }
+      font { pixelSize: cb.font.pixelSize; strikeout: !itDel.enabled; bold: cb.currentIndex === index }
       Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
     }
     highlighted: cb.highlightedIndex === index
@@ -81,11 +81,14 @@ ComboBox {
     rised: !cb.pressed
   }
 
-  popup: Tmenu {
-    y: cb.height - 1
+  popup: Popup {
+    parent: cb.parent
+    y: cb.y + cb.height + Noo.fontSize() / 4; x: cb.x
+    scale: GLOB.useAnimations ? 0.1 : 1.0
+
+    width: cb.width
     implicitWidth: Noo.fontSize() * 15
     implicitHeight: contentItem.implicitHeight
-    padding: 1
     transformOrigin: Item.Top
 
     contentItem: ListView {
@@ -98,5 +101,7 @@ ComboBox {
     }
 
     background: TipRect { shadowRadius: Noo.fontSize(); color: activPal.window }
+    enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1 }}
+    exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0 }}
   }
 }
