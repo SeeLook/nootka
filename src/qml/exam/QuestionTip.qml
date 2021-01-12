@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -11,24 +11,25 @@ ExamTip {
   bg: GLOB.wrongColor
   font.pixelSize: Noo.fontSize() * (Noo.isAndroid() ? 1 : 1.25)
   width: textItem.width + height / 2
+  textItem.z: 1 // above question mark
+
+  Text {
+    font { pixelSize: examTip.height; family: "Nootka" }
+    x: examTip.width - width * 0.95
+    text: "?"; color: Qt.tint(activPal.base, Noo.alpha(GLOB.wrongColor, 70))
+  }
 
   MouseArea {
     id: dragArea
     anchors.fill: parent
+    z: 2 // above all context
+    hoverEnabled: true
     drag.target: parent
     drag.smoothed: false
     drag.minimumX: shadowRadius; drag.maximumX: executor.width - width * scale - shadowRadius
     drag.minimumY: shadowRadius; drag.maximumY: executor.height - height * scale - shadowRadius
+    cursorShape: drag.active ? Qt.DragMoveCursor : (containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor)
   }
-
-  Text {
-    z: 205
-    font { pixelSize: examTip.height; family: "Nootka" }
-    x: examTip.width - width + height * 0.15
-    text: "?"; color: Qt.tint(activPal.base, Noo.alpha(GLOB.wrongColor, 70))
-  }
-
-  Drag.active: dragArea.drag.active
 
   Component.onCompleted: {
     if (GLOB.useAnimations)
