@@ -36,6 +36,11 @@ class TnoteToPlay
 public:
   TnoteToPlay(const Tnote& note, int index, int transposition = 0);
 
+      /**
+       * Default constructor required by @p QVector.
+       */
+  TnoteToPlay() {}
+
   int pitch() const { return m_pitch; }
   int duration() const { return m_duration; }
 
