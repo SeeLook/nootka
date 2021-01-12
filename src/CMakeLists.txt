@@ -111,6 +111,7 @@ set(NOOTKA_SRC
   main/tstartexamitem.cpp
   main/tnootkacertificate.cpp
   main/tpiechartitem.cpp
+  main/tnotetoplay.cpp
 
   dialogs/tdialogloaderobject.cpp
   dialogs/tlevelcreatoritem.cpp

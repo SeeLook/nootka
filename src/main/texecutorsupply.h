@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,6 +20,7 @@
 #define TEXECUTORSUPPLY_H
 
 
+#include "tnotetoplay.h"
 #include <music/tnotestruct.h>
 #include <exam/tqaunit.h>
 #include <QtCore/qpointer.h>
@@ -30,32 +31,6 @@ class MainWindow;
 class Texam;
 class QWidget;
 class Tlevel;
-
-
-/**
- * @class TpitchRhythm is simple container for a melody note that is either a question or an answer.
- * It stores chromatic number of a note @p pitch(), note @p duration() (summary of tied notes)
- * and @p index() of a note in melody (or other note list) - if note are tied it is index of first one.
- */
-class TpitchRhythm {
-public:
-  TpitchRhythm(const Tnote& note, int index, int transposition = 0);
-  TpitchRhythm() {}
-
-  int pitch() const { return m_pitch; }
-  int duration() const { return m_duration; }
-  int index() const { return m_index; }
-
-      /**
-       * Appends duration of given @p note to existing duration
-       */
-  void append(const Tnote& note) { m_duration += note.duration(); }
-
-private:
-  qint16          m_pitch = 127; // rest
-  int             m_duration = 0;
-  qint16          m_index = 0;
-};
 
 
 /**
@@ -180,11 +155,9 @@ public:
        */
   void compareWrittenFromPlayed(Tmelody* q, Tmelody * a, Tattempt* attempt, int transposition);
 
-  void comparePlayedFromScore(Tmelody* q, QList<TnoteStruct>& a, Tattempt* att, int transposition);
+  void comparePlayedFromScore(Tmelody* q, QVector<TnoteToPlay>& toPlay, QVector<TnoteStruct>& a, Tattempt* att, int transposition);
 
   quint32 comparePitches(int p1, int p2, bool requireOctave);
-
-  QList<TpitchRhythm> toPitchRhythm(Tmelody* m, int transposition);
 
       /**
        * Returns a key signature depend on a current level settings.

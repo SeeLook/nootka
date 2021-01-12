@@ -32,6 +32,7 @@ SOURCES +=  main.cpp \
             main/tstartexamitem.cpp \
             main/tnootkacertificate.cpp \
             main/tpiechartitem.cpp \
+            main/tnotetoplay.cpp \
           \
             dialogs/tdialogloaderobject.cpp \
             dialogs/tlevelcreatoritem.cpp \
@@ -73,6 +74,7 @@ HEADERS  += mobile/tmobilemenu.h \
             main/tstartexamitem.h \
             main/tnootkacertificate.h \
             main/tpiechartitem.h \
+            main/tnotetoplay.h \
           \
             dialogs/tdialogloaderobject.h \
             dialogs/tlevelcreatoritem.h \

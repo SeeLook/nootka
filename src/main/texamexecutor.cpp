@@ -175,9 +175,9 @@ bool TexamExecutor::continueInit() {
 
   if (m_exam->melodies()) {
     m_melody = new TexamMelody(this);
-    if (m_level.randMelody == Tlevel::e_randFromList && !m_level.randOrderInSet) {
+    if (m_level.randMelody == Tlevel::e_melodyFromSet && !m_level.randOrderInSet) {
       // Determine id of melody in the set and initialize appropriate variables
-      auto lastQ = m_exam->count() ? nullptr : m_exam->curQ();
+      auto lastQ = m_exam->count() ? m_exam->curQ() : nullptr;
       if (lastQ) { // exam is continued, so find latest melody id and how many times it was asked already
         int q = m_exam->count() - 1;
         int repeatNr = 1;
@@ -376,7 +376,10 @@ void TexamExecutor::askQuestion(bool isAttempt) {
       } else {
           melodyLength = curQ->melody()->length();
       }
-      m_melody->newMelody(curQ->answerAsSound() ? curQ->melody()->length() : 0); // prepare list to store notes played by user or clear it
+      if (curQ->answerAsSound()) // prepare list to store notes played by user
+        m_melody->newMelody(curQ->melody(), curQ->melody()->key().difference(curQ->key));
+      else // or clear it
+        m_melody->newMelody(nullptr);
       m_exam->newAttempt();
       curQ->lastAttempt()->melodyWasPlayed(); // it was played once for sure 
       if (m_exercise)
@@ -406,7 +409,20 @@ void TexamExecutor::askQuestion(bool isAttempt) {
           connect(SOUND, &Tsound::noteStartedEntire, this, &TexamExecutor::noteOfMelodyStarted);
           connect(SOUND, &Tsound::noteFinishedEntire, this, &TexamExecutor::noteOfMelodyFinished);
           connect(MAIN_SCORE, &TmainScoreObject::readOnlyNoteClicked, this, &TexamExecutor::noteOfMelodySelected);
-          MAIN_SCORE->setSelectedItem(0); // mark first note
+          if (curQ->melody()->note(0)->p().isRest()) { // skip first rest(s) and mark first note after it/them
+              m_melody->noteStarted();
+              m_melody->setNote(TnoteStruct());
+              int noteId = 1;
+              while (noteId < curQ->melody()->length() && curQ->melody()->note(noteId)->p().isRest())
+                noteId++;
+              if (noteId >= curQ->melody()->length())
+                  qDebug() << "[TexamExecutor] Melody has only rests. Someone is mocking us. Troubles on the way...";
+              else {
+                  MAIN_SCORE->setSelectedItem(noteId);
+                  m_melodySelectionIndex = noteId + 1;
+              }
+          } else // just mark first note
+              MAIN_SCORE->setSelectedItem(0);
           MAIN_SCORE->setSelectInReadOnly(true); // allow user to select beginning note to play
         }
     } else {
@@ -703,17 +719,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
           if (curQ->answerOnScore()) { // dictation
               Tmelody answMelody;
               MAIN_SCORE->getMelody(&answMelody);
-//               m_supp->compareMelodies(curQ->melody(), &answMelody, curQ->lastAttempt());
               m_supp->compareWrittenFromPlayed(curQ->melody(), &answMelody, curQ->lastAttempt(), curQ->melody()->key().difference(curQ->key));
           } else { // playing a score
-//               if (m_level.isMelodySet() && m_level.useKeySign && curQ->melody()->key() != curQ->key) {
-//                   Tmelody transposedMelody; // questioned melody was transposed, so copy it from score
-//                   MAIN_SCORE->getMelody(&transposedMelody);
-//                   m_supp->compareMelodies(&transposedMelody, m_melody->listened(), curQ->lastAttempt());
-                  m_supp->comparePlayedFromScore(curQ->melody(), m_melody->listened(), curQ->lastAttempt(), curQ->melody()->key().difference(curQ->key));
-//                   m_supp->compareRhythms(&transposedMelody, m_melody->listened(), curQ->lastAttempt());
-//               } else
-//                   m_supp->compareMelodies(curQ->melody(), m_melody->listened(), curQ->lastAttempt());
+              m_supp->comparePlayedFromScore(curQ->melody(), m_melody->toPlay(), m_melody->played(),
+                                             curQ->lastAttempt(), curQ->melody()->key().difference(curQ->key));
           }
           int goodAllready = 0, notBadAlready = 0, wrongAlready = 0;
           for (int i = 0; i < curQ->lastAttempt()->mistakes.size(); ++i) { // setting mistake type in TQAunit
@@ -731,12 +740,12 @@ void TexamExecutor::checkAnswer(bool showResults) {
           } else if (goodAllready + notBadAlready == curQ->melody()->length()) { // add committed mistakes of last attempt
               curQ->setMistake(curQ->lastAttempt()->summary()); // or 'not bad'
           } else if (goodAllready + notBadAlready >= curQ->melody()->length() * 0.7) { // at least 70% notes answered properly
-            if (curQ->lastAttempt()->effectiveness() >= 50.0) { // and effectiveness is sufficient
-                curQ->setMistake(curQ->lastAttempt()->summary());
-                curQ->setMistake(TQAunit::e_littleNotes); // but less notes than required
-            } else { // or effectiveness is too poor
-                curQ->setMistake(TQAunit::e_veryPoor);
-            }
+              if (curQ->lastAttempt()->effectiveness() >= 50.0) { // and effectiveness is sufficient
+                  curQ->setMistake(curQ->lastAttempt()->summary());
+                  curQ->setMistake(TQAunit::e_littleNotes); // but less notes than required
+              } else { // or effectiveness is too poor
+                  curQ->setMistake(TQAunit::e_veryPoor);
+              }
           } else {
               curQ->setMistake(TQAunit::e_wrongNote);
           }
@@ -806,7 +815,7 @@ void TexamExecutor::checkAnswer(bool showResults) {
           stopExamSlot();
       else {
         if (curQ->isCorrect()) {
-            m_askingTimer->start(m_melody ? qMax(GLOB->E->questionDelay, 500) : waitTime /*GLOB->E->questionDelay*/);
+          m_askingTimer->start(m_melody ? qMax(GLOB->E->questionDelay, 500) : waitTime /*GLOB->E->questionDelay*/);
       } else {
             if (GLOB->E->repeatIncorrect && !m_incorrectRepeated) {
               if (curQ->melody())
@@ -945,9 +954,12 @@ void TexamExecutor::newAttempt() {
       scoreNoteId += MAIN_SCORE->markNoteHead(mc, scoreNoteId); // remove all note head marks in exams and those for correct notes in exercises
     }
   }
-  // prepare list to store notes played by user or clear it
-  m_melody->newMelody(m_exam->curQ()->answerAsSound() ? m_exam->curQ()->melody()->length() : 0);
-//   m_melody->clearToFix(m_exam->curQ()->melody()->length()); //FIXME: dead code, why?
+  if (m_exam->curQ()->answerAsSound()) // prepare list to store notes played by user
+    m_melody->newMelody(m_exam->curQ()->melody(), m_exam->curQ()->melody()->key().difference(m_exam->curQ()->key));
+  else // or clear it
+    m_melody->newMelody(nullptr);
+  m_melody->newMelody(m_exam->curQ()->answerAsSound() ? m_exam->curQ()->melody() : nullptr);
+
   m_penalty->newAttempt();
   if (m_exam->curQ()->answerAsSound())
     m_exam->curQ()->lastAttempt()->melodyWasPlayed(); // we can suppose that user will play an answer for sure
@@ -958,10 +970,10 @@ void TexamExecutor::newAttempt() {
 void TexamExecutor::markAnswer(TQAunit* curQ) {
   QColor markColor = m_supp->answerColor(curQ);
   if (curQ->melody()) {
-    int scoreNoteId = 0;
-    for (int i = 0; i < curQ->lastAttempt()->mistakes.size(); ++i) {
-      scoreNoteId += MAIN_SCORE->markNoteHead(m_supp->answerColor(curQ->lastAttempt()->mistakes[i]), scoreNoteId);
-    }
+      int scoreNoteId = 0;
+      for (int i = 0; i < curQ->lastAttempt()->mistakes.size(); ++i) {
+        scoreNoteId += MAIN_SCORE->markNoteHead(m_supp->answerColor(curQ->lastAttempt()->mistakes[i]), scoreNoteId);
+      }
   } else {
     switch (curQ->answerAs) {
       case TQAtype::e_onScore:
@@ -1611,10 +1623,10 @@ void TexamExecutor::connectPlayingFinished() {
 
 
 void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
-  if (n.pitch.isRest() && m_melody->currentIndex() > 0) { // no rhythms - no rest here, no need for check
+  if (n.pitch.isRest() && m_melody->currentIndex() > 0) { // if no rhythms - no rest here, no need for check
     // If rest is detected but sound is expected - skip it.
     // Do not jump to the next note
-    if (!m_exam->curQ()->melody()->note(m_melody->currentIndex())->p().isRest())
+    if (m_melody->nextToPlay() && !m_melody->nextToPlay()->isRest())
       return;
   }
 
@@ -1626,6 +1638,7 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
     m_melodySelectionIndex = 1; // reset it here
   }
   if (m_exercise && m_exam->curQ()->melody()->meter()->meter() == Tmeter::NoMeter && GLOB->waitForCorrect()) {
+    // no need to call real note id - no rests or ties when no meter
       int expected = m_exam->curQ()->melody()->note(m_melody->currentIndex())->p().chromatic();
       int played = n.pitch.chromatic();
       if (!m_level.requireOctave) {
@@ -1642,9 +1655,9 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
       } else {
           MAIN_SCORE->markNoteHead(GLOB->wrongColor(), m_melody->currentIndex());
       }
-  } else {
+  } else { //TODO Use m_melody->realNoteId() to get score note id
       if (m_melodySelectionIndex < m_exam->curQ()->melody()->length()) // highlight next note
-        m_melodySelectionIndex += MAIN_SCORE->setSelectedItem(m_melodySelectionIndex);
+        m_melodySelectionIndex += MAIN_SCORE->setSelectedItem(m_melodySelectionIndex); // tied notes respected
       else
         m_melodySelectionIndex++;
   }
@@ -1659,16 +1672,17 @@ void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
   if (!waitForCorrect) {
     bool doSetNote = true;
     if (n.pitch.isRest()) { // no rest here when rhythms are disabled
-      if (!m_exam->curQ()->melody()->note(m_melody->currentIndex())->p().isRest()) {
+      if (!m_melody->currentToPlay()->isRest()) {
         // append rest duration to previously detected note,
         // but only when that note was at least 1,5 sec long.
         // Longer would be faded out, so help an user here.
         // But shorter notes will be treat as mistakes - user cut them.
-        // TODO this 1.5 is debatable - might be to long for some fade-out instruments
+        // TODO this 1.5 sec. is debatable - might be to long for some fade-out instruments
         auto currNote = m_melody->currentNote();
         if (currNote && GLOB->instrument().isFadeOut() && currNote->duration > 1.5)
           m_melody->currentNote()->duration += n.duration;
         doSetNote = false;
+        qDebug() << "=== skip rest finished";
       }
     }
     if (doSetNote)
@@ -1804,11 +1818,15 @@ void TexamExecutor::correctNoteOfMelody(int noteNr) {
               NOO->showTimeMessage(tr("There is not such a note in this melody!"), 3000);
           }
       } else if (m_exam->curQ()->answerAsSound()) {
-          NOO->setMessageColor(m_supp->answerColor(m));
-          if (m_level.useRhythms() || m_melody->listened()[noteNr].pitch.isValid())
-            m_tipHandler->detectedNoteTip(m_melody->listened()[noteNr].pitch);
-          else
-            NOO->showTimeMessage(tr("This note was not played!"), 3000);
+          auto corrNote = m_melody->listenedFromReal(noteNr);
+          if (corrNote) {
+              NOO->setMessageColor(m_supp->answerColor(m));
+              if (m_level.useRhythms() || corrNote->pitch.isValid())
+                m_tipHandler->detectedNoteTip(corrNote->pitch);
+              else
+                NOO->showTimeMessage(tr("This note was not played!"), 3000);
+          } else
+              qDebug() << "[TexamExecutor] FIXME! Wrong corrected note" << noteNr << ". It shouldn't happen at all!";
       }
       if (SOUND->isPlayable() && m_exam->curQ()->melody()->length() > noteNr)
         SOUND->play(m_exam->curQ()->melody()->note(noteNr)->p());
