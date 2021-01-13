@@ -138,7 +138,7 @@ int main(int argc, char *argv[])
     f.setPixelSize(qRound(static_cast<qreal>(f.pixelSize()) * gl->guiScale()));
     auto pal = qApp->palette();
     pal.setColor(QPalette::Active, QPalette::Highlight, QColor(0, 160, 160)); // Teal color of highlight for Android
-    pal.setColor(QPalette::Active, QPalette::Shadow, QColor(144, 144, 144)); // Dark gray for shadow
+    pal.setColor(QPalette::Active, QPalette::Shadow, QColor(120, 120, 120)); // Dark gray for shadow
     qApp->setPalette(pal);
 #elif defined (Q_OS_WIN)
     QSettings accent(QStringLiteral("HKEY_USERS\\.DEFAULT\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Accent"),

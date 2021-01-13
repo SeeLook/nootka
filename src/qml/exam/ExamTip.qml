@@ -25,7 +25,8 @@ TipRect {
 
   color: Qt.tint(activPal.base, Noo.alpha(bg, 50))
   border { width: Noo.fontSize() / 6; color: bg }
-  shadowRadius: Noo.fontSize() * (Noo.isAndroid() ? 0.5 : 3); horizontalOffset: Noo.fontSize() / 3; verticalOffset: horizontalOffset
+  shadowRadius: Noo.fontSize() * (Noo.isAndroid() ? 1 : 3)
+  horizontalOffset: Noo.isAndroid() ? 0 : Noo.fontSize() / 3; verticalOffset: horizontalOffset
   z: 200
   x: Noo.bound(shadowRadius, offX - width / 2, executor.width - width - shadowRadius)
   y: Noo.bound(shadowRadius, offY - height / 2, executor.height - height - shadowRadius)
