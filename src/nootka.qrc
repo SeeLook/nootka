@@ -34,6 +34,7 @@
     <file alias="RectButton.qml">qml/shared/RectButton.qml</file>
     <file alias="PaneButton.qml">qml/shared/PaneButton.qml</file>
     <file alias="TcomboBox.qml">qml/shared/TcomboBox.qml</file>
+    <file alias="TcomboEdit.qml">qml/shared/TcomboEdit.qml</file>
     <file alias="TspinBox.qml">qml/shared/TspinBox.qml</file>
     <file alias="Tslider.qml">qml/shared/Tslider.qml</file>
     <file alias="TtextField.qml">qml/shared/TtextField.qml</file>
