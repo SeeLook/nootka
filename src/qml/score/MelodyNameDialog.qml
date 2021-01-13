@@ -12,7 +12,9 @@ TpopupDialog {
   id: melNamDial
 
   visible: true
-  width: Noo.fontSize() * 40; height: Noo.fontSize() * 16
+  width: Noo.fontSize() * 40; height: Noo.fontSize() * 12
+  x: (parent.width - width) / 2
+  y: Noo.isAndroid() ? Noo.fontSize() : (parent.height - height) / 2
 
   rejectButton.text: Noo.TR("QPlatformTheme", "Discard")
   acceptButton.text: Noo.TR("QShortcut", "Save")
