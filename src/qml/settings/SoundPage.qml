@@ -27,7 +27,7 @@ Column {
     currentIndex: -1
 
     Tflickable { // "listening" page
-      contentHeight: inCol.height
+      contentHeight: inCol.height + Noo.fontSize() * 2
       contentWidth: width
 
       Column {
