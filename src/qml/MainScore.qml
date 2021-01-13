@@ -115,7 +115,7 @@ Score {
       scoreObj.allowAdding = Qt.binding(function() { return !GLOB.singleNoteMode })
       enableKeySign = Qt.binding(function() { return GLOB.keySignatureEnabled })
       updateScord()
-      Qt.createComponent("qrc:/StatusTip.qml").createObject(nootkaWindow)
+      Qt.createComponent("qrc:/StatusTip.qml").createObject(Noo.isAndroid() ? nootkaWindow.contentItem : nootkaWindow)
       if (!GLOB.singleNoteMode)
         scoreObj.editModeAct.trigger()
     }
