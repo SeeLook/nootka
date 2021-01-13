@@ -364,6 +364,8 @@ void TtipHandler::playMelodyAgainMessage() {
 
 
 void TtipHandler::showQuestionTip() {
+  if (NOO->messageTimerActive())
+    NOO->showTimeMessage(QString(), 10);
   auto question = m_exam->curQ();
 
 #if defined (Q_OS_ANDROID)

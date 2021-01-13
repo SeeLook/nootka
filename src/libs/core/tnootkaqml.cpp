@@ -430,7 +430,7 @@ void TnootkaQML::setQmlEngine(QQmlEngine* e) {
   m_examAct->setTip(QApplication::translate("TtoolBar", "Start exercises or an exam"), QQuickItem::TopRight);
   m_aboutAct = new Taction(this);
   connect(m_aboutAct, &Taction::triggered, this, &TnootkaQML::aboutActTriggered);
-  m_mesageColor = qApp->palette().highlight().color();
+  m_messageColor = qApp->palette().highlight().color();
 }
 
 
@@ -463,8 +463,8 @@ void TnootkaQML::openFile(const QString& runArg) {
 
 
 void TnootkaQML::setMessageColor(const QColor& mc) {
-  if (m_mesageColor != mc) {
-    m_mesageColor = mc;
+  if (m_messageColor != mc) {
+    m_messageColor = mc;
     emit messageColorChanged();
   }
 }
@@ -492,6 +492,12 @@ void TnootkaQML::showTimeMessage(const QString& message, int time, int pos) {
   emit statusTip(message, pos);
   m_messageTimer->start(time);
 }
+
+
+bool TnootkaQML::messageTimerActive() const {
+  return m_messageTimer ? m_messageTimer->isActive() : false;
+}
+
 
 
 QString TnootkaQML::qaTypeText(int qaType) {

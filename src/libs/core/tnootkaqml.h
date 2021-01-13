@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -80,7 +80,7 @@ public:
   Taction* examAct() { return m_examAct; }
   Taction* aboutAct() { return m_aboutAct; }
 
-  QColor messageColor() { return m_mesageColor; }
+  QColor messageColor() { return m_messageColor; }
   void setMessageColor(const QColor& mc);
 
       /**
@@ -196,6 +196,7 @@ public:
        * at position @p pos - top center by default (see @p QQuickItem::TransformOrigin)
        */
   void showTimeMessage(const QString& message, int time, int pos = 1);
+  bool messageTimerActive() const;
 
       /**
        * Returns text of question/ answer kind depends on given value of @p qaType.
@@ -295,7 +296,7 @@ private:
   Taction                       *m_scoreAct = nullptr;
   Taction                       *m_settingsAct, *m_levelAct, *m_examAct, *m_melodyAct, *m_chartsAct, *m_aboutAct;
 
-  QColor                         m_mesageColor;
+  QColor                         m_messageColor;
   QTimer                        *m_messageTimer = nullptr;
   int                            m_messagePos;
 };
