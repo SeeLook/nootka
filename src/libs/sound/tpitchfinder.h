@@ -57,7 +57,7 @@ class Channel;
 class NoteData;
 class MyTransforms;
 class QFile;
-class TonSetLogic;
+class TonsetLogic;
 
 
 /**
@@ -287,7 +287,7 @@ private:
   bool                  m_playingWasStarted = false; /**< @p TRUE when first note/rest was noticed and signals are emitting*/
   qreal                 m_chunkTime;
   int                   m_minChunks;
-  TonSetLogic          *m_onSet;
+  TonsetLogic          *m_onset;
 #if !defined (Q_OS_ANDROID)
   int                   m_dumpSufixNr = 0;
   QString               m_dumpPath, m_dumpName;

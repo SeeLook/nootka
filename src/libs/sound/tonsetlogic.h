@@ -27,11 +27,18 @@
 class NoteData;
 
 
-class TonSetChunk
+/**
+ * Simple container of audio data information.
+ * Fed by @p setData() method finds and stores:
+ * - highest PCM volume
+ *
+ * TODO: so far nothing more - if so, merge this class with @p TonSetLogic.
+ */
+class TonsetChunk
 {
 public:
-  TonSetChunk(float* d, int len);
-  TonSetChunk(float vol);
+    TonsetChunk(float* d, int len);
+    TonsetChunk(float vol);
 
   void setData(float* d, int len);
 
@@ -45,29 +52,43 @@ private:
 };
 
 /**
- * Performs logic in finding when note starts and stops.
+ * Performs logic in looking for note onset and note end.
  * Audio data comes through @p analyzeChunk().
+ * @p m_totalMaxVol keeps maximum volume so far occurred
+ * and it is base to calculate onset silence thresholds.
+ * So onset/end is obtained by PCM volume/energy
  *
+ * @p TonsetLogic keeps recent @p CHUNKS_TO_LOOK (3) volume values to compare with.
+ * When among those values volume rises above onset threshold
+ * state changes to @p e_volOnset
+ * then it is @p e_volPending when above silence threshold.
+ * When it is in this state for @p minDuration() of chunks @p noteStarted() is @p TRUE.
+ * But it has to be accepted @p acceptNote() by @p TpitchFinder to be tracked further,
+ * or @p skipNote() to ignore it.
+ * When below silence threshold - rest starts: @p restStarted() is @p TRUE then.
+ *
+ * @p startedAt() and @p finishedAt() return chunk number.
+ * The rest is maintained by @p TpitchFinder.
  */
-class TonSetLogic
+class TonsetLogic
 {
 
   Q_GADGET
 
 public:
-  TonSetLogic();
-  ~TonSetLogic();
+    TonsetLogic();
+    ~TonsetLogic() {}
 
   enum EvolumeState {
     e_volInitial = 0,
-    e_volOnSet, /**< moment when new note was detected */
+    e_volOnset, /**< moment when new note was detected */
     e_volPending,
     e_volSilence
   };
   Q_ENUM(EvolumeState);
 
       /**
-       * The method to perform look up for note beginning in audio data.
+       * Method to perform look up for note beginning in audio data.
        */
   void analyzeChunk(float* d, int len);
 
@@ -85,6 +106,8 @@ public:
   bool noteStarted() const { return m_noteStarted; }
   bool noteFinished() const { return m_noteFinished; }
   bool restStarted() const { return m_restStarted; }
+
+      /** @p TpitchFinder doesn't use that */
   bool restFinished() const { return m_restFinished; }
 
   quint32 chunkNr() const { return m_chunkNr; }
@@ -93,6 +116,7 @@ public:
   EvolumeState volumeState() const { return m_volumeState; }
 
   void skipNote();
+  void acceptNote();
 
       /**
        * Resets states of all variables
@@ -100,11 +124,12 @@ public:
   void reset();
 
 private:
-  QList<TonSetChunk>                m_chunks;
+  QList<TonsetChunk>                m_chunks;
   float                             m_dynamicVal = 0.0f;
   bool                              m_noteStarted = false, m_restStarted = false;
   bool                              m_noteFinished = false, m_restFinished = false;
   bool                              m_noteWasStarted = false, m_restWasStarted = false;
+  bool                              m_firstNoteAccepted = false;
   quint32                           m_chunkNr = 0;
   quint32                           m_startedAt = 0, m_finishedAt = 0, m_silenceAt = 0;
   EvolumeState                      m_volumeState = e_volInitial;

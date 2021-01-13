@@ -22,17 +22,17 @@
 #include "QtCore/qdebug.h"
 
 
-TonSetChunk::TonSetChunk(float* d, int len)
+TonsetChunk::TonsetChunk(float* d, int len)
 {
   setData(d, len);
 }
 
 
-TonSetChunk::TonSetChunk(float vol) {
+TonsetChunk::TonsetChunk(float vol) {
   m_hiVol = vol;
 }
 
-void TonSetChunk::setData(float* d, int len) {
+void TonsetChunk::setData(float* d, int len) {
   float prevSample = 1.0, sample = 0.0;
   float tmpMaxVol = 0.0;
   bool isPositive = false;
@@ -62,16 +62,13 @@ void TonSetChunk::setData(float* d, int len) {
 #define CHUNKS_TO_LOOK (3)
 #define MAX_VOL_INIT (0.2f)
 
-TonSetLogic::TonSetLogic() :
+TonsetLogic::TonsetLogic() :
   m_minDuration(CHUNKS_TO_LOOK),
   m_totalMaxVol(MAX_VOL_INIT)
 {}
 
 
-TonSetLogic::~TonSetLogic() {}
-
-
-void TonSetLogic::reset() {
+void TonsetLogic::reset() {
   m_chunkNr = -1;
   m_startedAt = 0;
   m_finishedAt = 0;
@@ -81,14 +78,15 @@ void TonSetLogic::reset() {
   m_restStarted = false;
   m_noteWasStarted = false;
   m_restWasStarted = false;
+  m_firstNoteAccepted = false;
   m_chunks.clear();
 }
 
 
-void TonSetLogic::analyzeChunk(float *d, int len) {
+void TonsetLogic::analyzeChunk(float *d, int len) {
   if (m_chunks.size() >= CHUNKS_TO_LOOK)
     m_chunks.removeFirst();
-  m_chunks << TonSetChunk(d, len);
+  m_chunks << TonsetChunk(d, len);
   m_totalMaxVol = qMax(m_totalMaxVol, m_chunks.last().hiVol());
 
   m_chunkNr++;
@@ -114,8 +112,6 @@ void TonSetLogic::analyzeChunk(float *d, int len) {
   m_noteFinished = false;
   m_restFinished = false;
 
-//   auto prevVolState = m_volumeState;
-
   // silence threshold is 1/25 of max PCM volume occurred
   if (m_chunks.last().hiVol() < m_totalMaxVol / 25.0) {
       if (m_volumeState == e_volPending) {
@@ -129,7 +125,7 @@ void TonSetLogic::analyzeChunk(float *d, int len) {
               m_noteWasStarted = false;
             }
           }
-      } else if (m_volumeState == e_volOnSet) {
+      } else if (m_volumeState == e_volOnset) {
           // there was a loud sound then silence immediately. It is some noise - ignore it.
           m_startedAt = 0;
           m_volumeState = e_volSilence;
@@ -137,7 +133,7 @@ void TonSetLogic::analyzeChunk(float *d, int len) {
       // do nothing when initial state
   } else {
       // check dynamic of volume growth - it has to be 1/4 of max PCM volume
-      if (m_volumeState != e_volOnSet && m_dynamicVal > m_totalMaxVol * 0.25f // volume grew enough
+      if (m_volumeState != e_volOnset && m_dynamicVal > m_totalMaxVol * 0.25f // volume grew enough
           && m_chunkNr - m_startedAt > m_minDuration) // last note was long enough
       {
           if (m_noteWasStarted) {
@@ -149,9 +145,10 @@ void TonSetLogic::analyzeChunk(float *d, int len) {
             m_restWasStarted = false;
             m_restFinished = true;
           }
-          m_startedAt = m_chunkNr - (CHUNKS_TO_LOOK - 1 - loAt); // note starts one chunk after the latest chunk with lowest volume
-          m_volumeState = e_volOnSet;
-      } else if (m_volumeState == e_volOnSet)
+          // note starts one chunk after the latest chunk with lowest volume
+          m_startedAt = m_chunkNr - (CHUNKS_TO_LOOK - 1 - loAt);
+          m_volumeState = e_volOnset;
+      } else if (m_volumeState == e_volOnset)
           m_volumeState = e_volPending;
       else if (m_volumeState == e_volSilence) {
           // not a silence but not loud enough to onset
@@ -168,19 +165,20 @@ void TonSetLogic::analyzeChunk(float *d, int len) {
   m_noteStarted = m_volumeState == e_volPending && m_chunkNr - m_startedAt == m_minDuration;
   if (m_noteStarted)
     m_noteWasStarted = true;
-  m_restStarted = m_volumeState == e_volSilence && m_chunkNr - m_silenceAt == m_minDuration;
+  m_restStarted = m_firstNoteAccepted && m_volumeState == e_volSilence && m_chunkNr - m_silenceAt == m_minDuration;
   if (m_restStarted)
     m_restWasStarted = true;
-
-//   if (prevVolState != m_volumeState)
-//     qDebug() << "[" << m_chunkNr << "] from" << prevVolState << "to" << m_volumeState;
-
-//   m_chunkNr++;
 }
 
 
-void TonSetLogic::skipNote() {
+void TonsetLogic::skipNote() {
   if (m_noteWasStarted) {
     m_noteWasStarted = false;
+//     qDebug() << "[TonSetLogic] Ignored note at" << m_chunkNr << "silence at" << m_silenceAt;
   }
+}
+
+
+void TonsetLogic::acceptNote() {
+   m_firstNoteAccepted = true;
 }
