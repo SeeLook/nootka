@@ -39,6 +39,7 @@
 #include <QtQml/qqmlcontext.h>
 #include <QtQuick/qquickitem.h>
 #include <QtCore/qtimer.h>
+#include <QtCore/qsettings.h>
 #include <string>
 
 #include <QtCore/qdebug.h>
@@ -485,10 +486,38 @@ void TmainScoreObject::saveMusicXml(const QString& fileName, const QString& titl
   QString fn = fileName;
   if (fileName.isEmpty()) // ask for file name if this parameter was empty
     fn = NOO->getXmlToSave(composer + QLatin1String(" - ") + title);
-  if (!fn.isEmpty())
+  if (!fn.isEmpty()) {
     m_scoreObj->saveMusicXml(fn, title, composer, GLOB->transposition());
+    if (!title.isEmpty() && title != qTR("MelodyNameDialog", "Nootka melody")) {
+      auto lt = GLOB->config->value(QLatin1String("Melody/recentTitles"), QStringList()).toStringList();
+      lt.prepend(title);
+      while  (lt.size() > 10)
+        lt.removeLast();
+      GLOB->config->setValue(QLatin1String("Melody/recentTitles"), lt);
+    }
+    if (!composer.isEmpty() && composer != QLatin1String("Nootka The Composer")) {
+      auto lc = GLOB->config->value(QLatin1String("Melody/recentComposers"), QStringList()).toStringList();
+      lc.prepend(composer);
+      while (lc.size() > 10)
+        lc.removeLast();
+      GLOB->config->setValue(QLatin1String("Melody/recentComposers"), lc);
+    }
+  }
 }
 
+
+QStringList TmainScoreObject::recentTitles() const {
+  auto lt = GLOB->config->value(QLatin1String("Melody/recentTitles"), QStringList()).toStringList();
+  lt.prepend(QGuiApplication::translate("MelodyNameDialog", "Nootka melody"));
+  return lt;
+}
+
+
+QStringList TmainScoreObject::recentComposers() const {
+  auto lc = GLOB->config->value(QLatin1String("Melody/recentComposers"), QStringList()).toStringList();
+  lc.prepend(QLatin1String("Nootka The Composer"));
+  return lc;
+}
 
 //#################################################################################################
 //###################              PROTECTED           ############################################

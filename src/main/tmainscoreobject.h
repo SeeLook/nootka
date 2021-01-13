@@ -159,6 +159,8 @@ public:
   bool isCorrectAnimPending() { return m_correctNoteId > -1; }
 
   Q_INVOKABLE void saveMusicXml(const QString& fileName, const QString& title = QString(), const QString& composer = QString());
+  Q_INVOKABLE QStringList recentTitles() const;
+  Q_INVOKABLE QStringList recentComposers() const;
 
 signals:
   void scoreActionsChanged();

@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2019-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2019-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -22,34 +22,34 @@ TpopupDialog {
     anchors.centerIn: parent
     spacing: Noo.fontSize()
     Row {
-      anchors.right: parent.right
+      anchors { right: parent.right; rightMargin: Noo.fontSize() / 2 }
       spacing: Noo.fontSize()
       Text {
         anchors.verticalCenter: parent.verticalCenter
         color: activPal.text
         text: qsTr("Title")
       }
-      TtextField {
+      TcomboEdit {
         id: melodyTitle
-        font.pixelSize: Noo.fontSize(); maximumLength: 100
-        width: melNamDial.width - Noo.fontSize() * 10
-        text: qsTr("Nootka melody")
+        maximumLength: 100
+        model: mainObj.recentTitles() /**< @p mainObj is TmainScoreObject instance */
+        width: melNamDial.width - Noo.fontSize() * 11
       }
     }
 
     Row {
-      anchors.right: parent.right
+      anchors { right: parent.right; rightMargin: Noo.fontSize() / 2 }
       spacing: Noo.fontSize()
       Text {
         anchors.verticalCenter: parent.verticalCenter
         color: activPal.text
         text: qsTr("Composer")
       }
-      TtextField {
+      TcomboEdit {
         id: composer
-        font.pixelSize: Noo.fontSize(); maximumLength: 100
-        width: melNamDial.width - Noo.fontSize() * 10
-        text: "Nootka The Composer"
+        maximumLength: 100
+        model: mainObj.recentComposers()
+        width: melNamDial.width - Noo.fontSize() * 11
       }
     }
     /**
@@ -90,12 +90,10 @@ TpopupDialog {
   }
 
   onAccepted: {
-    mainObj.saveMusicXml(/*fileName.text*/"", melodyTitle.text, composer.text)
+    mainObj.saveMusicXml(/*fileName.text*/"", melodyTitle.editText, composer.editText)
     destroy(300)
   }
-  onRejected: {
-    destroy(300)
-  }
+  onRejected: destroy(300)
 
   onOpened: SOUND.stopListen()
   onClosed: SOUND.startListen()
