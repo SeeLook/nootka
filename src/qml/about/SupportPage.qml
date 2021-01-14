@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -13,16 +13,17 @@ Tflickable {
   contentHeight: suppFlow.childrenRect.height + thText.height + Noo.fontSize() * 3
   contentWidth: width
 
-//                        bugs    | donate   | record   | translate |  vote   | report   | express |
-  property var colors: [ "#ff5500", "#42DA06", "#930000", "#0000C0", "#C000C0", /*"#FF0000",*/ activPal.text ]
+//                        bugs    | donate   | record   | translate | MacOs   | vote     | report   | express |
+  property var colors: [ "#ff5500", "#42DA06", "#930000", "#0000C0", "#888888", "#C000C0", /*"#FF0000",*/ activPal.text ]
   property var headers: [ "Test this version intensively", qsTr("Donate Nootka campaign"), "Record audio samples",
-                          "Translate Nootka", Noo.isAndroid() ? "Rate this app" : "Vote on Nootka",
+                          "Translate Nootka", "Mac needs feedback", Noo.isAndroid() ? "Rate this app" : "Vote on Nootka",
                           /*"Report an issue",*/ "Express your opinion" ]
   property var texts: [
     "Simply play with Nootka a lot to check all possible angles.<br><a href=\"https://sourceforge.net/p/nootka/bugs/milestone/Issues%20with%20beta/\">Create Ticket (call a bug)</a> when something doesn't work<br>or doesn't look good enough.",
     "<a href=\"https://nootka.sourceforge.io/index.php?C=donate\">" + qsTr("Through PayPal or a card") + "</a><br><a href=\"mailto:seelook.gmail.com\">" + qsTr("or send email for an account number") + "</a>",
     "Nootka uses natural sounds,<br>so audio samples of bandoneon and saxophones are needed.<br>Home made samples should be sufficient,<br>just <a href=\"mailto:seelook.gmail.com\">write message</a> for details.",
     "It does not require any programming skills.<br>Just read <a href=\"https://sourceforge.net/p/nootka/git/ci/master/tree/lang/how-to-translate.txt\">the instructions</a>,<br>translate and send your work.",
+    "Mac Os version is a new thing.<br>Let us know does Nootka work there or not.",
     Noo.isAndroid() ?
     "Go to <a href=\"https://play.google.com/store/apps/details?id=net.sf.nootka\">Google Play</a>,<br>rate it nicely and put a comment in your native language." :
     "There are a lot of services. For example:<br><a href=\"https://play.google.com/store/apps/details?id=net.sf.nootka\">Google Play</a>, <a href=\"https://www.linux-apps.com/p/1127020/\">Linux Apps</a>, <a href=\"http://www.softpedia.com/get/Others/Home-Education/Nootka.shtml\">Softpedia</a>",

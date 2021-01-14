@@ -29,8 +29,6 @@
   - make difference between background color of *.nel *.noo icons - to better distinguish them
   - add more levels, in separate files, distributed with the installers
   - "Got It!" clues in some crucial parts: Android quick menu, pitch detection and so on
-  - Android: some shortcuts to change rhythmic value
-  - store the latest melody titles and composers
   - exam summary - give more valuable info, wear it nicely
   - charts - show preview of entire melody, chart tip is not suitable for it
   - migrate on preferred 48000 sample rate (ogg files and audio methods). DO NOT forget to resize output samples length
