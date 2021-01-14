@@ -72,16 +72,10 @@ ApplicationWindow {
     onSingleNoteModeChanged: checkSingleMode()
     onIsExamChanged: {
       if (GLOB.isExam) {
-          if (!executor) {
-              var e = Qt.createComponent("qrc:/exam/ExamExecutor.qml")
-              executor = e.createObject(nootkaWindow.contentItem.parent)
-          }
-          if (!examResults) {
-              var c = Qt.createComponent("qrc:/exam/ExamResults.qml")
-              examResults = c.createObject(nootkaWindow.contentItem)
-          } else { // TODO remove when does not occur
-              console.log("[MainWindow.qml] EXAM RESULTS ALREADY EXISTS!")
-          }
+          if (!executor)
+            executor = Qt.createComponent("qrc:/exam/ExamExecutor.qml").createObject(nootkaWindow.contentItem.parent)
+          if (!examResults)
+            examResults = Qt.createComponent("qrc:/exam/ExamResults.qml").createObject(nootkaWindow.contentItem)
       } else {
           if (examResults)
             examResults.destroy()
@@ -111,13 +105,10 @@ ApplicationWindow {
   }
 
   function showDialog(page) {
-    if (!dialogLoader) {
-      var d = Qt.createComponent("qrc:/DialogLoader.qml")
-      dialogLoader = d.createObject(nootkaWindow)
-    }
-    if (page === Nootka.Charts) {
-      var c = Qt.createComponent("qrc:/charts/AnalyzeDialog.qml")
-      analyzeWindow = c.createObject(nootkaWindow)
+    if (!dialogLoader)
+      dialogLoader = Qt.createComponent("qrc:/DialogLoader.qml").createObject(nootkaWindow)
+    if (page === Nootka.Charts) { // dialogLoader above registers QML types in C++ - keep that order!
+      analyzeWindow = Qt.createComponent("qrc:/charts/AnalyzeDialog.qml").createObject(nootkaWindow)
       return
     }
     dialogLoader.page = page
