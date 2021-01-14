@@ -1,7 +1,0 @@
-Nootini TODO list
-
-- WAV headers are implemented in simple way only
-- add 'stop' button to terminate processing
-- some operation are allowed during processing but they should not (opening new file, starting new pass)
-- x axis scaling (xSc) may depend on pitch range (frames per chunk) to make x axis the same
-- there are many code from analyzer - make library of it
