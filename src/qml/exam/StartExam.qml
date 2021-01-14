@@ -27,6 +27,7 @@ TstartExamItem {
       spacing: Noo.fontSize() * (Noo.isAndroid() ? 2 : 4)
       anchors.horizontalCenter: parent.horizontalCenter
       TiconButton {
+        anchors.verticalCenter: parent.verticalCenter
         pixmap: Noo.pix("help"); iconHeight: startDialog.height / 15
         text: Noo.TR("QShortcut", "Help")
         onClicked: getHelpDialog()
@@ -46,6 +47,7 @@ TstartExamItem {
         }
       }
       TiconButton {
+        anchors.verticalCenter: parent.verticalCenter
         pixmap: Noo.pix("levelCreator"); iconHeight: startDialog.height / 15
         text: Noo.TR("TlevelCreatorItem", "Level creator").replace(" ", "\n")
         onClicked: {
