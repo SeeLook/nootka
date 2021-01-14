@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -99,10 +99,8 @@ TpianoBg {
   }
 
   Component.onCompleted: {
-    if (Noo.isAndroid() && Noo.fingerPixels() * 4 > height * 1.1) {
-      var pz = Qt.createComponent("qrc:/instruments/PianoZoom.qml")
-      pianoZoom = pz.createObject(nootkaWindow.contentItem.parent)
-    }
+    if (Noo.isAndroid() && Noo.fingerPixels() * 4 > height * 1.1)
+      pianoZoom = Qt.createComponent("qrc:/instruments/PianoZoom.qml").createObject(nootkaWindow.contentItem)
   }
 
   Component.onDestruction: {
