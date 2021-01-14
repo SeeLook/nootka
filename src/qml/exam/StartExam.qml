@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -28,7 +28,7 @@ TstartExamItem {
       anchors.horizontalCenter: parent.horizontalCenter
       TiconButton {
         pixmap: Noo.pix("help"); iconHeight: startDialog.height / 15
-        text: Noo.isAndroid() ? "" : Noo.TR("QShortcut", "Help")
+        text: Noo.TR("QShortcut", "Help")
         onClicked: getHelpDialog()
       }
       Row {
@@ -47,7 +47,7 @@ TstartExamItem {
       }
       TiconButton {
         pixmap: Noo.pix("levelCreator"); iconHeight: startDialog.height / 15
-        text: Noo.isAndroid() ? "" :  Noo.TR("TlevelCreatorItem", "Level creator")
+        text: Noo.TR("TlevelCreatorItem", "Level creator").replace(" ", "\n")
         onClicked: {
           dialLoader.close()
           nootkaWindow.showDialog(3) // Nootka.LevelCreator
