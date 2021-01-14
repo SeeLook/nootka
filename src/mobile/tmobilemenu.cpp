@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -124,7 +124,7 @@ void TmobileMenu::mouseReleaseEvent(QMouseEvent* event) {
     emit flyClicked();
     setFlyItem(nullptr);
   }
-  if (event->pos().x() < Tmtr::fingerPixels() && event->pos().y() < Tmtr::fingerPixels())
+  if (event->pos().x() < width() && event->pos().y() < height())
     emit clicked();
 }
 
