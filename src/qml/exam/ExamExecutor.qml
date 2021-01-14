@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -13,6 +13,7 @@ import "../"
 Texecutor {
   id: executor
 
+  parent: Noo.isAndroid() ? nootkaWindow.contentItem : nootkaWindow.contentItem.parent
   z: 100
 
   //private
@@ -63,8 +64,7 @@ Texecutor {
       tipHandler.whatNextTip = s.createObject(executor, { "text": text, "offX": pos.x, "offY": pos.y, "bg": color } )
     }
     onWantCertificate: {
-      var c = Qt.createComponent("qrc:/exam/Certificate.qml")
-      tipHandler.certTip = c.createObject(nootkaWindow.contentItem.parent)
+      tipHandler.certTip = Qt.createComponent("qrc:/exam/Certificate.qml").createObject(nootkaWindow.contentItem.parent)
     }
   }
 }
