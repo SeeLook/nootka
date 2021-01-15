@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -42,11 +42,9 @@ Text {
     property Drawer meterDrawer
     onClicked: {
       if (meterDrawer)
-          meterDrawer.open()
-      else {
-          var c = Qt.createComponent("qrc:/score/MeterDrawer.qml")
-          meterDrawer = c.createObject(meter)
-      }
+        meterDrawer.open()
+      else
+        meterDrawer = Qt.createComponent("qrc:/score/MeterDrawer.qml").createObject(meter)
     }
   }
 }

@@ -49,10 +49,7 @@ Score {
     recModeAct.checked: recordMode
     onMelodyGenerate: nootkaWindow.showDialog(Nootka.MelodyGenerator)
     mainScoreItem: mainScore
-    onMelodyNameDialog: {
-      var m = Qt.createComponent("qrc:/score/MelodyNameDialog.qml")
-      m.createObject(nootkaWindow)
-    }
+    onMelodyNameDialog: Qt.createComponent("qrc:/score/MelodyNameDialog.qml").createObject(nootkaWindow)
   }
 
   Timer { id: zoomTimer; interval: 500 }
@@ -134,19 +131,17 @@ Score {
       scordature = null
     }
     if (GLOB.tuning.scordature && GLOB.instrument.isGuitar && GLOB.instrument.type !== Tinstrument.BassGuitar) {
-        var c = Qt.createComponent("qrc:/score/Scordature.qml")
-        scordature = c.createObject(firstStaff)
+        scordature = Qt.createComponent("qrc:/score/Scordature.qml").createObject(firstStaff)
         firstStaff.scordSpace = scordature.height
     } else
         firstStaff.scordSpace = 0
   }
 
   onSingleNoteChanged: {
-    if (singleNote) {
-        var c = Qt.createComponent("qrc:/score/NotePrompt.qml")
-        notePrompt = c.createObject(scoreObj.note(0))
-    } else
-        notePrompt.destroy()
+    if (singleNote)
+      notePrompt = Qt.createComponent("qrc:/score/NotePrompt.qml").createObject(scoreObj.note(0))
+    else
+      notePrompt.destroy()
   }
 
   Rectangle { // note highlight

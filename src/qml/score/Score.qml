@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -62,10 +62,8 @@ Flickable {
     onClicked: currentNote = scoreObj.activeNote
 
     onStaffCreate: {
-      var c = Qt.createComponent("qrc:/score/Staff.qml")
-      var lastStaff = c.createObject(score.contentItem)
-      staves.push(lastStaff)
-      score.lastStaff = lastStaff
+      staves.push(Qt.createComponent("qrc:/score/Staff.qml").createObject(score.contentItem))
+      score.lastStaff = staves[staves.length - 1]
     }
     onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
     onStaffDestroying: { staves.splice(staffNr, 1); lastStaff = staves[staves.length - 1] }
@@ -75,30 +73,21 @@ Flickable {
     }
     onAllowAddingChanged: {
       if (allowAdding) {
-        if (!delControl) {
-          var dC = Qt.createComponent("qrc:/score/DelControl.qml")
-          delControl = dC.createObject(contentItem)
-        }
-        if (!noteAdd) {
-          var aC = Qt.createComponent("qrc:/score/NoteAdd.qml")
-          noteAdd = aC.createObject(contentItem)
-        }
-        if (!scoreToobox) {
-          var tC = Qt.createComponent("qrc:/score/ScoreToolbox.qml")
-          scoreToobox = tC.createObject(parent)
-        }
+        if (!delControl)
+          delControl = Qt.createComponent("qrc:/score/DelControl.qml").createObject(contentItem)
+        if (!noteAdd)
+          noteAdd = Qt.createComponent("qrc:/score/NoteAdd.qml").createObject(contentItem)
+        if (!scoreToobox)
+          scoreToobox = Qt.createComponent("qrc:/score/ScoreToolbox.qml").createObject(parent)
       }
     }
     onActiveNoteChanged: {
       if (!cursor) {
-        var cC = Qt.createComponent("qrc:/score/ScoreCursor.qml")
-        cursor = cC.createObject(contentItem)
+        cursor = Qt.createComponent("qrc:/score/ScoreCursor.qml").createObject(contentItem)
         cursor.parent = Qt.binding(function() { return scoreObj.activeNote })
       }
-      if (!scoreToobox && !readOnly) {
-        var tC = Qt.createComponent("qrc:/score/ScoreToolbox.qml")
-        scoreToobox = tC.createObject(parent)
-      }
+      if (!scoreToobox && !readOnly)
+        scoreToobox = Qt.createComponent("qrc:/score/ScoreToolbox.qml").createObject(parent)
     }
   }
 

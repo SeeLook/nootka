@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -78,10 +78,8 @@ TstaffItem {
 
   function checkIsKeyEnabled() { // key signature created on demand
     if (score.enableKeySign) {
-        if (!keySignItem) {
-          var c = Qt.createComponent("qrc:/score/KeySignature.qml")
-          keySignItem = c.createObject(staff)
-        }
+        if (!keySignItem)
+          keySignItem = Qt.createComponent("qrc:/score/KeySignature.qml").createObject(staff)
     } else {
         if (keySignItem) {
           keySignItem.destroy()
