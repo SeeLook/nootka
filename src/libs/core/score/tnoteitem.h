@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,6 +23,7 @@
 #include "nootkacoreglobal.h"
 #include "music/trhythm.h"
 #include <QtQuick/qquickitem.h>
+#include <QtCore/qelapsedtimer.h>
 
 
 class TstaffItem;
@@ -218,6 +219,8 @@ private:
   QQuickItem                  *m_stringNumber = nullptr;
   QQuickItem                  *m_bowing = nullptr;
   QQuickItem                  *m_fingerNumber = nullptr;
+  static QElapsedTimer         m_touchDuration;
+  static TnoteItem            *m_heldNote;
 
   QQuickItem                  *m_debug;
 
