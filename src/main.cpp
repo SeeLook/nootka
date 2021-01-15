@@ -44,6 +44,7 @@
 #include <QtCore/qdatetime.h>
 #include <QtCore/qpointer.h>
 #include <QtCore/qfile.h>
+#include <QtCore/qdir.h>
 #include <QtCore/qsettings.h>
 #include <QtCore/qelapsedtimer.h>
 #include <QtCore/qloggingcategory.h>
@@ -116,6 +117,13 @@ int main(int argc, char *argv[])
     if (nooObj->resetConfig()) { // delete config file - new Nootka instance will start with first run wizard
       QFile f(confFile);
       f.remove();
+      auto exerciseFile = QDir::toNativeSeparators(QFileInfo(confFile).absolutePath() + QLatin1String("/exercise2.noo"));
+      if (QFileInfo(exerciseFile).exists())
+        QFile::remove(exerciseFile);
+      // also clean exercise from Nootka versions up to 1.7.X
+      exerciseFile = QDir::toNativeSeparators(QFileInfo(confFile).absolutePath() + QLatin1String("/exercise.noo"));
+      if (QFileInfo(exerciseFile).exists())
+        QFile::remove(exerciseFile);
     }
     nooObj->setResetConfig(false);
 #endif
