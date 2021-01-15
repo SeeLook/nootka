@@ -139,6 +139,8 @@ int main(int argc, char *argv[])
     auto pal = qApp->palette();
     pal.setColor(QPalette::Active, QPalette::Highlight, QColor(0, 160, 160)); // Teal color of highlight for Android
     pal.setColor(QPalette::Active, QPalette::Shadow, QColor(120, 120, 120)); // Dark gray for shadow
+    pal.setColor(QPalette::Active, QPalette::Button, QColor(240, 240, 240)); // Very light gray for button
+    pal.setColor(QPalette::Active, QPalette::AlternateBase, QColor(245, 255, 255)); // Very light teal for alternate base
     qApp->setPalette(pal);
 #elif defined (Q_OS_WIN)
     QSettings accent(QStringLiteral("HKEY_USERS\\.DEFAULT\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Accent"),
