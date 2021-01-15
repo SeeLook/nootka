@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -164,20 +164,40 @@ Tflickable {
         anchors.horizontalCenter: parent.horizontalCenter
         text: qsTr("Restore all default settings")
         onClicked: restoreDialog.open()
-        MessageDialog {
-          id: restoreDialog
-          icon: StandardIcon.Critical
-          standardButtons: StandardButton.Ok | StandardButton.Abort
-          title: qsTr("Restore all default settings")
-          text: qsTr("All settings will be reset to their default values!<br>Nootka will start up with the first-run wizard.")
-          onAccepted: {
-            Noo.setResetConfig(true)
-            Qt.quit()
-          }
-        }
       }
     }
 
+  }
+
+  TpopupDialog {
+    id: restoreDialog
+    modal: true
+    width: rmmConfTxt.width * 1.2; height: rmmConfTxt.height + Noo.fontSize() * 8
+    bgColor: Qt.tint(activPal.window, Noo.alpha("red", 20))
+    border { color: "red"; width: Noo.fontSize() / 4.0 }
+    header: Rectangle {
+      color: "transparent"; width: parent.width; height: hText.height + Noo.fontSize() / 2; radius: Noo.fontSize() / 4
+      Text {
+        id: hText
+        width: parent.width - Noo.fontSize()
+        anchors.centerIn: parent; horizontalAlignment: Text.AlignHCenter
+        color: activPal.text
+        font { pixelSize: Noo.fontSize() * 1.5; bold: true }
+        text: qsTr("Restore all default settings")
+      }
+      Rectangle { width: parent.width; height: 1; color: "red"; y: parent.height }
+    }
+    Text {
+      id: rmmConfTxt
+      anchors.horizontalCenter: parent.horizontalCenter
+      color: activPal.text
+      font.pixelSize: Noo.fontSize() * 1.5
+      text: qsTr("All settings will be reset to their default values!<br>Nootka will start up with the first-run wizard.")
+    }
+    onAccepted: {
+      Noo.setResetConfig(true)
+      Qt.quit()
+    }
   }
 
   Timer { // workaround to select 0 item, call it with delay
