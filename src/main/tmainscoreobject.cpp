@@ -491,6 +491,7 @@ void TmainScoreObject::saveMusicXml(const QString& fileName, const QString& titl
     if (!title.isEmpty() && title != qTR("MelodyNameDialog", "Nootka melody")) {
       auto lt = GLOB->config->value(QLatin1String("Melody/recentTitles"), QStringList()).toStringList();
       lt.prepend(title);
+      lt.removeDuplicates();
       while  (lt.size() > 10)
         lt.removeLast();
       GLOB->config->setValue(QLatin1String("Melody/recentTitles"), lt);
@@ -498,6 +499,7 @@ void TmainScoreObject::saveMusicXml(const QString& fileName, const QString& titl
     if (!composer.isEmpty() && composer != QLatin1String("Nootka The Composer")) {
       auto lc = GLOB->config->value(QLatin1String("Melody/recentComposers"), QStringList()).toStringList();
       lc.prepend(composer);
+      lc.removeDuplicates();
       while (lc.size() > 10)
         lc.removeLast();
       GLOB->config->setValue(QLatin1String("Melody/recentComposers"), lc);
