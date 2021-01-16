@@ -1,4 +1,4 @@
- ​Application  helps understand the basics of music notation reading
+ ​Application helps understand the basics of music notation, reading
  and practicing playing musical scores.
  ​Long story short: the user plays notes (melody) displayed by the app,
  which then in real time checks if the note was played correctly.
@@ -9,8 +9,8 @@
  exercises with possibility to create own sets
  importing melodies from musicxml, using them in exercises
  accurate method for detecting sung and played sounds
- support for different instruments (guitars, piano, sax)
+ support for different instruments (guitars, piano, sax, bandoneon)
  clefs (treble, bass and others) and grand staff
- analyze of results
+ analyze of results - charts with exercise details
  .
  https://nootka.sourceforge.io

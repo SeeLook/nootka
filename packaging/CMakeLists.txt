@@ -35,18 +35,20 @@ endif (ENABLE_PULSEAUDIO)
 # from Ubuntu 18.04 (Bionic)
 set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.27), libqt5gui5 (>= 5.9), libqt5widgets5, libqt5printsupport5, libqt5network5, qttranslations5-l10n, qml-module-qtquick-controls, qml-module-qtquick-controls2, qml-module-qtquick-dialogs, ${DEB_DEPENDS} libfftw3-single3, libvorbisfile3, libsoundtouch1")
 #CPACK_DEBIAN_PACKAGE_MAINTAINER #CPACK_PACKAGE_CONTACT
-set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application to learn classical score notation.
- It helps to understand the rules of reading and writing scores
- and helps with developing skills of playing and singing notes.
+set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application helps understand the basics of music notation, reading
+ and practicing playing musical scores.
+ ​Long story short: the user plays notes (melody) displayed by the app,
+ which then in real time checks if the note was played correctly.
  .
  Features:
  .
- interactive score to discover and learn how musical notation works
- natural sound of classical guitar
- accurate pitch detection method
- support for different name-callings of the notes
- levels creator with wide range of settings
- numerous settings to personalize for user needs and capabilities
+ interactive interface to discover the rules of musical notation
+ exercises with possibility to create own sets
+ importing melodies from musicxml, using them in exercises
+ accurate method for detecting sung and played sounds
+ support for different instruments (guitars, piano, sax, bandoneon)
+ clefs (treble, bass and others) and grand staff
+ analyze of results - charts with exercise details
  .
  https://nootka.sourceforge.io") #CPACK_PACKAGE_DESCRIPTION_SUMMARY
 set(CPACK_DEBIAN_PACKAGE_SECTION "science")

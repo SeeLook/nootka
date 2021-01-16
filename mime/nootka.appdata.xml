@@ -10,7 +10,7 @@
 
   <description>
     <p>
-      ​Application  helps understand the basics of music notation reading and practicing playing musical scores.
+      ​Application helps understand the basics of music notation reading and practicing playing musical scores.
     </p>
     <p>
       ​Long story short: the user plays notes (melody) displayed by the app, which then in real time checks if the note was played correctly.
@@ -20,7 +20,8 @@
       <li>interactive interface to discover the rules of musical notation</li>
       <li>exercises with possibility to create own sets</li>
       <li>importing melodies from musicxml, using them in exercises</li>
-      <li>analyze of results</li>
+      <li>support for different instruments (guitars, piano, sax, bandoneon)</li>
+      <li>analyze of results - charts with exercise details</li>
       <li>accurate method for detecting sung and played sounds and melodies</li>
     </ul>
   </description>
