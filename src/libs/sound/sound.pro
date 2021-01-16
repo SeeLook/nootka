@@ -131,13 +131,13 @@ LIBS += -L../core/ -lNootkaCore  #-L../mobile/ -lNootkaMobile
 INCLUDEPATH += ../core #../mobile
 
 sounds.path = /assets/sounds
-sounds.files += sounds/alto-sax.ogg
-sounds.files += sounds/bandoneon.ogg
+#sounds.files += sounds/alto-sax.ogg
+#sounds.files += sounds/bandoneon.ogg
 sounds.files += sounds/bass-guitar.ogg
 sounds.files += sounds/classical-guitar.ogg
 sounds.files += sounds/electric-guitar.ogg
 sounds.files += sounds/piano.ogg
-sounds.files += sounds/tenor-sax.ogg
+#sounds.files += sounds/tenor-sax.ogg
 sounds.files += sounds/beat.raw48-16
 sounds.depends += FORCE
 

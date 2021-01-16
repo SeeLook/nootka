@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -239,10 +239,12 @@ void ToggScale::setSampleRate(unsigned int rate) {
     m_sampleRate = rate;
     resetPCMArray();
     adjustSoundTouch();
+#if !defined (Q_OS_ANDROID)
     if (m_sampleRate != 44100) {
       QTextStream o(stdout);
       o << "\033[01;37m Audio data will be resampled to " << m_sampleRate << "\033[01;00m\n";
     }
+#endif
   }
 }
 
@@ -276,6 +278,7 @@ bool ToggScale::loadAudioData(int instrument) {
         m_firstNote = -24; m_lastNote = 21;
         m_soundContinuous = false;
         break;
+#if !defined (Q_OS_ANDROID)
       case Tinstrument::Bandoneon:
         fileName = Tpath::sound("bandoneon");
         m_firstNote = -11; m_lastNote = 48;
@@ -291,6 +294,7 @@ bool ToggScale::loadAudioData(int instrument) {
         m_firstNote = -3; m_lastNote = 30;
         m_soundContinuous = true;
         break;
+#endif
       default:
         fileName = Tpath::sound("piano");
         m_firstNote = -23; m_lastNote = 61;
@@ -448,7 +452,7 @@ void ToggScale::adjustSoundTouch() {
         qreal newRate =  44100.0 / static_cast<qreal>(m_sampleRate);
         m_touch->setRate(newRate);
       }
-      qDebug() << "SoundTouch sampleRate" << m_sampleRate << "pitch offset" << m_innerOffset + m_pitchOffset;
+//       qDebug() << "SoundTouch sampleRate" << m_sampleRate << "pitch offset" << m_innerOffset + m_pitchOffset;
       if (!m_touchConnected)
         connect(m_thread, &QThread::started, this, &ToggScale::decodeAndResample);
       m_touchConnected = true;
