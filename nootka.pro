@@ -20,11 +20,11 @@ CONFIG += ordered
 src.depends = src/libs/core
 sound.depends = src/libs/core
 
-#levels.path= /assets/levels
-#levels.files += $$files(levels/*.nel)
-#guitarLevels.path= /assets/levels/guitar
-#guitarLevels.files += $$files(levels/guitar/*.nel)
-#pianoLevels.path= /assets/levels/piano
-#pianoLevels.files += $$files(levels/piano/*.nel)
+levels.path= /assets/levels
+levels.files += $$files(levels/*.nel)
+guitarLevels.path= /assets/levels/guitar
+guitarLevels.files += $$files(levels/guitar/*.nel)
+pianoLevels.path= /assets/levels/piano
+pianoLevels.files += $$files(levels/piano/*.nel)
 
-#INSTALLS += levels guitarLevels pianoLevels
+INSTALLS += levels guitarLevels pianoLevels
