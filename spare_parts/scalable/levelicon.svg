@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
    xmlns:cc="http://creativecommons.org/ns#"
@@ -14,7 +12,7 @@
    height="512"
    id="svg2"
    version="1.1"
-   inkscape:version="0.92.4 5da689c313, 2019-01-14"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07, custom)"
    sodipodi:docname="levelicon.svg"
    inkscape:export-filename="../../picts//nootka-level.png"
    inkscape:export-xdpi="48"
@@ -1450,8 +1448,8 @@
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1600"
-     inkscape:window-height="1163"
+     inkscape:window-width="2560"
+     inkscape:window-height="1403"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
@@ -1462,7 +1460,8 @@
      showguides="true"
      inkscape:guide-bbox="true"
      objecttolerance="6"
-     guidetolerance="1" />
+     guidetolerance="1"
+     inkscape:document-rotation="0" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -1573,7 +1572,7 @@
          style="fill:currentColor;stroke-width:0.03895097" />
     </g>
     <path
-       style="opacity:1;fill:#00a0a0;fill-opacity:1;stroke:none;stroke-width:1.67826223"
+       style="opacity:1;fill:#00c8c8;fill-opacity:1;stroke:none;stroke-width:1.67826223"
        d="m 311.71506,525.6622 c -27.63966,0 -49.89062,22.25098 -49.89062,49.89063 v 373.34765 c 0,27.6396 22.25096,49.89062 49.89062,49.89062 h 379.10157 c 27.63965,0 50.19921,-22.25102 50.19921,-49.89062 V 575.55283 c 0,-27.63965 -22.55956,-49.89063 -50.19921,-49.89063 z m 269.73633,55.8457 h 110.86328 c 3.14787,0 5.68164,3.00817 5.68164,6.74415 v 367.64257 c 0,3.73599 -2.53377,6.74414 -5.68164,6.74414 H 581.45139 c -3.14787,0 -5.68359,-3.00815 -5.68359,-6.74414 V 588.25205 c 0,-3.73598 2.53572,-6.74415 5.68359,-6.74415 z M 439.801,677.93564 h 110.86523 c 3.14788,0 5.68165,3.00816 5.68165,6.74414 v 271.21484 c 0,3.73599 -2.53377,6.74414 -5.68165,6.74414 H 439.801 c -3.14787,0 -5.68164,-3.00815 -5.68164,-6.74414 V 684.67978 c 0,-3.73598 2.53377,-6.74414 5.68164,-6.74414 z M 298.15256,771.50791 H 409.0178 c 3.14788,0 5.68164,3.00816 5.68164,6.74414 v 177.64257 c 0,3.73599 -2.53376,6.74414 -5.68164,6.74414 H 298.15256 c -3.14788,0 -5.68164,-3.00815 -5.68164,-6.74414 V 778.25205 c 0,-3.73598 2.53376,-6.74414 5.68164,-6.74414 z"
        id="rect5537"
        inkscape:connector-curvature="0" />
