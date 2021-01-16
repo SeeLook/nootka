@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -9,7 +9,7 @@ import "../"
 
 
 Tflickable {
-  contentHeight: examCol.height
+  contentHeight: examCol.height + Noo.fontSize() * 2
   contentWidth: width
 
   property int mode: 0 // 0 - settings, 1 - exam, 2 - exercise
@@ -24,7 +24,7 @@ Tflickable {
       anchors.horizontalCenter: parent.horizontalCenter
       Column {
         width: parent.width
-        spacing: Noo.fontSize() / 2
+        spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
         Tile {
           visible: mode === 0
           description: qsTr("Default name for every new exam or exercise.")
@@ -110,7 +110,7 @@ Tflickable {
       anchors.horizontalCenter: parent.horizontalCenter
       Column {
         width: parent.width
-        spacing: Noo.fontSize()
+        spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
         Text { text: Noo.TR("TexamHelp", "Exercises"); color: activPal.text; font.bold: true }
         Tile {
           TcheckBox {
@@ -146,13 +146,14 @@ Tflickable {
         }
       }
     }
+
     Tframe { // Exam frame
       visible: mode === 0 || mode === 1
       width: parent.width * 0.98
       anchors.horizontalCenter: parent.horizontalCenter
       Column {
         width: parent.width
-        spacing: Noo.fontSize()
+        spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
         Text { text: Noo.TR("TexamHelp", "Exams"); color: activPal.text; font.bold: true }
         Tile {
           TcheckBox {
