@@ -147,6 +147,8 @@ int main(int argc, char *argv[])
     auto pal = qApp->palette();
     pal.setColor(QPalette::Active, QPalette::Highlight, QColor(0, 160, 160)); // Teal color of highlight for Android
     pal.setColor(QPalette::Active, QPalette::Shadow, QColor(120, 120, 120)); // Dark gray for shadow
+    pal.setColor(QPalette::Active, QPalette::Window, QColor(250, 250, 250)); // Almost white for windows
+    pal.setColor(QPalette::Active, QPalette::Base, QColor(255, 255, 255)); // White base
     pal.setColor(QPalette::Active, QPalette::Button, QColor(240, 240, 240)); // Very light gray for button
     pal.setColor(QPalette::Active, QPalette::AlternateBase, QColor(245, 255, 255)); // Very light teal for alternate base
     qApp->setPalette(pal);
