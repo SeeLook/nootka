@@ -441,7 +441,6 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
   }
   if (name.size() > 29) {
     name = name.left(29);
-    er = e_levelFixed;
     qDebug() << "[Tlevel] Name of a level was reduced to 29 characters:" << name;
   }
   if (canBeGuitar() && fixFretRange() == e_levelFixed) {

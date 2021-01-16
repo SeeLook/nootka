@@ -2,7 +2,7 @@ This directory contains Nootka exam levels distributed with the application.
 They will be automatically loaded and visible inside Nootka on the level list.
 
 Levels in this directory must have extra translatable tags:
-<nameTR>translate("Levels", "Level name here", "Keep it short, please - 29 characters max")</nameTR>
+<nameTR>translate("Levels", "Level name here")</nameTR>
 <descriptionTR>translate("Levels", "Level description here")</descriptionTR>
 
 Of course <level> tag must have some "name" attribute.
