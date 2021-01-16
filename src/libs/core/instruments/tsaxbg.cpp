@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,7 +22,6 @@
 #include <QtCore/qtimer.h>
 
 #include <QtCore/qdebug.h>
-#include "checktime.h"
 
 
 #define LOWEST_NOTE (11)  // lowest note for saxophone notation is a#/bb in small octave
@@ -73,7 +72,6 @@ TsaxBg::TsaxBg(QQuickItem* parent) :
   m_notesArray[36]  = 2160;       // a#3/bb3      or 2552
   m_notesArray[37]  = 2320;       // b3           or 133656
   m_notesArray[38]  = 2832;       // c3           or 2099378
-
 }
 
 
@@ -85,7 +83,6 @@ TsaxBg::~TsaxBg()
 
 void TsaxBg::setNote(const Tnote& n, quint32 noteDataValue) {
   Q_UNUSED(noteDataValue)
-CHECKTIME (
   bool out = false;
   if (n.isValid()) {
       int ch = n.chromatic();
@@ -109,7 +106,6 @@ CHECKTIME (
       }
   }
   setOutOfScale(out);
-)
 }
 
 
@@ -119,9 +115,7 @@ void TsaxBg::askQuestion(const Tnote& n, quint32 noteDataValue) {
 }
 
 
-
 void TsaxBg::setFlapNumber(int fNr) {
-CHECKTIME (
   quint32 flatPower = qFloor(qPow(2.0, fNr));
   bool flapOn = m_fingeringId & flatPower;
   if (flapOn)
@@ -137,7 +131,6 @@ CHECKTIME (
       break;
     }
   }
-)
 }
 
 
