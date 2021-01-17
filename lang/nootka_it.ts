@@ -298,7 +298,7 @@
     </message>
     <message numerus="yes">
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
-        <translation>
+        <translation type="vanished">
             <numerusform>La melodia è stata suonata &lt;b&gt;%n&lt;/b&gt; volta</numerusform>
             <numerusform>La melodia è stata suonata &lt;b&gt;%n&lt;/b&gt; volte</numerusform>
         </translation>
@@ -623,6 +623,24 @@
     </message>
 </context>
 <context>
+    <name>LevelPreview</name>
+    <message>
+        <source>not selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Levels</name>
+    <message>
+        <source>Simple melodies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play popular, simple melodies on your instrument.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LevelsPage</name>
     <message>
         <source>Start exam</source>
@@ -653,11 +671,11 @@
     </message>
     <message>
         <source>Metronome</source>
-        <translation>Metronomo</translation>
+        <translation type="vanished">Metronomo</translation>
     </message>
     <message>
         <source>exit</source>
-        <translation>esci</translation>
+        <translation type="vanished">esci</translation>
     </message>
 </context>
 <context>
@@ -668,7 +686,7 @@
     </message>
     <message>
         <source>Edit</source>
-        <translation>Modifica</translation>
+        <translation type="vanished">Modifica</translation>
     </message>
 </context>
 <context>
@@ -694,7 +712,12 @@
     <message>
         <source>Add here melodies from Music XML files.
 Consider to divide long pieces on parts in external software first.</source>
-        <translation>Carica qui una melodia da un file &lt;i&gt;Music XML&lt;/i&gt;. Puoi pensare di dividere un brano lungo in più parte con un software esterno.</translation>
+        <translation type="vanished">Carica qui una melodia da un file &lt;i&gt;Music XML&lt;/i&gt;. Puoi pensare di dividere un brano lungo in più parte con un software esterno.</translation>
+    </message>
+    <message>
+        <source>Add here melodies from Music XML files.
+But better keep them short, so divide them first in some external software.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -728,11 +751,11 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Melodies are randomized from defined list of melodies.</source>
-        <translation>Le melodie vengono generata in maniera casuale partendo dalla lista delle melodie.</translation>
+        <translation type="vanished">Le melodie vengono generata in maniera casuale partendo dalla lista delle melodie.</translation>
     </message>
     <message>
         <source>Random melody</source>
-        <translation>Melodia casuale</translation>
+        <translation type="vanished">Melodia casuale</translation>
     </message>
     <message>
         <source>in selected range</source>
@@ -757,6 +780,26 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <source>Play in tempo</source>
         <translation>Suona a tempo</translation>
+    </message>
+    <message>
+        <source>Melodies are selected from the list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>random order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When checked, melodies from the list will be asked in random order.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>How many times during an exam a melody from the list has to be played or written correctly. Warning! It multiplies question number.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>number of repeats</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -831,6 +874,14 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <source>full screen</source>
         <translation>full screen</translation>
+    </message>
+    <message>
+        <source>Touching a screen suspends pitch detection for 1 second but some advanced users may want to disable that.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>suspend mic when screen was touched</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1052,7 +1103,7 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <source>notes</source>
         <comment>musical notes of course</comment>
-        <translation>note</translation>
+        <translation type="vanished">note</translation>
     </message>
 </context>
 <context>
@@ -1273,19 +1324,19 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Helps to properly detect the same notes repeated quickly on the guitar.</source>
-        <translation>Aiuta a riconoscere correttamente la stessa nota quando viene ribattuta velocemente sulla chitarra.</translation>
+        <translation type="vanished">Aiuta a riconoscere correttamente la stessa nota quando viene ribattuta velocemente sulla chitarra.</translation>
     </message>
     <message>
         <source>split when volume rise</source>
-        <translation>dividi quando il volume sale del</translation>
+        <translation type="vanished">dividi quando il volume sale del</translation>
     </message>
     <message>
         <source>Skips stiller sounds, below given percent of average volume. It prevents detecting of harmonics on classical or acoustic guitar but requires playing with similar strength.</source>
-        <translation>Ignora i suoni deboli sotto la percentuale della media del volume. Questa funzione evita di catturare gli armonici sulla chitarra classica o acustica, ma richiede di suonare con la stessa intenzione.</translation>
+        <translation type="vanished">Ignora i suoni deboli sotto la percentuale della media del volume. Questa funzione evita di catturare gli armonici sulla chitarra classica o acustica, ma richiede di suonare con la stessa intenzione.</translation>
     </message>
     <message>
         <source>skip stiller than</source>
-        <translation>evita suoni più deboli di</translation>
+        <translation type="vanished">evita suoni più deboli di</translation>
     </message>
     <message>
         <source>It is rather necessary for mic input but may be switched off for an instrument plugged line-in with less noise.</source>
@@ -1600,26 +1651,26 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Attempts number</source>
-        <translation>Numero di tentativi</translation>
+        <translation type="vanished">Numero di tentativi</translation>
     </message>
     <message>
         <source>Preparation time</source>
-        <translation>Tempo di preparazione</translation>
+        <translation type="vanished">Tempo di preparazione</translation>
     </message>
     <message>
         <source>Played number</source>
-        <translation>Numero di ripetizioni</translation>
+        <translation type="vanished">Numero di ripetizioni</translation>
     </message>
 </context>
 <context>
     <name>TchartTipItem</name>
     <message>
         <source>question</source>
-        <translation>Domanda</translation>
+        <translation type="vanished">Domanda</translation>
     </message>
     <message>
         <source>answer</source>
-        <translation>Risposta</translation>
+        <translation type="vanished">Risposta</translation>
     </message>
     <message numerus="yes">
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
@@ -1645,7 +1696,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>bass dropped</source>
-        <translation>basso ottavato</translation>
+        <translation type="vanished">basso ottavato</translation>
     </message>
     <message>
         <source>alto</source>
@@ -1755,7 +1806,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Enable metronome ticking</source>
-        <translation>Attiva il click del metronomo</translation>
+        <translation type="vanished">Attiva il click del metronomo</translation>
     </message>
     <message>
         <source>Count up</source>
@@ -1763,15 +1814,15 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Tick first, then play</source>
-        <translation>Prima il click, poi suona</translation>
+        <translation type="vanished">Prima il click, poi suona</translation>
     </message>
     <message>
         <source>Tick during play</source>
-        <translation>Click durante la riproduzione</translation>
+        <translation type="vanished">Click durante la riproduzione</translation>
     </message>
     <message>
         <source>Tick when pitch detecting</source>
-        <translation>Click quando vi è il riconoscimento dell&apos;altezza</translation>
+        <translation type="vanished">Click quando vi è il riconoscimento dell&apos;altezza</translation>
     </message>
     <message>
         <source>Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy.</source>
@@ -1842,7 +1893,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Let&apos;s start</source>
-        <translation>Iniziamo!</translation>
+        <translation type="vanished">Iniziamo!</translation>
     </message>
     <message>
         <source>Let&apos;s start!</source>
@@ -2481,6 +2532,14 @@ non è un file di esame valido!</translation>
         <source>Seems like this level has some mistakes</source>
         <translation>Sembra che questo livello abbia  qualche errore</translation>
     </message>
+    <message>
+        <source>&lt;li&gt;There are not enough selected notes to create a melody.&lt;/li&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;li&gt;No melody was added to the list.&lt;/li&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TlevelHeaderWdg</name>
@@ -2513,7 +2572,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>accidentals:</source>
-        <translation>alterazioni:</translation>
+        <translation type="vanished">alterazioni:</translation>
     </message>
     <message>
         <source>none</source>
@@ -3406,7 +3465,7 @@ Controlla se tutto i parametri sono corretti.</translation>
     </message>
     <message>
         <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
-        <translation>Per scaricarla, visita &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;il sito ufficiale di Nootka</translation>
+        <translation type="vanished">Per scaricarla, visita &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;il sito ufficiale di Nootka</translation>
     </message>
     <message>
         <source>News:</source>
@@ -3437,7 +3496,7 @@ Controlla se tutto i parametri sono corretti.</translation>
     </message>
     <message>
         <source>Start/stop pitch detection</source>
-        <translation>Avvia/ferma il riconoscimento delle altezze</translation>
+        <translation type="vanished">Avvia/ferma il riconoscimento delle altezze</translation>
     </message>
 </context>
 <context>

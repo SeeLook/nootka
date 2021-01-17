@@ -852,6 +852,24 @@ jelek</translation>
     </message>
 </context>
 <context>
+    <name>LevelPreview</name>
+    <message>
+        <source>not selected</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Levels</name>
+    <message>
+        <source>Simple melodies</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play popular, simple melodies on your instrument.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>LevelsPage</name>
     <message>
         <source>Start exam</source>
@@ -910,7 +928,7 @@ jelek</translation>
     <name>MelodyListView</name>
     <message>
         <source>Add here melodies from Music XML files.
-Consider to divide long pieces on parts in external software first.</source>
+But better keep them short, so divide them first in some external software.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -944,12 +962,8 @@ Consider to divide long pieces on parts in external software first.</source>
         <translation>A dallamok az alább megadott a hangokból lesznek megkomponálva.</translation>
     </message>
     <message>
-        <source>Melodies are randomized from defined list of melodies.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Random melody</source>
-        <translation>Véletlenszerű dallam</translation>
+        <translation type="vanished">Véletlenszerű dallam</translation>
     </message>
     <message>
         <source>in selected range</source>
@@ -973,6 +987,26 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Play in tempo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Melodies are selected from the list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>random order</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When checked, melodies from the list will be asked in random order.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>How many times during an exam a melody from the list has to be played or written correctly. Warning! It multiplies question number.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>number of repeats</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1047,6 +1081,14 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>full screen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Touching a screen suspends pitch detection for 1 second but some advanced users may want to disable that.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>suspend mic when screen was touched</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1599,11 +1641,11 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>split when volume rise</source>
-        <translation>kettéosztás, ha egy hang hangosabb lesz</translation>
+        <translation type="vanished">kettéosztás, ha egy hang hangosabb lesz</translation>
     </message>
     <message>
         <source>skip stiller than</source>
-        <translation>kihagyás, ami csendesebb, mint</translation>
+        <translation type="vanished">kihagyás, ami csendesebb, mint</translation>
     </message>
     <message>
         <source>noise filter</source>
@@ -1619,11 +1661,11 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>Helps to properly detect the same notes repeated quickly on the guitar.</source>
-        <translation>Gitáron gyorsan ismétlődő hangok érzékelésében nyújt segítséget.</translation>
+        <translation type="vanished">Gitáron gyorsan ismétlődő hangok érzékelésében nyújt segítséget.</translation>
     </message>
     <message>
         <source>Skips stiller sounds, below given percent of average volume. It prevents detecting of harmonics on classical or acoustic guitar but requires playing with similar strength.</source>
-        <translation>Az átlag hangerőnél megadott százalékkal halkabb hangokat figyelmen kívül hagyja. Meggátolja a harmonikus hangok hibás érzékelését klasszikus vagy akusztikus gitáron, de nagyjából egyenletes pengetést igényel a helyes működéshez.</translation>
+        <translation type="vanished">Az átlag hangerőnél megadott százalékkal halkabb hangokat figyelmen kívül hagyja. Meggátolja a harmonikus hangok hibás érzékelését klasszikus vagy akusztikus gitáron, de nagyjából egyenletes pengetést igényel a helyes működéshez.</translation>
     </message>
     <message>
         <source>It is rather necessary for mic input but may be switched off for instrument line-in plugged with less noise.</source>
@@ -3104,6 +3146,14 @@ Consider to divide long pieces on parts in external software first.</source>
         <source>Seems like this level has some mistakes</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&lt;li&gt;There are not enough selected notes to create a melody.&lt;/li&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;li&gt;No melody was added to the list.&lt;/li&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TlevelHeaderWdg</name>
@@ -3144,7 +3194,7 @@ Consider to divide long pieces on parts in external software first.</source>
     </message>
     <message>
         <source>accidentals:</source>
-        <translation>módosító jelzők:</translation>
+        <translation type="vanished">módosító jelzők:</translation>
     </message>
     <message>
         <source>none</source>
