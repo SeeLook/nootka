@@ -7,11 +7,13 @@
 
 ============================================================================
 ### Bugs to fix:
+  - 'out of instrument' message for sax doesn't fit a size
   - Exams: For non guitars single note question "give name of:" has nothing more
   - certificate for i.e. piano has strange size - probably font size/DPI scaling related issue
   - for melody set level selection accidentals to use makes no sense
   - do not allow selecting rests to start playing from them
   - jump to first tied note when playing position is changed
+  - playing with metronome doesn't work under Android
 
 ### To test:
   - melodies with ties and multiple rests (either playing or writing)
@@ -21,15 +23,14 @@
   - levels with melodies to be played and written in one
 
 ### For incoming stable release version 2.0
-  - Fix editing score under Android
   - Default font size - initial value is taken wrongly, so probably all adjustments have to be reviewed
   - (Settings) When tuning changes clef, set it for global and vice versa - change tuning clef when score one changes
   - level creator:
      - fix storing melody list in temporary/edited level - use that level list instead of creating pointers
-  - make difference between background color of *.nel *.noo icons - to better distinguish them
   - add more levels, in separate files, distributed with the installers
   - "Got It!" clues in some crucial parts: Android quick menu, pitch detection and so on
-  - exam summary - give more valuable info, wear it nicely
+  - add info that reading grand staff from musicxml created out of Nootka is not supported
+  - exam summary - give more valuable info, display it nicely
   - charts - show preview of entire melody, chart tip is not suitable for it
   - migrate on preferred 48000 sample rate (ogg files and audio methods). DO NOT forget to resize output samples length
 

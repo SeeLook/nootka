@@ -1,4 +1,4 @@
-1.7.3 git
+1.7.3 beta3
      - new way of detecting note/rest duration (rhythms)
      - managing rests and ties in exam melodies
      - exam melodies from melody set can be played in order

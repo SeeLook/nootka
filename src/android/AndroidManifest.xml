@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <manifest package="net.sf.nootka"
           xmlns:android="http://schemas.android.com/apk/res/android"
-          android:versionName="1.7.2-beta2"
+          android:versionName="1.7.3-beta3"
           android:versionCode="45"
           android:installLocation="auto">
     <application android:hardwareAccelerated="true"
