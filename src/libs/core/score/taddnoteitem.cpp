@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -140,8 +140,7 @@ void TaddNoteItem::mouseMoveEvent(QMouseEvent* event) {
 
 void TaddNoteItem::addNote() {
   Tnote n = m_scoreObject->posToNote(m_yPos);
-  if (m_scoreObject->isPianoStaff() && m_yPos > m_scoreObject->upperLine() + 13.0)
-    n.setOnUpperStaff(false);
+  n.setOnUpperStaff(!(m_scoreObject->isPianoStaff() && m_yPos > m_scoreObject->upperLine() + 13.0));
   m_scoreObject->addNote(n, true);
   if (m_scoreObject->recordMode())
     m_scoreObject->setSelectedItem(nullptr);

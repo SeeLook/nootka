@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -140,13 +140,13 @@ void Tmelody::toXml(QXmlStreamWriter& xml, int trans) {
         xml.writeEndElement(); // direction
       }
       int staffNr_1 = 1, staffNr_2 = 2;
-      int *staffPtr = 0;
+      int *staffPtr = nullptr;
       for (int n = 0; n < meas.conunt(); ++n) {
         if (m_clef == Tclef::PianoStaffClefs) {
-          if (meas.note(n).p().chromatic() > 12)
-            staffPtr = & staffNr_1;
+          if (meas.note(n).p().onUpperStaff())
+            staffPtr = &staffNr_1;
           else
-            staffPtr = & staffNr_2;
+            staffPtr = &staffNr_2;
         }
         meas.note(n).toXml(xml, staffPtr);
       }
@@ -230,6 +230,8 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
                 // Nootka is not able to import from grand staff of real score (XML)
                 // and above condition avoids it, but allows to import piano staves created by Nootka itself
 
+                if (m_clef == Tclef::PianoStaffClefs && !ch.p().isRest())
+                  ch.p().setOnUpperStaff(staffNr < 2);
                 if (prevTie > -1) {
                   // check and fix tie, Nootka supports them only between the same notes
                   // scoring app may set tie between different ones, but seems like in such case there is no 'stop' tag used (musescore)
