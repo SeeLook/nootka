@@ -1,3 +1,3 @@
 
-#define NOOTKA_VERSION "1.7.3-beta3"
+#define NOOTKA_VERSION "1.7.4-git"
 
