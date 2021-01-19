@@ -544,6 +544,12 @@ void Tglobals::loadSettings(QSettings* cfg) {
 // Initialize name filter
   TnameStyleFilter::setStyleFilter(&S->seventhIs_B, &S->solfegeStyle);
   Tnote::defaultStyle = S->nameStyleInNoteName;
+// verify key name style - does it match with 7th note name
+  auto tmpKeyStyle = S->nameStyleInKeySign;
+  S->nameStyleInKeySign = TnameStyleFilter::get(S->nameStyleInKeySign);
+  if (tmpKeyStyle != S->nameStyleInKeySign)
+    qDebug() << "[Tglobals] Name style in key signatures" << tmpKeyStyle
+             << "didn't match with 7th note name. Fixed to" << S->nameStyleInKeySign;
 
 // guitar settings
   Ttune::prepareDefinedTunes();
