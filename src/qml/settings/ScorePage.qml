@@ -142,7 +142,7 @@ Column {
                   horizontalItemAlignment: Grid.AlignHCenter
                   NameStyleSelector {
                     id: keyNameStyleSel
-                    seventhIsB: GLOB.seventhIsB
+                    seventhIsB: is7BSelector.is7B
                   }
                   Column {
                     Text {
@@ -291,6 +291,12 @@ Column {
       GLOB.enableDoubleAccids = doubleAccidsChB.checked
       GLOB.noteCursorColor = pointerColorButt.color
       GLOB.keySignatureEnabled = enableKeyChB.checked
+      GLOB.scientificOctaves = scientificRadio.checked
+      GLOB.noteNameStyle = nameStyleSel.style
+      GLOB.seventhIsB = is7BSelector.is7B
+      GLOB.namesOnScore = namesOnScoreChB.checked
+      GLOB.nameColor = nameColorButt.color
+      GLOB.clefType = clefs.selClef
       if (GLOB.keySignatureEnabled) {
         GLOB.showKeyName = showKeyNamesChB.checked
         if (GLOB.showKeyName) {
@@ -300,12 +306,6 @@ Column {
           GLOB.updateKeySignatureNames()
         }
       }
-      GLOB.scientificOctaves = scientificRadio.checked
-      GLOB.noteNameStyle = nameStyleSel.style
-      GLOB.seventhIsB = is7BSelector.is7B
-      GLOB.namesOnScore = namesOnScoreChB.checked
-      GLOB.nameColor = nameColorButt.color
-      GLOB.clefType = clefs.selClef
     }
 
     function defaults() {

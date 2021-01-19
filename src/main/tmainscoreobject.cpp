@@ -150,6 +150,10 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
     if (GLOB->keySignatureEnabled() && GLOB->showKeyName() && !GLOB->isExam())
       emit keyNameTextChanged();
   });
+  connect(GLOB, &Tglobals::keyNameChanged, this, [=]{
+    if (GLOB->keySignatureEnabled() && GLOB->showKeyName() && !GLOB->isExam())
+      emit keyNameTextChanged();
+  });
   connect(m_scoreObj->clearScoreAct(), &Taction::triggered, this, [=]{
     if (!m_scoreObj->singleNote() && !GLOB->isExam())
       SOUND->stopPlaying();

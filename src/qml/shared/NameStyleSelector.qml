@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -19,17 +19,31 @@ Item {
   antialiasing: true
 
   ButtonGroup {
-    id: styleRadios
+    id: styleGr
     buttons: styleColumn.children
     onClicked: style = button.style
   }
 
   onStyleChanged: {
     for (var b = 0; b < 6; ++b) {
-      if (styleRadios.buttons[b].style == style) {
-        styleRadios.buttons[b].checked = true;
+      if (styleGr.buttons[b].style == style) {
+        styleGr.buttons[b].checked = true;
         break;
       }
+    }
+  }
+
+  onSeventhIsBChanged: {
+    if (seventhIsB) {
+        if (styleGr.buttons[0].checked)
+          root.style = Nootka.English_Bb
+        else if (styleGr.buttons[1].checked)
+          root.style = Nootka.Nederl_Bis
+    } else {
+        if (styleGr.buttons[3].checked)
+          root.style = Nootka.Norsk_Hb
+        else if (styleGr.buttons[4].checked)
+          root.style = Nootka.Deutsch_His
     }
   }
 
@@ -48,13 +62,11 @@ Item {
           default property int style: Nootka.Norsk_Hb
           text: qsTr("Scandinavian") + " (C, C#, Db ... Hb, H)"
           visible: !seventhIsB
-          onVisibleChanged: if (!visible && checked) root.style = Nootka.English_Bb // fix when that name style is not supported when 7th is H
         }
         TradioButton { // 1
           default property int style: Nootka.Deutsch_His
           text: qsTr("German") + " (C, Cis, Des ... B, H)"
           visible: !seventhIsB
-          onVisibleChanged: if (!visible && checked) root.style = Nootka.Nederl_Bis
         }
         TradioButton { // 2
           default property int style: Nootka.Italiano_Si
@@ -64,13 +76,11 @@ Item {
           default property int style: Nootka.English_Bb
           text: qsTr("English") + " (C, C#, Db ... Bb, B)"
           visible: seventhIsB
-          onVisibleChanged: if (!visible && checked) root.style = Nootka.Norsk_Hb
         }
         TradioButton { // 4
           default property int style: Nootka.Nederl_Bis
           text: qsTr("Dutch") + " (C, Cis, Des ... Bes, B)"
           visible: seventhIsB
-          onVisibleChanged: if (!visible && checked) root.style = Nootka.Deutsch_His
         }
         TradioButton { // 5
           default property int style: Nootka.Russian_Ci
