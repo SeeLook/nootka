@@ -104,7 +104,12 @@ TnootkaQML::~TnootkaQML()
 //###################       INVOKABLE METHODS          ############################################
 //#################################################################################################
 
-QString TnootkaQML::version() { return NOOTKA_VERSION; }
+QString TnootkaQML::version() {
+  if (qApp->arguments().last().contains(QLatin1String("--no-version")))
+    return QString();
+  else
+    return NOOTKA_VERSION;
+}
 
 
 Tclef TnootkaQML::clef(int type) {

@@ -217,6 +217,15 @@ int main(int argc, char *argv[])
 
     e->load(QUrl(QStringLiteral("qrc:/MainWindow.qml")));
 
+    if (firstLoop && !wasFirstRun) {
+#if defined (Q_OS_ANDROID)
+      qDebug() << "NOOTKA LAUNCH TIME" << startElapsed.nsecsElapsed() / 1000000.0 << " [ms]";
+#else
+      QTextStream o(stdout);
+      o << "\033[01;35m Nootka launch time: " << startElapsed.nsecsElapsed() / 1000000.0 << " [ms]\033[01;00m\n";
+#endif
+    }
+
     if (firstLoop) {
 #if defined (Q_OS_ANDROID)
      QString androidArg = Tandroid::getRunArgument();
@@ -232,14 +241,7 @@ int main(int argc, char *argv[])
       }
 #endif
     }
-    if (firstLoop && !wasFirstRun) {
-#if defined (Q_OS_ANDROID)
-      qDebug() << "NOOTKA LAUNCH TIME" << startElapsed.nsecsElapsed() / 1000000.0 << " [ms]";
-#else
-      QTextStream o(stdout);
-      o << "\033[01;35m Nootka launch time: " << startElapsed.nsecsElapsed() / 1000000.0 << " [ms]\033[01;00m\n";
-#endif
-    }
+
     sound->init();
 
     if (firstLoop && !wasFirstRun) {
