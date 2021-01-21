@@ -86,16 +86,15 @@ void TsaxBg::setNote(const Tnote& n, quint32 noteDataValue) {
   bool out = false;
   if (n.isValid()) {
       int ch = n.chromatic();
+      out = ch < LOWEST_NOTE || ch > HIGHEST_NOTE;
 //       qDebug() << "setNote" << n.toText() << ch;
       if (!p_note.isValid() || ch != p_note.chromatic()) {
         p_note.setChromatic(ch);
         if (ch >= LOWEST_NOTE && ch <= HIGHEST_NOTE) {
             ch -= LOWEST_NOTE;
             m_fingeringId = m_notesArray[ch];
-        } else {
+        } else
             m_fingeringId = 0;
-            out = true;
-        }
         emit fingeringIdChanged();
       }
   } else {

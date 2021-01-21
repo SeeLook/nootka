@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -65,7 +65,7 @@ TsaxBg {
   SaxFlap { nr: 21; x: xAxis - width * 1.5; y: parent.height * 0.75; width: parent.height / 18; height: width / 2; rotation: 30 }
   SaxFlap { nr: 22; x: xAxis - width * 1.5; y: parent.height * 0.78; width: parent.height / 18; height: width / 2; rotation: 30 }
 
-  OutScaleTip { visible: !active && outOfScale; width: parent.width * 0.9 }
+  OutScaleTip { show: !active && outOfScale; width: parent.width * 0.9 }
 
   TextEdit {
     anchors.top: parent.top; anchors.horizontalCenter: parent.horizontalCenter

@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -8,19 +8,26 @@ import "../"
 
 
 TipRect {
-  width: visible ? parent.width / 4 : 0; height: Noo.fontSize() * (2 + txt.lineCount * 1.5)
-  x: (parent.width - width) / 2
-  y: visible ? (parent.height - height) / 2 : parent.height
+  property bool show: false
+
+  scale: show ? 1 : 0
+  width: parent.width / 4; height: Noo.fontSize() * (2 + txt.lineCount * 1.5)
+  anchors.centerIn: parent
   z: 100
-  color: Qt.tint("red", Noo.alpha(activPal.base, 80))
+  color: Qt.tint("red", Noo.alpha(activPal.base, 70))
   shadowRadius: Noo.fontSize()
+
+  Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
+
   Text {
     id: txt
-    width: parent.width * 0.9
     anchors.centerIn: parent
+    width: parent.width * 0.9
+    horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
     text: qsTr("Out of instrument scale!")
     font.pixelSize: Noo.fontSize() * 1.5
     wrapMode: Text.WordWrap
-    horizontalAlignment: Text.AlignHCenter
+    fontSizeMode: Text.Fit; minimumPixelSize: Noo.fontSize() / 2; minimumPointSize: minimumPixelSize
+    elide: Text.ElideRight
   }
 }
