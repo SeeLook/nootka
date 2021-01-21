@@ -7,7 +7,6 @@
 
 ============================================================================
 ### Bugs to fix:
-  - 'out of instrument' message for sax doesn't fit a size
   - Exams: For non guitars single note question "give name of:" has nothing more
   - certificate for i.e. piano has strange size - probably font size/DPI scaling related issue
   - for melody set level selection accidentals to use makes no sense
