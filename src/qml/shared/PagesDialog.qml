@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -33,83 +33,75 @@ Item {
   // private
   property real maxWidth: 0
 
-  Column {
+  // navigation list on the left
+  ListView {
+    id: navList
+    clip: true
     height: parent.height
-    width: navList.width
+    width: maxWidth
+    z: 3 // above stack
+    topMargin: Noo.fontSize() / 2
+    property var pages: []
+    property PaneButton prevButt: null
+    property int prevDelegate: -1
+
+    model: ListModel { id: pageModel }
+
     spacing: Noo.fontSize() / 4
-    z: 3
 
-    // navigation list on the left
-    ListView {
-      id: navList
-      clip: true
-      height: parent.height
-      width: maxWidth
-      z: 3 // above stack
-      topMargin: Noo.fontSize() / 2
-      property var pages: []
-      property PaneButton prevButt: null
-      property int prevDelegate: -1
-
-      model: ListModel { id: pageModel }
-
-      spacing: Noo.fontSize() / 4
-
-      highlightFollowsCurrentItem: false
-      highlight: Component {
-        Rectangle {
-          width: navList.prevButt.width; height: navList.prevButt.height + Noo.fontSize() / 4
-          color: activPal.highlight
-          y: navList.prevButt.y - Noo.fontSize() / 4
-          Behavior on y { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.1 }}
-        }
+    highlightFollowsCurrentItem: false
+    highlight: Component {
+      Rectangle {
+        width: navList.prevButt.width; height: navList.prevButt.height + Noo.fontSize() / 4
+        color: activPal.highlight
+        y: navList.prevButt.y - Noo.fontSize() / 4
+        Behavior on y { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.1 }}
       }
-
-      delegate: Component {
-        PaneButton {
-          id: delegateButt
-          name: buttonText
-          pixmap: Noo.pix(iconName)
-          onClicked: {
-            if (navList.prevButt !== delegateButt) {
-              if (typeof(navList.pages[index]) === "string") {
-                var c = Qt.createComponent(navList.pages[index])
-                navList.pages[index] = c.createObject(stack)
-              }
-              navList.pages[index] = stack.replace(navList.pages[index])
-              navList.ensureVisible(y, height)
-              navList.prevButt = delegateButt
-            }
-          }
-          Component.onCompleted: {
-            if (index === navList.prevDelegate) // workaround to avoid loading delegate twice
-              return
-            navList.prevDelegate = index
-            maxWidth = Math.max(navList.width, width)
-            buttons.push(delegateButt)
-            for (var i = 0; i < buttons.length; ++i) // keep buttons width the same
-              buttons[i].width = maxWidth
-            if (index === 0) {
-              navList.prevButt = delegateButt
-              var c = Qt.createComponent(navList.pages[0])
-              navList.pages[0] = stack.push(c.createObject(stack))
-            }
-          }
-        }
-      }
-
-      ScrollBar.vertical: ScrollBar { active: false }
-
-      function ensureVisible(yy, hh) {
-        if (contentY >= yy)
-          contentY = yy
-        else if (contentY + height <= yy + hh)
-          contentY = yy + hh - height
-      }
-
-      Behavior on contentY { enabled: GLOB.useAnimations; NumberAnimation { duration: 300; easing.type: Easing.OutBounce }}
     }
 
+    delegate: Component {
+      PaneButton {
+        id: delegateButt
+        name: buttonText
+        pixmap: Noo.pix(iconName)
+        onClicked: {
+          if (navList.prevButt !== delegateButt) {
+            if (typeof(navList.pages[index]) === "string") {
+              var c = Qt.createComponent(navList.pages[index])
+              navList.pages[index] = c.createObject(stack)
+            }
+            navList.pages[index] = stack.replace(navList.pages[index])
+            navList.ensureVisible(y, height)
+            navList.prevButt = delegateButt
+          }
+        }
+        Component.onCompleted: {
+          if (index === navList.prevDelegate) // workaround to avoid loading delegate twice
+            return
+          navList.prevDelegate = index
+          maxWidth = Math.max(navList.width, width)
+          buttons.push(delegateButt)
+          for (var i = 0; i < buttons.length; ++i) // keep buttons width the same
+            buttons[i].width = maxWidth
+          if (index === 0) {
+            navList.prevButt = delegateButt
+            var c = Qt.createComponent(navList.pages[0])
+            navList.pages[0] = stack.push(c.createObject(stack))
+          }
+        }
+      }
+    }
+
+    ScrollBar.vertical: ScrollBar { active: false }
+
+    function ensureVisible(yy, hh) {
+      if (contentY >= yy)
+        contentY = yy
+      else if (contentY + height <= yy + hh)
+        contentY = yy + hh - height
+    }
+
+    Behavior on contentY { enabled: GLOB.useAnimations; NumberAnimation { duration: 300; easing.type: Easing.OutBounce }}
   }
 
   // pages container on the right
