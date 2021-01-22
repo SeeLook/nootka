@@ -38,15 +38,15 @@ Tflickable {
 
     ListModel {
       id: trModel
-      ListElement { flag:"cs"; lang: "český";       trr: "Pavel Fric";      web: "<a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>" }
-      ListElement { flag:"de"; lang: "deutsch";     trr: "Johann C. Weihe,<br>Renato Reinau"; web: "" }
-      ListElement { flag:"es"; lang: "español";     trr: "José Luis Marín"; web: "<a href=\"mailto:jsls@gmx.com\">jsls@gmx.com</a>" }
-      ListElement { flag:"fr"; lang: "français";    trr: "Olivier Devineau,<br>Jean-Marc Lartigue"; web: "" }
-      ListElement { flag:"hu"; lang: "magyar";      trr: "Gábor Kertész";   web: "<a href=\"mailto:kergab@gmail.com\">kergab@gmail.com</a>"  }
-      ListElement { flag:"it"; lang: "italiano";    trr: "Gianluca 'Kununna' Fiorentino"; web: "" }
+      ListElement { flag:"cs"; lang: "Český";       trr: "Pavel Fric";      web: "<a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>" }
+      ListElement { flag:"de"; lang: "Deutsch";     trr: "Johann C. Weihe,<br>Renato Reinau"; web: "" }
+      ListElement { flag:"es"; lang: "Español";     trr: "José Luis Marín"; web: "<a href=\"mailto:jsls@gmx.com\">jsls@gmx.com</a>" }
+      ListElement { flag:"fr"; lang: "Français";    trr: "Olivier Devineau,<br>Jean-Marc Lartigue"; web: "" }
+      ListElement { flag:"hu"; lang: "Magyar";      trr: "Gábor Kertész";   web: "<a href=\"mailto:kergab@gmail.com\">kergab@gmail.com</a>"  }
+      ListElement { flag:"it"; lang: "Italiano";    trr: "Gianluca 'Kununna' Fiorentino"; web: "" }
       ListElement { flag:"pl"; lang: "polski";      trr: "Tomasz Bojczuk";  web: "<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>" }
-      ListElement { flag:"ru"; lang: "русский";     trr: "Sergei Ivanov (tico-tico),<br>Timur Artykov"; web: "" }
-      ListElement { flag:"sl"; lang: "slovenščina"; trr: "Grega Trček";     web: "" }
+      ListElement { flag:"ru"; lang: "Русский";     trr: "Sergei Ivanov (tico-tico),<br>Timur Artykov"; web: "" }
+      ListElement { flag:"sl"; lang: "Slovenščina"; trr: "Grega Trček";     web: "" }
     }
 
     Column {

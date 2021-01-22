@@ -26,16 +26,16 @@ Tflickable {
       ListModel {
         id: langModel
         ListElement { flag: "default";  lang: QT_TR_NOOP("default") }
-        ListElement { flag:"cs"; lang: "český" }
-        ListElement { flag:"de"; lang: "deutsch" }
-        ListElement { flag:"en"; lang: "english" }
-        ListElement { flag:"es"; lang: "español" }
-        ListElement { flag:"fr"; lang: "français" }
-        ListElement { flag:"hu"; lang: "magyar" }
-        ListElement { flag:"it"; lang: "italiano" }
+        ListElement { flag:"cs"; lang: "Český" }
+        ListElement { flag:"de"; lang: "Deutsch" }
+        ListElement { flag:"en"; lang: "English" }
+        ListElement { flag:"es"; lang: "Español" }
+        ListElement { flag:"fr"; lang: "Français" }
+        ListElement { flag:"hu"; lang: "Magyar" }
+        ListElement { flag:"it"; lang: "Italiano" }
         ListElement { flag:"pl"; lang: "polski" }
-        ListElement { flag:"ru"; lang: "русский" }
-        ListElement { flag:"sl"; lang: "slovenščina" }
+        ListElement { flag:"ru"; lang: "Русский" }
+        ListElement { flag:"sl"; lang: "Slovenščina" }
       }
 
       Tumbler {
