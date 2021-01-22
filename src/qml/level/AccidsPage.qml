@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -14,7 +14,7 @@ Tflickable {
   contentWidth: Math.max(width, Noo.fontSize() * 40)
 
   Grid {
-    columns:  parent.width > Noo.fontSize() * 60 ? 2 : 1
+    columns: parent.width > Noo.fontSize() * 60 ? 2 : 1
     id: accidsGrid
     width: parent.width
     spacing: Noo.fontSize() / 4
@@ -23,6 +23,7 @@ Tflickable {
 
     Tframe {
       width: accidsGrid.columns === 1 ? Math.max(parent.width * 0.9, dblAccidsChB.width) : parent.width * 0.4
+      enabled: creator.randMelody !== 2 || !creator.isMelody
       Column {
         spacing: Noo.fontSize() / 2
         width: parent.width
@@ -145,6 +146,7 @@ Tflickable {
           description: qsTr("if checked, in exam user have to select a key signature, otherwise it is shown by application.")
         }
         CurrentKeyTile {
+          enabled: creator.randMelody !== 2 || !creator.isMelody
           checked: creator.onlyCurrKey
           checkBox.onClicked: creator.onlyCurrKey = checked
           description: qsTr("Only notes from current key signature are taken. If key signature is disabled accidentals are not used.")

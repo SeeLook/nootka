@@ -9,7 +9,6 @@
 ### Bugs to fix:
   - Exams: For non guitars single note question "give name of:" has nothing more
   - certificate for i.e. piano has strange size - probably font size/DPI scaling related issue
-  - for melody set level selection accidentals to use makes no sense
   - do not allow selecting rests to start playing from them
   - jump to first tied note when playing position is changed
   - playing with metronome doesn't work under Android
