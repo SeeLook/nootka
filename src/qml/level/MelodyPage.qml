@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -25,9 +25,9 @@ Tflickable {
       id: topTile
       width: parent.width * (Noo.isAndroid() ? 0.98 : 1)
       readonly property string keyRangeText: "<br>" + qsTr("They will be transposed if key signatures are set to be used and any of them differs from the key(s) defined below.")
-      property var descList: [ qsTr("Melodies are composed from a note range defined on the 'Range' page."),
+      property var descList: [ qsTr("Melodies are composed from notes in range defined on the 'Range' page."),
                                qsTr("Melodies are composed from notes selected on the score below."),
-                               qsTr("Melodies are selected from the list.") ]
+                               qsTr("Melodies are selected from the list below.") ]
       description: descList[melCombo.currentIndex] + (melCombo.currentIndex > 0 ? keyRangeText : "")
       Row {
         spacing: Noo.fontSize()
@@ -40,7 +40,7 @@ Tflickable {
         TcomboBox {
           id: melCombo
           width: Noo.fontSize() * 20
-          model: [ qsTr("in selected range"), qsTr("from notes below"), qsTr("from the list") ]
+          model: [ qsTr("from notes in range"), qsTr("from selected notes"), qsTr("from set of melodies") ]
           currentIndex: creator.randMelody
           onActivated: creator.randMelody = currentIndex
         }
