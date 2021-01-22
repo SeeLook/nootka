@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2021 by Tomasz Bojczuk                             *
  *   tomaszbojczuk@gmail.com                                               *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -133,15 +133,16 @@ void getExampleLevels(QList<Tlevel>& llist) {
   if (GLOB->loNote().chromatic() <= Tnote(5, 0).chromatic()) {
     // This level makes sense only when lowest note instrument is lowest or equal than g small note
     l = Tlevel();
+    bool onInstr = !GLOB->instrument().isSax() && GLOB->instrument().type() != Tinstrument::NoInstrument;
     l.name = QGuiApplication::translate("Tlevel", "Grand staff");
     l.desc = QGuiApplication::translate("Tlevel", "Guess notes from grand staff in different keys");
     l.clef = Tclef(Tclef::PianoStaffClefs);
     l.instrument = GLOB->instrument().type();
     l.questionAs.setAsSound(false);
-    l.questionAs.setOnInstr(isGuitar);
-    l.answersAs[0] = TQAtype(false, true, isGuitar, false);
+    l.questionAs.setOnInstr(onInstr);
+    l.answersAs[0] = TQAtype(false, true, onInstr, false);
     l.answersAs[1] = TQAtype(true, false, false, false);
-    l.answersAs[2] = TQAtype(isGuitar, false, false, false);
+    l.answersAs[2] = TQAtype(onInstr, false, false, false);
     l.answersAs[3] = TQAtype(false, false, false, false);
     l.withSharps = true;
     l.withFlats = true;
