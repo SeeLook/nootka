@@ -139,7 +139,18 @@ TlevelPreviewItem {
           }
 
           PreviewItem {
+            id: melodyIt
             aboveItem: answersIt
+            textItem.font { family: "Nootka"; pixelSize: Noo.fontSize() * 2 }
+            textItem { width: maxLabelWidth - Noo.fontSize(); horizontalAlignment: Text.AlignHCenter }
+            text: "m"
+            handleWidth: true
+            text2: melodyFrom
+          }
+
+          PreviewItem {
+            id: octaveIt
+            aboveItem: melodyIt
             text: " "
             width: answersIt.width
             text2: requireOctave

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -46,6 +46,7 @@ class TlevelPreviewItem : public QQuickItem
   Q_PROPERTY(QString questions READ questions NOTIFY levelChanged)
   Q_PROPERTY(QString answers READ answers NOTIFY levelChanged)
   Q_PROPERTY(QString requireOctave READ requireOctave NOTIFY levelChanged)
+  Q_PROPERTY(QString melodyFrom READ melodyFrom NOTIFY levelChanged)
 
 public:
   TlevelPreviewItem(QQuickItem* parent = nullptr);
@@ -68,6 +69,7 @@ public:
   QString questions() const { return m_questions; }
   QString answers() const { return m_answers; }
   QString requireOctave() const { return m_requireOctave; }
+  QString melodyFrom() const { return m_melodyFrom; }
 
 signals:
   void levelChanged();
@@ -87,6 +89,7 @@ private:
   QString                   m_questions;
   QString                   m_answers;
   QString                   m_requireOctave;
+  QString                   m_melodyFrom;
 };
 
 #endif // TLEVELPREVIEWITEM_H

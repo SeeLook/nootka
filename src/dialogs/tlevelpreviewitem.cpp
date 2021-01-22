@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -124,6 +124,15 @@ void TlevelPreviewItem::setLevel(Tlevel* tl) {
         m_requireOctave = tl->requireOctave ? tr("proper octave is required") : tr("octave does no matter");
       else
         m_requireOctave.clear();
+      if (tl->canBeMelody()) {
+          if (tl->randMelody == Tlevel::e_randFromRange)
+            m_melodyFrom = qTR("MelodyPage", "from notes in range");
+          else if (tl->randMelody == Tlevel::e_randFromList)
+            m_melodyFrom = qTR("MelodyPage", "from selected notes");
+          else
+            m_melodyFrom = qTR("MelodyPage", "from set of melodies");
+      } else
+          m_melodyFrom.clear();
   } else {
       m_header = getLevelSumary(tr("no level selected"));
       m_instrGlyph = QStringLiteral("?");
