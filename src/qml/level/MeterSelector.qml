@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2018-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -28,7 +28,7 @@ ListView {
   delegate: Component {
     Rectangle {
       width: Noo.fontSize() * 5; height: Noo.fontSize() * 3
-      color: enabled ? (index % 2 ? activPal.alternateBase : activPal.base) : disdPal.base
+      color: enabled ? (index % 2 ? activPal.alternateBase : activPal.base) : Qt.darker(disdPal.window, 1.2)
       property int mask: Math.pow(2, index)
       TcheckBox {
         width: Noo.fontSize() * 5

@@ -23,7 +23,7 @@ TcomboBox {
     selectionColor: activPal.highlight
     background: Rectangle {
       border { width: comboEdit.focus ? 2 : 0; color: activPal.highlight }
-      color: enabled ? activPal.base : disdPal.base
+      color: enabled ? activPal.base : Qt.darker(disdPal.window, 1.2)
       radius: Noo.fontSize() / 3
     }
   }

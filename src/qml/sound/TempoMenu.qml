@@ -37,7 +37,7 @@ Popup {
         id: buTumb
         property int prevIndex: -1
 
-        background: TipRect { color: buTumb.enabled ? activPal.base : disdPal.base; radius: 0 }
+        background: TipRect { color: buTumb.enabled ? activPal.base : Qt.darker(disdPal.window, 1.2); radius: 0 }
         anchors.verticalCenter: parent.verticalCenter
         height: Noo.fontSize() * 6; width: Noo.fontSize() * 2
         model: [ "\ue1d5", "\ue1d7", "\ue1d5 \ue1e7", "\ue1d3" ]

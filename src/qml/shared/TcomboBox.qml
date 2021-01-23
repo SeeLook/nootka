@@ -81,7 +81,8 @@ ComboBox {
 
   background: TipRect {
     id: bg
-    color: cb.enabled ? activPal.button : disdPal.button; radius: 0
+    color: cb.enabled ? activPal.button : Qt.darker(disdPal.window, 1.2)
+    radius: 0
     rised: !cb.pressed
   }
 

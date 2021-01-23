@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2019-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2019-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -30,7 +30,7 @@ SpinBox {
   }
 
   background: Rectangle {
-    color: sb.enabled ? activPal.base : disdPal.base
+    color: sb.enabled ? activPal.base : Qt.darker(disdPal.window, 1.2)
     width: sb.width - sb.height; height: sb.height
     x: sb.height / 2
   }
@@ -38,7 +38,7 @@ SpinBox {
   up.indicator: TipRect {
     x: sb.mirrored ? 0 : sb.width - sb.height
     implicitHeight: sb.height; implicitWidth: sb.height
-    color: sb.enabled ? activPal.button : disdPal.button
+    color: sb.enabled ? activPal.button : Qt.darker(disdPal.window, 1.3)
     rised: !sb.up.pressed
     scale: sb.up.pressed ? 0.9 : 1.0
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
@@ -56,7 +56,7 @@ SpinBox {
   down.indicator: TipRect {
     x: sb.mirrored ? sb.width - sb.height : 0
     implicitHeight: sb.height; implicitWidth: sb.height
-    color: sb.enabled ? activPal.button : disdPal.button
+    color: sb.enabled ? activPal.button : Qt.darker(disdPal.window, 1.3)
     rised: !sb.down.pressed
     scale: sb.down.pressed ? 0.9 : 1.0
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}

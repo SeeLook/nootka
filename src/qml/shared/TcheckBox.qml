@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -17,7 +17,7 @@ CheckBox {
     x: chB.leftPadding; y: (chB.height - height) / 2
     horizontalOffset: rised ? Noo.fontSize() / 8 : 0; verticalOffset: horizontalOffset
     rised: !chB.down
-    color: chB.enabled ? activPal.base : disdPal.base
+    color: chB.enabled ? activPal.base : Qt.darker(disdPal.window, 1.2)
     scale: chB.pressed ? 0.9 : 1.0
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
 

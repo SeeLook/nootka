@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -19,7 +19,7 @@ RadioButton {
     horizontalOffset: rised ? Noo.fontSize() / 8 : 0; verticalOffset: horizontalOffset
     radius: implicitWidth / 2
     rised: !rb.down
-    color: rb.enabled ? activPal.base : disdPal.base
+    color: rb.enabled ? activPal.base : Qt.darker(disdPal.window, 1.2)
     scale: rb.pressed ? 0.8 : (rb.checked ? 0.9 : 1.0)
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
 
