@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2018-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -17,7 +17,7 @@ Tflickable {
   Column {
     id: rtmCol
     width: parent.width; topPadding: Noo.fontSize() / 2; spacing: Noo.fontSize() / 2
-    enabled: creator.randMelody !== 2 && creator.melodyLen > 1
+    enabled: creator.howGetMelody !== 2 && creator.melodyLen > 1
 
     Text {
       text: qsTr("Select any rhythm and time signature to be used in this level, otherwise melodies will not have rhythmic values, just bare note-heads.")

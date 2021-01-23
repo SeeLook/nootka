@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -305,13 +305,13 @@ void TlevelCreatorItem::setEndsOnTonic(bool ends) {
 }
 
 /**
- * Due to Tlevel::ErandMelody enumerator has values 1, 2, 4 (power of 2) we need to convert them to ordered indexes: 0, 1, 2
+ * Due to @p Tlevel::EhowGetMelody enumerator has values 1, 2, 4 (power of 2) we need to convert them to ordered indexes: 0, 1, 2
  */
-int TlevelCreatorItem::randMelody() const { return qRound(qLn(static_cast<qreal>(m_level->randMelody) / qLn(2.0))); }
-void TlevelCreatorItem::setRandMelody(int rand) {
-  auto rCast = static_cast<Tlevel::ErandMelody>(qPow(2.0, static_cast<qreal>(rand)));
-  if (rCast != m_level->randMelody) {
-    m_level->randMelody = rCast;
+int TlevelCreatorItem::howGetMelody() const { return qRound(qLn(static_cast<qreal>(m_level->howGetMelody) / qLn(2.0))); }
+void TlevelCreatorItem::setHowGetMelody(int hgm) {
+  auto rCast = static_cast<Tlevel::EhowGetMelody>(qPow(2.0, static_cast<qreal>(hgm)));
+  if (rCast != m_level->howGetMelody) {
+    m_level->howGetMelody = rCast;
     levelParamChanged();
     emit updateLevel();
   }
@@ -613,9 +613,9 @@ void TlevelCreatorItem::whenLevelChanged() {
   m_answersList.clear();
   m_answersList << m_level->answersAs[0].value() << m_level->answersAs[1].value() << m_level->answersAs[2].value() << m_level->answersAs[3].value();
   emit updateLevel();
-  if (m_level->randMelody == Tlevel::e_randFromList)
+  if (m_level->howGetMelody == Tlevel::e_randFromList)
     emit updateNotesList();
-  else if (m_level->randMelody == Tlevel::e_melodyFromSet)
+  else if (m_level->howGetMelody == Tlevel::e_melodyFromSet)
     emit updateMelodyList();
 }
 
@@ -719,12 +719,12 @@ QStringList TlevelCreatorItem::validateLevel() {
     }
   }
 // Note list is empty
-  if (m_level->canBeMelody() && m_level->randMelody == Tlevel::e_randFromList) {
+  if (m_level->canBeMelody() && m_level->howGetMelody == Tlevel::e_randFromList) {
     if (m_level->notesList.count() < 2)
       res << tr("<li>There are not enough selected notes to create a melody.</li>");
   }
 // When level is set of melodies but no melody was added
-  if (m_level->canBeMelody() && m_level->randMelody == Tlevel::e_melodyFromSet) {
+  if (m_level->canBeMelody() && m_level->howGetMelody == Tlevel::e_melodyFromSet) {
     if (m_level->melodySet.isEmpty())
       res << tr("<li>No melody was added to the list.</li>");
   }

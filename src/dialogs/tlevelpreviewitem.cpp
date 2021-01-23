@@ -62,7 +62,7 @@ void TlevelPreviewItem::setLevel(Tlevel* tl) {
       m_instrument = Tinstrument(tl ? tl->instrument : Tinstrument::NoInstrument).name();
       m_clef = tl->clef.glyphOnStaff();
 
-      if (tl->randMelody == Tlevel::e_randFromRange) // makes sense for single note and melody from range
+      if (tl->howGetMelody == Tlevel::e_randFromRange) // makes sense for single note and melody from range
         m_noteRange = tl->loNote.styledName() + QLatin1String(" - ") + tl->hiNote.styledName();
       else
         m_noteRange.clear();
@@ -125,9 +125,9 @@ void TlevelPreviewItem::setLevel(Tlevel* tl) {
       else
         m_requireOctave.clear();
       if (tl->canBeMelody()) {
-          if (tl->randMelody == Tlevel::e_randFromRange)
+          if (tl->howGetMelody == Tlevel::e_randFromRange)
             m_melodyFrom = qTR("MelodyPage", "from notes in range");
-          else if (tl->randMelody == Tlevel::e_randFromList)
+          else if (tl->howGetMelody == Tlevel::e_randFromList)
             m_melodyFrom = qTR("MelodyPage", "from selected notes");
           else
             m_melodyFrom = qTR("MelodyPage", "from set of melodies");

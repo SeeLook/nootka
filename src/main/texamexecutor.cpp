@@ -176,7 +176,7 @@ bool TexamExecutor::continueInit() {
 
   if (m_exam->melodies()) {
     m_melody = new TexamMelody(this);
-    if (m_level.randMelody == Tlevel::e_melodyFromSet && !m_level.randOrderInSet) {
+    if (m_level.howGetMelody == Tlevel::e_melodyFromSet && !m_level.randOrderInSet) {
       // Determine id of melody in the set and initialize appropriate variables
       auto lastQ = m_exam->count() ? CURR_Q : nullptr;
       if (lastQ) { // exam is continued, so find latest melody id and how many times it was asked already
@@ -333,12 +333,12 @@ void TexamExecutor::askQuestion(bool isAttempt) {
               melodyLength = rhythms.count();
             }
           }
-          if (m_level.randMelody == Tlevel::e_randFromList) {
+          if (m_level.howGetMelody == Tlevel::e_randFromList) {
               QList<TQAgroup> qaList;
               m_supp->listForRandomNotes(curQ->key, qaList);
               // ignore in key (4th param) of level, notes from list are already in key (if required)
               getRandomMelodyNG(qaList, curQ->melody(), melodyLength, false, false);
-          } else if (m_level.randMelody == Tlevel::e_melodyFromSet) {
+          } else if (m_level.howGetMelody == Tlevel::e_melodyFromSet) {
             // Randomize melody number or get it in order of the melody set
               int melodyId = m_melody->lastMelodyId();
               if (m_level.randOrderInSet) {

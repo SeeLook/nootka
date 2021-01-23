@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -55,9 +55,9 @@ public:
       /**
        * Describes how to generate melody
        */
-  enum ErandMelody : quint8 {
-      e_randFromRange = 1, /**< melody is composed from notes in level range  */
-      e_randFromList = 2,  /**< melody is composed from list of notes (@p notesList) */
+  enum EhowGetMelody : quint8 {
+      e_randFromRange = 1, /**< melody is composed from random notes in level range  */
+      e_randFromList = 2,  /**< melody is composed from list of selected notes (@p notesList) */
       e_melodyFromSet = 4  /**< melody from set of melodies (either randomized or asked in the list order). (@p melodySet) */
   };
 
@@ -130,10 +130,10 @@ public:
   quint16            melodyLen; /**< Notes count in a melody */
   bool               endsOnTonic;
   bool               requireInTempo;
-  ErandMelody        randMelody; /**< How melody is composed (from range, from notes list or from set of melodies) */
+  EhowGetMelody      howGetMelody; /**< How melody is composed (from range, from notes list or from set of melodies) */
   QList<Tnote>       notesList; /**< List with notes from which melody is composed */
   TkeySignature      keyOfrandList; /**< Key signature of note list for composing random melodies */
-  QList<Tmelody>     melodySet; /**< List of defined melodies when @p randMelody is @p e_melodyFromSet */
+  QList<Tmelody>     melodySet; /**< List of defined melodies when @p howGetMelody is @p e_melodyFromSet */
   bool               randOrderInSet; /**< order of melodies in the set, @p TRUE means random */
   quint8             repeatNrInSet; /**< How many times a question is repeated with a melody */
 // RHYTHMS
@@ -207,7 +207,7 @@ public:
       /**
        * @p TRUE when the level is set of melodies
        */
-  bool isMelodySet() const { return randMelody == e_melodyFromSet && !melodySet.isEmpty(); }
+  bool isMelodySet() const { return howGetMelody == e_melodyFromSet && !melodySet.isEmpty(); }
 
       /**
        * @p TRUE  when level note range is in given number range represented scale of instrument.

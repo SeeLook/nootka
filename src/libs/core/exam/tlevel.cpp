@@ -141,7 +141,7 @@ Tlevel::Tlevel() :
   melodyLen = 1;
   endsOnTonic = true;
   requireInTempo = true;
-  randMelody = e_randFromRange;
+  howGetMelody = e_randFromRange;
   randOrderInSet = true;
   repeatNrInSet = 1;
   //   notesList is clean here
@@ -331,7 +331,7 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
           else if (xml.name() == QLatin1String("requireInTempo"))
               requireInTempo = QVariant(xml.readElementText()).toBool();
           else if (xml.name() == QLatin1String("randType"))
-              randMelody = static_cast<ErandMelody>(xml.readElementText().toInt());
+              howGetMelody = static_cast<EhowGetMelody>(xml.readElementText().toInt());
           else if (xml.name() == QLatin1String("keyOfrandList")) {
               xml.readNextStartElement();
               keyOfrandList.fromXml(xml);
@@ -459,17 +459,17 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
       qDebug() << "[Tlevel] Lowest note in the range was higher than the highest one. Fixed";
   }
   if (notesList.isEmpty()) {
-      if (randMelody == e_randFromList) {
+      if (howGetMelody == e_randFromList) {
         qDebug() << "[Tlevel] list of notes is empty but e_randFromList is set";
-        randMelody = e_randFromRange;
+        howGetMelody = e_randFromRange;
       }
   } else {
-      if (randMelody == e_randFromRange) {
+      if (howGetMelody == e_randFromRange) {
         qDebug() << "[Tlevel] has list of notes but e_randFromRange is set. List will be cleaned";
         notesList.clear();
       }
   }
-  if (randMelody == e_melodyFromSet) {
+  if (howGetMelody == e_melodyFromSet) {
       if (melodySet.isEmpty()) {
         qDebug() << "[Tlevel] is melody set but list of melodies is empty. Level corrupted!!!";
         er = e_otherError;
@@ -533,9 +533,9 @@ void Tlevel::writeToXml(QXmlStreamWriter& xml) {
       xml.writeTextElement(QLatin1String("melodyLength"), QVariant(melodyLen).toString());
       xml.writeTextElement(QLatin1String("endsOnTonic"), QVariant(endsOnTonic).toString());
       xml.writeTextElement(QLatin1String("requireInTempo"), QVariant(requireInTempo).toString());
-      if (randMelody != e_randFromRange) { // write it only when needed
-        xml.writeTextElement(QLatin1String("randType"), QVariant(static_cast<quint8>(randMelody)).toString());
-        if (randMelody == e_randFromList) {
+      if (howGetMelody != e_randFromRange) { // write it only when needed
+        xml.writeTextElement(QLatin1String("randType"), QVariant(static_cast<quint8>(howGetMelody)).toString());
+        if (howGetMelody == e_randFromList) {
             xml.writeStartElement(QLatin1String("keyOfrandList"));
               keyOfrandList.toXml(xml);
             xml.writeEndElement(); // keyOfrandList
@@ -543,7 +543,7 @@ void Tlevel::writeToXml(QXmlStreamWriter& xml) {
             for (int n = 0; n < notesList.count(); ++n)
               notesList[n].toXml(xml, QLatin1String("n")); // XML note wrapped into <n> tag
             xml.writeEndElement(); // noteList
-        } else if (randMelody == e_melodyFromSet) {
+        } else if (howGetMelody == e_melodyFromSet) {
             xml.writeTextElement(QLatin1String("randOrderInSet"), QVariant(randOrderInSet).toString());
             xml.writeTextElement(QLatin1String("repeatNrInSet"), QVariant(repeatNrInSet).toString());
             for (int m = 0; m < melodySet.count(); ++m) {

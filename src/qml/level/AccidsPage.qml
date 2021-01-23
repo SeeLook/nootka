@@ -23,7 +23,7 @@ Tflickable {
 
     Tframe {
       width: accidsGrid.columns === 1 ? Math.max(parent.width * 0.9, dblAccidsChB.width) : parent.width * 0.4
-      enabled: creator.randMelody !== 2 || !creator.isMelody
+      enabled: creator.howGetMelody !== 2 || !creator.isMelody
       Column {
         spacing: Noo.fontSize() / 2
         width: parent.width
@@ -146,7 +146,7 @@ Tflickable {
           description: qsTr("if checked, in exam user have to select a key signature, otherwise it is shown by application.")
         }
         CurrentKeyTile {
-          enabled: creator.randMelody !== 2 || !creator.isMelody
+          enabled: creator.howGetMelody !== 2 || !creator.isMelody
           checked: creator.onlyCurrKey
           checkBox.onClicked: creator.onlyCurrKey = checked
           description: qsTr("Only notes from current key signature are taken. If key signature is disabled accidentals are not used.")

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -63,7 +63,7 @@ class TlevelCreatorItem : public QQuickItem
   // Melodies
   Q_PROPERTY(int melodyLen READ melodyLen WRITE setMelodyLen NOTIFY updateLevel)
   Q_PROPERTY(bool endsOnTonic READ endsOnTonic WRITE setEndsOnTonic NOTIFY updateLevel)
-  Q_PROPERTY(int randMelody READ randMelody WRITE setRandMelody NOTIFY updateLevel)
+  Q_PROPERTY(int howGetMelody READ howGetMelody WRITE setHowGetMelody NOTIFY updateLevel)
   Q_PROPERTY(int keyOfRandList READ keyOfRandList WRITE setKeyOfRandList NOTIFY updateLevel)
   Q_PROPERTY(bool randomOrder READ randomOrder WRITE setRandomOrder NOTIFY updateLevel)
   Q_PROPERTY(qreal repeatsNumber READ repeatsNumber WRITE setRepeatsNumber NOTIFY updateLevel)
@@ -154,8 +154,8 @@ public:
   bool endsOnTonic() const;
   void setEndsOnTonic(bool ends);
 
-  int randMelody() const;
-  void setRandMelody(int rand);
+  int howGetMelody() const;
+  void setHowGetMelody(int hgm);
 
       /**
        * Number of notes in the list when melodies are generated from selected notes (Tlevel::e_randFromList)

@@ -41,8 +41,8 @@ Tflickable {
           id: melCombo
           width: Noo.fontSize() * 20
           model: [ qsTr("from notes in range"), qsTr("from selected notes"), qsTr("from set of melodies") ]
-          currentIndex: creator.randMelody
-          onActivated: creator.randMelody = currentIndex
+          currentIndex: creator.howGetMelody
+          onActivated: creator.howGetMelody = currentIndex
         }
       }
     }

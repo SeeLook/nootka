@@ -430,7 +430,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l.melodyLen = 10;
   l.endsOnTonic = false;
   l.onlyCurrKey = true;
-  l.randMelody = Tlevel::e_randFromList;
+  l.howGetMelody = Tlevel::e_randFromList;
 //   l.keyOfrandList; // C-major by default
   quint8 pentaArr[5] = {1, 2, 3, 5, 6};
   qint8 firstOctave = l.loNote.octave() + (l.loNote.note() == 1 ? 0 : 1); // increase octave if instr. scale doesn't start from note C

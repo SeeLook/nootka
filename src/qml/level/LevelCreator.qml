@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -41,8 +41,8 @@ TlevelCreatorItem {
   onUpdateLevel: {
     pages.buttons[1].pixmap = Noo.pix("pane/question" + (isMelody ? "Melody" : "Note"))
     pages.buttons[2].enabled = isMelody // melody button
-    pages.buttons[3].enabled = isMelody && randMelody != 2 // rhythms button (melody but not from the list)
-    pages.buttons[5].enabled = !isMelody || (isMelody && randMelody == 0) // range button
+    pages.buttons[3].enabled = isMelody && howGetMelody != 2 // rhythms button (melody but not from the list)
+    pages.buttons[5].enabled = !isMelody || (isMelody && howGetMelody == 0) // range button
   }
 
   onSave: {
