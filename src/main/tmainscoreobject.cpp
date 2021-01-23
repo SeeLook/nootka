@@ -374,7 +374,8 @@ void TmainScoreObject::prepareKeyToAnswer(const TkeySignature& fakeKey, const QS
   if (!m_questionKey) {
     auto p = qobject_cast<QQuickItem*>(parent()); // parent: MainScore.qml
     auto nameItem = qvariant_cast<QQuickItem*>(p->property("keyName"));
-    m_scoreObj->component()->setData("import QtQuick 2.9; Text { horizontalAlignment: Text.AlignHCenter; font { family: \"Sans\"; pixelSize: 2 }}", QUrl());
+    m_scoreObj->component()->setData("import QtQuick 2.9; Text { horizontalAlignment: Text.AlignHCenter;"
+                                     "font.pixelSize: 12; transformOrigin: Item.TopLeft; scale: 0.17 }", QUrl());
     m_questionKey = qobject_cast<QQuickItem*>(m_scoreObj->component()->create());
     if (m_questionKey && nameItem) {
       m_questionKey->setParentItem(nameItem->parentItem());
