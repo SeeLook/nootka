@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -123,7 +123,7 @@ signals:
   void correctionFinished();
 
 private:
-  void changeNameBgColor(const QColor& c) { m_bgColor = c;  emit bgColorChanged(); }
+  void changeNameBgColor(const QColor& c) { m_bgColor = c; m_bgColor.setAlpha(175);  emit bgColorChanged(); }
 
 private:
   Tnote                   m_note, m_okNote;

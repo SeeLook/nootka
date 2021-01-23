@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -44,11 +44,10 @@ TnameItem::TnameItem(QQuickItem* parent) :
   m_instance = this;
   m_note.setOctave(-4);
   m_bgColor = qApp->palette().base().color();
+  m_bgColor.setAlpha(175);
   connect(qApp, &QGuiApplication::paletteChanged, this, [=]{
-    if (!m_questionAsked) { // update color only when question is not asked
+    if (!m_questionAsked) // update color only when question is not asked
         changeNameBgColor(qApp->palette().base().color());
-        emit bgColorChanged();
-      }
   });
   connect(GLOB, &Tglobals::showEnharmNotesChanged, this, &TnameItem::nameTextChanged);
   connect(GLOB, &Tglobals::noteNameStyleChanged, this, &TnameItem::nameTextChanged);
@@ -80,10 +79,8 @@ void TnameItem::setNote(const Tnote& n) {
         m_questionAsked = false;
         emit questionChanged();
       }
-      if (m_bgColor != qApp->palette().base().color()) {
-        m_bgColor = qApp->palette().base().color();
-        emit bgColorChanged();
-      }
+      if (m_bgColor != qApp->palette().base().color())
+        changeNameBgColor(qApp->palette().base().color());
     }
   }
 }
@@ -166,8 +163,8 @@ QString TnameItem::nameText() const {
     TnotesList::iterator it = enharmList.begin();
     ++it;
     if (it != enharmList.end()) {
-        auto n1 = *(it);
-        enharmText += QString(" <font color=\"%1\" size=\"1\">(").arg(GLOB->getEnharmNoteColor().name()) + n1.styledName();
+      auto n1 = *(it);
+      enharmText += QString(" <font color=\"%1\" size=\"1\">(").arg(GLOB->getEnharmNoteColor().name()) + n1.styledName();
     }
     ++it;
     if (it != enharmList.end()) {
