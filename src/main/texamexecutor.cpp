@@ -1702,6 +1702,32 @@ void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
 
 
 void TexamExecutor::noteOfMelodySelected(int nr) {
+  if (CURR_Q->melody()->meter()->meter() != Tmeter::NoMeter) {
+    auto n = MAIN_SCORE->getNote(nr);
+    if (n.isRest()) { // do not allow to select a rest note
+        int noteNr = nr + 1;
+        while (noteNr < MAIN_SCORE->notesCount()) {
+          if (MAIN_SCORE->getNote(noteNr).isRest())
+              noteNr++;
+          else {
+              MAIN_SCORE->setSelectedItem(nr); // select wrong note
+              QTimer::singleShot(100, this, [=]{ noteOfMelodySelected(noteNr); });
+              return; // but invoke this method with delay to select the proper one
+          }
+        }
+    } else if (n.rtm.tie() && n.rtm.tie() != Trhythm::e_tieStart) { // or tied note other than first one
+        int noteNr = nr - 1;
+        while (noteNr >= 0) {
+        if (MAIN_SCORE->getNote(noteNr).rtm.tie() != Trhythm::e_tieStart)
+            noteNr--;
+        else {
+            MAIN_SCORE->setSelectedItem(nr);
+            QTimer::singleShot(100, this, [=]{ noteOfMelodySelected(noteNr); });
+            return;
+        }
+      }
+    }
+  }
   m_melody->setCurrentIndex(nr);
   MAIN_SCORE->setSelectedItem(nr);
   SOUND->startListen();
