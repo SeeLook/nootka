@@ -873,19 +873,25 @@ void TexamExecutor::correctAnswer() {
         MAIN_SCORE->correctKeySignature(curQ->key);
     } else {
         Tnote goodNote = curQ->questionOnScore() ? curQ->qa_2.note : curQ->qa.note;
+        // TODO: check accidental correction with note and delete dead code
 //         bool correctAccid = curQ->wrongAccid() || curQ->wrongOctave();
-        if (curQ->wrongAccid() || curQ->wrongOctave()) // it corrects wrong octave as well
-          MAIN_SCORE->correctNote(goodNote, true);
-        else if (curQ->wrongNote()) {
+        bool correctNote = false;
+        if (curQ->wrongAccid() || curQ->wrongOctave()) { // it corrects wrong octave as well
+            MAIN_SCORE->correctNote(goodNote, true);
+            correctNote = true;
+        } else if (curQ->wrongNote()) {
 //             if (m_level.manualKey && curQ->key.value() != MAIN_SCORE->keySignatureValue())
 //               MAIN_SCORE->correctKeySignature(curQ->key);
             m_exercise->setCorrectedNoteId(0);
             MAIN_SCORE->correctNote(goodNote, false);
+            correctNote = true;
         }
         if (curQ->wrongKey())
           MAIN_SCORE->correctKeySignature(curQ->key);
 //         MAIN_SCORE->correctNote(goodNote, correctAccid);
-        correctAnimObject = MAIN_SCORE;
+        if (correctNote)
+          correctAnimObject = MAIN_SCORE;
+        //TODO key signature correction has no animation, no object above
     }
   } else if (curQ->answerOnInstr()) {
       auto goodPos = curQ->questionOnInstr() ? curQ->qa_2.technical.data() : curQ->qa.technical.data();
