@@ -66,8 +66,9 @@ TguitarBg {
     color: "black"
     radius: Noo.fontSize() / 3
     source: finger
-    opacity: active && fingerPos.x > 0 ? 1 : 0
-    Behavior on opacity { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
+    visible: fingerPos.x > 0
+    scale: active && fingerPos.x > 0 ? 1 : 0
+    Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
   }
 
   Rectangle {
