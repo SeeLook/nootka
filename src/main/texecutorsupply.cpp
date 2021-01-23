@@ -648,6 +648,15 @@ void TexecutorSupply::comparePlayedFromScore(Tmelody* q, QVector<TnoteToPlay>& t
   // calculate tempo factor by duration of first played note
   qreal tempoFactor = a.count() > fstQestId ? static_cast<qreal>(toPlay[fstQestId].duration()) / a[fstQestId].duration : 1.0;
   bool lastIsRest = toPlay.last().isRest() && q->meter()->meter() != Tmeter::NoMeter;
+  // look for shortest duration to figure out the best (longest) quantization for user
+  int shortestDur = 24; // quarter by default
+  for (auto ntp : toPlay)
+    shortestDur = qMin(shortestDur, ntp.duration());
+  if (shortestDur != 6 && shortestDur != 12 && shortestDur != 24) {
+    if (shortestDur > 6 && shortestDur < 24) // but skip any dots
+      shortestDur = 6; // 16th
+  }
+  qDebug() << "[TexecutorSupply] checking quantization" << shortestDur;
   for (int i = 0; i < notesCount; ++i) {
     TQAunit tmpUnit;
     if (a.size() > i && toPlay.size() > i) {
@@ -662,7 +671,7 @@ void TexecutorSupply::comparePlayedFromScore(Tmelody* q, QVector<TnoteToPlay>& t
           qreal dur = tempoFactor * answ->duration;
           // Calculate quantization as a half of expected rhythm value (without dot).
           // It avoids some extraordinary values like 4.. or even worst
-          int quantization = qMax(6, toPlay[i].duration() / 2);
+          int quantization = qMax(shortestDur, toPlay[i].duration() / 2);
           int normDur = qRound(dur / static_cast<qreal>(quantization)) * quantization;
           answ->pitch.rtm.setRhythm(normDur); // store detected duration in answers list
           if (!answ->pitch.rtm.isValid()) {
