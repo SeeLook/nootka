@@ -126,13 +126,11 @@ Score {
     onScordatureChanged: updateScord()
   }
   function updateScord() {
-    if (scordature) {
+    if (scordature)
       scordature.destroy()
-      scordature = null
-    }
     if (GLOB.tuning.scordature && GLOB.instrument.isGuitar && GLOB.instrument.type !== Tinstrument.BassGuitar) {
         scordature = Qt.createComponent("qrc:/score/Scordature.qml").createObject(firstStaff)
-        firstStaff.scordSpace = scordature.height
+        firstStaff.scordSpace = scordature.height * scordature.scale * (clef === Tclef.PianoStaffClefs ? 1 : 1.2)
     } else
         firstStaff.scordSpace = 0
   }

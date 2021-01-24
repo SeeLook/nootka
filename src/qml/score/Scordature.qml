@@ -12,26 +12,40 @@ Grid {
   y: upperLine + 14 + (score.clef === Tclef.PianoStaffClefs ? 18 : 0)
   x: 0.5
   spacing: 0.5
-  scale: columns > 1 ? 0.75 : (score.clef === Tclef.PianoStaffClefs ? 1.4 : 1.2)
+  scale: columns > 1 ? 0.2 : (score.clef === Tclef.PianoStaffClefs ? 0.35 : 0.3)
   transformOrigin: Item.TopLeft
   columns: GLOB.tuning.changedStrings() > 3 ? 2 : 1
   visible: score.clef !== Tclef.NoClef
   Repeater {
-    model: 6
-    Row {
-      visible: GLOB.tuning.otherThanStd(index + 1)
-      height: 2
+    model: ListModel { id: scordModel }
+    delegate: Row {
+      height: 12
       Text {
-        text: (index + 1)
-        font { pixelSize: 3; family: "Nootka" }
+        text: scordModel.count ? scordModel.get(index).strNr : ""
+        font { pixelSize: 12; family: "Nootka" }
         anchors.verticalCenter: parent.verticalCenter
       }
       Text {
-        topPadding: 1.9
-        text: "=" + GLOB.tuning.stringName(index + 1)
-        font { pixelSize: 2; family: "Scorek" }
+        topPadding: 3.5
+        text: "=" + (scordModel.count ? scordModel.get(index).name : "")
+        font { pixelSize: 8; family: "Scorek" }
         anchors.verticalCenter: parent.verticalCenter
       }
+    }
+  }
+
+  Component.onCompleted: updateScordature()
+
+  Connections {
+    target: GLOB
+    onNoteNameStyleChanged: updateScordature()
+  }
+
+  function updateScordature() {
+    scordModel.clear()
+    for (var s = 0; s < 6; ++s) {
+      if (GLOB.tuning.otherThanStd(s + 1))
+        scordModel.append({ "strNr": s + 1, "name": GLOB.tuning.stringName(s + 1) })
     }
   }
 }
