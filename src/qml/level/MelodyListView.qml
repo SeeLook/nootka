@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2018-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -76,7 +76,7 @@ TmelodyListView {
       leftPadding: Noo.fontSize() / 2; topPadding: Noo.fontSize() / (Noo.isAndroid() ? 2 : 1)
       TcuteButton {
         width: Noo.fontSize() * 3
-        font { pixelSize: Noo.fontSize() * 2.5; bold: true; family: "Sans" }
+        font { pixelSize: Noo.fontSize() * 2.5; bold: true }
         text: "+"; textColor: "green"
         onClicked: {
           loadMelody()
@@ -107,7 +107,7 @@ TmelodyListView {
       Item { width: 1; height: Noo.fontSize() * (Noo.isAndroid() ? 0.5 : 1.5) }
       TcuteButton {
         width: Noo.fontSize() * 3
-        font { pixelSize: Noo.fontSize() * 2.5; bold: true; family: "Sans" }
+        font { pixelSize: Noo.fontSize() * 2.5; bold: true }
         text: "-"; textColor: enabled ? "red" : disdPal.text
         enabled: currentMelody > -1
         onClicked: removeWrapper(currentMelody)

@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -124,7 +124,7 @@ TnameItem {
       onLinkActivated: Qt.openUrlExternally(link)
       enabled: !disabled
       text: octavesLink()
-      font { pixelSize: buttHeight * 0.4; family: "Sans"; bold: true }
+      font { pixelSize: buttHeight * 0.4; bold: true }
       MouseArea {
         anchors.fill: parent
         acceptedButtons: Qt.NoButton
@@ -143,7 +143,7 @@ TnameItem {
         checkable: true
         checked: !disabled && index === (octave + 2) / 2
         ButtonGroup.group: octavesGr
-        font { pixelSize: height * (GLOB.scientificOctaves ? 0.8 : 0.5); family: "Sans"; bold: true }
+        font { pixelSize: height * (GLOB.scientificOctaves ? 0.8 : 0.5); bold: true }
         text: GLOB.scientificOctaves ? index * 2 + 1 : octaveName(index * 2 - 2)
         onClicked: octave = index * 2 - 2
         hoverEnabled: !Noo.isAndroid() && GLOB.showHints
@@ -170,7 +170,7 @@ TnameItem {
         checkable: true
         checked: !disabled && index === (octave + 3) / 2
         ButtonGroup.group: octavesGr
-        font { pixelSize: height * (GLOB.scientificOctaves ? 0.8 : 0.5); family: "Sans"; bold: true }
+        font { pixelSize: height * (GLOB.scientificOctaves ? 0.8 : 0.5); bold: true }
         text: GLOB.scientificOctaves ? index * 2 : octaveName(index * 2 - 3)
         onClicked: octave = index * 2 - 3
         hoverEnabled: !Noo.isAndroid() && GLOB.showHints

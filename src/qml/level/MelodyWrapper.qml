@@ -82,7 +82,7 @@ MouseArea {
 
     Text {
       x: Noo.fontSize() / 2; y: Noo.fontSize() / 2
-      font { family: "Sans"; bold: true }
+      font { bold: true }
       text: nr + 1; color: Noo.alpha(activPal.text, 150)
     }
 
