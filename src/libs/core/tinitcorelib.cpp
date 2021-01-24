@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -75,8 +75,11 @@ void prepareTranslations(QGuiApplication* a, QTranslator& qt, QTranslator& noo) 
   QLocale loc(GLOB->lang.isEmpty() ? QLocale::system() : GLOB->lang);
 #elif defined (Q_OS_MAC)
   QLocale loc(GLOB->lang.isEmpty() ? QLocale::system().uiLanguages().first() : GLOB->lang);
+#elif defined (Q_OS_WIN)
+  QLocale loc(GLOB->lang.isEmpty() ? QLocale::system().language() : QLocale(GLOB->lang).language());
 #else
-  QLocale loc(GLOB->lang.isEmpty() ? qgetenv("LANG") : GLOB->lang);
+  QLocale loc(QLocale(GLOB->lang.isEmpty() ? qgetenv("LANG") : GLOB->lang).language(),
+              QLocale(GLOB->lang.isEmpty() ? qgetenv("LANG") : GLOB->lang).country());
 #endif
   QLocale::setDefault(loc);
 
