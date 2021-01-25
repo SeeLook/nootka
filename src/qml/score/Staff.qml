@@ -67,12 +67,13 @@ TstaffItem {
   }
 
   Text { // measure number
-      x: 1
+      x: score.clef === Tclef.PianoStaffClefs ? 0.8 : 0.5
       y: upperLine - (score.clef === Tclef.Treble_G || score.clef === Tclef.Treble_G_8down 
-                              || score.clef === Tclef.Tenor_C || score.clef === Tclef.PianoStaffClefs ? 8.5 : 6)
+                              || score.clef === Tclef.Tenor_C || score.clef === Tclef.PianoStaffClefs ? 8 : 5)
       text: firstMeasureNr + 1
       visible: number > 0 && firstMeasureNr > 0
-      font { pixelSize: score.clef === Tclef.PianoStaffClefs ? 2 : 1.5; family: "Scorek" }
+      scale: 0.4; transformOrigin: Item.TopLeft
+      font { pixelSize: score.clef === Tclef.PianoStaffClefs ? 7 : 5; family: "Scorek" }
       color: activPal.text
   }
 
