@@ -646,8 +646,8 @@ void TmainScoreObject::checkExtraStaves() {
   if (m_scoreObj == nullptr || m_mainScoreItem == nullptr)
     return;
 
-  auto firstStaff = m_scoreObj->firstStaff();
-  int emptyStavesCount = qMax(0, static_cast<int>((m_mainScoreItem->height() - m_scoreObj->stavesHeight()) / (firstStaff->scale() * 16.0)));
+  auto staff = m_scoreObj->lastStaff();
+  int emptyStavesCount = qMax(0, static_cast<int>((m_mainScoreItem->height() - (staff->y() + staff->height() * staff->scale())) / (staff->scale() * 16.0)));
   if (m_emptyStaves.count() != emptyStavesCount) {
     if (m_emptyStaves.count() > emptyStavesCount) { // remove some staff lines
         int toRemove = m_emptyStaves.count() - emptyStavesCount;
@@ -663,14 +663,13 @@ void TmainScoreObject::checkExtraStaves() {
     }
   }
   if (emptyStavesCount) {
-    auto sc = firstStaff->scale();
     for (int s = 0; s < emptyStavesCount; ++s) {
       auto emptyStaff = m_emptyStaves[s];
-      emptyStaff->setScale(sc);
-      emptyStaff->setX((m_scoreObj->clefType() == Tclef::PianoStaffClefs ? 3 : 0.5) * sc);
-      emptyStaff->setWidth(firstStaff->width() - (m_scoreObj->clefType() == Tclef::PianoStaffClefs ? 3.5 : 1.0));
-      emptyStaff->setStaffScale(sc);
-      emptyStaff->setY(m_mainScoreItem->height() - sc * 14.0 - (emptyStavesCount - s - 1) * (sc * 16.0));
+      emptyStaff->setScale(staff->scale());
+      emptyStaff->setX((m_scoreObj->clefType() == Tclef::PianoStaffClefs ? 3 : 0.5) * staff->scale());
+      emptyStaff->setWidth(staff->width() - (m_scoreObj->clefType() == Tclef::PianoStaffClefs ? 3.5 : 1.0));
+      emptyStaff->setStaffScale(staff->scale());
+      emptyStaff->setY(staff->y() + (10.0 + staff->height() + s * 16.0) * staff->scale());
     }
   }
 }
