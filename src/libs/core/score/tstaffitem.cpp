@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -45,7 +45,7 @@ TstaffItem::~TstaffItem() {
 }
 
 
-void TstaffItem::setScordSpace(int hasScord) {
+void TstaffItem::setScordSpace(qreal hasScord) {
   if (m_scordSpace != hasScord) {
     m_scordSpace = hasScord;
     checkNotesRange();
