@@ -181,20 +181,14 @@ Tflickable {
     bgColor: Qt.tint(activPal.window, Noo.alpha("red", 20))
     border { color: "red"; width: Noo.fontSize() / 4.0 }
     modal: true
+    caption: qsTr("Experts mode")
     Tflickable {
-      height: parent.height; contentHeight: expCol.height
-      Column {
-        id: expCol; width: parent.width; spacing: Noo.fontSize()
-        Text {
-          text: qsTr("Experts mode")
-          color: activPal.text; font { pixelSize: Noo.fontSize() * 2; bold: true }
-          anchors.horizontalCenter: parent.horizontalCenter
-        }
-        Text {
-          width: parent.width; color: activPal.text
-          wrapMode: Text.WordWrap; textFormat: Text.StyledText; horizontalAlignment: Text.AlignHCenter
-          text: "<h4>" + qsTr("You are about to enter expert mode.<br> In this mode you don't need to confirm every answer,<br><b>but remember the following:") + "</b></h4><ul><li>" + qsTr("Selecting a note on the score or a position on the fingerboard invokes automatic checking of your answer, so select a key signature first, if required.") + "<br></li><li>" + qsTr("When an answer is the name of a note <b>first select a proper accidental and an octave</b> and then click a note button - this automatically invokes checking.") + "<br></li><li>" + qsTr("When you have to play a note as an answer - the first detected sound will be taken, so be sure that your input device captures exactly what you want.") + "<br></li><li>" + qsTr("When the last note of question that is a melody was played - checking starts.") + "<br></li></ul>"
-        }
+      height: parent.height; contentHeight: expText.height + Noo.fontSize() * 2
+      Text {
+        id: expText
+        width: parent.width; color: activPal.text
+        wrapMode: Text.WordWrap; textFormat: Text.StyledText; horizontalAlignment: Text.AlignHCenter
+        text: "<h4>" + qsTr("You are about to enter expert mode.<br> In this mode you don't need to confirm every answer,<br><b>but remember the following:") + "</b></h4><ul><li>" + qsTr("Selecting a note on the score or a position on the fingerboard invokes automatic checking of your answer, so select a key signature first, if required.") + "<br></li><li>" + qsTr("When an answer is the name of a note <b>first select a proper accidental and an octave</b> and then click a note button - this automatically invokes checking.") + "<br></li><li>" + qsTr("When you have to play a note as an answer - the first detected sound will be taken, so be sure that your input device captures exactly what you want.") + "<br></li><li>" + qsTr("When the last note of question that is a melody was played - checking starts.") + "<br></li></ul>"
       }
     }
     onRejected: expertAnswChB.checked = false

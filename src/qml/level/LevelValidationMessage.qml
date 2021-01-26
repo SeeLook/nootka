@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2020 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2020-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -9,7 +9,6 @@ import "../"
 
 TpopupDialog {
   property alias message: lv.model
-  property alias caption: hText.text
   property color accent: activPal.highlight
 
   bgColor: Qt.tint(activPal.base, Noo.alpha(accent, 20))
@@ -21,19 +20,6 @@ TpopupDialog {
   rejectButton.visible: false
   acceptButton.text: Noo.TR("QPlatformTheme", "OK")
   acceptButton.visible: !Noo.isAndroid()
-
-  header: Rectangle {
-    color: "transparent"; width: parent.width; height: hText.height + Noo.fontSize() / 2; radius: Noo.fontSize() / 4
-    Text {
-      id: hText
-      width: parent.width - Noo.fontSize()
-      fontSizeMode: Text.HorizontalFit
-      anchors.centerIn: parent; horizontalAlignment: Text.AlignHCenter
-      color: activPal.text
-      font { pixelSize: Noo.fontSize() * 1.5; bold: true }
-    }
-    Rectangle { width: parent.width; height: 1; color: accent; y: parent.height }
-  }
 
   ListView {
     id: lv

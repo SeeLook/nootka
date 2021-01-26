@@ -172,27 +172,19 @@ Tflickable {
   TpopupDialog {
     id: restoreDialog
     modal: true
-    width: rmmConfTxt.width * 1.2; height: rmmConfTxt.height + Noo.fontSize() * 8
+    width: Math.min(Noo.fontSize() * 50, globalPage.width * 0.9)
+    height: rmmConfTxt.height + Noo.fontSize() * 8
     bgColor: Qt.tint(activPal.window, Noo.alpha("red", 20))
     border { color: "red"; width: Noo.fontSize() / 4.0 }
-    header: Rectangle {
-      color: "transparent"; width: parent.width; height: hText.height + Noo.fontSize() / 2; radius: Noo.fontSize() / 4
-      Text {
-        id: hText
-        width: parent.width - Noo.fontSize()
-        anchors.centerIn: parent; horizontalAlignment: Text.AlignHCenter
-        color: activPal.text
-        font { pixelSize: Noo.fontSize() * 1.5; bold: true }
-        text: qsTr("Restore all default settings")
-      }
-      Rectangle { width: parent.width; height: 1; color: "red"; y: parent.height }
-    }
+    caption: qsTr("Restore all default settings")
     Text {
       id: rmmConfTxt
       anchors.horizontalCenter: parent.horizontalCenter
+      width: parent.width - Noo.fontSize() * 2
       color: activPal.text
-      font.pixelSize: Noo.fontSize() * 1.5
+      font.pixelSize: Noo.fontSize() * 1.2
       text: qsTr("All settings will be reset to their default values!<br>Nootka will start up with the first-run wizard.")
+      wrapMode: Text.WordWrap
     }
     onAccepted: {
       Noo.setResetConfig(true)
