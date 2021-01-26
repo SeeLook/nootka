@@ -42,7 +42,7 @@ Dialog {
   }
 
   footer: Rectangle {
-    color: "transparent"; width: parent.width; height: butRow.height; radius: Noo.fontSize() / 4
+    color: "transparent"; width: parent ? parent.width : 0; height: butRow.height; radius: Noo.fontSize() / 4
     Row {
       id: butRow; spacing: parent.width / 10; padding: parent.height / 7
       anchors.horizontalCenter: parent.horizontalCenter
