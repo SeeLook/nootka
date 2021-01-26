@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -8,7 +8,7 @@ import QtQuick.Controls 2.2
 
 AbstractButton {
   id: root
-  font { pixelSize: Noo.fontSize(); bold: activeFocus }
+  font { pixelSize: Noo.fontSize(); underline: activeFocus }
   focus: true
 
   property alias radius: bg.radius
@@ -41,6 +41,7 @@ AbstractButton {
       }
     }
   }
+
   background: TipRect {
     id: bg
     color: enabled ? (root.checked ? activPal.highlight : activPal.button) : disdPal.button
