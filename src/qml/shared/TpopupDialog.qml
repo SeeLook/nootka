@@ -14,6 +14,7 @@ Dialog {
   property alias rejectButton: rejectButton
   property alias acceptButton: acceptButton
   property alias border: rect.border
+  property alias caption: hText.text
 
   width: parent.width * 0.8; height: parent.height * 0.8
   x: (parent.width - width) / 2; y: (parent.height - height) / 2
@@ -25,6 +26,20 @@ Dialog {
   scale: GLOB.useAnimations ? 0 : 1.0
   enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}
   exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0 }}
+
+  header: Rectangle {
+    color: "transparent"; width: parent.width; height: hText.height + Noo.fontSize() / 2; radius: Noo.fontSize() / 4
+    visible: hText.text !== ""
+    Text {
+      id: hText
+      width: parent.width - Noo.fontSize()
+      fontSizeMode: Text.HorizontalFit
+      anchors.centerIn: parent; horizontalAlignment: Text.AlignHCenter
+      color: activPal.text
+      font { pixelSize: Noo.fontSize() * 1.5; bold: true }
+    }
+    Rectangle { width: parent.width; height: 1; color: rect.border.color; y: parent.height }
+  }
 
   footer: Rectangle {
     color: "transparent"; width: parent.width; height: butRow.height; radius: Noo.fontSize() / 4
