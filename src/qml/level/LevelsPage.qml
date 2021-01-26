@@ -76,9 +76,8 @@ Column {
     property alias desc: lDesc.text
 
     modal: true
-    width: Noo.fontSize() * 40; height: popCol.height + Noo.fontSize() * 5
-    x: (parent.width - width) / 2
-    y: Noo.isAndroid() ? Noo.fontSize() : (parent.height - height) / 2
+    width: popCol.width + Noo.fontSize() * 2; height: popCol.height + Noo.fontSize() * 5
+    x: (parent.width - width) / 2; y: Noo.isAndroid() ? Noo.fontSize() : (parent.height - height) / 2
     bgColor: Qt.tint(activPal.window, Noo.alpha(activPal.highlight, 30))
     border { color: activPal.highlight; width: Noo.fontSize() / 4.0 }
 
@@ -101,7 +100,7 @@ Column {
         TtextField {
           id: lName
           maximumLength: 30
-          width: newLevelPopup.width - Noo.fontSize() * 12
+          width: Noo.fontSize() * 25
         }
       }
       Text {
