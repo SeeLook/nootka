@@ -111,6 +111,7 @@ public:
   bool notSaved() const;
 
   Q_INVOKABLE void saveLevel();
+  Q_INVOKABLE void continueLevelSave(const QString& name, const QString& desc);
 
   Q_INVOKABLE void checkLevel();
 
@@ -281,6 +282,7 @@ signals:
   void save();
   void hasRhythmsChanged();
   void wantValidationMessage(const QString& title, const QStringList& message, const QColor& accent);
+  void saveNewLevel(const QString& name, const QString& desc);
 
 protected:
   void whenLevelChanged();

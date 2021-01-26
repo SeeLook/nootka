@@ -39,7 +39,6 @@ SOURCES +=  main.cpp \
             dialogs/tlevelpreviewitem.cpp \
             dialogs/tlevelsdefs.cpp \
             dialogs/tlevelselector.cpp \
-            dialogs/tlevelheaderwdg.cpp \
             dialogs/tmelodylistview.cpp \
             dialogs/tmelodywrapper.cpp \
             dialogs/ttunerdialogitem.cpp \
@@ -81,7 +80,6 @@ HEADERS  += mobile/tmobilemenu.h \
             dialogs/tlevelpreviewitem.h \
             dialogs/tlevelsdefs.h \
             dialogs/tlevelselector.h \
-            dialogs/tlevelheaderwdg.h \
             dialogs/tmelodylistview.h \
             dialogs/tmelodywrapper.h \
             dialogs/ttunerdialogitem.h \

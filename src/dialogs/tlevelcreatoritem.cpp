@@ -19,7 +19,6 @@
 #include "tlevelcreatoritem.h"
 #include "tlevelselector.h"
 #include "tlevelpreviewitem.h"
-#include "tlevelheaderwdg.h"
 #include <exam/tlevel.h>
 #include <music/ttune.h>
 #include <tglobals.h>
@@ -78,19 +77,24 @@ if (!m_level->canBeGuitar() && !m_level->answerIsSound() ) { // no guitar and no
     for (int str = 0; str < 6; str++)
       m_level->usedStrings[str] = true;
   }
-  QStringList validMessage = validateLevel();
+  auto validMessage = validateLevel();
   if (!validMessage.isEmpty()) {
     showValidationMessage(validMessage);
     return;
   }
-  m_level->instrument = m_level->detectInstrument(GLOB->instrument().type()); // set instrument to none when it is not important for the level
-  auto saveDlg = new TlevelHeaderWdg(m_selector->currentLevel() ? m_selector->currentLevel()->name : QString(),
-                                     m_selector->currentLevel() ? m_selector->currentLevel()->desc : QString());
-  QStringList nameList = saveDlg->getLevelName();
-  m_level->name = nameList[0];
-  m_level->desc = nameList[1];
-  delete saveDlg;
-// Saving to file
+  // set instrument to none when it is not important for the level
+  m_level->instrument = m_level->detectInstrument(GLOB->instrument().type());
+  // invoke QML routines
+  emit saveNewLevel(m_selector->currentLevel() ? m_selector->currentLevel()->name : QString(),
+                    m_selector->currentLevel() ? m_selector->currentLevel()->desc : QString());
+}
+
+
+void TlevelCreatorItem::continueLevelSave(const QString& name, const QString& desc) {
+  m_level->name = name;
+  m_level->desc = desc;
+
+  // Saving to file
   QLatin1String dotNel(".nel");
   QString fName = QDir::toNativeSeparators(GLOB->E->levelsDir + QLatin1String("/") + m_level->name);
   if (QFileInfo::exists(fName  + dotNel))
@@ -101,7 +105,7 @@ if (!m_level->canBeGuitar() && !m_level->answerIsSound() ) { // no guitar and no
   QString fileName = TfileDialog::getSaveFileName(tr("Save exam level"), fName, TlevelSelector::levelFilterTxt() + QLatin1String(" (*.nel)"));
 #endif
   if (fileName.isEmpty()) {
-    qDebug() << "empty file name";
+    qDebug() << "[TlevelCreatorItem] Empty file name!";
     return;
   }
   if (fileName.right(4) != dotNel)
