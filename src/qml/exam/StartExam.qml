@@ -30,7 +30,9 @@ TstartExamItem {
         anchors.verticalCenter: parent.verticalCenter
         pixmap: Noo.pix("help"); iconHeight: startDialog.height / 15
         text: Noo.TR("QShortcut", "Help")
-        onClicked: getHelpDialog()
+        onClicked: {
+          helpPopup.open()
+        }
       }
       Row {
         spacing: Noo.fontSize() * (Noo.isAndroid() ? 0.5 : 1)
@@ -187,6 +189,102 @@ TstartExamItem {
     }
   }
 
+  TpopupDialog {
+    id: helpPopup
+    width: startDialog.width - Noo.fontSize() * 2; height: startDialog.height - Noo.fontSize() * 2
+    x: Noo.fontSize(); y: Noo.fontSize()
+    bgColor: Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 20))
+    border { color: activPal.highlight; width: Noo.fontSize() / 4.0 }
+
+    Column {
+      id: popCol
+      anchors.horizontalCenter: parent.horizontalCenter
+      spacing: Noo.fontSize()
+      Tflickable {
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: helpPopup.width - Noo.fontSize() * 2; height: helpPopup.height - Noo.fontSize() * 8
+        contentHeight: helpCol.height + Noo.fontSize() * 2
+        Column {
+          id: helpCol
+          width: parent.width
+          Item { width: 1; height: Noo.fontSize() }
+          Row {
+            spacing: Noo.fontSize() * 2
+            anchors.horizontalCenter: parent.horizontalCenter
+            Image {
+              source: Noo.pix("practice")
+              height: Noo.fontSize() * 4; width: height * (sourceSize.width / sourceSize.height)
+            }
+            Text {
+              anchors.verticalCenter: parent.verticalCenter
+              color: activPal.text
+              text: qsTranslate("TstartExamDlg", "To exercise or to pass an exam?")
+              font { bold: true; pixelSize: Noo.fontSize() * 1.5 }
+            }
+            Image {
+              source: Noo.pix("exam")
+              height: Noo.fontSize() * 4; width: height * (sourceSize.width / sourceSize.height)
+            }
+          }
+          LinkText {
+            anchors.horizontalCenter: parent.horizontalCenter
+            leftPadding: Noo.fontSize()
+            width: parent.width - Noo.fontSize()
+            textFormat: Text.RichText
+            wrapMode: Text.WordWrap
+            text: exerOrExamHelpTxt(false)
+          }
+        }
+      }
+    }
+    footer: Rectangle {
+      color: "transparent"; width: parent.width; height: rejButt.height + Noo.fontSize(); radius: Noo.fontSize() / 4
+      Rectangle { color: activPal.highlight; width: parent.width; height: 1 }
+      TcheckBox {
+        id: showHelpChB
+        anchors.verticalCenter: parent.verticalCenter
+        x: Noo.fontSize() * 2
+        text: qsTranslate("ThelpDialogBase", "always show this help window")
+        checked: showVeryBeginHelp()
+      }
+      TiconButton {
+        id: rejButt
+        anchors.verticalCenter: parent.verticalCenter
+        x: parent.width - width - Noo.fontSize() * 2
+        pixmap: Noo.pix("exit"); text: Noo.TR("QShortcut", "Close")
+        onClicked: {
+          setVeryBeginHelp(showHelpChB.checked)
+          helpPopup.close()
+        }
+      }
+    }
+  }
+
+  TpopupDialog {
+    id: noNamePopup
+    bgColor: Qt.tint(activPal.window, Noo.alpha("red", 20))
+    border { color: "red"; width: Noo.fontSize() / 4.0 }
+
+    rejectButton.text: Noo.TR("QShortcut", "OK")
+    rejectButton.pixmap: Noo.pix("check")
+    acceptButton.visible: false
+
+    width: noNameTxt.width + Noo.fontSize() * 2; height: noNameTxt.height + Noo.fontSize() * 5
+
+    Text {
+      id: noNameTxt
+      anchors.horizontalCenter: parent.horizontalCenter
+      color: activPal.text
+      font.pixelSize: Noo.fontSize() * 1.5
+      text: qsTr("Give an user name!")
+    }
+
+    onRejected: {
+      noNameAnim.running = false
+      userNameIn.bg.color = activPal.base
+    }
+  }
+
   SequentialAnimation {
     id: noNameAnim
     loops: Animation.Infinite
@@ -206,9 +304,7 @@ TstartExamItem {
   function start(action, argument) {
     if (userNameIn.text === "") {
       noNameAnim.running = true
-      giveUserNameMessage()
-      noNameAnim.running = false
-      userNameIn.bg.color = activPal.base
+      noNamePopup.open()
       return
     }
     GLOB.student = userNameIn.text

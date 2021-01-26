@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -47,17 +47,13 @@ public:
 
   Q_INVOKABLE Tlevel* prevLevel() { return m_prevExerciseLevel; }
 
-      /**
-       * Displays message box with that communicate.
-       */
-  Q_INVOKABLE void giveUserNameMessage();
+  Q_INVOKABLE bool showVeryBeginHelp() const;
+  Q_INVOKABLE void setVeryBeginHelp(bool vbh);
 
       /**
        * Help text (HTML) about what is exercise and exam
        */
-  static QString exerOrExamHelpTxt();
-
-  Q_INVOKABLE void getHelpDialog();
+  Q_INVOKABLE static QString exerOrExamHelpTxt(bool withHeader = true);
 
 signals:
   void recentModelChanged();
@@ -78,7 +74,6 @@ private:
        */
   void continueTheLast();
   void examToContSelected(const QString& eFile);
-  void levelWasSelected(const Tlevel& level);
 
 private:
   QStringList                m_recentExams;

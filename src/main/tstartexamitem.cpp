@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,6 +25,7 @@
 #include "dialogs/tlevelselector.h"
 #include <tglobals.h>
 #include <taction.h>
+#include <tpath.h>
 #include <exam/texam.h>
 #include <exam/textrans.h>
 #include <Android/tfiledialog.h>
@@ -32,7 +33,6 @@
 #include <QtCore/qsettings.h>
 #include <QtCore/qtimer.h>
 #include <QtQml/qqmlengine.h>
-#include <QtWidgets/qmessagebox.h>
 #if defined (Q_OS_ANDROID)
   #include <tmtr.h>
   #include <Android/tandroid.h>
@@ -95,9 +95,16 @@ TstartExamItem::TstartExamItem(QQuickItem* parent) :
   emit lastExamFileChanged();
   emit recentModelChanged();
   emit openActChanged();
+}
 
-  if (GLOB->E->showVeryBeginHelp)
-    QTimer::singleShot(100, [=]{ getHelpDialog(); });
+
+bool TstartExamItem::showVeryBeginHelp() const {
+  return GLOB->E->showVeryBeginHelp;
+}
+
+
+void TstartExamItem::setVeryBeginHelp(bool vbh) {
+  GLOB->E->showVeryBeginHelp = vbh;
 }
 
 
@@ -115,18 +122,6 @@ void TstartExamItem::continueTheLast() {
   if (m_recentExams.size()) {
       examToContSelected(m_recentExams[0]);
   }
-}
-
-
-void TstartExamItem::giveUserNameMessage() {
-// #if defined (Q_OS_ANDROID)
-//   QString name = QInputDialog::getText(this, tr("Give an user name!"), tr("Enter your name or nick-name."));
-//   if (name.isEmpty())
-//     name = QStringLiteral("Android");
-//   m_nameEdit->setText(name);
-// #else
-  QMessageBox::warning(nullptr, QString(), QApplication::translate("StartExam", "Give an user name!"));
-// #endif
 }
 
 
@@ -158,59 +153,21 @@ void TstartExamItem::examToContSelected(const QString& eFile) {
 }
 
 
-
-void TstartExamItem::levelWasSelected(const Tlevel& level) {
-//   m_prevExerciseLevel.name.clear(); // Reset the name - now level is taken from selection 
-//   updateButtonStatusText(level.name);
-// #if defined (Q_OS_ANDROID)
-//   m_mobExerButton->setDisabled(false);
-//   m_mobExamButton->setDisabled(false);
-// #endif
-}
-
-
-QString TstartExamItem::exerOrExamHelpTxt() {
+QString TstartExamItem::exerOrExamHelpTxt(bool withHeader) {
   QLatin1String br("<br>");
-  return QLatin1String("<center><h2>") + ThelpDialogBase::pix("practice", 64) + QLatin1String(" ") +
-  QApplication::translate("TstartExamDlg", "To exercise or to pass an exam?") +
-  QLatin1String(" ") + ThelpDialogBase::pix("exam", 64) + QLatin1String("</h2>") + TmainHelp::youWillLearnText() + br + br +
-  QLatin1String("</center><hr><table><tr><td style=\"padding: 10px;\" align=\"center\">") +
-  TmainHelp::duringExercisingText() + br + TexamHelp::exerciseFeaturesText() +
-  QLatin1String("</td></tr><tr><td style=\"padding: 10px;\" align=\"center\">") +
-  TmainHelp::duringExamsText() + br + TexamHelp::examFeaturesText() + QLatin1String("</td></tr></table>") +
-  ThelpDialogBase::onlineDocP(QStringLiteral("start-exam"));
+  QLatin1String sp("&nbsp;");
+  QString header;
+  if (withHeader) {
+    header = QLatin1String("<h2>") + ThelpDialogBase::pix("practice", 64) + sp
+    + QApplication::translate("TstartExamDlg", "To exercise or to pass an exam?")
+    + sp + ThelpDialogBase::pix("exam", 64) + QLatin1String("</h2>") + br;
+  }
+  return header + br + TmainHelp::youWillLearnText() + br + br
+  + sp + sp + sp + sp + sp + sp + ThelpDialogBase::pix("practice", 64) + QLatin1String("</div>") + br
+  + TmainHelp::duringExercisingText() + br + TexamHelp::exerciseFeaturesText() + br + br + br
+  + sp + sp + sp + sp + sp + sp + ThelpDialogBase::pix("exam", 64) + br
+  + TmainHelp::duringExamsText() + br + TexamHelp::examFeaturesText()
+  + ThelpDialogBase::onlineDocP(QStringLiteral("start-exam"));
 }
-
-
-void TstartExamItem::getHelpDialog() {
-  auto help = new ThelpDialogBase(nullptr);
-#if defined (Q_OS_ANDROID)
-  help->showMaximized();
-#else
-  help->setFixedSize(width() * 0.8, height() * 0.8);
-#endif
-//   QLatin1String br("<br>");
-//   QString ht = QLatin1String("<center><h2>") + help->pix("practice", 64) + QLatin1String(" ") +
-//   QApplication::translate("TstartExamDlg", "To exercise or to pass an exam?") +
-//   QLatin1String(" ") + help->pix("exam", 64) + QLatin1String("</h2>") + TmainHelp::youWillLearnText() + br + br +
-//   QLatin1String("</center><hr><table><tr><td style=\"padding: 10px;\" align=\"center\">") +
-//   TmainHelp::duringExercisingText() + br + TexamHelp::exerciseFeaturesText() +
-//   QLatin1String("</td></tr><tr><td style=\"padding: 10px;\" align=\"center\">") +
-//   TmainHelp::duringExamsText() + br + TexamHelp::examFeaturesText() + QLatin1String("</td></tr></table>") +
-//   help->onlineDocP(QStringLiteral("start-exam"));
-
-  help->helpText()->setHtml(exerOrExamHelpTxt());
-  help->showCheckBox(&GLOB->E->showVeryBeginHelp);
-//     qDebug() << help->helpText()->toHtml();
-  help->exec();
-  delete help;
-}
-
-
-
-
-
-
-
 
 
