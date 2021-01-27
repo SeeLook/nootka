@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -62,6 +62,7 @@ Tflickable {
                ]
         Tile {
           id: donTile
+          z: scale > 1 ? 2 : 1
           anchors.horizontalCenter: undefined
           property color randCol: Noo.randomColor()
           width: tt.width + Noo.fontSize() * 4
