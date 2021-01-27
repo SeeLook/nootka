@@ -238,27 +238,30 @@ TstartExamItem {
       }
     }
     footer: Rectangle {
-      color: "transparent"; width: parent.width; height: rejButt.height + Noo.fontSize(); radius: Noo.fontSize() / 4
+      color: "transparent"; width: parent.width; height: fRow.height + Noo.fontSize(); radius: Noo.fontSize() / 4
       Rectangle { color: activPal.highlight; width: parent.width; height: 1 }
-      TcheckBox {
-        id: showHelpChB
-        anchors.verticalCenter: parent.verticalCenter
-        x: Noo.fontSize() * 2
-        text: qsTranslate("ThelpDialogBase", "always show this help window")
-        checked: showVeryBeginHelp()
-      }
-      TiconButton {
-        id: rejButt
-        anchors.verticalCenter: parent.verticalCenter
-        x: parent.width - width - Noo.fontSize() * 2
-        pixmap: Noo.pix("exit"); text: Noo.TR("QShortcut", "Close")
-        onClicked: {
-          setVeryBeginHelp(showHelpChB.checked)
-          helpPopup.close()
+      Row {
+        id: fRow
+        spacing: Noo.fontSize() * 3
+        anchors.centerIn: parent
+        TcheckBox {
+          id: showHelpChB
+          anchors.verticalCenter: parent.verticalCenter
+          text: qsTranslate("ThelpDialogBase", "always show this help window")
+          checked: showVeryBeginHelp()
+        }
+        TiconButton {
+          id: rejButt
+          anchors.verticalCenter: parent.verticalCenter
+          pixmap: Noo.pix("exit"); text: Noo.TR("QShortcut", "Close")
+          onClicked: {
+            setVeryBeginHelp(showHelpChB.checked)
+            helpPopup.close()
+          }
         }
       }
     }
-  }
+  } // helpPopup
 
   TpopupDialog {
     id: noNamePopup
@@ -297,6 +300,8 @@ TstartExamItem {
   Component.onCompleted: {
     dialLoader.standardButtons = 0
     dialLoader.title = qsTr("Start exercises or an exam")
+    if (showVeryBeginHelp())
+      helpPopup.open()
   }
 
   onContinueExam: start(Texecutor.ContinueExam, examFile)
