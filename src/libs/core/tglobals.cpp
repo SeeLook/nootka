@@ -89,8 +89,7 @@ Tglobals::Tglobals(QObject* parent) :
 
   QCoreApplication::setOrganizationName(QStringLiteral("Nootka"));
   QCoreApplication::setOrganizationDomain(QStringLiteral("nootka.sf.net"));
-  if (qApp->applicationName() != QLatin1String("Nootini"))
-    QCoreApplication::setApplicationName(QStringLiteral("Nootka"));
+  QCoreApplication::setApplicationName(QStringLiteral("Nootka"));
 
   E = new TexamParams();
   A = new TaudioParams();
