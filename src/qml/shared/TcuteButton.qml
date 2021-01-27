@@ -8,7 +8,7 @@ import QtQuick.Controls 2.2
 
 AbstractButton {
   id: cutButt
-  font { pixelSize: Noo.fontSize(); underline: activeFocus }
+  font.pixelSize: Noo.fontSize()
   focus: true
 
   property alias radius: bg.radius
@@ -28,6 +28,8 @@ AbstractButton {
     fontSizeMode: Text.HorizontalFit
     color: enabled ? (checked ? activPal.highlightedText : activPal.text) : disdPal.text
     text: cutButt.text
+    style: cutButt.activeFocus ? Text.Sunken : Text.Normal
+    styleColor: activPal.highlight
   }
 
   background: TipRect {

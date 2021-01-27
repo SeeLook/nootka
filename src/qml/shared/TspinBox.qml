@@ -33,6 +33,7 @@ SpinBox {
     color: sb.enabled ? activPal.base : Qt.darker(disdPal.window, 1.2)
     width: sb.width - sb.height; height: sb.height
     x: sb.height / 2
+    border { width: sb.activeFocus ? 1 : 0; color: activPal.highlight }
   }
 
   up.indicator: TipRect {
@@ -44,11 +45,11 @@ SpinBox {
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
     Rectangle {
       x: parent.width / 4; width: parent.width / 2; height: parent.height / 15; y: parent.height * 0.48
-      color: sb.enabled ? activPal.dimText : disdPal.text
+      color: sb.enabled ? (sb.activeFocus ? activPal.text : activPal.dimText) : disdPal.text
     }
     Rectangle {
       x: parent.width / 4; width: parent.width / 2; height: parent.height / 15; y: parent.height * 0.48
-      color: sb.enabled ? activPal.dimText : disdPal.text
+      color: sb.enabled ? (sb.activeFocus ? activPal.text : activPal.dimText) : disdPal.text
       rotation: 90
     }
   }
@@ -62,7 +63,7 @@ SpinBox {
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
     Rectangle {
       x: parent.width / 4; width: parent.width / 2; height: parent.height / 15; y: parent.height * 0.48
-      color: sb.enabled ? activPal.dimText : disdPal.text
+      color: sb.enabled ? (sb.activeFocus ? activPal.text : activPal.dimText) : disdPal.text
     }
   }
 }

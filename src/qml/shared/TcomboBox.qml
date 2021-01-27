@@ -71,12 +71,16 @@ ComboBox {
     color: cb.enabled ? activPal.text : disdPal.text; text: "⋮"
     font { pixelSize: cb.height * 0.7; bold: true }
     anchors.verticalCenter: parent.verticalCenter
+    style: cb.activeFocus ? Text.Sunken : Text.Normal
+    styleColor: activPal.highlight
   }
 
   contentItem: Text {
     font: cb.font; leftPadding: cb.height / 3
     text: displayText; color: cb.enabled ? activPal.text : disdPal.text
     verticalAlignment: Text.AlignVCenter; elide: Text.ElideRight
+    style: cb.activeFocus ? Text.Sunken : Text.Normal
+    styleColor: activPal.highlight
   }
 
   background: TipRect {

@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2019-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2019-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -16,6 +16,7 @@ Slider {
     width: sl.availableWidth; height: implicitHeight
     radius: height / 2
     color: sl.enabled ? activPal.mid : disdPal.mid
+    border { width: sl.activeFocus ? 1 : 0; color: activPal.highlight }
 
     Rectangle {
       width: sl.visualPosition * parent.width; height: parent.height
@@ -35,7 +36,8 @@ Slider {
     Rectangle {
       anchors.fill: parent; scale: 0.5
       radius: height / 2
-      color: activPal.highlightedText
+      color: sl.activeFocus ? activPal.text : activPal.highlightedText
+      border { width: sl.activeFocus ? 1 : 0; color: activPal.highlight }
     }
   }
 }

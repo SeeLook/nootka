@@ -39,5 +39,7 @@ RadioButton {
     leftPadding: indicator.width + rb.font.pixelSize / 2
     color: rb.enabled ? activPal.text : disdPal.text
     font { pixelSize: rb.font.pixelSize * textScale; family: rb.font.family }
+    style: rb.activeFocus ? Text.Sunken : Text.Normal
+    styleColor: activPal.highlight
   }
 }

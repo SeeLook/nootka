@@ -45,5 +45,7 @@ CheckBox {
     leftPadding: indicator.width + chB.font.pixelSize / 2
     color: chB.enabled ? activPal.text : disdPal.text
     font { pixelSize: chB.font.pixelSize; family: chB.font.family }
+    style: chB.activeFocus ? Text.Sunken : Text.Normal
+    styleColor: activPal.highlight
   }
 }
