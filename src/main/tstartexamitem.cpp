@@ -163,11 +163,14 @@ QString TstartExamItem::exerOrExamHelpTxt(bool withHeader) {
     + sp + ThelpDialogBase::pix("exam", 64) + QLatin1String("</h2>") + br;
   }
   return header + br + TmainHelp::youWillLearnText() + br + br
-  + sp + sp + sp + sp + sp + sp + ThelpDialogBase::pix("practice", 64) + QLatin1String("</div>") + br
-  + TmainHelp::duringExercisingText() + br + TexamHelp::exerciseFeaturesText() + br + br + br
-  + sp + sp + sp + sp + sp + sp + ThelpDialogBase::pix("exam", 64) + br
-  + TmainHelp::duringExamsText() + br + TexamHelp::examFeaturesText()
-  + ThelpDialogBase::onlineDocP(QStringLiteral("start-exam"));
+  + QLatin1String("<table><tr><td valign=\"middle\">") + ThelpDialogBase::pix("practice", 64)
+  + QLatin1String(" </td><td valign=\"middle\"> ") + TmainHelp::duringExercisingText()
+  + br + TexamHelp::exerciseFeaturesText()+ QLatin1String("</td></tr>")
+  + QLatin1String("<tr><td><br></td><td><br></td></tr>")
+  + QLatin1String("<tr><td valign=\"middle\">") + ThelpDialogBase::pix("exam", 64)
+  + QLatin1String(" </td><td valign=\"middle\"> ") + TmainHelp::duringExamsText()
+  + br + TexamHelp::examFeaturesText()+ QLatin1String("</td></tr></table>")
+  + br + ThelpDialogBase::onlineDocP(QStringLiteral("start-exam"));
 }
 
 

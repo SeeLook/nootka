@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -34,15 +34,16 @@
 
 
 QString TmainHelp::exerciseAndExamText() {
-  QString helpTxt;
   QString br = QStringLiteral("<br>");
-  helpTxt = youWillLearnText() + QLatin1String(" ");
-  helpTxt += tr("Much depends on the chosen level. Press %1 button to create your own questions set (a level).").
-      arg(QLatin1String(" &nbsp; ") + ThelpDialogBase::pix("levelCreator", getPixSize()) + QLatin1String(" &nbsp; "));
-  helpTxt += br + tr("Select a level and warm up yourself exercising. Then try to pass an exam.");
-  helpTxt += br + duringExercisingText();
-  helpTxt += br + duringExamsText();
-  return helpTxt;
+  return youWillLearnText() + QLatin1String(" ")
+      + tr("Much depends on the chosen level. Press %1 button to create your own questions set (a level).").arg(QLatin1String(" &nbsp; ")
+      + ThelpDialogBase::pix("levelCreator", getPixSize()) + QLatin1String(" &nbsp; "))
+      + br + tr("Select a level and warm up yourself exercising. Then try to pass an exam.") + br
+      + QLatin1String("<table><tr><td valign=\"middle\">") + ThelpDialogBase::pix("practice", getPixSize())
+      + QLatin1String(" </td><td valign=\"middle\"> ") + duringExercisingText() + QLatin1String("</td></tr>")
+      + QLatin1String("<tr><td><br></td><td><br></td></tr>")
+      + QLatin1String("<tr><td valign=\"middle\">") + ThelpDialogBase::pix("exam", getPixSize())
+      + QLatin1String(" </td><td valign=\"middle\"> ") + duringExamsText() + QLatin1String("</td></tr></table>");
 }
 
 
@@ -52,14 +53,12 @@ QString TmainHelp::youWillLearnText() {
 
 
 QString TmainHelp::duringExercisingText() {
-  QString nbsp3 = QLatin1String(" &nbsp; ");
-  return tr("During exercising %1 the program will be your understanding and friendly teacher - it will show you corrected answers if you miss.").arg(nbsp3 + ThelpDialogBase::pix("practice", getPixSize()) + nbsp3);
+  return tr("During exercising %1 the program will be your understanding and friendly teacher - it will show you corrected answers if you miss.").arg(QString());
 }
 
 
 QString TmainHelp::duringExamsText() {
-  QString nbsp3 = QLatin1String(" &nbsp; ");
-  return tr("During exams %1 Nootka will be your strict and &quot;old school&quot; master. Any mistake will be penalized with additional questions...<br>When you pass an exam you got a certificate!").arg(nbsp3 + ThelpDialogBase::pix("exam", getPixSize()) + nbsp3);
+  return tr("During exams %1 Nootka will be your strict and &quot;old school&quot; master. Any mistake will be penalized with additional questions...<br>When you pass an exam you got a certificate!").arg(QString());
 }
 
 QString TmainHelp::mainHelp() {

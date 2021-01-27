@@ -42,7 +42,7 @@ class QPushButton;
 
 
 /**
- * This is base template class for help dialogues. 
+ * This is base template class for help dialogues.
  * It contains QTextEdit field to fill with help text
  * and QCheckBox which is optional. 
  * showCheckBox() method controls it.
@@ -55,7 +55,7 @@ class ThelpDialogBase : public QDialog
   Q_OBJECT
 
 public:
-  explicit ThelpDialogBase(QWidget* parent = nullptr, Qt::WindowFlags f = 0);
+  explicit ThelpDialogBase(QWidget* parent = nullptr, Qt::WindowFlags f = QFlag(0));
   virtual ~ThelpDialogBase();
 
       /**
