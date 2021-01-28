@@ -8,25 +8,27 @@ import QtQuick.Controls 2.2
 
 import "../"
 
-Tflickable {
-  id: flick
-  contentHeight: text.paintedHeight
+ListView {
+  id: chList
+  width: parent.width; height: parent.height
 
-  Rectangle {
-    anchors.fill: parent
-    color: activPal.base
+
+  model: dialogObj.getChanges()
+  delegate: Tile {
+    width: chList.width; height: relText.height + Noo.factor()
+    bgColor: index % 2 ? activPal.base : activPal.alternateBase
+    Text {
+      id: relText
+      text: modelData
+      x: Noo.factor() / 2; y: Noo.factor() / 2
+      width: chList.width - Noo.factor()
+      horizontalAlignment: text.substring(0, 4) === "<h1>" ? Text.AlignHCenter : Text.AlignLeft
+      color: activPal.text
+      wrapMode: TextEdit.Wrap; textFormat: Text.StyledText
+    }
   }
 
-  TextEdit {
-    id: text
-    width: flick.width
-    textMargin: font.pixelSize
-    wrapMode: TextEdit.Wrap
-    readOnly: true
-    textFormat: TextEdit.RichText
-    color: activPal.text
-    text: dialogObj.getChanges()
-    font.pixelSize: Noo.factor()
-  }
+  ScrollBar.vertical: ScrollBar { active: true; visible: active }
 }
+
 

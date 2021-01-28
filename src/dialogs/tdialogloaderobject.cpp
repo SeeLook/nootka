@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -49,6 +49,8 @@
 #include <QtCore/qsettings.h>
 #include <QtCore/qversionnumber.h>
 #include <QtCore/qmetaobject.h>
+#include <QtGui/qguiapplication.h>
+#include <QtGui/qpalette.h>
 #include <QtWidgets/qdialogbuttonbox.h>
 #include <QtCore/qdebug.h>
 
@@ -201,29 +203,33 @@ QString TdialogLoaderObject::examHelp() const {
 }
 
 
-QString TdialogLoaderObject::getChanges() const {
+QStringList TdialogLoaderObject::getChanges() const {
   QFile file(Tpath::main + QLatin1String("changes"));
-  QString chLog;
+  QStringList chLog;
   QTextStream in;
   if(file.open(QFile::ReadOnly | QFile::Text)) {
     QTextStream in(&file);
     in.setCodec("UTF-8");
     QStringList htmlText = in.readAll().replace(QLatin1String("  "), QLatin1String("&nbsp;&nbsp;")).split(QLatin1String("\n"));
-    htmlText.prepend(QStringLiteral("<b><big><center>Nootka TWO</big></b></center><br>"));
+    chLog << QLatin1String("<h1>Nootka TWO</h1>");
     for (int i = 0; i < htmlText.size(); i++) {
-      if (htmlText[i].startsWith(QLatin1String("0.")) || htmlText[i].startsWith(QLatin1String("1.")))
-        htmlText[i] = QLatin1String("<span style=\"font-size: x-large; color: #0000ff\"><b>&nbsp;") + htmlText[i] + QLatin1String("</b></span>");
-      else if (htmlText[i].contains(QLatin1String("======")))
-        htmlText[i] = QStringLiteral("<br><hr><b><big><center>Nootka ONE</big></b></center><hr>");
-      else if (htmlText[i].contains(QLatin1String("BUG")))
-        htmlText[i] = QStringLiteral("&nbsp;&nbsp;<u>BUG FIXES</u>");
-      else if (htmlText[i].contains(QLatin1String("Under the hood")))
-        htmlText[i] = QStringLiteral("&nbsp;&nbsp;<u>Under the hood</u>");
-      else if (!htmlText[i].contains(QLatin1String("&nbsp;&nbsp; - ")))
-        htmlText[i] = QLatin1String("<b>") + htmlText[i] + QLatin1String("</b>");
-      htmlText[i].append(QLatin1String("<br>"));
+      if (htmlText[i].startsWith(QLatin1String("0.")) || htmlText[i].startsWith(QLatin1String("1."))) {
+          htmlText[i] = QLatin1String("<font size=\"6\" color=\"%1\"><b>&nbsp;").arg(qApp->palette().highlight().color().name())
+                      + htmlText[i] + QLatin1String("</b></font>");
+          chLog << htmlText[i] + QLatin1String("<br>");
+      } else if (htmlText[i].contains(QLatin1String("======"))) {
+          htmlText[i] = QStringLiteral("<h1>Nootka ONE</h1>");
+          chLog << htmlText[i] + QLatin1String("<br>");
+      } else if (htmlText[i].length() > 7) {
+          if (htmlText[i].contains(QLatin1String("BUG")))
+            htmlText[i] = QStringLiteral("&nbsp;&nbsp;<u>BUG FIXES</u>");
+          else if (htmlText[i].contains(QLatin1String("Under the hood")))
+            htmlText[i] = QStringLiteral("&nbsp;&nbsp;<u>Under the hood</u>");
+          else if (!htmlText[i].contains(QLatin1String("&nbsp;&nbsp; - ")))
+            htmlText[i] = QLatin1String("<b>") + htmlText[i] + QLatin1String("</b>");
+          chLog.last().append(htmlText[i] + QLatin1String("<br>"));
+      }
     }
-    chLog = htmlText.join(QString());
   }
   file.close();
   return chLog;
