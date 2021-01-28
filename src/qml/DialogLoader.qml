@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -50,11 +50,11 @@ Old.Dialog {
     DialogButtonBox {
       id: box
       visible: standardButtons !== 0
-      width: parent.width; height: Noo.fontSize() * 3
-      spacing: Noo.fontSize()
+      width: parent.width; height: Noo.factor() * 3
+      spacing: Noo.factor()
       alignment: Qt.AlignVCenter
       delegate: TiconButton {
-        width: Math.min(box.width / 2, (box.width - Noo.fontSize() * (box.count + 1)) / box.count)
+        width: Math.min(box.width / 2, (box.width - Noo.factor() * (box.count + 1)) / box.count)
         pixmap: Noo.pix(dialogObj.buttonRoleIcon(DialogButtonBox.buttonRole))
       }
       background: Rectangle {

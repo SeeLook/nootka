@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2019-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2019-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -17,18 +17,18 @@ Tile {
   Column {
     width: parent.width
     Row {
-      spacing: Noo.fontSize()
+      spacing: Noo.factor()
       anchors.horizontalCenter: parent.horizontalCenter
       TlabelText { text: qsTranslate("SoundPage", "middle A") }
       Text { // staff
-        height: Noo.fontSize() * 4.5
-        y: Noo.fontSize() * -1.6
-        font { pixelSize: Noo.fontSize() * 2.5; family: "scorek" }
+        height: Noo.factor() * 4.5
+        y: Noo.factor() * -1.6
+        font { pixelSize: Noo.factor() * 2.5; family: "scorek" }
         text: "\ue014\ue014\ue014\ue014"
         color: enabled ? activPal.text : disdPal.text
         Text { // clef
-          x: Noo.fontSize() / 4
-          y: Noo.fontSize() * -0.6
+          x: Noo.factor() / 4
+          y: Noo.factor() * -0.6
           color: parent.color
           font: parent.font
           text: "\ue050"
@@ -36,8 +36,8 @@ Tile {
         Text { // note
           color: parent.color
           font: parent.font
-          x: Noo.fontSize() * 2.7
-          y: Noo.fontSize() * -0.9
+          x: Noo.factor() * 2.7
+          y: Noo.factor() * -0.9
           text: "\ue1d7"
         }
       }

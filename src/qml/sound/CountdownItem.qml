@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2019 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2019-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -11,8 +11,8 @@ TipRect {
 
   property int tickCount: 0
 
-  width: row.width + Noo.fontSize() * 4; height: nootkaWindow.height / 10
-  x: height * 2; y: Noo.fontSize() / 2
+  width: row.width + Noo.factor() * 4; height: nootkaWindow.height / 10
+  x: height * 2; y: Noo.factor() / 2
   z: 100
   color: Qt.tint(activPal.text, Noo.alpha("#00a0a0", 100))
   visible: counter <= tickCount && (SOUND.listening || SOUND.playing) && SOUND.metroRunning
@@ -31,7 +31,7 @@ TipRect {
   Row {
     id: row
     anchors.centerIn: parent
-    spacing: Noo.fontSize() * 2
+    spacing: Noo.factor() * 2
     Repeater {
       id: cntRep
       model: tickCount

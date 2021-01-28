@@ -64,7 +64,7 @@ TguitarBg {
     horizontalOffset: finger.height / 6
     verticalOffset: finger.height / 6
     color: "black"
-    radius: Noo.fontSize() / 3
+    radius: Noo.factor() / 3
     source: finger
     visible: fingerPos.x > 0
     scale: active && fingerPos.x > 0 ? 1 : 0

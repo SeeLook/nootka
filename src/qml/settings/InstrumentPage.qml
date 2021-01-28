@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -15,8 +15,8 @@ Flickable {
   clip: true
   width: parent.width
   height: parent.height
-  contentHeight: instrCol.height + Noo.fontSize() * 2
-  contentWidth: Math.max(width, Noo.fontSize() * 35)
+  contentHeight: instrCol.height + Noo.factor() * 2
+  contentWidth: Math.max(width, Noo.factor() * 35)
 
   property bool first: true // read props first time from GLOB but when instrument changed then from its profile
 
@@ -25,7 +25,7 @@ Flickable {
   Column {
     id: instrCol
     width: parent.width
-    spacing: Noo.fontSize() / 2
+    spacing: Noo.factor() / 2
 
     Tile {
       description: qsTr("Instrument")
@@ -60,16 +60,16 @@ Flickable {
     Grid {
       visible: Noo.instr(instrSel.instrument).isGuitar
       anchors.horizontalCenter: parent.horizontalCenter
-      spacing: Noo.fontSize()
-      columns: parent.width < Noo.fontSize() * 50 ? 1 : 2
+      spacing: Noo.factor()
+      columns: parent.width < Noo.factor() * 50 ? 1 : 2
       horizontalItemAlignment: Grid.AlignHCenter
       Row {
-        spacing: Noo.fontSize()
+        spacing: Noo.factor()
         Text { text: qsTr("number of frets:"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
         TspinBox { id: fretsNrSpin; from: 15; to: 24; value: GLOB.fretNumber }
       }
       Row {
-        spacing: Noo.fontSize()
+        spacing: Noo.factor()
         Text { text: qsTr("number of strings:"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
         TspinBox { id: stringNrSpin; from: 3; to: 6; value: GLOB.stringNumber() }
       }
@@ -78,10 +78,10 @@ Flickable {
     Tile {
       visible: instrSel.instrument <= Tinstrument.BassGuitar
       Column {
-        spacing: Noo.fontSize()
+        spacing: Noo.factor()
         width: parent.width
         Row {
-          spacing: Noo.fontSize()
+          spacing: Noo.factor()
           anchors.horizontalCenter: parent.horizontalCenter
           Text {
             text: instrSel.instrument === 0 ? qsTr("scale of an instrument") : qsTr("tuning of the guitar")
@@ -90,13 +90,13 @@ Flickable {
           TcomboBox {
             id: tuningCombo
             visible: instrSel.instrument !== 0
-            width: Noo.fontSize() * 18
+            width: Noo.factor() * 18
             model: GLOB.instrument.type === Tinstrument.BassGuitar ? Noo.bassTunings() : Noo.guitarTunings()
           }
         }
         Item {
-          height: Noo.fontSize() * 18
-          width: Math.min(parent.width * 0.9, Noo.fontSize() * (instrSel.instrument === 0 ? 14 : 28))
+          height: Noo.factor() * 18
+          width: Math.min(parent.width * 0.9, Noo.factor() * (instrSel.instrument === 0 ? 14 : 28))
           anchors.horizontalCenter: parent.horizontalCenter
           Score {
             id: score
@@ -141,7 +141,7 @@ Flickable {
       ButtonGroup { buttons: radioRow.children }
       Row {
         id: radioRow
-        spacing: Noo.fontSize()
+        spacing: Noo.factor()
         anchors.horizontalCenter: parent.horizontalCenter
         TlabelText { text: qsTr("preferred accidentals:") }
         TradioButton { id: prefSharpRadio; text: qsTr("# - sharps"); checked: !GLOB.preferFlats }
@@ -163,12 +163,12 @@ Flickable {
     Tile {
       visible: Noo.instr(instrSel.instrument).isGuitar
       Row {
-        spacing: Noo.fontSize()
+        spacing: Noo.factor()
         anchors.horizontalCenter: parent.horizontalCenter
         Text { text: qsTr("marked frets", "or frets with dots/marks"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
         TtextField {
           id: fretDots
-          width: Noo.fontSize() * 15
+          width: Noo.factor() * 15
           maximumLength: 30
           validator: RegExpValidator { regExp: /([1-2]{0,1}[0-9]{1,2}!{0,1},){0,10}/ }
         }
@@ -179,7 +179,7 @@ Flickable {
     Tile {
       visible: instrSel.instrument !== 0
       Row {
-        spacing: Noo.fontSize()
+        spacing: Noo.factor()
         anchors.horizontalCenter: parent.horizontalCenter
         Text { color: activPal.text; text: qsTr("color of a pointer on an instrument"); anchors.verticalCenter: parent.verticalCenter }
         ColorButton { id: fingerColorButt; color: GLOB.fingerColor; title: qsTr("color of a pointer on an instrument") }
@@ -188,7 +188,7 @@ Flickable {
     Tile {
       visible: instrSel.instrument !== 0
       Row {
-        spacing: Noo.fontSize()
+        spacing: Noo.factor()
         anchors.horizontalCenter: parent.horizontalCenter
         Text { color: activPal.text; text: qsTr("color of a selection"); anchors.verticalCenter: parent.verticalCenter }
         ColorButton { id: selectedColorButt; color: GLOB.selectedColor; title: qsTr("color of a selection") }

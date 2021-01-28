@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -23,10 +23,10 @@ Tflickable {
     Column {
       id: instrCol
       width: parent.width
-      spacing: Noo.fontSize() * 3
+      spacing: Noo.factor() * 3
       Text {
         text: qsTr("What instrument do you play?")
-        font { pixelSize: Noo.fontSize() * 2; bold: true }
+        font { pixelSize: Noo.factor() * 2; bold: true }
         width: parent.width
         wrapMode: Text.WordWrap
         horizontalAlignment: Text.AlignHCenter

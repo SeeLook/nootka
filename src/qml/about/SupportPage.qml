@@ -10,7 +10,7 @@ import "../"
 
 Tflickable {
   height: parent.height
-  contentHeight: suppFlow.childrenRect.height + thText.height + Noo.fontSize() * 3
+  contentHeight: suppFlow.childrenRect.height + thText.height + Noo.factor() * 3
   contentWidth: width
 
 //                        bugs    | donate   | record   | translate | MacOs   | vote     | report   | express |
@@ -33,10 +33,10 @@ Tflickable {
 
   Flow {
     id: suppFlow
-    width: parent.width - Noo.fontSize() * 2
+    width: parent.width - Noo.factor() * 2
     height: childrenRect.height
-    anchors { margins: Noo.fontSize(); horizontalCenter: parent.horizontalCenter }
-    spacing: Noo.fontSize() / 2
+    anchors { margins: Noo.factor(); horizontalCenter: parent.horizontalCenter }
+    spacing: Noo.factor() / 2
 
     Tile {
       width: parent.width
@@ -46,7 +46,7 @@ Tflickable {
         text: qsTr("You also can help with making Nootka better.")
         width: parent.width * 0.9
         wrapMode: Text.WordWrap
-        font { pixelSize: Noo.fontSize() * 2; bold: true }
+        font { pixelSize: Noo.factor() * 2; bold: true }
         anchors.horizontalCenter: parent.horizontalCenter
         color: activPal.highlightedText
       }
@@ -57,7 +57,7 @@ Tflickable {
       Text {
         width: parent.width * 0.96
         text: qsTr("It requires little bit English, so if you can read a text below there will be something you may get involved.")
-        font { pixelSize: Noo.fontSize() * 1.1 }
+        font { pixelSize: Noo.factor() * 1.1 }
         wrapMode: Text.WordWrap
         anchors.horizontalCenter: parent.horizontalCenter
         color: activPal.text
@@ -68,7 +68,7 @@ Tflickable {
       model: colors.length
       Tile {
         visible: !Noo.isAndroid() || index !== 1
-        width: Noo.isAndroid() ? suppFlow.width : (tt.width + Noo.fontSize() * 4)
+        width: Noo.isAndroid() ? suppFlow.width : (tt.width + Noo.factor() * 4)
         anchors.horizontalCenter: undefined
         bgBorder { color: colors[index]; width: 2 }
         bgColor: Qt.tint(colors[index], Qt.rgba(activPal.base.r, activPal.base.g, activPal.base.b, 0.9))
@@ -83,14 +83,14 @@ Tflickable {
   }
 
   Tile {
-    width: Noo.fontSize() * 20
+    width: Noo.factor() * 20
     anchors { horizontalCenter: parent.horizontalCenter; top: suppFlow.bottom }
     bgColor: activPal.highlight
     bgBorder { color: activPal.highlightedText; width: 2 }
     Text {
       id: thText
       text: "Thanks in advance!<br>Author"
-      font { pixelSize: Noo.fontSize() * 1.7 }
+      font { pixelSize: Noo.factor() * 1.7 }
       horizontalAlignment: Text.AlignRight
       anchors.horizontalCenter: parent.horizontalCenter
       color: activPal.highlightedText

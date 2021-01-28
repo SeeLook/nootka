@@ -28,7 +28,7 @@
 #else
   inline int getPixSize() {
 //     return qApp->fontMetrics().height() * 1.5;
-    return qRound(static_cast<qreal>(NOO->fontSize()) * 3.0);
+    return qRound(static_cast<qreal>(NOO->factor()) * 3.0);
   }
 #endif
 

@@ -8,7 +8,7 @@ import QtQuick.Controls 2.2
 
 AbstractButton {
   id: root
-  font.pixelSize: Noo.fontSize()
+  font.pixelSize: Noo.factor()
   focus: true
 
   property alias radius: bg.radius
@@ -20,18 +20,18 @@ AbstractButton {
   Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
 
   contentItem: Column {
-    padding: Noo.fontSize() / 4
+    padding: Noo.factor() / 4
     Row {
-      spacing: Noo.fontSize() / 3
+      spacing: Noo.factor() / 3
       anchors.horizontalCenter: parent.horizontalCenter
       Image {
         id: img
-        sourceSize.height: Noo.fontSize() * 2
+        sourceSize.height: Noo.factor() * 2
         anchors.verticalCenter: parent.verticalCenter
         scale: root.activeFocus ? 1.1 : 1.0
       }
       Text {
-        padding: Noo.fontSize() / 3
+        padding: Noo.factor() / 3
         font: root.font
         horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
         minimumPixelSize: 8; fontSizeMode: Text.HorizontalFit

@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -17,9 +17,9 @@ Tflickable {
   Column {
     id: aboutCol
     width: parent.width
-    spacing: Noo.fontSize()
+    spacing: Noo.factor()
     TipRect {
-      height: Noo.fontSize() * 7; width: parent.width
+      height: Noo.factor() * 7; width: parent.width
       color: nooLab.bgColor; radius: 0
       NootkaLabel {
         id: nooLab
@@ -38,13 +38,13 @@ Tflickable {
     Tile {
       bgColor: Qt.tint(nooLab.bgColor, Noo.alpha(activPal.base, 230))
       bgBorder { width: 2; color: nooLab.bgColor }
-      width: parent.width - Noo.fontSize()
+      width: parent.width - Noo.factor()
       Column {
         width: parent.width
-        spacing: Noo.fontSize()
+        spacing: Noo.factor()
         Text {
           width: parent.width
-          font { pixelSize: Noo.fontSize() * 2; bold: true }
+          font { pixelSize: Noo.factor() * 2; bold: true }
           horizontalAlignment: Text.AlignHCenter
           text: "Nootka " + Noo.version()
           color: activPal.text
@@ -65,7 +65,7 @@ Tflickable {
           <a href=\"mailto:seelook.gmail.com\">Let me know what do you think...</a>"
           width: parent.width * 0.96
           anchors.horizontalCenter: parent.horizontalCenter
-          font { pixelSize: Noo.fontSize() * 1.1 }
+          font { pixelSize: Noo.factor() * 1.1 }
           horizontalAlignment: Text.AlignLeft
           wrapMode: Text.WordWrap
         }

@@ -16,21 +16,21 @@ TpopupDialog {
   signal remove(var fromDisk)
 
   bgColor: Qt.tint(activPal.window, Noo.alpha("red", 20))
-  border { color: "red"; width: Noo.fontSize() / 4.0 }
+  border { color: "red"; width: Noo.factor() / 4.0 }
   visible: true; modal: true
-  width: innerCol.width * 1.2; height: innerCol.height + Noo.fontSize() * 5
+  width: innerCol.width * 1.2; height: innerCol.height + Noo.factor() * 5
 
   acceptButton.text: Noo.TR("QFileDialog", "Remove")
   acceptButton.pixmap: Noo.pix("delete")
 
   Column {
     id: innerCol
-    spacing: Noo.fontSize()
+    spacing: Noo.factor()
     anchors.horizontalCenter: parent.horizontalCenter
     Text {
       anchors.horizontalCenter: parent.horizontalCenter
       color: activPal.text
-      font.pixelSize: Noo.fontSize() * 1.5
+      font.pixelSize: Noo.factor() * 1.5
       text: qsTr("Remove level %1 from the list").arg("<b>" + levelName + "</b>")// + "<br>"
     }
     TcheckBox {

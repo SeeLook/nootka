@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -76,13 +76,13 @@ ApplicationWindow {
   }
 
   footer: Rectangle {
-    width: parent.width; height: prevBut.height + Noo.fontSize() + 2
+    width: parent.width; height: prevBut.height + Noo.factor() + 2
     color: Qt.tint(activPal.window, Noo.alpha(aboutPage.color, 50))
-    Rectangle { color: aboutPage.color; height: Noo.fontSize() / 6; width: parent.width; anchors.top: parent.top }
+    Rectangle { color: aboutPage.color; height: Noo.factor() / 6; width: parent.width; anchors.top: parent.top }
     Row {
-      x: (parent.width - width - 8 * Noo.fontSize()) / 2
+      x: (parent.width - width - 8 * Noo.factor()) / 2
       anchors.verticalCenter: parent.verticalCenter
-      spacing: Noo.fontSize() * 2
+      spacing: Noo.factor() * 2
       TcuteButton {
         id: prevBut
         anchors.verticalCenter: parent.verticalCenter
@@ -115,7 +115,7 @@ ApplicationWindow {
     }
     TcuteButton {
       anchors.verticalCenter: parent.verticalCenter
-      x: parent.width - width - Noo.fontSize()
+      x: parent.width - width - Noo.factor()
       text: Noo.TR("QWizard", "&Finish").replace("&", "")
       onClicked: nootkaWindow.close()
       Shortcut { sequence: "Return"; onActivated: nootkaWindow.close() }

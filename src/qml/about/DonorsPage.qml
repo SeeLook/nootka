@@ -30,7 +30,7 @@ Tflickable {
   Column {
     id: donCol
     width: root.width
-    spacing: Noo.fontSize()
+    spacing: Noo.factor()
 
     Tile {
       width: parent.width
@@ -40,7 +40,7 @@ Tflickable {
         text: qsTranslate("TaboutNootka", "People and companies who gave material support for the Nootka project")
         width: parent.width * 0.9
         wrapMode: Text.WordWrap
-        font { pixelSize: Noo.fontSize() * 2; bold: true }
+        font { pixelSize: Noo.factor() * 2; bold: true }
         anchors.horizontalCenter: parent.horizontalCenter
         color: activPal.highlightedText
         horizontalAlignment: Text.AlignHCenter
@@ -49,12 +49,12 @@ Tflickable {
 
     Grid {
       id: container
-      width: columns * widest + (columns - 1) * Noo.fontSize()
-      columns: Math.floor(parent.width / (widest + Noo.fontSize()))
+      width: columns * widest + (columns - 1) * Noo.factor()
+      columns: Math.floor(parent.width / (widest + Noo.factor()))
       horizontalItemAlignment: Grid.AlignHCenter
       anchors.horizontalCenter: parent.horizontalCenter
       property real widest: 0
-      spacing: Noo.fontSize()
+      spacing: Noo.factor()
       Repeater {
         model: [ "Tony Nederpel", "Jose1711", "Wayne Bonner", "Aaron Wolf",
                  "Torsten Philipp", "Vincent Bermel", "Tomasz Matuszewski",
@@ -65,16 +65,16 @@ Tflickable {
           z: scale > 1 ? 2 : 1
           anchors.horizontalCenter: undefined
           property color randCol: Noo.randomColor()
-          width: tt.width + Noo.fontSize() * 4
+          width: tt.width + Noo.factor() * 4
           bgBorder { color: randCol; width: 2 }
           bgColor: Qt.tint(randCol, Noo.alpha(activPal.base, 180))
           Text {
             id: tt
-            font.pixelSize: Noo.fontSize() * 1.5
+            font.pixelSize: Noo.factor() * 1.5
             text: modelData
             anchors.horizontalCenter: parent.horizontalCenter
             color: activPal.text
-            Component.onCompleted: container.widest = Math.max(container.widest, tt.width + Noo.fontSize() * 4)
+            Component.onCompleted: container.widest = Math.max(container.widest, tt.width + Noo.factor() * 4)
           }
           MouseArea {
             id: ma
@@ -94,7 +94,7 @@ Tflickable {
     }
 
     Text {
-      font { bold: true; pixelSize: Noo.fontSize() * 2 }
+      font { bold: true; pixelSize: Noo.factor() * 2 }
       text: "THANK YOU!   "
       anchors.horizontalCenter: parent.horizontalCenter
       color: activPal.text

@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2018-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -100,7 +100,7 @@ Window {
               font { pixelSize: upTextSize; bold: true }
               color: activPal.text; verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignHCenter
               height: toolBar.height * 0.48; width: analyzeWindow.width / 7
-              fontSizeMode: Text.Fit; minimumPixelSize: Noo.fontSize() / 2
+              fontSizeMode: Text.Fit; minimumPixelSize: Noo.factor() / 2
             }
           }
           Item { height: 2; width: analyzeWindow.width / 100 }
@@ -119,7 +119,7 @@ Window {
               font { pixelSize: upTextSize; bold: true }
               color: activPal.text; verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignHCenter
               height: toolBar.height * 0.48; width: analyzeWindow.width / 7
-              fontSizeMode: Text.Fit; minimumPixelSize: Noo.fontSize() / 2
+              fontSizeMode: Text.Fit; minimumPixelSize: Noo.factor() / 2
             }
           }
           Item { height: 2; width: analyzeWindow.width / 100 }
@@ -150,7 +150,7 @@ Window {
             }
             Rectangle {
               anchors.horizontalCenter: parent.horizontalCenter
-              width: levelText.width + Noo.fontSize(); height: toolBar.height / 2
+              width: levelText.width + Noo.factor(); height: toolBar.height / 2
               color: levelArea.containsMouse ? activPal.highlight : "transparent"
               radius: height / 5
               Text {

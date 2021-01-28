@@ -11,7 +11,7 @@ import "../"
 Tflickable {
   id: qPage
   height: parent.height
-  contentHeight: questionCol.height + Noo.fontSize() * 2
+  contentHeight: questionCol.height + Noo.factor() * 2
   contentWidth: width
 
   property real spacing: width / 100
@@ -36,7 +36,7 @@ Tflickable {
             spacing: qPage.width / 50
             anchors.horizontalCenter: parent.horizontalCenter
             Text {
-              font { family: "Nootka"; pixelSize: Noo.fontSize() * 3 }
+              font { family: "Nootka"; pixelSize: Noo.factor() * 3 }
               color: activPal.highlight; text: "n"
               anchors.verticalCenter: parent.verticalCenter
             }
@@ -54,7 +54,7 @@ Tflickable {
               anchors.verticalCenter: parent.verticalCenter
             }
             Text {
-              font { family: "Nootka"; pixelSize: Noo.fontSize() * 3 }
+              font { family: "Nootka"; pixelSize: Noo.factor() * 3 }
               color: Noo.invert(activPal.highlight); text: "m"
               anchors.verticalCenter: parent.verticalCenter
             }
@@ -97,7 +97,7 @@ Tflickable {
           Tile {
             id: playTile
             anchors.horizontalCenter: undefined
-            width: Math.max(playChB.width + Noo.fontSize() * 4, qPage.width * 0.3)
+            width: Math.max(playChB.width + Noo.factor() * 4, qPage.width * 0.3)
             description: Noo.TR("Texam", "Play a melody written in a score")
             TcheckBox {
               id: playChB
@@ -110,7 +110,7 @@ Tflickable {
           Tile {
             id: writeTile
             anchors.horizontalCenter: undefined
-            width: Math.max(writeChB.width + Noo.fontSize() * 4, qPage.width * 0.3)
+            width: Math.max(writeChB.width + Noo.factor() * 4, qPage.width * 0.3)
             description: Noo.TR("Texam", "Listen to a melody and write it on a score")
             TcheckBox {
               id: writeChB
@@ -124,7 +124,7 @@ Tflickable {
             id: repeatTile
             visible: false // TODO in some next release
             anchors.horizontalCenter: undefined
-            width: Math.max(repeatChB.width + Noo.fontSize() * 4, qPage.width * 0.3)
+            width: Math.max(repeatChB.width + Noo.factor() * 4, qPage.width * 0.3)
             description: qsTranslate("Texam", "Listen to a melody and repeat it on your instrument")
             TcheckBox {
               id: repeatChB
@@ -145,7 +145,7 @@ Tflickable {
       padding: qPage.padding
       Tile {
         anchors.horizontalCenter: undefined
-        width: Math.max(octaveChB.width + Noo.fontSize() * 2, qPage.width * 0.45)
+        width: Math.max(octaveChB.width + Noo.factor() * 2, qPage.width * 0.45)
         TcheckBox {
           id: octaveChB
           anchors.horizontalCenter: parent.horizontalCenter
@@ -157,7 +157,7 @@ Tflickable {
       }
       Tile {
         anchors.horizontalCenter: undefined
-        width: Math.max(styleChB.width + Noo.fontSize() * 2, qPage.width * 0.45)
+        width: Math.max(styleChB.width + Noo.factor() * 2, qPage.width * 0.45)
         TcheckBox {
           id: styleChB
           anchors.horizontalCenter: parent.horizontalCenter
@@ -170,7 +170,7 @@ Tflickable {
       Tile {
         anchors.horizontalCenter: undefined
         visible: GLOB.instrument.isGuitar
-        width: Math.max(strChB.width + Noo.fontSize() * 2, qPage.width * 0.45)
+        width: Math.max(strChB.width + Noo.factor() * 2, qPage.width * 0.45)
         TcheckBox {
           id: strChB
           anchors.horizontalCenter: parent.horizontalCenter
@@ -183,7 +183,7 @@ Tflickable {
       Tile {
         anchors.horizontalCenter: undefined
         visible: GLOB.instrument.isGuitar
-        width: Math.max(lowPosChB.width + Noo.fontSize() * 2, qPage.width * 0.45)
+        width: Math.max(lowPosChB.width + Noo.factor() * 2, qPage.width * 0.45)
         TcheckBox {
           id: lowPosChB
           anchors.horizontalCenter: parent.horizontalCenter

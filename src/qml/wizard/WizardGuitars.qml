@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2018-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -10,25 +10,25 @@ import "../score"
 
 
 Column {
-  spacing: Noo.fontSize()
+  spacing: Noo.factor()
   width: parent.width
 
   Text {
     width: parent.width
     wrapMode: Text.WordWrap
-    font { pixelSize: Noo.fontSize() * 1.2; bold: true }
+    font { pixelSize: Noo.factor() * 1.2; bold: true }
     horizontalAlignment: Text.AlignHCenter
     color: activPal.text
     text: qsTr("Guitar notation uses the treble clef with the digit \"eight\" written below <br>(even if some editors are forgetting about this digit).<br>Try to understand this.")
   }
   Row {
     anchors.horizontalCenter: parent.horizontalCenter
-    spacing: Noo.fontSize()
+    spacing: Noo.factor()
     Repeater {
       model: 2
       Score {
         id: sc
-        height: Math.max(Noo.fontSize() * 18, nootkaWindow.height * 0.4); width: Math.max(Noo.fontSize() * 9, nootkaWindow.height * 0.2)
+        height: Math.max(Noo.factor() * 18, nootkaWindow.height * 0.4); width: Math.max(Noo.factor() * 9, nootkaWindow.height * 0.2)
         meter: Tmeter.NoMeter
         readOnly: true
         clef: index === 1 ? Tclef.Treble_G_8down : Tclef.Treble_G

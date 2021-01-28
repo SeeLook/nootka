@@ -10,15 +10,15 @@ import Score 1.0
 ControlBase {
   id: toolbox
 
-  x: show ? 2 : -width - Noo.fontSize()
+  x: show ? 2 : -width - Noo.factor()
   y: score.singleNote || score.meter === Tmeter.NoMeter ? (score.height - height) / 2 :
-            (Noo.isAndroid() ? (nootkaWindow.height - height) / 2 : Noo.fontSize() / 2)
+            (Noo.isAndroid() ? (nootkaWindow.height - height) / 2 : Noo.factor() / 2)
   z: 1010 // above mobile menu button
   visible: !scoreObj.touched
 
   active: !score.readOnly && (scoreObj.activeNote || (score.noteAdd && score.noteAdd.active))
 
-  factor: Noo.isAndroid() ? Noo.shortScreenSide() * 0.04 : Noo.fontSize() * 1.2
+  factor: Noo.isAndroid() ? Noo.shortScreenSide() * 0.04 : Noo.factor() * 1.2
 
   property string rhythmText: Noo.rhythmText(scoreObj.workRhythm)
   property bool triplet: false

@@ -150,7 +150,7 @@ public:
   Q_INVOKABLE qreal saturation(const QColor& c) const;
   Q_INVOKABLE qreal lightness(const QColor& c) const;
 
-  Q_INVOKABLE int fontSize();
+  Q_INVOKABLE int factor();
   Q_INVOKABLE QString fontFamily();
   Q_INVOKABLE int fingerPixels();
 
@@ -302,3 +302,4 @@ private:
 };
 
 #endif // TNOOTKAQML_H
+

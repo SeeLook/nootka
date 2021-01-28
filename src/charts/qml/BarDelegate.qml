@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2019 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2019-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -27,7 +27,7 @@ Item {
     anchors.fill: barIt
     horizontalOffset: barDel.width / 30
     verticalOffset: horizontalOffset
-    radius: Noo.fontSize() * (barIt.hovered ? 2 : 1)
+    radius: Noo.factor() * (barIt.hovered ? 2 : 1)
     samples: 1 + radius * 2
     color: activPal.shadow
     source: barIt

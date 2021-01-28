@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2019 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2019-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -22,7 +22,7 @@ AbstractButton {
 
   contentItem: Text {
     id: tx
-    leftPadding: Noo.fontSize() / 2
+    leftPadding: Noo.factor() / 2
     font: rectButt.font
     text: rectButt.text
     color: checked ? "red" : activPal.text
@@ -32,7 +32,7 @@ AbstractButton {
 
   background: Rectangle {
     id: bg
-    width: contentItem.width + Noo.fontSize() / 2
+    width: contentItem.width + Noo.factor() / 2
     height: parent.height
     color: activPal.highlight
     radius: height / 5

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -149,9 +149,9 @@ void TtipHandler::changeExam(Texam* newExam) {
 
 int TtipHandler::bigFont() {
 #if defined (Q_OS_ANDROID)
-  return (NOO->fontSize() * 1.2);
+  return (NOO->factor() * 1.2);
 #else
-  return (NOO->fontSize() * 2);
+  return (NOO->factor() * 2);
 #endif
 }
 

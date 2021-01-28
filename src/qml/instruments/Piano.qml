@@ -80,7 +80,7 @@ TpianoBg {
 
   Rectangle {
     id: octaveCover
-    width: instrItem.width; height: Noo.fontSize() * (Noo.isAndroid() ? 1 : 1.5)
+    width: instrItem.width; height: Noo.factor() * (Noo.isAndroid() ? 1 : 1.5)
     color: "black"
     Repeater {
       model: Math.floor(keysNumber / 7)

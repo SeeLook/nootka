@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2018-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -16,7 +16,7 @@ Tile {
   description: qsTr("Maximal interval between notes used in a melody (in semitones).")
   Row {
     anchors.horizontalCenter: parent.horizontalCenter
-    spacing: Noo.fontSize() / 2
+    spacing: Noo.factor() / 2
     Text {
       anchors.verticalCenter: parent.verticalCenter
       text: qsTr("Max interval")

@@ -21,28 +21,28 @@ Dialog {
   background: TipRect {
     id: rect
     color: activPal.window; shadowColor: activPal.shadow
-    shadowRadius: Noo.fontSize() * (Noo.isAndroid() ? 0.5 : 1)
+    shadowRadius: Noo.factor() * (Noo.isAndroid() ? 0.5 : 1)
   }
   scale: GLOB.useAnimations ? 0 : 1.0
   enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}
   exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0 }}
 
   header: Rectangle {
-    color: "transparent"; width: parent.width; height: hText.height + Noo.fontSize() / 2; radius: Noo.fontSize() / 4
+    color: "transparent"; width: parent.width; height: hText.height + Noo.factor() / 2; radius: Noo.factor() / 4
     visible: hText.text !== ""
     Text {
       id: hText
-      width: parent.width - Noo.fontSize()
+      width: parent.width - Noo.factor()
       fontSizeMode: Text.HorizontalFit
       anchors.centerIn: parent; horizontalAlignment: Text.AlignHCenter
       color: activPal.text
-      font { pixelSize: Noo.fontSize() * 1.5; bold: true }
+      font { pixelSize: Noo.factor() * 1.5; bold: true }
     }
     Rectangle { width: parent.width; height: 1; color: rect.border.color; y: parent.height }
   }
 
   footer: Rectangle {
-    color: "transparent"; width: parent ? parent.width : 0; height: butRow.height; radius: Noo.fontSize() / 4
+    color: "transparent"; width: parent ? parent.width : 0; height: butRow.height; radius: Noo.factor() / 4
     Row {
       id: butRow; spacing: parent.width / 10; padding: parent.height / 7
       anchors.horizontalCenter: parent.horizontalCenter

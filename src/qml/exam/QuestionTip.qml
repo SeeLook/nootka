@@ -9,7 +9,7 @@ ExamTip {
   id: examTip
 
   bg: GLOB.wrongColor
-  font.pixelSize: Noo.fontSize() * (Noo.isAndroid() ? 1 : 1.25)
+  font.pixelSize: Noo.factor() * (Noo.isAndroid() ? 1 : 1.25)
   width: textItem.width + height / 2
   textItem.z: 1 // above question mark
 

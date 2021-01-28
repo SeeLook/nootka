@@ -86,7 +86,7 @@ TipRect {
     }
 
     Rectangle {
-      width: keyRow.width; height: Noo.fontSize() * (Noo.isAndroid() ? 1 : 1.5) + 2
+      width: keyRow.width; height: Noo.factor() * (Noo.isAndroid() ? 1 : 1.5) + 2
       y: -2
       color: octave % 2 ? "#303030" : "black"
       Text {

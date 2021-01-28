@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -45,7 +45,7 @@ TcuteButton {
       id: txt
       visible: forceText || (showText && taction && currentFly === flyItem)
       anchors { verticalCenter: parent.verticalCenter; left: img.right }
-      padding: Noo.fontSize() / 3
+      padding: Noo.factor() / 3
       horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
       minimumPixelSize: 8
       fontSizeMode: Text.HorizontalFit

@@ -10,22 +10,22 @@ import "../"
 
 Tflickable {
   height: parent.height
-  contentHeight: accidsGrid.height + Noo.fontSize() * 2
-  contentWidth: Math.max(width, Noo.fontSize() * 40)
+  contentHeight: accidsGrid.height + Noo.factor() * 2
+  contentWidth: Math.max(width, Noo.factor() * 40)
 
   Grid {
-    columns: parent.width > Noo.fontSize() * 60 ? 2 : 1
+    columns: parent.width > Noo.factor() * 60 ? 2 : 1
     id: accidsGrid
     width: parent.width
-    spacing: Noo.fontSize() / 4
+    spacing: Noo.factor() / 4
     horizontalItemAlignment: Grid.AlignHCenter
-    topPadding: Noo.fontSize()
+    topPadding: Noo.factor()
 
     Tframe {
       width: accidsGrid.columns === 1 ? Math.max(parent.width * 0.9, dblAccidsChB.width) : parent.width * 0.4
       enabled: creator.howGetMelody !== 2 || !creator.isMelody
       Column {
-        spacing: Noo.fontSize() / 2
+        spacing: Noo.factor() / 2
         width: parent.width
         Text { text: qsTr("accidentals"); color: activPal.text; anchors.horizontalCenter: parent.horizontalCenter }
         Tile {
@@ -75,7 +75,7 @@ Tflickable {
       id: keyFrame
       width: accidsGrid.columns === 1 ? parent.width * 0.98 : parent.width * 0.59
       Column {
-        spacing: Noo.fontSize() / 2
+        spacing: Noo.factor() / 2
         width: parent.width
         TcheckBox {
           id: useKeysChB
@@ -111,7 +111,7 @@ Tflickable {
         Tile {
           enabled: useKeysChB.checked
           Row {
-            spacing: Noo.fontSize() / 2
+            spacing: Noo.factor() / 2
             anchors.horizontalCenter: parent.horizontalCenter
             TcomboBox {
               id: loKeyCombo
@@ -121,7 +121,7 @@ Tflickable {
               onActivated: creator.loKey = currentIndex - 7
             }
             Rectangle {
-              color: enabled ? activPal.text : disdPal.text; width: Noo.fontSize(); height: Noo.fontSize() / 5
+              color: enabled ? activPal.text : disdPal.text; width: Noo.factor(); height: Noo.factor() / 5
               anchors.verticalCenter: parent.verticalCenter
             }
             TcomboBox {

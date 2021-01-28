@@ -11,12 +11,12 @@ RadioButton {
   property alias textColor: content.color
   property real textScale: 1.0
 
-  font.pixelSize: Noo.fontSize()
+  font.pixelSize: Noo.factor()
 
   indicator: TipRect {
     implicitWidth: rb.font.pixelSize * 2; implicitHeight: rb.font.pixelSize * 2
     x: rb.leftPadding; y: (rb.height - height) / 2
-    horizontalOffset: rised ? Noo.fontSize() / 8 : 0; verticalOffset: horizontalOffset
+    horizontalOffset: rised ? Noo.factor() / 8 : 0; verticalOffset: horizontalOffset
     radius: implicitWidth / 2
     rised: !rb.down
     color: rb.enabled ? activPal.base : Qt.darker(disdPal.window, 1.2)

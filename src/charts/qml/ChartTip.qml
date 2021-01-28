@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2018-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -19,13 +19,13 @@ TipRect {
   z: 5000
   x: Noo.bound(parent.height / 12, tipItem.pos.x - chartView.list.contentX, parent.width - width * 1.2)
   y: tipItem.pos.y > parent.height / 2 ? tipItem.pos.y - height - parent.height / 14 : tipItem.pos.y + parent.height / 20
-  shadowRadius: Noo.fontSize() * 3; horizontalOffset: Noo.fontSize() / 3; verticalOffset: horizontalOffset
+  shadowRadius: Noo.factor() * 3; horizontalOffset: Noo.factor() / 3; verticalOffset: horizontalOffset
 
   visible: scale > 0
 
-  border { color: tipItem.color; width: Noo.fontSize() / 7 }
+  border { color: tipItem.color; width: Noo.factor() / 7 }
   color: Qt.tint(activPal.base, Noo.alpha(tipItem.color, 50))
-  radius: Noo.fontSize()
+  radius: Noo.factor()
 
   scale: tipItem.show ? 1 : 0
 
@@ -49,27 +49,27 @@ TipRect {
 
   TchartTipItem {
     id: tipItem
-    width: (lineCol.visible ? lineCol.width : Math.max(scoreRow.width, headRow.width)) + Noo.fontSize()
-    height: (lineCol.visible ? lineCol.height : resultCol.y + resultCol.height) + Noo.fontSize()
+    width: (lineCol.visible ? lineCol.width : Math.max(scoreRow.width, headRow.width)) + Noo.factor()
+    height: (lineCol.visible ? lineCol.height : resultCol.y + resultCol.height) + Noo.factor()
 
     onQuestionWasSet: attemptSpin.value = 0
 
     Row {
       id: headRow
-      y: Noo.fontSize() / 2
+      y: Noo.factor() / 2
       visible: tipItem.tipType === 0
-      spacing: Noo.fontSize() * 2
+      spacing: Noo.factor() * 2
       anchors.horizontalCenter: parent.horizontalCenter
       Text {
         anchors.verticalCenter: parent.verticalCenter
         text: tipItem.number + "."
-        font { bold: true; pixelSize: Noo.fontSize() * 1.6 }
+        font { bold: true; pixelSize: Noo.factor() * 1.6 }
         color: activPal.text
       }
       Text {
         anchors.verticalCenter: parent.verticalCenter
         text: tipItem.qaText; horizontalAlignment: Text.AlignHCenter
-        font { pixelSize: Noo.fontSize() * 0.8 }
+        font { pixelSize: Noo.factor() * 0.8 }
         color: activPal.text
       }
     }
@@ -81,11 +81,11 @@ TipRect {
       Item {
         anchors.verticalCenter: parent.verticalCenter
         visible: tipItem.leftScoreVisible
-        height: tipItem.isMelody ? tipItem.leftScoreHeight : Noo.fontSize() * 12
-        width: Noo.fontSize() * (tipItem.isMelody ? 24 : 12)
+        height: tipItem.isMelody ? tipItem.leftScoreHeight : Noo.factor() * 12
+        width: Noo.factor() * (tipItem.isMelody ? 24 : 12)
         Score {
           y: tipItem.yScoreLeftOff
-          width: parent.width; height: Noo.fontSize() * 12
+          width: parent.width; height: Noo.factor() * 12
           Component.onCompleted: {
             bgRect.destroy()
             tipItem.leftScore = scoreObj
@@ -100,7 +100,7 @@ TipRect {
       Text { // question mark, visible only for single note questions
         anchors.verticalCenter: parent.verticalCenter
         visible: !tipItem.isMelody
-        text: "?"; font { pixelSize: Noo.fontSize() * 4; family: "Nootka" }
+        text: "?"; font { pixelSize: Noo.factor() * 4; family: "Nootka" }
         color: GLOB.wrongColor
       }
       Text {
@@ -109,13 +109,13 @@ TipRect {
         color: activPal.text
       }
       Item {
-        height: tipItem.isMelody ? tipItem.rightScoreHeight : Noo.fontSize() * 12
-        width: Noo.fontSize() * 12
+        height: tipItem.isMelody ? tipItem.rightScoreHeight : Noo.factor() * 12
+        width: Noo.factor() * 12
         anchors.verticalCenter: parent.verticalCenter
         visible: tipItem.rightScoreVisible
         Score {
           y: tipItem.yScoreRightOff
-          height: Noo.fontSize() * 12; width: Noo.fontSize() * 12
+          height: Noo.factor() * 12; width: Noo.factor() * 12
           Component.onCompleted: {
             bgRect.destroy()
             tipItem.secondScore = scoreObj
@@ -126,11 +126,11 @@ TipRect {
 
     TspinBox {
       id: attemptSpin
-      y: scoreRow.y + scoreRow.height - Noo.fontSize()
+      y: scoreRow.y + scoreRow.height - Noo.factor()
       anchors.horizontalCenter: parent.horizontalCenter
       visible: tipItem.isMelody && tipItem.tipType === 0
-      width: Noo.fontSize() * 15
-      font.pixelSize: Noo.fontSize() * 0.8
+      width: Noo.factor() * 15
+      font.pixelSize: Noo.factor() * 0.8
       from: 0; to: tipItem.attempts
       textFromValue: function(value) {
         return Noo.TR("Texam", "attempt") + " " + value + " " + qsTr("of", "It will give text: 'Attempt x of y'") + " " + to
@@ -159,21 +159,21 @@ TipRect {
     Column {
       id: resultCol
       anchors { horizontalCenter: parent.horizontalCenter; top: attemptSpin.visible ? attemptSpin.bottom : scoreRow.bottom }
-      width: parent.width - Noo.fontSize(); topPadding: Noo.fontSize() / 2
+      width: parent.width - Noo.factor(); topPadding: Noo.factor() / 2
       visible: tipItem.tipType === 0
       Text {
         width: parent.width; visible: text !== ""
         anchors.horizontalCenter: parent.horizontalCenter
         text: tipItem.attemptDetails(attemptSpin.value); textFormat: Text.StyledText
         color: activPal.text; horizontalAlignment: Text.AlignHCenter
-        wrapMode: Text.WordWrap; font.pixelSize: Noo.fontSize() * 0.9
+        wrapMode: Text.WordWrap; font.pixelSize: Noo.factor() * 0.9
       }
       Text {
         width: parent.width; visible: text !== ""
         anchors.horizontalCenter: parent.horizontalCenter
         text: tipItem.attemptResult(attemptSpin.value); textFormat: Text.StyledText
         horizontalAlignment: Text.AlignHCenter
-        wrapMode: Text.WordWrap; font.pixelSize: Noo.fontSize() * 0.9
+        wrapMode: Text.WordWrap; font.pixelSize: Noo.factor() * 0.9
       }
       Text {
         width: parent.width; visible: text !== ""
@@ -185,17 +185,17 @@ TipRect {
       Text {
         anchors.horizontalCenter: parent.horizontalCenter
         text: tipItem.timeText; textFormat: Text.StyledText
-        font { pixelSize: Noo.fontSize() * 0.9 }
+        font { pixelSize: Noo.factor() * 0.9 }
         color: activPal.text; horizontalAlignment: Text.AlignHCenter
       }
     }
 
     Column { // line tip column
       id: lineCol
-      padding: Noo.fontSize() / 2
+      padding: Noo.factor() / 2
       visible: tipItem.tipType === 1
       Text {
-        width: Noo.fontSize() * 20
+        width: Noo.factor() * 20
         anchors.horizontalCenter: parent.horizontalCenter
         color: activPal.text; textFormat: Text.RichText
         text: tipItem.tipText; horizontalAlignment: Text.AlignHCenter

@@ -13,7 +13,7 @@ import "../score"
 Tflickable {
   id: melPage
   height: parent.height
-  contentHeight: melodyCol.height + Noo.fontSize() * 2
+  contentHeight: melodyCol.height + Noo.factor() * 2
   contentWidth: width
 
   Column {
@@ -30,7 +30,7 @@ Tflickable {
                                qsTr("Melodies are selected from the list below.") ]
       description: descList[melCombo.currentIndex] + (melCombo.currentIndex > 0 ? keyRangeText : "")
       Row {
-        spacing: Noo.fontSize()
+        spacing: Noo.factor()
         anchors.horizontalCenter: parent.horizontalCenter
         Text {
           text: Noo.TR("LevelCreator", "Melody")
@@ -39,7 +39,7 @@ Tflickable {
         }
         TcomboBox {
           id: melCombo
-          width: Noo.fontSize() * 20
+          width: Noo.factor() * 20
           model: [ qsTr("from notes in range"), qsTr("from selected notes"), qsTr("from set of melodies") ]
           currentIndex: creator.howGetMelody
           onActivated: creator.howGetMelody = currentIndex
@@ -49,7 +49,7 @@ Tflickable {
     Grid {
       id: melGrid
       spacing: melPage.width / (Noo.isAndroid() ? 100 : 50)
-      columns: Noo.fontSize() * 50 > melPage.width ? 1 : 2 // (melLenTile.visible ? 2 : 1)
+      columns: Noo.factor() * 50 > melPage.width ? 1 : 2 // (melLenTile.visible ? 2 : 1)
       anchors.horizontalCenter: parent.horizontalCenter
 
       Tile {
@@ -57,10 +57,10 @@ Tflickable {
         visible: creator.isMelody && !creator.hasRhythms && melCombo.currentIndex !== 2
         description: qsTr("Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.")
         anchors.horizontalCenter: undefined
-        width: melGrid.columns === 1 ? melPage.width * 0.98 : Math.max(lenRow.width + Noo.fontSize() * 4, melPage.width * 0.48)
+        width: melGrid.columns === 1 ? melPage.width * 0.98 : Math.max(lenRow.width + Noo.factor() * 4, melPage.width * 0.48)
         Row {
           id: lenRow
-          spacing: Noo.fontSize()
+          spacing: Noo.factor()
           anchors.horizontalCenter: parent.horizontalCenter
           Text {
             text: qsTr("Melody length")
@@ -77,13 +77,13 @@ Tflickable {
       }
       EndOnTonicTile {
         visible: melCombo.currentIndex !== 2
-        width: melGrid.columns === 1 ? melPage.width * 0.98 : Math.max(checkBox.width + Noo.fontSize() * 4, melPage.width * 0.48)
+        width: melGrid.columns === 1 ? melPage.width * 0.98 : Math.max(checkBox.width + Noo.factor() * 4, melPage.width * 0.48)
         checked: creator.endsOnTonic
         checkBox.onClicked: creator.endsOnTonic = checked
       }
 
       Tile {
-        width: melGrid.columns === 1 ? melPage.width * 0.98 : Math.max(randOrderChB.width + Noo.fontSize() * 4, melPage.width * 0.48)
+        width: melGrid.columns === 1 ? melPage.width * 0.98 : Math.max(randOrderChB.width + Noo.factor() * 4, melPage.width * 0.48)
         visible: melCombo.currentIndex === 2
         anchors.horizontalCenter: undefined
         TcheckBox {
@@ -96,13 +96,13 @@ Tflickable {
         description: qsTr("When checked, melodies from the list will be asked in random order.")
       }
       Tile {
-        width: melGrid.columns === 1 ? melPage.width * 0.98 : Math.max(repeatRow.width + Noo.fontSize() * 4, melPage.width * 0.48)
+        width: melGrid.columns === 1 ? melPage.width * 0.98 : Math.max(repeatRow.width + Noo.factor() * 4, melPage.width * 0.48)
         visible: melCombo.currentIndex === 2
         anchors.horizontalCenter: undefined
         description: qsTr("How many times during an exam a melody from the list has to be played or written correctly. Warning! It multiplies question number.")
         Row {
           id: repeatRow
-          spacing: Noo.fontSize()
+          spacing: Noo.factor()
           anchors.horizontalCenter: parent.horizontalCenter
           Text {
             text: qsTr("number of repeats")
@@ -134,7 +134,7 @@ Tflickable {
     Tile {
       visible: false // TODO
       Row {
-        spacing: Noo.fontSize()
+        spacing: Noo.factor()
         anchors.horizontalCenter: parent.horizontalCenter
         TcheckBox {
             id: inTempoChB
@@ -143,7 +143,7 @@ Tflickable {
         }
         Text {
           anchors.verticalCenter: parent.verticalCenter
-          text: Math.floor(tempoRange.first.value); font { bold: true; pixelSize: Noo.fontSize() * 0.8 }
+          text: Math.floor(tempoRange.first.value); font { bold: true; pixelSize: Noo.factor() * 0.8 }
           color: enabled ? activPal.text : disdPal.text
         }
         RangeSlider { // TODO so far it is only one RangeSlider in Nootka - set its style here according to Tslider
@@ -156,7 +156,7 @@ Tflickable {
         }
         Text {
           anchors.verticalCenter: parent.verticalCenter
-          text: Math.floor(tempoRange.second.value); font { bold: true; pixelSize: Noo.fontSize() * 0.8 }
+          text: Math.floor(tempoRange.second.value); font { bold: true; pixelSize: Noo.factor() * 0.8 }
           color: enabled ? activPal.text : disdPal.text
         }
       }

@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2018-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -18,12 +18,12 @@ Column {
   property alias useKeys: keySignChB.checked
 
   width: parent.width
-  spacing: Noo.fontSize() * 2
+  spacing: Noo.factor() * 2
   y: Math.max(0, (wizardOpts.height - height) / 2)
 
   Text {
     width: parent.width
-    font { pixelSize: Noo.fontSize() * 2; bold: true }
+    font { pixelSize: Noo.factor() * 2; bold: true }
     wrapMode: Text.WordWrap
     horizontalAlignment: Text.AlignHCenter
     color: activPal.text
@@ -38,7 +38,7 @@ Column {
   }
 
   Row {
-    spacing: Noo.fontSize()
+    spacing: Noo.factor()
     anchors.horizontalCenter: parent.horizontalCenter
     TradioButton {
       id: lettersRadio
@@ -54,10 +54,10 @@ Column {
   Tile {
     bgColor: Qt.tint(nootkaWindow.labelColor, Noo.alpha(activPal.base, 230))
     bgBorder { width: 2; color: nootkaWindow.labelColor }
-    width: innerCol.width + Noo.fontSize() * 4
+    width: innerCol.width + Noo.factor() * 4
     Column {
       id: innerCol
-      spacing: Noo.fontSize()
+      spacing: Noo.factor()
       anchors.horizontalCenter: parent.horizontalCenter
       TcheckBox {
         id: dblAccidsChB

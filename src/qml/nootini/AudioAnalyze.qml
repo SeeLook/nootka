@@ -91,7 +91,7 @@ TaudioAnalyzeItem {
       Text {
         id: noteName
         color: activPal.text
-        font { family: "Scorek"; pixelSize: Noo.fontSize() * 2 }
+        font { family: "Scorek"; pixelSize: Noo.factor() * 2 }
         textFormat: Text.StyledText
         x: (parent.width - width) / 2; y: height * -0.2
       }
@@ -104,9 +104,9 @@ TaudioAnalyzeItem {
     property var mD: audioModel.get(nr)
     visible: nr > -1
     border { color: activPal.text; width: 1 }
-    radius: Noo.fontSize()
-    width: Noo.fontSize() * 40; height: contText.height + Noo.fontSize()
-    x: (parent.width - width) / 2; y: -height - Noo.fontSize()
+    radius: Noo.factor()
+    width: Noo.factor() * 40; height: contText.height + Noo.factor()
+    x: (parent.width - width) / 2; y: -height - Noo.factor()
     Text {
       id: contText
       anchors.centerIn: parent

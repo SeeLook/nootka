@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -46,19 +46,19 @@ TlevelsSelector {
             padding: width / 100
             Text {
               anchors.verticalCenter: parent.verticalCenter
-              font { family: "Nootka"; pixelSize: Noo.fontSize() * 1.7 }
-              width: Noo.fontSize() * 2.5
+              font { family: "Nootka"; pixelSize: Noo.factor() * 1.7 }
+              width: Noo.factor() * 2.5
               color: index === view.currentIndex ? activPal.highlightedText : isMelody(index) ? Noo.invert(activPal.highlight) : activPal.highlight
               text: isMelody(index) ? "m" : "n"
               horizontalAlignment: Text.AlignHCenter
             }
             Column {
-              width: parent.width - Noo.fontSize() * 3
-              spacing: Noo.fontSize() / 4
+              width: parent.width - Noo.factor() * 3
+              spacing: Noo.factor() / 4
               anchors.verticalCenter: parent.verticalCenter
               Text {
                 width: parent.width
-                font { pixelSize: Noo.fontSize(); bold: true }
+                font { pixelSize: Noo.factor(); bold: true }
                 text: modelData
                 color: index === view.currentIndex ? activPal.highlightedText : (isSuitable(index) ? activPal.text : disdPal.text)
                 elide: Text.ElideRight
@@ -67,7 +67,7 @@ TlevelsSelector {
                 visible: text !== ""
                 width: parent.width
                 text: desc(index)
-                font.pixelSize: Noo.fontSize() * 0.8
+                font.pixelSize: Noo.factor() * 0.8
                 color: index === view.currentIndex ? activPal.highlightedText : activPal.text
                 wrapMode: Text.WordWrap; maximumLineCount: 2; elide: Text.ElideRight
               }

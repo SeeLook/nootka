@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2019-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2019-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -18,7 +18,7 @@ AbstractButton {
 
   property alias pixmap: pix.source
   property alias name: butText.text
-  property real factor: Noo.fontSize() * (Noo.isAndroid() ? 0.45 : 0.7)
+  property real factor: Noo.factor() * (Noo.isAndroid() ? 0.45 : 0.7)
 
   contentItem: Column {
     width: parent.width
@@ -27,7 +27,7 @@ AbstractButton {
       id: bg
       anchors.horizontalCenter: parent.horizontalCenter
       z: 1
-      radius: Noo.fontSize() / 2; shadowRadius: Noo.fontSize()
+      radius: Noo.factor() / 2; shadowRadius: Noo.factor()
       color: enabled ? (root.checked ? activPal.highlight : "#ffffff") : "#cbcbcb"
       shadowColor: "#101010"
       height: factor * 8; width: height
@@ -53,7 +53,7 @@ AbstractButton {
       id: butText
       z: 0
       color: enabled ? (Noo.isAndroid() ? "#ffffff" : "#000000") : "#999999"
-      font.pixelSize: Noo.fontSize() * (Noo.isAndroid() ? 0.8 : 1)
+      font.pixelSize: Noo.factor() * (Noo.isAndroid() ? 0.8 : 1)
       horizontalAlignment: Text.AlignHCenter
       anchors.horizontalCenter: parent.horizontalCenter
     }

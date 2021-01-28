@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2019-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2019-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,7 +25,6 @@
 #include <exam/tattempt.h>
 #include <music/tnamestylefilter.h>
 #include <tglobals.h>
-#include <tnoofont.h>
 
 #include <QtGui/qpalette.h>
 #include <QtCore/qdebug.h>

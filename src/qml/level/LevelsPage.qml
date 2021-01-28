@@ -16,7 +16,7 @@ Column {
   LevelsSelector {
     id: selector
     width: parent.width
-    height: levelsPage.height - buttRow.height - levelsPage.width / 25 - (Noo.isAndroid() ? 0 : Noo.fontSize() * 3)
+    height: levelsPage.height - buttRow.height - levelsPage.width / 25 - (Noo.isAndroid() ? 0 : Noo.factor() * 3)
     Component.onCompleted: creator.selector = selector
   }
   Row {
@@ -76,10 +76,10 @@ Column {
     property alias desc: lDesc.text
 
     modal: true
-    width: popCol.width + Noo.fontSize() * 2; height: popCol.height + Noo.fontSize() * 5
-    x: (parent.width - width) / 2; y: Noo.isAndroid() ? Noo.fontSize() : (parent.height - height) / 2
+    width: popCol.width + Noo.factor() * 2; height: popCol.height + Noo.factor() * 5
+    x: (parent.width - width) / 2; y: Noo.isAndroid() ? Noo.factor() : (parent.height - height) / 2
     bgColor: Qt.tint(activPal.window, Noo.alpha(activPal.highlight, 30))
-    border { color: activPal.highlight; width: Noo.fontSize() / 4.0 }
+    border { color: activPal.highlight; width: Noo.factor() / 4.0 }
 
     rejectButton.text: Noo.TR("QPlatformTheme", "Discard")
     acceptButton.text: Noo.TR("QShortcut", "Save")
@@ -88,10 +88,10 @@ Column {
     Column {
       id: popCol
       anchors.centerIn: parent
-      spacing: Noo.fontSize()
+      spacing: Noo.factor()
       Row {
-        anchors { right: parent.right; rightMargin: Noo.fontSize() / 2 }
-        spacing: Noo.fontSize()
+        anchors { right: parent.right; rightMargin: Noo.factor() / 2 }
+        spacing: Noo.factor()
         Text {
           anchors.verticalCenter: parent.verticalCenter
           color: activPal.text
@@ -100,7 +100,7 @@ Column {
         TtextField {
           id: lName
           maximumLength: 30
-          width: Noo.fontSize() * 25
+          width: Noo.factor() * 25
         }
       }
       Text {
@@ -110,12 +110,12 @@ Column {
       TipRect {
         id: bg
         anchors.horizontalCenter: parent.horizontalCenter
-        width: newLevelPopup.width - Noo.fontSize() * 2; height: Noo.fontSize() * 6.5
+        width: newLevelPopup.width - Noo.factor() * 2; height: Noo.factor() * 6.5
         border { width: lDesc.focus ? 1 : 0; color: activPal.highlight }
         color: activPal.base
         TextEdit {
           id: lDesc
-          width: parent.width - Noo.fontSize(); height: Noo.fontSize() * 6
+          width: parent.width - Noo.factor(); height: Noo.factor() * 6
           anchors.centerIn: parent
           wrapMode: TextEdit.WordWrap
           onLengthChanged: {

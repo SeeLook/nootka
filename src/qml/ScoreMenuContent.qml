@@ -61,8 +61,8 @@ Tmenu {
             Text {
               text: rGlyphs[index]
               color: activPal.text
-              x: (Noo.fontSize() * 3.2 - width) / 2; anchors.verticalCenter: parent.verticalCenter
-              font { pixelSize: Noo.fontSize() * 1.5; family: "nootka"; }
+              x: (Noo.factor() * 3.2 - width) / 2; anchors.verticalCenter: parent.verticalCenter
+              font { pixelSize: Noo.factor() * 1.5; family: "nootka"; }
               scale: GLOB.useAnimations && !mb.containsPress && mb.containsMouse ? 1.4 : 1.0
               Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
             }

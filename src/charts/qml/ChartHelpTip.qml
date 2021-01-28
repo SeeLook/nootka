@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2018-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -12,9 +12,9 @@ TipRect {
   property alias text: txt.text
   property color hintColor: GLOB.correctColor
 
-  shadowRadius: Noo.fontSize()
-  width: txt.width  + 2 * Noo.fontSize()
-  height: txt.height + 2 * Noo.fontSize()
+  shadowRadius: Noo.factor()
+  width: txt.width  + 2 * Noo.factor()
+  height: txt.height + 2 * Noo.factor()
   z: 150
 
   border { color: hintColor; width: 1 }
@@ -23,7 +23,7 @@ TipRect {
   anchors { centerIn: parent }
 
   Column {
-    padding: Noo.fontSize()
+    padding: Noo.factor()
     Text {
       z: 200
       id: txt

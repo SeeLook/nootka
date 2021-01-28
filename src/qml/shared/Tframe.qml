@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -15,7 +15,7 @@ Frame {
   background: Rectangle {
     id: bg
     color: "transparent"
-    border.color: enabled ? activPal.text : disdPal.text
-    radius: Noo.fontSize() / 2
+    border { color: enabled ? activPal.text : disdPal.text; width: Noo.factor() * 0.1 }
+    radius: Noo.factor() * 0.75
   }
 }

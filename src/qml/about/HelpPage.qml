@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -25,20 +25,20 @@ Rectangle {
 
   TcuteButton {
     id: tocButt
-    y: Noo.fontSize() / 4; x: Noo.fontSize()
+    y: Noo.factor() / 4; x: Noo.factor()
     text: qsTr("Help topics")
     onClicked: tocMenu.open()
   }
 
   Tflickable {
-    y: (tocButt.visible ? tocButt.height : 0) + Noo.fontSize()
+    y: (tocButt.visible ? tocButt.height : 0) + Noo.factor()
     width: parent.width; height: parent.height - y
     contentHeight: text.height;
 
     LinkText {
       id: text
       width: parent.width
-      padding: Noo.fontSize()
+      padding: Noo.factor()
       wrapMode: TextEdit.Wrap; textFormat: Text.RichText
       text: helpText
     }
@@ -54,8 +54,8 @@ Rectangle {
 
   Tmenu {
     id: tocMenu
-    width: Noo.fontSize() * 30
-    x: tocButt.width; y: Noo.fontSize() / 2
+    width: Noo.factor() * 30
+    x: tocButt.width; y: Noo.factor() / 2
     Repeater {
       model: topics
       MenuItem {

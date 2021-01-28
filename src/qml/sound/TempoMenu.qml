@@ -12,9 +12,9 @@ Popup {
   property alias enableMetronome: metroVisibleChB.checked
   property alias count: countChB.checked
 
-  margins: Noo.fontSize()
+  margins: Noo.factor()
 
-  background: TipRect { color: activPal.window; shadowRadius: Noo.fontSize() }
+  background: TipRect { color: activPal.window; shadowRadius: Noo.factor() }
 
   scale: GLOB.useAnimations ? 0 : 1.0
   enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}
@@ -29,17 +29,17 @@ Popup {
   property var beatFactor: [ 1, 2, 0.66666666666, 0.5 ]
 
   Column {
-    spacing: Noo.fontSize() / 2
+    spacing: Noo.factor() / 2
 
     Row {
-      spacing: Noo.fontSize()
+      spacing: Noo.factor()
       Tumbler {
         id: buTumb
         property int prevIndex: -1
 
         background: TipRect { color: buTumb.enabled ? activPal.base : Qt.darker(disdPal.window, 1.2); radius: 0 }
         anchors.verticalCenter: parent.verticalCenter
-        height: Noo.fontSize() * 6; width: Noo.fontSize() * 2
+        height: Noo.factor() * 6; width: Noo.factor() * 2
         model: [ "\ue1d5", "\ue1d7", "\ue1d5 \ue1e7", "\ue1d3" ]
         visibleItemCount: 3; wrap: true
         currentIndex: SOUND.beatUnit
@@ -88,15 +88,15 @@ Popup {
         anchors.verticalCenter: parent.verticalCenter
         text: "="
         color: activPal.text
-        font { pixelSize: Noo.fontSize() * 2 }
+        font { pixelSize: Noo.factor() * 2 }
       }
 
       Column {
         anchors.verticalCenter: parent.verticalCenter
         Row {
-          spacing: Noo.fontSize()
+          spacing: Noo.factor()
           anchors.horizontalCenter: parent.horizontalCenter
-          Text { text: qsTr("tempo"); font.pixelSize: Noo.fontSize(); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
+          Text { text: qsTr("tempo"); font.pixelSize: Noo.factor(); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
           TspinBox {
             id: tempoSpin
             focus: false
@@ -118,7 +118,7 @@ Popup {
     } // Row
 
     TiconButton {
-      width: parent.width - Noo.fontSize()
+      width: parent.width - Noo.factor()
       text: qsTr("Tap tempo")
       pixmap: Noo.pix("fingerpoint")
       anchors.horizontalCenter: parent.horizontalCenter
@@ -136,7 +136,7 @@ Popup {
     TcheckBox {
       id: countChB
       visible: !Noo.isAndroid()
-      x: Noo.fontSize()
+      x: Noo.factor()
       enabled: metroVisibleChB.checked
       text: qsTr("Count up")
       checked: true
@@ -145,18 +145,18 @@ Popup {
     Rectangle {
       visible: Noo.isAndroid()
       width: parent.width
-      height: Noo.fontSize() * 2.8
+      height: Noo.factor() * 2.8
       anchors.horizontalCenter: parent.horizontalCenter
       color: ma.containsPress ? Noo.alpha(activPal.highlight, 50) : "transparent"
       Rectangle { color: activPal.text; width: parent.width; height: 1; y: -1 }
       Text {
         anchors.verticalCenter: parent.verticalCenter
-        text: "\u0190"; font { family: "Nootka"; pixelSize: Noo.fontSize() * 2.5 }
+        text: "\u0190"; font { family: "Nootka"; pixelSize: Noo.factor() * 2.5 }
         color: SOUND.tickBeforePlay ? "#00a0a0" : activPal.text
       }
       Text {
         anchors.verticalCenter: parent.verticalCenter
-        x: Noo.fontSize() * 4; font.pixelSize: Noo.fontSize()
+        x: Noo.factor() * 4; font.pixelSize: Noo.factor()
         text: qsTr("Count up")
       }
       MouseArea {
@@ -166,22 +166,22 @@ Popup {
         onPressAndHold: Noo.setStatusTip(Noo.TR("TempoBar", "Countdown before playing or listening."))
         onReleased: Noo.setStatusTip("")
       }
-      Rectangle { color: activPal.text; width: parent.width; height: 1; y: parent.height + Noo.fontSize() / 4 - 1 }
+      Rectangle { color: activPal.text; width: parent.width; height: 1; y: parent.height + Noo.factor() / 4 - 1 }
     }
     Rectangle {
       visible: Noo.isAndroid()
       width: parent.width
-      height: Noo.fontSize() * 2.8
+      height: Noo.factor() * 2.8
       anchors.horizontalCenter: parent.horizontalCenter
       color: ma2.containsPress ? Noo.alpha(activPal.highlight, 50) : "transparent"
       Text {
         anchors.verticalCenter: parent.verticalCenter
-        text: "\u018f"; font { family: "Nootka"; pixelSize: Noo.fontSize() * 2.5 }
+        text: "\u018f"; font { family: "Nootka"; pixelSize: Noo.factor() * 2.5 }
         color: SOUND.tickDuringPlay ? "#00a0a0" : activPal.text
       }
       Text {
         anchors.verticalCenter: parent.verticalCenter
-        x: Noo.fontSize() * 4; font.pixelSize: Noo.fontSize()
+        x: Noo.factor() * 4; font.pixelSize: Noo.factor()
         text: Noo.TR("TempoBar", "Audible metronome")
       }
       MouseArea {
@@ -214,9 +214,9 @@ Popup {
       }
       Row {
         id: radioRow
-        spacing: Noo.fontSize()
+        spacing: Noo.factor()
         anchors.horizontalCenter: parent.horizontalCenter
-        Text { text: qsTr("round to:"); font.pixelSize: Noo.fontSize(); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
+        Text { text: qsTr("round to:"); font.pixelSize: Noo.factor(); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
         TradioButton {
           id: radio16
           font { family: "Nootka" }

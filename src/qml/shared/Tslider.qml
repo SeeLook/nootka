@@ -12,7 +12,7 @@ Slider {
   background: Rectangle {
     x: sl.leftPadding
     y: sl.topPadding + sl.availableHeight / 2 - height / 2
-    implicitWidth: Noo.fontSize() * 15; implicitHeight: Noo.fontSize() / 2
+    implicitWidth: Noo.factor() * 15; implicitHeight: Noo.factor() / 2
     width: sl.availableWidth; height: implicitHeight
     radius: height / 2
     color: sl.enabled ? activPal.mid : disdPal.mid
@@ -29,8 +29,8 @@ Slider {
     scale: Noo.isAndroid() && pressed ? 1.3 : 1
     x: sl.leftPadding + sl.visualPosition * (sl.availableWidth - width / 2)
     y: sl.topPadding + sl.availableHeight / 2 - height / 2
-    implicitWidth: Noo.fontSize() * 2; implicitHeight: Noo.fontSize() * 2
-    radius: Noo.fontSize()
+    implicitWidth: Noo.factor() * 2; implicitHeight: Noo.factor() * 2
+    radius: Noo.factor()
     rised: !sl.pressed
     color: sl.pressed ? activPal.highlight : activPal.button
     Rectangle {

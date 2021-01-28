@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2018-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2018-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -136,7 +136,7 @@ QString TchartTipItem::answerText() const {
     else if (m_question->qaUnit()->answerOnInstr())
       return qaGroup.pos().toHtml();
     else if (m_question->qaUnit()->answerAsSound())
-      return QString(" <span style=\"font-size: %1px; font-family: Nootka\">n</span>").arg(NOO->fontSize() * 3);
+      return QString(" <span style=\"font-size: %1px; font-family: Nootka\">n</span>").arg(NOO->factor() * 3);
   }
   return QString();
 }

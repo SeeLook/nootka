@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2018-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -19,7 +19,7 @@ TipRect {
   x: 0.1 * nootkaWindow.width; y: statusTip.text === "" ? -1.2 * height : 0
   z: 500; radius: 0
   width: nootkaWindow.width * 0.8
-  height: Math.min(nootkaWindow.height / 6, Noo.fontSize() * 7)
+  height: Math.min(nootkaWindow.height / 6, Noo.factor() * 7)
 
   color: Qt.tint(ma.pressed ? activPal.highlight : activPal.text, Noo.alpha(Noo.messageColor, 100))
 

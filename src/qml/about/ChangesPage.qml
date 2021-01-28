@@ -13,19 +13,20 @@ Tflickable {
   contentHeight: text.paintedHeight
 
   Rectangle {
-      anchors.fill: parent
-      color: activPal.base
+    anchors.fill: parent
+    color: activPal.base
   }
 
   TextEdit {
-      id: text
-      width: flick.width
-      textMargin: font.pixelSize
-      wrapMode: TextEdit.Wrap
-      readOnly: true
-      textFormat: TextEdit.RichText
-      color: activPal.text
-      text: dialogObj.getChanges()
+    id: text
+    width: flick.width
+    textMargin: font.pixelSize
+    wrapMode: TextEdit.Wrap
+    readOnly: true
+    textFormat: TextEdit.RichText
+    color: activPal.text
+    text: dialogObj.getChanges()
+    font.pixelSize: Noo.factor()
   }
 }
 

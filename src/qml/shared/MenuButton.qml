@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -18,8 +18,8 @@ Rectangle {
   property alias containsPress: ma.containsPress
   property alias textColor: butText.color
 
-  width: parent.width - Noo.fontSize()
-  implicitHeight: Noo.fontSize() * 2.8
+  width: parent.width - Noo.factor()
+  implicitHeight: Noo.factor() * 2.8
   anchors.horizontalCenter: parent ? parent.horizontalCenter : undefined
   color: ma.containsPress ? activPal.highlight : (ma.containsMouse ? Noo.alpha(activPal.highlight, 50) : "transparent")
   enabled: !action || action.enabled
@@ -40,8 +40,8 @@ Rectangle {
   Image {
     id: icon
     source: action && !action.checkable ? action.icon : ""
-    x: Noo.fontSize() / 2
-    height: Noo.fontSize() * 2.2; width: height * (sourceSize.width / sourceSize.height)
+    x: Noo.factor() / 2
+    height: Noo.factor() * 2.2; width: height * (sourceSize.width / sourceSize.height)
     anchors.verticalCenter: parent.verticalCenter
     scale: GLOB.useAnimations && !ma.pressed && ma.containsMouse ? 1.2 : 1.0
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
@@ -49,14 +49,14 @@ Rectangle {
   }
   Text {
     id: butText
-    x: Noo.fontSize() * (action && (action.icon !== "" || action.checkable) ? 3.7 : 0.8)
+    x: Noo.factor() * (action && (action.icon !== "" || action.checkable) ? 3.7 : 0.8)
     text: action ? action.text : ""
-    font { bold: true; pixelSize: Noo.fontSize() }
+    font { bold: true; pixelSize: Noo.factor() }
     color: enabled ? activPal.text : disdPal.text
-    width: parent.width - x - Noo.fontSize() - (shortText ? shortText.width : 0)
+    width: parent.width - x - Noo.factor() - (shortText ? shortText.width : 0)
     height: parent.height
     verticalAlignment: Text.AlignVCenter
-    fontSizeMode: Text.HorizontalFit; minimumPixelSize: Noo.fontSize() / 2; minimumPointSize: minimumPixelSize
+    fontSizeMode: Text.HorizontalFit; minimumPixelSize: Noo.factor() / 2; minimumPointSize: minimumPixelSize
     elide: Text.ElideRight
   }
 
@@ -66,7 +66,7 @@ Rectangle {
       anchors.verticalCenter: parent.verticalCenter
       checked: menuButton.action.checked
       onClicked: buttonClicked()
-      x: (Noo.fontSize() * 3.5 - width) / 2
+      x: (Noo.factor() * 3.5 - width) / 2
     }
   }
 
@@ -75,8 +75,8 @@ Rectangle {
     Text {
       anchors.verticalCenter: parent.verticalCenter
       text: action.key()
-      font.pixelSize: Noo.fontSize() * 0.8
-      x: menuButton.width - width - Noo.fontSize() / 2
+      font.pixelSize: Noo.factor() * 0.8
+      x: menuButton.width - width - Noo.factor() / 2
       color: enabled ? activPal.text : disdPal.text
     }
   }

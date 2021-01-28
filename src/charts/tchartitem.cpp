@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2018-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2018-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -247,9 +247,9 @@ QString TchartItem::chartHelpText() const {
     auto modKey = QStringLiteral("CTRL");
 #endif
   return QApplication::translate("AnalyzeDialog", "Press %1 button to select an exam from a file.")
-                        .arg(QLatin1String("<a href=\"charts\"> ") + NOO->pixToHtml("chartSett", NOO->fontSize() * 3) + QLatin1String("</a> "))
+                        .arg(QLatin1String("<a href=\"charts\"> ") + NOO->pixToHtml("chartSett", NOO->factor() * 3) + QLatin1String("</a> "))
             + QLatin1String("<br>") + QApplication::translate("AnalyzeDialog", "Use %1 + mouse wheel or %2 buttons to zoom a chart.")
-                        .arg(modKey, NOO->pixToHtml("zoom-in", NOO->fontSize() * 2) + QLatin1String(" ") + NOO->pixToHtml("zoom-out", NOO->fontSize() * 2))
+                        .arg(modKey, NOO->pixToHtml("zoom-in", NOO->factor() * 2) + QLatin1String(" ") + NOO->pixToHtml("zoom-out", NOO->factor() * 2))
             + QLatin1String("<br>") + QApplication::translate("AnalyzeDialog", "Click and Drag the cursor to move the chart.");
 }
 

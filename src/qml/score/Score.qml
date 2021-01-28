@@ -113,8 +113,8 @@ Flickable {
   Text { // edit mode symbol
     opacity: scoreObj.editMode && !singleNote ? 1 : 0
     Behavior on opacity { enabled: GLOB.useAnimations; NumberAnimation { duration: 500 }}
-    x: Noo.fontSize() * 3; y: score.contentY + Noo.fontSize() / 2
-    text: "\u0080"; font { family: "Nootka"; pixelSize: Noo.fontSize() * 2 }
+    x: Noo.factor() * 3; y: score.contentY + Noo.factor() / 2
+    text: "\u0080"; font { family: "Nootka"; pixelSize: Noo.factor() * 2 }
     color: Noo.alpha(GLOB.noteCursorColor, 200)
   }
 

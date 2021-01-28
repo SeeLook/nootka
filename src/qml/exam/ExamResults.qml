@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -23,7 +23,7 @@ Grid {
   Tresults { id: results }
 
   Row {
-    spacing: Noo.fontSize()
+    spacing: Noo.factor()
     width: resultsItem.width / 2; leftPadding: (width - childrenRect.width) / 2
     ResultLabel {
       index: 1
@@ -103,7 +103,7 @@ Grid {
 
   Row {
     width: resultsItem.width / 2; leftPadding: (width - childrenRect.width) / 2
-    spacing: Noo.fontSize() / 2
+    spacing: Noo.factor() / 2
 
     ResultLabel {
       index: 4
@@ -168,9 +168,9 @@ Grid {
       enter: Transition { enabled: GLOB.useAnimations; SpringAnimation { property: "scale"; to: 1; spring: 2; damping: 0.2; epsilon: 0.005 }}
       exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; from: 1; to: 0 }} // duration 250 ms
       background: TipRect { color: activPal.button; shadowRadius: Screen.height / 90 }
-      y: resultsItem.height + Noo.fontSize() / 2
+      y: resultsItem.height + Noo.factor() / 2
       Column {
-        spacing: Noo.fontSize() / 6
+        spacing: Noo.factor() / 6
         Repeater {
           model: [ results.resultsTxt(), results.answersHint(), results.progressHint(), results.summaryHint(), results.correctHint(),
                     results.halfHint(), results.wrongHint(), results.effectHint(), results.averageHint() ]

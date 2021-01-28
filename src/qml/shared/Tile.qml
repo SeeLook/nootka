@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2017-20212 by Tomasz Bojczuk (seelook@gmail.com)    *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -18,7 +18,7 @@ BorderImage {
   anchors.horizontalCenter: parent.horizontalCenter
 
   width: parent.width
-  height: (descText.text === "" ? 0 : descText.height) + container.height + Noo.fontSize() * 2.5
+  height: (descText.text === "" ? 0 : descText.height) + container.height + Noo.factor() * 2.5
 
   Rectangle { // background
     id: bg
@@ -37,14 +37,14 @@ BorderImage {
   source: Noo.pix("tipbg")
 
   Column {
-      spacing: Noo.fontSize() / 2
+      spacing: Noo.factor() / 2
       width: parent.width
 
-      Item { width: parent.width; height: Noo.fontSize() / 2} // spacer
+      Item { width: parent.width; height: Noo.factor() / 2 } // spacer
 
       Item {
         id: container
-        width: parent.width - Noo.fontSize()
+        width: parent.width - Noo.factor()
         height: childrenRect.height
       }
 
@@ -53,7 +53,7 @@ BorderImage {
         anchors.bottom: parent.Bottom
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width * 0.96
-        font.pixelSize: Noo.fontSize() * 0.8
+        font.pixelSize: Noo.factor() * 0.8
         textFormat: Text.RichText
         horizontalAlignment: Text.AlignHCenter
         color: enabled ? activPal.text : disdPal.text

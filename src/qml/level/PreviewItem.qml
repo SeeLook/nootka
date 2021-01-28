@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2020 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2020-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -18,46 +18,46 @@ Rectangle {
 
   anchors.horizontalCenter: parent.horizontalCenter
 
-  implicitWidth: Math.max(layHorizontal ? txt.width + txt2.width : Math.max(txt.width, txt2.width))  + Noo.fontSize() * 2
-  implicitHeight: (layHorizontal ? Math.max(txt.height, txt2.height) : txt.height + txt2.height) + Noo.fontSize() / 2
+  implicitWidth: Math.max(layHorizontal ? txt.width + txt2.width : Math.max(txt.width, txt2.width))  + Noo.factor() * 2
+  implicitHeight: (layHorizontal ? Math.max(txt.height, txt2.height) : txt.height + txt2.height) + Noo.factor() / 2
   color: index ? Noo.alpha(index % 2 === 1 ? activPal.alternateBase : activPal.base, 150) : "transparent"
   visible: text2 !== ""
-  width: handleWidth ? maxLabelWidth + maxValueWidth + Noo.fontSize() * 2 : undefined
+  width: handleWidth ? maxLabelWidth + maxValueWidth + Noo.factor() * 2 : undefined
 
   onImplicitWidthChanged: {
     if (handleWidth) {
-      maxLabelWidth = Math.max(maxLabelWidth, txt.implicitWidth + Noo.fontSize())
-      maxValueWidth = Math.max(maxValueWidth, txt2.implicitWidth + Noo.fontSize())
+      maxLabelWidth = Math.max(maxLabelWidth, txt.implicitWidth + Noo.factor())
+      maxValueWidth = Math.max(maxValueWidth, txt2.implicitWidth + Noo.factor())
     }
   }
 
   Text {
     id: txt
-    x: Noo.fontSize(); y: layHorizontal ? (parent.height - height) / 2 : 0
+    x: Noo.factor(); y: layHorizontal ? (parent.height - height) / 2 : 0
     textFormat: Text.StyledText
     color: activPal.text
-    font.pixelSize: Noo.fontSize()
+    font.pixelSize: Noo.factor()
   }
   Text {
     id: txt2
-    x: handleWidth ? maxLabelWidth + Noo.fontSize() + (maxValueWidth - width) / 2 : (layHorizontal ? 0 : (parent.width - width) / 2)
+    x: handleWidth ? maxLabelWidth + Noo.factor() + (maxValueWidth - width) / 2 : (layHorizontal ? 0 : (parent.width - width) / 2)
     y: (parent.height - height) / 2
     horizontalAlignment: handleWidth ? Text.AlignHCenter : undefined
     textFormat: Text.StyledText
     color: activPal.text
-    font.pixelSize: Noo.fontSize()
+    font.pixelSize: Noo.factor()
   }
 
   Rectangle {
     visible: handleWidth; color: activPal.text
-    width: Noo.fontSize() / 12;
+    width: Noo.factor() / 12;
     height: parent.height
-    x: maxLabelWidth + Noo.fontSize() * 0.5
+    x: maxLabelWidth + Noo.factor() * 0.5
   }
   Rectangle {
     id: bottomLine
     visible: handleWidth; color: activPal.text
-    height: Noo.fontSize() / 12;
+    height: Noo.factor() / 12;
     width: parent.width
     y: parent.height - height / 2
   }

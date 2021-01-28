@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -17,7 +17,7 @@ Column {
   property int alterTwo: -1
   property int nameStyle: 0
 
-  spacing: Noo.fontSize() / 2
+  spacing: Noo.factor() / 2
 
   Text {
     wrapMode: Text.NoWrap
@@ -27,13 +27,13 @@ Column {
     color: enabled ? activPal.text : disdPal.text
   }
   TtextField  {
-    width: Noo.fontSize() * 8
+    width: Noo.factor() * 8
     id: sufixField
     maximumLength: 10
     horizontalAlignment: TextInput.AlignHCenter
     anchors.horizontalCenter: parent.horizontalCenter
   }
-  Item { height: Noo.fontSize() / 2; width: 1 }
+  Item { height: Noo.factor() / 2; width: 1 }
   Text {
     text: qsTranslate("TscoreSettings", "for example") + ":"
     anchors.horizontalCenter: parent.horizontalCenter
@@ -43,7 +43,7 @@ Column {
     anchors.horizontalCenter: parent.horizontalCenter
     horizontalAlignment: Text.AlignHCenter
     color: enabled ? activPal.text : disdPal.text
-    font { bold: true; pixelSize: Noo.fontSize() * 1.5 }
+    font { bold: true; pixelSize: Noo.factor() * 1.5 }
     text: Noo.noteName(Noo.note(noteOne, 0, alterOne), nameStyle, false) + (sufix === "" || sufix === " " ? "" : "-" + sufixField.text) + "\n"
         + Noo.noteName(Noo.note(noteTwo, 0, alterTwo), nameStyle, false) + (sufix === "" || sufix === " " ? "" : "-" + sufixField.text)
   }

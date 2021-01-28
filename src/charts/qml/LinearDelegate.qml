@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2019 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2019-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -78,7 +78,7 @@ TlinChartDelegate {
     anchors.fill: nText
     horizontalOffset: lineDel.width / 35
     verticalOffset: horizontalOffset
-    radius: Noo.fontSize()
+    radius: Noo.factor()
     samples: 1 + radius * 2
     color: activPal.shadow
     source: nText

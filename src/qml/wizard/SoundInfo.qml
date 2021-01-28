@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -20,23 +20,23 @@ Tflickable {
     anchors.verticalCenter: parent.verticalCenter
     Column {
       id: sCol
-      width: parent.width - Noo.fontSize() * 2
-      spacing: Noo.fontSize()
+      width: parent.width - Noo.factor() * 2
+      spacing: Noo.factor()
       Row {
-        spacing: Noo.fontSize() * 2
+        spacing: Noo.factor() * 2
         anchors.horizontalCenter: parent.horizontalCenter
         Text {
-          font { family: "Nootka"; pixelSize: Noo.fontSize() * 5 }
+          font { family: "Nootka"; pixelSize: Noo.factor() * 5 }
           color: nootkaWindow.labelColor
           text: "r"; rotation: 180
         }
         LinkText {
           anchors.verticalCenter: parent.verticalCenter
-          font { bold: true; pixelSize: Noo.fontSize() * 2 }
+          font { bold: true; pixelSize: Noo.factor() * 2 }
           text: qsTr("Nootka can hear You!")
         }
         Text {
-          font { family: "Nootka"; pixelSize: Noo.fontSize() * 5 }
+          font { family: "Nootka"; pixelSize: Noo.factor() * 5 }
           color: nootkaWindow.labelColor
           text: "r"
         }
@@ -52,7 +52,7 @@ Tflickable {
       VolumeBar {
         id: volBar
         anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width * 0.9; height: Noo.fontSize() * 2
+        width: parent.width * 0.9; height: Noo.factor() * 2
         Timer {
           repeat: true; interval: 100; running: true
           onTriggered: volBar.volume = Math.random() * 0.9

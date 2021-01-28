@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -12,7 +12,7 @@ Tumbler {
   property alias instrument: instrTumb.currentIndex
 
   width: parent.width
-  height: Noo.fontSize() * 10
+  height: Noo.factor() * 10
   visibleItemCount: Math.min(((width / (height * 0.7)) / 2) * 2 - 1, 7)
   model: 8
   delegate: Component {

@@ -23,7 +23,7 @@ TmobileMenu {
   function open() {
     if (!scoreMenu) {
       var c = Qt.createComponent("qrc:/ScoreMenuContent.qml")
-      scoreMenu = c.createObject(nootkaWindow.contentItem.parent, { "width": Noo.fontSize() * 15, "z": -1 })
+      scoreMenu = c.createObject(nootkaWindow.contentItem.parent, { "width": Noo.factor() * 15, "z": -1 })
     }
     scoreMenu.open()
   }
@@ -85,7 +85,7 @@ TmobileMenu {
   Drawer {
     id: mainDrawer
     property NootkaLabel label: null
-    width: Noo.fontSize() * 20; height: nootkaWindow.height
+    width: Noo.factor() * 20; height: nootkaWindow.height
     onVisibleChanged: {
       if (visible) {
           if (!drawerLoad.active)
@@ -113,7 +113,7 @@ TmobileMenu {
             spacing: fingerPixels() / 8
             NootkaLabel {
               id: nooLabel
-              height: Noo.fontSize() * 7.91015625 // (logo ratio) 0.3955078125 * 20
+              height: Noo.factor() * 7.91015625 // (logo ratio) 0.3955078125 * 20
               enabled: !GLOB.isExam
               onClicked: {
                 mainDrawer.close()
@@ -127,7 +127,7 @@ TmobileMenu {
                 action: modelData
                 visible: action && action.enabled
                 Rectangle {
-                  width: Noo.fontSize() * 3; height: parent.height
+                  width: Noo.factor() * 3; height: parent.height
                   z: -1
                   color: action ? Noo.alpha(action.bgColor, 50) : "transparent"
                 }
@@ -139,7 +139,7 @@ TmobileMenu {
               action: tempoAct
               Text {
                 property var beatModel: [ "\ue1d5", "\ue1d7", "\ue1d5 \ue1e7", "\ue1d3" ]
-                x: parent.width - width - Noo.fontSize(); y: parent.height * -0.55
+                x: parent.width - width - Noo.factor(); y: parent.height * -0.55
                 font { family: "Scorek"; pixelSize: parent.height * 0.6 }
                 text: beatModel[SOUND.beatUnit] + "=" + SOUND.tempo
               }

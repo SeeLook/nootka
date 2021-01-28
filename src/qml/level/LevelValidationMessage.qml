@@ -12,10 +12,10 @@ TpopupDialog {
   property color accent: activPal.highlight
 
   bgColor: Qt.tint(activPal.base, Noo.alpha(accent, 20))
-  border { color: accent; width: Noo.fontSize() / 4.0 }
+  border { color: accent; width: Noo.factor() / 4.0 }
   visible: true; modal: true
-  width: lv.width + Noo.fontSize() / 2
-  height: lv.height + header.height + footer.height + Noo.fontSize()
+  width: lv.width + Noo.factor() / 2
+  height: lv.height + header.height + footer.height + Noo.factor()
 
   rejectButton.visible: false
   acceptButton.text: Noo.TR("QPlatformTheme", "OK")
@@ -23,23 +23,23 @@ TpopupDialog {
 
   ListView {
     id: lv
-    width: Noo.fontSize() * 40; height: contentHeight
+    width: Noo.factor() * 40; height: contentHeight
     spacing: 2; clip: true
     delegate: Rectangle {
-      width: lv.width; height: mText.height + Noo.fontSize() / 2
+      width: lv.width; height: mText.height + Noo.factor() / 2
       color: index % 2 === 1 ? "transparent" : Noo.alpha(activPal.base, 50)
       Rectangle {
-        width: Noo.fontSize() / 2; height: width; radius: width / 2
-        x: Noo.fontSize() / 2; y: (parent.height - height) / 2
+        width: Noo.factor() / 2; height: width; radius: width / 2
+        x: Noo.factor() / 2; y: (parent.height - height) / 2
         color: activPal.text
       }
       Text {
         id: mText
-        x: Noo.fontSize() * 1.5; y: (parent.height - height) / 2
-        width: lv.width - Noo.fontSize() * 2
+        x: Noo.factor() * 1.5; y: (parent.height - height) / 2
+        width: lv.width - Noo.factor() * 2
         wrapMode: Text.WordWrap
         text: modelData
-        font.pixelSize: Noo.fontSize()
+        font.pixelSize: Noo.factor()
       }
     }
   }

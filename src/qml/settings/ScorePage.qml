@@ -11,9 +11,9 @@ import "../"
 
 
 Column {
-    spacing: Noo.fontSize()
+    spacing: Noo.factor()
     width: parent.width; height: parent.height
-    topPadding: Noo.fontSize() / 2
+    topPadding: Noo.factor() / 2
 
     TbuttonBar {
       id: headList
@@ -23,22 +23,22 @@ Column {
 
     StackLayout {
       id: swipePages
-      height: parent.height - headList.height - Noo.fontSize() / 2
+      height: parent.height - headList.height - Noo.factor() / 2
       width: parent.width
 
       Tflickable { // 1st page (general)
         height: parent.height
-        contentHeight: firstColumn.height + Noo.fontSize() * 2
-        contentWidth: Math.max(width, Noo.fontSize() * 35)
+        contentHeight: firstColumn.height + Noo.factor() * 2
+        contentWidth: Math.max(width, Noo.factor() * 35)
         Column {
           id: firstColumn
           width: parent.width
-          spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
+          spacing: Noo.isAndroid() ? 2 : Noo.factor() / 2
           Tframe {
             width: parent.width * 0.99
             anchors.horizontalCenter: parent.horizontalCenter
             Column {
-              spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
+              spacing: Noo.isAndroid() ? 2 : Noo.factor() / 2
               width: parent.width
               Tile {
                 description: qsTr("When enabled, a score displays only a single note.")
@@ -63,7 +63,7 @@ Column {
               Tile {
                 enabled: singleNoteModeChB.checked
                 Row {
-                  spacing: Noo.fontSize()
+                  spacing: Noo.factor()
                   anchors.horizontalCenter: parent.horizontalCenter
                   TlabelText { text: qsTr("color of enharmonic notes") }
                   ColorButton { id: enharmNoteColor; title: qsTr("color of enharmonic notes") }
@@ -92,7 +92,7 @@ Column {
           }
           Tile {
             Row {
-              spacing: Noo.fontSize()
+              spacing: Noo.factor()
               anchors.horizontalCenter: parent.horizontalCenter
               TlabelText { text: qsTr("note-cursor color") }
               ColorButton { id: pointerColorButt; color: GLOB.noteCursorColor; title: qsTr("note-cursor color") }
@@ -105,12 +105,12 @@ Column {
 
       Tflickable { // 2nd page (key signatures)
         height: parent.height
-        contentHeight: secondColumn.height + Noo.fontSize() * 2
-        contentWidth: Math.max(width, Noo.fontSize() * 35)
+        contentHeight: secondColumn.height + Noo.factor() * 2
+        contentWidth: Math.max(width, Noo.factor() * 35)
         Column {
           id: secondColumn
           width: parent.width
-          spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
+          spacing: Noo.isAndroid() ? 2 : Noo.factor() / 2
           TcheckBox {
             id: enableKeyChB
             text: qsTr("use key signatures")
@@ -121,7 +121,7 @@ Column {
             width: parent.width * 0.99
             anchors.horizontalCenter: parent.horizontalCenter
             Column {
-              spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
+              spacing: Noo.isAndroid() ? 2 : Noo.factor() / 2
               width: parent.width
               Tile {
                 enabled: enableKeyChB.checked
@@ -136,8 +136,8 @@ Column {
               Tile {
                 enabled: enableKeyChB.checked && showKeyNamesChB.checked
                 Grid {
-                  columns: parent.width < Noo.fontSize() * 50 ? 1 : 2
-                  spacing: Noo.fontSize()
+                  columns: parent.width < Noo.factor() * 50 ? 1 : 2
+                  spacing: Noo.factor()
                   anchors.horizontalCenter: parent.horizontalCenter
                   horizontalItemAlignment: Grid.AlignHCenter
                   NameStyleSelector {
@@ -151,7 +151,7 @@ Column {
                       color: enabled ? activPal.text : disdPal.text
                     }
                     Row {
-                      spacing: Noo.fontSize() * 2
+                      spacing: Noo.factor() * 2
                       anchors.horizontalCenter: parent.horizontalCenter
                       KeySufixEdit { id: majKeySufixText; nameStyle: keyNameStyleSel.style }
                       KeySufixEdit { id: minKeySufixText; nameStyle: keyNameStyleSel.style; noteOne: 1; alterOne: 1; noteTwo: 5; alterTwo: 0 }
@@ -172,7 +172,7 @@ Column {
 
       Column { // 3rd page (clefs)
         width: parent.width
-        spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
+        spacing: Noo.isAndroid() ? 2 : Noo.factor() / 2
         Text {
           text: qsTr("Select default clef for the application.") + "<br><b>"
               + qsTr("Remember! Not all clefs are suitable for some possible tunings or instrument types!") + "<b>"
@@ -184,24 +184,24 @@ Column {
         }
         ClefMenu {
           id: clefs
-          width: parent.width; height: swipePages.height - Noo.fontSize() * 5
+          width: parent.width; height: swipePages.height - Noo.factor() * 5
           Component.onCompleted: selClef = GLOB.clefType
         }
       }
 
       Tflickable { // 4rd page (note name calling)
-        contentHeight: nameCol.height + Noo.fontSize() * 2
-        contentWidth: Math.max(width, Noo.fontSize() * 35)
+        contentHeight: nameCol.height + Noo.factor() * 2
+        contentWidth: Math.max(width, Noo.factor() * 35)
         Column {
           id: nameCol
           width: parent.width
-          spacing: Noo.isAndroid() ? 2 : Noo.fontSize() / 2
+          spacing: Noo.isAndroid() ? 2 : Noo.factor() / 2
           anchors.horizontalCenter: parent.horizontalCenter
           Tile {
             description: qsTr("Naming style of note. The main difference is the 7th note.<br>Is it B and B flat, or H and B?")
             Column {
               anchors.horizontalCenter: parent.horizontalCenter
-              spacing: Noo.fontSize() * 2
+              spacing: Noo.factor() * 2
               Select7note {
                 id: is7BSelector
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -219,10 +219,10 @@ Column {
             Column {
               anchors.horizontalCenter: parent.horizontalCenter
               width: parent.width * 0.9
-              spacing: Noo.fontSize()
+              spacing: Noo.factor()
               Row {
                 anchors.horizontalCenter: parent.horizontalCenter
-                spacing: Noo.fontSize() * 2
+                spacing: Noo.factor() * 2
                 Text { anchors.verticalCenter: parent.verticalCenter; text: qsTr("Octave numbers"); color: activPal.text }
                 TradioButton {
                   id: scientificRadio
@@ -239,7 +239,7 @@ Column {
               }
               Text {
                 anchors.horizontalCenter: parent.horizontalCenter
-                color: activPal.text; textFormat: Text.RichText; font.pixelSize: Noo.fontSize() * 0.9
+                color: activPal.text; textFormat: Text.RichText; font.pixelSize: Noo.factor() * 0.9
                 text: "<table>"
                     + "<tr><td> <b>"+ Noo.TR("TnameItem", "Octaves") + ":</b> </td><td> <b>" + qsTr("scientific") + "</b> </td><td> <b>" + qsTr("musical") + "</b> </td></tr>"
                     + "<tr><td>"+ Noo.TR("TnoteName", "Subcontra octave") + "</td><td align=\"center\">C<sub>0</sub></td><td align=\"center\">C<sub>2</sub></td></tr>"
@@ -256,7 +256,7 @@ Column {
           Tile {
             Column {
               anchors.horizontalCenter: parent.horizontalCenter
-              spacing: Noo.fontSize()
+              spacing: Noo.factor()
               TcheckBox {
                 id: namesOnScoreChB
                 text: qsTr("Show names of all notes on the score")
@@ -264,7 +264,7 @@ Column {
                 checked: GLOB.namesOnScore
               }
               Row {
-                spacing: Noo.fontSize()
+                spacing: Noo.factor()
                 enabled: namesOnScoreChB.checked
                 anchors.horizontalCenter: parent.horizontalCenter
                 TlabelText { text: qsTr("names highlight color") }

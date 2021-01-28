@@ -18,7 +18,7 @@ Item {
   property alias currentPage: stack.currentItem
   property var buttons: []
 
-  anchors { fill: parent; leftMargin: Noo.isAndroid() ? 0 : Noo.fontSize() / 4 }
+  anchors { fill: parent; leftMargin: Noo.isAndroid() ? 0 : Noo.factor() / 4 }
 
   Rectangle {
     color: Noo.isAndroid() ? "#000000" : "#ffffff"
@@ -40,21 +40,21 @@ Item {
     height: parent.height
     width: maxWidth
     z: 3 // above stack
-    topMargin: Noo.fontSize() / 2
+    topMargin: Noo.factor() / 2
     property var pages: []
     property PaneButton prevButt: null
     property int prevDelegate: -1
 
     model: ListModel { id: pageModel }
 
-    spacing: Noo.fontSize() / 4
+    spacing: Noo.factor() / 4
 
     highlightFollowsCurrentItem: false
     highlight: Component {
       Rectangle {
-        width: navList.prevButt.width; height: navList.prevButt.height + Noo.fontSize() / 4
+        width: navList.prevButt.width; height: navList.prevButt.height + Noo.factor() / 4
         color: activPal.highlight
-        y: navList.prevButt.y - Noo.fontSize() / 4
+        y: navList.prevButt.y - Noo.factor() / 4
         Behavior on y { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.1 }}
       }
     }
@@ -107,9 +107,9 @@ Item {
   // pages container on the right
   StackView {
     id: stack
-    x: navList.width + (Noo.isAndroid() ? 0 : Noo.fontSize() / 4)
+    x: navList.width + (Noo.isAndroid() ? 0 : Noo.factor() / 4)
     z: -1 // below navigation list
-    width: parent.width - navList.width - (Noo.isAndroid() ? 0 : Noo.fontSize() / 4)
+    width: parent.width - navList.width - (Noo.isAndroid() ? 0 : Noo.factor() / 4)
     height: parent.height
     // fade animations
     replaceEnter: Transition { enabled: GLOB.useAnimations; PropertyAnimation { property: "opacity"; from: 0; to: 1; duration: 500 }}

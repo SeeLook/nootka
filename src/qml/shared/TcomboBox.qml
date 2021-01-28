@@ -11,8 +11,8 @@ ComboBox {
 
   property alias radius: bg.radius
 
-  height: Noo.fontSize() * 2
-  font.pixelSize: Noo.fontSize()
+  height: Noo.factor() * 2
+  font.pixelSize: Noo.factor()
 
   scale: GLOB.useAnimations && cb.pressed ? 0.9 : 1.0
   Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
@@ -48,7 +48,7 @@ ComboBox {
 
   delegate: ItemDelegate {
     id: itDel
-    width: cb.width; height: Noo.fontSize() * 2.5
+    width: cb.width; height: Noo.factor() * 2.5
     hoverEnabled: true
     enabled: !lockList[index]
     background: Rectangle {
@@ -92,7 +92,7 @@ ComboBox {
 
   popup: Popup {
     parent: cb.parent
-    x: cb.x; y: cb.y + cb.height + Noo.fontSize() / 4
+    x: cb.x; y: cb.y + cb.height + Noo.factor() / 4
     scale: GLOB.useAnimations ? 0.1 : 1.0
     padding: 0
 
@@ -102,14 +102,14 @@ ComboBox {
 
     contentItem: ListView {
       clip: true
-      implicitHeight: Math.min(contentHeight, Noo.fontSize() * 15) // 6 items
+      implicitHeight: Math.min(contentHeight, Noo.factor() * 15) // 6 items
       model: cb.popup.visible ? cb.delegateModel : null
       currentIndex: cb.highlightedIndex
 
       ScrollBar.vertical: ScrollBar { active: cb.delegateModel.count > 6 }
     }
 
-    background: TipRect { shadowRadius: Noo.fontSize(); color: activPal.window }
+    background: TipRect { shadowRadius: Noo.factor(); color: activPal.window }
     enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1 }}
     exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0 }}
   }

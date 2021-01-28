@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -22,19 +22,19 @@ Drawer { // meter menu
     anchors.fill: parent
     clip: true
     contentHeight: childrenRect.height
-    cellHeight: Noo.fontSize() * 5
+    cellHeight: Noo.factor() * 5
     cellWidth: parent.width / 2
     model: 12
     delegate: Rectangle {
-      height: Noo.fontSize() * 5 - 2
+      height: Noo.factor() * 5 - 2
       width: parent.width / 2 - 2
       color: score.scoreObj.meter === Math.pow(2, index) ? activPal.highlight :
               (area.containsMouse ? Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 50)) : (colorArr[index % 4] === 1 ? activPal.alternateBase : activPal.base))
       Text {
         id: buttText
         anchors.horizontalCenter: parent.horizontalCenter
-        y: -Noo.fontSize() * 4.5
-        font { family: "Scorek"; pixelSize: Noo.fontSize() * 4 }
+        y: -Noo.factor() * 4.5
+        font { family: "Scorek"; pixelSize: Noo.factor() * 4 }
         text: Noo.meter(Math.pow(2, index)).symbol()
         color: score.scoreObj.meter === Math.pow(2, index) ? activPal.highlightedText : activPal.text
       }

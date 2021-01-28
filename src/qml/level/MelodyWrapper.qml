@@ -11,7 +11,7 @@ import "../score"
 MouseArea {
   id: wrapArea
 
-  height: Noo.fontSize() * 10
+  height: Noo.factor() * 10
 
   property bool held: false
   property alias nr: wrapper.nr
@@ -81,7 +81,7 @@ MouseArea {
     }
 
     Text {
-      x: Noo.fontSize() / 2; y: Noo.fontSize() / 2
+      x: Noo.factor() / 2; y: Noo.factor() / 2
       font { bold: true }
       text: nr + 1; color: Noo.alpha(activPal.text, 150)
     }
@@ -89,17 +89,17 @@ MouseArea {
     Text {
       text: wrapper.title
       x: parent.width - scoreCover.width
-      y: Noo.fontSize() / 4
-      font { bold: true; pixelSize: Noo.fontSize() * 1.3 }
+      y: Noo.factor() / 4
+      font { bold: true; pixelSize: Noo.factor() * 1.3 }
       color: wrapArea.containsMouse ? activPal.text : Noo.alpha(activPal.text, 150)
-      width: Noo.fontSize() * 25; elide: Text.ElideRight
+      width: Noo.factor() * 25; elide: Text.ElideRight
       Behavior on color { enabled: GLOB.useAnimations; ColorAnimation {} }
     }
 
     Text {
       text: wrapper.composer
-      anchors { right: parent.right; rightMargin: Noo.fontSize() / 4 }
-      y: Noo.fontSize() * 1.5
+      anchors { right: parent.right; rightMargin: Noo.factor() / 4 }
+      y: Noo.factor() * 1.5
       color: wrapArea.containsMouse ? activPal.text : Noo.alpha(activPal.text, 150)
       maximumLineCount: 1
       Behavior on color { enabled: GLOB.useAnimations; ColorAnimation {} }

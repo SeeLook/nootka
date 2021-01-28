@@ -24,9 +24,9 @@ TipRect {
   property real eH: 0
 
   color: Qt.tint(activPal.base, Noo.alpha(bg, 50))
-  border { width: Noo.fontSize() / 6; color: bg }
-  shadowRadius: Noo.fontSize() * (Noo.isAndroid() ? 1 : 3)
-  horizontalOffset: Noo.isAndroid() ? 0 : Noo.fontSize() / 3; verticalOffset: horizontalOffset
+  border { width: Noo.factor() / 6; color: bg }
+  shadowRadius: Noo.factor() * (Noo.isAndroid() ? 1 : 3)
+  horizontalOffset: Noo.isAndroid() ? 0 : Noo.factor() / 3; verticalOffset: horizontalOffset
   z: 200
   x: Noo.bound(shadowRadius, offX - width / 2, executor.width - width - shadowRadius)
   y: Noo.bound(shadowRadius, offY - height / 2, executor.height - height - shadowRadius)
@@ -37,7 +37,7 @@ TipRect {
     id: text
     color: activPal.text
     textFormat: Text.RichText
-    padding: Noo.fontSize()
+    padding: Noo.factor()
     onLinkActivated: {
       executor.tipLink(link)
       tip.destroy()

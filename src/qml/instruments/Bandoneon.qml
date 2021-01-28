@@ -98,7 +98,7 @@ TbandoneonBg {
       TcuteButton {
         id: openButt
         width: factor * 10
-        height: Noo.fontSize() * 3
+        height: Noo.factor() * 3
         checked: opening
         checkable: true
         text: "\uE610"; font { family: "Scorek"; pixelSize: height }
@@ -112,7 +112,7 @@ TbandoneonBg {
       TcuteButton {
         id: closeButt
         width: factor * 10
-        height: Noo.fontSize() * 3
+        height: Noo.factor() * 3
         checked: closing
         text: "\uE612"; font { family: "Scorek"; pixelSize: height }
         checkable: true

@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -17,11 +17,11 @@ Grid {
 
   anchors.horizontalCenter: parent.horizontalCenter
   horizontalItemAlignment: Grid.AlignHCenter; verticalItemAlignment: Grid.AlignVCenter
-  spacing: Noo.fontSize()
-  columns: parent.width < Noo.fontSize() * 50 ? 1 : 2
+  spacing: Noo.factor()
+  columns: parent.width < Noo.factor() * 50 ? 1 : 2
 
   Row {
-    spacing: Noo.fontSize()
+    spacing: Noo.factor()
     TlabelText { text: qsTr("Transposition") }
     TspinBox {
       id: shiftSpin
@@ -30,17 +30,17 @@ Grid {
       value: Math.abs(shift)
       onValueChanged: shift = value * (upRadio.checked ? 1 : -1)
     }
-    TlabelText { text: qsTr("semitone(s)", "", shiftSpin.value); width: Noo.fontSize() * 12 }
+    TlabelText { text: qsTr("semitone(s)", "", shiftSpin.value); width: Noo.factor() * 12 }
   }
 
   ButtonGroup { id: upDownGroup }
   Column {
     Row {
-      TlabelText { text: "\u2191"; font { pixelSize: Noo.fontSize() * 2.5; family: "Nootka" }}
+      TlabelText { text: "\u2191"; font { pixelSize: Noo.factor() * 2.5; family: "Nootka" }}
       TradioButton { id: upRadio; text: qsTr("up"); ButtonGroup.group: upDownGroup }
     }
     Row {
-      TlabelText { text: "\u2193"; font { pixelSize: Noo.fontSize() * 2.5; family: "Nootka" }}
+      TlabelText { text: "\u2193"; font { pixelSize: Noo.factor() * 2.5; family: "Nootka" }}
       TradioButton { id: downRadio; text: qsTr("down"); ButtonGroup.group: upDownGroup }
     }
   }

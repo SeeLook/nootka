@@ -12,9 +12,9 @@ TpopupDialog {
   id: melNamDial
 
   visible: true
-  width: Noo.fontSize() * 40; height: Noo.fontSize() * 12
+  width: Noo.factor() * 40; height: Noo.factor() * 12
   x: (parent.width - width) / 2
-  y: Noo.isAndroid() ? Noo.fontSize() : (parent.height - height) / 2
+  y: Noo.isAndroid() ? Noo.factor() : (parent.height - height) / 2
 
   rejectButton.text: Noo.TR("QPlatformTheme", "Discard")
   acceptButton.text: Noo.TR("QShortcut", "Save")
@@ -22,10 +22,10 @@ TpopupDialog {
 
   Column {
     anchors.centerIn: parent
-    spacing: Noo.fontSize()
+    spacing: Noo.factor()
     Row {
-      anchors { right: parent.right; rightMargin: Noo.fontSize() / 2 }
-      spacing: Noo.fontSize()
+      anchors { right: parent.right; rightMargin: Noo.factor() / 2 }
+      spacing: Noo.factor()
       Text {
         anchors.verticalCenter: parent.verticalCenter
         color: activPal.text
@@ -35,13 +35,13 @@ TpopupDialog {
         id: melodyTitle
         maximumLength: 100
         model: mainObj.recentTitles() /**< @p mainObj is TmainScoreObject instance */
-        width: melNamDial.width - Noo.fontSize() * 11
+        width: melNamDial.width - Noo.factor() * 11
       }
     }
 
     Row {
-      anchors { right: parent.right; rightMargin: Noo.fontSize() / 2 }
-      spacing: Noo.fontSize()
+      anchors { right: parent.right; rightMargin: Noo.factor() / 2 }
+      spacing: Noo.factor()
       Text {
         anchors.verticalCenter: parent.verticalCenter
         color: activPal.text
@@ -51,7 +51,7 @@ TpopupDialog {
         id: composer
         maximumLength: 100
         model: mainObj.recentComposers()
-        width: melNamDial.width - Noo.fontSize() * 11
+        width: melNamDial.width - Noo.factor() * 11
       }
     }
     /**
@@ -66,7 +66,7 @@ TpopupDialog {
      */
 //     Row {
 //       anchors.right: parent.right
-//       spacing: Noo.fontSize()
+//       spacing: Noo.factor()
 //       Text {
 //         anchors.verticalCenter: parent.verticalCenter
 //         color: activPal.text
@@ -75,8 +75,8 @@ TpopupDialog {
 //       Text {
 //         id: fileName
 //         anchors.verticalCenter: parent.verticalCenter
-//         font { pixelSize: Noo.fontSize(); bold: true }
-//         width: melNamDial.width - Noo.fontSize() * 14
+//         font { pixelSize: Noo.factor(); bold: true }
+//         width: melNamDial.width - Noo.factor() * 14
 //         horizontalAlignment: Text.AlignHCenter; elide: Text.ElideMiddle
 //         text: GLOB.lastXmlDir() + (Noo.isWindows() ? "\\" : "/") + composer.text + " - " + melodyTitle.text + ".musicxml"
 //       }

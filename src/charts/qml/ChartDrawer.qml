@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2019 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2019-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -22,9 +22,9 @@ Drawer {
 
   closePolicy: chartItem.keepDrawerOpened() ? Popup.NoAutoClose : Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
-  background: TipRect { color: activPal.window; radius: 0; verticalOffset: 0; horizontalOffset: pinBox.checked ? 0 : Noo.fontSize() / 5 }
+  background: TipRect { color: activPal.window; radius: 0; verticalOffset: 0; horizontalOffset: pinBox.checked ? 0 : Noo.factor() / 5 }
 
-  property int fSize: Math.min(Noo.fontSize(), width / 25)
+  property int fSize: Math.min(Noo.factor(), width / 25)
 
   Connections {
     target: chartItem
@@ -45,9 +45,9 @@ Drawer {
         MenuButton { width: parent.width; action: chartItem.loadExamAct() }
         ListView {
           id: recentList
-          width: parent.width; height: Math.min(Noo.fontSize() * 16.8, Noo.fontSize() * count * 2.8) // 6 items visible
+          width: parent.width; height: Math.min(Noo.factor() * 16.8, Noo.factor() * count * 2.8) // 6 items visible
           boundsBehavior: Flickable.StopAtBounds
-          contentHeight: Noo.fontSize() * count * 2.8
+          contentHeight: Noo.factor() * count * 2.8
           model: chartItem.recentExamsActions
           currentIndex: chartItem.selectedFileId
           clip: true
@@ -109,7 +109,7 @@ Drawer {
         }
         TcomboBox {
           id: orderCombo
-          width: Math.min(parent.width - fSize, Noo.fontSize() * 20)
+          width: Math.min(parent.width - fSize, Noo.factor() * 20)
           font.pixelSize: fSize
           anchors.horizontalCenter: parent.horizontalCenter
           model: chartItem.xOrderActions
@@ -127,7 +127,7 @@ Drawer {
           color: activPal.text; font.pixelSize: fSize
         }
         TcomboBox {
-          width: Math.min(parent.width - fSize, Noo.fontSize() * 20)
+          width: Math.min(parent.width - fSize, Noo.factor() * 20)
           font.pixelSize: fSize
           anchors.horizontalCenter: parent.horizontalCenter
           model: chartItem.yValueActions
@@ -186,7 +186,7 @@ Drawer {
       }
       enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1 }}
       exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0 }}
-      background: TipRect { shadowRadius: Noo.fontSize(); color: activPal.highlight }
+      background: TipRect { shadowRadius: Noo.factor(); color: activPal.highlight }
     }
   }
   

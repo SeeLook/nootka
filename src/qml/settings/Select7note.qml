@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2019 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -18,14 +18,14 @@ Item {
   Grid {
     id: mainLay
     columns: 2
-    spacing: Noo.fontSize()
+    spacing: Noo.factor()
     verticalItemAlignment: Grid.AlignVCenter
 
     ButtonGroup { buttons: butRow.children }
     Row {
       id: butRow
       y: (parent.height - height) / 2
-      spacing: Noo.fontSize() / 2
+      spacing: Noo.factor() / 2
       Text { text: qsTr("7th note is:"); color: enabled ? activPal.text : disdPal.text; anchors.verticalCenter: parent.verticalCenter }
       TradioButton { id: bButt; text: "B" }
       TradioButton { text: "H"; checked: !bButt.checked }
@@ -33,7 +33,7 @@ Item {
 
     Text {
       id: preview
-      font.pixelSize: Noo.fontSize() * 2
+      font.pixelSize: Noo.factor() * 2
       color: activPal.text
     }
   }

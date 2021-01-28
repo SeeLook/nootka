@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2018-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -23,7 +23,7 @@ TmelGenItem {
 
     Column {
       id: mainCol
-      leftPadding: Noo.fontSize() / 2
+      leftPadding: Noo.factor() / 2
       Row {
         Tile {
           id: selTile
@@ -37,12 +37,12 @@ TmelGenItem {
         }
         Column {
           id: rCol
-          width: melGenItem.width - rtmSel.width * 1.2 - Noo.fontSize()
+          width: melGenItem.width - rtmSel.width * 1.2 - Noo.factor()
           Tile {
             Row {
               id: measRow
               anchors.horizontalCenter: parent.horizontalCenter
-              spacing: Noo.fontSize()
+              spacing: Noo.factor()
               Text {
                 anchors.verticalCenter: parent.verticalCenter
                 text: qsTr("Measures number")

@@ -21,8 +21,8 @@ Tflickable {
 
   Column {
     id: aboutCont
-    spacing: Noo.fontSize()
-    padding: Noo.fontSize() / 2
+    spacing: Noo.factor()
+    padding: Noo.factor() / 2
     width: parent.width
     TextBackground { text: qsTranslate("TaboutNootka", "Code"); }
     LinkText {
@@ -51,31 +51,31 @@ Tflickable {
 
     Column {
       anchors.horizontalCenter: parent.horizontalCenter
-      spacing: Noo.fontSize() / 2
+      spacing: Noo.factor() / 2
       Repeater {
         model: trModel
         Row {
-          spacing: Noo.fontSize() * (Noo.isAndroid() ? 0.25 : 1)
+          spacing: Noo.factor() * (Noo.isAndroid() ? 0.25 : 1)
           Image {
-            height: Noo.fontSize() * 3.5; width: height
+            height: Noo.factor() * 3.5; width: height
             source: Noo.pix("flags/" + flag)
             anchors.verticalCenter: parent.verticalCenter
           }
           Text {
             text: lang; textFormat: Text.PlainText; color: activPal.text
-            width: Noo.fontSize() * (Noo.isAndroid() ? 5 : 8)
-            font.pixelSize: Noo.fontSize() * (Noo.isAndroid() ? 0.8 : 1)
+            width: Noo.factor() * (Noo.isAndroid() ? 5 : 8)
+            font.pixelSize: Noo.factor() * (Noo.isAndroid() ? 0.8 : 1)
             anchors.verticalCenter: parent.verticalCenter
           }
           Text {
             text: trr; color: activPal.text; font.bold: true;
-            textFormat: Text.StyledText; width: Noo.fontSize() * (web === "" ? 24 : 16)
-            fontSizeMode: Text.Fit; minimumPixelSize: Noo.fontSize() / 2;  minimumPointSize: minimumPixelSize
+            textFormat: Text.StyledText; width: Noo.factor() * (web === "" ? 24 : 16)
+            fontSizeMode: Text.Fit; minimumPixelSize: Noo.factor() / 2;  minimumPointSize: minimumPixelSize
             anchors.verticalCenter: parent.verticalCenter
           }
           LinkText {
             text: web; anchors.verticalCenter: parent.verticalCenter
-            font.pixelSize: Noo.fontSize() * (Noo.isAndroid() ? 0.8 : 1)
+            font.pixelSize: Noo.factor() * (Noo.isAndroid() ? 0.8 : 1)
           }
         }
       }
