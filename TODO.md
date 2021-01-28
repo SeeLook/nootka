@@ -19,7 +19,6 @@
   - levels with melodies to be played and written in one
 
 ### For incoming stable release version 2.0
-  - Default font size - initial value is taken wrongly, so probably all adjustments have to be reviewed
   - (Settings) When tuning changes clef, set it for global and vice versa - change tuning clef when score one changes
   - clean correction code, key signature anim maybe
   - level creator:
