@@ -24,17 +24,17 @@ Tflickable {
     spacing: Noo.factor()
     padding: Noo.factor() / 2
     width: parent.width
-    TextBackground { text: qsTranslate("TaboutNootka", "Code"); }
+    TextBackground { text: qsTranslate("TaboutNootka", "Code") }
     LinkText {
       anchors.horizontalCenter: parent.horizontalCenter
       text: "<b>Tomasz Bojczuk</b>    <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><br>"
     }
-    TextBackground { text: qsTranslate("TaboutNootka", "Audio"); }
+    TextBackground { text: qsTranslate("TaboutNootka", "Audio") }
     Text {
       anchors.horizontalCenter: parent.horizontalCenter; color: activPal.text
       text: qsTranslate("TaboutNootka", "editing and/or recording of samples:") + "<br><b>Sergei Ivanov (tico-tico)</b><br>"
     }
-    TextBackground { text: qsTranslate("TaboutNootka", "Translators"); }
+    TextBackground { text: qsTranslate("TaboutNootka", "Translators") }
 
     ListModel {
       id: trModel
@@ -81,7 +81,7 @@ Tflickable {
       }
     }
 
-    TextBackground { text: qsTranslate("TaboutNootka", "Other projects"); }
+    TextBackground { text: qsTranslate("TaboutNootka", "Other projects") }
     LinkText {
       width: parent.width
       text: qsTranslate("TaboutNootka", "However this application could not exist without various open source projects.<br>Especially:") +
@@ -97,7 +97,7 @@ Tflickable {
             "</ul>"
       wrapMode: Text.WordWrap
     }
-    TextBackground { text: qsTranslate("TaboutNootka", "Thanks"); }
+    TextBackground { text: qsTranslate("TaboutNootka", "Thanks") }
     LinkText {
       width: parent.width
       text: "I would like to say <b>THANK YOU</b> for all people who helped with developing Nootka.<br>

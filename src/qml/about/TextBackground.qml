@@ -4,24 +4,19 @@
 
 import QtQuick 2.9
 
+import "../"
 
-Rectangle {
-  id: root
-  width: parent.width; height: text.height + Noo.factor() / 2
-  gradient: Gradient{
-    GradientStop { position: 0.0; color: Qt.lighter(activPal.highlight) }
-    GradientStop { position: 1.0; color: activPal.highlight }
-  }
+Tile {
+  bgColor: activPal.highlight
 
   property alias textColor: text.color
   property alias font: text.font
-  property string text: ""
+  property alias text: text.text
 
   Text {
     id: text
     font { pixelSize: Noo.factor() * 1.3; bold: true }
-    anchors.centerIn: parent
-    text: root.text
+    anchors.horizontalCenter: parent.horizontalCenter
     textFormat: Text.StyledText
     color: activPal.highlightedText
   }
