@@ -18,7 +18,7 @@ Tumbler {
   delegate: Component {
     Item {
       opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
-      scale: (1.7 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)) * (textMa.pressed ? 0.8 : 1.0)
+      scale: (1.7 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)) * (textMa.pressed || glyphMa.pressed ? 0.8 : 1.0)
       Text {
         id: instrGlyph
         property color tc: Noo.randomColor()
@@ -27,7 +27,7 @@ Tumbler {
         anchors.horizontalCenter: parent.horizontalCenter
         color: instrTumb.currentIndex === modelData ? activPal.highlightedText : tc
         MouseArea {
-          id: textMa
+          id: glyphMa
           anchors.fill: parent
           onClicked: instrTumb.currentIndex = modelData
         }
@@ -39,6 +39,11 @@ Tumbler {
         horizontalAlignment: Text.AlignHCenter
         color: activPal.text
         font { bold: instrTumb.currentIndex === modelData; pixelSize: instrTumb.height * 0.08 }
+        MouseArea {
+          id: textMa
+          anchors.fill: parent
+          onClicked: instrTumb.currentIndex = modelData
+        }
       }
     }
   }
