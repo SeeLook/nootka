@@ -78,21 +78,23 @@ TmelGenItem {
     }
   }
 
-  property var defButt: null
+  property var genButt: null
+
   Component.onCompleted: {
     dialLoader.title = Noo.TR("TmelodySettings", "Random melody")
     dialLoader.standardButtons = DialogButtonBox.Close | DialogButtonBox.Help | DialogButtonBox.RestoreDefaults
-    defButt = dialLoader.buttonBox.standardButton(DialogButtonBox.RestoreDefaults)
-    defButt.text = Noo.TR("TmainScoreObject", "Generate melody")
-    defButt.DialogButtonBox.buttonRole = DialogButtonBox.ActionRole
-    defButt.pixmap = Noo.pix("melody")
-    defButt.clicked.connect(doGenerate)
+    genButt = dialLoader.buttonBox.standardButton(DialogButtonBox.RestoreDefaults)
+    genButt.text = Noo.TR("TmainScoreObject", "Generate melody")
+    genButt.DialogButtonBox.buttonRole = DialogButtonBox.ActionRole
+    genButt.pixmap = Noo.pix("melody")
   }
 
-  function doGenerate() {
-    generate()
-    defButt.clicked.disconnect(doGenerate)
-    dialLoader.close()
+  Connections {
+    target: genButt
+    onClicked: {
+      generate()
+      dialLoader.close()
+    }
   }
 
   function help() {  console.log("'Melody generate' help is not implemented yet")   /*Noo.openHelpLink("")*/ }
