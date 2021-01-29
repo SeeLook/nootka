@@ -125,10 +125,11 @@ void TscoreObject::setClefType(Tclef::EclefType ct) {
                   && ((newNote.chromatic() < 8 && newNote.onUpperStaff()) || !newNote.onUpperStaff()))
               { // find when to fix beaming due to note went to/from grand staff
                   newNote.setOnUpperStaff(false);
-                  fixBeam = true;
+                  if (newNote.rhythm() > Trhythm::Quarter)
+                    fixBeam = true;
               } else if (pianoChanged && m_clefType != Tclef::PianoStaffClefs) {
                 // or merge beams when note from the same rhythmic group where on different staves
-                  if (!newNote.onUpperStaff())
+                  if (!newNote.onUpperStaff() && newNote.rhythm() > Trhythm::Quarter)
                     fixBeam = true;
               }
 
@@ -461,8 +462,20 @@ void TscoreObject::noteClicked(qreal yPos) {
   if (m_workRhythm->isRest() || m_clefType == Tclef::NoClef)
     newNote.setNote(0);
 
+  // when note changed staff upper/lower but rhythm is the same
+  // we have to resolve beaming and fit staff here, setNote() will not preform that
+  bool fixBeam = isPianoStaff() && newNote.rhythm() > Trhythm::Quarter
+                && m_activeNote && m_activeNote->note()->onUpperStaff() != newNote.onUpperStaff()
+                && newNote.isValid() && m_activeNote->note()->rtm == newRhythm;
   bool selectLastNoteAgain = m_activeNote == lastNote() && m_activeNote->note()->rtm != newRhythm;
+
   setNote(m_activeNote, newNote);
+
+  if (fixBeam) {
+    m_activeNote->measure()->resolveBeaming(m_activeNote->wrapper()->rhythmGroup(), m_activeNote->wrapper()->rhythmGroup());
+    m_activeNote->staff()->fit();
+  }
+
   if (selectLastNoteAgain) { // clicked note is the last one and changed its rhythm, so it was deleted and added again
     m_activeNote = lastNote();
     setSelectedItem(lastNote());
