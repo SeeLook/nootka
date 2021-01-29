@@ -101,6 +101,8 @@ void TscoreObject::setClefType(Tclef::EclefType ct) {
     if (notesCount() > 0) {
         bool pianoChanged = (oldClef == Tclef::PianoStaffClefs && m_clefType != Tclef::PianoStaffClefs)
                             || (oldClef != Tclef::PianoStaffClefs && m_clefType == Tclef::PianoStaffClefs);
+        bool fixBeam = false;
+        int rtmGrToCheck = 0;
         for (int n = 0; n < notesCount(); ++n) {
           auto noteSeg = m_segments[n];
           if (pianoChanged)
@@ -118,7 +120,30 @@ void TscoreObject::setClefType(Tclef::EclefType ct) {
                   newNote.setOctave(static_cast<char>(56 + globalNr) / 7 - 8);
               } else
                   fitToRange(newNote);
+
+              if (m_clefType == Tclef::PianoStaffClefs
+                  && ((newNote.chromatic() < 8 && newNote.onUpperStaff()) || !newNote.onUpperStaff()))
+              { // find when to fix beaming due to note went to/from grand staff
+                  newNote.setOnUpperStaff(false);
+                  fixBeam = true;
+              } else if (pianoChanged && m_clefType != Tclef::PianoStaffClefs) {
+                // or merge beams when note from the same rhythmic group where on different staves
+                  if (!newNote.onUpperStaff())
+                    fixBeam = true;
+              }
+
               noteSeg->setNote(newNote);
+
+              if (pianoChanged) {
+                int nextRtmGr = (n == notesCount() - 1 ? -1 : m_segments[n + 1]->rhythmGroup());
+                bool lastInBar = (noteSeg == noteSeg->item()->measure()->last());
+                if (fixBeam && (nextRtmGr != rtmGrToCheck || lastInBar)) // summarize beaming at the group or bar end
+                  noteSeg->item()->measure()->resolveBeaming(rtmGrToCheck, rtmGrToCheck);
+                if (nextRtmGr != rtmGrToCheck || lastInBar) {
+                  fixBeam = false;  // reset beam fix for next group checking
+                  rtmGrToCheck = nextRtmGr;
+                }
+              }
           }
         }
         for (int m = 0; m < m_measures.count(); ++m)
@@ -507,14 +532,19 @@ CHECKTIME (
   }
   int notesToCopy = notesAmount == 0 ? melody->length() : qMin(notesAmount, melody->length());
   for (int n = 0; n < notesToCopy; ++n) {
+    Tnote& note = melody->note(n)->p();
+    // when note is lower than 7  - 'g small' (the lowest supported note on the upper staff)
+    // set it to lower staff (upper to false) to beam notes correctly
+    if (melody->clef() == Tclef::PianoStaffClefs && note.chromatic() < 8 && note.onUpperStaff())
+      note.setOnUpperStaff(false);
     if (transposition) {
-        Tnote nn = melody->note(n)->p();
+        Tnote nn = note;
         nn.transpose(transposition);
         if (m_keySignature < 0 && nn.alter() == Tnote::e_Sharp)
           nn = nn.showWithFlat();
         addNote(nn);
     } else
-        addNote(melody->note(n)->p());
+        addNote(note);
     if (!ignoreTechnical)
       lastSegment()->setTechnical(melody->note(n)->technical());
   }
