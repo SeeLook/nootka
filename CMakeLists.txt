@@ -113,7 +113,11 @@ if(APPLE OR WIN32)
   get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
   get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
   if (WIN32)
-    set(QT_TRANSLATIONS_DIR "${QT_BINARY_DIR}/../translations")
+    execute_process(COMMAND "${QT_BINARY_DIR}/qmake" -query QT_INSTALL_TRANSLATIONS
+      OUTPUT_VARIABLE QT_TRANSLATIONS_DIR
+      OUTPUT_STRIP_TRAILING_WHITESPACE
+    )
+    message(STATUS ${QT_TRANSLATIONS_DIR})
   else (WIN32)
     set(QT_TRANSLATIONS_DIR "${QT_BINARY_DIR}/../../translations")
   endif (WIN32)
