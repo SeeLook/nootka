@@ -29,8 +29,10 @@ ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
       PATHS
         ${CMAKE_SOURCE_DIR}/fftw
         ${CMAKE_SOURCE_DIR}/../fftw
-          ${CMAKE_BINARY_DIR}/fftw
+        ${CMAKE_BINARY_DIR}/fftw
         ${CMAKE_BINARY_DIR}/../fftw
+        /usr/x86_64-w64-mingw32/bin/
+        /usr/x86_64-w64-mingw32/lib/
     )
   ELSE(WIN32)
     find_library(FFTW3_LIBRARY
@@ -44,7 +46,6 @@ ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
         /sw/lib
         ${CMAKE_CURRENT_BINARY_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}
-        /usr/x86_64-w64-mingw32/lib/
   )
   ENDIF(WIN32)
 
