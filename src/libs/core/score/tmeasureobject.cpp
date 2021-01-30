@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -481,9 +481,15 @@ void TmeasureObject::resolveBeaming(int firstGroup, int endGroup) {
       break;
     int gr = beamGroup(m_firstInGr[g] + firstNoteId());
     if (gr > -1 && gr < m_score->groupCount()) {
-      auto beam = m_notes[m_firstInGr[gr]]->beam();
-      if (beam) {
-        beam->prepareBeam(); // TODO what about more beams in the same group??
+      TbeamObject* beam = nullptr; TbeamObject* prevBeam = nullptr;
+      for (int n = m_firstInGr[gr]; n < noteCount(); ++n) {
+        if (m_notes[n]->rhythmGroup() != gr)
+          break;
+        beam = m_notes[n]->beam();
+        if (beam && beam != prevBeam) {
+          beam->prepareBeam();
+          prevBeam = beam;
+        }
       }
     }
   }
