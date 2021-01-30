@@ -46,6 +46,8 @@ ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
         /sw/lib
         ${CMAKE_CURRENT_BINARY_DIR}
         ${CMAKE_CURRENT_SOURCE_DIR}
+        /usr/x86_64-w64-mingw32/bin/
+        /usr/x86_64-w64-mingw32/lib/
   )
   ENDIF(WIN32)
 
@@ -123,6 +125,8 @@ ELSE(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
         ${CMAKE_CURRENT_BINARY_DIR}
         ${CMAKE_SOURCE_DIR}}/../libvorbis/include
         ${CMAKE_CURRENT_SOURCE_DIR}
+        /usr/x86_64-w64-mingw32/lib/
+        /usr/x86_64-w64-mingw32/bin/
   )
   ENDIF(WIN32)
 
