@@ -214,7 +214,7 @@ QStringList TdialogLoaderObject::getChanges() const {
     chLog << QLatin1String("<h1>Nootka TWO</h1>");
     for (int i = 0; i < htmlText.size(); i++) {
       if (htmlText[i].startsWith(QLatin1String("0.")) || htmlText[i].startsWith(QLatin1String("1."))) {
-          htmlText[i] = QLatin1String("<font size=\"6\" color=\"%1\"><b>&nbsp;").arg(qApp->palette().highlight().color().name())
+          htmlText[i] = QString("<font size=\"6\" color=\"%1\"><b>&nbsp;").arg(qApp->palette().highlight().color().name())
                       + htmlText[i] + QLatin1String("</b></font>");
           chLog << htmlText[i] + QLatin1String("<br>");
       } else if (htmlText[i].contains(QLatin1String("======"))) {
