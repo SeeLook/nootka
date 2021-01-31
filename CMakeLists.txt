@@ -26,7 +26,7 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/src)
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/src)
 
 if (UNIX AND NOT APPLE) # config with version number is generated once on developer platform
-configure_file(${CMAKE_SOURCE_DIR}/src/nootkaconfig.h.in ${CMAKE_SOURCE_DIR}/src/libs/core/nootkaconfig.h)
+  configure_file(${CMAKE_SOURCE_DIR}/src/nootkaconfig.h.in ${CMAKE_SOURCE_DIR}/src/libs/core/nootkaconfig.h)
 endif (UNIX AND NOT APPLE)
 
 if (APPLE)
@@ -41,6 +41,7 @@ endif (APPLE)
 ###########################################################################
 if(WIN32)
   set(PACKAGE_ARCHITECTURE x86)
+  option(COPY_GCC_LIBS "Copy compiler specific libraries during install target" ON)
 endif(WIN32)
 if(APPLE)
   set(PACKAGE_ARCHITECTURE x86_64)
@@ -199,7 +200,9 @@ if(WIN32)
   install(FILES packaging/nsis/nootka-utf8.nsi packaging/nsis/fileasoc.nsh ${CMAKE_BINARY_DIR}/nsis/NSIS.definitions.nsh DESTINATION "${INS_PREF}")
   install(FILES "${FFTW3_LIBRARIES}" "${VORBIS_LIBRARIES}" "${VORBIS_DIR}/libvorbis.dll" "${VORBIS_DIR}/libogg.dll" DESTINATION "${INS_PREF}")
   install(FILES packaging/nsis/qt.conf DESTINATION "${INS_PREF}")
-  install(FILES "${MAKE_DIR}/libgcc_s_dw2-1.dll" "${MAKE_DIR}/libstdc++-6.dll" "${MAKE_DIR}/libwinpthread-1.dll" DESTINATION "${INS_PREF}")
+  if (COPY_GCC_LIBS)
+    install(FILES "${MAKE_DIR}/libgcc_s_dw2-1.dll" "${MAKE_DIR}/libstdc++-6.dll" "${MAKE_DIR}/libwinpthread-1.dll" DESTINATION "${INS_PREF}")
+  endif()
 endif(WIN32)
 
 ###########################################################################
@@ -215,7 +218,7 @@ configure_file(
 )
 
 
-add_subdirectory( packaging ) # cpack rules
+add_subdirectory( packaging ) # deploy targets, cpack rules
 
 
 # Uncomment below lines if you want to build any testing executable
