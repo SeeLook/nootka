@@ -10,7 +10,7 @@ SpinBox {
   id: sb
 
   editable: true
-  height: sb.font.pixelSize * 3; width: sb.font.pixelSize * 12
+  height: sb.font.pixelSize * 2.5; width: sb.font.pixelSize * 10
   font.pixelSize: Noo.factor()
 
   contentItem: TextInput {
@@ -31,8 +31,8 @@ SpinBox {
 
   background: Rectangle {
     color: sb.enabled ? activPal.base : Qt.darker(disdPal.window, 1.2)
-    width: sb.width - sb.height; height: sb.height
-    x: sb.height / 2
+    width: sb.width - sb.height; height: sb.height - sb.font.pixelSize / 4
+    x: sb.height / 2; y: sb.font.pixelSize / 8
     border { width: sb.activeFocus ? 1 : 0; color: activPal.highlight }
   }
 
