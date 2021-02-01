@@ -126,7 +126,7 @@ Tflickable {
           spacing: Noo.factor() / 4
           Text { text: qsTr("available strings:"); color: activPal.text; anchors.horizontalCenter: parent.horizontalCenter }
           Grid {
-            spacing: Noo.factor() / 4
+            spacing: Noo.factor()
             anchors.horizontalCenter: parent.horizontalCenter
             columns: Math.ceil(GLOB.tuning.stringNumber / 2.0)
             horizontalItemAlignment: Grid.AlignHCenter
@@ -135,6 +135,7 @@ Tflickable {
               TcheckBox {
                 checked: creator.usedStrings & Math.pow(2, index)
                 text: index + 1
+                textItem.topPadding: Noo.factor() * 0.5
                 font { family: "nootka"; pixelSize: Noo.factor() * 3 }
                 onClicked: creator.usedStrings = checked ? creator.usedStrings | Math.pow(2, index) : creator.usedStrings & ~Math.pow(2, index)
               }
