@@ -1,5 +1,6 @@
 appimage-amd64:
   image: ubuntu:16.04
+
   before_script:
     - apt-get update
     - apt-get install -y mesa-common-dev libsoundtouch-dev libfftw3-dev libasound2-dev libogg-dev libvorbis-dev libpulse-dev libjack-dev cmake git wget build-essential software-properties-common
@@ -13,6 +14,32 @@ appimage-amd64:
     - make appimage
 
   artifacts:
-    name:  "Nootka-$(head -1 $PWD/changes | sed 's/\ /-/g')-b$(git rev-list HEAD --count)"
+    name: "Nootka-$(head -1 $PWD/changes | sed 's/\ /-/g')-b$(git rev-list HEAD --count)"
     paths:
       - 'nootka-*.AppImage*'
+
+
+windows_installer:
+  image: burningdaylight/mingw-arch:qt
+
+  before_script:
+    - yay --noconfirm -S nsis
+    - yay -S --noconfirm aur/mingw-w64-fftw-bin aur/mingw-w64-libogg aur/mingw-w64-libvorbis
+    - mkdir bin
+    - ln -s /usr/bin/x86_64-w64-mingw32-windres bin/windres.exe
+    - PATH=$PWD/bin:$PATH
+    - export PATH
+
+  script:
+    - mkdir installs
+    - x86_64-w64-mingw32-cmake . -DCMAKE_BUILD_TYPE=Release -DCOPY_GCC_LIBS=OFF -DCMAKE_INSTALL_PREFIX=installs -DQT_TRANSLATIONS_DIR=/usr/x86_64-w64-mingw32/share/qt/translations/ -DFFTW3_LIBRARIES=/usr/x86_64-w64-mingw32/bin/libfftw3f-3.dll -DVORBISFILE_LIB=/usr/x86_64-w64-mingw32/bin/libvorbisfile-3.dll -DVORBIS_LIB=/usr/x86_64-w64-mingw32/bin/libvorbis-0.dll -DOGG_LIB=/usr/x86_64-w64-mingw32/bin/libogg-0.dll
+    - make
+    - make install
+    - packaging/mingw-w64/nootka-mingw-w64.sh
+    - makensis installs/nootka-utf16.nsi
+    - cp Nootka*Windows*.exe ./
+
+  artifacts:
+    name: "Nootka-$(head -1 $PWD/changes | sed 's/\ /-/g')-b$(git rev-list HEAD --count)"
+    paths:
+     - 'Nootka*Windows*.exe'
