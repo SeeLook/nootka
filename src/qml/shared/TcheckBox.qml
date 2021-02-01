@@ -8,7 +8,8 @@ import QtQuick.Controls 2.2
 
 CheckBox {
   id: chB
-  property alias textColor: content.color
+  property alias textColor: textItem.color
+  property alias textItem: textItem
 
   font.pixelSize: Noo.factor()
 
@@ -38,7 +39,7 @@ CheckBox {
   }
 
   contentItem: Text {
-    id: content
+    id: textItem
     y: (chB.height - height) / 2
     text: chB.text
     topPadding: chB.font.pixelSize * 0.4
