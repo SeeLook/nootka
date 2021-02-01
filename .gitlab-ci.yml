@@ -37,7 +37,7 @@ windows_installer:
     - make install
     - packaging/mingw-w64/nootka-mingw-w64.sh
     - makensis installs/nootka-utf16.nsi
-    - cp Nootka*Windows*.exe ./
+    - cp installs/Nootka*Windows*.exe ./
 
   artifacts:
     name: "Nootka-$(head -1 $PWD/changes | sed 's/\ /-/g')-b$(git rev-list HEAD --count)"
