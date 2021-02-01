@@ -239,14 +239,6 @@ IF(UNIX AND NOT APPLE)
 
 ENDIF(UNIX AND NOT APPLE)
 
-IF(WIN32)
-#   add_definitions(-D__WINDOWS_WASAPI__)
-#   add_definitions(-D__WINDOWS_DS__)
-#   add_definitions(-D__WINDOWS_ASIO__)
-#   add_definitions(-D__WINDOWS_MM__)
-#   set(WIN_LIBS winmm ole32 dsound uuid ksuser) # uuid & ksuser are required by WASAPI
-ENDIF(WIN32)
-
 if(APPLE)
   add_definitions(-D__MACOSX_CORE__)
 endif(APPLE)
@@ -446,8 +438,6 @@ if (NOT WITH_STATIC_LIB)
       install(TARGETS NootkaSound DESTINATION .)
       install(FILES ${FFTW3_LIBRARIES} DESTINATION .)
       install(FILES ${VORBISFILE_LIB} ${VORBIS_LIB} ${OGG_LIB} DESTINATION .)
-      #get_filename_component(VORBIS_DIR "${VORBIS_LIBRARIES}" DIRECTORY)
-      #install(FILES ${VORBIS_DIR}/libogg.dll ${VORBIS_DIR}/libvorbis.dll DESTINATION .)
     else(WIN32)       # MacOs
       install(TARGETS NootkaSound DESTINATION "${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/Frameworks")
     endif(WIN32)

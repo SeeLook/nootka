@@ -200,9 +200,3 @@ else(UNIX AND NOT APPLE)
   endif(WIN32)
 endif(UNIX AND NOT APPLE)
 
-# add_subdirectory( plugins )
-
-
-# get_directory_property( DirDefs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} COMPILE_DEFINITIONS )
-# message(STATUS "${CMAKE_CURRENT_SOURCE_DIR} : ${DirDefs}" )
-

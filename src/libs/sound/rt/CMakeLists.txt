@@ -8,8 +8,6 @@ project(RtAudio)
 # Revert c++11 flag set somewhere above - ASIO won't compile with c++11
 set(CMAKE_CXX_FLAGS "")
 
-#message( ${CMAKE_CXX_FLAGS})
-
 set(CMAKE_AUTOMOC ON)
 find_package(Qt5Core REQUIRED)
 
