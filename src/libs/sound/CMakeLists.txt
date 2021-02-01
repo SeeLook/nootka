@@ -22,19 +22,6 @@ ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
       ${CMAKE_BINARY_DIR}/../fftw
       /usr/x86_64-w64-mingw32/include/
   )
-  IF(WIN32)
-    find_library(FFTW3_LIBRARY
-      NAMES
-        libfftw3f-3.dll
-      PATHS
-        ${CMAKE_SOURCE_DIR}/fftw
-        ${CMAKE_SOURCE_DIR}/../fftw
-        ${CMAKE_BINARY_DIR}/fftw
-        ${CMAKE_BINARY_DIR}/../fftw
-        /usr/x86_64-w64-mingw32/bin/
-        /usr/x86_64-w64-mingw32/lib/
-    )
-  ELSE(WIN32)
     find_library(FFTW3_LIBRARY
       NAMES
         fftw3f
@@ -44,12 +31,11 @@ ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
         /usr/local/lib
         /opt/local/lib
         /sw/lib
-        ${CMAKE_CURRENT_BINARY_DIR}
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        /usr/x86_64-w64-mingw32/bin/
-        /usr/x86_64-w64-mingw32/lib/
+        ${CMAKE_SOURCE_DIR}/fftw
+        ${CMAKE_SOURCE_DIR}/../fftw
+        ${CMAKE_BINARY_DIR}/fftw
+        ${CMAKE_BINARY_DIR}/../fftw
   )
-  ENDIF(WIN32)
 
   set(FFTW3_INCLUDE_DIRS "${FFTW3_INCLUDE_DIR}" CACHE STRING "FFTW include directory")
   set(FFTW3_LIBRARIES "${FFTW3_LIBRARY}" CACHE STRING "FFTW library path")
@@ -102,37 +88,58 @@ ELSE(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
       ${CMAKE_BINARY_DIR}/../libogg/include
       /usr/x86_64-w64-mingw32/include/
   )
-  IF(WIN32)
-    find_library(VORBIS_LIBRARY
-      NAMES
-        libvorbisfile.dll
+  get_filename_component(VORBIS_DIR "${VORBIS_LIBRARIES}" DIRECTORY)
+  if (MINGW)
+    set(CMAKE_FIND_LIBRARY_SUFFIXES ".dll")
+  endif()
+  message(STATUS "\n${VORBIS_DIR}")
+    find_library(VORBISFILE_LIB
+      NAMES vorbisfile
       PATHS
-      ${CMAKE_SOURCE_DIR}/vorbis-tools
-      ${CMAKE_SOURCE_DIR}}/../vorbis-tools
-      ${CMAKE_BINARY_DIR}/../vorbis-tools
-      /usr/x86_64-w64-mingw32/lib/
-    )
-  ELSE(WIN32)
-    find_library(VORBIS_LIBRARY
-      NAMES
-        vorbisfile
-      PATHS
+        ${VORBIS_DIR}
         /usr/lib
         /usr/lib64
         /usr/local/lib
         /opt/local/lib
         /sw/lib
-        ${CMAKE_CURRENT_BINARY_DIR}
-        ${CMAKE_SOURCE_DIR}}/../libvorbis/include
-        ${CMAKE_CURRENT_SOURCE_DIR}
-        /usr/x86_64-w64-mingw32/lib/
-        /usr/x86_64-w64-mingw32/bin/
-  )
-  ENDIF(WIN32)
+        ${CMAKE_SOURCE_DIR}}/../libvorbis
+        ${CMAKE_BINARY_DIR}/../libvorbis
+        ${CMAKE_SOURCE_DIR}}/../vorbis-tools
+        ${CMAKE_BINARY_DIR}/../vorbis-tools
+    )
+    find_library(OGG_LIB
+      NAMES ogg
+      PATHS
+        ${VORBIS_DIR}
+        /usr/lib
+        /usr/lib64
+        /usr/local/lib
+        /opt/local/lib
+        /sw/lib
+        ${CMAKE_SOURCE_DIR}}/../libvorbis
+        ${CMAKE_BINARY_DIR}/../libvorbis
+        ${CMAKE_SOURCE_DIR}}/../vorbis-tools
+        ${CMAKE_BINARY_DIR}/../vorbis-tools
+    )
+    find_library(VORBIS_LIB
+      NAMES vorbis
+      PATHS
+        ${VORBIS_DIR}
+        /usr/lib
+        /usr/lib64
+        /usr/local/lib
+        /opt/local/lib
+        /sw/lib
+        ${CMAKE_SOURCE_DIR}}/../libvorbis
+        ${CMAKE_BINARY_DIR}/../libvorbis
+        ${CMAKE_SOURCE_DIR}}/../vorbis-tools
+        ${CMAKE_BINARY_DIR}/../vorbis-tools
+    )
 
+  message(STATUS "\n${VORBIS_LIB}\n${OGG_LIB}\n${VORBISFILE_LIB}")
   set(VORBIS_INCLUDE_DIRS    ${VORBIS_INCLUDE_DIR} )
   set(OGG_INCLUDE_DIRS       ${OGG_INCLUDE_DIR})
-  set(VORBIS_LIBRARIES       ${VORBIS_LIBRARY} CACHE STRING "Ogg vorbis library path")
+  set(VORBIS_LIBRARIES       ${VORBISFILE_LIB} CACHE STRING "Ogg vorbis library path")
 
   IF(VORBIS_INCLUDE_DIRS AND OGG_INCLUDE_DIRS AND VORBIS_LIBRARIES)
      set(OGG_FOUND TRUE)
@@ -421,10 +428,10 @@ target_link_libraries(NootkaSound
     NootkaCore
     ${WIN_LIBS}
     ${FFTW3_LIBRARIES}
+    ${VORBISFILE_LIB} ${VORBIS_LIB} ${OGG_LIB}
     ${ALSA_LIBRARY} ${PTHREAD_LIBRARY}
     ${PULSESIMPLE_LIBRARY} ${PULSEERROR_LIBRARY}
     ${JACK_LIBRARY}
-    ${VORBIS_LIBRARIES}
     ${SOUNDTOUCH_LIBRARY}
     ${CoreAudio_LIB}
     ${CoreMidi_LIB}
@@ -438,9 +445,9 @@ if (NOT WITH_STATIC_LIB)
     if(WIN32)       # Windows
       install(TARGETS NootkaSound DESTINATION .)
       install(FILES ${FFTW3_LIBRARIES} DESTINATION .)
-      install(FILES ${VORBIS_LIBRARIES} DESTINATION .)
-      get_filename_component(VORBIS_DIR "${VORBIS_LIBRARIES}" DIRECTORY)
-      install(FILES ${VORBIS_DIR}/libogg.dll ${VORBIS_DIR}/libvorbis.dll DESTINATION .)
+      install(FILES ${VORBISFILE_LIB} ${VORBIS_LIB} ${OGG_LIB} DESTINATION .)
+      #get_filename_component(VORBIS_DIR "${VORBIS_LIBRARIES}" DIRECTORY)
+      #install(FILES ${VORBIS_DIR}/libogg.dll ${VORBIS_DIR}/libvorbis.dll DESTINATION .)
     else(WIN32)       # MacOs
       install(TARGETS NootkaSound DESTINATION "${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/Frameworks")
     endif(WIN32)
