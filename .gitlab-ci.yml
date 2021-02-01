@@ -14,7 +14,7 @@ appimage-amd64:
     - make appimage
 
   artifacts:
-    name: "Nootka-$(head -1 $PWD/changes | sed 's/\ /-/g')-b$(git rev-list HEAD --count)"
+    name: "Nootka-AppImage-$(head -1 $PWD/changes | sed 's/\ /-/g')-b$(git rev-list HEAD --count)"
     paths:
       - 'nootka-*.AppImage*'
 
@@ -40,6 +40,6 @@ windows_installer:
     - cp installs/Nootka*Windows*.exe ./
 
   artifacts:
-    name: "Nootka-$(head -1 $PWD/changes | sed 's/\ /-/g')-b$(git rev-list HEAD --count)"
+    name: "Nootka-Windows-$(head -1 $PWD/changes | sed 's/\ /-/g')-b$(git rev-list HEAD --count)"
     paths:
      - 'Nootka*Windows*.exe'
