@@ -55,7 +55,6 @@ void debugNotesStruct(QList<TnoteStruct>& st) {
 
 /*static*/
 
-bool TexecutorSupply::m_paramsMessage = false;
 bool TexecutorSupply::m_playCorrections = true;
 
 
@@ -76,7 +75,7 @@ void TexecutorSupply::checkGuitarParamsChanged(Texam* exam) {
   QString changesMessage;
   if (exam->level()->instrument != Tinstrument::NoInstrument) { // when instrument is guitar it has a matter
       if (exam->level()->instrument != GLOB->instrument().type())
-          changesMessage = tr("Instrument type was changed!");
+        changesMessage = tr("Instrument type was changed!");
       GLOB->setInstrument(exam->level()->instrument);
   } // otherwise it reminds unchanged
   auto tmpTune = *GLOB->Gtune();
@@ -99,11 +98,8 @@ void TexecutorSupply::checkGuitarParamsChanged(Texam* exam) {
   }
   if (guitarParamsChanged)
     GLOB->setGuitarParams(fretCount, tmpTune);
-  if (!changesMessage.isEmpty()) {
+  if (!changesMessage.isEmpty())
     QMessageBox::information(nullptr, QString(), changesMessage);
-      m_paramsMessage = true;
-  } else
-      m_paramsMessage = false;
 }
 
 

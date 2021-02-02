@@ -115,8 +115,6 @@ TtipHandler::TtipHandler(Texam* exam, QObject *parent) :
   });
  qApp->installEventFilter(this);
 //   int levelMessageDelay = 1;
-//   if (TexecutorSupply::paramsChangedMessage())
-//       levelMessageDelay = 7000;
 //  QTimer::singleShot(levelMessageDelay, this, SLOT(levelStatusMessage()));
 }
 

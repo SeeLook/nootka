@@ -105,12 +105,6 @@ public:
   static void checkGuitarParamsChanged(Texam* exam);
 
       /**
-       * It is true when checkGuitarParamsChanged() obtained message to display.
-       * It is used to inform MainWindow that status label is busy by the message.
-       */
-  static bool paramsChangedMessage() { return m_paramsMessage; }
-
-      /**
        * Returns color depends on answer type.
        */
   static QColor& answerColor(const TQAunit* answer);
@@ -261,7 +255,6 @@ private:
 
   bool                     m_wasFinished; /**< True when message about finished exam was shown. */
   static bool              m_playCorrections; /**< Corrected answers will be played (True) or shown on the guitar (False) */
-  static bool              m_paramsMessage; /**< True when message was displayed */
 
       /**
        * Temporary stored fret range of a level.
