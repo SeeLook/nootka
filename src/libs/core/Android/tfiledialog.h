@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -124,9 +124,9 @@ class NOOTKACORE_EXPORT TfileDialog
 
 public:
   static QString getOpenFileName(const QString &caption = QString(), const QString &dir = QString(),
-                          const QString &filter = QString(), QString *selectedFilter = nullptr, QFileDialog::Options options = 0);
+                          const QString &filter = QString(), QString *selectedFilter = nullptr, QFileDialog::Options options = QFlag(0));
   static QString getSaveFileName(const QString &caption = QString(), const QString &dir = QString(),
-                          const QString &filter = QString(), QString *selectedFilter = nullptr, QFileDialog::Options options = 0);
+                          const QString &filter = QString(), QString *selectedFilter = nullptr, QFileDialog::Options options = QFlag(0));
 };
 
 #endif
