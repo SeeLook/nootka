@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -32,13 +32,19 @@ class Tglobals;
 
 /**
  * Simple class which grabs global settings overwritten by exam,
- * stores them and restores when exam is finished. 
+ * stores them and restores when exam is finished.
+ * NOTICE: Constructor stores some guitar parameters already.
  */
 class TglobalExamStore
 {
 
 public:
 
+      /**
+       * Constructor stores some guitar parameters already:
+       * @p tune, @p fretsNumber, @p instrument and @p isSingleNoteMode.
+       * The rest of parameters is saved by @p storeSettings()
+       */
   TglobalExamStore(Tglobals* globals);
 
       /**

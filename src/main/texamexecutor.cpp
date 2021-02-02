@@ -161,11 +161,7 @@ bool TexamExecutor::continueInit() {
   if (GLOB->E->studentName.isEmpty())
     GLOB->E->studentName = GLOB->systemUserName();
   m_glStore = new TglobalExamStore(GLOB);
-  m_glStore->tune = *GLOB->Gtune();
-  m_glStore->fretsNumber = GLOB->GfretsNumber;
-  m_glStore->instrument = GLOB->instrument().type();
-  m_glStore->isSingleNoteMode = GLOB->isSingleNote();
-  //We check are guitar's params suitable for an exam
+  /** In @p TglobalExamStore constructor We check are guitar's params suitable for an exam */
 #if !defined (Q_OS_ANDROID)
   TexecutorSupply::checkGuitarParamsChanged(m_exam);
 #endif
@@ -1118,11 +1114,6 @@ void TexamExecutor::displayCertificate() {
  *   so question list has to be created fret by fret 
  */
 void TexamExecutor::prepareToExam() {
-  if (!NOTENAME && !m_exam->melodies()) { // TODO It should never happened, delete it when checked
-    qDebug() << "[TexamExecutor prepareToExam ] Single note mode required but note name was not created. THERE IS A BUG!!!\n\n";
-    return;
-  }
-
   disableWidgets();
 // connect all events to check an answer or display tip how to check
   connect(MAIN_SCORE, &TmainScoreObject::clicked, this, &TexamExecutor::expertAnswersSlot);
@@ -1148,11 +1139,10 @@ void TexamExecutor::prepareToExam() {
   m_glStore->prepareGlobalsToExam(m_level);
   GLOB->setRhythmsEnabled(m_level.useRhythms());
 
-//   INSTRUMENT->setVisible(GLOB->L->guitarEnabled);
   if (m_level.canBeSound()) {
     SOUND->acceptSettings();
     if (SOUND->isSniffable())
-        SOUND->stopListen();
+      SOUND->stopListen();
     SOUND->prepareToExam(m_level.requireOctave ? m_level.loNote : GLOB->loNote(), m_level.requireOctave ? m_level.hiNote : GLOB->hiNote());
 //     SOUND->pitchView()->setIntonationAccuracy(m_level.intonation);
 //     SOUND->pitchView()->enableAccuracyChange(false);
@@ -1170,18 +1160,6 @@ void TexamExecutor::prepareToExam() {
   emit tipHandlerCreated();
   m_tipHandler->showStartTip();
   emit titleChanged();
-  if (m_exercise && !m_exam->melodies()) {
-//     if (m_level.answerIsNote())
-//       connect(SCORE, &TmainScore::correctingFinished, this, &TexamExecutor::correctionFinished);
-//     if (m_level.answerIsName())
-//       connect(NOTENAME, &TnoteName::correctingFinished, this, &TexamExecutor::correctionFinished);
-//     if (m_level.answerIsGuitar())
-//       connect(GUITAR, &TfingerBoard::correctingFinished, this, &TexamExecutor::correctionFinished);
-//     if (m_level.answerIsSound()) {
-//       connect(SOUND->pitchView(), &TpitchView::correctingFinished, this, &TexamExecutor::correctionFinished);
-//       connect(m_tipHandler, &Tcanvas::correctingFinished, this, &TexamExecutor::correctionFinished);
-//     }
-  }
 }
 
 
