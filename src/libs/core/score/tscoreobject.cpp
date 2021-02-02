@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -757,9 +757,11 @@ qreal TscoreObject::stavesHeight() {
 
 void TscoreObject::changeActiveNote(TnoteItem* aNote) {
   if (aNote != m_activeNote) {
+    if (m_activeNote && m_activeNote->staff())
+      m_activeNote->staff()->setZ(0); // reset staff z order (set it down)
     auto prevActive = m_activeNote;
     m_activeNote = aNote;
-    if (aNote == nullptr) {
+    if (m_activeNote == nullptr) {
         m_leaveTimer->start(600);
     } else {
         if (prevActive == nullptr)
@@ -768,6 +770,8 @@ void TscoreObject::changeActiveNote(TnoteItem* aNote) {
           enterTimeElapsed();
           emit activeYposChanged();
         }
+        if (m_activeNote->staff()) // raise staff to overlap other staves and keep note cursor stick to this staff
+          m_activeNote->staff()->setZ(1);
     }
   }
 }
