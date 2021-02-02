@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,7 +22,6 @@
 #include <tscoreparams.h>
 #include <exam/tlevel.h>
 #include <tsound.h>
-// #include <tlayoutparams.h>
 
 
 
@@ -38,9 +37,8 @@ void TglobalExamStore::storeSettings() {
   showOtherPos = m_globals->GshowOtherPos;
   useDblAccids = m_globals->S->doubleAccidentalsEnabled;
   useKeySign = m_globals->S->keySignatureEnabled;
-  octaveInName = m_globals->S->octaveInNoteNameFormat;
   clef = Tclef(m_globals->S->clef);
-  instrument = m_globals->instrument().type();
+  //   instrument = m_globals->instrument().type();// stored already, executor did this before
   intonation = m_globals->A->intonation;
   if (m_globals->A->midiEnabled)
     playbackInstr = m_globals->A->midiInstrNr;
@@ -50,8 +48,6 @@ void TglobalExamStore::storeSettings() {
   namesOnScore = m_globals->S->namesOnScore;
   OUTenabled = m_globals->A->OUTenabled;
   INenabled = m_globals->A->INenabled;
-//   showSoundView = m_globals->L->soundViewEnabled;
-//   showGuitar = m_globals->L->guitarEnabled;
   enableRhythms = m_globals->rhythmsEnabled();
   quantization = SOUND->quantization();
 }
@@ -62,11 +58,9 @@ void TglobalExamStore::restoreSettings() {
   m_globals->setShowKeyName(showKeySignName);
   m_globals->setEnableDoubleAccids(useDblAccids);
   m_globals->setKeySignatureEnabled(useKeySign);
-  m_globals->S->octaveInNoteNameFormat = octaveInName; // TODO never used so far
   m_globals->setClefType(static_cast<int>(clef.type()));
   m_globals->setSingleNote(isSingleNoteMode);
   m_globals->setNamesOnScore(namesOnScore);
-  m_globals->instrument().setType(instrument); //TODO ????
   m_globals->A->intonation = intonation;
   m_globals->GshowOtherPos = showOtherPos;
   m_globals->setGuitarParams(fretsNumber, tune);
@@ -90,7 +84,6 @@ void TglobalExamStore::prepareGlobalsToExam(const Tlevel& level) {
 //   m_globals->setGuitarParams();
   m_globals->setEnableDoubleAccids(level.withDblAcc);
   m_globals->setKeySignatureEnabled(level.useKeySign);
-  m_globals->S->octaveInNoteNameFormat = true; // TODO never used so far
   m_globals->setClefType(static_cast<int>(level.clef.type()));
   m_globals->setNamesOnScore(false);
   if (level.answerIsSound()) {
@@ -104,9 +97,6 @@ void TglobalExamStore::prepareGlobalsToExam(const Tlevel& level) {
   m_globals->A->intonation = level.intonation;
 //   m_globals->S->isSingleNoteMode = !level.canBeMelody();
 //   m_globals->setRhythmsEnabled(false); // TODO: Read it from level when will be implemented
-//   m_globals->L->soundViewEnabled = level.answerIsSound();
-//   if (level.canBeGuitar()) // enable guitar if necessary, but don't disable when it is visible
-//     m_globals->L->guitarEnabled = true;
     // change output instrument type when necessary (exam instrument differs from user) TODO
 //     if (m_globals->instrument != NoInstrument && m_globals->instrument != instrument)
 //         AudioOutSettings::adjustOutToInstrument(m_globals->A, (int)m_globals->instrument);

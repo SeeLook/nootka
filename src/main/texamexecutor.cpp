@@ -1129,7 +1129,7 @@ void TexamExecutor::prepareToExam() {
   if (NOTENAME)
     connect(NOTENAME, &TnameItem::noteButtonClicked, this, &TexamExecutor::expertAnswersSlot);
   if (INSTRUMENT)
-  connect(INSTRUMENT, &TcommonInstrument::noteChanged, this, &TexamExecutor::expertAnswersSlot);
+    connect(INSTRUMENT, &TcommonInstrument::noteChanged, this, &TexamExecutor::expertAnswersSlot);
   if (m_level.instrument != Tinstrument::NoInstrument)
     connect(SOUND, &Tsound::noteStarted, this, &TexamExecutor::expertAnswersSlot);
   else
@@ -1218,6 +1218,7 @@ void TexamExecutor::restoreAfterExam() {
 
   MAIN_SCORE->setReadOnly(false);
   SOUND->restoreAfterExam();
+  GLOB->setInstrument(m_glStore->instrument);
 }
 
 
