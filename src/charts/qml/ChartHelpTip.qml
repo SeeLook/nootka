@@ -28,7 +28,7 @@ TipRect {
       z: 200
       id: txt
       color: activPal.text
-      textFormat: Text.StyledText; horizontalAlignment: Text.AlignHCenter
+      textFormat: Text.RichText; horizontalAlignment: Text.AlignHCenter
       onLinkActivated: analyzeWindow.openExam()
       MouseArea {
         anchors.fill: parent
