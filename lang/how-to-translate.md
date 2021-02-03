@@ -15,9 +15,9 @@
         launch it and follow its instructions - select the latest version of Qt for Desktop.
 
      or use other software for translators that supports *.ts format,  
-     i.e. [https://apps.kde.org/en/lokalize](lokalize).
+     i.e. [lokalize](https://apps.kde.org/en/lokalize).
       
-  2. Download [https://www.opencode.net/seelook/nootka/raw/master/lang/nootka_xx.ts?inline=false](Nootka language file)  
+  2. Download [Nootka language file: nootka_xx.ts](https://www.opencode.net/seelook/nootka/raw/master/lang/nootka_xx.ts?inline=false)  
      and change that xx in file name to your language code to get file name like f.e.: nootka_en.ts
 
   3. Open this file by Qt Linguist (or any other app) and translate - this is very easy.
