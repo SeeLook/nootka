@@ -2,10 +2,10 @@
 <h1 style="text-align: right">...to play scores</h1>
 
 
-  
-  <b>Nootka</b> is an application to discover and learn classical score notation.  
-  It helps to understand the rules of reading and writing scores
-  and helps with developing skills of playing and singing notes from a score.  
+  <b>Nootka</b> helps understand the basics of music notation:  
+  reading and practicing playing musical scores.  
+  ​Long story short: the user plays notes (melody) displayed by the app,  
+  which then in real time checks if the notes was played correctly.  
   The application is free and open source.  
   It works under Windows, Linux, Mac and Android...  
 
@@ -33,7 +33,16 @@ Download and Installation
 
 Here is [download page](https://nootka.sourceforge.io/index.php/download/)  
 But **Nootka** is available in installers of many Linux distributions.  
+[![Packaging status](https://repology.org/badge/vertical-allrepos/nootka.svg)](https://repology.org/project/nootka/versions)  
 Also in [Google Play Store](https://play.google.com/store/apps/details?id=net.sf.nootka)
+
+
+Testing nightly builds
+--------------------------
+Nightly builds for testing next Nootka releases are hosted on [https://www.opencode.net/seelook/nootka](https://www.opencode.net/seelook/nootka) and can be downloaded from the links below:  
+- [Linux AppImage](https://www.opencode.net/seelook/nootka/-/jobs/artifacts/master/download?job=appimage-amd64)  
+- [Windows installer](https://www.opencode.net/seelook/nootka/-/jobs/artifacts/master/download?job=windows_installer)  
+
 
 
 Compilation from sources
