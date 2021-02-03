@@ -35,6 +35,12 @@ Tflickable {
         cursorShape: containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor
       }
     }
+    LinkText {
+      anchors.horizontalCenter: parent. horizontalCenter
+      text: ("<a style=\"text-decoration: none; color: %1\" href=\"https://nootka.sourceforge.io\">https://nootka.sourceforge.io</a>").arg(nooLab.bgColor)
+      textFormat: Text.RichText
+      font { pixelSize: Noo.factor() * 1.5 }
+    }
     Tile {
       bgColor: Qt.tint(nooLab.bgColor, Noo.alpha(activPal.base, 230))
       bgBorder { width: 2; color: nooLab.bgColor }

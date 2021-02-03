@@ -27,7 +27,9 @@ Tflickable {
     TextBackground { text: qsTranslate("TaboutNootka", "Code") }
     LinkText {
       anchors.horizontalCenter: parent.horizontalCenter
-      text: "<b>Tomasz Bojczuk</b>    <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><br>"
+      text: "<b>Tomasz Bojczuk</b>    <a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a><br><b>"
+        + ("<a style=\"text-decoration: none; color: %1\" href=\"https://www.opencode.net/seelook/nootka\">https://www.opencode.net/seelook/nootka</a></b>").arg(activPal.text)
+      textFormat: Text.RichText; horizontalAlignment: Text.AlignHCenter
     }
     TextBackground { text: qsTranslate("TaboutNootka", "Audio") }
     Text {
