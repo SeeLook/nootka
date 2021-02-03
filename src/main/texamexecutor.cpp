@@ -160,10 +160,11 @@ bool TexamExecutor::continueInit() {
   m_summaryReason = NoReason;
   if (GLOB->E->studentName.isEmpty())
     GLOB->E->studentName = GLOB->systemUserName();
-  m_glStore = new TglobalExamStore(GLOB);
-  /** In @p TglobalExamStore constructor We check are guitar's params suitable for an exam */
+  m_glStore = new TglobalExamStore(GLOB); /** In @p TglobalExamStore constructor We check are guitar's params suitable for an exam */
 #if !defined (Q_OS_ANDROID)
-  TexecutorSupply::checkGuitarParamsChanged(m_exam);
+  auto message = TexecutorSupply::checkInstrumentParamsChange(m_exam);
+  if (!message.isEmpty())
+    QMessageBox::information(nullptr, QString(), message);
 #endif
   GLOB->setSingleNote(!m_exam->melodies());
   m_supp = new TexecutorSupply(&m_level, this);

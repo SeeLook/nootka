@@ -33,7 +33,6 @@
 //   #include <QMouseEvent>
   #include <iostream>
 #endif
-#include <QtWidgets/qmessagebox.h>
 #include <QtCore/qdatetime.h>
 #include <QtCore/qdebug.h>
 
@@ -70,36 +69,36 @@ void TexecutorSupply::checkPlayCorrected(Tlevel* level) {
 }
 
 
-void TexecutorSupply::checkGuitarParamsChanged(Texam* exam) {
+QString TexecutorSupply::checkInstrumentParamsChange(Texam* exam) {
   checkPlayCorrected(exam->level());
   QString changesMessage;
   if (exam->level()->instrument != Tinstrument::NoInstrument) { // when instrument is guitar it has a matter
-      if (exam->level()->instrument != GLOB->instrument().type())
-        changesMessage = tr("Instrument type was changed!");
-      GLOB->setInstrument(exam->level()->instrument);
+    if (exam->level()->instrument != GLOB->instrument().type())
+      changesMessage = tr("Instrument type was changed!");
+    GLOB->setInstrument(exam->level()->instrument);
   } // otherwise it reminds unchanged
   auto tmpTune = *GLOB->Gtune();
   int fretCount = GLOB->fretNumber();
   bool guitarParamsChanged = false;
-  if ((exam->level()->canBeGuitar() || exam->level()->canBeSound()) && !m_playCorrections &&
-    exam->tune() != *GLOB->Gtune() ) { // Is tune the same?
-      if (!changesMessage.isEmpty())
-        changesMessage += QLatin1String("<br>");
-      tmpTune = exam->tune();
-      guitarParamsChanged = true;
-      changesMessage += tr("Tuning of the guitar was changed to:") + QLatin1String(" <b> ") + GLOB->Gtune()->name + QLatin1String("!</b>");
+  if ((exam->level()->canBeGuitar() || exam->level()->canBeSound()) && !m_playCorrections && exam->tune() != *GLOB->Gtune()) {
+    // Is tune the same?
+    if (!changesMessage.isEmpty())
+      changesMessage += QLatin1String("<br>");
+    tmpTune = exam->tune();
+    guitarParamsChanged = true;
+    changesMessage += tr("Tuning of the guitar was changed to:") + QLatin1String(" <b> ") + GLOB->Gtune()->name + QLatin1String("!</b>");
   }
-  if (GLOB->instrument().isGuitar() && static_cast<unsigned int>(exam->level()->hiFret) > GLOB->GfretsNumber) { // Are enough frets?
-      if (!changesMessage.isEmpty())
-        changesMessage += QLatin1String("<br>");
-      changesMessage += tr("Guitar fret number was changed!");
-      fretCount = exam->level()->hiFret;
-      guitarParamsChanged = true;
+  if (GLOB->instrument().isGuitar() && static_cast<unsigned int>(exam->level()->hiFret) > GLOB->GfretsNumber) {
+    // Are enough frets?
+    if (!changesMessage.isEmpty())
+      changesMessage += QLatin1String("<br>");
+    changesMessage += tr("Guitar fret number was changed!");
+    fretCount = exam->level()->hiFret;
+    guitarParamsChanged = true;
   }
   if (guitarParamsChanged)
     GLOB->setGuitarParams(fretCount, tmpTune);
-  if (!changesMessage.isEmpty())
-    QMessageBox::information(nullptr, QString(), changesMessage);
+  return changesMessage;
 }
 
 

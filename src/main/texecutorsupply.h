@@ -102,7 +102,7 @@ public:
        * Adjust globals (tune and fret number have to be stored before) and
        * displays message about changes, if any.
        */
-  static void checkGuitarParamsChanged(Texam* exam);
+  static QString checkInstrumentParamsChange(Texam* exam);
 
       /**
        * Returns color depends on answer type.
