@@ -13,24 +13,6 @@ Tflickable {
   contentHeight: suppFlow.childrenRect.height + thText.height + Noo.factor() * 3
   contentWidth: width
 
-//                        bugs    | donate   | record   | translate | MacOs   | vote     | report   | express |
-  property var colors: [ "#ff5500", "#42DA06", "#930000", "#0000C0", "#888888", "#C000C0", /*"#FF0000",*/ activPal.text ]
-  property var headers: [ "Test this version intensively", qsTr("Donate Nootka campaign"), "Record audio samples",
-                          "Translate Nootka", "Mac needs feedback", Noo.isAndroid() ? "Rate this app" : "Vote on Nootka",
-                          /*"Report an issue",*/ "Express your opinion" ]
-  property var texts: [
-    "Simply play with Nootka a lot to check all possible angles.<br><a href=\"https://sourceforge.net/p/nootka/bugs/milestone/Issues%20with%20beta/\">Create Ticket (call a bug)</a> when something doesn't work<br>or doesn't look good enough.",
-    "<a href=\"https://nootka.sourceforge.io/index.php?C=donate\">" + qsTr("Through PayPal or a card") + "</a><br><a href=\"mailto:seelook.gmail.com\">" + qsTr("or send email for an account number") + "</a>",
-    "Nootka uses natural sounds,<br>so audio samples of bandoneon and saxophones are needed.<br>Home made samples should be sufficient,<br>just <a href=\"mailto:seelook.gmail.com\">write message</a> for details.",
-    "It does not require any programming skills.<br>Just read <a href=\"https://sourceforge.net/p/nootka/git/ci/master/tree/lang/how-to-translate.txt\">the instructions</a>,<br>translate and send your work.",
-    "Mac Os version is a new thing.<br>Let us know does Nootka work there or not.",
-    Noo.isAndroid() ?
-    "Go to <a href=\"https://play.google.com/store/apps/details?id=net.sf.nootka\">Google Play</a>,<br>rate it nicely and put a comment in your native language." :
-    "There are a lot of services. For example:<br><a href=\"https://play.google.com/store/apps/details?id=net.sf.nootka\">Google Play</a>, <a href=\"https://www.linux-apps.com/p/1127020/\">Linux Apps</a>, <a href=\"http://www.softpedia.com/get/Others/Home-Education/Nootka.shtml\">Softpedia</a>",
-//     "If you find any issue or a bug than request it through:<br><a href=\"https://sourceforge.net/p/nootka/bugs/\">bug tracker</a>",
-    "Simply <a href=\"mailto:seelook.gmail.com\">send an email</a>"
-  ]
-
   Flow {
     id: suppFlow
     width: parent.width - Noo.factor() * 2
@@ -64,17 +46,73 @@ Tflickable {
       }
     }
 
+    ListModel {
+      id: suppModel
+      ListElement {
+        accent: "#ff5500"
+        header: "Test this version intensively"
+        message: "Simply play with Nootka a lot to check all possible angles.<br><a href=\"https://sourceforge.net/p/nootka/bugs/milestone/Issues%20with%20beta/\">Create Ticket (call a bug)</a> when something doesn't work<br>or doesn't look good enough."
+      }
+      //ListElement qsTr("Donate Nootka campaign") : onCompleted
+      ListElement {
+        accent: "#930000"
+        header: "Record audio samples"
+        message: "Nootka uses natural sounds,<br>so audio samples of bandoneon and saxophones are needed.<br>Home made samples should be sufficient,<br>just <a href=\"mailto:seelook.gmail.com\">write message</a> for details."
+      }
+      ListElement {
+        accent: "#0000C0"
+        header: "Translate Nootka"
+        message: "It does not require any programming skills.<br>Just read <a href=\"https://www.opencode.net/seelook/nootka/blob/master/lang/how-to-translate.md\">the instructions</a>,<br>translate and send your work."
+      }
+      ListElement {
+        accent: "#888888"
+        header: "Mac needs feedback"
+        message: "Mac Os version is a new thing.<br>Let us know does Nootka work there or not."
+      }
+      //ListElement { Noo.isAndroid() ? "Rate this app" : "Vote on Nootka"
+      ListElement {
+        accent: "teal"
+        header: "Create a tutorial"
+        message: "Take some use case and make video of it or write it down with a few screenshots.<br>Send it somewhere (YouTube, some blog) or here, to Nootka.<br>It may help others a lot."
+      }
+      ListElement {
+        accent: "#FF0000"
+        header: "Report an issue"
+        message: "If you find any issue or a bug than request it through:<br><a href=\"https://sourceforge.net/p/nootka/bugs/\">bug tracker</a>"
+      }
+      //ListElement "Express your opinion"
+
+      Component.onCompleted: {
+        // HACK: ListElement can handle only static data, but not any function like qsTr or so.
+        // So insert/append such a data with script here
+        if (!Noo.isAndroid()) {
+          insert(1, {
+            "accent": "#42DA06", "header": qsTr("Donate Nootka campaign"),
+            "message": "<a href=\"https://nootka.sourceforge.io/index.php?C=donate\">" + qsTr("Through PayPal or a card") + "</a><br><a href=\"mailto:seelook.gmail.com\">" + qsTr("or send email for an account number") + "</a>"
+          })
+        }
+        insert(4, {
+          "accent": "#C000C0", "header": Noo.isAndroid() ? "Rate this app" : "Vote on Nootka",
+          "message": Noo.isAndroid() ?
+          "Go to <a href=\"https://play.google.com/store/apps/details?id=net.sf.nootka\">Google Play</a>,<br>rate it nicely and put a comment in your native language." :
+          "There are a lot of services. For example:<br><a href=\"https://play.google.com/store/apps/details?id=net.sf.nootka\">Google Play</a>, <a href=\"https://www.linux-apps.com/p/1127020/\">Linux Apps</a>, <a href=\"http://www.softpedia.com/get/Others/Home-Education/Nootka.shtml\">Softpedia</a>"
+        })
+        append({ "accent": "#000", "header": "Express your opinion", "message": "Simply <a href=\"mailto:seelook.gmail.com\">send an email</a>" })
+        get(count - 1).accent = activPal.text
+      }
+    }
+
     Repeater {
-      model: colors.length
+      model: suppModel
       Tile {
         visible: !Noo.isAndroid() || index !== 1
         width: Noo.isAndroid() ? suppFlow.width : (tt.width + Noo.factor() * 4)
         anchors.horizontalCenter: undefined
-        bgBorder { color: colors[index]; width: 2 }
-        bgColor: Qt.tint(colors[index], Qt.rgba(activPal.base.r, activPal.base.g, activPal.base.b, 0.9))
+        bgBorder { color: accent; width: 2 }
+        bgColor: Qt.tint(accent, Qt.rgba(activPal.base.r, activPal.base.g, activPal.base.b, 0.9))
         LinkText {
           id: tt
-          text: "<b><font size=\"5\" color=\"" + colors[index] +"\">" + headers[index] + "</font></b><br>" + texts[index]
+          text: "<b><font size=\"5\" color=\"" + accent + "\">" + header + "</font></b><br>" + message
           anchors.horizontalCenter: parent.horizontalCenter
         }
       }
