@@ -28,28 +28,28 @@ Below some possibilities of a help are explained but if something other will com
 
   Here are some tasks waiting for their queue:
 
-  * ** Running diagnostic tests **  
+  * **Running diagnostic tests**  
     If You have any experience in testing QML/Qt/C++ application code then running some diagnostic tools on it might help to find potential weaknesses even without knowing what Nootka/code really does.
 
-  * ** Using QML - Qt Meta Language **  
-    - ** Porting update checker to QML **
-    - ** Triplet support in QML Score editor **  
+  * **Using QML - Qt Meta Language**  
+    - **Porting update checker to QML**
+    - **Triplet support in QML Score editor**  
       Seems like detecting note duration works well, so it can bear more tiny divisions like triplets. This is planed for next Nootka release.
 
-    - ** Score in general **  
+    - **Score in general**  
       Even if Nootka is not score editing application the score functionality is very important. The code of it is a mix of QML and C++ but it might utilize QML declarativeness much more to make code simpler and easier for further developing.
     
-  * ** Using C++ with Qt **
-     - ** Midi in/out support **  
+  * **Using C++ with Qt**
+     - **Midi in/out support**  
        Playing (midi output) and rhythm detection (input) can be done with `C++` only - [RtMidi](https://www.music.mcgill.ca/~gary/rtmidi/) library preferred. However, at the top of that, integration with Nootka requires Qt stuff. There is some [old code](https://www.opencode.net/seelook/nootka/blob/master/src/libs/sound/tmidiout.h) but for playing only and without rhythms support.
     
-  * ** Using pure C++ or just C **  
-    - ** Algorithm for generating random melodies **  
+  * **Using pure C++ or just C**  
+    - **Algorithm for generating random melodies**  
         With configuration for rhythm complexity, intervals to use and so.  
 
-    - ** Pitch detection code needs modernization or migration to external library **
+    - **Pitch detection code needs modernization or migration to external library**
   
-  * ** Help with CI/CD integration **
+  * **Help with CI/CD integration**  
 
 -----------------------------------
 ## 2. Translating Nootka
