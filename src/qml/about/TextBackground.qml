@@ -6,18 +6,16 @@ import QtQuick 2.9
 
 import "../"
 
-Tile {
-  bgColor: activPal.highlight
-
-  property alias textColor: text.color
-  property alias font: text.font
-  property alias text: text.text
-
-  Text {
-    id: text
-    font { pixelSize: Noo.factor() * 1.3; bold: true }
+Text {
+    font { pixelSize: Noo.factor() * 1.6; bold: true }
     anchors.horizontalCenter: parent.horizontalCenter
     textFormat: Text.StyledText
-    color: activPal.highlightedText
-  }
+    color: activPal.highlight
+
+    Rectangle {
+      x: (parent.width - width + Noo.factor()) / 2
+      y: Noo.factor() * 2
+      color: activPal.highlight
+      width: authorsPage.width - Noo.factor(); height: Noo.factor() / 12
+    }
 }
