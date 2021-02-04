@@ -38,11 +38,17 @@ Below some possibilities of a help are explained but if something other will com
       Seems like detecting note duration works well, so it can bear more tiny divisions like triplets. This is planed for next stable Nootka release (like 2.2).
 
     - **Score in general**  
-      Even if Nootka is not a editing-score-application the musical score functionality is very important. The code of it is a mix of QML and C++ but it might utilize QML declarativeness much more to make code simpler and easier for further developing.
+      Even if Nootka is not an editing-score-application the musical score functionality is very important. The code of it is a mix of QML and C++ but it might utilize QML declarativeness much more to make code simpler and easier for further developing.
 
   * **Using C++ with Qt**
     - **Downloading audio file on demand**  
-      Nootka package size ballooned recently due to files with audio samples. And it will grow even more when samples will get better quality. But there is no need to keep them all in distributed package (Android apk especially) when given user will utilize just one file with samples according to selected instrument. So the file could be downloaded after the instrument selection from remote location. This way we might even get rid of ogg dependencies and downloading raw/wav audio samples - bigger size but one file and just once - store it locally, so next application updates will use it as well. Of course one, fallback file (piano) shipped wit the app.
+      Nootka package size ballooned recently due to files with audio samples. And it will grow even more when samples will get better quality.
+      But there is no need to keep them all in distributed package (Android *.apk especially) when given user will utilize just one file with samples according to selected instrument.
+      So the file could be downloaded from remote location after the instrument was selected.
+      This way we might even get rid of ogg dependencies and downloading raw/wav audio samples - 
+      bigger size but one file and fetched just once - stored locally,
+      so next application updates will use it as well.
+      Of course one, fallback file (piano) shipped with the app.
 
     - **Midi in/out support**  
       Playing (midi output) and rhythm detection (input) can be done with `C++` only - [RtMidi](https://www.music.mcgill.ca/~gary/rtmidi/) library preferred. However, at the top of that, integration with Nootka requires Qt stuff. There is some [old code](https://www.opencode.net/seelook/nootka/blob/master/src/libs/sound/tmidiout.h) but for playing only and without rhythms support.
@@ -62,12 +68,12 @@ Below some possibilities of a help are explained but if something other will com
   Take a look at [separate article](https://www.opencode.net/seelook/nootka/blob/master/lang/how-to-translate.md)
 
 -----------------------------------
-## 3. Recording audio samples <a name="record"></a>
+## 3. Recording audio samples (urgent!) <a name="record"></a>
   Nootka is going to use real audio sounds and those have to be recorded in some special way. But for now, only classical and electric guitar samples are recorded that way. Unfortunately the rest of sounds are converted from midi.  
   Just take a look at (to be more precise: listen to) [any sound file (*.ogg)](https://www.opencode.net/seelook/nootka/tree/master/sounds) and that *special way of recording* should be revealed itself.
-  Then consider to record such a thing. Tempo is exactly 120 bpm, note duration takes three beats (1.5 sec) then one beet rest follows (0.5 sec) - exactly 2 seconds per note through entire chromatic scale of an instrument.
-  Of course it has to be played with metronome in an ear, but a metronome device or an app is not precise enough.
-  Better play with this prepared [metronome backing track](https://www.opencode.net/seelook/nootka/raw/master/spare_parts/scales/metronome-for-Nootka-sound-samples.ogg) - it can be used further to adjust recorded sample file with it.
+  Then consider to record such a thing. Tempo is exactly 120 bpm, note duration takes three beats (1.5 sec) then one beet rest follows (0.5 sec) - exactly 2 seconds per each note through entire chromatic scale of an instrument.
+  Of course it has to be played with a metronome in an ear, but a metronome device or an app is not precise enough.
+  Better play with this prepared [metronome backing track](https://www.opencode.net/seelook/nootka/raw/master/spare_parts/scales/metronome-for-Nootka-sound-samples.ogg) - it also can be used further to adjust recorded sample file with it.
 
 -----------------------------------
 ## 4. Instrument specific help <a name="instrument"></a>
