@@ -57,7 +57,7 @@ Tflickable {
       ListElement {
         accent: "#930000"
         header: "Record audio samples"
-        message: "Nootka uses natural sounds,<br>so audio samples of bandoneon and saxophones are needed.<br>Home made samples should be sufficient,<br>just <a href=\"mailto:seelook.gmail.com\">write message</a> for details."
+        message: "Nootka uses natural sounds,<br>so audio samples of bandoneon and saxophones are needed.<br>Home made samples should be sufficient.<br><a href=\"https://www.opencode.net/seelook/nootka/blob/master/CONTRIBUTING.md#record\">Take a look here</a> or just <a href=\"mailto:seelook.gmail.com\">write message</a> for details."
       }
       ListElement {
         accent: "#0000C0"
@@ -74,6 +74,12 @@ Tflickable {
         accent: "teal"
         header: "Create a tutorial"
         message: "Take some use case and make video of it or write it down with a few screenshots.<br>Send it somewhere (YouTube, some blog) or here, to Nootka.<br>It may help others a lot."
+      }
+      ListElement {
+        accent: "#fff"
+        header: "$> Hacking Nootka code"
+        message: "<font color=\"#fff\">If You know QML or C++ You could give a hand.<br>
+                <a href=\"https://www.opencode.net/seelook/nootka/blob/master/CONTRIBUTING.md#record\">Visit this link for further instructions.</a></font>"
       }
       ListElement {
         accent: "#FF0000"
@@ -115,6 +121,9 @@ Tflickable {
           text: "<b><font size=\"5\" color=\"" + accent + "\">" + header + "</font></b><br>" + message
           anchors.horizontalCenter: parent.horizontalCenter
         }
+      }
+      Component.onCompleted: {
+        itemAt(Noo.isAndroid() ? 4 : 5).bgColor = "#000" // hacking bg color is black
       }
     }
 
