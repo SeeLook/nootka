@@ -136,7 +136,6 @@
     <file alias="wizard/WizardPiano.qml">qml/wizard/WizardPiano.qml</file>
     <file alias="wizard/WizardBando.qml">qml/wizard/WizardBando.qml</file>
     <file alias="wizard/WizardSax.qml">qml/wizard/WizardSax.qml</file>
-    <file alias="wizard/SoundInfo.qml">qml/wizard/SoundInfo.qml</file>
 
     <file alias="exam/StartExam.qml">qml/exam/StartExam.qml</file>
     <file alias="exam/ExamExecutor.qml">qml/exam/ExamExecutor.qml</file>

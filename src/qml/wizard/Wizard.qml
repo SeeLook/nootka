@@ -68,9 +68,6 @@ ApplicationWindow {
             height: parent.height
           }
         }
-        Item {
-          SoundInfo {}
-        }
       }
     }
   }
