@@ -45,6 +45,8 @@
     <file alias="Tslider.qml">qml/shared/Tslider.qml</file>
     <file alias="TtextField.qml">qml/shared/TtextField.qml</file>
 
+    <file alias="gotit/GotIt.qml">qml/gotit/GotIt.qml</file>
+
 <!--     <file alias="PitchView.qml">qml/sound/PitchView.qml</file> -->
     <file alias="sound/VolumeBar.qml">qml/sound/VolumeBar.qml</file>
 <!--     <file alias="sound/TempoBar.qml">qml/sound/TempoBar.qml</file> -->

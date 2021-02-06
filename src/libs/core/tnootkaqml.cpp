@@ -37,6 +37,7 @@
 #include "music/ttuneobject.h"
 #include "tmtr.h"
 #include "tcolor.h"
+#include "tgotititem.h"
 
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qtimer.h>
@@ -85,6 +86,7 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qmlRegisterType<TbandoneonBg>("Nootka", 1, 0, "TbandoneonBg");
   qmlRegisterType<TsaxBg>("Nootka", 1, 0, "TsaxBg");
   qmlRegisterType<Taction>("Nootka", 1, 0, "Taction");
+  qmlRegisterType<TgotItItem>("Nootka", 1, 0, "TgotItItem");
 
   qmlRegisterUncreatableType<TnootkaQML>("Nootka", 1, 0, "Nootka", QStringLiteral("You cannot create an instance of the TnootkaQML."));
   qRegisterMetaType<Tinstrument>();

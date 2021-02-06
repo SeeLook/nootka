@@ -22,6 +22,7 @@ SOURCES +=  tinitcorelib.cpp \
             tnootkaqml.cpp \
             taction.cpp \
             tnoofont.cpp \
+            tgotititem.cpp \
           \
             music/tnote.cpp \
             music/trhythm.cpp \
@@ -78,6 +79,7 @@ HEADERS  += nootkaconfig.h \
             tnootkaqml.h \
             taction.h \
             tnoofont.h \
+            tgotititem.h \
           \
             music/tnote.h \
             music/trhythm.h \
