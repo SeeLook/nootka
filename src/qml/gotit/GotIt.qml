@@ -26,7 +26,7 @@ Popup {
   exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0 }}
   padding: 0
 
-  background: Rectangle { color: Noo.alpha(activPal.base, 235) }
+  background: Rectangle { color: Noo.alpha(activPal.base, 240) }
 
   TgotIt { id: gotIt }
 

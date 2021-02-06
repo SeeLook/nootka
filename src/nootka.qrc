@@ -40,6 +40,7 @@
     <file alias="TtextField.qml">qml/shared/TtextField.qml</file>
 
     <file alias="gotit/GotIt.qml">qml/gotit/GotIt.qml</file>
+    <file alias="gotit/SoundInfo.qml">qml/gotit/SoundInfo.qml</file>
 
 <!--  Unused    -->
 <!--     <file alias="TprogressBar.qml">qml/shared/TprogressBar.qml</file> -->

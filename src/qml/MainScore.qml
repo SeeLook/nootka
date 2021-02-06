@@ -53,6 +53,7 @@ Score {
   }
 
   Timer { id: zoomTimer; interval: 500 }
+
   PinchArea {
     z: -1
     anchors.fill: parent
@@ -78,6 +79,7 @@ Score {
       }
     }
   }
+
   function zoom(zoomIn) {
     if (!zoomTimer.running) {
       if (zoomIn)
@@ -112,19 +114,29 @@ Score {
       scoreObj.allowAdding = Qt.binding(function() { return !GLOB.singleNoteMode })
       enableKeySign = Qt.binding(function() { return GLOB.keySignatureEnabled })
       updateScord()
-      Qt.createComponent("qrc:/StatusTip.qml").createObject(Noo.isAndroid() ? nootkaWindow.contentItem : nootkaWindow)
+      if (GLOB.wasFirstRun()) { // at first run create status tip after pitch detection info
+          var si = Qt.createComponent("qrc:/gotit/SoundInfo.qml").createObject(nootkaWindow.contentItem.parent)
+          si.closed.connect(createStatus)
+      } else
+          createStatus()
       if (!GLOB.singleNoteMode)
         scoreObj.editModeAct.trigger()
     }
   }
+  function createStatus() {
+    Qt.createComponent("qrc:/StatusTip.qml").createObject(Noo.isAndroid() ? nootkaWindow.contentItem : nootkaWindow)
+  }
+
   Connections {
     target: GLOB
     onClefTypeChanged: score.clef = GLOB.clefType
   }
+
   Connections {
     target: GLOB.tuning
     onScordatureChanged: updateScord()
   }
+
   function updateScord() {
     if (scordature)
       scordature.destroy()

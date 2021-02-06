@@ -46,6 +46,7 @@
     <file alias="TtextField.qml">qml/shared/TtextField.qml</file>
 
     <file alias="gotit/GotIt.qml">qml/gotit/GotIt.qml</file>
+    <file alias="gotit/SoundInfo.qml">qml/gotit/SoundInfo.qml</file>
 
 <!--     <file alias="PitchView.qml">qml/sound/PitchView.qml</file> -->
     <file alias="sound/VolumeBar.qml">qml/sound/VolumeBar.qml</file>
