@@ -33,7 +33,7 @@ SOURCES +=  main.cpp \
             main/tnootkacertificate.cpp \
             main/tpiechartitem.cpp \
             main/tnotetoplay.cpp \
-            main/tgotititem.cpp \
+            main/tgotit.cpp \
           \
             dialogs/tdialogloaderobject.cpp \
             dialogs/tlevelcreatoritem.cpp \
@@ -75,7 +75,7 @@ HEADERS  += mobile/tmobilemenu.h \
             main/tnootkacertificate.h \
             main/tpiechartitem.h \
             main/tnotetoplay.h \
-            main/tgotititem.h \
+            main/tgotit.h \
           \
             dialogs/tdialogloaderobject.h \
             dialogs/tlevelcreatoritem.h \

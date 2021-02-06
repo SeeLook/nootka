@@ -16,27 +16,39 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
+#include "tgotit.h"
+#include <tsound.h>
 
-#ifndef TGOTITITEM_H
-#define TGOTITITEM_H
-
-#include <QtQuick/qquickitem.h>
+// #include <QtCore/qdebug.h>
 
 
-class TgotItItem : public QQuickItem
+TgotIt::TgotIt(QObject *parent) :
+  QObject(parent)
 {
-
-  Q_OBJECT
-
-public:
-  explicit TgotItItem(QQuickItem* parent = nullptr);
+}
 
 
+TgotIt::~TgotIt() {
+  if (m_gotItType == GotSoundInfo) {
+    SOUND->stopListen();
+    SOUND->setTunerMode(false);
+    SOUND->startListen();
+  }
+}
 
 
-private:
-
-};
-
-
-#endif // TGOTITITEM_H
+void TgotIt::setGotItType(TgotIt::EgotItType gt) {
+  if (gt != m_gotItType) {
+    switch (gt) {
+      case GotSoundInfo:
+        SOUND->stopListen();
+        SOUND->setTunerMode(true);
+        SOUND->startListen();
+        break;
+      default:
+        break;
+    }
+    m_gotItType = gt;
+    emit gotItTypeChanged();
+  }
+}

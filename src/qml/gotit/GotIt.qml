@@ -6,7 +6,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtGraphicalEffects 1.0
 
-import Nootka 1.0
+import Nootka.Main 1.0
 import "../"
 
 
@@ -16,6 +16,7 @@ Popup {
 
   signal clicked()
 
+  property alias gotItType: gotIt.gotItType
   property alias againChecked: showAgainChB.checked
   property alias againVisible: showAgainChB.visible
 
@@ -27,57 +28,52 @@ Popup {
 
   background: Rectangle { color: Noo.alpha(activPal.base, 235) }
 
-  TgotItItem {
-    id: gotIt
-    clip: true
+  TgotIt { id: gotIt }
 
-    z: 10000
-    width: parent.width; height: parent.height
+  RectangularGlow {
+    z: 10
+    anchors.fill: bg
+    glowRadius: Noo.factor() / 2
+    color: activPal.text
+    cornerRadius: bg.radius + glowRadius
+  }
 
-    RectangularGlow {
-      z: 10
-      anchors.fill: bg
-      glowRadius: Noo.factor() / 2
+  Rectangle {
+    id: bg
+    z: 10
+    width: gotColl.width + 2 * radius
+    height: gotColl.height + 1.5 * radius
+    radius: (gotColl.height + 4 * Noo.factor()) / 4
+    x: parent.width - width + radius; y: parent.height - height + radius + Noo.factor()
+    color: ma.containsMouse ? activPal.highlight : Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 150))
+    transformOrigin: Item.TopRight
+    MouseArea {
+      id: ma
+      anchors.fill: parent
+      hoverEnabled: !Noo.isAndroid()
+      onClicked: pop.clicked()
+    }
+  }
+
+  Column {
+    id: gotColl
+    z: 10
+    x: parent.width - width; y: parent.height - height
+    Item { width: Noo.factor(); height: Noo.factor() / (showAgainChB.visible ? 2 : 1) }
+    Text {
+      id: gotText
+      anchors { right: parent.right; rightMargin: Noo.factor() }
       color: activPal.text
-      cornerRadius: bg.radius + glowRadius
+      font { pixelSize: Noo.factor() * 3; bold: true }
+      style: ma.containsMouse ? Text.Sunken : Text.Normal
+      styleColor: activPal.base
+      text: qsTr("GOT IT!")
     }
-
-    Rectangle {
-      id: bg
-      z: 10
-      width: gotColl.width + 2 * radius
-      height: gotColl.height + 1.5 * radius
-      radius: (gotColl.height + 4 * Noo.factor()) / 4
-      x: parent.width - width + radius; y: parent.height - height + radius + Noo.factor()
-      color: ma.containsMouse ? activPal.highlight : Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 150))
-      transformOrigin: Item.TopRight
-      MouseArea {
-        id: ma
-        anchors.fill: parent
-        hoverEnabled: !Noo.isAndroid()
-        onClicked: pop.clicked()
-      }
+    TcheckBox {
+      id: showAgainChB
+      text: qsTranslate("ThelpDialogBase", "always show this help window")
     }
-    Column {
-      id: gotColl
-      z: 10
-      x: parent.width - width; y: parent.height - height
-      Item { width: Noo.factor(); height: Noo.factor() / (showAgainChB.visible ? 2 : 1) }
-      Text {
-        id: gotText
-        anchors { right: parent.right; rightMargin: Noo.factor() }
-        color: activPal.text
-        font { pixelSize: Noo.factor() * 3; bold: true }
-        style: ma.containsMouse ? Text.Sunken : Text.Normal
-        styleColor: activPal.base
-        text: qsTr("GOT IT!")
-      }
-      TcheckBox {
-        id: showAgainChB
-        text: qsTranslate("ThelpDialogBase", "always show this help window")
-      }
-      Item { width: Noo.factor(); height: Noo.factor() / 2 }
-    }
+    Item { width: Noo.factor(); height: Noo.factor() / 2 }
   }
 }
 

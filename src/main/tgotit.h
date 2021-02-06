@@ -16,17 +16,41 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#include "tgotititem.h"
 
-// #include <QtGui/qpainter.h>
-// #include <QtGui/qpalette.h>
-// #include <QtGui/qguiapplication.h>
+#ifndef TGOTIT_H
+#define TGOTIT_H
+
+#include <QtCore/qobject.h>
 
 
-TgotItItem::TgotItItem(QQuickItem *parent) :
-  QQuickItem(parent)
+class TgotIt : public QObject
 {
-  
-}
+
+  Q_OBJECT
+
+  Q_PROPERTY(EgotItType gotItType READ gotItType WRITE setGotItType NOTIFY gotItTypeChanged)
+
+public:
+  explicit TgotIt(QObject* parent = nullptr);
+    ~TgotIt() override;
+
+  enum EgotItType {
+    GotAnything = 0,
+    GotSoundInfo,
+    GotExamOrExer
+  };
+  Q_ENUM(EgotItType)
+
+  EgotItType gotItType() const { return m_gotItType; }
+  void setGotItType(EgotItType gt);
+
+signals:
+  void gotItTypeChanged();
 
 
+private:
+  EgotItType                     m_gotItType = GotAnything;
+
+};
+
+#endif // TGOTIT_H
