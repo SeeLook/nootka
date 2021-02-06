@@ -20,10 +20,13 @@ Popup {
   property alias againChecked: showAgainChB.checked
   property alias againVisible: showAgainChB.visible
 
-  width: parent.width; height: parent.height
   scale: GLOB.useAnimations ? 0 : 1.0
+  Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
+
   enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}
   exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0 }}
+
+  width: parent.width; height: parent.height
   padding: 0
 
   background: Rectangle { color: Noo.alpha(activPal.base, 240) }
@@ -36,6 +39,9 @@ Popup {
     glowRadius: Noo.factor() / 2
     color: activPal.text
     cornerRadius: bg.radius + glowRadius
+    transformOrigin: Item.BottomRight
+    scale: GLOB.useAnimations && ma.pressed ? 0.95 : 1.0
+    Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
   }
 
   Rectangle {
@@ -46,7 +52,9 @@ Popup {
     radius: (gotColl.height + 4 * Noo.factor()) / 4
     x: parent.width - width + radius; y: parent.height - height + radius + Noo.factor()
     color: ma.containsMouse ? activPal.highlight : Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 150))
-    transformOrigin: Item.TopRight
+    transformOrigin: Item.BottomRight
+    scale: GLOB.useAnimations && ma.pressed ? 0.95 : 1.0
+    Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
     MouseArea {
       id: ma
       anchors.fill: parent
@@ -59,6 +67,9 @@ Popup {
     id: gotColl
     z: 10
     x: parent.width - width; y: parent.height - height
+    transformOrigin: Item.BottomRight
+    scale: GLOB.useAnimations && ma.pressed ? 0.95 : 1.0
+    Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
     Item { width: Noo.factor(); height: Noo.factor() / (showAgainChB.visible ? 2 : 1) }
     Text {
       id: gotText
