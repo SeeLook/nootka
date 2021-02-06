@@ -30,9 +30,7 @@ TstartExamItem {
         anchors.verticalCenter: parent.verticalCenter
         pixmap: Noo.pix("help"); iconHeight: startDialog.height / 15
         text: Noo.TR("QShortcut", "Help")
-        onClicked: {
-          helpPopup.open()
-        }
+        onClicked: examOrExerGotIt()
       }
       Row {
         spacing: Noo.factor() * (Noo.isAndroid() ? 0.5 : 1)
@@ -190,80 +188,6 @@ TstartExamItem {
   }
 
   TpopupDialog {
-    id: helpPopup
-    width: startDialog.width - Noo.factor() * 2; height: startDialog.height - Noo.factor() * 2
-    x: Noo.factor(); y: Noo.factor()
-    bgColor: Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 20))
-    border { color: activPal.highlight; width: Noo.factor() / 4.0 }
-
-    Column {
-      id: popCol
-      anchors.horizontalCenter: parent.horizontalCenter
-      spacing: Noo.factor()
-      Tflickable {
-        anchors.horizontalCenter: parent.horizontalCenter
-        width: helpPopup.width - Noo.factor() * 2; height: helpPopup.height - Noo.factor() * 8
-        contentHeight: helpCol.height + Noo.factor() * 2
-        Column {
-          id: helpCol
-          width: parent.width
-          Item { width: 1; height: Noo.factor() }
-          Row {
-            spacing: Noo.factor() * 2
-            anchors.horizontalCenter: parent.horizontalCenter
-            Image {
-              source: Noo.pix("practice")
-              height: Noo.factor() * 4; width: height * (sourceSize.width / sourceSize.height)
-            }
-            Text {
-              anchors.verticalCenter: parent.verticalCenter
-              color: activPal.text
-              text: qsTranslate("TstartExamDlg", "To exercise or to pass an exam?")
-              font { bold: true; pixelSize: Noo.factor() * 1.5 }
-            }
-            Image {
-              source: Noo.pix("exam")
-              height: Noo.factor() * 4; width: height * (sourceSize.width / sourceSize.height)
-            }
-          }
-          LinkText {
-            anchors.horizontalCenter: parent.horizontalCenter
-            leftPadding: Noo.factor()
-            width: parent.width - Noo.factor()
-            textFormat: Text.RichText
-            wrapMode: Text.WordWrap
-            text: exerOrExamHelpTxt(false)
-          }
-        }
-      }
-    }
-    footer: Rectangle {
-      color: "transparent"; width: parent.width; height: fRow.height + Noo.factor(); radius: Noo.factor() / 4
-      Rectangle { color: activPal.highlight; width: parent.width; height: 1 }
-      Row {
-        id: fRow
-        spacing: Noo.factor() * 3
-        anchors.centerIn: parent
-        TcheckBox {
-          id: showHelpChB
-          anchors.verticalCenter: parent.verticalCenter
-          text: qsTranslate("ThelpDialogBase", "always show this help window")
-          checked: showVeryBeginHelp()
-        }
-        TiconButton {
-          id: rejButt
-          anchors.verticalCenter: parent.verticalCenter
-          pixmap: Noo.pix("exit"); text: Noo.TR("QShortcut", "Close")
-          onClicked: {
-            setVeryBeginHelp(showHelpChB.checked)
-            helpPopup.close()
-          }
-        }
-      }
-    }
-  } // helpPopup
-
-  TpopupDialog {
     id: noNamePopup
     bgColor: Qt.tint(activPal.window, Noo.alpha("red", 20))
     border { color: "red"; width: Noo.factor() / 4.0 }
@@ -301,10 +225,19 @@ TstartExamItem {
     dialLoader.standardButtons = 0
     dialLoader.title = qsTr("Start exercises or an exam")
     if (showVeryBeginHelp())
-      helpPopup.open()
+      examOrExerGotIt()
   }
 
   onContinueExam: start(Texecutor.ContinueExam, examFile)
+
+  property var exExGotIt: null
+  function examOrExerGotIt() {
+    if (!exExGotIt) {
+      exExGotIt = Qt.createComponent("qrc:/gotit/ExamOrExercise.qml").createObject(startDialog, { "remaindChecked": showVeryBeginHelp() })
+      exExGotIt.clicked.connect(function() { setVeryBeginHelp(exExGotIt.remaindChecked) })
+    }
+    exExGotIt.open()
+  }
 
   function start(action, argument) {
     if (userNameIn.text === "") {

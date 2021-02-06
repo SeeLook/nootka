@@ -18,6 +18,7 @@ Popup {
   property alias gotItType: gotIt.gotItType
   property alias remaindChecked: remaindChB.checked
   property alias remindVisible: remaindChB.visible
+  property alias gotIt: gotIt
 
   scale: GLOB.useAnimations ? 0 : 1.0
   Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}

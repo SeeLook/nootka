@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "tgotit.h"
+#include <main/tstartexamitem.h>
 #include <tsound.h>
 
 // #include <QtCore/qdebug.h>
@@ -51,4 +52,9 @@ void TgotIt::setGotItType(TgotIt::EgotItType gt) {
     m_gotItType = gt;
     emit gotItTypeChanged();
   }
+}
+
+
+QString TgotIt::exerOrExamHelpTxt(bool withHeader) {
+  return TstartExamItem::exerOrExamHelpTxt(withHeader);
 }

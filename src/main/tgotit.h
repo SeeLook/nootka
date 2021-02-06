@@ -44,6 +44,11 @@ public:
   EgotItType gotItType() const { return m_gotItType; }
   void setGotItType(EgotItType gt);
 
+      /**
+       * Help text (HTML) about what is exercise and exam
+       */
+  Q_INVOKABLE static QString exerOrExamHelpTxt(bool withHeader = true);
+
 signals:
   void gotItTypeChanged();
 

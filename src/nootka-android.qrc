@@ -47,6 +47,7 @@
 
     <file alias="gotit/GotIt.qml">qml/gotit/GotIt.qml</file>
     <file alias="gotit/SoundInfo.qml">qml/gotit/SoundInfo.qml</file>
+    <file alias="gotit/ExamOrExercise.qml">qml/gotit/ExamOrExercise.qml</file>
 
 <!--     <file alias="PitchView.qml">qml/sound/PitchView.qml</file> -->
     <file alias="sound/VolumeBar.qml">qml/sound/VolumeBar.qml</file>
