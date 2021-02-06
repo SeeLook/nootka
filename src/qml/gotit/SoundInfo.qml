@@ -11,7 +11,7 @@ import "../sound"
 
 GotIt {
   gotItType: TgotIt.GotSoundInfo
-  againVisible: false
+  remindVisible: false
   visible: true
 
   onClicked: destroy()

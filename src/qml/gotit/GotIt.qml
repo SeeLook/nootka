@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2021 by Tomasz Bojczuk (seelook@gmail.com)          *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -10,15 +10,14 @@ import Nootka.Main 1.0
 import "../"
 
 
-
 Popup {
   id: pop
 
   signal clicked()
 
   property alias gotItType: gotIt.gotItType
-  property alias againChecked: showAgainChB.checked
-  property alias againVisible: showAgainChB.visible
+  property alias remaindChecked: remaindChB.checked
+  property alias remindVisible: remaindChB.visible
 
   scale: GLOB.useAnimations ? 0 : 1.0
   Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
@@ -70,7 +69,7 @@ Popup {
     transformOrigin: Item.BottomRight
     scale: GLOB.useAnimations && ma.pressed ? 0.95 : 1.0
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
-    Item { width: Noo.factor(); height: Noo.factor() / (showAgainChB.visible ? 2 : 1) }
+    Item { width: Noo.factor(); height: Noo.factor() / (remaindChB.visible ? 2 : 1) }
     Text {
       id: gotText
       anchors { right: parent.right; rightMargin: Noo.factor() }
@@ -81,8 +80,8 @@ Popup {
       text: qsTr("GOT IT!")
     }
     TcheckBox {
-      id: showAgainChB
-      text: qsTranslate("ThelpDialogBase", "always show this help window")
+      id: remaindChB
+      text: qsTr("remind me next time")
     }
     Item { width: Noo.factor(); height: Noo.factor() / 2 }
   }
