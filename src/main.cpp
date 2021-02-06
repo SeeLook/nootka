@@ -27,6 +27,7 @@
 #include "main/tmainscoreobject.h"
 #include "dialogs/tdialogloaderobject.h"
 #include "help/tmainhelp.h"
+#include "main/tgotititem.h"
 
 #if defined (Q_OS_ANDROID)
   #include <Android/tandroid.h>
@@ -207,6 +208,7 @@ int main(int argc, char *argv[])
       //       but if there will be another window - delete line above
     }
     nooObj->setQmlEngine(e);
+    qmlRegisterType<TgotItItem>("Nootka", 1, 0, "TgotItItem");
     qmlRegisterType<TnameItem>("Nootka.Main", 1, 0, "TnameItem");
     qmlRegisterType<TmainScoreObject>("Nootka.Main", 1, 0, "TmainScoreObject");
     qmlRegisterType<TdialogLoaderObject>("Nootka.Dialogs", 1, 0, "TdialogObject");

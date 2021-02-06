@@ -18,7 +18,6 @@ set(LIB_NOOTKACORE_SRC
   tnootkaqml.cpp
   taction.cpp
   tnoofont.cpp
-  tgotititem.cpp
 
   music/tnote.cpp
   music/trhythm.cpp
