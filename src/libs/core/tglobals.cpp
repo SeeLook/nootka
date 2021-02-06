@@ -129,6 +129,11 @@ Tglobals::~Tglobals() {
 //#######################         PUBLIC         ###########################################
 //##########################################################################################
 
+bool Tglobals::wasFirstRun() const {
+  return config->value(QStringLiteral("common/isFirstRun"), true).toBool();
+}
+
+
 void Tglobals::setUseAnimations(bool use) {
   if (m_useAnimations != use) {
     m_useAnimations = use;

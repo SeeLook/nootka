@@ -320,17 +320,33 @@ public:
        */
   Q_INVOKABLE void updateKeySignatureNames();
 
-      /** This method return application install path - path from where Nootka was started. */
+      /**
+       * This method return application install path - path from where Nootka was started.
+       */
   static QString getInstPath(const QString& appInstPath);
   static QString& path; /**< Reference to Tpath::main - Nootka resources path */
 
-  void storeSettings(QSettings* cfg); /**< Saves settings stored in @p cfg */
-  void loadSettings(QSettings* cfg); /**< Loads Nootka settings from file to @p cfg */
+      /**
+       * Saves settings stored in @p cfg
+       */
+  void storeSettings(QSettings* cfg);
+
+      /**
+       * Loads Nootka settings from file to @p cfg
+       */
+  void loadSettings(QSettings* cfg);
 
   QString version;
   bool isFirstRun; /**< to show or skip first run wizard*/
-  QString lang; /**< Application language. If empty - selected from system info*/
-  QSettings *config; /**< Pointer to QSettings instance of Nootka */
+  QString lang; /**< Application language. If empty - selected from system info */
+  QSettings *config; /**< Pointer to @p QSettings instance of Nootka */
+
+      /**
+       * @p TRUE if Nootka is launched first time - with wizard at very beginning.
+       * In contrary to @p isFirstRun which returns state of variable,
+       * @p wasFirstRun() returns @p QSettings state, so it changes only after app quit.
+       */
+  Q_INVOKABLE bool wasFirstRun() const;
 
         /**
          * Let's have a convention:
