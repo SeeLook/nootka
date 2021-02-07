@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -39,19 +39,28 @@ class NOOTKACORE_EXPORT TaddNoteItem : public QQuickItem
   Q_OBJECT
 
   Q_PROPERTY(TscoreObject* scoreObject READ scoreObject WRITE setScoreObject)
-  Q_PROPERTY(bool active READ active NOTIFY activeChanged)
-  Q_PROPERTY(qreal yPos READ yPos NOTIFY yPosChanged)
+  Q_PROPERTY(bool active READ active WRITE setActive NOTIFY activeChanged)
+  Q_PROPERTY(qreal yPos READ yPos WRITE setYpos NOTIFY yPosChanged)
 
 public:
   explicit TaddNoteItem(QQuickItem* parent = nullptr);
-  ~TaddNoteItem();
+  ~TaddNoteItem() {}
 
   TscoreObject* scoreObject() { return m_scoreObject; }
   void setScoreObject(TscoreObject* sc);
 
   bool active() const { return m_active; }
+  void setActive(bool a);
 
   qreal yPos() const { return m_yPos; }
+
+      /**
+       * WARNING: Use this with caution!
+       * Usually @p yPos property is handled by mouse hover or touch.
+       *
+       * It is used also to perform score usage animation.
+       */
+  void setYpos(qreal yp);
 
 signals:
   void activeChanged();

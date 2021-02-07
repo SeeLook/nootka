@@ -46,7 +46,20 @@ TaddNoteItem::TaddNoteItem(QQuickItem* parent) :
 }
 
 
-TaddNoteItem::~TaddNoteItem() {}
+void TaddNoteItem::setActive(bool a) {
+  if (a != m_active) {
+    m_active = a;
+    emit activeChanged();
+  }
+}
+
+
+void TaddNoteItem::setYpos(qreal yp) {
+  if (static_cast<int>(yp) != static_cast<int>(m_yPos)) {
+    m_yPos = m_scoreObject->clefType() == Tclef::NoClef ? m_scoreObject->upperLine() + 7.0 : qFloor(yp);
+    emit yPosChanged();
+  }
+}
 
 
 void TaddNoteItem::setScoreObject(TscoreObject* sc) {
