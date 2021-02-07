@@ -444,6 +444,15 @@ void Tglobals::setWaitForCorrect(bool waitFor) { E->waitForCorrect = waitFor; }
 
 QString Tglobals::examsDir() const { return E->examsDir; }
 
+bool Tglobals::gotIt(const QString& key, bool retVal) const {
+  return config->value(QLatin1String("gotIt/") + key, retVal).toBool();
+}
+
+void Tglobals::setGotIt(const QString& key, bool val) {
+  config->setValue(QLatin1String("gotIt/") + key, val);
+}
+
+
 
 void Tglobals::setGuitarParams(int fretNr, const Ttune& tun) {
   if (static_cast<uint>(fretNr) != GfretsNumber)
@@ -709,12 +718,6 @@ void Tglobals::loadSettings(QSettings* cfg) {
 // #endif
 //   cfg->endGroup();
 
-//   cfg->beginGroup(QLatin1String("touch"));
-//     TtouchParams::i()->scoreWasTouched = cfg->value(QStringLiteral("scoreWasTouched"), false).toBool();
-//     TtouchParams::i()->clefWasTouched = cfg->value(QStringLiteral("clefWasTouched"), false).toBool();
-//     TtouchParams::i()->guitarWasTouched = cfg->value(QStringLiteral("guitarWasTouched"), false).toBool();
-//     TtouchParams::i()->initialAnimAccepted = cfg->value(QStringLiteral("initialAnimAccepted"), false).toBool();
-//   cfg->endGroup();
 }
 
 
@@ -897,13 +900,6 @@ void Tglobals::storeSettings(QSettings* cfg) {
 //       cfg->setValue(QStringLiteral("hintsBarEnabled"), L->hintsBarEnabled);
 //       cfg->setValue(QStringLiteral("soundViewEnabled"), L->soundViewEnabled);
 //       cfg->setValue(QStringLiteral("guitarEnabled"), L->guitarEnabled);
-//   cfg->endGroup();
-
-//   cfg->beginGroup(QLatin1String("touch"));
-//     cfg->setValue(QStringLiteral("scoreWasTouched"), TtouchParams::i()->scoreWasTouched);
-//     cfg->setValue(QStringLiteral("clefWasTouched"), TtouchParams::i()->clefWasTouched);
-//     cfg->setValue(QStringLiteral("guitarWasTouched"), TtouchParams::i()->guitarWasTouched);
-//     cfg->setValue(QStringLiteral("initialAnimAccepted"), TtouchParams::i()->initialAnimAccepted);
 //   cfg->endGroup();
 }
 

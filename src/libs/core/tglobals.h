@@ -303,6 +303,17 @@ public:
 
   QString examsDir() const;
 
+      /**
+       * Reads configure option @p key from 'gotIt' group
+       * and returns it if exists or @p retVal instead.
+       */
+  Q_INVOKABLE bool gotIt(const QString& key, bool retVal) const;
+
+      /**
+       * Sets configure option @p key in 'gotIt' group
+       */
+  Q_INVOKABLE void setGotIt(const QString& key, bool val);
+
 #if defined (Q_OS_ANDROID)
   Q_INVOKABLE void keepScreenOn(bool on);
   Q_INVOKABLE bool isKeepScreenOn() { return  m_keepScreenOn; }
