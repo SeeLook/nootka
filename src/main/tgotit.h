@@ -23,12 +23,16 @@
 #include <QtCore/qobject.h>
 
 
+class TscoreObject;
+
+
 class TgotIt : public QObject
 {
 
   Q_OBJECT
 
   Q_PROPERTY(EgotItType gotItType READ gotItType WRITE setGotItType NOTIFY gotItTypeChanged)
+  Q_PROPERTY(TscoreObject* score READ score WRITE setScore)
 
 public:
   explicit TgotIt(QObject* parent = nullptr);
@@ -37,12 +41,28 @@ public:
   enum EgotItType {
     GotAnything = 0,
     GotSoundInfo,
-    GotExamOrExer
+    GotExamOrExer,
+    GotHandleScore
   };
   Q_ENUM(EgotItType)
 
   EgotItType gotItType() const { return m_gotItType; }
   void setGotItType(EgotItType gt);
+
+  TscoreObject* score() { return m_score; }
+  void setScore(TscoreObject* sc);
+
+      /**
+       * Selects accidental.
+       * Available only for @p GotHandleScore.
+       */
+  Q_INVOKABLE void setCursorAlter(int curAlt);
+
+      /**
+       * Selects rhythmic value.
+       * Available only for @p GotHandleScore.
+       */
+  Q_INVOKABLE void setWorkRtmValue(int rtmV);
 
       /**
        * Help text (HTML) about what is exercise and exam
@@ -55,6 +75,7 @@ signals:
 
 private:
   EgotItType                     m_gotItType = GotAnything;
+  TscoreObject                  *m_score = nullptr;
 
 };
 

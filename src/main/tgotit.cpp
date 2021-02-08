@@ -19,6 +19,7 @@
 #include "tgotit.h"
 #include <main/tstartexamitem.h>
 #include <tsound.h>
+#include <score/tscoreobject.h>
 
 // #include <QtCore/qdebug.h>
 
@@ -52,6 +53,23 @@ void TgotIt::setGotItType(TgotIt::EgotItType gt) {
     m_gotItType = gt;
     emit gotItTypeChanged();
   }
+}
+
+
+void TgotIt::setScore(TscoreObject *sc) {
+  m_score = sc;
+}
+
+
+void TgotIt::setCursorAlter(int curAlt) {
+  if (m_score)
+    m_score->setCursorAlter(curAlt);
+}
+
+
+void TgotIt::setWorkRtmValue(int rtmV) {
+  if (m_score)
+    m_score->setWorkRtmValue(rtmV);
 }
 
 

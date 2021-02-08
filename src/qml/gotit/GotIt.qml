@@ -21,8 +21,6 @@ Popup {
   property alias gotIt: gotIt
 
   scale: GLOB.useAnimations ? 0 : 1.0
-  Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
-
   enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}
   exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0 }}
 
