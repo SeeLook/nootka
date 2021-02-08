@@ -121,6 +121,8 @@ Score {
           createStatus()
       if (!GLOB.singleNoteMode)
         scoreObj.editModeAct.trigger()
+      if (Noo.isAndroid() && GLOB.gotIt("howToScore", true))
+        Qt.createComponent("qrc:/gotit/FirstTouchScore.qml").createObject(mainScore)
     }
   }
   function createStatus() {
