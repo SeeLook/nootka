@@ -11,10 +11,9 @@ import "../sound"
 
 GotIt {
   gotItType: TgotIt.GotSoundInfo
-  remindVisible: false
   visible: true
 
-  onClicked: destroy()
+  onClicked: close()
 
   Tflickable {
     height: parent.height
@@ -48,7 +47,7 @@ GotIt {
           width: parent.width * 0.96; wrapMode: Text.WordWrap
           anchors.horizontalCenter: parent.horizontalCenter
           color: activPal.text; textFormat: Text.StyledText
-          lineHeight: 1.5
+          lineHeight: Noo.isAndroid() ? 1 : 1.5
           text: qsTr("Nootka recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:") + "<ul>"
           + "<li>" + qsTr("Be sure your system is able to record what are you playing.") + "</li>"
           + "<li>" + qsTr("Adjust minimal note volume a little below of your input volume level.") + "</li></ul>"
@@ -71,7 +70,7 @@ GotIt {
           width: parent.width * 0.96; wrapMode: Text.WordWrap
           anchors.horizontalCenter: parent.horizontalCenter
           color: activPal.text; textFormat: Text.StyledText
-          lineHeight: 1.5
+          lineHeight: Noo.isAndroid() ? 1 : 1.5
           text: "<br><ul><li>" + qsTr("Aim to play loud and clear and avoid dirty sounds specific to your instrument.") + "</li>"
           + "<li>" + qsTr("Rhythms detection during exercises and exams is more 'humane' - Nootka knows what rhythm to expect. In contrary to playing to 'empty' score when high rhythmic precision is required, so better use metronome then.") + "</li>"
           + "</ul><br>"

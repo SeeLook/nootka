@@ -24,6 +24,7 @@ ApplicationWindow {
   property var dialogLoader: null
   property var tip: null
   property var analyzeWindow: null
+  property var sndInf: null
 
   SystemPalette {
     id: activPal
@@ -90,6 +91,20 @@ ApplicationWindow {
   Component.onCompleted: {
     Noo.mainScore = score
     checkSingleMode()
+    if (GLOB.gotIt("soundInfo", true)) {
+        sndInf = Qt.createComponent("qrc:/gotit/SoundInfo.qml").createObject(nootkaWindow.contentItem.parent)
+        sndInf.remaindChecked = true
+        sndInf.closed.connect(function() {
+            GLOB.setGotIt("soundInfo", sndInf.remaindChecked)
+            sndInf.destroy()
+            createStatus() // create status tip only after pitch detection info
+        })
+    } else
+       createStatus()
+  }
+
+  function createStatus() {
+    Qt.createComponent("qrc:/StatusTip.qml").createObject(Noo.isAndroid() ? nootkaWindow.contentItem : nootkaWindow)
   }
 
   function checkSingleMode() {

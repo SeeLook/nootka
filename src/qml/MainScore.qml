@@ -114,19 +114,11 @@ Score {
       scoreObj.allowAdding = Qt.binding(function() { return !GLOB.singleNoteMode })
       enableKeySign = Qt.binding(function() { return GLOB.keySignatureEnabled })
       updateScord()
-      if (GLOB.wasFirstRun()) { // at first run create status tip after pitch detection info
-          var si = Qt.createComponent("qrc:/gotit/SoundInfo.qml").createObject(nootkaWindow.contentItem.parent)
-          si.closed.connect(createStatus)
-      } else
-          createStatus()
       if (!GLOB.singleNoteMode)
         scoreObj.editModeAct.trigger()
       if (Noo.isAndroid() && GLOB.gotIt("howToScore", true))
         Qt.createComponent("qrc:/gotit/FirstTouchScore.qml").createObject(mainScore)
     }
-  }
-  function createStatus() {
-    Qt.createComponent("qrc:/StatusTip.qml").createObject(Noo.isAndroid() ? nootkaWindow.contentItem : nootkaWindow)
   }
 
   Connections {
