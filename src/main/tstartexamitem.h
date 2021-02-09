@@ -47,9 +47,6 @@ public:
 
   Q_INVOKABLE Tlevel* prevLevel() { return m_prevExerciseLevel; }
 
-  Q_INVOKABLE bool showVeryBeginHelp() const;
-  Q_INVOKABLE void setVeryBeginHelp(bool vbh);
-
       /**
        * Help text (HTML) about what is exercise and exam
        */

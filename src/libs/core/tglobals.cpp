@@ -641,7 +641,6 @@ void Tglobals::loadSettings(QSettings* cfg) {
       E->waitForCorrect = cfg->value(QStringLiteral("waitForCorrect"), true).toBool();
       E->showHelpOnStart = cfg->value(QStringLiteral("showHelpOnStart"), true).toBool();
       E->askAboutExpert = cfg->value(QStringLiteral("askAboutExpert"), true).toBool();
-      E->showVeryBeginHelp = cfg->value(QStringLiteral("showVeryBeginHelp"), false).toBool();
   cfg->endGroup();
 
 // Sound settings
@@ -857,7 +856,6 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue(QStringLiteral("waitForCorrect"), E->waitForCorrect);
       cfg->setValue(QStringLiteral("askAboutExpert"), E->askAboutExpert);
       cfg->setValue(QStringLiteral("showHelpOnStart"), E->showHelpOnStart);
-      cfg->setValue(QStringLiteral("showVeryBeginHelp"), E->showVeryBeginHelp);
   cfg->endGroup();
 
   cfg->beginGroup(QLatin1String("sound"));

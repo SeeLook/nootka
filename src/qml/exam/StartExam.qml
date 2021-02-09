@@ -221,21 +221,33 @@ TstartExamItem {
     PauseAnimation { duration: 300 }
   }
 
+  onContinueExam: start(Texecutor.ContinueExam, examFile)
+
   Component.onCompleted: {
     dialLoader.standardButtons = 0
     dialLoader.title = qsTr("Start exercises or an exam")
-    if (showVeryBeginHelp())
-      examOrExerGotIt()
   }
 
-  onContinueExam: start(Texecutor.ContinueExam, examFile)
+  Component.onDestruction: {
+    if (exExGotIt)
+      GLOB.setGotIt("examOrExercise", exExGotIt.remaindChecked)
+  }
 
   property var exExGotIt: null
-  function examOrExerGotIt() {
-    if (!exExGotIt) {
-      exExGotIt = Qt.createComponent("qrc:/gotit/ExamOrExercise.qml").createObject(startDialog, { "remaindChecked": showVeryBeginHelp() })
-      exExGotIt.clicked.connect(function() { setVeryBeginHelp(exExGotIt.remaindChecked) })
+  property bool remaindMeLater: GLOB.gotIt("examOrExercise", false)
+
+  Timer {
+    interval: 500
+    running: true
+    onTriggered: {
+      if (remaindMeLater)
+        examOrExerGotIt()
     }
+  }
+
+  function examOrExerGotIt() {
+    if (!exExGotIt)
+      exExGotIt = Qt.createComponent("qrc:/gotit/ExamOrExercise.qml").createObject(startDialog, { "remaindChecked": remaindMeLater } )
     exExGotIt.open()
   }
 

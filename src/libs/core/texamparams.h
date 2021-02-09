@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -66,7 +66,6 @@ public:
 // Displaying dialogues check box state
   bool askAboutExpert; /**< shows confirm dialog when expertsAnswerEnable is going to be changed @def true */
   bool showHelpOnStart; /**< shows dialog with help on start en exam or exercise @def true */
-  bool showVeryBeginHelp; /**< When start exam or exercise dialog appears @def true */
 };
 
 

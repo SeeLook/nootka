@@ -98,16 +98,6 @@ TstartExamItem::TstartExamItem(QQuickItem* parent) :
 }
 
 
-bool TstartExamItem::showVeryBeginHelp() const {
-  return GLOB->E->showVeryBeginHelp;
-}
-
-
-void TstartExamItem::setVeryBeginHelp(bool vbh) {
-  GLOB->E->showVeryBeginHelp = vbh;
-}
-
-
 QString TstartExamItem::lastExamFile() const {
   return m_recentExams.isEmpty() ? QString() : m_recentExams.first();
 }
