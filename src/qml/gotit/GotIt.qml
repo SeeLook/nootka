@@ -27,7 +27,7 @@ Popup {
   width: parent.width; height: parent.height
   padding: 0
 
-  background: Rectangle { color: Noo.alpha(activPal.base, 240) }
+  background: Rectangle { color: activPal.base }
 
   TgotIt { id: gotIt }
 
@@ -48,7 +48,7 @@ Popup {
     width: gotColl.width + 2 * radius
     height: gotColl.height + 1.5 * radius
     radius: (gotColl.height + 4 * Noo.factor()) / 4
-    x: parent.width - width + radius; y: parent.height - height + radius + Noo.factor()
+    x: parent.width - width + radius + Noo.factor(); y: parent.height - height + radius + Noo.factor()
     color: ma.containsMouse ? activPal.highlight : Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 150))
     transformOrigin: Item.BottomRight
     scale: GLOB.useAnimations && ma.pressed ? 0.95 : 1.0
@@ -68,12 +68,11 @@ Popup {
     transformOrigin: Item.BottomRight
     scale: GLOB.useAnimations && ma.pressed ? 0.95 : 1.0
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
-    Item { width: Noo.factor(); height: Noo.factor() / (remaindChB.visible ? 2 : 1) }
     Text {
       id: gotText
-      anchors { right: parent.right; rightMargin: Noo.factor() }
+      anchors.horizontalCenter: parent.horizontalCenter
       color: activPal.text
-      font { pixelSize: Noo.factor() * 3; bold: true }
+      font { pixelSize: Noo.factor() * 2; bold: true }
       style: ma.containsMouse ? Text.Sunken : Text.Normal
       styleColor: activPal.base
       text: qsTr("GOT IT!")
