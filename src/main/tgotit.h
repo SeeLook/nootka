@@ -24,8 +24,16 @@
 
 
 class TscoreObject;
+class TnoteStruct;
+class Tnote;
+class QTimer;
 
 
+/**
+ * This is C++ logic/proxy to handle 'Got It!' mechanism.
+ * NOTICE: Every instance of this class on QML side
+ * has to set @p gotItType apparently to use helpers according to 'Got It' type.
+ */
 class TgotIt : public QObject
 {
 
@@ -33,6 +41,8 @@ class TgotIt : public QObject
 
   Q_PROPERTY(EgotItType gotItType READ gotItType WRITE setGotItType NOTIFY gotItTypeChanged)
   Q_PROPERTY(TscoreObject* score READ score WRITE setScore)
+  Q_PROPERTY(int maxVolume READ maxVolume NOTIFY maxVolumeChanged)
+  Q_PROPERTY(QString noteName READ noteName NOTIFY noteNameChanged)
 
 public:
   explicit TgotIt(QObject* parent = nullptr);
@@ -42,16 +52,20 @@ public:
     GotAnything = 0,
     GotSoundInfo,
     GotExamOrExer,
-    GotHandleScore
+    GotHandleScore /**< Android only */
   };
   Q_ENUM(EgotItType)
 
   EgotItType gotItType() const { return m_gotItType; }
   void setGotItType(EgotItType gt);
 
+// GotSoundInfo ======================================
+  int maxVolume() const { return static_cast<int>(m_maxVolume * 100.0); }
+  QString noteName() const { return m_noteName; }
+
+// GotHandleScore ======================================
   TscoreObject* score() { return m_score; }
   void setScore(TscoreObject* sc);
-
       /**
        * Selects accidental.
        * Available only for @p GotHandleScore.
@@ -64,6 +78,7 @@ public:
        */
   Q_INVOKABLE void setWorkRtmValue(int rtmV);
 
+// GotExamOrExer =======================================
       /**
        * Help text (HTML) about what is exercise and exam
        */
@@ -71,12 +86,25 @@ public:
 
 signals:
   void gotItTypeChanged();
+  void maxVolumeChanged();
+  void noteNameChanged();
+
+
+protected:
+  void noteStartedSlot(const Tnote& n);
+  void noteFinishedSlot(TnoteStruct);
 
 
 private:
   EgotItType                     m_gotItType = GotAnything;
+
+// GotHandleScore ====================================
   TscoreObject                  *m_score = nullptr;
 
+// GotSoundInfo ======================================
+  qreal                          m_maxVolume = 0.0;
+  QTimer                        *m_soundTimer;
+  QString                        m_noteName;
 };
 
 #endif // TGOTIT_H

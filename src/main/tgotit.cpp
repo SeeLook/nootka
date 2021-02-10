@@ -20,7 +20,9 @@
 #include <main/tstartexamitem.h>
 #include <tsound.h>
 #include <score/tscoreobject.h>
+#include <music/tnotestruct.h>
 
+#include <QtCore/qtimer.h>
 // #include <QtCore/qdebug.h>
 
 
@@ -45,6 +47,11 @@ void TgotIt::setGotItType(TgotIt::EgotItType gt) {
       case GotSoundInfo:
         SOUND->stopListen();
         SOUND->setTunerMode(true);
+        connect(SOUND, &Tsound::noteStarted, this, &TgotIt::noteStartedSlot);
+        connect(SOUND, &Tsound::noteFinishedEntire, this, &TgotIt::noteFinishedSlot);
+        m_soundTimer = new QTimer(this);
+        connect(m_soundTimer, &QTimer::timeout, this, [=]{ m_maxVolume = qMax(m_maxVolume, SOUND->inputVol()); });
+        m_soundTimer->start(100);
         SOUND->startListen();
         break;
       default:
@@ -75,4 +82,21 @@ void TgotIt::setWorkRtmValue(int rtmV) {
 
 QString TgotIt::exerOrExamHelpTxt(bool withHeader) {
   return TstartExamItem::exerOrExamHelpTxt(withHeader);
+}
+
+//#################################################################################################
+//###################                PROTECTED         ############################################
+//#################################################################################################
+
+void TgotIt::noteStartedSlot(const Tnote& n) {
+  m_noteName = n.styledName();
+  emit noteNameChanged();
+}
+
+
+void TgotIt::noteFinishedSlot(TnoteStruct) {
+  m_noteName.clear();
+  emit noteNameChanged();
+  emit maxVolumeChanged();
+  m_maxVolume = 0.0;
 }
