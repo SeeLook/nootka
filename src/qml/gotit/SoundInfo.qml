@@ -22,47 +22,32 @@ GotIt {
 
       Column {
         id: sCol
-        width: parent.width - Noo.factor() * 2
+        width: parent.width - Noo.factor()
+        anchors.horizontalCenter: parent.horizontalCenter
         spacing: Noo.factor()
-        Row {
-          spacing: Noo.factor() * 2
-          anchors.horizontalCenter: parent.horizontalCenter
-          Text {
-            font { family: "Nootka"; pixelSize: Noo.factor() * 5 }
-            color: activPal.highlight
-            text: "r"; rotation: 180
-          }
-          LinkText {
-            anchors.verticalCenter: parent.verticalCenter
-            font { bold: true; pixelSize: Noo.factor() * 2 }
-            text: qsTr("Nootka can hear You!")
-          }
-          Text {
-            font { family: "Nootka"; pixelSize: Noo.factor() * 5 }
-            color: activPal.highlight
-            text: "r"
-          }
-        }
-        Text {
-          width: parent.width * 0.96; wrapMode: Text.WordWrap
-          anchors.horizontalCenter: parent.horizontalCenter
-          color: activPal.text; textFormat: Text.StyledText
-          lineHeight: Noo.isAndroid() ? 1 : 1.5
-          text: qsTr("Nootka recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:") + "<ul>"
-          + "<li>" + qsTr("Be sure your system is able to record what are you playing.") + "</li>"
-          + "<li>" + qsTr("Adjust minimal note volume a little below of your input volume level.") + "</li></ul>"
-        }
+        Item { width: Noo.factor() * 10; height: Noo.factor(); visible: !Noo.isAndroid() }
         TipRect {
-          color: activPal.window
+          width: sCol.width - Noo.factor(); height: headRow.height + Noo.factor()
           anchors.horizontalCenter: parent.horizontalCenter
-          width: Math.min(Noo.factor() * 42, parent.width * 0.92); height: Noo.factor() * 2.5
-          VolumeBar {
-            id: volBar
+          color: Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 100))
+          Row {
+            id: headRow
+            spacing: Noo.factor() * 2
             anchors.centerIn: parent
-            width: Math.min(Noo.factor() * 40, parent.width * 0.9); height: Noo.factor() * 2
-            Timer {
-              repeat: true; interval: 75; running: true
-              onTriggered: volBar.volume = SOUND.inputVol()
+            Text {
+              font { family: "Nootka"; pixelSize: Noo.factor() * 5 }
+              color: activPal.highlight
+              text: "r"; rotation: 180
+            }
+            LinkText {
+              anchors.verticalCenter: parent.verticalCenter
+              font { bold: true; pixelSize: Noo.factor() * 2 }
+              text: qsTr("Nootka can hear You!")
+            }
+            Text {
+              font { family: "Nootka"; pixelSize: Noo.factor() * 5 }
+              color: activPal.highlight
+              text: "r"
             }
           }
         }
@@ -71,15 +56,105 @@ GotIt {
           anchors.horizontalCenter: parent.horizontalCenter
           color: activPal.text; textFormat: Text.StyledText
           lineHeight: Noo.isAndroid() ? 1 : 1.5
-          text: "<br><ul><li>" + qsTr("Aim to play loud and clear and avoid dirty sounds specific to your instrument.") + "</li>"
-          + "<li>" + qsTr("Rhythms detection during exercises and exams is more 'humane' - Nootka knows what rhythm to expect. In contrary to playing to 'empty' score when high rhythmic precision is required, so better use metronome then.") + "</li>"
-          + "</ul><br>"
+          text: "<br>"
+            + qsTr("Nootka recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:")
+        }
+        Repeater {
+          model: [ qsTr("Be sure your system is able to record what are you playing."),
+                  qsTr("Adjust minimal note volume a little below of your input volume level.") ]
+          Row {
+            anchors.horizontalCenter: parent.horizontalCenter
+            spacing: Noo.factor()
+            Rectangle {
+              anchors.verticalCenter: parent.verticalCenter
+              width: Noo.factor() * 0.7; height: width; radius: width / 2
+              color: activPal.text
+            }
+            Text {
+              width: sCol.width * 0.96 - Noo.factor() * 2; wrapMode: Text.WordWrap
+              color: activPal.text; textFormat: Text.StyledText
+              text: modelData
+            }
+          }
+        }
+        Text {
+          width: parent.width * 0.8; wrapMode: Text.WordWrap
+          anchors.horizontalCenter: parent.horizontalCenter
+          color: activPal.text; textFormat: Text.StyledText
+          horizontalAlignment: Text.AlignHCenter
+          text: qsTr("Play a few sounds to figure out their maximal volume,<br>then set level knob about 10-20% below.")
+        }
+        Row {
+          anchors.horizontalCenter: parent.horizontalCenter
+          spacing: Noo.factor()
+          TipRect {
+            color: activPal.base
+            width: Noo.factor() * 4; height: Noo.factor() * 2.5
+            Text {
+              anchors.horizontalCenter: parent.horizontalCenter
+              y: height * -0.25
+              color: activPal.text
+              font { family: "Scorek"; pixelSize: Noo.factor() * 2 }
+              text: gotIt.noteName
+            }
+          }
+          TipRect {
+            color: activPal.window
+            width: Math.min(Noo.factor() * 42, sCol.width * 0.98 - Noo.factor() * 10); height: Noo.factor() * 2.5
+            VolumeBar {
+              id: volBar
+              anchors.centerIn: parent
+              width: Math.min(Noo.factor() * 40, parent.width * 0.9); height: Noo.factor() * 2
+              knobVisible: true
+              Timer {
+                repeat: true; interval: 75; running: true
+                onTriggered: volBar.volume = SOUND.inputVol()
+              }
+            }
+          }
+          TipRect {
+            color: activPal.base
+            width: Noo.factor() * 4; height: Noo.factor() * 2.5
+            Text {
+              anchors.centerIn: parent
+              color: activPal.text
+              font.bold: true
+              text: gotIt.maxVolume + "%"
+            }
+          }
+        }
+        Text {
+          visible: Noo.isAndroid()
+          width: parent.width * 0.8; wrapMode: Text.WordWrap
+          anchors.horizontalCenter: parent.horizontalCenter
+          color: activPal.text; textFormat: Text.StyledText
+          horizontalAlignment: Text.AlignHCenter
+          text: qsTr("Later, you can adjust the volume level in Nootka tuner window.<br>Invoke it from main menu or use any volume key.")
+        }
+        Item { width: Noo.factor() * 10; height: Noo.factor() }
+        Repeater {
+          model: [ qsTr("Aim to play loud and clear and avoid dirty sounds specific to your instrument."),
+                   qsTr("If you want Nootka to write your melody with rhythm then you have to play exactly in selected tempo - preferably with a metronome. But during practice, when you are playing melody given by the application, the tempo can be at will unless some level defines it.") ]
+          Row {
+            anchors.horizontalCenter: parent.horizontalCenter
+            spacing: Noo.factor()
+            Rectangle {
+              anchors.verticalCenter: parent.verticalCenter
+              width: Noo.factor() * 0.7; height: width; radius: width / 2
+              color: activPal.text
+            }
+            Text {
+              width: sCol.width * 0.96 - Noo.factor() * 2; wrapMode: Text.WordWrap
+              color: activPal.text; textFormat: Text.StyledText
+              text: modelData
+            }
+          }
         }
         Text {
           width: parent.width * 0.96; wrapMode: Text.WordWrap
           anchors.horizontalCenter: parent.horizontalCenter
           color: "red"; horizontalAlignment: Text.AlignHCenter
-          text: "Pitch detection is very important feature of this app but it may be confusing for users.<br>"
+          text: "<br><br>Pitch detection is very important feature of this app but it may be confusing for users.<br>"
           + "Help to make this text clear as mach as possible.<br>"
         }
       }
