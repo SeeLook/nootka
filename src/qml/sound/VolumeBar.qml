@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -17,6 +17,7 @@ Item {
   property bool active: true
   property real tickWidth: Screen.pixelDensity * 0.5
   property real tickGap: tickWidth * 1.4
+  property alias knobVisible: knob.visible
 
   TtickColors { id: tc; width: volBar.width - minVolText.width; divisor: tickGap + tickWidth }
 
@@ -60,6 +61,7 @@ Item {
   }
 
   TipRect {
+    id: knob
     scale: Noo.isAndroid() && area.pressed ? 1.3 : 1
     x: minVolText.width + GLOB.minVolume * tc.width - radius
     y: (volBar.height - height) / 2
