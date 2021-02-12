@@ -32,7 +32,7 @@ AbstractButton {
     styleColor: activPal.highlight
   }
 
-  background: TipRect {
+  background: GlowRect {
     id: bg
     color: enabled ? (cutButt.checked ? activPal.highlight : activPal.button) : disdPal.button
     rised: !cutButt.checked && !cutButt.pressed

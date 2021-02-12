@@ -23,11 +23,11 @@ AbstractButton {
   contentItem: Column {
     width: parent.width
     spacing: factor / 2
-    TipRect {
+    GlowRect {
       id: bg
       anchors.horizontalCenter: parent.horizontalCenter
       z: 1
-      radius: Noo.factor() / 2; shadowRadius: Noo.factor()
+      radius: Noo.factor() / 2
       color: enabled ? (root.checked ? activPal.highlight : "#ffffff") : "#cbcbcb"
       shadowColor: "#101010"
       height: factor * 8; width: height

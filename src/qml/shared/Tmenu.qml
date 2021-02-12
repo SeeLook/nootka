@@ -10,9 +10,8 @@ Menu {
   width: Noo.factor() * 20
   scale: GLOB.useAnimations ? 0.1 : 1.0
 
-  background: TipRect { shadowRadius: Noo.factor(); color: activPal.window }
+  background: GlowRect { shadowRadius: Noo.factor() / 2; color: activPal.window }
 
   enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1 }}
   exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0 }}
-
 }

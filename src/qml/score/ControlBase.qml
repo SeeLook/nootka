@@ -8,7 +8,7 @@ import QtQuick.Window 2.2
 import "../"
 
 
-TipRect {
+GlowRect {
   id: base
   property bool active: false
   property real factor: Screen.pixelDensity * (Noo.isAndroid() ? 2.5 : 3.5)

@@ -7,7 +7,7 @@ import QtQuick 2.9
 import "../"
 
 
-TipRect {
+GlowRect {
   property bool show: false
 
   scale: show ? 1 : 0

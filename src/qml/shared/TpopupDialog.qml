@@ -18,10 +18,9 @@ Dialog {
 
   width: parent.width * 0.8; height: parent.height * 0.8
   x: (parent.width - width) / 2; y: (parent.height - height) / 2
-  background: TipRect {
+  background: GlowRect {
     id: rect
     color: activPal.window; shadowColor: activPal.shadow
-    shadowRadius: Noo.factor() * (Noo.isAndroid() ? 0.5 : 1)
   }
   scale: GLOB.useAnimations ? 0 : 1.0
   enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}

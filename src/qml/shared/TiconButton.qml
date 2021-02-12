@@ -44,7 +44,7 @@ AbstractButton {
     }
   }
 
-  background: TipRect {
+  background: GlowRect {
     id: bg
     color: enabled ? (root.checked ? activPal.highlight : activPal.button) : disdPal.button
     rised: !root.checked && !root.pressed
