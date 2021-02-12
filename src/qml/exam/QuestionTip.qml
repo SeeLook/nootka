@@ -33,9 +33,9 @@ ExamTip {
 
   Component.onCompleted: {
     if (GLOB.useAnimations)
-      rotation = 360
+      rotation = 720
   }
 
-  Behavior on scale { NumberAnimation { duration: 300 }}
-  Behavior on rotation { NumberAnimation { duration: 300 }}
+  Behavior on scale { NumberAnimation { duration: 500 }}
+  Behavior on rotation { NumberAnimation { duration: 500 }}
 }
