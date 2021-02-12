@@ -14,7 +14,7 @@ ControlBase {
   y: score.singleNote || score.meter === Tmeter.NoMeter ? (score.height - height) / 2 :
             (Noo.isAndroid() ? (nootkaWindow.height - height) / 2 : Noo.factor() / 2)
   z: 1010 // above mobile menu button
-  visible: !scoreObj.touched
+  visible: !scoreObj.touched && loader.active
 
   active: !score.readOnly && (scoreObj.activeNote || (score.noteAdd && score.noteAdd.active))
 
