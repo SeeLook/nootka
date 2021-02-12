@@ -354,7 +354,7 @@ qreal TnootkaQML::lightness(const QColor& c) const {
 int TnootkaQML::factor() {
 #if defined (Q_OS_ANDROID)
   // Set Android font according to screen size/density
-  return qRound(Tmtr::fingerPixels() * 0.3 * GLOB->guiScale());
+  return qRound(Tmtr::fingerPixels() * 0.35 * GLOB->guiScale());
 #else
   // but use system font size on desktops
   return qRound(Tmtr::systemFont.pointSize() / 72.0 * qApp->primaryScreen()->logicalDotsPerInch() * GLOB->guiScale());
