@@ -27,6 +27,7 @@ TmelGenItem {
       Row {
         Tile {
           id: selTile
+          visible: hasRhythms()
           anchors.horizontalCenter: undefined
           width: rtmSel.width * 1.2; height: Math.max(melGenItem.height, rCol.height)
           RhythmSelector {
@@ -37,8 +38,10 @@ TmelGenItem {
         }
         Column {
           id: rCol
-          width: melGenItem.width - rtmSel.width * 1.2 - Noo.factor()
+          width: melGenItem.width - (hasRhythms() ? selTile.width : 0) - Noo.factor()
+          topPadding: hasRhythms() ? 0 : Noo.factor() * 2
           Tile {
+            visible: hasRhythms()
             Row {
               id: measRow
               anchors.horizontalCenter: parent.horizontalCenter
@@ -56,8 +59,26 @@ TmelGenItem {
             }
           }
           RhythmDiversityTile {
+            visible: hasRhythms()
             diversity: rhythmDiversity
             onDiversityModified: rhythmDiversity = diversity
+          }
+          Tile {
+            visible: !hasRhythms()
+            Row {
+              spacing: Noo.factor()
+              anchors.horizontalCenter: parent.horizontalCenter
+              Text {
+                text: Noo.TR("MelodyPage", "Melody length")
+                anchors.verticalCenter: parent.verticalCenter
+              }
+              TspinBox {
+                id: lenSpin
+                from: 2; to: 50
+                value: length
+                onValueModified: length = value
+              }
+            }
           }
           EndOnTonicTile {
             anchors.horizontalCenter: parent.horizontalCenter

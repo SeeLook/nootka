@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2018 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2018-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -43,6 +43,7 @@ TmelGenItem::TmelGenItem(QQuickItem* parent) :
   m_endsOnTonic = m_settings->value(QLatin1String("endsOnTonic"), true).toBool();
   m_onlyCurrKey = m_settings->value(QLatin1String("onlyCurrKey"), true).toBool();
   m_maxStep = qBound(2, m_settings->value(QLatin1String("maxStep"), 7).toInt(), 36);
+  m_length = qBound(2, m_settings->value(QLatin1String("length"), 8).toInt(), 50);
   m_settings->endGroup();
 }
 
@@ -101,10 +102,23 @@ void TmelGenItem::setMaxStep(int max) {
 }
 
 
+void TmelGenItem::setLength(int l) {
+  if (l != m_length) {
+    m_length = l;
+    emit lengthChanged();
+  }
+}
+
+
+bool TmelGenItem::hasRhythms() {
+  return MAIN_SCORE->meter() != Tmeter::NoMeter;
+}
+
+
 void TmelGenItem::generate() {
   int meter = MAIN_SCORE->meter();
   TrhythmList rhythms = getRandomRhythm(meter, m_barNumber, m_rtmSelector->basicMask(), m_rtmSelector->dotsMask(), m_rtmDiversity);
-  if (rhythms.isEmpty()) {
+  if (meter > 0 && rhythms.isEmpty()) {
     qDebug() << "[TmelGenItem] no rhythms from current parameters. Skipping melody generate!";
     return;
   }
@@ -127,9 +141,11 @@ void TmelGenItem::generate() {
   auto mel = new Tmelody(QString(), TkeySignature(MAIN_SCORE->keySignatureValue()));
   mel->setMeter(meter);
   mel->setClef(clef);
-  getRandomMelodyNG(ql, mel, rhythms.count(), m_onlyCurrKey, m_endsOnTonic, m_maxStep);
+  int melLen = meter == Tmeter::NoMeter ? m_length : rhythms.count();
+  getRandomMelodyNG(ql, mel, melLen, m_onlyCurrKey, m_endsOnTonic, m_maxStep);
 // merge rhythm and melody
-  mergeRhythmAndMelody(rhythms, mel);
+  if (!rhythms.isEmpty())
+    mergeRhythmAndMelody(rhythms, mel);
 
   MAIN_SCORE->setMelody(mel);
   delete mel;
@@ -142,5 +158,6 @@ void TmelGenItem::generate() {
   m_settings->setValue(QLatin1String("endsOnTonic"), m_endsOnTonic);
   m_settings->setValue(QLatin1String("onlyCurrKey"), m_onlyCurrKey);
   m_settings->setValue(QLatin1String("maxStep"), m_maxStep);
+  m_settings->setValue(QLatin1String("length"), m_length);
   m_settings->endGroup();
 }

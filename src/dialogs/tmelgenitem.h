@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2018 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2018-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -40,6 +40,7 @@ class TmelGenItem : public QQuickItem
   Q_PROPERTY(bool endsOnTonic READ endsOnTonic WRITE setEndsOnTonic NOTIFY endsOnTonicChanged)
   Q_PROPERTY(bool onlyCurrKey READ onlyCurrKey WRITE setOnlyCurrKey NOTIFY onlyCurrKeyChanged)
   Q_PROPERTY(int maxStep READ maxStep WRITE setMaxStep NOTIFY maxStepChanged)
+  Q_PROPERTY(int length READ length WRITE setLength NOTIFY lengthChanged)
 
 public:
   explicit TmelGenItem(QQuickItem* parent = nullptr);
@@ -64,6 +65,11 @@ public:
   int maxStep() const { return m_maxStep; }
   void setMaxStep(int max);
 
+  int length() const { return m_length; }
+  void setLength(int l);
+
+  Q_INVOKABLE bool hasRhythms();
+
   Q_INVOKABLE void generate();
 
 signals:
@@ -72,6 +78,7 @@ signals:
   void endsOnTonicChanged();
   void onlyCurrKeyChanged();
   void maxStepChanged();
+  void lengthChanged();
 
 private:
   TrtmSelectorItem              *m_rtmSelector = nullptr;
@@ -80,6 +87,7 @@ private:
   quint32                        m_basicMask, m_dotsMask;
   bool                           m_endsOnTonic, m_onlyCurrKey;
   int                            m_maxStep;
+  int                            m_length;
 };
 
 #endif // TMELGENITEM_H
