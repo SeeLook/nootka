@@ -3,11 +3,12 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
+import QtQuick.Controls 2.2
 
 import Nootka 1.0
 
 
-TcuteButton {
+AbstractButton {
   id: flyItem
   property Taction taction: null
   property bool shaked: false
@@ -17,11 +18,8 @@ TcuteButton {
   x: canShow && (showFlys || shaked) ? flyX(index) : -width
   y: canShow && (showFlys || shaked) ? flyY(index) : -height
   scale: canShow && (showFlys || shaked) ? 0.99 : 0.01
-  color: Qt.tint(activPal.base, Noo.alpha(taction ? taction.bgColor : activPal.base, currentFly === this || pressed ? 200 : 50))
-  border { width: 2; color: taction ? taction.bgColor : "transparent" }
   width: Noo.fingerPixels() * 1.5 + (txt.visible ? txt.width : 0)
   height: Noo.fingerPixels() * 1.5
-  radius: width / 2
 
   onClicked: {
     taction.trigger()
@@ -32,6 +30,12 @@ TcuteButton {
   Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
   Behavior on x { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
   Behavior on y { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
+
+  background: TipRect {
+    radius: height / 2
+    color: Qt.tint(activPal.base, Noo.alpha(taction ? taction.bgColor : activPal.base, currentFly === flyItem || pressed ? 200 : 50))
+    border { width: 2; color: taction ? taction.bgColor : "transparent" }
+  }
 
   contentItem: Item {
     Image {
