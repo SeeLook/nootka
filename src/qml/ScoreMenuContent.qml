@@ -25,7 +25,7 @@ Tmenu {
       contentItem: MenuButton {
         action: modelData
         onClicked: close()
-        Rectangle { width: parent.width; height: 1; color: activPal.text; y: parent.height - 1 }
+        Rectangle { width: parent.width; height: index === score.scoreActions.length - 1 ? 0 : 1; color: activPal.text; y: parent.height - 1 }
       }
     }
   }
