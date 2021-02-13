@@ -4,7 +4,6 @@
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
-import QtQuick.Window 2.2
 
 import Nootka.Exam 1.0
 import "../"
@@ -167,7 +166,7 @@ Grid {
       scale: 0
       enter: Transition { enabled: GLOB.useAnimations; SpringAnimation { property: "scale"; to: 1; spring: 2; damping: 0.2; epsilon: 0.005 }}
       exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; from: 1; to: 0 }} // duration 250 ms
-      background: TipRect { color: activPal.button; shadowRadius: Screen.height / 90 }
+      background: GlowRect { color: activPal.button; shadowRadius: Noo.factor() / 2 }
       y: resultsItem.height + Noo.factor() / 2
       Column {
         spacing: Noo.factor() / 6
@@ -177,7 +176,7 @@ Grid {
           Text {
             text: modelData
             color: resPop.senderIndex === index ? activPal.highlightedText : activPal.text
-            font.bold: index === 0
+            font { bold: index === 0; pixelSize: nootkaWindow.height / 30 }
             Rectangle {
               z: -1
               color: resPop.senderIndex === index ? activPal.highlight : (index % 2 === 1 ? activPal.alternateBase : activPal.base)
@@ -188,6 +187,7 @@ Grid {
         Text {
           text: results.answerTimeTxt() + ": <b>" + results.reactText + "</b>"
           color: resPop.senderIndex === 9 ? activPal.highlightedText : activPal.text
+          font.pixelSize: nootkaWindow.height / 30
           Rectangle {
             z: -1
             color: resPop.senderIndex === 9 ? activPal.highlight : activPal.alternateBase
@@ -197,6 +197,7 @@ Grid {
         Text {
           text: results.examTimeTxt() + ": <b>" + results.totalTimeText + "</b>"
           color: resPop.senderIndex === 10 ? activPal.highlightedText : activPal.text
+          font.pixelSize: nootkaWindow.height / 30
           Rectangle {
             z: -1
             color: resPop.senderIndex === 10 ? activPal.highlight : activPal.base
@@ -210,7 +211,6 @@ Grid {
 
   function more(sender) {
     popLoader.sourceComponent = popComp
-//     popLoader.item.parent = sender
     popLoader.item.open()
     popLoader.item.senderIndex = sender.index
   }
