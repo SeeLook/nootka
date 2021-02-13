@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -62,7 +62,7 @@ public:
   Q_INVOKABLE QString title() const;
 
   Q_INVOKABLE bool isExercise() const;
-  Q_INVOKABLE bool continueExecutor();
+  Q_INVOKABLE void continueExecutor();
   Q_INVOKABLE void exerciseToExam();
   Q_INVOKABLE void closeSummary();
 

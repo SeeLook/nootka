@@ -108,10 +108,13 @@ TexamExecutor::TexamExecutor(QQuickItem* parent) :
 }
 
 
-bool TexamExecutor::init(TexamExecutor::EexecOrigin whatToDo, const QVariant& arg) {
+void TexamExecutor::init(TexamExecutor::EexecOrigin whatToDo, const QVariant& arg) {
   if (whatToDo == NewExam || whatToDo == StartExercise) {
-    if (!castLevelFromQVariant(arg))
-      return false;
+    if (!castLevelFromQVariant(arg)) {
+      m_aftterMessage = AfterClose;
+      afterMessage();
+      return;
+    }
   }
 
   if (whatToDo == NewExam || whatToDo == StartExercise) {
@@ -123,19 +126,21 @@ bool TexamExecutor::init(TexamExecutor::EexecOrigin whatToDo, const QVariant& ar
       m_exam = new Texam(&m_level, QString());
       Texam::EerrorType err = m_exam->loadFromFile(arg.toString());
       if (err == Texam::e_file_OK || err == Texam::e_file_corrupted) {
-          if (err == Texam::e_file_corrupted)
-            QMessageBox::warning(nullptr, QString(), tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"));
           m_summaryReason = SumContExam;
-          QTimer::singleShot(50, [=]{ emit examSummary(); }); // Allow 'Start Exam dialog' to be closed
-          return true;
+          if (err == Texam::e_file_corrupted)
+            message(tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"), Qt::yellow, AfterExamSummary);
+          else
+            QTimer::singleShot(50, [=]{ emit examSummary(); }); // Allow 'Start Exam dialog' to be closed
+          return;
       } else {
           if (err == Texam::e_file_not_valid) {
-            QMessageBox::critical(nullptr, QString(), tr("File: %1 \n is not valid exam file!").arg(arg.toString()));
-            return false;
+            message(tr("File: %1 \n is not valid exam file!").arg(QString("<b>%1</b>")
+                      .arg(arg.toString())).replace(QLatin1String("\n"), QLatin1String("<br>")), Qt::red, AfterClose);
+            return;
           }
       }
   }
-  return continueInit();
+  continueInit();
 }
 
 
@@ -156,15 +161,15 @@ TexamExecutor::~TexamExecutor() {
 }
 
 
-bool TexamExecutor::continueInit() {
+void TexamExecutor::continueInit() {
   m_summaryReason = NoReason;
   if (GLOB->E->studentName.isEmpty())
     GLOB->E->studentName = GLOB->systemUserName();
   m_glStore = new TglobalExamStore(GLOB); /** In @p TglobalExamStore constructor We check are guitar's params suitable for an exam */
 #if !defined (Q_OS_ANDROID)
-  auto message = TexecutorSupply::checkInstrumentParamsChange(m_exam);
-  if (!message.isEmpty())
-    QMessageBox::information(nullptr, QString(), message);
+  auto mess = TexecutorSupply::checkInstrumentParamsChange(m_exam);
+  if (!mess.isEmpty())
+    message(mess, QColor(0, 128, 128), AfterStartTTip);
 #endif
   GLOB->setSingleNote(!m_exam->melodies());
   m_supp = new TexecutorSupply(&m_level, this);
@@ -194,13 +199,16 @@ bool TexamExecutor::continueInit() {
     }
   }
   if (m_questList.isEmpty() && !m_level.isMelodySet()) {
-    QMessageBox::critical(nullptr, QString(), tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.").arg(m_level.name));
-    return false;
+    message(tr("Level <b>%1</b><br>makes no sense because there are no questions to ask.<br>It can be re-adjusted.<br>Repair it in Level Creator and try again.")
+              .arg(m_level.name), Qt::red, AfterClose);
+    return;
   }
   if (m_level.questionAs.isOnInstr() && m_level.answersAs[TQAtype::e_onInstr].isOnInstr()) {
     if (!m_supp->isGuitarOnlyPossible()) {
-      qDebug("Something stupid!\n Level has question and answer as position on guitar but any question is available.");
-      return false;
+      qDebug("[TexamExecutor] Something stupid!\n Level has question and answer as position on guitar but any question is available.");
+      m_aftterMessage = AfterClose;
+      afterMessage();
+      return;
     }
   }
   if (GLOB->E->showHelpOnStart)
@@ -208,7 +216,6 @@ bool TexamExecutor::continueInit() {
   prepareToExam();
   initializeExecuting();
   createActions();
-  return true;
 }
 
 
@@ -273,9 +280,10 @@ void TexamExecutor::askQuestion(bool isAttempt) {
   if (!isAttempt) {
     clearWidgets();
     if (m_blindCounter > 20) {
-        QMessageBox::critical(nullptr, QStringLiteral("Level error!"), QString(
-          "Nootka attempted to create proper question-answer pair 20 times<br>"
-          " Send this message and a level file to developers and we will try to fix it in further releases."));
+      wantMessage(QStringLiteral("Level error!"),
+                  QStringLiteral("Nootka attempted to create proper question-answer pair 20 times<br>"
+                  "Please, send this message and the level file to developers and we will try to fix it in further releases."),
+                  Qt::red);
         deleteExam();
         return;
     }
@@ -1159,8 +1167,24 @@ void TexamExecutor::prepareToExam() {
   m_snifferLocked = false;
   m_tipHandler = new TtipHandler(m_exam, this);
   emit tipHandlerCreated();
-  m_tipHandler->showStartTip();
+  if (m_aftterMessage == AfterDoNothing)
+    m_tipHandler->showStartTip();
   emit titleChanged();
+}
+
+
+void TexamExecutor::afterMessage() {
+  if (m_aftterMessage) {
+    QTimer::singleShot(10, this, [=] {
+        if (m_aftterMessage == AfterStartTTip)
+          m_tipHandler->showStartTip();
+        else if (m_aftterMessage == AfterExamSummary)
+          emit examSummary();
+        else if (m_aftterMessage == AfterClose)
+          emit execDiscarded();
+        m_aftterMessage = AfterDoNothing;
+    });
+  }
 }
 
 
@@ -1954,6 +1978,13 @@ bool TexamExecutor::castLevelFromQVariant(const QVariant& v) {
 Taction* TexamExecutor::clearScoreAct() {
   return MAIN_SCORE->clearScoreAct();
 }
+
+
+void TexamExecutor::message(const QString& message, const QColor& accent,  EafterMessage after, const QString& caption) {
+  m_aftterMessage = after;
+  wantMessage(caption, message, accent);
+}
+
 
 //#################################################################################################
 //###################                QML               ############################################

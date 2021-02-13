@@ -53,11 +53,7 @@ Column {
 
   function start(action, argument) {
     GLOB.isExam = true
-    if (!nootkaWindow.executor.init(action, argument)) {
-        console.log("Executor discarded, deleting it")
-        nootkaWindow.executor.destroy()
-        GLOB.isExam = false
-    }
+    nootkaWindow.executor.init(action, argument)
     dialLoader.close()
   }
 

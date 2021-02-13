@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -159,13 +159,12 @@ bool TexamSummary::isExercise() const {
 }
 
 
-bool TexamSummary::continueExecutor() {
+void TexamSummary::continueExecutor() {
   m_accepted = true;
-  if (m_exam->isExercise()) {
-      EXECUTOR->continueExercise();
-      return true;
-  } else
-      return EXECUTOR->continueInit();
+  if (m_exam->isExercise())
+    EXECUTOR->continueExercise();
+  else
+    EXECUTOR->continueInit();
 }
 
 

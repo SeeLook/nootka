@@ -36,6 +36,17 @@ Texecutor {
     }
   }
 
+  onWantMessage: {
+    var ms = Qt.createComponent("qrc:/Tmessage.qml").createObject(nootkaWindow.contentItem.parent, { "caption": caption, "message": message, "accent": accent })
+    ms.closed.connect(afterMessage)
+  }
+
+  onExecDiscarded: {
+    console.log("[ExamExecutor] Executor discarded, deleting it")
+    GLOB.isExam = false
+    nootkaWindow.executor.destroy()
+  }
+
   Connections {
     target: tipHandler
     onWantStartTip: {

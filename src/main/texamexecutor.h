@@ -46,6 +46,16 @@ class Taction;
 
 /**
  * This class manages exam executing and practicing.
+ *
+ * Visually it is bare @p QQuickItem which handles exam tips.
+ * It is created in @p MainWindow when @p GLOB.isExam switches to @p true.
+ * @p StartExam or @p LevelsPage can do that.
+ * Then @p init() has to be called with orders what to do:
+ * @p ContinueExam, @p NewExam or @p StartExercise.
+ *
+ * When some info/warning message has to be displayed execution is stopped.
+ * @p message() method calls QML message and stores what to do after message,
+ * so @p afterMessage() goes then.
  */
 class TexamExecutor : public QQuickItem
 {
@@ -95,7 +105,16 @@ public:
 
   EsummaryReason summaryReason() const { return m_summaryReason; }
 
-  Q_INVOKABLE bool init(TexamExecutor::EexecOrigin whatToDo, const QVariant& arg);
+      /**
+       * What to do after displaying some message.
+       * Use with caution!
+       */
+  enum EafterMessage {
+    AfterDoNothing = 0, AfterStartTTip, AfterExamSummary, AfterClose
+  };
+  Q_ENUM(EafterMessage)
+
+  Q_INVOKABLE void init(TexamExecutor::EexecOrigin whatToDo, const QVariant& arg);
 
   bool isInitialized() const { return m_supp != nullptr && m_tipHandler != nullptr; }
 
@@ -119,6 +138,13 @@ public:
        */
   Q_INVOKABLE void settingsAccepted();
 
+      /**
+       * When some message was displayed during initialization,
+       * @p ExamExecutor calls it back, so exam executing is continued.
+       * WARNING: Be careful what is called after what - it may kaboom!
+       */
+  Q_INVOKABLE void afterMessage();
+
   Taction* checkQuestAct() { return m_checkQuestAct; }
   Taction* nextQuestAct() { return m_nextQuestAct; }
   Taction* newAtemptAct() { return m_newAtemptAct; }
@@ -138,6 +164,8 @@ signals:
   void examSummary();
   void showSettings();
   void questionChanged();
+  void execDiscarded();
+  void wantMessage(const QString& caption, const QString& message, const QColor& accent);
 
 protected:
 
@@ -146,7 +174,7 @@ protected:
        * when previous exam is continued and its summary is displayed, it is invoked by @p TexamSummary::continueExam()
        * in other cases it is called directly in @p init() method
        */
-  bool continueInit();
+  void continueInit();
 
   Texam* exam() { return m_exam; }
   void deleteExam();
@@ -277,6 +305,13 @@ private:
        */
   bool castLevelFromQVariant(const QVariant& v);
 
+      /**
+       * Sends signal to QML (ExamExecutor.qml) to display message
+       * with given info: @p caption, @p message, @p accent color.
+       */
+  void message(const QString& message, const QColor& accent,
+               EafterMessage after = AfterDoNothing, const QString& caption = QString());
+
 private:
 
   static TexamExecutor         *m_instance;
@@ -330,7 +365,7 @@ private:
   bool                         m_askAfterSummary = false;
   bool                         m_disconnectAfterAnim = false;
   int                          m_melodySelectionIndex = 0;
-
+  EafterMessage                m_aftterMessage = AfterDoNothing;
 };
 
 #endif // TEXAMEXECUTOR_H
