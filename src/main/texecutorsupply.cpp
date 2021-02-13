@@ -86,7 +86,7 @@ QString TexecutorSupply::checkInstrumentParamsChange(Texam* exam) {
       changesMessage += QLatin1String("<br>");
     tmpTune = exam->tune();
     guitarParamsChanged = true;
-    changesMessage += tr("Tuning of the guitar was changed to:") + QLatin1String(" <b> ") + GLOB->Gtune()->name + QLatin1String("!</b>");
+    changesMessage += tr("Tuning of the guitar was changed to:") + QLatin1String(" <b> ") + exam->tune().name + QLatin1String("!</b>");
   }
   if (GLOB->instrument().isGuitar() && static_cast<unsigned int>(exam->level()->hiFret) > GLOB->GfretsNumber) {
     // Are enough frets?
