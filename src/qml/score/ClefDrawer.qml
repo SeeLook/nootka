@@ -13,7 +13,7 @@ Drawer {
 
   width: Noo.factor() * 19; height: parent.height
   visible: true
-  background: TipRect { color: activPal.window; radius: 0 }
+  background: GlowRect { color: activPal.window; cornerRadius: Noo.factor() / 2; radius: 0 }
 
   ClefMenu {
     id: clefMenu

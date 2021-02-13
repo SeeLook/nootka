@@ -12,7 +12,7 @@ import "../"
 Drawer { // meter menu
   visible: true
   width: nootkaWindow.width / 5; height: nootkaWindow.height
-  background: TipRect { color: activPal.window; radius: 0 }
+  background: GlowRect { color: activPal.window; cornerRadius: Noo.factor() / 2; radius: 0 }
 
   // private
   property var colorArr: [ 0, 1, 1, 0 ]

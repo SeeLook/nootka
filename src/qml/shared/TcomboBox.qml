@@ -83,10 +83,10 @@ ComboBox {
     styleColor: activPal.highlight
   }
 
-  background: TipRect {
+  background: GlowRect {
     id: bg
     color: cb.enabled ? activPal.button : Qt.darker(disdPal.window, 1.2)
-    radius: 0
+    radius: Noo.factor() / 6
     rised: !cb.pressed
   }
 
@@ -109,7 +109,7 @@ ComboBox {
       ScrollBar.vertical: ScrollBar { active: cb.delegateModel.count > 6 }
     }
 
-    background: TipRect { shadowRadius: Noo.factor(); color: activPal.window }
+    background: GlowRect { shadowRadius: Noo.factor() / 2; color: activPal.window }
     enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1 }}
     exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0 }}
   }

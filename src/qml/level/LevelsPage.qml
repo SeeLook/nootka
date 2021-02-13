@@ -107,7 +107,7 @@ Column {
         color: activPal.text
         text: qsTr("Level description:")
       }
-      TipRect {
+      GlowRect {
         id: bg
         anchors.horizontalCenter: parent.horizontalCenter
         width: newLevelPopup.width - Noo.factor() * 2; height: Noo.factor() * 6.5
