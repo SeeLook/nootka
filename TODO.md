@@ -37,6 +37,7 @@
   - adding set of rhythm patterns for melodies generated from random notes (similar to melody list)
   - time stamps in question/answer units - to better track exam progress
   - music XML import dialog, to select voice or staff if there are more, and so
+  - read/save compressed music XML (*.mxl)
   - adding actually edited score melody to current level
   - editing melody from currently selected/composed level
   - add score helpers: transposition, folding ties

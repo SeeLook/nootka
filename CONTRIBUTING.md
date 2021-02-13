@@ -58,6 +58,10 @@ Below some possibilities of a help are explained but if something other will com
     - **Algorithm for generating random melodies**  
         With configuration for rhythm complexity, intervals to use and so.  
 
+    - **Read/save compressed music XML files(*.mxl)**
+       [Here are specs](https://www.musicxml.com/tutorial/compressed-mxl-files/).
+       Seems like it requires to use external library for zip/unzip dir structures and [Zlib](https://www.zlib.net) seems to be good choose for that, but if there is simpler way - just to compile simple code into the app - it is more appreciated.
+
     - **Pitch detection code needs modernization or migration to external library**
   
   * **Help with CI/CD integration**  
