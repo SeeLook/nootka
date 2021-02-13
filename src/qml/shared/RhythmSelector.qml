@@ -28,7 +28,7 @@ TrtmSelectorItem {
         anchors.fill: parent
         hoverEnabled: true
         onClicked: {
-          morePop.y = parent.y
+          morePop.y = parent.y > 100 ? rtmList.height - morePop.height : rtmList.y
           morePop.open()
         }
       }
@@ -75,7 +75,7 @@ TrtmSelectorItem {
     x: rtmList.width
 
     margins: Noo.factor()
-    background: TipRect { color: activPal.window; shadowRadius: Noo.factor() }
+    background: GlowRect { color: activPal.window; shadowRadius: Noo.factor() / 2 }
 
     scale: GLOB.useAnimations ? 0 : 1.0
     enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}
