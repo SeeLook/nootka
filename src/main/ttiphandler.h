@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -72,7 +72,7 @@ public:
   ~TtipHandler() override;
 
   QQuickItem* startTip() { return m_startTip; }
-  void setStartTip(QQuickItem* stTip) { m_startTip = stTip; }
+  void setStartTip(QQuickItem* stTip);
 
   QQuickItem* tryAgainTip() { return m_tryAgainTip; }
   void setTryAgainTip(QQuickItem* tryTip) { m_tryAgainTip = tryTip; }

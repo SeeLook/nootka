@@ -145,6 +145,12 @@ void TtipHandler::changeExam(Texam* newExam) {
 //##################################### TIPS ###########################
 //######################################################################
 
+void TtipHandler::setStartTip(QQuickItem* stTip) {
+  m_startTip = stTip;
+  connect(m_startTip, &QQuickItem::destroyed, this, [=]{ m_startTip = nullptr; });
+}
+
+
 int TtipHandler::bigFont() {
 #if defined (Q_OS_ANDROID)
   return (NOO->factor() * 1.2);
@@ -706,10 +712,8 @@ void TtipHandler::deleteStartTip() {
     m_startAct = nullptr;
   }
 #else
-  if (m_startTip) {
+  if (m_startTip)
     m_startTip->deleteLater();
-    m_startTip = nullptr;
-  }
 #endif
 }
 
