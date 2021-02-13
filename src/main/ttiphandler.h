@@ -84,7 +84,7 @@ public:
   void setResultTip(QQuickItem* resTip) { m_resultTip = resTip; }
 
   QQuickItem* whatNextTip() { return m_whatNextTip; }
-  void setWhatNextTip(QQuickItem* whatItem) { m_whatNextTip = whatItem; }
+  void setWhatNextTip(QQuickItem* whatItem);
 
   QQuickItem* confirmTip() { return m_confirmTip; }
   void setConfirmTip(QQuickItem* confItem) { m_confirmTip = confItem; }

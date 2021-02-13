@@ -151,6 +151,12 @@ void TtipHandler::setStartTip(QQuickItem* stTip) {
 }
 
 
+void TtipHandler::setWhatNextTip(QQuickItem* whatItem) {
+  m_whatNextTip = whatItem;
+  connect(m_whatNextTip, &QQuickItem::destroyed, this, [=]{ m_whatNextTip = nullptr; });
+}
+
+
 int TtipHandler::bigFont() {
 #if defined (Q_OS_ANDROID)
   return (NOO->factor() * 1.2);
@@ -755,10 +761,8 @@ void TtipHandler::deleteResultTip() {
 
 void TtipHandler::deleteWhatNextTip() {
   m_timerOfWhatNext->stop();
-  if (m_whatNextTip) {
+  if (m_whatNextTip)
     m_whatNextTip->deleteLater();
-    m_whatNextTip = nullptr;
-  }
 }
 
 
