@@ -9,25 +9,24 @@ import QtQuick.Controls 2.2
 Dialog {
   id: dialog
 
-  property alias bgColor: rect.color
-  property alias shadowColor: rect.shadowColor
+  property alias bgColor: glowRect.color
+  property alias shadowColor: glowRect.shadowColor
   property alias rejectButton: rejectButton
   property alias acceptButton: acceptButton
-  property alias border: rect.border
+  property alias border: glowRect.border
   property alias caption: hText.text
+  property alias glowRect: glowRect
 
   width: parent.width * 0.8; height: parent.height * 0.8
   x: (parent.width - width) / 2; y: (parent.height - height) / 2
-  background: GlowRect {
-    id: rect
-    color: activPal.window; shadowColor: activPal.shadow
-  }
+  background: GlowRect { id: glowRect; color: activPal.window; shadowColor: activPal.shadow }
   scale: GLOB.useAnimations ? 0 : 1.0
   enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}
   exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0 }}
 
   header: Rectangle {
-    color: "transparent"; width: parent.width; height: hText.height + Noo.factor() / 2; radius: Noo.factor() / 4
+    color: "transparent"
+    width: parent.width; height: hText.height + Noo.factor() / 2; radius: Noo.factor() / 4
     visible: hText.text !== ""
     Text {
       id: hText
@@ -37,7 +36,7 @@ Dialog {
       color: activPal.text
       font { pixelSize: Noo.factor() * 1.5; bold: true }
     }
-    Rectangle { width: parent.width; height: 1; color: rect.border.color; y: parent.height }
+    Rectangle { width: parent.width; height: 1; color: glowRect.border.color; y: parent.height }
   }
 
   footer: Rectangle {
