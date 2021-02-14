@@ -25,39 +25,60 @@ Rectangle {
 
   TcuteButton {
     id: tocButt
-    y: Noo.factor() / 4; x: Noo.factor()
+    y: Noo.factor() / 4; x: parent.width - width - Noo.factor()
+    z: 10
     text: qsTr("Help topics")
     onClicked: tocMenu.open()
   }
 
-  Tflickable {
-    y: (tocButt.visible ? tocButt.height : 0) + Noo.factor()
-    width: parent.width; height: parent.height - y
-    contentHeight: text.height;
+  StackView {
+    id: stack
+    anchors.fill: parent
+    initialItem: mainHelp
+  }
 
-    LinkText {
-      id: text
-      width: parent.width
-      padding: Noo.factor()
-      wrapMode: TextEdit.Wrap; textFormat: Text.RichText
-      text: helpText
+  Component {
+    id: mainHelp
+    Tflickable {
+      y: (tocButt.visible ? tocButt.height : 0) + Noo.factor()
+      width: parent ? parent.width : 0; height: parent ? parent.height - y : 0
+      contentHeight: text.height;
+      LinkText {
+        id: text
+        width: parent.width
+        padding: Noo.factor()
+        wrapMode: TextEdit.Wrap; textFormat: Text.RichText
+        text: helpText
+      }
     }
   }
 
   property var topics: [ qsTranslate("ThelpDialogBase", "Nootka help"),
                           qsTranslate("TstartExamDlg", "To exercise or to pass an exam?"),
                           qsTranslate("TexamHelp", "How does an exercise or an exam work?"),
+                          Noo.TR("MainMenuMobile", "Pitch recognition"),
                           qsTranslate("ThelpDialogBase", "Open online documentation")
                        ]
-  property var images: [ "help", "startExam", "nootka-exam", "restore-defaults" ]
+  property var images: [ "help", "startExam", "nootka-exam", "pane/sound", "restore-defaults" ]
   property int currTopic: 0
+  property var gotItQML: [ "", "ExamOrExercise", "ExamFlow", "SoundInfo" ]
+
+  Component.onCompleted: {
+    if (Noo.isAndroid()) {
+      topics.splice(4, 0, Noo.TR("HandleScore", "Editing score with touch"))
+      images.splice(4, 0, "pane/score")
+      gotItQML.splice(4, 0, "HandleScore")
+    }
+    if (enableTOC)
+      tocRep.model = topics
+  }
 
   Tmenu {
     id: tocMenu
     width: Noo.factor() * 30
     x: tocButt.width; y: Noo.factor() / 2
     Repeater {
-      model: topics
+      id: tocRep
       MenuItem {
         padding: 0
         contentItem: MenuButton {
@@ -77,11 +98,11 @@ Rectangle {
       if (tp === topics.length - 1) {
           Qt.openUrlExternally("https://nootka.sourceforge.io/index.php/help/")
       } else {
-          switch (tp) {
-            case 1: helpText = dialLoader.dialogObj.exerOrExamHelp(); break
-            case 2: helpText = dialLoader.dialogObj.examHelp(); break
-            default: helpText = dialLoader.dialogObj.mainHelp(); break
-          }
+          if (tp > 0)
+            stack.replace(Qt.createComponent("qrc:/gotit/" + gotItQML[tp] + ".qml")
+                 .createObject(stack, { "visible": false, "showGotIt": false }).contentItem)
+          else
+            stack.replace(mainHelp)
           currTopic = tp
       }
     }
