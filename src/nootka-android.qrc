@@ -50,6 +50,7 @@
     <file alias="gotit/SoundInfo.qml">qml/gotit/SoundInfo.qml</file>
     <file alias="gotit/ExamOrExercise.qml">qml/gotit/ExamOrExercise.qml</file>
     <file alias="gotit/HandleScore.qml">qml/gotit/+android/HandleScore.qml</file>
+    <file alias="gotit/ExamFlow.qml">qml/gotit/ExamFlow.qml</file>
     <file alias="gotit/FirstTouchScore.qml">qml/gotit/+android/FirstTouchScore.qml</file>
 
 <!--     <file alias="PitchView.qml">qml/sound/PitchView.qml</file> -->
