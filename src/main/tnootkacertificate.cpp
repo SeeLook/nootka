@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,8 +20,8 @@
 #include "texamexecutor.h"
 #include <exam/texam.h>
 #include <exam/tlevel.h>
-#include <help/texamhelp.h>
 #include <tpath.h>
+#include <nootkaconfig.h>
 #include "texamview.h"
 #include <Android/tfiledialog.h>
 
@@ -201,9 +201,13 @@ void TnootkaCertificate::save() {
   QPrinter printer;
   printer.setOutputFormat(QPrinter::PdfFormat);
   printer.setColorMode(QPrinter::Color);
-  printer.setPaperSize(boundingRect().size(), QPrinter::Point);
+  printer.setPageSize(QPageSize(boundingRect().size(), QPageSize::Point, QString(), QPageSize::ExactMatch));
   printer.setFullPage(true);
   printer.setOutputFileName(fileName);
+#if defined (Q_OS_LINUX) && !defined(Q_OS_ANDROID)
+  printer.setCreator(QLatin1String("Nootka-") + NOOTKA_VERSION);
+#endif
+  printer.setDocName(m_exam->userName() + QLatin1String("-") + m_exam->level()->name + QLatin1String(" Nootka-") + NOOTKA_VERSION);
   QPainter painter;
   painter.begin(&printer);
   painter.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing);
