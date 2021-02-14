@@ -68,6 +68,7 @@ class TexamExecutor : public QQuickItem
   Q_PROPERTY(bool isExercise READ isExercise)
   Q_PROPERTY(bool showPitchView READ showPitchView NOTIFY questionChanged)
   Q_PROPERTY(bool showRtmView READ showRtmView NOTIFY questionChanged)
+  Q_PROPERTY(bool showExamHelp READ showExamHelp)
 
   friend class TexamSummary;
   friend class TnootkaCertificate;
@@ -86,6 +87,8 @@ public:
 
   bool showPitchView() const;
   bool showRtmView() const;
+
+  bool showExamHelp() const { return m_showExamHelp; }
 
       /**
        * Describes reason of starting executor
@@ -155,14 +158,13 @@ public:
   Taction* tuningForkAct() { return m_tuningForkAct; }
   Taction* clearScoreAct(); // redirected from main score
 
-  static QString examHelpText();
-
 signals:
   void titleChanged();
   void examActionsChanged();
   void tipHandlerCreated();
   void examSummary();
   void showSettings();
+  void showHelp();
   void questionChanged();
   void execDiscarded();
   void wantMessage(const QString& caption, const QString& message, const QColor& accent);
@@ -199,7 +201,6 @@ protected:
   void correctAnswer();
   void newAttempt();
 
-  void showExamHelp();
   void expertAnswersSlot();
 
       /**
@@ -366,6 +367,7 @@ private:
   bool                         m_disconnectAfterAnim = false;
   int                          m_melodySelectionIndex = 0;
   EafterMessage                m_aftterMessage = AfterDoNothing;
+  bool                         m_showExamHelp = true;
 };
 
 #endif // TEXAMEXECUTOR_H

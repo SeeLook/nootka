@@ -211,8 +211,9 @@ void TexamExecutor::continueInit() {
       return;
     }
   }
-  if (GLOB->E->showHelpOnStart)
-    showExamHelp();
+  m_showExamHelp = GLOB->gotIt(QStringLiteral("examFlow"), true);
+  if (m_showExamHelp)
+    emit showHelp();
   prepareToExam();
   initializeExecuting();
   createActions();
@@ -1257,7 +1258,7 @@ void TexamExecutor::createActions() {
   m_settAct->setTip(tr("Exercise or exam preferences"), QQuickItem::TopRight);
   m_helpAct = new Taction(QApplication::translate("TtoolBar", "Help"), QStringLiteral("help"), this);
   m_examActions.append(m_helpAct);
-  connect(m_helpAct, &Taction::triggered, this, &TexamExecutor::showExamHelp);
+  connect(m_helpAct, &Taction::triggered, this, &TexamExecutor::showHelp);
   m_stopExamAct = new Taction(QApplication::translate("TtoolBar", "Stop"), QStringLiteral("stopExam"), this);
   if (m_exercise) {
       connect(m_stopExamAct, &Taction::triggered, this, &TexamExecutor::stopExerciseSlot);
@@ -1748,29 +1749,6 @@ void TexamExecutor::noteOfMelodySelected(int nr) {
 //   if (isExercise() && INSTRUMENT && CURR_Q->melody())
 //     INSTRUMENT->setNote(CURR_Q->melody()->note(nr)->p(), CURR_Q->melody()->note(nr)->g().data());
 }
-
-
-void TexamExecutor::showExamHelp() {
-  m_snifferLocked = true;
-// #if !defined (Q_OS_ANDROID)
-//   qApp->removeEventFilter(m_supp);
-// #endif
-  auto examHelpDialog = new TexamHelp(Tcolor::bgTag(Tcolor::alpha(GLOB->EquestionColor, 40)),
-                                      Tcolor::bgTag(Tcolor::alpha(GLOB->EanswerColor, 40)), &GLOB->E->showHelpOnStart, nullptr);
-  examHelpDialog->exec();
-  delete examHelpDialog;
-// #if !defined (Q_OS_ANDROID)
-//   qApp->installEventFilter(m_supp);
-// #endif
-  m_snifferLocked = false;
-}
-
-
-QString TexamExecutor::examHelpText() {
-  TexamHelp examHelpDialog(Tcolor::bgTag(Tcolor::alpha(GLOB->EquestionColor, 40)), Tcolor::bgTag(Tcolor::alpha(GLOB->EanswerColor, 40)), &GLOB->E->showHelpOnStart, nullptr);
-  return examHelpDialog.helpText()->toHtml();
-}
-
 
 
 void TexamExecutor::sniffAfterPlaying() {

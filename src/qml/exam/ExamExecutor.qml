@@ -18,15 +18,19 @@ Texecutor {
 
   //private
   property var examSettDialog: null
+  property var helpGotIt: null
 
   anchors.fill: parent
 
   onTitleChanged: nootkaWindow.title = title
+
   onExamActionsChanged: {
     if (!Noo.isAndroid())
       nootkaWindow.mainMenu.toolBar.examActions = examActions
   }
+
   onExamSummary: nootkaWindow.showDialog(Nootka.ExamSummary)
+
   onShowSettings: {
     if (!examSettDialog) {
       var e = Qt.createComponent("qrc:/exam/ExamSettingsDialog.qml")
@@ -45,6 +49,17 @@ Texecutor {
     console.log("[ExamExecutor] Executor discarded, deleting it")
     GLOB.isExam = false
     nootkaWindow.executor.destroy()
+  }
+
+  onShowHelp: {
+    if (!helpGotIt)
+      helpGotIt = Qt.createComponent("qrc:/gotit/ExamFlow.qml").createObject(executor, { "remaindChecked": showExamHelp })
+    helpGotIt.open()
+  }
+
+  Component.onDestruction: {
+    if (helpGotIt)
+      GLOB.setGotIt("examFlow", helpGotIt.remaindChecked)
   }
 
   Connections {
