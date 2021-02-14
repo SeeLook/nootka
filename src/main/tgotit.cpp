@@ -93,6 +93,26 @@ QString TgotIt::examHelpText() {
 }
 
 
+QString TgotIt::examHelpText2() {
+  return TexamHelp::helpText2();
+}
+
+
+QString TgotIt::practiceText() {
+  return TexamHelp::practiceText();
+}
+
+
+QString TgotIt::examText() {
+  return TexamHelp::examText();
+}
+
+
+QString TgotIt::optionsText() {
+  return TexamHelp::optionsText();
+}
+
+
 //#################################################################################################
 //###################                PROTECTED         ############################################
 //#################################################################################################

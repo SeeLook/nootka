@@ -85,7 +85,12 @@ public:
        */
   Q_INVOKABLE static QString exerOrExamHelpTxt(bool withHeader = true);
 
+// GotExamFlow =========================================
   Q_INVOKABLE static QString examHelpText();
+  Q_INVOKABLE static QString examHelpText2();
+  Q_INVOKABLE static QString practiceText();
+  Q_INVOKABLE static QString examText();
+  Q_INVOKABLE static QString optionsText();
 
 signals:
   void gotItTypeChanged();
