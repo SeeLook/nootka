@@ -59,8 +59,6 @@ public:
   Q_INVOKABLE QString aboutQt() const;
 
   Q_INVOKABLE QString mainHelp() const;
-  Q_INVOKABLE QString exerOrExamHelp() const;
-  Q_INVOKABLE QString examHelp() const;
 
   Q_INVOKABLE QStringList getChanges() const;
 

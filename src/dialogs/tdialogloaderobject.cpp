@@ -25,7 +25,6 @@
 #include "ttunerdialogitem.h"
 #include "trtmselectoritem.h"
 #include "tmelgenitem.h"
-#include <tpath.h>
 #include "main/texamexecutor.h"
 #include "main/texamview.h"
 #include "main/ttiphandler.h"
@@ -40,9 +39,10 @@
   #include "charts/tbarchartdelegate.h"
 #endif
 #include "help/tmainhelp.h"
+#include "updater/tupdatechecker.h"
 #include <qtr.h>
 #include <exam/texam.h>
-#include "updater/tupdatechecker.h"
+#include <tpath.h>
 #include <tglobals.h>
 
 #include <QtCore/qdir.h>
@@ -182,7 +182,7 @@ QString TdialogLoaderObject::aboutQt() const {
       "<p>Qt and the Qt logo are trademarks of The Qt Company Ltd.</p>"
       "<p>Qt is The Qt Company Ltd product developed as an open source "
       "project. See <a href=\"http://%3/\">%3</a> for more information.</p>"
-  ).arg(QStringLiteral("2019"),
+  ).arg(QStringLiteral("2021"),
         QStringLiteral("qt.io/licensing"),
         QStringLiteral("qt.io"));
 }
@@ -190,16 +190,6 @@ QString TdialogLoaderObject::aboutQt() const {
 
 QString TdialogLoaderObject::mainHelp() const {
   return TmainHelp::mainHelp();
-}
-
-
-QString TdialogLoaderObject::exerOrExamHelp() const {
-  return TstartExamItem::exerOrExamHelpTxt();
-}
-
-
-QString TdialogLoaderObject::examHelp() const {
-  return TexamExecutor::examHelpText();
 }
 
 
