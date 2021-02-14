@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,13 +22,11 @@
 
 #include "thelpdialogbase.h"
 
-class QCheckBox;
-class QLabel;
 
 /**
- * It shows simple exam help. The parameters are QStrings with colors 
- * in HTML format: 
- * background-color: rgba() 
+ * It shows simple exam help. The parameters are QStrings with colors
+ * in HTML format:
+ * background-color: rgba()
  * @param path is global path to images
  */
 class TexamHelp : public ThelpDialogBase
@@ -38,7 +36,7 @@ class TexamHelp : public ThelpDialogBase
 
 public:
 
-  TexamHelp(const QString& questColorTxt, const QString& answColorTxt, bool* showHelp, QWidget* parent = nullptr);
+  static QString helpText(const QString& questColorTxt, const QString& answColorTxt);
 
       /**
        * check answers without requiring confirmation
@@ -66,15 +64,38 @@ public:
   static QString clickSomeButtonTxt(const QString& imgHtmlTag) {
     return tr("click %1 button").arg(imgHtmlTag);
   }
+
+      /**
+       * tap (icon image)
+       */
   static QString tapIconTxt(const QString& imgHtmlTag) {
-    return tr("tap %1", "tap <icon image follows>").arg(imgHtmlTag); /** tap (icon image) */
+    return tr("tap %1", "tap <icon image follows>").arg(imgHtmlTag);
   }
 
-  static QString toGetQuestTxt() { return tr("To get question"); } /**< To get question */
-  static QString pressSpaceKey() { return tr("press <b>space</b> key"); } /**< press space key */
-  static QString pressEnterKey() { return tr("press <b>Enter</b> key"); } /**< press Enter key */
-  static QString orPressEnterKey() { return tr("or press <b>Enter</b> key"); } /**< or  press Enter key */
-  static QString orPressBackSpace() { return tr("or <b>Backspace</b> key"); } /**< or Backspace key */
+      /**
+       * To get question
+       */
+  static QString toGetQuestTxt() { return tr("To get question"); }
+
+      /**
+       * press space key
+       */
+  static QString pressSpaceKey() { return tr("press <b>space</b> key"); }
+
+      /**
+       * press Enter key
+       */
+  static QString pressEnterKey() { return tr("press <b>Enter</b> key"); }
+
+      /**
+       * or  press Enter key
+       */
+  static QString orPressEnterKey() { return tr("or press <b>Enter</b> key"); }
+
+      /**
+       * or Backspace key
+       */
+  static QString orPressBackSpace() { return tr("or <b>Backspace</b> key"); }
 
       /**
        * Click %1 button to stop.

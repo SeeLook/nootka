@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,6 +18,9 @@
 
 #include "texamhelp.h"
 #include <tglobals.h>
+#include <tpath.h>
+
+#include <QtGui/qguiapplication.h>
 
 
 #define SCR_FACTOR (0.9)
@@ -38,17 +41,11 @@ QString TexamHelp::examFeaturesText() {
 }
 
 
-TexamHelp::TexamHelp(const QString& questColorTxt, const QString& answColorTxt, bool* showHelp, QWidget* parent) :
-    ThelpDialogBase(parent, 0)
-{
-#if !defined (Q_OS_ANDROID)
-  resize((GLOB->geometry().width() / 10) * 8, (GLOB->geometry().height() / 10) * 8);
-#endif
-  const int iconsSize = fontMetrics().boundingRect("A").height() * 2;
+QString TexamHelp::helpText(const QString& questColorTxt, const QString& answColorTxt) {
+  const int iconsSize = QFontMetrics(qApp->font()).boundingRect("A").height() * 2;
   const int bigIconSize = (iconsSize * 3) / 2;
-  helpText()->setHtml(
-    QString("<center><h2>%1").arg(pix("help", bigIconSize)) + br +
-    tr("How does an exercise or an exam work?") + QLatin1String("</h2>") + br
+
+  return tr("How does an exercise or an exam work?") + QLatin1String("</h2>") + br
     + pix("practice", bigIconSize) + QLatin1String("&nbsp;&nbsp;&nbsp;&nbsp;") + pix("exam", bigIconSize) + br
     + tr(" Briefly: Nootka give you a question and you give an answer...") + br + br + br + br
     + toGetQuestTxt() + QLatin1String(":") + br_
@@ -60,8 +57,10 @@ TexamHelp::TexamHelp(const QString& questColorTxt, const QString& answColorTxt, 
 
     + br + br + br + QString("<span style=\"%1\">").arg(questColorTxt) +
     tr("Questions are marked with this color and \"?\" mark.") + QLatin1String("</span>") +br +
-    tr("To give an answer, select it on <span style=\"%1\">Nootka's element with that color.</span><br>")
-    .arg(answColorTxt) + br + br + QString("%1").arg(pix("scr", qRound(static_cast<qreal>(width()) * 0.4013104013104013  * SCR_FACTOR))) + br + br +
+    tr("To give an answer, select it on <span style=\"%1\">Nootka's element with that color.</span><br>").arg(answColorTxt) + br + br
+    + QLatin1String("<img width=\"90%\" src=\"") + Tpath::pix(QStringLiteral("scr")) + QLatin1String("\" />")
+//     + QString("%1").arg(pix("scr", qRound(static_cast<qreal>(width()) * 0.4013104013104013  * SCR_FACTOR)))
+    + br + br +
     tr("To check the answer confirm it:") + br_
 #if defined (Q_OS_ANDROID)
     + tapIconTxt(pix("check", iconsSize))
@@ -98,12 +97,8 @@ TexamHelp::TexamHelp(const QString& questColorTxt, const QString& answColorTxt, 
     + QLatin1String("</td></tr></table>") + br + br
 
     + QLatin1String("<hr><br><br><span style=\"font-size: xx-large;\"><b>") +
-    tr("GOOD LUCK!") + "</b></span>" +
-    onlineDocP("exercises") + br
-    + QLatin1String("</center>"));
-
-  helpText()->resize((width() / 3) * 2, (height() / 5) * 3);
-  showCheckBox(showHelp);
+    tr("GOOD LUCK!") + "</b></span>"
+    + onlineDocP("exercises") + br;
 }
 
 
