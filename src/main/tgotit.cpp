@@ -21,6 +21,9 @@
 #include <tsound.h>
 #include <score/tscoreobject.h>
 #include <music/tnotestruct.h>
+#include <tcolor.h>
+#include <tglobals.h>
+#include "help/texamhelp.h"
 
 #include <QtCore/qtimer.h>
 // #include <QtCore/qdebug.h>
@@ -83,6 +86,12 @@ void TgotIt::setWorkRtmValue(int rtmV) {
 QString TgotIt::exerOrExamHelpTxt(bool withHeader) {
   return TstartExamItem::exerOrExamHelpTxt(withHeader);
 }
+
+
+QString TgotIt::examHelpText() {
+  return TexamHelp::helpText(Tcolor::bgTag(Tcolor::alpha(GLOB->wrongColor(), 40)), Tcolor::bgTag(Tcolor::alpha(GLOB->correctColor(), 40)));
+}
+
 
 //#################################################################################################
 //###################                PROTECTED         ############################################

@@ -52,6 +52,7 @@ public:
     GotAnything = 0,
     GotSoundInfo,
     GotExamOrExer,
+    GotExamFlow,
     GotHandleScore /**< Android only */
   };
   Q_ENUM(EgotItType)
@@ -83,6 +84,8 @@ public:
        * Help text (HTML) about what is exercise and exam
        */
   Q_INVOKABLE static QString exerOrExamHelpTxt(bool withHeader = true);
+
+  Q_INVOKABLE static QString examHelpText();
 
 signals:
   void gotItTypeChanged();
