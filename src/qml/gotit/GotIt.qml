@@ -19,6 +19,7 @@ Popup {
   property alias remaindChecked: remaindChB.checked
   property alias remindVisible: remaindChB.visible
   property alias gotIt: gotIt
+  property bool showGotIt: true
 
   scale: GLOB.useAnimations ? 0 : 1.0
   enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}
@@ -33,6 +34,7 @@ Popup {
 
   RectangularGlow {
     z: 10
+    visible: showGotIt
     anchors.fill: bg
     glowRadius: Noo.factor() / 2
     color: activPal.text
@@ -44,6 +46,7 @@ Popup {
 
   Rectangle {
     id: bg
+    visible: showGotIt
     z: 10
     width: gotColl.width + 2 * radius
     height: gotColl.height + 1.5 * radius
@@ -63,6 +66,7 @@ Popup {
 
   Column {
     id: gotColl
+    visible: showGotIt
     z: 10
     x: parent.width - width; y: parent.height - height
     transformOrigin: Item.BottomRight
