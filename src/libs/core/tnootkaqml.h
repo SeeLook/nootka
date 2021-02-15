@@ -131,7 +131,9 @@ public:
   Q_INVOKABLE QString getXmlToOpen();
   Q_INVOKABLE QString getXmlToSave(const QString& fileName = QString());
   Q_INVOKABLE QString pix(const QString& imageFileName);
+  QString pix(const char* imageName, int height = 32);
   Q_INVOKABLE QString TR(const QString& context, const QString& text, const QString& disambiguation = QString(), int n = -1);
+  Q_INVOKABLE QString onlineDocP(const QString& hash);
 
       /**
        * Returns given color @p c with alpha channel @p a

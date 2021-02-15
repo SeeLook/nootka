@@ -48,28 +48,6 @@
 #include <QtGui/qevent.h>
 
 
-#if defined (Q_OS_ANDROID)
-//inline QString getTipText(const char* iconName, const char* barText) {
-//  return pixToHtml(Tpath::img(iconName), qRound(Tmtr::fingerPixels() * 0.7)) + QLatin1String("<br>") +
-//         QApplication::translate("TtoolBar", barText);
-//}
-
-
-QFont smalTipFont(QWidget* w) {
-  int bSize = qBound(qRound(Tmtr::fingerPixels() * 1.1), Tmtr::longScreenSide() / 12, qRound(Tmtr::fingerPixels() * 1.6));
-  QFont f = w->font();
-  f.setPixelSize(qMin<int>(bSize / 5, w->fontMetrics().height()));
-  return f;
-}
-
-
-/** Multiplexer of question tip scale factor to make it big enough on hi dpi tablet screens */
-inline qreal multiScale() {
-  return (static_cast<qreal>(Tmtr::shortScreenSide()) / Tmtr::fingerPixels()) / 5.0;
-}
-
-#endif
-
 QString getTextHowAccid(Tnote::Ealter accid) {
   QString S = QString("<br><span style=\"color: %1\">").arg(GLOB->GselectedColor.name());
   if (accid)
@@ -778,94 +756,6 @@ QPointF TtipHandler::getTipPosition(TtipHandler::EtipPos tp) {
   } else
       return QPointF(EXECUTOR->width() * 0.75, EXECUTOR->height() * 0.7);
 }
-
-
-//void TtipHandler::setTryAgainPos() {
-//  QPointF tl(m_scene->width() * 0.6, m_scene->height() * 0.10); // top left of tip area
-//  if (m_resultTip) // place it below result tip
-//    tl.setY(m_resultTip->pos().y() + m_resultTip->realH());
-//  m_tryAgainTip->setPos(tl.x() + (m_scene->width() * 0.4 - m_scale * m_tryAgainTip->boundingRect().width()) / 2, tl.y());
-//}
-
-
-//void TtipHandler::setWhatNextPos() {
-//#if defined (Q_OS_ANDROID)
-//  qreal sc = (m_view->height() / 8.0) / m_nextTip->realH();
-//  if (sc > 1.0)
-//    m_nextTip->setScale(sc);
-//  qreal hh = m_view->height() * 0.75; // place tips above guitar, even it is hidden or doesn't exist
-//  m_nextTip->setPos(m_view->width() - m_nextTip->realW() - 4, hh - m_nextTip->realH());
-//  if (m_prevTip) {
-//    if (sc > 1.0)
-//      m_prevTip->setScale(sc);
-//    m_prevTip->setPos(4, hh - m_prevTip->realH());
-//  }
-//  if (m_correctTip) {
-//    if (sc > 1.0)
-//      m_correctTip->setScale(sc);
-//    m_correctTip->setPos(m_view->width() - m_correctTip->realW() - 4, m_nextTip->y() - m_correctTip->realH() - 8);
-//  }
-//#else
-//  int maxTipHeight = getMaxTipHeight();
-//  if (m_tipPos != e_nameOver && m_whatTip->realH() != maxTipHeight)
-//    m_whatTip->setScale(maxTipHeight / m_whatTip->realH());
-
-//  if (m_tipPos == e_nameOver) {
-//      if (m_whatTip->realW() != m_view->width() * 0.45)
-//        m_whatTip->setScale((m_view->width() * 0.45) / m_whatTip->realW());
-//      if (m_whatTip->realH() > SCORE->height())
-//        m_whatTip->setScale(SCORE->height() / m_whatTip->realH());
-//  } else
-//        fixWidthOverScore(m_whatTip);
-//  if (m_posOfWhatTips[static_cast<int>(m_tipPos)].isNull()) // calculate tip position only when user doesn't change it
-//    setPosOfTip(m_whatTip);
-//  else
-//    m_whatTip->setFixPos(m_posOfWhatTips[static_cast<int>(m_tipPos)]);
-//#endif
-//}
-
-
-//void TtipHandler::setConfirmPos() { // right top corner
-//#if defined (Q_OS_ANDROID)
-//  qreal sc = (m_view->height() / 8.0) / m_confirmTip->realH();
-//  if (sc > 1.0)
-//    m_confirmTip->setScale(sc);
-//  m_confirmTip->setPos(m_view->width() - m_confirmTip->realW() - 4, 4); // 4 is more-less tip shadow size
-//#else
-//   m_confirmTip->setPos(m_view->width() - m_confirmTip->realW() - 20, 20);
-//#endif
-//}
-
-
-//void TtipHandler::createQuestionTip() {
-//  delete m_questionTip;
-//  qreal scaleFactor = 1.2;
-//#if defined (Q_OS_ANDROID) // HACK: to keep question big enough on tablet big screens
-//  scaleFactor = 1.2 * multiScale();
-//#endif
-//  m_questionTip = new TquestionTip(m_exam, m_scale * scaleFactor);
-//  m_questionTip->setTextWidth(m_maxTipWidth);
-//  m_scene->addItem(m_questionTip);
-//  connect(m_questionTip, SIGNAL(moved()), this, SLOT(tipMoved()));
-//  connect(m_questionTip, SIGNAL(minimizeChanged()), this, SLOT(tipStateChanged()));
-//}
-
-
-//void TtipHandler::setOutTunePos() {
-//  int startX = SOUND->pitchView()->geometry().x();
-//  if (m_outTuneTip->realW() > SOUND->pitchView()->geometry().width() / 2)
-//      m_outTuneTip->setScale(m_outTuneTip->realW() / (SOUND->pitchView()->geometry().width() / 2));
-//  if (!m_outTuneTip->data(0).toBool())
-//    startX += SOUND->pitchView()->geometry().width() / 2;
-//  m_outTuneTip->setPos(startX + (SOUND->pitchView()->geometry().width() / 2 - m_outTuneTip->realW()) / 2,
-//                        SOUND->pitchView()->y() - m_outTuneTip->realH());
-//}
-
-
-//void TtipHandler::tipStateChanged() {
-//  if (sender() == m_questionTip)
-//    m_minimizedQuestion = m_questionTip->isMinimized();
-//}
 
 
 /**

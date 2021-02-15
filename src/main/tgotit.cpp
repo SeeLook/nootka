@@ -23,6 +23,7 @@
 #include <music/tnotestruct.h>
 #include <tcolor.h>
 #include <tglobals.h>
+#include <tnootkaqml.h>
 #include "help/texamhelp.h"
 
 #include <QtCore/qtimer.h>
@@ -124,7 +125,7 @@ QString TgotIt::optionsText() {
 
 
 QString TgotIt::onlineDocP(const QString& hash) {
-  return ThelpDialogBase::onlineDocP(hash);
+  return NOO->onlineDocP(hash);
 }
 
 //#################################################################################################

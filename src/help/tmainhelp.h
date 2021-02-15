@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -35,7 +35,6 @@ class TmainHelp : public QObject
 
 public:
   explicit TmainHelp(QObject *parent = nullptr) : QObject(parent) {}
-  ~TmainHelp();
 
       /**
        * Whole text of II. paragraph (II. Exercises and exams)

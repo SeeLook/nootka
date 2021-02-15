@@ -21,11 +21,6 @@
 #include <tnootkaqml.h>
 #include <tpath.h>
 
-#include <QtGui/qguiapplication.h>
-
-
-#define SCR_FACTOR (0.9)
-
 
 QString br = QLatin1String("<br>");
 QString br_ = QLatin1String("<br>- ");
@@ -47,9 +42,9 @@ QString TexamHelp::getQuestionText() {
 
   return toGetQuestTxt() + QLatin1String(":") + br + br_
 #if defined (Q_OS_ANDROID)
-    + tapIconTxt(pix("nextQuest", iconsSize));
+    + tapIconTxt(NOO->pix("nextQuest", iconsSize));
 #else
-    + clickSomeButtonTxt(pix("nextQuest", iconsSize)) + br_ + pressSpaceKey(); // + br_ + orRightButtTxt()
+    + clickSomeButtonTxt(NOO->pix("nextQuest", iconsSize)) + br_ + pressSpaceKey(); // + br_ + orRightButtTxt()
 #endif
 }
 
@@ -59,9 +54,9 @@ QString TexamHelp::confirmText(){
 
   return tr("To check the answer confirm it:") + br + br_
 #if defined (Q_OS_ANDROID)
-    + tapIconTxt(pix("check", iconsSize));
+    + tapIconTxt(NOO->pix("check", iconsSize));
 #else
-    + clickSomeButtonTxt(pix("check", iconsSize)) + br_ +
+    + clickSomeButtonTxt(NOO->pix("check", iconsSize)) + br_ +
     pressEnterKey(); // br_ + orRightButtTxt()
 #endif
 }
@@ -71,16 +66,16 @@ QString TexamHelp::practiceText() {
   const int iconsSize = NOO->factor() * (NOO->isAndroid() ? 1.8 : 3);
   return tr("If you made a mistake during an exercise, Nootka can show you correct answer. To see it:") + br + br_
 #if defined (Q_OS_ANDROID)
-    + tapIconTxt(pix("correct", iconsSize));
+    + tapIconTxt(NOO->pix("correct", iconsSize));
 #else
-    + clickSomeButtonTxt(pix("correct", iconsSize)) + br_ + orPressEnterKey();
+    + clickSomeButtonTxt(NOO->pix("correct", iconsSize)) + br_ + orPressEnterKey();
 #endif
 }
 
 
 QString TexamHelp::practiceExplained() {
   const int iconsSize = NOO->factor() * (NOO->isAndroid() ? 1.8 : 3);
-  return tr("You can every time click button %1 to pause or stop exercising and to see your results.").arg(pix("stopExam", iconsSize))
+  return tr("You can every time click button %1 to pause or stop exercising and to see your results.").arg(NOO->pix("stopExam", iconsSize))
     + br + exerciseFeaturesText();
 }
 
@@ -90,16 +85,16 @@ QString TexamHelp::examText() {
 
   return tr("If you made a mistake during an exam and you want to repeat the question:") + br + br_
 #if defined (Q_OS_ANDROID)
-    + tapIconTxt(pix("prevQuest", iconsSize));
+    + tapIconTxt(NOO->pix("prevQuest", iconsSize));
 #else
-    + clickSomeButtonTxt(pix("prevQuest", iconsSize)) + br_ + orPressBackSpace();
+    + clickSomeButtonTxt(NOO->pix("prevQuest", iconsSize)) + br_ + orPressBackSpace();
 #endif
 }
 
 
 QString TexamHelp::examExplained() {
   const int iconsSize = NOO->factor() * (NOO->isAndroid() ? 1.8 : 3);
-  return toStopExamTxt(pix("stopExam", iconsSize)) + br + examFeaturesText();
+  return toStopExamTxt(NOO->pix("stopExam", iconsSize)) + br + examFeaturesText();
 }
 
 

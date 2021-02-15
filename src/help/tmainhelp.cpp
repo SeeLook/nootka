@@ -17,17 +17,13 @@
  ***************************************************************************/
 
 #include "tmainhelp.h"
-#include "thelpdialogbase.h"
 #include <tnootkaqml.h>
-
-#include <QtWidgets/qapplication.h>
 
 
 #if defined (Q_OS_ANDROID)
-  inline int getPixSize() { return qApp->fontMetrics().height() * 1.2; }
+  inline int getPixSize() { return NOO->factor() * 1.2; }
 #else
   inline int getPixSize() {
-//     return qApp->fontMetrics().height() * 1.5;
     return qRound(static_cast<qreal>(NOO->factor()) * 3.0);
   }
 #endif
@@ -37,12 +33,12 @@ QString TmainHelp::exerciseAndExamText() {
   QString br = QStringLiteral("<br>");
   return youWillLearnText() + QLatin1String(" ")
       + tr("Much depends on the chosen level. Press %1 button to create your own questions set (a level).").arg(QLatin1String(" &nbsp; ")
-      + ThelpDialogBase::pix("levelCreator", getPixSize()) + QLatin1String(" &nbsp; "))
+      + NOO->pix("levelCreator", getPixSize()) + QLatin1String(" &nbsp; "))
       + br + tr("Select a level and warm up yourself exercising. Then try to pass an exam.") + br
-      + QLatin1String("<table><tr><td valign=\"middle\">") + ThelpDialogBase::pix("practice", getPixSize())
+      + QLatin1String("<table><tr><td valign=\"middle\">") + NOO->pix("practice", getPixSize())
       + QLatin1String(" </td><td valign=\"middle\"> ") + duringExercisingText() + QLatin1String("</td></tr>")
       + QLatin1String("<tr><td><br></td><td><br></td></tr>")
-      + QLatin1String("<tr><td valign=\"middle\">") + ThelpDialogBase::pix("exam", getPixSize())
+      + QLatin1String("<tr><td valign=\"middle\">") + NOO->pix("exam", getPixSize())
       + QLatin1String(" </td><td valign=\"middle\"> ") + duringExamsText() + QLatin1String("</td></tr></table>");
 }
 
@@ -65,37 +61,34 @@ QString TmainHelp::mainHelp() {
   int pixHeight = getPixSize();
   QString bbrEnd = QLatin1String("</b><br>");
   QString nbsp3 = QLatin1String(" &nbsp; ");
-  QString helpTxt = QLatin1String("<br><b>") + QApplication::translate("TmainHelp", "Using Nootka may be divided into three stages:", "Don't try to translate the entries in this context/section too strict, rather use some nice words into your language to describe it. The statements like '%1' are images(icons) inside the text");
+  QString helpTxt = QLatin1String("<br><b>") + tr("Using Nootka may be divided into three stages:", "Don't try to translate the entries in this context/section too strict, rather use some nice words into your language to describe it. The statements like '%1' are images(icons) inside the text");
   helpTxt += QLatin1String("</b><table><tr><td>&nbsp;</td><td><hr><b>");
 
-  helpTxt += QApplication::translate("TmainHelp", "I. Discovering") + bbrEnd;
-  helpTxt += QApplication::translate("TmainHelp", "Exploring the interface of Nootka and how musical scores work. Just click on elements of the interface to see and get to know Nootka. Also, you can play or sing if you have a mic or web-cam.") + "<br>";
-  helpTxt += QApplication::translate("TmainHelp", "Press %1 buttons to see help and %2 button to adjust Nootka to your preference.").
-      arg(nbsp3 + ThelpDialogBase::pix("logo", pixHeight) + QLatin1String(" <span style=\"font-size: x-large;\"> + </span> ")
-                            + ThelpDialogBase::pix("help", pixHeight)  + nbsp3,
-          nbsp3 + ThelpDialogBase::pix("systemsettings", pixHeight) + nbsp3);
-  helpTxt += ThelpDialogBase::onlineDocP("getting-started");
+  helpTxt += tr("I. Discovering") + bbrEnd;
+  helpTxt += tr("Exploring the interface of Nootka and how musical scores work. Just click on elements of the interface to see and get to know Nootka. Also, you can play or sing if you have a mic or web-cam.") + "<br>";
+  helpTxt += tr("Press %1 buttons to see help and %2 button to adjust Nootka to your preference.").
+      arg(nbsp3 + NOO->pix("logo", pixHeight) + QLatin1String(" <span style=\"font-size: x-large;\"> + </span> ")
+                            + NOO->pix("help", pixHeight)  + nbsp3,
+          nbsp3 + NOO->pix("systemsettings", pixHeight) + nbsp3);
+  helpTxt += NOO->onlineDocP("getting-started");
 
-  helpTxt += QLatin1String("<hr><b>") + QApplication::translate("TmainHelp", "II. Exercises and exams") + bbrEnd;
+  helpTxt += QLatin1String("<hr><b>") + tr("II. Exercises and exams") + bbrEnd;
   helpTxt += exerciseAndExamText();
-  helpTxt += ThelpDialogBase::onlineDocP("exercises");
+  helpTxt += NOO->onlineDocP("exercises");
 
-  helpTxt += QLatin1String("<hr><b>") + QApplication::translate("TmainHelp", "III. Analyzing") + bbrEnd;
+  helpTxt += QLatin1String("<hr><b>") + tr("III. Analyzing") + bbrEnd;
 #if defined (Q_OS_ANDROID)
   helpTxt += QLatin1String("This feature isn't ready yet in Android version.<br><b>You may transfer Nootka files to desktop computer and see the results in Nootka version there.</b>");
 #else
-  helpTxt += QApplication::translate("TmainHelp", "Nootka will tell you about what you've been thinking for so long... and about the progress you've been making so far....<br>Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.").
-    arg(nbsp3 + ThelpDialogBase::pix("charts", pixHeight) + nbsp3);
+  helpTxt += tr("Nootka will tell you about what you've been thinking for so long... and about the progress you've been making so far....<br>Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.").
+    arg(nbsp3 + NOO->pix("charts", pixHeight) + nbsp3);
 #endif
-  helpTxt += ThelpDialogBase::onlineDocP("analyze");
+  helpTxt += NOO->onlineDocP("analyze");
   helpTxt += QLatin1String("</td></tr></table>");
 
   helpTxt += QLatin1String("<hr><b><span style=\"font-size: xx-large;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")
-          + QApplication::translate("TmainHelp", "Have fun!") + QLatin1String("</span></b>");
+          + tr("Have fun!") + QLatin1String("</span></b>");
   return helpTxt;
 }
 
-
-TmainHelp::~TmainHelp()
-{}
 

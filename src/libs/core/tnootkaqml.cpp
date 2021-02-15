@@ -316,8 +316,20 @@ QString TnootkaQML::pix(const QString& imageFileName) {
 }
 
 
+QString TnootkaQML::pix(const char* imageName, int height) {
+  return pixToHtml(QString(imageName), height);
+}
+
+
 QString TnootkaQML::TR(const QString& context, const QString& text, const QString& disambiguation, int n) {
   return qTR(qPrintable(context), qPrintable(text), qPrintable(disambiguation), n);
+}
+
+
+
+QString TnootkaQML::onlineDocP(const QString& hash) {
+  return QString("<p align=\"right\"><a href=\"https://nootka.sourceforge.io/index.php?C=doc#%1\">").arg(hash)
+  + QGuiApplication::translate("ThelpDialogBase", "Open online documentation") + QLatin1String("</a> </p>");
 }
 
 

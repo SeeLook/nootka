@@ -125,7 +125,6 @@ set(NOOTKA_SRC
   dialogs/trtmselectoritem.cpp
   dialogs/tmelgenitem.cpp
 
-  help/thelpdialogbase.cpp
   help/texamhelp.cpp
   help/tmainhelp.cpp
 

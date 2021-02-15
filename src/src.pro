@@ -46,7 +46,6 @@ SOURCES +=  main.cpp \
             dialogs/trtmselectoritem.cpp \
             dialogs/tmelgenitem.cpp \
           \
-            help/thelpdialogbase.cpp \
             help/texamhelp.cpp \
             help/tmainhelp.cpp \
           \
@@ -88,7 +87,6 @@ HEADERS  += mobile/tmobilemenu.h \
             dialogs/trtmselectoritem.h \
             dialogs/tmelgenitem.h \
           \
-            help/thelpdialogbase.h \
             help/texamhelp.h \
             help/tmainhelp.h \
           \

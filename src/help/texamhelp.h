@@ -20,21 +20,16 @@
 #define TEXAMHELP_H
 
 
-#include "thelpdialogbase.h"
+#include <QtCore/qobject.h>
 
 
-/**
- * It shows simple exam help. The parameters are QStrings with colors
- * in HTML format:
- * background-color: rgba()
- * @param path is global path to images
- */
-class TexamHelp : public ThelpDialogBase
+class TexamHelp : public QObject
 {
 
   Q_OBJECT
 
 public:
+  TexamHelp(QObject* parent = nullptr) : QObject(parent) {}
 
   static QString getQuestionText();
   static QString confirmText();
