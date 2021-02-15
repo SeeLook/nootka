@@ -86,11 +86,14 @@ public:
   Q_INVOKABLE static QString exerOrExamHelpTxt(bool withHeader = true);
 
 // GotExamFlow =========================================
-  Q_INVOKABLE static QString examHelpText();
-  Q_INVOKABLE static QString examHelpText2();
-  Q_INVOKABLE static QString practiceText();
-  Q_INVOKABLE static QString examText();
-  Q_INVOKABLE static QString optionsText();
+  Q_INVOKABLE QString getQuestionText();
+  Q_INVOKABLE QString confirmText();
+  Q_INVOKABLE QString practiceText();
+  Q_INVOKABLE QString practiceExplained();
+  Q_INVOKABLE QString examText();
+  Q_INVOKABLE QString examExplained();
+  Q_INVOKABLE QString optionsText();
+  Q_INVOKABLE QString onlineDocP(const QString& hash);
 
 signals:
   void gotItTypeChanged();

@@ -88,13 +88,13 @@ QString TgotIt::exerOrExamHelpTxt(bool withHeader) {
 }
 
 
-QString TgotIt::examHelpText() {
-  return TexamHelp::helpText(Tcolor::bgTag(Tcolor::alpha(GLOB->wrongColor(), 40)), Tcolor::bgTag(Tcolor::alpha(GLOB->correctColor(), 40)));
+QString TgotIt::getQuestionText() {
+  return TexamHelp::getQuestionText();
 }
 
 
-QString TgotIt::examHelpText2() {
-  return TexamHelp::helpText2();
+QString TgotIt::confirmText() {
+  return TexamHelp::confirmText();
 }
 
 
@@ -103,8 +103,18 @@ QString TgotIt::practiceText() {
 }
 
 
+QString TgotIt::practiceExplained() {
+  return TexamHelp::practiceExplained();
+}
+
+
 QString TgotIt::examText() {
   return TexamHelp::examText();
+}
+
+
+QString TgotIt::examExplained() {
+  return TexamHelp::examExplained();
 }
 
 
@@ -112,6 +122,10 @@ QString TgotIt::optionsText() {
   return TexamHelp::optionsText();
 }
 
+
+QString TgotIt::onlineDocP(const QString& hash) {
+  return ThelpDialogBase::onlineDocP(hash);
+}
 
 //#################################################################################################
 //###################                PROTECTED         ############################################

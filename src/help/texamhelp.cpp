@@ -18,6 +18,7 @@
 
 #include "texamhelp.h"
 #include <tglobals.h>
+#include <tnootkaqml.h>
 #include <tpath.h>
 
 #include <QtGui/qguiapplication.h>
@@ -41,64 +42,69 @@ QString TexamHelp::examFeaturesText() {
 }
 
 
-QString TexamHelp::helpText(const QString& questColorTxt, const QString& answColorTxt) {
-  const int iconsSize = qApp->font().pointSize() * 3;
+QString TexamHelp::getQuestionText() {
+  const int iconsSize = NOO->factor() * (NOO->isAndroid() ? 1.8 : 3);
 
-  return br + br + br + tr(" Briefly: Nootka give you a question and you give an answer...") + br + br + br + br
-    + toGetQuestTxt() + QLatin1String(":") + br_
+  return toGetQuestTxt() + QLatin1String(":") + br + br_
 #if defined (Q_OS_ANDROID)
-    + tapIconTxt(pix("nextQuest", iconsSize))
+    + tapIconTxt(pix("nextQuest", iconsSize));
 #else
-    + clickSomeButtonTxt(pix("nextQuest", iconsSize)) + br_ + pressSpaceKey() // + br_ + orRightButtTxt()
+    + clickSomeButtonTxt(pix("nextQuest", iconsSize)) + br_ + pressSpaceKey(); // + br_ + orRightButtTxt()
 #endif
-
-    + br + br + br + QString("<span style=\"%1\">").arg(questColorTxt) +
-    tr("Questions are marked with this color and \"?\" mark.") + QLatin1String("</span>") +br +
-    tr("To give an answer, select it on <span style=\"%1\">Nootka's element with that color.</span><br>").arg(answColorTxt) + br + br;
 }
 
-QString TexamHelp::helpText2(){
-  const int iconsSize = qApp->font().pointSize() * 3;
 
-  return br + br + tr("To check the answer confirm it:") + br_
+QString TexamHelp::confirmText(){
+  const int iconsSize = NOO->factor() * (NOO->isAndroid() ? 1.8 : 3);
+
+  return tr("To check the answer confirm it:") + br + br_
 #if defined (Q_OS_ANDROID)
-    + tapIconTxt(pix("check", iconsSize))
+    + tapIconTxt(pix("check", iconsSize));
 #else
     + clickSomeButtonTxt(pix("check", iconsSize)) + br_ +
-    pressEnterKey() + br + br // br_ + orRightButtTxt()
+    pressEnterKey(); // br_ + orRightButtTxt()
 #endif
-    + br + br;
 }
+
 
 QString TexamHelp::practiceText() {
-  const int iconsSize = qApp->font().pointSize() * 3;
-
-    return tr("If you made a mistake during an exercise, Nootka can show you correct answer. To see it:") + br_
+  const int iconsSize = NOO->factor() * (NOO->isAndroid() ? 1.8 : 3);
+  return tr("If you made a mistake during an exercise, Nootka can show you correct answer. To see it:") + br + br_
 #if defined (Q_OS_ANDROID)
-    + tapIconTxt(pix("correct", iconsSize))
+    + tapIconTxt(pix("correct", iconsSize));
 #else
-    + clickSomeButtonTxt(pix("correct", iconsSize)) + br_ + orPressEnterKey()
+    + clickSomeButtonTxt(pix("correct", iconsSize)) + br_ + orPressEnterKey();
 #endif
-    + br + br + tr("You can every time click button %1 to pause or stop exercising and to see your results.").arg(pix("stopExam", iconsSize)) +
-    br + exerciseFeaturesText() + br + br;
 }
+
+
+QString TexamHelp::practiceExplained() {
+  const int iconsSize = NOO->factor() * (NOO->isAndroid() ? 1.8 : 3);
+  return tr("You can every time click button %1 to pause or stop exercising and to see your results.").arg(pix("stopExam", iconsSize))
+    + br + exerciseFeaturesText();
+}
+
 
 QString TexamHelp::examText() {
-  const int iconsSize = qApp->font().pointSize() * 3;
+  const int iconsSize = NOO->factor() * (NOO->isAndroid() ? 1.8 : 3);
 
-    return tr("If you made a mistake during an exam and you want to repeat the question:") + br_
+  return tr("If you made a mistake during an exam and you want to repeat the question:") + br + br_
 #if defined (Q_OS_ANDROID)
-    + tapIconTxt(pix("prevQuest", iconsSize))
+    + tapIconTxt(pix("prevQuest", iconsSize));
 #else
-    + clickSomeButtonTxt(pix("prevQuest", iconsSize)) + br_ + orPressBackSpace()
+    + clickSomeButtonTxt(pix("prevQuest", iconsSize)) + br_ + orPressBackSpace();
 #endif
-    + br + br + toStopExamTxt(pix("stopExam", iconsSize)) + br +
-    examFeaturesText();
 }
 
+
+QString TexamHelp::examExplained() {
+  const int iconsSize = NOO->factor() * (NOO->isAndroid() ? 1.8 : 3);
+  return toStopExamTxt(pix("stopExam", iconsSize)) + br + examFeaturesText();
+}
+
+
 QString TexamHelp::optionsText() {
-  return tr("Just click this settings button to adjust an exercise or an exam to your current needs.")
-    + br + br + onlineDocP("exercises") + br;
+  return tr("Just click this settings button to adjust an exercise or an exam to your current needs.");
 }
 
 

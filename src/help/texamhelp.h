@@ -36,10 +36,12 @@ class TexamHelp : public ThelpDialogBase
 
 public:
 
-  static QString helpText(const QString& questColorTxt, const QString& answColorTxt);
-  static QString helpText2();
+  static QString getQuestionText();
+  static QString confirmText();
   static QString practiceText();
+  static QString practiceExplained();
   static QString examText();
+  static QString examExplained();
   static QString optionsText();
 
       /**
