@@ -75,7 +75,7 @@ Rectangle {
 
   Tmenu {
     id: tocMenu
-    width: Noo.factor() * 30
+    width: Noo.factor() * 25
     x: parent.width - width - y; y: Noo.factor() / 2
     Repeater {
       id: tocRep
