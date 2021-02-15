@@ -83,7 +83,7 @@ public:
       /**
        * Help text (HTML) about what is exercise and exam
        */
-  Q_INVOKABLE static QString exerOrExamHelpTxt(bool withHeader = true);
+  Q_INVOKABLE static QString exerOrExamHelpTxt();
 
 // GotExamFlow =========================================
   Q_INVOKABLE QString getQuestionText();

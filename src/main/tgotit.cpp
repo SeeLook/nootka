@@ -17,14 +17,15 @@
  ***************************************************************************/
 
 #include "tgotit.h"
-#include <main/tstartexamitem.h>
 #include <tsound.h>
 #include <score/tscoreobject.h>
 #include <music/tnotestruct.h>
 #include <tcolor.h>
 #include <tglobals.h>
 #include <tnootkaqml.h>
+#include "main/tstartexamitem.h"
 #include "help/texamhelp.h"
+#include "help/tmainhelp.h"
 
 #include <QtCore/qtimer.h>
 // #include <QtCore/qdebug.h>
@@ -84,8 +85,18 @@ void TgotIt::setWorkRtmValue(int rtmV) {
 }
 
 
-QString TgotIt::exerOrExamHelpTxt(bool withHeader) {
-  return TstartExamItem::exerOrExamHelpTxt(withHeader);
+QString TgotIt::exerOrExamHelpTxt() {
+  QLatin1String br("<br>");
+  QLatin1String sp("&nbsp;");
+  return br + TmainHelp::youWillLearnText() + br + br
+    + QLatin1String("<table><tr><td valign=\"middle\">") + NOO->pix("practice", NOO->factor() * 4)
+    + QLatin1String(" </td><td valign=\"middle\"> ") + TmainHelp::duringExercisingText()
+    + br + TexamHelp::exerciseFeaturesText()+ QLatin1String("</td></tr>")
+    + QLatin1String("<tr><td><br></td><td><br></td></tr>")
+    + QLatin1String("<tr><td valign=\"middle\">") + NOO->pix("exam", NOO->factor() * 4)
+    + QLatin1String(" </td><td valign=\"middle\"> ") + TmainHelp::duringExamsText()
+    + br + TexamHelp::examFeaturesText()+ QLatin1String("</td></tr></table>")
+    + br + NOO->onlineDocP(QStringLiteral("start-exam"));
 }
 
 

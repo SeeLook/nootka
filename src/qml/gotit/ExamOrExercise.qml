@@ -42,7 +42,7 @@ GotIt {
         width: parent.width - Noo.factor()
         textFormat: Text.RichText
         wrapMode: Text.WordWrap
-        text: gotIt.exerOrExamHelpTxt(false)
+        text: gotIt.exerOrExamHelpTxt()
       }
     }
   }

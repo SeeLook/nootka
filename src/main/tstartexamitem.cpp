@@ -141,26 +141,3 @@ void TstartExamItem::examToContSelected(const QString& eFile) {
     emit continueExam(eFile);
   }
 }
-
-
-QString TstartExamItem::exerOrExamHelpTxt(bool withHeader) {
-  QLatin1String br("<br>");
-  QLatin1String sp("&nbsp;");
-  QString header;
-  if (withHeader) {
-    header = QLatin1String("<h2>") + NOO->pix("practice", 64) + sp
-    + QApplication::translate("TstartExamDlg", "To exercise or to pass an exam?")
-    + sp + NOO->pix("exam", 64) + QLatin1String("</h2>") + br;
-  }
-  return header + br + TmainHelp::youWillLearnText() + br + br
-  + QLatin1String("<table><tr><td valign=\"middle\">") + NOO->pix("practice", 64)
-  + QLatin1String(" </td><td valign=\"middle\"> ") + TmainHelp::duringExercisingText()
-  + br + TexamHelp::exerciseFeaturesText()+ QLatin1String("</td></tr>")
-  + QLatin1String("<tr><td><br></td><td><br></td></tr>")
-  + QLatin1String("<tr><td valign=\"middle\">") + NOO->pix("exam", 64)
-  + QLatin1String(" </td><td valign=\"middle\"> ") + TmainHelp::duringExamsText()
-  + br + TexamHelp::examFeaturesText()+ QLatin1String("</td></tr></table>")
-  + br + NOO->onlineDocP(QStringLiteral("start-exam"));
-}
-
-

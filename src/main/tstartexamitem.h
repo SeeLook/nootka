@@ -47,11 +47,6 @@ public:
 
   Q_INVOKABLE Tlevel* prevLevel() { return m_prevExerciseLevel; }
 
-      /**
-       * Help text (HTML) about what is exercise and exam
-       */
-  Q_INVOKABLE static QString exerOrExamHelpTxt(bool withHeader = true);
-
 signals:
   void recentModelChanged();
   void lastExamFileChanged();
