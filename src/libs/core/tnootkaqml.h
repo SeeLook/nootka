@@ -109,6 +109,7 @@ public:
   Q_INVOKABLE Tnote note(const Tnote& n, int rhythm = 3, bool rest = false, bool dot = false);
   Q_INVOKABLE Tnote note(const Tnote& n, const Trhythm& r);
   Q_INVOKABLE Tnote note(int chroma, bool sharp = true);
+  Q_INVOKABLE Tnote setUpperStaff(Tnote n, bool onUpper);
   Q_INVOKABLE Tnote emptyNote();
   Q_INVOKABLE int octave(const Tnote& n) { return static_cast<int>(n.octave()); }
   Q_INVOKABLE int pitch(const Tnote& n) { return static_cast<int>(n.note()); }

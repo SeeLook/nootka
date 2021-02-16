@@ -146,6 +146,12 @@ Tnote TnootkaQML::note(int chroma,  bool sharp) {
 }
 
 
+Tnote TnootkaQML::setUpperStaff(Tnote n, bool onUpper) {
+  n.setOnUpperStaff(onUpper);
+  return n;
+}
+
+
 Tnote TnootkaQML::emptyNote() {
   return Tnote();
 }
