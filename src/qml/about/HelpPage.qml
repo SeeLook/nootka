@@ -18,9 +18,10 @@ Rectangle {
   z: 0
   Image {
     source: Noo.pix(images[currTopic])
-    height: parent.height; width: height * (sourceSize.width / sourceSize.height)
+    height: parent.height * Math.min(1, (parent.width / parent.height) / (sourceSize.width / sourceSize.height))
+    width: height * (sourceSize.width / sourceSize.height)
     z: -1
-    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.centerIn: parent
   }
 
   TcuteButton {
