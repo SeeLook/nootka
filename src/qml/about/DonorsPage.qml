@@ -17,8 +17,8 @@ Tflickable {
     id: bgRect
     width: root.width; height: root.height
     color: Noo.alpha(activPal.base, 230)
-    parent: root.parent
-    z: 0
+    parent: root
+    z: -1
     Image {
       source: Noo.pix("nootka")
       height: root.height; width: height
@@ -31,6 +31,7 @@ Tflickable {
     id: donCol
     width: root.width
     spacing: Noo.factor()
+    z: 2
 
     Tile {
       width: parent.width
