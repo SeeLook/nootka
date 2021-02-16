@@ -36,6 +36,8 @@ Rectangle {
     id: stack
     anchors.fill: parent
     initialItem: mainHelp
+    replaceEnter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "y"; from: -height; to: 0 }}
+    replaceExit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "y"; from: 0; to: height }}
   }
 
   Component {

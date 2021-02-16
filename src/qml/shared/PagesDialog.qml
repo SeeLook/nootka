@@ -107,13 +107,13 @@ Item {
   // pages container on the right
   StackView {
     id: stack
+    clip: true
     x: navList.width + (Noo.isAndroid() ? 0 : Noo.factor() / 4)
     z: -1 // below navigation list
     width: parent.width - navList.width - (Noo.isAndroid() ? 0 : Noo.factor() / 4)
     height: parent.height
-    // fade animations
-    replaceEnter: Transition { enabled: GLOB.useAnimations; PropertyAnimation { property: "opacity"; from: 0; to: 1; duration: 500 }}
-    replaceExit: Transition { enabled: GLOB.useAnimations; PropertyAnimation { property: "opacity"; from: 1; to: 0; duration: 500 }}
+    replaceEnter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "x"; from: width; to: 0 }}
+    replaceExit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "x"; from: 0; to: -width }}
   }
 }
 
