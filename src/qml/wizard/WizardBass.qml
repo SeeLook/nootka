@@ -10,12 +10,11 @@ import "../"
 Column {
   spacing: Noo.factor()
   anchors.horizontalCenter: parent.horizontalCenter
-  width: parent.width * 0.9
+  width: parent.width - Noo.factor() * 2
 
   Tile {
-    anchors.horizontalCenter: parent.horizontalCenter
     width: Noo.factor() * 12; height: Noo.factor() * 12
-    bgColor: Qt.tint(nootkaWindow.labelColor, Noo.alpha(activPal.base, 230))
+    bgColor: nootkaWindow.bgColor
     bgBorder { width: 2; color: nootkaWindow.labelColor }
     Text {
       anchors.fill: parent
@@ -30,7 +29,7 @@ Column {
   Text {
     width: parent.width
     anchors.horizontalCenter: parent.horizontalCenter
-    font { pixelSize: Noo.factor() * 1.5; bold: true }
+    font { pixelSize: Noo.factor() * 1.2; bold: true }
     wrapMode: Text.WordWrap
     text: qsTr("Musical notation for bass guitar uses bass clef (clef F), but the notes sound one octave lower. It means bass guitar is transposing instrument and it transposes one octave down.")
     color: activPal.text

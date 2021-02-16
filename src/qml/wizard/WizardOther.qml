@@ -28,24 +28,30 @@ Column {
     color: activPal.text
     text: qsTr("Select a clef and scale of notes appropriate for your instrument.")
   }
-  Item {
-    height: Math.max(Noo.factor() * 18, nootkaWindow.height * 0.4); width: Math.max(Noo.factor() * 12, nootkaWindow.height / 4)
-    anchors.horizontalCenter: parent.horizontalCenter
-    Score {
-      id: score
-      anchors.fill: parent
-      meter: Tmeter.NoMeter
-      scoreObj.editMode: true
-      scoreObj.showNoteNames: true
-      scoreObj.nameColor: GLOB.nameColor
-      scoreObj.nameStyle: GLOB.noteNameStyle
-      Component.onCompleted: {
-        addNote(scoreObj.lowestNote())
-        addNote(scoreObj.highestNote())
-      }
-      onClefChanged: {
-        score.scoreObj.setNote(0, score.scoreObj.lowestNote())
-        score.scoreObj.setNote(1, score.scoreObj.highestNote())
+  Tile {
+    width: score.width + Noo.factor() * 3
+    bgColor:  nootkaWindow.bgColor
+    bgBorder { width: 2; color: nootkaWindow.labelColor }
+    Item {
+      width: score.width; height: score.height
+      anchors.horizontalCenter: parent.horizontalCenter
+      Score {
+        id: score
+        height: Math.max(Noo.factor() * 18, nootkaWindow.height * 0.4); width: Math.max(Noo.factor() * 12, nootkaWindow.height / 4)
+        bgColor: "transparent"
+        meter: Tmeter.NoMeter
+        scoreObj.editMode: true
+        scoreObj.showNoteNames: true
+        scoreObj.nameColor: GLOB.nameColor
+        scoreObj.nameStyle: GLOB.noteNameStyle
+        Component.onCompleted: {
+          addNote(scoreObj.lowestNote())
+          addNote(scoreObj.highestNote())
+        }
+        onClefChanged: {
+          score.scoreObj.setNote(0, score.scoreObj.lowestNote())
+          score.scoreObj.setNote(1, score.scoreObj.highestNote())
+        }
       }
     }
   }

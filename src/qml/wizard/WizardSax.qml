@@ -8,37 +8,51 @@ import "../"
 
 
 Column {
+  id: saxCol
+
   property alias transposition: transpose.outShift
 
   spacing: Noo.factor()
   anchors.horizontalCenter: parent.horizontalCenter
-  width: parent.width * 0.9
+  width: parent.width - Noo.factor() * 2
 
   Text {
     width: parent.width
-    font { pixelSize: Noo.factor() * 1.5; bold: true }
+    font { pixelSize: Noo.factor() * 1.2; bold: true }
     wrapMode: Text.WordWrap
     horizontalAlignment: Text.AlignHCenter
     color: activPal.text
     text: qsTr("Saxophones are transposing instruments.<br>It means that note pitch in the score doesn't correspond directly to note which is played - it transposes by interval (number of semitones) according to kind of saxophone.")
   }
-  Transposition {
-    id: transpose
-    anchors.horizontalCenter: parent.horizontalCenter
-    shift: Noo.instr(nootkaWindow.instrument).transposition
-  }
-  Text {
-    anchors.horizontalCenter: parent.horizontalCenter
-    font { pixelSize: Noo.factor() * 2; bold: true }
-    text: Noo.noteName(Noo.note(13 + transpose.outShift, false), 0, false)
-    color: activPal.text
+
+  Tile {
+    width: transCol.width + Noo.factor() * 2
+    bgColor: nootkaWindow.bgColor
+    bgBorder { width: 2; color: nootkaWindow.labelColor }
+    Column {
+      id: transCol
+      width: Math.min(Noo.factor() * 50, saxCol.width * 0.8)
+      anchors.horizontalCenter: parent.horizontalCenter
+      spacing: Noo.factor()
+      Transposition {
+        id: transpose
+        anchors.horizontalCenter: parent.horizontalCenter
+        shift: Noo.instr(nootkaWindow.instrument).transposition
+      }
+      Text {
+        anchors.horizontalCenter: parent.horizontalCenter
+        font { pixelSize: Noo.factor() * 2; bold: true }
+        text: Noo.noteName(Noo.note(13 + transpose.outShift, false), 0, false)
+        color: activPal.text
+      }
+    }
   }
 
   Text {
     text: "Saxophone support is new and not well tested,\nso please give some feedback or call a bug."
     color: "red"
     width: parent.width
-    font { pixelSize: Noo.factor() * 1.5; bold: true }
+    font { pixelSize: Noo.factor() * 1.2; bold: true }
     horizontalAlignment: Text.AlignHCenter
   }
 

@@ -22,6 +22,7 @@ ApplicationWindow {
   property alias instrument: instrPage.instrument
   property alias swipe: swipe
   property alias labelColor: aboutPage.color
+  property color bgColor: Qt.tint(labelColor, Noo.alpha(activPal.base, 230))
   property var clefPage: null
   property var optionsPage: null
 
