@@ -15,7 +15,7 @@ GotIt {
 
   // private
   property real bigImg: Noo.factor() * (Noo.isAndroid() ? 1.8 : 3)
-  property var leftTexts: [ "Exercises", "Exams", "Settings" ]
+  property var leftTexts: [ qsTranslate("TexamHelp", "Exercises"), qsTranslate("TexamHelp", "Exams"), qsTranslate("TexamHelp", "Settings") ]
   property var leftImages: [ "practice", "exam", "exam-settings" ]
   property alias executor: helpCol
 
