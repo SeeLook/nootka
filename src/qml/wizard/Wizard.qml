@@ -69,10 +69,11 @@ ApplicationWindow {
           onLoaded: optionsPage = item
         }
         Loader {
+          property string mainHelpText: HELP.mainHelp()
           active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
           onActiveChanged: {
             if (active)
-              setSource("qrc:/about/HelpPage.qml", { "helpText": HELP.mainHelp(), "enableTOC": false, "height": parent.height })
+              setSource("qrc:/about/HelpPage.qml", { "enableTOC": false, "height": parent.height })
           }
         }
       }

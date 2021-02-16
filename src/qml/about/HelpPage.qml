@@ -10,7 +10,7 @@ import "../"
 
 
 Rectangle {
-  property string helpText: dialLoader.dialogObj.mainHelp()
+  property string helpText: mainHelpText /** @p mainHelpText has to be defined somewhere above */
   property alias enableTOC: tocButt.visible
 
   width: parent.width; height: parent.height

@@ -13,6 +13,8 @@ Item {
   width: parent.width
   height: parent.height
 
+  property string mainHelpText: dialLoader.dialogObj.mainHelp()
+
   PagesDialog { id: pages }
 
   Component.onCompleted: {
