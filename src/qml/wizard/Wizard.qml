@@ -22,6 +22,8 @@ ApplicationWindow {
   property alias instrument: instrPage.instrument
   property alias swipe: swipe
   property alias labelColor: aboutPage.color
+  property var clefPage: null
+  property var optionsPage: null
 
   SystemPalette {
     id: activPal
@@ -55,17 +57,21 @@ ApplicationWindow {
         Item {
           WizardInstrument { id: instrPage }
         }
-        Item {
-          WizardClef { id: clefPage }
+        Loader {
+          active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem || clefPage
+          source: "qrc:/wizard/WizardClef.qml"
+          onLoaded: clefPage = item
         }
-        Item {
-          WizardOptions { id: optionsPage }
+        Loader {
+          active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem || optionsPage
+          source: "qrc:/wizard/WizardOptions.qml"
+          onLoaded: optionsPage = item
         }
-        Item {
-          HelpPage {
-            helpText: HELP.mainHelp()
-            enableTOC: false;
-            height: parent.height
+        Loader {
+          active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
+          onActiveChanged: {
+            if (active)
+              setSource("qrc:/about/HelpPage.qml", { "helpText": HELP.mainHelp(), "enableTOC": false, "height": parent.height })
           }
         }
       }
@@ -121,8 +127,10 @@ ApplicationWindow {
 
   onClosing: {
     GLOB.setInstrument(instrPage.getInstrument())
-    clefPage.setInstrParams()
-    optionsPage.setOptions()
+    if (clefPage)
+      clefPage.setInstrParams()
+    if (optionsPage)
+      optionsPage.setOptions()
     GLOB.keyNameStyle = (Noo.keyNameTranslated() !== "letters" ? (Qt.locale().name.indexOf("ru") === -1 ? 2 : 5) : (GLOB.seventhIsB ? 3 : 0))
     GLOB.updateKeySignatureNames()
     GLOB.audioInstrument = instrPage.getInstrument()
