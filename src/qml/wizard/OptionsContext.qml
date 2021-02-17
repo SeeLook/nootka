@@ -18,12 +18,12 @@ Column {
   property alias useKeys: keySignChB.checked
 
   width: parent.width
-  spacing: Noo.factor() * 2
+  spacing: NOO.factor() * 2
   y: Math.max(0, (wizardOpts.height - height) / 2)
 
   Text {
     width: parent.width
-    font { pixelSize: Noo.factor() * 2; bold: true }
+    font { pixelSize: NOO.factor() * 2; bold: true }
     wrapMode: Text.WordWrap
     horizontalAlignment: Text.AlignHCenter
     color: activPal.text
@@ -34,30 +34,30 @@ Column {
     id: seventhNote
     anchors.horizontalCenter: parent.horizontalCenter
     style: lettersRadio.checked ? (is7B ? Nootka.English_Bb : Nootka.Norsk_Hb) : (Qt.locale().name.indexOf("ru") === -1 ? Nootka.Italiano_Si : Nootka.Russian_Ci)
-    is7B: Noo.note7translated().toLowerCase() === "b"
+    is7B: NOO.note7translated().toLowerCase() === "b"
   }
 
   Row {
-    spacing: Noo.factor()
+    spacing: NOO.factor()
     anchors.horizontalCenter: parent.horizontalCenter
     TradioButton {
       id: lettersRadio
       text: qsTranslate("NameStyleSelector", "letter names")
-      checked: Noo.keyNameTranslated() !== "solfege"
+      checked: NOO.keyNameTranslated() !== "solfege"
     }
     TradioButton {
       text: qsTranslate("NameStyleSelector", "solfege names")
-      checked: Noo.keyNameTranslated() === "solfege"
+      checked: NOO.keyNameTranslated() === "solfege"
     }
   }
 
   Tile {
-    bgColor: Qt.tint(nootkaWindow.labelColor, Noo.alpha(activPal.base, 230))
+    bgColor: Qt.tint(nootkaWindow.labelColor, NOO.alpha(activPal.base, 230))
     bgBorder { width: 2; color: nootkaWindow.labelColor }
-    width: innerCol.width + Noo.factor() * 4
+    width: innerCol.width + NOO.factor() * 4
     Column {
       id: innerCol
-      spacing: Noo.factor()
+      spacing: NOO.factor()
       anchors.horizontalCenter: parent.horizontalCenter
       TcheckBox {
         id: dblAccidsChB

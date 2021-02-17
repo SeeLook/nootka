@@ -17,7 +17,7 @@ Item {
   property int cnt: 1
   property var hArray: [ 0.6, 0, 0.3, 0, 0.6]
   property var gArray: [ "\ue1d5", "\ue1d9", "\ue1d7", "\ue1d9", "\ue1d5" ]
-  property int countTo: Noo.meter(score.meter).countTo()
+  property int countTo: NOO.meter(score.meter).countTo()
   property var preCountItem: null
 
   // protected
@@ -31,7 +31,7 @@ Item {
       id: metroText
       forcedHeight: parent.height; yOffset: parent.height * -0.7
       statusTip: qsTr("Tempo") + " - " + qsTr("beats per minute")
-      + "<br>" + qsTr("Mouse wheel changes tempo promptly (also with %1 key). Click for more options.").arg(Noo.isMac() ? "CMD" : "CTRL")
+      + "<br>" + qsTr("Mouse wheel changes tempo promptly (also with %1 key). Click for more options.").arg(NOO.isMac() ? "CMD" : "CTRL")
       font { family: "Scorek"; pixelSize: parent.height * 0.7 }
       text: beatModel[SOUND.beatUnit] + "=" + SOUND.tempo
       MouseArea {
@@ -74,7 +74,7 @@ Item {
         id: rep
         model: 5
         Rectangle {
-          readonly property color bgColor: Qt.tint(activPal.window, Noo.alpha(activPal.base, 100))
+          readonly property color bgColor: Qt.tint(activPal.window, NOO.alpha(activPal.base, 100))
           y:  parent.height * (Math.abs(0.6 - hArray[index]) / 5)
           width: parent.height * (0.9 - (Math.abs(0.6 - hArray[index]) / 3)); height: parent.height * 0.8 + hArray[index] * parent.height
           radius: width / 2
@@ -165,8 +165,8 @@ Item {
   MouseArea {
     x: metroRow.x; y: metroRow.y; width: metroRow.width; height: metroRow.height
     hoverEnabled: true
-    onEntered: Noo.setStatusTip(qsTr("Metronome"), Item.TopLeft)
-    onExited: Noo.setStatusTip("", Item.TopLeft)
+    onEntered: NOO.setStatusTip(qsTr("Metronome"), Item.TopLeft)
+    onExited: NOO.setStatusTip("", Item.TopLeft)
   }
 
   Connections {

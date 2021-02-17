@@ -8,19 +8,19 @@ import "../"
 
 
 Column {
-  spacing: Noo.factor()
+  spacing: NOO.factor()
   anchors.horizontalCenter: parent.horizontalCenter
-  width: parent.width - Noo.factor() * 2
+  width: parent.width - NOO.factor() * 2
 
   Tile {
-    width: Noo.factor() * 12; height: Noo.factor() * 12
+    width: NOO.factor() * 12; height: NOO.factor() * 12
     bgColor: nootkaWindow.bgColor
     bgBorder { width: 2; color: nootkaWindow.labelColor }
     Text {
       anchors.fill: parent
       horizontalAlignment: Text.AlignHCenter
-      y: Noo.factor() * -2
-      font { pixelSize: Noo.factor() * 4; family: "Scorek" }
+      y: NOO.factor() * -2
+      font { pixelSize: NOO.factor() * 4; family: "Scorek" }
       text: "\ue043"
       color: activPal.text
     }
@@ -29,7 +29,7 @@ Column {
   Text {
     width: parent.width
     anchors.horizontalCenter: parent.horizontalCenter
-    font { pixelSize: Noo.factor() * 1.2; bold: true }
+    font { pixelSize: NOO.factor() * 1.2; bold: true }
     wrapMode: Text.WordWrap
     text: qsTr("Musical notation for bass guitar uses bass clef (clef F), but the notes sound one octave lower. It means bass guitar is transposing instrument and it transposes one octave down.")
     color: activPal.text

@@ -22,9 +22,9 @@ Drawer {
 
   closePolicy: chartItem.keepDrawerOpened() ? Popup.NoAutoClose : Popup.CloseOnEscape | Popup.CloseOnPressOutside
 
-  background: TipRect { color: activPal.window; radius: 0; verticalOffset: 0; horizontalOffset: pinBox.checked ? 0 : Noo.factor() / 5 }
+  background: TipRect { color: activPal.window; radius: 0; verticalOffset: 0; horizontalOffset: pinBox.checked ? 0 : NOO.factor() / 5 }
 
-  property int fSize: Math.min(Noo.factor(), width / 25)
+  property int fSize: Math.min(NOO.factor(), width / 25)
 
   Connections {
     target: chartItem
@@ -45,9 +45,9 @@ Drawer {
         MenuButton { width: parent.width; action: chartItem.loadExamAct() }
         ListView {
           id: recentList
-          width: parent.width; height: Math.min(Noo.factor() * 16.8, Noo.factor() * count * 2.8) // 6 items visible
+          width: parent.width; height: Math.min(NOO.factor() * 16.8, NOO.factor() * count * 2.8) // 6 items visible
           boundsBehavior: Flickable.StopAtBounds
-          contentHeight: Noo.factor() * count * 2.8
+          contentHeight: NOO.factor() * count * 2.8
           model: chartItem.recentExamsActions
           currentIndex: chartItem.selectedFileId
           clip: true
@@ -55,7 +55,7 @@ Drawer {
             width: parent ? parent.width : 0
             action: modelData
             color: containsPress || recentList.currentIndex === index ? activPal.highlight :
-                    (containsMouse ? Noo.alpha(activPal.highlight, 50) : (index % 2 ? activPal.alternateBase : activPal.base))
+                    (containsMouse ? NOO.alpha(activPal.highlight, 50) : (index % 2 ? activPal.alternateBase : activPal.base))
             textColor: containsPress || recentList.currentIndex === index ? activPal.highlightedText : activPal.text
             Rectangle { width: parent.width; height: 1; color: activPal.window; y: parent.height - 1;  }
           }
@@ -109,7 +109,7 @@ Drawer {
         }
         TcomboBox {
           id: orderCombo
-          width: Math.min(parent.width - fSize, Noo.factor() * 20)
+          width: Math.min(parent.width - fSize, NOO.factor() * 20)
           font.pixelSize: fSize
           anchors.horizontalCenter: parent.horizontalCenter
           model: chartItem.xOrderActions
@@ -127,7 +127,7 @@ Drawer {
           color: activPal.text; font.pixelSize: fSize
         }
         TcomboBox {
-          width: Math.min(parent.width - fSize, Noo.factor() * 20)
+          width: Math.min(parent.width - fSize, NOO.factor() * 20)
           font.pixelSize: fSize
           anchors.horizontalCenter: parent.horizontalCenter
           model: chartItem.yValueActions
@@ -186,7 +186,7 @@ Drawer {
       }
       enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1 }}
       exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0 }}
-      background: TipRect { shadowRadius: Noo.factor(); color: activPal.highlight }
+      background: TipRect { shadowRadius: NOO.factor(); color: activPal.highlight }
     }
   }
   

@@ -14,7 +14,7 @@ Tflickable {
   LinkText {
     id: text
     width: parent.width
-    padding: Noo.factor()
+    padding: NOO.factor()
     wrapMode: TextEdit.Wrap
     text: dialogObj.aboutQt()
   }

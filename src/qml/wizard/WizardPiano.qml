@@ -10,17 +10,17 @@ import "../score"
 
 
 Column {
-  spacing: Noo.factor()
+  spacing: NOO.factor()
   anchors.horizontalCenter: parent.horizontalCenter
-  width: parent.width - Noo.factor() * 2
+  width: parent.width - NOO.factor() * 2
 
   Text {
     anchors.horizontalCenter: parent.horizontalCenter
-    width: parent.width - Noo.factor() * 2
+    width: parent.width - NOO.factor() * 2
     text: qsTr("Notes for piano are written on the grand staff - two staves joined with brace. Usually the upper one, with treble clef is for right hand and the lower one with bass clef is for left hand.")
     + "<br>" + qsTr("Although for exercise purposes and also due to Nootka supports for only single voice, sometimes just one of the staves can be used as well.")
     color: activPal.text; wrapMode: Text.WordWrap
-    font { pixelSize: Noo.factor() * 1.2; bold: true }
+    font { pixelSize: NOO.factor() * 1.2; bold: true }
   }
 
   Tile {
@@ -29,7 +29,7 @@ Column {
     bgBorder { width: 2; color: nootkaWindow.labelColor }
     Score {
       id: score
-      height: Math.max(Noo.factor() * 18, nootkaWindow.height * 0.4); width: Math.max(Noo.factor() * 40, nootkaWindow.height * 0.8)
+      height: Math.max(NOO.factor() * 18, nootkaWindow.height * 0.4); width: Math.max(NOO.factor() * 40, nootkaWindow.height * 0.8)
       anchors.horizontalCenter: parent.horizontalCenter
       bgColor: "transparent"
       scoreObj.editMode: false
@@ -39,11 +39,11 @@ Column {
       clef: Tclef.PianoStaffClefs
       Component.onCompleted: {
         for (var n = 1; n < 8; ++n)
-          addNote(Noo.setUpperStaff(Noo.note(n, 0, 0, 5), false))
-        addNote(Noo.setUpperStaff(Noo.note(1, 1, 0, 5), false))
+          addNote(NOO.setUpperStaff(NOO.note(n, 0, 0, 5), false))
+        addNote(NOO.setUpperStaff(NOO.note(1, 1, 0, 5), false))
         for (var n = 1; n < 8; ++n)
-          addNote(Noo.note(n, 1, 0, 5))
-        addNote(Noo.note(1, 2, 0, 5))
+          addNote(NOO.note(n, 1, 0, 5))
+        addNote(NOO.note(1, 2, 0, 5))
 
       }
     }

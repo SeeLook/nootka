@@ -11,12 +11,12 @@ CheckBox {
   property alias textColor: textItem.color
   property alias textItem: textItem
 
-  font.pixelSize: Noo.factor()
+  font.pixelSize: NOO.factor()
 
   indicator: TipRect {
-    implicitWidth: Noo.factor() * 1.75; implicitHeight: Noo.factor() * 1.75
+    implicitWidth: NOO.factor() * 1.75; implicitHeight: NOO.factor() * 1.75
     x: chB.leftPadding; y: (chB.height - height) / 2
-    horizontalOffset: rised ? Noo.factor() / 8 : 0; verticalOffset: horizontalOffset
+    horizontalOffset: rised ? NOO.factor() / 8 : 0; verticalOffset: horizontalOffset
     rised: !chB.down
     color: chB.enabled ? activPal.base : Qt.darker(disdPal.window, 1.2)
     scale: chB.pressed ? 0.9 : 1.0

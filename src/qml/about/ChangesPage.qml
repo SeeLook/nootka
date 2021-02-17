@@ -15,13 +15,13 @@ ListView {
 
   model: dialogObj.getChanges()
   delegate: Tile {
-    width: chList.width; height: relText.height + Noo.factor()
+    width: chList.width; height: relText.height + NOO.factor()
     bgColor: index % 2 ? activPal.base : activPal.alternateBase
     Text {
       id: relText
       text: modelData
-      x: Noo.factor() / 2; y: Noo.factor() / 2
-      width: chList.width - Noo.factor()
+      x: NOO.factor() / 2; y: NOO.factor() / 2
+      width: chList.width - NOO.factor()
       horizontalAlignment: text.substring(0, 4) === "<h1>" ? Text.AlignHCenter : Text.AlignLeft
       color: activPal.text
       wrapMode: TextEdit.Wrap; textFormat: Text.StyledText

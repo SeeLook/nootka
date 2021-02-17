@@ -25,7 +25,7 @@ Item {
     id: logo
     mipmap: true
     anchors.top: parent.Top
-    source: Noo.pix("logo")
+    source: NOO.pix("logo")
     height: nootkaLabel.height; width: height * (sourceSize.width / sourceSize.height)
   }
 
@@ -34,14 +34,14 @@ Item {
     anchors.horizontalCenter: logo.horizontalCenter
     font.pixelSize: nootkaLabel.height * 0.2
     color: bgColor
-    text: Noo.version()
+    text: NOO.version()
   }
 
   MouseArea {
     id: mouseArea
     anchors.fill: parent
-    hoverEnabled: !Noo.isAndroid()
-    onEntered: bgColor = Noo.randomColor()
+    hoverEnabled: !NOO.isAndroid()
+    onEntered: bgColor = NOO.randomColor()
     onExited: bgColor = "white"
     onClicked: nootkaLabel.clicked()
   }

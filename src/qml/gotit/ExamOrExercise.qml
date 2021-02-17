@@ -12,34 +12,34 @@ GotIt {
 
   Tflickable {
     anchors.fill: parent
-    contentHeight: helpCol.height + Noo.factor() * 10
+    contentHeight: helpCol.height + NOO.factor() * 10
     Column {
       id: helpCol
       width: parent.width
-      Item { width: 1; height: Noo.factor() }
+      Item { width: 1; height: NOO.factor() }
       Row {
-        spacing: Noo.factor() * 2
+        spacing: NOO.factor() * 2
         anchors.horizontalCenter: parent.horizontalCenter
         Image {
-          source: Noo.pix("practice")
-          height: Noo.factor() * 4; width: height * (sourceSize.width / sourceSize.height)
+          source: NOO.pix("practice")
+          height: NOO.factor() * 4; width: height * (sourceSize.width / sourceSize.height)
         }
         Text {
           anchors.verticalCenter: parent.verticalCenter
           color: activPal.text
           text: qsTranslate("TstartExamDlg", "To exercise or to pass an exam?")
-          font { bold: true; pixelSize: Noo.factor() * 1.5 }
+          font { bold: true; pixelSize: NOO.factor() * 1.5 }
         }
         Image {
-          source: Noo.pix("exam")
-          height: Noo.factor() * 4; width: height * (sourceSize.width / sourceSize.height)
+          source: NOO.pix("exam")
+          height: NOO.factor() * 4; width: height * (sourceSize.width / sourceSize.height)
         }
       }
       LinkText {
         id: exerOrExamText
         anchors.horizontalCenter: parent.horizontalCenter
-        leftPadding: Noo.factor()
-        width: parent.width - Noo.factor()
+        leftPadding: NOO.factor()
+        width: parent.width - NOO.factor()
         textFormat: Text.RichText
         wrapMode: Text.WordWrap
         text: gotIt.exerOrExamHelpTxt()

@@ -10,9 +10,9 @@ import "../"
 
 
 Column {
-  spacing: Noo.factor()
+  spacing: NOO.factor()
   width: parent.width; height: parent.height
-  topPadding: Noo.factor() / 2
+  topPadding: NOO.factor() / 2
 
   TbuttonBar {
     id: headList
@@ -22,18 +22,18 @@ Column {
 
   StackLayout {
     id: stack
-    height: parent.height - headList.height - Noo.factor() / 2
+    height: parent.height - headList.height - NOO.factor() / 2
     width: parent.width
     currentIndex: -1
 
     Tflickable { // "listening" page
-      contentHeight: inCol.height + Noo.factor() * 2
+      contentHeight: inCol.height + NOO.factor() * 2
       contentWidth: width
 
       Column {
         id: inCol
         width: parent.width
-        topPadding: Noo.isAndroid() ? 2 : Noo.factor() / 2
+        topPadding: NOO.isAndroid() ? 2 : NOO.factor() / 2
 
         TcheckBox {
           id: enableInChB
@@ -45,24 +45,24 @@ Column {
         Column {
           enabled: enableInChB.checked
           width: parent.width
-          spacing: Noo.isAndroid() ? 2 : Noo.factor() / 2
+          spacing: NOO.isAndroid() ? 2 : NOO.factor() / 2
 
           Tile {
             description: qsTr("Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.")
             Row {
-              spacing: Noo.factor() * 2
+              spacing: NOO.factor() * 2
               anchors.horizontalCenter: parent.horizontalCenter
               TlabelText { text: qsTr("input device"); anchors.verticalCenter: parent.verticalCenter }
               TcomboBox {
                 id: inDevCombo
                 anchors.verticalCenter: parent.verticalCenter
-                width: Noo.factor() * 20
+                width: NOO.factor() * 20
                 model: SOUND.inputDevices()
               }
               TcheckBox {
-                visible: !Noo.isAndroid() && !Noo.isMac()
+                visible: !NOO.isAndroid() && !NOO.isMac()
                 id: jackInChB
-                text: Noo.isWindows() ? "ASIO" : "JACK"
+                text: NOO.isWindows() ? "ASIO" : "JACK"
                 anchors.verticalCenter: parent.verticalCenter
                 onCheckedChanged: {
                   SOUND.setJACKorASIO(jackInChB.checked)
@@ -76,7 +76,7 @@ Column {
           Tile {
             description: qsTr("Only sounds longer than the selected time will be pitch-detected.<br>Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness.")
             Row {
-              spacing: Noo.factor()
+              spacing: NOO.factor()
               anchors.horizontalCenter: parent.horizontalCenter
               TlabelText { text: qsTr("minimum note duration") }
               TspinBox {
@@ -92,12 +92,12 @@ Column {
           Tile {
             description: qsTr("Minimum volume of a sound to be pitch-detected")
             Row {
-              spacing: Noo.factor()
+              spacing: NOO.factor()
               anchors.horizontalCenter: parent.horizontalCenter
               Text { text: qsTr("minimum volume"); anchors.verticalCenter: parent.verticalCenter; color: enabled ? activPal.text : disdPal.text }
               Tslider {
                 anchors.verticalCenter: parent.verticalCenter
-                width: Math.min(Noo.factor() * 15, parent.parent.width / 3)
+                width: Math.min(NOO.factor() * 15, parent.parent.width / 3)
                 from: 10; to: 80
                 value: volSpin.value
                 onValueChanged: volSpin.value = value
@@ -123,7 +123,7 @@ Column {
             anchors.horizontalCenter: parent.horizontalCenter
             Column {
               width: parent.width
-              spacing: Noo.isAndroid() ? 2 : Noo.factor() / 2
+              spacing: NOO.isAndroid() ? 2 : NOO.factor() / 2
               Switch {
                 id: advSwitch
                 text: qsTr("Advanced")
@@ -131,9 +131,9 @@ Column {
 
                 // There is only one Switch control in Nootka, so far. Style it here
                 indicator: Rectangle {
-                  implicitWidth: Noo.factor() * 4; implicitHeight: Noo.factor()
+                  implicitWidth: NOO.factor() * 4; implicitHeight: NOO.factor()
                   x: advSwitch.leftPadding; y: parent.height / 2 - height / 2
-                  radius: Noo.factor()
+                  radius: NOO.factor()
                   color: advSwitch.checked ? activPal.highlight : activPal.button
                   border.color: enabled ? activPal.text : disdPal.text //advSwitch.checked ? "#17a81a" : "#cccccc"
 
@@ -141,8 +141,8 @@ Column {
                     x: advSwitch.checked ? parent.width - width : 0
                     anchors.verticalCenter: parent.verticalCenter
                     Behavior on x { enabled: GLOB.useAnimations; NumberAnimation { duration: 300 }}
-                    width: Noo.factor() * 2; height: Noo.factor() * 2
-                    radius: Noo.factor()
+                    width: NOO.factor() * 2; height: NOO.factor() * 2
+                    radius: NOO.factor()
                     rised: !advSwitch.pressed
                     color: advSwitch.pressed ? activPal.highlight : activPal.button
                     Rectangle {
@@ -165,11 +165,11 @@ Column {
                 visible: advSwitch.checked
                 Row {
                   anchors.horizontalCenter: parent.horizontalCenter
-                  spacing: Noo.factor()
+                  spacing: NOO.factor()
                   TlabelText { text: qsTr("pitch detection mode") }
                   TcomboBox {
                     id: methodCombo
-                    width: Noo.factor() * 20
+                    width: NOO.factor() * 20
                     model: ["MPM", "autocorrelation", "MPM + modified cepstrum"]
                   }
                 }
@@ -196,7 +196,7 @@ Column {
       Column {
         id: outCol
         width: parent.width
-        spacing: Noo.factor()
+        spacing: NOO.factor()
 
         TcheckBox {
           id: enableOutChB
@@ -208,22 +208,22 @@ Column {
         Column {
           enabled: enableOutChB.checked
           width: parent.width
-          spacing: Noo.factor()
+          spacing: NOO.factor()
 
           Tile {
             Row {
-              spacing: Noo.factor() * 2
+              spacing: NOO.factor() * 2
               anchors.horizontalCenter: parent.horizontalCenter
               TlabelText { text: qsTr("output device"); anchors.verticalCenter: parent.verticalCenter }
               TcomboBox {
                 id: outDevCombo
                 anchors.verticalCenter: parent.verticalCenter
-                width: Noo.factor() * 20
+                width: NOO.factor() * 20
                 model: SOUND.outputDevices()
               }
               TcheckBox {
                 id: jackOutChB
-                visible: !Noo.isAndroid() && !Noo.isMac()
+                visible: !NOO.isAndroid() && !NOO.isMac()
                 anchors.verticalCenter: parent.verticalCenter
                 text: jackInChB.text
                 checked: jackInChB.checked
@@ -299,5 +299,5 @@ Column {
     forwardInChB.checked = false
   }
 
-  function help() { Noo.openHelpLink("input-settings") }
+  function help() { NOO.openHelpLink("input-settings") }
 }

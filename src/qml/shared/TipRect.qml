@@ -20,7 +20,7 @@ Item {
     id: bg
     anchors.fill: parent
     color: activPal.base
-    radius: Noo.factor() / 3
+    radius: NOO.factor() / 3
     visible: false
     clip: true
   }
@@ -28,8 +28,8 @@ Item {
   DropShadow {
     id: shadow
     anchors.fill: bg
-    horizontalOffset: rised ? Noo.factor() / 5 : 0
-    verticalOffset: rised ? Noo.factor() / 5 : 0
+    horizontalOffset: rised ? NOO.factor() / 5 : 0
+    verticalOffset: rised ? NOO.factor() / 5 : 0
     radius: 8.0
     samples: 1 + radius * 2
     color: activPal.shadow

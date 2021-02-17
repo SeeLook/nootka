@@ -76,8 +76,8 @@ Item {
         else if (wheel.angleDelta.y < 0)
           deltaDown()
       }
-      onEntered: Noo.setStatusTip(qsTr("Key signature - to change it, click above or below the staff or use mouse wheel."), Item.TopLeft)
-      onExited: Noo.setStatusTip("", Item.TopLeft)
+      onEntered: NOO.setStatusTip(qsTr("Key signature - to change it, click above or below the staff or use mouse wheel."), Item.TopLeft)
+      onExited: NOO.setStatusTip("", Item.TopLeft)
     }
   }
 

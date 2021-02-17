@@ -39,13 +39,13 @@ TbandoneonBg {
   }
 
    Image {
-     source: Noo.pix("bando-bg")
+     source: NOO.pix("bando-bg")
      width: factor * 210; height: width * (sourceSize.height / sourceSize.width)
      x: -factor * 5
      z: 1
    }
    Image {
-     source: Noo.pix("bando-bg")
+     source: NOO.pix("bando-bg")
      width: factor * 210; height: width * (sourceSize.height / sourceSize.width)
      x: factor * 225
      z: 2
@@ -70,7 +70,7 @@ TbandoneonBg {
       Repeater {
         model: 33
         Image {
-          source: Noo.pix("bando-button")
+          source: NOO.pix("bando-button")
           sourceSize.width: Math.round(parent.height / 7.5)
           x: xAt(index) * factor
           y: yAt(index) * factor + width * 0.75
@@ -98,7 +98,7 @@ TbandoneonBg {
       TcuteButton {
         id: openButt
         width: factor * 10
-        height: Noo.factor() * 3
+        height: NOO.factor() * 3
         checked: opening
         checkable: true
         text: "\uE610"; font { family: "Scorek"; pixelSize: height }
@@ -112,7 +112,7 @@ TbandoneonBg {
       TcuteButton {
         id: closeButt
         width: factor * 10
-        height: Noo.factor() * 3
+        height: NOO.factor() * 3
         checked: closing
         text: "\uE612"; font { family: "Scorek"; pixelSize: height }
         checkable: true
@@ -130,7 +130,7 @@ TbandoneonBg {
       Repeater {
         model: 38
         Image {
-          source: Noo.pix("bando-button")
+          source: NOO.pix("bando-button")
           sourceSize.width: Math.round(parent.height / 7.5)
           x: xAt(index + 33) * factor * 1.2
           y: yAt(index + 33) * factor + width * 0.75

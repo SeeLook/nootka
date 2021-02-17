@@ -22,13 +22,13 @@ ApplicationWindow {
   property alias instrument: instrPage.instrument
   property alias swipe: swipe
   property alias labelColor: aboutPage.color
-  property color bgColor: Qt.tint(labelColor, Noo.alpha(activPal.base, 230))
+  property color bgColor: Qt.tint(labelColor, NOO.alpha(activPal.base, 230))
   property var clefPage: null
   property var optionsPage: null
 
   SystemPalette {
     id: activPal
-    property color dimText: Qt.tint(activPal.base, Noo.alpha(activPal.text, 150))
+    property color dimText: Qt.tint(activPal.base, NOO.alpha(activPal.text, 150))
     colorGroup: SystemPalette.Active
   }
   SystemPalette { id: disdPal; colorGroup: SystemPalette.Disabled }
@@ -39,7 +39,7 @@ ApplicationWindow {
       height: nootkaWindow.height - footer.height; width: height * 0.246
       Image {
         id: leftImg
-        source: Noo.pix("wizard-left")
+        source: NOO.pix("wizard-left")
         height: nootkaWindow.height - footer.height; width: height * 0.246
       }
     }
@@ -81,17 +81,17 @@ ApplicationWindow {
   }
 
   footer: Rectangle {
-    width: parent.width; height: prevBut.height + Noo.factor() + 2
-    color: Qt.tint(activPal.window, Noo.alpha(aboutPage.color, 50))
-    Rectangle { color: aboutPage.color; height: Noo.factor() / 6; width: parent.width; anchors.top: parent.top }
+    width: parent.width; height: prevBut.height + NOO.factor() + 2
+    color: Qt.tint(activPal.window, NOO.alpha(aboutPage.color, 50))
+    Rectangle { color: aboutPage.color; height: NOO.factor() / 6; width: parent.width; anchors.top: parent.top }
     Row {
-      x: (parent.width - width - 8 * Noo.factor()) / 2
+      x: (parent.width - width - 8 * NOO.factor()) / 2
       anchors.verticalCenter: parent.verticalCenter
-      spacing: Noo.factor() * 2
+      spacing: NOO.factor() * 2
       TcuteButton {
         id: prevBut
         anchors.verticalCenter: parent.verticalCenter
-        text: Noo.TR("QWizard", "< &Back").replace("&", "")
+        text: NOO.TR("QWizard", "< &Back").replace("&", "")
         enabled: swipe.currentIndex > 0
         onClicked: swipe.currentIndex -= 1
         Shortcut { sequence: StandardKey.MoveToPreviousChar; onActivated: { if (prevBut.enabled) swipe.currentIndex -= 1 }}
@@ -112,7 +112,7 @@ ApplicationWindow {
       TcuteButton {
         id: nextBut
         anchors.verticalCenter: parent.verticalCenter
-        text: Noo.TR("QWizard", "&Next >").replace("&", "")
+        text: NOO.TR("QWizard", "&Next >").replace("&", "")
         enabled: swipe.currentIndex < swipe.count - 1
         onClicked: swipe.currentIndex += 1
         Shortcut { sequence: StandardKey.MoveToNextChar; onActivated: { if (nextBut.enabled) swipe.currentIndex += 1 }}
@@ -120,8 +120,8 @@ ApplicationWindow {
     }
     TcuteButton {
       anchors.verticalCenter: parent.verticalCenter
-      x: parent.width - width - Noo.factor()
-      text: Noo.TR("QWizard", "&Finish").replace("&", "")
+      x: parent.width - width - NOO.factor()
+      text: NOO.TR("QWizard", "&Finish").replace("&", "")
       onClicked: nootkaWindow.close()
       Shortcut { sequence: "Return"; onActivated: nootkaWindow.close() }
     }
@@ -133,7 +133,7 @@ ApplicationWindow {
       clefPage.setInstrParams()
     if (optionsPage)
       optionsPage.setOptions()
-    GLOB.keyNameStyle = (Noo.keyNameTranslated() !== "letters" ? (Qt.locale().name.indexOf("ru") === -1 ? 2 : 5) : (GLOB.seventhIsB ? 3 : 0))
+    GLOB.keyNameStyle = (NOO.keyNameTranslated() !== "letters" ? (Qt.locale().name.indexOf("ru") === -1 ? 2 : 5) : (GLOB.seventhIsB ? 3 : 0))
     GLOB.updateKeySignatureNames()
     GLOB.audioInstrument = instrPage.getInstrument()
     GLOB.preferFlats = GLOB.instrument.isSax ? true : false

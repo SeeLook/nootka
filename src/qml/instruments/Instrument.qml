@@ -28,7 +28,7 @@ Item {
     }
   }
 
-  onInstrumentChanged: Noo.instrument = instrument
+  onInstrumentChanged: NOO.instrument = instrument
 
   Connections {
     target: score

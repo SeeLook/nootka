@@ -101,7 +101,7 @@ Flickable {
     parent: score
     z: -1
     width: score.width; height: score.height
-    color: Noo.alpha(scoreObj.bgColor, 230)
+    color: NOO.alpha(scoreObj.bgColor, 230)
     border { width: recordMode ? 2 : 0; color: "red" }
   }
 
@@ -113,9 +113,9 @@ Flickable {
   Text { // edit mode symbol
     opacity: scoreObj.editMode && !singleNote ? 1 : 0
     Behavior on opacity { enabled: GLOB.useAnimations; NumberAnimation { duration: 500 }}
-    x: Noo.factor() * 3; y: score.contentY + Noo.factor() / 2
-    text: "\u0080"; font { family: "Nootka"; pixelSize: Noo.factor() * 2 }
-    color: Noo.alpha(GLOB.noteCursorColor, 200)
+    x: NOO.factor() * 3; y: score.contentY + NOO.factor() / 2
+    text: "\u0080"; font { family: "Nootka"; pixelSize: NOO.factor() * 2 }
+    color: NOO.alpha(GLOB.noteCursorColor, 200)
   }
 
   function ensureVisible(yy, hh) {

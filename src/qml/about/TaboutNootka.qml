@@ -19,7 +19,7 @@ Item {
 
   Component.onCompleted: {
     pages.addItem("about", qsTr("About"), "about/About")
-    pages.addItem("help", Noo.TR("QShortcut", "Help"), "about/Help")
+    pages.addItem("help", NOO.TR("QShortcut", "Help"), "about/Help")
     pages.addItem("author", qsTr("Authors"), "about/Authors")
     pages.addItem("license", qsTr("License"), "about/License")
     pages.addItem("support", qsTr("Support"), "about/Support")

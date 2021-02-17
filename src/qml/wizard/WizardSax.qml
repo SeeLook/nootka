@@ -12,13 +12,13 @@ Column {
 
   property alias transposition: transpose.outShift
 
-  spacing: Noo.factor()
+  spacing: NOO.factor()
   anchors.horizontalCenter: parent.horizontalCenter
-  width: parent.width - Noo.factor() * 2
+  width: parent.width - NOO.factor() * 2
 
   Text {
     width: parent.width
-    font { pixelSize: Noo.factor() * 1.2; bold: true }
+    font { pixelSize: NOO.factor() * 1.2; bold: true }
     wrapMode: Text.WordWrap
     horizontalAlignment: Text.AlignHCenter
     color: activPal.text
@@ -26,23 +26,23 @@ Column {
   }
 
   Tile {
-    width: transCol.width + Noo.factor() * 2
+    width: transCol.width + NOO.factor() * 2
     bgColor: nootkaWindow.bgColor
     bgBorder { width: 2; color: nootkaWindow.labelColor }
     Column {
       id: transCol
-      width: Math.min(Noo.factor() * 50, saxCol.width * 0.8)
+      width: Math.min(NOO.factor() * 50, saxCol.width * 0.8)
       anchors.horizontalCenter: parent.horizontalCenter
-      spacing: Noo.factor()
+      spacing: NOO.factor()
       Transposition {
         id: transpose
         anchors.horizontalCenter: parent.horizontalCenter
-        shift: Noo.instr(nootkaWindow.instrument).transposition
+        shift: NOO.instr(nootkaWindow.instrument).transposition
       }
       Text {
         anchors.horizontalCenter: parent.horizontalCenter
-        font { pixelSize: Noo.factor() * 2; bold: true }
-        text: Noo.noteName(Noo.note(13 + transpose.outShift, false), 0, false)
+        font { pixelSize: NOO.factor() * 2; bold: true }
+        text: NOO.noteName(NOO.note(13 + transpose.outShift, false), 0, false)
         color: activPal.text
       }
     }
@@ -52,12 +52,12 @@ Column {
     text: "Saxophone support is new and not well tested,\nso please give some feedback or call a bug."
     color: "red"
     width: parent.width
-    font { pixelSize: Noo.factor() * 1.2; bold: true }
+    font { pixelSize: NOO.factor() * 1.2; bold: true }
     horizontalAlignment: Text.AlignHCenter
   }
 
   Connections {
     target: nootkaWindow
-    onInstrumentChanged: transpose.shift = Noo.instr(nootkaWindow.instrument).transposition
+    onInstrumentChanged: transpose.shift = NOO.instr(nootkaWindow.instrument).transposition
   }
 }

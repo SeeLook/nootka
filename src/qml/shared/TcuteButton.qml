@@ -8,7 +8,7 @@ import QtQuick.Controls 2.2
 
 AbstractButton {
   id: cutButt
-  font.pixelSize: Noo.factor()
+  font.pixelSize: NOO.factor()
   focus: true
 
   property alias radius: bg.radius
@@ -21,7 +21,7 @@ AbstractButton {
 
   contentItem: Text {
     id: butText
-    padding: Noo.factor() / 3
+    padding: NOO.factor() / 3
     font: cutButt.font
     horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
     minimumPixelSize: 8

@@ -18,15 +18,15 @@ Tflickable {
 
   Tile {
     y: (instrPage.height - height) / 2
-    bgColor: Qt.tint(nootkaWindow.labelColor, Noo.alpha(activPal.base, 230))
+    bgColor: Qt.tint(nootkaWindow.labelColor, NOO.alpha(activPal.base, 230))
     bgBorder { width: 2; color: nootkaWindow.labelColor }
     Column {
       id: instrCol
       width: parent.width
-      spacing: Noo.factor() * 3
+      spacing: NOO.factor() * 3
       Text {
         text: qsTr("What instrument do you play?")
-        font { pixelSize: Noo.factor() * 2; bold: true }
+        font { pixelSize: NOO.factor() * 2; bold: true }
         width: parent.width
         wrapMode: Text.WordWrap
         horizontalAlignment: Text.AlignHCenter

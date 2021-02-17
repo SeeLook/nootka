@@ -12,13 +12,13 @@ import Nootka 1.0
 AbstractButton {
   id: root
 
-  hoverEnabled: !Noo.isAndroid()
+  hoverEnabled: !NOO.isAndroid()
 
   width: Math.max(pix.width, butText.width) + factor * 2
 
   property alias pixmap: pix.source
   property alias name: butText.text
-  property real factor: Noo.factor() * (Noo.isAndroid() ? 0.45 : 0.7)
+  property real factor: NOO.factor() * (NOO.isAndroid() ? 0.45 : 0.7)
 
   contentItem: Column {
     width: parent.width
@@ -27,7 +27,7 @@ AbstractButton {
       id: bg
       anchors.horizontalCenter: parent.horizontalCenter
       z: 1
-      radius: Noo.factor() / 2
+      radius: NOO.factor() / 2
       color: enabled ? (root.checked ? activPal.highlight : "#ffffff") : "#cbcbcb"
       shadowColor: "#101010"
       height: factor * 8; width: height
@@ -52,8 +52,8 @@ AbstractButton {
     Text {
       id: butText
       z: 0
-      color: enabled ? (Noo.isAndroid() ? "#ffffff" : "#000000") : "#999999"
-      font.pixelSize: Noo.factor() * (Noo.isAndroid() ? 0.8 : 1)
+      color: enabled ? (NOO.isAndroid() ? "#ffffff" : "#000000") : "#999999"
+      font.pixelSize: NOO.factor() * (NOO.isAndroid() ? 0.8 : 1)
       horizontalAlignment: Text.AlignHCenter
       anchors.horizontalCenter: parent.horizontalCenter
     }

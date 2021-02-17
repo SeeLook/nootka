@@ -21,14 +21,14 @@ Tflickable {
 
   Column {
     id: aboutCont
-    spacing: Noo.factor() / 4
-    padding: Noo.factor() / 2
+    spacing: NOO.factor() / 4
+    padding: NOO.factor() / 2
     width: parent.width
 
     Tile {
       bgColor: activPal.base
       Column {
-        spacing: Noo.factor()
+        spacing: NOO.factor()
         anchors.horizontalCenter: parent.horizontalCenter
         TextBackground { text: qsTranslate("TaboutNootka", "Code") }
         LinkText {
@@ -43,7 +43,7 @@ Tflickable {
     Tile {
       bgColor: activPal.alternateBase
       Column {
-        spacing: Noo.factor()
+        spacing: NOO.factor()
         anchors.horizontalCenter: parent.horizontalCenter
         TextBackground { text: qsTranslate("TaboutNootka", "Audio") }
         Text {
@@ -56,7 +56,7 @@ Tflickable {
     Tile {
       bgColor: activPal.base
       Column {
-        spacing: Noo.factor()
+        spacing: NOO.factor()
         anchors.horizontalCenter: parent.horizontalCenter
         TextBackground { text: qsTranslate("TaboutNootka", "Translators") }
 
@@ -75,31 +75,31 @@ Tflickable {
 
         Column {
           anchors.horizontalCenter: parent.horizontalCenter
-          spacing: Noo.factor() / 2
+          spacing: NOO.factor() / 2
           Repeater {
             model: trModel
             Row {
-              spacing: Noo.factor() * (Noo.isAndroid() ? 0.25 : 1)
+              spacing: NOO.factor() * (NOO.isAndroid() ? 0.25 : 1)
               Image {
-                height: Noo.factor() * 3.5; width: height
-                source: Noo.pix("flags/" + flag)
+                height: NOO.factor() * 3.5; width: height
+                source: NOO.pix("flags/" + flag)
                 anchors.verticalCenter: parent.verticalCenter
               }
               Text {
                 text: lang; textFormat: Text.PlainText; color: activPal.text
-                width: Noo.factor() * (Noo.isAndroid() ? 5 : 8)
-                font.pixelSize: Noo.factor() * (Noo.isAndroid() ? 0.8 : 1)
+                width: NOO.factor() * (NOO.isAndroid() ? 5 : 8)
+                font.pixelSize: NOO.factor() * (NOO.isAndroid() ? 0.8 : 1)
                 anchors.verticalCenter: parent.verticalCenter
               }
               Text {
                 text: trr; color: activPal.text; font.bold: true;
-                textFormat: Text.StyledText; width: Noo.factor() * (web === "" ? 24 : 16)
-                fontSizeMode: Text.Fit; minimumPixelSize: Noo.factor() / 2
+                textFormat: Text.StyledText; width: NOO.factor() * (web === "" ? 24 : 16)
+                fontSizeMode: Text.Fit; minimumPixelSize: NOO.factor() / 2
                 anchors.verticalCenter: parent.verticalCenter
               }
               LinkText {
                 text: web; anchors.verticalCenter: parent.verticalCenter
-                font.pixelSize: Noo.factor() * (Noo.isAndroid() ? 0.8 : 1)
+                font.pixelSize: NOO.factor() * (NOO.isAndroid() ? 0.8 : 1)
               }
             }
           }
@@ -110,12 +110,12 @@ Tflickable {
     Tile {
       bgColor: activPal.alternateBase
       Column {
-        spacing: Noo.factor()
+        spacing: NOO.factor()
         anchors.horizontalCenter: parent.horizontalCenter
         TextBackground { text: qsTranslate("TaboutNootka", "Other projects") }
         LinkText {
-          x: Noo.factor() * 1.5
-          width: aboutCont.width  - Noo.factor() * 3
+          x: NOO.factor() * 1.5
+          width: aboutCont.width  - NOO.factor() * 3
           text: qsTranslate("TaboutNootka", "However this application could not exist without various open source projects.<br>Especially:") +
                 "<ul>" + createLink("Qt", "https://www.qt.io/developers/") + " by Qt Company" +
                 createLink("FFTW", "http://www.fftw.org") + " by M. Frigo & S. G. Johnson" +
@@ -135,12 +135,12 @@ Tflickable {
     Tile {
       bgColor: activPal.base
       Column {
-        spacing: Noo.factor()
+        spacing: NOO.factor()
         anchors.horizontalCenter: parent.horizontalCenter
         TextBackground { text: qsTranslate("TaboutNootka", "Thanks") }
         LinkText {
-          x: Noo.factor() * 1.5
-          width: aboutCont.width  - Noo.factor() * 3
+          x: NOO.factor() * 1.5
+          width: aboutCont.width  - NOO.factor() * 3
           text: "I would like to say <b>THANK YOU</b> for all people who helped with developing Nootka.<br>
     Let's try to mention them in some random order:<br>
     <br><b>José Luis Marín</b> for patient and intensive tests under Linux and great feedback.<br>

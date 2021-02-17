@@ -22,7 +22,7 @@ Item {
       pages.addItem("sound", qsTr("Sound"), "settings/Sound")
     }
     pages.addItem("questions", qsTr("Exercises") + "\n& " + qsTr("Exam"), "settings/Exam")
-    if (Noo.isAndroid() && !GLOB.isExam)
+    if (NOO.isAndroid() && !GLOB.isExam)
       pages.addItem("phoneSett", qsTr("Phone") + "\n& " + qsTr("Tablet"), "settings/Phone")
 
     dialLoader.standardButtons = DialogButtonBox.Apply | DialogButtonBox.Cancel | DialogButtonBox.RestoreDefaults | DialogButtonBox.Help

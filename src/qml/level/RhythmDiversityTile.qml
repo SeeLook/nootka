@@ -16,7 +16,7 @@ Tile {
   description: qsTr("Smaller values - less number of selected rhythmic note groups will be used, biggest value - melody will consist maximal possible number of selected groups.")
   Row {
     anchors.horizontalCenter: parent.horizontalCenter
-    spacing: Noo.factor()
+    spacing: NOO.factor()
     Text {
       anchors.verticalCenter: parent.verticalCenter
       text: qsTr("Rhythmic diversity")

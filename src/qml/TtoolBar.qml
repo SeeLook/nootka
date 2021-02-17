@@ -20,12 +20,12 @@ ToolBar {
 
   Row {
     spacing: toolBar.width / 200
-    HeadButton { id: settAct; taction: Noo.settingsAct; visible: !GLOB.isExam }
-    HeadButton { taction: Noo.levelAct; visible: !GLOB.isExam }
-    HeadButton { id: scoreAct; taction: Noo.scoreAct; visible: !GLOB.singleNoteMode }
-    HeadButton { id: melodyAct; taction: Noo.melodyAct; visible: !GLOB.singleNoteMode && !GLOB.isExam }
-    HeadButton { id: chartAct; taction: Noo.chartsAct; visible: !GLOB.isExam }
-    HeadButton { taction: Noo.examAct; visible: !GLOB.isExam }
+    HeadButton { id: settAct; taction: NOO.settingsAct; visible: !GLOB.isExam }
+    HeadButton { taction: NOO.levelAct; visible: !GLOB.isExam }
+    HeadButton { id: scoreAct; taction: NOO.scoreAct; visible: !GLOB.singleNoteMode }
+    HeadButton { id: melodyAct; taction: NOO.melodyAct; visible: !GLOB.singleNoteMode && !GLOB.isExam }
+    HeadButton { id: chartAct; taction: NOO.chartsAct; visible: !GLOB.isExam }
+    HeadButton { taction: NOO.examAct; visible: !GLOB.isExam }
     Repeater {
       id: examRepeater
       HeadButton { taction: modelData; visible: taction && taction.enabled }
@@ -49,6 +49,6 @@ ToolBar {
     visible: !executor
     anchors.right: parent.right
     height: toolBar.height
-    onClicked: Noo.aboutAct.trigger()
+    onClicked: NOO.aboutAct.trigger()
   }
 }

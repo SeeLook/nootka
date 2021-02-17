@@ -12,7 +12,7 @@ import "../"
 Drawer { // meter menu
   visible: true
   width: nootkaWindow.width / 5; height: nootkaWindow.height
-  background: GlowRect { color: activPal.window; cornerRadius: Noo.factor() / 2; radius: 0 }
+  background: GlowRect { color: activPal.window; cornerRadius: NOO.factor() / 2; radius: 0 }
 
   // private
   property var colorArr: [ 0, 1, 1, 0 ]
@@ -22,20 +22,20 @@ Drawer { // meter menu
     anchors.fill: parent
     clip: true
     contentHeight: childrenRect.height
-    cellHeight: Noo.factor() * 5
+    cellHeight: NOO.factor() * 5
     cellWidth: parent.width / 2
     model: 12
     delegate: Rectangle {
-      height: Noo.factor() * 5 - 2
+      height: NOO.factor() * 5 - 2
       width: parent.width / 2 - 2
       color: score.scoreObj.meter === Math.pow(2, index) ? activPal.highlight :
-              (area.containsMouse ? Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 50)) : (colorArr[index % 4] === 1 ? activPal.alternateBase : activPal.base))
+              (area.containsMouse ? Qt.tint(activPal.base, NOO.alpha(activPal.highlight, 50)) : (colorArr[index % 4] === 1 ? activPal.alternateBase : activPal.base))
       Text {
         id: buttText
         anchors.horizontalCenter: parent.horizontalCenter
-        y: -Noo.factor() * 4.5
-        font { family: "Scorek"; pixelSize: Noo.factor() * 4 }
-        text: Noo.meter(Math.pow(2, index)).symbol()
+        y: -NOO.factor() * 4.5
+        font { family: "Scorek"; pixelSize: NOO.factor() * 4 }
+        text: NOO.meter(Math.pow(2, index)).symbol()
         color: score.scoreObj.meter === Math.pow(2, index) ? activPal.highlightedText : activPal.text
       }
       MouseArea {

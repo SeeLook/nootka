@@ -13,7 +13,7 @@ import "../"
 Texecutor {
   id: executor
 
-  parent: Noo.isAndroid() ? nootkaWindow.contentItem : nootkaWindow.contentItem.parent
+  parent: NOO.isAndroid() ? nootkaWindow.contentItem : nootkaWindow.contentItem.parent
   z: 100
 
   //private
@@ -25,7 +25,7 @@ Texecutor {
   onTitleChanged: nootkaWindow.title = title
 
   onExamActionsChanged: {
-    if (!Noo.isAndroid())
+    if (!NOO.isAndroid())
       nootkaWindow.mainMenu.toolBar.examActions = examActions
   }
 
@@ -74,7 +74,7 @@ Texecutor {
     }
     onWantConfirmTip: {
       var s = Qt.createComponent("qrc:/exam/ExamTip.qml")
-      tipHandler.confirmTip = s.createObject(executor, { "text": text, "offX": pos.x, "offY": pos.y, "bg": color, "showExit": !Noo.isAndroid() } )
+      tipHandler.confirmTip = s.createObject(executor, { "text": text, "offX": pos.x, "offY": pos.y, "bg": color, "showExit": !NOO.isAndroid() } )
     }
     onWantResultTip: {
       var r = Qt.createComponent("qrc:/exam/ResultTip.qml")

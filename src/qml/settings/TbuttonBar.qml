@@ -9,10 +9,10 @@ import QtQuick.Controls 2.2
 ListView {
   id: buttBar
   orientation: ListView.Horizontal
-  spacing: Noo.factor()
-  width: parent.width - Noo.factor() / 2; height: Noo.factor() * 3
+  spacing: NOO.factor()
+  width: parent.width - NOO.factor() / 2; height: NOO.factor() * 3
   currentIndex: 0
-  leftMargin: Noo.isAndroid() ? 0 : Noo.factor() * 2
+  leftMargin: NOO.isAndroid() ? 0 : NOO.factor() * 2
   clip: true
 
   delegate: TabButton {
@@ -21,7 +21,7 @@ ListView {
     checked: buttBar.currentIndex === index
     contentItem: Text {
       anchors.centerIn: parent
-      font.pixelSize: Noo.factor() * 1.25
+      font.pixelSize: NOO.factor() * 1.25
       text: (index + 1) + ". " + modelData
       color: checked ? activPal.highlightedText : activPal.buttonText
       style: tb.activeFocus ? Text.Sunken : Text.Normal

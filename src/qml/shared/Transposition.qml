@@ -17,11 +17,11 @@ Grid {
 
   anchors.horizontalCenter: parent.horizontalCenter
   horizontalItemAlignment: Grid.AlignHCenter; verticalItemAlignment: Grid.AlignVCenter
-  spacing: Noo.factor()
-  columns: parent.width < Noo.factor() * 50 ? 1 : 2
+  spacing: NOO.factor()
+  columns: parent.width < NOO.factor() * 50 ? 1 : 2
 
   Row {
-    spacing: Noo.factor()
+    spacing: NOO.factor()
     TlabelText { text: qsTr("Transposition") }
     TspinBox {
       id: shiftSpin
@@ -30,17 +30,17 @@ Grid {
       value: Math.abs(shift)
       onValueChanged: shift = value * (upRadio.checked ? 1 : -1)
     }
-    TlabelText { text: qsTr("semitone(s)", "", shiftSpin.value); width: Noo.factor() * 12 }
+    TlabelText { text: qsTr("semitone(s)", "", shiftSpin.value); width: NOO.factor() * 12 }
   }
 
   ButtonGroup { id: upDownGroup }
   Column {
     Row {
-      TlabelText { text: "\u2191"; font { pixelSize: Noo.factor() * 2.5; family: "Nootka" }}
+      TlabelText { text: "\u2191"; font { pixelSize: NOO.factor() * 2.5; family: "Nootka" }}
       TradioButton { id: upRadio; text: qsTr("up"); ButtonGroup.group: upDownGroup }
     }
     Row {
-      TlabelText { text: "\u2193"; font { pixelSize: Noo.factor() * 2.5; family: "Nootka" }}
+      TlabelText { text: "\u2193"; font { pixelSize: NOO.factor() * 2.5; family: "Nootka" }}
       TradioButton { id: downRadio; text: qsTr("down"); ButtonGroup.group: upDownGroup }
     }
   }

@@ -10,9 +10,9 @@ Image {
 
   property int nr: -1
 
-  source: Noo.pix("pianokey")
+  source: NOO.pix("pianokey")
   width: Math.round(parent.width * 0.8); height: parent.height / 2
-  x: -parent.width * 0.4; y: Noo.factor() * (Noo.isAndroid() ? 1 : 1.5)
+  x: -parent.width * 0.4; y: NOO.factor() * (NOO.isAndroid() ? 1 : 1.5)
   z: 3
 
   MouseArea {

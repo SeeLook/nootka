@@ -23,7 +23,7 @@ Item {
     width: parent.width + 1
     height: parent.height
     x: -1
-    color: Noo.alpha(noteCursor.color, 26)
+    color: NOO.alpha(noteCursor.color, 26)
     z: -10; radius: width / 8
   }
 

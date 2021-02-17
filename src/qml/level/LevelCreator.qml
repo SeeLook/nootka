@@ -29,17 +29,17 @@ TlevelCreatorItem {
     var b = dialLoader.buttonBox.standardButton(DialogButtonBox.RestoreDefaults)
     b.text = qsTr("Check")
     b.DialogButtonBox.buttonRole = DialogButtonBox.ActionRole
-    b.pixmap = Noo.pix("levelCreator")
+    b.pixmap = NOO.pix("levelCreator")
     b.clicked.connect(checkLevel)
   }
 
   onSaveStateChanged: {
-    pages.buttons[0].pixmap = Noo.pix(notSaved ? "pane/notSaved" : "pane/levels")
+    pages.buttons[0].pixmap = NOO.pix(notSaved ? "pane/notSaved" : "pane/levels")
     dialLoader.title = title
   }
 
   onUpdateLevel: {
-    pages.buttons[1].pixmap = Noo.pix("pane/question" + (isMelody ? "Melody" : "Note"))
+    pages.buttons[1].pixmap = NOO.pix("pane/question" + (isMelody ? "Melody" : "Note"))
     pages.buttons[2].enabled = isMelody // melody button
     pages.buttons[3].enabled = isMelody && howGetMelody != 2 // rhythms button (melody but not from the list)
     pages.buttons[5].enabled = !isMelody || (isMelody && howGetMelody == 0) // range button
@@ -55,5 +55,5 @@ TlevelCreatorItem {
     c.createObject(creator, { "caption": title, "message": message, "accent": accent })
   }
 
-  function help() { Noo.openHelpLink("level-creator") }
+  function help() { NOO.openHelpLink("level-creator") }
 }

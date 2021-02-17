@@ -17,18 +17,18 @@ Tile {
   Column {
     width: parent.width
     Row {
-      spacing: Noo.factor()
+      spacing: NOO.factor()
       anchors.horizontalCenter: parent.horizontalCenter
       TlabelText { text: qsTranslate("SoundPage", "middle A") }
       Text { // staff
-        height: Noo.factor() * 4.5
-        y: Noo.factor() * -1.6
-        font { pixelSize: Noo.factor() * 2.5; family: "scorek" }
+        height: NOO.factor() * 4.5
+        y: NOO.factor() * -1.6
+        font { pixelSize: NOO.factor() * 2.5; family: "scorek" }
         text: "\ue014\ue014\ue014\ue014"
         color: enabled ? activPal.text : disdPal.text
         Text { // clef
-          x: Noo.factor() / 4
-          y: Noo.factor() * -0.6
+          x: NOO.factor() / 4
+          y: NOO.factor() * -0.6
           color: parent.color
           font: parent.font
           text: "\ue050"
@@ -36,8 +36,8 @@ Tile {
         Text { // note
           color: parent.color
           font: parent.font
-          x: Noo.factor() * 2.7
-          y: Noo.factor() * -0.9
+          x: NOO.factor() * 2.7
+          y: NOO.factor() * -0.9
           text: "\ue1d7"
         }
       }

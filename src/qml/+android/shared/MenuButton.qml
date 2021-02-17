@@ -18,10 +18,10 @@ Rectangle {
   property alias containsPress: ma.containsPress
   property alias textColor: butText.color
 
-  width: parent.width - Noo.factor()
-  implicitHeight: Noo.factor() * 2.8
+  width: parent.width - NOO.factor()
+  implicitHeight: NOO.factor() * 2.8
   anchors.horizontalCenter: parent ? parent.horizontalCenter : undefined
-  color: ma.containsPress ? Noo.alpha(activPal.highlight, 50) : "transparent"
+  color: ma.containsPress ? NOO.alpha(activPal.highlight, 50) : "transparent"
   enabled: !action || action.enabled
   scale: GLOB.useAnimations && ma.containsMouse ? 1.2 : 1
   transformOrigin: Item.Left
@@ -37,21 +37,21 @@ Rectangle {
 
   Image {
     id: icon
-    x: Noo.factor() * 0.2
+    x: NOO.factor() * 0.2
     source: action ? action.icon : ""
-    height: Noo.factor() * 2.2; width: height * (sourceSize.width / sourceSize.height)
+    height: NOO.factor() * 2.2; width: height * (sourceSize.width / sourceSize.height)
     anchors.verticalCenter: parent.verticalCenter
     visible: menuButton.enabled
   }
   Text {
     id: butText
-    x: Noo.factor() * (action && (action.icon !== "" || action.checkable) ? 4.2 : 0.8)
+    x: NOO.factor() * (action && (action.icon !== "" || action.checkable) ? 4.2 : 0.8)
     anchors.verticalCenter: parent.verticalCenter
     text: action ? action.text : ""
-    font { pixelSize: Noo.factor() * 1.1 }
+    font { pixelSize: NOO.factor() * 1.1 }
     color: enabled ? activPal.text : disdPal.text
-    width: parent.width - x - Noo.factor()
-    fontSizeMode: Text.Fit; minimumPixelSize: Noo.factor() / 2; minimumPointSize: minimumPixelSize
+    width: parent.width - x - NOO.factor()
+    fontSizeMode: Text.Fit; minimumPixelSize: NOO.factor() / 2; minimumPointSize: minimumPixelSize
     elide: Text.ElideRight
     textFormat: Text.StyledText
   }
@@ -62,7 +62,7 @@ Rectangle {
       anchors.verticalCenter: parent.verticalCenter
       checked: menuButton.action.checked
       onClicked: buttonClicked()
-      x: (Noo.factor() * 3.5 - width) / 2
+      x: (NOO.factor() * 3.5 - width) / 2
     }
   }
 

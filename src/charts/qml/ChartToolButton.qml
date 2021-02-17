@@ -15,7 +15,7 @@ ToolButton {
 
   hoverEnabled: true
 
-  width: pix.width + (Noo.isAndroid() ? 4 : factor * 2)
+  width: pix.width + (NOO.isAndroid() ? 4 : factor * 2)
   height: pix.height + Screen.pixelDensity * 2
   enabled: (taction && taction.enabled) || !taction
 
@@ -53,6 +53,6 @@ ToolButton {
     }
     enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1 }}
     exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0 }}
-    background: TipRect { shadowRadius: Noo.factor(); color: activPal.highlight }
+    background: TipRect { shadowRadius: NOO.factor(); color: activPal.highlight }
   }
 }

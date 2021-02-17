@@ -13,8 +13,8 @@ ToolButton {
 
   hoverEnabled: true
 
-  width: Math.max(pix.width, butText.width) + (Noo.isAndroid() ? 4 : factor * 2)
-  height: butText.height + pix.height + Noo.factor() / 4.0
+  width: Math.max(pix.width, butText.width) + (NOO.isAndroid() ? 4 : factor * 2)
+  height: butText.height + pix.height + NOO.factor() / 4.0
 
   property alias pixmap: pix.source
   property alias name: butText.text
@@ -29,9 +29,9 @@ ToolButton {
   onHoveredChanged: {
     if (GLOB.showHints && taction && taction.tip !== "") {
       if (hovered)
-        Noo.setStatusTip(taction.tip, taction.tipPos)
+        NOO.setStatusTip(taction.tip, taction.tipPos)
       else
-        Noo.setStatusTip("", taction.tipPos)
+        NOO.setStatusTip("", taction.tipPos)
     }
   }
 
@@ -44,7 +44,7 @@ ToolButton {
   Text {
     id: butText
     text: taction ? taction.text : ""
-    font.pixelSize: Math.min(factor * 2.5, Noo.factor())
+    font.pixelSize: Math.min(factor * 2.5, NOO.factor())
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.bottom: parent.bottom
     horizontalAlignment: Text.AlignHCenter
@@ -55,7 +55,7 @@ ToolButton {
     id: pix
     mipmap: true
     source: taction ? taction.icon : ""
-    y: Noo.factor() / 4.0 + (GLOB.useAnimations && !pressed && hiHover && hovered ? (root.height - height - Noo.factor() / 4.0) / 2 : 0)
+    y: NOO.factor() / 4.0 + (GLOB.useAnimations && !pressed && hiHover && hovered ? (root.height - height - NOO.factor() / 4.0) / 2 : 0)
     height: factor * 8; width: height * (sourceSize.width / sourceSize.height)
     anchors.horizontalCenter: butText.horizontalCenter
     transformOrigin: Image.Center; scale: pressed ? 0.9 : (GLOB.useAnimations && hiHover && hovered ? root.height / height : 1.0)

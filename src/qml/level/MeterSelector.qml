@@ -16,23 +16,23 @@ ListView {
   signal metersModified()
 
   clip: true
-  width: model * (Noo.factor() * 4.5)
-  contentWidth: model * (Noo.factor() * 4.25)
-  height: Noo.factor() * 3
+  width: model * (NOO.factor() * 4.5)
+  contentWidth: model * (NOO.factor() * 4.25)
+  height: NOO.factor() * 3
   orientation: ListView.Horizontal
-  spacing: Noo.factor() / 4
+  spacing: NOO.factor() / 4
 
   ScrollBar.horizontal: ScrollBar { active: enabled; visible: active }
 
   model: 12
   delegate: Component {
     Rectangle {
-      width: Noo.factor() * 5; height: Noo.factor() * 3
+      width: NOO.factor() * 5; height: NOO.factor() * 3
       color: enabled ? (index % 2 ? activPal.alternateBase : activPal.base) : Qt.darker(disdPal.window, 1.2)
       property int mask: Math.pow(2, index)
       TcheckBox {
-        width: Noo.factor() * 5
-        x: -y; y: Noo.factor() * 0.2
+        width: NOO.factor() * 5
+        x: -y; y: NOO.factor() * 0.2
         checked: meters & mask
         onClicked: {
           if (checked)
@@ -42,13 +42,13 @@ ListView {
           metersModified()
         }
         contentItem: Item {
-          height: Noo.factor() * 2; width: Noo.factor() * 2
+          height: NOO.factor() * 2; width: NOO.factor() * 2
           Text {
-            y: Noo.factor() * -3
-            text: Noo.meter(Math.pow(2, index)).symbol()
-            leftPadding: Noo.factor() * 2.5
+            y: NOO.factor() * -3
+            text: NOO.meter(Math.pow(2, index)).symbol()
+            leftPadding: NOO.factor() * 2.5
             color: enabled ? activPal.text : disdPal.text
-            font { family: "Scorek"; pixelSize: Noo.factor() * 2.2 }
+            font { family: "Scorek"; pixelSize: NOO.factor() * 2.2 }
           }
         }
       }

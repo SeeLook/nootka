@@ -11,10 +11,10 @@ TipRect {
 
   property int tickCount: 0
 
-  width: row.width + Noo.factor() * 4; height: nootkaWindow.height / 10
-  x: height * 2; y: Noo.factor() / 2
+  width: row.width + NOO.factor() * 4; height: nootkaWindow.height / 10
+  x: height * 2; y: NOO.factor() / 2
   z: 100
-  color: Qt.tint(activPal.text, Noo.alpha("#00a0a0", 100))
+  color: Qt.tint(activPal.text, NOO.alpha("#00a0a0", 100))
   visible: counter <= tickCount && (SOUND.listening || SOUND.playing) && SOUND.metroRunning
 
   // private
@@ -31,7 +31,7 @@ TipRect {
   Row {
     id: row
     anchors.centerIn: parent
-    spacing: Noo.factor() * 2
+    spacing: NOO.factor() * 2
     Repeater {
       id: cntRep
       model: tickCount

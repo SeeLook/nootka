@@ -16,14 +16,14 @@ Rectangle {
   property alias cornerRadius: glow.cornerRadius
 
   color: activPal.base
-  radius: Noo.factor() / 3
+  radius: NOO.factor() / 3
 
   RectangularGlow {
     id: glow
     width: parent.width; height: parent.height
-    x: rised ? Noo.factor() / 6 : 0; y: rised ? Noo.factor() / 6 : 0
+    x: rised ? NOO.factor() / 6 : 0; y: rised ? NOO.factor() / 6 : 0
     z: -1
-    glowRadius: Noo.factor() / 3
+    glowRadius: NOO.factor() / 3
     spread: 0
     color: activPal.shadow
     cornerRadius: parent.radius + glowRadius * spread

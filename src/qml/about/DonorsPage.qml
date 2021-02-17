@@ -16,11 +16,11 @@ Tflickable {
   Rectangle {
     id: bgRect
     width: root.width; height: root.height
-    color: Noo.alpha(activPal.base, 230)
+    color: NOO.alpha(activPal.base, 230)
     parent: root
     z: -1
     Image {
-      source: Noo.pix("nootka")
+      source: NOO.pix("nootka")
       height: root.height; width: height
       z: -1
       anchors.horizontalCenter: parent.horizontalCenter
@@ -30,7 +30,7 @@ Tflickable {
   Column {
     id: donCol
     width: root.width
-    spacing: Noo.factor()
+    spacing: NOO.factor()
     z: 2
 
     Tile {
@@ -41,7 +41,7 @@ Tflickable {
         text: qsTranslate("TaboutNootka", "People and companies who gave material support for the Nootka project")
         width: parent.width * 0.9
         wrapMode: Text.WordWrap
-        font { pixelSize: Noo.factor() * 2; bold: true }
+        font { pixelSize: NOO.factor() * 2; bold: true }
         anchors.horizontalCenter: parent.horizontalCenter
         color: activPal.highlightedText
         horizontalAlignment: Text.AlignHCenter
@@ -50,12 +50,12 @@ Tflickable {
 
     Grid {
       id: container
-      width: columns * widest + (columns - 1) * Noo.factor()
-      columns: Math.floor(parent.width / (widest + Noo.factor()))
+      width: columns * widest + (columns - 1) * NOO.factor()
+      columns: Math.floor(parent.width / (widest + NOO.factor()))
       horizontalItemAlignment: Grid.AlignHCenter
       anchors.horizontalCenter: parent.horizontalCenter
       property real widest: 0
-      spacing: Noo.factor()
+      spacing: NOO.factor()
       Repeater {
         model: [ "Tony Nederpel", "Jose1711", "Wayne Bonner", "Aaron Wolf",
                  "Torsten Philipp", "Vincent Bermel", "Tomasz Matuszewski",
@@ -65,28 +65,28 @@ Tflickable {
           id: donTile
           z: scale > 1 ? 2 : 1
           anchors.horizontalCenter: undefined
-          property color randCol: Noo.randomColor()
-          width: tt.width + Noo.factor() * 4
+          property color randCol: NOO.randomColor()
+          width: tt.width + NOO.factor() * 4
           bgBorder { color: randCol; width: 2 }
-          bgColor: Qt.tint(randCol, Noo.alpha(activPal.base, 180))
+          bgColor: Qt.tint(randCol, NOO.alpha(activPal.base, 180))
           Text {
             id: tt
-            font.pixelSize: Noo.factor() * 1.5
+            font.pixelSize: NOO.factor() * 1.5
             text: modelData
             anchors.horizontalCenter: parent.horizontalCenter
             color: activPal.text
-            Component.onCompleted: container.widest = Math.max(container.widest, tt.width + Noo.factor() * 4)
+            Component.onCompleted: container.widest = Math.max(container.widest, tt.width + NOO.factor() * 4)
           }
           MouseArea {
             id: ma
             anchors.fill: parent
             hoverEnabled: true
             onEntered: {
-              randCol = Noo.randomColor()
+              randCol = NOO.randomColor()
               donTile.scale = 1.5
             }
             onExited: donTile.scale = 1
-            onClicked: randCol = Noo.randomColor()
+            onClicked: randCol = NOO.randomColor()
           }
           Behavior on randCol { ColorAnimation { duration: 300 }}
           Behavior on scale { NumberAnimation { duration: 300}}
@@ -95,7 +95,7 @@ Tflickable {
     }
 
     Text {
-      font { bold: true; pixelSize: Noo.factor() * 2 }
+      font { bold: true; pixelSize: NOO.factor() * 2 }
       text: "THANK YOU!   "
       anchors.horizontalCenter: parent.horizontalCenter
       color: activPal.text

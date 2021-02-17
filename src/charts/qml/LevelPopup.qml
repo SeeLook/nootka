@@ -11,15 +11,15 @@ import "../level"
 Tmenu {
   id: lPop
   property alias levelPreview: levelPreview
-  width: Noo.factor() * 40; height: parent.height / 2
+  width: NOO.factor() * 40; height: parent.height / 2
   x: (parent.width - width) / 2; y: parent.height / 12
   visible: true
 
   Column {
-    width: parent.width; padding: Noo.factor() / 2
+    width: parent.width; padding: NOO.factor() / 2
     LevelPreview {
       id: levelPreview
-      width: parent.width - Noo.factor(); height: lPop.height - Noo.factor()
+      width: parent.width - NOO.factor(); height: lPop.height - NOO.factor()
     }
   }
 

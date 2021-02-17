@@ -12,20 +12,20 @@ TpopupDialog {
   id: melNamDial
 
   visible: true
-  width: Noo.factor() * 40; height: Noo.factor() * 12
+  width: NOO.factor() * 40; height: NOO.factor() * 12
   x: (parent.width - width) / 2
-  y: Noo.isAndroid() ? Noo.factor() : (parent.height - height) / 2
+  y: NOO.isAndroid() ? NOO.factor() : (parent.height - height) / 2
 
-  rejectButton.text: Noo.TR("QPlatformTheme", "Discard")
-  acceptButton.text: Noo.TR("QShortcut", "Save")
-  acceptButton.pixmap: Noo.pix("save")
+  rejectButton.text: NOO.TR("QPlatformTheme", "Discard")
+  acceptButton.text: NOO.TR("QShortcut", "Save")
+  acceptButton.pixmap: NOO.pix("save")
 
   Column {
     anchors.centerIn: parent
-    spacing: Noo.factor()
+    spacing: NOO.factor()
     Row {
-      anchors { right: parent.right; rightMargin: Noo.factor() / 2 }
-      spacing: Noo.factor()
+      anchors { right: parent.right; rightMargin: NOO.factor() / 2 }
+      spacing: NOO.factor()
       Text {
         anchors.verticalCenter: parent.verticalCenter
         color: activPal.text
@@ -35,13 +35,13 @@ TpopupDialog {
         id: melodyTitle
         maximumLength: 100
         model: mainObj.recentTitles() /**< @p mainObj is TmainScoreObject instance */
-        width: melNamDial.width - Noo.factor() * 11
+        width: melNamDial.width - NOO.factor() * 11
       }
     }
 
     Row {
-      anchors { right: parent.right; rightMargin: Noo.factor() / 2 }
-      spacing: Noo.factor()
+      anchors { right: parent.right; rightMargin: NOO.factor() / 2 }
+      spacing: NOO.factor()
       Text {
         anchors.verticalCenter: parent.verticalCenter
         color: activPal.text
@@ -51,7 +51,7 @@ TpopupDialog {
         id: composer
         maximumLength: 100
         model: mainObj.recentComposers()
-        width: melNamDial.width - Noo.factor() * 11
+        width: melNamDial.width - NOO.factor() * 11
       }
     }
     /**
@@ -66,24 +66,24 @@ TpopupDialog {
      */
 //     Row {
 //       anchors.right: parent.right
-//       spacing: Noo.factor()
+//       spacing: NOO.factor()
 //       Text {
 //         anchors.verticalCenter: parent.verticalCenter
 //         color: activPal.text
-//         text: Noo.TR("QFileDialog", "File")
+//         text: NOO.TR("QFileDialog", "File")
 //       }
 //       Text {
 //         id: fileName
 //         anchors.verticalCenter: parent.verticalCenter
-//         font { pixelSize: Noo.factor(); bold: true }
-//         width: melNamDial.width - Noo.factor() * 14
+//         font { pixelSize: NOO.factor(); bold: true }
+//         width: melNamDial.width - NOO.factor() * 14
 //         horizontalAlignment: Text.AlignHCenter; elide: Text.ElideMiddle
-//         text: GLOB.lastXmlDir() + (Noo.isWindows() ? "\\" : "/") + composer.text + " - " + melodyTitle.text + ".musicxml"
+//         text: GLOB.lastXmlDir() + (NOO.isWindows() ? "\\" : "/") + composer.text + " - " + melodyTitle.text + ".musicxml"
 //       }
 //       TiconButton {
-//         pixmap: Noo.pix("open")
+//         pixmap: NOO.pix("open")
 //         onClicked: {
-//           var f = Noo.getXmlToSave(composer.text + " - " + melodyTitle.text)
+//           var f = NOO.getXmlToSave(composer.text + " - " + melodyTitle.text)
 //           if (f !== "")
 //             fileName.text = f
 //         }

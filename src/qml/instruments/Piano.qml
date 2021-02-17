@@ -34,7 +34,7 @@ TpianoBg {
 
   Image { // piano background
     cache: false
-    source: Noo.pix("pianoBg")
+    source: NOO.pix("pianoBg")
     width: instrItem.width; height: width * (sourceSize.height / sourceSize.width)
     y: -height
     z: -1
@@ -80,7 +80,7 @@ TpianoBg {
 
   Rectangle {
     id: octaveCover
-    width: instrItem.width; height: Noo.factor() * (Noo.isAndroid() ? 1 : 1.5)
+    width: instrItem.width; height: NOO.factor() * (NOO.isAndroid() ? 1 : 1.5)
     color: "black"
     Repeater {
       model: Math.floor(keysNumber / 7)
@@ -99,7 +99,7 @@ TpianoBg {
   }
 
   Component.onCompleted: {
-    if (Noo.isAndroid() && Noo.fingerPixels() * 4 > height * 1.1)
+    if (NOO.isAndroid() && NOO.fingerPixels() * 4 > height * 1.1)
       pianoZoom = Qt.createComponent("qrc:/instruments/PianoZoom.qml").createObject(nootkaWindow.contentItem)
   }
 

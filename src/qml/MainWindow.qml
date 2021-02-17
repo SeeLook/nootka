@@ -13,7 +13,7 @@ ApplicationWindow {
   visible: true
   title: "Nootka"
   color: activPal.window
-  visibility: Noo.isAndroid() && GLOB.fullScreen() ? "FullScreen" : "AutomaticVisibility"
+  visibility: NOO.isAndroid() && GLOB.fullScreen() ? "FullScreen" : "AutomaticVisibility"
 
   property alias mainMenu: mainMenu
 
@@ -28,13 +28,13 @@ ApplicationWindow {
 
   SystemPalette {
     id: activPal
-    property color dimText: Qt.tint(activPal.base, Noo.alpha(activPal.text, 150))
+    property color dimText: Qt.tint(activPal.base, NOO.alpha(activPal.text, 150))
     colorGroup: SystemPalette.Active
   }
   SystemPalette { id: disdPal; colorGroup: SystemPalette.Disabled }
 
   Connections {
-    target: Noo
+    target: NOO
     onScoreActTriggered: mainMenu.open()
     onMelodyActTriggered: mainMenu.melodyOpen()
     onSettingsActTriggered: showDialog(Nootka.Settings)
@@ -89,7 +89,7 @@ ApplicationWindow {
   }
 
   Component.onCompleted: {
-    Noo.mainScore = score
+    NOO.mainScore = score
     checkSingleMode()
     if (GLOB.gotIt("soundInfo", true)) {
         sndInf = Qt.createComponent("qrc:/gotit/SoundInfo.qml").createObject(nootkaWindow.contentItem.parent)
@@ -104,7 +104,7 @@ ApplicationWindow {
   }
 
   function createStatus() {
-    Qt.createComponent("qrc:/StatusTip.qml").createObject(Noo.isAndroid() ? nootkaWindow.contentItem : nootkaWindow)
+    Qt.createComponent("qrc:/StatusTip.qml").createObject(NOO.isAndroid() ? nootkaWindow.contentItem : nootkaWindow)
   }
 
   function checkSingleMode() {
@@ -130,7 +130,7 @@ ApplicationWindow {
   }
 
   onClosing: {
-    if (Noo.isAndroid() && dialogLoader && dialogLoader.visible) {
+    if (NOO.isAndroid() && dialogLoader && dialogLoader.visible) {
       close.accepted = false
       dialogLoader.close()
     }

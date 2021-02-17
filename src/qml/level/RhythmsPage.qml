@@ -16,28 +16,28 @@ Tflickable {
 
   Column {
     id: rtmCol
-    width: parent.width; topPadding: Noo.factor() / 2; spacing: Noo.factor() / 2
+    width: parent.width; topPadding: NOO.factor() / 2; spacing: NOO.factor() / 2
     enabled: creator.howGetMelody !== 2 && creator.melodyLen > 1
 
     Text {
       text: qsTr("Select any rhythm and time signature to be used in this level, otherwise melodies will not have rhythmic values, just bare note-heads.")
       anchors.horizontalCenter: parent.horizontalCenter
       width: parent.width * 0.96
-      font { pixelSize: Noo.factor() * 0.8; bold: true }
+      font { pixelSize: NOO.factor() * 0.8; bold: true }
       textFormat: Text.RichText; horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap
       color: enabled ? ((rtmSel.basicMask || rtmSel.dotsMask) && metersSel.meters ? activPal.text : "red") : disdPal.text
     }
 
     Row {
-      width: parent.width; spacing: Noo.factor() / 4
+      width: parent.width; spacing: NOO.factor() / 4
       Tile {
         id: selTile
         anchors.horizontalCenter: undefined
-        width: rtmSel.width * 1.2; height: Math.max(rtmPage.height - Noo.factor() * 2, rCol.height)
+        width: rtmSel.width * 1.2; height: Math.max(rtmPage.height - NOO.factor() * 2, rCol.height)
         RhythmSelector {
           x: width / 10
           id: rtmSel
-          height: selTile.height - Noo.factor() * 2
+          height: selTile.height - NOO.factor() * 2
           basicMask: creator.basicRhythms
           dotsMask: creator.dotsRhythms
           onBasicGroupChanged: creator.basicRhythms = basicMask
@@ -50,13 +50,13 @@ Tflickable {
       }
       Column {
         id: rCol
-        width: parent.width - selTile.width - Noo.factor() / 4; spacing: Noo.factor() / 4
+        width: parent.width - selTile.width - NOO.factor() / 4; spacing: NOO.factor() / 4
         enabled: rtmSel.basicMask || rtmSel.dotsMask
         Tile {
           MeterSelector {
             id: metersSel
             anchors.horizontalCenter: parent.horizontalCenter
-            width: parent.width - Noo.factor() * 2
+            width: parent.width - NOO.factor() * 2
             meters: creator.meters
             onMetersModified: creator.meters = meters
           }
@@ -67,10 +67,10 @@ Tflickable {
           Row {
             id: measRow
             anchors.horizontalCenter: parent.horizontalCenter
-            spacing: Noo.factor()
+            spacing: NOO.factor()
             Text {
               anchors.verticalCenter: parent.verticalCenter
-              text: Noo.TR("MelGenDialog", "Measures number")
+              text: NOO.TR("MelGenDialog", "Measures number")
               color: enabled ? activPal.text : disdPal.text
             }
             TspinBox {

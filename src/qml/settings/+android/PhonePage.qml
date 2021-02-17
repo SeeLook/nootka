@@ -16,12 +16,12 @@ Tflickable {
   Column {
     id: phoneCol
     width: parent.width
-    topPadding: Noo.factor()
+    topPadding: NOO.factor()
 
     Tile {
       width: parent.width * 0.98
       Column {
-        spacing: Noo.factor() * 1.5
+        spacing: NOO.factor() * 1.5
         anchors.horizontalCenter: parent.horizontalCenter
 
         TcheckBox {

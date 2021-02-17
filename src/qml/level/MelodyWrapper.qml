@@ -11,7 +11,7 @@ import "../score"
 MouseArea {
   id: wrapArea
 
-  height: Noo.factor() * 10
+  height: NOO.factor() * 10
 
   property bool held: false
   property alias nr: wrapper.nr
@@ -60,7 +60,7 @@ MouseArea {
       anchors.fill: parent
       interactive: false
       readOnly: true
-      bgColor: Qt.tint(activPal.base, Noo.alpha(wrapArea.held ? activPal.text : (nr === melListView.currentMelody ? activPal.highlight : activPal.base), 50))
+      bgColor: Qt.tint(activPal.base, NOO.alpha(wrapArea.held ? activPal.text : (nr === melListView.currentMelody ? activPal.highlight : activPal.base), 50))
       Behavior on bgColor { enabled: GLOB.useAnimations; ColorAnimation { duration: 150 } }
     }
 
@@ -81,26 +81,26 @@ MouseArea {
     }
 
     Text {
-      x: Noo.factor() / 2; y: Noo.factor() / 2
+      x: NOO.factor() / 2; y: NOO.factor() / 2
       font { bold: true }
-      text: nr + 1; color: Noo.alpha(activPal.text, 150)
+      text: nr + 1; color: NOO.alpha(activPal.text, 150)
     }
 
     Text {
       text: wrapper.title
       x: parent.width - scoreCover.width
-      y: Noo.factor() / 4
-      font { bold: true; pixelSize: Noo.factor() * 1.3 }
-      color: wrapArea.containsMouse ? activPal.text : Noo.alpha(activPal.text, 150)
-      width: Noo.factor() * 25; elide: Text.ElideRight
+      y: NOO.factor() / 4
+      font { bold: true; pixelSize: NOO.factor() * 1.3 }
+      color: wrapArea.containsMouse ? activPal.text : NOO.alpha(activPal.text, 150)
+      width: NOO.factor() * 25; elide: Text.ElideRight
       Behavior on color { enabled: GLOB.useAnimations; ColorAnimation {} }
     }
 
     Text {
       text: wrapper.composer
-      anchors { right: parent.right; rightMargin: Noo.factor() / 4 }
-      y: Noo.factor() * 1.5
-      color: wrapArea.containsMouse ? activPal.text : Noo.alpha(activPal.text, 150)
+      anchors { right: parent.right; rightMargin: NOO.factor() / 4 }
+      y: NOO.factor() * 1.5
+      color: wrapArea.containsMouse ? activPal.text : NOO.alpha(activPal.text, 150)
       maximumLineCount: 1
       Behavior on color { enabled: GLOB.useAnimations; ColorAnimation {} }
     }

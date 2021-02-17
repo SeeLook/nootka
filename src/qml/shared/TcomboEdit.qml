@@ -11,9 +11,9 @@ TcomboBox {
 
   property alias maximumLength: tf.maximumLength
 
-  implicitWidth: Noo.factor() * 15
+  implicitWidth: NOO.factor() * 15
   editable: true
-  radius: Noo.factor() / 3
+  radius: NOO.factor() / 3
 
   contentItem: TextField {
     id: tf
@@ -24,7 +24,7 @@ TcomboBox {
     background: Rectangle {
       border { width: comboEdit.focus ? 2 : 0; color: activPal.highlight }
       color: enabled ? activPal.base : Qt.darker(disdPal.window, 1.2)
-      radius: Noo.factor() / 3
+      radius: NOO.factor() / 3
     }
   }
 }

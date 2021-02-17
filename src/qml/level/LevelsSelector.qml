@@ -39,26 +39,26 @@ TlevelsSelector {
         delegate: Rectangle {
           width: view.width; height: delegateRow.height
           color: index === view.currentIndex ? activPal.highlight :
-              (area.containsMouse ? Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 50)) : (index % 2 === 1 ? activPal.alternateBase : activPal.base))
+              (area.containsMouse ? Qt.tint(activPal.base, NOO.alpha(activPal.highlight, 50)) : (index % 2 === 1 ? activPal.alternateBase : activPal.base))
           Row {
             id: delegateRow
             width: parent.width
             padding: width / 100
             Text {
               anchors.verticalCenter: parent.verticalCenter
-              font { family: "Nootka"; pixelSize: Noo.factor() * 1.7 }
-              width: Noo.factor() * 2.5
-              color: index === view.currentIndex ? activPal.highlightedText : isMelody(index) ? Noo.invert(activPal.highlight) : activPal.highlight
+              font { family: "Nootka"; pixelSize: NOO.factor() * 1.7 }
+              width: NOO.factor() * 2.5
+              color: index === view.currentIndex ? activPal.highlightedText : isMelody(index) ? NOO.invert(activPal.highlight) : activPal.highlight
               text: isMelody(index) ? "m" : "n"
               horizontalAlignment: Text.AlignHCenter
             }
             Column {
-              width: parent.width - Noo.factor() * 3
-              spacing: Noo.factor() / 4
+              width: parent.width - NOO.factor() * 3
+              spacing: NOO.factor() / 4
               anchors.verticalCenter: parent.verticalCenter
               Text {
                 width: parent.width
-                font { pixelSize: Noo.factor(); bold: true }
+                font { pixelSize: NOO.factor(); bold: true }
                 text: modelData
                 color: index === view.currentIndex ? activPal.highlightedText : (isSuitable(index) ? activPal.text : disdPal.text)
                 elide: Text.ElideRight
@@ -67,7 +67,7 @@ TlevelsSelector {
                 visible: text !== ""
                 width: parent.width
                 text: desc(index)
-                font.pixelSize: Noo.factor() * 0.8
+                font.pixelSize: NOO.factor() * 0.8
                 color: index === view.currentIndex ? activPal.highlightedText : activPal.text
                 wrapMode: Text.WordWrap; maximumLineCount: 2; elide: Text.ElideRight
               }
@@ -91,12 +91,12 @@ TlevelsSelector {
         spacing: lSelector.width / 50
 
         TiconButton {
-          pixmap: Noo.pix("nootka-level"); text: qsTr("Load")
+          pixmap: NOO.pix("nootka-level"); text: qsTr("Load")
           onClicked: loadFromFile()
         }
         TiconButton {
           enabled: isRemovable(view.currentIndex)
-          pixmap: Noo.pix("delete"); text: Noo.TR("QFileDialog", "Remove")
+          pixmap: NOO.pix("delete"); text: NOO.TR("QFileDialog", "Remove")
           onClicked: {
             var c = Qt.createComponent("qrc:/level/RemoveLevel.qml")
             var rmLevelDialog = c.createObject(lSelector, { "levelName": levelName(view.currentIndex), "levelFile": levelFile(view.currentIndex) })

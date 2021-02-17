@@ -9,14 +9,14 @@ ExamTip {
   id: examTip
 
   bg: GLOB.wrongColor
-  font.pixelSize: Noo.factor() * (Noo.isAndroid() ? 1 : 1.25)
+  font.pixelSize: NOO.factor() * (NOO.isAndroid() ? 1 : 1.25)
   width: textItem.width + height / 2
   textItem.z: 1 // above question mark
 
   Text {
     font { pixelSize: examTip.height; family: "Nootka" }
     x: examTip.width - width * 0.95
-    text: "?"; color: Qt.tint(activPal.base, Noo.alpha(GLOB.wrongColor, 70))
+    text: "?"; color: Qt.tint(activPal.base, NOO.alpha(GLOB.wrongColor, 70))
   }
 
   MouseArea {

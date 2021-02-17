@@ -15,7 +15,7 @@ Rectangle {
   signal getTip()
 
   height: nootkaWindow.width / 45; width: height * 2
-  color: resultArea.containsMouse || hi ? activPal.highlight : Qt.tint(activPal.mid, Noo.alpha(bg, 40))
+  color: resultArea.containsMouse || hi ? activPal.highlight : Qt.tint(activPal.mid, NOO.alpha(bg, 40))
   z: 15
 
   Text {
@@ -29,18 +29,18 @@ Rectangle {
   MouseArea {
     id: resultArea
     anchors.fill: parent
-    hoverEnabled: !Noo.isAndroid()
+    hoverEnabled: !NOO.isAndroid()
     onClicked: more()
     onContainsMouseChanged: {
       if (GLOB.showHints) {
         if (containsMouse)
           getTip()
         else
-          Noo.setStatusTip("", Item.Top)
+          NOO.setStatusTip("", Item.Top)
       }
     }
   }
 
   function more() { resultsItem.more(label) }
-  function showTip(tip) { Noo.setStatusTip(tip, Item.Top) }
+  function showTip(tip) { NOO.setStatusTip(tip, Item.Top) }
 }

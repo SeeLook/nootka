@@ -20,7 +20,7 @@ GotIt {
     id: finger
     z: 1050 // above everything and score toolbox
     x: parent.width - width; y: parent.height - height
-    source: Noo.pix("fingerpoint")
+    source: NOO.pix("fingerpoint")
     width: parent.width * 0.05; height: width
     opacity: 0
   }
@@ -28,7 +28,7 @@ GotIt {
   Rectangle { // under score
     width: gotScore.width * 1.41; height: width; radius: width / 2
     x: width * -0.25; y: height * -0.25
-    color: Noo.alpha(activPal.highlight, 50)
+    color: NOO.alpha(activPal.highlight, 50)
   }
 
   MouseArea { // cover score mouse/touch actions
@@ -51,11 +51,11 @@ GotIt {
 
   Rectangle {
     width: parent.width * 0.5
-    x: parent.width * 0.5 - Noo.factor() * 1.5; y: parent.height * 0.05
+    x: parent.width * 0.5 - NOO.factor() * 1.5; y: parent.height * 0.05
     Column {
       anchors.horizontalCenter: parent.hozrizontalCenter
-      width: parent.width - Noo.factor() * 4
-      spacing: Noo.factor()
+      width: parent.width - NOO.factor() * 4
+      spacing: NOO.factor()
       Text {
         anchors.horizontalCenter: parent.hozrizontalCenter
         color: activPal.text
@@ -73,10 +73,10 @@ GotIt {
           qsTr("If necessary, select accidental or rhythmic value."),
           qsTr("Finally, tap selected note shortly.")
         ]
-        width: parent.width - Noo.factor() * 2; height: contentHeight
-        spacing: Noo.factor() / 2
+        width: parent.width - NOO.factor() * 2; height: contentHeight
+        spacing: NOO.factor() / 2
         delegate: Text {
-          width: parent.width - Noo.factor() * 2
+          width: parent.width - NOO.factor() * 2
           text: index + 1 + ". " + modelData
           color: activPal.text; wrapMode: Text.WordWrap
           font { bold: index === descView.currentIndex; pixelSize: scoreHow.width * 0.015 }
@@ -98,7 +98,7 @@ GotIt {
   property real editPosX: gotScore.x + 23 * gotScore.scale
   property real editPosY: gotScore.y + (gotScore.upperLine + 8) * gotScore.scale // upperLine + 4
   property real boxPosX: gotScore.x + 2 + factor * 2.5 // in the middle of sharp control on score toolbox
-  property real boxPosY: (Noo.isAndroid() ? (height - factor * 27) / 2 : Noo.factor() / 2) + factor * 7.5
+  property real boxPosY: (NOO.isAndroid() ? (height - factor * 27) / 2 : NOO.factor() / 2) + factor * 7.5
 
   SequentialAnimation {
     id: gotAnim
@@ -181,7 +181,7 @@ GotIt {
     }
     ScriptAction {
       script: {
-        gotScore.addNote(Noo.note(5, 1, 1, 4)) // add note to e score (g#1 eight)
+        gotScore.addNote(NOO.note(5, 1, 1, 4)) // add note to e score (g#1 eight)
         gotScore.scoreToobox.active = false
         gotScore.noteAdd.active = false
       }
@@ -206,11 +206,11 @@ GotIt {
 
   Row {
     x: parent.width * 0.05; y: parent.height * 0.95 - height
-    spacing: Noo.factor() * 2
+    spacing: NOO.factor() * 2
     TcuteButton {
-      text: Noo.TR("QShortcut", gotAnim.running ?  "Stop" : "Play")
-      width: height * 3.5; height: Noo.factor() * 3
-      font { pixelSize: Noo.factor() * 2; bold: true; capitalization: Font.AllUppercase }
+      text: NOO.TR("QShortcut", gotAnim.running ?  "Stop" : "Play")
+      width: height * 3.5; height: NOO.factor() * 3
+      font { pixelSize: NOO.factor() * 2; bold: true; capitalization: Font.AllUppercase }
       onClicked: {
         if (gotAnim.running)
             gotAnim.running = false
@@ -232,9 +232,9 @@ GotIt {
     }
     TcuteButton {
       enabled: gotAnim.running
-      text: gotAnim.paused ?  Noo.TR("QWizard", "Continue") : Noo.TR("QShortcut", "Pause")
-      width: height * 3.5; height: Noo.factor() * 3
-      font { pixelSize: Noo.factor() * 2; bold: true; capitalization: Font.AllUppercase }
+      text: gotAnim.paused ?  NOO.TR("QWizard", "Continue") : NOO.TR("QShortcut", "Pause")
+      width: height * 3.5; height: NOO.factor() * 3
+      font { pixelSize: NOO.factor() * 2; bold: true; capitalization: Font.AllUppercase }
       onClicked: {
         if (gotAnim.paused)
           gotAnim.resume()

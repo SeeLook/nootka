@@ -78,7 +78,7 @@ TlinChartDelegate {
     anchors.fill: nText
     horizontalOffset: lineDel.width / 35
     verticalOffset: horizontalOffset
-    radius: Noo.factor()
+    radius: NOO.factor()
     samples: 1 + radius * 2
     color: activPal.shadow
     source: nText
@@ -98,7 +98,7 @@ TlinChartDelegate {
     Text {
       z: -1
       x: (parent.width - width) / 2; y: parent.height * 0.05
-      color: Noo.alpha(activPal.text, 75)
+      color: NOO.alpha(activPal.text, 75)
       textFormat: Text.RichText
     }
   }

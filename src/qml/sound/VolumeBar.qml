@@ -33,9 +33,9 @@ Item {
           GLOB.minVolume = mv
       }
     }
-    onEntered: Noo.setStatusTip(qsTr("Volume level of input sound.") + (active ? "<br>" + qsTr("Drag a knob to adjust minimum input volume.") : ""),
+    onEntered: NOO.setStatusTip(qsTr("Volume level of input sound.") + (active ? "<br>" + qsTr("Drag a knob to adjust minimum input volume.") : ""),
                                 Item.TopLeft)
-    onExited: Noo.setStatusTip("", Item.TopLeft)
+    onExited: NOO.setStatusTip("", Item.TopLeft)
   }
 
   Text {
@@ -62,12 +62,12 @@ Item {
 
   TipRect {
     id: knob
-    scale: Noo.isAndroid() && area.pressed ? 1.3 : 1
+    scale: NOO.isAndroid() && area.pressed ? 1.3 : 1
     x: minVolText.width + GLOB.minVolume * tc.width - radius
     y: (volBar.height - height) / 2
     horizontalOffset: area.pressed ? 0 : tickWidth
     verticalOffset: horizontalOffset
-    visible: active && (Noo.isAndroid() || area.pressed || area.containsMouse)
+    visible: active && (NOO.isAndroid() || area.pressed || area.containsMouse)
     height: volBar.height * 0.9; width: height; radius: height / 2
     color: activPal.highlight
     Rectangle {

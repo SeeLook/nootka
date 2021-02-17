@@ -10,30 +10,30 @@ import "../score"
 
 
 Column {
-  spacing: Noo.factor()
-  width: parent.width - Noo.factor() * 2
+  spacing: NOO.factor()
+  width: parent.width - NOO.factor() * 2
 
   Text {
     width: parent.width
     wrapMode: Text.WordWrap
-    font { pixelSize: Noo.factor() * 1.2; bold: true }
+    font { pixelSize: NOO.factor() * 1.2; bold: true }
     horizontalAlignment: Text.AlignHCenter
     color: activPal.text
     text: qsTr("Guitar notation uses the treble clef with the digit \"eight\" written below <br>(even if some editors are forgetting about this digit).<br>Try to understand this.")
   }
   Tile {
-    width: scoreRow.width + Noo.factor() * 2
+    width: scoreRow.width + NOO.factor() * 2
     bgColor: nootkaWindow.bgColor
     bgBorder { width: 2; color: nootkaWindow.labelColor }
     Row {
       id: scoreRow
       anchors.horizontalCenter: parent.horizontalCenter
-      spacing: Noo.factor(); leftPadding: Noo.factor()
+      spacing: NOO.factor(); leftPadding: NOO.factor()
       Repeater {
         model: 2
         Score {
           id: sc
-          height: Math.max(Noo.factor() * 18, nootkaWindow.height * 0.4); width: Math.max(Noo.factor() * 9, nootkaWindow.height * 0.2)
+          height: Math.max(NOO.factor() * 18, nootkaWindow.height * 0.4); width: Math.max(NOO.factor() * 9, nootkaWindow.height * 0.2)
           bgColor: "transparent"
           meter: Tmeter.NoMeter
           readOnly: true
@@ -41,7 +41,7 @@ Column {
           scoreObj.showNoteNames: true
           scoreObj.nameColor: GLOB.nameColor
           scoreObj.nameStyle: GLOB.noteNameStyle
-          Component.onCompleted: addNote(Noo.note(1, 1, 0, Trhythm.NoRhythm))
+          Component.onCompleted: addNote(NOO.note(1, 1, 0, Trhythm.NoRhythm))
         }
       }
     }

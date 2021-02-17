@@ -11,7 +11,7 @@ import "../"
 GlowRect {
   id: base
   property bool active: false
-  property real factor: Screen.pixelDensity * (Noo.isAndroid() ? 2.5 : 3.5)
+  property real factor: Screen.pixelDensity * (NOO.isAndroid() ? 2.5 : 3.5)
   property alias component: loader.sourceComponent
   property alias hideTimer: hideTimer
   property alias loader: loader

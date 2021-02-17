@@ -12,16 +12,16 @@ TipRect {
   property int tipPos: Item.Top
 
   Connections {
-    target: Noo
+    target: NOO
     onStatusTip: { text.text = statusText; statusTip.tipPos = tipPos }
   }
 
   x: 0.1 * nootkaWindow.width; y: statusTip.text === "" ? -1.2 * height : 0
   z: 500; radius: 0
   width: nootkaWindow.width * 0.8
-  height: Math.min(nootkaWindow.height / 6, Noo.factor() * 7)
+  height: Math.min(nootkaWindow.height / 6, NOO.factor() * 7)
 
-  color: Qt.tint(ma.pressed ? activPal.highlight : activPal.text, Noo.alpha(Noo.messageColor, 100))
+  color: Qt.tint(ma.pressed ? activPal.highlight : activPal.text, NOO.alpha(NOO.messageColor, 100))
 
   Text {
     id: text
@@ -35,7 +35,7 @@ TipRect {
   MouseArea {
     id: ma
     anchors.fill: parent
-    onReleased: Noo.setStatusTip("")
+    onReleased: NOO.setStatusTip("")
   }
 
   Behavior on y {

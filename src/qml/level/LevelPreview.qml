@@ -15,7 +15,7 @@ TlevelPreviewItem {
     anchors.fill: parent
     color: activPal.base
     Text {
-      color: Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 50))
+      color: Qt.tint(activPal.base, NOO.alpha(activPal.highlight, 50))
       font { family: "Nootka"; pixelSize: parent.width * 0.75 }
       anchors.centerIn: parent
       text: instrumentGlyph
@@ -43,8 +43,8 @@ TlevelPreviewItem {
     }
   }
 
-  property real maxLabelWidth: Noo.factor() * 10
-  property real maxValueWidth: Noo.factor() * 10
+  property real maxLabelWidth: NOO.factor() * 10
+  property real maxValueWidth: NOO.factor() * 10
 
   Tflickable {
     id: viewFlick
@@ -53,7 +53,7 @@ TlevelPreviewItem {
     contentHeight: levCol.height * levCol.scale
     Column {
       id: levCol
-      topPadding: Noo.factor()
+      topPadding: NOO.factor()
       anchors.horizontalCenter: parent.horizontalCenter
       transformOrigin: Item.Top
 
@@ -62,11 +62,11 @@ TlevelPreviewItem {
         text2: header
       }
 
-      Item { width: 10; height: Noo.factor() }
+      Item { width: 10; height: NOO.factor() }
 
       Rectangle {
         visible: validLevel
-        width: levRow.width; height: Noo.factor() / 6
+        width: levRow.width; height: NOO.factor() / 6
         color: activPal.text
         anchors.horizontalCenter: parent.horizontalCenter
       }
@@ -75,28 +75,28 @@ TlevelPreviewItem {
         id: levRow
         visible: validLevel
         anchors.horizontalCenter: parent.horizontalCenter
-        Rectangle { width: Noo.factor() / 6; height: levRow.height; color: activPal.text }
+        Rectangle { width: NOO.factor() / 6; height: levRow.height; color: activPal.text }
 
         Column {
           PreviewItem { text2: instrument }
-          Rectangle { width: parent.width; height: Noo.factor() / 12; color: activPal.text }
+          Rectangle { width: parent.width; height: NOO.factor() / 12; color: activPal.text }
 
           PreviewItem {
             id: noteRangeIt
             index: 1
             handleWidth: true
-            height: Noo.factor() * 2
-            text: Noo.TR("RangePage", "note range:").replace(":", " ")
+            height: NOO.factor() * 2
+            text: NOO.TR("RangePage", "note range:").replace(":", " ")
             text2: noteRange
-            textItem2.font { family: "Scorek"; pixelSize: Noo.factor() * 1.6 }
-            textItem2.y: Noo.factor() * -1.8
+            textItem2.font { family: "Scorek"; pixelSize: NOO.factor() * 1.6 }
+            textItem2.y: NOO.factor() * -1.8
           }
 
           PreviewItem {
             id: fretRangeIt
             aboveItem: noteRangeIt
             handleWidth: true
-            text: Noo.TR("RangePage", "fret range:").replace(":", " ")
+            text: NOO.TR("RangePage", "fret range:").replace(":", " ")
             text2: fretRange
           }
 
@@ -113,19 +113,19 @@ TlevelPreviewItem {
             id: accidentalsIt
             aboveItem: keyRangeIt
             handleWidth: true
-            text: Noo.TR("AccidsPage", "accidentals") + " "
+            text: NOO.TR("AccidsPage", "accidentals") + " "
             text2: accidentals === "" ? qsTranslate("TlevelPreviewItem", "none") : accidentals
-            textItem2.font { family: accidentals === "" ? Noo.fontFamily() : "Nootka"; pixelSize: Noo.factor() * (accidentals === "" ? 1 : 1.7) }
+            textItem2.font { family: accidentals === "" ? NOO.fontFamily() : "Nootka"; pixelSize: NOO.factor() * (accidentals === "" ? 1 : 1.7) }
           }
 
           PreviewItem {
             id: questionsIt
             aboveItem: accidentalsIt
             handleWidth: true
-            text: Noo.TR("LevelCreator", "Questions") + " "
+            text: NOO.TR("LevelCreator", "Questions") + " "
             text2: questions === "" ? qsTr("not selected") : questions
             textItem2.color: questions === "" ? "red" : activPal.text
-            textItem2.font { family: questions === "" ? Noo.fontFamily() : "Nootka"; pixelSize: Noo.factor() * (questions === "" ? 1 : 2) }
+            textItem2.font { family: questions === "" ? NOO.fontFamily() : "Nootka"; pixelSize: NOO.factor() * (questions === "" ? 1 : 2) }
           }
 
           PreviewItem {
@@ -135,14 +135,14 @@ TlevelPreviewItem {
             text: qsTranslate("LevelCreator", "Answers") + " "
             text2: answers === "" ? qsTr("not selected") : answers
             textItem2.color: answers === "" ? "red" : activPal.text
-            textItem2.font { family: answers === "" ? Noo.fontFamily() : "Nootka"; pixelSize: Noo.factor() * (answers === "" ? 1 : 2) }
+            textItem2.font { family: answers === "" ? NOO.fontFamily() : "Nootka"; pixelSize: NOO.factor() * (answers === "" ? 1 : 2) }
           }
 
           PreviewItem {
             id: melodyIt
             aboveItem: answersIt
-            textItem.font { family: "Nootka"; pixelSize: Noo.factor() * 2 }
-            textItem { width: maxLabelWidth - Noo.factor(); horizontalAlignment: Text.AlignHCenter }
+            textItem.font { family: "Nootka"; pixelSize: NOO.factor() * 2 }
+            textItem { width: maxLabelWidth - NOO.factor(); horizontalAlignment: Text.AlignHCenter }
             text: "m"
             handleWidth: true
             text2: melodyFrom
@@ -159,29 +159,29 @@ TlevelPreviewItem {
           }
         } // Column
 
-        Rectangle { width: Noo.factor() / 6; height: levRow.height; color: activPal.text }
+        Rectangle { width: NOO.factor() / 6; height: levRow.height; color: activPal.text }
 
         Column {
           PreviewItem {
             layHorizontal: false
-            height: textItem2.height * (text2 === "\ue047" ? 1 : 0.75); textItem2.y: Noo.factor()
+            height: textItem2.height * (text2 === "\ue047" ? 1 : 0.75); textItem2.y: NOO.factor()
             text: "<br>" + qsTranslate("TlevelPreviewItem", "Clef") + ":"
-            textItem2.font { family: "Scorek"; pixelSize: Noo.factor() * 4 }
+            textItem2.font { family: "Scorek"; pixelSize: NOO.factor() * 4 }
             text2: clef
           }
         }
 
-        Rectangle { width: Noo.factor() / 6; height: levRow.height; color: activPal.text }
+        Rectangle { width: NOO.factor() / 6; height: levRow.height; color: activPal.text }
       } // levRow Row
 
       Rectangle {
         visible: validLevel
-        width: levRow.width; height: Noo.factor() / 6
+        width: levRow.width; height: NOO.factor() / 6
         color: activPal.text
         anchors.horizontalCenter: parent.horizontalCenter
       }
 
-      Item { width: 10; height: Noo.factor() }
+      Item { width: 10; height: NOO.factor() }
 
       PreviewItem {
         visible: validLevel
@@ -196,18 +196,18 @@ TlevelPreviewItem {
   Timer { id: zoomTimer; interval: 100 }
 
   Row { // no zoom buttons under Android
-    visible: !Noo.isAndroid()
+    visible: !NOO.isAndroid()
     anchors { right: parent.right; bottom: parent.bottom }
     HeadButton {
-      factor: Noo.factor() / 3; hiHover: false
+      factor: NOO.factor() / 3; hiHover: false
       height: factor * 9.5
-      pixmap: Noo.pix("zoom-out")
+      pixmap: NOO.pix("zoom-out")
       onClicked: zoom(false)
     }
     HeadButton {
-      factor: Noo.factor() / 3; hiHover: false
+      factor: NOO.factor() / 3; hiHover: false
       height: factor * 9.5
-      pixmap: Noo.pix("zoom-in")
+      pixmap: NOO.pix("zoom-in")
       onClicked: zoom(true)
     }
   }

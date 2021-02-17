@@ -65,7 +65,7 @@ TipRect {
         PianoKeyWhite {
           nr: index
           enabled: zoomed
-          height: Math.max(Noo.fingerPixels() * 4, instrItem.height * 1.1)
+          height: Math.max(NOO.fingerPixels() * 4, instrItem.height * 1.1)
           width: height / 4
           onClicked: {
             var k = instrItem.getKey(octave * 7 + key.nr)
@@ -86,7 +86,7 @@ TipRect {
     }
 
     Rectangle {
-      width: keyRow.width; height: Noo.factor() * (Noo.isAndroid() ? 1 : 1.5) + 2
+      width: keyRow.width; height: NOO.factor() * (NOO.isAndroid() ? 1 : 1.5) + 2
       y: -2
       color: octave % 2 ? "#303030" : "black"
       Text {

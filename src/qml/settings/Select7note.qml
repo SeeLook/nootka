@@ -18,14 +18,14 @@ Item {
   Grid {
     id: mainLay
     columns: 2
-    spacing: Noo.factor()
+    spacing: NOO.factor()
     verticalItemAlignment: Grid.AlignVCenter
 
     ButtonGroup { buttons: butRow.children }
     Row {
       id: butRow
       y: (parent.height - height) / 2
-      spacing: Noo.factor() / 2
+      spacing: NOO.factor() / 2
       Text { text: qsTr("7th note is:"); color: enabled ? activPal.text : disdPal.text; anchors.verticalCenter: parent.verticalCenter }
       TradioButton { id: bButt; text: "B" }
       TradioButton { text: "H"; checked: !bButt.checked }
@@ -33,7 +33,7 @@ Item {
 
     Text {
       id: preview
-      font.pixelSize: Noo.factor() * 2
+      font.pixelSize: NOO.factor() * 2
       color: activPal.text
     }
   }
@@ -42,7 +42,7 @@ Item {
     if (style > -1) {
       var sp = ""
       for (var n = 1; n < 8; ++n)
-        sp += Noo.noteName(Noo.note(n, 1, 0), style, false) + " "
+        sp += NOO.noteName(NOO.note(n, 1, 0), style, false) + " "
       preview.text = sp
     }
   }

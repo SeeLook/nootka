@@ -26,24 +26,24 @@ Tflickable {
         GLOB.clefType = instrDetails.clef
         GLOB.transposition = instrDetails.transposition
     } else {
-        GLOB.clefType = Noo.instr(selectedIns).clef
+        GLOB.clefType = NOO.instr(selectedIns).clef
         if (instrDetails && (selectedIns === 6 || selectedIns === 7)) // saxophones
           GLOB.transposition = instrDetails.transposition
         else
-          GLOB.transposition = Noo.instr(selectedIns).transposition
+          GLOB.transposition = NOO.instr(selectedIns).transposition
     }
 
     var tuning
     if (selectedIns === 3) // bass
-        tuning = Noo.tuning(100)
+        tuning = NOO.tuning(100)
     else if (selectedIns === 1 || selectedIns === 2) // guitars
-        tuning = Noo.tuning(0)
+        tuning = NOO.tuning(0)
     else if (selectedIns === 0) {
         if (instrDetails)
-          tuning = Noo.tuning(Noo.transpose(instrDetails.getNote(0), GLOB.transposition), Noo.transpose(instrDetails.getNote(1), GLOB.transposition),
-                              Noo.emptyNote(), Noo.emptyNote(), Noo.emptyNote(), Noo.emptyNote())
+          tuning = NOO.tuning(NOO.transpose(instrDetails.getNote(0), GLOB.transposition), NOO.transpose(instrDetails.getNote(1), GLOB.transposition),
+                              NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote())
         else
-          tuning = Noo.tuning(Noo.note(10), Noo.note(54), Noo.emptyNote(), Noo.emptyNote(), Noo.emptyNote(), Noo.emptyNote())
+          tuning = NOO.tuning(NOO.note(10), NOO.note(54), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote())
     }
     GLOB.minSplitVol = GLOB.instrument.minSplitVol
     GLOB.skipStillerVal = GLOB.instrument.skipStillerVal

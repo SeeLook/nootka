@@ -18,10 +18,10 @@ Rectangle {
   property alias containsPress: ma.containsPress
   property alias textColor: butText.color
 
-  width: parent.width - Noo.factor()
-  implicitHeight: Noo.factor() * 2.8
+  width: parent.width - NOO.factor()
+  implicitHeight: NOO.factor() * 2.8
   anchors.horizontalCenter: parent ? parent.horizontalCenter : undefined
-  color: ma.containsPress ? activPal.highlight : (ma.containsMouse ? Noo.alpha(activPal.highlight, 50) : "transparent")
+  color: ma.containsPress ? activPal.highlight : (ma.containsMouse ? NOO.alpha(activPal.highlight, 50) : "transparent")
   enabled: !action || action.enabled
 
   signal clicked()
@@ -40,8 +40,8 @@ Rectangle {
   Image {
     id: icon
     source: action && !action.checkable ? action.icon : ""
-    x: Noo.factor() / 2
-    height: Noo.factor() * 2.2; width: height * (sourceSize.width / sourceSize.height)
+    x: NOO.factor() / 2
+    height: NOO.factor() * 2.2; width: height * (sourceSize.width / sourceSize.height)
     anchors.verticalCenter: parent.verticalCenter
     scale: GLOB.useAnimations && !ma.pressed && ma.containsMouse ? 1.2 : 1.0
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
@@ -49,14 +49,14 @@ Rectangle {
   }
   Text {
     id: butText
-    x: Noo.factor() * (action && (action.icon !== "" || action.checkable) ? 3.7 : 0.8)
+    x: NOO.factor() * (action && (action.icon !== "" || action.checkable) ? 3.7 : 0.8)
     text: action ? action.text : ""
-    font { bold: true; pixelSize: Noo.factor() }
+    font { bold: true; pixelSize: NOO.factor() }
     color: enabled ? activPal.text : disdPal.text
-    width: parent.width - x - Noo.factor() - (shortText ? shortText.width : 0)
+    width: parent.width - x - NOO.factor() - (shortText ? shortText.width : 0)
     height: parent.height
     verticalAlignment: Text.AlignVCenter
-    fontSizeMode: Text.HorizontalFit; minimumPixelSize: Noo.factor() / 2; minimumPointSize: minimumPixelSize
+    fontSizeMode: Text.HorizontalFit; minimumPixelSize: NOO.factor() / 2; minimumPointSize: minimumPixelSize
     elide: Text.ElideRight
   }
 
@@ -66,7 +66,7 @@ Rectangle {
       anchors.verticalCenter: parent.verticalCenter
       checked: menuButton.action.checked
       onClicked: buttonClicked()
-      x: (Noo.factor() * 3.5 - width) / 2
+      x: (NOO.factor() * 3.5 - width) / 2
     }
   }
 
@@ -75,14 +75,14 @@ Rectangle {
     Text {
       anchors.verticalCenter: parent.verticalCenter
       text: action.key()
-      font.pixelSize: Noo.factor() * 0.8
-      x: menuButton.width - width - Noo.factor() / 2
+      font.pixelSize: NOO.factor() * 0.8
+      x: menuButton.width - width - NOO.factor() / 2
       color: enabled ? activPal.text : disdPal.text
     }
   }
 
   Component.onCompleted: { // shortcut is known only now
-    if (!Noo.isAndroid() && action && action.shortcut)
+    if (!NOO.isAndroid() && action && action.shortcut)
       shortText = shortComp.createObject(menuButton)
   }
 
@@ -94,9 +94,9 @@ Rectangle {
     onHoveredChanged: {
       if (action) {
         if (GLOB.showHints && action.tip !== "" && ma.containsMouse)
-          Noo.setStatusTip(action.tip, action.tipPos)
+          NOO.setStatusTip(action.tip, action.tipPos)
         else
-          Noo.setStatusTip("", action.tipPos)
+          NOO.setStatusTip("", action.tipPos)
       }
     }
   }

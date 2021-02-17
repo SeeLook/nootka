@@ -12,18 +12,18 @@ TipRect {
   property alias text: txt.text
   property color hintColor: GLOB.correctColor
 
-  shadowRadius: Noo.factor()
-  width: txt.width  + 2 * Noo.factor()
-  height: txt.height + 2 * Noo.factor()
+  shadowRadius: NOO.factor()
+  width: txt.width  + 2 * NOO.factor()
+  height: txt.height + 2 * NOO.factor()
   z: 150
 
   border { color: hintColor; width: 1 }
-  color: Qt.tint(activPal.base, Noo.alpha(hintColor, 50))
+  color: Qt.tint(activPal.base, NOO.alpha(hintColor, 50))
 
   anchors { centerIn: parent }
 
   Column {
-    padding: Noo.factor()
+    padding: NOO.factor()
     Text {
       z: 200
       id: txt

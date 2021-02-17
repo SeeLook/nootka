@@ -18,7 +18,7 @@ BorderImage {
   anchors.horizontalCenter: parent ? parent.horizontalCenter : undefined
 
   width: parent.width
-  height: (descText.text === "" ? 0 : descText.height) + container.height + Noo.factor() * 2.5
+  height: (descText.text === "" ? 0 : descText.height) + container.height + NOO.factor() * 2.5
 
   Rectangle { // background
     id: bg
@@ -34,17 +34,17 @@ BorderImage {
   border { left: 12; right: 12; bottom: 12; top: 12 }
   horizontalTileMode: BorderImage.Stretch
   verticalTileMode: BorderImage.Stretch
-  source: Noo.pix("tipbg")
+  source: NOO.pix("tipbg")
 
   Column {
-      spacing: Noo.factor() / 2
+      spacing: NOO.factor() / 2
       width: parent.width
 
-      Item { width: parent.width; height: Noo.factor() / 2 } // spacer
+      Item { width: parent.width; height: NOO.factor() / 2 } // spacer
 
       Item {
         id: container
-        width: parent.width - Noo.factor()
+        width: parent.width - NOO.factor()
         height: childrenRect.height
       }
 
@@ -53,7 +53,7 @@ BorderImage {
         anchors.bottom: parent.Bottom
         anchors.horizontalCenter: parent.horizontalCenter
         width: parent.width * 0.96
-        font.pixelSize: Noo.factor() * 0.8
+        font.pixelSize: NOO.factor() * 0.8
         textFormat: Text.RichText
         horizontalAlignment: Text.AlignHCenter
         color: enabled ? activPal.text : disdPal.text

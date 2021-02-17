@@ -13,11 +13,11 @@ Tflickable {
   id: globalPage
   height: parent.height
 
-  contentHeight: mainColumn.height + Noo.factor() * 2
+  contentHeight: mainColumn.height + NOO.factor() * 2
 
   Column {
     id: mainColumn
-    spacing: Noo.isAndroid() ? 2 : Noo.factor() / 2
+    spacing: NOO.isAndroid() ? 2 : NOO.factor() / 2
     width: parent.width
 
     Tile {
@@ -41,17 +41,17 @@ Tflickable {
       Tumbler {
         id: langTumb
         width: parent.width
-        height: Noo.factor() * 8
-        visibleItemCount: Math.min(((width / (Noo.factor() * 7)) / 2) * 2 - 1, 7)
+        height: NOO.factor() * 8
+        visibleItemCount: Math.min(((width / (NOO.factor() * 7)) / 2) * 2 - 1, 7)
         model: langModel
         delegate: Component {
           Column {
-            spacing: Noo.factor() / 4
+            spacing: NOO.factor() / 4
             opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
             scale: 1.7 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
             Image {
-              source: Noo.pix("flags/" + flag)
-              height: Noo.factor() * 3; width: height * (sourceSize.height / sourceSize.width)
+              source: NOO.pix("flags/" + flag)
+              height: NOO.factor() * 3; width: height * (sourceSize.height / sourceSize.width)
               anchors.horizontalCenter: parent.horizontalCenter
               MouseArea {
                 anchors.fill: parent
@@ -62,7 +62,7 @@ Tflickable {
               anchors.horizontalCenter: parent.horizontalCenter
               text: flag === "default" ? qsTr(lang) : lang
               color: activPal.text
-              font { bold: langTumb.currentIndex === index; pixelSize: Noo.factor() * 0.8 }
+              font { bold: langTumb.currentIndex === index; pixelSize: NOO.factor() * 0.8 }
             }
           }
         }
@@ -77,17 +77,17 @@ Tflickable {
           dragMargin: width / 2
           path: Path {
             startX: 0
-            startY: Noo.factor() * 1.4
+            startY: NOO.factor() * 1.4
             PathLine {
               x: pathView.width
-              y: Noo.factor() * 1.4
+              y: NOO.factor() * 1.4
             }
           }
         }
         Rectangle {
-          z: -1; width: Noo.factor() * 9; height: parent.height * 0.7
+          z: -1; width: NOO.factor() * 9; height: parent.height * 0.7
           x: parent.width / 2 - width / 2; y: 2 //-parent.height * 0.05
-          color: Noo.alpha(activPal.highlight, 100)
+          color: NOO.alpha(activPal.highlight, 100)
           radius: width / 12
         }
       }
@@ -113,7 +113,7 @@ Tflickable {
 
     Tile {
       Column {
-        spacing: Noo.factor()
+        spacing: NOO.factor()
         width: parent.width * 0.9
         anchors.horizontalCenter: parent.horizontalCenter
         TcuteButton {
@@ -123,7 +123,7 @@ Tflickable {
         }
         Text {
           color: activPal.text
-          height: Noo.factor() * 3; width: parent.width; verticalAlignment: Text.AlignVCenter
+          height: NOO.factor() * 3; width: parent.width; verticalAlignment: Text.AlignVCenter
           text: dialogObj.updateMessage; wrapMode: Text.WordWrap
         }
       }
@@ -132,30 +132,30 @@ Tflickable {
     Tile {
       description: qsTr("Scaling factor of visible texts and others GUI elements.<br>Requires application restart.")
       Row {
-        spacing: Noo.factor() * 2
+        spacing: NOO.factor() * 2
         anchors.horizontalCenter: parent.horizontalCenter
         Text {
-          color: activPal.text; width: Noo.factor() * text.length
+          color: activPal.text; width: NOO.factor() * text.length
           text: qsTr("scale")
           anchors.verticalCenter: parent.verticalCenter
-          font.pixelSize: (Noo.factor() / GLOB.scale) * scaleSlider.value
+          font.pixelSize: (NOO.factor() / GLOB.scale) * scaleSlider.value
         }
         Tslider {
           id: scaleSlider
           from: 0.5; to: 1.5; stepSize: 0.1; snapMode: Slider.SnapAlways
           value: GLOB.scale
-          width: Math.min(Noo.factor() * 15, globalPage.width * 0.4)
+          width: Math.min(NOO.factor() * 15, globalPage.width * 0.4)
         }
         Text {
           anchors.verticalCenter: parent.verticalCenter
           text: Math.round(scaleSlider.value * 100) + "%"
-          font.pixelSize: (Noo.factor() / GLOB.scale) * scaleSlider.value
-          color: activPal.text; width: Noo.factor() * 3; horizontalAlignment: Text.AlignHCenter
+          font.pixelSize: (NOO.factor() / GLOB.scale) * scaleSlider.value
+          color: activPal.text; width: NOO.factor() * 3; horizontalAlignment: Text.AlignHCenter
         }
       }
     }
 
-    Item { height: Noo.factor() * 3; width: parent.width }
+    Item { height: NOO.factor() * 3; width: parent.width }
 
     Tile {
       description: qsTr("All settings will be reset to their default values!<br>Nootka will start up with the first-run wizard.")
@@ -172,22 +172,22 @@ Tflickable {
   TpopupDialog {
     id: restoreDialog
     modal: true
-    width: Math.min(Noo.factor() * 50, globalPage.width * 0.9)
-    height: rmmConfTxt.height + Noo.factor() * 8
-    bgColor: Qt.tint(activPal.window, Noo.alpha("red", 20))
-    border { color: "red"; width: Noo.factor() / 4.0 }
+    width: Math.min(NOO.factor() * 50, globalPage.width * 0.9)
+    height: rmmConfTxt.height + NOO.factor() * 8
+    bgColor: Qt.tint(activPal.window, NOO.alpha("red", 20))
+    border { color: "red"; width: NOO.factor() / 4.0 }
     caption: qsTr("Restore all default settings")
     Text {
       id: rmmConfTxt
       anchors.horizontalCenter: parent.horizontalCenter
-      width: parent.width - Noo.factor() * 2
+      width: parent.width - NOO.factor() * 2
       color: activPal.text
-      font.pixelSize: Noo.factor() * 1.2
+      font.pixelSize: NOO.factor() * 1.2
       text: qsTr("All settings will be reset to their default values!<br>Nootka will start up with the first-run wizard.")
       wrapMode: Text.WordWrap
     }
     onAccepted: {
-      Noo.setResetConfig(true)
+      NOO.setResetConfig(true)
       Qt.quit()
     }
   }
@@ -221,6 +221,6 @@ Tflickable {
     scaleSlider.value = 1.0
   }
 
-  function help() { Noo.openHelpLink("settings") }
+  function help() { NOO.openHelpLink("settings") }
 
 }

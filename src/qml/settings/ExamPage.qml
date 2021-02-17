@@ -9,35 +9,35 @@ import "../"
 
 
 Tflickable {
-  contentHeight: examCol.height + Noo.factor() * 2
+  contentHeight: examCol.height + NOO.factor() * 2
   contentWidth: width
 
   property int mode: 0 // 0 - settings, 1 - exam, 2 - exercise
 
   Column {
     id: examCol
-    width: parent.width; topPadding: Noo.factor()
-    spacing: Noo.factor()
+    width: parent.width; topPadding: NOO.factor()
+    spacing: NOO.factor()
 
     Tframe {
       width: parent.width * 0.98
       anchors.horizontalCenter: parent.horizontalCenter
       Column {
         width: parent.width
-        spacing: Noo.isAndroid() ? 2 : Noo.factor() / 2
+        spacing: NOO.isAndroid() ? 2 : NOO.factor() / 2
         Tile {
           visible: mode === 0
           description: qsTr("Default name for every new exam or exercise.")
           Row {
-            spacing: Noo.factor()
+            spacing: NOO.factor()
             anchors.horizontalCenter: parent.horizontalCenter
-            Text { text: Noo.TR("StartExam", "student name:"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
+            Text { text: NOO.TR("StartExam", "student name:"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
             TtextField {
               id: userNameIn
               anchors.verticalCenter: parent.verticalCenter
-              placeholderText: Noo.TR("StartExam", "Enter your name or nick-name.")
-              font.pixelSize: Noo.factor(); maximumLength: 40
-              width: Noo.factor() * 25
+              placeholderText: NOO.TR("StartExam", "Enter your name or nick-name.")
+              font.pixelSize: NOO.factor(); maximumLength: 40
+              width: NOO.factor() * 25
               horizontalAlignment: TextInput.AlignHCenter
               text: GLOB.student
             }
@@ -81,22 +81,22 @@ Tflickable {
         }
         Grid {
           anchors.horizontalCenter: parent.horizontalCenter
-          spacing: Noo.factor() * 2
-          columns: wrongColor.parent.width + correctColor.parent.width + notBadColor.parent.width + Noo.factor() * 4 < parent.width ? 3
+          spacing: NOO.factor() * 2
+          columns: wrongColor.parent.width + correctColor.parent.width + notBadColor.parent.width + NOO.factor() * 4 < parent.width ? 3
                     : (wrongColor.parent.width + correctColor.parent.width + spacing < parent.width ? 2 : 1)
 
           Row {
-            spacing: Noo.factor() / 2
+            spacing: NOO.factor() / 2
             TlabelText { text: qsTr("color of questions") }
             ColorButton { id: wrongColor; color: GLOB.wrongColor; title: qsTr("color of questions") }
           }
           Row {
-            spacing: Noo.factor() / 2
+            spacing: NOO.factor() / 2
             TlabelText { text: qsTr("color of answers") }
             ColorButton { id: correctColor; color: GLOB.correctColor; title: qsTr("color of answers") }
           }
           Row {
-            spacing: Noo.factor() / 2
+            spacing: NOO.factor() / 2
             TlabelText { text: qsTr("color of 'not bad' answers") }
             ColorButton { id: notBadColor; color: GLOB.notBadColor; title: qsTr("color of 'not bad' answers") }
           }
@@ -110,8 +110,8 @@ Tflickable {
       anchors.horizontalCenter: parent.horizontalCenter
       Column {
         width: parent.width
-        spacing: Noo.isAndroid() ? 2 : Noo.factor() / 2
-        Text { text: Noo.TR("TexamHelp", "Exercises"); color: activPal.text; font.bold: true }
+        spacing: NOO.isAndroid() ? 2 : NOO.factor() / 2
+        Text { text: NOO.TR("TexamHelp", "Exercises"); color: activPal.text; font.bold: true }
         Tile {
           TcheckBox {
             id: suggestChB
@@ -153,8 +153,8 @@ Tflickable {
       anchors.horizontalCenter: parent.horizontalCenter
       Column {
         width: parent.width
-        spacing: Noo.isAndroid() ? 2 : Noo.factor() / 2
-        Text { text: Noo.TR("TexamHelp", "Exams"); color: activPal.text; font.bold: true }
+        spacing: NOO.isAndroid() ? 2 : NOO.factor() / 2
+        Text { text: NOO.TR("TexamHelp", "Exams"); color: activPal.text; font.bold: true }
         Tile {
           TcheckBox {
             id: repeatChB
@@ -178,12 +178,12 @@ Tflickable {
 
   TpopupDialog {
     id: expertDialog
-    bgColor: Qt.tint(activPal.window, Noo.alpha("red", 20))
-    border { color: "red"; width: Noo.factor() / 4.0 }
+    bgColor: Qt.tint(activPal.window, NOO.alpha("red", 20))
+    border { color: "red"; width: NOO.factor() / 4.0 }
     modal: true
     caption: qsTr("Experts mode")
     Tflickable {
-      height: parent.height; contentHeight: expText.height + Noo.factor() * 2
+      height: parent.height; contentHeight: expText.height + NOO.factor() * 2
       Text {
         id: expText
         width: parent.width; color: activPal.text

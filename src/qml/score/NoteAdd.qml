@@ -27,10 +27,10 @@ TaddNoteItem {
     id: note
     visible: !active && !score.readOnly
     font { family: "nootka"; pixelSize: 8 }
-    color: Noo.alpha(GLOB.noteCursorColor, 200)
+    color: NOO.alpha(GLOB.noteCursorColor, 200)
     x: (4 - width) / 2
     y: 15
-    text: Noo.rhythmText(scoreObj.workRhythm)
+    text: NOO.rhythmText(scoreObj.workRhythm)
   }
 
   NoteCursor { id: cursor; yPos: noteAdd.yPos; headText: scoreObj.workRtmText }

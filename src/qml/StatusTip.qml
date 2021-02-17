@@ -12,7 +12,7 @@ TipRect {
   property int tipPos: Item.Top
 
   Connections {
-    target: Noo
+    target: NOO
     onStatusTip: { text.text = statusText; statusTip.tipPos = tipPos }
   }
 
@@ -23,7 +23,7 @@ TipRect {
   width: nootkaWindow.width * 0.4
   height: nootkaWindow.header.height
 
-  color: Qt.tint(activPal.text, Noo.alpha(Noo.messageColor, 100))
+  color: Qt.tint(activPal.text, NOO.alpha(NOO.messageColor, 100))
 
   Text {
     id: text

@@ -16,7 +16,7 @@ Column {
   LevelsSelector {
     id: selector
     width: parent.width
-    height: levelsPage.height - buttRow.height - levelsPage.width / 25 - (Noo.isAndroid() ? 0 : Noo.factor() * 3)
+    height: levelsPage.height - buttRow.height - levelsPage.width / 25 - (NOO.isAndroid() ? 0 : NOO.factor() * 3)
     Component.onCompleted: creator.selector = selector
   }
   Row {
@@ -26,27 +26,27 @@ Column {
     TiconButton {
       enabled: creator.notSaved
       width: levelsPage.width / 4
-      pixmap: Noo.pix("pane/notSaved"); iconHeight: levelsPage.height / 15
-      text: Noo.TR("QShortcut", "Save")
+      pixmap: NOO.pix("pane/notSaved"); iconHeight: levelsPage.height / 15
+      text: NOO.TR("QShortcut", "Save")
       onClicked: creator.saveLevel()
     }
     TiconButton {
       enabled: selector.levelId !== -1 && selector.isSuitable(selector.levelId)
       width: levelsPage.width / 4
-      pixmap: Noo.pix("exam"); iconHeight: levelsPage.height / 15
+      pixmap: NOO.pix("exam"); iconHeight: levelsPage.height / 15
       text: qsTr("Start exam")
       onClicked: start(2, selector.currentLevelVar())
     }
     TiconButton {
       enabled: selector.levelId !== -1 && selector.isSuitable(selector.levelId)
       width: levelsPage.width / 4
-      pixmap: Noo.pix("practice"); iconHeight: levelsPage.height / 15
+      pixmap: NOO.pix("practice"); iconHeight: levelsPage.height / 15
       text: qsTr("Start exercise")
       onClicked: start(4, selector.currentLevelVar())
     }
   }
   LinkText {
-    visible: !Noo.isAndroid()
+    visible: !NOO.isAndroid()
     text: qsTr("Get more levels <a href=\"%1\">from Nootka home page</a>").arg("https://nootka.sourceforge.io/index.php/download/#levels")
     anchors.horizontalCenter: parent.horizontalCenter
   }
@@ -72,22 +72,22 @@ Column {
     property alias desc: lDesc.text
 
     modal: true
-    width: popCol.width + Noo.factor() * 2; height: popCol.height + Noo.factor() * 5
-    x: (parent.width - width) / 2; y: Noo.isAndroid() ? Noo.factor() : (parent.height - height) / 2
-    bgColor: Qt.tint(activPal.window, Noo.alpha(activPal.highlight, 30))
-    border { color: activPal.highlight; width: Noo.factor() / 4.0 }
+    width: popCol.width + NOO.factor() * 2; height: popCol.height + NOO.factor() * 5
+    x: (parent.width - width) / 2; y: NOO.isAndroid() ? NOO.factor() : (parent.height - height) / 2
+    bgColor: Qt.tint(activPal.window, NOO.alpha(activPal.highlight, 30))
+    border { color: activPal.highlight; width: NOO.factor() / 4.0 }
 
-    rejectButton.text: Noo.TR("QPlatformTheme", "Discard")
-    acceptButton.text: Noo.TR("QShortcut", "Save")
-    acceptButton.pixmap: Noo.pix("pane/notSaved")
+    rejectButton.text: NOO.TR("QPlatformTheme", "Discard")
+    acceptButton.text: NOO.TR("QShortcut", "Save")
+    acceptButton.pixmap: NOO.pix("pane/notSaved")
 
     Column {
       id: popCol
       anchors.centerIn: parent
-      spacing: Noo.factor()
+      spacing: NOO.factor()
       Row {
-        anchors { right: parent.right; rightMargin: Noo.factor() / 2 }
-        spacing: Noo.factor()
+        anchors { right: parent.right; rightMargin: NOO.factor() / 2 }
+        spacing: NOO.factor()
         Text {
           anchors.verticalCenter: parent.verticalCenter
           color: activPal.text
@@ -96,7 +96,7 @@ Column {
         TtextField {
           id: lName
           maximumLength: 30
-          width: Noo.factor() * 25
+          width: NOO.factor() * 25
         }
       }
       Text {
@@ -106,12 +106,12 @@ Column {
       GlowRect {
         id: bg
         anchors.horizontalCenter: parent.horizontalCenter
-        width: newLevelPopup.width - Noo.factor() * 2; height: Noo.factor() * 6.5
+        width: newLevelPopup.width - NOO.factor() * 2; height: NOO.factor() * 6.5
         border { width: lDesc.focus ? 1 : 0; color: activPal.highlight }
         color: activPal.base
         TextEdit {
           id: lDesc
-          width: parent.width - Noo.factor(); height: Noo.factor() * 6
+          width: parent.width - NOO.factor(); height: NOO.factor() * 6
           anchors.centerIn: parent
           wrapMode: TextEdit.WordWrap
           onLengthChanged: {

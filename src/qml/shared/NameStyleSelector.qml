@@ -57,7 +57,7 @@ Item {
     Tframe {
       Column {
         id: styleColumn
-        spacing: Noo.factor() / 2
+        spacing: NOO.factor() / 2
         TradioButton { // 0
           default property int style: Nootka.Norsk_Hb
           text: qsTr("Scandinavian") + " (C, C#, Db ... Hb, H)"

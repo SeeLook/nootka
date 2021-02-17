@@ -58,18 +58,18 @@ TexamSummary {
         TiconButton {
           visible: enableContinue()
           width: buttGrid.buttWidth
-          pixmap: Noo.pix(isExercise() ? "practice" : "exam"); iconHeight: summDialog.height / 15
-          text: Noo.TR("QWizard", "Continue")
+          pixmap: NOO.pix(isExercise() ? "practice" : "exam"); iconHeight: summDialog.height / 15
+          text: NOO.TR("QWizard", "Continue")
           onClicked: { continueExecutor(); dialLoader.close() }
         }
         TiconButton {
-          visible: !Noo.isAndroid() || !isExercise()
+          visible: !NOO.isAndroid() || !isExercise()
           width: buttGrid.buttWidth
-          pixmap: Noo.pix(Noo.isAndroid() ? "send" : "charts")
+          pixmap: NOO.pix(NOO.isAndroid() ? "send" : "charts")
           iconHeight: summDialog.height / 15
-          text: Noo.isAndroid() ? Noo.TR("QShortcut", "Send") : qsTr("Analyze")
+          text: NOO.isAndroid() ? NOO.TR("QShortcut", "Send") : qsTr("Analyze")
           onClicked: {
-            if (Noo.isAndroid()) {
+            if (NOO.isAndroid()) {
                 sendExam()
             } else {
                 nootkaWindow.showDialog(6) // 6 - Nootka.Charts
@@ -81,14 +81,14 @@ TexamSummary {
         TiconButton {
           visible: isExercise()
           width: buttGrid.buttWidth
-          pixmap: Noo.pix("exam"); iconHeight: summDialog.height / 15
+          pixmap: NOO.pix("exam"); iconHeight: summDialog.height / 15
           text: qsTr("Pass an exam")
           onClicked: { exerciseToExam(); dialLoader.close() }
         }
         TiconButton {
           width: buttGrid.buttWidth
-          pixmap: Noo.pix("exit"); iconHeight: summDialog.height / 15
-          text: Noo.TR("QPlatformTheme", "Close")
+          pixmap: NOO.pix("exit"); iconHeight: summDialog.height / 15
+          text: NOO.TR("QPlatformTheme", "Close")
           onClicked: dialLoader.close()
         }
     }

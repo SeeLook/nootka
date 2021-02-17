@@ -13,8 +13,8 @@ import Nootka.Dialogs 1.0
 
 Old.Dialog {
   id: dialLoader
-  width: nootkaWindow.width * (Noo.isAndroid() ? 1 : 0.9)
-  height: nootkaWindow.height * (Noo.isAndroid() ? 1 : 0.9)
+  width: nootkaWindow.width * (NOO.isAndroid() ? 1 : 0.9)
+  height: nootkaWindow.height * (NOO.isAndroid() ? 1 : 0.9)
 
   property int page: 0
   property alias standardButtons: box.standardButtons
@@ -50,16 +50,16 @@ Old.Dialog {
     DialogButtonBox {
       id: box
       visible: standardButtons !== 0
-      width: parent.width; height: Noo.factor() * 3
-      spacing: Noo.factor()
+      width: parent.width; height: NOO.factor() * 3
+      spacing: NOO.factor()
       alignment: Qt.AlignVCenter
       delegate: TiconButton {
-        width: Math.min(box.width / 2, (box.width - Noo.factor() * (box.count + 1)) / box.count)
-        pixmap: Noo.pix(dialogObj.buttonRoleIcon(DialogButtonBox.buttonRole))
+        width: Math.min(box.width / 2, (box.width - NOO.factor() * (box.count + 1)) / box.count)
+        pixmap: NOO.pix(dialogObj.buttonRoleIcon(DialogButtonBox.buttonRole))
       }
       background: Rectangle {
         anchors.fill: parent
-        color: Noo.isAndroid() ? activPal.base : Qt.darker(activPal.window, 1.1)
+        color: NOO.isAndroid() ? activPal.base : Qt.darker(activPal.window, 1.1)
       }
       onClicked: {
         switch (button.DialogButtonBox.buttonRole) {
@@ -76,11 +76,11 @@ Old.Dialog {
 
   onPageChanged: {
     if (page > 0) {
-      if (Noo.isAndroid())
+      if (NOO.isAndroid())
         mainMenu.drawer.interactive = false
 
-      dialLoader.width = nootkaWindow.width * (Noo.isAndroid() ? 1 : 0.9)
-      dialLoader.height = nootkaWindow.height * (Noo.isAndroid() ? 1 : 0.9)
+      dialLoader.width = nootkaWindow.width * (NOO.isAndroid() ? 1 : 0.9)
+      dialLoader.height = nootkaWindow.height * (NOO.isAndroid() ? 1 : 0.9)
       switch (page) {
         case Nootka.Settings:
           var s = Qt.createComponent("qrc:/TsettingsDialog.qml")
@@ -119,7 +119,7 @@ Old.Dialog {
 
   onVisibleChanged: {
     if (visible === false && currentDialog) {
-      if (Noo.isAndroid())
+      if (NOO.isAndroid())
         mainMenu.drawer.interactive = true
 
       if (page !== Nootka.ExamStart)

@@ -29,13 +29,13 @@ TnameItem {
   }
 
   // private
-  property real buttHeight: height / (Noo.isAndroid() ? 10 : 12)
-  property real buttWidth: width / (Noo.isAndroid() ? 8 : 9)
+  property real buttHeight: height / (NOO.isAndroid() ? 10 : 12)
+  property real buttWidth: width / (NOO.isAndroid() ? 8 : 9)
   property var correctAnim: null
 
   Rectangle {
     anchors.fill: parent
-    color: Noo.alpha(activPal.window, 230)
+    color: NOO.alpha(activPal.window, 230)
   }
 
   onCorrectName: {
@@ -129,9 +129,9 @@ TnameItem {
         anchors.fill: parent
         acceptedButtons: Qt.NoButton
         cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
-        hoverEnabled: !Noo.isAndroid() && GLOB.showHints
-        onEntered: Noo.setStatusTip(octavesLinkStatus())
-        onExited: Noo.setStatusTip("")
+        hoverEnabled: !NOO.isAndroid() && GLOB.showHints
+        onEntered: NOO.setStatusTip(octavesLinkStatus())
+        onExited: NOO.setStatusTip("")
       }
     }
     Repeater {
@@ -146,12 +146,12 @@ TnameItem {
         font { pixelSize: height * (GLOB.scientificOctaves ? 0.8 : 0.5); bold: true }
         text: GLOB.scientificOctaves ? index * 2 + 1 : octaveName(index * 2 - 2)
         onClicked: octave = index * 2 - 2
-        hoverEnabled: !Noo.isAndroid() && GLOB.showHints
-        onHoveredChanged: Noo.setStatusTip(hovered ? octaveStatusTip(index * 2 - 2) : "")
-        onPressAndHold: Noo.setStatusTip(octaveStatusTip(index * 2 - 2))
+        hoverEnabled: !NOO.isAndroid() && GLOB.showHints
+        onHoveredChanged: NOO.setStatusTip(hovered ? octaveStatusTip(index * 2 - 2) : "")
+        onPressAndHold: NOO.setStatusTip(octaveStatusTip(index * 2 - 2))
         onReleased: {
-          if (Noo.isAndroid())
-            Noo.setStatusTip("")
+          if (NOO.isAndroid())
+            NOO.setStatusTip("")
         }
       }
     }
@@ -173,12 +173,12 @@ TnameItem {
         font { pixelSize: height * (GLOB.scientificOctaves ? 0.8 : 0.5); bold: true }
         text: GLOB.scientificOctaves ? index * 2 : octaveName(index * 2 - 3)
         onClicked: octave = index * 2 - 3
-        hoverEnabled: !Noo.isAndroid() && GLOB.showHints
-        onHoveredChanged: Noo.setStatusTip(hovered ? octaveStatusTip(index * 2 - 3) : "")
-        onPressAndHold: Noo.setStatusTip(octaveStatusTip(index * 2 - 3))
+        hoverEnabled: !NOO.isAndroid() && GLOB.showHints
+        onHoveredChanged: NOO.setStatusTip(hovered ? octaveStatusTip(index * 2 - 3) : "")
+        onPressAndHold: NOO.setStatusTip(octaveStatusTip(index * 2 - 3))
         onReleased: {
-          if (Noo.isAndroid())
-            Noo.setStatusTip("")
+          if (NOO.isAndroid())
+            NOO.setStatusTip("")
         }
       }
     }

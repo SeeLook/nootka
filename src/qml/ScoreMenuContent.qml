@@ -10,8 +10,8 @@ import Nootka 1.0
 
 Tmenu {
   id: menu
-  x: Noo.isAndroid() ? (nootkaWindow.width - width) / 2 : toolBar.scoreAct.x
-  y: Noo.isAndroid() ? (nootkaWindow.height - height) / 2 : score.y
+  x: NOO.isAndroid() ? (nootkaWindow.width - width) / 2 : toolBar.scoreAct.x
+  y: NOO.isAndroid() ? (nootkaWindow.height - height) / 2 : score.y
 
   onAboutToShow: SOUND.stopListen()
   onAboutToHide: SOUND.startListen()
@@ -61,8 +61,8 @@ Tmenu {
             Text {
               text: rGlyphs[index]
               color: activPal.text
-              x: (Noo.factor() * 3.2 - width) / 2; anchors.verticalCenter: parent.verticalCenter
-              font { pixelSize: Noo.factor() * 1.5; family: "nootka"; }
+              x: (NOO.factor() * 3.2 - width) / 2; anchors.verticalCenter: parent.verticalCenter
+              font { pixelSize: NOO.factor() * 1.5; family: "nootka"; }
               scale: GLOB.useAnimations && !mb.containsPress && mb.containsMouse ? 1.4 : 1.0
               Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
             }

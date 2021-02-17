@@ -116,7 +116,7 @@ Score {
       updateScord()
       if (!GLOB.singleNoteMode)
         scoreObj.editModeAct.trigger()
-      if (Noo.isAndroid() && GLOB.gotIt("howToScore", true))
+      if (NOO.isAndroid() && GLOB.gotIt("howToScore", true))
         Qt.createComponent("qrc:/gotit/FirstTouchScore.qml").createObject(mainScore)
     }
   }
@@ -156,7 +156,7 @@ Score {
     height: currentNote ? Math.min(12.0, currentNote.notePosY + 6.0) : 0
     x: currentNote ? -width * 0.25 : 0
     y: currentNote ? Math.min(currentNote.height - height, Math.max(0.0, currentNote.notePosY - height / 2.0)) : 0
-    color: Noo.alpha(activPal.highlight, 75)
+    color: NOO.alpha(activPal.highlight, 75)
     z: -1
     radius: width / 3.0
   }

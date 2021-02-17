@@ -6,7 +6,7 @@ import QtQuick 2.9
 
 
 Column {
-  spacing: Noo.factor()
+  spacing: NOO.factor()
   anchors.horizontalCenter: parent.horizontalCenter
   width: parent.width * 0.9
 
@@ -15,6 +15,6 @@ Column {
     color: "red"
     width: parent.width
     horizontalAlignment: Text.AlignHCenter
-    font { pixelSize: Noo.factor() * 1.5; bold: true }
+    font { pixelSize: NOO.factor() * 1.5; bold: true }
   }
 }

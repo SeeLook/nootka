@@ -26,32 +26,32 @@ Dialog {
 
   header: Rectangle {
     color: "transparent"
-    width: parent.width; height: hText.height + Noo.factor() / 2; radius: Noo.factor() / 4
+    width: parent.width; height: hText.height + NOO.factor() / 2; radius: NOO.factor() / 4
     visible: hText.text !== ""
     Text {
       id: hText
-      width: parent.width - Noo.factor()
+      width: parent.width - NOO.factor()
       fontSizeMode: Text.HorizontalFit
       anchors.centerIn: parent; horizontalAlignment: Text.AlignHCenter
       color: activPal.text
-      font { pixelSize: Noo.factor() * 1.5; bold: true }
+      font { pixelSize: NOO.factor() * 1.5; bold: true }
     }
     Rectangle { width: parent.width; height: 1; color: glowRect.border.color; y: parent.height }
   }
 
   footer: Rectangle {
-    color: "transparent"; width: parent ? parent.width : 0; height: butRow.height; radius: Noo.factor() / 4
+    color: "transparent"; width: parent ? parent.width : 0; height: butRow.height; radius: NOO.factor() / 4
     Row {
       id: butRow; spacing: parent.width / 10; padding: parent.height / 7
       anchors.horizontalCenter: parent.horizontalCenter
       TiconButton {
         id: rejectButton
-        pixmap: Noo.pix("exit"); text: Noo.TR("QShortcut", "Cancel")
+        pixmap: NOO.pix("exit"); text: NOO.TR("QShortcut", "Cancel")
         onClicked: reject()
       }
       TiconButton {
         id: acceptButton
-        pixmap: Noo.pix("check"); text: Noo.TR("QPlatformTheme", "Apply")
+        pixmap: NOO.pix("check"); text: NOO.TR("QPlatformTheme", "Apply")
         onClicked: accept()
       }
     }

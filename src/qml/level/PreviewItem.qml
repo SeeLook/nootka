@@ -18,46 +18,46 @@ Rectangle {
 
   anchors.horizontalCenter: parent.horizontalCenter
 
-  implicitWidth: Math.max(layHorizontal ? txt.width + txt2.width : Math.max(txt.width, txt2.width))  + Noo.factor() * 2
-  implicitHeight: (layHorizontal ? Math.max(txt.height, txt2.height) : txt.height + txt2.height) + Noo.factor() / 2
-  color: index ? Noo.alpha(index % 2 === 1 ? activPal.alternateBase : activPal.base, 150) : "transparent"
+  implicitWidth: Math.max(layHorizontal ? txt.width + txt2.width : Math.max(txt.width, txt2.width))  + NOO.factor() * 2
+  implicitHeight: (layHorizontal ? Math.max(txt.height, txt2.height) : txt.height + txt2.height) + NOO.factor() / 2
+  color: index ? NOO.alpha(index % 2 === 1 ? activPal.alternateBase : activPal.base, 150) : "transparent"
   visible: text2 !== ""
-  width: handleWidth ? maxLabelWidth + maxValueWidth + Noo.factor() * 2 : undefined
+  width: handleWidth ? maxLabelWidth + maxValueWidth + NOO.factor() * 2 : undefined
 
   onImplicitWidthChanged: {
     if (handleWidth) {
-      maxLabelWidth = Math.max(maxLabelWidth, txt.implicitWidth + Noo.factor())
-      maxValueWidth = Math.max(maxValueWidth, txt2.implicitWidth + Noo.factor())
+      maxLabelWidth = Math.max(maxLabelWidth, txt.implicitWidth + NOO.factor())
+      maxValueWidth = Math.max(maxValueWidth, txt2.implicitWidth + NOO.factor())
     }
   }
 
   Text {
     id: txt
-    x: Noo.factor(); y: layHorizontal ? (parent.height - height) / 2 : 0
+    x: NOO.factor(); y: layHorizontal ? (parent.height - height) / 2 : 0
     textFormat: Text.StyledText
     color: activPal.text
-    font.pixelSize: Noo.factor()
+    font.pixelSize: NOO.factor()
   }
   Text {
     id: txt2
-    x: handleWidth ? maxLabelWidth + Noo.factor() + (maxValueWidth - width) / 2 : (layHorizontal ? 0 : (parent.width - width) / 2)
+    x: handleWidth ? maxLabelWidth + NOO.factor() + (maxValueWidth - width) / 2 : (layHorizontal ? 0 : (parent.width - width) / 2)
     y: (parent.height - height) / 2
     horizontalAlignment: handleWidth ? Text.AlignHCenter : undefined
     textFormat: Text.StyledText
     color: activPal.text
-    font.pixelSize: Noo.factor()
+    font.pixelSize: NOO.factor()
   }
 
   Rectangle {
     visible: handleWidth; color: activPal.text
-    width: Noo.factor() / 12;
+    width: NOO.factor() / 12;
     height: parent.height
-    x: maxLabelWidth + Noo.factor() * 0.5
+    x: maxLabelWidth + NOO.factor() * 0.5
   }
   Rectangle {
     id: bottomLine
     visible: handleWidth; color: activPal.text
-    height: Noo.factor() / 12;
+    height: NOO.factor() / 12;
     width: parent.width
     y: parent.height - height / 2
   }

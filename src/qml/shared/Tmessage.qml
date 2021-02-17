@@ -10,21 +10,21 @@ TpopupDialog {
   property alias message: mText.text
   property color accent: activPal.highlight
 
-  bgColor: Qt.tint(activPal.base, Noo.alpha(accent, 20))
-  border { color: accent; width: Noo.factor() / 4.0 }
-  glowRect.radius: Noo.factor()
+  bgColor: Qt.tint(activPal.base, NOO.alpha(accent, 20))
+  border { color: accent; width: NOO.factor() / 4.0 }
+  glowRect.radius: NOO.factor()
   visible: true; modal: true
 
-  width: mText.width + Noo.factor() / 2
-  height: mText.height + header.height + footer.height + Noo.factor()
+  width: mText.width + NOO.factor() / 2
+  height: mText.height + header.height + footer.height + NOO.factor()
 
   rejectButton.visible: false
-  acceptButton.text: Noo.TR("QPlatformTheme", "OK")
+  acceptButton.text: NOO.TR("QPlatformTheme", "OK")
 
   Text {
     id: mText
-    x: Noo.factor() //; y: (parent.height - height) / 2
-    width: Noo.factor() * 40
+    x: NOO.factor() //; y: (parent.height - height) / 2
+    width: NOO.factor() * 40
     wrapMode: Text.WordWrap
     text: modelData
     horizontalAlignment: Text.AlignHCenter

@@ -23,14 +23,14 @@ GlowRect {
   property real eW: 0
   property real eH: 0
 
-  color: Qt.tint(activPal.base, Noo.alpha(bg, 50))
-  border { width: Noo.factor() / 6; color: bg }
-  shadowRadius: Noo.factor() * 2
-  radius: Noo.factor()
-  cornerRadius: Noo.factor() * 2
+  color: Qt.tint(activPal.base, NOO.alpha(bg, 50))
+  border { width: NOO.factor() / 6; color: bg }
+  shadowRadius: NOO.factor() * 2
+  radius: NOO.factor()
+  cornerRadius: NOO.factor() * 2
   z: 200
-  x: Noo.bound(shadowRadius, offX - width / 2, executor.width - width - shadowRadius)
-  y: Noo.bound(shadowRadius, offY - height / 2, executor.height - height - shadowRadius)
+  x: NOO.bound(shadowRadius, offX - width / 2, executor.width - width - shadowRadius)
+  y: NOO.bound(shadowRadius, offY - height / 2, executor.height - height - shadowRadius)
   width: text.width; height: text.height
   scale: GLOB.useAnimations ? 0 : 1
 
@@ -38,7 +38,7 @@ GlowRect {
     id: text
     color: activPal.text
     textFormat: Text.RichText
-    padding: Noo.factor()
+    padding: NOO.factor()
     onLinkActivated: {
       executor.tipLink(link)
       tip.destroy()
@@ -54,7 +54,7 @@ GlowRect {
     id: exitImg
     visible: false
     anchors { right: parent.right; top: parent.top; margins: tip.width / 80 }
-    source: Noo.pix("exit")
+    source: NOO.pix("exit")
     sourceSize.width: tip.width / 20
     MouseArea {
       anchors.fill: parent

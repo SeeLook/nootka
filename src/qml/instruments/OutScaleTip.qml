@@ -11,11 +11,11 @@ GlowRect {
   property bool show: false
 
   scale: show ? 1 : 0
-  width: parent.width / 4; height: Noo.factor() * (2 + txt.lineCount * 1.5)
+  width: parent.width / 4; height: NOO.factor() * (2 + txt.lineCount * 1.5)
   anchors.centerIn: parent
   z: 100
-  color: Qt.tint("red", Noo.alpha(activPal.base, 70))
-  shadowRadius: Noo.factor()
+  color: Qt.tint("red", NOO.alpha(activPal.base, 70))
+  shadowRadius: NOO.factor()
 
   Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
 
@@ -25,9 +25,9 @@ GlowRect {
     width: parent.width * 0.9
     horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
     text: qsTr("Out of instrument scale!")
-    font.pixelSize: Noo.factor() * 1.5
+    font.pixelSize: NOO.factor() * 1.5
     wrapMode: Text.WordWrap
-    fontSizeMode: Text.Fit; minimumPixelSize: Noo.factor() / 2; minimumPointSize: minimumPixelSize
+    fontSizeMode: Text.Fit; minimumPixelSize: NOO.factor() / 2; minimumPointSize: minimumPixelSize
     elide: Text.ElideRight
   }
 }

@@ -23,7 +23,7 @@ TmelGenItem {
 
     Column {
       id: mainCol
-      leftPadding: Noo.factor() / 2
+      leftPadding: NOO.factor() / 2
       Row {
         Tile {
           id: selTile
@@ -38,14 +38,14 @@ TmelGenItem {
         }
         Column {
           id: rCol
-          width: melGenItem.width - (hasRhythms() ? selTile.width : 0) - Noo.factor()
-          topPadding: hasRhythms() ? 0 : Noo.factor() * 2
+          width: melGenItem.width - (hasRhythms() ? selTile.width : 0) - NOO.factor()
+          topPadding: hasRhythms() ? 0 : NOO.factor() * 2
           Tile {
             visible: hasRhythms()
             Row {
               id: measRow
               anchors.horizontalCenter: parent.horizontalCenter
-              spacing: Noo.factor()
+              spacing: NOO.factor()
               Text {
                 anchors.verticalCenter: parent.verticalCenter
                 text: qsTr("Measures number")
@@ -66,10 +66,10 @@ TmelGenItem {
           Tile {
             visible: !hasRhythms()
             Row {
-              spacing: Noo.factor()
+              spacing: NOO.factor()
               anchors.horizontalCenter: parent.horizontalCenter
               Text {
-                text: Noo.TR("MelodyPage", "Melody length")
+                text: NOO.TR("MelodyPage", "Melody length")
                 anchors.verticalCenter: parent.verticalCenter
               }
               TspinBox {
@@ -102,12 +102,12 @@ TmelGenItem {
   property var genButt: null
 
   Component.onCompleted: {
-    dialLoader.title = Noo.TR("TmelodySettings", "Random melody")
+    dialLoader.title = NOO.TR("TmelodySettings", "Random melody")
     dialLoader.standardButtons = DialogButtonBox.Close | DialogButtonBox.Help | DialogButtonBox.RestoreDefaults
     genButt = dialLoader.buttonBox.standardButton(DialogButtonBox.RestoreDefaults)
-    genButt.text = Noo.TR("TmainScoreObject", "Generate melody")
+    genButt.text = NOO.TR("TmainScoreObject", "Generate melody")
     genButt.DialogButtonBox.buttonRole = DialogButtonBox.ActionRole
-    genButt.pixmap = Noo.pix("melody")
+    genButt.pixmap = NOO.pix("melody")
   }
 
   Connections {
@@ -118,5 +118,5 @@ TmelGenItem {
     }
   }
 
-  function help() {  console.log("'Melody generate' help is not implemented yet")   /*Noo.openHelpLink("")*/ }
+  function help() {  console.log("'Melody generate' help is not implemented yet")   /*NOO.openHelpLink("")*/ }
 }

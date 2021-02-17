@@ -14,7 +14,7 @@ Column {
   property alias clef: score.clef
 
   width: parent ? parent.width : 0
-  spacing: Noo.factor()
+  spacing: NOO.factor()
 
   function getNote(noteNr) {
     return score.scoreObj.noteAt(noteNr)
@@ -22,14 +22,14 @@ Column {
 
   Text {
     width: parent.width
-    font { pixelSize: Noo.factor() * 2; bold: true }
+    font { pixelSize: NOO.factor() * 2; bold: true }
     wrapMode: Text.WordWrap
     horizontalAlignment: Text.AlignHCenter
     color: activPal.text
     text: qsTr("Select a clef and scale of notes appropriate for your instrument.")
   }
   Tile {
-    width: score.width + Noo.factor() * 3
+    width: score.width + NOO.factor() * 3
     bgColor:  nootkaWindow.bgColor
     bgBorder { width: 2; color: nootkaWindow.labelColor }
     Item {
@@ -37,7 +37,7 @@ Column {
       anchors.horizontalCenter: parent.horizontalCenter
       Score {
         id: score
-        height: Math.max(Noo.factor() * 18, nootkaWindow.height * 0.4); width: Math.max(Noo.factor() * 12, nootkaWindow.height / 4)
+        height: Math.max(NOO.factor() * 18, nootkaWindow.height * 0.4); width: Math.max(NOO.factor() * 12, nootkaWindow.height / 4)
         bgColor: "transparent"
         meter: Tmeter.NoMeter
         scoreObj.editMode: true

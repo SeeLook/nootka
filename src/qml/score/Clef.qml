@@ -12,7 +12,7 @@ Text {
   id: clef
 
   width: 5.5; x: 0.5; y: 5
-  text: Noo.clef(score.clef).glyph()
+  text: NOO.clef(score.clef).glyph()
   font { family: "Scorek"; pixelSize: 8 }
   color: clefArea.containsMouse && (GLOB.singleNoteMode || scoreObj.editMode) ? GLOB.noteCursorColor : activPal.text
 

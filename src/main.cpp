@@ -178,7 +178,7 @@ int main(int argc, char *argv[])
 
     e = new QQmlApplicationEngine;
     e->rootContext()->setContextProperty(QStringLiteral("GLOB"), gl);
-    e->rootContext()->setContextProperty(QStringLiteral("Noo"), nooObj);
+    e->rootContext()->setContextProperty(QStringLiteral("NOO"), nooObj);
     e->rootContext()->setContextProperty(QStringLiteral("SOUND"), sound);
     bool  wasFirstRun = gl->isFirstRun;
     TmainHelp* hlp = nullptr; // keep help object live after wizard, Qt deletes it with some delay
@@ -200,7 +200,7 @@ int main(int argc, char *argv[])
       qApp->quit();
       e = new QQmlApplicationEngine;
       e->rootContext()->setContextProperty(QStringLiteral("GLOB"), gl);
-      e->rootContext()->setContextProperty(QStringLiteral("Noo"), nooObj);
+      e->rootContext()->setContextProperty(QStringLiteral("NOO"), nooObj);
       e->rootContext()->setContextProperty(QStringLiteral("SOUND"), sound);
       gl->isFirstRun = false;
       gl->config->setValue(QLatin1String("version"), gl->version);

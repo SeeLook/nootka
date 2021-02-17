@@ -10,17 +10,17 @@ import Score 1.0
 ControlBase {
   id: toolbox
 
-  x: show ? 2 : -width - Noo.factor()
+  x: show ? 2 : -width - NOO.factor()
   y: score.singleNote || score.meter === Tmeter.NoMeter ? (score.height - height) / 2 :
-            (Noo.isAndroid() ? (nootkaWindow.height - height) / 2 : Noo.factor() / 2)
+            (NOO.isAndroid() ? (nootkaWindow.height - height) / 2 : NOO.factor() / 2)
   z: 1010 // above mobile menu button
   visible: !scoreObj.touched && loader.active
 
   active: !score.readOnly && (scoreObj.activeNote || (score.noteAdd && score.noteAdd.active))
 
-  factor: Noo.isAndroid() ? Noo.shortScreenSide() * 0.04 : Noo.factor() * 1.2
+  factor: NOO.isAndroid() ? NOO.shortScreenSide() * 0.04 : NOO.factor() * 1.2
 
-  property string rhythmText: Noo.rhythmText(scoreObj.workRhythm)
+  property string rhythmText: NOO.rhythmText(scoreObj.workRhythm)
   property bool triplet: false
   property bool tie: scoreObj.selectedItem && scoreObj.selectedItem.hasTie
 
@@ -40,7 +40,7 @@ ControlBase {
       factor: toolbox.factor * 0.9
       yOffset: factor * 0.5
       font { family: "nootka"; pixelSize: factor * 2 }
-      text: Noo.rhythmText(Noo.rhythm(rhythm, rest, false, false))
+      text: NOO.rhythmText(NOO.rhythm(rhythm, rest, false, false))
       selected: rhythm === scoreObj.workRtmValue && rest === scoreObj.workRtmRest
       onEntered: hideTimer.stop()
       onExited: hideTimer.restart()
@@ -121,11 +121,11 @@ ControlBase {
         onClicked: scoreObj.checkTieOfSelected()
         onEntered: {
           hideTimer.stop()
-          Noo.setStatusTip(qsTr("Tie - connect or disconnect selected note with previous one if both notes have the same pitch.") + "<br><b>(L)</b>", Item.Top)
+          NOO.setStatusTip(qsTr("Tie - connect or disconnect selected note with previous one if both notes have the same pitch.") + "<br><b>(L)</b>", Item.Top)
         }
         onExited: {
           hideTimer.restart()
-          Noo.setStatusTip("", Item.Top)
+          NOO.setStatusTip("", Item.Top)
         }
       }
 

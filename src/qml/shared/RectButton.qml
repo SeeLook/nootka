@@ -22,7 +22,7 @@ AbstractButton {
 
   contentItem: Text {
     id: tx
-    leftPadding: Noo.factor() / 2
+    leftPadding: NOO.factor() / 2
     font: rectButt.font
     text: rectButt.text
     color: checked ? "red" : activPal.text
@@ -32,7 +32,7 @@ AbstractButton {
 
   background: Rectangle {
     id: bg
-    width: contentItem.width + Noo.factor() / 2
+    width: contentItem.width + NOO.factor() / 2
     height: parent.height
     color: activPal.highlight
     radius: height / 5
@@ -42,7 +42,7 @@ AbstractButton {
 
   onHoveredChanged: {
     if (GLOB.showHints && statusTip !== "")
-      Noo.setStatusTip(hovered ? statusTip : "", statusPos)
+      NOO.setStatusTip(hovered ? statusTip : "", statusPos)
   }
 
   onClicked: focus = false // keep focus free - do not lock up space key

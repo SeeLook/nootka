@@ -9,17 +9,17 @@ import Nootka.Dialogs 1.0
 
 
 TrtmSelectorItem {
-  implicitWidth: Noo.factor() * 10
-  implicitHeight: Noo.factor() * 20
+  implicitWidth: NOO.factor() * 10
+  implicitHeight: NOO.factor() * 20
 
   Component {
     id: moreComp
     Rectangle {
-      height: Noo.factor() * 2; width: Noo.factor() * 10
+      height: NOO.factor() * 2; width: NOO.factor() * 10
       color: enabled ? (ma.containsMouse ? activPal.highlight : activPal.button ): Qt.darker(disdPal.window, 1.2)
       Text {
         anchors.verticalCenter: parent.verticalCenter; horizontalAlignment: Text.AlignHCenter
-        width: Noo.factor() * 10; fontSizeMode: Text.HorizontalFit; font { bold: true; pixelSize: Noo.factor() }
+        width: NOO.factor() * 10; fontSizeMode: Text.HorizontalFit; font { bold: true; pixelSize: NOO.factor() }
         text: qsTr("rhythmic groups") + "  ⋮"; textFormat: Text.StyledText
         color: enabled ? (ma.containsMouse ? activPal.highlightedText : activPal.buttonText) : disdPal.buttonText
       }
@@ -39,12 +39,12 @@ TrtmSelectorItem {
     id: rtmList
     clip: true
     height: parent.height; width: parent.width
-    spacing: Noo.factor() / 10
+    spacing: NOO.factor() / 10
     ScrollBar.vertical: ScrollBar { active: enabled; visible: active }
     model: 35
     delegate: Component {
       Rectangle {
-        height: Noo.factor() * 2.5; width: parent ? parent.width : 0
+        height: NOO.factor() * 2.5; width: parent ? parent.width : 0
         color: enabled ? (index % 2 ? activPal.alternateBase : activPal.base) : Qt.darker(disdPal.window, 1.2)
         MouseArea {
           anchors.fill: parent
@@ -58,7 +58,7 @@ TrtmSelectorItem {
             onClicked: userChangedGroup(index, checked)
           }
           Text {
-            font { pixelSize: Noo.factor() * 1.5; family: "Scorek" }
+            font { pixelSize: NOO.factor() * 1.5; family: "Scorek" }
             y: -font.pixelSize * 0.8
             text: getGroupText(index + 1)
             color: enabled ? activPal.text : disdPal.text
@@ -74,15 +74,15 @@ TrtmSelectorItem {
     id: morePop
     x: rtmList.width
 
-    margins: Noo.factor()
-    background: GlowRect { color: activPal.window; shadowRadius: Noo.factor() / 2 }
+    margins: NOO.factor()
+    background: GlowRect { color: activPal.window; shadowRadius: NOO.factor() / 2 }
 
     scale: GLOB.useAnimations ? 0 : 1.0
     enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}
     exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0.0 }}
 
     Column {
-      spacing: Noo.factor() / 2
+      spacing: NOO.factor() / 2
       Text { text: qsTr("Filters") + ":"; color: activPal.text; anchors.horizontalCenter: parent.horizontalCenter }
       TcheckBox {
         text: qsTr("basic rhythms")

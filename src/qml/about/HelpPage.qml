@@ -14,10 +14,10 @@ Rectangle {
   property alias enableTOC: tocButt.visible
 
   width: parent.width; height: parent.height
-  color: Noo.alpha(activPal.base, 240)
+  color: NOO.alpha(activPal.base, 240)
   z: 0
   Image {
-    source: Noo.pix(images[currTopic])
+    source: NOO.pix(images[currTopic])
     height: parent.height * Math.min(1, (parent.width / parent.height) / (sourceSize.width / sourceSize.height))
     width: height * (sourceSize.width / sourceSize.height)
     z: -1
@@ -26,7 +26,7 @@ Rectangle {
 
   TcuteButton {
     id: tocButt
-    y: Noo.factor() / 4; x: parent.width - width - Noo.factor()
+    y: NOO.factor() / 4; x: parent.width - width - NOO.factor()
     z: 10
     text: qsTr("Help topics")
     onClicked: tocMenu.open()
@@ -43,13 +43,13 @@ Rectangle {
   Component {
     id: mainHelp
     Tflickable {
-      y: (tocButt.visible ? tocButt.height : 0) + Noo.factor()
+      y: (tocButt.visible ? tocButt.height : 0) + NOO.factor()
       width: parent ? parent.width : 0; height: parent ? parent.height - y : 0
       contentHeight: text.height;
       LinkText {
         id: text
         width: parent.width
-        padding: Noo.factor()
+        padding: NOO.factor()
         wrapMode: TextEdit.Wrap; textFormat: Text.RichText
         text: helpText
       }
@@ -59,7 +59,7 @@ Rectangle {
   property var topics: [ qsTranslate("ThelpDialogBase", "Nootka help"),
                           qsTranslate("TstartExamDlg", "To exercise or to pass an exam?"),
                           qsTranslate("TexamHelp", "How does an exercise or an exam work?"),
-                          Noo.TR("MainMenuMobile", "Pitch recognition"),
+                          NOO.TR("MainMenuMobile", "Pitch recognition"),
                           qsTranslate("ThelpDialogBase", "Open online documentation")
                        ]
   property var images: [ "help", "startExam", "nootka-exam", "pane/sound", "restore-defaults" ]
@@ -67,8 +67,8 @@ Rectangle {
   property var gotItQML: [ "", "ExamOrExercise", "ExamFlow", "SoundInfo" ]
 
   Component.onCompleted: {
-    if (Noo.isAndroid()) {
-      topics.splice(4, 0, Noo.TR("HandleScore", "Editing score with touch"))
+    if (NOO.isAndroid()) {
+      topics.splice(4, 0, NOO.TR("HandleScore", "Editing score with touch"))
       images.splice(4, 0, "pane/score")
       gotItQML.splice(4, 0, "HandleScore")
     }
@@ -78,8 +78,8 @@ Rectangle {
 
   Tmenu {
     id: tocMenu
-    width: Noo.factor() * 25
-    x: parent.width - width - y; y: Noo.factor() / 2
+    width: NOO.factor() * 25
+    x: parent.width - width - y; y: NOO.factor() / 2
     Repeater {
       id: tocRep
       MenuItem {

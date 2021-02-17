@@ -37,7 +37,7 @@ Item {
   TipRect {
     id: textWrap
     width: height * 1.7; height: parent.height * 1; radius: height / 8
-    color: Qt.tint(activPal.base, Noo.alpha(active ? (dev > 0 ? (dev > 0.3 ? "red" : (dev > 0.1 ? "yellow" : "lime")) : activPal.base) : disdPal.base, 50))
+    color: Qt.tint(activPal.base, NOO.alpha(active ? (dev > 0 ? (dev > 0.3 ? "red" : (dev > 0.1 ? "yellow" : "lime")) : activPal.base) : disdPal.base, 50))
     Behavior on color { ColorAnimation { duration: 150 }}
     anchors.top: parent.Top
     x: (intoBar.width - width) / 2

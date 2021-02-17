@@ -63,20 +63,20 @@ Window {
         }
         ChartToolButton {
           taction: Taction {
-            text: Noo.TR("QShortcut", "Zoom In"); icon: "zoom-in"; shortcut: Shortcut { sequence: StandardKey.ZoomIn }
+            text: NOO.TR("QShortcut", "Zoom In"); icon: "zoom-in"; shortcut: Shortcut { sequence: StandardKey.ZoomIn }
             onTriggered: chartView.sc = Math.min(2.0, chartView.sc * 1.125)
           }
         }
         ChartToolButton {
           taction: Taction {
-            text: Noo.TR("QShortcut", "Zoom Out"); icon: "zoom-out"; shortcut: Shortcut { sequence: StandardKey.ZoomOut }
+            text: NOO.TR("QShortcut", "Zoom Out"); icon: "zoom-out"; shortcut: Shortcut { sequence: StandardKey.ZoomOut }
             onTriggered: chartView.sc = Math.max(0.5, chartView.sc * 0.888889)
           }
         }
         ChartToolButton {
           id: maxButt
           taction: Taction {
-            text: Noo.TR("QMdiSubWindow", "Maximize"); icon: "fullscreen"
+            text: NOO.TR("QMdiSubWindow", "Maximize"); icon: "fullscreen"
             onTriggered: visibility = visibility === 2 ? 4 : 2
           }
         }
@@ -100,7 +100,7 @@ Window {
               font { pixelSize: upTextSize; bold: true }
               color: activPal.text; verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignHCenter
               height: toolBar.height * 0.48; width: analyzeWindow.width / 7
-              fontSizeMode: Text.Fit; minimumPixelSize: Noo.factor() / 2
+              fontSizeMode: Text.Fit; minimumPixelSize: NOO.factor() / 2
             }
           }
           Item { height: 2; width: analyzeWindow.width / 100 }
@@ -119,7 +119,7 @@ Window {
               font { pixelSize: upTextSize; bold: true }
               color: activPal.text; verticalAlignment: Text.AlignVCenter; horizontalAlignment: Text.AlignHCenter
               height: toolBar.height * 0.48; width: analyzeWindow.width / 7
-              fontSizeMode: Text.Fit; minimumPixelSize: Noo.factor() / 2
+              fontSizeMode: Text.Fit; minimumPixelSize: NOO.factor() / 2
             }
           }
           Item { height: 2; width: analyzeWindow.width / 100 }
@@ -150,7 +150,7 @@ Window {
             }
             Rectangle {
               anchors.horizontalCenter: parent.horizontalCenter
-              width: levelText.width + Noo.factor(); height: toolBar.height / 2
+              width: levelText.width + NOO.factor(); height: toolBar.height / 2
               color: levelArea.containsMouse ? activPal.highlight : "transparent"
               radius: height / 5
               Text {
@@ -197,7 +197,7 @@ Window {
         id: exitButt
         anchors.right: parent.right
         taction: Taction {
-          text: Noo.TR("QPlatformTheme", "Close"); icon: "exit"
+          text: NOO.TR("QPlatformTheme", "Close"); icon: "exit"
           onTriggered: close()
         }
       }

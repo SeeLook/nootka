@@ -12,7 +12,7 @@ Tumbler {
   property alias instrument: instrTumb.currentIndex
 
   width: parent.width
-  height: Noo.factor() * 10
+  height: NOO.factor() * 10
   visibleItemCount: Math.min(((width / (height * 0.7)) / 2) * 2 - 1, 7)
   model: 8
   delegate: Component {
@@ -21,9 +21,9 @@ Tumbler {
       scale: (1.7 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)) * (textMa.pressed || glyphMa.pressed ? 0.8 : 1.0)
       Text {
         id: instrGlyph
-        property color tc: Noo.randomColor()
+        property color tc: NOO.randomColor()
         font {family: "nootka"; pixelSize: instrTumb.height * 0.3 }
-        text: Noo.instr(modelData).glyph
+        text: NOO.instr(modelData).glyph
         anchors.horizontalCenter: parent.horizontalCenter
         color: instrTumb.currentIndex === modelData ? activPal.highlightedText : tc
         MouseArea {
@@ -35,7 +35,7 @@ Tumbler {
       Text {
         anchors { horizontalCenter: parent.horizontalCenter; top: instrGlyph.bottom }
         width: instrTumb.height * 0.8
-        text: Noo.instr(modelData).name.replace(" ", "\n")
+        text: NOO.instr(modelData).name.replace(" ", "\n")
         horizontalAlignment: Text.AlignHCenter
         color: activPal.text
         font { bold: instrTumb.currentIndex === modelData; pixelSize: instrTumb.height * 0.08 }

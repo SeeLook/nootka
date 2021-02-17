@@ -11,9 +11,9 @@ import "../"
 Drawer {
   property alias selectedClef: clefMenu.selClef
 
-  width: Noo.factor() * 19; height: parent.height
+  width: NOO.factor() * 19; height: parent.height
   visible: true
-  background: GlowRect { color: activPal.window; cornerRadius: Noo.factor() / 2; radius: 0 }
+  background: GlowRect { color: activPal.window; cornerRadius: NOO.factor() / 2; radius: 0 }
 
   ClefMenu {
     id: clefMenu

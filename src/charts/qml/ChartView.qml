@@ -45,7 +45,7 @@ Flickable {
     Rectangle {
       visible: list.count > 0; z: 0
       y: contentHeight * 0.1 + maxDataHeight - (chartItem.yAxisGridModel[index] / chartItem.maxYValue()) * maxDataHeight
-      color: Noo.alpha(activPal.text, 100)
+      color: NOO.alpha(activPal.text, 100)
       width: Math.min(parent.width - list.height / 12, list.contentWidth); height: lThick / 3
       x: list.height / 12
     }
@@ -113,7 +113,7 @@ Flickable {
 
     Rectangle { // Y axis (over that fake header)
       visible: list.count > 0
-      color: Noo.alpha(activPal.base, 200)
+      color: NOO.alpha(activPal.base, 200)
       height: list.height; width: height / 12
       Rectangle { // Y axis line
         color: activPal.text

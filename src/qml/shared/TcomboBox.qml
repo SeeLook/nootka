@@ -11,8 +11,8 @@ ComboBox {
 
   property alias radius: bg.radius
 
-  height: Noo.factor() * 2
-  font.pixelSize: Noo.factor()
+  height: NOO.factor() * 2
+  font.pixelSize: NOO.factor()
 
   scale: GLOB.useAnimations && cb.pressed ? 0.9 : 1.0
   Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
@@ -48,11 +48,11 @@ ComboBox {
 
   delegate: ItemDelegate {
     id: itDel
-    width: cb.width; height: Noo.factor() * 2.5
+    width: cb.width; height: NOO.factor() * 2.5
     hoverEnabled: true
     enabled: !lockList[index]
     background: Rectangle {
-      color: cb.currentIndex === index || itDel.down ? activPal.highlight : (itDel.hovered ? Noo.alpha(activPal.highlight, 70) : "transparent")
+      color: cb.currentIndex === index || itDel.down ? activPal.highlight : (itDel.hovered ? NOO.alpha(activPal.highlight, 70) : "transparent")
     }
     contentItem: Text {
       text: modelData
@@ -67,7 +67,7 @@ ComboBox {
   }
 
   indicator: Text {
-    x: cb.width - width * (Noo.isAndroid() || Noo.isMac() ? 1.2 : 1)
+    x: cb.width - width * (NOO.isAndroid() || NOO.isMac() ? 1.2 : 1)
     color: cb.enabled ? activPal.text : disdPal.text; text: "⋮"
     font { pixelSize: cb.height * 0.7; bold: true }
     anchors.verticalCenter: parent.verticalCenter
@@ -86,13 +86,13 @@ ComboBox {
   background: GlowRect {
     id: bg
     color: cb.enabled ? activPal.button : Qt.darker(disdPal.window, 1.2)
-    radius: Noo.factor() / 6
+    radius: NOO.factor() / 6
     rised: !cb.pressed
   }
 
   popup: Popup {
     parent: cb.parent
-    x: cb.x; y: cb.y + cb.height + Noo.factor() / 4
+    x: cb.x; y: cb.y + cb.height + NOO.factor() / 4
     scale: GLOB.useAnimations ? 0.1 : 1.0
     padding: 0
 
@@ -102,14 +102,14 @@ ComboBox {
 
     contentItem: ListView {
       clip: true
-      implicitHeight: Math.min(contentHeight, Noo.factor() * 15) // 6 items
+      implicitHeight: Math.min(contentHeight, NOO.factor() * 15) // 6 items
       model: cb.popup.visible ? cb.delegateModel : null
       currentIndex: cb.highlightedIndex
 
       ScrollBar.vertical: ScrollBar { active: cb.delegateModel.count > 6 }
     }
 
-    background: GlowRect { shadowRadius: Noo.factor() / 2; color: activPal.window }
+    background: GlowRect { shadowRadius: NOO.factor() / 2; color: activPal.window }
     enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1 }}
     exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0 }}
   }

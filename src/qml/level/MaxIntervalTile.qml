@@ -16,7 +16,7 @@ Tile {
   description: qsTr("Maximal interval between notes used in a melody (in semitones).")
   Row {
     anchors.horizontalCenter: parent.horizontalCenter
-    spacing: Noo.factor() / 2
+    spacing: NOO.factor() / 2
     Text {
       anchors.verticalCenter: parent.verticalCenter
       text: qsTr("Max interval")

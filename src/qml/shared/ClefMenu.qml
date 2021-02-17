@@ -39,36 +39,36 @@ ListView {
   model: 7
   delegate: Rectangle {
     width: clefMenu.width
-    height: visible ? Noo.factor() * (index === 6 ? 10 : 7.5) : 0
+    height: visible ? NOO.factor() * (index === 6 ? 10 : 7.5) : 0
     visible: index !== 0 || score.meter !== Tmeter.NoMeter
     color: index === clefMenu.currentIndex ? activPal.highlight :
-                  (area.containsMouse ? Qt.tint(activPal.base, Noo.alpha(activPal.highlight, 50)) : (index % 2 === 1 ? activPal.alternateBase : activPal.base))
+                  (area.containsMouse ? Qt.tint(activPal.base, NOO.alpha(activPal.highlight, 50)) : (index % 2 === 1 ? activPal.alternateBase : activPal.base))
     Row {
       height: parent.height
       width: parent.width
-      spacing: Noo.factor()
+      spacing: NOO.factor()
       Item {
-        width: Noo.factor() * 3.2; height: Noo.factor()
+        width: NOO.factor() * 3.2; height: NOO.factor()
         Text {
-          scale: Noo.factor() * 0.9
-          x: scale * 2.5; y: 4.6 * Noo.factor()
+          scale: NOO.factor() * 0.9
+          x: scale * 2.5; y: 4.6 * NOO.factor()
           font { family: "scorek"; pixelSize: 3 }
-          text: Noo.clef(clefNr[index]).glyphOnStaff()
+          text: NOO.clef(clefNr[index]).glyphOnStaff()
           color: index === clefMenu.currentIndex ? activPal.highlightedText : activPal.text
         }
       }
       Column {
         anchors.verticalCenter: parent.verticalCenter
-        width: parent.width - Noo.factor() * 4.8
-        spacing: Noo.factor() / 4
+        width: parent.width - NOO.factor() * 4.8
+        spacing: NOO.factor() / 4
         Text {
-          text: Noo.clef(clefNr[index]).name()
-          font { bold: true; pixelSize: Noo.factor() * 1.1 }
+          text: NOO.clef(clefNr[index]).name()
+          font { bold: true; pixelSize: NOO.factor() * 1.1 }
           color: index === clefMenu.currentIndex ? activPal.highlightedText : activPal.text
         }
         Text {
-          text: Noo.clef(clefNr[index]).desc()
-          font { pixelSize: Noo.factor() * 0.8 }
+          text: NOO.clef(clefNr[index]).desc()
+          font { pixelSize: NOO.factor() * 0.8 }
           width: parent.width
           wrapMode: Text.WordWrap
           color: index === clefMenu.currentIndex ? activPal.highlightedText : activPal.text

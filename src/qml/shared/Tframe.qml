@@ -15,7 +15,7 @@ Frame {
   background: Rectangle {
     id: bg
     color: "transparent"
-    border { color: enabled ? activPal.text : disdPal.text; width: Noo.factor() * 0.1 }
-    radius: Noo.factor() * 0.75
+    border { color: enabled ? activPal.text : disdPal.text; width: NOO.factor() * 0.1 }
+    radius: NOO.factor() * 0.75
   }
 }

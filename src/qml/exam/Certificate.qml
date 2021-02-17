@@ -54,7 +54,7 @@ Item {
   Tile {
     anchors.horizontalCenter: undefined
     width: parent.width * 0.48; x: parent.width * 0.005; y: parent.height * 0.01
-    bgColor: Qt.tint(GLOB.correctColor, Noo.alpha(activPal.base, 180)); bgBorder { color: GLOB.correctColor; width: 2 }
+    bgColor: Qt.tint(GLOB.correctColor, NOO.alpha(activPal.base, 180)); bgBorder { color: GLOB.correctColor; width: 2 }
     Column {
       width: parent.width
       Text {
@@ -64,7 +64,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap
       }
       Image {
-        source: Noo.pix("save")
+        source: NOO.pix("save")
         height: parent.width / 12; width: height * (sourceSize.width / sourceSize.height)
         anchors.horizontalCenter: parent.horizontalCenter
       }
@@ -81,7 +81,7 @@ Item {
   Tile {
     anchors { horizontalCenter: undefined; verticalCenter: parent.verticalCenter }
     width: parent.width * 0.48; x: parent.width * 0.005
-    bgColor: Qt.tint("blue", Noo.alpha(activPal.base, 180)); bgBorder { color: "blue"; width: 2 }
+    bgColor: Qt.tint("blue", NOO.alpha(activPal.base, 180)); bgBorder { color: "blue"; width: 2 }
     Column {
       width: parent.width
       Text {
@@ -90,7 +90,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap
       }
       Image {
-        source: Noo.pix("nextQuest")
+        source: NOO.pix("nextQuest")
         height: parent.width / 12; width: height * (sourceSize.width / sourceSize.height)
         anchors.horizontalCenter: parent.horizontalCenter
       }
@@ -106,7 +106,7 @@ Item {
   Tile {
     anchors.horizontalCenter: undefined
     width: parent.width * 0.48; x: parent.width * 0.005; y: parent.height * 0.99 - height
-    bgColor: Qt.tint(GLOB.wrongColor, Noo.alpha(activPal.base, 180)); bgBorder { color: GLOB.wrongColor; width: 2 }
+    bgColor: Qt.tint(GLOB.wrongColor, NOO.alpha(activPal.base, 180)); bgBorder { color: GLOB.wrongColor; width: 2 }
     Column {
       width: parent.width
       Text {
@@ -116,7 +116,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap
       }
       Image {
-        source: Noo.pix("stopExam")
+        source: NOO.pix("stopExam")
         height: parent.width / 12; width: height * (sourceSize.width / sourceSize.height)
         anchors.horizontalCenter: parent.horizontalCenter
       }

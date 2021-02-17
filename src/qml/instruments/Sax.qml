@@ -17,7 +17,7 @@ TsaxBg {
 
   Image { // body
     cache: false
-    source: Noo.pix("saxAlto")
+    source: NOO.pix("saxAlto")
     height: parent.height * 0.9
     width: height * (sourceSize.width/ sourceSize.height)
     x: -width * 0.25

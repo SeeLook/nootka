@@ -17,7 +17,7 @@ Column {
   property int alterTwo: -1
   property int nameStyle: 0
 
-  spacing: Noo.factor() / 2
+  spacing: NOO.factor() / 2
 
   Text {
     wrapMode: Text.NoWrap
@@ -27,13 +27,13 @@ Column {
     color: enabled ? activPal.text : disdPal.text
   }
   TtextField  {
-    width: Noo.factor() * 8
+    width: NOO.factor() * 8
     id: sufixField
     maximumLength: 10
     horizontalAlignment: TextInput.AlignHCenter
     anchors.horizontalCenter: parent.horizontalCenter
   }
-  Item { height: Noo.factor() / 2; width: 1 }
+  Item { height: NOO.factor() / 2; width: 1 }
   Text {
     text: qsTranslate("TscoreSettings", "for example") + ":"
     anchors.horizontalCenter: parent.horizontalCenter
@@ -43,8 +43,8 @@ Column {
     anchors.horizontalCenter: parent.horizontalCenter
     horizontalAlignment: Text.AlignHCenter
     color: enabled ? activPal.text : disdPal.text
-    font { bold: true; pixelSize: Noo.factor() * 1.5 }
-    text: Noo.noteName(Noo.note(noteOne, 0, alterOne), nameStyle, false) + (sufix === "" || sufix === " " ? "" : "-" + sufixField.text) + "\n"
-        + Noo.noteName(Noo.note(noteTwo, 0, alterTwo), nameStyle, false) + (sufix === "" || sufix === " " ? "" : "-" + sufixField.text)
+    font { bold: true; pixelSize: NOO.factor() * 1.5 }
+    text: NOO.noteName(NOO.note(noteOne, 0, alterOne), nameStyle, false) + (sufix === "" || sufix === " " ? "" : "-" + sufixField.text) + "\n"
+        + NOO.noteName(NOO.note(noteTwo, 0, alterTwo), nameStyle, false) + (sufix === "" || sufix === " " ? "" : "-" + sufixField.text)
   }
 }

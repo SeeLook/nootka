@@ -15,8 +15,8 @@ TcuteButton {
 
   Behavior on color { enabled: GLOB.useAnimations; ColorAnimation { duration: 750 }}
 
-  implicitWidth: Noo.factor() * 3.5
-  implicitHeight: Noo.factor() * 2
+  implicitWidth: NOO.factor() * 3.5
+  implicitHeight: NOO.factor() * 2
 
   onClicked: colorDialog.open()
 
@@ -28,7 +28,7 @@ TcuteButton {
     anchors.fill: background
     visible: !colorButton.enabled
     color: disdPal.text
-    radius: Noo.factor() / 3
+    radius: NOO.factor() / 3
   }
 
   ColorDialog {

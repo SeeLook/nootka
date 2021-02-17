@@ -7,15 +7,15 @@ import QtQuick 2.9
 import "../"
 
 Text {
-    font { pixelSize: Noo.factor() * 1.6; bold: true }
+    font { pixelSize: NOO.factor() * 1.6; bold: true }
     anchors.horizontalCenter: parent.horizontalCenter
     textFormat: Text.StyledText
     color: activPal.highlight
 
     Rectangle {
-      x: (parent.width - width + Noo.factor()) / 2
-      y: Noo.factor() * 2
+      x: (parent.width - width + NOO.factor()) / 2
+      y: NOO.factor() * 2
       color: activPal.highlight
-      width: authorsPage.width - Noo.factor(); height: Noo.factor() / 12
+      width: authorsPage.width - NOO.factor(); height: NOO.factor() / 12
     }
 }

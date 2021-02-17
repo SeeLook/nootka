@@ -10,15 +10,15 @@ import "../"
 
 Tflickable {
   height: parent.height
-  contentHeight: suppFlow.childrenRect.height + thText.height + Noo.factor() * 3
+  contentHeight: suppFlow.childrenRect.height + thText.height + NOO.factor() * 3
   contentWidth: width
 
   Flow {
     id: suppFlow
-    width: parent.width - Noo.factor() * 2
+    width: parent.width - NOO.factor() * 2
     height: childrenRect.height
-    anchors { margins: Noo.factor(); horizontalCenter: parent.horizontalCenter }
-    spacing: Noo.factor() / 2
+    anchors { margins: NOO.factor(); horizontalCenter: parent.horizontalCenter }
+    spacing: NOO.factor() / 2
 
     Tile {
       width: parent.width
@@ -28,7 +28,7 @@ Tflickable {
         text: qsTr("You also can help with making Nootka better.")
         width: parent.width * 0.9
         wrapMode: Text.WordWrap
-        font { pixelSize: Noo.factor() * 2; bold: true }
+        font { pixelSize: NOO.factor() * 2; bold: true }
         anchors.horizontalCenter: parent.horizontalCenter
         color: activPal.highlightedText
       }
@@ -39,7 +39,7 @@ Tflickable {
       Text {
         width: parent.width * 0.96
         text: qsTr("It requires little bit English, so if you can read a text below there will be something you may get involved.")
-        font { pixelSize: Noo.factor() * 1.1 }
+        font { pixelSize: NOO.factor() * 1.1 }
         wrapMode: Text.WordWrap
         anchors.horizontalCenter: parent.horizontalCenter
         color: activPal.text
@@ -70,7 +70,7 @@ Tflickable {
         header: "Mac needs feedback"
         message: "Mac Os version is a new thing.<br>Let us know does Nootka work there or not."
       }
-      //ListElement { Noo.isAndroid() ? "Rate this app" : "Vote on Nootka" // D 5 | A 4
+      //ListElement { NOO.isAndroid() ? "Rate this app" : "Vote on Nootka" // D 5 | A 4
       ListElement { // D 6 | A 5
         accent: "teal"
         header: "Create a tutorial"
@@ -92,15 +92,15 @@ Tflickable {
       Component.onCompleted: {
         // HACK: ListElement can handle only static data, but not any function like qsTr or so.
         // So insert/append such a data with script here
-        if (!Noo.isAndroid()) {
+        if (!NOO.isAndroid()) {
           insert(1, {
             "accent": "#42DA06", "header": qsTr("Donate Nootka campaign"),
             "message": "<a href=\"https://nootka.sourceforge.io/index.php?C=donate\">" + qsTr("Through PayPal or a card") + "</a><br><a href=\"mailto:seelook.gmail.com\">" + qsTr("or send email for an account number") + "</a>"
           })
         }
-        insert(Noo.isAndroid() ? 3 : 4, {
-          "accent": "#C000C0", "header": Noo.isAndroid() ? "Rate this app" : "Vote on Nootka",
-          "message": Noo.isAndroid() ?
+        insert(NOO.isAndroid() ? 3 : 4, {
+          "accent": "#C000C0", "header": NOO.isAndroid() ? "Rate this app" : "Vote on Nootka",
+          "message": NOO.isAndroid() ?
           "Go to <a href=\"https://play.google.com/store/apps/details?id=net.sf.nootka\">Google Play</a>,<br>rate it nicely and put a comment in your native language." :
           "There are a lot of services. For example:<br><a href=\"https://play.google.com/store/apps/details?id=net.sf.nootka\">Google Play</a>, <a href=\"https://www.linux-apps.com/p/1127020/\">Linux Apps</a>, <a href=\"http://www.softpedia.com/get/Others/Home-Education/Nootka.shtml\">Softpedia</a>"
         })
@@ -112,7 +112,7 @@ Tflickable {
     Repeater {
       model: suppModel
       Tile {
-        width: tt.width + Noo.factor() * 4
+        width: tt.width + NOO.factor() * 4
         anchors.horizontalCenter: undefined
         bgBorder { color: accent; width: 2 }
         bgColor: Qt.tint(accent, Qt.rgba(activPal.base.r, activPal.base.g, activPal.base.b, 0.9))
@@ -131,14 +131,14 @@ Tflickable {
   }
 
   Tile {
-    width: Noo.factor() * 20
+    width: NOO.factor() * 20
     anchors { horizontalCenter: parent.horizontalCenter; top: suppFlow.bottom }
     bgColor: activPal.highlight
     bgBorder { color: activPal.highlightedText; width: 2 }
     Text {
       id: thText
       text: "Thanks in advance!<br>Author"
-      font { pixelSize: Noo.factor() * 1.7 }
+      font { pixelSize: NOO.factor() * 1.7 }
       horizontalAlignment: Text.AlignRight
       anchors.horizontalCenter: parent.horizontalCenter
       color: activPal.highlightedText

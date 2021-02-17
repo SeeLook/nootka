@@ -18,8 +18,8 @@ AbstractButton {
   x: canShow && (showFlys || shaked) ? flyX(index) : -width
   y: canShow && (showFlys || shaked) ? flyY(index) : -height
   scale: canShow && (showFlys || shaked) ? 0.99 : 0.01
-  width: Noo.fingerPixels() * 1.5 + (txt.visible ? txt.width : 0)
-  height: Noo.fingerPixels() * 1.5
+  width: NOO.fingerPixels() * 1.5 + (txt.visible ? txt.width : 0)
+  height: NOO.fingerPixels() * 1.5
 
   onClicked: {
     taction.trigger()
@@ -33,14 +33,14 @@ AbstractButton {
 
   background: TipRect {
     radius: height / 2
-    color: Qt.tint(activPal.base, Noo.alpha(taction ? taction.bgColor : activPal.base, currentFly === flyItem || pressed ? 200 : 50))
+    color: Qt.tint(activPal.base, NOO.alpha(taction ? taction.bgColor : activPal.base, currentFly === flyItem || pressed ? 200 : 50))
     border { width: 2; color: taction ? taction.bgColor : "transparent" }
   }
 
   contentItem: Item {
     Image {
       id: img
-      x: (Noo.fingerPixels() * 1.5 - width) / 2
+      x: (NOO.fingerPixels() * 1.5 - width) / 2
       source: taction ? taction.icon : ""
       height: parent.height * 0.7; width: height * (sourceSize.width / sourceSize.height)
       anchors.verticalCenter: parent.verticalCenter
@@ -49,7 +49,7 @@ AbstractButton {
       id: txt
       visible: forceText || (showText && taction && currentFly === flyItem)
       anchors { verticalCenter: parent.verticalCenter; left: img.right }
-      padding: Noo.factor() / 3
+      padding: NOO.factor() / 3
       horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
       minimumPixelSize: 8
       fontSizeMode: Text.HorizontalFit

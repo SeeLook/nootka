@@ -12,7 +12,7 @@ Slider {
   background: Rectangle {
     x: sl.leftPadding
     y: sl.topPadding + sl.availableHeight / 2 - height / 2
-    implicitWidth: Noo.factor() * 15; implicitHeight: Noo.factor() / 2
+    implicitWidth: NOO.factor() * 15; implicitHeight: NOO.factor() / 2
     width: sl.availableWidth; height: implicitHeight
     radius: height / 2
     color: sl.enabled ? activPal.mid : disdPal.mid
@@ -26,11 +26,11 @@ Slider {
   }
 
   handle: TipRect {
-    scale: Noo.isAndroid() && pressed ? 1.3 : 1
+    scale: NOO.isAndroid() && pressed ? 1.3 : 1
     x: sl.leftPadding + sl.visualPosition * (sl.availableWidth - width / 2)
     y: sl.topPadding + sl.availableHeight / 2 - height / 2
-    implicitWidth: Noo.factor() * 2; implicitHeight: Noo.factor() * 2
-    radius: Noo.factor()
+    implicitWidth: NOO.factor() * 2; implicitHeight: NOO.factor() * 2
+    radius: NOO.factor()
     rised: !sl.pressed
     color: sl.pressed ? activPal.highlight : activPal.button
     Rectangle {

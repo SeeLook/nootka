@@ -22,7 +22,7 @@ Grid {
   Tresults { id: results }
 
   Row {
-    spacing: Noo.factor()
+    spacing: NOO.factor()
     width: resultsItem.width / 2; leftPadding: (width - childrenRect.width) / 2
     ResultLabel {
       index: 1
@@ -38,14 +38,14 @@ Grid {
       width: resultsItem.width / 5; height: nootkaWindow.width / 70
       from: 0; to: results.progressMax
       value: results.progressValue
-      hoverEnabled: !Noo.isAndroid()
+      hoverEnabled: !NOO.isAndroid()
 
       onHoveredChanged: {
         if (GLOB.showHints) {
           if (hovered)
-            Noo.setStatusTip(results.progressHint(), Item.Top)
+            NOO.setStatusTip(results.progressHint(), Item.Top)
           else
-            Noo.setStatusTip("", Item.Top)
+            NOO.setStatusTip("", Item.Top)
         }
       }
 
@@ -102,7 +102,7 @@ Grid {
 
   Row {
     width: resultsItem.width / 2; leftPadding: (width - childrenRect.width) / 2
-    spacing: Noo.factor() / 2
+    spacing: NOO.factor() / 2
 
     ResultLabel {
       index: 4
@@ -166,10 +166,10 @@ Grid {
       scale: 0
       enter: Transition { enabled: GLOB.useAnimations; SpringAnimation { property: "scale"; to: 1; spring: 2; damping: 0.2; epsilon: 0.005 }}
       exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; from: 1; to: 0 }} // duration 250 ms
-      background: GlowRect { color: activPal.button; shadowRadius: Noo.factor() / 2 }
-      y: resultsItem.height + Noo.factor() / 2
+      background: GlowRect { color: activPal.button; shadowRadius: NOO.factor() / 2 }
+      y: resultsItem.height + NOO.factor() / 2
       Column {
-        spacing: Noo.factor() / 6
+        spacing: NOO.factor() / 6
         Repeater {
           model: [ results.resultsTxt(), results.answersHint(), results.progressHint(), results.summaryHint(), results.correctHint(),
                     results.halfHint(), results.wrongHint(), results.effectHint(), results.averageHint() ]

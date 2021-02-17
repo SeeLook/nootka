@@ -27,7 +27,7 @@ Item {
     anchors.fill: barIt
     horizontalOffset: barDel.width / 30
     verticalOffset: horizontalOffset
-    radius: Noo.factor() * (barIt.hovered ? 2 : 1)
+    radius: NOO.factor() * (barIt.hovered ? 2 : 1)
     samples: 1 + radius * 2
     color: activPal.shadow
     source: barIt
