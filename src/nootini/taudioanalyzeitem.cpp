@@ -44,7 +44,9 @@ void TaudioAnalyzeItem::soundInitSlot() {
 
 
 void TaudioAnalyzeItem::volumeSlot() {
-  emit dataReady(m_sniffer->pcmVolume(), m_sniffer->finder()->energy(), m_sniffer->finder()->isOnSet());
+  Tnote n; n.fromMidi(qRound(m_sniffer->finder()->chunkPitch()));
+  emit dataReady(m_sniffer->pcmVolume(), m_sniffer->finder()->energy(),
+                 m_sniffer->finder()->isOnSet(), QString("%1 [%2]").arg(m_sniffer->finder()->chunkPitch()).arg(n.toText()));
 }
 
 

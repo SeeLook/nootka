@@ -42,7 +42,7 @@ TaudioAnalyzeItem {
   ListModel { id: audioModel }
 
   onDataReady: {
-    audioModel.append( { "vol": pcmVol, "energy": energy, "onSet": onSet } )
+    audioModel.append( { "vol": pcmVol, "energy": energy, "onSet": onSet, "note": note } )
   }
 
   Shortcut {
@@ -111,7 +111,7 @@ TaudioAnalyzeItem {
       id: contText
       anchors.centerIn: parent
       color: activPal.text
-      text: tip.mD ? tip.nr + "\nvolume: " + tip.mD.vol + "\ndynamic: " + tip.mD.energy: ""
+      text: tip.mD ? tip.nr + "\nnote: " + tip.mD.note + "\nvolume: " + tip.mD.vol + "\ndynamic: " + tip.mD.energy : ""
     }
   }
 

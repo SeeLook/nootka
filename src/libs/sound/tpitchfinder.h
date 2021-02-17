@@ -212,6 +212,8 @@ public:
        */
   bool isOnSet() const;
 
+  qreal chunkPitch() const { return static_cast<qreal>(m_chunkPitch); }
+
 #if !defined (Q_OS_ANDROID)
       /**
        * It enables dumping audio data to file(s) to watch them in external applications

@@ -40,7 +40,7 @@ public:
   ~TaudioAnalyzeItem();
 
 signals:
-  void dataReady(qreal pcmVol, qreal energy, bool onSet);
+  void dataReady(qreal pcmVol, qreal energy, bool onSet, const QString& note);
   void noteData(int start, int end, const QString& note);
 
 protected:
