@@ -81,7 +81,7 @@ Column {
               TlabelText { text: qsTr("minimum note duration") }
               TspinBox {
                 id: minDurSpin
-                from: 50; to: 1000
+                from: 80; to: 1000
                 stepSize: 10
                 editable: true
               }
