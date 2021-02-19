@@ -219,6 +219,14 @@ int main(int argc, char *argv[])
 
     e->load(QUrl(QStringLiteral("qrc:/MainWindow.qml")));
 
+#if !defined (Q_OS_ANDROID)
+    if (e->rootObjects().isEmpty()) {
+      QTextStream o(stdout);
+      o << "\033[0;31m Something went wrong and Nootka was not able to launch.\033[01;00m\n";
+      return 121;
+    }
+#endif
+
     if (firstLoop && !wasFirstRun) {
 #if defined (Q_OS_ANDROID)
       qDebug() << "NOOTKA LAUNCH TIME" << startElapsed.nsecsElapsed() / 1000000.0 << " [ms]";
@@ -235,7 +243,7 @@ int main(int argc, char *argv[])
        nooObj->openFile(androidArg);
 #else
       if (argc > 1) {
-        if (QString::fromLocal8Bit(argv[argc - 1]).contains(QLatin1String("--nootini")) && !e->rootObjects().isEmpty()) {
+        if (QString::fromLocal8Bit(argv[argc - 1]).contains(QLatin1String("--nootini"))) {
             qmlRegisterType<TaudioAnalyzeItem>("Nootka.Main", 1, 0, "TaudioAnalyzeItem");
             QMetaObject::invokeMethod(e->rootObjects().first(), "audioAnalyze");
         } else
