@@ -21,10 +21,14 @@
 
 
 #include <QtQuick/qquickitem.h>
+#include <QtCore/qfile.h>
 
 
 class TcommonListener;
 class TnoteStruct;
+
+
+#define   ANALYZER   TaudioAnalyzeItem::instance()
 
 
 /**
@@ -39,6 +43,10 @@ public:
   explicit TaudioAnalyzeItem(QQuickItem* parent = nullptr);
   ~TaudioAnalyzeItem();
 
+  static TaudioAnalyzeItem* instance() { return m_instance; }
+
+  static void processAudioFile(const QString& fileName);
+
 signals:
   void dataReady(qreal pcmVol, qreal energy, bool onSet, const QString& note);
   void noteData(int start, int end, const QString& note);
@@ -47,9 +55,12 @@ protected:
   void soundInitSlot();
   void volumeSlot();
   void noteFinishedSlot(const TnoteStruct& n);
+  void doProcess();
 
 private:
-  TcommonListener           *m_sniffer = nullptr;
+  TcommonListener                   *m_sniffer = nullptr;
+  static TaudioAnalyzeItem          *m_instance;
+  QFile                              m_audioFile;
 };
 
 #endif // TAUDIOANALYZEITEM_H
