@@ -34,6 +34,7 @@
   #include "mobile/tmobilemenu.h"
 #else
   #include "nootini/taudioanalyzeitem.h"
+  #include <QtCore/qcommandlineparser.h>
 #endif
 
 #include <QtWidgets/qapplication.h>
@@ -243,7 +244,16 @@ int main(int argc, char *argv[])
        nooObj->openFile(androidArg);
 #else
       if (argc > 1) {
-        if (QString::fromLocal8Bit(argv[argc - 1]).contains(QLatin1String("--nootini"))) {
+        QCommandLineParser cmd;
+        auto helpOpt = cmd.addHelpOption();
+        QCommandLineOption nootiniOpt(QStringLiteral("nootini"), QStringLiteral("launch audio analyzer"));
+        cmd.addOption(nootiniOpt);
+        cmd.parse(a->arguments());
+
+        if (cmd.isSet(helpOpt))
+          cmd.showHelp();
+
+        if (cmd.isSet(nootiniOpt)) {
             qmlRegisterType<TaudioAnalyzeItem>("Nootka.Main", 1, 0, "TaudioAnalyzeItem");
             QMetaObject::invokeMethod(e->rootObjects().first(), "audioAnalyze");
         } else
