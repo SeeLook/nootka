@@ -180,6 +180,7 @@ void TaudioAnalyzeItem::doProcess() {
             buffer[i] = 0;
       }
       pf->copyToBufferOffline(buffer);
+      qApp->processEvents();
     }
     delete[] buffer;
   }
