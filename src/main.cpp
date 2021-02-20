@@ -246,13 +246,18 @@ int main(int argc, char *argv[])
       if (argc > 1) {
         QCommandLineParser cmd;
         auto helpOpt = cmd.addHelpOption();
-        QCommandLineOption nootiniOpt(QStringLiteral("nootini"),
+        QCommandLineOption nootiniOpt(QStringList() << QStringLiteral("nootini") << QStringLiteral("n"),
                                       QStringLiteral("Launch Nootka in audio analyze mode. Nootini: (Nootka + Tartini)\n"));
         cmd.addOption(nootiniOpt);
-        QCommandLineOption audioFileOpt(QStringLiteral("audio-file"),
+        QCommandLineOption audioFileOpt(QStringList() << QStringLiteral("audio-file") << QStringLiteral("a"),
                                         QStringLiteral("Audio file to analyze. Only raw files dumped by Nootka are supported.\n"),
                                         QStringLiteral("wav or raw audio"));
         cmd.addOption(audioFileOpt);
+        QCommandLineOption tempoOpt(QStringList() << QStringLiteral("tempo") << QStringLiteral("t"),
+                                    QStringLiteral("Tempo of given audio file.\n"),
+                                    QStringLiteral("bpm"));
+        cmd.addOption(tempoOpt);
+
         /** Option below is handled internally by @p TnootkaQML. */
         cmd.addOptions({{ QStringLiteral("no-version"), QStringLiteral("Do not display app version.\n")}});
 
@@ -263,6 +268,8 @@ int main(int argc, char *argv[])
         if (cmd.isSet(nootiniOpt)) {
             qmlRegisterType<TaudioAnalyzeItem>("Nootka.Main", 1, 0, "TaudioAnalyzeItem");
             QMetaObject::invokeMethod(e->rootObjects().first(), "audioAnalyze");
+            if (cmd.isSet(tempoOpt))
+              SOUND->setTempo(cmd.value(tempoOpt).toInt());
             if (cmd.isSet(audioFileOpt))
               TaudioAnalyzeItem::processAudioFile(cmd.value(audioFileOpt));
         } else
