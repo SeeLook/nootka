@@ -26,6 +26,7 @@
 //   #include "tmidiout.h"
   #include "trtaudioout.h"
   #include "trtaudioin.h"
+  #include <QtCore/qfileinfo.h>
 #endif
 #include <tnootkaqml.h>
 #include "ttickcolors.h"
@@ -75,6 +76,10 @@ Tsound::~Tsound()
   deleteSniffer();
   deletePlayer();
   m_instance = nullptr;
+#if !defined (Q_OS_ANDROID)
+  if (!m_dumpPath.isEmpty())
+    GLOB->A->dumpPath.clear();
+#endif
 }
 
 //#################################################################################################
@@ -538,6 +543,15 @@ void Tsound::setTouchHandling(bool th) {
 
 
 #if !defined (Q_OS_ANDROID)
+void Tsound::changeDumpPath(const QString& path) {
+  if (QFileInfo(path).exists()) {
+      m_dumpPath = path;
+      GLOB->A->dumpPath = path;
+  } else
+      qDebug() << "[Tsound] dump path" << path << "does not exist!";
+}
+
+
 void Tsound::setDumpFileName(const QString& fName) {
   if (sniffer && !GLOB->A->dumpPath.isEmpty())
     sniffer->setDumpFileName(fName);

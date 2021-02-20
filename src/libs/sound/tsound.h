@@ -216,6 +216,13 @@ public:
   Q_INVOKABLE void setVol(int v);
   Q_INVOKABLE void setTouchHandling(bool th);
 #else
+      /**
+       * This method handles command line option.
+       * If set, it will clear out dump path of Nootka settings,
+       * of course, only if the path was set there.
+       * But command line path will not be stored in settings.
+       */
+  void changeDumpPath(const QString& path);
   void setDumpFileName(const QString& fName);
 #endif
 
@@ -276,6 +283,8 @@ private:
 #if defined (Q_OS_ANDROID)
   int                     m_maxVol; /**< Maximal volume of Android device */
   int                     m_currVol; /**< Current volume of Android device */
+#else
+  QString                 m_dumpPath;
 #endif
 
 private:

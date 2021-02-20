@@ -246,6 +246,11 @@ int main(int argc, char *argv[])
       if (argc > 1) {
         QCommandLineParser cmd;
         auto helpOpt = cmd.addHelpOption();
+        QCommandLineOption dumpOpt(QStringList() << QStringLiteral("dump-dir") << QStringLiteral("d"),
+                                        QStringLiteral("Full path to directory where audio data used to pitch detection will be dumped.\n"
+                                          "Dumped files can be further analyzed with 'nootini' option.\n"),
+                                        QStringLiteral("existing dir"));
+        cmd.addOption(dumpOpt);
         QCommandLineOption nootiniOpt(QStringList() << QStringLiteral("nootini") << QStringLiteral("n"),
                                       QStringLiteral("Launch Nootka in audio analyze mode. Nootini: (Nootka + Tartini)\n"));
         cmd.addOption(nootiniOpt);
@@ -273,7 +278,9 @@ int main(int argc, char *argv[])
         if (cmd.isSet(helpOpt))
           cmd.showHelp();
 
-        if (cmd.isSet(nootiniOpt)) {
+        if (cmd.isSet(dumpOpt))
+            SOUND->changeDumpPath(cmd.value(dumpOpt));
+        else if (cmd.isSet(nootiniOpt)) {
             qmlRegisterType<TaudioAnalyzeItem>("Nootka.Main", 1, 0, "TaudioAnalyzeItem");
             QMetaObject::invokeMethod(e->rootObjects().first(), "audioAnalyze");
             if (cmd.isSet(instrOpt)) {
