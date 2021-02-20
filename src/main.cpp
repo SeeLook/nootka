@@ -257,6 +257,14 @@ int main(int argc, char *argv[])
                                     QStringLiteral("Tempo of given audio file.\n"),
                                     QStringLiteral("bpm"));
         cmd.addOption(tempoOpt);
+        QCommandLineOption instrOpt(QStringList() << QStringLiteral("instrument") << QStringLiteral("i"),
+                                    QStringLiteral("Instrument to use. See Tinstrument class (tinstrument.h)\n"),
+                                    QStringLiteral("number"));
+        cmd.addOption(instrOpt);
+        QCommandLineOption quantOpt(QStringList() << QStringLiteral("quantization") << QStringLiteral("q"),
+                                    QStringLiteral("Quantization (round to): sixteenths (6) or eights (12)\n"),
+                                    QStringLiteral("6 or 12"));
+        cmd.addOption(quantOpt);
 
         /** Option below is handled internally by @p TnootkaQML. */
         cmd.addOptions({{ QStringLiteral("no-version"), QStringLiteral("Do not display app version.\n")}});
@@ -268,6 +276,13 @@ int main(int argc, char *argv[])
         if (cmd.isSet(nootiniOpt)) {
             qmlRegisterType<TaudioAnalyzeItem>("Nootka.Main", 1, 0, "TaudioAnalyzeItem");
             QMetaObject::invokeMethod(e->rootObjects().first(), "audioAnalyze");
+            if (cmd.isSet(instrOpt)) {
+              int instr = cmd.value(instrOpt).toInt();
+              GLOB->setTransposition(Tinstrument(static_cast<Tinstrument::Etype>(instr)).transposition());
+              GLOB->setInstrument(instr);
+            }
+            if (cmd.isSet(quantOpt))
+              SOUND->setQuantization(cmd.value(quantOpt).toInt());
             if (cmd.isSet(tempoOpt))
               SOUND->setTempo(cmd.value(tempoOpt).toInt());
             if (cmd.isSet(audioFileOpt))
