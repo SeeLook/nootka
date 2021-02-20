@@ -64,6 +64,9 @@ void TaudioAnalyzeItem::noteFinishedSlot(const TnoteStruct& n) {
   emit noteData(n.startChunk, n.endChunk, n.pitch.isValid() ? n.pitch.styledName() : "\ue4e5");
 }
 
+//#################################################################################################
+//###################                STATIC            ############################################
+//#################################################################################################
 
 void TaudioAnalyzeItem::processAudioFile(const QString& fileName) {
   ANALYZER->m_audioFile.setFileName(fileName);
@@ -71,6 +74,9 @@ void TaudioAnalyzeItem::processAudioFile(const QString& fileName) {
     connect(SOUND, &Tsound::initialized, ANALYZER, &TaudioAnalyzeItem::doProcess);
 }
 
+//#################################################################################################
+//###################                PROTECTED         ############################################
+//#################################################################################################
 
 void TaudioAnalyzeItem::doProcess() {
   quint16          channelsNr;

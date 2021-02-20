@@ -45,6 +45,10 @@ public:
 
   static TaudioAnalyzeItem* instance() { return m_instance; }
 
+      /**
+       * If set, it is audio file in supported format
+       * to be processed when sound is initialized.
+       */
   static void processAudioFile(const QString& fileName);
 
 signals:
