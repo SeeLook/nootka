@@ -144,13 +144,13 @@ TpitchFinder::~TpitchFinder()
 //##########################################################################################################
 void TpitchFinder::setOffLine(bool off) {
   if (off != m_isOffline) {
-    m_isOffline = off;
-    if (m_isOffline) {
+    if (off) {
       m_doProcess = false; // terminate the thread
       if (m_thread->isRunning())
         goToSleep(m_thread);
     }
   }
+  m_isOffline = off;
 }
 
 
@@ -190,7 +190,7 @@ void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
     doReset = true;
     m_chunkTime = static_cast<qreal>(aGl()->framesPerChunk) / static_cast<qreal>(aGl()->rate);
     setMinimalDuration(m_minDuration); // recalculate minimum chunks number
-//    qDebug() << "range" << m_rateRatio
+//     qDebug() << "range" << m_rateRatio
 //             << "framesPerChunk" << m_aGl->framesPerChunk << "windowSize" << m_aGl->windowSize
 //             << "min chunks" << m_minChunks << "chunk time" << m_chunkTime << m_framesReady;
   }
@@ -263,7 +263,7 @@ bool TpitchFinder::isOnSet() const { return m_onset->volumeState() == TonsetLogi
 
 void TpitchFinder::setMinimalDuration(float dur) {
   m_minDuration = dur;
-  m_minChunks = qRound(static_cast<qreal>(m_minDuration) / m_chunkTime);
+  m_minChunks = qMax(4, qRound(static_cast<qreal>(m_minDuration) / m_chunkTime));
   m_onset->setMinDuration(m_minChunks);
 }
 
@@ -408,31 +408,32 @@ void TpitchFinder::detect() {
   }
 
   if (m_onset->volumeState() == TonsetLogic::e_volPending) {
-    if (data->noteIndex == m_startedNote.index)
-      m_startedNote.update(m_onset->chunkNr(), data->pitch, m_volume);
+    m_startedNote.update(m_onset->chunkNr(), data->pitch, m_volume);
+    if (m_startedNote.index != data->noteIndex) {
+      if (data->noteIndex != NO_NOTE) {
+        m_startedNote.index = data->noteIndex;
+        m_startedNote.indexChanged();
+      }
+    }
   }
 
   if (m_onset->noteStarted()) {
-    if (m_newNote.index != NO_NOTE) {
-        if (m_restNote.freq > 19.0) { // weird freq of a rest note - means it was started
-          m_restNote.freq = 0.0; // reset that weirdo
-          m_restNote.endChunk = m_onset->startedAt() - 1;
-          m_restNote.duration = m_restNote.numChunks() * m_chunkTime;
-          emit noteFinished(&m_restNote);
-        }
-        if (m_newNote.maxVol > m_minVolume) {
-            m_onset->acceptNote();
-            m_startedNote = m_newNote;
-            m_startedNote.startChunk = m_onset->startedAt();
-            m_startedNote.endChunk = m_onset->chunkNr();
-            m_startedNote.sumarize(m_chunkTime);
-            emit noteStarted(m_startedNote.getAverage(3, minChunksNumber()), m_startedNote.freq, m_startedNote.duration);
-        } else {
-          m_onset->skipNote();
-        }
-    } else {
-        m_onset->skipNote();
+    if (m_restNote.freq > 19.0) { // weird freq of a rest note - means it was started
+      m_restNote.freq = 0.0; // reset that weirdo
+      m_restNote.endChunk = m_onset->startedAt() - 1;
+      m_restNote.duration = m_restNote.numChunks() * m_chunkTime;
+      emit noteFinished(&m_restNote);
     }
+//     if (m_newNote.maxVol > m_minVolume) {
+        m_onset->acceptNote();
+        m_startedNote = m_newNote;
+        m_startedNote.startChunk = m_onset->startedAt();
+        m_startedNote.endChunk = m_onset->chunkNr();
+        m_startedNote.sumarize(m_chunkTime);
+        emit noteStarted(m_startedNote.pitches()->last(), m_startedNote.freq, m_startedNote.duration);
+//     } else {
+//         m_onset->skipNote();
+//     }
   }
 
   if (m_onset->noteFinished()) {

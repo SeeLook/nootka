@@ -286,7 +286,7 @@ private:
   float                 m_pcmVolume, m_workVol;
   TnoteStruct           m_newNote, m_currentNote, m_startedNote;
   TnoteStruct           m_restNote;
-  bool                  m_playingWasStarted = false; /**< @p TRUE when first note/rest was noticed and signals are emitting*/
+  bool                  m_playingWasStarted = false; /**< @p TRUE when first note/rest was noticed and signals are emitting */
   qreal                 m_chunkTime;
   int                   m_minChunks;
   TonsetLogic          *m_onset;
