@@ -200,9 +200,26 @@ void TcommonListener::noteStartedSlot(qreal pitch, qreal freq, qreal duration) {
 void TcommonListener::noteFinishedSlot(TnoteStruct* lastNote) {
   m_noteWasStarted = false;
   if (!isPaused()) {
-      // non guitar pitch is average of all pitches
-      qreal midiPitch = lastNote->pitchF > 0.0 ? lastNote->getAverage(3,
-                             GLOB->instrument().type() == Tinstrument::NoInstrument ? lastNote->pitches()->size() : finder()->minChunksNumber()) : 0.0;
+      qreal midiPitch;
+      if (GLOB->instrument().isFadeOut()) {
+          if (lastNote->idChangedAt.size() > 1 && lastNote->idChangedAt[1] < 15) {
+              int span = lastNote->idChangedAt[1], longestAt = 1;
+              for (int p = 2; p < lastNote->idChangedAt.size(); ++p) {
+                if (lastNote->idChangedAt[p] < 15) {
+                    if (lastNote->idChangedAt[p] - lastNote->idChangedAt[p - 1] > span) {
+                      span = lastNote->idChangedAt[p] - lastNote->idChangedAt[p - 1];
+                      longestAt = p;
+                    }
+                } else
+                    break;
+              }
+              midiPitch = lastNote->pitches()->operator[](lastNote->idChangedAt[longestAt]);
+          } else
+              midiPitch = lastNote->getAverage(3, qMin(7, 3 + finder()->minChunksNumber()));
+          lastNote->pitchF = midiPitch;
+      } else // continuous instrument pitch is average of all pitches
+          midiPitch = lastNote->getAverage(3, lastNote->pitches()->size());
+
       m_lastNote.startChunk = lastNote->startChunk;
       m_lastNote.endChunk = lastNote->endChunk;
       if (lastNote->pitchF > 0.0)
