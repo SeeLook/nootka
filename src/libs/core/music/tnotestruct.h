@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -23,6 +23,7 @@
 #include <nootkacoreglobal.h>
 #include <cmath>
 #include "tnote.h"
+
 
 /**
  * Structure that stores pitch and its parameters as such as frequency and duration in [s].
@@ -60,11 +61,7 @@ public:
        * Given parameter @p chunkTime is duration of single chunk in seconds.
        * It sets frequency of a note from @p bestPitch value.
        */
-  void sumarize(qreal chunkTime) {
-    freq = pitchToFreq(bestPitch);
-    duration = numChunks() * chunkTime;
-    pitchF = bestPitch;
-  }
+  void sumarize(qreal chunkTime);
 
       /**
        * Checks is float value of a note pitch different than its root pitch in range of given threshold.
@@ -97,6 +94,9 @@ public:
   float   maxVol;           /**< Loudest volume occurred */
   float   minVol;           /**< Quietest volume occurred */
   float   maxPCMvol;        /**< Maximal Raw PCM volume during whole note */
+  QVector<int> idChangedAt; /**< List of positions in @p pitches() when note index changed */
+
+  void indexChanged() { idChangedAt << m_pList.size() - 1; }
 
       /**
        * Note duration in chunks
@@ -137,6 +137,8 @@ public:
        * Returns average pitch in given chunks range. First chunk is 1.
        */
   qreal getAverage(unsigned int start, unsigned int stop);
+
+  QString debug();
 
 private:
   QVector<qreal>          m_pList;

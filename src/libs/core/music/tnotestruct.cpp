@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -32,15 +32,26 @@ void TnoteStruct::init(int _index, int chunkNr, qreal floatPitch) {
   m_pList.clear();
   m_pList << floatPitch;
   bestPitch = 0.0;
+  idChangedAt.clear();
+  idChangedAt << 0;
+}
+
+
+void TnoteStruct::sumarize(qreal chunkTime) {
+  freq = pitchToFreq(bestPitch);
+  duration = numChunks() * chunkTime;
+  if (!m_pList.isEmpty())
+    pitchF = m_pList.size() > 3 ? m_pList[3] : m_pList.last();
 }
 
 
 void TnoteStruct::update(int chunkNr, qreal floatPitch, float vol) {
-  if (numChunks() == 2) {
-    pitchF = floatPitch;
-    basePitch = qRound(pitchF); // it is better to take base pitch not from first chunks
+  if (floatPitch > 1.0) {
+    m_pList << floatPitch;
+    pitchF = m_pList.size() > 3 ? m_pList[3] : m_pList.last();
+    if (m_pList.size() == 2 || m_pList.size() == 3)
+      basePitch = qRound(pitchF); // it is better to take base pitch not from first chunks
   }
-  m_pList << floatPitch;
   endChunk = chunkNr;
   maxVol = qMax<float>(maxVol, vol);
   if (numChunks() > 3) // skip first 3 chunks - Tartini may detected a note with low volume
@@ -61,3 +72,10 @@ qreal TnoteStruct::getAverage(unsigned int start, unsigned int stop) {
 }
 
 
+QString TnoteStruct::debug() {
+  QString pp = QStringLiteral(" [ ");
+  for (qreal p : m_pList) pp += QString("%1, ").arg(p);
+  pp += QStringLiteral(" ]");
+  return QString::number(pitchF) + QLatin1String(", chunks: ") + QString::number(m_pList.size()) + pp
+        + QString(" %1").arg(bestPitch);
+}
