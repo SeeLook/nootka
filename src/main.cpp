@@ -270,6 +270,10 @@ int main(int argc, char *argv[])
                                     QStringLiteral("Quantization (round to): sixteenths (6) or eights (12)\n"),
                                     QStringLiteral("6 or 12"));
         cmd.addOption(quantOpt);
+        QCommandLineOption minVolOpt(QStringList() << QStringLiteral("min-volume") << QStringLiteral("m"),
+                                    QStringLiteral("Minimal note volume to be pitch detected in percents.\n"),
+                                    QStringLiteral("20-80"));
+        cmd.addOption(minVolOpt);
 
         /** Option below is handled internally by @p TnootkaQML. */
         cmd.addOptions({{ QStringLiteral("no-version"), QStringLiteral("Do not display app version.\n")}});
@@ -292,6 +296,8 @@ int main(int argc, char *argv[])
               SOUND->setQuantization(cmd.value(quantOpt).toInt());
             if (cmd.isSet(tempoOpt))
               SOUND->setTempo(cmd.value(tempoOpt).toInt());
+            if (cmd.isSet(minVolOpt))
+              GLOB->setMinVolume(static_cast<qreal>(qBound(20, cmd.value(minVolOpt).toInt(), 80)) / 100.0);
             if (cmd.isSet(audioFileOpt))
               TaudioAnalyzeItem::processAudioFile(cmd.value(audioFileOpt));
         } else
