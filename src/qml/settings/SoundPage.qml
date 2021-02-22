@@ -81,7 +81,8 @@ Column {
               TlabelText { text: qsTr("minimum note duration") }
               TspinBox {
                 id: minDurSpin
-                from: 80; to: 1000
+                from: settings.instrument !== 3 ? 80 : 160 // longer note if bass
+                to: 1000
                 stepSize: 10
                 editable: true
               }

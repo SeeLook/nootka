@@ -18,7 +18,7 @@ Flickable {
   contentHeight: instrCol.height + NOO.factor() * 2
   contentWidth: Math.max(width, NOO.factor() * 35)
 
-  property bool first: true // read props first time from GLOB but when instrument changed then from its profile
+  property bool first: true // read props first time from GLOB but when instrument changes then from its profile
 
   ScrollBar.vertical: ScrollBar { active: false; visible: active }
 
@@ -36,19 +36,20 @@ Flickable {
           if (first) {
               transp.shift = GLOB.transposition
               prefFlatRadio.checked = GLOB.preferFlats
-              first = false
           } else {
+              settings.instrument = instrument
               var ins = NOO.instr(instrument)
+              settings,clef = ins.clef
               transp.shift = ins.transposition
               prefFlatRadio.checked = ins.isSax ? true : false
               prefSharpRadio.checked = ins.isSax ? false : true
               tuningCombo.model = instrument === Tinstrument.BassGuitar ? NOO.bassTunings() : NOO.guitarTunings()
               if (ins.isGuitar) {
-                  score.clef = ins.clef
                   if (instrument === Tinstrument.BassGuitar)
                     setTuning(NOO.tuning(Ttune.Bass4_EADG))
                   else
                     setTuning(NOO.tuning(Ttune.Standard_EADGBE))
+                  fretsNrSpin.value = ins.fretNumber
               } else if (ins.type === Tinstrument.NoInstrument) {
                   setTuning(NOO.tuning(score.scoreObj.lowestNote(), score.scoreObj.highestNote(), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote()))
               }
@@ -57,29 +58,29 @@ Flickable {
       }
     }
 
-    Grid {
-      visible: NOO.instr(instrSel.instrument).isGuitar
-      anchors.horizontalCenter: parent.horizontalCenter
-      spacing: NOO.factor()
-      columns: parent.width < NOO.factor() * 50 ? 1 : 2
-      horizontalItemAlignment: Grid.AlignHCenter
-      Row {
-        spacing: NOO.factor()
-        Text { text: qsTr("number of frets:"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
-        TspinBox { id: fretsNrSpin; from: 15; to: 24; value: GLOB.fretNumber }
-      }
-      Row {
-        spacing: NOO.factor()
-        Text { text: qsTr("number of strings:"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
-        TspinBox { id: stringNrSpin; from: 3; to: 6; value: GLOB.stringNumber() }
-      }
-    }
-
     Tile {
       visible: instrSel.instrument <= Tinstrument.BassGuitar
       Column {
         spacing: NOO.factor()
         width: parent.width
+        Grid {
+          visible: NOO.instr(instrSel.instrument).isGuitar
+          anchors.horizontalCenter: parent.horizontalCenter
+          spacing: NOO.factor()
+          columns: parent.width < NOO.factor() * 50 ? 1 : 2
+          horizontalItemAlignment: Grid.AlignHCenter
+          Row {
+            spacing: NOO.factor()
+            Text { text: qsTr("number of frets:"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
+            TspinBox { id: fretsNrSpin; from: 15; to: 24; value: GLOB.fretNumber }
+          }
+          Row {
+            spacing: NOO.factor()
+            Text { text: qsTr("number of strings:"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
+            TspinBox { id: stringNrSpin; from: 3; to: 6; value: GLOB.stringNumber() }
+          }
+        }
+        Item { width: NOO.factor(); height: NOO.factor() }
         Row {
           spacing: NOO.factor()
           anchors.horizontalCenter: parent.horizontalCenter
@@ -104,6 +105,8 @@ Flickable {
             meter: Tmeter.NoMeter
             scoreObj.onClicked: tuningCombo.currentIndex = tuningCombo.count - 1
             scoreObj.editMode: true
+            clef: settings.clef
+            onClefChanged: settings.clef = clef
             Component.onCompleted: {
               stringNrSpin.valueModified.connect(strNrChanged)
               tuningCombo.activated.connect(tuningSelected)
@@ -204,16 +207,17 @@ Flickable {
       showOtherPosChB.checked = GLOB.showOtherPos
       fretDots.text = GLOB.markedFrets
       var tmpTrans = GLOB.transposition
-      instrSel.instrument = GLOB.instrument.type - (GLOB.instrument.type === 0 ? -1 : 1) // FIXME: workaround for Qt 5.10.1 and above
-      score.clef = GLOB.clefType
       instrSel.instrument = GLOB.instrument.type
       transp.shift = tmpTrans
       if (GLOB.instrument.isGuitar) {
-        if (GLOB.tuning.type === Ttune.Custom)
-          tuningCombo.currentIndex = tuningCombo.count - 1
-        else
-          tuningCombo.currentIndex = GLOB.tuning.type - (GLOB.instrument.type === Tinstrument.BassGuitar ? 100 : 0)
+        if (GLOB.tuning.type === Ttune.Custom) {
+            setTuning(NOO.tuning(GLOB.tuning.string(1), GLOB.tuning.string(2), GLOB.tuning.string(3),
+                                 GLOB.tuning.string(4), GLOB.tuning.string(5), GLOB.tuning.string(6)))
+            tuningCombo.currentIndex = tuningCombo.count - 1
+        } else
+            tuningCombo.currentIndex = GLOB.tuning.type - (GLOB.instrument.type === Tinstrument.BassGuitar ? 100 : 0)
       }
+      first = false
     }
   }
 
@@ -230,6 +234,7 @@ Flickable {
             score.deleteLast()
       }
     }
+    stringNrSpin.value = t.stringNumber
   }
 
   function save() {

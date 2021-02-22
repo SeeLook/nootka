@@ -23,7 +23,7 @@ Column {
 
     StackLayout {
       id: swipePages
-      height: parent.height - headList.height - NOO.factor() / 2
+      height: parent.height - headList.height
       width: parent.width
 
       Tflickable { // 1st page (general)
@@ -174,6 +174,7 @@ Column {
         width: parent.width
         spacing: NOO.isAndroid() ? 2 : NOO.factor() / 2
         Text {
+          id: clefText
           text: qsTr("Select default clef for the application.") + "<br><b>"
               + qsTr("Remember! Not all clefs are suitable for some possible tunings or instrument types!") + "<b>"
           textFormat: Text.StyledText
@@ -184,8 +185,9 @@ Column {
         }
         ClefMenu {
           id: clefs
-          width: parent.width; height: swipePages.height - NOO.factor() * 5
-          Component.onCompleted: selClef = GLOB.clefType
+          width: parent.width; height: swipePages.height - parent.spacing - clefText.height
+          selClef: settings.clef
+          onSelClefChanged: settings.clef = selClef
         }
       }
 
@@ -296,7 +298,7 @@ Column {
       GLOB.seventhIsB = is7BSelector.is7B
       GLOB.namesOnScore = namesOnScoreChB.checked
       GLOB.nameColor = nameColorButt.color
-      GLOB.clefType = clefs.selClef
+      // GLOB.clefType saved in TsettingsDialog.qml
       if (GLOB.keySignatureEnabled) {
         GLOB.showKeyName = showKeyNamesChB.checked
         if (GLOB.showKeyName) {
@@ -314,7 +316,7 @@ Column {
       enharmNoteColor.color = Qt.rgba(0, 0.6352941176470588, 0.6352941176470588, 1)
       doubleAccidsChB.checked = false
       pointerColorButt.color = "pink"
-      clefs.selClef = GLOB.instrument.clef
+      settings.clef = GLOB.instrument.clef
 
       enableKeyChB.checked = false
       musicalRadio.checked = true

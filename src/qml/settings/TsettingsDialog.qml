@@ -7,6 +7,16 @@ import QtQuick.Controls 2.2
 
 
 Item {
+  id: settings
+
+  property int clef: GLOB.clefType
+  property int instrument: GLOB.instrument.typeINT
+
+  onInstrumentChanged: {
+    if (pages.buttons.length > 2)
+      pages.buttons[2].pixmap = NOO.pix("pane/i-0" + instrument)
+  }
+
   width: parent.width
   height: parent.height
 
@@ -28,6 +38,7 @@ Item {
   }
 
   function apply() {
+    GLOB.clefType = clef // it can be changed either by score or instrument page
     for (var i = 0; i < pages.pages.length; ++i) {
       if (typeof(pages.pages[i]) === 'object')
         pages.pages[i].save()
