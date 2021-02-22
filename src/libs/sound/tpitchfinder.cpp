@@ -400,7 +400,8 @@ void TpitchFinder::detect() {
   m_pcmVolume = m_onset->pcmVolume();
   emit volume(m_volume);
 
-  bool noteChanged = data->noteIndex != m_prevNoteIndex;
+//   bool noteChanged = data->noteIndex != m_prevNoteIndex;
+  bool noteChanged = isOnSet() || m_onset->noteFinished();
   if (noteChanged) {
       m_newNote.init(data->noteIndex, m_onset->chunkNr(), data->pitch);
   } else {
@@ -424,16 +425,16 @@ void TpitchFinder::detect() {
       m_restNote.duration = m_restNote.numChunks() * m_chunkTime;
       emit noteFinished(&m_restNote);
     }
-//     if (m_newNote.maxVol > m_minVolume) {
+    if (m_newNote.maxVol > m_minVolume) {
         m_onset->acceptNote();
         m_startedNote = m_newNote;
         m_startedNote.startChunk = m_onset->startedAt();
         m_startedNote.endChunk = m_onset->chunkNr();
         m_startedNote.sumarize(m_chunkTime);
         emit noteStarted(m_startedNote.pitches()->last(), m_startedNote.freq, m_startedNote.duration);
-//     } else {
-//         m_onset->skipNote();
-//     }
+    } else {
+        m_onset->skipNote();
+    }
   }
 
   if (m_onset->noteFinished()) {
