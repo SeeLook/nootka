@@ -36,6 +36,8 @@ ListView {
 
   ScrollBar.vertical: ScrollBar { active: false; visible: active }
 
+  footer: Item { width: parent.width; height: NOO.factor() * 2 }
+
   model: 7
   delegate: Rectangle {
     width: clefMenu.width
