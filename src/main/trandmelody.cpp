@@ -239,8 +239,29 @@ TrhythmList getRandomRhythm(int meter, int barCount, quint32 basicMask, quint32 
     mask <<= 1;
   }
   if ((meterHasDuple && dupleList.isEmpty()) || (meterHasTriple && tripleList.isEmpty())) {
-    qDebug() << "[getRandomRhythm] No rhythms for given meter!";
-    return rList;
+    if (!specialList.isEmpty()) {
+        if (meterHasDuple && dupleList.isEmpty()) {
+          if (basicMask & 1 && barDuration >= 96)
+            dupleList << TrtmGroup(TrtmGroup::Gr_1);
+          if (basicMask & 2 && barDuration >= 48)
+            dupleList << TrtmGroup(TrtmGroup::Gr_2);
+        }
+        if (meterHasTriple && tripleList.isEmpty()) {
+          if (dotsMask & 23 && barDuration >= 144)
+            tripleList << TrtmGroup(TrtmGroup::Gr_1dot);
+          if (dotsMask & 24 && barDuration >= 72)
+            tripleList << TrtmGroup(TrtmGroup::Gr_2dot);
+        }
+    }
+  }
+
+  if (meterHasDuple && dupleList.isEmpty()) {
+    qDebug() << "[getRandomRhythm] FIXME! Melody rhythm needs rhythm group which is not set! Added quarter to save the situation.";
+    dupleList << TrtmGroup(TrtmGroup::Gr_4);
+  }
+  if (meterHasTriple && tripleList.isEmpty()) {
+    qDebug() << "[getRandomRhythm] FIXME! Melody rhythm needs rhythm group which is not set! Added quarter with dot to save the situation.";
+    tripleList << TrtmGroup(TrtmGroup::Gr_4dot);
   }
 
 /** 3. Depending on rhythm diversity value (@p rtmDiversity) remove excessive rhythmic groups from the lists */
