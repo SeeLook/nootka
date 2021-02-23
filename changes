@@ -3,7 +3,8 @@
      - handle notes beaming of each piano staves separately
      - plenty of tiny user interface improvements and fixes
     BUG FIXES
-     - no more jumping UI when some of them was pressed
+     - no more jumping UI when some of buttons was pressed
+     - fixed pitch detection for low-pitched instruments (bass)
     ANDROID
      - Animation about how score edition with touch works
 
