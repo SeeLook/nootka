@@ -10,6 +10,7 @@ import "../"
 
 Drawer {
   property alias selectedClef: clefMenu.selClef
+  property alias clefMenu: clefMenu
 
   width: NOO.factor() * 19; height: parent.height
   visible: true

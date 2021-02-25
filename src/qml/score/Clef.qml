@@ -11,6 +11,8 @@ import Score 1.0
 Text {
   id: clef
 
+  signal clicked(var cl)
+
   width: 5.5; x: 0.5; y: 5
   text: NOO.clef(score.clef).glyph()
   font { family: "Scorek"; pixelSize: 8 }
@@ -25,9 +27,11 @@ Text {
     property var clefDrawer
     onClicked: {
       if (clefDrawer)
-        clefDrawer.open()
-      else
-        clefDrawer = Qt.createComponent("qrc:/score/ClefDrawer.qml").createObject(clef)
+          clefDrawer.open()
+      else {
+          clefDrawer = Qt.createComponent("qrc:/score/ClefDrawer.qml").createObject(clef)
+          clefDrawer.clefMenu.clicked.connect(clef.clicked)
+      }
       clefDrawer.selectedClef = score.clef
     }
   }
