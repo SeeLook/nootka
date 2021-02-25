@@ -47,10 +47,13 @@ Tflickable {
               scoreObj.editMode: true
               meter: Tmeter.NoMeter
               clef: creator.clef
-              onClefChanged: creator.clef = clef
               Component.onCompleted: {
                 rangeScore.addNote(creator.loNote)
                 rangeScore.addNote(creator.hiNote)
+              }
+              Connections {
+                target: rangeScore.firstStaff.clef
+                onClicked: creator.clef = rangeScore.clef
               }
               Connections {
                 target: rangeScore.scoreObj
