@@ -57,12 +57,27 @@ Column {
     dialLoader.close()
   }
 
+  property var notSavedMess: null
   Connections {
     target: creator
     onSaveNewLevel: {
       newLevelPopup.name = name === "" ? qsTr("new level") : name
       newLevelPopup.desc = desc
       newLevelPopup.open()
+    }
+    onWantNotSavedMessage: {
+      if (!notSavedMess) {
+        notSavedMess = Qt.createComponent("qrc:/Tmessage.qml").createObject(creator, { "accent": "#ff557f" })
+        notSavedMess.rejectButton.visible = true
+        notSavedMess.acceptButton.text = NOO.TR("QShortcut", "Save")
+        notSavedMess.rejectButton.text = NOO.TR("QPlatformTheme", "Discard")
+        notSavedMess.acceptButton.pixmap = NOO.pix("pane/notSaved")
+        notSavedMess.accepted.connect(creator.saveLevel)
+        notSavedMess.discarded.connect(creator.resumeAfterLevelChange)
+      }
+      notSavedMess.caption = title
+      notSavedMess.message = message
+      notSavedMess.open()
     }
   }
 
@@ -123,5 +138,6 @@ Column {
     }
 
     onAccepted: creator.continueLevelSave(name, desc)
+    onRejected: creator.resumeAfterLevelChange()
   }
 }

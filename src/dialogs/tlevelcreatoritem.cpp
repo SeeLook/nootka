@@ -28,7 +28,6 @@
 #include <QtCore/qtimer.h>
 #include <QtCore/qfileinfo.h>
 #include <QtCore/qdatetime.h>
-#include <QtWidgets/qmessagebox.h>
 
 #include <QtCore/qdebug.h>
 
@@ -85,8 +84,7 @@ if (!m_level->canBeGuitar() && !m_level->answerIsSound() ) { // no guitar and no
   // set instrument to none when it is not important for the level
   m_level->instrument = m_level->detectInstrument(GLOB->instrument().type());
   // invoke QML routines
-  emit saveNewLevel(m_selector->currentLevel() ? m_selector->currentLevel()->name : QString(),
-                    m_selector->currentLevel() ? m_selector->currentLevel()->desc : QString());
+  emit saveNewLevel(m_level->name, m_level->desc);
 }
 
 
@@ -106,20 +104,29 @@ void TlevelCreatorItem::continueLevelSave(const QString& name, const QString& de
 #endif
   if (fileName.isEmpty()) {
     qDebug() << "[TlevelCreatorItem] Empty file name!";
+    if (m_resumeAfterLevelChange)
+      resumeAfterLevelChange();
     return;
   }
+
   if (fileName.right(4) != dotNel)
     fileName += dotNel;
   GLOB->E->levelsDir = QFileInfo(fileName).absoluteDir().absolutePath();
   if (!Tlevel::saveToFile(*m_level, fileName)) {
-    QMessageBox::critical(nullptr, QStringLiteral(" "), tr("Cannot open file for writing"));
+    wantNotSavedMessage(QString(), tr("Cannot open file for writing") + QLatin1String("\n") + fileName);
+    if (m_resumeAfterLevelChange)
+      resumeAfterLevelChange();
     return;
   }
+
   m_titleExtension.clear();
   emit saveStateChanged();
   selector()->addLevel(*m_level, fileName, true);
   selector()->updateRecentLevels(); // Put the file name to the settings list
   emit selector()->levelsModelChanged();
+
+  if (m_resumeAfterLevelChange)
+    resumeAfterLevelChange();
 }
 
 
@@ -596,20 +603,12 @@ void TlevelCreatorItem::melodyListChanged() {
 }
 
 
-//#################################################################################################
-//###################              PROTECTED           ############################################
-//#################################################################################################
-
-void TlevelCreatorItem::whenLevelChanged() {
-  if (m_selector->currentLevel() == nullptr) {
-    qDebug() << "[TlevelCreatorItem] Null pointer of level is selected!";
+void TlevelCreatorItem::resumeAfterLevelChange() {
+  if (!m_resumeAfterLevelChange)
     return;
-  }
+
+  m_resumeAfterLevelChange = false;
   if (!m_titleExtension.isEmpty()) {
-    if (QMessageBox::question(nullptr, tr("level not saved!").toUpper(), tr("Level was changed and not saved!"),
-        QMessageBox::Save, QMessageBox::Cancel) == QMessageBox::Save ) {
-        saveLevel();
-    }
     m_titleExtension.clear();
     emit saveStateChanged();
   }
@@ -621,6 +620,23 @@ void TlevelCreatorItem::whenLevelChanged() {
     emit updateNotesList();
   else if (m_level->howGetMelody == Tlevel::e_melodyFromSet)
     emit updateMelodyList();
+}
+
+//#################################################################################################
+//###################              PROTECTED           ############################################
+//#################################################################################################
+
+void TlevelCreatorItem::whenLevelChanged() {
+  if (m_selector->currentLevel() == nullptr) {
+    qDebug() << "[TlevelCreatorItem] Null pointer of level is selected!";
+    return;
+  }
+
+  m_resumeAfterLevelChange = true;
+  if (!m_titleExtension.isEmpty())
+    emit wantNotSavedMessage(tr("level not saved!").toUpper(), tr("Level was changed and not saved!"));
+  else
+    resumeAfterLevelChange();
 }
 
 

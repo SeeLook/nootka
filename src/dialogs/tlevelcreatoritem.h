@@ -274,6 +274,12 @@ public:
        */
   Q_INVOKABLE void melodyListChanged();
 
+      /**
+       * Shall be called after @p whenLevelChanged(),
+       * either immediately after that or after saving level
+       */
+  Q_INVOKABLE void resumeAfterLevelChange();
+
 signals:
   void updateLevel();
   void updateNotesList();
@@ -282,6 +288,7 @@ signals:
   void save();
   void hasRhythmsChanged();
   void wantValidationMessage(const QString& title, const QStringList& message, const QColor& accent);
+  void wantNotSavedMessage(const QString& title, const QString& message);
   void saveNewLevel(const QString& name, const QString& desc);
 
 protected:
@@ -301,6 +308,7 @@ private:
   TlevelSelector            *m_selector = nullptr;
   QString                    m_title, m_titleExtension;
   QList<int>                 m_answersList; /**< Each number represents bitwised value of @p TQAtype  */
+  bool                       m_resumeAfterLevelChange = false;
 };
 
 #endif // TLEVELCREATORITEM_H
