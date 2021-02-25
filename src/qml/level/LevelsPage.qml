@@ -128,6 +128,9 @@ Column {
           id: lDesc
           width: parent.width - NOO.factor(); height: NOO.factor() * 6
           anchors.centerIn: parent
+          selectByMouse: true
+          selectedTextColor: activPal.highlightedText
+          selectionColor: activPal.highlight
           wrapMode: TextEdit.WordWrap
           onLengthChanged: {
             if (length > 120)
