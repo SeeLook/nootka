@@ -26,7 +26,6 @@ TpopupDialog {
     x: NOO.factor() //; y: (parent.height - height) / 2
     width: NOO.factor() * 40
     wrapMode: Text.WordWrap
-    text: modelData
     horizontalAlignment: Text.AlignHCenter
   }
 
