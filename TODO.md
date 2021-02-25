@@ -19,12 +19,13 @@
   - levels with melodies to be played and written in one
 
 ### For incoming stable release version 2.0
+  - rejecting pitch-detected note due to out of current ambitus causes rhythm gaps
   - clean correction code, key signature anim maybe
   - level creator:
      - fix storing melody list in temporary/edited level - use that level list instead of creating pointers
   - add more levels, in separate files, distributed with the installers
-  - "Got It!" clues in some crucial parts: Android quick menu, pitch detection and so on
   - add info that reading grand staff from musicxml created out of Nootka is not supported
+  - certificates would have some additional data about melodies
   - exam summary - give more valuable info, display it nicely
   - charts - show preview of entire melody, chart tip is not suitable for it
   - migrate on preferred 48000 sample rate (ogg files and audio methods). DO NOT forget to resize output samples length
@@ -41,7 +42,7 @@
   - editing melody from currently selected/composed level
   - add score helpers: transposition, folding ties
   - add violin support and revert pitch accuracy check.
-    It has small usage for currently supported instruments, but for violin can be perfect
+    It has less usage for currently supported instruments, but for violin can be perfect
   - support for triplets
   - exams control melody tempo, either fixed value from melody or random from declared range (or increased every question)
   - viewing entire melody in stats, playing them and single notes as well
@@ -55,8 +56,8 @@
 ============================================================================
 
 ### small glitches:
+ - during adding note to score one by one it doesn't play occasionally
  - when exercise becomes exam tips are blended
- - melody won't play in exercises/exams (first question OK but further is worst)
  - sometimes setting a note doesn't scale tie - probably due to note width is not refreshed
  - space key for tapping tempo doesn't work well
 
@@ -83,8 +84,6 @@
 ### SMALL NEW FEATURES/IMPROVEMENTS
   - add minimal zoom value depends on screen resolution
   - average effectiveness line in chart
-  - certificates would have some additional data about melodies
-  - bring back isVoice() audio param - average pitch of all chunks or min duration will depend on it
 
   - settings for keyboard shortcuts
   - intervals: creating melody with set of available intervals only
