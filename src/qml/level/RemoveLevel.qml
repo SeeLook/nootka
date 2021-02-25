@@ -19,6 +19,7 @@ TpopupDialog {
   border { color: "red"; width: NOO.factor() / 4.0 }
   visible: true; modal: true
   width: innerCol.width * 1.2; height: innerCol.height + NOO.factor() * 5
+  glowRect.radius: NOO.factor()
 
   acceptButton.text: NOO.TR("QFileDialog", "Remove")
   acceptButton.pixmap: NOO.pix("delete")
