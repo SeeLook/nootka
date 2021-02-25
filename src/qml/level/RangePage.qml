@@ -18,8 +18,8 @@ Tflickable {
   Connections {
     target: creator
     onUpdateLevel: {
-      rangeScore.setNote(rangeScore.scoreObj.note(0), creator.loNote)
-      rangeScore.setNote(rangeScore.scoreObj.note(1), creator.hiNote)
+      rangeScore.setNote(0, creator.loNote)
+      rangeScore.setNote(1, creator.hiNote)
     }
   }
 
@@ -47,6 +47,7 @@ Tflickable {
               scoreObj.editMode: true
               meter: Tmeter.NoMeter
               clef: creator.clef
+              onClefChanged: creator.clef = clef
               Component.onCompleted: {
                 rangeScore.addNote(creator.loNote)
                 rangeScore.addNote(creator.hiNote)
