@@ -28,11 +28,8 @@ Old.Dialog {
     id: dialogObj
     onContinueExam: {
       GLOB.isExam = true
-      if (!nootkaWindow.executor.init(1, examFile)) {
-        console.log("Executor discarded, deleting it")
-        nootkaWindow.executor.destroy()
-        GLOB.isExam = false
-      }
+      nootkaWindow.executor.init(1, examFile)
+      close()
     }
     onOpenLevel: {
       page = Nootka.LevelCreator
