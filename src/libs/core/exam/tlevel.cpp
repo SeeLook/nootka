@@ -827,21 +827,21 @@ bool Tlevel::adjustFretsToScale(char& loF, char& hiF) {
   for (int no = loNote.chromatic(); no <= hiNote.chromatic(); no++) {
     if (!withFlats && !withSharps)
       if (Tnote(no).alter()) // skip note with accidental when not available in the level
-          continue;
+        continue;
     int tmpLow = GLOB->GfretsNumber;
     for(int st = 0 ; st < GLOB->Gtune()->stringNr(); st++) {
       if (!usedStrings[st])
-          continue;
+        continue;
       int diff = no - GLOB->Gtune()->str(GLOB->strOrder(st) + 1).chromatic();
       if (diff >= 0 && diff <= static_cast<int>(GLOB->GfretsNumber)) { // found
-          lowest = qMin<int>(lowest, diff);
-          tmpLow = qMin<int>(tmpLow, diff);
+        lowest = qMin<int>(lowest, diff);
+        tmpLow = qMin<int>(tmpLow, diff);
       }
     }
     highest = qMax<int>(highest, tmpLow);
   }
-  loF = (char)lowest;
-  hiF = (char)highest;
+  loF = static_cast<char>(lowest);
+  hiF = static_cast<char>(highest);
   return true;
 }
 
