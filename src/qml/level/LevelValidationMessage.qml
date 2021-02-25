@@ -16,6 +16,7 @@ TpopupDialog {
   visible: true; modal: true
   width: lv.width + NOO.factor() / 2
   height: lv.height + header.height + footer.height + NOO.factor()
+  glowRect.radius: NOO.factor()
 
   rejectButton.visible: false
   acceptButton.text: NOO.TR("QPlatformTheme", "OK")

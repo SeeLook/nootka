@@ -91,6 +91,7 @@ Column {
     x: (parent.width - width) / 2; y: NOO.isAndroid() ? NOO.factor() : (parent.height - height) / 2
     bgColor: Qt.tint(activPal.window, NOO.alpha(activPal.highlight, 30))
     border { color: activPal.highlight; width: NOO.factor() / 4.0 }
+    glowRect.radius: NOO.factor()
 
     rejectButton.text: NOO.TR("QPlatformTheme", "Discard")
     acceptButton.text: NOO.TR("QShortcut", "Save")

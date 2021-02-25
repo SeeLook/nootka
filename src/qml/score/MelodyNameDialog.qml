@@ -15,6 +15,7 @@ TpopupDialog {
   width: NOO.factor() * 40; height: NOO.factor() * 12
   x: (parent.width - width) / 2
   y: NOO.isAndroid() ? NOO.factor() : (parent.height - height) / 2
+  glowRect.radius: NOO.factor()
 
   rejectButton.text: NOO.TR("QPlatformTheme", "Discard")
   acceptButton.text: NOO.TR("QShortcut", "Save")
