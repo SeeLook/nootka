@@ -40,6 +40,11 @@ inline QStringList getDelegate(const QString& label, float value, float wTotal) 
   return QStringList() << label + QLatin1String(": ") << QString(" <b>%1</b> (%2\%)").arg(value).arg(qRound(value * 100.0 / wTotal));
 }
 
+inline QStringList timeDelegate(const QString& label, const QString& time) {
+  return QStringList() << label + QLatin1String(": ") << QString(" <b>%1</b>").arg(time);
+}
+
+
 TexamSummary::TexamSummary(QQuickItem* parent) :
   QQuickItem(parent)
 {
@@ -50,15 +55,9 @@ TexamSummary::TexamSummary(QQuickItem* parent) :
           + QString("%1: <b>%2</b><br>").arg(TexTrans::mistakesNrTxt()).arg(m_exam->mistakes())
           + QString("%1: <b>%2</b>").arg(TexTrans::halfMistakenTxt()).arg(m_exam->halfMistaken());
 
-/*
-  QGroupBox *timeGr = new QGroupBox(tr("times:"), this);
-  TroundedLabel *timeLab = new TroundedLabel("<table>" +
-  row2(TexTrans::totalTimetxt(), TexamView::formatedTotalTime(exam->totalTime() * 1000)) +
-  row2(tr("Time taken to answer"), TexamView::formatedTotalTime(exam->workTime() * 1000)) +
-  row2(TexTrans::averAnsverTimeTxt(), QString("%1 s").
-      arg((qreal)exam->averageReactonTime()/10.0, 0, 'f', 1, '0')) +
-  "</table>", this);
-  */
+  m_timesModel << timeDelegate(TexTrans::totalTimetxt(), TexamView::formatedTotalTime(m_exam->totalTime() * 1000));
+  m_timesModel << timeDelegate(tr("Time taken to answer"), TexamView::formatedTotalTime(m_exam->workTime() * 1000));
+  m_timesModel << timeDelegate(TexTrans::averAnsverTimeTxt(), QString("%1 s").arg(static_cast<qreal>(m_exam->averageReactonTime()) / 10.0, 0, 'f', 1, '0'));
 
   if (m_exam->mistakes() || m_exam->halfMistaken()) {
     float wAccid = 0.0f, wKey = 0.0f, wNote = 0.0f, wOctave = 0.0f, wStyle = 0.0f, wPos = 0.0f, wString = 0.0f, wTotal;

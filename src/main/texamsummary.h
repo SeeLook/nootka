@@ -40,6 +40,7 @@ class TexamSummary : public QQuickItem
   // Exam properties
   Q_PROPERTY(QString student READ student NOTIFY updateExam)
   Q_PROPERTY(QString answersLabel READ answersLabel NOTIFY updateExam)
+  Q_PROPERTY(QStringList timesModel READ timesModel NOTIFY updateExam)
   Q_PROPERTY(QString resultHeader READ resultHeader NOTIFY updateExam)
   Q_PROPERTY(QStringList resultsModel READ resultsModel NOTIFY updateExam)
   Q_PROPERTY(QList<int> kindOfMistakes READ kindOfMistakes NOTIFY updateExam)
@@ -53,6 +54,7 @@ public:
 
   QString student() const;
   QString answersLabel() const { return m_answersLabel; }
+  QStringList timesModel() const { return m_timesModel; }
   QString resultHeader() const { return m_resultHeader; }
   QStringList resultsModel() const { return m_resultsModel; }
 
@@ -85,7 +87,7 @@ public:
 
       /**
        * Number of columns to contain navigation buttons. (2 or 3)
-       * To minimize QML parsing 
+       * To minimize QML parsing
        */
   Q_INVOKABLE int buttColumsCount() const;
 
@@ -104,6 +106,7 @@ private:
   bool                         m_accepted = false;
   QString                      m_answersLabel;
   QString                      m_resultHeader;
+  QStringList                  m_timesModel;
   QStringList                  m_resultsModel;
   QList<int>                   m_kindOfMistakes;
 };

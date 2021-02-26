@@ -27,12 +27,12 @@ TexamSummary {
         contentHeight: summCol.height
         Column {
           id: summCol
-          spacing: NOO.factor()
           width: parent.width
           Text { // student
             anchors.horizontalCenter: parent.horizontalCenter
             text: student; textFormat: Text.StyledText
           }
+          Item { width: NOO.factor(); height: NOO.factor() }
           Tile { // answers/mistakes numbers
             width: parent.width - NOO.factor()
             Text {
@@ -40,6 +40,30 @@ TexamSummary {
               horizontalAlignment: Text.AlignHCenter
               text: answersLabel; textFormat: Text.StyledText
               font.pixelSize: NOO.factor() * 1.2
+            }
+          }
+          Tile { // times
+            width: parent.width - NOO.factor()
+            Column {
+              spacing: NOO.factor()
+              width: parent.width
+              Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                horizontalAlignment: Text.AlignHCenter
+                text: qsTranslate("TexamSummary", "times:")
+                font.pixelSize: NOO.factor() * 1.1
+              }
+              Grid {
+                anchors.horizontalCenter: parent.horizontalCenter
+                columns: 2; columnSpacing: NOO.factor()
+                Repeater {
+                  model: timesModel
+                  Text {
+                    text: modelData
+                    color: activPal.text; textFormat: Text.StyledText
+                  }
+                }
+              }
             }
           }
           Tile { // results
