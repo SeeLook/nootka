@@ -1,9 +1,10 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2018-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
 import QtQuick.Controls 2.2
+import QtGraphicalEffects 1.0
 
 import Nootka.Exam 1.0
 import "../level"
@@ -33,14 +34,37 @@ TexamSummary {
           }
           Text {
             anchors.horizontalCenter: parent.horizontalCenter
-//             width: parent.width * 0.9
-            text: results; textFormat: Text.RichText
+            horizontalAlignment: Text.AlignHCenter
+            text: resultHeader; textFormat: Text.StyledText
+            font.pixelSize: NOO.factor() * 1.1
           }
-          TpieChartItem {
+          Grid {
+            anchors.horizontalCenter: parent.horizontalCenter
+            columns: 2; columnSpacing: NOO.factor()
+            Repeater {
+              model: resultsModel
+              Text {
+                text: modelData
+                color: activPal.text; textFormat: Text.StyledText
+              }
+            }
+          }
+          Item {
             visible: hasVariousMistakes
             anchors.horizontalCenter: parent.horizontalCenter
             width: parent.width / 2; height: width
-            values: summDialog.kindOfMistakes
+            TpieChartItem {
+              id: pie
+              anchors.fill: parent
+              values: summDialog.kindOfMistakes
+            }
+            DropShadow {
+              anchors.fill: pie
+              horizontalOffset: NOO.factor() / 2; verticalOffset: NOO.factor() / 2
+              radius: NOO.factor() * 2
+              samples: 1 + radius * 2; color: activPal.shadow
+              source: pie
+            }
           }
         }
       }

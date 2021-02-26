@@ -39,7 +39,8 @@ class TexamSummary : public QQuickItem
   Q_PROPERTY(TlevelPreviewItem* levelPreview READ levelPreview WRITE setLevelPreview)
   // Exam properties
   Q_PROPERTY(QString student READ student NOTIFY updateExam)
-  Q_PROPERTY(QString results READ results NOTIFY updateExam)
+  Q_PROPERTY(QString resultHeader READ resultHeader NOTIFY updateExam)
+  Q_PROPERTY(QStringList resultsModel READ resultsModel NOTIFY updateExam)
   Q_PROPERTY(QList<int> kindOfMistakes READ kindOfMistakes NOTIFY updateExam)
   Q_PROPERTY(bool hasVariousMistakes READ hasVariousMistakes NOTIFY updateExam)
 
@@ -50,7 +51,8 @@ public:
   void setLevelPreview(TlevelPreviewItem* lp);
 
   QString student() const;
-  QString results() const { return m_results; }
+  QString resultHeader() const { return m_resultHeader; }
+  QStringList resultsModel() const { return m_resultsModel; }
 
   QList<int> kindOfMistakes() { return m_kindOfMistakes; }
 
@@ -98,7 +100,8 @@ private:
   Texam                       *m_exam = nullptr;
   TlevelPreviewItem           *m_levelPreview = nullptr;
   bool                         m_accepted = false;
-  QString                      m_results;
+  QString                      m_resultHeader;
+  QStringList                  m_resultsModel;
   QList<int>                   m_kindOfMistakes;
 };
 

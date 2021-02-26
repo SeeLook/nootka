@@ -35,13 +35,10 @@
 #include <QtCore/qdebug.h>
 
 
-/**
- * returns 2 columns row of table
- */
-QString row2(const QString& S1, const QString& S2) {
-  return QString("<tr><td>%1: </td><td><b>%2</b></td></tr>").arg(S1, S2);
-}
 
+inline QStringList getDelegate(const QString& label, float value, float wTotal) {
+  return QStringList() << label + QLatin1String(": ") << QString(" <b>%1</b> (%2\%)").arg(value).arg(qRound(value * 100.0 / wTotal));
+}
 
 TexamSummary::TexamSummary(QQuickItem* parent) :
   QQuickItem(parent)
@@ -63,72 +60,71 @@ TexamSummary::TexamSummary(QQuickItem* parent) :
       arg((qreal)exam->averageReactonTime()/10.0, 0, 'f', 1, '0')) +
   "</table>", this);
   */
-  QString effStr;
+
   if (m_exam->mistakes() || m_exam->halfMistaken()) {
-    float wAccid = 0.0, wKey = 0.0, wNote = 0.0, wOctave = 0.0, wStyle = 0.0, wPos = 0.0, wString = 0.0, wTotal;
-    float wInto = 0.0, wLittle = 0.0, wPoor = 0.0;
+    float wAccid = 0.0f, wKey = 0.0f, wNote = 0.0f, wOctave = 0.0f, wStyle = 0.0f, wPos = 0.0f, wString = 0.0f, wTotal;
+    float wInto = 0.0f, wLittle = 0.0f, wPoor = 0.0f;
     for(int i = 0; i < m_exam->count(); ++i) {
       if (!m_exam->question(i)->isCorrect()) {
-          if(m_exam->question(i)->wrongAccid())       wAccid++;
-          if(m_exam->question(i)->wrongKey())         wKey++;
-          if(m_exam->question(i)->wrongNote())        wNote++;
-          if(m_exam->question(i)->wrongOctave())      wOctave++;
-          if(m_exam->question(i)->wrongStyle())       wStyle++;
-          if(m_exam->question(i)->wrongPos())         wPos++;
-          if(m_exam->question(i)->wrongString())      wString++;
-          if(m_exam->question(i)->wrongIntonation())  wInto++;
-          if(m_exam->question(i)->littleNotes())      wLittle++;
-          if(m_exam->question(i)->poorEffect())       wPoor++;
+          if (m_exam->question(i)->wrongAccid())       wAccid++;
+          if (m_exam->question(i)->wrongKey())         wKey++;
+          if (m_exam->question(i)->wrongNote())        wNote++;
+          if (m_exam->question(i)->wrongOctave())      wOctave++;
+          if (m_exam->question(i)->wrongStyle())       wStyle++;
+          if (m_exam->question(i)->wrongPos())         wPos++;
+          if (m_exam->question(i)->wrongString())      wString++;
+          if (m_exam->question(i)->wrongIntonation())  wInto++;
+          if (m_exam->question(i)->littleNotes())      wLittle++;
+          if (m_exam->question(i)->poorEffect())       wPoor++;
       }
     }
-    effStr += QLatin1String("<tr><td colspan=\"2\">-------- ") + tr("Kinds of mistakes") + QLatin1String(": --------</td></tr>");
+
     wTotal = wAccid + wKey + wNote + wOctave + wStyle + wPos + wString + wInto + wLittle + wPoor;
-    QString cp = QStringLiteral("%)"); // closing percent '%)'
     if (wNote) {
-      effStr += row2(tr("Wrong notes"), QString("%1 (").arg(wNote) + QString::number(qRound(wNote * 100.0 / wTotal)) + cp);
+      m_resultsModel << getDelegate(tr("Wrong notes"), wNote, wTotal);
       m_kindOfMistakes << static_cast<int>(wNote);
     }
     if (wAccid) {
-      effStr += row2(tr("Wrong accidentals"), QString("%1 (").arg(wAccid) + QString::number(qRound(wAccid * 100.0 / wTotal)) + cp);
+      m_resultsModel << getDelegate(tr("Wrong accidentals"), wAccid, wTotal);
       m_kindOfMistakes << static_cast<int>(wAccid);
     }
     if (wKey) {
-      effStr += row2(tr("Wrong key signatures"), QString("%1 (").arg(wKey) + QString::number(qRound(wKey * 100.0 / wTotal)) + cp);
+      m_resultsModel << getDelegate(tr("Wrong key signatures"), wKey, wTotal);
       m_kindOfMistakes << static_cast<int>(wKey);
     }
     if (wOctave){
-      effStr += row2(tr("Wrong octaves"), QString("%1 (").arg(wOctave) + QString::number(qRound(wOctave * 100.0 / wTotal)) + cp);
+      m_resultsModel <<getDelegate(tr("Wrong octaves"), wOctave, wTotal);
       m_kindOfMistakes << static_cast<int>(wOctave);
     }
     if (wStyle) {
-      effStr += row2(tr("Wrong note names"), QString("%1 (").arg(wStyle)) + QString::number(qRound(wStyle * 100.0 / wTotal)) + cp;
+      m_resultsModel << getDelegate(tr("Wrong note names"), wStyle, wTotal);
       m_kindOfMistakes << static_cast<int>(wStyle);
     }
     if (wPos) {
-      effStr += row2(tr("Wrong positions on guitar"), QString("%1 (").arg(wPos) + QString::number(qRound(wPos * 100.0 / wTotal)) + cp);
+      m_resultsModel << getDelegate(tr("Wrong positions on guitar"), wPos, wTotal);
       m_kindOfMistakes << static_cast<int>(wPos);
     }
     if (wString) {
-      effStr += row2(tr("Wrong strings"), QString("%1 (").arg(wString) + QString::number(qRound(wString * 100.0 / wTotal)) + cp);
+      m_resultsModel << getDelegate(tr("Wrong strings"), wString, wTotal);
       m_kindOfMistakes << static_cast<int>(wString);
     }
     if (wInto) {
-      effStr += row2(tr("Out of tune"), QString("%1 (").arg(wInto) + QString::number(qRound(wInto * 100.0 / wTotal)) + cp);
+      m_resultsModel << getDelegate(tr("Out of tune"), wInto, wTotal);
       m_kindOfMistakes << static_cast<int>(wInto);
     }
     if (wLittle) {
-      effStr += row2(QApplication::translate("AnswerText", "little valid notes", "the amount of correct notes in an answer is little"),
-                     QString("%1 (").arg(wLittle) + QString::number(qRound(wLittle * 100.0 / wTotal)) + cp);
+      m_resultsModel << getDelegate(QApplication::translate("AnswerText", "little valid notes", "the amount of correct notes in an answer is little"),
+                                    wLittle, wTotal);
       m_kindOfMistakes << static_cast<int>(wLittle);
     }
     if (wPoor) {
-      effStr += row2(QApplication::translate("AnswerText", "poor effectiveness"),
-                     QString("%1 (").arg(wPoor) + QString::number(qRound(wPoor * 100.0 / wTotal)) + cp);
+      m_resultsModel << getDelegate(QApplication::translate("AnswerText", "poor effectiveness"), wPoor, wTotal);
       m_kindOfMistakes << static_cast<int>(wPoor);
     }
   }
-  m_results = tr("Results:") + QLatin1String("<table>") +
-    row2(TexTrans::effectTxt(), QString::number(qRound(m_exam->effectiveness())) + QLatin1String("%")) + effStr + QLatin1String("</table>");
+  m_resultHeader = tr("Results:") + QLatin1String("<br>") + TexTrans::effectTxt()
+                   + QString(": <b>%1\%</b><br><br>").arg(qRound(m_exam->effectiveness()))
+                   + tr("Kinds of mistakes") + QLatin1String(":");
 }
 
 
