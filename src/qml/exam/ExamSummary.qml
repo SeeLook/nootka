@@ -20,57 +20,75 @@ TexamSummary {
 
     Grid {
       columns: 2
-      padding: summDialog.width / 200
+      padding: NOO.factor() / 2
       Tflickable {
-        height: summDialog.height - buttGrid.height - summDialog.width / 50; width: summDialog.width * 0.49
+        height: summDialog.height - buttGrid.height - summDialog.width / 50
+        width: summDialog.width / 2 - NOO.factor() / 2
         contentHeight: summCol.height
         Column {
           id: summCol
-          spacing: summDialog.width / 200
+          spacing: NOO.factor()
           width: parent.width
-          Text {
+          Text { // student
             anchors.horizontalCenter: parent.horizontalCenter
             text: student; textFormat: Text.StyledText
           }
-          Text {
-            anchors.horizontalCenter: parent.horizontalCenter
-            horizontalAlignment: Text.AlignHCenter
-            text: resultHeader; textFormat: Text.StyledText
-            font.pixelSize: NOO.factor() * 1.1
+          Tile { // answers/mistakes numbers
+            width: parent.width - NOO.factor()
+            Text {
+              anchors.horizontalCenter: parent.horizontalCenter
+              horizontalAlignment: Text.AlignHCenter
+              text: answersLabel; textFormat: Text.StyledText
+              font.pixelSize: NOO.factor() * 1.2
+            }
           }
-          Grid {
-            anchors.horizontalCenter: parent.horizontalCenter
-            columns: 2; columnSpacing: NOO.factor()
-            Repeater {
-              model: resultsModel
+          Tile { // results
+            width: parent.width - NOO.factor()
+            Column {
+              spacing: NOO.factor()
+              width: parent.width
               Text {
-                text: modelData
-                color: activPal.text; textFormat: Text.StyledText
+                anchors.horizontalCenter: parent.horizontalCenter
+                horizontalAlignment: Text.AlignHCenter
+                text: resultHeader; textFormat: Text.StyledText
+                font.pixelSize: NOO.factor() * 1.1
               }
-            }
-          }
-          Item {
-            visible: hasVariousMistakes
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: parent.width / 2; height: width
-            TpieChartItem {
-              id: pie
-              anchors.fill: parent
-              values: summDialog.kindOfMistakes
-            }
-            DropShadow {
-              anchors.fill: pie
-              horizontalOffset: NOO.factor() / 2; verticalOffset: NOO.factor() / 2
-              radius: NOO.factor() * 2
-              samples: 1 + radius * 2; color: activPal.shadow
-              source: pie
+              Grid {
+                anchors.horizontalCenter: parent.horizontalCenter
+                columns: 2; columnSpacing: NOO.factor()
+                Repeater {
+                  model: resultsModel
+                  Text {
+                    text: modelData
+                    color: activPal.text; textFormat: Text.StyledText
+                  }
+                }
+              }
+              Item {
+                visible: hasVariousMistakes
+                anchors.horizontalCenter: parent.horizontalCenter
+                width: parent.width / 2; height: width
+                TpieChartItem {
+                  id: pie
+                  anchors.fill: parent
+                  values: summDialog.kindOfMistakes
+                }
+                DropShadow {
+                  anchors.fill: pie
+                  horizontalOffset: NOO.factor() / 2; verticalOffset: NOO.factor() / 2
+                  radius: NOO.factor() * 2
+                  samples: 1 + radius * 2; color: activPal.shadow
+                  source: pie
+                }
+              }
             }
           }
         }
       }
       LevelPreview {
         id: previewItem
-        width: summDialog.width * 0.49; height: summDialog.height - buttGrid.height - summDialog.width / 50
+        width: summDialog.width / 2 - NOO.factor() / 2
+        height: summDialog.height - buttGrid.height - summDialog.width / 50
       }
     }
     Grid {

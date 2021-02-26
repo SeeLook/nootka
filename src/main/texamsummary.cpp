@@ -45,13 +45,12 @@ TexamSummary::TexamSummary(QQuickItem* parent) :
 {
   m_exam = EXECUTOR->exam();
 
+  m_answersLabel = tr("Number of questions:") + QString(" <b>%1</b><br>").arg(m_exam->count())
+          + QString("%1: <b>%2</b><br>").arg(TexTrans::corrAnswersNrTxt()).arg(m_exam->count() - m_exam->mistakes() - m_exam->halfMistaken())
+          + QString("%1: <b>%2</b><br>").arg(TexTrans::mistakesNrTxt()).arg(m_exam->mistakes())
+          + QString("%1: <b>%2</b>").arg(TexTrans::halfMistakenTxt()).arg(m_exam->halfMistaken());
+
 /*
-  TroundedLabel *questNrLab = new TroundedLabel("<center>" + tr("Number of questions:") + QString("%2  %1</big></b>").arg(exam->count()).arg(font20) +
-                    QString("<br>%1: %2%3</big></b>").arg(TexTrans::corrAnswersNrTxt()).arg(font20).
-                        arg(exam->count() - exam->mistakes() - exam->halfMistaken()) +
-                    QString("<br>%1: %2%3</big></b>").arg(TexTrans::mistakesNrTxt()).arg(font20).arg(exam->mistakes()) +
-                    QString("<br>%1: %2%3</big></b>").arg(TexTrans::halfMistakenTxt()).arg(font20).arg(exam->halfMistaken())
-      ,this);
   QGroupBox *timeGr = new QGroupBox(tr("times:"), this);
   TroundedLabel *timeLab = new TroundedLabel("<table>" +
   row2(TexTrans::totalTimetxt(), TexamView::formatedTotalTime(exam->totalTime() * 1000)) +
