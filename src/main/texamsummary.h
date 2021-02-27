@@ -39,12 +39,13 @@ class TexamSummary : public QQuickItem
   Q_PROPERTY(TlevelPreviewItem* levelPreview READ levelPreview WRITE setLevelPreview)
   // Exam properties
   Q_PROPERTY(QString student READ student NOTIFY updateExam)
-  Q_PROPERTY(QString answersLabel READ answersLabel NOTIFY updateExam)
+  Q_PROPERTY(QStringList answersLabel READ answersLabel NOTIFY updateExam)
   Q_PROPERTY(QStringList timesModel READ timesModel NOTIFY updateExam)
   Q_PROPERTY(QString resultHeader READ resultHeader NOTIFY updateExam)
   Q_PROPERTY(QStringList resultsModel READ resultsModel NOTIFY updateExam)
   Q_PROPERTY(QList<int> kindOfMistakes READ kindOfMistakes NOTIFY updateExam)
   Q_PROPERTY(bool hasVariousMistakes READ hasVariousMistakes NOTIFY updateExam)
+  Q_PROPERTY(QList<int> answersModel READ answersModel NOTIFY updateExam)
 
 public:
   explicit TexamSummary(QQuickItem* parent = nullptr);
@@ -53,12 +54,13 @@ public:
   void setLevelPreview(TlevelPreviewItem* lp);
 
   QString student() const;
-  QString answersLabel() const { return m_answersLabel; }
+  QStringList answersLabel() const { return m_answersLabel; }
   QStringList timesModel() const { return m_timesModel; }
   QString resultHeader() const { return m_resultHeader; }
   QStringList resultsModel() const { return m_resultsModel; }
 
-  QList<int> kindOfMistakes() { return m_kindOfMistakes; }
+  QList<int> kindOfMistakes() const { return m_kindOfMistakes; }
+  QList<int> answersModel() const { return m_answersModel; }
 
       /**
        * @p TRUE when there are more than one kind of mistake
@@ -104,11 +106,12 @@ private:
   Texam                       *m_exam = nullptr;
   TlevelPreviewItem           *m_levelPreview = nullptr;
   bool                         m_accepted = false;
-  QString                      m_answersLabel;
+  QStringList                  m_answersLabel;
   QString                      m_resultHeader;
   QStringList                  m_timesModel;
   QStringList                  m_resultsModel;
   QList<int>                   m_kindOfMistakes;
+  QList<int>                   m_answersModel;
 };
 
 #endif // TEXAMSUMMARY_H

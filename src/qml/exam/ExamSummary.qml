@@ -35,73 +35,87 @@ TexamSummary {
           Item { width: NOO.factor(); height: NOO.factor() }
           Tile { // answers/mistakes numbers
             width: parent.width - NOO.factor()
-            Text {
+            Grid {
               anchors.horizontalCenter: parent.horizontalCenter
-              horizontalAlignment: Text.AlignHCenter
-              text: answersLabel; textFormat: Text.StyledText
-              font.pixelSize: NOO.factor() * 1.2
-            }
-          }
-          Tile { // times
-            width: parent.width - NOO.factor()
-            Column {
-              spacing: NOO.factor()
-              width: parent.width
-              Text {
-                anchors.horizontalCenter: parent.horizontalCenter
-                horizontalAlignment: Text.AlignHCenter
-                text: qsTranslate("TexamSummary", "times:")
-                font.pixelSize: NOO.factor() * 1.1
-              }
-              Grid {
-                anchors.horizontalCenter: parent.horizontalCenter
-                columns: 2; columnSpacing: NOO.factor()
-                Repeater {
-                  model: timesModel
-                  Text {
-                    text: modelData
-                    color: activPal.text; textFormat: Text.StyledText
+              columns: NOO.isAndroid() ? 1 : 2
+              horizontalItemAlignment: Grid.AlignHCenter; verticalItemAlignment: Grid.AlignVCenter
+              spacing: NOO.factor() * (NOO.isAndroid() ? 1 : 2)
+              Column {
+                spacing: NOO.factor()
+                Text {
+                  anchors.horizontalCenter: parent.horizontalCenter
+                  horizontalAlignment: Text.AlignHCenter
+                  text: resultHeader; textFormat: Text.StyledText
+                  font.pixelSize: NOO.factor() * 1.3
+                }
+                Grid {
+                  columns: 2; columnSpacing: NOO.factor()
+                  Repeater {
+                    model: answersLabel
+                    Text {
+                      text: modelData
+                      color: activPal.text; textFormat: Text.StyledText
+                      font.pixelSize: NOO.factor() * 1.2
+                    }
                   }
+                }
+              }
+              Item {
+                width: NOO.factor() * (NOO.isAndroid() ? 15 : 20); height: width
+                TpieChartItem {
+                  id: answId
+                  anchors.fill: parent
+                  values: answersModel
+                  colors: [ cn(GLOB.correctColor), cn(GLOB.notBadColor), cn(GLOB.wrongColor) ]
+                }
+                DropShadow {
+                  anchors.fill: answId
+                  horizontalOffset: NOO.factor() / 2; verticalOffset: NOO.factor() / 2
+                  radius: NOO.factor()
+                  samples: 1 + radius * 2; color: activPal.shadow
+                  source: answId
                 }
               }
             }
           }
           Tile { // results
             width: parent.width - NOO.factor()
-            Column {
-              spacing: NOO.factor()
-              width: parent.width
-              Text {
-                anchors.horizontalCenter: parent.horizontalCenter
-                horizontalAlignment: Text.AlignHCenter
-                text: resultHeader; textFormat: Text.StyledText
-                font.pixelSize: NOO.factor() * 1.1
-              }
-              Grid {
-                anchors.horizontalCenter: parent.horizontalCenter
-                columns: 2; columnSpacing: NOO.factor()
-                Repeater {
-                  model: resultsModel
-                  Text {
-                    text: modelData
-                    color: activPal.text; textFormat: Text.StyledText
+            visible: resultsModel.length
+            Grid {
+              anchors.horizontalCenter: parent.horizontalCenter
+              columns: NOO.isAndroid() ? 1 : 2
+              horizontalItemAlignment: Grid.AlignHCenter; verticalItemAlignment: Grid.AlignVCenter
+              spacing: NOO.factor() * (NOO.isAndroid() ? 1 : 2)
+              Column {
+                spacing: NOO.factor()
+                Text {
+                  anchors.horizontalCenter: parent.horizontalCenter
+                  text: qsTranslate("TexamSummary", "Kinds of mistakes") + ":"; color: activPal.text
+                }
+                Grid {
+                  columns: 2; columnSpacing: NOO.factor()
+                  Repeater {
+                    model: resultsModel
+                    Text {
+                      text: modelData
+                      color: activPal.text; textFormat: Text.StyledText
+                    }
                   }
                 }
               }
               Item {
                 visible: hasVariousMistakes
-                anchors.horizontalCenter: parent.horizontalCenter
-                width: parent.width / 2; height: width
+                width: NOO.factor() * (NOO.isAndroid() ? 15 : 20); height: width
                 TpieChartItem {
                   id: pie
                   anchors.fill: parent
                   values: summDialog.kindOfMistakes
-                  colors: [ GLOB.wrongColor ]
+                  colors: [ cn(GLOB.wrongColor) ]
                 }
                 DropShadow {
                   anchors.fill: pie
                   horizontalOffset: NOO.factor() / 2; verticalOffset: NOO.factor() / 2
-                  radius: NOO.factor() * 2
+                  radius: NOO.factor()
                   samples: 1 + radius * 2; color: activPal.shadow
                   source: pie
                 }
@@ -110,12 +124,41 @@ TexamSummary {
           }
         }
       }
-      LevelPreview {
-        id: previewItem
-        width: summDialog.width / 2 - NOO.factor() / 2
-        height: summDialog.height - buttGrid.height - summDialog.width / 50
+      Column {
+        width: summDialog.width / 2
+        Tile { // times
+          id: timeTile
+          width: parent.width - NOO.factor()
+          Column {
+            spacing: NOO.factor()
+            width: parent.width
+            Text {
+              anchors.horizontalCenter: parent.horizontalCenter
+              horizontalAlignment: Text.AlignHCenter
+              text: qsTranslate("TexamSummary", "times:")
+              font.pixelSize: NOO.factor() * 1.1
+            }
+            Grid {
+              anchors.horizontalCenter: parent.horizontalCenter
+              columns: 2; columnSpacing: NOO.factor()
+              Repeater {
+                model: timesModel
+                Text {
+                  text: modelData
+                  color: activPal.text; textFormat: Text.StyledText
+                }
+              }
+            }
+          }
+        }
+        LevelPreview {
+          id: previewItem
+          width: summDialog.width / 2 - NOO.factor() / 2
+          height: summDialog.height - buttGrid.height - summDialog.width / 50 - timeTile.height
+        }
       }
     }
+
     Grid {
       id: buttGrid
       anchors.horizontalCenter: parent.horizontalCenter

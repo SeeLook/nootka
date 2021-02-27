@@ -25,6 +25,7 @@
 #include <exam/tqaunit.h>
 #include <exam/textrans.h>
 #include <exam/tlevel.h>
+#include <exam/tattempt.h>
 #include <tpath.h>
 #if defined (Q_OS_ANDROID)
   #include <Android/tandroid.h>
@@ -50,10 +51,14 @@ TexamSummary::TexamSummary(QQuickItem* parent) :
 {
   m_exam = EXECUTOR->exam();
 
-  m_answersLabel = tr("Number of questions:") + QString(" <b>%1</b><br>").arg(m_exam->count())
-          + QString("%1: <b>%2</b><br>").arg(TexTrans::corrAnswersNrTxt()).arg(m_exam->count() - m_exam->mistakes() - m_exam->halfMistaken())
-          + QString("%1: <b>%2</b><br>").arg(TexTrans::mistakesNrTxt()).arg(m_exam->mistakes())
-          + QString("%1: <b>%2</b>").arg(TexTrans::halfMistakenTxt()).arg(m_exam->halfMistaken());
+  m_answersLabel << tr("Number of questions:") << QString(" <b>%1</b>").arg(m_exam->count())
+          << TexTrans::corrAnswersNrTxt() << QString("<b>%1</b>").arg(m_exam->count() - m_exam->mistakes() - m_exam->halfMistaken())
+          << TexTrans::mistakesNrTxt() + QLatin1String(":") << QString("<b>%1</b>").arg(m_exam->mistakes())
+          << TexTrans::halfMistakenTxt() + QLatin1String(":") << QString("<b>%1</b>").arg(m_exam->halfMistaken());
+
+  m_answersModel << m_exam->count() - m_exam->mistakes() - m_exam->halfMistaken();
+  m_answersModel << m_exam->halfMistaken();
+  m_answersModel << m_exam->mistakes();
 
   m_timesModel << timeDelegate(TexTrans::totalTimetxt(), TexamView::formatedTotalTime(m_exam->totalTime() * 1000));
   m_timesModel << timeDelegate(tr("Time taken to answer"), TexamView::formatedTotalTime(m_exam->workTime() * 1000));
@@ -121,8 +126,7 @@ TexamSummary::TexamSummary(QQuickItem* parent) :
     }
   }
   m_resultHeader = tr("Results:") + QLatin1String("<br>") + TexTrans::effectTxt()
-                   + QString(": <b>%1\%</b><br><br>").arg(qRound(m_exam->effectiveness()))
-                   + tr("Kinds of mistakes") + QLatin1String(":");
+                   + QString(": <b>%1\%</b>").arg(qRound(m_exam->effectiveness()));
 }
 
 
