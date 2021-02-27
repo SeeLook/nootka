@@ -26,7 +26,6 @@
   - add more levels, in separate files, distributed with the installers
   - add info that reading grand staff from musicxml created out of Nootka is not supported
   - certificates would have some additional data about melodies
-  - exam summary - give more valuable info, display it nicely
   - charts - show preview of entire melody, chart tip is not suitable for it
   - migrate on preferred 48000 sample rate (ogg files and audio methods). DO NOT forget to resize output samples length
 

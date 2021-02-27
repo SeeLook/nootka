@@ -1,5 +1,6 @@
 1.7.4 git
      - 'Got It!' texts about important Nootka features
+     - improved exam summary
      - handle notes beaming of each piano staves separately
      - plenty of tiny user interface improvements and fixes
     BUG FIXES
