@@ -96,6 +96,7 @@ TexamSummary {
                   id: pie
                   anchors.fill: parent
                   values: summDialog.kindOfMistakes
+                  colors: [ GLOB.wrongColor ]
                 }
                 DropShadow {
                   anchors.fill: pie

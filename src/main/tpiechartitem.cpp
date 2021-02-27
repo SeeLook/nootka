@@ -39,9 +39,11 @@ void TpieChartItem::paint(QPainter* painter) {
   f.setPointSize(painter->viewport().height() / 18);
   f.setBold(true);
   painter->setFont(f);
-  painter->setBrush(Qt::red);
+  painter->setBrush(m_colors.isEmpty() ? Qt::red : m_colors.first());
   QFontMetrics fm(f);
-  for (int k : m_valueList) {
+  int k;
+  for (int v = 0; v < m_valueList.size(); ++v) {
+    k = m_valueList[v];
     painter->setPen(Qt::NoPen);
     int pieSpan = qRound((static_cast<qreal>(k) / m_sum) * 5760.0);
     painter->drawPie(painter->viewport(), lastPie, pieSpan);
@@ -55,7 +57,10 @@ void TpieChartItem::paint(QPainter* painter) {
       painter->drawText(qRound(xText - tOff.width() / 2.0), qRound(yText + tOff.height() / 2.0), nr);
     }
     lastPie += pieSpan;
-    painter->setBrush(painter->brush().color().darker(120));
+    if (v < m_colors.size() - 1)
+      painter->setBrush(m_colors[v + 1]);
+    else
+      painter->setBrush(painter->brush().color().darker(110));
   }
 }
 
@@ -66,5 +71,12 @@ void TpieChartItem::setValues(QList<int> valList) {
   for (int k : m_valueList)
     m_sum += static_cast<qreal>(k);
   emit valuesChanged();
+  update();
+}
+
+
+void TpieChartItem::setColors(const QList<QColor>& cl) {
+  m_colors = cl;
+  emit colorsChanged();
   update();
 }
