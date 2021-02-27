@@ -33,6 +33,9 @@ TpieChartItem::TpieChartItem(QQuickItem* parent) :
 
 
 void TpieChartItem::paint(QPainter* painter) {
+  if (m_valueList.isEmpty()) // nothing to paint
+    return;
+
   int lastPie = 1440; // 1440 = 90 deg * 16 (see drawPie doc if doubts)
   qreal r = painter->viewport().height() * 0.4;
   auto f = painter->font();
