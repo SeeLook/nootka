@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2019 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2019-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,7 +27,7 @@ class QPainter;
 
 
 /**
- * Paints pie chart with slices representing integer values of @p kindOfMistakes() list
+ * Paints pie chart with slices representing integer values of @p values() list
  */
 class TpieChartItem : public QQuickPaintedItem
 {
@@ -42,6 +42,12 @@ public:
 
   void paint(QPainter* painter) override;
 
+      /**
+       * List of values.
+       * All values are summarized and every slice is proportional to the sum.
+       * Null values are ignored during @p paint(),
+       * so corresponding colors will be displayed correctly.
+       */
   QList<int> values() { return m_valueList; }
   void setValues(QList<int> valList);
 
