@@ -35,7 +35,7 @@ class TpieChartItem : public QQuickPaintedItem
   Q_OBJECT
 
   Q_PROPERTY(QList<int> values READ values WRITE setValues NOTIFY valuesChanged)
-  Q_PROPERTY(QList<QColor> colors READ colors WRITE setColors NOTIFY colorsChanged)
+  Q_PROPERTY(QStringList colors READ colors WRITE setColors NOTIFY colorsChanged)
 
 public:
   explicit TpieChartItem(QQuickItem* parent = nullptr);
@@ -60,9 +60,16 @@ public:
        * one can set color for every value in the list,
        * or just set a single color - it darker variants will be used for more values
        * or just live color list empty - red one will be used.
+       *
+       * Due to Qt version compatibility color is set through @p QString name
        */
-  QList<QColor> colors() const { return m_colors; }
-  void setColors(const QList<QColor>& cl);
+  QStringList colors() const { return m_colors; }
+  void setColors(const QStringList& cl);
+
+      /**
+       * Helper method to quickly convert QML color/ C++ QColor to name
+       */
+  Q_INVOKABLE QString cn(QColor c) { return c.name() ;}
 
 signals:
   void valuesChanged();
@@ -71,7 +78,7 @@ signals:
 private:
   QList<int>                   m_valueList;
   qreal                        m_sum = 0.0;
-  QList<QColor>                m_colors;
+  QStringList                  m_colors;
 
 };
 
