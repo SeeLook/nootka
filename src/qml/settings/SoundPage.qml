@@ -10,9 +10,7 @@ import "../"
 
 
 Column {
-  spacing: NOO.factor()
   width: parent.width; height: parent.height
-  topPadding: NOO.factor() / 2
 
   TbuttonBar {
     id: headList
