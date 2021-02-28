@@ -10,7 +10,7 @@ ListView {
   id: buttBar
   orientation: ListView.Horizontal
   spacing: NOO.factor()
-  width: parent.width - NOO.factor() / 2; height: NOO.factor() * 3
+  width: parent.width; height: NOO.factor() * 3
   currentIndex: 0
   leftMargin: NOO.isAndroid() ? 0 : NOO.factor() * 2
   clip: true
@@ -19,6 +19,7 @@ ListView {
     id: tb
     onClicked:  buttBar.currentIndex = index
     checked: buttBar.currentIndex === index
+    anchors.verticalCenter: parent.verticalCenter
     contentItem: Text {
       anchors.centerIn: parent
       font.pixelSize: NOO.factor() * 1.25
@@ -29,7 +30,12 @@ ListView {
     }
     Component.onCompleted: { // only way to get access to TabButton components
       background.color = Qt.binding(function() { return checked ? activPal.highlight : activPal.button })
-//       buttBar.height = height
     }
+  }
+
+  Rectangle {
+    z: -1
+    width: buttBar.width; height: buttBar.height
+    color: NOO.isAndroid() ? activPal.base : Qt.darker(activPal.window, 1.1) // the same as DialogButtonBox
   }
 }
