@@ -198,6 +198,25 @@ Column {
           spacing: NOO.isAndroid() ? 2 : NOO.factor() / 2
           anchors.horizontalCenter: parent.horizontalCenter
           Tile {
+            Column {
+              anchors.horizontalCenter: parent.horizontalCenter
+              spacing: NOO.factor()
+              TcheckBox {
+                id: namesOnScoreChB
+                text: qsTr("Show names of all notes on the score")
+                anchors.horizontalCenter: parent.horizontalCenter
+                checked: GLOB.namesOnScore
+              }
+              Row {
+                spacing: NOO.factor()
+                enabled: namesOnScoreChB.checked
+                anchors.horizontalCenter: parent.horizontalCenter
+                TlabelText { text: qsTr("names highlight color") }
+                ColorButton { id: nameColorButt; color: GLOB.nameColor; title: qsTr("names highlight color") }
+              }
+            }
+          }
+          Tile {
             description: qsTr("Naming style of note. The main difference is the 7th note.<br>Is it B and B flat, or H and B?")
             Column {
               anchors.horizontalCenter: parent.horizontalCenter
@@ -252,25 +271,6 @@ Column {
               }
             }
             description: qsTr("Scientific (international) pitch notation is widely used in technical sources and tuning devices/applications, when the other notation style is used more in music publications.")
-          }
-          Tile {
-            Column {
-              anchors.horizontalCenter: parent.horizontalCenter
-              spacing: NOO.factor()
-              TcheckBox {
-                id: namesOnScoreChB
-                text: qsTr("Show names of all notes on the score")
-                anchors.horizontalCenter: parent.horizontalCenter
-                checked: GLOB.namesOnScore
-              }
-              Row {
-                spacing: NOO.factor()
-                enabled: namesOnScoreChB.checked
-                anchors.horizontalCenter: parent.horizontalCenter
-                TlabelText { text: qsTr("names highlight color") }
-                ColorButton { id: nameColorButt; color: GLOB.nameColor; title: qsTr("names highlight color") }
-              }
-            }
           }
           Component.onCompleted: {
             nameStyleSel.style = GLOB.noteNameStyle
