@@ -258,7 +258,7 @@ Column {
               }
               Text {
                 anchors.horizontalCenter: parent.horizontalCenter
-                color: activPal.text; textFormat: Text.RichText; font.pixelSize: NOO.factor() * 0.9
+                color: activPal.text; textFormat: Text.RichText
                 text: "<table>"
                     + "<tr><td> <b>"+ NOO.TR("TnameItem", "Octaves") + ":</b> </td><td> <b>" + qsTr("scientific") + "</b> </td><td> <b>" + qsTr("musical") + "</b> </td></tr>"
                     + "<tr><td>"+ NOO.TR("TnoteName", "Subcontra octave") + "</td><td align=\"center\">C<sub>0</sub></td><td align=\"center\">C<sub>2</sub></td></tr>"
