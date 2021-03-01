@@ -55,6 +55,7 @@ Item {
     }
 
     Tframe {
+      width: NOO.factor() * 25
       Column {
         id: styleColumn
         spacing: NOO.factor() / 2
