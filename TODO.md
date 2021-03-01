@@ -8,7 +8,6 @@
 ============================================================================
 ### Bugs to fix:
   - Exams: For non guitars single note question "give name of:" has nothing more
-  - certificate for i.e. piano has strange size - probably font size/DPI scaling related issue
   - playing with metronome doesn't work under Android
 
 ### To test:

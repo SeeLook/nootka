@@ -125,7 +125,11 @@ TnootkaCertificate::TnootkaCertificate(QQuickItem* parent) :
     bgSymbol = QStringLiteral("n");
   QFont nf = QFont(QStringLiteral("nootka"), 20, QFont::Normal);
   QFontMetricsF fm = QFontMetricsF(nf);
-  nf.setPointSize(nf.pointSize() * (boundingRect().height() / fm.boundingRect(bgSymbol).height()));
+  nf.setPointSize(nf.pointSize() * (m_certH / fm.boundingRect(bgSymbol).height()));
+  fm = QFontMetricsF(nf);
+  if (fm.boundingRect(bgSymbol).width() > m_certW * 0.9) // fit wider glyphs to width as well
+    nf.setPointSize(nf.pointSize() * (m_certW * 0.9 / fm.boundingRect(bgSymbol).width()));
+
   waterMark->setFont(nf);
   QColor penTrans = QColor(0xE1, 0xE1, 0xE1);
   penTrans.setAlpha(80);
