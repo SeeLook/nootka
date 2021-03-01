@@ -163,7 +163,8 @@ int main(int argc, char *argv[])
       int g = (color >> 8) & 0xff;
       int b = (color >> 16) & 0xff;
       auto pal = qApp->palette();
-      pal.setColor(QPalette::Active, QPalette::Highlight, QColor(r, g, b, 127)); // alpha 127
+      QColor c(r, g, b);
+      pal.setColor(QPalette::Active, QPalette::Highlight, c.lighter(150));
       qApp->setPalette(pal);
     }
     f.setPointSizeF(f.pointSizeF() * gl->guiScale());
