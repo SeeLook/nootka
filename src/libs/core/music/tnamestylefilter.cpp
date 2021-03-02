@@ -25,6 +25,12 @@ Tnote::EnameStyle* TnameStyleFilter::m_solfegeStyle = nullptr;
 TnameStyleFilter::TnameStyleFilter()
 {}
 
+
+/**
+ * TODO
+ * @p solfegeStyle is not used (ignored)
+ * it can be set the same way as letter styles
+ */
 void TnameStyleFilter::setStyleFilter(bool* is7th_B, Tnote::EnameStyle* solfegeStyle) {
   m_is7th_B = is7th_B;
   m_solfegeStyle = solfegeStyle;
@@ -34,7 +40,8 @@ void TnameStyleFilter::setStyleFilter(bool* is7th_B, Tnote::EnameStyle* solfegeS
 Tnote::EnameStyle TnameStyleFilter::get(Tnote::EnameStyle style) {
   if (m_is7th_B) {
     if (style == Tnote::e_italiano_Si || style == Tnote::e_russian_Ci)
-      return *(m_solfegeStyle);
+      return style;
+//       return *(m_solfegeStyle); TODO ignored
 
     if (style == Tnote::e_deutsch_His || style == Tnote::e_nederl_Bis) {
       if (*(m_is7th_B))
