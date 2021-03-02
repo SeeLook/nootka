@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2013-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,16 +18,16 @@
 
 #include "tnamestylefilter.h"
 
-bool* TnameStyleFilter::m_is7th_B = 0;
-Tnote::EnameStyle* TnameStyleFilter::m_solfegeStyle = 0;
+bool* TnameStyleFilter::m_is7th_B = nullptr;
+Tnote::EnameStyle* TnameStyleFilter::m_solfegeStyle = nullptr;
 
 
 TnameStyleFilter::TnameStyleFilter()
 {}
 
 void TnameStyleFilter::setStyleFilter(bool* is7th_B, Tnote::EnameStyle* solfegeStyle) {
-    m_is7th_B = is7th_B;
-    m_solfegeStyle = solfegeStyle;
+  m_is7th_B = is7th_B;
+  m_solfegeStyle = solfegeStyle;
 }
 
 

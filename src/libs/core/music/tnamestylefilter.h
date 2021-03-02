@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2014 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,7 +22,9 @@
 
 #include "tnote.h"
 
-/** This is very simple class, more to describe than to do.
+
+/**
+ * This is very simple class, more to describe than to do.
  * This class converts given style according to global Nootka settings.
  * It gives possibility to have name style always matched with user preferences
  * even if exam file was generated with other styles.
@@ -30,11 +32,11 @@
  * - solfege Do Re ...
  * - letter with sign C# Db
  * - letter full name Cis Des
- * All that e_italiano_Si or e_english_Bb depends on:
- * Tnote::EnameStyle S->solfegeStyle
+ * All that @p e_italiano_Si or @p e_english_Bb depends on:
+ * @p Tnote::EnameStyle S->solfegeStyle
  * bool S->seventhIs_B
  * declared in Tglobals.
- * get(Tnote::EnameStyle style) static method returns proper style.
+ * @p get(Tnote::EnameStyle style) static method returns proper style.
  */
 class NOOTKACORE_EXPORT TnameStyleFilter
 {
@@ -42,20 +44,30 @@ class NOOTKACORE_EXPORT TnameStyleFilter
 public:
     TnameStyleFilter();
 
-        /** Initialize filter with pointers to global settings */
-    static void setStyleFilter(bool *is7th_B, Tnote::EnameStyle *solfegeStyle);
-        /** Perform filtering */
-    static Tnote::EnameStyle get(Tnote::EnameStyle style);
+      /**
+       * Initialize filter with pointers to global settings
+       */
+  static void setStyleFilter(bool *is7th_B, Tnote::EnameStyle *solfegeStyle);
 
-        /** Usually it is pointer to global is7th_B.  */
-    static bool* is7th_B() { return m_is7th_B; }
-        /** Usually it is pointer to global solfegeStyle.  */
-    static Tnote::EnameStyle* solfegeStyle() { return m_solfegeStyle; }
+      /**
+       * Perform filtering
+       */
+  static Tnote::EnameStyle get(Tnote::EnameStyle style);
+
+      /**
+       * Usually it is pointer to global @p is7th_B.
+       */
+  static bool* is7th_B() { return m_is7th_B; }
+
+      /**
+       * Usually it is pointer to global solfegeStyle.
+       */
+  static Tnote::EnameStyle* solfegeStyle() { return m_solfegeStyle; }
 
 
 private:
-    static bool                   *m_is7th_B;
-    static Tnote::EnameStyle       *m_solfegeStyle;
+  static bool                    *m_is7th_B;
+  static Tnote::EnameStyle       *m_solfegeStyle;
 
 };
 
