@@ -83,7 +83,6 @@ private:
   qreal                      m_parentHeight = 0.0;
   Texam                     *m_exam;
   QGraphicsRectItem         *m_cert = nullptr;
-  QGraphicsTextItem         *m_academyI, *m_dateI, *m_studentI, *m_certHeadI, *m_resultsI, *m_witnesI, *m_boardI, *m_stampI;
   QGraphicsPixmapItem       *m_stampPixmap;
   QGraphicsScene            *m_scene;
   qreal                      m_certW, m_certH;

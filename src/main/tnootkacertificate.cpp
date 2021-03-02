@@ -60,56 +60,56 @@ TnootkaCertificate::TnootkaCertificate(QQuickItem* parent) :
   m_cert->setBrush(Qt::NoBrush);
 //-MARGIN--Nootka Academy--------------------------28 December 2013
 //-MARGIN-----------------------------------------------date
-  m_academyI = createCertItem(fillCert(tr("<h3>Nootka Academy Of Music</h3>", "top-left corner")));
-  m_dateI = createCertItem(fillCert(tr("[DATE]<br><i>date<i>",
+  auto academyIt = createCertItem(fillCert(tr("<h3>Nootka Academy Of Music</h3>", "top-left corner")));
+  auto dateIt = createCertItem(fillCert(tr("[DATE]<br><i>date<i>",
       "All those entries assembly a certificate. You can adjust translation to your imagination of it look by manipulating where to put an entry, using some 'HTML tags: http://qt-project.org/doc/qt-4.8/richtext-html-subset.html' and using exam data tags like: [DATE], [STUDENT], [LEVELNAME], [TOTALTIME], [SCORE] and [QUESTNR]. Single entry can't be adjusted (center, left, right) like in pure HTML - this is why it is divided. TO OBTAIN CERT PREVIEW IN ANY TIME OF AN EXAM JUST PRESS: [Shift+Alt+middle-mouse-button] (and don't tell this secret anybody). Feel free to translate it directly as well. This entry is displayed at top-right corner of a cert")));
-  alignCenter(m_dateI);
-  m_certW = 2 * MARGIN + m_academyI->boundingRect().width() + 2 * m_dateI->boundingRect().width();
-  m_academyI->setPos(MARGIN, SPACER);
-  m_dateI->setPos(MARGIN + m_academyI->boundingRect().width() + m_dateI->boundingRect().width(), SPACER);
-  m_certH = qMax(m_academyI->boundingRect().height(), m_dateI->boundingRect().height()) + 5.0 * SPACER;
+  alignCenter(dateIt);
+  m_certW = 2 * MARGIN + academyIt->boundingRect().width() + 2 * dateIt->boundingRect().width();
+  academyIt->setPos(MARGIN, SPACER);
+  dateIt->setPos(MARGIN + academyIt->boundingRect().width() + dateIt->boundingRect().width(), SPACER);
+  m_certH = qMax(academyIt->boundingRect().height(), dateIt->boundingRect().height()) + 5.0 * SPACER;
 //-MARGIN-MARGIN- Student HELMUT has been awarded the
-  m_studentI = createCertItem(fillCert(tr("Student <big><b>[STUDENT]</b></big> has been awarded the", "2nd line, single indent")));
-  m_studentI->setPos(2 * MARGIN, m_certH);
-  m_certH += m_studentI->boundingRect().height() + 4.0 * SPACER;
+  auto studentIt = createCertItem(fillCert(tr("Student <big><b>[STUDENT]</b></big> has been awarded the", "2nd line, single indent")));
+  studentIt->setPos(2 * MARGIN, m_certH);
+  m_certH += studentIt->boundingRect().height() + 4.0 * SPACER;
 // -----Certificate Of Exam Completion-------- (middle)
   QString Fake;
   if (!m_exam->isFinished())
     Fake = QStringLiteral("<h3>Translators preview of</h3>");
-  m_certHeadI = createCertItem(Fake + tr("<h1>Certificate Of Exam Completion</h1>", "Main header - centered"));
-  alignCenter(m_certHeadI);
-  if (m_certHeadI->boundingRect().width() > m_certW - 2.0 * SPACER)
-    m_certHeadI->setScale((m_certW - 2.0 * SPACER) / m_certHeadI->boundingRect().width());
-  m_certHeadI->setPos((m_certW - m_certHeadI->boundingRect().width() * m_certHeadI->scale()) / 2, m_certH);
-  m_certHeadI->setPos((m_certW - m_certHeadI->boundingRect().width()) / 2, m_certH);
-  m_certH += m_certHeadI->boundingRect().height() + 2.0 * SPACER;
+  auto certHeadIt = createCertItem(Fake + tr("<h1>Certificate Of Exam Completion</h1>", "Main header - centered"));
+  alignCenter(certHeadIt);
+  if (certHeadIt->boundingRect().width() > m_certW - 2.0 * SPACER)
+    certHeadIt->setScale((m_certW - 2.0 * SPACER) / certHeadIt->boundingRect().width());
+  certHeadIt->setPos((m_certW - certHeadIt->boundingRect().width() * certHeadIt->scale()) / 2, m_certH);
+  certHeadIt->setPos((m_certW - certHeadIt->boundingRect().width()) / 2, m_certH);
+  m_certH += certHeadIt->boundingRect().height() + 2.0 * SPACER;
 //-MARGIN-MARGIN-Exam results-----------------
-  m_resultsI = createCertItem(fillCert(tr("Passing the exam on the level <big><b>[LEVELNAME]</b></big>,<br>having answered the required [QUESTNR] questions<br>in time <big><b>[TOTALTIME]</b></big><br>and achieving the score <big><b>[SCORE]</b></big>", "Exam results - double indented, left aligned")));
-  m_resultsI->setPos(2 * MARGIN, m_certH);
-  m_certH += m_resultsI->boundingRect().height() + SPACER * 5.0;
+  auto resultsIt = createCertItem(fillCert(tr("Passing the exam on the level <big><b>[LEVELNAME]</b></big>,<br>having answered the required [QUESTNR] questions<br>in time <big><b>[TOTALTIME]</b></big><br>and achieving the score <big><b>[SCORE]</b></big>", "Exam results - double indented, left aligned")));
+  resultsIt->setPos(2 * MARGIN, m_certH);
+  m_certH += resultsIt->boundingRect().height() + SPACER * 5.0;
 //-MARGIN--As a witness to this accomplishment
-  m_witnesI = createCertItem(fillCert(tr("As a witness to this accomplishment,<br>we hereby award this certificate on <b>[DATE]</b>.", "Under results - single indent")));
-  m_witnesI->setPos(MARGIN, m_certH);
-  m_certH += m_witnesI->boundingRect().height() + SPACER;
+  auto witnesIt = createCertItem(fillCert(tr("As a witness to this accomplishment,<br>we hereby award this certificate on <b>[DATE]</b>.", "Under results - single indent")));
+  witnesIt->setPos(MARGIN, m_certH);
+  m_certH += witnesIt->boundingRect().height() + SPACER;
   //----------------------------------------------- examining board -MARGIN-
-  m_boardI = createCertItem(fillCert(tr("<small><i>examining board:</i><br><i>president:</i><b> Nootka itself</b><br><b>professor Processor</b> &amp;<br><b>Mrs RAM</b> his assistant<br><i>secretary:</i><b> Mr Disk</b></small>", "Right aligned and centered")));
-  alignCenter(m_boardI);
-  m_boardI->setPos(m_certW - MARGIN - m_boardI->boundingRect().width(), m_certH);
-  m_certH += m_boardI->boundingRect().height() + SPACER;
+  auto boardIt = createCertItem(fillCert(tr("<small><i>examining board:</i><br><i>president:</i><b> Nootka itself</b><br><b>professor Processor</b> &amp;<br><b>Mrs RAM</b> his assistant<br><i>secretary:</i><b> Mr Disk</b></small>", "Right aligned and centered")));
+  alignCenter(boardIt);
+  boardIt->setPos(m_certW - MARGIN - boardIt->boundingRect().width(), m_certH);
+  m_certH += boardIt->boundingRect().height() + SPACER;
 // -------------------------(stamp)--------------------- (middle)
   m_stampPixmap = new QGraphicsPixmapItem(QPixmap(Tpath::img("stamp")));
   m_stampPixmap->setParentItem(m_cert);
   m_stampPixmap->setZValue(100);
   m_stampPixmap->setScale((m_certW / 3.0) / m_stampPixmap->pixmap().size().width());
-  qreal stampYpos = m_boardI->pos().y() + m_boardI->boundingRect().height() - 2.0 * SPACER;
+  qreal stampYpos = boardIt->pos().y() + boardIt->boundingRect().height() - 2.0 * SPACER;
 
-  m_stampI = createCertItem(QLatin1String(".......................<br>") + tr("<i>stamp</i>", "bottom, centered"));
-  alignCenter(m_stampI);
-  m_stampI->setPos((m_certW - m_stampI->boundingRect().width()) / 2, stampYpos + m_stampPixmap->boundingRect().height() * m_stampPixmap->scale() - SPACER);
-  m_certH = m_stampI->pos().y() + m_stampI->boundingRect().height() + 2.0 * SPACER;
+  auto stampIt = createCertItem(QLatin1String(".......................<br>") + tr("<i>stamp</i>", "bottom, centered"));
+  alignCenter(stampIt);
+  stampIt->setPos((m_certW - stampIt->boundingRect().width()) / 2, stampYpos + m_stampPixmap->boundingRect().height() * m_stampPixmap->scale() - SPACER);
+  m_certH = stampIt->pos().y() + stampIt->boundingRect().height() + 2.0 * SPACER;
 
   m_stampPixmap->setPos((m_certW - m_stampPixmap->boundingRect().width() * m_stampPixmap->scale()) / 2.0,
-                        m_stampI->y() + m_stampI->boundingRect().height() / 2 - m_stampPixmap->boundingRect().height() * m_stampPixmap->scale());
+                        stampIt->y() + stampIt->boundingRect().height() / 2 - m_stampPixmap->boundingRect().height() * m_stampPixmap->scale());
 
   auto bgPix = QPixmap(Tpath::img("certBg")).scaled(m_certW, m_certH);
   auto paper = new QGraphicsPixmapItem(bgPix);
