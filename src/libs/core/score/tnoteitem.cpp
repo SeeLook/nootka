@@ -407,7 +407,8 @@ void TnoteItem::setNoteNameVisible(bool nameVisible) {
   if (nameVisible) {
       if (!m_name) {
         m_staff->score()->component()->setData(
-              "import QtQuick 2.9; Text { font { pixelSize: 3; family: \"Scorek\" } textFormat: Text.PlainText; style: Text.Outline }", QUrl());
+          "import QtQuick 2.9; Text { font { pixelSize: 12; family: \"Scorek\" }"
+          "transformOrigin: Item.Top; scale: 0.25; textFormat: Text.PlainText; style: Text.Outline }", QUrl());
         m_name = qobject_cast<QQuickItem*>(m_staff->score()->component()->create());
         m_name->setParentItem(parentItem());
         m_name->setProperty("color", qApp->palette().text().color());
