@@ -53,10 +53,8 @@ TnootkaCertificate::TnootkaCertificate(QQuickItem* parent) :
   QQuickPaintedItem(parent),
   m_exam(EXECUTOR->exam())
 {
-  setWidth(EXECUTOR->width() * 0.5);
-  setHeight(EXECUTOR->height() * 0.98);
   m_scene = new QGraphicsScene(this);
-  m_cert = new QGraphicsRectItem(0.0, 0.0, width(), height());
+  m_cert = new QGraphicsRectItem(0.0, 0.0, 200.0, 600.0); // dummy size for a while
   m_scene->addItem(m_cert);
   m_cert->setPen(Qt::NoPen);
   m_cert->setBrush(Qt::NoBrush);
@@ -102,7 +100,7 @@ TnootkaCertificate::TnootkaCertificate(QQuickItem* parent) :
   m_stampPixmap = new QGraphicsPixmapItem(QPixmap(Tpath::img("stamp")));
   m_stampPixmap->setParentItem(m_cert);
   m_stampPixmap->setZValue(100);
-  m_stampPixmap->setScale((width() / 3.0) / m_stampPixmap->pixmap().size().width());
+  m_stampPixmap->setScale((m_certW / 3.0) / m_stampPixmap->pixmap().size().width());
   qreal stampYpos = m_boardI->pos().y() + m_boardI->boundingRect().height() - 2.0 * SPACER;
 
   m_stampI = createCertItem(QLatin1String(".......................<br>") + tr("<i>stamp</i>", "bottom, centered"));
@@ -113,7 +111,7 @@ TnootkaCertificate::TnootkaCertificate(QQuickItem* parent) :
   m_stampPixmap->setPos((m_certW - m_stampPixmap->boundingRect().width() * m_stampPixmap->scale()) / 2.0,
                         m_stampI->y() + m_stampI->boundingRect().height() / 2 - m_stampPixmap->boundingRect().height() * m_stampPixmap->scale());
 
-  QPixmap bgPix = QPixmap(Tpath::img("certBg")).scaled(m_certW, m_certH);
+  auto bgPix = QPixmap(Tpath::img("certBg")).scaled(m_certW, m_certH);
   auto paper = new QGraphicsPixmapItem(bgPix);
   paper->setParentItem(m_cert);
   paper->setZValue(2);
@@ -123,8 +121,8 @@ TnootkaCertificate::TnootkaCertificate(QQuickItem* parent) :
     bgSymbol = Tinstrument(m_exam->level()->instrument).glyph();
   else
     bgSymbol = QStringLiteral("n");
-  QFont nf = QFont(QStringLiteral("nootka"), 20, QFont::Normal);
-  QFontMetricsF fm = QFontMetricsF(nf);
+  QFont nf(QStringLiteral("nootka"), 20, QFont::Normal);
+  QFontMetricsF fm(nf);
   nf.setPointSize(nf.pointSize() * (m_certH / fm.boundingRect(bgSymbol).height()));
   fm = QFontMetricsF(nf);
   if (fm.boundingRect(bgSymbol).width() > m_certW * 0.9) // fit wider glyphs to width as well
@@ -139,6 +137,7 @@ TnootkaCertificate::TnootkaCertificate(QQuickItem* parent) :
   waterMark->setText(bgSymbol);
   waterMark->setGraphicsEffect(new QGraphicsBlurEffect);
   waterMark->setPos((m_certW - waterMark->boundingRect().width()) / 2, (m_certH - waterMark->boundingRect().height()) / 2 );
+  m_cert->setRect(0.0, 0.0, m_certW, m_certH);
 }
 
 
@@ -148,18 +147,36 @@ TnootkaCertificate::~TnootkaCertificate() {
 }
 
 
+void TnootkaCertificate::setParentHeight(qreal ph) {
+  if (ph != m_parentHeight) {
+    m_parentHeight = ph;
+    qreal scaleWillBe = m_parentHeight / m_cert->boundingRect().height();
+    if (parentItem()) {
+      if (m_cert->boundingRect().width() * scaleWillBe > parentItem()->width() / 2.0)
+        scaleWillBe *= (parentItem()->width() / 2.0) / (m_cert->boundingRect().width() * scaleWillBe);
+    }
+    m_cert->setScale(scaleWillBe);
+    setSize(m_cert->boundingRect().size() * scaleWillBe);
+    m_scene->setSceneRect(0.0, 0.0, width(), height());
+    emit widthChanged();
+    emit heightChanged();
+    emit parentHeightChanged();
+    update();
+  }
+}
+
+
 void TnootkaCertificate::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
   Q_UNUSED(oldGeometry)
-  if (newGeometry.width() > 0.0 && newGeometry.height() > 0.0 && m_cert)
+  if (newGeometry.width() > 0.0 && newGeometry.height() > 0.0 && m_cert) {
     update();
+  }
 }
 
 
 void TnootkaCertificate::update() {
   if (m_renderState != e_renderInProgress) {
     m_renderState = e_renderInProgress;
-    m_cert->setScale(width() / m_certW);
-    m_scene->setSceneRect(0.0, 0.0, width(), height());
     if (m_sceneImage)
       delete m_sceneImage;
     m_sceneImage = new QImage(m_scene->sceneRect().size().toSize(), QImage::Format_ARGB32);

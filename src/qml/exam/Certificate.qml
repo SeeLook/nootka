@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2018-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -47,8 +47,8 @@ Item {
 
   CertificateItem {
     id: cert
-    width: parent.width / 2; height: parent.height * 0.98
-    x: parent.width * 0.51; y: parent.height * 0.01
+    parentHeight: parent.height * 0.98 + (parent.width - parent.width)
+    x: parent.width - width - NOO.factor() / 2; y: (parent.height - height) / 2
   }
 
   Tile {

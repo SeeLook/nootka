@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -42,6 +42,8 @@ class TnootkaCertificate : public QQuickPaintedItem
 
   Q_OBJECT
 
+  Q_PROPERTY(qreal parentHeight READ parentHeight WRITE setParentHeight NOTIFY parentHeightChanged)
+
 public:
   TnootkaCertificate(QQuickItem* parent = nullptr);
   ~TnootkaCertificate() override;
@@ -51,6 +53,9 @@ public:
   };
   Q_ENUM(ErenderState)
 
+  qreal parentHeight() const { return m_parentHeight; }
+  void setParentHeight(qreal ph);
+
   void update();
   void paint(QPainter* painter) override;
 
@@ -59,6 +64,9 @@ public:
   Q_INVOKABLE void save();
   Q_INVOKABLE void stopExam();
   Q_INVOKABLE void continueExam();
+
+signals:
+  void parentHeightChanged();
 
 private:
       /**
@@ -72,6 +80,7 @@ private:
   QString fillCert(QString entry);
 
 private:
+  qreal                      m_parentHeight = 0.0;
   Texam                     *m_exam;
   QGraphicsRectItem         *m_cert = nullptr;
   QGraphicsTextItem         *m_academyI, *m_dateI, *m_studentI, *m_certHeadI, *m_resultsI, *m_witnesI, *m_boardI, *m_stampI;
