@@ -63,7 +63,7 @@ TscoreObject::TscoreObject(QObject* parent) :
     m_accidInKeyArray[i] = 0;
 
   m_touchHideTimer = new QTimer(this);
-  connect(m_touchHideTimer, &QTimer::timeout, [=]{
+  connect(m_touchHideTimer, &QTimer::timeout, this, [=]{
       changeActiveNote(nullptr);
       setPressedNote(nullptr);
       m_touchHideTimer->stop();
@@ -1096,20 +1096,20 @@ void TscoreObject::enableActions() {
   if (!m_deleteNoteAct) {
     QString tipbg = QStringLiteral("tipbg");
     m_deleteNoteAct = new Taction(tr("Delete note"), QStringLiteral("delete"), this);
-    connect(m_deleteNoteAct, &Taction::triggered, [=]{ if (!m_readOnly && !m_singleNote && m_allowAdding) deleteNote(m_activeNote); });
+    connect(m_deleteNoteAct, &Taction::triggered, this, [=]{ if (!m_readOnly && !m_singleNote && m_allowAdding) deleteNote(m_activeNote); });
     m_deleteNoteAct->createQmlShortcut(m_qmlComponent, "\"del\"; enabled: !score.singleNote && !score.readOnly");
 
     m_insertNoteAct = new Taction(tr("Insert note"), QStringLiteral("fingerpoint"), this);
-    connect(m_insertNoteAct, &Taction::triggered, [=]{ if (!m_readOnly && !m_singleNote && m_allowAdding) insertNote(m_activeNote); });
+    connect(m_insertNoteAct, &Taction::triggered, this, [=]{ if (!m_readOnly && !m_singleNote && m_allowAdding) insertNote(m_activeNote); });
     m_insertNoteAct->createQmlShortcut(m_qmlComponent, "\"ins\"; enabled: !score.singleNote && !score.readOnly");
 
     m_clearScoreAct = new Taction(tr("Delete all notes"), QStringLiteral("clear-score"), this);
-    connect(m_clearScoreAct, &Taction::triggered, [=]{ if (!m_readOnly) clearScore(); });
+    connect(m_clearScoreAct, &Taction::triggered, this, [=]{ if (!m_readOnly) clearScore(); });
     m_clearScoreAct->createQmlShortcut(m_qmlComponent, "\"Shift+del\"; enabled: !score.singleNote && !score.readOnly");
 
     m_editModeAct = new Taction(tr("Edit score"), QString(), this);
     m_editModeAct->setCheckable(true);
-    connect(m_editModeAct, &Taction::triggered, [=]{ if (!m_readOnly && !m_singleNote) setEditMode(!editMode()); });
+    connect(m_editModeAct, &Taction::triggered, this, [=]{ if (!m_readOnly && !m_singleNote) setEditMode(!editMode()); });
     m_editModeAct->createQmlShortcut(m_qmlComponent, "\"E\"; enabled: !score.singleNote && !score.readOnly");
 
     m_wholeNoteAct = new Taction(tr("whole note"), tipbg, this);
@@ -1143,7 +1143,7 @@ void TscoreObject::enableActions() {
     m_riseAct = new Taction(tr("rise", "as such as sharps rise note"), tipbg, this);
     connect(m_riseAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
     m_riseAct->createQmlShortcut(m_qmlComponent, "\"#\"");
-  
+
     m_lowerAct = new Taction(tr("lower", "as such as flats lower note"), tipbg, this);
     connect(m_lowerAct, &Taction::triggered, this, &TscoreObject::handleNoteAction);
     m_lowerAct->createQmlShortcut(m_qmlComponent, "\"@\"");
@@ -1285,17 +1285,17 @@ void TscoreObject::addStaff(TstaffItem* st) {
       st->appendMeasure(m_measures.first());
       connect(st, &TstaffItem::upperLineChanged, this, &TscoreObject::upperLineChanged);
   } else { // redirect destroyed signal to QML score
-      connect(st, &TstaffItem::destroyed, [=]{ emit staffDestroying(st->number()); });
+      connect(st, &TstaffItem::destroyed, this, [=]{ emit staffDestroying(st->number()); });
   }
 
-  connect(st, &TstaffItem::hiNotePosChanged, [=](int staffNr, qreal offset){
+  connect(st, &TstaffItem::hiNotePosChanged, this, [=](int staffNr, qreal offset){
     for (int i = staffNr; i < m_staves.size(); ++i) // move every staff about offset
       m_staves[i]->setY(m_staves[i]->y() + offset);
     emit stavesHeightChanged();
   });
-  connect(st, &TstaffItem::loNotePosChanged, [=](int staffNr, qreal offset){
+  connect(st, &TstaffItem::loNotePosChanged, this, [=](int staffNr, qreal offset){
     if (staffNr == 0) // never change Y position of first staff - it is always 0
-        staffNr = 1;
+      staffNr = 1;
     if (m_staves.size() > 1 && staffNr < m_staves.size() - 1) { // ignore change of the last staff
       for (int i = staffNr; i < m_staves.size(); ++i) // move every staff about offset
         m_staves[i]->setY(m_staves[i]->y() + offset);
