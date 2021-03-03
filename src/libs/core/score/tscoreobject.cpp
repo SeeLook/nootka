@@ -999,6 +999,7 @@ void TscoreObject::clearScore() {
       emit scoreWasCleared();
   }
   setKeySignature(0);
+  emit scoreWasCleared();
 }
 
 

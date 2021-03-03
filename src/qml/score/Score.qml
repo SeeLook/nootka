@@ -57,6 +57,7 @@ Flickable {
   TscoreObject {
     id: scoreObj
     width: score.width / scale
+
     enableDoubleAccidentals: score.enableDoubleAccids
 
     onClicked: currentNote = scoreObj.activeNote
@@ -65,12 +66,16 @@ Flickable {
       staves.push(Qt.createComponent("qrc:/score/Staff.qml").createObject(score.contentItem))
       score.lastStaff = staves[staves.length - 1]
     }
+
     onStavesHeightChanged: score.contentHeight = Math.max(stavesHeight, score.height)
+
     onStaffDestroying: { staves.splice(staffNr, 1); lastStaff = staves[staves.length - 1] }
+
     onNoteWasAdded: {
       if (staves.length > 1)
         ensureVisible(lastNote.staffItem.y, lastNote.staffItem.height * scale)
     }
+
     onAllowAddingChanged: {
       if (allowAdding) {
         if (!delControl)
@@ -81,6 +86,7 @@ Flickable {
           scoreToobox = Qt.createComponent("qrc:/score/ScoreToolbox.qml").createObject(parent)
       }
     }
+
     onActiveNoteChanged: {
       if (!cursor) {
         cursor = Qt.createComponent("qrc:/score/ScoreCursor.qml").createObject(contentItem)
@@ -89,6 +95,8 @@ Flickable {
       if (!scoreToobox && !readOnly)
         scoreToobox = Qt.createComponent("qrc:/score/ScoreToolbox.qml").createObject(parent)
     }
+
+    onScoreWasCleared: ensureVisible(0, 0)
   }
 
   onCurrentNoteChanged: {
