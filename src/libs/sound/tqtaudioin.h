@@ -69,7 +69,7 @@ class NOOTKASOUND_EXPORT TaudioIN : public TcommonListener
   Q_OBJECT
 
 public:
-  explicit TaudioIN(TaudioParams* params, QObject *parent = 0);
+  explicit TaudioIN(TaudioParams* params, QObject *parent = nullptr);
   ~TaudioIN();
 
       /**
@@ -84,6 +84,9 @@ public:
   static QStringList getAudioDevicesList();
 
   void updateAudioParams();
+
+  void stopDevice();
+  void startDevice();
 
       /**
        * Stops handling touch events  to suspend sniffing

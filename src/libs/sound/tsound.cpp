@@ -92,9 +92,9 @@ void Tsound::init() {
       TrtAudio::initJACKorASIO(GLOB->A->JACKorASIO);
 #endif
       if (GLOB->A->OUTenabled)
-          createPlayer();
+        createPlayer();
       if (GLOB->A->INenabled)
-          createSniffer();
+        createSniffer();
 
       connect(NOO, &TnootkaQML::playNote, [=](const Tnote& n){ play(n); });
       setDefaultAmbitus();
@@ -107,6 +107,18 @@ void Tsound::init() {
   m_maxVol = maxVolRange();
   qApp->installEventFilter(this);
   m_volKeyTimer.start();
+  connect(qApp, &QGuiApplication::applicationStateChanged, this, [=]{
+    if (qApp->applicationState() == Qt::ApplicationActive)
+        startListen();
+    else if (qApp->applicationState() == Qt::ApplicationInactive)
+        stop();
+    else {
+        stop();
+        auto qtSniff = qobject_cast<TaudioIN*>(sniffer);
+        if (qtSniff)
+          qtSniff->stopDevice();
+    }
+  });
 #endif
 }
 

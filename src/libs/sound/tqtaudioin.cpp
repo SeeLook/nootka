@@ -70,13 +70,15 @@ TaudioIN::TaudioIN(TaudioParams* params, QObject *parent) :
 TaudioIN::~TaudioIN() {
   stopListening();
   delete m_touchHandler;
-  m_audioIN->blockSignals(true); // otherwise stop() will activate it again
-  m_audioIN->stop();
+  if (m_audioIN) {
+    m_audioIN->blockSignals(true); // otherwise stop() will activate it again
+    m_audioIN->stop();
+  }
 
   m_audioParams->INdevName = m_deviceName; // store device name at the app exit
   m_deviceName = QStringLiteral("anything");
 
-  m_instance = 0;
+  m_instance = nullptr;
 
   if (m_audioIN)
     delete m_audioIN;
@@ -90,8 +92,28 @@ void TaudioIN::updateAudioParams() {
 }
 
 
+void TaudioIN::stopDevice() {
+  if (m_audioIN) {
+      disconnect(m_audioIN, &QAudioInput::stateChanged, this, &TaudioIN::stateChangedSlot);
+      m_audioIN->stop();
+  } else
+      qDebug() << "[tqtaudioin] Input device doesn't exist! Nothing to stop!";
+}
+
+
+void TaudioIN::startDevice() {
+  if (m_audioIN) {
+      m_audioIN->start(m_inBuffer);
+      connect(m_audioIN, &QAudioInput::stateChanged, this, &TaudioIN::stateChangedSlot, Qt::UniqueConnection);
+  } else
+      qDebug() << "[tqtaudioin] Input device doesn't exist! Nothing to start!";
+}
+
+
 void TaudioIN::startListening() {
   m_touchHandler->skip();
+  if (m_audioIN && m_audioIN->state() == QAudio::StoppedState)
+    startDevice();
   if (detectingState() == e_stopped) {
     resetVolume();
     resetChunkPitch();
@@ -169,8 +191,7 @@ void TaudioIN::createInputDevice() {
   m_inBuffer->setBufferSize(0); // respect amount of data send by input device, otherwise it will be overwritten
   connect(m_inBuffer, SIGNAL(readAudio(const char*, qint64&)), this, SLOT(bufferReady(const char*, qint64&)));
 
-  m_audioIN->start(m_inBuffer);
-  connect(m_audioIN, &QAudioInput::stateChanged, this, &TaudioIN::stateChangedSlot);
+  startDevice();
 //   qDebug() << "setAudioInParams" << "\nrate:" << finder()->aGl()->rate << m_audioIN->format().sampleRate() << "\nmethod:"
 //           << m_audioParams->detectMethod
 //           << "\nmin duration" << m_audioParams->minDuration << "\nmin volume" << m_audioParams->minimalVol
