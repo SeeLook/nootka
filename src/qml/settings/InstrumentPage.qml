@@ -214,8 +214,10 @@ Flickable {
             setTuning(NOO.tuning(GLOB.tuning.string(1), GLOB.tuning.string(2), GLOB.tuning.string(3),
                                  GLOB.tuning.string(4), GLOB.tuning.string(5), GLOB.tuning.string(6)))
             tuningCombo.currentIndex = tuningCombo.count - 1
-        } else
+        } else {
             tuningCombo.currentIndex = GLOB.tuning.type - (GLOB.instrument.type === Tinstrument.BassGuitar ? 100 : 0)
+            setTuning(NOO.tuning(GLOB.tuning.type))
+        }
       }
       first = false
     }
