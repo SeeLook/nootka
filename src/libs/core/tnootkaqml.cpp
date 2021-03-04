@@ -543,10 +543,10 @@ QString TnootkaQML::keyNameTranslated() const {
   return QApplication::translate("Notation", "letters", "DO NOT TRANSLATE IT DIRECTLY. Put here 'letters' or 'solfege' This is country preferred style of naming key signatures. 'letters' means C-major/a-minor names ('major' & 'minor' also are translated by you), 'solfege' means Do-major/La-minor names");
 }
 
-
 //#################################################################################################
 //###################     CONNECTIONS  NODE            ############################################
 //#################################################################################################
+
 void TnootkaQML::noteStarted(const Tnote& n) {
   Tnote note = n;
   if (m_scoreObject->keySignature() < 0 || (m_scoreObject->keySignature() == 0 && GLOB->GpreferFlats))
