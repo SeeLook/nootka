@@ -39,7 +39,7 @@ GotIt {
 
   Score {
     id: gotScore
-    height: parent.width * 0.3; width: height * 1.1
+    height: parent.width * 0.35; width: height * 1.1
     bgColor: "transparent"
     enableKeySign: true
     enableDoubleAccids: true
@@ -87,6 +87,12 @@ GotIt {
     }
   }
 
+  Timer { // run animation with delay to allow initialize all properties
+    running: true
+    interval: 250
+    onTriggered: gotAnim.running = true
+  }
+
   /**
    * NOTICE: QML animation is tricky...
    * All x, y animated properties are saved before animation starts
@@ -97,12 +103,11 @@ GotIt {
   property real factor: gotScore.scoreToobox ? gotScore.scoreToobox.factor * 0.9 : NOO.isAndroid() ? NOO.shortScreenSide() * 0.036 : NOO.factor() * 1.08
   property real editPosX: gotScore.x + 23 * gotScore.scale
   property real editPosY: gotScore.y + (gotScore.upperLine + 8) * gotScore.scale // upperLine + 4
-  property real boxPosX: gotScore.x + 2 + factor * 2.5 // in the middle of sharp control on score toolbox
-  property real boxPosY: (NOO.isAndroid() ? (height - factor * 27) / 2 : NOO.factor() / 2) + factor * 7.5
+  property real boxPosX: gotScore.x + 2 + factor * 2.5 + finger.width * 0.2 // in the middle of sharp control on score toolbox
+  property real boxPosY: (NOO.isAndroid() ? (height - factor * 27) / 2 : NOO.factor() / 2) + factor * 7.5 + finger.width * 0.2
 
   SequentialAnimation {
     id: gotAnim
-    running: true
     PauseAnimation { duration: 500 }
     ParallelAnimation {
       NumberAnimation { target: finger; property: "opacity"; to: 1 }
@@ -196,11 +201,12 @@ GotIt {
       NumberAnimation { target: finger; property: "x"; to: scoreHow.width * 0.32; duration: 500 }
       NumberAnimation { target: finger; property: "y"; to: scoreHow.height * 0.39; duration: 500 }
     }
-    ScriptAction { script: gotScore.noteAdd.visible = false }
     ParallelAnimation {
       NumberAnimation { target: finger; property: "x"; to: scoreHow.width * 0.5; duration: 1000 }
       NumberAnimation { target: finger; property: "y"; to: scoreHow.height * 0.8; duration: 1000 }
     }
+    ScriptAction { script: gotScore.noteAdd.visible = false }
+    PauseAnimation { duration: 1000 }
     ScriptAction { script: descView.currentIndex = -1 }
   }
 
