@@ -45,6 +45,7 @@
     <file alias="gotit/SoundInfo.qml">qml/gotit/SoundInfo.qml</file>
     <file alias="gotit/ExamOrExercise.qml">qml/gotit/ExamOrExercise.qml</file>
     <file alias="gotit/ExamFlow.qml">qml/gotit/ExamFlow.qml</file>
+    <file alias="gotit/HandleScore.qml">qml/gotit/HandleScore.qml</file>
 
 <!--  Unused    -->
 <!--     <file alias="TprogressBar.qml">qml/shared/TprogressBar.qml</file> -->

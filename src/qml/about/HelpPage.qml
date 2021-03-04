@@ -60,18 +60,14 @@ Rectangle {
                           qsTranslate("TstartExamDlg", "To exercise or to pass an exam?"),
                           qsTranslate("TexamHelp", "How does an exercise or an exam work?"),
                           NOO.TR("MainMenuMobile", "Pitch recognition"),
+                          NOO.TR("HandleScore", "Editing score with touch"),
                           qsTranslate("ThelpDialogBase", "Open online documentation")
                        ]
-  property var images: [ "help", "startExam", "nootka-exam", "pane/sound", "restore-defaults" ]
+                       property var images: [ "help", "startExam", "nootka-exam", "pane/sound", "pane/score", "restore-defaults" ]
   property int currTopic: 0
-  property var gotItQML: [ "", "ExamOrExercise", "ExamFlow", "SoundInfo" ]
+  property var gotItQML: [ "", "ExamOrExercise", "ExamFlow", "SoundInfo", "HandleScore" ]
 
   Component.onCompleted: {
-    if (NOO.isAndroid()) {
-      topics.splice(4, 0, NOO.TR("HandleScore", "Editing score with touch"))
-      images.splice(4, 0, "pane/score")
-      gotItQML.splice(4, 0, "HandleScore")
-    }
     if (enableTOC)
       tocRep.model = topics
   }

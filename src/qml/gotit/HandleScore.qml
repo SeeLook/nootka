@@ -94,7 +94,7 @@ GotIt {
    * So they has to be known and set properly.
    * This is why we are 'imitating' score toolbox @p factor - it is not known yet when anim starts.
    */
-  property real factor: gotScore.scoreToobox.factor * 0.9
+  property real factor: gotScore.scoreToobox ? gotScore.scoreToobox.factor * 0.9 : NOO.isAndroid() ? NOO.shortScreenSide() * 0.036 : NOO.factor() * 1.08
   property real editPosX: gotScore.x + 23 * gotScore.scale
   property real editPosY: gotScore.y + (gotScore.upperLine + 8) * gotScore.scale // upperLine + 4
   property real boxPosX: gotScore.x + 2 + factor * 2.5 // in the middle of sharp control on score toolbox
