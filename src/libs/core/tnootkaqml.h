@@ -292,6 +292,7 @@ private:
   TcommonInstrument             *m_instrument = nullptr;
   QQuickItem                    *m_mainScore = nullptr;
   TscoreObject                  *m_scoreObject = nullptr;
+  int                            m_startedNoteId = -1; /**< Index of pitch detected note */
   bool                           m_nodeConnected = false;
   bool                           m_ignoreScore = false; /**< Becomes @p TRUE to ignore @p scoreChangedNote() slot  */
   bool                           m_resetConfig = false;

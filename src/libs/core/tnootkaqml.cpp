@@ -557,8 +557,20 @@ void TnootkaQML::noteStarted(const Tnote& n) {
         note.setRhythm(Trhythm::NoRhythm);
         m_scoreObject->setNote(0, note);
       }
-  } else
-      m_scoreObject->addNote(note, true);
+  } else {
+      if (m_scoreObject->selectedItem() == nullptr) {
+          m_scoreObject->addNote(note, true);
+          m_startedNoteId = -1;
+      } else {
+          if (!note.isRest()) {
+            auto r = m_scoreObject->selectedItem()->note()->rtm;
+            r.setRest(false);
+            note.setRhythm(r);
+            m_scoreObject->setNote(m_scoreObject->selectedItem(), note);
+          }
+          m_startedNoteId = selectedNoteId();
+      }
+  }
 }
 
 
@@ -569,12 +581,21 @@ void TnootkaQML::noteFinished(const Tnote& n) {
   if (m_scoreObject->keySignature() < 0 || (m_scoreObject->keySignature() == 0 && GLOB->GpreferFlats))
     note = note.showWithFlat();
   m_ignoreScore = true;
-  if (m_scoreObject->singleNote())
-    note.setRhythm(Trhythm::NoRhythm);
-  if (m_scoreObject->selectedItem() && (!m_scoreObject->singleNote() || (m_scoreObject->singleNote() && !note.isRest())))
-    m_scoreObject->setNote(m_scoreObject->selectedItem(), note);
-//   else // naughty user pressed arrow key
-  // TODO remember to treat tied notes as a single one when setNote will be implemented
+  if (m_scoreObject->singleNote()) {
+      note.setRhythm(Trhythm::NoRhythm);
+      m_scoreObject->setNote(0, note);
+  } else {
+      if (m_scoreObject->selectedItem() == nullptr || m_startedNoteId == -1) {
+          m_scoreObject->setNote(m_scoreObject->lastNote(), note);
+          m_scoreObject->setSelectedItem(nullptr);
+      } else if (m_scoreObject->selectedItem() && !note.isRest()) {
+          auto r = m_scoreObject->selectedItem()->note()->rtm;
+          r.setRest(false);
+          note.setRhythm(r);
+          m_scoreObject->setNote(m_scoreObject->selectedItem(), note);
+      }
+  }
+// TODO Do treat tied notes as a single one?
 }
 
 
@@ -621,10 +642,11 @@ void TnootkaQML::instrumentChangesNoteSlot() {
       m_scoreObject->setNote(0, instrNote);
       m_scoreObject->setTechnical(0, m_instrument->technical());
   } else {
-      if (m_scoreObject->recordMode() || m_scoreObject->selectedItem() == nullptr) {
-          instrNote.setRhythm(m_scoreObject->workRhythm());
+      if (m_scoreObject->selectedItem() == nullptr) {
+          auto r= m_scoreObject->workRhythm();
+          r.setRest(false);
+          instrNote.setRhythm(r);
           m_scoreObject->addNote(instrNote, true);
-          m_scoreObject->selectLastNote();
       } else {
           auto r = m_scoreObject->selectedItem()->note()->rtm;
           r.setRest(false);
