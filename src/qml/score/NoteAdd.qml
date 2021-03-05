@@ -23,6 +23,13 @@ TaddNoteItem {
 
   Behavior on x { enabled: GLOB.useAnimations; SpringAnimation { spring: 3; damping: 0.2; duration: 300 }}
 
+  Rectangle { // highlight
+    visible: currentNote === null && !cursor.visible
+    width: 6; height: 12; x: -1; y: 14
+    color: NOO.alpha(activPal.highlight, 75)
+    radius: 2
+  }
+
   Text {
     id: note
     visible: !active && !score.readOnly
