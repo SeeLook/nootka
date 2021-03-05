@@ -1,5 +1,8 @@
 1.7.4 git
      - 'Got It!' texts about important Nootka features
+     - if no note is selected on the score notes are added one by one,
+     - either by playing or by clicking an instrument,
+     - but if any note is selected - only this one changes
      - improved exam summary
      - handle notes beaming of each piano staves separately
      - plenty of tiny user interface improvements and fixes
