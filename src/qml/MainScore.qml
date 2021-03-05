@@ -77,6 +77,8 @@ Score {
         } else
             wheel.accepted = false
       }
+      // reset note selection when score is clicked
+      onClicked: currentNote = null
     }
   }
 
