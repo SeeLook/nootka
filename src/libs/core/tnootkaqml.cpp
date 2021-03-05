@@ -621,14 +621,15 @@ void TnootkaQML::instrumentChangesNoteSlot() {
       m_scoreObject->setNote(0, instrNote);
       m_scoreObject->setTechnical(0, m_instrument->technical());
   } else {
-      if (m_scoreObject->selectedItem()) {
+      if (m_scoreObject->recordMode() || m_scoreObject->selectedItem() == nullptr) {
+          instrNote.setRhythm(m_scoreObject->workRhythm());
+          m_scoreObject->addNote(instrNote, true);
+          m_scoreObject->selectLastNote();
+      } else {
           auto r = m_scoreObject->selectedItem()->note()->rtm;
           r.setRest(false);
           instrNote.setRhythm(r);
           m_scoreObject->setNote(m_scoreObject->selectedItem(), instrNote);
-      } else {
-          instrNote.setRhythm(m_scoreObject->workRhythm());
-          m_scoreObject->addNote(instrNote, true);
       }
       if (GLOB->instrument().type() == Tinstrument::Bandoneon) {
         auto seg = m_scoreObject->selectedItem() ? m_scoreObject->noteSegment(m_scoreObject->selectedItem()->index()) : m_scoreObject->lastSegment();
