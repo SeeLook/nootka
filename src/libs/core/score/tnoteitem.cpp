@@ -860,7 +860,7 @@ void TnoteItem::updateNamePos() {
         if (m_note->rtm.stemDown())
           yOff = m_notePosY > 6.0 ? -9.5 : m_stemHeight - 4.0;
         else
-          yOff = m_notePosY > height() - 6.0 && height() - m_stemHeight > 8.0 ? -m_stemHeight - 8.0 : -2.5;
+          yOff = m_notePosY > height() - 6.0 && height() - m_stemHeight > 8.0 ? -m_stemHeight - 8.0 : -1.8;
         m_name->setY(m_notePosY + yOff);
         m_name->setProperty("text", m_note->styledName());
         m_name->setX(x() - m_alter->width() + (width() - m_name->width()) / 2.0);
