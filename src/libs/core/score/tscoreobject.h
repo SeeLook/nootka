@@ -345,6 +345,11 @@ public:
        */
   void selectNext(bool keep, bool skipTies);
 
+      /**
+       * Selects the last score note or none
+       */
+  void selectLastNote() { setSelectedItem(lastNote()); }
+
   Tnote selectedNote() const { return noteOfItem(m_selectedItem); }
 
   QColor bgColor() const { return m_bgColor; }
@@ -393,7 +398,7 @@ public:
   bool touched() const { return m_touched; }
 
       /**
-       * Last note item (@p TnoteItem) or null if score is empty
+       * Last note item (@p TnoteItem) or null pointer if score is empty
        */
   TnoteItem* lastNote();
 
