@@ -22,7 +22,6 @@ Score {
   property alias zoomOutAct: mainObj.zoomOutAct
   property alias openXmlAct: mainObj.openXmlAct
   property alias saveXmlAct: mainObj.saveXmlAct
-  property alias recModeAct: mainObj.recModeAct
   property alias playAct: mainObj.playAct
   property alias scoreActions: mainObj.scoreActions
   property alias melodyActions: mainObj.melodyActions
@@ -46,7 +45,6 @@ Score {
 
   TmainScoreObject {
     id: mainObj
-    recModeAct.checked: recordMode
     onMelodyGenerate: nootkaWindow.showDialog(Nootka.MelodyGenerator)
     mainScoreItem: mainScore
     onMelodyNameDialog: Qt.createComponent("qrc:/score/MelodyNameDialog.qml").createObject(nootkaWindow)

@@ -59,7 +59,6 @@ class TmainScoreObject : public QObject
   Q_PROPERTY(QList<QObject*> noteActions READ noteActions NOTIFY scoreActionsChanged)
   Q_PROPERTY(Taction* nextNoteAct READ prevNoteAct)
   Q_PROPERTY(Taction* playAct READ playAct)
-  Q_PROPERTY(Taction* recModeAct READ recModeAct)
   Q_PROPERTY(Taction* openXmlAct READ openXmlAct)
   Q_PROPERTY(Taction* saveXmlAct READ saveXmlAct)
   Q_PROPERTY(Taction* randMelodyAct READ randMelodyAct)
@@ -89,7 +88,6 @@ public:
   Taction* prevNoteAct() { return m_prevNoteAct; }
 
   Taction* playAct() { return m_playAct; }
-  Taction* recModeAct() { return m_recModeAct; }
   Taction* openXmlAct() { return m_openXmlAct; }
   Taction* saveXmlAct() { return m_saveXmlAct; }
   Taction* randMelodyAct() { return m_randMelodyAct; }
@@ -193,7 +191,7 @@ protected:
 
 private:
   TscoreObject              *m_scoreObj = nullptr;
-  Taction                   *m_playAct, *m_recModeAct;
+  Taction                   *m_playAct;
   Taction                   *m_showNamesAct, *m_extraAccidsAct;
   Taction                   *m_zoomOutAct, *m_zoomInAct;
   Taction                   *m_openXmlAct, *m_saveXmlAct, *m_randMelodyAct;

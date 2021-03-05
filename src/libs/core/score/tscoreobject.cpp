@@ -238,6 +238,7 @@ void solveList(const Tnote& n, int dur, QList<Tnote>& outList) {
   }
 }
 
+
 void TscoreObject::addNote(const Tnote& newNote, bool fromQML) {
 // CHECKTIME (
 
@@ -302,8 +303,6 @@ void TscoreObject::addNote(const Tnote& newNote, bool fromQML) {
   }
   emitLastNote();
   if (fromQML) {
-    if (!m_recordMode)
-      setSelectedItem(lastNote());
     emit noteWasAdded();
   }
 // ) // CHECKTIME
@@ -410,8 +409,6 @@ void TscoreObject::setNote(TnoteItem* no, const Tnote& n) {
           note(2)->setVisible(false);
     }
   }
-  if (!m_recordMode)
-    setSelectedItem(no);
 }
 
 
@@ -470,6 +467,7 @@ void TscoreObject::noteClicked(qreal yPos) {
   bool selectLastNoteAgain = m_activeNote == lastNote() && m_activeNote->note()->rtm != newRhythm;
 
   setNote(m_activeNote, newNote);
+  setSelectedItem(m_activeNote);
 
   if (fixBeam) {
     m_activeNote->measure()->resolveBeaming(m_activeNote->wrapper()->rhythmGroup(), m_activeNote->wrapper()->rhythmGroup());
@@ -719,14 +717,6 @@ void TscoreObject::setSingleNote(bool singleN) {
         clearScore(); // call it again when transitioning from single note mode
     }
     emit singleNoteChanged();
-  }
-}
-
-
-void TscoreObject::setRecordMode(bool r) {
-  if (r != m_recordMode) {
-    m_recordMode = r;
-    emit recordModeChanged();
   }
 }
 

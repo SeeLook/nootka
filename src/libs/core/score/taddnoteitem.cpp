@@ -155,6 +155,5 @@ void TaddNoteItem::addNote() {
   Tnote n = m_scoreObject->posToNote(m_yPos);
   n.setOnUpperStaff(!(m_scoreObject->isPianoStaff() && m_yPos > m_scoreObject->upperLine() + 13.0));
   m_scoreObject->addNote(n, true);
-  if (m_scoreObject->recordMode())
-    m_scoreObject->setSelectedItem(nullptr);
+  m_scoreObject->setSelectedItem(m_scoreObject->lastNote());
 }

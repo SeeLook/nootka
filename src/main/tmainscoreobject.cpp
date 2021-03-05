@@ -74,10 +74,6 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
 
   m_playAct = new Taction(qTR("TtoolBar", "Play"), QStringLiteral("playMelody"), this);
   m_playAct->setBgColor(QColor(0, 255, 0));
-  m_recModeAct = new Taction(qApp->translate("MainScore", "Note by note"), QStringLiteral("record"), this);
-  m_recModeAct->setBgColor(Qt::red);
-  m_recModeAct->setCheckable(true);
-  m_recModeAct->setTip(tr("Notes are written on the score one by one. Either playing, selecting fret or note name adds a new note to the staff automatically."));
   m_openXmlAct = new Taction(qTR("QShortcut", "Open"), QStringLiteral("open"), this);
   connect(m_openXmlAct, &Taction::triggered, this, &TmainScoreObject::openXmlActSlot);
 
@@ -89,7 +85,7 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
   connect(m_randMelodyAct, &Taction::triggered, this, &TmainScoreObject::randMelodySlot);
   m_randMelodyAct->setTip(tr("Generate a melody with random notes."));
 
-  m_melodyActions << m_playAct << m_recModeAct << m_openXmlAct << m_saveXmlAct << m_randMelodyAct;
+  m_melodyActions << m_playAct << m_openXmlAct << m_saveXmlAct << m_randMelodyAct;
 
   m_nextNoteAct = new Taction(tr("Next note"), QString(), this);
   m_prevNoteAct = new Taction(tr("Previous note"), QString(), this);
@@ -102,7 +98,6 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
   m_zoomOutAct->createQmlShortcut(&actionsComp, "StandardKey.ZoomOut; enabled: !GLOB.singleNoteMode");
   m_zoomInAct->createQmlShortcut(&actionsComp, "StandardKey.ZoomIn; enabled: !GLOB.singleNoteMode");
   m_playAct->createQmlShortcut(&actionsComp, "\" \"; enabled: !GLOB.singleNoteMode && !GLOB.isExam");
-  m_recModeAct->createQmlShortcut(&actionsComp, "\"Ctrl+ \"; enabled: !GLOB.singleNoteMode && !GLOB.isExam");
   m_randMelodyAct->createQmlShortcut(&actionsComp, "\"Ctrl+M\"; enabled: !GLOB.singleNoteMode && !GLOB.isExam");
   m_nextNoteAct->createQmlShortcut(&actionsComp, "StandardKey.MoveToNextChar");
   m_prevNoteAct->createQmlShortcut(&actionsComp, "StandardKey.MoveToPreviousChar");
@@ -139,7 +134,6 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
   });
 //   connect(m_extraAccidsAct);
   connect(m_playAct, &Taction::triggered, this, &TmainScoreObject::playScoreSlot);
-  connect(m_recModeAct, &Taction::triggered, this, [=]{ m_scoreObj->setRecordMode(!m_scoreObj->recordMode()); });
   connect(m_zoomOutAct, &Taction::triggered, this, [=]{ m_scoreObj->setScaleFactor(qMax(0.4, m_scoreObj->scaleFactor() - 0.2)); });
   connect(m_zoomInAct, &Taction::triggered, this, [=]{ m_scoreObj->setScaleFactor(qMin(m_scoreObj->scaleFactor() + 0.2, 1.4)); });
   connect(GLOB, &Tglobals::isExamChanged, this, &TmainScoreObject::isExamChangedSlot);
@@ -586,7 +580,6 @@ void TmainScoreObject::isExamChangedSlot() {
 
 void TmainScoreObject::singleModeSlot() {
   if (GLOB->isSingleNote()) {
-    m_scoreObj->setRecordMode(false);
     if (GLOB->isExam()) {
         m_scoreObj->note(1)->setColor(qApp->palette().text().color());
         m_scoreObj->note(2)->setColor(qApp->palette().text().color());

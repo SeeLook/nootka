@@ -29,7 +29,6 @@ Flickable {
   property alias note: scoreObj.selectedNote
   property alias readOnly: scoreObj.readOnly
   property alias singleNote: scoreObj.singleNote
-  property alias recordMode: scoreObj.recordMode
   property alias bgRect: bgRect
   property alias alterText: scoreObj.alterText
 
@@ -104,13 +103,12 @@ Flickable {
       ensureVisible(currentNote.staffItem.y, currentNote.staffItem.height * scale)
   }
 
-  Rectangle { // entire score background & frame when record
+  Rectangle { // entire score background
     id: bgRect
     parent: score
     z: -1
     width: score.width; height: score.height
     color: NOO.alpha(scoreObj.bgColor, 230)
-    border { width: recordMode ? 2 : 0; color: "red" }
   }
 
   Staff { // first staff (always exists)

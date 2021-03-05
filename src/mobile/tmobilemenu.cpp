@@ -147,8 +147,8 @@ void TmobileMenu::singleNoteModeSlot() {
   if (GLOB->isSingleNote())
     setFlyActions(nullptr, nullptr, nullptr, nullptr, m_pitchDetectAct);
   else
-    setFlyActions(MAIN_SCORE->playAct(), MAIN_SCORE->recModeAct(), m_tempoAct,
-                  MAIN_SCORE->scoreMenuAct(), m_pitchDetectAct);
+    setFlyActions(MAIN_SCORE->playAct(), m_tempoAct,
+                  MAIN_SCORE->scoreMenuAct(), nullptr, m_pitchDetectAct);
 }
 
 

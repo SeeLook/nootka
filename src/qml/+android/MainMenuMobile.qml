@@ -52,7 +52,7 @@ TmobileMenu {
       Rectangle {
         width: bg.width / 4; height: width; radius: width / 2
         anchors.horizontalCenter: parent.horizontalCenter
-        color: score.recordMode ? "red" : "black"
+        color: "black"
       }
       Rectangle {
         id: pitchDot

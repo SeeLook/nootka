@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -83,7 +83,6 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(bool editMode READ editMode WRITE setEditMode NOTIFY editModeChanged)
   Q_PROPERTY(bool singleNote READ singleNote WRITE setSingleNote NOTIFY singleNoteChanged)
   Q_PROPERTY(bool enharmNotesEnabled READ enharmNotesEnabled WRITE setEnharmNotesEnabled)
-  Q_PROPERTY(bool recordMode READ recordMode WRITE setRecordMode NOTIFY recordModeChanged)
   Q_PROPERTY(qreal scaleFactor READ scaleFactor WRITE setScaleFactor NOTIFY scaleFactorChanged)
   Q_PROPERTY(bool enableTechnical READ enableTechnical WRITE setEnableTechnical NOTIFY enableTechnicalChanged)
                         /* Helper variables */
@@ -248,9 +247,6 @@ public:
 
   bool enharmNotesEnabled() const { return m_enharmNotesEnabled; }
   void setEnharmNotesEnabled(bool enEn) { m_enharmNotesEnabled = enEn; }
-
-  bool recordMode() const { return m_recordMode; }
-  void setRecordMode(bool r);
 
   qreal scaleFactor() const { return m_scaleFactor; }
   void setScaleFactor(qreal factor);
@@ -520,7 +516,6 @@ signals:
   void readOnlyChanged();
   void editModeChanged();
   void singleNoteChanged();
-  void recordModeChanged();
   void scaleFactorChanged();
   void enableTechnicalChanged();
   void bgColorChanged();
@@ -673,7 +668,6 @@ private:
   bool                              m_editMode = false;
   bool                              m_singleNote = false;
   bool                              m_enharmNotesEnabled = false;
-  bool                              m_recordMode = false;
   qreal                             m_scaleFactor = 1.0;
   bool                              m_selectInReadOnly = false;
   bool                              m_enableTechnControl = false;
