@@ -31,6 +31,7 @@ Flickable {
   property alias singleNote: scoreObj.singleNote
   property alias bgRect: bgRect
   property alias alterText: scoreObj.alterText
+  property alias editText: editText
 
   property alias insertNoteAct: scoreObj.insertNoteAct
   property alias deleteNoteAct: scoreObj.deleteNoteAct
@@ -117,6 +118,7 @@ Flickable {
   }
 
   Text { // edit mode symbol
+    id: editText
     opacity: scoreObj.editMode && !singleNote ? 1 : 0
     Behavior on opacity { enabled: GLOB.useAnimations; NumberAnimation { duration: 500 }}
     x: NOO.factor() * 3; y: score.contentY + NOO.factor() / 2
