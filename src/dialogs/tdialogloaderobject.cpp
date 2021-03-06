@@ -112,7 +112,7 @@ QString TdialogLoaderObject::stdButtonText(int role) {
 QString TdialogLoaderObject::stdButtonIcon(int role) {
   switch (role) {
     case 33554432: return QStringLiteral("check"); // Apply
-    case 4194304: return QStringLiteral("record"); // Cancel
+    case 4194304: return QStringLiteral("stopExam"); // Cancel
     case 134217728: return QStringLiteral("restore-defaults"); // Restore defaults
     case 16777216: return QStringLiteral("help"); // Help
     case 2097152: return QStringLiteral("exit"); // Close

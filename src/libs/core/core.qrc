@@ -95,7 +95,6 @@
         <file alias="picts/practice.png">picts/flat/practice.png</file>
         <file alias="picts/playMelody.png">picts/flat/playMelody.png</file>
         <file alias="picts/stopMelody.png">picts/flat/stopMelody.png</file>
-        <file alias="picts/record.png">picts/flat/record.png</file>
         <file alias="picts/restore-defaults.png">picts/flat/restore-defaults.png</file>
         <file alias="picts/send.png">picts/flat/send.png</file>
         <file alias="picts/save.png">picts/flat/save.png</file>
