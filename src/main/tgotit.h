@@ -53,7 +53,8 @@ public:
     GotSoundInfo,
     GotExamOrExer,
     GotExamFlow,
-    GotHandleScore /**< Android only */
+    GotHandleScore,
+    GotNoteSelected
   };
   Q_ENUM(EgotItType)
 
@@ -94,6 +95,12 @@ public:
   Q_INVOKABLE QString examExplained();
   Q_INVOKABLE QString optionsText();
   Q_INVOKABLE QString onlineDocP(const QString& hash);
+
+// GotNoteSelected
+  Q_INVOKABLE QString noteCursorText() const;
+  Q_INVOKABLE QString ifSelectedText() const;
+  Q_INVOKABLE QString ifNotSelectedText() const;
+  Q_INVOKABLE QString unselectText() const;
 
 signals:
   void gotItTypeChanged();

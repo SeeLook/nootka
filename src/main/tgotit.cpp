@@ -139,6 +139,34 @@ QString TgotIt::onlineDocP(const QString& hash) {
   return NOO->onlineDocP(hash);
 }
 
+
+QString TgotIt::noteCursorText() const {
+  return tr("note cursor", "it might be just 'cursor' as well").replace(QLatin1String(" "), QLatin1String("\n"));
+}
+
+
+QString TgotIt::ifSelectedText() const {
+  return tr("Note becomes selected (highlighted) when it was edited or clicked with right mouse button or tapped shortly.")
+        + QLatin1String("<br>")
+        + tr("If any note on the score is selected, only this particular one is changed by playing or clicking on an instrument. "
+             "And only pitch of that note changes - rhythmic value remains the same. ")
+             .replace(QLatin1String(". "), QLatin1String(".<br>"));
+}
+
+
+QString TgotIt::ifNotSelectedText() const {
+  return tr("When no note is chosen on the score, note cursor is highlighted and blinks. "
+            "Notes are added one by one, "
+            "either by playing real instrument or by selecting a sound on instrument displayed by the application.")
+            .replace(QLatin1String(". "), QLatin1String(".<br>"));
+}
+
+
+QString TgotIt::unselectText() const {
+  return tr("To unselect the note just click or tap some free part of the score sheet or use arrow keys to navigate to the note cursor.");
+}
+
+
 //#################################################################################################
 //###################                PROTECTED         ############################################
 //#################################################################################################
