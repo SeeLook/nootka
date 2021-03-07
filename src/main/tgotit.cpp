@@ -165,7 +165,7 @@ QString TgotIt::ifNotSelectedText() const {
 
 
 QString TgotIt::unselectText() const {
-  return tr("To unselect the note just click or tap some free part of the score sheet or use arrow keys to navigate to the note cursor.");
+  return tr("To deselect the note just click or tap some free part of the score sheet or use arrow keys to navigate to the note cursor.");
 }
 
 
