@@ -1051,7 +1051,7 @@ ale nebyla uložena!</translation>
         <location filename="../src/qml/level/LevelPreview.qml" line="126"/>
         <location filename="../src/qml/level/LevelPreview.qml" line="136"/>
         <source>not selected</source>
-        <translation type="unfinished"></translation>
+        <translation>Nevybráno</translation>
     </message>
 </context>
 <context>
@@ -1059,12 +1059,12 @@ ale nebyla uložena!</translation>
     <message>
         <location filename="../levels/guitar/simple melodies-guitar.nel" line="9"/>
         <source>Simple melodies</source>
-        <translation type="unfinished"></translation>
+        <translation>Jednoduché melodie</translation>
     </message>
     <message>
         <location filename="../levels/guitar/simple melodies-guitar.nel" line="10"/>
         <source>Play popular, simple melodies on your instrument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hrajte na svém nástroji oblíbené, jednoduché melodie.</translation>
     </message>
 </context>
 <context>
@@ -1148,7 +1148,8 @@ Nejprve zvažte rozdělení dlouhých děl na party ve vnějším programu.</tra
         <location filename="../src/qml/level/MelodyListView.qml" line="32"/>
         <source>Add here melodies from Music XML files.
 But better keep them short, so divide them first in some external software.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sem přidejte melodie ze souborů Music XML.
+Bude ale dobře, když budou úryvky krátké. Nejprve skladby rozdělte v jiném programu.</translation>
     </message>
 </context>
 <context>
@@ -1197,7 +1198,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="30"/>
         <source>Melodies are selected from the list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodie jsou vybrány ze seznamu.</translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="43"/>
@@ -1227,22 +1228,22 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="92"/>
         <source>random order</source>
-        <translation type="unfinished"></translation>
+        <translation>Náhodné pořadí</translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="96"/>
         <source>When checked, melodies from the list will be asked in random order.</source>
-        <translation type="unfinished"></translation>
+        <translation>Když je zaškrtnuto, melodie v seznamu budou vyvolávány v náhodném pořadí.</translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="102"/>
         <source>How many times during an exam a melody from the list has to be played or written correctly. Warning! It multiplies question number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolikrát se má během zkoušky melodie v seznamu správně hrát nebo zapsat. Upozornění: Toto znásobí číslo otázky.</translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="108"/>
         <source>number of repeats</source>
-        <translation type="unfinished"></translation>
+        <translation>Počet opakování</translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="142"/>
@@ -1341,12 +1342,12 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/settings/+android/PhonePage.qml" line="46"/>
         <source>Touching a screen suspends pitch detection for 1 second but some advanced users may want to disable that.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dotknutí se obrazovky pozastaví zjišťování výšek tónů na jednu sekundu, ale někteří pokročilí uživatelé je mohou chtít vypnout.</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/+android/PhonePage.qml" line="50"/>
         <source>suspend mic when screen was touched</source>
-        <translation type="unfinished"></translation>
+        <translation>Při dotknutí se obrazovky pozastavit mikrofon</translation>
     </message>
 </context>
 <context>
@@ -2366,7 +2367,7 @@ But better keep them short, so divide them first in some external software.</sou
         <location filename="../src/charts/tanalysdialog.cpp" line="93"/>
         <source>question number</source>
         <comment>see comment in &apos;ordered by:&apos; entry</comment>
-        <translation>Otázka číslo</translation>
+        <translation>Číslo otázky</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="94"/>
@@ -2678,7 +2679,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="109"/>
         <source>Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
-        <translation>Použijte sluchátka! V opačném případě bude tikání narušovat náležité zjišťování výšky tónů!</translation>
+        <translation>Použijte sluchátka! V opačném případě bude tikání narušovat náležité zjišťování výšek tónů!</translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="157"/>
@@ -3737,12 +3738,12 @@ ale nebyla uložena!</translation>
     <message>
         <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="724"/>
         <source>&lt;li&gt;There are not enough selected notes to create a melody.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Není vybráno dost not, aby mohla být vytvořena melodie.&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="729"/>
         <source>&lt;li&gt;No melody was added to the list.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Do seznamu nebyla přidána žádná melodie.&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="742"/>
