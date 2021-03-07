@@ -165,6 +165,7 @@ signals:
   void melodyActionsChanged();
   void keyNameTextChanged();
   void correctionFinished();
+  void wantSelectGotIt();
   // redirected from TscoreObject
   void clicked();
   void readOnlyNoteClicked(int noteId);
@@ -179,15 +180,16 @@ protected:
   void paletteSlot();
   void getMelodyNameSlot();
   void playScoreSlot();
+  void gotItNoteSelectedSlot();
 
   QColor scoreBackgroundColor(const QColor& c, int alpha);
   void checkSingleNoteVisibility();
 
   void checkExtraStaves();
 
-  protected slots:
-    void applyCorrectSlot();
-    void correctionFinishedSlot();
+protected slots:
+  void applyCorrectSlot();
+  void correctionFinishedSlot();
 
 private:
   TscoreObject              *m_scoreObj = nullptr;

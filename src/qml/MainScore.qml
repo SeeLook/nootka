@@ -48,6 +48,7 @@ Score {
     onMelodyGenerate: nootkaWindow.showDialog(Nootka.MelodyGenerator)
     mainScoreItem: mainScore
     onMelodyNameDialog: Qt.createComponent("qrc:/score/MelodyNameDialog.qml").createObject(nootkaWindow)
+    onWantSelectGotIt: Qt.createComponent("qrc:/gotit/NoteSelected.qml").createObject(nootkaWindow.contentItem.parent, { "remaindChecked": true })
   }
 
   Timer { id: zoomTimer; interval: 500 }
