@@ -57,7 +57,7 @@ GotIt {
           }
           Text {
             parent: selScore.noteAdd
-            x: (parent.width - width) / 2; y: 14 - height * scale
+            x: parent ? (parent.width - width) / 2 : 0; y: 14 - height * scale
             text: gotIt.noteCursorText()
             horizontalAlignment: Text.AlignHCenter
             color: GLOB.noteCursorColor
@@ -115,7 +115,7 @@ GotIt {
           readOnly: false; scoreObj.editMode: true; scoreObj.allowAdding: visible
           Text {
             parent: noSelScore.noteAdd
-            x: (parent.width - width) / 2; y: 14 - height * scale
+            x: parent ? (parent.width - width) / 2 : 0; y: 14 - height * scale
             text: gotIt.noteCursorText()
             horizontalAlignment: Text.AlignHCenter
             color: GLOB.noteCursorColor
