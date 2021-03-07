@@ -100,42 +100,42 @@ QString TgotIt::exerOrExamHelpTxt() {
 }
 
 
-QString TgotIt::getQuestionText() {
+QString TgotIt::getQuestionText() const {
   return TexamHelp::getQuestionText();
 }
 
 
-QString TgotIt::confirmText() {
+QString TgotIt::confirmText() const {
   return TexamHelp::confirmText();
 }
 
 
-QString TgotIt::practiceText() {
+QString TgotIt::practiceText() const {
   return TexamHelp::practiceText();
 }
 
 
-QString TgotIt::practiceExplained() {
+QString TgotIt::practiceExplained() const {
   return TexamHelp::practiceExplained();
 }
 
 
-QString TgotIt::examText() {
+QString TgotIt::examText() const {
   return TexamHelp::examText();
 }
 
 
-QString TgotIt::examExplained() {
+QString TgotIt::examExplained() const {
   return TexamHelp::examExplained();
 }
 
 
-QString TgotIt::optionsText() {
+QString TgotIt::optionsText() const {
   return TexamHelp::optionsText();
 }
 
 
-QString TgotIt::onlineDocP(const QString& hash) {
+QString TgotIt::onlineDocP(const QString& hash) const {
   return NOO->onlineDocP(hash);
 }
 

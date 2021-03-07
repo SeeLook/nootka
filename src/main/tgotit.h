@@ -87,14 +87,14 @@ public:
   Q_INVOKABLE static QString exerOrExamHelpTxt();
 
 // GotExamFlow =========================================
-  Q_INVOKABLE QString getQuestionText();
-  Q_INVOKABLE QString confirmText();
-  Q_INVOKABLE QString practiceText();
-  Q_INVOKABLE QString practiceExplained();
-  Q_INVOKABLE QString examText();
-  Q_INVOKABLE QString examExplained();
-  Q_INVOKABLE QString optionsText();
-  Q_INVOKABLE QString onlineDocP(const QString& hash);
+  Q_INVOKABLE QString getQuestionText() const;
+  Q_INVOKABLE QString confirmText() const;
+  Q_INVOKABLE QString practiceText() const;
+  Q_INVOKABLE QString practiceExplained() const;
+  Q_INVOKABLE QString examText() const;
+  Q_INVOKABLE QString examExplained() const;
+  Q_INVOKABLE QString optionsText() const;
+  Q_INVOKABLE QString onlineDocP(const QString& hash) const;
 
 // GotNoteSelected
   Q_INVOKABLE QString noteCursorText() const;
