@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -16,7 +16,6 @@ ToolBar {
   height: settAct.height
   background: TipRect { anchors.fill: parent; color: activPal.window; radius: 0 }
   z: 6
-  topPadding: 0 // HACK: fixes QQC2 style which forces padding value
 
   Row {
     spacing: toolBar.width / 200
@@ -50,8 +49,9 @@ ToolBar {
     anchors.right: parent.right
     height: toolBar.height
     onClicked: NOO.aboutAct.trigger()
-    onEntered: NOO.setStatusTip(NOO.TR("TaboutNootka", "About Nootka") + "<br>"
-                              + NOO.TR("QShortcut", "Help").toLowerCase() + ", "
+    onEntered: NOO.setStatusTip(NOO.TR("TaboutNootka", "About Nootka") + "...<br>"
+                              + NOO.TR("QShortcut", "Help") + ", "
+                              + NOO.TR("TaboutNootka", "Authors").toLowerCase() + ", "
                               + NOO.TR("TaboutNootka", "License").toLowerCase(), Item.TopLeft)
     onExited: NOO.setStatusTip("", Item.TopLeft)
   }
