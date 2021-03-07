@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2018 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -11,6 +11,8 @@ Item {
   property alias active: mouseArea.hoverEnabled
 
   signal clicked()
+  signal entered()
+  signal exited()
 
   width: logo.width
 
@@ -41,8 +43,14 @@ Item {
     id: mouseArea
     anchors.fill: parent
     hoverEnabled: !NOO.isAndroid()
-    onEntered: bgColor = NOO.randomColor()
-    onExited: bgColor = "white"
+    onEntered: {
+      bgColor = NOO.randomColor()
+      nootkaLabel.entered()
+    }
+    onExited: {
+      bgColor = "white"
+      nootkaLabel.exited()
+    }
     onClicked: nootkaLabel.clicked()
   }
 }
