@@ -14,6 +14,15 @@ GotIt {
   gotItType: TgotIt.GotNoteSelected
   visible: true
 
+  onClicked: {
+    if (showGotIt) { // Got It, not help dialog
+      if (!remaindChecked) // store only if user doesn't want it next time
+        GLOB.setGotIt("noteSelected", false)
+      SOUND.startListen()
+    }
+    close()
+  }
+
   property int noSelCnt: 1
   property int restAt: 4
 
