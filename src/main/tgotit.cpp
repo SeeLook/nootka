@@ -59,6 +59,8 @@ void TgotIt::setGotItType(TgotIt::EgotItType gt) {
         m_soundTimer->start(100);
         SOUND->startListen();
         break;
+      case GotNoteSelected:
+        QTimer::singleShot(10, this, [=]{ SOUND->stop(); }); // HACK Playing has to be started first, stop it after delay
       default:
         break;
     }
