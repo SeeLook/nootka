@@ -50,5 +50,9 @@ ToolBar {
     anchors.right: parent.right
     height: toolBar.height
     onClicked: NOO.aboutAct.trigger()
+    onEntered: NOO.setStatusTip(NOO.TR("TaboutNootka", "About Nootka") + "<br>"
+                              + NOO.TR("QShortcut", "Help").toLowerCase() + ", "
+                              + NOO.TR("TaboutNootka", "License").toLowerCase(), Item.TopLeft)
+    onExited: NOO.setStatusTip("", Item.TopLeft)
   }
 }
