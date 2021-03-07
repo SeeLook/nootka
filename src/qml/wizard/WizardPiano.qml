@@ -18,7 +18,7 @@ Column {
     anchors.horizontalCenter: parent.horizontalCenter
     width: parent.width - NOO.factor() * 2
     text: qsTr("Notes for piano are written on the grand staff - two staves joined with brace. Usually the upper one, with treble clef is for right hand and the lower one with bass clef is for left hand.")
-    + "<br>" + qsTr("Although for exercise purposes and also due to Nootka supports for only single voice, sometimes just one of the staves can be used as well.")
+    + "<br>" + qsTr("Although for exercise purposes and also due to Nootka is supporting only single voice, sometimes just one of the staves can be used as well.")
     color: activPal.text; wrapMode: Text.WordWrap
     font { pixelSize: NOO.factor() * 1.2; bold: true }
   }
