@@ -60,7 +60,7 @@ Rectangle {
                           qsTranslate("TstartExamDlg", "To exercise or to pass an exam?"),
                           qsTranslate("TexamHelp", "How does an exercise or an exam work?"),
                           NOO.TR("MainMenuMobile", "Pitch recognition"),
-                          qsTr("Selecting notes and playing"),
+                          NOO.TR("NoteSelected", "Note selection and playing"),
                           NOO.TR("HandleScore", "Editing score with touch"),
                           qsTranslate("ThelpDialogBase", "Open online documentation")
                        ]

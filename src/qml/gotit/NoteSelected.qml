@@ -31,8 +31,14 @@ GotIt {
     contentHeight: selCol.height + NOO.factor() * 10
     Column {
       id: selCol
-      width: parent.width
-      spacing: NOO.factor() / 2
+      width: parent.width; spacing: NOO.factor() / 2
+
+      Text {
+        anchors.horizontalCenter: parent.horizontalCenter
+        color: activPal.text
+        font { bold: true; pixelSize: selectHow.width * 0.03 }
+        text: qsTr("Note selection and playing")
+      }
       Tile {
         id: selectedTile
         anchors { horizontalCenter: undefined; right: parent.right }
