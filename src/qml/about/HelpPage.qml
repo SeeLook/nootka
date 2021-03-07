@@ -28,7 +28,7 @@ Rectangle {
     id: tocButt
     y: NOO.factor() / 4; x: parent.width - width - NOO.factor()
     z: 10
-    text: qsTr("Help topics")
+    text: qsTr("Help topics").replace(" ", "\n")
     onClicked: tocMenu.open()
   }
 
