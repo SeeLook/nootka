@@ -17,7 +17,7 @@ Rectangle {
   color: NOO.alpha(activPal.base, 240)
   z: 0
   Image {
-    source: NOO.pix(images[currTopic])
+    source: currTopic ? "" : NOO.pix("help")
     height: parent.height * Math.min(1, (parent.width / parent.height) / (sourceSize.width / sourceSize.height))
     width: height * (sourceSize.width / sourceSize.height)
     z: -1
@@ -64,7 +64,6 @@ Rectangle {
                           NOO.TR("HandleScore", "Editing score with touch"),
                           qsTranslate("ThelpDialogBase", "Open online documentation")
                        ]
-                       property var images: [ "help", "startExam", "nootka-exam", "pane/sound", "score", "pane/score", "restore-defaults" ]
   property int currTopic: 0
   property var gotItQML: [ "", "ExamOrExercise", "ExamFlow", "SoundInfo", "NoteSelected", "HandleScore" ]
 
@@ -84,7 +83,7 @@ Rectangle {
         contentItem: MenuButton {
           action: Taction {
             text: (currTopic === index ? "<u>" : "") + modelData + (currTopic === index ? "</u>" : "")
-            icon: images[index]
+            icon: index ? "" : "help"
           }
           onClicked: switchTopic(index)
           Rectangle { width: parent.width; height: index === topics.length - 1 ? 0 : 1; color: activPal.text; y: parent.height - 1 }
