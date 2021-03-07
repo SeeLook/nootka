@@ -56,19 +56,11 @@ Tflickable {
           color: activPal.text
         }
         LinkText {
-          text: "Thanks You decided to test this beta version!<br>
-          It works \"almost\" like previous Nootka, but with a brand new score with rhythms support and possibility to load/save music XML files.<br>
-          Also there is a new look and a layout and there are new instruments (piano, saxophone and bandoneon) along with guitars.<br>
-          <br>
-          For more details about news in this release take a look at 'Changes' page.<br>
-          Also <a href=\"https://sourceforge.net/p/nootka/hg/ci/default/tree/TODO.md\">here is a link to TODO list</a> to explain what is planed next.<br>
-          <br>
-          Anyway, main purpose of this release is to check all of that and give some feedback.<br>
-          So happy testing,<br>
-          Author<br>
-          <br>
-          P.S.<br>
-          <a href=\"mailto:seelook.gmail.com\">Let me know what do you think...</a>"
+          text: qsTr("Welcome on the board.<br>Nootka is an open source application to help you in learning (and in teaching) classical score notation.")
+          + "<br><br>"
+          + qsTr("See a <a href=\"%1\">program site</a> for more details and further releases.<br>Any bugs, suggestions, translations and so on, please report to: %2.<br><br>with respects<br>Author")
+              .arg("https://nootka.sourceforge.io")
+              .arg("<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>")
           width: parent.width * 0.96
           anchors.horizontalCenter: parent.horizontalCenter
           font { pixelSize: NOO.factor() * 1.1 }
@@ -76,6 +68,8 @@ Tflickable {
           wrapMode: Text.WordWrap
         }
       }
+      description: qsTr("This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.<br>In spite of that, you are welcome to try it!")
+      descriptionColor: "red"
     }
   }
 }
