@@ -32,8 +32,8 @@ Tflickable {
     LinkText {
       width: wizardMode.width - NOO.factor()
       wrapMode: Text.WordWrap; horizontalAlignment: Text.AlignHCenter
-      text: qsTr("Main Nootka window can display score in a few different ways. It depends on user experience.")
-                .replace(". ", ".<br>")
+      text: qsTr("In main Nootka window score can be displayed in a few different ways, depends on experience level.")
+                .replace(", ", ",<br>")
       font { pixelSize: NOO.factor() * (NOO.isAndroid() ? 1.2 : 1.5); bold: true }
     }
 
@@ -53,7 +53,7 @@ Tflickable {
         }
         LinkText {
           anchors.horizontalCenter: parent.horizontalCenter
-          text: qsTr("For beginners, if you don't know musical notation at all.")
+          text: qsTr("For beginners, when you don't know musical notation at all.")
         }
         Rectangle {
           anchors.horizontalCenter: parent.horizontalCenter
@@ -136,14 +136,14 @@ Tflickable {
         TradioButton {
           id: simpleRadio
           anchors.horizontalCenter: parent.horizontalCenter
-          text: " <b>" + qsTr("score notation without rhythms") + "</b>"
+          text: " <b>" + qsTr("score without rhythms") + "</b>"
           ButtonGroup.group: modeGr; textScale: checked ? 1.3 : 1.1
         }
         LinkText {
           width: wizardMode.width - NOO.factor() * 3; wrapMode: Text.WordWrap
           horizontalAlignment: Text.AlignHCenter
           anchors.horizontalCenter: parent.horizontalCenter
-          text: qsTr("If you know musical notation a little but you cannot play your instrument fluently yet.")
+          text: qsTr("When you already know musical notation a little but you cannot play your instrument fluently yet.")
         }
         Rectangle {
           color: activPal.base
@@ -182,7 +182,7 @@ Tflickable {
           id: fullRadio
           z: 2
           anchors.horizontalCenter: parent.horizontalCenter
-          text: " <b>" + qsTr("full score notation") + "</b>"
+          text: " <b>" + qsTr("full notation") + "</b>"
           ButtonGroup.group: modeGr; textScale: checked ? 1.3 : 1.1
         }
         Rectangle {
