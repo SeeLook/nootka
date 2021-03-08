@@ -137,6 +137,7 @@
     <file alias="wizard/Wizard.qml">qml/wizard/Wizard.qml</file>
     <file alias="wizard/WizardInstrument.qml">qml/wizard/WizardInstrument.qml</file>
     <file alias="wizard/WizardClef.qml">qml/wizard/WizardClef.qml</file>
+    <file alias="wizard/WizardMode.qml">qml/wizard/WizardMode.qml</file>
     <file alias="wizard/WizardOptions.qml">qml/wizard/WizardOptions.qml</file>
     <file alias="wizard/WizardOther.qml">qml/wizard/WizardOther.qml</file>
     <file alias="wizard/WizardGuitars.qml">qml/wizard/WizardGuitars.qml</file>

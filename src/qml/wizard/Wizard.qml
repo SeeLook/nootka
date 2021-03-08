@@ -25,6 +25,7 @@ ApplicationWindow {
   property color bgColor: Qt.tint(labelColor, NOO.alpha(activPal.base, 230))
   property var clefPage: null
   property var optionsPage: null
+  property var modePage: null
 
   SystemPalette {
     id: activPal
@@ -62,6 +63,11 @@ ApplicationWindow {
           active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem || clefPage
           source: "qrc:/wizard/WizardClef.qml"
           onLoaded: clefPage = item
+        }
+        Loader {
+          active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem || modePage
+          source: "qrc:/wizard/WizardMode.qml"
+          onLoaded: modePage = item
         }
         Loader {
           active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem || optionsPage
@@ -133,6 +139,8 @@ ApplicationWindow {
       clefPage.setInstrParams()
     if (optionsPage)
       optionsPage.setOptions()
+    if (modePage)
+      modePage.setOptions()
     GLOB.keyNameStyle = (NOO.keyNameTranslated() !== "letters" ? (Qt.locale().name.indexOf("ru") === -1 ? 2 : 5) : (GLOB.seventhIsB ? 3 : 0))
     GLOB.updateKeySignatureNames()
     GLOB.audioInstrument = instrPage.getInstrument()
