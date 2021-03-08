@@ -2,6 +2,33 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="es_ES">
 <context>
+    <name>AboutPage</name>
+    <message>
+        <source>Welcome on board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.&lt;br&gt;It is specially designed for guitarists but others will find many usable features as well.</source>
+        <translation type="vanished">Bienvenido a bordo &lt;br&gt;Nootka es una aplicación de código abierto (open source) para ayudarte en tu aprendizaje (y enseñanza) de la notación de partituras clásicas.&lt;br&gt;Está especialmente diseñado para guitarristas pero los demás encontrarán también muchas características usables.</translation>
+    </message>
+    <message>
+        <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
+        <translation>Esta es una versión beta y puede contener errores o comportarse de formas inesperadas. Además, tiene características aún no terminadas.&lt;br&gt;A pesar de eso, ¡eres bienvenido a probarla!</translation>
+    </message>
+    <message>
+        <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
+        <translation type="vanished">Ver el &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;sitio del programa&lt;/a&gt; para más detalles y versiones posteriores.&lt;/p&gt;&lt;p&gt;Informa de cualesquiera errores, sugerencias, traducciones y demás en: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;con todos mis respetos&lt;br&gt;El Autor</translation>
+    </message>
+    <message>
+        <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
+        <translation type="vanished">&lt;br&gt;Para soportar este proyecto y también evitar la infección de tu PC&lt;br&gt;&lt;b&gt;POR FAVOR, usa el sitio oficial del proyecto para descargar actualizaciones, nuevas versiones y ver novedades.&lt;/b&gt;</translation>
+    </message>
+    <message>
+        <source>Welcome on the board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.</source>
+        <translation>Bienvenido a bordo &lt;br&gt;Nootka es una aplicación de código abierto (open source) para ayudarte en tu aprendizaje (y enseñanza) de la notación de partituras clásicas.</translation>
+    </message>
+    <message>
+        <source>See a &lt;a href=&quot;%1&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;br&gt;Any bugs, suggestions, translations and so on, please report to: %2.&lt;br&gt;&lt;br&gt;with respects&lt;br&gt;Author</source>
+        <translation>Ver el &lt;a href=&quot;%1&quot;&gt;sitio del programa&lt;/a&gt; para más detalles y versiones posteriores.&lt;br&gt;Informa de cualesquiera errores, sugerencias, traducciones y demás en: %2.&lt;br&gt;&lt;br&gt;con todos mis respetos&lt;br&gt;El Autor</translation>
+    </message>
+</context>
+<context>
     <name>AccidsPage</name>
     <message>
         <source># - sharps</source>
@@ -696,6 +723,48 @@
     </message>
 </context>
 <context>
+    <name>GotIt</name>
+    <message>
+        <source>GOT IT!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>remind me next time</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>HandleScore</name>
+    <message>
+        <source>Editing score with touch</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Touch and hold area of a note you want to edit.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move finger left or right to see edited note.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Then move finger up or down to find desired note pitch.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rise the finger.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If necessary, select accidental or rhythmic value.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Finally, tap selected note shortly.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>HelpPage</name>
     <message>
         <source>Help topics</source>
@@ -950,6 +1019,18 @@
         <source>Get more levels &lt;a href=&quot;%1&quot;&gt;from Nootka home page&lt;/a&gt;</source>
         <translation>Conseguir más niveles &lt;a href=&quot;%1&quot;&gt;de la página principal de Nootka&lt;/a&gt;</translation>
     </message>
+    <message>
+        <source>new level</source>
+        <translation type="unfinished">nuevo nivel</translation>
+    </message>
+    <message>
+        <source>Level name:</source>
+        <translation type="unfinished">Nombre de nivel:</translation>
+    </message>
+    <message>
+        <source>Level description:</source>
+        <translation type="unfinished">Descripción del nivel:</translation>
+    </message>
 </context>
 <context>
     <name>LevelsSelector</name>
@@ -970,7 +1051,7 @@
     <name>MainScore</name>
     <message>
         <source>Note by note</source>
-        <translation>Nota por nota</translation>
+        <translation type="vanished">Nota por nota</translation>
     </message>
 </context>
 <context>
@@ -1022,7 +1103,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Melodies are composed from a note range defined on the &apos;Range&apos; page.</source>
-        <translation>Las melodías están compuestas a partir de un rango de notas definidas en la página &apos;Rango&apos;.</translation>
+        <translation type="vanished">Las melodías están compuestas a partir de un rango de notas definidas en la página &apos;Rango&apos;.</translation>
     </message>
     <message>
         <source>Melodies are composed from notes selected on the score below.</source>
@@ -1034,15 +1115,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>in selected range</source>
-        <translation>en el rango seleccionado</translation>
+        <translation type="vanished">en el rango seleccionado</translation>
     </message>
     <message>
         <source>from notes below</source>
-        <translation>de las notas inferiores</translation>
-    </message>
-    <message>
-        <source>from the list</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">de las notas inferiores</translation>
     </message>
     <message>
         <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
@@ -1054,10 +1131,6 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Play in tempo</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Melodies are selected from the list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1074,6 +1147,26 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>number of repeats</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Melodies are composed from notes in range defined on the &apos;Range&apos; page.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Melodies are selected from the list below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>from notes in range</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>from selected notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>from set of melodies</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1127,6 +1220,13 @@ But better keep them short, so divide them first in some external software.</sou
         <source>letters</source>
         <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country preferred style of naming key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
         <translation>solfege</translation>
+    </message>
+</context>
+<context>
+    <name>NoteSelected</name>
+    <message>
+        <source>Note selection and playing</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1682,7 +1782,15 @@ But better keep them short, so divide them first in some external software.</sou
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Rhythms detection during exercises and exams is more &apos;humane&apos; - Nootka knows what rhythm to expect. In contrary to playing to &apos;empty&apos; score when high rhythmic precision is required, so better use metronome then.</source>
+        <source>Play a few sounds to figure out their maximal volume,&lt;br&gt;then set level knob about 10-20% below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Later, you can adjust the volume level in Nootka tuner window.&lt;br&gt;Invoke it from main menu or use any volume key.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you want Nootka to write your melody with rhythm then you have to play exactly in selected tempo - preferably with a metronome. But during practice, when you are playing melody given by the application, the tempo can be at will unless some level defines it.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2018,25 +2126,6 @@ But better keep them short, so divide them first in some external software.</sou
             <numerusform>%n intento</numerusform>
             <numerusform>%n intento(s)</numerusform>
         </translation>
-    </message>
-</context>
-<context>
-    <name>Tabout</name>
-    <message>
-        <source>Welcome on board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.&lt;br&gt;It is specially designed for guitarists but others will find many usable features as well.</source>
-        <translation type="vanished">Bienvenido a bordo &lt;br&gt;Nootka es una aplicación de código abierto (open source) para ayudarte en tu aprendizaje (y enseñanza) de la notación de partituras clásicas.&lt;br&gt;Está especialmente diseñado para guitarristas pero los demás encontrarán también muchas características usables.</translation>
-    </message>
-    <message>
-        <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
-        <translation type="vanished">Esta es una versión beta y puede contener errores o comportarse de formas inesperadas. Además, tiene características aún no terminadas.&lt;br&gt;A pesar de eso, ¡eres bienvenido a probarla!</translation>
-    </message>
-    <message>
-        <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
-        <translation type="vanished">Ver el &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;sitio del programa&lt;/a&gt; para más detalles y versiones posteriores.&lt;/p&gt;&lt;p&gt;Informa de cualesquiera errores, sugerencias, traducciones y demás en: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;con todos mis respetos&lt;br&gt;El Autor</translation>
-    </message>
-    <message>
-        <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
-        <translation type="vanished">&lt;br&gt;Para soportar este proyecto y también evitar la infección de tu PC&lt;br&gt;&lt;b&gt;POR FAVOR, usa el sitio oficial del proyecto para descargar actualizaciones, nuevas versiones y ver novedades.&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -2755,11 +2844,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>times:</source>
-        <translation type="vanished">veces:</translation>
+        <translation>veces:</translation>
     </message>
     <message>
         <source>Time taken to answer</source>
-        <translation type="vanished">Tiempo empleado en responder</translation>
+        <translation>Tiempo empleado en responder</translation>
     </message>
     <message>
         <source>Analyze</source>
@@ -2980,6 +3069,30 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
 </context>
 <context>
+    <name>TgotIt</name>
+    <message>
+        <source>note cursor</source>
+        <comment>it might be just &apos;cursor&apos; as well</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note becomes selected (highlighted) when it was edited or clicked with right mouse button or tapped shortly.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If any note on the score is selected, only this particular one is changed by playing or clicking on an instrument. And only pitch of that note changes - rhythmic value remains the same. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When no note is chosen on the score, note cursor is highlighted and blinks. Notes are added one by one, either by playing real instrument or by selecting a sound on instrument displayed by the application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To deselect the note just click or tap some free part of the score sheet or use arrow keys to navigate to the note cursor.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>TgraphicsLine</name>
     <message>
         <source>progress line</source>
@@ -3002,7 +3115,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>always show this help window</source>
-        <translation>mostrar siempre esta ventana de ayuda</translation>
+        <translation type="vanished">mostrar siempre esta ventana de ayuda</translation>
     </message>
     <message>
         <source>Open online documentation</source>
@@ -3314,15 +3427,15 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TlevelHeaderWdg</name>
     <message>
         <source>Level name:</source>
-        <translation>Nombre de nivel:</translation>
+        <translation type="vanished">Nombre de nivel:</translation>
     </message>
     <message>
         <source>new level</source>
-        <translation>nuevo nivel</translation>
+        <translation type="vanished">nuevo nivel</translation>
     </message>
     <message>
         <source>Level description:</source>
-        <translation>Descripción del nivel:</translation>
+        <translation type="vanished">Descripción del nivel:</translation>
     </message>
     <message>
         <source>OK</source>
@@ -3570,7 +3683,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Notes are written on the score one by one. Either playing, selecting fret or note name adds a new note to the staff automatically.</source>
-        <translation>Las notas se escriben en la partitura una por una. Tanto la interpretación, selección del traste o del nombre de nota añade la nueva nota al pentagrama automáticamente.</translation>
+        <translation type="vanished">Las notas se escriben en la partitura una por una. Tanto la interpretación, selección del traste o del nombre de nota añade la nueva nota al pentagrama automáticamente.</translation>
     </message>
     <message>
         <source>Generate melody</source>
@@ -3884,15 +3997,15 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TouchHelp</name>
     <message>
         <source>To edit a note in a score:&lt;br&gt;Touch area about some note and move a finger to select its pitch.&lt;br&gt;Then take the finger away to add/remove an accidental or a note.&lt;br&gt;Touch and move again to continue selecting the pitch.&lt;br&gt;To set the note - tap it quickly again.&lt;br&gt;To scroll the score with multiple staves - use two fingers.</source>
-        <translation>Para editar una nota en el pentagrama:&lt;br&gt;Toca un área cerca de alguna nota y mueve el dedo para seleccionar su tono.&lt;br&gt;Luego aparta el dedo para añadir/quitar una alteración o una nota.&lt;br&gt;Toca y mueve de nuevo para continuar con la selección del tono.&lt;br&gt;Para establecer la nota - toca con el dedo de nuevo rápidamente.&lt;br&gt;Para desplazar la partitura con múltiples pentagramas - usa dos dedos.</translation>
+        <translation type="vanished">Para editar una nota en el pentagrama:&lt;br&gt;Toca un área cerca de alguna nota y mueve el dedo para seleccionar su tono.&lt;br&gt;Luego aparta el dedo para añadir/quitar una alteración o una nota.&lt;br&gt;Toca y mueve de nuevo para continuar con la selección del tono.&lt;br&gt;Para establecer la nota - toca con el dedo de nuevo rápidamente.&lt;br&gt;Para desplazar la partitura con múltiples pentagramas - usa dos dedos.</translation>
     </message>
     <message>
         <source>Touch a clef for a while to change it.</source>
-        <translation>Mantener la pulsación sobre una clave para cambiarla.</translation>
+        <translation type="vanished">Mantener la pulsación sobre una clave para cambiarla.</translation>
     </message>
     <message>
         <source>Tap a fret you want to select - zoomed preview will appear.&lt;br&gt;You may drag it right or left to change the fret.&lt;br&gt;Tap desired string on the preview to set the position.</source>
-        <translation>Toca con el dedo el traste que quieres seleccionar - aparecerá una visión previa.&lt;br&gt;Puedes arrastrarla a derecha o izquierda para cambiar el traste.&lt;br&gt;Toca con el dedo la cuerda deseada en la visión previa para establecer la posición.</translation>
+        <translation type="vanished">Toca con el dedo el traste que quieres seleccionar - aparecerá una visión previa.&lt;br&gt;Puedes arrastrarla a derecha o izquierda para cambiar el traste.&lt;br&gt;Toca con el dedo la cuerda deseada en la visión previa para establecer la posición.</translation>
     </message>
 </context>
 <context>
@@ -4110,7 +4223,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Simple exam settings</source>
-        <translation type="vanished">Ajustes de examen sencillo</translation>
+        <translation>Ajustes de examen sencillo</translation>
     </message>
     <message>
         <source>Simple exercise settings</source>
@@ -4739,6 +4852,29 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
 </context>
 <context>
+    <name>WizardMode</name>
+    <message>
+        <source>In main Nootka window score can be displayed in a few different ways, depends on experience level.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For beginners, when you don&apos;t know musical notation at all.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>score without rhythms</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When you already know musical notation a little but you cannot play your instrument fluently yet.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>full notation</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>WizardOptions</name>
     <message>
         <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
@@ -4762,6 +4898,17 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>Select a clef and scale of notes appropriate for your instrument.</source>
         <translation>Selecciona una clave y escala de notas apropiada para tu instrumento.</translation>
+    </message>
+</context>
+<context>
+    <name>WizardPiano</name>
+    <message>
+        <source>Notes for piano are written on the grand staff - two staves joined with brace. Usually the upper one, with treble clef is for right hand and the lower one with bass clef is for left hand.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Although for exercise purposes and also due to Nootka is supporting only single voice, sometimes just one of the staves can be used as well.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
