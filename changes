@@ -1,5 +1,6 @@
 1.7.4 git
      - 'Got It!' texts about important Nootka features
+     - added wizard page to select between single-note or full score
      - if no note is selected on the score notes are added one by one,
      - either by playing or by clicking an instrument,
      - but if any note is selected - only this one changes
