@@ -46,6 +46,6 @@ echo "-- remove unused parts of QML modules"
 rm -r installs/Qt/labs/location
 rm -r installs/QtQuick/Particles.2
 rm -r installs/QtQuick/Shapes
-rm installs/platforms/qdirect2d.dll
-rm installs/platforms/qminimal.dll
-rm installs/platforms/qoffscreen.dll
+# rm installs/platforms/qdirect2d.dll
+# rm installs/platforms/qminimal.dll
+# rm installs/platforms/qoffscreen.dll
