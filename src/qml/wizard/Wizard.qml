@@ -38,15 +38,16 @@ ApplicationWindow {
   Row {
     anchors.fill: parent
     Item {
+      visible: !NOO.isAndroid()
       height: nootkaWindow.height - footer.height; width: height * 0.246
       Image {
         id: leftImg
-        source: NOO.pix("wizard-left")
+        source: NOO.isAndroid() ? "" : NOO.pix("wizard-left")
         height: nootkaWindow.height - footer.height; width: height * 0.246
       }
     }
     Item {
-      height: parent.height; width: parent.width - parent.height * 0.246
+      height: parent.height; width: parent.width - (NOO.isAndroid() ? 0 : parent.height * 0.246)
       SwipeView {
         id: swipe
         anchors.fill: parent
