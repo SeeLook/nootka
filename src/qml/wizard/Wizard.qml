@@ -13,6 +13,7 @@ ApplicationWindow {
   id: nootkaWindow
   title: "Nootka - " + qsTr("First run wizard")
   visible: true
+  visibility: NOO.isAndroid() ? "FullScreen" : "AutomaticVisibility"
   color: activPal.window
   width: GLOB.geometry.width
   height: GLOB.geometry.height
