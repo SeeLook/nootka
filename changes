@@ -1,9 +1,8 @@
-1.7.4 git
+1.7.4 beta4
      - 'Got It!' texts about important Nootka features
      - added wizard page to select between single-note or full score
      - if no note is selected on the score notes are added one by one,
-     - either by playing or by clicking an instrument,
-     - but if any note is selected - only this one changes
+     - if any note is selected - only this one is changed
      - improved exam summary
      - handle notes beaming of each piano staves separately
      - plenty of tiny user interface improvements and fixes
@@ -11,7 +10,7 @@
      - no more jumping UI when some of buttons was pressed
      - fixed pitch detection for low-pitched instruments (bass)
     ANDROID
-     - animation about how score edition with touch works
+     - animation about how to edit score with touch
      - do not block mic when app is send to background
 
 1.7.3 beta3
