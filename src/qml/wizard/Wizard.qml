@@ -56,6 +56,7 @@ ApplicationWindow {
           AboutPage {
             id: aboutPage
             color: activPal.highlight
+            siteAddr.visible: false
           }
         }
         Item {

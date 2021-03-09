@@ -10,6 +10,7 @@ Tflickable {
   height: parent.height
 
   property alias color: nooLab.bgColor
+  property alias siteAddr: siteAddr
 
   contentHeight: aboutCol.height
   contentWidth: width
@@ -19,7 +20,7 @@ Tflickable {
     width: parent.width
     spacing: NOO.factor()
     TipRect {
-      height: NOO.factor() * 7; width: parent.width
+      height: NOO.factor() * (NOO.isAndroid() ? 5 : 7); width: parent.width
       color: nooLab.bgColor; radius: 0
       NootkaLabel {
         id: nooLab
@@ -36,6 +37,7 @@ Tflickable {
       }
     }
     LinkText {
+      id: siteAddr
       anchors.horizontalCenter: parent. horizontalCenter
       text: ("<a style=\"text-decoration: none; color: %1\" href=\"https://nootka.sourceforge.io\">https://nootka.sourceforge.io</a>").arg(nooLab.bgColor)
       textFormat: Text.RichText
