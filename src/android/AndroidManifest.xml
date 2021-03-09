@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <manifest package="net.sf.nootka"
           xmlns:android="http://schemas.android.com/apk/res/android"
-          android:versionName="1.7.4-git"
-          android:versionCode="48"
+          android:versionName="1.7.4-beta4"
+          android:versionCode="49"
           android:installLocation="auto">
     <application android:hardwareAccelerated="true"
                  android:name="org.qtproject.qt5.android.bindings.QtApplication"
