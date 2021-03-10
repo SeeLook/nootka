@@ -10,12 +10,12 @@
     <message>
         <location filename="../src/qml/about/AboutPage.qml" line="59"/>
         <source>Welcome on the board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.</source>
-        <translation>Vítejte.&lt;br&gt; Nootka je program s otevřeným zdojovým kódem, který vám má pomoci se naučit (a učit) klasický notový zápis.</translation>
+        <translation>Vítejte na palubě.&lt;br&gt; Nootka je program s otevřeným zdojovým kódem, který vám má pomoci s naučením se (a při výuce) klasickému notovému zápisu.</translation>
     </message>
     <message>
         <location filename="../src/qml/about/AboutPage.qml" line="61"/>
         <source>See a &lt;a href=&quot;%1&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;br&gt;Any bugs, suggestions, translations and so on, please report to: %2.&lt;br&gt;&lt;br&gt;with respects&lt;br&gt;Author</source>
-        <translation>Podívejte se na &lt;a href=&quot;%1&quot;&gt;stránky programu&lt;/a&gt;, kde naleznete více podrobností a informace o dalších vydáních.&lt;br&gt;Všechny chyby, návrhy, překlady atd. hlašte: %2.&lt;br&gt;&lt;br&gt;Autor</translation>
+        <translation>Podívejte se na &lt;a href=&quot;%1&quot;&gt;stránky programu&lt;/a&gt;, kde naleznete více podrobností a informace o dalších vydáních.&lt;br&gt;Všechny chyby, návrhy, překlady a tak dále hlašte: %2.&lt;br&gt;&lt;br&gt;Autor</translation>
     </message>
     <message>
         <location filename="../src/qml/about/AboutPage.qml" line="71"/>
@@ -46,12 +46,12 @@
     <message>
         <location filename="../src/qml/level/AccidsPage.qml" line="47"/>
         <source>b - flats</source>
-        <translation>b - béčka</translation>
+        <translation>b - bé</translation>
     </message>
     <message>
         <location filename="../src/qml/level/AccidsPage.qml" line="51"/>
         <source>Flats will be used in questions and answers. It has to be checked, if keys with flats are used.</source>
-        <translation>Ve zkušebních otázkách a odpovědích se budou používat béčka. Musí to být zaškrtnuto, když se používají tóniny s béčky.</translation>
+        <translation>Ve zkušebních otázkách a odpovědích se budou používat bé. Musí to být zaškrtnuto, když se používají tóniny s bé.</translation>
     </message>
     <message>
         <location filename="../src/qml/level/AccidsPage.qml" line="57"/>
@@ -138,7 +138,7 @@
         <location filename="../src/charts/qml/ChartDrawer.qml" line="107"/>
         <source>ordered by:</source>
         <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
-        <translation>Seřazeno podle:</translation>
+        <translation>Řazeno dle:</translation>
     </message>
     <message>
         <location filename="../src/charts/qml/AnalyzeDialog.qml" line="129"/>
@@ -264,12 +264,12 @@ není platným souborem zkoušky!</translation>
         <location filename="../src/charts/tchartitem.cpp" line="103"/>
         <source>question number</source>
         <comment>see comment in &apos;ordered by:&apos; entry</comment>
-        <translation>Otázka číslo</translation>
+        <translation>Číslo otázky</translation>
     </message>
     <message>
         <location filename="../src/charts/tchartitem.cpp" line="251"/>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
-        <translation>Použijte %1 + kolečko myši nebo tlačítka %2 pro přiblížení grafu.</translation>
+        <translation>Pro přiblížení a oddálení grafu použijte buď %1 + kolečko myši nebo tlačítka %2.</translation>
     </message>
     <message>
         <location filename="../src/charts/tchart.h" line="116"/>
@@ -799,7 +799,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/qml/settings/GlobalPage.qml" line="121"/>
         <source>Check for updates</source>
-        <translation>Prověřit, zda již je novější vydání</translation>
+        <translation>Podívat se po novějším vydání</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/GlobalPage.qml" line="133"/>
@@ -823,12 +823,12 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/qml/gotit/GotIt.qml" line="82"/>
         <source>GOT IT!</source>
-        <translation type="unfinished"></translation>
+        <translation>MÁM TO!</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/GotIt.qml" line="86"/>
         <source>remind me next time</source>
-        <translation type="unfinished"></translation>
+        <translation>Příště mi to připomenout</translation>
     </message>
 </context>
 <context>
@@ -836,37 +836,37 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/qml/gotit/HandleScore.qml" line="63"/>
         <source>Editing score with touch</source>
-        <translation type="unfinished"></translation>
+        <translation>Upravování notového zápisu dotykem</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/HandleScore.qml" line="69"/>
         <source>Touch and hold area of a note you want to edit.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dotkněte se a podržte oblast s notou, kterou chcete upravit.</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/HandleScore.qml" line="70"/>
         <source>Move finger left or right to see edited note.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pohněte prstem doleva nebo doprava pro zobrazení upravené noty.</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/HandleScore.qml" line="71"/>
         <source>Then move finger up or down to find desired note pitch.</source>
-        <translation type="unfinished"></translation>
+        <translation>Poté prst posuňte nahoru nebo dolů pro nalezení požadované výšky tónu.</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/HandleScore.qml" line="72"/>
         <source>Rise the finger.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvedněte prst.</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/HandleScore.qml" line="73"/>
         <source>If necessary, select accidental or rhythmic value.</source>
-        <translation type="unfinished"></translation>
+        <translation>V případě potřeby vyberte posuvku nebo rytmickou hodnotu.</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/HandleScore.qml" line="74"/>
         <source>Finally, tap selected note shortly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nakonec na vybranou notu krátce klepněte.</translation>
     </message>
 </context>
 <context>
@@ -959,7 +959,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="151"/>
         <source>b - flats</source>
-        <translation>b - béčka</translation>
+        <translation>b - bé</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="179"/>
@@ -970,7 +970,7 @@ není platným souborem zkoušky!</translation>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="171"/>
         <source>marked frets</source>
         <comment>or frets with dots/marks</comment>
-        <translation>označené pražce</translation>
+        <translation>Označené pražce</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="160"/>
@@ -1169,17 +1169,17 @@ ale nebyla uložena!</translation>
     <message>
         <location filename="../src/qml/level/LevelsPage.qml" line="64"/>
         <source>new level</source>
-        <translation type="unfinished">Nová úroveň</translation>
+        <translation>Nová úroveň</translation>
     </message>
     <message>
         <location filename="../src/qml/level/LevelsPage.qml" line="110"/>
         <source>Level name:</source>
-        <translation type="unfinished">Název úrovně:</translation>
+        <translation>Název úrovně:</translation>
     </message>
     <message>
         <location filename="../src/qml/level/LevelsPage.qml" line="120"/>
         <source>Level description:</source>
-        <translation type="unfinished">Popis úrovně:</translation>
+        <translation>Popis úrovně:</translation>
     </message>
 </context>
 <context>
@@ -1308,27 +1308,27 @@ Bude ale dobře, když budou úryvky krátké. Nejprve skladby rozdělte v jiné
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="28"/>
         <source>Melodies are composed from notes in range defined on the &apos;Range&apos; page.</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodie jsou složeny z not v rozsahu stanoveném na stránce Rozsah.</translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="30"/>
         <source>Melodies are selected from the list below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodie jsou vybrány ze seznamu níže.</translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="43"/>
         <source>from notes in range</source>
-        <translation type="unfinished"></translation>
+        <translation>Z not v rozsahu</translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="43"/>
         <source>from selected notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Z vybraných not</translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="43"/>
         <source>from set of melodies</source>
-        <translation type="unfinished"></translation>
+        <translation>Ze sady melodií</translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="58"/>
@@ -1434,7 +1434,7 @@ Bude ale dobře, když budou úryvky krátké. Nejprve skladby rozdělte v jiné
     <message>
         <location filename="../src/qml/gotit/NoteSelected.qml" line="40"/>
         <source>Note selection and playing</source>
-        <translation type="unfinished"></translation>
+        <translation>Výběr not a přehrávání</translation>
     </message>
 </context>
 <context>
@@ -1881,7 +1881,7 @@ Bude ale dobře, když budou úryvky krátké. Nejprve skladby rozdělte v jiné
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="83"/>
         <source>If checked, you can use double sharps and double flats.</source>
-        <translation>Je-li zaškrtnuto, můžete používat dvojité křížky a dvojitá béčka.</translation>
+        <translation>Je-li zaškrtnuto, můžete používat dvojité křížky a dvojitá bé.</translation>
     </message>
     <message>
         <source>tempo of played notes</source>
@@ -1955,7 +1955,7 @@ Bude ale dobře, když budou úryvky krátké. Nejprve skladby rozdělte v jiné
     <message>
         <location filename="../src/qml/settings/Select7note.qml" line="29"/>
         <source>7th note is:</source>
-        <translation>7má nota je:</translation>
+        <translation>Sedmá nota je:</translation>
     </message>
     <message>
         <source>7th note is &lt;b&gt;B&lt;/b&gt; and with flat is &lt;b&gt;Bb&lt;/b&gt; or &lt;b&gt;bes&lt;/b&gt; or &lt;b&gt;bs&lt;/b&gt;</source>
@@ -1991,12 +1991,12 @@ Bude ale dobře, když budou úryvky krátké. Nejprve skladby rozdělte v jiné
     <message>
         <location filename="../src/qml/gotit/SoundInfo.qml" line="85"/>
         <source>Play a few sounds to figure out their maximal volume,&lt;br&gt;then set level knob about 10-20% below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Přehrajte několik zvuků, abyste zjistili jejich největší hlasitost,&lt;br&gt; poté nastavte ovladač úrovně přibližně o 10–20 % níže.</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/SoundInfo.qml" line="132"/>
         <source>Later, you can adjust the volume level in Nootka tuner window.&lt;br&gt;Invoke it from main menu or use any volume key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Později můžete upravit úroveň hlasitosti v okně ladítka Nootky.&lt;br&gt; Vyvolejte je z hlavní nabídky nebo použijte libovolnou klávesu pro ovládání hlasitosti.</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/SoundInfo.qml" line="136"/>
@@ -2006,7 +2006,7 @@ Bude ale dobře, když budou úryvky krátké. Nejprve skladby rozdělte v jiné
     <message>
         <location filename="../src/qml/gotit/SoundInfo.qml" line="137"/>
         <source>If you want Nootka to write your melody with rhythm then you have to play exactly in selected tempo - preferably with a metronome. But during practice, when you are playing melody given by the application, the tempo can be at will unless some level defines it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokud chcete, aby Nootka psala melodii s rytmem, musíte hrát přesně ve zvoleném tempu - nejlépe s metronomem. Ale během cvičení, když hrajete melodii danou aplikací, může být tempo libovolné, pokud je nestanovuje nějaká úroveň.</translation>
     </message>
     <message>
         <source>Rhythms detection during exercises and exams is more &apos;humane&apos; - Nootka knows what rhythm to expect. In contrary to playing to &apos;empty&apos; score when high rhythmic precision is required, so better use metronome then.</source>
@@ -2469,7 +2469,7 @@ Bude ale dobře, když budou úryvky krátké. Nejprve skladby rozdělte v jiné
         <location filename="../src/charts/tanalysdialog.cpp" line="88"/>
         <source>ordered by:</source>
         <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
-        <translation>Seřazeno podle:</translation>
+        <translation>Řazeno dle:</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="89"/>
@@ -2530,17 +2530,17 @@ Bude ale dobře, když budou úryvky krátké. Nejprve skladby rozdělte v jiné
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="157"/>
         <source>Press %1 button to select an exam from a file.</source>
-        <translation>Stiskněte tlačítko %1, abyste vybrali zkoušku ze souboru.</translation>
+        <translation>Pro vybrání zkoušky ze souboru stiskněte tlačítko %1.</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="159"/>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
-        <translation>Použijte %1 + kolečko myši nebo tlačítka %2 pro přiblížení grafu.</translation>
+        <translation>Pro přiblížení a oddálení grafu použijte buď %1 + kolečko myši nebo tlačítka %2.</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="161"/>
         <source>Click and Drag the cursor to move the chart.</source>
-        <translation>Klepněte a táhněte ukazatel pro posun grafu.</translation>
+        <translation>Pro posunutí grafu klepněte a táhněte ukazovátko.</translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="193"/>
@@ -3081,7 +3081,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/qml/gotit/ExamFlow.qml" line="75"/>
         <source> Briefly: Nootka give you a question and you give an answer...</source>
-        <translation> Stručně: Nootka vám dá otázku a vy odpovíte...</translation>
+        <translation> Stručně: Nootka vám dá otázku a vy ji zodpovíte...</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/ExamFlow.qml" line="88"/>
@@ -3091,7 +3091,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/qml/gotit/ExamFlow.qml" line="89"/>
         <source>To give an answer, select it on &lt;span style=&quot;%1&quot;&gt;Nootka&apos;s element with that color.&lt;/span&gt;&lt;br&gt;</source>
-        <translation>Pro podání odpovědi ji vyberte na &lt;span style=&quot;%1&quot;&gt;prvku Nootky zdůrazněném touto barvou.&lt;/span&gt;&lt;br&gt;</translation>
+        <translation>Pro zadání odpovědi ji vyberte na &lt;span style=&quot;%1&quot;&gt;prvku Nootky s touto barvou.&lt;/span&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/ExamFlow.qml" line="18"/>
@@ -3101,7 +3101,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/help/texamhelp.cpp" line="67"/>
         <source>If you made a mistake during an exercise, Nootka can show you correct answer. To see it:</source>
-        <translation>Pokud jste během cvičení udělal chybu, Nootka vám může ukázat správnou odpověď. Abyste ji uviděl:</translation>
+        <translation>Pokud jste během cvičení udělali chybu, Nootka vám může ukázat správnou odpověď. Abyste ji uviděli:</translation>
     </message>
     <message>
         <location filename="../src/help/texamhelp.cpp" line="78"/>
@@ -3126,7 +3126,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/help/texamhelp.cpp" line="102"/>
         <source>Just click this settings button to adjust an exercise or an exam to your current needs.</source>
-        <translation>Jednoduše klepněte na tlačítko pro toto nastavení a upravte cvičení nebo zkoušku podle svých současných potřeb.</translation>
+        <translation>Jednoduše klepněte na tlačítko pro nastavení a upravte cvičení nebo zkoušku podle svých současných potřeb.</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/ExamFlow.qml" line="161"/>
@@ -3136,7 +3136,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/help/texamhelp.cpp" line="55"/>
         <source>To check the answer confirm it:</source>
-        <translation>Pro prověření odpovědi ji potvrďte:</translation>
+        <translation>Pro ověření odpovědi ji potvrďte:</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="64"/>
@@ -3170,7 +3170,7 @@ není platným souborem zkoušky!</translation>
         <location filename="../src/help/texamhelp.h" line="73"/>
         <source>tap %1</source>
         <comment>tap &lt;icon image follows&gt;</comment>
-        <translation>Klepněte na %1</translation>
+        <translation>Ťukněte na %1</translation>
     </message>
     <message>
         <location filename="../src/help/texamhelp.h" line="79"/>
@@ -3180,22 +3180,22 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/help/texamhelp.h" line="84"/>
         <source>press &lt;b&gt;space&lt;/b&gt; key</source>
-        <translation>stiskněte klávesu &lt;b&gt;mezerníku&lt;/b&gt;</translation>
+        <translation>Stiskněte klávesu &lt;b&gt;mezerníku&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/help/texamhelp.h" line="89"/>
         <source>press &lt;b&gt;Enter&lt;/b&gt; key</source>
-        <translation>stiskněte klávesu &lt;b&gt;Enter&lt;/b&gt;</translation>
+        <translation>Stiskněte klávesu &lt;b&gt;Enter&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/help/texamhelp.h" line="94"/>
         <source>or press &lt;b&gt;Enter&lt;/b&gt; key</source>
-        <translation>nebo stiskněte klávesu &lt;b&gt;Enter&lt;/b&gt;</translation>
+        <translation>Nebo stiskněte klávesu &lt;b&gt;Enter&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/help/texamhelp.h" line="99"/>
         <source>or &lt;b&gt;Backspace&lt;/b&gt; key</source>
-        <translation>nebo klávesu &lt;b&gt;Backspace&lt;/b&gt;</translation>
+        <translation>Nebo klávesu &lt;b&gt;Backspace&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/help/texamhelp.h" line="105"/>
@@ -3484,27 +3484,27 @@ není platným souborem zkoušky!</translation>
         <location filename="../src/main/tgotit.cpp" line="146"/>
         <source>note cursor</source>
         <comment>it might be just &apos;cursor&apos; as well</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ukazatel noty</translation>
     </message>
     <message>
         <location filename="../src/main/tgotit.cpp" line="151"/>
         <source>Note becomes selected (highlighted) when it was edited or clicked with right mouse button or tapped shortly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota bude vybrána (zvýrazněna), když byla upravena nebo na ni bylo klepnuto pravým tlačítkem myši nebo krátce ťuknuto.</translation>
     </message>
     <message>
         <location filename="../src/main/tgotit.cpp" line="153"/>
         <source>If any note on the score is selected, only this particular one is changed by playing or clicking on an instrument. And only pitch of that note changes - rhythmic value remains the same. </source>
-        <translation type="unfinished"></translation>
+        <translation>Pokud je v notovém zápisu vybrána jakákoli nota, pouze tato určitá se změní hraním nebo klepnutím na nástroj. A mění se pouze výška tónu oné noty - rytmická hodnota zůstává stejná. </translation>
     </message>
     <message>
         <location filename="../src/main/tgotit.cpp" line="160"/>
         <source>When no note is chosen on the score, note cursor is highlighted and blinks. Notes are added one by one, either by playing real instrument or by selecting a sound on instrument displayed by the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokud v notovém zápisu není vybrána žádná nota, ukazatel noty je zvýrazněn a bliká. Noty se přidávají jedna po druhé, a to buď hraním na skutečném nástroji, nebo výběrem zvuku na nástroji zobrazeném aplikací.</translation>
     </message>
     <message>
         <location filename="../src/main/tgotit.cpp" line="168"/>
         <source>To deselect the note just click or tap some free part of the score sheet or use arrow keys to navigate to the note cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Chcete-zrušit výběr noty, stačí klepnout nebo ťuknout na volnou část listu s notovým zápisem nebo pomocí kláves se šipkami přejít na ukazatel noty.</translation>
     </message>
 </context>
 <context>
@@ -3548,7 +3548,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/libs/core/music/tinstrument.cpp" line="29"/>
         <source>other instrument</source>
-        <translation>Další nástroj</translation>
+        <translation>Jiný nástroj</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tinstrument.cpp" line="29"/>
@@ -3568,7 +3568,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/libs/core/music/tinstrument.cpp" line="31"/>
         <source>Piano</source>
-        <translation>Piano</translation>
+        <translation>Klavír</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tinstrument.cpp" line="31"/>
@@ -3856,7 +3856,7 @@ ale nebyla uložena!</translation>
     <message>
         <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="689"/>
         <source>&lt;li&gt;Questions and answers as note names will be the same. To avoid that level has to use flats and sharps and/or double accidentals and/or to use different name styles.&lt;/li&gt;</source>
-        <translation>&lt;li&gt;Otázky a odpovědi jako názvy not budou stejné. Úroveň musí používat béčka a křížky a/nebo dvojité posuvky, a/nebo používat různé názvy not, aby se tomu zabránilo.&lt;/li&gt;</translation>
+        <translation>&lt;li&gt;Otázky a odpovědi jako názvy not budou stejné. Úroveň musí používat bé a křížky a/nebo dvojité posuvky, a/nebo používat různé názvy not, aby se tomu zabránilo.&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="693"/>
@@ -4079,7 +4079,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/help/tmainhelp.cpp" line="52"/>
         <source>During exercising %1 the program will be your understanding and friendly teacher - it will show you corrected answers if you miss.</source>
-        <translation>Během cvičení %1 bude program vaším chápajícím a přátelským učitelem - Pokud se zmýlíte, ukáže vám správné odpovědi.</translation>
+        <translation>Během cvičení %1 bude program vaším chápajícím a přátelským učitelem. Pokud se zmýlíte, ukáže vám správné odpovědi.</translation>
     </message>
     <message>
         <location filename="../src/help/tmainhelp.cpp" line="57"/>
@@ -4105,7 +4105,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/help/tmainhelp.cpp" line="69"/>
         <source>Press %1 buttons to see help and %2 button to adjust Nootka to your preference.</source>
-        <translation>Stiskněte tlačítko %1, abyste si zběžně prohlédli tuto nápovědu, a tlačítko %2, abyste program přizpůsobili svým potřebám.</translation>
+        <translation>Stiskněte tlačítko %1 pro zběžné prohlédnutí této nápovědy a tlačítko %2 pro přizpůsobení programu svým potřebám.</translation>
     </message>
     <message>
         <location filename="../src/help/tmainhelp.cpp" line="75"/>
@@ -4120,7 +4120,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/help/tmainhelp.cpp" line="83"/>
         <source>Nootka will tell you about what you&apos;ve been thinking for so long... and about the progress you&apos;ve been making so far....&lt;br&gt;Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.</source>
-        <translation>Nootka vám poví to, co už dlouho tušíte..., a řekne vám o postupu, který jste dosud udělal...&lt;br&gt;Stiskněte tlačítko %1, abyste se podíval na výsledky zkoušek a mohl se jimi zaobírat. Najděte své slabé stránky a zlepšete se.</translation>
+        <translation>Nootka vám poví to, co už dlouho tušíte..., a řekne vám o postupu, který jste dosud udělal...&lt;br&gt;Stiskněte tlačítko %1 pro se podívání se na výsledky zkoušek, abyste se jimi mohl zaobírat. Najděte své slabé stránky a zlepšete se.</translation>
     </message>
     <message>
         <location filename="../src/help/tmainhelp.cpp" line="90"/>
@@ -4755,7 +4755,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/qml/settings/KeySufixEdit.qml" line="25"/>
         <source>in the major keys:</source>
-        <translation>V &lt;br&gt;durových tóninách:</translation>
+        <translation>V durových tóninách:</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/KeySufixEdit.qml" line="38"/>
@@ -5513,27 +5513,27 @@ je viděli a poslechli si správně.</translation>
     <message>
         <location filename="../src/qml/wizard/WizardMode.qml" line="35"/>
         <source>In main Nootka window score can be displayed in a few different ways, depends on experience level.</source>
-        <translation type="unfinished"></translation>
+        <translation>V hlavním okně Nootky lze notový zápis zobrazit několika různými způsoby, v závislosti na úrovni zkušeností.</translation>
     </message>
     <message>
         <location filename="../src/qml/wizard/WizardMode.qml" line="56"/>
         <source>For beginners, when you don&apos;t know musical notation at all.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pro začátečníky, když vůbec neznáte notový zápis.</translation>
     </message>
     <message>
         <location filename="../src/qml/wizard/WizardMode.qml" line="139"/>
         <source>score without rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>Notový zápis bez rytmů</translation>
     </message>
     <message>
         <location filename="../src/qml/wizard/WizardMode.qml" line="146"/>
         <source>When you already know musical notation a little but you cannot play your instrument fluently yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Když už trochu znáte notový zápis, ale zatím na svůj nástroj nedokážete hrát plynule.</translation>
     </message>
     <message>
         <location filename="../src/qml/wizard/WizardMode.qml" line="185"/>
         <source>full notation</source>
-        <translation type="unfinished"></translation>
+        <translation>Úplná notace</translation>
     </message>
 </context>
 <context>
@@ -5572,12 +5572,12 @@ je viděli a poslechli si správně.</translation>
     <message>
         <location filename="../src/qml/wizard/WizardPiano.qml" line="20"/>
         <source>Notes for piano are written on the grand staff - two staves joined with brace. Usually the upper one, with treble clef is for right hand and the lower one with bass clef is for left hand.</source>
-        <translation type="unfinished"></translation>
+        <translation>Noty pro klavír jsou napsány ve velké notové osnově - dvě notové osnovy spojené složenou závorkou. Obvykle je horní s houslovým klíčem pro pravou ruku a spodní s basovým klíčem pro levou ruku.</translation>
     </message>
     <message>
         <location filename="../src/qml/wizard/WizardPiano.qml" line="21"/>
         <source>Although for exercise purposes and also due to Nootka is supporting only single voice, sometimes just one of the staves can be used as well.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ačkoli pro účely cvičení a také kvůli tomu, že Nootka podporuje pouze jeden hlas, někdy lze použít také jen jednu z notových osnov.</translation>
     </message>
 </context>
 <context>
