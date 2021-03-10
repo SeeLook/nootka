@@ -41,6 +41,11 @@ bool initCoreLibrary() {
     return false;
   }
 
+  // dummy - just to consume that by lupdate
+  QGuiApplication::translate("about translator", "translator",
+      "Do not translate this, just put in 'translator comment field' your data: translator name, "
+      "translator e-mail (optional) and translator site (optional)");
+
   Trhythm::initialize();
   Tcolor::setShadow(qApp->palette());
 

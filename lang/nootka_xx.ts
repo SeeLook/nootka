@@ -3558,6 +3558,14 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
 </context>
 <context>
+    <name>about translator</name>
+    <message>
+        <source>translator</source>
+        <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: translator name, translator e-mail (optional) and translator site (optional)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>chartStats</name>
     <message>
         <source>for a note:</source>
