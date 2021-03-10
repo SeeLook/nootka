@@ -120,7 +120,7 @@ TnameItem {
     spacing: parent.width / 20
     Text {
       anchors.verticalCenter: parent.verticalCenter
-      color: activPal.text
+      textFormat: Text.RichText
       onLinkActivated: Qt.openUrlExternally(link)
       enabled: !disabled
       text: octavesLink()
