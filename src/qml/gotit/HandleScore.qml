@@ -50,11 +50,11 @@ GotIt {
   }
 
   Rectangle {
-    width: parent.width * 0.5
-    x: parent.width * 0.5 - NOO.factor() * 1.5; y: parent.height * 0.05
+    width: parent.width * 0.59; height: parent.height - NOO.factor() * 4
+    x: parent.width * 0.41 + NOO.factor(); y: NOO.factor()
     Column {
       anchors.horizontalCenter: parent.hozrizontalCenter
-      width: parent.width - NOO.factor() * 4
+      width: parent.width - NOO.factor() * 2
       spacing: NOO.factor()
       Text {
         anchors.horizontalCenter: parent.hozrizontalCenter
@@ -65,6 +65,7 @@ GotIt {
       ListView {
         id: descView
         currentIndex: -1
+        clip: true
         model: [
           qsTr("Touch and hold area of a note you want to edit."),
           qsTr("Move finger left or right to see edited note."),
@@ -73,13 +74,13 @@ GotIt {
           qsTr("If necessary, select accidental or rhythmic value."),
           qsTr("Finally, tap selected note shortly.")
         ]
-        width: parent.width - NOO.factor() * 2; height: contentHeight
+        width: parent.width - NOO.factor() * 2; height: parent.parent.height - scoreHow.width * 0.04 - NOO.factor()
         spacing: NOO.factor() / 2
         delegate: Text {
-          width: parent.width - NOO.factor() * 2
+          width: parent.width - NOO.factor() / 2
           text: index + 1 + ". " + modelData
           color: activPal.text; wrapMode: Text.WordWrap
-          font { bold: index === descView.currentIndex; pixelSize: scoreHow.width * 0.015 }
+          font { bold: index === descView.currentIndex; pixelSize: Math.max(scoreHow.width * 0.015, NOO.factor()) }
           style: index === descView.currentIndex ? Text.Sunken : Text.Normal
           styleColor: activPal.highlight
         }
@@ -202,7 +203,7 @@ GotIt {
       NumberAnimation { target: finger; property: "y"; to: scoreHow.height * 0.39; duration: 500 }
     }
     ParallelAnimation {
-      NumberAnimation { target: finger; property: "x"; to: scoreHow.width * 0.5; duration: 1000 }
+      NumberAnimation { target: finger; property: "x"; to: scoreHow.width * 0.8; duration: 1000 }
       NumberAnimation { target: finger; property: "y"; to: scoreHow.height * 0.8; duration: 1000 }
     }
     ScriptAction { script: gotScore.noteAdd.visible = false }
@@ -211,12 +212,12 @@ GotIt {
   }
 
   Row {
-    x: parent.width * 0.05; y: parent.height * 0.95 - height
-    spacing: NOO.factor() * 2
+    x: NOO.factor() * (NOO.isAndroid() ? 1 : 2); y: parent.height - height - NOO.factor() / 2
+    spacing: NOO.factor() * (NOO.isAndroid() ? 1 : 3)
     TcuteButton {
       text: NOO.TR("QShortcut", gotAnim.running ?  "Stop" : "Play")
-      width: height * 3.5; height: NOO.factor() * 3
-      font { pixelSize: NOO.factor() * 2; bold: true; capitalization: Font.AllUppercase }
+      width: height * 3.5; height: NOO.factor() * (NOO.isAndroid() ? 2 : 3)
+      font { pixelSize: height * 0.7; bold: true; capitalization: Font.AllUppercase }
       onClicked: {
         if (gotAnim.running)
             gotAnim.running = false
@@ -239,8 +240,8 @@ GotIt {
     TcuteButton {
       enabled: gotAnim.running
       text: gotAnim.paused ?  NOO.TR("QWizard", "Continue") : NOO.TR("QShortcut", "Pause")
-      width: height * 3.5; height: NOO.factor() * 3
-      font { pixelSize: NOO.factor() * 2; bold: true; capitalization: Font.AllUppercase }
+      width: height * 3.5; height: NOO.factor() * (NOO.isAndroid() ? 2 : 3)
+      font { pixelSize: height * 0.7; bold: true; capitalization: Font.AllUppercase }
       onClicked: {
         if (gotAnim.paused)
           gotAnim.resume()
