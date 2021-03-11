@@ -9,6 +9,8 @@
 ### Bugs to fix:
   - Exams: For non guitars single note question "give name of:" has nothing more
   - playing with metronome doesn't work under Android
+  - older Android versions (below 7.1, 4.4 for sure) doesn't detect/load default translation
+  - decrease height of some wizard elemnts (texts, scores)
 
 ### To test:
   - melodies with ties and multiple rests (either playing or writing)
@@ -26,9 +28,11 @@
   - add info that reading grand staff from musicxml created out of Nootka is not supported
   - certificates would have some additional data about melodies
   - charts - show preview of entire melody, chart tip is not suitable for it
-  - migrate on preferred 48000 sample rate (ogg files and audio methods). DO NOT forget to resize output samples length
+  - clean code:
+    - when right mouse button is not used: TexamExacutor and TexecutorSupply
 
 ### For next stable Nootka version 2.2 and up
+  - migrate on preferred 48000 sample rate (ogg files and audio methods). DO NOT forget to resize output samples length
   - MIDI input & revert MIDI out of course
   - add rests option for random melodies in exams
   - implement repeating a melody that was heard
