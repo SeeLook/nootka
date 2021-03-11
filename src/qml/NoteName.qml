@@ -118,21 +118,15 @@ TnameItem {
     y: parent.height * 0.65
     leftPadding: parent.width / 60
     spacing: parent.width / 20
-    Text {
+    RectButton {
       anchors.verticalCenter: parent.verticalCenter
-      textFormat: Text.RichText
-      onLinkActivated: Qt.openUrlExternally(link)
+      height: buttHeight; yOffset: height * 0.2; y: NOO.factor() / 3
+      onClicked: Qt.openUrlExternally(octavesLink())
       enabled: !disabled
-      text: octavesLink()
+      text: qsTranslate("TnameItem", "Octaves") + ":"
+      textColor: hovered ? activPal.highlightedText : activPal.highlight
       font { pixelSize: buttHeight * 0.4; bold: true }
-      MouseArea {
-        anchors.fill: parent
-        acceptedButtons: Qt.NoButton
-        cursorShape: parent.hoveredLink ? Qt.PointingHandCursor : Qt.ArrowCursor
-        hoverEnabled: !NOO.isAndroid() && GLOB.showHints
-        onEntered: NOO.setStatusTip(octavesLinkStatus())
-        onExited: NOO.setStatusTip("")
-      }
+      statusTip: octavesLinkStatus(); statusPos: Item.Top
     }
     Repeater {
       model: 4

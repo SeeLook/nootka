@@ -188,8 +188,9 @@ QString TnameItem::octaveName(int oNr) const {
 
 QString TnameItem::octavesLink() const {
   QString l = octavesLinkStatus();
-  return QLatin1String("<a style=\"text-decoration: none; color: %1\" href=").arg(qApp->palette().highlight().color().name())
-          + l.mid(l.indexOf("\"")) + QLatin1String(">") + tr("Octaves") + QLatin1String(":</a>");
+  l = l.mid(l.indexOf("\"") + 1);
+  l.chop(1);
+  return l;
 }
 
 
