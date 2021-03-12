@@ -4,17 +4,17 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <location filename="../src/qml/about/AboutPage.qml" line="59"/>
+        <location filename="../src/qml/about/AboutPage.qml" line="61"/>
         <source>Welcome on the board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.</source>
         <translation>Witamy na pokładzie.&lt;br&gt; Nootka to aplikacja open source pomagająca w nauce (a także w nauczaniu) klasycznego zapisu nutowego.</translation>
     </message>
     <message>
-        <location filename="../src/qml/about/AboutPage.qml" line="61"/>
+        <location filename="../src/qml/about/AboutPage.qml" line="63"/>
         <source>See a &lt;a href=&quot;%1&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;br&gt;Any bugs, suggestions, translations and so on, please report to: %2.&lt;br&gt;&lt;br&gt;with respects&lt;br&gt;Author</source>
         <translation>Po więcej szczegółów i po następne wydania zajrzyj na &lt;a href=&quot;%1&quot;&gt;stronę programu&lt;/a&gt;.&lt;br&gt;Błędy, sugestie, tłumaczenia itp., proszę zgłaszać do: %2.&lt;br&gt;&lt;br&gt;z poważaniem&lt;br&gt;Autor</translation>
     </message>
     <message>
-        <location filename="../src/qml/about/AboutPage.qml" line="71"/>
+        <location filename="../src/qml/about/AboutPage.qml" line="73"/>
         <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
         <translation>Ta wersja to beta i może zawierać błędy lub działać w niezamierzony sposób, posiada także nieukończone funkcje.&lt;br&gt;Mimo tego, zapraszam do wypróbowania!</translation>
     </message>
@@ -858,32 +858,32 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation>Edycja nut przy użyciu dotyku</translation>
     </message>
     <message>
-        <location filename="../src/qml/gotit/HandleScore.qml" line="69"/>
+        <location filename="../src/qml/gotit/HandleScore.qml" line="70"/>
         <source>Touch and hold area of a note you want to edit.</source>
         <translation>Dotknij i przytrzymaj pole nuty którą zamierzasz edytować.</translation>
     </message>
     <message>
-        <location filename="../src/qml/gotit/HandleScore.qml" line="70"/>
+        <location filename="../src/qml/gotit/HandleScore.qml" line="71"/>
         <source>Move finger left or right to see edited note.</source>
         <translation>Przesuń palec w prawo lub w lewo żeby widzieć edytowaną nutę.</translation>
     </message>
     <message>
-        <location filename="../src/qml/gotit/HandleScore.qml" line="71"/>
+        <location filename="../src/qml/gotit/HandleScore.qml" line="72"/>
         <source>Then move finger up or down to find desired note pitch.</source>
         <translation>Potem przesuń palec w górę lub w dół aby ustawić żądaną wysokość dźwięku.</translation>
     </message>
     <message>
-        <location filename="../src/qml/gotit/HandleScore.qml" line="72"/>
+        <location filename="../src/qml/gotit/HandleScore.qml" line="73"/>
         <source>Rise the finger.</source>
         <translation>Podnieś palec.</translation>
     </message>
     <message>
-        <location filename="../src/qml/gotit/HandleScore.qml" line="73"/>
+        <location filename="../src/qml/gotit/HandleScore.qml" line="74"/>
         <source>If necessary, select accidental or rhythmic value.</source>
         <translation>Gdy potrzeba, wybierz znak lub wartość rytmiczną.</translation>
     </message>
     <message>
-        <location filename="../src/qml/gotit/HandleScore.qml" line="74"/>
+        <location filename="../src/qml/gotit/HandleScore.qml" line="75"/>
         <source>Finally, tap selected note shortly.</source>
         <translation>Na końcu dotknij krótko wybraną nutę.</translation>
     </message>
@@ -3066,100 +3066,100 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation>Poziom &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nie ma sensu, bo nie ma w nim żadnego pytania, które można zadać.&lt;br&gt;Możliwe, że nie jest dopasowany do bieżącego stroju gitary.&lt;br&gt;Napraw to w Kreatorze Poziomów i spróbuj ponownie.</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1258"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1264"/>
         <source>Exercise or exam preferences</source>
         <translation>Preferencje ćwiczeń lub egzaminu</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1277"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1283"/>
         <source>repeat previous question (backspace)</source>
         <translation>powtórz poprzednie pytanie (backspace)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1283"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1289"/>
         <source>next question
 (space %1)</source>
         <translation>następne pytanie
 (spacja %1)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1289"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1295"/>
         <source>Play &lt;i&gt;middle a&lt;/i&gt; like a tuning fork.
 (Press key &apos;a&apos;)</source>
         <translation>Zagraj &lt;i&gt;środkowe a&lt;/i&gt; jak kamerton.
 (klawisz &apos;a&apos;)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1296"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1302"/>
         <source>play sound again</source>
         <translation>ponownie zagraj dźwięk</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1309"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1315"/>
         <source>Try this melody once again. (backspace)</source>
         <translation>Spróbuj tą melodię jeszcze raz. (backspace)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1317"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1323"/>
         <source>check answer
 (enter %1)</source>
         <translation>sprawdź odpowiedź
 (enter %1)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1324"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1330"/>
         <source>correct answer
 (enter)</source>
         <translation>popraw odpowiedź
 (enter)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1434"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1440"/>
         <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
         <translation>Najpierw odpowiedz!&lt;br&gt;Potem egzamin zostanie zakończony.</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1487"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1493"/>
         <source>Such a pity.</source>
         <translation>Jaka szkoda.</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1557"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1564"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
         <translation>Psssst... Trwa egzamin.&lt;br&gt;&lt;br&gt;Wybierz &lt;b&gt;%1&lt;/b&gt; żeby sprawdzić, zapisać i wyjść&lt;br&gt;lub &lt;b&gt;%2&lt;/b&gt; aby kontynuować.&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1587"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1594"/>
         <source>Save exam results as:</source>
         <translation>Zapisz wyniki egzaminu jako:</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1592"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1599"/>
         <source>If you don&apos;t save to file&lt;br&gt;you lost all results!</source>
         <translation>Jeżeli nie zapiszesz do pliku&lt;br&gt;stracisz dotychczasowe wyniki!</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1840"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1847"/>
         <source>This note was not played!</source>
         <translation>Ta nuta nie była zagrana!</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1831"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1838"/>
         <source>There is not such a note in this melody!</source>
         <translation>Nie ma takiej nuty w tej melodii!</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1975"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1982"/>
         <source>Exercises with Nootka</source>
         <translation>Ćwiczenia z Nootką</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1265"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1271"/>
         <source>finish exercising</source>
         <translation>zakończ ćwiczenie</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1977"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1984"/>
         <source>EXAM!</source>
         <translation>EGZAMIN!</translation>
     </message>
@@ -3176,7 +3176,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation type="vanished">Zakończ</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1268"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1274"/>
         <source>stop the exam</source>
         <translation>zatrzymaj egzamin</translation>
     </message>
@@ -3647,7 +3647,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/main/tgotit.cpp" line="153"/>
         <source>If any note on the score is selected, only this particular one is changed by playing or clicking on an instrument. And only pitch of that note changes - rhythmic value remains the same. </source>
-        <translation>Jeżeli zaznaczona jest jakaś nuta na pięciolinii, granie lub klikanie na instrumencie.zmienia tylko ją. I zmienia się tylko wysokość tej nuty - wartość rytmiczna pozostaje taka sama. </translation>
+        <translation>Jeżeli zaznaczona jest jakaś nuta na pięciolinii, granie lub klikanie na instrumencie zmienia tylko ją. I zmienia się tylko wysokość tej nuty - wartość rytmiczna pozostaje taka sama. </translation>
     </message>
     <message>
         <location filename="../src/main/tgotit.cpp" line="160"/>
@@ -4245,7 +4245,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/help/tmainhelp.cpp" line="57"/>
         <source>During exams %1 Nootka will be your strict and &amp;quot;old school&amp;quot; master. Any mistake will be penalized with additional questions...&lt;br&gt;When you pass an exam you got a certificate!</source>
-        <translation type="unfinished">Podczas egzaminu %1 Nootka będzie twoim surowym i „old-school&apos;owym” mistrzem. Każdy błąd będzie karany dodatkowymi pytaniami...&lt;br&gt;Ale kiedy zdasz egzamin, otrzymasz świadectwo!</translation>
+        <translation>Podczas egzaminu %1 Nootka będzie twoim surowym i „old-school&apos;owym” mistrzem. Każdy błąd będzie karany dodatkowymi pytaniami...&lt;br&gt;Ale kiedy zdasz egzamin, otrzymasz świadectwo!</translation>
     </message>
     <message>
         <location filename="../src/help/tmainhelp.cpp" line="64"/>
@@ -4430,18 +4430,18 @@ Sprawdź czy jego parametry są właściwe..</translation>
 <context>
     <name>TnameItem</name>
     <message>
-        <location filename="../src/main/tnameitem.cpp" line="191"/>
+        <location filename="../src/qml/NoteName.qml" line="126"/>
         <source>Octaves</source>
         <translation>Oktawy</translation>
     </message>
     <message>
-        <location filename="../src/main/tnameitem.cpp" line="196"/>
+        <location filename="../src/main/tnameitem.cpp" line="198"/>
         <source>Click to see what &lt;i&gt;octaves&lt;/i&gt; are at &quot;http://en.wikipedia.org/wiki/Octave&quot;</source>
         <comment>You can change this link to article in your language, but please KEEP QUOTATION MARKS AROUND THAT ADDRESS!</comment>
         <translation>Kliknij aby zobaczyć czym są &lt;i&gt;oktawy&lt;/i&gt; na &quot;https://pl.wikipedia.org/wiki/Materia%C5%82_d%C5%BAwi%C4%99kowy&quot;</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/main/tnameitem.cpp" line="212"/>
+        <location filename="../src/main/tnameitem.cpp" line="214"/>
         <source>The octave &lt;b&gt;%n&lt;/b&gt; in International Pitch Notation</source>
         <translation>
             <numerusform>Oktawa &lt;b&gt;%n&lt;/b&gt; w Notacji Międzynarodowej</numerusform>
@@ -4981,44 +4981,43 @@ nutowy</translation>
 <context>
     <name>TsuggestExam</name>
     <message>
-        <location filename="../src/main/texercises.cpp" line="110"/>
+        <location filename="../src/qml/exam/TsuggestExam.qml" line="14"/>
         <source>Start an exam</source>
         <translation>Rozpocznij egzamin</translation>
     </message>
     <message>
-        <location filename="../src/main/texercises.cpp" line="113"/>
+        <location filename="../src/qml/exam/TsuggestExam.qml" line="35"/>
         <source>You are very good in this exercise!&lt;br&gt;Would you like to pass an exam on the same level and got a certificate?</source>
         <translation>Jesteś bardzo dobry(a) w tym ćwiczeniu!&lt;br&gt;Może chcesz zdawać egzamin na tym poziomie i uzyskać certyfikat?</translation>
     </message>
     <message>
-        <location filename="../src/main/texercises.cpp" line="116"/>
+        <location filename="../src/qml/exam/TsuggestExam.qml" line="43"/>
         <source>Sure! Lets start an exam!</source>
         <translation>Jasne! Zacznijmy egzamin!</translation>
     </message>
     <message>
-        <location filename="../src/main/texercises.cpp" line="118"/>
+        <location filename="../src/qml/exam/TsuggestExam.qml" line="45"/>
         <source>No thanks, but check entire melody from now.</source>
         <translation>Nie dzięki, ale od teraz sprawdzaj całą melodię.</translation>
     </message>
     <message>
-        <location filename="../src/main/texercises.cpp" line="117"/>
+        <location filename="../src/qml/exam/TsuggestExam.qml" line="44"/>
         <source>Not now, ask me for a moment.</source>
         <translation>Nie teraz, zapytaj za chwilę.</translation>
     </message>
     <message>
-        <location filename="../src/main/texercises.cpp" line="119"/>
+        <location filename="../src/qml/exam/TsuggestExam.qml" line="46"/>
         <source>Not in this exercise.</source>
         <translation>Nie podczas tego ćwiczenia.</translation>
     </message>
     <message>
-        <location filename="../src/main/texercises.cpp" line="120"/>
+        <location filename="../src/qml/exam/TsuggestExam.qml" line="47"/>
         <source>Never more suggest me to start an exam!</source>
         <translation>Nigdy więcej nie proponuj zdawania egzaminów!</translation>
     </message>
     <message>
-        <location filename="../src/main/texercises.cpp" line="130"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="vanished">OK</translation>
     </message>
 </context>
 <context>
@@ -5036,7 +5035,7 @@ nutowy</translation>
         <translation>Powinno być %1</translation>
     </message>
     <message>
-        <location filename="../src/qml/exam/ExamExecutor.qml" line="85"/>
+        <location filename="../src/qml/exam/ExamExecutor.qml" line="87"/>
         <source>Try again!</source>
         <translation>Spróbuj jeszcze raz!</translation>
     </message>
@@ -5228,7 +5227,7 @@ nutowy</translation>
     <name>TtoolBar</name>
     <message>
         <location filename="../src/libs/core/tnootkaqml.cpp" line="435"/>
-        <location filename="../src/main/texamexecutor.cpp" line="1255"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1261"/>
         <source>Settings</source>
         <translation>Opcje</translation>
     </message>
@@ -5280,12 +5279,12 @@ nutowy</translation>
         <translation>Rozpocznij ćwiczenia lub egzamin</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1259"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1265"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1262"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1268"/>
         <source>Stop</source>
         <translation>Stop</translation>
     </message>
@@ -5294,7 +5293,7 @@ nutowy</translation>
         <translation type="vanished">Preferencje ćwiczeń lub egzaminu</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1278"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1284"/>
         <source>Next</source>
         <comment>like a next question</comment>
         <translation>Następne</translation>
@@ -5306,7 +5305,7 @@ nutowy</translation>
 (spacja %1)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1272"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1278"/>
         <source>Repeat</source>
         <comment>like a repeat question</comment>
         <translation>Powtórz</translation>
@@ -5316,7 +5315,7 @@ nutowy</translation>
         <translation type="vanished">powtórz poprzednie pytanie (backspace)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1312"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1318"/>
         <source>Check</source>
         <comment>like a check answer</comment>
         <translation>Sprawdź</translation>
@@ -5328,7 +5327,7 @@ nutowy</translation>
 (enter %1)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1293"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1299"/>
         <source>Play</source>
         <translation>Zagraj</translation>
     </message>
@@ -5337,7 +5336,7 @@ nutowy</translation>
         <translation type="vanished">ponownie zagraj dźwięk</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1319"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1325"/>
         <source>Correct</source>
         <comment>like a correct answer with mistake</comment>
         <translation>Popraw</translation>
@@ -5355,7 +5354,7 @@ nutowy</translation>
 (klawisz &apos;a&apos;)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1305"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1311"/>
         <source>Try again</source>
         <translation>Jeszcze raz</translation>
     </message>
@@ -5658,6 +5657,15 @@ nutowy</translation>
         <location filename="../src/qml/wizard/WizardSax.qml" line="25"/>
         <source>Saxophones are transposing instruments.&lt;br&gt;It means that note pitch in the score doesn&apos;t correspond directly to note which is played - it transposes by interval (number of semitones) according to kind of saxophone.</source>
         <translation>Saksofony to instrumenty transponujące.&lt;br&gt;Oznacza to, że wysokość nuty zapisanej na pięciolinii nie odpowiada dokładnie nucie, która jest grana, tylko transponuje o interwał (liczbę półtonów) odpowiednią dla danego rodzaju saksofonu.</translation>
+    </message>
+</context>
+<context>
+    <name>about translator</name>
+    <message>
+        <location filename="../src/libs/core/tinitcorelib.cpp" line="45"/>
+        <source>translator</source>
+        <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: translator name, translator e-mail (optional) and translator site (optional)</comment>
+        <translation></translation>
     </message>
 </context>
 <context>
