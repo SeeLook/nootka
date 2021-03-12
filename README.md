@@ -68,8 +68,11 @@ Help
 
 Translations
 ----------------------------
-[![Translation status](https://hosted.weblate.org/widgets/nootka/-/translations/multi-auto.svg)](https://hosted.weblate.org/engage/nootka/)  
-  Help to translate Nootka. [Read more here...](https://www.opencode.net/seelook/nootka/blob/master/lang/how-to-translate.md)
+[![Translation status](https://hosted.weblate.org/widgets/nootka/-/translations/multi-auto.svg)](https://hosted.weblate.org/engage/nootka/) 
+<a href="https://hosted.weblate.org/engage/nootka/">
+<img src="https://hosted.weblate.org/widgets/nootka/-/open-graph.png" width="300" />
+</a>  
+  Help to translate Nootka. [Read more about...](https://www.opencode.net/seelook/nootka/blob/master/lang/how-to-translate.md)
 
 
 
