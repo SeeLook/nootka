@@ -37,6 +37,7 @@ But **Nootka** is available in installers of many Linux distributions.
 Also in [Google Play Store](https://play.google.com/store/apps/details?id=net.sf.nootka)
 
 
+
 Testing nightly builds
 --------------------------
 Nightly builds for testing next Nootka releases are hosted on [https://www.opencode.net/seelook/nootka](https://www.opencode.net/seelook/nootka) and can be downloaded from the links below:  
@@ -53,6 +54,7 @@ Compilation from sources
     also in **git release** branch
 
 
+
 Help
 ----------------------------
 
@@ -63,5 +65,16 @@ Help
 - [Feature request](https://sourceforge.net/p/nootka/feature-requests/)
 
 
+
+Translations
+----------------------------
+[![Translation status](https://hosted.weblate.org/widgets/nootka/-/translations/multi-auto.svg)](https://hosted.weblate.org/engage/nootka/)  
+  [Read more...](https://www.opencode.net/seelook/nootka/blob/master/lang/how-to-translate.md)
+
+
+
+Contributing
+----------------------------
+  [Read more...](https://www.opencode.net/seelook/nootka/blob/master/CONTRIBUTING.md)
 
 <img src="spare_parts/screen.png"/>
