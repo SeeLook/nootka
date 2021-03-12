@@ -69,12 +69,12 @@ Help
 Translations
 ----------------------------
 [![Translation status](https://hosted.weblate.org/widgets/nootka/-/translations/multi-auto.svg)](https://hosted.weblate.org/engage/nootka/)  
-  [Read more...](https://www.opencode.net/seelook/nootka/blob/master/lang/how-to-translate.md)
+  Help to translate Nootka. [Read more here...](https://www.opencode.net/seelook/nootka/blob/master/lang/how-to-translate.md)
 
 
 
 Contributing
 ----------------------------
-  [Read more...](https://www.opencode.net/seelook/nootka/blob/master/CONTRIBUTING.md)
+  See, maybe you can help. [Read more...](https://www.opencode.net/seelook/nootka/blob/master/CONTRIBUTING.md)
 
 <img src="spare_parts/screen.png"/>
