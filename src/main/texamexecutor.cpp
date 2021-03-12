@@ -271,8 +271,10 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     m_newAtemptAct->setEnabled(false);
   if (!isAttempt) { // add new question to the list
     m_penalty->setMelodyPenalties();
-    if (m_exam->count() && m_exercise) // Check answer only after summarize
-      m_exercise->checkAnswer();
+    if (m_exam->count() && m_exercise) { // Check answer only after summarize
+      if (m_exercise->checkAnswer())
+        return;
+    }
     TQAunit Q(m_exam);
     m_exam->addQuestion(Q);
   }
@@ -800,7 +802,6 @@ void TexamExecutor::checkAnswer(bool showResults) {
   if (m_exercise) {
     if ((GLOB->E->autoNextQuest && GLOB->E->afterMistake != TexamParams::e_continue) || !GLOB->E->autoNextQuest || GLOB->E->showCorrected)
       waitTime = GLOB->E->correctPreview; // user has to have time to see his mistake and correct answer
-    m_exercise->checkAnswer();
     if (!curQ->isCorrect()) { // correcting wrong answer
         if (GLOB->correctAnswers()) // TODO for dictation it should always stop and show mistakes
             correctAnswer();
@@ -1141,8 +1142,10 @@ void TexamExecutor::prepareToExam() {
 //   connect(m_supp, SIGNAL(rightButtonClicked()), this, SLOT(rightButtonSlot()));
 
   if (m_exercise) {
-    connect(m_exercise, &Texercises::messageDisplayed, this, &TexamExecutor::stopSound);
-    connect(m_exercise, &Texercises::messageClosed, this, &TexamExecutor::suggestDialogClosed);
+    connect(m_exercise, &Texercises::wantMessage, this, [=](bool showEntire){
+      stopSound();
+      emit wantSuggestPopup(showEntire);
+    });
   }
 
   m_glStore->storeSettings();
@@ -1402,7 +1405,7 @@ void TexamExecutor::restoreExerciseAfterSummary() {
     if (m_isAnswered && CURR_Q->melody() && CURR_Q->answerOnScore() && !CURR_Q->isCorrect()) // revert melody title
       CURR_Q->melody()->setTitle(CURR_Q->melody()->title().remove(QLatin1String(";skip")));
     if (m_isAnswered)
-        CURR_Q->setAnswered();
+      CURR_Q->setAnswered();
     GLOB->S->nameStyleInNoteName = m_exerciseTmpStyle;
 // #if !defined (Q_OS_ANDROID)
 //     qApp->installEventFilter(m_supp);
@@ -1520,7 +1523,7 @@ void TexamExecutor::settingsAccepted() {
 
 void TexamExecutor::stopSound() {
   if (m_soundTimer->isActive())
-      m_soundTimer->stop();
+    m_soundTimer->stop();
   SOUND->stopPlaying();
   SOUND->stopListen();
 // #if !defined (Q_OS_ANDROID)
@@ -1529,15 +1532,16 @@ void TexamExecutor::stopSound() {
 }
 
 
-void TexamExecutor::suggestDialogClosed(bool startExam) {
-  if (startExam) {
+void TexamExecutor::suggestDialogClosed(int userWants) {
+  if (m_exercise->wantsUserExam(userWants)) {
       exerciseToExam();
   } else {
 // #if !defined (Q_OS_ANDROID)
 //       qApp->installEventFilter(m_supp);
 // #endif
-      if (CURR_Q->answerAsSound())
-            startSniffing();
+    askQuestion();
+//       if (CURR_Q->answerAsSound())
+//         startSniffing();
   }
 }
 

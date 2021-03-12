@@ -168,6 +168,7 @@ signals:
   void questionChanged();
   void execDiscarded();
   void wantMessage(const QString& caption, const QString& message, const QColor& accent);
+  void wantSuggestPopup(bool showEntire);
 
 protected:
 
@@ -227,10 +228,12 @@ protected:
   void stopSound();
 
       /**
-       * Performs routines after dialog window closed as such as 
-       * right mouse button unlocking. If and exam is going to start it calls @p exerciseToExam()
+       * Performs routines after suggest dialog closed.
+       * Decides what user wants by @p userWants state from suggest dialog
+       * (right mouse button unlocking). TODO
+       * If and exam is going to start it calls @p exerciseToExam()
        */
-  void suggestDialogClosed(bool startExam);
+  Q_INVOKABLE void suggestDialogClosed(int userWants);
 
       /**
        * Locks the executor and displays certificate.

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,9 +20,8 @@
 #define TEXERCISES_H
 
 
-#include <QtWidgets/qdialog.h>
+#include <QtCore/qobject.h>
 
-class QRadioButton;
 class Texam;
 
 
@@ -39,7 +38,24 @@ class Texercises : public QObject
 public:
   Texercises(Texam *exam, QObject *parent = nullptr);
 
-  void checkAnswer();
+      /**
+       * Checks does display suggestion message,
+       * returns @p TRUE if so.
+       */
+  bool checkAnswer();
+
+  enum Esuggest {
+    e_suggestRejected = -1,
+    e_readyToExam, e_forAmoment, e_checkEntireMelody, e_notThisTime, e_neverEver
+  };
+  Q_ENUM(Esuggest)
+
+      /**
+       * Parses @p whatInt - user decision after suggestion dialog
+       * Returns @p TRUE is user wants switch to exam.
+       * But also does other routines if not - resets counters or so.
+       */
+  bool wantsUserExam(int whatInt);
 
       /**
        * Sets checking of exercising progress enabled when @p obligate value is bigger than 0.
@@ -68,18 +84,14 @@ public:
   int idOfCorrectedNote() { return m_correctedNoteId; }
 
 signals:
-  void messageDisplayed();
-
-      /**
-       * Signal emitted after message with information about desire to start an exam.
-       */
-  void messageClosed(bool);
+  void wantMessage(bool);
 
 private:
   Texam         *m_exam;
   bool           m_checkInFuture = false;
   bool           m_checkNow = false;
   bool           m_readyToExam = false;
+  bool           m_wantMessageEmitted = false; /**< Guard to not invoke @p wantsUserExam() without dialog */
   int            m_max; /**< Number of questions in a cycle */
   int            m_currentGood; /**< Number of good answers since last mistake */;
   int            m_prevMistake;
@@ -87,29 +99,6 @@ private:
 
 };
 
-
-
-class TsuggestExam : public QDialog
-{
-
-  Q_OBJECT
-
-public:
-  explicit TsuggestExam();
-
-  enum Esuggest {
-    e_readyToExam, e_forAmoment, e_checkEntireMelody, e_notThisTime, e_neverEver
-  };
-
-      /**
-       * Call this dialog and returns user decision
-       */
-  Esuggest suggest(bool entireVisible = false);
-
-private:
-  QRadioButton       *m_readyExamRadio, *m_checkEntireRadio, *m_notNowRadio, *m_notThisExRadio, *m_neverAskRadio;
-  Esuggest            m_userResponse;
-};
 
 #endif // TEXERCISES_H
 

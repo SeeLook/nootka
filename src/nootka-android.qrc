@@ -165,6 +165,7 @@
     <file alias="exam/CorrectInstrAnim.qml">qml/exam/CorrectInstrAnim.qml</file>
     <file alias="exam/CorrectNoteAnim.qml">qml/exam/CorrectNoteAnim.qml</file>
     <file alias="exam/Certificate.qml">qml/exam/Certificate.qml</file>
+    <file alias="exam/TsuggestExam.qml">qml/exam/TsuggestExam.qml</file>
 
     <file alias="qtquickcontrols2.conf">qml/qtquickcontrols2.conf</file>
 

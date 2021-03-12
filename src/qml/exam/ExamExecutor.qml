@@ -57,6 +57,8 @@ Texecutor {
     helpGotIt.open()
   }
 
+  onWantSuggestPopup: Qt.createComponent("qrc:/exam/TsuggestExam.qml").createObject(executor, { "entireVisible": showEntire })
+
   Component.onDestruction: {
     if (helpGotIt)
       GLOB.setGotIt("examFlow", helpGotIt.remaindChecked)
