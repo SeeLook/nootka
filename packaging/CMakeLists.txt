@@ -65,7 +65,7 @@ set(CPACK_DEBIAN_PACKAGE_CONTROL_EXTRA "${CMAKE_CURRENT_SOURCE_DIR}/debian/posti
 if (WIN32)
   set(CPACK_GENERATOR  "NSIS;ZIP")
   set(CPACK_NSIS_INSTALLED_ICON_NAME "${CMAKE_SOURCE_DIR}/picts/pack.ico")
-  
+
 else (WIN32)
   if (NOT APPLE)
     set(CPACK_STRIP_FILES "nootka")
@@ -109,7 +109,7 @@ if(WIN32)
     ${CMAKE_CURRENT_SOURCE_DIR}/nsis/definitions.nsh.in
     ${CMAKE_BINARY_DIR}/nsis/NSIS.definitions.nsh
   )
-  
+
   get_filename_component(VORBIS_DIR "${VORBIS_LIBRARIES}" DIRECTORY)
   get_filename_component(MAKE_DIR "${CMAKE_RC_COMPILER}" DIRECTORY)
 
@@ -128,7 +128,7 @@ if(WIN32)
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/Qt5PrintSupport.dll ${CMAKE_BINARY_DIR}/src/.
     COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/src/plugins/platforms
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${QT_BINARY_DIR}/../plugins/platforms/qwindows.dll ${CMAKE_BINARY_DIR}/src/plugins/platforms/.
-    
+
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${FFTW3_LIBRARIES} ${CMAKE_BINARY_DIR}/src/.
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_LIBRARIES} ${CMAKE_BINARY_DIR}/src/. #libvorbisfile.dll
     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VORBIS_DIR}/libvorbis.dll ${CMAKE_BINARY_DIR}/src/.

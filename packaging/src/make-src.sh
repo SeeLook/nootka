@@ -41,6 +41,7 @@ cp $SRC_DIR/cmake_uninstall.cmake.in $DST_DIR
 
 # TODO git commits number here (Mac needs it only)
 
+
 tar -cjf $DST_DIR.tar.bz2 $DST_DIR
 
 rm -r $DST_DIR

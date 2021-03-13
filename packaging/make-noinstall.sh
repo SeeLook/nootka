@@ -4,6 +4,9 @@
 # Params are:
 # SRC_DIR - source dir
 # DST_DIR - destination dir (Linux: nootka/../share/nootka | Mac nootka/../Resources)
+# Author:
+#           Tomasz Bojczuk <seelook@gmail.com>
+#
 #################################################################################
 
 SRC_DIR=$1

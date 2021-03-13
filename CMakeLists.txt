@@ -43,6 +43,7 @@ if(WIN32)
   set(PACKAGE_ARCHITECTURE x86)
   option(COPY_GCC_LIBS "Copy compiler specific libraries during install target" ON)
 endif(WIN32)
+
 if(APPLE)
   set(PACKAGE_ARCHITECTURE x86_64)
 endif(APPLE)
