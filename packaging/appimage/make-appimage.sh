@@ -85,6 +85,9 @@ cp AppDir/usr/share/applications/nootka.desktop AppDir/usr/
 rm -r AppDir/usr/share/icons/hicolor
 mv AppDir/usr/share/metainfo/nootka.appdata.xml AppDir/usr/share/metainfo/sf.net.nootka.appdata.xml
 
+# Due to AppImage is usually built under Ubuntu/Debian, full license file is not copied by install target
+cp $SRC_DIR/LICENSE AppDir/usr/share/nootka/gpl
+
 LD_LIBRARY_PATH="$BIN_DIR/AppDir/usr/lib/nootka:$LD_LIBRARY_PATH" $LIN_DEP_QT AppDir/usr/bin/nootka -bundle-non-qt-libs -qmldir=$SRC_DIR/src/qml -qmake=$QMAKE
 # launch it twice to find more libs
 LD_LIBRARY_PATH="$BIN_DIR/AppDir/usr/lib/nootka:$LD_LIBRARY_PATH" $LIN_DEP_QT AppDir/usr/bin/nootka -bundle-non-qt-libs -qmldir=$SRC_DIR/src/qml -qmake=$QMAKE
