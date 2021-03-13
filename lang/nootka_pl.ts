@@ -1390,7 +1390,7 @@ Ale lepiej żeby były krótkie, więc podziel je najpierw w innym programie do 
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="108"/>
         <source>number of repeats</source>
-        <translation>liczba powrórzeń</translation>
+        <translation>liczba powtórzeń</translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="142"/>
@@ -1496,7 +1496,7 @@ Ale lepiej żeby były krótkie, więc podziel je najpierw w innym programie do 
     <message>
         <location filename="../src/qml/settings/+android/PhonePage.qml" line="39"/>
         <source>full screen</source>
-        <translation>pełny ektan</translation>
+        <translation>pełny ekran</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/+android/PhonePage.qml" line="46"/>
@@ -1510,7 +1510,7 @@ Ale lepiej żeby były krótkie, więc podziel je najpierw w innym programie do 
     </message>
     <message>
         <source>use full screen</source>
-        <translation type="vanished">pełny ektan</translation>
+        <translation type="vanished">pełny ekran</translation>
     </message>
 </context>
 <context>
@@ -2403,7 +2403,7 @@ Ale lepiej żeby były krótkie, więc podziel je najpierw w innym programie do 
     <message>
         <location filename="../src/qml/exam/StartExam.qml" line="145"/>
         <source>Latest exam</source>
-        <translation>Poprzedni egazmin</translation>
+        <translation>Poprzedni egzamin</translation>
     </message>
     <message>
         <source>Continue the latest exam:</source>
@@ -4245,7 +4245,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/help/tmainhelp.cpp" line="57"/>
         <source>During exams %1 Nootka will be your strict and &amp;quot;old school&amp;quot; master. Any mistake will be penalized with additional questions...&lt;br&gt;When you pass an exam you got a certificate!</source>
-        <translation>Podczas egzaminu %1 Nootka będzie twoim surowym i „old-school&apos;owym” mistrzem. Każdy błąd będzie karany dodatkowymi pytaniami...&lt;br&gt;Ale kiedy zdasz egzamin, otrzymasz świadectwo!</translation>
+        <translation>Podczas egzaminu %1 Nootka będzie twoim surowym i „oldschoolowym” mistrzem. Każdy błąd będzie karany dodatkowymi pytaniami...&lt;br&gt;Ale kiedy zdasz egzamin, otrzymasz świadectwo!</translation>
     </message>
     <message>
         <location filename="../src/help/tmainhelp.cpp" line="64"/>
