@@ -3839,7 +3839,7 @@ nicht öffnen</translation>
     </message>
     <message numerus="yes">
         <source>The octave &lt;b&gt;%n&lt;/b&gt; in International Pitch Notation</source>
-        <translation>
+        <translation type="unfinished">
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>

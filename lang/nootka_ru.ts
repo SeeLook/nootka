@@ -4513,7 +4513,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message numerus="yes">
         <location filename="../src/main/tnameitem.cpp" line="212"/>
         <source>The octave &lt;b&gt;%n&lt;/b&gt; in International Pitch Notation</source>
-        <translation>
+        <translation type="unfinished">
             <numerusform></numerusform>
             <numerusform></numerusform>
             <numerusform></numerusform>
