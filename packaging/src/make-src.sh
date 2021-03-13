@@ -34,7 +34,7 @@ cp -r $SRC_DIR/src $DST_DIR
 cp $SRC_DIR/changes $DST_DIR
 cp $SRC_DIR/copyright $DST_DIR
 cp $SRC_DIR/CMakeLists.txt $DST_DIR
-cp $SRC_DIR/gpl $DST_DIR
+cp $SRC_DIR/LICENSE $DST_DIR
 cp $SRC_DIR/README.md $DST_DIR
 cp $SRC_DIR/TODO.md $DST_DIR
 cp $SRC_DIR/cmake_uninstall.cmake.in $DST_DIR

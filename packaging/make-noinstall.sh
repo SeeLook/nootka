@@ -31,7 +31,7 @@ else
   mkdir -p $DST_DIR
   ln -s $SRC_DIR/fonts $DST_DIR
   ln -s $SRC_DIR/changes $DST_DIR
-  ln -s $SRC_DIR/gpl $DST_DIR
+  ln -s $SRC_DIR/LICENSE $DST_DIR/gpl
   ln -s $SRC_DIR/picts $DST_DIR
   ln -s $SRC_DIR/lang $DST_DIR
   ln -s $SRC_DIR/sounds $DST_DIR

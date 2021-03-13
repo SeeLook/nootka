@@ -120,7 +120,7 @@ if(APPLE OR WIN32)
   else (WIN32)
     set(QT_TRANSLATIONS_DIR "${QT_BINARY_DIR}/../../translations")
   endif (WIN32)
-  install(FILES gpl DESTINATION "${INS_PREF}")
+  install(FILES LICENSE DESTINATION "${INS_PREF}" RENAME gpl)
  LIST(APPEND langs
    "${QT_TRANSLATIONS_DIR}/qtbase_cs.qm"
    "${QT_TRANSLATIONS_DIR}/qtbase_de.qm"
@@ -155,7 +155,7 @@ if(UNIX AND NOT APPLE)
     install(FILES mime/nootka.appdata.xml DESTINATION share/metainfo)
     install(FILES mime/nootka.xml DESTINATION share/mime/packages)
     if (NOT DPKG_CMD) # deb packager doesn't accept symbolic links
-      install(FILES gpl DESTINATION "${INS_PREF}") # no gpl for Debian-s - they have copyright instead
+      install(FILES LICENSE DESTINATION "${INS_PREF}" RENAME gpl) # no gpl for Debian-s - they have copyright instead
     endif (NOT DPKG_CMD)
   # Icons in standard location
     install(FILES picts/hicolor/16x16/apps/nootka.png DESTINATION share/icons/hicolor/16x16/apps/)
@@ -187,7 +187,7 @@ if(UNIX AND NOT APPLE)
       execute_process(COMMAND sh ${CMAKE_CURRENT_SOURCE_DIR}/packaging/make-chlog.sh ${Nootka_VERSION_FULL} ${CMAKE_CURRENT_BINARY_DIR}/doc/changelog ${CMAKE_CURRENT_SOURCE_DIR})
   " )
   if (DPKG_CMD) # Debian changelog
-      install(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.Debian.gz" DESTINATION share/doc/nootka)
+    install(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.Debian.gz" DESTINATION share/doc/nootka)
   endif (DPKG_CMD)
   install(FILES copyright DESTINATION share/doc/nootka)
   install(FILES packaging/nootka.1.gz DESTINATION share/man/man1)
