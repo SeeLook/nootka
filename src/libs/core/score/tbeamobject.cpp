@@ -194,6 +194,9 @@ void TbeamObject::paint(QPainter* painter) {
  * @p setTextureSize() is called to make texture big enough and avoid pixelization
  */
 void TbeamObject::drawBeam() {
+  if (m_notes.isEmpty())
+    return;
+
   auto p1 = first()->item()->stemTop();
   auto p2 = last()->item()->stemTop();
   setWidth(qAbs(p2.x() - p1.x()) + 1.0);
