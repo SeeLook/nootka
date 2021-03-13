@@ -4306,9 +4306,9 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/main/tnameitem.cpp" line="212"/>
         <source>The octave &lt;b&gt;%n&lt;/b&gt; in International Pitch Notation</source>
         <translation>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>Oktáva &lt;b&gt;%n&lt;/b&gt; v mezinárodní notaci výšek tónů</numerusform>
+            <numerusform>Oktáva &lt;b&gt;%n&lt;/b&gt; v mezinárodní notaci výšek tónů</numerusform>
+            <numerusform>Oktáva &lt;b&gt;%n&lt;/b&gt; v mezinárodní notaci výšek tónů</numerusform>
         </translation>
     </message>
 </context>
