@@ -2000,6 +2000,7 @@ But better keep them short, so divide them first in some external software.</sou
         <source>%n attempt(s)</source>
         <translation type="unfinished">
             <numerusform>%n próbálkozás(ok)</numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
 </context>
@@ -2232,6 +2233,7 @@ But better keep them short, so divide them first in some external software.</sou
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
         <translation type="unfinished">
             <numerusform>A dallam&lt;b&gt;%n&lt;/b&gt; alkalommal hangzott el</numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
 </context>
@@ -2425,6 +2427,7 @@ But better keep them short, so divide them first in some external software.</sou
         <comment>like: &apos;1 attempt&apos; or &apos;121 attempts&apos;</comment>
         <translation>
             <numerusform>%n próbálkozás(ok)</numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -3696,7 +3699,8 @@ nem Nootka fájl!</translation>
     </message>
     <message numerus="yes">
         <source>The octave &lt;b&gt;%n&lt;/b&gt; in International Pitch Notation</source>
-        <translation type="unfinished">
+        <translation>
+            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -4037,6 +4041,7 @@ nem Nootka fájl!</translation>
         <source>semitone(s)</source>
         <translation>
             <numerusform>félhang(ok)</numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message>
