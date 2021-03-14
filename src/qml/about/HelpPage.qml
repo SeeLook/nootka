@@ -66,6 +66,7 @@ Rectangle {
                        ]
   property int currTopic: 0
   property var gotItQML: [ "", "ExamOrExercise", "ExamFlow", "SoundInfo", "NoteSelected", "HandleScore" ]
+  property var gotItObj: [ null,    null,           null,       null,         null,           null      ]
 
   Component.onCompleted: {
     if (enableTOC)
@@ -97,11 +98,12 @@ Rectangle {
       if (tp === topics.length - 1) {
           Qt.openUrlExternally("https://nootka.sourceforge.io/index.php/help/")
       } else {
-          if (tp > 0)
-            stack.replace(Qt.createComponent("qrc:/gotit/" + gotItQML[tp] + ".qml")
-                 .createObject(stack, { "visible": false, "showGotIt": false }).contentItem)
-          else
-            stack.replace(mainHelp)
+          if (tp > 0) {
+              if (!gotItObj[tp])
+                gotItObj[tp] = Qt.createComponent("qrc:/gotit/" + gotItQML[tp] + ".qml").createObject(stack, { "visible": false, "showGotIt": false })
+              stack.replace(gotItObj[tp].contentItem)
+          } else
+              stack.replace(mainHelp)
           currTopic = tp
       }
     }
