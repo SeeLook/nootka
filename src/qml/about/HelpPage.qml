@@ -101,7 +101,11 @@ Rectangle {
           if (tp > 0) {
               if (!gotItObj[tp])
                 gotItObj[tp] = Qt.createComponent("qrc:/gotit/" + gotItQML[tp] + ".qml").createObject(stack, { "visible": false, "showGotIt": false })
+              else
+                gotItObj[tp].start()
               stack.replace(gotItObj[tp].contentItem)
+              if (currTopic > 0)
+                gotItObj[currTopic].stop()
           } else
               stack.replace(mainHelp)
           currTopic = tp

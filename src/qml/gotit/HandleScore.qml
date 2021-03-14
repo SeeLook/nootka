@@ -11,10 +11,30 @@ import "../"
 
 GotIt {
   id: scoreHow
+
   gotItType: TgotIt.GotHandleScore
   visible: true
 
   onClicked: close()
+
+  function stop() {
+    gotAnim.running = false
+  }
+
+  function start() {
+    finger.opacity = 0
+    finger.scale = 1
+    finger.x = parent.width - finger.width
+    finger.y = parent.height - finger.height
+    gotScore.noteAdd.active = false
+    gotScore.scoreToobox.active = false
+    gotScore.clearScore()
+    gotScore.noteAdd.yPos = 0
+    gotIt.setCursorAlter(0)
+    gotIt.setWorkRtmValue(3)
+    descView.currentIndex = -1
+    gotAnim.running = true
+  }
 
   Image {
     id: finger
@@ -220,21 +240,9 @@ GotIt {
       font { pixelSize: height * 0.7; bold: true; capitalization: Font.AllUppercase }
       onClicked: {
         if (gotAnim.running)
-            gotAnim.running = false
-        else {
-            finger.opacity = 0
-            finger.scale = 1
-            finger.x = parent.width - finger.width
-            finger.y = parent.height - finger.height
-            gotScore.noteAdd.active = false
-            gotScore.scoreToobox.active = false
-            gotScore.clearScore()
-            gotScore.noteAdd.yPos = 0
-            gotIt.setCursorAlter(0)
-            gotIt.setWorkRtmValue(3)
-            descView.currentIndex = -1
-            gotAnim.running = true
-        }
+          scoreHow.stop()
+        else
+          scoreHow.start()
       }
     }
     TcuteButton {
@@ -245,8 +253,8 @@ GotIt {
       onClicked: {
         if (gotAnim.paused)
           gotAnim.resume()
-          else
-            gotAnim.pause()
+        else
+          gotAnim.pause()
       }
     }
   }

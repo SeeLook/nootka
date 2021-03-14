@@ -21,6 +21,12 @@ Popup {
   property alias gotIt: gotIt
   property bool showGotIt: true
 
+      /**
+       * Functions called by @p HelpPage to perform particular task on help pages, if any.
+       */
+  function stop() {}
+  function start() {}
+
   scale: GLOB.useAnimations ? 0 : 1.0
   enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}
   exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0 }}

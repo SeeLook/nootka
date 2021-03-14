@@ -23,6 +23,18 @@ GotIt {
     close()
   }
 
+  function stop() {
+    selAnim.running = false
+    noSelAnim.running = false
+    noSelScore.noteAdd.hiTimer.running = false
+  }
+
+  function start() {
+    selAnim.running = true
+    noSelAnim.running = true
+    noSelScore.noteAdd.hiTimer.running = true
+  }
+
   property int noSelCnt: 1
   property int restAt: 4
 
