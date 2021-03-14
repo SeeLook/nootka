@@ -93,6 +93,15 @@ Rectangle {
     }
   }
 
+  onVisibleChanged: { // stop/start animation when user switches to/from another About page
+    if (currTopic > 0 && currTopic < topics.length - 1) {
+      if (visible)
+        gotItObj[currTopic].start()
+        else
+          gotItObj[currTopic].stop()
+    }
+  }
+
   function switchTopic(tp) {
     if (tp !== currTopic) {
       if (tp === topics.length - 1) {
