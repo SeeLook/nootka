@@ -1460,7 +1460,8 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TXaxis</name>
     <message numerus="yes">
         <source>%n attempt(s)</source>
-        <translation type="unfinished">
+        <translation>
+            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -1671,7 +1672,8 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TchartTipItem</name>
     <message numerus="yes">
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
-        <translation type="unfinished">
+        <translation>
+            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -1830,7 +1832,8 @@ But better keep them short, so divide them first in some external software.</sou
     <message numerus="yes">
         <source>%n attempt(s)</source>
         <comment>like: &apos;1 attempt&apos; or &apos;121 attempts&apos;</comment>
-        <translation type="unfinished">
+        <translation>
+            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -2788,7 +2791,8 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message numerus="yes">
         <source>The octave &lt;b&gt;%n&lt;/b&gt; in International Pitch Notation</source>
-        <translation type="unfinished">
+        <translation>
+            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -2934,7 +2938,8 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message numerus="yes">
         <source>semitone(s)</source>
-        <translation type="unfinished">
+        <translation>
+            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
