@@ -1532,137 +1532,6 @@ But better keep them short, so divide them first in some external software.</sou
 <context>
     <name>TanalysDialog</name>
     <message>
-        <source>Analyze</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Y value:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ordered by:</source>
-        <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>student name:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>level:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>question number</source>
-        <comment>see comment in &apos;ordered by:&apos; entry</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>note pitch</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>fret number</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>key signature</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>accidentals</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>question type</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>mistake</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Level summary:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Tuning</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Press %1 button to select an exam from a file.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Click and Drag the cursor to move the chart.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Question number</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>File: %1 
- is not valid exam file!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open an exam to analyze</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Recent exercise on level</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>recent opened exams:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Close analyzer window</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>include time of wrong answers to average</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>show wrong answers separately</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Settings of a chart</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Maximize</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>linear chart</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>bar chart</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Analysis of exam results</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Analysis of exercise</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Questions number</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3059,13 +2928,6 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
 </context>
 <context>
-    <name>TsettingsDialogBase</name>
-    <message>
-        <source>Open online documentation</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
     <name>TstartExamDlg</name>
     <message>
         <source>To exercise or to pass an exam?</source>
@@ -3111,10 +2973,6 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Never more suggest me to start an exam!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>OK</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
