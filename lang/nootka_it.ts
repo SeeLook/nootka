@@ -1530,7 +1530,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>or send email for an account number</source>
-        <translation>o manda una email per ulteriori metodi di pagamento</translation>
+        <translation>o manda un&apos;e-mail per ulteriori metodi di pagamento</translation>
     </message>
     <message>
         <source>You also can help with making Nootka better.</source>
@@ -2457,7 +2457,7 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>Open online documentation</source>
-        <translation>Accedi alla documentazione online</translation>
+        <translation>Accedi alla documentazione in linea</translation>
     </message>
 </context>
 <context>
