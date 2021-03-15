@@ -230,11 +230,11 @@
     </message>
     <message>
         <source>Press %1 button to select an exam from a file.</source>
-        <translation>%1 Button Drücken um eine Prüfung aus einer Datei zu öffnen.</translation>
+        <translation>%1-Knopf drücken, um eine Prüfung aus einer Datei zu öffnen.</translation>
     </message>
     <message>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
-        <translation>Benutze %1 + Mausrad oder %2 Buttons um Diagramm zu zoomen.</translation>
+        <translation>Benutze %1 + Mausrad oder %2-Knöpfe, um Diagramm zu zoomen.</translation>
     </message>
     <message>
         <source>Questions number</source>
@@ -621,7 +621,7 @@
     </message>
     <message>
         <source>When an answer is the name of a note &lt;b&gt;first select a proper accidental and an octave&lt;/b&gt; and then click a note button - this automatically invokes checking.</source>
-        <translation>Wenn die Antwort aus einem Notennamen besteht,&lt;b&gt;wähle zuerst das Vorzeichen und die Oktave aus&lt;/b&gt; und dann klicken auf den Notenbutton - dadurch wird die Antwort automatisch ausgewählt.</translation>
+        <translation>Wenn die Antwort aus einem Notennamen besteht,&lt;b&gt;wähle zuerst das Vorzeichen und die Oktave aus&lt;/b&gt; und dann klicken auf den Notenknopf – dadurch wird die Antwort automatisch ausgewählt.</translation>
     </message>
     <message>
         <source>When you have to play a note as an answer - the first detected sound will be taken, so be sure that your input device captures exactly what you want.</source>
@@ -2150,7 +2150,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>or send email for an account number</source>
-        <translation>oder per Mail Kontoverbindung anfordern</translation>
+        <translation>oder per E-Mail Kontoverbindung anfordern</translation>
     </message>
     <message>
         <source>You also can help with making Nootka better.</source>
@@ -2301,11 +2301,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Press %1 button to select an exam from a file.</source>
-        <translation>%1 Button Drücken um eine Prüfung aus einer Datei zu öffnen.</translation>
+        <translation>%1-Knopf drücken, um eine Prüfung aus einer Datei zu öffnen.</translation>
     </message>
     <message>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
-        <translation>Benutze %1 + Mausrad oder %2 Buttons um Diagramm zu zoomen.</translation>
+        <translation>Benutze %1 + Mausrad oder %2-Knöpfe, um Diagramm zu zoomen.</translation>
     </message>
     <message>
         <source>Click and Drag the cursor to move the chart.</source>
@@ -2794,7 +2794,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>You can every time click button %1 to pause or stop exercising and to see your results.</source>
-        <translation>Du kannst jederzeit den %1 Button drücken um die Übung zu unterbrechen und die Ergebnisse zu sehen.</translation>
+        <translation>Du kannst jederzeit den %1-Knopf drücken, um die Übung zu unterbrechen und die Ergebnisse zu sehen.</translation>
     </message>
     <message>
         <source>Exams</source>
@@ -2818,7 +2818,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>click %1 button</source>
-        <translation>%1 Button klicken</translation>
+        <translation>%1-Knopf klicken</translation>
     </message>
     <message>
         <source>To get question</source>
@@ -2842,7 +2842,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Click %1 button to stop.</source>
-        <translation>Klick %1 Button zum Anhalten.</translation>
+        <translation>Klick %1-Knopf zum Anhalten.</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -2850,7 +2850,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Just click this settings button to adjust an exercise or an exam to your current needs.</source>
-        <translation>Klicke den Einstellungs-Button um die Übung auf deine Bedürfnisse anzupassen.</translation>
+        <translation>Klicke den Einstellungs-Knopf, um die Übung auf deine Bedürfnisse anzupassen.</translation>
     </message>
     <message>
         <source>check answers without requiring confirmation</source>
@@ -3365,7 +3365,7 @@ cents???</translatorcomment>
     </message>
     <message>
         <source>Take your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
-        <translation>Nimm dein Instrument und spiel...&lt;br&gt;Keine Notennamen, kein Griffbrett. Bis zu 4 Vorzeichen und Doppelvorzeichen aktiviert.</translation>
+        <translation>Nimm dein Instrument und spiel … &lt;br&gt;Keine Notennamen, kein Griffbrett. Bis zu 4 Vorzeichen und Doppelvorzeichen aktiviert.</translation>
     </message>
     <message>
         <source>Sing scores</source>
@@ -3616,7 +3616,7 @@ nicht öffnen</translation>
     <name>TmainHelp</name>
     <message>
         <source>Much depends on the chosen level. Press %1 button to create your own questions set (a level).</source>
-        <translation>Viel hängt von den Fragen ab. Drücke den %1 Button um ein Level mit eigenen Fragen zu erstellen.</translation>
+        <translation>Viel hängt von den Fragen ab. Drücke den %1-Knopf, um ein Level mit eigenen Fragen zu erstellen.</translation>
     </message>
     <message>
         <source>Select a level and warm up yourself exercising. Then try to pass an exam.</source>
@@ -3649,7 +3649,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Press %1 buttons to see help and %2 button to adjust Nootka to your preference.</source>
-        <translation>Drücke %1 für Hilfe und den %2 Button um Nootka für deine Bedürfnisse anzupassen.</translation>
+        <translation>Drücke %1 für Hilfe und den %2-Knopf, um Nootka für deine Bedürfnisse anzupassen.</translation>
     </message>
     <message>
         <source>II. Exercises and exams</source>
@@ -3661,7 +3661,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Nootka will tell you about what you&apos;ve been thinking for so long... and about the progress you&apos;ve been making so far....&lt;br&gt;Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.</source>
-        <translation>Nootka wird dir zeigen, für welche Fragen du besonders lange brauchst ... aber auch welche Fortschritte du machst...&lt;br&gt;Drücke %1 um die Ergebnisse deiner Prüfungen zu sehen und auszuwerten, finde deine Schwachpunkte um dich zu verbessern.</translation>
+        <translation>Nootka wird dir zeigen, für welche Fragen du besonders lange brauchst … aber auch welche Fortschritte du machst …&lt;br&gt;Drücke %1, um die Ergebnisse deiner Prüfungen zu sehen und auszuwerten, finde deine Schwachpunkte um dich zu verbessern.</translation>
     </message>
     <message>
         <source>Have fun!</source>
@@ -4312,7 +4312,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Tablet</source>
-        <translation type="unfinished"></translation>
+        <translation>Tablet</translation>
     </message>
 </context>
 <context>
