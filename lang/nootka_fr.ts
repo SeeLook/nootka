@@ -119,16 +119,16 @@
     </message>
     <message>
         <source>Y value:</source>
-        <translation>Valeur y&#xa0;:</translation>
+        <translation>Valeur y :</translation>
     </message>
     <message>
         <source>ordered by:</source>
         <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
-        <translation>Trié par&#xa0;:</translation>
+        <translation>Trié par :</translation>
     </message>
     <message>
         <source>student name:</source>
-        <translation>Nom de l&apos;élève&#xa0;:</translation>
+        <translation>Nom de l&apos;élève :</translation>
     </message>
     <message>
         <source>level:</source>
@@ -165,7 +165,7 @@
     </message>
     <message>
         <source>Level summary:</source>
-        <translation type="vanished">Résumé du niveau&#xa0;:</translation>
+        <translation type="vanished">Résumé du niveau :</translation>
     </message>
     <message>
         <source>Tuning</source>
@@ -190,8 +190,8 @@
     <message>
         <source>File: %1 
  is not valid exam file!</source>
-        <translation type="vanished">Le fichier&#xa0;: %1 
- n&apos;est pas un fichier d&apos;examen valide&#xa0;!</translation>
+        <translation type="vanished">Le fichier : %1 
+ n&apos;est pas un fichier d&apos;examen valide !</translation>
     </message>
     <message>
         <source>Open an exam to analyze</source>
@@ -203,7 +203,7 @@
     </message>
     <message>
         <source>recent opened exams:</source>
-        <translation type="vanished">Examens ouverts récemment&#xa0;:</translation>
+        <translation type="vanished">Examens ouverts récemment :</translation>
     </message>
     <message>
         <source>Close analyzer window</source>
@@ -267,16 +267,16 @@
     <message>
         <source>Good answer!</source>
         <comment>or &apos;Good!&apos; or &apos;Correct!&apos; would be somewhat more specific than merely &apos;It was good!&apos; (previous version) &apos;It&apos; in this case certainly does refer to a specific thing, which is in this case the answer, but it might be momentarily confused with some other specific thing, such as a shoe or a crocodile, or the wind on one&apos;s back. I know that&apos;s probably confusing, but the implied subject of &apos;Correct! is in a certain sense much more specific than a mere &apos;It&apos; and is more certain to refer to the answer.</comment>
-        <translation>Bonne réponse&#xa0;!</translation>
+        <translation>Bonne réponse !</translation>
     </message>
     <message>
         <source>Wrong answer!</source>
-        <translation>Mauvaise réponse&#xa0;!</translation>
+        <translation>Mauvaise réponse !</translation>
     </message>
     <message>
         <source>Not bad, but:</source>
         <comment>&apos;Not so bad, but:&apos; is perfectly clear, but a little less common in US English. To be a bit shorter, it might just as well be, &apos;Not bad, but:&apos;</comment>
-        <translation>Pas mal, mais&#xa0;:</translation>
+        <translation>Pas mal, mais :</translation>
     </message>
     <message>
         <source>wrong string</source>
@@ -496,7 +496,7 @@
     </message>
     <message>
         <source>Student Name:</source>
-        <translation type="vanished">Nom de l&apos;élève&#xa0;:</translation>
+        <translation type="vanished">Nom de l&apos;élève :</translation>
     </message>
     <message>
         <source>Default name for every new exam or exercise.</source>
@@ -524,11 +524,11 @@
     </message>
     <message>
         <source>&apos;not bad&apos;</source>
-        <translation type="vanished">«&#xa0;Pas mal&#xa0;»</translation>
+        <translation type="vanished">« Pas mal »</translation>
     </message>
     <message>
         <source>color of &apos;not bad&apos; answers</source>
-        <translation>Couleur des réponses «&#xa0;Pas mal&#xa0;»</translation>
+        <translation>Couleur des réponses « Pas mal »</translation>
     </message>
     <message>
         <source>after mistake:</source>
@@ -772,15 +772,15 @@
     </message>
     <message>
         <source>number of frets:</source>
-        <translation>Nombre de frettes&#xa0;:</translation>
+        <translation>Nombre de frettes :</translation>
     </message>
     <message>
         <source>number of strings:</source>
-        <translation>Nombre de cordes&#xa0;:</translation>
+        <translation>Nombre de cordes :</translation>
     </message>
     <message>
         <source>preferred accidentals:</source>
-        <translation>Choix des altérations&#xa0;:</translation>
+        <translation>Choix des altérations :</translation>
     </message>
     <message>
         <source>Choose which accidentals will be shown on the staff.</source>
@@ -796,7 +796,7 @@
     </message>
     <message>
         <source>Put numbers of frets marked with dot. Separate the numbers with comma. Add ! (exclamation mark) after a number to paint a dot twice.</source>
-        <translation>Numéros des cases marquées d&apos;un point. Séparez les numéros par une virgule. Ajoutez «&#xa0;!&#xa0;» après un numéro pour marquer la case de deux points.</translation>
+        <translation>Numéros des cases marquées d&apos;un point. Séparez les numéros par une virgule. Ajoutez « ! » après un numéro pour marquer la case de deux points.</translation>
     </message>
     <message>
         <source>marked frets</source>
@@ -867,11 +867,11 @@
     </message>
     <message>
         <source>level not saved!</source>
-        <translation type="vanished">Le niveau n&apos;a pas été enregistré&#xa0;!</translation>
+        <translation type="vanished">Le niveau n&apos;a pas été enregistré !</translation>
     </message>
     <message>
         <source>Level was changed and not saved!</source>
-        <translation type="vanished">Le niveau de l&apos;examen a été modifié mais n&apos;a pas été enregistré&#xa0;!</translation>
+        <translation type="vanished">Le niveau de l&apos;examen a été modifié mais n&apos;a pas été enregistré !</translation>
     </message>
     <message>
         <source>Save exam level</source>
@@ -907,7 +907,7 @@
     </message>
     <message>
         <source>&lt;li&gt;Questions and answers as notes on the staff will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.&lt;/li&gt;</source>
-        <translation type="vanished">&lt;li&gt;Les questions et les réponses en tant que «&#xa0;note sur la portée&#xa0;» seront les mêmes. Afin d&apos;éviter ceci, il faut cocher «&#xa0;Sélection manuelle des armures&#xa0;» ou «&#xa0;Forcer les altérations&#xa0;».&lt;/li&gt;</translation>
+        <translation type="vanished">&lt;li&gt;Les questions et les réponses en tant que « note sur la portée » seront les mêmes. Afin d&apos;éviter ceci, il faut cocher « Sélection manuelle des armures » ou « Forcer les altérations ».&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;Manual selecting of a key signature was checked but answer as note on the staff was not checked.&lt;/li&gt;</source>
@@ -931,7 +931,7 @@
     </message>
     <message>
         <source>&lt;center&gt;&lt;b&gt;It seems the level has some mistakes:&lt;/b&gt;</source>
-        <translation type="vanished">&lt;center&gt;&lt;b&gt;Il semble que le niveau comporte des erreurs&#xa0;:&lt;/b&gt;</translation>
+        <translation type="vanished">&lt;center&gt;&lt;b&gt;Il semble que le niveau comporte des erreurs :&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Level creator</source>
@@ -992,7 +992,7 @@
     </message>
     <message>
         <source>Level name:</source>
-        <translation type="unfinished">Nom du niveau&#xa0;:</translation>
+        <translation type="unfinished">Nom du niveau :</translation>
     </message>
     <message>
         <source>Level description:</source>
@@ -1090,7 +1090,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
-        <translation>Nombre maximum de notes dans une mélodie. La durée de la mélodie est une valeur aléatoire comprise entre 70 et 100&#xa0;% de ce nombre.</translation>
+        <translation>Nombre maximum de notes dans une mélodie. La durée de la mélodie est une valeur aléatoire comprise entre 70 et 100 % de ce nombre.</translation>
     </message>
     <message>
         <source>Melody length</source>
@@ -1238,7 +1238,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>Cannot save exam file:
 %1</source>
-        <translation>Impossible d&apos;enregistrer le fichier d&apos;examen&#xa0;:
+        <translation>Impossible d&apos;enregistrer le fichier d&apos;examen :
 %1</translation>
     </message>
     <message>
@@ -1393,7 +1393,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>available strings:</source>
-        <translation>Cordes disponibles&#xa0;:</translation>
+        <translation>Cordes disponibles :</translation>
     </message>
     <message>
         <source>Uncheck strings if you want to skip them in an exam.</source>
@@ -1408,7 +1408,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Also delete level file:</source>
-        <translation>Supprimer aussi le fichier de niveau&#xa0;:</translation>
+        <translation>Supprimer aussi le fichier de niveau :</translation>
     </message>
 </context>
 <context>
@@ -1528,11 +1528,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>in the major keys:</source>
-        <translation type="vanished">Modes majeurs&#xa0;:</translation>
+        <translation type="vanished">Modes majeurs :</translation>
     </message>
     <message>
         <source>in the minor keys:</source>
-        <translation type="vanished">Modes mineurs&#xa0;:</translation>
+        <translation type="vanished">Modes mineurs :</translation>
     </message>
     <message>
         <source>Default clef</source>
@@ -1619,7 +1619,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>Select7note</name>
     <message>
         <source>7th note is:</source>
-        <translation>La 7e note s&apos;écrit&#xa0;:</translation>
+        <translation>La 7e note s&apos;écrit :</translation>
     </message>
     <message>
         <source>7th note is &lt;b&gt;B&lt;/b&gt; and with flat is &lt;b&gt;Bb&lt;/b&gt; or &lt;b&gt;bes&lt;/b&gt; or &lt;b&gt;bs&lt;/b&gt;</source>
@@ -1705,7 +1705,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>frequency:</source>
-        <translation type="vanished">Fréquence&#xa0;:</translation>
+        <translation type="vanished">Fréquence :</translation>
     </message>
     <message>
         <source>The base frequency of &lt;i&gt;middle a&lt;/i&gt;.&lt;br&gt;Detection of the proper pitch of notes is relative to this value. This also affects the pitch of played sounds.</source>
@@ -1713,7 +1713,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>interval:</source>
-        <translation type="vanished">Intervalle d&apos;ajustement&#xa0;:</translation>
+        <translation type="vanished">Intervalle d&apos;ajustement :</translation>
     </message>
     <message>
         <source>none</source>
@@ -1772,7 +1772,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>&apos;Middle a&apos; and transposition</source>
-        <translation type="vanished">«&#xa0;La central&#xa0;» et transposition</translation>
+        <translation type="vanished">« La central » et transposition</translation>
     </message>
     <message>
         <source>Advanced</source>
@@ -1875,7 +1875,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>student name:</source>
-        <translation>Nom de l&apos;élève&#xa0;:</translation>
+        <translation>Nom de l&apos;élève :</translation>
     </message>
     <message>
         <source>Enter your name or nick-name.</source>
@@ -1903,7 +1903,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>recent opened exams:</source>
-        <translation type="vanished">Examens ouverts récemment&#xa0;:</translation>
+        <translation type="vanished">Examens ouverts récemment :</translation>
     </message>
     <message>
         <source>Start exercise on level:</source>
@@ -1911,15 +1911,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Continue the latest exam:</source>
-        <translation type="vanished">Continuer le dernier examen&#xa0;:</translation>
+        <translation type="vanished">Continuer le dernier examen :</translation>
     </message>
     <message>
         <source>No level was selected!</source>
-        <translation>Aucun niveau n&apos;a été sélectionné&#xa0;!</translation>
+        <translation>Aucun niveau n&apos;a été sélectionné !</translation>
     </message>
     <message>
         <source>Give an user name!</source>
-        <translation>Donnez un nom d&apos;utilisateur&#xa0;!</translation>
+        <translation>Donnez un nom d&apos;utilisateur !</translation>
     </message>
     <message>
         <source>Pass new exam on level:</source>
@@ -1927,7 +1927,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>To exercise or to pass an exam?</source>
-        <translation type="vanished">Exercice ou examen&#xa0;?</translation>
+        <translation type="vanished">Exercice ou examen ?</translation>
     </message>
     <message>
         <source>Exam results</source>
@@ -2017,7 +2017,7 @@ version</translation>
     </message>
     <message>
         <source>editing and/or recording of samples:</source>
-        <translation>Montage/enregistrement d&apos;échantillons&#xa0;:</translation>
+        <translation>Montage/enregistrement d&apos;échantillons :</translation>
     </message>
     <message>
         <source>Translators</source>
@@ -2029,7 +2029,7 @@ version</translation>
     </message>
     <message>
         <source>However this application could not exist without various open source projects.&lt;br&gt;Especially:</source>
-        <translation>Cependant, cette application ne pourrait pas exister sans d&apos;autres projets libres.&lt;br&gt;En particulier&#xa0;:</translation>
+        <translation>Cependant, cette application ne pourrait pas exister sans d&apos;autres projets libres.&lt;br&gt;En particulier :</translation>
     </message>
     <message>
         <source>Thanks</source>
@@ -2057,16 +2057,16 @@ version</translation>
     </message>
     <message>
         <source>Y value:</source>
-        <translation>Valeur y&#xa0;:</translation>
+        <translation>Valeur y :</translation>
     </message>
     <message>
         <source>ordered by:</source>
         <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
-        <translation>Trié par&#xa0;:</translation>
+        <translation>Trié par :</translation>
     </message>
     <message>
         <source>student name:</source>
-        <translation>Nom de l&apos;élève&#xa0;:</translation>
+        <translation>Nom de l&apos;élève :</translation>
     </message>
     <message>
         <source>level:</source>
@@ -2091,7 +2091,7 @@ version</translation>
     </message>
     <message>
         <source>accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>altérations</translation>
     </message>
     <message>
         <source>question type</source>
@@ -2103,7 +2103,7 @@ version</translation>
     </message>
     <message>
         <source>Level summary:</source>
-        <translation>Résumé du niveau&#xa0;:</translation>
+        <translation>Résumé du niveau :</translation>
     </message>
     <message>
         <source>Tuning</source>
@@ -2128,8 +2128,8 @@ version</translation>
     <message>
         <source>File: %1 
  is not valid exam file!</source>
-        <translation>Le fichier&#xa0;: %1 
- n&apos;est pas un fichier d&apos;examen valide&#xa0;!</translation>
+        <translation>Le fichier : %1 
+ n&apos;est pas un fichier d&apos;examen valide !</translation>
     </message>
     <message>
         <source>Open an exam to analyze</source>
@@ -2141,7 +2141,7 @@ version</translation>
     </message>
     <message>
         <source>recent opened exams:</source>
-        <translation>Examens ouverts récemment&#xa0;:</translation>
+        <translation>Examens ouverts récemment :</translation>
     </message>
     <message>
         <source>Close analyzer window</source>
@@ -2445,8 +2445,8 @@ version</translation>
     <message>
         <source>File: %1 
  is not valid exam file!</source>
-        <translation>Le fichier&#xa0;: %1 
- n&apos;est pas un fichier d&apos;examen valide&#xa0;!</translation>
+        <translation>Le fichier : %1 
+ n&apos;est pas un fichier d&apos;examen valide !</translation>
     </message>
     <message>
         <source>Level &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;makes no sense because there are no questions to ask.&lt;br&gt;It can be re-adjusted.&lt;br&gt;Repair it in Level Creator and try again.</source>
@@ -2454,15 +2454,15 @@ version</translation>
     </message>
     <message>
         <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
-        <translation>Donnez d&apos;abord une réponse&#xa0;!&lt;br&gt;Ensuite l&apos;examen s&apos;arrêtera.</translation>
+        <translation>Donnez d&apos;abord une réponse !&lt;br&gt;Ensuite l&apos;examen s&apos;arrêtera.</translation>
     </message>
     <message>
         <source>Such a pity.</source>
-        <translation>Quel dommage&#xa0;!</translation>
+        <translation>Quel dommage !</translation>
     </message>
     <message>
         <source>Save exam results as:</source>
-        <translation>Enregistrer les résultats de l&apos;examen sous&#xa0;:</translation>
+        <translation>Enregistrer les résultats de l&apos;examen sous :</translation>
     </message>
     <message>
         <source>If you don&apos;t save to file&lt;br&gt;you lost all results!</source>
@@ -2470,7 +2470,7 @@ version</translation>
     </message>
     <message>
         <source>This note was not played!</source>
-        <translation>Cette note n&apos;a pas été jouée&#xa0;!</translation>
+        <translation>Cette note n&apos;a pas été jouée !</translation>
     </message>
     <message>
         <source>Exercises with Nootka</source>
@@ -2482,7 +2482,7 @@ version</translation>
     </message>
     <message>
         <source>EXAM!</source>
-        <translation>EXAMEN&#xa0;!</translation>
+        <translation>EXAMEN !</translation>
     </message>
     <message>
         <source>stop the exam</source>
@@ -2556,15 +2556,15 @@ version</translation>
     </message>
     <message>
         <source>When answer is &apos;not bad&apos;, you get one penalty more.</source>
-        <translation>Une pénalité supplémentaire est attribuée pour chaque réponse «&#xa0;Pas mal&#xa0;».</translation>
+        <translation>Une pénalité supplémentaire est attribuée pour chaque réponse « Pas mal ».</translation>
     </message>
     <message>
         <source>How does an exercise or an exam work?</source>
-        <translation>Comment fonctionne un exercice ou un examen&#xa0;?</translation>
+        <translation>Comment fonctionne un exercice ou un examen ?</translation>
     </message>
     <message>
         <source> Briefly: Nootka give you a question and you give an answer...</source>
-        <translation> En bref&#xa0;: Nootka pose une question et vous répondez...</translation>
+        <translation> En bref : Nootka pose une question et vous répondez...</translation>
     </message>
     <message>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
@@ -2576,7 +2576,7 @@ version</translation>
     </message>
     <message>
         <source>To check the answer confirm it:</source>
-        <translation>Pour vérifier la réponse&#xa0;:</translation>
+        <translation>Pour vérifier la réponse :</translation>
     </message>
     <message>
         <source>Exercises</source>
@@ -2608,7 +2608,7 @@ version</translation>
     </message>
     <message>
         <source>GOOD LUCK!</source>
-        <translation>BONNE CHANCE&#xa0;!</translation>
+        <translation>BONNE CHANCE !</translation>
     </message>
     <message>
         <source>check answers without requiring confirmation</source>
@@ -2673,15 +2673,15 @@ version</translation>
     </message>
     <message>
         <source>student:</source>
-        <translation>Élève&#xa0;:</translation>
+        <translation>Élève :</translation>
     </message>
     <message>
         <source>Number of questions:</source>
-        <translation>Nombre de questions&#xa0;:</translation>
+        <translation>Nombre de questions :</translation>
     </message>
     <message>
         <source>times:</source>
-        <translation>Temps&#xa0;:</translation>
+        <translation>Temps :</translation>
     </message>
     <message>
         <source>Time taken to answer</source>
@@ -2693,7 +2693,7 @@ version</translation>
     </message>
     <message>
         <source>Results:</source>
-        <translation>Résultats&#xa0;:</translation>
+        <translation>Résultats :</translation>
     </message>
     <message>
         <source>Kinds of mistakes</source>
@@ -2792,7 +2792,7 @@ version</translation>
     </message>
     <message>
         <source>&apos;Not bad&apos; answers</source>
-        <translation>Réponses «&#xa0;Pas mal&#xa0;»</translation>
+        <translation>Réponses « Pas mal »</translation>
     </message>
     <message>
         <source>(counted as half of a mistake)</source>
@@ -2840,11 +2840,11 @@ version</translation>
     <name>TexecutorSupply</name>
     <message>
         <source>Instrument type was changed!</source>
-        <translation>Le type d&apos;instrument a été modifié&#xa0;!</translation>
+        <translation>Le type d&apos;instrument a été modifié !</translation>
     </message>
     <message>
         <source>Tuning of the guitar was changed to:</source>
-        <translation>L&apos;accordage de la guitare a été changé en&#xa0;:</translation>
+        <translation>L&apos;accordage de la guitare a été changé en :</translation>
     </message>
     <message>
         <source>Guitar fret number was changed!</source>
@@ -2870,7 +2870,7 @@ version</translation>
     </message>
     <message>
         <source>This note is beyond the scale of the guitar!</source>
-        <translation type="vanished">La note est hors du registre de la guitare&#xa0;!</translation>
+        <translation type="vanished">La note est hors du registre de la guitare !</translation>
     </message>
 </context>
 <context>
@@ -2881,11 +2881,11 @@ version</translation>
     </message>
     <message>
         <source>What instrument do you play?</source>
-        <translation type="vanished">De quel instrument jouez-vous&#xa0;?</translation>
+        <translation type="vanished">De quel instrument jouez-vous ?</translation>
     </message>
     <message>
         <source>When writing notation for bass guitar, the &lt;b&gt;bass clef&lt;/b&gt; is used but the played notes sound an octave lower. The proper clef is &lt;b&gt;bass dropped clef&lt;/b&gt; (with the digit &quot;eight&quot; written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.</source>
-        <translation type="vanished">Pour écrire les notes pour la guitare basse, la &lt;b&gt; clé de fa&lt;b&gt; est utilisée mais les notes sont jouées une octave plus bas. La clé appropriée est la &lt;b&gt; clé de fa abaissée &lt;/b&gt; (avec le chiffre «&#xa0;8&#xa0;» noté en dessous) pour laquelle les notes sonnent exactement telles quelles sont écrites. C&apos;est cette clé qui est utilisée dans Nootka.</translation>
+        <translation type="vanished">Pour écrire les notes pour la guitare basse, la &lt;b&gt; clé de fa&lt;b&gt; est utilisée mais les notes sont jouées une octave plus bas. La clé appropriée est la &lt;b&gt; clé de fa abaissée &lt;/b&gt; (avec le chiffre « 8 » noté en dessous) pour laquelle les notes sonnent exactement telles quelles sont écrites. C&apos;est cette clé qui est utilisée dans Nootka.</translation>
     </message>
     <message>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;b&gt;&lt;big&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
@@ -2994,7 +2994,7 @@ version</translation>
     <message>
         <source>gums pain</source>
         <comment>We used to say that gums or teeth are paining when music is out of tune but it isn&apos;t official term.</comment>
-        <translation type="vanished">ça casse les oreilles&#xa0;!</translation>
+        <translation type="vanished">ça casse les oreilles !</translation>
     </message>
     <message>
         <source>violinist beginner</source>
@@ -3050,7 +3050,7 @@ version</translation>
     </message>
     <message>
         <source>There is no Nootka without a score!</source>
-        <translation type="vanished">Il n&apos;y a pas de Nootka sans portée&#xa0;!</translation>
+        <translation type="vanished">Il n&apos;y a pas de Nootka sans portée !</translation>
     </message>
     <message>
         <source>But you can hide even all the rest of widgets to see a score only.</source>
@@ -3117,7 +3117,7 @@ version</translation>
     </message>
     <message>
         <source>All chromatic notes till 5th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
-        <translation>Toutes les notes chromatiques jusqu&apos;à la 5e frette, pas de son. &lt;br&gt; Pas d&apos;altération double. &lt;br&gt;Tonalités&#xa0;: do (C), sol (G), ré (D), la (A)</translation>
+        <translation>Toutes les notes chromatiques jusqu&apos;à la 5e frette, pas de son. &lt;br&gt; Pas d&apos;altération double. &lt;br&gt;Tonalités : do (C), sol (G), ré (D), la (A)</translation>
     </message>
     <message>
         <source>Ear training</source>
@@ -3188,11 +3188,11 @@ version</translation>
     </message>
     <message>
         <source>level not saved!</source>
-        <translation>Le niveau n&apos;a pas été enregistré&#xa0;!</translation>
+        <translation>Le niveau n&apos;a pas été enregistré !</translation>
     </message>
     <message>
         <source>Level was changed and not saved!</source>
-        <translation>Le niveau de l&apos;examen a été modifié mais n&apos;a pas été enregistré&#xa0;!</translation>
+        <translation>Le niveau de l&apos;examen a été modifié mais n&apos;a pas été enregistré !</translation>
     </message>
     <message>
         <source>There aren&apos;t any questions or answers selected.&lt;br&gt;Level makes no sense.</source>
@@ -3220,7 +3220,7 @@ version</translation>
     </message>
     <message>
         <source>&lt;li&gt;Questions and answers as notes on the staff will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.&lt;/li&gt;</source>
-        <translation>&lt;li&gt;Les questions et les réponses en tant que «&#xa0;note sur la portée&#xa0;» seront les mêmes. Afin d&apos;éviter ceci, il faut cocher «&#xa0;Sélection manuelle des armures&#xa0;» ou «&#xa0;Forcer les altérations&#xa0;».&lt;/li&gt;</translation>
+        <translation>&lt;li&gt;Les questions et les réponses en tant que « note sur la portée » seront les mêmes. Afin d&apos;éviter ceci, il faut cocher « Sélection manuelle des armures » ou « Forcer les altérations ».&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;Manual selecting of a key signature was checked but answer as note on the staff was not checked.&lt;/li&gt;</source>
@@ -3251,7 +3251,7 @@ version</translation>
     <name>TlevelHeaderWdg</name>
     <message>
         <source>Level name:</source>
-        <translation type="vanished">Nom du niveau&#xa0;:</translation>
+        <translation type="vanished">Nom du niveau :</translation>
     </message>
     <message>
         <source>new level</source>
@@ -3266,7 +3266,7 @@ version</translation>
     <name>TlevelPreviewItem</name>
     <message>
         <source>Level summary:</source>
-        <translation>Résumé du niveau&#xa0;:</translation>
+        <translation>Résumé du niveau :</translation>
     </message>
     <message>
         <source>no level selected</source>
@@ -3282,11 +3282,11 @@ version</translation>
     </message>
     <message>
         <source>key signature:</source>
-        <translation>Armure&#xa0;:</translation>
+        <translation>Armure :</translation>
     </message>
     <message>
         <source>accidentals:</source>
-        <translation type="vanished">Altérations&#xa0;:</translation>
+        <translation type="vanished">Altérations :</translation>
     </message>
     <message>
         <source>none</source>
@@ -3350,8 +3350,8 @@ version</translation>
     <message>
         <source>File: %1 
  is not Nootka level file!</source>
-        <translation>Fichier&#xa0;: %1 
- n&apos;est pas un fichier de niveau Nootka&#xa0;!</translation>
+        <translation>Fichier : %1 
+ n&apos;est pas un fichier de niveau Nootka !</translation>
     </message>
     <message>
         <source>Level file
@@ -3360,7 +3360,7 @@ version</translation>
  Check please, if its parameters are as expected.</source>
         <translation>Le fichier de niveau
  %1 
- était corrompu et a été réparé&#xa0;!
+ était corrompu et a été réparé !
 Veuillez vérifier que ses paramètres correspondent à vos attentes.</translation>
     </message>
     <message>
@@ -3448,7 +3448,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>Have fun!</source>
-        <translation>Amusez-vous bien&#xa0;!</translation>
+        <translation>Amusez-vous bien !</translation>
     </message>
 </context>
 <context>
@@ -3551,7 +3551,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <name>TmelodySettings</name>
     <message>
         <source>Maximum number of notes in a melody. Melody length is random value between 70% and 100% of that number.</source>
-        <translation type="vanished">Nombre maximum de notes dans une mélodie. La durée de la mélodie est une valeur aléatoire comprise entre 70 et 100&#xa0;% de ce nombre.</translation>
+        <translation type="vanished">Nombre maximum de notes dans une mélodie. La durée de la mélodie est une valeur aléatoire comprise entre 70 et 100 % de ce nombre.</translation>
     </message>
     <message>
         <source>Melody length</source>
@@ -3893,7 +3893,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <name>TremoveLevel</name>
     <message>
         <source>Also delete level file:</source>
-        <translation type="vanished">Supprimer aussi le fichier de niveau&#xa0;:</translation>
+        <translation type="vanished">Supprimer aussi le fichier de niveau :</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -4014,7 +4014,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <name>TscoreSettings</name>
     <message>
         <source>in the major keys:</source>
-        <translation>Modes majeurs&#xa0;:</translation>
+        <translation>Modes majeurs :</translation>
     </message>
     <message>
         <source>for example</source>
@@ -4081,7 +4081,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>Tablet</source>
-        <translation type="unfinished"></translation>
+        <translation>Tablette</translation>
     </message>
 </context>
 <context>
@@ -4103,7 +4103,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>To exercise or to pass an exam?</source>
-        <translation>Exercice ou examen&#xa0;?</translation>
+        <translation>Exercice ou examen ?</translation>
     </message>
 </context>
 <context>
@@ -4188,7 +4188,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>Try again!</source>
-        <translation>Essayez encore&#xa0;!</translation>
+        <translation>Essayez encore !</translation>
     </message>
     <message>
         <source>To correct an answer</source>
@@ -4208,7 +4208,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>To check the answer confirm it:</source>
-        <translation>Pour vérifier la réponse&#xa0;:</translation>
+        <translation>Pour vérifier la réponse :</translation>
     </message>
     <message>
         <source>Check in exam help %1 how to do it automatically</source>
@@ -4244,7 +4244,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source> Don&apos;t use accidentals!</source>
-        <translation> Ne pas utiliser les altérations&#xa0;!</translation>
+        <translation> Ne pas utiliser les altérations !</translation>
     </message>
     <message>
         <source>on %1 string.</source>
@@ -4307,7 +4307,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <source>Show sound from position:</source>
         <comment>... and string + fret numbers folowing</comment>
-        <translation>Indiquez la note jouée sur&#xa0;:</translation>
+        <translation>Indiquez la note jouée sur :</translation>
     </message>
     <message>
         <source>Guess a key signature</source>
@@ -4478,11 +4478,11 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <name>Ttune</name>
     <message>
         <source>Standard: E A D G B E </source>
-        <translation>Standard&#xa0;: mi la ré sol si mi (EADGBE) </translation>
+        <translation>Standard : mi la ré sol si mi (EADGBE) </translation>
     </message>
     <message>
         <source>Dropped D: D A D G B E </source>
-        <translation>Drop D&#xa0;: ré la ré sol si mi (DADGBE) </translation>
+        <translation>Drop D : ré la ré sol si mi (DADGBE) </translation>
     </message>
     <message>
         <source>Dummy Lute: D A D F# B E </source>
@@ -4498,19 +4498,19 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>Standard bass: E A D G</source>
-        <translation>Basse standard&#xa0;: E A D G</translation>
+        <translation>Basse standard : E A D G</translation>
     </message>
     <message>
         <source>Bass in fifths: C G D A</source>
-        <translation>À la quinte&#xa0;: C G D A</translation>
+        <translation>À la quinte : C G D A</translation>
     </message>
     <message>
         <source>5-str. bass: B E A D G</source>
-        <translation>Basse 5 cordes&#xa0;: B E A D G</translation>
+        <translation>Basse 5 cordes : B E A D G</translation>
     </message>
     <message>
         <source>6-str. bass: B E A D G C</source>
-        <translation>Basse 6 cordes&#xa0;: B E A D G C</translation>
+        <translation>Basse 6 cordes : B E A D G C</translation>
     </message>
 </context>
 <context>
@@ -4570,7 +4570,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>News:</source>
-        <translation>Nouveautés&#xa0;:</translation>
+        <translation>Nouveautés :</translation>
     </message>
     <message>
         <source>No changes found.&lt;br&gt;This version is up to date.</source>
@@ -4615,7 +4615,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <name>Windows installer entries</name>
     <message>
         <source>Do you really want to remove Nootka and all its components?</source>
-        <translation>Voulez-vous vraiment supprimer Nootka et tous ses composants&#xa0;?</translation>
+        <translation>Voulez-vous vraiment supprimer Nootka et tous ses composants ?</translation>
     </message>
 </context>
 <context>
@@ -4640,14 +4640,14 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>Both pictures above show the same note!%1(note c in one-line octave)</source>
-        <translation>Les deux images ci-dessus montrent la même note&#xa0;!%1(note do/c de la première petite octave)</translation>
+        <translation>Les deux images ci-dessus montrent la même note !%1(note do/c de la première petite octave)</translation>
     </message>
 </context>
 <context>
     <name>WizardInstrument</name>
     <message>
         <source>What instrument do you play?</source>
-        <translation>De quel instrument jouez-vous&#xa0;?</translation>
+        <translation>De quel instrument jouez-vous ?</translation>
     </message>
 </context>
 <context>
@@ -4722,22 +4722,22 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <source>for a note:</source>
         <comment>average reaction time for...</comment>
-        <translation>Pour une note&#xa0;:</translation>
+        <translation>Pour une note :</translation>
     </message>
     <message>
         <source>for a fret:</source>
         <comment>average reaction time for...</comment>
-        <translation>Pour une frette&#xa0;:</translation>
+        <translation>Pour une frette :</translation>
     </message>
     <message>
         <source>for a key:</source>
         <comment>average reaction time for...</comment>
-        <translation>Pour une tonalité&#xa0;:</translation>
+        <translation>Pour une tonalité :</translation>
     </message>
     <message>
         <source>for an accidental:</source>
         <comment>average reaction time for...</comment>
-        <translation>pour une altération&#xa0;:</translation>
+        <translation>pour une altération :</translation>
     </message>
     <message>
         <source>none</source>
