@@ -13,8 +13,7 @@ TbandoneonBg {
   id: instrItem
 
   factor: GLOB.instrument.getItemHeight(nootkaWindow.height) / 100 //nootkaWindow.width / 430
-  anchors.horizontalCenter: parent.horizontalCenter
-  width: factor * 430
+  width: Math.max(factor * 430, nootkaWindow.width)
   height: GLOB.instrument.getItemHeight(nootkaWindow.height)
 
   // private
@@ -39,28 +38,30 @@ TbandoneonBg {
    Image {
      source: NOO.pix("bando-bg")
      width: factor * 210; height: width * (sourceSize.height / sourceSize.width)
-     x: -factor * 5
+     x: mainRow.x -factor * 5
      z: 1
    }
    Image {
      source: NOO.pix("bando-bg")
      width: factor * 210; height: width * (sourceSize.height / sourceSize.width)
-     x: factor * 225
+     x: mainRow.x + factor * 225
      z: 2
    }
 
   Text {
-    anchors.horizontalCenter: parent.horizontalCenter
-    y: -10 * factor
+    x: (parent.width * 0.985 - width) / 2
+    y: -30 * factor
     text: opening ? "\uE610" : (closing ? "\uE612" : "")
     color: opening ? "blue" : "#FFA500"
-    font { family: "Scorek"; pixelSize: factor * 15 }
+    font { family: "Scorek"; pixelSize: factor * 25 }
   }
 
-  rightX: factor * 220// + buttonCol.width
+  rightX: factor * 220
+  xOffset: mainRow.x
 
   Row {
     id: mainRow
+    anchors.horizontalCenter: parent.horizontalCenter
     height: factor * 100
     z: 5
     Item {
@@ -155,7 +156,7 @@ TbandoneonBg {
     width: factor * 12.5
     height: width
     radius: width / 2
-    x: hiId > -1 ? (hiId > 32 ? rightX : 0) + xAt(hiId) * factor * (hiId > 32 ? 1.2 : 1) : 0
+    x: mainRow.x + (hiId > -1 ? (hiId > 32 ? rightX : 0) + xAt(hiId) * factor * (hiId > 32 ? 1.2 : 1) : 0)
     y: hiId > -1 ? yAt(hiId) * factor + width * 0.825 : 0
     visible: hiId > -1
     z: 20

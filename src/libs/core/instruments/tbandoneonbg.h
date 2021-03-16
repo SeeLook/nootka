@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -49,6 +49,7 @@ class NOOTKACORE_EXPORT TbandoneonBg : public TcommonInstrument
   Q_PROPERTY(qreal rightX READ rightX WRITE setRightX NOTIFY rightXChanged)
   Q_PROPERTY(qreal factor READ factor WRITE setFactor NOTIFY factorChanged)
   Q_PROPERTY(EsideHighlight sideHighlight READ sideHighlight NOTIFY sideHighlightChanged)
+  Q_PROPERTY(qreal xOffset READ xOffset WRITE setXOffset NOTIFY xOffsetChanged)
 
 public:
   TbandoneonBg(QQuickItem* parent = nullptr);
@@ -81,6 +82,9 @@ public:
 
   qreal factor() const { return m_factor; }
   void setFactor(qreal f);
+
+  qreal xOffset() const { return m_xOffset; }
+  void setXOffset(qreal off);
 
   void paint(QPainter*) override {}
 
@@ -118,6 +122,7 @@ signals:
   void rightXChanged();
   void factorChanged();
   void sideHighlightChanged();
+  void xOffsetChanged();
 
 private:
 
@@ -157,6 +162,7 @@ private:
   TbandCircle       m_circleLeftOpen, m_circleLeftClose, m_circleRightOpen, m_circleRightClose, m_circleCloseExtra;
   qreal             m_factor = 1.0;
   qreal             m_rightX = 0.0;
+  qreal             m_xOffset = 0.0;
   EsideHighlight    m_sideHighlight = HighlightNone;
   quint32           m_goodTechn;
   Tnote             m_goodNote;

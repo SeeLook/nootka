@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,7 +24,7 @@
 #include <QtCore/qtimer.h>
 
 #include <QtCore/qdebug.h>
-#include "checktime.h"
+// #include "checktime.h"
 
 
 struct BandoButt {
@@ -187,7 +187,7 @@ int TbandoneonBg::closeAt(int b) { return buttArray[b].close; }
 
 
 void TbandoneonBg::setCurrentIndex(int i) {
-CHECKTIME (
+// CHECKTIME (
   m_currentIndex = i;
   if (m_currentIndex > -1) {
     Tnote n(m_closing ? buttArray[m_currentIndex].close : buttArray[m_currentIndex].open);
@@ -195,7 +195,7 @@ CHECKTIME (
     setNote(n, technical());
     emit noteChanged();
   }
-)
+// )
 }
 
 
@@ -353,6 +353,16 @@ void TbandoneonBg::setFactor(qreal f) {
   }
 }
 
+
+void TbandoneonBg::setXOffset(qreal off) {
+  if (off != m_xOffset) {
+    m_xOffset = off;
+    updateCircesPos();
+    emit xOffsetChanged();
+  }
+}
+
+
 void TbandoneonBg::markSelected(const QColor& markColor) {
   int borderWidth = markColor.alpha() ? qRound(height() / 50.0) : 0;
   markBorder(m_circleLeftOpen.item, borderWidth, markColor);
@@ -485,7 +495,7 @@ void TbandoneonBg::updateCircleSize(QQuickItem* it) {
 void TbandoneonBg::checkCircle(int butNr, TbandCircle& c, bool visible) {
   c.buttonId = butNr;
   if (c.buttonId) {
-      c.item->setX(buttArray[c.buttonId - 1].x * m_factor * (butNr > 33 ? 1.2 : 1.0) + (butNr > 33 ? m_rightX : 0.0));
+      c.item->setX(m_xOffset + buttArray[c.buttonId - 1].x * m_factor * (butNr > 33 ? 1.2 : 1.0) + (butNr > 33 ? m_rightX : 0.0));
       c.item->setY(buttArray[c.buttonId - 1].y * m_factor + height() * 0.09375);
       c.item->setVisible(visible);
   } else
