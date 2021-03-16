@@ -22,10 +22,8 @@ TbandoneonBg {
   property var correctAnim: null
 
   onCorrectInstrument: {
-    if (!correctAnim) {
-      var c = Qt.createComponent("qrc:/exam/CorrectInstrAnim.qml")
-      correctAnim = c.createObject(instrItem)
-    }
+    if (!correctAnim)
+      correctAnim = Qt.createComponent("qrc:/exam/CorrectInstrAnim.qml").createObject(instrItem)
     correctAnim.doCross = wrongItem === null
     correctAnim.start()
   }
