@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -333,14 +333,6 @@ void TguitarBg::setReadOnly(bool ro) {
 }
 
 
-void TguitarBg::setPressed(bool pr) {
-  if (pr != m_pressed) {
-    m_pressed = pr;
-    emit pressedChanged();
-  }
-}
-
-
 void TguitarBg::updateGuitar() {
   setTune();
   geometryChanged(QRectF(x(), y(), width(), height()), QRectF());
@@ -416,7 +408,7 @@ void TguitarBg::pressedAt(qreal px, qreal py) {
   paintFingerAtPoint(QPointF(px, py).toPoint());
   // skip press point set - not used in that event handler
   auto me = new QMouseEvent(QEvent::MouseButtonPress, QPointF(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier);
-  mousePressEvent(me);
+  mouseReleaseEvent(me);
 }
 
 //#################################################################################################
@@ -486,27 +478,26 @@ void TguitarBg::hoverMoveEvent(QHoverEvent* event) {
 
 
 void TguitarBg::mousePressEvent(QMouseEvent* event) {
-  if (event->buttons() & Qt::LeftButton) {
+  if (event->buttons() & Qt::LeftButton)
+      hoverLeaveEvent(nullptr); // hide highlight that covers selected fret/string
+}
+
+
+void TguitarBg::mouseReleaseEvent(QMouseEvent* event) {
+  if (event->button() == Qt::LeftButton) {
     if (m_curStr < 7) {
       m_selectedPos.setPos(m_curStr + 1, m_curFret);
       Tnote n(GLOB->Gtune()->strChromatic(m_curStr + 1) + m_curFret);
       if (GLOB->showOtherPos())
-          setNote(n); // selects all possible positions on the fingerboard
-      else { // it selects only just clicked position
+        setNote(n); // selects all possible positions on the fingerboard
+        else { // it selects only just clicked position
           p_note = n;
           setFingerPos(m_selectedPos);
-      }
-      emit fingerPosChanged();
+        }
+        emit fingerPosChanged();
       emit noteChanged();
-      hoverLeaveEvent(nullptr); // hide highlight that covers selected fret/string
     }
-    setPressed(true);
   }
-}
-
-
-void TguitarBg::mouseReleaseEvent(QMouseEvent*) {
-  setPressed(false);
   hoverEnterEvent(nullptr);
 }
 
