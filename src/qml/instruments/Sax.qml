@@ -13,7 +13,8 @@ TsaxBg {
   // private
   property real xAxis: height * 0.096 // line.x
 
-  width: parent.width; height: parent.height * 1.1
+  width: Math.max(nootkaWindow.width * 0.15, nootkaWindow.height * 0.21)
+  height: nootkaWindow.height
 
   Image { // body
     cache: false

@@ -12,10 +12,10 @@ import "../"
 TbandoneonBg {
   id: instrItem
 
-  factor: Math.min(parent.height / 100, parent.width / 430)
+  factor: GLOB.instrument.getItemHeight(nootkaWindow.height) / 100 //nootkaWindow.width / 430
   anchors.horizontalCenter: parent.horizontalCenter
   width: factor * 430
-  height: parent.height
+  height: GLOB.instrument.getItemHeight(nootkaWindow.height)
 
   // private
   property int hiId: -1

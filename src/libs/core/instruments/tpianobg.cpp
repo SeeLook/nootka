@@ -186,7 +186,7 @@ void TpianoBg::calculateMetrics(qreal newWidth) {
   qreal oldMargin = m_margin;
   qreal oldKeyW = m_keyWidth;
   m_keysNumber = static_cast<int>(m_hiNote.octave() - m_loNote.octave() + 1) * 7;
-  m_keyWidth = qMin(newWidth / static_cast<qreal>(m_keysNumber + 1), height() / 3.5); // 3.5 of height tops
+  m_keyWidth = newWidth / static_cast<qreal>(m_keysNumber + 1);
   m_margin = (newWidth - m_keysNumber * m_keyWidth) / 2.0;
   if (oldKeysNr != m_keysNumber)
     emit keysNumberChanged();

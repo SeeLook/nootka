@@ -15,7 +15,8 @@ TguitarBg {
   property var bodyPix: ["", "-electro", "-bass"]
   property var correctAnim: null
 
-  anchors.fill: parent
+  width: Math.max(nootkaWindow.width, GLOB.instrument.getItemHeight(nootkaWindow.height) * 5.4)
+  height: GLOB.instrument.getItemHeight(nootkaWindow.height)
 
   onCorrectInstrument: {
     if (!correctAnim)

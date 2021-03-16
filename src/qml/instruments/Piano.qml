@@ -13,7 +13,9 @@ TpianoBg {
   property alias keysX: keysRow.x
   property alias keysWidth: keysRow.width
 
-  anchors.fill: parent
+  width: Math.max(nootkaWindow.width, GLOB.instrument.getItemHeight(nootkaWindow.height) * 6.7)
+  height: GLOB.instrument.getItemHeight(nootkaWindow.height)
+
   onWantKeyToSelect: selectKey(k > -1 ? (isWhite ? whiteRep.itemAt(k) : whiteRep.itemAt(k).black) : null)
 
   function getKey(keyNr) { return whiteRep.itemAt(keyNr) }
@@ -33,13 +35,13 @@ TpianoBg {
   Image { // piano background
     cache: false
     source: NOO.pix("pianoBg")
-    width: instrItem.width; height: width * (sourceSize.height / sourceSize.width)
+    width: parent.width; height: width * (sourceSize.height / sourceSize.width)
     y: -height
     z: -1
   }
 
   Rectangle { // black background
-    width: instrItem.width; height: instrItem.height
+    width: parent.width; height: parent.height
     color: "black"
 
     Row { // keys
@@ -78,7 +80,7 @@ TpianoBg {
 
   Rectangle {
     id: octaveCover
-    width: instrItem.width; height: NOO.factor() * (NOO.isAndroid() ? 1 : 1.5)
+    width: parent.width; height: NOO.factor() * (NOO.isAndroid() ? 1 : 1.5)
     color: "black"
     Repeater {
       model: Math.floor(keysNumber / 7)
