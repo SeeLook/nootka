@@ -623,9 +623,10 @@ void TnootkaQML::setInstrument(TcommonInstrument* ci) {
 
 
 void TnootkaQML::connectInstrument() {
-  m_nodeConnected = true;
-  if (m_instrument)
+  if (m_instrument && !m_nodeConnected) {
     connect(m_instrument, &TcommonInstrument::noteChanged, this, &TnootkaQML::instrumentChangesNoteSlot);
+    m_nodeConnected = true;
+  }
 }
 
 
