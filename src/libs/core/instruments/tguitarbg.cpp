@@ -478,13 +478,21 @@ void TguitarBg::hoverMoveEvent(QHoverEvent* event) {
 
 
 void TguitarBg::mousePressEvent(QMouseEvent* event) {
-  if (event->buttons() & Qt::LeftButton)
-      hoverLeaveEvent(nullptr); // hide highlight that covers selected fret/string
+  if (event->buttons() & Qt::LeftButton) {
+    hoverLeaveEvent(nullptr); // hide highlight that covers selected fret/string
+    m_mouseStartPos = event->pos();
+  }
 }
 
 
 void TguitarBg::mouseReleaseEvent(QMouseEvent* event) {
   if (event->button() == Qt::LeftButton) {
+    if ((event->pos() - m_mouseStartPos).manhattanLength() > m_fretWidth / 2) {
+      // reject the event if start and end press points differs too much
+      hoverEnterEvent(nullptr);
+      return;
+    }
+
     if (m_curStr < 7) {
       m_selectedPos.setPos(m_curStr + 1, m_curFret);
       Tnote n(GLOB->Gtune()->strChromatic(m_curStr + 1) + m_curFret);

@@ -156,6 +156,7 @@ private:
   quint32      m_latestHighlightedData = 255; /**< Store technical data to properly resize highlighted string */
   TfingerPos   m_selectedPos, m_goodPos;
   bool         m_pressed = false;
+  QPoint       m_mouseStartPos;
 
 };
 
