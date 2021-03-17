@@ -21,5 +21,6 @@ Image {
     hoverEnabled: !instrItem.readOnly
     onEntered: whiteKey.entered(blackKey)
     onClicked: whiteKey.clicked(blackKey)
+    onExited: whiteKey.entered(null)
   }
 }
