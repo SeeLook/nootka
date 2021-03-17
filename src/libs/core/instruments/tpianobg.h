@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -106,7 +106,7 @@ private:
   void calculateMetrics(qreal newWidth);
 
 private:
-  int                   m_keysNumber;
+  int                   m_keysNumber = 0;
   qreal                 m_keyWidth;
   qreal                 m_margin;
   char                  m_firstOctave;
