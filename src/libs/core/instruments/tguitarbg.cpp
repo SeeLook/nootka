@@ -325,15 +325,6 @@ void TguitarBg::highlightAnswer(const Tnote& n, quint32 noteData) {
 }
 
 
-void TguitarBg::setReadOnly(bool ro) {
-  if (ro != m_readOnly) {
-    m_readOnly = ro;
-    setAcceptedMouseButtons(m_readOnly ? Qt::NoButton : Qt::LeftButton);
-    emit readOnlyChanged();
-  }
-}
-
-
 void TguitarBg::updateGuitar() {
   setTune();
   geometryChanged(QRectF(x(), y(), width(), height()), QRectF());

@@ -54,7 +54,6 @@ MouseArea {
     z: 98
     MouseArea {
       anchors.fill: parent
-      hoverEnabled: !instrItem.readOnly
       onClicked: instrItem.scale = 1
     }
   }

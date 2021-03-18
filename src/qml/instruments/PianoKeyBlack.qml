@@ -18,7 +18,7 @@ Image {
   MouseArea {
     id: ma
     anchors.fill: parent
-    hoverEnabled: !instrItem.readOnly
+    hoverEnabled: true
     onEntered: whiteKey.entered(blackKey)
     onClicked: whiteKey.clicked(blackKey)
     onExited: whiteKey.entered(null)

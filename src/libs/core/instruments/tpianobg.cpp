@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -77,14 +77,6 @@ void TpianoBg::setFirstOctave(int firstO) {
   if (fo != m_firstOctave) {
     m_firstOctave = fo;
     emit firstOctaveChanged();
-  }
-}
-
-
-void TpianoBg::setReadOnly(bool ro) {
-  if (ro != m_readOnly) {
-    m_readOnly = ro;
-    emit readOnlyChanged();
   }
 }
 

@@ -32,7 +32,6 @@ class NOOTKACORE_EXPORT TpianoBg : public TcommonInstrument
   Q_OBJECT
 
   Q_PROPERTY(qreal keyWidth READ keyWidth WRITE setKeyWidth NOTIFY keyWidthChanged)
-  Q_PROPERTY(bool readOnly READ readOnly WRITE setReadOnly NOTIFY readOnlyChanged)
   Q_PROPERTY(int firstOctave READ firstOctave WRITE setFirstOctave NOTIFY firstOctaveChanged)
   Q_PROPERTY(int keysNumber READ keysNumber NOTIFY keysNumberChanged)
   Q_PROPERTY(QQuickItem* selectedKey READ selectedKey WRITE setSelectedKey NOTIFY selectedKeyChanged)
@@ -56,9 +55,6 @@ public:
 
   int firstOctave() const { return static_cast<int>(m_firstOctave); }
   void setFirstOctave(int firstO);
-
-  bool readOnly() const { return m_readOnly; }
-  void setReadOnly(bool ro);
 
   void paint(QPainter*) override {}
 
@@ -97,7 +93,6 @@ signals:
   void firstOctaveChanged();
   void selectedKeyChanged();
   void wantKeyToSelect(int k, bool isWhite);
-  void readOnlyChanged();
 
 protected:
   void geometryChanged(const QRectF & newGeometry, const QRectF & oldGeometry) override;

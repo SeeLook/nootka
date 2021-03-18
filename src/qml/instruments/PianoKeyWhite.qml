@@ -21,7 +21,7 @@ Rectangle {
   MouseArea {
     id: ma
     anchors.fill: parent
-    hoverEnabled: !instrItem.readOnly
+    hoverEnabled: true
     onEntered: whiteKey.entered(whiteKey)
     onClicked: whiteKey.clicked(whiteKey)
     onExited: whiteKey.entered(null)

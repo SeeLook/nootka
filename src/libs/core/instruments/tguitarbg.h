@@ -43,7 +43,6 @@ class NOOTKACORE_EXPORT TguitarBg : public TcommonInstrument
   Q_PROPERTY(int string READ currentString NOTIFY stringChanged)
   Q_PROPERTY(qreal xiiFret READ xiiFret NOTIFY stringsGapChanged)
   Q_PROPERTY(QRect fbRect READ fbRect NOTIFY stringsGapChanged)
-  Q_PROPERTY(bool readOnly READ readOnly WRITE setReadOnly NOTIFY readOnlyChanged)
 
 
 public:
@@ -90,9 +89,6 @@ public:
 
   Q_INVOKABLE qreal strWidth(int str) const { return m_strWidth[str]; }
 
-  bool readOnly() const { return m_readOnly; }
-  void setReadOnly(bool ro);
-
       /**
        * Updates fingerboard to actual settings (guitar type string/fret number, marks)
        */
@@ -123,7 +119,6 @@ signals:
   void pressedChanged();
   void clearGuitar();
   void noteWasSet();
-  void readOnlyChanged();
 
 protected:
   void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) override;
