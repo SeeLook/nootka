@@ -41,7 +41,7 @@ Tflickable {
       Tumbler {
         id: langTumb
         width: parent.width
-        height: NOO.factor() * 8
+        height: NOO.factor() * (NOO.isAndroid() ? 6 : 8)
         visibleItemCount: Math.min(((width / (NOO.factor() * 7)) / 2) * 2 - 1, 7)
         model: langModel
         delegate: Component {
@@ -51,7 +51,7 @@ Tflickable {
             scale: 1.7 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
             Image {
               source: NOO.pix("flags/" + flag)
-              height: NOO.factor() * 3; width: height * (sourceSize.height / sourceSize.width)
+              height: langTumb.height * 0.375; width: height * (sourceSize.height / sourceSize.width)
               anchors.horizontalCenter: parent.horizontalCenter
               MouseArea {
                 anchors.fill: parent
@@ -62,7 +62,7 @@ Tflickable {
               anchors.horizontalCenter: parent.horizontalCenter
               text: flag === "default" ? qsTr(lang) : lang
               color: activPal.text
-              font { bold: langTumb.currentIndex === index; pixelSize: NOO.factor() * 0.8 }
+              font { bold: langTumb.currentIndex === index; pixelSize: langTumb.height * 0.1 }
             }
           }
         }
@@ -85,8 +85,8 @@ Tflickable {
           }
         }
         Rectangle {
-          z: -1; width: NOO.factor() * 9; height: parent.height * 0.7
-          x: parent.width / 2 - width / 2; y: 2 //-parent.height * 0.05
+          z: -1; width: parent.height * 1.1; height: parent.height * 0.7
+          x: parent.width / 2 - width / 2; y: parent.height * 0.01
           color: NOO.alpha(activPal.highlight, 100)
           radius: width / 12
         }
