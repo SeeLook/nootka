@@ -16,7 +16,7 @@ TnameItem {
 
   property var score: null
   width: score.width; height: score.height
-  x: score.width; y: score.y; z: 5
+  x: score.width; y: score.y; z: 4
   onNoteChanged: {
     if (!GLOB.isExam)
       score.setNote(score.scoreObj.note(0), noteName.note)
