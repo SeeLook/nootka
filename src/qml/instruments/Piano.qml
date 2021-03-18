@@ -18,6 +18,18 @@ TpianoBg {
 
   onWantKeyToSelect: selectKey(k > -1 ? (isWhite ? whiteRep.itemAt(k) : whiteRep.itemAt(k).black) : null)
 
+  transformOrigin: Item.BottomLeft
+  Behavior on scale {
+    enabled: GLOB.useAnimations
+    NumberAnimation {
+      duration: 150
+      onRunningChanged:  {
+        if (pianoZoom && !running && scale > 1)
+          instrFlick.contentX = pianoZoom.flickX
+      }
+    }
+  }
+
   function getKey(keyNr) { return whiteRep.itemAt(keyNr) }
 
 //   private
@@ -33,11 +45,14 @@ TpianoBg {
   }
 
   Image { // piano background
+    parent: nootkaWindow.contentItem
     cache: false
     source: NOO.pix("pianoBg")
     width: parent.width; height: width * (sourceSize.height / sourceSize.width)
-    y: -height
-    z: -1
+    x: -instrFlick.contentX
+    y: parent.height - instrItem.height * instrItem.scale - height
+    transformOrigin: Item.BottomLeft
+    scale: instrItem.scale
   }
 
   Rectangle { // black background
@@ -100,11 +115,6 @@ TpianoBg {
 
   Component.onCompleted: {
     if (NOO.isAndroid() && NOO.fingerPixels() * 4 > height * 1.1)
-      pianoZoom = Qt.createComponent("qrc:/instruments/PianoZoom.qml").createObject(nootkaWindow.contentItem)
-  }
-
-  Component.onDestruction: {
-    if (pianoZoom)
-      pianoZoom.destroy() // it belongs to another parent
+      pianoZoom = Qt.createComponent("qrc:/instruments/InstrumentZoom.qml").createObject(instrItem)
   }
 }
