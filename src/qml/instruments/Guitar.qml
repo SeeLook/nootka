@@ -14,9 +14,22 @@ TguitarBg {
   // private
   property var bodyPix: ["", "-electro", "-bass"]
   property var correctAnim: null
+  property var guitarZoom: null
 
   width: Math.max(nootkaWindow.width, GLOB.instrument.getItemHeight(nootkaWindow.height) * 5.4)
   height: GLOB.instrument.getItemHeight(nootkaWindow.height)
+
+  transformOrigin: Item.BottomLeft
+  Behavior on scale {
+    enabled: GLOB.useAnimations
+    NumberAnimation {
+      duration: 150
+      onRunningChanged:  {
+        if (guitarZoom && !running && scale > 1)
+          instrFlick.contentX = guitarZoom.flickX
+      }
+    }
+  }
 
   onCorrectInstrument: {
     if (!correctAnim)
@@ -25,24 +38,28 @@ TguitarBg {
     correctAnim.start()
   }
 
-  Image { // body
-    cache: false
-    source: GLOB.instrument.isGuitar ? NOO.pix("body" + bodyPix[GLOB.instrument.typeINT - 1]) : ""
-    height: parent.height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 4 : 3.1)
-    width: height * (sourceSize.width / sourceSize.height)
-    x: GLOB.instrument.type === Tinstrument.ClassicalGuitar ? xiiFret : parent.width * 0.65
-    y: parent.height - height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 0.95 : 0.97)
-    z: -1
-  }
-
-  Image { // rosette/pickup
-    cache: false
-    source: GLOB.instrument.isGuitar ? NOO.pix(GLOB.instrument.type === Tinstrument.ClassicalGuitar ? "rosette" : "pickup") : ""
-    height: parent.height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 1.55 : 1.3)
-    width: height * (sourceSize.width / sourceSize.height)
-    x: GLOB.instrument.type === Tinstrument.ClassicalGuitar ? fbRect.width - height * 0.25 : parent.width * 0.87
-    y: parent.height - height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ?  0.95 : 0.88)
-    z: -1
+  Item {
+    parent: nootkaWindow.contentItem
+    width: instrFlick.width; height: instrFlick.height; y: instrFlick.y
+    x: -instrFlick.contentX
+    transformOrigin: Item.BottomLeft
+    scale: instrItem.scale
+    Image { // body
+      cache: false
+      source: GLOB.instrument.isGuitar ? NOO.pix("body" + bodyPix[GLOB.instrument.typeINT - 1]) : ""
+      height: parent.height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 4 : 3.1)
+      width: height * (sourceSize.width / sourceSize.height)
+      x: GLOB.instrument.type === Tinstrument.ClassicalGuitar ? xiiFret : parent.width * 0.65
+      y: parent.height - height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 0.95 : 0.97)
+    }
+    Image { // rosette/pickup
+      cache: false
+      source: GLOB.instrument.isGuitar ? NOO.pix(GLOB.instrument.type === Tinstrument.ClassicalGuitar ? "rosette" : "pickup") : ""
+      height: parent.height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 1.55 : 1.3)
+      width: height * (sourceSize.width / sourceSize.height)
+      x: GLOB.instrument.type === Tinstrument.ClassicalGuitar ? fbRect.width - height * 0.25 : parent.width * 0.87
+      y: parent.height - height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ?  0.95 : 0.88)
+    }
   }
 
   Rectangle {
@@ -78,6 +95,18 @@ TguitarBg {
     x: 1
     y: string < 6 ? fbRect.y + stringsGap / 2 + string * stringsGap - height / 3 : 0
     visible: active && string < 6 && fingerPos.x == 0
+  }
+
+  Component.onCompleted: {
+    if (NOO.isAndroid() && NOO.fingerPixels() * 4 > height * 1.1)
+      guitarZoom = Qt.createComponent("qrc:/instruments/InstrumentZoom.qml").createObject(instrItem)
+  }
+
+  MouseArea {
+    id: touchArea
+    enabled: guitarZoom && instrItem.scale > 1
+    anchors.fill: parent
+    onClicked: pressedAt(mouse.x, mouse.y)
   }
 
   OutScaleTip { show: !active && outOfScale }
