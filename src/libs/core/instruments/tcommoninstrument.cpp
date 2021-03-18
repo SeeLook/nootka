@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,9 +24,14 @@ TcommonInstrument::TcommonInstrument(QQuickItem* parent) :
 {
   setAcceptHoverEvents(true);
   setRenderTarget(QQuickPaintedItem::FramebufferObject);
-  //   setPerformanceHint(QQuickPaintedItem::FastFBOResizing);
   setAntialiasing(true);
   setAcceptedMouseButtons(Qt::LeftButton);
+
+  // Reset instrument zoom when goes disabled by setting scale to 1 - only mobile so far
+  connect(this, &QQuickItem::enabledChanged, this, [=]{
+    if (!isEnabled())
+      setScale(1.0);
+  });
 }
 
 
