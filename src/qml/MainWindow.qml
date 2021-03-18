@@ -53,14 +53,20 @@ ApplicationWindow {
   MainMenu { id: mainMenu }
   header: mainMenu.toolBar
 
-  MainScore {
-    id: score
+  Item {
+    id: scoreWrap
     y: examResults ? examResults.height + 2 : 0
-    height: nootkaWindow.height - (header ? header.height : 0)
-            - (GLOB.instrument.isSax ? (GLOB.singleNoteMode ? instrument.height / 7 : 0) : instrument.height)
-            - (examResults ? examResults.height + 2 : 0)
-    width: (parent.width - (GLOB.instrument.isSax ? instrument.width : 0)) / (GLOB.singleNoteMode ? 2 : 1)
+    height: score.height
+    width: parent.width - (GLOB.instrument.isSax ? instrument.width : 0)
     z: 5
+    transformOrigin: Item.Top
+    MainScore {
+      id: score
+      height: nootkaWindow.height - (header ? header.height : 0)
+              - (GLOB.instrument.isSax ? (GLOB.singleNoteMode ? instrument.height / 7 : 0) : instrument.height)
+              - (examResults ? examResults.height + 2 : 0)
+      width: parent.width / (GLOB.singleNoteMode ? 2 : 1)
+    }
   }
 
   Instrument {
@@ -111,7 +117,7 @@ ApplicationWindow {
     if (GLOB.singleNoteMode) {
         if (!noteName) {
           var c = Qt.createComponent("qrc:/NoteName.qml")
-          noteName = c.createObject(nootkaWindow.contentItem, { "score": score })
+          noteName = c.createObject(scoreWrap, { "score": score })
         }
     } else {
         if (noteName)
