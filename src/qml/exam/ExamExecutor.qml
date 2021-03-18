@@ -55,6 +55,7 @@ Texecutor {
     if (!helpGotIt)
       helpGotIt = Qt.createComponent("qrc:/gotit/ExamFlow.qml").createObject(executor, { "remaindChecked": showExamHelp })
     helpGotIt.open()
+    helpGotIt.closed.connect(afterMessage)
   }
 
   onWantSuggestPopup: Qt.createComponent("qrc:/exam/TsuggestExam.qml").createObject(executor, { "entireVisible": showEntire })

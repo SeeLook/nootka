@@ -212,8 +212,12 @@ void TexamExecutor::continueInit() {
     }
   }
   m_showExamHelp = GLOB->gotIt(QStringLiteral("examFlow"), true);
-  if (m_showExamHelp)
+  if (m_showExamHelp) {
+    // Display start tip after help 'Got It!' but only when any other action is not going to happen
+    if (m_aftterMessage == AfterDoNothing)
+      m_aftterMessage = AfterStartTTip;
     emit showHelp();
+  }
   prepareToExam();
   initializeExecuting();
   createActions();
