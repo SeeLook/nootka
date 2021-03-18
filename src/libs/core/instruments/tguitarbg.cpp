@@ -329,6 +329,7 @@ void TguitarBg::setReadOnly(bool ro) {
   if (ro != m_readOnly) {
     m_readOnly = ro;
     setAcceptedMouseButtons(m_readOnly ? Qt::NoButton : Qt::LeftButton);
+    emit readOnlyChanged();
   }
 }
 
