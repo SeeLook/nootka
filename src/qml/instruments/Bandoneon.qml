@@ -19,6 +19,19 @@ TbandoneonBg {
   // private
   property int hiId: -1
   property var correctAnim: null
+  property var bandoZoom: null
+
+  transformOrigin: Item.BottomLeft
+  Behavior on scale {
+    enabled: GLOB.useAnimations
+    NumberAnimation {
+      duration: 150
+      onRunningChanged:  {
+        if (bandoZoom && !running && scale > 1)
+          instrFlick.contentX = bandoZoom.flickX
+      }
+    }
+  }
 
   onCorrectInstrument: {
     if (!correctAnim)
@@ -160,6 +173,11 @@ TbandoneonBg {
     y: hiId > -1 ? yAt(hiId) * factor + width * 0.825 : 0
     visible: hiId > -1
     z: 20
+  }
+
+  Component.onCompleted: {
+    if (NOO.isAndroid() && NOO.fingerPixels() * 4 > height * 1.1)
+      bandoZoom = Qt.createComponent("qrc:/instruments/InstrumentZoom.qml").createObject(instrItem)
   }
 
   OutScaleTip { show: !active && outOfScale }
