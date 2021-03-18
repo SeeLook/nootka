@@ -9,17 +9,20 @@ import "score"
 
 
 Flickable {
+  id: instrFlick
+
   property var instrument: null
   property var score: null
 
   boundsBehavior: Flickable.StopAtBounds
   height: GLOB.instrument.getItemHeight(nootkaWindow.height)
   width: nootkaWindow.width * (GLOB.instrument.isSax ? 0.15 : 1)
-  y: score.y + (GLOB.instrument.isSax ? 0 : score.height)
+  y: score.parent.y + (GLOB.instrument.isSax ? 0 : score.height)
   x: GLOB.instrument.isSax ? parent.width - width : 0
-  z: 1
 
-  contentWidth: instrument ? instrument.width : 0
+  z: instrument && instrument.scale > 1.0 ? 5 : 1
+
+  contentWidth: instrument ? instrument.width * instrument.scale : 0
   contentHeight: instrument ? instrument.height : 0
 
   Component.onCompleted: setInstrument()
@@ -29,6 +32,7 @@ Flickable {
     onInstrumentChanged: setInstrument()
   }
 
+  property real hiFactor: GLOB.instrument.getItemHeight(100) / 100.0
   function setInstrument() {
     if (instrument)
       instrument.destroy()
@@ -39,6 +43,8 @@ Flickable {
     if (GLOB.instrument.type === Tinstrument.Piano)
       instrument.setAmbitus(score.scoreObj.lowestNote(), score.scoreObj.highestNote())
     NOO.instrument = instrument
+    if (!GLOB.instrument.isSax)
+      score.parent.scale = Qt.binding(function() { return (1.0 - hiFactor * instrument.scale) / (1 - hiFactor) })
   }
 
   Connections {
