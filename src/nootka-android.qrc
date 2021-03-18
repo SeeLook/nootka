@@ -84,12 +84,11 @@
     <file alias="score/MelodyNameDialog.qml">qml/score/MelodyNameDialog.qml</file>
 
     <file alias="Instrument.qml">qml/instruments/Instrument.qml</file>
-    <file alias="instruments/Guitar.qml">qml/instruments/+android/Guitar.qml</file>
-    <file alias="instruments/FretView.qml">qml/instruments/+android/FretView.qml</file>
+    <file alias="instruments/Guitar.qml">qml/instruments/Guitar.qml</file>
     <file alias="instruments/Piano.qml">qml/instruments/Piano.qml</file>
     <file alias="instruments/PianoKeyBlack.qml">qml/instruments/PianoKeyBlack.qml</file>
     <file alias="instruments/PianoKeyWhite.qml">qml/instruments/PianoKeyWhite.qml</file>
-    <file alias="instruments/PianoZoom.qml">qml/instruments/+android/PianoZoom.qml</file>
+    <file alias="instruments/InstrumentZoom.qml">qml/instruments/InstrumentZoom.qml</file>
     <file alias="instruments/Bandoneon.qml">qml/instruments/Bandoneon.qml</file>
     <file alias="instruments/Sax.qml">qml/instruments/Sax.qml</file>
     <file alias="instruments/OutScaleTip.qml">qml/instruments/OutScaleTip.qml</file>
