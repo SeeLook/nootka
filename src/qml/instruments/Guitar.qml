@@ -103,10 +103,16 @@ TguitarBg {
   }
 
   MouseArea {
-    id: touchArea
+    property point startPos: Qt.point(0, 0)
     enabled: guitarZoom && instrItem.scale > 1
     anchors.fill: parent
-    onClicked: pressedAt(mouse.x, mouse.y)
+    onPressed: startPos = Qt.point(mouseX, mouseY)
+    onReleased: {
+      var dx = mouseX - startPos.x
+      var dy = mouseY - startPos.y
+      if (Math.sqrt(dx * dx + dy * dy) < fretWidth / 2)
+        pressedAt(mouse.x, mouse.y)
+    }
   }
 
   OutScaleTip { show: !active && outOfScale }
