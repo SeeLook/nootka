@@ -43,25 +43,26 @@ class NOOTKACORE_EXPORT TguitarBg : public TcommonInstrument
   Q_PROPERTY(int string READ currentString NOTIFY stringChanged)
   Q_PROPERTY(qreal xiiFret READ xiiFret NOTIFY stringsGapChanged)
   Q_PROPERTY(QRect fbRect READ fbRect NOTIFY stringsGapChanged)
+  Q_PROPERTY(bool pressed READ pressed NOTIFY pressedChanged)
 
 
 public:
   TguitarBg(QQuickItem* parent = nullptr);
 
-  short currentString() { return m_curStr; }
-  short currentFret() { return m_curFret; }
+  short currentString() const { return m_curStr; }
+  short currentFret() const { return m_curFret; }
 
       /**
        * Average width of fret
        */
-  int fretWidth() { return m_fretWidth; }
+  int fretWidth() const { return m_fretWidth; }
 
       /**
        * Distance between strings
        */
-  int stringsGap() { return m_strGap; }
+  int stringsGap() const { return m_strGap; }
 
-  QPointF fingerPos() { return m_fingerPos; }
+  QPointF fingerPos() const { return m_fingerPos; }
 
   void setNote(const Tnote& n, quint32 noteDataValue = 255) override;
 
@@ -78,7 +79,9 @@ public:
       /**
        * Guitar fingerboard rectangle
        */
-  QRect fbRect() { return m_fbRect; }
+  QRect fbRect() const { return m_fbRect; }
+
+  bool pressed() const { return m_pressed; }
 
       /**
        * Returns scene coordinates of given guitar position (between bars)
@@ -133,6 +136,8 @@ protected:
        */
   void setTune();
 
+  void setPressed(bool pr);
+
 private:
   QRect        m_fbRect; /**< Represents top left positions and size of a fingerboard */
   int          m_strGap; /**< Distance between strings */
@@ -144,14 +149,13 @@ private:
   qreal        m_widthFromPitch[6]; /**< Base values from which @p m_strWidth is calculated determined from tune. */
   QColor       m_strColors[6];
 
-  bool         m_readOnly = false;
+  bool         m_pressed = false;
   QPointF      m_fingerPos;
   QQuickItem  *m_fingerItems[6];
   QQuickItem  *m_stringItems[6];
   QQuickItem  *m_highlightedString = nullptr;
   quint32      m_latestHighlightedData = 255; /**< Store technical data to properly resize highlighted string */
   TfingerPos   m_selectedPos, m_goodPos;
-  bool         m_pressed = false;
   QPoint       m_mouseStartPos;
 
 };

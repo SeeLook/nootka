@@ -83,7 +83,7 @@ TguitarBg {
     radius: NOO.factor() / 3
     source: finger
     visible: fingerPos.x > 0
-    scale: active && fingerPos.x > 0 ? 1 : 0
+    scale: !pressed && active && fingerPos.x > 0 ? 1 : 0
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
   }
 
@@ -94,7 +94,7 @@ TguitarBg {
     height: string < 6 ? strWidth(string) * 1.5 : 0
     x: 1
     y: string < 6 ? fbRect.y + stringsGap / 2 + string * stringsGap - height / 3 : 0
-    visible: active && string < 6 && fingerPos.x == 0
+    visible: !pressed && active && string < 6 && fingerPos.x == 0
   }
 
   Component.onCompleted: {
