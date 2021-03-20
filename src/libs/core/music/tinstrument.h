@@ -39,12 +39,21 @@ class NOOTKACORE_EXPORT Tinstrument {
   Q_PROPERTY(int typeINT READ typeINT)
   Q_PROPERTY(QString glyph READ glyph)
   Q_PROPERTY(int clef READ clef)
-  Q_PROPERTY(bool isGuitar READ isGuitar)
-  Q_PROPERTY(bool isSax READ isSax)
   Q_PROPERTY(QString qmlFile READ qmlFile)
   Q_PROPERTY(int transposition READ transposition)
   Q_PROPERTY(int fretNumber READ fretNumber)
   Q_PROPERTY(bool isFadeOut READ isFadeOut)
+
+  Q_PROPERTY(bool isGuitar READ isGuitar) // all guitars
+  Q_PROPERTY(bool isSax READ isSax) // all saxophones
+  Q_PROPERTY(bool none READ none)
+  Q_PROPERTY(bool classicGuitar READ clasicGuitar)
+  Q_PROPERTY(bool electricGuitar READ electricGuitar)
+  Q_PROPERTY(bool bassGuitar READ bassGuitar)
+  Q_PROPERTY(bool piano READ piano)
+  Q_PROPERTY(bool bandoneon READ bandoneon)
+  Q_PROPERTY(bool altSax READ altSax)
+  Q_PROPERTY(bool tenorSax READ tenorSax)
 
 public:
 
@@ -83,9 +92,24 @@ public:
        */
   int clef() const;
 
+      /**
+       * @p TRUE for all kinds of guitar
+       */
   bool isGuitar() const { return m_type == ClassicalGuitar || m_type == ElectricGuitar || m_type == BassGuitar; }
 
+      /**
+       * @p TRUE for all kinds of saxophones
+       */
   bool isSax() const { return m_type == AltSax || m_type == TenorSax; }
+
+  bool none() const { return m_type == NoInstrument; }
+  bool clasicGuitar() const { return m_type == ClassicalGuitar; }
+  bool electricGuitar() const { return m_type == ElectricGuitar; }
+  bool bassGuitar() const { return m_type == BassGuitar; }
+  bool piano() const { return m_type == Piano; }
+  bool bandoneon() const { return m_type == Bandoneon; }
+  bool altSax() const { return m_type == AltSax; }
+  bool tenorSax() const { return m_type == TenorSax; }
 
       /**
        * File implementing QML side of the instrument
