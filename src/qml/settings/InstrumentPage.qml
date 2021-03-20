@@ -50,7 +50,7 @@ Flickable {
                   else
                     setTuning(NOO.tuning(Ttune.Standard_EADGBE))
                   fretsNrSpin.value = ins.fretNumber
-              } else if (ins.type === Tinstrument.NoInstrument) {
+              } else if (ins.none) {
                   setTuning(NOO.tuning(score.scoreObj.lowestNote(), score.scoreObj.highestNote(), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote()))
               }
           }
@@ -92,7 +92,7 @@ Flickable {
             id: tuningCombo
             visible: instrSel.instrument !== 0
             width: NOO.factor() * 18
-            model: GLOB.instrument.type === Tinstrument.BassGuitar ? NOO.bassTunings() : NOO.guitarTunings()
+            model: GLOB.instrument.bassGuitar ? NOO.bassTunings() : NOO.guitarTunings()
           }
         }
         Item {
@@ -215,7 +215,7 @@ Flickable {
                                  GLOB.tuning.string(4), GLOB.tuning.string(5), GLOB.tuning.string(6)))
             tuningCombo.currentIndex = tuningCombo.count - 1
         } else {
-            tuningCombo.currentIndex = GLOB.tuning.type - (GLOB.instrument.type === Tinstrument.BassGuitar ? 100 : 0)
+            tuningCombo.currentIndex = GLOB.tuning.type - (GLOB.instrument.bassGuitar ? 100 : 0)
             setTuning(NOO.tuning(GLOB.tuning.type))
         }
       }

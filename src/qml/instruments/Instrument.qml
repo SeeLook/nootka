@@ -46,7 +46,7 @@ Flickable {
       instrument = Qt.createComponent("qrc:/instruments/" +  GLOB.instrument.qmlFile + ".qml").createObject(sizable)
     else
       instrument = null
-    if (GLOB.instrument.type === Tinstrument.Piano)
+    if (GLOB.instrument.piano)
       instrument.setAmbitus(score.scoreObj.lowestNote(), score.scoreObj.highestNote())
     NOO.instrument = instrument
     if (instrument && !GLOB.instrument.isSax)
@@ -55,7 +55,7 @@ Flickable {
 
   Connections {
     target: score
-    enabled: GLOB.instrument.type === Tinstrument.Piano
+    enabled: GLOB.instrument.piano
     onClefChanged: instrument.setAmbitus(score.scoreObj.lowestNote(), score.scoreObj.highestNote())
   }
 }
