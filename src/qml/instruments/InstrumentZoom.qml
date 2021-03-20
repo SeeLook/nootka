@@ -8,18 +8,17 @@ import "../"
 
 
 MouseArea {
-  id: octaveView
-
   property real flickX: 0
 
   enabled: instrItem.enabled && instrItem.scale === 1.0
 
-  width: parent.width; height: parent.height
+  width: instrItem.width; height: instrItem.height
   z: 99
 
   onClicked: {
-    instrItem.scale = (NOO.fingerPixels() * 4) / height
-    flickX = (mouse.x / width) * ((instrItem.width * (NOO.fingerPixels() * 4) / height) - width)
+    var sc = (NOO.fingerPixels() * 4) / height
+    instrItem.scale = sc
+    flickX = (mouse.x / width) * (instrItem.width * sc - width)
   }
 
   onEnabledChanged: {
