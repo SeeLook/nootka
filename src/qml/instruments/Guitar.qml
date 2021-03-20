@@ -47,18 +47,18 @@ TguitarBg {
     Image { // body
       cache: false
       source: GLOB.instrument.isGuitar ? NOO.pix("body" + bodyPix[GLOB.instrument.typeINT - 1]) : ""
-      height: parent.height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 4 : 3.1)
+      height: parent.height * (GLOB.instrument.classicGuitar ? 4 : 3.1)
       width: height * (sourceSize.width / sourceSize.height)
-      x: GLOB.instrument.type === Tinstrument.ClassicalGuitar ? xiiFret : parent.width * 0.65
-      y: parent.height - height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 0.95 : 0.97)
+      x: GLOB.instrument.classicGuitar ? xiiFret : parent.width * 0.65
+      y: parent.height - height * (GLOB.instrument.classicGuitar ? 0.95 : 0.97)
     }
     Image { // rosette/pickup
       cache: false
-      source: GLOB.instrument.isGuitar ? NOO.pix(GLOB.instrument.type === Tinstrument.ClassicalGuitar ? "rosette" : "pickup") : ""
-      height: parent.height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ? 1.55 : 1.3)
+      source: GLOB.instrument.isGuitar ? NOO.pix(GLOB.instrument.classicGuitar ? "rosette" : "pickup") : ""
+      height: parent.height * (GLOB.instrument.classicGuitar ? 1.55 : 1.3)
       width: height * (sourceSize.width / sourceSize.height)
-      x: GLOB.instrument.type === Tinstrument.ClassicalGuitar ? fbRect.width - height * 0.25 : parent.width * 0.87
-      y: parent.height - height * (GLOB.instrument.type === Tinstrument.ClassicalGuitar ?  0.95 : 0.88)
+      x: GLOB.instrument.classicGuitar ? fbRect.width - height * 0.25 : parent.width * 0.87
+      y: parent.height - height * (GLOB.instrument.classicGuitar ?  0.95 : 0.88)
     }
   }
 
