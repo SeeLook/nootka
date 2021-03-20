@@ -57,13 +57,14 @@ ApplicationWindow {
     id: scoreWrap
     y: examResults ? examResults.height + 2 : 0
     height: score.height
-    width: parent.width - (GLOB.instrument.isSax ? instrument.width : 0)
+    width: parent.width * (GLOB.instrument.isSax ? 0.15 : 1)
     z: 5
     transformOrigin: Item.Top
     MainScore {
       id: score
-      height: nootkaWindow.height - (header ? header.height : 0)
-              - (GLOB.instrument.isSax ? (GLOB.singleNoteMode ? instrument.height / 7 : 0) : instrument.height)
+      property real insHi: GLOB.instrument.getItemHeight(nootkaWindow.height)
+      height: nootkaWindow.contentItem.height
+              - (GLOB.instrument.isSax ? (GLOB.singleNoteMode ? insHi / 7 : 0) : insHi)
               - (examResults ? examResults.height + 2 : 0)
       width: parent.width / (GLOB.singleNoteMode ? 2 : 1)
     }
