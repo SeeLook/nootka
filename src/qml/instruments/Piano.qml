@@ -18,7 +18,7 @@ TpianoBg {
 
   onWantKeyToSelect: selectKey(k > -1 ? (isWhite ? whiteRep.itemAt(k) : whiteRep.itemAt(k).black) : null)
 
-  transformOrigin: Item.BottomLeft
+  transformOrigin: Item.TopLeft
   Behavior on scale {
     enabled: GLOB.useAnimations
     NumberAnimation {

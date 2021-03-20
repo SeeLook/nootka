@@ -19,7 +19,7 @@ TguitarBg {
   width: Math.max(nootkaWindow.width, GLOB.instrument.getItemHeight(nootkaWindow.height) * 5.4)
   height: GLOB.instrument.getItemHeight(nootkaWindow.height)
 
-  transformOrigin: Item.BottomLeft
+  transformOrigin: Item.TopLeft
   Behavior on scale {
     enabled: GLOB.useAnimations
     NumberAnimation {
@@ -42,7 +42,7 @@ TguitarBg {
     parent: nootkaWindow.contentItem
     width: instrFlick.width; height: instrFlick.height; y: instrFlick.y
     x: -instrFlick.contentX
-    transformOrigin: Item.BottomLeft
+    transformOrigin: Item.TopLeft
     scale: instrItem.scale
     Image { // body
       cache: false

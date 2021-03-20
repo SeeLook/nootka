@@ -21,7 +21,7 @@ TbandoneonBg {
   property var correctAnim: null
   property var bandoZoom: null
 
-  transformOrigin: Item.BottomLeft
+  transformOrigin: Item.TopLeft
   Behavior on scale {
     enabled: GLOB.useAnimations
     NumberAnimation {
