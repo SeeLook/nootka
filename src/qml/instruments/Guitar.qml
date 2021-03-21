@@ -104,7 +104,7 @@ TguitarBg {
 
   MouseArea {
     property point startPos: Qt.point(0, 0)
-    enabled: guitarZoom && instrItem.scale > 1
+    enabled: (NOO.fingerPixels() * 4 <= height * 1.1) || (guitarZoom && instrItem.scale > 1)
     anchors.fill: parent
     onPressed: startPos = Qt.point(mouseX, mouseY)
     onReleased: {
