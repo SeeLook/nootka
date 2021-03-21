@@ -80,32 +80,25 @@ Old.Dialog {
       dialLoader.height = nootkaWindow.height * (NOO.isAndroid() ? 1 : 0.9)
       switch (page) {
         case Nootka.Settings:
-          var s = Qt.createComponent("qrc:/TsettingsDialog.qml")
-          currentDialog = s.createObject(container)
+          currentDialog = Qt.createComponent("qrc:/TsettingsDialog.qml").createObject(container)
           break
         case Nootka.About:
-          var a = Qt.createComponent("qrc:/TaboutNootka.qml")
-          currentDialog = a.createObject(container)
+          currentDialog = Qt.createComponent("qrc:/TaboutNootka.qml").createObject(container)
           break
         case Nootka.LevelCreator:
-          var l = Qt.createComponent("qrc:/LevelCreator.qml")
-          currentDialog = l.createObject(container)
+          currentDialog = Qt.createComponent("qrc:/LevelCreator.qml").createObject(container)
           break
         case Nootka.ExamStart:
-          var e = Qt.createComponent("qrc:/exam/StartExam.qml")
-          currentDialog = e.createObject(container)
+          currentDialog = Qt.createComponent("qrc:/exam/StartExam.qml").createObject(container)
           break
         case Nootka.ExamSummary:
-          var c = Qt.createComponent("qrc:/exam/ExamSummary.qml")
-          currentDialog = c.createObject(container)
+          currentDialog = Qt.createComponent("qrc:/exam/ExamSummary.qml").createObject(container)
           break
         case Nootka.Tuner:
-          var t = Qt.createComponent("qrc:/sound/TunerDialog.qml")
-          currentDialog = t.createObject(container)
+          currentDialog = Qt.createComponent("qrc:/sound/TunerDialog.qml").createObject(container)
           break
         case Nootka.MelodyGenerator:
-          var m = Qt.createComponent("qrc:/score/MelGenDialog.qml")
-          currentDialog = m.createObject(container)
+          currentDialog = Qt.createComponent("qrc:/score/MelGenDialog.qml").createObject(container)
           break
       }
       SOUND.stopListen()
