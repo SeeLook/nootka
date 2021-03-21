@@ -646,6 +646,12 @@ void TnootkaQML::instrumentChangesNoteSlot() {
       if (m_scoreObject->selectedItem() == nullptr) {
           auto r= m_scoreObject->workRhythm();
           r.setRest(false);
+          auto instNoteNr = instrNote.chromatic();
+          // check is note inside score boundaries
+          if (instNoteNr < m_scoreObject->lowestNote().chromatic() || instNoteNr > m_scoreObject->highestNote().chromatic()) {
+            r.setRest(true);
+            instrNote.setNote(0); // invalidate not - it became rest
+          }
           instrNote.setRhythm(r);
           m_scoreObject->addNote(instrNote, true);
       } else {
@@ -654,7 +660,7 @@ void TnootkaQML::instrumentChangesNoteSlot() {
           instrNote.setRhythm(r);
           m_scoreObject->setNote(m_scoreObject->selectedItem(), instrNote);
       }
-      if (GLOB->instrument().type() == Tinstrument::Bandoneon) {
+      if (GLOB->instrument().bandoneon()) {
         auto seg = m_scoreObject->selectedItem() ? m_scoreObject->noteSegment(m_scoreObject->selectedItem()->index()) : m_scoreObject->lastSegment();
         Ttechnical instrData(m_instrument->technical());
         if (seg->index() > 0) {
@@ -706,7 +712,7 @@ int TnootkaQML::selectedNoteId() const {
 
 int TnootkaQML::getTechicalFromScore() {
   quint32 technical = NO_TECHNICALS; // empty by default
-  if (GLOB->instrument().type() == Tinstrument::Bandoneon && m_scoreObject->selectedItem()) {
+  if (GLOB->instrument().bandoneon() && m_scoreObject->selectedItem()) {
     auto selectedSegment = m_scoreObject->noteSegment(m_scoreObject->selectedItem()->index());
     Ttechnical dataToSet = selectedSegment->technical();
     if (!dataToSet.bowing()) { // no bowing, so look up for any previous note with bowing mark
