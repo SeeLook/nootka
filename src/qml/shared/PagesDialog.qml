@@ -20,11 +20,6 @@ Item {
 
   anchors { fill: parent; leftMargin: NOO.isAndroid() ? 0 : NOO.factor() / 4 }
 
-  Rectangle {
-    color: NOO.isAndroid() ? "#000000" : "#ffffff"
-    z: 2; x: navList.x; y: navList.y; width: navList.width; height: navList.height
-  }
-
   function addItem(icon, text, page) {
     navList.pages.push("qrc:/" + page + "Page.qml")
     model.append({ "iconName": "pane/" + icon, "buttonText": text })
@@ -39,7 +34,6 @@ Item {
     clip: true
     height: parent.height
     width: maxWidth
-    z: 3 // above stack
     topMargin: NOO.factor() / 2
     property var pages: []
     property PaneButton prevButt: null
@@ -50,46 +44,48 @@ Item {
     spacing: NOO.factor() / 4
 
     highlightFollowsCurrentItem: false
-    highlight: Component {
-      Rectangle {
-        width: navList.prevButt.width; height: navList.prevButt.height + NOO.factor() / 4
-        color: activPal.highlight
-        y: navList.prevButt.y - NOO.factor() / 4
-        Behavior on y { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.1 }}
+    highlight: Rectangle {
+      width: navList.prevButt.width; height: navList.prevButt.height + NOO.factor() / 4
+      color: activPal.highlight
+      y: navList.prevButt.y - NOO.factor() / 4
+      Behavior on y { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.1 }}
+    }
+
+    delegate: PaneButton {
+      id: delegateButt
+      name: buttonText
+      pixmap: NOO.pix(iconName)
+      onClicked: {
+        if (navList.prevButt !== delegateButt) {
+          if (typeof(navList.pages[index]) === "string") {
+            var c = Qt.createComponent(navList.pages[index])
+            navList.pages[index] = c.createObject(stack)
+          }
+          navList.pages[index] = stack.replace(navList.pages[index])
+          navList.ensureVisible(y, height)
+          navList.prevButt = delegateButt
+        }
+      }
+      Component.onCompleted: {
+        if (index === navList.prevDelegate) // workaround to avoid loading delegate twice
+          return
+        navList.prevDelegate = index
+        maxWidth = Math.max(navList.width, width)
+        buttons.push(delegateButt)
+        for (var i = 0; i < buttons.length; ++i) // keep buttons width the same
+          buttons[i].width = maxWidth
+        if (index === 0) {
+          navList.prevButt = delegateButt
+          var c = Qt.createComponent(navList.pages[0])
+          navList.pages[0] = stack.push(c.createObject(stack))
+        }
       }
     }
 
-    delegate: Component {
-      PaneButton {
-        id: delegateButt
-        name: buttonText
-        pixmap: NOO.pix(iconName)
-        onClicked: {
-          if (navList.prevButt !== delegateButt) {
-            if (typeof(navList.pages[index]) === "string") {
-              var c = Qt.createComponent(navList.pages[index])
-              navList.pages[index] = c.createObject(stack)
-            }
-            navList.pages[index] = stack.replace(navList.pages[index])
-            navList.ensureVisible(y, height)
-            navList.prevButt = delegateButt
-          }
-        }
-        Component.onCompleted: {
-          if (index === navList.prevDelegate) // workaround to avoid loading delegate twice
-            return
-          navList.prevDelegate = index
-          maxWidth = Math.max(navList.width, width)
-          buttons.push(delegateButt)
-          for (var i = 0; i < buttons.length; ++i) // keep buttons width the same
-            buttons[i].width = maxWidth
-          if (index === 0) {
-            navList.prevButt = delegateButt
-            var c = Qt.createComponent(navList.pages[0])
-            navList.pages[0] = stack.push(c.createObject(stack))
-          }
-        }
-      }
+    Rectangle {
+      color: NOO.isAndroid() ? "#000000" : "#ffffff"
+      anchors.fill: parent
+      z: -1
     }
 
     ScrollBar.vertical: ScrollBar { active: false }
@@ -109,7 +105,6 @@ Item {
     id: stack
     clip: true
     x: navList.width + (NOO.isAndroid() ? 0 : NOO.factor() / 4)
-    z: -1 // below navigation list
     width: parent.width - navList.width - (NOO.isAndroid() ? 0 : NOO.factor() / 4)
     height: parent.height
     replaceEnter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "x"; from: width; to: 0 }}
