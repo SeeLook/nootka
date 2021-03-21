@@ -78,6 +78,9 @@ Old.Dialog {
 
       dialLoader.width = nootkaWindow.width * (NOO.isAndroid() ? 1 : 0.9)
       dialLoader.height = nootkaWindow.height * (NOO.isAndroid() ? 1 : 0.9)
+
+      open() // do it it first, to initialize size at first time
+
       switch (page) {
         case Nootka.Settings:
           currentDialog = Qt.createComponent("qrc:/TsettingsDialog.qml").createObject(container)
@@ -103,7 +106,6 @@ Old.Dialog {
       }
       SOUND.stopListen()
       SOUND.stopPlaying()
-      open()
     }
   }
 

@@ -11,29 +11,38 @@ import QtQuick.Controls 2.2
  * Model has following fields:
  * 'icon', 'text' and 'page' - with path to QML file
  */
-Item {
+Grid {
+  id: pagesGrid
+
+  property bool isVertical: parent.height > parent.width
   property alias stack: stack
   property alias model: navList.model
   property alias pages: navList.pages
   property alias currentPage: stack.currentItem
   property var buttons: []
 
-  anchors { fill: parent; leftMargin: NOO.isAndroid() ? 0 : NOO.factor() / 4 }
+  width: parent.width; height: parent.height
 
   function addItem(icon, text, page) {
     navList.pages.push("qrc:/" + page + "Page.qml")
     model.append({ "iconName": "pane/" + icon, "buttonText": text })
   }
 
+  columns: isVertical ? 1 : 2
+
+  spacing: 1
+
   // private
   property real maxWidth: 0
+  property real maxHeight: 0
 
   // navigation list on the left
   ListView {
     id: navList
     clip: true
-    height: parent.height
-    width: maxWidth
+    height: isVertical ? maxHeight : pagesGrid.height
+    width: isVertical ? pagesGrid.width : maxWidth
+    orientation: isVertical ? ListView.Horizontal : ListView.Vertical
     topMargin: NOO.factor() / 2
     property var pages: []
     property PaneButton prevButt: null
@@ -47,8 +56,10 @@ Item {
     highlight: Rectangle {
       width: navList.prevButt.width; height: navList.prevButt.height + NOO.factor() / 4
       color: activPal.highlight
-      y: navList.prevButt.y - NOO.factor() / 4
+      y: navList.prevButt.y
+      x: navList.prevButt.x
       Behavior on y { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.1 }}
+      Behavior on x { enabled: GLOB.useAnimations; SpringAnimation { spring: 2; damping: 0.1 }}
     }
 
     delegate: PaneButton {
@@ -57,10 +68,8 @@ Item {
       pixmap: NOO.pix(iconName)
       onClicked: {
         if (navList.prevButt !== delegateButt) {
-          if (typeof(navList.pages[index]) === "string") {
-            var c = Qt.createComponent(navList.pages[index])
-            navList.pages[index] = c.createObject(stack)
-          }
+          if (typeof(navList.pages[index]) === "string")
+            navList.pages[index] = Qt.createComponent(navList.pages[index]).createObject(stack)
           navList.pages[index] = stack.replace(navList.pages[index])
           navList.ensureVisible(y, height)
           navList.prevButt = delegateButt
@@ -70,14 +79,14 @@ Item {
         if (index === navList.prevDelegate) // workaround to avoid loading delegate twice
           return
         navList.prevDelegate = index
-        maxWidth = Math.max(navList.width, width)
+        maxWidth = Math.max(maxWidth, width)
+        maxHeight = Math.max(maxHeight, height)
         buttons.push(delegateButt)
         for (var i = 0; i < buttons.length; ++i) // keep buttons width the same
           buttons[i].width = maxWidth
         if (index === 0) {
           navList.prevButt = delegateButt
-          var c = Qt.createComponent(navList.pages[0])
-          navList.pages[0] = stack.push(c.createObject(stack))
+          navList.pages[0] = stack.push(Qt.createComponent(navList.pages[0]).createObject(stack))
         }
       }
     }
@@ -104,9 +113,8 @@ Item {
   StackView {
     id: stack
     clip: true
-    x: navList.width + (NOO.isAndroid() ? 0 : NOO.factor() / 4)
-    width: parent.width - navList.width - (NOO.isAndroid() ? 0 : NOO.factor() / 4)
-    height: parent.height
+    width: pagesGrid.width - (isVertical ? 0 : maxWidth) - pagesGrid.spacing
+    height: pagesGrid.height - (isVertical ? maxHeight : 0)
     replaceEnter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "x"; from: width; to: 0 }}
     replaceExit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "x"; from: 0; to: -width }}
   }
