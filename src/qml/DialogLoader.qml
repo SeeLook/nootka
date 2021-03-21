@@ -41,13 +41,13 @@ Old.Dialog {
     width: dialLoader.width; height: dialLoader.height
     Rectangle {
       id: container
-      width: parent.width; height: parent.height - (box.visible ? box.height : 0)
+      width: dialLoader.width; height: dialLoader.height - (box.visible ? box.height : 0)
       color: activPal.window
     }
     DialogButtonBox {
       id: box
       visible: standardButtons !== 0
-      width: parent.width; height: NOO.factor() * 3
+      width: dialLoader.width; height: NOO.factor() * 3
       spacing: NOO.factor()
       alignment: Qt.AlignVCenter
       delegate: TiconButton {
