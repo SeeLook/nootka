@@ -19,19 +19,24 @@ TlevelsSelector {
 
   onSelectLast: view.currentIndex = view.count - 1
 
-  Row {
+  // private
+  property bool isVertical: parent.height > parent.width
+
+  Grid {
     width: parent.width
+    columns: isVertical ? 1 : 2
     spacing: width / 100
     padding: width / 200
 
     Column {
-      width: parent.width * 0.49; height: lSelector.height
-      spacing: lSelector.width / 100
+      width: lSelector.width * (isVertical ? 1 : 0.49 )
+      spacing: Math.min(lSelector.width, lSelector.height) / 100
 
       ListView {
         id: view
         clip: true
-        width: parent.width; height: lSelector.height * 0.96 - buttRow.height
+        width: parent.width
+        height: lSelector.height * (isVertical ? 0.48 : 0.96) - buttRow.height
         spacing: 1
         currentIndex: -1
         ScrollBar.vertical: ScrollBar { active: false; visible: active }
@@ -104,11 +109,12 @@ TlevelsSelector {
           }
         }
       }
-    }
+    } // Column of level list
 
     LevelPreview {
       id: previewItem
-      width: parent.width * 0.49; height: lSelector.height
+      width: lSelector.width * (isVertical ? 1 : 0.49 )
+      height: lSelector.height * (isVertical ? 0.49 : 1)
     }
   }
 

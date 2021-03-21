@@ -16,7 +16,7 @@ TlevelPreviewItem {
     color: activPal.base
     Text {
       color: Qt.tint(activPal.base, NOO.alpha(activPal.highlight, 50))
-      font { family: "Nootka"; pixelSize: parent.width * 0.75 }
+      font { family: "Nootka"; pixelSize: Math.min(parent.width, parent.height) * 0.75 }
       anchors.centerIn: parent
       text: instrumentGlyph
     }
