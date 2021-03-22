@@ -12,7 +12,7 @@ import "../"
 TbandoneonBg {
   id: instrItem
 
-  factor: GLOB.instrument.getItemHeight(nootkaWindow.height) / 100 //nootkaWindow.width / 430
+  factor: GLOB.instrument.getItemHeight(nootkaWindow.height) / 100
   width: Math.max(factor * 430, nootkaWindow.width)
   height: GLOB.instrument.getItemHeight(nootkaWindow.height)
 
@@ -57,19 +57,19 @@ TbandoneonBg {
    Image {
      source: NOO.pix("bando-bg")
      width: factor * 210; height: width * (sourceSize.height / sourceSize.width)
-     x: mainRow.x + factor * 225
+     x: mainRow.x + factor * 235
      z: 2
    }
 
   Text {
     x: (parent.width * 0.985 - width) / 2
-    y: -30 * factor
+    y: factor * 2
     text: opening ? "\uE610" : (closing ? "\uE612" : "")
     color: opening ? "blue" : "#FFA500"
-    font { family: "Scorek"; pixelSize: factor * 25 }
+    font { family: "Nootka"; pixelSize: factor * 25 }
   }
 
-  rightX: factor * 220
+  rightX: factor * 230
   xOffset: mainRow.x
 
   Row {
@@ -109,11 +109,10 @@ TbandoneonBg {
 
       TcuteButton {
         id: openButt
-        width: factor * 10
-        height: NOO.factor() * 3
+        width: factor * 20; height: factor * 15
         checked: opening
         checkable: true
-        text: "\uE610"; font { family: "Scorek"; pixelSize: height }
+        text: "\uE610"; font { family: "Nootka"; pixelSize: height }
         color: openButt.checked ? "blue" : "gray"
         onClicked: {
           opening = openButt.checked
@@ -123,10 +122,9 @@ TbandoneonBg {
       }
       TcuteButton {
         id: closeButt
-        width: factor * 10
-        height: NOO.factor() * 3
+        width: factor * 20; height: factor * 15
         checked: closing
-        text: "\uE612"; font { family: "Scorek"; pixelSize: height }
+        text: "\uE612"; font { family: "Nootka"; pixelSize: height }
         checkable: true
         color: closeButt.checked ? "#FFA500" : "gray"
         onClicked: {
