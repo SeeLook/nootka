@@ -153,22 +153,6 @@ TbandoneonBg::TbandoneonBg(QQuickItem* parent) :
   m_circleLeftClose.item = createCircle(&comp);
   m_circleRightClose.item = createCircle(&comp);
   m_circleCloseExtra.item = createCircle(&comp);
-
-//   m_circleLeftClose.item->setObjectName("left_close");
-//   m_circleLeftOpen.item->setObjectName("left_open");
-//   m_circleRightClose.item->setObjectName("right_close");
-//   m_circleRightOpen.item->setObjectName("right_open");
-
-  // FIXME: dirty workaround to set bandoneon in the middle.
-  // It happens due to instrument loader sets (forces) bandoneon item width to window width during loading
-  // but correct width is obtained from factor
-  QTimer::singleShot(50, [=]{
-    if (this->parentItem()) {
-      auto p = this->parentItem();
-      setFactor(qMin(p->height() / 100.0, p->width() / 430.0) * 0.9);
-      setFactor(qMin(p->height() / 100.0, p->width() / 430.0));
-    }
-  });
 }
 
 
