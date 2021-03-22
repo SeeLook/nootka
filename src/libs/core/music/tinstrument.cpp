@@ -122,11 +122,13 @@ int Tinstrument::getItemHeight(int mainWindowHeight) {
     case Piano:
 #if defined (Q_OS_ANDROID)
       return qRound(static_cast<qreal>(mainWindowHeight) * 0.22);
-#else
-      return mainWindowHeight / 5;
-#endif
     case Bandoneon:
       return mainWindowHeight / 3;
+#else
+      return mainWindowHeight / 5;
+    case Bandoneon:
+      return qRound(static_cast<qreal>(mainWindowHeight) / 3.5);
+#endif
     case AltSax:
     case TenorSax:
       return mainWindowHeight;
