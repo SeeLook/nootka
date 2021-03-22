@@ -20,7 +20,7 @@ TlevelsSelector {
   onSelectLast: view.currentIndex = view.count - 1
 
   // private
-  property bool isVertical: parent.height > parent.width
+  property bool isVertical: parent.height * 1.2 > parent.width
 
   Grid {
     width: parent.width
