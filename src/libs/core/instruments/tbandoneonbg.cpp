@@ -470,17 +470,17 @@ QQuickItem* TbandoneonBg::createCircle(QQmlComponent* comp) {
 
 
 void TbandoneonBg::updateCircleSize(QQuickItem* it) {
-  it->setWidth(height() / 7.5);
-  it->setHeight(height() / 7.5);
-  it->setProperty("radius", height() / 15.0);
+  it->setWidth(height() / 6.5);
+  it->setHeight(height() / 6.5);
+  it->setProperty("radius", height() / 13.0);
 }
 
 
 void TbandoneonBg::checkCircle(int butNr, TbandCircle& c, bool visible) {
   c.buttonId = butNr;
   if (c.buttonId) {
-      c.item->setX(m_xOffset + buttArray[c.buttonId - 1].x * m_factor * (butNr > 33 ? 1.2 : 1.0) + (butNr > 33 ? m_rightX : 0.0));
-      c.item->setY(buttArray[c.buttonId - 1].y * m_factor + height() * 0.09375);
+      c.item->setX(m_xOffset + buttArray[c.buttonId - 1].x * m_factor * (butNr > 33 ? 1.3 : 1.1) + (butNr > 33 ? m_rightX - m_factor * 10.0 : 0.0) - m_factor * 0.5);
+      c.item->setY(buttArray[c.buttonId - 1].y * m_factor * (butNr > 33 ? 1.05 : 1.2) + (m_factor * 14.5) * ((butNr > 33 ? 0.49 : 0.29)));
       c.item->setVisible(visible);
   } else
       c.item->setVisible(false);
