@@ -142,6 +142,11 @@ private:
   void checkCircle(int butNr, TbandCircle& c, bool visible = true);
   void hideCircles();
 
+      /**
+       * fix closing button scale when it remains the same
+       */
+  void fixScaleOfTheSame();
+
 private:
       /**
        * Contains button number in @p buttArray for left/right keys and opening/closing states.

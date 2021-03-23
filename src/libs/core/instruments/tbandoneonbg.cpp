@@ -193,6 +193,8 @@ void TbandoneonBg::setOpening(bool o) {
       if (m_circleRightClose.buttonId)
         m_circleRightClose.item->setVisible(!m_opening);
 
+      fixScaleOfTheSame();
+
       if (m_circleCloseExtra.buttonId == 4 || m_circleCloseExtra.buttonId == 51)
         m_circleRightClose.item->setVisible(!m_opening);
     }
@@ -208,11 +210,8 @@ void TbandoneonBg::setClosing(bool c) {
       m_circleLeftOpen.item->setVisible(!m_closing);
     if (m_circleRightOpen.buttonId)
       m_circleRightOpen.item->setVisible(!m_closing);
-    // fix closing button scale when it remains alone
-    if (m_circleLeftOpen.buttonId == m_circleLeftClose.buttonId)
-      m_circleLeftClose.item->setProperty("scale", m_closing ? BIG_SCALE : SMALL_SCALE);
-    if (m_circleRightOpen.buttonId == m_circleRightClose.buttonId)
-      m_circleRightClose.item->setProperty("scale", m_closing ? BIG_SCALE : SMALL_SCALE);
+
+    fixScaleOfTheSame();
 
     if (m_circleCloseExtra.buttonId == 47)
       m_circleCloseExtra.item->setVisible(!m_closing);
@@ -509,4 +508,12 @@ void TbandoneonBg::hideCircles() {
   m_circleRightClose.buttonId = 0;
   m_circleCloseExtra.item->setVisible(false);
   m_circleCloseExtra.buttonId = 0;
+}
+
+
+void TbandoneonBg::fixScaleOfTheSame() {
+  if (m_circleLeftOpen.buttonId == m_circleLeftClose.buttonId)
+    m_circleLeftClose.item->setProperty("scale", m_closing ? BIG_SCALE : SMALL_SCALE);
+  if (m_circleRightOpen.buttonId == m_circleRightClose.buttonId)
+    m_circleRightClose.item->setProperty("scale", m_closing ? BIG_SCALE : SMALL_SCALE);
 }
