@@ -5,15 +5,15 @@
     <name>AboutPage</name>
     <message>
         <source>Welcome on the board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Benvenuto a bordo.&lt;br&gt;Nootka è un&apos;applicazione open source per aiutarti ad imparare (ed insegnare) la notazione musicale classica.</translation>
     </message>
     <message>
         <source>See a &lt;a href=&quot;%1&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;br&gt;Any bugs, suggestions, translations and so on, please report to: %2.&lt;br&gt;&lt;br&gt;with respects&lt;br&gt;Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Consulta &lt;a href=&quot;%1&quot;&gt;il sito del programma&lt;/a&gt; per maggiori informazioni e rilasci ulteriori.&lt;br&gt;Errori, suggerimenti, traduzioni, si prega di contattare: %2.&lt;br&gt;&lt;br&gt;con rispetto&lt;br&gt;l&apos;Autore</translation>
     </message>
     <message>
         <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa è una versione beta e può contenere bugs o comportarsi in maniera inattesa. Alcune funzionalità sono incomplete. &lt;br&gt;Ciononostante, sei il benvenuto!</translation>
     </message>
 </context>
 <context>
@@ -512,42 +512,42 @@
     <name>GotIt</name>
     <message>
         <source>GOT IT!</source>
-        <translation type="unfinished"></translation>
+        <translation>CAPITO!</translation>
     </message>
     <message>
         <source>remind me next time</source>
-        <translation type="unfinished"></translation>
+        <translation>ricordamelo la prossima volta</translation>
     </message>
 </context>
 <context>
     <name>HandleScore</name>
     <message>
         <source>Editing score with touch</source>
-        <translation type="unfinished"></translation>
+        <translation>Edita lo spartito con il tocco</translation>
     </message>
     <message>
         <source>Touch and hold area of a note you want to edit.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tocca e mantieni premuta l&apos;area di una nota che desideri modificare.</translation>
     </message>
     <message>
         <source>Move finger left or right to see edited note.</source>
-        <translation type="unfinished"></translation>
+        <translation>Muovi il dito a sinistra o destra per vedere la nota modificata.</translation>
     </message>
     <message>
         <source>Then move finger up or down to find desired note pitch.</source>
-        <translation type="unfinished"></translation>
+        <translation>Poi muovi il dito su o giù fino a trovare l&apos;altezza desiderata.</translation>
     </message>
     <message>
         <source>Rise the finger.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alza il dito.</translation>
     </message>
     <message>
         <source>If necessary, select accidental or rhythmic value.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se necessario, seleziona il ritmo o l&apos;accidente.</translation>
     </message>
     <message>
         <source>Finally, tap selected note shortly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Infine, tocca brevemente la nota selezionata.</translation>
     </message>
 </context>
 <context>
@@ -683,18 +683,18 @@
     <name>LevelPreview</name>
     <message>
         <source>not selected</source>
-        <translation type="unfinished"></translation>
+        <translation>non selezionato/a</translation>
     </message>
 </context>
 <context>
     <name>Levels</name>
     <message>
         <source>Simple melodies</source>
-        <translation type="unfinished"></translation>
+        <translation>Semplici melodie</translation>
     </message>
     <message>
         <source>Play popular, simple melodies on your instrument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Suona melodie semplici e popolari sul tuo strumento.</translation>
     </message>
 </context>
 <context>
@@ -713,15 +713,15 @@
     </message>
     <message>
         <source>new level</source>
-        <translation type="unfinished">nuovo livello</translation>
+        <translation>nuovo livello</translation>
     </message>
     <message>
         <source>Level name:</source>
-        <translation type="unfinished">Nome del livello:</translation>
+        <translation>Nome del livello:</translation>
     </message>
     <message>
         <source>Level description:</source>
-        <translation type="unfinished">Descrizione del livello:</translation>
+        <translation>Descrizione del livello:</translation>
     </message>
 </context>
 <context>
@@ -786,7 +786,8 @@ Consider to divide long pieces on parts in external software first.</source>
     <message>
         <source>Add here melodies from Music XML files.
 But better keep them short, so divide them first in some external software.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi qui le melodie dai file XML di Musica.
+E&apos; meglio mantenerle brevi, quindi dividile dapprima in un programma esterno.</translation>
     </message>
 </context>
 <context>
@@ -852,39 +853,39 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>random order</source>
-        <translation type="unfinished"></translation>
+        <translation>ordine casuale</translation>
     </message>
     <message>
         <source>When checked, melodies from the list will be asked in random order.</source>
-        <translation type="unfinished"></translation>
+        <translation>Quando abilitato, saranno interrogate le melodie della lista in ordine casuale.</translation>
     </message>
     <message>
         <source>How many times during an exam a melody from the list has to be played or written correctly. Warning! It multiplies question number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Quante volte durante un esame deve essere suonata o scritta correttamente una melodia della lista. Attenzione! Moltiplica il numero delle domande.</translation>
     </message>
     <message>
         <source>number of repeats</source>
-        <translation type="unfinished"></translation>
+        <translation>numero di ripetizioni</translation>
     </message>
     <message>
         <source>Melodies are composed from notes in range defined on the &apos;Range&apos; page.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le melodie vengono composte dalle note nella gamma definita nella pagina &apos;Range&apos;</translation>
     </message>
     <message>
         <source>Melodies are selected from the list below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le melodie vengono selezionate dalla lista sotto.</translation>
     </message>
     <message>
         <source>from notes in range</source>
-        <translation type="unfinished"></translation>
+        <translation>dalle note in gamma</translation>
     </message>
     <message>
         <source>from selected notes</source>
-        <translation type="unfinished"></translation>
+        <translation>dalle note selezionate</translation>
     </message>
     <message>
         <source>from set of melodies</source>
-        <translation type="unfinished"></translation>
+        <translation>dal gruppo di melodie</translation>
     </message>
 </context>
 <context>
@@ -943,7 +944,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>NoteSelected</name>
     <message>
         <source>Note selection and playing</source>
-        <translation type="unfinished"></translation>
+        <translation>Selezione della nota e riproduzione</translation>
     </message>
 </context>
 <context>
@@ -969,11 +970,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Touching a screen suspends pitch detection for 1 second but some advanced users may want to disable that.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toccare lo schermo equivale a sospendere la rilevazione dell&apos;altezza per 1 secondo, ma alcuni utenti avanzati potrebbero voler disabilitare tale funzione.</translation>
     </message>
     <message>
         <source>suspend mic when screen was touched</source>
-        <translation type="unfinished"></translation>
+        <translation>sospendi il microfono quando viene toccato lo schermo</translation>
     </message>
 </context>
 <context>
@@ -1353,15 +1354,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Play a few sounds to figure out their maximal volume,&lt;br&gt;then set level knob about 10-20% below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Riproduci alcuni suoni per capire il livello di volume massimo, &lt;br&gt; poi imposta il potenziometro circa 10%-20% al disotto.</translation>
     </message>
     <message>
         <source>Later, you can adjust the volume level in Nootka tuner window.&lt;br&gt;Invoke it from main menu or use any volume key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Più avanti puoi regolare il livello del volume nella finestra dell&apos;accordatore di Nootka. &lt;br&gt;Richiamalo dal menu principale o usa un tasto del volume.</translation>
     </message>
     <message>
         <source>If you want Nootka to write your melody with rhythm then you have to play exactly in selected tempo - preferably with a metronome. But during practice, when you are playing melody given by the application, the tempo can be at will unless some level defines it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se vuoi che Nootka scriva la tua melodia con il ritmo, allora devi suonarla esattamente nel tempo desiderato - preferibilmente con un metronomo. Tuttavia durante le prova, quando suoni una melodia dell&apos;applicativo, il tempo può essere a piacere a meno che venga definito in qualche livello.</translation>
     </message>
 </context>
 <context>
@@ -2293,11 +2294,11 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>times:</source>
-        <translation type="unfinished"></translation>
+        <translation>volte:</translation>
     </message>
     <message>
         <source>Time taken to answer</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempo per la risposta</translation>
     </message>
 </context>
 <context>
@@ -2411,23 +2412,23 @@ non è un file di esame valido!</translation>
     <message>
         <source>note cursor</source>
         <comment>it might be just &apos;cursor&apos; as well</comment>
-        <translation type="unfinished"></translation>
+        <translation>cursore nota</translation>
     </message>
     <message>
         <source>Note becomes selected (highlighted) when it was edited or clicked with right mouse button or tapped shortly.</source>
-        <translation type="unfinished"></translation>
+        <translation>La nota diviene selezionata (evidenziata) quando è stata modificata o premuta con il pulsante destro del mouse, o toccata brevemente.</translation>
     </message>
     <message>
         <source>If any note on the score is selected, only this particular one is changed by playing or clicking on an instrument. And only pitch of that note changes - rhythmic value remains the same. </source>
-        <translation type="unfinished"></translation>
+        <translation>Se viene selezionata una qualsiasi nota del pentagramma, solo questa viene cambiata suonandola o cliccando su uno strumento. E solo l&apos;altezza di quella nota cambia - il ritmo rimane invariato. </translation>
     </message>
     <message>
         <source>When no note is chosen on the score, note cursor is highlighted and blinks. Notes are added one by one, either by playing real instrument or by selecting a sound on instrument displayed by the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Quando non viene selezionata nessuna nota sullo spartito, il cursore viene evidenziato e lampeggia. Le note vengono aggiunte una ad una, o suonandole su un vero strumento o selezionano un suono sullo strumento mostrato dall&apos;applicazione.</translation>
     </message>
     <message>
         <source>To deselect the note just click or tap some free part of the score sheet or use arrow keys to navigate to the note cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tocca o clicca sulle parti libere dello spartito così da deselezionare la nota, oppure usa le frecce per spostarti in corrispondenza del cursore.</translation>
     </message>
 </context>
 <context>
@@ -2670,11 +2671,11 @@ non è un file di esame valido!</translation>
     </message>
     <message>
         <source>&lt;li&gt;There are not enough selected notes to create a melody.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Non è stato selezionato un numero sufficiente di note per creare una melodia.&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;No melody was added to the list.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Non è stata aggiunta nessuna melodia alla lista.&lt;/li&gt;</translation>
     </message>
 </context>
 <context>
@@ -3026,67 +3027,67 @@ Controlla se tutto i parametri sono corretti.</translation>
     <name>TnoteName</name>
     <message>
         <source>Sub</source>
-        <translation type="unfinished"></translation>
+        <translation>Sub</translation>
     </message>
     <message>
         <source>Contra</source>
-        <translation type="unfinished"></translation>
+        <translation>Contro</translation>
     </message>
     <message>
         <source>Great</source>
-        <translation type="unfinished"></translation>
+        <translation>Eccezionale</translation>
     </message>
     <message>
         <source>Small</source>
-        <translation type="unfinished"></translation>
+        <translation>Piccola</translation>
     </message>
     <message>
         <source>1-line</source>
-        <translation type="unfinished"></translation>
+        <translation>1-linea</translation>
     </message>
     <message>
         <source>2-line</source>
-        <translation type="unfinished"></translation>
+        <translation>2-linee</translation>
     </message>
     <message>
         <source>3-line</source>
-        <translation type="unfinished"></translation>
+        <translation>3-linee</translation>
     </message>
     <message>
         <source>4-line</source>
-        <translation type="unfinished"></translation>
+        <translation>4-linee</translation>
     </message>
     <message>
         <source>Subcontra octave</source>
-        <translation type="unfinished"></translation>
+        <translation>Ottava sub-contra</translation>
     </message>
     <message>
         <source>Contra octave</source>
-        <translation type="unfinished"></translation>
+        <translation>Contro ottava</translation>
     </message>
     <message>
         <source>Great octave</source>
-        <translation type="unfinished"></translation>
+        <translation>Ottava eccezionale</translation>
     </message>
     <message>
         <source>Small octave</source>
-        <translation type="unfinished"></translation>
+        <translation>Ottava piccola</translation>
     </message>
     <message>
         <source>One-line octave</source>
-        <translation type="unfinished"></translation>
+        <translation>Ottava di una riga</translation>
     </message>
     <message>
         <source>Two-line octave</source>
-        <translation type="unfinished"></translation>
+        <translation>Ottava a due righe</translation>
     </message>
     <message>
         <source>Three-line octave</source>
-        <translation type="unfinished"></translation>
+        <translation>Ottava a tre righe</translation>
     </message>
     <message>
         <source>Four-line octave</source>
-        <translation type="unfinished"></translation>
+        <translation>Ottava di quattro righe</translation>
     </message>
 </context>
 <context>
@@ -3234,7 +3235,7 @@ Controlla se tutto i parametri sono corretti.</translation>
     </message>
     <message>
         <source>Simple exam settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Semplici impostazioni d&apos;esame</translation>
     </message>
 </context>
 <context>
@@ -3683,23 +3684,23 @@ Controlla se tutto i parametri sono corretti.</translation>
     <name>WizardMode</name>
     <message>
         <source>In main Nootka window score can be displayed in a few different ways, depends on experience level.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nella finestra principale di Nootka, lo spartito può essere mostrato in vari modi, a seconda del livello di esperienza.</translation>
     </message>
     <message>
         <source>For beginners, when you don&apos;t know musical notation at all.</source>
-        <translation type="unfinished"></translation>
+        <translation>Per i principianti, che non conoscono affatto la notazione musicale.</translation>
     </message>
     <message>
         <source>score without rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>spartito senza ritmi</translation>
     </message>
     <message>
         <source>When you already know musical notation a little but you cannot play your instrument fluently yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Quando conosci già la notazione musicale, almeno un po&apos;, ma non sei in grado di suonare fluentemente il tuo strumento.</translation>
     </message>
     <message>
         <source>full notation</source>
-        <translation type="unfinished"></translation>
+        <translation>notazione completa</translation>
     </message>
 </context>
 <context>
@@ -3732,11 +3733,11 @@ Controlla se tutto i parametri sono corretti.</translation>
     <name>WizardPiano</name>
     <message>
         <source>Notes for piano are written on the grand staff - two staves joined with brace. Usually the upper one, with treble clef is for right hand and the lower one with bass clef is for left hand.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le note per il piano vengono scritte sul Doppio Pentagramma - due pentagrammi uniti con una graffa. Normalmente la superiore, con una chiave di violino per la mano destra e l&apos;inferiore con una chiave di basso per la mano sinistra.</translation>
     </message>
     <message>
         <source>Although for exercise purposes and also due to Nootka is supporting only single voice, sometimes just one of the staves can be used as well.</source>
-        <translation type="unfinished"></translation>
+        <translation>Benché si tratti di un esercizio, e anche perchè Nootka supporta solo singole voci, talvolta si può usare anche solo uno dei pentagrammi.</translation>
     </message>
 </context>
 <context>
