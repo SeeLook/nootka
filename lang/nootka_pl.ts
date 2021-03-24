@@ -840,12 +840,12 @@ nie jest poprawnym plikiem egzaminu!</translation>
 <context>
     <name>GotIt</name>
     <message>
-        <location filename="../src/qml/gotit/GotIt.qml" line="82"/>
+        <location filename="../src/qml/gotit/GotIt.qml" line="88"/>
         <source>GOT IT!</source>
         <translation>DOBRA!</translation>
     </message>
     <message>
-        <location filename="../src/qml/gotit/GotIt.qml" line="86"/>
+        <location filename="../src/qml/gotit/GotIt.qml" line="92"/>
         <source>remind me next time</source>
         <translation>przypomnij mi następnym razem</translation>
     </message>
@@ -853,37 +853,37 @@ nie jest poprawnym plikiem egzaminu!</translation>
 <context>
     <name>HandleScore</name>
     <message>
-        <location filename="../src/qml/gotit/HandleScore.qml" line="63"/>
+        <location filename="../src/qml/gotit/HandleScore.qml" line="83"/>
         <source>Editing score with touch</source>
         <translation>Edycja nut przy użyciu dotyku</translation>
     </message>
     <message>
-        <location filename="../src/qml/gotit/HandleScore.qml" line="70"/>
+        <location filename="../src/qml/gotit/HandleScore.qml" line="90"/>
         <source>Touch and hold area of a note you want to edit.</source>
         <translation>Dotknij i przytrzymaj pole nuty którą zamierzasz edytować.</translation>
     </message>
     <message>
-        <location filename="../src/qml/gotit/HandleScore.qml" line="71"/>
+        <location filename="../src/qml/gotit/HandleScore.qml" line="91"/>
         <source>Move finger left or right to see edited note.</source>
         <translation>Przesuń palec w prawo lub w lewo żeby widzieć edytowaną nutę.</translation>
     </message>
     <message>
-        <location filename="../src/qml/gotit/HandleScore.qml" line="72"/>
+        <location filename="../src/qml/gotit/HandleScore.qml" line="92"/>
         <source>Then move finger up or down to find desired note pitch.</source>
         <translation>Potem przesuń palec w górę lub w dół aby ustawić żądaną wysokość dźwięku.</translation>
     </message>
     <message>
-        <location filename="../src/qml/gotit/HandleScore.qml" line="73"/>
+        <location filename="../src/qml/gotit/HandleScore.qml" line="93"/>
         <source>Rise the finger.</source>
         <translation>Podnieś palec.</translation>
     </message>
     <message>
-        <location filename="../src/qml/gotit/HandleScore.qml" line="74"/>
+        <location filename="../src/qml/gotit/HandleScore.qml" line="94"/>
         <source>If necessary, select accidental or rhythmic value.</source>
         <translation>Gdy potrzeba, wybierz znak lub wartość rytmiczną.</translation>
     </message>
     <message>
-        <location filename="../src/qml/gotit/HandleScore.qml" line="75"/>
+        <location filename="../src/qml/gotit/HandleScore.qml" line="95"/>
         <source>Finally, tap selected note shortly.</source>
         <translation>Na końcu dotknij krótko wybraną nutę.</translation>
     </message>
@@ -1209,7 +1209,7 @@ ale nie zapisany!</translation>
 <context>
     <name>LevelsSelector</name>
     <message>
-        <location filename="../src/qml/level/LevelsSelector.qml" line="94"/>
+        <location filename="../src/qml/level/LevelsSelector.qml" line="99"/>
         <source>Load</source>
         <translation>Wczytaj</translation>
     </message>
@@ -1464,7 +1464,7 @@ Ale lepiej żeby były krótkie, więc podziel je najpierw w innym programie do 
 <context>
     <name>NoteSelected</name>
     <message>
-        <location filename="../src/qml/gotit/NoteSelected.qml" line="40"/>
+        <location filename="../src/qml/gotit/NoteSelected.qml" line="52"/>
         <source>Note selection and playing</source>
         <translation>Zaznaczenie nuty a granie</translation>
     </message>
@@ -2584,168 +2584,136 @@ Ale lepiej żeby były krótkie, więc podziel je najpierw w innym programie do 
 <context>
     <name>TanalysDialog</name>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="63"/>
         <source>Analyze</source>
-        <translation>Analiza</translation>
+        <translation type="vanished">Analiza</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="81"/>
         <source>Y value:</source>
-        <translation>wartość Y:</translation>
+        <translation type="vanished">wartość Y:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="88"/>
         <source>ordered by:</source>
         <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
-        <translation>kolejność według:</translation>
+        <translation type="vanished">kolejność według:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="89"/>
         <source>student name:</source>
-        <translation>imię ucznia:</translation>
+        <translation type="vanished">imię ucznia:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="90"/>
         <source>level:</source>
-        <translation>poziom:</translation>
+        <translation type="vanished">poziom:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="93"/>
         <source>question number</source>
         <comment>see comment in &apos;ordered by:&apos; entry</comment>
-        <translation>zadawanych pytań</translation>
+        <translation type="vanished">zadawanych pytań</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="94"/>
         <source>note pitch</source>
-        <translation>wysokości dźwięku</translation>
+        <translation type="vanished">wysokości dźwięku</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="95"/>
         <source>fret number</source>
-        <translation>progów</translation>
+        <translation type="vanished">progów</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="96"/>
         <source>key signature</source>
-        <translation>tonacji</translation>
+        <translation type="vanished">tonacji</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="97"/>
         <source>accidentals</source>
-        <translation>znaków</translation>
+        <translation type="vanished">znaków</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="98"/>
         <source>question type</source>
-        <translation>rodzaju pytania</translation>
+        <translation type="vanished">rodzaju pytania</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="99"/>
         <source>mistake</source>
-        <translation>błędów</translation>
+        <translation type="vanished">błędów</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="106"/>
         <source>Level summary:</source>
-        <translation>Właściwości poziomu:</translation>
+        <translation type="vanished">Właściwości poziomu:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="107"/>
         <source>Tuning</source>
-        <translation>Strój</translation>
+        <translation type="vanished">Strój</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="157"/>
         <source>Press %1 button to select an exam from a file.</source>
-        <translation>Naciśnij przycisk %1 żeby wybrać plik egzaminu.</translation>
+        <translation type="vanished">Naciśnij przycisk %1 żeby wybrać plik egzaminu.</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="159"/>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
-        <translation>Użyj %1 i kółka myszy lub przycisków %2 aby zmienić rozmiar wykresu.</translation>
+        <translation type="vanished">Użyj %1 i kółka myszy lub przycisków %2 aby zmienić rozmiar wykresu.</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="161"/>
         <source>Click and Drag the cursor to move the chart.</source>
-        <translation>Kliknij i przeciągnij kursor żeby przesunąć wykres.</translation>
+        <translation type="vanished">Kliknij i przeciągnij kursor żeby przesunąć wykres.</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="193"/>
         <source>Question number</source>
-        <translation>Liczba pytań</translation>
+        <translation type="vanished">Liczba pytań</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="285"/>
         <source>File: %1 
  is not valid exam file!</source>
-        <translation>Plik: %1 
+        <translation type="vanished">Plik: %1 
 nie jest poprawnym plikiem egzaminu!</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="295"/>
         <source>Open an exam to analyze</source>
-        <translation>Otwórz egzamin do analizy</translation>
+        <translation type="vanished">Otwórz egzamin do analizy</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="306"/>
         <source>Recent exercise on level</source>
-        <translation>Ostanie ćwiczenie na poziomie</translation>
+        <translation type="vanished">Ostanie ćwiczenie na poziomie</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="313"/>
         <source>recent opened exams:</source>
-        <translation>ostatnio otwierane egzaminy:</translation>
+        <translation type="vanished">ostatnio otwierane egzaminy:</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="331"/>
         <source>Close analyzer window</source>
-        <translation>Zamknij okno analizy</translation>
+        <translation type="vanished">Zamknij okno analizy</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="340"/>
         <source>include time of wrong answers to average</source>
-        <translation>dodaj czas niepoprawnych odpowiedzi do średniej</translation>
+        <translation type="vanished">dodaj czas niepoprawnych odpowiedzi do średniej</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="342"/>
         <source>show wrong answers separately</source>
-        <translation>pokaż niepoprawne odpowiedzi oddzielnie</translation>
+        <translation type="vanished">pokaż niepoprawne odpowiedzi oddzielnie</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="356"/>
         <source>Settings of a chart</source>
-        <translation>Ustawienia wykresu</translation>
+        <translation type="vanished">Ustawienia wykresu</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="363"/>
         <source>Maximize</source>
-        <translation>Maksymalizuj</translation>
+        <translation type="vanished">Maksymalizuj</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="367"/>
         <source>linear chart</source>
-        <translation>wykres liniowy</translation>
+        <translation type="vanished">wykres liniowy</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="370"/>
         <source>bar chart</source>
-        <translation>wykres słupkowy</translation>
+        <translation type="vanished">wykres słupkowy</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="592"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="vanished">OK</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.h" line="49"/>
         <source>Analysis of exam results</source>
-        <translation>Analiza wyników egzaminu</translation>
+        <translation type="vanished">Analiza wyników egzaminu</translation>
     </message>
     <message>
-        <location filename="../src/charts/tanalysdialog.h" line="50"/>
         <source>Analysis of exercise</source>
-        <translation>Analiza ćwiczenia</translation>
+        <translation type="vanished">Analiza ćwiczenia</translation>
     </message>
     <message>
         <location filename="../src/charts/tbarchartdelegate.cpp" line="113"/>
@@ -3066,100 +3034,100 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation>Poziom &lt;b&gt;%1&lt;b&gt;&lt;br&gt;nie ma sensu, bo nie ma w nim żadnego pytania, które można zadać.&lt;br&gt;Możliwe, że nie jest dopasowany do bieżącego stroju gitary.&lt;br&gt;Napraw to w Kreatorze Poziomów i spróbuj ponownie.</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1264"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1265"/>
         <source>Exercise or exam preferences</source>
         <translation>Preferencje ćwiczeń lub egzaminu</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1283"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1284"/>
         <source>repeat previous question (backspace)</source>
         <translation>powtórz poprzednie pytanie (backspace)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1289"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1290"/>
         <source>next question
 (space %1)</source>
         <translation>następne pytanie
 (spacja %1)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1295"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1296"/>
         <source>Play &lt;i&gt;middle a&lt;/i&gt; like a tuning fork.
 (Press key &apos;a&apos;)</source>
         <translation>Zagraj &lt;i&gt;środkowe a&lt;/i&gt; jak kamerton.
 (klawisz &apos;a&apos;)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1302"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1303"/>
         <source>play sound again</source>
         <translation>ponownie zagraj dźwięk</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1315"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1316"/>
         <source>Try this melody once again. (backspace)</source>
         <translation>Spróbuj tą melodię jeszcze raz. (backspace)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1323"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1324"/>
         <source>check answer
 (enter %1)</source>
         <translation>sprawdź odpowiedź
 (enter %1)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1330"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1331"/>
         <source>correct answer
 (enter)</source>
         <translation>popraw odpowiedź
 (enter)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1440"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1441"/>
         <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
         <translation>Najpierw odpowiedz!&lt;br&gt;Potem egzamin zostanie zakończony.</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1493"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1494"/>
         <source>Such a pity.</source>
         <translation>Jaka szkoda.</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1564"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1565"/>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
         <translation>Psssst... Trwa egzamin.&lt;br&gt;&lt;br&gt;Wybierz &lt;b&gt;%1&lt;/b&gt; żeby sprawdzić, zapisać i wyjść&lt;br&gt;lub &lt;b&gt;%2&lt;/b&gt; aby kontynuować.&lt;br&gt;</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1594"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1595"/>
         <source>Save exam results as:</source>
         <translation>Zapisz wyniki egzaminu jako:</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1599"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1600"/>
         <source>If you don&apos;t save to file&lt;br&gt;you lost all results!</source>
         <translation>Jeżeli nie zapiszesz do pliku&lt;br&gt;stracisz dotychczasowe wyniki!</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1847"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1848"/>
         <source>This note was not played!</source>
         <translation>Ta nuta nie była zagrana!</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1838"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1839"/>
         <source>There is not such a note in this melody!</source>
         <translation>Nie ma takiej nuty w tej melodii!</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1982"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1983"/>
         <source>Exercises with Nootka</source>
         <translation>Ćwiczenia z Nootką</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1271"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1272"/>
         <source>finish exercising</source>
         <translation>zakończ ćwiczenie</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1984"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1985"/>
         <source>EXAM!</source>
         <translation>EGZAMIN!</translation>
     </message>
@@ -3176,7 +3144,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <translation type="vanished">Zakończ</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1274"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1275"/>
         <source>stop the exam</source>
         <translation>zatrzymaj egzamin</translation>
     </message>
@@ -4946,9 +4914,8 @@ nutowy</translation>
 <context>
     <name>TsettingsDialogBase</name>
     <message>
-        <location filename="../src/charts/tanalysdialog.cpp" line="379"/>
         <source>Open online documentation</source>
-        <translation>Otwórz dokumentację online</translation>
+        <translation type="vanished">Otwórz dokumentację online</translation>
     </message>
 </context>
 <context>
@@ -5035,7 +5002,7 @@ nutowy</translation>
         <translation>Powinno być %1</translation>
     </message>
     <message>
-        <location filename="../src/qml/exam/ExamExecutor.qml" line="87"/>
+        <location filename="../src/qml/exam/ExamExecutor.qml" line="88"/>
         <source>Try again!</source>
         <translation>Spróbuj jeszcze raz!</translation>
     </message>
@@ -5227,7 +5194,7 @@ nutowy</translation>
     <name>TtoolBar</name>
     <message>
         <location filename="../src/libs/core/tnootkaqml.cpp" line="435"/>
-        <location filename="../src/main/texamexecutor.cpp" line="1261"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1262"/>
         <source>Settings</source>
         <translation>Opcje</translation>
     </message>
@@ -5279,12 +5246,12 @@ nutowy</translation>
         <translation>Rozpocznij ćwiczenia lub egzamin</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1265"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1266"/>
         <source>Help</source>
         <translation>Pomoc</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1268"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1269"/>
         <source>Stop</source>
         <translation>Stop</translation>
     </message>
@@ -5293,7 +5260,7 @@ nutowy</translation>
         <translation type="vanished">Preferencje ćwiczeń lub egzaminu</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1284"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1285"/>
         <source>Next</source>
         <comment>like a next question</comment>
         <translation>Następne</translation>
@@ -5305,7 +5272,7 @@ nutowy</translation>
 (spacja %1)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1278"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1279"/>
         <source>Repeat</source>
         <comment>like a repeat question</comment>
         <translation>Powtórz</translation>
@@ -5315,7 +5282,7 @@ nutowy</translation>
         <translation type="vanished">powtórz poprzednie pytanie (backspace)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1318"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1319"/>
         <source>Check</source>
         <comment>like a check answer</comment>
         <translation>Sprawdź</translation>
@@ -5327,7 +5294,7 @@ nutowy</translation>
 (enter %1)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1299"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1300"/>
         <source>Play</source>
         <translation>Zagraj</translation>
     </message>
@@ -5336,7 +5303,7 @@ nutowy</translation>
         <translation type="vanished">ponownie zagraj dźwięk</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1325"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1326"/>
         <source>Correct</source>
         <comment>like a correct answer with mistake</comment>
         <translation>Popraw</translation>
@@ -5354,7 +5321,7 @@ nutowy</translation>
 (klawisz &apos;a&apos;)</translation>
     </message>
     <message>
-        <location filename="../src/main/texamexecutor.cpp" line="1311"/>
+        <location filename="../src/main/texamexecutor.cpp" line="1312"/>
         <source>Try again</source>
         <translation>Jeszcze raz</translation>
     </message>
