@@ -8,6 +8,9 @@
 #### Current translation status
 
 [![Translation status](https://hosted.weblate.org/widgets/nootka/-/translations/multi-auto.svg)](https://hosted.weblate.org/engage/nootka/) 
+<a href="https://hosted.weblate.org/engage/nootka/">
+<img src="https://hosted.weblate.org/widgets/nootka/-/open-graph.png" width="300" />
+</a>
 
 ---------------------------
 #### A few hints at the beginning
@@ -39,8 +42,8 @@
      or use other software for translators that supports *.ts format,  
      i.e. [lokalize](https://apps.kde.org/en/lokalize).
       
-  2. Download [Nootka language file: nootka_xx.ts](https://www.opencode.net/seelook/nootka/raw/master/lang/nootka_xx.ts?inline=false)  
-     and change that xx in file name to your language code to get file name like i.e.: `nootka_en.ts`
+  2. Download [Nootka language file: template-nootka_xx.ts](https://www.opencode.net/seelook/nootka/raw/master/lang/template-nootka_xx.ts)  
+     remove **template-** in the file name and change that **xx** name to your language code to get file name like i.e.: `nootka_en.ts`
 
   3. Open this file by *Qt Linguist* (or any other app) and translate.
 
