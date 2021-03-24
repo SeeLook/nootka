@@ -43,7 +43,7 @@
      i.e. [lokalize](https://apps.kde.org/en/lokalize).
       
   2. Download [Nootka language file: template-nootka_xx.ts](https://www.opencode.net/seelook/nootka/raw/master/lang/template-nootka_xx.ts)  
-     remove **template-** in the file name and change that **xx** name to your language code to get file name like i.e.: `nootka_en.ts`
+     remove **template-** from the file name and change that **xx** to your language code to get file name like i.e.: `nootka_en.ts`
 
   3. Open this file by *Qt Linguist* (or any other app) and translate.
 
