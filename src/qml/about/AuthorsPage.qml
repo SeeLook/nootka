@@ -63,13 +63,13 @@ Tflickable {
         ListModel {
           id: trModel
           ListElement { flag:"cs"; lang: "Český";       trr: "Pavel Fric";      web: "<a href=\"http://fripohled.blogspot.com\">fripohled.blogspot.com</a>" }
-          ListElement { flag:"de"; lang: "Deutsch";     trr: "Johann C. Weihe,<br>Renato Reinau"; web: "" }
+          ListElement { flag:"de"; lang: "Deutsch";     trr: "Renato Reinau,<br>Johann C. Weihe"; web: "" }
           ListElement { flag:"es"; lang: "Español";     trr: "José Luis Marín"; web: "<a href=\"mailto:jsls@gmx.com\">jsls@gmx.com</a>" }
-          ListElement { flag:"fr"; lang: "Français";    trr: "Olivier Devineau,<br>Jean-Marc Lartigue"; web: "" }
+          ListElement { flag:"fr"; lang: "Français";    trr: "Jean-Marc Lartigue,<br>Olivier Devineau"; web: "" }
           ListElement { flag:"hu"; lang: "Magyar";      trr: "Gábor Kertész";   web: "<a href=\"mailto:kergab@gmail.com\">kergab@gmail.com</a>"  }
-          ListElement { flag:"it"; lang: "Italiano";    trr: "Gianluca 'Kununna' Fiorentino"; web: "" }
+          ListElement { flag:"it"; lang: "Italiano";    trr: "Gianluca 'Kununna' Fiorentino,<br>Alessandro Mandelli"; web: "" }
           ListElement { flag:"pl"; lang: "polski";      trr: "Tomasz Bojczuk";  web: "<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>" }
-          ListElement { flag:"ru"; lang: "Русский";     trr: "Sergei Ivanov (tico-tico),<br>Timur Artykov"; web: "" }
+          ListElement { flag:"ru"; lang: "Русский";     trr: "Timur Artykov,<br>Sergei Ivanov (tico-tico)"; web: "" }
           ListElement { flag:"sl"; lang: "Slovenščina"; trr: "Grega Trček";     web: "" }
         }
 
@@ -126,6 +126,7 @@ Tflickable {
                 createLink("LilyPond emmentaler font", "http://lilypond.org/introduction.html") +
                 createLink("Bravura SMuFL font", "https://www.smufl.org/fonts/") +
                 createLink("Country flags images", "https://github.com/joielechong/iso-country-flags-svg-collection") +
+                createLink("Weblate translation service", "https://weblate.org") +
                 "</ul>"
           wrapMode: Text.WordWrap
         }
