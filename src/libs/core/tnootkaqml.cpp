@@ -454,6 +454,11 @@ void TnootkaQML::setQmlEngine(QQmlEngine* e) {
   m_aboutAct = new Taction(this);
   connect(m_aboutAct, &Taction::triggered, this, &TnootkaQML::aboutActTriggered);
   m_messageColor = qApp->palette().highlight().color();
+
+  connect(qApp, &QGuiApplication::paletteChanged, this, [=]{
+    setMessageColor(qApp->palette().highlight().color());
+    m_scoreAct->setBgColor(qApp->palette().highlight().color());
+  });
 }
 
 
