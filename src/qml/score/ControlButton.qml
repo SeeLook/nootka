@@ -46,12 +46,12 @@ Rectangle {
     onEntered: {
       cb.entered()
       if (mainScore && statusTip !== "")
-        NOO.setStatusTip(statusTip, Item.Top)
+        NOO.setStatusTip(statusTip, Item.TopLeft)
     }
     onExited: {
       cb.exited()
       if (mainScore && statusTip !== "")
-        NOO.setStatusTip("", Item.Top)
+        NOO.setStatusTip("", Item.TopLeft)
     }
   }
 }
