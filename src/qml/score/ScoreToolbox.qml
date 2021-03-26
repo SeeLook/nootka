@@ -119,14 +119,9 @@ ControlBase {
         font { family: "nootka"; pixelSize: factor * 6 }
         text: "\ue18c"
         onClicked: scoreObj.checkTieOfSelected()
-        onEntered: {
-          hideTimer.stop()
-          NOO.setStatusTip(qsTr("Tie - connect or disconnect selected note with previous one if both notes have the same pitch.") + "<br><b>(L)</b>", Item.Top)
-        }
-        onExited: {
-          hideTimer.restart()
-          NOO.setStatusTip("", Item.Top)
-        }
+        statusTip: qsTr("Tie - connect or disconnect selected note with previous one if both notes have the same pitch.") + "<br><b>(L)</b>"
+        onEntered: hideTimer.stop()
+        onExited: hideTimer.restart()
       }
 
       Rectangle { visible: scoreObj.enableTechnical; width: toolbox.width; height: 1; color: activPal.text }
@@ -139,8 +134,8 @@ ControlBase {
           model: [ "\uE610", "\uE612" ]
           ControlButton {
             factor: toolbox.factor * 0.9
-            yOffset: factor * -2.5
-            font { family: "Scorek"; pixelSize: factor * 2 }
+            yOffset: factor * 0.5
+            font { family: "nootka"; pixelSize: factor * 2 }
             text: modelData
             onClicked: {
               show = false
