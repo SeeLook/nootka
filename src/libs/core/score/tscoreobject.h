@@ -106,19 +106,19 @@ class NOOTKACORE_EXPORT  TscoreObject : public QObject
   Q_PROPERTY(bool workRtmRest READ workRtmRest WRITE setWorkRtmRest NOTIFY workRhythmChanged)
   Q_PROPERTY(bool workRtmDot READ workRtmDot WRITE setWorkRtmDot NOTIFY workRhythmChanged)
 
-  Q_PROPERTY(Taction* insertNoteAct READ insertNoteAct)
-  Q_PROPERTY(Taction* deleteNoteAct READ deleteNoteAct)
-  Q_PROPERTY(Taction* clearScoreAct READ clearScoreAct)
-  Q_PROPERTY(Taction* editModeAct READ editModeAct)
-  Q_PROPERTY(Taction* wholeNoteAct READ wholeNoteAct)
-  Q_PROPERTY(Taction* halfNoteAct READ halfNoteAct)
-  Q_PROPERTY(Taction* quarterNoteAct READ quarterNoteAct)
-  Q_PROPERTY(Taction* eighthNoteAct READ eighthNoteAct)
-  Q_PROPERTY(Taction* sixteenthNoteAct READ sixteenthNoteAct)
-  Q_PROPERTY(Taction* restNoteAct READ restNoteAct)
-  Q_PROPERTY(Taction* dotNoteAct READ dotNoteAct)
-  Q_PROPERTY(Taction* riseAct READ riseAct)
-  Q_PROPERTY(Taction* lowerAct READ lowerAct)
+  Q_PROPERTY(Taction* insertNoteAct READ insertNoteAct NOTIFY scoreActionsChanged)
+  Q_PROPERTY(Taction* deleteNoteAct READ deleteNoteAct NOTIFY scoreActionsChanged)
+  Q_PROPERTY(Taction* clearScoreAct READ clearScoreAct NOTIFY scoreActionsChanged)
+  Q_PROPERTY(Taction* editModeAct READ editModeAct NOTIFY scoreActionsChanged)
+  Q_PROPERTY(Taction* wholeNoteAct READ wholeNoteAct NOTIFY scoreActionsChanged)
+  Q_PROPERTY(Taction* halfNoteAct READ halfNoteAct NOTIFY scoreActionsChanged)
+  Q_PROPERTY(Taction* quarterNoteAct READ quarterNoteAct NOTIFY scoreActionsChanged)
+  Q_PROPERTY(Taction* eighthNoteAct READ eighthNoteAct NOTIFY scoreActionsChanged)
+  Q_PROPERTY(Taction* sixteenthNoteAct READ sixteenthNoteAct NOTIFY scoreActionsChanged)
+  Q_PROPERTY(Taction* restNoteAct READ restNoteAct NOTIFY scoreActionsChanged)
+  Q_PROPERTY(Taction* dotNoteAct READ dotNoteAct NOTIFY scoreActionsChanged)
+  Q_PROPERTY(Taction* riseAct READ riseAct NOTIFY scoreActionsChanged)
+  Q_PROPERTY(Taction* lowerAct READ lowerAct NOTIFY scoreActionsChanged)
 
   friend class TstaffItem;
   friend class TmeasureObject;
@@ -521,12 +521,17 @@ signals:
   void bgColorChanged();
   void readOnlyNoteClicked(int noteId);
 
+      /**
+       * Dummy, never invoked - score actions @p Taction are created once
+       */
+  void scoreActionsChanged();
+
 protected:
   void addStaff(TstaffItem* st);
 
       /**
        * Shifts @p count measures starting from @p measureNr by setting first and last ids
-       * of the next measure to given @p sourceStaff
+       * of the next measure to given @p sourceStaff.
        * Also it manages ownership of initial (source) staff shifted notes and sets parent of every such note to target staff.
        */
   void startStaffFromMeasure(TstaffItem* sourceStaff, int measureNr, int count = 1);
