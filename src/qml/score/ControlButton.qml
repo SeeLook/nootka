@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -15,6 +15,8 @@ Rectangle {
   property alias textHeight: txt.height
   property alias textColor: txt.color
   property alias yOffset: txt.y
+  property string statusTip
+  property int tipPos: Item.Top
 
   signal entered()
   signal exited()
@@ -41,7 +43,15 @@ Rectangle {
     anchors.fill: parent
     hoverEnabled: true
     onClicked: cb.clicked()
-    onEntered: cb.entered()
-    onExited: cb.exited()
+    onEntered: {
+      cb.entered()
+      if (statusTip !== "")
+        NOO.setStatusTip(statusTip, Item.Top)
+    }
+    onExited: {
+      cb.exited()
+      if (statusTip !== "")
+        NOO.setStatusTip("", Item.Top)
+    }
   }
 }
