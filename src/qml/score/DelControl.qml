@@ -45,6 +45,10 @@ ControlBase {
         text: "o"
         textColor: "red"
         onClicked: { scoreObj.deleteNote(activeItem); show = false }
+        Component.onCompleted: {
+          if (mainScore)
+            statusTip = scoreObj.deleteNoteAct.text.toLowerCase() + "<br><b>(" + scoreObj.deleteNoteAct.key() + ")</b>"
+        }
       }
     }
   }
@@ -61,6 +65,10 @@ ControlBase {
       onClicked: { scoreObj.insertNote(activeItem); delControl.show = false }
       Rectangle { y: factor / 10; x: factor / 2; height: factor; width: factor / 6; color: "green" }
       Rectangle { y: factor / 2; x: factor / 10; width: factor; height: factor / 6; color: "green" }
+      Component.onCompleted: {
+        if (mainScore)
+          statusTip = insertNoteAct.text.toLowerCase() + "<br><b>(" + scoreObj.insertNoteAct.key() + ")</b>"
+      }
     }
   }
 }
