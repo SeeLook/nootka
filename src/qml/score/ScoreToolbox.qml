@@ -31,6 +31,8 @@ ControlBase {
   readonly property var accidGlyphs: [ "\ue264", "\ue260", "\ue262", "\ue263" ]
   readonly property var accidArray: [ 0, -2, -1, 1, 2 ]
   readonly property var idArray: [ 0, 1, -1, 2, 3 ]
+  readonly property var rtmActions: [ scoreObj.wholeNoteAct, scoreObj.halfNoteAct,
+                        scoreObj.quarterNoteAct, scoreObj.eighthNoteAct, scoreObj.sixteenthNoteAct ]
 
   Component {
     id: ctrlButtonComp
@@ -79,7 +81,14 @@ ControlBase {
           model: 10
           Loader {
             sourceComponent: ctrlButtonComp
-            onLoaded: { item.rhythm = 1 + index / 2; item.rest = index % 2 === 0 }
+            onLoaded: {
+              item.rhythm = 1 + index / 2
+              item.rest = index % 2 === 0
+              if (mainScore !== undefined && index % 2 === 1) {
+                var a = rtmActions[Math.floor(index / 2)]
+                item.statusTip = a.text + "<br><b>(" + a.key() + ")</b>"
+              }
+            }
             Connections {
               target: item
               onClicked: { scoreObj.workRtmValue = item.rhythm; scoreObj.workRtmRest = item.rest }
@@ -99,7 +108,12 @@ ControlBase {
         Loader { // dot
           id: dotLoad
           sourceComponent: ctrlButtonComp
-          onLoaded: { item.rhythm = 0; item.text = "." }
+          onLoaded: {
+            item.rhythm = 0
+            item.text = "."
+            if (mainScore !== undefined)
+              item.statusTip = scoreObj.dotNoteAct.text + "<br><b>(" + scoreObj.dotNoteAct.key() + ")</b>"
+          }
           Binding { target: dotLoad.item; property: "selected"; value: scoreObj.workRtmDot }
           Binding { target: dotLoad.item; property: "enabled"; value: scoreObj.workRtmValue !== Trhythm.Sixteenth }
           Connections {
