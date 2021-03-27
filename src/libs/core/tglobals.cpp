@@ -508,7 +508,6 @@ void Tglobals::loadSettings(QSettings* cfg) {
       else
           S->pointerColor = Tcolor::invert(qApp->palette().highlight().color());
       S->clef = Tclef::EclefType(cfg->value(QStringLiteral("clef"), (int)Tclef::Treble_G_8down).toInt());
-      //TODO convert dropped bass clef
       // Rhythms has to be enabled when no clef (percussion)
       S->rhythmsEnabled = cfg->value(QStringLiteral("rhythmsEnabled"), true).toBool() || S->clef == Tclef::NoClef;
       S->isSingleNoteMode = cfg->value(QStringLiteral("singleNoteMode"), false).toBool();
@@ -699,24 +698,6 @@ void Tglobals::loadSettings(QSettings* cfg) {
     m_tune->riseOctaveUp(); // As long as we are transposing all strings the same step, string order doesn't change.
   }
 
-// TODO cleanup code below
-//   cfg->beginGroup(QLatin1String("layout"));
-//     L->guitarEnabled = cfg->value(QStringLiteral("guitarEnabled"), true).toBool();
-// #if defined (Q_OS_ANDROID)
-//     L->soundViewEnabled = cfg->value(QStringLiteral("soundViewEnabled"), false).toBool();
-//   // override some options not supported under mobile systems
-//   L->toolBarAutoHide = true;
-//   L->iconTextOnToolBar = Qt::ToolButtonTextBesideIcon;
-//   L->hintsBarEnabled = false;
-//   GisRightHanded = true;
-// #else
-//     L->soundViewEnabled = cfg->value(QStringLiteral("soundViewEnabled"), true).toBool();
-//     L->toolBarAutoHide = cfg->value(QStringLiteral("toolBarAutoHide"), false).toBool();
-//     L->iconTextOnToolBar = Qt::ToolButtonStyle(cfg->value(QStringLiteral("iconTextOnToolBar"), 3).toInt());
-//     L->hintsBarEnabled = cfg->value(QStringLiteral("hintsBarEnabled"), true).toBool();
-// #endif
-//   cfg->endGroup();
-
 }
 
 
@@ -892,13 +873,6 @@ void Tglobals::storeSettings(QSettings* cfg) {
   cfg->setValue(QStringLiteral("touchStopsSniff"), m_touchStopsSniff);
 #endif
 
-//   cfg->beginGroup(QLatin1String("layout"));
-//       cfg->setValue(QStringLiteral("toolBarAutoHide"), L->toolBarAutoHide);
-//       cfg->setValue(QStringLiteral("iconTextOnToolBar"), (int)L->iconTextOnToolBar);
-//       cfg->setValue(QStringLiteral("hintsBarEnabled"), L->hintsBarEnabled);
-//       cfg->setValue(QStringLiteral("soundViewEnabled"), L->soundViewEnabled);
-//       cfg->setValue(QStringLiteral("guitarEnabled"), L->guitarEnabled);
-//   cfg->endGroup();
 }
 
 
