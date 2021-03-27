@@ -45,12 +45,12 @@ Rectangle {
     onClicked: cb.clicked()
     onEntered: {
       cb.entered()
-      if (mainScore && statusTip !== "")
+      if (mainScore !== undefined && statusTip !== "")
         NOO.setStatusTip(statusTip, Item.TopLeft)
     }
     onExited: {
       cb.exited()
-      if (mainScore && statusTip !== "")
+      if (mainScore !== undefined && statusTip !== "")
         NOO.setStatusTip("", Item.TopLeft)
     }
   }
