@@ -1,11 +1,12 @@
-#Nootka
-###...to play scores#
+# Nootka
+### ...to play scores#
 
 ***
 
-# ! ! ! ! ! ! ! ! ! TODO LIST ! ! ! ! ! ! ! ! !
-
+! ! ! ! ! ! ! ! ! TODO LIST ! ! ! ! ! ! ! ! !
 ============================================================================
+============================================================================
+
 ### Bugs to fix:
   - Exams: For non guitars single note question "give name of:" has nothing more
   - playing with metronome doesn't work under Android
@@ -26,7 +27,6 @@
      - fix storing melody list in temporary/edited level - use that level list instead of creating pointers
   - add more levels, in separate files, distributed with the installers
   - add info that reading grand staff from musicxml created out of Nootka is not supported
-  - certificates would have some additional data about melodies
   - charts - show preview of entire melody, chart tip is not suitable for it
   - clean code:
     - when right mouse button is not used: TexamExacutor and TexecutorSupply
@@ -38,7 +38,7 @@
   - implement repeating a melody that was heard
   - adding set of rhythm patterns for melodies generated from random notes (similar to melody list)
   - time stamps in question/answer units - to better track exam progress
-  - music XML import dialog, to select voice or staff if there are more, and so
+  - music XML import dialog, to select voice or staff if there are more, and so on
   - read/save compressed music XML (*.mxl)
   - adding actually edited score melody to current level
   - editing melody from currently selected/composed level
@@ -79,14 +79,12 @@
     correction preview
 
 ***
-***
 # @@@@ IDEAS FOR FURTHER RELEASES @@@@
 ***
 
 ### SMALL NEW FEATURES/IMPROVEMENTS
   - add minimal zoom value depends on screen resolution
   - average effectiveness line in chart
-
   - settings for keyboard shortcuts
   - intervals: creating melody with set of available intervals only
   - intervals: questions related to them in exam/exercises
