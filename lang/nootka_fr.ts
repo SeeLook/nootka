@@ -108,7 +108,7 @@
     </message>
     <message>
         <source>Select a key signature. Appropriate accidentals used in this level will be selected automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionner une tonalité. Les altérations appropriées utilisées pour ce niveau seront sélectionnées automatiquement.</translation>
     </message>
 </context>
 <context>
@@ -345,7 +345,7 @@
     </message>
     <message>
         <source>incorrect rhythm</source>
-        <translation type="unfinished"></translation>
+        <translation>rythme non correct</translation>
     </message>
 </context>
 <context>
@@ -399,14 +399,14 @@
     <name>Certificate</name>
     <message>
         <source>Stop exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Arrêter l&apos;examen</translation>
     </message>
 </context>
 <context>
     <name>ChartDrawer</name>
     <message>
         <source>keep opened</source>
-        <translation type="unfinished"></translation>
+        <translation>laisser ouvert</translation>
     </message>
 </context>
 <context>
@@ -600,15 +600,15 @@
     </message>
     <message>
         <source>wait for correct note</source>
-        <translation type="unfinished"></translation>
+        <translation>attendre la note correcte</translation>
     </message>
     <message>
         <source>When melody is played from score, every note is checked immediately and next note can be played only when the previous one was correct. When unset, notes are checked only after playing the last one (or check button was clicked).</source>
-        <translation type="unfinished"></translation>
+        <translation>Lorsque la mélodie est jouée à partir d&apos;une partition, chaque note est vérifiée immédiatement et la note suivante ne peut être jouée que lorsque la précédente est correcte. Sinon, les notes ne seront vérifiées qu&apos;après avoir joué la dernière (ou après avoir cliqué sur le bouton de contrôle).</translation>
     </message>
     <message>
         <source>To improve association of note in the score or position on the instrument to note name, Nootka will display names even if neither question nor answer is related to it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pour améliorer l&apos;association du nom de la note sur la partition ou de sa position sur l&apos;instrument, Nootka affichera les noms même si  la question ou la réponse n&apos;y sont pas liées.</translation>
     </message>
 </context>
 <context>
@@ -674,68 +674,68 @@
     </message>
     <message>
         <source>enable animations</source>
-        <translation type="unfinished"></translation>
+        <translation>activer les animations</translation>
     </message>
     <message>
         <source>show hints</source>
-        <translation type="unfinished"></translation>
+        <translation>afficher les indices</translation>
     </message>
     <message>
         <source>Scaling factor of visible texts and others GUI elements.&lt;br&gt;Requires application restart.</source>
-        <translation type="unfinished"></translation>
+        <translation>Facteur de mise à l&apos;échelle du texte et des autres éléments de l&apos;interface graphique. &lt;br&gt;Nécessite le redémarrage de l&apos;application.</translation>
     </message>
     <message>
         <source>scale</source>
-        <translation type="unfinished"></translation>
+        <translation>échelle</translation>
     </message>
 </context>
 <context>
     <name>GotIt</name>
     <message>
         <source>GOT IT!</source>
-        <translation type="unfinished"></translation>
+        <translation>EN AVANT&#xa0;!</translation>
     </message>
     <message>
         <source>remind me next time</source>
-        <translation type="unfinished"></translation>
+        <translation>me le rappeler la prochaine fois</translation>
     </message>
 </context>
 <context>
     <name>HandleScore</name>
     <message>
         <source>Editing score with touch</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier la partition en touchant</translation>
     </message>
     <message>
         <source>Touch and hold area of a note you want to edit.</source>
-        <translation type="unfinished"></translation>
+        <translation>Appuyez de manière prolongée sur la zone d&apos;une note que vous souhaitez modifier.</translation>
     </message>
     <message>
         <source>Move finger left or right to see edited note.</source>
-        <translation type="unfinished"></translation>
+        <translation>Déplacez votre doigt vers la gauche ou la droite pour voir la note modifiée.</translation>
     </message>
     <message>
         <source>Then move finger up or down to find desired note pitch.</source>
-        <translation type="unfinished"></translation>
+        <translation>Puis déplacez votre doigt vers le haut ou vers le bas pour trouver la hauteur de note souhaitée.</translation>
     </message>
     <message>
         <source>Rise the finger.</source>
-        <translation type="unfinished"></translation>
+        <translation>Levez votre doigt.</translation>
     </message>
     <message>
         <source>If necessary, select accidental or rhythmic value.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si nécessaire, sélectionnez une altération ou une valeur rythmique.</translation>
     </message>
     <message>
         <source>Finally, tap selected note shortly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Enfin, appuyez brièvement sur la note sélectionnée.</translation>
     </message>
 </context>
 <context>
     <name>HelpPage</name>
     <message>
         <source>Help topics</source>
-        <translation type="unfinished"></translation>
+        <translation>Sujets d&apos;aide</translation>
     </message>
 </context>
 <context>
@@ -825,22 +825,22 @@
     </message>
     <message>
         <source>Difference between score notation and real sound pitch.</source>
-        <translation type="unfinished"></translation>
+        <translation>Différence entre la notation sur la partition et la hauteur du son réel.</translation>
     </message>
     <message>
         <source>color of a pointer on an instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>couleur du pointeur sur l&apos;instrument</translation>
     </message>
     <message>
         <source>color of a selection</source>
-        <translation type="unfinished"></translation>
+        <translation>couleur de la sélection</translation>
     </message>
 </context>
 <context>
     <name>KeySignature</name>
     <message>
         <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
-        <translation type="unfinished">Armure : pour la modifier, cliquez au-dessus ou au-dessous de la portée ou utilisez la molette de la souris.</translation>
+        <translation>Tonalité - pour la modifier, cliquez au-dessus ou au-dessous de la portée ou utilisez la molette de la souris.</translation>
     </message>
 </context>
 <context>
@@ -947,29 +947,29 @@
     </message>
     <message>
         <source>Rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>Rythmes</translation>
     </message>
     <message>
         <source>Answers</source>
-        <translation type="unfinished"></translation>
+        <translation>Réponses</translation>
     </message>
 </context>
 <context>
     <name>LevelPreview</name>
     <message>
         <source>not selected</source>
-        <translation type="unfinished"></translation>
+        <translation>non sélectionné</translation>
     </message>
 </context>
 <context>
     <name>Levels</name>
     <message>
         <source>Simple melodies</source>
-        <translation type="unfinished"></translation>
+        <translation>Mélodies simples</translation>
     </message>
     <message>
         <source>Play popular, simple melodies on your instrument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jouez des mélodies simples ou populaires sur votre instrument.</translation>
     </message>
 </context>
 <context>
@@ -984,19 +984,19 @@
     </message>
     <message>
         <source>Get more levels &lt;a href=&quot;%1&quot;&gt;from Nootka home page&lt;/a&gt;</source>
-        <translation>Obtenir plus de niveaux sur le &lt;a href=&quot;%1&quot;&gt;site de Nootka&lt;/a&gt;</translation>
+        <translation>Obtenir davantage de niveaux sur le &lt;a href=&quot;%1&quot;&gt;site de Nootka&lt;/a&gt;</translation>
     </message>
     <message>
         <source>new level</source>
-        <translation type="unfinished">Nouveau niveau</translation>
+        <translation>nouveau niveau</translation>
     </message>
     <message>
         <source>Level name:</source>
-        <translation type="unfinished">Nom du niveau&#xa0;:</translation>
+        <translation>Nom du niveau&#xa0;:</translation>
     </message>
     <message>
         <source>Level description:</source>
-        <translation type="unfinished">Description du niveau :</translation>
+        <translation>Description du niveau&#xa0;:</translation>
     </message>
 </context>
 <context>
@@ -1025,18 +1025,18 @@
     <name>MaxIntervalTile</name>
     <message>
         <source>Maximal interval between notes used in a melody (in semitones).</source>
-        <translation type="unfinished"></translation>
+        <translation>Étendue maximale entre les notes utilisées dans une mélodie (en demi-tons).</translation>
     </message>
     <message>
         <source>Max interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Étendue maximale</translation>
     </message>
 </context>
 <context>
     <name>MelGenDialog</name>
     <message>
         <source>Measures number</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de mesures</translation>
     </message>
 </context>
 <context>
@@ -1044,29 +1044,30 @@
     <message>
         <source>Add here melodies from Music XML files.
 But better keep them short, so divide them first in some external software.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajoutez ici des mélodies à partir de fichiers XML.
+Mais mieux vaut qu&apos;ils restent courts, alors réduisez-les d&apos;abord à l&apos;aide d&apos;un logiciel externe.</translation>
     </message>
 </context>
 <context>
     <name>MelodyNameDialog</name>
     <message>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Titre</translation>
     </message>
     <message>
         <source>Nootka melody</source>
-        <translation type="unfinished"></translation>
+        <translation>Mélodie Nootka</translation>
     </message>
     <message>
         <source>Composer</source>
-        <translation type="unfinished"></translation>
+        <translation>Compositeur</translation>
     </message>
 </context>
 <context>
     <name>MelodyPage</name>
     <message>
         <source>They will be transposed if key signatures are set to be used and any of them differs from the key(s) defined below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Elles seront transposées si les tonalités sont définies pour être utilisées et que l&apos;une d&apos;elles diffère de la ou des tonalités définies ci-dessous.</translation>
     </message>
     <message>
         <source>Melodies are composed from a note range defined on the &apos;Range&apos; page.</source>
@@ -1098,43 +1099,43 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Play in tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Jouer sur le tempo</translation>
     </message>
     <message>
         <source>random order</source>
-        <translation type="unfinished"></translation>
+        <translation>ordre aléatoire</translation>
     </message>
     <message>
         <source>When checked, melodies from the list will be asked in random order.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lorsque cochée, les mélodies de la liste seront demandées dans un ordre aléatoire.</translation>
     </message>
     <message>
         <source>How many times during an exam a melody from the list has to be played or written correctly. Warning! It multiplies question number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le nombre de fois qu&apos;une mélodie de la liste doit être jouée ou écrite correctement durant un examen. Avertissement&#xa0;! Il multiplie d&apos;autant le nombre de questions.</translation>
     </message>
     <message>
         <source>number of repeats</source>
-        <translation type="unfinished"></translation>
+        <translation>nombre de répétitions</translation>
     </message>
     <message>
         <source>Melodies are composed from notes in range defined on the &apos;Range&apos; page.</source>
-        <translation type="unfinished"></translation>
+        <translation>Les mélodies sont composées des notes de l&apos;étendue définie sur la page «&#xa0;Étendue&#xa0;».</translation>
     </message>
     <message>
         <source>Melodies are selected from the list below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Les mélodies sont sélectionnées dans la liste ci-dessous.</translation>
     </message>
     <message>
         <source>from notes in range</source>
-        <translation type="unfinished"></translation>
+        <translation>depuis les notes de l&apos;étendue</translation>
     </message>
     <message>
         <source>from selected notes</source>
-        <translation type="unfinished"></translation>
+        <translation>depuis les notes sélectionnées</translation>
     </message>
     <message>
         <source>from set of melodies</source>
-        <translation type="unfinished"></translation>
+        <translation>depuis un ensemble de mélodies</translation>
     </message>
 </context>
 <context>
@@ -1193,44 +1194,44 @@ But better keep them short, so divide them first in some external software.</sou
     <name>NoteSelected</name>
     <message>
         <source>Note selection and playing</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélection de notes et lecture</translation>
     </message>
 </context>
 <context>
     <name>OutScaleTip</name>
     <message>
         <source>Out of instrument scale!</source>
-        <translation type="unfinished"></translation>
+        <translation>En dehors du registre de l&apos;instrument&#xa0;!</translation>
     </message>
 </context>
 <context>
     <name>PhonePage</name>
     <message>
         <source>screen always on</source>
-        <translation type="unfinished"></translation>
+        <translation>écran toujours allumé</translation>
     </message>
     <message>
         <source>disable screen rotation</source>
-        <translation type="unfinished"></translation>
+        <translation>désactiver la rotation de l&apos;écran</translation>
     </message>
     <message>
         <source>full screen</source>
-        <translation type="unfinished"></translation>
+        <translation>plein écran</translation>
     </message>
     <message>
         <source>Touching a screen suspends pitch detection for 1 second but some advanced users may want to disable that.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toucher l&apos;écran suspend la détection de la hauteur de note pendant 1 seconde, mais certains utilisateurs avancés voudront peut-être désactiver cette fonction.</translation>
     </message>
     <message>
         <source>suspend mic when screen was touched</source>
-        <translation type="unfinished"></translation>
+        <translation>mettre en pause le micro lorsque l&apos;écran est touché</translation>
     </message>
 </context>
 <context>
     <name>PitchView</name>
     <message>
         <source>Start/stop pitch detection</source>
-        <translation type="unfinished"></translation>
+        <translation>Activer/désactiver la détection de hauteur</translation>
     </message>
 </context>
 <context>
@@ -1267,7 +1268,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>QuestionsBox</name>
     <message>
         <source>Select the type of answers for this kind of question.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionnez le type de réponses pour ce type de questions.</translation>
     </message>
     <message>
         <source>answers</source>
@@ -1346,15 +1347,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>melodies</source>
-        <translation type="unfinished"></translation>
+        <translation>mélodies</translation>
     </message>
     <message>
         <source>Kind of questions and answers:</source>
-        <translation type="unfinished"></translation>
+        <translation>Type de questions et de réponses :</translation>
     </message>
     <message>
         <source>Question</source>
-        <translation type="unfinished"></translation>
+        <translation>Question</translation>
     </message>
 </context>
 <context>
@@ -1415,49 +1416,49 @@ But better keep them short, so divide them first in some external software.</sou
     <name>RhythmDiversityTile</name>
     <message>
         <source>Smaller values - less number of selected rhythmic note groups will be used, biggest value - melody will consist maximal possible number of selected groups.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pour une valeur faible, la mélodie sera constituée d&apos;un plus petit nombre de groupes rythmiques. Pour une valeur élevée, la mélodie sera constituée d&apos;un plus grand nombre de groupes rythmiques.</translation>
     </message>
     <message>
         <source>Rhythmic diversity</source>
-        <translation type="unfinished"></translation>
+        <translation>Diversité rythmique</translation>
     </message>
 </context>
 <context>
     <name>RhythmSelector</name>
     <message>
         <source>rhythmic groups</source>
-        <translation type="unfinished"></translation>
+        <translation>groupes rythmiques</translation>
     </message>
     <message>
         <source>Filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtres</translation>
     </message>
     <message>
         <source>basic rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>rythmes de base</translation>
     </message>
     <message>
         <source>rhythms with dots</source>
-        <translation type="unfinished"></translation>
+        <translation>rythmes avec notes pointées</translation>
     </message>
 </context>
 <context>
     <name>RhythmsPage</name>
     <message>
         <source>Select any rhythm and time signature to be used in this level, otherwise melodies will not have rhythmic values, just bare note-heads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionnez n&apos;importe quel rythme et chiffrage à utiliser pour ce niveau, sinon les mélodies n&apos;auront pas de valeurs rythmiques, uniquement des têtes de notes.</translation>
     </message>
     <message>
         <source>Number of measures in a melody. If &apos;variable&apos; is set, it will grow up to the given value as an exercise or an exam is progressing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre de mesures dans une mélodie. Si «&#xa0;variable&#xa0;» est défini, il augmentera jusqu&apos;à la valeur donnée à mesure de la progression de l&apos;exercice ou de l&apos;examen.</translation>
     </message>
     <message>
         <source>variable</source>
-        <translation type="unfinished"></translation>
+        <translation>variable</translation>
     </message>
     <message>
         <source>Time signatures to use in this level.</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiffrage à utiliser pour ce niveau.</translation>
     </message>
 </context>
 <context>
@@ -1576,11 +1577,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Use rhythms or only bare note heads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisez des rythmes ou uniquement des têtes de notes.</translation>
     </message>
     <message>
         <source>enable rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>activer les rythmes</translation>
     </message>
     <message>
         <source>use key signatures</source>
@@ -1588,31 +1589,31 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Octave numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Numérotation des octaves</translation>
     </message>
     <message>
         <source>scientific</source>
-        <translation type="unfinished"></translation>
+        <translation>scientifique</translation>
     </message>
     <message>
         <source>musical</source>
-        <translation type="unfinished"></translation>
+        <translation>musicale</translation>
     </message>
     <message>
         <source>Scientific (international) pitch notation is widely used in technical sources and tuning devices/applications, when the other notation style is used more in music publications.</source>
-        <translation type="unfinished"></translation>
+        <translation>La notation de hauteur scientifique (internationale) est largement utilisée par les applications et appareils d&apos;accordage, alors que l&apos;autre style de notation est davantage utilisé dans les publications musicales.</translation>
     </message>
 </context>
 <context>
     <name>ScoreToolbox</name>
     <message>
         <source>Tie - connect or disconnect selected note with previous one if both notes have the same pitch.</source>
-        <translation type="unfinished"></translation>
+        <translation>Liaison - lier ou délier la note sélectionnée de la note précédente si elles ont la même hauteur.</translation>
     </message>
     <message>
         <source>tie</source>
         <comment>To translate it properly, check please meaning of &apos;tie&apos; in musical context.</comment>
-        <translation type="unfinished"></translation>
+        <translation>liaison</translation>
     </message>
 </context>
 <context>
@@ -1634,35 +1635,35 @@ But better keep them short, so divide them first in some external software.</sou
     <name>SoundInfo</name>
     <message>
         <source>Nootka can hear You!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nootka peut vous entendre !</translation>
     </message>
     <message>
         <source>Nootka recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nootka reconnaît les sons joués et leur durée (rythmes). Mais pour obtenir des résultats précis, il faut quelques préparatifs et un peu de patience. Voici quelques indices&#xa0;:</translation>
     </message>
     <message>
         <source>Be sure your system is able to record what are you playing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Assurez-vous que votre système soit capable d&apos;enregistrer ce que vous jouez.</translation>
     </message>
     <message>
         <source>Adjust minimal note volume a little below of your input volume level.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajustez le volume minimal des notes un peu en dessous de votre niveau de volume d&apos;entrée.</translation>
     </message>
     <message>
         <source>Aim to play loud and clear and avoid dirty sounds specific to your instrument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Essayez de jouer fort et clair et évitez les sons saturés spécifiques à votre instrument.</translation>
     </message>
     <message>
         <source>Play a few sounds to figure out their maximal volume,&lt;br&gt;then set level knob about 10-20% below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jouez quelques sons pour déterminer leur volume maximal, puis réglez le bouton de niveau environ 10 à 20&#xa0;% en dessous.</translation>
     </message>
     <message>
         <source>Later, you can adjust the volume level in Nootka tuner window.&lt;br&gt;Invoke it from main menu or use any volume key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Plus tard, vous pourrez régler le niveau de volume dans la fenêtre de l&apos;accordeur Nootka. &lt;br&gt; Depuis le menu principal ou avec n&apos;importe quelle touche de volume.</translation>
     </message>
     <message>
         <source>If you want Nootka to write your melody with rhythm then you have to play exactly in selected tempo - preferably with a metronome. But during practice, when you are playing melody given by the application, the tempo can be at will unless some level defines it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si vous voulez que Nootka écrive votre mélodie avec un rythme, vous devez jouer exactement au tempo sélectionné, de préférence avec un métronome. Mais pendant l&apos;entraînement, lorsque vous jouez une mélodie donnée par l&apos;application, le tempo peut être libre à moins qu&apos;un certain niveau ne le définisse.</translation>
     </message>
 </context>
 <context>
@@ -1856,7 +1857,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>[Hz]</source>
-        <translation type="unfinished"></translation>
+        <translation>[Hz]</translation>
     </message>
     <message>
         <source>It is rather necessary for mic input but may be switched off for an instrument plugged line-in with less noise.</source>
@@ -1864,7 +1865,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>output device</source>
-        <translation type="unfinished"></translation>
+        <translation>Périphérique de sortie</translation>
     </message>
 </context>
 <context>
@@ -1947,7 +1948,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Select an exam to continue</source>
-        <translation type="unfinished"></translation>
+        <translation>Sélectionnez un examen pour continuer</translation>
     </message>
 </context>
 <context>
@@ -1977,7 +1978,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TXaxis</name>
     <message numerus="yes">
         <source>%n attempt(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n essai</numerusform>
             <numerusform>%n essais</numerusform>
         </translation>
@@ -2053,135 +2054,135 @@ version</translation>
     <name>TanalysDialog</name>
     <message>
         <source>Analyze</source>
-        <translation>Analyse</translation>
+        <translation type="vanished">Analyse</translation>
     </message>
     <message>
         <source>Y value:</source>
-        <translation>Valeur y&#xa0;:</translation>
+        <translation type="vanished">Valeur y&#xa0;:</translation>
     </message>
     <message>
         <source>ordered by:</source>
         <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
-        <translation>Trié par&#xa0;:</translation>
+        <translation type="vanished">Trié par&#xa0;:</translation>
     </message>
     <message>
         <source>student name:</source>
-        <translation>Nom de l&apos;élève&#xa0;:</translation>
+        <translation type="vanished">Nom de l&apos;élève&#xa0;:</translation>
     </message>
     <message>
         <source>level:</source>
-        <translation>Niveau :</translation>
+        <translation type="vanished">Niveau :</translation>
     </message>
     <message>
         <source>question number</source>
         <comment>see comment in &apos;ordered by:&apos; entry</comment>
-        <translation>nombre de questions</translation>
+        <translation type="vanished">nombre de questions</translation>
     </message>
     <message>
         <source>note pitch</source>
-        <translation>hauteur de note</translation>
+        <translation type="vanished">hauteur de note</translation>
     </message>
     <message>
         <source>fret number</source>
-        <translation>nombre de frettes</translation>
+        <translation type="vanished">nombre de frettes</translation>
     </message>
     <message>
         <source>key signature</source>
-        <translation>armure</translation>
+        <translation type="vanished">armure</translation>
     </message>
     <message>
         <source>accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">altérations</translation>
     </message>
     <message>
         <source>question type</source>
-        <translation>type de question</translation>
+        <translation type="vanished">type de question</translation>
     </message>
     <message>
         <source>mistake</source>
-        <translation>erreurs</translation>
+        <translation type="vanished">erreurs</translation>
     </message>
     <message>
         <source>Level summary:</source>
-        <translation>Résumé du niveau&#xa0;:</translation>
+        <translation type="vanished">Résumé du niveau&#xa0;:</translation>
     </message>
     <message>
         <source>Tuning</source>
-        <translation>Accordage</translation>
+        <translation type="vanished">Accordage</translation>
     </message>
     <message>
         <source>Press %1 button to select an exam from a file.</source>
-        <translation>Cliquez sur %1 pour sélectionner un examen dans un fichier.</translation>
+        <translation type="vanished">Cliquez sur %1 pour sélectionner un examen dans un fichier.</translation>
     </message>
     <message>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
-        <translation>Utiliser le bouton %1 et la molette de la souris ou les boutons %2 pour augmenter ou diminuer la taille du graphique.</translation>
+        <translation type="vanished">Utiliser le bouton %1 et la molette de la souris ou les boutons %2 pour augmenter ou diminuer la taille du graphique.</translation>
     </message>
     <message>
         <source>Click and Drag the cursor to move the chart.</source>
-        <translation>Cliquez et glissez le curseur pour déplacer le graphique.</translation>
+        <translation type="vanished">Cliquez et glissez le curseur pour déplacer le graphique.</translation>
     </message>
     <message>
         <source>Question number</source>
-        <translation>Nombre de questions</translation>
+        <translation type="vanished">Nombre de questions</translation>
     </message>
     <message>
         <source>File: %1 
  is not valid exam file!</source>
-        <translation>Le fichier&#xa0;: %1 
+        <translation type="vanished">Le fichier&#xa0;: %1 
  n&apos;est pas un fichier d&apos;examen valide&#xa0;!</translation>
     </message>
     <message>
         <source>Open an exam to analyze</source>
-        <translation>Ouvrir un examen pour analyse</translation>
+        <translation type="vanished">Ouvrir un examen pour analyse</translation>
     </message>
     <message>
         <source>Recent exercise on level</source>
-        <translation>Exercice récent de niveau</translation>
+        <translation type="vanished">Exercice récent de niveau</translation>
     </message>
     <message>
         <source>recent opened exams:</source>
-        <translation>Examens ouverts récemment&#xa0;:</translation>
+        <translation type="vanished">Examens ouverts récemment&#xa0;:</translation>
     </message>
     <message>
         <source>Close analyzer window</source>
-        <translation>Fermer la fenêtre d&apos;analyse</translation>
+        <translation type="vanished">Fermer la fenêtre d&apos;analyse</translation>
     </message>
     <message>
         <source>include time of wrong answers to average</source>
-        <translation>Inclure le temps des mauvaises réponses dans la moyenne</translation>
+        <translation type="vanished">Inclure le temps des mauvaises réponses dans la moyenne</translation>
     </message>
     <message>
         <source>show wrong answers separately</source>
-        <translation>Afficher séparément les réponses incorrectes</translation>
+        <translation type="vanished">Afficher séparément les réponses incorrectes</translation>
     </message>
     <message>
         <source>Settings of a chart</source>
-        <translation>Paramètres du graphique</translation>
+        <translation type="vanished">Paramètres du graphique</translation>
     </message>
     <message>
         <source>Maximize</source>
-        <translation>Maximiser</translation>
+        <translation type="vanished">Maximiser</translation>
     </message>
     <message>
         <source>linear chart</source>
-        <translation>Graphique linéaire</translation>
+        <translation type="vanished">Graphique linéaire</translation>
     </message>
     <message>
         <source>bar chart</source>
-        <translation>Graphique en barres</translation>
+        <translation type="vanished">Graphique en barres</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="vanished">OK</translation>
     </message>
     <message>
         <source>Analysis of exam results</source>
-        <translation>Analyser les résultats d&apos;un examen</translation>
+        <translation type="vanished">Analyser les résultats d&apos;un examen</translation>
     </message>
     <message>
         <source>Analysis of exercise</source>
-        <translation>Analyse de l&apos;exercice</translation>
+        <translation type="vanished">Analyse de l&apos;exercice</translation>
     </message>
     <message>
         <source>Questions number</source>
@@ -2212,7 +2213,7 @@ version</translation>
     </message>
     <message numerus="yes">
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>La mélodie a été jouée &lt;b&gt;%n&lt;/b&gt; fois</numerusform>
             <numerusform>La mélodie a été jouée &lt;b&gt;%n&lt;/b&gt; fois</numerusform>
         </translation>
@@ -2226,8 +2227,7 @@ version</translation>
     </message>
     <message>
         <source>treble dropped</source>
-        <translatorcomment>that&apos;s kind of a guess-translation... I &apos;m not sure
-</translatorcomment>
+        <translatorcomment>that&apos;s kind of a guess-translation... I &apos;m not sure</translatorcomment>
         <translation>Aigus abaissés</translation>
     </message>
     <message>
@@ -2296,81 +2296,81 @@ version</translation>
     </message>
     <message>
         <source>neutral</source>
-        <translation type="unfinished"></translation>
+        <translation>neutre</translation>
     </message>
     <message>
         <source>Clef for bass guitar and double bass, also used for cello and trombone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Clé pour basse et contrebasse, également utilisée pour le violoncelle et le trombone.</translation>
     </message>
     <message>
         <source>percussion clef</source>
-        <translation type="unfinished"></translation>
+        <translation>clé pour les percussions</translation>
     </message>
     <message>
         <source>For rhythms only, note pitch is undefined.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pour les rythmes uniquement, la hauteur des notes n&apos;est pas définie.</translation>
     </message>
 </context>
 <context>
     <name>TempoBar</name>
     <message>
         <source>Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempo</translation>
     </message>
     <message>
         <source>Countdown before playing or listening.</source>
-        <translation type="unfinished"></translation>
+        <translation>Décompte avant de jouer ou d&apos;écouter.</translation>
     </message>
     <message>
         <source>Audible metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Métronome audible</translation>
     </message>
     <message>
         <source>Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
-        <translation type="unfinished"></translation>
+        <translation>Utilisez des écouteurs&#xa0;! Sinon, le battement perturbera la détection de hauteur de note&#xa0;!</translation>
     </message>
     <message>
         <source>Tuner</source>
-        <translation type="unfinished"></translation>
+        <translation>Accordeur</translation>
     </message>
     <message>
         <source>Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Métronome</translation>
     </message>
     <message>
         <source>beats per minute</source>
-        <translation type="unfinished"></translation>
+        <translation>pulsations par minute</translation>
     </message>
     <message>
         <source>Mouse wheel changes tempo promptly (also with %1 key). Click for more options.</source>
-        <translation type="unfinished"></translation>
+        <translation>La molette de la souris modifie rapidement le tempo (également avec la touche %1). Cliquez pour plus d&apos;options.</translation>
     </message>
 </context>
 <context>
     <name>TempoMenu</name>
     <message>
         <source>tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>tempo</translation>
     </message>
     <message>
         <source>Tap tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Tap tempo</translation>
     </message>
     <message>
         <source>Metronome visible</source>
-        <translation type="unfinished"></translation>
+        <translation>Métronome visible</translation>
     </message>
     <message>
         <source>Count up</source>
-        <translation type="unfinished"></translation>
+        <translation>Décompte</translation>
     </message>
     <message>
         <source>Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy.</source>
-        <translation type="unfinished"></translation>
+        <translation>Les unités rythmiques détectées sont arrondies (quantification). Les unités les plus courtes nécessitent plus de précision rythmique.</translation>
     </message>
     <message>
         <source>round to:</source>
-        <translation type="unfinished"></translation>
+        <translation>arrondir à&#xa0;:</translation>
     </message>
 </context>
 <context>
@@ -2421,19 +2421,19 @@ version</translation>
     </message>
     <message>
         <source>Listen to a melody and repeat it on your instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Écouter une mélodie et la répéter sur votre instrument</translation>
     </message>
     <message>
         <source>repeat melody</source>
-        <translation type="unfinished"></translation>
+        <translation>répéter la mélodie</translation>
     </message>
     <message>
         <source>on instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>sur l&apos;instrument</translation>
     </message>
     <message>
         <source>Let&apos;s start!</source>
-        <translation type="unfinished"></translation>
+        <translation>Commençons !</translation>
     </message>
 </context>
 <context>
@@ -2533,7 +2533,7 @@ version</translation>
     </message>
     <message>
         <source>There is not such a note in this melody!</source>
-        <translation type="unfinished"></translation>
+        <translation>Cette note ne fait pas partie de la mélodie&#xa0;!</translation>
     </message>
 </context>
 <context>
@@ -2825,15 +2825,15 @@ version</translation>
     </message>
     <message>
         <source>Exam effectiveness (this question effectiveness)</source>
-        <translation type="unfinished"></translation>
+        <translation>Efficacité de l&apos;examen (efficacité de cette question)</translation>
     </message>
     <message>
         <source>Answer time</source>
-        <translation type="unfinished"></translation>
+        <translation>Temps pour la réponse</translation>
     </message>
     <message>
         <source>Exam time</source>
-        <translation type="unfinished"></translation>
+        <translation>Temps pour l&apos;examen</translation>
     </message>
 </context>
 <context>
@@ -2897,23 +2897,23 @@ version</translation>
     <message>
         <source>note cursor</source>
         <comment>it might be just &apos;cursor&apos; as well</comment>
-        <translation type="unfinished"></translation>
+        <translation>curseur</translation>
     </message>
     <message>
         <source>Note becomes selected (highlighted) when it was edited or clicked with right mouse button or tapped shortly.</source>
-        <translation type="unfinished"></translation>
+        <translation>La note est sélectionnée (mise en surbrillance) lorsqu&apos;elle a été modifiée ou cliquée avec le bouton droit de la souris ou appuyée brièvement.</translation>
     </message>
     <message>
         <source>If any note on the score is selected, only this particular one is changed by playing or clicking on an instrument. And only pitch of that note changes - rhythmic value remains the same. </source>
-        <translation type="unfinished"></translation>
+        <translation>Si une note sur la partition est sélectionnée, seule celle-ci est modifiée en jouant ou en cliquant sur un instrument. Et seule sa hauteur changera, sa valeur rythmique restera la même. </translation>
     </message>
     <message>
         <source>When no note is chosen on the score, note cursor is highlighted and blinks. Notes are added one by one, either by playing real instrument or by selecting a sound on instrument displayed by the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lorsqu&apos;aucune note n&apos;est choisie sur la partition, le curseur de note est mis en surbrillance et clignote. Les notes sont ajoutées une à une, soit en jouant sur l&apos;instrument, soit en sélectionnant un son sur l&apos;instrument affiché par l&apos;application.</translation>
     </message>
     <message>
         <source>To deselect the note just click or tap some free part of the score sheet or use arrow keys to navigate to the note cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pour désélectionner la note, cliquez ou appuyez simplement sur une partie libre de la partition ou utilisez les touches fléchées pour naviguer jusqu&apos;au curseur de note.</translation>
     </message>
 </context>
 <context>
@@ -2962,23 +2962,23 @@ version</translation>
     </message>
     <message>
         <source>Bass Guitar</source>
-        <translation>Guitare basse</translation>
+        <translation>Basse</translation>
     </message>
     <message>
         <source>Piano</source>
-        <translation type="unfinished"></translation>
+        <translation>Piano</translation>
     </message>
     <message>
         <source>Bandoneon</source>
-        <translation type="unfinished"></translation>
+        <translation>Bandonéon</translation>
     </message>
     <message>
         <source>Alt Saxophone</source>
-        <translation type="unfinished"></translation>
+        <translation>Saxophone alto</translation>
     </message>
     <message>
         <source>Tenor Saxophone</source>
-        <translation type="unfinished"></translation>
+        <translation>Saxophone ténor</translation>
     </message>
 </context>
 <context>
@@ -3161,7 +3161,7 @@ version</translation>
     </message>
     <message>
         <source>Some note of C-major scale point on the instrument, or give its name or show in the score.</source>
-        <translation type="unfinished"></translation>
+        <translation>Quelques notes de la gamme de do majeur, nommez-les ou indiquez-les sur l&apos;instrument ou la partition.</translation>
     </message>
 </context>
 <context>
@@ -3236,15 +3236,15 @@ version</translation>
     </message>
     <message>
         <source>Seems like this level has some mistakes</source>
-        <translation type="unfinished"></translation>
+        <translation>Il semblerait que ce niveau comporte des erreurs</translation>
     </message>
     <message>
         <source>&lt;li&gt;There are not enough selected notes to create a melody.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Il n&apos;y a pas suffisamment de notes sélectionnées pour créer une mélodie.&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;No melody was added to the list.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Aucune mélodie n&apos;a été ajoutée à la liste.&lt;/li&gt;</translation>
     </message>
 </context>
 <context>
@@ -3373,7 +3373,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>Load exam level</source>
-        <translation type="unfinished"></translation>
+        <translation>Charger le niveau d&apos;examen</translation>
     </message>
 </context>
 <context>
@@ -3537,7 +3537,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <source>notes</source>
         <comment>musical notes of course</comment>
-        <translation type="unfinished"></translation>
+        <translation>notes</translation>
     </message>
 </context>
 <context>
@@ -3590,7 +3590,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <name>TmobileMenu</name>
     <message>
         <source>Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempo</translation>
     </message>
 </context>
 <context>
@@ -3607,8 +3607,8 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message numerus="yes">
         <source>The octave &lt;b&gt;%n&lt;/b&gt; in International Pitch Notation</source>
         <translation>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform>L&apos;octave &lt;b&gt;%n&lt;/b&gt; selon la notation internationale de hauteur</numerusform>
+            <numerusform>Les octaves &lt;b&gt;%n&lt;/b&gt; selon la notation internationale de hauteur</numerusform>
         </translation>
     </message>
 </context>
@@ -3871,7 +3871,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <name>Transposition</name>
     <message>
         <source>Transposition</source>
-        <translation type="unfinished"></translation>
+        <translation>Transposition</translation>
     </message>
     <message numerus="yes">
         <source>semitone(s)</source>
@@ -3965,49 +3965,49 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>Insert note</source>
-        <translation type="unfinished"></translation>
+        <translation>Insérer une note</translation>
     </message>
     <message>
         <source>Edit score</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifier la partition</translation>
     </message>
     <message>
         <source>whole note</source>
-        <translation type="unfinished"></translation>
+        <translation>ronde</translation>
     </message>
     <message>
         <source>half note</source>
-        <translation type="unfinished"></translation>
+        <translation>blanche</translation>
     </message>
     <message>
         <source>quarter note</source>
-        <translation type="unfinished"></translation>
+        <translation>noire</translation>
     </message>
     <message>
         <source>eighth note</source>
-        <translation type="unfinished"></translation>
+        <translation>croche</translation>
     </message>
     <message>
         <source>sixteenth note</source>
-        <translation type="unfinished"></translation>
+        <translation>double croche</translation>
     </message>
     <message>
         <source>rest</source>
-        <translation type="unfinished"></translation>
+        <translation>pause</translation>
     </message>
     <message>
         <source>dot</source>
-        <translation type="unfinished"></translation>
+        <translation>point</translation>
     </message>
     <message>
         <source>rise</source>
         <comment>as such as sharps rise note</comment>
-        <translation type="unfinished"></translation>
+        <translation>hausser</translation>
     </message>
     <message>
         <source>lower</source>
         <comment>as such as flats lower note</comment>
-        <translation type="unfinished"></translation>
+        <translation>abaisser</translation>
     </message>
 </context>
 <context>
@@ -4077,18 +4077,18 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>Phone</source>
-        <translation type="unfinished"></translation>
+        <translation>Téléphone</translation>
     </message>
     <message>
         <source>Tablet</source>
-        <translation type="unfinished"></translation>
+        <translation>Tablette</translation>
     </message>
 </context>
 <context>
     <name>TsettingsDialogBase</name>
     <message>
         <source>Open online documentation</source>
-        <translation>Documentation en ligne</translation>
+        <translation type="vanished">Documentation en ligne</translation>
     </message>
 </context>
 <context>
@@ -4141,11 +4141,11 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="vanished">OK</translation>
     </message>
     <message>
         <source>No thanks, but check entire melody from now.</source>
-        <translation type="unfinished"></translation>
+        <translation>Non merci, mais vérifiez toute la mélodie à partir de maintenant.</translation>
     </message>
 </context>
 <context>
@@ -4331,16 +4331,16 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>Point on the instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Indiquer sur l&apos;instrument</translation>
     </message>
     <message>
         <source>Listened sound show on the instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Le son joué est affiché sur l&apos;instrument</translation>
     </message>
     <message>
         <source>It should be %1</source>
         <comment>note name follows</comment>
-        <translation type="unfinished"></translation>
+        <translation>Elle devrait être %1</translation>
     </message>
 </context>
 <context>
@@ -4517,11 +4517,11 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <name>TunerDialog</name>
     <message>
         <source>Nooter - Nootka tuner</source>
-        <translation type="unfinished"></translation>
+        <translation>Nooter - L&apos;accordeur de Nootka</translation>
     </message>
     <message>
         <source>output volume</source>
-        <translation type="unfinished"></translation>
+        <translation>volume de sortie</translation>
     </message>
 </context>
 <context>
@@ -4582,7 +4582,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>To get it, visit %1 Nootka site</source>
-        <translation type="unfinished"></translation>
+        <translation>Pour l&apos;obtenir, visitez le site de Nootka %1</translation>
     </message>
 </context>
 <context>
@@ -4604,7 +4604,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <name>VolumeBar</name>
     <message>
         <source>Volume level of input sound.</source>
-        <translation type="unfinished"></translation>
+        <translation>Volume du son en entrée</translation>
     </message>
     <message>
         <source>Drag a knob to adjust minimum input volume.</source>
@@ -4629,7 +4629,7 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <name>WizardBass</name>
     <message>
         <source>Musical notation for bass guitar uses bass clef (clef F), but the notes sound one octave lower. It means bass guitar is transposing instrument and it transposes one octave down.</source>
-        <translation type="unfinished"></translation>
+        <translation>La notation musicale pour la basse utilise la clé de fa, mais les notes sonnent une octave plus bas. Cela signifie que la basse est un instrument transpositeur et qu&apos;elle transpose une octave plus bas.</translation>
     </message>
 </context>
 <context>
@@ -4654,23 +4654,23 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <name>WizardMode</name>
     <message>
         <source>In main Nootka window score can be displayed in a few different ways, depends on experience level.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dans la fenêtre principale de Nootka, la partition peut être affichée de différentes manières, en fonction du niveau d&apos;expérience.</translation>
     </message>
     <message>
         <source>For beginners, when you don&apos;t know musical notation at all.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pour les débutants, lorsque vous ne connaissez pas du tout la notation musicale.</translation>
     </message>
     <message>
         <source>score without rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>partition sans rythme</translation>
     </message>
     <message>
         <source>When you already know musical notation a little but you cannot play your instrument fluently yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Lorsque vous connaissez déjà un peu la notation musicale mais que vous ne pouvez pas encore jouer de votre instrument couramment.</translation>
     </message>
     <message>
         <source>full notation</source>
-        <translation type="unfinished"></translation>
+        <translation>notation complète</translation>
     </message>
 </context>
 <context>
@@ -4703,18 +4703,26 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <name>WizardPiano</name>
     <message>
         <source>Notes for piano are written on the grand staff - two staves joined with brace. Usually the upper one, with treble clef is for right hand and the lower one with bass clef is for left hand.</source>
-        <translation type="unfinished"></translation>
+        <translation>Les notes pour piano sont écrites sur un système de portées - deux portées jointes par une accolade. Habituellement, celle du haut, en clé de sol, est réservée à la main droite et celle du bas, en clé de fa, est réservée à la main gauche.</translation>
     </message>
     <message>
         <source>Although for exercise purposes and also due to Nootka is supporting only single voice, sometimes just one of the staves can be used as well.</source>
-        <translation type="unfinished"></translation>
+        <translation>À des fins d&apos;exercice et également parce que Nootka ne prend en charge qu&apos;une seule voix, une seule portée pourra être utilisée.</translation>
     </message>
 </context>
 <context>
     <name>WizardSax</name>
     <message>
         <source>Saxophones are transposing instruments.&lt;br&gt;It means that note pitch in the score doesn&apos;t correspond directly to note which is played - it transposes by interval (number of semitones) according to kind of saxophone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Les saxophones sont des instruments transpositeurs. &lt;br&gt;Cela signifie que la hauteur de la note sur la partition ne correspond pas directement à la note jouée - elle se transpose par intervalle (nombre de demi-tons) selon le type de saxophone.</translation>
+    </message>
+</context>
+<context>
+    <name>about translator</name>
+    <message>
+        <source>translator</source>
+        <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: translator name, translator e-mail (optional) and translator site (optional)</comment>
+        <translation></translation>
     </message>
 </context>
 <context>
