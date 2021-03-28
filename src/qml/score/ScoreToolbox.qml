@@ -84,9 +84,10 @@ ControlBase {
             onLoaded: {
               item.rhythm = 1 + index / 2
               item.rest = index % 2 === 0
-              if (mainScore !== undefined && index % 2 === 1) {
-                var a = rtmActions[Math.floor(index / 2)]
-                item.statusTip = a.text + "<br><b>(" + a.key() + ")</b>"
+              if (index % 2 === 1) {
+                var act = rtmActions[Math.floor(index / 2)]
+                if (act)
+                  item.statusTip = act.text + "<br><b>(" + act.key() + ")</b>"
               }
             }
             Connections {
@@ -111,7 +112,7 @@ ControlBase {
           onLoaded: {
             item.rhythm = 0
             item.text = "."
-            if (mainScore !== undefined)
+            if (scoreObj.dotNoteAct)
               item.statusTip = scoreObj.dotNoteAct.text + "<br><b>(" + scoreObj.dotNoteAct.key() + ")</b>"
           }
           Binding { target: dotLoad.item; property: "selected"; value: scoreObj.workRtmDot }

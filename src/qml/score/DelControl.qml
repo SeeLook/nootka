@@ -46,7 +46,7 @@ ControlBase {
         textColor: "red"
         onClicked: { scoreObj.deleteNote(activeItem); show = false }
         Component.onCompleted: {
-          if (mainScore)
+          if (scoreObj.deleteNoteAct)
             statusTip = scoreObj.deleteNoteAct.text + ".<br><b>(" + scoreObj.deleteNoteAct.key() + ")</b>"
         }
       }
@@ -66,8 +66,8 @@ ControlBase {
       Rectangle { y: factor / 10; x: factor / 2; height: factor; width: factor / 6; color: "green" }
       Rectangle { y: factor / 2; x: factor / 10; width: factor; height: factor / 6; color: "green" }
       Component.onCompleted: {
-        if (mainScore)
-          statusTip = insertNoteAct.text + "<br><b>(" + scoreObj.insertNoteAct.key() + ")</b>"
+        if (scoreObj.insertNoteAct)
+          statusTip = scoreObj.insertNoteAct.text + "<br><b>(" + scoreObj.insertNoteAct.key() + ")</b>"
       }
     }
   }
