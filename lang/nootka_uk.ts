@@ -3265,7 +3265,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>Correct</source>
         <comment>like a correct answer with mistake</comment>
-        <translation></translation>
+        <translation>Correct</translation>
     </message>
     <message>
         <source>Try again</source>
@@ -3341,7 +3341,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TupdateRulesWdg</name>
     <message>
         <source>check for Nootka updates</source>
-        <translation></translation>
+        <translation>check for Nootka updates</translation>
     </message>
     <message>
         <source>daily</source>
