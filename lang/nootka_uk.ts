@@ -91,7 +91,7 @@
     <name>AnalyzeDialog</name>
     <message>
         <source>linear chart</source>
-        <translation type="unfinished"></translation>
+        <translation>лінійна діаграма</translation>
     </message>
     <message>
         <source>bar chart</source>
@@ -112,11 +112,11 @@
     </message>
     <message>
         <source>level:</source>
-        <translation type="unfinished"></translation>
+        <translation>Рівень:</translation>
     </message>
     <message>
         <source>Question number</source>
-        <translation type="unfinished"></translation>
+        <translation>Номер питання</translation>
     </message>
     <message>
         <source>Analyze</source>
@@ -124,11 +124,11 @@
     </message>
     <message>
         <source>Press %1 button to select an exam from a file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Натисніть кнопку %1, щоб вибрати іспит із файлу.</translation>
     </message>
     <message>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
-        <translation type="unfinished"></translation>
+        <translation>Використовуйте колесо миші + %1 або кнопки %2 для збільшення масштабу діаграми.</translation>
     </message>
     <message>
         <source>Click and Drag the cursor to move the chart.</source>
@@ -136,11 +136,11 @@
     </message>
     <message>
         <source>Settings of a chart</source>
-        <translation type="unfinished"></translation>
+        <translation>Налаштування діаграми</translation>
     </message>
     <message>
         <source>Questions number</source>
-        <translation type="unfinished"></translation>
+        <translation>Номер питання</translation>
     </message>
     <message>
         <source>Attempts number</source>
@@ -148,7 +148,7 @@
     </message>
     <message>
         <source>Preparation time</source>
-        <translation type="unfinished"></translation>
+        <translation>Час підготовки</translation>
     </message>
     <message>
         <source>Played number</source>
@@ -164,16 +164,16 @@
     </message>
     <message>
         <source>show wrong answers separately</source>
-        <translation type="unfinished"></translation>
+        <translation>показувати неправильні відповіді окремо</translation>
     </message>
     <message>
         <source>question number</source>
         <comment>see comment in &apos;ordered by:&apos; entry</comment>
-        <translation type="unfinished"></translation>
+        <translation>номер питання</translation>
     </message>
     <message>
         <source>note pitch</source>
-        <translation type="unfinished"></translation>
+        <translation>висота ноти</translation>
     </message>
     <message>
         <source>fret number</source>
@@ -189,11 +189,11 @@
     </message>
     <message>
         <source>mistake</source>
-        <translation type="unfinished"></translation>
+        <translation>помилка</translation>
     </message>
     <message>
         <source>question type</source>
-        <translation type="unfinished"></translation>
+        <translation>тип запитання</translation>
     </message>
     <message>
         <source>Analysis of exercise</source>
@@ -1846,7 +1846,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Exams can be saved to files and continued later. Moreover, exam files can be opened to analyze.</source>
-        <translation type="unfinished"></translation>
+        <translation>Іспити можна зберігати у файлах і продовжувати пізніше. Більше того, файли іспитів можна відкрити для аналізу.</translation>
     </message>
     <message>
         <source>Exam will be completed when you give answers to all questions.&lt;br&gt;The number of questions depends on the level of the exam.</source>
