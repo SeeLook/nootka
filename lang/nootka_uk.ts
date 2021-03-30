@@ -95,7 +95,7 @@
     </message>
     <message>
         <source>bar chart</source>
-        <translation type="unfinished"></translation>
+        <translation>гістограма</translation>
     </message>
     <message>
         <source>Y value:</source>
@@ -120,7 +120,7 @@
     </message>
     <message>
         <source>Analyze</source>
-        <translation type="unfinished"></translation>
+        <translation>Аналізувати</translation>
     </message>
     <message>
         <source>Press %1 button to select an exam from a file.</source>
@@ -132,7 +132,7 @@
     </message>
     <message>
         <source>Click and Drag the cursor to move the chart.</source>
-        <translation type="unfinished"></translation>
+        <translation>Клацніть та перетягніть курсор, щоб перемістити діаграму.</translation>
     </message>
     <message>
         <source>Settings of a chart</source>
@@ -144,7 +144,7 @@
     </message>
     <message>
         <source>Attempts number</source>
-        <translation type="unfinished"></translation>
+        <translation>Кількість спроб</translation>
     </message>
     <message>
         <source>Preparation time</source>
@@ -197,11 +197,11 @@
     </message>
     <message>
         <source>Analysis of exercise</source>
-        <translation type="unfinished"></translation>
+        <translation>Аналіз вправи</translation>
     </message>
     <message>
         <source>Analysis of exam results</source>
-        <translation type="unfinished"></translation>
+        <translation>Аналіз результатів іспиту</translation>
     </message>
 </context>
 <context>
@@ -251,7 +251,7 @@
     </message>
     <message>
         <source>correct notes</source>
-        <translation type="unfinished"></translation>
+        <translation>правильні ноти</translation>
     </message>
     <message>
         <source>wrong notes</source>
@@ -275,7 +275,7 @@
     </message>
     <message>
         <source>correct positions</source>
-        <translation type="unfinished"></translation>
+        <translation>правильні позиції</translation>
     </message>
     <message>
         <source>wrong positions</source>
@@ -344,15 +344,15 @@
     </message>
     <message>
         <source>color of questions</source>
-        <translation type="unfinished"></translation>
+        <translation>колір питань</translation>
     </message>
     <message>
         <source>color of answers</source>
-        <translation type="unfinished"></translation>
+        <translation>колір відповідей</translation>
     </message>
     <message>
         <source>color of &apos;not bad&apos; answers</source>
-        <translation type="unfinished"></translation>
+        <translation>колір &quot;непоганих&quot; відповідей</translation>
     </message>
     <message>
         <source>suggest an exam</source>
@@ -392,11 +392,11 @@
     </message>
     <message>
         <source>A question with an incorrect answer will be asked once again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Питання з неправильною відповіддю буде задано ще раз.</translation>
     </message>
     <message>
         <source>close without confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>закрити без підтвердження</translation>
     </message>
     <message>
         <source>If checked, an application will not ask to answer pending question just mark it as wrong, save an exam to file (in directory: %1) and close itself without any confirmation needed.</source>
@@ -431,7 +431,7 @@
     <name>ExamSummary</name>
     <message>
         <source>Analyze</source>
-        <translation type="unfinished"></translation>
+        <translation>Аналізувати</translation>
     </message>
     <message>
         <source>Pass an exam</source>
@@ -490,7 +490,7 @@
     </message>
     <message>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Перевіряти обновлення</translation>
     </message>
     <message>
         <source>Restore all default settings</source>
@@ -606,7 +606,7 @@
     </message>
     <message>
         <source>As you know, the same note can be played in several places on the fingerboard.&lt;br&gt;If checked, all of them will be shown.</source>
-        <translation type="unfinished"></translation>
+        <translation>Як відомо, одну і ту ж ноту можна відтворити в кількох місцях на грифі. &lt;br&gt;Якщо позначено, усі вони будуть показані.</translation>
     </message>
     <message>
         <source>marked frets</source>
@@ -619,11 +619,11 @@
     </message>
     <message>
         <source>color of a pointer on an instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>колір вказівника на інструменті</translation>
     </message>
     <message>
         <source>color of a selection</source>
-        <translation type="unfinished"></translation>
+        <translation>колір виділення</translation>
     </message>
     <message>
         <source>Custom tuning</source>
@@ -665,11 +665,11 @@
     </message>
     <message>
         <source>Check</source>
-        <translation type="unfinished"></translation>
+        <translation>Перевірити</translation>
     </message>
     <message>
         <source>Answers</source>
-        <translation type="unfinished"></translation>
+        <translation>Відповідь</translation>
     </message>
 </context>
 <context>
@@ -770,7 +770,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Composer</source>
-        <translation type="unfinished"></translation>
+        <translation>Композитор</translation>
     </message>
 </context>
 <context>
@@ -876,7 +876,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>b</source>
         <comment>Give here a name of 7-th note preferred in your country. But only &apos;b&apos; or &apos;h&apos; not &apos;si&apos; or something worst...</comment>
-        <translation type="unfinished"></translation>
+        <translation>h</translation>
     </message>
     <message>
         <source>letters</source>
@@ -906,7 +906,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>disable screen rotation</source>
-        <translation type="unfinished"></translation>
+        <translation>вимкнути обертання екрана</translation>
     </message>
     <message>
         <source>full screen</source>
@@ -933,7 +933,8 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>Cannot save exam file:
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдалося зберегти файл іспиту:
+%1</translation>
     </message>
     <message>
         <source>master of masters</source>
@@ -941,7 +942,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>All possible options are turned on</source>
-        <translation type="unfinished"></translation>
+        <translation>Усі можливі параметри ввімкнено</translation>
     </message>
     <message>
         <source>major</source>
@@ -965,7 +966,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>answers</source>
-        <translation type="unfinished"></translation>
+        <translation>відповідь</translation>
     </message>
     <message>
         <source>question</source>
@@ -977,7 +978,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>answer</source>
-        <translation type="unfinished"></translation>
+        <translation>відповідь</translation>
     </message>
 </context>
 <context>
@@ -1039,7 +1040,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>adjust fret range</source>
-        <translation type="unfinished"></translation>
+        <translation>відрегулювати діапазон ладів</translation>
     </message>
     <message>
         <source>Adjust fret range in a level to currently selected note range</source>
@@ -1059,7 +1060,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>adjust note range</source>
-        <translation type="unfinished"></translation>
+        <translation>відрегулювати діапазон ладів</translation>
     </message>
     <message>
         <source>Adjust note range in a level to currently selected fret range</source>
@@ -1082,7 +1083,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Also delete level file:</source>
-        <translation type="unfinished"></translation>
+        <translation>Також видалити файл рівня:</translation>
     </message>
 </context>
 <context>
@@ -1108,7 +1109,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>basic rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>основні ритми</translation>
     </message>
     <message>
         <source>rhythms with dots</source>
@@ -1146,7 +1147,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Clefs</source>
-        <translation type="unfinished"></translation>
+        <translation>Ключі</translation>
     </message>
     <message>
         <source>Notes naming</source>
@@ -1202,7 +1203,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>color of enharmonic notes</source>
-        <translation type="unfinished"></translation>
+        <translation>колір енгармонічних нот</translation>
     </message>
     <message>
         <source>If checked, you can use double sharps and double flats.</source>
@@ -1257,7 +1258,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>Select7note</name>
     <message>
         <source>7th note is:</source>
-        <translation type="unfinished"></translation>
+        <translation>7-а нота:</translation>
     </message>
 </context>
 <context>
@@ -1268,11 +1269,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Be sure your system is able to record what are you playing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Переконайтеся, що ваша система здатна записати, що ви граєте.</translation>
     </message>
     <message>
         <source>Adjust minimal note volume a little below of your input volume level.</source>
-        <translation type="unfinished"></translation>
+        <translation>Відрегулюйте мінімальну гучність нот трохи нижче рівня вхідної гучності.</translation>
     </message>
     <message>
         <source>Aim to play loud and clear and avoid dirty sounds specific to your instrument.</source>
@@ -1311,7 +1312,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.</source>
-        <translation type="unfinished"></translation>
+        <translation>Переконайтеся, що пристрій введення (мікрофон, веб-камера, інструмент, т. д.) підключено, правильно налаштовано та працює.</translation>
     </message>
     <message>
         <source>input device</source>
@@ -1351,7 +1352,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Більше</translation>
     </message>
     <message>
         <source>pitch detection mode</source>
@@ -1469,11 +1470,11 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TaboutNootka</name>
     <message>
         <source>About Nootka</source>
-        <translation type="unfinished"></translation>
+        <translation>Про Ноотку</translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Про...</translation>
     </message>
     <message>
         <source>License</source>
@@ -1485,15 +1486,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Зміни</translation>
     </message>
     <message>
         <source>Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Код</translation>
     </message>
     <message>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Аудіо</translation>
     </message>
     <message>
         <source>editing and/or recording of samples:</source>
@@ -1517,12 +1518,12 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Authors</source>
-        <translation type="unfinished"></translation>
+        <translation>Автори</translation>
     </message>
     <message>
         <source>Donors</source>
         <comment>Would be &apos;Sponsors&apos; or even &apos;Backers&apos; - translate as such as You fill, what sounds/looks better in Your language</comment>
-        <translation type="unfinished"></translation>
+        <translation>Донори</translation>
     </message>
     <message>
         <source>People and companies who gave material support for the Nootka project</source>
@@ -1557,7 +1558,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>bass</source>
-        <translation type="unfinished"></translation>
+        <translation>бас</translation>
     </message>
     <message>
         <source>alto</source>
@@ -1609,7 +1610,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Common used clef (for violin, flute, saxophones, etc.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Загальновживаний ключ (для скрипки, флейти, саксофонів і т.д.)</translation>
     </message>
     <message>
         <source>Clef for guitars (classical, electric and so)</source>
@@ -1640,7 +1641,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>beats per minute</source>
-        <translation type="unfinished"></translation>
+        <translation>ударів в хвилину</translation>
     </message>
     <message>
         <source>Mouse wheel changes tempo promptly (also with %1 key). Click for more options.</source>
@@ -1648,7 +1649,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Audible metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Метроном чутний</translation>
     </message>
     <message>
         <source>Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
@@ -1694,7 +1695,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>attempt</source>
-        <translation type="unfinished"></translation>
+        <translation>спроба</translation>
     </message>
     <message numerus="yes">
         <source>%n attempt(s)</source>
@@ -1744,7 +1745,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TexamExecutor</name>
     <message>
         <source>&lt;b&gt;Exam file seems to be corrupted&lt;/b&gt;&lt;br&gt;Better start new exam on the same level</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt; Файл іспиту пошкоджений &lt;/b&gt; &lt;br&gt; Краще розпочати новий іспит на тому ж рівні</translation>
     </message>
     <message>
         <source>File: %1 
@@ -1809,7 +1810,8 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>correct answer
 (enter)</source>
-        <translation type="unfinished"></translation>
+        <translation>виправити відповідь
+(enter)</translation>
     </message>
     <message>
         <source>finish exercising</source>
@@ -1864,7 +1866,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source> Briefly: Nootka give you a question and you give an answer...</source>
-        <translation type="unfinished"></translation>
+        <translation> Коротко: Ноотка задає вам питання, а ви даєте відповідь ...</translation>
     </message>
     <message>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
@@ -1912,15 +1914,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>check answers without requiring confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation>перевірити відповіді, не вимагаючи підтвердження</translation>
     </message>
     <message>
         <source>correct mistakes (exercises only)</source>
-        <translation type="unfinished"></translation>
+        <translation>виправити помилки (тільки вправи)</translation>
     </message>
     <message>
         <source>ask next question automatically</source>
-        <translation type="unfinished"></translation>
+        <translation>задати наступне запитання автоматично</translation>
     </message>
     <message>
         <source>or right mouse button</source>
@@ -1928,7 +1930,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>click %1 button</source>
-        <translation type="unfinished"></translation>
+        <translation>натисніть кнопку %1</translation>
     </message>
     <message>
         <source>To get question</source>
@@ -1952,7 +1954,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Click %1 button to stop.</source>
-        <translation type="unfinished"></translation>
+        <translation>Натисніть кнопку %1, щоб зупинити.</translation>
     </message>
     <message>
         <source>tap %1</source>
@@ -1962,7 +1964,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>Click %1 to stop.</source>
         <comment>click &lt;icon-image&gt; to stop (exam or exercise)</comment>
-        <translation type="unfinished"></translation>
+        <translation>Щоб зупинити, натисніть кнопку %1.</translation>
     </message>
 </context>
 <context>
@@ -2044,7 +2046,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Average time taken to answer</source>
-        <translation type="unfinished"></translation>
+        <translation>Середній час відповіді</translation>
     </message>
     <message>
         <source>[in seconds]</source>
@@ -2076,7 +2078,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>(counted as half of a mistake)</source>
-        <translation type="unfinished"></translation>
+        <translation>(зараховується як половина помилки)</translation>
     </message>
     <message>
         <source>Answered questions</source>
@@ -2101,7 +2103,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Answer time</source>
-        <translation type="unfinished"></translation>
+        <translation>Час відповіді</translation>
     </message>
     <message>
         <source>Exam time</source>
@@ -2174,11 +2176,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>descending - you are progressing better</source>
-        <translation type="unfinished"></translation>
+        <translation>спадаючи - ви прогресуєте краще</translation>
     </message>
     <message>
         <source>ascending - you are thinking too much</source>
-        <translation type="unfinished"></translation>
+        <translation>висхідний - ви занадто багато думаєте</translation>
     </message>
 </context>
 <context>
@@ -2200,7 +2202,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Classical Guitar</source>
-        <translation type="unfinished"></translation>
+        <translation>Класична гітара</translation>
     </message>
     <message>
         <source>Electric Guitar</source>
@@ -2208,7 +2210,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Bass Guitar</source>
-        <translation type="unfinished"></translation>
+        <translation>Бас-гітара</translation>
     </message>
     <message>
         <source>Piano</source>
@@ -2216,11 +2218,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Bandoneon</source>
-        <translation type="unfinished"></translation>
+        <translation>Бандонеон</translation>
     </message>
     <message>
         <source>Alt Saxophone</source>
-        <translation type="unfinished"></translation>
+        <translation>Альт-саксофон</translation>
     </message>
     <message>
         <source>Tenor Saxophone</source>
@@ -2239,7 +2241,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Bass clef</source>
-        <translation type="unfinished"></translation>
+        <translation>Басовий ключ</translation>
     </message>
     <message>
         <source>Play a short and simple melody in bass clef</source>
@@ -2275,7 +2277,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>All to V fret</source>
-        <translation type="unfinished"></translation>
+        <translation>Все до V ладу</translation>
     </message>
     <message>
         <source>Ear training</source>
@@ -2338,7 +2340,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Cannot open file for writing</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдалося відкрити файл для запису</translation>
     </message>
     <message>
         <source>Level validation</source>
@@ -2417,7 +2419,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Clef</source>
-        <translation type="unfinished"></translation>
+        <translation>Ключ</translation>
     </message>
     <message>
         <source>key signature:</source>
@@ -2446,7 +2448,9 @@ But better keep them short, so divide them first in some external software.</sou
         <source>Cannot open file
  %1 
  for reading</source>
-        <translation type="unfinished"></translation>
+        <translation>Не вдається відкрити файл
+%1
+для читання</translation>
     </message>
     <message>
         <source>No file name specified</source>
@@ -2653,7 +2657,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>Click to see what &lt;i&gt;octaves&lt;/i&gt; are at &quot;http://en.wikipedia.org/wiki/Octave&quot;</source>
         <comment>You can change this link to article in your language, but please KEEP QUOTATION MARKS AROUND THAT ADDRESS!</comment>
-        <translation type="unfinished"></translation>
+        <translation>Клацніть, щоб побачити, що таке &lt;i&gt;октава&lt;/i&gt; на &quot;https://uk.wikipedia.org/wiki/Октава&quot;</translation>
     </message>
     <message numerus="yes">
         <source>The octave &lt;b&gt;%n&lt;/b&gt; in International Pitch Notation</source>
@@ -2672,7 +2676,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>[DATE]&lt;br&gt;&lt;i&gt;date&lt;i&gt;</source>
         <comment>All those entries assembly a certificate. You can adjust translation to your imagination of it look by manipulating where to put an entry, using some &apos;HTML tags: http://qt-project.org/doc/qt-4.8/richtext-html-subset.html&apos; and using exam data tags like: [DATE], [STUDENT], [LEVELNAME], [TOTALTIME], [SCORE] and [QUESTNR]. Single entry can&apos;t be adjusted (center, left, right) like in pure HTML - this is why it is divided. TO OBTAIN CERT PREVIEW IN ANY TIME OF AN EXAM JUST PRESS: [Shift+Alt+middle-mouse-button] (and don&apos;t tell this secret anybody). Feel free to translate it directly as well. This entry is displayed at top-right corner of a cert</comment>
-        <translation type="unfinished"></translation>
+        <translation>[DATE]&lt;br&gt;&lt;i&gt;дата&lt;/i&gt;</translation>
     </message>
     <message>
         <source>Student &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; has been awarded the</source>
@@ -2706,7 +2710,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>CONGRATULATIONS!&lt;br&gt;You have just passed the exam!</source>
-        <translation type="unfinished"></translation>
+        <translation>ВІТАЄМО!&lt;br&gt;Ви тільки що склали іспит!</translation>
     </message>
     <message>
         <source>Save this certificate to file in remembrance.</source>
@@ -2725,7 +2729,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TnootkaQML</name>
     <message>
         <source>Analysis of exam results</source>
-        <translation type="unfinished"></translation>
+        <translation>Аналіз результатів іспиту</translation>
     </message>
 </context>
 <context>
@@ -2736,7 +2740,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Contra</source>
-        <translation type="unfinished"></translation>
+        <translation>Контр</translation>
     </message>
     <message>
         <source>Great</source>
@@ -2752,15 +2756,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>2-line</source>
-        <translation type="unfinished"></translation>
+        <translation>2-a</translation>
     </message>
     <message>
         <source>3-line</source>
-        <translation type="unfinished"></translation>
+        <translation>3-a</translation>
     </message>
     <message>
         <source>4-line</source>
-        <translation type="unfinished"></translation>
+        <translation>4-a</translation>
     </message>
     <message>
         <source>Subcontra octave</source>
@@ -2768,7 +2772,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Contra octave</source>
-        <translation type="unfinished"></translation>
+        <translation>Контроктава</translation>
     </message>
     <message>
         <source>Great octave</source>
@@ -2813,7 +2817,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>down</source>
-        <translation type="unfinished"></translation>
+        <translation>вниз</translation>
     </message>
 </context>
 <context>
@@ -2828,7 +2832,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Delete all notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Видалити всі ноти</translation>
     </message>
     <message>
         <source>Edit score</source>
@@ -2860,7 +2864,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>dot</source>
-        <translation type="unfinished"></translation>
+        <translation>крапка</translation>
     </message>
     <message>
         <source>rise</source>
@@ -2888,11 +2892,11 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TsettingsDialog</name>
     <message>
         <source>application&apos;s settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Налаштування програми</translation>
     </message>
     <message>
         <source>Common</source>
-        <translation type="unfinished"></translation>
+        <translation>Загальні</translation>
     </message>
     <message>
         <source>Score</source>
@@ -3012,7 +3016,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Check in exam help %1 how to do it automatically</source>
-        <translation type="unfinished"></translation>
+        <translation>Перевірте допомогу іспиту %1, як це зробити автоматично</translation>
     </message>
     <message>
         <source>To correct an answer</source>
@@ -3132,7 +3136,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Application preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Налаштування програми</translation>
     </message>
     <message>
         <source>Level</source>
@@ -3167,7 +3171,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>Check</source>
         <comment>like a check answer</comment>
-        <translation type="unfinished"></translation>
+        <translation>Перевірити</translation>
     </message>
     <message>
         <source>Play</source>
@@ -3176,7 +3180,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>Correct</source>
         <comment>like a correct answer with mistake</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Try again</source>
@@ -3188,7 +3192,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Analyze</source>
-        <translation type="unfinished"></translation>
+        <translation>Аналізувати</translation>
     </message>
 </context>
 <context>
@@ -3245,18 +3249,18 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TupdateChecker</name>
     <message>
         <source>Checking for updates. Please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation>Перевірка наявності оновлень. Зачекайте, будь ласка...</translation>
     </message>
 </context>
 <context>
     <name>TupdateRulesWdg</name>
     <message>
         <source>check for Nootka updates</source>
-        <translation type="unfinished"></translation>
+        <translation>перевірити наявність оновлень Nootka</translation>
     </message>
     <message>
         <source>daily</source>
-        <translation type="unfinished"></translation>
+        <translation>щоденно</translation>
     </message>
     <message>
         <source>weekly</source>
@@ -3268,7 +3272,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>all new versions</source>
-        <translation type="unfinished"></translation>
+        <translation>всі нові версії</translation>
     </message>
     <message>
         <source>stable versions only</source>
@@ -3375,7 +3379,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>WizardOptions</name>
     <message>
         <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">7-а нота може бути B або H, залежно від країни &lt;br&gt; Як називається 7-а нота у вашій країні?</translation>
     </message>
     <message>
         <source>I know about double sharps (x) and double flats (bb)</source>
