@@ -38,6 +38,9 @@
     For Mac and Windows users:
       - form <https://www.qt.io/download-open-source> download online installer,
         launch it and follow its instructions - select the latest version of Qt for Desktop.
+        
+      - But also Windows users can download standalone Qt linguist application in zip archive:  
+        <https://github.com/thurask/Qt-Linguist/releases> (latest version prefferred)
 
      or use other software for translators that supports *.ts format,  
      i.e. [lokalize](https://apps.kde.org/en/lokalize).
@@ -45,16 +48,16 @@
   2. Download [Nootka language file: template-nootka_xx.ts](https://www.opencode.net/seelook/nootka/raw/master/lang/template-nootka_xx.ts)  
      remove **template-** from the file name and change that **xx** to your language code to get file name like i.e.: `nootka_en.ts`
 
-  3. Open this file by *Qt Linguist* (or any other app) and translate.
+  3. Open this file in *Qt Linguist* (or any other app) and translate.
 
-  4. In every moment you can generate a "language package" form menu `File->Release` (file with \*.qm extension)
+  4. In Qt Linguist, at every moment you can generate a "language package" form menu `File->Release` (file with \*.qm extension)
      and put that file in Nootka installation directory into the `lang` folder  
      i.e.: `path_to_nootka/lang/nootka_en.qm`  
      and run the app to see the effects of the translation
 
   5. A few hints for *Qt Linguist*  
-     - To approve translated entry you can use \[CTRL+Enter\] - it will be automatically marked as finished.
-     - To copy original entry use [CTRL+b] and then just translate.
+     - To approve translated entry you can use `\[CTRL+Enter\]` - it will be automatically marked as finished.
+     - To copy original entry use `\[CTRL+b\]` and then just translate.
 
   6. When translation will be ready or you give up :-(, please send what you have to:  
      <seelook@gmail.com>  
