@@ -36,6 +36,7 @@ Tflickable {
         ListElement { flag:"pl"; lang: "polski" }
         ListElement { flag:"ru"; lang: "Русский" }
         ListElement { flag:"sl"; lang: "Slovenščina" }
+        ListElement { flag:"uk"; lang: "Українська" }
       }
 
       Tumbler {

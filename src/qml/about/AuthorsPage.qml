@@ -71,6 +71,8 @@ Tflickable {
           ListElement { flag:"pl"; lang: "polski";      trr: "Tomasz Bojczuk";  web: "<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>" }
           ListElement { flag:"ru"; lang: "Русский";     trr: "Timur Artykov,<br>Sergei Ivanov (tico-tico)"; web: "" }
           ListElement { flag:"sl"; lang: "Slovenščina"; trr: "Grega Trček";     web: "" }
+          ListElement { flag:"uk"; lang: "Українська";  trr: " - - -";
+                        web: "<a href=\"https://hosted.weblate.org/projects/nootka/translations/uk/\">Weblate translation</a>" }
         }
 
         Column {
