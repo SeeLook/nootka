@@ -144,6 +144,7 @@ lang.files += lang/nootka_pl.qm
 lang.files += lang/nootka_ru.qm
 lang.files += lang/nootka_sl.qm
 lang.files += lang/qtbase_sl.qm
+lang.files += lang/nootka_uk.qm
 lang.files += $$system(ls $$TR_DIR/qtbase_cs.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_de.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_es.qm)
@@ -152,6 +153,7 @@ lang.files += $$system(ls $$TR_DIR/qtbase_hu.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_it.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_pl.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_ru.qm)
+lang.files += $$system(ls $$TR_DIR/qtbase_uk.qm)
 
 lang.depends += FORCE
 
