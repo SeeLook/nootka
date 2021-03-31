@@ -20,7 +20,7 @@
     <name>AccidsPage</name>
     <message>
         <source>accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>альтерації</translation>
     </message>
     <message>
         <source># - sharps</source>
@@ -181,7 +181,7 @@
     </message>
     <message>
         <source>accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>альтерації</translation>
     </message>
     <message>
         <source>key signature</source>
@@ -213,7 +213,7 @@
     </message>
     <message>
         <source>Wrong answer!</source>
-        <translation type="unfinished">Неправильна відповідь!</translation>
+        <translation>Неправильна відповідь!</translation>
     </message>
     <message>
         <source>Not bad, but:</source>
@@ -590,7 +590,7 @@
     </message>
     <message>
         <source># - sharps</source>
-        <translation type="unfinished"></translation>
+        <translation># - дієзи</translation>
     </message>
     <message>
         <source>b - flats</source>
@@ -657,7 +657,7 @@
     </message>
     <message>
         <source>Accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>Альтерації</translation>
     </message>
     <message>
         <source>Range</source>
@@ -2576,7 +2576,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Additional accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>Додаткові альтерації</translation>
     </message>
     <message>
         <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
@@ -2625,7 +2625,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Generate melody</source>
-        <translation type="unfinished">Генерувати мелодію</translation>
+        <translation>Генерувати мелодію</translation>
     </message>
     <message>
         <source>Melody</source>
@@ -2892,7 +2892,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TsettingsDialog</name>
     <message>
         <source>application&apos;s settings</source>
-        <translation>Налаштування програми</translation>
+        <translation>налаштування програми</translation>
     </message>
     <message>
         <source>Common</source>
@@ -2900,15 +2900,16 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Score</source>
-        <translation type="unfinished"></translation>
+        <translation>Нотний
+стан</translation>
     </message>
     <message>
         <source>Instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Інструмент</translation>
     </message>
     <message>
         <source>Sound</source>
-        <translation type="unfinished"></translation>
+        <translation>Звук</translation>
     </message>
     <message>
         <source>Exercises</source>
@@ -2920,11 +2921,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Phone</source>
-        <translation type="unfinished"></translation>
+        <translation>Телефон</translation>
     </message>
     <message>
         <source>Tablet</source>
-        <translation type="unfinished"></translation>
+        <translation>Планшет</translation>
     </message>
     <message>
         <source>Simple exam settings</source>
@@ -3120,7 +3121,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>%1 was detected</source>
         <comment>note name</comment>
-        <translation type="unfinished"></translation>
+        <translation>Виявлено %1</translation>
     </message>
     <message>
         <source>It should be %1</source>
