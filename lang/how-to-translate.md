@@ -56,8 +56,8 @@
      and run the app to see the effects of the translation
 
   5. A few hints for *Qt Linguist*  
-     - To approve translated entry you can use `\[CTRL+Enter\]` - it will be automatically marked as finished.
-     - To copy original entry use `\[CTRL+b\]` and then just translate.
+     - To approve translated entry you can use `[CTRL+Enter]` - it will be automatically marked as finished.
+     - To copy original entry use `[CTRL+b]` and then just translate.
 
   6. When translation will be ready or you give up :-(, please send what you have to:  
      <seelook@gmail.com>  
