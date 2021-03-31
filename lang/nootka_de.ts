@@ -1784,6 +1784,34 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
         <comment>To translate it properly, check please meaning of &apos;tie&apos; in musical context.</comment>
         <translation>Ligatur</translation>
     </message>
+    <message>
+        <source>Click to add a new note</source>
+        <translation type="vanished">Klicken um neue Note hinzuzufügen</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
+        <translation>&lt;b&gt;Doppelkreuz&lt;/b&gt; - erhöht die Note um zwei Halbtöne (einen ganzen Ton).&lt;br&gt;Auf der Gitarre entspricht das zwei Bünden.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
+        <translation>&lt;b&gt;Kreuz&lt;/b&gt; - erhöht die Note um einen Halbton.&lt;br&gt;Auf der Gitarre entspricht das einem Bund.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
+        <translation>&lt;b&gt;Be&lt;/b&gt; - senkt die Note um einen Halbton.&lt;br&gt;Auf der Gitarre entspricht das einem Bund.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
+        <translation>&lt;b&gt;Doppelbe&lt;/b&gt; - senkt die Note um zwei Halbtöne (einen ganzen Ton).&lt;br&gt;Auf der Gitarre entspricht das zwei Bünden.</translation>
+    </message>
+    <message>
+        <source>Click %1 to remove a note</source>
+        <translation type="vanished">Klick %1 um Note zu entfernen</translation>
+    </message>
+    <message>
+        <source>Click %1 to edit note name</source>
+        <translation type="vanished">Klicke %1 um Notennamen zu ändern</translation>
+    </message>
 </context>
 <context>
     <name>Select7note</name>
@@ -3911,37 +3939,6 @@ nicht öffnen</translation>
     <message>
         <source>Analysis of exam results</source>
         <translation>Analyse der Prüfungsergebnisse</translation>
-    </message>
-</context>
-<context>
-    <name>TnoteControl</name>
-    <message>
-        <source>Click to add a new note</source>
-        <translation type="vanished">Klicken um neue Note hinzuzufügen</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
-        <translation type="vanished">&lt;b&gt;Doppelkreuz&lt;/b&gt; - erhöht die Note um zwei Halbtöne (einen ganzen Ton).&lt;br&gt;Auf der Gitarre entspricht das zwei Bünden.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
-        <translation type="vanished">&lt;b&gt;Kreuz&lt;/b&gt; - erhöht die Note um einen Halbton.&lt;br&gt;Auf der Gitarre entspricht das einem Bund.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
-        <translation type="vanished">&lt;b&gt;Be&lt;/b&gt; - senkt die Note um einen Halbton.&lt;br&gt;Auf der Gitarre entspricht das einem Bund.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
-        <translation type="vanished">&lt;b&gt;Doppelbe&lt;/b&gt; - senkt die Note um zwei Halbtöne (einen ganzen Ton).&lt;br&gt;Auf der Gitarre entspricht das zwei Bünden.</translation>
-    </message>
-    <message>
-        <source>Click %1 to remove a note</source>
-        <translation type="vanished">Klick %1 um Note zu entfernen</translation>
-    </message>
-    <message>
-        <source>Click %1 to edit note name</source>
-        <translation type="vanished">Klicke %1 um Notennamen zu ändern</translation>
     </message>
 </context>
 <context>

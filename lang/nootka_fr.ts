@@ -1615,6 +1615,34 @@ Mais mieux vaut qu&apos;ils restent courts, alors réduisez-les d&apos;abord à 
         <comment>To translate it properly, check please meaning of &apos;tie&apos; in musical context.</comment>
         <translation>liaison</translation>
     </message>
+    <message>
+        <source>Click to add a new note</source>
+        <translation type="vanished">Cliquez pour ajouter une nouvelle note</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
+        <translation>&lt;b&gt;Double dièse&lt;/b&gt; - augmente la note de deux demi-tons (un ton).&lt;br&gt;Équivaut à deux frettes vers le haut sur la guitare.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
+        <translation>&lt;b&gt;Dièse&lt;/b&gt; - augmente la note d&apos;un demi-ton.&lt;br&gt;Équivaut à une frette vers le haut sur la guitare.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
+        <translation>&lt;b&gt;Bémol&lt;/b&gt; - abaisse la note d&apos;un demi-ton.&lt;br&gt;Équivaut à une frette vers le bas sur la guitare.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
+        <translation>&lt;b&gt;Double bémol&lt;/b&gt; - abaisse la note de deux demi-tons (un ton).&lt;br&gt;Équivaut à deux frettes vers le bas sur la guitare.</translation>
+    </message>
+    <message>
+        <source>Click %1 to remove a note</source>
+        <translation type="vanished">Cliquez sur le bouton %1 pour supprimer une note</translation>
+    </message>
+    <message>
+        <source>Click %1 to edit note name</source>
+        <translation type="vanished">Cliquez sur le bouton %1 pour modifier le nom de la note</translation>
+    </message>
 </context>
 <context>
     <name>Select7note</name>
@@ -3676,37 +3704,6 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <message>
         <source>Analysis of exam results</source>
         <translation>Analyser les résultats d&apos;un examen</translation>
-    </message>
-</context>
-<context>
-    <name>TnoteControl</name>
-    <message>
-        <source>Click to add a new note</source>
-        <translation type="vanished">Cliquez pour ajouter une nouvelle note</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
-        <translation type="vanished">&lt;b&gt;Double dièse&lt;/b&gt; - augmente la note de deux demi-tons (un ton).&lt;br&gt;Équivaut à deux frettes vers le haut sur la guitare.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
-        <translation type="vanished">&lt;b&gt;Dièse&lt;/b&gt; - augmente la note d&apos;un demi-ton.&lt;br&gt;Équivaut à une frette vers le haut sur la guitare.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
-        <translation type="vanished">&lt;b&gt;Bémol&lt;/b&gt; - abaisse la note d&apos;un demi-ton.&lt;br&gt;Équivaut à une frette vers le bas sur la guitare.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
-        <translation type="vanished">&lt;b&gt;Double bémol&lt;/b&gt; - abaisse la note de deux demi-tons (un ton).&lt;br&gt;Équivaut à deux frettes vers le bas sur la guitare.</translation>
-    </message>
-    <message>
-        <source>Click %1 to remove a note</source>
-        <translation type="vanished">Cliquez sur le bouton %1 pour supprimer une note</translation>
-    </message>
-    <message>
-        <source>Click %1 to edit note name</source>
-        <translation type="vanished">Cliquez sur le bouton %1 pour modifier le nom de la note</translation>
     </message>
 </context>
 <context>

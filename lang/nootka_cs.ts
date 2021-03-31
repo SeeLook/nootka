@@ -1949,6 +1949,34 @@ Bude ale dobře, když budou úryvky krátké. Nejprve skladby rozdělte v jiné
         <comment>To translate it properly, check please meaning of &apos;tie&apos; in musical context.</comment>
         <translation>Ligatura</translation>
     </message>
+    <message>
+        <source>Click to add a new note</source>
+        <translation type="vanished">Klepněte pro přidání nové noty</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
+        <translation>&lt;b&gt;dvojitý křížek&lt;/b&gt; - zvýší notu o dva půltóny (celý tón).&lt;br&gt;Na kytaře to je o dva pražce nahoru.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
+        <translation>&lt;b&gt;křížek&lt;/b&gt; - zvýší notu o půltón.&lt;br&gt;Na kytaře to je o jeden pražec nahoru.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
+        <translation>&lt;b&gt;béčko&lt;/b&gt; - sníží notu o půltón.&lt;br&gt;Na kytaře to je o jeden pražec dolů.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
+        <translation>&lt;b&gt;dvojité béčko&lt;/b&gt; - sníží notu o dva půltóny (celý tón).&lt;br&gt;Na kytaře to je o dva pražce dolů.</translation>
+    </message>
+    <message>
+        <source>Click %1 to remove a note</source>
+        <translation type="vanished">Klepněte na %1 pro odstranění noty</translation>
+    </message>
+    <message>
+        <source>Click %1 to edit note name</source>
+        <translation type="vanished">Klepněte na %1 pro upravení názvu noty</translation>
+    </message>
 </context>
 <context>
     <name>Select7note</name>
@@ -4389,37 +4417,6 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
         <location filename="../src/libs/core/tnootkaqml.cpp" line="443"/>
         <source>Analysis of exam results</source>
         <translation>Rozbor výsledků zkoušky</translation>
-    </message>
-</context>
-<context>
-    <name>TnoteControl</name>
-    <message>
-        <source>Click to add a new note</source>
-        <translation type="vanished">Klepněte pro přidání nové noty</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
-        <translation type="vanished">&lt;b&gt;dvojitý křížek&lt;/b&gt; - zvýší notu o dva půltóny (celý tón).&lt;br&gt;Na kytaře to je o dva pražce nahoru.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
-        <translation type="vanished">&lt;b&gt;křížek&lt;/b&gt; - zvýší notu o půltón.&lt;br&gt;Na kytaře to je o jeden pražec nahoru.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
-        <translation type="vanished">&lt;b&gt;béčko&lt;/b&gt; - sníží notu o půltón.&lt;br&gt;Na kytaře to je o jeden pražec dolů.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
-        <translation type="vanished">&lt;b&gt;dvojité béčko&lt;/b&gt; - sníží notu o dva půltóny (celý tón).&lt;br&gt;Na kytaře to je o dva pražce dolů.</translation>
-    </message>
-    <message>
-        <source>Click %1 to remove a note</source>
-        <translation type="vanished">Klepněte na %1 pro odstranění noty</translation>
-    </message>
-    <message>
-        <source>Click %1 to edit note name</source>
-        <translation type="vanished">Klepněte na %1 pro upravení názvu noty</translation>
     </message>
 </context>
 <context>

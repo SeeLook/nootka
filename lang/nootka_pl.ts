@@ -2045,6 +2045,34 @@ Ale lepiej żeby były krótkie, więc podziel je najpierw w innym programie do 
         <comment>To translate it properly, check please meaning of &apos;tie&apos; in musical context.</comment>
         <translation>ligatura</translation>
     </message>
+    <message>
+        <source>Click to add a new note</source>
+        <translation type="vanished">Kliknij żeby dodać nową nutę</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
+        <translation>&lt;b&gt;podwójny krzyżyk&lt;/b&gt; - podwyższa nutę o dwa półtony (cały ton).&lt;br&gt;Na gitarze to jest dwa progi w górę.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
+        <translation>&lt;b&gt;krzyżyk&lt;/b&gt; - podwyższa nutę o pół tonu.&lt;br&gt;Na gitarze to jest jeden próg dalej.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
+        <translation>&lt;b&gt;bemol&lt;/b&gt; - obniża nutę o pół tonu.&lt;br&gt;Na gitarze jest to jeden próg mniej.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
+        <translation>&lt;b&gt;podwójny bemol&lt;/b&gt; - obniża nutę o dwa półtony (cały ton).&lt;br&gt;Na gitarze to jest dwa progi w dół.</translation>
+    </message>
+    <message>
+        <source>Click %1 to remove a note</source>
+        <translation type="vanished">Kliknij %1 żeby usunąć nutę</translation>
+    </message>
+    <message>
+        <source>Click %1 to edit note name</source>
+        <translation type="vanished">Kliknij %1 żeby edytować nazwę nuty</translation>
+    </message>
 </context>
 <context>
     <name>Select7note</name>
@@ -4495,37 +4523,6 @@ Sprawdź czy jego parametry są właściwe..</translation>
         <location filename="../src/libs/core/tnootkaqml.cpp" line="443"/>
         <source>Analysis of exam results</source>
         <translation>Analiza wyników egzaminu</translation>
-    </message>
-</context>
-<context>
-    <name>TnoteControl</name>
-    <message>
-        <source>Click to add a new note</source>
-        <translation type="vanished">Kliknij żeby dodać nową nutę</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
-        <translation type="vanished">&lt;b&gt;podwójny krzyżyk&lt;/b&gt; - podwyższa nutę o dwa półtony(cały ton).&lt;br&gt;Na gitarze to jest dwa progi w górę.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
-        <translation type="vanished">&lt;b&gt;krzyżyk&lt;/b&gt; - podwyższa nutę o pół tonu.&lt;br&gt;Na gitarze to jest jeden próg dalej.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
-        <translation type="vanished">&lt;b&gt;bemol&lt;/b&gt; - obniża nutę o pół tonu.&lt;br&gt;Na gitarze jest to jeden próg mniej.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
-        <translation type="vanished">&lt;b&gt;podwójny bemol&lt;/b&gt; - obniża nutę o dwa półtony (cały ton).&lt;br&gt;Na gitarze to jest dwa progi w dół.</translation>
-    </message>
-    <message>
-        <source>Click %1 to remove a note</source>
-        <translation type="vanished">Kliknij %1 żeby usunąć nutę</translation>
-    </message>
-    <message>
-        <source>Click %1 to edit note name</source>
-        <translation type="vanished">Kliknij %1 żeby edytować nazwę nuty</translation>
     </message>
 </context>
 <context>

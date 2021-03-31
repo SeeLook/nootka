@@ -1744,6 +1744,34 @@ Pero mejor que sean cortas, por tanto dividirlas primero con un software externo
         <comment>To translate it properly, check please meaning of &apos;tie&apos; in musical context.</comment>
         <translation>ligadura</translation>
     </message>
+    <message>
+        <source>Click to add a new note</source>
+        <translation type="vanished">Pulsar para añadir una nueva nota</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
+        <translation>&lt;b&gt;doble sostenido&lt;/b&gt; - eleva una nota dos semitonos (un tono completo).&lt;br&gt;En la guitarra es dos trastes hacia arriba.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
+        <translation>&lt;b&gt;sostenido&lt;/b&gt; - eleva una nota medio tono (un semitono).&lt;br&gt;En la guitarra es un traste hacia arriba.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
+        <translation>&lt;b&gt;bemol&lt;/b&gt; - baja una nota medio tono (un semitono).&lt;br&gt;En la guitarra es un traste hacia abajo.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
+        <translation>&lt;b&gt;doble bemol&lt;/b&gt; - baja una nota dos semitonos (un tono completo).&lt;br&gt;En la guitarra es dos trastes hacia abajo.</translation>
+    </message>
+    <message>
+        <source>Click %1 to remove a note</source>
+        <translation type="vanished">Pulsar %1 para eliminar una nota</translation>
+    </message>
+    <message>
+        <source>Click %1 to edit note name</source>
+        <translation type="vanished">Pulsar %1 para editar el nombre de nota</translation>
+    </message>
 </context>
 <context>
     <name>Select7note</name>
@@ -3877,37 +3905,6 @@ Pero mejor que sean cortas, por tanto dividirlas primero con un software externo
     <message>
         <source>Analysis of exam results</source>
         <translation>Análisis de los resultados de examen</translation>
-    </message>
-</context>
-<context>
-    <name>TnoteControl</name>
-    <message>
-        <source>Click to add a new note</source>
-        <translation type="vanished">Pulsar para añadir una nueva nota</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
-        <translation type="vanished">&lt;b&gt;doble sostenido&lt;/b&gt; - eleva una nota dos semitonos (un tono completo).&lt;br&gt;En la guitarra es dos trastes hacia arriba.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
-        <translation type="vanished">&lt;b&gt;sostenido&lt;/b&gt; - eleva una nota medio tono (un semitono).&lt;br&gt;En la guitarra es un traste hacia arriba.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
-        <translation type="vanished">&lt;b&gt;bemol&lt;/b&gt; - baja una nota medio tono (un semitono).&lt;br&gt;En la guitarra es un traste hacia abajo.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
-        <translation type="vanished">&lt;b&gt;doble bemol&lt;/b&gt; - baja una nota dos semitonos (un tono completo).&lt;br&gt;En la guitarra es dos trastes hacia abajo.</translation>
-    </message>
-    <message>
-        <source>Click %1 to remove a note</source>
-        <translation type="vanished">Pulsar %1 para eliminar una nota</translation>
-    </message>
-    <message>
-        <source>Click %1 to edit note name</source>
-        <translation type="vanished">Pulsar %1 para editar el nombre de nota</translation>
     </message>
 </context>
 <context>
