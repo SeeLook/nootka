@@ -152,6 +152,7 @@ ControlBase {
             yOffset: factor * 0.5
             font { family: "nootka"; pixelSize: factor * 2 }
             text: modelData
+            statusTip: NOO.TR("Bandoneon", index === 0 ? "Bellows is opening." : "Bellows is closing.")
             onClicked: {
               show = false
               if (scoreObj.selectedItem) {

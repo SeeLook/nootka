@@ -149,7 +149,7 @@ TbandoneonBg::TbandoneonBg(QQuickItem* parent) :
   comp.setData("import QtQuick 2.9; Rectangle { color: \"blue\"; scale: 1.2 }", QUrl());
   m_circleLeftOpen.item = createCircle(&comp);
   m_circleRightOpen.item = createCircle(&comp);
-  comp.setData("import QtQuick 2.9; Rectangle { color: \"#FFA500\"; scale: 1.2 }", QUrl());
+  comp.setData("import QtQuick 2.9; Rectangle { color: \"#FF00FF\"; scale: 1.2 }", QUrl());
   m_circleLeftClose.item = createCircle(&comp);
   m_circleRightClose.item = createCircle(&comp);
   m_circleCloseExtra.item = createCircle(&comp);
@@ -280,7 +280,7 @@ void TbandoneonBg::setNote(const Tnote& n, quint32 noteDataValue) {
           checkCircle(m_circleCloseExtra.buttonId, m_circleCloseExtra, !m_opening && !n.onUpperStaff());
         else
           checkCircle(m_circleCloseExtra.buttonId, m_circleCloseExtra, !m_opening && n.onUpperStaff());
-        m_circleCloseExtra.item->setProperty("color", QColor(255, 165, 0)); // #FFA500
+        m_circleCloseExtra.item->setProperty("color", QColor(255, 0, 255)); // #FF00FF
     } else if (chromaticNew == A3_NOTE_ID) { // occur when opening
         m_circleCloseExtra.buttonId = A3_BUTT_ID;
         checkCircle(m_circleCloseExtra.buttonId, m_circleCloseExtra, !m_closing && n.onUpperStaff());

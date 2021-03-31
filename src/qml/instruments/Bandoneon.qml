@@ -65,7 +65,7 @@ TbandoneonBg {
     x: (parent.width * 0.985 - width) / 2
     y: factor * 2
     text: opening ? "\uE610" : (closing ? "\uE612" : "")
-    color: opening ? "blue" : "#FFA500"
+    color: opening ? "blue" : "#FF00FF"
     font { family: "Nootka"; pixelSize: factor * 25 }
   }
 
@@ -114,6 +114,13 @@ TbandoneonBg {
         checkable: true
         text: "\uE610"; font { family: "Nootka"; pixelSize: height }
         color: openButt.checked ? "blue" : "gray"
+        hoverEnabled: !NOO.isAndroid()
+        onHoveredChanged: {
+          if (hovered)
+            NOO.setStatusTip(qsTr("Bellows is opening."), Item.Top)
+          else
+            NOO.setStatusTip("", Item.Top)
+        }
         onClicked: {
           opening = openButt.checked
           if (opening)
@@ -126,7 +133,14 @@ TbandoneonBg {
         checked: closing
         text: "\uE612"; font { family: "Nootka"; pixelSize: height }
         checkable: true
-        color: closeButt.checked ? "#FFA500" : "gray"
+        color: closeButt.checked ? "#FF00FF" : "gray"
+        hoverEnabled: !NOO.isAndroid()
+        onHoveredChanged: {
+          if (hovered)
+            NOO.setStatusTip(qsTr("Bellows is closing."), Item.Top)
+          else
+            NOO.setStatusTip("", Item.Top)
+        }
         onClicked: {
           closing = closeButt.checked
           if (closing)
