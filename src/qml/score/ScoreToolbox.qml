@@ -33,6 +33,12 @@ ControlBase {
   readonly property var idArray: [ 0, 1, -1, 2, 3 ]
   readonly property var rtmActions: [ scoreObj.wholeNoteAct, scoreObj.halfNoteAct,
                         scoreObj.quarterNoteAct, scoreObj.eighthNoteAct, scoreObj.sixteenthNoteAct ]
+  readonly property var accidTips: [
+    qsTr("<b>double flat</b> - lowers a note by two semitones (whole tone).<br>On the guitar it is two frets down."),
+    qsTr("<b>flat</b> - lowers a note by a half tone (semitone).<br>On the guitar it is one fret down."),
+    qsTr("<b>sharp</b> - raises a note by a half tone (semitone).<br>On the guitar it is one fret up."),
+    qsTr("<b>double sharp</b> - raises a note by two semitones (whole tone).<br>On the guitar it is two frets up."),
+  ]
 
   Component {
     id: ctrlButtonComp
@@ -65,6 +71,8 @@ ControlBase {
             selected: selectedId === index
             font { family: "scorek"; pixelSize: factor * 3 }
             text: accidGlyphs[index]
+            // HACK: '$' symbol never occurs, so for guitars it is just entire string, when for others just musical part of the text
+            statusTip: scoreObj.riseAct ? accidTips[index].split(GLOB.instrument.isGuitar ? "$" : "<br>")[0] : ""
             onClicked: scoreObj.cursorAlter = accidArray[(selectedId === index ? -1 : index) + 1]
             onEntered: hideTimer.stop()
             onExited: hideTimer.restart()
