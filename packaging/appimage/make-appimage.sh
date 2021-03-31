@@ -78,6 +78,7 @@ cp $TRANS_PATH/qtbase_hu.qm AppDir/usr/share/nootka/lang
 cp $TRANS_PATH/qtbase_it.qm AppDir/usr/share/nootka/lang
 cp $TRANS_PATH/qtbase_pl.qm AppDir/usr/share/nootka/lang
 cp $TRANS_PATH/qtbase_ru.qm AppDir/usr/share/nootka/lang
+cp $TRANS_PATH/qtbase_uk.qm AppDir/usr/share/nootka/lang
 
 # desktop integration files
 cp AppDir/usr/share/nootka/picts/nootka.png AppDir/usr/
