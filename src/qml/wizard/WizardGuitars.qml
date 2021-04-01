@@ -31,17 +31,21 @@ Column {
       spacing: NOO.factor(); leftPadding: NOO.factor()
       Repeater {
         model: 2
-        Score {
-          id: sc
-          height: Math.max(NOO.factor() * 18, nootkaWindow.height * 0.4); width: Math.max(NOO.factor() * 9, nootkaWindow.height * 0.2)
-          bgColor: "transparent"
-          meter: Tmeter.NoMeter
-          readOnly: true
-          clef: index === 1 ? Tclef.Treble_G_8down : Tclef.Treble_G
-          scoreObj.showNoteNames: true
-          scoreObj.nameColor: GLOB.nameColor
-          scoreObj.nameStyle: GLOB.noteNameStyle
-          Component.onCompleted: addNote(NOO.note(1, 1, 0, Trhythm.NoRhythm))
+        Item {
+          width: sc.width; height: sc.height * 0.5
+          Score {
+            id: sc
+            y: -height * 0.3
+            height: Math.max(NOO.factor() * 18, nootkaWindow.height * 0.4); width: Math.max(NOO.factor() * 9, nootkaWindow.height * 0.2)
+            bgColor: "transparent"
+            meter: Tmeter.NoMeter
+            readOnly: true
+            clef: index === 1 ? Tclef.Treble_G_8down : Tclef.Treble_G
+            scoreObj.showNoteNames: true
+            scoreObj.nameColor: GLOB.nameColor
+            scoreObj.nameStyle: GLOB.noteNameStyle
+            Component.onCompleted: addNote(NOO.note(1, 1, 0, Trhythm.NoRhythm))
+          }
         }
       }
     }
