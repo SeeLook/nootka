@@ -60,25 +60,22 @@ Tflickable {
     if (instrDetails !== null)
       instrDetails.destroy()
 
-    if (nootkaWindow.instrument === 0) {
-        var c = Qt.createComponent("qrc:/wizard/WizardOther.qml")
-        instrDetails = c.createObject(mainItem)
-    } else if (nootkaWindow.instrument === 1 || nootkaWindow.instrument === 2) {
-        var c = Qt.createComponent("qrc:/wizard/WizardGuitars.qml")
-        instrDetails = c.createObject(mainItem)
-    } else if (nootkaWindow.instrument === 3) {
-        var c = Qt.createComponent("qrc:/wizard/WizardBass.qml")
-        instrDetails = c.createObject(mainItem)
-    } else if (nootkaWindow.instrument === 4) {
-        var c = Qt.createComponent("qrc:/wizard/WizardPiano.qml")
-        instrDetails = c.createObject(mainItem)
-    } else if (nootkaWindow.instrument === 5) {
-        var c = Qt.createComponent("qrc:/wizard/WizardBando.qml")
-        instrDetails = c.createObject(mainItem)
-    } else if (nootkaWindow.instrument === 6 || nootkaWindow.instrument === 7) {
-        var c = Qt.createComponent("qrc:/wizard/WizardSax.qml")
-        instrDetails = c.createObject(mainItem)
+    var instrQML = "WizardOther";
+    switch (nootkaWindow.instrument) {
+      case 1:
+      case 2:
+        instrQML = "WizardGuitars"; break;
+      case 3:
+        instrQML = "WizardBass"; break;
+      case 4:
+        instrQML = "WizardPiano"; break;
+      case 5:
+        instrQML = "WizardBando"; break;
+      case 6:
+      case 7:
+        instrQML = "WizardSax"; break;
     }
+    instrDetails = Qt.createComponent("qrc:/wizard/" + instrQML +".qml").createObject(mainItem)
   }
 
   Connections {
