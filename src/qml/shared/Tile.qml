@@ -18,7 +18,7 @@ BorderImage {
   anchors.horizontalCenter: parent ? parent.horizontalCenter : undefined
 
   width: parent.width
-  height: (descText.text === "" ? 0 : descText.height) + container.height + NOO.factor() * 2.5
+  height: (descText.text === "" ? 0 : descText.height + NOO.factor()) + container.height + NOO.factor() * (NOO.isAndroid() ? 1.5 : 2.5)
 
   Rectangle { // background
     id: bg
@@ -37,28 +37,28 @@ BorderImage {
   source: NOO.pix("tipbg")
 
   Column {
-      spacing: NOO.factor() / 2
-      width: parent.width
+    spacing: NOO.factor() / 2
+    width: parent.width
 
-      Item { width: parent.width; height: NOO.factor() / 2 } // spacer
+    Item { width: parent.width; height: NOO.factor() * (NOO.isAndroid() ? 0.25 : 0.5) } // spacer
 
-      Item {
-        id: container
-        width: parent.width - NOO.factor()
-        height: childrenRect.height
-      }
+    Item {
+      id: container
+      width: parent.width - NOO.factor()
+      height: childrenRect.height
+    }
 
-      Text {
-        id: descText
-        anchors.bottom: parent.Bottom
-        anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width * 0.96
-        font.pixelSize: NOO.factor() * 0.8
-        textFormat: Text.RichText
-        horizontalAlignment: Text.AlignHCenter
-        color: enabled ? activPal.text : disdPal.text
-        wrapMode: Text.WordWrap
-      }
-
+    Text {
+      id: descText
+      anchors.bottom: parent.Bottom
+      anchors.horizontalCenter: parent.horizontalCenter
+      width: parent.width * 0.96
+      font.pixelSize: NOO.factor() * 0.8
+      textFormat: Text.RichText
+      horizontalAlignment: Text.AlignHCenter
+      color: enabled ? activPal.text : disdPal.text
+      wrapMode: Text.WordWrap
+    }
   }
+
 }
