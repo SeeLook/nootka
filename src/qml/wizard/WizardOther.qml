@@ -22,7 +22,7 @@ Column {
 
   Text {
     width: parent.width
-    font { pixelSize: NOO.factor() * 2; bold: true }
+    font { pixelSize: NOO.factor() * (NOO.isAndroid() ? 1.2 : 1.5); bold: true }
     wrapMode: Text.WordWrap
     horizontalAlignment: Text.AlignHCenter
     color: activPal.text

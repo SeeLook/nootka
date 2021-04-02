@@ -43,19 +43,19 @@ Tflickable {
       bgBorder { width: 2; color: singleRadio.checked ? nootkaWindow.labelColor : activPal.text }
       Column {
         anchors.horizontalCenter: parent.horizontalCenter
-        spacing: NOO.factor()
+        spacing: NOO.factor() * (NOO.isAndroid() ? 0.25 : 1)
         TradioButton {
           id: singleRadio
           anchors.horizontalCenter: parent.horizontalCenter
           text: " <b>" + NOO.TR("ScorePage", "use single note only") + "</b>"
-          checked: true; textScale: checked ? 1.3 : 1.1
+          checked: true; textScale: NOO.isAndroid() ? 1 : (checked ? 1.3 : 1.1)
           ButtonGroup.group: modeGr
         }
         LinkText {
           anchors.horizontalCenter: parent.horizontalCenter
           text: qsTr("For beginners, when you don't know musical notation at all.")
         }
-        Rectangle {
+        GlowRect {
           anchors.horizontalCenter: parent.horizontalCenter
           z: 1; color: activPal.window; radius: NOO.factor() / 2
           width: singleRow.width + NOO.factor(); height: singleRow.height + NOO.factor()
@@ -65,11 +65,11 @@ Tflickable {
             spacing: NOO.factor() * 2
             Rectangle {
               color: activPal.base
-              width: singleScore.width; height: singleScore.height * 0.7
+              width: singleScore.width; height: singleScore.height * 0.5
               Score {
                 id: singleScore
                 height: Math.max(NOO.factor() * 15, nootkaWindow.height * 0.3); width: Math.max(NOO.factor() * 10, nootkaWindow.height * 0.16)
-                y: -height * 0.2
+                y: -height * 0.3
                 bgColor: "transparent"
                 scoreObj.editMode: false
                 meter: Tmeter.NoMeter
@@ -79,7 +79,7 @@ Tflickable {
               }
             }
             Column {
-              spacing: NOO.factor()
+              spacing: NOO.factor() / 2
               Rectangle {
                 color: activPal.base
                 width: wizardMode.width * 0.3; height: singleScore.height * 0.2
@@ -132,12 +132,12 @@ Tflickable {
       bgBorder { width: 2; color: simpleRadio.checked ? nootkaWindow.labelColor : activPal.text }
       Column {
         anchors.horizontalCenter: parent.horizontalCenter
-        spacing: NOO.factor()
+        spacing: NOO.factor() * (NOO.isAndroid() ? 0.25 : 1)
         TradioButton {
           id: simpleRadio
           anchors.horizontalCenter: parent.horizontalCenter
           text: " <b>" + qsTr("score without rhythms") + "</b>"
-          ButtonGroup.group: modeGr; textScale: checked ? 1.3 : 1.1
+          ButtonGroup.group: modeGr; textScale: NOO.isAndroid() ? 1 : (checked ? 1.3 : 1.1)
         }
         LinkText {
           width: wizardMode.width - NOO.factor() * 3; wrapMode: Text.WordWrap
@@ -145,14 +145,14 @@ Tflickable {
           anchors.horizontalCenter: parent.horizontalCenter
           text: qsTr("When you already know musical notation a little but you cannot play your instrument fluently yet.")
         }
-        Rectangle {
+        GlowRect {
           color: activPal.base
-          width: simpleScore.width; height: simpleScore.height * 0.6
+          width: simpleScore.width; height: simpleScore.height * 0.6; radius: NOO.factor() / 2
           z: 1
           anchors.horizontalCenter: parent.horizontalCenter
           Score {
             id: simpleScore
-            height: Math.max(NOO.factor() * 10, nootkaWindow.height * 0.35); width: height * 1.8
+            height: Math.max(NOO.factor() * 8, nootkaWindow.height * 0.25); width: height * 1.8
             y: -height * 0.25
             bgColor: "transparent"
             scoreObj.editMode: false; scoreObj.showNoteNames: true
@@ -177,22 +177,22 @@ Tflickable {
       bgBorder { width: 2; color: fullRadio.checked ? nootkaWindow.labelColor : activPal.text }
       Column {
         anchors.horizontalCenter: parent.horizontalCenter
-        spacing: NOO.factor()
+        spacing: NOO.factor() * (NOO.isAndroid() ? 0.25 : 1)
         TradioButton {
           id: fullRadio
           z: 2
           anchors.horizontalCenter: parent.horizontalCenter
           text: " <b>" + qsTr("full notation") + "</b>"
-          ButtonGroup.group: modeGr; textScale: checked ? 1.3 : 1.1
+          ButtonGroup.group: modeGr; textScale: NOO.isAndroid() ? 1 : (checked ? 1.3 : 1.1)
         }
-        Rectangle {
+        GlowRect {
           color: activPal.base
           z: 1
-          width: fullScore.width; height: fullScore.height * 0.6
+          width: fullScore.width; height: fullScore.height * 0.6; radius: NOO.factor() / 2
           anchors.horizontalCenter: parent.horizontalCenter
           Score {
             id: fullScore
-            height: Math.max(NOO.factor() * 10, nootkaWindow.height * 0.35); width: height * 1.8
+            height: Math.max(NOO.factor() * 8, nootkaWindow.height * 0.25); width: height * 1.8
             y: -height * 0.25
             bgColor: "transparent"
             scoreObj.editMode: false; scoreObj.showNoteNames: true

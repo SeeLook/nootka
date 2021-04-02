@@ -10,9 +10,9 @@ import "../score"
 
 
 Column {
-  spacing: NOO.factor()
+  spacing: NOO.factor() * (NOO.isAndroid() ? 1 : 3)
   anchors.horizontalCenter: parent.horizontalCenter
-  width: parent.width - NOO.factor() * 2
+  width: parent.width
 
   Text {
     anchors.horizontalCenter: parent.horizontalCenter
@@ -24,27 +24,31 @@ Column {
   }
 
   Tile {
-    width: score.width + parent.width * 0.05
+    width: score.width + NOO.factor() * 2
     bgColor: nootkaWindow.bgColor
     bgBorder { width: 2; color: nootkaWindow.labelColor }
-    Score {
-      id: score
-      height: Math.max(NOO.factor() * 18, nootkaWindow.height * 0.4); width: Math.max(NOO.factor() * 40, nootkaWindow.height * 0.8)
+    Item {
+      width: score.width; height: score.height * 0.8
       anchors.horizontalCenter: parent.horizontalCenter
-      bgColor: "transparent"
-      scoreObj.editMode: false
-      scoreObj.showNoteNames: true
-      scoreObj.nameColor: GLOB.nameColor
-      scoreObj.nameStyle: GLOB.noteNameStyle
-      clef: Tclef.PianoStaffClefs
-      Component.onCompleted: {
-        for (var n = 1; n < 8; ++n)
-          addNote(NOO.setUpperStaff(NOO.note(n, 0, 0, 5), false))
-        addNote(NOO.setUpperStaff(NOO.note(1, 1, 0, 5), false))
-        for (var n = 1; n < 8; ++n)
-          addNote(NOO.note(n, 1, 0, 5))
-        addNote(NOO.note(1, 2, 0, 5))
+      Score {
+        id: score
+        y: -height * 0.15
+        height: Math.max(NOO.factor() * 15, nootkaWindow.height * 0.35); width: height * 1.6
+        bgColor: "transparent"
+        scoreObj.editMode: false
+        scoreObj.showNoteNames: true
+        scoreObj.nameColor: GLOB.nameColor
+        scoreObj.nameStyle: GLOB.noteNameStyle
+        clef: Tclef.PianoStaffClefs
+        Component.onCompleted: {
+          for (var n = 1; n < 8; ++n)
+            addNote(NOO.setUpperStaff(NOO.note(n, 0, 0, 5), false))
+          addNote(NOO.setUpperStaff(NOO.note(1, 1, 0, 5), false))
+          for (var n = 1; n < 8; ++n)
+            addNote(NOO.note(n, 1, 0, 5))
+          addNote(NOO.note(1, 2, 0, 5))
 
+        }
       }
     }
   }

@@ -26,12 +26,12 @@ Tflickable {
   Column {
     id: optCol
     width: parent.width
-    spacing: NOO.factor() * 2
+    spacing: NOO.factor() * (NOO.isAndroid() ? 1 : 2)
     y: Math.max(0, (wizardOpts.height - height) / 2)
 
     Text {
       width: parent.width
-      font { pixelSize: NOO.factor() * 2; bold: true }
+      font { pixelSize: NOO.factor() * (NOO.isAndroid() ? 1.2 : 1.5); bold: true }
       wrapMode: Text.WordWrap
       horizontalAlignment: Text.AlignHCenter
       color: activPal.text
@@ -65,7 +65,7 @@ Tflickable {
       width: innerCol.width + NOO.factor() * 4
       Column {
         id: innerCol
-        spacing: NOO.factor()
+        spacing: NOO.factor() * (NOO.isAndroid() ? 0.5 : 1)
         anchors.horizontalCenter: parent.horizontalCenter
         TcheckBox {
           id: dblAccidsChB
