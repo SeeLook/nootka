@@ -12,6 +12,8 @@ import "../score"
 
 
 Flickable {
+  id: instrPage
+
   clip: true
   width: parent.width
   height: parent.height
@@ -95,13 +97,16 @@ Flickable {
             model: GLOB.instrument.bassGuitar ? NOO.bassTunings() : NOO.guitarTunings()
           }
         }
-        Item {
-          height: NOO.factor() * 18
-          width: Math.min(parent.width * 0.9, NOO.factor() * (instrSel.instrument === 0 ? 14 : 28))
+        GlowRect {
+          height: score.height; width: score.width +  NOO.factor(); radius: NOO.factor() / 2
+          color: activPal.base
           anchors.horizontalCenter: parent.horizontalCenter
           Score {
             id: score
-            anchors.fill: parent
+            anchors.horizontalCenter: parent.horizontalCenter
+            height: NOO.factor() * 18
+            width: Math.min(instrPage.width * 0.9, NOO.factor() * (instrSel.instrument === 0 ? 14 : 28))
+            bgColor: "transparent"
             meter: Tmeter.NoMeter
             scoreObj.onClicked: tuningCombo.currentIndex = tuningCombo.count - 1
             scoreObj.editMode: true
