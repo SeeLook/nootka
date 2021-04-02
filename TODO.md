@@ -8,10 +8,11 @@
 ============================================================================
 
 ### Bugs to fix:
+  - Actions after displaying certificate are messy
+  - Exam summary may not fit the window.
   - Exams: For non guitars single note question "give name of:" has nothing more
   - playing with metronome doesn't work under Android
   - older Android versions (below 7.1, 4.4 for sure) doesn't detect/load default translation
-  - decrease height of some wizard elemnts (texts, scores)
 
 ### To test:
   - melodies with ties and multiple rests (either playing or writing)
@@ -34,6 +35,7 @@
 ### For next stable Nootka version 2.2 and up
   - migrate on preferred 48000 sample rate (ogg files and audio methods). DO NOT forget to resize output samples length
   - MIDI input & revert MIDI out of course
+  - storing custom tuning with user name. Import/export tuning in XML files
   - add rests option for random melodies in exams
   - implement repeating a melody that was heard
   - adding set of rhythm patterns for melodies generated from random notes (similar to melody list)
@@ -43,6 +45,7 @@
   - adding actually edited score melody to current level
   - editing melody from currently selected/composed level
   - add score helpers: transposition, folding ties
+  - add ukulele support.
   - add violin support and revert pitch accuracy check.
     It has less usage for currently supported instruments, but for violin can be perfect
   - support for triplets
