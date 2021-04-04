@@ -79,7 +79,8 @@ void debugStyle(TQAunit &qa) {
  * but when such a file exists in current exam directory some time mark is added.
  */
 QString getExamFileName(Texam* e) {
-  QString fName = QDir::toNativeSeparators(GLOB->E->examsDir + QLatin1String("/") + e->userName() + QLatin1String("-") + e->level()->name);
+  auto fName = QDir::toNativeSeparators(GLOB->E->examsDir + QLatin1String("/") + e->userName() + QLatin1String("-") + e->level()->name);
+  fName = fName.replace(QLatin1String("."), QLatin1String("")); //HACK: file dialogues don't like dots in the names
   if (QFileInfo::exists(fName  + QLatin1String(".noo")))
     fName += QLatin1String("-") + QDateTime::currentDateTime().toString(QLatin1String("(dd-MMM-hhmmss)"));
   return fName;
@@ -1700,7 +1701,6 @@ void TexamExecutor::noteOfMelodyFinished(const TnoteStruct& n) {
         if (currNote && GLOB->instrument().isFadeOut() && currNote->duration > 1.5)
           m_melody->currentNote()->duration += n.duration;
         doSetNote = false;
-        qDebug() << "=== skip rest finished";
       }
     }
     if (doSetNote)

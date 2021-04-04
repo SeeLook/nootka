@@ -205,14 +205,13 @@ void TnootkaCertificate::paint(QPainter* painter) {
 
 
 void TnootkaCertificate::save() {
+  auto userLevel = m_exam->userName() + QLatin1String("-") + m_exam->level()->name;
+  userLevel = userLevel.replace(QLatin1String("."), QLatin1String("")); //HACK: file dialogues don't like dots in the names
 #if defined (Q_OS_ANDROID)
-  QString fileName = TfileDialog::getSaveFileName(Tandroid::getExternalPath() + QLatin1String("/")
-                                                  + m_exam->userName() + QLatin1String("-") + m_exam->level()->name,
-                                                  QStringLiteral("pdf"));
+  QString fileName = TfileDialog::getSaveFileName(Tandroid::getExternalPath() + QLatin1String("/") + userLevel, QStringLiteral("pdf"));
 #else
   QString fileName = TfileDialog::getSaveFileName(tr("Save certificate"),
-          QDir::toNativeSeparators(QDir::homePath() + QLatin1String("/") + m_exam->userName() + QLatin1String("-") + m_exam->level()->name),
-                                                  QStringLiteral(" (*.pdf)"));
+          QDir::toNativeSeparators(QDir::homePath() + QLatin1String("/") + userLevel), QStringLiteral(" (*.pdf)"));
 #endif
   if (fileName.isEmpty())
     return;
