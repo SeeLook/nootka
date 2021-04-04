@@ -5,19 +5,19 @@
     <name>AboutPage</name>
     <message>
         <source>Welcome on board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.&lt;br&gt;It is specially designed for guitarists but others will find many usable features as well.</source>
-        <translation type="vanished">Willkommen an bord.&lt;br&gt;Nootka ist eine Open Source Anwendung zum lernen (und lehren) der klassischen Notenschrift (Notation).&lt;br&gt;Es ist besonders für Gitarristen geeignet, enthält aber auch für andere Anwender nützliche Funktionen.</translation>
+        <translation type="vanished">Willkommen an Bord.&lt;br&gt;Nootka ist eine Open-Source-Anwendung zum Erlernen (und Lehren) der klassischen Notenschrift (Notation).&lt;br&gt;Es ist besonders für Gitarristen geeignet, enthält aber auch für andere Anwender nützliche Funktionen.</translation>
     </message>
     <message>
         <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
-        <translation>Dies ist eine Betaversion und könnte Bugs enthalten oder sich merkwürdig verhalten. Einige Funktionen sind noch nicht vollständig.&lt;br&gt;Abgesehen davon bist du herzlich eingeladen sie auszuprobieren!</translation>
+        <translation>Dies ist eine Betaversion und sie könnte Fehler (bugs) enthalten oder sich merkwürdig verhalten. Einige Funktionen sind noch nicht vollständig.&lt;br&gt;Abgesehen davon bist du herzlich eingeladen, sie auszuprobieren!</translation>
     </message>
     <message>
         <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
-        <translation type="vanished">Besuche &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt;für Details und weitere Releases.&lt;/p&gt;&lt;p&gt;Alle Bugs, Vorschläge, Übersetzungen usw, bitte hierher senden: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;hochachtungsvoll&lt;br&gt;Author</translation>
+        <translation type="vanished">Besuche &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt;, um detailierte Informationen und weitere Releases zu finden.&lt;/p&gt;&lt;p&gt;Alle Bugs, Vorschläge, Übersetzungen usw, bitte senden an: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;hochachtungsvoll&lt;br&gt;Author</translation>
     </message>
     <message>
         <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
-        <translation type="vanished">&lt;br&gt;Um diese Projekt zu unterstützen und eine Infektion deines PCs zu vermeiden&lt;br&gt;&lt;b&gt;benutz BITTE die ofizielle Projektseite für Downloads, Updates, News und neue Releases.&lt;/b&gt;</translation>
+        <translation type="vanished">&lt;br&gt;Um dieses Projekt zu unterstützen und eine Infektion deines PCs zu vermeiden,&lt;br&gt;&lt;b&gt;benutze BITTE die ofizielle Projektseite für Downloads, Updates, Neuigkeiten und neue Releases.&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Welcome on the board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.</source>
@@ -230,11 +230,11 @@
     </message>
     <message>
         <source>Press %1 button to select an exam from a file.</source>
-        <translation>%1 Button Drücken um eine Prüfung aus einer Datei zu öffnen.</translation>
+        <translation>%1 Knopf drücken, um eine Prüfung aus einer Datei zu öffnen.</translation>
     </message>
     <message>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
-        <translation>Benutze %1 + Mausrad oder %2 Buttons um Diagramm zu zoomen.</translation>
+        <translation>Benutze %1 + Mausrad oder %2 Knöpfe, um Diagramm zu zoomen.</translation>
     </message>
     <message>
         <source>Questions number</source>
@@ -621,7 +621,7 @@
     </message>
     <message>
         <source>When an answer is the name of a note &lt;b&gt;first select a proper accidental and an octave&lt;/b&gt; and then click a note button - this automatically invokes checking.</source>
-        <translation>Wenn die Antwort aus einem Notennamen besteht,&lt;b&gt;wähle zuerst das Vorzeichen und die Oktave aus&lt;/b&gt; und klicke dann auf den Notenbutton - dadurch wird automatisch die Korrektur gestartet.</translation>
+        <translation>Wenn die Antwort aus einem Notennamen besteht,&lt;b&gt;wähle zuerst das Vorzeichen und die Oktave aus&lt;/b&gt; und klicke dann auf den Notenknopf - dadurch wird automatisch die Korrektur gestartet.</translation>
     </message>
     <message>
         <source>When you have to play a note as an answer - the first detected sound will be taken, so be sure that your input device captures exactly what you want.</source>
@@ -698,7 +698,7 @@ Check answer just after last note of melody was played.</translatorcomment>
     </message>
     <message>
         <source>Restore all default settings</source>
-        <translation>Standarteinstellungen wiederherstellen</translation>
+        <translation>Standardeinstellungen wiederherstellen</translation>
     </message>
     <message>
         <source>default</source>
@@ -794,7 +794,7 @@ Check answer just after last note of melody was played.</translatorcomment>
     </message>
     <message>
         <source>scale of an instrument</source>
-        <translation>Tonleiter von einem Instrument</translation>
+        <translation>Tonleiter des Instruments</translation>
     </message>
     <message>
         <source>Select appropriate tuning from the list or prepare your own.</source>
@@ -2180,7 +2180,7 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     </message>
     <message>
         <source>or send email for an account number</source>
-        <translation>oder per Mail Kontoverbindung anfordern</translation>
+        <translation>oder per E-Mail Kontoverbindung anfordern</translation>
     </message>
     <message>
         <source>You also can help with making Nootka better.</source>
@@ -2824,7 +2824,7 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     </message>
     <message>
         <source>You can every time click button %1 to pause or stop exercising and to see your results.</source>
-        <translation>Du kannst jederzeit den %1 Button drücken um die Übung zu unterbrechen und die Ergebnisse zu sehen.</translation>
+        <translation>Du kannst jederzeit den %1 Knopf drücken, um die Übung zu unterbrechen und die Ergebnisse zu sehen.</translation>
     </message>
     <message>
         <source>Exams</source>
@@ -2848,7 +2848,7 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     </message>
     <message>
         <source>click %1 button</source>
-        <translation>%1 Button klicken</translation>
+        <translation>%1 Knopf klicken</translation>
     </message>
     <message>
         <source>To get question</source>
@@ -2872,7 +2872,7 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     </message>
     <message>
         <source>Click %1 button to stop.</source>
-        <translation>Klick %1 Button zum Anhalten.</translation>
+        <translation>Klick %1 Knopf zum Anhalten.</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -2880,7 +2880,7 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     </message>
     <message>
         <source>Just click this settings button to adjust an exercise or an exam to your current needs.</source>
-        <translation>Klicke den Einstellungs-Button um die Übung auf deine Bedürfnisse anzupassen.</translation>
+        <translation>Klicke den Einstellungs-Knopf, um die Übung auf deine Bedürfnisse anzupassen.</translation>
     </message>
     <message>
         <source>check answers without requiring confirmation</source>
@@ -3202,7 +3202,7 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     <name>Tinstrument</name>
     <message>
         <source>other instrument</source>
-        <translation>anders Instrument</translation>
+        <translation>anderes Instrument</translation>
     </message>
     <message>
         <source>Classical Guitar</source>
@@ -3646,7 +3646,7 @@ nicht öffnen</translation>
     <name>TmainHelp</name>
     <message>
         <source>Much depends on the chosen level. Press %1 button to create your own questions set (a level).</source>
-        <translation>Viel hängt von den Fragen ab. Drücke den %1 Button um ein Level mit eigenen Fragen zu erstellen.</translation>
+        <translation>Viel hängt von den Fragen ab. Drücke den %1 Knopf, um ein Level mit eigenen Fragen zu erstellen.</translation>
     </message>
     <message>
         <source>Select a level and warm up yourself exercising. Then try to pass an exam.</source>
@@ -3679,7 +3679,7 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>Press %1 buttons to see help and %2 button to adjust Nootka to your preference.</source>
-        <translation>Drücke %1 für Hilfe und den %2 Button um Nootka für deine Bedürfnisse anzupassen.</translation>
+        <translation>Drücke %1 für Hilfe und den %2 Knopf, um Nootka für deine Bedürfnisse anzupassen.</translation>
     </message>
     <message>
         <source>II. Exercises and exams</source>

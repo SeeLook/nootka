@@ -5527,7 +5527,7 @@ nutowy</translation>
     <message>
         <location filename="../src/qml/wizard/WizardGuitars.qml" line="22"/>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below &lt;br&gt;(even if some editors are forgetting about this digit).&lt;br&gt;Try to understand this.</source>
-        <translation>Zapis gitarowy używa klucza wiolinowego z cyfrą &quot;osiem&quot; poniżej&lt;br&gt;(nawet jeżeli niektórzy wydawcy o tej cyfrze zapominają).&lt;br&gt;Spróbuj to zrozumieć.</translation>
+        <translation>Zapis gitarowy używa klucza wiolinowego z cyfrą „osiem” poniżej&lt;br&gt;(nawet jeżeli niektórzy wydawcy o tej cyfrze zapominają).&lt;br&gt;Spróbuj to zrozumieć.</translation>
     </message>
     <message>
         <location filename="../src/qml/wizard/WizardGuitars.qml" line="54"/>
