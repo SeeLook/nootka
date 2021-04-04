@@ -117,7 +117,9 @@ TbandoneonBg {
         hoverEnabled: !NOO.isAndroid()
         onHoveredChanged: {
           if (hovered)
-            NOO.setStatusTip(qsTr("Bellows is opening."), Item.Top)
+            NOO.setStatusTip(qsTr("Bellows is opening.",
+                "Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than 'opening'"),
+                Item.Top)
           else
             NOO.setStatusTip("", Item.Top)
         }
@@ -137,7 +139,9 @@ TbandoneonBg {
         hoverEnabled: !NOO.isAndroid()
         onHoveredChanged: {
           if (hovered)
-            NOO.setStatusTip(qsTr("Bellows is closing."), Item.Top)
+            NOO.setStatusTip(qsTr("Bellows is closing.",
+                "Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than 'closing'"),
+                Item.Top)
           else
             NOO.setStatusTip("", Item.Top)
         }
