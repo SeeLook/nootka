@@ -275,6 +275,10 @@ int main(int argc, char *argv[])
                                     QStringLiteral("Minimal note volume to be pitch detected in percents.\n"),
                                     QStringLiteral("20-80"));
         cmd.addOption(minVolOpt);
+        QCommandLineOption clefOpt(QStringList() << QStringLiteral("clef") << QStringLiteral("c"),
+                                     QStringLiteral("Clef for score. See Tclef class (tclef.h)\n"),
+                                     QStringLiteral("number (power of 2)"));
+        cmd.addOption(clefOpt);
 
         /** Option below is handled internally by @p TnootkaQML. */
         cmd.addOptions({{ QStringLiteral("no-version"), QStringLiteral("Do not display app version.\n")}});
@@ -301,6 +305,8 @@ int main(int argc, char *argv[])
               GLOB->setMinVolume(static_cast<qreal>(qBound(20, cmd.value(minVolOpt).toInt(), 80)) / 100.0);
             if (cmd.isSet(audioFileOpt))
               TaudioAnalyzeItem::processAudioFile(cmd.value(audioFileOpt));
+            if (cmd.isSet(clefOpt))
+              GLOB->setClefType(cmd.value(clefOpt).toInt());
         } else
             nooObj->openFile(QString::fromLocal8Bit(argv[argc - 1]));
       }
