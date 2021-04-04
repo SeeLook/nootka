@@ -110,8 +110,8 @@ TaudioAnalyzeItem {
     Text {
       id: contText
       anchors.centerIn: parent
-      color: activPal.text
-      text: tip.mD ? tip.nr + "\nnote: " + tip.mD.note + "\nvolume: " + tip.mD.vol + "\ndynamic: " + tip.mD.energy : ""
+      color: activPal.text; textFormat: Text.StyledText
+      text: tip.mD ? tip.nr + "<br>note: " + tip.mD.note + "<br>volume: " + tip.mD.vol + "<br>dynamic: " + tip.mD.energy : ""
     }
   }
 

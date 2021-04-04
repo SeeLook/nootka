@@ -56,7 +56,8 @@ void TaudioAnalyzeItem::volumeSlot() {
   if (m_sniffer->finder()->chunkPitch() > 0.0)
     n.fromMidi(qRound(m_sniffer->finder()->chunkPitch()));
   emit dataReady(m_sniffer->pcmVolume(), m_sniffer->finder()->energy(), m_sniffer->finder()->isOnSet(),
-                 n.isValid() ? QString("%1 [%2]").arg(m_sniffer->finder()->chunkPitch()).arg(n.toText()) : QString());
+                 (n.isValid() ? QString("%1 <b>[%2]</b>").arg(m_sniffer->finder()->chunkPitch()).arg(n.toText()) : QString())
+                 + QString(" ID: %1").arg(m_sniffer->finder()->currentNoteId()));
 }
 
 
