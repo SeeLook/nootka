@@ -1,7 +1,9 @@
 1.7.5 devel
      - when window is not enough wide instrument can be scrolled
+     - screen rotation is supported
+     - settings/level/about can change content layout to fit size
     ANDROID
-     - new way of zooming instrument to select note on it
+     - improved way of zooming instrument to select note on it
 
 1.7.4 beta4
      - 'Got It!' texts about important Nootka features
