@@ -168,31 +168,31 @@ Popup {
       }
       Rectangle { color: activPal.text; width: parent.width; height: 1; y: parent.height + NOO.factor() / 4 - 1 }
     }
-    Rectangle {
-      visible: NOO.isAndroid()
-      width: parent.width
-      height: NOO.factor() * 2.8
-      anchors.horizontalCenter: parent.horizontalCenter
-      color: ma2.containsPress ? NOO.alpha(activPal.highlight, 50) : "transparent"
-      Text {
-        anchors.verticalCenter: parent.verticalCenter
-        text: "\u018f"; font { family: "Nootka"; pixelSize: NOO.factor() * 2.5 }
-        color: SOUND.tickDuringPlay ? "#00a0a0" : activPal.text
-      }
-      Text {
-        anchors.verticalCenter: parent.verticalCenter
-        x: NOO.factor() * 4; font.pixelSize: NOO.factor()
-        text: NOO.TR("TempoBar", "Audible metronome")
-      }
-      MouseArea {
-        id: ma2
-        anchors.fill: parent
-        onClicked: SOUND.tickDuringPlay = !SOUND.tickDuringPlay
-        onPressAndHold: NOO.setStatusTip(NOO.TR("TempoBar", "Audible metronome") + ".<br>" + NOO.TR("TempoBar", "Use earphones! Otherwise ticking will disturb proper pitch detection!"))
-        onReleased: NOO.setStatusTip("")
-      }
-      Rectangle { color: activPal.text; width: parent.width; height: 1; anchors.bottom: parent.bottom }
-    }
+    //Rectangle { TODO: Not yet implemented under Android
+      //visible: NOO.isAndroid()
+      //width: parent.width
+      //height: NOO.factor() * 2.8
+      //anchors.horizontalCenter: parent.horizontalCenter
+      //color: ma2.containsPress ? NOO.alpha(activPal.highlight, 50) : "transparent"
+      //Text {
+        //anchors.verticalCenter: parent.verticalCenter
+        //text: "\u018f"; font { family: "Nootka"; pixelSize: NOO.factor() * 2.5 }
+        //color: SOUND.tickDuringPlay ? "#00a0a0" : activPal.text
+      //}
+      //Text {
+        //anchors.verticalCenter: parent.verticalCenter
+        //x: NOO.factor() * 4; font.pixelSize: NOO.factor()
+        //text: NOO.TR("TempoBar", "Audible metronome")
+      //}
+      //MouseArea {
+        //id: ma2
+        //anchors.fill: parent
+        //onClicked: SOUND.tickDuringPlay = !SOUND.tickDuringPlay
+        //onPressAndHold: NOO.setStatusTip(NOO.TR("TempoBar", "Audible metronome") + ".<br>" + NOO.TR("TempoBar", "Use earphones! Otherwise ticking will disturb proper pitch detection!"))
+        //onReleased: NOO.setStatusTip("")
+      //}
+      //Rectangle { color: activPal.text; width: parent.width; height: 1; anchors.bottom: parent.bottom }
+    //}
 
     Item {
       ButtonGroup { buttons: radioRow.children }
