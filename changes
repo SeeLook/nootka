@@ -1,9 +1,11 @@
 1.7.5 devel
      - when window is not enough wide instrument can be scrolled
-     - screen rotation is supported
      - settings/level/about can change content layout to fit size
+     - initial translation into Ukrainian language
+     - updated translations (cs, es, de, fr, it, pl)
     ANDROID
      - improved way of zooming instrument to select note on it
+     - screen rotation is supported
 
 1.7.4 beta4
      - 'Got It!' texts about important Nootka features
