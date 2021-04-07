@@ -428,6 +428,19 @@
     </message>
 </context>
 <context>
+    <name>Bandoneon</name>
+    <message>
+        <source>Bellows is opening.</source>
+        <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;opening&apos;</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bellows is closing.</source>
+        <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;closing&apos;</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Certificate</name>
     <message>
         <source>Stop exam</source>
@@ -1003,6 +1016,14 @@
     <message>
         <source>Play popular, simple melodies on your instrument.</source>
         <translation>Interpretar meoldías sencillas, populares, en su instrumento.</translation>
+    </message>
+    <message>
+        <source>J. S. Bach - Minuet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play melody of J. S. Bach Minuet from Notebook for Anna Magdalena Bach divided into smaller parts.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4822,6 +4843,21 @@ Pero mejor que sean cortas, por tanto dividirlas primero con un software externo
     <message>
         <source>First run wizard</source>
         <translation>Asistente para el primer uso</translation>
+    </message>
+</context>
+<context>
+    <name>WizardBando</name>
+    <message>
+        <source>Notes for bandoneon are written on the grand staff - two staves joined with brace.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All notes on the upper staff with treble clef are played with right hand and the notes on the lower one with bass clef are played with the left hand.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Direction of bellows movement is marked with bowing symbols:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

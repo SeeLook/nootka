@@ -291,6 +291,19 @@
     </message>
 </context>
 <context>
+    <name>Bandoneon</name>
+    <message>
+        <source>Bellows is opening.</source>
+        <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;opening&apos;</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bellows is closing.</source>
+        <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;closing&apos;</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Certificate</name>
     <message>
         <source>Stop exam</source>
@@ -695,6 +708,14 @@
     <message>
         <source>Play popular, simple melodies on your instrument.</source>
         <translation>Suona melodie semplici e popolari sul tuo strumento.</translation>
+    </message>
+    <message>
+        <source>J. S. Bach - Minuet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play melody of J. S. Bach Minuet from Notebook for Anna Magdalena Bach divided into smaller parts.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1316,6 +1337,22 @@ E&apos; meglio mantenerle brevi, quindi dividile dapprima in un programma estern
         <source>tie</source>
         <comment>To translate it properly, check please meaning of &apos;tie&apos; in musical context.</comment>
         <translation>Legatura</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3652,6 +3689,21 @@ Controlla se tutto i parametri sono corretti.</translation>
     <message>
         <source>First run wizard</source>
         <translation>Procedura guidata per il primo avvio</translation>
+    </message>
+</context>
+<context>
+    <name>WizardBando</name>
+    <message>
+        <source>Notes for bandoneon are written on the grand staff - two staves joined with brace.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All notes on the upper staff with treble clef are played with right hand and the notes on the lower one with bass clef are played with the left hand.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Direction of bellows movement is marked with bowing symbols:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

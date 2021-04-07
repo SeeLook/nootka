@@ -291,6 +291,19 @@
     </message>
 </context>
 <context>
+    <name>Bandoneon</name>
+    <message>
+        <source>Bellows is opening.</source>
+        <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;opening&apos;</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bellows is closing.</source>
+        <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;closing&apos;</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Certificate</name>
     <message>
         <source>Stop exam</source>
@@ -554,7 +567,7 @@
     <name>InstrumentPage</name>
     <message>
         <source>Instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Інструмент</translation>
     </message>
     <message>
         <source>number of frets:</source>
@@ -687,6 +700,14 @@
     </message>
     <message>
         <source>Play popular, simple melodies on your instrument.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>J. S. Bach - Minuet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play melody of J. S. Bach Minuet from Notebook for Anna Magdalena Bach divided into smaller parts.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1253,12 +1274,28 @@ But better keep them short, so divide them first in some external software.</sou
         <comment>To translate it properly, check please meaning of &apos;tie&apos; in musical context.</comment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Select7note</name>
     <message>
         <source>7th note is:</source>
-        <translation>7-а нота:</translation>
+        <translation type="unfinished">7-а нота це:</translation>
     </message>
 </context>
 <context>
@@ -1463,6 +1500,8 @@ But better keep them short, so divide them first in some external software.</sou
         <source>%n attempt(s)</source>
         <translation type="unfinished">
             <numerusform></numerusform>
+            <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
 </context>
@@ -1534,7 +1573,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TanalysDialog</name>
     <message>
         <source>Questions number</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Номер питання</translation>
     </message>
 </context>
 <context>
@@ -1542,6 +1581,8 @@ But better keep them short, so divide them first in some external software.</sou
     <message numerus="yes">
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
         <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -1701,6 +1742,8 @@ But better keep them short, so divide them first in some external software.</sou
         <source>%n attempt(s)</source>
         <comment>like: &apos;1 attempt&apos; or &apos;121 attempts&apos;</comment>
         <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -2617,7 +2660,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>Score</source>
         <comment>it could be &apos;notation&apos;, &apos;staff&apos; or whatever is associated with that &apos;place to display musical notes&apos; and this the name is quite short and looks well.</comment>
-        <translation type="unfinished"></translation>
+        <translation>Нотний стан</translation>
     </message>
     <message>
         <source>Manage and navigate the score.</source>
@@ -2662,6 +2705,8 @@ But better keep them short, so divide them first in some external software.</sou
     <message numerus="yes">
         <source>The octave &lt;b&gt;%n&lt;/b&gt; in International Pitch Notation</source>
         <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -2808,6 +2853,8 @@ But better keep them short, so divide them first in some external software.</sou
     <message numerus="yes">
         <source>semitone(s)</source>
         <translation type="unfinished">
+            <numerusform></numerusform>
+            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -3133,7 +3180,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TtoolBar</name>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Налаштування</translation>
     </message>
     <message>
         <source>Application preferences</source>
@@ -3325,6 +3372,21 @@ But better keep them short, so divide them first in some external software.</sou
     <name>Wizard</name>
     <message>
         <source>First run wizard</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WizardBando</name>
+    <message>
+        <source>Notes for bandoneon are written on the grand staff - two staves joined with brace.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All notes on the upper staff with treble clef are played with right hand and the notes on the lower one with bass clef are played with the left hand.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Direction of bellows movement is marked with bowing symbols:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
