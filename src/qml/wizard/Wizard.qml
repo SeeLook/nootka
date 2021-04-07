@@ -63,7 +63,8 @@ ApplicationWindow {
           WizardInstrument { id: instrPage }
         }
         Loader {
-          active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem || clefPage
+          id: clefLoader
+          active: false // timer will activate it with delay
           source: "qrc:/wizard/WizardClef.qml"
           onLoaded: clefPage = item
         }
@@ -87,6 +88,11 @@ ApplicationWindow {
         }
       }
     }
+  }
+
+  Timer { // HACK: load clef page to set params properly when user will skip wizard but with delay to keep launch quick
+    running: true; interval: 500
+    onTriggered: clefLoader.active = true
   }
 
   footer: Rectangle {

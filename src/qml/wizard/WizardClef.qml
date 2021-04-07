@@ -52,6 +52,8 @@ Tflickable {
       GLOB.setGuitarParams(0, tuning)
   }
 
+  Component.onCompleted: changeInstrument()
+
   // private
   property var instrDetails: null
 
