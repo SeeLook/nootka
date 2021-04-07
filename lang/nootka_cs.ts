@@ -478,13 +478,13 @@ není platným souborem zkoušky!</translation>
         <location filename="../src/qml/instruments/Bandoneon.qml" line="120"/>
         <source>Bellows is opening.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;opening&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Měch se otevírá.</translation>
     </message>
     <message>
         <location filename="../src/qml/instruments/Bandoneon.qml" line="142"/>
         <source>Bellows is closing.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;closing&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Měch se zavírá.</translation>
     </message>
 </context>
 <context>
@@ -1165,12 +1165,12 @@ ale nebyla uložena!</translation>
     <message>
         <location filename="../levels/guitar/Play Bach Minuet-guitar.nel" line="9"/>
         <source>J. S. Bach - Minuet</source>
-        <translation type="unfinished"></translation>
+        <translation>Johann Sebastian Bach - Minuet</translation>
     </message>
     <message>
         <location filename="../levels/guitar/Play Bach Minuet-guitar.nel" line="10"/>
         <source>Play melody of J. S. Bach Minuet from Notebook for Anna Magdalena Bach divided into smaller parts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Přehrajte melodii Johanna Sebastiena Bacha Minuet z Klavírní knížky Anny Magdaleny Bachové rozdělenou na menší části.</translation>
     </message>
 </context>
 <context>
@@ -5476,17 +5476,17 @@ je viděli a poslechli si správně.</translation>
     <message>
         <location filename="../src/qml/wizard/WizardBando.qml" line="16"/>
         <source>Notes for bandoneon are written on the grand staff - two staves joined with brace.</source>
-        <translation type="unfinished"></translation>
+        <translation>Noty pro bandoneon jsou napsány v klavírní osnově - dva notové osnovy spojené klavírní svorkou.</translation>
     </message>
     <message>
         <location filename="../src/qml/wizard/WizardBando.qml" line="17"/>
         <source>All notes on the upper staff with treble clef are played with right hand and the notes on the lower one with bass clef are played with the left hand.</source>
-        <translation type="unfinished"></translation>
+        <translation>Všechny noty na horní notové osnově s houslovým klíčem se hrají pravou rukou a noty na spodní notové osnově s basovým klíčem se hrají levou rukou.</translation>
     </message>
     <message>
         <location filename="../src/qml/wizard/WizardBando.qml" line="19"/>
         <source>Direction of bellows movement is marked with bowing symbols:</source>
-        <translation type="unfinished"></translation>
+        <translation>Směr pohybu měchu je označen symboly vyklenutí:</translation>
     </message>
 </context>
 <context>
