@@ -218,8 +218,8 @@ void TcommonListener::noteFinishedSlot(TnoteStruct* lastNote) {
           } else
               midiPitch = lastNote->getAverage(3, qMin(7, 3 + finder()->minChunksNumber()));
           lastNote->pitchF = midiPitch;
-      } else // continuous instrument pitch is average of all pitches
-          midiPitch = lastNote->getAverage(3, lastNote->pitches()->size());
+      } else // continuous instrument pitch is average of all pitches excluding 3 at start and note end
+          midiPitch = lastNote->getAverage(3, lastNote->pitches()->size() - 3);
 
       m_lastNote.startChunk = lastNote->startChunk;
       m_lastNote.endChunk = lastNote->endChunk;
