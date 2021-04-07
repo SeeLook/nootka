@@ -9,9 +9,8 @@
 
 ### Bugs to fix:
   - Actions after displaying certificate are messy
-  - Exam summary may not fit the window.
+  - Exam start/summary may not fit the window.
   - Exams: For non guitars single note question "give name of:" has nothing more
-  - playing with metronome doesn't work under Android
   - older Android versions (below 7.1, 4.4 for sure) doesn't detect/load default translation
 
 ### To test:
@@ -37,6 +36,7 @@
   - MIDI input & revert MIDI out of course
   - storing custom tuning with user name. Import/export tuning in XML files
   - add rests option for random melodies in exams
+  - playing with metronome under Android - possible migration to Oboe library
   - implement repeating a melody that was heard
   - adding set of rhythm patterns for melodies generated from random notes (similar to melody list)
   - time stamps in question/answer units - to better track exam progress

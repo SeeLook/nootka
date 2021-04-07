@@ -1,8 +1,10 @@
 1.7.5 devel
      - when window is not enough wide instrument can be scrolled
-     - settings/level/about can change content layout to fit size
+     - dialogues can change content layout to fit available size
+     - bandoneon improvements (rhythms detection, layout)
      - initial translation into Ukrainian language
      - updated translations (cs, es, de, fr, it, pl)
+     - fixed many bugs (crashes, smaller glitches)
     ANDROID
      - improved way of zooming instrument to select note on it
      - screen rotation is supported
