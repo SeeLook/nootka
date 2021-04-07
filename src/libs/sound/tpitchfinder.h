@@ -198,6 +198,12 @@ public:
   }
 
       /**
+       * Note index in Tartini nomenclature.
+       * @p -1 means no note (@p NO_NOTE)
+       */
+  int currentNoteId() const { return m_currNoteId; }
+
+      /**
        * Max volume in current chunk of raw or filtered PCM audio data
        */
   float pcmVolume() const { return m_pcmVolume; }
@@ -210,9 +216,12 @@ public:
       /**
        * @p TRUE only in chunk when note is beginning
        */
-  bool isOnSet() const;
+  bool isOnSet() const { return m_isOnSet; }
 
   qreal chunkPitch() const { return static_cast<qreal>(m_chunkPitch); }
+
+  bool isFadeOut() const { return m_isFadeOut; }
+  void setIsFadeOut(bool isFade);
 
 #if !defined (Q_OS_ANDROID)
       /**
@@ -276,7 +285,7 @@ private:
   Channel              *m_channel;
   int                   m_chunkNum;
   bool                  m_isBussy;
-  int                   m_prevNoteIndex;
+  int                   m_prevNoteIndex, m_currNoteId = -1;
   float                 m_minVolume;
   float                 m_minDuration;
   float                 m_rateRatio; /**< multiplexer of the sample rate determined from pitch detection range */
@@ -290,6 +299,9 @@ private:
   qreal                 m_chunkTime;
   int                   m_minChunks;
   TonsetLogic          *m_onset;
+  bool                  m_isFadeOut = true;
+  bool                  m_isOnSet = false;
+  bool                  m_contNoteFinished = false; /**< @p TRUE when continuous instr. note was finished and @p m_currentNote has to be emitted */
 #if !defined (Q_OS_ANDROID)
   int                   m_dumpSufixNr = 0;
   QString               m_dumpPath, m_dumpName;

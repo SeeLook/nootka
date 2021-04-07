@@ -87,6 +87,7 @@ void TcommonListener::setAudioInParams() {
   finder()->setMinimalDuration(m_audioParams->minDuration);
   finder()->aGl()->equalLoudness = m_audioParams->equalLoudness;
   m_volume = 0.0;
+  finder()->setIsFadeOut(GLOB->instrument().isFadeOut());
 }
 
 
@@ -201,7 +202,7 @@ void TcommonListener::noteFinishedSlot(TnoteStruct* lastNote) {
   m_noteWasStarted = false;
   if (!isPaused()) {
       qreal midiPitch;
-      if (GLOB->instrument().isFadeOut()) {
+      if (finder()->isFadeOut()) {
           if (lastNote->idChangedAt.size() > 1 && lastNote->idChangedAt[1] < 15) {
               int span = lastNote->idChangedAt[1], longestAt = 1;
               for (int p = 2; p < lastNote->idChangedAt.size(); ++p) {
