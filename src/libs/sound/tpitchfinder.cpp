@@ -206,7 +206,6 @@ void TpitchFinder::setIsFadeOut(bool isFade) {
       return;
     }
     m_isFadeOut = isFade;
-    qDebug() << "[TpitchFinder] fade out" << m_isFadeOut;
   }
 }
 
