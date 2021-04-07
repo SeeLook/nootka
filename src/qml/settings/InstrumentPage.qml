@@ -215,14 +215,17 @@ Flickable {
       instrSel.instrument = GLOB.instrument.type
       transp.shift = tmpTrans
       if (GLOB.instrument.isGuitar) {
-        if (GLOB.tuning.type === Ttune.Custom) {
-            setTuning(NOO.tuning(GLOB.tuning.string(1), GLOB.tuning.string(2), GLOB.tuning.string(3),
-                                 GLOB.tuning.string(4), GLOB.tuning.string(5), GLOB.tuning.string(6)))
-            tuningCombo.currentIndex = tuningCombo.count - 1
-        } else {
-            tuningCombo.currentIndex = GLOB.tuning.type - (GLOB.instrument.bassGuitar ? 100 : 0)
-            setTuning(NOO.tuning(GLOB.tuning.type))
-        }
+          if (GLOB.tuning.type === Ttune.Custom) {
+              setTuning(NOO.tuning(GLOB.tuning.string(1), GLOB.tuning.string(2), GLOB.tuning.string(3),
+                                  GLOB.tuning.string(4), GLOB.tuning.string(5), GLOB.tuning.string(6)))
+              tuningCombo.currentIndex = tuningCombo.count - 1
+          } else {
+              tuningCombo.currentIndex = GLOB.tuning.type - (GLOB.instrument.bassGuitar ? 100 : 0)
+              setTuning(NOO.tuning(GLOB.tuning.type))
+          }
+      } else {
+          setTuning(NOO.tuning(GLOB.tuning.string(1), GLOB.tuning.string(2),
+                      NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote()))
       }
       first = false
     }
