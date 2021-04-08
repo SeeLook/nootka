@@ -400,12 +400,12 @@
     <message>
         <source>Bellows is opening.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;opening&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Le soufflet s&apos;ouvre.</translation>
     </message>
     <message>
         <source>Bellows is closing.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;closing&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Le soufflet se ferme.</translation>
     </message>
 </context>
 <context>
@@ -986,11 +986,11 @@
     </message>
     <message>
         <source>J. S. Bach - Minuet</source>
-        <translation type="unfinished"></translation>
+        <translation>J.-S. Bach - Menuet</translation>
     </message>
     <message>
         <source>Play melody of J. S. Bach Minuet from Notebook for Anna Magdalena Bach divided into smaller parts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Jouer la mélodie du menuet de J.-S. Bach des petits livres de notes d&apos;Anna Magdalena Bach divisé en parties plus petites.</translation>
     </message>
 </context>
 <context>
@@ -4647,15 +4647,15 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     <name>WizardBando</name>
     <message>
         <source>Notes for bandoneon are written on the grand staff - two staves joined with brace.</source>
-        <translation type="unfinished"></translation>
+        <translation>Les notes pour le bandonéon sont écrites sur un système de portée - deux portées jointes par une accolade.</translation>
     </message>
     <message>
         <source>All notes on the upper staff with treble clef are played with right hand and the notes on the lower one with bass clef are played with the left hand.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toutes les notes de la portée supérieure en clé de sol sont jouées avec la main droite et les notes de la portée inférieure en clé de fa sont jouées avec la main gauche.</translation>
     </message>
     <message>
         <source>Direction of bellows movement is marked with bowing symbols:</source>
-        <translation type="unfinished"></translation>
+        <translation>La direction du mouvement du soufflet est indiquée par des symboles&#xa0;:</translation>
     </message>
 </context>
 <context>
