@@ -66,7 +66,6 @@ Grid {
         Repeater {
           id: navList
           property PaneButton prevButt: null
-          property int prevDelegate: -1
 
           model: ListModel { id: pageModel }
 
@@ -74,17 +73,9 @@ Grid {
             id: delegateButt
             name: buttonText
             pixmap: NOO.pix(iconName)
-            onClicked: {
-              if (navList.prevButt !== delegateButt) {
-                if (typeof(pages[index]) === "string")
-                  pages[index] = Qt.createComponent(pages[index]).createObject(stack)
-                pages[index] = stack.replace(pages[index])
-                paneFlick.ensureVisible(y, height, x, width)
-                navList.prevButt = delegateButt
-              }
-            }
+            onClicked: selectPage(index)
+
             Component.onCompleted: {
-              navList.prevDelegate = index
               maxWidth = Math.max(maxWidth, width)
               maxHeight = Math.max(maxHeight, height)
               buttons.push(delegateButt)
@@ -113,6 +104,16 @@ Grid {
         else if (contentX + width <= xx + ww)
           contentX = xx + ww - width
       }
+    }
+  }
+
+  function selectPage(pageId) {
+    if (navList.prevButt !== buttons[pageId]) {
+      if (typeof(pages[pageId]) === "string")
+        pages[pageId] = Qt.createComponent(pages[pageId]).createObject(stack)
+      pages[pageId] = stack.replace(pages[pageId])
+      paneFlick.ensureVisible(buttons[pageId].y, buttons[pageId].height, buttons[pageId].x, buttons[pageId].width)
+      navList.prevButt = buttons[pageId]
     }
   }
 
