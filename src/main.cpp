@@ -315,8 +315,8 @@ int main(int argc, char *argv[])
 
     sound->init();
 
-    if (firstLoop && !wasFirstRun) {
-      // show some dialog when version was changed (news or other info)
+    if (firstLoop && !wasFirstRun && !e->rootObjects().isEmpty()) {
+      // show dialog with changes when version was changed
       if (!TdialogLoaderObject::checkVersion(e->rootObjects().first())) {
         // or check updates if no version changed
         if (gl->config->value(QLatin1String("Updates/enableUpdates"), true).toBool())

@@ -268,19 +268,32 @@ void TdialogLoaderObject::checkForUpdates() {
 
 
 bool TdialogLoaderObject::checkVersion(QObject* nootWin) {
+  // Do not show changelog page until user wants to see any 'Got It' info.
+  if (GLOB->gotIt(QLatin1String("noteSelected"), true)
+      || GLOB->gotIt(QLatin1String("soundInfo"), true)
+#if defined (Q_OS_ANDROID)
+      || GLOB->gotIt(QLatin1String("howToScore"), true)
+#endif
+      )
+    return false;
+
   QString configVersion = GLOB->config->value(QLatin1String("version"), QString()).toString();
   auto confVerNr = QVersionNumber::fromString(configVersion);
   auto currVerNr = QVersionNumber::fromString(GLOB->version);
-  if (configVersion.isEmpty() || currVerNr > confVerNr) {
+  if (currVerNr > confVerNr) {
       QTimer::singleShot(1500, [=]{
-        // TODO: so far we are displaying 'about' dialog with communicate for testers, but show 'support' here later
         if (nootWin && QString(nootWin->metaObject()->className()).contains("MainWindow_QMLTYPE")) {
-          QMetaObject::invokeMethod(nootWin, "showDialog",
- Q_ARG(QVariant, 2));
+          QMetaObject::invokeMethod(nootWin, "showDialog", Q_ARG(QVariant, 2));
+          auto dialogLoader = qvariant_cast<QObject*>(nootWin->property("dialogLoader"));
+          if (dialogLoader) {
+            auto aboutContent = qvariant_cast<QObject*>(dialogLoader->property("currentDialog"));
+            QMetaObject::invokeMethod(aboutContent, "showPage", Q_ARG(QVariant, 6));
+          }
           GLOB->config->setValue(QLatin1String("version"), GLOB->version);
         }
       });
       return true;
   }
+
   return false;
 }
