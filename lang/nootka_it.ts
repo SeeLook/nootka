@@ -295,12 +295,12 @@
     <message>
         <source>Bellows is opening.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;opening&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Il soffietto si sta aprendo.</translation>
     </message>
     <message>
         <source>Bellows is closing.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;closing&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Il soffietto si sta chiudendo.</translation>
     </message>
 </context>
 <context>
@@ -711,11 +711,11 @@
     </message>
     <message>
         <source>J. S. Bach - Minuet</source>
-        <translation type="unfinished"></translation>
+        <translation>J. S. Bach - Minuetto</translation>
     </message>
     <message>
         <source>Play melody of J. S. Bach Minuet from Notebook for Anna Magdalena Bach divided into smaller parts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Suona la melodia del Minuetto di J.S.Bach dal Piccolo libro di Anna Magdalena Bach, suddiviso in brani più piccoli.</translation>
     </message>
 </context>
 <context>
@@ -1340,19 +1340,19 @@ E&apos; meglio mantenerle brevi, quindi dividile dapprima in un programma estern
     </message>
     <message>
         <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;doppio bemolle&lt;/b&gt; - abbassa la nota di due semitoni (un tono intero).&lt;br&gt;Sulla chitarra è due tasti sotto.</translation>
     </message>
     <message>
         <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;bemolle&lt;/b&gt; - abbassa la nota di mezzo tono (un semi tono).&lt;br&gt;Sulla chitarra è un tasto sotto.</translation>
     </message>
     <message>
         <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;diesis&lt;/b&gt; - alza la nota di mezzo tono (un semi tono).&lt;br&gt;Sulla chitarra è un tasto sopra.</translation>
     </message>
     <message>
         <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;doppio diesis&lt;/b&gt; - alza la nota di due semitoni (un tono intero).&lt;br&gt;Sulla chitarra è due tasti sopra.</translation>
     </message>
 </context>
 <context>
@@ -3695,15 +3695,15 @@ Controlla se tutto i parametri sono corretti.</translation>
     <name>WizardBando</name>
     <message>
         <source>Notes for bandoneon are written on the grand staff - two staves joined with brace.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le note per il bandoneon sono scritte sul doppio pentagramma - due pentagrammi aggraffati.</translation>
     </message>
     <message>
         <source>All notes on the upper staff with treble clef are played with right hand and the notes on the lower one with bass clef are played with the left hand.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tutte le note nello spartito superiore con la chiave di violino sono suonate con la mano destra e le note in quello inferiore con la chiave di basso sono suonate con la sinistra.</translation>
     </message>
     <message>
         <source>Direction of bellows movement is marked with bowing symbols:</source>
-        <translation type="unfinished"></translation>
+        <translation>La direzione del movimento del soffietto viene marcata con gli archetti:</translation>
     </message>
 </context>
 <context>
