@@ -19,7 +19,7 @@ Dialog {
 
   width: parent.width * 0.8; height: parent.height * 0.8
   x: (parent.width - width) / 2; y: (parent.height - height) / 2
-  background: GlowRect { id: glowRect; color: activPal.window; shadowColor: activPal.shadow }
+  background: GlowRect { id: glowRect; color: activPal.window; shadowColor: activPal.shadow; radius: NOO.factor() }
   scale: GLOB.useAnimations ? 0 : 1.0
   enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1.0 }}
   exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0 }}
