@@ -30,6 +30,7 @@ Tflickable {
           checked: GLOB.isKeepScreenOn()
         }
         TcheckBox {
+          visible: NOO.shortScreenSide() / NOO.fingerPixels() >= 12 // 8,4 cm width, 7" screens
           id: disRotatChB
           text: qsTr("disable screen rotation")
           checked: GLOB.disableRotation()
