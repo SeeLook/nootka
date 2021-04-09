@@ -13,7 +13,7 @@ Grid {
   id: resultsItem
   columns: 2
   width: parent.width
-  height: visible ? childrenRect.height : 0
+  height: visible ? nootkaWindow.width / 45 : 0
   y: 1; z: 5
   verticalItemAlignment: Grid.AlignVCenter; horizontalItemAlignment: Grid.AlignHCenter
 
@@ -57,7 +57,7 @@ Grid {
       contentItem: Item {
         width: control.width; height: control.height * 0.8; y: control.height * 0.1
         Row {
-          anchors.fill: parent
+          anchors.horizontalCenter: parent.horizontalCenter
           Repeater {
             model: control.width / (control.height / 2.63) // 2.63 is '!' glyph factor
             Text {
