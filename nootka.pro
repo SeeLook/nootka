@@ -24,7 +24,9 @@ levels.path= /assets/levels
 levels.files += $$files(levels/*.nel)
 guitarLevels.path= /assets/levels/guitar
 guitarLevels.files += $$files(levels/guitar/*.nel)
+bassLevels.path= /assets/levels/bass-guitar
+bassLevels.files += $$files(levels/bass-guitar/*.nel)
 pianoLevels.path= /assets/levels/piano
 pianoLevels.files += $$files(levels/piano/*.nel)
 
-INSTALLS += levels guitarLevels pianoLevels
+INSTALLS += levels guitarLevels bassLevels pianoLevels
