@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.1" language="de_DE" sourcelanguage="en">
+    <extra-po-header-language>de</extra-po-header-language>
+    <extra-po-header-language_team>2e traducteur vers l&apos;allemand</extra-po-header-language_team>
+    <extra-po-header-last_translator>RMR &lt;MdQL6B@protonmail.com&gt;</extra-po-header-last_translator>
+    <extra-po-header-po_revision_date>2021-04-10 00:02+0200</extra-po-header-po_revision_date>
+    <extra-po-header-x_generator>Virtaal 0.7.1</extra-po-header-x_generator>
+    <extra-po-header_comment># RMR &lt;MdQL6B@protonmail.com&gt;, 2021.</extra-po-header_comment>
+    <extra-po-headers>PO-Revision-Date,Last-Translator,Language-Team,Language,MIME-Version,Content-Type,Content-Transfer-Encoding,Plural-Forms,X-Generator,X-Language,X-Source-Language,X-Qt-Contexts</extra-po-headers>
 <context>
     <name>AboutPage</name>
     <message>
@@ -437,12 +444,12 @@
     <message>
         <source>Bellows is opening.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;opening&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Balg öffnend.</translation>
     </message>
     <message>
         <source>Bellows is closing.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;closing&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Balg schließend.</translation>
     </message>
 </context>
 <context>
@@ -1026,11 +1033,11 @@ Check answer just after last note of melody was played.</translatorcomment>
     </message>
     <message>
         <source>J. S. Bach - Minuet</source>
-        <translation type="unfinished"></translation>
+        <translation>Petzold (&quot;Bach&quot;) - Menuett</translation>
     </message>
     <message>
         <source>Play melody of J. S. Bach Minuet from Notebook for Anna Magdalena Bach divided into smaller parts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Spiele die Melodie des bekannten Menuetts G-dur von Petzold aus dem Notenbüchlein für Anna Magdalena Bach in Teilen.</translation>
     </message>
 </context>
 <context>
@@ -4794,7 +4801,8 @@ nicht öffnen</translation>
     </message>
     <message>
         <source>daily</source>
-        <translation>täglich</translation>
+        <translation>
+täglich</translation>
     </message>
     <message>
         <source>weekly</source>
@@ -4888,15 +4896,15 @@ nicht öffnen</translation>
     <name>WizardBando</name>
     <message>
         <source>Notes for bandoneon are written on the grand staff - two staves joined with brace.</source>
-        <translation type="unfinished"></translation>
+        <translation>Beim Bandoneon schreibt man die Noten als Akkolade - zwei Systeme übereinander, mit geschweifter Klammer verbunden.</translation>
     </message>
     <message>
         <source>All notes on the upper staff with treble clef are played with right hand and the notes on the lower one with bass clef are played with the left hand.</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle Noten des oberen Systems im Violinschlüssel spielt man mit der rechten Hand und die Noten unten im Bassschlüssel mit der linken Hand.</translation>
     </message>
     <message>
         <source>Direction of bellows movement is marked with bowing symbols:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ob der Balg auf Zug oder Druck gespielt wird, zeigen Bogenführungssymbole:</translation>
     </message>
 </context>
 <context>

@@ -482,13 +482,13 @@ nie jest poprawnym plikiem egzaminu!</translation>
         <location filename="../src/qml/instruments/Bandoneon.qml" line="120"/>
         <source>Bellows is opening.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;opening&apos;</comment>
-        <translation>Miech jest rozciągany.</translation>
+        <translation>Miech jest (otwierany) rozciągany.</translation>
     </message>
     <message>
         <location filename="../src/qml/instruments/Bandoneon.qml" line="142"/>
         <source>Bellows is closing.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;closing&apos;</comment>
-        <translation>Miech jest ściskany.</translation>
+        <translation>Miech jest ściągany (zamykany).</translation>
     </message>
 </context>
 <context>
