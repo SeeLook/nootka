@@ -43,7 +43,7 @@ Tflickable {
         id: langTumb
         width: parent.width
         height: NOO.factor() * (NOO.isAndroid() ? 6 : 8)
-        visibleItemCount: Math.min(((width / (NOO.factor() * 7)) / 2) * 2 - 1, 7)
+        visibleItemCount: Math.min(((width / (NOO.factor() * (NOO.isAndroid() ? 5.5 : 7))) / 2) * 2 - 1, 7)
         model: langModel
         delegate: Component {
           Column {
