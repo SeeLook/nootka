@@ -10,7 +10,7 @@ import "../"
 MouseArea {
   property real flickX: 0
 
-  enabled: instrItem.enabled && instrItem.scale === 1.0
+  enabled: instrItem.enabled && NOO.fingerPixels() * 4 > height && instrItem.scale === 1.0
 
   width: instrItem.width; height: instrItem.height
   z: 99

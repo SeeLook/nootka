@@ -88,7 +88,7 @@ TbandoneonBg {
           y: yAt(index) * factor * 1.2 + width * 0.25
           MouseArea {
             anchors.fill: parent
-            hoverEnabled: true
+            hoverEnabled: !NOO.isAndroid()
             onEntered: hiId = index
             onExited: hiId = -1
             onClicked: {
@@ -164,7 +164,7 @@ TbandoneonBg {
           y: yAt(index + 33) * factor * 1.05 + width * 0.45
           MouseArea {
             anchors.fill: parent
-            hoverEnabled: true
+            hoverEnabled: !NOO.isAndroid()
             onEntered: hiId = index + 33
             onExited: hiId = -1
             onClicked: {
@@ -191,7 +191,7 @@ TbandoneonBg {
   }
 
   Component.onCompleted: {
-    if (NOO.isAndroid() && NOO.fingerPixels() * 4 > height * 1.1)
+    if (NOO.isAndroid() && NOO.fingerPixels() * 4 > height)
       bandoZoom = Qt.createComponent("qrc:/instruments/InstrumentZoom.qml").createObject(instrItem)
   }
 

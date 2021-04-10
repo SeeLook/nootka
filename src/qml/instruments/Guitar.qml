@@ -98,13 +98,13 @@ TguitarBg {
   }
 
   Component.onCompleted: {
-    if (NOO.isAndroid() && NOO.fingerPixels() * 4 > height * 1.1)
+    if (NOO.isAndroid() && NOO.fingerPixels() * 4 > height)
       guitarZoom = Qt.createComponent("qrc:/instruments/InstrumentZoom.qml").createObject(instrItem)
   }
 
   MouseArea {
     property point startPos: Qt.point(0, 0)
-    enabled: (NOO.fingerPixels() * 4 <= height * 1.1) || (guitarZoom && instrItem.scale > 1)
+    enabled: (NOO.fingerPixels() * 4 <= height) || (guitarZoom && instrItem.scale > 1)
     width: parent.width; height: parent.height
     onPressed: startPos = Qt.point(mouseX, mouseY)
     onReleased: {
