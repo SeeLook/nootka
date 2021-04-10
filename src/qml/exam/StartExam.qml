@@ -15,6 +15,9 @@ TstartExamItem {
 
   width: parent.width; height: parent.height
 
+  // level selector visible only for tablet or landscape layout
+  property bool hideSelector: NOO.isAndroid() ? width / (NOO.fingerPixels() / 0.7) < 15 : height > width
+
   Column {
     id: startCol
     width: parent.width; height: parent.height
@@ -24,7 +27,7 @@ TstartExamItem {
 
     Row {
       id: upperRow
-      spacing: NOO.factor() * (NOO.isAndroid() ? 2 : 4)
+      spacing: NOO.factor() * (NOO.isAndroid() || hideSelector ? 2 : 4)
       anchors.horizontalCenter: parent.horizontalCenter
       TiconButton {
         anchors.verticalCenter: parent.verticalCenter
@@ -32,13 +35,14 @@ TstartExamItem {
         text: NOO.TR("QShortcut", "Help")
         onClicked: examOrExerGotIt()
       }
-      Row {
-        spacing: NOO.factor() * (NOO.isAndroid() ? 0.5 : 1)
+      Grid {
+        spacing: NOO.factor() * (NOO.isAndroid() || hideSelector ? 0.5 : 1)
         anchors.verticalCenter: parent.verticalCenter
-        Text { text: qsTr("student name:"); color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
+        horizontalItemAlignment: Grid.AlignHCenter; verticalItemAlignment: Grid.AlignVCenter
+        columns: hideSelector ? 1 : 2
+        Text { text: qsTr("student name:"); color: activPal.text }
         TtextField {
           id: userNameIn
-          anchors.verticalCenter: parent.verticalCenter
           placeholderText: qsTr("Enter your name or nick-name.")
           font.pixelSize: NOO.factor(); maximumLength: 40
           width: NOO.factor() * (NOO.isAndroid() ? 19 : 25)
@@ -58,7 +62,6 @@ TstartExamItem {
     }
 
     Text {
-      visible: !NOO.isAndroid()
       id: infoText
       text: qsTr("To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file.")
       anchors.horizontalCenter: parent.horizontalCenter
@@ -67,26 +70,32 @@ TstartExamItem {
       wrapMode: Text.WordWrap
     }
 
-    LevelsSelector {
-      id: selector
+    Item {
+      id: levelWrapper
       anchors.horizontalCenter: parent.horizontalCenter
-      width: parent.width - NOO.factor()
-      height: parent.height - upperRow.height - row1.height - row2.height
-              - (NOO.isAndroid() ? startCol.spacing * 4 : infoText.height + startCol.spacing * 6)
+      width: childrenRect.width; height: childrenRect.height
+      LevelsSelector {
+        id: selector
+        parent: hideSelector ? selPopLoader.item.contentItem : levelWrapper
+        width: startDialog.width - NOO.factor() * (hideSelector ? 2 : 1)
+        height: hideSelector ? startDialog.height * 0.7 : startDialog.height - upperRow.height - row1.height - grid2.height - infoText.height
+            - (NOO.isAndroid() ? 4 : 6) * startCol.spacing
+      }
     }
 
-    Row {
+    Grid {
       id: row1
       anchors.horizontalCenter: parent.horizontalCenter
       spacing: NOO.factor() * (NOO.isAndroid() ? 0.5 : 1)
+      columns: hideSelector ? 1 : 2
       Tframe {
-        width: startDialog.width / 2 - NOO.factor()
+        width: startDialog.width / (hideSelector ? 1 : 2) - NOO.factor()
         Row {
           spacing: NOO.factor() * (NOO.isAndroid() ? 0.5 : 1)
           TiconButton {
             enabled: selector.levelId > -1 || prevLevelName() !== ""
             iconHeight: startDialog.height / 15
-            pixmap: NOO.isAndroid() ? "" :  NOO.pix("practice")
+            pixmap: NOO.isAndroid() && !hideSelector ? "" :  NOO.pix("practice")
             text: qsTr("Start exercise on level:")
             onClicked: start(Texecutor.StartExercise, selector.levelId > -1 ? selector.currentLevelVar() : prevLevel())
           }
@@ -98,13 +107,13 @@ TstartExamItem {
         }
       }
       Tframe {
-        width: startDialog.width / 2 - NOO.factor()
+        width: startDialog.width / (hideSelector ? 1 : 2) - NOO.factor()
         Row {
           spacing: NOO.factor() * (NOO.isAndroid() ? 0.5 : 1)
           TiconButton {
             enabled: selector.levelId !== -1
             iconHeight: startDialog.height / 15
-            pixmap: NOO.isAndroid() ? "" : NOO.pix("exam")
+            pixmap: NOO.isAndroid()  && !hideSelector ? "" : NOO.pix("exam")
             text: qsTr("Pass new exam on level:")
             onClicked: start(Texecutor.NewExam, selector.currentLevelVar())
           }
@@ -116,32 +125,22 @@ TstartExamItem {
         }
       }
     }
-    Item {
-      id: row2
+
+    Grid {
+      id: grid2
       anchors { horizontalCenter: parent.horizontalCenter }
-      width: startDialog.width - NOO.factor() * 2; height: childrenRect.height
-      Tframe {
-        id: contFrame
-        border.width: 0
-        Row {
-          TiconButton {
-            iconHeight: startDialog.height / 15
-            pixmap:  NOO.isAndroid() ? "" : NOO.pix("exam")
-            text: qsTr("Select an exam to continue") + "   ⋮"
-            onClicked: menu.open()
-          }
-        }
-      }
+      width: startDialog.width - NOO.factor()
+      spacing: NOO.factor() * (NOO.isAndroid() ? 0.5 : 1)
+      columns: hideSelector ? 1 : 2
       Tframe {
         id: lastExamFrame
-        anchors {left: contFrame.right; leftMargin: NOO.factor() }
-        width: parent.width - contFrame.width - exitFrame.width - 2 * NOO.factor()
+        width: hideSelector ? startDialog.width - NOO.factor() : parent.width - contFrame.width - exitFrame.width - 2 * NOO.factor()
         Row {
           spacing: NOO.factor() * (NOO.isAndroid() ? 0.5 : 1)
           TiconButton {
             id: lastExamButt
             iconHeight: startDialog.height / 15
-            pixmap: NOO.isAndroid() ? "" : NOO.pix("exam")
+            pixmap: NOO.isAndroid() && !hideSelector ? "" : NOO.pix("exam")
             text: qsTr("Latest exam")
             enabled: lastExamFile !== ""
             onClicked: start(Texecutor.ContinueExam, lastExamFile)
@@ -156,14 +155,29 @@ TstartExamItem {
           }
         }
       }
-      Tframe {
-        id: exitFrame
-        anchors.right: parent.right; border.width: 0
-        Row {
-          TiconButton {
-            iconHeight: startDialog.height / 15
-            pixmap: NOO.pix("exit"); text: NOO.TR("QShortcut", "Exit")
-            onClicked: dialLoader.close()
+      Row {
+        spacing: NOO.factor()
+        Tframe {
+          id: contFrame
+          border.width: 0
+          Row {
+            TiconButton {
+              iconHeight: startDialog.height / 15
+              pixmap: NOO.isAndroid() && !hideSelector ? "" : NOO.pix("exam")
+              text: qsTr("Select an exam to continue") + "   ⋮"
+              onClicked: menu.open()
+            }
+          }
+        }
+        Tframe {
+          id: exitFrame
+          border.width: 0
+          Row {
+            TiconButton {
+              iconHeight: startDialog.height / 15
+              pixmap: NOO.pix("exit"); text: NOO.TR("QShortcut", "Exit")
+              onClicked: dialLoader.close()
+            }
           }
         }
       }
@@ -172,14 +186,16 @@ TstartExamItem {
 
   Tmenu {
     id: menu
-    width: NOO.factor() * 20; y: startDialog.height * 0.88 - height; x: NOO.factor() * 2
+    width: Math.min(NOO.factor() * 25, startDialog.width * 0.8)
     height: Math.min(startDialog.height * 0.8, contentItem.contentHeight)
+    y: (startDialog.height - height) / 2; x: (startDialog.width - width) / 2
+    modal: true
     contentItem: ListView {
       clip: true
       ScrollBar.vertical: ScrollBar { active: true }
       model: recentModel
       delegate: MenuButton {
-        width: NOO.factor() * 20
+        width: menu.width
         action: modelData
         onClicked: menu.close()
         Rectangle { width: parent.width; height: index === recentModel.length - 1 ? 0 : 1; color: activPal.text; y: parent.height - 1 }
@@ -209,6 +225,38 @@ TstartExamItem {
     onRejected: {
       noNameAnim.running = false
       userNameIn.bg.color = activPal.base
+    }
+  }
+
+  Loader {
+    id: selPopLoader
+    active: hideSelector
+    sourceComponent: TpopupDialog {
+      padding: 0
+      rejectButton.visible: false
+      parent: startDialog
+      width: selector.width + NOO.factor(); height: selector.height + NOO.factor() * 4
+    }
+  }
+
+  Loader {
+    active: hideSelector
+    sourceComponent: Tframe {
+      parent: levelWrapper
+      Row {
+        spacing: NOO.factor() * (NOO.isAndroid() ? 0.5 : 1)
+        TiconButton {
+          iconHeight: startDialog.height / 15
+          pixmap: NOO.isAndroid() && !hideSelector ? "" : NOO.pix("nootka-level")
+          text: NOO.TR("LevelsPage", "Level name:")
+          onClicked: selPopLoader.item.open()
+        }
+        Text {
+          anchors.verticalCenter: parent.verticalCenter
+          text: "<b>" + (selector.levelId > -1 ? selector.levelName(selector.levelId) : qsTr("No level was selected!"))
+          color: activPal.text; font.pixelSize: NOO.factor() * 0.8
+        }
+      }
     }
   }
 
