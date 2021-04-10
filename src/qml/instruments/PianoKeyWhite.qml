@@ -20,10 +20,17 @@ Rectangle {
 
   MouseArea {
     id: ma
+    property point startPos: Qt.point(0, 0)
     anchors.fill: parent
     hoverEnabled: true
     onEntered: whiteKey.entered(whiteKey)
-    onClicked: whiteKey.clicked(whiteKey)
+    onPressed: startPos = Qt.point(mouseX, mouseY)
+    onReleased: {
+      var dx = mouseX - startPos.x
+      var dy = mouseY - startPos.y
+      if (Math.sqrt(dx * dx + dy * dy) < width * 2)
+        whiteKey.clicked(whiteKey)
+    }
     onExited: whiteKey.entered(null)
   }
 

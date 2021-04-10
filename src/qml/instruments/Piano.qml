@@ -48,7 +48,7 @@ TpianoBg {
     parent: nootkaWindow.contentItem
     cache: false
     source: NOO.pix("pianoBg")
-    width: parent.width; height: width * (sourceSize.height / sourceSize.width)
+    width: instrItem.width; height: width * (sourceSize.height / sourceSize.width)
     x: -instrFlick.contentX
     y: parent.height - instrItem.height * instrItem.scale - height
     transformOrigin: Item.BottomLeft
@@ -114,7 +114,7 @@ TpianoBg {
   }
 
   Component.onCompleted: {
-    if (NOO.isAndroid() && NOO.fingerPixels() * 4 > height * 1.1)
+    if (NOO.isAndroid() && NOO.fingerPixels() * 4 > height)
       pianoZoom = Qt.createComponent("qrc:/instruments/InstrumentZoom.qml").createObject(instrItem)
   }
 }
