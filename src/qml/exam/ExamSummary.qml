@@ -17,27 +17,31 @@ TexamSummary {
   levelPreview: previewItem
 
   Column {
+    width: parent.width
+    spacing: NOO.factor() / 2
 
-    Grid {
-      columns: 2
-      padding: NOO.factor() / 2
-      Tflickable {
-        height: summDialog.height - buttGrid.height - summDialog.width / 50
-        width: summDialog.width / 2 - NOO.factor() / 2
-        contentHeight: summCol.height
+    Tflickable {
+      width: parent.width; height: summDialog.height - buttGrid.height - NOO.factor()
+      clip: true
+      contentWidth: width; contentHeight: resGrid.height
+      Grid {
+        id: resGrid
+        columns: summDialog.width > NOO.factor() * 50 ? 2 : 1
+        spacing: NOO.factor() / 2
+        anchors.horizontalCenter: parent.horizontalCenter
+
         Column {
-          id: summCol
-          width: parent.width
+          width:  summDialog.width / resGrid.columns - NOO.factor() / 2
           Text { // student
             anchors.horizontalCenter: parent.horizontalCenter
             text: student; textFormat: Text.StyledText
           }
           Item { width: NOO.factor(); height: NOO.factor() }
           Tile { // answers/mistakes numbers
-            width: parent.width - NOO.factor()
+            width: parent.width
             Grid {
               anchors.horizontalCenter: parent.horizontalCenter
-              columns: NOO.isAndroid() ? 1 : 2
+              columns: NOO.isAndroid() || resGrid.columns === 1 ? 1 : 2
               horizontalItemAlignment: Grid.AlignHCenter; verticalItemAlignment: Grid.AlignVCenter
               spacing: NOO.factor() * (NOO.isAndroid() ? 1 : 2)
               Column {
@@ -61,10 +65,10 @@ TexamSummary {
                 }
               }
               Item {
-                width: NOO.factor() * (NOO.isAndroid() ? 15 : 20); height: width
+                width: NOO.factor() * (NOO.isAndroid() ? 15 : 20); height: width + NOO.factor()
                 TpieChartItem {
                   id: answId
-                  anchors.fill: parent
+                  width: parent.width; height: width
                   values: answersModel
                   colors: [ cn(GLOB.correctColor), cn(GLOB.notBadColor), cn(GLOB.wrongColor) ]
                 }
@@ -79,7 +83,7 @@ TexamSummary {
             }
           }
           Tile { // results
-            width: parent.width - NOO.factor()
+            width: parent.width
             visible: resultsModel.length
             Grid {
               anchors.horizontalCenter: parent.horizontalCenter
@@ -105,10 +109,10 @@ TexamSummary {
               }
               Item {
                 visible: hasVariousMistakes
-                width: NOO.factor() * (NOO.isAndroid() ? 15 : 20); height: width
+                width: NOO.factor() * (NOO.isAndroid() ? 15 : 20); height: width + NOO.factor()
                 TpieChartItem {
                   id: pie
-                  anchors.fill: parent
+                  width: parent.width; height: width
                   values: summDialog.kindOfMistakes
                   colors: [ cn(GLOB.wrongColor) ]
                 }
@@ -123,41 +127,42 @@ TexamSummary {
             }
           }
         }
-      }
-      Column {
-        width: summDialog.width / 2
-        Tile { // times
-          id: timeTile
-          width: parent.width - NOO.factor()
-          Column {
-            spacing: NOO.factor()
+
+        Column {
+          width: summDialog.width / resGrid.columns - NOO.factor() / 2
+          Tile { // times
+            id: timeTile
             width: parent.width
-            Text {
-              anchors.horizontalCenter: parent.horizontalCenter
-              horizontalAlignment: Text.AlignHCenter
-              text: qsTranslate("TexamSummary", "times:")
-              font.pixelSize: NOO.factor() * 1.1
-            }
-            Grid {
-              anchors.horizontalCenter: parent.horizontalCenter
-              columns: 2; columnSpacing: NOO.factor()
-              Repeater {
-                model: timesModel
-                Text {
-                  text: modelData
-                  color: activPal.text; textFormat: Text.StyledText
+            Column {
+              spacing: NOO.factor()
+              width: parent.width
+              Text {
+                anchors.horizontalCenter: parent.horizontalCenter
+                horizontalAlignment: Text.AlignHCenter
+                text: qsTranslate("TexamSummary", "times:")
+                font.pixelSize: NOO.factor() * 1.1
+              }
+              Grid {
+                anchors.horizontalCenter: parent.horizontalCenter
+                columns: 2; columnSpacing: NOO.factor()
+                Repeater {
+                  model: timesModel
+                  Text {
+                    text: modelData
+                    color: activPal.text; textFormat: Text.StyledText
+                  }
                 }
               }
             }
           }
+          LevelPreview {
+            id: previewItem
+            width: parent.width
+            height: resGrid.columns === 2 ? summDialog.height - buttGrid.height - NOO.factor() - timeTile.height : summDialog.height / 2
+          }
         }
-        LevelPreview {
-          id: previewItem
-          width: summDialog.width / 2 - NOO.factor() / 2
-          height: summDialog.height - buttGrid.height - summDialog.width / 50 - timeTile.height
-        }
-      }
-    }
+      } // resGrid
+    } // Tflickable
 
     Grid {
       id: buttGrid
@@ -165,18 +170,18 @@ TexamSummary {
       spacing: summDialog.width / 100
       columns: buttColumsCount()
       property real buttWidth: buttColumsCount() === 2 ? summDialog.width / 3 : summDialog.width / 4
+      property real buttHeight: Math.min(summDialog.width, summDialog.height) / 15
         TiconButton {
           visible: enableContinue()
           width: buttGrid.buttWidth
-          pixmap: NOO.pix(isExercise() ? "practice" : "exam"); iconHeight: summDialog.height / 15
+          pixmap: NOO.pix(isExercise() ? "practice" : "exam"); iconHeight: buttGrid.buttHeight
           text: NOO.TR("QWizard", "Continue")
           onClicked: { continueExecutor(); dialLoader.close() }
         }
         TiconButton {
           visible: !NOO.isAndroid() || !isExercise()
           width: buttGrid.buttWidth
-          pixmap: NOO.pix(NOO.isAndroid() ? "send" : "charts")
-          iconHeight: summDialog.height / 15
+          pixmap: NOO.pix(NOO.isAndroid() ? "send" : "charts"); iconHeight: buttGrid.buttHeight
           text: NOO.isAndroid() ? NOO.TR("QShortcut", "Send") : qsTr("Analyze")
           onClicked: {
             if (NOO.isAndroid()) {
@@ -191,13 +196,13 @@ TexamSummary {
         TiconButton {
           visible: isExercise()
           width: buttGrid.buttWidth
-          pixmap: NOO.pix("exam"); iconHeight: summDialog.height / 15
+          pixmap: NOO.pix("exam"); iconHeight: buttGrid.buttHeight
           text: qsTr("Pass an exam")
           onClicked: { exerciseToExam(); dialLoader.close() }
         }
         TiconButton {
           width: buttGrid.buttWidth
-          pixmap: NOO.pix("exit"); iconHeight: summDialog.height / 15
+          pixmap: NOO.pix("exit"); iconHeight: buttGrid.buttHeight
           text: NOO.TR("QPlatformTheme", "Close")
           onClicked: dialLoader.close()
         }
