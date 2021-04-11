@@ -58,13 +58,14 @@ Below some possibilities of a help are explained but if something other will com
     - **Algorithm for generating random melodies**  
         With configuration for rhythm complexity, intervals to use and so.  
 
-    - **Read/save compressed music XML files(*.mxl)**
-       [Here are specs](https://www.musicxml.com/tutorial/compressed-mxl-files/).
-       Seems like it requires to use external library for zip/unzip dir structures and [Zlib](https://www.zlib.net) seems to be good choose for that, but if there is simpler way - just to compile simple code into the app - it is more appreciated.
+    - **[Android] Utilize 'Oboe' sound library**  
+       Nootka needs low level audio to combine audio samples with metronome ticks or even to change sample pitch in real time.
+       Duplex callback is necessary under Android to implement metronome ticking during pitch detection and [Oboe C++ library](https://github.com/google/oboe) is what might help to achieve that.
 
     - **Pitch detection code needs modernization or migration to external library**
-  
+
   * **Help with CI/CD integration**  
+    - **Mac Os builds using GitHub Actions**
 
 -----------------------------------
 ## 2. Translating Nootka
@@ -81,10 +82,22 @@ Below some possibilities of a help are explained but if something other will com
 
 -----------------------------------
 ## 4. Instrument specific help <a name="instrument"></a>
-  For now, saxophones are abandoned completely.
+  For now, saxophones are abandoned completely. Someone who plays any kind of saxophone would help with advices and testint the app.
 
 -----------------------------------
 ## 5. Writing/recording tutorials <a name="tutorials"></a>
+  On the Nootka web site there are a few help articles:  
+  [https://nootka.sourceforge.io/index.php/help/#getting-started](https://nootka.sourceforge.io/index.php/help/#getting-started).  
+  But images are obsolete (from old version).
+
+  Also it could be more:
+
+  - **interesting use cases**  
+
+  - **video tutorials in different native laguages**  
+
+  - **more helping articles**  
+    If you know already something what was dificult in Nootka at the beginning - write about it or just give us a hint.
 
 
 
