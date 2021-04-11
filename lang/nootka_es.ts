@@ -432,12 +432,12 @@
     <message>
         <source>Bellows is opening.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;opening&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>El fuelle está abriéndose.</translation>
     </message>
     <message>
         <source>Bellows is closing.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;closing&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>El fuelle está cerrándose.</translation>
     </message>
 </context>
 <context>
@@ -1019,11 +1019,11 @@
     </message>
     <message>
         <source>J. S. Bach - Minuet</source>
-        <translation type="unfinished"></translation>
+        <translation>J. S. Bach - Minueto</translation>
     </message>
     <message>
         <source>Play melody of J. S. Bach Minuet from Notebook for Anna Magdalena Bach divided into smaller parts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Interpretar la melodía de J. S. Bach Minueto del Cuaderno de Anna Magdalena Bach dividido en fragmentos.</translation>
     </message>
 </context>
 <context>
@@ -4849,15 +4849,15 @@ Pero mejor que sean cortas, por tanto dividirlas primero con un software externo
     <name>WizardBando</name>
     <message>
         <source>Notes for bandoneon are written on the grand staff - two staves joined with brace.</source>
-        <translation type="unfinished"></translation>
+        <translation>Las notas para bandoneón están escritas en el pentagrama doble - dos pentagramas unidos con una llave.</translation>
     </message>
     <message>
         <source>All notes on the upper staff with treble clef are played with right hand and the notes on the lower one with bass clef are played with the left hand.</source>
-        <translation type="unfinished"></translation>
+        <translation>Todas las notas en el pentagrama superior con clave de Sol son interpretadas con la mano derecha y las notas en el inferior con clave de Fa son interpretadas con la mano izquierda.</translation>
     </message>
     <message>
         <source>Direction of bellows movement is marked with bowing symbols:</source>
-        <translation type="unfinished"></translation>
+        <translation>La dirección del movimiento del fuelle se indica con símbolos arqueados.</translation>
     </message>
 </context>
 <context>
