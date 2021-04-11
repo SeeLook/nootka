@@ -77,7 +77,7 @@ void prepareTranslations(QGuiApplication* a, QTranslator& qt, QTranslator& noo) 
     return;
 
 #if defined (Q_OS_ANDROID)
-  QLocale loc(GLOB->lang.isEmpty() ? QLocale::system() : GLOB->lang);
+  QLocale loc(GLOB->lang.isEmpty() ? QLocale::system().language() : QLocale(GLOB->lang).language());
 #elif defined (Q_OS_MAC)
   QLocale loc(GLOB->lang.isEmpty() ? QLocale::system().uiLanguages().first() : GLOB->lang);
 #elif defined (Q_OS_WIN)
@@ -96,11 +96,6 @@ void prepareTranslations(QGuiApplication* a, QTranslator& qt, QTranslator& noo) 
   if (qt.load(loc, QStringLiteral("qtbase_"), QString(), translationsPath))
     a->installTranslator(&qt);
 
-#if defined (Q_OS_ANDROID)
-  // Try to load Nootka translation from user available location to give translators a way to check their work
-  if (!noo.load(loc, QStringLiteral("nootka_"), QString(), Tandroid::getExternalPath() + "/Nootka"))
-  // if there is not - look for it in standard path
-#endif
   noo.load(loc, QStringLiteral("nootka_"), QString(), Tpath::lang());
   a->installTranslator(&noo);
 
