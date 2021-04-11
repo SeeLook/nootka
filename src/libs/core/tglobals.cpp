@@ -108,7 +108,7 @@ Tglobals::Tglobals(QObject* parent) :
       m_instance = this;
   } else {
       qDebug() << "Tglobals instance has already existed. Application is terminating!";
-      exit(109);
+      qApp->exit(109);
   }
 }
 
