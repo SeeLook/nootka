@@ -82,7 +82,10 @@ Below some possibilities of a help are explained but if something other will com
 
 -----------------------------------
 ## 4. Instrument specific help <a name="instrument"></a>
-  For now, saxophones are abandoned completely. Someone who plays any kind of saxophone would help with advices and testint the app.
+  For now, saxophones are abandoned completely.  
+  Someone who plays any kind of saxophone would help with advices and testing the app.
+
+  Ukulele support will come in next stable release.
 
 -----------------------------------
 ## 5. Writing/recording tutorials <a name="tutorials"></a>
