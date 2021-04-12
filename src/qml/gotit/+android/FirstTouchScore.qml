@@ -8,6 +8,7 @@ import QtQuick 2.9
 Item {
   property var handleScore: null
   anchors.fill: parent
+  visible: !GLOB.isExam
   MouseArea { // cover score mouse/touch actions
     anchors.fill: parent
     hoverEnabled: true

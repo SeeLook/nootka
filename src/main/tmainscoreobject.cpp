@@ -187,7 +187,7 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
   connect(m_scoreObj, &TscoreObject::meterChanged, this, [=]{ SOUND->setCurrentMeter(m_scoreObj->meterToInt()); });
   SOUND->setCurrentMeter(m_scoreObj->meterToInt());
 
-  if (GLOB->gotIt(QStringLiteral("noteSelected"), true))
+  if (!GLOB->isSingleNote() && GLOB->gotIt(QStringLiteral("noteSelected"), true))
     connect(m_scoreObj, &TscoreObject::selectedItemChanged, this, &TmainScoreObject::gotItNoteSelectedSlot);
 }
 
@@ -627,7 +627,8 @@ void TmainScoreObject::playScoreSlot() {
 void TmainScoreObject::gotItNoteSelectedSlot() {
   if (m_scoreObj->selectedItem()) {
     disconnect(m_scoreObj, &TscoreObject::selectedItemChanged, this, &TmainScoreObject::gotItNoteSelectedSlot);
-    emit wantSelectGotIt();
+    if (!GLOB->isExam())
+      emit wantSelectGotIt();
   }
 }
 
