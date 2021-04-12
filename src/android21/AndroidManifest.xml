@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<manifest package="net.sf.nootka"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          android:versionName="1.7.5-devel"
+          android:versionCode="50"
+          android:installLocation="auto">
+    <application android:hardwareAccelerated="true"
+                 android:requestLegacyExternalStorage="true"
+                 android:name="org.qtproject.qt5.android.bindings.QtApplication"
+                 android:label="-- %%INSERT_APP_NAME%% --"
+                 android:icon="@drawable/icon">
+        <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|layoutDirection|locale|fontScale|keyboard|keyboardHidden|navigation" 
+                  android:name="org.qtproject.qt5.android.bindings.QtActivity"
+                  android:label="-- %%INSERT_APP_NAME%% --"
+                  android:screenOrientation="landscape"
+                  android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <!--      Nootka  file associations     -->
+            <intent-filter android:icon="@drawable/level" android:label="Nootka level" android:priority="1" >
+              <action android:name="android.intent.action.SEND" />
+              <action android:name="android.intent.action.VIEW" />
+              <action android:name="android.intent.action.EDIT" /> 
+              <action android:name="android.intent.action.PICK" />
+              <category android:name="android.intent.category.DEFAULT" />
+              <category android:name="android.intent.category.BROWSABLE" />
+              <data android:scheme="file" />
+              <data android:mimeType="*/*" />
+              <data android:host="*" />
+              <data android:pathPattern=".*\\.nel" />
+            </intent-filter>
+            <intent-filter android:icon="@drawable/level" android:label="Nootka level" android:priority="1">
+              <action android:name="android.intent.action.SEND" />
+              <action android:name="android.intent.action.VIEW" />
+              <category android:name="android.intent.category.DEFAULT" />
+              <category android:name="android.intent.category.BROWSABLE" />
+              <data android:scheme="http" android:host="*" android:pathPattern=".*\\.nel" />
+              <data android:scheme="https" android:host="*" android:pathPattern=".*\\.nel" />
+            </intent-filter>
+            <intent-filter>
+              <action android:name="android.intent.action.SEND" />
+              <action android:name="android.intent.action.VIEW" />
+              <category android:name="android.intent.category.DEFAULT" />
+              <category android:name="android.intent.category.BROWSABLE" />
+              <data android:mimeType="message/rfc822" android:scheme="http" android:pathPattern=".*\\.nel" />
+              <data android:mimeType="multipart/related" android:scheme="http" android:pathPattern=".*\\.nel" />
+              <data android:mimeType="message/rfc822" android:scheme="https" android:pathPattern=".*\\.nel" />
+              <data android:mimeType="multipart/related" android:scheme="https" android:pathPattern=".*\\.nel" />
+            </intent-filter>
+            <!--<intent-filter>
+              <action android:name="android.intent.action.VIEW" />
+              <action android:name="android.intent.action.EDIT" />
+              <category android:name="android.intent.category.DEFAULT" />
+              <data android:mimeType="application/nel" android:host="*" android:pathPattern=".*\\.nel" />
+            </intent-filter>-->
+            <intent-filter android:icon="@drawable/exam" android:label="Nootka exam" android:priority="1" >
+              <action android:name="android.intent.action.SEND" />
+              <action android:name="android.intent.action.VIEW" />
+              <action android:name="android.intent.action.EDIT" /> 
+              <action android:name="android.intent.action.PICK" />
+              <category android:name="android.intent.category.DEFAULT" />
+              <category android:name="android.intent.category.BROWSABLE" />
+              <data android:scheme="file" />
+              <data android:mimeType="*/*" />
+              <data android:host="*" />
+              <data android:pathPattern=".*\\.noo" />
+            </intent-filter>
+            <!--<intent-filter>
+              <action android:name="android.intent.action.VIEW" />
+              <action android:name="android.intent.action.EDIT" />
+              <category android:name="android.intent.category.DEFAULT" />
+              <data android:mimeType="application/noo" android:host="*" android:pathPattern=".*\\.noo" />
+            </intent-filter>-->
+            <intent-filter>
+              <action android:name="android.intent.action.SEND" />
+              <action android:name="android.intent.action.VIEW" />
+              <category android:name="android.intent.category.DEFAULT" />
+              <category android:name="android.intent.category.BROWSABLE" />
+              <data android:mimeType="message/rfc822" android:scheme="http" android:pathPattern=".*\\.noo" />
+              <data android:mimeType="multipart/related" android:scheme="http" android:pathPattern=".*\\.noo" />
+              <data android:mimeType="message/rfc822" android:scheme="https" android:pathPattern=".*\\.noo" />
+              <data android:mimeType="multipart/related" android:scheme="https" android:pathPattern=".*\\.noo" />
+            </intent-filter>
+
+            <meta-data android:name="android.app.lib_name" android:value="-- %%INSERT_APP_LIB_NAME%% --"/>
+            <meta-data android:name="android.app.qt_sources_resource_id" android:resource="@array/qt_sources"/>
+            <meta-data android:name="android.app.repository" android:value="default"/>
+            <meta-data android:name="android.app.qt_libs_resource_id" android:resource="@array/qt_libs"/>
+            <meta-data android:name="android.app.bundled_libs_resource_id" android:resource="@array/bundled_libs"/>
+            <!-- Deploy Qt libs as part of package -->
+            <meta-data android:name="android.app.bundle_local_qt_libs" android:value="-- %%BUNDLE_LOCAL_QT_LIBS%% --"/>
+            <!-- Run with local libs -->
+            <meta-data android:name="android.app.use_local_qt_libs" android:value="-- %%USE_LOCAL_QT_LIBS%% --"/>
+            <meta-data android:name="android.app.libs_prefix" android:value="/data/local/tmp/qt/"/>
+            <meta-data android:name="android.app.load_local_libs_resource_id" android:resource="@array/load_local_libs"/>
+            <meta-data android:name="android.app.load_local_jars" android:value="-- %%INSERT_LOCAL_JARS%% --"/>
+            <meta-data android:name="android.app.static_init_classes" android:value="-- %%INSERT_INIT_CLASSES%% --"/>
+            <!--  Messages maps -->
+            <meta-data android:value="@string/ministro_not_found_msg" android:name="android.app.ministro_not_found_msg"/>
+            <meta-data android:value="@string/ministro_needed_msg" android:name="android.app.ministro_needed_msg"/>
+            <meta-data android:value="@string/fatal_error_msg" android:name="android.app.fatal_error_msg"/>
+            <!--  Messages maps -->
+
+            <!-- Splash screen -->
+            <!--
+            <meta-data android:name="android.app.splash_screen_drawable" android:resource="@drawable/logo"/>
+            -->
+            <!-- Splash screen -->
+
+            <!-- Background running -->
+            <!-- Warning: changing this value to true may cause unexpected crashes if the
+                          application still try to draw after
+                          "applicationStateChanged(Qt::ApplicationSuspended)"
+                          signal is sent! -->
+            <meta-data android:name="android.app.background_running" android:value="false"/>
+            <!-- Background running -->
+        </activity>
+
+        <provider
+          android:name="android.support.v4.content.FileProvider"
+          android:authorities="net.sf.nootkabeta.provider"
+          android:exported="false"
+          android:grantUriPermissions="true">
+          <!-- resource file to create -->
+          <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/file_paths">
+          </meta-data>
+        </provider>
+    </application>
+    <uses-sdk android:minSdkVersion="21" android:targetSdkVersion="29"/>
+    <supports-screens android:largeScreens="true" android:normalScreens="true" android:anyDensity="true" android:smallScreens="true"/>
+
+    <!-- The following comment will be replaced upon deployment with default permissions based on the dependencies of the application.
+         Remove the comment if you do not require these default permissions. -->
+    
+
+    <!-- The following comment will be replaced upon deployment with default features based on the dependencies of the application.
+         Remove the comment if you do not require these default features. -->
+    
+    <uses-feature android:name="android.hardware.microphone" android:required="false"/>
+    <uses-feature android:name="android.hardware.audio.low_latency" android:required="false"/>
+    <uses-feature android:name="android.hardware.touchscreen" required="false" />
+
+
+<!--     <uses-permission android:name="android.permission.GET_ACCOUNTS" /> -->
+<!--     <uses-permission android:name="android.permission.INTERACT_ACROSS_USERS"/> -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+<!--     <uses-permission android:name="android.permission.ACCOUNT_MANAGER"/> -->
+</manifest>

@@ -126,9 +126,13 @@ contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
   INCLUDEPATH += fftw ogg vorbis
 }
 
-LIBS += -L../core/ -lNootkaCore  #-L../mobile/ -lNootkaMobile
+versionAtLeast(QT_VERSION, 5.15.0) {
+  LIBS += -L../core/ -lNootkaCore_$${QT_ARCH}
+} else {
+  LIBS += -L../core/ -lNootkaCore
+}
 
-INCLUDEPATH += ../core #../mobile
+INCLUDEPATH += ../core
 
 sounds.path = /assets/sounds
 #sounds.files += sounds/alto-sax.ogg
