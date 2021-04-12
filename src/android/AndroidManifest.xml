@@ -5,6 +5,7 @@
           android:versionCode="50"
           android:installLocation="auto">
     <application android:hardwareAccelerated="true"
+                 android:requestLegacyExternalStorage="true"
                  android:name="org.qtproject.qt5.android.bindings.QtApplication"
                  android:label="-- %%INSERT_APP_NAME%% --"
                  android:icon="@drawable/icon">
