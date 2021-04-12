@@ -517,9 +517,12 @@ void Tglobals::loadSettings(QSettings* cfg) {
       S->scientificOctaves = cfg->value(QStringLiteral("scientificOctaves"), false).toBool();
       Tnote::scientificOctaves = S->scientificOctaves;
 #if defined (Q_OS_ANDROID)
-      S->lastXmlDir = cfg->value(QStringLiteral("lastXmlDir"), Tandroid::getExternalPath()).toString();
-      if (!QFileInfo::exists(S->lastXmlDir)) // reset if doesn't exist
-        S->lastXmlDir = Tandroid::getExternalPath();
+      bool hasWriteAccess = Tandroid::hasWriteAccess();
+      if (hasWriteAccess) {
+        S->lastXmlDir = cfg->value(QStringLiteral("lastXmlDir"), Tandroid::getExternalPath()).toString();
+        if (!QFileInfo::exists(S->lastXmlDir) || !QFileInfo(S->lastXmlDir).isWritable()) // reset if doesn't exist
+          S->lastXmlDir = Tandroid::getExternalPath();
+      }
 #endif
   cfg->endGroup();
 
@@ -614,12 +617,14 @@ void Tglobals::loadSettings(QSettings* cfg) {
       if (E->studentName.isEmpty())
         E->studentName = systemUserName();
 #if defined (Q_OS_ANDROID)
-      E->examsDir = cfg->value(QStringLiteral("examsDir"), Tandroid::getExternalPath()).toString();
-      if (!QFileInfo::exists(E->examsDir)) // reset if doesn't exist
-        E->examsDir = Tandroid::getExternalPath();
-      E->levelsDir = cfg->value(QStringLiteral("levelsDir"), Tandroid::getExternalPath()).toString();
-      if (!QFileInfo::exists(E->levelsDir))
-        E->levelsDir = Tandroid::getExternalPath();
+      if (hasWriteAccess) {
+        E->examsDir = cfg->value(QStringLiteral("examsDir"), Tandroid::getExternalPath()).toString();
+        if (!QFileInfo::exists(E->examsDir) || !QFileInfo(E->examsDir).isWritable()) // reset if doesn't exist
+          E->examsDir = Tandroid::getExternalPath();
+        E->levelsDir = cfg->value(QStringLiteral("levelsDir"), Tandroid::getExternalPath()).toString();
+        if (!QFileInfo::exists(E->levelsDir) || !QFileInfo(E->levelsDir).isWritable())
+          E->levelsDir = Tandroid::getExternalPath();
+      }
 #else
       E->examsDir = cfg->value(QStringLiteral("examsDir"), QDir::homePath()).toString();
       if (!QFileInfo::exists(E->examsDir)) // reset if doesn't exist

@@ -37,6 +37,10 @@
 #include "music/ttuneobject.h"
 #include "tmtr.h"
 #include "tcolor.h"
+#if defined (Q_OS_ANDROID)
+  #include <Android/tandroid.h>
+#endif
+
 
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qtimer.h>
@@ -290,6 +294,8 @@ Tinstrument TnootkaQML::instr(int type) {
 QString TnootkaQML::getXmlToOpen() {
   QString openFile;
 #if defined (Q_OS_ANDROID)
+  if (GLOB->lastXmlDir().isEmpty())
+    GLOB->setLastXmlDir(Tandroid::getExternalPath());
   openFile = TfileDialog::getOpenFileName(GLOB->lastXmlDir(), QStringLiteral("xml|musicxml"));
 #else
   openFile = TfileDialog::getOpenFileName(qApp->translate("TmainScoreObject", "Open melody file"), GLOB->lastXmlDir(),
@@ -305,6 +311,8 @@ QString TnootkaQML::getXmlToSave(const QString& fileName) {
   QString saveFile;
   QString filter;
 #if defined (Q_OS_ANDROID)
+  if (GLOB->lastXmlDir().isEmpty())
+    GLOB->setLastXmlDir(Tandroid::getExternalPath());
   saveFile = TfileDialog::getSaveFileName(GLOB->lastXmlDir() + QLatin1String("/") + fileName,
                                           QStringLiteral("musicxml|xml"));
 #else

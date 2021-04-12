@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -46,6 +46,8 @@ namespace Tandroid {
        * @p TRUE when write access to device is granted. API 23 and above
        */
   bool hasWriteAccess();
+
+  void askForWriteAcces();
 
       /**
        * Returns command line argument (usually exam/level file name.

@@ -24,6 +24,9 @@
 #include <tglobals.h>
 #include <tpath.h>
 #include <Android/tfiledialog.h>
+#if defined (Q_OS_ANDROID)
+  #include <Android/tandroid.h>
+#endif
 
 #include <QtCore/qsettings.h>
 #include <QtCore/qdiriterator.h>
@@ -177,7 +180,9 @@ QString TlevelSelector::levelFile(int id) const {
 void TlevelSelector::loadFromFile(QString levelFile) {
   if (levelFile.isEmpty())
 #if defined (Q_OS_ANDROID)
-    levelFile = TfileDialog::getOpenFileName(GLOB->E->levelsDir, QStringLiteral("nel"));
+  if (GLOB->E->levelsDir.isEmpty())
+    GLOB->E->levelsDir = Tandroid::getExternalPath();
+  levelFile = TfileDialog::getOpenFileName(GLOB->E->levelsDir, QStringLiteral("nel"));
 #else
     levelFile = TfileDialog::getOpenFileName(tr("Load exam level"), GLOB->E->levelsDir, levelFilterTxt() + QLatin1String(" (*.nel)"));
 #endif

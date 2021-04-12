@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -24,6 +24,7 @@
 #include <QtCore/qfileinfo.h>
 #include <QtWidgets/qmessagebox.h>
 #include <QtWidgets/qapplication.h>
+#include <QtCore/qstandardpaths.h>
 
 #include <QtCore/qdebug.h>
 
@@ -76,13 +77,20 @@ bool Tandroid::hasWriteAccess() {
 }
 
 
+void Tandroid::askForWriteAcces() {
+  if (QtAndroid::androidSdkVersion() >= 23) {
+    const QString writeID("android.permission.WRITE_EXTERNAL_STORAGE");
+    if (QtAndroid::checkPermission(writeID) != QtAndroid::PermissionResult::Granted) {
+      auto perms = QtAndroid::requestPermissionsSync(QStringList() << writeID);
+      qDebug() << writeID << (perms[writeID] == QtAndroid::PermissionResult::Granted);
+    }
+  }
+}
+
 QString Tandroid::getExternalPath() {
   QString extPath;
   if (getAPIlevelNr() < 19) { // look for SD card only before Kitkat, otherwise it is inaccessible
     extPath = qgetenv("SECONDARY_STORAGE");
-    //  QAndroidJniObject mediaDir = QAndroidJniObject::callStaticObjectMethod("android/os/Environment",
-    //                                                                         "getExternalStorageDirectory", "()Ljava/io/File;");
-    //  QString extPath = mediaDir.callObjectMethod("getAbsolutePath", "()Ljava/lang/String;").toString();
     if (!extPath.isEmpty()) {
       if (!QFileInfo(extPath).isWritable()) {
         qDebug() << "[Tandroid] No write access to secondary storage!";
@@ -91,16 +99,11 @@ QString Tandroid::getExternalPath() {
     }
   }
 
-  if(QtAndroid::androidSdkVersion() >= 23) {
-      const QString PermissionID("android.permission.WRITE_EXTERNAL_STORAGE");
-      if (QtAndroid::checkPermission(PermissionID) != QtAndroid::PermissionResult::Granted) {
-          auto perms = QtAndroid::requestPermissionsSync(QStringList() << PermissionID);
-          qDebug() << PermissionID << (perms[PermissionID] == QtAndroid::PermissionResult::Granted);
-      }
-  }
+  askForWriteAcces();
 
   if (extPath.isEmpty())
-    extPath = qgetenv("EXTERNAL_STORAGE"); // return primary storage path (device internal)
+    extPath = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
+//    extPath = qgetenv("EXTERNAL_STORAGE"); // return primary storage path (device internal)
   if (!QFileInfo(extPath).isWritable()) {
     qDebug() << "[Tandroid] No write access to primary storage!";
     extPath.clear();

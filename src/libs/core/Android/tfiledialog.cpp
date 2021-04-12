@@ -163,6 +163,7 @@ TfileDialog::TfileDialog(const QString& directory, const QString& filter, Eaccep
 {
   showMaximized();
 
+  Tandroid::askForWriteAcces();
 // left side menu
   m_menu = new QListWidget(this);
   m_menu->setIconSize(QSize(60, 60));

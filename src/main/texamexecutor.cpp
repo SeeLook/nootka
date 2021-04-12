@@ -44,6 +44,9 @@
 #include "tnameitem.h"
 #include "tmainscoreobject.h"
 #include <Android/tfiledialog.h>
+#if defined (Q_OS_ANDROID)
+  #include <Android/tandroid.h>
+#endif
 
 #include <QtCore/qdatetime.h>
 #include <QtCore/qtimer.h>
@@ -79,6 +82,10 @@ void debugStyle(TQAunit &qa) {
  * but when such a file exists in current exam directory some time mark is added.
  */
 QString getExamFileName(Texam* e) {
+#if defined (Q_OS_ANDROID)
+  if (GLOB->E->examsDir.isEmpty())
+    GLOB->E->examsDir = Tandroid::getExternalPath();
+#endif
   auto fName = QDir::toNativeSeparators(GLOB->E->examsDir + QLatin1String("/") + e->userName() + QLatin1String("-") + e->level()->name);
   fName = fName.replace(QLatin1String("."), QLatin1String("")); //HACK: file dialogues don't like dots in the names
   if (QFileInfo::exists(fName  + QLatin1String(".noo")))

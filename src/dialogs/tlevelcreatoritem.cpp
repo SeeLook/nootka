@@ -24,6 +24,9 @@
 #include <tglobals.h>
 #include <texamparams.h>
 #include <Android/tfiledialog.h>
+#if defined (Q_OS_ANDROID)
+  #include <Android/tandroid.h>
+#endif
 
 #include <QtCore/qtimer.h>
 #include <QtCore/qfileinfo.h>
@@ -92,6 +95,10 @@ void TlevelCreatorItem::continueLevelSave(const QString& name, const QString& de
   m_level->name = name;
   m_level->desc = desc;
 
+#if defined (Q_OS_ANDROID)
+  if (GLOB->E->levelsDir.isEmpty())
+    GLOB->E->levelsDir = Tandroid::getExternalPath();
+#endif
   // Saving to file
   QLatin1String dotNel(".nel");
   QString fName = QDir::toNativeSeparators(GLOB->E->levelsDir + QLatin1String("/") + m_level->name);

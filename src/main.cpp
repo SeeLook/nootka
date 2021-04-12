@@ -90,11 +90,14 @@ int main(int argc, char *argv[])
   qputenv("QT_ANDROID_VOLUME_KEYS", "1"); // Handle volume keys by Qt, lock native Android behavior
 
   // log to any writable storage
- logFile = Tandroid::getExternalPath() + QStringLiteral("/nootka-log.txt");
-  if (QFile::exists(logFile))
-    QFile::remove(logFile);
-  qInstallMessageHandler(myMessageOutput);
-  qDebug() << "==== NOOTKA LOG =======\n" << QDateTime::currentDateTime().toString();
+  if (Tandroid::hasWriteAccess()) {
+    logFile = Tandroid::getExternalPath() + QStringLiteral("/nootka-log.txt");
+    Tandroid::askForWriteAcces();
+    if (QFile::exists(logFile))
+      QFile::remove(logFile);
+    qInstallMessageHandler(myMessageOutput);
+    qDebug() << "==== NOOTKA LOG =======\n" << QDateTime::currentDateTime().toString();
+  }
 #else
   qputenv("QT_QUICK_CONTROLS_STYLE", ""); // reset style environment var - other styles can cause crashes
 #endif

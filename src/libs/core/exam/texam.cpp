@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -26,6 +26,9 @@
 #include <QtCore/qdir.h>
 #include <QtCore/qsettings.h>
 #include <QtWidgets/qmessagebox.h>
+#if defined (Q_OS_ANDROID)
+  #include <Android/tandroid.h>
+#endif
 
 #include <QtCore/qdebug.h>
 
@@ -202,6 +205,9 @@ void Texam::skipLast(bool skip) {
 
 
 Texam::EerrorType Texam::loadFromFile(const QString& fileName) {
+#if defined (Q_OS_ANDROID)
+  Tandroid::askForWriteAcces();
+#endif
   m_okTime = 0;
   m_tmpMist = 0;
   m_tmpHalf = 0;
