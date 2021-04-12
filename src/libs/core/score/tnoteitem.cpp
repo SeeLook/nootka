@@ -699,9 +699,11 @@ void TnoteItem::mousePressEvent(QMouseEvent* event) {
       setKeepMouseGrab(true);
       m_measure->score()->setPressedNote(this);
       if (m_measure->score()->activeNote() != this) {
-        m_measure->score()->changeActiveNote(this);
-        m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
-      }
+          m_measure->score()->changeActiveNote(this);
+          m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
+      } else if (m_staff->score()->singleNote())
+          m_measure->score()->setActiveNotePos(qFloor(event->pos().y()));
+
       if (!m_measure->score()->hoveredNote()) {
         m_measure->score()->touchHideTimer()->stop();
         m_touchDuration.restart();
