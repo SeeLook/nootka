@@ -26,8 +26,8 @@ ExamTip {
     hoverEnabled: true
     drag.target: parent
     drag.smoothed: false
-    drag.minimumX: shadowRadius; drag.maximumX: executor.width - width * scale - shadowRadius
-    drag.minimumY: shadowRadius; drag.maximumY: executor.height - height * scale - shadowRadius
+    drag.minimumX: NOO.factor(); drag.maximumX: executor.width - width * scale - NOO.factor()
+    drag.minimumY: NOO.factor(); drag.maximumY: executor.height - height * scale - NOO.factor()
     cursorShape: drag.active ? Qt.DragMoveCursor : (containsMouse ? Qt.PointingHandCursor : Qt.ArrowCursor)
   }
 

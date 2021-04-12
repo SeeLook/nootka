@@ -29,8 +29,8 @@ GlowRect {
   radius: NOO.factor()
   cornerRadius: NOO.factor() * 2
   z: 200
-  x: NOO.bound(shadowRadius, offX - width / 2, executor.width - width - shadowRadius)
-  y: NOO.bound(shadowRadius, offY - height / 2, executor.height - height - shadowRadius)
+  x: NOO.bound(NOO.factor(), offX - width / 2, executor.width - width - NOO.factor())
+  y: NOO.bound(NOO.factor(), offY - height / 2, executor.height - height - NOO.factor())
   width: text.width; height: text.height
   scale: GLOB.useAnimations ? 0 : 1
 
