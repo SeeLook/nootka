@@ -654,7 +654,8 @@ void TnootkaQML::instrumentChangesNoteSlot() {
 
   if (m_scoreObject->singleNote()) {
       m_scoreObject->setNote(0, instrNote);
-      m_scoreObject->setTechnical(0, m_instrument->technical());
+      if (GLOB->instrument().bandoneon())
+        m_scoreObject->setTechnical(0, m_instrument->technical());
   } else {
       if (m_scoreObject->selectedItem() == nullptr) {
           auto r= m_scoreObject->workRhythm();
