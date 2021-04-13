@@ -122,7 +122,7 @@
 
         <provider
           android:name="android.support.v4.content.FileProvider"
-          android:authorities="net.sf.nootkabeta.provider"
+          android:authorities="net.sf.nootka.provider"
           android:exported="false"
           android:grantUriPermissions="true">
           <!-- resource file to create -->
