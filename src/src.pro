@@ -106,10 +106,8 @@ android {
   QMAKE_CXXFLAGS_DEBUG += -fsigned-char -O1
 
   versionAtLeast(QT_VERSION, 5.15.0) {
-    DEFINES += QT_DEPRECATED_WARNINGS
-
-    ANDROID_EXTRA_LIBS += $$OUT_PWD/libs/core/libNootkaCore_$${QT_ARCH}.so \
-                        $$OUT_PWD/libs/sound/libNootkaSound_$${QT_ARCH}.so \
+    DEFINES += QT_NO_DEPRECATED_WARNINGS
+    # Nootka core & sound libraries are added automatically
   } else {
     ANDROID_EXTRA_LIBS += $$OUT_PWD/libs/core/libNootkaCore.so \
                           $$OUT_PWD/libs/sound/libNootkaSound.so \
@@ -130,22 +128,19 @@ versionAtLeast(QT_VERSION, 5.15.0) {
 RESOURCES += nootka-android.qrc
 
 versionAtLeast(QT_VERSION, 5.15.0) {
-
   DISTFILES += \
     android21/AndroidManifest.xml \
     android21/res/values/libs.xml \
-    android/build.gradle \
-    android/gradle/wrapper/gradle-wrapper.jar \
-    android/gradlew \
-    android/gradle/wrapper/gradle-wrapper.properties \
-    android/gradlew.bat \
+    android21/build.gradle \
+    android21/gradle/wrapper/gradle-wrapper.jar \
+    android21/gradlew \
+    android21/gradle/wrapper/gradle-wrapper.properties \
+    android21/gradlew.bat \
     android/net/sf/nootka/TshareExam.java \
     android/net/sf/nootka/ToutVolume.java \
 
   ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android21
-
 } else {
-
   DISTFILES += \
     android/AndroidManifest.xml \
     android/res/values/libs.xml \
@@ -158,7 +153,6 @@ versionAtLeast(QT_VERSION, 5.15.0) {
     android/net/sf/nootka/ToutVolume.java \
 
   ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
-
 }
 
 # append Qt base translations from current Qt installation
@@ -189,5 +183,3 @@ lang.files += $$system(ls $$TR_DIR/qtbase_uk.qm)
 lang.depends += FORCE
 
 INSTALLS += lang
-
-
