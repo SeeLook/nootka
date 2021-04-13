@@ -136,8 +136,8 @@ versionAtLeast(QT_VERSION, 5.15.0) {
     android21/gradlew \
     android21/gradle/wrapper/gradle-wrapper.properties \
     android21/gradlew.bat \
-    android/net/sf/nootka/TshareExam.java \
-    android/net/sf/nootka/ToutVolume.java \
+    android21/net/sf/nootka/TshareExam.java \
+    android21/net/sf/nootka/ToutVolume.java \
 
   ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android21
 } else {

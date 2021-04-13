@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2016-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2016-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -54,13 +54,14 @@ public class TshareExam extends Activity
     shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Nootka");
     shareIntent.putExtra(Intent.EXTRA_TEXT, message);
   // We can be sure that file exists - Nootka checked it before
-    File attachment = new File(filePath);
     Uri uri;
     if (Build.VERSION.SDK_INT < 24) {
+        File attachment = new File(filePath);
         uri = Uri.fromFile(attachment);
     } else {
-        uri = FileProvider.getUriForFile(QtNative.activity(), "net.sf.nootka.provider", attachment);
         shareIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        File attachment = new File(filePath);
+        uri = FileProvider.getUriForFile(QtNative.activity(), "net.sf.nootka.provider", attachment);
     }
     shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
 
