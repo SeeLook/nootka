@@ -104,30 +104,18 @@ MOBILITY =
 android {
   QMAKE_CXXFLAGS_RELEASE += -fsigned-char
   QMAKE_CXXFLAGS_DEBUG += -fsigned-char -O1
-
-  versionAtLeast(QT_VERSION, 5.15.0) {
-    DEFINES += QT_NO_DEPRECATED_WARNINGS
-    # Nootka core & sound libraries are added automatically
-  } else {
-    ANDROID_EXTRA_LIBS += $$OUT_PWD/libs/core/libNootkaCore.so \
-                          $$OUT_PWD/libs/sound/libNootkaSound.so \
-  }
-
 }
 
 INCLUDEPATH += libs/core libs/mobile libs/sound libs/main
 
-versionAtLeast(QT_VERSION, 5.15.0) {
-  LIBS += -Llibs/core/ -lNootkaCore_$${QT_ARCH} \
-          -Llibs/sound -lNootkaSound_$${QT_ARCH} \
-} else {
-  LIBS += -Llibs/core/ -lNootkaCore \
-          -Llibs/sound -lNootkaSound \
-}
-
 RESOURCES += nootka-android.qrc
 
 versionAtLeast(QT_VERSION, 5.15.0) {
+  DEFINES += QT_NO_DEPRECATED_WARNINGS
+
+  LIBS += -Llibs/core/ -lNootkaCore_$${QT_ARCH} \
+          -Llibs/sound -lNootkaSound_$${QT_ARCH} \
+
   DISTFILES += \
     android21/AndroidManifest.xml \
     android21/res/values/libs.xml \
@@ -140,7 +128,12 @@ versionAtLeast(QT_VERSION, 5.15.0) {
     android21/net/sf/nootka/ToutVolume.java \
 
   ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android21
+
 } else {
+
+  LIBS += -Llibs/core/ -lNootkaCore \
+          -Llibs/sound -lNootkaSound \
+
   DISTFILES += \
     android/AndroidManifest.xml \
     android/res/values/libs.xml \
