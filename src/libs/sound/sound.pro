@@ -136,7 +136,7 @@ INCLUDEPATH += ../core
 
 sounds.path = /assets/sounds
 #sounds.files += sounds/alto-sax.ogg
-#sounds.files += sounds/bandoneon.ogg
+sounds.files += sounds/bandoneon.ogg
 sounds.files += sounds/bass-guitar.ogg
 sounds.files += sounds/classical-guitar.ogg
 sounds.files += sounds/electric-guitar.ogg

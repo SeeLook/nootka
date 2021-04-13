@@ -278,12 +278,12 @@ bool ToggScale::loadAudioData(int instrument) {
         m_firstNote = -24; m_lastNote = 21;
         m_soundContinuous = false;
         break;
-#if !defined (Q_OS_ANDROID)
       case Tinstrument::Bandoneon:
         fileName = Tpath::sound("bandoneon");
         m_firstNote = -11; m_lastNote = 48;
         m_soundContinuous = true;
         break;
+#if !defined (Q_OS_ANDROID)
       case Tinstrument::AltSax:
         fileName = Tpath::sound("alto-sax");
         m_firstNote = 1; m_lastNote = 34;
