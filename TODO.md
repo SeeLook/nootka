@@ -9,9 +9,9 @@
 
 ### Bugs to fix:
   - Actions after displaying certificate are messy
-  - Exam start/summary may not fit the window.
   - Exams: For non guitars single note question "give name of:" has nothing more
-  - older Android versions (below 7.1, 4.4 for sure) doesn't detect/load default translation
+  - On smaller mobile screens texts can be out of button
+  - level validation routines are optimized for guitars mostly, troubles are there
 
 ### To test:
   - melodies with ties and multiple rests (either playing or writing)
@@ -25,7 +25,6 @@
   - clean correction code, key signature anim maybe
   - level creator:
      - fix storing melody list in temporary/edited level - use that level list instead of creating pointers
-  - add more levels, in separate files, distributed with the installers
   - add info that reading grand staff from musicxml created out of Nootka is not supported
   - charts - show preview of entire melody, chart tip is not suitable for it
   - clean code:

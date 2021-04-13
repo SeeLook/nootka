@@ -1,6 +1,7 @@
-1.7.5 devel
-     - when window is not enough wide instrument can be scrolled
+1.9.0 rc1
+     - when window is not wide enough, instrument can be scrolled
      - dialogues can change content layout to fit available size
+     - added exercise to play Bach Minuet adjusted to instruments
      - bandoneon improvements (rhythms detection, layout)
      - initial translation into Ukrainian language
      - updated translations (cs, es, de, fr, it, pl)
@@ -8,6 +9,7 @@
     ANDROID
      - improved way of zooming instrument to select note on it
      - screen rotation is supported
+     - do not require access to files at very baginning
 
 1.7.4 beta4
      - 'Got It!' texts about important Nootka features
