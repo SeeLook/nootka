@@ -4215,7 +4215,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/dialogs/tlevelselector.h" line="77"/>
         <source>Range of notes in the level is beyond the scale of your instrument</source>
-        <translation>&lt;li&gt;Zakres progów jest poza skalą twojego instrumentu&lt;/li&gt;</translation>
+        <translation>Zakres nut tego poziomu jest poza skalą twojego instrumentu</translation>
     </message>
 </context>
 <context>
