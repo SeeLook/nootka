@@ -109,6 +109,8 @@ QString Tinstrument::levelsDir() const {
       return QStringLiteral("bass-guitar");
     case Piano:
       return QStringLiteral("piano");
+    case Bandoneon:
+      return QStringLiteral("bandoneon");
     default: return QString();
   }
 }
