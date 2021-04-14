@@ -8,8 +8,8 @@
      - fixed many bugs (crashes, smaller glitches)
     ANDROID
      - improved way of zooming instrument to select note on it
-     - screen rotation is supported
-     - do not require access to files at very baginning
+     - screen rotation is supported (for tablets)
+     - do not require access to files at very beginning
 
 1.7.4 beta4
      - 'Got It!' texts about important Nootka features
