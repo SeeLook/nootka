@@ -2,7 +2,7 @@
 <manifest package="net.sf.nootka"
           xmlns:android="http://schemas.android.com/apk/res/android"
           android:versionName="1.9.0-rc1"
-          android:versionCode="51"
+          android:versionCode="53"
           android:installLocation="auto">
     <application android:hardwareAccelerated="true"
                  android:requestLegacyExternalStorage="true"
