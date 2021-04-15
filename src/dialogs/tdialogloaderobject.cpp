@@ -269,7 +269,7 @@ void TdialogLoaderObject::checkForUpdates() {
 
 bool TdialogLoaderObject::checkVersion(QObject* nootWin) {
   // Do not show changelog page until user wants to see any 'Got It' info.
-  if (GLOB->gotIt(QLatin1String("noteSelected"), true)
+  if ((!GLOB->isSingleNote() && GLOB->gotIt(QLatin1String("noteSelected"), true))
       || GLOB->gotIt(QLatin1String("soundInfo"), true)
 #if defined (Q_OS_ANDROID)
       || GLOB->gotIt(QLatin1String("howToScore"), true)
