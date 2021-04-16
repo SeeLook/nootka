@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,84 +17,83 @@
  ***************************************************************************/
 
 
-#include "tupdatesummary.h"
-#include "tupdateruleswdg.h"
+#include "tupdateitem.h"
 #include <nootkaconfig.h>
 #include <tpath.h>
 #include <qtr.h>
 
 #include <QtCore/qversionnumber.h>
-#include <QtWidgets/qboxlayout.h>
-#include <QtWidgets/qlabel.h>
-#include <QtWidgets/qpushbutton.h>
-#include <QtWidgets/qtextedit.h>
-#include <QtWidgets/qscroller.h>
-
 #include <QtCore/qdebug.h>
+#include <QtGui/qguiapplication.h>
 
 
-TupdateSummary::TupdateSummary(QString version, QString changes, TupdateRules* updateRules):
-  QDialog(nullptr, Qt::WindowStaysOnTopHint),
-  m_updateRules(updateRules)
+TupdateItem* TupdateItem::m_instance = nullptr;
+
+
+TupdateItem::TupdateItem(QQuickItem* parent) :
+  QQuickItem(parent)
 {
-#if defined (Q_OS_ANDROID)
-  showMaximized();
-#else
-  setWindowIcon(QIcon(Tpath::img("nootka")));
-  setWindowTitle(tr("Updates"));
-#endif
-  auto mainLay = new QVBoxLayout;
-  auto lab = new QLabel(this);
-  mainLay->addWidget(lab);
-  lab->setAlignment(Qt::AlignCenter);
-  auto currVers = QVersionNumber::fromString(NOOTKA_VERSION);
-  auto onlineVers = QVersionNumber::fromString(version);
-  if (onlineVers > currVers) { //  new version is available, display what is new there
-// #if defined (Q_OS_ANDROID)
-      lab->setText(QLatin1String("<p style=\"font-size: large;\">")
-      + tr("New Nootka %1 is available.").arg(version) + QLatin1String("<br>")
-      + tr("To get it, visit %1 Nootka site").arg("<a href=\"https://nootka.sourceforge.io/index.php/download/\">") + QLatin1String("</a>.</p>"));
-// #else
-//       lab->setText(QLatin1String("<br><p style=\"font-size: xx-large;\">")
-//       + tr("New Nootka %1 is available.").arg(version) + QLatin1String("<br>")
-//       + tr("To get it, visit <a href=\"https://nootka.sourceforge.io/index.php/download/\">Nootka site</a>.") + QLatin1String("</p><br>"));
-// #endif
-      lab->setOpenExternalLinks(true);
-      auto news = new QTextEdit(this);
-#if defined (Q_OS_ANDROID)
-      news->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-      news->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-      news->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
-#endif
-      QScroller::grabGesture(news->viewport(), QScroller::LeftMouseButtonGesture);
-      news->setReadOnly(true);
-      mainLay->addWidget(news);
-      news->setText(tr("News:") + changes);
-  } else if (currVers > onlineVers)
-    lab->setText(QLatin1String("<br><p style=\"font-size: x-large;\">")
-      + changes.replace(QLatin1String("."), QLatin1String("<br>")) + QLatin1String("</p><br>"));
-  else
-    lab->setText(QLatin1String("<br><p style=\"font-size: x-large;\">")
-              + tr("No changes found.<br>This version is up to date.") + QLatin1String("</p><br>"));
-  if (m_updateRules) {
-    m_rulesWidget = new TupdateRulesWdg(m_updateRules, this);
-    mainLay->addWidget(m_rulesWidget);
+  if (m_instance) {
+    qDebug() << "[TupdateItem] instance already exists! FIXME!";
+    return;
   }
-  mainLay->addSpacing(10);
-  m_okButton = new QPushButton(qTR("QDialogButtonBox", "Ok"), this);
-  mainLay->addWidget(m_okButton, 0, Qt::AlignCenter);
-
-  setLayout(mainLay);
-  connect(m_okButton, &QPushButton::clicked, this, &TupdateSummary::okButtonSlot);
+  m_instance = this;
 }
 
 
-
-TupdateSummary::~TupdateSummary() {}
-
-
-void TupdateSummary::okButtonSlot() {
-  if (m_updateRules)
-    m_rulesWidget->saveSettings();
-  accept();
+void TupdateItem::setVersion(const QString& v) {
+  m_version = v;
+  emit versionChanged();
+  emit onlineIsNewerChanged();
+  emit changesChanged();
 }
+
+
+void TupdateItem::setRules(const QSize& r) {
+  m_rules.period = static_cast<TupdateRules::Eperiod>(qBound(0, r.width(), 2));
+  m_rules.checkForAll = r.height() == 0;
+  emit rulesChanged();
+}
+
+
+QString TupdateItem::changes() {
+  if (onlineIsNewer())
+    return tr("News:") + m_changes.replace(QLatin1String("\n"), QLatin1String("<br>"));
+  else if (QVersionNumber::fromString(m_version) < QVersionNumber::fromString(NOOTKA_VERSION))
+    return QLatin1String("<br><font size=\"5\">") + m_changes.replace(QLatin1String("."), QLatin1String(".<br>")) + QLatin1String("</font>");
+  else
+    return QLatin1String("<br><font size=\"5\">")
+          + QGuiApplication::translate("TupdateSummary", "No changes found.<br>This version is up to date.")
+          + QLatin1String("</font>");
+}
+
+
+void TupdateItem::setChanges(const QString& ch) {
+  m_changes = ch;
+  emit changesChanged();
+}
+
+
+void TupdateItem::setUpdateCheck(bool uc) {
+  m_rules.enable = uc;
+  emit updateCheckChanged();
+}
+
+
+void TupdateItem::setUpdateRules(TupdateRules* r, const QString& vers) {
+  setVersion(vers);
+  setUpdateCheck(r->enable);
+  setRules(QSize(static_cast<int>(r->period), (r->checkForAll ? 0 : 1)));
+}
+
+
+bool TupdateItem::onlineIsNewer() const {
+  return QVersionNumber::fromString(m_version) > QVersionNumber::fromString(NOOTKA_VERSION);
+}
+
+
+TupdateItem::~TupdateItem() {
+  saveUpdateRules(m_rules);
+  m_instance = nullptr;
+}
+
