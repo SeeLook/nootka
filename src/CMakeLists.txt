@@ -152,8 +152,7 @@ if(ENABLE_UPDATER)
   list(APPEND NOOTKA_SRC
     updater/tupdatechecker.cpp
     updater/updatefunctions.cpp
-    updater/tupdateruleswdg.cpp
-    updater/tupdatesummary.cpp
+    updater/tupdateitem.cpp
   )
 
 else(ENABLE_UPDATER)

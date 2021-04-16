@@ -51,8 +51,7 @@ SOURCES +=  main.cpp \
           \
             updater/tupdatechecker.cpp \
             updater/updatefunctions.cpp \
-            updater/tupdateruleswdg.cpp \
-            updater/tupdatesummary.cpp \
+            updater/tupdateitem.cpp \
           \
 
 HEADERS  += mobile/tmobilemenu.h \
@@ -92,8 +91,7 @@ HEADERS  += mobile/tmobilemenu.h \
           \
             updater/tupdatechecker.h \
             updater/updatefunctions.h \
-            updater/tupdateruleswdg.h \
-            updater/tupdatesummary.h \
+            updater/tupdateitem.h \
           \
 
 
