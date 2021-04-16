@@ -19,7 +19,12 @@
 #ifndef TDIALOGLOADEROBJECT_H
 #define TDIALOGLOADEROBJECT_H
 
+
 #include <QtCore/qobject.h>
+
+
+class TupdateRules;
+
 
 /**
  * Implements logic for dialogues loader (@p DialogLoader.qml),
@@ -80,6 +85,7 @@ signals:
   void continueExam(const QString& examFile);
   void openLevel(const QString& levelFile);
   void updateMessageChanged();
+  void updateSummary(const QString& version, const QString& changes, const TupdateRules& rules);
 
 private:
   static bool                    m_firstTime;

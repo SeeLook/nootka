@@ -32,6 +32,7 @@
 #include "main/tstartexamitem.h"
 #include "main/tnootkacertificate.h"
 #include "main/tpiechartitem.h"
+#include "updater/tupdateitem.h"
 #if !defined (Q_OS_ANDROID)
   #include "charts/tchartitem.h"
   #include "charts/tcharttipitem.h"
@@ -78,6 +79,8 @@ TdialogLoaderObject::TdialogLoaderObject(QObject* parent) :
     qmlRegisterType<TstartExamItem>("Nootka.Exam", 1, 0, "TstartExamItem");
     qmlRegisterType<TnootkaCertificate>("Nootka.Exam", 1, 0, "CertificateItem");
     qmlRegisterType<TpieChartItem>("Nootka.Exam", 1, 0, "TpieChartItem");
+
+    qmlRegisterType<TupdateItem>("Nootka.Update", 1, 0, "TupdateItem");
 
     qRegisterMetaType<Tlevel*>("Tlevel*");
     qRegisterMetaType<Texam*>("Texam*");
@@ -255,15 +258,29 @@ void TdialogLoaderObject::updateCheckInBackground() {
 }
 
 
+/**
+ * This method is invoked by user from GlobalPage,
+ * so it handles @p TupdateChecker::updateSummary and @p updateMessage signals.
+ */
 void TdialogLoaderObject::checkForUpdates() {
   auto updater = new TupdateChecker(qApp);
-  connect(updater, &TupdateChecker::updateMessage, [=](QString m){
+  connect(updater, &TupdateChecker::updateSummary, this, [=](const QString& v, const QString& c, TupdateRules* r){
+    // This method is called by GlobalPage and creates Popup with updates
+    // so update item content just once, when TupdateItem doesn't exist yet
+    bool updateItem = TupdateItem::instance() == nullptr;
+    emit updateSummary(v, c, *r);
+    if (TupdateItem::instance() && updateItem) {
+      TupdateItem::instance()->setUpdateRules(r, v);
+      TupdateItem::instance()->setChanges(c);
+    }
+  });
+  connect(updater, &TupdateChecker::updateMessage, this, [=](QString m){
     m_updateMessage = m;
     emit updateMessageChanged();
     if (m.isEmpty() || m.contains(QLatin1String("error")))
       updater->deleteLater();
   });
-  updater->check(false); // Any way show update window
+  updater->check(false); // Anyway show update window
 }
 
 
