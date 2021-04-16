@@ -172,6 +172,9 @@
     <file alias="charts/ChartHelpTip.qml">charts/qml/ChartHelpTip.qml</file>
     <file alias="charts/ChartDrawer.qml">charts/qml/ChartDrawer.qml</file>
 
+    <file alias="updater/UpdaterPopup.qml">qml/updater/UpdaterPopup.qml</file>
+    <file alias="updater/TupdateSummary.qml">qml/updater/TupdateSummary.qml</file>
+
     <file alias="nootini/AudioAnalyze.qml">qml/nootini/AudioAnalyze.qml</file>
 
     <file alias="qtquickcontrols2.conf">qml/qtquickcontrols2.conf</file>

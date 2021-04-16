@@ -166,6 +166,9 @@
     <file alias="exam/Certificate.qml">qml/exam/Certificate.qml</file>
     <file alias="exam/TsuggestExam.qml">qml/exam/TsuggestExam.qml</file>
 
+    <file alias="updater/UpdaterPopup.qml">qml/updater/UpdaterPopup.qml</file>
+    <file alias="updater/TupdateSummary.qml">qml/updater/TupdateSummary.qml</file>
+
     <file alias="qtquickcontrols2.conf">qml/qtquickcontrols2.conf</file>
 
   </qresource>
