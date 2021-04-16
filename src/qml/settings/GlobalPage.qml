@@ -224,4 +224,13 @@ Tflickable {
 
   function help() { NOO.openHelpLink("settings") }
 
+  property var updater: null
+  Connections {
+    target: dialogObj
+    onUpdateSummary: {
+      if (!updater)
+        updater = Qt.createComponent("qrc:/updater/UpdaterPopup.qml").createObject(globalPage)
+      updater.open()
+    }
+  }
 }
