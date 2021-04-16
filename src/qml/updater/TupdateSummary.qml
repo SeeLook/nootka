@@ -27,20 +27,23 @@ TupdateItem {
 
   Column {
     anchors.horizontalCenter: parent.horizontalCenter
-    spacing: NOO.factor() * (NOO.isAndroid() ? 0.5 : 1)
+    spacing: NOO.factor() * (NOO.isAndroid() ? 0.25 : 1)
 
     Item { width: height; height: NOO.isAndroid() ? 0 : NOO.factor() }
 
     LinkText {
+      id: headText
+      visible: onlineIsNewer
       width: updateIt.width - NOO.factor()
       font { pixelSize: NOO.factor() * (NOO.isAndroid() ? 1 : 1.5); bold: true }
-      text: qsTr("New Nootka %1 is available.").arg(version) + "<br>"
-            + qsTr("To get it, visit %1 Nootka site").arg("<a href=\"https://nootka.sourceforge.io/index.php/download/\">") + "</a>."
+      text: onlineIsNewer ? qsTr("New Nootka %1 is available.").arg(version) + "<br>"
+            + qsTr("To get it, visit %1 Nootka site").arg("<a href=\"https://nootka.sourceforge.io/index.php/download/\">") + "</a>." : ""
       wrapMode: Text.WordWrap; horizontalAlignment: Text.AlignHCenter
     }
 
     GlowRect {
-      width: updateIt.width - NOO.factor() * 2; height: updateIt.height - upCol.height - NOO.factor() * (NOO.isAndroid() ? 4 : 8)
+      width: updateIt.width - NOO.factor() * 2
+      height: updateIt.height - upCol.height - (onlineIsNewer ? headText.height : 0) - NOO.factor() * (NOO.isAndroid() ? 1 : 4)
       anchors.horizontalCenter: parent.horizontalCenter
       color: activPal.base
       Tflickable {
@@ -52,6 +55,8 @@ TupdateItem {
           width: updateIt.width - NOO.factor() * 2
           textFormat: Text.StyledText
           text: changes
+          wrapMode: Text.WordWrap
+          horizontalAlignment: onlineIsNewer ? Text.AlignLeft : Text.AlignHCenter
         }
       }
     }

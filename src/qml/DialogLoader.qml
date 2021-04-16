@@ -20,8 +20,6 @@ Old.Dialog {
   property alias standardButtons: box.standardButtons
   property alias buttonBox: box
   property alias dialogObj: dialogObj
-
-  // private
   property var currentDialog: null
 
   TdialogObject {
@@ -102,6 +100,11 @@ Old.Dialog {
           break
         case Nootka.MelodyGenerator:
           currentDialog = Qt.createComponent("qrc:/score/MelGenDialog.qml").createObject(container)
+          break
+        case Nootka.Updater:
+          currentDialog = Qt.createComponent("qrc:/updater/TupdateSummary.qml").createObject(container)
+          dialLoader.title = currentDialog.titleText
+          dialLoader.standardButtons = DialogButtonBox.Ok
           break
       }
       SOUND.stopListen()
