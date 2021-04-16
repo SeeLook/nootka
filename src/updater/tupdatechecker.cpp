@@ -65,14 +65,14 @@ void TupdateChecker::check(bool checkRules) {
           requestAddr += QString("://nootka.sldc.pl/ch/version.php?v=%1").arg(QLatin1String(NOOTKA_VERSION));
           QUrl requestUrl(requestAddr);
           QNetworkRequest request(requestUrl);
-  #if defined(Q_OS_WIN32)
-            request.setRawHeader("User-Agent", "Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 5.1; Trident/4.0; .NET4.0C; .NET4.0E)");
+  #if defined(Q_OS_WIN)
+            request.setRawHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.74 Safari/537.36 Edg/79.0.309.43");
   #elif defined (Q_OS_ANDROID)
-            request.setRawHeader("User-Agent" , "Mozilla/5.0 (Linux; Android 4.0.4; AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.133 Mobile Safari/535.19");
+            request.setRawHeader("User-Agent" , "Mozilla/5.0 (Linux; Android 10) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/90.0.4430.66 Mobile Safari/537.36");
   #elif defined(Q_OS_LINUX)
-            request.setRawHeader("User-Agent", "Mozilla/5.0 (X11; Linux i686 (x86_64); AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.133 Mobile Safari/535.19");
+            request.setRawHeader("User-Agent", "Mozilla/5.0 (Linux x86_64; rv:87.0) Gecko/20100101 Firefox/87.0");
   #else
-            request.setRawHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_0) AppleWebKit/534.57.2 (KHTML, like Gecko) ");
+            request.setRawHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15");
   #endif
           if (hasSSL)
             request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
