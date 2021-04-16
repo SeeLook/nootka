@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -18,11 +18,17 @@
 
 
 #include "tupdatechecker.h"
+#include "tupdateitem.h"
 #include <nootkaconfig.h>
-#include <QtWidgets/qmessagebox.h>
+#include <tnootkaqml.h>
+#include <tglobals.h>
+
+#include <QtCore/qsize.h>
+#include <QtQml/qqmlapplicationengine.h>
+#include <QtQml/qqmlcontext.h>
 #include <QtNetwork/qnetworkaccessmanager.h>
 #include <QtCore/qversionnumber.h>
-
+#include <QtCore/qsettings.h>
 #include <QtCore/qdebug.h>
 
 
@@ -40,7 +46,7 @@ TupdateChecker::TupdateChecker(QObject* parent) :
 }
 
 
-void TupdateChecker::check(bool checkRules){
+void TupdateChecker::check(bool checkRules) {
   if (m_netManager->networkAccessible() == QNetworkAccessManager::Accessible) {
       m_respectRules = checkRules;
       if (!m_respectRules)
@@ -116,19 +122,21 @@ void TupdateChecker::replySlot(QNetworkReply* netReply) {
         replyLines.removeFirst();
         QString changes = replyLines.join(QString());
         if (currVers != onlineVers) {
-            if (currVers < onlineVers)
-                showUpdateSummary(newVersionStr, changes, &m_updateRules);
-            else {
+            if (currVers < onlineVers) {
+                if (m_respectRules)
+                  showUpdateSummary(newVersionStr, changes, &m_updateRules);
+                else
+                  emit updateSummary(newVersionStr, changes, &m_updateRules);
+            } else {
                 auto newerMessage = QStringLiteral("Seems You have newer version than available online. Great! Happy testing!");
                 if (!m_respectRules)
-                  showUpdateSummary(newVersionStr, newerMessage, &m_updateRules);
+                  emit updateSummary(newVersionStr, newerMessage, &m_updateRules);
                 else
                   qDebug() << "[TupdateChecker]" << newerMessage;
             }
         } else if (!m_respectRules)
-            showUpdateSummary(newVersionStr, QString(), &m_updateRules);
-        m_updateRules.recentDate = QDate::currentDate();
-        saveUpdateRules(m_updateRules);
+            emit updateSummary(newVersionStr, changes, &m_updateRules);
+        GLOB->config->setValue(QLatin1String("Updates/recentDate"), QDate::currentDate());
         emit updateMessage(QString());
     }
   }
@@ -142,7 +150,22 @@ void TupdateChecker::replySlot(QNetworkReply* netReply) {
 }
 
 
+void TupdateChecker::showUpdateSummary(QString version, QString changes, TupdateRules* rules) {
+  auto appEngine = qobject_cast<QQmlApplicationEngine*>(NOO->qmlEngine());
 
-
-
-
+  if (appEngine && !appEngine->rootObjects().isEmpty()) {
+    auto nootWin = appEngine->rootObjects().first();
+    if (nootWin && QString(nootWin->metaObject()->className()).contains("MainWindow_QMLTYPE")) {
+      QMetaObject::invokeMethod(nootWin, "showDialog", Q_ARG(QVariant, 9));
+      auto dialogLoader = qvariant_cast<QObject*>(nootWin->property("dialogLoader"));
+      if (dialogLoader) {
+        auto updateContent = qvariant_cast<QObject*>(dialogLoader->property("currentDialog"));
+        auto updateItem = qobject_cast<TupdateItem*>(updateContent);
+        if (updateItem) {
+          updateItem->setUpdateRules(rules, version);
+          updateContent->setProperty("changes", QVariant::fromValue(changes));
+        }
+      }
+    }
+  }
+}

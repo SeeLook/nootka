@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -52,6 +52,7 @@ public:
 
 signals:
   void updateMessage(QString);
+  void updateSummary(const QString& version, const QString& changes, TupdateRules* rules);
 
 protected:
   void replySlot(QNetworkReply* netReply);
@@ -60,6 +61,8 @@ protected:
        * Grabs connection errors, if any.
        */
   void errorSlot(QNetworkReply::NetworkError err);
+
+  void showUpdateSummary(QString version, QString changes, TupdateRules *rules = nullptr);
 
 
 private:
