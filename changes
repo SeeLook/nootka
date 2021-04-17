@@ -1,3 +1,6 @@
+1.9.1 rc2
+     - version checker/updater was ported to QML
+
 1.9.0 rc1
      - when window is not wide enough, instrument can be scrolled
      - dialogues can change content layout to fit available size

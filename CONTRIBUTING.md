@@ -32,7 +32,6 @@ Below some possibilities of a help are explained but if something other will com
     If You have any experience in testing QML/Qt/C++ application code then running some diagnostic tools on it might help to find potential weaknesses even without knowing what Nootka/code really does.
 
   * **Using QML - Qt Meta Language**  
-    - **Porting update checker to QML**  
 
     - **Triplet support in QML Score editor**  
       Seems like detecting note duration works well, so it can bear more tiny divisions like triplets. This is planed for next stable Nootka release (like 2.2).
@@ -97,10 +96,10 @@ Below some possibilities of a help are explained but if something other will com
 
   - **interesting use cases**  
 
-  - **video tutorials in different native laguages**  
+  - **video tutorials in different native languages**  
 
   - **more helping articles**  
-    If you know already something what was dificult in Nootka at the beginning - write about it or just give us a hint.
+    If you know already something what was difficult in Nootka at the beginning - write about it or just give us the hint.
 
 
 
