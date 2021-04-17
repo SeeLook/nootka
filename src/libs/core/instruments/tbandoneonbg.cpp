@@ -133,6 +133,11 @@ TbandoneonBg::TbandoneonBg(QQuickItem* parent) :
   TcommonInstrument(parent),
   m_currentIndex(-1)
 {
+  // HACK Default highlight color is quite the same as bellows closing color
+  // so change it here - it affects bandoneon only
+  if (QColor(255, 0, 127, 150) == GLOB->fingerColor())
+    GLOB->setFingerColor(QColor(0, 128, 128, 250)); // teal without slight alpha
+
   for (int i = 0; i < 71; ++i) {
     if (i < 33) {
         m_notesArray[buttArray[i].open + 11].leftOpen = i + 1;
