@@ -443,7 +443,7 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
     name = name.left(29);
     qDebug() << "[Tlevel] Name of a level was reduced to 29 characters:" << name;
   }
-  if (canBeGuitar() && fixFretRange() == e_levelFixed) {
+  if (canBeInstr() && fixFretRange() == e_levelFixed) {
     er = e_levelFixed;
     qDebug() << "[Tlevel] Lowest fret in the range was bigger than the highest one. Fixed";
   }
@@ -647,7 +647,7 @@ Tclef Tlevel::fixClef(quint16 cl) {
         return Tclef(Tclef::Treble_G_8down); // and versions before 0.8.90 kept here 0
     if (cl == 1) {
       Tnote lowest(6, -2, 0);
-      if (canBeGuitar() || loNote.chromatic() < lowest.chromatic() )
+      if (canBeInstr() || loNote.chromatic() < lowest.chromatic() )
           return Tclef(Tclef::Treble_G_8down);  // surely: 1 = e_treble_G was not intended here
       else
           return Tclef(Tclef::Treble_G);
@@ -665,14 +665,14 @@ Tinstrument::Etype Tlevel::fixInstrument(quint8 instr) {
   // Value 255 comes from transition version 0.8.90 - 0.8.95 and means no instrument,
   // however it is invalid because it ignores guitarists and doesn't play exams/exercises on proper instrument
     if (instr == 255) {
-        if (canBeGuitar() || canBeSound()) {
+        if (canBeInstr() || canBeSound()) {
             hasInstrToFix = true;
             return GLOB->instrument().type();
         } else // instrument has no matter
             return Tinstrument::NoInstrument;
     } else if (instr == 0 || instr == 1) {
         // Values 0 and 1 occur in versions before 0.8.90 where an instrument doesn't exist
-        if (canBeGuitar() || canBeSound())
+        if (canBeInstr() || canBeSound())
             return Tinstrument::ClassicalGuitar;
         else
             return Tinstrument::NoInstrument;
@@ -686,7 +686,7 @@ Tinstrument::Etype Tlevel::fixInstrument(quint8 instr) {
 
 
 Tinstrument::Etype Tlevel::detectInstrument(Tinstrument::Etype currInstr) {
-  if (canBeGuitar()) { // it has to be some kind of guitar
+  if (canBeInstr()) { // it has to be some kind of guitar
       if (currInstr != Tinstrument::NoInstrument)
           return currInstr;
       else // if current instrument isn't guitar force classical
@@ -724,7 +724,7 @@ bool Tlevel::canBeName() const {
       return false;
 }
 
-bool Tlevel::canBeGuitar() const {
+bool Tlevel::canBeInstr() const {
   if (questionAs.isOnInstr() ||
     (questionAs.isName() && answersAs[TQAtype::e_asName].isOnInstr()) ||
     (questionAs.isOnScore() && answersAs[TQAtype::e_onScore].isOnInstr()) ||

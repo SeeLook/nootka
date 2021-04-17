@@ -170,9 +170,9 @@ public:
   bool canBeName() const;
 
       /**
-       * @p TRUE if answer or question is position on a guitar
+       * @p TRUE if answer or question can be on an instrument
        */
-  bool canBeGuitar() const;
+  bool canBeInstr() const;
 
       /**
        * @p TRUE if answer or question is played or sang sound

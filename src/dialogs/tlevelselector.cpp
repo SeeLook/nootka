@@ -41,7 +41,7 @@ QString TlevelSelector::checkLevel(const Tlevel& l) {
   QString warringText;
   if (GLOB->instrument().type() == Tinstrument::NoInstrument && l.instrument != Tinstrument::NoInstrument)
           warringText = tr("Level is not suitable for current instrument type");
-  else if (l.canBeGuitar() || (l.instrument != Tinstrument::NoInstrument && l.canBeSound())) {
+  else if (l.canBeInstr() || (l.instrument != Tinstrument::NoInstrument && l.canBeSound())) {
     if (l.hiFret > GLOB->GfretsNumber || GLOB->Gtune()->stringNr() < 3 ||
         l.loNote.chromatic() < GLOB->loString().chromatic() ||
         l.hiNote.chromatic() > GLOB->hiNote().chromatic())

@@ -70,7 +70,7 @@ bool TlevelCreatorItem::notSaved() const { return !m_titleExtension.isEmpty(); }
 
 void TlevelCreatorItem::saveLevel() {
   emit save();
-if (!m_level->canBeGuitar() && !m_level->answerIsSound() ) { // no guitar and no played sound
+if (!m_level->canBeInstr() && !m_level->answerIsSound() ) { // no guitar and no played sound
     // adjust fret range - validation will skip it for non guitar levels
     m_level->loFret = 0; // Set range to fret number and rest will be done by function preparing question list
     m_level->hiFret = GLOB->GfretsNumber;
@@ -650,13 +650,13 @@ void TlevelCreatorItem::whenLevelChanged() {
 QStringList TlevelCreatorItem::validateLevel() {
   QStringList res;
 // Check has a level sense - are there an questions and answers
-  if (!m_level->canBeScore() && ! m_level->canBeName() && !m_level->canBeGuitar() && !m_level->canBeSound()) {
+  if (!m_level->canBeScore() && ! m_level->canBeName() && !m_level->canBeInstr() && !m_level->canBeSound()) {
       res << tr("There aren't any questions or answers selected.<br>Level makes no sense.");
       return res;
   }
 // checking range
 // determine the highest note of fret range on available strings
-  if (m_level->canBeGuitar() || (m_level->instrument != Tinstrument::NoInstrument && m_level->answerIsSound())) {
+  if (m_level->canBeInstr() || (m_level->instrument != Tinstrument::NoInstrument && m_level->answerIsSound())) {
     // only when guitar is enabled otherwise frets range was adjusted automatically
     int hiAvailStr, loAvailStr, cnt = -1;
     do {
@@ -673,7 +673,7 @@ QStringList TlevelCreatorItem::validateLevel() {
           res << tr("<li>Range of frets is beyond the scale of this level</li>");
   }
 // Check is level range fit to instrument scale
-  if (m_level->canBeGuitar() || m_level->answerIsSound()) {
+  if (m_level->canBeInstr() || m_level->answerIsSound()) {
     if (!m_level->inScaleOf(GLOB->loString().chromatic(), GLOB->hiString().chromatic() + GLOB->GfretsNumber))
       res << "<li>" + TlevelSelector::rangeBeyondScaleTxt() + "</li>";
   }

@@ -67,7 +67,7 @@ void TlevelPreviewItem::setLevel(Tlevel* tl) {
       else
         m_noteRange.clear();
 
-      if (GLOB->instrument().isGuitar() && tl->canBeGuitar())
+      if (GLOB->instrument().isGuitar() && tl->canBeInstr())
         m_fretRange = QString("<b>%1 - %2</b>").arg(static_cast<int>(tl->loFret)).arg(static_cast<int>(tl->hiFret));
       else
         m_fretRange.clear();

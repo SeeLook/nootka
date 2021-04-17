@@ -80,7 +80,7 @@ QString TexecutorSupply::checkInstrumentParamsChange(Texam* exam) {
   auto tmpTune = *GLOB->Gtune();
   int fretCount = GLOB->fretNumber();
   bool guitarParamsChanged = false;
-  if ((exam->level()->canBeGuitar() || exam->level()->canBeSound()) && !m_playCorrections && exam->tune() != *GLOB->Gtune()) {
+  if ((exam->level()->canBeInstr() || exam->level()->canBeSound()) && !m_playCorrections && exam->tune() != *GLOB->Gtune()) {
     // Is tune the same?
     if (!changesMessage.isEmpty())
       changesMessage += QLatin1String("<br>");
@@ -172,12 +172,12 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
      * add to question list only the lowest position sounds.
      * In this way the list contains proper number of questions.
      */
-  if (!m_level->canBeGuitar() && !m_level->answerIsSound())  // adjust fret range
+  if (!m_level->canBeInstr() && !m_level->answerIsSound())  // adjust fret range
     m_level->onlyLowPos = true;
 
   if (m_level->isMelodySet()) {
       qDebug() << "[TexecutorSupply] melody list, no question list";
-  } else if (Tinstrument(m_level->instrument).isGuitar() && (!m_playCorrections || m_level->showStrNr || m_level->canBeGuitar())) {
+  } else if (Tinstrument(m_level->instrument).isGuitar() && (!m_playCorrections || m_level->showStrNr || m_level->canBeInstr())) {
       qDebug() << "[TexecutorSupply] Question list created fret by fret. Tune:" << GLOB->Gtune()->name << GLOB->Gtune()->stringNr();
       if (m_level->instrument == Tinstrument::NoInstrument && GLOB->instrument().type() != Tinstrument::NoInstrument) {
         char hi = m_hiFret, lo = m_loFret;
