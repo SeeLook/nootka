@@ -61,12 +61,22 @@ TbandoneonBg {
      z: 2
    }
 
-  Text {
+  Row {
     x: (parent.width * 0.985 - width) / 2
     y: factor * 2
-    text: opening ? "\uE610" : (closing ? "\uE612" : "")
-    color: opening ? "blue" : "#FF00FF"
-    font { family: "Nootka"; pixelSize: factor * 25 }
+    spacing: factor * 2
+    Text {
+      anchors.verticalCenter: parent.verticalCenter
+      text: opening ? "\uE610" : (closing ? "\uE612" : "")
+      color: opening ? "blue" : "#FF00FF"
+      font { family: "Nootka"; pixelSize: factor * 20 }
+    }
+    Text {
+      anchors.verticalCenter: parent.verticalCenter
+      text: opening ? "(<b>A</b>)" : (closing ? "(<b>C</b>)" : "")
+      color: opening ? "blue" : "#FF00FF"
+      font { pixelSize: factor * 12 }
+    }
   }
 
   rightX: factor * 240
@@ -117,9 +127,10 @@ TbandoneonBg {
         hoverEnabled: !NOO.isAndroid()
         onHoveredChanged: {
           if (hovered)
-            NOO.setStatusTip(qsTr("Bellows is opening.",
+            NOO.setStatusTip("<big><span style=\"font-family: 'Nootka';\">\uE610</span></big>  (<b>A</b>) - "
+                + qsTr("Bellows is opening.",
                 "Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than 'opening'"),
-                Item.Top)
+                Item.Top, true)
           else
             NOO.setStatusTip("", Item.Top)
         }
@@ -139,9 +150,10 @@ TbandoneonBg {
         hoverEnabled: !NOO.isAndroid()
         onHoveredChanged: {
           if (hovered)
-            NOO.setStatusTip(qsTr("Bellows is closing.",
+            NOO.setStatusTip("<big><span style=\"font-family: 'Nootka';\">\uE612</span></big> (<b>C</b>) - "
+                + qsTr("Bellows is closing.",
                 "Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than 'closing'"),
-                Item.Top)
+                Item.Top, true)
           else
             NOO.setStatusTip("", Item.Top)
         }
