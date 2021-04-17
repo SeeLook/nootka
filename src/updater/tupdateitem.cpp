@@ -58,7 +58,7 @@ void TupdateItem::setRules(const QSize& r) {
 
 QString TupdateItem::changes() {
   if (onlineIsNewer())
-    return tr("News:") + m_changes.replace(QLatin1String("\n"), QLatin1String("<br>"));
+    return QGuiApplication::translate("TupdateSummary", "News:") + m_changes.replace(QLatin1String("\n"), QLatin1String("<br>"));
   else if (QVersionNumber::fromString(m_version) < QVersionNumber::fromString(NOOTKA_VERSION))
     return QLatin1String("<br><font size=\"5\">") + m_changes.replace(QLatin1String("."), QLatin1String(".<br>")) + QLatin1String("</font>");
   else
