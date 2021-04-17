@@ -193,13 +193,13 @@ public:
        * @p tipPos value represents QQuickItem::TransformOrigin enumerator.
        * @p default 1 is top center of window
        */
-  Q_INVOKABLE void setStatusTip(const QString& statusText, int tipPos = 1);
+  Q_INVOKABLE void setStatusTip(const QString& statusText, int tipPos = 1, bool richText = false);
 
       /**
        * Displays status message in declared period @p time
        * at position @p pos - top center by default (see @p QQuickItem::TransformOrigin)
        */
-  void showTimeMessage(const QString& message, int time, int pos = 1);
+  void showTimeMessage(const QString& message, int time, int pos = 1, bool richText = false);
   bool messageTimerActive() const;
 
       /**
@@ -276,7 +276,7 @@ signals:
   void chartsActTriggered();
   void examActTriggered();
   void aboutActTriggered();
-  void statusTip(const QString& statusText, int tipPos);
+  void statusTip(const QString& statusText, int tipPos, bool richText);
   void messageColorChanged();
 
 protected:

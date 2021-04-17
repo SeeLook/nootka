@@ -13,7 +13,11 @@ TipRect {
 
   Connections {
     target: NOO
-    onStatusTip: { text.text = statusText; statusTip.tipPos = tipPos }
+    onStatusTip: {
+      text.textFormat = richText ? Text.RichText : Text.AutoText
+      text.text = statusText
+      statusTip.tipPos = tipPos
+    }
   }
 
   x: 0.1 * nootkaWindow.width; y: statusTip.text === "" ? -1.2 * height : 0

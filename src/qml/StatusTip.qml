@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2018-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -13,7 +13,11 @@ TipRect {
 
   Connections {
     target: NOO
-    onStatusTip: { text.text = statusText; statusTip.tipPos = tipPos }
+    onStatusTip: {
+      text.textFormat = richText ? Text.RichText : Text.AutoText
+      text.text = statusText
+      statusTip.tipPos = tipPos
+    }
   }
 
   x: (tipPos === Item.Top ? 0.3 : (tipPos === Item.TopRight ? 0.6 : 0)) * nootkaWindow.width

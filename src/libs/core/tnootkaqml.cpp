@@ -506,18 +506,18 @@ void TnootkaQML::setMessageColor(const QColor& mc) {
 }
 
 
-void TnootkaQML::setStatusTip(const QString& statusText, int tipPos) {
+void TnootkaQML::setStatusTip(const QString& statusText, int tipPos, bool richText) {
   if ((GLOB->showHints() && (!m_messageTimer || (m_messageTimer && !m_messageTimer->isActive()))))
-    emit statusTip(statusText, tipPos);
+    emit statusTip(statusText, tipPos, richText);
 }
 
 
-void TnootkaQML::showTimeMessage(const QString& message, int time, int pos) {
+void TnootkaQML::showTimeMessage(const QString& message, int time, int pos, bool richText) {
   if (!m_messageTimer) {
     m_messageTimer = new QTimer(this);
     m_messageTimer->setSingleShot(true);
     connect(m_messageTimer, &QTimer::timeout, this, [=]{
-      emit statusTip(QString(), m_messagePos);
+      emit statusTip(QString(), m_messagePos, false);
       QTimer::singleShot(300, this, [=] { setMessageColor(qApp->palette().highlight().color()); } );// restore default status background color
     });
   }
@@ -525,7 +525,7 @@ void TnootkaQML::showTimeMessage(const QString& message, int time, int pos) {
   if (m_messageTimer->isActive())
     m_messageTimer->stop();
 
-  emit statusTip(message, pos);
+  emit statusTip(message, pos, richText);
   m_messageTimer->start(time);
 }
 
