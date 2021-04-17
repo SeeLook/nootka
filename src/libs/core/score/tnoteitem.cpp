@@ -256,6 +256,9 @@ void TnoteItem::setNote(const Tnote& n) {
 
   updateNamePos();
 
+  if (m_bowing && m_wrapper)
+    setBowing(static_cast<EbowDirection>(m_wrapper->techicalData().bowing()));
+
 //   updateDebug();
 //   qDebug() << debug() << "set note" << m_note->toText() << m_note->rtm.string() << "note pos" << m_notePosY << "width:" << width();
 }
@@ -476,9 +479,20 @@ void TnoteItem::setBowing(EbowDirection bowDir) {
     m_bowing->setParentItem(this);
   }
   if (bowDir != BowUndefined) {
-      m_bowing->setProperty("text", bowDir == BowDown ? QStringLiteral("\uE610") : QStringLiteral("\uE612"));
+      qreal bowY = 0.0;
+      int bowRot = 0; // bow symbol rotation: 1 - next glyph that is rotated
+      if (m_note->onUpperStaff()) {
+          if (m_notePosY < m_staff->upperLine() + 4.0) {
+            bowRot = 1;
+            bowY = 14.0;
+          }
+      } else {
+          if (m_notePosY > m_staff->upperLine() + 24.0)
+            bowY = 22.0;
+      }
+      m_bowing->setProperty("text", QString(QChar(0xe610 + (bowDir == BowDown ? 0 : 2) + bowRot)));
       m_bowing->setX((width() - m_bowing->width()) / 2.0);
-//       m_bowing->setY(m_staff->upperLine());
+      m_bowing->setY(bowY);
       m_bowing->setVisible(true);
   } else {
       if (m_bowing)
@@ -490,6 +504,7 @@ void TnoteItem::setBowing(EbowDirection bowDir) {
 
 void TnoteItem::setFingerNumber(int fiNr)
 {
+  Q_UNUSED(fiNr)
 }
 
 
