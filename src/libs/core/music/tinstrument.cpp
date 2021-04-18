@@ -29,7 +29,8 @@ static const char* const nameArray[INSTR_COUNT] = {
   QT_TRANSLATE_NOOP("Tinstrument", "other instrument"), QT_TRANSLATE_NOOP("Tinstrument", "Classical Guitar"),
   QT_TRANSLATE_NOOP("Tinstrument", "Electric Guitar"), QT_TRANSLATE_NOOP("Tinstrument", "Bass Guitar"),
   QT_TRANSLATE_NOOP("Tinstrument", "Piano"), QT_TRANSLATE_NOOP("Tinstrument", "Bandoneon"),
-  QT_TRANSLATE_NOOP("Tinstrument", "Alt Saxophone"), QT_TRANSLATE_NOOP("Tinstrument", "Tenor Saxophone")
+  QT_TRANSLATE_NOOP("Tinstrument", "Alt Saxophone"), QT_TRANSLATE_NOOP("Tinstrument", "Tenor Saxophone"),
+  QT_TRANSLATE_NOOP("Tinstrument", "Ukulele")
 };
 
 //#################################################################################################
@@ -53,27 +54,27 @@ QString Tinstrument::staticName(Tinstrument::Etype t) {
 
 
 QString Tinstrument::glyph() const {
-  static const char* const glyphArray[INSTR_COUNT] = { "v", "h", "i", "j", "f", "e", "P", "Q" };
+  static const char* const glyphArray[INSTR_COUNT] = { "v", "h", "i", "j", "f", "e", "P", "Q", "u" };
   return QString(glyphArray[static_cast<int>(m_type)]);
 }
 
 
 int Tinstrument::clef() const {
-  static const quint8 clefArray[INSTR_COUNT] = { 1, 8, 8, 2, 128, 128, 1, 1 };
+  static const quint8 clefArray[INSTR_COUNT] = { 1, 8, 8, 2, 128, 128, 1, 1, 1 };
   return clefArray[static_cast<int>(m_type)];
 }
 
 
 QString Tinstrument::qmlFile() const {
   static const char* const qmlFileArray[INSTR_COUNT] = {
-    "", "Guitar", "Guitar", "Guitar", "Piano", "Bandoneon", "Sax", "Sax"
+    "", "Guitar", "Guitar", "Guitar", "Piano", "Bandoneon", "Sax", "Sax", "Ukulele"
   };
   return QString(qmlFileArray[static_cast<int>(m_type)]);
 }
 
 
 int Tinstrument::transposition() const {
-  static const qint8 transArray[INSTR_COUNT] = { 0, 0, 0, -12, 0, 0, -9, -14 };
+  static const qint8 transArray[INSTR_COUNT] = { 0, 0, 0, -12, 0, 0, -9, -14, 0 };
   return transArray[static_cast<int>(m_type)];
 }
 
@@ -83,6 +84,7 @@ int Tinstrument::fretNumber() const {
     case ClassicalGuitar: return 19;
     case ElectricGuitar: return 23;
     case BassGuitar: return 20;
+    case Ukulele: return 17;
     default: return 0;
   }
 }
@@ -94,6 +96,7 @@ bool Tinstrument::isFadeOut() const {
     case ElectricGuitar:
     case BassGuitar:
     case Piano:
+    case Ukulele:
       return true;
     default: return false;
   }
@@ -120,6 +123,7 @@ int Tinstrument::getItemHeight(int mainWindowHeight) {
     case ClassicalGuitar:
     case ElectricGuitar:
     case BassGuitar:
+    case Ukulele:
       return mainWindowHeight / 4;
     case Piano:
 #if defined (Q_OS_ANDROID)

@@ -24,7 +24,7 @@
 #include <QtCore/qobject.h>
 
 
-#define INSTR_COUNT (8) // number of instruments supported by Nootka
+#define INSTR_COUNT (9) // number of instruments supported by Nootka
 
 
 /**
@@ -65,7 +65,8 @@ public:
     Piano = 4,
     Bandoneon = 5,
     AltSax = 6,
-    TenorSax = 7
+    TenorSax = 7,
+    Ukulele = 8
   };
   Q_ENUM(Etype)
 
@@ -95,7 +96,7 @@ public:
       /**
        * @p TRUE for all kinds of guitar
        */
-  bool isGuitar() const { return m_type == ClassicalGuitar || m_type == ElectricGuitar || m_type == BassGuitar; }
+  bool isGuitar() const { return m_type == ClassicalGuitar || m_type == ElectricGuitar || m_type == BassGuitar || m_type == Ukulele; }
 
       /**
        * @p TRUE for all kinds of saxophones
@@ -110,6 +111,7 @@ public:
   bool bandoneon() const { return m_type == Bandoneon; }
   bool altSax() const { return m_type == AltSax; }
   bool tenorSax() const { return m_type == TenorSax; }
+  bool ukulele() const { return m_type == Ukulele; }
 
       /**
        * File implementing QML side of the instrument
