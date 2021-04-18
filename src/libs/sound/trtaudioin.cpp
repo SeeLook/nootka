@@ -104,8 +104,6 @@ void TaudioIN::setAudioInParams() {
 #endif
 //   qDebug() << "setAudioInParams" << "\nrate:" << sampleRate() << "\nmethod:" << audioParams()->detectMethod
 //            << "\nmin duration" << audioParams()->minDuration << "\nmin volume" << audioParams()->minimalVol
-//            << "\nsplit volume" << (finder()->isSplitByVolume() ? finder()->minVolumeToSplit() * 100.0 : 0.0)
-//            << "\nskip volume" << finder()->skipStillerValue() * 100.0
 //            << "\nnoise filter:" << finder()->aGl()->equalLoudness << "\ndetection range:" << detectionRange();
 }
 

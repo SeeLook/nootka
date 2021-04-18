@@ -195,8 +195,6 @@ void TaudioIN::createInputDevice() {
 //   qDebug() << "setAudioInParams" << "\nrate:" << finder()->aGl()->rate << m_audioIN->format().sampleRate() << "\nmethod:"
 //           << m_audioParams->detectMethod
 //           << "\nmin duration" << m_audioParams->minDuration << "\nmin volume" << m_audioParams->minimalVol
-//           << "\nsplit volume" << (finder()->isSplitByVolume() ? finder()->minVolumeToSplit() * 100.0 : 0.0)
-//           << "\nskip volume" << finder()->skipStillerValue() * 100.0
 //           << "\nnoise filter:" << finder()->aGl()->equalLoudness << "\ndetection range:" << detectionRange();
 }
 

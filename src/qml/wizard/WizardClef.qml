@@ -44,8 +44,6 @@ Tflickable {
         else
           tuning = NOO.tuning(NOO.note(10), NOO.note(54), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote())
     }
-    GLOB.minSplitVol = GLOB.instrument.minSplitVol
-    GLOB.skipStillerVal = GLOB.instrument.skipStillerVal
     if (GLOB.instrument.isGuitar)
       GLOB.setGuitarParams(GLOB.instrument.fretNumber, tuning)
     else if (selectedIns === 0)
