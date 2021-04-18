@@ -61,7 +61,7 @@ Flickable {
     }
 
     Tile {
-      visible: instrSel.instrument <= Tinstrument.BassGuitar
+      visible: instrSel.instrument <= Tinstrument.BassGuitar || instrSel.instrument == Tinstrument.Ukulele
       Column {
         spacing: NOO.factor()
         width: parent.width
