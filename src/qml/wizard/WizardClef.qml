@@ -37,6 +37,8 @@ Tflickable {
         tuning = NOO.tuning(100)
     else if (selectedIns === 1 || selectedIns === 2) // guitars
         tuning = NOO.tuning(0)
+    else if (selectedIns === 8)
+        tuning = NOO.tuning(110)
     else if (selectedIns === 0) {
         if (instrDetails)
           tuning = NOO.tuning(NOO.transpose(instrDetails.getNote(0), GLOB.transposition), NOO.transpose(instrDetails.getNote(1), GLOB.transposition),

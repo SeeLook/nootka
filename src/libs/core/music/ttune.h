@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2006-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -53,7 +53,9 @@ public:
     Bass4_EADG = 100,
     Bass4_5ths_CGDA = 101,
     Bass5_BEADG = 102,
-    Bass6_BEADGC = 103
+    Bass6_BEADGC = 103,
+
+    Ukulele_GCEA = 110
   };
   Q_ENUM(Etunings)
 
@@ -103,6 +105,8 @@ public:
        * keep in mind that those string notes are not transposed.
        */
   static Ttune bassTunes[4];
+
+  static Ttune ukuleleGCEA;
 
       /**
        * Copies given tuning to this one.

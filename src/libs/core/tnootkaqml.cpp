@@ -272,6 +272,8 @@ Ttune TnootkaQML::tuning(int tuningType) {
       return Ttune::tunes[tuningType - 1];
     if (tuningType > 99 && tuningType < 104)
       return Ttune::bassTunes[tuningType - 100];
+    if (tuningType == 110)
+      return Ttune::ukuleleGCEA;
   }
   return Ttune();
 }
