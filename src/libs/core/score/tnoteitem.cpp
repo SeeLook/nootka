@@ -482,7 +482,7 @@ void TnoteItem::setBowing(EbowDirection bowDir) {
       qreal bowY = 0.0;
       if (m_note->onUpperStaff()) {
           if (m_notePosY < m_staff->upperLine() - 2.0) // high pitch notes, above staff
-            bowY = m_staff->upperLine() - 1.0; // bow below staff
+            bowY = m_staff->upperLine(); // bow below staff
           else if (m_notePosY < m_staff->upperLine() + 1.0) // not that high but still above staff
             bowY = m_notePosY - 12.5; // above note head
           else // on the staff or below
