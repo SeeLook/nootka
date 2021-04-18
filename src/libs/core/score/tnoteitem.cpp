@@ -480,17 +480,20 @@ void TnoteItem::setBowing(EbowDirection bowDir) {
   }
   if (bowDir != BowUndefined) {
       qreal bowY = 0.0;
-      int bowRot = 0; // bow symbol rotation: 1 - next glyph that is rotated
       if (m_note->onUpperStaff()) {
-          if (m_notePosY < m_staff->upperLine() + 4.0) {
-            bowRot = 1;
-            bowY = 14.0;
-          }
+          if (m_notePosY < m_staff->upperLine() - 2.0) // high pitch notes, above staff
+            bowY = m_staff->upperLine() - 1.0; // bow below staff
+          else if (m_notePosY < m_staff->upperLine() + 1.0) // not that high but still above staff
+            bowY = m_notePosY - 12.5; // above note head
+          else // on the staff or below
+            bowY = m_staff->upperLine() - 12.0; // above staff
       } else {
-          if (m_notePosY > m_staff->upperLine() + 24.0)
-            bowY = 22.0;
+          if (m_notePosY < m_staff->upperLine() + 24.0)
+            bowY = m_staff->upperLine() + 21.0; // below lower staff
+          else
+            bowY = m_staff->upperLine() + 9.0; // above lower staff
       }
-      m_bowing->setProperty("text", QString(QChar(0xe610 + (bowDir == BowDown ? 0 : 2) + bowRot)));
+      m_bowing->setProperty("text", QString(QChar(0xe610 + (bowDir == BowDown ? 0 : 2))));
       m_bowing->setX((width() - m_bowing->width()) / 2.0);
       m_bowing->setY(bowY);
       m_bowing->setVisible(true);
@@ -875,7 +878,7 @@ void TnoteItem::updateNamePos() {
         m_name->setVisible(true);
         qreal yOff;
         if (m_note->rtm.stemDown())
-          yOff = m_notePosY > 6.0 ? -9.5 : m_stemHeight - 4.0;
+          yOff = m_notePosY > 6.0 ? (m_bowing && m_note->onUpperStaff() ? m_stemHeight - 4.0 : -9.5) : m_stemHeight - 4.0;
         else
           yOff = m_notePosY > height() - 6.0 && height() - m_stemHeight > 8.0 ? -m_stemHeight - 8.0 : -1.8;
         m_name->setY(m_notePosY + yOff);
