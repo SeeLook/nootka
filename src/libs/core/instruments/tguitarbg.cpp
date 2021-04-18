@@ -152,7 +152,7 @@ void TguitarBg::paint(QPainter* painter) {
   paintTimer.restart();
 // FINGERBOARD
   painter->setPen(Qt::NoPen);
-  if (GLOB->instrument().type() == Tinstrument::ClassicalGuitar)
+  if (GLOB->instrument().clasicGuitar() || GLOB->instrument().ukulele())
       painter->setBrush(QBrush(Qt::black, Qt::SolidPattern));
   else {
       QColor fbEdgeColor(175, 160, 114, 220);
@@ -161,7 +161,7 @@ void TguitarBg::paint(QPainter* painter) {
   QPolygon a;
   int fbThick = ((m_strGap * GLOB->Gtune()->stringNr()) / 6) / 3; // thickness of fretboard
   painter->drawRect(m_fbRect.x() + m_strGap / 3 - 8, m_fbRect.y() - fbThick, m_fbRect.width() + fbThick, m_fbRect.height() + fbThick);
-  if (GLOB->instrument().type() == Tinstrument::ClassicalGuitar)
+  if (GLOB->instrument().clasicGuitar() || GLOB->instrument().ukulele())
     painter->setBrush(QBrush(QPixmap(Tpath::img("fingbg"))));
   else
     painter->setBrush(QBrush(QPixmap(Tpath::img("fingbg-el"))));
@@ -169,7 +169,7 @@ void TguitarBg::paint(QPainter* painter) {
 // FRETS
   // zero fret (upper bridge or HUESO)
   int huesoW = qRound(m_fbRect.width() * 0.01);
-  if (GLOB->instrument().type() == Tinstrument::ClassicalGuitar) {
+  if (GLOB->instrument().clasicGuitar() || GLOB->instrument().ukulele()) {
       painter->setPen(Qt::NoPen);
       painter->setBrush(QBrush(QColor(255, 251, 240), Qt::SolidPattern)); // #FFFBF0 cream color for hueso
       painter->drawRect(m_fbRect.x() - 8, m_fbRect.y() + 4, huesoW, m_fbRect.height());
@@ -271,7 +271,7 @@ void TguitarBg::paint(QPainter* painter) {
         painter->setPen(QPen(Qt::black, 1, Qt::SolidLine)); //on upper bridge
         painter->drawLine(m_fbRect.x() - 8, lineYpos - 2, m_fbRect.x() - 8 + huesoW , lineYpos - 2);
         painter->drawLine(m_fbRect.x() - 8, lineYpos + m_strWidth[i] - 1, m_fbRect.x() - 8 + huesoW, lineYpos + m_strWidth[i] - 1);
-        if (GLOB->instrument().type() != Tinstrument::ClassicalGuitar) { // shadow on the pickup if exist (bass or electric guitar)
+        if (GLOB->instrument().clasicGuitar() || GLOB->instrument().ukulele()) { // shadow on the pickup if exist (bass or electric guitar)
           int pickX = width() * 0.88;
 //           if (!GLOB->GisRightHanded)
 //               pickX = width() - (BG_PIX->pickUpRect().x() + BG_PIX->pickUpRect().width());

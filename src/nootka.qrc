@@ -87,6 +87,7 @@
     <file alias="instruments/PianoKeyWhite.qml">qml/instruments/PianoKeyWhite.qml</file>
     <file alias="instruments/Bandoneon.qml">qml/instruments/Bandoneon.qml</file>
     <file alias="instruments/Sax.qml">qml/instruments/Sax.qml</file>
+    <file alias="instruments/Ukulele.qml">qml/instruments/Ukulele.qml</file>
     <file alias="instruments/OutScaleTip.qml">qml/instruments/OutScaleTip.qml</file>
     <file alias="instruments/SaxFlap.qml">qml/instruments/SaxFlap.qml</file>
     <file alias="instruments/InstrumentZoom.qml">qml/instruments/InstrumentZoom.qml</file>
