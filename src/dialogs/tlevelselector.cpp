@@ -119,11 +119,15 @@ void TlevelSelector::findLevels() {
 void TlevelSelector::addLevel(const Tlevel& lev, const QString& levelFile, bool check) {
   if (check && !levelFile.isEmpty()) { // check for duplicates
     int pos = -1;
-    for (int i = 0; i < m_levels.size(); i++)
+    for (int i = 0; i < m_levels.size(); i++) {
       if (m_levels[i].file == levelFile) // file and level exist
-          pos = i;
-    m_levels.removeAt(pos);
-    m_levelsModel.removeAt(pos);
+        pos = i;
+    }
+    if (pos > -1) {
+      m_levels.removeAt(pos);
+      m_levelsModel.removeAt(pos);
+      qDebug() << "[TlevelSelector] Level file" << levelFile << "was already on the list. Prevoius entry removed!";
+    }
   }
   SlevelContener l;
   l.level = lev;
