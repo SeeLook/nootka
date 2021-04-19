@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2018-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2018-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,10 +25,12 @@
 
 #include <QtQml/qqmlengine.h>
 #include <QtCore/qtimer.h>
-#if defined (Q_OS_ANDROID)
-  #include "Android/tfiledialog.h"
-#else
+#if !defined (Q_OS_ANDROID)
+  #include <tmtr.h>
+  #include <qtr.h>
   #include <QtWidgets/qfiledialog.h>
+  #include <QtGui/qguiapplication.h>
+  #include <QtGui/qfont.h>
 #endif
 
 #include <QtCore/qdebug.h>
@@ -80,6 +82,7 @@ void TmelodyListView::save() {
 
 
 void TmelodyListView::loadMelody() {
+#if defined (Q_OS_ANDROID)
   QString musicXMLfile = NOO->getXmlToOpen();
   if (!musicXMLfile.isEmpty()) {
     auto melody = new Tmelody();
@@ -91,6 +94,28 @@ void TmelodyListView::loadMelody() {
       m_listWasChanged = true;
     }
   }
+#else
+  auto f = qApp->font();
+  qApp->setFont(Tmtr::systemFont);
+  auto names = QFileDialog::getOpenFileNames(nullptr, qTR("TmainScoreObject", "Open melody file"), GLOB->lastXmlDir(),
+                                            qTR("TmainScoreObject", "MusicXML file") + QLatin1String(" (*.xml *.musicxml)"));
+  qApp->setFont(f);
+  if (names.isEmpty())
+    return;
+
+  for (auto musicXMLfile : names) {
+    if (!musicXMLfile.isEmpty()) {
+      auto melody = new Tmelody();
+      if (melody->grabFromMusicXml(musicXMLfile)) {
+        m_melodies << TmelodyAtList(melody);
+        m_melodies.last().delMelody = true;
+        emit appendMelody();
+        emit melodiesChanged();
+        m_listWasChanged = true;
+      }
+    }
+  }
+#endif
 }
 
 
