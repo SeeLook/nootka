@@ -294,6 +294,11 @@ bool ToggScale::loadAudioData(int instrument) {
         m_firstNote = -3; m_lastNote = 30;
         m_soundContinuous = true;
         break;
+      case Tinstrument::Ukulele:
+        fileName = Tpath::sound("ukulele");
+        m_firstNote = 13; m_lastNote = 40;
+        m_soundContinuous = false;
+        break;
 #endif
       default:
         fileName = Tpath::sound("piano");
