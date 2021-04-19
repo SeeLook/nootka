@@ -569,7 +569,12 @@ void Tglobals::loadSettings(QSettings* cfg) {
 // guitar settings
   Ttune::prepareDefinedTunes();
   cfg->beginGroup(QLatin1String("guitar"));
-      m_instrument.setType(static_cast<Tinstrument::Etype>(cfg->value(QStringLiteral("instrument"), static_cast<int>(Tinstrument::ClassicalGuitar)).toInt()));
+      int instr = cfg->value(QStringLiteral("instrument"), static_cast<int>(Tinstrument::ClassicalGuitar)).toInt();
+      if (instr < 0 || instr >= INSTR_COUNT) {
+        qDebug() << "[Tglobals] Unsupported instrument in configuration file!" << instr << "\nReseted to none.";
+        instr = 0;
+      }
+      m_instrument.setType(static_cast<Tinstrument::Etype>(instr));
       GfretsNumber = cfg->value(QStringLiteral("fretNumber"), 19).toInt();
       GisRightHanded = cfg->value(QStringLiteral("rightHanded"), true).toBool(); //true;
       GshowOtherPos = cfg->value(QStringLiteral("showOtherPos"), false).toBool();
