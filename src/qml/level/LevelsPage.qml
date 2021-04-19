@@ -73,7 +73,7 @@ Column {
         notSavedMess.rejectButton.text = NOO.TR("QPlatformTheme", "Discard")
         notSavedMess.acceptButton.pixmap = NOO.pix("pane/notSaved")
         notSavedMess.accepted.connect(creator.saveLevel)
-        notSavedMess.discarded.connect(creator.resumeAfterLevelChange)
+        notSavedMess.rejected.connect(creator.resumeAfterLevelChange)
       }
       notSavedMess.caption = title
       notSavedMess.message = message
