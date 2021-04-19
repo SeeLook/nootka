@@ -20,9 +20,7 @@ TmelodyListView {
   property int currentMelody: -1
   property alias viewRoot: viewItem
 
-  melodyModel: ListModel {
-    id: melMod
-  }
+  melodyModel: ListModel { id: melMod }
 
   Row {
     id: viewRow

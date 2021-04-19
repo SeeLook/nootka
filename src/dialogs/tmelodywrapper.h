@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2020 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2021 by Tomasz Bojczuk                                  *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -54,8 +54,7 @@ public:
   QString composer() const;
 
   TmelodyListView* melodyView() { return m_melodyView; }
-  void setMelodyView(TmelodyListView* mv) { 
-        m_melodyView = mv; }
+  void setMelodyView(TmelodyListView* mv) { m_melodyView = mv; }
 
   TscoreObject* score() { return m_score; }
   void setScore(TscoreObject* sc) { m_score = sc; }

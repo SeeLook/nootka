@@ -42,10 +42,7 @@ TmelodyListView::TmelodyListView(QQuickItem* parent) :
 }
 
 
-TmelodyListView::~TmelodyListView()
-{
-  clearMelodyList();
-}
+TmelodyListView::~TmelodyListView() {}
 
 
 void TmelodyListView::setMelodyModel(QObject* mm) {
@@ -65,34 +62,17 @@ void TmelodyListView::setLevel(Tlevel* l) {
 }
 
 
-/**
- * First create copy list @p tempMelodies due to @p QList::clear() will reset all @p Tmelody pointers
- * stored in @p m_melodies list
- */
-void TmelodyListView::save() {
-  if (m_listWasChanged) {
-    QList<Tmelody> tempMelodies;
-    for (int m = 0; m < m_melodies.count(); ++m)
-      tempMelodies << *m_melodies[m].melody;
-    m_level->melodySet.clear();
-    m_level->melodySet.append(tempMelodies);
-    m_listWasChanged = false;
-  }
-}
-
-
 void TmelodyListView::loadMelody() {
 #if defined (Q_OS_ANDROID)
   QString musicXMLfile = NOO->getXmlToOpen();
   if (!musicXMLfile.isEmpty()) {
-    auto melody = new Tmelody();
+    m_level->melodySet << Tmelody();
+    auto melody = &m_level->melodySet.last();
     if (melody->grabFromMusicXml(musicXMLfile)) {
-      m_melodies << TmelodyAtList(melody);
-      m_melodies.last().delMelody = true;
-      emit appendMelody();
-      emit melodiesChanged();
-      m_listWasChanged = true;
-    }
+        emit appendMelody();
+        emit melodiesChanged();
+    } else
+        m_level->melodySet.removeLast();
   }
 #else
   auto f = qApp->font();
@@ -105,41 +85,30 @@ void TmelodyListView::loadMelody() {
 
   for (auto musicXMLfile : names) {
     if (!musicXMLfile.isEmpty()) {
-      auto melody = new Tmelody();
+      m_level->melodySet << Tmelody();
+      auto melody = &m_level->melodySet.last();
       if (melody->grabFromMusicXml(musicXMLfile)) {
-        m_melodies << TmelodyAtList(melody);
-        m_melodies.last().delMelody = true;
-        emit appendMelody();
-        emit melodiesChanged();
-        m_listWasChanged = true;
-      }
+          emit appendMelody();
+          emit melodiesChanged();
+      } else
+          m_level->melodySet.removeLast();
     }
   }
 #endif
 }
 
 
-/**
- * @p m_emitWhenRemove is a switch determining when @p melodiesChanged() signal is emitted,
- * to inform level creator about level change. Normally it happens when user adds/removes a melody from the list.
- */
 void TmelodyListView::removeMelody(int id) {
-  if (id >= 0 && id < m_melodies.count()) {
-    if (m_melodies[id].delMelody)
-      delete m_melodies[id].melody;
-    m_melodies.removeAt(id);
-    if (m_emitWhenRemove)
-      emit melodiesChanged();
-    m_emitWhenRemove = true;
-    m_listWasChanged = true;
+  if (id >= 0 && id < m_level->melodySet.count()) {
+    m_level->melodySet.removeAt(id);
+    emit melodiesChanged();
   }
 }
 
 
 void TmelodyListView::swapMelodies(int from, int to) {
-  if (from > -1 && from < m_melodies.count() && to > -1 && to < m_melodies.count()) {
-      m_melodies.move(from, to);
-      m_listWasChanged = true;
+  if (from > -1 && from < m_level->melodySet.count() && to > -1 && to < m_level->melodySet.count()) {
+      m_level->melodySet.move(from, to);
       emit melodiesChanged();
   } else
       qDebug() << "[TmelodyListView] FIXME! Wrong melodies to swap";
@@ -147,7 +116,7 @@ void TmelodyListView::swapMelodies(int from, int to) {
 
 
 Tmelody* TmelodyListView::getMelody(int melId) {
-  return melId > -1 && melId < m_melodies.count() ? m_melodies[melId].melody : nullptr;
+  return melId > -1 && melId < m_level->melodySet.count() ? &m_level->melodySet[melId] : nullptr;
 }
 
 //#################################################################################################
@@ -156,21 +125,6 @@ Tmelody* TmelodyListView::getMelody(int melId) {
 
 void TmelodyListView::loadMelodies() {
   QMetaObject::invokeMethod(m_melodyModel, "clear");
-  clearMelodyList();
-  for (int m = 0; m < m_level->melodySet.count(); ++m) {
-    m_melodies << TmelodyAtList(&m_level->melodySet[m]);
+  for (int m = 0; m < m_level->melodySet.count(); ++m)
     emit appendMelody();
-  }
-  m_listWasChanged = false;
-}
-
-
-void TmelodyListView::clearMelodyList() {
-  int melCnt = m_melodies.count();
-  for (int m = 0; m < melCnt; ++m) {
-    if (m_melodies[m].delMelody) {
-      delete m_melodies[m].melody;
-    }
-  }
-  m_melodies.clear();
 }

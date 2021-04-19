@@ -208,8 +208,6 @@ Tflickable {
         creator.keyOfRandList = listScore.scoreObj.keySignature
         for (var i = 0; i < listScore.notesCount; ++i)
           creator.setNoteOfList(i, listScore.scoreObj.noteAt(i))
-    } else if (melCombo.currentIndex === 2) { // random melody from set
-        melListView.save()
-    }
+    } // melody from set has melodies aready in the working level
   }
 }

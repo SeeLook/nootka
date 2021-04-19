@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2018-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2018-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -33,10 +33,10 @@ class Tlevel;
 
 
 /**
- * @class TmelodyListView manages melody previews logic displayed by QML
- * During level edition it keeps list of pointers to every melody in a set.
- * @class TmelodyAtList stores that pointer corresponding @p bool value
- * which informs was the melody created here or it was in the level before.
+ * @class TmelodyListView manages melody previews logic displayed by QML.
+ * It handles operations on melodies:
+ * @p loadMelody(), @p removeMelody() and @p swapMelodies().
+ * Operates directly on working @p Tlevel member of @p TlevelCreatorItem.
  */
 class TmelodyListView : public QQuickItem
 {
@@ -53,7 +53,6 @@ public:
   void setMelodyModel(QObject* mm);
 
   Q_INVOKABLE void setLevel(Tlevel* l);
-  Q_INVOKABLE void save();
 
   Q_INVOKABLE void loadMelody();
   Q_INVOKABLE void removeMelody(int id);
@@ -68,26 +67,14 @@ signals:
   void melodiesCountChanged();
 
 protected:
+      /**
+       * Loads melodies from @p Tlevel after @p setLevel().
+       * It has to be invoked with delay
+       */
   void loadMelodies();
-  void clearMelodyList();
 
 private:
-  /**
-   * Simple class structure to store pointer to a @p Tmelody.
-   * @p delMelody value informs should the melody be deleted because was created here
-   */
-  class TmelodyAtList
-  {
-      public:
-        TmelodyAtList(Tmelody* _melody = nullptr) : melody(_melody) {}
-        Tmelody         *melody = nullptr;
-        bool             delMelody = false; /**< if @p TRUE destructor will delete melody instance */
-  };
-
   Tlevel                    *m_level = nullptr;
-  QVector<TmelodyAtList>     m_melodies;
-  bool                       m_listWasChanged = false; /**< Only when @p TRUE list is saved to a level. */
-  bool                       m_emitWhenRemove = true;
   QObject                   *m_melodyModel = nullptr;
 };
 
