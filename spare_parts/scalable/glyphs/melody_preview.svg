@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   height="1000"
+   width="1000"
+   viewBox="0 0 1000 1000"
+   id="svg2"
+   version="1.1"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15, custom)"
+   sodipodi:docname="melody_preview.svg">
+  <defs
+     id="defs8" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10000"
+     gridtolerance="10000"
+     guidetolerance="10000"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="2560"
+     inkscape:window-height="1403"
+     id="namedview6"
+     showgrid="true"
+     units="px"
+     inkscape:snap-path-clip="true"
+     inkscape:snap-path-mask="true"
+     inkscape:snap-perpendicular="true"
+     inkscape:snap-tangential="true"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="0.53199999"
+     inkscape:cx="342.33713"
+     inkscape:cy="432.67889"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2"
+     inkscape:document-rotation="0"
+     inkscape:snap-grids="false"
+     inkscape:snap-others="false"
+     inkscape:object-nodes="false"
+     inkscape:snap-nodes="false">
+    <inkscape:grid
+       type="xygrid"
+       id="grid3195"
+       originx="-324.28336"
+       originy="709.56955" />
+  </sodipodi:namedview>
+  <metadata
+     id="metadata4">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+        <cc:license
+           rdf:resource="" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <path
+     id="path5"
+     style="color:#f44336;fill:#000000;stroke-width:57.0768"
+     d="M 501.17188 230.96289 C 158.71121 230.96289 44.556641 492.34766 44.556641 492.34766 C 44.556641 492.34766 158.71121 743.73047 501.17188 743.73047 C 843.63247 743.73047 957.78516 492.34766 957.78516 492.34766 C 957.78516 492.34766 843.63248 230.96289 501.17188 230.96289 z M 501.17188 321.11719 C 595.73977 321.1172 672.40039 397.77977 672.40039 492.34766 C 672.40039 586.91555 595.73977 663.57616 501.17188 663.57617 C 406.60399 663.57616 329.94141 586.91555 329.94141 492.34766 C 329.94141 397.77977 406.60398 321.1172 501.17188 321.11719 z M 503.65625 373.125 C 502.64311 373.11136 501.81638 373.91655 501.80273 374.92969 L 499.36523 555.84961 C 494.10996 550.12954 485.95446 546.7078 476.32422 546.57812 C 453.26339 546.2676 428.03584 565.66324 427.72852 588.48633 C 427.52043 603.93946 439.97839 614.57029 457.0957 614.80078 C 480.15653 615.11131 505.38603 595.71371 505.69336 572.89062 C 505.71304 571.42927 505.61809 570.01296 505.41797 568.64258 C 505.63032 568.34835 505.76035 567.9896 505.76562 567.59766 L 507.55664 434.45312 L 507.82422 434.45703 C 529.49786 449.49146 558.20832 471.75425 557.85938 497.66797 L 552.9375 521.26172 C 552.87988 525.54105 556.40904 528.44292 560.21289 528.49414 C 562.5903 528.52615 562.49662 528.97734 563.95508 526.61914 C 569.78393 511.13361 570.71146 514.48558 570.93555 497.84375 C 571.59181 449.10695 507.96873 423.75829 508.625 375.02148 L 508.35742 375.01758 C 508.37106 374.00444 507.56783 373.1777 506.55469 373.16406 L 503.65625 373.125 z " />
+  <g
+     id="g3768-9"
+     transform="matrix(1.8008528,0.02424946,-0.02424946,1.8008528,-798.41169,107.06348)"
+     style="fill:#000000;fill-opacity:1">
+    <g
+       id="g947-3-7"
+       transform="matrix(-33.00391,0,0,-33.00391,727.51093,253.49491)"
+       style="fill:#000000;fill-opacity:1">
+      <g
+         style="font-size:4px;font-family:Emmentaler;fill:#000000;fill-opacity:1"
+         id="text949-8-1" />
+    </g>
+    <g
+       id="g1153-1-0"
+       transform="matrix(33.00391,0,0,-33.00391,727.6592,138.99671)"
+       style="fill:#000000;fill-opacity:1">
+      <g
+         style="font-size:4px;font-family:Emmentaler;fill:#000000;fill-opacity:1"
+         id="text1155-0-0" />
+    </g>
+    <g
+       id="g1159-7-0"
+       transform="matrix(-33.00391,0,0,-33.00391,725.69105,137.98124)"
+       style="fill:#000000;fill-opacity:1" />
+  </g>
+</svg>
