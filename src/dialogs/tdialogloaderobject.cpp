@@ -84,6 +84,7 @@ TdialogLoaderObject::TdialogLoaderObject(QObject* parent) :
 
     qRegisterMetaType<Tlevel*>("Tlevel*");
     qRegisterMetaType<Texam*>("Texam*");
+    qRegisterMetaType<Tmelody*>("Tmelody*");
 
 #if !defined (Q_OS_ANDROID)
     qmlRegisterType<TchartItem>("Nootka.Charts", 1, 0, "TchartItem");

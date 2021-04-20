@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -123,5 +123,7 @@ private:
   Tmeter              *m_meter = nullptr;
   Tclef::EclefType     m_clef;
 };
+
+Q_DECLARE_METATYPE(Tmelody*)
 
 #endif // TMELODY_H
