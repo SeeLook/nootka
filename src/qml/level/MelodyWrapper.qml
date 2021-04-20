@@ -88,11 +88,13 @@ MouseArea {
 
     Text {
       text: wrapper.title
-      x: parent.width - scoreCover.width
+      x: (parent.width - width) / 2
       y: NOO.factor() / 4
       font { bold: true; pixelSize: NOO.factor() * 1.3 }
+      minimumPixelSize: NOO.factor() * 0.9; fontSizeMode: Text.HorizontalFit
       color: wrapArea.containsMouse ? activPal.text : NOO.alpha(activPal.text, 150)
-      width: NOO.factor() * 25; elide: Text.ElideRight
+      width: Math.min(NOO.factor() * 25, parent.width - NOO.factor() * 6); elide: Text.ElideRight
+      horizontalAlignment: Text.AlignHCenter
       Behavior on color { enabled: GLOB.useAnimations; ColorAnimation {} }
     }
 
