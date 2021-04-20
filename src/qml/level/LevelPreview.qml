@@ -56,6 +56,7 @@ TlevelPreviewItem {
       topPadding: NOO.factor()
       anchors.horizontalCenter: parent.horizontalCenter
       transformOrigin: Item.Top
+      scale: NOO.bound(0.5, viewFlick.width / (levRow.width + NOO.factor()), 1.2)
 
       PreviewItem {
         textItem2.horizontalAlignment: Text.AlignHCenter
@@ -215,7 +216,7 @@ TlevelPreviewItem {
   function zoom(zoomIn) {
     if (!zoomTimer.running) {
       var sc = levCol.scale * (zoomIn ? 1.0625 : 0.9375)
-      if (sc < 0.5 || sc > 2.0)
+      if (sc < 0.5 || sc > 2.5)
         return
       levCol.scale = sc
       zoomTimer.running = true
