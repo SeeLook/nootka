@@ -54,11 +54,14 @@ void TmelodyListView::setMelodyModel(QObject* mm) {
 
 /**
  * Load melodies with delay to give time for score creation,
- * otherwise score complains with warnings
+ * otherwise score complains with warnings.
+ * But for score itself 50ms is sufficient,
+ * 250ms delay is for displaying 'entering melody page' animation,
+ * then melodies show off.
  */
 void TmelodyListView::setLevel(Tlevel* l) {
   m_level = l;
-  QTimer::singleShot(50, [=]{ loadMelodies(); });
+  QTimer::singleShot(250, [=]{ loadMelodies(); });
 }
 
 
