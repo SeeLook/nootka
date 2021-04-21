@@ -87,7 +87,7 @@ QString getExamFileName(Texam* e) {
     GLOB->E->examsDir = Tandroid::getExternalPath();
 #endif
   auto fName = QDir::toNativeSeparators(GLOB->E->examsDir + QLatin1String("/") + e->userName() + QLatin1String("-") + e->level()->name);
-  fName = fName.replace(QLatin1String("."), QLatin1String("")); //HACK: file dialogues don't like dots in the names
+  fName = fName.replace(QLatin1String("."), QString()); //HACK: file dialogues don't like dots in the names
   if (QFileInfo::exists(fName  + QLatin1String(".noo")))
     fName += QLatin1String("-") + QDateTime::currentDateTime().toString(QLatin1String("(dd-MMM-hhmmss)"));
   return fName;
