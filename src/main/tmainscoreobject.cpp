@@ -566,6 +566,11 @@ void TmainScoreObject::isExamChangedSlot() {
         delete m_questionMark;
         m_questionMark = nullptr;
       }
+      if (!GLOB->isSingleNote()) {
+        m_openXmlAct->setEnabled(true);
+        m_saveXmlAct->setEnabled(true);
+        m_randMelodyAct->setEnabled(true);
+      }
   }
   if (m_scoreObj) {
 #if !defined (Q_OS_ANDROID)
@@ -583,14 +588,23 @@ void TmainScoreObject::isExamChangedSlot() {
 
 void TmainScoreObject::singleModeSlot() {
   if (GLOB->isSingleNote()) {
-    if (GLOB->isExam()) {
-        m_scoreObj->note(1)->setColor(qApp->palette().text().color());
-        m_scoreObj->note(2)->setColor(qApp->palette().text().color());
-    } else {
-        m_scoreObj->note(1)->setColor(GLOB->getEnharmNoteColor());
-        m_scoreObj->note(2)->setColor(GLOB->getEnharmNoteColor());
-    }
-    checkSingleNoteVisibility();
+      m_openXmlAct->setEnabled(false);
+      m_saveXmlAct->setEnabled(false);
+      m_randMelodyAct->setEnabled(false);
+      if (GLOB->isExam()) {
+          m_scoreObj->note(1)->setColor(qApp->palette().text().color());
+          m_scoreObj->note(2)->setColor(qApp->palette().text().color());
+      } else {
+          m_scoreObj->note(1)->setColor(GLOB->getEnharmNoteColor());
+          m_scoreObj->note(2)->setColor(GLOB->getEnharmNoteColor());
+      }
+      checkSingleNoteVisibility();
+  } else {
+      if (!GLOB->isExam()) {
+        m_openXmlAct->setEnabled(true);
+        m_saveXmlAct->setEnabled(true);
+        m_randMelodyAct->setEnabled(true);
+      }
   }
 }
 
