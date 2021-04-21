@@ -204,8 +204,8 @@ void TtipHandler::showConfirmTipSlot() {
   const QString br_ = QStringLiteral("<br>- ");
   const QString a = QStringLiteral("</a>");
   QString tipText = QLatin1String("<p style=\"text-align: center;\">") + tr("To check the answer confirm it:") + br_ +
-    TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"checkAnswer\">") + NOO->pixToHtml(QLatin1String("check"), m_iconSize) + a) + br_ +
-    TexamHelp::pressEnterKey() + br_ + TexamHelp::orRightButtTxt() + QLatin1String("<br>") +
+    TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"checkAnswer\">") + NOO->pixToHtml(QLatin1String("check"), m_iconSize) + a)
+    + br_ + TexamHelp::pressEnterKey() + QLatin1String("<br>") +
     tr("Check in exam help %1 how to do it automatically").arg(QStringLiteral("<a href=\"examHelp\">") +
     NOO->pixToHtml(QLatin1String("help"), m_iconSize) + a) + QLatin1String("</p>");
   emit wantConfirmTip(tipText, GLOB->EanswerColor, QPointF(EXECUTOR->width() * 0.75, EXECUTOR->height() * 0.1));

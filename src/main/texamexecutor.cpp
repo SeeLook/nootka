@@ -1295,7 +1295,7 @@ void TexamExecutor::createActions() {
   m_examActions.append(m_nextQuestAct);
   connect(m_nextQuestAct, &Taction::triggered, this, &TexamExecutor::askQuestionSlot);
   m_nextQuestAct->createQmlShortcut(&actionsComp, "\"Space\"");
-  m_nextQuestAct->setTip(tr("next question\n(space %1)").arg(TexamHelp::orRightButtTxt()).replace(QLatin1String("\n"), QLatin1String("<br>")), QQuickItem::TopRight);
+  m_nextQuestAct->setTip(tr("next question\n(space %1)").arg(QString()).replace(QLatin1String("\n"), QLatin1String("<br>")), QQuickItem::TopRight);
   if (m_level.questionAs.isSound()) {
     if (m_level.answersAs[TQAtype::e_asSound].isOnScore()) {
       m_tuningForkAct = new Taction(Tnote(6, 1, 0).toRichText(), QStringLiteral("fork"), this, false);
@@ -1329,7 +1329,7 @@ void TexamExecutor::createActions() {
   m_examActions.append(m_checkQuestAct);
   connect(m_checkQuestAct, &Taction::triggered, this, &TexamExecutor::checkAnswerSlot);
   m_checkQuestAct->createQmlShortcut(&actionsComp, "\"Return\"");
-  m_checkQuestAct->setTip(tr("check answer\n(enter %1)").arg(TexamHelp::orRightButtTxt()).replace(QLatin1String("\n"), QLatin1String("<br>")), QQuickItem::TopRight);
+  m_checkQuestAct->setTip(tr("check answer\n(enter %1)").arg(QString()).replace(QLatin1String("\n"), QLatin1String("<br>")), QQuickItem::TopRight);
   if (m_exercise) {
     m_correctAct = new Taction(QApplication::translate("TtoolBar", "Correct", "like a correct answer with mistake"), QStringLiteral("correct"), this, false);
     m_correctAct->setBgColor(Qt::green);
