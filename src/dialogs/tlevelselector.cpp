@@ -200,6 +200,7 @@ void TlevelSelector::loadFromFile(QString levelFile) {
     emit levelsModelChanged();
 //     if (m_levels.last().suitable) {
       emit selectLast();
+      emit levelChanged();
       m_levelPreview->setLevel(&level);
 //     }
   }
