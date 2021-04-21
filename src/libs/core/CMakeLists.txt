@@ -43,6 +43,7 @@ set(LIB_NOOTKACORE_SRC
   score/tbeamobject.cpp
   score/tstafflines.cpp
   score/taddnoteitem.cpp
+  score/tmelodypreview.cpp
 
   instruments/tcommoninstrument.cpp
   instruments/tguitarbg.cpp

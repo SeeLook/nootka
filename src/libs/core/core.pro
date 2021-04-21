@@ -47,6 +47,7 @@ SOURCES +=  tinitcorelib.cpp \
             score/tbeamobject.cpp \
             score/tstafflines.cpp \
             score/taddnoteitem.cpp \
+            score/tmelodypreview.cpp \
           \
             instruments/tcommoninstrument.cpp \
             instruments/tguitarbg.cpp \
@@ -103,6 +104,7 @@ HEADERS  += nootkaconfig.h \
             score/tbeamobject.h \
             score/tstafflines.h \
             score/taddnoteitem.h \
+            score/tmelodypreview.h \
           \
             instruments/tcommoninstrument.h \
             instruments/tguitarbg.h \

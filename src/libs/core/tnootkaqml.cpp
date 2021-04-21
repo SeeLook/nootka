@@ -29,6 +29,7 @@
 #include "score/tnoteitem.h"
 #include "score/tstafflines.h"
 #include "score/taddnoteitem.h"
+#include "score/tmelodypreview.h"
 #include "instruments/tguitarbg.h"
 #include "instruments/tpianobg.h"
 #include "instruments/tbandoneonbg.h"
@@ -82,6 +83,7 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qmlRegisterType<TnoteItem>("Score", 1, 0, "TnoteItem");
   qmlRegisterType<TstaffLines>("Score", 1, 0, "TstaffLines");
   qmlRegisterType<TaddNoteItem>("Score", 1, 0, "TaddNoteItem");
+  qmlRegisterType<TmelodyPreview>("Score", 1, 0, "TmelodyPreview");
 
   qmlRegisterUncreatableType<TcommonInstrument>("Nootka", 1, 0, "TcommonInstrument", QStringLiteral("You cannot create an instance of the TcommonInstrument."));
   qmlRegisterType<TguitarBg>("Nootka", 1, 0, "TguitarBg");
