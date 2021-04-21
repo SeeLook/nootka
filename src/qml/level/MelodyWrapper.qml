@@ -7,6 +7,8 @@ import QtQuick 2.9
 import Nootka.Dialogs 1.0
 import Score 1.0
 import "../score"
+import "../"
+
 
 MouseArea {
   id: wrapArea
@@ -78,6 +80,15 @@ MouseArea {
       height: parent.height; width: parent.width - parent.height * 4
       anchors { right: parent.right }
       color: sc.bgColor
+      RectButton {
+        anchors { bottom: parent.bottom; right: parent.right; margins: 10 }
+        height: parent.height / 3
+        font { family: "Nootka"; pixelSize: parent.height / 3 }
+        text: "\u0191"
+        textColor: wrapArea.containsMouse ? activPal.text : NOO.alpha(activPal.text, 30)
+        Behavior on textColor { enabled: GLOB.useAnimations; ColorAnimation {} }
+        onClicked: melListView.showMelody(nr)
+      }
     }
 
     Text {

@@ -58,7 +58,7 @@ public:
   Q_INVOKABLE void removeMelody(int id);
   Q_INVOKABLE void swapMelodies(int from, int to);
 
-  Tmelody* getMelody(int melId);
+  Q_INVOKABLE QVariant getMelody(int melId);
 
 signals:
   void appendMelody();

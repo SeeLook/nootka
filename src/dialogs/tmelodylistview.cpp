@@ -118,8 +118,8 @@ void TmelodyListView::swapMelodies(int from, int to) {
 }
 
 
-Tmelody* TmelodyListView::getMelody(int melId) {
-  return melId > -1 && melId < m_level->melodySet.count() ? &m_level->melodySet[melId] : nullptr;
+QVariant TmelodyListView::getMelody(int melId) {
+  return QVariant::fromValue(melId > -1 && melId < m_level->melodySet.count() ? &m_level->melodySet[melId] : nullptr);
 }
 
 //#################################################################################################

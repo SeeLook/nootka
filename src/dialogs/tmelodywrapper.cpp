@@ -50,7 +50,7 @@ QString TmelodyWrapper::composer() const {
 
 void TmelodyWrapper::updateMelody() {
   auto oldMelody = m_melody;
-  m_melody = m_melodyView->getMelody(m_nr);
+  m_melody = qvariant_cast<Tmelody*>(m_melodyView->getMelody(m_nr));
   if (m_melody != oldMelody) {
     m_score->setMelody(m_melody, false, MELODY_LENGHT);
     emit melodyChanged();

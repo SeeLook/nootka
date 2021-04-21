@@ -117,6 +117,18 @@ TmelodyListView {
 
   onMelodiesChanged: creator.melodyListChanged()
 
+  property var melPreview: null
+  function showMelody(melId) {
+    if (!melPreview) {
+      melPreview = Qt.createComponent("qrc:/score/MelodyPreview.qml")
+                .createObject(melPage, { "width": melListView.width - NOO.factor() * 2,
+                                          "maxHeight": melPage.height - NOO.factor() * 10 })
+    }
+    melPreview.open()
+    melPreview.melody = getMelody(melId)
+    melPreview.idText = (melId + 1) + "."
+  }
+
   function removeWrapper(id) {
     melMod.remove(id)
     removeMelody(id)
