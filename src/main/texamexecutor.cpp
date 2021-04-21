@@ -219,8 +219,8 @@ void TexamExecutor::continueInit() {
       return;
     }
   }
-  m_showExamHelp = GLOB->gotIt(QStringLiteral("examFlow"), true);
-  if (m_showExamHelp) {
+  m_examHelpGotIt = GLOB->gotIt(QStringLiteral("examFlow"), true);
+  if (m_examHelpGotIt) {
     // Display start tip after help 'Got It!' but only when any other action is not going to happen
     if (m_aftterMessage == AfterDoNothing)
       m_aftterMessage = AfterStartTTip;
@@ -1890,7 +1890,7 @@ void TexamExecutor::tipLink(const QString& link) {
   else if (link == QLatin1String("checkAnswer"))
       checkAnswer();
   else if (link == QLatin1String("examHelp"))
-      showExamHelp();
+      emit showHelp();
   else if (link == QLatin1String("correct"))
       correctAnswer();
   else if (link == QLatin1String("certClosing")) {

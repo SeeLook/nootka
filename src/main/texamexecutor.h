@@ -88,7 +88,10 @@ public:
   bool showPitchView() const;
   bool showRtmView() const;
 
-  bool showExamHelp() const { return m_showExamHelp; }
+      /**
+       * Keeps state of 'exam flow' Got It! help taken once from config.
+       */
+  bool showExamHelp() const { return m_examHelpGotIt; }
 
       /**
        * Describes reason of starting executor
@@ -370,7 +373,7 @@ private:
   bool                         m_disconnectAfterAnim = false;
   int                          m_melodySelectionIndex = 0;
   EafterMessage                m_aftterMessage = AfterDoNothing;
-  bool                         m_showExamHelp = true;
+  bool                         m_examHelpGotIt = true;
 };
 
 #endif // TEXAMEXECUTOR_H
