@@ -132,6 +132,8 @@ void TlevelCreatorItem::continueLevelSave(const QString& name, const QString& de
   selector()->addLevel(*m_level, fileName, true);
   selector()->updateRecentLevels(); // Put the file name to the settings list
   emit selector()->levelsModelChanged();
+  emit selector()->selectLast();
+  selector()->showLevel(selector()->currentIndex()); // Refresh level preview after save - it could got another name and description
 
   if (m_resumeAfterLevelChange)
     resumeAfterLevelChange();
