@@ -73,6 +73,15 @@ TmelodyListView {
       spacing: NOO.factor() * (NOO.isAndroid() ? 0.7 : 1)
       leftPadding: NOO.factor() / 2; topPadding: NOO.factor() / (NOO.isAndroid() ? 2 : 1)
       TcuteButton {
+        visible: NOO.isAndroid()
+        width: NOO.factor() * 3
+        font { pixelSize: NOO.factor() * 2.5; family: "Nootka" }
+        text: "\u0191"; textColor: enabled ? activPal.highlight : disdPal.text
+        enabled: currentMelody > -1
+        onClicked: showMelody(currentMelody)
+      }
+      Item { width: 1; height: NOO.factor() * (NOO.isAndroid() ? 0.25 : 1.5) }
+      TcuteButton {
         width: NOO.factor() * 3
         font { pixelSize: NOO.factor() * 2.5; bold: true }
         text: "+"; textColor: "green"
@@ -81,7 +90,7 @@ TmelodyListView {
           melView.positionViewAtEnd()
         }
       }
-      Item { width: 1; height: NOO.factor() * (NOO.isAndroid() ? 0.5 : 1.5) }
+      Item { width: 1; height: NOO.factor() * (NOO.isAndroid() ? 0.25 : 1.5) }
       TcuteButton {
         width: NOO.factor() * 3
         font { pixelSize: NOO.factor() * 2.5; family: "Nootka" }
@@ -102,7 +111,7 @@ TmelodyListView {
           currentMelody++
         }
       }
-      Item { width: 1; height: NOO.factor() * (NOO.isAndroid() ? 0.5 : 1.5) }
+      Item { width: 1; height: NOO.factor() * (NOO.isAndroid() ? 0.25 : 1.5) }
       TcuteButton {
         width: NOO.factor() * 3
         font { pixelSize: NOO.factor() * 2.5; bold: true }

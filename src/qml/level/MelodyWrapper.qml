@@ -81,6 +81,7 @@ MouseArea {
       anchors { right: parent.right }
       color: sc.bgColor
       RectButton {
+        visible: !NOO.isAndroid()
         anchors { bottom: parent.bottom; right: parent.right; margins: 10 }
         height: parent.height / 3
         font { family: "Nootka"; pixelSize: parent.height / 3 }
