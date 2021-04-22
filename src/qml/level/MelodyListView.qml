@@ -120,9 +120,10 @@ TmelodyListView {
   property var melPreview: null
   function showMelody(melId) {
     if (!melPreview) {
-      melPreview = Qt.createComponent("qrc:/score/MelodyPreview.qml")
-                .createObject(melPage, { "width": melListView.width - NOO.factor() * 2,
-                                          "maxHeight": melPage.height - NOO.factor() * 10 })
+      melPreview = Qt.createComponent("qrc:/score/MelodyPreview.qml").createObject(NOO.isAndroid() ? nootkaWindow : melPage,
+                              { "width": (NOO.isAndroid() ? nootkaWindow.width : melListView.width) - NOO.factor() * 2,
+                                "maxHeight": melPage.height - NOO.factor() * (NOO.isAndroid() ? 4 : 10)
+                              })
     }
     melPreview.open()
     melPreview.melody = getMelody(melId)

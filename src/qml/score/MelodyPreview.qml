@@ -20,7 +20,7 @@ TpopupDialog {
        */
   property real maxHeight: 0
 
-  height: maxHeight ? Math.min(maxHeight, popup.header.height + sc.height + footer.height) : undefined
+  height: maxHeight ? Math.min(maxHeight, header.height + sc.height + footer.height) : undefined
 
   bgColor: activPal.base
   border { color: activPal.highlight; width: NOO.factor() / 4.0 }

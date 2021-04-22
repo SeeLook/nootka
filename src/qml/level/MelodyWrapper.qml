@@ -85,7 +85,7 @@ MouseArea {
         height: parent.height / 3
         font { family: "Nootka"; pixelSize: parent.height / 3 }
         text: "\u0191"
-        textColor: wrapArea.containsMouse ? activPal.text : NOO.alpha(activPal.text, 30)
+        textColor: wrapArea.containsMouse || NOO.isAndroid() ? activPal.text : NOO.alpha(activPal.text, 30)
         Behavior on textColor { enabled: GLOB.useAnimations; ColorAnimation {} }
         onClicked: melListView.showMelody(nr)
       }
