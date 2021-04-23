@@ -23,10 +23,7 @@
 ### For incoming stable release version 2.0
   - rejecting pitch-detected note due to out of current ambitus causes rhythm gaps
   - clean correction code, key signature anim maybe
-  - level creator:
-     - fix storing melody list in temporary/edited level - use that level list instead of creating pointers
   - add info that reading grand staff from musicxml created out of Nootka is not supported
-  - charts - show preview of entire melody, chart tip is not suitable for it
   - clean code:
     - when right mouse button is not used: TexamExacutor and TexecutorSupply
 

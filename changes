@@ -1,4 +1,6 @@
-1.9.1 rc2
+1.9.1 devel
+     - chart tip score can be clicked to show complete question melody
+     - level cretor can dispay preview of entire melody
      - version checker/updater was ported to QML
 
 1.9.0 rc1
