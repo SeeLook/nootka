@@ -52,8 +52,6 @@ TipRect {
     width: (lineCol.visible ? lineCol.width : Math.max(scoreRow.width, headRow.width)) + NOO.factor()
     height: (lineCol.visible ? lineCol.height : resultCol.y + resultCol.height) + NOO.factor()
 
-    onQuestionWasSet: attemptSpin.value = 0
-
     Row {
       id: headRow
       y: NOO.factor() / 2
@@ -81,10 +79,9 @@ TipRect {
       Item {
         anchors.verticalCenter: parent.verticalCenter
         visible: tipItem.leftScoreVisible
-        height: tipItem.isMelody ? tipItem.leftScoreHeight : NOO.factor() * 12
-        width: NOO.factor() * (tipItem.isMelody ? 24 : 12)
+        height: NOO.factor() * 10; width: NOO.factor() * 10
         Score {
-          y: tipItem.yScoreLeftOff
+          y: tipItem.yScoreLeftOff / 2
           width: parent.width; height: NOO.factor() * 12
           Component.onCompleted: {
             bgRect.destroy()
@@ -99,23 +96,21 @@ TipRect {
       }
       Text { // question mark, visible only for single note questions
         anchors.verticalCenter: parent.verticalCenter
-        visible: !tipItem.isMelody
         text: "?"; font { pixelSize: NOO.factor() * 4; family: "Nootka" }
         color: GLOB.wrongColor
       }
       Text {
-        visible: !tipItem.rightScoreVisible && !tipItem.isMelody; anchors.verticalCenter: parent.verticalCenter
+        visible: !tipItem.rightScoreVisible; anchors.verticalCenter: parent.verticalCenter
         text: tipItem.answerText; textFormat: Text.RichText
         color: activPal.text
       }
       Item {
-        height: tipItem.isMelody ? tipItem.rightScoreHeight : NOO.factor() * 12
-        width: NOO.factor() * 12
+        height: NOO.factor() * 10; width: NOO.factor() * 10
         anchors.verticalCenter: parent.verticalCenter
         visible: tipItem.rightScoreVisible
         Score {
-          y: tipItem.yScoreRightOff
-          height: NOO.factor() * 12; width: NOO.factor() * 12
+          y: tipItem.yScoreRightOff / 2
+          width: parent.width; height: NOO.factor() * 12
           Component.onCompleted: {
             bgRect.destroy()
             tipItem.secondScore = scoreObj
@@ -124,61 +119,15 @@ TipRect {
       }
     } // score row
 
-    TspinBox {
-      id: attemptSpin
-      y: scoreRow.y + scoreRow.height - NOO.factor()
-      anchors.horizontalCenter: parent.horizontalCenter
-      visible: tipItem.isMelody && tipItem.tipType === 0
-      width: NOO.factor() * 15
-      font.pixelSize: NOO.factor() * 0.8
-      from: 0; to: tipItem.attempts
-      textFromValue: function(value) {
-        return NOO.TR("Texam", "attempt") + " " + value + " " + qsTr("of", "It will give text: 'Attempt x of y'") + " " + to
-      }
-      function pressed(m) {
-        if (m.x > width / 2)
-          up.pressed = true
-        else
-          down.pressed = true
-      }
-      function released() {
-        if (down.pressed || up.pressed) {
-          var prevV = value
-          if (up.pressed)
-            increase()
-          else
-            decrease()
-          if (prevV !== value)
-            tipItem.setAttemptNr(value)
-        }
-        up.pressed = false
-        down.pressed = false
-      }
-    }
-
     Column {
       id: resultCol
-      anchors { horizontalCenter: parent.horizontalCenter; top: attemptSpin.visible ? attemptSpin.bottom : scoreRow.bottom }
+      anchors { horizontalCenter: parent.horizontalCenter; top: scoreRow.bottom }
       width: parent.width - NOO.factor(); topPadding: NOO.factor() / 2
       visible: tipItem.tipType === 0
       Text {
-        width: parent.width; visible: text !== ""
+        width: parent.width
         anchors.horizontalCenter: parent.horizontalCenter
-        text: tipItem.attemptDetails(attemptSpin.value); textFormat: Text.StyledText
-        color: activPal.text; horizontalAlignment: Text.AlignHCenter
-        wrapMode: Text.WordWrap; font.pixelSize: NOO.factor() * 0.9
-      }
-      Text {
-        width: parent.width; visible: text !== ""
-        anchors.horizontalCenter: parent.horizontalCenter
-        text: tipItem.attemptResult(attemptSpin.value); textFormat: Text.StyledText
-        horizontalAlignment: Text.AlignHCenter
-        wrapMode: Text.WordWrap; font.pixelSize: NOO.factor() * 0.9
-      }
-      Text {
-        width: parent.width; visible: text !== ""
-        anchors.horizontalCenter: parent.horizontalCenter
-        text: attemptSpin.value === 0 ? tipItem.resultText : ""; textFormat: Text.StyledText
+        text: tipItem.resultText; textFormat: Text.StyledText
         color: tipItem.color; horizontalAlignment: Text.AlignHCenter
         wrapMode: Text.WordWrap
       }
@@ -210,7 +159,5 @@ TipRect {
     hoverEnabled: true
     onEntered: chartItem.tipEntered()
     onExited: overArea.visible = true
-    onPressed: attemptSpin.pressed(mapToItem(attemptSpin, mouse.x, mouse.y))
-    onReleased: attemptSpin.released()
   }
 }
