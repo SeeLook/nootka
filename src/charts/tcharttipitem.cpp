@@ -36,6 +36,9 @@
 #include <QtCore/qdebug.h>
 
 
+#define MAX_MEL_LEN (9)
+
+
 QColor answerColor(quint32 mistake) {
   if (mistake == static_cast<quint32>(TQAunit::e_correct))
     return GLOB->correctColor();
@@ -104,7 +107,7 @@ bool TchartTipItem::hasSecondScore() const {
 
 
 bool TchartTipItem::leftScoreVisible() const {
-  return m_question && (m_question->qaUnit()->melody()
+  return m_question && m_question->qaUnit() && (m_question->qaUnit()->melody()
                         || (m_question->qaUnit()->questionOnScore()
                         || (m_question->qaUnit()->questionAsSound() && m_question->qaUnit()->answerAsSound())));
 }
@@ -143,12 +146,12 @@ QString TchartTipItem::answerText() const {
 
 
 qreal TchartTipItem::yScoreLeftOff() const {
-  return m_leftScore && m_exam->melodies() ? m_leftScore->firstStaff()->hiNotePos() * -m_leftScore->firstStaff()->scale() : 0.0;
+  return m_leftScore ? m_leftScore->firstStaff()->hiNotePos() * -m_leftScore->firstStaff()->scale() : 0.0;
 }
 
 
 qreal TchartTipItem::yScoreRightOff() const {
-  return m_secondScore && m_exam->melodies() ? m_secondScore->firstStaff()->hiNotePos() * -m_secondScore->firstStaff()->scale() : 0.0;
+  return m_secondScore ? m_secondScore->firstStaff()->hiNotePos() * -m_secondScore->firstStaff()->scale() : 0.0;
 }
 
 
@@ -164,6 +167,11 @@ qreal TchartTipItem::rightScoreHeight() const {
 
 int TchartTipItem::attempts() const {
   return m_question ? m_question->qaUnit()->attemptsCount() : 0;
+}
+
+
+bool TchartTipItem::moreMelody() const {
+  return m_question && m_question->qaUnit() && m_question->qaUnit()->melody() && m_question->qaUnit()->melody()->length() > MAX_MEL_LEN;
 }
 
 
@@ -227,7 +235,9 @@ void TchartTipItem::setQuestion(TtipInfo* q) {
                   transposition = m_question->qaUnit()->melody()->key().difference(m_question->qaUnit()->key);
                   m_question->qaUnit()->melody()->setKey(m_question->qaUnit()->key);
                 }
-                m_leftScore->setMelody(m_question->qaUnit()->melody(), true, 7, transposition);
+                // whan melody is longer than MAX_MEL_LEN (9) show only 7 notes and preview button
+                int melLen = m_question->qaUnit()->melody()->length() > MAX_MEL_LEN ? 7 : 0;
+                m_leftScore->setMelody(m_question->qaUnit()->melody(), true, melLen, transposition);
                 m_question->qaUnit()->melody()->setKey(tempKey);
             } else {
                 if (m_question->qaUnit()->questionOnScore() || (m_question->qaUnit()->questionAsSound() && m_question->qaUnit()->answerAsSound())) {
@@ -325,4 +335,18 @@ QString TchartTipItem::attemptResult(int attNr) const {
     + QLatin1String("</font>");
   }
   return QString();
+}
+
+
+void TchartTipItem::showMelodyPreview() {
+  if (m_question && m_question->qaUnit() && m_question->qaUnit()->melody()) {
+    int transposition = 0;
+    auto tempKey = m_question->qaUnit()->melody()->key();
+    if (m_question->qaUnit()->melody()->key() != m_question->qaUnit()->key) {
+      transposition = m_question->qaUnit()->melody()->key().difference(m_question->qaUnit()->key);
+      m_question->qaUnit()->melody()->setKey(m_question->qaUnit()->key);
+    }
+    m_leftScore->setMelody(m_question->qaUnit()->melody(), true, 0, transposition);
+    m_question->qaUnit()->melody()->setKey(tempKey);
+  }
 }

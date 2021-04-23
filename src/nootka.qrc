@@ -168,6 +168,7 @@
     <file alias="charts/LinearDelegate.qml">charts/qml/LinearDelegate.qml</file>
     <file alias="charts/BarDelegate.qml">charts/qml/BarDelegate.qml</file>
     <file alias="charts/ChartTip.qml">charts/qml/ChartTip.qml</file>
+    <file alias="charts/ChartTipMelody.qml">charts/qml/ChartTipMelody.qml</file>
     <file alias="charts/ChartToolButton.qml">charts/qml/ChartToolButton.qml</file>
     <file alias="charts/LevelPopup.qml">charts/qml/LevelPopup.qml</file>
     <file alias="charts/ChartHelpTip.qml">charts/qml/ChartHelpTip.qml</file>

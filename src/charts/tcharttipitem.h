@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2018-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2018-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -67,6 +67,7 @@ class TchartTipItem : public QQuickItem
   Q_PROPERTY(int tipType READ tipType NOTIFY tipTypeChanged)
   Q_PROPERTY(QString tipText READ tipText NOTIFY lineTipUpdated)
   Q_PROPERTY(qreal attempts READ attempts NOTIFY questionTipUpdated)
+  Q_PROPERTY(bool moreMelody READ moreMelody NOTIFY questionWasSet)
 
 public:
   explicit TchartTipItem(QQuickItem* parent = nullptr);
@@ -88,6 +89,7 @@ public:
   qreal leftScoreHeight() const;
   qreal rightScoreHeight() const;
   int attempts() const;
+  bool moreMelody() const;
 
   TscoreObject* leftScore() { return m_leftScore; }
   void setLeftScore(TscoreObject* ls);
@@ -109,6 +111,7 @@ public:
   Q_INVOKABLE void setAttemptNr(int attNr);
   Q_INVOKABLE QString attemptDetails (int attNr) const;
   Q_INVOKABLE QString attemptResult (int attNr) const;
+  Q_INVOKABLE void showMelodyPreview();
 
 signals:
   void examChanged();

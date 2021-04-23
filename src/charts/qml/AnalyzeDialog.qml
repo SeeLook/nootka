@@ -211,7 +211,7 @@ Window {
           helpTip.destroy()
         if (tipItem)
           tipItem.parent.destroy()
-        tipItem = Qt.createComponent("qrc:/charts/ChartTip.qml").createObject(chartView.list).tipItem
+        tipItem = Qt.createComponent("qrc:/charts/ChartTip" + (isMelody ? "Melody" : "") + ".qml").createObject(chartView.list).tipItem
       }
       onResetChartPos: chartView.list.positionViewAtBeginning()
       onLoadExamFailed: {
