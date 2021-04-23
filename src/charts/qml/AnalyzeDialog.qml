@@ -214,10 +214,8 @@ Window {
       }
       onResetChartPos: chartView.list.positionViewAtBeginning()
       onLoadExamFailed: {
-        if (!helpTip) {
-            var e = Qt.createComponent("qrc:/charts/ChartHelpTip.qml")
-            helpTip = e.createObject(analyzeWindow.contentItem)
-        }
+        if (!helpTip)
+          helpTip = Qt.createComponent("qrc:/charts/ChartHelpTip.qml").createObject(analyzeWindow.contentItem)
         helpTip.text = message
         helpTip.hintColor = GLOB.wrongColor
       }
