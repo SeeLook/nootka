@@ -205,9 +205,7 @@ Window {
 
     property TchartItem chartItem: TchartItem {
       id: chartItem
-      tipItem: tip.tipItem
       parent: chartView; anchors.fill: parent
-      ChartTip { id: tip; parent: chartView.list }
       onExamChanged: {
         if (helpTip && exam)
           helpTip.destroy()
@@ -218,6 +216,9 @@ Window {
           helpTip = Qt.createComponent("qrc:/charts/ChartHelpTip.qml").createObject(analyzeWindow.contentItem)
         helpTip.text = message
         helpTip.hintColor = GLOB.wrongColor
+      }
+      Component.onCompleted: {
+        tipItem = Qt.createComponent("qrc:/charts/ChartTip.qml").createObject(chartView.list).tipItem
       }
     }
 
