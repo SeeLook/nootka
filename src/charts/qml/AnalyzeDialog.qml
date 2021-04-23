@@ -209,6 +209,9 @@ Window {
       onExamChanged: {
         if (helpTip && exam)
           helpTip.destroy()
+        if (tipItem)
+          tipItem.parent.destroy()
+        tipItem = Qt.createComponent("qrc:/charts/ChartTip.qml").createObject(chartView.list).tipItem
       }
       onResetChartPos: chartView.list.positionViewAtBeginning()
       onLoadExamFailed: {
@@ -216,9 +219,6 @@ Window {
           helpTip = Qt.createComponent("qrc:/charts/ChartHelpTip.qml").createObject(analyzeWindow.contentItem)
         helpTip.text = message
         helpTip.hintColor = GLOB.wrongColor
-      }
-      Component.onCompleted: {
-        tipItem = Qt.createComponent("qrc:/charts/ChartTip.qml").createObject(chartView.list).tipItem
       }
     }
 

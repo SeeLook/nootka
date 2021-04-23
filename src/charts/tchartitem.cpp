@@ -448,11 +448,11 @@ void TchartItem::drawChart(bool resetModel) {
     newChart->setChartSettings(m_chartSetts);
     newChart->init();
     m_chart = newChart;
-    m_tipItem->setExam(m_exam);
     emit chartModelChanged();
     m_ignoreSignalExamChanged = resetModel;
     emit examChanged();
     m_ignoreSignalExamChanged = false;
+    m_tipItem->setExam(m_exam);
   )
   }
 }
