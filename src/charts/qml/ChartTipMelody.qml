@@ -91,6 +91,7 @@ TipRect {
         height: tipItem.leftScoreHeight - NOO.factor(); width: NOO.factor() * 40
         clip: true
         Score {
+          id: score
           y: tipItem.yScoreLeftOff
           width: parent.width; height: NOO.factor() * 15
           Component.onCompleted: {
@@ -206,18 +207,33 @@ TipRect {
     hoverEnabled: true
     onEntered: chartItem.tipEntered()
     onExited: overArea.visible = true
+    property real startPosY: 0
+    property bool overScore: false
     onPressed: {
+      startPosY = mouseY
       if (tipCol.childAt(mouse.x, mouse.y) !== scoreRow)
         attemptSpin.pressed(mapToItem(attemptSpin, mouse.x, mouse.y))
+      else if (tipItem.moreMelody && tipItem.prevShown)
+        overScore = true
+    }
+    onPositionChanged: {
+      if (overScore) {
+        score.contentY -= (mouseY - startPosY)
+        startPosY = mouseY
+      }
     }
     onReleased: {
       if (tipCol.childAt(mouse.x, mouse.y) === scoreRow) {
-        if (tipItem.moreMelody) {
-          tipItem.showMelodyPreview()
-          tipItem.prevShown = true
+        if (tipItem.moreMelody && !tipItem.prevShown) {
+            tipItem.showMelodyPreview()
+            tipItem.prevShown = true
         }
       } else
           attemptSpin.released()
+      if (overScore) {
+        overScore = false
+        score.returnToBounds()
+      }
     }
   }
 }
