@@ -129,6 +129,7 @@ private:
   TscoreObject            *m_secondScore = nullptr;
   Texam                   *m_exam = nullptr;
   int                      m_kindOfTip = -1;
+  int                      m_attemptNr = 0; /**< State of attempts spin */
 };
 
 #endif // TCHARTTIPITEM_H

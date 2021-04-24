@@ -221,6 +221,7 @@ void TchartTipItem::setQuestion(TtipInfo* q) {
   if (m_question != q) {
     bool emitShow = m_question == nullptr || q == nullptr;
     m_question = q;
+    m_attemptNr = 0;
     if (emitShow)
       emit showChanged();
     if (m_question) {
@@ -297,6 +298,7 @@ int TchartTipItem::tipType() const {
 void TchartTipItem::setAttemptNr(int attNr) {
   auto lastUnit = m_question ? m_question->qaUnit() : nullptr;
   if (lastUnit && lastUnit->attemptsCount()) {
+    m_attemptNr = attNr;
     for (int n = 0; n < m_leftScore->notesCount(); ++n) {
       if (attNr > 0)
         m_leftScore->note(n)->markNoteHead(answerColor(lastUnit->attempt(attNr - 1)->mistakes[n]));
@@ -348,5 +350,7 @@ void TchartTipItem::showMelodyPreview() {
     }
     m_leftScore->setMelody(m_question->qaUnit()->melody(), true, 0, transposition);
     m_question->qaUnit()->melody()->setKey(tempKey);
+    if (m_attemptNr > 0)
+      setAttemptNr(m_attemptNr);
   }
 }
