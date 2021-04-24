@@ -88,7 +88,7 @@ void TlevelPreviewItem::setLevel(Tlevel* tl) {
       if (tl->withFlats)
         m_accidentals += (m_accidentals.isEmpty() ? QString() : space) + QLatin1String("b");
       if (tl->withDblAcc)
-        m_accidentals += (m_questions.isEmpty() ? QString() : space) + QLatin1String("x B");
+        m_accidentals += (m_accidentals.isEmpty() ? QString() : space) + QLatin1String("x B");
 
       m_questions.clear();
       if (tl->questionAs.isOnScore())
