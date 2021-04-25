@@ -31,7 +31,7 @@ TexamSummary {
         anchors.horizontalCenter: parent.horizontalCenter
 
         Column {
-          width:  summDialog.width / resGrid.columns - NOO.factor() / 2
+          width: summDialog.width / resGrid.columns - NOO.factor() / 2
           Text { // student
             anchors.horizontalCenter: parent.horizontalCenter
             text: student; textFormat: Text.StyledText
@@ -41,7 +41,7 @@ TexamSummary {
             width: parent.width
             Grid {
               anchors.horizontalCenter: parent.horizontalCenter
-              columns: NOO.isAndroid() || resGrid.columns === 1 ? 1 : 2
+              columns: NOO.isAndroid() || parent.width < NOO.factor() * 50 ? 1 : 2
               horizontalItemAlignment: Grid.AlignHCenter; verticalItemAlignment: Grid.AlignVCenter
               spacing: NOO.factor() * (NOO.isAndroid() ? 1 : 2)
               Column {
