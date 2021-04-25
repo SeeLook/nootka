@@ -29,7 +29,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
   int octaveOffset = 0; // depends on guitar type and for bass drops range octave down
 //   if (GLOB->instrument().type() == Tinstrument::BassGuitar)
 //     octaveOffset = -1;
-  if (!GLOB->instrument().isGuitar())
+  if (!GLOB->instrument().isGuitar() || GLOB->instrument().ukulele())
     octaveOffset = 1;
   //----------------------------------------------------------------------------
   if (GLOB->instrument().isGuitar()) {
