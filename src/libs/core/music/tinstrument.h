@@ -44,7 +44,7 @@ class NOOTKACORE_EXPORT Tinstrument {
   Q_PROPERTY(int fretNumber READ fretNumber)
   Q_PROPERTY(bool isFadeOut READ isFadeOut)
 
-  Q_PROPERTY(bool isGuitar READ isGuitar) // all guitars
+  Q_PROPERTY(bool isGuitar READ isGuitar) // all guitars (including ukulele)
   Q_PROPERTY(bool isSax READ isSax) // all saxophones
   Q_PROPERTY(bool none READ none)
   Q_PROPERTY(bool classicGuitar READ clasicGuitar)
@@ -54,6 +54,7 @@ class NOOTKACORE_EXPORT Tinstrument {
   Q_PROPERTY(bool bandoneon READ bandoneon)
   Q_PROPERTY(bool altSax READ altSax)
   Q_PROPERTY(bool tenorSax READ tenorSax)
+  Q_PROPERTY(bool ukulele READ ukulele)
 
 public:
 
