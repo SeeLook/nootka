@@ -192,7 +192,7 @@ bool Ttune::fromXml(QXmlStreamReader& xml, bool isExam) {
   int id = -1;
   if (isExam) {
     id = xml.attributes().value(QStringLiteral("id")).toInt();
-    if (id < -1 || (id > 4 && id < 100) || (id > 103)) {
+    if (id < -1 || (id > 4 && id < 100) || (id > 103 && id != 110)) {
       qDebug() << "[Ttune] Tuning had wrong 'id'. Standard tuning will be used";
       ok = false;
     }
