@@ -21,6 +21,7 @@ GotIt {
       SOUND.startListen()
     }
     close()
+    destroy()
   }
 
   function stop() {
