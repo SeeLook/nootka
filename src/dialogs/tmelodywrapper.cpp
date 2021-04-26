@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2020 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2020-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,6 +20,7 @@
 #include "tmelodylistview.h"
 #include "music/tmelody.h"
 #include "score/tscoreobject.h"
+#include <tglobals.h>
 
 
 TmelodyWrapper::TmelodyWrapper(QQuickItem *parent) :
@@ -53,6 +54,15 @@ void TmelodyWrapper::updateMelody() {
   m_melody = qvariant_cast<Tmelody*>(m_melodyView->getMelody(m_nr));
   if (m_melody != oldMelody) {
     m_score->setMelody(m_melody, false, MELODY_LENGHT);
+    m_outOfScale = false;
+    auto hi = GLOB->hiNote().chromatic(), lo = GLOB->loNote().chromatic();
+    for (int n = 0; n < m_melody->length(); ++n) {
+      auto chrom = m_melody->note(n)->p().chromatic();
+      if (chrom < lo || chrom > hi) {
+        m_outOfScale = true;
+        break;
+      }
+    }
     emit melodyChanged();
   }
 }

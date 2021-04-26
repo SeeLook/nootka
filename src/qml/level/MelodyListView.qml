@@ -137,6 +137,7 @@ TmelodyListView {
     melPreview.open()
     melPreview.melody = getMelody(melId)
     melPreview.idText = (melId + 1) + "."
+    melPreview.border.color = melView.itemAtIndex(melId).outOfScale ? "red" : activPal.highlight
   }
 
   function removeWrapper(id) {

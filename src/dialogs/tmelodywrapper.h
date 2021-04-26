@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2021 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2020-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -42,6 +42,7 @@ class TmelodyWrapper : public QQuickItem
   Q_PROPERTY(TscoreObject* score READ score WRITE setScore)
   Q_PROPERTY(QString title READ title NOTIFY melodyChanged)
   Q_PROPERTY(QString composer READ composer NOTIFY melodyChanged)
+  Q_PROPERTY(bool outOfScale READ outOfScale NOTIFY melodyChanged)
 
 public:
   explicit TmelodyWrapper(QQuickItem* parent = nullptr);
@@ -58,6 +59,8 @@ public:
 
   TscoreObject* score() { return m_score; }
   void setScore(TscoreObject* sc) { m_score = sc; }
+
+  bool outOfScale() const { return m_outOfScale; }
 
       /**
        * Gets @p Tmelody from melody view by @p nr()
@@ -76,6 +79,7 @@ private:
   Tmelody                *m_melody = nullptr;
   bool                    m_deleteMelody = false;
   TscoreObject           *m_score = nullptr;
+  bool                    m_outOfScale = false;
 };
 
 #endif // TMELODYWRAPPER_H

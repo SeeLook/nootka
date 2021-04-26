@@ -17,6 +17,7 @@ MouseArea {
 
   property bool held: false
   property alias nr: wrapper.nr
+  property alias outOfScale: wrapper.outOfScale
 
   function updateMelody() { wrapper.updateMelody() }
 
@@ -59,10 +60,11 @@ MouseArea {
 
     Score {
       id: sc
+      property color base: wrapper.outOfScale ? "red" : activPal.base
       anchors.fill: parent
       interactive: false
       readOnly: true
-      bgColor: Qt.tint(activPal.base, NOO.alpha(wrapArea.held ? activPal.text : (nr === melListView.currentMelody ? activPal.highlight : activPal.base), 50))
+      bgColor: Qt.tint(activPal.base, NOO.alpha(wrapArea.held ? activPal.text : (nr === melListView.currentMelody ? activPal.highlight : base), 50))
       Behavior on bgColor { enabled: GLOB.useAnimations; ColorAnimation { duration: 150 } }
     }
 
@@ -80,6 +82,13 @@ MouseArea {
       height: parent.height; width: parent.width - parent.height * 4
       anchors { right: parent.right }
       color: sc.bgColor
+      Text {
+        visible: wrapper.outOfScale
+        anchors { verticalCenter: parent.verticalCenter; right: parent.right; margins: 10 }
+        font.pixelSize: parent.height * 0.2
+        text: NOO.TR("OutScaleTip", "Out of instrument scale!")
+        color: "red"
+      }
       RectButton {
         visible: !NOO.isAndroid()
         anchors { bottom: parent.bottom; right: parent.right; margins: 10 }
