@@ -326,6 +326,9 @@ void TguitarBg::highlightAnswer(const Tnote& n, quint32 noteData) {
 
 
 void TguitarBg::updateGuitar() {
+  if (!GLOB->instrument().isGuitar())
+    return; // HACK: Avoid crash when instrument is changed form guitar to another kind
+
   setTune();
   geometryChanged(QRectF(x(), y(), width(), height()), QRectF());
 }
@@ -409,10 +412,13 @@ void TguitarBg::pressedAt(qreal px, qreal py) {
 
 void TguitarBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
   if (oldGeometry.width() != newGeometry.width() || oldGeometry.height() != newGeometry.height()) {
+    if (!GLOB->instrument().isGuitar())
+      return;
+
     QSize newSize = newGeometry.size().toSize();
     m_fbRect = QRect(10, newSize.height() / 18, (6 * newSize.width()) / 7, newSize.height() - newSize.height() / 18);
     m_fretWidth = ((m_fbRect.width() + ((GLOB->GfretsNumber / 2) * (GLOB->GfretsNumber / 2 + 1))
-    + GLOB->GfretsNumber / 4) / (GLOB->GfretsNumber+1)) + 1;
+                  + GLOB->GfretsNumber / 4) / (GLOB->GfretsNumber + 1)) + 1;
     m_strGap = m_fbRect.height() / GLOB->Gtune()->stringNr();
     m_fretsPos[0] = m_fbRect.x() + m_fretWidth;
     for (unsigned int i = 2; i < GLOB->GfretsNumber + 1; i++)
