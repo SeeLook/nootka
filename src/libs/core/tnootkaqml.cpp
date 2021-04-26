@@ -288,6 +288,26 @@ Ttune TnootkaQML::tuning(const Tnote& s1, const Tnote& s2, const Tnote& s3, cons
 }
 
 
+Ttune TnootkaQML::defaultScale(int instr) {
+  switch (static_cast<Tinstrument::Etype>(instr)) {
+    case Tinstrument::ClassicalGuitar:
+    case Tinstrument::ElectricGuitar:
+      return Ttune::stdTune;
+    case Tinstrument::BassGuitar:
+      return Ttune::bassTunes[0];
+    case Tinstrument::Piano:
+      return tuning(Tnote(-11), Tnote(49), Tnote(), Tnote(), Tnote(), Tnote());
+    case Tinstrument::Bandoneon:
+      return tuning(Tnote(-11), Tnote(48), Tnote(), Tnote(), Tnote(), Tnote());
+    case Tinstrument::AltSax:
+    case Tinstrument::TenorSax:
+      return tuning(Tnote(11), Tnote(49), Tnote(), Tnote(), Tnote(), Tnote());
+    default: // NoInstrument and any unexpected case
+      return tuning(Tnote(10), Tnote(54), Tnote(), Tnote(), Tnote(), Tnote());
+  }
+}
+
+
 Tinstrument TnootkaQML::instr(int type) {
   return Tinstrument(static_cast<Tinstrument::Etype>(type < 0 || type > INSTR_COUNT - 1 ? 0 : type));
 }

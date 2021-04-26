@@ -129,6 +129,12 @@ public:
   Q_INVOKABLE QStringList bassTunings();
   Q_INVOKABLE Ttune tuning(int tuningType);
   Q_INVOKABLE Ttune tuning(const Tnote& s1, const Tnote& s2, const Tnote& s3, const Tnote& s4, const Tnote& s5, const Tnote& s6);
+
+      /**
+       * Returns default scale (or tuning if any kind of guitar)
+       * for given @p instr instrument
+       */
+  Q_INVOKABLE Ttune defaultScale(int instr);
   Q_INVOKABLE Tinstrument instr(int type);
   Q_INVOKABLE QString getXmlToOpen();
   Q_INVOKABLE QString getXmlToSave(const QString& fileName = QString());
