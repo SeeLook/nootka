@@ -34,20 +34,25 @@
 #include <QtWidgets/qapplication.h>
 
 
-
 /*static*/
 
 QString TlevelSelector::checkLevel(const Tlevel& l) {
-  QString warringText;
-  if (GLOB->instrument().type() == Tinstrument::NoInstrument && l.instrument != Tinstrument::NoInstrument)
-          warringText = tr("Level is not suitable for current instrument type");
-  else if (l.canBeInstr() || (l.instrument != Tinstrument::NoInstrument && l.canBeSound())) {
-    if (l.hiFret > GLOB->GfretsNumber || GLOB->Gtune()->stringNr() < 3 ||
-        l.loNote.chromatic() < GLOB->loString().chromatic() ||
-        l.hiNote.chromatic() > GLOB->hiNote().chromatic())
-          warringText = tr("Level is not suitable for current tuning and/or fret number");
+  QString warningText;
+  if (GLOB->instrument().none()) {
+      if (l.instrument != Tinstrument::NoInstrument)
+        warningText = tr("Level is not suitable for current instrument type");
+  } else if (GLOB->instrument().isGuitar()) {
+      if (l.canBeInstr() || (l.instrument != Tinstrument::NoInstrument && l.canBeSound())) {
+        if (l.hiFret > GLOB->GfretsNumber || GLOB->Gtune()->stringNr() < 3 ||
+          l.loNote.chromatic() < GLOB->loString().chromatic() ||
+          l.hiNote.chromatic() > GLOB->hiNote().chromatic())
+            warningText = tr("Level is not suitable for current tuning and/or fret number");
+      }
+    } else {
+      if (GLOB->instrument().type() != l.instrument)
+        warningText = tr("Level is not suitable for current instrument type");
   }
-  return warringText;
+  return warningText;
 }
 
 /*end static*/
@@ -87,7 +92,7 @@ void TlevelSelector::findLevels() {
   getExampleLevels(levels);
   for (int i = 0; i < levels.size(); i++) {
     addLevel(levels[i]);
-    checkLast();
+    // NOTE: Do not check built-in levels
   }
 
 // from files shipped with Nootka installation (levels directory)
