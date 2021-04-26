@@ -19,38 +19,12 @@ Tflickable {
     width: parent.width; height: childrenRect.height
   }
 
-  function setInstrParams() {
-    var selectedIns = instrPage.getInstrument()
-    if (instrDetails && selectedIns === 0) {
-        GLOB.clefType = instrDetails.clef
-        GLOB.transposition = instrDetails.transposition
-    } else {
-        GLOB.clefType = NOO.instr(selectedIns).clef
-        if (instrDetails && (selectedIns === 6 || selectedIns === 7)) // saxophones
-          GLOB.transposition = instrDetails.transposition
-        else
-          GLOB.transposition = NOO.instr(selectedIns).transposition
-    }
-
-    var tuning
-    if (selectedIns === 3) // bass
-        tuning = NOO.tuning(100)
-    else if (selectedIns === 1 || selectedIns === 2) // guitars
-        tuning = NOO.tuning(0)
-    else if (selectedIns === 0) {
-        if (instrDetails)
-          tuning = NOO.tuning(NOO.transpose(instrDetails.getNote(0), GLOB.transposition), NOO.transpose(instrDetails.getNote(1), GLOB.transposition),
-                              NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote())
-        else
-          tuning = NOO.tuning(NOO.note(10), NOO.note(54), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote())
-    }
-    if (GLOB.instrument.isGuitar)
-      GLOB.setGuitarParams(GLOB.instrument.fretNumber, tuning)
-    else if (selectedIns === 0)
-      GLOB.setGuitarParams(0, tuning)
-  }
-
   Component.onCompleted: changeInstrument()
+
+  Connections {
+    target: nootkaWindow
+    onInstrumentChanged: changeInstrument()
+  }
 
   // private
   property var instrDetails: null
@@ -77,8 +51,27 @@ Tflickable {
     instrDetails = Qt.createComponent("qrc:/wizard/" + instrQML +".qml").createObject(mainItem)
   }
 
-  Connections {
-    target: nootkaWindow
-    onInstrumentChanged: changeInstrument()
+  function setInstrParams() {
+    var selectedIns = instrPage.getInstrument()
+    var instr = NOO.instr(selectedIns)
+    if (instrDetails && instr.none) {
+      GLOB.clefType = instrDetails.clef
+      GLOB.transposition = instrDetails.transposition
+    } else {
+      GLOB.clefType = instr.clef
+      if (instrDetails && instr.isSax) // saxophones
+        GLOB.transposition = instrDetails.transposition
+        else
+          GLOB.transposition = instr.transposition
+    }
+
+    var tuning
+    var empty = NOO.emptyNote()
+    if (instr.none && instrDetails)
+      tuning = NOO.tuning(instrDetails.getNote(0), instrDetails.getNote(1), empty, empty, empty, empty)
+    else
+      tuning = NOO.defaultScale(selectedIns)
+
+    GLOB.setGuitarParams(instr.fretNumber, tuning)
   }
 }
