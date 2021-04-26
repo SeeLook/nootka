@@ -87,7 +87,9 @@ if (!m_level->canBeInstr() && !m_level->answerIsSound() ) { // no guitar and no 
   // set instrument to none when it is not important for the level
   m_level->instrument = m_level->detectInstrument(GLOB->instrument().type());
   // invoke QML routines
-  emit saveNewLevel(m_level->name, m_level->desc);
+  bool isWrong = m_level->desc.contains(QStringLiteral("<font color=\"red\">"));
+  // but do not display description of not suitable level
+  emit saveNewLevel(m_level->name, isWrong ? QString() : m_level->desc);
 }
 
 
