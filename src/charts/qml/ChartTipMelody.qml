@@ -128,7 +128,7 @@ TipRect {
         font.pixelSize: NOO.factor() * 0.8
         from: 0; to: tipItem.attempts
         textFromValue: function(value) {
-          return NOO.TR("Texam", "attempt") + " " + value + " " + qsTr("of", "It will give text: 'Attempt x of y'") + " " + to
+          return NOO.TR("Texam", "attempt") + " " + value + " " + qsTranslate("ChartTip", "of", "It will give text: 'Attempt x of y'") + " " + to
         }
         function pressed(m) {
           if (m.x > width / 2)
