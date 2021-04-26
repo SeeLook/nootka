@@ -39,13 +39,18 @@ Flickable {
   }
 
   property real hiFactor: GLOB.instrument.getItemHeight(100) / 100.0
+
   function setInstrument() {
-    if (instrument)
+    if (instrument) {
+      score.parent.scale = 1.0
       instrument.destroy()
+    }
+
     if (GLOB.instrument.type)
       instrument = Qt.createComponent("qrc:/instruments/" +  GLOB.instrument.qmlFile + ".qml").createObject(sizable)
     else
       instrument = null
+
     if (GLOB.instrument.piano)
       instrument.setAmbitus(score.scoreObj.lowestNote(), score.scoreObj.highestNote())
     NOO.instrument = instrument
