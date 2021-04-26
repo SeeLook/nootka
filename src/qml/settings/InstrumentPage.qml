@@ -251,22 +251,25 @@ Flickable {
     GLOB.fingerColor = fingerColorButt.color
     GLOB.selectedColor = selectedColorButt.color
     GLOB.preferFlats = prefFlatRadio.checked
-    GLOB.setInstrument(instrSel.instrument)
     GLOB.transposition = transp.outShift
     if (NOO.instr(instrSel.instrument).isGuitar) {
-      GLOB.showOtherPos = showOtherPosChB.checked
-      GLOB.markedFrets = fretDots.text
-      var tun
-      if (tuningCombo.currentIndex === tuningCombo.count - 1)
-          tun = NOO.tuning(score.scoreObj.noteAt(0), score.scoreObj.noteAt(1), score.scoreObj.noteAt(2),
-                           score.scoreObj.noteAt(3), score.scoreObj.noteAt(4), score.scoreObj.noteAt(5))
-      else {
-          if (instrSel.instrument !== Tinstrument.BassGuitar && tuningCombo.currentIndex === 0)
-            tun = NOO.tuning(Ttune.Standard_EADGBE)
-          else
-            tun = NOO.tuning(tuningCombo.currentIndex + (instrSel.instrument === Tinstrument.BassGuitar ? 100 : 0))
-      }
-      GLOB.setGuitarParams(fretsNrSpin.value, tun) // TODO left-handed guitar
+        GLOB.showOtherPos = showOtherPosChB.checked
+        GLOB.markedFrets = fretDots.text
+        var tun
+        if (tuningCombo.currentIndex === tuningCombo.count - 1)
+            tun = NOO.tuning(score.scoreObj.noteAt(0), score.scoreObj.noteAt(1), score.scoreObj.noteAt(2),
+                            score.scoreObj.noteAt(3), score.scoreObj.noteAt(4), score.scoreObj.noteAt(5))
+        else {
+            if (instrSel.instrument !== Tinstrument.BassGuitar && tuningCombo.currentIndex === 0)
+              tun = NOO.tuning(Ttune.Standard_EADGBE)
+            else
+              tun = NOO.tuning(tuningCombo.currentIndex + (instrSel.instrument === Tinstrument.BassGuitar ? 100 : 0))
+        }
+        GLOB.setGuitarParams(fretsNrSpin.value, tun) // TODO left-handed guitar
+        GLOB.setInstrument(instrSel.instrument)
+    } else {
+        GLOB.setInstrument(instrSel.instrument)
+        GLOB.setGuitarParams(0, NOO.defaultScale(instrSel.instrument))
     }
     GLOB.audioInstrument = instrSel.instrument
     SOUND.acceptSettings()
