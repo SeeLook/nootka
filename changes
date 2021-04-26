@@ -1,7 +1,9 @@
 1.9.1 devel
-     - chart tip score can be clicked to show complete question melody
-     - level cretor can dispay preview of entire melody
+     - chart tip can be clicked to show complete melody of question
+     - level creator can display preview of entire melody
      - version checker/updater was ported to QML
+    BUG FIXES
+     - fixed crash after 'note selection help' was displayed
 
 1.9.0 rc1
      - when window is not wide enough, instrument can be scrolled
