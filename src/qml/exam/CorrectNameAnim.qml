@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018 by Tomasz Bojczuk (seelook@gmail.com)          *
+ * Copyright (C) 2018-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -29,12 +29,13 @@ SequentialAnimation {
   PauseAnimation { duration: 100 }
   ParallelAnimation {
     NumberAnimation { target: textItem; property: "opacity"; to: 0; duration: doCross ? 1 : 200 }
-    NumberAnimation { target: textItem; property: "scale"; to: 0.1; duration: doCross ? 1 : 200 }
+    NumberAnimation { target: textItem; property: "scale"; to: 0; duration: doCross ? 1 : 200 }
   }
   ScriptAction { script: noteName.applyCorrect() }
   ParallelAnimation {
-    NumberAnimation { target: textItem; property: "opacity"; to: 1; duration: 300 }
-    SpringAnimation { target: textItem; property: "scale"; from: 0.1; to: 3; spring: 2; damping: 0.2; epsilon: 0.005; duration: 300 }
+    NumberAnimation { target: textItem; property: "opacity"; to: 1; duration: 150 }
+    NumberAnimation { target: textItem; property: "scale"; to: 2; duration: 200 }
   }
+  NumberAnimation { target: textItem; property: "scale"; to: 1; duration: 200 }
   ScriptAction { script: noteName.finishCorrectAnim() }
 }
