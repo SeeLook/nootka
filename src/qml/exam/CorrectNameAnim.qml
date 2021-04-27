@@ -29,13 +29,13 @@ SequentialAnimation {
   PauseAnimation { duration: 100 }
   ParallelAnimation {
     NumberAnimation { target: textItem; property: "opacity"; to: 0; duration: doCross ? 1 : 200 }
-    NumberAnimation { target: textItem; property: "scale"; to: 0; duration: doCross ? 1 : 200 }
+    NumberAnimation { target: textItem; property: "scale"; to: 2; duration: doCross ? 1 : 200 }
   }
   ScriptAction { script: noteName.applyCorrect() }
   ParallelAnimation {
     NumberAnimation { target: textItem; property: "opacity"; to: 1; duration: 150 }
-    NumberAnimation { target: textItem; property: "scale"; to: 2; duration: 200 }
+    NumberAnimation { target: textItem; property: "scale"; to: 6; duration: 200 }
   }
-  NumberAnimation { target: textItem; property: "scale"; to: 1; duration: 200 }
+  NumberAnimation { target: textItem; property: "scale"; to: 3; duration: 200 }
   ScriptAction { script: noteName.finishCorrectAnim() }
 }

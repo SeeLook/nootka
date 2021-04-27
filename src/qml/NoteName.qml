@@ -60,12 +60,14 @@ TnameItem {
     }
     Text {
       id: textItem
-      y: (parent.height - height) / 2 + font.pixelSize * 0.26
+      y: (parent.height - height / scale) / 2 - font.pixelSize * 0.3
       text: nameText; color: activPal.text
       width: parent.width - NOO.factor() / 2; anchors.horizontalCenter: parent.horizontalCenter
       horizontalAlignment: Text.AlignHCenter
       style: Text.Outline; styleColor: markColor
-      font { pixelSize: Math.min(parent.height * 0.8, width * 0.2); family: "Scorek" }
+      font { pixelSize: Math.min(parent.height * 0.266, width * 0.05); family: "Scorek" }
+      transformOrigin: Item.Center
+      scale: 3 // scale to increase outline for marking answers
     }
   }
 
