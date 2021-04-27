@@ -27,6 +27,7 @@
 #include <exam/tlevel.h>
 #include <exam/tattempt.h>
 #include <tpath.h>
+#include <qtr.h>
 #if defined (Q_OS_ANDROID)
   #include <Android/tandroid.h>
   #include <qtr.h>
@@ -66,7 +67,7 @@ TexamSummary::TexamSummary(QQuickItem* parent) :
 
   if (m_exam->mistakes() || m_exam->halfMistaken()) {
     float wAccid = 0.0f, wKey = 0.0f, wNote = 0.0f, wOctave = 0.0f, wStyle = 0.0f, wPos = 0.0f, wString = 0.0f, wTotal;
-    float wInto = 0.0f, wLittle = 0.0f, wPoor = 0.0f;
+    float wInto = 0.0f, wLittle = 0.0f, wPoor = 0.0f, wRtm = 0.0f;
     for(int i = 0; i < m_exam->count(); ++i) {
       if (!m_exam->question(i)->isCorrect()) {
           if (m_exam->question(i)->wrongAccid())       wAccid++;
@@ -79,10 +80,11 @@ TexamSummary::TexamSummary(QQuickItem* parent) :
           if (m_exam->question(i)->wrongIntonation())  wInto++;
           if (m_exam->question(i)->littleNotes())      wLittle++;
           if (m_exam->question(i)->poorEffect())       wPoor++;
+          if (m_exam->question(i)->wrongRhythm())      wRtm++;
       }
     }
 
-    wTotal = wAccid + wKey + wNote + wOctave + wStyle + wPos + wString + wInto + wLittle + wPoor;
+    wTotal = wAccid + wKey + wNote + wOctave + wStyle + wPos + wString + wInto + wLittle + wPoor + wRtm;
     if (wNote) {
       m_resultsModel << getDelegate(tr("Wrong notes"), wNote, wTotal);
       m_kindOfMistakes << static_cast<int>(wNote);
@@ -115,13 +117,16 @@ TexamSummary::TexamSummary(QQuickItem* parent) :
       m_resultsModel << getDelegate(tr("Out of tune"), wInto, wTotal);
       m_kindOfMistakes << static_cast<int>(wInto);
     }
+    if (wRtm) {
+      m_resultsModel << getDelegate(qTR("AnswerText", "incorrect rhythm"), wRtm, wTotal);
+      m_kindOfMistakes << static_cast<int>(wRtm);
+    }
     if (wLittle) {
-      m_resultsModel << getDelegate(QApplication::translate("AnswerText", "little valid notes", "the amount of correct notes in an answer is little"),
-                                    wLittle, wTotal);
+      m_resultsModel << getDelegate(qTR("AnswerText", "little valid notes"), wLittle, wTotal);
       m_kindOfMistakes << static_cast<int>(wLittle);
     }
     if (wPoor) {
-      m_resultsModel << getDelegate(QApplication::translate("AnswerText", "poor effectiveness"), wPoor, wTotal);
+      m_resultsModel << getDelegate(qTR("AnswerText", "poor effectiveness"), wPoor, wTotal);
       m_kindOfMistakes << static_cast<int>(wPoor);
     }
   }
