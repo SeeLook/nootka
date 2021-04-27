@@ -44,7 +44,7 @@ TbandoneonBg {
     visible: sideHighlight !== TbandoneonBg.HighlightNone
     color: GLOB.correctColor
     width: factor * 207; height: factor * 20
-    x: factor / 2 + (sideHighlight === TbandoneonBg.HighlightRight ? factor * 225 : 0)
+    x: xOffset + (sideHighlight === TbandoneonBg.HighlightRight ? factor * 240 : factor * 10)
     y: parent.height - height
   }
 
