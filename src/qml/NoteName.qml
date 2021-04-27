@@ -60,12 +60,12 @@ TnameItem {
     }
     Text {
       id: textItem
-      y: noteName.height * 0.03; x: (parent.width - width) / 2
+      y: (parent.height - height) / 2 + font.pixelSize * 0.26
       text: nameText; color: activPal.text
-      height: parent.height
+      width: parent.width - NOO.factor() / 2; anchors.horizontalCenter: parent.horizontalCenter
+      horizontalAlignment: Text.AlignHCenter
       style: Text.Outline; styleColor: markColor
-      font { pixelSize: height * 0.266; family: "Scorek" }
-      scale: 3
+      font { pixelSize: Math.min(parent.height * 0.8, width * 0.2); family: "Scorek" }
     }
   }
 
