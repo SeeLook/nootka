@@ -179,7 +179,9 @@ void TcommonListener::noteStartedSlot(qreal pitch, qreal freq, qreal duration) {
   if (!isPaused()) {
       if (pitch > 0.0) {
           m_lastNote.set(pitch + m_audioParams->a440diff, freq, duration);
-          if (inRange(m_lastNote.pitchF)) {
+          if (GLOB->rhythmsEnabled() || inRange(m_lastNote.pitchF)) {
+            // NOTE: Check is note fitting instrument scale only when rhythms are not enabled.
+            // When rhythms enabled - timing has to be coherent
             m_noteWasStarted = true;
             m_lastNote.pitch.transpose(-m_audioParams->transposition);
             emit noteStarted(m_lastNote);
@@ -228,7 +230,7 @@ void TcommonListener::noteFinishedSlot(TnoteStruct* lastNote) {
       else
         m_lastNote.set(0.0, 0.0, lastNote->duration);
       if (lastNote->pitchF > 0.0) {
-          if (inRange(m_lastNote.pitchF)) {
+          if (GLOB->rhythmsEnabled() || inRange(m_lastNote.pitchF)) {
             m_lastNote.pitch.transpose(-m_audioParams->transposition);
             emit noteFinished(m_lastNote);
           }
