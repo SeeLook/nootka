@@ -12,6 +12,7 @@
   - Exams: For non guitars single note question "give name of:" has nothing more
   - On smaller mobile screens texts can be out of button
   - level validation routines are optimized for guitars mostly, troubles are there
+  - TexamExacutor checkAnswerAct hint -> remove %1
 
 ### To test:
   - melodies with ties and multiple rests (either playing or writing)
@@ -21,27 +22,26 @@
   - levels with melodies to be played and written in one
 
 ### For incoming stable release version 2.0
-  - rejecting pitch-detected note due to out of current ambitus causes rhythm gaps
   - clean correction code, key signature anim maybe
   - add info that reading grand staff from musicxml created out of Nootka is not supported
   - clean code:
     - when right mouse button is not used: TexamExacutor and TexecutorSupply
 
 ### For next stable Nootka version 2.2 and up
-  - migrate on preferred 48000 sample rate (ogg files and audio methods). DO NOT forget to resize output samples length
+  - music XML import dialog, to select voice or staff if there are more, and so on
+  - add ukulele support
+  - read/save compressed music XML (*.mxl)
   - MIDI input & revert MIDI out of course
+  - migrate on preferred 48000 sample rate (ogg files and audio methods). DO NOT forget to resize output samples length
   - storing custom tuning with user name. Import/export tuning in XML files
   - add rests option for random melodies in exams
   - playing with metronome under Android - possible migration to Oboe library
   - implement repeating a melody that was heard
   - adding set of rhythm patterns for melodies generated from random notes (similar to melody list)
   - time stamps in question/answer units - to better track exam progress
-  - music XML import dialog, to select voice or staff if there are more, and so on
-  - read/save compressed music XML (*.mxl)
   - adding actually edited score melody to current level
   - editing melody from currently selected/composed level
   - add score helpers: transposition, folding ties
-  - add ukulele support.
   - add violin support and revert pitch accuracy check.
     It has less usage for currently supported instruments, but for violin can be perfect
   - support for triplets
