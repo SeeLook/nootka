@@ -63,6 +63,7 @@ ApplicationWindow {
     MainScore {
       id: score
       property real insHi: GLOB.instrument.getItemHeight(nootkaWindow.height)
+      z: 5
       height: nootkaWindow.contentItem.height
               - (GLOB.instrument.isSax ? (GLOB.singleNoteMode ? insHi / 7 : 0) : insHi)
               - (examResults ? examResults.height + 2 : 0)
