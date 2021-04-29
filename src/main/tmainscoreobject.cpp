@@ -97,7 +97,7 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
   m_saveXmlAct->createQmlShortcut(&actionsComp, "StandardKey.Save; enabled: !GLOB.singleNoteMode && !GLOB.isExam");
   m_zoomOutAct->createQmlShortcut(&actionsComp, "StandardKey.ZoomOut; enabled: !GLOB.singleNoteMode");
   m_zoomInAct->createQmlShortcut(&actionsComp, "StandardKey.ZoomIn; enabled: !GLOB.singleNoteMode");
-  m_playAct->createQmlShortcut(&actionsComp, "\" \"; enabled: !GLOB.singleNoteMode && !GLOB.isExam");
+  // HACK: Create m_playAct action shortcut only when enabled.
   m_randMelodyAct->createQmlShortcut(&actionsComp, "\"Ctrl+M\"; enabled: !GLOB.singleNoteMode && !GLOB.isExam");
   m_nextNoteAct->createQmlShortcut(&actionsComp, "StandardKey.MoveToNextChar");
   m_prevNoteAct->createQmlShortcut(&actionsComp, "StandardKey.MoveToPreviousChar");
@@ -604,6 +604,10 @@ void TmainScoreObject::singleModeSlot() {
         m_openXmlAct->setEnabled(true);
         m_saveXmlAct->setEnabled(true);
         m_randMelodyAct->setEnabled(true);
+        if (!m_playAct->shortcut()) { // HACK: Create play action shortcut only when enabled, otherwise it locks next question shortcut
+          QQmlComponent actionsComp(NOO->qmlEngine(), this);
+          m_playAct->createQmlShortcut(&actionsComp, "\" \"; enabled: !GLOB.singleNoteMode && !GLOB.isExam");
+        }
       }
   }
 }
