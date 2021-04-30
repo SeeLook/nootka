@@ -100,6 +100,7 @@ public:
   void markSelected(const QColor & markColor) override;
 
   void showNoteName() override;
+  void showNoteName(Tnote::EnameStyle st, const Tnote &n, quint32 techn, const QColor& textColor) override;
 
   void correct(const Tnote & n, quint32 noteData) override;
 

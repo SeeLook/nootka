@@ -350,6 +350,21 @@ void TguitarBg::showNoteName() {
 }
 
 
+void TguitarBg::showNoteName(Tnote::EnameStyle st, const Tnote& n, quint32 techn, const QColor& textColor) {
+  TcommonInstrument::showNoteName(st, n, techn, textColor);
+  QQuickItem* visIt = nullptr;
+  for (int s = 0; s < 6; ++ s) {
+    if (m_fingerItems[s]->isVisible())
+      visIt = m_fingerItems[s];
+    else if (m_stringItems[s]->isVisible())
+      visIt = m_stringItems[s];
+    if (visIt)
+      break;
+  }
+  emit wantNoteName(p_extraName, QVariant::fromValue(visIt));
+}
+
+
 void TguitarBg::correct(const Tnote& n, quint32 noteData) {
   if (m_selectedPos.isValid()) {
     if (m_selectedPos.fret() > 0)
@@ -384,6 +399,11 @@ void TguitarBg::applyCorrect() {
       markSelected(GLOB->correctColor());
       if (m_highlightedString)
         m_highlightedString->setVisible(false);
+  }
+  if (!p_extraName.isEmpty()) {
+    p_extraName = QStringLiteral(" "); // hide name of wrong pointed note
+    // HACK: but do not clear extra name text - finish correction routines depend on it
+    emit wantNoteName(p_extraName, QVariant());
   }
 }
 

@@ -116,4 +116,19 @@ TguitarBg {
   }
 
   OutScaleTip { show: !active && outOfScale }
+
+  Text {
+    id: extraName
+    font { family: "Scorek"; pixelSize: stringsGap * 1.5 }
+    visible: text !== ""
+  }
+
+  onWantNoteName: {
+    if (origin) {
+        extraName.text = name
+        extraName.x = origin.x + (origin.width - extraName.width) / 2
+        extraName.y = origin.y - extraName.height * 0.4 + (origin.y > height / 2 ? -stringsGap : origin.height + stringsGap)
+    } else
+        extraName.text = ""
+  }
 }
