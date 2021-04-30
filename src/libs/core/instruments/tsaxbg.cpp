@@ -133,7 +133,9 @@ void TsaxBg::setFlapNumber(int fNr) {
 }
 
 
-void TsaxBg::markSelected(const QColor& markColor) {
+void TsaxBg::markSelected(const QColor& mColor) {
+  m_markColor = mColor;
+  emit markColorChanged();
 }
 
 

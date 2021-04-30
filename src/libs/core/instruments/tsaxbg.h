@@ -28,10 +28,10 @@
 /**
  * @class TsaxBg defines fingering chart shapes of notes from a# (11) till c3 (49).
  * Every shape is represented by unique number obtained as a bit-mask of closed (1) or opened (0) saxophone flips.
- * 
+ *
  * It converts given @p Tnote into shape number.
  * QML calls @p flapNumber and by it current shape is obtained,
- * then corresponding note is found end @p noteChanged() signal is emitted
+ * then corresponding note is found and @p noteChanged() signal is emitted
  */
 class NOOTKACORE_EXPORT TsaxBg : public TcommonInstrument
 {
@@ -40,6 +40,7 @@ class NOOTKACORE_EXPORT TsaxBg : public TcommonInstrument
 
   Q_PROPERTY(int flapNumber READ flapNumber WRITE setFlapNumber NOTIFY flapNumberChanged)
   Q_PROPERTY(int fingeringId READ fingeringId NOTIFY fingeringIdChanged)
+  Q_PROPERTY(QColor markColor READ markColor NOTIFY markColorChanged)
 
 public:
   TsaxBg(QQuickItem* parent = nullptr);
@@ -55,6 +56,8 @@ public:
 
   int flapNumber() const { return m_flapNumber; }
 
+  QColor markColor() const { return m_markColor; }
+
       /**
        * Every saxophone flaps when clicked sets this value to its number
        */
@@ -64,19 +67,21 @@ public:
 
   void paint(QPainter*) override {}
 
-  void markSelected(const QColor & markColor) override;
+  void markSelected(const QColor & mColor) override;
 
   void correct(const Tnote & n, quint32 noteData) override;
 
 signals:
   void flapNumberChanged();
   void fingeringIdChanged();
+  void markColorChanged();
 
 
 private:
-  int           m_flapNumber;
-  quint32       m_fingeringId = 0;
-  quint32      *m_notesArray;
+  int                       m_flapNumber;
+  quint32                   m_fingeringId = 0;
+  quint32                  *m_notesArray;
+  QColor                    m_markColor = Qt::transparent;
 };
 
 #endif // TSAXBG_H
