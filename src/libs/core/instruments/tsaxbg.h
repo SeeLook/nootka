@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -65,8 +65,6 @@ public:
   void paint(QPainter*) override {}
 
   void markSelected(const QColor & markColor) override;
-
-  void showNoteName() override;
 
   void correct(const Tnote & n, quint32 noteData) override;
 

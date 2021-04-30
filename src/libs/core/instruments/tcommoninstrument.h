@@ -86,8 +86,6 @@ public:
        */
   virtual void markSelected(const QColor& markColor) = 0;
 
-  virtual void showNoteName() = 0;
-
       /**
        * Extra note name on instrument
        * This method in common part which just sets @p p_extraName note name

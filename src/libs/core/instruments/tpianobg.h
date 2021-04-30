@@ -62,8 +62,6 @@ public:
 
   Q_INVOKABLE void applyCorrect() override;
 
-  void showNoteName() override;
-
   void correct(const Tnote& n, quint32 noteData) override;
 
   int keysNumber() const { return m_keysNumber; }

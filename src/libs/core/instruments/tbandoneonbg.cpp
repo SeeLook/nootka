@@ -361,10 +361,6 @@ void TbandoneonBg::markSelected(const QColor& markColor) {
 }
 
 
-void TbandoneonBg::showNoteName() {
-}
-
-
 void TbandoneonBg::correct(const Tnote& n, quint32 noteData) {
   if (m_circleLeftOpen.item->isVisible())
     p_wrongItem = m_circleLeftOpen.item;

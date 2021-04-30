@@ -99,10 +99,6 @@ void TpianoBg::applyCorrect() {
 }
 
 
-void TpianoBg::showNoteName() {
-}
-
-
 void TpianoBg::correct(const Tnote& n, quint32 noteData) {
   Q_UNUSED(noteData)
   p_wrongItem = m_keyHighlight;

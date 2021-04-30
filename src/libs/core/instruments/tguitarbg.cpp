@@ -346,10 +346,6 @@ void TguitarBg::markSelected(const QColor& markColor) {
 }
 
 
-void TguitarBg::showNoteName() {
-}
-
-
 void TguitarBg::showNoteName(Tnote::EnameStyle st, const Tnote& n, quint32 techn, const QColor& textColor) {
   TcommonInstrument::showNoteName(st, n, techn, textColor);
   QQuickItem* visIt = nullptr;

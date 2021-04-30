@@ -137,10 +137,6 @@ void TsaxBg::markSelected(const QColor& markColor) {
 }
 
 
-void TsaxBg::showNoteName() {
-}
-
-
 void TsaxBg::correct(const Tnote& n, quint32 noteData) {
   markSelected(GLOB->correctColor());
   setNote(n, noteData);
