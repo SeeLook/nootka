@@ -397,9 +397,6 @@ void TbandoneonBg::correct(const Tnote& n, quint32 noteData) {
 
 void TbandoneonBg::applyCorrect() {
   if (p_goodItem && m_goodNote.isValid()) {
-    TbandCircle bc;
-    bc.buttonId = m_goodButton;
-    bc.item = p_goodItem;
     Ttechnical goodTechn(m_goodTechn);
     p_note.setNote(0); // invalidate to stop setting button visible by following methods
     setOpening(goodTechn.bowing() == Ttechnical::BowDown);
@@ -421,6 +418,27 @@ void TbandoneonBg::applyCorrect() {
     p_wrongItem->setScale(BIG_SCALE);
     p_wrongItem->setOpacity(1.0);
   }
+
+  if (!p_extraName.isEmpty()) {
+    p_extraName = QStringLiteral(" "); // hide name of wrong pointed note
+    // HACK: but do not clear extra name text - finish correction routines depend on it
+    emit wantNoteName(p_extraName, QVariant());
+  }
+}
+
+
+void TbandoneonBg::showNoteName(Tnote::EnameStyle st, const Tnote& n, quint32 techn, const QColor& textColor) {
+  TcommonInstrument::showNoteName(st, n, techn, textColor);
+  QQuickItem* visIt = nullptr;
+  if (m_circleLeftOpen.item->isVisible())
+    visIt = m_circleLeftOpen.item;
+  else if (m_circleLeftClose.item->isVisible())
+    visIt = m_circleLeftClose.item;
+  else if (m_circleRightOpen.item->isVisible())
+    visIt = m_circleRightOpen.item;
+  else if (m_circleRightClose.item->isVisible())
+    visIt = m_circleRightClose.item;
+  emit wantNoteName(p_extraName, QVariant::fromValue(visIt));
 }
 
 

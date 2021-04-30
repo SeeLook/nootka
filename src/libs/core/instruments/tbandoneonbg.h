@@ -94,6 +94,8 @@ public:
 
   Q_INVOKABLE void applyCorrect() override;
 
+  void showNoteName(Tnote::EnameStyle st, const Tnote &n, quint32 techn, const QColor& textColor) override;
+
       /**
        * Returns @p TRUE when given note (as chromatic number @p Tnote::chromatic())
        * is possible to play on bandoneon at given side/bellow direction
