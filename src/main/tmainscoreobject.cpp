@@ -671,6 +671,8 @@ void TmainScoreObject::checkExtraStaves() {
 
   auto staff = m_scoreObj->lastStaff();
   int emptyStavesCount = qMax(0, static_cast<int>((m_mainScoreItem->height() - (staff->y() + staff->height() * staff->scale())) / (staff->scale() * 16.0)));
+  if (GLOB->isSingleNote())
+    emptyStavesCount = 0;
   if (m_emptyStaves.count() != emptyStavesCount) {
     if (m_emptyStaves.count() > emptyStavesCount) { // remove some staff lines
         int toRemove = m_emptyStaves.count() - emptyStavesCount;
