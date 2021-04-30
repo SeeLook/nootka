@@ -70,6 +70,7 @@ public:
   void markSelected(const QColor & mColor) override;
 
   void correct(const Tnote & n, quint32 noteData) override;
+  Q_INVOKABLE void applyCorrect() override;
 
 signals:
   void flapNumberChanged();
@@ -82,6 +83,7 @@ private:
   quint32                   m_fingeringId = 0;
   quint32                  *m_notesArray;
   QColor                    m_markColor = Qt::transparent;
+  Tnote                     m_goodNote;
 };
 
 #endif // TSAXBG_H

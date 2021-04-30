@@ -140,7 +140,15 @@ void TsaxBg::markSelected(const QColor& mColor) {
 
 
 void TsaxBg::correct(const Tnote& n, quint32 noteData) {
-  markSelected(GLOB->correctColor());
-  setNote(n, noteData);
-  QTimer::singleShot(1500, [=]{ emit correctionFinished(); }); // Fake so far
+  Q_UNUSED(noteData)
+//   markSelected(GLOB->correctColor());
+//   setNote(n, noteData);
+  m_goodNote = n;
+  emit correctInstrument();
+//   QTimer::singleShot(1500, [=]{ emit correctionFinished(); }); // Fake so far
+}
+
+
+void TsaxBg::applyCorrect() {
+  setNote(m_goodNote);
 }

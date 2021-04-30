@@ -9,9 +9,11 @@ import Nootka 1.0
 
 
 TsaxBg {
+  id: instrItem
 
   // private
   property real xAxis: height * 0.096 // line.x
+  property color checkedColor: activPal.text
 
   width: Math.max(nootkaWindow.width * 0.15, nootkaWindow.height * 0.21)
   height: nootkaWindow.height
@@ -72,5 +74,15 @@ TsaxBg {
     anchors.top: parent.top; anchors.horizontalCenter: parent.horizontalCenter
     font.pixelSize: 30
     text: fingeringId
+  }
+
+  onCorrectInstrument: correctAnim.start()
+
+  SequentialAnimation {
+    id: correctAnim
+    ColorAnimation { target: instrItem; property: "checkedColor"; to: activPal.base; duration: 400 }
+    ScriptAction { script: instrItem.applyCorrect() }
+    ColorAnimation { target: instrItem; property: "checkedColor"; to: activPal.text; duration: 400 }
+    ScriptAction { script: instrItem.finishCorrectAnim() }
   }
 }

@@ -12,7 +12,7 @@ Rectangle {
   // private
   property bool marked: checked && parent.markColor.a
 
-  color: ma.containsMouse ? GLOB.fingerColor : (checked ? activPal.text : activPal.base)
+  color: enabled && ma.containsMouse ? GLOB.fingerColor : (checked ? checkedColor : activPal.base)
   x: (parent.width - width) / 2
   width: parent.height / 20
   height: width
