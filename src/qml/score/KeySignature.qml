@@ -62,7 +62,7 @@ Item {
     id: mAreaComp
     MouseArea { // area at lower staff
       width: keySig.width; height: 14
-      enabled: !scoreObj.readOnly && !scoreObj.keyReadOnly && scoreObj.editMode
+      enabled: !scoreObj.readOnly && !scoreObj.keyReadOnly && (GLOB.singleNoteMode || scoreObj.editMode)
       hoverEnabled: true
       onClicked: {
         if (mouseY < 7)
