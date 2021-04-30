@@ -994,7 +994,7 @@ void TexamExecutor::newAttempt() {
 
 
 void TexamExecutor::markAnswer(TQAunit* curQ) {
-  QColor markColor = m_supp->answerColor(curQ);
+  auto markColor = m_supp->answerColor(curQ);
   if (curQ->melody()) {
       int scoreNoteId = 0;
       for (int i = 0; i < curQ->lastAttempt()->mistakes.size(); ++i) {
@@ -1029,23 +1029,21 @@ void TexamExecutor::markAnswer(TQAunit* curQ) {
         break;
     }
   }
-  if (m_exercise && GLOB->extraNames()) {
+  if (m_exercise && GLOB->extraNames() && !curQ->melody()) {
     if (!curQ->questionAsName() && !curQ->answerAsName()) {
         if (curQ->answerOnScore() || (curQ->answerAsSound() && curQ->questionOnScore())) {
-          if (!m_melody || !GLOB->waitForCorrect())
-            MAIN_SCORE->showNoteNames(true);
-//       else if (curQ->answerAsFret()) // for q/a fret-fret this will be the first case
-//         INSTRUMENT->showName(GLOB->S->nameStyleInNoteName, curQ->qa.note, markColor); // Take it from user answer
-//       else if (curQ->answerAsSound() && curQ->questionAsFret())
-//           INSTRUMENT->showName(GLOB->S->nameStyleInNoteName, curQ->qa.note, markColor);
-        }
+            if (!GLOB->waitForCorrect())
+              MAIN_SCORE->showNoteNames(true);
+        } else if (curQ->answerOnInstr()) // for q/a fret-fret this will be the first case
+            INSTRUMENT->showNoteName(GLOB->S->nameStyleInNoteName, INSTRUMENT->note(), INSTRUMENT->technical(), markColor); // Take it from user answer
+        else if (curQ->answerAsSound() && curQ->questionOnInstr())
+            INSTRUMENT->showNoteName(GLOB->S->nameStyleInNoteName, curQ->qa.note, curQ->qa.technical.data(), markColor);
     } else { // cases when name was an question
         if (curQ->questionAsName()) {
           if (curQ->answerOnScore())
             MAIN_SCORE->showNoteNames(true); // TODO name style
-//             SCORE->showNames(curQ->styleOfQuestion());
-//           else if (curQ->answerAsFret())
-//             INSTRUMENT->showName(curQ->styleOfQuestion(), curQ->qa.note, markColor);
+          else if (curQ->answerOnInstr())
+            INSTRUMENT->showNoteName(curQ->styleOfQuestion(), INSTRUMENT->note(), INSTRUMENT->technical() ,markColor);
         }
     }
   }
@@ -1261,6 +1259,8 @@ void TexamExecutor::clearWidgets() {
   if (INSTRUMENT) {
     INSTRUMENT->setNote(Tnote());
     INSTRUMENT->markSelected(Qt::transparent);
+    if (!INSTRUMENT->extraNoteName().isEmpty())
+      INSTRUMENT->showNoteName(GLOB->S->nameStyleInNoteName, Tnote(), NO_TECHNICALS, Qt::transparent);
   }
 }
 
@@ -1949,6 +1949,16 @@ void TexamExecutor::correctionFinishedSlot() {
 //     connect(SCORE, &TmainScore::lockedNoteClicked, this, &TexamExecutor::correctNoteOfMelody); // only once per answer
   } else if (!GLOB->E->autoNextQuest || GLOB->E->afterMistake == TexamParams::e_stop)
         m_tipHandler->showWhatNextTip(!(!m_exercise && GLOB->E->repeatIncorrect && !m_incorrectRepeated));
+
+  if (m_exercise && GLOB->extraNames() && !CURR_Q->melody()) {
+    bool isQa2 = CURR_Q->questionOnInstr() && CURR_Q->answerOnInstr();
+    INSTRUMENT->showNoteName(GLOB->S->nameStyleInNoteName,
+                             isQa2 ? CURR_Q->qa_2.note : CURR_Q->qa.note,
+                             isQa2 ? CURR_Q->qa_2.technical.data() : CURR_Q->qa.technical.data(),
+                             GLOB->correctColor());
+  }
+
+// TODO Clean this mess !!!!
 //   if (CURR_Q->melody() && (CURR_Q->questionOnScore() || CURR_Q->answerOnScore()))
 //       m_tipHandler->melodyCorrectMessage();
 //   if (!GLOB->E->autoNextQuest || !GLOB->E->showCorrected || GLOB->E->afterMistake == TexamParams::e_stop)

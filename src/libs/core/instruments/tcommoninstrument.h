@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -54,6 +54,12 @@ public:
   QQuickItem* wrongItem() { return p_wrongItem; }
   QQuickItem* goodItem() { return p_goodItem; }
 
+      /**
+       * Returns text of extra note name displayed on instrument during exercises.
+       * Or empty string when nothing.
+       */
+  QString extraNoteName() const { return p_extraName; }
+
   Tnote note() const { return p_note; }
   virtual void setNote(const Tnote& n, quint32 noteDataValue = NO_TECHNICALS) = 0;
 
@@ -81,6 +87,15 @@ public:
   virtual void markSelected(const QColor& markColor) = 0;
 
   virtual void showNoteName() = 0;
+
+      /**
+       * Extra note name on instrument
+       * This method in common part which just sets @p p_extraName note name
+       * in given @p EnameStyle and @p textColor.
+       * Every subclassing instrument has to override it
+       * ant emit @p wantNoteName() with informations to precess by QML
+       */
+  virtual void showNoteName(Tnote::EnameStyle st, const Tnote &n, quint32 techn, const QColor& textColor);
 
       /**
        * Correcting answer logic:
@@ -116,6 +131,15 @@ signals:
   void correctInstrument();
   void correctionFinished();
 
+      /**
+       * Emitted to display extra note name on the visual QML instrument.
+       * @p name is note name and @p origin could be everything:
+       * - position to display name text at
+       * - QML item to show name on it.
+       * Corresponding QML item has to understand what @p origin is.
+       */
+  void wantNoteName(const QString& name, const QVariant& origin);
+
 protected:
   void hoverEnterEvent(QHoverEvent*) override;
   void hoverLeaveEvent(QHoverEvent*) override;
@@ -125,6 +149,7 @@ protected:
   Tnote        p_note;
   QQuickItem  *p_wrongItem = nullptr;
   QQuickItem  *p_goodItem = nullptr;
+  QString      p_extraName;
 
 private:
   bool         m_active = false;

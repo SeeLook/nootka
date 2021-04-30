@@ -56,6 +56,18 @@ void TcommonInstrument::restoreAfterExam() {
 }
 
 
+void TcommonInstrument::showNoteName(Tnote::EnameStyle st, const Tnote &n, quint32 techn, const QColor &textColor) {
+  Q_UNUSED(textColor)
+  Q_UNUSED(techn)
+  if (n.isValid()) {
+      auto defStyle = Tnote::defaultStyle;
+      Tnote::defaultStyle = st;
+      p_extraName = QString("<font color=\"%1\">%2</font>").arg(textColor.name()).arg(n.styledName());
+      Tnote::defaultStyle = defStyle;
+  } else
+      p_extraName.clear();
+}
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
