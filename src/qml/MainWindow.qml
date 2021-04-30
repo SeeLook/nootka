@@ -57,7 +57,7 @@ ApplicationWindow {
     id: scoreWrap
     y: examResults ? examResults.height + 2 : 0
     height: score.height
-    width: parent.width * (GLOB.instrument.isSax ? 0.15 : 1)
+    width: parent.width * (GLOB.instrument.isSax ? 0.85 : 1)
     z: 5
     transformOrigin: Item.Top
     MainScore {
