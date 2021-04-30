@@ -85,6 +85,8 @@ public:
 
   Q_INVOKABLE void setAmbitus(const Tnote& loNote, const Tnote& hiNote);
 
+  void showNoteName(Tnote::EnameStyle st, const Tnote &n, quint32 techn, const QColor& textColor) override;
+
 signals:
   void keyWidthChanged();
   void keysNumberChanged();

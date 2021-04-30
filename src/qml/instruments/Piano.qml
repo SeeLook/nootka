@@ -117,4 +117,23 @@ TpianoBg {
     if (NOO.isAndroid() && NOO.fingerPixels() * 4 > height)
       pianoZoom = Qt.createComponent("qrc:/instruments/InstrumentZoom.qml").createObject(instrItem)
   }
+
+  Text {
+    id: extraName
+    property var key: null
+    parent: nootkaWindow.contentItem
+    z: 7
+    x: keysRow.x + (key ? (key.black ? key.x : key.parent.x) + (key.width - width) / 2 : 0)
+    y: instrFlick.y - height * 0.45
+    font { family: "Scorek"; pixelSize: keyWidth * 2 }
+    visible: key !== null
+  }
+
+  onWantNoteName: {
+    if (origin)
+      extraName.text = name
+    else
+      extraName.text = ""
+    extraName.key = origin
+  }
 }

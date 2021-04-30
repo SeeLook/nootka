@@ -96,6 +96,11 @@ void TpianoBg::applyCorrect() {
   keyNr = o * 7 + sharpNote.note() - (isWhite ? 1 : 0);
   emit wantKeyToSelect(keyNr, isWhite);
   markSelected(GLOB->correctColor());
+  if (!p_extraName.isEmpty()) {
+    p_extraName = QStringLiteral(" "); // hide name of wrong pointed note
+    // HACK: but do not clear extra name text - finish correction routines depend on it
+    emit wantNoteName(p_extraName, QVariant());
+  }
 }
 
 
@@ -153,6 +158,12 @@ void TpianoBg::setAmbitus(const Tnote& loNote, const Tnote& hiNote) {
   m_hiNote = hiNote;
   setFirstOctave(m_loNote.octave());
   calculateMetrics(width());
+}
+
+
+void TpianoBg::showNoteName(Tnote::EnameStyle st, const Tnote& n, quint32 techn, const QColor& textColor) {
+  TcommonInstrument::showNoteName(st, n, techn, textColor);
+  emit wantNoteName(p_extraName, QVariant::fromValue(m_selectedKey));
 }
 
 
