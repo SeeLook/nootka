@@ -29,7 +29,7 @@ TsaxBg {
   }
 
 
-//   Rectangle {
+//   Rectangle { // debug usage only
 //     id: line
 //     width: 2; height: parent.height
 //     x: parent.height * 0.096
@@ -71,11 +71,11 @@ TsaxBg {
 
   OutScaleTip { show: !active && outOfScale; width: parent.width * 0.9 }
 
-  TextEdit {
-    anchors.top: parent.top; anchors.horizontalCenter: parent.horizontalCenter
-    font.pixelSize: 30
-    text: fingeringId
-  }
+  //TextEdit { // for debug purposes - number representing fingers shape
+    //anchors.top: parent.top; anchors.horizontalCenter: parent.horizontalCenter
+    //font.pixelSize: 30
+    //text: fingeringId
+  //}
 
   onWantNoteName: {
     if (!extraName)
