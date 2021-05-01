@@ -15,6 +15,7 @@ TsaxBg {
   property real xAxis: height * 0.096 // line.x
   property color checkedColor: activPal.text
   property var extraName: null
+  property var activeFlap: null
 
   width: Math.max(nootkaWindow.width * 0.15, nootkaWindow.height * 0.21)
   height: nootkaWindow.height
@@ -76,6 +77,17 @@ TsaxBg {
     //font.pixelSize: 30
     //text: fingeringId
   //}
+
+  Rectangle { // sax flap cursor
+    parent: activeFlap
+    anchors.fill: parent ? parent : undefined
+    z: 2
+    color: GLOB.fingerColor
+    radius: parent ? parent.radius : 0
+    visible: active
+    scale: parent && parent.pressed ? 0.3 : 1
+    Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 } }
+  }
 
   onWantNoteName: {
     if (!extraName)
