@@ -13,6 +13,9 @@ TpopupDialog {
   property alias mode: examPage.mode
   visible: true
 
+  width: parent.width * (NOO.isAndroid() ? 0.95 : 0.8)
+  height: parent.height * (NOO.isAndroid() ? 0.95 : 0.8)
+
   caption: qsTranslate("TsettingsDialog", "Simple exam settings")
 
   ExamPage {
