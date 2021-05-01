@@ -3,6 +3,8 @@
      - level creator can display preview of entire melody
      - version checker/updater was ported to QML
     BUG FIXES
+     - fixed and improved saxophone support
+     - fixed displaying note names over instrument during exercises
      - fixed crash after 'note selection help' was displayed
 
 1.9.0 rc1
