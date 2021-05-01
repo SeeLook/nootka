@@ -44,10 +44,11 @@ Tflickable {
           }
         }
         Grid {
-          columns: expertAnswChB.width > parent.width / 2 ? 1 : 2
+          columns: expertAnswChB.width + autoNextChB.width + NOO.factor() * 4 > parent.width * 0.96 ? 1 : 2
           anchors.horizontalCenter: parent.horizontalCenter
+          horizontalItemAlignment: Grid.AlignHCenter
           Tile {
-            width: autoNextChB.width * 1.2
+            width: autoNextChB.width + NOO.factor() * 2
             anchors.horizontalCenter: undefined
             TcheckBox {
               id: autoNextChB
@@ -56,7 +57,7 @@ Tflickable {
             }
           }
           Tile {
-            width: expertAnswChB.width * 1.2
+            width: expertAnswChB.width + NOO.factor() * 2
             anchors.horizontalCenter: undefined
             TcheckBox {
               id: expertAnswChB
@@ -84,6 +85,7 @@ Tflickable {
           spacing: NOO.factor() * 2
           columns: wrongColor.parent.width + correctColor.parent.width + notBadColor.parent.width + NOO.factor() * 4 < parent.width ? 3
                     : (wrongColor.parent.width + correctColor.parent.width + spacing < parent.width ? 2 : 1)
+          horizontalItemAlignment: Grid.AlignHCenter
 
           Row {
             spacing: NOO.factor() / 2
