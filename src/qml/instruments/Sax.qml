@@ -76,13 +76,19 @@ TsaxBg {
     text: fingeringId
   }
 
-  onCorrectInstrument: correctAnim.start()
+  onCorrectInstrument: {
+    var correctAnim = animComp.createObject(instrItem)
+    correctAnim.start()
+  }
 
-  SequentialAnimation {
-    id: correctAnim
-    ColorAnimation { target: instrItem; property: "checkedColor"; to: activPal.base; duration: 400 }
-    ScriptAction { script: instrItem.applyCorrect() }
-    ColorAnimation { target: instrItem; property: "checkedColor"; to: activPal.text; duration: 400 }
-    ScriptAction { script: instrItem.finishCorrectAnim() }
+  Component {
+    id: animComp
+    SequentialAnimation {
+      ColorAnimation { target: instrItem; property: "checkedColor"; to: activPal.base; duration: 400 }
+      ScriptAction { script: instrItem.applyCorrect() }
+      ColorAnimation { target: instrItem; property: "checkedColor"; to: activPal.text; duration: 400 }
+      ScriptAction { script: instrItem.finishCorrectAnim() }
+      onStopped: destroy()
+    }
   }
 }
