@@ -72,6 +72,8 @@ public:
   void correct(const Tnote & n, quint32 noteData) override;
   Q_INVOKABLE void applyCorrect() override;
 
+  void showNoteName(Tnote::EnameStyle st, const Tnote &n, quint32 techn, const QColor& textColor) override;
+
 signals:
   void flapNumberChanged();
   void fingeringIdChanged();

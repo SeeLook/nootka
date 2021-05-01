@@ -141,14 +141,22 @@ void TsaxBg::markSelected(const QColor& mColor) {
 
 void TsaxBg::correct(const Tnote& n, quint32 noteData) {
   Q_UNUSED(noteData)
-//   markSelected(GLOB->correctColor());
-//   setNote(n, noteData);
   m_goodNote = n;
   emit correctInstrument();
-//   QTimer::singleShot(1500, [=]{ emit correctionFinished(); }); // Fake so far
 }
 
 
 void TsaxBg::applyCorrect() {
   setNote(m_goodNote);
+  if (!p_extraName.isEmpty()) {
+    p_extraName = QStringLiteral(" "); // hide name of wrong pointed note
+    // HACK: but do not clear extra name text - finish correction routines depend on it
+    emit wantNoteName(p_extraName, QVariant());
+  }
+}
+
+
+void TsaxBg::showNoteName(Tnote::EnameStyle st, const Tnote &n, quint32 techn, const QColor &textColor) {
+  TcommonInstrument::showNoteName(st, n, techn, textColor);
+  emit wantNoteName(p_extraName, QVariant());
 }
