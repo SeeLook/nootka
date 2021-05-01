@@ -1034,16 +1034,23 @@ void TexamExecutor::markAnswer(TQAunit* curQ) {
         if (curQ->answerOnScore() || (curQ->answerAsSound() && curQ->questionOnScore())) {
             if (!GLOB->waitForCorrect())
               MAIN_SCORE->showNoteNames(true);
-        } else if (curQ->answerOnInstr()) // for q/a fret-fret this will be the first case
-            INSTRUMENT->showNoteName(GLOB->S->nameStyleInNoteName, INSTRUMENT->note(), INSTRUMENT->technical(), markColor); // Take it from user answer
-        else if (curQ->answerAsSound() && curQ->questionOnInstr())
+        } else if (curQ->answerOnInstr()) { // for q/a fret-fret this will be the first case
+            auto n = INSTRUMENT->note(); // Take it from user answer
+            if (GLOB->preferFlats())
+              n = n.showWithFlat();
+            INSTRUMENT->showNoteName(GLOB->S->nameStyleInNoteName, n, INSTRUMENT->technical(), markColor);
+        } else if (curQ->answerAsSound() && curQ->questionOnInstr())
             INSTRUMENT->showNoteName(GLOB->S->nameStyleInNoteName, curQ->qa.note, curQ->qa.technical.data(), markColor);
     } else { // cases when name was an question
         if (curQ->questionAsName()) {
           if (curQ->answerOnScore())
             MAIN_SCORE->showNoteNames(true); // TODO name style
-          else if (curQ->answerOnInstr())
-            INSTRUMENT->showNoteName(curQ->styleOfQuestion(), INSTRUMENT->note(), INSTRUMENT->technical() ,markColor);
+          else if (curQ->answerOnInstr()) {
+            auto n = INSTRUMENT->note(); // Take it from user answer
+            if (GLOB->preferFlats())
+              n = n.showWithFlat();
+            INSTRUMENT->showNoteName(curQ->styleOfQuestion(), n, INSTRUMENT->technical() ,markColor);
+          }
         }
     }
   }
