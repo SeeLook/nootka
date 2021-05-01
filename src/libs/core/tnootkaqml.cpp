@@ -671,7 +671,10 @@ void TnootkaQML::instrumentChangesNoteSlot() {
   noteToPlay.transpose(GLOB->transposition());
   emit playNote(noteToPlay);
   Tnote instrNote = m_instrument->note();
-  if (m_scoreObject->keySignature() < 0 || (m_scoreObject->keySignature() == 0 && GLOB->GpreferFlats))
+  if (m_scoreObject->keySignature() < 0
+      || (m_scoreObject->keySignature() == 0 && GLOB->GpreferFlats
+      && !(instrNote.alter() == 0 && (instrNote.note() == 3 || instrNote.note() == 7)))
+    )
     instrNote = instrNote.showWithFlat();
 
   if (m_scoreObject->singleNote()) {
