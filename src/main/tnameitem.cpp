@@ -63,10 +63,13 @@ TnameItem::~TnameItem()
 
 void TnameItem::setNote(const Tnote& n) {
   if (!m_note.compareNotes(n)) {
-    bool stepCh = n.note() != m_note.note();
-    bool octaveCh = n.octave() != m_note.octave();
-    bool alterCh = n.alter() != m_note.alter();
-    m_note = n;
+    auto nn = n;
+    if (!n.isValid())
+      nn.setOctave(GLOB->instrument().isGuitar() && !GLOB->instrument().bassGuitar() ? 0 : 1);
+    bool stepCh = nn.note() != m_note.note();
+    bool octaveCh = nn.octave() != m_note.octave();
+    bool alterCh = nn.alter() != m_note.alter();
+    m_note = nn;
     if (stepCh)
       emit stepChanged();
     if (octaveCh)
@@ -74,7 +77,7 @@ void TnameItem::setNote(const Tnote& n) {
     if (alterCh)
       emit alterChanged();
     emit nameTextChanged();
-    if (!n.isValid()) {
+    if (!nn.isValid()) {
       if (m_questionAsked) {
         m_questionAsked = false;
         emit questionChanged();
@@ -90,7 +93,7 @@ void TnameItem::setStep(int st) {
   char stepChar = static_cast<char>(st);
   if (stepChar != m_note.note()) {
     if (m_note.octave() == -4) // initial octave value is fake, revert it
-      setOctave(0);
+      setOctave(GLOB->instrument().isGuitar() && !GLOB->instrument().bassGuitar() ? 0 : 1);
     m_note.setNote(stepChar);
     emit stepChanged();
     emit nameTextChanged();
