@@ -125,7 +125,7 @@ void TsaxBg::setFlapNumber(int fNr) {
   emit fingeringIdChanged();
   for (int f = 0; f < SUPPORTED_NOTES; ++f) {
     if (m_notesArray[f] == m_fingeringId) {
-      p_note.setChromatic(LOWEST_NOTE + f + GLOB->instrument().transposition());
+      p_note.setChromatic(LOWEST_NOTE + f);
       emit noteChanged();
       break;
     }
