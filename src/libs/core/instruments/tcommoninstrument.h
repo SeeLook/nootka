@@ -39,6 +39,7 @@ class NOOTKACORE_EXPORT TcommonInstrument : public QQuickPaintedItem
   Q_PROPERTY(bool outOfScale READ outOfScale NOTIFY outOfScaleChanged)
   Q_PROPERTY(QQuickItem* wrongItem READ wrongItem NOTIFY correctInstrument)
   Q_PROPERTY(QQuickItem* goodItem READ goodItem NOTIFY correctInstrument)
+  Q_PROPERTY(QQuickItem* extraName READ extraName WRITE setExtraName NOTIFY extraNameChanged)
 
 public:
   TcommonInstrument(QQuickItem* parent = nullptr);
@@ -53,6 +54,9 @@ public:
 
   QQuickItem* wrongItem() { return p_wrongItem; }
   QQuickItem* goodItem() { return p_goodItem; }
+
+  QQuickItem* extraName() { return m_extraNameItem; }
+  void setExtraName(QQuickItem* en) { m_extraNameItem = en; }
 
       /**
        * Returns text of extra note name displayed on instrument during exercises.
@@ -128,6 +132,7 @@ signals:
   void outOfScaleChanged();
   void correctInstrument();
   void correctionFinished();
+  void extraNameChanged();
 
       /**
        * Emitted to display extra note name on the visual QML instrument.
@@ -144,14 +149,15 @@ protected:
 
   void setOutOfScale(bool out);
 
-  Tnote        p_note;
-  QQuickItem  *p_wrongItem = nullptr;
-  QQuickItem  *p_goodItem = nullptr;
-  QString      p_extraName;
+  Tnote           p_note;
+  QQuickItem     *p_wrongItem = nullptr;
+  QQuickItem     *p_goodItem = nullptr;
+  QString         p_extraName;
 
 private:
-  bool         m_active = false;
-  bool         m_outOfScale = false;
+  bool            m_active = false;
+  bool            m_outOfScale = false;
+  QQuickItem     *m_extraNameItem = nullptr;
 };
 
 #endif // TCOMMONINSTRUMENT_H
