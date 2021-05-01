@@ -118,22 +118,18 @@ TpianoBg {
       pianoZoom = Qt.createComponent("qrc:/instruments/InstrumentZoom.qml").createObject(instrItem)
   }
 
-  Text {
-    id: extraName
-    property var key: null
-    parent: nootkaWindow.contentItem
-    z: 7
-    x: keysRow.x + (key ? (key.black ? key.x : key.parent.x) + (key.width - width) / 2 : 0)
-    y: instrFlick.y - height * 0.45
-    font { family: "Scorek"; pixelSize: keyWidth * 2 }
-    visible: key !== null
-  }
-
   onWantNoteName: {
-    if (origin)
-      extraName.text = name
-    else
-      extraName.text = ""
-    extraName.key = origin
+    if (!extraName) {
+      extraName = Qt.createComponent("qrc:/instruments/ExtraName.qml").createObject(instrItem)
+      extraName.fSize = Qt.binding(function() { return keyWidth * 2 })
+    }
+    if (origin) {
+        extraName.text = name
+        extraName.x = Qt.binding(function() {
+          return keysRow.x + (origin ? origin.nr * keyWidth + (origin.width - extraName.width) / 2 : 0)
+        })
+        extraName.y = Qt.binding(function() { return instrItem.height / 2 - extraName.height * (origin && origin.black ? 0.52 : 0.3) })
+    } else
+        extraName.text = ""
   }
 }

@@ -209,33 +209,20 @@ TbandoneonBg {
 
   OutScaleTip { show: !active && outOfScale }
 
-  Text {
-    id: extraName
-    property var butt: null
-    x: butt ? butt.x + (butt.width - width) / 2 : 0
-    y: butt ? butt.y - (butt.y > instrItem.height / 2.5 ? 60 : 10) * factor :0
-    font { family: "Scorek"; pixelSize: factor * 25 }
-    visible: false
-    style: Text.Outline; styleColor: activPal.shadow
-  }
-
-  DropShadow {
-    z: 30
-    anchors.fill: extraName
-    horizontalOffset: factor
-    verticalOffset: factor
-    color: activPal.shadow
-    radius: NOO.factor() / 3
-    source: extraName
-    visible: extraName.text !== ""
-  }
 
   onWantNoteName: {
-    if (origin)
-      extraName.text = name
-    else
-      extraName.text = ""
-    extraName.butt = origin
+    if (!extraName) {
+      extraName = Qt.createComponent("qrc:/instruments/ExtraName.qml").createObject(instrItem)
+      extraName.fSize = Qt.binding(function() { return factor * 25 })
+    }
+    if (origin) {
+        extraName.text = name
+        extraName.x = Qt.binding(function() { return origin ? origin.x + (origin.width - extraName.width) / 2 : 0 })
+        extraName.y = Qt.binding(function() {
+          return origin ? origin.y - (origin.y > instrItem.height / 2.5 ? 60 : 10) * factor : 0
+        })
+    } else
+        extraName.text = ""
   }
 }
 
