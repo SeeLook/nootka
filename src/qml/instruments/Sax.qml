@@ -21,12 +21,11 @@ TsaxBg {
   height: nootkaWindow.height
 
   Image { // body
+    parent: nootkaWindow.contentItem
     cache: false
     source: NOO.pix("saxAlto")
-    height: parent.height * 0.9
-    width: height * (sourceSize.width/ sourceSize.height)
-    x: -width * 0.25
-    z: -1
+    height: instrFlick.height * 0.9; width: height * (sourceSize.width/ sourceSize.height)
+    x: parent.width * 0.85 - instrFlick.contentX - width * 0.25
   }
 
 

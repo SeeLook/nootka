@@ -20,7 +20,7 @@ Flickable {
   y: GLOB.instrument.isSax ? 0 : nootkaWindow.contentItem.height - height
   x: GLOB.instrument.isSax ? parent.width - width : 0
 
-  z: instrument && instrument.scale > 1.0 ? 7 : 1
+  z: instrument && instrument.scale > 1.0 ? 7 : (GLOB.instrument.isSax ? 6 : 1)
 
   contentWidth: sizable.width
   contentHeight: sizable.height
