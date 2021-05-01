@@ -22,9 +22,9 @@ SequentialAnimation {
   }
   SequentialAnimation { // shake text
     loops: doCross ? 0 : 2
-    NumberAnimation { target: textItem; property: "x"; to: textItem.x + textItem.height / 4; duration: 50 }
-    NumberAnimation { target: textItem; property: "x"; to: textItem.x - textItem.height / 2; duration: 100 }
-    NumberAnimation { target: textItem; property: "x"; to: textItem.x + textItem.height / 4; duration: 50 }
+    NumberAnimation { target: textItem.anchors; property: "horizontalCenterOffset"; to: textItem.height / 4; duration: 50 }
+    NumberAnimation { target: textItem.anchors; property: "horizontalCenterOffset"; to: -textItem.height / 4; duration: 100 }
+    NumberAnimation { target: textItem.anchors; property: "horizontalCenterOffset"; to: 0; duration: 50 }
   }
   PauseAnimation { duration: 100 }
   ParallelAnimation {

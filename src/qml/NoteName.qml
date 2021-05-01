@@ -39,10 +39,8 @@ TnameItem {
   }
 
   onCorrectName: {
-    if (!correctAnim) {
-      var c = Qt.createComponent("qrc:/exam/CorrectNameAnim.qml")
-      correctAnim = c.createObject(noteName)
-    }
+    if (!correctAnim)
+      correctAnim = Qt.createComponent("qrc:/exam/CorrectNameAnim.qml").createObject(noteName)
     correctAnim.doCross = textItem.text === ""
     correctAnim.start()
   }
