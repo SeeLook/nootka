@@ -37,7 +37,7 @@
 
 bool initCoreLibrary() {
   if (GLOB == nullptr) {
-    qDebug() << "Tglobals was not created. Construct it first!";
+    qDebug() << "[tinitcorelib] Tglobals was not created. Construct it first!";
     return false;
   }
 
@@ -111,7 +111,8 @@ bool loadNootkaFont(QGuiApplication* a) {
   int fid = fd.addApplicationFont(Tpath::main + QLatin1String("fonts/nootka.ttf"));
   int fid2 = fd.addApplicationFont(Tpath::main + QLatin1String("fonts/Scorek.otf"));
   if (fid == -1 || fid2 == -1) {
-    qDebug() << "Can not load Nootka fonts!\nDid you forget to invoke\n  make runinplace\nafter first compilation?\n";
+    qDebug() << "Cannot load Nootka fonts!\nDid you forget to invoke:\n"
+             << "make runinplace\nor\nninja runinplace\nafter the first compilation?\n";
     return false;
   }
   return true;
