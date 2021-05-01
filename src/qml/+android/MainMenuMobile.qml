@@ -151,7 +151,12 @@ TmobileMenu {
               action: Taction {
                 text: NOO.settingsAct.text
                 icon: GLOB.isExam ? "exam-settings" : "systemsettings"
-                onTriggered: NOO.settingsAct.trigger()
+                onTriggered: {
+                  if (GLOB.isExam)
+                    executor.settingsAct.trigger()
+                  else
+                    NOO.settingsAct.trigger()
+                }
               }
             }
             MenuButton { action: tunerAct }

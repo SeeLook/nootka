@@ -69,6 +69,7 @@ class TexamExecutor : public QQuickItem
   Q_PROPERTY(bool showPitchView READ showPitchView NOTIFY questionChanged)
   Q_PROPERTY(bool showRtmView READ showRtmView NOTIFY questionChanged)
   Q_PROPERTY(bool showExamHelp READ showExamHelp)
+  Q_PROPERTY(Taction* settingsAct READ settingsAct NOTIFY examActionsChanged)
 
   friend class TexamSummary;
   friend class TnootkaCertificate;
@@ -151,6 +152,7 @@ public:
        */
   Q_INVOKABLE void afterMessage();
 
+  Taction* settingsAct() { return m_settAct; }
   Taction* checkQuestAct() { return m_checkQuestAct; }
   Taction* nextQuestAct() { return m_nextQuestAct; }
   Taction* newAtemptAct() { return m_newAtemptAct; }

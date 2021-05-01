@@ -33,8 +33,7 @@ Texecutor {
 
   onShowSettings: {
     if (!examSettDialog) {
-      var e = Qt.createComponent("qrc:/exam/ExamSettingsDialog.qml")
-      examSettDialog = e.createObject(executor, { "mode": isExercise ? 2 : 1 } )
+      examSettDialog = Qt.createComponent("qrc:/exam/ExamSettingsDialog.qml").createObject(executor, { "mode": isExercise ? 2 : 1 })
       examSettDialog.accepted.connect(settingsAccepted)
       examSettDialog.closed.connect(function() { examSettDialog.destroy() })
     }
