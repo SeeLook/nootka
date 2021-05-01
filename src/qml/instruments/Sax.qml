@@ -14,7 +14,6 @@ TsaxBg {
   // private
   property real xAxis: height * 0.096 // line.x
   property color checkedColor: activPal.text
-  property var extraName: null
   property var activeFlap: null
 
   width: Math.max(nootkaWindow.width * 0.15, nootkaWindow.height * 0.21)
@@ -89,19 +88,13 @@ TsaxBg {
   }
 
   onWantNoteName: {
-    if (!extraName)
-      extraName = extraComp.createObject(instrItem)
-    extraName.text = name
-  }
-
-  Component {
-    id: extraComp
-    Text {
-      x: parent.width - width - 2 * NOO.factor(); y: instrItem.height * 0.22
-      font { family: "Scorek"; pixelSize: instrItem.height / 20 }
-      visible: text !== " "
-      style: Text.Outline; styleColor: activPal.text
+    if (!extraName) {
+      extraName = Qt.createComponent("qrc:/instruments/ExtraName.qml").createObject(instrItem,
+                        { "y": instrItem.height * 0.22 })
+      extraName.fSize = Qt.binding(function() { return instrItem.height / 18 })
+      extraName.x = Qt.binding(function() { return width - extraName.width - 2 * NOO.factor() })
     }
+    extraName.text = name
   }
 
   onCorrectInstrument: {
