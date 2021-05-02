@@ -20,7 +20,9 @@ Flickable {
   contentHeight: instrCol.height + NOO.factor() * 2
   contentWidth: Math.max(width, NOO.factor() * 35)
 
+  // private
   property bool first: true // read props first time from GLOB but when instrument changes then from its profile
+  property int initInstr: -1
 
   ScrollBar.vertical: ScrollBar { active: false; visible: active }
 
@@ -209,6 +211,7 @@ Flickable {
     running: true
     interval: 50
     onTriggered: {
+      initInstr = GLOB.instrument.type
       showOtherPosChB.checked = GLOB.showOtherPos
       fretDots.text = GLOB.markedFrets
       var tmpTrans = GLOB.transposition
@@ -252,6 +255,7 @@ Flickable {
     GLOB.selectedColor = selectedColorButt.color
     GLOB.preferFlats = prefFlatRadio.checked
     GLOB.transposition = transp.outShift
+    var instrChanged = instrSel.instrument !== initInstr
     if (NOO.instr(instrSel.instrument).isGuitar) {
         GLOB.showOtherPos = showOtherPosChB.checked
         GLOB.markedFrets = fretDots.text
@@ -265,8 +269,12 @@ Flickable {
             else
               tun = NOO.tuning(tuningCombo.currentIndex + (instrSel.instrument === Tinstrument.BassGuitar ? 100 : 0))
         }
-        GLOB.setGuitarParams(fretsNrSpin.value, tun) // TODO left-handed guitar
+        // TODO left-handed guitar
+        // HACK: when instrument changed, set default tuning at first, then real tuning will show scordature, if any
+        GLOB.setGuitarParams(fretsNrSpin.value, instrChanged ? NOO.tuning(Ttune.Standard_EADGBE) : tun)
         GLOB.setInstrument(instrSel.instrument)
+        if (instrChanged)
+          GLOB.setGuitarParams(fretsNrSpin.value, tun)
     } else {
         GLOB.setInstrument(instrSel.instrument)
         GLOB.setGuitarParams(0, NOO.defaultScale(instrSel.instrument))
