@@ -15,6 +15,7 @@ ApplicationWindow {
   color: activPal.window
   visibility: NOO.isAndroid() && GLOB.fullScreen() ? "FullScreen" : "AutomaticVisibility"
 
+  property bool topToBott: height > width
   property alias mainMenu: mainMenu
 
   // private
@@ -55,19 +56,19 @@ ApplicationWindow {
 
   Item {
     id: scoreWrap
+    property real insHi: GLOB.instrument.getItemHeight(nootkaWindow.height)
     y: examResults ? examResults.height + 2 : 0
-    height: score.height
+    height: nootkaWindow.contentItem.height
+          - (GLOB.instrument.isSax ? (GLOB.singleNoteMode ? insHi / 7 : 0) : insHi)
+          - (examResults ? examResults.height + 2 : 0)
     width: parent.width * (GLOB.instrument.isSax ? 0.85 : 1)
     z: 5
     transformOrigin: Item.Top
     MainScore {
       id: score
-      property real insHi: GLOB.instrument.getItemHeight(nootkaWindow.height)
       z: 5
-      height: nootkaWindow.contentItem.height
-              - (GLOB.instrument.isSax ? (GLOB.singleNoteMode ? insHi / 7 : 0) : insHi)
-              - (examResults ? examResults.height + 2 : 0)
-      width: parent.width / (GLOB.singleNoteMode ? 2 : 1)
+      height: parent.height / (GLOB.singleNoteMode && topToBott ? 2 : 1)
+      width: parent.width / (GLOB.singleNoteMode && !topToBott ? 2 : 1)
     }
   }
 

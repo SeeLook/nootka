@@ -15,8 +15,12 @@ TnameItem {
   buttonNameStyle: GLOB.noteNameStyle
 
   property var score: null
+
   width: score.width; height: score.height
-  x: score.width; y: score.y; z: 4
+  x: nootkaWindow.topToBott ? score.x : score.width
+  y: score.y + (nootkaWindow.topToBott ? score.height : 0)
+  z: 4
+
   onNoteChanged: {
     if (!GLOB.isExam)
       score.setNote(score.scoreObj.note(0), noteName.note)
