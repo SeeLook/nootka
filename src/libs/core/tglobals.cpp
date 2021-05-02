@@ -500,14 +500,14 @@ void Tglobals::loadSettings(QSettings* cfg) {
       S->keySignatureEnabled = cfg->value(QStringLiteral("keySignature"), false).toBool();
       S->showKeySignName = cfg->value(QStringLiteral("keyName"), true).toBool(); //true;
       S->nameStyleInKeySign = Tnote::EnameStyle(cfg->value(QStringLiteral("nameStyleInKey"),
-                                                          (int)Tnote::e_english_Bb).toInt());
+                                                           static_cast<int>(Tnote::e_english_Bb)).toInt());
       S->majKeyNameSufix = cfg->value(QStringLiteral("majorKeysSufix"), QString()).toString();
       S->minKeyNameSufix = cfg->value(QStringLiteral("minorKeysSufix"), QString()).toString();
       if (cfg->contains("pointerColor"))
           S->pointerColor = cfg->value(QStringLiteral("pointerColor")).value<QColor>();
       else
           S->pointerColor = Tcolor::invert(qApp->palette().highlight().color());
-      S->clef = Tclef::EclefType(cfg->value(QStringLiteral("clef"), (int)Tclef::Treble_G_8down).toInt());
+      S->clef = Tclef::EclefType(cfg->value(QStringLiteral("clef"), static_cast<int>(Tclef::Treble_G_8down)).toInt());
       // Rhythms has to be enabled when no clef (percussion)
       S->rhythmsEnabled = cfg->value(QStringLiteral("rhythmsEnabled"), true).toBool() || S->clef == Tclef::NoClef;
       S->isSingleNoteMode = cfg->value(QStringLiteral("singleNoteMode"), false).toBool();
@@ -538,8 +538,10 @@ void Tglobals::loadSettings(QSettings* cfg) {
 
 //note name settings
   cfg->beginGroup(QLatin1String("noteName"));
-      S->nameStyleInNoteName = Tnote::EnameStyle(cfg->value(QStringLiteral("nameStyle"), (int)Tnote::e_english_Bb).toInt());
-      S->solfegeStyle = Tnote::EnameStyle(cfg->value(QStringLiteral("solfegeStyle"), (int)getSolfegeStyle()).toInt());
+      S->nameStyleInNoteName = Tnote::EnameStyle(cfg->value(QStringLiteral("nameStyle"),
+                                                            static_cast<int>(Tnote::e_english_Bb)).toInt());
+      S->solfegeStyle = Tnote::EnameStyle(cfg->value(QStringLiteral("solfegeStyle"),
+                                                     static_cast<int>(getSolfegeStyle())).toInt());
       S->octaveInNoteNameFormat = cfg->value(QStringLiteral("octaveInName"), true).toBool();
       S->namesOnScore = cfg->value(QStringLiteral("namesOnScore"), true).toBool();
       S->nameColor = cfg->value(QStringLiteral("namesColor"), QColor(0, 225, 225)).value<QColor>();
@@ -644,7 +646,8 @@ void Tglobals::loadSettings(QSettings* cfg) {
       E->correctPreview = cfg->value(QStringLiteral("correctPreview"), 3000).toInt();
       E->questionDelay = cfg->value(QStringLiteral("questionDelay"), 150).toInt();
       E->suggestExam = cfg->value(QStringLiteral("suggestExam"), true).toBool();
-      E->afterMistake = (TexamParams::EafterMistake)cfg->value(QStringLiteral("afterMistake"), (int)TexamParams::e_continue).toInt();
+      E->afterMistake = (TexamParams::EafterMistake)cfg->value(QStringLiteral("afterMistake"),
+                                                               static_cast<int>(TexamParams::e_continue)).toInt();
       E->showNameOfAnswered = cfg->value(QStringLiteral("showNameOfAnswered"), true).toBool();
       E->showWrongPlayed = cfg->value(QStringLiteral("showWrongPlayed"), false).toBool();
       E->waitForCorrect = cfg->value(QStringLiteral("waitForCorrect"), true).toBool();
@@ -748,15 +751,15 @@ Tnote Tglobals::loString() {
 
 
 Tnote::EnameStyle Tglobals::getSolfegeStyle() {
-    Tnote::EnameStyle solStyle = Tnote::e_italiano_Si;
-    QString ll = lang;
-    if (ll.isEmpty()) {
-      QLocale loc; // default locale (QLocale::setDefault()) grabs local LANG variable in contrary to QLocale::system() which not
-      ll = loc.name();
-    }
-    if (ll.contains(QLatin1String("ru")))
-      solStyle = Tnote::e_russian_Ci;
-    return solStyle;
+  Tnote::EnameStyle solStyle = Tnote::e_italiano_Si;
+  QString ll = lang;
+  if (ll.isEmpty()) {
+    QLocale loc; // default locale (QLocale::setDefault()) grabs local LANG variable in contrary to QLocale::system() which not
+    ll = loc.name();
+  }
+  if (ll.contains(QLatin1String("ru")))
+    solStyle = Tnote::e_russian_Ci;
+  return solStyle;
 }
 
 
@@ -783,7 +786,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
   cfg->beginGroup(QLatin1String("score"));
       cfg->setValue(QStringLiteral("keySignature"), S->keySignatureEnabled);
       cfg->setValue(QStringLiteral("keyName"), S->showKeySignName);
-      cfg->setValue(QStringLiteral("nameStyleInKey"), (int)S->nameStyleInKeySign);
+      cfg->setValue(QStringLiteral("nameStyleInKey"), static_cast<int>(S->nameStyleInKeySign));
   QString majS, minS;
   if (S->majKeyNameSufix != TkeySignature::majorSufixTxt())
     majS = S->majKeyNameSufix;
@@ -796,7 +799,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
     minS.clear();
       cfg->setValue(QStringLiteral("minorKeysSufix"), minS);
       cfg->setValue(QStringLiteral("pointerColor"), S->pointerColor);
-      cfg->setValue(QStringLiteral("clef"), (int)S->clef);
+      cfg->setValue(QStringLiteral("clef"), static_cast<int>(S->clef));
       cfg->setValue(QStringLiteral("rhythmsEnabled"), S->rhythmsEnabled);
       cfg->setValue(QStringLiteral("singleNoteMode"), S->isSingleNoteMode);
       cfg->setValue(QStringLiteral("tempo"), S->tempo);
@@ -806,7 +809,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
   cfg->endGroup();
 
   cfg->beginGroup(QLatin1String("noteName"));
-      cfg->setValue(QStringLiteral("nameStyle"), (int)S->nameStyleInNoteName);
+      cfg->setValue(QStringLiteral("nameStyle"), static_cast<int>(S->nameStyleInNoteName));
       cfg->setValue(QStringLiteral("octaveInName"), S->octaveInNoteNameFormat);
       cfg->setValue(QStringLiteral("solfegeStyle"), S->solfegeStyle);
       cfg->setValue(QStringLiteral("namesOnScore"), S->namesOnScore );
@@ -815,7 +818,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
 
   cfg->beginGroup(QLatin1String("guitar"));
       cfg->setValue(QStringLiteral("instrument"), static_cast<int>(m_instrument.type()));
-      cfg->setValue(QStringLiteral("fretNumber"), (int)GfretsNumber);
+      cfg->setValue(QStringLiteral("fretNumber"), static_cast<int>(GfretsNumber));
       cfg->setValue(QStringLiteral("rightHanded"), GisRightHanded);
       cfg->setValue(QStringLiteral("showOtherPos"), GshowOtherPos);
       cfg->setValue(QStringLiteral("fingerColor"), GfingerColor);
@@ -841,7 +844,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue(QStringLiteral("correctPreview"), E->correctPreview);
       cfg->setValue(QStringLiteral("questionDelay"), E->questionDelay);
       cfg->setValue(QStringLiteral("suggestExam"), E->suggestExam);
-      cfg->setValue(QStringLiteral("afterMistake"), (int)E->afterMistake);
+      cfg->setValue(QStringLiteral("afterMistake"), static_cast<int>(E->afterMistake));
       cfg->setValue(QStringLiteral("showNameOfAnswered"), E->showNameOfAnswered);
       cfg->setValue(QStringLiteral("showWrongPlayed"), E->showWrongPlayed);
       cfg->setValue(QStringLiteral("waitForCorrect"), E->waitForCorrect);
@@ -855,8 +858,8 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue(QStringLiteral("outDeviceName"), A->OUTdevName);
       cfg->setValue(QStringLiteral("midiEnabled"), A->midiEnabled);
       cfg->setValue(QStringLiteral("midiPortName"), A->midiPortName);
-      cfg->setValue(QStringLiteral("midiInstrumentNr"), (int)A->midiInstrNr);
-      cfg->setValue(QStringLiteral("audioInstrumentNr"), (int)A->audioInstrNr);
+      cfg->setValue(QStringLiteral("midiInstrumentNr"), static_cast<int>(A->midiInstrNr));
+      cfg->setValue(QStringLiteral("audioInstrumentNr"), static_cast<int>(A->audioInstrNr));
       cfg->setValue(QStringLiteral("inSoundEnabled"), A->INenabled);
       cfg->setValue(QStringLiteral("inDeviceName"), A->INdevName);
       cfg->setValue(QStringLiteral("detectionMethod"), A->detectMethod);
