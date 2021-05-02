@@ -13,8 +13,8 @@ TpianoBg {
   property alias keysX: keysRow.x
   property alias keysWidth: keysRow.width
 
-  width: Math.max(nootkaWindow.width, GLOB.instrument.getItemHeight(nootkaWindow.height) * 6.7)
-  height: GLOB.instrument.getItemHeight(nootkaWindow.height)
+  width: Math.max(nootkaWindow.width, GLOB.instrument.getItemHeight(nootkaWindow.shortEdge) * 6.7)
+  height: GLOB.instrument.getItemHeight(nootkaWindow.shortEdge)
 
   onWantKeyToSelect: selectKey(k > -1 ? (isWhite ? whiteRep.itemAt(k) : whiteRep.itemAt(k).black) : null)
 

@@ -16,6 +16,7 @@ ApplicationWindow {
   visibility: NOO.isAndroid() && GLOB.fullScreen() ? "FullScreen" : "AutomaticVisibility"
 
   property bool topToBott: height > width
+  property real shortEdge: Math.min(height, width * (GLOB.instrument.isSax ? 0.85 : 1))
   property alias mainMenu: mainMenu
 
   // private
@@ -56,7 +57,7 @@ ApplicationWindow {
 
   Item {
     id: scoreWrap
-    property real insHi: GLOB.instrument.getItemHeight(nootkaWindow.height)
+    property real insHi: GLOB.instrument.getItemHeight(shortEdge)
     y: examResults ? examResults.height + 2 : 0
     height: nootkaWindow.contentItem.height
           - (GLOB.instrument.isSax ? (GLOB.singleNoteMode ? insHi / 7 : 0) : insHi)

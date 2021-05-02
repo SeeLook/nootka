@@ -12,7 +12,7 @@ TbandoneonBg {
   id: instrItem
 
   width: Math.max(factor * 480, nootkaWindow.width)
-  height: GLOB.instrument.getItemHeight(nootkaWindow.height)
+  height: GLOB.instrument.getItemHeight(nootkaWindow.shortEdge)
   factor: height / 100
 
   // private
