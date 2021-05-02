@@ -54,6 +54,7 @@ Flickable {
                   else
                     setTuning(NOO.tuning(Ttune.Standard_EADGBE))
                   fretsNrSpin.value = ins.fretNumber
+                  tuningCombo.currentIndex = 0
               } else if (ins.none) {
                   setTuning(NOO.tuning(score.scoreObj.lowestNote(), score.scoreObj.highestNote(), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote()))
               }
@@ -287,7 +288,8 @@ Flickable {
     fingerColorButt.color = Qt.rgba(1, 0, 0.5, 0.78)
     selectedColorButt.color = Qt.rgba(0.2, 0.6, 1.0, 1.0)
     GLOB.showOtherPos = false
-    instrSel.instrument = Tinstrument.ClassicalGuitar // it will set transposition and preferred accidentals
+    instrSel.instrument = initInstr === 0 ? 7 : 0
+    instrSel.instrument = initInstr // switch instrument twice to load its defaults
     fretDots.text = "5,7,9,12!,15,19"
   }
 
