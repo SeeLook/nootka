@@ -39,6 +39,10 @@ Item {
 
   function apply() {
     GLOB.clefType = clef // it can be changed either by score or instrument page
+    if (NOO.isAndroid()) {
+      if (NOO.instr(instrument).isSax) // it may occur only when rotation was enabled and user changed to saxophone
+        GLOB.setDisableRotation(true)  // but has not opened phone settings
+    }
     for (var i = 0; i < pages.pages.length; ++i) {
       if (typeof(pages.pages[i]) === 'object')
         pages.pages[i].save()

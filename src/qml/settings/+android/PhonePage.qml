@@ -31,6 +31,7 @@ Tflickable {
         }
         TcheckBox {
           visible: NOO.shortScreenSide() / NOO.fingerPixels() >= 12 // 8,4 cm width, 7" screens
+          enabled: !NOO.instr(settings.instrument).isSax
           id: disRotatChB
           text: qsTr("disable screen rotation")
           checked: GLOB.disableRotation()
@@ -57,7 +58,7 @@ Tflickable {
 
   function save() {
     GLOB.keepScreenOn(screenOnChB.checked)
-    GLOB.setDisableRotation(disRotatChB.checked)
+    GLOB.setDisableRotation(disRotatChB.enabled && disRotatChB.checked)
     nootkaWindow.visibility = fullScrChB.checked ? "FullScreen" : "AutomaticVisibility"
     GLOB.setFullScreen(fullScrChB.checked)
     SOUND.setTouchHandling(touchSniffChB.checked)
