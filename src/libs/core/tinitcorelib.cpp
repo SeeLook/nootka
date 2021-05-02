@@ -99,8 +99,16 @@ void prepareTranslations(QGuiApplication* a, QTranslator& qt, QTranslator& noo) 
   noo.load(loc, QStringLiteral("nootka_"), QString(), Tpath::lang());
   a->installTranslator(&noo);
 
-  TkeySignature::setNameStyle(GLOB->S->nameStyleInKeySign, GLOB->S->majKeyNameSufix,
-                              GLOB->S->minKeyNameSufix);
+  if (GLOB->isFirstRun) {
+    GLOB->setSeventhIsB(a->translate("Notation", "b").toLower() == QLatin1String("b"));
+    if (GLOB->S->seventhIs_B)
+      GLOB->S->nameStyleInNoteName = Tnote::e_english_Bb;
+    else
+      GLOB->S->nameStyleInNoteName = Tnote::e_norsk_Hb;
+    Tnote::defaultStyle = GLOB->S->nameStyleInNoteName;
+  }
+
+  TkeySignature::setNameStyle(GLOB->S->nameStyleInKeySign, GLOB->S->majKeyNameSufix, GLOB->S->minKeyNameSufix);
   Ttune::prepareDefinedTunes();
 }
 

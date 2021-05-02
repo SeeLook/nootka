@@ -99,7 +99,7 @@ Tflickable {
                     width: wizardMode.width * 0.032; height: width * 0.7
                     checkable: true; checked: index === 2
                     font { pixelSize: height * 0.8; bold: true }
-                    text: NOO.noteName(NOO.note(index + 1, 1, 0), 1, false)
+                    text: NOO.noteName(NOO.note(index + 1, 1, 0), GLOB.noteNameStyle, false)
                   }
                 }
               }
