@@ -86,7 +86,8 @@ Tflickable {
                 LinkText {
                   anchors.horizontalCenter: parent.horizontalCenter
                   y: -height * 0.25
-                  text: "es\u0187"; font { family: "Scorek"; pixelSize: parent.height * 0.9 }
+                  text: NOO.styledName(NOO.note(3, 1, -1), GLOB.noteNameStyle)
+                  font { family: "Scorek"; pixelSize: parent.height * 0.8 }
                 }
               }
               Row {
