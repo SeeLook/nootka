@@ -23,6 +23,7 @@
 #include "tcolor.h"
 #include "tscoreparams.h"
 #include "tpath.h"
+#include "qtr.h"
 #include <QtGui/qguiapplication.h>
 #include <QtGui/qpalette.h>
 #include <QtCore/qtranslator.h>
@@ -100,11 +101,17 @@ void prepareTranslations(QGuiApplication* a, QTranslator& qt, QTranslator& noo) 
   a->installTranslator(&noo);
 
   if (GLOB->isFirstRun) {
-    GLOB->setSeventhIsB(a->translate("Notation", "b").toLower() == QLatin1String("b"));
+    GLOB->setSeventhIsB(qTR("Notation", "b").toLower() == QLatin1String("b"));
     if (GLOB->S->seventhIs_B)
       GLOB->S->nameStyleInNoteName = Tnote::e_english_Bb;
     else
       GLOB->S->nameStyleInNoteName = Tnote::e_norsk_Hb;
+    if (qTR("Notation", "letters").toLower() == QLatin1String("solfege")) {
+      if (loc.language() == QLocale::Russian)
+        GLOB->S->nameStyleInNoteName = Tnote::e_russian_Ci;
+      else
+        GLOB->S->nameStyleInNoteName = Tnote::e_italiano_Si;
+    }
     Tnote::defaultStyle = GLOB->S->nameStyleInNoteName;
   }
 
