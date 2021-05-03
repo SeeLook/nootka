@@ -253,6 +253,8 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
                     ch.setFinger(technical.finger());
                   technical.reset(); // reset for the next note
                 }
+                if (m_meter->meter() == Tmeter::NoMeter && ch.p().rtm.isValid())
+                  ch.p().setRhythm(Trhythm::NoRhythm);
                 addNote(ch);
               }
             }
