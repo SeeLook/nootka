@@ -3767,38 +3767,31 @@ Veuillez vérifier que ses paramètres correspondent à vos attentes.</translati
     </message>
     <message>
         <source>Contra octave</source>
-        <translation>Contre octave 
- (do-1/C1)</translation>
+        <translation>Contre octave&lt;br&gt;(do-1/C1)</translation>
     </message>
     <message>
         <source>Great octave</source>
-        <translation>Grande octave 
- (do1/C2)</translation>
+        <translation>Grande octave&lt;br&gt;(do1/C2)</translation>
     </message>
     <message>
         <source>Small octave</source>
-        <translation>Petite octave 
- (do2/C3)</translation>
+        <translation>Petite octave&lt;br&gt;(do2/C3)</translation>
     </message>
     <message>
         <source>One-line octave</source>
-        <translation>Deuxième petite octave 
- (do3/C4)</translation>
+        <translation>Deuxième petite octave&lt;br&gt;(do3/C4)</translation>
     </message>
     <message>
         <source>Two-line octave</source>
-        <translation>Troisième petite octave 
- (do4/C5)</translation>
+        <translation>Troisième petite octave&lt;br&gt;(do4/C5)</translation>
     </message>
     <message>
         <source>Three-line octave</source>
-        <translation>Quatrième petite octave 
- (do5/C6)</translation>
+        <translation>Quatrième petite octave&lt;br&gt;(do5/C6)</translation>
     </message>
     <message>
         <source>Four-line octave</source>
-        <translation>Cinquième petite octave 
- (do6/C7)</translation>
+        <translation>Cinquième petite octave&lt;br&gt;(do6/C7)</translation>
     </message>
     <message>
         <source>Next note</source>
