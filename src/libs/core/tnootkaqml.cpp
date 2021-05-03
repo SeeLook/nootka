@@ -193,13 +193,25 @@ QString TnootkaQML::rhythmText(const Trhythm& r) {
 
 
 QString TnootkaQML::noteName(const Tnote& n, int style, bool showOctave) {
-  // Tnote::toText() method returns only names in user preferred according to settings
-  // To cheat it and force note name in any given style we are resetting pointer of is7th_B 
+  // Tnote::toText() method returns only names in user preferred style according to settings
+  // To cheat it and force note name in any given style we are resetting pointer of is7th_B,
   // then Tnote skips filtering of a style during name generation.
   auto tmpPtr = TnameStyleFilter::is7th_B();
   TnameStyleFilter::setStyleFilter(nullptr, TnameStyleFilter::solfegeStyle());
   auto name = n.toText(static_cast<Tnote::EnameStyle>(style), showOctave);
   TnameStyleFilter::setStyleFilter(tmpPtr, TnameStyleFilter::solfegeStyle()); // restore is7th_B settings
+  return name;
+}
+
+
+/**
+ * So far this method doesnt cheat @p TnameStyleFilter, so improper style for 7th note will be fixed
+ */
+QString TnootkaQML::styledName(const Tnote& n, int style, bool showOctave) {
+  auto tmpStyle = Tnote::defaultStyle;
+  Tnote::defaultStyle = static_cast<Tnote::EnameStyle>(style);
+  auto name = n.styledName(showOctave);
+  Tnote::defaultStyle = tmpStyle;
   return name;
 }
 
