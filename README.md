@@ -2,10 +2,12 @@
 <h1 style="text-align: right">...to play scores</h1>
 
 
-  <b>Nootka</b> helps understand the basics of music notation:  
-  reading and practicing playing musical scores.  
+  **Nootka** */nuːtka/* is an application that helps understand the basics of music notation.  
+  For sight reading and practice of playing musical scores.  
+
   ​Long story short: the user plays notes (melody) displayed by the app,  
   which then in real time checks if the notes was played correctly.  
+
   The application is free and open source.  
   It works under Windows, Linux, Mac and Android...  
 
@@ -15,16 +17,16 @@
 
 ### Features
 - interactive interface to discover the rules of musical notation
-- exercises where user can play or can guess a note on a score or its name
+- exercises where user can play or may guess a note on a score or its name
 - possibility to create own rules for exercises
 - accurate method for detecting sung and played sounds and melodies
-- natural sound of instruments
+- natural sound of supported instruments
 - clefs (treble, bass and others) and grand stave
 - analyze of results (charts)
 - different kinds of guitars and theirs tuning
-- support piano, bandoneon and saxophones (experimental)
+- also support for piano, bandoneon and saxophones (experimental)
 - built-in metronome
-- Czech, French, German, Hungarian, Italian, Polish, Spanish, Slovenian and Russian translations
+- Czech, English, French, German, Hungarian, Italian, Polish, Spanish, Slovenian and Russian translations
 
 
 
