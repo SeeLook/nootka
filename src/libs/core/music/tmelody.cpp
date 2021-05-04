@@ -211,8 +211,10 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
                 unsupportedClef(m_clef);
             } else
                 m_clef = clef1;
-          } else
-              qDebug() << "[Tmelody] Change of any melody attributes (clef, meter, key) in the middle of a melody is not supported!";
+          } else {
+              qDebug() << "[Tmelody] Change of any melody attributes (clef, meter, key signature) in the middle of a melody is not supported!";
+              xml.skipCurrentElement();
+          }
 /** [note] */
         } else if (xml.name() == QLatin1String("note")) {
             int staffNr = 0;
