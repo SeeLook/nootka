@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -92,13 +92,13 @@ void Tchunk::toXml(QXmlStreamWriter& xml, int* staffNr) {
  * Tie is recognized by <notations><tied type="" ></tied></notations> tag, <tie /> itself is ignored,
  * but during save, both tags are writing.
  */
-bool Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr) {
-  bool ok = true;
+quint16 Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr) {
+  quint16 ok = e_xmlOK;
   int stNr = 1;
   m_pitch.setRhythm(Trhythm(Trhythm::NoRhythm));
   while (xml.readNextStartElement()) {
       if (xml.name() == QLatin1String("grace") || xml.name() == QLatin1String("chord")) {
-          ok = false;
+          ok = e_xmlUnsupported;
           xml.skipCurrentElement();
       } else if (xml.name() == QLatin1String("pitch"))
           m_pitch.fromXml(xml);
@@ -108,34 +108,43 @@ bool Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr) {
           m_pitch.setRest(true);
           xml.skipCurrentElement();
       } else if (xml.name() == QLatin1String("dot")) {
-          m_pitch.setDot(true);
+          if (m_pitch.rhythm() < Trhythm::Sixteenth) {
+              if (m_pitch.hasDot()) {
+                  if (ok & e_xmlHasTwoDots)
+                    qDebug() << "[Tchunk] More than two augmented dots are not supported!";
+                  else if (m_pitch.rhythm() < Trhythm::Eighth)
+                    ok += e_xmlHasTwoDots;
+              } else
+                  m_pitch.setDot(true);
+          } else
+              qDebug() << "[Tchunk] Sixteenth with dots are not supported!";
           xml.skipCurrentElement();
       } else if (xml.name() == QLatin1String("notations")) {
           while (xml.readNextStartElement()) {
             if (xml.name() == QLatin1String("technical"))
                 m_technical.fromXml(xml);
             else if (xml.name() == QLatin1String("tied")) {
-              auto type = xml.attributes().value(QStringLiteral("type"));
-              Trhythm::Etie tie = Trhythm::e_noTie;
-              if (type == QLatin1String("start"))
-                  tie = m_pitch.rtm.tie() ? Trhythm::e_tieCont : Trhythm::e_tieStart; // tie was set already - means tie starts and stops on this note
-              else if (type == QLatin1String("stop"))
-                  tie = m_pitch.rtm.tie() ? Trhythm::e_tieCont : Trhythm::e_tieEnd; // tie was set already - means tie starts and stops on this note
-              m_pitch.rtm.setTie(tie);
-              xml.skipCurrentElement();
+                auto type = xml.attributes().value(QStringLiteral("type"));
+                Trhythm::Etie tie = Trhythm::e_noTie;
+                if (type == QLatin1String("start"))
+                    tie = m_pitch.rtm.tie() ? Trhythm::e_tieCont : Trhythm::e_tieStart; // tie was set already - means tie starts and stops on this note
+                else if (type == QLatin1String("stop"))
+                    tie = m_pitch.rtm.tie() ? Trhythm::e_tieCont : Trhythm::e_tieEnd; // tie was set already - means tie starts and stops on this note
+                m_pitch.rtm.setTie(tie);
+                xml.skipCurrentElement();
             } else
                 xml.skipCurrentElement();
           }
       } else if (xml.name() == QLatin1String("voice")) {
           if (xml.readElementText().toInt() != 1)
-            ok = false;
+            ok = e_xmlUnsupported;
       } else if (xml.name() == QLatin1String("staff"))
           stNr = xml.readElementText().toInt();
       else
-        xml.skipCurrentElement();
+          xml.skipCurrentElement();
   }
   if (staffNr)
-      *staffNr = stNr;
+    *staffNr = stNr;
   return ok;
 }
 

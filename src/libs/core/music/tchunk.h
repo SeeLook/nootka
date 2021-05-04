@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -96,10 +96,16 @@ public:
        */
   void toXml(QXmlStreamWriter& xml, int* staffNr = nullptr);
 
+  enum EimportResult {
+    e_xmlOK = 0,
+    e_xmlUnsupported = 1,
+    e_xmlHasTwoDots = 2
+  };
+
       /**
        * Trough @p staffNr (if set) is returned staff number the note belongs to.
        */
-  bool fromXml(QXmlStreamReader& xml, int* staffNr = nullptr);
+  quint16 fromXml(QXmlStreamReader& xml, int* staffNr = nullptr);
 
       /**
        * Converts beam type into music XML compatible string

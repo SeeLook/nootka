@@ -220,8 +220,8 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
             if (m_clef == Tclef::PianoStaffClefs)
               staffPtr = & staffNr;
             Tchunk ch;
-            bool voiceOk = ch.fromXml(xml, staffPtr);
-            if (voiceOk) {
+            auto chunkOk = ch.fromXml(xml, staffPtr);
+            if (!(chunkOk & Tchunk::e_xmlUnsupported)) {
               if (ch.p().isRest() && ch.p().rhythm() == Trhythm::NoRhythm) { // Fix rest duration - if it is undefined - means entire measure
                 ch.p().setRhythm(m_meter->duration()); // it will reset 'rest' attribute
                 ch.p().setRest(true);
@@ -255,7 +255,20 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
                 }
                 if (m_meter->meter() == Tmeter::NoMeter && ch.p().rtm.isValid())
                   ch.p().setRhythm(Trhythm::NoRhythm);
+                bool dblDot = false, tieCont = false;
+                if (ch.p().rtm.isValid() && chunkOk & Tchunk::e_xmlHasTwoDots) {
+                  tieCont = ch.p().rtm.tie() == Trhythm::e_tieStart || ch.p().rtm.tie() == Trhythm::e_tieCont;
+                  ch.p().rtm.setTie(ch.p().rtm.tie() > Trhythm::e_tieStart ? Trhythm::e_tieCont : Trhythm::e_tieStart);
+                  dblDot = true;
+                }
                 addNote(ch);
+                if (dblDot) {
+                  // xml import disallows eights with double dots, so divide rhythmic value easily
+                  Trhythm r(static_cast<Trhythm::Erhythm>(ch.p().rhythm() + 2));
+                  r.setTie(tieCont ? Trhythm::e_tieCont : Trhythm::e_tieEnd);
+                  Tchunk dblDotCh(Tnote(ch.p(), r), ch.t());
+                  addNote(dblDotCh);
+                }
               }
             }
 /** [direction] with bowing/bellow and fingering detected from texts below/above note */
@@ -309,7 +322,7 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
                           if (quarterTempo >= 40 && quarterTempo <= 180) {
                               setTempo(tempoWillBe);
                               setBeat(beatWillBe);
-                          } else // too fast or to slow
+                          } else // too fast or too slow
                               qDebug() << "[Tmelody]" << beatWillBe << "for tempo" << tempoWillBe << "is not supported. (Too fast or too slow)";
                         }
                     } else
