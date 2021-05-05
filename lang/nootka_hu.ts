@@ -365,12 +365,12 @@
     <message>
         <source>Bellows is opening.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;opening&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Fújtató nylik.</translation>
     </message>
     <message>
         <source>Bellows is closing.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;closing&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Fújtató zárul.</translation>
     </message>
 </context>
 <context>
@@ -951,11 +951,11 @@
     </message>
     <message>
         <source>J. S. Bach - Minuet</source>
-        <translation type="unfinished"></translation>
+        <translation>J. S. Bach - Menüett</translation>
     </message>
     <message>
         <source>Play melody of J. S. Bach Minuet from Notebook for Anna Magdalena Bach divided into smaller parts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Játssz dallamot J .S. Bach Menüettből, Jegyzetfüzet Anna Magdalena Bach számára műből, felosztva kisebb részekre.</translation>
     </message>
 </context>
 <context>
@@ -4794,15 +4794,15 @@ nem Nootka fájl!</translation>
     <name>WizardBando</name>
     <message>
         <source>Notes for bandoneon are written on the grand staff - two staves joined with brace.</source>
-        <translation type="unfinished"></translation>
+        <translation>A bandoneón kottázásához a kétszólamú kotta használatos - két kotta összekapcsolva.</translation>
     </message>
     <message>
         <source>All notes on the upper staff with treble clef are played with right hand and the notes on the lower one with bass clef are played with the left hand.</source>
-        <translation type="unfinished"></translation>
+        <translation>A felső kotta, violin kulcs, jobb kéznek szól,míg az alsó kotta, basszus kulcs a bal kéznek szól.</translation>
     </message>
     <message>
         <source>Direction of bellows movement is marked with bowing symbols:</source>
-        <translation type="unfinished"></translation>
+        <translation>A fújtató mozgásána irányak hajló szimbólummal van jelölve:</translation>
     </message>
 </context>
 <context>
