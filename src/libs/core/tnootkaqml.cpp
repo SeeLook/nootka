@@ -333,7 +333,7 @@ QString TnootkaQML::getXmlToOpen() {
   openFile = TfileDialog::getOpenFileName(GLOB->lastXmlDir(), QStringLiteral("xml|musicxml"));
 #else
   openFile = TfileDialog::getOpenFileName(qApp->translate("TmainScoreObject", "Open melody file"), GLOB->lastXmlDir(),
-                                          qApp->translate("TmainScoreObject", "MusicXML file") + QLatin1String(" (*.xml *.musicxml)"));
+                                          qApp->translate("TmainScoreObject", "MusicXML file") + QLatin1String(" (*.xml *.musicxml *.mxl)"));
 #endif
   if (!openFile.isEmpty())
     GLOB->setLastXmlDir(QFileInfo(openFile).absoluteDir().path());

@@ -106,6 +106,7 @@ public:
 
   bool saveToMusicXml(const QString& xmlFileName, int transposition = 0);
   bool grabFromMusicXml(const QString& xmlFileName);
+  bool grabFromMXL(const QString& xmlFileName);
 
       /**
        * Converts given list to melody

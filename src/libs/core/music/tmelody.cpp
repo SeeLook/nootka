@@ -22,11 +22,13 @@
 #include "tmeter.h"
 #include "tchunk.h"
 #include "nootkaconfig.h"
+#include "libzippp/libzippp.h"
 
 #include <QtCore/qvariant.h>
 #include <QtCore/qdebug.h>
 #include <QtCore/qfile.h>
 #include <QtCore/qdatetime.h>
+#include <QtCore/qfileinfo.h>
 
 
 /* local static */
@@ -406,11 +408,45 @@ bool Tmelody::grabFromMusicXml(const QString& xmlFileName) {
   QFile file(xmlFileName);
   bool ok = true;
 
+  // if compressed file then invoke its extraction
+  if (xmlFileName.endsWith(QStringLiteral(".mxl")))
+     return grabFromMXL(xmlFileName);
+
   if (file.open(QIODevice::ReadOnly)) {
     QXmlStreamReader xml(&file);
     ok = procesXMLData(xml);
     file.close();
   }
+
+  return ok;
+}
+
+
+bool Tmelody::grabFromMXL(const QString& xmlFileName) {
+  bool ok = true;
+
+  // when the file is compressed (.mxl) then it is first decompressed and
+  // then the rest of the process can continue like for an uncompressed file (.xml)
+
+  // first open the compressed file, it has folders (files embedded) within,
+  // and one of them is the .xml file we want to extract, which we assume
+  // to have the same name than the file (the other embedded files are the
+  // mimetype and the META-INF folder, both of which we discard)
+  libzippp::ZipArchive zf(xmlFileName.toStdString());
+  zf.open(libzippp::ZipArchive::ReadOnly);
+
+  // take the filename without the path and add ".xml" as extension instead of ".mxl"
+  QFileInfo fi(xmlFileName);
+  QString fileNameToExtract = fi.baseName() + QStringLiteral(".xml");
+
+  // now read the file (score) from within the compressed (.mxl) file
+  libzippp::ZipEntry uncompressedMXLentry = zf.getEntry(fileNameToExtract.toStdString());
+  std::string uncompressedScore = uncompressedMXLentry.readAsText();
+
+
+  QXmlStreamReader xml(uncompressedScore.data());
+  ok = procesXMLData(xml);
+  zf.close();
 
   return ok;
 }
