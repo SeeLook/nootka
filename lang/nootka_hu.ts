@@ -361,6 +361,19 @@
     </message>
 </context>
 <context>
+    <name>Bandoneon</name>
+    <message>
+        <source>Bellows is opening.</source>
+        <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;opening&apos;</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bellows is closing.</source>
+        <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;closing&apos;</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Certificate</name>
     <message>
         <source>Stop exam</source>
@@ -935,6 +948,14 @@
     <message>
         <source>Play popular, simple melodies on your instrument.</source>
         <translation>Játssz népszerű, egyszerű dallamokat a hangszereden.</translation>
+    </message>
+    <message>
+        <source>J. S. Bach - Minuet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Play melody of J. S. Bach Minuet from Notebook for Anna Magdalena Bach divided into smaller parts.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1584,6 +1605,22 @@ Legyenek minél rövidebbek, ha kell előbb darabold fel egy erre megfelelő cé
         <comment>To translate it properly, check please meaning of &apos;tie&apos; in musical context.</comment>
         <translation>összevonás</translation>
     </message>
+    <message>
+        <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
+        <translation>&lt;b&gt;bebé&lt;/b&gt; - két fél hanggal (egész hanggal) leszállít egy hangot.&lt;br&gt;A gitáron ez 2 bunddal lefelé van.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
+        <translation>&lt;b&gt;bé&lt;/b&gt; - egy fél hanggal leszállít egy hangot.&lt;br&gt;A gitáron ez 1 bunddal lefelé van.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
+        <translation>&lt;b&gt;kereszt&lt;/b&gt; - egy fél hanggal emel egy hangot.&lt;br&gt;A gitáron ez 1 bunddal felfelé van.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
+        <translation>&lt;b&gt;dupla kereszt&lt;/b&gt; - két fél hanggal (egész hanggal) emel egy hangot.&lt;br&gt;A gitáron ez 2 bunddal felfelé van.</translation>
+    </message>
 </context>
 <context>
     <name>Select7note</name>
@@ -2071,135 +2108,135 @@ Legyenek minél rövidebbek, ha kell előbb darabold fel egy erre megfelelő cé
     <name>TanalysDialog</name>
     <message>
         <source>Analyze</source>
-        <translation>Kiértékelés</translation>
+        <translation type="vanished">Kiértékelés</translation>
     </message>
     <message>
         <source>Y value:</source>
-        <translation>Y érték:</translation>
+        <translation type="vanished">Y érték:</translation>
     </message>
     <message>
         <source>ordered by:</source>
         <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
-        <translation>erre rendezve:</translation>
+        <translation type="vanished">erre rendezve:</translation>
     </message>
     <message>
         <source>student name:</source>
-        <translation>diák neve:</translation>
+        <translation type="vanished">diák neve:</translation>
     </message>
     <message>
         <source>level:</source>
-        <translation>szint:</translation>
+        <translation type="vanished">szint:</translation>
     </message>
     <message>
         <source>question number</source>
         <comment>see comment in &apos;ordered by:&apos; entry</comment>
-        <translation>kérdés száma</translation>
+        <translation type="vanished">kérdés száma</translation>
     </message>
     <message>
         <source>note pitch</source>
-        <translation>hangmagasság</translation>
+        <translation type="vanished">hangmagasság</translation>
     </message>
     <message>
         <source>fret number</source>
-        <translation>bund száma</translation>
+        <translation type="vanished">bund száma</translation>
     </message>
     <message>
         <source>key signature</source>
-        <translation>hangnem</translation>
+        <translation type="vanished">hangnem</translation>
     </message>
     <message>
         <source>accidentals</source>
-        <translation>módosítók</translation>
+        <translation type="vanished">módosítók</translation>
     </message>
     <message>
         <source>question type</source>
-        <translation>kérdés típusa</translation>
+        <translation type="vanished">kérdés típusa</translation>
     </message>
     <message>
         <source>mistake</source>
-        <translation>hiba</translation>
+        <translation type="vanished">hiba</translation>
     </message>
     <message>
         <source>Level summary:</source>
-        <translation>Szint összegzése:</translation>
+        <translation type="vanished">Szint összegzése:</translation>
     </message>
     <message>
         <source>Tuning</source>
-        <translation>Hangolás</translation>
+        <translation type="vanished">Hangolás</translation>
     </message>
     <message>
         <source>Press %1 button to select an exam from a file.</source>
-        <translation>Nyomd meg a %1 gombot ha fájlból akarsz vizsgát betölteni.</translation>
+        <translation type="vanished">Nyomd meg a %1 gombot ha fájlból akarsz vizsgát betölteni.</translation>
     </message>
     <message>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
-        <translation>Használd a %1 + egér görgőt vagy %2 gombokat a diagram nagyításához.</translation>
+        <translation type="vanished">Használd a %1 + egér görgőt vagy %2 gombokat a diagram nagyításához.</translation>
     </message>
     <message>
         <source>Click and Drag the cursor to move the chart.</source>
-        <translation>Klikkelj és húzd a kurzort a diagram mozgatásához.</translation>
+        <translation type="vanished">Klikkelj és húzd a kurzort a diagram mozgatásához.</translation>
     </message>
     <message>
         <source>Question number</source>
-        <translation>Kérdés száma</translation>
+        <translation type="vanished">Kérdés száma</translation>
     </message>
     <message>
         <source>File: %1 
  is not valid exam file!</source>
-        <translation>Fájl: %1 
+        <translation type="vanished">Fájl: %1 
  nem megfelelő vizsga fájl!</translation>
     </message>
     <message>
         <source>Open an exam to analyze</source>
-        <translation>Vizsga megnyitása kiértékelésre</translation>
+        <translation type="vanished">Vizsga megnyitása kiértékelésre</translation>
     </message>
     <message>
         <source>Recent exercise on level</source>
-        <translation>Legutóbbi gyakorlat ezen a szinten</translation>
+        <translation type="vanished">Legutóbbi gyakorlat ezen a szinten</translation>
     </message>
     <message>
         <source>recent opened exams:</source>
-        <translation>utoljára megnyitott vizsgák:</translation>
+        <translation type="vanished">utoljára megnyitott vizsgák:</translation>
     </message>
     <message>
         <source>Close analyzer window</source>
-        <translation>Kiértékelő ablak bezárása</translation>
+        <translation type="vanished">Kiértékelő ablak bezárása</translation>
     </message>
     <message>
         <source>include time of wrong answers to average</source>
-        <translation>a rossz válaszok idejét is vegye figyelembe az átlag számításhoz</translation>
+        <translation type="vanished">a rossz válaszok idejét is vegye figyelembe az átlag számításhoz</translation>
     </message>
     <message>
         <source>show wrong answers separately</source>
-        <translation>a rossz válaszokat mutassa külön</translation>
+        <translation type="vanished">a rossz válaszokat mutassa külön</translation>
     </message>
     <message>
         <source>Settings of a chart</source>
-        <translation>Diagram beállításai</translation>
+        <translation type="vanished">Diagram beállításai</translation>
     </message>
     <message>
         <source>Maximize</source>
-        <translation>Legnagyobbra állít</translation>
+        <translation type="vanished">Legnagyobbra állít</translation>
     </message>
     <message>
         <source>linear chart</source>
-        <translation>lineáris diagram</translation>
+        <translation type="vanished">lineáris diagram</translation>
     </message>
     <message>
         <source>bar chart</source>
-        <translation>oszlopdiagram</translation>
+        <translation type="vanished">oszlopdiagram</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="vanished">OK</translation>
     </message>
     <message>
         <source>Analysis of exam results</source>
-        <translation>Vizsga eredmények kiértékelése</translation>
+        <translation type="vanished">Vizsga eredmények kiértékelése</translation>
     </message>
     <message>
         <source>Analysis of exercise</source>
-        <translation>Gyakorlás kiértékelése</translation>
+        <translation type="vanished">Gyakorlás kiértékelése</translation>
     </message>
     <message>
         <source>Questions number</source>
@@ -4250,7 +4287,7 @@ nem Nootka fájl!</translation>
     <name>TsettingsDialogBase</name>
     <message>
         <source>Open online documentation</source>
-        <translation>Online dokumentáció megnyitása</translation>
+        <translation type="vanished">Online dokumentáció megnyitása</translation>
     </message>
 </context>
 <context>
@@ -4303,7 +4340,7 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="vanished">OK</translation>
     </message>
     <message>
         <source>No thanks, but check entire melody from now.</source>
@@ -4754,6 +4791,21 @@ nem Nootka fájl!</translation>
     </message>
 </context>
 <context>
+    <name>WizardBando</name>
+    <message>
+        <source>Notes for bandoneon are written on the grand staff - two staves joined with brace.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All notes on the upper staff with treble clef are played with right hand and the notes on the lower one with bass clef are played with the left hand.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Direction of bellows movement is marked with bowing symbols:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>WizardBass</name>
     <message>
         <source>Musical notation for bass guitar uses bass clef (clef F), but the notes sound one octave lower. It means bass guitar is transposing instrument and it transposes one octave down.</source>
@@ -4851,6 +4903,11 @@ nem Nootka fájl!</translation>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
         <translation type="vanished">Gábor Kertész&lt;br&gt;kergab@gmail.com</translation>
+    </message>
+    <message>
+        <source>translator</source>
+        <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: translator name, translator e-mail (optional) and translator site (optional)</comment>
+        <translation>Gábor Kertész&lt;br&gt;kergab@gmail.com</translation>
     </message>
 </context>
 <context>
