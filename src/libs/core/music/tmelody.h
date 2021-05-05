@@ -112,6 +112,11 @@ public:
        */
   void fromNoteStruct(QList<TnoteStruct>& ns);
 
+      /**
+       * Common routine to parse musicXML data in @p QXmlStreamReader.
+       */
+  bool procesXMLData(QXmlStreamReader& xml);
+
 private:
   QString              m_title;
   QString              m_composer;

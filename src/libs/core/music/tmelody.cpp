@@ -405,43 +405,13 @@ bool Tmelody::saveToMusicXml(const QString& xmlFileName, int transposition) {
 bool Tmelody::grabFromMusicXml(const QString& xmlFileName) {
   QFile file(xmlFileName);
   bool ok = true;
+
   if (file.open(QIODevice::ReadOnly)) {
     QXmlStreamReader xml(&file);
-  // DTD is ignored, only <score-partwise> key is required as main
-    if (xml.readNextStartElement()) {
-      if (xml.name() != QLatin1String("score-partwise")) {
-        qDebug() << "[Tmelody] File" << xmlFileName << "is not MusicXML format.";
-        ok = false;
-      }
-    }
-    while (xml.readNextStartElement()) {
-      if (xml.name() == QLatin1String("movement-title")) {
-          m_title = xml.readElementText();
-      } else if (xml.name() == QLatin1String("work")) {
-          while (xml.readNextStartElement()) {
-            if (xml.name() == QLatin1String("work-title"))
-              m_title = xml.readElementText();
-            else
-              xml.skipCurrentElement();
-          }
-      } else if (xml.name() == QLatin1String("identification")) {
-          while (xml.readNextStartElement()) {
-            if (xml.name() == QLatin1String("creator")) {
-                if (xml.attributes().value("type").toString() == QLatin1String("composer"))
-                  m_composer = xml.readElementText();
-                else
-                  xml.skipCurrentElement();
-            } else
-                xml.skipCurrentElement();
-          }
-      } else if (xml.name() == QLatin1String("part")) {
-          if (!fromXml(xml))
-            ok = false;
-      } else
-          xml.skipCurrentElement();
-    }
+    ok = procesXMLData(xml);
     file.close();
   }
+
   return ok;
 }
 
@@ -451,6 +421,50 @@ void Tmelody::fromNoteStruct(QList<TnoteStruct>& ns) {
     addNote(Tchunk(ns[i].pitch));
 }
 
+
+bool Tmelody::procesXMLData(QXmlStreamReader& xml) {
+  bool ok = true;
+  if (xml.error() != QXmlStreamReader::NoError) {
+    qDebug() << "[Tmelody] XML stream error:" << xml.error();
+    return false;
+  }
+
+  // DTD is ignored, only <score-partwise> key is required as main
+  if (xml.readNextStartElement()) {
+    if (xml.name() != QLatin1String("score-partwise")) {
+      qDebug() << "[Tmelody] File is not MusicXML format.";
+      return false;
+    }
+  }
+  while (xml.readNextStartElement()) {
+    if (xml.name() == QLatin1String("movement-title")) {
+        m_title = xml.readElementText();
+    } else if (xml.name() == QLatin1String("work")) {
+        while (xml.readNextStartElement()) {
+          if (xml.name() == QLatin1String("work-title"))
+            m_title = xml.readElementText();
+          else
+            xml.skipCurrentElement();
+        }
+    } else if (xml.name() == QLatin1String("identification")) {
+        while (xml.readNextStartElement()) {
+          if (xml.name() == QLatin1String("creator")) {
+            if (xml.attributes().value("type").toString() == QLatin1String("composer"))
+              m_composer = xml.readElementText();
+            else
+              xml.skipCurrentElement();
+          } else
+            xml.skipCurrentElement();
+        }
+    } else if (xml.name() == QLatin1String("part")) {
+        if (!fromXml(xml))
+          ok = false;
+    } else
+        xml.skipCurrentElement();
+  }
+
+  return ok;
+}
 
 
 
