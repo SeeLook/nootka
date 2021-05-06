@@ -83,7 +83,7 @@ TguitarBg {
     radius: NOO.factor() / 3
     source: finger
     visible: fingerPos.x > 0
-    scale: !pressed && active && fingerPos.x > 0 ? 1 : 0
+    scale: !pressed && active && fingerPos.x > 0 ? 1 : 0.3
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
   }
 
@@ -104,7 +104,7 @@ TguitarBg {
 
   MouseArea {
     property point startPos: Qt.point(0, 0)
-    enabled: (NOO.fingerPixels() * 4 <= height) || (guitarZoom && instrItem.scale > 1)
+    enabled: NOO.isAndroid() && (NOO.fingerPixels() * 4 <= height || (guitarZoom && instrItem.scale > 1))
     width: parent.width; height: parent.height
     onPressed: startPos = Qt.point(mouseX, mouseY)
     onReleased: {
