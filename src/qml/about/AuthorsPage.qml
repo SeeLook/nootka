@@ -118,19 +118,36 @@ Tflickable {
         LinkText {
           x: NOO.factor() * 1.5
           width: aboutCont.width  - NOO.factor() * 3
-          text: qsTranslate("TaboutNootka", "However this application could not exist without various open source projects.<br>Especially:") +
-                "<ul>" + createLink("Qt", "https://www.qt.io/developers/") + " by Qt Company" +
-                createLink("FFTW", "http://www.fftw.org") + " by M. Frigo & S. G. Johnson" +
-                createLink("ogg vorbis", "http://vorbis.com") + " by XIPH" +
-                createLink("RtAudio"/* + " & RtMidi"*/, "https://www.music.mcgill.ca/~gary/rtaudio/index.html") + " by G. P. Scavone" +
-                createLink("Tartini", "http://miracle.otago.ac.nz/tartini/index.html") + " by P. McLeod" +
-                createLink("SoundTouch " + SOUND.soundTouchVersion(), "http://www.surina.net/soundtouch/") + " by Olli Parviainen" +
-                createLink("LilyPond emmentaler font", "http://lilypond.org/introduction.html") +
-                createLink("Bravura SMuFL font", "https://www.smufl.org/fonts/") +
-                createLink("Country flags images", "https://github.com/joielechong/iso-country-flags-svg-collection") +
-                createLink("Weblate translation service", "https://weblate.org") +
-                "</ul>"
+          text: qsTranslate("TaboutNootka", "However this application could not exist without various open source projects.<br>Especially:")
           wrapMode: Text.WordWrap
+        }
+        ListView {
+          anchors.horizontalCenter: parent.horizontalCenter
+          width: aboutCont.width - NOO.factor() * 6; height: contentHeight
+          contentWidth: width
+          spacing: NOO.factor() / (NOO.isAndroid() ? 4 : 2)
+          model: [
+              createLink("Qt", "https://www.qt.io/developers/") + " by Qt Company",
+              createLink("FFTW", "http://www.fftw.org") + " by M. Frigo & S. G. Johnson",
+              createLink("ogg vorbis", "http://vorbis.com") + " by XIPH",
+              createLink("RtAudio"/* + " & RtMidi"*/, "https://www.music.mcgill.ca/~gary/rtaudio/index.html") + " by G. P. Scavone",
+              createLink("Tartini", "http://miracle.otago.ac.nz/tartini/index.html") + " by P. McLeod",
+              createLink("SoundTouch " + SOUND.soundTouchVersion(), "http://www.surina.net/soundtouch/") + " by Olli Parviainen",
+              createLink("LilyPond emmentaler font", "http://lilypond.org/introduction.html"),
+              createLink("Bravura SMuFL font", "https://www.smufl.org/fonts/"),
+              createLink("Country flags images", "https://github.com/joielechong/iso-country-flags-svg-collection"),
+              createLink("Weblate translation service", "https://weblate.org")
+          ]
+          delegate: Rectangle {
+            width: parent.width; height: childrenRect.height
+            color: NOO.alpha(index % 2 ? activPal.base : activPal.alternateBase, 100)
+            LinkText {
+              anchors.horizontalCenter: parent.horizontalCenter
+              width: parent.width - NOO.factor()
+              text: modelData
+              wrapMode: Text.WordWrap
+            }
+          }
         }
       }
     }
@@ -144,19 +161,36 @@ Tflickable {
         LinkText {
           x: NOO.factor() * 1.5
           width: aboutCont.width  - NOO.factor() * 3
-          text: "I would like to say <b>THANK YOU</b> for all people who helped with developing Nootka.<br>
-    Let's try to mention them in some random order:<br>
-    <br><b>José Luis Marín</b> for patient and intensive tests under Linux and great feedback.<br>
-    <b>Aaron Wolf</b> <a href=\"http://blog.wolftune.com/\">http://blog.wolftune.com</a> for many warm words about Nootka in the web and helping clues.<br>
-    <b>falkTX</b> from <a href=\"http://kxstudio.sourceforge.net/\">http://kxstudio.sourceforge.net</a> for building *.deb and testing and for many clues.<br>
-    <b>Users</b> of <a href=\"http://www.linuxmusicians.com/\">http://www.linuxmusicians.com</a> forum for testing and comments.<br>
-    <b>Olli Parviainen</b> <a href=\"http://www.surina.net/soundtouch/\">http://www.surina.net/soundtouch</a> for help with his SoundTouch library.<br>
-    <b>Sergei Ivanov</b> for testing Nootka intensively, bug hunting and many valuable notices.<br>
-    <b>Translators (Pavel, Olivier, Sergei, Jean-Marc, José Luis and Johann)</b> for many, maaaany clues and comments.<br>
-    <b>Project16 @ KVR</b> <a href=\"http://www.kvraudio.com/\">http://www.kvraudio.com</a> for the bass guitar samples<br>
-    <b>And all others that helped.</b><br>"
+          text: "I would like to say <b>THANK YOU</b> for all people who helped with developing Nootka.<br>Let's try to mention them in some random order:"
           textFormat: Text.StyledText
           wrapMode: Text.WordWrap
+        }
+        ListView {
+          anchors.horizontalCenter: parent.horizontalCenter
+          width: aboutCont.width - NOO.factor() * 4; height: contentHeight
+          spacing: NOO.factor() / (NOO.isAndroid() ? 4 : 2)
+          model: [
+            "<b>Renato Reinau</b> for animate boost of handling bandoneon by Nootka and substantial guidance in that matter.",
+            "<b>José Luis Marín</b> for patient and intensive tests under Linux and great feedback.",
+            "<b>Aaron Wolf</b> <a href=\"http://blog.wolftune.com/\">http://blog.wolftune.com</a> for many warm words about Nootka in the web and helping clues.",
+            "<b>falkTX</b> from <a href=\"http://kxstudio.sourceforge.net/\">http://kxstudio.sourceforge.net</a> for building *.deb and testing and for many clues.",
+            "<b>Users</b> of <a href=\"http://www.linuxmusicians.com/\">http://www.linuxmusicians.com</a> forum for testing and comments.",
+            "<b>Olli Parviainen</b> <a href=\"http://www.surina.net/soundtouch/\">http://www.surina.net/soundtouch</a> for help with his SoundTouch library.",
+            "<b>Sergei Ivanov</b> for testing Nootka intensively, bug hunting and many valuable notices.",
+            "<b>Translators (Pavel, Olivier, Sergei, Jean-Marc, José Luis and Johann)</b> for many, maaaany clues and comments.",
+            "<b>Project16 @ KVR</b> <a href=\"http://www.kvraudio.com/\">http://www.kvraudio.com</a> for the bass guitar samples.",
+            "<b>And all others that helped.</b>"
+          ]
+          delegate: Rectangle {
+            width: parent.width; height: childrenRect.height
+            color: NOO.alpha(index % 2 ? activPal.base : activPal.alternateBase, 100)
+            LinkText {
+              anchors.horizontalCenter: parent.horizontalCenter
+              width: parent.width - NOO.factor()
+              text: modelData
+              wrapMode: Text.WordWrap
+            }
+          }
         }
       }
     }
@@ -165,15 +199,15 @@ Tflickable {
 
   Timer {
     id: scrollTimer
-    interval: 20; repeat: true; running: GLOB.useAnimations && authorsPage.visible
+    interval: 35; repeat: true; running: GLOB.useAnimations && authorsPage.visible
     onTriggered: {
       if (authorsPage.visible && authorsPage.contentY < authorsPage.contentHeight - authorsPage.height)
-        authorsPage.contentY++
+        authorsPage.contentY += NOO.factor() / 12
     }
   }
 
   function createLink(desc, href) {
-    return "<li><a href=\"" + href + "\">" + desc + "</a></li>";
+    return "<a href=\"" + href + "\">" + desc + "</a>";
   }
 }
 
