@@ -20,10 +20,11 @@ AbstractButton {
   Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
 
   implicitWidth: contentItem.implicitWidth + NOO.factor()
+  implicitHeight: contentItem.implicitHeight
 
   contentItem: Item {
     implicitWidth: img.width + NOO.factor() / (NOO.isAndroid() ? 2 : 1) + txt.implicitWidth
-    implicitHeight: img.height + NOO.factor() / (NOO.isAndroid() ? 4 : 2)
+    implicitHeight: (img.height ? img.height : NOO.factor() * 2) + NOO.factor() / (NOO.isAndroid() ? 4 : 2)
     Image {
       id: img
       x: Math.max(NOO.factor() / 2, (root.width - parent.implicitWidth) / 2)
@@ -35,9 +36,10 @@ AbstractButton {
       id: txt
       x: img.x + img.width + NOO.factor() / 3
       width: Math.min(implicitWidth, root.width - img.width - NOO.factor())
+      height: img.height ? img.height : NOO.factor() * 2
       font: root.font
       horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
-      minimumPixelSize: 8; fontSizeMode: Text.HorizontalFit
+      minimumPixelSize: 8; fontSizeMode: Text.Fit
       anchors.verticalCenter: parent.verticalCenter
       color: enabled ? (checked ? activPal.highlightedText : activPal.text) : disdPal.text
       text: root.text
