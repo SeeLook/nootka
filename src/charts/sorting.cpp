@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2012-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2012-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -367,9 +367,10 @@ QList<TgroupedQAunit> sortByQAtype(TgroupedQAunit& answList, Tlevel* level, bool
             fDesc = TexTrans::questionsTxt() + QLatin1String(" ") + qaTypeText(g.first()->questionAs) + QLatin1String("<br>") +
                   TexTrans::answersTxt() + QLatin1String(" ") + qaTypeText(g.first()->answerAs);
         }
-        g.resume( // short: symbols of types, full: texts (bold)
-        TnooFont::span(qaSymbol(g.first()->questionAs), 22) + TnooFont::span(qaSymbol(g.first()->answerAs), 22),
-                QLatin1String("<b>") + fDesc + QLatin1String("</b>"));
+        int symbolHight = qRound(qApp->font().pointSizeF() * 4.0);
+        g.resume(TnooFont::span(qaSymbol(g.first()->questionAs), symbolHight) // short: symbols of types
+                    + QLatin1String(" ") + TnooFont::span(qaSymbol(g.first()->answerAs), symbolHight),
+                  QLatin1String("<b>") + fDesc + QLatin1String("</b>")); // full: texts (bold)
         result << g;
       }
     }
