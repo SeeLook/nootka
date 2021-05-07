@@ -317,7 +317,7 @@ void Tglobals::setMarkedFrets(const QString& frets) {
     }
     bool ok;
     int frNr = fr[i].toInt(&ok);
-    if (ok && frNr > 0 && static_cast<uint>(frNr) <= GfretsNumber)
+    if (ok && frNr > 0)
       GmarkedFrets << fr[i] + exMark;
   }
 }

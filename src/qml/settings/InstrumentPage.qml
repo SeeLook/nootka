@@ -55,6 +55,8 @@ Flickable {
                     setTuning(NOO.tuning(Ttune.Standard_EADGBE))
                   fretsNrSpin.value = ins.fretNumber
                   tuningCombo.currentIndex = 0
+                  if (fretDots.text === "")
+                    fretDots.text = "5,7,9,12!,15,17"
               } else if (ins.none) {
                   setTuning(NOO.tuning(score.scoreObj.lowestNote(), score.scoreObj.highestNote(), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote()))
               }
@@ -290,7 +292,7 @@ Flickable {
     GLOB.showOtherPos = false
     instrSel.instrument = initInstr === 0 ? 7 : 0
     instrSel.instrument = initInstr // switch instrument twice to load its defaults
-    fretDots.text = "5,7,9,12!,15,19"
+    fretDots.text = "5,7,9,12!,15,17"
   }
 
   function help() { NOO.openHelpLink("instrument-settings") }
