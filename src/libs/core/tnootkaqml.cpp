@@ -618,6 +618,7 @@ void TnootkaQML::noteStarted(const Tnote& n) {
           m_startedNoteId = selectedNoteId();
       }
   }
+  m_ignoreScore = false; // Reset the switch in case it is not consumed
 }
 
 
@@ -642,6 +643,7 @@ void TnootkaQML::noteFinished(const Tnote& n) {
           m_scoreObject->setNote(m_scoreObject->selectedItem(), note);
       }
   }
+  m_ignoreScore = false; // Reset the switch in case it is not consumed
 // TODO Do treat tied notes as a single one?
 }
 
@@ -727,6 +729,7 @@ void TnootkaQML::instrumentChangesNoteSlot() {
         seg->setTechnical(instrData.data());
       }
   }
+  m_ignoreScore = false; // Reset the switch in case it is not consumed
 }
 
 
@@ -747,6 +750,7 @@ void TnootkaQML::scoreChangedNoteSlot() {
     m_ignoreScore = false;
     return;
   }
+
   auto scoreNote = m_scoreObject->selectedNote();
   if (m_instrument)
     m_instrument->setNote(scoreNote, getTechicalFromScore());
@@ -786,6 +790,7 @@ void TnootkaQML::selectPlayingNote(int id) {
   m_scoreObject->setSelectedItem(m_scoreObject->note(id));
   if (m_instrument)
     m_instrument->setNote(m_scoreObject->selectedNote(), getTechicalFromScore());
+  m_ignoreScore = false; // Reset the switch in case it is not consumed
 }
 
 
