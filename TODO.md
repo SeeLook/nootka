@@ -9,10 +9,7 @@
 
 ### Bugs to fix:
   - Actions after displaying certificate are messy
-  - Exams: For non guitars single note question "give name of:" has nothing more
-  - On smaller mobile screens texts can be out of button
   - level validation routines are optimized for guitars mostly, troubles are there
-  - TexamExacutor checkAnswerAct hint -> remove %1
 
 ### To test:
   - melodies with ties and multiple rests (either playing or writing)
@@ -27,13 +24,16 @@
   - clean code:
     - when right mouse button is not used: TexamExacutor and TexecutorSupply
 
-### For next stable Nootka version 2.2 and up
+### For next stable Nootka version 2.0.2 or above
   - music XML import dialog, to select voice or staff if there are more, and so on
-  - add ukulele support
+  - ukulele support
   - read/save compressed music XML (*.mxl)
+
+### ...and much more in the post versions
   - MIDI input & revert MIDI out of course
   - migrate on preferred 48000 sample rate (ogg files and audio methods). DO NOT forget to resize output samples length
   - storing custom tuning with user name. Import/export tuning in XML files
+  - download particular instrument samples file on demand - to save installers size
   - add rests option for random melodies in exams
   - playing with metronome under Android - possible migration to Oboe library
   - implement repeating a melody that was heard
@@ -57,10 +57,9 @@
 ============================================================================
 
 ### small glitches:
- - during adding note to score one by one it doesn't play occasionally
- - when exercise becomes exam tips are blended
  - sometimes setting a note doesn't scale tie - probably due to note width is not refreshed
  - space key for tapping tempo doesn't work well
+ - TexamExacutor checkAnswerAct hint -> remove %1
 
 ### Translation context changes:
  - TscoreKeySignature to KeySignature
@@ -69,7 +68,7 @@
 
 ## MISSING IN ACTION (comparing to previous major version) - do we really need them?
  - left hand guitar (do we really need this?)
- - question mark and note name over instrument during exam/exercises (remember about actual name style)
+ - question mark during exam/exercises
  - no intonation gradients
  - There is no right mouse button to check/ask question - do we need that???
 
