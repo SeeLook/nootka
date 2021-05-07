@@ -96,7 +96,7 @@ void Tsound::init() {
       if (GLOB->A->INenabled)
         createSniffer();
 
-      connect(NOO, &TnootkaQML::playNote, [=](const Tnote& n){ play(n); });
+      connect(NOO, &TnootkaQML::playNote, this, &Tsound::play);
       setDefaultAmbitus();
       if (sniffer)
         sniffer->startListening();
