@@ -82,7 +82,7 @@ TguitarBg {
     color: "black"
     radius: NOO.factor() / 3
     source: finger
-    visible: fingerPos.x > 0
+    visible: fingerPos.x > 0 && active
     scale: !pressed && active && fingerPos.x > 0 ? 1 : 0.3
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
   }
