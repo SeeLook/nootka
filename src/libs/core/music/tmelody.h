@@ -106,11 +106,17 @@ public:
 
   bool saveToMusicXml(const QString& xmlFileName, int transposition = 0);
   bool grabFromMusicXml(const QString& xmlFileName);
+  bool grabFromMXL(const QString& xmlFileName);
 
       /**
        * Converts given list to melody
        */
   void fromNoteStruct(QList<TnoteStruct>& ns);
+
+      /**
+       * Common routine to parse musicXML data in @p QXmlStreamReader.
+       */
+  bool procesXMLData(QXmlStreamReader& xml);
 
 private:
   QString              m_title;
