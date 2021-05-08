@@ -130,10 +130,10 @@ void getExampleLevels(QList<Tlevel>& llist) {
     llist << l;
   }
   //----------------------------------------------------------------------------
-  if (GLOB->loNote().chromatic() <= Tnote(5, 0).chromatic()) {
+  if (!GLOB->instrument().isSax() && GLOB->loNote().chromatic() <= Tnote(5, 0).chromatic()) {
     // This level makes sense only when lowest note instrument is lowest or equal than g small note
     l = Tlevel();
-    bool onInstr = !GLOB->instrument().isSax() && GLOB->instrument().type() != Tinstrument::NoInstrument;
+    bool onInstr = GLOB->instrument().type() != Tinstrument::NoInstrument;
     l.name = QGuiApplication::translate("Tlevel", "Grand staff");
     l.desc = QGuiApplication::translate("Tlevel", "Guess notes from grand staff in different keys");
     l.clef = Tclef(Tclef::PianoStaffClefs);
@@ -257,7 +257,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l.melodyLen = 10;
   llist << l;
   //----------------------------------------------------------------------------
-  if (GLOB->instrument().type() == Tinstrument::ClassicalGuitar || GLOB->instrument().type() == Tinstrument::ElectricGuitar) {
+  if (GLOB->instrument().clasicGuitar() || GLOB->instrument().electricGuitar()) {
     l = Tlevel();
     l.name = QGuiApplication::translate("Tlevel", "Melody on trebles");
     l.desc = QGuiApplication::translate("Tlevel", "Play short melody on treble strings with notes just on first three frets. Sharps keys only.");
@@ -297,6 +297,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l = Tlevel();
   l.name = QGuiApplication::translate("Tlevel", "Play scores");
   l.desc = QGuiApplication::translate("Tlevel", "Take your instrument and just play...<br>No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.");
+  // TODO: this description doesn't match all instruments only guitar
   l.questionAs.setOnInstr(false); // no guitar
   l.questionAs.setAsName(false); // no names
   l.questionAs.setAsSound(false); // don't play
@@ -357,47 +358,49 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l.melodyLen = 5;
   llist << l;
   //----------------------------------------------------------------------------
-  l = Tlevel();
-  l.name = QGuiApplication::translate("Tlevel", "Play grand staff");
-  l.desc = QGuiApplication::translate("Tlevel", "Play random melodies from two staves of piano notation. Keys up to four accidentals.");
-  l.questionAs.setOnInstr(false); // no guitar
-  l.questionAs.setAsName(false); // no names
-  l.questionAs.setAsSound(false); // don't play
-  l.answersAs[0] = TQAtype(false, false, false, true); // score only
-  l.answersAs[1] = TQAtype(false, false, false,false);
-  l.answersAs[2] = TQAtype(false, false, false,false);
-  l.answersAs[3] = TQAtype(false, false, false,false);
-  l.withSharps = true;
-  l.withFlats = true;
-  l.withDblAcc = false;
-  l.useKeySign = true;
-  l.manualKey = false;
-  l.onlyCurrKey = true;
-  l.endsOnTonic = true;
-  l.loKey = -4;
-  l.hiKey = 4;
-  l.clef = Tclef(Tclef::PianoStaffClefs);
-//  l.instrument = GLOB->instrument;
-  l.forceAccids = false;
-  l.requireOctave = true;
-  l.requireStyle = false;
-  l.showStrNr = isGuitar;
-  l.loNote = GLOB->loNote();
-  if (isGuitar) {
-      if (l.hiFret >= 12) { // adjust highest note to 12th fret
-        l.hiNote = Tnote(GLOB->hiString().chromatic() + 12);
-        l.hiFret = 12;
-      }
-  } else { // find note 4 octaves up from lowest one or keep highest one of the instrument
-      Tnote up4octaves(l.loNote.note(), l.loNote.octave() + 4, l.loNote.alter());
-      if (up4octaves.chromatic() < l.hiNote.chromatic())
-        l.hiNote = up4octaves;
-  }
+  if (!GLOB->instrument().isSax()) { // makes no sense for saxophones
+    l = Tlevel();
+    l.name = QGuiApplication::translate("Tlevel", "Play grand staff");
+    l.desc = QGuiApplication::translate("Tlevel", "Play random melodies from two staves of piano notation. Keys up to four accidentals.");
+    l.questionAs.setOnInstr(false); // no guitar
+    l.questionAs.setAsName(false); // no names
+    l.questionAs.setAsSound(false); // don't play
+    l.answersAs[0] = TQAtype(false, false, false, true); // score only
+    l.answersAs[1] = TQAtype(false, false, false,false);
+    l.answersAs[2] = TQAtype(false, false, false,false);
+    l.answersAs[3] = TQAtype(false, false, false,false);
+    l.withSharps = true;
+    l.withFlats = true;
+    l.withDblAcc = false;
+    l.useKeySign = true;
+    l.manualKey = false;
+    l.onlyCurrKey = true;
+    l.endsOnTonic = true;
+    l.loKey = -4;
+    l.hiKey = 4;
+    l.clef = Tclef(Tclef::PianoStaffClefs);
+  //  l.instrument = GLOB->instrument;
+    l.forceAccids = false;
+    l.requireOctave = true;
+    l.requireStyle = false;
+    l.showStrNr = isGuitar;
+    l.loNote = GLOB->loNote();
+    if (isGuitar) {
+        if (l.hiFret >= 12) { // adjust highest note to 12th fret
+          l.hiNote = Tnote(GLOB->hiString().chromatic() + 12);
+          l.hiFret = 12;
+        }
+    } else { // find note 4 octaves up from lowest one or keep highest one of the instrument
+        Tnote up4octaves(l.loNote.note(), l.loNote.octave() + 4, l.loNote.alter());
+        if (up4octaves.chromatic() < l.hiNote.chromatic())
+          l.hiNote = up4octaves;
+    }
   //     l.hiFret by constructor
   //     l.intonation = GLOB->A->intonation; // user preferences (in constructor)
-  l.onlyLowPos = false;
-  l.melodyLen = 15;
-  llist << l;
+    l.onlyLowPos = false;
+    l.melodyLen = 15;
+    llist << l;
+  }
 //----------------------------------------------------------------------------
   l = Tlevel();
   l.name = QGuiApplication::translate("Tlevel", "Pentatonic");
