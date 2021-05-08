@@ -89,7 +89,7 @@ if (!m_level->canBeInstr() && !m_level->answerIsSound() ) { // no guitar and no 
   // invoke QML routines
   bool isWrong = m_level->desc.contains(QStringLiteral("<font color=\"red\">"));
   // but do not display description of not suitable level
-  emit saveNewLevel(m_level->name, isWrong ? QString() : m_level->desc);
+  emit saveNewLevel(m_level->name, isWrong ? QString() : m_level->desc.replace(QLatin1String("<br>"), QLatin1String("\n")));
 }
 
 
