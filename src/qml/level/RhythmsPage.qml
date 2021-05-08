@@ -22,9 +22,10 @@ Tflickable {
     Text {
       text: qsTr("Select any rhythm and time signature to be used in this level, otherwise melodies will not have rhythmic values, just bare note-heads.")
       anchors.horizontalCenter: parent.horizontalCenter
-      width: parent.width * 0.96
-      font { pixelSize: NOO.factor() * 0.8; bold: true }
-      textFormat: Text.RichText; horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap
+      width: parent.width - NOO.factor() * 2
+      font { pixelSize: NOO.factor(); bold: true }
+      textFormat: Text.StyledText; horizontalAlignment: Text.AlignHCenter
+      wrapMode: Text.WordWrap
       color: enabled ? ((rtmSel.basicMask || rtmSel.dotsMask) && metersSel.meters ? activPal.text : "red") : disdPal.text
     }
 
