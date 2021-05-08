@@ -439,9 +439,9 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
     } else
         skipCurrentXmlKey(xml);
   }
-  if (name.size() > 29) {
-    name = name.left(29);
-    qDebug() << "[Tlevel] Name of a level was reduced to 29 characters:" << name;
+  if (name.size() > 35) {
+    name = name.left(35);
+    qDebug() << "[Tlevel] Name of a level was reduced to 35 characters:" << name;
   }
   if (canBeInstr() && fixFretRange() == e_levelFixed) {
     er = e_levelFixed;

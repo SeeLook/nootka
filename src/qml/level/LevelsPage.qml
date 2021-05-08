@@ -112,8 +112,8 @@ Column {
         }
         TtextField {
           id: lName
-          maximumLength: 30
-          width: NOO.factor() * 25
+          maximumLength: 36
+          width: NOO.factor() * 27
         }
       }
       Text {
@@ -135,8 +135,8 @@ Column {
           selectionColor: activPal.highlight
           wrapMode: TextEdit.WordWrap
           onLengthChanged: {
-            if (length > 120)
-              text = text.substr(-120)
+            if (length > 255)
+              text = text.substr(-255)
           }
         }
       }
