@@ -10,9 +10,9 @@
 TARGET = nootka
 TEMPLATE = subdirs
 
-SUBDIRS = src/libs/core\
-          src/libs/sound\
-          src\
+SUBDIRS = src/libs/core \
+          src/libs/sound \
+          src \
 
 
 CONFIG += ordered
@@ -30,5 +30,7 @@ pianoLevels.path= /assets/levels/piano
 pianoLevels.files += $$files(levels/piano/*.nel)
 bandoLevels.path= /assets/levels/bandoneon
 bandoLevels.files += $$files(levels/bandoneon/*.nel)
+saxLevels.path= /assets/levels/sax
+saxLevels.files += $$files(levels/sax/*.nel)
 
-INSTALLS += levels guitarLevels bassLevels pianoLevels bandoLevels
+INSTALLS += levels guitarLevels bassLevels pianoLevels bandoLevels saxLevels

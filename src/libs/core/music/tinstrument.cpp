@@ -111,6 +111,10 @@ QString Tinstrument::levelsDir() const {
       return QStringLiteral("piano");
     case Bandoneon:
       return QStringLiteral("bandoneon");
+    case AltSax:
+    case TenorSax:
+      return QStringLiteral("sax");
+
     default: return QString();
   }
 }
