@@ -150,13 +150,6 @@ GotIt {
             }
           }
         }
-        Text {
-          width: parent.width * 0.96; wrapMode: Text.WordWrap
-          anchors.horizontalCenter: parent.horizontalCenter
-          color: "red"; horizontalAlignment: Text.AlignHCenter
-          text: "<br><br>Pitch detection is very important feature of this app but it may be confusing for users.<br>"
-          + "Help to make this text clear as mach as possible.<br>"
-        }
       }
   }
 }
