@@ -124,6 +124,7 @@ void TlevelPreviewItem::setLevel(Tlevel* tl) {
         m_requireOctave = tl->requireOctave ? tr("proper octave is required") : tr("octave does no matter");
       else
         m_requireOctave.clear();
+
       if (tl->canBeMelody()) {
           if (tl->howGetMelody == Tlevel::e_randFromRange)
             m_melodyFrom = qTR("MelodyPage", "from notes in range");
@@ -131,8 +132,21 @@ void TlevelPreviewItem::setLevel(Tlevel* tl) {
             m_melodyFrom = qTR("MelodyPage", "from selected notes");
           else
             m_melodyFrom = qTR("MelodyPage", "from set of melodies");
-      } else
+          bool hasRtms = false;
+          if (tl->howGetMelody == Tlevel::e_melodyFromSet) {
+              for (int m = 0; m < tl->melodySet.count(); ++m) {
+                if (tl->melodySet[m].clef() != Tclef::NoClef) {
+                  hasRtms = true;
+                  break;
+                }
+              }
+          } else if (tl->meters && (tl->basicRhythms || tl->dotsRhythms))
+              hasRtms = true;
+          m_useRhythms = hasRtms ? qTR("LevelCreator", "Rhythms") : qTR("WizardMode", "score without rhythms");
+      } else {
           m_melodyFrom.clear();
+          m_useRhythms.clear();
+      }
   } else {
       m_header = getLevelSumary(tr("no level selected"));
       m_instrGlyph = QStringLiteral("?");

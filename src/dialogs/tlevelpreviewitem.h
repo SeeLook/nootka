@@ -47,6 +47,7 @@ class TlevelPreviewItem : public QQuickItem
   Q_PROPERTY(QString answers READ answers NOTIFY levelChanged)
   Q_PROPERTY(QString requireOctave READ requireOctave NOTIFY levelChanged)
   Q_PROPERTY(QString melodyFrom READ melodyFrom NOTIFY levelChanged)
+  Q_PROPERTY(QString useRhythms READ useRhythms NOTIFY levelChanged)
 
 public:
   TlevelPreviewItem(QQuickItem* parent = nullptr);
@@ -70,6 +71,7 @@ public:
   QString answers() const { return m_answers; }
   QString requireOctave() const { return m_requireOctave; }
   QString melodyFrom() const { return m_melodyFrom; }
+  QString useRhythms() const { return m_useRhythms; }
 
 signals:
   void levelChanged();
@@ -90,6 +92,7 @@ private:
   QString                   m_answers;
   QString                   m_requireOctave;
   QString                   m_melodyFrom;
+  QString                   m_useRhythms;
 };
 
 #endif // TLEVELPREVIEWITEM_H

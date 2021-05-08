@@ -158,6 +158,16 @@ TlevelPreviewItem {
             textItem2 { width: width; horizontalAlignment: Text.AlignHCenter }
             showBottomLine: true
           }
+
+          PreviewItem {
+            id: rhythmsIt
+            aboveItem: octaveIt
+            text: " "
+            width: answersIt.width
+            text2: useRhythms
+            textItem2 { width: width; horizontalAlignment: Text.AlignHCenter }
+            //showBottomLine: true
+          }
         } // Column
 
         Rectangle { width: NOO.factor() / 6; height: levRow.height; color: activPal.text }
