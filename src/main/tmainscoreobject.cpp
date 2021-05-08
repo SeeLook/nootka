@@ -189,6 +189,11 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
 
   if (!GLOB->isSingleNote() && GLOB->gotIt(QStringLiteral("noteSelected"), true))
     connect(m_scoreObj, &TscoreObject::selectedItemChanged, this, &TmainScoreObject::gotItNoteSelectedSlot);
+
+  if (!m_playAct->shortcut() && !GLOB->isSingleNote()) { // HACK: Create play action shortcut only when enabled, otherwise it locks next question shortcut
+    QQmlComponent actionsComp(NOO->qmlEngine(), this);
+    m_playAct->createQmlShortcut(&actionsComp, "\" \"; enabled: !GLOB.singleNoteMode && !GLOB.isExam");
+  }
 }
 
 
