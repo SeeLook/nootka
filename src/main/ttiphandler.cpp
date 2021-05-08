@@ -145,12 +145,12 @@ int TtipHandler::bigFont() {
 
 
 QString TtipHandler::startTipText() {
-  return TexamHelp::toGetQuestTxt() + QLatin1String(":<br>") +
-    TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"nextQuest\">") +
-                                  NOO->pixToHtml(QLatin1String("nextQuest"), m_iconSize) + QLatin1String("</a>"))
-//    #if !defined (Q_OS_ANDROID)
-//      + QLatin1String(",<br>") + TexamHelp::pressSpaceKey() + QLatin1String(" ") + TexamHelp::orRightButtTxt()
-//    #endif
+  return TexamHelp::toGetQuestTxt() + QLatin1String(":<br><br> - ")
+        + TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"nextQuest\">") + NOO->pixToHtml(QLatin1String("nextQuest"), m_iconSize)
+        + QLatin1String("</a>"))
+#if !defined (Q_OS_ANDROID)
+     + QLatin1String("<br><br> - ") + TexamHelp::pressSpaceKey()  + QLatin1String("<br>") // + TexamHelp::orRightButtTxt()
+#endif
     ;
 }
 
@@ -168,21 +168,16 @@ void TtipHandler::showStartTip() {
     m_startAct->shake();
     EXECUTOR->stopExamAct()->shake();
   });
-//  QString tipText = QString("<table><tr><td style=\"font-size: %1px; vertical-align: middle;\">").arg(bigFont())
-//      + QGuiApplication::translate("Texam", "Let's start")
-//      + QLatin1String("  <a href=\"nextQuest\">")
-//      + NOO->pixToHtml(QLatin1String("nextQuest"), m_iconSize) + QLatin1String("</a>")
-//      + QLatin1String("</td></tr></table>");
 #else
-  QString tipText = QString("<p style=\"font-size: %1px;\">").arg(qRound((qreal)bigFont() * 0.75))
-      + startTipText() + QLatin1String(".<br>")
+  QString tipText = QString("<p style=\"font-size: %1px; text-align: center;\">").arg(qRound(static_cast<qreal>(bigFont()) * 0.75))
+      + startTipText() + QLatin1String("<br>")
       + TexamHelp::toStopExamTxt(QLatin1String("<a href=\"stopExam\"> ")
                                  + NOO->pixToHtml(QLatin1String("stopExam"), m_iconSize)
                                  + QLatin1String("</a>"))
       + QLatin1String("</p>");
   QTimer::singleShot(200, this, [=]{
-    emit wantStartTip(tipText, qApp->palette().highlight().color(),
-                      QPointF(EXECUTOR->width() / 2.0, EXECUTOR->height() / 2.0));
+      emit wantStartTip(tipText, qApp->palette().highlight().color(),
+                        QPointF(EXECUTOR->width() / 2.0, EXECUTOR->height() / 2.0));
   });
 #endif
 }
