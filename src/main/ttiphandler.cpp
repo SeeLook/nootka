@@ -145,11 +145,11 @@ int TtipHandler::bigFont() {
 
 
 QString TtipHandler::startTipText() {
-  return TexamHelp::toGetQuestTxt() + QLatin1String(":<br><br> - ")
+  return TexamHelp::toGetQuestTxt() + QLatin1String(":<br><br>- ")
         + TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"nextQuest\">") + NOO->pixToHtml(QLatin1String("nextQuest"), m_iconSize)
         + QLatin1String("</a>"))
 #if !defined (Q_OS_ANDROID)
-     + QLatin1String("<br><br> - ") + TexamHelp::pressSpaceKey()  + QLatin1String("<br>") // + TexamHelp::orRightButtTxt()
+     + QLatin1String("<br>- ") + TexamHelp::pressSpaceKey()  + QLatin1String("<br>") // + TexamHelp::orRightButtTxt()
 #endif
     ;
 }
@@ -301,9 +301,9 @@ void TtipHandler::showWhatNextTip(bool isCorrect, bool toCorrection) {
     deleteQuestionTip();
   deleteWhatNextTip();
   m_whatNextText = QLatin1String("<p style=\"text-align: center; font-size: large;\">") + startTipText();
-  const QString br = QStringLiteral("<br>");
-  const QString space = QStringLiteral(" ");
-  const QString a = QStringLiteral("</a>");
+  static const QString br = QStringLiteral("<br>");
+  static const QString space = QStringLiteral(" ");
+  static const QString a = QStringLiteral("</a>");
   if (!isCorrect) {
     QString t = tr("To correct an answer");
     QString href = QStringLiteral("<a href=\"prevQuest\">");
@@ -311,15 +311,15 @@ void TtipHandler::showWhatNextTip(bool isCorrect, bool toCorrection) {
       t = tr("To try this melody again");
       href = QStringLiteral("<a href=\"newAttempt\">");
     }
-    m_whatNextText += br + t + space +
+    m_whatNextText += t + space +
         TexamHelp::clickSomeButtonTxt(href + NOO->pixToHtml(QLatin1String("prevQuest"), m_iconSize) + a)
-        + space + TexamHelp::orPressBackSpace();
+        + br + TexamHelp::orPressBackSpace();
   }
   if (toCorrection) {
     QString t = tr("To see corrected answer");
     if (m_exam->curQ()->melody())
         t = tr("To see some hints");
-    m_whatNextText += br + t + space +
+    m_whatNextText += t + space +
       TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"correct\">") + NOO->pixToHtml(QLatin1String("correct"), m_iconSize) + a)
       + br + TexamHelp::orPressEnterKey();
     if (EXECUTOR->correctAct())
