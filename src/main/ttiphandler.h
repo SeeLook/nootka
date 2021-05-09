@@ -154,10 +154,9 @@ public:
        */
   int bigFont();
 
+#if !defined (Q_OS_ANDROID)
   QString startTipText();
-
-//      /** Paints rectangle around given type of widget to mark where is answer. */
-//  const QRect& getRect(TQAtype::Etype kindOf);
+#endif
 
  void detectedNoteTip(const Tnote& note);
  void shouldBeNoteTip(const Tnote& note);

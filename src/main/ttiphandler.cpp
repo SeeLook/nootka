@@ -144,15 +144,13 @@ int TtipHandler::bigFont() {
 }
 
 
+#if !defined (Q_OS_ANDROID)
 QString TtipHandler::startTipText() {
   return TexamHelp::toGetQuestTxt() + QLatin1String(":<br><br>- ")
         + TexamHelp::clickSomeButtonTxt(QLatin1String("<a href=\"nextQuest\">") + NOO->pixToHtml(QLatin1String("nextQuest"), m_iconSize)
-        + QLatin1String("</a>"))
-#if !defined (Q_OS_ANDROID)
-     + QLatin1String("<br>- ") + TexamHelp::pressSpaceKey()  + QLatin1String("<br>") // + TexamHelp::orRightButtTxt()
-#endif
-    ;
+        + QLatin1String("</a>")) + QLatin1String("<br>- ") + TexamHelp::pressSpaceKey()  + QLatin1String("<br>"); // + TexamHelp::orRightButtTxt()
 }
+#endif
 
 
 void TtipHandler::showStartTip() {
