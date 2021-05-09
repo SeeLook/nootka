@@ -312,6 +312,10 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l.manualKey = false;
   l.loKey = -4;
   l.hiKey = 4;
+  if (GLOB->instrument().isGuitar())
+    l.loKey = -1; // not that much flat keys for guitars
+  else if (GLOB->instrument().isSax())
+    l.hiKey = 1;  // not that much sharp keys for saxophones
   l.forceAccids = false;
   l.requireOctave = true;
   l.requireStyle = false;
@@ -419,6 +423,10 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l.manualKey = false;
   l.loKey = -1; // F-major
   l.hiKey = 4; // E-major
+  if (GLOB->instrument().isSax()) { // prefer flat keys for saxophones
+    l.loKey = -4; // As-major
+    l.hiKey = 1; // G-major
+  }
   l.forceAccids = false;
   l.requireOctave = true;
   l.requireStyle = false;
@@ -434,6 +442,12 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l.endsOnTonic = false;
   l.onlyCurrKey = true;
   l.howGetMelody = Tlevel::e_randFromList;
+  // Rhythms
+  l.meters = Tmeter::Meter_3_8 | Tmeter::Meter_6_8 | Tmeter::Meter_9_8 | Tmeter::Meter_12_8;
+  l.basicRhythms = 768; // |4  8| + |8 8 8|
+  l.dotsRhythms = 6; // | 4. | + | 2. |
+  l.barNumber = 4;
+  l.variableBarNr = false;
 //   l.keyOfrandList; // C-major by default
   quint8 pentaArr[5] = {1, 2, 3, 5, 6};
   qint8 firstOctave = l.loNote.octave() + (l.loNote.note() == 1 ? 0 : 1); // increase octave if instr. scale doesn't start from note C
