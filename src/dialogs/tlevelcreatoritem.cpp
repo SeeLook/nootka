@@ -596,17 +596,17 @@ bool TlevelCreatorItem::hasRhythms() const { return m_level->useRhythms(); }
 
 void TlevelCreatorItem::openLevel(const QString& levelFile) {
   if (selector()) {
-    selector()->loadFromFile(levelFile);
-    *m_level = *m_selector->currentLevel();
+      selector()->loadFromFile(levelFile);
+      *m_level = *m_selector->currentLevel();
+  } else { // delay is necessary because selector is created when level creator component is completed
+      QTimer::singleShot(200, [=]{
+        if (selector()) {
+            selector()->loadFromFile(levelFile);
+            *m_level = *m_selector->currentLevel();
+        } else
+            qDebug() << "[TlevelCreatorItem] device is too slow to open file as command line argument.";
+      });
   }
-  else // delay is necessary because selector is created when level creator component is completed
-    QTimer::singleShot(200, [=]{
-      if (selector()) {
-          selector()->loadFromFile(levelFile);
-          *m_level = *m_selector->currentLevel();
-      } else
-          qDebug() << "[TlevelCreatorItem] device is too slow to open file as command line argument.";
-    });
 }
 
 
