@@ -359,6 +359,12 @@ public:
        */
   Q_INVOKABLE bool wasFirstRun() const;
 
+      /**
+       * Emits delayed signal @p newerVersion() when any Nootka file
+       * created with newer version was detected.
+       */
+  void warnAboutNewerVersion(const QString& fileName);
+
         /**
          * Let's have a convention:
          * globals settings for @class TnoteName will started from 'N' letter
@@ -481,6 +487,7 @@ signals:
   void midAfreqChanged();
   void fakeSignal();
   void wantOpenFile(const QString& fileName); /**< Emitted when Nootka starts with an argument which is exam or level file  */
+  void newerVersion(const QString& fileName); /**< When exam or level file was created with newer version than the current one */
 
 private:
   static Tglobals           *m_instance;

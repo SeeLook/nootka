@@ -43,7 +43,7 @@
 #endif
 
 
-#include <QtQml/qqmlengine.h>
+#include <QtQml/qqmlapplicationengine.h>
 #include <QtCore/qtimer.h>
 #include <QtCore/qfileinfo.h>
 #include <QtCore/qdatetime.h>
@@ -465,6 +465,8 @@ void TnootkaQML::setQmlEngine(QQmlEngine* e) {
   if (GLOB->isFirstRun) // Wizard - actions are not needed yet
     return;
 
+  connect(GLOB, &Tglobals::newerVersion, this, &TnootkaQML::warnNewerVersionSlot);
+
   if (m_scoreAct) {
     delete m_scoreAct;
     delete m_settingsAct;
@@ -589,6 +591,31 @@ QString TnootkaQML::note7translated() const {
 QString TnootkaQML::keyNameTranslated() const {
   return QApplication::translate("Notation", "letters", "DO NOT TRANSLATE IT DIRECTLY. Put here 'letters' or 'solfege' This is country preferred style of naming key signatures. 'letters' means C-major/a-minor names ('major' & 'minor' also are translated by you), 'solfege' means Do-major/La-minor names");
 }
+
+
+/**
+ * Call method of @p MainWindow.qml to obtain creted popup reference
+ * then set name of this unsupported file
+ */
+void TnootkaQML::warnNewerVersionSlot(const QString& fileName) {
+  QTimer::singleShot(400, this, [=]{
+    if (m_warnNewerPopup) { // when popup already exists just append file name to previous name(s)
+        m_warnNewerPopup->setProperty("fName", m_warnNewerPopup->property("fName").toString() + QLatin1String("<br>") + fileName);
+    } else {
+        auto nootWin = qobject_cast<QQmlApplicationEngine*>(m_qmlEngine)->rootObjects().first();
+        if (nootWin && QString(nootWin->metaObject()->className()).contains("MainWindow_QMLTYPE")) {
+          QVariant popVar;
+          QMetaObject::invokeMethod(nootWin, "newerVerPop", Q_RETURN_ARG(QVariant, popVar));
+          m_warnNewerPopup = qvariant_cast<QObject*>(popVar);
+          if (m_warnNewerPopup) {
+            connect(m_warnNewerPopup, &QQuickItem::destroyed, this, [=]{ m_warnNewerPopup = nullptr; });
+            m_warnNewerPopup->setProperty("fName", fileName);
+          }
+        }
+    }
+  });
+}
+
 
 //#################################################################################################
 //###################     CONNECTIONS  NODE            ############################################

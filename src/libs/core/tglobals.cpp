@@ -134,6 +134,11 @@ bool Tglobals::wasFirstRun() const {
 }
 
 
+void Tglobals::warnAboutNewerVersion(const QString& fileName) {
+  emit newerVersion(fileName); // TnootkaQML will handle that
+}
+
+
 void Tglobals::setUseAnimations(bool use) {
   if (m_useAnimations != use) {
     m_useAnimations = use;

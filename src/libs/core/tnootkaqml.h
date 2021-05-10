@@ -294,6 +294,8 @@ protected:
 
   int getTechicalFromScore();
 
+  void warnNewerVersionSlot(const QString& fileName);
+
 private:
   static TnootkaQML             *m_instance;
 
@@ -311,6 +313,7 @@ private:
   QColor                         m_messageColor;
   QTimer                        *m_messageTimer = nullptr;
   int                            m_messagePos;
+  QObject                      *m_warnNewerPopup = nullptr;
 };
 
 #endif // TNOOTKAQML_H

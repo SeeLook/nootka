@@ -152,6 +152,11 @@ ApplicationWindow {
       GLOB.geometry = Qt.rect(x ,y, width, height)
   }
 
+  function newerVerPop() {
+    var p = analyzeWindow ? analyzeWindow : (dialogLoader && dialogLoader.page ? dialogLoader.contentItem : nootkaWindow)
+    return Qt.createComponent("qrc:/level/NewerVersionPopup.qml").createObject(p)
+  }
+
   function audioAnalyze() {
     Qt.createComponent("qrc:/nootini/AudioAnalyze.qml").createObject(nootkaWindow)
     nootkaWindow.title = "Nootini - pitch detection analyzer"

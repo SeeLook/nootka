@@ -254,26 +254,31 @@ Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
         in >> lv;
         bool wasLevelValid = true;
         bool wasLevelFile = true;
-        if (Tlevel::levelVersionNr(lv) == 1 || Tlevel::levelVersionNr(lv) == 2) // *.nel with binary data
-          wasLevelValid = getLevelFromStream(in, level, lv);
-        else if (Tlevel::levelVersionNr(lv) > 2) { // *.nel in XML
-          Tlevel::EerrorType er;
-          QXmlStreamReader xml(in.device());
-          if (!xml.readNextStartElement()) // open first XML node
-            er = Tlevel::e_noLevelInXml;
-          else
-            er = level.loadFromXml(xml);
-          switch (er) {
-            case Tlevel::e_levelFixed:
+        auto levelVer = Tlevel::levelVersionNr(lv);
+        if (levelVer == 1 || levelVer == 2) { // *.nel with binary data
+            wasLevelValid = getLevelFromStream(in, level, lv);
+        } else if (levelVer > 2 && levelVer <= 4) { // *.nel in XML
+            Tlevel::EerrorType er;
+            QXmlStreamReader xml(in.device());
+            if (!xml.readNextStartElement()) // open first XML node
+              er = Tlevel::e_noLevelInXml;
+            else
+              er = level.loadFromXml(xml);
+            switch (er) {
+              case Tlevel::e_levelFixed:
                 wasLevelValid = false; break;
-            case Tlevel::e_noLevelInXml:
-            case Tlevel::e_otherError:
-              wasLevelFile = false; break;
-            default:
-              break;
-          }
-        } else
-            wasLevelFile = false;
+              case Tlevel::e_noLevelInXml:
+              case Tlevel::e_otherError:
+                wasLevelFile = false; break;
+              default:
+                break;
+            }
+        } else {
+            qDebug() << "[TlevelSelector] Level was created with newer Nootka version!";
+            GLOB->warnAboutNewerVersion(file.fileName());
+            level.name.clear();
+            return level;
+        }
         file.close();
          if (!wasLevelFile) {
               QMessageBox::critical(nullptr, QLatin1String(" "), tr("File: %1 \n is not Nootka level file!").arg(file.fileName()));

@@ -226,8 +226,11 @@ Texam::EerrorType Texam::loadFromFile(const QString& fileName) {
       QDataStream in(&file);
       in >> ev;
       if (couldBeExam(ev)) {
-        if (!isExamVersion(ev))
+          if (!isExamVersion(ev)) {
+            qDebug() << "[Texam] Exam file" << fileName << "created with newer Nootka version";
+            GLOB->warnAboutNewerVersion(fileName);
             return e_newerVersion;
+          }
       }  else
           return e_file_not_valid;
 

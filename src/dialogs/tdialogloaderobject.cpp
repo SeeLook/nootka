@@ -148,9 +148,13 @@ void TdialogLoaderObject::openFile(const QString& fileName) {
     if (Texam::couldBeExam(hdr)) {
         if (Texam::isExamVersion(hdr))
           emit continueExam(fullPath);
+        else
+          GLOB->warnAboutNewerVersion(fileName);
     } else if (Tlevel::couldBeLevel(hdr)) {
         if (Tlevel::isLevelVersion(hdr))
           emit openLevel(fullPath);
+        else
+          GLOB->warnAboutNewerVersion(fileName);
     } else
         qDebug() << "[TdialogLoaderObject] file" << fileName << "is not supported by Nootka";
   }
