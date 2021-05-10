@@ -141,11 +141,9 @@ void TexamExecutor::init(TexamExecutor::EexecOrigin whatToDo, const QVariant& ar
             QTimer::singleShot(50, [=]{ emit examSummary(); }); // Allow 'Start Exam dialog' to be closed
           return;
       } else {
-          if (err == Texam::e_file_not_valid) {
-            message(tr("File: %1 \n is not valid exam file!").arg(QString("<b>%1</b>")
-                      .arg(arg.toString())).replace(QLatin1String("\n"), QLatin1String("<br>")), Qt::red, AfterClose);
-            return;
-          }
+          message(tr("File: %1 \n is not valid exam file!").arg(QString("<b>%1</b>")
+                    .arg(arg.toString())).replace(QLatin1String("\n"), QLatin1String("<br>")), Qt::red, AfterClose);
+          return;
       }
   }
   continueInit();
