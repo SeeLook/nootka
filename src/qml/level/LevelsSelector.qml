@@ -122,4 +122,8 @@ TlevelsSelector {
     if (removeLevel(view.currentIndex, fromDisk))
       view.currentIndex = -1
   }
+
+  onWarnMessage: {
+    Qt.createComponent("qrc:/Tmessage.qml").createObject(lSelector.parent, { "message": message, "accent": accent })
+  }
 }

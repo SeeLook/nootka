@@ -30,8 +30,6 @@
 
 #include <QtCore/qsettings.h>
 #include <QtCore/qdiriterator.h>
-#include <QtWidgets/qmessagebox.h>
-#include <QtWidgets/qapplication.h>
 
 
 /*static*/
@@ -131,7 +129,7 @@ void TlevelSelector::addLevel(const Tlevel& lev, const QString& levelFile, bool 
     if (pos > -1) {
       m_levels.removeAt(pos);
       m_levelsModel.removeAt(pos);
-      qDebug() << "[TlevelSelector] Level file" << levelFile << "was already on the list. Prevoius entry removed!";
+      qDebug() << "[TlevelSelector] Level file" << levelFile << "was already on the list. Previous entry removed!";
     }
   }
   SlevelContener l;
@@ -281,11 +279,19 @@ Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
         }
         file.close();
          if (!wasLevelFile) {
-              QMessageBox::critical(nullptr, QLatin1String(" "), tr("File: %1 \n is not Nootka level file!").arg(file.fileName()));
+              auto m = QLatin1String("<br><font size=\"4\"><b>")
+                  + tr("File: %1 \n is not Nootka level file!").arg(file.fileName()).replace(QLatin1String("\n"), QLatin1String("<br>"))
+                  + QLatin1String("</b></font>");
+              emit warnMessage(m, Qt::red);
               level.name.clear();
               return level;
-         } else if (!wasLevelValid)
-             QMessageBox::warning(nullptr, QLatin1String(" "), tr("Level file\n %1 \n was corrupted and repaired!\n Check please, if its parameters are as expected.").arg(file.fileName()));
+         } else if (!wasLevelValid) {
+              auto m = QLatin1String("<br><font size=\"4\"><b>")
+              + tr("Level file\n %1 \n was corrupted and repaired!\n Check please, if its parameters are as expected.").arg(file.fileName())
+                  .replace(QLatin1String("\n"), QLatin1String("<br>")) + QLatin1String("</font>");
+              emit warnMessage(m, Qt::yellow);
+         }
+
          if (wasLevelFile) {
            if (level.clef.type() == Tclef::Bass_F_8down) {
              qDebug() << "[TlevelSelector] OBSOLETE bass dropped clef detected. Converting level to ordinary bass clef.";

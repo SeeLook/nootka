@@ -139,6 +139,7 @@ signals:
   void levelsModelChanged();
   void levelChanged();
   void selectLast();
+  void warnMessage(const QString& message, const QColor& accent);
 
 protected:
   void checkLast();
