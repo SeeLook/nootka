@@ -33,7 +33,6 @@
 #include <QtCore/qtimer.h>
 
 #include <QtCore/qdebug.h>
-#include "checktime.h"
 
 
 #define WIDTH_CHANGE_DELAY (50) // when score width changes, give 50 ms before staves will be resized
@@ -240,8 +239,6 @@ void solveList(const Tnote& n, int dur, QList<Tnote>& outList) {
 
 
 void TscoreObject::addNote(const Tnote& newNote, bool fromQML) {
-// CHECKTIME (
-
   if (m_singleNote) {
     qDebug() << "[TscoreObject] FIXME! Trying to add note in single mode";
     return;
@@ -305,7 +302,6 @@ void TscoreObject::addNote(const Tnote& newNote, bool fromQML) {
   if (fromQML) {
     emit noteWasAdded();
   }
-// ) // CHECKTIME
 }
 
 
@@ -530,7 +526,6 @@ void TscoreObject::saveMusicXml(const QString& musicFile, const QString& title,
 
 
 void TscoreObject::setMelody(Tmelody* melody, bool ignoreTechnical, int notesAmount, int transposition) {
-CHECKTIME (
   clearScorePrivate();
   m_notes.clear();
   setMeter(static_cast<int>(melody->meter()->meter()));
@@ -561,7 +556,6 @@ CHECKTIME (
   }
   adjustScoreWidth();
   emitLastNote();
-)
 }
 
 
