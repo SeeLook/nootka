@@ -154,6 +154,7 @@ void TbeamObject::prepareBeam() {
     np->item()->setStemHeight(qAbs(np->item()->notePosY() - stemTop));
     np->approve();
   }
+  update();
 }
 
 
