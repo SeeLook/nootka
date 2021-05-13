@@ -63,18 +63,11 @@ TtunerDialogItem {
     }
   }
 
-//   Text {
-//     color: Qt.tint(activPal.window, NOO.alpha(activPal.highlight, 50))
-//     font { family: "Nootka"; pixelSize: parent.height }
-//     anchors.centerIn: parent
-//     text: GLOB.instrument.glyph
-//   }
-
   Column {
     y: spacing
     width: (tunerDialog.width - exTile.width) - NOO.factor()
     x: exTile.width + NOO.factor() / 2
-    spacing: (parent.height - freqTile.height - (volRow.visible ? volRow.height : 0) - pitchCol.height - inputCol.height) / 6
+    spacing: (parent.height - freqTile.height - pitchCol.height - inputCol.height) / 6
 
     MiddleA440 {
       id: freqTile
@@ -83,28 +76,6 @@ TtunerDialogItem {
       width: (tunerDialog.width - exTile.width) - NOO.factor() * (NOO.isAndroid() ? 1 : 10)
       value: GLOB.midAfreq
       onValueChanged: workFreq = value
-    }
-
-    Row {
-      id: volRow
-      anchors.horizontalCenter: parent.horizontalCenter
-      visible: NOO.isAndroid()
-      spacing: NOO.factor()
-      Text {
-        anchors.verticalCenter: parent.verticalCenter
-        text: qsTr("output volume") + ":"
-        color: activPal.text; font.pixelSize: NOO.factor()
-      }
-      Tslider {
-        id: volSlider
-        width: (tunerDialog.width - exTile.width) * 0.5
-        to: NOO.isAndroid() ? SOUND.maxVolRange() : 100
-        value: NOO.isAndroid() ? SOUND.currentVol() : 50
-        onValueChanged: {
-          if (NOO.isAndroid())
-            SOUND.setVol(value)
-        }
-      }
     }
 
     Column {
@@ -126,7 +97,7 @@ TtunerDialogItem {
             opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
             scale: 1.7 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
             Item {
-              property int strNr: whichString(lowestNote() + modelData)
+              property int strNr: GLOB.instrument.isGuitar ? whichString(lowestNote() + modelData) : 0
               anchors.horizontalCenter: parent.horizontalCenter
               Text {
                 visible: parent.strNr > 0
@@ -142,7 +113,7 @@ TtunerDialogItem {
               }
               Text {
                 id: strNameTxt
-                visible: pitchTumb.currentIndex !== index
+                visible: !GLOB.instrument.isGuitar || pitchTumb.currentIndex !== index
                 text: styledName(lowestNote() + modelData)
                 color: activPal.text
                 y: height * -0.2; x: -width / 2
