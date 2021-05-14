@@ -10,6 +10,7 @@
 ### Bugs to fix:
   - Actions after displaying certificate are messy
   - level validation routines are optimized for guitars mostly, troubles are there
+  - *play scores* level has description about guitar. Divide that text when all translations will be ready and adjust for instruments apparently
 
 ### To test:
   - melodies with ties and multiple rests (either playing or writing)
@@ -19,24 +20,30 @@
   - levels with melodies to be played and written in one
 
 ### For incoming stable release version 2.0
+  - update links to online documentation (update doc in first place)
   - clean correction code, key signature anim maybe
-  - add info that reading grand staff from musicxml created out of Nootka is not supported
-  - clean code:
-    - when right mouse button is not used: TexamExacutor and TexecutorSupply
 
 ### For next stable Nootka version 2.0.2 or above
   - music XML import dialog, to select voice or staff if there are more, and so on
   - ukulele support
+  - increase versions of *.nel *.noo files to avoid problems with previous Nootka versions
   - read/save compressed music XML (*.mxl)
+  - clean code if objections will not occur:
+    - when right mouse button is not used: TexamExacutor and TexecutorSupply
+  - score helpers also utilized for musicxml import:
+    - transpose by semitones (intervals when implemented)  
+    - fold (simplify) ties & rests
+  - bring back option for displaying extra (remaining) accidentals
 
 ### ...and much more in the post versions
   - MIDI input & revert MIDI out of course
   - migrate on preferred 48000 sample rate (ogg files and audio methods). DO NOT forget to resize output samples length
-  - storing custom tuning with user name. Import/export tuning in XML files
+  - storing custom tuning named by user. Import/export tuning in XML files
   - download particular instrument samples file on demand - to save installers size
   - add rests option for random melodies in exams
+  - solfege as a kind of an instrument with banch of ear training exercises
   - playing with metronome under Android - possible migration to Oboe library
-  - implement repeating a melody that was heard
+  - implement repeating a melody that was listened to
   - adding set of rhythm patterns for melodies generated from random notes (similar to melody list)
   - time stamps in question/answer units - to better track exam progress
   - adding actually edited score melody to current level
