@@ -14,66 +14,76 @@ TtunerDialogItem {
   id: tunerDialog
   width: parent.width; height: parent.height
 
-  Tile {
-    id: exTile
+  property bool widthEnough: dialLoader.width > dialLoader.height
+
+  Drawer {
+    id: exDrawer
     width: exCol.width + NOO.factor() * 2
-    height: parent.height - NOO.factor()
-    anchors { horizontalCenter: undefined; verticalCenter: parent.verticalCenter }
-    description: qsTranslate("SoundPage", "Frequency of detected note. You can use this for tuning.")
+    height: parent.height
+    visible: widthEnough; modal: false
+    closePolicy: widthEnough ? Popup.NoAutoClose : Popup.CloseOnEscape | Popup.CloseOnPressOutside
+    background: TipRect { color: activPal.base; radius: 0 }
     Column {
       id: exCol
       anchors.horizontalCenter: parent.horizontalCenter
-      spacing: NOO.factor() * (NOO.isAndroid ? 1 : 1.5)
+      spacing: NOO.factor() * 1.5
+      Item { width: NOO.factor(); height: NOO.factor() }
       Repeater {
         model: tuningModel
         Row {
-          x: NOO.factor() / 2
           property var splitText: modelData.split(";")
           Text {
             visible: GLOB.instrument.isGuitar
             anchors.verticalCenter: parent.verticalCenter
-            font { family: "Nootka";  pixelSize: NOO.factor() * (NOO.isAndroid() ? 1.8 : 2.2) }
+            font { family: "Nootka";  pixelSize: NOO.factor() * 2.3 }
             color: activPal.text; textFormat: Text.Normal
             text: index + 1
           }
           Item {
-            width: childrenRect.width; height: NOO.factor() * (NOO.isAndroid() ? 1.3 : 1.5)
+            width: childrenRect.width; height: NOO.factor() * 1.5
             anchors.verticalCenter: parent.verticalCenter
             Text {
-              y: -height * 0.33
-              font { family: "Scorek";  pixelSize: NOO.factor() * (NOO.isAndroid() ? 1.6 : 2) }
+              y: -height * 0.34
+              font { family: "Scorek";  pixelSize: NOO.factor() * 2 }
               color: activPal.text; textFormat: Text.StyledText
               text: splitText[0]
             }
           }
           Text {
             anchors.verticalCenter: parent.verticalCenter
-            font { family: "Nootka"; pixelSize: NOO.factor() * (NOO.isAndroid() ? 1 : 1.2) }
+            font { family: "Nootka"; pixelSize: NOO.factor() * 1.2 }
             color: activPal.text; textFormat: Text.Normal
             text: "="
           }
           Text {
             anchors.verticalCenter: parent.verticalCenter
-            font { pixelSize: NOO.factor() * (NOO.isAndroid() ? 1.1 : 1.4) }
+            font { pixelSize: NOO.factor() * 1.4 }
             color: activPal.text; textFormat: Text.Normal
             text: splitText[1]
           }
         }
+      }
+
+      Text {
+        width: parent.width
+        color: activPal.text
+        text: qsTranslate("SoundPage", "Frequency of detected note. You can use this for tuning.")
+        font.pixelSize: NOO.factor() * 0.8
+        wrapMode: Text.WordWrap
       }
     }
   }
 
   Column {
     y: spacing
-    width: (tunerDialog.width - exTile.width) - NOO.factor()
-    x: exTile.width + NOO.factor() / 2
-    spacing: (parent.height - freqTile.height - pitchCol.height - inputCol.height) / 6
+    width: tunerDialog.width - (exDrawer.visible ? exDrawer.width : 0) - NOO.factor()
+    x: exDrawer.position * exDrawer.width + NOO.factor() / 2
+    spacing: (parent.height - freqTile.height - pitchCol.height) / 3
 
     MiddleA440 {
       id: freqTile
-      showDesc: !NOO.isAndroid()
       anchors.horizontalCenter: parent.horizontalCenter
-      width: (tunerDialog.width - exTile.width) - NOO.factor() * (NOO.isAndroid() ? 1 : 10)
+      width: parent.width - NOO.factor()
       value: GLOB.midAfreq
       onValueChanged: workFreq = value
     }
@@ -144,7 +154,7 @@ TtunerDialogItem {
       IntonationBar {
         id: intoBar
         anchors.horizontalCenter: parent.horizontalCenter
-        width: parent.width * (NOO.isAndroid() ? 0.98 : 0.89); height: NOO.factor() * 3
+        width: parent.width - NOO.factor(); height: NOO.factor() * 3
         deviation: tunerDialog.deviation
         pitchText: noteName
       }
@@ -169,29 +179,15 @@ TtunerDialogItem {
         }
       }
     }
+  }
 
-    Column {
-      id: inputCol
-      anchors.horizontalCenter: parent.horizontalCenter
-      visible: NOO.isAndroid()
-      spacing: NOO.factor() / 2
-      VolumeBar {
-        id: volBar
-        anchors.horizontalCenter: parent.horizontalCenter
-        width: (tunerDialog.width - exTile.width) * 0.9
-        height: NOO.factor() * 2
-        Timer {
-          repeat: true; interval: 75; running: inputCol.visible && SOUND.listening
-          onTriggered: volBar.volume = SOUND.inputVol()
-        }
-      }
-      Text {
-        id: minText
-        anchors.horizontalCenter: parent.horizontalCenter
-        text: NOO.TR("SoundPage", "Minimum volume of a sound to be pitch-detected")
-        color: activPal.text; font.pixelSize: NOO.factor()
-      }
-    }
+  TcuteButton {
+    x: NOO.factor() / 2; y: NOO.factor() / 2
+    height: NOO.factor() * 3
+    visible: !exDrawer.visible
+    font { pixelSize: NOO.factor() * 2; bold: true }
+    text: "⋮"
+    onClicked: exDrawer.open()
   }
 
   Component.onCompleted: {
