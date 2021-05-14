@@ -139,7 +139,7 @@ TmobileMenu {
               action: tempoAct
               Text {
                 property var beatModel: [ "\ue1d5", "\ue1d7", "\ue1d5 \ue1e7", "\ue1d3" ]
-                x: parent.width - width - NOO.factor(); y: parent.height * -0.55
+                x: parent.width - width - NOO.factor() / 2; y: parent.height * -0.55
                 font { family: "Scorek"; pixelSize: parent.height * 0.6 }
                 text: beatModel[SOUND.beatUnit] + "=" + SOUND.tempo
               }
@@ -159,7 +159,14 @@ TmobileMenu {
                 }
               }
             }
-            MenuButton { action: tunerAct }
+            MenuButton {
+              action: tunerAct
+              Text {
+                x: parent.width - width - NOO.factor() / 4; y: (parent.height - height) / 2
+                font { pixelSize: parent.height * 0.55; bold: true }
+                text: "A = " + GLOB.midAfreq
+              }
+            }
             MenuButton { onClicked: nootkaWindow.close(); action: Taction { icon: "close"; text: NOO.TR("QShortcut", "Close") } }
           }
         }
