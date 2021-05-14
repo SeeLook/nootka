@@ -86,6 +86,7 @@ TmobileMenu {
     id: mainDrawer
     property NootkaLabel label: null
     width: NOO.factor() * 20; height: nootkaWindow.height
+
     onVisibleChanged: {
       if (visible) {
           if (!drawerLoad.active)
@@ -109,6 +110,7 @@ TmobileMenu {
           contentHeight: drawerColumn.height
           Column {
             id: drawerColumn
+            property var drawer: mainDrawer
             width: parent.width
             spacing: fingerPixels() / 8
             NootkaLabel {

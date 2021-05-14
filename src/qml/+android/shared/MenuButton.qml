@@ -74,8 +74,8 @@ Rectangle {
 
   function buttonClicked() {
     menuButton.clicked()
-    if (mainDrawer)
-      mainDrawer.close()
+    if (parent.drawer) // if parent is drawer column
+      mainDrawer.close() // this is valid
     if (action)
       action.trigger()
   }
