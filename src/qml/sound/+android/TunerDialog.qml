@@ -100,7 +100,7 @@ TtunerDialogItem {
       }
       Tslider {
         id: volSlider
-        width: tunCol.width - outVolText.width - NOO.factor() * 8
+        width: tunCol.width - outVolText.width - NOO.factor() * 10
         anchors.verticalCenter: parent.verticalCenter
         to: SOUND.maxVolRange()
         value: SOUND.currentVol()
@@ -260,6 +260,8 @@ TtunerDialogItem {
       onValueChanged: workFreq = value
     }
   }
+
+  onWantClose: dialLoader.close()
 
   Component.onCompleted: dialLoader.standardButtons = 0
 

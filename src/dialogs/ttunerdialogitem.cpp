@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -25,6 +25,7 @@
 
 #include <QtCore/qtimer.h>
 #include <QtCore/qdebug.h>
+
 #if defined (Q_OS_ANDROID)
   #include <QtAndroidExtras/qandroidfunctions.h>
   #include <QtAndroidExtras/qandroidjnienvironment.h>
@@ -40,6 +41,10 @@ TtunerDialogItem::TtunerDialogItem(QQuickItem* parent) :
   QTimer::singleShot(350, [=]{ delayedInit(); });
   SOUND->setTunerMode(true);
   connect(SOUND, &Tsound::noteStartedEntire, this, &TtunerDialogItem::noteStartedSlot);
+
+#if defined (Q_OS_ANDROID)
+  qApp->installEventFilter(this);
+#endif
 }
 
 
@@ -136,6 +141,19 @@ int TtunerDialogItem::whichString(int chroma) const {
   }
   return 0;
 }
+
+
+#if defined (Q_OS_ANDROID)
+bool TtunerDialogItem::eventFilter(QObject* watched, QEvent* event) {
+  if (event->type() == QEvent::KeyPress) {
+    auto ke = static_cast<QKeyEvent*>(event);
+    if (ke->key() == Qt::Key_Back) {
+      QTimer::singleShot(100, this, [=]{ emit wantClose(); });
+    }
+  }
+  return QObject::eventFilter(watched, event);
+}
+#endif
 
 //#################################################################################################
 //###################              PRIVATE             ############################################

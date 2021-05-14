@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -73,12 +73,19 @@ public:
        */
   Q_INVOKABLE int whichString(int chroma) const;
 
+#if defined (Q_OS_ANDROID)
+  bool eventFilter(QObject* watched, QEvent* event) override;
+#endif
+
 signals:
   void deviationChanged();
   void frequencyChanged();
   void noteNameChanged();
   void tuningModelChanged();
   void workFreqChanged();
+  #if defined (Q_OS_ANDROID)
+  void wantClose();
+#endif
 
 private:
   void delayedInit();
