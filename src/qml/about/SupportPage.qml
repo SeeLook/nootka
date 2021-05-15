@@ -49,56 +49,51 @@ Tflickable {
     ListModel {
       id: suppModel
       //           desktop | Android
-      ListElement { // D 0 | A 0
-        accent: "#ff5500"
-        header: "Test this version intensively"
-        message: "Simply play with Nootka a lot to check all possible angles.<br><a href=\"https://sourceforge.net/p/nootka/bugs/milestone/Issues%20with%20beta/\">Create Ticket (call a bug)</a> when something doesn't work<br>or doesn't look good enough."
-      }
-      //ListElement qsTr("Donate Nootka campaign") : onCompleted | D 1
-      ListElement { // D 2 | A 1
+      //ListElement qsTr("Donate Nootka campaign") : onCompleted | D 0
+      ListElement { // D 1 | A 0
         accent: "#930000"
         header: "Record audio samples"
-        message: "Nootka uses natural sounds,<br>so audio samples of bandoneon and saxophones are needed.<br>Home made samples should be sufficient.<br><a href=\"https://www.opencode.net/seelook/nootka/blob/master/CONTRIBUTING.md#record\">Take a look here</a> or just <a href=\"mailto:seelook.gmail.com\">write message</a> for details."
+        message: "Nootka uses natural sounds,<br>so audio samples of bandoneon and saxophones are needed.<br>Also new ones of electric and bass guitar will be needed soon.<br>Home made samples should be sufficient.<br><a href=\"https://www.opencode.net/seelook/nootka/blob/master/CONTRIBUTING.md#record\">Take a look here</a> or just <a href=\"mailto:seelook.gmail.com\">write message</a> for details."
       }
-      ListElement { // D 3 | A 2
+      ListElement { // D 2 | A 1
         accent: "#0000C0"
         header: "Translate Nootka"
         message: "It does not require any programming skills.<br>Just read <a href=\"https://www.opencode.net/seelook/nootka/blob/master/lang/how-to-translate.md\">the instructions</a>,<br>translate and send your work."
       }
-      ListElement { // D 4 | A 3
+      ListElement { // D 3 | A 2
         accent: "#888888"
         header: "Mac needs feedback"
         message: "Mac Os version is a new thing.<br>Let us know does Nootka work there or not."
       }
-      //ListElement { NOO.isAndroid() ? "Rate this app" : "Vote on Nootka" // D 5 | A 4
-      ListElement { // D 6 | A 5
+      //ListElement { NOO.isAndroid() ? "Rate this app" : "Vote on Nootka" // D 4 | A 3
+      ListElement { // D 5 | A 4
         accent: "teal"
         header: "Create a tutorial"
         message: "Take some use case and make video of it or write it down with a few screenshots.<br>Send it somewhere (YouTube, some blog) or here, to Nootka.<br>It may help others a lot."
       }
-      ListElement { // D 7 | A 6
+      ListElement { // D 6 | A 5
         accent: "#fff"
         header: "$> Hacking Nootka code"
         message: "<font color=\"#fff\">If You know QML or C++ You could give a hand.<br>
                 <a href=\"https://www.opencode.net/seelook/nootka/blob/master/CONTRIBUTING.md#record\">Visit this link for further instructions.</a></font>"
       }
-      ListElement { // D 8 | A 7
+      ListElement { // D 7 | A 6
         accent: "#FF0000"
         header: "Report an issue"
         message: "If you find any issue or a bug than request it through:<br><a href=\"https://sourceforge.net/p/nootka/bugs/\">bug tracker</a>"
       }
-      //ListElement "Express your opinion" D 9 | A 8
+      //ListElement "Express your opinion" D 8 | A 7
 
       Component.onCompleted: {
         // HACK: ListElement can handle only static data, but not any function like qsTr or so.
         // So insert/append such a data with script here
         if (!NOO.isAndroid()) {
-          insert(1, {
+          insert(0, {
             "accent": "#42DA06", "header": qsTr("Donate Nootka campaign"),
             "message": "<a href=\"https://nootka.sourceforge.io/index.php?C=donate\">" + qsTr("Through PayPal or a card") + "</a><br><a href=\"mailto:seelook.gmail.com\">" + qsTr("or send email for an account number") + "</a>"
           })
         }
-        insert(NOO.isAndroid() ? 3 : 4, {
+        insert(NOO.isAndroid() ? 2 : 3, {
           "accent": "#C000C0", "header": NOO.isAndroid() ? "Rate this app" : "Vote on Nootka",
           "message": NOO.isAndroid() ?
           "Go to <a href=\"https://play.google.com/store/apps/details?id=net.sf.nootka\">Google Play</a>,<br>rate it nicely and put a comment in your native language." :
