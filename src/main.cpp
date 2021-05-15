@@ -321,9 +321,12 @@ int main(int argc, char *argv[])
     if (firstLoop && !wasFirstRun && !e->rootObjects().isEmpty()) {
       // show dialog with changes when version was changed
       if (!TdialogLoaderObject::checkVersion(e->rootObjects().first())) {
-        // or check updates if no version changed
-        if (gl->config->value(QLatin1String("Updates/enableUpdates"), true).toBool())
-          TdialogLoaderObject::updateCheckInBackground();
+        // or check to dispay support dialog
+        if (!TdialogLoaderObject::checkForSupport(e->rootObjects().first())) {
+          // or check for updates if any of above
+          if (gl->config->value(QLatin1String("Updates/enableUpdates"), true).toBool())
+            TdialogLoaderObject::updateCheckInBackground();
+        }
       }
     }
 

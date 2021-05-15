@@ -81,6 +81,12 @@ public:
        */
   static bool checkVersion(QObject* nootWin);
 
+      /**
+       * Checks days passed from last check for displaying support popup dialog.
+       * Returns @p TRUE when popup was displayed.
+       */
+  static bool checkForSupport(QObject* nootWin);
+
 signals:
   void continueExam(const QString& examFile);
   void openLevel(const QString& levelFile);

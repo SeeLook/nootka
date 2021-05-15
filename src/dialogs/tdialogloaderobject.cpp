@@ -56,7 +56,7 @@
 #include <QtCore/qdebug.h>
 
 
-bool TdialogLoaderObject::m_firstTime = true;
+bool          TdialogLoaderObject::m_firstTime = true;
 
 
 TdialogLoaderObject::TdialogLoaderObject(QObject* parent) :
@@ -317,5 +317,18 @@ bool TdialogLoaderObject::checkVersion(QObject* nootWin) {
       return true;
   }
 
+  return false;
+}
+
+
+bool TdialogLoaderObject::checkForSupport(QObject* nootWin) {
+  if (nootWin && QString(nootWin->metaObject()->className()).contains("MainWindow_QMLTYPE")) {
+    int supportDaysPass = GLOB->config->value("General/supportDate", QDate(2012, 12, 31)).toDate().daysTo(QDate::currentDate());
+    if (supportDaysPass > 7) { // display support dialog every seven days
+      QTimer::singleShot(1500, [=]{ QMetaObject::invokeMethod(nootWin, "askForSupport"); });
+      GLOB->config->setValue("General/supportDate", QDate::currentDate());
+      return true;
+    }
+  }
   return false;
 }
