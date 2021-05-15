@@ -107,6 +107,7 @@
     <file alias="about/ChangesPage.qml">qml/about/ChangesPage.qml</file>
     <file alias="about/QtPage.qml">qml/about/QtPage.qml</file>
     <file alias="about/TextBackground.qml">qml/about/TextBackground.qml</file>
+    <file alias="about/SupportPopup.qml">qml/about/SupportPopup.qml</file>
 
     <file alias="TsettingsDialog.qml">qml/settings/TsettingsDialog.qml</file>
     <file alias="settings/GlobalPage.qml">qml/settings/GlobalPage.qml</file>

@@ -152,6 +152,10 @@ ApplicationWindow {
       GLOB.geometry = Qt.rect(x ,y, width, height)
   }
 
+  function askForSupport() {
+    Qt.createComponent("qrc:/about/SupportPopup.qml").createObject(contentItem.parent)
+  }
+
   function newerVerPop() {
     var p = analyzeWindow ? analyzeWindow : (dialogLoader && dialogLoader.page ? dialogLoader.contentItem : nootkaWindow)
     return Qt.createComponent("qrc:/level/NewerVersionPopup.qml").createObject(p)
