@@ -70,7 +70,8 @@ Tflickable {
           wrapMode: Text.WordWrap
         }
       }
-      description: qsTr("This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.<br>In spite of that, you are welcome to try it!")
+      property string betaText: qsTr("This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.<br>In spite of that, you are welcome to try it!")
+//       description: betaText // uncomment if beta
       descriptionColor: "red"
     }
   }
