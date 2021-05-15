@@ -1,4 +1,4 @@
-1.9.1 devel
+1.9.1 rc2
      - chart tip can be clicked to show complete melody of question
      - level creator can display preview of entire melody
      - updated Hungarian translation
@@ -7,6 +7,9 @@
      - fixed and improved saxophone support
      - fixed displaying note names over instrument during exercises
      - fixed crash after 'note selection help' was displayed
+     - a lot of small fixes
+    ANDROID
+     - better fit to different screen sizes and layouts
 
 1.9.0 rc1
      - when window is not wide enough, instrument can be scrolled
