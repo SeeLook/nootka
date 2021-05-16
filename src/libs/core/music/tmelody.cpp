@@ -418,7 +418,6 @@ bool Tmelody::saveToMXL(const QString& xmlFileName, int transposition) {
 
   // xmlFileName is expected to have the full path and the extension (.mxl)
   libzippp::ZipArchive zf(xmlFileName.toStdString());
-  //libzippp::ZipArchive zf(QFileInfo(xmlFileName).path().toStdString() + "/" + QFileInfo(xmlFileName).baseName().toStdString() + ".zip");
   zf.open(libzippp::ZipArchive::Write);
 
   // we start by adding the mimetype file to the Zip file

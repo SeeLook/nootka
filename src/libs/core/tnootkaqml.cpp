@@ -357,8 +357,14 @@ QString TnootkaQML::getXmlToSave(const QString& fileName) {
 #endif
   if (!saveFile.isEmpty()) {
     GLOB->setLastXmlDir(QFileInfo(saveFile).absoluteDir().path());
-    if (filter.endsWith(QLatin1String("(*.mxl)")))
-        saveFile += ".mxl";
+    //if the dialog does not retrieve an extension for the file we deduct it from the filter
+    if (QFileInfo(saveFile).suffix().isEmpty()) {
+        if (filter.endsWith(QLatin1String("(*.mxl)"))) {
+            saveFile += ".mxl";
+        } else {
+            saveFile += ".musicxml";
+        };
+     };
   };
   return saveFile;
 }
