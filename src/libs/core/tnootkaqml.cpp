@@ -351,10 +351,15 @@ QString TnootkaQML::getXmlToSave(const QString& fileName) {
                                           QStringLiteral("musicxml|xml"));
 #else
   saveFile = TfileDialog::getSaveFileName(qApp->translate("TmainScoreObject", "Save melody as:"), GLOB->lastXmlDir() + QDir::separator() + fileName,
-                                          qTR("TmainScoreObject", "MusicXML file") + QLatin1String(" (*.musicxml *.xml)"), &filter);
+                                            qApp->translate("TmainScoreObject", "Compressed MusicXML file") + QLatin1String(" (*.mxl);;")
+                                            + qTR("TmainScoreObject", "MusicXML file") + QLatin1String(" (*.musicxml *.xml);;"),
+                                            &filter);
 #endif
-  if (!saveFile.isEmpty())
+  if (!saveFile.isEmpty()) {
     GLOB->setLastXmlDir(QFileInfo(saveFile).absoluteDir().path());
+    if (filter.endsWith(QLatin1String("(*.mxl)")))
+        saveFile += ".mxl";
+  };
   return saveFile;
 }
 
@@ -522,8 +527,8 @@ void TnootkaQML::openFile(const QString& runArg) {
   if (QFile::exists(runArg)) {
     QFile file(runArg);
     auto ext = QFileInfo(file).suffix();
-    if (ext == QLatin1String("xml") || ext == QLatin1String("musicxml")) {
-        auto fullPath = QDir(file.fileName()).absolutePath();
+    if (ext == QLatin1String("xml") || ext == QLatin1String("musicxml") || ext == QLatin1String("mxl")) {
+        auto fullPath = QDir(file.fileName()).absolutePath();        
         m_scoreObject->openMusicXml(fullPath);
     } else {
         QTimer::singleShot(700, this, [=]{ emit GLOB->wantOpenFile(runArg); });
