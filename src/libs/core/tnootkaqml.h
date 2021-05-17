@@ -182,6 +182,12 @@ public:
        */
   Q_INVOKABLE void openHelpLink(const QString& hash);
 
+      /**
+       * Newer documenation address:
+       * at 'https://nootka.sourceforge.io/index.php/'
+       */
+  Q_INVOKABLE void openDocLink(const QString& lnk);
+
   Q_INVOKABLE qreal bound(qreal min, qreal val, qreal max);
 
   bool resetConfig() const { return m_resetConfig; }

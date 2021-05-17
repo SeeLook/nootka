@@ -455,6 +455,11 @@ void TnootkaQML::openHelpLink(const QString& hash) {
 }
 
 
+void TnootkaQML::openDocLink(const QString& lnk) {
+  QDesktopServices::openUrl(QUrl(QString("https://nootka.sourceforge.io/index.php/" + lnk)));
+}
+
+
 qreal TnootkaQML::bound(qreal min, qreal val, qreal max) {
   return qBound(min, val, max);
 }
