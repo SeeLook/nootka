@@ -41,7 +41,7 @@ Window {
     ToolBar {
       id: toolBar
       z: 255
-      height: maxButt.height; width: analyzeWindow.width
+      height: helpButt.height; width: analyzeWindow.width
       background: TipRect { anchors.fill: parent; color: activPal.window; radius: 0 }
       Row {
         ChartToolButton {
@@ -74,13 +74,19 @@ Window {
           }
         }
         ChartToolButton {
-          id: maxButt
           taction: Taction {
             text: NOO.TR("QMdiSubWindow", "Maximize"); icon: "fullscreen"
             onTriggered: visibility = visibility === 2 ? 4 : 2
           }
         }
-        Item { height: 2; width: (analyzeWindow.width - (maxButt.x + maxButt.width) - exitButt.width - infoRow.width) / 2 }
+        ChartToolButton {
+          id: helpButt
+          taction: Taction {
+            text: NOO.TR("QShortcut", "Help"); icon: "help"
+            onTriggered: NOO.openDocLink("2017/05/17/analyze-results/")
+          }
+        }
+        Item { height: 2; width: (analyzeWindow.width - (helpButt.x + helpButt.width) - exitButt.width - infoRow.width) / 2 }
 
         Row {
           id: infoRow
