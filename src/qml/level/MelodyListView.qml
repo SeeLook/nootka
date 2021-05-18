@@ -127,7 +127,7 @@ TmelodyListView {
   onMelodiesChanged: creator.melodyListChanged()
 
   property var melPreview: null
-  function showMelody(melId) {
+  function showMelody(wrappId) {
     if (!melPreview) {
       melPreview = Qt.createComponent("qrc:/score/MelodyPreview.qml").createObject(NOO.isAndroid() ? nootkaWindow : melPage,
                               { "width": (NOO.isAndroid() ? nootkaWindow.width : melListView.width) - NOO.factor() * 2,
@@ -135,9 +135,9 @@ TmelodyListView {
                               })
     }
     melPreview.open()
-    melPreview.melody = getMelody(melId)
-    melPreview.idText = (melId + 1) + "."
-    melPreview.border.color = melView.itemAtIndex(melId).outOfScale ? "red" : activPal.highlight
+    melPreview.melody = getMelody(wrappId.nr)
+    melPreview.idText = (wrappId.nr + 1) + "."
+    melPreview.border.color = wrappId.outOfScale ? "red" : activPal.highlight
   }
 
   function removeWrapper(id) {
