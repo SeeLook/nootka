@@ -298,5 +298,5 @@ Column {
     forwardInChB.checked = false
   }
 
-  function help() { NOO.openHelpLink("input-settings") }
+  function help() { NOO.openDocLink("2017/05/17/audio-settings/") }
 }

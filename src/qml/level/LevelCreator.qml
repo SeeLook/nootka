@@ -55,5 +55,5 @@ TlevelCreatorItem {
     c.createObject(creator, { "caption": title, "message": message, "accent": accent })
   }
 
-  function help() { NOO.openHelpLink("level-creator") }
+  function help() { NOO.openDocLink("2017/05/17/creating-levels/") }
 }

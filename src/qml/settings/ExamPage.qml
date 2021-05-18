@@ -244,4 +244,6 @@ Tflickable {
     correctColor.color = Qt.rgba(0, 1, 0, 1)
     userNameIn.text = GLOB.student
   }
+
+  function help() { NOO.openDocLink("2017/05/17/exercises-exams-settings/") }
 }
