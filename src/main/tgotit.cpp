@@ -98,7 +98,7 @@ QString TgotIt::exerOrExamHelpTxt() {
     + QLatin1String("<tr><td valign=\"middle\">") + NOO->pix("exam", NOO->factor() * 4)
     + QLatin1String(" </td><td valign=\"middle\"> ") + TmainHelp::duringExamsText()
     + br + TexamHelp::examFeaturesText()+ QLatin1String("</td></tr></table>")
-    + br + NOO->onlineDocP(QStringLiteral("start-exam"));
+    + br + NOO->getOnlineDoc(QStringLiteral("practicing/"));
 }
 
 

@@ -320,5 +320,5 @@ Column {
       musicalRadio.checked = true
     }
 
-    function help() { NOO.openHelpLink("score-settings") }
+    function help() { NOO.openDocLink("2017/05/17/score-settings/") }
 }
