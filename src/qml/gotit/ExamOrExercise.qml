@@ -16,7 +16,8 @@ GotIt {
     Column {
       id: helpCol
       width: parent.width
-      Item { width: 1; height: NOO.factor() }
+      spacing: NOO.factor()
+
       Row {
         spacing: NOO.factor() * 2
         anchors.horizontalCenter: parent.horizontalCenter
@@ -35,6 +36,7 @@ GotIt {
           height: NOO.factor() * 4; width: height * (sourceSize.width / sourceSize.height)
         }
       }
+
       LinkText {
         id: exerOrExamText
         anchors.horizontalCenter: parent.horizontalCenter
