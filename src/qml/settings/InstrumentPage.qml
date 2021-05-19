@@ -295,5 +295,5 @@ Flickable {
     fretDots.text = "5,7,9,12!,15,17"
   }
 
-  function help() { NOO.openHelpLink("instrument-settings") }
+  function help() { NOO.openDocLink("instrument-settings/") }
 }

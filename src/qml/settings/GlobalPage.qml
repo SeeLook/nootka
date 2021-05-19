@@ -222,7 +222,7 @@ Tflickable {
     scaleSlider.value = 1.0
   }
 
-  function help() { NOO.openHelpLink("settings") }
+  function help() { NOO.openDocLink("2017/05/17/settings/") }
 
   property var updater: null
   Connections {

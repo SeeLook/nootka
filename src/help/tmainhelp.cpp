@@ -70,7 +70,7 @@ QString TmainHelp::mainHelp() {
       arg(nbsp3 + NOO->pix("logo", pixHeight) + QLatin1String(" <span style=\"font-size: x-large;\"> + </span> ")
                             + NOO->pix("help", pixHeight)  + nbsp3,
           nbsp3 + NOO->pix("systemsettings", pixHeight) + nbsp3);
-  helpTxt += NOO->onlineDocP("getting-started");
+  helpTxt += NOO->getOnlineDoc("getting-started");
 
   helpTxt += QLatin1String("<hr><b>") + tr("II. Exercises and exams") + bbrEnd;
   helpTxt += exerciseAndExamText();
