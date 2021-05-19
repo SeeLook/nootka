@@ -27,15 +27,31 @@ Item {
     id: tempoBar
     visible: !GLOB.singleNoteMode && ((GLOB.rhythmsEnabled && !executor) || (executor && executor.showRtmView))
     y: parent.height * 0.05
-    width: parent.width
+    width: parent.width - tunerButt.width - NOO.factor()
     height: parent.height * 0.45
+  }
+
+  RectButton {
+    id: tunerButt
+    visible: volBar.visible
+    x: parent.width - width - NOO.factor() / 2; y: parent.height * 0.04
+    height: parent.height / 2
+    enabled: !executor
+    textColor: enabled ? activPal.text : disdPal.text
+    text: GLOB.midAfreq + "Hz"
+    font { pixelSize: parent.height * 0.36; bold: true }
+    statusTip: qsTr("Tuner")
+    onClicked: {
+      nootkaWindow.showDialog(7) // Nootka.Tuner
+      SOUND.startListen()
+    }
   }
 
   VolumeBar {
     id: volBar
     visible: !executor || executor.showPitchView
     active: pitchView.active
-    y: parent.height * (tempoBar.visible ? 0.55 : 0.27)
+    y: parent.height * 0.55
     width: parent.width - micButt.width * 2
     height: parent.height * 0.45
     Shortcut { sequence: "M"; onActivated: pitchView.paused(); enabled: !executor || executor.showPitchView }

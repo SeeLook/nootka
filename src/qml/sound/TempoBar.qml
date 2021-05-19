@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -22,7 +22,7 @@ Item {
 
   // protected
   property var beatModel: [ "\ue1d5", "\ue1d7", "\ue1d5 \ue1e7", "\ue1d3" ]
-  property real contW: metroText.width + cntBeforeBut.width + metroRow.width + loudTickButt.width + tunerButt.width
+  property real contW: metroText.width + cntBeforeBut.width + metroRow.width + loudTickButt.width
 
   Row {
     width: parent.width; height: parent.height
@@ -145,19 +145,6 @@ Item {
         phase += SOUND.tempo < 110 ? 1 : 2
         if (phase > 7) phase = 0
         hiTick = Math.abs(phase - 4)
-      }
-    }
-
-    RectButton {
-      id: tunerButt
-      enabled: !executor
-      textColor: enabled ? activPal.text : disdPal.text
-      text: GLOB.midAfreq + "Hz"
-      font { pixelSize: parent.height * 0.8; bold: true }
-      statusTip: qsTr("Tuner")
-      onClicked: {
-        nootkaWindow.showDialog(Nootka.Tuner)
-        SOUND.startListen()
       }
     }
   }
