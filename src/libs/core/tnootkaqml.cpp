@@ -374,9 +374,14 @@ QString TnootkaQML::TR(const QString& context, const QString& text, const QStrin
 }
 
 
-
 QString TnootkaQML::onlineDocP(const QString& hash) {
   return QString("<p align=\"right\"><a href=\"https://nootka.sourceforge.io/index.php?C=doc#%1\">").arg(hash)
+  + QGuiApplication::translate("ThelpDialogBase", "Open online documentation") + QLatin1String("</a> </p>");
+}
+
+
+QString TnootkaQML::getOnlineDoc(const QString& post) {
+  return QString("<p align=\"right\"><a href=\"https://nootka.sourceforge.io/index.php/%1\">").arg(post)
   + QGuiApplication::translate("ThelpDialogBase", "Open online documentation") + QLatin1String("</a> </p>");
 }
 
@@ -456,7 +461,7 @@ void TnootkaQML::openHelpLink(const QString& hash) {
 
 
 void TnootkaQML::openDocLink(const QString& lnk) {
-  QDesktopServices::openUrl(QUrl(QString("https://nootka.sourceforge.io/index.php/" + lnk)));
+  QDesktopServices::openUrl(QUrl(QLatin1String("https://nootka.sourceforge.io/index.php/") + lnk));
 }
 
 

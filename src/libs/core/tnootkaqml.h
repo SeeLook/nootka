@@ -145,6 +145,13 @@ public:
   Q_INVOKABLE QString onlineDocP(const QString& hash);
 
       /**
+       * Returns HTML paragraph aligned to the right with
+       * link to Nootka online documenation: @p post topic
+       * (Newer format - Nootka 2.0 and above)
+       */
+  Q_INVOKABLE QString getOnlineDoc(const QString& post);
+
+      /**
        * Returns given color @p c with alpha channel @p a
        */
   Q_INVOKABLE QColor alpha(const QColor& c, int a);
