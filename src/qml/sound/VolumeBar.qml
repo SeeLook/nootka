@@ -3,7 +3,6 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
-import QtGraphicalEffects 1.0
 import QtQuick.Window 2.2
 
 import Nootka 1.0
