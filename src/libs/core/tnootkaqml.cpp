@@ -381,7 +381,7 @@ QString TnootkaQML::onlineDocP(const QString& hash) {
 
 
 QString TnootkaQML::getOnlineDoc(const QString& post) {
-  return QString("<p align=\"right\"><a href=\"https://nootka.sourceforge.io/index.php/%1\">").arg(post)
+  return QString("<p align=\"right\"><a href=\"https://nootka.sourceforge.io/index.php/%1/\">").arg(post)
   + QGuiApplication::translate("ThelpDialogBase", "Open online documentation") + QLatin1String("</a> </p>");
 }
 
