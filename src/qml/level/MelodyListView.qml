@@ -78,7 +78,7 @@ TmelodyListView {
         font { pixelSize: NOO.factor() * 2.5; family: "Nootka" }
         text: "\u0191"; textColor: enabled ? activPal.highlight : disdPal.text
         enabled: currentMelody > -1
-        onClicked: showMelody(currentMelody)
+        onClicked: showMelody(melView.currentItem)
       }
       Item { width: 1; height: NOO.factor() * (NOO.isAndroid() ? 0.25 : 1.5) }
       TcuteButton {
