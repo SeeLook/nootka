@@ -105,7 +105,7 @@ Rectangle {
   function switchTopic(tp) {
     if (tp !== currTopic) {
       if (tp === topics.length - 1) {
-          Qt.openUrlExternally("https://nootka.sourceforge.io/index.php/help/")
+          NOO.openDocLink("2017/05/17/getting-started/")
       } else {
           if (tp > 0) {
               if (!gotItObj[tp])
