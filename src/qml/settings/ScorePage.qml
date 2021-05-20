@@ -282,11 +282,13 @@ Column {
     }
 
     function save() {
+      var prevSingleMode = GLOB.singleNoteMode
       GLOB.singleNoteMode = singleNoteModeChB.checked
       if (singleNoteModeChB.checked) {
-        GLOB.showEnharmNotes = showEnharmNotesChB.checked
-        GLOB.enharmNoteColor = enharmNoteColor.color
-      }
+          GLOB.showEnharmNotes = showEnharmNotesChB.checked
+          GLOB.enharmNoteColor = enharmNoteColor.color
+      } else if (prevSingleMode != GLOB.singleNoteMode)
+          NOO.mainScore.scoreObj.editMode = true
       GLOB.rhythmsEnabled = rhythmsEnabledChB.checked
       GLOB.enableDoubleAccids = doubleAccidsChB.checked
       GLOB.noteCursorColor = pointerColorButt.color
