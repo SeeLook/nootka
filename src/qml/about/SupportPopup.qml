@@ -32,7 +32,7 @@ TpopupDialog {
     Image {
       anchors { right: parent.right; bottom: parent.bottom }
       source: NOO.pix("pane/support")
-      height: parent.height / 2; width: height
+      height: Math.min(parent.width, parent.height) / 2; width: height
       z: -1
     }
     SupportPage {}
