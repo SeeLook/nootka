@@ -74,7 +74,7 @@ QString TmainHelp::mainHelp() {
 
   helpTxt += QLatin1String("<hr><b>") + tr("II. Exercises and exams") + bbrEnd;
   helpTxt += exerciseAndExamText();
-  helpTxt += NOO->onlineDocP("exercises");
+  helpTxt += NOO->getOnlineDoc("exercise-exam");
 
   helpTxt += QLatin1String("<hr><b>") + tr("III. Analyzing") + bbrEnd;
 #if defined (Q_OS_ANDROID)
@@ -83,7 +83,7 @@ QString TmainHelp::mainHelp() {
   helpTxt += tr("Nootka will tell you about what you've been thinking for so long... and about the progress you've been making so far....<br>Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.").
     arg(nbsp3 + NOO->pix("charts", pixHeight) + nbsp3);
 #endif
-  helpTxt += NOO->onlineDocP("analyze");
+    helpTxt += NOO->getOnlineDoc("analyze-results");
   helpTxt += QLatin1String("</td></tr></table>");
 
   helpTxt += QLatin1String("<hr><b><span style=\"font-size: xx-large;\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;")

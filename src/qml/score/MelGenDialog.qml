@@ -118,5 +118,5 @@ TmelGenItem {
     }
   }
 
-  function help() {  console.log("'Melody generate' help is not implemented yet")   /*NOO.openHelpLink("")*/ }
+  function help() {  NOO.openDocLink("2017/05/17/melody-generator/") }
 }

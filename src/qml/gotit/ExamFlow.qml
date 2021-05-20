@@ -153,7 +153,7 @@ GotIt {
         horizontalAlignment: Text.AlignHCenter
         width: parent.width - NOO.factor()
         textFormat: Text.RichText; wrapMode: Text.WordWrap
-        text: gotIt.onlineDocP("exercises")
+        text: gotIt.getOnlineDoc("exercise-exam")
       }
       Text {
         anchors.horizontalCenter: parent.horizontalCenter
