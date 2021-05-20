@@ -142,7 +142,6 @@ public:
   Q_INVOKABLE QString pix(const QString& imageFileName);
   QString pix(const char* imageName, int height = 32);
   Q_INVOKABLE QString TR(const QString& context, const QString& text, const QString& disambiguation = QString(), int n = -1);
-  Q_INVOKABLE QString onlineDocP(const QString& hash);
 
       /**
        * Returns HTML paragraph aligned to the right with
@@ -185,12 +184,7 @@ public:
   Q_INVOKABLE QString pixToHtml(const QString& pixName, int height = 0);
 
       /**
-       * Calls @p QDesktopServices::openUrl with Nootka site doc at given @p hash
-       */
-  Q_INVOKABLE void openHelpLink(const QString& hash);
-
-      /**
-       * Newer documenation address:
+       * Newer documentation address:
        * at 'https://nootka.sourceforge.io/index.php/'
        */
   Q_INVOKABLE void openDocLink(const QString& lnk);

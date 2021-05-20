@@ -137,8 +137,8 @@ QString TgotIt::optionsText() const {
 }
 
 
-QString TgotIt::onlineDocP(const QString& hash) const {
-  return NOO->onlineDocP(hash);
+QString TgotIt::getOnlineDoc(const QString& post) const {
+  return NOO->getOnlineDoc(post);
 }
 
 

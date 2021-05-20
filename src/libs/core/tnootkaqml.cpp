@@ -374,12 +374,6 @@ QString TnootkaQML::TR(const QString& context, const QString& text, const QStrin
 }
 
 
-QString TnootkaQML::onlineDocP(const QString& hash) {
-  return QString("<p align=\"right\"><a href=\"https://nootka.sourceforge.io/index.php?C=doc#%1\">").arg(hash)
-  + QGuiApplication::translate("ThelpDialogBase", "Open online documentation") + QLatin1String("</a> </p>");
-}
-
-
 QString TnootkaQML::getOnlineDoc(const QString& post) {
   return QString("<p align=\"right\"><a href=\"https://nootka.sourceforge.io/index.php/%1/\">").arg(post)
   + QGuiApplication::translate("ThelpDialogBase", "Open online documentation") + QLatin1String("</a> </p>");
@@ -451,12 +445,6 @@ QString TnootkaQML::pixToHtml(const QString& pixName, int height) {
   pix.scaled(qRound(height * (static_cast<qreal>(pix.width()) / static_cast<qreal>(pix.height()))),
                                height, Qt::KeepAspectRatio, Qt::SmoothTransformation).save(&buffer, "PNG");
   return QString("<img src=\"data:image/png;base64,") + byteArray.toBase64() + "\"/>";
-}
-
-
-void TnootkaQML::openHelpLink(const QString& hash) {
-  QDesktopServices::openUrl(QUrl(QString("https://nootka.sourceforge.io/index.php?L=%1&C=doc#" + hash).
-    arg(QString(qgetenv("LANG")).left(2).toLower()), QUrl::TolerantMode));
 }
 
 

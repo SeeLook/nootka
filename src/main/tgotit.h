@@ -94,7 +94,7 @@ public:
   Q_INVOKABLE QString examText() const;
   Q_INVOKABLE QString examExplained() const;
   Q_INVOKABLE QString optionsText() const;
-  Q_INVOKABLE QString onlineDocP(const QString& hash) const;
+  Q_INVOKABLE QString getOnlineDoc(const QString& post) const;
 
 // GotNoteSelected
   Q_INVOKABLE QString noteCursorText() const;
