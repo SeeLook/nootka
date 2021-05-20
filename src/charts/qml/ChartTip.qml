@@ -82,6 +82,7 @@ TipRect {
         height: NOO.factor() * 10; width: NOO.factor() * 10
         Score {
           y: tipItem.yScoreLeftOff / 2
+          scale: height / firstStaff.linesCount
           width: parent.width; height: NOO.factor() * 12
           Component.onCompleted: {
             bgRect.destroy()
@@ -111,6 +112,7 @@ TipRect {
         Score {
           y: tipItem.yScoreRightOff / 2
           width: parent.width; height: NOO.factor() * 12
+          scale: height / firstStaff.linesCount
           Component.onCompleted: {
             bgRect.destroy()
             tipItem.secondScore = scoreObj

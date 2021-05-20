@@ -44,6 +44,7 @@ Tflickable {
             Score {
               id: rangeScore
               anchors.fill: parent
+              scale: height / firstStaff.linesCount
               scoreObj.editMode: true
               meter: Tmeter.NoMeter
               clef: creator.clef

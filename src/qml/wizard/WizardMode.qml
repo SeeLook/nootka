@@ -69,6 +69,7 @@ Tflickable {
               Score {
                 id: singleScore
                 height: Math.max(NOO.factor() * 15, nootkaWindow.height * 0.3); width: Math.max(NOO.factor() * 10, nootkaWindow.height * 0.16)
+                scale: height / firstStaff.linesCount
                 y: -height * 0.3
                 bgColor: "transparent"
                 scoreObj.editMode: false

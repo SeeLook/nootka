@@ -110,6 +110,7 @@ Flickable {
             id: score
             anchors.horizontalCenter: parent.horizontalCenter
             height: NOO.factor() * 18
+            scale: height / firstStaff.linesCount
             width: Math.min(instrPage.width * 0.9, NOO.factor() * (instrSel.instrument === 0 ? 14 : 28))
             bgColor: "transparent"
             meter: Tmeter.NoMeter

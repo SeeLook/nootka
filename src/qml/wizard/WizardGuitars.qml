@@ -36,6 +36,7 @@ Column {
           Score {
             id: sc
             y: (upperLine - 29) * scale + height * 0.05
+            scale: height / firstStaff.linesCount
             height: Math.max(NOO.factor() * 18, nootkaWindow.height * 0.4); width: Math.max(NOO.factor() * 9, nootkaWindow.height * 0.2)
             bgColor: "transparent"
             meter: Tmeter.NoMeter

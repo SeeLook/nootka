@@ -32,8 +32,9 @@ Column {
       anchors.horizontalCenter: parent.horizontalCenter
       Score {
         id: score
-        y: -height * 0.15
+        y: (upperLine - 25) * scale + height * 0.05
         height: Math.max(NOO.factor() * 15, nootkaWindow.height * 0.35); width: height * 1.6
+        scale: height / firstStaff.linesCount
         bgColor: "transparent"
         scoreObj.editMode: false
         scoreObj.showNoteNames: true
