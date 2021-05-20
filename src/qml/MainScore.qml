@@ -14,8 +14,6 @@ import "score"
 Score {
   id: mainScore
 
-  width: parent.width
-
   property alias showNamesAct: mainObj.showNamesAct
   property alias extraAccidsAct: mainObj.extraAccidsAct
   property alias zoomInAct: mainObj.zoomInAct
@@ -49,6 +47,7 @@ Score {
     mainScoreItem: mainScore
     onMelodyNameDialog: Qt.createComponent("qrc:/score/MelodyNameDialog.qml").createObject(nootkaWindow)
     onWantSelectGotIt: Qt.createComponent("qrc:/gotit/NoteSelected.qml").createObject(nootkaWindow.contentItem.parent, { "remaindChecked": true })
+    notesMenuAct.enabled: mainScore.meter !== Tmeter.NoMeter
   }
 
   Timer { id: zoomTimer; interval: 500 }

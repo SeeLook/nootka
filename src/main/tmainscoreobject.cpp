@@ -217,7 +217,7 @@ void TmainScoreObject::setReadOnly(bool ro) {
   if (ro != m_scoreObj->readOnly()) {
     m_scoreObj->setReadOnly(ro);
     m_scoreObj->setAllowAdding(!ro);
-    m_notesMenuAct->setEnabled(!ro);
+    m_notesMenuAct->setEnabled(!ro && m_scoreObj->meter()->meter() != Tmeter::NoMeter);
   }
 }
 
