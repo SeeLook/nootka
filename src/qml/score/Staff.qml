@@ -21,7 +21,9 @@ TstaffItem {
 
   height: linesCount
   scale: score.singleNote ? Math.min(score.height / linesCount, score.width / 46) :
-                            (Math.min(score.height, Math.max(Screen.height / 4, Screen.pixelDensity * 70)) / linesCount) * score.scaleFactor
+          (Math.min(Math.min(score.height, score.width / 2),
+                    Math.max(Screen.height / 4, Screen.pixelDensity * (NOO.isAndroid() ? 50 : 70))
+                    ) / linesCount) * score.scaleFactor
   width: score.width / scale
   transformOrigin: Item.TopLeft
 
