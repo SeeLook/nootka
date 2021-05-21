@@ -353,7 +353,7 @@ void TtipHandler::showQuestionTip() {
   MOBILE_MENU->setFlyActions(EXECUTOR->playAgainAct(), EXECUTOR->tuningForkAct(),
                              EXECUTOR->checkQuestAct(),
                              question->melody() && question->answerOnScore() ? MAIN_SCORE->scoreMenuAct() : nullptr,
-                             nullptr);
+                             question->answerAsSound() ? MOBILE_MENU->pitchDetectAct() : nullptr);
   MOBILE_MENU->setExamMenuEntries(EXECUTOR->playAgainAct(), EXECUTOR->tuningForkAct(),
                                   EXECUTOR->checkQuestAct(), EXECUTOR->stopExamAct());
 #endif
