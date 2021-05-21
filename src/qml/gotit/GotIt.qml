@@ -54,7 +54,7 @@ Popup {
     id: bg
     visible: showGotIt
     z: 10
-    width: gotColl.width + 2 * radius
+    width: gotColl.width + 2 * radius + NOO.factor()
     height: gotColl.height + 1.5 * radius
     radius: (gotColl.height + 4 * NOO.factor()) / 4
     x: parent.width - width + radius + NOO.factor(); y: parent.height - height + radius + NOO.factor()
@@ -74,22 +74,39 @@ Popup {
     id: gotColl
     visible: showGotIt
     z: 10
-    x: parent.width - width; y: parent.height - height
+    x: parent.width - width - NOO.factor() / 2; y: parent.height - height
     transformOrigin: Item.BottomRight
     scale: GLOB.useAnimations && ma.pressed ? 0.95 : 1.0
-    Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
     Text {
       id: gotText
       anchors.horizontalCenter: parent.horizontalCenter
       color: activPal.text
       font { pixelSize: NOO.factor() * 2; bold: true }
       style: ma.containsMouse ? Text.Sunken : Text.Normal
-      styleColor: activPal.base
+      styleColor: activPal.base; transformOrigin: Item.Top
       text: qsTr("GOT IT!")
+      Behavior on scale { NumberAnimation { duration: 150 }}
+      Timer {
+        running: showGotIt
+        interval: 2000; repeat: true
+        onTriggered: {
+          if (interval > 300) {
+              interval = 200
+              gotText.scale = 1.3
+          } else {
+              interval = 2000
+              gotText.scale = 1
+          }
+        }
+      }
     }
-    TcheckBox {
-      id: remaindChB
-      text: qsTr("remind me next time")
+    Row {
+      TcheckBox { id: remaindChB }
+      Text {
+        anchors.verticalCenter: parent.verticalCenter
+        color: activPal.text
+        text: qsTr("remind me next time")
+      }
     }
     Item { width: NOO.factor(); height: NOO.factor() / 2 }
   }
