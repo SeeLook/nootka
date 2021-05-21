@@ -171,6 +171,11 @@ void TexamSummary::continueExecutor() {
 }
 
 
+bool TexamSummary::hasQuestions() const {
+  return m_exam && m_exam->count() > 0;
+}
+
+
 void TexamSummary::exerciseToExam() {
   m_accepted = true;
   EXECUTOR->restoreExerciseAfterSummary();

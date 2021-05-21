@@ -46,6 +46,7 @@ class TexamSummary : public QQuickItem
   Q_PROPERTY(QList<int> kindOfMistakes READ kindOfMistakes NOTIFY updateExam)
   Q_PROPERTY(bool hasVariousMistakes READ hasVariousMistakes NOTIFY updateExam)
   Q_PROPERTY(QList<int> answersModel READ answersModel NOTIFY updateExam)
+  Q_PROPERTY(bool hasQuestions READ hasQuestions NOTIFY updateExam)
 
 public:
   explicit TexamSummary(QQuickItem* parent = nullptr);
@@ -61,6 +62,8 @@ public:
 
   QList<int> kindOfMistakes() const { return m_kindOfMistakes; }
   QList<int> answersModel() const { return m_answersModel; }
+
+  bool hasQuestions() const;
 
       /**
        * @p TRUE when there are more than one kind of mistake

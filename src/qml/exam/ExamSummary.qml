@@ -66,6 +66,7 @@ TexamSummary {
               }
               Item {
                 width: NOO.factor() * (NOO.isAndroid() ? 15 : 20); height: width + NOO.factor()
+                visible: hasQuestions
                 TpieChartItem {
                   id: answId
                   width: parent.width; height: width
@@ -179,7 +180,7 @@ TexamSummary {
           onClicked: { continueExecutor(); dialLoader.close() }
         }
         TiconButton {
-          visible: !NOO.isAndroid() || !isExercise()
+          visible: hasQuestions && (!NOO.isAndroid() || !isExercise())
           width: buttGrid.buttWidth
           pixmap: NOO.pix(NOO.isAndroid() ? "send" : "charts"); iconHeight: buttGrid.buttHeight
           text: NOO.isAndroid() ? NOO.TR("QShortcut", "Send") : qsTr("Analyze")
