@@ -544,13 +544,16 @@ void TrtAudio::restartASIO() {
 //###################              PRIVATE             ############################################
 //#################################################################################################
 int TrtAudio::duplexCallBack(void* outBuffer, void* inBuffer, unsigned int nBufferFrames, double, RtAudioStreamStatus status, void*) {
-//   Q_UNUSED(status)
   if (status & RTAUDIO_INPUT_OVERFLOW)
     qDebug() << "[TrtAudio] input buffer overflow";
   else if (status & RTAUDIO_OUTPUT_UNDERFLOW)
     qDebug() << "[TrtAudio] output buffer underflow";
 
   if (m_cbOut) {
+    if (outBuffer == nullptr) {
+      qDebug() << "[TrtAudio] out buffer is null!";
+      return 1; // stops stream
+    }
     if (m_cbOut(outBuffer, inBuffer, nBufferFrames)) {
       if (m_cbIn)
         m_cbIn(nullptr, inBuffer, nBufferFrames);
