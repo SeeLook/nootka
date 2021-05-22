@@ -16,6 +16,7 @@ Dialog {
   property alias border: glowRect.border
   property alias caption: hText.text
   property alias glowRect: glowRect
+  property alias footWidth: butRow.width
 
   width: parent.width * 0.8; height: parent.height * 0.8
   x: (parent.width - width) / 2; y: (parent.height - height) / 2
