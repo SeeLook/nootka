@@ -350,10 +350,11 @@ void TtipHandler::showQuestionTip() {
   auto question = m_exam->curQ();
 
 #if defined (Q_OS_ANDROID)
+  bool answIsWriteMelody = question->melody() && question->answerOnScore();
   MOBILE_MENU->setFlyActions(EXECUTOR->playAgainAct(), EXECUTOR->tuningForkAct(),
                              EXECUTOR->checkQuestAct(),
-                             question->melody() && question->answerOnScore() ? MAIN_SCORE->scoreMenuAct() : nullptr,
-                             question->answerAsSound() ? MOBILE_MENU->pitchDetectAct() : nullptr);
+                             answIsWriteMelody ? MAIN_SCORE->scoreMenuAct() : nullptr,
+                             question->answerAsSound() ? MOBILE_MENU->pitchDetectAct() : (answIsWriteMelody ? MOBILE_MENU->clearFlyAct() : nullptr));
   MOBILE_MENU->setExamMenuEntries(EXECUTOR->playAgainAct(), EXECUTOR->tuningForkAct(),
                                   EXECUTOR->checkQuestAct(), EXECUTOR->stopExamAct());
 #endif

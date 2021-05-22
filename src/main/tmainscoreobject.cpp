@@ -157,7 +157,7 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
   m_scoreActions.prepend(m_scoreObj->editModeAct());
   m_scoreActions << m_scoreObj->insertNoteAct() << m_scoreObj->deleteNoteAct() << m_scoreObj->clearScoreAct() << m_notesMenuAct;
 #else
-  m_scoreActions << m_scoreObj->clearScoreAct() << m_randMelodyAct << m_openXmlAct << m_saveXmlAct;
+  m_scoreActions << m_randMelodyAct << m_openXmlAct << m_saveXmlAct;
 #endif
   m_noteActions << m_scoreObj->riseAct() << m_scoreObj->lowerAct()
                 << m_scoreObj->wholeNoteAct() << m_scoreObj->halfNoteAct() << m_scoreObj->quarterNoteAct() << m_scoreObj->eighthNoteAct()
@@ -582,7 +582,6 @@ void TmainScoreObject::isExamChangedSlot() {
     m_scoreActions.prepend(m_scoreObj->editModeAct());
     m_scoreActions << m_scoreObj->insertNoteAct() << m_scoreObj->deleteNoteAct() << m_scoreObj->clearScoreAct() << m_notesMenuAct;
 #else
-    m_scoreActions << m_scoreObj->clearScoreAct();
     if (!GLOB->isExam())
       m_scoreActions << m_randMelodyAct << m_openXmlAct << m_saveXmlAct;
 #endif
