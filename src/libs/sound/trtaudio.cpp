@@ -65,6 +65,8 @@ void TrtAudio::createRtAudio() {
       rtAPI = RtAudio::LINUX_ALSA; // force ALSA
     #if defined(__LINUX_PULSE__)
       QFileInfo pulseBin(QStringLiteral("/usr/bin/pactl"));
+      if (!pulseBin.exists())
+        pulseBin.setFile(QStringLiteral("/usr/bin/pipewire-pulse"));
       if (!m_JACKorASIO && pulseBin.exists()) // we check is PA possible to run - without check, it can hang.
         rtAPI = RtAudio::LINUX_PULSE;
     #endif
