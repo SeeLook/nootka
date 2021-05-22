@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -36,8 +36,8 @@ quint32                            TrtAudio::m_inSR = 48000;
 quint32                            TrtAudio::m_outSR = 44100;
 unsigned int                       TrtAudio::m_bufferFrames = 1024;
 bool                               TrtAudio::m_isAlsaDefault = false;
-QString                            TrtAudio::m_inDevName = "anything";
-QString                            TrtAudio::m_outDevName = "anything";
+QString                            TrtAudio::m_inDevName = QLatin1String("anything");
+QString                            TrtAudio::m_outDevName = QLatin1String("anything");
 TrtAudio::callBackType             TrtAudio::m_cbIn = nullptr;
 TrtAudio::callBackType             TrtAudio::m_cbOut = nullptr;
 TaudioObject*                      TrtAudio::m_ao = nullptr;
@@ -64,8 +64,8 @@ void TrtAudio::createRtAudio() {
     else
       rtAPI = RtAudio::LINUX_ALSA; // force ALSA
     #if defined(__LINUX_PULSE__)
-      QFileInfo pulseBin(QStringLiteral("/usr/bin/pulseaudio"));
-      if (!m_JACKorASIO && pulseBin.exists()) // we check is PA possible to run - without check, it can hang over.
+      QFileInfo pulseBin(QStringLiteral("/usr/bin/pactl"));
+      if (!m_JACKorASIO && pulseBin.exists()) // we check is PA possible to run - without check, it can hang.
         rtAPI = RtAudio::LINUX_PULSE;
     #endif
 #else
@@ -86,34 +86,34 @@ void TrtAudio::createRtAudio() {
 QString TrtAudio::currentRtAPI() {
   QString rtApiTxt;
   if (m_rtAduio) {
-    switch (getCurrentApi()) {
-      case RtAudio::WINDOWS_DS:
-        rtApiTxt = "Direct Sound";
-        break;
-      case RtAudio::WINDOWS_WASAPI:
-        rtApiTxt = "WAS API";
-        break;
-      case RtAudio::WINDOWS_ASIO:
-        rtApiTxt = "ASIO";
-        break;
-      case RtAudio::LINUX_ALSA:
-        rtApiTxt = "ALSA";
-        break;
-      case RtAudio::UNIX_JACK:
-        rtApiTxt = "JACK";
-        break;
-      case RtAudio::LINUX_PULSE:
-        rtApiTxt = "PulseAudio";
-        break;
-      case RtAudio::RtAudio::MACOSX_CORE:
-        rtApiTxt = "CoreAudio";
-        break;
-      default:
-        rtApiTxt = "Undefined";
-        break;
-    }
+      switch (getCurrentApi()) {
+        case RtAudio::WINDOWS_DS:
+          rtApiTxt = QStringLiteral("Direct Sound");
+          break;
+        case RtAudio::WINDOWS_WASAPI:
+          rtApiTxt = QStringLiteral("WAS API");
+          break;
+        case RtAudio::WINDOWS_ASIO:
+          rtApiTxt = QStringLiteral("ASIO");
+          break;
+        case RtAudio::LINUX_ALSA:
+          rtApiTxt = QStringLiteral("ALSA");
+          break;
+        case RtAudio::UNIX_JACK:
+          rtApiTxt = QStringLiteral("JACK");
+          break;
+        case RtAudio::LINUX_PULSE:
+          rtApiTxt = QStringLiteral("PulseAudio");
+          break;
+        case RtAudio::RtAudio::MACOSX_CORE:
+          rtApiTxt = QStringLiteral("CoreAudio");
+          break;
+        default:
+          rtApiTxt = QStringLiteral("Undefined");
+          break;
+      }
   } else
-      rtApiTxt = "RtAudio API doesn't exist";
+      rtApiTxt = QStringLiteral("RtAudio API doesn't exist");
   return rtApiTxt;
 }
 
@@ -259,7 +259,7 @@ void TrtAudio::updateAudioParams() {
           getDeviceInfo(outInfo, static_cast<unsigned int>(outDevId));
           if (outDevId > -1) {
             if (outInfo.outputChannels <= 0) {
-              qDebug("[TrtAudio] wrong default output device");
+              qDebug() << "[TrtAudio] wrong default output device";
               deleteOutParams();
             }
           }
@@ -306,7 +306,6 @@ void TrtAudio::updateAudioParams() {
 #if !defined (Q_OS_MAC) // Mac has reaction for this flag - it opens streams with 15 buffer frames
     streamOptions->flags |= RTAUDIO_MINIMIZE_LATENCY;
 #endif
-    
   }
 
   ao()->emitParamsUpdated();
