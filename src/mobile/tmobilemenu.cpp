@@ -18,6 +18,7 @@
 
 #include "tmobilemenu.h"
 #include <tmtr.h>
+#include <qtr.h>
 #include <taction.h>
 #include <tglobals.h>
 #include <tsound.h>
@@ -43,7 +44,7 @@ TmobileMenu::TmobileMenu(QQuickItem* parent) :
   setAcceptedMouseButtons(Qt::LeftButton);
 
   m_pitchDetectAct = new Taction(QGuiApplication::translate("MainMenuMobile", "Pitch recognition",
-                                                            "Android menu entry, could be 'Note recognition' or 'detection' as well"),
+                                            "Android menu entry, could be 'Note recognition' or 'detection' as well"),
                                  QStringLiteral("mic"), this);
   m_pitchDetectAct->setBgColor(Qt::blue);
 
@@ -63,6 +64,10 @@ TmobileMenu::TmobileMenu(QQuickItem* parent) :
   m_examActions << nullptr << nullptr << nullptr << nullptr;
 
   connect(SOUND, &Tsound::initialized, this, &TmobileMenu::init);
+
+  m_clearFlyAct = new Taction(qTR("TscoreObject", "Delete all notes"), QStringLiteral("clear-score"), this);
+  m_clearFlyAct->setBgColor(QColor(255, 140, 0)); // Orange
+  connect(m_clearFlyAct, &Taction::triggered, this, &TmobileMenu::wantClearScore);
 }
 
 
@@ -148,7 +153,7 @@ void TmobileMenu::singleNoteModeSlot() {
     setFlyActions(nullptr, nullptr, nullptr, nullptr, m_pitchDetectAct);
   else
     setFlyActions(MAIN_SCORE->playAct(), m_tempoAct,
-                  MAIN_SCORE->scoreMenuAct(), nullptr, m_pitchDetectAct);
+                  MAIN_SCORE->scoreMenuAct(), m_clearFlyAct, m_pitchDetectAct);
 }
 
 

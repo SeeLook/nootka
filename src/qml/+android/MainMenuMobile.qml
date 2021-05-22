@@ -19,6 +19,7 @@ TmobileMenu {
   // private
   property var scoreMenu: null
   property var tempoMenu: null
+  property var clearPopup: null
 
   function open() {
     if (!scoreMenu) {
@@ -174,6 +175,36 @@ TmobileMenu {
         }
       }
     }
+  }
+
+  Component {
+    id: clearComp
+    TpopupDialog {
+      width: footWidth + NOO.factor(); height: clearCol.height + NOO.factor() * 4
+      bgColor: Qt.tint(activPal.window, NOO.alpha("orange", 20))
+      border { color: "orange"; width: NOO.factor() / 4.0 }
+      //modal: true
+      Column {
+        id: clearCol
+        anchors.horizontalCenter: parent.horizontalCenter
+        Image {
+          anchors.horizontalCenter: parent.horizontalCenter
+          source: NOO.pix("clear-score")
+          height: NOO.factor() * 4; width: height
+        }
+        Text {
+          text: NOO.TR("TscoreObject", "Delete all notes")
+          color: activPal.text
+        }
+      }
+      onAccepted: score.clearScoreAct.trigger()
+    }
+  }
+
+  onWantClearScore: {
+    if (!clearPopup)
+      clearPopup = clearComp.createObject(nootkaWindow.contentItem)
+    clearPopup.open()
   }
 
   onFlyClicked: {

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2017-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2017-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -106,6 +106,8 @@ public:
        */
   QList<QObject*> examActions() { return m_examActions; }
 
+  Taction* clearFlyAct() { return m_clearFlyAct; }
+
   Q_INVOKABLE int fingerPixels() const;
 
   Q_INVOKABLE qreal flyX(int itemNr);
@@ -126,6 +128,7 @@ signals:
   void showTextChanged();
   void forceTextChanged();
   void examActionsChanged();
+  void wantClearScore();
 
 protected:
   void mousePressEvent(QMouseEvent*) override;
@@ -171,6 +174,7 @@ private:
   QTimer                     *m_flyTimer;
   bool                        m_showText = false;
   bool                        m_forceText = false;
+  Taction                    *m_clearFlyAct = nullptr;
 };
 
 #endif // TMOBILEMENU_H
