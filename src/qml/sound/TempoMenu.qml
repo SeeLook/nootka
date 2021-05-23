@@ -27,6 +27,7 @@ Popup {
 
   // private
   property var beatFactor: [ 1, 2, 0.66666666666, 0.5 ]
+  readonly property string quantTip: qsTr("Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy.")
 
   Column {
     spacing: NOO.factor() / 2
@@ -201,11 +202,11 @@ Popup {
       enabled: !executor
       MouseArea {
         anchors.fill: parent; hoverEnabled: !NOO.isAndroid()
-        onEntered: NOO.setStatusTip(qsTr("Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy."), Item.TopLeft)
+        onEntered: NOO.setStatusTip(quantTip, Item.TopLeft)
         onExited: NOO.setStatusTip("", Item.TopLeft)
         onPressAndHold: {
           if (NOO.isAndroid())
-            NOO.setStatusTip(qsTr("Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy."))
+            NOO.setStatusTip(quantTip)
         }
         onReleased: {
           if (NOO.isAndroid())
@@ -223,6 +224,7 @@ Popup {
           text: "G"; textScale: 2.0
           checked: SOUND.quantization === 6
           onClicked: SOUND.quantization = 6
+          onHoveredChanged: NOO.setStatusTip(hovered ? quantTip : "", Item.TopLeft)
         }
         TradioButton {
           id: radio8
@@ -230,6 +232,7 @@ Popup {
           text: "F"; textScale: 2.0
           checked: SOUND.quantization === 12
           onClicked: SOUND.quantization = 12
+          onHoveredChanged: NOO.setStatusTip(hovered ? quantTip : "", Item.TopLeft)
         }
       }
     }
