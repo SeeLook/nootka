@@ -38,7 +38,6 @@
 #include <QtCore/qtimer.h>
 
 #include <QtCore/qdebug.h>
-#include "checktime.h"
 
 
 TchartItem::TchartItem(QQuickItem* parent) :
@@ -438,7 +437,6 @@ void TchartItem::drawChart(bool resetModel) {
     m_chart = nullptr;
     if (resetModel)
       emit chartModelChanged();
-  CHECKTIME(
     TmainChart *newChart;
     if (m_chartSetts.type == Tchart::e_linear)
       newChart = new TlinearChart(this);
@@ -453,7 +451,6 @@ void TchartItem::drawChart(bool resetModel) {
     emit examChanged();
     m_ignoreSignalExamChanged = false;
     m_tipItem->setExam(m_exam);
-  )
   }
 }
 
