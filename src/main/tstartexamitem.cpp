@@ -59,17 +59,17 @@ TstartExamItem::TstartExamItem(QQuickItem* parent) :
   const QString recentExams(QStringLiteral("recentExams"));
   m_recentExams = sett.value(recentExams).toStringList();
   for (int i = 0; i < m_recentExams.size() && i < RECENT_EXAMS_LIMIT; i++) {
-      QFileInfo fi(m_recentExams[i]);
-      if (fi.exists()) {
-          auto recentAct = new Taction(fi.fileName(), QString(), this);
-          recentAct->setProperty("path", m_recentExams[i]);
-          connect(recentAct, &Taction::triggered, this, &TstartExamItem::continuePrevExam);
-          m_recentModel << recentAct;
-      } else
-          m_recentExams.removeAt(i);
+    QFileInfo fi(m_recentExams[i]);
+    if (fi.exists()) {
+        auto recentAct = new Taction(fi.fileName(), QString(), this);
+        recentAct->setProperty("path", m_recentExams[i]);
+        connect(recentAct, &Taction::triggered, this, &TstartExamItem::continuePrevExam);
+        m_recentModel << recentAct;
+    } else
+        m_recentExams.removeAt(i);
   }
   if (m_recentExams.size()) {
-      sett.setValue(recentExams, m_recentExams);
+    sett.setValue(recentExams, m_recentExams);
   }
 
   m_prevExerciseLevel = new Tlevel;
@@ -77,15 +77,15 @@ TstartExamItem::TstartExamItem(QQuickItem* parent) :
   QString exerciseFile = QDir::toNativeSeparators(QFileInfo(sett.fileName()).absolutePath() + QLatin1String("/exercise2.noo"));
   m_prevExerciseLevel->name.clear(); // empty means - no previous level
   if (QFileInfo::exists(exerciseFile)) {
-      Texam exam(m_prevExerciseLevel, QString());
-      Texam::EerrorType err = exam.loadFromFile(exerciseFile);
-      if (err != Texam::e_file_OK && err != Texam::e_file_corrupted) {
-          qDebug() << "[TstartExamItem] exercise file was corrupted... and deleted...";
-          QFile::remove(exerciseFile);
-      }
+    Texam exam(m_prevExerciseLevel, QString());
+    Texam::EerrorType err = exam.loadFromFile(exerciseFile);
+    if (err != Texam::e_file_OK && err != Texam::e_file_corrupted) {
+      qDebug() << "[TstartExamItem] exercise file was corrupted... and deleted...";
+      QFile::remove(exerciseFile);
+    }
   }
-  if (!TlevelSelector::checkLevel(*m_prevExerciseLevel).isEmpty())
-      m_prevExerciseLevel->name.clear(); // Returned string means that the level doesn't match to current settings
+  if (!TlevelSelector::checkLevel(*m_prevExerciseLevel).isEmpty() || m_prevExerciseLevel->instrument != GLOB->instrument().type())
+    m_prevExerciseLevel->name.clear(); // Returned string means that the level doesn't match to current settings
 
   /** NOTE
    * Clazy tool blames emit call beneath that probably emit has no effect because it is made from constructor.
