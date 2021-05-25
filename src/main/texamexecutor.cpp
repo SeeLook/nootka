@@ -1955,7 +1955,7 @@ void TexamExecutor::correctionFinishedSlot() {
   } else if (!GLOB->E->autoNextQuest || GLOB->E->afterMistake == TexamParams::e_stop)
         m_tipHandler->showWhatNextTip(!(!m_exercise && GLOB->E->repeatIncorrect && !m_incorrectRepeated));
 
-  if (m_exercise && GLOB->extraNames() && !CURR_Q->melody()) {
+  if (INSTRUMENT && m_exercise && GLOB->extraNames() && !CURR_Q->melody()) {
     bool isQa2 = CURR_Q->questionOnInstr() && CURR_Q->answerOnInstr();
     INSTRUMENT->showNoteName(GLOB->S->nameStyleInNoteName,
                              isQa2 ? CURR_Q->qa_2.note : CURR_Q->qa.note,
