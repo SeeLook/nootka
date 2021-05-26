@@ -136,7 +136,7 @@ TmobileMenu {
                 }
               }
             }
-            MenuButton { action: pitchDetectAct }
+            MenuButton { visible: !executor || executor.showPitchView; action: pitchDetectAct }
             MenuButton {
               visible: !GLOB.singleNoteMode
               action: tempoAct
