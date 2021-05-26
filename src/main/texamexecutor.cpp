@@ -739,9 +739,8 @@ void TexamExecutor::checkAnswer(bool showResults) {
               Tmelody answMelody;
               MAIN_SCORE->getMelody(&answMelody);
               m_supp->compareWrittenFromPlayed(curQ->melody(), &answMelody, curQ->lastAttempt(), curQ->melody()->key().difference(curQ->key));
-          } else { // playing a score
-              m_supp->comparePlayedFromScore(curQ->melody(), m_melody->toPlay(), m_melody->played(),
-                                             curQ->lastAttempt(), curQ->melody()->key().difference(curQ->key));
+          } else { // playing from score
+              m_supp->comparePlayedFromScore(curQ->melody(), m_melody->toPlay(), m_melody->played(), curQ->lastAttempt());
           }
           int goodAllready = 0, notBadAlready = 0, wrongAlready = 0;
           for (int i = 0; i < curQ->lastAttempt()->mistakes.size(); ++i) { // setting mistake type in TQAunit

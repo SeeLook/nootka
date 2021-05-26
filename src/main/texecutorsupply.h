@@ -149,7 +149,12 @@ public:
        */
   void compareWrittenFromPlayed(Tmelody* q, Tmelody * a, Tattempt* attempt, int transposition);
 
-  void comparePlayedFromScore(Tmelody* q, QVector<TnoteToPlay>& toPlay, QVector<TnoteStruct>& a, Tattempt* att, int transposition);
+      /**
+       * Compares melody @p a answer played from score
+       * with @p toPlay melody which is @p q (@p Tmelody) converted to
+       * @p QVector<TnoteToPlay> - duration and transposed pitch of original @p q melody
+       */
+  void comparePlayedFromScore(Tmelody* q, QVector<TnoteToPlay>& toPlay, QVector<TnoteStruct>& a, Tattempt* att);
 
   quint32 comparePitches(int p1, int p2, bool requireOctave);
 

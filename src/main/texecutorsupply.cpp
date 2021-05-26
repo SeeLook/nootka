@@ -636,7 +636,7 @@ void TexecutorSupply::compareWrittenFromPlayed(Tmelody* q, Tmelody* a, Tattempt*
 }
 
 
-void TexecutorSupply::comparePlayedFromScore(Tmelody* q, QVector<TnoteToPlay>& toPlay,  QVector<TnoteStruct>& a, Tattempt* att, int transposition) {
+void TexecutorSupply::comparePlayedFromScore(Tmelody* q, QVector<TnoteToPlay>& toPlay,  QVector<TnoteStruct>& a, Tattempt* att) {
   int notesCount = qMax(toPlay.size(), a.size());
   qreal tempoSum = 0.0;
   int tempoCounter = 0;
