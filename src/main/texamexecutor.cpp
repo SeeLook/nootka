@@ -1684,7 +1684,8 @@ void TexamExecutor::noteOfMelodyStarted(const TnoteStruct& n) {
             MAIN_SCORE->showNoteName(m_melody->currentIndex(), true);
           m_melody->setNote(n);
       } else {
-          MAIN_SCORE->markNoteHead(GLOB->wrongColor(), m_melody->currentIndex());
+          if (!m_melody->wasLatestNoteSet())
+            MAIN_SCORE->markNoteHead(GLOB->wrongColor(), m_melody->currentIndex());
       }
   } else { //TODO Use m_melody->realNoteId() to get score note id
       if (m_melodySelectionIndex < CURR_Q->melody()->length()) // highlight next note
