@@ -297,8 +297,8 @@ void TexamExecutor::askQuestion(bool isAttempt) {
                   QStringLiteral("Nootka attempted to create proper question-answer pair 20 times<br>"
                   "Please, send this message and the level file to developers and we will try to fix it in further releases."),
                   Qt::red);
-        deleteExam();
-        return;
+      deleteExam();
+      return;
     }
     if (!GLOB->E->autoNextQuest) {
       if (!m_exercise)
@@ -964,7 +964,6 @@ void TexamExecutor::correctAnswer() {
 
 void TexamExecutor::newAttempt() {
   m_tipHandler->showTryAgainTip(3000);
-//   QTimer::singleShot(2000, m_tipHandler, SLOT(clearResultTip())); // TODO remove when not used
 //   MAIN_SCORE->showNoteNames(false);
   if (CURR_Q->answerOnScore() || CURR_Q->questionOnScore()) { // remove names and marks from score notes
     int scoreNoteId = 0;
@@ -982,7 +981,6 @@ void TexamExecutor::newAttempt() {
     m_melody->newMelody(CURR_Q->melody(), CURR_Q->melody()->key().difference(CURR_Q->key));
   else // or clear it
     m_melody->newMelody(nullptr);
-  m_melody->newMelody(CURR_Q->answerAsSound() ? CURR_Q->melody() : nullptr);
 
   m_penalty->newAttempt();
   if (CURR_Q->answerAsSound())
