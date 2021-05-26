@@ -21,6 +21,7 @@
 
 
 #include <QtCore/qobject.h>
+#include <QtGui/qcolor.h>
 
 
 class TupdateRules;
@@ -58,6 +59,8 @@ public:
        * icon name by button role
        */
   Q_INVOKABLE QString buttonRoleIcon(int role) const;
+
+  Q_INVOKABLE QColor buttinRoleColor(int role) const;
 
   Q_INVOKABLE void openFile(const QString& fileName);
 

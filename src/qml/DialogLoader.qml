@@ -51,6 +51,7 @@ Old.Dialog {
       delegate: TiconButton {
         width: Math.min(box.width / 2, (box.width - NOO.factor() * (box.count + 1)) / box.count)
         pixmap: NOO.pix(dialogObj.buttonRoleIcon(DialogButtonBox.buttonRole))
+        color: Qt.tint(activPal.button, NOO.alpha(dialogObj.buttinRoleColor(DialogButtonBox.buttonRole), NOO.isAndroid() ? 20 : 0))
       }
       background: Rectangle {
         anchors.fill: parent

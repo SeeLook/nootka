@@ -132,7 +132,18 @@ QString TdialogLoaderObject::buttonRoleIcon(int role) const {
     case QDialogButtonBox::ResetRole: return QStringLiteral("restore-defaults"); // Restore defaults
     case QDialogButtonBox::HelpRole: return QStringLiteral("help"); // Help
     case QDialogButtonBox::AcceptRole: return QStringLiteral("check"); // OK
-    default: return QStringLiteral("exit");;
+    default: return QStringLiteral("exit");
+  }
+}
+
+
+QColor TdialogLoaderObject::buttinRoleColor(int role) const {
+  switch (static_cast<QDialogButtonBox::ButtonRole>(role)) {
+    case QDialogButtonBox::ApplyRole: return Qt::green; // Apply
+    case QDialogButtonBox::ResetRole: return QColor(0, 128, 128); // Restore defaults
+    case QDialogButtonBox::HelpRole: return QColor(250, 140, 0); // Help
+    case QDialogButtonBox::AcceptRole: return Qt::green; // OK
+    default: return Qt::red;
   }
 }
 

@@ -49,11 +49,13 @@ Dialog {
         id: rejectButton
         pixmap: NOO.pix("exit"); text: NOO.TR("QShortcut", "Cancel")
         onClicked: reject()
+        color: Qt.tint(activPal.button, NOO.alpha("red", NOO.isAndroid() ? 40 : 0))
       }
       TiconButton {
         id: acceptButton
         pixmap: NOO.pix("check"); text: NOO.TR("QPlatformTheme", "Apply")
         onClicked: accept()
+        color: Qt.tint(activPal.button, NOO.alpha("green", NOO.isAndroid() ? 40 : 0))
       }
     }
   }
