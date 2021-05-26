@@ -297,8 +297,9 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
         m_obligQuestNr = qBound(20, list.size() * 4, 250);
 
     if (m_level->useKeySign && !m_level->isSingleKey)
-        m_obligQuestNr = qMax(m_obligQuestNr, m_level->keysInRange() * 5);
-    m_obligQuestNr = qMax(qaPossibilities() * 4, m_obligQuestNr);
+      m_obligQuestNr = qMax(m_obligQuestNr, m_level->keysInRange() * 5);
+    if (!m_level->isMelodySet()) // at least four questions in the exam except melodies in set - could be just one then
+      m_obligQuestNr = qMax(qaPossibilities() * 4, m_obligQuestNr);
 }
 
 
