@@ -28,7 +28,6 @@ TlevelCreatorItem {
     dialLoader.standardButtons = DialogButtonBox.Close | DialogButtonBox.Help | DialogButtonBox.RestoreDefaults
     var b = dialLoader.buttonBox.standardButton(DialogButtonBox.RestoreDefaults)
     b.text = qsTr("Check")
-    b.DialogButtonBox.buttonRole = DialogButtonBox.ActionRole
     b.pixmap = NOO.pix("levelCreator")
     b.clicked.connect(checkLevel)
   }
@@ -56,4 +55,6 @@ TlevelCreatorItem {
   }
 
   function help() { NOO.openDocLink("2017/05/17/creating-levels/") }
+
+  function reset() {}
 }

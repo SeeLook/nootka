@@ -106,7 +106,6 @@ TmelGenItem {
     dialLoader.standardButtons = DialogButtonBox.Close | DialogButtonBox.Help | DialogButtonBox.RestoreDefaults
     genButt = dialLoader.buttonBox.standardButton(DialogButtonBox.RestoreDefaults)
     genButt.text = NOO.TR("TmainScoreObject", "Generate melody")
-    genButt.DialogButtonBox.buttonRole = DialogButtonBox.ActionRole
     genButt.pixmap = NOO.pix("melody")
   }
 
@@ -119,4 +118,6 @@ TmelGenItem {
   }
 
   function help() {  NOO.openDocLink("2017/05/17/melody-generator/") }
+
+  function reset() {}
 }
