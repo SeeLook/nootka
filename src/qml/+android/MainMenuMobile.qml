@@ -147,8 +147,8 @@ TmobileMenu {
                 text: beatModel[SOUND.beatUnit] + "=" + SOUND.tempo
               }
             }
-            MenuButton { action: NOO.examAct }
-            MenuButton { action: NOO.levelAct }
+            MenuButton { visible: !GLOB.isExam; action: NOO.examAct }
+            MenuButton { visible: !GLOB.isExam; action: NOO.levelAct }
             MenuButton { visible: !GLOB.singleNoteMode; action: NOO.scoreAct }
             MenuButton {
               action: Taction {
@@ -163,6 +163,7 @@ TmobileMenu {
               }
             }
             MenuButton {
+              visible: !GLOB.isExam
               action: tunerAct
               Text {
                 x: parent.width - width - NOO.factor() / 4; y: (parent.height - height) / 2
