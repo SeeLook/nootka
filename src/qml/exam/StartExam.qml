@@ -37,6 +37,7 @@ TstartExamItem {
         pixmap: NOO.pix("help"); iconHeight: startDialog.height / 15
         text: NOO.TR("QShortcut", "Help")
         onClicked: examOrExerGotIt()
+        color: enabled ? Qt.tint(activPal.button, NOO.alpha("orange", NOO.isAndroid() ? 40 : 0)) : disdPal.button
       }
       Grid {
         spacing: NOO.factor() * (NOO.isAndroid() || hideSelector ? 0.5 : 1)
@@ -57,6 +58,7 @@ TstartExamItem {
         anchors.verticalCenter: parent.verticalCenter
         pixmap: NOO.pix("levelCreator"); iconHeight: startDialog.height / 15
         text: NOO.TR("TlevelCreatorItem", "Level creator").replace(" ", "\n")
+        color: enabled ? Qt.tint(activPal.button, NOO.alpha("teal", NOO.isAndroid() ? 40 : 0)) : disdPal.button
         onClicked: {
           dialLoader.close()
           nootkaWindow.showDialog(3) // Nootka.LevelCreator
@@ -101,6 +103,7 @@ TstartExamItem {
             pixmap:  NOO.pix("practice")
             text: qsTr("Start exercise on level:")
             onClicked: start(Texecutor.StartExercise, selector.levelId > -1 ? selector.currentLevelVar() : prevLevel())
+            color: enabled ? Qt.tint(activPal.button, NOO.alpha("green", NOO.isAndroid() ? 40 : 0)) : disdPal.button
           }
           Text {
             anchors.verticalCenter: parent.verticalCenter
@@ -119,6 +122,7 @@ TstartExamItem {
             pixmap: NOO.pix("exam")
             text: qsTr("Pass new exam on level:")
             onClicked: start(Texecutor.NewExam, selector.currentLevelVar())
+            color: enabled ? Qt.tint(activPal.button, NOO.alpha("yellow", NOO.isAndroid() ? 40 : 0)) : disdPal.button
           }
           Text {
             anchors.verticalCenter: parent.verticalCenter
@@ -147,6 +151,7 @@ TstartExamItem {
             text: qsTr("Latest exam")
             enabled: lastExamFile !== ""
             onClicked: start(Texecutor.ContinueExam, lastExamFile)
+            color: enabled ? Qt.tint(activPal.button, NOO.alpha("orange", NOO.isAndroid() ? 40 : 0)) : disdPal.button
           }
           Text {
             width: lastExamFrame.width - lastExamButt.width - 3 * NOO.factor()
@@ -169,6 +174,7 @@ TstartExamItem {
               pixmap: NOO.pix("exam")
               text: qsTr("Select an exam to continue") + "   ⋮"
               onClicked: menu.open()
+              color: enabled ? Qt.tint(activPal.button, NOO.alpha("orange", NOO.isAndroid() ? 40 : 0)) : disdPal.button
             }
           }
         }
@@ -180,6 +186,7 @@ TstartExamItem {
               iconHeight: startDialog.height / 15
               pixmap: NOO.pix("exit"); text: NOO.TR("QShortcut", "Exit")
               onClicked: dialLoader.close()
+              color: enabled ? Qt.tint(activPal.button, NOO.alpha("red", NOO.isAndroid() ? 60 : 0)) : disdPal.button
             }
           }
         }
@@ -253,6 +260,7 @@ TstartExamItem {
           pixmap: NOO.pix("nootka-level")
           text: NOO.TR("LevelsPage", "Level name:")
           onClicked: selPopLoader.item.open()
+          color: enabled ? Qt.tint(activPal.button, NOO.alpha(activPal.highlight, NOO.isAndroid() ? 40 : 0)) : disdPal.button
         }
         Text {
           anchors.verticalCenter: parent.verticalCenter
@@ -276,7 +284,8 @@ TstartExamItem {
 
   Component.onCompleted: {
     dialLoader.standardButtons = 0
-    dialLoader.title = qsTr("Start exercises or an exam")
+    if (!NOO.isAndroid())
+      dialLoader.title = qsTr("Start exercises or an exam")
   }
 
   Component.onDestruction: {
