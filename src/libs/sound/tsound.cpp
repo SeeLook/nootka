@@ -630,7 +630,7 @@ bool Tsound::eventFilter(QObject* watched, QEvent* event) {
                     m_currVol = qBound(0, m_currVol, m_maxVol);
                     setVol(m_currVol);
                     m_currVol = QAndroidJniObject::callStaticMethod<jint>("net/sf/nootka/ToutVolume", "streamVolume");
-                } else
+                } else if (!GLOB->isExam())
                     QTimer::singleShot(10, this, &Tsound::volumeKeyPressed);
             } else {
                 if (ke->key() == Qt::Key_VolumeDown)
