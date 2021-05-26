@@ -1,6 +1,10 @@
 1.9.2 devel
      - updated online documentation and links to it
      - bug fixes
+    LINUX
+     - PulseAudio backend can work through PipeWire when available
+    ANDROID
+     - lightly colorize dialog buttons for better legibility
 
 1.9.1 rc2
      - chart tip can be clicked to show complete melody of question
@@ -145,7 +149,7 @@
      - use standard path for icons (app, mime) (/usr/share/icons/hicolor)
      - set of scaled icons for above
      - added appdata XML file for better desktop integration and packaging
-     - Flatpack package available
+     - Flatpak package available
     ANDROID
      - asking for permissions: required by newer Androids
      - added arm64_v8a and x86_64 versions
