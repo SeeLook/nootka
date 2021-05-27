@@ -114,7 +114,7 @@ ApplicationWindow {
   }
 
   function createStatus() {
-    Qt.createComponent("qrc:/StatusTip.qml").createObject(NOO.isAndroid() ? nootkaWindow.contentItem : nootkaWindow)
+    Qt.createComponent("qrc:/StatusTip.qml").createObject(NOO.isAndroid() ? nootkaWindow.contentItem : nootkaWindow.contentItem.parent)
   }
 
   function checkSingleMode() {
