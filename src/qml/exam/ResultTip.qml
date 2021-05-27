@@ -9,18 +9,19 @@ import QtGraphicalEffects 1.0
 Item {
   id: resultTip
 
-  property real targetY: executor.height / 80
+  property real targetY: shortEdge / 80
   property alias color: txt.color
   property alias text: txt.text
+  property real shortEdge: Math.min(executor.height, executor.width)
 
-  anchors { right: parent.right; rightMargin: parent.width / 12 }
+  anchors { right: parent.right; rightMargin: shortEdge / 12 }
 
   width: txt.width; height: txt.height
   z: 501 // above status tip rectangle
 
   Text {
     id: txt
-    font { pixelSize: (executor.height / 15) * (1 - 0.2 * (lineCount - 1)); bold: true }
+    font { pixelSize: (shortEdge / 15) * (1 - 0.2 * (lineCount - 1)); bold: true }
     visible: false
     horizontalAlignment: Text.AlignHCenter; textFormat: Text.StyledText
   }
@@ -29,7 +30,7 @@ Item {
     anchors.fill: txt
     horizontalOffset: txt.font.pixelSize / 12
     verticalOffset: horizontalOffset
-    radius: executor.height / 100
+    radius: shortEdge / 100
     samples: radius * 2 + 1
     color: activPal.shadow
     source: txt
