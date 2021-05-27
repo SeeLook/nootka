@@ -156,13 +156,14 @@ void TpitchFinder::setOffLine(bool off) {
 
 void TpitchFinder::setSampleRate(unsigned int sRate, int range) {
   if (m_framesReady > 0) {
-    qDebug() << "[TpitchFinder] Detection in progress.\nDon't change sample rate now!\nIgnored!";
+    if (sRate != m_aGl->rate || range != qRound(m_rateRatio))
+      qDebug() << "[TpitchFinder] Detection in progress...\n[TpitchFinder] Don't change sample rate now! Ignored!";
     return;
   }
 
   unsigned int oldRate = m_aGl->rate, oldFramesPerChunk = m_aGl->framesPerChunk;
   m_aGl->rate = sRate;
-  m_rateRatio = range == 2 ? 2.0 : 1.0; // e_low for 2, for other cases e_middle
+  m_rateRatio = range == 2 ? 2.0f : 1.0f; // e_low for 2, for other cases e_middle
 //   switch (range) {
 //     case 0:
 //       m_rateRatio = 0.5; break; // e_high - lowest pitch is F small
