@@ -61,6 +61,7 @@ Flickable {
                   setTuning(NOO.tuning(score.scoreObj.lowestNote(), score.scoreObj.highestNote(), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote()))
               }
           }
+          score.ensureVisible(0, 0)
         }
       }
     }
