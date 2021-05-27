@@ -83,11 +83,11 @@ TguitarBg {
     radius: NOO.factor() / 3
     source: finger
     visible: fingerPos.x > 0 && active
-    scale: !pressed && active && fingerPos.x > 0 ? 1 : 0.3
+    scale: !pressed && active && fingerPos.x > 0 ? 1 : 0
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
   }
 
-  Rectangle {
+  Rectangle { // string highlight
     z: 5
     color: finger.color
     width: parent.width - stringsGap - 2
@@ -100,6 +100,12 @@ TguitarBg {
   Component.onCompleted: {
     if (NOO.isAndroid() && NOO.fingerPixels() * 4 > height)
       guitarZoom = Qt.createComponent("qrc:/instruments/InstrumentZoom.qml").createObject(instrItem)
+  }
+
+  Connections {
+    target: instrFlick
+    enabled: !NOO.isAndroid()
+    onMovementEnded: instrument.pressedAt(0, 0)
   }
 
   MouseArea {
