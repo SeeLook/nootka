@@ -89,14 +89,12 @@ void TmelodyListView::loadMelody() {
   for (auto musicXMLfile : names) {
     if (!musicXMLfile.isEmpty()) {
       m_level->melodySet << Tmelody();
-      auto melody = &m_level->melodySet.last();
-      if (melody->grabFromMusicXml(musicXMLfile)) {
-          emit appendMelody();
-          emit melodiesChanged();
-      } else
-          m_level->melodySet.removeLast();
+      if (!m_level->melodySet.last().grabFromMusicXml(musicXMLfile))
+        m_level->melodySet.removeLast();
     }
   }
+  QTimer::singleShot(100, [=]{ loadMelodies(); });
+  emit melodiesChanged();
 #endif
 }
 
