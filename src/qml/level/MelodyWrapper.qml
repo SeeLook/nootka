@@ -21,7 +21,7 @@ MouseArea {
 
   function updateMelody() { wrapper.updateMelody() }
 
-  hoverEnabled: true
+  hoverEnabled: false // triggered with delay to avoid highlighting all wrappers
   drag.target: wrapArea.held ? wrapper : undefined
   drag.axis: Drag.YAxis
 

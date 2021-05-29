@@ -22,6 +22,8 @@
 #include "score/tscoreobject.h"
 #include <tglobals.h>
 
+#include <QtCore/qtimer.h>
+
 
 TmelodyWrapper::TmelodyWrapper(QQuickItem *parent) :
   QQuickItem(parent)
@@ -64,5 +66,12 @@ void TmelodyWrapper::updateMelody() {
       }
     }
     emit melodyChanged();
+    /**
+     * HACK: Trigger mouse hover with delay to avoid highlighting every wrapper.
+     * When mouse is above and delegates are created one by one every of them gets hover enter
+     * but not hover exit somehow, so all behaves like hovered - black texts, preview button highlighted.
+     * With this delay it works as intended.
+     */
+    QTimer::singleShot(500, this, [=]{ parent()->setProperty("hoverEnabled", QVariant::fromValue(true)); });
   }
 }
