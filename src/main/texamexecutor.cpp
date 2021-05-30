@@ -338,7 +338,6 @@ void TexamExecutor::askQuestion(bool isAttempt) {
       disconnect(MAIN_SCORE, &TmainScoreObject::readOnlyNoteClicked, this, &TexamExecutor::correctNoteOfMelody);
       int melodyLength = qBound(qMax(2, qRound(m_level.melodyLen * 0.7)), //at least 70% of length but not less than 2
                                       qRound(((6.0 + (qrand() % 5)) / 10.0) * (qreal)m_level.melodyLen), (int)m_level.melodyLen);
-//       qDebug() << "========== Asking melody" << m_exam->count();
       if (m_penalty->isNot()) {
           TrhythmList rhythms;
           if (!m_level.isMelodySet()) {
@@ -354,7 +353,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
           if (m_level.howGetMelody == Tlevel::e_randFromList) {
               QList<TQAgroup> qaList;
               m_supp->listForRandomNotes(curQ->key, qaList);
-              // ignore in key (4th param) of level, notes from list are already in key (if required)
+              // ignore in key (4th parameter) of level, notes from list are already in key (if required)
               getRandomMelodyNG(qaList, curQ->melody(), melodyLength, false, false);
           } else if (m_level.howGetMelody == Tlevel::e_melodyFromSet) {
             // Randomize melody number or get it in order of the melody set
@@ -365,7 +364,6 @@ void TexamExecutor::askQuestion(bool isAttempt) {
                 // Set the next melody ID:
                 // It may be the same ID when repetition number is not fulfilled
                 // or the next melody when repeated enough or this is exercise
-//                   qDebug() << "[MELODY SET] ID" << m_melody->lastMelodyId() << "repeat" << m_melody->repeatCounter() << "of" << m_level.repeatNrInSet;
                   m_melody->nextRepeat();
                   if (m_exercise || m_melody->repeatCounter() > m_level.repeatNrInSet) {
                     m_melody->setRepeat(1);
@@ -400,7 +398,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
       else // or clear it
         m_melody->newMelody(nullptr);
       m_exam->newAttempt();
-      curQ->lastAttempt()->melodyWasPlayed(); // it was played once for sure 
+      curQ->lastAttempt()->melodyWasPlayed(); // it was played once for sure
       if (m_exercise)
         m_melody->clearToFix(melodyLength);
     }
@@ -420,6 +418,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
               if (curQ->melody()->note(i)->g().str() > 1)
                 MAIN_SCORE->setTechnical(i, curQ->melody()->note(i)->technical());
             }
+  // TODO
   //           if (INSTRUMENT->isVisible())
   //             INSTRUMENT->prepareAnswer(); // It just shows range frame
           }

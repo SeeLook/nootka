@@ -652,7 +652,7 @@ void TexecutorSupply::comparePlayedFromScore(Tmelody* q, QVector<TnoteToPlay>& t
     if (shortestDur > 6 && shortestDur < 24) // but skip any dots
       shortestDur = 6; // 16th
   }
-  qDebug() << "[TexecutorSupply] checking quantization" << shortestDur;
+//   qDebug() << "[TexecutorSupply] checking quantization" << shortestDur;
   for (int i = 0; i < notesCount; ++i) {
     TQAunit tmpUnit;
     if (a.size() > i && toPlay.size() > i) {

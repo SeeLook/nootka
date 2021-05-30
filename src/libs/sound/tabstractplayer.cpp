@@ -78,7 +78,7 @@ void TplayerThread::run() {
         if (tmpN.rtm.tie() > Trhythm::e_tieStart) { // append duration if tie is continued or at end
             if (playList().isEmpty())
               continue; // do not start playing in the middle of tied notes
-              playList().last().samplesCount += samplesDur;
+            playList().last().samplesCount += samplesDur;
         } else
             playList() << TsingleSound(n,
                                       tmpN.isValid() ? tmpN.chromatic() + GLOB->transposition() + m_transposition + m_player->p_audioParams->a440diff : REST_NR,
