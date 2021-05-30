@@ -118,9 +118,6 @@ class TdecodedNote {
 #define HIGHEST_NOTE (63)
 
 
-int minDataAmount = 10000;
-
-
 ToggScale::ToggScale() :
   QObject(),
   m_oggInMemory(nullptr),
@@ -134,9 +131,10 @@ ToggScale::ToggScale() :
   m_touch = new soundtouch::SoundTouch();
   m_touch->setChannels(1);
 #if defined (Q_OS_UNIX) // increase minimal audio data must to be processed when system works with PulseAudio
+  // it is necessary either for Nootka with native PA or PA in ALSA bridge mode or Pipewire
   QFileInfo pulseBin(QStringLiteral("/usr/bin/pulseaudio"));
-  if (pulseBin.exists()) // it is necessary both for Nootka with native PA and PA in ALSA bridge mode
-    minDataAmount = 15000;
+  if (QFileInfo::exists(QStringLiteral("/usr/bin/pulseaudio")) || QFileInfo::exists(QStringLiteral("/usr/bin/pipewire-pulse")))
+    m_minDataAmount = 15000;
 #endif
 #if defined (Q_OS_ANDROID)
   minDataAmount = 15000;
@@ -371,7 +369,7 @@ void ToggScale::decodeOgg() {
   while (m_doDecode && loops < 500 && m_alreadyDecoded < maxSize) {
     read = ov_read(&m_ogg, reinterpret_cast<char*>(m_currentBuffer) + m_alreadyDecoded, maxSize - m_alreadyDecoded, 0, 2, 1, &bitStream);
     m_alreadyDecoded += read;
-    if (m_alreadyDecoded > minDataAmount && !m_isReady) { // amount of data needed by single loop of audio outCallBack
+    if (m_alreadyDecoded > m_minDataAmount && !m_isReady) { // amount of data needed by single loop of audio outCallBack
       m_isReady = true;
       emit oggReady();
     }
@@ -421,7 +419,7 @@ void ToggScale::decodeAndResample() {
           *(m_currentBuffer + m_alreadyDecoded + i) = static_cast<qint16>(*(tmpTouch + i) * 32768);
       m_alreadyDecoded += read;
     }
-    if (m_alreadyDecoded > minDataAmount && !m_isReady) { // below this value SoundTouch is not able to prepare data
+    if (m_alreadyDecoded > m_minDataAmount && !m_isReady) { // below this value SoundTouch is not able to prepare data
       m_isReady = true;
       emit oggReady();
     }

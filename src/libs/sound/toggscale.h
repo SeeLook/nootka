@@ -178,6 +178,7 @@ private:
   uint crossZeroBeforeMaxAmlp(uint lookFrom, int midiNoteNr);
 
 private:
+  int                m_minDataAmount = 10000; /**< Minimum bytes which have to be decoded to start playing */
   qint8             *m_oggInMemory;
   OggVorbis_File     m_ogg; /**< ogg vorbis handler */
   SoggFile           m_oggWrap; /**< Structure wrapped m_oggInMemory used by ogg vorbis. */
