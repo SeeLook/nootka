@@ -948,6 +948,10 @@ But better keep them short, so divide them first in some external software.</sou
         <source>Start/stop pitch detection</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Tuner</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -1670,10 +1674,6 @@ But better keep them short, so divide them first in some external software.</sou
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Tuner</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Countdown before playing or listening.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2338,10 +2338,6 @@ But better keep them short, so divide them first in some external software.</sou
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Take your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Sing scores</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2363,6 +2359,14 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>All chromatic notes till 5th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Take your instrument and just play...&lt;br&gt;Keys till 4 accidentals and double accidentals enabled!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scale of whole guitar without positions.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3111,10 +3115,6 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Use another style to give name of</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Show on the staff note played on</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

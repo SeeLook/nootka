@@ -2604,8 +2604,13 @@ non è un file di esame valido!</translation>
         <translation>Suona gli spartiti</translation>
     </message>
     <message>
-        <source>Take your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
-        <translation>Prendi il tuo strumento e suona...&lt;br&gt;Nessun nome delle note, nessuna tastiera. Armatura di chiave fino a 4 alterazioni e doppie alterazioni sono attive! Tutta l&apos;intero manico della chitarra senza posizioni.</translation>
+        <source>Take your instrument and just play...&lt;br&gt;Keys till 4 accidentals and double accidentals enabled!</source>
+        <translation>Prendi il tuo strumento e suona...&lt;br&gt;Armatura di chiave fino a 4 alterazioni e doppie alterazioni sono attive!</translation>
+    </message>
+    <message>
+        <location filename="../src/dialogs/tlevelsdefs.cpp" line="299"/>
+        <source>Scale of whole guitar without positions.</source>
+        <translation>Tutta l&apos;intero manico della chitarra senza posizioni.</translation>
     </message>
     <message>
         <source>Sing scores</source>

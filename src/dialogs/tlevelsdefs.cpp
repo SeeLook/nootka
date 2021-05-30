@@ -296,8 +296,9 @@ void getExampleLevels(QList<Tlevel>& llist) {
   //----------------------------------------------------------------------------
   l = Tlevel();
   l.name = QGuiApplication::translate("Tlevel", "Play scores");
-  l.desc = QGuiApplication::translate("Tlevel", "Take your instrument and just play...<br>No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.");
-  // TODO: this description doesn't match all instruments only guitar
+  l.desc = QGuiApplication::translate("Tlevel", "Take your instrument and just play...<br>Keys till 4 accidentals and double accidentals enabled!");
+  if (GLOB->instrument().isGuitar())
+    l.desc += QLatin1String("<br>") + QGuiApplication::translate("Tlevel", "Scale of whole guitar without positions.");
   l.questionAs.setOnInstr(false); // no guitar
   l.questionAs.setAsName(false); // no names
   l.questionAs.setAsSound(false); // don't play

@@ -857,7 +857,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/qml/gotit/GotIt.qml" line="88"/>
         <source>GOT IT!</source>
-        <translation>DOBRA!</translation>
+        <translation>MAM TO!</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/GotIt.qml" line="92"/>
@@ -3918,7 +3918,7 @@ nie jest poprawnym plikiem egzaminu!</translation>
     <message>
         <location filename="../src/dialogs/tlevelsdefs.cpp" line="232"/>
         <source>Listen to a sound and show it on the staff.&lt;br&gt;Guitar, note names and key signatures are not used.&lt;br&gt;Scale a - a&lt;sup&gt;2&lt;/sup&gt;.</source>
-        <translation>Posłuchaj dźwięku i pokaż go w nutach.&lt;br&gt;Gitara, nazwy nut i tonacje nie są używane.&lt;br&gt;Skala: a&lt;sup&gt;2&lt;/sup&gt;.</translation>
+        <translation>Posłuchaj dźwięku i pokaż go w nutach.&lt;br&gt;Gitara, nazwy nut i tonacje nie są używane.&lt;br&gt;Skala: a - a&lt;sup&gt;2&lt;/sup&gt;.</translation>
     </message>
     <message>
         <location filename="../src/dialogs/tlevelsdefs.cpp" line="262"/>
@@ -3937,8 +3937,13 @@ nie jest poprawnym plikiem egzaminu!</translation>
     </message>
     <message>
         <location filename="../src/dialogs/tlevelsdefs.cpp" line="299"/>
-        <source>Take your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
-        <translation>Weź swój instrument i po prostu graj...&lt;br&gt;Bez nazw nut, bez gryfu. Tonacje do 4 znaków. Podwójne krzyżyki i bemole. Skala całej gitary bez dźwięków w pozycjach.</translation>
+        <source>Take your instrument and just play...&lt;br&gt;Keys till 4 accidentals and double accidentals enabled!</source>
+        <translation>Weź swój instrument i po prostu graj...&lt;br&gt;Tonacje do 4 znaków. Podwójne krzyżyki i bemole.</translation>
+    </message>
+    <message>
+        <location filename="../src/dialogs/tlevelsdefs.cpp" line="299"/>
+        <source>Scale of whole guitar without positions.</source>
+        <translation>Skala całej gitary bez dźwięków w pozycjach.</translation>
     </message>
     <message>
         <location filename="../src/dialogs/tlevelsdefs.cpp" line="330"/>

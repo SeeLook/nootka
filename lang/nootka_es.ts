@@ -3366,8 +3366,13 @@ Pero mejor que sean cortas, por tanto dividirlas primero con un software externo
         <translation>Interpretar partituras</translation>
     </message>
     <message>
-        <source>Take your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
-        <translation>Toma tu instrumento e interpreta con él...&lt;br&gt;Sin nombres de notas, sin trastes.¡Habilitadas las claves hasta 4 alteraciones y dobles alteraciones! Escala de toda la guitarra sin posiciones.</translation>
+        <source>Take your instrument and just play...&lt;br&gt;Keys till 4 accidentals and double accidentals enabled!</source>
+        <translation>Toma tu instrumento e interpreta con él...&lt;br&gt;Habilitadas las claves hasta 4 alteraciones y dobles alteraciones!</translation>
+    </message>
+    <message>
+        <location filename="../src/dialogs/tlevelsdefs.cpp" line="299"/>
+        <source>Scale of whole guitar without positions.</source>
+        <translation>Escala de toda la guitarra sin posiciones.</translation>
     </message>
     <message>
         <source>Sing scores</source>

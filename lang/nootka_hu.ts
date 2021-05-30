@@ -3201,8 +3201,13 @@ Legyenek minél rövidebbek, ha kell előbb darabold fel egy erre megfelelő cé
         <translation>Kotta lejátszása</translation>
     </message>
     <message>
-        <source>Take your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
-        <translation>Csak fogd a hangszered és játssz...&lt;br&gt;Hang megnevezések és fogólap pozíciók nélkül. Hangnemek 4 módosító jelig és dupla módosító jelekkel engedélyezve! A teljes gitár skálája pozíciótól függetlenül használható.</translation>
+        <source>Take your instrument and just play...&lt;br&gt;Keys till 4 accidentals and double accidentals enabled!</source>
+        <translation>Csak fogd a hangszered és játssz...&lt;br&gt;Hangnemek 4 módosító jelig és dupla módosító jelekkel engedélyezve!</translation>
+    </message>
+    <message>
+        <location filename="../src/dialogs/tlevelsdefs.cpp" line="299"/>
+        <source>Scale of whole guitar without positions.</source>
+        <translation>A teljes gitár skálája pozíciótól függetlenül használható.</translation>
     </message>
     <message>
         <source>Sing scores</source>

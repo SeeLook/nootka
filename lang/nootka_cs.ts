@@ -3784,8 +3784,13 @@ není platným souborem zkoušky!</translation>
     </message>
     <message>
         <location filename="../src/dialogs/tlevelsdefs.cpp" line="299"/>
-        <source>Take your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
-        <translation>Vezměte svůj nástroj a jen hrajte...&lt;br&gt;Žádné názvy not, žádný hmatník. Jsou povoleny stupnice až do čtyř posuvek! Rozsah celé kytary bez poloh.</translation>
+        <source>Take your instrument and just play...&lt;br&gt;Keys till 4 accidentals and double accidentals enabled!</source>
+        <translation>Vezměte svůj nástroj a jen hrajte...&lt;br&gt;Jsou povoleny stupnice až do čtyř posuvek!</translation>
+    </message>
+    <message>
+        <location filename="../src/dialogs/tlevelsdefs.cpp" line="299"/>
+        <source>Scale of whole guitar without positions.</source>
+        <translation>Rozsah celé kytary bez poloh.</translation>
     </message>
     <message>
         <location filename="../src/dialogs/tlevelsdefs.cpp" line="330"/>

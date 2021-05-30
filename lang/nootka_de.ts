@@ -3422,8 +3422,13 @@ cents???</translatorcomment>
         <translation>Partituren spielen</translation>
     </message>
     <message>
-        <source>Take your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
-        <translation>Nimm dein Instrument und spiel...&lt;br&gt;Keine Notennamen, kein Griffbrett. Bis zu 4 Vorzeichen und Doppelvorzeichen aktiviert.</translation>
+    <source>Take your instrument and just play...&lt;br&gt;Keys till 4 accidentals and double accidentals enabled!</source>
+        <translation>Nimm dein Instrument und spiel...&lt;br&gt;Bis zu 4 Vorzeichen und Doppelvorzeichen aktiviert.</translation>
+    </message>
+    <message>
+      <location filename="../src/dialogs/tlevelsdefs.cpp" line="299"/>
+      <source>Scale of whole guitar without positions.</source>
+      <translation></translation>
     </message>
     <message>
         <source>Sing scores</source>

@@ -3189,8 +3189,13 @@ version</translation>
         <translation>Jeu avec partition</translation>
     </message>
     <message>
-        <source>Take your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
-        <translation>Prenez votre instrument et jouez... &lt;br&gt;Pas de nom de note, pas de touche. &lt;br&gt;Tonalités jusqu&apos;à 4 altérations et altérations doubles possibles ! &lt;br&gt; Étendue complète du manche de la guitare sans les positions.</translation>
+    <source>Take your instrument and just play...&lt;br&gt;Keys till 4 accidentals and double accidentals enabled!</source>
+        <translation>Prenez votre instrument et jouez... &lt;br&gt;Tonalités jusqu&apos;à 4 altérations et altérations doubles possibles !</translation>
+    </message>
+    <message>
+        <location filename="../src/dialogs/tlevelsdefs.cpp" line="299"/>
+        <source>Scale of whole guitar without positions.</source>
+        <translation>Étendue complète du manche de la guitare sans les positions.</translation>
     </message>
     <message>
         <source>Sing scores</source>
