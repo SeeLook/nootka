@@ -25,7 +25,7 @@
     </message>
     <message>
         <source>Welcome on the board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.</source>
-        <translation>Dobrodošli na krovu.&lt;br&gt;Nootka je odprtokodna aplikacija v pomoč pri učenju (in poučevanju) klasičnega notnega zapisa.</translation>
+        <translation>Dobrodošli na tem tečaju.&lt;br&gt;Nootka je odprtokodna aplikacija v pomoč pri učenju (in poučevanju) klasičnega notnega zapisa.</translation>
     </message>
     <message>
         <source>See a &lt;a href=&quot;%1&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;br&gt;Any bugs, suggestions, translations and so on, please report to: %2.&lt;br&gt;&lt;br&gt;with respects&lt;br&gt;Author</source>
@@ -72,7 +72,7 @@
     </message>
     <message>
         <source>Only one, selected key signature for whole exam.</source>
-        <translation type="unfinished"></translation>
+        <translation>Samo v enem ključu za celoten izpit</translation>
     </message>
     <message>
         <source>range of keys</source>
@@ -84,7 +84,7 @@
     </message>
     <message>
         <source>Select a key signature. Appropriate accidentals used in this level will be selected automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation>Izberi ključ. Primerni višaji oz. nižaji bodo izbrani avtomatično.</translation>
     </message>
     <message>
         <source>select a key signature manually</source>
@@ -340,7 +340,7 @@
     </message>
     <message>
         <source>incorrect rhythm</source>
-        <translation type="unfinished"></translation>
+        <translation>nepravilen ritem</translation>
     </message>
 </context>
 <context>
@@ -588,14 +588,14 @@
     <name>Certificate</name>
     <message>
         <source>Stop exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Ustavi izpit</translation>
     </message>
 </context>
 <context>
     <name>ChartDrawer</name>
     <message>
         <source>keep opened</source>
-        <translation type="unfinished"></translation>
+        <translation>pusti odprto</translation>
     </message>
 </context>
 <context>
@@ -818,14 +818,14 @@
     </message>
     <message>
         <source>To improve association of note in the score or position on the instrument to note name, Nootka will display names even if neither question nor answer is related to it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Za izboljšanje predstave kje je nota v črtovju ali katero ime note ustreza nekemu položaju na kitari, bo Nootka prikazala imena tudi, ko niso vprašanja niti ogovori s tem v nikakršni povezavi.</translation>
     </message>
 </context>
 <context>
     <name>ExamSummary</name>
     <message>
         <source>Analyze</source>
-        <translation type="unfinished"></translation>
+        <translation>Analiziraj</translation>
     </message>
     <message>
         <source>Pass an exam</source>
@@ -884,68 +884,70 @@
     </message>
     <message>
         <source>enable animations</source>
-        <translation type="unfinished"></translation>
+        <translation>omogoči animacije</translation>
     </message>
     <message>
         <source>show hints</source>
-        <translation type="unfinished"></translation>
+        <translation>pokaži namige</translation>
     </message>
     <message>
         <source>Scaling factor of visible texts and others GUI elements.&lt;br&gt;Requires application restart.</source>
-        <translation type="unfinished"></translation>
+        <translation>Razmerje med vidnim tekstom in ostalimi GUI elementi.&lt;br&gt;Zahteva ponovnen zagon aplikacije.</translation>
     </message>
     <message>
         <source>scale</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>V kakšnem kontekstu je ta scale?
+What is the context?</translatorcomment>
+        <translation type="unfinished">lestvica</translation>
     </message>
 </context>
 <context>
     <name>GotIt</name>
     <message>
         <source>GOT IT!</source>
-        <translation type="unfinished"></translation>
+        <translation>RAZUMEM!</translation>
     </message>
     <message>
         <source>remind me next time</source>
-        <translation type="unfinished"></translation>
+        <translation>spomni me naslednjič</translation>
     </message>
 </context>
 <context>
     <name>HandleScore</name>
     <message>
         <source>Editing score with touch</source>
-        <translation type="unfinished"></translation>
+        <translation>Urejanje rezultata z dotikom</translation>
     </message>
     <message>
         <source>Touch and hold area of a note you want to edit.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dotakni se in drži področje note za urejanje.</translation>
     </message>
     <message>
         <source>Move finger left or right to see edited note.</source>
-        <translation type="unfinished"></translation>
+        <translation>Premikaj prst levo ali desno za prikaz editirane note.</translation>
     </message>
     <message>
         <source>Then move finger up or down to find desired note pitch.</source>
-        <translation type="unfinished"></translation>
+        <translation>Potem premakni prst gor oziroma dol da najdeš željeno višino note.</translation>
     </message>
     <message>
         <source>Rise the finger.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dvigni prst.</translation>
     </message>
     <message>
         <source>If necessary, select accidental or rhythmic value.</source>
-        <translation type="unfinished"></translation>
+        <translation>Če je potrebno, izberi predznak ali ritmično vrednost.</translation>
     </message>
     <message>
         <source>Finally, tap selected note shortly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Na koncu, na kratko tapni izbrano noto.</translation>
     </message>
 </context>
 <context>
     <name>HelpPage</name>
     <message>
         <source>Help topics</source>
-        <translation type="unfinished"></translation>
+        <translation>Teme pomoči</translation>
     </message>
 </context>
 <context>
@@ -980,7 +982,9 @@
     </message>
     <message>
         <source>Difference between score notation and real sound pitch.</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>kontekst?
+context?</translatorcomment>
+        <translation type="unfinished">Razlika med notnim zapisom in realno višino zvoka.</translation>
     </message>
     <message>
         <source>preferred accidentals:</source>
@@ -1017,22 +1021,22 @@
     </message>
     <message>
         <source>color of a pointer on an instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>barva kazalca na glasbilu</translation>
     </message>
     <message>
         <source>color of a selection</source>
-        <translation type="unfinished"></translation>
+        <translation>barva izbora</translation>
     </message>
     <message>
         <source>Custom tuning</source>
-        <translation>uglasitev po meri</translation>
+        <translation>Uglasitev po lastni meri</translation>
     </message>
 </context>
 <context>
     <name>KeySignature</name>
     <message>
         <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
-        <translation type="unfinished">Tonovski način - za spremembo, kliknite zgoraj ali pa pod črtovjem oziroma uprabite kolešček miške.</translation>
+        <translation>Tonovski način - za spremembo, kliknite zgoraj ali pa pod črtovjem oziroma uprabite kolešček miške.</translation>
     </message>
 </context>
 <context>
@@ -1051,7 +1055,7 @@
     </message>
     <message>
         <source>Rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>Ritmi</translation>
     </message>
     <message>
         <source>Accidentals</source>
@@ -1067,25 +1071,25 @@
     </message>
     <message>
         <source>Answers</source>
-        <translation type="unfinished"></translation>
+        <translation>Odgovori</translation>
     </message>
 </context>
 <context>
     <name>LevelPreview</name>
     <message>
         <source>not selected</source>
-        <translation type="unfinished"></translation>
+        <translation>ni izbrano</translation>
     </message>
 </context>
 <context>
     <name>Levels</name>
     <message>
         <source>Simple melodies</source>
-        <translation type="unfinished"></translation>
+        <translation>Preproste melodije</translation>
     </message>
     <message>
         <source>Play popular, simple melodies on your instrument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Igraj popularne, preproste melodije na svojem glasbilu.</translation>
     </message>
 </context>
 <context>
@@ -1104,15 +1108,15 @@
     </message>
     <message>
         <source>new level</source>
-        <translation type="unfinished">nova stopnja</translation>
+        <translation>nova stopnja</translation>
     </message>
     <message>
         <source>Level name:</source>
-        <translation type="unfinished">Ime stopnje:</translation>
+        <translation>Ime stopnje:</translation>
     </message>
     <message>
         <source>Level description:</source>
-        <translation type="unfinished">Opis stopnje:</translation>
+        <translation>Opis stopnje:</translation>
     </message>
 </context>
 <context>
@@ -1141,18 +1145,19 @@
     <name>MaxIntervalTile</name>
     <message>
         <source>Maximal interval between notes used in a melody (in semitones).</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>kotekst?</translatorcomment>
+        <translation>Največji možni interval med notami uporabljen v melodiji (v poltonih).</translation>
     </message>
     <message>
         <source>Max interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Največji možni interval</translation>
     </message>
 </context>
 <context>
     <name>MelGenDialog</name>
     <message>
         <source>Measures number</source>
-        <translation type="unfinished"></translation>
+        <translation>Število taktov</translation>
     </message>
 </context>
 <context>
@@ -1160,22 +1165,23 @@
     <message>
         <source>Add here melodies from Music XML files.
 But better keep them short, so divide them first in some external software.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tukaj dodaj melodije iz Music XML datotek
+Vendar naj bodo kratke, torej jih poprej razdelite v kakšnem drugem zunanjem programu.</translation>
     </message>
 </context>
 <context>
     <name>MelodyNameDialog</name>
     <message>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Naslov</translation>
     </message>
     <message>
         <source>Nootka melody</source>
-        <translation type="unfinished"></translation>
+        <translation>Nootka melodija</translation>
     </message>
     <message>
         <source>Composer</source>
-        <translation type="unfinished"></translation>
+        <translation>Skladatelj</translation>
     </message>
 </context>
 <context>
@@ -1220,47 +1226,49 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>They will be transposed if key signatures are set to be used and any of them differs from the key(s) defined below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Transponirane bodo, če je vklopljena nastavitev za oznako tonalite in se katarekoli razlikuje od spodaj definiranega ključa oz. ključev.</translation>
     </message>
     <message>
         <source>Play in tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Igraj v tempu</translation>
     </message>
     <message>
         <source>random order</source>
-        <translation type="unfinished"></translation>
+        <translation>naključen vrstni red</translation>
     </message>
     <message>
         <source>When checked, melodies from the list will be asked in random order.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ko je kljukica, se bodo vprašanja glede melodij s seznama zastavljala v naključnem redu.</translation>
     </message>
     <message>
         <source>How many times during an exam a melody from the list has to be played or written correctly. Warning! It multiplies question number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolikokrat med potekom izpita se bo morala melodija zaigrati oz. pravilno zapisati. Opozorilo! Pomnoži se število vprašanj.</translation>
     </message>
     <message>
         <source>number of repeats</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>kontekst? število ponovitev</translatorcomment>
+        <translation>število ponavljanj</translation>
     </message>
     <message>
         <source>Melodies are composed from notes in range defined on the &apos;Range&apos; page.</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodije so skomponirane iz not v definiranem razponu na strani &apos;Razpon&apos;.</translation>
     </message>
     <message>
         <source>Melodies are selected from the list below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Melodije so izbrane s spodnjega seznama.</translation>
     </message>
     <message>
         <source>from notes in range</source>
-        <translation type="unfinished"></translation>
+        <translation>iz not v razponu</translation>
     </message>
     <message>
         <source>from selected notes</source>
-        <translation type="unfinished"></translation>
+        <translation>iz izbranih not</translation>
     </message>
     <message>
         <source>from set of melodies</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>kontekst?</translatorcomment>
+        <translation>iz izbora melodij</translation>
     </message>
 </context>
 <context>
@@ -1319,44 +1327,44 @@ But better keep them short, so divide them first in some external software.</sou
     <name>NoteSelected</name>
     <message>
         <source>Note selection and playing</source>
-        <translation type="unfinished"></translation>
+        <translation>Izbira not in igranje</translation>
     </message>
 </context>
 <context>
     <name>OutScaleTip</name>
     <message>
         <source>Out of instrument scale!</source>
-        <translation type="unfinished"></translation>
+        <translation>Preko krajnih prečk na inštrumentu!</translation>
     </message>
 </context>
 <context>
     <name>PhonePage</name>
     <message>
         <source>screen always on</source>
-        <translation type="unfinished"></translation>
+        <translation>ekran ohrani prižgan</translation>
     </message>
     <message>
         <source>disable screen rotation</source>
-        <translation type="unfinished"></translation>
+        <translation>onemogočeno rotacija zaslona</translation>
     </message>
     <message>
         <source>full screen</source>
-        <translation type="unfinished"></translation>
+        <translation>čez celoten zaslon</translation>
     </message>
     <message>
         <source>Touching a screen suspends pitch detection for 1 second but some advanced users may want to disable that.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dotik zaslona začasno ustavi zaznavo višine tona za 1 sekundo, vendar bodo nekateri napredni uporabniki morda to želeli izklopiti.</translation>
     </message>
     <message>
         <source>suspend mic when screen was touched</source>
-        <translation type="unfinished"></translation>
+        <translation>začasno izklopi mikrofon med dotikom na zaslon</translation>
     </message>
 </context>
 <context>
     <name>PitchView</name>
     <message>
         <source>Start/stop pitch detection</source>
-        <translation type="unfinished"></translation>
+        <translation>Začni/ustavi zaznavo višine zvoka</translation>
     </message>
 </context>
 <context>
@@ -1414,7 +1422,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Select the type of answers for this kind of question.</source>
-        <translation type="unfinished"></translation>
+        <translation>Izberi tip odgovorov za to vrsto vprašanja.</translation>
     </message>
 </context>
 <context>
@@ -1458,15 +1466,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>melodies</source>
-        <translation type="unfinished"></translation>
+        <translation>melodije</translation>
     </message>
     <message>
         <source>Kind of questions and answers:</source>
-        <translation type="unfinished"></translation>
+        <translation>Vrsta vprašanj in odgovorov:</translation>
     </message>
     <message>
         <source>Question</source>
-        <translation type="unfinished"></translation>
+        <translation>Vprašanje</translation>
     </message>
 </context>
 <context>
@@ -1527,49 +1535,49 @@ But better keep them short, so divide them first in some external software.</sou
     <name>RhythmDiversityTile</name>
     <message>
         <source>Smaller values - less number of selected rhythmic note groups will be used, biggest value - melody will consist maximal possible number of selected groups.</source>
-        <translation type="unfinished"></translation>
+        <translation>Manjše vrednosti - manjše število izbranih ritmičnih skupin not bo uporabljeno, večja vrednost - melodija bo vsebovala največje možno število izbranih skupin.</translation>
     </message>
     <message>
         <source>Rhythmic diversity</source>
-        <translation type="unfinished"></translation>
+        <translation>Ritmična pestrost</translation>
     </message>
 </context>
 <context>
     <name>RhythmSelector</name>
     <message>
         <source>rhythmic groups</source>
-        <translation type="unfinished"></translation>
+        <translation>Ritmične skupine</translation>
     </message>
     <message>
         <source>Filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtri</translation>
     </message>
     <message>
         <source>basic rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>osnovni ritmi</translation>
     </message>
     <message>
         <source>rhythms with dots</source>
-        <translation type="unfinished"></translation>
+        <translation>ritmi s piko</translation>
     </message>
 </context>
 <context>
     <name>RhythmsPage</name>
     <message>
         <source>Select any rhythm and time signature to be used in this level, otherwise melodies will not have rhythmic values, just bare note-heads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Izberi katerikoli ritem in taktovski način za to stopnjo, drugače melodije ne bodo imele ritmičnih vrednosti, le gole notne glavice.</translation>
     </message>
     <message>
         <source>Number of measures in a melody. If &apos;variable&apos; is set, it will grow up to the given value as an exercise or an exam is progressing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Število taktov za melodijo. Če je spremenljivka določena, bo naraščalo do določene vrednosti med potekom vadbe ali pa izpita.</translation>
     </message>
     <message>
         <source>variable</source>
-        <translation type="unfinished"></translation>
+        <translation>spremenljivka</translation>
     </message>
     <message>
         <source>Time signatures to use in this level.</source>
-        <translation type="unfinished"></translation>
+        <translation>Taktovski način ki se bo uporabljal na tej stopnji.</translation>
     </message>
 </context>
 <context>
@@ -1670,31 +1678,33 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Use rhythms or only bare note heads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uporabi ritme ali pa le gole glavice notic.</translation>
     </message>
     <message>
         <source>enable rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>omogoči ritme</translation>
     </message>
     <message>
         <source>Octave numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Oktave označene s številko</translation>
     </message>
     <message>
         <source>scientific</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>contecst?</translatorcomment>
+        <translation type="unfinished">znanstvene</translation>
     </message>
     <message>
         <source>musical</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>contecst? </translatorcomment>
+        <translation type="unfinished">muzikalne</translation>
     </message>
     <message>
         <source>Scientific (international) pitch notation is widely used in technical sources and tuning devices/applications, when the other notation style is used more in music publications.</source>
-        <translation type="unfinished"></translation>
+        <translation>IPN je široko uporabljan zapis v tehničnih virih in napravah/aplikacijah za uglaševanje, medtem ko je druga oblika zapisa bolj uporabljana v glasbenih publikacijah.</translation>
     </message>
     <message>
         <source>Show names of all notes on the score</source>
-        <translation type="unfinished"></translation>
+        <translation>Prikaži imena vseh not na črtovju</translation>
     </message>
     <message>
         <source>names highlight color</source>
@@ -1705,12 +1715,12 @@ But better keep them short, so divide them first in some external software.</sou
     <name>ScoreToolbox</name>
     <message>
         <source>Tie - connect or disconnect selected note with previous one if both notes have the same pitch.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ligatura - poveže izbrano noto s prejšnjo, če sta obedve enake višine.</translation>
     </message>
     <message>
         <source>tie</source>
         <comment>To translate it properly, check please meaning of &apos;tie&apos; in musical context.</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ligatura</translation>
     </message>
 </context>
 <context>
@@ -1732,35 +1742,35 @@ But better keep them short, so divide them first in some external software.</sou
     <name>SoundInfo</name>
     <message>
         <source>Nootka can hear You!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nootka Vas lahko sliši!</translation>
     </message>
     <message>
         <source>Nootka recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nootka razpozna zaigrane zvoke in njihovo dolžino (ritme). Toda da bi dosegli točne odčitke, je potrebno nekaj preparacij in majhna mera potrpežljivosti. Predlagamo vam:</translation>
     </message>
     <message>
         <source>Be sure your system is able to record what are you playing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Prepričajte se, da vaš sistem omogoča snemanje tega kar igrate.</translation>
     </message>
     <message>
         <source>Adjust minimal note volume a little below of your input volume level.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nastavite minimalni volumen glasnosti note malce pod nivojem vaše nastavitve volumna vhodne glasnosti.</translation>
     </message>
     <message>
         <source>Aim to play loud and clear and avoid dirty sounds specific to your instrument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stremite k glasnemu in razločnemu igranju torej se izogibajte nečistim zvokom, ki so specifični za vaše glasbilo.</translation>
     </message>
     <message>
         <source>Play a few sounds to figure out their maximal volume,&lt;br&gt;then set level knob about 10-20% below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaigraj nekaj zvokov da ugotovimo njihovo najvišjo glasnost, potem zmanjšaj gumb za glasnost za okoli 10-20%.</translation>
     </message>
     <message>
         <source>Later, you can adjust the volume level in Nootka tuner window.&lt;br&gt;Invoke it from main menu or use any volume key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kasneje lahko prilagodite nivo glasnosti v Nootka oknu za uglasitev.&lt;br&gt;Odprete ga iz glavnega menija ali uporabo katere koli tipke za glasnost.</translation>
     </message>
     <message>
         <source>If you want Nootka to write your melody with rhythm then you have to play exactly in selected tempo - preferably with a metronome. But during practice, when you are playing melody given by the application, the tempo can be at will unless some level defines it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Če hočete da se v Nootki zapisuje vaša melodija z ritmom, potem morate igrati točno v izbranem tempu - po možnosti z metronomom. Med vadbo pa, ko igrate melodijo ki vam jo poda aplikacija, je lahko tempo poljuben, razen če ni tako definiran na nekaterih stopnjah.</translation>
     </message>
 </context>
 <context>
@@ -1815,7 +1825,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>[Hz]</source>
-        <translation type="unfinished"></translation>
+        <translation>[Hz]</translation>
     </message>
     <message>
         <source>Advanced</source>
@@ -1843,7 +1853,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>It is rather necessary for mic input but may be switched off for an instrument plugged line-in with less noise.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ponavadi se uporablja za mikrofonski vhod vendar se lahko izklopi za inštrument vtaknjen v line-in vhod z manj šuma.</translation>
     </message>
     <message>
         <source>noise filter</source>
@@ -1855,7 +1865,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>output device</source>
-        <translation type="unfinished"></translation>
+        <translation>izhodna naprava</translation>
     </message>
     <message>
         <source>All sounds captured by audio input will be forwarded directly to output device.</source>
@@ -1867,7 +1877,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>no devices found</source>
-        <translation type="unfinished"></translation>
+        <translation>naprava ni bila najdena</translation>
     </message>
     <message>
         <source>Frequency of detected note. You can use this for tuning.</source>
@@ -1956,7 +1966,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Select an exam to continue</source>
-        <translation type="unfinished"></translation>
+        <translation>Izberi izpit za nadaljevanje</translation>
     </message>
 </context>
 <context>
@@ -1986,7 +1996,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TXaxis</name>
     <message numerus="yes">
         <source>%n attempt(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n poskus</numerusform>
             <numerusform>%n poskusa</numerusform>
             <numerusform>%n poskusi</numerusform>
@@ -2062,7 +2072,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TanalysDialog</name>
     <message>
         <source>Analyze</source>
-        <translation type="unfinished"></translation>
+        <translation>Analiziraj</translation>
     </message>
     <message>
         <source>Y value:</source>
@@ -2137,7 +2147,8 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>File: %1 
  is not valid exam file!</source>
-        <translation type="unfinished"></translation>
+        <translation>File: %1 
+ni veljavna izpitna datoteka!</translation>
     </message>
     <message>
         <source>Open an exam to analyze</source>
@@ -2281,11 +2292,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message numerus="yes">
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>Melodija se je predvajala &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
-            <numerusform>Melodija se je predvajala &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
-            <numerusform>Melodija se je predvajala &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
-            <numerusform>Melodija se je predvajala &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
+            <numerusform>Melodiji sta se predvajali &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
+            <numerusform>Melodije so se predvajale &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
+            <numerusform>Melodije so se predvajale &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
         </translation>
     </message>
 </context>
@@ -2365,81 +2376,81 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>neutral</source>
-        <translation type="unfinished"></translation>
+        <translation>nevtralno</translation>
     </message>
     <message>
         <source>Clef for bass guitar and double bass, also used for cello and trombone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Notni ključ za bas kitaro, in kontrabas, tudi čelo in pozavno.</translation>
     </message>
     <message>
         <source>percussion clef</source>
-        <translation type="unfinished"></translation>
+        <translation>Oznaka za tolkalski part</translation>
     </message>
     <message>
         <source>For rhythms only, note pitch is undefined.</source>
-        <translation type="unfinished"></translation>
+        <translation>Le za ritme, višina note je nedefinirana.</translation>
     </message>
 </context>
 <context>
     <name>TempoBar</name>
     <message>
         <source>Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempo</translation>
     </message>
     <message>
         <source>Countdown before playing or listening.</source>
-        <translation type="unfinished"></translation>
+        <translation>Odštevanje pred igranjem ali poslušanjem.</translation>
     </message>
     <message>
         <source>Audible metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Metronom slišno</translation>
     </message>
     <message>
         <source>Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
-        <translation type="unfinished"></translation>
+        <translation>Uporabite slušalke! Drugače bo tiktakanje motilo pravilno zaznavo višine!</translation>
     </message>
     <message>
         <source>Tuner</source>
-        <translation type="unfinished"></translation>
+        <translation>Uglaševalec</translation>
     </message>
     <message>
         <source>Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Metronom</translation>
     </message>
     <message>
         <source>beats per minute</source>
-        <translation type="unfinished"></translation>
+        <translation>udarcev na minuto</translation>
     </message>
     <message>
         <source>Mouse wheel changes tempo promptly (also with %1 key). Click for more options.</source>
-        <translation type="unfinished"></translation>
+        <translation>Miškino kolesce takoj spreminja tempo (tudi z %1 tipko). Klikni za možnosti.</translation>
     </message>
 </context>
 <context>
     <name>TempoMenu</name>
     <message>
         <source>tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>tempo</translation>
     </message>
     <message>
         <source>Tap tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Tapkaj tempo</translation>
     </message>
     <message>
         <source>Metronome visible</source>
-        <translation type="unfinished"></translation>
+        <translation>Metronome vidno</translation>
     </message>
     <message>
         <source>Count up</source>
-        <translation type="unfinished"></translation>
+        <translation>Prešteto</translation>
     </message>
     <message>
         <source>Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaznane ritmične enote so zaokrožene (kvantizacija). Krajše enote zahtevajo večjo ritmično natančnost.</translation>
     </message>
     <message>
         <source>round to:</source>
-        <translation type="unfinished"></translation>
+        <translation>zaokroži na:</translation>
     </message>
 </context>
 <context>
@@ -2493,19 +2504,19 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Listen to a melody and repeat it on your instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Poslušaj melodijo in jo ponovi na tvojem glasbilu</translation>
     </message>
     <message>
         <source>repeat melody</source>
-        <translation type="unfinished"></translation>
+        <translation>ponovi melodijo</translation>
     </message>
     <message>
         <source>on instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>na glasbilu</translation>
     </message>
     <message>
         <source>Let&apos;s start!</source>
-        <translation type="unfinished"></translation>
+        <translation>Začnimo!</translation>
     </message>
 </context>
 <context>
@@ -2607,7 +2618,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>There is not such a note in this melody!</source>
-        <translation type="unfinished"></translation>
+        <translation>Tukaj ni nobene take note v tej melodiji!</translation>
     </message>
 </context>
 <context>
@@ -2903,15 +2914,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Exam effectiveness (this question effectiveness)</source>
-        <translation type="unfinished"></translation>
+        <translation>Učinkovitost pri izpitu (učinkovitost tega vprašanja)</translation>
     </message>
     <message>
         <source>Answer time</source>
-        <translation type="unfinished"></translation>
+        <translation>Čas porabljen za odgovor</translation>
     </message>
     <message>
         <source>Exam time</source>
-        <translation type="unfinished"></translation>
+        <translation>Izpitni čas</translation>
     </message>
 </context>
 <context>
@@ -2976,23 +2987,23 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>note cursor</source>
         <comment>it might be just &apos;cursor&apos; as well</comment>
-        <translation type="unfinished"></translation>
+        <translation>kurzor</translation>
     </message>
     <message>
         <source>Note becomes selected (highlighted) when it was edited or clicked with right mouse button or tapped shortly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Notica postane izbrana (označena) ko je bila editirana ali poklikana z desnim miškinim gumbom oz. na kratko potapkana.</translation>
     </message>
     <message>
         <source>If any note on the score is selected, only this particular one is changed by playing or clicking on an instrument. And only pitch of that note changes - rhythmic value remains the same. </source>
-        <translation type="unfinished"></translation>
+        <translation>Če je katerakoli nota na črtovju izbrana, bo le ta dotična semenjena z igranjem ali klikanjem na instrument. Prav tako se spremeni le višina te note - ritmična vrednost ostane nespremenjena. </translation>
     </message>
     <message>
         <source>When no note is chosen on the score, note cursor is highlighted and blinks. Notes are added one by one, either by playing real instrument or by selecting a sound on instrument displayed by the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ko ni bila izbrana nobena nota na črtovju, je notni kurzor označen in utripa. Note so dodane ena po eno, bodisi z igranjem na pravi inštrument ali z izbiranjem zvoka na inštrument prikazan v aplikaciji.</translation>
     </message>
     <message>
         <source>To deselect the note just click or tap some free part of the score sheet or use arrow keys to navigate to the note cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Za preklicanje izbire te note le kliknite ali tapnite nekje v prostem nepopisanem področju črtovja ali uporabite smerne tipke da pridete do notnega kurzorja.</translation>
     </message>
 </context>
 <context>
@@ -3135,19 +3146,19 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Piano</source>
-        <translation type="unfinished"></translation>
+        <translation>klavir</translation>
     </message>
     <message>
         <source>Bandoneon</source>
-        <translation type="unfinished"></translation>
+        <translation>bandoneon</translation>
     </message>
     <message>
         <source>Alt Saxophone</source>
-        <translation type="unfinished"></translation>
+        <translation>altovski saksofon</translation>
     </message>
     <message>
         <source>Tenor Saxophone</source>
-        <translation type="unfinished"></translation>
+        <translation>tenorski saksofon</translation>
     </message>
 </context>
 <context>
@@ -3315,9 +3326,13 @@ But better keep them short, so divide them first in some external software.</sou
         <translation>Igraj partiture</translation>
     </message>
     <message>
-        <source>Take your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
-        <translatorcomment>Vzemi svoje glasbilo in le igraj...&lt;br&gt;Brez imen not, brez ubiralke. Ključi do 4-ih predznakov in dvojni predznaki omogočeno! Registri celotne kitare izvzevši položaje. (ver.)</translatorcomment>
-        <translation>Vzemi svoje glasbilo in samo igraj...&lt;br&gt;Brez imen not, brez ubiralke. Tonovski načini do 4-ih predznakov in dvojni predznaki omogočeno! Registri celotne kitare brez položajev.</translation>
+    <source>Take your instrument and just play...&lt;br&gt;Keys till 4 accidentals and double accidentals enabled!</source>
+        <translation>Vzemi svoje glasbilo in samo igraj...&lt;br&gt;Tonovski načini do 4-ih predznakov in dvojni predznaki omogočeno!</translation>
+    </message>
+    <message>
+        <location filename="../src/dialogs/tlevelsdefs.cpp" line="299"/>
+        <source>Scale of whole guitar without positions.</source>
+        <translation>Registri celotne kitare brez položajev.</translation>
     </message>
     <message>
         <source>Sing scores</source>
@@ -3339,7 +3354,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Some note of C-major scale point on the instrument, or give its name or show in the score.</source>
-        <translation type="unfinished"></translation>
+        <translation>Neka nota C dur lestvice pokaži kje na inštrumentu, ali poimenuj jo oz. pokaži na črtovju.</translation>
     </message>
 </context>
 <context>
@@ -3512,15 +3527,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Seems like this level has some mistakes</source>
-        <translation type="unfinished"></translation>
+        <translation>Kaže da ima ta stopnja nekaj napak</translation>
     </message>
     <message>
         <source>&lt;li&gt;There are not enough selected notes to create a melody.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Ni dovolj izbranih not za ustvarjanje melodije</translation>
     </message>
     <message>
         <source>&lt;li&gt;No melody was added to the list.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Na seznam ni bila dodana nobena melodija.&lt;li&gt;</translation>
     </message>
 </context>
 <context>
@@ -3605,7 +3620,8 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>none</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>context?</translatorcomment>
+        <translation>nič</translation>
     </message>
     <message>
         <source>proper octave is required</source>
@@ -3684,7 +3700,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Load exam level</source>
-        <translation type="unfinished"></translation>
+        <translation>Naloži izpitno stopnjo</translation>
     </message>
 </context>
 <context>
@@ -3844,12 +3860,12 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Previous note</source>
-        <translation type="unfinished"></translation>
+        <translation>Prejšnja nota</translation>
     </message>
     <message>
         <source>notes</source>
         <comment>musical notes of course</comment>
-        <translation type="unfinished"></translation>
+        <translation>note</translation>
     </message>
 </context>
 <context>
@@ -3863,7 +3879,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TmobileMenu</name>
     <message>
         <source>Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempo</translation>
     </message>
 </context>
 <context>
@@ -3879,11 +3895,12 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message numerus="yes">
         <source>The octave &lt;b&gt;%n&lt;/b&gt; in International Pitch Notation</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translatorcomment>Trial is the same for 3 and 4. Plural is for 5 and on...</translatorcomment>
+        <translation>
+            <numerusform>Oktava&lt;b&gt;%n&lt;/b&gt;v IPS (International Pitch Notation)</numerusform>
+            <numerusform>Oktavi&lt;b&gt;%n&lt;/b&gt;v IPS (International Pitch Notation)</numerusform>
+            <numerusform>Oktave&lt;b&gt;%n&lt;/b&gt;v IPS (International Pitch Notation)</numerusform>
+            <numerusform>Oktav&lt;b&gt;%n&lt;/b&gt;v IPS (International Pitch Notation)</numerusform>
         </translation>
     </message>
 </context>
@@ -4262,15 +4279,22 @@ But better keep them short, so divide them first in some external software.</sou
     <name>Transposition</name>
     <message>
         <source>Transposition</source>
-        <translation type="unfinished"></translation>
+        <translation>Transponiranje</translation>
     </message>
     <message numerus="yes">
         <source>semitone(s)</source>
+        <translatorcomment>I used accusative. But for other kázus it&apos;s:
+for nominative: 1/en polton, 2/dva poltona, 3/trije poltoni, 4/štirje poltoni, 5/pet poltonov, 6/šest poltonov ...
+for genitive: 1/enega poltona, 2/dveh poltonov, 3/treh poltonov, 4/štirih poltonov, 5/petih poltonov , 6/šestih poltonov ...
+for dative 1/enemu poltonu. 2/dvema poltonoma. 3/trem poltonom. 4/štirim poltonom. 5/petim poltonom ...
+for accusative: 1/en polton. 2/dva poltona. 3/tri poltone. 4/štiri poltone. 5/pet poltonov. 6/šest poltonov ...
+for locative: pri 1/enemu poltonu, pri 2/dveh poltonih, pri 3/treh poltonih, pri 4/štirih poltonih, pri 5/petih poltonih, pri 6/šestih poltonih, pri 7/sedmih poltonih, pri 8/osmih poltonih ..
+for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 4/štirimi poltoni, s 5/petimi poltoni, s 6/šestimi poltoni, s 7/sedmimi poltoni</translatorcomment>
         <translation>
             <numerusform>polton</numerusform>
             <numerusform>poltona</numerusform>
-            <numerusform>poltoni</numerusform>
-            <numerusform>poltoni</numerusform>
+            <numerusform>poltone</numerusform>
+            <numerusform>poltonov</numerusform>
         </translation>
     </message>
     <message>
@@ -4371,49 +4395,49 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Insert note</source>
-        <translation type="unfinished"></translation>
+        <translation>Vnesi noto</translation>
     </message>
     <message>
         <source>Edit score</source>
-        <translation type="unfinished"></translation>
+        <translation>Uredi črtovje</translation>
     </message>
     <message>
         <source>whole note</source>
-        <translation type="unfinished"></translation>
+        <translation>celinka</translation>
     </message>
     <message>
         <source>half note</source>
-        <translation type="unfinished"></translation>
+        <translation>polovinka</translation>
     </message>
     <message>
         <source>quarter note</source>
-        <translation type="unfinished"></translation>
+        <translation>četrtinka</translation>
     </message>
     <message>
         <source>eighth note</source>
-        <translation type="unfinished"></translation>
+        <translation>osminka</translation>
     </message>
     <message>
         <source>sixteenth note</source>
-        <translation type="unfinished"></translation>
+        <translation>šestnajstinka</translation>
     </message>
     <message>
         <source>rest</source>
-        <translation type="unfinished"></translation>
+        <translation>pavzica</translation>
     </message>
     <message>
         <source>dot</source>
-        <translation type="unfinished"></translation>
+        <translation>pika</translation>
     </message>
     <message>
         <source>rise</source>
         <comment>as such as sharps rise note</comment>
-        <translation type="unfinished"></translation>
+        <translation>višaj</translation>
     </message>
     <message>
         <source>lower</source>
         <comment>as such as flats lower note</comment>
-        <translation type="unfinished"></translation>
+        <translation>nižaj</translation>
     </message>
 </context>
 <context>
@@ -4483,11 +4507,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Phone</source>
-        <translation type="unfinished"></translation>
+        <translation>Telefon</translation>
     </message>
     <message>
         <source>Tablet</source>
-        <translation type="unfinished"></translation>
+        <translation>Tablica</translation>
     </message>
 </context>
 <context>
@@ -4501,7 +4525,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TstartExamDlg</name>
     <message>
         <source>Exam results</source>
-        <translation type="unfinished"></translation>
+        <translation>Izpitni rezultati</translation>
     </message>
     <message>
         <source>Load an exam file</source>
@@ -4611,11 +4635,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaigraj</translation>
     </message>
     <message>
         <source>To check the answer confirm it:</source>
-        <translation type="unfinished"></translation>
+        <translation>Obkljukajte odgovor s potrditvijo:</translation>
     </message>
     <message>
         <source>Check in exam help %1 how to do it automatically</source>
@@ -4660,7 +4684,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Point on the instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Pokaži na inštrumentu</translation>
     </message>
     <message>
         <source>Play or sing a melody.</source>
@@ -4706,7 +4730,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Listened sound show on the instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Poslušani zvok pokaži na inštrumentu</translation>
     </message>
     <message>
         <source>Play or sing listened sound</source>
@@ -4714,21 +4738,21 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Select any note to play it again.</source>
-        <translation type="unfinished">Izberi katerokoli noto za ponovno predvajanje.</translation>
+        <translation>Izberi katerokoli noto za ponovno predvajanje.</translation>
     </message>
     <message>
         <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
-        <translation type="unfinished">Kliknite nepravilne note za ogled&lt;br&gt;in poslušanje popravljenih.</translation>
+        <translation>Klikni nepravilne note za ogled&lt;br&gt;in poslušaj popravljene.</translation>
     </message>
     <message>
         <source>%1 was detected</source>
         <comment>note name</comment>
-        <translation type="unfinished">%1 je bil zaznan</translation>
+        <translation>%1 je bil zaznan</translation>
     </message>
     <message>
         <source>It should be %1</source>
         <comment>note name follows</comment>
-        <translation type="unfinished"></translation>
+        <translation>Moral bi biti %1</translation>
     </message>
 </context>
 <context>
@@ -4860,7 +4884,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Analyze</source>
-        <translation type="unfinished"></translation>
+        <translation>Analiziraj</translation>
     </message>
 </context>
 <context>
@@ -4906,11 +4930,11 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TunerDialog</name>
     <message>
         <source>Nooter - Nootka tuner</source>
-        <translation type="unfinished"></translation>
+        <translation>Nooter - Nootka uglaševalec</translation>
     </message>
     <message>
         <source>output volume</source>
-        <translation type="unfinished"></translation>
+        <translation>izhodni volumen</translation>
     </message>
 </context>
 <context>
@@ -4975,7 +4999,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>To get it, visit %1 Nootka site</source>
-        <translation type="unfinished"></translation>
+        <translation>Če rabte to, obiščite %1 Nootka spletno stran</translation>
     </message>
 </context>
 <context>
@@ -4994,7 +5018,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Volume level of input sound.</source>
-        <translation type="unfinished"></translation>
+        <translation>Raven volumna vhodnega zvoka.</translation>
     </message>
 </context>
 <context>
@@ -5015,7 +5039,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>WizardBass</name>
     <message>
         <source>Musical notation for bass guitar uses bass clef (clef F), but the notes sound one octave lower. It means bass guitar is transposing instrument and it transposes one octave down.</source>
-        <translation type="unfinished"></translation>
+        <translation>Glasbeni zapis za bas kitaro uporablja basovski ključ (ključ F), vendar note zvočijo eno oktavo nižje. To pomeni, da je bas kitara transponirajoč inštrument in se transponira eno oktavo navzdol.</translation>
     </message>
 </context>
 <context>
@@ -5040,23 +5064,23 @@ But better keep them short, so divide them first in some external software.</sou
     <name>WizardMode</name>
     <message>
         <source>In main Nootka window score can be displayed in a few different ways, depends on experience level.</source>
-        <translation type="unfinished"></translation>
+        <translation>V glavnem oknu Nootke je lahko črtovje prikazano na nekaj različnih načinov, odvisno od stopnje izkušenosti.</translation>
     </message>
     <message>
         <source>For beginners, when you don&apos;t know musical notation at all.</source>
-        <translation type="unfinished"></translation>
+        <translation>Za začetnike, ki še ne poznate notnega zapisa.</translation>
     </message>
     <message>
         <source>score without rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>črtovje brez ritmov</translation>
     </message>
     <message>
         <source>When you already know musical notation a little but you cannot play your instrument fluently yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ko že malo poznate glasbene zapise vendar še ne znate tekoče igrati na vaš inštrument.</translation>
     </message>
     <message>
         <source>full notation</source>
-        <translation type="unfinished"></translation>
+        <translation>popolna notacija</translation>
     </message>
 </context>
 <context>
@@ -5089,18 +5113,18 @@ But better keep them short, so divide them first in some external software.</sou
     <name>WizardPiano</name>
     <message>
         <source>Notes for piano are written on the grand staff - two staves joined with brace. Usually the upper one, with treble clef is for right hand and the lower one with bass clef is for left hand.</source>
-        <translation type="unfinished"></translation>
+        <translation>Note za klavir so napisane na klavirskem črtovju - dvoje črtovij združenih z zavitim oklepajem. Ponavadi je zgornje, z violinskim ključem za desno roko in spodnje z basovskim ključem za levo.</translation>
     </message>
     <message>
         <source>Although for exercise purposes and also due to Nootka is supporting only single voice, sometimes just one of the staves can be used as well.</source>
-        <translation type="unfinished"></translation>
+        <translation>Čeprav za vadbene namene in tudi zaradi tega ker Nootka podpira samo enoglasno (en glas), je včasih možno izbrati tudi le eno od črtovij.</translation>
     </message>
 </context>
 <context>
     <name>WizardSax</name>
     <message>
         <source>Saxophones are transposing instruments.&lt;br&gt;It means that note pitch in the score doesn&apos;t correspond directly to note which is played - it transposes by interval (number of semitones) according to kind of saxophone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Saksofoni so transponirana glasbila.&lt;br&gt;To pomeni, da višina note v črtovju ne ustrezajo direktno noti ki je zaigrana - transponira se po intervalu (številu poltonov) glede na tip saksofona.</translation>
     </message>
 </context>
 <context>
