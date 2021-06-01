@@ -665,13 +665,13 @@
         <location filename="../src/qml/instruments/Bandoneon.qml" line="130"/>
         <source>Bellows is opening.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;opening&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Meh se odpira.</translation>
     </message>
     <message>
         <location filename="../src/qml/instruments/Bandoneon.qml" line="153"/>
         <source>Bellows is closing.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;closing&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Meh se zapira.</translation>
     </message>
 </context>
 <context>
@@ -1037,9 +1037,7 @@
     <message>
         <location filename="../src/qml/settings/GlobalPage.qml" line="140"/>
         <source>scale</source>
-        <translatorcomment>V kakšnem kontekstu je ta scale?
-What is the context?</translatorcomment>
-        <translation type="unfinished">lestvica</translation>
+        <translation>razmerje</translation>
     </message>
 </context>
 <context>
@@ -1121,7 +1119,7 @@ What is the context?</translatorcomment>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="96"/>
         <source>scale of an instrument</source>
-        <translation>lestvica glasbila</translation>
+        <translation>razpon na glasbilu</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="96"/>
@@ -1141,9 +1139,7 @@ What is the context?</translatorcomment>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="152"/>
         <source>Difference between score notation and real sound pitch.</source>
-        <translatorcomment>kontekst?
-context?</translatorcomment>
-        <translation type="unfinished">Razlika med notnim zapisom in realno višino zvoka.</translation>
+        <translation>Razlika med notnim zapisom in realno višino zvoka.</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="161"/>
@@ -1281,12 +1277,12 @@ context?</translatorcomment>
     <message>
         <location filename="../levels/guitar/Play Bach Minuet-guitar.nel" line="9"/>
         <source>J. S. Bach - Minuet</source>
-        <translation type="unfinished"></translation>
+        <translation>J. S. Bach . Menuet</translation>
     </message>
     <message>
         <location filename="../levels/guitar/Play Bach Minuet-guitar.nel" line="10"/>
         <source>Play melody of J. S. Bach Minuet from Notebook for Anna Magdalena Bach divided into smaller parts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zaigraj melodijo J. S. Bacha Menuet iz Notne knjižice za Anno Magdaleno Bach porazdeljeno na manjše parte.</translation>
     </message>
 </context>
 <context>
@@ -1991,7 +1987,7 @@ Vendar naj bodo kratke, torej jih poprej razdelite v kakšnem drugem zunanjem pr
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="220"/>
         <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
-        <translation>Način poimenovanja not. Glavna razlika je v sedmi noti.&lt;br&gt;Je B in znižani B, ali H in B?</translation>
+        <translation>Način poimenovanja not. Glavna razlika je v sedmi noti.&lt;br&gt;Bodisi je B in znižani B, ali pa H in B?</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="73"/>
@@ -2012,20 +2008,18 @@ Vendar naj bodo kratke, torej jih poprej razdelite v kakšnem drugem zunanjem pr
         <location filename="../src/qml/settings/ScorePage.qml" line="248"/>
         <location filename="../src/qml/settings/ScorePage.qml" line="263"/>
         <source>scientific</source>
-        <translatorcomment>contecst?</translatorcomment>
-        <translation type="unfinished">znanstvene</translation>
+        <translation>znanstveno</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="254"/>
         <location filename="../src/qml/settings/ScorePage.qml" line="263"/>
         <source>musical</source>
-        <translatorcomment>contecst? </translatorcomment>
-        <translation type="unfinished">muzikalne</translation>
+        <translation>glasbeno</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="273"/>
         <source>Scientific (international) pitch notation is widely used in technical sources and tuning devices/applications, when the other notation style is used more in music publications.</source>
-        <translation>IPN je široko uporabljan zapis v tehničnih virih in napravah/aplikacijah za uglaševanje, medtem ko je druga oblika zapisa bolj uporabljana v glasbenih publikacijah.</translation>
+        <translation>Znanstveno (IPN) je široko uporabljan zapis v tehničnih virih in napravah/aplikacijah za uglaševanje, medtem ko je druga oblika zapisa bolj uporabljana v glasbenih publikacijah.</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="206"/>
@@ -2868,7 +2862,7 @@ ni veljavna izpitna datoteka!</translation>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="34"/>
         <source>Mouse wheel changes tempo promptly (also with %1 key). Click for more options.</source>
-        <translation>Miškino kolesce takoj spreminja tempo (tudi z %1 tipko). Klikni za možnosti.</translation>
+        <translation>Miškino kolesce takoj spreminja tempo (tudi s %1 tipko). Klikni za možnosti.</translation>
     </message>
 </context>
 <context>
@@ -3562,7 +3556,7 @@ ni veljavna izpitna datoteka!</translation>
     <message>
         <location filename="../src/main/tgotit.cpp" line="153"/>
         <source>If any note on the score is selected, only this particular one is changed by playing or clicking on an instrument. And only pitch of that note changes - rhythmic value remains the same. </source>
-        <translation>Če je katerakoli nota na črtovju izbrana, bo le ta dotična semenjena z igranjem ali klikanjem na instrument. Prav tako se spremeni le višina te note - ritmična vrednost ostane nespremenjena. </translation>
+        <translation>Če je katerakoli nota na črtovju izbrana, bo le ta dotična spremenjena z igranjem ali klikanjem na inštrument. Prav tako se spremeni le višina te note - ritmična vrednost ostane nespremenjena. </translation>
     </message>
     <message>
         <location filename="../src/main/tgotit.cpp" line="160"/>
@@ -3929,7 +3923,7 @@ ni veljavna izpitna datoteka!</translation>
     <message>
         <location filename="../src/dialogs/tlevelsdefs.cpp" line="299"/>
         <source>Take your instrument and just play...&lt;br&gt;Keys till 4 accidentals and double accidentals enabled!</source>
-        <translation>Vzemi svoje glasbilo in samo igraj...&lt;br&gt;Tonovski načini do 4-ih predznakov in dvojni predznaki omogočeno!</translation>
+        <translation>Vzemi svoje glasbilo in samo igraj...&lt;br&gt;Tonovski načini do štirih predznakov in dvojni predznaki omogočeno!</translation>
     </message>
     <message>
         <location filename="../src/dialogs/tlevelsdefs.cpp" line="301"/>
@@ -5717,7 +5711,7 @@ for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 
     <message>
         <location filename="../src/libs/core/music/ttune.cpp" line="41"/>
         <source>Open: D A D G A D </source>
-        <translation>Odprte: D AD G A D </translation>
+        <translation>Odprte: D A D G A D </translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/ttune.cpp" line="43"/>
@@ -5737,7 +5731,7 @@ for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 
     <message>
         <location filename="../src/libs/core/music/ttune.cpp" line="50"/>
         <source>5-str. bass: B E A D G</source>
-        <translation>5-str bas: B E A D G</translation>
+        <translation>5-str. bas: B E A D G</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/ttune.cpp" line="52"/>
@@ -5877,17 +5871,17 @@ for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 
     <message>
         <location filename="../src/qml/wizard/WizardBando.qml" line="16"/>
         <source>Notes for bandoneon are written on the grand staff - two staves joined with brace.</source>
-        <translation type="unfinished"></translation>
+        <translation>Note za bandoneon so napisane na klavirskem črtovju - dvoje črtovij povezanih z zavitim oklepajem.</translation>
     </message>
     <message>
         <location filename="../src/qml/wizard/WizardBando.qml" line="17"/>
         <source>All notes on the upper staff with treble clef are played with right hand and the notes on the lower one with bass clef are played with the left hand.</source>
-        <translation type="unfinished"></translation>
+        <translation>Vse note na zgornjem črtovju z violinskim ključem se zaigrajo z desno roko, note na spodnjem z basovskim ključem pa se zaigrajo z levo.</translation>
     </message>
     <message>
         <location filename="../src/qml/wizard/WizardBando.qml" line="19"/>
         <source>Direction of bellows movement is marked with bowing symbols:</source>
-        <translation type="unfinished"></translation>
+        <translation>Smer vodenja meha je označena s pomožnima oznakama:</translation>
     </message>
 </context>
 <context>
