@@ -58,10 +58,12 @@ void TupdateChecker::check(bool checkRules) {
   #else
           bool hasSSL = QSslSocket::supportsSsl();
   #endif
-          if (hasSSL) {
+
+  #if defined QT_NO_SSL
+          hasSSL = false;
+  #endif
+          if (hasSSL)
             requestAddr += QStringLiteral("s");
-//             qDebug() << "[TupdateChecker] SSL is supported, using https protocol to check updates";
-          }
           requestAddr += QString("://nootka.sldc.pl/ch/version.php?v=%1").arg(QLatin1String(NOOTKA_VERSION));
           QUrl requestUrl(requestAddr);
           QNetworkRequest request(requestUrl);
@@ -74,8 +76,11 @@ void TupdateChecker::check(bool checkRules) {
   #else
             request.setRawHeader("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 11_2_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15");
   #endif
+
+  #ifndef QT_NO_SSL
           if (hasSSL)
             request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
+  #endif
           m_reply = m_netManager->get(request);
           connect(m_reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error), this, &TupdateChecker::errorSlot);
     } else
