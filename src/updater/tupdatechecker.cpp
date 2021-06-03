@@ -53,15 +53,12 @@ void TupdateChecker::check(bool checkRules) {
         emit updateMessage(tr("Checking for updates. Please wait..."));
       if (!m_respectRules || (m_updateRules.enable && isUpdateNecessary(m_updateRules))) {
           QString requestAddr = QStringLiteral("http");
-  #if defined(Q_OS_ANDROID)
+  #if defined(Q_OS_ANDROID) || defined QT_NO_SSL
           bool hasSSL = false;
   #else
           bool hasSSL = QSslSocket::supportsSsl();
   #endif
 
-  #if defined QT_NO_SSL
-          hasSSL = false;
-  #endif
           if (hasSSL)
             requestAddr += QStringLiteral("s");
           requestAddr += QString("://nootka.sldc.pl/ch/version.php?v=%1").arg(QLatin1String(NOOTKA_VERSION));
