@@ -88,7 +88,7 @@ TexamSummary {
             visible: resultsModel.length
             Grid {
               anchors.horizontalCenter: parent.horizontalCenter
-              columns: NOO.isAndroid() ? 1 : 2
+              columns: NOO.isAndroid() || parent.width < NOO.factor() * 50 ? 1 : 2
               horizontalItemAlignment: Grid.AlignHCenter; verticalItemAlignment: Grid.AlignVCenter
               spacing: NOO.factor() * (NOO.isAndroid() ? 1 : 2)
               Column {
