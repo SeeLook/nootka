@@ -265,11 +265,12 @@ QList<TgroupedQAunit> sortByAccidental(TgroupedQAunit& answList, Tlevel* level, 
       QList<TgroupedQAunit> sorted = sortByNote(accidsArray[i], level, tmpBool);
       TgroupedQAunit accidList = mergeListOfLists(sorted);
       QString fullDesc;
+      int accidSize = qRound(qApp->font().pointSizeF() * 2.0);
       if (i - 2)
-        fullDesc = QLatin1String("<b>") + TgroupedQAunit::for_an_accid() + QLatin1String("</b><big>  ") + accidToNotka(i -2) + QLatin1String("</big>");
-            else
+        fullDesc = QLatin1String("<b>") + TgroupedQAunit::for_an_accid() + QLatin1String("</b>  ") + accidToNotka(i -2, accidSize);
+      else
         fullDesc = QLatin1String("<b>") + QApplication::translate("TlinearChart", "for notes without accidentals") + QLatin1String("</b>");
-      accidList.resume(accidToNotka(i - 2), fullDesc);
+      accidList.resume(accidToNotka(i - 2, accidSize * 2), fullDesc);
       result << accidList;
       kindOfAccidList << (i - 2);
     }
@@ -433,7 +434,7 @@ QList<TgroupedQAunit> sortByMisakes(TgroupedQAunit& answList, Tlevel* level, boo
       }
     }
   }
-  for (int m = 0; m < 12; m++) {
+  for (int m = 0; m < mistakesDesc.count(); m++) {
     if (!mistakesArr[m].isEmpty()) {
       mistakesArr[m].resume(mistakesDesc[m].replace(QLatin1String(" "), QLatin1String("<br>")), mistakesDesc[m]);
       result << mistakesArr[m];
