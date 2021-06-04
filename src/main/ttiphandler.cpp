@@ -349,6 +349,8 @@ void TtipHandler::showQuestionTip() {
     NOO->showTimeMessage(QString(), 10);
   auto question = m_exam->curQ();
 
+  deleteStartTip();
+
 #if defined (Q_OS_ANDROID)
   bool answIsWriteMelody = question->melody() && question->answerOnScore();
   MOBILE_MENU->setFlyActions(EXECUTOR->playAgainAct(), EXECUTOR->tuningForkAct(),
@@ -688,6 +690,7 @@ void TtipHandler::deleteStartTip() {
 #else
   if (m_startTip)
     m_startTip->deleteLater();
+  m_startTip = nullptr;
 #endif
 }
 
