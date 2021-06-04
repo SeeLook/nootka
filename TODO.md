@@ -7,22 +7,6 @@
 ============================================================================
 ============================================================================
 
-### Bugs to fix:
-  - Actions after displaying certificate are messy
-  - level validation routines are optimized for guitars mostly, troubles are there
-  - *play scores* level has description about guitar. Divide that text when all translations will be ready and adjust for instruments apparently
-
-### To test:
-  - melodies with ties and multiple rests (either playing or writing)
-  - single note exams: playing note by note (times between questions)
-  - no rhythms melodies - wait for correct note option
-  - no rhythms melodies - mixed with other melodies
-  - levels with melodies to be played and written in one
-
-### For incoming stable release version 2.0
-  - update links to online documentation (update doc in first place)
-  - clean correction code, key signature anim maybe
-
 ### For next stable Nootka version 2.0.2 or above
   - music XML import dialog, to select voice or staff if there are more, and so on
   - ukulele support
@@ -64,8 +48,6 @@
 ============================================================================
 
 ### small glitches:
- - sometimes setting a note doesn't scale tie - probably due to note width is not refreshed
- - space key for tapping tempo doesn't work well
  - TexamExacutor checkAnswerAct hint -> remove %1
 
 ### Translation context changes:
@@ -106,9 +88,5 @@
   - think about hide octave in note name format when octaves are not required in answers.  
      Also for questions in "hint" - don't show octave when only name is required 
 
-
-============================================================================
-#### To consideration:
-  - In wizard: option for single note mode for very beginners
 
 
