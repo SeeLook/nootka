@@ -10,9 +10,9 @@ endif()
 
 project(nootka)
 
-set(Nootka_VERSION_MAJOR  "1")
-set(Nootka_VERSION_MINOR  "9")
-set(Nootka_VERSION_PATCH  "2-devel")
+set(Nootka_VERSION_MAJOR  "2")
+set(Nootka_VERSION_MINOR  "0")
+set(Nootka_VERSION_PATCH  "0")
 
 
 set(Nootka_VERSION       "${Nootka_VERSION_MAJOR}.${Nootka_VERSION_MINOR}")
