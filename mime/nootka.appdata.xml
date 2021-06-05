@@ -34,12 +34,20 @@
 
   <screenshots>
     <screenshot type="default">
-      <caption>Main window</caption>
-      <image>https://nootka.sourceforge.io/screenshots/N2-main.png</image>
+      <caption>Main window - guitar</caption>
+      <image>https://nootka.sourceforge.io/wp-content/uploads/2021/05/Guitar.png</image>
     </screenshot>
     <screenshot type="default">
-      <caption>Some exercise</caption>
-      <image>https://nootka.sourceforge.io/screenshots/N2-exer.png</image>
+      <caption>Main window, single note - bandoneon</caption>
+      <image>https://nootka.sourceforge.io/wp-content/uploads/2021/05/Bando.png</image>
+    </screenshot>
+    <screenshot type="default">
+      <caption>Playing bass guitar exercise</caption>
+      <image>https://nootka.sourceforge.io/wp-content/uploads/2021/05/Bass.png</image>
+    </screenshot>
+    <screenshot type="default">
+      <caption>Saxophone and random melody</caption>
+      <image>https://nootka.sourceforge.io/wp-content/uploads/2021/05/Sax.png</image>
     </screenshot>
   </screenshots>
 
@@ -73,7 +81,7 @@
   <update_contact>seelook_AT_gmail.com</update_contact>
 
   <releases>
-    <release date="2021-05-15" version="1.9.1"/>
+    <release date="2021-06-05" version="2.0.0"/>
   </releases>
 
 </component>
