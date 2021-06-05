@@ -137,7 +137,7 @@ ToggScale::ToggScale() :
     m_minDataAmount = 15000;
 #endif
 #if defined (Q_OS_ANDROID)
-  minDataAmount = 15000;
+  m_minDataAmount = 15000;
 #endif
   moveToThread(m_thread);
   connect(m_thread, &QThread::started, this, &ToggScale::decodeOgg);
