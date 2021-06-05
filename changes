@@ -1,5 +1,7 @@
-1.9.2 devel
+2.0.0
+  Nootka knows rhythms and plays a few more instruments
      - updated online documentation and links to it
+     - updated Slovenian translation
      - bug fixes
     LINUX
      - PulseAudio backend can work through PipeWire when available
