@@ -50,10 +50,7 @@ Nightly builds for testing next Nootka releases are hosted on [https://www.openc
 
 Compilation from sources
 ----------------------------
-- [actual state](https://nootka.sourceforge.io/index.php/help/#compile-debug)
-    also in **git master** branch
-- [stable version](https://nootka.sourceforge.io/index.php/help/#compilation)
-    also in **git release** branch
+- [detailed instruction](https://nootka.sourceforge.io/index.php/2017/05/05/compiling-from-sources/)
 
 
 
