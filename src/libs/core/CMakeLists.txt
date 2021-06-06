@@ -5,6 +5,8 @@
 add_definitions(-DNOOTKACORE_LIBRARY)
 
 
+find_package(LIBZIP REQUIRED)
+
 set(LIB_NOOTKACORE_SRC
   tinitcorelib.cpp
   texamparams.h
@@ -18,6 +20,8 @@ set(LIB_NOOTKACORE_SRC
   tnootkaqml.cpp
   taction.cpp
   tnoofont.cpp
+
+  libzippp/libzippp.cpp
 
   music/tnote.cpp
   music/trhythm.cpp
@@ -73,6 +77,7 @@ target_link_libraries(NootkaCore
   Qt5::Qml
   Qt5::Quick
   Qt5::QuickControls2
+  libzip::zip
 )
 
 

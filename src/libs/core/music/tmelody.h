@@ -103,14 +103,22 @@ public:
        */
   void toXml(QXmlStreamWriter& xml, int trans = 0);
   bool fromXml(QXmlStreamReader& xml);
+  bool saveToMusicXml(const QString& xmlFileName, int transposition);
+  void writeXmlStream(QXmlStreamWriter &xml, int transposition);
+  bool saveToMXL(const QString& xmlFileName, int transposition);
 
-  bool saveToMusicXml(const QString& xmlFileName, int transposition = 0);
   bool grabFromMusicXml(const QString& xmlFileName);
+  bool grabFromMXL(const QString& xmlFileName);
 
       /**
        * Converts given list to melody
        */
   void fromNoteStruct(QList<TnoteStruct>& ns);
+
+      /**
+       * Common routine to parse musicXML data in @p QXmlStreamReader.
+       */
+  bool procesXMLData(QXmlStreamReader& xml);
 
 private:
   QString              m_title;
