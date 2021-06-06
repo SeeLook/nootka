@@ -1,6 +1,7 @@
 1.9.1 devel
      - chart tip can be clicked to show complete melody of question
      - level creator can display preview of entire melody
+     - updated Hungarian translation
      - version checker/updater was ported to QML
     BUG FIXES
      - fixed and improved saxophone support

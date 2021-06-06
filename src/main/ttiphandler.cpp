@@ -381,6 +381,7 @@ void TtipHandler::showQuestionTip() {
   questText += QString("<center><b><u>&nbsp;%1.&nbsp;</u></b>").arg(questNr) + attemptText + br;
   QString apendix;
   QString noteStr;
+
   switch (question->questionAs) {
     case TQAtype::e_onScore: {
       if (question->answerOnScore()) {
@@ -404,18 +405,13 @@ void TtipHandler::showQuestionTip() {
           else
             questText += playOrSing(int(level->instrument));
       }
+
       if (question->answerOnInstr() || question->answerAsSound()) {
         if (Tinstrument(level->instrument).isGuitar() && !level->canBeMelody() && level->showStrNr && !level->onlyLowPos) {
           apendix = br + sp + onStringTxt(question->qa.pos().str());
         }
       }
-      if (!question->melody()) {
-        questText += "<br> . . . <br>"; // TODO: add score into tip
-//           if (level->useKeySign && level->manualKey && question->answerAsNote()) // hide key signature
-//                 m_questText += br + wrapPixToHtml(question->qa.note, true, TkeySignature(0), sc);
-//           else
-//                 m_questText += br + wrapPixToHtml(question->qa.note, true, question->key, sc);
-      }
+
       if (!apendix.isEmpty())
         questText += apendix;
       break;
@@ -440,7 +436,7 @@ void TtipHandler::showQuestionTip() {
           else
             questText += tr("Point on the instrument") + noteStr;
       } else if (question->answerAsSound()) {
-          questText += playOrSing(int(level->instrument)) + noteStr;
+          questText += playOrSing(static_cast<int>(level->instrument)) + noteStr;
       }
       if (question->answerOnInstr() || question->answerAsSound()) {
           if (level->instrument != Tinstrument::NoInstrument && level->showStrNr && !level->onlyLowPos)
@@ -450,12 +446,12 @@ void TtipHandler::showQuestionTip() {
 
     case TQAtype::e_onInstr:
       if (question->answerOnScore()) {
-          questText += tr("Show on the staff note played on");
+          questText += tr("Show on the staff");
           if (level->useKeySign && level->manualKey)
             apendix = tr("<b>in %1 key.</b>", "in key signature").arg(question->key.getName());
       } else if (question->answerAsName()) {
           questText += tr("Give name of");
-      } else if (question->answerOnInstr()) {
+      } else if (question->answerOnInstr()) { // supported only on guitars
           questText += tr("Show sound from position:", "... and string + fret numbers folowing");
           apendix = br + sp + onStringTxt(question->qa_2.pos().str());
       } else if (question->answerAsSound()) {

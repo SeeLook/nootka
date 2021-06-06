@@ -9,7 +9,7 @@
     </message>
     <message>
         <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
-        <translation>Ez egy beta verzió, amiben előfordulhatnak hibák vagy furcsa, nem várt működések, illetve félkész funkciók.&lt;br&gt;Mindezek ellenére, örülök, hogy kipróbálja!</translation>
+        <translation>Ez egy beta verzió, amiben előfordulhatnak hibák vagy furcsa, nem várt működések, illetve félkész funkciók.&lt;br&gt;Mindezekkel együtt, örülök, hogy kipróbálod!</translation>
     </message>
     <message>
         <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
@@ -25,7 +25,7 @@
     </message>
     <message>
         <source>See a &lt;a href=&quot;%1&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;br&gt;Any bugs, suggestions, translations and so on, please report to: %2.&lt;br&gt;&lt;br&gt;with respects&lt;br&gt;Author</source>
-        <translation>Nézze meg a &lt;a href=&quot;%1&quot;&gt;program weboldalt&lt;/a&gt; további részletekért és új verziókért.&lt;br&gt;Bármiféle hibajelentést, javaslatot, fordítást vagy egyéb észrevételt örömmel fogadok ezen a címen: %2.&lt;br&gt;&lt;br&gt;Tisztelettel&lt;br&gt;Szerző</translation>
+        <translation>Nézd meg a &lt;a href=&quot;%1&quot;&gt;program weboldalt&lt;/a&gt; további részletekért és új verziókért.&lt;br&gt;Minden hibajelentést, javaslatot, fordítást vagy egyéb észrevételt örömmel fogadok ezen a címen: %2.&lt;br&gt;&lt;br&gt;Tisztelettel&lt;br&gt;Szerző</translation>
     </message>
 </context>
 <context>
@@ -56,7 +56,7 @@
     </message>
     <message>
         <source>if checked, it is possible to select a note with given accidental only.</source>
-        <translation>Ha ki van jelölve, akkor hangot választani  csak a megadott módosítóval lehet.</translation>
+        <translation>Ha ki van jelölve, akkor hangot választani csak a megadott módosítóval lehet.</translation>
     </message>
     <message>
         <source>use key signatures</source>
@@ -170,15 +170,15 @@
     </message>
     <message>
         <source>Press %1 button to select an exam from a file.</source>
-        <translation>Nyomja meg a %1 gombot ha fájlból akar vizsgát betölteni.</translation>
+        <translation>Nyomd meg a %1 gombot ha fájlból akarsz vizsgát betölteni.</translation>
     </message>
     <message>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
-        <translation>Használja a %1 + egér görgőt vagy %2 gombokat a diagram nagyításához.</translation>
+        <translation>Használd a %1 + egér görgőt vagy %2 gombokat a diagram nagyításához.</translation>
     </message>
     <message>
         <source>Click and Drag the cursor to move the chart.</source>
-        <translation>Klikkeljen és húzza a kurzort a diagram mozgatásához.</translation>
+        <translation>Klikkelj és húzd a kurzort a diagram mozgatásához.</translation>
     </message>
     <message>
         <source>Question number</source>
@@ -342,7 +342,7 @@
     </message>
     <message>
         <source>incorrect rhythm</source>
-        <translation type="unfinished"></translation>
+        <translation>pontatlan ritmus</translation>
     </message>
 </context>
 <context>
@@ -361,17 +361,30 @@
     </message>
 </context>
 <context>
+    <name>Bandoneon</name>
+    <message>
+        <source>Bellows is opening.</source>
+        <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;opening&apos;</comment>
+        <translation>Fújtató nylik.</translation>
+    </message>
+    <message>
+        <source>Bellows is closing.</source>
+        <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;closing&apos;</comment>
+        <translation>Fújtató zárul.</translation>
+    </message>
+</context>
+<context>
     <name>Certificate</name>
     <message>
         <source>Stop exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Vizsga megállítása</translation>
     </message>
 </context>
 <context>
     <name>ChartDrawer</name>
     <message>
         <source>keep opened</source>
-        <translation type="unfinished"></translation>
+        <translation>nyitva tartva</translation>
     </message>
 </context>
 <context>
@@ -379,8 +392,8 @@
     <message>
         <source>of</source>
         <comment>It will give text: &apos;Attempt x of y&apos;</comment>
-        <translatorcomment>Hell no, it&apos;s not gonna work for hungarian...</translatorcomment>
-        <translation>ennek</translation>
+        <translatorcomment>Nem túl elegáns ez magyarul.</translatorcomment>
+        <translation>-ból/-ből</translation>
     </message>
     <message numerus="yes">
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
@@ -406,7 +419,7 @@
     </message>
     <message>
         <source>Melody ends on tonic note</source>
-        <translation>Dallam tonika hangon végződjön</translation>
+        <translation>A dallam tonika hangon végződjön</translation>
     </message>
 </context>
 <context>
@@ -441,7 +454,7 @@
     </message>
     <message>
         <source>When answer was played (or sung) and it was wrong also the detected wrong note is shown.</source>
-        <translation>Ha egy hang tévesen volt lejátszva (vagy énekelve), akkor az érzékelt hangot is megmutatja.</translation>
+        <translation>Ha egy hang tévesen volt lejátszva (vagy énekelve), akkor az érzékelt téves hangot is megmutatja.</translation>
     </message>
     <message>
         <source>repeat a question</source>
@@ -449,7 +462,7 @@
     </message>
     <message>
         <source>A question with an incorrect answer will be asked once again.</source>
-        <translation>Rosszul megválaszolt kérdést még egyszer ismételten felteszi.</translation>
+        <translation>A rosszul megválaszolt kérdést egyszer megismétli.</translation>
     </message>
     <message>
         <source>close without confirm</source>
@@ -457,7 +470,7 @@
     </message>
     <message>
         <source>If checked, an application will not ask to answer pending question just mark it as wrong, save an exam to file (in directory: %1) and close itself without any confirmation needed.</source>
-        <translation>Ha ki van pipálva a program nem vár választ az aktuális kérdésre, hanem hibásnak jelöli meg, elmenti a vizsgált fájlba (ebben a mappában: %1) és bezárja magát minden további lépés nélkül.</translation>
+        <translation>Ha ki van pipálva a program nem vár választ az aktuális kérdésre, hanem hibásnak jelöli meg, elmenti a vizsgált fájlba (ebben a mappában: %1) és bezárja magát minden további megerősítés nélkül.</translation>
     </message>
     <message>
         <source>Student Name:</source>
@@ -517,7 +530,7 @@
     </message>
     <message>
         <source>extra names</source>
-        <translation>hang megnevezések</translation>
+        <translation>exta megnevezések</translation>
     </message>
     <message>
         <source>To improve association of note in the score or position on the guitar to note name, Nootka will display names even if neither question nor answer is related to it.</source>
@@ -541,19 +554,19 @@
     </message>
     <message>
         <source>You are about to enter expert mode.&lt;br&gt; In this mode you don&apos;t need to confirm every answer,&lt;br&gt;&lt;b&gt;but remember the following:</source>
-        <translation>Haladó módra készül váltani. &lt;br&gt; Ebben a módban nem szükséges megerősítés minden válaszhoz, &lt;br&gt;&lt;b&gt;, de ne feledje a következőket:</translation>
+        <translation>Haladó módra készülsz váltani. &lt;br&gt; Ebben a módban nem szükséges megerősítés minden válaszhoz, &lt;br&gt;&lt;b&gt;, de ne feledd a következőket:</translation>
     </message>
     <message>
         <source>Selecting a note on the score or a position on the fingerboard invokes automatic checking of your answer, so select a key signature first, if required.</source>
-        <translation>Egy hang kiválasztása a kottán vagy a fogólapon automatikusan maga után vonja az ellenőrzést, tehát amennyiben szükséges, először válasszon hangnemet.</translation>
+        <translation>Egy hang kiválasztása a kottán vagy a fogólapon automatikusan maga után vonja az ellenőrzést, tehát amennyiben szükséges, először válassz hangnemet.</translation>
     </message>
     <message>
         <source>When an answer is the name of a note &lt;b&gt;first select a proper accidental and an octave&lt;/b&gt; and then click a note button - this automatically invokes checking.</source>
-        <translation>Ha a válasz egy hang megnevezése, akkor &lt;b&gt;először válassza ki a megfelelő módosító jelet és oktávot&lt;/b&gt;után kattintson a megfelelő hangra - ezután megtörténik a hiba ellenőrzése.</translation>
+        <translation>Ha a válasz egy hang megnevezése, akkor &lt;b&gt;először válaszd ki a megfelelő módosító jelet és oktávot&lt;/b&gt;után kattints a megfelelő hangra - ezután megtörténik a hiba ellenőrzése.</translation>
     </message>
     <message>
         <source>When you have to play a note as an answer - the first detected sound will be taken, so be sure that your input device captures exactly what you want.</source>
-        <translation>Ha válaszként le kell játszani egy hangot - győzödjön meg róla, hogy a bemeneti eszköze megfelelően rögzíti a hangot, mert az elsőnek érzékelt hang jelenti majd a választ.</translation>
+        <translation>Ha válaszként le kell játszani egy hangot - győzödj meg róla, hogy a bemeneti eszközöd megfelelően rögzíti a hangot, mert az elsőnek érzékelt hang jelenti majd a választ.</translation>
     </message>
     <message>
         <source>When the last note of question that is a melody was played - checking starts.</source>
@@ -565,15 +578,15 @@
     </message>
     <message>
         <source>wait for correct note</source>
-        <translation type="unfinished"></translation>
+        <translation>várakozás a megfelelő hangjegyre</translation>
     </message>
     <message>
         <source>When melody is played from score, every note is checked immediately and next note can be played only when the previous one was correct. When unset, notes are checked only after playing the last one (or check button was clicked).</source>
-        <translation type="unfinished"></translation>
+        <translation>Dallam kottából játszása esetén minden hang egyesével azonnal ellenőrzésre kerül és a következő csak akkor játszható le, ha az előző helyes volt. Ha ki van kapcsolva, akkor az ellenőrzés csak az utolsó hang lejátszása után történik meg (vagy az ellenőrzés gomb lenyomásakor).</translation>
     </message>
     <message>
         <source>To improve association of note in the score or position on the instrument to note name, Nootka will display names even if neither question nor answer is related to it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nootka mutatja a megnevezéseket akkor is ha se kérdés, se válasz nem kötődik épp hozzá, ezzel segítve a kotta leírás párosítást a hangszerrel.</translation>
     </message>
 </context>
 <context>
@@ -619,7 +632,7 @@
     </message>
     <message>
         <source>Select a language.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;To take effect, this requires restarting the application!&lt;/span&gt;</source>
-        <translation>Válasszon nyelvet. &lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;A beállítás életbe lépéséhez a programot újra kell indítania!&lt;/span&gt;</translation>
+        <translation>Válassz nyelvet. &lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;A beállítás életbe lépéséhez a programot újra kell indítania!&lt;/span&gt;</translation>
     </message>
     <message>
         <source>default</source>
@@ -635,72 +648,72 @@
     </message>
     <message>
         <source>All settings will be reset to their default values!&lt;br&gt;Nootka will start up with the first-run wizard.</source>
-        <translation>Minden beállítás visszaáll az alapértelmezettre!&lt;br&gt;Indításkor az első indításos varázslót indítja Nootka.</translation>
+        <translation>Minden beállítás visszaáll az alapértelmezettre!&lt;br&gt;Induláskor az üdvözlő varázsló fogad majd.</translation>
     </message>
     <message>
         <source>enable animations</source>
-        <translation type="unfinished"></translation>
+        <translation>animációk engedélyezése</translation>
     </message>
     <message>
         <source>show hints</source>
-        <translation type="unfinished"></translation>
+        <translation>tippek mutatása</translation>
     </message>
     <message>
         <source>Scaling factor of visible texts and others GUI elements.&lt;br&gt;Requires application restart.</source>
-        <translation type="unfinished"></translation>
+        <translation>Szövegek és más GUI elemek méretezési aránya.&lt;br&gt;Program újraindítást igényel.</translation>
     </message>
     <message>
         <source>scale</source>
-        <translation type="unfinished"></translation>
+        <translation>skála</translation>
     </message>
 </context>
 <context>
     <name>GotIt</name>
     <message>
         <source>GOT IT!</source>
-        <translation type="unfinished"></translation>
+        <translation>MEGVAN!</translation>
     </message>
     <message>
         <source>remind me next time</source>
-        <translation type="unfinished"></translation>
+        <translation>emlékeztess legközelebb</translation>
     </message>
 </context>
 <context>
     <name>HandleScore</name>
     <message>
         <source>Editing score with touch</source>
-        <translation type="unfinished"></translation>
+        <translation>Kotta szerkesztése érintéssel</translation>
     </message>
     <message>
         <source>Touch and hold area of a note you want to edit.</source>
-        <translation type="unfinished"></translation>
+        <translation>Érintsd meg és tartsd lenyomva azt a részt, amit szerkeszteni szeretnél.</translation>
     </message>
     <message>
         <source>Move finger left or right to see edited note.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mozgasd az ujjad balra vagy jobbra a szerkesztett hang megtekintéséhez.</translation>
     </message>
     <message>
         <source>Then move finger up or down to find desired note pitch.</source>
-        <translation type="unfinished"></translation>
+        <translation>Majd húzd az ujjad fel vagy le, hogy a kívánt hangmagasságra állítsd.</translation>
     </message>
     <message>
         <source>Rise the finger.</source>
-        <translation type="unfinished"></translation>
+        <translation>Emeld fel az ujjad.</translation>
     </message>
     <message>
         <source>If necessary, select accidental or rhythmic value.</source>
-        <translation type="unfinished"></translation>
+        <translation>Válassz módosító jelzőt vagy ritmus értéket, ha szükséges.</translation>
     </message>
     <message>
         <source>Finally, tap selected note shortly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Végül érintsd meg a hangjegyet röviden.</translation>
     </message>
 </context>
 <context>
     <name>HelpPage</name>
     <message>
         <source>Help topics</source>
-        <translation type="unfinished"></translation>
+        <translation>Súgó tartalomjegyzék</translation>
     </message>
 </context>
 <context>
@@ -715,11 +728,11 @@
     </message>
     <message>
         <source>Select appropriate tuning from the list or prepare your own.</source>
-        <translation>Vállassza ki a megfelelő hangolást a listából vagy készítse el a sajátját.</translation>
+        <translation>Vállaszd ki a megfelelő hangolást a listából vagy készítsd el a sajátodat.</translation>
     </message>
     <message>
         <source>Remember to select the appropriate clef in Score settings.</source>
-        <translation>Ne felejtse el kiválasztani a megfelelő kulcsot a Kotta beállításokban.</translation>
+        <translation>Ne felejtsd el kiválasztani a megfelelő kulcsot a Kotta beállításokban.</translation>
     </message>
     <message>
         <source>Instrument</source>
@@ -749,7 +762,7 @@
     </message>
     <message>
         <source>Choose which accidentals will be shown on the staff.</source>
-        <translation>Jelölje ki melyik módosító jelző legyen látható a kottán.</translation>
+        <translation>Jelöld ki melyik módosító jelző legyen látható a kottán.</translation>
     </message>
     <message>
         <source># - sharps</source>
@@ -761,7 +774,7 @@
     </message>
     <message>
         <source>Put numbers of frets marked with dot. Separate the numbers with comma. Add ! (exclamation mark) after a number to paint a dot twice.</source>
-        <translation>Adja meg a pontokkal jelölni kívánt bundok sorszámait. Vesszővel válassza el a sorszámokat. Adjon ! (felkiáltó jelet) a dupla ponttal megjelölni kívánt sorszám után.</translation>
+        <translation>Add meg a pontokkal jelölni kívánt bundok sorszámait. Vesszővel válaszd el a sorszámokat. Adj ! (felkiáltó jelet) a dupla ponttal megjelölni kívánt sorszám után.</translation>
     </message>
     <message>
         <source>marked frets</source>
@@ -790,22 +803,22 @@
     </message>
     <message>
         <source>Difference between score notation and real sound pitch.</source>
-        <translation type="unfinished"></translation>
+        <translation>Különbség a kotta jelölés és valós hangmagasság között.</translation>
     </message>
     <message>
         <source>color of a pointer on an instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>hangszer mutató színe</translation>
     </message>
     <message>
         <source>color of a selection</source>
-        <translation type="unfinished"></translation>
+        <translation>kijelölés színe</translation>
     </message>
 </context>
 <context>
     <name>KeySignature</name>
     <message>
         <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
-        <translation type="unfinished">Hangnem - változtatáshoz kattintson a kotta fölé vagy alá vagy használja a görgőt.</translation>
+        <translation>Hangnem - változtatáshoz kattints a kotta fölé vagy alá vagy használd a görgőt.</translation>
     </message>
 </context>
 <context>
@@ -816,8 +829,7 @@
     </message>
     <message>
         <source>Accidentals</source>
-        <translation>Módosító
-jelek</translation>
+        <translation>Módosítójelek</translation>
     </message>
     <message>
         <source>Range</source>
@@ -913,29 +925,37 @@ jelek</translation>
     </message>
     <message>
         <source>Rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>Ritmus</translation>
     </message>
     <message>
         <source>Answers</source>
-        <translation type="unfinished"></translation>
+        <translation>Válaszok</translation>
     </message>
 </context>
 <context>
     <name>LevelPreview</name>
     <message>
         <source>not selected</source>
-        <translation type="unfinished"></translation>
+        <translation>nincs kiválasztva</translation>
     </message>
 </context>
 <context>
     <name>Levels</name>
     <message>
         <source>Simple melodies</source>
-        <translation type="unfinished"></translation>
+        <translation>Egyszerű dallamok</translation>
     </message>
     <message>
         <source>Play popular, simple melodies on your instrument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Játssz népszerű, egyszerű dallamokat a hangszereden.</translation>
+    </message>
+    <message>
+        <source>J. S. Bach - Minuet</source>
+        <translation>J. S. Bach - Menüett</translation>
+    </message>
+    <message>
+        <source>Play melody of J. S. Bach Minuet from Notebook for Anna Magdalena Bach divided into smaller parts.</source>
+        <translation>Játssz dallamot J .S. Bach Menüettből, Jegyzetfüzet Anna Magdalena Bach számára műből, felosztva kisebb részekre.</translation>
     </message>
 </context>
 <context>
@@ -950,19 +970,19 @@ jelek</translation>
     </message>
     <message>
         <source>Get more levels &lt;a href=&quot;%1&quot;&gt;from Nootka home page&lt;/a&gt;</source>
-        <translation>Szerezzen be még több szintet a &lt;a href=&quot;%1&quot;&gt;Nootka weboldalról&lt;/a&gt;</translation>
+        <translation>Szerezz be még több szintet a &lt;a href=&quot;%1&quot;&gt;Nootka weboldalról&lt;/a&gt;</translation>
     </message>
     <message>
         <source>new level</source>
-        <translation type="unfinished">új szint</translation>
+        <translation>új szint</translation>
     </message>
     <message>
         <source>Level name:</source>
-        <translation type="unfinished">Szint neve:</translation>
+        <translation>Szint neve:</translation>
     </message>
     <message>
         <source>Level description:</source>
-        <translation type="unfinished">Szint leírása:</translation>
+        <translation>Szint leírása:</translation>
     </message>
 </context>
 <context>
@@ -991,18 +1011,18 @@ jelek</translation>
     <name>MaxIntervalTile</name>
     <message>
         <source>Maximal interval between notes used in a melody (in semitones).</source>
-        <translation type="unfinished"></translation>
+        <translation>Dallamban használt maximális hangköz (félhangokban).</translation>
     </message>
     <message>
         <source>Max interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximális hangköz</translation>
     </message>
 </context>
 <context>
     <name>MelGenDialog</name>
     <message>
         <source>Measures number</source>
-        <translation type="unfinished"></translation>
+        <translation>Mérések száma</translation>
     </message>
 </context>
 <context>
@@ -1010,29 +1030,30 @@ jelek</translation>
     <message>
         <source>Add here melodies from Music XML files.
 But better keep them short, so divide them first in some external software.</source>
-        <translation type="unfinished"></translation>
+        <translation>Adj hozzá dallamokat zene XML fájlokból.
+Legyenek minél rövidebbek, ha kell előbb darabold fel egy erre megfelelő célszoftverrel.</translation>
     </message>
 </context>
 <context>
     <name>MelodyNameDialog</name>
     <message>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Cím</translation>
     </message>
     <message>
         <source>Nootka melody</source>
-        <translation type="unfinished"></translation>
+        <translation>Nootka dallam</translation>
     </message>
     <message>
         <source>Composer</source>
-        <translation type="unfinished"></translation>
+        <translation>Dalszerző</translation>
     </message>
 </context>
 <context>
     <name>MelodyPage</name>
     <message>
         <source>They will be transposed if key signatures are set to be used and any of them differs from the key(s) defined below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Transzponálásra kerül a sor, amennyiben ki van választva a zenei előjegyzés használata és bármelyik hang nem illeszkedik.</translation>
     </message>
     <message>
         <source>Melodies are composed from a note range defined on the &apos;Range&apos; page.</source>
@@ -1040,7 +1061,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Melodies are composed from notes selected on the score below.</source>
-        <translation>A dallamok az alább megadott a hangokból lesznek megkomponálva.</translation>
+        <translation>A dallamok a lenti kottában megadott a hangokból lesznek megkomponálva.</translation>
     </message>
     <message>
         <source>Random melody</source>
@@ -1064,43 +1085,43 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Play in tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempóban játszani</translation>
     </message>
     <message>
         <source>random order</source>
-        <translation type="unfinished"></translation>
+        <translation>véletlenszerű sorrend</translation>
     </message>
     <message>
         <source>When checked, melodies from the list will be asked in random order.</source>
-        <translation type="unfinished"></translation>
+        <translation>A dallamok a listából véletlenszerű sorrendben jönnek, amennyiben ez ki van választva.</translation>
     </message>
     <message>
         <source>How many times during an exam a melody from the list has to be played or written correctly. Warning! It multiplies question number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Egy vizsga alatt, egy dallamot hányszor kell lejátszani vagy leírni helyesen. Vigyázat! Ez megszorozza a kérdések számát.</translation>
     </message>
     <message>
         <source>number of repeats</source>
-        <translation type="unfinished"></translation>
+        <translation>ismétlések száma</translation>
     </message>
     <message>
         <source>Melodies are composed from notes in range defined on the &apos;Range&apos; page.</source>
-        <translation type="unfinished"></translation>
+        <translation>A dallamok abból a hangtartományból készülnek, amik a &apos;Skála&apos; oldalon ki lettek választva.</translation>
     </message>
     <message>
         <source>Melodies are selected from the list below.</source>
-        <translation type="unfinished"></translation>
+        <translation>A dallamok az alábbi listából lesznek kiválasztva.</translation>
     </message>
     <message>
         <source>from notes in range</source>
-        <translation type="unfinished"></translation>
+        <translation>a hangközön belül</translation>
     </message>
     <message>
         <source>from selected notes</source>
-        <translation type="unfinished"></translation>
+        <translation>a kiválasztott hangokból</translation>
     </message>
     <message>
         <source>from set of melodies</source>
-        <translation type="unfinished"></translation>
+        <translation>dallamokból</translation>
     </message>
 </context>
 <context>
@@ -1119,7 +1140,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Scandinavian</source>
-        <translation>Skaindáv</translation>
+        <translation>Skandináv</translation>
     </message>
     <message>
         <source>Italian</source>
@@ -1152,51 +1173,51 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>letters</source>
         <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country preferred style of naming key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
-        <translation>solfege</translation>
+        <translation>betűs</translation>
     </message>
 </context>
 <context>
     <name>NoteSelected</name>
     <message>
         <source>Note selection and playing</source>
-        <translation type="unfinished"></translation>
+        <translation>Hang kiválasztása és lejátszása</translation>
     </message>
 </context>
 <context>
     <name>OutScaleTip</name>
     <message>
         <source>Out of instrument scale!</source>
-        <translation type="unfinished"></translation>
+        <translation>A hangszer skáláján kívül esik!</translation>
     </message>
 </context>
 <context>
     <name>PhonePage</name>
     <message>
         <source>screen always on</source>
-        <translation type="unfinished"></translation>
+        <translation>képernyő mindig bekapcsolva</translation>
     </message>
     <message>
         <source>disable screen rotation</source>
-        <translation type="unfinished"></translation>
+        <translation>képernyő forgatás kikapcsolása</translation>
     </message>
     <message>
         <source>full screen</source>
-        <translation type="unfinished"></translation>
+        <translation>teljes képernyő</translation>
     </message>
     <message>
         <source>Touching a screen suspends pitch detection for 1 second but some advanced users may want to disable that.</source>
-        <translation type="unfinished"></translation>
+        <translation>A képernyő megérintése 1 másodpercre felfüggeszti a hang érzékelést, de haladó felhasználók lehet, hogy teljesen le kívánják tiltani.</translation>
     </message>
     <message>
         <source>suspend mic when screen was touched</source>
-        <translation type="unfinished"></translation>
+        <translation>mikrofon felfüggesztése, ha a képernyőt megérintik</translation>
     </message>
 </context>
 <context>
     <name>PitchView</name>
     <message>
         <source>Start/stop pitch detection</source>
-        <translation type="unfinished"></translation>
+        <translation>Hang érzékelés indítása/megállítása</translation>
     </message>
 </context>
 <context>
@@ -1204,7 +1225,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>Cannot save exam file:
 %1</source>
-        <translation>Vizsga fájl nem menthető:
+        <translation>Vizsga fájl elmentése sikertelen:
 %1</translation>
     </message>
     <message>
@@ -1233,7 +1254,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>QuestionsBox</name>
     <message>
         <source>Select the type of answers for this kind of question.</source>
-        <translation type="unfinished"></translation>
+        <translation>Válaszd ki a válasz típusát az ilyen típusú kérdésekre.</translation>
     </message>
     <message>
         <source>answers</source>
@@ -1292,7 +1313,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>if checked, note names are switched between letters and solfege.</source>
-        <translation>ha ki van választva, akkor hangnevek váltakozva lesznek betűk és szolfézs nevek.</translation>
+        <translation>ha ki van választva, akkor hang megnevezések váltakozva lesznek betűk és szolfézs nevek.</translation>
     </message>
     <message>
         <source>show string number in questions</source>
@@ -1300,7 +1321,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Shows on which string an answer has to be given. Be careful, sometimes it is needed and sometimes it makes no sense.</source>
-        <translation>Megmutatja, hogy a választ melyik húron várja. Legyen óvatos, olykor nagyon hasznos, olykor pedig egyáltalán nincs értelme.</translation>
+        <translation>Megmutatja, hogy a választ melyik húron várja. Légy óvatos, olykor nagyon hasznos, olykor pedig egyáltalán nincs értelme.</translation>
     </message>
     <message>
         <source>notes in the lowest position only</source>
@@ -1312,15 +1333,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>melodies</source>
-        <translation type="unfinished"></translation>
+        <translation>dallamok</translation>
     </message>
     <message>
         <source>Kind of questions and answers:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kérdés és válasz típusok:</translation>
     </message>
     <message>
         <source>Question</source>
-        <translation type="unfinished"></translation>
+        <translation>Kérdés</translation>
     </message>
 </context>
 <context>
@@ -1339,7 +1360,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Adjust fret range in a level to currently selected note range</source>
-        <translation>Bund távolság igazítása a kiválasztott hang távolsághoz</translation>
+        <translation>Bund távolság igazítása a kiválasztott hang tartományhoz</translation>
     </message>
     <message>
         <source>from</source>
@@ -1351,11 +1372,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>adjust note range</source>
-        <translation>hang távolság beállítása</translation>
+        <translation>hang tartomány beállítása</translation>
     </message>
     <message>
         <source>Adjust note range in a level to currently selected fret range</source>
-        <translation>Hang távolság beállítása a kiválasztott bund távolsághoz</translation>
+        <translation>Hang tartomány beállítása a kiválasztott bund távolsághoz</translation>
     </message>
     <message>
         <source>available strings:</source>
@@ -1363,7 +1384,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Uncheck strings if you want to skip them in an exam.</source>
-        <translation>Törölje a kijelölés a húrokról, ha ki akarja hagyni a vizsgából.</translation>
+        <translation>Töröld a kijelölést a húrokról, ha ki akarod hagyni a vizsgából.</translation>
     </message>
 </context>
 <context>
@@ -1381,49 +1402,49 @@ But better keep them short, so divide them first in some external software.</sou
     <name>RhythmDiversityTile</name>
     <message>
         <source>Smaller values - less number of selected rhythmic note groups will be used, biggest value - melody will consist maximal possible number of selected groups.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kisebb értékek - kevesebb ritmikus hang lesz használva, nagyobb értékek - a lehető legtöbb hangból fog állni egy dallam.</translation>
     </message>
     <message>
         <source>Rhythmic diversity</source>
-        <translation type="unfinished"></translation>
+        <translation>Ritmikus sokszínűség</translation>
     </message>
 </context>
 <context>
     <name>RhythmSelector</name>
     <message>
         <source>rhythmic groups</source>
-        <translation type="unfinished"></translation>
+        <translation>ritmikus csoportok</translation>
     </message>
     <message>
         <source>Filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Szűrők</translation>
     </message>
     <message>
         <source>basic rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>alap ritmusok</translation>
     </message>
     <message>
         <source>rhythms with dots</source>
-        <translation type="unfinished"></translation>
+        <translation>nyújtott rimtusok</translation>
     </message>
 </context>
 <context>
     <name>RhythmsPage</name>
     <message>
         <source>Select any rhythm and time signature to be used in this level, otherwise melodies will not have rhythmic values, just bare note-heads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ahhoz hogy a dallamok rimtust is tartalmazzanak, ki kell választani valamilyen ritmust és ütemjelzést az adott szinthez, máskülönben ritmus nélküli hangjegyek lesznek használva.</translation>
     </message>
     <message>
         <source>Number of measures in a melody. If &apos;variable&apos; is set, it will grow up to the given value as an exercise or an exam is progressing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mérések száma egy dallamon belül. Ha a &apos;változó&apos; be van állítva, akkor gyakorlás vagy vizsga alatt addig az értékig fog növekedni.</translation>
     </message>
     <message>
         <source>variable</source>
-        <translation type="unfinished"></translation>
+        <translation>változó</translation>
     </message>
     <message>
         <source>Time signatures to use in this level.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ütemjelzések ehhez a szinthez.</translation>
     </message>
 </context>
 <context>
@@ -1490,7 +1511,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Naming extension</source>
-        <translation>Név kiterjesztések</translation>
+        <translation>Nevezéktan kiterjesztések</translation>
     </message>
     <message>
         <source>in the major keys:</source>
@@ -1510,7 +1531,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Remember! Not all clefs are suitable for some possible tunings or instrument types!</source>
-        <translation>Ne feledje! Nem minden kulcs megfelelő egyes lehetséges hangolásokhoz vagy hangszer típusokhoz!</translation>
+        <translation>Ne feledd! Nem minden kulcs megfelelő egyes lehetséges hangolásokhoz vagy hangszer típusokhoz!</translation>
     </message>
     <message>
         <source>Score settings</source>
@@ -1534,19 +1555,19 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>show names of key signature</source>
-        <translation>hangnem megnevezése</translation>
+        <translation>mutassa a hangnem nevét</translation>
     </message>
     <message>
         <source>Naming style of note. The main difference is the 7th note.&lt;br&gt;Is it B and B flat, or H and B?</source>
-        <translation>Hangok nevezéktana. A fő különbség a 7. hang. &lt;br&gt;Önnél B és bés B vagy H és B?</translation>
+        <translation>Hangok nevezéktana. A fő különbség a 7. hang. &lt;br&gt;Nálad B és Besz vagy H és B?</translation>
     </message>
     <message>
         <source>Use rhythms or only bare note heads.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ritmusos vagy csupasz hangjegyek használata.</translation>
     </message>
     <message>
         <source>enable rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>ritmusok engedélyezése</translation>
     </message>
     <message>
         <source>use key signatures</source>
@@ -1554,35 +1575,51 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Octave numbers</source>
-        <translation type="unfinished"></translation>
+        <translation>Oktáv számok</translation>
     </message>
     <message>
         <source>scientific</source>
-        <translation type="unfinished"></translation>
+        <translation>tudományos</translation>
     </message>
     <message>
         <source>musical</source>
-        <translation type="unfinished"></translation>
+        <translation>zenei</translation>
     </message>
     <message>
         <source>Scientific (international) pitch notation is widely used in technical sources and tuning devices/applications, when the other notation style is used more in music publications.</source>
-        <translation type="unfinished"></translation>
+        <translation>A tudományos (nemzetközi) hangmagasság jelölés széles körben alkalmazott technikai forrásokban és hangoló eszközökben, míg más jelölési stílusok inkább zenei publikációkban gyakoribbak.</translation>
     </message>
     <message>
         <source>Show names of all notes on the score</source>
-        <translation type="unfinished"></translation>
+        <translation>Minden hang megnevezése a kottán</translation>
     </message>
 </context>
 <context>
     <name>ScoreToolbox</name>
     <message>
         <source>Tie - connect or disconnect selected note with previous one if both notes have the same pitch.</source>
-        <translation type="unfinished"></translation>
+        <translation>Összevonás - Összekösse-e vagy sem az előző hanggal, ha ugyanaz a hangmagasságuk.</translation>
     </message>
     <message>
         <source>tie</source>
         <comment>To translate it properly, check please meaning of &apos;tie&apos; in musical context.</comment>
-        <translation type="unfinished"></translation>
+        <translation>összevonás</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
+        <translation>&lt;b&gt;bebé&lt;/b&gt; - két fél hanggal (egész hanggal) leszállít egy hangot.&lt;br&gt;A gitáron ez 2 bunddal lefelé van.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
+        <translation>&lt;b&gt;bé&lt;/b&gt; - egy fél hanggal leszállít egy hangot.&lt;br&gt;A gitáron ez 1 bunddal lefelé van.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
+        <translation>&lt;b&gt;kereszt&lt;/b&gt; - egy fél hanggal emel egy hangot.&lt;br&gt;A gitáron ez 1 bunddal felfelé van.</translation>
+    </message>
+    <message>
+        <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
+        <translation>&lt;b&gt;dupla kereszt&lt;/b&gt; - két fél hanggal (egész hanggal) emel egy hangot.&lt;br&gt;A gitáron ez 2 bunddal felfelé van.</translation>
     </message>
 </context>
 <context>
@@ -1604,35 +1641,35 @@ But better keep them short, so divide them first in some external software.</sou
     <name>SoundInfo</name>
     <message>
         <source>Nootka can hear You!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nootka hall Téged!</translation>
     </message>
     <message>
         <source>Nootka recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nootka felismeri a lejátszott hangot és annak időtartamát (ritmusát), de pontosabb eredményért egy kis türelmet és felkészülést kell áldozni. Íme néhány tipp ehhez:</translation>
     </message>
     <message>
         <source>Be sure your system is able to record what are you playing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Győződj meg róla, hogy az eszközöd képes felvenni a hangot, amit játszol.</translation>
     </message>
     <message>
         <source>Adjust minimal note volume a little below of your input volume level.</source>
-        <translation type="unfinished"></translation>
+        <translation>A minimális hangszer kimeneti hangerődet egy kicsit a bemeneti érzékelés alá állítsd.</translation>
     </message>
     <message>
         <source>Aim to play loud and clear and avoid dirty sounds specific to your instrument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Próbálj tisztán és hangosan játszani, kerüld a zajos mellékhangokat a hangszereden.</translation>
     </message>
     <message>
         <source>Play a few sounds to figure out their maximal volume,&lt;br&gt;then set level knob about 10-20% below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Játssz egy pár hangot, hogy megismerd a maximális hangerejüket, majd állítsd be a hangerőt 10-20%-kal ez alá.</translation>
     </message>
     <message>
         <source>Later, you can adjust the volume level in Nootka tuner window.&lt;br&gt;Invoke it from main menu or use any volume key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ezt később finomíthatod a hangerő szinttel a Nootka hangoló ablakban.&lt;br&gt;Ezt a főmenüben találod vagy bármely hangerő gombbal előhívhatod.</translation>
     </message>
     <message>
         <source>If you want Nootka to write your melody with rhythm then you have to play exactly in selected tempo - preferably with a metronome. But during practice, when you are playing melody given by the application, the tempo can be at will unless some level defines it.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ha szeretnéd, hogy Nootka lejegyezze a dallamodat ritmussal együtt, akkor pontosan a választott tempóban kell játszani - ha lehet egy metronómmal. Gyakorlás alatt, amikor Nootka által adottt dallamot játszol, a tempó lehet tetszőleges, kivéve, amikor az adott gyakorlat ezt megszabja.</translation>
     </message>
 </context>
 <context>
@@ -1643,7 +1680,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.</source>
-        <translation>Győzödjön meg róla, hogy a bemeneti eszköze (mikrofon, webkamera, hangszer, stb.) csatlakoztatva van, megfelelően van konfigurálva és működik.</translation>
+        <translation>Győzödj meg róla, hogy a bemeneti eszközöd (mikrofon, webkamera, hangszer, stb.) csatlakoztatva van, megfelelően van konfigurálva és működik.</translation>
     </message>
     <message>
         <source>minimum note duration</source>
@@ -1655,7 +1692,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Only sounds longer than the selected time will be pitch-detected.&lt;br&gt;Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness.</source>
-        <translation>Csak a beállított időtartamnál hosszabb hangok hangmagasságai lesznek érzékelve.&lt;br&gt;Hosszabb minimum időtartam beállításával elkerülhetőek a zörejek téves érzékelése, de ez egyúttal csökkenti a detektálás válaszreakcióját.</translation>
+        <translation>Csak a beállított időtartamnál hosszabb hangok hangmagasságai lesznek érzékelve.&lt;br&gt;Hosszabb minimum időtartam beállításával elkerülhetőek a zörejek téves érzékelése, de ez egyúttal csökkenti a detektálás válaszreakcióját is.</translation>
     </message>
     <message>
         <source>pitch detection mode</source>
@@ -1679,7 +1716,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>The base frequency of &lt;i&gt;middle a&lt;/i&gt;.&lt;br&gt;Detection of the proper pitch of notes is relative to this value. This also affects the pitch of played sounds.</source>
-        <translation>A &lt;i&gt;normál zenei a hang&lt;/i&gt; alapfrekvenciája.&lt;br&gt;A hangmagasság érzékelés ezen az értéken alapszik, illetve a lejátszott hangok is ebből származnak.</translation>
+        <translation>A &lt;i&gt;normál zenei &apos;a&apos; hang&lt;/i&gt; alapfrekvenciája.&lt;br&gt;A hangmagasság érzékelés ezen az értéken alapszik, illetve a lejátszott hangok is ebből származnak.</translation>
     </message>
     <message>
         <source>interval:</source>
@@ -1727,7 +1764,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Frequency of detected note. You can use this for tuning.</source>
-        <translation>Érzékelt hang frekvenciája.  Használható hangoláshoz.</translation>
+        <translation>Érzékelt hang frekvenciája. Hangoláshoz hasznos lehet.</translation>
     </message>
     <message numerus="yes">
         <source>%n semitone(s)</source>
@@ -1861,7 +1898,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>[Hz]</source>
-        <translation type="unfinished"></translation>
+        <translation>[Hz]</translation>
     </message>
     <message>
         <source>It is rather necessary for mic input but may be switched off for an instrument plugged line-in with less noise.</source>
@@ -1869,7 +1906,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>output device</source>
-        <translation type="unfinished"></translation>
+        <translation>kimeneti eszköz</translation>
     </message>
     <message>
         <source>All sounds captured by audio input will be forwarded directly to output device.</source>
@@ -1892,7 +1929,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Enter your name or nick-name.</source>
-        <translation>Írja be a nevét vagy becenevét.</translation>
+        <translation>Írd be a neved vagy beceneved.</translation>
     </message>
     <message>
         <source>Select a level suitable for you&lt;br&gt;or create new one.</source>
@@ -1912,7 +1949,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file.</source>
-        <translation>Gyakorlás vagy vizsga indításához írja be a nevét és válasszon egy szintet. Már megkezdett vizsga folytatásához keresse ki a listából vagy töltse be fájlból.</translation>
+        <translation>Gyakorlás vagy vizsga indításához írd be a neved és válassz egy szintet. Már megkezdett vizsga folytatásához keresd ki a listából vagy töltsd be fájlból.</translation>
     </message>
     <message>
         <source>recent opened exams:</source>
@@ -1932,7 +1969,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Give an user name!</source>
-        <translation>Adjon meg egy felhasználónevet!</translation>
+        <translation>Adj meg egy felhasználónevet!</translation>
     </message>
     <message>
         <source>Pass new exam on level:</source>
@@ -1960,18 +1997,18 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Select an exam to continue</source>
-        <translation type="unfinished"></translation>
+        <translation>Válassz egy vizsgát a folytatáshoz</translation>
     </message>
 </context>
 <context>
     <name>SupportPage</name>
     <message>
         <source>You also can help with making Nootka better.</source>
-        <translation>Ön is segíthet a Nootka fejlesztésében.</translation>
+        <translation>Te is segíthetsz a Nootka fejlesztésében.</translation>
     </message>
     <message>
         <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
-        <translation>Csak egy kis angol tudást igényel, tehát ha a lenti szöveget el tudja olvasni még az is lehet, hogy talál valamit amibe szívesen beszállna.</translation>
+        <translation>Csak egy kis angol tudást igényel, tehát ha a lenti szöveget el tudod olvasni még az is lehet, hogy találsz valamit amibe szívesen besegítenél.</translation>
     </message>
     <message>
         <source>Donate Nootka campaign</source>
@@ -1979,11 +2016,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Through PayPal or a card</source>
-        <translation>PayPal vagy bankkártyán keresztül</translation>
+        <translation>PayPal-on vagy bankkártyán keresztül</translation>
     </message>
     <message>
         <source>or send email for an account number</source>
-        <translation>vagy küldjön emailt bankszámlaszámért</translation>
+        <translation>vagy küldj emailt bankszámlaszámért</translation>
     </message>
     <message>
         <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
@@ -1998,7 +2035,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TXaxis</name>
     <message numerus="yes">
         <source>%n attempt(s)</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>%n próbálkozás(ok)</numerusform>
         </translation>
     </message>
@@ -2035,7 +2072,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>editing and/or recording of samples:</source>
-        <translation>minták szerkesztése és/vagy felvétele:</translation>
+        <translation>hangminták szerkesztése és/vagy felvétele:</translation>
     </message>
     <message>
         <source>Translators</source>
@@ -2071,135 +2108,135 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TanalysDialog</name>
     <message>
         <source>Analyze</source>
-        <translation>Kiértékelés</translation>
+        <translation type="vanished">Kiértékelés</translation>
     </message>
     <message>
         <source>Y value:</source>
-        <translation>Y érték:</translation>
+        <translation type="vanished">Y érték:</translation>
     </message>
     <message>
         <source>ordered by:</source>
         <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
-        <translation>erre rendezve:</translation>
+        <translation type="vanished">erre rendezve:</translation>
     </message>
     <message>
         <source>student name:</source>
-        <translation>diák neve:</translation>
+        <translation type="vanished">diák neve:</translation>
     </message>
     <message>
         <source>level:</source>
-        <translation>szint:</translation>
+        <translation type="vanished">szint:</translation>
     </message>
     <message>
         <source>question number</source>
         <comment>see comment in &apos;ordered by:&apos; entry</comment>
-        <translation>kérdés száma</translation>
+        <translation type="vanished">kérdés száma</translation>
     </message>
     <message>
         <source>note pitch</source>
-        <translation>hangmagasság</translation>
+        <translation type="vanished">hangmagasság</translation>
     </message>
     <message>
         <source>fret number</source>
-        <translation>bund száma</translation>
+        <translation type="vanished">bund száma</translation>
     </message>
     <message>
         <source>key signature</source>
-        <translation>hangnem</translation>
+        <translation type="vanished">hangnem</translation>
     </message>
     <message>
         <source>accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">módosítók</translation>
     </message>
     <message>
         <source>question type</source>
-        <translation>kérdés típusa</translation>
+        <translation type="vanished">kérdés típusa</translation>
     </message>
     <message>
         <source>mistake</source>
-        <translation>hiba</translation>
+        <translation type="vanished">hiba</translation>
     </message>
     <message>
         <source>Level summary:</source>
-        <translation>Szint összegzése:</translation>
+        <translation type="vanished">Szint összegzése:</translation>
     </message>
     <message>
         <source>Tuning</source>
-        <translation>Hangolás</translation>
+        <translation type="vanished">Hangolás</translation>
     </message>
     <message>
         <source>Press %1 button to select an exam from a file.</source>
-        <translation>Nyomja meg a %1 gombot ha fájlból akar vizsgát betölteni.</translation>
+        <translation type="vanished">Nyomd meg a %1 gombot ha fájlból akarsz vizsgát betölteni.</translation>
     </message>
     <message>
         <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
-        <translation>Használja a %1 + egér görgőt vagy %2 gombokat a diagram nagyításához.</translation>
+        <translation type="vanished">Használd a %1 + egér görgőt vagy %2 gombokat a diagram nagyításához.</translation>
     </message>
     <message>
         <source>Click and Drag the cursor to move the chart.</source>
-        <translation>Klikkeljen és húzza a kurzort a diagram mozgatásához.</translation>
+        <translation type="vanished">Klikkelj és húzd a kurzort a diagram mozgatásához.</translation>
     </message>
     <message>
         <source>Question number</source>
-        <translation>Kérdés száma</translation>
+        <translation type="vanished">Kérdés száma</translation>
     </message>
     <message>
         <source>File: %1 
  is not valid exam file!</source>
-        <translation>Fájl: %1 
+        <translation type="vanished">Fájl: %1 
  nem megfelelő vizsga fájl!</translation>
     </message>
     <message>
         <source>Open an exam to analyze</source>
-        <translation>Vizsga megnyitása kiértékelésre</translation>
+        <translation type="vanished">Vizsga megnyitása kiértékelésre</translation>
     </message>
     <message>
         <source>Recent exercise on level</source>
-        <translation>Legutóbbi gyakorlat ezen a szinten</translation>
+        <translation type="vanished">Legutóbbi gyakorlat ezen a szinten</translation>
     </message>
     <message>
         <source>recent opened exams:</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">utoljára megnyitott vizsgák:</translation>
     </message>
     <message>
         <source>Close analyzer window</source>
-        <translation>Kiértékelő ablak bezárása</translation>
+        <translation type="vanished">Kiértékelő ablak bezárása</translation>
     </message>
     <message>
         <source>include time of wrong answers to average</source>
-        <translation>a rossz válaszok idejét is vegye figyelembe az átlag számításhoz</translation>
+        <translation type="vanished">a rossz válaszok idejét is vegye figyelembe az átlag számításhoz</translation>
     </message>
     <message>
         <source>show wrong answers separately</source>
-        <translation>a rossz válaszokat mutassa külön</translation>
+        <translation type="vanished">a rossz válaszokat mutassa külön</translation>
     </message>
     <message>
         <source>Settings of a chart</source>
-        <translation>Diagram beállításai</translation>
+        <translation type="vanished">Diagram beállításai</translation>
     </message>
     <message>
         <source>Maximize</source>
-        <translation>Legnagyobbra állít</translation>
+        <translation type="vanished">Legnagyobbra állít</translation>
     </message>
     <message>
         <source>linear chart</source>
-        <translation>lineáris diagram</translation>
+        <translation type="vanished">lineáris diagram</translation>
     </message>
     <message>
         <source>bar chart</source>
-        <translation>oszlopdiagram</translation>
+        <translation type="vanished">oszlopdiagram</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="vanished">OK</translation>
     </message>
     <message>
         <source>Analysis of exam results</source>
-        <translation type="unfinished"></translation>
+        <translation type="vanished">Vizsga eredmények kiértékelése</translation>
     </message>
     <message>
         <source>Analysis of exercise</source>
-        <translation>Gyakorlás kiértékelése</translation>
+        <translation type="vanished">Gyakorlás kiértékelése</translation>
     </message>
     <message>
         <source>Questions number</source>
@@ -2230,7 +2267,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message numerus="yes">
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform>A dallam&lt;b&gt;%n&lt;/b&gt; alkalommal hangzott el</numerusform>
         </translation>
     </message>
@@ -2313,81 +2350,83 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>neutral</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>https://hu.wikipedia.org/wiki/Hangk%C3%B6z</translatorcomment>
+        <translation>tiszta</translation>
     </message>
     <message>
         <source>Clef for bass guitar and double bass, also used for cello and trombone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kulcs basszus gitárhoz, nagybőgőhöz, illetve csellóhoz és harsonához.</translation>
     </message>
     <message>
         <source>percussion clef</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>https://hu.wikipedia.org/wiki/Zenei_kulcsok#%C3%9Ct%C5%91kulcsok</translatorcomment>
+        <translation>ütőkulcs</translation>
     </message>
     <message>
         <source>For rhythms only, note pitch is undefined.</source>
-        <translation type="unfinished"></translation>
+        <translation>Csak ritmus, hangmagasság nem értelmezett.</translation>
     </message>
 </context>
 <context>
     <name>TempoBar</name>
     <message>
         <source>Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempó</translation>
     </message>
     <message>
         <source>Countdown before playing or listening.</source>
-        <translation type="unfinished"></translation>
+        <translation>Visszaszámlálás lejátszás vagy hallgatás előtt.</translation>
     </message>
     <message>
         <source>Audible metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Hallható metronóm</translation>
     </message>
     <message>
         <source>Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
-        <translation type="unfinished"></translation>
+        <translation>Használj fülhallgatót! Máskülönben a ketyegés megzavarja a pontos hangmagasság érzékelést!</translation>
     </message>
     <message>
         <source>Tuner</source>
-        <translation type="unfinished"></translation>
+        <translation>Hangoló</translation>
     </message>
     <message>
         <source>Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Metronóm</translation>
     </message>
     <message>
         <source>beats per minute</source>
-        <translation type="unfinished"></translation>
+        <translation>ütem per perc</translation>
     </message>
     <message>
         <source>Mouse wheel changes tempo promptly (also with %1 key). Click for more options.</source>
-        <translation type="unfinished"></translation>
+        <translation>Az egér görgője megfelelően változtatja a tempót (csakúgy, mint a %1 gomb). Kattints a további beállításokhoz.</translation>
     </message>
 </context>
 <context>
     <name>TempoMenu</name>
     <message>
         <source>tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>tempó</translation>
     </message>
     <message>
         <source>Tap tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Érintés tempó</translation>
     </message>
     <message>
         <source>Metronome visible</source>
-        <translation type="unfinished"></translation>
+        <translation>Metronóm látható</translation>
     </message>
     <message>
         <source>Count up</source>
-        <translation type="unfinished"></translation>
+        <translation>Számolás felfelé</translation>
     </message>
     <message>
         <source>Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy.</source>
-        <translation type="unfinished"></translation>
+        <translation>Érzékelt ritmus értékek felfelé kerekítése (kvantálása). Rövidebb értékek nagyobb pontosságot igényelnek.</translation>
     </message>
     <message>
         <source>round to:</source>
-        <translation type="unfinished"></translation>
+        <translation>kerekítve:</translation>
     </message>
 </context>
 <context>
@@ -2424,7 +2463,7 @@ But better keep them short, so divide them first in some external software.</sou
         <source>%n attempt(s)</source>
         <comment>like: &apos;1 attempt&apos; or &apos;121 attempts&apos;</comment>
         <translation>
-            <numerusform>%n próbálkozás(ok)</numerusform>
+            <numerusform>%n próbálkozás</numerusform>
         </translation>
     </message>
     <message>
@@ -2437,19 +2476,19 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Listen to a melody and repeat it on your instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Dallam meghallgatása és visszajátszása hangszeren</translation>
     </message>
     <message>
         <source>repeat melody</source>
-        <translation type="unfinished"></translation>
+        <translation>dallam ismétlése</translation>
     </message>
     <message>
         <source>on instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>hangszeren</translation>
     </message>
     <message>
         <source>Let&apos;s start!</source>
-        <translation type="unfinished"></translation>
+        <translation>Induljon!</translation>
     </message>
 </context>
 <context>
@@ -2466,11 +2505,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Level &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;makes no sense because there are no questions to ask.&lt;br&gt;It can be re-adjusted.&lt;br&gt;Repair it in Level Creator and try again.</source>
-        <translation>Szint &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;nem értelmezhető, mert nem tartalmaz feladatot.&lt;br&gt;Ez természetesen pótolható.&lt;br&gt;Egészítse ki a Szint Készítőben és próbálja újra.</translation>
+        <translation>Szint &lt;b&gt;%1&lt;/b&gt;&lt;br&gt;nem értelmezhető, mert nem tartalmaz feladatot.&lt;br&gt;Ez természetesen pótolható.&lt;br&gt;Egészítsd ki a Szint Készítőben és próbáld újra.</translation>
     </message>
     <message>
         <source>Give an answer first!&lt;br&gt;Then the exam will end.</source>
-        <translation>Adjon meg egy választ előbb!&lt;br&gt;Utána véget ér a vizsga.</translation>
+        <translation>Adj meg egy választ előbb!&lt;br&gt;Utána véget ér a vizsga.</translation>
     </message>
     <message>
         <source>Such a pity.</source>
@@ -2482,7 +2521,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>If you don&apos;t save to file&lt;br&gt;you lost all results!</source>
-        <translation>Ha nem menti fájlba&lt;br&gt;elvesznek az eredményei!</translation>
+        <translation>Ha nem mented fájlba&lt;br&gt;elvesznek az eredményeid!</translation>
     </message>
     <message>
         <source>This note was not played!</source>
@@ -2490,7 +2529,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Exercises with Nootka</source>
-        <translation>Gyakorlás Nootka módra</translation>
+        <translation>Gyakorlatok Nootka-val</translation>
     </message>
     <message>
         <source>finish exercising</source>
@@ -2506,11 +2545,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
-        <translation>Pssszt...Vizsga megy.&lt;br&gt;&lt;br&gt;Ellenőrzéshez, mentéshez és kilépéshez nyomja meg a &lt;b&gt;%1&lt;/b&gt; gombot vagy a folytatáshoz a &lt;b&gt;%2&lt;/b&gt; gombot.&lt;br&gt;</translation>
+        <translation>Pssszt...Vizsga megy.&lt;br&gt;&lt;br&gt;Ellenőrzéshez, mentéshez és kilépéshez nyomd meg a &lt;b&gt;%1&lt;/b&gt; gombot vagy a folytatáshoz a &lt;b&gt;%2&lt;/b&gt; gombot.&lt;br&gt;</translation>
     </message>
     <message>
         <source>Exercise or exam preferences</source>
-        <translation>Gyakorlás és vizsga testreszabása</translation>
+        <translation>Gyakorlás vagy vizsga testreszabása</translation>
     </message>
     <message>
         <source>repeat previous question (backspace)</source>
@@ -2526,7 +2565,7 @@ But better keep them short, so divide them first in some external software.</sou
         <source>Play &lt;i&gt;middle a&lt;/i&gt; like a tuning fork.
 (Press key &apos;a&apos;)</source>
         <translation>&lt;i&gt;Normál A hang&lt;/i&gt; lejátszása a hangvillához hasonlóan.
-(Nyomja meg az &apos;a&apos; billentyűt)</translation>
+(Nyomd meg az &apos;a&apos; billentyűt)</translation>
     </message>
     <message>
         <source>play sound again</source>
@@ -2534,38 +2573,38 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Try this melody once again. (backspace)</source>
-        <translation>Dallam új próbálja. (backspace)</translation>
+        <translation>Dallam új próbája. (backspace)</translation>
     </message>
     <message>
         <source>check answer
 (enter %1)</source>
-        <translation>válasz javítása
+        <translation>válasz ellenőrzése
 (enter %1)</translation>
     </message>
     <message>
         <source>correct answer
 (enter)</source>
-        <translation>helyes válasz
+        <translation>válasz javítása
 (enter)</translation>
     </message>
     <message>
         <source>There is not such a note in this melody!</source>
-        <translation type="unfinished"></translation>
+        <translation>Ilyen hang nincs a dallamban!</translation>
     </message>
 </context>
 <context>
     <name>TexamHelp</name>
     <message>
         <source>When your exercising will go well Nootka will suggest you to start an exam.</source>
-        <translation>Ha gyakorlás közben jól teljesít, a Nootka vizsgát fog javasolni.</translation>
+        <translation>Ha a gyakorlás jól megy, Nootka vizsgát fog javasolni.</translation>
     </message>
     <message>
         <source>Exams can be saved to files and continued later. Moreover, exam files can be opened to analyze.</source>
-        <translation>A vizsgák elmenthetőek és így később folytathatóak. Tovább a vizsgafájlokat meg lehet nyitni elemzésre is.</translation>
+        <translation>A vizsgák elmenthetőek és így később folytathatóak. Illetve a vizsgafájlokat meg lehet nyitni elemzésre is.</translation>
     </message>
     <message>
         <source>Exam will be completed when you give answers to all questions.&lt;br&gt;The number of questions depends on the level of the exam.</source>
-        <translation>A vizsga befejeződik, ha minden kérdésre ad választ.&lt;br&gt;A kérdések száma a vizsga szintjétől függ.</translation>
+        <translation>A vizsga befejeződik, ha minden kérdésre adsz választ.&lt;br&gt;A kérdések száma a vizsga szintjétől függ.</translation>
     </message>
     <message>
         <source>If you make a mistake, the question will asked two more times and the total number of questions will be increased. These are penalty questions.</source>
@@ -2581,20 +2620,20 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source> Briefly: Nootka give you a question and you give an answer...</source>
-        <translation>Röviden: Nootka ad egy feladatot, amire választ vár...</translation>
+        <translation> Röviden: Nootka feltesz egy kérdést te pedig válaszolsz...</translation>
     </message>
     <message>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
-        <translation>A kérdés ezzel a színnel és &quot;?&quot; jellel lesznek jelölve.</translation>
+        <translation>A kérdés ezzel a színnel és &quot;?&quot;-lel lesznek jelölve.</translation>
     </message>
     <message>
         <source>To give an answer, select it on &lt;span style=&quot;%1&quot;&gt;Nootka&apos;s element with that color.&lt;/span&gt;&lt;br&gt;</source>
         <translatorcomment>?</translatorcomment>
-        <translation>Válaszadáshoz válassza ki &lt;span style=&quot;%1&quot;&gt;Nootka elemet ezzel a színnel.&lt;/span&gt;&lt;br&gt;</translation>
+        <translation>Válaszadáshoz válassz ki egy &lt;span style=&quot;%1&quot;&gt;Nootka elemet ezzel a színnel.&lt;/span&gt;&lt;br&gt;</translation>
     </message>
     <message>
         <source>To check the answer confirm it:</source>
-        <translation>Ellenrőzéshez erősítse meg a választ:</translation>
+        <translation>Ellenrőzéshez erősítsd meg a választ:</translation>
     </message>
     <message>
         <source>Exercises</source>
@@ -2602,7 +2641,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>If you made a mistake during an exercise, Nootka can show you correct answer. To see it:</source>
-        <translation>Gyakorlás közbeni hibákat a Nootka javítani tudja. Ennek megtekintése:</translation>
+        <translation>Gyakorlás közbeni hibáknál a Nootka megmutathatja a helyes választ. Ehhez:</translation>
     </message>
     <message>
         <source>You can every time click button %1 to pause or stop exercising and to see your results.</source>
@@ -2614,7 +2653,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>If you made a mistake during an exam and you want to repeat the question:</source>
-        <translation>Ha vizsga alatt adott rossz válasz esetén meg szeretné ismételni a kérdést:</translation>
+        <translation>Ha vizsga alatt adott rossz válasz esetén meg szeretnéd ismételni a kérdést:</translation>
     </message>
     <message>
         <source>Settings</source>
@@ -2622,7 +2661,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Just click this settings button to adjust an exercise or an exam to your current needs.</source>
-        <translation>Kattintson erre a gombra a gyakorlatok és vizsgák testre szabásához.</translation>
+        <translation>Kattints erre a gombra a gyakorlatok és vizsgák testre szabásához.</translation>
     </message>
     <message>
         <source>GOOD LUCK!</source>
@@ -2642,11 +2681,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>or right mouse button</source>
-        <translation>vagy jobb egér gomb</translation>
+        <translation>vagy jobb egér gombbal</translation>
     </message>
     <message>
         <source>click %1 button</source>
-        <translation>kattinston a %1 gombra</translation>
+        <translation>kattins a %1 gombra</translation>
     </message>
     <message>
         <source>To get question</source>
@@ -2655,40 +2694,40 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>press &lt;b&gt;space&lt;/b&gt; key</source>
-        <translation>nyomja meg a &lt;b&gt; szóköz &lt;/b&gt; gombot</translation>
+        <translation>nyomd meg a &lt;b&gt; szóköz &lt;/b&gt; gombot</translation>
     </message>
     <message>
         <source>press &lt;b&gt;Enter&lt;/b&gt; key</source>
-        <translation>nyomja meg az &lt;b&gt;Enter&lt;/b&gt; gombot</translation>
+        <translation>nyomd meg az &lt;b&gt;Enter&lt;/b&gt; gombot</translation>
     </message>
     <message>
         <source>or press &lt;b&gt;Enter&lt;/b&gt; key</source>
-        <translation>vagy nyomja meg az &lt;b&gt;Enter&lt;/b&gt; gombot</translation>
+        <translation>vagy nyomd meg az &lt;b&gt;Enter&lt;/b&gt; gombot</translation>
     </message>
     <message>
         <source>or &lt;b&gt;Backspace&lt;/b&gt; key</source>
-        <translation>vagy nyomja meg a &lt;b&gt;Backspace&lt;/b&gt; gombot</translation>
+        <translation>vagy nyomd meg a &lt;b&gt;Backspace&lt;/b&gt; gombot</translation>
     </message>
     <message>
         <source>Click %1 button to stop.</source>
-        <translation>Befejezéshez kattintson a %1 gombra.</translation>
+        <translation>Befejezéshez kattints a %1 gombra.</translation>
     </message>
     <message>
         <source>tap %1</source>
         <comment>tap &lt;icon image follows&gt;</comment>
-        <translation>érintse meg %1</translation>
+        <translation>érintsd meg %1</translation>
     </message>
     <message>
         <source>Click %1 to stop.</source>
         <comment>click &lt;icon-image&gt; to stop (exam or exercise)</comment>
-        <translation>Befejezéshez kattintson %1.</translation>
+        <translation>Befejezéshez kattints %1.</translation>
     </message>
 </context>
 <context>
     <name>TexamSummary</name>
     <message>
         <source>Exam results</source>
-        <translation>Vizsga eredmény</translation>
+        <translation>Vizsgaeredmények</translation>
     </message>
     <message>
         <source>student:</source>
@@ -2700,7 +2739,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>times:</source>
-        <translation>idő:</translation>
+        <translation>idők:</translation>
     </message>
     <message>
         <source>Time taken to answer</source>
@@ -2712,7 +2751,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Results:</source>
-        <translation>Eredmény:</translation>
+        <translation>Eredmények:</translation>
     </message>
     <message>
         <source>Kinds of mistakes</source>
@@ -2775,7 +2814,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TexamView</name>
     <message>
         <source>Exam results</source>
-        <translation>Vizsga eredmény</translation>
+        <translation>Vizsgaeredmények</translation>
     </message>
     <message>
         <source>Effectiveness of whole exam (and effectiveness of current question).</source>
@@ -2824,7 +2863,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>Unanswered questions</source>
         <comment>could be also: &apos;rest of the questions&apos; or &apos;remaining questions&apos;</comment>
-        <translation>Hátra lévő kérdések</translation>
+        <translation>Hátralévő kérdések</translation>
     </message>
     <message>
         <source>Total questions in this exam</source>
@@ -2844,15 +2883,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Exam effectiveness (this question effectiveness)</source>
-        <translation type="unfinished"></translation>
+        <translation>Vizsga hatékonyság (ennek a kérdésnek a hatékonysága)</translation>
     </message>
     <message>
         <source>Answer time</source>
-        <translation type="unfinished"></translation>
+        <translation>Válaszidő</translation>
     </message>
     <message>
         <source>Exam time</source>
-        <translation type="unfinished"></translation>
+        <translation>Vizsga idő</translation>
     </message>
 </context>
 <context>
@@ -2867,7 +2906,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Guitar fret number was changed!</source>
-        <translation>Gitárbund száma megváltozott!</translation>
+        <translation>Gitár bundszáma megváltozott!</translation>
     </message>
 </context>
 <context>
@@ -2916,23 +2955,23 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>note cursor</source>
         <comment>it might be just &apos;cursor&apos; as well</comment>
-        <translation type="unfinished"></translation>
+        <translation>kurzor</translation>
     </message>
     <message>
         <source>Note becomes selected (highlighted) when it was edited or clicked with right mouse button or tapped shortly.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ha egy hangjegyre jobb egér gombbal klikkelsz vagy röviden megérinted, akkor ki lesz jelölve.</translation>
     </message>
     <message>
         <source>If any note on the score is selected, only this particular one is changed by playing or clicking on an instrument. And only pitch of that note changes - rhythmic value remains the same. </source>
-        <translation type="unfinished"></translation>
+        <translation>Ha egy hang ki van jelölve a kottán, akkor csak annak az egy hangnak változik meg a hangmagassága lejátszva vagy klikkelve a hangszeren - a ritmusértéke változatlan marad. </translation>
     </message>
     <message>
         <source>When no note is chosen on the score, note cursor is highlighted and blinks. Notes are added one by one, either by playing real instrument or by selecting a sound on instrument displayed by the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ha nincs hangjegy kijelölve a kottán, akkor villog a kurzor. A hangjegyeket egyesével lehet hozzáadni valódi hangszeren lejátszva vagy kiválasztva a megjelenített hangszeren.</translation>
     </message>
     <message>
         <source>To deselect the note just click or tap some free part of the score sheet or use arrow keys to navigate to the note cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kijelölés törléséhez klikkeld vagy érintsd meg az üres részt a kottán vagy navigálj a nyilakkal a hangjegy kurzorhoz.</translation>
     </message>
 </context>
 <context>
@@ -2943,11 +2982,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>descending - you are progressing better</source>
-        <translation>csökkenó - javul</translation>
+        <translation>csökkenó - javulsz</translation>
     </message>
     <message>
         <source>ascending - you are thinking too much</source>
-        <translation>növekvő - túl sokat gondolkodik</translation>
+        <translation>növekvő - túl sokat gondolkodsz</translation>
     </message>
 </context>
 <context>
@@ -2981,23 +3020,24 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Bass Guitar</source>
-        <translation>Basszus Gitár</translation>
+        <translation>Basszusgitár</translation>
     </message>
     <message>
         <source>Piano</source>
-        <translation type="unfinished"></translation>
+        <translation>Zongora</translation>
     </message>
     <message>
         <source>Bandoneon</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>https://hu.wikipedia.org/wiki/Bandone%C3%B3n</translatorcomment>
+        <translation>Bandoneón</translation>
     </message>
     <message>
         <source>Alt Saxophone</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt szaxofon</translation>
     </message>
     <message>
         <source>Tenor Saxophone</source>
-        <translation type="unfinished"></translation>
+        <translation>Tenor szaxofon</translation>
     </message>
 </context>
 <context>
@@ -3101,7 +3141,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Play a short and simple melody in bass clef</source>
-        <translation>Egy rövid és egyszerű dallam lejátszása basszus kulcsban</translation>
+        <translation>Játssz egy rövid és egyszerű dallamot basszus kulcsban</translation>
     </message>
     <message>
         <source>Play grand staff</source>
@@ -3109,7 +3149,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Play random melodies from two staves of piano notation. Keys up to four accidentals.</source>
-        <translation>Véletlenszerű dallamok megszólaltatása zongora jelölésben. Hangnemek négy módosító jelig.</translation>
+        <translation>Játssz véletlenszerű dallamokat zongora jelölésben. Hangnemek négy módosító jelig.</translation>
     </message>
     <message>
         <source>open strings</source>
@@ -3129,7 +3169,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Give note name in C-major scale or show note on the staff knowing its name.</source>
-        <translation>C-dúr skálában hangok megnevezése vagy megmutatása a kottán.</translation>
+        <translation>Adj meg hangokat C-dúr skálában vagy mutasd meg a kottán.</translation>
     </message>
     <message>
         <source>All to V fret</source>
@@ -3154,7 +3194,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Play short melody on treble strings with notes just on first three frets. Sharps keys only.</source>
-        <translation>Rövid dallam megszólaltatása az első három bundon. Csak keresztes hangnemek.</translation>
+        <translation>Játssz rövid dallamot az első három bundon. Csak keresztes hangnemek.</translation>
     </message>
     <message>
         <source>Play scores</source>
@@ -3162,7 +3202,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Take your instrument and just play...&lt;br&gt;No note names, no fretboard. Keys till 4 accids and double accids enabled! Scale of whole guitar without positions.</source>
-        <translation>Csak fogjuk a hangszer és játszunk...&lt;br&gt;Hang megnevezések és fogólap pozíciók nélkül. Hangnemek 4 módosító jelig és dupla módosító jelekkel elérhetőek! A teljes gitár skálája pozíciótól függetlenül használható.</translation>
+        <translation>Csak fogd a hangszered és játssz...&lt;br&gt;Hang megnevezések és fogólap pozíciók nélkül. Hangnemek 4 módosító jelig és dupla módosító jelekkel engedélyezve! A teljes gitár skálája pozíciótól függetlenül használható.</translation>
     </message>
     <message>
         <source>Sing scores</source>
@@ -3170,7 +3210,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Just sing a score...&lt;br&gt;No note names, no fretboard, no keys and double accids. Scale doesn&apos;t matter because octaves are ignored - you can transpose.</source>
-        <translation>Kotta éneklése...&lt;br&gt;Nincsenek hang megnevezések, nincs fogólap, nincsenek hangnemek és dupla módosító jelek. A skála nem számít, mert az oktávok figyelmen kívül vannak hagyva - transzponálhat kedvére.</translation>
+        <translation>Csak énekelj...&lt;br&gt;Nincsenek hang megnevezések, nincs fogólap, nincsenek hangnemek és dupla módosító jelek. A skála nem számít, mert az oktávok figyelmen kívül vannak hagyva - transzponálhatsz kedvedvre.</translation>
     </message>
     <message>
         <source>Pentatonic</source>
@@ -3178,11 +3218,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Play melody composed from pentatonic scale, every time in different key signature.</source>
-        <translation>Pentaton skálából képzett dallam megszólaltatása, minden alkalommal különböző hangnemben.</translation>
+        <translation>Játssz pentaton skálából képzett dallamot, minden alkalommal különböző hangnemben.</translation>
     </message>
     <message>
         <source>Some note of C-major scale point on the instrument, or give its name or show in the score.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mutass néhány hangot a C-durr skálán a hangszeren vagy a hangjegy nevét megadva vagy mutasd meg a kottán.</translation>
     </message>
 </context>
 <context>
@@ -3221,7 +3261,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>&lt;li&gt;Range of frets is beyond the scale of this level&lt;/li&gt;</source>
-        <translation>&lt;li&gt;A bundok száma túlmutat a szint megadott skáláján&lt;/li&gt;</translation>
+        <translation>&lt;li&gt;A bundok száma meghaladja a szint megadott skáláján&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;In range of notes some accidentals are used&lt;br&gt;but not available in this level&lt;/li&gt;</source>
@@ -3233,15 +3273,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>&lt;li&gt;Questions and answers as note names will be the same. To avoid that level has to use flats and sharps and/or double accidentals and/or to use different name styles.&lt;/li&gt;</source>
-        <translation>&lt;li&gt;A kérdéses hangnevek egyezni fognak a válaszokkal. Ezt elkerülendően érdemes beállítani, hogy használjon bés és keresztes hangokat és/vagy dupla módosító jeleket és/vagy különböző megnevezési formákat.&lt;/li&gt;</translation>
+        <translation>&lt;li&gt;A kérdésben és válaszban szereplő hangnevek egyezni fognak. Ezt elkerülendően érdemes beállítani, hogy használjon bés és keresztes hangokat és/vagy dupla módosító jeleket és/vagy különböző megnevezési formákat.&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;&apos;Use different naming styles&apos; was checked but neither questions nor answers as note name are checked.&lt;br&gt;Check this type of answer/question or uncheck &apos;Use different naming styles&apos;.&lt;/li&gt;</source>
-        <translation>&lt;li&gt;A &apos;használjon különböző megnevezési formákat&apos; ki lett jelölve, de se a kérdések, se a válaszok nem lettek kijelölve hangneveknek.&lt;br&gt;Jelölje ki ezt a fajta választ/kérdést vagy törölje a kijelölést a &apos;használjon különböző megnevezési formákat&apos; beállításról.&lt;/li&gt;</translation>
+        <translation>&lt;li&gt;A &apos;használjon különböző megnevezési formákat&apos; ki lett jelölve, de se a kérdések, se a válaszok nem lettek kijelölve hangneveknek.&lt;br&gt;Jelöld ki ezt a fajta választ/kérdést vagy töröld a kijelölést a &apos;használj különböző megnevezési formákat&apos; beállításról.&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;Questions and answers as notes on the staff will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.&lt;/li&gt;</source>
-        <translation>&lt;li&gt;A kérdéses hangok egyezni fognak a válaszokkal a kottán. Ezt elkerülendően érdemes lenne hangnemet beállítani vagy a módosító jelzőket kötelezővé tenni.&lt;/li&gt;</translation>
+        <translation>&lt;li&gt;A kérdésben és válaszban szerelő hangok egyezni fognak a kottán. Ezt elkerülendően érdemes lenne hangnemet beállítani vagy a módosító jelzőket kötelezővé tenni.&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;Manual selecting of a key signature was checked but answer as note on the staff was not checked.&lt;/li&gt;</source>
@@ -3257,15 +3297,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Seems like this level has some mistakes</source>
-        <translation type="unfinished"></translation>
+        <translation>Úgy tűnik van néhány hiba ebben a szintben.</translation>
     </message>
     <message>
         <source>&lt;li&gt;There are not enough selected notes to create a melody.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Nincs elég hang kiválasztva a dallamhoz.&lt;/li&gt;</translation>
     </message>
     <message>
         <source>&lt;li&gt;No melody was added to the list.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;li&gt;Nem lett dallam hozzáadva a listához.&lt;/li&gt;</translation>
     </message>
 </context>
 <context>
@@ -3319,7 +3359,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>octave does no matter</source>
-        <translation>számít az oktáv</translation>
+        <translation>nem számít az oktáv</translation>
     </message>
 </context>
 <context>
@@ -3374,7 +3414,7 @@ nem Nootka fájl!</translation>
         <translation>Szint fájl
  %1 
  megsérült, majd javítva lett!
- Kérem ellenőrizze, hogy a paraméterek megfelelőek-e.</translation>
+ Kérlek ellenőrizd, hogy a paraméterek megfelelőek-e.</translation>
     </message>
     <message>
         <source>Levels</source>
@@ -3382,18 +3422,18 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>Range of notes in the level is beyond the scale of your instrument</source>
-        <translation>A kiválasztott hangtartomány túlmutat a hangszere skáláján</translation>
+        <translation>A kiválasztott hangtartomány túlmutat a hangszered skáláján</translation>
     </message>
     <message>
         <source>Load exam level</source>
-        <translation type="unfinished"></translation>
+        <translation>Vizsga szint betöltése</translation>
     </message>
 </context>
 <context>
     <name>TlinearChart</name>
     <message>
         <source>Key signatures given by user</source>
-        <translation>Hangnemet a felhasználó adja meg</translation>
+        <translation>Felhasználó által megadott hangnemek</translation>
     </message>
     <message>
         <source>for notes without accidentals</source>
@@ -3401,7 +3441,7 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>questions unrelated&lt;br&gt;with chart type</source>
-        <translation>a kérdések nincsenek összefüggésben a &lt;br&gt; diagram típussal</translation>
+        <translation>a kérdések nincsenek összefüggésben&lt;br&gt; a diagram típussal</translation>
     </message>
     <message>
         <source>without accidentals</source>
@@ -3412,23 +3452,23 @@ nem Nootka fájl!</translation>
     <name>TmainHelp</name>
     <message>
         <source>Much depends on the chosen level. Press %1 button to create your own questions set (a level).</source>
-        <translation>Minden a kiválasztott szinten múlik. Nyomja meg a %1 gombot a saját kérdéssor összeállításához (egy szinten).</translation>
+        <translation>Minden a kiválasztott szinten múlik. Nyomd meg a %1 gombot a saját kérdéssor összeállításához (egy szinten).</translation>
     </message>
     <message>
         <source>Select a level and warm up yourself exercising. Then try to pass an exam.</source>
-        <translation>Válasszon egy szintet bemelegítésnek, majd kis gyakorlás után próbáljon meg letenni egy vizsgát.</translation>
+        <translation>Válassz egy szintet bemelegítésnek, majd kis gyakorlás után próbálj meg letenni egy vizsgát.</translation>
     </message>
     <message>
         <source>You will learn by answering questions. To answer, you can play, sing, put in the name of a note, and so on.</source>
-        <translation>A kérdések megválaszolásával fog tanulni. A válaszhoz játszhat hangszeren, énekelhet, megadhatja hangok nevét és így tovább.</translation>
+        <translation>A kérdések megválaszolásával fogsz tanulni. A válaszhoz játszhatsz hangszeren, énekelhetsz, megadhatod hangok nevét és így tovább.</translation>
     </message>
     <message>
         <source>During exercising %1 the program will be your understanding and friendly teacher - it will show you corrected answers if you miss.</source>
-        <translation>Gyakorlás közben %1 a program az Ön megértő és barátságos tanárja esz - megmutatja a helyes választ, amennyiben téveszt.</translation>
+        <translation>Gyakorlás közben %1 a program a Te megértő és barátságos tanárod lesz - megmutatja a helyes választ, amennyiben hibázol.</translation>
     </message>
     <message>
         <source>During exams %1 Nootka will be your strict and &amp;quot;old school&amp;quot; master. Any mistake will be penalized with additional questions...&lt;br&gt;When you pass an exam you got a certificate!</source>
-        <translation>Vizsgák alatt %1 Nootka az Ön szigorú és &amp;quot;vaskalapos&amp;quot; mestere lesz. Minden hibát plusz kérdéssel büntet...&lt;br&gt;Sikeres vizsga esetén bizonyítványt kap!</translation>
+        <translation>Vizsgák alatt %1 Nootka a Te szigorú és &amp;quot;vaskalapos&amp;quot; mestered lesz. Minden hibát plusz kérdéssel büntet...&lt;br&gt;Sikeres vizsga esetén bizonyítványt kapsz!</translation>
     </message>
     <message>
         <source>Using Nootka may be divided into three stages:</source>
@@ -3441,11 +3481,11 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>Exploring the interface of Nootka and how musical scores work. Just click on elements of the interface to see and get to know Nootka. Also, you can play or sing if you have a mic or web-cam.</source>
-        <translation>Ismerkedés a Nootka kezelőfelületével és a zenei jelölésekkel Kattintson az egyes elemekre, így megismerkedhet Nootka-val. Illetve játszhat hangszeren vagy énekelhet, amennyiben van mikrofonja vagy webkamerája.</translation>
+        <translation>Ismerkedés a Nootka kezelőfelületével és a zenei jelölésekkel Kattints az egyes elemekre, így megismerkedhetsz Nootka-val. Illetve játszhatsz hangszeren vagy énekelhetsz, amennyiben van mikrofonod vagy webkamerád.</translation>
     </message>
     <message>
         <source>Press %1 buttons to see help and %2 button to adjust Nootka to your preference.</source>
-        <translation>Nyomja meg a %1 gombot a súgó megtekintéséhez és a %2 gombot, hogy testreszabja Nootka-t.</translation>
+        <translation>Nyomd meg a %1 gombot a súgó megtekintéséhez és a %2 gombot, hogy testreszabd Nootka-t.</translation>
     </message>
     <message>
         <source>II. Exercises and exams</source>
@@ -3457,7 +3497,7 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>Nootka will tell you about what you&apos;ve been thinking for so long... and about the progress you&apos;ve been making so far....&lt;br&gt;Press %1 button to see and to analyze the results of your exams, find your weak points, and improve.</source>
-        <translation>Nootka szembesíti azzal, amit már régóta gondol...és a fejlődéssel, amit eddig elért...&lt;br&gt;Nyomja meg %1 gombot a vizsgaeredmények kiértékeléséhez, keresse meg a gyengepontjait és fejlessze.</translation>
+        <translation>Nootka szembesíti azzal, amit már régóta gondolsz...és a fejlődéssel, amit eddig elértél...&lt;br&gt;Nyomd meg %1 gombot a vizsgaeredmények kiértékeléséhez, keresd meg a gyengepontjaidat és fejleszd.</translation>
     </message>
     <message>
         <source>Have fun!</source>
@@ -3513,7 +3553,7 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>Manage and navigate the score.</source>
-        <translation>Kotta kezelése</translation>
+        <translation>Kotta kezelése.</translation>
     </message>
     <message>
         <source>Additional accidentals</source>
@@ -3525,11 +3565,11 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>Zoom score out</source>
-        <translation>Kicsinyítés</translation>
+        <translation>Kotta kicsinyítése</translation>
     </message>
     <message>
         <source>Zoom score in</source>
-        <translation>Nagyítás</translation>
+        <translation>Kotta nagyítása</translation>
     </message>
     <message>
         <source>Shows names of all notes on the staff.</source>
@@ -3537,7 +3577,7 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
-        <translation>Mutassa a hangnemhez tartozó módosító jelzőket a hangok mellett is.&lt;br&gt;FIGYELEM! Igazi kottákban ez nem fordul elő - csak gyakorlásként használja.&lt;/b&gt;</translation>
+        <translation>Mutassa a hangnemhez tartozó módosító jelzőket a hangok mellett is.&lt;br&gt;FIGYELEM! Igazi kottákban ez nem fordul elő - csak gyakorlásként használd.&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Next note</source>
@@ -3550,7 +3590,7 @@ nem Nootka fájl!</translation>
     <message>
         <source>notes</source>
         <comment>musical notes of course</comment>
-        <translation type="unfinished"></translation>
+        <translation>hangjegyek</translation>
     </message>
 </context>
 <context>
@@ -3603,7 +3643,7 @@ nem Nootka fájl!</translation>
     <name>TmobileMenu</name>
     <message>
         <source>Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempó</translation>
     </message>
 </context>
 <context>
@@ -3692,12 +3732,12 @@ nem Nootka fájl!</translation>
     <message>
         <source>Click to see what &lt;i&gt;octaves&lt;/i&gt; are at &quot;http://en.wikipedia.org/wiki/Octave&quot;</source>
         <comment>You can change this link to article in your language, but please KEEP QUOTATION MARKS AROUND THAT ADDRESS!</comment>
-        <translation>Leírást&lt;i&gt;az oktávokról&lt;/i&gt;itt talál &quot;https://hu.wikipedia.org/wiki/Zenei_hang&quot;</translation>
+        <translation>Itt találsz leírást&lt;i&gt;az oktávokról&lt;/i&gt; &quot;https://hu.wikipedia.org/wiki/Zenei_hang&quot;</translation>
     </message>
     <message numerus="yes">
         <source>The octave &lt;b&gt;%n&lt;/b&gt; in International Pitch Notation</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Oktáv &lt;b&gt;%n&lt;/b&gt; Nemzetközi Hangmagasság Jelölésben</numerusform>
         </translation>
     </message>
 </context>
@@ -3736,7 +3776,7 @@ nem Nootka fájl!</translation>
     <message>
         <source>&lt;small&gt;&lt;i&gt;examining board:&lt;/i&gt;&lt;br&gt;&lt;i&gt;president:&lt;/i&gt;&lt;b&gt; Nootka itself&lt;/b&gt;&lt;br&gt;&lt;b&gt;professor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Mrs RAM&lt;/b&gt; his assistant&lt;br&gt;&lt;i&gt;secretary:&lt;/i&gt;&lt;b&gt; Mr Disk&lt;/b&gt;&lt;/small&gt;</source>
         <comment>Right aligned and centered</comment>
-        <translation>&lt;small&gt;&lt;i&gt;vizsgabizottság:&lt;/i&gt;&lt;br&gt;&lt;i&gt;elnök:&lt;/i&gt;&lt;b&gt; Nootka személyesen&lt;/b&gt;&lt;br&gt;&lt;b&gt;professzor Processzor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;RAM Asszony&lt;/b&gt; mint asszisztens&lt;br&gt;&lt;i&gt;titkár:&lt;/i&gt;&lt;b&gt; Merevlemez Úr&lt;/b&gt;&lt;/small&gt;</translation>
+        <translation>&lt;small&gt;&lt;i&gt;vizsgabizottság:&lt;/i&gt;&lt;br&gt;&lt;i&gt;elnök:&lt;/i&gt;&lt;b&gt; Nootka személyesen&lt;/b&gt;&lt;br&gt;&lt;b&gt; Processzor professzor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;RAM Asszony&lt;/b&gt; mint asszisztens&lt;br&gt;&lt;i&gt;titkár:&lt;/i&gt;&lt;b&gt; Merevlemez Úr&lt;/b&gt;&lt;/small&gt;</translation>
     </message>
     <message>
         <source>&lt;i&gt;stamp&lt;/i&gt;</source>
@@ -3745,15 +3785,15 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>CONGRATULATIONS!&lt;br&gt;You have just passed the exam!</source>
-        <translation>GRATULÁLOK!&lt;br&gt;Teljesített egy vizsgát!</translation>
+        <translation>GRATULÁLOK!&lt;br&gt;Átmentél a vizsgán!</translation>
     </message>
     <message>
         <source>Save this certificate to file in remembrance.</source>
-        <translation>Mentse el a bizonyítványt egy fájlba az utókornak.</translation>
+        <translation>Mentsd el fájlba a bizonyítványt az utókornak.</translation>
     </message>
     <message>
         <source>You can still play with it and improve effectiveness.</source>
-        <translation>Bármikor megpróbálhatja újra versenyen kívül, hogy csiszolja a hatékonyságát.</translation>
+        <translation>Bármikor megpróbálhatod újra versenyen kívül, hogy csiszold a hatékonyságodat.</translation>
     </message>
     <message>
         <source>Save certificate</source>
@@ -3764,7 +3804,7 @@ nem Nootka fájl!</translation>
     <name>TnootkaQML</name>
     <message>
         <source>Analysis of exam results</source>
-        <translation type="unfinished"></translation>
+        <translation>Vizsga eredmény kiértékelése</translation>
     </message>
 </context>
 <context>
@@ -4031,7 +4071,7 @@ nem Nootka fájl!</translation>
     <name>Transposition</name>
     <message>
         <source>Transposition</source>
-        <translation type="unfinished"></translation>
+        <translation>Transzpozíció</translation>
     </message>
     <message numerus="yes">
         <source>semitone(s)</source>
@@ -4124,49 +4164,49 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>Insert note</source>
-        <translation type="unfinished"></translation>
+        <translation>Hangjegy beillesztése</translation>
     </message>
     <message>
         <source>Edit score</source>
-        <translation type="unfinished"></translation>
+        <translation>Kotta szerkesztése</translation>
     </message>
     <message>
         <source>whole note</source>
-        <translation type="unfinished"></translation>
+        <translation>egész hang</translation>
     </message>
     <message>
         <source>half note</source>
-        <translation type="unfinished"></translation>
+        <translation>félhang</translation>
     </message>
     <message>
         <source>quarter note</source>
-        <translation type="unfinished"></translation>
+        <translation>negyed hang</translation>
     </message>
     <message>
         <source>eighth note</source>
-        <translation type="unfinished"></translation>
+        <translation>nyolcad hang</translation>
     </message>
     <message>
         <source>sixteenth note</source>
-        <translation type="unfinished"></translation>
+        <translation>tizenhatod hang</translation>
     </message>
     <message>
         <source>rest</source>
-        <translation type="unfinished"></translation>
+        <translation>szünet</translation>
     </message>
     <message>
         <source>dot</source>
-        <translation type="unfinished"></translation>
+        <translation>pötty</translation>
     </message>
     <message>
         <source>rise</source>
         <comment>as such as sharps rise note</comment>
-        <translation type="unfinished"></translation>
+        <translation>emelés</translation>
     </message>
     <message>
         <source>lower</source>
         <comment>as such as flats lower note</comment>
-        <translation type="unfinished"></translation>
+        <translation>leszállítás</translation>
     </message>
 </context>
 <context>
@@ -4236,25 +4276,25 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>Phone</source>
-        <translation type="unfinished"></translation>
+        <translation>Telefon</translation>
     </message>
     <message>
         <source>Tablet</source>
-        <translation type="unfinished"></translation>
+        <translation>Tablet</translation>
     </message>
 </context>
 <context>
     <name>TsettingsDialogBase</name>
     <message>
         <source>Open online documentation</source>
-        <translation>Online dokumentáció megnyitása</translation>
+        <translation type="vanished">Online dokumentáció megnyitása</translation>
     </message>
 </context>
 <context>
     <name>TstartExamDlg</name>
     <message>
         <source>Exam results</source>
-        <translation>Vizsga eredmény</translation>
+        <translation>Vizsgaeredmények</translation>
     </message>
     <message>
         <source>Load an exam file</source>
@@ -4280,11 +4320,11 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>You are very good in this exercise!&lt;br&gt;Would you like to pass an exam on the same level and got a certificate?</source>
-        <translation>Nagyon jól teljesít ebben a gyakorlásban!&lt;br&gt;Megpróbálkozik egy vizsgával ezen a szinten egy bizonyítvány reményében?</translation>
+        <translation>Nagyon jól teljesítesz ezen a gyakorlásban!&lt;br&gt;Megpróbálkozol egy vizsgával ezen a szinten egy bizonyítvány reményében?</translation>
     </message>
     <message>
         <source>Sure! Lets start an exam!</source>
-        <translation>Naná! Induljon a vizsga!</translation>
+        <translation>Még szép! Induljon a vizsga!</translation>
     </message>
     <message>
         <source>Not now, ask me for a moment.</source>
@@ -4296,15 +4336,15 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>Never more suggest me to start an exam!</source>
-        <translation>Többet nem szeretnék vizsgáról hallani gyakorláskor!</translation>
+        <translation>Többet nem szeretnék vizsga ajánlást gyakorláskor!</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="vanished">OK</translation>
     </message>
     <message>
         <source>No thanks, but check entire melody from now.</source>
-        <translation type="unfinished"></translation>
+        <translation>Köszönöm nem, de innentől az egész dallamot ellenőrizd.</translation>
     </message>
 </context>
 <context>
@@ -4316,7 +4356,7 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>Try again!</source>
-        <translation>Próbálja újra!</translation>
+        <translation>Próbáld újra!</translation>
     </message>
     <message>
         <source>To correct an answer</source>
@@ -4336,15 +4376,15 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>To check the answer confirm it:</source>
-        <translation>Válasz javításához erősítse meg:</translation>
+        <translation>Válasz javításához erősítsd meg:</translation>
     </message>
     <message>
         <source>Check in exam help %1 how to do it automatically</source>
-        <translation>A vizsga súgóban %1 talál segítséget hogyan csinálja automatikusan</translation>
+        <translation>A vizsga súgóban %1 találst segítséget hogyan csináld automatikusan</translation>
     </message>
     <message>
         <source>Select any note to play it again.</source>
-        <translation>Válasszon egy hangjegyet ismételt lejátszáshoz.</translation>
+        <translation>Válassz egy hangjegyet ismételt lejátszáshoz.</translation>
     </message>
     <message>
         <source>too low</source>
@@ -4356,7 +4396,7 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
-        <translation>Kattintson a hibás hangokra megtekintéshez &lt;br&gt; és hallgassa meg őket helyesen.</translation>
+        <translation>Kattints a hibás hangokra megtekintéshez &lt;br&gt; és hallgasd meg őket helyesen.</translation>
     </message>
     <message>
         <source>You are exercising on level</source>
@@ -4372,7 +4412,7 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source> Don&apos;t use accidentals!</source>
-        <translation>Ne használjon módosító jelzőket!</translation>
+        <translation> Ne használjon módosító jelzőket!</translation>
     </message>
     <message>
         <source>on %1 string.</source>
@@ -4384,7 +4424,7 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>Play</source>
-        <translation type="unfinished"></translation>
+        <translation>Lejátszás</translation>
     </message>
     <message>
         <source>Change enharmonically and show on the staff</source>
@@ -4409,7 +4449,7 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>Point on the instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Mutatás a hangszeren</translation>
     </message>
     <message>
         <source>Play or sing a melody.</source>
@@ -4455,7 +4495,7 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>Listened sound show on the instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>Hallott hang mutatása hangszeren</translation>
     </message>
     <message>
         <source>Play or sing listened sound</source>
@@ -4464,7 +4504,7 @@ nem Nootka fájl!</translation>
     <message>
         <source>It should be %1</source>
         <comment>note name follows</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1 kéne legyen</translation>
     </message>
 </context>
 <context>
@@ -4611,11 +4651,11 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>Dummy Lute: D A D F# B E </source>
-        <translation>Lant: D A D F H E</translation>
+        <translation>Lant: D A D F H E </translation>
     </message>
     <message>
         <source>Open: D A D G A D </source>
-        <translation>Nyílt: D A D G A D</translation>
+        <translation>Üres húr: D A D G A D </translation>
     </message>
     <message>
         <source>Kouyanbaba: D A D A D F </source>
@@ -4642,18 +4682,18 @@ nem Nootka fájl!</translation>
     <name>TunerDialog</name>
     <message>
         <source>Nooter - Nootka tuner</source>
-        <translation type="unfinished"></translation>
+        <translation>Nooter - Nootka hangoló (Nootgoló)</translation>
     </message>
     <message>
         <source>output volume</source>
-        <translation type="unfinished"></translation>
+        <translation>kimeneti hangerő</translation>
     </message>
 </context>
 <context>
     <name>TupdateChecker</name>
     <message>
         <source>Checking for updates. Please wait...</source>
-        <translation>Frissítések keresése. Kérem várjon...</translation>
+        <translation>Frissítések keresése. Kis türelmet...</translation>
     </message>
 </context>
 <context>
@@ -4707,7 +4747,7 @@ nem Nootka fájl!</translation>
     </message>
     <message>
         <source>To get it, visit %1 Nootka site</source>
-        <translation type="unfinished"></translation>
+        <translation>Ahhoz, hogy megszerezd, látogasd meg a %1 Nootka oldalt</translation>
     </message>
 </context>
 <context>
@@ -4729,18 +4769,18 @@ nem Nootka fájl!</translation>
     <name>VolumeBar</name>
     <message>
         <source>Volume level of input sound.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bemeneti hangerő.</translation>
     </message>
     <message>
         <source>Drag a knob to adjust minimum input volume.</source>
-        <translation>A minimum bemeneti hangerő állításához húzza meg a gombot.</translation>
+        <translation>A minimum bemeneti hangerő állításához tekerd meg a gombot.</translation>
     </message>
 </context>
 <context>
     <name>Windows installer entries</name>
     <message>
         <source>Do you really want to remove Nootka and all its components?</source>
-        <translation>Biztos, hogy törli Nootka-t minden komponensével együtt?</translation>
+        <translation>Biztos, hogy törlöd Nootka-t minden komponensével együtt?</translation>
     </message>
 </context>
 <context>
@@ -4751,17 +4791,32 @@ nem Nootka fájl!</translation>
     </message>
 </context>
 <context>
+    <name>WizardBando</name>
+    <message>
+        <source>Notes for bandoneon are written on the grand staff - two staves joined with brace.</source>
+        <translation>A bandoneón kottázásához a kétszólamú kotta használatos - két kotta összekapcsolva.</translation>
+    </message>
+    <message>
+        <source>All notes on the upper staff with treble clef are played with right hand and the notes on the lower one with bass clef are played with the left hand.</source>
+        <translation>A felső kotta, violin kulcs, jobb kéznek szól,míg az alsó kotta, basszus kulcs a bal kéznek szól.</translation>
+    </message>
+    <message>
+        <source>Direction of bellows movement is marked with bowing symbols:</source>
+        <translation>A fújtató mozgásána irányak hajló szimbólummal van jelölve:</translation>
+    </message>
+</context>
+<context>
     <name>WizardBass</name>
     <message>
         <source>Musical notation for bass guitar uses bass clef (clef F), but the notes sound one octave lower. It means bass guitar is transposing instrument and it transposes one octave down.</source>
-        <translation type="unfinished"></translation>
+        <translation>A basszus gitárhoz használt jelölés basszus kulcsot használ (F kulcs), de a megszólaltatott hangok valójában egy oktávval lejjebb vannak. Ez azt jelenti, hogy a basszus gitár transzponáló hangszer, egész pontosan egy oktávval mélyebbre transzponál.</translation>
     </message>
 </context>
 <context>
     <name>WizardGuitars</name>
     <message>
         <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below &lt;br&gt;(even if some editors are forgetting about this digit).&lt;br&gt;Try to understand this.</source>
-        <translation>A gitárhoz használt kotta violin kulcsban van, alul nyolcas számjegy megjegyzéssel &lt;br&gt;(akkor is ha a szerkesztő nem jelöli meg ezt).&lt;br&gt;Fontosnak tartom tisztázni.</translation>
+        <translation>A gitárhoz használt kotta violin kulcsban van, alul nyolcas számjegy megjegyzéssel &lt;br&gt;(akkor is ha egyes szerzők megfeletkeznek erre a szám jelölésről).&lt;br&gt;Fontosnak tartom tisztázni.</translation>
     </message>
     <message>
         <source>Both pictures above show the same note!%1(note c in one-line octave)</source>
@@ -4772,37 +4827,37 @@ nem Nootka fájl!</translation>
     <name>WizardInstrument</name>
     <message>
         <source>What instrument do you play?</source>
-        <translation>Milyen hangszeren játszik?</translation>
+        <translation>Milyen hangszeren játszol?</translation>
     </message>
 </context>
 <context>
     <name>WizardMode</name>
     <message>
         <source>In main Nootka window score can be displayed in a few different ways, depends on experience level.</source>
-        <translation type="unfinished"></translation>
+        <translation>A Nootka főablakában a kotta különböző módokon nézhet ki, a rutin szinttől függően.</translation>
     </message>
     <message>
         <source>For beginners, when you don&apos;t know musical notation at all.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kezdőként, amikor még nem ismered a zenei jelöléseket.</translation>
     </message>
     <message>
         <source>score without rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>kotta ritmus nélkül</translation>
     </message>
     <message>
         <source>When you already know musical notation a little but you cannot play your instrument fluently yet.</source>
-        <translation type="unfinished"></translation>
+        <translation>Amikor egy kicsit már ismered a zenei jelöléseket, de még nem tudod zökkenőmentesen játszani a hangszereden.</translation>
     </message>
     <message>
         <source>full notation</source>
-        <translation type="unfinished"></translation>
+        <translation>teljes jelölés</translation>
     </message>
 </context>
 <context>
     <name>WizardOptions</name>
     <message>
         <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
-        <translation>A 7. hangot egyes országokban B-nek, míg másokban H-nak hívják.&lt;br&gt;Hogy nevezik a 7. hangot az Ön országában?</translation>
+        <translation>A 7. hangot egyes országokban B-nek, míg másokban H-nak hívják.&lt;br&gt;Hogy nevezik a 7. hangot a Te országodban?</translation>
     </message>
     <message>
         <source>I know about double sharps (x) and double flats (bb)</source>
@@ -4821,25 +4876,25 @@ nem Nootka fájl!</translation>
     <name>WizardOther</name>
     <message>
         <source>Select a clef and scale of notes appropriate for your instrument.</source>
-        <translation>Válassza ki a hangszeréhez megfelelő kulcsot és a skálát.</translation>
+        <translation>Válaszs ki a hangszeredhez megfelelő kulcsot és a skálát.</translation>
     </message>
 </context>
 <context>
     <name>WizardPiano</name>
     <message>
         <source>Notes for piano are written on the grand staff - two staves joined with brace. Usually the upper one, with treble clef is for right hand and the lower one with bass clef is for left hand.</source>
-        <translation type="unfinished"></translation>
+        <translation>A zongora kottázásához a kétszólamú kotta használatos - két kotta összekapcsolva. Általában a felső, a violin kulccsal a jobb kezet, míg az alsó, a basszus kulccsal a bal kezet írja le.</translation>
     </message>
     <message>
         <source>Although for exercise purposes and also due to Nootka is supporting only single voice, sometimes just one of the staves can be used as well.</source>
-        <translation type="unfinished"></translation>
+        <translation>Használható kizárólag az egyik kotta is, tekintve, hogy Nootka csak egy csatornás bemeneti hangot támogat, illetve gyakorláshoz ez a célraszerűbb.</translation>
     </message>
 </context>
 <context>
     <name>WizardSax</name>
     <message>
         <source>Saxophones are transposing instruments.&lt;br&gt;It means that note pitch in the score doesn&apos;t correspond directly to note which is played - it transposes by interval (number of semitones) according to kind of saxophone.</source>
-        <translation type="unfinished"></translation>
+        <translation>A szaxofon transzponáló hangszer.&lt;br&gt;Tehát a hangmagasság a kottán nem azt jelenti, hogy melyik hangot kell játszani - hanem hangköz transzponációt jelent (félhangokban számolva), a szaxofon típusától függően.</translation>
     </message>
 </context>
 <context>
@@ -4848,6 +4903,11 @@ nem Nootka fájl!</translation>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
         <translation type="vanished">Gábor Kertész&lt;br&gt;kergab@gmail.com</translation>
+    </message>
+    <message>
+        <source>translator</source>
+        <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: translator name, translator e-mail (optional) and translator site (optional)</comment>
+        <translation>Gábor Kertész&lt;br&gt;kergab@gmail.com</translation>
     </message>
 </context>
 <context>

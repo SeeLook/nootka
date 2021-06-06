@@ -22,7 +22,10 @@ TstartExamItem {
     id: startCol
     width: parent.width; height: parent.height
 
-    spacing: NOO.factor() * (NOO.isAndroid() ? 0.5 : 1)
+    spacing: NOO.isAndroid() ?
+      Math.min(NOO.factor() * 2,
+               (startDialog.height - upperRow.height - infoText.height - levelWrapper.height - grid1.height - grid2.height) / 4.5)
+      : NOO.factor()
     topPadding: NOO.factor() / 4
 
     Row {
@@ -78,13 +81,13 @@ TstartExamItem {
         id: selector
         parent: hideSelector ? selPopLoader.item.contentItem : levelWrapper
         width: startDialog.width - NOO.factor() * (hideSelector ? 2 : 1)
-        height: hideSelector ? startDialog.height * 0.7 : startDialog.height - upperRow.height - row1.height - grid2.height - infoText.height
+        height: hideSelector ? startDialog.height * 0.7 : startDialog.height - upperRow.height - grid1.height - grid2.height - infoText.height
             - (NOO.isAndroid() ? 4 : 6) * startCol.spacing
       }
     }
 
     Grid {
-      id: row1
+      id: grid1
       anchors.horizontalCenter: parent.horizontalCenter
       spacing: NOO.factor() * (NOO.isAndroid() ? 0.5 : 1)
       columns: hideSelector ? 1 : 2
@@ -95,7 +98,7 @@ TstartExamItem {
           TiconButton {
             enabled: selector.levelId > -1 || prevLevelName() !== ""
             iconHeight: startDialog.height / 15
-            pixmap: NOO.isAndroid() && !hideSelector ? "" :  NOO.pix("practice")
+            pixmap:  NOO.pix("practice")
             text: qsTr("Start exercise on level:")
             onClicked: start(Texecutor.StartExercise, selector.levelId > -1 ? selector.currentLevelVar() : prevLevel())
           }
@@ -113,7 +116,7 @@ TstartExamItem {
           TiconButton {
             enabled: selector.levelId !== -1
             iconHeight: startDialog.height / 15
-            pixmap: NOO.isAndroid()  && !hideSelector ? "" : NOO.pix("exam")
+            pixmap: NOO.pix("exam")
             text: qsTr("Pass new exam on level:")
             onClicked: start(Texecutor.NewExam, selector.currentLevelVar())
           }
@@ -140,7 +143,7 @@ TstartExamItem {
           TiconButton {
             id: lastExamButt
             iconHeight: startDialog.height / 15
-            pixmap: NOO.isAndroid() && !hideSelector ? "" : NOO.pix("exam")
+            pixmap: NOO.pix("exam")
             text: qsTr("Latest exam")
             enabled: lastExamFile !== ""
             onClicked: start(Texecutor.ContinueExam, lastExamFile)
@@ -163,7 +166,7 @@ TstartExamItem {
           Row {
             TiconButton {
               iconHeight: startDialog.height / 15
-              pixmap: NOO.isAndroid() && !hideSelector ? "" : NOO.pix("exam")
+              pixmap: NOO.pix("exam")
               text: qsTr("Select an exam to continue") + "   ⋮"
               onClicked: menu.open()
             }
@@ -247,7 +250,7 @@ TstartExamItem {
         spacing: NOO.factor() * (NOO.isAndroid() ? 0.5 : 1)
         TiconButton {
           iconHeight: startDialog.height / 15
-          pixmap: NOO.isAndroid() && !hideSelector ? "" : NOO.pix("nootka-level")
+          pixmap: NOO.pix("nootka-level")
           text: NOO.TR("LevelsPage", "Level name:")
           onClicked: selPopLoader.item.open()
         }

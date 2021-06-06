@@ -351,10 +351,21 @@ QString TnootkaQML::getXmlToSave(const QString& fileName) {
                                           QStringLiteral("musicxml|xml"));
 #else
   saveFile = TfileDialog::getSaveFileName(qApp->translate("TmainScoreObject", "Save melody as:"), GLOB->lastXmlDir() + QDir::separator() + fileName,
-                                          qTR("TmainScoreObject", "MusicXML file") + QLatin1String(" (*.musicxml *.xml)"), &filter);
+                                            qApp->translate("TmainScoreObject", "Compressed MusicXML file") + QLatin1String(" (*.mxl);;")
+                                            + qTR("TmainScoreObject", "MusicXML file") + QLatin1String(" (*.musicxml *.xml);;"),
+                                            &filter);
 #endif
-  if (!saveFile.isEmpty())
+  if (!saveFile.isEmpty()) {
     GLOB->setLastXmlDir(QFileInfo(saveFile).absoluteDir().path());
+    //if the dialog does not retrieve an extension for the file we deduct it from the filter
+    if (QFileInfo(saveFile).suffix().isEmpty()) {
+        if (filter.endsWith(QLatin1String("(*.mxl)"))) {
+            saveFile += ".mxl";
+        } else {
+            saveFile += ".musicxml";
+        };
+     };
+  };
   return saveFile;
 }
 
@@ -522,8 +533,8 @@ void TnootkaQML::openFile(const QString& runArg) {
   if (QFile::exists(runArg)) {
     QFile file(runArg);
     auto ext = QFileInfo(file).suffix();
-    if (ext == QLatin1String("xml") || ext == QLatin1String("musicxml")) {
-        auto fullPath = QDir(file.fileName()).absolutePath();
+    if (ext == QLatin1String("xml") || ext == QLatin1String("musicxml") || ext == QLatin1String("mxl")) {
+        auto fullPath = QDir(file.fileName()).absolutePath();        
         m_scoreObject->openMusicXml(fullPath);
     } else {
         QTimer::singleShot(700, this, [=]{ emit GLOB->wantOpenFile(runArg); });
@@ -618,6 +629,7 @@ void TnootkaQML::noteStarted(const Tnote& n) {
           m_startedNoteId = selectedNoteId();
       }
   }
+  m_ignoreScore = false; // Reset the switch in case it is not consumed
 }
 
 
@@ -642,6 +654,7 @@ void TnootkaQML::noteFinished(const Tnote& n) {
           m_scoreObject->setNote(m_scoreObject->selectedItem(), note);
       }
   }
+  m_ignoreScore = false; // Reset the switch in case it is not consumed
 // TODO Do treat tied notes as a single one?
 }
 
@@ -727,6 +740,7 @@ void TnootkaQML::instrumentChangesNoteSlot() {
         seg->setTechnical(instrData.data());
       }
   }
+  m_ignoreScore = false; // Reset the switch in case it is not consumed
 }
 
 
@@ -747,6 +761,7 @@ void TnootkaQML::scoreChangedNoteSlot() {
     m_ignoreScore = false;
     return;
   }
+
   auto scoreNote = m_scoreObject->selectedNote();
   if (m_instrument)
     m_instrument->setNote(scoreNote, getTechicalFromScore());
@@ -786,6 +801,7 @@ void TnootkaQML::selectPlayingNote(int id) {
   m_scoreObject->setSelectedItem(m_scoreObject->note(id));
   if (m_instrument)
     m_instrument->setNote(m_scoreObject->selectedNote(), getTechicalFromScore());
+  m_ignoreScore = false; // Reset the switch in case it is not consumed
 }
 
 

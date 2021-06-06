@@ -103,8 +103,10 @@ public:
        */
   void toXml(QXmlStreamWriter& xml, int trans = 0);
   bool fromXml(QXmlStreamReader& xml);
+  bool saveToMusicXml(const QString& xmlFileName, int transposition);
+  void writeXmlStream(QXmlStreamWriter &xml, int transposition);
+  bool saveToMXL(const QString& xmlFileName, int transposition);
 
-  bool saveToMusicXml(const QString& xmlFileName, int transposition = 0);
   bool grabFromMusicXml(const QString& xmlFileName);
   bool grabFromMXL(const QString& xmlFileName);
 

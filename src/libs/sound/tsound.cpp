@@ -96,7 +96,7 @@ void Tsound::init() {
       if (GLOB->A->INenabled)
         createSniffer();
 
-      connect(NOO, &TnootkaQML::playNote, [=](const Tnote& n){ play(n); });
+      connect(NOO, &TnootkaQML::playNote, this, &Tsound::play);
       setDefaultAmbitus();
       if (sniffer)
         sniffer->startListening();
@@ -123,32 +123,20 @@ void Tsound::init() {
 }
 
 
-//TODO: Clear dead code here
 void Tsound::play(const Tnote& note) {
-//   bool playing = true;
   if (player && note.isValid()) {
     m_stopSniffOnce = true;
     stopMetronome();
-    /*playing = */player->playNote(note.chromatic());
+   player->playNote(note.chromatic());
   }
+
 #if defined (Q_OS_ANDROID)
-//  if (playing) {
-    if (sniffer) { // stop sniffer
-      if (!m_stopSniffOnce) { // stop listening just once
-        sniffer->stopListening();
-        m_stopSniffOnce = true;
-      }
+  if (sniffer) { // stop sniffer
+    if (!m_stopSniffOnce) { // stop listening just once
+      sniffer->stopListening();
+      m_stopSniffOnce = true;
     }
-//  }
-#else
-//   if (playing && player->type() == TabstractPlayer::e_midi) {
-//     if (sniffer) { // stop sniffer if midi output was started
-//       if (!m_stopSniffOnce) { // stop listening just once
-//         sniffer->stopListening();
-//         m_stopSniffOnce = true;
-//       }
-//     }
-//   }
+  }
 #endif
 }
 
@@ -307,8 +295,10 @@ void Tsound::setBeatUnit(int bu) {
     if (bu != m_beatUnit) {
       int oldBu = m_beatUnit;
       m_beatUnit = bu;
-      m_tempo = qMin(240, qRound(static_cast<qreal>(m_tempo) * 
-                        Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(m_beatUnit)) / Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(oldBu))));
+      m_tempo = qMin(240,
+                     qRound(static_cast<qreal>(m_tempo) *
+                        Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(m_beatUnit)) / Tmeter::beatTempoFactor(static_cast<Tmeter::EbeatUnit>(oldBu)))
+                     );
       emit tempoChanged();
     }
   }
@@ -704,8 +694,6 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
           emit noteFinished();
           if (!m_examMode && !m_tunerMode)
             NOO->noteFinished(m_detectedNote);
-//          int realTempo = qRound(60.0 / ((24.0 / static_cast<qreal>(m_detectedNote.duration())) * static_cast<qreal>(note.duration)));
-//           qDebug() << "Detected" << note.duration << normDur << note.pitchF << m_detectedNote.rtm.string() << "tempo" << realTempo << "\n";
       } else {
           int rtmRest = 0;
           TrhythmList notes = Trhythm::resolve(normDur, &rtmRest);

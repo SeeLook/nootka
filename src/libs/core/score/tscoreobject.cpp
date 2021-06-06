@@ -518,7 +518,7 @@ void TscoreObject::saveMusicXml(const QString& musicFile, const QString& title,
                                 const QString& composer, int transposition) {
   if (!musicFile.isEmpty()) {
     QString fileName = musicFile;
-    if (musicFile.right(4) != QLatin1String(".xml") && musicFile.right(9) != QLatin1String(".musicxml"))
+    if (musicFile.right(4) != QLatin1String(".xml") && musicFile.right(9) != QLatin1String(".musicxml") && musicFile.right(4) != QLatin1String(".mxl"))
       fileName += QLatin1String(".musicxml"); // prefer musicxml extension
     auto melody = new Tmelody(title, TkeySignature(static_cast<char>(keySignature())));
     getMelody(melody);
