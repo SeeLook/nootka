@@ -118,7 +118,7 @@ public:
       /**
        * Common routine to parse musicXML data in @p QXmlStreamReader.
        */
-  bool procesXMLData(QXmlStreamReader& xml);
+  bool processXMLData(QXmlStreamReader& xml);
 
 private:
   QString              m_title;

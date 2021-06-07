@@ -5,7 +5,7 @@
 add_definitions(-DNOOTKACORE_LIBRARY)
 
 
-find_package(LIBZIP REQUIRED)
+find_package(ZLIB REQUIRED)
 
 set(LIB_NOOTKACORE_SRC
   tinitcorelib.cpp
@@ -21,7 +21,10 @@ set(LIB_NOOTKACORE_SRC
   taction.cpp
   tnoofont.cpp
 
-  libzippp/libzippp.cpp
+  minizip/tzip.cpp
+  minizip/zip.c
+  minizip/unzip.c
+  minizip/ioapi.c
 
   music/tnote.cpp
   music/trhythm.cpp
@@ -67,6 +70,10 @@ set(LIB_NOOTKACORE_SRC
   Android/tfiledialog.cpp
 )
 
+if (WIN32)
+  list(APPEND LIB_NOOTKACORE_SRC minizip/iowin32.c)
+endif()
+
 if (WITH_STATIC_LIB)
   add_library(NootkaCore STATIC ${LIB_NOOTKACORE_SRC} )
 else ()
@@ -77,7 +84,7 @@ target_link_libraries(NootkaCore
   Qt5::Qml
   Qt5::Quick
   Qt5::QuickControls2
-  libzip::zip
+  ZLIB::ZLIB
 )
 
 

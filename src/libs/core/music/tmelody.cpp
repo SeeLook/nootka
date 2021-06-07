@@ -22,15 +22,13 @@
 #include "tmeter.h"
 #include "tchunk.h"
 #include "nootkaconfig.h"
-#include "libzippp/libzippp.h"
-#include <QFile>
-#include <QTemporaryFile>
+
+#include "minizip/tzip.h"
 
 #include <QtCore/qvariant.h>
 #include <QtCore/qdebug.h>
 #include <QtCore/qfile.h>
 #include <QtCore/qdatetime.h>
-#include <QtCore/qfileinfo.h>
 
 
 /* local static */
@@ -378,6 +376,7 @@ bool Tmelody::saveToMusicXml(const QString& xmlFileName, int transposition) {
         return false;
 }
 
+
 void Tmelody::writeXmlStream(QXmlStreamWriter &xml, int transposition) {
     xml.setAutoFormatting(true);
     xml.setAutoFormattingIndent(2);
@@ -414,31 +413,10 @@ void Tmelody::writeXmlStream(QXmlStreamWriter &xml, int transposition) {
 
 
 bool Tmelody::saveToMXL(const QString& xmlFileName, int transposition) {
-  bool ok = true;
-
-  // xmlFileName is expected to have the full path and the extension (.mxl)
-  libzippp::ZipArchive zf(xmlFileName.toStdString());
-  zf.open(libzippp::ZipArchive::Write);
-
-  // we start by adding the mimetype file to the Zip file
-  zf.addData("mimetype", "application/vnd.recordare.musicxml\n", 35);
-
-  // now we add the entry "META-INF" to the Zip file, and we add the "container.xml" file inside it
-  // we start by creating the content of the "container.xml" file
-  std::string filename = QFileInfo(xmlFileName).baseName().toStdString() + ".xml";
-  std::string stdStream = std::string("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<container>\n<rootfiles>\n")
-     + "<rootfile full-path=\"" + filename + "\" media-type=\"application/vnd.recordare.musicxml+xml\">\n"
-     + "</rootfile>\n</rootfiles>\n</container>";
-  zf.addData("META-INF/container.xml", stdStream.data(), stdStream.length());
-
-  // now we add the .xml score to the Zip file
   QByteArray xmlData;
   QXmlStreamWriter xml(&xmlData);
   writeXmlStream(xml, transposition);
-  zf.addData(filename, xmlData, xmlData.size());
-  zf.close();
-
-  return ok;
+  return Tzip::zipMusicXml(xmlFileName, &xmlData);
 }
 
 
@@ -448,11 +426,11 @@ bool Tmelody::grabFromMusicXml(const QString& xmlFileName) {
 
   // if compressed file then invoke its extraction
   if (xmlFileName.endsWith(QStringLiteral(".mxl")))
-     return grabFromMXL(xmlFileName);
+    return grabFromMXL(xmlFileName);
 
   if (file.open(QIODevice::ReadOnly)) {
     QXmlStreamReader xml(&file);
-    ok = procesXMLData(xml);
+    ok = processXMLData(xml);
     file.close();
   };
 
@@ -461,50 +439,20 @@ bool Tmelody::grabFromMusicXml(const QString& xmlFileName) {
 
 
 bool Tmelody::grabFromMXL(const QString& xmlFileName) {
-    bool ok = true;
+  bool ok = true;
 
-    // step 1: uncompress the ".mxl" file
-
-    // first open the compressed file
-    libzippp::ZipArchive zf(xmlFileName.toStdString());
-    zf.open(libzippp::ZipArchive::ReadOnly);
-    // and look for the META-INF folder embedded
-    libzippp::ZipEntry entryMETA = zf.getEntry("META-INF/container.xml");
-    QXmlStreamReader xmlMETA(entryMETA.readAsText().data());
-    if (xmlMETA.error() != QXmlStreamReader::NoError) {
+  QByteArray xmlData;
+  Tzip::getXmlFromZip(xmlFileName, &xmlData);
+  if (xmlData.size() > 0) {
+      QXmlStreamReader xmlScore(xmlData);
+      if (xmlScore.error() != QXmlStreamReader::NoError)
         ok = false;
-        zf.close();
-        return ok;
-    };
-    // now read its content, extracting from the element "rootfile" its attribute "full-path"
-    // because it has the filename of the .xml score
-    QStringRef scoreFileXml;
-    while(!xmlMETA.atEnd()) {
-        xmlMETA.readNext();
-        if (xmlMETA.isEndDocument()) break;
-        if (xmlMETA.isStartElement()) {
-            if (xmlMETA.name() == QLatin1String("rootfile")) {
-                QXmlStreamAttributes attrs = xmlMETA.attributes();
-                if (attrs.value(QStringLiteral("media-type")) == QLatin1String("application/vnd.recordare.musicxml+xml")) {
-                    scoreFileXml = attrs.value(QStringLiteral("full-path"));
-                    break;
-                };
-            };
-        };
-    };
-    // now we look for the entry of the zip file with the filename of the .xml file (the score)
-    libzippp::ZipEntry entryScore = zf.getEntry(scoreFileXml.toString().toStdString());
-    std::string strScore = entryScore.readAsText();
-    QXmlStreamReader xmlScore(strScore.data());
-    if (xmlScore.error() != QXmlStreamReader::NoError) {
-        ok = false;
-    } else {
-// step 2: treat the .xml file, retrieving the score from it
-        ok = procesXMLData(xmlScore);
-    };
+      else
+        ok = processXMLData(xmlScore);
+  } else
+      ok = false;
 
-    zf.close();
-    return ok;
+  return ok;
 }
 
 
@@ -514,7 +462,7 @@ void Tmelody::fromNoteStruct(QList<TnoteStruct>& ns) {
 }
 
 
-bool Tmelody::procesXMLData(QXmlStreamReader& xml) {
+bool Tmelody::processXMLData(QXmlStreamReader& xml) {
   bool ok = true;
   if (xml.error() != QXmlStreamReader::NoError) {
     qDebug() << "[Tmelody] XML stream error:" << xml.error();
