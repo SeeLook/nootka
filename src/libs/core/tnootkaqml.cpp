@@ -330,7 +330,7 @@ QString TnootkaQML::getXmlToOpen() {
 #if defined (Q_OS_ANDROID)
   if (GLOB->lastXmlDir().isEmpty())
     GLOB->setLastXmlDir(Tandroid::getExternalPath());
-  openFile = TfileDialog::getOpenFileName(GLOB->lastXmlDir(), QStringLiteral("xml|musicxml"));
+  openFile = TfileDialog::getOpenFileName(GLOB->lastXmlDir(), QStringLiteral("xml|musicxml|mxl"));
 #else
   openFile = TfileDialog::getOpenFileName(qApp->translate("TmainScoreObject", "Open melody file"), GLOB->lastXmlDir(),
                                           qApp->translate("TmainScoreObject", "MusicXML file") + QLatin1String(" (*.xml *.musicxml *.mxl)"));
@@ -348,7 +348,7 @@ QString TnootkaQML::getXmlToSave(const QString& fileName) {
   if (GLOB->lastXmlDir().isEmpty())
     GLOB->setLastXmlDir(Tandroid::getExternalPath());
   saveFile = TfileDialog::getSaveFileName(GLOB->lastXmlDir() + QLatin1String("/") + fileName,
-                                          QStringLiteral("musicxml|xml"));
+                                          QStringLiteral("musicxml|xml|mxl"));
 #else
   saveFile = TfileDialog::getSaveFileName(qApp->translate("TmainScoreObject", "Save melody as:"), GLOB->lastXmlDir() + QDir::separator() + fileName,
                                             qApp->translate("TmainScoreObject", "Compressed MusicXML file") + QLatin1String(" - mxl (*.mxl);;")
