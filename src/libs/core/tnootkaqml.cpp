@@ -351,8 +351,8 @@ QString TnootkaQML::getXmlToSave(const QString& fileName) {
                                           QStringLiteral("musicxml|xml"));
 #else
   saveFile = TfileDialog::getSaveFileName(qApp->translate("TmainScoreObject", "Save melody as:"), GLOB->lastXmlDir() + QDir::separator() + fileName,
-                                            qApp->translate("TmainScoreObject", "Compressed MusicXML file") + QLatin1String(" (*.mxl);;")
-                                            + qTR("TmainScoreObject", "MusicXML file") + QLatin1String(" (*.musicxml *.xml);;"),
+                                            qApp->translate("TmainScoreObject", "Compressed MusicXML file") + QLatin1String(" - mxl (*.mxl);;")
+                                            + qTR("TmainScoreObject", "MusicXML file") + QLatin1String(" (*.musicxml *.xml)"),
                                             &filter);
 #endif
   if (!saveFile.isEmpty()) {
@@ -360,9 +360,9 @@ QString TnootkaQML::getXmlToSave(const QString& fileName) {
     //if the dialog does not retrieve an extension for the file we deduct it from the filter
     if (QFileInfo(saveFile).suffix().isEmpty()) {
         if (filter.endsWith(QLatin1String("(*.mxl)"))) {
-            saveFile += ".mxl";
+            saveFile += QLatin1String(".mxl");
         } else {
-            saveFile += ".musicxml";
+            saveFile += QLatin1String(".musicxml");
         };
      };
   };
