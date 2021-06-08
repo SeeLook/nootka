@@ -133,6 +133,8 @@ Tflickable {
               createLink("RtAudio"/* + " & RtMidi"*/, "https://www.music.mcgill.ca/~gary/rtaudio/index.html") + " by G. P. Scavone",
               createLink("Tartini", "http://miracle.otago.ac.nz/tartini/index.html") + " by P. McLeod",
               createLink("SoundTouch " + SOUND.soundTouchVersion(), "http://www.surina.net/soundtouch/") + " by Olli Parviainen",
+              createLink("zlib", "https://zlib.net") + " by Jean-loup Gailly & Mark Adler",
+              createLink("minizip", "http://www.winimage.com/zLibDll/minizip.html") + " by Gilles Vollant",
               createLink("LilyPond emmentaler font", "http://lilypond.org/introduction.html"),
               createLink("Bravura SMuFL font", "https://www.smufl.org/fonts/"),
               createLink("Country flags images", "https://github.com/joielechong/iso-country-flags-svg-collection"),
