@@ -1,3 +1,6 @@
+2.0.1 devel
+     - support for read/write compressed musicXML file format
+
 2.0.0
   Nootka knows rhythms and plays a few more instruments
      - updated online documentation and links to it
