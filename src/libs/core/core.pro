@@ -13,6 +13,8 @@ QT += core widgets androidextras quick quickcontrols2
 TARGET = NootkaCore
 TEMPLATE = lib
 
+DEFINES += USE_FILE32API # for minizip, to link against zlib properly
+
 SOURCES +=  tinitcorelib.cpp \
             tcolor.cpp \
             tfingerpos.cpp \
@@ -38,6 +40,11 @@ SOURCES +=  tinitcorelib.cpp \
             music/tnotestruct.cpp \
             music/ttechnical.cpp \
             music/trtmgroup.cpp \
+          \
+            minizip/tzip.cpp \
+            minizip/zip.c \
+            minizip/unzip.c \
+            minizip/ioapi.c \
           \
             score/tscoreobject.cpp \
             score/tstaffitem.cpp \
@@ -96,6 +103,12 @@ HEADERS  += nootkaconfig.h \
             music/ttechnical.h \
             music/trtmgroup.h \
           \
+            minizip/tzip.h \
+            minizip/zip.h \
+            minizip/unzip.h \
+            minizip/ioapi.h \
+            minizip/crypt.h \
+          \
             score/tscoreobject.h \
             score/tstaffitem.h \
             score/tmeasureobject.h \
@@ -132,9 +145,6 @@ android {
   QMAKE_CXXFLAGS_RELEASE += -fsigned-char
   QMAKE_CXXFLAGS_DEBUG += -fsigned-char -O1
 }
-
-# INCLUDEPATH = core
-
 
 RESOURCES += core.qrc
 
