@@ -33,7 +33,7 @@ if (ENABLE_PULSEAUDIO)
 endif (ENABLE_PULSEAUDIO)
 
 # from Ubuntu 18.04 (Bionic)
-set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.27), libqt5gui5 (>= 5.9), libqt5widgets5, libqt5printsupport5, libqt5network5, qttranslations5-l10n, qml-module-qtquick-controls, qml-module-qtquick-controls2, qml-module-qtquick-dialogs, ${DEB_DEPENDS} libfftw3-single3, libvorbisfile3, libsoundtouch1")
+set(CPACK_DEBIAN_PACKAGE_DEPENDS "libc6 (>= 2.27), libqt5gui5 (>= 5.9), zlib1g, libqt5widgets5, libqt5printsupport5, libqt5network5, qttranslations5-l10n, qml-module-qtquick-controls, qml-module-qtquick-controls2, qml-module-qtquick-dialogs, ${DEB_DEPENDS} libfftw3-single3, libvorbisfile3, libsoundtouch1")
 #CPACK_DEBIAN_PACKAGE_MAINTAINER #CPACK_PACKAGE_CONTACT
 set(CPACK_DEBIAN_PACKAGE_DESCRIPTION "Application helps understand the basics of music notation, reading
  and practicing playing musical scores.
