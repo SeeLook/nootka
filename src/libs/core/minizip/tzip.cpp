@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2021 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2021 by Tomasz Bojczuk & José Luis Marín                *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,7 +22,10 @@
 
 #include <QtCore/qfileinfo.h>
 #include <QtCore/qbytearray.h>
+#include <QtCore/qxmlstream.h>
+
 #include <QtCore/qdebug.h>
+
 
 #define BUFF_SIZE (8192)
 
@@ -34,31 +37,49 @@ void Tzip::getXmlFromZip(const QString &zipFile, QByteArray* xmlData) {
     char*               name = new char[255];
     unz_file_info64     finfo;
     int                 ret;
+    QString             xmlNameInContainer;
+    bool                xmlFound = false;
 
     do {
       ret = unzGetCurrentFileInfo64(mxlFile, &finfo, name, 255, nullptr, 0, nullptr, 0);
       if (ret == UNZ_OK) {
-        QString qName(name);
+        QString           inZipName(name);
         char*             buff = new char[BUFF_SIZE];
         int               red;
         int               unRet;
-        std::string       container;
 //         qDebug() << "name" << qName << "utf8" << ((finfo.flag & (1 << 11)) ? true : false);
-        if (qName.endsWith(QLatin1String("container.xml"))) {
-          // TODO verify is it true:
-          // We might read file name with music data from container.xmlData
-          // but it seems there is only single *.xml file in zip root.
-          // Another xml is container.xml itself but inside META_INF folder,
-          // so next if statement should be sufficient.
-          // Then delete following commented code for good.
-//             unRet = unzOpenCurrentFile(mxlFile);
-//             while ((red = unzReadCurrentFile(mxlFile, buff, BUFF_SIZE)) > 0) {
-//               container.append(buff, red);
-//             }
-//             if (red < 0)
-//               unzCloseCurrentFile(mxlFile);
-        } else if (qName.endsWith(QLatin1String(".xml")) && !qName.startsWith(QLatin1String("META-INF"))) {
+        if (inZipName.endsWith(QLatin1String("container.xml"))) {
+            std::string       container;
+            unRet = unzOpenCurrentFile(mxlFile);
+            while ((red = unzReadCurrentFile(mxlFile, buff, BUFF_SIZE)) > 0) {
+              container.append(buff, red);
+            }
+            if (red < 0)
+              unzCloseCurrentFile(mxlFile);
+            if (!container.empty()) {
+              QXmlStreamReader xmlMETA(container.data());
+              while(!xmlMETA.atEnd()) {
+                xmlMETA.readNext();
+                if (xmlMETA.isEndDocument()) break;
+                if (xmlMETA.isStartElement()) {
+                  if (xmlMETA.name() == QLatin1String("rootfile")) {
+                    QXmlStreamAttributes attrs = xmlMETA.attributes();
+                    if (attrs.value(QStringLiteral("media-type")) == QLatin1String("application/vnd.recordare.musicxml+xml")) {
+                      xmlNameInContainer = attrs.value(QStringLiteral("full-path")).toString();
+                      break;
+                    };
+                  };
+                };
+              };
+            }
+        } else if (inZipName.endsWith(QLatin1String(".xml")) && !inZipName.startsWith(QLatin1String("META-INF"))) {
             // xml file which is not container is rather musicXML
+            if (xmlNameInContainer != inZipName) {
+                qDebug() << "[Tzip] XML score file:" << inZipName
+                         << "in zipped musicXML has different name than mentioned in container" << xmlNameInContainer;
+                // TODO: But what should we do if those names don't match?
+            } else
+                xmlFound = true;
             unRet = unzOpenCurrentFile(mxlFile);
             while ((red = unzReadCurrentFile(mxlFile, buff, BUFF_SIZE)) > 0) {
               xmlData->append(buff, red);
@@ -68,6 +89,9 @@ void Tzip::getXmlFromZip(const QString &zipFile, QByteArray* xmlData) {
         }
         delete[] buff;
       }
+      if (xmlFound)
+        break;
+
       ret = unzGoToNextFile(mxlFile);
     } while (ret == UNZ_OK);
 
@@ -112,14 +136,14 @@ bool Tzip::zipMusicXml(const QString &zipFile, QByteArray *xmlData) {
 //###################                PRIVATE           ############################################
 //#################################################################################################
 
-bool Tzip::writeBuff(void* zFile, const char* zfilename, const char* buff, size_t buffsize) {
+bool Tzip::writeBuff(void* zFile, const char* zFilename, const char* buff, size_t buffsize) {
   auto zf = reinterpret_cast<zipFile>(zFile);
 
   if (zf == NULL)
     return false;
 
   int ret;
-  ret = zipOpenNewFileInZip64(zf, zfilename, NULL, NULL, 0, NULL, 0, NULL,
+  ret = zipOpenNewFileInZip64(zf, zFilename, NULL, NULL, 0, NULL, 0, NULL,
                               Z_DEFLATED, Z_DEFAULT_COMPRESSION, 1);
   if (ret != ZIP_OK)
     return false;

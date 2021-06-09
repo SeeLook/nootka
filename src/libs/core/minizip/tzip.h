@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2021 by Tomasz Bojczuk                                  *
+ *   Copyright (C) 2021 by Tomasz Bojczuk & José Luis Marín                *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -27,7 +27,7 @@
 // class zipFile;
 
 /**
- * Simple C++ wrapper for @p zlib and minizip.
+ * Simple C++ proxy for @p zlib and minizip.
  */
 class NOOTKACORE_EXPORT Tzip
 {
@@ -46,7 +46,13 @@ public:
   static bool zipMusicXml(const QString& zipFile, QByteArray* xmlData);
 
 private:
-  static bool writeBuff(void* zFile, const char *zfilename, const char *buff, size_t buffsize);
+      /**
+       * Common routine that zips @p buff under @p zFilename name
+       * inside @p zFile zip file.
+       * If @p zFilename contains '/' i.e. 'META-INF/container.xml'
+       * file 'container.xml' is created inside 'META-INF' directory of the zip file.
+       */
+  static bool writeBuff(void* zFile, const char *zFilename, const char *buff, size_t buffsize);
 };
 
 #endif // TZIP_H
