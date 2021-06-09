@@ -35,7 +35,9 @@
 
 
 /*static*/
-/** Versions history:
+/**
+ * Versions history:
+ *
  * 1. 0x95121702;
  *
  * 2. 0x95121704; (2012.07)
@@ -49,11 +51,15 @@
  *
  * 5. 0x9512170A (05.02.2018)
  *    - new instruments, melodies in Music XML, new mistake types - it can not be compatible with older versions
+ *
+ * 6. 0x9512170C (09.06.2021)
+ *    - ukulele support - opening with previous versions would cause problems
+ *
  */
 
 const qint32 Texam::examVersion = 0x95121702;
 const qint32 Texam::examVersion2 = 0x95121704;
-const qint32 Texam::currentVersion = 0x9512170A; // version 5
+const qint32 Texam::currentVersion = 0x9512170C; // version 5
 
 const quint16 Texam::maxAnswerTime = 65500;
 
@@ -236,7 +242,10 @@ Texam::EerrorType Texam::loadFromFile(const QString& fileName) {
 
       bool isExamFileOk = true;
       if (examVersionNr(ev) > 3) {
-          in.setVersion(QDataStream::Qt_5_2);
+          if (examVersionNr(ev) > 5)
+            in.setVersion(QDataStream::Qt_5_9);
+          else
+            in.setVersion(QDataStream::Qt_5_2);
           QByteArray arrayXML = file.readAll();
           arrayXML.remove(0, 4);
           QByteArray unZipXml = qUncompress(arrayXML);
@@ -416,7 +425,7 @@ Texam::EerrorType Texam::saveToFile(const QString& fileName) {
   QFile file(m_fileName);
   if (file.open(QIODevice::WriteOnly)) {
       QDataStream out(&file);
-      out.setVersion(QDataStream::Qt_5_2);
+      out.setVersion(QDataStream::Qt_5_9);
       out << currentVersion;
       QByteArray arrayXML;
       QXmlStreamWriter xml(&arrayXML);
@@ -427,7 +436,6 @@ Texam::EerrorType Texam::saveToFile(const QString& fileName) {
       xml.writeEndDocument();
 
       out << qCompress(arrayXML);
-  //     out << arrayXML;
 
       file.close();
   } else {

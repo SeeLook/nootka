@@ -31,7 +31,9 @@
 
 
 /*static-------------------------------------------------------------------------------------------*/
-/** Versions history:
+/**
+ * Versions history:
+ *
  * 1. 0x95121701
  *
  * 2. 0x95121703 (02.12.2013)
@@ -41,10 +43,13 @@
  * 3. 0x95121705 (22.06.2014) - XML stream - universal version
  *
  * 4. 0x95121707 (05.02.2018) - rhythms, new instruments, melodies in Music XML
+ *
+ * 5. 0x95121709 (09.06.2021) - compression and ukulele support
+ *
  */
 
 const qint32 Tlevel::levelVersion = 0x95121701;
-const qint32 Tlevel::currentVersion = 0x95121707;
+const qint32 Tlevel::currentVersion = 0x95121709; // Version 5
 
 
 int Tlevel::levelVersionNr(qint32 ver) {
@@ -596,12 +601,14 @@ bool Tlevel::saveToFile(Tlevel& level, const QString& levelFile) {
   QFile file(levelFile);
   if (file.open(QIODevice::WriteOnly)) {
       QDataStream out(&file);
-      out.setVersion(QDataStream::Qt_5_2);
+      out.setVersion(QDataStream::Qt_5_9);
       out << currentVersion;
-      QXmlStreamWriter xml(&file);
+      QByteArray arrayXML;
+      QXmlStreamWriter xml(&arrayXML);
+//       QXmlStreamWriter xml(&file);
 
-      xml.setAutoFormatting(true);
-      xml.setAutoFormattingIndent(2);
+//       xml.setAutoFormatting(true);
+//       xml.setAutoFormattingIndent(2);
       xml.writeStartDocument();
       xml.writeComment(QStringLiteral("\nXML file of Nootka exam level.\n"
                        "https://nootka.sourceforge.io\n"
@@ -609,6 +616,8 @@ bool Tlevel::saveToFile(Tlevel& level, const QString& levelFile) {
                        "Use Nootka level creator instead!\n"));
       level.writeToXml(xml);
       xml.writeEndDocument();
+
+      out << qCompress(arrayXML);
 
       file.close();
       return true;

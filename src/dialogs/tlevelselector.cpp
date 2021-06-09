@@ -247,17 +247,27 @@ Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
   level.name.clear();;
   if (file.open(QIODevice::ReadOnly)) {
         QDataStream in(&file);
-        in.setVersion(QDataStream::Qt_5_2);
         quint32 lv; // level version identifier
         in >> lv;
         bool wasLevelValid = true;
         bool wasLevelFile = true;
         auto levelVer = Tlevel::levelVersionNr(lv);
         if (levelVer == 1 || levelVer == 2) { // *.nel with binary data
+            in.setVersion(QDataStream::Qt_4_7);
             wasLevelValid = getLevelFromStream(in, level, lv);
-        } else if (levelVer > 2 && levelVer <= 4) { // *.nel in XML
+        } else if (levelVer > 2 && levelVer <= 5) { // *.nel in XML, from version 5 compressed
             Tlevel::EerrorType er;
-            QXmlStreamReader xml(in.device());
+            QXmlStreamReader xml;
+            if (levelVer >= 5) { // compressed level
+                in.setVersion(QDataStream::Qt_5_9);
+                auto arrayXML = file.readAll();
+                arrayXML.remove(0, 4);
+                auto unZipXml = qUncompress(arrayXML);
+                xml.addData(unZipXml);
+            } else { // bare text (XML)
+                in.setVersion(QDataStream::Qt_5_2);
+                xml.setDevice(in.device());
+            }
             if (!xml.readNextStartElement()) // open first XML node
               er = Tlevel::e_noLevelInXml;
             else
@@ -278,25 +288,26 @@ Tlevel TlevelSelector::getLevelFromFile(QFile &file) {
             return level;
         }
         file.close();
-         if (!wasLevelFile) {
-              auto m = QLatin1String("<br><font size=\"4\"><b>")
-                  + tr("File: %1 \n is not Nootka level file!").arg(file.fileName()).replace(QLatin1String("\n"), QLatin1String("<br>"))
-                  + QLatin1String("</b></font>");
-              emit warnMessage(m, Qt::red);
-              level.name.clear();
-              return level;
-         } else if (!wasLevelValid) {
-              auto m = QLatin1String("<br><font size=\"4\"><b>")
-              + tr("Level file\n %1 \n was corrupted and repaired!\n Check please, if its parameters are as expected.").arg(file.fileName())
-                  .replace(QLatin1String("\n"), QLatin1String("<br>")) + QLatin1String("</font>");
-              emit warnMessage(m, Qt::yellow);
-         }
 
-         if (wasLevelFile) {
-           if (level.clef.type() == Tclef::Bass_F_8down) {
-             qDebug() << "[TlevelSelector] OBSOLETE bass dropped clef detected. Converting level to ordinary bass clef.";
-             level.convFromDropedBass();
-           }
+        if (!wasLevelFile) {
+            auto m = QLatin1String("<br><font size=\"4\"><b>")
+                + tr("File: %1 \n is not Nootka level file!").arg(file.fileName()).replace(QLatin1String("\n"), QLatin1String("<br>"))
+                + QLatin1String("</b></font>");
+            emit warnMessage(m, Qt::red);
+            level.name.clear();
+            return level;
+        } else if (!wasLevelValid) {
+            auto m = QLatin1String("<br><font size=\"4\"><b>")
+            + tr("Level file\n %1 \n was corrupted and repaired!\n Check please, if its parameters are as expected.").arg(file.fileName())
+                .replace(QLatin1String("\n"), QLatin1String("<br>")) + QLatin1String("</font>");
+            emit warnMessage(m, Qt::yellow);
+        }
+
+        if (wasLevelFile) {
+          if (level.clef.type() == Tclef::Bass_F_8down) {
+            qDebug() << "[TlevelSelector] OBSOLETE bass dropped clef detected. Converting level to ordinary bass clef.";
+            level.convFromDropedBass();
+          }
         }
   } else {
       if (!file.fileName().isEmpty()) // skip empty file names (ignored by user)
