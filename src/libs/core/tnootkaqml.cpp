@@ -286,6 +286,8 @@ Ttune TnootkaQML::tuning(int tuningType) {
       return Ttune::tunes[tuningType - 1];
     if (tuningType > 99 && tuningType < 104)
       return Ttune::bassTunes[tuningType - 100];
+    if (tuningType == 110)
+      return Ttune::ukuleleGCEA;
   }
   return Ttune();
 }
@@ -314,6 +316,8 @@ Ttune TnootkaQML::defaultScale(int instr) {
     case Tinstrument::AltSax:
     case Tinstrument::TenorSax:
       return tuning(Tnote(11), Tnote(49), Tnote(), Tnote(), Tnote(), Tnote());
+    case Tinstrument::Ukulele:
+      return Ttune::ukuleleGCEA;
     default: // NoInstrument and any unexpected case
       return tuning(Tnote(10), Tnote(54), Tnote(), Tnote(), Tnote(), Tnote());
   }

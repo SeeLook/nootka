@@ -134,7 +134,7 @@ Score {
   function updateScord() {
     if (scordature)
       scordature.destroy()
-    if (GLOB.tuning.scordature && GLOB.instrument.isGuitar && GLOB.instrument.type !== Tinstrument.BassGuitar) {
+    if (GLOB.tuning.scordature && GLOB.instrument.isGuitar && !GLOB.instrument.bassGuitar && !GLOB.instrument.ukulele) {
         scordature = Qt.createComponent("qrc:/score/Scordature.qml").createObject(firstStaff)
         firstStaff.scordSpace = scordature.realHeight
     } else

@@ -47,6 +47,8 @@ Tflickable {
       case 6:
       case 7:
         instrQML = "WizardSax"; break;
+      case 8:
+        instrQML = "WizardUkulele"; break;
     }
     instrDetails = Qt.createComponent("qrc:/wizard/" + instrQML +".qml").createObject(mainItem)
   }
@@ -55,12 +57,12 @@ Tflickable {
     var selectedIns = instrPage.getInstrument()
     var instr = NOO.instr(selectedIns)
     if (instrDetails && instr.none) {
-      GLOB.clefType = instrDetails.clef
-      GLOB.transposition = instrDetails.transposition
-    } else {
-      GLOB.clefType = instr.clef
-      if (instrDetails && instr.isSax) // saxophones
+        GLOB.clefType = instrDetails.clef
         GLOB.transposition = instrDetails.transposition
+    } else {
+        GLOB.clefType = instr.clef
+        if (instrDetails && instr.isSax) // saxophones
+          GLOB.transposition = instrDetails.transposition
         else
           GLOB.transposition = instr.transposition
     }

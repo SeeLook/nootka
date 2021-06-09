@@ -93,6 +93,7 @@
     <file alias="instruments/InstrumentZoom.qml">qml/instruments/InstrumentZoom.qml</file>
     <file alias="instruments/Bandoneon.qml">qml/instruments/Bandoneon.qml</file>
     <file alias="instruments/Sax.qml">qml/instruments/Sax.qml</file>
+    <file alias="instruments/Ukulele.qml">qml/instruments/Ukulele.qml</file>
     <file alias="instruments/OutScaleTip.qml">qml/instruments/OutScaleTip.qml</file>
     <file alias="instruments/SaxFlap.qml">qml/instruments/SaxFlap.qml</file>
     <file alias="instruments/ExtraName.qml">qml/instruments/ExtraName.qml</file>
@@ -155,6 +156,7 @@
     <file alias="wizard/WizardPiano.qml">qml/wizard/WizardPiano.qml</file>
     <file alias="wizard/WizardBando.qml">qml/wizard/WizardBando.qml</file>
     <file alias="wizard/WizardSax.qml">qml/wizard/WizardSax.qml</file>
+    <file alias="wizard/WizardUkulele.qml">qml/wizard/WizardUkulele.qml</file>
 
     <file alias="exam/StartExam.qml">qml/exam/StartExam.qml</file>
     <file alias="exam/ExamExecutor.qml">qml/exam/ExamExecutor.qml</file>

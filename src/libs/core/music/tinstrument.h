@@ -24,7 +24,7 @@
 #include <QtCore/qobject.h>
 
 
-#define INSTR_COUNT (8) // number of instruments supported by Nootka
+#define INSTR_COUNT (9) // number of instruments supported by Nootka
 
 
 /**
@@ -44,7 +44,7 @@ class NOOTKACORE_EXPORT Tinstrument {
   Q_PROPERTY(int fretNumber READ fretNumber)
   Q_PROPERTY(bool isFadeOut READ isFadeOut)
 
-  Q_PROPERTY(bool isGuitar READ isGuitar) // all guitars
+  Q_PROPERTY(bool isGuitar READ isGuitar) // all guitars (including ukulele)
   Q_PROPERTY(bool isSax READ isSax) // all saxophones
   Q_PROPERTY(bool none READ none)
   Q_PROPERTY(bool classicGuitar READ clasicGuitar)
@@ -54,6 +54,7 @@ class NOOTKACORE_EXPORT Tinstrument {
   Q_PROPERTY(bool bandoneon READ bandoneon)
   Q_PROPERTY(bool altSax READ altSax)
   Q_PROPERTY(bool tenorSax READ tenorSax)
+  Q_PROPERTY(bool ukulele READ ukulele)
 
 public:
 
@@ -65,7 +66,8 @@ public:
     Piano = 4,
     Bandoneon = 5,
     AltSax = 6,
-    TenorSax = 7
+    TenorSax = 7,
+    Ukulele = 8
   };
   Q_ENUM(Etype)
 
@@ -95,7 +97,7 @@ public:
       /**
        * @p TRUE for all kinds of guitar
        */
-  bool isGuitar() const { return m_type == ClassicalGuitar || m_type == ElectricGuitar || m_type == BassGuitar; }
+  bool isGuitar() const { return m_type == ClassicalGuitar || m_type == ElectricGuitar || m_type == BassGuitar || m_type == Ukulele; }
 
       /**
        * @p TRUE for all kinds of saxophones
@@ -110,6 +112,7 @@ public:
   bool bandoneon() const { return m_type == Bandoneon; }
   bool altSax() const { return m_type == AltSax; }
   bool tenorSax() const { return m_type == TenorSax; }
+  bool ukulele() const { return m_type == Ukulele; }
 
       /**
        * File implementing QML side of the instrument

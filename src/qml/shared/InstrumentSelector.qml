@@ -14,7 +14,7 @@ Tumbler {
   width: parent.width
   height: NOO.factor() * (NOO.isAndroid() ? 7 : 10)
   visibleItemCount: Math.min(((width / (height * 0.7)) / 2) * 2 - 1, 7)
-  model: 8
+  model: 9
   delegate: Component {
     Item {
       opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)

@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2006-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2006-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,6 +29,8 @@ Ttune Ttune::stdTune = Ttune();
 Ttune Ttune::tunes[4];
 Ttune Ttune::bassTunes[4];
 
+Ttune Ttune::ukuleleGCEA = Ttune();
+
 
 void Ttune::prepareDefinedTunes() {
   stdTune = Ttune(QGuiApplication::translate("Ttune", "Standard: E A D G B E "), Tnote(3, 1, 0), Tnote(7, 0, 0),
@@ -51,6 +53,9 @@ void Ttune::prepareDefinedTunes() {
                         Tnote(6, -1, 0), Tnote(3, -1, 0), Tnote(7, -2, 0), Tnote(0, 0, 0), Bass5_BEADG);
   bassTunes[3] = Ttune(QGuiApplication::translate("Ttune", "6-str. bass: B E A D G C"), Tnote(1, 1, 0), Tnote(5, 0, 0), Tnote(2, 0, 0),
                         Tnote(6, -1, 0), Tnote(3, -1, 0), Tnote(7, -2, 0), Bass6_BEADGC);
+
+  ukuleleGCEA = Ttune(QGuiApplication::translate("Ttune", "Ukulele G C E A"), Tnote(6, 1, 0), Tnote(3, 1, 0),
+                    Tnote(1, 1, 0), Tnote(5, 1, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Ukulele_GCEA);
 }
 
 
@@ -110,6 +115,7 @@ QString Ttune::definedName(Ttune::Etunings t) {
     case Bass4_5ths_CGDA: return bassTunes[1].name;
     case Bass5_BEADG: return bassTunes[2].name;
     case Bass6_BEADGC: return bassTunes[3].name;
+    case Ukulele_GCEA: return ukuleleGCEA.name;
     default: return QString();
   }
 }
@@ -137,7 +143,9 @@ Ttune::Etunings Ttune::findTuning(const Ttune& t) {
           else if (t == Ttune::bassTunes[i])
             return Ttune::bassTunes[i].type();
         }
-    }
+    } 
+    if (t == Ttune::ukuleleGCEA)
+      return Ttune::Ukulele_GCEA;
   }
   return Ttune::Custom;
 }
@@ -184,7 +192,7 @@ bool Ttune::fromXml(QXmlStreamReader& xml, bool isExam) {
   int id = -1;
   if (isExam) {
     id = xml.attributes().value(QStringLiteral("id")).toInt();
-    if (id < -1 || (id > 4 && id < 100) || (id > 103)) {
+    if (id < -1 || (id > 4 && id < 100) || (id > 103 && id != 110)) {
       qDebug() << "[Ttune] Tuning had wrong 'id'. Standard tuning will be used";
       ok = false;
     }
