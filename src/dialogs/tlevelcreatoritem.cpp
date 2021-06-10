@@ -103,7 +103,8 @@ void TlevelCreatorItem::continueLevelSave(const QString& name, const QString& de
 #endif
   // Saving to file
   QLatin1String dotNel(".nel");
-  QString fName = QDir::toNativeSeparators(GLOB->E->levelsDir + QLatin1String("/") + m_level->name);
+  bool toTr = name.startsWith(QLatin1String("tr("));
+  QString fName = QDir::toNativeSeparators(GLOB->E->levelsDir + QLatin1String("/") + m_level->name.mid(toTr ? 3 : 0));
   fName = fName.replace(QLatin1String("."), QString()); //HACK: file dialogues don't like dots in the names
   if (QFileInfo::exists(fName  + dotNel))
     fName += QLatin1String("-") + QDateTime::currentDateTime().toString(QLatin1String("(dd-MMM-hhmmss)"));

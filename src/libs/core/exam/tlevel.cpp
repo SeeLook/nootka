@@ -102,6 +102,7 @@ void Tlevel::skipCurrentXmlKey(QXmlStreamReader& xml) {
   qDebug() << "[Tlevel] Unrecognized key:" << xml.name();
   xml.skipCurrentElement();
 }
+
 /*end static--------------------------------------------------------------------------------------*/
 
 Tlevel::Tlevel() :
@@ -283,13 +284,9 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
     if (xml.name() == QLatin1String("description"))
       desc = xml.readElementText();
     else if (xml.name() == QLatin1String("nameTR"))
-      name = QApplication::translate("Levels", xml.readElementText()
-                                    .replace(QLatin1String("translate(\"Levels\", \""), QString())
-                                    .replace(QLatin1String("\")"), QString()).toLocal8Bit());
+      name = QApplication::translate("Levels", xml.readElementText().toLocal8Bit());
     else if (xml.name() == QLatin1String("descriptionTR"))
-      desc = QApplication::translate("Levels", xml.readElementText()
-                                    .replace(QLatin1String("translate(\"Levels\", \""), QString())
-                                    .replace(QLatin1String("\")"), QString()).toLocal8Bit());
+      desc = QApplication::translate("Levels", xml.readElementText().toLocal8Bit());
   // QUESTIONS
     else if (xml.name() == QLatin1String("questions")) {
       while (xml.readNextStartElement()) {
@@ -501,8 +498,22 @@ Tlevel::EerrorType Tlevel::loadFromXml(QXmlStreamReader& xml) {
 
 void Tlevel::writeToXml(QXmlStreamWriter& xml) {
   xml.writeStartElement(QLatin1String("level"));
+  bool nameTr = false, descTr = false;
+  if (name.startsWith(QLatin1String("tr("))) {
+    nameTr = true;
+    name = name.mid(3);
+  }
+  if (desc.startsWith(QLatin1String("tr("))) {
+    descTr = true;
+    desc = desc.mid(3);
+  }
     xml.writeAttribute(QLatin1String("name"), name);
-    xml.writeTextElement(QLatin1String("description"), desc);
+    if (nameTr)
+      xml.writeTextElement(QLatin1String("nameTR"), name);
+    if (descTr)
+      xml.writeTextElement(QLatin1String("descriptionTR"), desc);
+    else
+      xml.writeTextElement(QLatin1String("description"), desc);
   // QUESTIONS
     xml.writeStartElement(QLatin1String("questions"));
       questionAs.toXml(-1, xml);
@@ -605,7 +616,6 @@ bool Tlevel::saveToFile(Tlevel& level, const QString& levelFile) {
       out << currentVersion;
       QByteArray arrayXML;
       QXmlStreamWriter xml(&arrayXML);
-//       QXmlStreamWriter xml(&file);
 
 //       xml.setAutoFormatting(true);
 //       xml.setAutoFormattingIndent(2);
