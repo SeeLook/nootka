@@ -40,7 +40,7 @@ Item {
     textColor: enabled ? activPal.text : disdPal.text
     text: GLOB.midAfreq + "Hz"
     font { pixelSize: parent.height * 0.36; bold: true }
-    statusTip: qsTr("Tuner")
+    statusTip: qsTranslate("TempoBar", "Tuner")
     onClicked: {
       nootkaWindow.showDialog(7) // Nootka.Tuner
       SOUND.startListen()
