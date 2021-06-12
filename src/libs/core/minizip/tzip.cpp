@@ -60,17 +60,18 @@ void Tzip::getXmlFromZip(const QString &zipFile, QByteArray* xmlData) {
               QXmlStreamReader xmlMETA(container.data());
               while(!xmlMETA.atEnd()) {
                 xmlMETA.readNext();
-                if (xmlMETA.isEndDocument()) break;
+                if (xmlMETA.isEndDocument())
+                  break;
                 if (xmlMETA.isStartElement()) {
                   if (xmlMETA.name() == QLatin1String("rootfile")) {
                     QXmlStreamAttributes attrs = xmlMETA.attributes();
-                    if (attrs.value(QStringLiteral("media-type")) == QLatin1String("application/vnd.recordare.musicxml+xml")) {
-                      xmlNameInContainer = attrs.value(QStringLiteral("full-path")).toString();
-                      break;
-                    };
-                  };
-                };
-              };
+                    // if (attrs.value(QStringLiteral("media-type")) == QLatin1String("application/vnd.recordare.musicxml+xml"))
+                    // NOTE: In some files container hasn't got 'media-type' attribute
+                    xmlNameInContainer = attrs.value(QStringLiteral("full-path")).toString();
+                    break;
+                  }
+                }
+              }
             }
         } else if (inZipName.endsWith(QLatin1String(".xml")) && !inZipName.startsWith(QLatin1String("META-INF"))) {
             // xml file which is not container is rather musicXML
