@@ -68,7 +68,10 @@ void Tzip::getXmlFromZip(const QString &zipFile, QByteArray* xmlData) {
                     // if (attrs.value(QStringLiteral("media-type")) == QLatin1String("application/vnd.recordare.musicxml+xml"))
                     // NOTE: In some files container hasn't got 'media-type' attribute
                     xmlNameInContainer = attrs.value(QStringLiteral("full-path")).toString();
-                    break;
+                    if (xmlNameInContainer.endsWith(QLatin1String(".xml")))
+                      break;
+                    else
+                      xmlNameInContainer.clear();
                   }
                 }
               }
