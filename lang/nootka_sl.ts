@@ -4,25 +4,9 @@
 <context>
     <name>AboutPage</name>
     <message>
-        <source>Welcome on board.&lt;br&gt;Nootka is an open source application to help you in learning (and in teaching) classical score notation.&lt;br&gt;It is specially designed for guitarists but others will find many usable features as well.</source>
-        <translation type="vanished">Dobrodošli na krovu.&lt;br&gt;Nootka je odprtokodna aplikacija v pomoč pri učenju (in poučevanju) klasičnega notnega zapisa. &lt;br&gt;Je posebno zasnovana za kitariste vendar bodo tudi drugi v njej našli mnogokatero uporabnost.</translation>
-    </message>
-    <message>
         <location filename="../src/qml/about/AboutPage.qml" line="73"/>
         <source>This is a beta version and may contain bugs or behave in unexpected ways. Also, it has unfinished features.&lt;br&gt;In spite of that, you are welcome to try it!</source>
         <translation>To je beta verzija in so še lahko prisotni kakšni hrošči ali pa se lahko program začne vesti v nepričakovanih manirah. Prav tako vsebuje še nedokončane funkcije. &lt;br&gt;Kljub temu ste dobrodošli, da ga preizkusite!</translation>
-    </message>
-    <message>
-        <source>See a &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
-        <translation type="vanished">Poglej &lt;a href=&quot;http://nootka.sourceforge.net&quot;&gt;spletno stran programa&lt;/a&gt; za dodatne podrobnosti in prihodnje izdaje.&lt;/p&gt;&lt;p&gt;Kakršnekoli hrošče, predloge, prevode ipd, poročajte na: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;z vsem spoštovanjem&lt;br&gt;Avtor</translation>
-    </message>
-    <message>
-        <source>&lt;br&gt;To support this project and also to avoid infection of your PC&lt;br&gt;&lt;b&gt;PLEASE, use the official project site to download updates, new releases and to see news.&lt;/b&gt;</source>
-        <translation type="vanished">&lt;br&gt;V podporo temu projektu in prav tako za izogibanje morebitni okužbi vašega PC-ja&lt;br&gt;&lt;br&gt;PROSIMO, uporabite uradno projektno stran za nalaganje posodobitev, novih izdaj in ogled novic.&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>See a &lt;a href=&quot;https://nootka.sourceforge.io&quot;&gt;program site&lt;/a&gt; for more details and further releases.&lt;/p&gt;&lt;p&gt;Any bugs, suggestions, translations and so on, report to: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;with respects&lt;br&gt;Author</source>
-        <translation type="vanished">Poglej &lt;a href=&quot;https://nootka.sourceforge.io&quot;&gt;spletno stran programa&lt;/a&gt; za dodatne podrobnosti in prihodnje izdaje.&lt;/p&gt;&lt;p&gt;Kakršnekoli hrošče, predloge, prevode ipd., sporočite na: &lt;a href=&quot;mailto:seelook.gmail.com&quot;&gt;seelook@gmail.com&lt;/a&gt;&lt;p/&gt;&lt;p&gt;s spoštovanjem&lt;br&gt;Avtor</translation>
     </message>
     <message>
         <location filename="../src/qml/about/AboutPage.qml" line="61"/>
@@ -190,15 +174,6 @@
         <translation>narobe</translation>
     </message>
     <message>
-        <source>Level summary:</source>
-        <translation type="vanished">Povzetek stopnje:</translation>
-    </message>
-    <message>
-        <source>Tuning</source>
-        <translatorcomment>Uglašanje</translatorcomment>
-        <translation type="vanished">Uglasitev</translation>
-    </message>
-    <message>
         <location filename="../src/charts/tchartitem.cpp" line="248"/>
         <source>Press %1 button to select an exam from a file.</source>
         <translation>Pritisnite %1 gumb za izbiro izpita iz datoteke.</translation>
@@ -219,27 +194,9 @@
         <translation>Številka vprašanja</translation>
     </message>
     <message>
-        <source>File: %1 
- is not valid exam file!</source>
-        <translation type="vanished">Datoteka: %1 
- ni veljavna izpitna datoteka!</translation>
-    </message>
-    <message>
-        <source>Open an exam to analyze</source>
-        <translation type="vanished">Odpri izpit za analizo</translation>
-    </message>
-    <message>
         <location filename="../src/charts/tchartitem.cpp" line="60"/>
         <source>Recent exercise on level</source>
         <translation>Nedavne vadbe na stopnji</translation>
-    </message>
-    <message>
-        <source>recent opened exams:</source>
-        <translation type="vanished">nedavno odprti izpiti:</translation>
-    </message>
-    <message>
-        <source>Close analyzer window</source>
-        <translation type="vanished">Zapri analitično okno</translation>
     </message>
     <message>
         <location filename="../src/charts/tchartitem.cpp" line="77"/>
@@ -257,10 +214,6 @@
         <translation>Nastavitve grafa</translation>
     </message>
     <message>
-        <source>Maximize</source>
-        <translation type="vanished">Povečaj</translation>
-    </message>
-    <message>
         <location filename="../src/charts/qml/ChartDrawer.qml" line="83"/>
         <source>linear chart</source>
         <translation>črtna shema</translation>
@@ -269,10 +222,6 @@
         <location filename="../src/charts/qml/ChartDrawer.qml" line="94"/>
         <source>bar chart</source>
         <translation>stolpični diagram</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="vanished">Vredu</translation>
     </message>
     <message>
         <location filename="../src/charts/tchartitem.cpp" line="225"/>
@@ -361,54 +310,54 @@
         <translation>napačna oktava</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="398"/>
+        <location filename="../src/charts/sorting.cpp" line="399"/>
         <location filename="../src/libs/core/exam/tresulttext.cpp" line="94"/>
         <source>out of tune</source>
         <translation>razglašeno</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="387"/>
+        <location filename="../src/charts/sorting.cpp" line="388"/>
         <source>correct notes</source>
         <translation>popravi note</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="388"/>
+        <location filename="../src/charts/sorting.cpp" line="389"/>
         <source>wrong notes</source>
         <translation>napačne note</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="389"/>
+        <location filename="../src/charts/sorting.cpp" line="390"/>
         <source>wrong accidentals</source>
         <translation>napačen predznaki</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="390"/>
+        <location filename="../src/charts/sorting.cpp" line="391"/>
         <source>wrong octaves</source>
         <translation>napačne oktave</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="391"/>
+        <location filename="../src/charts/sorting.cpp" line="392"/>
         <source>correct key signatures</source>
         <translation>popravi oznako tonovskega načina</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="392"/>
+        <location filename="../src/charts/sorting.cpp" line="393"/>
         <source>wrong key signatures</source>
         <translation>napačne oznake tonovskega načina</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="395"/>
+        <location filename="../src/charts/sorting.cpp" line="396"/>
         <source>correct positions</source>
         <translatorcomment>hm..</translatorcomment>
         <translation>popravi položaje</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="396"/>
+        <location filename="../src/charts/sorting.cpp" line="397"/>
         <source>wrong positions</source>
         <translation>napačni položaji</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="397"/>
+        <location filename="../src/charts/sorting.cpp" line="398"/>
         <source>wrong strings</source>
         <translation>napačne strune</translation>
     </message>
@@ -416,247 +365,6 @@
         <location filename="../src/libs/core/exam/tresulttext.cpp" line="70"/>
         <source>incorrect rhythm</source>
         <translation>nepravilen ritem</translation>
-    </message>
-</context>
-<context>
-    <name>AudioInSettings</name>
-    <message>
-        <source>input device</source>
-        <translation type="vanished">vhodna naprava</translation>
-    </message>
-    <message>
-        <source>Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.</source>
-        <translation type="vanished">Prepričaj se, da je vhodna naprava (mikrofon, spletna kamera, glasbilo, ipd.) priključena, pravilno nastavljena, in delujoča.</translation>
-    </message>
-    <message>
-        <source>minimum note duration</source>
-        <translation type="vanished">minimalno trajanje note</translation>
-    </message>
-    <message>
-        <source>[milliseconds]</source>
-        <translation type="vanished">[milisekund]</translation>
-    </message>
-    <message>
-        <source>Only sounds longer than the selected time will be pitch-detected.&lt;br&gt;Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness.</source>
-        <translation type="vanished">Le zvoki daljši od izbranega časa bodo zaznani kot višina tona.&lt;br&gt;Izbiranje daljšega trajanja note pomaga pri izogibanju zajema zvoka s prečk (t.i. fret noise), kot tudi drugih nepričakovanih zvokov, vendar to zmanjša odzivnost.</translation>
-    </message>
-    <message>
-        <source>pitch detection mode</source>
-        <translation type="vanished">način zaznavanja višine tona</translation>
-    </message>
-    <message>
-        <source>minimum volume</source>
-        <translation type="vanished">minimalna glasnost</translation>
-    </message>
-    <message>
-        <source>Minimum volume of a sound to be pitch-detected</source>
-        <translatorcomment>minimalna glasnost zaznavane višine tona;minimalna glasnost zaznane višine tona</translatorcomment>
-        <translation type="vanished">Minimalna glasnost za zaznavanje višine tona zajetega zvoka</translation>
-    </message>
-    <message>
-        <source>middle A</source>
-        <translation type="vanished">komorni ton A</translation>
-    </message>
-    <message>
-        <source>frequency:</source>
-        <translation type="vanished">frekvenca:</translation>
-    </message>
-    <message>
-        <source>The base frequency of &lt;i&gt;middle a&lt;/i&gt;.&lt;br&gt;Detection of the proper pitch of notes is relative to this value. This also affects the pitch of played sounds.</source>
-        <translation type="vanished">Osnovna frekvenca &lt;i&gt;komornega tona a&lt;/i&gt;.&lt;br&gt;Zaznava prave višine not je relativna na to vrednost. To lahko vpliva tudi na višino predvajanih zvokov.</translation>
-    </message>
-    <message>
-        <source>interval:</source>
-        <translation type="vanished">interval:</translation>
-    </message>
-    <message>
-        <source>none</source>
-        <translatorcomment>none, brez, nič, ničesar, 0, </translatorcomment>
-        <translation type="vanished">nič</translation>
-    </message>
-    <message>
-        <source>Shifts the frequency of &lt;i&gt;middle a&lt;/i&gt;. It can be used as a transposition.</source>
-        <translatorcomment>Spremeni frekvenco &lt;i&gt;komornega tona a&lt;/i&gt;, Lahko se uporabi tudi kot transpozicija. (ver.)</translatorcomment>
-        <translation type="vanished">Spremeni frekvenco &lt;i&gt;komornega tona a&lt;/i&gt;, Lahko se uporabi tudi za transpozicijo.</translation>
-    </message>
-    <message>
-        <source>up</source>
-        <translation type="vanished">gor</translation>
-    </message>
-    <message>
-        <source>down</source>
-        <translation type="vanished">dol</translation>
-    </message>
-    <message>
-        <source>Test</source>
-        <translation type="vanished">Test</translation>
-    </message>
-    <message>
-        <source>Stop</source>
-        <translation type="vanished">Stop</translation>
-    </message>
-    <message>
-        <source>Check, are your audio input settings appropriate?&lt;br&gt;And how well does pitch detection work for your selected settings?</source>
-        <translation type="vanished">Preverite, so vaše nastavitve za avdio priključek ustrezne?&lt;br&gt;In kako dobro deluje občutljivost na višino tona s trenutnimi nastavitvami?</translation>
-    </message>
-    <message>
-        <source>Detected pitch</source>
-        <translation type="vanished">Zaznana višina tona</translation>
-    </message>
-    <message>
-        <source>enable pitch detection</source>
-        <translation type="vanished">omogoči zaznavanje višine tona</translation>
-    </message>
-    <message>
-        <source>no devices found</source>
-        <translatorcomment>nobena naprava ni bila zaznana</translatorcomment>
-        <translation type="vanished">ne zazna nobene naprave</translation>
-    </message>
-    <message>
-        <source>Frequency of detected note. You can use this for tuning.</source>
-        <translation type="vanished">Frekvenca zaznane note. To lahko uporabite za uglasitev.</translation>
-    </message>
-    <message numerus="yes">
-        <source>%n semitone(s)</source>
-        <translation type="vanished">
-            <numerusform>%n polton</numerusform>
-            <numerusform>%n poltona</numerusform>
-            <numerusform>%n poltoni</numerusform>
-            <numerusform>%n poltoni</numerusform>
-        </translation>
-    </message>
-    <message>
-        <source>Input device and pitch detection</source>
-        <translation type="vanished">Vhodna naprava in zaznavanje višine tona</translation>
-    </message>
-    <message>
-        <source>&apos;Middle a&apos; and transposition</source>
-        <translation type="vanished">&apos;Komorni ton a&apos; in transpozicija</translation>
-    </message>
-    <message>
-        <source>Advanced</source>
-        <translation type="vanished">Napredno</translation>
-    </message>
-    <message>
-        <source>split when volume rise</source>
-        <translation type="vanished">razdeli, ko se glasnost poveča za</translation>
-    </message>
-    <message>
-        <source>skip stiller than</source>
-        <translation type="vanished">preskoči bolj mirujoče od</translation>
-    </message>
-    <message>
-        <source>noise filter</source>
-        <translation type="vanished">filter hrupa</translation>
-    </message>
-    <message>
-        <source>adjust to instrument</source>
-        <translation type="vanished">prilagodi instrumentu</translation>
-    </message>
-    <message>
-        <source>Test the settings</source>
-        <translation type="vanished">Preizkusi nastavitve</translation>
-    </message>
-    <message>
-        <source>Helps to properly detect the same notes repeated quickly on the guitar.</source>
-        <translatorcomment>Pomaga pravilno zaznati ponavljajoče iste hitro zaigrane note na kitari.(ver.)</translatorcomment>
-        <translation type="vanished">Pomaga pri pravilnem zaznavanju istih ponavljajočih se not na kitari.</translation>
-    </message>
-    <message>
-        <source>Skips stiller sounds, below given percent of average volume. It prevents detecting of harmonics on classical or acoustic guitar but requires playing with similar strength.</source>
-        <translation type="vanished">Preskoči mirujoče zvoke med danimi odstotki povprečne glasnosti. Prepreči se zaznavanje alikvotnih tonov na klasični ali akustični kitari, vendar pa je potrebno igranje z enakomerno močjo.</translation>
-    </message>
-    <message>
-        <source>It is rather necessary for mic input but may be switched off for instrument line-in plugged with less noise.</source>
-        <translation type="vanished">Ponavadi je to potrebno za priključen mikrofon, vendar se lahko izklopi za priključena glasbila z manj šuma na vhodnem kanalu.</translation>
-    </message>
-</context>
-<context>
-    <name>AudioOutSettings</name>
-    <message>
-        <source>play sound</source>
-        <translation type="vanished">predvajaj zvok</translation>
-    </message>
-    <message>
-        <source>Selected notes and guitar positions will be played.</source>
-        <translation type="vanished">Predvajane bodo izbrane note in položaji na kitari.</translation>
-    </message>
-    <message>
-        <source>real audio playback</source>
-        <translation type="vanished">realno avdio predvajanje</translation>
-    </message>
-    <message>
-        <source>audio device for output</source>
-        <translation type="vanished">avdio izhodna naprava</translation>
-    </message>
-    <message>
-        <source>midi playback</source>
-        <translation type="vanished">midi predvajanje</translation>
-    </message>
-    <message>
-        <source>midi port</source>
-        <translation type="vanished">midi port</translation>
-    </message>
-    <message>
-        <source>instrument</source>
-        <translation type="vanished">inštrument</translation>
-    </message>
-    <message>
-        <source>Grand Piano</source>
-        <translation type="vanished">Grand Piano</translation>
-    </message>
-    <message>
-        <source>Harpsichord</source>
-        <translation type="vanished">čembalo</translation>
-    </message>
-    <message>
-        <source>Classical Guitar</source>
-        <translation type="vanished">klasična kitara</translation>
-    </message>
-    <message>
-        <source>Acoustic Guitar</source>
-        <translation type="vanished">akustična kitara</translation>
-    </message>
-    <message>
-        <source>Electric Guitar</source>
-        <translation type="vanished">električna kitara</translation>
-    </message>
-    <message>
-        <source>Electric Guitar (Overdriven)</source>
-        <translation type="vanished">električna kitara (overdrive)</translation>
-    </message>
-    <message>
-        <source>Bass Guitar</source>
-        <translation type="vanished">bas kitara</translation>
-    </message>
-    <message>
-        <source>Violin</source>
-        <translation type="vanished">violina</translation>
-    </message>
-    <message>
-        <source>Sax</source>
-        <translation type="vanished">saksofon</translation>
-    </message>
-    <message>
-        <source>Flute</source>
-        <translation type="vanished">flavta</translation>
-    </message>
-    <message>
-        <source>no midi ports</source>
-        <translation type="vanished">brez midi portov</translation>
-    </message>
-    <message>
-        <source>no devices found</source>
-        <translatorcomment>naprave niso bile najdene</translatorcomment>
-        <translation type="vanished">ni najdenih naprav</translation>
-    </message>
-    <message>
-        <source>forward input to output</source>
-        <translation type="vanished">posreduj vhodni v izhodni</translation>
-    </message>
-    <message>
-        <source>All sounds captured by audio input will be forwarded directly to output device.</source>
-        <translation type="vanished">Vsi zajeti zvoki na avdio vhodu bodo posredovani direktno na izhodno napravo.</translation>
     </message>
 </context>
 <context>
@@ -698,15 +406,6 @@
         <comment>It will give text: &apos;Attempt x of y&apos;</comment>
         <translation>od</translation>
     </message>
-    <message numerus="yes">
-        <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
-        <translation type="vanished">
-            <numerusform>Melodija se je predvajala &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
-            <numerusform>Melodija se je predvajala &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
-            <numerusform>Melodija se je predvajala &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
-            <numerusform>Melodija se je predvajala &lt;b&gt;%n&lt;/b&gt; krat</numerusform>
-        </translation>
-    </message>
     <message>
         <location filename="../src/charts/tcharttipitem.cpp" line="316"/>
         <source>played</source>
@@ -717,25 +416,6 @@
         <location filename="../src/charts/tcharttipitem.cpp" line="319"/>
         <source>time</source>
         <translation></translation>
-    </message>
-</context>
-<context>
-    <name>Einstrument</name>
-    <message>
-        <source>other instrument</source>
-        <translation type="vanished">drugo glasbilo</translation>
-    </message>
-    <message>
-        <source>Classical Guitar</source>
-        <translation type="vanished">klasična kitara</translation>
-    </message>
-    <message>
-        <source>Electric Guitar</source>
-        <translation type="vanished">električna kitara</translation>
-    </message>
-    <message>
-        <source>Bass Guitar</source>
-        <translation type="vanished">bas kitara</translation>
     </message>
 </context>
 <context>
@@ -757,18 +437,6 @@
         <location filename="../src/qml/settings/ExamPage.qml" line="81"/>
         <source>When you will make mistake, the program will show you automatically how a correct answer should be.</source>
         <translation>Ko napravite napako, vam bo program samodejno pokazal kakšen naj bi bil pravilni odgovor.</translation>
-    </message>
-    <message>
-        <source>Preview time of corrected answer when next question is asked automatically.</source>
-        <translation type="vanished">Prikaži čas popravljenega odgovora, ko je naslednje vprašanje zastavljeno samodejno.</translation>
-    </message>
-    <message>
-        <source>Delay before every next question when it is asked automatically.</source>
-        <translation type="vanished">Zamik pred vsakim naslednjim vprašanjem, ko je le-to samodejno zastavljeno.</translation>
-    </message>
-    <message>
-        <source>A time of displaying incorrect answers.</source>
-        <translation type="vanished">Čas za prikaz napačnih odgovorov.</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="121"/>
@@ -811,17 +479,9 @@
         <translation>Če je označeno, aplikacija ne bo vprašala za odgovor na tekoče vprašanje, ampak ga le označila kot napačen, shranila izpit v datoteko (v direktorij: %1) in se zaprla brez potrebne kakršnekoli potrditve.</translation>
     </message>
     <message>
-        <source>Student Name:</source>
-        <translation type="vanished">Ime učenca:</translation>
-    </message>
-    <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="30"/>
         <source>Default name for every new exam or exercise.</source>
         <translation>Privzeto ime za vsak nov izpit ali vajo.</translation>
-    </message>
-    <message>
-        <source>questions</source>
-        <translation type="vanished">vprašanja</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="92"/>
@@ -830,22 +490,10 @@
         <translation>barva vprašanj</translation>
     </message>
     <message>
-        <source>color of wrong answers</source>
-        <translation type="vanished">barva napačnih odgovorov</translation>
-    </message>
-    <message>
-        <source>answers</source>
-        <translation type="vanished">odgovori</translation>
-    </message>
-    <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="97"/>
         <location filename="../src/qml/settings/ExamPage.qml" line="98"/>
         <source>color of answers</source>
         <translation>barva odgovorov</translation>
-    </message>
-    <message>
-        <source>&apos;not bad&apos;</source>
-        <translation type="vanished">&apos;ni slabo&apos;</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="102"/>
@@ -854,45 +502,9 @@
         <translation>barva &apos;ni slabo&apos; odgovorov</translation>
     </message>
     <message>
-        <source>after mistake:</source>
-        <translation type="vanished">po napaki:</translation>
-    </message>
-    <message>
-        <source>continue</source>
-        <translation type="vanished">nadaljuj</translation>
-    </message>
-    <message>
-        <source>wait</source>
-        <translation type="vanished">počakaj</translation>
-    </message>
-    <message>
-        <source>stop</source>
-        <translation type="vanished">ustavi</translation>
-    </message>
-    <message>
-        <source>When &lt;b&gt;&apos;ask next question automatically&apos;&lt;/b&gt; is checked and you commit a mistake, the program can: &lt;b&gt;continue asking immediately&lt;/b&gt;, &lt;b&gt;wait defined period of time&lt;/b&gt; or &lt;b&gt;stop questioning&lt;/b&gt;, to give you possibility to analyze what was wrong.</source>
-        <translation type="vanished">Ko je&lt;b&gt;&apos;samodejno postavi naslednje vprašanje&apos;&lt;/b&gt; označeno in napravite napako, program lahko:&lt;b&gt;nemudoma nadaljuje z vprašanji&lt;/b&gt;, &lt;b&gt;počaka določen čas&lt;/b&gt; ali &lt;b&gt;ustavi izpraševanje&lt;/b&gt;, da vam da možnost analize napak.</translation>
-    </message>
-    <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="145"/>
         <source>extra names</source>
         <translation>dodatna imena</translation>
-    </message>
-    <message>
-        <source>To improve association of note in the score or position on the guitar to note name, Nootka will display names even if neither question nor answer is related to it.</source>
-        <translation type="vanished">Za izboljšanje predstave kje je nota v črtovju ali katero ime note ustreza nekemu položaju na kitari, bo Nootka prikazala poimenovanje tudi, ko niso ne vprašanja niti ogovori v povezavi s tem.</translation>
-    </message>
-    <message>
-        <source>colors</source>
-        <translation type="vanished">barve</translation>
-    </message>
-    <message>
-        <source>exercises</source>
-        <translation type="vanished">vaje</translation>
-    </message>
-    <message>
-        <source>exams</source>
-        <translation type="vanished">izpiti</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="129"/>
@@ -933,10 +545,6 @@
         <location filename="../src/qml/settings/ExamPage.qml" line="193"/>
         <source>When the last note of question that is a melody was played - checking starts.</source>
         <translation>Ko je zaigrana zadnja nota vprašanja, ki je melodija - se začne preveritev.</translation>
-    </message>
-    <message>
-        <source>Always remind me about this</source>
-        <translation type="vanished">O tem me vedno opomni</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="147"/>
@@ -988,10 +596,6 @@
 </context>
 <context>
     <name>GlobalPage</name>
-    <message>
-        <source>Application language</source>
-        <translation type="vanished">Jezik aplikacije</translation>
-    </message>
     <message>
         <location filename="../src/qml/settings/GlobalPage.qml" line="24"/>
         <source>Select a language.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;To take effect, this requires restarting the application!&lt;/span&gt;</source>
@@ -1197,7 +801,7 @@
     <message>
         <location filename="../src/libs/core/tnootkaqml.cpp" line="266"/>
         <location filename="../src/libs/core/tnootkaqml.cpp" line="276"/>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="299"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="301"/>
         <source>Custom tuning</source>
         <translation>Uglasitev po lastni meri</translation>
     </message>
@@ -1265,22 +869,22 @@
 <context>
     <name>Levels</name>
     <message>
-        <location filename="../levels/guitar/simple melodies-guitar.nel" line="9"/>
+        <location filename="../src/qml/level/Levels.qml" line="20"/>
         <source>Simple melodies</source>
         <translation>Preproste melodije</translation>
     </message>
     <message>
-        <location filename="../levels/guitar/simple melodies-guitar.nel" line="10"/>
+        <location filename="../src/qml/level/Levels.qml" line="21"/>
         <source>Play popular, simple melodies on your instrument.</source>
         <translation>Igraj popularne, preproste melodije na svojem glasbilu.</translation>
     </message>
     <message>
-        <location filename="../levels/guitar/Play Bach Minuet-guitar.nel" line="9"/>
+        <location filename="../src/qml/level/Levels.qml" line="17"/>
         <source>J. S. Bach - Minuet</source>
         <translation>J. S. Bach . Menuet</translation>
     </message>
     <message>
-        <location filename="../levels/guitar/Play Bach Minuet-guitar.nel" line="10"/>
+        <location filename="../src/qml/level/Levels.qml" line="18"/>
         <source>Play melody of J. S. Bach Minuet from Notebook for Anna Magdalena Bach divided into smaller parts.</source>
         <translation>Zaigraj melodijo J. S. Bacha Menuet iz Notne knjižice za Anno Magdaleno Bach porazdeljeno na manjše parte.</translation>
     </message>
@@ -1334,13 +938,6 @@
         <source>Pitch recognition</source>
         <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
         <translation>Prepoznava višine tona</translation>
-    </message>
-</context>
-<context>
-    <name>MainScore</name>
-    <message>
-        <source>Note by note</source>
-        <translation type="vanished">Noto za noto</translation>
     </message>
 </context>
 <context>
@@ -1406,35 +1003,10 @@ Vendar naj bodo kratke, torej jih poprej razdelite v kakšnem drugem zunanjem pr
         <translation>Dolžina melodije</translation>
     </message>
     <message>
-        <source>Melody ends on tonic note</source>
-        <translation type="vanished">Melodija se konča s tonično noto</translation>
-    </message>
-    <message>
-        <source>Determines the last note of a melody.&lt;br&gt;When set, melody will be finished on tonic note in actual key signature.</source>
-        <translation type="vanished">Določi zadnjo noto melodije.&lt;br&gt;Ko je vključeno, se bo melodija končala na toniki dejanskega tononovskega načina.</translation>
-    </message>
-    <message>
-        <source>in selected range</source>
-        <translation type="vanished">v izbranem razponu</translation>
-    </message>
-    <message>
-        <source>from notes below</source>
-        <translation type="vanished">s spodnjih not</translation>
-    </message>
-    <message>
-        <source>Melodies are composed from a note range defined on the &apos;Range&apos; page.</source>
-        <translatorcomment>Melodije so skladane z razdalje not definirane na strani &apos;Razdalja&apos;.</translatorcomment>
-        <translation type="vanished">Melodije se skladajo iz razpona not definiranega na strain &apos;Razdalja&apos;.</translation>
-    </message>
-    <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="29"/>
         <source>Melodies are composed from notes selected on the score below.</source>
         <translatorcomment>Melodije se sestavljajo iz not izbranih s spodnje partiture.</translatorcomment>
         <translation>Melodije se skladajo iz not izbranih s spodnje partiture.</translation>
-    </message>
-    <message>
-        <source>Random melody</source>
-        <translation type="vanished">Naključna melodija</translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="27"/>
@@ -1545,13 +1117,13 @@ Vendar naj bodo kratke, torej jih poprej razdelite v kakšnem drugem zunanjem pr
 <context>
     <name>Notation</name>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="585"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="600"/>
         <source>b</source>
         <comment>Give here a name of 7-th note preferred in your country. But only &apos;b&apos; or &apos;h&apos; not &apos;si&apos; or something worst...</comment>
         <translation>b</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="590"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="605"/>
         <source>letters</source>
         <comment>DO NOT TRANSLATE IT DIRECTLY. Put here &apos;letters&apos; or &apos;solfege&apos; This is country preferred style of naming key signatures. &apos;letters&apos; means C-major/a-minor names (&apos;major&apos; &amp; &apos;minor&apos; also are translated by you), &apos;solfege&apos; means Do-major/La-minor names</comment>
         <translation>solfege</translation>
@@ -1604,11 +1176,6 @@ Vendar naj bodo kratke, torej jih poprej razdelite v kakšnem drugem zunanjem pr
 <context>
     <name>PitchView</name>
     <message>
-        <location filename="../src/qml/sound/PitchView.qml" line="43"/>
-        <source>Tuner</source>
-        <translation>Uglaševalec</translation>
-    </message>
-    <message>
         <location filename="../src/qml/sound/PitchView.qml" line="60"/>
         <source>Start/stop pitch detection</source>
         <translation>Začni/ustavi zaznavo višine zvoka</translation>
@@ -1617,19 +1184,19 @@ Vendar naj bodo kratke, torej jih poprej razdelite v kakšnem drugem zunanjem pr
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/libs/core/exam/texam.cpp" line="434"/>
+        <location filename="../src/libs/core/exam/texam.cpp" line="442"/>
         <source>Cannot save exam file:
 %1</source>
         <translation>Ne morem shraniti izpitne datoteke:
 %1</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/exam/tlevel.cpp" line="106"/>
+        <location filename="../src/libs/core/exam/tlevel.cpp" line="112"/>
         <source>master of masters</source>
         <translation>mojster od mojstrov</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/exam/tlevel.cpp" line="107"/>
+        <location filename="../src/libs/core/exam/tlevel.cpp" line="113"/>
         <source>All possible options are turned on</source>
         <translation>Vključene so vse možne opcije</translation>
     </message>
@@ -1652,10 +1219,6 @@ Vendar naj bodo kratke, torej jih poprej razdelite v kakšnem drugem zunanjem pr
 </context>
 <context>
     <name>QuestionsBox</name>
-    <message>
-        <source>Select the type of answers for a question.</source>
-        <translation type="vanished">Določi tip odgovorov na vprašanje.</translation>
-    </message>
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="138"/>
         <source>question</source>
@@ -1912,11 +1475,6 @@ Vendar naj bodo kratke, torej jih poprej razdelite v kakšnem drugem zunanjem pr
         <translation>Če je označeno, lahko uporabite dvojne višaje in dvojne nižaje.</translation>
     </message>
     <message>
-        <source>tempo of played notes</source>
-        <translatorcomment>hitrost (tempo) predvajanih not</translatorcomment>
-        <translation type="vanished">tempo predvajanih not</translation>
-    </message>
-    <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="95"/>
         <location filename="../src/qml/settings/ScorePage.qml" line="96"/>
         <source>note-cursor color</source>
@@ -1931,18 +1489,6 @@ Vendar naj bodo kratke, torej jih poprej razdelite v kakšnem drugem zunanjem pr
         <location filename="../src/qml/settings/ScorePage.qml" line="147"/>
         <source>Naming extension</source>
         <translation>Razširjeno poimenovanje</translation>
-    </message>
-    <message>
-        <source>in the major keys:</source>
-        <translation type="vanished">v durovih ključih:</translation>
-    </message>
-    <message>
-        <source>in the minor keys:</source>
-        <translation type="vanished">v molovih ključih:</translation>
-    </message>
-    <message>
-        <source>Default clef</source>
-        <translation type="vanished">Privzeti notni ključ</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="176"/>
@@ -1974,10 +1520,6 @@ Vendar naj bodo kratke, torej jih poprej razdelite v kakšnem drugem zunanjem pr
         <location filename="../src/qml/settings/ScorePage.qml" line="18"/>
         <source>Notes naming</source>
         <translation>Poimenovanje not</translation>
-    </message>
-    <message>
-        <source>for example</source>
-        <translation type="vanished">na primer</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="128"/>
@@ -2073,14 +1615,6 @@ Vendar naj bodo kratke, torej jih poprej razdelite v kakšnem drugem zunanjem pr
         <location filename="../src/qml/settings/Select7note.qml" line="29"/>
         <source>7th note is:</source>
         <translation>sedma nota je:</translation>
-    </message>
-    <message>
-        <source>7th note is &lt;b&gt;B&lt;/b&gt; and with flat is &lt;b&gt;Bb&lt;/b&gt; or &lt;b&gt;bes&lt;/b&gt; or &lt;b&gt;bs&lt;/b&gt;</source>
-        <translation type="vanished">sedma nota je &lt;b&gt;B&lt;/b&gt; in z nižajem je &lt;b&gt;Bb&lt;/b&gt; ali &lt;b&gt;bes&lt;/b&gt; ali &lt;b&gt;bs&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>7th note is &lt;b&gt;H&lt;/b&gt; and with flat is &lt;b&gt;Hb&lt;/b&gt; or &lt;b&gt;B&lt;/b&gt;</source>
-        <translation type="vanished">sedma nota je &lt;b&gt;H&lt;/b&gt; in z nižajem je &lt;b&gt;Hb&lt;/b&gt; ali &lt;b&gt;B&lt;/b&gt;</translation>
     </message>
 </context>
 <context>
@@ -2204,22 +1738,6 @@ Vendar naj bodo kratke, torej jih poprej razdelite v kakšnem drugem zunanjem pr
         <translation>način zaznavanja višine tona</translation>
     </message>
     <message>
-        <source>Helps to properly detect the same notes repeated quickly on the guitar.</source>
-        <translation type="vanished">Pomaga pri pravilnem zaznavanju istih ponavljajočih se not na kitari.</translation>
-    </message>
-    <message>
-        <source>split when volume rise</source>
-        <translation type="vanished">razdeli, ko se glasnost poveča za</translation>
-    </message>
-    <message>
-        <source>Skips stiller sounds, below given percent of average volume. It prevents detecting of harmonics on classical or acoustic guitar but requires playing with similar strength.</source>
-        <translation type="vanished">Preskoči mirujoče zvoke med danimi odstotki povprečne glasnosti. Prepreči se zaznavanje alikvotnih tonov na klasični ali akustični kitari, vendar pa je potrebno igranje z enakomerno močjo.</translation>
-    </message>
-    <message>
-        <source>skip stiller than</source>
-        <translation type="vanished">preskoči bolj mirujoče od</translation>
-    </message>
-    <message>
         <location filename="../src/qml/settings/SoundPage.qml" line="178"/>
         <source>It is rather necessary for mic input but may be switched off for an instrument plugged line-in with less noise.</source>
         <translation>Ponavadi se uporablja za mikrofonski vhod vendar se lahko izklopi za inštrument vtaknjen v line-in vhod z manj šuma.</translation>
@@ -2280,39 +1798,14 @@ Vendar naj bodo kratke, torej jih poprej razdelite v kakšnem drugem zunanjem pr
         <translation>Vnesi svoje ime ali nadimek.</translation>
     </message>
     <message>
-        <source>Select a level suitable for you&lt;br&gt;or create new one.</source>
-        <translatorcomment>Izberi sebi primerno stopnjo&lt;br&gt;ali ustvari novo. (ver.)</translatorcomment>
-        <translation type="vanished">Izberi stopnjo primerno zate&lt;br&gt;ali ustvari novo.</translation>
-    </message>
-    <message>
-        <source>Dialog window for creating new level&lt;br&gt;will be opened.</source>
-        <translation type="vanished">Odprlo se bo pogovorno okno za&lt;br&gt;ustvarjanje nove stopnje.</translation>
-    </message>
-    <message>
-        <source>Create new level</source>
-        <translation type="vanished">Ustvari novo stopnjo</translation>
-    </message>
-    <message>
-        <source>Click and select an exam to continue</source>
-        <translation type="vanished">Kliknite in izberite izpit za naprej</translation>
-    </message>
-    <message>
         <location filename="../src/qml/exam/StartExam.qml" line="71"/>
         <source>To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file.</source>
         <translation>Za začetek vadbe ali opravljanje novega izpita vnesi svoje ime in izberi stopnjo. Za nadaljevanje prejšnjega izpita, izberi le-tega s seznama ali naloži z datoteke.</translation>
     </message>
     <message>
-        <source>recent opened exams:</source>
-        <translation type="vanished">nedavno odprti izpiti:</translation>
-    </message>
-    <message>
         <location filename="../src/qml/exam/StartExam.qml" line="104"/>
         <source>Start exercise on level:</source>
         <translation>Začni vajo na stopnji:</translation>
-    </message>
-    <message>
-        <source>Continue the latest exam:</source>
-        <translation type="vanished">Nadaljuj zadnji izpit:</translation>
     </message>
     <message>
         <location filename="../src/qml/exam/StartExam.qml" line="110"/>
@@ -2331,22 +1824,6 @@ Vendar naj bodo kratke, torej jih poprej razdelite v kakšnem drugem zunanjem pr
         <location filename="../src/qml/exam/StartExam.qml" line="123"/>
         <source>Pass new exam on level:</source>
         <translation>Opravi izpit na stopnji:</translation>
-    </message>
-    <message>
-        <source>To exercise or to pass an exam?</source>
-        <translation type="vanished">Vaditi ali opravljati izpit?</translation>
-    </message>
-    <message>
-        <source>Exam results</source>
-        <translation type="vanished">Rezultati izpita</translation>
-    </message>
-    <message>
-        <source>Load an exam file</source>
-        <translation type="vanished">Naloži izpitno datoteko</translation>
-    </message>
-    <message>
-        <source>Continue exam</source>
-        <translation type="vanished">Nadaljuj izpit</translation>
     </message>
     <message>
         <location filename="../src/qml/exam/StartExam.qml" line="151"/>
@@ -2458,7 +1935,7 @@ Vendar naj bodo kratke, torej jih poprej razdelite v kakšnem drugem zunanjem pr
         <translation>Kakorkoli, ta aplikacija ne bi mogla obstajati brez drugih podobnih odprtokodnih projektov.&lt;br&gt;Še posebno:</translation>
     </message>
     <message>
-        <location filename="../src/qml/about/AuthorsPage.qml" line="160"/>
+        <location filename="../src/qml/about/AuthorsPage.qml" line="162"/>
         <source>Thanks</source>
         <translation>Zahvala</translation>
     </message>
@@ -2482,226 +1959,13 @@ Vendar naj bodo kratke, torej jih poprej razdelite v kakšnem drugem zunanjem pr
 <context>
     <name>TanalysDialog</name>
     <message>
-        <source>Analyze</source>
-        <translation type="vanished">Analiziraj</translation>
-    </message>
-    <message>
-        <source>Y value:</source>
-        <translation type="vanished">Y vrednost:</translation>
-    </message>
-    <message>
-        <source>ordered by:</source>
-        <comment>Keep a proper form - whole sentence will be: ordered by: question number, key signature, etc...</comment>
-        <translation type="vanished">razporejeno po:</translation>
-    </message>
-    <message>
-        <source>student name:</source>
-        <translation type="vanished">ime učenca:</translation>
-    </message>
-    <message>
-        <source>level:</source>
-        <translation type="vanished">stopnja:</translation>
-    </message>
-    <message>
-        <source>question number</source>
-        <comment>see comment in &apos;ordered by:&apos; entry</comment>
-        <translation type="vanished">številka vprašanja</translation>
-    </message>
-    <message>
-        <source>note pitch</source>
-        <translation type="vanished">višina note</translation>
-    </message>
-    <message>
-        <source>fret number</source>
-        <translation type="vanished">številka prečke</translation>
-    </message>
-    <message>
-        <source>key signature</source>
-        <translation type="vanished">tonovski način</translation>
-    </message>
-    <message>
-        <source>accidentals</source>
-        <translation type="vanished">predznaki</translation>
-    </message>
-    <message>
-        <source>question type</source>
-        <translation type="vanished">tip vprašanja</translation>
-    </message>
-    <message>
-        <source>mistake</source>
-        <translation type="vanished">narobe</translation>
-    </message>
-    <message>
-        <source>Level summary:</source>
-        <translation type="vanished">Povzetek stopnje:</translation>
-    </message>
-    <message>
-        <source>Tuning</source>
-        <translation type="vanished">Uglasitev</translation>
-    </message>
-    <message>
-        <source>Press %1 button to select an exam from a file.</source>
-        <translation type="vanished">Pritisnite %1 gumb za izbiro izpita iz datoteke.</translation>
-    </message>
-    <message>
-        <source>Use %1 + mouse wheel or %2 buttons to zoom a chart.</source>
-        <translation type="vanished">Uporabi %1 + miškin kolešček ali %2 gumbe za približanje sheme.</translation>
-    </message>
-    <message>
-        <source>Click and Drag the cursor to move the chart.</source>
-        <translation type="vanished">Klikni in Vleči kazalec za premikanje po grafu.</translation>
-    </message>
-    <message>
-        <source>Question number</source>
-        <translation type="vanished">Številka vprašanja</translation>
-    </message>
-    <message>
-        <source>File: %1 
- is not valid exam file!</source>
-        <translation type="vanished">File: %1 
-ni veljavna izpitna datoteka!</translation>
-    </message>
-    <message>
-        <source>Open an exam to analyze</source>
-        <translation type="vanished">Odpri izpit za analizo</translation>
-    </message>
-    <message>
-        <source>Recent exercise on level</source>
-        <translation type="vanished">Nedavne vadbe na stopnji</translation>
-    </message>
-    <message>
-        <source>recent opened exams:</source>
-        <translation type="vanished">nedavno odprti izpiti:</translation>
-    </message>
-    <message>
-        <source>Close analyzer window</source>
-        <translation type="vanished">Zapri analitično okno</translation>
-    </message>
-    <message>
-        <source>include time of wrong answers to average</source>
-        <translation type="vanished">upoštevaj čas napačnih odgovorov v povprečje</translation>
-    </message>
-    <message>
-        <source>show wrong answers separately</source>
-        <translation type="vanished">napačne odgovore prikaži ločeno</translation>
-    </message>
-    <message>
-        <source>Settings of a chart</source>
-        <translation type="vanished">Nastavitve grafa</translation>
-    </message>
-    <message>
-        <source>Maximize</source>
-        <translation type="vanished">Povečaj</translation>
-    </message>
-    <message>
-        <source>linear chart</source>
-        <translation type="vanished">črtna shema</translation>
-    </message>
-    <message>
-        <source>bar chart</source>
-        <translation type="vanished">stolpični diagram</translation>
-    </message>
-    <message>
-        <source>OK</source>
-        <translation type="vanished">Vredu</translation>
-    </message>
-    <message>
-        <source>Analysis of exam results</source>
-        <translation type="vanished">Analiza izpitnih rezultatov</translation>
-    </message>
-    <message>
-        <source>Analysis of exercise</source>
-        <translation type="vanished">Analiza vadbe</translation>
-    </message>
-    <message>
         <location filename="../src/charts/tbarchartdelegate.cpp" line="113"/>
         <source>Questions number</source>
         <translation>Številka vprašanja</translation>
     </message>
-    <message>
-        <source>Attempts number</source>
-        <translation type="vanished">Število poskusov</translation>
-    </message>
-    <message>
-        <source>Preparation time</source>
-        <translation type="vanished">Čas priprave</translation>
-    </message>
-    <message>
-        <source>Played number</source>
-        <translation type="vanished">Število igranj</translation>
-    </message>
-</context>
-<context>
-    <name>Tcanvas</name>
-    <message>
-        <source>%1 was detected</source>
-        <comment>note name</comment>
-        <translation type="vanished">%1 je bil zaznan</translation>
-    </message>
-    <message>
-        <source>Try again!</source>
-        <translation type="vanished">Poskusi ponovno!</translation>
-    </message>
-    <message>
-        <source>To correct an answer</source>
-        <translation type="vanished">Za popravljanje odgovora</translation>
-    </message>
-    <message>
-        <source>To try this melody again</source>
-        <translation type="vanished">Znova poskusi to melodijo</translation>
-    </message>
-    <message>
-        <source>To see corrected answer</source>
-        <translatorcomment>Da vidiš popravljeni odgovor</translatorcomment>
-        <translation type="vanished">Za ogled popravljenega odgovora</translation>
-    </message>
-    <message>
-        <source>To see some hints</source>
-        <translation type="vanished">Za ogled kakšnih namigov</translation>
-    </message>
-    <message>
-        <source>To check the answer confirm it:</source>
-        <translation type="vanished">Za preverjanje odgovora ga potrdi:</translation>
-    </message>
-    <message>
-        <source>Check in exam help %1 how to do it automatically</source>
-        <translation type="vanished">Preveri v izpitni pomoči %1 kako se to zgodi samodejno</translation>
-    </message>
-    <message>
-        <source>Select any note to play it again.</source>
-        <translation type="vanished">Izberi katerokoli noto za ponovno predvajanje.</translation>
-    </message>
-    <message>
-        <source>too low</source>
-        <translation type="vanished">prenizko</translation>
-    </message>
-    <message>
-        <source>too high</source>
-        <translation type="vanished">previsoko</translation>
-    </message>
-    <message>
-        <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
-        <translation type="vanished">Kliknite nepravilne note za ogled&lt;br&gt;in poslušanje popravljenih.</translation>
-    </message>
-    <message>
-        <source>You are exercising on level</source>
-        <translation type="vanished">Vadiš na stopnji</translation>
-    </message>
-    <message>
-        <source>Exam started on level</source>
-        <translation type="vanished">Preizkus se je začel na stopnji</translation>
-    </message>
 </context>
 <context>
     <name>TchartTipItem</name>
-    <message>
-        <source>question</source>
-        <translation type="vanished">vprašanje</translation>
-    </message>
-    <message>
-        <source>answer</source>
-        <translation type="vanished">odgovor</translation>
-    </message>
     <message numerus="yes">
         <location filename="../src/charts/tcharttipitem.cpp" line="204"/>
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
@@ -2729,10 +1993,6 @@ ni veljavna izpitna datoteka!</translation>
         <location filename="../src/libs/core/music/tclef.cpp" line="36"/>
         <source>bass</source>
         <translation>basovski</translation>
-    </message>
-    <message>
-        <source>bass dropped</source>
-        <translation type="vanished">znižani basovski</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tclef.cpp" line="40"/>
@@ -2765,10 +2025,6 @@ ni veljavna izpitna datoteka!</translation>
         <translation>F ključ</translation>
     </message>
     <message>
-        <source>clef F dropped octave down</source>
-        <translation type="vanished">oktavo znižani F ključ</translation>
-    </message>
-    <message>
         <location filename="../src/libs/core/music/tclef.cpp" line="68"/>
         <location filename="../src/libs/core/music/tclef.cpp" line="71"/>
         <source>clef C</source>
@@ -2788,14 +2044,6 @@ ni veljavna izpitna datoteka!</translation>
         <location filename="../src/libs/core/music/tclef.cpp" line="61"/>
         <source>Clef for guitars (classical, electric and so)</source>
         <translation>Ključ za kitare (klasično, električno, ipd.)</translation>
-    </message>
-    <message>
-        <source> Bottom clef on the grand staff but also used for cello, trombone, etc.</source>
-        <translation type="vanished"> Spodnji ključ na klavirskem črtovju, ampak uporablja ga tudi čelo, trombon. itd.</translation>
-    </message>
-    <message>
-        <source> Clef for bass guitar and double bass.</source>
-        <translation type="vanished"> Ključ za bas kitaro in kontra bas.</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tclef.cpp" line="69"/>
@@ -2846,8 +2094,9 @@ ni veljavna izpitna datoteka!</translation>
         <translation>Uporabite slušalke! Drugače bo tiktakanje motilo pravilno zaznavo višine!</translation>
     </message>
     <message>
+        <location filename="../src/qml/sound/PitchView.qml" line="43"/>
         <source>Tuner</source>
-        <translation type="vanished">Uglaševalec</translation>
+        <translation>Uglaševalec</translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="155"/>
@@ -2902,21 +2151,17 @@ ni veljavna izpitna datoteka!</translation>
 <context>
     <name>Texam</name>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="575"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="590"/>
         <source>as note on the staff</source>
         <translation>kot nota na črtovju</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="576"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="591"/>
         <source>as note name</source>
         <translation>kot ime note</translation>
     </message>
     <message>
-        <source>as position on the fingerboard</source>
-        <translation type="vanished">kot položaj na ubiralki</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="578"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="593"/>
         <source>as played sound</source>
         <translatorcomment>kot zaigran zvok</translatorcomment>
         <translation>kot predvajan zvok</translation>
@@ -2968,7 +2213,7 @@ ni veljavna izpitna datoteka!</translation>
         <translation>ponovi melodijo</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="577"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="592"/>
         <source>on instrument</source>
         <translation>na glasbilu</translation>
     </message>
@@ -3298,10 +2543,6 @@ ni veljavna izpitna datoteka!</translation>
         <translation>Časa porabljenega za odgovor</translation>
     </message>
     <message>
-        <source>Analyze</source>
-        <translation type="vanished">Analiza</translation>
-    </message>
-    <message>
         <location filename="../src/main/texamsummary.cpp" line="133"/>
         <source>Results:</source>
         <translation>Rezultati:</translation>
@@ -3357,19 +2598,6 @@ ni veljavna izpitna datoteka!</translation>
         <translation>Napredek vaj</translation>
     </message>
     <message>
-        <source>Pass an exam</source>
-        <translation type="vanished">Opravi izpit</translation>
-    </message>
-    <message>
-        <source>Finish exercise and pass an exam on this level.</source>
-        <translatorcomment>Končaj vajo in opravi izpit na tej stopnji.</translatorcomment>
-        <translation type="vanished">Končaj vajo in opravi izpit te stopnje.</translation>
-    </message>
-    <message>
-        <source>Finish this exercise</source>
-        <translation type="vanished">Končaj to vajo</translation>
-    </message>
-    <message>
         <location filename="../src/main/texamsummary.cpp" line="218"/>
         <source>Send exam file</source>
         <translation>Pošlji izpitno datoteko</translation>
@@ -3381,10 +2609,6 @@ ni veljavna izpitna datoteka!</translation>
         <location filename="../src/main/texamview.cpp" line="278"/>
         <source>Exam results</source>
         <translation>Rezultati izpitov</translation>
-    </message>
-    <message>
-        <source>Effectiveness of whole exam (and effectiveness of current question).</source>
-        <translation type="vanished">Učinkovitost skozi celotni izpit (in učinkovitost trenutnega vprašanja).</translation>
     </message>
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="42"/>
@@ -3510,37 +2734,6 @@ ni veljavna izpitna datoteka!</translation>
     </message>
 </context>
 <context>
-    <name>TfingerBoard</name>
-    <message>
-        <source>Select a string or fret and click to see it on the staff.</source>
-        <translation type="vanished">Izberite struno ali prečko in kliknite za prikaz na notnem črtovju.</translation>
-    </message>
-    <message>
-        <source>This note is beyond the scale of the guitar!</source>
-        <translatorcomment>Ta nota gre preko razpona ubiralke na kitari!</translatorcomment>
-        <translation type="vanished">Ta nota je preko razpona kitare!</translation>
-    </message>
-</context>
-<context>
-    <name>TfirstRunWizard</name>
-    <message>
-        <source>First run wizard</source>
-        <translation type="vanished">Najprej zaženi čarovnika</translation>
-    </message>
-    <message>
-        <source>What instrument do you play?</source>
-        <translation type="vanished">Katero glasbilo igraš?</translation>
-    </message>
-    <message>
-        <source>When writing notation for bass guitar, the &lt;b&gt;bass clef&lt;/b&gt; is used but the played notes sound an octave lower. The proper clef is &lt;b&gt;bass dropped clef&lt;/b&gt; (with the digit &quot;eight&quot; written below) In this clef, the notes sound exactly as written. This clef is used in Nootka for bass guitar.</source>
-        <translation type="vanished">Ko se piše notacijo za bas kitaro, se uporabi &lt;b&gt;basovski ključ&lt;/b&gt; zaigrane note pa zvenijo oktavo nižje. Pravilni ključ je &lt;b&gt;znižani basovski ključ&lt;/b&gt; (s podpisano s številko &quot;osem&quot; ) V tem ključu note zvenijo natanko tako kot so napisane. Ta ključ je uporabljen v Nootki za bas kitaro.</translation>
-    </message>
-    <message>
-        <source>Guitar notation uses the treble clef with the digit &quot;eight&quot; written below (even if some editors are forgetting about this digit).&lt;br&gt;&lt;br&gt;Try to understand this. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;b&gt;&lt;big&gt;Both pictures above show the same note: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(note c in one-line octave)&lt;/p&gt;</source>
-        <translation type="vanished">Kitarska notacija uprablja violinski ključ s podpisano številko &quot;osem&quot; (tudi, če nekateri uredniki pozabijo na to številko).&lt;br&gt;&lt;br&gt;To poskušajte razumeti. &lt;br&gt;&lt;br&gt;&lt;p&gt; %1 %2&lt;br&gt;&lt;b&gt;&lt;big&gt;Obe sliki zgoraj prikazujeta isto noto: c&lt;sup&gt;1&lt;/sup&gt;&lt;/big&gt;&lt;/b&gt;&lt;br&gt;(nota c v enkrat črtani oktavi)&lt;/p&gt;</translation>
-    </message>
-</context>
-<context>
     <name>TgotIt</name>
     <message>
         <location filename="../src/main/tgotit.cpp" line="146"/>
@@ -3588,96 +2781,6 @@ ni veljavna izpitna datoteka!</translation>
     </message>
 </context>
 <context>
-    <name>TguitarSettings</name>
-    <message>
-        <source>tuning of the guitar</source>
-        <translation type="vanished">uglaševanje kitare</translation>
-    </message>
-    <message>
-        <source>scale of an instrument</source>
-        <translatorcomment>kaj je to?</translatorcomment>
-        <translation type="vanished">lestvica glasbila</translation>
-    </message>
-    <message>
-        <source>Select appropriate tuning from the list or prepare your own.</source>
-        <translation type="vanished">Izberi primerno uglasitev s seznama ali napravi lastno.</translation>
-    </message>
-    <message>
-        <source>Remember to select the appropriate clef in Score settings.</source>
-        <translation type="vanished">Zapomni si, da je potrebno izbrati primeren ključ v Nastavitve partiture (črtovja).</translation>
-    </message>
-    <message>
-        <source>Instrument</source>
-        <translation type="vanished">Glasbilo</translation>
-    </message>
-    <message>
-        <source>right-handed players</source>
-        <comment>When translation will be too long try to add &apos;
-&apos; - line break between words.</comment>
-        <translation type="vanished">desničarji</translation>
-    </message>
-    <message>
-        <source>Uncheck this if you are left-handed&lt;br&gt;and your guitar is strung for left-handed playing (changed string order)</source>
-        <translation type="vanished">Odstrani označbo če si levičar &lt;br&gt;in ima tvoja kitara strune napete za levičarje (spremenjen red strun)</translation>
-    </message>
-    <message>
-        <source>number of frets:</source>
-        <translation type="vanished">število prečk:</translation>
-    </message>
-    <message>
-        <source>number of strings:</source>
-        <translation type="vanished">število strun:</translation>
-    </message>
-    <message>
-        <source>preferred accidentals:</source>
-        <translation type="vanished">prednost predznakom:</translation>
-    </message>
-    <message>
-        <source>Choose which accidentals will be shown on the staff.</source>
-        <translation type="vanished">Izberi katere predznake se bo prikazalo na notnem črtovju.</translation>
-    </message>
-    <message>
-        <source># - sharps</source>
-        <translation type="vanished"># - višaji</translation>
-    </message>
-    <message>
-        <source>b - flats</source>
-        <translation type="vanished">b - nižaji</translation>
-    </message>
-    <message>
-        <source>Put numbers of frets marked with dot. Separate the numbers with comma. Add ! (exclamation mark) after a number to paint a dot twice.</source>
-        <translation type="vanished">Postavite število prečk označenih s piko. Števila naj bodo ločena z vejico. Za številom dodaj ! (klicaj), da se pika naslika dvakrat.</translation>
-    </message>
-    <message>
-        <source>marked frets</source>
-        <comment>or frets with dots/marks</comment>
-        <translatorcomment>ali prečke s pikami/označbami (prev. raz. komentarja)</translatorcomment>
-        <translation type="vanished">označene prečke</translation>
-    </message>
-    <message>
-        <source>show all possibilities of a note</source>
-        <translatorcomment>pokaži vse možnosti note (ver.)</translatorcomment>
-        <translation type="vanished">prikaži vse možnosti za noto</translation>
-    </message>
-    <message>
-        <source>As you know, the same note can be played in several places on the fingerboard.&lt;br&gt;If checked, all of them will be shown.</source>
-        <translation type="vanished">Kot veš, je lahko ista nota zaigrana na večih mestih ubiralke. &lt;br&gt;Če označiš, bodo prikazana vsa.</translation>
-    </message>
-    <message>
-        <source>color of string/fret pointer</source>
-        <translation type="vanished">barva strun/prečkin kazalec</translation>
-    </message>
-    <message>
-        <source>color of selected string/fret</source>
-        <translation type="vanished">barva izbrane strune/prečke</translation>
-    </message>
-    <message>
-        <source>Custom tuning</source>
-        <translatorcomment>lastna uglasitev (ver.)</translatorcomment>
-        <translation type="vanished">uglasitev po meri</translation>
-    </message>
-</context>
-<context>
     <name>ThelpDialogBase</name>
     <message>
         <location filename="../src/qml/about/HelpPage.qml" line="59"/>
@@ -3685,12 +2788,8 @@ ni veljavna izpitna datoteka!</translation>
         <translation>Nootka pomoč</translation>
     </message>
     <message>
-        <source>always show this help window</source>
-        <translation type="vanished">vedno prikaži okno pomoči</translation>
-    </message>
-    <message>
         <location filename="../src/qml/about/HelpPage.qml" line="65"/>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="379"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="394"/>
         <source>Open online documentation</source>
         <translation>Odpri dokumentacijo na spletu</translation>
     </message>
@@ -3741,87 +2840,47 @@ ni veljavna izpitna datoteka!</translation>
 <context>
     <name>TintonationCombo</name>
     <message>
+        <location filename="../src/qml/level/Levels.qml" line="24"/>
         <source>intonation accuracy</source>
-        <translation type="vanished">natančnost intonacije</translation>
+        <translation>natančnost intonacije</translation>
     </message>
     <message>
+        <location filename="../src/qml/level/Levels.qml" line="25"/>
         <source>do not check</source>
-        <translation type="vanished">ne preveri</translation>
+        <translation>ne preveri</translation>
     </message>
     <message>
+        <location filename="../src/qml/level/Levels.qml" line="26"/>
         <source>gums pain</source>
         <comment>We used to say that gums or teeth are paining when music is out of tune but it isn&apos;t official term.</comment>
         <translatorcomment>Včasih rečemo da nekaj kar nima pravega zvena, zveni kot počen pisker.</translatorcomment>
-        <translation type="vanished">počen pisker</translation>
+        <translation>počen pisker</translation>
     </message>
     <message>
+        <location filename="../src/qml/level/Levels.qml" line="27"/>
         <source>violinist beginner</source>
-        <translation type="vanished">violinist začetnik</translation>
+        <translation>violinist začetnik</translation>
     </message>
     <message>
+        <location filename="../src/qml/level/Levels.qml" line="28"/>
         <source>old strings</source>
-        <translation type="vanished">stare strune</translation>
+        <translation>stare strune</translation>
     </message>
     <message>
+        <location filename="../src/qml/level/Levels.qml" line="29"/>
         <source>well tuned instrument</source>
-        <translation type="vanished">dobro uglašen inštrument</translation>
+        <translation>dobro uglašen inštrument</translation>
     </message>
     <message>
+        <location filename="../src/qml/level/Levels.qml" line="30"/>
         <source>perfect</source>
-        <translation type="vanished">perfektno</translation>
+        <translation>perfektno</translation>
     </message>
     <message>
+        <location filename="../src/qml/level/Levels.qml" line="31"/>
         <source>cents</source>
-        <comment>unit of measure used for musical intervals. This text always is used in context: &apos; ±	[5, 10, 20, 30] cents &apos; </comment>
-        <translation type="vanished">centov</translation>
-    </message>
-</context>
-<context>
-    <name>TlaySettings</name>
-    <message>
-        <source>tool bar</source>
-        <translation type="vanished">orodna vrstica</translation>
-    </message>
-    <message>
-        <source>auto hide</source>
-        <translation type="vanished">skrij samodejno</translation>
-    </message>
-    <message>
-        <source>text under icons</source>
-        <translation type="vanished">besedilo pod ikonami</translation>
-    </message>
-    <message>
-        <source>icons only</source>
-        <translation type="vanished">samo ikone</translation>
-    </message>
-    <message>
-        <source>text only</source>
-        <translation type="vanished">samo tekst</translation>
-    </message>
-    <message>
-        <source>hints</source>
-        <translation type="vanished">namigi</translation>
-    </message>
-    <message>
-        <source>sound bar</source>
-        <translation type="vanished">indikator glasnosti</translation>
-    </message>
-    <message>
-        <source>There is no Nootka without a score!</source>
-        <translatorcomment>Ni Nootke brez črtovja (ver.)</translatorcomment>
-        <translation type="vanished">Brez črtovja tudi Nootke ni!</translation>
-    </message>
-    <message>
-        <source>But you can hide even all the rest of widgets to see a score only.</source>
-        <translation type="vanished">Vendar pa lahko skrijete tudi vse ostale pripomočke (widget-e), da bi videli le notno črtovje.</translation>
-    </message>
-    <message>
-        <source>guitar</source>
-        <translation type="vanished">kitara</translation>
-    </message>
-    <message>
-        <source>Show or hide main window elements.</source>
-        <translation type="vanished">Pokaži ali skrij elemente glavnega okna.</translation>
+        <comment>unit of measure used for musical intervals. This text always is used in context: &apos; ± [5, 10, 20, 30] cents &apos;</comment>
+        <translation>centov</translation>
     </message>
 </context>
 <context>
@@ -3959,104 +3018,6 @@ ni veljavna izpitna datoteka!</translation>
     </message>
 </context>
 <context>
-    <name>TlevelCreatorDlg</name>
-    <message>
-        <source>Questions</source>
-        <translation type="vanished">Vprašanja</translation>
-    </message>
-    <message>
-        <source>Accidentals</source>
-        <translation type="vanished">Predzaki</translation>
-    </message>
-    <message>
-        <source>Range</source>
-        <translation type="vanished">Razpon</translation>
-    </message>
-    <message>
-        <source>Check</source>
-        <translation type="vanished">Preveri</translation>
-    </message>
-    <message>
-        <source>Check, Are your settings for the level possible to perform.</source>
-        <translation type="vanished">Preveri, Ali so vaše nastavitve za stopnjo delujoče.</translation>
-    </message>
-    <message>
-        <source>level not saved!</source>
-        <translation type="vanished">stopnja ni shranjena!</translation>
-    </message>
-    <message>
-        <source>Level was changed and not saved!</source>
-        <translation type="vanished">Stopnja je bila spremenjena in ni bila shranjena!</translation>
-    </message>
-    <message>
-        <source>Save exam level</source>
-        <translation type="vanished">Shrani izpitno stopnjo</translation>
-    </message>
-    <message>
-        <source>Cannot open file for writing</source>
-        <translation type="vanished">Ne morem odpreti datoteke za pisanje</translation>
-    </message>
-    <message>
-        <source>There aren&apos;t any questions or answers selected.&lt;br&gt;Level makes no sense.</source>
-        <translatorcomment>Ni bilo izbranih vprašanj ali odgovorov.&lt;br&gt;Stopnja nima nobenega smisla. (ver.)</translatorcomment>
-        <translation type="vanished">Izbrana niso bila nikakršna vprašanja ali odgovori.&lt;br&gt;Stopnja nima nobenega smisla.</translation>
-    </message>
-    <message>
-        <source>&lt;li&gt;Range of frets is beyond the scale of this level&lt;/li&gt;</source>
-        <translation type="vanished">&lt;li&gt;Razpon prečk gre preko obsega na tej stopnji&lt;/li&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;li&gt;In range of notes some accidentals are used&lt;br&gt;but not available in this level&lt;/li&gt;</source>
-        <translation type="vanished">&lt;li&gt;V notnem razponu so na voljo nekateri predznaki&lt;br&gt;ampak ni na voljo v tej stopnji&lt;/li&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;li&gt;Force appropriate accidental is enabled but any accidental was selected.&lt;/li&gt;</source>
-        <translatorcomment>hm..</translatorcomment>
-        <translation type="vanished">&lt;li&gt;Vsili primeren predznak je omogočeno, vendar je bilo izbrano katerikoli predznak.&lt;/li&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;li&gt;Questions and answers as note names will be the same. To avoid that level has to use flats and sharps and/or double accidentals and/or to use different name styles.&lt;/li&gt;</source>
-        <translation type="vanished">&lt;li&gt;Vprašanja in odgovori kakor imena not bodo isti. Da bi se izognili temu, je potrebno v stopnji uporabiti nižaje in višaje in/ali dvojne predznačaje in/ali uporabiti različne stile poimenovanja.&lt;/li&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;li&gt;&apos;Use different naming styles&apos; was checked but neither questions nor answers as note name are checked.&lt;br&gt;Check this type of answer/question or uncheck &apos;Use different naming styles&apos;.&lt;/li&gt;</source>
-        <translatorcomment>&lt;li&gt;&apos;Uporabi različne stile poimenovanja&apos; je bilo označeno vendar ne odgovori niti vprašanja kot imena niso preverjana.&lt;br&gt;Označi ta tip odgovora/vprašanja ali pač ne. &apos;Uporabi različne stile poimenovanja&apos;.&lt;/li&gt; (preverjana ali označena?)</translatorcomment>
-        <translation type="vanished">&lt;li&gt;&apos;Uporabi različne stile poimenovanja&apos; je bilo označeno vendar ne odgovori niti vprašanja kot imena niso označena.&lt;br&gt;Označi ta tip odgovora/vprašanja ali pač ne. &apos;Uporabi različne stile poimenovanja&apos;.&lt;/li&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;li&gt;Questions and answers as notes on the staff will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.&lt;/li&gt;</source>
-        <translation type="vanished">Vprašanja in odgovori kot note na notnem črtovju bodo enaka. V izogib temu je potrebno imeti izbrano Ročno izbiranje ključev ali vsiljevanje predznakov.&lt;/li&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;li&gt;Manual selecting of a key signature was checked but answer as note on the staff was not checked.&lt;/li&gt;</source>
-        <translation type="vanished">&lt;li&gt;Ročno izbiranje ključev je bilo omogočeno, vendar označen ni bil odgovor kot nota na notnem črtovju.&lt;/li&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;li&gt;Fret range is not enough to find any note in different positions. At least &lt;b&gt;%1&lt;/b&gt; frets range is required.&lt;/li&gt;</source>
-        <translation type="vanished">&lt;li&gt;Razpon prečk ni dovolj, da bil lahko našli katero koli noto v različnih položajih. Vsaj&lt;b&gt;%1&lt;/b&gt; razpon prečk je potreben&lt;li&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;li&gt;Possible missing a tonic note for some key signatures in selected note range .&lt;/li&gt;</source>
-        <translation type="vanished">&lt;li&gt;Najbrž v izbranem notnem razponu manjka tonična nota za kakšen tonovski način.&lt;/li&gt;</translation>
-    </message>
-    <message>
-        <source>Level validation</source>
-        <translation type="vanished">Potrditev stopnje</translation>
-    </message>
-    <message>
-        <source>Level seems to be correct</source>
-        <translation type="vanished">Izgleda da je stopnja pravilna</translation>
-    </message>
-    <message>
-        <source>&lt;center&gt;&lt;b&gt;It seems the level has some mistakes:&lt;/b&gt;</source>
-        <translation type="vanished">&lt;center&gt;&lt;b&gt;Izgleda da ima stopnja nekaj napak:&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>Level creator</source>
-        <translation type="vanished">Ustvarjalec stopenj</translation>
-    </message>
-</context>
-<context>
     <name>TlevelCreatorItem</name>
     <message>
         <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="44"/>
@@ -4064,163 +3025,101 @@ ni veljavna izpitna datoteka!</translation>
         <translation>Ustvarjalec stopenj</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="113"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="114"/>
         <source>Save exam level</source>
         <translation>Shrani izpitno stopnjo</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="126"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="127"/>
         <source>Cannot open file for writing</source>
         <translation>Ne morem odpreti datoteke za pisanje</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="148"/>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="770"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="149"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="771"/>
         <source>Level validation</source>
         <translation>Potrditev stopnje</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="148"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="149"/>
         <source>Level seems to be correct</source>
         <translation>Izgleda da je stopnja pravilna</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="649"/>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="787"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="650"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="788"/>
         <source>level not saved!</source>
         <translation>stopnja ni shranjena!</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="649"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="650"/>
         <source>Level was changed and not saved!</source>
         <translation>Stopnja je bila spremenjena in ni bila shranjena!</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="659"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="660"/>
         <source>There aren&apos;t any questions or answers selected.&lt;br&gt;Level makes no sense.</source>
         <translation>Izbrana niso bila nikakršna vprašanja ali odgovori.&lt;br&gt;Stopnja nima nobenega smisla.</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="678"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="679"/>
         <source>&lt;li&gt;Range of frets is beyond the scale of this level&lt;/li&gt;</source>
         <translation>&lt;li&gt;Razpon prečk gre preko obsega na tej stopnji&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="691"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="692"/>
         <source>&lt;li&gt;In range of notes some accidentals are used&lt;br&gt;but not available in this level&lt;/li&gt;</source>
         <translation>&lt;li&gt;V notnem razponu so na voljo nekateri predznaki&lt;br&gt;ampak ni na voljo v tej stopnji&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="695"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="696"/>
         <source>&lt;li&gt;Force appropriate accidental is enabled but any accidental was selected.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Vsili primeren predznak je omogočeno, vendar je bilo izbrano katerikoli predznak.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="701"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="702"/>
         <source>&lt;li&gt;Questions and answers as note names will be the same. To avoid that level has to use flats and sharps and/or double accidentals and/or to use different name styles.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Vprašanja in odgovori kakor imena not bodo isti. Da bi se izognili temu, je potrebno v stopnji uporabiti nižaje in višaje in/ali dvojne predznačaje in/ali uporabiti različne stile poimenovanja.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="705"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="706"/>
         <source>&lt;li&gt;&apos;Use different naming styles&apos; was checked but neither questions nor answers as note name are checked.&lt;br&gt;Check this type of answer/question or uncheck &apos;Use different naming styles&apos;.&lt;/li&gt;</source>
         <translation>&lt;li&gt;&apos;Uporabi različne stile poimenovanja&apos; je bilo označeno vendar ne odgovori niti vprašanja kot imena niso označena.&lt;br&gt;Označi ta tip odgovora/vprašanja ali pač ne. &apos;Uporabi različne stile poimenovanja&apos;.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="709"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="710"/>
         <source>&lt;li&gt;Questions and answers as notes on the staff will be the same. Manually selecting keys or forcing accidentals has to be selected to avoid that.&lt;/li&gt;</source>
         <translation>Vprašanja in odgovori kot note na notnem črtovju bodo enaka. V izogib temu je potrebno imeti izbrano Ročno izbiranje ključev ali vsiljevanje predznakov.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="714"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="715"/>
         <source>&lt;li&gt;Manual selecting of a key signature was checked but answer as note on the staff was not checked.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Ročno izbiranje ključev je bilo omogočeno, vendar označen ni bil odgovor kot nota na notnem črtovju.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="725"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="726"/>
         <source>&lt;li&gt;Fret range is not enough to find any note in different positions. At least &lt;b&gt;%1&lt;/b&gt; frets range is required.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Razpon prečk ni dovolj, da bil lahko našli katero koli noto v različnih položajih. Vsaj&lt;b&gt;%1&lt;/b&gt; razpon prečk je potreben&lt;li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="747"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="748"/>
         <source>&lt;li&gt;Possible missing a tonic note for some key signatures in selected note range .&lt;/li&gt;</source>
         <translation>&lt;li&gt;Najbrž v izbranem notnem razponu manjka tonična nota za kakšen tonovski način.&lt;/li&gt;</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="774"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="775"/>
         <source>Seems like this level has some mistakes</source>
         <translation>Kaže da ima ta stopnja nekaj napak</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="756"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="757"/>
         <source>&lt;li&gt;There are not enough selected notes to create a melody.&lt;/li&gt;</source>
         <translation>Ni dovolj izbranih not za ustvarjanje melodije</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="761"/>
+        <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="762"/>
         <source>&lt;li&gt;No melody was added to the list.&lt;/li&gt;</source>
         <translation>&lt;li&gt;Na seznam ni bila dodana nobena melodija.&lt;li&gt;</translation>
-    </message>
-</context>
-<context>
-    <name>TlevelHeaderWdg</name>
-    <message>
-        <source>Level name:</source>
-        <translation type="vanished">Ime stopnje:</translation>
-    </message>
-    <message>
-        <source>new level</source>
-        <translation type="vanished">nova stopnja</translation>
-    </message>
-    <message>
-        <source>Level description:</source>
-        <translation type="vanished">Opis stopnje:</translation>
-    </message>
-</context>
-<context>
-    <name>TlevelPreview</name>
-    <message>
-        <source>Level summary:</source>
-        <translation type="vanished">Povzetek stopnje:</translation>
-    </message>
-    <message>
-        <source>no level selected</source>
-        <translation type="vanished">stopnja ni bila izbrana</translation>
-    </message>
-    <message>
-        <source>fix an instrument</source>
-        <translation type="vanished">popravi inštrument</translation>
-    </message>
-    <message>
-        <source>Clef</source>
-        <translation type="vanished">Ključ</translation>
-    </message>
-    <message>
-        <source>key signature:</source>
-        <translation type="vanished">tonovski način:</translation>
-    </message>
-    <message>
-        <source>accidentals:</source>
-        <translation type="vanished">predznaki:</translation>
-    </message>
-    <message>
-        <source>none</source>
-        <translation type="vanished">ne</translation>
-    </message>
-    <message>
-        <source>proper octave is required</source>
-        <translation type="vanished">zahteva se primerno oktavo</translation>
-    </message>
-    <message>
-        <source>octave does no matter</source>
-        <translation type="vanished">oktava ni pomembna</translation>
-    </message>
-    <message>
-        <source>note range:</source>
-        <translation type="vanished">notni razpon:</translation>
-    </message>
-    <message>
-        <source>fret range:</source>
-        <translation type="vanished">razpon prečk:</translation>
     </message>
 </context>
 <context>
@@ -4239,10 +3138,6 @@ ni veljavna izpitna datoteka!</translation>
         <location filename="../src/qml/level/LevelPreview.qml" line="108"/>
         <source>key signature:</source>
         <translation>tonovski način:</translation>
-    </message>
-    <message>
-        <source>accidentals:</source>
-        <translation type="vanished">predznaki:</translation>
     </message>
     <message>
         <location filename="../src/qml/level/LevelPreview.qml" line="118"/>
@@ -4269,7 +3164,7 @@ ni veljavna izpitna datoteka!</translation>
 <context>
     <name>TlevelSelector</name>
     <message>
-        <location filename="../src/libs/core/exam/tlevel.cpp" line="79"/>
+        <location filename="../src/libs/core/exam/tlevel.cpp" line="84"/>
         <source>Cannot open file
  %1 
  for reading</source>
@@ -4278,7 +3173,7 @@ ni veljavna izpitna datoteka!</translation>
  za branje</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/exam/tlevel.cpp" line="82"/>
+        <location filename="../src/libs/core/exam/tlevel.cpp" line="87"/>
         <source>No file name specified</source>
         <translation>Ime datoteke ni bilo določeno</translation>
     </message>
@@ -4294,30 +3189,14 @@ ni veljavna izpitna datoteka!</translation>
         <translation>Stopnja ni primerna za trenutno uglasitev in/ali število prečk</translation>
     </message>
     <message>
-        <source>Load</source>
-        <translation type="vanished">Naloži</translation>
-    </message>
-    <message>
-        <source>Load level from file</source>
-        <translation type="vanished">Naloži stopnjo z datoteke</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">Odstrani</translation>
-    </message>
-    <message>
-        <source>Load exam&apos;s level</source>
-        <translation type="vanished">Naloži stopnjo izpita</translation>
-    </message>
-    <message>
-        <location filename="../src/dialogs/tlevelselector.cpp" line="283"/>
+        <location filename="../src/dialogs/tlevelselector.cpp" line="294"/>
         <source>File: %1 
  is not Nootka level file!</source>
         <translation>Datoteka: %1 
  Ni Nootkina stopenjska datoteka!</translation>
     </message>
     <message>
-        <location filename="../src/dialogs/tlevelselector.cpp" line="290"/>
+        <location filename="../src/dialogs/tlevelselector.cpp" line="301"/>
         <source>Level file
  %1 
  was corrupted and repaired!
@@ -4351,7 +3230,7 @@ ni veljavna izpitna datoteka!</translation>
         <translation>Tonovski način določi uporabnik</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="271"/>
+        <location filename="../src/charts/sorting.cpp" line="272"/>
         <source>for notes without accidentals</source>
         <translation>za note brez predzankov</translation>
     </message>
@@ -4444,41 +3323,29 @@ ni veljavna izpitna datoteka!</translation>
         <translation>Generiraj melodijo z naključnimi notami.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="490"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="505"/>
         <source>Melody</source>
         <translation>Melodija</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="492"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="507"/>
         <source>Open, save, generate and play a melody.</source>
         <translation>Odpri, shrani, generiraj in zaigraj melodijo.</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="335"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="339"/>
         <source>Open melody file</source>
         <translation>Odpri datoteko z melodijo</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="336"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="340"/>
         <source>MusicXML file</source>
         <translation>MusicXML datoteka</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="353"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="357"/>
         <source>Save melody as:</source>
         <translation>Shrani melodijo kot:</translation>
-    </message>
-    <message>
-        <source>Play melody</source>
-        <translation type="vanished">Zaigraj melodijo</translation>
-    </message>
-    <message>
-        <source>Note by note</source>
-        <translation type="vanished">Noto za noto</translation>
-    </message>
-    <message>
-        <source>Notes are written on the score one by one. Either playing, selecting fret or note name adds a new note to the staff automatically.</source>
-        <translation type="vanished">Note so zapisane na partituri ena za drugo. Nova nota se doda samodejno tako da igrate, izberete prečko, ali pa ime note.</translation>
     </message>
     <message>
         <location filename="../src/main/tmainscoreobject.cpp" line="83"/>
@@ -4486,13 +3353,13 @@ ni veljavna izpitna datoteka!</translation>
         <translation>Generiraj melodijo</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="486"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="501"/>
         <source>Score</source>
         <comment>it could be &apos;notation&apos;, &apos;staff&apos; or whatever is associated with that &apos;place to display musical notes&apos; and this the name is quite short and looks well.</comment>
         <translation>Črtovje</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="489"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="504"/>
         <source>Manage and navigate the score.</source>
         <translation>Upravljaj in pregleduj notno črtovje.</translation>
     </message>
@@ -4541,13 +3408,6 @@ ni veljavna izpitna datoteka!</translation>
         <source>notes</source>
         <comment>musical notes of course</comment>
         <translation>note</translation>
-    </message>
-</context>
-<context>
-    <name>TmainView</name>
-    <message>
-        <source>score menu</source>
-        <translation type="vanished">meni črtovja</translation>
     </message>
 </context>
 <context>
@@ -4657,81 +3517,9 @@ ni veljavna izpitna datoteka!</translation>
 <context>
     <name>TnootkaQML</name>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="485"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="500"/>
         <source>Analysis of exam results</source>
         <translation>Analiza izpitnih rezultatov</translation>
-    </message>
-</context>
-<context>
-    <name>TnotationRadioGroup</name>
-    <message>
-        <source>Naming style</source>
-        <translation type="vanished">Način poimenovanja</translation>
-    </message>
-    <message>
-        <source>letter names</source>
-        <translatorcomment>črkovna imena</translatorcomment>
-        <translation type="vanished">imena po črkah</translation>
-    </message>
-    <message>
-        <source>solfege names</source>
-        <translatorcomment>solmizacijska imena(solmizacija)</translatorcomment>
-        <translation type="vanished">solfeggio imena</translation>
-    </message>
-    <message>
-        <source>Scandinavian</source>
-        <translation type="vanished">skandinavski</translation>
-    </message>
-    <message>
-        <source>Italian</source>
-        <translation type="vanished">italijanski</translation>
-    </message>
-    <message>
-        <source>German</source>
-        <translation type="vanished">nemški</translation>
-    </message>
-    <message>
-        <source>English</source>
-        <translation type="vanished">angleški</translation>
-    </message>
-    <message>
-        <source>Dutch</source>
-        <translation type="vanished">nizozemski</translation>
-    </message>
-    <message>
-        <source>Russian</source>
-        <translation type="vanished">ruski</translation>
-    </message>
-</context>
-<context>
-    <name>TnoteControl</name>
-    <message>
-        <source>Click to add a new note</source>
-        <translation type="vanished">Kliknite za dodajanje note</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
-        <translation type="vanished">&lt;b&gt;dvojni višaj&lt;/b&gt; - zviša noto za dva poltona (cel ton).&lt;br&gt;Na kitari je dve prečki višje.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
-        <translation type="vanished">&lt;b&gt;višaj&lt;/b&gt; - zviša noto za pol tona(polton).&lt;br&gt;Na kitari je eno prečko višje.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
-        <translation type="vanished">&lt;b&gt;nižaj&lt;/b&gt; - zniža noto za pol tona (polton).&lt;br&gt;Na kitari je eno prečko nižje.</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
-        <translation type="vanished">&lt;b&gt;dvojni nižaj&lt;/b&gt; - zniža noto za dva poltona (cel ton).&lt;br&gt;Na kitari je dve prečki nižje.</translation>
-    </message>
-    <message>
-        <source>Click %1 to remove a note</source>
-        <translation type="vanished">Kliknite %1 za odstranitev note</translation>
-    </message>
-    <message>
-        <source>Click %1 to edit note name</source>
-        <translation type="vanished">Kliknite %1 za urejanje imena note</translation>
     </message>
 </context>
 <context>
@@ -4816,172 +3604,6 @@ ni veljavna izpitna datoteka!</translation>
         <source>Four-line octave</source>
         <translation>Štirikrat črtana oktava</translation>
     </message>
-    <message>
-        <source>Next note</source>
-        <translation type="vanished">Naslednja nota</translation>
-    </message>
-    <message>
-        <source>Previous note</source>
-        <translation type="vanished">Predhodna nota</translation>
-    </message>
-    <message>
-        <source>Click to see what &lt;i&gt;octaves&lt;/i&gt; are at &quot;http://en.wikipedia.org/wiki/Octave&quot;</source>
-        <comment>You can change this link to article in your language. Leave quotation matks around the address!</comment>
-        <translation type="vanished">Kliknite in poglejte kaj &lt;i&gt;oktave&lt;/i&gt; so na &quot;https://sl.wikipedia.org/wiki/Interval_(glasba)&quot;</translation>
-    </message>
-    <message>
-        <source>Octaves</source>
-        <translation type="vanished">Oktave</translation>
-    </message>
-</context>
-<context>
-    <name>TnoteNameSettings</name>
-    <message>
-        <source>names highlight color</source>
-        <translation type="vanished">imena označena z barvo</translation>
-    </message>
-    <message>
-        <source>show octave in name of note</source>
-        <translation type="vanished">pokaži oktavo in ime note</translation>
-    </message>
-    <message>
-        <source>Shows formatted note name. For small octave - the name is small letter,&lt;br&gt;for great octave - the name starts with a capital letter,&lt;br&gt;for one-line, digit &lt;sup&gt;1&lt;/sup&gt; is added, and so on.</source>
-        <translation type="vanished">Prikaže oblikovano ime note. Za malo oktavo - je ime mala črka,&lt;br&gt;za veliko oktavo - se ime začne z veliko črko,&lt;br&gt;za enkrat črtano oktavo, številka &lt;sup&gt;1&lt;/sup&gt; dodana, itd.</translation>
-    </message>
-    <message>
-        <source>note name on the staff</source>
-        <translation type="vanished">ime note na črtovju</translation>
-    </message>
-    <message>
-        <source>Shows names of all notes on the staff.</source>
-        <translation type="vanished">Prikaže imena vseh not na črtovju.</translation>
-    </message>
-</context>
-<context>
-    <name>TouchHelp</name>
-    <message>
-        <source>To edit a note in a score:&lt;br&gt;Touch area about some note and move a finger to select its pitch.&lt;br&gt;Then take the finger away to add/remove an accidental or a note.&lt;br&gt;Touch and move again to continue selecting the pitch.&lt;br&gt;To set the note - tap it quickly again.&lt;br&gt;To scroll the score with multiple staves - use two fingers.</source>
-        <translation type="vanished">Da spremeniš noto v črtovju:&lt;br&gt;Dotakni se področja okoli neke note in premakni prst za izbiro višine tona.&lt;br&gt;Potem umakni prst za dodajanje/odstranjevanje predznaka ali note.&lt;br&gt;Dotakni in premakni znova za nadaljevanje izbire višine tona.&lt;br&gt;Za določitev note - ponovno urno tapni.&lt;br&gt;Za pomikanje partiture z več črtovji - uporabi dva prsta.</translation>
-    </message>
-    <message>
-        <source>Touch a clef for a while to change it.</source>
-        <translation type="vanished">Dotakni se ključa za kratek čas za spremembo le-tega.</translation>
-    </message>
-    <message>
-        <source>Tap a fret you want to select - zoomed preview will appear.&lt;br&gt;You may drag it right or left to change the fret.&lt;br&gt;Tap desired string on the preview to set the position.</source>
-        <translation type="vanished">Tapni prečko, ki jo želiš določiti - pojavi se zoomiran pogled.&lt;br&gt;Lahko ga vlečeš levo ali desno za spremembo prečke.&lt;br&gt;Tapni željeno struno na pogledu za določitev položaja.</translation>
-    </message>
-</context>
-<context>
-    <name>TpitchView</name>
-    <message>
-        <source>Intonation - clarity of the sound. Is it in tune.</source>
-        <translation type="vanished">Intonacija - čistost zvoka. Ali je uglašeno.</translation>
-    </message>
-    <message>
-        <source>Click note symbol to change it.</source>
-        <translation type="vanished">Kliknite simbol note za spremembo.</translation>
-    </message>
-    <message>
-        <source>Pitch recognition</source>
-        <comment>Android menu entry, could be &apos;Note recognition&apos; or &apos;detection&apos; as well</comment>
-        <translation type="vanished">Prepoznava višine tona</translation>
-    </message>
-</context>
-<context>
-    <name>TquestionTip</name>
-    <message>
-        <source>Use %1</source>
-        <translation type="vanished">Uporabi %1</translation>
-    </message>
-    <message>
-        <source> Don&apos;t use accidentals!</source>
-        <translation type="vanished"> Ne uporabi predznakov!</translation>
-    </message>
-    <message>
-        <source>on %1 string.</source>
-        <translation type="vanished">na %1 struni.</translation>
-    </message>
-    <message>
-        <source>Play or sing</source>
-        <translation type="vanished">Zaigraj ali zapoj</translation>
-    </message>
-    <message>
-        <source>Play</source>
-        <translation type="vanished">Zaigraj</translation>
-    </message>
-    <message>
-        <source>Change enharmonically and show on the staff</source>
-        <translation type="vanished">Spremeni enharmonično in pokaži na črtovju</translation>
-    </message>
-    <message>
-        <source>Given note show on the staff</source>
-        <translation type="vanished">Dano noto pokaži na črtovju</translation>
-    </message>
-    <message>
-        <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
-        <comment>in key signature</comment>
-        <translation type="vanished">&lt;br&gt;&lt;b&gt;v %1 tonovskemu načinu.&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>Give name of</source>
-        <translation type="vanished">Poimenuj</translation>
-    </message>
-    <message>
-        <source>Show on the guitar</source>
-        <translation type="vanished">Pokaži na kitari</translation>
-    </message>
-    <message>
-        <source>Play or sing a melody.</source>
-        <translation type="vanished">Zaigraj ali zapoj melodijo.</translation>
-    </message>
-    <message>
-        <source>Show on the staff</source>
-        <translation type="vanished">Pokaži na notnem črtovju</translation>
-    </message>
-    <message>
-        <source>Change enharmonically and give name of</source>
-        <translation type="vanished">Spremeni enharmonično in poimenuj</translation>
-    </message>
-    <message>
-        <source>Use another style to give name of</source>
-        <translation type="vanished">Uporabi drugo poimenovanje za</translation>
-    </message>
-    <message>
-        <source>Show on the staff note played on</source>
-        <translation type="vanished">Pokaži na notnem črtovju noto zaigrano na</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;in %1 key.&lt;/b&gt;</source>
-        <comment>in key signature</comment>
-        <translation type="vanished">&lt;b&gt;v %1 ključu.&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>Show sound from position:</source>
-        <comment>... and string + fret numbers folowing</comment>
-        <translation type="vanished">Pokaži zvok položaja:</translation>
-    </message>
-    <message>
-        <source>Guess a key signature</source>
-        <translation type="vanished">Ugani tonovski način</translation>
-    </message>
-    <message>
-        <source>Listened sound show on the staff</source>
-        <translatorcomment>Poslušano pokaži na notnem črtovju (ver.)</translatorcomment>
-        <translation type="vanished">Poslušani zvok pokaži na notnem črtovju</translation>
-    </message>
-    <message>
-        <source>Give name of listened sound</source>
-        <translation type="vanished">Poimenuj poslušani zvok</translation>
-    </message>
-    <message>
-        <source>Listened sound show on the guitar</source>
-        <translation type="vanished">Poslušani zvok pokaži na kitari</translation>
-    </message>
-    <message>
-        <source>Play or sing listened sound</source>
-        <translation type="vanished">Zaigraj ali zapoj poslušani zvok</translation>
-    </message>
 </context>
 <context>
     <name>Transposition</name>
@@ -5019,72 +3641,7 @@ for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 
     </message>
 </context>
 <context>
-    <name>TremoveLevel</name>
-    <message>
-        <source>Also delete level file:</source>
-        <translation type="vanished">Prav tako izbriši stopenjsko datoteko:</translation>
-    </message>
-    <message>
-        <source>Remove</source>
-        <translation type="vanished">Odstrani</translation>
-    </message>
-    <message>
-        <source>Remove level %1 from the list</source>
-        <translation type="vanished">Odstrani stopnjo %1 s seznama</translation>
-    </message>
-</context>
-<context>
-    <name>TscoreClef</name>
-    <message>
-        <source>Click to select another clef.</source>
-        <translation type="vanished">Kliknite za izbiro drugega notnega ključa.</translation>
-    </message>
-</context>
-<context>
-    <name>TscoreKeySignature</name>
-    <message>
-        <source>Key signature - to change it, click above or below the staff or use mouse wheel.</source>
-        <translation type="vanished">Tonovski način - za spremembo, kliknite zgoraj ali pa pod črtovjem oziroma uprabite kolešček miške.</translation>
-    </message>
-</context>
-<context>
-    <name>TscoreNote</name>
-    <message>
-        <source>Click to enter a note, use horizontal scroll to change accidental.</source>
-        <translation type="vanished">Kliknite za vnos note, uporabite vodoravno pomikanje za spremembo predznaka.</translation>
-    </message>
-    <message>
-        <source>Right mouse button just selects a note.</source>
-        <translatorcomment>I think this might be wrong here. since right click selects a guessed answer not a note.</translatorcomment>
-        <translation type="vanished">Desni miškin gumb le izbere odgovor.</translation>
-    </message>
-</context>
-<context>
     <name>TscoreObject</name>
-    <message>
-        <source>Previous note</source>
-        <translation type="vanished">Prejšnja nota</translation>
-    </message>
-    <message>
-        <source>First note</source>
-        <translation type="vanished">Prva nota</translation>
-    </message>
-    <message>
-        <source>Staff above</source>
-        <translation type="vanished">Črtovje zgoraj</translation>
-    </message>
-    <message>
-        <source>Staff below</source>
-        <translation type="vanished">Črtovje spodaj</translation>
-    </message>
-    <message>
-        <source>Last note</source>
-        <translation type="vanished">Zadnja nota</translation>
-    </message>
-    <message>
-        <source>Next note</source>
-        <translation type="vanished">Naslednja nota</translation>
-    </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1083"/>
         <source>Delete note</source>
@@ -5094,18 +3651,6 @@ for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1091"/>
         <source>Delete all notes</source>
         <translation>Izbriši vse note</translation>
-    </message>
-    <message>
-        <source>Shows names of all notes on the staff.</source>
-        <translation type="vanished">Prikaže imena vseh not na črtovju.</translation>
-    </message>
-    <message>
-        <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
-        <translation type="vanished">Prikaže predznačaje tonskega načina tudi pred noto &lt;b&gt;OPOZORILO! Se dejansko ne uporablja v pravih partiturah - Uporabite to le v teoretične namene&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>Manage and navigate the score</source>
-        <translation type="vanished">Upravljaj in pregleduj notno črtovje</translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1087"/>
@@ -5191,10 +3736,6 @@ for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 
         <translation>Nastavitve preprostega izpita</translation>
     </message>
     <message>
-        <source>Simple exercise settings</source>
-        <translation type="vanished">Nastavitve preposte vaje</translation>
-    </message>
-    <message>
         <location filename="../src/qml/settings/TsettingsDialog.qml" line="27"/>
         <source>Common</source>
         <translation>Običajno</translation>
@@ -5225,22 +3766,6 @@ for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 
         <translation>Izpit</translation>
     </message>
     <message>
-        <source>Appearance</source>
-        <translation type="vanished">Videz</translation>
-    </message>
-    <message>
-        <source>Restore default settings for above parameters.</source>
-        <translation type="vanished">Obnovi privzete nastavitve za zgornje parametre.</translation>
-    </message>
-    <message>
-        <source>listening</source>
-        <translation type="vanished">poslušanje</translation>
-    </message>
-    <message>
-        <source>playing</source>
-        <translation type="vanished">predvajanje</translation>
-    </message>
-    <message>
         <location filename="../src/qml/settings/TsettingsDialog.qml" line="34"/>
         <source>Phone</source>
         <translation>Telefon</translation>
@@ -5249,13 +3774,6 @@ for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 
         <location filename="../src/qml/settings/TsettingsDialog.qml" line="34"/>
         <source>Tablet</source>
         <translation>Tablica</translation>
-    </message>
-</context>
-<context>
-    <name>TsettingsDialogBase</name>
-    <message>
-        <source>Open online documentation</source>
-        <translation type="vanished">Odpri dokumentacijo na spletu</translation>
     </message>
 </context>
 <context>
@@ -5320,44 +3838,9 @@ for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 
         <translation>Ne predlagaj mi več izpita!</translation>
     </message>
     <message>
-        <source>OK</source>
-        <translation type="vanished">Vredu</translation>
-    </message>
-    <message>
         <location filename="../src/qml/exam/TsuggestExam.qml" line="45"/>
         <source>No thanks, but check entire melody from now.</source>
         <translation>Ne hvala, toda od sedaj preverjaj celotno melodijo.</translation>
-    </message>
-</context>
-<context>
-    <name>TsupportNootka</name>
-    <message>
-        <source>You also can help with making Nootka better.</source>
-        <translation type="vanished">Tudi Vi lahko pomagate napraviti Nootko še boljšo.</translation>
-    </message>
-    <message>
-        <source>It requires little bit English, so if you can read a text below there will be something you may get involved.</source>
-        <translation type="vanished">Potrebno je le nekaj malega Angleščine, in če znate prebrati text spodaj, se bo zagotovo našlo tudi za Vas kaj primernega v čemer bi mogoče sodelovali.</translation>
-    </message>
-    <message>
-        <source>Donate Nootka campaign</source>
-        <translation type="vanished">Donirajte Nootka kampanji</translation>
-    </message>
-    <message>
-        <source>Through PayPal or a card</source>
-        <translation type="vanished">Preko PayPal-a ali kartice</translation>
-    </message>
-    <message>
-        <source>or send email for an account number</source>
-        <translation type="vanished">ali pošljite email za številko računa</translation>
-    </message>
-    <message>
-        <source>Don&apos;t worry. This window appears only once per Nootka release.&lt;br&gt;You can find it always in &apos;About Nootka&apos; dialog</source>
-        <translation type="vanished">Ne skrbite. To okno se pojavi le enkrat na Nootkino izdajo.&lt;br&gt;Vseeno lahko to najdete še vedno pod &apos;O Nootki&apos;</translation>
-    </message>
-    <message>
-        <source>Feature by feature and Nootka became big and complex project.&lt;br&gt;To be able developing this application further,&lt;br&gt;to finish version for Android (and other mobile systems later on),&lt;br&gt;an equipment capable for that is needed.&lt;br&gt;Simply, the PC I&apos;m working on is too old for that…&lt;br&gt;Donate Nootka, please.</source>
-        <translation type="vanished">Z novimi in novimi funkcijami je Nootka postal velik in zapleten projekt.&lt;br&gt;Da bi lahko razvijali to aplikacijo naprej,&lt;br&gt;da bi končali vezijo za Android (in druge mobilne sisteme potem kasneje),&lt;br&gt;je potrebna oprema, ki to zmore.&lt;br&gt;Preprosto, PC na katerem delam sedaj je prestar za to...&lt;br&gt;Prosim, donirajte Nootki.</translation>
     </message>
 </context>
 <context>
@@ -5423,100 +3906,96 @@ for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 
         <translation>Za ogled kakšnih namigov</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="383"/>
+        <location filename="../src/main/ttiphandler.cpp" line="385"/>
         <source>Change enharmonically and show on the staff</source>
         <translation>Spremeni enharmonično in pokaži na črtovju</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="385"/>
+        <location filename="../src/main/ttiphandler.cpp" line="387"/>
         <source>Given note show on the staff</source>
         <translation>Dano noto pokaži na črtovju</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="387"/>
-        <location filename="../src/main/ttiphandler.cpp" line="419"/>
-        <location filename="../src/main/ttiphandler.cpp" line="474"/>
+        <location filename="../src/main/ttiphandler.cpp" line="389"/>
+        <location filename="../src/main/ttiphandler.cpp" line="421"/>
+        <location filename="../src/main/ttiphandler.cpp" line="476"/>
         <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
         <translation>&lt;br&gt;&lt;b&gt;v %1 tonovskemu načinu.&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="390"/>
-        <location filename="../src/main/ttiphandler.cpp" line="447"/>
+        <location filename="../src/main/ttiphandler.cpp" line="392"/>
+        <location filename="../src/main/ttiphandler.cpp" line="449"/>
         <source>Give name of</source>
         <translation>Poimenuj</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="393"/>
-        <location filename="../src/main/ttiphandler.cpp" line="429"/>
+        <location filename="../src/main/ttiphandler.cpp" line="395"/>
+        <location filename="../src/main/ttiphandler.cpp" line="431"/>
         <source>Show on the guitar</source>
         <translation>Pokaži na kitari</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="395"/>
-        <location filename="../src/main/ttiphandler.cpp" line="431"/>
+        <location filename="../src/main/ttiphandler.cpp" line="397"/>
+        <location filename="../src/main/ttiphandler.cpp" line="433"/>
         <source>Point on the instrument</source>
         <translation>Pokaži na inštrumentu</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="398"/>
+        <location filename="../src/main/ttiphandler.cpp" line="400"/>
         <source>Play or sing a melody.</source>
         <translation>Zaigraj ali zapoj melodijo.</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="417"/>
-        <location filename="../src/main/ttiphandler.cpp" line="443"/>
+        <location filename="../src/main/ttiphandler.cpp" line="419"/>
+        <location filename="../src/main/ttiphandler.cpp" line="445"/>
         <source>Show on the staff</source>
         <translation>Pokaži na notnem črtovju</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="423"/>
+        <location filename="../src/main/ttiphandler.cpp" line="425"/>
         <source>Change enharmonically and give name of</source>
         <translation>Spremeni enharmonično in poimenuj</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="426"/>
+        <location filename="../src/main/ttiphandler.cpp" line="428"/>
         <source>Use another style to give name of</source>
         <translation>Uporabi drugo poimenovanje za</translation>
     </message>
     <message>
-        <source>Show on the staff note played on</source>
-        <translation type="vanished">Pokaži na notnem črtovju noto zaigrano na</translation>
-    </message>
-    <message>
-        <location filename="../src/main/ttiphandler.cpp" line="445"/>
+        <location filename="../src/main/ttiphandler.cpp" line="447"/>
         <source>&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
         <translation>&lt;b&gt;v %1 ključu.&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="449"/>
+        <location filename="../src/main/ttiphandler.cpp" line="451"/>
         <source>Show sound from position:</source>
         <comment>... and string + fret numbers folowing</comment>
         <translation>Pokaži zvok položaja:</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="470"/>
+        <location filename="../src/main/ttiphandler.cpp" line="472"/>
         <source>Guess a key signature</source>
         <translation>Ugani tonovski način</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="472"/>
+        <location filename="../src/main/ttiphandler.cpp" line="474"/>
         <source>Listened sound show on the staff</source>
         <translation>Poslušani zvok pokaži na notnem črtovju</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="479"/>
+        <location filename="../src/main/ttiphandler.cpp" line="481"/>
         <source>Give name of listened sound</source>
         <translation>Poimenuj poslušani zvok</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="483"/>
+        <location filename="../src/main/ttiphandler.cpp" line="485"/>
         <source>Listened sound show on the instrument</source>
         <translation>Poslušani zvok pokaži na inštrumentu</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="487"/>
+        <location filename="../src/main/ttiphandler.cpp" line="489"/>
         <source>Play or sing listened sound</source>
         <translation>Zaigraj ali zapoj poslušani zvok</translation>
     </message>
@@ -5526,7 +4005,7 @@ for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 
         <translation>Izberi katerokoli noto za ponovno predvajanje.</translation>
     </message>
     <message>
-        <location filename="../src/main/ttiphandler.cpp" line="524"/>
+        <location filename="../src/main/ttiphandler.cpp" line="526"/>
         <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
         <translation>Klikni nepravilne note za ogled&lt;br&gt;in poslušaj popravljene.</translation>
     </message>
@@ -5546,45 +4025,28 @@ for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 
 <context>
     <name>TtoolBar</name>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="477"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="492"/>
         <location filename="../src/main/texamexecutor.cpp" line="1271"/>
         <source>Settings</source>
         <translation>Nastavitve</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="479"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="494"/>
         <source>Application preferences</source>
         <translation>Možnosti aplikacije</translation>
     </message>
     <message>
-        <source>Analyze</source>
-        <comment>could be Chart as well</comment>
-        <translation type="vanished">Analiziraj</translation>
-    </message>
-    <message>
-        <source>Analysis of exam results</source>
-        <translation type="vanished">Analiza izpitnih rezultatov</translation>
-    </message>
-    <message>
-        <source>About</source>
-        <translation type="vanished">O</translation>
-    </message>
-    <message>
-        <source>About Nootka</source>
-        <translation type="vanished">O Nootki</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="480"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="495"/>
         <source>Level</source>
         <translation>Stopnja</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="482"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="497"/>
         <source>Level creator</source>
         <translation>Ustvarjalec stopenj</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="495"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="510"/>
         <source>Start exercises or an exam</source>
         <translation>Začni z vajami ali izpitom</translation>
     </message>
@@ -5599,20 +4061,10 @@ for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 
         <translation>Ustavi</translation>
     </message>
     <message>
-        <source>Exercise or exam preferences</source>
-        <translation type="vanished">Možnosti za vaje ali izpit</translation>
-    </message>
-    <message>
         <location filename="../src/main/texamexecutor.cpp" line="1294"/>
         <source>Next</source>
         <comment>like a next question</comment>
         <translation>Naslednje</translation>
-    </message>
-    <message>
-        <source>next question
-(space %1)</source>
-        <translation type="vanished">naslednje vprašanje
-(space %1)</translation>
     </message>
     <message>
         <location filename="../src/main/texamexecutor.cpp" line="1288"/>
@@ -5621,29 +4073,15 @@ for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 
         <translation>Ponovi</translation>
     </message>
     <message>
-        <source>repeat previous question (backspace)</source>
-        <translation type="vanished">ponovi prejšnje vprašanje (backspace)</translation>
-    </message>
-    <message>
         <location filename="../src/main/texamexecutor.cpp" line="1328"/>
         <source>Check</source>
         <comment>like a check answer</comment>
         <translation>Preveri</translation>
     </message>
     <message>
-        <source>check answer
-(enter %1)</source>
-        <translation type="vanished">preveri vprašanje
-(enter %1)</translation>
-    </message>
-    <message>
         <location filename="../src/main/texamexecutor.cpp" line="1309"/>
         <source>Play</source>
         <translation>Predvajaj</translation>
-    </message>
-    <message>
-        <source>play sound again</source>
-        <translation type="vanished">znova predvajaj zvok</translation>
     </message>
     <message>
         <location filename="../src/main/texamexecutor.cpp" line="1335"/>
@@ -5652,41 +4090,17 @@ for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 
         <translation>Pravilen</translation>
     </message>
     <message>
-        <source>correct answer
-(enter)</source>
-        <translation type="vanished">pravilen odgovor
-(enter)</translation>
-    </message>
-    <message>
-        <source>Play &lt;i&gt;middle a&lt;/i&gt; like a tuning fork.
-(Press key &apos;a&apos;)</source>
-        <translation type="vanished">Predvajaj &lt;i&gt;komorni ton a&lt;/i&gt; kot glasbene vilice.
-(Pritisni tipko &apos;a&apos;)</translation>
-    </message>
-    <message>
         <location filename="../src/main/texamexecutor.cpp" line="1321"/>
         <source>Try again</source>
         <translation>Poskusi znova</translation>
     </message>
     <message>
-        <source>Try this melody once again. (backspace)</source>
-        <translation type="vanished">Poskusi to melodijo znova. (backspace)</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="493"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="508"/>
         <source>Lessons</source>
         <translation>Lekcije</translation>
     </message>
     <message>
-        <source>Next</source>
-        <translation type="vanished">Naslednja</translation>
-    </message>
-    <message>
-        <source>Correct</source>
-        <translation type="vanished">Pravilno</translation>
-    </message>
-    <message>
-        <location filename="../src/libs/core/tnootkaqml.cpp" line="483"/>
+        <location filename="../src/libs/core/tnootkaqml.cpp" line="498"/>
         <source>Analyze</source>
         <translation>Analiziraj</translation>
     </message>
@@ -5694,47 +4108,47 @@ for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 
 <context>
     <name>Ttune</name>
     <message>
-        <location filename="../src/libs/core/music/ttune.cpp" line="34"/>
+        <location filename="../src/libs/core/music/ttune.cpp" line="36"/>
         <source>Standard: E A D G B E </source>
         <translation>Standardna: E A D G B E </translation>
     </message>
     <message>
-        <location filename="../src/libs/core/music/ttune.cpp" line="37"/>
+        <location filename="../src/libs/core/music/ttune.cpp" line="39"/>
         <source>Dropped D: D A D G B E </source>
         <translation>Znižana D: D A D G B E </translation>
     </message>
     <message>
-        <location filename="../src/libs/core/music/ttune.cpp" line="39"/>
+        <location filename="../src/libs/core/music/ttune.cpp" line="41"/>
         <source>Dummy Lute: D A D F# B E </source>
         <translation>&apos;Dummy&apos; Lutnja: D A D F# B E </translation>
     </message>
     <message>
-        <location filename="../src/libs/core/music/ttune.cpp" line="41"/>
+        <location filename="../src/libs/core/music/ttune.cpp" line="43"/>
         <source>Open: D A D G A D </source>
         <translation>Odprte: D A D G A D </translation>
     </message>
     <message>
-        <location filename="../src/libs/core/music/ttune.cpp" line="43"/>
+        <location filename="../src/libs/core/music/ttune.cpp" line="45"/>
         <source>Kouyanbaba: D A D A D F </source>
         <translation>Kojunbaba: D A D A D F </translation>
     </message>
     <message>
-        <location filename="../src/libs/core/music/ttune.cpp" line="46"/>
+        <location filename="../src/libs/core/music/ttune.cpp" line="48"/>
         <source>Standard bass: E A D G</source>
         <translation>Standardna Bas: E A D G</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/music/ttune.cpp" line="48"/>
+        <location filename="../src/libs/core/music/ttune.cpp" line="50"/>
         <source>Bass in fifths: C G D A</source>
         <translation>Bas po kvintah: C G D A</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/music/ttune.cpp" line="50"/>
+        <location filename="../src/libs/core/music/ttune.cpp" line="52"/>
         <source>5-str. bass: B E A D G</source>
         <translation>5-str. bas: B E A D G</translation>
     </message>
     <message>
-        <location filename="../src/libs/core/music/ttune.cpp" line="52"/>
+        <location filename="../src/libs/core/music/ttune.cpp" line="54"/>
         <source>6-str. bass: B E A D G C</source>
         <translation>6-str. bas: B E A D G C</translation>
     </message>
@@ -5801,10 +4215,6 @@ for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 
         <translation>Nova Nootka %1 je na voljo.</translation>
     </message>
     <message>
-        <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
-        <translation type="vanished">Da bi jo dobili, obiščite &lt;a href=&quot;&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootkin site&lt;/a&gt;.</translation>
-    </message>
-    <message>
         <location filename="../src/updater/tupdateitem.cpp" line="61"/>
         <source>News:</source>
         <translation>Novice:</translation>
@@ -5820,10 +4230,6 @@ for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 
         <translation>Posodobitve</translation>
     </message>
     <message>
-        <source>To get it, visit &lt;a href=&quot;https://nootka.sourceforge.io/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
-        <translation type="vanished">Da bi jo dobili, obiščite &lt;a href=&quot;&quot;https://nootka.sourceforge.io/index.php?C=down&quot;&gt;Nootkin site&lt;/a&gt;.</translation>
-    </message>
-    <message>
         <location filename="../src/qml/updater/TupdateSummary.qml" line="40"/>
         <source>To get it, visit %1 Nootka site</source>
         <translation>Če rabte to, obiščite %1 Nootka spletno stran</translation>
@@ -5832,17 +4238,9 @@ for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 
 <context>
     <name>VolumeBar</name>
     <message>
-        <source>Shows volume level of input sound and indicates when the note was pitch-detected.</source>
-        <translation type="vanished">Prikaže nivo glasnosti zvoka na izhodu in pokaže kdaj je bila za noto zaznana prava višina tona.</translation>
-    </message>
-    <message>
         <location filename="../src/qml/sound/VolumeBar.qml" line="35"/>
         <source>Drag a knob to adjust minimum input volume.</source>
         <translation>Povlečite gumb za nastavitev minimalne vhodne glasnosti.</translation>
-    </message>
-    <message>
-        <source>Switch on/off pitch detection</source>
-        <translation type="vanished">Vklopi/izklopi zaznavo višine tona</translation>
     </message>
     <message>
         <location filename="../src/qml/sound/VolumeBar.qml" line="35"/>
@@ -5996,96 +4394,10 @@ for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 
 <context>
     <name>about translator</name>
     <message>
-        <source>translator</source>
-        <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: Translator&apos;s&apos; Name&lt;br&gt;Tramslator&apos;s&apos; e-mail(optional)&lt;br&gt;Translator site(optional)</comment>
-        <translation type="vanished">grega trček</translation>
-    </message>
-    <message>
         <location filename="../src/libs/core/tinitcorelib.cpp" line="46"/>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: translator name, translator e-mail (optional) and translator site (optional)</comment>
         <translation>grega trček</translation>
-    </message>
-</context>
-<context>
-    <name>accidSettings</name>
-    <message>
-        <source># - sharps</source>
-        <translation type="vanished"># - višaji</translation>
-    </message>
-    <message>
-        <source>Sharps will be used in questions and answers. It has to be checked, if keys with sharps are used.</source>
-        <translation type="vanished">Višaji bodo uporabljeni v vprašanjih in odgovorih. Potrebno je označiti, če želimo uporabiti ključe z višaji.</translation>
-    </message>
-    <message>
-        <source>b - flats</source>
-        <translation type="vanished">b - nižaji</translation>
-    </message>
-    <message>
-        <source>Flats will be used in questions and answers. It has to be checked, if keys with flats are used.</source>
-        <translation type="vanished">Nižaji bodo uporabljeni v vprašanjih in odgovorih. Potrebno je označiti, če želimo uporabiti ključe z nižaji.</translation>
-    </message>
-    <message>
-        <source>x, bb - double accidentals</source>
-        <translation type="vanished">x, bb -.dvojni predznaki</translation>
-    </message>
-    <message>
-        <source>force using appropriate accidental</source>
-        <translatorcomment>V vsakem primeru uporabi primerni predznačaj (force)</translatorcomment>
-        <translation type="vanished">Vsili primeren predznačaj</translation>
-    </message>
-    <message>
-        <source>if checked, it is possible to select a note with given accidental only.</source>
-        <translation type="vanished">če je označeno, je možno določiti noto le z danim predzakom.</translation>
-    </message>
-    <message>
-        <source>use key signatures</source>
-        <translation type="vanished">uporabi oznake tonovskega načina</translation>
-    </message>
-    <message>
-        <source>single key</source>
-        <translatorcomment>en sam tonovski način</translatorcomment>
-        <translation type="vanished">v enem samem ključu</translation>
-    </message>
-    <message>
-        <source>range of keys</source>
-        <translation type="vanished">v več ključih</translation>
-    </message>
-    <message>
-        <source>Random key signature from selected range.</source>
-        <translation type="vanished">Naključne oznake tonovskega načina iz izbrane razdalje.</translation>
-    </message>
-    <message>
-        <source>select a key signature manually</source>
-        <translation type="vanished">oznake tonovskega načina izberi lastnoročno</translation>
-    </message>
-    <message>
-        <source>notes in current key signature only</source>
-        <translation type="vanished">samo note v trenutnemu tonovskemu načinu</translation>
-    </message>
-    <message>
-        <source>Elements are disabled because appropriate types of questions or answers are not selected.</source>
-        <translation type="vanished">Elementi so izključeni ker primerni tipi vprašanj ali odgovorov niso izbrani.</translation>
-    </message>
-    <message>
-        <source>accidentals</source>
-        <translation type="vanished">predznaki</translation>
-    </message>
-    <message>
-        <source>only one, selected key signature for whole exam.</source>
-        <translation type="vanished">le en sam, izbrani tonovski način za celoten izpit.</translation>
-    </message>
-    <message>
-        <source>Select a key signature. Appropriate accidentals used in exam will be automatically selected!</source>
-        <translation type="vanished">Izberi tonovski način. Primerni predznaki v izpitu bodo samodejno izbrani!</translation>
-    </message>
-    <message>
-        <source>if checked, in exam user have to select a key signature, otherwise it is shown by application.</source>
-        <translation type="vanished">če je označeno, v izpitu uporabnik sam izbere tonovski način, drugače ga prikaže aplikacija.</translation>
-    </message>
-    <message>
-        <source>Only notes from current key signature are taken. If key signature is disabled accidentals are not used.</source>
-        <translation type="vanished">Pojavljajo se le note iz trenutnega tonovskega načina. Če je možnost označevanja tonovskega načina izključena, predznaki niso uporabljeni.</translation>
     </message>
 </context>
 <context>
@@ -6115,84 +4427,10 @@ for instrumentál: z 1/enim poltonom, z 2/dvema poltonoma, s 3/tremi poltoni, s 
         <translation>za predznak:</translation>
     </message>
     <message>
-        <location filename="../src/charts/sorting.cpp" line="491"/>
+        <location filename="../src/charts/sorting.cpp" line="492"/>
         <source>none</source>
         <translatorcomment>ne</translatorcomment>
         <translation>nič</translation>
-    </message>
-</context>
-<context>
-    <name>levelSettings</name>
-    <message>
-        <source>Get more levels &lt;a href=&quot;%1&quot;&gt;from Nootka home page&lt;/a&gt;</source>
-        <translation type="vanished">Več dodatnih stopenj lahko dobite &lt;a href=&quot;%1&quot;&gt;na Nootka domači strani&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <source>Save</source>
-        <translation type="vanished">Shrani</translation>
-    </message>
-    <message>
-        <source>Save level settings to file</source>
-        <translation type="vanished">Shrani nastavitve za to stopnjo v datoteko</translation>
-    </message>
-    <message>
-        <source>Start exam</source>
-        <translation type="vanished">Začni izpit</translation>
-    </message>
-    <message>
-        <source>Start an exam on selected level</source>
-        <translation type="vanished">Začni izpit na izbrani stopnji</translation>
-    </message>
-    <message>
-        <source>Start exercise</source>
-        <translation type="vanished">Začni z vadbo</translation>
-    </message>
-    <message>
-        <source>Start an exercise on selected level</source>
-        <translation type="vanished">Začni z vadbo na izbrani stopnji</translation>
-    </message>
-</context>
-<context>
-    <name>main</name>
-    <message>
-        <source>&lt;center&gt;Can not load a font.&lt;br&gt;Try to install nootka.ttf manually.&lt;/center&gt;</source>
-        <translation type="vanished">&lt;center&gt;Ne morem naložiti pisave.&lt;br&gt;Poskusite ročno inštalirati nootka.ttf.&lt;/center&gt;</translation>
-    </message>
-</context>
-<context>
-    <name>rangeSettings</name>
-    <message>
-        <source>adjust fret range</source>
-        <translation type="vanished">spremeni razpon prečk</translation>
-    </message>
-    <message>
-        <source>Adjust fret range in a level to currently selected note range</source>
-        <translation type="vanished">Spremeni razpon prečk v stopnji na trenutno izbran razpon not</translation>
-    </message>
-    <message>
-        <source>from</source>
-        <translation type="vanished">od</translation>
-    </message>
-    <message>
-        <source>to</source>
-        <translation type="vanished">do</translation>
-    </message>
-    <message>
-        <source>adjust note range</source>
-        <translatorcomment>spremeni notni obseg</translatorcomment>
-        <translation type="vanished">spremeni razpon not</translation>
-    </message>
-    <message>
-        <source>Adjust note range in a level to currently selected fret range</source>
-        <translation type="vanished">Spremeni razpon not v stopnji na trenuntno izbran razpon prečk</translation>
-    </message>
-    <message>
-        <source>available strings:</source>
-        <translation type="vanished">strune na voljo:</translation>
-    </message>
-    <message>
-        <source>Uncheck strings if you want to skip them in an exam.</source>
-        <translation type="vanished">Odstrani označbo strune, če jih ne želiš v izpitu.</translation>
     </message>
 </context>
 </TS>

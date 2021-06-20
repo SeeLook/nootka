@@ -948,10 +948,6 @@ But better keep them short, so divide them first in some external software.</sou
         <source>Start/stop pitch detection</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>Tuner</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>QObject</name>
@@ -1696,6 +1692,10 @@ But better keep them short, so divide them first in some external software.</sou
         <source>Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Tuner</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TempoMenu</name>
@@ -2269,6 +2269,43 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Tenor Saxophone</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TintonationCombo</name>
+    <message>
+        <source>intonation accuracy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>do not check</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>gums pain</source>
+        <comment>We used to say that gums or teeth are paining when music is out of tune but it isn&apos;t official term.</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>violinist beginner</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>old strings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>well tuned instrument</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>perfect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>cents</source>
+        <comment>unit of measure used for musical intervals. This text always is used in context: &apos; ± [5, 10, 20, 30] cents &apos;</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
