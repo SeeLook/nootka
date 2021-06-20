@@ -178,51 +178,51 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
       while (xml.readNextStartElement()) {
 /** [attributes] */
         if (xml.name() == QLatin1String("attributes")) {
-          if (barNr == 1) {
-            Tclef::EclefType clef1 = Tclef::NoClef, clef2 = Tclef::NoClef;
-            int staffCnt = 1;
-            while (xml.readNextStartElement()) {
-              if (xml.name() == QLatin1String("staves")) {
-                  staffCnt = xml.readElementText().toInt();
-                  if (staffCnt > 2) {
-                    qDebug() << "[Tmelody] Read from more staves is unsupported";
-                    staffCnt = 2;
-                  }
-              } else if (xml.name() == QLatin1String("clef")) {
-                  Tclef cl;
-                  cl.fromXml(xml);
-                  Tclef::EclefType tmpClef = cl.type();
-                  if (tmpClef == Tclef::NoClef)
-                      unsupportedClef(tmpClef);
-                  if (clef1 == Tclef::NoClef) // detecting piano staff
-                      clef1 = tmpClef;
-                  else if (clef2 == Tclef::NoClef)
-                      clef2 = tmpClef;
-              } else if (xml.name() == QLatin1String("key"))
-                  m_key.fromXml(xml);
-/** [meter (time signature)] */
-              else if (xml.name() == QLatin1String("time"))
-                  m_meter->fromXml(xml);
-              else
-                  xml.skipCurrentElement();
+            if (barNr == 1) {
+                Tclef::EclefType clef1 = Tclef::NoClef, clef2 = Tclef::NoClef;
+                int staffCnt = 1;
+                while (xml.readNextStartElement()) {
+                  if (xml.name() == QLatin1String("staves")) {
+                      staffCnt = xml.readElementText().toInt();
+                      if (staffCnt > 2) {
+                        qDebug() << "[Tmelody] Read from more staves is unsupported";
+                        staffCnt = 2;
+                      }
+                  } else if (xml.name() == QLatin1String("clef")) {
+                      Tclef cl;
+                      cl.fromXml(xml);
+                      Tclef::EclefType tmpClef = cl.type();
+                      if (tmpClef == Tclef::NoClef)
+                        unsupportedClef(tmpClef);
+                      if (clef1 == Tclef::NoClef) // detecting piano staff
+                        clef1 = tmpClef;
+                      else if (clef2 == Tclef::NoClef)
+                        clef2 = tmpClef;
+                  } else if (xml.name() == QLatin1String("key"))
+                      m_key.fromXml(xml);
+  /** [meter (time signature)] */
+                  else if (xml.name() == QLatin1String("time"))
+                      m_meter->fromXml(xml);
+                  else
+                      xml.skipCurrentElement();
+                }
+                if (staffCnt == 2) {
+                    if (clef1 == Tclef::Treble_G && clef2 == Tclef::Bass_F)
+                      m_clef = Tclef::PianoStaffClefs;
+                    else
+                      unsupportedClef(m_clef);
+                } else
+                    m_clef = clef1;
+            } else {
+                qDebug() << "[Tmelody] Change of any melody attributes (clef, meter, key signature) in the middle of a melody is not supported!";
+                xml.skipCurrentElement();
             }
-            if (staffCnt == 2) {
-              if (clef1 == Tclef::Treble_G && clef2 == Tclef::Bass_F)
-                m_clef = Tclef::PianoStaffClefs;
-              else
-                unsupportedClef(m_clef);
-            } else
-                m_clef = clef1;
-          } else {
-              qDebug() << "[Tmelody] Change of any melody attributes (clef, meter, key signature) in the middle of a melody is not supported!";
-              xml.skipCurrentElement();
-          }
 /** [note] */
         } else if (xml.name() == QLatin1String("note")) {
             int staffNr = 0;
             int *staffPtr = nullptr;
             if (m_clef == Tclef::PianoStaffClefs)
-              staffPtr = & staffNr;
+              staffPtr = &staffNr;
             Tchunk ch;
             auto chunkOk = ch.fromXml(xml, staffPtr);
             if (!(chunkOk & Tchunk::e_xmlUnsupported)) {
@@ -267,7 +267,7 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
                 }
                 addNote(ch);
                 if (dblDot) {
-                  // xml import disallows eights with double dots, so divide rhythmic value easily
+                  // XML import disallows eights with double dots, so divide rhythmic value easily
                   Trhythm r(static_cast<Trhythm::Erhythm>(ch.p().rhythm() + 2));
                   r.setTie(tieCont ? Trhythm::e_tieCont : Trhythm::e_tieEnd);
                   Tchunk dblDotCh(Tnote(ch.p(), r), ch.t());
@@ -300,13 +300,13 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
                           if (xml.name() == QLatin1String("beat-unit")) {
                               auto beatUnit = xml.readElementText();
                               if (beatUnit == QLatin1String("quarter"))
-                                  beatWillBe = Tmeter::BeatQuarter;
+                                beatWillBe = Tmeter::BeatQuarter;
                               else if (beatUnit == QLatin1String("eighth"))
-                                  beatWillBe = Tmeter::BeatEighth;
+                                beatWillBe = Tmeter::BeatEighth;
                               else if (beatUnit == QLatin1String("half"))
-                                  beatWillBe = Tmeter::BeatHalf;
+                                beatWillBe = Tmeter::BeatHalf;
                               else
-                                  qDebug() << "[Tmelody] Unknown 'beat-unit' value. Stay with 'quarter' beat.";
+                                qDebug() << "[Tmelody] Unknown 'beat-unit' value. Stay with 'quarter' beat.";
                           } else if (xml.name() == QLatin1String("beat-unit-dot")) {
                               dotWillBe = true;
                               xml.skipCurrentElement();
@@ -476,6 +476,8 @@ bool Tmelody::processXMLData(QXmlStreamReader& xml) {
       return false;
     }
   }
+
+  bool madeWithNootka = false;
   while (xml.readNextStartElement()) {
     if (xml.name() == QLatin1String("movement-title")) {
         m_title = xml.readElementText();
@@ -489,12 +491,20 @@ bool Tmelody::processXMLData(QXmlStreamReader& xml) {
     } else if (xml.name() == QLatin1String("identification")) {
         while (xml.readNextStartElement()) {
           if (xml.name() == QLatin1String("creator")) {
-            if (xml.attributes().value("type").toString() == QLatin1String("composer"))
-              m_composer = xml.readElementText();
-            else
-              xml.skipCurrentElement();
+              if (xml.attributes().value("type").toString() == QLatin1String("composer"))
+                m_composer = xml.readElementText();
+              else
+                xml.skipCurrentElement();
+          } else if (xml.name() == QLatin1String("encoding")) {
+              while (xml.readNextStartElement()) {
+                if (xml.name() == QLatin1String("software")) {
+                    if (xml.readElementText().startsWith(QLatin1String("Nootka")))
+                      madeWithNootka = true;
+                } else
+                    xml.skipCurrentElement();
+              }
           } else
-            xml.skipCurrentElement();
+              xml.skipCurrentElement();
         }
     } else if (xml.name() == QLatin1String("part")) {
         if (!fromXml(xml))
