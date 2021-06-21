@@ -1,0 +1,114 @@
+/***************************************************************************
+ *   Copyright (C) 2021 by Tomasz Bojczuk                                  *
+ *   seelook@gmail.com                                                     *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *  You should have received a copy of the GNU General Public License      *
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
+ ***************************************************************************/
+
+#ifndef TIMPORTSCORE_H
+#define TIMPORTSCORE_H
+
+
+#include <nootkacoreglobal.h>
+#include <QtCore/qobject.h>
+
+
+#define IMPORT_SCORE TimportScore::instance()
+
+
+class Tmelody;
+class Tchunk;
+class TscoreObject;
+
+
+class NOOTKACORE_EXPORT TmelodyPart : public QObject
+{
+
+  Q_OBJECT
+
+  Q_PROPERTY(int part READ part NOTIFY melodyChanged)
+  Q_PROPERTY(int staff READ staff NOTIFY melodyChanged)
+  Q_PROPERTY(int voice READ voice NOTIFY melodyChanged)
+
+public:
+  explicit TmelodyPart (TmelodyPart* parent = nullptr, int partId = 0, int staffNr = 0, int voiceNr = 0, int snippId = 0);
+    ~TmelodyPart() override;
+
+  int part() const { return m_partId; }
+  int staff() const { return m_staffNr; }
+  int voice() const { return m_voiceNr; }
+  Tmelody* melody() { return m_melody; }
+  void setMelody(Tmelody* m);
+
+  int count() const { return parts.count(); }
+
+  QList<TmelodyPart*>    parts;
+
+  Q_INVOKABLE void setScoreObject(TscoreObject* sObj);
+
+signals:
+  void melodyChanged();
+
+private:
+  TmelodyPart          *m_parent = nullptr;
+  int                   m_partId = 0;
+  int                   m_staffNr = 0;
+  int                   m_voiceNr = 0;
+  int                   m_snippet = 0;
+  Tmelody              *m_melody = nullptr;
+  TscoreObject         *m_scoreObj = nullptr;
+};
+
+
+/**
+ * @todo write docs
+ */
+class NOOTKACORE_EXPORT TimportScore : public QObject
+{
+
+  Q_OBJECT
+
+  friend class TmelodyPart;
+
+public:
+  TimportScore(Tmelody* melody, QObject *parent = nullptr);
+  ~TimportScore();
+
+  static TimportScore* instance() { return m_instance; }
+
+  void addNote(int partId, int staff, int voice, int snipp, const Tchunk& note);
+
+  Tmelody* mainMelody() { return m_melody; }
+
+  QList<TmelodyPart*>* parts() { return &m_parts; }
+
+  QList<QObject*> model() { return m_partsModel; }
+
+      /**
+       * @p TRUE when there are more melodies to import
+       */
+  bool hasMoreParts() const { return m_hasMoreParts; }
+
+protected:
+  void appendPart(TmelodyPart* p);
+
+private:
+  static TimportScore        *m_instance;
+  QList<TmelodyPart*>         m_parts;
+  QList<QObject*>             m_partsModel;
+  bool                        m_hasMoreParts = false;
+  Tmelody                    *m_melody; /**< Main melody */
+};
+
+#endif // TIMPORTSCORE_H

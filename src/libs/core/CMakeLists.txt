@@ -41,6 +41,7 @@ set(LIB_NOOTKACORE_SRC
   music/tnotestruct.cpp
   music/ttechnical.cpp
   music/trtmgroup.cpp
+  music/timportscore.cpp
 
   score/tscoreobject.cpp
   score/tstaffitem.cpp
