@@ -1863,6 +1863,7 @@ Legyenek minél rövidebbek, ha kell előbb darabold fel egy erre megfelelő cé
         <source>%n attempt(s)</source>
         <translation>
             <numerusform>%n próbálkozás(ok)</numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
 </context>
@@ -1960,6 +1961,7 @@ Legyenek minél rövidebbek, ha kell előbb darabold fel egy erre megfelelő cé
         <source>Melody was played &lt;b&gt;%n&lt;/b&gt; times</source>
         <translation>
             <numerusform>A dallam&lt;b&gt;%n&lt;/b&gt; alkalommal hangzott el</numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
 </context>
@@ -2176,6 +2178,7 @@ Legyenek minél rövidebbek, ha kell előbb darabold fel egy erre megfelelő cé
         <comment>like: &apos;1 attempt&apos; or &apos;121 attempts&apos;</comment>
         <translation>
             <numerusform>%n próbálkozás</numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -3414,6 +3417,7 @@ nem Nootka fájl!</translation>
         <source>The octave &lt;b&gt;%n&lt;/b&gt; in International Pitch Notation</source>
         <translation>
             <numerusform>Oktáv &lt;b&gt;%n&lt;/b&gt; Nemzetközi Hangmagasság Jelölésben</numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
 </context>
@@ -3591,6 +3595,7 @@ nem Nootka fájl!</translation>
         <source>semitone(s)</source>
         <translation>
             <numerusform>félhang(ok)</numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message>
