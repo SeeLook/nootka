@@ -66,7 +66,7 @@
     <message>
         <location filename="../src/qml/level/AccidsPage.qml" line="136"/>
         <source>Select a key signature. Appropriate accidentals used in this level will be selected automatically.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Select a key signature. Appropriate accidentals used in exam will be automatically selected!</source>
@@ -378,7 +378,7 @@
     <message>
         <location filename="../src/libs/core/exam/tresulttext.cpp" line="70"/>
         <source>incorrect rhythm</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/libs/core/exam/tresulttext.cpp" line="78"/>
@@ -505,7 +505,7 @@
     <message>
         <location filename="../src/qml/exam/Certificate.qml" line="113"/>
         <source>Stop exam</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -513,7 +513,7 @@
     <message>
         <location filename="../src/charts/qml/ChartDrawer.qml" line="184"/>
         <source>keep opened</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -590,12 +590,12 @@
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="127"/>
         <source>wait for correct note</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="129"/>
         <source>When melody is played from score, every note is checked immediately and next note can be played only when the previous one was correct. When unset, notes are checked only after playing the last one (or check button was clicked).</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="135"/>
@@ -610,7 +610,7 @@
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="145"/>
         <source>To improve association of note in the score or position on the instrument to note name, Nootka will display names even if neither question nor answer is related to it.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="162"/>
@@ -818,12 +818,12 @@
     <message>
         <location filename="../src/qml/settings/GlobalPage.qml" line="100"/>
         <source>enable animations</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/GlobalPage.qml" line="109"/>
         <source>show hints</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/GlobalPage.qml" line="121"/>
@@ -833,12 +833,12 @@
     <message>
         <location filename="../src/qml/settings/GlobalPage.qml" line="133"/>
         <source>Scaling factor of visible texts and others GUI elements.&lt;br&gt;Requires application restart.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/GlobalPage.qml" line="139"/>
         <source>scale</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/GlobalPage.qml" line="161"/>
@@ -852,12 +852,12 @@
     <message>
         <location filename="../src/qml/gotit/GotIt.qml" line="82"/>
         <source>GOT IT!</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/GotIt.qml" line="86"/>
         <source>remind me next time</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -865,37 +865,37 @@
     <message>
         <location filename="../src/qml/gotit/HandleScore.qml" line="63"/>
         <source>Editing score with touch</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/HandleScore.qml" line="69"/>
         <source>Touch and hold area of a note you want to edit.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/HandleScore.qml" line="70"/>
         <source>Move finger left or right to see edited note.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/HandleScore.qml" line="71"/>
         <source>Then move finger up or down to find desired note pitch.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/HandleScore.qml" line="72"/>
         <source>Rise the finger.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/HandleScore.qml" line="73"/>
         <source>If necessary, select accidental or rhythmic value.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/HandleScore.qml" line="74"/>
         <source>Finally, tap selected note shortly.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -903,7 +903,7 @@
     <message>
         <location filename="../src/qml/about/HelpPage.qml" line="31"/>
         <source>Help topics</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -942,13 +942,13 @@
         <location filename="../src/qml/settings/InstrumentPage.qml" line="187"/>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="188"/>
         <source>color of a pointer on an instrument</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="196"/>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="197"/>
         <source>color of a selection</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="31"/>
@@ -983,7 +983,7 @@
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="140"/>
         <source>Difference between score notation and real sound pitch.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="151"/>
@@ -1055,7 +1055,7 @@
     <message>
         <location filename="../src/qml/level/LevelCreator.qml" line="23"/>
         <source>Rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/LevelCreator.qml" line="24"/>
@@ -1152,7 +1152,7 @@
     <message>
         <location filename="../src/qml/level/LevelPreview.qml" line="135"/>
         <source>Answers</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1161,7 +1161,7 @@
         <location filename="../src/qml/level/LevelPreview.qml" line="126"/>
         <location filename="../src/qml/level/LevelPreview.qml" line="136"/>
         <source>not selected</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1169,12 +1169,12 @@
     <message>
         <location filename="../levels/guitar/simple melodies-guitar.nel" line="9"/>
         <source>Simple melodies</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../levels/guitar/simple melodies-guitar.nel" line="10"/>
         <source>Play popular, simple melodies on your instrument.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1240,12 +1240,12 @@
     <message>
         <location filename="../src/qml/level/MaxIntervalTile.qml" line="16"/>
         <source>Maximal interval between notes used in a melody (in semitones).</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/MaxIntervalTile.qml" line="22"/>
         <source>Max interval</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1253,7 +1253,7 @@
     <message>
         <location filename="../src/qml/score/MelGenDialog.qml" line="51"/>
         <source>Measures number</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1262,7 +1262,7 @@
         <location filename="../src/qml/level/MelodyListView.qml" line="32"/>
         <source>Add here melodies from Music XML files.
 But better keep them short, so divide them first in some external software.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1270,17 +1270,17 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/score/MelodyNameDialog.qml" line="33"/>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/main/tmainscoreobject.cpp" line="515"/>
         <source>Nootka melody</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyNameDialog.qml" line="49"/>
         <source>Composer</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1288,7 +1288,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="27"/>
         <source>They will be transposed if key signatures are set to be used and any of them differs from the key(s) defined below.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Melodies are composed from a note range defined on the &apos;Range&apos; page.</source>
@@ -1314,27 +1314,27 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="28"/>
         <source>Melodies are composed from notes in range defined on the &apos;Range&apos; page.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="30"/>
         <source>Melodies are selected from the list below.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="43"/>
         <source>from notes in range</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="43"/>
         <source>from selected notes</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="43"/>
         <source>from set of melodies</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="58"/>
@@ -1349,27 +1349,27 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="92"/>
         <source>random order</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="96"/>
         <source>When checked, melodies from the list will be asked in random order.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="102"/>
         <source>How many times during an exam a melody from the list has to be played or written correctly. Warning! It multiplies question number.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="108"/>
         <source>number of repeats</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="142"/>
         <source>Play in tempo</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1440,7 +1440,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/gotit/NoteSelected.qml" line="40"/>
         <source>Note selection and playing</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1448,7 +1448,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/instruments/OutScaleTip.qml" line="27"/>
         <source>Out of instrument scale!</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1456,27 +1456,27 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/settings/+android/PhonePage.qml" line="29"/>
         <source>screen always on</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/+android/PhonePage.qml" line="34"/>
         <source>disable screen rotation</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/+android/PhonePage.qml" line="39"/>
         <source>full screen</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/+android/PhonePage.qml" line="46"/>
         <source>Touching a screen suspends pitch detection for 1 second but some advanced users may want to disable that.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/+android/PhonePage.qml" line="50"/>
         <source>suspend mic when screen was touched</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1484,7 +1484,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/sound/PitchView.qml" line="44"/>
         <source>Start/stop pitch detection</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1636,7 +1636,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/level/QuestionsBox.qml" line="22"/>
         <source>Select the type of answers for this kind of question.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/QuestionsBox.qml" line="59"/>
@@ -1723,12 +1723,12 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/level/QuestionsPage.qml" line="66"/>
         <source>Kind of questions and answers:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/QuestionsPage.qml" line="82"/>
         <source>Question</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/QuestionsPage.qml" line="164"/>
@@ -1836,12 +1836,12 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/level/RhythmDiversityTile.qml" line="16"/>
         <source>Smaller values - less number of selected rhythmic note groups will be used, biggest value - melody will consist maximal possible number of selected groups.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/RhythmDiversityTile.qml" line="22"/>
         <source>Rhythmic diversity</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1849,22 +1849,22 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/shared/RhythmSelector.qml" line="23"/>
         <source>rhythmic groups</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/shared/RhythmSelector.qml" line="86"/>
         <source>Filters</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/shared/RhythmSelector.qml" line="88"/>
         <source>basic rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/shared/RhythmSelector.qml" line="97"/>
         <source>rhythms with dots</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1872,22 +1872,22 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/level/RhythmsPage.qml" line="23"/>
         <source>Select any rhythm and time signature to be used in this level, otherwise melodies will not have rhythmic values, just bare note-heads.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/RhythmsPage.qml" line="63"/>
         <source>Time signatures to use in this level.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/RhythmsPage.qml" line="66"/>
         <source>Number of measures in a melody. If &apos;variable&apos; is set, it will grow up to the given value as an exercise or an exam is progressing.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/RhythmsPage.qml" line="83"/>
         <source>variable</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1967,12 +1967,12 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="73"/>
         <source>Use rhythms or only bare note heads.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="77"/>
         <source>enable rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="86"/>
@@ -1987,24 +1987,24 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="245"/>
         <source>Octave numbers</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="248"/>
         <location filename="../src/qml/settings/ScorePage.qml" line="263"/>
         <source>scientific</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="254"/>
         <location filename="../src/qml/settings/ScorePage.qml" line="263"/>
         <source>musical</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="273"/>
         <source>Scientific (international) pitch notation is widely used in technical sources and tuning devices/applications, when the other notation style is used more in music publications.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ScorePage.qml" line="83"/>
@@ -2069,13 +2069,13 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/score/ScoreToolbox.qml" line="124"/>
         <source>Tie - connect or disconnect selected note with previous one if both notes have the same pitch.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1142"/>
         <source>tie</source>
         <comment>To translate it properly, check please meaning of &apos;tie&apos; in musical context.</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2099,42 +2099,42 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/gotit/SoundInfo.qml" line="45"/>
         <source>Nootka can hear You!</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/SoundInfo.qml" line="60"/>
         <source>Nootka recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/SoundInfo.qml" line="63"/>
         <source>Be sure your system is able to record what are you playing.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/SoundInfo.qml" line="64"/>
         <source>Adjust minimal note volume a little below of your input volume level.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/SoundInfo.qml" line="85"/>
         <source>Play a few sounds to figure out their maximal volume,&lt;br&gt;then set level knob about 10-20% below.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/SoundInfo.qml" line="132"/>
         <source>Later, you can adjust the volume level in Nootka tuner window.&lt;br&gt;Invoke it from main menu or use any volume key.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/SoundInfo.qml" line="136"/>
         <source>Aim to play loud and clear and avoid dirty sounds specific to your instrument.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/SoundInfo.qml" line="137"/>
         <source>If you want Nootka to write your melody with rhythm then you have to play exactly in selected tempo - preferably with a metronome. But during practice, when you are playing melody given by the application, the tempo can be at will unless some level defines it.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2185,7 +2185,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/settings/SoundPage.qml" line="216"/>
         <source>output device</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/SoundPage.qml" line="75"/>
@@ -2227,7 +2227,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/settings/MiddleA440.qml" line="49"/>
         <source>[Hz]</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>skip stiller than</source>
@@ -2384,7 +2384,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/exam/StartExam.qml" line="130"/>
         <source>Select an exam to continue</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Select a level suitable for you&lt;br&gt;or create new one.</source>
@@ -2622,7 +2622,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="89"/>
         <source>student name:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="90"/>
@@ -2653,7 +2653,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="97"/>
         <source>accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="98"/>
@@ -2699,7 +2699,7 @@ But better keep them short, so divide them first in some external software.</sou
         <location filename="../src/charts/tanalysdialog.cpp" line="285"/>
         <source>File: %1 
  is not valid exam file!</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/charts/tanalysdialog.cpp" line="295"/>
@@ -2843,7 +2843,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/libs/core/music/tclef.cpp" line="46"/>
         <source>neutral</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tclef.cpp" line="57"/>
@@ -2863,17 +2863,17 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/libs/core/music/tclef.cpp" line="64"/>
         <source>Clef for bass guitar and double bass, also used for cello and trombone.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tclef.cpp" line="75"/>
         <source>percussion clef</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tclef.cpp" line="76"/>
         <source>For rhythms only, note pitch is undefined.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>clef F dropped octave down</source>
@@ -2919,42 +2919,42 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="33"/>
         <source>Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="33"/>
         <source>beats per minute</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="34"/>
         <source>Mouse wheel changes tempo promptly (also with %1 key). Click for more options.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="62"/>
         <source>Countdown before playing or listening.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="109"/>
         <source>Audible metronome</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="109"/>
         <source>Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="157"/>
         <source>Tuner</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoBar.qml" line="168"/>
         <source>Metronome</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -2962,34 +2962,34 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/sound/TempoMenu.qml" line="99"/>
         <source>tempo</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoMenu.qml" line="122"/>
         <source>Tap tempo</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoMenu.qml" line="132"/>
         <source>Metronome visible</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoMenu.qml" line="141"/>
         <location filename="../src/qml/sound/TempoMenu.qml" line="160"/>
         <source>Count up</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoMenu.qml" line="204"/>
         <location filename="../src/qml/sound/TempoMenu.qml" line="208"/>
         <source>Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TempoMenu.qml" line="219"/>
         <source>round to:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -3007,7 +3007,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/libs/core/tnootkaqml.cpp" line="530"/>
         <source>on instrument</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>as position on the fingerboard</source>
@@ -3056,17 +3056,17 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/level/QuestionsPage.qml" line="128"/>
         <source>Listen to a melody and repeat it on your instrument</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/QuestionsPage.qml" line="133"/>
         <source>repeat melody</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/main/ttiphandler.cpp" line="161"/>
         <source>Let&apos;s start!</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -3163,7 +3163,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/main/texamexecutor.cpp" line="1831"/>
         <source>There is not such a note in this melody!</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/main/texamexecutor.cpp" line="1840"/>
@@ -3567,17 +3567,17 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/main/texamview.cpp" line="257"/>
         <source>Exam effectiveness (this question effectiveness)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/main/texamview.cpp" line="268"/>
         <source>Answer time</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/main/texamview.cpp" line="273"/>
         <source>Exam time</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/main/texamview.cpp" line="222"/>
@@ -3662,27 +3662,27 @@ But better keep them short, so divide them first in some external software.</sou
         <location filename="../src/main/tgotit.cpp" line="146"/>
         <source>note cursor</source>
         <comment>it might be just &apos;cursor&apos; as well</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/main/tgotit.cpp" line="151"/>
         <source>Note becomes selected (highlighted) when it was edited or clicked with right mouse button or tapped shortly.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/main/tgotit.cpp" line="153"/>
         <source>If any note on the score is selected, only this particular one is changed by playing or clicking on an instrument. And only pitch of that note changes - rhythmic value remains the same. </source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/main/tgotit.cpp" line="160"/>
         <source>When no note is chosen on the score, note cursor is highlighted and blinks. Notes are added one by one, either by playing real instrument or by selecting a sound on instrument displayed by the application.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/main/tgotit.cpp" line="168"/>
         <source>To deselect the note just click or tap some free part of the score sheet or use arrow keys to navigate to the note cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -3746,22 +3746,22 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/libs/core/music/tinstrument.cpp" line="31"/>
         <source>Piano</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tinstrument.cpp" line="31"/>
         <source>Bandoneon</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tinstrument.cpp" line="32"/>
         <source>Alt Saxophone</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tinstrument.cpp" line="32"/>
         <source>Tenor Saxophone</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -3878,7 +3878,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/dialogs/tlevelsdefs.cpp" line="80"/>
         <source>Some note of C-major scale point on the instrument, or give its name or show in the score.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/dialogs/tlevelsdefs.cpp" line="106"/>
@@ -4063,17 +4063,17 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="744"/>
         <source>&lt;li&gt;There are not enough selected notes to create a melody.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="749"/>
         <source>&lt;li&gt;No melody was added to the list.&lt;/li&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="762"/>
         <source>Seems like this level has some mistakes</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -4178,7 +4178,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/dialogs/tlevelselector.cpp" line="182"/>
         <source>Load exam level</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Load</source>
@@ -4440,7 +4440,7 @@ But better keep them short, so divide them first in some external software.</sou
         <location filename="../src/main/tmainscoreobject.cpp" line="93"/>
         <source>notes</source>
         <comment>musical notes of course</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -4494,7 +4494,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/mobile/tmobilemenu.cpp" line="50"/>
         <source>Tempo</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -4513,7 +4513,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message numerus="yes">
         <location filename="../src/main/tnameitem.cpp" line="212"/>
         <source>The octave &lt;b&gt;%n&lt;/b&gt; in International Pitch Notation</source>
-        <translation type="unfinished">
+        <translation>
             <numerusform></numerusform>
             <numerusform></numerusform>
             <numerusform></numerusform>
@@ -4803,7 +4803,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/shared/Transposition.qml" line="25"/>
         <source>Transposition</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message numerus="yes">
         <location filename="../src/qml/shared/Transposition.qml" line="33"/>
@@ -4899,7 +4899,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1093"/>
         <source>Insert note</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1097"/>
@@ -4909,54 +4909,54 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1101"/>
         <source>Edit score</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1106"/>
         <source>whole note</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1110"/>
         <source>half note</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1114"/>
         <source>quarter note</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1118"/>
         <source>eighth note</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1122"/>
         <source>sixteenth note</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1126"/>
         <source>rest</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1130"/>
         <source>dot</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1134"/>
         <source>rise</source>
         <comment>as such as sharps rise note</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/libs/core/score/tscoreobject.cpp" line="1138"/>
         <source>lower</source>
         <comment>as such as flats lower note</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -4997,12 +4997,12 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/settings/TsettingsDialog.qml" line="34"/>
         <source>Phone</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/TsettingsDialog.qml" line="34"/>
         <source>Tablet</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/settings/TsettingsDialog.qml" line="30"/>
@@ -5059,7 +5059,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="88"/>
         <source>Exam results</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/libs/core/exam/textrans.h" line="94"/>
@@ -5106,7 +5106,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/main/texercises.cpp" line="118"/>
         <source>No thanks, but check entire melody from now.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/main/texercises.cpp" line="119"/>
@@ -5248,7 +5248,7 @@ But better keep them short, so divide them first in some external software.</sou
         <location filename="../src/main/ttiphandler.cpp" line="256"/>
         <source>It should be %1</source>
         <comment>note name follows</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/main/ttiphandler.cpp" line="388"/>
@@ -5283,7 +5283,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/main/ttiphandler.cpp" line="493"/>
         <source>Listened sound show on the instrument</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/main/ttiphandler.cpp" line="70"/>
@@ -5294,7 +5294,7 @@ But better keep them short, so divide them first in some external software.</sou
         <location filename="../src/main/ttiphandler.cpp" line="400"/>
         <location filename="../src/main/ttiphandler.cpp" line="441"/>
         <source>Point on the instrument</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/main/ttiphandler.cpp" line="427"/>
@@ -5563,12 +5563,12 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/sound/TunerDialog.qml" line="95"/>
         <source>output volume</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/sound/TunerDialog.qml" line="228"/>
         <source>Nooter - Nootka tuner</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -5627,7 +5627,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/updater/tupdatesummary.cpp" line="56"/>
         <source>To get it, visit %1 Nootka site</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>To get it, visit &lt;a href=&quot;http://nootka.sourceforge.net/index.php?C=down&quot;&gt;Nootka site&lt;/a&gt;.</source>
@@ -5668,7 +5668,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/sound/VolumeBar.qml" line="36"/>
         <source>Volume level of input sound.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/sound/VolumeBar.qml" line="36"/>
@@ -5697,7 +5697,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/wizard/WizardBass.qml" line="34"/>
         <source>Musical notation for bass guitar uses bass clef (clef F), but the notes sound one octave lower. It means bass guitar is transposing instrument and it transposes one octave down.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -5726,27 +5726,27 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/wizard/WizardMode.qml" line="35"/>
         <source>In main Nootka window score can be displayed in a few different ways, depends on experience level.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/wizard/WizardMode.qml" line="56"/>
         <source>For beginners, when you don&apos;t know musical notation at all.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/wizard/WizardMode.qml" line="139"/>
         <source>score without rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/wizard/WizardMode.qml" line="146"/>
         <source>When you already know musical notation a little but you cannot play your instrument fluently yet.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/wizard/WizardMode.qml" line="185"/>
         <source>full notation</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -5785,12 +5785,12 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/wizard/WizardPiano.qml" line="20"/>
         <source>Notes for piano are written on the grand staff - two staves joined with brace. Usually the upper one, with treble clef is for right hand and the lower one with bass clef is for left hand.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/wizard/WizardPiano.qml" line="21"/>
         <source>Although for exercise purposes and also due to Nootka is supporting only single voice, sometimes just one of the staves can be used as well.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -5798,7 +5798,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <location filename="../src/qml/wizard/WizardSax.qml" line="25"/>
         <source>Saxophones are transposing instruments.&lt;br&gt;It means that note pitch in the score doesn&apos;t correspond directly to note which is played - it transposes by interval (number of semitones) according to kind of saxophone.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
