@@ -25,6 +25,7 @@
 #include "ttunerdialogitem.h"
 #include "trtmselectoritem.h"
 #include "tmelgenitem.h"
+#include "tmelodyimportitem.h"
 #include "main/texamexecutor.h"
 #include "main/texamview.h"
 #include "main/ttiphandler.h"
@@ -71,6 +72,7 @@ TdialogLoaderObject::TdialogLoaderObject(QObject* parent) :
     qmlRegisterType<TtunerDialogItem>("Nootka.Dialogs", 1, 0, "TtunerDialogItem");
     qmlRegisterType<TrtmSelectorItem>("Nootka.Dialogs", 1, 0, "TrtmSelectorItem");
     qmlRegisterType<TmelGenItem>("Nootka.Dialogs", 1, 0, "TmelGenItem");
+    qmlRegisterType<TmelodyImportItem>("Nootka.Dialogs", 1, 0, "TmelodyImportItem");
 
     qmlRegisterType<TexamExecutor>("Nootka.Exam", 1, 0, "Texecutor");
     qmlRegisterType<TexamView>("Nootka.Exam", 1, 0, "Tresults");

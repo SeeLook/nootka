@@ -136,6 +136,10 @@ ApplicationWindow {
       analyzeWindow = Qt.createComponent("qrc:/charts/AnalyzeDialog.qml").createObject(nootkaWindow)
       return
     }
+    if (page === Nootka.ScoreImport) {
+      Qt.createComponent("qrc:/score/MelodyImport.qml").createObject(nootkaWindow)
+      return
+    }
     dialogLoader.page = page
   }
 

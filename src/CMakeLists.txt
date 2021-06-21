@@ -124,6 +124,7 @@ set(NOOTKA_SRC
   dialogs/ttunerdialogitem.cpp
   dialogs/trtmselectoritem.cpp
   dialogs/tmelgenitem.cpp
+  dialogs/tmelodyimportitem.cpp
 
   help/texamhelp.cpp
   help/tmainhelp.cpp

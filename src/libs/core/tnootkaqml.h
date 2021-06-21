@@ -89,7 +89,8 @@ public:
        */
   enum Edialogs {
     NoDialog = 0, Settings = 1, About = 2, LevelCreator = 3, ExamStart = 4,
-    ExamSummary = 5, Charts = 6, Tuner = 7, MelodyGenerator = 8, Updater = 9
+    ExamSummary = 5, Charts = 6, Tuner = 7, MelodyGenerator = 8, Updater = 9,
+    ScoreImport = 10
   };
   Q_ENUM(Edialogs)
 
