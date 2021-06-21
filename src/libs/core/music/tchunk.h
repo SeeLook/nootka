@@ -105,7 +105,7 @@ public:
       /**
        * Trough @p staffNr (if set) is returned staff number the note belongs to.
        */
-  quint16 fromXml(QXmlStreamReader& xml, int* staffNr = nullptr);
+  quint16 fromXml(QXmlStreamReader& xml, int* staffNr = nullptr, int* voiceNr = nullptr);
 
       /**
        * Converts beam type into music XML compatible string

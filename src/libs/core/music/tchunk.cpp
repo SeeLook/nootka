@@ -92,12 +92,13 @@ void Tchunk::toXml(QXmlStreamWriter& xml, int* staffNr) {
  * Tie is recognized by <notations><tied type="" ></tied></notations> tag, <tie /> itself is ignored,
  * but during save, both tags are writing.
  */
-quint16 Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr) {
+quint16 Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr, int* voiceNr) {
   quint16 ok = e_xmlOK;
   int stNr = 1;
   m_pitch.setRhythm(Trhythm(Trhythm::NoRhythm));
   while (xml.readNextStartElement()) {
       if (xml.name() == QLatin1String("grace") || xml.name() == QLatin1String("chord")) {
+          // TODO: collect notes from a chord
           ok = e_xmlUnsupported;
           xml.skipCurrentElement();
       } else if (xml.name() == QLatin1String("pitch"))
@@ -136,7 +137,10 @@ quint16 Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr) {
                 xml.skipCurrentElement();
           }
       } else if (xml.name() == QLatin1String("voice")) {
-          if (xml.readElementText().toInt() != 1)
+          int vNr = xml.readElementText().toInt();
+          if (voiceNr)
+            *voiceNr = vNr;
+          else if (vNr != 1)
             ok = e_xmlUnsupported;
       } else if (xml.name() == QLatin1String("staff"))
           stNr = xml.readElementText().toInt();
