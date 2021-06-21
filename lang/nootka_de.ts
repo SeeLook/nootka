@@ -2967,7 +2967,7 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     <message>
         <location filename="../src/dialogs/tlevelsdefs.cpp" line="301"/>
         <source>Scale of whole guitar without positions.</source>
-        <translation></translation>
+        <translation>Scale of whole guitar without positions.</translation>
     </message>
     <message>
         <location filename="../src/dialogs/tlevelsdefs.cpp" line="336"/>
