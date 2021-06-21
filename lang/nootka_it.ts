@@ -2817,44 +2817,44 @@ E&apos; meglio mantenerle brevi, quindi dividile dapprima in un programma estern
     <message>
         <location filename="../src/qml/level/Levels.qml" line="24"/>
         <source>intonation accuracy</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/Levels.qml" line="25"/>
         <source>do not check</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/Levels.qml" line="26"/>
         <source>gums pain</source>
         <comment>We used to say that gums or teeth are paining when music is out of tune but it isn&apos;t official term.</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/Levels.qml" line="27"/>
         <source>violinist beginner</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/Levels.qml" line="28"/>
         <source>old strings</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/Levels.qml" line="29"/>
         <source>well tuned instrument</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/Levels.qml" line="30"/>
         <source>perfect</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/qml/level/Levels.qml" line="31"/>
         <source>cents</source>
         <comment>unit of measure used for musical intervals. This text always is used in context: &apos; ± [5, 10, 20, 30] cents &apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -4348,7 +4348,7 @@ Controlla se tutto i parametri sono corretti.</translation>
         <location filename="../src/libs/core/tinitcorelib.cpp" line="46"/>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: translator name, translator e-mail (optional) and translator site (optional)</comment>
-        <translation></translation>
+        <translation>translator</translation>
     </message>
 </context>
 <context>
