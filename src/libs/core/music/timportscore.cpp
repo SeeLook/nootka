@@ -77,6 +77,7 @@ void TimportScore::addNote(int partId, int staff, int voice, int snipp, const Tc
 //     m->setComposer(m_melody->composer());
     m->setMeter(m_melody->meter()->meter());
     m->setTempo(m_melody->tempo());
+    m->setClef(m_melody->clef());
     currSnipp->setMelody(m);
   }
   currSnipp->melody()->addNote(note);
@@ -100,10 +101,7 @@ TmelodyPart::TmelodyPart(TmelodyPart* parent, int partId, int staffNr, int voice
   m_staffNr(staffNr),
   m_voiceNr(voiceNr),
   m_snippet(snippId)
-{
-  if (IMPORT_SCORE)
-    IMPORT_SCORE->appendPart(this);
-}
+{}
 
 
 TmelodyPart::~TmelodyPart()
@@ -118,6 +116,8 @@ TmelodyPart::~TmelodyPart()
 
 void TmelodyPart::setMelody(Tmelody* m) {
   if (m != m_melody) {
+    if (m_melody == nullptr && IMPORT_SCORE)
+      IMPORT_SCORE->appendPart(this);
     m_melody = m;
     emit melodyChanged();
   }
