@@ -13,11 +13,15 @@ import "../score"
 
 
 Window {
+  property bool multiSelect: false
+
   visible: true
   modality: Qt.WindowModal
   title: qsTr("Import melody")
   width: nootkaWindow.width; height: nootkaWindow.height; x: nootkaWindow.x; y: nootkaWindow.y
   color: activPal.window
+
+  ButtonGroup { id: group }
 
   TmelodyImportItem {
     id: melImport
@@ -36,18 +40,23 @@ Window {
       spacing: 1
       model: melImport.partsModel
       delegate: Rectangle {
-        width: melImport.width; height: NOO.factor() * 11
-        color: index % 2 ? activPal.base : activPal.alternateBase
+        width: melImport.width; height: NOO.factor() * 15
+        color: importChB.checked ? Qt.tint(activPal.base, NOO.alpha(activPal.highlight, 50)) : (index % 2 ? activPal.base : activPal.alternateBase)
+        TcheckBox {
+          id: importChB
+          anchors.verticalCenter: parent.verticalCenter
+          ButtonGroup.group: multiSelect ? null : group
+        }
         Text {
-          x: NOO.factor()
+          x: importChB.width + NOO.factor()
           color: activPal.text
           text: qsTr("part") + ": " + modelData.part + ", " + qsTr("staff") + ": " + modelData.staff
                 + ", " + qsTr("voice") + ": " + modelData.voice
         }
         Score {
           id: score
-          y: NOO.factor()
-          width: parent.width; height: parent.height - NOO.factor()
+          y: NOO.factor(); x: importChB.width
+          width: parent.width - importChB.width; height: parent.height - NOO.factor()
           readOnly: true
         }
         Component.onCompleted: {
@@ -56,5 +65,7 @@ Window {
       }
     }
   }
+
+  onClosing: destroy()
 
 }
