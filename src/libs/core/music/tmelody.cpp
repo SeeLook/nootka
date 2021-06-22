@@ -22,6 +22,7 @@
 #include "tmeter.h"
 #include "tchunk.h"
 #include "nootkaconfig.h"
+#include "timportscore.h"
 
 #include "minizip/tzip.h"
 
@@ -157,7 +158,7 @@ void Tmelody::toXml(QXmlStreamWriter& xml, int trans) {
 }
 
 
-bool Tmelody::fromXml(QXmlStreamReader& xml) {
+bool Tmelody::fromXml(QXmlStreamReader& xml, int partId) {
   bool ok = true;
   int prevTie = -1; // -1 -> no tie, otherwise this number points to previous note that had a tie
   m_notes.clear();
@@ -183,6 +184,7 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
                 int staffCnt = 1;
                 while (xml.readNextStartElement()) {
                   if (xml.name() == QLatin1String("staves")) {
+                      // TODO: Every staff may be separate melody but detect Nootka piano staff
                       staffCnt = xml.readElementText().toInt();
                       if (staffCnt > 2) {
                         qDebug() << "[Tmelody] Read from more staves is unsupported";
@@ -219,13 +221,16 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
             }
 /** [note] */
         } else if (xml.name() == QLatin1String("note")) {
-            int staffNr = 0;
-            int *staffPtr = nullptr;
-            if (m_clef == Tclef::PianoStaffClefs)
+            int staffNr = 0, voiceNr = 0;
+            int *staffPtr = nullptr, *voicePtr = nullptr;
+            if (m_clef == Tclef::PianoStaffClefs || IMPORT_SCORE)
               staffPtr = &staffNr;
+            if (IMPORT_SCORE)
+              voicePtr = &voiceNr;
             Tchunk ch;
-            auto chunkOk = ch.fromXml(xml, staffPtr);
-            if (!(chunkOk & Tchunk::e_xmlUnsupported)) {
+            Tchunk* dblDotCh = nullptr;
+            auto chunkOk = ch.fromXml(xml, staffPtr, voicePtr);
+            if (IMPORT_SCORE || !(chunkOk & Tchunk::e_xmlUnsupported)) {
               if (ch.p().isRest() && ch.p().rhythm() == Trhythm::NoRhythm) { // Fix rest duration - if it is undefined - means entire measure
                 ch.p().setRhythm(m_meter->duration()); // it will reset 'rest' attribute
                 ch.p().setRest(true);
@@ -270,11 +275,22 @@ bool Tmelody::fromXml(QXmlStreamReader& xml) {
                   // XML import disallows eights with double dots, so divide rhythmic value easily
                   Trhythm r(static_cast<Trhythm::Erhythm>(ch.p().rhythm() + 2));
                   r.setTie(tieCont ? Trhythm::e_tieCont : Trhythm::e_tieEnd);
-                  Tchunk dblDotCh(Tnote(ch.p(), r), ch.t());
-                  addNote(dblDotCh);
+                  dblDotCh = new Tchunk(Tnote(ch.p(), r), ch.t());
+                  addNote(*dblDotCh);
                 }
               }
             }
+            if (IMPORT_SCORE) {
+              if (chunkOk & Tchunk::e_xmlIsChord) {
+                // TODO: do something with chord notes
+              } else {
+                  IMPORT_SCORE->addNote(partId, staffNr, voiceNr, 1, ch);
+                  if (dblDotCh)
+                    IMPORT_SCORE->addNote(partId, staffNr, voiceNr, 1, *dblDotCh);
+              }
+            }
+            if (dblDotCh)
+              delete dblDotCh;
 /** [direction] with bowing/bellow and fingering detected from texts below/above note */
         } else if (xml.name() == QLatin1String("direction")) {
             while (xml.readNextStartElement()) {
@@ -478,7 +494,9 @@ bool Tmelody::processXMLData(QXmlStreamReader& xml) {
   }
 
   bool madeWithNootka = false;
+  int partId = 0;
   while (xml.readNextStartElement()) {
+    // TODO: <part-list> has instrument/part names
     if (xml.name() == QLatin1String("movement-title")) {
         m_title = xml.readElementText();
     } else if (xml.name() == QLatin1String("work")) {
@@ -507,7 +525,8 @@ bool Tmelody::processXMLData(QXmlStreamReader& xml) {
               xml.skipCurrentElement();
         }
     } else if (xml.name() == QLatin1String("part")) {
-        if (!fromXml(xml))
+        partId++;
+        if (!fromXml(xml, partId))
           ok = false;
     } else
         xml.skipCurrentElement();

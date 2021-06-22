@@ -102,7 +102,7 @@ public:
        * see: http://usermanuals.musicxml.com/MusicXML/MusicXML.htm#EL-MusicXML-transpose.htm
        */
   void toXml(QXmlStreamWriter& xml, int trans = 0);
-  bool fromXml(QXmlStreamReader& xml);
+  bool fromXml(QXmlStreamReader& xml, int partId = 0);
   bool saveToMusicXml(const QString& xmlFileName, int transposition);
   void writeXmlStream(QXmlStreamWriter &xml, int transposition);
   bool saveToMXL(const QString& xmlFileName, int transposition);
