@@ -37,6 +37,7 @@ class NOOTKACORE_EXPORT TmelodyPart : public QObject
 
   Q_OBJECT
 
+  Q_PROPERTY(bool selected READ selected WRITE setSelected NOTIFY selectedChanged)
   Q_PROPERTY(int part READ part NOTIFY melodyChanged)
   Q_PROPERTY(int staff READ staff NOTIFY melodyChanged)
   Q_PROPERTY(int voice READ voice NOTIFY melodyChanged)
@@ -45,6 +46,8 @@ public:
   explicit TmelodyPart (TmelodyPart* parent = nullptr, int partId = 0, int staffNr = 0, int voiceNr = 0, int snippId = 0);
     ~TmelodyPart() override;
 
+  bool selected() const { return m_selected; }
+  void setSelected(bool sel);
   int part() const { return m_partId; }
   int staff() const { return m_staffNr; }
   int voice() const { return m_voiceNr; }
@@ -59,6 +62,7 @@ public:
 
 signals:
   void melodyChanged();
+  void selectedChanged();
 
 private:
   TmelodyPart          *m_parent = nullptr;
@@ -68,6 +72,7 @@ private:
   int                   m_snippet = 0;
   Tmelody              *m_melody = nullptr;
   TscoreObject         *m_scoreObj = nullptr;
+  bool                  m_selected = false;
 };
 
 
@@ -99,6 +104,9 @@ public:
        * @p TRUE when there are more melodies to import
        */
   bool hasMoreParts() const { return m_hasMoreParts; }
+
+signals:
+  void importReady();
 
 protected:
   void appendPart(TmelodyPart* p);

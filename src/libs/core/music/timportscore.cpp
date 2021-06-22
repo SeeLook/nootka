@@ -130,3 +130,10 @@ void TmelodyPart::setScoreObject(TscoreObject* sObj) {
     m_scoreObj->setMelody(m_melody);
 }
 
+
+void TmelodyPart::setSelected(bool sel) {
+  if (sel != m_selected) {
+    m_selected = sel;
+    emit selectedChanged();
+  }
+}
