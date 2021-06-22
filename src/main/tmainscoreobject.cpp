@@ -27,6 +27,7 @@
 #include <music/tkeysignature.h>
 #include <music/ttechnical.h>
 #include <music/tmelody.h>
+#include <music/timportscore.h>
 #include <score/tnoteitem.h>
 #include <score/tstaffitem.h>
 #include <score/tstafflines.h>
@@ -37,6 +38,7 @@
 #include <QtQml/qqmlengine.h>
 #include <QtQml/qqmlcomponent.h>
 #include <QtQml/qqmlcontext.h>
+#include <QtQml/qqmlapplicationengine.h>
 #include <QtQuick/qquickitem.h>
 #include <QtCore/qtimer.h>
 #include <QtCore/qsettings.h>
@@ -534,9 +536,22 @@ QStringList TmainScoreObject::recentComposers() const {
 
 void TmainScoreObject::openXmlActSlot() {
   SOUND->stopListen();
-  auto m = new Tmelody();
-  m_scoreObj->openMusicXml(NOO->getXmlToOpen(), m, GLOB->instrument().type() != Tinstrument::Bandoneon && !GLOB->instrument().isGuitar());
-  delete m;
+  auto xmlFIle = NOO->getXmlToOpen();
+  if (!xmlFIle.isEmpty()) {
+    auto m = new Tmelody();
+    auto melImport = new TimportScore(m, this);
+    m->grabFromMusicXml(xmlFIle);
+    if (melImport->hasMoreParts()) {
+        auto nootWin = qobject_cast<QQmlApplicationEngine*>(NOO->qmlEngine())->rootObjects().first();
+        if (nootWin && QString(nootWin->metaObject()->className()).contains("MainWindow_QMLTYPE")) {
+          QMetaObject::invokeMethod(nootWin, "showDialog", Q_ARG(QVariant, TnootkaQML::ScoreImport));
+        }
+    } else {
+        melImport->deleteLater();
+        m_scoreObj->openMusicXml(xmlFIle, m, GLOB->instrument().type() != Tinstrument::Bandoneon && !GLOB->instrument().isGuitar());
+    }
+    delete m;
+  }
   SOUND->startListen();
 }
 
