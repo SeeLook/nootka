@@ -25,8 +25,13 @@
 
 TmelodyImportItem::TmelodyImportItem(QQuickItem *parent) :
   QQuickItem(parent)
-{
-  
+{}
+
+
+TmelodyImportItem::~TmelodyImportItem() {
+  qDebug() << "[TmelodyImportItem] deleted";
+  if (IMPORT_SCORE)
+    IMPORT_SCORE->deleteLater();
 }
 
 

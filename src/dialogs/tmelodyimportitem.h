@@ -36,6 +36,7 @@ class TmelodyImportItem : public QQuickItem
 
 public:
   explicit TmelodyImportItem(QQuickItem* parent = nullptr);
+  ~TmelodyImportItem();
 
   QString title() const;
   QList<QObject*> partsModel() const;
