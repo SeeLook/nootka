@@ -41,6 +41,8 @@ public:
   QString title() const;
   QList<QObject*> partsModel() const;
 
+  Q_INVOKABLE void emitImport();
+
 signals:
   void melodyChanged();
 

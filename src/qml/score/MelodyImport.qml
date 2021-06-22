@@ -35,7 +35,7 @@ Window {
     }
     ListView {
       y: melTitle.height + NOO.factor() / 2
-      width: parent.width; height: parent.height - melTitle.height - NOO.factor()
+      width: parent.width; height: parent.height - melTitle.height - buttRow.height - NOO.factor()
       clip: true
       spacing: 1
       model: melImport.partsModel
@@ -61,6 +61,25 @@ Window {
         }
         Component.onCompleted: {
           modelData.setScoreObject(score.scoreObj)
+          modelData.selected = Qt.binding(function() { return importChB.checked })
+        }
+      }
+    }
+    Row {
+      id: buttRow
+      y: parent.height - height - NOO.factor() / 2; x: (parent.width - width) / 2
+      spacing: NOO.factor() * 2
+      TiconButton {
+        pixmap: NOO.pix("exit")
+        text: NOO.TR("QShortcut", "Cancel")
+        onClicked: close()
+      }
+      TiconButton {
+        pixmap: NOO.pix("melody")
+        text: qsTr("Import")
+        onClicked: {
+          melImport.emitImport()
+          close()
         }
       }
     }

@@ -49,3 +49,9 @@ QList<QObject*> TmelodyImportItem::partsModel() const {
 
   return QList<QObject*>();
 }
+
+
+void TmelodyImportItem::emitImport() {
+  if (IMPORT_SCORE)
+    emit IMPORT_SCORE->importReady();
+}

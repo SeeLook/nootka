@@ -545,6 +545,15 @@ void TmainScoreObject::openXmlActSlot() {
         auto nootWin = qobject_cast<QQmlApplicationEngine*>(NOO->qmlEngine())->rootObjects().first();
         if (nootWin && QString(nootWin->metaObject()->className()).contains("MainWindow_QMLTYPE")) {
           QMetaObject::invokeMethod(nootWin, "showDialog", Q_ARG(QVariant, TnootkaQML::ScoreImport));
+          connect(melImport, &TimportScore::importReady, this, [=]{
+            for (auto mi : IMPORT_SCORE->model()) {
+              if (mi->property("selected").toBool()) {
+                auto melPart = qobject_cast<TmelodyPart*>(mi);
+                if (melPart)
+                  m_scoreObj->setMelody(melPart->melody(), GLOB->instrument().type() != Tinstrument::Bandoneon && !GLOB->instrument().isGuitar());
+              }
+            }
+          });
         }
     } else {
         melImport->deleteLater();
