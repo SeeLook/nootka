@@ -97,9 +97,11 @@ quint16 Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr, int* voiceNr) {
   int stNr = 1;
   m_pitch.setRhythm(Trhythm(Trhythm::NoRhythm));
   while (xml.readNextStartElement()) {
-      if (xml.name() == QLatin1String("grace") || xml.name() == QLatin1String("chord")) {
-          // TODO: collect notes from a chord
+      if (xml.name() == QLatin1String("grace")) {
           ok = e_xmlUnsupported;
+          xml.skipCurrentElement();
+      } else if (xml.name() == QLatin1String("chord")) {
+          ok = e_xmlUnsupported | e_xmlIsChord;;
           xml.skipCurrentElement();
       } else if (xml.name() == QLatin1String("pitch"))
           m_pitch.fromXml(xml);

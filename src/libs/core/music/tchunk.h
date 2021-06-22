@@ -99,7 +99,8 @@ public:
   enum EimportResult {
     e_xmlOK = 0,
     e_xmlUnsupported = 1,
-    e_xmlHasTwoDots = 2
+    e_xmlHasTwoDots = 2,
+    e_xmlIsChord = 4
   };
 
       /**
