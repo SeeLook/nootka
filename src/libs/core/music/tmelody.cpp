@@ -158,7 +158,7 @@ void Tmelody::toXml(QXmlStreamWriter& xml, int trans) {
 }
 
 
-bool Tmelody::fromXml(QXmlStreamReader& xml, int partId) {
+bool Tmelody::fromXml(QXmlStreamReader& xml, bool madeWithNootka, int partId) {
   bool ok = true;
   int prevTie = -1; // -1 -> no tie, otherwise this number points to previous note that had a tie
   m_notes.clear();
@@ -225,12 +225,12 @@ bool Tmelody::fromXml(QXmlStreamReader& xml, int partId) {
             int *staffPtr = nullptr, *voicePtr = nullptr;
             if (m_clef == Tclef::PianoStaffClefs || IMPORT_SCORE)
               staffPtr = &staffNr;
-            if (IMPORT_SCORE)
+            if (!madeWithNootka && IMPORT_SCORE)
               voicePtr = &voiceNr;
             Tchunk ch;
             Tchunk* dblDotCh = nullptr;
             auto chunkOk = ch.fromXml(xml, staffPtr, voicePtr);
-            if (IMPORT_SCORE || !(chunkOk & Tchunk::e_xmlUnsupported)) {
+            if ((!madeWithNootka && IMPORT_SCORE) || !(chunkOk & Tchunk::e_xmlUnsupported)) {
               if (ch.p().isRest() && ch.p().rhythm() == Trhythm::NoRhythm) { // Fix rest duration - if it is undefined - means entire measure
                 ch.p().setRhythm(m_meter->duration()); // it will reset 'rest' attribute
                 ch.p().setRest(true);
@@ -280,7 +280,7 @@ bool Tmelody::fromXml(QXmlStreamReader& xml, int partId) {
                 }
               }
             }
-            if (IMPORT_SCORE) {
+            if (!madeWithNootka && IMPORT_SCORE) {
               if (chunkOk & Tchunk::e_xmlIsChord) {
                 // TODO: do something with chord notes
               } else {
@@ -526,7 +526,7 @@ bool Tmelody::processXMLData(QXmlStreamReader& xml) {
         }
     } else if (xml.name() == QLatin1String("part")) {
         partId++;
-        if (!fromXml(xml, partId))
+        if (!fromXml(xml, madeWithNootka, partId))
           ok = false;
     } else
         xml.skipCurrentElement();
