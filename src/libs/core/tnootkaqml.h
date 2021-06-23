@@ -293,6 +293,7 @@ signals:
   void aboutActTriggered();
   void statusTip(const QString& statusText, int tipPos, bool richText);
   void messageColorChanged();
+  void wantOpenXml(const QString& xmlFile);
 
 protected:
   void connectInstrument();

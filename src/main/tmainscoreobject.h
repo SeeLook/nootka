@@ -181,6 +181,8 @@ protected:
   void getMelodyNameSlot();
   void playScoreSlot();
   void gotItNoteSelectedSlot();
+  void openXmlFileSlot(const QString& xmlFile);
+  void melodyImportSlot();
 
   QColor scoreBackgroundColor(const QColor& c, int alpha);
   void checkSingleNoteVisibility();
