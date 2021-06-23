@@ -283,6 +283,8 @@ bool Tmelody::fromXml(QXmlStreamReader& xml, bool madeWithNootka, int partId) {
             if (!madeWithNootka && IMPORT_SCORE) {
               if (chunkOk & Tchunk::e_xmlIsChord) {
                 // TODO: do something with chord notes
+              } else if (chunkOk & Tchunk::e_xmlIsGrace) {
+                // TODO: grace note if any
               } else {
                   IMPORT_SCORE->addNote(partId, staffNr, voiceNr, 1, ch);
                   if (dblDotCh)
