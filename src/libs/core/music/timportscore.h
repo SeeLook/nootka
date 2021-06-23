@@ -65,7 +65,6 @@ signals:
   void selectedChanged();
 
 private:
-  TmelodyPart          *m_parent = nullptr;
   int                   m_partId = 0;
   int                   m_staffNr = 0;
   int                   m_voiceNr = 0;

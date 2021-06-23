@@ -41,6 +41,7 @@ TimportScore::TimportScore(Tmelody* melody, QObject *parent) :
 
 TimportScore::~TimportScore()
 {
+  qDeleteAll(m_parts);
   m_instance = nullptr;
 }
 
@@ -96,12 +97,13 @@ void TimportScore::appendPart(TmelodyPart* p) {
 //#################################################################################################
 
 TmelodyPart::TmelodyPart(TmelodyPart* parent, int partId, int staffNr, int voiceNr, int snippId) :
-  m_parent(parent),
+  QObject(parent),
   m_partId(partId),
   m_staffNr(staffNr),
   m_voiceNr(voiceNr),
   m_snippet(snippId)
-{}
+{
+}
 
 
 TmelodyPart::~TmelodyPart()
