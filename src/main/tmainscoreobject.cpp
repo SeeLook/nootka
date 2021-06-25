@@ -681,12 +681,15 @@ void TmainScoreObject::openXmlFileSlot(const QString& xmlFile) {
 
 void TmainScoreObject::melodyImportSlot() {
   for (auto mi : IMPORT_SCORE->model()) {
-    if (mi->property("selected").toBool()) {
-      auto melPart = qobject_cast<TmelodyPart*>(mi);
-      if (melPart)
-        NOO->scoreObj()->setMelody(melPart->melody(), GLOB->instrument().type() != Tinstrument::Bandoneon && !GLOB->instrument().isGuitar());
-        // NOTE use here NOO->scoreObj() because m_scoreObj may be yet unset
-      break;
+    auto voicePart = qobject_cast<TmelodyPart*>(mi);
+    if (voicePart && !voicePart->parts.isEmpty()) {
+      for (auto snip : voicePart->parts) {
+        if (snip->selected()) {
+          NOO->scoreObj()->setMelody(snip->melody(), GLOB->instrument().type() != Tinstrument::Bandoneon && !GLOB->instrument().isGuitar());
+          // NOTE use here NOO->scoreObj() because m_scoreObj may be yet unset
+          break;
+        }
+      }
     }
   }
 }

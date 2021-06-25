@@ -25,6 +25,7 @@
 
 
 TimportScore* TimportScore::m_instance = nullptr;
+int           TimportScore::m_splitEveryBarNr = 0;
 
 
 TimportScore::TimportScore(Tmelody* melody, QObject *parent) :
@@ -46,16 +47,16 @@ TimportScore::~TimportScore()
 }
 
 
-void TimportScore::addNote(int partId, int staff, int voice, int snipp, const Tchunk &note) {
+void TimportScore::addNote(int partId, int staff, int voice, const Tchunk &note) {
   if (partId == m_parts.count() + 1)
-      m_parts << new TmelodyPart(nullptr, partId, staff, voice, snipp);
+      m_parts << new TmelodyPart(nullptr, partId, staff, voice);
   else if (partId > m_parts.count()) {
       qDebug() << "[TimportScore] Wrong parts order in the score file!" << partId << m_parts.count();
       return;
   }
   auto staffPart = m_parts[partId - 1];
   if (staff == staffPart->count() + 1)
-      staffPart->parts << new TmelodyPart(staffPart, partId, staff, voice, snipp);
+      staffPart->parts << new TmelodyPart(staffPart, partId, staff, voice);
   else if (staff > staffPart->count()) {
       qDebug() << "[TimportScore] Wrong staves order in the score file!" << staff << staffPart->count();
       return;
@@ -63,16 +64,18 @@ void TimportScore::addNote(int partId, int staff, int voice, int snipp, const Tc
   auto voicePart = staffPart->parts[staff - 1];
   if (voice > voicePart->count()) {
     while (voicePart->count() < voice)
-      voicePart->parts << new TmelodyPart(voicePart, partId, staff, voicePart->count() + 1, snipp);
+      voicePart->parts << new TmelodyPart(voicePart, partId, staff, voicePart->count() + 1);
   }
   auto snippPart = voicePart->parts[voice - 1];
-  if (snipp == snippPart->count() + 1) {
-      snippPart->parts << new TmelodyPart(snippPart, partId, staff, voice, snipp);
-  }  else if (snipp > snippPart->count()) {
-      qDebug() << "[TimportScore] Problem with snippets order in the score file!";
-      return;
+  if (snippPart->parts.isEmpty())
+      snippPart->parts << new TmelodyPart(snippPart, partId, staff, voice);
+  else {
+    if (voicePart->splitBarNr() > 0 && snippPart->parts.last()->melody()->lastMeasure().isFull()
+        && snippPart->parts.last()->melody()->measuresCount() % voicePart->splitBarNr() == 0) {
+        snippPart->parts << new TmelodyPart(snippPart, partId, staff, voice);
+      }
   }
-  auto currSnipp = snippPart->parts[snipp - 1];
+  auto currSnipp = snippPart->parts.last();
   if (!currSnipp->melody()) {
     auto m = new Tmelody(m_melody->title(), m_melody->key());
 //     m->setComposer(m_melody->composer());
@@ -83,12 +86,20 @@ void TimportScore::addNote(int partId, int staff, int voice, int snipp, const Tc
   }
   currSnipp->melody()->addNote(note);
   if (!m_hasMoreParts)
-    m_hasMoreParts = partId > 1 || staff > 1 || voice > 1 || snipp > 1;
+    m_hasMoreParts = partId > 1 || staff > 1 || voice > 1;
 }
 
 
-void TimportScore::appendPart(TmelodyPart* p) {
-  m_partsModel << p;
+void TimportScore::sumarize() {
+  for (auto p : m_parts) {
+    for (auto s : p->parts) {
+      for (auto v : s->parts) {
+        if (v->count()) {
+          m_partsModel << v;
+        }
+      }
+    }
+  }
 }
 
 
@@ -96,13 +107,13 @@ void TimportScore::appendPart(TmelodyPart* p) {
 //###################               TpartMelody        ############################################
 //#################################################################################################
 
-TmelodyPart::TmelodyPart(TmelodyPart* parent, int partId, int staffNr, int voiceNr, int snippId) :
+TmelodyPart::TmelodyPart(TmelodyPart* parent, int partId, int staffNr, int voiceNr) :
   QObject(parent),
   m_partId(partId),
   m_staffNr(staffNr),
-  m_voiceNr(voiceNr),
-  m_snippet(snippId)
+  m_voiceNr(voiceNr)
 {
+  m_splitBarNr = TimportScore::splitEveryBarNr();
 }
 
 
@@ -118,8 +129,6 @@ TmelodyPart::~TmelodyPart()
 
 void TmelodyPart::setMelody(Tmelody* m) {
   if (m != m_melody) {
-    if (m_melody == nullptr && IMPORT_SCORE)
-      IMPORT_SCORE->appendPart(this);
     m_melody = m;
     emit melodyChanged();
   }
@@ -137,5 +146,14 @@ void TmelodyPart::setSelected(bool sel) {
   if (sel != m_selected) {
     m_selected = sel;
     emit selectedChanged();
+  }
+}
+
+
+void TmelodyPart::setSplitBarNr(int splitNr) {
+  if (splitNr != m_splitBarNr) {
+    m_splitBarNr = splitNr;
+    // TODO: merge melody than split it again
+    emit splitBarNrChanged();
   }
 }

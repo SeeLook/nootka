@@ -286,9 +286,9 @@ bool Tmelody::fromXml(QXmlStreamReader& xml, bool madeWithNootka, int partId) {
               } else if (chunkOk & Tchunk::e_xmlIsGrace) {
                 // TODO: grace note if any
               } else {
-                  IMPORT_SCORE->addNote(partId, staffNr, voiceNr, 1, ch);
+                  IMPORT_SCORE->addNote(partId, staffNr, voiceNr, ch);
                   if (dblDotCh)
-                    IMPORT_SCORE->addNote(partId, staffNr, voiceNr, 1, *dblDotCh);
+                    IMPORT_SCORE->addNote(partId, staffNr, voiceNr, *dblDotCh);
               }
             }
             if (dblDotCh)
@@ -533,6 +533,9 @@ bool Tmelody::processXMLData(QXmlStreamReader& xml) {
     } else
         xml.skipCurrentElement();
   }
+
+  if (IMPORT_SCORE)
+    IMPORT_SCORE->sumarize();
 
   return ok;
 }

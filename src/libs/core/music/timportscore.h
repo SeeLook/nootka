@@ -41,9 +41,11 @@ class NOOTKACORE_EXPORT TmelodyPart : public QObject
   Q_PROPERTY(int part READ part NOTIFY melodyChanged)
   Q_PROPERTY(int staff READ staff NOTIFY melodyChanged)
   Q_PROPERTY(int voice READ voice NOTIFY melodyChanged)
+  Q_PROPERTY(int splitBarNr READ splitBarNr WRITE setSplitBarNr NOTIFY splitBarNrChanged)
+  Q_PROPERTY(QList<TmelodyPart*> snippets READ snippets NOTIFY melodyChanged)
 
 public:
-  explicit TmelodyPart (TmelodyPart* parent = nullptr, int partId = 0, int staffNr = 0, int voiceNr = 0, int snippId = 0);
+  explicit TmelodyPart (TmelodyPart* parent = nullptr, int partId = 0, int staffNr = 0, int voiceNr = 0);
     ~TmelodyPart() override;
 
   bool selected() const { return m_selected; }
@@ -51,18 +53,23 @@ public:
   int part() const { return m_partId; }
   int staff() const { return m_staffNr; }
   int voice() const { return m_voiceNr; }
+  int splitBarNr() const { return m_splitBarNr; }
+  void setSplitBarNr(int splitNr);
+
   Tmelody* melody() { return m_melody; }
   void setMelody(Tmelody* m);
 
   int count() const { return parts.count(); }
 
   QList<TmelodyPart*>    parts;
+  QList<TmelodyPart*>    snippets() { return parts; }
 
   Q_INVOKABLE void setScoreObject(TscoreObject* sObj);
 
 signals:
   void melodyChanged();
   void selectedChanged();
+  void splitBarNrChanged();
 
 private:
   int                   m_partId = 0;
@@ -72,6 +79,7 @@ private:
   Tmelody              *m_melody = nullptr;
   TscoreObject         *m_scoreObj = nullptr;
   bool                  m_selected = false;
+  int                   m_splitBarNr = 0;
 };
 
 
@@ -91,7 +99,9 @@ public:
 
   static TimportScore* instance() { return m_instance; }
 
-  void addNote(int partId, int staff, int voice, int snipp, const Tchunk& note);
+  void addNote(int partId, int staff, int voice, const Tchunk& note);
+
+  void sumarize();
 
   Tmelody* mainMelody() { return m_melody; }
 
@@ -104,11 +114,11 @@ public:
        */
   bool hasMoreParts() const { return m_hasMoreParts; }
 
+  static int splitEveryBarNr() { return m_splitEveryBarNr; }
+  static void setSplitBarNr(int splitNr) { m_splitEveryBarNr = splitNr; }
+
 signals:
   void importReady();
-
-protected:
-  void appendPart(TmelodyPart* p);
 
 private:
   static TimportScore        *m_instance;
@@ -116,6 +126,7 @@ private:
   QList<QObject*>             m_partsModel;
   bool                        m_hasMoreParts = false;
   Tmelody                    *m_melody; /**< Main melody */
+  static int                  m_splitEveryBarNr;
 };
 
 #endif // TIMPORTSCORE_H

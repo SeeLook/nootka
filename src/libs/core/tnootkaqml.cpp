@@ -36,6 +36,7 @@
 #include "instruments/tsaxbg.h"
 #include "taction.h"
 #include "music/ttuneobject.h"
+#include "music/timportscore.h"
 #include "tmtr.h"
 #include "tcolor.h"
 #if defined (Q_OS_ANDROID)
@@ -84,6 +85,7 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qmlRegisterType<TstaffLines>("Score", 1, 0, "TstaffLines");
   qmlRegisterType<TaddNoteItem>("Score", 1, 0, "TaddNoteItem");
   qmlRegisterType<TmelodyPreview>("Score", 1, 0, "TmelodyPreview");
+  qmlRegisterUncreatableType<TmelodyPart>("Score", 1, 0, "TmelodyPart", QStringLiteral("You cannot create an instance of the TcommonInstrument."));
 
   qmlRegisterUncreatableType<TcommonInstrument>("Nootka", 1, 0, "TcommonInstrument", QStringLiteral("You cannot create an instance of the TcommonInstrument."));
   qmlRegisterType<TguitarBg>("Nootka", 1, 0, "TguitarBg");
