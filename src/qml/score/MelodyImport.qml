@@ -41,7 +41,7 @@ Window {
       model: melImport.partsModel
       delegate: TipRect {
         x: NOO.factor() / 4
-        width: melImport.width - NOO.factor(); height: scoreCol.height + NOO.factor()
+        width: melImport.width - NOO.factor() / 2; height: scoreCol.height + NOO.factor()
         color: index % 2 ? activPal.base : activPal.alternateBase
         Text {
           z: 5
@@ -76,6 +76,7 @@ Window {
           }
         }
       }
+      ScrollBar.vertical: ScrollBar {}
     }
     Row {
       id: buttRow
@@ -97,6 +98,35 @@ Window {
         }
       }
     }
+  }
+
+  TcuteButton {
+    anchors { right: parent.right; top: parent.top; margins: NOO.factor() / 2 }
+    height: NOO.factor() * 3
+    font { pixelSize: NOO.factor() * 2; bold: true }
+    text: "⋮"
+    onClicked: settPop.open()
+  }
+
+  TpopupDialog {
+    id: settPop
+    width: popCol.width + NOO.factor() * 2; height: popCol.height + NOO.factor() * 5
+    Column {
+      id: popCol
+      Row {
+        spacing: NOO.factor()
+        Text {
+          anchors.verticalCenter: parent.verticalCenter
+          color: activPal.text; text: qsTr("Split after every bar number")
+        }
+        TspinBox {
+          id: splitSpin
+          from: 0; to: 64
+          value: melImport.globalSplitNr
+        }
+      }
+    }
+    onAccepted: melImport.globalSplitNr = splitSpin.value
   }
 
   onClosing: destroy()

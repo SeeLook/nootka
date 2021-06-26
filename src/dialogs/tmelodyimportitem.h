@@ -33,6 +33,7 @@ class TmelodyImportItem : public QQuickItem
 
   Q_PROPERTY(QString title READ title NOTIFY melodyChanged)
   Q_PROPERTY(QList<QObject*> partsModel READ partsModel NOTIFY melodyChanged)
+  Q_PROPERTY(int globalSplitNr READ globalSplitNr WRITE setGlobalSplitNr NOTIFY globalSplitNrChanged)
 
 public:
   explicit TmelodyImportItem(QQuickItem* parent = nullptr);
@@ -41,10 +42,14 @@ public:
   QString title() const;
   QList<QObject*> partsModel() const;
 
+  int globalSplitNr() const;
+  void setGlobalSplitNr(int gsn);
+
   Q_INVOKABLE void emitImport();
 
 signals:
   void melodyChanged();
+  void globalSplitNrChanged();
 
 };
 

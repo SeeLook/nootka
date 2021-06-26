@@ -29,7 +29,6 @@ TmelodyImportItem::TmelodyImportItem(QQuickItem *parent) :
 
 
 TmelodyImportItem::~TmelodyImportItem() {
-  qDebug() << "[TmelodyImportItem] deleted";
   if (IMPORT_SCORE)
     IMPORT_SCORE->deleteLater();
 }
@@ -54,4 +53,17 @@ QList<QObject*> TmelodyImportItem::partsModel() const {
 void TmelodyImportItem::emitImport() {
   if (IMPORT_SCORE)
     emit IMPORT_SCORE->importReady();
+}
+
+
+int TmelodyImportItem::globalSplitNr() const {
+  return TimportScore::splitEveryBarNr();
+}
+
+
+void TmelodyImportItem::setGlobalSplitNr(int gsn) {
+  if (gsn != TimportScore::splitEveryBarNr()) {
+    TimportScore::setSplitBarNr(gsn);
+    emit globalSplitNrChanged();
+  }
 }
