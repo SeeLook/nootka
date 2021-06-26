@@ -115,7 +115,7 @@ public:
   bool hasMoreParts() const { return m_hasMoreParts; }
 
   static int splitEveryBarNr() { return m_splitEveryBarNr; }
-  static void setSplitBarNr(int splitNr) { m_splitEveryBarNr = splitNr; }
+  static void setSplitBarNr(int splitNr);
 
 signals:
   void importReady();

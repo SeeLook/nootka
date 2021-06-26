@@ -78,6 +78,7 @@ void TimportScore::addNote(int partId, int staff, int voice, const Tchunk &note)
   auto currSnipp = snippPart->parts.last();
   if (!currSnipp->melody()) {
     auto m = new Tmelody(m_melody->title(), m_melody->key());
+//     auto m = new Tmelody(QString("%1, %2, %3, %4").arg(partId).arg(staff).arg(voice).arg(snippPart->parts.size()), m_melody->key());
 //     m->setComposer(m_melody->composer());
     m->setMeter(m_melody->meter()->meter());
     m->setTempo(m_melody->tempo());
@@ -94,13 +95,30 @@ void TimportScore::sumarize() {
   for (auto p : m_parts) {
     for (auto s : p->parts) {
       for (auto v : s->parts) {
-        if (v->count()) {
+        if (v->count())
           m_partsModel << v;
+      }
+    }
+  }
+}
+
+
+void TimportScore::setSplitBarNr(int splitNr) {
+  if (splitNr != m_splitEveryBarNr) {
+    m_splitEveryBarNr = splitNr;
+    if (m_instance) {
+      for (auto p : *m_instance->parts()) {
+        for (auto s : p->parts) {
+          for (auto v : s->parts) {
+            if (v->count())
+              v->setSplitBarNr(m_splitEveryBarNr);
+          }
         }
       }
     }
   }
 }
+
 
 
 //#################################################################################################
@@ -153,7 +171,29 @@ void TmelodyPart::setSelected(bool sel) {
 void TmelodyPart::setSplitBarNr(int splitNr) {
   if (splitNr != m_splitBarNr) {
     m_splitBarNr = splitNr;
-    // TODO: merge melody than split it again
+    if (!parts.isEmpty() && parts.first()->melody()) {
+      // append all melodies to the first one
+      for (int m = 1; m < parts.size(); ++m)
+        parts.first()->melody()->appendMelody(parts[m]->melody());
+      // delete the rest of the parts
+      int partsCount = parts.count();
+      for (int m = 1; m < partsCount; ++m)
+        delete parts.takeLast();
+      // then divide by new bars number. if any
+      if (m_splitBarNr) {
+        QList<Tmelody*> splitList;
+        parts.first()->melody()->split(m_splitBarNr, splitList);
+        if (!splitList.isEmpty()) {
+          for (auto m : splitList) {
+            auto mp = new TmelodyPart(this, m_partId, m_staffNr, m_voiceNr);
+            parts << mp;
+//             m->setTitle(QString("%1, %2, %3, %4").arg(m_partId).arg(m_staffNr).arg(m_voiceNr).arg(parts.size()));
+            mp->setMelody(m);
+          }
+        }
+      }
+      emit melodyChanged();
+    }
     emit splitBarNrChanged();
   }
 }
