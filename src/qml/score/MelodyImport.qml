@@ -75,6 +75,16 @@ Window {
             }
           }
         }
+        TcuteButton {
+          anchors { left: parent.left; top: parent.top; margins: NOO.factor() / 2 }
+          height: NOO.factor() * 2.5
+          font { pixelSize: NOO.factor() * 1.5; bold: true }
+          text: "⋮"
+          onClicked: {
+            settPop.melPart = modelData
+            settPop.open()
+          }
+        }
       }
       ScrollBar.vertical: ScrollBar {}
     }
@@ -110,6 +120,7 @@ Window {
 
   TpopupDialog {
     id: settPop
+    property var melPart: null
     width: popCol.width + NOO.factor() * 2; height: popCol.height + NOO.factor() * 5
     Column {
       id: popCol
@@ -122,11 +133,17 @@ Window {
         TspinBox {
           id: splitSpin
           from: 0; to: 64
-          value: melImport.globalSplitNr
+          value: settPop.melPart ? settPop.melPart.splitBarNr : melImport.globalSplitNr
         }
       }
     }
-    onAccepted: melImport.globalSplitNr = splitSpin.value
+    onAccepted: {
+      if (melPart)
+        melPart.splitBarNr = splitSpin.value
+      else
+        melImport.globalSplitNr = splitSpin.value
+    }
+    onClosed: melPart = null
   }
 
   onClosing: destroy()
