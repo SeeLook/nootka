@@ -63,9 +63,9 @@ public:
   Tchunk* note(int index) { return m_notes[index]; }
   Tchunk chunk(int index) const { return *m_notes[index]; }
 
-  Tmeasure& measure(int nr) { return m_measures[nr]; }
-  Tmeasure& lastMeasure() { return m_measures.last(); }
-  int measuresCount() const { return m_measures.count(); }
+  Tmeasure& measure(int nr) { return p_measures[nr]; }
+  Tmeasure& lastMeasure() { return p_measures.last(); }
+  int measuresCount() const { return p_measures.count(); }
 
   int tempo() const { return m_tempo; }
   void setTempo(int tmp) { m_tempo = tmp; }
@@ -111,19 +111,36 @@ public:
   bool grabFromMXL(const QString& xmlFileName);
 
       /**
+       * Adds notes of @p otherM (other melody) to this one.
+       * Doesn't check for meter/key/clef match
+       * and is the last measure full.
+       */
+  void appendMelody(Tmelody* otherM);
+
+      /**
+       * Divides this melody by @p byEveryBar number
+       * and stores further parts into @p QList<Tmelody*>.
+       */
+  void split(int byEveryBar, QList<Tmelody*>& parts);
+
+      /**
        * Converts given list to melody
        */
   void fromNoteStruct(QList<TnoteStruct>& ns);
+
+protected:
 
       /**
        * Common routine to parse musicXML data in @p QXmlStreamReader.
        */
   bool processXMLData(QXmlStreamReader& xml);
 
+protected:
+  QList<Tmeasure>      p_measures;
+
 private:
   QString              m_title;
   QString              m_composer;
-  QList<Tmeasure>      m_measures;
   QList<Tchunk*>       m_notes; /**< List of pointers to ordered notes */
   int                  m_tempo;
   Tmeter::EbeatUnit    m_beat = Tmeter::BeatQuarter;

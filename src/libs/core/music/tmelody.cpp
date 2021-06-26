@@ -96,8 +96,8 @@ void Tmelody::setMeter(int m) {
  * all notes added to melody have to be nicely divided to fit every measure duration exactly.
  */
 void Tmelody::addNote(const Tchunk& n) {
-  if (m_measures.isEmpty() || lastMeasure().isFull())
-    m_measures << Tmeasure(m_measures.count() + 1, m_meter->meter());
+  if (p_measures.isEmpty() || lastMeasure().isFull())
+    p_measures << Tmeasure(p_measures.count() + 1, m_meter->meter());
 
   lastMeasure().addNote(n);
   m_notes << &lastMeasure().lastNote();
@@ -105,7 +105,7 @@ void Tmelody::addNote(const Tchunk& n) {
 
 
 void Tmelody::toXml(QXmlStreamWriter& xml, int trans) {
-  for (int m = 0; m < m_measures.size(); ++m) {
+  for (int m = 0; m < p_measures.size(); ++m) {
     xml.writeStartElement(QStringLiteral("measure"));
       Tmeasure& meas = measure(m);
       xml.writeAttribute(QStringLiteral("number"), QVariant(meas.number()).toString());
@@ -162,7 +162,7 @@ bool Tmelody::fromXml(QXmlStreamReader& xml, bool madeWithNootka, int partId) {
   bool ok = true;
   int prevTie = -1; // -1 -> no tie, otherwise this number points to previous note that had a tie
   m_notes.clear();
-  m_measures.clear();
+  p_measures.clear();
   m_meter->setMeter(Tmeter::NoMeter);
   setTempo(0); // reset tempo, try to read from XML
   int barNr = 0;
@@ -175,7 +175,7 @@ bool Tmelody::fromXml(QXmlStreamReader& xml, bool madeWithNootka, int partId) {
         qDebug() << "[Tmelody] Something wrong with measure numbers!" << barNr << "was expected, but" << tmpBarNr << "was read.\n"
                  << "Better check integrity of this music XML file!";
       }
-      m_measures << Tmeasure(barNr);
+      p_measures << Tmeasure(barNr);
       while (xml.readNextStartElement()) {
 /** [attributes] */
         if (xml.name() == QLatin1String("attributes")) {
@@ -474,11 +474,61 @@ bool Tmelody::grabFromMXL(const QString& xmlFileName) {
 }
 
 
+void Tmelody::appendMelody(Tmelody* otherM) {
+  if (!otherM)
+    return;
+  if (!lastMeasure().isFull())
+    qDebug() << "[Tmelody] appending melody but the last measure is not finished. Notes in appended measures will be shifted!";
+  for (int n = 0; n < otherM->length(); ++n)
+    addNote(*otherM->note(n));
+}
+
+
+void Tmelody::split(int byEveryBar, QList<Tmelody*>& parts) {
+  if (measuresCount() > byEveryBar) {
+    auto lastNote = &p_measures[byEveryBar - 1].lastNote();
+    // TODO: disconnect tie if any
+    for (int b = byEveryBar; b < measuresCount(); ++b) {
+      Tmelody* m;
+      if (b % byEveryBar == 0) { // create new Tmelody instance every byEveryBar number
+          m = new Tmelody(title(), key());
+          m->setMeter(meter()->meter());
+          m->setTempo(tempo());
+          m->setClef(clef());
+          parts << m;
+      } else { // or just melody created before
+          m = parts.last();
+      }
+      // then add add to it all notes from the current measure
+      Tmeasure& bar = p_measures[b];
+      for (int n = 0; n < bar.conunt(); ++n)
+        m->addNote(bar.note(n));
+    }
+    // remove notes moved to another melodies from the list
+    int l = length();
+    bool oneToRemoveFound = false;
+    for (int n = 0; n < l; ++n) {
+      if (oneToRemoveFound)
+        m_notes.removeLast();
+      else if (note(n) == lastNote)
+        oneToRemoveFound = true;
+    }
+    // remove moved measures either
+    int mc = measuresCount();
+    for (int b = byEveryBar; b < mc; ++b)
+      p_measures.removeLast();
+  }
+}
+
+
 void Tmelody::fromNoteStruct(QList<TnoteStruct>& ns) {
   for (int i = 0; i < ns.size(); ++i)
     addNote(Tchunk(ns[i].pitch));
 }
 
+//#################################################################################################
+//###################                PROTECTED         ############################################
+//#################################################################################################
 
 bool Tmelody::processXMLData(QXmlStreamReader& xml) {
   bool ok = true;
@@ -487,7 +537,7 @@ bool Tmelody::processXMLData(QXmlStreamReader& xml) {
     return false;
   }
 
-  // DTD is ignored, only <score-partwise> key is required as main
+  // DTD is ignored, only <score-partwise> key is required as the main
   if (xml.readNextStartElement()) {
     if (xml.name() != QLatin1String("score-partwise")) {
       qDebug() << "[Tmelody] File is not MusicXML format.";
