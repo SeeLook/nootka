@@ -30,7 +30,11 @@ Grid {
       value: Math.abs(shift)
       onValueChanged: shift = value * (upRadio.checked ? 1 : -1)
     }
-    TlabelText { text: qsTr("semitone(s)", "", shiftSpin.value); width: NOO.factor() * 12 }
+    TlabelText {
+      text: qsTr("semitone(s)", "", shiftSpin.value)
+      FontMetrics { id: fm }
+      width: fm.boundingRect(NOO.TR("Transposition", "semitone(s)", "", 5) + "   ").width
+    }
   }
 
   ButtonGroup { id: upDownGroup }
