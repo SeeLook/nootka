@@ -524,15 +524,6 @@ void TlevelCreatorItem::setManualKey(bool manual) {
   levelParamChanged();
 }
 
-QStringList TlevelCreatorItem::keyComboModel() {
-  QStringList model;
-  for (int i = -7; i < 8; i++) {
-    TkeySignature k(i);
-    model << QLatin1String("(") + k.accidNumber() + QLatin1String(") ") + k.getMajorName() + QLatin1String(" / ") + k.getMinorName();
-  }
-  return model;
-}
-
 
 // Rhythms page
 int TlevelCreatorItem::meters() const { return static_cast<int>(m_level->meters); }

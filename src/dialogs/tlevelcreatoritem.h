@@ -263,8 +263,6 @@ public:
 
   bool hasRhythms() const;
 
-  Q_INVOKABLE QStringList keyComboModel();
-
   Q_INVOKABLE void openLevel(const QString& levelFile);
 
   Q_INVOKABLE Tlevel* level() { return m_level; }

@@ -115,7 +115,7 @@ Tflickable {
             anchors.horizontalCenter: parent.horizontalCenter
             TcomboBox {
               id: loKeyCombo
-              model: creator.keyComboModel()
+              model: NOO.keyComboModel()
               width: keyFrame.width * 0.4
               currentIndex: creator.loKey + 7
               onActivated: creator.loKey = currentIndex - 7
@@ -127,7 +127,7 @@ Tflickable {
             TcomboBox {
               enabled: rangeKeysChB.checked
               id: hiKeyCombo
-              model: creator.keyComboModel()
+              model: NOO.keyComboModel()
               width: keyFrame.width * 0.4
               currentIndex: creator.hiKey + 7
               onActivated: creator.hiKey = currentIndex - 7

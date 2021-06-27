@@ -233,6 +233,16 @@ QString TnootkaQML::majAndMinKeyName(int key) {
 }
 
 
+QStringList TnootkaQML::keyComboModel() {
+  QStringList model;
+  for (int i = -7; i < 8; i++) {
+    TkeySignature k(i);
+    model << QLatin1String("(") + k.accidNumber() + QLatin1String(") ") + k.getMajorName() + QLatin1String(" / ") + k.getMinorName();
+  }
+  return model;
+}
+
+
 bool TnootkaQML::isAndroid()  {
 #if defined (Q_OS_ANDROID)
   return true;
