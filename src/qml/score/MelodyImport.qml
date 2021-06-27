@@ -13,6 +13,7 @@ import "../score"
 
 
 Window {
+  id: importWindow
   property bool multiSelect: false
 
   visible: true
@@ -34,6 +35,7 @@ Window {
       text: melImport.title
     }
     ListView {
+      id: partList
       y: melTitle.height + NOO.factor() / 2
       width: parent.width; height: parent.height - melTitle.height - buttRow.height - NOO.factor()
       clip: true
@@ -81,7 +83,10 @@ Window {
           font { pixelSize: NOO.factor() * 1.5; bold: true }
           text: "⋮"
           onClicked: {
+            var p = parent.mapToItem(partList, NOO.factor() * 4, 0)
             settPop.melPart = modelData
+            settPop.x = p.x
+            settPop.y = p.y
             settPop.open()
           }
         }
@@ -115,7 +120,12 @@ Window {
     height: NOO.factor() * 3
     font { pixelSize: NOO.factor() * 2; bold: true }
     text: "⋮"
-    onClicked: settPop.open()
+    onClicked: {
+      settPop.melPart = null
+      settPop.x = (importWindow.width - settPop.width) / 2
+      settPop.y = NOO.factor()
+      settPop.open()
+    }
   }
 
   TpopupDialog {
@@ -124,17 +134,30 @@ Window {
     width: popCol.width + NOO.factor() * 2; height: popCol.height + NOO.factor() * 5
     Column {
       id: popCol
-      Row {
-        spacing: NOO.factor()
-        Text {
-          anchors.verticalCenter: parent.verticalCenter
-          color: activPal.text; text: qsTr("Split after every bar number")
+      spacing: NOO.factor() / 2
+      Text {
+        visible: !settPop.melPart
+        anchors.horizontalCenter: parent.horizontalCenter
+        color: activPal.text; font.bold: true
+        text: qsTr("Transform all imported parts of the score.")
+      }
+      Tile {
+        width: splitRow.width + NOO.factor() * 3
+        Row {
+          id: splitRow
+          anchors.horizontalCenter: parent.horizontalCenter
+          spacing: NOO.factor()
+          Text {
+            anchors.verticalCenter: parent.verticalCenter
+            color: activPal.text; text: qsTr("Divide by selected bars number")
+          }
+          TspinBox {
+            id: splitSpin
+            from: 0; to: 64
+            value: settPop.melPart ? settPop.melPart.splitBarNr : melImport.globalSplitNr
+          }
         }
-        TspinBox {
-          id: splitSpin
-          from: 0; to: 64
-          value: settPop.melPart ? settPop.melPart.splitBarNr : melImport.globalSplitNr
-        }
+        description: "<br>" + qsTr("No division if set to 0.")
       }
     }
     onAccepted: {
@@ -143,7 +166,6 @@ Window {
       else
         melImport.globalSplitNr = splitSpin.value
     }
-    onClosed: melPart = null
   }
 
   onClosing: destroy()
