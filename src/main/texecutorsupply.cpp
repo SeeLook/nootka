@@ -361,34 +361,33 @@ void TexecutorSupply::listForRandomNotes(TkeySignature k, QList<TQAgroup> &qaLis
   QList<Tnote> *listPtr = &m_level->notesList;
   QList<Tnote> transposedList;
   if (!m_level->isSingleKey) {
-      if (k.value() != m_level->keyOfrandList.value()) { // transpose
-          int hiNoteChrom = GLOB->hiNote().chromatic();
-          int loNoteChrom = GLOB->loNote().chromatic();
-          k.setMinor(false); // convert to major to correctly obtain transpose interval
-          // looking for highest and lowest notes in the list
-          int loInList = hiNoteChrom, hiInList = loNoteChrom;
-          int chromaticArr[m_level->notesList.size()]; // pack chromatic notes into array to reuse
-          for (int n = 0; n < m_level->notesList.size(); ++n) {
-              chromaticArr[n] = m_level->notesList[n].chromatic();
-              loInList = qMin(loInList, chromaticArr[n]);
-              hiInList = qMax(hiInList, chromaticArr[n]);
-          }
-          int step = qAbs(k.tonicNote().chromatic() - m_level->keyOfrandList.tonicNote().chromatic());
-//           if (hiNoteChrom - (hiInList + step) < (loInList + (step - 12)) - loNoteChrom) //  equal option - transpose where is more space
-          if (loInList + (step - 12) >= loNoteChrom) // prefer to transpose down
-            step = step - 12;
-          for (int n = 0; n < m_level->notesList.size(); ++n) {
-              int transChrom = chromaticArr[n] + step;
-              if (transChrom >= loNoteChrom && transChrom <= hiNoteChrom) {
-                Tnote note(transChrom);
-                if (m_level->onlyCurrKey)
-                  note = k.inKey(note);
-                if (note.isValid())
-                  transposedList << Tnote(transChrom);
-              }
-          }
-          listPtr = &transposedList;
+    if (k.value() != m_level->keyOfrandList.value()) { // transpose
+      int hiNoteChrom = GLOB->hiNote().chromatic();
+      int loNoteChrom = GLOB->loNote().chromatic();
+      k.setMinor(false); // convert to major to correctly obtain transpose interval
+      // looking for highest and lowest notes in the list
+      int loInList = hiNoteChrom, hiInList = loNoteChrom;
+      int chromaticArr[m_level->notesList.size()]; // pack chromatic notes into array to reuse
+      for (int n = 0; n < m_level->notesList.size(); ++n) {
+        chromaticArr[n] = m_level->notesList[n].chromatic();
+        loInList = qMin(loInList, chromaticArr[n]);
+        hiInList = qMax(hiInList, chromaticArr[n]);
       }
+      int step = qAbs(k.tonicNote().chromatic() - m_level->keyOfrandList.tonicNote().chromatic());
+      if (loInList + (step - 12) >= loNoteChrom) // prefer to transpose down
+        step = step - 12;
+      for (int n = 0; n < m_level->notesList.size(); ++n) {
+        int transChrom = chromaticArr[n] + step;
+        if (transChrom >= loNoteChrom && transChrom <= hiNoteChrom) {
+          Tnote note(transChrom);
+          if (m_level->onlyCurrKey)
+            note = k.inKey(note);
+          if (note.isValid())
+            transposedList << Tnote(transChrom);
+        }
+      }
+      listPtr = &transposedList;
+    }
   }
   // Workaround when transposition is impossible - there is not any note capable for it
   if (listPtr == &transposedList && transposedList.isEmpty()) {
@@ -432,10 +431,10 @@ Tnote TexecutorSupply::forceEnharmAccid(const Tnote& n) {
 
 Tnote::EnameStyle TexecutorSupply::randomNameStyle(int style) {
     if (style != -1) {
-        if ((Tnote::EnameStyle)style == Tnote::e_italiano_Si || (Tnote::EnameStyle)style == Tnote::e_russian_Ci)
-            m_isSolfege = true;
-        else
-            m_isSolfege = false;
+      if ((Tnote::EnameStyle)style == Tnote::e_italiano_Si || (Tnote::EnameStyle)style == Tnote::e_russian_Ci)
+        m_isSolfege = true;
+      else
+        m_isSolfege = false;
     }
     if (m_isSolfege) {
         m_isSolfege = false;
@@ -459,15 +458,15 @@ Tnote::EnameStyle TexecutorSupply::randomNameStyle(int style) {
 
 void TexecutorSupply::getTheSamePos(TfingerPos& fingerPos, QList<TfingerPos>& posList, bool strCheck, bool order) {
   int chStr = GLOB->Gtune()->str(strNr(fingerPos.str() - 1, order) + 1).chromatic();
-  for (int i = 0; i < GLOB->Gtune()->stringNr(); i++)
-    if (i != strNr(fingerPos.str() - 1, order)) { 
+  for (int i = 0; i < GLOB->Gtune()->stringNr(); i++) {
+    if (i != strNr(fingerPos.str() - 1, order)) {
       if (strCheck && !m_level->usedStrings[i])
-          continue; // skip unavailable strings when strCheck is true
+        continue; // skip unavailable strings when strCheck is true
       int fret = chStr + fingerPos.fret() - GLOB->Gtune()->str(strNr(i, order) + 1).chromatic();
-      if (fret >= m_level->loFret && fret <= m_level->hiFret) {
+      if (fret >= m_level->loFret && fret <= m_level->hiFret)
         posList << TfingerPos(strNr(i, order) + 1, fret);
-      }
     }
+  }
 }
 
 
@@ -527,16 +526,16 @@ void TexecutorSupply::checkNotes(TQAunit* curQ, Tnote& expectedNote, Tnote& user
     Tnote nE = exN.showAsNatural();
     Tnote nR = retN.showAsNatural();
     if (exN != retN) {
-      if (reqOctave) {
+        if (reqOctave) {
           if (nE.note() == nR.note() && nE.alter() == nR.alter()) {
               if (nE.octave() != nR.octave())
                 curQ->setMistake(TQAunit::e_wrongOctave);
           } else {
               curQ->setMistake(TQAunit::e_wrongNote);
           }
-      }
-      if (!curQ->wrongNote()) { // There is still something to check
-        if (exN.note() != retN.note() || exN.alter() != retN.alter()) {// if they are equal it means that only octaves were wrong
+        }
+        if (!curQ->wrongNote()) { // There is still something to check
+          if (exN.note() != retN.note() || exN.alter() != retN.alter()) {// if they are equal it means that only octaves were wrong
             exN = exN.showAsNatural();
             retN = retN.showAsNatural();
             if (reqAccid) {
@@ -548,15 +547,17 @@ void TexecutorSupply::checkNotes(TQAunit* curQ, Tnote& expectedNote, Tnote& user
                 if (exN.note() != retN.note() || exN.alter() != retN.alter())
                   curQ->setMistake(TQAunit::e_wrongNote);
             }
+          }
         }
       }
-    }
   } else
       curQ->setMistake(TQAunit::e_wrongNote);
+
   if (!curQ->wrongNote() && m_level->instrument == Tinstrument::Bandoneon && m_level->clef.type() == Tclef::PianoStaffClefs
-      && curQ->questionOnScore() && curQ->answerOnInstr()) {
-      if (expectedNote.onUpperStaff() != userNote.onUpperStaff())
-        qDebug() << "[TexecutorSupply check notes] mistake: wrong bandoneon side";
+      && curQ->questionOnScore() && curQ->answerOnInstr())
+  {
+    if (expectedNote.onUpperStaff() != userNote.onUpperStaff())
+      qDebug() << "[TexecutorSupply check notes] mistake: wrong bandoneon side";
   }
 }
 
@@ -731,32 +732,32 @@ TkeySignature TexecutorSupply::getKey(Tnote& note) {
       key = m_level->loKey;
       if (m_level->onlyCurrKey) {
         if (!m_level->canBeMelody()) {
-            tmpNote = m_level->loKey.inKey(note);
-            if (!tmpNote.isValid())
-              qDebug() << "There is no" << tmpNote.toText() << "in level with single key:" << m_level->loKey.getName() <<
-                    "It should never happened!";
+          tmpNote = m_level->loKey.inKey(note);
+          if (!tmpNote.isValid())
+            qDebug() << "There is no" << tmpNote.toText() << "in level with single key:" << m_level->loKey.getName()
+                    << "It should never happened!";
         }
       }
   } else { // for many key signatures
       if (m_randKey)
-          key = TkeySignature(m_randKey->get());
+        key = TkeySignature(m_randKey->get());
       if (note.isValid() && m_level->onlyCurrKey && !m_level->canBeMelody()) { // if note is in current key only
-          int keyRangeWidth = m_level->hiKey.value() - m_level->loKey.value();
-          int patience = 0; // we are looking for suitable key
-          char keyOff = key.value() - m_level->loKey.value();
-          tmpNote = key.inKey(note);
-          while(tmpNote.note() == 0 && patience <= keyRangeWidth) {
-              keyOff++;
-              if (keyOff > keyRangeWidth) 
-                keyOff = 0;
-              key = TkeySignature(m_level->loKey.value() + keyOff);
-              patience++;
-              tmpNote = key.inKey(note);
-              if (patience > keyRangeWidth) {
-                  qDebug() << "Oops! It should never happened. Can not find key signature for" << note.toText();
-                  break;
-              }
-          }
+        int keyRangeWidth = m_level->hiKey.value() - m_level->loKey.value();
+        int patience = 0; // we are looking for suitable key
+        char keyOff = key.value() - m_level->loKey.value();
+        tmpNote = key.inKey(note);
+        while(tmpNote.note() == 0 && patience <= keyRangeWidth) {
+            keyOff++;
+            if (keyOff > keyRangeWidth) 
+              keyOff = 0;
+            key = TkeySignature(m_level->loKey.value() + keyOff);
+            patience++;
+            tmpNote = key.inKey(note);
+            if (patience > keyRangeWidth) {
+                qDebug() << "Oops! It should never happened. Can not find key signature for" << note.toText();
+                break;
+            }
+        }
       }
   }
   note = tmpNote;
@@ -851,8 +852,8 @@ bool TexecutorSupply::eventFilter(QObject* obj, QEvent* event) {
   if (event->type() == QEvent::MouseButtonPress) {
     QMouseEvent *me = static_cast<QMouseEvent *>(event);
     if (me->button() == Qt::RightButton) {
-        emit rightButtonClicked();
-        return true;
+      emit rightButtonClicked();
+      return true;
     }
   }
   return QObject::eventFilter(obj, event);
