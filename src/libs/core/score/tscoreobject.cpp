@@ -761,6 +761,14 @@ void TscoreObject::transpose(int semis, bool outScaleToRest, const Tnote& loNote
       transposed.setNote(0);
     else
       transposed.transpose(semis + transOff);
+    if (m_keySignEnabled) {
+      auto inKeyNote = TkeySignature(static_cast<char>(m_keySignature)).inKey(transposed);
+      if (inKeyNote.isValid()) {
+        transposed.setNote(inKeyNote.note());
+        transposed.setOctave(inKeyNote.octave());
+        transposed.setAlter(inKeyNote.alter());
+      }
+    }
 
     noteSeg->setNote(transposed);
 

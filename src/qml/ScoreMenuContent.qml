@@ -97,9 +97,9 @@ Tmenu {
       onClosed: destroy()
       onAccepted: {
         if (transpose.toKey || transpose.byInterval) {
-          score.scoreObj.transpose(transpose.outShift, transpose.outScaleToRest)
           if (transpose.toKey)
             score.keySignature = transpose.selectedKey
+          score.scoreObj.transpose(transpose.outShift, transpose.outScaleToRest)
         }
       }
     }
