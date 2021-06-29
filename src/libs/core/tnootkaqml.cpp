@@ -243,6 +243,16 @@ QStringList TnootkaQML::keyComboModel() {
 }
 
 
+/**
+ * Returns difference in semitones between keys @p key1 and @p key2
+ * expressed in values [-7 to 7] [7b to 7#]
+ */
+int TnootkaQML::keysDiff(int key1, int key2) {
+  TkeySignature k1(static_cast<char>(key1));
+  return k1.difference(TkeySignature(static_cast<char>(key2)));
+}
+
+
 bool TnootkaQML::isAndroid()  {
 #if defined (Q_OS_ANDROID)
   return true;

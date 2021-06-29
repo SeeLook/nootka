@@ -125,6 +125,7 @@ public:
   Q_INVOKABLE QString minorKeyName(int key);
   Q_INVOKABLE QString majAndMinKeyName(int key);
   Q_INVOKABLE QStringList keyComboModel();
+  Q_INVOKABLE int keysDiff(int key1, int key2);
   Q_INVOKABLE bool isAndroid();
   Q_INVOKABLE bool isWindows();
   Q_INVOKABLE bool isMac();
