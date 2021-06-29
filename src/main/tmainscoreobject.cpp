@@ -73,6 +73,7 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
 
   m_zoomOutAct = new Taction(tr("Zoom score out"), QStringLiteral("zoom-out"), this);
   m_zoomInAct = new Taction(tr("Zoom score in"), QStringLiteral("zoom-in"), this);
+  m_transposeAct = new Taction(tr("Transpose"), QStringLiteral("transpose"), this);
 
   m_playAct = new Taction(qTR("TtoolBar", "Play"), QStringLiteral("playMelody"), this);
   m_playAct->setBgColor(QColor(0, 255, 0));
@@ -159,7 +160,8 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
   m_scoreObj->clearScoreAct()->setBgColor(QColor(255, 140, 0)); // orange
 #if !defined (Q_OS_ANDROID)
   m_scoreActions.prepend(m_scoreObj->editModeAct());
-  m_scoreActions << m_scoreObj->insertNoteAct() << m_scoreObj->deleteNoteAct() << m_scoreObj->clearScoreAct() << m_notesMenuAct;
+  m_scoreActions << m_scoreObj->insertNoteAct() << m_scoreObj->deleteNoteAct()
+                 << m_scoreObj->clearScoreAct() << m_transposeAct << m_notesMenuAct;
 #else
   m_scoreActions << m_randMelodyAct << m_openXmlAct << m_saveXmlAct;
 #endif
@@ -583,7 +585,8 @@ void TmainScoreObject::isExamChangedSlot() {
   if (m_scoreObj) {
 #if !defined (Q_OS_ANDROID)
     m_scoreActions.prepend(m_scoreObj->editModeAct());
-    m_scoreActions << m_scoreObj->insertNoteAct() << m_scoreObj->deleteNoteAct() << m_scoreObj->clearScoreAct() << m_notesMenuAct;
+    m_scoreActions << m_scoreObj->insertNoteAct() << m_scoreObj->deleteNoteAct()
+                   << m_scoreObj->clearScoreAct() << m_transposeAct << m_notesMenuAct;
 #else
     if (!GLOB->isExam())
       m_scoreActions << m_randMelodyAct << m_openXmlAct << m_saveXmlAct;

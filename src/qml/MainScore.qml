@@ -18,6 +18,7 @@ Score {
   property alias extraAccidsAct: mainObj.extraAccidsAct
   property alias zoomInAct: mainObj.zoomInAct
   property alias zoomOutAct: mainObj.zoomOutAct
+  property alias transposeAct: mainObj.transposeAct
   property alias openXmlAct: mainObj.openXmlAct
   property alias saveXmlAct: mainObj.saveXmlAct
   property alias playAct: mainObj.playAct

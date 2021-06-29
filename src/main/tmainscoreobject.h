@@ -63,6 +63,7 @@ class TmainScoreObject : public QObject
   Q_PROPERTY(Taction* saveXmlAct READ saveXmlAct)
   Q_PROPERTY(Taction* randMelodyAct READ randMelodyAct)
   Q_PROPERTY(Taction* notesMenuAct READ notesMenuAct)
+  Q_PROPERTY(Taction* transposeAct READ transposeAct)
   Q_PROPERTY(QList<QObject*> melodyActions READ melodyActions NOTIFY melodyActionsChanged)
   Q_PROPERTY(QString keyNameText READ keyNameText NOTIFY keyNameTextChanged)
   Q_PROPERTY(QQuickItem* mainScoreItem READ mainScoreItem WRITE setMainScoreItem)
@@ -86,6 +87,7 @@ public:
 
   Taction* nextNoteAct() { return m_nextNoteAct; }
   Taction* prevNoteAct() { return m_prevNoteAct; }
+  Taction* transposeAct() { return m_transposeAct; }
 
   Taction* playAct() { return m_playAct; }
   Taction* openXmlAct() { return m_openXmlAct; }
@@ -198,6 +200,7 @@ private:
   Taction                   *m_playAct;
   Taction                   *m_showNamesAct, *m_extraAccidsAct;
   Taction                   *m_zoomOutAct, *m_zoomInAct;
+  Taction                   *m_transposeAct;
   Taction                   *m_openXmlAct, *m_saveXmlAct, *m_randMelodyAct;
   Taction                   *m_nextNoteAct, *m_prevNoteAct;
   Taction                   *m_notesMenuAct = nullptr;
