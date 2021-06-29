@@ -72,4 +72,36 @@ Tmenu {
 
     }
   } // Component
+
+  Connections {
+    target: score.transposeAct
+    onTriggered: {
+      var tPop = transComp.createObject(nootkaWindow)
+      tPop.initKey = score.keySignature
+      close()
+    }
+  }
+
+  Component {
+    id: transComp
+    TpopupDialog {
+      id: transPopup
+      property alias initKey: transpose.initialKey
+      visible: true; modal: true
+      width: transpose.width + NOO.factor(); height: transpose.height + NOO.factor() * 8
+      caption: NOO.TR("Transpose", "Transpose")
+      Transpose {
+        id: transpose
+        headerVisible: false
+      }
+      onClosed: destroy()
+      onAccepted: {
+        if (transpose.toKey || transpose.byInterval) {
+          score.scoreObj.transpose(transpose.outShift, transpose.outScaleToRest)
+          if (transpose.toKey)
+            score.keySignature = transpose.selectedKey
+        }
+      }
+    }
+  }
 }
