@@ -260,6 +260,18 @@ public:
   bool enableTechnical() const { return m_enableTechnControl; }
   void setEnableTechnical(bool enTech);
 
+      /**
+       * Transposes all notes in the score by @p semis semitones:
+       * when @p semis is positive - transposes up, when negative - down.
+       * @p outScaleToRest determines when notes out of scale is changed to rest
+       * or raised/dropped octave down/up (when set to @p FALSE).
+       * @p loNote and @p hiNote determines scale (ambitus)
+       * in which transposed notes have to fit.
+       * If not set - current @p lowestNote() and @p highestNote()
+       * of the score are used.
+       */
+  Q_INVOKABLE void transpose(int semis, bool outScaleToRest = true, const Tnote& loNote = Tnote(), const Tnote& hiNote = Tnote());
+
   /* ------------------ Lists with score content (staves, measures notes) ------------------ */
 
   int notesCount() const { return m_notes.count(); }

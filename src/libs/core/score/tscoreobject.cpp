@@ -137,7 +137,7 @@ void TscoreObject::setClefType(Tclef::EclefType ct) {
               if (pianoChanged) {
                 int nextRtmGr = (n == notesCount() - 1 ? -1 : m_segments[n + 1]->rhythmGroup());
                 bool lastInBar = (noteSeg == noteSeg->item()->measure()->last());
-                if (fixBeam && (nextRtmGr != rtmGrToCheck || lastInBar)) // summarize beaming at the group or bar end
+                if (fixBeam && (nextRtmGr != rtmGrToCheck || lastInBar)) // summarize beaming at the end of group or measure
                   noteSeg->item()->measure()->resolveBeaming(rtmGrToCheck, rtmGrToCheck);
                 if (nextRtmGr != rtmGrToCheck || lastInBar) {
                   fixBeam = false;  // reset beam fix for next group checking
@@ -728,6 +728,59 @@ void TscoreObject::setEnableTechnical(bool enTech) {
     m_enableTechnControl = enTech;
     emit enableTechnicalChanged();
   }
+}
+
+
+void TscoreObject::transpose(int semis, bool outScaleToRest, const Tnote& loNote, const Tnote& hiNote) {
+  if (semis == 0 || notesCount() == 0)
+    return; // nothing to transpose
+
+  auto lo = loNote.isValid() ? loNote.chromatic() : lowestNote().chromatic();
+  auto hi = hiNote.isValid() ? hiNote.chromatic() : highestNote().chromatic();
+  int rtmGrToCheck = 0;
+  bool fixBeam = false;
+  for (int n = 0; n < notesCount(); ++n) {
+    auto noteSeg = m_segments[n];
+    int transOff = 0;
+    Trhythm transRtm(noteSeg->note()->rtm);
+    auto transChrom = noteSeg->note()->chromatic() + semis;
+    if (outScaleToRest) {
+        if (transChrom > hi || transChrom < lo) {
+          transRtm.setRest(true);
+          transRtm.setTie(Trhythm::e_noTie);
+//           transRtm.setBeam(Trhythm::e_noBeam);
+        }
+    } else {
+        if (transChrom > hi)
+          transOff = -12; // when too high drop octave down
+        else if (transChrom < lo)
+          transOff = 12; // when too low raise octave up
+    }
+    Tnote transposed(*noteSeg->note(), transRtm);
+    if (transRtm.isRest())
+      transposed.setNote(0);
+    else
+      transposed.transpose(semis + transOff);
+
+    noteSeg->setNote(transposed);
+
+    if (noteSeg->beam() && !transRtm.isRest())
+      fixBeam =  true;
+
+    if (fixBeam) {
+      int nextRtmGr = (n == notesCount() - 1 ? -1 : m_segments[n + 1]->rhythmGroup());
+      bool lastInBar = (noteSeg == noteSeg->item()->measure()->last());
+      if (nextRtmGr != rtmGrToCheck || lastInBar) { // summarize beaming at the end of group or measure
+//         noteSeg->item()->measure()->resolveBeaming(rtmGrToCheck, rtmGrToCheck);
+        noteSeg->beam()->prepareBeam();
+        fixBeam = false;  // reset beam fix for next group checking
+        rtmGrToCheck = nextRtmGr;
+      }
+    }
+  }
+  for (int m = 0; m < m_measures.count(); ++m)
+    m_measures[m]->refresh();
+  adjustScoreWidth();
 }
 
 
