@@ -521,6 +521,53 @@ void Tmelody::split(int byEveryBar, QList<Tmelody*>& parts) {
 }
 
 
+void Tmelody::transpose(int semis, bool outScaleToRest, const Tnote& loNote, const Tnote& hiNote) {
+  if (semis == 0 || length() == 0)
+    return; // nothing to transpose
+
+  bool doInScaleCheck = loNote.isValid() && hiNote.isValid();
+  auto lo = doInScaleCheck ? loNote.chromatic() : 0;
+  auto hi = doInScaleCheck ? hiNote.chromatic() : 0;
+
+  for (int n = 0; n < length(); ++n) {
+    Tnote& noteSeg = m_notes[n]->p();
+    int transOff = 0;
+    Trhythm transRtm(noteSeg.rtm);
+    auto transChrom = noteSeg.chromatic() + semis;
+    if (doInScaleCheck) {
+      if (outScaleToRest) {
+          if (transChrom > hi || transChrom < lo) {
+            transRtm.setRest(true);
+            transRtm.setTie(Trhythm::e_noTie);
+            transRtm.setBeam(Trhythm::e_noBeam);
+          }
+      } else {
+          if (transChrom > hi)
+            transOff = -12; // when too high drop octave down
+          else if (transChrom < lo)
+            transOff = 12; // when too low raise octave up
+      }
+    }
+
+    Tnote transposed(noteSeg, transRtm);
+    if (transRtm.isRest())
+      transposed.setNote(0);
+    else
+      transposed.transpose(semis + transOff);
+
+    auto inKeyNote = m_key.inKey(transposed);
+    if (inKeyNote.isValid()) {
+      transposed.setNote(inKeyNote.note());
+      transposed.setOctave(inKeyNote.octave());
+      transposed.setAlter(inKeyNote.alter());
+    }
+
+    noteSeg = transposed;
+  }
+}
+
+
+
 void Tmelody::fromNoteStruct(QList<TnoteStruct>& ns) {
   for (int i = 0; i < ns.size(); ++i)
     addNote(Tchunk(ns[i].pitch));

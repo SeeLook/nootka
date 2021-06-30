@@ -124,6 +124,19 @@ public:
   void split(int byEveryBar, QList<Tmelody*>& parts);
 
       /**
+       * Transposes all notes in this melody by @p semis semitones:
+       * when @p semis is positive - transposes up, when negative - down.
+       * @p outScaleToRest determines when notes out of scale is changed to rest
+       * or raised/dropped octave down/up (when set to @p FALSE).
+       * @p loNote and @p hiNote determines scale (ambitus)
+       * in which transposed notes have to fit.
+       * But if loNote or hiNote is invalid, checking is skipped.
+       * NOTE: When transposition is performed by a key signature
+       * set the new key signature before @p transpose() call.
+       */
+  void transpose(int semis, bool outScaleToRest, const Tnote& loNote, const Tnote& hiNote);
+
+      /**
        * Converts given list to melody
        */
   void fromNoteStruct(QList<TnoteStruct>& ns);
