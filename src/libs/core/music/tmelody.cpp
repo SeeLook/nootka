@@ -548,7 +548,6 @@ bool Tmelody::processXMLData(QXmlStreamReader& xml) {
   bool madeWithNootka = false;
   int partId = 0;
   while (xml.readNextStartElement()) {
-    // TODO: <part-list> has instrument/part names
     if (xml.name() == QLatin1String("movement-title")) {
         m_title = xml.readElementText();
     } else if (xml.name() == QLatin1String("work")) {
@@ -570,6 +569,21 @@ bool Tmelody::processXMLData(QXmlStreamReader& xml) {
                 if (xml.name() == QLatin1String("software")) {
                     if (xml.readElementText().startsWith(QLatin1String("Nootka")))
                       madeWithNootka = true;
+                } else
+                    xml.skipCurrentElement();
+              }
+          } else
+              xml.skipCurrentElement();
+        }
+    } else if (xml.name() == QLatin1String("part-list")) {
+        while (xml.readNextStartElement()) {
+          if (xml.name() == QLatin1String("score-part")) {
+              while (xml.readNextStartElement()) {
+                if (xml.name() == QLatin1String("part-name")) {
+                    if (IMPORT_SCORE)
+                      IMPORT_SCORE->addPartName(xml.readElementText());
+                    else
+                      xml.skipCurrentElement();
                 } else
                     xml.skipCurrentElement();
               }
