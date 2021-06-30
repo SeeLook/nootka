@@ -48,8 +48,7 @@ Window {
           z: 5
           x: NOO.factor() * 6
           color: activPal.text
-          text: qsTr("part") + ": " + modelData.part + ", " + qsTr("staff") + ": " + modelData.staff
-          + ", " + qsTr("voice") + ": " + modelData.voice
+          text: modelData.partName
         }
         Column {
           id: scoreCol
@@ -169,9 +168,9 @@ Window {
     }
     onAccepted: {
       if (melPart)
-        melPart.splitBarNr = divMel.divideBy
+        melPart.splitBarNr = divMel.divisionBy
       else
-        melImport.globalSplitNr = divMel.divideBy
+        melImport.globalSplitNr = divMel.divisionBy
     }
   }
 

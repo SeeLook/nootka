@@ -63,8 +63,18 @@ void TimportScore::addNote(int partId, int staff, int voice, const Tchunk &note)
   }
   auto voicePart = staffPart->parts[staff - 1];
   if (voice > voicePart->count()) {
-    while (voicePart->count() < voice)
-      voicePart->parts << new TmelodyPart(voicePart, partId, staff, voicePart->count() + 1);
+    while (voicePart->count() < voice) {
+      auto p = new TmelodyPart(voicePart, partId, staff, voicePart->count() + 1);
+      // Create part name text by using part name obtained from <part-list><score-part><part-name>
+      // or just 'part number' if not that tag in musicXML.
+      if (partId <= IMPORT_SCORE->partNames().size())
+        p->setPartName(IMPORT_SCORE->partNames()[partId - 1]);
+      if (p->partName().isEmpty())
+        p->setPartName(tr("part", "like part of a score") + QString(": %1").arg(partId));
+      p->setPartName(p->partName() + QLatin1String(", ") + tr("staff") + QString(": %1").arg(staff)
+                    + QLatin1String(", ") + tr("voice") + QString(": %1").arg(voice));
+      voicePart->parts << p;
+    }
   }
   auto snippPart = voicePart->parts[voice - 1];
   if (snippPart->parts.isEmpty())
@@ -119,6 +129,10 @@ void TimportScore::setSplitBarNr(int splitNr) {
   }
 }
 
+
+void TimportScore::addPartName(const QString& pn) {
+  m_partNames << pn;
+}
 
 
 //#################################################################################################

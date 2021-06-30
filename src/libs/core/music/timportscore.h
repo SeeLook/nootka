@@ -43,6 +43,7 @@ class NOOTKACORE_EXPORT TmelodyPart : public QObject
   Q_PROPERTY(int voice READ voice NOTIFY melodyChanged)
   Q_PROPERTY(int splitBarNr READ splitBarNr WRITE setSplitBarNr NOTIFY splitBarNrChanged)
   Q_PROPERTY(QList<TmelodyPart*> snippets READ snippets NOTIFY melodyChanged)
+  Q_PROPERTY(QString partName READ partName NOTIFY melodyChanged)
 
 public:
   explicit TmelodyPart (TmelodyPart* parent = nullptr, int partId = 0, int staffNr = 0, int voiceNr = 0);
@@ -66,6 +67,9 @@ public:
 
   Q_INVOKABLE void setScoreObject(TscoreObject* sObj);
 
+  QString partName() const { return m_partName; }
+  void setPartName(const QString& pn) { m_partName = pn; }
+
 signals:
   void melodyChanged();
   void selectedChanged();
@@ -80,6 +84,7 @@ private:
   TscoreObject         *m_scoreObj = nullptr;
   bool                  m_selected = false;
   int                   m_splitBarNr = 0;
+  QString               m_partName;
 };
 
 
@@ -117,6 +122,13 @@ public:
   static int splitEveryBarNr() { return m_splitEveryBarNr; }
   static void setSplitBarNr(int splitNr);
 
+      /**
+       * List of part names from <part-list><score-part><part-name>.
+       * They correspond with further <part> tags.
+       */
+  QStringList& partNames() { return m_partNames; }
+  void addPartName(const QString& pn);
+
 signals:
   void importReady();
 
@@ -127,6 +139,7 @@ private:
   bool                        m_hasMoreParts = false;
   Tmelody                    *m_melody; /**< Main melody */
   static int                  m_splitEveryBarNr;
+  QStringList                 m_partNames;
 };
 
 #endif // TIMPORTSCORE_H
