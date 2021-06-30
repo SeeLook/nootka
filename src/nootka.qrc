@@ -25,6 +25,7 @@
     <file alias="TradioButton.qml">qml/shared/TradioButton.qml</file>
     <file alias="Transposition.qml">qml/shared/Transposition.qml</file>
     <file alias="Transpose.qml">qml/shared/Transpose.qml</file>
+    <file alias="DivideMelody.qml">qml/shared/DivideMelody.qml</file>
     <file alias="TlabelText.qml">qml/shared/TlabelText.qml</file>
     <file alias="Tflickable.qml">qml/shared/Tflickable.qml</file>
     <file alias="TcuteButton.qml">qml/shared/TcuteButton.qml</file>
