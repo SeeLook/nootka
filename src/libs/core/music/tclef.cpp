@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -130,16 +130,19 @@ QString Tclef::glyphOnStaff() const {
 void Tclef::toXml(QXmlStreamWriter& xml) {
   QString sign, line;
   if (type() == Treble_G || type() == Treble_G_8down || type() == PianoStaffClefs) {
-      sign =  QStringLiteral("G"); line = QStringLiteral("2");
+      sign =  QStringLiteral("G");
+      line = QStringLiteral("2");
   } else if (type() == Bass_F || type() == Bass_F_8down) {
-      sign = QStringLiteral("F"); line = QStringLiteral("4");
+      sign = QStringLiteral("F");
+      line = QStringLiteral("4");
   } else if (type() == Alto_C) {
-      sign = QStringLiteral("C"); line = QStringLiteral("3");
+      sign = QStringLiteral("C");
+      line = QStringLiteral("3");
   } else if (type() == Tenor_C) {
-      sign = QStringLiteral("C"); line = QStringLiteral("4");
-  } else {
+      sign = QStringLiteral("C");
+      line = QStringLiteral("4");
+  } else
       return;
-  }
 
   xml.writeStartElement(QLatin1String("clef"));
     if (type() == PianoStaffClefs)
@@ -164,11 +167,11 @@ void Tclef::fromXml(QXmlStreamReader& xml) {
   int line = 0, oc = 0;
   while (xml.readNextStartElement()) {
     if (xml.name() == QLatin1String("sign"))
-        sign = xml.readElementText();
+      sign = xml.readElementText();
     else if (xml.name() == QLatin1String("line"))
-        line = xml.readElementText().toInt();
+      line = xml.readElementText().toInt();
     else if (xml.name() == QLatin1String("clef-octave-change"))
-        oc = xml.readElementText().toInt();
+      oc = xml.readElementText().toInt();
     else
       xml.skipCurrentElement();
   }
@@ -176,22 +179,22 @@ void Tclef::fromXml(QXmlStreamReader& xml) {
   if (sign == QLatin1String("G")) {
       if (line == 2) {
         if (oc == -1)
-            m_type = Treble_G_8down;
+          m_type = Treble_G_8down;
         else if (oc == 0)
-            m_type = Treble_G;
+          m_type = Treble_G;
       }
   } else if (sign == QLatin1String("F")) {
       if (line == 4) {
         if (oc == -1)
-            m_type = Bass_F_8down;
+          m_type = Bass_F_8down;
         else if (oc == 0)
-            m_type = Bass_F;
+          m_type = Bass_F;
       }
   } else if (sign == QLatin1String("C")) {
       if (line == 3)
-          m_type = Alto_C;
+        m_type = Alto_C;
       else if (line == 4)
-          m_type = Tenor_C;
+        m_type = Tenor_C;
   }
 }
 
