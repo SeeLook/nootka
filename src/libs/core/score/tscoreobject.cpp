@@ -748,7 +748,6 @@ void TscoreObject::transpose(int semis, bool outScaleToRest, const Tnote& loNote
         if (transChrom > hi || transChrom < lo) {
           transRtm.setRest(true);
           transRtm.setTie(Trhythm::e_noTie);
-//           transRtm.setBeam(Trhythm::e_noBeam);
         }
     } else {
         if (transChrom > hi)
@@ -779,8 +778,7 @@ void TscoreObject::transpose(int semis, bool outScaleToRest, const Tnote& loNote
       int nextRtmGr = (n == notesCount() - 1 ? -1 : m_segments[n + 1]->rhythmGroup());
       bool lastInBar = (noteSeg == noteSeg->item()->measure()->last());
       if (nextRtmGr != rtmGrToCheck || lastInBar) { // summarize beaming at the end of group or measure
-//         noteSeg->item()->measure()->resolveBeaming(rtmGrToCheck, rtmGrToCheck);
-        noteSeg->beam()->prepareBeam();
+        noteSeg->item()->measure()->resolveBeaming(rtmGrToCheck, rtmGrToCheck);
         fixBeam = false;  // reset beam fix for next group checking
         rtmGrToCheck = nextRtmGr;
       }
