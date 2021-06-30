@@ -44,20 +44,22 @@ Window {
       delegate: TipRect {
         x: NOO.factor() / 4
         width: melImport.width - NOO.factor() / 2; height: scoreCol.height + NOO.factor()
-        color: index % 2 ? activPal.base : activPal.alternateBase
         Text {
           z: 5
-          x: NOO.factor() * 3
+          x: NOO.factor() * 6
           color: activPal.text
           text: qsTr("part") + ": " + modelData.part + ", " + qsTr("staff") + ": " + modelData.staff
           + ", " + qsTr("voice") + ": " + modelData.voice
         }
         Column {
           id: scoreCol
+          width: parent.width
           z: 1
           Repeater {
             model: modelData.snippets
-            Row {
+            Rectangle {
+              width: parent.width; height: score.height + NOO.factor()
+              color: NOO.alpha(activPal.highlight, importChB.checked ? 50 : 0)
               TcheckBox {
                 id: importChB
                 anchors.verticalCenter: parent.verticalCenter
@@ -65,10 +67,10 @@ Window {
               }
               Score {
                 id: score
-                y: NOO.factor()
+                y: NOO.factor() / 2; x: importChB.width + NOO.factor()
                 width: melImport.width - importChB.width - NOO.factor() * 1.5; height: NOO.factor() * 14
                 readOnly: true
-                bgColor: NOO.alpha(activPal.highlight, importChB.checked ? 50 : 0)
+                bgColor: "transparent"
               }
               Component.onCompleted: {
                 modelData.setScoreObject(score.scoreObj)
@@ -77,23 +79,38 @@ Window {
             }
           }
         }
-        TcuteButton {
+        Row { // single part actions for 'Divide' & 'Transpose'
           anchors { left: parent.left; top: parent.top; margins: NOO.factor() / 2 }
-          height: NOO.factor() * 2.5
-          font { pixelSize: NOO.factor() * 1.5; bold: true }
-          text: "⋮"
-          onClicked: {
-            var p = parent.mapToItem(partList, NOO.factor() * 4, 0)
-            settPop.melPart = modelData
-            settPop.x = p.x
-            settPop.y = p.y
-            settPop.open()
+          RectButton {
+            height: NOO.factor() * 2.2
+            font { pixelSize: NOO.factor() * 2; family: "Nootka" }
+            text: "\u2702"
+            onClicked: {
+              var p = parent.mapToItem(partList, NOO.factor() * 4, 0)
+              dividePop.melPart = modelData
+              dividePop.x = p.x
+              dividePop.y = p.y
+              dividePop.open()
+            }
+          }
+          RectButton {
+            height: NOO.factor() * 2.2
+            font { pixelSize: NOO.factor() * 2; family: "Nootka" }
+            text: "\u0192"
+            onClicked: {
+              var p = parent.mapToItem(partList, NOO.factor() * 4, 0)
+              transPop.melPart = modelData
+              transPop.x = p.x
+              transPop.y = p.y
+              transPop.open()
+            }
           }
         }
       }
       ScrollBar.vertical: ScrollBar {}
     }
-    Row {
+
+    Row { // Footer with 'Import' & 'Cancel' buttons
       id: buttRow
       y: parent.height - height - NOO.factor() / 2; x: (parent.width - width) / 2
       spacing: NOO.factor() * 2
@@ -113,58 +130,59 @@ Window {
         }
       }
     }
-  }
 
-  TcuteButton {
-    anchors { right: parent.right; top: parent.top; margins: NOO.factor() / 2 }
-    height: NOO.factor() * 3
-    font { pixelSize: NOO.factor() * 2; bold: true }
-    text: "⋮"
-    onClicked: {
-      settPop.melPart = null
-      settPop.x = (importWindow.width - settPop.width) / 2
-      settPop.y = NOO.factor()
-      settPop.open()
+    Row { // Global 'Divide' & 'Transpose' actions
+      anchors { right: parent.right; top: parent.top; topMargin: NOO.factor() / 4; rightMargin: NOO.factor() }
+      RectButton {
+        height: NOO.factor() * 3
+        font { pixelSize: NOO.factor() * 2.8; family: "Nootka" }
+        text: "\u2702"
+        onClicked: {
+          dividePop.melPart = null
+          dividePop.x = (importWindow.width - dividePop.width) / 2
+          dividePop.y = NOO.factor() * 2
+          dividePop.open()
+        }
+      }
+      RectButton {
+        height: NOO.factor() * 3
+        font { pixelSize: NOO.factor() * 2.8; family: "Nootka" }
+        text: "\u0192"
+        onClicked: {
+          transPop.melPart = null
+          transPop.x = (importWindow.width - transPop.width) / 2
+          transPop.y = NOO.factor() * 2
+          transPop.open()
+        }
+      }
     }
   }
 
   TpopupDialog {
-    id: settPop
+    id: dividePop
     property var melPart: null
-    width: popCol.width + NOO.factor() * 2; height: popCol.height + NOO.factor() * 5
-    Column {
-      id: popCol
-      spacing: NOO.factor() / 2
-      Text {
-        visible: !settPop.melPart
-        anchors.horizontalCenter: parent.horizontalCenter
-        color: activPal.text; font.bold: true
-        text: qsTr("Transform all imported parts of the score.")
-      }
-      Tile {
-        width: splitRow.width + NOO.factor() * 3
-        Row {
-          id: splitRow
-          anchors.horizontalCenter: parent.horizontalCenter
-          spacing: NOO.factor()
-          Text {
-            anchors.verticalCenter: parent.verticalCenter
-            color: activPal.text; text: qsTr("Divide by selected bars number")
-          }
-          TspinBox {
-            id: splitSpin
-            from: 0; to: 64
-            value: settPop.melPart ? settPop.melPart.splitBarNr : melImport.globalSplitNr
-          }
-        }
-        description: "<br>" + qsTr("No division if set to 0.")
-      }
+    width: divMel.width + NOO.factor() * 2
+    height: divMel.height + NOO.factor() * (dividePop.melPart ? 5 : 7)
+    caption: dividePop.melPart ? "" : qsTr("Transform all imported parts of the score")
+    DivideMelody {
+      id: divMel
     }
     onAccepted: {
       if (melPart)
-        melPart.splitBarNr = splitSpin.value
+        melPart.splitBarNr = divMel.divideBy
       else
-        melImport.globalSplitNr = splitSpin.value
+        melImport.globalSplitNr = divMel.divideBy
+    }
+  }
+
+  TpopupDialog {
+    id: transPop
+    property var melPart: null
+    width: transpose.width + NOO.factor() * 2
+    height: transpose.height + NOO.factor() * (transPop.melPart ? 5 : 7)
+    caption: transPop.melPart ? "" : qsTr("Transform all imported parts of the score")
+    Transpose {
+      id: transpose
     }
   }
 
