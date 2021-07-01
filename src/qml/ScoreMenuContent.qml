@@ -99,7 +99,10 @@ Tmenu {
         if (transpose.toKey || transpose.byInterval) {
           if (transpose.toKey)
             score.keySignature = transpose.selectedKey
-          score.scoreObj.transpose(transpose.outShift, transpose.outScaleToRest)
+          var sObj = score.scoreObj
+          sObj.transpose(transpose.outShift, transpose.outScaleToRest,
+                                   transpose.inInstrumentScale ? GLOB.loNote() : sObj.lowestNote(),
+                                   transpose.inInstrumentScale ? GLOB.hiNote() : sObj.highestNote())
         }
       }
     }
