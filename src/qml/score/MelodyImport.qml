@@ -36,8 +36,8 @@ Window {
     }
     ListView {
       id: partList
-      y: melTitle.height + NOO.factor() / 2
-      width: parent.width; height: parent.height - melTitle.height - buttRow.height - NOO.factor()
+      y: melTitle.height + NOO.factor() * 2
+      width: parent.width; height: parent.height - melTitle.height - buttRow.height - NOO.factor() * 2.5
       clip: true
       spacing: NOO.factor() / 2
       model: melImport.partsModel
@@ -46,7 +46,7 @@ Window {
         width: melImport.width - NOO.factor() / 2; height: scoreCol.height + NOO.factor()
         Text {
           z: 5
-          x: NOO.factor() * 6
+          x: NOO.factor() * 2
           color: activPal.text
           text: modelData.partName
         }
@@ -79,15 +79,16 @@ Window {
           }
         }
         Row { // single part actions for 'Divide' & 'Transpose'
-          anchors { left: parent.left; top: parent.top; margins: NOO.factor() / 2 }
+          anchors { right: parent.right; top: parent.top; margins: NOO.factor() / 2 }
+          z: 7
           RectButton {
             height: NOO.factor() * 2.2
             font { pixelSize: NOO.factor() * 2; family: "Nootka" }
             text: "\u2702"
             onClicked: {
-              var p = parent.mapToItem(partList, NOO.factor() * 4, 0)
+              var p = parent.mapToItem(partList, 0, 0)
               dividePop.melPart = modelData
-              dividePop.x = p.x
+              dividePop.x = partList.width - dividePop.width - NOO.factor() * 4
               dividePop.y = p.y
               dividePop.open()
             }
@@ -97,9 +98,10 @@ Window {
             font { pixelSize: NOO.factor() * 2; family: "Nootka" }
             text: "\u0192"
             onClicked: {
-              var p = parent.mapToItem(partList, NOO.factor() * 4, 0)
+              var p = parent.mapToItem(partList, 0, 0)
               transPop.melPart = modelData
-              transPop.x = p.x
+              transpose.initialKey = modelData.key
+              transPop.x = partList.width - transPop.width - NOO.factor() * 4
               transPop.y = p.y
               transPop.open()
             }
@@ -130,8 +132,8 @@ Window {
       }
     }
 
-    Row { // Global 'Divide' & 'Transpose' actions
-      anchors { right: parent.right; top: parent.top; topMargin: NOO.factor() / 4; rightMargin: NOO.factor() }
+    Row { // Global 'Divide' action
+      anchors { left: parent.left; top: parent.top; topMargin: NOO.factor() / 4; leftMargin: NOO.factor() / 2 }
       RectButton {
         height: NOO.factor() * 3
         font { pixelSize: NOO.factor() * 2.8; family: "Nootka" }
@@ -141,17 +143,6 @@ Window {
           dividePop.x = (importWindow.width - dividePop.width) / 2
           dividePop.y = NOO.factor() * 2
           dividePop.open()
-        }
-      }
-      RectButton {
-        height: NOO.factor() * 3
-        font { pixelSize: NOO.factor() * 2.8; family: "Nootka" }
-        text: "\u0192"
-        onClicked: {
-          transPop.melPart = null
-          transPop.x = (importWindow.width - transPop.width) / 2
-          transPop.y = NOO.factor() * 2
-          transPop.open()
         }
       }
     }
@@ -182,6 +173,13 @@ Window {
     caption: transPop.melPart ? "" : qsTr("Transform all imported parts of the score")
     Transpose {
       id: transpose
+    }
+    onAccepted: {
+      if (transpose.toKey || transpose.byInterval) {
+        if (transpose.toKey)
+          transPop.melPart.key = transpose.selectedKey
+        melImport.transpose(transpose.outShift, transpose.outScaleToRest, transpose.inInstrumentScale, transPop.melPart)
+      }
     }
   }
 

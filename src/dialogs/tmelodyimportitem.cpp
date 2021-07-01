@@ -19,6 +19,8 @@
 #include "tmelodyimportitem.h"
 #include <music/timportscore.h>
 #include <music/tmelody.h>
+#include <score/tscoreobject.h>
+#include <tglobals.h>
 
 #include <QtCore/qdebug.h>
 
@@ -65,5 +67,23 @@ void TmelodyImportItem::setGlobalSplitNr(int gsn) {
   if (gsn != TimportScore::splitEveryBarNr()) {
     TimportScore::setSplitBarNr(gsn);
     emit globalSplitNrChanged();
+  }
+}
+
+
+void TmelodyImportItem::transpose(int semis, bool outScaleToRes, bool inInstrScale, TmelodyPart *part) {
+  if (part) { // transpose single melody
+      for (auto p : part->parts) {
+        if  (p->melody()) {
+          p->melody()->transpose(semis, outScaleToRes,
+                                 inInstrScale ? GLOB->loNote() : p->score()->lowestNote(),
+                                 inInstrScale ? GLOB->hiNote() : p->score()->highestNote());
+          p->score()->setMelody(p->melody());
+        }
+      }
+  } else { // transpose all parts
+    // NOTE: there is no option to invoke such a case due to it has less sense.
+    // Musical score used to have parts with different key signatures,
+    // so importing them to Nootka exercising purposes requires rather individual approach for each every part
   }
 }

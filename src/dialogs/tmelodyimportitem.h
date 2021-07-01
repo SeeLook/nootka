@@ -23,6 +23,9 @@
 #include <QtQuick/qquickitem.h>
 
 
+class TmelodyPart;
+
+
 /**
  * @todo write docs
  */
@@ -46,6 +49,8 @@ public:
   void setGlobalSplitNr(int gsn);
 
   Q_INVOKABLE void emitImport();
+
+  Q_INVOKABLE void transpose(int semis, bool outScaleToRes, bool inInstrScale, TmelodyPart* part);
 
 signals:
   void melodyChanged();
