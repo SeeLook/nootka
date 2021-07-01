@@ -44,6 +44,7 @@ class NOOTKACORE_EXPORT TmelodyPart : public QObject
   Q_PROPERTY(int splitBarNr READ splitBarNr WRITE setSplitBarNr NOTIFY splitBarNrChanged)
   Q_PROPERTY(QList<TmelodyPart*> snippets READ snippets NOTIFY melodyChanged)
   Q_PROPERTY(QString partName READ partName NOTIFY melodyChanged)
+  Q_PROPERTY(int key READ key WRITE setKey NOTIFY melodyChanged)
 
 public:
   explicit TmelodyPart (TmelodyPart* parent = nullptr, int partId = 0, int staffNr = 0, int voiceNr = 0);
@@ -69,6 +70,24 @@ public:
 
   QString partName() const { return m_partName; }
   void setPartName(const QString& pn) { m_partName = pn; }
+
+      /**
+       * Key signature is only valid when this @p TmelodyPart has melody
+       * or some of its @p parts has.
+       * Otherwise 0 is returned
+       */
+  int key() const;
+
+      /**
+       * It will set key in this melody @p m_melody if exists
+       * or in all melodies of @p parts.
+       * Due to purpose of this method is just to prepare melody
+       * for further transposition - it doesn't refresh corresponding score.
+       * To do so @p melodyChanged() signal has to be emitted.
+       */
+  void setKey(int k);
+
+  TscoreObject* score() { return m_scoreObj; }
 
 signals:
   void melodyChanged();

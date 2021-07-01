@@ -211,3 +211,25 @@ void TmelodyPart::setSplitBarNr(int splitNr) {
     emit splitBarNrChanged();
   }
 }
+
+
+int TmelodyPart::key() const {
+  if (m_melody)
+    return static_cast<int>(m_melody->key().value());
+  else if (!parts.isEmpty() && parts.first()->melody())
+    return static_cast<int>(parts.first()->melody()->key().value());
+
+  return 0;
+}
+
+
+void TmelodyPart::setKey(int k) {
+  if (m_melody)
+    m_melody->setKey(TkeySignature(static_cast<char>(k)));
+  else if (!parts.isEmpty()) {
+    for (auto p : parts) {
+      if (p->melody())
+        p->melody()->setKey(TkeySignature(static_cast<char>(k)));
+    }
+  }
+}
