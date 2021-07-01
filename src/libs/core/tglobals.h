@@ -426,13 +426,15 @@ public:
 
       /**
        * The highest available note in current tune with current fret number
+       * or highest note in the non guitar instrument scale.
        */
-  Tnote hiNote() { return Tnote(hiString().chromatic() + GfretsNumber); }
+  Q_INVOKABLE Tnote hiNote() { return Tnote(hiString().chromatic() + GfretsNumber); }
 
       /**
        * The same as @p loString()
+       * or lowest note in the non guitar instrument scale.
        */
-  Tnote loNote() { return loString(); }
+  Q_INVOKABLE Tnote loNote() { return loString(); }
 
       /**
        * It says witch accidentals are preferred while user clicks guitar
