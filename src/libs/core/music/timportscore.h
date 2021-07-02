@@ -148,6 +148,9 @@ public:
   QStringList& partNames() { return m_partNames; }
   void addPartName(const QString& pn);
 
+  bool multiSelect() const { return m_multiselect; }
+  void setMultiSelect(bool ms) { m_multiselect = ms; }
+
 signals:
   void importReady();
 
@@ -159,6 +162,7 @@ private:
   Tmelody                    *m_melody; /**< Main melody */
   static int                  m_splitEveryBarNr;
   QStringList                 m_partNames;
+  bool                        m_multiselect = false;
 };
 
 #endif // TIMPORTSCORE_H

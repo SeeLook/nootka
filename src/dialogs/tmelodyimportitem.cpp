@@ -87,3 +87,14 @@ void TmelodyImportItem::transpose(int semis, bool outScaleToRes, bool inInstrSca
     // so importing them to Nootka exercising purposes requires rather individual approach for each every part
   }
 }
+
+
+bool TmelodyImportItem::multiSelect() const {
+  return IMPORT_SCORE ? IMPORT_SCORE->multiSelect() : false;
+}
+
+
+void TmelodyImportItem::setMultiSelect(bool ms) {
+  if (IMPORT_SCORE)
+    IMPORT_SCORE->setMultiSelect(ms);
+}

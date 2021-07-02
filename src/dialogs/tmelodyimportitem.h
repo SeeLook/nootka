@@ -37,6 +37,7 @@ class TmelodyImportItem : public QQuickItem
   Q_PROPERTY(QString title READ title NOTIFY melodyChanged)
   Q_PROPERTY(QList<QObject*> partsModel READ partsModel NOTIFY melodyChanged)
   Q_PROPERTY(int globalSplitNr READ globalSplitNr WRITE setGlobalSplitNr NOTIFY globalSplitNrChanged)
+  Q_PROPERTY(bool multiSelect READ multiSelect WRITE setMultiSelect NOTIFY melodyChanged)
 
 public:
   explicit TmelodyImportItem(QQuickItem* parent = nullptr);
@@ -47,6 +48,9 @@ public:
 
   int globalSplitNr() const;
   void setGlobalSplitNr(int gsn);
+
+  bool multiSelect() const;
+  void setMultiSelect(bool ms);
 
   Q_INVOKABLE void emitImport();
 

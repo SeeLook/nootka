@@ -14,7 +14,7 @@ import "../score"
 
 Window {
   id: importWindow
-  property bool multiSelect: false
+  property alias multiSelect: melImport.multiSelect
 
   visible: true
   modality: Qt.WindowModal
