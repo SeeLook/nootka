@@ -22,8 +22,9 @@
 #include <exam/tlevel.h>
 #include <tglobals.h>
 #include <tnootkaqml.h>
+#include <music/timportscore.h>
 
-#include <QtQml/qqmlengine.h>
+#include <QtQml/qqmlapplicationengine.h>
 #include <QtCore/qtimer.h>
 #if !defined (Q_OS_ANDROID)
   #include <tmtr.h>
@@ -60,6 +61,8 @@ void TmelodyListView::setMelodyModel(QObject* mm) {
  * then melodies show off.
  */
 void TmelodyListView::setLevel(Tlevel* l) {
+  QMetaObject::invokeMethod(m_melodyModel, "clear");
+  m_lastMelodyId = -1; // reset
   m_level = l;
   QTimer::singleShot(250, [=]{ loadMelodies(); });
 }
@@ -68,34 +71,20 @@ void TmelodyListView::setLevel(Tlevel* l) {
 void TmelodyListView::loadMelody() {
 #if defined (Q_OS_ANDROID)
   QString musicXMLfile = NOO->getXmlToOpen();
-  if (!musicXMLfile.isEmpty()) {
-    m_level->melodySet << Tmelody();
-    auto melody = &m_level->melodySet.last();
-    if (melody->grabFromMusicXml(musicXMLfile)) {
-        emit appendMelody();
-        emit melodiesChanged();
-    } else
-        m_level->melodySet.removeLast();
-  }
+  if (musicXMLfile.isEmpty())
+    return;
+  else
+    m_xmlFiles << musicXMLfile;
 #else
   auto f = qApp->font();
   qApp->setFont(Tmtr::systemFont);
-  auto names = QFileDialog::getOpenFileNames(nullptr, qTR("TmainScoreObject", "Open melody file"), GLOB->lastXmlDir(),
+  m_xmlFiles = QFileDialog::getOpenFileNames(nullptr, qTR("TmainScoreObject", "Open melody file"), GLOB->lastXmlDir(),
                                              qTR("TmainScoreObject", "MusicXML file") + QLatin1String(" (*.xml *.musicxml *.mxl)"));
   qApp->setFont(f);
-  if (names.isEmpty())
+  if (m_xmlFiles.isEmpty())
     return;
-
-  for (auto musicXMLfile : names) {
-    if (!musicXMLfile.isEmpty()) {
-      m_level->melodySet << Tmelody();
-      if (!m_level->melodySet.last().grabFromMusicXml(musicXMLfile))
-        m_level->melodySet.removeLast();
-    }
-  }
-  QTimer::singleShot(100, [=]{ loadMelodies(); });
-  emit melodiesChanged();
 #endif
+  processNextXmlFile();
 }
 
 
@@ -125,7 +114,57 @@ QVariant TmelodyListView::getMelody(int melId) {
 //#################################################################################################
 
 void TmelodyListView::loadMelodies() {
-  QMetaObject::invokeMethod(m_melodyModel, "clear");
-  for (int m = 0; m < m_level->melodySet.count(); ++m)
+  m_lastMelodyId++;
+  for (int m = m_lastMelodyId; m < m_level->melodySet.count(); ++m)
     emit appendMelody();
+  m_lastMelodyId = m_level->melodySet.count() - 1;
+}
+
+
+void TmelodyListView::processNextXmlFile() {
+  if (m_xmlFiles.isEmpty())
+    return;
+
+  auto musicXMLfile = m_xmlFiles.takeFirst();
+  m_level->melodySet << Tmelody();
+  auto m = &m_level->melodySet.last();
+  auto melImport = new TimportScore(m, this);
+  melImport->setMultiSelect(true);
+  if (m->grabFromMusicXml(musicXMLfile)) {
+    if (melImport->hasMoreParts()) {
+        auto nootWin = qobject_cast<QQmlApplicationEngine*>(NOO->qmlEngine())->rootObjects().first();
+        if (nootWin && QString(nootWin->metaObject()->className()).contains("MainWindow_QMLTYPE")) {
+          QMetaObject::invokeMethod(nootWin, "showDialog", Q_ARG(QVariant, TnootkaQML::ScoreImport));
+          connect(melImport, &TimportScore::importReady, this, &TmelodyListView::melodyImportSlot);
+        }
+        m_level->melodySet.removeLast();
+    } else {
+        melImport->deleteLater();
+        if (m_xmlFiles.isEmpty()) {
+            QTimer::singleShot(100, [=]{ loadMelodies(); });
+            emit melodiesChanged();
+        } else
+            QTimer::singleShot(100, [=]{ processNextXmlFile(); });
+    }
+  }
+}
+
+
+void TmelodyListView::melodyImportSlot() {
+  for (auto mi : IMPORT_SCORE->model()) {
+    auto voicePart = qobject_cast<TmelodyPart*>(mi);
+    if (voicePart && !voicePart->parts.isEmpty()) {
+      for (auto snip : voicePart->parts) {
+        if (snip->selected()) {
+          m_level->melodySet << *snip->melody();
+//           break;
+        }
+      }
+    }
+  }
+  if (m_xmlFiles.isEmpty()) {
+      QTimer::singleShot(100, [=]{ loadMelodies(); });
+      emit melodiesChanged();
+  } else
+      QTimer::singleShot(100, [=]{ processNextXmlFile(); });
 }

@@ -73,9 +73,14 @@ protected:
        */
   void loadMelodies();
 
+  void processNextXmlFile();
+  void melodyImportSlot();
+
 private:
   Tlevel                    *m_level = nullptr;
   QObject                   *m_melodyModel = nullptr;
+  QStringList                m_xmlFiles;
+  int                        m_lastMelodyId = -1; /**< Index of the latest melody that was added by @p loadMelodies()  */
 };
 
 #endif // TMELODYLISTVIEW_H

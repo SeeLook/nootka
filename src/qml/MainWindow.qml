@@ -137,7 +137,7 @@ ApplicationWindow {
       return
     }
     if (page === Nootka.ScoreImport) {
-      Qt.createComponent("qrc:/score/MelodyImport.qml").createObject(nootkaWindow)
+      Qt.createComponent("qrc:/score/MelodyImport.qml").createObject(dialogLoader.page === Nootka.LevelCreator ? dialogLoader : nootkaWindow)
       return
     }
     dialogLoader.page = page
