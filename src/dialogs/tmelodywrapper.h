@@ -43,6 +43,7 @@ class TmelodyWrapper : public QQuickItem
   Q_PROPERTY(QString title READ title NOTIFY melodyChanged)
   Q_PROPERTY(QString composer READ composer NOTIFY melodyChanged)
   Q_PROPERTY(bool outOfScale READ outOfScale NOTIFY melodyChanged)
+  Q_PROPERTY(int key READ key WRITE setKey NOTIFY melodyChanged)
 
 public:
   explicit TmelodyWrapper(QQuickItem* parent = nullptr);
@@ -62,6 +63,16 @@ public:
 
   bool outOfScale() const { return m_outOfScale; }
 
+  int key() const;
+
+      /**
+       * It will set key in this melody @p m_melody if exists.
+       * Due to purpose of this method is just to prepare melody
+       * for further transposition - it doesn't refresh corresponding score.
+       * To do so @p reload() signal has to be invoked.
+       */
+  void setKey(int k);
+
       /**
        * Gets @p Tmelody from melody view by @p nr()
        * and sets to @p TscoreObject.
@@ -75,6 +86,8 @@ public:
        * so it has to be loaded again into the score.
        */
   Q_INVOKABLE void reload();
+
+  Tmelody* melody() { return m_melody; }
 
 signals:
   void nrChanged();

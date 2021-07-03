@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "tmelodylistview.h"
+#include "tmelodywrapper.h"
 #include <music/tmelody.h>
 #include <score/tscoreobject.h>
 #include <exam/tlevel.h>
@@ -122,6 +123,16 @@ void TmelodyListView::divideMelody(int melId, int bars) {
         i++;
       }
     }
+  }
+}
+
+
+void TmelodyListView::transpose(int semis, bool outScaleToRes, bool inInstrScale, TmelodyWrapper* wrapp) {
+  if (wrapp && wrapp->melody() && wrapp->score()) {
+    wrapp->melody()->transpose(semis, outScaleToRes,
+                               inInstrScale ? GLOB->loNote() : wrapp->score()->lowestNote(),
+                               inInstrScale ? GLOB->hiNote() : wrapp->score()->highestNote());
+    wrapp->reload();
   }
 }
 

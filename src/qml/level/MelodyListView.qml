@@ -129,11 +129,39 @@ TmelodyListView {
       height: divMel.height + NOO.factor() * 5
       DivideMelody { id: divMel }
       onAccepted: {
-        melListView.divideMelody(currWrapp.nr, divMel.divisionBy)
-        currWrapp.reload()
-        if (melPreview) {
-          melPreview.reload()
-          melPreview.close()
+        if (divMel.divisionBy > 0) {
+          melListView.divideMelody(currWrapp.nr, divMel.divisionBy)
+          currWrapp.reload()
+          if (melPreview) {
+            melPreview.reload()
+            melPreview.close()
+          }
+          creator.melodyListChanged()
+        }
+      }
+    }
+  }
+
+  Component {
+    id: transcomp
+    TpopupDialog {
+      id: transPop
+      property alias transpose: transpose
+      width: transpose.width + NOO.factor() * 2
+      height: transpose.height + NOO.factor() * 5
+      Transpose {
+        id: transpose
+      }
+      onAccepted: {
+        if (transpose.toKey || transpose.byInterval) {
+          if (transpose.toKey)
+            currWrapp.wrapper.key = transpose.selectedKey
+          melListView.transpose(transpose.outShift, transpose.outScaleToRest, transpose.inInstrumentScale, currWrapp.wrapper)
+          if (melPreview) {
+            melPreview.reload()
+            melPreview.close()
+          }
+          creator.melodyListChanged()
         }
       }
     }
@@ -146,6 +174,9 @@ TmelodyListView {
 
   property var melPreview: null
   property var currWrapp: null
+  property var dividePop: null
+  property var transPop: null
+
   function showMelody(wrappId) {
     if (!melPreview) {
       melPreview = Qt.createComponent("qrc:/score/MelodyPreview.qml").createObject(NOO.isAndroid() ? nootkaWindow : melPage,
@@ -153,6 +184,7 @@ TmelodyListView {
                                 "maxHeight": melPage.height - NOO.factor() * (NOO.isAndroid() ? 4 : 10)
                               })
       melPreview.wantDivide.connect(showDividePopup)
+      melPreview.wantTranspose.connect(showTransposePopup)
     }
     currWrapp = wrappId
     melPreview.open()
@@ -170,10 +202,16 @@ TmelodyListView {
     melMod.move(from, to, 1)
     swapMelodies(from, to)
   }
-  property var dividePop: null
   function showDividePopup() {
     if (!dividePop)
       dividePop = divideComp.createObject(melPage)
     dividePop.open()
+  }
+  function showTransposePopup() {
+    if (!transPop)
+      transPop = transcomp.createObject(melPage)
+    if (melPreview.visible)
+      transPop.transpose.initialKey = currWrapp.wrapper.key
+    transPop.open()
   }
 }

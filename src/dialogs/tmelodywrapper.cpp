@@ -77,6 +77,21 @@ void TmelodyWrapper::reload() {
 }
 
 
+int TmelodyWrapper::key() const {
+  return m_melody ? static_cast<int>(m_melody->key().value()) : 0;
+}
+
+
+void TmelodyWrapper::setKey(int k) {
+  if (m_melody)
+    m_melody->setKey(TkeySignature(static_cast<char>(k)));
+}
+
+
+//#################################################################################################
+//###################                PROTECTED         ############################################
+//#################################################################################################
+
 void TmelodyWrapper::checkOutOfScale() {
   m_outOfScale = false;
   auto hi = GLOB->hiNote().chromatic(), lo = GLOB->loNote().chromatic();

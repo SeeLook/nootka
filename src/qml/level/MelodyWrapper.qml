@@ -18,6 +18,7 @@ MouseArea {
   property bool held: false
   property alias nr: wrapper.nr
   property alias outOfScale: wrapper.outOfScale
+  property alias wrapper: wrapper
 
   function updateMelody() { wrapper.updateMelody() }
   function reload() { wrapper.reload() }

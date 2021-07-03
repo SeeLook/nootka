@@ -27,6 +27,7 @@
 class TscoreObject;
 class Tmelody;
 class Tlevel;
+class TmelodyWrapper;
 
 
 #define MELODY_LENGHT (15)
@@ -61,6 +62,7 @@ public:
   Q_INVOKABLE QVariant getMelody(int melId);
 
   Q_INVOKABLE void divideMelody(int melId, int bars);
+  Q_INVOKABLE void transpose(int semis, bool outScaleToRes, bool inInstrScale, TmelodyWrapper* wrapp);
 
 signals:
   void appendMelody();
