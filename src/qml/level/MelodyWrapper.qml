@@ -91,6 +91,33 @@ MouseArea {
         text: NOO.TR("OutScaleTip", "Out of instrument scale!")
         color: "red"
       }
+      Row {
+        y: parent.height / 3
+        anchors { right: parent.right; margins: 10 }
+        spacing: NOO.factor() / 2
+        RectButton {
+          height: scoreCover.height / 4
+          font { family: "Nootka"; pixelSize: scoreCover.height / 4 }
+          text: "\u2702"
+          textColor: wrapArea.containsMouse || NOO.isAndroid() ? activPal.text : NOO.alpha(activPal.text, 30)
+          Behavior on textColor { enabled: GLOB.useAnimations; ColorAnimation {} }
+          onClicked: {
+            melListView.currWrapp = wrapArea
+            melListView.showDividePopup()
+          }
+        }
+        RectButton {
+          height: scoreCover.height / 4
+          font { family: "Nootka"; pixelSize: scoreCover.height / 4 }
+          text: "\u0192"
+          textColor: wrapArea.containsMouse || NOO.isAndroid() ? activPal.text : NOO.alpha(activPal.text, 30)
+          Behavior on textColor { enabled: GLOB.useAnimations; ColorAnimation {} }
+          onClicked: {
+            melListView.currWrapp = wrapArea
+            melListView.showTransposePopup()
+          }
+        }
+      }
       RectButton {
         visible: !NOO.isAndroid()
         anchors { bottom: parent.bottom; right: parent.right; margins: 10 }

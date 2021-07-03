@@ -152,6 +152,7 @@ TmelodyListView {
       Transpose {
         id: transpose
       }
+      onAboutToShow: transpose.currentKeyId = currWrapp ? currWrapp.wrapper.key + 7 : 7
       onAccepted: {
         if (transpose.toKey || transpose.byInterval) {
           if (transpose.toKey)
@@ -210,8 +211,7 @@ TmelodyListView {
   function showTransposePopup() {
     if (!transPop)
       transPop = transcomp.createObject(melPage)
-    if (melPreview.visible)
-      transPop.transpose.initialKey = currWrapp.wrapper.key
+    transPop.transpose.initialKey = currWrapp.wrapper.key
     transPop.open()
   }
 }

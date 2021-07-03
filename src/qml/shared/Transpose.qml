@@ -14,6 +14,7 @@ Column {
   property alias headerVisible: header.visible
   property int initialKey: 0
   property int selectedKey: transKeyCombo.currentIndex - 7
+  property alias currentKeyId: transKeyCombo.currentIndex
   property alias toKey: keyChB.checked
   property alias byInterval: semiChB.checked
 
