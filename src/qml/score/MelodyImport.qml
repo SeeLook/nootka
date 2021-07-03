@@ -156,6 +156,7 @@ Window {
     caption: dividePop.melPart ? "" : qsTr("Transform all imported parts of the score")
     DivideMelody {
       id: divMel
+      divisionBy: dividePop.melPart ? dividePop.melPart.splitBarNr : melImport.globalSplitNr
     }
     onAccepted: {
       if (melPart)
