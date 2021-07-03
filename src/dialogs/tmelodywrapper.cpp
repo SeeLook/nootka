@@ -56,15 +56,7 @@ void TmelodyWrapper::updateMelody() {
   m_melody = qvariant_cast<Tmelody*>(m_melodyView->getMelody(m_nr));
   if (m_melody != oldMelody) {
     m_score->setMelody(m_melody, false, MELODY_LENGHT);
-    m_outOfScale = false;
-    auto hi = GLOB->hiNote().chromatic(), lo = GLOB->loNote().chromatic();
-    for (int n = 0; n < m_melody->length(); ++n) {
-      auto chrom = m_melody->note(n)->p().chromatic();
-      if (chrom < lo || chrom > hi) {
-        m_outOfScale = true;
-        break;
-      }
-    }
+    checkOutOfScale();
     emit melodyChanged();
     /**
      * HACK: Trigger mouse hover with delay to avoid highlighting every wrapper.
@@ -73,5 +65,26 @@ void TmelodyWrapper::updateMelody() {
      * With this delay it works as intended.
      */
     QTimer::singleShot(500, this, [=]{ parent()->setProperty("hoverEnabled", QVariant::fromValue(true)); });
+  }
+}
+
+
+void TmelodyWrapper::reload() {
+  if (m_melody && m_score)
+    m_score->setMelody(m_melody, false, MELODY_LENGHT);
+  checkOutOfScale();
+  emit melodyChanged();
+}
+
+
+void TmelodyWrapper::checkOutOfScale() {
+  m_outOfScale = false;
+  auto hi = GLOB->hiNote().chromatic(), lo = GLOB->loNote().chromatic();
+  for (int n = 0; n < m_melody->length(); ++n) {
+    auto chrom = m_melody->note(n)->p().chromatic();
+    if (chrom < lo || chrom > hi) {
+      m_outOfScale = true;
+      break;
+    }
   }
 }

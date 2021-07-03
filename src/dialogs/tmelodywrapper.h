@@ -69,9 +69,19 @@ public:
        */
   Q_INVOKABLE void updateMelody();
 
+      /**
+       * Reloads melody @p Tmelody in the score.
+       * It occurs that melody changes,
+       * so it has to be loaded again into the score.
+       */
+  Q_INVOKABLE void reload();
+
 signals:
   void nrChanged();
   void melodyChanged();
+
+protected:
+  void checkOutOfScale();
 
 private:
   int                     m_nr = 0;
