@@ -60,6 +60,8 @@ public:
 
   Q_INVOKABLE QVariant getMelody(int melId);
 
+  Q_INVOKABLE void divideMelody(int melId, int bars);
+
 signals:
   void appendMelody();
   void insertMelody(int melId);

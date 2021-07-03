@@ -121,19 +121,40 @@ TmelodyListView {
       }
     }
   }
+
+  Component {
+    id: divideComp
+    TpopupDialog {
+      width: divMel.width + NOO.factor() * 2
+      height: divMel.height + NOO.factor() * 5
+      DivideMelody { id: divMel }
+      onAccepted: {
+        melListView.divideMelody(currWrapp.nr, divMel.divisionBy)
+        currWrapp.reload()
+        if (melPreview) {
+          melPreview.reload()
+          melPreview.close()
+        }
+      }
+    }
+  }
+
   onAppendMelody: melMod.append({})
-  onInsertMelody: melMod.insert(melId, {}) // TODO not implemented yet
+  onInsertMelody: melMod.insert(melId, {})
 
   onMelodiesChanged: creator.melodyListChanged()
 
   property var melPreview: null
+  property var currWrapp: null
   function showMelody(wrappId) {
     if (!melPreview) {
       melPreview = Qt.createComponent("qrc:/score/MelodyPreview.qml").createObject(NOO.isAndroid() ? nootkaWindow : melPage,
                               { "width": (NOO.isAndroid() ? nootkaWindow.width : melListView.width) - NOO.factor() * 2,
                                 "maxHeight": melPage.height - NOO.factor() * (NOO.isAndroid() ? 4 : 10)
                               })
+      melPreview.wantDivide.connect(showDividePopup)
     }
+    currWrapp = wrappId
     melPreview.open()
     melPreview.melody = getMelody(wrappId.nr)
     melPreview.idText = (wrappId.nr + 1) + "."
@@ -148,5 +169,11 @@ TmelodyListView {
   function moveMelody(from, to) {
     melMod.move(from, to, 1)
     swapMelodies(from, to)
+  }
+  property var dividePop: null
+  function showDividePopup() {
+    if (!dividePop)
+      dividePop = divideComp.createObject(melPage)
+    dividePop.open()
   }
 }

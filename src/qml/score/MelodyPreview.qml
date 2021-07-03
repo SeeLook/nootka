@@ -16,9 +16,14 @@ TpopupDialog {
 
       /**
        * If set score @p height has priority until it reaches @p maxHeight then score uses scrolling.
-       * When unset, @p height propery has to be set
+       * When unset, @p height property has to be set
        */
   property real maxHeight: 0
+
+  signal wantDivide()
+  signal wantTranspose()
+
+  function reload() { melPrev.reload() }
 
   height: maxHeight ? Math.min(maxHeight, header.height + sc.height + footer.height) : undefined
 
@@ -54,10 +59,31 @@ TpopupDialog {
     color: activPal.text
   }
 
-  Text {
-    id: nrText
+  Rectangle {
     x: NOO.factor() / 2
-    font { bold: true; pixelSize: NOO.factor() * 2 }
-    color: activPal.text
+    color: NOO.alpha(activPal.base, 200)
+    width: childrenRect.width; height: childrenRect.height
+    radius: NOO.factor() / 2
+    Row {
+      z: 7
+      spacing: NOO.factor() / 2
+      Text {
+        id: nrText
+        font { bold: true; pixelSize: NOO.factor() * 2 }
+        color: activPal.text
+      }
+      RectButton {
+        height: NOO.factor() * 2.2
+        font { pixelSize: NOO.factor() * 2; family: "Nootka" }
+        text: "\u2702"
+        onClicked: wantDivide()
+      }
+      RectButton {
+        height: NOO.factor() * 2.2
+        font { pixelSize: NOO.factor() * 2; family: "Nootka" }
+        text: "\u0192"
+        onClicked: wantTranspose()
+      }
+    }
   }
 }

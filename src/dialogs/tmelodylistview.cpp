@@ -109,6 +109,23 @@ QVariant TmelodyListView::getMelody(int melId) {
   return QVariant::fromValue(melId > -1 && melId < m_level->melodySet.count() ? &m_level->melodySet[melId] : nullptr);
 }
 
+
+void TmelodyListView::divideMelody(int melId, int bars) {
+  if (melId > -1 && melId < m_level->melodySet.count()) {
+    QList<Tmelody*> parts;
+    m_level->melodySet[melId].split(bars, parts);
+    if (!parts.isEmpty()) {
+      int i = 1;
+      for (auto m : parts) {
+        m_level->melodySet.insert(melId + i, *m);
+        emit insertMelody(melId + i);
+        i++;
+      }
+    }
+  }
+}
+
+
 //#################################################################################################
 //###################              PROTECTED           ############################################
 //#################################################################################################
@@ -155,10 +172,8 @@ void TmelodyListView::melodyImportSlot() {
     auto voicePart = qobject_cast<TmelodyPart*>(mi);
     if (voicePart && !voicePart->parts.isEmpty()) {
       for (auto snip : voicePart->parts) {
-        if (snip->selected()) {
+        if (snip->selected()) // append all selected parts
           m_level->melodySet << *snip->melody();
-//           break;
-        }
       }
     }
   }
