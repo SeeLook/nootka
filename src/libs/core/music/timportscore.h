@@ -32,6 +32,10 @@ class Tchunk;
 class TscoreObject;
 
 
+/**
+ * @class TmelodyPart is nested container for @class Tmelody
+ * and list of score parts (staves, voices, snippets)
+ */
 class NOOTKACORE_EXPORT TmelodyPart : public QObject
 {
 
@@ -108,7 +112,17 @@ private:
 
 
 /**
- * @todo write docs
+ * @class TimportScore is a singleton object which existence
+ * @class Tmelody detects during reading from musicXML file.
+ * If there are more parts/staves/voices in that file
+ * all that is written into nested @class TmelodyPart lists.
+ * A top is @p parts QList<TmelodyPart*> with part(s),
+ * inside it/them is/are staves then voices.
+ * Every voice can be divided for snippets.
+ * @p partNames are list of parts/instruments read before parts.
+ * Due to not all parts contain notes
+ * @p sumarize() has to be invoked after processing XML.
+ * It will prepare @p model() ready to parse by QML
  */
 class NOOTKACORE_EXPORT TimportScore : public QObject
 {
@@ -125,8 +139,16 @@ public:
 
   void addNote(int partId, int staff, int voice, const Tchunk& note);
 
+      /**
+       * Prepares @p model() with not empty parts
+       */
   void sumarize();
 
+      /**
+       * @p Tmelody instance which performs XML reading.
+       * It keeps melody parameters like meter, key, clef, title and so,
+       * but it is valid only inside @p addNote() method.
+       */
   Tmelody* mainMelody() { return m_melody; }
 
   QList<TmelodyPart*>* parts() { return &m_parts; }

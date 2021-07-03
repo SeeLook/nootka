@@ -27,7 +27,7 @@ class TmelodyPart;
 
 
 /**
- * @todo write docs
+ * C++ proxy for QML @p MelodyImport dialog window.
  */
 class TmelodyImportItem : public QQuickItem
 {
@@ -49,9 +49,16 @@ public:
   int globalSplitNr() const;
   void setGlobalSplitNr(int gsn);
 
+      /**
+       * @p TRUE when there are more melodies to import
+       */
   bool multiSelect() const;
   void setMultiSelect(bool ms);
 
+      /**
+       * Emits @p TimportScore::importReady() signal
+       * so import caller can process what is to import
+       */
   Q_INVOKABLE void emitImport();
 
   Q_INVOKABLE void transpose(int semis, bool outScaleToRes, bool inInstrScale, TmelodyPart* part);
