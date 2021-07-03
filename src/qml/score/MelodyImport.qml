@@ -42,6 +42,7 @@ Window {
       spacing: NOO.factor() / 2
       model: melImport.partsModel
       delegate: TipRect {
+        id: delegateRect
         x: NOO.factor() / 4
         width: melImport.width - NOO.factor() / 2; height: scoreCol.height + NOO.factor()
         Text {
@@ -86,10 +87,10 @@ Window {
             font { pixelSize: NOO.factor() * 2; family: "Nootka" }
             text: "\u2702"
             onClicked: {
-              var p = parent.mapToItem(partList, 0, 0)
+              var p = parent.mapToItem(partList, 0, (NOO.factor() * 15 - dividePop.height) / 2)
               dividePop.melPart = modelData
               dividePop.x = partList.width - dividePop.width - NOO.factor() * 4
-              dividePop.y = p.y
+              dividePop.y = NOO.bound(0, p.y, partList.height - dividePop.height)
               dividePop.open()
             }
           }
@@ -152,8 +153,8 @@ Window {
     id: dividePop
     property var melPart: null
     width: divMel.width + NOO.factor() * 2
-    height: divMel.height + NOO.factor() * (dividePop.melPart ? 5 : 7)
-    caption: dividePop.melPart ? "" : qsTr("Transform all imported parts of the score")
+    height: divMel.height + NOO.factor() * 7
+    caption: dividePop.melPart ? "" : qsTr("Transform all parts of the score")
     DivideMelody {
       id: divMel
       divisionBy: dividePop.melPart ? dividePop.melPart.splitBarNr : melImport.globalSplitNr
@@ -171,7 +172,7 @@ Window {
     property var melPart: null
     width: transpose.width + NOO.factor() * 2
     height: transpose.height + NOO.factor() * (transPop.melPart ? 5 : 7)
-    caption: transPop.melPart ? "" : qsTr("Transform all imported parts of the score")
+    caption: transPop.melPart ? "" : qsTr("Transform all parts of the score")
     Transpose {
       id: transpose
     }

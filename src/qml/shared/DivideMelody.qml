@@ -20,8 +20,7 @@ Column {
     }
     TspinBox {
       id: splitSpin
-      from: 0; to: 64
+      from: 1; to: 64
     }
   }
-  Text { text: qsTr("No division if set to 0."); color: activPal.text; anchors.horizontalCenter: parent.horizontalCenter }
 }
