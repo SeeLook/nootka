@@ -1,5 +1,7 @@
 2.0.1 devel
+     - dialog to select part or voice of entire musicXML score
      - support for read/write compressed musicXML file format
+     - option for transposing score - to key or by semitones
 
 2.0.0
   Nootka knows rhythms and plays a few more instruments

@@ -9,13 +9,16 @@
 
 ### For next stable Nootka version 2.0.2 or above
   - music XML import dialog, to select voice or staff if there are more, and so on
-  - ukulele support
-  - increase versions of *.nel *.noo files to avoid problems with previous Nootka versions
-  - read/save compressed music XML (*.mxl)
+    - split when clef/key/meter changes
+    - convert unsupported clefs when possible (transpose)
+    - disconnect a tie when split
+    - handle cord notes
+    - fill partial measure with rests at the beginning
+    - what to do with triplets and 32th (or 64th)?
+  - improve ukulele
   - clean code if objections will not occur:
     - when right mouse button is not used: TexamExacutor and TexecutorSupply
   - score helpers also utilized for musicxml import:
-    - transpose by semitones (intervals when implemented)  
     - fold (simplify) ties & rests
   - bring back option for displaying extra (remaining) accidentals
 
