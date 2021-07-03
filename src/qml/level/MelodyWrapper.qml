@@ -20,6 +20,7 @@ MouseArea {
   property alias outOfScale: wrapper.outOfScale
 
   function updateMelody() { wrapper.updateMelody() }
+  function reload() { wrapper.reload() }
 
   hoverEnabled: false // triggered with delay to avoid highlighting all wrappers
   drag.target: wrapArea.held ? wrapper : undefined

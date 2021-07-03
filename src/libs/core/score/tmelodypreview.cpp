@@ -50,3 +50,9 @@ void TmelodyPreview::setMelody(QVariant v) {
     emit melodyChanged();
   }
 }
+
+
+void TmelodyPreview::reload() {
+  if (m_melody && m_score)
+    m_score->setMelody(m_melody);
+}

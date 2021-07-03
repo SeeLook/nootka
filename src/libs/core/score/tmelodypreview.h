@@ -54,6 +54,8 @@ public:
   TscoreObject* score() { return m_score; }
   void setScore(TscoreObject* sc) { m_score = sc; }
 
+  Q_INVOKABLE void reload();
+
 signals:
   void melodyChanged();
 
