@@ -512,7 +512,12 @@ void Tmelody::split(int byEveryBar, QList<Tmelody*>& parts) {
   } else {
       if (measuresCount() > byEveryBar) {
         auto lastNote = &p_measures[byEveryBar - 1].lastNote();
-        // TODO: disconnect tie if any
+        if (lastNote->p().rtm.tie()) {
+          if (lastNote->p().rtm.tie() == Trhythm::e_tieStart)
+            lastNote->p().rtm.setTie(Trhythm::e_noTie);
+          else
+            lastNote->p().rtm.setTie(Trhythm::e_tieEnd);
+        }
         for (int b = byEveryBar; b < measuresCount(); ++b) {
           Tmelody* m;
           if (b % byEveryBar == 0) { // create new Tmelody instance every byEveryBar number
@@ -526,8 +531,25 @@ void Tmelody::split(int byEveryBar, QList<Tmelody*>& parts) {
           }
           // then add add to it all notes from the current measure
           Tmeasure& bar = p_measures[b];
-          for (int n = 0; n < bar.count(); ++n)
-            m->addNote(bar.note(n));
+          for (int n = 0; n < bar.count(); ++n) {
+            Tchunk& ch = bar.note(n);
+            if (n == 0) {
+                if (ch.p().rtm.tie()) {
+                  if (ch.p().rtm.tie() == Trhythm::e_tieEnd)
+                    ch.p().rtm.setTie(Trhythm::e_noTie);
+                  else
+                    ch.p().rtm.setTie(Trhythm::e_tieStart);
+                }
+            } else if (n == bar.count() - 1) {
+                if (ch.p().rtm.tie()) {
+                  if (ch.p().rtm.tie() == Trhythm::e_tieStart)
+                    ch.p().rtm.setTie(Trhythm::e_noTie);
+                  else
+                    ch.p().rtm.setTie(Trhythm::e_tieEnd);
+              }
+            }
+            m->addNote(ch);
+          }
         }
         // remove notes moved to another melodies from the list
         int l = length();
