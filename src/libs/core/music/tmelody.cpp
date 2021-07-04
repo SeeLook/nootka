@@ -144,7 +144,7 @@ void Tmelody::toXml(QXmlStreamWriter& xml, int trans) {
       }
       int staffNr_1 = 1, staffNr_2 = 2;
       int *staffPtr = nullptr;
-      for (int n = 0; n < meas.conunt(); ++n) {
+      for (int n = 0; n < meas.count(); ++n) {
         if (m_clef == Tclef::PianoStaffClefs) {
           if (meas.note(n).p().onUpperStaff())
             staffPtr = &staffNr_1;
@@ -485,38 +485,64 @@ void Tmelody::appendMelody(Tmelody* otherM) {
 
 
 void Tmelody::split(int byEveryBar, QList<Tmelody*>& parts) {
-  if (measuresCount() > byEveryBar) {
-    auto lastNote = &p_measures[byEveryBar - 1].lastNote();
-    // TODO: disconnect tie if any
-    for (int b = byEveryBar; b < measuresCount(); ++b) {
-      Tmelody* m;
-      if (b % byEveryBar == 0) { // create new Tmelody instance every byEveryBar number
-          m = new Tmelody(title(), key());
-          m->setMeter(meter()->meter());
-          m->setTempo(tempo());
-          m->setClef(clef());
-          parts << m;
-      } else { // or just melody created before
-          m = parts.last();
+  if (m_meter->meter() == Tmeter::NoMeter) { // only one measure containing all bareheaded notes of a melody
+      Tmeasure& firstBar = p_measures.first();
+      if (firstBar.count() > byEveryBar) {
+        for (int n = byEveryBar; n < firstBar.count(); ++n) {
+          Tmelody* m;
+          if (n % byEveryBar == 0) { // create new Tmelody instance every byEveryBar number
+              m = new Tmelody(title(), key());
+              m->setMeter(meter()->meter());
+              m->setTempo(tempo());
+              m->setClef(clef());
+              parts << m;
+          } else { // or just melody created before
+              m = parts.last();
+          }
+          // then add to it byEveryBar number of notes
+          m->addNote(firstBar.note(n));
+        }
+        // remove notes moved to another melodies from the list
+        int nCnt = firstBar.count() - 1;
+        for (int n = nCnt; n > byEveryBar - 1; --n) {
+          firstBar.removeLastNote();
+          m_notes.removeLast();
+        }
       }
-      // then add add to it all notes from the current measure
-      Tmeasure& bar = p_measures[b];
-      for (int n = 0; n < bar.conunt(); ++n)
-        m->addNote(bar.note(n));
-    }
-    // remove notes moved to another melodies from the list
-    int l = length();
-    bool oneToRemoveFound = false;
-    for (int n = 0; n < l; ++n) {
-      if (oneToRemoveFound)
-        m_notes.removeLast();
-      else if (note(n) == lastNote)
-        oneToRemoveFound = true;
-    }
-    // remove moved measures either
-    int mc = measuresCount();
-    for (int b = byEveryBar; b < mc; ++b)
-      p_measures.removeLast();
+  } else {
+      if (measuresCount() > byEveryBar) {
+        auto lastNote = &p_measures[byEveryBar - 1].lastNote();
+        // TODO: disconnect tie if any
+        for (int b = byEveryBar; b < measuresCount(); ++b) {
+          Tmelody* m;
+          if (b % byEveryBar == 0) { // create new Tmelody instance every byEveryBar number
+              m = new Tmelody(title(), key());
+              m->setMeter(meter()->meter());
+              m->setTempo(tempo());
+              m->setClef(clef());
+              parts << m;
+          } else { // or just melody created before
+              m = parts.last();
+          }
+          // then add add to it all notes from the current measure
+          Tmeasure& bar = p_measures[b];
+          for (int n = 0; n < bar.count(); ++n)
+            m->addNote(bar.note(n));
+        }
+        // remove notes moved to another melodies from the list
+        int l = length();
+        bool oneToRemoveFound = false;
+        for (int n = 0; n < l; ++n) {
+          if (oneToRemoveFound)
+            m_notes.removeLast();
+          else if (note(n) == lastNote)
+            oneToRemoveFound = true;
+        }
+        // remove moved measures either
+        int mc = measuresCount();
+        for (int b = byEveryBar; b < mc; ++b)
+          p_measures.removeLast();
+      }
   }
 }
 
