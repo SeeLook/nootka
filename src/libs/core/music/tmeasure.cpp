@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -37,7 +37,8 @@ void Tmeasure::addNote(const Tchunk& n) {
 
 void Tmeasure::removeLastNote() {
   m_duration -= lastNote().duration();
-  m_notes.removeLast();
+  if (m_meter.meter() != Tmeter::NoMeter)
+    m_notes.removeLast();
 }
 
 
