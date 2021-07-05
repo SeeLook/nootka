@@ -137,7 +137,7 @@ public:
 
   static TimportScore* instance() { return m_instance; }
 
-  void addNote(int partId, int staff, int voice, const Tchunk& note);
+  void addNote(int partId, int staff, int voice, const Tchunk& note, bool skip = false);
 
       /**
        * Prepares @p model() with not empty parts

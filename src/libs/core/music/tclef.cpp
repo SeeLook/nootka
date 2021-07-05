@@ -162,7 +162,7 @@ void Tclef::toXml(QXmlStreamWriter& xml) {
 }
 
 
-void Tclef::fromXml(QXmlStreamReader& xml) {
+void Tclef::fromXml(QXmlStreamReader& xml, QString* unsupported) {
   QString sign;
   int line = 0, oc = 0;
   while (xml.readNextStartElement()) {
@@ -195,6 +195,9 @@ void Tclef::fromXml(QXmlStreamReader& xml) {
         m_type = Alto_C;
       else if (line == 4)
         m_type = Tenor_C;
+  }
+  if (m_type == NoClef && unsupported) {
+    unsupported->append(sign);
   }
 }
 

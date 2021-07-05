@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -70,7 +70,13 @@ public:
       * </clef>
       */
 void toXml(QXmlStreamWriter& xml);
-void fromXml(QXmlStreamReader& xml); /** Reads this clef from XML stream  */
+
+    /**
+     * Reads this clef from XML stream.
+     * When @p unsupported is set - write there what was detected in <clef> key
+     * but couldn't be converted into any clef supported by Nootka.
+     */
+void fromXml(QXmlStreamReader& xml, QString* unsupported = nullptr);
 
 static EclefType defaultType; /** Default clef type for whole application */
 

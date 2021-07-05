@@ -47,7 +47,7 @@ TimportScore::~TimportScore()
 }
 
 
-void TimportScore::addNote(int partId, int staff, int voice, const Tchunk &note) {
+void TimportScore::addNote(int partId, int staff, int voice, const Tchunk &note, bool skip) {
   if (partId == m_parts.count() + 1)
       m_parts << new TmelodyPart(nullptr, partId, staff, voice);
   else if (partId > m_parts.count()) {
@@ -76,26 +76,29 @@ void TimportScore::addNote(int partId, int staff, int voice, const Tchunk &note)
       voicePart->parts << p;
     }
   }
-  auto snippPart = voicePart->parts[voice - 1];
-  if (snippPart->parts.isEmpty())
-      snippPart->parts << new TmelodyPart(snippPart, partId, staff, voice);
-  else {
-    if (voicePart->splitBarNr() > 0 && snippPart->parts.last()->melody()->lastMeasure().isFull()
-        && snippPart->parts.last()->melody()->measuresCount() % voicePart->splitBarNr() == 0) {
+
+  if (!skip) {
+    auto snippPart = voicePart->parts[voice - 1];
+    if (snippPart->parts.isEmpty())
         snippPart->parts << new TmelodyPart(snippPart, partId, staff, voice);
-      }
+    else {
+      if (voicePart->splitBarNr() > 0 && snippPart->parts.last()->melody()->lastMeasure().isFull()
+          && snippPart->parts.last()->melody()->measuresCount() % voicePart->splitBarNr() == 0) {
+          snippPart->parts << new TmelodyPart(snippPart, partId, staff, voice);
+        }
+    }
+
+    auto currSnipp = snippPart->parts.last();
+    if (!currSnipp->melody()) {
+      auto m = new Tmelody(m_melody->title(), m_melody->key());
+      m->setComposer(m_melody->composer());
+      m->setMeter(m_melody->meter()->meter());
+      m->setTempo(m_melody->tempo());
+      m->setClef(m_melody->clef());
+      currSnipp->setMelody(m);
+    }
+    currSnipp->melody()->addNote(note);
   }
-  auto currSnipp = snippPart->parts.last();
-  if (!currSnipp->melody()) {
-    auto m = new Tmelody(m_melody->title(), m_melody->key());
-//     auto m = new Tmelody(QString("%1, %2, %3, %4").arg(partId).arg(staff).arg(voice).arg(snippPart->parts.size()), m_melody->key());
-//     m->setComposer(m_melody->composer());
-    m->setMeter(m_melody->meter()->meter());
-    m->setTempo(m_melody->tempo());
-    m->setClef(m_melody->clef());
-    currSnipp->setMelody(m);
-  }
-  currSnipp->melody()->addNote(note);
   if (!m_hasMoreParts)
     m_hasMoreParts = partId > 1 || staff > 1 || voice > 1;
 }

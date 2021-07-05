@@ -166,6 +166,7 @@ bool Tmelody::fromXml(QXmlStreamReader& xml, bool madeWithNootka, int partId) {
   m_meter->setMeter(Tmeter::NoMeter);
   setTempo(0); // reset tempo, try to read from XML
   int barNr = 0;
+  QStringList clefSuppList;
   while (xml.readNextStartElement()) {
 /** [measure] */
     if (xml.name() == QLatin1String("measure")) {
@@ -192,7 +193,9 @@ bool Tmelody::fromXml(QXmlStreamReader& xml, bool madeWithNootka, int partId) {
                       }
                   } else if (xml.name() == QLatin1String("clef")) {
                       Tclef cl;
-                      cl.fromXml(xml);
+                      QString unsuppClefTxt;
+                      cl.fromXml(xml, IMPORT_SCORE ? &unsuppClefTxt : nullptr);
+                      clefSuppList << unsuppClefTxt;
                       Tclef::EclefType tmpClef = cl.type();
                       if (tmpClef == Tclef::NoClef)
                         unsupportedClef(tmpClef);
@@ -286,8 +289,9 @@ bool Tmelody::fromXml(QXmlStreamReader& xml, bool madeWithNootka, int partId) {
               } else if (chunkOk & Tchunk::e_xmlIsGrace) {
                 // TODO: grace note if any
               } else {
-                  IMPORT_SCORE->addNote(partId, staffNr, voiceNr, ch);
-                  if (dblDotCh)
+                  bool skip = !clefSuppList[staffNr - 1].isEmpty();
+                  IMPORT_SCORE->addNote(partId, staffNr, voiceNr, ch, skip);
+                  if (dblDotCh && !skip)
                     IMPORT_SCORE->addNote(partId, staffNr, voiceNr, *dblDotCh);
               }
             }
