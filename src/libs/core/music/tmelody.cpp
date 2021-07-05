@@ -38,7 +38,8 @@
  * Prints warning message and sets given clef reference to current default clef type.
  */
 void unsupportedClef(Tclef::EclefType& clefType) {
-  qDebug() << "[Tmelody] Unsupported clef. Set to default" << Tclef(Tclef::defaultType).name();
+  if (!IMPORT_SCORE) // Do not warn during importing score
+    qDebug() << "[Tmelody] Unsupported clef. Set to default" << Tclef(Tclef::defaultType).name();
   clefType = Tclef::defaultType;
 }
 
@@ -167,6 +168,7 @@ bool Tmelody::fromXml(QXmlStreamReader& xml, bool madeWithNootka, int partId) {
   setTempo(0); // reset tempo, try to read from XML
   int barNr = 0;
   QStringList clefSuppList;
+  int fixTransposition = 0;
   while (xml.readNextStartElement()) {
 /** [measure] */
     if (xml.name() == QLatin1String("measure")) {
@@ -289,10 +291,22 @@ bool Tmelody::fromXml(QXmlStreamReader& xml, bool madeWithNootka, int partId) {
               } else if (chunkOk & Tchunk::e_xmlIsGrace) {
                 // TODO: grace note if any
               } else {
+                  // NOTE: This is safe as long as it occurs only during import.
+                  // Old Nootka versions used Dropped bass clef (levels, exams)
+                  // but TlevelSelector, Texam handle that - converts all level stuff into ordinary bass clef
+                  if (m_clef == Tclef::Bass_F_8down) {
+                    fixTransposition = 12;
+                    m_clef = Tclef::Bass_F;
+                  }
+                  if (fixTransposition)
+                    ch.p().transpose(fixTransposition);
                   bool skip = !clefSuppList[staffNr - 1].isEmpty();
                   IMPORT_SCORE->addNote(partId, staffNr, voiceNr, ch, skip);
-                  if (dblDotCh && !skip)
+                  if (dblDotCh && !skip) {
+                    if (fixTransposition)
+                      dblDotCh->p().transpose(fixTransposition);
                     IMPORT_SCORE->addNote(partId, staffNr, voiceNr, *dblDotCh);
+                  }
               }
             }
             if (dblDotCh)
