@@ -286,21 +286,24 @@ bool Tmelody::fromXml(QXmlStreamReader& xml, bool madeWithNootka, int partId) {
               }
             }
             if (!madeWithNootka && IMPORT_SCORE) {
+              // NOTE: This is safe as long as it occurs only during import.
+              // Old Nootka versions used Dropped bass clef (levels, exams)
+              // but TlevelSelector, Texam handle that - converts all level stuff into ordinary bass clef
+              if (m_clef == Tclef::Bass_F_8down) {
+                fixTransposition = 12;
+                m_clef = Tclef::Bass_F;
+              }
+              if (fixTransposition)
+                ch.p().transpose(fixTransposition);
+              bool skip = !clefSuppList[staffNr - 1].isEmpty();
               if (chunkOk & Tchunk::e_xmlIsChord) {
-                // TODO: do something with chord notes
+                  if (!skip) {
+                    IMPORT_SCORE->addChordNote(ch);
+                    // TODO: double dots note
+                  }
               } else if (chunkOk & Tchunk::e_xmlIsGrace) {
                 // TODO: grace note if any
               } else {
-                  // NOTE: This is safe as long as it occurs only during import.
-                  // Old Nootka versions used Dropped bass clef (levels, exams)
-                  // but TlevelSelector, Texam handle that - converts all level stuff into ordinary bass clef
-                  if (m_clef == Tclef::Bass_F_8down) {
-                    fixTransposition = 12;
-                    m_clef = Tclef::Bass_F;
-                  }
-                  if (fixTransposition)
-                    ch.p().transpose(fixTransposition);
-                  bool skip = !clefSuppList[staffNr - 1].isEmpty();
                   IMPORT_SCORE->addNote(partId, staffNr, voiceNr, ch, skip);
                   if (dblDotCh && !skip) {
                     if (fixTransposition)

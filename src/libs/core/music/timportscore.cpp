@@ -20,7 +20,12 @@
 #include "tmelody.h"
 #include "tchunk.h"
 #include "score/tscoreobject.h"
+#include "score/tnoteitem.h"
+#include "score/tdummychord.h"
 
+#include <QtQml/qqmlcomponent.h>
+#include <QtQml/qqmlengine.h>
+#include <QtQuick/qquickitem.h>
 #include <QtCore/qdebug.h>
 
 
@@ -98,9 +103,16 @@ void TimportScore::addNote(int partId, int staff, int voice, const Tchunk &note,
       currSnipp->setMelody(m);
     }
     currSnipp->melody()->addNote(note);
+    m_lastPart = currSnipp;
   }
   if (!m_hasMoreParts)
     m_hasMoreParts = partId > 1 || staff > 1 || voice > 1;
+}
+
+
+void TimportScore::addChordNote(const Tchunk& note) {
+  if (m_lastPart)
+    m_lastPart->addChordNote(m_lastPart->melody()->length() - 1, note);
 }
 
 
@@ -172,8 +184,16 @@ void TmelodyPart::setMelody(Tmelody* m) {
 
 void TmelodyPart::setScoreObject(TscoreObject* sObj) {
   m_scoreObj = sObj;
-  if (m_melody)
+  if (m_melody) {
     m_scoreObj->setMelody(m_melody);
+    for (int c = 0; c < chords.count(); ++c) {
+      auto noteSeg = m_scoreObj->note(chords[c].noteNr);
+      QQmlComponent comp(m_scoreObj->qmlEngine(), QUrl(QStringLiteral("qrc:/score/DummyChord.qml")));
+      auto chIt = qobject_cast<TdummyChord*>(comp.create(QQmlEngine::contextForObject(m_scoreObj->parent())));
+      chIt->setParentItem(noteSeg);
+      chIt->setChord(chords[c].notes());
+    }
+  }
 }
 
 
@@ -234,5 +254,20 @@ void TmelodyPart::setKey(int k) {
       if (p->melody())
         p->melody()->setKey(TkeySignature(static_cast<char>(k)));
     }
+  }
+}
+
+
+void TmelodyPart::addChordNote(int noteId, const Tchunk& n) {
+  Tchunk chordNote(n);
+  chordNote.p().setRhythm(Trhythm(Trhythm::NoRhythm));
+  if (!chords.isEmpty() && chords.last().noteNr == noteId)
+    chords.last().add(chordNote);
+  else {
+    chords << TalaChord(noteId, Tchunk(Tnote(m_melody->note(noteId)->p(), Trhythm(Trhythm::NoRhythm)), m_melody->note(noteId)->t()));
+    chords.last().add(chordNote);
+    auto m = chords.last().notes();
+    m->setClef(m_melody->clef());
+    m->setKey(m_melody->key());
   }
 }

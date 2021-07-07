@@ -21,15 +21,31 @@
 
 
 #include <nootkacoreglobal.h>
+#include "music/tmelody.h"
 #include <QtCore/qobject.h>
 
 
 #define IMPORT_SCORE TimportScore::instance()
 
 
-class Tmelody;
 class Tchunk;
 class TscoreObject;
+
+
+class NOOTKACORE_EXPORT TalaChord {
+
+public:
+  TalaChord(int id, const Tchunk& n) : noteNr(id) { m_notes.addNote(n); }
+
+  int      noteNr = -1; /**< Parent note ID */
+  Tmelody* notes() { return &m_notes; }
+
+  int count() const { return m_notes.length(); }
+  void add(const Tchunk& n) { m_notes.addNote(n); }
+
+private:
+  Tmelody      m_notes;
+};
 
 
 /**
@@ -69,6 +85,7 @@ public:
 
   QList<TmelodyPart*>    parts;
   QList<TmelodyPart*>    snippets() { return parts; }
+  QList<TalaChord>       chords;
 
   Q_INVOKABLE void setScoreObject(TscoreObject* sObj);
 
@@ -92,6 +109,8 @@ public:
   void setKey(int k);
 
   TscoreObject* score() { return m_scoreObj; }
+
+  void addChordNote(int noteId, const Tchunk& n);
 
 signals:
   void melodyChanged();
@@ -140,6 +159,12 @@ public:
   void addNote(int partId, int staff, int voice, const Tchunk& note, bool skip = false);
 
       /**
+       * Adds @p note to quasi chord of the latest snippet melody note.
+       * The quasi chord is a note list attached to the specific melody note.
+       */
+  void addChordNote(const Tchunk& note);
+
+      /**
        * Prepares @p model() with not empty parts
        */
   void sumarize();
@@ -185,6 +210,7 @@ private:
   static int                  m_splitEveryBarNr;
   QStringList                 m_partNames;
   bool                        m_multiselect = false;
+  TmelodyPart                *m_lastPart = nullptr;
 };
 
 #endif // TIMPORTSCORE_H
