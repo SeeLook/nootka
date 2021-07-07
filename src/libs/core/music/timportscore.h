@@ -62,9 +62,10 @@ class NOOTKACORE_EXPORT TmelodyPart : public QObject
   Q_PROPERTY(int staff READ staff NOTIFY melodyChanged)
   Q_PROPERTY(int voice READ voice NOTIFY melodyChanged)
   Q_PROPERTY(int splitBarNr READ splitBarNr WRITE setSplitBarNr NOTIFY splitBarNrChanged)
-  Q_PROPERTY(QList<TmelodyPart*> snippets READ snippets NOTIFY melodyChanged)
+  Q_PROPERTY(QList<QObject*> snippets READ snippets NOTIFY melodyChanged)
   Q_PROPERTY(QString partName READ partName NOTIFY melodyChanged)
   Q_PROPERTY(int key READ key WRITE setKey NOTIFY melodyChanged)
+  Q_PROPERTY(int count READ count NOTIFY melodyChanged)
 
 public:
   explicit TmelodyPart (TmelodyPart* parent = nullptr, int partId = 0, int staffNr = 0, int voiceNr = 0);
@@ -84,7 +85,14 @@ public:
   int count() const { return parts.count(); }
 
   QList<TmelodyPart*>    parts;
-  QList<TmelodyPart*>    snippets() { return parts; }
+
+      /**
+       * HACK
+       * This is @p parts list of @p TmelodyPart
+       * converted to list of @p QObject for backward compatibility with Qt 5.12.
+       * TODO: Use @p parts here when Qt 5.15 will be minimal.
+       */
+  QList<QObject*>        snippets();
   QList<TalaChord>       chords;
 
   Q_INVOKABLE void setScoreObject(TscoreObject* sObj);

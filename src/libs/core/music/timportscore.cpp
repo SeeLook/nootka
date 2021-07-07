@@ -271,3 +271,11 @@ void TmelodyPart::addChordNote(int noteId, const Tchunk& n) {
     m->setKey(m_melody->key());
   }
 }
+
+
+QList<QObject*> TmelodyPart::snippets() {
+  QList<QObject*> s;
+  for (auto p : parts)
+    s << qobject_cast<QObject*>(p);
+  return s;
+}
