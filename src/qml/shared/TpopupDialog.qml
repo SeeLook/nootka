@@ -27,7 +27,7 @@ Dialog {
 
   header: Rectangle {
     color: "transparent"
-    width: parent.width; height: hText.height + NOO.factor() / 2; radius: NOO.factor() / 4
+    width: parent.width; height: NOO.factor() * 2.2; radius: NOO.factor() / 4
     visible: hText.text !== ""
     Text {
       id: hText
