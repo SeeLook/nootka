@@ -1,6 +1,6 @@
 #=================================================================
 # This file is part of Nootka (http://nootka.sf.net)
-# Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)
+# Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)
 # on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)
 #
 # Main Nootka executable
@@ -45,6 +45,7 @@ SOURCES +=  main.cpp \
             dialogs/ttunerdialogitem.cpp \
             dialogs/trtmselectoritem.cpp \
             dialogs/tmelgenitem.cpp \
+            dialogs/tmelodyimportitem.cpp \
           \
             help/texamhelp.cpp \
             help/tmainhelp.cpp \
@@ -85,6 +86,7 @@ HEADERS  += mobile/tmobilemenu.h \
             dialogs/ttunerdialogitem.h \
             dialogs/trtmselectoritem.h \
             dialogs/tmelgenitem.h \
+            dialogs/tmelodyimportitem.h \
           \
             help/texamhelp.h \
             help/tmainhelp.h \

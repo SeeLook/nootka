@@ -1,6 +1,6 @@
 #=================================================================
 # This file is part of Nootka (http://nootka.sf.net)
-# Copyright (C) 2017-2020 by Tomasz Bojczuk (seelook@gmail.com)
+# Copyright (C) 2017-2021 by Tomasz Bojczuk (seelook@gmail.com)
 # on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)
 #
 # core library on Nootka
@@ -40,6 +40,7 @@ SOURCES +=  tinitcorelib.cpp \
             music/tnotestruct.cpp \
             music/ttechnical.cpp \
             music/trtmgroup.cpp \
+            music/timportscore.cpp \
           \
             minizip/tzip.cpp \
             minizip/zip.c \
@@ -55,6 +56,7 @@ SOURCES +=  tinitcorelib.cpp \
             score/tstafflines.cpp \
             score/taddnoteitem.cpp \
             score/tmelodypreview.cpp \
+            score/tdummychord.cpp \
           \
             instruments/tcommoninstrument.cpp \
             instruments/tguitarbg.cpp \
@@ -102,6 +104,7 @@ HEADERS  += nootkaconfig.h \
             music/tnotestruct.h \
             music/ttechnical.h \
             music/trtmgroup.h \
+            music/timportscore.h \
           \
             minizip/tzip.h \
             minizip/zip.h \
@@ -118,6 +121,7 @@ HEADERS  += nootkaconfig.h \
             score/tstafflines.h \
             score/taddnoteitem.h \
             score/tmelodypreview.h \
+            score/tdummychord.h \
           \
             instruments/tcommoninstrument.h \
             instruments/tguitarbg.h \
