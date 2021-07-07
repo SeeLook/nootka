@@ -13,6 +13,9 @@ TpopupDialog {
 
   property alias melody: melPrev.melody
   property alias idText: nrText.text
+  property alias showButtons: buttons.visible
+  property alias selectReadOnly: melPrev.selectReadOnly
+  property alias score: sc.scoreObj
 
       /**
        * If set score @p height has priority until it reaches @p maxHeight then score uses scrolling.
@@ -22,6 +25,7 @@ TpopupDialog {
 
   signal wantDivide()
   signal wantTranspose()
+  signal readOnlyNoteClicked(var noteId)
 
   function reload() { melPrev.reload() }
 
@@ -39,6 +43,8 @@ TpopupDialog {
     width: parent.width; height: sc.height
 
     score: sc.scoreObj
+
+    onReadOnlyNoteClicked: popup.readOnlyNoteClicked(noteId)
 
     Score {
       id: sc
@@ -60,6 +66,7 @@ TpopupDialog {
   }
 
   Rectangle {
+    id: buttons
     x: NOO.factor() / 2
     color: NOO.alpha(activPal.base, 200)
     width: childrenRect.width; height: childrenRect.height

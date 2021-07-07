@@ -41,6 +41,7 @@ class NOOTKACORE_EXPORT TmelodyPreview : public QQuickItem
   Q_PROPERTY(QString composer READ composer NOTIFY melodyChanged)
   Q_PROPERTY(QVariant melody READ melody WRITE setMelody NOTIFY melodyChanged)
   Q_PROPERTY(TscoreObject* score READ score WRITE setScore)
+  Q_PROPERTY(bool selectReadOnly READ selectReadOnly WRITE setSelectReadOnly NOTIFY selectReadOnlyChanged)
 
 public:
   TmelodyPreview(QQuickItem* parent = nullptr);
@@ -52,17 +53,23 @@ public:
   void setMelody(QVariant v);
 
   TscoreObject* score() { return m_score; }
-  void setScore(TscoreObject* sc) { m_score = sc; }
+  void setScore(TscoreObject* sc);
+
+  bool selectReadOnly() const;
+  void setSelectReadOnly(bool selRO);
 
   Q_INVOKABLE void reload();
 
 signals:
   void melodyChanged();
+  void selectReadOnlyChanged();
+  void readOnlyNoteClicked(int noteId);
 
 private:
   QString              m_nr;
   Tmelody             *m_melody = nullptr;
   TscoreObject        *m_score = nullptr;
+  bool                 m_selectReadOnly = false;
 };
 
 

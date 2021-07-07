@@ -36,6 +36,12 @@ QString TmelodyPreview::title() const {
 }
 
 
+void TmelodyPreview::setScore(TscoreObject* sc) {
+  m_score = sc;
+  setSelectReadOnly(m_selectReadOnly);
+}
+
+
 QVariant TmelodyPreview::melody() {
   return QVariant::fromValue(m_melody);
 }
@@ -48,6 +54,24 @@ void TmelodyPreview::setMelody(QVariant v) {
     if (m_melody && m_score)
       m_score->setMelody(m_melody);
     emit melodyChanged();
+  }
+}
+
+
+bool TmelodyPreview::selectReadOnly() const {
+  return m_score ? m_score->selectInReadOnly() : false;
+}
+
+
+void TmelodyPreview::setSelectReadOnly(bool selRO) {
+  if (selRO != m_selectReadOnly || (m_score && m_score->selectInReadOnly() != selRO)) {
+    m_selectReadOnly = selRO;
+    if (m_score) {
+      m_score->setSelectInReadOnly(selRO);
+      if (selRO)
+        connect(m_score, &TscoreObject::readOnlyNoteClicked, this, &TmelodyPreview::readOnlyNoteClicked, Qt::UniqueConnection);
+      emit selectReadOnlyChanged();
+    }
   }
 }
 
