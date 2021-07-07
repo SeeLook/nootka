@@ -16,6 +16,7 @@ Window {
   id: importWindow
   property alias multiSelect: melImport.multiSelect
 
+  visibility: NOO.isAndroid() && GLOB.fullScreen() ? "FullScreen" : "AutomaticVisibility"
   visible: true
   modality: Qt.WindowModal
   title: qsTr("Import melody")
@@ -31,18 +32,17 @@ Window {
       id: melTitle
       anchors.horizontalCenter: parent.horizontalCenter
       color: activPal.text
-      font { pixelSize: NOO.factor() * 1.2; bold: true }
+      font { pixelSize: NOO.factor() * (NOO.isAndroid() ? 1 : 1.2); bold: true }
       text: melImport.title
     }
     ListView {
       id: partList
-      y: melTitle.height + NOO.factor() * 2
+      y: melTitle.height + NOO.factor() * (NOO.isAndroid() ? 1.1 : 2)
       width: parent.width; height: parent.height - melTitle.height - buttRow.height - NOO.factor() * 2.5
       clip: true
-      spacing: NOO.factor() / 2
+      spacing: NOO.factor() / (NOO.isAndroid() ? 4 : 2)
       model: melImport.partsModel
       delegate: TipRect {
-        id: delegateRect
         x: NOO.factor() / 4
         width: melImport.width - NOO.factor() / 2; height: scoreCol.height + NOO.factor()
         Text {
@@ -68,7 +68,8 @@ Window {
               Score {
                 id: score
                 y: NOO.factor() / 2; x: importChB.width + NOO.factor()
-                width: melImport.width - importChB.width - NOO.factor() * 1.5; height: NOO.factor() * 14
+                width: melImport.width - importChB.width - NOO.factor() * 1.5
+                height: NOO.isAndroid() ? Math.min(NOO.factor() * 8, importWindow.height / 3) : NOO.factor() * 15
                 readOnly: true
                 bgColor: "transparent"
               }
@@ -83,8 +84,8 @@ Window {
           anchors { right: parent.right; top: parent.top; margins: NOO.factor() / 2 }
           z: 7
           RectButton {
-            height: NOO.factor() * 2.2
-            font { pixelSize: NOO.factor() * 2; family: "Nootka" }
+            height: NOO.factor() * (NOO.isAndroid() ? 1.8 : 2.2)
+            font { pixelSize: NOO.factor() * (NOO.isAndroid() ? 1.5 : 2); family: "Nootka" }
             text: "\u2702"
             onClicked: {
               if (!dividePop)
@@ -97,8 +98,8 @@ Window {
             }
           }
           RectButton {
-            height: NOO.factor() * 2.2
-            font { pixelSize: NOO.factor() * 2; family: "Nootka" }
+            height: NOO.factor() * (NOO.isAndroid() ? 1.8 : 2.2)
+            font { pixelSize: NOO.factor() * (NOO.isAndroid() ? 1.5 : 2); family: "Nootka" }
             text: "\u0192"
             onClicked: {
               if (!transPop)
@@ -124,12 +125,14 @@ Window {
         y: NOO.factor() / 4
         pixmap: NOO.pix("exit")
         text: NOO.TR("QShortcut", "Cancel")
+        color: Qt.tint(activPal.button, NOO.alpha("red", NOO.isAndroid() ? 40 : 0))
         onClicked: close()
       }
       TiconButton {
         y: NOO.factor() / 4
         pixmap: NOO.pix("melody")
         text: qsTr("Import")
+        color: Qt.tint(activPal.button, NOO.alpha("teal", NOO.isAndroid() ? 40 : 0))
         onClicked: {
           melImport.emitImport()
           close()
@@ -140,8 +143,8 @@ Window {
     Row { // Global 'Divide' action
       anchors { left: parent.left; top: parent.top; topMargin: NOO.factor() / 4; leftMargin: NOO.factor() / 2 }
       RectButton {
-        height: NOO.factor() * 3
-        font { pixelSize: NOO.factor() * 2.8; family: "Nootka" }
+        height: NOO.factor() * (NOO.isAndroid() ? 2 : 3)
+        font { pixelSize: NOO.factor() * (NOO.isAndroid() ? 1.5 : 2.8); family: "Nootka" }
         text: "\u2702"
         onClicked: {
           if (!dividePop)
