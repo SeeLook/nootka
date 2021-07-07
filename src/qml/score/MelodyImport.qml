@@ -1,5 +1,5 @@
 /** This file is part of Nootka (http://nootka.sf.net)               *
- * Copyright (C) 2018-2021 by Tomasz Bojczuk (seelook@gmail.com)     *
+ * Copyright (C) 2021 by Tomasz Bojczuk (seelook@gmail.com)          *
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 import QtQuick 2.9
@@ -87,6 +87,8 @@ Window {
             font { pixelSize: NOO.factor() * 2; family: "Nootka" }
             text: "\u2702"
             onClicked: {
+              if (!dividePop)
+                dividePop = divideComp.createObject(importWindow)
               var p = parent.mapToItem(partList, 0, (NOO.factor() * 15 - dividePop.height) / 2)
               dividePop.melPart = modelData
               dividePop.x = partList.width - dividePop.width - NOO.factor() * 4
@@ -99,9 +101,11 @@ Window {
             font { pixelSize: NOO.factor() * 2; family: "Nootka" }
             text: "\u0192"
             onClicked: {
+              if (!transPop)
+                transPop = transComp.createObject(importWindow)
               var p = parent.mapToItem(partList, 0, 0)
               transPop.melPart = modelData
-              transpose.initialKey = modelData.key
+              transPop.initialKey = modelData.key
               transPop.x = partList.width - transPop.width - NOO.factor() * 4
               transPop.y = p.y
               transPop.open()
@@ -140,6 +144,8 @@ Window {
         font { pixelSize: NOO.factor() * 2.8; family: "Nootka" }
         text: "\u2702"
         onClicked: {
+          if (!dividePop)
+            dividePop = divideComp.createObject(importWindow)
           dividePop.melPart = null
           dividePop.x = (importWindow.width - dividePop.width) / 2
           dividePop.y = NOO.factor() * 2
@@ -149,40 +155,79 @@ Window {
     }
   }
 
-  TpopupDialog {
-    id: dividePop
-    property var melPart: null
-    width: divMel.width + NOO.factor() * 2
-    height: divMel.height + NOO.factor() * 7
-    caption: dividePop.melPart ? "" : qsTr("Transform all parts of the score")
-    DivideMelody {
-      id: divMel
-      divisionBy: dividePop.melPart ? dividePop.melPart.splitBarNr : melImport.globalSplitNr
-    }
-    onAccepted: {
-      if (melPart)
-        melPart.splitBarNr = divMel.divisionBy
-      else
-        melImport.globalSplitNr = divMel.divisionBy
+  property var dividePop: null
+  Component {
+    id: divideComp
+    TpopupDialog {
+      property var melPart: null
+      width: divMel.width + NOO.factor() * 2
+      height: divMel.height + NOO.factor() * 7
+      caption: melPart ? "" : qsTr("Transform all parts of the score")
+      DivideMelody {
+        id: divMel
+        divisionBy: parent.melPart ? dividePop.melPart.splitBarNr : melImport.globalSplitNr
+      }
+      onAccepted: {
+        if (melPart)
+          melPart.splitBarNr = divMel.divisionBy
+        else
+          melImport.globalSplitNr = divMel.divisionBy
+      }
     }
   }
 
-  TpopupDialog {
-    id: transPop
-    property var melPart: null
-    width: transpose.width + NOO.factor() * 2
-    height: transpose.height + NOO.factor() * (transPop.melPart ? 5 : 7)
-    caption: transPop.melPart ? "" : qsTr("Transform all parts of the score")
-    Transpose {
-      id: transpose
-    }
-    onAccepted: {
-      if (transpose.toKey || transpose.byInterval) {
-        if (transpose.toKey)
-          transPop.melPart.key = transpose.selectedKey
-        melImport.transpose(transpose.outShift, transpose.outScaleToRest, transpose.inInstrumentScale, transPop.melPart)
+  property var transPop: null
+  Component {
+    id: transComp
+    TpopupDialog {
+      property var melPart: null
+      property alias initialKey: transpose.initialKey
+      width: transpose.width + NOO.factor() * 2
+      height: transpose.height + NOO.factor() * (melPart ? 5 : 7)
+      caption: melPart ? "" : qsTr("Transform all parts of the score")
+      Transpose {
+        id: transpose
+      }
+      onAccepted: {
+        if (transpose.toKey || transpose.byInterval) {
+          if (transpose.toKey)
+            transPop.melPart.key = transpose.selectedKey
+          melImport.transpose(transpose.outShift, transpose.outScaleToRest, transpose.inInstrumentScale, transPop.melPart)
+        }
       }
     }
+  }
+
+  property var chordView: null
+  Component {
+    id: chordComp
+    MelodyPreview {
+      showButtons: false
+      width: NOO.factor() * 20 ; maxHeight: NOO.factor() * 22
+      caption: qsTr("Select single note")
+      selectReadOnly: true
+      onReadOnlyNoteClicked: hi.parent = score.note(noteId)
+      onAboutToShow: hi.parent = score.note(0)
+      Rectangle { // note highlight
+        id: hi
+        parent: null
+        visible: parent != null
+        width: parent ? (parent.width - parent.alterWidth) * 1.5 : 0
+        height: parent ? Math.min(12.0, parent.notePosY + 6.0) : 0
+        x: parent ? -width * 0.25 : 0
+        y: parent ? Math.min(parent.height - height, Math.max(0.0, parent.notePosY - height / 2.0)) : 0
+        color: NOO.alpha(activPal.highlight, 75)
+        z: -1
+        radius: width / 3.0
+      }
+    }
+  }
+
+  function showChord(m) {
+    if (!chordView)
+      chordView = chordComp.createObject(importWindow)
+    chordView.melody = m
+    chordView.open()
   }
 
   onClosing: destroy()
