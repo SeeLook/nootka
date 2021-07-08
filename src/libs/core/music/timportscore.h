@@ -30,21 +30,40 @@
 
 class Tchunk;
 class TscoreObject;
+class TmelodyPart;
 
 
+/**
+ * class @class TalaChord those are notes of a chord read from musicXML.
+ * They are stored in @p Tmelody @p notes() member
+ * and @p noteNr() is number of the note with this chord inside
+ * @p TmelodyPart @p oart.
+ * NOTICE: @p TalaChord::notes() contains all chord notes
+ * including note in @p part->melody()
+ */
 class NOOTKACORE_EXPORT TalaChord {
 
 public:
-  TalaChord(int id, const Tchunk& n) : noteNr(id) { m_notes.addNote(n); }
+  TalaChord(TmelodyPart* mp);
 
-  int      noteNr = -1; /**< Parent note ID */
+      /**
+       * Number of a note in melody with this chord notes.
+       */
+  int noteNr() const { return m_noteNr; }
+
+      /**
+       * Notes of the chord stored in @p Tmelody
+       */
   Tmelody* notes() { return &m_notes; }
+
+  TmelodyPart    *part = nullptr;
 
   int count() const { return m_notes.length(); }
   void add(const Tchunk& n) { m_notes.addNote(n); }
 
 private:
   Tmelody      m_notes;
+  int          m_noteNr = -1;
 };
 
 
@@ -118,7 +137,7 @@ public:
 
   TscoreObject* score() { return m_scoreObj; }
 
-  void addChordNote(int noteId, const Tchunk& n);
+  void addChordNote(TmelodyPart* part, const Tchunk& n);
 
 signals:
   void melodyChanged();

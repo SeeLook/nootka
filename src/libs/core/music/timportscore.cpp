@@ -111,8 +111,10 @@ void TimportScore::addNote(int partId, int staff, int voice, const Tchunk &note,
 
 
 void TimportScore::addChordNote(const Tchunk& note) {
-  if (m_lastPart)
-    m_lastPart->addChordNote(m_lastPart->melody()->length() - 1, note);
+  if (m_lastPart && m_lastPart->melody())
+    m_lastPart->addChordNote(m_lastPart, note);
+  else
+    qDebug() << "[TimportScore] Cannot add chord note to not existing part/melody.";
 }
 
 
@@ -187,11 +189,11 @@ void TmelodyPart::setScoreObject(TscoreObject* sObj) {
   if (m_melody) {
     m_scoreObj->setMelody(m_melody);
     for (int c = 0; c < chords.count(); ++c) {
-      auto noteSeg = m_scoreObj->note(chords[c].noteNr);
+      auto noteSeg = m_scoreObj->note(chords[c].noteNr());
       QQmlComponent comp(m_scoreObj->qmlEngine(), QUrl(QStringLiteral("qrc:/score/DummyChord.qml")));
       auto chIt = qobject_cast<TdummyChord*>(comp.create(QQmlEngine::contextForObject(m_scoreObj->parent())));
       chIt->setParentItem(noteSeg);
-      chIt->setChord(chords[c].notes());
+      chIt->setChord(&chords[c]);
     }
   }
 }
@@ -258,13 +260,13 @@ void TmelodyPart::setKey(int k) {
 }
 
 
-void TmelodyPart::addChordNote(int noteId, const Tchunk& n) {
+void TmelodyPart::addChordNote(TmelodyPart* part, const Tchunk& n) {
   Tchunk chordNote(n);
   chordNote.p().setRhythm(Trhythm(Trhythm::NoRhythm));
-  if (!chords.isEmpty() && chords.last().noteNr == noteId)
+  if (!chords.isEmpty() && chords.last().noteNr() == part->melody()->length() - 1)
     chords.last().add(chordNote);
   else {
-    chords << TalaChord(noteId, Tchunk(Tnote(m_melody->note(noteId)->p(), Trhythm(Trhythm::NoRhythm)), m_melody->note(noteId)->t()));
+    chords << TalaChord(part);
     chords.last().add(chordNote);
     auto m = chords.last().notes();
     m->setClef(m_melody->clef());
@@ -278,4 +280,16 @@ QList<QObject*> TmelodyPart::snippets() {
   for (auto p : parts)
     s << qobject_cast<QObject*>(p);
   return s;
+}
+
+
+TalaChord::TalaChord(TmelodyPart* mp)
+{
+  part = mp;
+  if (mp->melody()) {
+      m_noteNr = part->melody()->length() - 1;
+      auto fChN = mp->melody()->note(m_noteNr);
+      m_notes.addNote(Tchunk(Tnote(fChN->p(), Trhythm(Trhythm::NoRhythm)), fChN->t()));
+  } else
+      qDebug() << "[TalaChord] FIXME! No melody in the part!";
 }
