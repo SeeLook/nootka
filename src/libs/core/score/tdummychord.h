@@ -21,15 +21,23 @@
 
 
 #include <nootkacoreglobal.h>
-#include <music/tnote.h>
+#include "music/tnote.h"
+#include "music/timportscore.h"
 #include <QtQuick/qquickitem.h>
 
 
 class TnoteItem;
-class Tmelody;
+
 
 /**
- * @todo write docs
+ * @class TdummyChord is QML item over @p TnoteItem score note
+ * with chord notes from @p TalaChord member.
+ * Atop of it there is @p DummyChord.qml which displays those notes.
+ * So score import routines create DummyChord instance
+ * and add @p setChord() chord with notes.
+ * This item when clicked - displays popup with the notes to select.
+ * @p selected() is number of selected chord note
+ * and when changed - changes @p TalaChord::part->melody() note.
  */
 class NOOTKACORE_EXPORT TdummyChord : public QQuickItem
 {
@@ -39,6 +47,7 @@ class NOOTKACORE_EXPORT TdummyChord : public QQuickItem
   Q_PROPERTY(QString noteHead READ noteHead NOTIFY chordChanged)
   Q_PROPERTY(int chordModel READ chordModel NOTIFY chordChanged)
   Q_PROPERTY(Tmelody* chord READ chord NOTIFY chordChanged)
+  Q_PROPERTY(int selected READ selected WRITE setSelected NOTIFY selectedChanged)
 
 public:
   explicit TdummyChord(QQuickItem* parent = nullptr);
@@ -46,20 +55,29 @@ public:
 
   int chordModel() const;
 
-  Tmelody* chord() { return m_chord; }
-  void setChord(Tmelody* c);
+  Tmelody* chord() { return m_alaChord->notes(); }
+  void setChord(TalaChord* c);
+
+      /**
+       * Number of selected note from this chord.
+       */
+  int selected() const { return m_selected; }
+  void setSelected(int s);
 
   QString noteHead();
 
   Q_INVOKABLE qreal headPos(int id);
   Q_INVOKABLE QString alterText(int id);
+  Q_INVOKABLE QVariant part();
 
 signals:
   void chordChanged();
+  void selectedChanged();
 
 private:
-  Tmelody                   *m_chord = nullptr;
+  TalaChord                 *m_alaChord = nullptr;
   TnoteItem                 *m_parentNote = nullptr;
+  int                        m_selected = -1;
 };
 
 #endif // TDUMMYCHORD_H

@@ -9,21 +9,27 @@ import Score 1.0
 
 TdummyChord {
   id: chordIt
+
   anchors.fill: parent
 
-  Repeater {
-    model: chordModel
-    Text {
-      scale: 1.2
-      font { family: "Scorek"; pixelSize: 7 }
-      text: noteHead
-      y: headPos(index) - 15
-      color: activPal.dimText
+  Rectangle {
+    anchors.fill: parent
+    z: -1; radius: width / 4
+    color: NOO.alpha(activPal.dimText, 30)
+    Repeater {
+      model: chordModel
       Text {
+        scale: 1.2
         font { family: "Scorek"; pixelSize: 7 }
-        color: activPal.dimText
-        x: -width - 0.1
-//         text: score.alterText
+        text: noteHead
+        y: headPos(index) - 15
+        color: index === selected ? activPal.text : activPal.dimText
+        Text {
+          font { family: "Scorek"; pixelSize: 7 }
+          color: activPal.dimText
+          x: -width - 0.1
+  //         text: score.alterText
+        }
       }
     }
   }
@@ -32,7 +38,7 @@ TdummyChord {
     id: ma
     anchors.fill: parent
     onClicked: {
-      importWindow.showChord(chord)
+      importWindow.showChord(chordIt)
     }
   }
 }

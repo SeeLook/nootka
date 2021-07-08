@@ -33,14 +33,31 @@ TdummyChord::~TdummyChord() {}
 
 
 int TdummyChord::chordModel() const {
-  return m_chord ? m_chord->length() : 0;
+  return m_alaChord ? m_alaChord->notes()->length() : 0;
 }
 
 
-void TdummyChord::setChord(Tmelody* c) {
+void TdummyChord::setChord(TalaChord* c) {
   m_parentNote = qobject_cast<TnoteItem*>(parentItem());
-  m_chord = c;
+  m_alaChord = c;
   emit chordChanged();
+  setSelected(0);
+}
+
+
+void TdummyChord::setSelected(int s) {
+  if (s != m_selected) {
+    bool changeNote = m_selected > 0 || s > 0;
+    m_selected = s;
+    emit selectedChanged();
+    if (changeNote) { // change the 'original' melody only when user selected other note from the chord
+      Tnote& n = m_alaChord->part->melody()->note(m_alaChord->noteNr())->p();
+      auto ch = m_alaChord->notes()->note(m_selected)->p();
+      n.setNote(ch.note());
+      n.setOctave(ch.octave());
+      n.setAlter(ch.alter());
+    }
+  }
 }
 
 
@@ -50,11 +67,15 @@ QString TdummyChord::noteHead() {
 
 
 qreal TdummyChord::headPos(int id) {
-  return m_parentNote && m_chord ? m_parentNote->getHeadY(m_chord->note(id)->p()) : 0.0;
+  return m_parentNote && m_alaChord ? m_parentNote->getHeadY(m_alaChord->notes()->note(id)->p()) : 0.0;
 }
 
 
 QString TdummyChord::alterText(int id) {
-//   return m_parentNote ? m_parentNote->geta
   return QString();
+}
+
+
+QVariant TdummyChord::part() {
+  return QVariant::fromValue(m_alaChord->part);
 }

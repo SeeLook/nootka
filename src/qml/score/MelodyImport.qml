@@ -204,14 +204,19 @@ Window {
   property var chordView: null
   Component {
     id: chordComp
-    MelodyPreview {
+    MelodyPreview { // preview of chord notes
+      property var chordIt: null
+      melody: chordIt ? chordIt.chord : null
       showButtons: false
       width: NOO.factor() * 20 ; maxHeight: NOO.factor() * 22
       caption: qsTr("Select single note")
       selectReadOnly: true
-      onReadOnlyNoteClicked: hi.parent = score.note(noteId)
+      onReadOnlyNoteClicked: {
+        hi.parent = score.note(noteId)
+        chordIt.selected = noteId
+      }
       onAboutToShow: hi.parent = score.note(0)
-      Rectangle { // note highlight
+      Rectangle { // selected chord note highlight
         id: hi
         parent: null
         visible: parent != null
@@ -226,10 +231,10 @@ Window {
     }
   }
 
-  function showChord(m) {
+  function showChord(chordIt) {
     if (!chordView)
       chordView = chordComp.createObject(importWindow)
-    chordView.melody = m
+    chordView.chordIt = chordIt
     chordView.open()
   }
 
