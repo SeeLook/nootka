@@ -55,6 +55,7 @@
     <file alias="gotit/HandleScore.qml">qml/gotit/HandleScore.qml</file>
     <file alias="gotit/NoteSelected.qml">qml/gotit/NoteSelected.qml</file>
     <file alias="gotit/FirstTouchScore.qml">qml/gotit/+android/FirstTouchScore.qml</file>
+    <file alias="gotit/ImportInfo.qml">qml/gotit/ImportInfo.qml</file>
 
 <!--     <file alias="PitchView.qml">qml/sound/PitchView.qml</file> -->
     <file alias="sound/VolumeBar.qml">qml/sound/VolumeBar.qml</file>

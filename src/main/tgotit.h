@@ -54,7 +54,8 @@ public:
     GotExamOrExer,
     GotExamFlow,
     GotHandleScore,
-    GotNoteSelected
+    GotNoteSelected,
+    GotImportScore
   };
   Q_ENUM(EgotItType)
 

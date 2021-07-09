@@ -158,6 +158,11 @@ Window {
     }
   }
 
+  Component.onCompleted: {
+    if (GLOB.gotIt("ScoreImport", true))
+      Qt.createComponent("qrc:/gotit/ImportInfo.qml").createObject(importWindow, { "remaindChecked": true })
+  }
+
   property var dividePop: null
   Component {
     id: divideComp

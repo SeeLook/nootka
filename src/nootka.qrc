@@ -49,6 +49,7 @@
     <file alias="gotit/ExamFlow.qml">qml/gotit/ExamFlow.qml</file>
     <file alias="gotit/HandleScore.qml">qml/gotit/HandleScore.qml</file>
     <file alias="gotit/NoteSelected.qml">qml/gotit/NoteSelected.qml</file>
+    <file alias="gotit/ImportInfo.qml">qml/gotit/ImportInfo.qml</file>
 
 <!--  Unused    -->
 <!--     <file alias="TprogressBar.qml">qml/shared/TprogressBar.qml</file> -->
