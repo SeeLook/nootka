@@ -291,6 +291,11 @@ public:
 
   QList<Tnote>& noteList() { return m_notes; }
 
+      /**
+       * This array keeps values (-1, 0 or 1) for accidentals in key sign.
+       */
+  qint8 accidInKey(int k) const { return m_accidInKeyArray[k]; }
+
   /* ------------------ Other helpers ------------------ */
 
   qreal width() { return m_width; }
@@ -565,11 +570,6 @@ protected:
   void updateStavesPos();
 
   void onIndentChanged();
-
-      /**
-       * This array keeps values (-1, 0 or 1) for accidentals in key sign.
-       */
-  qint8 accidInKey(int k) const { return m_accidInKeyArray[k]; }
 
       /**
        * Returns number of note that starts a tie through @p x()
