@@ -449,6 +449,19 @@ QString TnoteItem::getHeadText(const Trhythm& r) {
 }
 
 
+QString TnoteItem::unicodeGlyphArray(int alter) {
+  static const QString accCharTable[6] = {
+    QStringLiteral("\ue264"), // [0] = bb - double flat
+    QStringLiteral("\ue260"), // [1] = b - flat
+    QString(),                // [2] = none
+    QStringLiteral("\ue262"), // [3] = # - sharp
+    QStringLiteral("\ue263"), // [4] = x - double sharp
+    QStringLiteral("\ue261")  // [5] = neutral
+  };
+  return accCharTable[alter + 2];
+}
+
+
 void TnoteItem::setStringNumber(int strNr) {
   if (!m_stringNumber && strNr > 0 && strNr < 7) {
     m_staff->score()->component()->setData("import QtQuick 2.9; Text { z: -1; font { pixelSize: 4; family: \"Nootka\" } }", QUrl());
@@ -583,21 +596,11 @@ QString TnoteItem::getAccidText() {
   if (!m_note->isValid())
     return QString();
 
-  /** Unicode numbers of accidentals in Scorek font. */
-  static const QString accCharTable[6] = {
-    QStringLiteral("\ue264"), // [0] = bb - double flat
-    QStringLiteral("\ue260"), // [1] = b - flat
-    QString(),                // [2] = none
-    QStringLiteral("\ue262"), // [3] = # - sharp
-    QStringLiteral("\ue263"), // [4] = x - double sharp
-    QStringLiteral("\ue261")  // [5] = neutral
-  };
-
-  QString a = accCharTable[m_note->alter() + 2];
+  QString a = unicodeGlyphArray(m_note->alter());
   qint8 accidInKey = m_staff->score()->accidInKey(m_note->note() - 1);
   if (accidInKey) { // key signature has an accidental on this note
     if (m_note->alter() == 0) // show neutral if note has not any accidental
-        a = accCharTable[5];
+        a = unicodeGlyphArray(3); // neutral
     else {
       if (accidInKey == m_note->alter()) { // accidental in key, do not show
         if (m_staff->score()->showExtraAccids() && accidInKey) { // or user wants it at any cost
@@ -625,11 +628,11 @@ QString TnoteItem::getAccidText() {
           }
           if (checkNote->alter() != 0 && m_note->alter() == 0) {
               if (a.isEmpty())
-                a = accCharTable[5]; // and add neutral when some of previous notes with the same step had an accidental
+                a = unicodeGlyphArray(3); // and add neutral when some of previous notes with the same step had an accidental
           } else if (checkNote->alter() == m_note->alter()) // do not display it twice
               a.clear();
           else if (accidInKey == m_note->alter() && checkNote->alter() != m_note->alter())
-              a = accCharTable[m_note->alter() + 2]; // There is already accidental in key signature but some of the previous notes had another one, show it again
+              a = unicodeGlyphArray(m_note->alter());// There is already accidental in key signature but some of the previous notes had another one, show it again
           break;
         }
         id--;

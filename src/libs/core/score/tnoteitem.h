@@ -131,6 +131,13 @@ public:
        */
   static QString getHeadText(const Trhythm& r);
 
+      /**
+       * Unicode numbers of accidentals in Scorek font.
+       * Takes @p Tnote::alter() [-2 to 3] parameter.
+       * @p 3 is neutral symbol
+       */
+  static QString unicodeGlyphArray(int alter);
+
   void setFingerNumber(int fiNr);
   Q_INVOKABLE void setStringNumber(int strNr);
 
