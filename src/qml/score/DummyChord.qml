@@ -19,16 +19,17 @@ TdummyChord {
     Repeater {
       model: chordModel
       Text {
-        scale: 1.2
+        scale: index === selected ? 1.4 : 1.2
         font { family: "Scorek"; pixelSize: 7 }
         text: noteHead
         y: headPos(index) - 15
         color: index === selected ? activPal.text : activPal.dimText
+        Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { }}
         Text {
           font { family: "Scorek"; pixelSize: 7 }
-          color: activPal.dimText
+          color: parent.color
           x: -width - 0.1
-  //         text: score.alterText
+          text: index > 0 ? alterText(index) : ""
         }
       }
     }
@@ -37,8 +38,6 @@ TdummyChord {
   MouseArea {
     id: ma
     anchors.fill: parent
-    onClicked: {
-      importWindow.showChord(chordIt)
-    }
+    onClicked: importWindow.showChord(chordIt)
   }
 }

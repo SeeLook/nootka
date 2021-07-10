@@ -18,6 +18,7 @@
 
 #include "tdummychord.h"
 #include "score/tnoteitem.h"
+#include "score/tscoreobject.h"
 #include "music/tmelody.h"
 
 #include <QtCore/qdebug.h>
@@ -72,7 +73,15 @@ qreal TdummyChord::headPos(int id) {
 
 
 QString TdummyChord::alterText(int id) {
-  return QString();
+  Tnote& n = m_alaChord->notes()->note(id)->p();
+  QString a = TnoteItem::unicodeGlyphArray(n.alter());
+  if (m_alaChord->part->score()->accidInKey(n.note() - 1)) { // key signature has an accidental on this note
+    if (n.alter() == 0) // show neutral if note has not any accidental
+      a = QStringLiteral("\ue261");
+    else
+      a.clear();
+  }
+  return a;
 }
 
 
