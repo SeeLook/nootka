@@ -196,9 +196,13 @@ Window {
       Transpose {
         id: transpose
       }
+      onAboutToShow: {
+        transpose.toKey = false
+        transpose.byInterval = false
+      }
       onAccepted: {
         if (transpose.toKey || transpose.byInterval) {
-          if (transpose.toKey)
+          if (transpose.toKey && melPart)
             transPop.melPart.key = transpose.selectedKey
           melImport.transpose(transpose.outShift, transpose.outScaleToRest, transpose.inInstrumentScale, transPop.melPart)
         }
@@ -220,7 +224,10 @@ Window {
         hi.parent = score.note(noteId)
         chordIt.selected = noteId
       }
-      onAboutToShow: hi.parent = score.note(0)
+      onAboutToShow: {
+        reload()
+        hi.parent = score.note(chordIt.selected)
+      }
       Rectangle { // selected chord note highlight
         id: hi
         parent: null
