@@ -21,6 +21,7 @@
 #include "score/tscoreobject.h"
 #include "music/tmelody.h"
 
+#include "music/timportscore.h"
 #include <QtCore/qdebug.h>
 
 
@@ -41,6 +42,7 @@ int TdummyChord::chordModel() const {
 void TdummyChord::setChord(TalaChord* c) {
   m_parentNote = qobject_cast<TnoteItem*>(parentItem());
   m_alaChord = c;
+  m_alaChord->setDummyChord(this);
   emit chordChanged();
   setSelected(0);
 }

@@ -22,7 +22,7 @@ TdummyChord {
         scale: index === selected ? 1.4 : 1.2
         font { family: "Scorek"; pixelSize: 7 }
         text: noteHead
-        y: headPos(index) - 15
+        y: headPos(index) - 15 + (chordIt.parent ? 0 : 0) // force to refresh note-heads position
         color: index === selected ? activPal.text : activPal.dimText
         Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { }}
         Text {

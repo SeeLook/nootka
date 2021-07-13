@@ -20,6 +20,7 @@
 #include <music/timportscore.h>
 #include <music/tmelody.h>
 #include <score/tscoreobject.h>
+#include <score/tnoteitem.h>
 #include <tglobals.h>
 
 #include <QtCore/qdebug.h>
@@ -79,6 +80,16 @@ void TmelodyImportItem::transpose(int semis, bool outScaleToRes, bool inInstrSca
                                  inInstrScale ? GLOB->loNote() : p->score()->lowestNote(),
                                  inInstrScale ? GLOB->hiNote() : p->score()->highestNote());
           p->score()->setMelody(p->melody());
+          if (!p->chords.isEmpty()) { // also transpose dummy chords
+            for (TalaChord& ch : p->chords) {
+              ch.notes()->setKey(p->melody()->key());
+              ch.notes()->transpose(semis, outScaleToRes,
+                                    inInstrScale ? GLOB->loNote() : p->score()->lowestNote(),
+                                    inInstrScale ? GLOB->hiNote() : p->score()->highestNote());
+              // reset parent note item
+              ch.setChordParent(p->score()->note(ch.noteNr()));
+            }
+          }
         }
       }
   } else { // transpose all parts
