@@ -227,6 +227,9 @@ Window {
       onAboutToShow: {
         reload()
         hi.parent = score.note(chordIt.selected)
+        var p = parent.mapFromItem(chordIt, 0, chordIt.height / 2)
+        x = p.x - (p.x > parent.width / 2 ? width + NOO.factor() : - NOO.factor() * 2)
+        y = NOO.bound(NOO.factor(), p.y - height / 2, parent.height - height - NOO.factor())
       }
       Rectangle { // selected chord note highlight
         id: hi
