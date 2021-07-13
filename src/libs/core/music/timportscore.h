@@ -31,6 +31,8 @@
 class Tchunk;
 class TscoreObject;
 class TmelodyPart;
+class TdummyChord;
+class QQuickItem;
 
 
 /**
@@ -39,7 +41,12 @@ class TmelodyPart;
  * and @p noteNr() is number of the note with this chord inside
  * @p TmelodyPart @p oart.
  * NOTICE: @p TalaChord::notes() contains all chord notes
- * including note in @p part->melody()
+ * including note in @p part->melody() - this one is first (ID 0)
+ *
+ * @class TdummyChord instance has to be set during initialization.
+ * It gives kind of a connection between @p TmelodyPart changes
+ * and @p DummyChord QML control.
+ * Needed during @p TmelodyPart transformations (split/merge, transpose)
  */
 class NOOTKACORE_EXPORT TalaChord {
 
@@ -61,9 +68,21 @@ public:
   int count() const { return m_notes.length(); }
   void add(const Tchunk& n) { m_notes.addNote(n); }
 
+      /**
+       * Store pointer to QML @p TdummyChord instance
+       */
+  void setDummyChord(TdummyChord* dCh);
+
+      /**
+       * Reset parent of @p TdummyChord
+       * which must be the @p TnoteItem
+       */
+  void setChordParent(QQuickItem* noteItem);
+
 private:
-  Tmelody      m_notes;
-  int          m_noteNr = -1;
+  Tmelody         m_notes;
+  int             m_noteNr = -1;
+  TdummyChord    *m_dummyChord = nullptr; // QML item displaying this chord
 };
 
 

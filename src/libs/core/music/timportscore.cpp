@@ -226,7 +226,6 @@ void TmelodyPart::setSplitBarNr(int splitNr) {
           for (auto m : splitList) {
             auto mp = new TmelodyPart(this, m_partId, m_staffNr, m_voiceNr);
             parts << mp;
-//             m->setTitle(QString("%1, %2, %3, %4").arg(m_partId).arg(m_staffNr).arg(m_voiceNr).arg(parts.size()));
             mp->setMelody(m);
           }
         }
@@ -282,6 +281,9 @@ QList<QObject*> TmelodyPart::snippets() {
   return s;
 }
 
+//#################################################################################################
+//###################                TalaChord         ############################################
+//#################################################################################################
 
 TalaChord::TalaChord(TmelodyPart* mp)
 {
@@ -292,4 +294,15 @@ TalaChord::TalaChord(TmelodyPart* mp)
       m_notes.addNote(Tchunk(Tnote(fChN->p(), Trhythm(Trhythm::NoRhythm)), fChN->t()));
   } else
       qDebug() << "[TalaChord] FIXME! No melody in the part!";
+}
+
+
+void TalaChord::setDummyChord(TdummyChord* dCh) {
+  m_dummyChord = dCh;
+}
+
+
+void TalaChord::setChordParent(QQuickItem* noteItem) {
+  m_dummyChord->setParentItem(noteItem);
+  m_dummyChord->chordChanged();
 }
