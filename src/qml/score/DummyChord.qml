@@ -15,7 +15,7 @@ TdummyChord {
   Rectangle {
     anchors.fill: parent
     z: -1; radius: width / 4
-    color: NOO.alpha(activPal.dimText, 30)
+    color: NOO.alpha(importWindow.chordView && importWindow.chordView.chordIt == chordIt ? activPal.highlight : activPal.dimText, 30)
     Repeater {
       model: chordModel
       Text {
