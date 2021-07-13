@@ -20,8 +20,8 @@
 #include "score/tnoteitem.h"
 #include "score/tscoreobject.h"
 #include "music/tmelody.h"
-
 #include "music/timportscore.h"
+
 #include <QtCore/qdebug.h>
 
 
@@ -44,7 +44,8 @@ void TdummyChord::setChord(TalaChord* c) {
   m_alaChord = c;
   m_alaChord->setDummyChord(this);
   emit chordChanged();
-  setSelected(0);
+  if (m_selected == -1)
+    setSelected(0);
 }
 
 

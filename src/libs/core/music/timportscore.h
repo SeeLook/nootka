@@ -57,6 +57,7 @@ public:
        * Number of a note in melody with this chord notes.
        */
   int noteNr() const { return m_noteNr; }
+  void setNoteNr(int nr) { m_noteNr = nr; }
 
       /**
        * Notes of the chord stored in @p Tmelody

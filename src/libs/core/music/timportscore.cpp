@@ -212,25 +212,62 @@ void TmelodyPart::setSplitBarNr(int splitNr) {
     m_splitBarNr = splitNr;
     if (!parts.isEmpty() && parts.first()->melody()) {
       // append all melodies to the first one
-      for (int m = 1; m < parts.size(); ++m)
-        parts.first()->melody()->appendMelody(parts[m]->melody());
+      auto firstPart = parts.first();
+      for (int m = 1; m < parts.size(); ++m) {
+        auto p = parts[m];
+        firstPart->melody()->appendMelody(p->melody());
+        if (!p->chords.isEmpty()) {
+          int lastNoteNr = firstPart->melody()->length() - p->melody()->length();
+          for (TalaChord& ch : p->chords)
+            ch.setNoteNr(lastNoteNr + ch.noteNr());
+          firstPart->chords.append(p->chords);
+        }
+      }
       // delete the rest of the parts
       int partsCount = parts.count();
       for (int m = 1; m < partsCount; ++m)
         delete parts.takeLast();
       // then divide by new bars number. if any
+      bool hasChords = !firstPart->chords.isEmpty();
       if (m_splitBarNr) {
         QList<Tmelody*> splitList;
-        parts.first()->melody()->split(m_splitBarNr, splitList);
+        firstPart->melody()->split(m_splitBarNr, splitList);
+        int len = firstPart->melody()->length();
         if (!splitList.isEmpty()) {
           for (auto m : splitList) {
             auto mp = new TmelodyPart(this, m_partId, m_staffNr, m_voiceNr);
             parts << mp;
             mp->setMelody(m);
+            // split chords into just divided parts
+            if (hasChords) {
+              int c = 0;
+              while (c < firstPart->chords.count()) {
+                int nr = firstPart->chords[c].noteNr();
+                // lookup by note number a chord is attached to
+                if (nr >= len && nr < len + m->length()) {
+                    // take the chord from first part, add to actual one and fix attached note number
+                    mp->chords << firstPart->chords.takeAt(c);
+                    mp->chords.last().setNoteNr(mp->chords.last().noteNr() - len);
+                    mp->chords.last().part = mp;
+                } else if (nr >= len + mp->melody()->length())
+                    break;
+                else
+                    c++;
+              }
+            }
+            len += m->length();
           }
         }
       }
       emit melodyChanged();
+      if (hasChords) { // reset parent note items
+        for (auto p : parts) {
+          if (!p->chords.isEmpty()) {
+            for (TalaChord& ch : p->chords)
+              ch.setChordParent(p->score()->note(ch.noteNr()));
+          }
+        }
+      }
     }
     emit splitBarNrChanged();
   }
