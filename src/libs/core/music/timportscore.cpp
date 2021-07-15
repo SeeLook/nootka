@@ -152,6 +152,11 @@ void TimportScore::addPartName(const QString& pn) {
 }
 
 
+void TimportScore::setContextObject(QObject* c) {
+  m_contextObj = c;
+}
+
+
 //#################################################################################################
 //###################               TpartMelody        ############################################
 //#################################################################################################
@@ -168,6 +173,9 @@ TmelodyPart::TmelodyPart(TmelodyPart* parent, int partId, int staffNr, int voice
 
 TmelodyPart::~TmelodyPart()
 {
+  if (!chords.isEmpty()) {
+    qDeleteAll(chords);
+  }
   if (m_melody)
     delete m_melody;
   if (!parts.isEmpty()) {
@@ -189,11 +197,18 @@ void TmelodyPart::setScoreObject(TscoreObject* sObj) {
   if (m_melody) {
     m_scoreObj->setMelody(m_melody);
     for (int c = 0; c < chords.count(); ++c) {
-      auto noteSeg = m_scoreObj->note(chords[c].noteNr());
-      QQmlComponent comp(m_scoreObj->qmlEngine(), QUrl(QStringLiteral("qrc:/score/DummyChord.qml")));
-      auto chIt = qobject_cast<TdummyChord*>(comp.create(QQmlEngine::contextForObject(m_scoreObj->parent())));
+      auto noteSeg = m_scoreObj->note(chords[c]->noteNr());
+      TdummyChord* chIt;
+      if (chords[c]->dummyChord()) {
+          chIt = chords[c]->dummyChord();
+      } else {
+          QQmlComponent comp(m_scoreObj->qmlEngine(), QUrl(QStringLiteral("qrc:/score/DummyChord.qml")));
+          auto con = QQmlEngine::contextForObject(IMPORT_SCORE->contextObj());
+          chIt = qobject_cast<TdummyChord*>(comp.create(con));
+          chIt->setParent(IMPORT_SCORE);
+      }
       chIt->setParentItem(noteSeg);
-      chIt->setChord(&chords[c]);
+      chIt->setChord(chords[c]);
     }
   }
 }
@@ -218,9 +233,12 @@ void TmelodyPart::setSplitBarNr(int splitNr) {
         firstPart->melody()->appendMelody(p->melody());
         if (!p->chords.isEmpty()) {
           int lastNoteNr = firstPart->melody()->length() - p->melody()->length();
-          for (TalaChord& ch : p->chords)
-            ch.setNoteNr(lastNoteNr + ch.noteNr());
-          firstPart->chords.append(p->chords);
+          for (auto ch : p->chords)
+            ch->setNoteNr(lastNoteNr + ch->noteNr());
+          while (!p->chords.isEmpty()) {
+            firstPart->chords.append(p->chords.takeFirst());
+            firstPart->chords.last()->part = firstPart;
+          }
         }
       }
       // delete the rest of the parts
@@ -242,13 +260,13 @@ void TmelodyPart::setSplitBarNr(int splitNr) {
             if (hasChords) {
               int c = 0;
               while (c < firstPart->chords.count()) {
-                int nr = firstPart->chords[c].noteNr();
+                int nr = firstPart->chords[c]->noteNr();
                 // lookup by note number a chord is attached to
                 if (nr >= len && nr < len + m->length()) {
                     // take the chord from first part, add to actual one and fix attached note number
                     mp->chords << firstPart->chords.takeAt(c);
-                    mp->chords.last().setNoteNr(mp->chords.last().noteNr() - len);
-                    mp->chords.last().part = mp;
+                    mp->chords.last()->setNoteNr(mp->chords.last()->noteNr() - len);
+                    mp->chords.last()->part = mp;
                 } else if (nr >= len + mp->melody()->length())
                     break;
                 else
@@ -260,14 +278,6 @@ void TmelodyPart::setSplitBarNr(int splitNr) {
         }
       }
       emit melodyChanged();
-      if (hasChords) { // reset parent note items
-        for (auto p : parts) {
-          if (!p->chords.isEmpty()) {
-            for (TalaChord& ch : p->chords)
-              ch.setChordParent(p->score()->note(ch.noteNr()));
-          }
-        }
-      }
     }
     emit splitBarNrChanged();
   }
@@ -299,12 +309,12 @@ void TmelodyPart::setKey(int k) {
 void TmelodyPart::addChordNote(TmelodyPart* part, const Tchunk& n) {
   Tchunk chordNote(n);
   chordNote.p().setRhythm(Trhythm(Trhythm::NoRhythm));
-  if (!chords.isEmpty() && chords.last().noteNr() == part->melody()->length() - 1)
-    chords.last().add(chordNote);
+  if (!chords.isEmpty() && chords.last()->noteNr() == part->melody()->length() - 1)
+    chords.last()->add(chordNote);
   else {
-    chords << TalaChord(part);
-    chords.last().add(chordNote);
-    auto m = chords.last().notes();
+    chords << new TalaChord(part);
+    chords.last()->add(chordNote);
+    auto m = chords.last()->notes();
     m->setClef(m_melody->clef());
     m->setKey(m_melody->key());
   }
@@ -336,10 +346,4 @@ TalaChord::TalaChord(TmelodyPart* mp)
 
 void TalaChord::setDummyChord(TdummyChord* dCh) {
   m_dummyChord = dCh;
-}
-
-
-void TalaChord::setChordParent(QQuickItem* noteItem) {
-  m_dummyChord->setParentItem(noteItem);
-  m_dummyChord->chordChanged();
 }

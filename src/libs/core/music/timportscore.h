@@ -73,12 +73,7 @@ public:
        * Store pointer to QML @p TdummyChord instance
        */
   void setDummyChord(TdummyChord* dCh);
-
-      /**
-       * Reset parent of @p TdummyChord
-       * which must be the @p TnoteItem
-       */
-  void setChordParent(QQuickItem* noteItem);
+  TdummyChord* dummyChord() { return m_dummyChord; }
 
 private:
   Tmelody         m_notes;
@@ -108,7 +103,7 @@ class NOOTKACORE_EXPORT TmelodyPart : public QObject
 
 public:
   explicit TmelodyPart (TmelodyPart* parent = nullptr, int partId = 0, int staffNr = 0, int voiceNr = 0);
-    ~TmelodyPart() override;
+  ~TmelodyPart() override;
 
   bool selected() const { return m_selected; }
   void setSelected(bool sel);
@@ -132,7 +127,7 @@ public:
        * TODO: Use @p parts here when Qt 5.15 will be minimal.
        */
   QList<QObject*>        snippets();
-  QList<TalaChord>       chords;
+  QList<TalaChord*>      chords;
 
   Q_INVOKABLE void setScoreObject(TscoreObject* sObj);
 
@@ -245,6 +240,13 @@ public:
   bool multiSelect() const { return m_multiselect; }
   void setMultiSelect(bool ms) { m_multiselect = ms; }
 
+      /**
+       * Any @p QObject inside @p MelodyImport.qml to obtain QML context
+       * when new items are created from C++
+       */
+  QObject* contextObj() { return m_contextObj; }
+  void setContextObject(QObject* c);
+
 signals:
   void importReady();
 
@@ -258,6 +260,7 @@ private:
   QStringList                 m_partNames;
   bool                        m_multiselect = false;
   TmelodyPart                *m_lastPart = nullptr;
+  QObject                    *m_contextObj = nullptr;
 };
 
 #endif // TIMPORTSCORE_H
