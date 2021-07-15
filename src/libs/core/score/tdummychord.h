@@ -66,6 +66,13 @@ public:
 
   QString noteHead();
 
+      /**
+       * Handle note item (parent) change.
+       * Connect with note parent (@p TscoreObj::destroyed)
+       * to reset @p m_parentNote
+       */
+  void setParentItem(QQuickItem* pi);
+
   Q_INVOKABLE qreal headPos(int id);
   Q_INVOKABLE QString alterText(int id);
   Q_INVOKABLE QVariant part();

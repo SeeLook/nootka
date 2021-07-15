@@ -39,8 +39,17 @@ int TdummyChord::chordModel() const {
 }
 
 
+void TdummyChord::setParentItem(QQuickItem* pi) {
+  m_parentNote = qobject_cast<TnoteItem*>(pi);
+  QQuickItem::setParentItem(pi);
+  if (m_parentNote) {
+    connect(m_parentNote->parent(), &QObject::destroyed, this, [=]{ m_parentNote = nullptr; });
+    emit chordChanged();
+  }
+}
+
+
 void TdummyChord::setChord(TalaChord* c) {
-  m_parentNote = qobject_cast<TnoteItem*>(parentItem());
   m_alaChord = c;
   m_alaChord->setDummyChord(this);
   emit chordChanged();
@@ -78,7 +87,8 @@ qreal TdummyChord::headPos(int id) {
 QString TdummyChord::alterText(int id) {
   Tnote& n = m_alaChord->notes()->note(id)->p();
   QString a = TnoteItem::unicodeGlyphArray(n.alter());
-  if (m_alaChord->part->score()->accidInKey(n.note() - 1)) { // key signature has an accidental on this note
+  if (m_alaChord->part->score() && m_alaChord->part->score()->accidInKey(n.note() - 1)) {
+    // when key signature has an accidental on this note
     if (n.alter() == 0) // show neutral if note has not any accidental
       a = QStringLiteral("\ue261");
     else
