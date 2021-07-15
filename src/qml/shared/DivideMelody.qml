@@ -20,7 +20,7 @@ Column {
     }
     TspinBox {
       id: splitSpin
-      from: 1; to: 64
+      from: 0; to: 64
     }
   }
 }
