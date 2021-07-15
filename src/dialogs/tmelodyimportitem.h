@@ -63,6 +63,11 @@ public:
 
   Q_INVOKABLE void transpose(int semis, bool outScaleToRes, bool inInstrScale, TmelodyPart* part);
 
+      /**
+       * Method invoked by QML when Import window is set.
+       */
+  Q_INVOKABLE void importWindowReady();
+
 signals:
   void melodyChanged();
   void globalSplitNrChanged();

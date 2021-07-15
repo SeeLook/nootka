@@ -21,14 +21,17 @@
 #include <music/tmelody.h>
 #include <score/tscoreobject.h>
 #include <score/tnoteitem.h>
+#include <score/tdummychord.h>
 #include <tglobals.h>
 
+#include <QtQml/qqmlengine.h>
 #include <QtCore/qdebug.h>
 
 
 TmelodyImportItem::TmelodyImportItem(QQuickItem *parent) :
   QQuickItem(parent)
-{}
+{
+}
 
 
 TmelodyImportItem::~TmelodyImportItem() {
@@ -81,13 +84,14 @@ void TmelodyImportItem::transpose(int semis, bool outScaleToRes, bool inInstrSca
                                  inInstrScale ? GLOB->hiNote() : p->score()->highestNote());
           p->score()->setMelody(p->melody());
           if (!p->chords.isEmpty()) { // also transpose dummy chords
-            for (TalaChord& ch : p->chords) {
-              ch.notes()->setKey(p->melody()->key());
-              ch.notes()->transpose(semis, outScaleToRes,
+            for (auto ch : p->chords) {
+              ch->notes()->setKey(p->melody()->key());
+              ch->notes()->transpose(semis, outScaleToRes,
                                     inInstrScale ? GLOB->loNote() : p->score()->lowestNote(),
                                     inInstrScale ? GLOB->hiNote() : p->score()->highestNote());
               // reset parent note item
-              ch.setChordParent(p->score()->note(ch.noteNr()));
+              ch->dummyChord()->setParentItem(p->score()->note(ch->noteNr()));
+              emit ch->dummyChord()->chordChanged();
             }
           }
         }
@@ -108,4 +112,9 @@ bool TmelodyImportItem::multiSelect() const {
 void TmelodyImportItem::setMultiSelect(bool ms) {
   if (IMPORT_SCORE)
     IMPORT_SCORE->setMultiSelect(ms);
+}
+
+
+void TmelodyImportItem::importWindowReady() {
+  IMPORT_SCORE->setContextObject(this->parent());
 }

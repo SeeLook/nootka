@@ -39,7 +39,6 @@ TdummyChord {
   }
 
   MouseArea {
-    id: ma
     anchors.fill: parent
     onClicked: importWindow.showChord(chordIt)
   }

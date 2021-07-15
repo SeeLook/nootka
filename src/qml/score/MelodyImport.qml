@@ -41,7 +41,7 @@ Window {
       width: parent.width; height: parent.height - melTitle.height - buttRow.height - NOO.factor() * 2.5
       clip: true
       spacing: NOO.factor() / (NOO.isAndroid() ? 4 : 2)
-      model: melImport.partsModel
+      //model: // apply model only when entire window is created
       delegate: TipRect {
         x: NOO.factor() / 4
         width: melImport.width - NOO.factor() / 2; height: scoreCol.height + NOO.factor()
@@ -159,8 +159,10 @@ Window {
   }
 
   Component.onCompleted: {
+    melImport.importWindowReady()
     if (GLOB.gotIt("ScoreImport", true))
       Qt.createComponent("qrc:/gotit/ImportInfo.qml").createObject(importWindow, { "remaindChecked": true })
+    partList.model = melImport.partsModel
   }
 
   property var dividePop: null
