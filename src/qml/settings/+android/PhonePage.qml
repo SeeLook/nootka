@@ -3,8 +3,8 @@
  * on the terms of GNU GPLv3 license (http://www.gnu.org/licenses)   */
 
 
-import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 
 import "../"
 
