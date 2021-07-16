@@ -46,7 +46,7 @@ TguitarBg {
     scale: instrItem.scale
     Image { // body
       cache: false
-      source: GLOB.instrument.isGuitar ? NOO.pix("body" + bodyPix[GLOB.instrument.typeINT - 1]) : ""
+      source: GLOB.instrument.isGuitar && !GLOB.instrument.ukulele ? NOO.pix("body" + bodyPix[GLOB.instrument.typeINT - 1]) : ""
       height: parent.height * (GLOB.instrument.classicGuitar ? 4 : 3.1)
       width: height * (sourceSize.width / sourceSize.height)
       x: GLOB.instrument.classicGuitar ? xiiFret : parent.width * 0.65
