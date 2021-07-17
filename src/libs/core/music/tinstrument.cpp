@@ -127,8 +127,9 @@ int Tinstrument::getItemHeight(int mainWindowHeight) {
     case ClassicalGuitar:
     case ElectricGuitar:
     case BassGuitar:
-    case Ukulele:
       return mainWindowHeight / 4;
+    case Ukulele:
+      return mainWindowHeight / 5;
     case Piano:
 #if defined (Q_OS_ANDROID)
       return qRound(static_cast<qreal>(mainWindowHeight) * 0.22);
