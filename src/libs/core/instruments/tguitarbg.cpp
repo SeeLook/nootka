@@ -138,7 +138,7 @@ void TguitarBg::setFingerPos(const TfingerPos& fp) {
 
 
 qreal TguitarBg::xiiFret() const {
-  return static_cast<qreal>(m_fretsPos[11]);
+  return static_cast<qreal>(m_fretsPos[GLOB->instrument().ukulele() ? 14 : 11]);
 }
 
 
@@ -432,7 +432,9 @@ void TguitarBg::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeom
       return;
 
     QSize newSize = newGeometry.size().toSize();
-    m_fbRect = QRect(10, newSize.height() / 18, (6 * newSize.width()) / 7, newSize.height() - newSize.height() / 18);
+    m_fbRect = QRect(10, newSize.height() / 18,
+                     GLOB->instrument().ukulele() ? newSize.width() * 0.8 : (6 * newSize.width()) / 7,
+                     newSize.height() - newSize.height() / 18);
     m_fretWidth = ((m_fbRect.width() + ((GLOB->GfretsNumber / 2) * (GLOB->GfretsNumber / 2 + 1))
                   + GLOB->GfretsNumber / 4) / (GLOB->GfretsNumber + 1)) + 1;
     m_strGap = m_fbRect.height() / GLOB->Gtune()->stringNr();
@@ -559,10 +561,10 @@ void TguitarBg::setTune() {
   for (int i = 0; i < GLOB->Gtune()->stringNr(); i++) {
     int stringChromatic = GLOB->Gtune()->strChromatic(i + 1) + GLOB->transposition();
     if (stringChromatic > 14) { // highest than cis1
-        m_strColors[i] = QColor(255, 255, 255, 125); // are nylon
+        m_strColors[i] = QColor(255, 255, 255, (GLOB->instrument().ukulele() ? 200 : 125)); // are nylon
         m_widthFromPitch[i] = 2; // and thinner
     } else if (stringChromatic > 10) { // highest than gis
-        m_strColors[i] = QColor(255, 255, 255, 125); // are nylon
+        m_strColors[i] = QColor(255, 255, 255, (GLOB->instrument().ukulele() ? 200 : 125)); // are nylon
         m_widthFromPitch[i] = 2.5; // and more thick
     } else if (stringChromatic > 4) { // highest than dis
         m_strColors[i] = QColor(255, 255, 255, 150); // are nylon
@@ -590,7 +592,7 @@ void TguitarBg::setTune() {
         m_widthFromPitch[i] = 7; // and more thick
     }
     if (GLOB->instrument().ukulele())
-      m_widthFromPitch[i] *= 1.5;
+      m_widthFromPitch[i] *= 1.75;
   }
 }
 

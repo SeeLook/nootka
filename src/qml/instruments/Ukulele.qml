@@ -37,6 +37,26 @@ TguitarBg {
     correctAnim.start()
   }
 
+  Item {
+    parent: nootkaWindow.contentItem
+    width: instrFlick.width; height: instrFlick.height; y: instrFlick.y
+    x: -instrFlick.contentX
+    transformOrigin: Item.TopLeft
+    scale: instrItem.scale
+    Image { // body
+      cache: false
+      source: NOO.pix("body-ukulele")
+      height: parent.height * 6
+      width: height * (sourceSize.width / sourceSize.height)
+      x: xiiFret; y: parent.height - height * 0.67
+    }
+    Rectangle {
+      x: parent.width * 0.85; y: parent.height - fbRect.height
+      width: fbRect.height; height: fbRect.height; radius: width / 2
+      color: "black"
+    }
+  }
+
   Rectangle {
     id: finger
     color: GLOB.fingerColor
