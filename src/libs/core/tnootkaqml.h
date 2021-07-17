@@ -131,6 +131,8 @@ public:
   Q_INVOKABLE bool isMac();
   Q_INVOKABLE QStringList guitarTunings();
   Q_INVOKABLE QStringList bassTunings();
+  Q_INVOKABLE QStringList ukuleleTunings();
+  Q_INVOKABLE QStringList tuningModel(int instr);
   Q_INVOKABLE Ttune tuning(int tuningType);
   Q_INVOKABLE Ttune tuning(const Tnote& s1, const Tnote& s2, const Tnote& s3, const Tnote& s4, const Tnote& s5, const Tnote& s6);
 

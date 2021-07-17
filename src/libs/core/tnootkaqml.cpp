@@ -302,6 +302,30 @@ QStringList TnootkaQML::bassTunings() {
 }
 
 
+QStringList TnootkaQML::ukuleleTunings() {
+  QStringList tunList;
+  tunList << Ttune::definedName(Ttune::Ukulele_GCEA) << Ttune::definedName(Ttune::Ukulele_Raised);
+  tunList << qTR("InstrumentPage", "Custom tuning");
+  return tunList;
+}
+
+
+/**
+ * Tuning names text model - for instruments with tunings
+ */
+QStringList TnootkaQML::tuningModel(int instr) {
+  switch (static_cast<Tinstrument::Etype>(instr)) {
+    case Tinstrument::ClassicalGuitar:
+    case Tinstrument::ElectricGuitar:
+      return guitarTunings();
+    case Tinstrument::BassGuitar: return bassTunings();
+    case Tinstrument::Ukulele: return ukuleleTunings();
+    default: return QStringList();
+  }
+}
+
+
+
 Ttune TnootkaQML::tuning(int tuningType) {
   if (tuningType > -1) {
     if (tuningType == 0)
@@ -312,6 +336,8 @@ Ttune TnootkaQML::tuning(int tuningType) {
       return Ttune::bassTunes[tuningType - 100];
     if (tuningType == 110)
       return Ttune::ukuleleGCEA;
+    if (tuningType == 111)
+      return Ttune::ukuleleRaised;
   }
   return Ttune();
 }
