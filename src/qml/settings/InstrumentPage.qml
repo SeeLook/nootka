@@ -23,6 +23,7 @@ Flickable {
   // private
   property bool first: true // read props first time from GLOB but when instrument changes then from its profile
   property int initInstr: -1
+  property var currInstr: NOO.instr(instrSel.instrument)
 
   ScrollBar.vertical: ScrollBar { active: false; visible: active }
 
@@ -42,22 +43,23 @@ Flickable {
               prefFlatRadio.checked = GLOB.preferFlats
           } else {
               settings.instrument = instrument
-              var ins = NOO.instr(instrument)
-              settings,clef = ins.clef
-              transp.shift = ins.transposition
-              prefFlatRadio.checked = ins.isSax ? true : false
-              prefSharpRadio.checked = ins.isSax ? false : true
-              tuningCombo.model = instrument === Tinstrument.BassGuitar ? NOO.bassTunings() : NOO.guitarTunings()
-              if (ins.isGuitar) {
-                  if (instrument === Tinstrument.BassGuitar)
+              currInstr = NOO.instr(instrSel.instrument) // HACK: this slot is called before signal is emitted outside
+              settings,clef = currInstr.clef
+              transp.shift = currInstr.transposition
+              prefFlatRadio.checked = currInstr.isSax ? true : false
+              prefSharpRadio.checked = currInstr.isSax ? false : true
+              if (currInstr.isGuitar) {
+                  if (currInstr.bassGuitar)
                     setTuning(NOO.tuning(Ttune.Bass4_EADG))
+                  else if (currInstr.ukulele)
+                    setTuning(NOO.tuning(Ttune.Ukulele_GCEA))
                   else
                     setTuning(NOO.tuning(Ttune.Standard_EADGBE))
-                  fretsNrSpin.value = ins.fretNumber
+                  fretsNrSpin.value = currInstr.fretNumber
                   tuningCombo.currentIndex = 0
                   if (fretDots.text === "")
                     fretDots.text = "5,7,9,12!,15,17"
-              } else if (ins.none) {
+              } else if (currInstr.none) {
                   setTuning(NOO.tuning(score.scoreObj.lowestNote(), score.scoreObj.highestNote(), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote()))
               }
           }
@@ -83,6 +85,7 @@ Flickable {
             TspinBox { id: fretsNrSpin; from: 15; to: 24; value: GLOB.fretNumber }
           }
           Row {
+            visible: !NOO.instr(instrSel.instrument).ukulele
             spacing: NOO.factor()
             Text { text: qsTr("number of strings:"); anchors.verticalCenter: parent.verticalCenter; color: activPal.text }
             TspinBox { id: stringNrSpin; from: 3; to: 6; value: GLOB.stringNumber() }
@@ -100,7 +103,7 @@ Flickable {
             id: tuningCombo
             visible: instrSel.instrument !== 0
             width: NOO.factor() * 18
-            model: GLOB.instrument.bassGuitar ? NOO.bassTunings() : NOO.guitarTunings()
+            model: NOO.tuningModel(instrSel.instrument)
           }
         }
         GlowRect {
@@ -138,7 +141,7 @@ Flickable {
             }
             function tuningSelected() {
               if (tuningCombo.currentIndex < tuningCombo.count - 1)
-                setTuning(NOO.tuning((instrSel.instrument === Tinstrument.BassGuitar ? 100 : 0) + tuningCombo.currentIndex))
+                setTuning(NOO.tuning((currInstr.bassGuitar ? 100 : (currInstr.ukulele ? 110 : 0)) + tuningCombo.currentIndex))
             }
           }
         }
@@ -228,7 +231,7 @@ Flickable {
                                   GLOB.tuning.string(4), GLOB.tuning.string(5), GLOB.tuning.string(6)))
               tuningCombo.currentIndex = tuningCombo.count - 1
           } else {
-              tuningCombo.currentIndex = GLOB.tuning.type - (GLOB.instrument.bassGuitar ? 100 : 0)
+              tuningCombo.currentIndex = GLOB.tuning.type - (GLOB.instrument.bassGuitar ? 100 : (GLOB.instrument.ukulele ? 110 : 0))
               setTuning(NOO.tuning(GLOB.tuning.type))
           }
       } else {
@@ -246,7 +249,7 @@ Flickable {
             score.addNote(t.str(i + 1))
           else
             score.setNote(i, t.str(i + 1))
-          score.scoreObj.note(i).setStringNumber(NOO.instr(instrSel.instrument).isGuitar ? i + 1 : 0)
+          score.scoreObj.note(i).setStringNumber(currInstr.isGuitar ? i + 1 : 0)
       } else {
           if (score.notesCount > t.stringNr())
             score.deleteLast()
@@ -269,10 +272,13 @@ Flickable {
             tun = NOO.tuning(score.scoreObj.noteAt(0), score.scoreObj.noteAt(1), score.scoreObj.noteAt(2),
                             score.scoreObj.noteAt(3), score.scoreObj.noteAt(4), score.scoreObj.noteAt(5))
         else {
-            if (instrSel.instrument !== Tinstrument.BassGuitar && tuningCombo.currentIndex === 0)
-              tun = NOO.tuning(Ttune.Standard_EADGBE)
-            else
-              tun = NOO.tuning(tuningCombo.currentIndex + (instrSel.instrument === Tinstrument.BassGuitar ? 100 : 0))
+            var tunOff = currInstr.bassGuitar ? 100 : (currInstr.ukulele ? 110 : 0)
+            tun = NOO.tuning(tunOff + tuningCombo.currentIndex)
+
+            //if (instrSel.instrument !== Tinstrument.BassGuitar && tuningCombo.currentIndex === 0)
+              //tun = NOO.tuning(Ttune.Standard_EADGBE)
+            //else
+              //tun = NOO.tuning(tuningCombo.currentIndex + (instrSel.instrument === Tinstrument.BassGuitar ? 100 : 0))
         }
         // TODO left-handed guitar
         // HACK: when instrument changed, set default tuning at first, then real tuning will show scordature, if any
