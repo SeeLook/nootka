@@ -166,9 +166,10 @@ Ttune::Etunings Ttune::findTuning(const Ttune& t) {
  * 0 - standard EADGBE
  * 1 to 4 - classical/electric 6 strings defined (@p tunes array)
  * 100 to 103 - bass 4-6 strings defined (@p bassTunes array)
+ * 110, 111 - ukulele tunings
  *
  * FIXME: We skip Ttune::SCALE type and write it as such as Ttune::Custom
- * It doesn't harm, just jet...
+ * It doesn't harm, so far
  */
 void Ttune::toXml(QXmlStreamWriter& xml, bool isExam) {
   int id = -1; // user defined tuning
@@ -214,6 +215,10 @@ bool Ttune::fromXml(QXmlStreamReader& xml, bool isExam) {
       case Bass5_BEADG:
       case Bass6_BEADGC:
         copy(bassTunes[id - 100]); break;
+      case Ukulele_GCEA:
+        copy(ukuleleGCEA); break;
+      case Ukulele_Raised:
+        copy(ukuleleRaised); break;
       default:
         copy(stdTune); break;
     }
@@ -266,7 +271,7 @@ QDataStream &operator<< (QDataStream &out, const Ttune &t) {
 QDataStream &operator>> (QDataStream &in, Ttune &t) {
   in >> t.name;
   for (int i=0; i < 6; i++)
-      in >> t.stringsArray[i];
+    in >> t.stringsArray[i];
   t.determineStringsNumber();
   // determine tuning type
   if (t.stringNr() == 0)
