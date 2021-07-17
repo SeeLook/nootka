@@ -47,7 +47,7 @@ class NOOTKACORE_EXPORT Tinstrument {
   Q_PROPERTY(bool isGuitar READ isGuitar) // all guitars (including ukulele)
   Q_PROPERTY(bool isSax READ isSax) // all saxophones
   Q_PROPERTY(bool none READ none)
-  Q_PROPERTY(bool classicGuitar READ clasicGuitar)
+  Q_PROPERTY(bool classicGuitar READ classicGuitar)
   Q_PROPERTY(bool electricGuitar READ electricGuitar)
   Q_PROPERTY(bool bassGuitar READ bassGuitar)
   Q_PROPERTY(bool piano READ piano)
@@ -105,7 +105,7 @@ public:
   bool isSax() const { return m_type == AltSax || m_type == TenorSax; }
 
   bool none() const { return m_type == NoInstrument; }
-  bool clasicGuitar() const { return m_type == ClassicalGuitar; }
+  bool classicGuitar() const { return m_type == ClassicalGuitar; }
   bool electricGuitar() const { return m_type == ElectricGuitar; }
   bool bassGuitar() const { return m_type == BassGuitar; }
   bool piano() const { return m_type == Piano; }

@@ -257,7 +257,7 @@ void getExampleLevels(QList<Tlevel>& llist) {
   l.melodyLen = 10;
   llist << l;
   //----------------------------------------------------------------------------
-  if (GLOB->instrument().clasicGuitar() || GLOB->instrument().electricGuitar()) {
+  if (GLOB->instrument().classicGuitar() || GLOB->instrument().electricGuitar()) {
     l = Tlevel();
     l.name = QGuiApplication::translate("Tlevel", "Melody on trebles");
     l.desc = QGuiApplication::translate("Tlevel", "Play short melody on treble strings with notes just on first three frets. Sharps keys only.");
