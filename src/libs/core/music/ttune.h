@@ -55,7 +55,8 @@ public:
     Bass5_BEADG = 102,
     Bass6_BEADGC = 103,
 
-    Ukulele_GCEA = 110
+    Ukulele_GCEA = 110,
+    Ukulele_Raised = 111
   };
   Q_ENUM(Etunings)
 
@@ -107,6 +108,7 @@ public:
   static Ttune bassTunes[4];
 
   static Ttune ukuleleGCEA;
+  static Ttune ukuleleRaised;
 
       /**
        * Copies given tuning to this one.

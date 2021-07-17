@@ -30,6 +30,7 @@ Ttune Ttune::tunes[4];
 Ttune Ttune::bassTunes[4];
 
 Ttune Ttune::ukuleleGCEA = Ttune();
+Ttune Ttune::ukuleleRaised = Ttune();
 
 
 void Ttune::prepareDefinedTunes() {
@@ -54,8 +55,10 @@ void Ttune::prepareDefinedTunes() {
   bassTunes[3] = Ttune(QGuiApplication::translate("Ttune", "6-str. bass: B E A D G C"), Tnote(1, 1, 0), Tnote(5, 0, 0), Tnote(2, 0, 0),
                         Tnote(6, -1, 0), Tnote(3, -1, 0), Tnote(7, -2, 0), Bass6_BEADGC);
 
-  ukuleleGCEA = Ttune(QGuiApplication::translate("Ttune", "Ukulele G C E A"), Tnote(6, 1, 0), Tnote(3, 1, 0),
+  ukuleleGCEA = Ttune(QGuiApplication::translate("Ttune", "Standard ukulele: G C E A"), Tnote(6, 1, 0), Tnote(3, 1, 0),
                     Tnote(1, 1, 0), Tnote(5, 1, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Ukulele_GCEA);
+  ukuleleRaised = Ttune(QGuiApplication::translate("Ttune", "Ukulele raised: A D Fis B"), Tnote(7, 1, 0), Tnote(4, 1, 1),
+                      Tnote(2, 1, 0), Tnote(6, 1, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Ukulele_Raised);
 }
 
 
@@ -116,6 +119,7 @@ QString Ttune::definedName(Ttune::Etunings t) {
     case Bass5_BEADG: return bassTunes[2].name;
     case Bass6_BEADGC: return bassTunes[3].name;
     case Ukulele_GCEA: return ukuleleGCEA.name;
+    case Ukulele_Raised: return ukuleleRaised.name;
     default: return QString();
   }
 }
@@ -143,9 +147,11 @@ Ttune::Etunings Ttune::findTuning(const Ttune& t) {
           else if (t == Ttune::bassTunes[i])
             return Ttune::bassTunes[i].type();
         }
-    } 
+    }
     if (t == Ttune::ukuleleGCEA)
       return Ttune::Ukulele_GCEA;
+    else if (t == Ttune::ukuleleRaised)
+      return Ukulele_Raised;
   }
   return Ttune::Custom;
 }
@@ -270,6 +276,10 @@ QDataStream &operator>> (QDataStream &in, Ttune &t) {
   else {
       if (t == Ttune::stdTune)
           t.p_tuning = Ttune::Standard_EADGBE;
+      else if (t == Ttune::ukuleleGCEA)
+          t.p_tuning = Ttune::Ukulele_GCEA;
+      else if (t == Ttune::ukuleleRaised)
+        t.p_tuning = Ttune::Ukulele_Raised;
       else {
           for (int i = 0; i < 4; ++i) {
             if (t == Ttune::tunes[i]) {
