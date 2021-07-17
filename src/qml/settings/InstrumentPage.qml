@@ -57,8 +57,7 @@ Flickable {
                     setTuning(NOO.tuning(Ttune.Standard_EADGBE))
                   fretsNrSpin.value = currInstr.fretNumber
                   tuningCombo.currentIndex = 0
-                  if (fretDots.text === "")
-                    fretDots.text = "5,7,9,12!,15,17"
+                  fretDots.text = currInstr.ukulele ? "5,7,10,12!" : "5,7,9,12!,15,17"
               } else if (currInstr.none) {
                   setTuning(NOO.tuning(score.scoreObj.lowestNote(), score.scoreObj.highestNote(), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote(), NOO.emptyNote()))
               }
@@ -274,11 +273,6 @@ Flickable {
         else {
             var tunOff = currInstr.bassGuitar ? 100 : (currInstr.ukulele ? 110 : 0)
             tun = NOO.tuning(tunOff + tuningCombo.currentIndex)
-
-            //if (instrSel.instrument !== Tinstrument.BassGuitar && tuningCombo.currentIndex === 0)
-              //tun = NOO.tuning(Ttune.Standard_EADGBE)
-            //else
-              //tun = NOO.tuning(tuningCombo.currentIndex + (instrSel.instrument === Tinstrument.BassGuitar ? 100 : 0))
         }
         // TODO left-handed guitar
         // HACK: when instrument changed, set default tuning at first, then real tuning will show scordature, if any
@@ -300,7 +294,7 @@ Flickable {
     GLOB.showOtherPos = false
     instrSel.instrument = initInstr === 0 ? 7 : 0
     instrSel.instrument = initInstr // switch instrument twice to load its defaults
-    fretDots.text = "5,7,9,12!,15,17"
+    fretDots.text = currInstr.ukulele ? "5,7,10,12!" : "5,7,9,12!,15,17"
   }
 
   function help() { NOO.openDocLink("instrument-settings/") }

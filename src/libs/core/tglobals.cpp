@@ -601,7 +601,9 @@ void Tglobals::loadSettings(QSettings* cfg) {
           setTune(Ttune::stdTune);
       GpreferFlats = cfg->value(QStringLiteral("flatsPrefered"), false).toBool();;
       QList<QVariant> fretsList;
-      fretsList << 5 << 7 << 9 << "12!" << 15 << 17;
+      fretsList << 5 << 7 << (m_instrument.ukulele() ? 10 : 9) << "12!";
+      if (!m_instrument.ukulele())
+        fretsList << 15 << 17;
       GmarkedFrets = cfg->value(QStringLiteral("dotsOnFrets"), fretsList).toList();
   cfg->endGroup();
 

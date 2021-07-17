@@ -73,6 +73,8 @@ Tflickable {
       tuning = NOO.tuning(instrDetails.getNote(0), instrDetails.getNote(1), empty, empty, empty, empty)
     else
       tuning = NOO.defaultScale(selectedIns)
+    if (instr.isGuitar)
+      GLOB.markedFrets = instr.ukulele ? "5,7,10,12!" : "5,7,9,12!,15,17"
 
     GLOB.setGuitarParams(instr.fretNumber, tuning)
   }
