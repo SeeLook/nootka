@@ -5,7 +5,7 @@ appimage-amd64:
     - apt-get update
     - apt-get install -y mesa-common-dev libsoundtouch-dev libfftw3-dev libasound2-dev libogg-dev libvorbis-dev libpulse-dev libjack-dev cmake git wget build-essential software-properties-common
     - add-apt-repository -y -u ppa:beineri/opt-qt-5.12.10-xenial
-    - apt-get install -y qt512base qt512graphicaleffects qt512translations qt512x11extras qttools5-dev libgl1-mesa-glx libgl1-mesa-dri qt512quickcontrols2 qt512quickcontrols libgl1-mesa-dev
+    - apt-get install -y qt512base qt512graphicaleffects qt512translations qt512x11extras qt512tools libgl1-mesa-glx libgl1-mesa-dri qt512quickcontrols2 qt512quickcontrols libgl1-mesa-dev
 
   script:
     - . "/opt/qt512/bin/qt512-env.sh" || true
