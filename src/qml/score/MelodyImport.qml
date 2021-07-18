@@ -46,8 +46,7 @@ Window {
         x: NOO.factor() / 4
         width: melImport.width - NOO.factor() / 2; height: scoreCol.height + NOO.factor()
         Text {
-          z: 5
-          x: NOO.factor() * 2
+          z: 5; x: NOO.factor() * 2
           color: activPal.text
           text: modelData.partName
         }
@@ -62,6 +61,7 @@ Window {
               color: NOO.alpha(activPal.highlight, importChB.checked ? 50 : 0)
               TcheckBox {
                 id: importChB
+                enabled: modelData.unsupported === 0
                 anchors.verticalCenter: parent.verticalCenter
                 ButtonGroup.group: multiSelect ? null : group
               }
@@ -76,6 +76,8 @@ Window {
               Component.onCompleted: {
                 modelData.setScoreObject(score.scoreObj)
                 modelData.selected = Qt.binding(function() { return importChB.checked })
+                if (modelData.unsupported)
+                  unsuppComp.createObject(this)
               }
             }
           }
@@ -245,6 +247,15 @@ Window {
         z: -1
         radius: width / 3.0
       }
+    }
+  }
+
+  Component {
+    id: unsuppComp
+    Text {
+      x: NOO.factor(); y: NOO.factor() * 1.2
+      color: activPal.text; style: Text.Sunken; styleColor: "red"
+      text: qsTr("This fragment contains elements of musical score which are not supported by Nootka!")
     }
   }
 

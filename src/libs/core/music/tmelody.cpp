@@ -302,7 +302,7 @@ bool Tmelody::fromXml(QXmlStreamReader& xml, bool madeWithNootka, int partId) {
                     // TODO: double dots note
                   }
               } else if (chunkOk & Tchunk::e_xmlIsGrace) {
-                // TODO: grace note if any
+                // TODO: grace note if any - so far skipping
               } else {
                   IMPORT_SCORE->addNote(partId, staffNr, voiceNr, ch, skip);
                   if (dblDotCh && !skip) {
@@ -310,6 +310,9 @@ bool Tmelody::fromXml(QXmlStreamReader& xml, bool madeWithNootka, int partId) {
                       dblDotCh->p().transpose(fixTransposition);
                     IMPORT_SCORE->addNote(partId, staffNr, voiceNr, *dblDotCh);
                   }
+                  if (chunkOk & Tchunk::e_xmlIsStrangeRtm || chunkOk & Tchunk::e_xmlIsTupletStart|| chunkOk & Tchunk::e_xmlIsTupletStop)
+                    IMPORT_SCORE->setUnsupported(partId, staffNr, voiceNr, chunkOk);
+
               }
             }
             if (dblDotCh)
