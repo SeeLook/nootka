@@ -119,6 +119,14 @@ void TimportScore::addChordNote(const Tchunk& note) {
 }
 
 
+void TimportScore::setUnsupported(int partId, int staff, int voice, int error) {
+  if (m_lastPart && m_lastPart->part() == partId && m_lastPart->staff() == staff && m_lastPart->voice() == voice)
+    m_lastPart->setUnsupported(error);
+  else
+    qDebug() << "[TimportScore] part, staff or score mismatch with last part";
+}
+
+
 void TimportScore::sumarize() {
   for (auto p : m_parts) {
     for (auto s : p->parts) {

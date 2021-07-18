@@ -100,6 +100,7 @@ class NOOTKACORE_EXPORT TmelodyPart : public QObject
   Q_PROPERTY(QString partName READ partName NOTIFY melodyChanged)
   Q_PROPERTY(int key READ key WRITE setKey NOTIFY melodyChanged)
   Q_PROPERTY(int count READ count NOTIFY melodyChanged)
+  Q_PROPERTY(int unsupported READ unsupported NOTIFY melodyChanged)
 
 public:
   explicit TmelodyPart (TmelodyPart* parent = nullptr, int partId = 0, int staffNr = 0, int voiceNr = 0);
@@ -112,6 +113,17 @@ public:
   int voice() const { return m_voiceNr; }
   int splitBarNr() const { return m_splitBarNr; }
   void setSplitBarNr(int splitNr);
+
+      /**
+       * Returns bit-wise enumerators of @p Tchunk::EimportResults
+       * when musicXML part contains score elements
+       * which are not handled by Nootka (32nd and more, tuplets, etc. )
+       * or just @p 0 when all is supported.
+       * But skip @p Tchunk::e_xmlUnsupported
+       */
+  int unsupported() const { return m_unsupported & ~Tchunk::e_xmlUnsupported; }
+  void setUnsupported(int unS) { m_unsupported |= unS; }
+  void resetUnsupported() { m_unsupported = 0; }
 
   Tmelody* melody() { return m_melody; }
   void setMelody(Tmelody* m);
@@ -160,15 +172,16 @@ signals:
   void splitBarNrChanged();
 
 private:
-  int                   m_partId = 0;
-  int                   m_staffNr = 0;
-  int                   m_voiceNr = 0;
-  int                   m_snippet = 0;
-  Tmelody              *m_melody = nullptr;
-  TscoreObject         *m_scoreObj = nullptr;
-  bool                  m_selected = false;
-  int                   m_splitBarNr = 0;
-  QString               m_partName;
+  int                      m_partId = 0;
+  int                      m_staffNr = 0;
+  int                      m_voiceNr = 0;
+  int                      m_snippet = 0;
+  Tmelody                 *m_melody = nullptr;
+  TscoreObject            *m_scoreObj = nullptr;
+  bool                     m_selected = false;
+  int                      m_splitBarNr = 0;
+  QString                  m_partName;
+  int                      m_unsupported = 0;
 };
 
 
@@ -205,6 +218,8 @@ public:
        * The quasi chord is a note list attached to the specific melody note.
        */
   void addChordNote(const Tchunk& note);
+
+  void setUnsupported(int partId, int staff, int voice, int error);
 
       /**
        * Prepares @p model() with not empty parts
