@@ -75,9 +75,10 @@ void TimportScore::addNote(int partId, int staff, int voice, const Tchunk &note,
       if (partId <= IMPORT_SCORE->partNames().size())
         p->setPartName(IMPORT_SCORE->partNames()[partId - 1]);
       if (p->partName().isEmpty())
-        p->setPartName(tr("part", "like part of a score") + QString(": %1").arg(partId));
-      p->setPartName(p->partName() + QLatin1String(", ") + tr("staff") + QString(": %1").arg(staff)
-                    + QLatin1String(", ") + tr("voice") + QString(": %1").arg(voice));
+        p->setPartName(tr("part", "it is a part of a musical score, like violin part or piano part, also called as 'voice'")
+                      + QString(": %1").arg(partId));
+      p->setPartName(p->partName() + QLatin1String(", ") + tr("staff") + QString(": %1").arg(staff) + QLatin1String(", ")
+                  + tr("voice", "like in multivocal piece") + QString(": %1").arg(voice));
       voicePart->parts << p;
     }
   }
