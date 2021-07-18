@@ -86,9 +86,9 @@ TguitarBg {
     z: 5
     color: finger.color
     width: parent.width - stringsGap - 2
-    height: string < 6 ? strWidth(string) * 1.5 : 0
+    height: string < 6 ? strWidth(string) * 1.75 : 0
     x: 1
-    y: string < 6 ? fbRect.y + stringsGap / 2 + string * stringsGap - height / 3 : 0
+    y: string < 6 ? fbRect.y + stringsGap / 2 + string * stringsGap - height / 2 : 0
     visible: !pressed && active && string < 6 && fingerPos.x == 0
   }
 
