@@ -109,37 +109,9 @@ install(DIRECTORY fonts DESTINATION "${INS_PREF}")
 
 install(DIRECTORY "levels/" DESTINATION "${INS_PREF}/levels")
 
-file(GLOB langs "${CMAKE_CURRENT_SOURCE_DIR}/lang/*.qm")
 if(APPLE OR WIN32)
-  find_package(Qt5Core)
-  get_target_property(QtCore_location_Release Qt5::Core LOCATION_Release)
-  get_filename_component(QT_BINARY_DIR "${QtCore_location_Release}" DIRECTORY)
-  if (WIN32)
-    if(NOT DEFINED QT_TRANSLATIONS_DIR)
-      set(QT_TRANSLATIONS_DIR "${QT_BINARY_DIR}/../translations")
-    endif()
-  else (WIN32)
-    set(QT_TRANSLATIONS_DIR "${QT_BINARY_DIR}/../../translations")
-  endif (WIN32)
   install(FILES LICENSE DESTINATION "${INS_PREF}" RENAME gpl)
- LIST(APPEND langs
-   "${QT_TRANSLATIONS_DIR}/qtbase_cs.qm"
-   "${QT_TRANSLATIONS_DIR}/qtbase_de.qm"
-   "${QT_TRANSLATIONS_DIR}/qtbase_es.qm"
-   "${QT_TRANSLATIONS_DIR}/qtbase_fr.qm"
-   "${QT_TRANSLATIONS_DIR}/qtbase_hu.qm"
-   "${QT_TRANSLATIONS_DIR}/qtbase_it.qm"
-   "${QT_TRANSLATIONS_DIR}/qtbase_pl.qm"
-   "${QT_TRANSLATIONS_DIR}/qtbase_ru.qm"
-   "${QT_TRANSLATIONS_DIR}/qtbase_uk.qm"
-#    "${QT_TRANSLATIONS_DIR}/qtbase_sl.qm"
-      # So far not provided by Qt
-      #"${CMAKE_CURRENT_SOURCE_DIR}/lang/qtbase/qtbase_sl.qm"
-
-  )
 endif(APPLE OR WIN32)
-
-install(FILES ${langs} DESTINATION "${INS_PREF}/lang")
 
 if(APPLE)
   file(GLOB MIME_TRANS "${CMAKE_CURRENT_SOURCE_DIR}/packaging/mac/*.lproj" )
@@ -217,6 +189,7 @@ configure_file(
    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake
 )
 
+add_subdirectory( lang )
 
 add_subdirectory( packaging ) # deploy targets, cpack rules
 

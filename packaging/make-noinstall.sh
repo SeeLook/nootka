@@ -36,7 +36,7 @@ else
   ln -s $SRC_DIR/changes $DST_DIR
   ln -s $SRC_DIR/LICENSE $DST_DIR/gpl
   ln -s $SRC_DIR/picts $DST_DIR
-  ln -s $SRC_DIR/lang $DST_DIR
+  ln -s $PWD/../lang $DST_DIR
   ln -s $SRC_DIR/sounds $DST_DIR
   ln -s $SRC_DIR/levels $DST_DIR
 fi
