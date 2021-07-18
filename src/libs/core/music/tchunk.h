@@ -101,7 +101,10 @@ public:
     e_xmlUnsupported = 1,
     e_xmlHasTwoDots = 2,
     e_xmlIsChord = 4,
-    e_xmlIsGrace = 8
+    e_xmlIsGrace = 8,
+    e_xmlIsStrangeRtm = 16,
+    e_xmlIsTupletStart = 32,
+    e_xmlIsTupletStop = 64
   };
 
       /**

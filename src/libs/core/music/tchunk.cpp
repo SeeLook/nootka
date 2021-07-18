@@ -98,16 +98,25 @@ quint16 Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr, int* voiceNr) {
   m_pitch.setRhythm(Trhythm(Trhythm::NoRhythm));
   while (xml.readNextStartElement()) {
       if (xml.name() == QLatin1String("grace")) {
-          ok = e_xmlUnsupported | e_xmlIsGrace;
+          ok |= e_xmlUnsupported | e_xmlIsGrace;
           xml.skipCurrentElement();
       } else if (xml.name() == QLatin1String("chord")) {
-          ok = e_xmlUnsupported | e_xmlIsChord;;
+          ok |= e_xmlUnsupported | e_xmlIsChord;
           xml.skipCurrentElement();
       } else if (xml.name() == QLatin1String("pitch"))
           m_pitch.fromXml(xml);
-      else if (xml.name() == QLatin1String("type"))
-          m_pitch.setRhythmValue(xml.readElementText().toStdString());
-      else if (xml.name() == QLatin1String("rest")) {
+      else if (xml.name() == QLatin1String("type")) {
+          auto rtmType = xml.readElementText();
+          m_pitch.setRhythmValue(rtmType.toStdString());
+          if (!rtmType.isEmpty() && m_pitch.rhythm() == Trhythm::NoRhythm) {
+            qDebug() << "[Tchunk] Unsupported rhythmic value:" << rtmType;
+            ok |= e_xmlUnsupported | e_xmlIsStrangeRtm;
+          }
+      } else if (xml.name() == QLatin1String("time-modification")) {
+          ok |= e_xmlUnsupported | e_xmlIsTupletStart; // no matter start/stop - unsupported anyway
+          qDebug() << "[Tchunk] Tuplets are not supported.";
+          xml.skipCurrentElement();
+      } else if (xml.name() == QLatin1String("rest")) {
           m_pitch.setRest(true);
           xml.skipCurrentElement();
       } else if (xml.name() == QLatin1String("dot")) {
@@ -116,11 +125,13 @@ quint16 Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr, int* voiceNr) {
                   if (ok & e_xmlHasTwoDots)
                     qDebug() << "[Tchunk] More than two augmented dots are not supported!";
                   else if (m_pitch.rhythm() < Trhythm::Eighth)
-                    ok += e_xmlHasTwoDots;
+                    ok |= e_xmlHasTwoDots;
               } else
                   m_pitch.setDot(true);
-          } else
+          } else {
               qDebug() << "[Tchunk] Sixteenth with dots are not supported!";
+              ok |= e_xmlUnsupported | e_xmlIsStrangeRtm;
+          }
           xml.skipCurrentElement();
       } else if (xml.name() == QLatin1String("notations")) {
           while (xml.readNextStartElement()) {
@@ -130,11 +141,23 @@ quint16 Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr, int* voiceNr) {
                 auto type = xml.attributes().value(QStringLiteral("type"));
                 Trhythm::Etie tie = Trhythm::e_noTie;
                 if (type == QLatin1String("start"))
-                    tie = m_pitch.rtm.tie() ? Trhythm::e_tieCont : Trhythm::e_tieStart; // tie was set already - means tie starts and stops on this note
+                  tie = m_pitch.rtm.tie() ? Trhythm::e_tieCont : Trhythm::e_tieStart; // tie was set already - means tie starts and stops on this note
                 else if (type == QLatin1String("stop"))
-                    tie = m_pitch.rtm.tie() ? Trhythm::e_tieCont : Trhythm::e_tieEnd; // tie was set already - means tie starts and stops on this note
+                  tie = m_pitch.rtm.tie() ? Trhythm::e_tieCont : Trhythm::e_tieEnd; // tie was set already - means tie starts and stops on this note
                 m_pitch.rtm.setTie(tie);
                 xml.skipCurrentElement();
+                // TODO: we are detecting tuplets in <time-modification>
+                // below tag is only for visualization, but may be useful to obtain tuplet start/stop
+//             } else if (xml.name() == QLatin1String("tuplet")) {
+//                 auto type = xml.attributes().value(QStringLiteral("type"));
+//                 if (type == QLatin1String("start"))
+//                   ok |= e_xmlUnsupported | e_xmlIsTupletStart;
+//                 else if (type == QLatin1String("stop"))
+//                   ok |= e_xmlUnsupported | e_xmlIsTupletStop;
+//                 else
+//                   qDebug() << "[Tchunk] Error in XML tuplet type! Ignored!";
+//                 qDebug() << "[Tchunk] Tuplets are not supported.";
+//                 xml.skipCurrentElement();
             } else
                 xml.skipCurrentElement();
           }
@@ -143,7 +166,7 @@ quint16 Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr, int* voiceNr) {
           if (voiceNr)
             *voiceNr = vNr;
           else if (vNr != 1)
-            ok = e_xmlUnsupported;
+            ok |= e_xmlUnsupported;
       } else if (xml.name() == QLatin1String("staff"))
           stNr = xml.readElementText().toInt();
       else
