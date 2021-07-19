@@ -13,6 +13,8 @@ QT += multimedia androidextras core widgets quick quickcontrols2 printsupport
 TARGET = Nootka
 TEMPLATE = app
 
+CONFIG += lrelease mobility warn_off
+
 SOURCES +=  main.cpp \
             mobile/tmobilemenu.cpp \
           \
@@ -96,9 +98,6 @@ HEADERS  += mobile/tmobilemenu.h \
             updater/tupdateitem.h \
           \
 
-
-
-CONFIG += lrelease mobility warn_off
 MOBILITY = 
 
 android {
@@ -150,14 +149,22 @@ versionAtLeast(QT_VERSION, 5.15.0) {
 
 
 # ======== Translation files ==============
-EXTRA_TRANSLATIONS = $$files(lang/nootka_*.ts)
+# EXTRA_TRANSLATIONS is qmake variable that makes all *.ts files converted into *.qm
+# inside LRELEASE_DIR of build path (OUT_PWD) during build.
+LRELEASE_DIR = lang
+EXTRA_TRANSLATIONS += $$files(lang/nootka_*.ts)
 EXTRA_TRANSLATIONS += lang/qtbase_sl.ts
 
-QM_FILES_INSTALL_PATH = /assets/lang
-
-# append Qt base translations from current Qt installation
-TR_DIR = "$$system(dirname $$QMAKESPEC)/../translations"
 lang.path = /assets/lang
+# HACK: create list of translated file names from the list of existing *.ts files.
+# and append to lang file list - they don't exist at first launch of qmake.
+# They are created only during first compilation.
+# But at the end, when install target works, it can place them properly in Android assets dir.
+QM_STAFF = $$replace(EXTRA_TRANSLATIONS, ts, qm)
+lang.files += $$replace(QM_STAFF, lang, "$$OUT_PWD/lang")
+
+# Then append Qt base translations from current Qt installation
+TR_DIR = "$$system(dirname $$QMAKESPEC)/../translations"
 lang.files += $$system(ls $$TR_DIR/qtbase_cs.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_de.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_es.qm)
@@ -167,6 +174,7 @@ lang.files += $$system(ls $$TR_DIR/qtbase_it.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_pl.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_ru.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_uk.qm)
+lang.CONFIG += no_check_exist
 
 lang.depends += FORCE
 
