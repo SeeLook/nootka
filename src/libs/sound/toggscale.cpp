@@ -19,6 +19,7 @@
 #include "toggscale.h"
 #include <music/tinstrument.h>
 #include <tpath.h>
+
 #include <QtCore/qfile.h>
 #include <QtCore/qdatastream.h>
 #include <QtCore/qthread.h>
@@ -292,12 +293,12 @@ bool ToggScale::loadAudioData(int instrument) {
         m_firstNote = -3; m_lastNote = 30;
         m_soundContinuous = true;
         break;
+#endif
       case Tinstrument::Ukulele:
         fileName = Tpath::sound("ukulele");
         m_firstNote = 13; m_lastNote = 40;
         m_soundContinuous = false;
         break;
-#endif
       default:
         fileName = Tpath::sound("piano");
         m_firstNote = -23; m_lastNote = 61;
