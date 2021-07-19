@@ -141,6 +141,7 @@ sounds.files += sounds/bass-guitar.ogg
 sounds.files += sounds/classical-guitar.ogg
 sounds.files += sounds/electric-guitar.ogg
 sounds.files += sounds/piano.ogg
+sounds.files += sounds/ukulele.ogg
 #sounds.files += sounds/tenor-sax.ogg
 sounds.files += sounds/beat.raw48-16
 sounds.depends += FORCE
