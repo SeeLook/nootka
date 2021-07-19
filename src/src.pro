@@ -98,7 +98,7 @@ HEADERS  += mobile/tmobilemenu.h \
 
 
 
-CONFIG += mobility warn_off
+CONFIG += lrelease mobility warn_off
 MOBILITY = 
 
 android {
@@ -148,21 +148,16 @@ versionAtLeast(QT_VERSION, 5.15.0) {
   ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
 }
 
+
+# ======== Translation files ==============
+EXTRA_TRANSLATIONS = $$files(lang/nootka_*.ts)
+EXTRA_TRANSLATIONS += lang/qtbase_sl.ts
+
+QM_FILES_INSTALL_PATH = /assets/lang
+
 # append Qt base translations from current Qt installation
 TR_DIR = "$$system(dirname $$QMAKESPEC)/../translations"
-
 lang.path = /assets/lang
-lang.files += lang/nootka_cs.qm
-lang.files += lang/nootka_de.qm
-lang.files += lang/nootka_es.qm
-lang.files += lang/nootka_fr.qm
-lang.files += lang/nootka_hu.qm
-lang.files += lang/nootka_it.qm
-lang.files += lang/nootka_pl.qm
-lang.files += lang/nootka_ru.qm
-lang.files += lang/nootka_sl.qm
-lang.files += lang/qtbase_sl.qm
-lang.files += lang/nootka_uk.qm
 lang.files += $$system(ls $$TR_DIR/qtbase_cs.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_de.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_es.qm)
