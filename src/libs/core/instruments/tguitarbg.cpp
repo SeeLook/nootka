@@ -145,10 +145,6 @@ qreal TguitarBg::xiiFret() const {
 #include <QtCore/qelapsedtimer.h>
 QElapsedTimer paintTimer;
 void TguitarBg::paint(QPainter* painter) {
-//   painter->setRenderHint(QPainter::Antialiasing, true);
-//   painter->setRenderHint(QPainter::TextAntialiasing, true);
-//   painter->fillRect(painter->viewport(), qApp->palette().window().color());
-
   paintTimer.restart();
 // FINGERBOARD
   painter->setPen(Qt::NoPen);
@@ -567,7 +563,7 @@ void TguitarBg::setTune() {
         m_strColors[i] = QColor(255, 255, 255, (GLOB->instrument().ukulele() ? 200 : 125)); // are nylon
         m_widthFromPitch[i] = 2.5; // and more thick
     } else if (stringChromatic > 4) { // highest than dis
-        m_strColors[i] = QColor(255, 255, 255, 150); // are nylon
+        m_strColors[i] = QColor(255, 255, 255, (GLOB->instrument().ukulele() ? 215 : 150)); // are nylon
         m_widthFromPitch[i] = 3; // and more thick
     } else if (stringChromatic > 0) { // highest than b-1(contra)
         m_strColors[i] = QColor(194, 148, 50); // are gold-plated
