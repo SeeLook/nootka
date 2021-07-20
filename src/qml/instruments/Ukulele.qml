@@ -77,12 +77,12 @@ TguitarBg {
     color: "black"
     radius: NOO.factor() / 3
     source: finger
-    visible: fingerPos.x > 0
+    visible: fingerPos.x > 0 && active
     scale: !pressed && active && fingerPos.x > 0 ? 1 : 0
     Behavior on scale { enabled: GLOB.useAnimations; NumberAnimation { duration: 150 }}
   }
 
-  Rectangle {
+  Rectangle { // string highlight
     z: 5
     color: finger.color
     width: parent.width - stringsGap - 2
@@ -97,9 +97,15 @@ TguitarBg {
       guitarZoom = Qt.createComponent("qrc:/instruments/InstrumentZoom.qml").createObject(instrItem)
   }
 
+  Connections {
+    target: instrFlick
+    enabled: !NOO.isAndroid()
+    onMovementEnded: instrument.pressedAt(0, 0)
+  }
+
   MouseArea {
     property point startPos: Qt.point(0, 0)
-    enabled: (NOO.fingerPixels() * 4 <= height) || (guitarZoom && instrItem.scale > 1)
+    enabled: NOO.isAndroid() && (NOO.fingerPixels() * 4 <= height) || (guitarZoom && instrItem.scale > 1)
     width: parent.width; height: parent.height
     onPressed: startPos = Qt.point(mouseX, mouseY)
     onReleased: {
@@ -111,4 +117,19 @@ TguitarBg {
   }
 
   OutScaleTip { show: !active && outOfScale }
+
+  onWantNoteName: {
+    if (!extraName) {
+      extraName = Qt.createComponent("qrc:/instruments/ExtraName.qml").createObject(instrItem)
+      extraName.fSize = Qt.binding(function() { return instrItem.height * 0.25 })
+    }
+    if (origin) {
+        extraName.text = name
+        extraName.x = Qt.binding(function() { return origin.x + (origin.width - extraName.width) / 2 })
+        extraName.y = Qt.binding(function() {
+          return origin.y - extraName.height * 0.4 + (origin.y > height / 2 ? -stringsGap : origin.height + stringsGap)
+        })
+    } else
+        extraName.text = ""
+  }
 }
