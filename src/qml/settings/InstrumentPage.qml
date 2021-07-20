@@ -95,7 +95,7 @@ Flickable {
           spacing: NOO.factor()
           anchors.horizontalCenter: parent.horizontalCenter
           Text {
-            text: instrSel.instrument === 0 ? qsTr("scale of an instrument") : qsTr("tuning of the guitar")
+            text: instrSel.instrument === 0 ? qsTr("scale of an instrument") : qsTr("tuning", "like a tuning of a guitar or an ukulele")
             anchors.verticalCenter: parent.verticalCenter; color: activPal.text
           }
           TcomboBox {

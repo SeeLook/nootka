@@ -55,9 +55,9 @@ void Ttune::prepareDefinedTunes() {
   bassTunes[3] = Ttune(QGuiApplication::translate("Ttune", "6-str. bass: B E A D G C"), Tnote(1, 1, 0), Tnote(5, 0, 0), Tnote(2, 0, 0),
                         Tnote(6, -1, 0), Tnote(3, -1, 0), Tnote(7, -2, 0), Bass6_BEADGC);
 
-  ukuleleGCEA = Ttune(QGuiApplication::translate("Ttune", "Standard ukulele: G C E A"), Tnote(6, 1, 0), Tnote(3, 1, 0),
+  ukuleleGCEA = Ttune(QGuiApplication::translate("Ttune", "Standard C: G C E A"), Tnote(6, 1, 0), Tnote(3, 1, 0),
                     Tnote(1, 1, 0), Tnote(5, 1, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Ukulele_GCEA);
-  ukuleleRaised = Ttune(QGuiApplication::translate("Ttune", "Ukulele raised: A D Fis B"), Tnote(7, 1, 0), Tnote(4, 1, 1),
+  ukuleleRaised = Ttune(QGuiApplication::translate("Ttune", "Raised D (Canadian): A D Fis B"), Tnote(7, 1, 0), Tnote(4, 1, 1),
                       Tnote(2, 1, 0), Tnote(6, 1, 0), Tnote(0, 0, 0), Tnote(0, 0, 0), Ukulele_Raised);
 }
 
