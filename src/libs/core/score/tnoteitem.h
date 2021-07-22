@@ -138,6 +138,13 @@ public:
        */
   static QString unicodeGlyphArray(int alter);
 
+      /**
+       * Returns given accidental @p alter glyph
+       * wrapped in parenthesis, i.e.: (#) or (x).
+       * Glyphs are smaller then usual # or so.
+       */
+  static QString extraAccidString(int alter);
+
   void setFingerNumber(int fiNr);
   Q_INVOKABLE void setStringNumber(int strNr);
 

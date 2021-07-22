@@ -69,7 +69,7 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
   m_extraAccidsAct = new Taction(tr("Additional accidentals"), QString(), this);
   m_extraAccidsAct->setCheckable(true);
   m_extraAccidsAct->setTip(tr("Shows accidentals from the key signature also next to a note. <b>WARING! It never occurs in real scores - use it only for theoretical purposes.</b>"));
-//   m_extraAccidsAct->setChecked(GLOB->????);
+  m_extraAccidsAct->setChecked(false); // never stored - theoretical purposes
 
   m_zoomOutAct = new Taction(tr("Zoom score out"), QStringLiteral("zoom-out"), this);
   m_zoomInAct = new Taction(tr("Zoom score in"), QStringLiteral("zoom-in"), this);
@@ -137,7 +137,10 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
     m_showNamesAct->setChecked(!m_showNamesAct->checked());
     m_scoreObj->setShowNoteNames(m_showNamesAct->checked());
   });
-//   connect(m_extraAccidsAct);
+  connect(m_extraAccidsAct, &Taction::triggered, this, [=]{
+    m_extraAccidsAct->setChecked(!m_extraAccidsAct->checked());
+    m_scoreObj->setShowExtraAccids(m_extraAccidsAct->checked());
+  });
   connect(m_playAct, &Taction::triggered, this, &TmainScoreObject::playScoreSlot);
   connect(m_zoomOutAct, &Taction::triggered, this, [=]{ m_scoreObj->setScaleFactor(qMax(0.4, m_scoreObj->scaleFactor() - 0.2)); });
   connect(m_zoomInAct, &Taction::triggered, this, [=]{ m_scoreObj->setScaleFactor(qMin(m_scoreObj->scaleFactor() + 0.2, 1.4)); });
@@ -571,7 +574,7 @@ void TmainScoreObject::isExamChangedSlot() {
       }
       singleModeSlot();
   } else {
-      m_scoreActions << m_showNamesAct /*<< m_extraAccidsAct*/ << m_zoomOutAct << m_zoomInAct;
+      m_scoreActions << m_showNamesAct << m_extraAccidsAct << m_zoomOutAct << m_zoomInAct;
       if (m_questionMark) {
         delete m_questionMark;
         m_questionMark = nullptr;

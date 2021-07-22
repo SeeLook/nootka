@@ -462,6 +462,17 @@ QString TnoteItem::unicodeGlyphArray(int alter) {
 }
 
 
+QString TnoteItem::extraAccidString(int alter) {
+  switch (alter) {
+    case -2: return QStringLiteral("\ue273");
+    case -1: return QStringLiteral("\ue271");
+    case 1: return QStringLiteral("\ue270");
+    case 2: return QStringLiteral("\ue272");
+    default: return QString();
+  }
+}
+
+
 void TnoteItem::setStringNumber(int strNr) {
   if (!m_stringNumber && strNr > 0 && strNr < 7) {
     m_staff->score()->component()->setData("import QtQuick 2.9; Text { z: -1; font { pixelSize: 4; family: \"Nootka\" } }", QUrl());
@@ -598,14 +609,15 @@ QString TnoteItem::getAccidText() {
 
   QString a = unicodeGlyphArray(m_note->alter());
   qint8 accidInKey = m_staff->score()->accidInKey(m_note->note() - 1);
+  bool extraAccid = false;
   if (accidInKey) { // key signature has an accidental on this note
     if (m_note->alter() == 0) // show neutral if note has not any accidental
         a = unicodeGlyphArray(3); // neutral
     else {
       if (accidInKey == m_note->alter()) { // accidental in key, do not show
         if (m_staff->score()->showExtraAccids() && accidInKey) { // or user wants it at any cost
-            a.prepend(QStringLiteral("\ue26a"));
-            a.append(QStringLiteral("\ue26b"));
+            extraAccid = true;
+            a = extraAccidString(m_note->alter());
         } else
             a.clear();
       }
@@ -614,7 +626,7 @@ QString TnoteItem::getAccidText() {
 
   if (m_note->rtm.tie() > Trhythm::e_tieStart) {
       a.clear(); // do not display accidental of first note in measure if it has tie
-  } else {
+  } else if (!extraAccid) {
       int id = index() - 1; // check the previous notes for accidentals
       Tnote* checkNote;
       while (id > -1 && m_staff->score()->noteSegment(id)->item()->measure() == measure()) {
@@ -629,16 +641,20 @@ QString TnoteItem::getAccidText() {
           if (checkNote->alter() != 0 && m_note->alter() == 0) {
               if (a.isEmpty())
                 a = unicodeGlyphArray(3); // and add neutral when some of previous notes with the same step had an accidental
-          } else if (checkNote->alter() == m_note->alter()) // do not display it twice
-              a.clear();
-          else if (accidInKey == m_note->alter() && checkNote->alter() != m_note->alter())
+          } else if (checkNote->alter() == m_note->alter()) { // do not display it twice
+              if (m_staff->score()->showExtraAccids()) // accidental with parenthesis
+                a = extraAccidString(m_note->alter());
+              else // or nothing
+                a.clear();
+          } else if (accidInKey == m_note->alter() && checkNote->alter() != m_note->alter())
               a = unicodeGlyphArray(m_note->alter());// There is already accidental in key signature but some of the previous notes had another one, show it again
           break;
         }
         id--;
       }
   }
-//   if (m_staff->score()->remindAccids() && m_measure->number() > 0) { TODO
+// TODO, NOTE: Seems it will be not implemented anytime soon, if any
+//   if (m_staff->score()->remindAccids() && m_measure->number() > 0) {
 //     auto prevMeas = m_staff->score()->measure(m_measure->number() - 1);
 //     auto accidState = prevMeas->accidState(m_note->note - 1);
 //     if (accidState != 100 && accidState != 0 && a.isEmpty() && m_alter == 0) {

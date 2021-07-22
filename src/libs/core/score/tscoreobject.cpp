@@ -597,6 +597,18 @@ void TscoreObject::setKeyReadOnly(bool ro) {
 }
 
 
+void TscoreObject::setShowExtraAccids(bool accShow) {
+  if (m_showExtraAccids != accShow) {
+    m_showExtraAccids = accShow;
+    if (notesCount()) {
+      for (int n = 0; n < notesCount(); ++n)
+        m_segments[n]->item()->keySignatureChanged(); // HACK: it will force refresh accidental symbol
+      adjustScoreWidth();
+    }
+  }
+}
+
+
 void TscoreObject::setEnableDoubleAccids(bool dblEnabled) {
   if (m_enableDoubleAccids != dblEnabled) {
     m_enableDoubleAccids = dblEnabled;
