@@ -677,7 +677,8 @@ void TmainScoreObject::openXmlFileSlot(const QString& xmlFile) {
         }
     } else {
         melImport->deleteLater();
-        NOO->scoreObj()->openMusicXml(xmlFile, m, GLOB->instrument().type() != Tinstrument::Bandoneon && !GLOB->instrument().isGuitar());
+                                                  // enable technical (fingers, strings) only for bando & guitars
+        NOO->scoreObj()->openMusicXml(xmlFile, m, !GLOB->instrument().bandoneon() && !GLOB->instrument().isGuitar());
         // NOTE use here NOO->scoreObj() because m_scoreObj may be yet unset
     }
     delete m;
