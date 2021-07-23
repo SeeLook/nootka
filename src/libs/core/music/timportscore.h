@@ -175,7 +175,6 @@ private:
   int                      m_partId = 0;
   int                      m_staffNr = 0;
   int                      m_voiceNr = 0;
-  int                      m_snippet = 0;
   Tmelody                 *m_melody = nullptr;
   TscoreObject            *m_scoreObj = nullptr;
   bool                     m_selected = false;
@@ -262,8 +261,24 @@ public:
   QObject* contextObj() { return m_contextObj; }
   void setContextObject(QObject* c);
 
+      /**
+       * @p keyChanged(), @p meterChanged() and @p clefChanged()
+       * are methods invoked when during reading XML
+       * apparent change occurs.
+       * Such a change affects all staves so every one is split:
+       * in every voice of every staff a new snipped is added,
+       * with melody where this particular attribute is changed,
+       * so next note by @p addNote() will be appended there.
+       */
+  void keyChanged(const TkeySignature& newKey);
+  void meterChanged(const Tmeter& newMeter);
+  void clefChanged(Tclef::EclefType newClef);
+
 signals:
   void importReady();
+
+protected:
+  Tmelody* newSnippet(TmelodyPart* voicePart, int partId, int staffNr, int voiceNr, Tmelody* melody);
 
 private:
   static TimportScore        *m_instance;
@@ -274,7 +289,7 @@ private:
   static int                  m_splitEveryBarNr;
   QStringList                 m_partNames;
   bool                        m_multiselect = false;
-  TmelodyPart                *m_lastPart = nullptr;
+  TmelodyPart                *m_lastPart = nullptr; /**< Part where note was added recently */
   QObject                    *m_contextObj = nullptr;
 };
 

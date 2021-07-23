@@ -166,6 +166,84 @@ void TimportScore::setContextObject(QObject* c) {
 }
 
 
+void TimportScore::keyChanged(const TkeySignature& newKey) {
+  m_hasMoreParts = true;
+  if (m_lastPart) {
+      for (auto staffPart : m_parts[m_lastPart->part() - 1]->parts) { // split all staves
+        for (auto voicePart: staffPart->parts) { // and all voices
+          if (!voicePart->parts.isEmpty()) {
+            auto lastSnip = voicePart->parts.last();
+            if (lastSnip->melody() && lastSnip->melody()->length()) {
+                // when there are notes in last snipped melody - add new snipped to this voice
+                auto m = newSnippet(voicePart, lastSnip->part(), lastSnip->staff(), lastSnip->voice(), m_lastPart->melody());
+                m->setKey(newKey); // and set new key in its melody
+            } else // or just set new key in empty melody
+                lastSnip->melody()->setKey(newKey);
+          }
+        }
+      }
+  } else
+      qDebug() << "[TimportScore] Something wrong with XML!";
+}
+
+
+void TimportScore::meterChanged(const Tmeter& newMeter) {
+  m_hasMoreParts = true;
+  if (m_lastPart) {
+      for (auto staffPart : m_parts[m_lastPart->part() - 1]->parts) { // split all staves
+        for (auto voicePart: staffPart->parts) { // and all voices
+          if (!voicePart->parts.isEmpty()) {
+            auto lastSnip = voicePart->parts.last();
+            if (lastSnip->melody() && lastSnip->melody()->length()) {
+                // when there are notes in last snipped melody - add new snipped to this voice
+                auto m =newSnippet(voicePart, lastSnip->part(), lastSnip->staff(), lastSnip->voice(), m_lastPart->melody());
+                m->setMeter(newMeter.meter()); // and set new meter in its melody
+            } else // or just set new meter in empty melody
+                lastSnip->melody()->setMeter(newMeter.meter());
+          }
+        }
+      }
+  } else
+      qDebug() << "[TimportScore] Something wrong with XML!";
+}
+
+
+void TimportScore::clefChanged(Tclef::EclefType newClef) {
+  m_hasMoreParts = true;
+  if (m_lastPart) {
+      for (auto staffPart : m_parts[m_lastPart->part() - 1]->parts) { // split all staves
+        for (auto voicePart: staffPart->parts) {
+          if (!voicePart->parts.isEmpty()) {
+            auto lastSnip = voicePart->parts.last();
+            if (lastSnip->melody() && lastSnip->melody()->length()) {
+                // when there are notes in last snipped melody - add new snipped to this voice
+                auto m = newSnippet(voicePart, lastSnip->part(), lastSnip->staff(), lastSnip->voice(), m_lastPart->melody());
+                m->setClef(newClef); // and set new clef in its melody
+            } else // or just set new clef in empty melody
+                lastSnip->melody()->setClef(newClef);
+          }
+        }
+      }
+  } else
+      qDebug() << "[TimportScore] Something wrong with XML!";
+}
+
+
+/**
+ * Common routine which appends a new @p TmelodyPart to given @p voicePart
+ * and adds melody to that new part, then returns pointer to it.
+ */
+Tmelody* TimportScore::newSnippet(TmelodyPart* voicePart, int partId, int staffNr, int voiceNr, Tmelody* melody) {
+  voicePart->parts << new TmelodyPart(voicePart, partId, staffNr, voiceNr);
+  auto m = new Tmelody(melody->title(), melody->key());
+  m->setComposer(melody->composer());
+  m->setMeter(melody->meter()->meter());
+  m->setTempo(melody->tempo());
+  m->setClef(melody->clef());
+  voicePart->parts.last()->setMelody(m);
+  return m;
+}
+
 //#################################################################################################
 //###################               TpartMelody        ############################################
 //#################################################################################################
