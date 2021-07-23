@@ -182,37 +182,62 @@ bool Tmelody::fromXml(QXmlStreamReader& xml, bool madeWithNootka, int partId) {
       while (xml.readNextStartElement()) {
 /** [attributes] */
         if (xml.name() == QLatin1String("attributes")) {
-            if (barNr == 1) {
-                Tclef::EclefType clef1 = Tclef::NoClef, clef2 = Tclef::NoClef;
-                int staffCnt = 1;
-                while (xml.readNextStartElement()) {
-                  if (xml.name() == QLatin1String("staves")) {
-                      // TODO: Every staff may be separate melody but detect Nootka piano staff
-                      staffCnt = xml.readElementText().toInt();
-                      if (staffCnt > 2) {
-                        qDebug() << "[Tmelody] Read from more staves is unsupported";
-                        staffCnt = 2;
-                      }
-                  } else if (xml.name() == QLatin1String("clef")) {
-                      Tclef cl;
-                      QString unsuppClefTxt;
-                      cl.fromXml(xml, IMPORT_SCORE ? &unsuppClefTxt : nullptr);
-                      clefSuppList << unsuppClefTxt;
-                      Tclef::EclefType tmpClef = cl.type();
-                      if (tmpClef == Tclef::NoClef)
-                        unsupportedClef(tmpClef);
-                      if (clef1 == Tclef::NoClef) // detecting piano staff
-                        clef1 = tmpClef;
-                      else if (clef2 == Tclef::NoClef)
-                        clef2 = tmpClef;
-                  } else if (xml.name() == QLatin1String("key"))
+            Tclef::EclefType clef1 = Tclef::NoClef, clef2 = Tclef::NoClef;
+            bool clefChanged = false;
+            int staffCnt = 1;
+            while (xml.readNextStartElement()) {
+              if (xml.name() == QLatin1String("staves")) {
+                  staffCnt = xml.readElementText().toInt();
+                  if (staffCnt > 2) {
+                    qDebug() << "[Tmelody] Read from more staves is unsupported";
+                    staffCnt = 2;
+                  }
+              } else if (xml.name() == QLatin1String("clef")) {
+                  Tclef cl;
+                  QString unsuppClefTxt;
+                  cl.fromXml(xml, IMPORT_SCORE ? &unsuppClefTxt : nullptr);
+                  clefSuppList << unsuppClefTxt;
+                  Tclef::EclefType tmpClef = cl.type();
+                  if (tmpClef == Tclef::NoClef)
+                    unsupportedClef(tmpClef);
+                  if (clef1 == Tclef::NoClef) // detecting piano staff
+                    clef1 = tmpClef;
+                  else if (clef2 == Tclef::NoClef)
+                    clef2 = tmpClef;
+                  if (barNr > 1)
+                    clefChanged = true;
+/** [key signature] */
+              } else if (xml.name() == QLatin1String("key")) {
+                  if (barNr == 1)
                       m_key.fromXml(xml);
-  /** [meter (time signature)] */
-                  else if (xml.name() == QLatin1String("time"))
+                  else {
+                      if (IMPORT_SCORE) {
+                          TkeySignature newKey;
+                          newKey.fromXml(xml);
+                          IMPORT_SCORE->keyChanged(newKey);
+                      } else {
+                          xml.skipCurrentElement();
+                          qDebug() << "[Tmelody] Change key signature in the middle of a melody is not supported!";
+                      }
+                  }
+/** [meter (time signature)] */
+              } else if (xml.name() == QLatin1String("time")) {
+                  if (barNr == 1)
                       m_meter->fromXml(xml);
-                  else
-                      xml.skipCurrentElement();
-                }
+                  else {
+                      if (IMPORT_SCORE) {
+                          Tmeter newMeter;
+                          newMeter.fromXml(xml);
+                          IMPORT_SCORE->meterChanged(newMeter);
+                      } else {
+                          xml.skipCurrentElement();
+                          qDebug() << "[Tmelody] Change time signature (meter) in the middle of a melody is not supported!";
+                      }
+                  }
+              } else
+                  xml.skipCurrentElement();
+            }
+            if (barNr == 1) {
                 if (staffCnt == 2) {
                     if (clef1 == Tclef::Treble_G && clef2 == Tclef::Bass_F)
                       m_clef = Tclef::PianoStaffClefs;
@@ -221,8 +246,13 @@ bool Tmelody::fromXml(QXmlStreamReader& xml, bool madeWithNootka, int partId) {
                 } else
                     m_clef = clef1;
             } else {
-                qDebug() << "[Tmelody] Change of any melody attributes (clef, meter, key signature) in the middle of a melody is not supported!";
-                xml.skipCurrentElement();
+                if (clefChanged) {
+                  // WARNING: clef change (split staff) will work for all clefs except piano staff
+                  if (IMPORT_SCORE)
+                    IMPORT_SCORE->clefChanged(clef1);
+                  else
+                    qDebug() << "[Tmelody] Change clef in the middle of a melody is not supported!";
+                }
             }
 /** [note] */
         } else if (xml.name() == QLatin1String("note")) {
