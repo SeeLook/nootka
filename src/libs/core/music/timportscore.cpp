@@ -193,6 +193,8 @@ void TimportScore::setSplitBarNr(int splitNr) {
 
 void TimportScore::addPartName(const QString& pn) {
   m_partNames << pn;
+  if (m_partNames.count() == 2) // we are already sure that import dialog will be necessary
+    setHasMoreParts(true);
 }
 
 
