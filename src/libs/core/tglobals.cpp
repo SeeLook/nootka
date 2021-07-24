@@ -518,7 +518,11 @@ void Tglobals::loadSettings(QSettings* cfg) {
       S->isSingleNoteMode = cfg->value(QStringLiteral("singleNoteMode"), false).toBool();
       S->tempo = cfg->value(QStringLiteral("tempo"), 120).toInt();
       S->scoreScale = cfg->value(QStringLiteral("scoreScale"), 1.0).toReal();
+#if defined (Q_OS_ANDROID)
+      S->lastXmlDir = cfg->value(QStringLiteral("lastXmlDir"), QString()).toString();
+#else
       S->lastXmlDir = cfg->value(QStringLiteral("lastXmlDir"), QDir::homePath()).toString();
+#endif
       S->scientificOctaves = cfg->value(QStringLiteral("scientificOctaves"), false).toBool();
       Tnote::scientificOctaves = S->scientificOctaves;
 #if defined (Q_OS_ANDROID)
