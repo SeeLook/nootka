@@ -163,9 +163,9 @@ Window {
   Component.onCompleted: {
     melImport.importWindowReady()
     if (GLOB.gotIt("ScoreImport", true))
-        Qt.createComponent("qrc:/gotit/ImportInfo.qml").createObject(importWindow, { "remaindChecked": true })
+      Qt.createComponent("qrc:/gotit/ImportInfo.qml").createObject(importWindow, { "remaindChecked": true })
     else if (melImport.partsModel.length === 0)
-        busyComp.createObject(melImport)
+      busyComp.createObject(melImport)
     partList.model = Qt.binding(function() { return  melImport.partsModel })
     // It covers both cases: when model are ready before dialog and ready only after this onCompleted
   }
@@ -225,7 +225,7 @@ Window {
       melody: chordIt ? chordIt.chord : null
       showButtons: false
       width: NOO.factor() * 20 ; maxHeight: NOO.factor() * 22
-      caption: qsTr("Select single note")
+      caption: qsTr("Select a single note")
       selectReadOnly: true
       onReadOnlyNoteClicked: {
         hi.parent = score.note(noteId)
