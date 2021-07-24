@@ -163,7 +163,9 @@ Window {
   Component.onCompleted: {
     melImport.importWindowReady()
     if (GLOB.gotIt("ScoreImport", true))
-      Qt.createComponent("qrc:/gotit/ImportInfo.qml").createObject(importWindow, { "remaindChecked": true })
+        Qt.createComponent("qrc:/gotit/ImportInfo.qml").createObject(importWindow, { "remaindChecked": true })
+    else if (melImport.partsModel.length === 0)
+        busyComp.createObject(melImport)
     partList.model = Qt.binding(function() { return  melImport.partsModel })
     // It covers both cases: when model are ready before dialog and ready only after this onCompleted
   }
@@ -257,6 +259,15 @@ Window {
       x: NOO.factor(); y: NOO.factor() * 1.2
       color: activPal.text; style: Text.Sunken; styleColor: "red"
       text: qsTr("This fragment contains elements of musical score which are not supported by Nootka!")
+    }
+  }
+
+  Component {
+    id: busyComp
+    BusyIndicator {
+      anchors.centerIn: parent
+      scale: Math.max(1, (parent.width / 10) / width)
+      running: melImport.partsModel.length === 0
     }
   }
 
