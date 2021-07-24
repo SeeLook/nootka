@@ -26,6 +26,8 @@
 #include <QtQml/qqmlcomponent.h>
 #include <QtQml/qqmlengine.h>
 #include <QtQuick/qquickitem.h>
+#include <QtCore/qthread.h>
+
 #include <QtCore/qdebug.h>
 
 
@@ -33,7 +35,7 @@ TimportScore* TimportScore::m_instance = nullptr;
 int           TimportScore::m_splitEveryBarNr = 0;
 
 
-TimportScore::TimportScore(Tmelody* melody, QObject *parent) :
+TimportScore::TimportScore(const QString& xmlFileName, Tmelody* melody, QObject *parent) :
   QObject(parent),
   m_melody(melody)
 {
@@ -42,13 +44,47 @@ TimportScore::TimportScore(Tmelody* melody, QObject *parent) :
     return;
   }
   m_instance = this;
+  m_mainThread = thread();
+  m_xmlThread = new TxmlThread(xmlFileName, melody);
+  connect(m_xmlThread, &TxmlThread::musicXmlRead, this, &TimportScore::musicXmlReadySlot);
+}
+
+
+TimportScore::TimportScore(const QString& xmlFileName, QObject* parent) :
+  QObject(parent)
+{
+  if (m_instance) {
+    qDebug() << "[TimportScore] instance already exists!";
+    return;
+  }
+  m_instance = this;
+  m_mainThread = thread();
+  m_xmlThread = new TxmlThread(xmlFileName);
+  m_melody = m_xmlThread->mainMelody();
+  connect(m_xmlThread, &TxmlThread::musicXmlRead, this, &TimportScore::musicXmlReadySlot);
 }
 
 
 TimportScore::~TimportScore()
 {
+  if (m_xmlThread)
+    delete m_xmlThread;
   qDeleteAll(m_parts);
   m_instance = nullptr;
+}
+
+
+void TimportScore::runXmlThread() {
+  if (m_xmlThread) {
+    /**
+     * When @p Tmelody invokes @p TimportScore methods from another thread
+     * @p TimportScore has to be also in this thread,
+     * but after music XML is parsed @p TimportScore backs to main thread
+     * due to QML requires @p TmelodyPart-s it there.
+     */
+    moveToThread(m_xmlThread->thread());
+    m_xmlThread->start();
+  }
 }
 
 
@@ -106,8 +142,7 @@ void TimportScore::addNote(int partId, int staff, int voice, const Tchunk &note,
     currSnipp->melody()->addNote(note);
     m_lastPart = currSnipp;
   }
-  if (!m_hasMoreParts)
-    m_hasMoreParts = partId > 1 || staff > 1 || voice > 1;
+  setHasMoreParts(partId > 1 || staff > 1 || voice > 1);
 }
 
 
@@ -167,7 +202,7 @@ void TimportScore::setContextObject(QObject* c) {
 
 
 void TimportScore::keyChanged(const TkeySignature& newKey) {
-  m_hasMoreParts = true;
+  setHasMoreParts(true);
   if (m_lastPart) {
       for (auto staffPart : m_parts[m_lastPart->part() - 1]->parts) { // split all staves
         for (auto voicePart: staffPart->parts) { // and all voices
@@ -188,7 +223,7 @@ void TimportScore::keyChanged(const TkeySignature& newKey) {
 
 
 void TimportScore::meterChanged(const Tmeter& newMeter) {
-  m_hasMoreParts = true;
+  setHasMoreParts(true);
   if (m_lastPart) {
       for (auto staffPart : m_parts[m_lastPart->part() - 1]->parts) { // split all staves
         for (auto voicePart: staffPart->parts) { // and all voices
@@ -209,7 +244,7 @@ void TimportScore::meterChanged(const Tmeter& newMeter) {
 
 
 void TimportScore::clefChanged(Tclef::EclefType newClef) {
-  m_hasMoreParts = true;
+  setHasMoreParts(true);
   if (m_lastPart) {
       for (auto staffPart : m_parts[m_lastPart->part() - 1]->parts) { // split all staves
         for (auto voicePart: staffPart->parts) {
@@ -229,6 +264,11 @@ void TimportScore::clefChanged(Tclef::EclefType newClef) {
 }
 
 
+bool TimportScore::xmlReadFinished() const {
+  return m_xmlThread && m_xmlThread->isFinished();
+}
+
+
 /**
  * Common routine which appends a new @p TmelodyPart to given @p voicePart
  * and adds melody to that new part, then returns pointer to it.
@@ -243,6 +283,24 @@ Tmelody* TimportScore::newSnippet(TmelodyPart* voicePart, int partId, int staffN
   voicePart->parts.last()->setMelody(m);
   return m;
 }
+
+
+void TimportScore::setHasMoreParts(bool moreParts) {
+  if (!m_hasMoreParts && moreParts) {
+    m_hasMoreParts = true;
+    emit wantDialog();
+  }
+}
+
+
+void TimportScore::musicXmlReadySlot() {
+  // All is back to main thread when parts are ready
+  moveToThread(m_mainThread);
+  for (auto p : m_parts) // parts have no parent, so move them as well
+    p->moveToThread(m_mainThread);
+  emit xmlWasRead();
+}
+
 
 //#################################################################################################
 //###################               TpartMelody        ############################################
@@ -433,4 +491,56 @@ TalaChord::TalaChord(TmelodyPart* mp)
 
 void TalaChord::setDummyChord(TdummyChord* dCh) {
   m_dummyChord = dCh;
+}
+
+//#################################################################################################
+//###################                TxmlThread        ############################################
+//#################################################################################################
+
+TxmlThread::TxmlThread(const QString& xmlFileName, QObject* parent) :
+  QObject(parent),
+  m_xmlFileName(xmlFileName),
+  m_thread(new QThread)
+{
+  m_melody = new Tmelody();
+  m_melodyCreated = true;
+  commonConstructor();
+}
+
+
+TxmlThread::TxmlThread(const QString& xmlFileName, Tmelody* m, QObject* parent) :
+  QObject(parent),
+  m_xmlFileName(xmlFileName),
+  m_thread(new QThread)
+{
+  m_melody = m;
+  commonConstructor();
+}
+
+
+TxmlThread::~TxmlThread()
+{
+  delete m_thread;
+  if (m_melodyCreated)
+    delete m_melody;
+}
+
+
+void TxmlThread::start() {
+  m_thread->start();
+}
+
+
+bool TxmlThread::isFinished() const {
+  return m_thread->isFinished();
+}
+
+
+void TxmlThread::commonConstructor() {
+  moveToThread(m_thread);
+  connect(m_thread, &QThread::started, this, [=]{
+    m_melody->grabFromMusicXml(m_xmlFileName);
+    m_thread->quit();
+  });
+  connect(m_thread, &QThread::finished, this, &TxmlThread::musicXmlRead);
 }

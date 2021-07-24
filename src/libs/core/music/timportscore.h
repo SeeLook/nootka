@@ -33,6 +33,7 @@ class TscoreObject;
 class TmelodyPart;
 class TdummyChord;
 class QQuickItem;
+class QThread;
 
 
 /**
@@ -184,18 +185,23 @@ private:
 };
 
 
+
+class TxmlThread;
+
 /**
  * @class TimportScore is a singleton object which existence
  * @class Tmelody detects during reading from musicXML file.
- * If there are more parts/staves/voices in that file
+ * @p Tmelody::grabFromMusicXml() is performed in separate thread,
+ * so if there are more parts/staves/voices in the XML file
+ * @p wantDialog() signal is emitted and
  * all that is written into nested @class TmelodyPart lists.
  * A top is @p parts QList<TmelodyPart*> with part(s),
  * inside it/them is/are staves then voices.
  * Every voice can be divided for snippets.
  * @p partNames are list of parts/instruments read before parts.
- * Due to not all parts contain notes
- * @p sumarize() has to be invoked after processing XML.
- * It will prepare @p model() ready to parse by QML
+ * Due to not all parts contain notes at the end of parsing process
+ * @p Tmelody invokes @p sumarize() and signal @p xmlWasRead() is emitted.
+ * so @p model() is ready then to parse by QML
  */
 class NOOTKACORE_EXPORT TimportScore : public QObject
 {
@@ -205,10 +211,13 @@ class NOOTKACORE_EXPORT TimportScore : public QObject
   friend class TmelodyPart;
 
 public:
-  TimportScore(Tmelody* melody, QObject *parent = nullptr);
-  ~TimportScore();
+  TimportScore(const QString& xmlFileName, Tmelody* melody, QObject *parent = nullptr);
+  TimportScore(const QString& xmlFileName, QObject *parent = nullptr);
+  ~TimportScore() override;
 
   static TimportScore* instance() { return m_instance; }
+
+  void runXmlThread();
 
   void addNote(int partId, int staff, int voice, const Tchunk& note, bool skip = false);
 
@@ -231,6 +240,8 @@ public:
        * but it is valid only inside @p addNote() method.
        */
   Tmelody* mainMelody() { return m_melody; }
+
+  QThread* mainThread() { return m_mainThread; }
 
   QList<TmelodyPart*>* parts() { return &m_parts; }
 
@@ -274,11 +285,26 @@ public:
   void meterChanged(const Tmeter& newMeter);
   void clefChanged(Tclef::EclefType newClef);
 
+      /**
+       * @p TRUE only when XML thread was started and finished
+       */
+  bool xmlReadFinished() const;
+
 signals:
   void importReady();
+  void xmlWasRead();
+  void wantDialog();
 
 protected:
   Tmelody* newSnippet(TmelodyPart* voicePart, int partId, int staffNr, int voiceNr, Tmelody* melody);
+  void setHasMoreParts(bool moreParts);
+
+      /**
+       * Called when @p TxmlThread finish parsing music XML data.
+       * It moves @p TimportScore back to main thread
+       * and moves @p m_parts list to main thread also.
+       */
+  void musicXmlReadySlot();
 
 private:
   static TimportScore        *m_instance;
@@ -291,6 +317,47 @@ private:
   bool                        m_multiselect = false;
   TmelodyPart                *m_lastPart = nullptr; /**< Part where note was added recently */
   QObject                    *m_contextObj = nullptr;
+  TxmlThread                 *m_xmlThread = nullptr;
+  QThread                    *m_mainThread;
+};
+
+
+/**
+ * @p class TxmlThread parses music XML data in separate thread.
+ * @p Tmelody::grabFromMusicXml()
+ * When @p Tmelody is not set in constructor
+ * it creates main melody instance to import,
+ * otherwise it uses given pointer to it.
+ */
+class NOOTKACORE_EXPORT TxmlThread : public QObject
+{
+
+  Q_OBJECT
+
+  friend class TimportScore;
+
+public:
+  explicit TxmlThread(const QString& xmlFileName, QObject* parent = nullptr);
+  explicit TxmlThread(const QString& xmlFileName, Tmelody* m, QObject* parent = nullptr);
+  ~TxmlThread() override;
+
+  void start();
+
+  Tmelody* mainMelody() { return m_melody; }
+
+  bool isFinished() const;
+
+signals:
+  void musicXmlRead();
+
+private:
+  void commonConstructor();
+
+private:
+  Tmelody               *m_melody = nullptr;
+  QString                m_xmlFileName;
+  QThread               *m_thread;
+  bool                   m_melodyCreated = false;
 };
 
 #endif // TIMPORTSCORE_H
