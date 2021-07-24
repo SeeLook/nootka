@@ -666,22 +666,22 @@ void TmainScoreObject::gotItNoteSelectedSlot() {
 
 void TmainScoreObject::openXmlFileSlot(const QString& xmlFile) {
   if (!xmlFile.isEmpty()) {
-    auto m = new Tmelody();
-    auto melImport = new TimportScore(m, this);
-    m->grabFromMusicXml(xmlFile);
-    if (melImport->hasMoreParts()) {
-        auto nootWin = qobject_cast<QQmlApplicationEngine*>(NOO->qmlEngine())->rootObjects().first();
-        if (nootWin && QString(nootWin->metaObject()->className()).contains("MainWindow_QMLTYPE")) {
-          QMetaObject::invokeMethod(nootWin, "showDialog", Q_ARG(QVariant, TnootkaQML::ScoreImport));
-          connect(melImport, &TimportScore::importReady, this, &TmainScoreObject::melodyImportSlot);
-        }
-    } else {
-        melImport->deleteLater();
-                                                  // enable technical (fingers, strings) only for bando & guitars
-        NOO->scoreObj()->openMusicXml(xmlFile, m, !GLOB->instrument().bandoneon() && !GLOB->instrument().isGuitar());
+    auto melImport = new TimportScore(xmlFile);
+    connect(melImport, &TimportScore::wantDialog, this, [=]{
+      auto nootWin = qobject_cast<QQmlApplicationEngine*>(NOO->qmlEngine())->rootObjects().first();
+      if (nootWin && QString(nootWin->metaObject()->className()).contains("MainWindow_QMLTYPE")) {
+        QMetaObject::invokeMethod(nootWin, "showDialog", Q_ARG(QVariant, TnootkaQML::ScoreImport));
+        connect(melImport, &TimportScore::importReady, this, &TmainScoreObject::melodyImportSlot);
+      }
+    });
+    connect(melImport, &TimportScore::xmlWasRead, this,[=]{
+      if (!IMPORT_SCORE->hasMoreParts()) {
+        NOO->scoreObj()->openMusicXml(xmlFile, IMPORT_SCORE->mainMelody(), !GLOB->instrument().bandoneon() && !GLOB->instrument().isGuitar());
         // NOTE use here NOO->scoreObj() because m_scoreObj may be yet unset
-    }
-    delete m;
+        IMPORT_SCORE->deleteLater();
+      }
+    });
+    melImport->runXmlThread();
   }
 }
 

@@ -156,25 +156,28 @@ void TmelodyListView::processNextXmlFile() {
   auto musicXMLfile = m_xmlFiles.takeFirst();
   m_level->melodySet << Tmelody();
   auto m = &m_level->melodySet.last();
-  auto melImport = new TimportScore(m, this);
+  auto melImport = new TimportScore(musicXMLfile, m);
   melImport->setMultiSelect(true);
-  if (m->grabFromMusicXml(musicXMLfile)) {
-    if (melImport->hasMoreParts()) {
-        auto nootWin = qobject_cast<QQmlApplicationEngine*>(NOO->qmlEngine())->rootObjects().first();
-        if (nootWin && QString(nootWin->metaObject()->className()).contains("MainWindow_QMLTYPE")) {
-          QMetaObject::invokeMethod(nootWin, "showDialog", Q_ARG(QVariant, TnootkaQML::ScoreImport));
-          connect(melImport, &TimportScore::importReady, this, &TmelodyListView::melodyImportSlot);
-        }
+  connect(melImport, &TimportScore::wantDialog, this, [=]{
+    auto nootWin = qobject_cast<QQmlApplicationEngine*>(NOO->qmlEngine())->rootObjects().first();
+    if (nootWin && QString(nootWin->metaObject()->className()).contains("MainWindow_QMLTYPE")) {
+      QMetaObject::invokeMethod(nootWin, "showDialog", Q_ARG(QVariant, TnootkaQML::ScoreImport));
+      connect(melImport, &TimportScore::importReady, this, &TmelodyListView::melodyImportSlot);
+    }
+  });
+  connect(melImport, &TimportScore::xmlWasRead, this,[=]{
+    if (IMPORT_SCORE->hasMoreParts()) {
         m_level->melodySet.removeLast();
     } else {
-        melImport->deleteLater();
+        IMPORT_SCORE->deleteLater();
         if (m_xmlFiles.isEmpty()) {
             QTimer::singleShot(100, [=]{ loadMelodies(); });
             emit melodiesChanged();
         } else
             QTimer::singleShot(100, [=]{ processNextXmlFile(); });
     }
-  }
+  });
+  melImport->runXmlThread();
 }
 
 
