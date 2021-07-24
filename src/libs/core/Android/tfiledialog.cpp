@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2015-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2015-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -45,6 +45,8 @@ public:
     else if (info.suffix().contains(QLatin1String("noo")))
       return QIcon(Tpath::img("nootka-exam"));
     else if (info.suffix().contains(QLatin1String("xml"))) // either *.xml or *.musicxml
+      return QIcon(Tpath::img("melody"));
+    else if (info.suffix().contains(QLatin1String("mxl")))
       return QIcon(Tpath::img("melody"));
     else
       return m_realProvider->icon(info);
