@@ -31,6 +31,7 @@
 TmelodyImportItem::TmelodyImportItem(QQuickItem *parent) :
   QQuickItem(parent)
 {
+  connect(IMPORT_SCORE, &TimportScore::xmlWasRead, this, &TmelodyImportItem::partsModelChanged);
 }
 
 
@@ -49,7 +50,7 @@ QString TmelodyImportItem::title() const {
 
 
 QList<QObject*> TmelodyImportItem::partsModel() const {
-  if (IMPORT_SCORE)
+  if (IMPORT_SCORE && IMPORT_SCORE->xmlReadFinished())
     return IMPORT_SCORE->model();
 
   return QList<QObject*>();

@@ -164,7 +164,8 @@ Window {
     melImport.importWindowReady()
     if (GLOB.gotIt("ScoreImport", true))
       Qt.createComponent("qrc:/gotit/ImportInfo.qml").createObject(importWindow, { "remaindChecked": true })
-    partList.model = melImport.partsModel
+    partList.model = Qt.binding(function() { return  melImport.partsModel })
+    // It covers both cases: when model are ready before dialog and ready only after this onCompleted
   }
 
   property var dividePop: null

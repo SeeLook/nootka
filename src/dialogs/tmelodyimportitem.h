@@ -35,7 +35,7 @@ class TmelodyImportItem : public QQuickItem
   Q_OBJECT
 
   Q_PROPERTY(QString title READ title NOTIFY melodyChanged)
-  Q_PROPERTY(QList<QObject*> partsModel READ partsModel NOTIFY melodyChanged)
+  Q_PROPERTY(QList<QObject*> partsModel READ partsModel NOTIFY partsModelChanged)
   Q_PROPERTY(int globalSplitNr READ globalSplitNr WRITE setGlobalSplitNr NOTIFY globalSplitNrChanged)
   Q_PROPERTY(bool multiSelect READ multiSelect WRITE setMultiSelect NOTIFY melodyChanged)
 
@@ -44,6 +44,11 @@ public:
   ~TmelodyImportItem();
 
   QString title() const;
+
+      /**
+       * @p partsModel is available only when XML parsing thread is done.
+       * So at the beginning it is empty.
+       */
   QList<QObject*> partsModel() const;
 
   int globalSplitNr() const;
@@ -64,13 +69,14 @@ public:
   Q_INVOKABLE void transpose(int semis, bool outScaleToRes, bool inInstrScale, TmelodyPart* part);
 
       /**
-       * Method invoked by QML when Import window is set.
+       * Method invoked by QML when Import window is created.
        */
   Q_INVOKABLE void importWindowReady();
 
 signals:
   void melodyChanged();
   void globalSplitNrChanged();
+  void partsModelChanged();
 
 };
 
