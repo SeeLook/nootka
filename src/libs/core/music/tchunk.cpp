@@ -86,7 +86,9 @@ void Tchunk::toXml(QXmlStreamWriter& xml, int* staffNr) {
 }
 
 
-/** 
+static bool tupletWarn = true, rtmWarn = true, moreDotsWarn = true, dot16Warn = true;
+
+/**
  * So far, returned @p FALSE value is used to inform that chunk (a note) was in other voice than 'first'
  * More voices are not (and never be) supported...
  * Tie is recognized by <notations><tied type="" ></tied></notations> tag, <tie /> itself is ignored,
@@ -109,12 +111,18 @@ quint16 Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr, int* voiceNr) {
           auto rtmType = xml.readElementText();
           m_pitch.setRhythmValue(rtmType.toStdString());
           if (!rtmType.isEmpty() && m_pitch.rhythm() == Trhythm::NoRhythm) {
-            qDebug() << "[Tchunk] Unsupported rhythmic value:" << rtmType;
+            if (rtmWarn) {
+              qDebug() << "[Tchunk] Unsupported rhythmic value:" << rtmType;
+              rtmWarn = false;
+            }
             ok |= e_xmlUnsupported | e_xmlIsStrangeRtm;
           }
       } else if (xml.name() == QLatin1String("time-modification")) {
           ok |= e_xmlUnsupported | e_xmlIsTupletStart; // no matter start/stop - unsupported anyway
-          qDebug() << "[Tchunk] Tuplets are not supported.";
+          if (tupletWarn) {
+            qDebug() << "[Tchunk] Tuplets are not supported.";
+            tupletWarn = false;
+          }
           xml.skipCurrentElement();
       } else if (xml.name() == QLatin1String("rest")) {
           m_pitch.setRest(true);
@@ -122,14 +130,20 @@ quint16 Tchunk::fromXml(QXmlStreamReader& xml, int* staffNr, int* voiceNr) {
       } else if (xml.name() == QLatin1String("dot")) {
           if (m_pitch.rhythm() < Trhythm::Sixteenth) {
               if (m_pitch.hasDot()) {
-                  if (ok & e_xmlHasTwoDots)
-                    qDebug() << "[Tchunk] More than two augmented dots are not supported!";
-                  else if (m_pitch.rhythm() < Trhythm::Eighth)
-                    ok |= e_xmlHasTwoDots;
+                  if (ok & e_xmlHasTwoDots) {
+                      if (moreDotsWarn) {
+                        qDebug() << "[Tchunk] More than two augmented dots are not supported!";
+                        moreDotsWarn = false;
+                      }
+                  } else if (m_pitch.rhythm() < Trhythm::Eighth)
+                      ok |= e_xmlHasTwoDots;
               } else
                   m_pitch.setDot(true);
           } else {
-              qDebug() << "[Tchunk] Sixteenth with dots are not supported!";
+              if (dot16Warn) {
+                qDebug() << "[Tchunk] Sixteenth with dots are not supported!";
+                dot16Warn = false;
+              }
               ok |= e_xmlUnsupported | e_xmlIsStrangeRtm;
           }
           xml.skipCurrentElement();
