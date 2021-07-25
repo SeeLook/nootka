@@ -48,6 +48,11 @@ void unsupportedClef(Tclef::EclefType& clefType) {
  * In such a cases it occurs before <note> tag
  */
 static Ttechnical technical;
+
+/**
+ * Display warning only once
+ */
+static bool appendWarn = true;
 /*******************************************************************************************/
 
 
@@ -58,12 +63,13 @@ Tmelody::Tmelody(const QString& title, const TkeySignature& k) :
   m_meter(new Tmeter),
   m_clef(Tclef::defaultType)
 {
-
+  appendWarn = true;
 }
 
 
 Tmelody::Tmelody(const Tmelody& other)
 {
+  appendWarn = true;
   m_title = other.title();
   m_composer = other.composer();
   m_tempo = other.tempo();
@@ -531,8 +537,10 @@ bool Tmelody::grabFromMXL(const QString& xmlFileName) {
 void Tmelody::appendMelody(Tmelody* otherM) {
   if (!otherM)
     return;
-  if (!lastMeasure().isFull())
+  if (!lastMeasure().isFull() && appendWarn) {
     qDebug() << "[Tmelody] appending melody but the last measure is not finished. Notes in appended measures will be shifted!";
+    appendWarn = false;
+  }
   for (int n = 0; n < otherM->length(); ++n)
     addNote(*otherM->note(n));
 }
