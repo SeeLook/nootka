@@ -47,7 +47,7 @@ GotIt {
         wrapMode: Text.WordWrap
         anchors.horizontalCenter: parent.horizontalCenter
         horizontalAlignment: Text.AlignHCenter
-        text: qsTr("Unfortunately Nootka cannot handle all notes of this score at once.")
+        text: qsTr("Unfortunately Nootka cannot display all notes of this score at once.")
         color: activPal.text
         font { bold: true; pixelSize: NOO.factor() * 1.5 }
       }

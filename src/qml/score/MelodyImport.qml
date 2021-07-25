@@ -19,7 +19,7 @@ Window {
   visibility: NOO.isAndroid() && GLOB.fullScreen() ? "FullScreen" : "AutomaticVisibility"
   visible: true
   modality: Qt.WindowModal
-  title: qsTr("Import melody")
+  title: qsTr("Import of musical score")
   width: nootkaWindow.width; height: nootkaWindow.height; x: nootkaWindow.x; y: nootkaWindow.y
   color: activPal.window
 
@@ -229,7 +229,7 @@ Window {
       melody: chordIt ? chordIt.chord : null
       showButtons: false
       width: NOO.factor() * 20 ; maxHeight: NOO.factor() * 22
-      caption: qsTr("Select a single note")
+      caption: qsTr("Select one of the notes")
       selectReadOnly: true
       onReadOnlyNoteClicked: {
         hi.parent = score.note(noteId)
