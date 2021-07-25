@@ -591,7 +591,7 @@ void TlevelCreatorItem::openLevel(const QString& levelFile) {
       selector()->loadFromFile(levelFile);
       *m_level = *m_selector->currentLevel();
   } else { // delay is necessary because selector is created when level creator component is completed
-      QTimer::singleShot(200, [=]{
+      QTimer::singleShot(200, this, [=]{
         if (selector()) {
             selector()->loadFromFile(levelFile);
             *m_level = *m_selector->currentLevel();

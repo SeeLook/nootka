@@ -138,7 +138,7 @@ void TexamExecutor::init(TexamExecutor::EexecOrigin whatToDo, const QVariant& ar
           if (err == Texam::e_file_corrupted)
             message(tr("<b>Exam file seems to be corrupted</b><br>Better start new exam on the same level"), Qt::yellow, AfterExamSummary);
           else
-            QTimer::singleShot(50, [=]{ emit examSummary(); }); // Allow 'Start Exam dialog' to be closed
+            QTimer::singleShot(50, this, [=]{ emit examSummary(); }); // Allow 'Start Exam dialog' to be closed
           return;
       } else {
           message(tr("File: %1 \n is not valid exam file!").arg(QString("<b>%1</b>")
@@ -618,7 +618,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
       if (curQ->questionAsSound())
           connect(SOUND, &Tsound::plaingFinished, this, &TexamExecutor::sniffAfterPlaying); // sniffing after finished sound
       else
-          QTimer::singleShot(WAIT_TIME, [=]{ startSniffing(); });
+          QTimer::singleShot(WAIT_TIME, this, [=]{ startSniffing(); });
           // Give a student some time to prepare itself for next question in expert mode
           // It avoids capture previous played sound as current answer
   } //else
@@ -635,7 +635,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
   if (!curQ->answerAsSound() && SOUND->stoppedByUser())
     m_tipHandler->showQuestionTip();
   else // As long as starting sound is expensive (PulseAudio) invoking tip animation at the same time sucks.
-    QTimer::singleShot(WAIT_TIME + 100, [=]{ m_tipHandler->showQuestionTip(); }); // So call it with delay
+    QTimer::singleShot(WAIT_TIME + 100, this, [=]{ m_tipHandler->showQuestionTip(); }); // So call it with delay
   m_blindCounter = 0; // question successfully asked - reset the counter
 }
 
@@ -835,10 +835,10 @@ void TexamExecutor::checkAnswer(bool showResults) {
       } else {
             if (GLOB->E->repeatIncorrect && !m_incorrectRepeated) {
               if (curQ->melody())
-                  QTimer::singleShot(waitTime, [=]{ newAttempt(); });
+                  QTimer::singleShot(waitTime, this, [=]{ newAttempt(); });
               else {
                   if (!m_exercise) // repeat only once if any
-                    QTimer::singleShot(waitTime, [=] { repeatQuestion(); });
+                    QTimer::singleShot(waitTime, this, [=] { repeatQuestion(); });
                   else
                     m_askingTimer->start(waitTime);
               }
@@ -1805,7 +1805,7 @@ void TexamExecutor::expertAnswersSlot() {
 
   if (CURR_Q->answerAsSound())
       SOUND->pauseSinffing();
-  QTimer::singleShot(0, [=]{ checkAnswer(); });
+  QTimer::singleShot(10, this, [=]{ checkAnswer(); });
 }
 
 
@@ -1925,7 +1925,7 @@ void TexamExecutor::unlockAnswerCapturing() {
 void TexamExecutor::blindQuestion() {
   qDebug() << "Blind question - asking again";
   m_blindCounter++;
-  QTimer::singleShot(10, [=]{ askQuestion(); });
+  QTimer::singleShot(10, this, [=]{ askQuestion(); });
 }
 
 

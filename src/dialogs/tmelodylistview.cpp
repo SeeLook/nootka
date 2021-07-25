@@ -65,7 +65,7 @@ void TmelodyListView::setLevel(Tlevel* l) {
   QMetaObject::invokeMethod(m_melodyModel, "clear");
   m_lastMelodyId = -1; // reset
   m_level = l;
-  QTimer::singleShot(250, [=]{ loadMelodies(); });
+  QTimer::singleShot(250, this, [=]{ loadMelodies(); });
 }
 
 
@@ -171,10 +171,10 @@ void TmelodyListView::processNextXmlFile() {
     } else {
         IMPORT_SCORE->deleteLater();
         if (m_xmlFiles.isEmpty()) {
-            QTimer::singleShot(100, [=]{ loadMelodies(); });
+            QTimer::singleShot(100, this, [=]{ loadMelodies(); });
             emit melodiesChanged();
         } else
-            QTimer::singleShot(100, [=]{ processNextXmlFile(); });
+            QTimer::singleShot(100, this, [=]{ processNextXmlFile(); });
     }
   });
   melImport->runXmlThread();
@@ -192,8 +192,8 @@ void TmelodyListView::melodyImportSlot() {
     }
   }
   if (m_xmlFiles.isEmpty()) {
-      QTimer::singleShot(100, [=]{ loadMelodies(); });
+      QTimer::singleShot(100, this, [=]{ loadMelodies(); });
       emit melodiesChanged();
   } else
-      QTimer::singleShot(100, [=]{ processNextXmlFile(); });
+      QTimer::singleShot(100, this, [=]{ processNextXmlFile(); });
 }

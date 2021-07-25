@@ -144,7 +144,7 @@ void TaudioIN::stateChangedSlot(QAudio::State s) {
     if (m_audioIN->error() != QAudio::NoError)
       qDebug() << "[TaudioIN] error occurred" << m_audioIN->error();
     m_audioIN->blockSignals(true);
-    QTimer::singleShot(100, [=]{
+    QTimer::singleShot(100, this, [=]{
       if (m_audioIN->state() != QAudio::StoppedState)
         m_audioIN->stop();
       m_audioIN->start(m_inBuffer);

@@ -230,7 +230,7 @@ void TtipHandler::showResultTip(TQAunit* answer, int time) {
 //      answer->answerAsSound() && !answer->isCorrect() && SOUND->note().note)
 //          detectedNoteTip(SOUND->note()); // In exercise mode display detected note when it was incorrect
   if (time)
-    QTimer::singleShot(time, [=]{ deleteResultTip(); });
+    QTimer::singleShot(time, this, [=]{ deleteResultTip(); });
 }
 
 
@@ -255,7 +255,7 @@ void TtipHandler::showTryAgainTip(int time) {
   deleteTryAgainTip();
 
   emit wantTryAgainTip();
-  QTimer::singleShot(time, [=]{ deleteTryAgainTip(); });
+  QTimer::singleShot(time, this, [=]{ deleteTryAgainTip(); });
 }
 
 
@@ -293,7 +293,7 @@ void TtipHandler::showWhatNextTip(bool isCorrect, bool toCorrection) {
     EXECUTOR->correctAct()->shake();
   if (prevAct)
     prevAct->shake();
-  QTimer::singleShot(500, [=]{ EXECUTOR->nextQuestAct()->shake(); });
+  QTimer::singleShot(500, this, [=]{ EXECUTOR->nextQuestAct()->shake(); });
 #else
   if (isCorrect)
     deleteQuestionTip();
@@ -326,14 +326,14 @@ void TtipHandler::showWhatNextTip(bool isCorrect, bool toCorrection) {
   m_whatNextText += br + TexamHelp::toStopExamTxt(QLatin1String("<a href=\"stopExam\">")
                + NOO->pixToHtml(QLatin1String("stopExam"), m_iconSize) + a) + QLatin1String("</p>");
   m_timerOfWhatNext->start(1000);
-//   QTimer::singleShot(1000, [=]{ emit wantWhatNextTip(m_whatNextText, qApp->palette().highlight().color(), getTipPosition(determineTipPos())); });
+//   QTimer::singleShot(1000, this, [=]{ emit wantWhatNextTip(m_whatNextText, qApp->palette().highlight().color(), getTipPosition(determineTipPos())); });
   if (!isCorrect) {
     if (m_exam->melodies())
       EXECUTOR->newAtemptAct()->shake();
     else
       EXECUTOR->repeatQuestAct()->shake();
   }
-  QTimer::singleShot(500, [=]{ EXECUTOR->nextQuestAct()->shake(); });
+  QTimer::singleShot(500, this, [=]{ EXECUTOR->nextQuestAct()->shake(); });
 #endif
 }
 

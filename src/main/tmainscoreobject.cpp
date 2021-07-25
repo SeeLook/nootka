@@ -133,7 +133,7 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
   m_scoreObj->enableActions();
   connect(m_scoreObj, &TscoreObject::clicked, this, &TmainScoreObject::clicked);
   connect(m_scoreObj, &TscoreObject::readOnlyNoteClicked, this, &TmainScoreObject::readOnlyNoteClicked);
-  connect(m_showNamesAct, &Taction::triggered, [=]{
+  connect(m_showNamesAct, &Taction::triggered, this, [=]{
     m_showNamesAct->setChecked(!m_showNamesAct->checked());
     m_scoreObj->setShowNoteNames(m_showNamesAct->checked());
   });

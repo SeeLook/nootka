@@ -38,7 +38,7 @@ TtunerDialogItem::TtunerDialogItem(QQuickItem* parent) :
   m_timer = new QTimer(this);
   connect(m_timer, &QTimer::timeout, this, &TtunerDialogItem::timeoutSlot);
   m_stoppedByUserState = SOUND->stoppedByUser();
-  QTimer::singleShot(350, [=]{ delayedInit(); });
+  QTimer::singleShot(350, this, [=]{ delayedInit(); });
   SOUND->setTunerMode(true);
   connect(SOUND, &Tsound::noteStartedEntire, this, &TtunerDialogItem::noteStartedSlot);
 

@@ -30,7 +30,7 @@ TaddNoteItem::TaddNoteItem(QQuickItem* parent) :
 {
   m_hideTimer = new QTimer(this);
   m_hideTimer->setSingleShot(true);
-  connect(m_hideTimer, &QTimer::timeout, [=]{
+  connect(m_hideTimer, &QTimer::timeout, this, [=]{
       if (m_yPos != 0.0) {
         m_yPos = 0.0;
         emit yPosChanged();
