@@ -520,19 +520,18 @@ void Tglobals::loadSettings(QSettings* cfg) {
       S->scoreScale = cfg->value(QStringLiteral("scoreScale"), 1.0).toReal();
 #if defined (Q_OS_ANDROID)
       S->lastXmlDir = cfg->value(QStringLiteral("lastXmlDir"), QString()).toString();
+      if (!S->lastXmlDir.isEmpty() && (S->lastXmlDir == QDir::homePath() || !QFileInfo::exists(S->lastXmlDir) || !QFileInfo(S->lastXmlDir).isWritable())) {
+          S->lastXmlDir.clear();
+          /** WORKAROUND: This is workaround for 2.0.0 bug where lastXmlDir was set to QDir::homePath()
+           * which is internal application location - no way to navigate outside,
+           * so musicXML files on device storage(s) couldn't be reached. */
+          qDebug() << "[Tglobals] Fixed music XML directory path.";
+      }
 #else
       S->lastXmlDir = cfg->value(QStringLiteral("lastXmlDir"), QDir::homePath()).toString();
 #endif
       S->scientificOctaves = cfg->value(QStringLiteral("scientificOctaves"), false).toBool();
       Tnote::scientificOctaves = S->scientificOctaves;
-#if defined (Q_OS_ANDROID)
-      bool hasWriteAccess = Tandroid::hasWriteAccess();
-      if (hasWriteAccess) {
-        S->lastXmlDir = cfg->value(QStringLiteral("lastXmlDir"), Tandroid::getExternalPath()).toString();
-        if (!QFileInfo::exists(S->lastXmlDir) || !QFileInfo(S->lastXmlDir).isWritable()) // reset if doesn't exist
-          S->lastXmlDir = Tandroid::getExternalPath();
-      }
-#endif
   cfg->endGroup();
 
 //common for score widget and note name
@@ -635,6 +634,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
       if (E->studentName.isEmpty())
         E->studentName = systemUserName();
 #if defined (Q_OS_ANDROID)
+      bool hasWriteAccess = Tandroid::hasWriteAccess();
       if (hasWriteAccess) {
         E->examsDir = cfg->value(QStringLiteral("examsDir"), Tandroid::getExternalPath()).toString();
         if (!QFileInfo::exists(E->examsDir) || !QFileInfo(E->examsDir).isWritable()) // reset if doesn't exist
