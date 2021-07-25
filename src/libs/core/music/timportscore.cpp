@@ -174,8 +174,11 @@ void TimportScore::sumarize() {
 }
 
 
+/**
+ * @p splitNr = 0 means merge every voice snippets into single part
+ */
 void TimportScore::setSplitBarNr(int splitNr) {
-  if (splitNr != m_splitEveryBarNr) {
+  if (splitNr != m_splitEveryBarNr || splitNr == 0) {
     m_splitEveryBarNr = splitNr;
     if (m_instance) {
       for (auto p : *m_instance->parts()) {
@@ -370,7 +373,7 @@ void TmelodyPart::setSelected(bool sel) {
 
 
 void TmelodyPart::setSplitBarNr(int splitNr) {
-  if (splitNr != m_splitBarNr) {
+  if (splitNr != m_splitBarNr || (m_splitBarNr == 0 && parts.count() > 1)) {
     m_splitBarNr = splitNr;
     if (!parts.isEmpty() && parts.first()->melody()) {
       // append all melodies to the first one
