@@ -51,7 +51,7 @@ TmeasureObject::TmeasureObject(int nr, TscoreObject* parent) :
   m_duration = m_score->meter()->duration();
   m_free = m_duration;
 
-  connect(qApp, &QGuiApplication::paletteChanged, [=]{
+  connect(qApp, &QGuiApplication::paletteChanged, this, [=]{
     if (m_barLine)
       m_barLine->setProperty("color", qApp->palette().text().color());
   });

@@ -62,8 +62,8 @@ TbeamObject::TbeamObject(TnotePair* sn, TmeasureObject* m) :
   setAntialiasing(true);
   addNote(sn);
   setParent(m_measure->score());
-  connect(qApp, &QGuiApplication::paletteChanged, [=]{ update(); });
-  connect(this, &QQuickPaintedItem::visibleChanged, [=]{
+  connect(qApp, &QGuiApplication::paletteChanged, this, [=]{ update(); });
+  connect(this, &QQuickPaintedItem::visibleChanged, this, [=]{
     if (isVisible() && count() > 1)
       drawBeam();
   });
