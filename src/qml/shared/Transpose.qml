@@ -86,11 +86,11 @@ Column {
         }
         Row {
           TlabelText { text: "\u2191"; font { pixelSize: NOO.factor() * 2.5; family: "Nootka" }}
-          TradioButton { id: upRadio; text: qsTr("up"); ButtonGroup.group: upDownGroup }
+          TradioButton { id: upRadio; text: NOO.TR("Transposition", "up"); ButtonGroup.group: upDownGroup }
         }
         Row {
           TlabelText { text: "\u2193"; font { pixelSize: NOO.factor() * 2.5; family: "Nootka" }}
-          TradioButton { id: downRadio; text: qsTr("down"); ButtonGroup.group: upDownGroup }
+          TradioButton { id: downRadio; text: NOO.TR("Transposition", "down"); ButtonGroup.group: upDownGroup }
         }
       }
     }

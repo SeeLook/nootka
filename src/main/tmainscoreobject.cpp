@@ -73,7 +73,7 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
 
   m_zoomOutAct = new Taction(tr("Zoom score out"), QStringLiteral("zoom-out"), this);
   m_zoomInAct = new Taction(tr("Zoom score in"), QStringLiteral("zoom-in"), this);
-  m_transposeAct = new Taction(tr("Transpose"), QStringLiteral("transpose"), this);
+  m_transposeAct = new Taction(qTR("Transpose", "Transpose"), QStringLiteral("transpose"), this);
 
   m_playAct = new Taction(qTR("TtoolBar", "Play"), QStringLiteral("playMelody"), this);
   m_playAct->setBgColor(QColor(0, 255, 0));
