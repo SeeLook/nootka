@@ -27,7 +27,7 @@ GotIt {
     gradient: Gradient {
       GradientStop { position: 0.0; color: NOO.alpha(activPal.base, 150) }
       GradientStop { position: textTop / gotImport.height - 0.1; color: NOO.alpha(activPal.base, 150) }
-      GradientStop { position: textTop / gotImport.height + 0.05; color: Qt.tint(activPal.base, NOO.alpha(activPal.highlight, 50)) }
+      GradientStop { position: textTop / gotImport.height + 0.05; color: Qt.tint(activPal.base, NOO.alpha("green", 50)) }
     }
   }
 
@@ -57,12 +57,14 @@ GotIt {
         text: qsTr("But you can select here some voice or a part and import it to the application.") + "<br>"
             + qsTr("Before that, you can transform (split, transpose and etc.) score parts and also select which note of a chord will be imported.")
         color: activPal.text
+        font.pixelSize: NOO.factor() * 1.1
       }
       Text {
         width: parent.width
         wrapMode: Text.WordWrap
         text: qsTr("When you are preparing an exam or an exercise from the score parts, more fragments can be imported at once.")
         color: activPal.text
+        font.pixelSize: NOO.factor() * 1.1
       }
     }
   }
