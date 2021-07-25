@@ -82,36 +82,40 @@ Window {
             }
           }
         }
-        Row { // single part actions for 'Divide' & 'Transpose'
+        Rectangle {
           anchors { right: parent.right; top: parent.top; margins: NOO.factor() / 2 }
           z: 7
-          RectButton {
-            height: NOO.factor() * (NOO.isAndroid() ? 1.8 : 2.2)
-            font { pixelSize: NOO.factor() * (NOO.isAndroid() ? 1.5 : 2); family: "Nootka" }
-            text: "\u2702"
-            onClicked: {
-              if (!dividePop)
-                dividePop = divideComp.createObject(importWindow)
-              var p = parent.mapToItem(partList, 0, (NOO.factor() * 15 - dividePop.height) / 2)
-              dividePop.melPart = modelData
-              dividePop.x = partList.width - dividePop.width - NOO.factor() * 4
-              dividePop.y = NOO.bound(0, p.y, partList.height - dividePop.height)
-              dividePop.open()
+          width: childrenRect.width; height: childrenRect.height; radius: height / 4
+          color: NOO.alpha(activPal.base, 200)
+          Row { // single part actions for 'Divide' & 'Transpose'
+            RectButton {
+              height: NOO.factor() * (NOO.isAndroid() ? 1.8 : 2.2)
+              font { pixelSize: NOO.factor() * (NOO.isAndroid() ? 1.5 : 2); family: "Nootka" }
+              text: "\u2702"
+              onClicked: {
+                if (!dividePop)
+                  dividePop = divideComp.createObject(importWindow)
+                var p = parent.mapToItem(partList, 0, (NOO.factor() * 15 - dividePop.height) / 2)
+                dividePop.melPart = modelData
+                dividePop.x = partList.width - dividePop.width - NOO.factor() * 4
+                dividePop.y = NOO.bound(0, p.y, partList.height - dividePop.height)
+                dividePop.open()
+              }
             }
-          }
-          RectButton {
-            height: NOO.factor() * (NOO.isAndroid() ? 1.8 : 2.2)
-            font { pixelSize: NOO.factor() * (NOO.isAndroid() ? 1.5 : 2); family: "Nootka" }
-            text: "\u0192"
-            onClicked: {
-              if (!transPop)
-                transPop = transComp.createObject(importWindow)
-              var p = parent.mapToItem(partList, 0, 0)
-              transPop.melPart = modelData
-              transPop.initialKey = modelData.key
-              transPop.x = partList.width - transPop.width - NOO.factor() * 4
-              transPop.y = p.y
-              transPop.open()
+            RectButton {
+              height: NOO.factor() * (NOO.isAndroid() ? 1.8 : 2.2)
+              font { pixelSize: NOO.factor() * (NOO.isAndroid() ? 1.5 : 2); family: "Nootka" }
+              text: "\u0192"
+              onClicked: {
+                if (!transPop)
+                  transPop = transComp.createObject(importWindow)
+                var p = parent.mapToItem(partList, 0, 0)
+                transPop.melPart = modelData
+                transPop.initialKey = modelData.key
+                transPop.x = partList.width - transPop.width - NOO.factor() * 4
+                transPop.y = p.y
+                transPop.open()
+              }
             }
           }
         }
