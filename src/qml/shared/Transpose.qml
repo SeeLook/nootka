@@ -99,7 +99,7 @@ Column {
     id: limitCombo
     x: NOO.factor() * 2
     enabled: keyChB.checked || semiChB.checked
-    width: NOO.factor() * 20
+    width: NOO.factor() * 25
     model: [ qsTr("Limit notes to instrument scale"), qsTr("Limit notes to notation range") ]
   }
   Row {

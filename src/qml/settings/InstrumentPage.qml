@@ -101,7 +101,7 @@ Flickable {
           TcomboBox {
             id: tuningCombo
             visible: instrSel.instrument !== 0
-            width: NOO.factor() * 18
+            width: NOO.factor() * 22
             model: NOO.tuningModel(instrSel.instrument)
           }
         }
