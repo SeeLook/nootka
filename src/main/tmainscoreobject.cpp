@@ -676,7 +676,7 @@ void TmainScoreObject::openXmlFileSlot(const QString& xmlFile) {
     });
     connect(melImport, &TimportScore::xmlWasRead, this,[=]{
       if (!IMPORT_SCORE->hasMoreParts()) {
-        NOO->scoreObj()->openMusicXml(xmlFile, IMPORT_SCORE->mainMelody(), !GLOB->instrument().bandoneon() && !GLOB->instrument().isGuitar());
+        NOO->scoreObj()->setMelody(IMPORT_SCORE->mainMelody(), !GLOB->instrument().bandoneon() && !GLOB->instrument().isGuitar());
         // NOTE use here NOO->scoreObj() because m_scoreObj may be yet unset
         IMPORT_SCORE->deleteLater();
       }
