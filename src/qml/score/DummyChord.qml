@@ -18,7 +18,7 @@ TdummyChord {
   Rectangle {
     anchors.fill: parent
     z: -1; radius: width / 4
-    color: NOO.alpha(chV && chV.visible && chV.chordIt == chordIt ? activPal.highlight : activPal.dimText, 30)
+    color: NOO.alpha(chV && chV.visible && chV.chordIt == chordIt ? activPal.highlight : activPal.dimText, ma.containsMouse ? 60 : 30)
     Repeater {
       model: chordModel
       Text {
@@ -39,7 +39,9 @@ TdummyChord {
   }
 
   MouseArea {
+    id: ma
     anchors.fill: parent
+    hoverEnabled: !NOO.isAndroid()
     onClicked: importWindow.showChord(chordIt)
   }
 }
