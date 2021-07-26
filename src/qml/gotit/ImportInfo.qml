@@ -56,6 +56,7 @@ GotIt {
         wrapMode: Text.WordWrap
         text: qsTr("But you can select here some voice or a part and import it to the application.") + "<br>"
             + qsTr("Before that, you can transform (split, transpose and etc.) score parts and also select which note of a chord will be imported.")
+            + "<br>" + qsTr("Voices are divided automatically when meter, clef or key changes.")
         color: activPal.text
         font.pixelSize: NOO.factor() * 1.1
       }
