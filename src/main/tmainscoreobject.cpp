@@ -678,6 +678,7 @@ void TmainScoreObject::openXmlFileSlot(const QString& xmlFile) {
       if (!IMPORT_SCORE->hasMoreParts()) {
         NOO->scoreObj()->setMelody(IMPORT_SCORE->mainMelody(), !GLOB->instrument().bandoneon() && !GLOB->instrument().isGuitar());
         // NOTE use here NOO->scoreObj() because m_scoreObj may be yet unset
+        SOUND->setMetronome(IMPORT_SCORE->mainMelody()->tempo(), IMPORT_SCORE->mainMelody()->beat());
         IMPORT_SCORE->deleteLater();
       }
     });
@@ -694,6 +695,7 @@ void TmainScoreObject::melodyImportSlot() {
         if (snip->selected()) {
           NOO->scoreObj()->setMelody(snip->melody(), GLOB->instrument().type() != Tinstrument::Bandoneon && !GLOB->instrument().isGuitar());
           // NOTE use here NOO->scoreObj() because m_scoreObj may be yet unset
+          SOUND->setMetronome(snip->melody()->tempo(), snip->melody()->beat());
           break;
         }
       }
