@@ -48,6 +48,8 @@ class NOOTKACORE_EXPORT TdummyChord : public QQuickItem
   Q_PROPERTY(int chordModel READ chordModel NOTIFY chordChanged)
   Q_PROPERTY(Tmelody* chord READ chord NOTIFY chordChanged)
   Q_PROPERTY(int selected READ selected WRITE setSelected NOTIFY selectedChanged)
+  Q_PROPERTY(qreal hiPosY READ hiPosY NOTIFY chordChanged)
+  Q_PROPERTY(qreal loPosY READ loPosY NOTIFY chordChanged)
 
 public:
   explicit TdummyChord(QQuickItem* parent = nullptr);
@@ -66,6 +68,9 @@ public:
 
   QString noteHead();
 
+  qreal hiPosY() const { return m_hiPosY; }
+  qreal loPosY() const { return m_loPosY; }
+
       /**
        * Handle note item (parent) change.
        * Connect with note parent (@p TscoreObj::destroyed)
@@ -81,10 +86,14 @@ signals:
   void chordChanged();
   void selectedChanged();
 
+protected:
+  void findHiLoPos();
+
 private:
   TalaChord                 *m_alaChord = nullptr;
   TnoteItem                 *m_parentNote = nullptr;
   int                        m_selected = -1;
+  qreal                      m_hiPosY = 50.0, m_loPosY = 0.0;
 };
 
 #endif // TDUMMYCHORD_H

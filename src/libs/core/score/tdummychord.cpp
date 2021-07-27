@@ -43,6 +43,7 @@ void TdummyChord::setParentItem(QQuickItem* pi) {
   m_parentNote = qobject_cast<TnoteItem*>(pi);
   QQuickItem::setParentItem(pi);
   if (m_parentNote) {
+    findHiLoPos();
     connect(m_parentNote->parent(), &QObject::destroyed, this, [=]{ m_parentNote = nullptr; });
     emit chordChanged();
   }
@@ -52,6 +53,7 @@ void TdummyChord::setParentItem(QQuickItem* pi) {
 void TdummyChord::setChord(TalaChord* c) {
   m_alaChord = c;
   m_alaChord->setDummyChord(this);
+  findHiLoPos();
   emit chordChanged();
   if (m_selected == -1)
     setSelected(0);
@@ -100,4 +102,15 @@ QString TdummyChord::alterText(int id) {
 
 QVariant TdummyChord::part() {
   return QVariant::fromValue(m_alaChord->part);
+}
+
+
+void TdummyChord::findHiLoPos() {
+  if (m_loPosY < 1.0 && m_alaChord) { // yet unset
+    for (int n = 0; n < m_alaChord->notes()->length(); ++n) {
+      auto hp = headPos(n);
+      m_hiPosY = qMin(m_hiPosY, hp);
+      m_loPosY = qMax(m_loPosY, hp);
+    }
+  }
 }
