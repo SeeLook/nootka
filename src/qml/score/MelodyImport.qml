@@ -117,6 +117,20 @@ Window {
                 transPop.open()
               }
             }
+            RectButton {
+              height: NOO.factor() * (NOO.isAndroid() ? 1.8 : 2.2)
+              font { pixelSize: NOO.factor() * (NOO.isAndroid() ? 1.5 : 2); family: "Nootka" }
+              text: "\u0193"
+              onClicked: {
+                if (!allChordsPop)
+                  allChordsPop = allChordsComp.createObject(importWindow)
+                var p = parent.mapToItem(partList, 0, 0)
+                allChordsPop.melPart = modelData
+                allChordsPop.x = partList.width - allChordsPop.width - NOO.factor() * 4
+                allChordsPop.y = p.y
+                allChordsPop.open()
+              }
+            }
           }
         }
       }
@@ -218,6 +232,42 @@ Window {
           melImport.transpose(transpose.outShift, transpose.outScaleToRest, transpose.inInstrumentScale, transPop.melPart)
         }
       }
+    }
+  }
+
+  property var allChordsPop
+  Component {
+    id: allChordsComp
+    TpopupDialog {
+      property var melPart: null
+      width: chCol.width + NOO.factor() * 2
+      height: chCol.height + NOO.factor() * (melPart ? 5 : 7)
+      caption: melPart ? "" : qsTr("Transform all parts of the score")
+      Column {
+        id: chCol
+        spacing: NOO.factor()
+        Text { text: qsTr("In every chord"); color: activPal.text; anchors.horizontalCenter: parent.horizontalCenter }
+        Row {
+          spacing: NOO.factor()
+          Text {
+            text: qsTr("select", "[1st, 2nd, ...] note")
+            color: activPal.text; anchors.verticalCenter: parent.verticalCenter
+          }
+          TspinBox {
+            id: selChordNoteSpin
+            from: 1; to: 10
+          }
+          Text {
+            text: qsTr("note", "select [1st, 2nd, ...] note [from the top/bottom]")
+            color: activPal.text; anchors.verticalCenter: parent.verticalCenter }
+          TcomboBox {
+            id: topBottCombo
+            width: NOO.factor() * 12;anchors.verticalCenter: parent.verticalCenter
+            model: [ qsTr("from the top"), qsTr("from the bottom") ]
+          }
+        }
+      }
+      onAccepted: melPart.selectNoteInChords(selChordNoteSpin.value, topBottCombo.currentIndex === 0)
     }
   }
 

@@ -472,6 +472,28 @@ void TmelodyPart::addChordNote(TmelodyPart* part, const Tchunk& n) {
 }
 
 
+void TmelodyPart::selectNoteInChords(int noteNr, bool fromTop) {
+  for (auto snippPart : parts) {
+    if (!snippPart->chords.isEmpty()) {
+      for (auto alaCh : snippPart->chords) {
+        // We cannot be sure that notes in the cord are in order.
+        // Actually they are but better safe than sorry, so:
+        // 1. Create map <chromatic nr, note nr in chord>
+        QMap<int, int> chromMap;
+        for (int n = 0; n < alaCh->count(); ++n)
+          chromMap[alaCh->notes()->note(n)->p().chromatic()] = n;
+        // 2. sort it by note pitch (obtained order is reversed (ascending)) and we want descending
+        auto sorted = chromMap.values();
+        // so swap meaning of fromTop variable
+        int s = fromTop ? qMax(alaCh->count() - noteNr, 0) : qMin(noteNr, alaCh->count()) - 1;
+        // 3. select note but filtered by sorted list
+        alaCh->dummyChord()->setSelected(sorted[s]);
+      }
+    }
+  }
+}
+
+
 QList<QObject*> TmelodyPart::snippets() {
   QList<QObject*> s;
   for (auto p : parts)

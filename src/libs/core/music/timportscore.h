@@ -167,6 +167,13 @@ public:
 
   void addChordNote(TmelodyPart* part, const Tchunk& n);
 
+      /**
+       * In every chord selects:
+       * @p noteNr [1st, 2nd, ...] note from the top (human number 1 to 10 not 0)
+       * if @p fromTop is TRUE or from the bottom
+       */
+  Q_INVOKABLE void selectNoteInChords(int noteNr, bool fromTop);
+
 signals:
   void melodyChanged();
   void selectedChanged();
