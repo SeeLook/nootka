@@ -147,10 +147,11 @@ void TimportScore::addNote(int partId, int staff, int voice, const Tchunk &note,
 
 
 void TimportScore::addChordNote(const Tchunk& note) {
-  if (m_lastPart && m_lastPart->melody())
-    m_lastPart->addChordNote(m_lastPart, note);
-  else
-    qDebug() << "[TimportScore] Cannot add chord note to not existing part/melody.";
+  if (m_lastPart && m_lastPart->melody()) {
+      m_lastPart->addChordNote(m_lastPart, note);
+      setHasMoreParts(true);
+  } else
+      qDebug() << "[TimportScore] Cannot add chord note to not existing part/melody.";
 }
 
 
