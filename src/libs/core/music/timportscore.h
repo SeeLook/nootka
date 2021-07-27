@@ -263,6 +263,11 @@ public:
   static void setSplitBarNr(int splitNr);
 
       /**
+       * Select given @p noteNr from every chord in every part
+       */
+  void selectNoteInChords(int noteNr, bool fromTop);
+
+      /**
        * List of part names from <part-list><score-part><part-name>.
        * They correspond with further <part> tags.
        */

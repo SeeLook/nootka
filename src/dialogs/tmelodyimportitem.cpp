@@ -116,6 +116,12 @@ void TmelodyImportItem::setMultiSelect(bool ms) {
 }
 
 
+void TmelodyImportItem::selectNoteInChords(int noteNr, bool fromTop) {
+  if (IMPORT_SCORE)
+    IMPORT_SCORE->selectNoteInChords(noteNr, fromTop);;
+}
+
+
 void TmelodyImportItem::importWindowReady() {
   IMPORT_SCORE->setContextObject(this->parent());
 }

@@ -68,6 +68,8 @@ public:
 
   Q_INVOKABLE void transpose(int semis, bool outScaleToRes, bool inInstrScale, TmelodyPart* part);
 
+  Q_INVOKABLE void selectNoteInChords(int noteNr, bool fromTop);
+
       /**
        * Method invoked by QML when Import window is created.
        */

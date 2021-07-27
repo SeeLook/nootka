@@ -175,6 +175,19 @@ Window {
           dividePop.open()
         }
       }
+      RectButton {
+        height: NOO.factor() * (NOO.isAndroid() ? 2 : 3)
+        font { pixelSize: NOO.factor() * (NOO.isAndroid() ? 1.5 : 2.8); family: "Nootka" }
+        text: "\u0193"
+        onClicked: {
+          if (!allChordsPop)
+            allChordsPop = allChordsComp.createObject(importWindow)
+          allChordsPop.melPart = null
+          allChordsPop.x = (importWindow.width - allChordsPop.width) / 2
+          allChordsPop.y = NOO.factor() * 2
+          allChordsPop.open()
+        }
+      }
     }
   }
 
@@ -267,7 +280,12 @@ Window {
           }
         }
       }
-      onAccepted: melPart.selectNoteInChords(selChordNoteSpin.value, topBottCombo.currentIndex === 0)
+      onAccepted: {
+        if (melPart)
+          melPart.selectNoteInChords(selChordNoteSpin.value, topBottCombo.currentIndex === 0)
+        else
+          melImport.selectNoteInChords(selChordNoteSpin.value, topBottCombo.currentIndex === 0)
+      }
     }
   }
 

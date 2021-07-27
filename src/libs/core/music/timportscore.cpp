@@ -195,6 +195,19 @@ void TimportScore::setSplitBarNr(int splitNr) {
 }
 
 
+void TimportScore::selectNoteInChords(int noteNr, bool fromTop) {
+  for (auto p : m_parts) {
+    for (auto s : p->parts) {
+      for (auto v : s->parts) {
+        if (v->count())
+          v->selectNoteInChords(noteNr, fromTop);
+      }
+    }
+  }
+}
+
+
+
 void TimportScore::addPartName(const QString& pn) {
   m_partNames << pn;
   if (m_partNames.count() == 2) // we are already sure that import dialog will be necessary
