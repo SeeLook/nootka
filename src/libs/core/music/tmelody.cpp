@@ -220,7 +220,8 @@ bool Tmelody::fromXml(QXmlStreamReader& xml, bool madeWithNootka, int partId) {
                       if (IMPORT_SCORE) {
                           TkeySignature newKey;
                           newKey.fromXml(xml);
-                          IMPORT_SCORE->keyChanged(newKey);
+                          if (newKey.value() != m_key.value())
+                            IMPORT_SCORE->keyChanged(newKey);
                       } else {
                           xml.skipCurrentElement();
                           qDebug() << "[Tmelody] Change key signature in the middle of a melody is not supported!";
@@ -234,7 +235,8 @@ bool Tmelody::fromXml(QXmlStreamReader& xml, bool madeWithNootka, int partId) {
                       if (IMPORT_SCORE) {
                           Tmeter newMeter;
                           newMeter.fromXml(xml);
-                          IMPORT_SCORE->meterChanged(newMeter);
+                          if (newMeter.meter() != m_meter->meter())
+                            IMPORT_SCORE->meterChanged(newMeter);
                       } else {
                           xml.skipCurrentElement();
                           qDebug() << "[Tmelody] Change time signature (meter) in the middle of a melody is not supported!";
