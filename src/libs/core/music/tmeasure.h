@@ -46,6 +46,11 @@ public:
   Tchunk& lastNote() { return m_notes.last(); }
 
       /**
+       * Current duration of the measure
+       */
+  int duration() const { return m_duration; }
+
+      /**
        * @p TRUE when measure is full - notes duration is equal meter duration
        */
   bool isFull();
