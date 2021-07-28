@@ -95,6 +95,8 @@ void TimportScore::addNote(int partId, int staff, int voice, const Tchunk &note,
       qDebug() << "[TimportScore] Wrong parts order in the score file!" << partId << m_parts.count();
       return;
   }
+  if (m_lastPart && partId > m_lastPart->part())
+    copyBowings();
   auto staffPart = m_parts[partId - 1];
   if (staff == staffPart->count() + 1)
       staffPart->parts << new TmelodyPart(staffPart, partId, staff, voice);
@@ -140,6 +142,11 @@ void TimportScore::addNote(int partId, int staff, int voice, const Tchunk &note,
       currSnipp->setMelody(m);
     }
     currSnipp->melody()->addNote(note);
+    if (note.bowing()) {
+      Tmeasure& lm = currSnipp->melody()->lastMeasure();
+      // QRect(X: bar nr, Y: notes duration from the bar beginning, W: beaming code).
+      m_bowings << QRect(lm.number() - 1, lm.duration() - note.duration(), static_cast<int>(note.bowing()), 0);
+    }
     m_lastPart = currSnipp;
   }
   setHasMoreParts(partId > 1 || staff > 1 || voice > 1);
@@ -164,6 +171,7 @@ void TimportScore::setUnsupported(int partId, int staff, int voice, int error) {
 
 
 void TimportScore::sumarize() {
+  copyBowings();
   for (auto p : m_parts) {
     for (auto s : p->parts) {
       for (auto v : s->parts) {
@@ -223,6 +231,7 @@ void TimportScore::setContextObject(QObject* c) {
 void TimportScore::keyChanged(const TkeySignature& newKey) {
   setHasMoreParts(true);
   if (m_lastPart) {
+      copyBowings();
       for (auto staffPart : m_parts[m_lastPart->part() - 1]->parts) { // split all staves
         for (auto voicePart: staffPart->parts) { // and all voices
           if (!voicePart->parts.isEmpty()) {
@@ -244,6 +253,7 @@ void TimportScore::keyChanged(const TkeySignature& newKey) {
 void TimportScore::meterChanged(const Tmeter& newMeter) {
   setHasMoreParts(true);
   if (m_lastPart) {
+      copyBowings();
       for (auto staffPart : m_parts[m_lastPart->part() - 1]->parts) { // split all staves
         for (auto voicePart: staffPart->parts) { // and all voices
           if (!voicePart->parts.isEmpty()) {
@@ -265,6 +275,7 @@ void TimportScore::meterChanged(const Tmeter& newMeter) {
 void TimportScore::clefChanged(Tclef::EclefType newClef) {
   setHasMoreParts(true);
   if (m_lastPart) {
+      copyBowings();
       for (auto staffPart : m_parts[m_lastPart->part() - 1]->parts) { // split all staves
         for (auto voicePart: staffPart->parts) {
           if (!voicePart->parts.isEmpty()) {
@@ -308,6 +319,37 @@ void TimportScore::setHasMoreParts(bool moreParts) {
   if (!m_hasMoreParts && moreParts) {
     m_hasMoreParts = true;
     emit wantDialog();
+  }
+}
+
+
+void TimportScore::copyBowings() {
+  if (m_lastPart && !m_bowings.isEmpty()) {
+    auto p = m_parts[m_lastPart->part() - 1];
+    for (auto s : p->parts) {
+      // TODO: We are copying bowings for every staff!
+      // It is valid for bandoneon but not for violin (so far unsupported)
+      for (auto v : s->parts) {
+        if (v->count()) {
+          auto snipp = v->parts.last();
+          for (QRect& bow : m_bowings) {
+            if (bow.x() < snipp->melody()->measuresCount()) { // X: bar number
+              Tmeasure& m = snipp->melody()->measure(bow.x());
+              int dur = 0;
+              for (int n = 0; n < m.count(); ++n) {
+                if (dur >= bow.y()) { // Y: duration where bowing occurs
+                  // width: bowing itself
+                  m.note(n).setBowing(static_cast<Ttechnical::EbowDirection>(bow.width()));
+                  break;
+                }
+                dur += m.note(n).duration();
+              }
+            }
+          }
+        }
+      }
+    }
+    m_bowings.clear();
   }
 }
 

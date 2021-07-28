@@ -312,6 +312,16 @@ protected:
   void setHasMoreParts(bool moreParts);
 
       /**
+       * Bowings symbols (so far for bandoneon) even if stuck to note/voice
+       * have meaning for every staff and voice at this point of score (piano staff).
+       * So, @p m_bowings stores all detected bowing symbols into @p QRect
+       * QRect(X: bar nr, Y: notes duration from the bar beginning, W: beaming code).
+       * Then whenever voice is split or new part is going
+       * entire list of bolings is copied to every voice in every staff/
+       */
+  void copyBowings();
+
+      /**
        * Called when @p TxmlThread finish parsing music XML data.
        * It moves @p TimportScore back to main thread
        * and moves @p m_parts list to main thread also.
@@ -321,6 +331,7 @@ protected:
 private:
   static TimportScore        *m_instance;
   QList<TmelodyPart*>         m_parts;
+  QList<QRect>                m_bowings;
   QList<QObject*>             m_partsModel;
   bool                        m_hasMoreParts = false;
   Tmelody                    *m_melody; /**< Main melody */
