@@ -58,6 +58,23 @@ public:
   void addNote(const Tchunk& n);
 
       /**
+       * Deletes all notes from the melody.
+       * Also title, composer and resets key, if set to true
+       */
+  void clear(bool withCredits = true, bool withKey = true);
+
+      /**
+       * Copies all notes to given @p chunks list
+       */
+  void toList(QList<Tchunk>& chunks);
+
+      /**
+       * Replaces note @p noteNr with notes in the list.
+       * List of notes must have the same duration like replacing note.
+       */
+  void swapWithNotes(int noteNr, const QList<Tchunk>& notes);
+
+      /**
        * A pointer to note @p index
        */
   Tchunk* note(int index) { return m_notes[index]; }

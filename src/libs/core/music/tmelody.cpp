@@ -111,6 +111,45 @@ void Tmelody::addNote(const Tchunk& n) {
 }
 
 
+void Tmelody::clear(bool withCredits, bool withKey) {
+  m_notes.clear();
+  p_measures.clear();
+  if (withCredits) {
+    m_title.clear();
+    m_composer.clear();
+  }
+  if (withKey)
+    m_key = TkeySignature();
+}
+
+
+void Tmelody::toList(QList<Tchunk>& chunks) {
+  for (auto m : p_measures) {
+    for (int n = 0; n < m.count(); ++n)
+      chunks << m.note(n);
+  }
+}
+
+
+void Tmelody::swapWithNotes(int noteNr, const QList<Tchunk>& notes) {
+  int notesCnt = 0;
+  Tmeasure* barToSwapIn = nullptr;
+  for (Tmeasure& m : p_measures) {
+    notesCnt += m.count();
+    if (notesCnt > noteNr) {
+      barToSwapIn = &m;
+      break;
+    }
+  }
+  int noteIdInBar = noteNr - (notesCnt - barToSwapIn->count());
+  if (barToSwapIn)
+    barToSwapIn->swapWithNotes(noteIdInBar, notes);
+  for (int n = 1; n < notes.count(); ++n) {
+    m_notes.insert(noteNr + n, &barToSwapIn->note(noteIdInBar + n));
+  }
+}
+
+
 void Tmelody::toXml(QXmlStreamWriter& xml, int trans) {
   for (int m = 0; m < p_measures.size(); ++m) {
     xml.writeStartElement(QStringLiteral("measure"));
