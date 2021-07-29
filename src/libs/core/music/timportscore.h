@@ -178,7 +178,7 @@ public:
   Q_INVOKABLE void selectNoteInChords(int noteNr, bool fromTop);
 
   void explodeChord(TalaChord* alaChord);
-  void explodeChords();
+  Q_INVOKABLE void explodeChords();
 
 signals:
   void melodyChanged();
@@ -307,6 +307,8 @@ public:
        * @p TRUE only when XML thread was started and finished
        */
   bool xmlReadFinished() const;
+
+  void explodeChords();
 
 signals:
   void importReady();

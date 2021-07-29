@@ -299,6 +299,22 @@ bool TimportScore::xmlReadFinished() const {
 }
 
 
+void TimportScore::explodeChords() {
+  for (auto p : m_parts) {
+    for (auto s : p->parts) {
+      for (auto v : s->parts) {
+        if (v->count())
+          v->explodeChords();
+      }
+    }
+  }
+}
+
+
+//#################################################################################################
+//###################                PROTECTED         ############################################
+//#################################################################################################
+
 /**
  * Common routine which appends a new @p TmelodyPart to given @p voicePart
  * and adds melody to that new part, then returns pointer to it.
@@ -550,8 +566,11 @@ void TmelodyPart::selectNoteInChords(int noteNr, bool fromTop) {
 
 
 void TmelodyPart::explodeChord(TalaChord* alaChord) {
-  if (alaChord->notes()->note(0)->p().rhythm() == Trhythm::NoRhythm)
-    alaChord->setRhythm();
+  if (alaChord->notes()->note(0)->p().rhythm() == Trhythm::NoRhythm) {
+    if (!alaChord->setRhythm())
+      return;
+  }
+
   int chordId = 0;
   // find ID number of the chord in the list
   for (int c = 0; c < chords.count(); ++c) {
@@ -581,8 +600,25 @@ void TmelodyPart::explodeChord(TalaChord* alaChord) {
 
 
 void TmelodyPart::explodeChords() {
-  if (!chords.isEmpty()) {
-    
+  for (auto snipp : parts) {
+    if (!snipp->chords.isEmpty()) {
+      for (int c = snipp->chords.count() - 1; c >= 0; --c) {
+        auto chord = snipp->chords[c];
+        if (chord->notes()->note(0)->p().rhythm() == Trhythm::NoRhythm) {
+          if (!chord->setRhythm())
+            continue;
+        }
+        QList<Tchunk> chunks;
+        chord->notes()->toList(chunks);
+        snipp->melody()->swapWithNotes(chord->noteNr(), chunks);
+        chord->dummyChord()->deleteLater();
+      }
+      // TODO: handle chords impossible to resolve
+      if (snipp->score())
+        snipp->score()->setMelody(snipp->melody());
+      qDeleteAll(snipp->chords);
+      snipp->chords.clear();
+    }
   }
 }
 
@@ -616,12 +652,12 @@ void TalaChord::setDummyChord(TdummyChord* dCh) {
 
 
 bool TalaChord::setRhythm() {
-  m_notes.setMeter(part->melody()->meter()->meter());
   int dur = part->melody()->note(m_noteNr)->p().duration();
   if (count() * 6 > dur) {
     qDebug() << "[TalaChord] Impossible to fit chord notes in duration of" << dur;
     return false;
   }
+  m_notes.setMeter(part->melody()->meter()->meter());
   int lastNoteDur = dur - (count() - 1) * 6;
   auto notesAtEnd = Trhythm::resolve(lastNoteDur);
   for (int n = 0; n < count() - 1; ++n)
