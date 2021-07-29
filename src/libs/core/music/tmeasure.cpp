@@ -46,3 +46,9 @@ bool Tmeasure::isFull() {
   return m_duration == m_meter.duration();
 }
 
+
+void Tmeasure::swapWithNotes(int noteNr, const QList<Tchunk> &notes) {
+  m_notes.replace(noteNr, notes.first());
+  for (int n = 1; n < notes.count(); ++n)
+    m_notes.insert(noteNr + n, notes[n]);
+}

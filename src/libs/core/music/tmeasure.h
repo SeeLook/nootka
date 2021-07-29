@@ -59,6 +59,12 @@ public:
 
   int count() { return m_notes.size(); }
 
+      /**
+       * Replaces note @p noteNr with notes in the list.
+       * List of notes must have the same duration like replacing note.
+       */
+  void swapWithNotes(int noteNr, const QList<Tchunk>& notes);
+
 private:
   int                 m_number;
   Tmeter              m_meter;
