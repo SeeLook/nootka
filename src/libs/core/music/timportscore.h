@@ -76,6 +76,9 @@ public:
   void setDummyChord(TdummyChord* dCh);
   TdummyChord* dummyChord() { return m_dummyChord; }
 
+  bool setRhythm();
+  void explodeChord();
+
 private:
   Tmelody         m_notes;
   int             m_noteNr = -1;
@@ -173,6 +176,9 @@ public:
        * if @p fromTop is TRUE or from the bottom
        */
   Q_INVOKABLE void selectNoteInChords(int noteNr, bool fromTop);
+
+  void explodeChord(TalaChord* alaChord);
+  void explodeChords();
 
 signals:
   void melodyChanged();

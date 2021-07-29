@@ -549,6 +549,44 @@ void TmelodyPart::selectNoteInChords(int noteNr, bool fromTop) {
 }
 
 
+void TmelodyPart::explodeChord(TalaChord* alaChord) {
+  if (alaChord->notes()->note(0)->p().rhythm() == Trhythm::NoRhythm)
+    alaChord->setRhythm();
+  int chordId = 0;
+  // find ID number of the chord in the list
+  for (int c = 0; c < chords.count(); ++c) {
+    if (alaChord == chords[c]) {
+      chordId = c;
+      break;
+    }
+  }
+  QList<Tchunk> chunks;
+  alaChord->notes()->toList(chunks);
+  // squeeze notes of this dummy chord into melody
+  m_melody->swapWithNotes(alaChord->noteNr(), chunks);
+  // then remove this dummy chord (from the list and its QML item)
+  alaChord->dummyChord()->deleteLater();
+  chords.removeAt(chordId);
+  chordId--;
+  if (m_scoreObj)
+    m_scoreObj->setMelody(m_melody);
+  for (int c = 0; c < chords.count(); ++c) {
+    auto ch = chords[c];
+    if (c > chordId) // fix note number ID of the chord after adding notes to the melody
+      ch->setNoteNr(ch->noteNr() + chunks.count() - 1);
+    if (m_scoreObj) // fix parent of TdummyChord after melody was reloaded
+      ch->dummyChord()->setParentItem(m_scoreObj->note(ch->noteNr()));
+  }
+}
+
+
+void TmelodyPart::explodeChords() {
+  if (!chords.isEmpty()) {
+    
+  }
+}
+
+
 QList<QObject*> TmelodyPart::snippets() {
   QList<QObject*> s;
   for (auto p : parts)
@@ -574,6 +612,41 @@ TalaChord::TalaChord(TmelodyPart* mp)
 
 void TalaChord::setDummyChord(TdummyChord* dCh) {
   m_dummyChord = dCh;
+}
+
+
+bool TalaChord::setRhythm() {
+  m_notes.setMeter(part->melody()->meter()->meter());
+  int dur = part->melody()->note(m_noteNr)->p().duration();
+  if (count() * 6 > dur) {
+    qDebug() << "[TalaChord] Impossible to fit chord notes in duration of" << dur;
+    return false;
+  }
+  int lastNoteDur = dur - (count() - 1) * 6;
+  auto notesAtEnd = Trhythm::resolve(lastNoteDur);
+  for (int n = 0; n < count() - 1; ++n)
+    m_notes.note(n)->p().setRhythm(Trhythm::Sixteenth);
+  if (notesAtEnd.isEmpty()) {
+    // error
+  } else {
+      auto last = m_notes.note(count() - 1);
+      if (notesAtEnd.count() > 1)
+        notesAtEnd.last().setTie(Trhythm::e_tieStart);
+      last->p().setRhythm(notesAtEnd.last());
+      for (int r = notesAtEnd.count() - 2; r >= 0; --r) {
+        if (r == 0)
+          notesAtEnd[r].setTie(Trhythm::e_tieEnd);
+        else
+          notesAtEnd[r].setTie(Trhythm::e_tieCont);
+        m_notes.addNote(Tchunk(Tnote(last->p(), notesAtEnd[r]), last->t()));
+      }
+  }
+  return true;
+}
+
+
+void TalaChord::explodeChord() {
+  part->explodeChord(this);
 }
 
 //#################################################################################################
