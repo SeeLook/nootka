@@ -377,7 +377,7 @@ void TnoteItem::checkTie() {
       m_tie->setParentItem(m_head);
       m_tie->setProperty("color", qApp->palette().text().color());
       updateTieScale();
-      m_tie->setX(m_head->width());
+      m_tie->setX(m_head->width() - 0.75);
   }
 //   updateDebug();
 }
@@ -392,7 +392,9 @@ void TnoteItem::updateDebug() {
 
 
 qreal TnoteItem::tieWidth() {
-  return staff()->gapFactor() * rhythmFactor() + (this == m_measure->last()->item() ? 1.5 : 0.0) + (m_note->rtm.stemDown() ? 0.0 : m_flag->width() - 0.2);
+  return qMax(1.5,
+              staff()->gapFactor() * rhythmFactor()
+              + (this == m_measure->last()->item() ? 1.5 : 0.0) + (m_note->rtm.stemDown() ? 1.5 : m_flag->width() + 1.3));
 }
 
 
