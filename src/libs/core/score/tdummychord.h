@@ -50,6 +50,7 @@ class NOOTKACORE_EXPORT TdummyChord : public QQuickItem
   Q_PROPERTY(int selected READ selected WRITE setSelected NOTIFY selectedChanged)
   Q_PROPERTY(qreal hiPosY READ hiPosY NOTIFY chordChanged)
   Q_PROPERTY(qreal loPosY READ loPosY NOTIFY chordChanged)
+  Q_PROPERTY(bool selectSingle READ selectSingle NOTIFY selectSingleChanged)
 
 public:
   explicit TdummyChord(QQuickItem* parent = nullptr);
@@ -72,6 +73,12 @@ public:
   qreal loPosY() const { return m_loPosY; }
 
       /**
+       * @p TRUE when single note from the chord is to select,
+       * otherwise arpeggiating is done
+       */
+  bool selectSingle() const;
+
+      /**
        * Handle note item (parent) change.
        * Connect with note parent (@p TscoreObj::destroyed)
        * to reset @p m_parentNote
@@ -88,6 +95,7 @@ public:
 signals:
   void chordChanged();
   void selectedChanged();
+  void selectSingleChanged();
 
 protected:
   void findHiLoPos();

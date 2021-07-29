@@ -105,8 +105,14 @@ QVariant TdummyChord::part() {
 }
 
 
+bool TdummyChord::selectSingle() const {
+  return m_alaChord && m_alaChord->notes()->note(0)->p().rhythm() == Trhythm::NoRhythm;
+}
+
+
 void TdummyChord::setRhythm() {
   m_alaChord->setRhythm();
+  emit selectSingleChanged();
 }
 
 

@@ -319,8 +319,8 @@ Window {
       melody: chordIt ? chordIt.chord : null
       showButtons: false
       width: NOO.factor() * 24; height: NOO.factor() * 26
-      caption: qsTr("Select one of the notes")
-      acceptButton.visible: true
+      caption: chordIt && chordIt.selectSingle ? qsTr("Select one of the notes") : qsTr("Arpeggiate chord")
+      acceptButton.visible: chordIt && !chordIt.selectSingle
       selectReadOnly: true
       onReadOnlyNoteClicked: {
         hi.parent = score.note(noteId)
