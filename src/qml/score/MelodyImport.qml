@@ -296,8 +296,9 @@ Window {
       property var chordIt: null
       melody: chordIt ? chordIt.chord : null
       showButtons: false
-      width: NOO.factor() * 20 ; maxHeight: NOO.factor() * 22
+      width: NOO.factor() * 24; height: NOO.factor() * 26
       caption: qsTr("Select one of the notes")
+      acceptButton.visible: true
       selectReadOnly: true
       onReadOnlyNoteClicked: {
         hi.parent = score.note(noteId)
@@ -322,6 +323,17 @@ Window {
         z: -1
         radius: width / 3.0
       }
+      RectButton {
+        height: NOO.factor() * (NOO.isAndroid() ? 1.8 : 2.2)
+        anchors { left: parent.left; top: parent.top }
+        font { pixelSize: NOO.factor() * (NOO.isAndroid() ? 1.5 : 2); family: "Nootka" }
+        text: "m"
+        onClicked: {
+          chordIt.setRhythm()
+          reload()
+        }
+      }
+      onAccepted: chordIt.explodeChord()
     }
   }
 

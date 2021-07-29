@@ -82,6 +82,9 @@ public:
   Q_INVOKABLE QString alterText(int id);
   Q_INVOKABLE QVariant part();
 
+  Q_INVOKABLE void setRhythm();
+  Q_INVOKABLE void explodeChord();
+
 signals:
   void chordChanged();
   void selectedChanged();

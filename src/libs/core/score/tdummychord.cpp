@@ -105,6 +105,19 @@ QVariant TdummyChord::part() {
 }
 
 
+void TdummyChord::setRhythm() {
+  m_alaChord->setRhythm();
+}
+
+
+void TdummyChord::explodeChord() {
+  m_alaChord->explodeChord();
+}
+
+
+//#################################################################################################
+//###################                PROTECTED         ############################################
+//#################################################################################################
 void TdummyChord::findHiLoPos() {
   if (m_loPosY < 1.0 && m_alaChord) { // yet unset
     for (int n = 0; n < m_alaChord->notes()->length(); ++n) {
