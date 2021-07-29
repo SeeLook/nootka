@@ -253,15 +253,23 @@ Window {
     id: allChordsComp
     TpopupDialog {
       property var melPart: null
-      width: chCol.width + NOO.factor() * 2
+      width: chCol.width + NOO.factor() * 3
       height: chCol.height + NOO.factor() * (melPart ? 5 : 7)
       caption: melPart ? "" : qsTr("Transform all parts of the score")
       Column {
         id: chCol
         spacing: NOO.factor()
-        Text { text: qsTr("In every chord"); color: activPal.text; anchors.horizontalCenter: parent.horizontalCenter }
+        TcheckBox {
+          id: chordNoteChB
+          text: qsTr("in every chord")
+          onToggled: {
+            if (chordNoteChB.checked)
+              chordExplodeChB.checked = false
+          }
+        }
         Row {
-          spacing: NOO.factor()
+          spacing: NOO.factor(); x: NOO.factor()
+          enabled: chordNoteChB.checked
           Text {
             text: qsTr("select", "[1st, 2nd, ...] note")
             color: activPal.text; anchors.verticalCenter: parent.verticalCenter
@@ -279,12 +287,26 @@ Window {
             model: [ qsTr("from the top"), qsTr("from the bottom") ]
           }
         }
+        TcheckBox {
+          id: chordExplodeChB
+          text: qsTr("arpeggiate chords and insert all notes")
+          onToggled: {
+            if (chordExplodeChB.checked)
+              chordNoteChB.checked = false
+          }
+        }
       }
       onAccepted: {
-        if (melPart)
-          melPart.selectNoteInChords(selChordNoteSpin.value, topBottCombo.currentIndex === 0)
-        else
-          melImport.selectNoteInChords(selChordNoteSpin.value, topBottCombo.currentIndex === 0)
+        if (melPart) {
+            if (chordNoteChB.checked)
+              melPart.selectNoteInChords(selChordNoteSpin.value, topBottCombo.currentIndex === 0)
+            else
+              melPart.explodeChords()
+        } else
+            if (chordNoteChB.checked)
+              melImport.selectNoteInChords(selChordNoteSpin.value, topBottCombo.currentIndex === 0)
+            else
+              melImport.explodeChords()
       }
     }
   }
