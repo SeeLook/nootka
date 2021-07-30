@@ -7,19 +7,30 @@
 ============================================================================
 ============================================================================
 
-### For next stable Nootka version 2.0.2 or above
-  - music XML import dialog, to select voice or staff if there are more, and so on
-    - fill partial measure with rests at the beginning
-  - improve ukulele
+### Fixes for incoming 2.0.2 version
+  - fix crash when chord(s) cannot be arpeggiated
+  - bowing symbols placement and disallow them for guitars
+  - allow rests on lower staff
+  - put in right order musicXML tags (Tchunk - \<note\> element)
+  - fill anacrusis measure with rest notes at the beginning
+  - improve ukulele:
+    - rosette
+    - bigger holes in head glyph
+    - equal samples
   - clean code if objections will not occur:
     - when right mouse button is not used: TexamExacutor and TexecutorSupply
+
+### For next stable Nootka version 2.0.4 or above
   - score helpers also utilized for musicxml import:
     - fold (simplify) ties & rests
+    - append another melody to score
+  - ...
 
 ### ...and much more in the post versions
   - **MIDI** input & revert MIDI out of course
   - migrate on preferred **48000 Hz** sample rate (ogg files and audio methods). DO NOT forget to resize output samples length
   - storing **custom tuning** named by user. Import/export tuning in XML files
+  - **undo/redo** for score modifications
   - **download particular instrument samples** file on demand - to save installers size
   - add **rests** option for random melodies in exams
   - **solfege** as a kind of an instrument with bunch of ear training exercises
