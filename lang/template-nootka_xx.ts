@@ -335,6 +335,13 @@
     </message>
 </context>
 <context>
+    <name>DivideMelody</name>
+    <message>
+        <source>Divide by selected bars number</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>EndOnTonicTile</name>
     <message>
         <source>Determines the last note of a melody.&lt;br&gt;When set, melody will be finished on tonic note in actual key signature.</source>
@@ -564,6 +571,29 @@
     </message>
 </context>
 <context>
+    <name>ImportInfo</name>
+    <message>
+        <source>Unfortunately Nootka cannot display all notes of this score at once.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>But you can select here some voice or a part and import it to the application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Before that, you can transform (split, transpose and etc.) score parts and also select which note of a chord will be imported.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Voices are divided automatically when meter, clef or key changes.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When you are preparing an exam or an exercise from the score parts, more fragments can be imported at once.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>InstrumentPage</name>
     <message>
         <source>Instrument</source>
@@ -579,10 +609,6 @@
     </message>
     <message>
         <source>scale of an instrument</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>tuning of the guitar</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -640,6 +666,11 @@
     </message>
     <message>
         <source>Custom tuning</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>tuning</source>
+        <comment>like a tuning of a guitar or an ukulele</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -768,6 +799,59 @@
     <name>MelGenDialog</name>
     <message>
         <source>Measures number</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>MelodyImport</name>
+    <message>
+        <source>Import of musical score</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Transform all parts of the score</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>in every chord</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>select</source>
+        <comment>[1st, 2nd, ...] note</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>note</source>
+        <comment>select [1st, 2nd, ...] note [from the top/bottom]</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>from the top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>from the bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>arpeggiate chords and insert all notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select one of the notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Arpeggiate chord</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This fragment contains elements of musical score which are not supported by Nootka!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -946,10 +1030,6 @@ But better keep them short, so divide them first in some external software.</sou
     <name>PitchView</name>
     <message>
         <source>Start/stop pitch detection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Tuner</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1691,6 +1771,10 @@ But better keep them short, so divide them first in some external software.</sou
         <source>Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Tuner</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TempoMenu</name>
@@ -2230,6 +2314,23 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
 </context>
 <context>
+    <name>TimportScore</name>
+    <message>
+        <source>part</source>
+        <comment>it is a part of a musical score, like violin part or piano part, also called as &apos;voice&apos;</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>staff</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>voice</source>
+        <comment>like in multivocal piece</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Tinstrument</name>
     <message>
         <source>other instrument</source>
@@ -2261,6 +2362,47 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Tenor Saxophone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ukulele</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>TintonationCombo</name>
+    <message>
+        <source>intonation accuracy</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>do not check</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>gums pain</source>
+        <comment>We used to say that gums or teeth are paining when music is out of tune but it isn&apos;t official term.</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>violinist beginner</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>old strings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>well tuned instrument</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>perfect</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>cents</source>
+        <comment>unit of measure used for musical intervals. This text always is used in context: &apos; ± [5, 10, 20, 30] cents &apos;</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2677,6 +2819,10 @@ But better keep them short, so divide them first in some external software.</sou
         <comment>musical notes of course</comment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Compressed MusicXML file</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TmobileMenu</name>
@@ -2833,6 +2979,43 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Four-line octave</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Transpose</name>
+    <message>
+        <source>Transpose</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>to key</source>
+        <comment>like: Transpose to key</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>by interval</source>
+        <comment>like: Transpose by interval</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Limit notes to instrument scale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Limit notes to notation range</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Off-scale notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>raise or drop about octave</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>convert into rests</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3266,6 +3449,14 @@ But better keep them short, so divide them first in some external software.</sou
         <source>6-str. bass: B E A D G C</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Standard C: G C E A</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Raised D (Canadian): A D F# B</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>TunerDialog</name>
@@ -3464,6 +3655,14 @@ But better keep them short, so divide them first in some external software.</sou
     <name>WizardSax</name>
     <message>
         <source>Saxophones are transposing instruments.&lt;br&gt;It means that note pitch in the score doesn&apos;t correspond directly to note which is played - it transposes by interval (number of semitones) according to kind of saxophone.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WizardUkulele</name>
+    <message>
+        <source>Ukulele tuning is known as &apos;reentrant&apos; (non linear) - which means that descending order of string pitches is not kept. It may be confusing at very beginning during playing from musical scores.</source>
+        <comment>In this context &apos;reentant&apos; and &apos;non linear&apos; can be used interchangeably so you may translate just one of them.</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
