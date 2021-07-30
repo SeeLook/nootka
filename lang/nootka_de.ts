@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.1" language="de_DE" sourcelanguage="en">
+    <extra-po-header-language>de</extra-po-header-language>
+    <extra-po-header-language_team>2e traducteur vers l&apos;allemand</extra-po-header-language_team>
+    <extra-po-header-last_translator>RMR &lt;MdQL6B@protonmail.com&gt;</extra-po-header-last_translator>
+    <extra-po-header-po_revision_date>2021-07-30 20:16+0200</extra-po-header-po_revision_date>
+    <extra-po-header-x_generator>Virtaal 0.7.1</extra-po-header-x_generator>
+    <extra-po-header_comment># RMR &lt;MdQL6B@protonmail.com&gt;, 2021.</extra-po-header_comment>
+    <extra-po-headers>PO-Revision-Date,Last-Translator,Language-Team,Language,MIME-Version,Content-Type,Content-Transfer-Encoding,Plural-Forms,X-Generator,X-Language,X-Source-Language,X-Qt-Contexts</extra-po-headers>
 <context>
     <name>AboutPage</name>
     <message>
@@ -422,7 +429,7 @@
     <message>
         <location filename="../src/qml/shared/DivideMelody.qml" line="19"/>
         <source>Divide by selected bars number</source>
-        <translation type="unfinished"></translation>
+        <translation>Aufteilen in Anzahl Takte</translation>
     </message>
 </context>
 <context>
@@ -718,27 +725,27 @@ Check answer just after last note of melody was played.</translatorcomment>
     <message>
         <location filename="../src/qml/gotit/ImportInfo.qml" line="50"/>
         <source>Unfortunately Nootka cannot display all notes of this score at once.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nootka kann leider nicht alle Noten dieser Partitur auf einmal anzeigen.</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/ImportInfo.qml" line="57"/>
         <source>But you can select here some voice or a part and import it to the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aber du kannst hier eine zu importierende Stimme/Part wählen.</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/ImportInfo.qml" line="58"/>
         <source>Before that, you can transform (split, transpose and etc.) score parts and also select which note of a chord will be imported.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zuvor kannst du Teile der Partitur ändern (aufteilen, transponieren, usw.) und bestimmen, welche Note eines Akkords zu importieren ist.</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/ImportInfo.qml" line="59"/>
         <source>Voices are divided automatically when meter, clef or key changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Stimmen werden von selber untterteilt, wenn Metrik, Schlüssel oder Vorzeichen ändern.</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/ImportInfo.qml" line="66"/>
         <source>When you are preparing an exam or an exercise from the score parts, more fragments can be imported at once.</source>
-        <translation type="unfinished"></translation>
+        <translation>Beim Aufbereiten von Übungen oder Prüfungen aus den Noten können mehr Teilstücke auf einmal importiert werden.</translation>
     </message>
 </context>
 <context>
@@ -796,7 +803,7 @@ Check answer just after last note of melody was played.</translatorcomment>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="98"/>
         <source>tuning</source>
         <comment>like a tuning of a guitar or an ukulele</comment>
-        <translation type="unfinished"></translation>
+        <translation>Stimmen</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="165"/>
@@ -1009,66 +1016,66 @@ Check answer just after last note of melody was played.</translatorcomment>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="22"/>
         <source>Import of musical score</source>
-        <translation type="unfinished"></translation>
+        <translation>Import von Noten</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="154"/>
         <source>Import</source>
-        <translation type="unfinished"></translation>
+        <translation>Import</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="211"/>
         <location filename="../src/qml/score/MelodyImport.qml" line="233"/>
         <location filename="../src/qml/score/MelodyImport.qml" line="258"/>
         <source>Transform all parts of the score</source>
-        <translation type="unfinished"></translation>
+        <translation>Alle Teile der Partitur transponieren</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="264"/>
         <source>in every chord</source>
-        <translation type="unfinished"></translation>
+        <translation>in jedem Akkord</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="274"/>
         <source>select</source>
         <comment>[1st, 2nd, ...] note</comment>
-        <translation type="unfinished"></translation>
+        <translation>auswählen</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="282"/>
         <source>note</source>
         <comment>select [1st, 2nd, ...] note [from the top/bottom]</comment>
-        <translation type="unfinished"></translation>
+        <translation>Note</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="287"/>
         <source>from the top</source>
-        <translation type="unfinished"></translation>
+        <translation>von oben</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="287"/>
         <source>from the bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>von unten</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="292"/>
         <source>arpeggiate chords and insert all notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Akkorde arpeggieren und alle Noten einfügen</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="322"/>
         <source>Select one of the notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Wählen Sie eine der Noten</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="322"/>
         <source>Arpeggiate chord</source>
-        <translation type="unfinished"></translation>
+        <translation>Akkord arpeggieren</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="367"/>
         <source>This fragment contains elements of musical score which are not supported by Nootka!</source>
-        <translation type="unfinished"></translation>
+        <translation>Dieses Teilstück der Noten enthält Elemente, die Nootka nicht unterstützt!</translation>
     </message>
 </context>
 <context>
@@ -2893,18 +2900,18 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
         <location filename="../src/libs/core/music/timportscore.cpp" line="116"/>
         <source>part</source>
         <comment>it is a part of a musical score, like violin part or piano part, also called as &apos;voice&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>Part</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/timportscore.cpp" line="118"/>
         <source>staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Notenlinie</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/timportscore.cpp" line="119"/>
         <source>voice</source>
         <comment>like in multivocal piece</comment>
-        <translation type="unfinished"></translation>
+        <translation>Stimme</translation>
     </message>
 </context>
 <context>
@@ -2952,7 +2959,7 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     <message>
         <location filename="../src/libs/core/music/tinstrument.cpp" line="33"/>
         <source>Ukulele</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukulele</translation>
     </message>
 </context>
 <context>
@@ -3100,7 +3107,7 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     <message>
         <location filename="../src/dialogs/tlevelsdefs.cpp" line="301"/>
         <source>Scale of whole guitar without positions.</source>
-        <translation></translation>
+        <translation>Gesamter Tonumfang der Gitarre ohne Lagen.</translation>
     </message>
     <message>
         <location filename="../src/dialogs/tlevelsdefs.cpp" line="336"/>
@@ -3451,7 +3458,7 @@ nicht öffnen</translation>
     <message>
         <location filename="../src/libs/core/tnootkaqml.cpp" line="408"/>
         <source>Compressed MusicXML file</source>
-        <translation type="unfinished"></translation>
+        <translation>Komprimierte MusicXML Datei</translation>
     </message>
     <message>
         <location filename="../src/main/tmainscoreobject.cpp" line="89"/>
@@ -3722,44 +3729,44 @@ nicht öffnen</translation>
     <message>
         <location filename="../src/qml/shared/Transpose.qml" line="26"/>
         <source>Transpose</source>
-        <translation type="unfinished"></translation>
+        <translation>Transponieren</translation>
     </message>
     <message>
         <location filename="../src/qml/shared/Transpose.qml" line="32"/>
         <source>to key</source>
         <comment>like: Transpose to key</comment>
-        <translation type="unfinished"></translation>
+        <translation>auf Tonart</translation>
     </message>
     <message>
         <location filename="../src/qml/shared/Transpose.qml" line="53"/>
         <source>by interval</source>
         <comment>like: Transpose by interval</comment>
-        <translation type="unfinished"></translation>
+        <translation>nach Intervall</translation>
     </message>
     <message>
         <location filename="../src/qml/shared/Transpose.qml" line="103"/>
         <source>Limit notes to instrument scale</source>
-        <translation type="unfinished"></translation>
+        <translation>Noten auf spielbaren Bereich des Instruments beschränken</translation>
     </message>
     <message>
         <location filename="../src/qml/shared/Transpose.qml" line="103"/>
         <source>Limit notes to notation range</source>
-        <translation type="unfinished"></translation>
+        <translation>Noten auf Umfang der Notenschrift beschränken</translation>
     </message>
     <message>
         <location filename="../src/qml/shared/Transpose.qml" line="107"/>
         <source>Off-scale notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Noten außerhalb Skala</translation>
     </message>
     <message>
         <location filename="../src/qml/shared/Transpose.qml" line="112"/>
         <source>raise or drop about octave</source>
-        <translation type="unfinished"></translation>
+        <translation>Oktave höher oder tiefer</translation>
     </message>
     <message>
         <location filename="../src/qml/shared/Transpose.qml" line="112"/>
         <source>convert into rests</source>
-        <translation type="unfinished"></translation>
+        <translation>in Pausen umwandeln</translation>
     </message>
 </context>
 <context>
@@ -4301,12 +4308,12 @@ nicht öffnen</translation>
     <message>
         <location filename="../src/libs/core/music/ttune.cpp" line="58"/>
         <source>Standard C: G C E A</source>
-        <translation type="unfinished"></translation>
+        <translation>Standard C: G C E A</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/ttune.cpp" line="60"/>
         <source>Raised D (Canadian): A D F# B</source>
-        <translation type="unfinished"></translation>
+        <translation>Raised D (Canadian): A D F# H</translation>
     </message>
 </context>
 <context>
@@ -4554,7 +4561,7 @@ täglich</translation>
         <location filename="../src/qml/wizard/WizardUkulele.qml" line="67"/>
         <source>Ukulele tuning is known as &apos;reentrant&apos; (non linear) - which means that descending order of string pitches is not kept. It may be confusing at very beginning during playing from musical scores.</source>
         <comment>In this context &apos;reentant&apos; and &apos;non linear&apos; can be used interchangeably so you may translate just one of them.</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ukulele-Stimmung ist &apos;rückläufig&apos;(oberste Saite oktaviert) - somit wird die absteigende Reihenfolge der Tonhöhen nicht eingehalten. Dies mag für Anfänger beim Spielen ab Noten verwirrend wirken.</translation>
     </message>
 </context>
 <context>
@@ -4563,7 +4570,7 @@ täglich</translation>
         <location filename="../src/libs/core/tinitcorelib.cpp" line="46"/>
         <source>translator</source>
         <comment>Do not translate this, just put in &apos;translator comment field&apos; your data: translator name, translator e-mail (optional) and translator site (optional)</comment>
-        <translation>Johann C. Weihe</translation>
+        <translation>Johann C. Weihe, Renato Reinau</translation>
     </message>
 </context>
 <context>
