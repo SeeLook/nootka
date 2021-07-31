@@ -421,7 +421,7 @@
     <message>
         <location filename="../src/qml/shared/DivideMelody.qml" line="19"/>
         <source>Divide by selected bars number</source>
-        <translation type="unfinished"></translation>
+        <translation>Dědil podle čísel vybraných taktů</translation>
     </message>
 </context>
 <context>
@@ -714,27 +714,27 @@
     <message>
         <location filename="../src/qml/gotit/ImportInfo.qml" line="50"/>
         <source>Unfortunately Nootka cannot display all notes of this score at once.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nootka bohužel nemůže zobrazit všechny noty tohoto notového zápisu najednou.</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/ImportInfo.qml" line="57"/>
         <source>But you can select here some voice or a part and import it to the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Můžete zde ale vybrat nějaký hlas nebo part a zavést jej do programu.</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/ImportInfo.qml" line="58"/>
         <source>Before that, you can transform (split, transpose and etc.) score parts and also select which note of a chord will be imported.</source>
-        <translation type="unfinished"></translation>
+        <translation>Předtím můžete transformovat (rozdělit, transponovat atd.) party notového zápisu a také vybrat, která nota akordu bude zavedena.</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/ImportInfo.qml" line="59"/>
         <source>Voices are divided automatically when meter, clef or key changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hlasy se automaticky rozdělí, když se změní metrum, klíč nebo předznamenání.</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/ImportInfo.qml" line="66"/>
         <source>When you are preparing an exam or an exercise from the score parts, more fragments can be imported at once.</source>
-        <translation type="unfinished"></translation>
+        <translation>Když připravujete zkoušku nebo cvičení z partů notového zápisu, můžete zavést více úryvků najednou.</translation>
     </message>
 </context>
 <context>
@@ -762,12 +762,12 @@
         <location filename="../src/qml/settings/InstrumentPage.qml" line="98"/>
         <source>tuning</source>
         <comment>like a tuning of a guitar or an ukulele</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ladění</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="148"/>
         <source>Select appropriate tuning from the list or prepare your own.</source>
-        <translation>Vyberte vhodný zvuk ze seznamu nebo připravte svůj vlastní.</translation>
+        <translation>Vyberte vhodné ladění ze seznamu nebo připravte své vlastní.</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="149"/>
@@ -1005,66 +1005,66 @@
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="22"/>
         <source>Import of musical score</source>
-        <translation type="unfinished"></translation>
+        <translation>Zavedení notového zápisu</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="154"/>
         <source>Import</source>
-        <translation type="unfinished"></translation>
+        <translation>Zavést</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="211"/>
         <location filename="../src/qml/score/MelodyImport.qml" line="233"/>
         <location filename="../src/qml/score/MelodyImport.qml" line="258"/>
         <source>Transform all parts of the score</source>
-        <translation type="unfinished"></translation>
+        <translation>Přetvořit všechny části notového zápisu</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="264"/>
         <source>in every chord</source>
-        <translation type="unfinished"></translation>
+        <translation>v každém akordu</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="274"/>
         <source>select</source>
         <comment>[1st, 2nd, ...] note</comment>
-        <translation type="unfinished"></translation>
+        <translation>vybrat</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="282"/>
         <source>note</source>
         <comment>select [1st, 2nd, ...] note [from the top/bottom]</comment>
-        <translation type="unfinished"></translation>
+        <translation>notu</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="287"/>
         <source>from the top</source>
-        <translation type="unfinished"></translation>
+        <translation>shora</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="287"/>
         <source>from the bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>zdola</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="292"/>
         <source>arpeggiate chords and insert all notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Arpeggio pro akordy a vložit všechny noty</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="322"/>
         <source>Select one of the notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Vybrat jednu z not</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="322"/>
         <source>Arpeggiate chord</source>
-        <translation type="unfinished"></translation>
+        <translation>Arpeggio pro akord</translation>
     </message>
     <message>
         <location filename="../src/qml/score/MelodyImport.qml" line="367"/>
         <source>This fragment contains elements of musical score which are not supported by Nootka!</source>
-        <translation type="unfinished"></translation>
+        <translation>Tento úryvek obsahuje prvky hudebního notového zápisu, které Nootka nepodporuje!</translation>
     </message>
 </context>
 <context>
@@ -2890,18 +2890,18 @@ není platným souborem zkoušky!</translation>
         <location filename="../src/libs/core/music/timportscore.cpp" line="116"/>
         <source>part</source>
         <comment>it is a part of a musical score, like violin part or piano part, also called as &apos;voice&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>part</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/timportscore.cpp" line="118"/>
         <source>staff</source>
-        <translation type="unfinished"></translation>
+        <translation>notová osnova</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/timportscore.cpp" line="119"/>
         <source>voice</source>
         <comment>like in multivocal piece</comment>
-        <translation type="unfinished"></translation>
+        <translation>hlas</translation>
     </message>
 </context>
 <context>
@@ -2949,7 +2949,7 @@ není platným souborem zkoušky!</translation>
     <message>
         <location filename="../src/libs/core/music/tinstrument.cpp" line="33"/>
         <source>Ukulele</source>
-        <translation type="unfinished"></translation>
+        <translation>Ukulele</translation>
     </message>
 </context>
 <context>
@@ -3462,7 +3462,7 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/libs/core/tnootkaqml.cpp" line="408"/>
         <source>Compressed MusicXML file</source>
-        <translation type="unfinished"></translation>
+        <translation>Komprimovaný soubor MusicXML</translation>
     </message>
     <message>
         <location filename="../src/libs/core/tnootkaqml.cpp" line="550"/>
@@ -3720,44 +3720,44 @@ Ověřte, prosím, že jeho parametry jsou takové, jak se očekává.</translat
     <message>
         <location filename="../src/qml/shared/Transpose.qml" line="26"/>
         <source>Transpose</source>
-        <translation type="unfinished"></translation>
+        <translation>Transponovat</translation>
     </message>
     <message>
         <location filename="../src/qml/shared/Transpose.qml" line="32"/>
         <source>to key</source>
         <comment>like: Transpose to key</comment>
-        <translation type="unfinished"></translation>
+        <translation>k předznamenání</translation>
     </message>
     <message>
         <location filename="../src/qml/shared/Transpose.qml" line="53"/>
         <source>by interval</source>
         <comment>like: Transpose by interval</comment>
-        <translation type="unfinished"></translation>
+        <translation>podle intervalu</translation>
     </message>
     <message>
         <location filename="../src/qml/shared/Transpose.qml" line="103"/>
         <source>Limit notes to instrument scale</source>
-        <translation type="unfinished"></translation>
+        <translation>Omezit noty na rozsah nástroje</translation>
     </message>
     <message>
         <location filename="../src/qml/shared/Transpose.qml" line="103"/>
         <source>Limit notes to notation range</source>
-        <translation type="unfinished"></translation>
+        <translation>Omezit noty na rozsah notace</translation>
     </message>
     <message>
         <location filename="../src/qml/shared/Transpose.qml" line="107"/>
         <source>Off-scale notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Noty mimo rozsah</translation>
     </message>
     <message>
         <location filename="../src/qml/shared/Transpose.qml" line="112"/>
         <source>raise or drop about octave</source>
-        <translation type="unfinished"></translation>
+        <translation>zvýšit nebo snížit o oktávu</translation>
     </message>
     <message>
         <location filename="../src/qml/shared/Transpose.qml" line="112"/>
         <source>convert into rests</source>
-        <translation type="unfinished"></translation>
+        <translation>převést na pomlky</translation>
     </message>
 </context>
 <context>
@@ -4301,12 +4301,12 @@ je viděli a poslechli si správně.</translation>
     <message>
         <location filename="../src/libs/core/music/ttune.cpp" line="58"/>
         <source>Standard C: G C E A</source>
-        <translation type="unfinished"></translation>
+        <translation>Standardní C: G C E A</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/ttune.cpp" line="60"/>
         <source>Raised D (Canadian): A D F# B</source>
-        <translation type="unfinished"></translation>
+        <translation>Zvýšené D (kanadský): A D F# B</translation>
     </message>
 </context>
 <context>
@@ -4553,7 +4553,7 @@ je viděli a poslechli si správně.</translation>
         <location filename="../src/qml/wizard/WizardUkulele.qml" line="67"/>
         <source>Ukulele tuning is known as &apos;reentrant&apos; (non linear) - which means that descending order of string pitches is not kept. It may be confusing at very beginning during playing from musical scores.</source>
         <comment>In this context &apos;reentant&apos; and &apos;non linear&apos; can be used interchangeably so you may translate just one of them.</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ladění ukulele je známé jako nelineární - což znamená, že není zachováno sestupné pořadí výšek tónů strun. Na začátku při hraní z hudebních partitur to může být matoucí.</translation>
     </message>
 </context>
 <context>
