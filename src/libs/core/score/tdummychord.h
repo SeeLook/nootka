@@ -90,7 +90,7 @@ public:
   Q_INVOKABLE QVariant part();
 
   Q_INVOKABLE void setRhythm();
-  Q_INVOKABLE void explodeChord();
+  Q_INVOKABLE void arpeggiateChord();
 
 signals:
   void chordChanged();

@@ -116,8 +116,8 @@ void TdummyChord::setRhythm() {
 }
 
 
-void TdummyChord::explodeChord() {
-  m_alaChord->explodeChord();
+void TdummyChord::arpeggiateChord() {
+  m_alaChord->arpeggiateChord();
 }
 
 

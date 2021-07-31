@@ -70,7 +70,7 @@ public:
 
   Q_INVOKABLE void selectNoteInChords(int noteNr, bool fromTop);
 
-  Q_INVOKABLE void explodeChords();
+  Q_INVOKABLE void arpeggiateChords();
 
       /**
        * Method invoked by QML when Import window is created.

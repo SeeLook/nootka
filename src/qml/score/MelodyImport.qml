@@ -301,12 +301,12 @@ Window {
             if (chordNoteChB.checked)
               melPart.selectNoteInChords(selChordNoteSpin.value, topBottCombo.currentIndex === 0)
             else
-              melPart.explodeChords()
+              melPart.arpeggiateChords()
         } else
             if (chordNoteChB.checked)
               melImport.selectNoteInChords(selChordNoteSpin.value, topBottCombo.currentIndex === 0)
             else
-              melImport.explodeChords()
+              melImport.arpeggiateChords()
       }
     }
   }
@@ -349,13 +349,13 @@ Window {
         height: NOO.factor() * (NOO.isAndroid() ? 1.8 : 2.2)
         anchors { left: parent.left; top: parent.top }
         font { pixelSize: NOO.factor() * (NOO.isAndroid() ? 1.5 : 2); family: "Nootka" }
-        text: "m"
+        text: "\u0194"
         onClicked: {
           chordIt.setRhythm()
           reload()
         }
       }
-      onAccepted: chordIt.explodeChord()
+      onAccepted: chordIt.arpeggiateChord()
     }
   }
 

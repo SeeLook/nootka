@@ -77,7 +77,7 @@ public:
   TdummyChord* dummyChord() { return m_dummyChord; }
 
   bool setRhythm();
-  void explodeChord();
+  void arpeggiateChord();
 
 private:
   Tmelody         m_notes;
@@ -177,8 +177,8 @@ public:
        */
   Q_INVOKABLE void selectNoteInChords(int noteNr, bool fromTop);
 
-  void explodeChord(TalaChord* alaChord);
-  Q_INVOKABLE void explodeChords();
+  void arpeggiateChord(TalaChord* alaChord);
+  Q_INVOKABLE void arpeggiateChords();
 
 signals:
   void melodyChanged();
@@ -308,7 +308,11 @@ public:
        */
   bool xmlReadFinished() const;
 
-  void explodeChords();
+      /**
+       * Change all cords in the score into linear melody.
+       * If possible - chord duration can contain all new notes.
+       */
+  void arpeggiateChords();
 
 signals:
   void importReady();

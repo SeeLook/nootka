@@ -299,12 +299,12 @@ bool TimportScore::xmlReadFinished() const {
 }
 
 
-void TimportScore::explodeChords() {
+void TimportScore::arpeggiateChords() {
   for (auto p : m_parts) {
     for (auto s : p->parts) {
       for (auto v : s->parts) {
         if (v->count())
-          v->explodeChords();
+          v->arpeggiateChords();
       }
     }
   }
@@ -565,7 +565,7 @@ void TmelodyPart::selectNoteInChords(int noteNr, bool fromTop) {
 }
 
 
-void TmelodyPart::explodeChord(TalaChord* alaChord) {
+void TmelodyPart::arpeggiateChord(TalaChord* alaChord) {
   if (alaChord->notes()->note(0)->p().rhythm() == Trhythm::NoRhythm) {
     if (!alaChord->setRhythm())
       return;
@@ -599,7 +599,7 @@ void TmelodyPart::explodeChord(TalaChord* alaChord) {
 }
 
 
-void TmelodyPart::explodeChords() {
+void TmelodyPart::arpeggiateChords() {
   for (auto snipp : parts) {
     if (!snipp->chords.isEmpty()) {
       for (int c = snipp->chords.count() - 1; c >= 0; --c) {
@@ -681,8 +681,8 @@ bool TalaChord::setRhythm() {
 }
 
 
-void TalaChord::explodeChord() {
-  part->explodeChord(this);
+void TalaChord::arpeggiateChord() {
+  part->arpeggiateChord(this);
 }
 
 //#################################################################################################

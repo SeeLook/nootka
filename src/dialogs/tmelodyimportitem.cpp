@@ -122,9 +122,9 @@ void TmelodyImportItem::selectNoteInChords(int noteNr, bool fromTop) {
 }
 
 
-void TmelodyImportItem::explodeChords() {
+void TmelodyImportItem::arpeggiateChords() {
   if (IMPORT_SCORE)
-    IMPORT_SCORE->explodeChords();
+    IMPORT_SCORE->arpeggiateChords();
 }
 
 
