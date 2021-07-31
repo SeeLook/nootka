@@ -37,29 +37,38 @@ Tchunk::Tchunk(const Tnote& pitch, const Ttechnical& technical) :
 }
 
 
+/**
+ * @p MusicXML <note> elements required order (possible used in Nootka)
+ *   <pitch>
+ *   <unpitched>
+ *   <rest>
+ *   <duration> (Required)
+ *   <tie>
+ *   <voice> - no voices in Nootka
+ *   <instrument> - unused
+ *   <type> (Optional)
+ *   <dot> (Zero or more times)
+ *   <accidental> - unused, <alter> in <pitch> instead
+ *   <time-modification> (Optional)
+ *   <stem> (Optional)
+ *   <notehead> - unused
+ *   <notehead-text> - unused
+ *   <staff> (Optional)
+ *   <beam> (0 to 8 times)
+ *   <notations> (Zero or more times)
+ */
 void Tchunk::toXml(QXmlStreamWriter& xml, int* staffNr) {
   xml.writeStartElement(QLatin1String("note"));
     if (m_pitch.isRest() || !m_pitch.isValid())
       xml.writeEmptyElement(QLatin1String("rest"));
     else
-      m_pitch.toXml(xml);
+      m_pitch.toXml(xml); // or <pitch>
     xml.writeTextElement(QLatin1String("duration"), QString::number(m_pitch.rtm.isValid() ? m_pitch.duration() : Trhythm(Trhythm::Quarter).duration()));
-    if (m_pitch.rhythm() == Trhythm::NoRhythm) {
-        if (!m_pitch.isRest() && m_pitch.isValid())
-          xml.writeTextElement(QLatin1String("stem"), QLatin1String("none"));
-    } else {
-        if (m_pitch.rtm.tie())
-          tieToXml(xml, m_pitch.rtm.tie(), e_tie);
-        xml.writeTextElement(QLatin1String("type"), m_pitch.rtm.xmlType());
-        if (m_pitch.hasDot())
-          xml.writeEmptyElement(QLatin1String("dot"));
-        if (m_pitch.rtm.beam()) {
-          xml.writeStartElement(QStringLiteral("beam"));
-            xml.writeAttribute(QStringLiteral("number"), QStringLiteral("1"));
-            xml.writeCharacters(beamToString(m_pitch.rtm.beam()));
-          xml.writeEndElement(); // beam
-        }
-    }
+    if (m_pitch.rtm.tie())
+      tieToXml(xml, m_pitch.rtm.tie(), e_tie);
+    xml.writeTextElement(QLatin1String("type"), m_pitch.rtm.xmlType());
+    if (m_pitch.hasDot())
+      xml.writeEmptyElement(QLatin1String("dot"));
 //     if (m_pitch.alter && !m_pitch.isRest() && m_pitch.isValid()) {
 //       QString accidentalTag;
 //       switch (m_pitch.alter) {
@@ -72,6 +81,18 @@ void Tchunk::toXml(QXmlStreamWriter& xml, int* staffNr) {
 //       if (!accidentalTag.isEmpty())
 //         xml.writeTextElement(QLatin1String("accidental"), accidentalTag);
 //     }
+    if (m_pitch.rhythm() == Trhythm::NoRhythm) {
+        if (!m_pitch.isRest() && m_pitch.isValid())
+          xml.writeTextElement(QLatin1String("stem"), QLatin1String("none"));
+    }
+    if (staffNr)
+      xml.writeTextElement(QLatin1String("staff"), QString::number(*staffNr));
+    if (m_pitch.rtm.beam()) {
+      xml.writeStartElement(QStringLiteral("beam"));
+        xml.writeAttribute(QStringLiteral("number"), QStringLiteral("1"));
+        xml.writeCharacters(beamToString(m_pitch.rtm.beam()));
+      xml.writeEndElement(); // beam
+    }
     if (m_pitch.rtm.tie() || !m_technical.isEmpty()) {
       xml.writeStartElement(QLatin1String("notations"));
         if (!m_technical.isEmpty())
@@ -80,8 +101,6 @@ void Tchunk::toXml(QXmlStreamWriter& xml, int* staffNr) {
           tieToXml(xml, m_pitch.rtm.tie(), e_tied);
       xml.writeEndElement();
     }
-    if (staffNr)
-      xml.writeTextElement(QLatin1String("staff"), QString::number(*staffNr));
   xml.writeEndElement(); // note
 }
 
