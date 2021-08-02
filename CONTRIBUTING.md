@@ -57,6 +57,10 @@ Below some possibilities of a help are explained but if something other will com
     - **Algorithm for generating random melodies**  
         With configuration for rhythm complexity, intervals to use and so.  
 
+    - **Comparing melodies function**  
+      In spite of this algorithm has to compare melodies it is only data comparison.  
+      A melody is expressed as a sequence of two numbers: (pitch, duration). One melody/sequence is Nootka generated (displayed or played) and the other melody is what user was played or written. It is easy to compare when all matches exactly or some notes don't. But how to determine similarity when user notes are just shifted towards Nootka notes.
+
     - **[Android] Utilize 'Oboe' sound library**  
        Nootka needs low level audio to combine audio samples with metronome ticks or even to change sample pitch in real time.
        Duplex callback is necessary under Android to implement metronome ticking during pitch detection and [Oboe C++ library](https://github.com/google/oboe) is what might help to achieve that.
