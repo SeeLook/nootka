@@ -76,7 +76,7 @@ void TdummyChord::setSelected(int s) {
 }
 
 
-QString TdummyChord::noteHead() {
+QString TdummyChord::noteHead() const {
   return m_parentNote ? m_parentNote->getHeadText(m_parentNote->note()->rtm) : QString();
 }
 

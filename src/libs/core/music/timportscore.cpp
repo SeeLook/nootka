@@ -31,6 +31,9 @@
 #include <QtCore/qdebug.h>
 
 
+#define SIX_DUR (6) // duration of Sixteenth - lowest supported rhythmic value
+
+
 TimportScore* TimportScore::m_instance = nullptr;
 int           TimportScore::m_splitEveryBarNr = 0;
 
@@ -602,22 +605,45 @@ void TmelodyPart::arpeggiateChord(TalaChord* alaChord) {
 void TmelodyPart::arpeggiateChords() {
   for (auto snipp : parts) {
     if (!snipp->chords.isEmpty()) {
+      if (snipp->unsupported()) // skip unsupported
+        continue;
+
+      QList<TalaChord*> shortChords; // list of chords impossible to arpeggiate
+      // Iterating backwards so appending chord notes doesn't affect note id number
+      // of other chords - all occur earlier
       for (int c = snipp->chords.count() - 1; c >= 0; --c) {
         auto chord = snipp->chords[c];
-        if (chord->notes()->note(0)->p().rhythm() == Trhythm::NoRhythm) {
-          if (!chord->setRhythm())
-            continue;
+        if (!chord->setRhythm()) {
+          shortChords.prepend(chord); // backward iteration - add at beginning
+          chord->dummyChord()->setParentItem(nullptr); // HACK parent TnoteItem will not be the same
+          continue;
         }
         QList<Tchunk> chunks;
         chord->notes()->toList(chunks);
         snipp->melody()->swapWithNotes(chord->noteNr(), chunks);
-        chord->dummyChord()->deleteLater();
+        delete chord->dummyChord();
+        chord->setDummyChord(nullptr);
+        if (!shortChords.isEmpty()) { // fix note ids
+          for (auto shortCh : shortChords)
+            shortCh->setNoteNr(shortCh->noteNr() + chunks.count() - 1);
+        }
       }
-      // TODO: handle chords impossible to resolve
+
       if (snipp->score())
         snipp->score()->setMelody(snipp->melody());
-      qDeleteAll(snipp->chords);
-      snipp->chords.clear();
+      if (shortChords.isEmpty()) {
+          qDeleteAll(snipp->chords);
+          snipp->chords.clear();
+      } else {
+          for (int c = 0; c < snipp->chords.count(); ++c) {
+            auto ch = snipp->chords[c];
+            if (ch->dummyChord()) {
+                if (snipp->score()) // fix parent of TdummyChord after melody was reloaded
+                  ch->dummyChord()->setParentItem(snipp->score()->note(ch->noteNr()));
+            } else
+                delete snipp->chords.takeAt(c);
+          }
+      }
     }
   }
 }
@@ -652,13 +678,15 @@ void TalaChord::setDummyChord(TdummyChord* dCh) {
 
 
 bool TalaChord::setRhythm() {
-  int dur = part->melody()->note(m_noteNr)->p().duration();
-  if (count() * 6 > dur) {
-    qDebug() << "[TalaChord] Impossible to fit chord notes in duration of" << dur;
+  if (m_notes.note(0)->p().rhythm() != Trhythm::NoRhythm)
+    return true; // all was set already
+
+  if (!canArpeggiate())
     return false;
-  }
+
+  int dur = part->melody()->note(m_noteNr)->p().duration();
   m_notes.setMeter(part->melody()->meter()->meter());
-  int lastNoteDur = dur - (count() - 1) * 6;
+  int lastNoteDur = dur - (count() - 1) * SIX_DUR;
   auto notesAtEnd = Trhythm::resolve(lastNoteDur);
   for (int n = 0; n < count() - 1; ++n)
     m_notes.note(n)->p().setRhythm(Trhythm::Sixteenth);
@@ -683,6 +711,11 @@ bool TalaChord::setRhythm() {
 
 void TalaChord::arpeggiateChord() {
   part->arpeggiateChord(this);
+}
+
+
+bool TalaChord::canArpeggiate() const {
+  return count() * SIX_DUR <= part->melody()->note(m_noteNr)->p().duration();
 }
 
 //#################################################################################################

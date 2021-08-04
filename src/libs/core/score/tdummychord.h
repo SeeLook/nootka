@@ -67,7 +67,8 @@ public:
   int selected() const { return m_selected; }
   void setSelected(int s);
 
-  QString noteHead();
+  QString noteHead() const;
+
 
   qreal hiPosY() const { return m_hiPosY; }
   qreal loPosY() const { return m_loPosY; }

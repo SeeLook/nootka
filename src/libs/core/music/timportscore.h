@@ -79,6 +79,12 @@ public:
   bool setRhythm();
   void arpeggiateChord();
 
+      /**
+       * Returns @p TRUE if duration of chord note is long enough
+       * to contain at least sixteenths of every chord note
+       */
+  bool canArpeggiate() const;
+
 private:
   Tmelody         m_notes;
   int             m_noteNr = -1;
