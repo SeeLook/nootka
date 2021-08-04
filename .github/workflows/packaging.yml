@@ -1,0 +1,84 @@
+name:     Packaging
+
+on:
+  push:
+    push:
+      #tags:
+        #- "v*"
+      branches:
+        - master
+
+jobs:
+  macos_dmg:
+    name:           Build MacOs dmg image
+    runs-on:        macos-latest
+    if: |
+      contains(github.event.head_commit.message, ‘get_bundle’)
+
+    steps:
+      - name: Select Xcode version for Mac
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '11.7'
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set variables
+        run: |
+          VER=$(cat src/nootkaconfig.h | awk -F" " '{ print $3 }' | sed 's/\"//g')
+          echo "NOOTKA_VERSION=$VER" >> $GITHUB_ENV
+          CNT=$(git rev-list HEAD --count)
+          echo "NOOTKA_COM_CNT=$CNT" >> $GITHUB_ENV
+
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+
+      - name: Install dependencies
+        run: |
+          #brew update
+          brew install fftw
+          brew install sound-touch
+          brew install libogg
+          brew install libvorbis
+          #brew upgrade
+
+      - name: Compile and prepare dmg
+        run: |
+          echo "version is ${{ env.NOOTKA_VERSION }}"
+          echo "commits number is ${{ env.NOOTKA_COM_CNT }}"
+          mkdir build
+          cd ./build
+          mkdir installs
+          cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./installs ../
+          make -j 2
+          make install
+          make deploy
+          make dmg
+          cp installs/Nootka*.dmg ../
+          cd ..
+          mv Nootka*.dmg Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}.dmg
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}
+          release_name: Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}
+          draft: false
+          prerelease: true
+
+      - name: Upload Release Asset
+        id: upload-release-asset
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: /Users/runner/work/nootka/nootka/Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}.dmg
+          asset_name: Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}.dmg
+          asset_content_type: application/x-apple-diskimage
