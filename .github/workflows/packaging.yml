@@ -27,7 +27,7 @@ jobs:
 
       - name: Set variables
         run: |
-          VER=$(cat src/nootkaconfig.h | awk -F" " '{ print $3 }' | sed 's/\"//g')
+          VER=$(cat src/libs/core/nootkaconfig.h | awk -F" " '{ print $3 }' | sed 's/\"//g')
           echo "NOOTKA_VERSION=$VER" >> $GITHUB_ENV
           CNT=$(git rev-list HEAD --count)
           echo "NOOTKA_COM_CNT=$CNT" >> $GITHUB_ENV
