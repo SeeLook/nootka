@@ -61,8 +61,8 @@ jobs:
           mv Nootka*.dmg Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}.dmg
 
       - name: Upload artifact
-          uses: actions/upload-artifact@v2
-          with:
-            name: Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}.dmg
-            path: /Users/runner/work/nootka/nootka/Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}.dmg
-            #path: ${{ github.workspace }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}.dmg
+          path: /Users/runner/work/nootka/nootka/Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}.dmg
+          #path: ${{ github.workspace }}
