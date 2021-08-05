@@ -8,14 +8,11 @@
 ============================================================================
 
 ### Fixes for incoming 2.0.2 version
-  - fix crash when chord(s) cannot be arpeggiated
   - bowing symbols placement and disallow them for guitars
   - allow rests on lower staff
-  - put in right order musicXML tags (Tchunk - \<note\> element)
   - fill anacrusis measure with rest notes at the beginning
   - improve ukulele:
     - rosette
-    - bigger holes in head glyph
     - equal samples
   - clean code if objections will not occur:
     - when right mouse button is not used: TexamExacutor and TexecutorSupply
