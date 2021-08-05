@@ -51,6 +51,8 @@ jobs:
           mkdir build
           cd ./build
           mkdir installs
+          MACOSX_DEPLOYMENT_TARGET=10.13
+          export MACOSX_DEPLOYMENT_TARGET
           cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./installs ../
           make -j 2
           make install
