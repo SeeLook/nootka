@@ -314,6 +314,14 @@ void TimportScore::arpeggiateChords() {
 }
 
 
+void TimportScore::fillPartialBar(int partId) {
+  for (auto s : m_parts[partId - 1]->parts) {
+    for (auto v : s->parts)
+      v->fillPartialBar();
+  }
+}
+
+
 //#################################################################################################
 //###################                PROTECTED         ############################################
 //#################################################################################################
@@ -643,6 +651,22 @@ void TmelodyPart::arpeggiateChords() {
             } else
                 delete snipp->chords.takeAt(c);
           }
+      }
+    }
+  }
+}
+
+
+void TmelodyPart::fillPartialBar() {
+  for (auto snipp : parts) {
+    if (snipp->melody()) {
+      if (snipp->melody()->measuresCount() == 1) {
+        Tmeasure& m = snipp->melody()->measure(0);
+        auto rests = Trhythm::resolve(m.meter().duration() - m.duration());
+        for (auto r : rests) {
+          r.setRest(true);
+          snipp->melody()->prepend(Tchunk(Tnote(0, 0, 0, r), Ttechnical(NO_TECHNICALS)));
+        }
       }
     }
   }

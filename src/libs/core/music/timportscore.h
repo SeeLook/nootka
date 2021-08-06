@@ -186,6 +186,8 @@ public:
   void arpeggiateChord(TalaChord* alaChord);
   Q_INVOKABLE void arpeggiateChords();
 
+  void fillPartialBar();
+
 signals:
   void melodyChanged();
   void selectedChanged();
@@ -319,6 +321,12 @@ public:
        * If possible - chord duration can contain all new notes.
        */
   void arpeggiateChords();
+
+      /**
+       * Fills first bar which is partial (anacrusis) of @p partId
+       * with rests
+       */
+  void fillPartialBar(int partId);
 
 signals:
   void importReady();
