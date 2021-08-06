@@ -216,7 +216,7 @@ void TnoteItem::setNote(const Tnote& n) {
 
   int oldNotePos = static_cast<int>(m_notePosY);
   if (m_note->isRest())
-    m_notePosY = staff()->upperLine() + (m_note->rhythm() == Trhythm::Whole ? 2.0 : 4.0);
+    m_notePosY = staff()->upperLine() + (m_note->onUpperStaff() ? 0.0 : 22.0) + (m_note->rhythm() == Trhythm::Whole ? 2.0 : 4.0);
   else {
     if (m_note->isValid()) {
         m_notePosY = getHeadY(n);

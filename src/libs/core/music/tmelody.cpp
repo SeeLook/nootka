@@ -321,7 +321,7 @@ bool Tmelody::fromXml(QXmlStreamReader& xml, bool madeWithNootka, int partId) {
                 // Nootka is not able to import from grand staff of real score (XML)
                 // and above condition avoids it, but allows to import piano staves created by Nootka itself
 
-                if (m_clef == Tclef::PianoStaffClefs && !ch.p().isRest())
+                if (m_clef == Tclef::PianoStaffClefs)
                   ch.p().setOnUpperStaff(staffNr < 2);
                 if (prevTie > -1) {
                   // check and fix tie, Nootka supports them only between the same notes

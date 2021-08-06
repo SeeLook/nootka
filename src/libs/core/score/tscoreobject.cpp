@@ -541,7 +541,7 @@ void TscoreObject::setMelody(Tmelody* melody, bool ignoreTechnical, int notesAmo
     Tnote& note = melody->note(n)->p();
     // when note is lower than 7  - 'g small' (the lowest supported note on the upper staff)
     // set it to lower staff (upper to false) to beam notes correctly
-    if (melody->clef() == Tclef::PianoStaffClefs && note.chromatic() < 8 && note.onUpperStaff())
+    if (melody->clef() == Tclef::PianoStaffClefs && note.chromatic() < 8 && !note.isRest() && note.onUpperStaff())
       note.setOnUpperStaff(false);
     if (transposition) {
         Tnote nn = note;
@@ -834,8 +834,6 @@ void TscoreObject::changeActiveNote(TnoteItem* aNote) {
 
 void TscoreObject::setActiveNotePos(qreal yPos) {
   if (!m_enterTimer->isActive() && yPos != m_activeYpos) {
-    if (m_workRhythm->isRest())
-      yPos = upperLine() + 4.0; // TODO it works because there is no rhythm change
     m_activeYpos = yPos;
     emit activeYposChanged();
   }
