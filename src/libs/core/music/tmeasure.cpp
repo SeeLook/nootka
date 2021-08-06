@@ -52,3 +52,14 @@ void Tmeasure::swapWithNotes(int noteNr, const QList<Tchunk> &notes) {
   for (int n = 1; n < notes.count(); ++n)
     m_notes.insert(noteNr + n, notes[n]);
 }
+
+//#################################################################################################
+//###################                PROTECTED         ############################################
+//#################################################################################################
+
+void Tmeasure::prepend(const Tchunk &n) {
+  m_notes.prepend(n);
+  if (m_meter.meter() != Tmeter::NoMeter)
+    m_duration += n.duration();
+  // In fact, anacrusis measures have no sense in when no meter, but... let's have this check
+}

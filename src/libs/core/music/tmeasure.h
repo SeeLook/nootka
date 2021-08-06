@@ -31,6 +31,8 @@ class Tchunk;
 class NOOTKACORE_EXPORT Tmeasure
 {
 
+  friend class Tmelody;
+
 public:
   Tmeasure(int nr, Tmeter::Emeter m = Tmeter::NoMeter);
 
@@ -42,7 +44,11 @@ public:
        * Adds a note.
        */
   void addNote(const Tchunk& n);
-  Tchunk& note(int index) { return m_notes[index]; } /** Returns given note in this measure */
+
+      /**
+       * Returns given note in this measure
+       */
+  Tchunk& note(int index) { return m_notes[index]; }
   Tchunk& lastNote() { return m_notes.last(); }
 
       /**
@@ -64,6 +70,15 @@ public:
        * List of notes must have the same duration like replacing note.
        */
   void swapWithNotes(int noteNr, const QList<Tchunk>& notes);
+
+protected:
+      /**
+       * Adds note @p n at the beginning of this bar.
+       * Increases its duration.
+       * This method is intended to fill anacrusis measures with rests
+       * and is available only by @p Tmelody (protected)
+       */
+  void prepend(const Tchunk& n);
 
 private:
   int                 m_number;
