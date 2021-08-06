@@ -9,18 +9,16 @@
 
 ### Fixes for incoming 2.0.2 version
   - bowing symbols placement and disallow them for guitars
-  - allow rests on lower staff
-  - fill anacrusis measure with rest notes at the beginning
   - improve ukulele:
     - rosette
     - equal samples
-  - clean code if objections will not occur:
-    - when right mouse button is not used: TexamExacutor and TexecutorSupply
 
 ### For next stable Nootka version 2.0.4 or above
   - score helpers also utilized for musicxml import:
     - fold (simplify) ties & rests
     - append another melody to score
+  - clean code if objections will not occur:
+    - when right mouse button is not used: TexamExacutor and TexecutorSupply
   - ...
 
 ### ...and much more in the post versions

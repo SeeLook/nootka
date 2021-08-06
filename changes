@@ -3,6 +3,7 @@
      - added ukulele with defined popular tunings
      - dialog to import voice or part from entire musicXML score
      - support for read/write compressed musicXML file format (*.mxl)
+     - handle partial measure at score beginning - fill with rests
      - option for transposing score - to key or by semitones
      - increase minimal Qt version to 5.12.0
     ANDROID
