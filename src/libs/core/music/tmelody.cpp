@@ -153,9 +153,9 @@ void Tmelody::swapWithNotes(int noteNr, const QList<Tchunk>& notes) {
 void Tmelody::toXml(QXmlStreamWriter& xml, int trans) {
   for (int m = 0; m < p_measures.size(); ++m) {
     xml.writeStartElement(QStringLiteral("measure"));
-      Tmeasure& meas = measure(m);
-      xml.writeAttribute(QStringLiteral("number"), QVariant(meas.number()).toString());
-      if (meas.number() == 1) {
+      Tmeasure& bar = measure(m);
+      xml.writeAttribute(QStringLiteral("number"), QVariant(bar.number()).toString());
+      if (bar.number() == 1) {
         xml.writeStartElement(QStringLiteral("attributes"));
           xml.writeTextElement(QStringLiteral("divisions"), QString("%1").arg(Trhythm(Trhythm::Quarter).duration()));
           if (m_key.value() || m_key.isMinor())
@@ -190,14 +190,14 @@ void Tmelody::toXml(QXmlStreamWriter& xml, int trans) {
       }
       int staffNr_1 = 1, staffNr_2 = 2;
       int *staffPtr = nullptr;
-      for (int n = 0; n < meas.count(); ++n) {
+      for (int n = 0; n < bar.count(); ++n) {
         if (m_clef == Tclef::PianoStaffClefs) {
-          if (meas.note(n).p().onUpperStaff())
+          if (bar.note(n).p().onUpperStaff())
             staffPtr = &staffNr_1;
           else
             staffPtr = &staffNr_2;
         }
-        meas.note(n).toXml(xml, staffPtr);
+        bar.note(n).toXml(xml, staffPtr);
       }
     xml.writeEndElement(); // measure
   }
