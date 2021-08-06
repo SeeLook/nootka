@@ -223,6 +223,15 @@ bool Tmelody::fromXml(QXmlStreamReader& xml, bool madeWithNootka, int partId) {
         qDebug() << "[Tmelody] Something wrong with measure numbers!" << barNr << "was expected, but" << tmpBarNr << "was read.\n"
                  << "Better check integrity of this music XML file!";
       }
+      if (tmpBarNr == 2 && !p_measures.isEmpty() && lastMeasure().duration() < m_meter->duration()) {
+        qDebug() << "[Tmelody] First measure was partial (anacrusis/pickup). Added rest at the beginning.";
+        auto rests = Trhythm::resolve(m_meter->duration() - lastMeasure().duration());
+        for (auto r : rests) {
+          r.setRest(true);
+          p_measures.first().prepend(Tchunk(Tnote(0, 0, 0, r), Ttechnical(NO_TECHNICALS)));
+          m_notes.prepend(&p_measures.first().note(0));
+        }
+      }
       while (xml.readNextStartElement()) {
 /** [attributes] */
         if (xml.name() == QLatin1String("attributes")) {
