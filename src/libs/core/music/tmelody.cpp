@@ -223,7 +223,6 @@ bool Tmelody::fromXml(QXmlStreamReader& xml, bool madeWithNootka, int partId) {
         qDebug() << "[Tmelody] Something wrong with measure numbers!" << barNr << "was expected, but" << tmpBarNr << "was read.\n"
                  << "Better check integrity of this music XML file!";
       }
-      p_measures << Tmeasure(barNr);
       while (xml.readNextStartElement()) {
 /** [attributes] */
         if (xml.name() == QLatin1String("attributes")) {
