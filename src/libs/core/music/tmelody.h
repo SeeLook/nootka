@@ -39,6 +39,8 @@ class TnoteStruct;
 class NOOTKACORE_EXPORT Tmelody
 {
 
+  friend class TmelodyPart;
+
 public:
   Tmelody(const QString& title = QString(), const TkeySignature& k = TkeySignature());
   Tmelody(const Tmelody& other);
@@ -164,6 +166,12 @@ protected:
        * Common routine to parse musicXML data in @p QXmlStreamReader.
        */
   bool processXMLData(QXmlStreamReader& xml);
+
+      /**
+       * Adds @p n note at the beginning of this melody.
+       * This method is intended to fill anacrusis measures with rests.
+       */
+  void prepend(const Tchunk& n);
 
 protected:
   QList<Tmeasure>      p_measures;
