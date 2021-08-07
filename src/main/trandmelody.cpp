@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2019 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -20,15 +20,15 @@
 #include <music/tmelody.h>
 #include <music/trhythm.h>
 #include <music/trtmgroup.h>
-#include <QtCore/qdatetime.h>
+
+#include <QtCore/qrandom.h>
 
 #include <QtCore/qdebug.h>
 
 
 void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, bool onTonic) {
-  qsrand(QDateTime::currentDateTimeUtc().toTime_t());
   for (int i = 0; i < len; ++i) {
-    int randVal = qrand() % qList.size();
+    int randVal = QRandomGenerator::global()->bounded(qList.size());
     Tnote pitch = qList[randVal].note;
     TfingerPos fPos = qList[randVal].pos();
     if (inKey) { // note has to be in key signature declared in melody
@@ -57,7 +57,7 @@ void getRandomMelody(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey, 
     mel->addNote(note);
   }
   if (onTonic) {
-    int cnt = -1, i = (qrand() % qList.size()) - 1; // start iteration from random value
+    int cnt = -1, i = QRandomGenerator::global()->bounded(qList.size()) - 1; // start iteration from random value
     while (cnt < qList.size()) {
       i++;
       if (i >= qList.size())
@@ -124,18 +124,18 @@ void getRandomMelodyNG(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey
       qListPtr = &inKeyList;
   }
 
-  qsrand(QDateTime::currentDateTimeUtc().toTime_t());
+  auto *random = QRandomGenerator::global();
 
       /**
        * Randomize main melody step. 2 - is diatonic, 4 is for steps by third
        * It makes melodies more different
        */
-  int melodyStep = (maxStep == 0 || maxStep > 4) ? (qrand() % 5 > 2 ? 4 : 2) : 2;
+  int melodyStep = (maxStep == 0 || maxStep > 4) ? (random->bounded(5) > 2 ? 4 : 2) : 2;
 
   while (mel->length() < len) {
-    int phLen = len < 4 ? len : qBound(2, 2 + qrand() % (len / 2 - 1), len);
-    int dir = qrand() % 2 == 1 ? 1 : -1; // direction of melody (ascending or descending)
-    int noteId = qrand() % qListPtr->size();
+    int phLen = len < 4 ? len : qBound(2, 2 + random->bounded(len / 2 - 1), len);
+    int dir = random->bounded(2) == 1 ? 1 : -1; // direction of melody (ascending or descending)
+    int noteId = random->bounded(qListPtr->size());
     if (maxStep && mel->length() > 0) {
       int loopGuard = 0;
       while (loopGuard < qListPtr->size() && qAbs(qListPtr->at(noteId).note.chromatic() - mel->note(mel->length() - 1)->p().chromatic()) > maxStep) {
@@ -180,11 +180,11 @@ void getRandomMelodyNG(QList<TQAgroup>& qList, Tmelody* mel, int len, bool inKey
         tonicList << n;
     }
     if (tonicList.isEmpty())
-      qDebug() << "Tonic note of" << mel->key().getName() << "was not found";
+        qDebug() << "Tonic note of" << mel->key().getName() << "was not found";
     else {
-      int tonicRandNr = tonicList[qrand() % tonicList.size()];
-      mel->note(mel->length() - 1)->g() = qListPtr->operator[](tonicRandNr).pos();
-      mel->note(mel->length() - 1)->p() = qListPtr->operator[](tonicRandNr).note;
+        int tonicRandNr = tonicList[random->bounded(tonicList.size())];
+        mel->note(mel->length() - 1)->g() = qListPtr->operator[](tonicRandNr).pos();
+        mel->note(mel->length() - 1)->p() = qListPtr->operator[](tonicRandNr).note;
     }
   }
 }
@@ -208,6 +208,8 @@ TrhythmList getRandomRhythm(int meter, int barCount, quint32 basicMask, quint32 
     else if (diff == 36)
       barGroups << 3;
   }
+
+  auto *random = QRandomGenerator::global();
 
 /** 2. Create lists: @p dupleList & @p tripleList each with the same grouping values. Also get special groups (whole, half and so) */
   bool meterHasDuple =  barGroups.contains(2);
@@ -272,21 +274,21 @@ TrhythmList getRandomRhythm(int meter, int barCount, quint32 basicMask, quint32 
   if (!dupleList.isEmpty()) {
     grCount = qRound(qMax(1.0, totalGroupsNr / div));
     while (dupleList.count() > grCount)
-      dupleList.removeAt(qrand() % dupleList.count());
+      dupleList.removeAt(random->bounded(dupleList.count()));
     div--;
     totalGroupsNr -= dupleList.count();
   }
   if (!tripleList.empty() && totalGroupsNr > 0.0 && div > 0.0) {
     grCount = qRound(qMax(1.0, totalGroupsNr / div));
     while (tripleList.count() > grCount)
-      tripleList.removeAt(qrand() % tripleList.count());
+      tripleList.removeAt(random->bounded(tripleList.count()));
     div--;
     totalGroupsNr -= tripleList.count();
   }
   if (!specialList.isEmpty() && totalGroupsNr > 0.0 && div > 0.0) {
     grCount = qRound(qMax(1.0, totalGroupsNr / div));
     while (specialList.count() > grCount)
-      specialList.removeAt(qrand() % dupleList.count());
+      specialList.removeAt(random->bounded(dupleList.count()));
   }
 
 /** 4. Determine measures where to put longer (special) notes to imitate end of a phrase and/or period */
@@ -303,16 +305,16 @@ TrhythmList getRandomRhythm(int meter, int barCount, quint32 basicMask, quint32 
   for (int m = 0; m < barCount; ++m) {
     barNr++;
     if (!specialList.isEmpty() && (barNr % pharaseLen == 0 || m == barCount - 1)) { // end of phrase/period or last bar- put longer rhythmic value here
-        TrtmGroup specialGr = specialList[specialList.count() == 1 ? 0 : qrand() % specialList.count()];
+        TrtmGroup specialGr = specialList[specialList.count() == 1 ? 0 : random->bounded(specialList.count())];
         int dur = specialGr.duration();
         if (dur < barDuration) {
           int restDur = barDuration - dur;
           if (restDur % 24 == 0 && !dupleList.isEmpty()) { // duple
               for (int b = 0; b < restDur / 24; ++b)
-                rList.append(dupleList[dupleList.count() == 1 ? 0 : qrand() % dupleList.count()].rhythm());
+                rList.append(dupleList[dupleList.count() == 1 ? 0 : random->bounded(dupleList.count())].rhythm());
           } else if (restDur % 36 == 0 && !tripleList.isEmpty()) { // triple
               for (int b = 0; b < restDur / 36; ++b)
-                rList.append(tripleList[tripleList.count() == 1 ? 0 : qrand() % tripleList.count()].rhythm());
+                rList.append(tripleList[tripleList.count() == 1 ? 0 : random->bounded(tripleList.count())].rhythm());
           } else {
               rList.append(Trhythm::resolve(restDur));
           }
@@ -321,9 +323,9 @@ TrhythmList getRandomRhythm(int meter, int barCount, quint32 basicMask, quint32 
     } else {
         for (int b = 0; b < barGroups.count(); ++b) {
           if (barGroups[b] == 2)
-            rList.append(dupleList[dupleList.count() == 1 ? 0 : qrand() % dupleList.count()].rhythm());
+            rList.append(dupleList[dupleList.count() == 1 ? 0 : random->bounded(dupleList.count())].rhythm());
           else
-            rList.append(tripleList[tripleList.count() == 1 ? 0 : qrand() % tripleList.count()].rhythm());
+            rList.append(tripleList[tripleList.count() == 1 ? 0 : random->bounded(tripleList.count())].rhythm());
         }
     }
   }
