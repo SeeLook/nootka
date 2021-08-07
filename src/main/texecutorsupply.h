@@ -24,6 +24,7 @@
 #include <music/tnotestruct.h>
 #include <exam/tqaunit.h>
 #include <QtCore/qpointer.h>
+#include <QtCore/qrandom.h>
 
 
 class TequalRand;
@@ -74,7 +75,9 @@ public:
       /**
        * Returns randomized number in questions list proper for question and answer on the guitar.
        */
-  quint16 getQAnrForGuitarOnly() const { return m_fretFretList[qrand() % m_fretFretList.size()]; }
+  quint16 getQAnrForGuitarOnly() const {
+    return m_fretFretList[QRandomGenerator::global()->bounded(m_fretFretList.size())];
+  }
 
       /**
        * Returns true when questions and answers as guitar are possible.

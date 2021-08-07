@@ -337,7 +337,8 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     if (m_exam->melodies()) {
       disconnect(MAIN_SCORE, &TmainScoreObject::readOnlyNoteClicked, this, &TexamExecutor::correctNoteOfMelody);
       int melodyLength = qBound(qMax(2, qRound(m_level.melodyLen * 0.7)), //at least 70% of length but not less than 2
-                                      qRound(((6.0 + (qrand() % 5)) / 10.0) * (qreal)m_level.melodyLen), (int)m_level.melodyLen);
+                                qRound(((6.0 + (QRandomGenerator::global()->bounded(5.0))) / 10.0) * static_cast<qreal>(m_level.melodyLen)),
+                                static_cast<int>(m_level.melodyLen));
       if (m_penalty->isNot()) {
           TrhythmList rhythms;
           if (!m_level.isMelodySet()) {
@@ -523,7 +524,8 @@ void TexamExecutor::askQuestion(bool isAttempt) {
 //               if (m_penalty->isNot()) // if black question key mode is defined (FIXME: What is this dead code?)
 //                   curQ->key.setMinor(bool(qrand() % 2));
               // we randomize some key to cover this expected one
-              TkeySignature fakeKey((qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) + m_level.loKey.value());
+              int keysSpan = m_level.hiKey.value() - m_level.loKey.value() + 1;
+              TkeySignature fakeKey((QRandomGenerator::global()->bounded(keysSpan)) + m_level.loKey.value());
               MAIN_SCORE->prepareKeyToAnswer(fakeKey, curQ->key.getName());
               m_answRequire.key = true;
           } else
@@ -553,10 +555,11 @@ void TexamExecutor::askQuestion(bool isAttempt) {
     if (curQ->melody()) {
       if (curQ->key.value() || m_level.manualKey) {
           MAIN_SCORE->setKeySignatureEnabled(true);
-          if (m_level.useKeySign && m_level.manualKey) // set fake key
-            MAIN_SCORE->setKeySignature(TkeySignature((qrand() % (m_level.hiKey.value() - m_level.loKey.value() + 1)) + m_level.loKey.value()));
-          else
-            MAIN_SCORE->setKeySignature(curQ->key);
+          if (m_level.useKeySign && m_level.manualKey) { // set the fake key
+              int keysSpan = m_level.hiKey.value() - m_level.loKey.value() + 1;
+              MAIN_SCORE->setKeySignature(TkeySignature((QRandomGenerator::global()->bounded(keysSpan)) + m_level.loKey.value()));
+          } else
+              MAIN_SCORE->setKeySignature(curQ->key);
       } else {
           MAIN_SCORE->setKeySignatureEnabled(false);
       }
@@ -599,7 +602,7 @@ void TexamExecutor::askQuestion(bool isAttempt) {
                 return; // refresh this function scope by calling it outside
             } else {
                 if (m_penalty->isNot())
-                  curQ->qa_2.pos() = posList[qrand() % posList.size()];
+                  curQ->qa_2.pos() = posList[QRandomGenerator::global()->bounded(posList.size())];
                 INSTRUMENT->highlightAnswer(Tnote(), curQ->qa_2.technical.data());
             }
           }

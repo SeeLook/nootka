@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,6 +21,8 @@
 #include "texamview.h"
 #include <exam/texam.h>
 #include <exam/tlevel.h>
+
+#include <QtCore/qrandom.h>
 #include <QtCore/qdebug.h>
 
 
@@ -71,7 +73,7 @@ bool Tpenalty::ask() {
   if (m_exam->melodies()) {
       if (m_exam->blackNumbers()->size() && m_penalCount > m_penalStep) {
         m_penalCount = 0;
-        int idInList = qrand() % m_exam->blackNumbers()->size();
+        int idInList = QRandomGenerator::global()->bounded(m_exam->blackNumbers()->size());
         m_blackNumber = m_exam->blackNumbers()->at(idInList);
         qDebug() << "[Tpenalty]" << "penalty melody";
         m_exam->blackNumbers()->removeAt(idInList);
@@ -88,7 +90,7 @@ bool Tpenalty::ask() {
       if (m_exam->blackCount() && m_penalCount > m_penalStep) {
         qDebug() << "[Tpenalty]" << "penalty question";
         m_penalCount = 0;
-        m_blackQuestNr = qrand() % m_exam->blacList()->size();
+        m_blackQuestNr = QRandomGenerator::global()->bounded(m_exam->blacList()->size());
         m_exam->curQ()->copy(m_exam->blacList()->operator[](m_blackQuestNr));
         m_exam->curQ()->unsetAnswered();
         m_exam->curQ()->time = 0;

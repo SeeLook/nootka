@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2011-2018 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2011-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -21,6 +21,7 @@
 #include <QtCore/qxmlstream.h>
 #include <QtCore/qvariant.h>
 #include <QtCore/qmath.h>
+#include <QtCore/qrandom.h>
 
 
 TQAtype::TQAtype(bool _onScore, bool _asName, bool _onInstr, bool _asSound)
@@ -46,7 +47,7 @@ TQAtype::Etype TQAtype::next() {
 
 
 TQAtype::Etype TQAtype::randNext() {
-  m_index = (qrand() % 4) - 1;
+  m_index = QRandomGenerator::global()->bounded(4) - 1;
   return next();
 }
 

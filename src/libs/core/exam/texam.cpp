@@ -25,6 +25,7 @@
 #include <QtCore/qdatetime.h>
 #include <QtCore/qdir.h>
 #include <QtCore/qsettings.h>
+#include <QtCore/qrandom.h>
 #include <QtWidgets/qmessagebox.h>
 #if defined (Q_OS_ANDROID)
   #include <Android/tandroid.h>
@@ -672,7 +673,6 @@ void Texam::convertToVersion2() {
     // version 1 didn't put proper Tnote::EnameStyle to file - we fixing it
     hasStyle = true;
     qDebug() << "[Texam] Fixing styles of note names in file";
-    qsrand(QDateTime::currentDateTimeUtc().toTime_t());
    if (m_level->requireStyle) { // prepare styles array to imitate switching
       randStyles[0] = Tnote::e_italiano_Si;
       if (GLOB->seventhIsB()) {
@@ -692,20 +692,19 @@ void Texam::convertToVersion2() {
     if (hasStyle) {
       if (m_level->requireStyle) {
           if (m_answList[i]->questionAs == TQAtype::e_asName && m_answList[i]->answerAs == TQAtype::e_asName) {
-            Tnote::EnameStyle qSt = randStyles[qrand() % 3];
-            Tnote::EnameStyle aSt;
-            if (qSt == Tnote::e_italiano_Si)
-              aSt = randStyles[(qrand() % 2) +1];
-            else
-              aSt = Tnote::e_italiano_Si;
-            m_answList[i]->setStyle(qSt, aSt);
-          } else
-            if (m_answList[i]->questionAs == TQAtype::e_asName) {
-                m_answList[i]->setStyle(randStyles[qrand() % 3], static_cast<Tnote::EnameStyle>(GLOB->noteNameStyle()));
-            } else
-                if (m_answList[i]->questionAs == TQAtype::e_asName) {
-                  m_answList[i]->setStyle(static_cast<Tnote::EnameStyle>(GLOB->noteNameStyle()), randStyles[qrand() % 3]);
-                }
+              Tnote::EnameStyle qSt = randStyles[QRandomGenerator::global()->bounded(3)];
+              Tnote::EnameStyle aSt;
+              if (qSt == Tnote::e_italiano_Si)
+                aSt = randStyles[QRandomGenerator::global()->bounded(2) +1];
+              else
+                aSt = Tnote::e_italiano_Si;
+              m_answList[i]->setStyle(qSt, aSt);
+          } else if (m_answList[i]->questionAs == TQAtype::e_asName) {
+              m_answList[i]->setStyle(randStyles[QRandomGenerator::global()->bounded(3)], static_cast<Tnote::EnameStyle>(GLOB->noteNameStyle()));
+          } else {
+              if (m_answList[i]->questionAs == TQAtype::e_asName)
+                m_answList[i]->setStyle(static_cast<Tnote::EnameStyle>(GLOB->noteNameStyle()), randStyles[QRandomGenerator::global()->bounded(3)]);
+          }
       } else // fixed style - we changing to user preferred
           m_answList[i]->setStyle(static_cast<Tnote::EnameStyle>(GLOB->noteNameStyle()), static_cast<Tnote::EnameStyle>(GLOB->noteNameStyle()));
     }

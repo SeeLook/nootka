@@ -286,8 +286,6 @@ void TexecutorSupply::createQuestionsList(QList<TQAgroup> &list) {
 //           " among:" << list.size();
     }
 
-    qsrand(QDateTime::currentDateTimeUtc().toTime_t());
-
     if (m_level->canBeMelody()) {
         if (m_level->isMelodySet())
           m_obligQuestNr = m_level->melodySet.count() * m_level->repeatNrInSet * m_level->keysInRange();
@@ -309,17 +307,17 @@ Tnote TexecutorSupply::determineAccid(const Tnote& n) {
     if (m_level->withSharps || m_level->withFlats || m_level->withDblAcc) {
         if (m_level->withDblAcc) {
             m_dblAccidsCntr++;
-            if (m_dblAccidsCntr == 4) { //double accid note occurs every 4-th question
-                if ( (qrand() % 2) ) // randomize dblSharp or dblFlat
-                    nA = n.showWithDoubleSharp();
-                else
-                    nA = n.showWithDoubleFlat();
-                if (nA == n) // dbl accids are not possible
-                    m_dblAccidsCntr--;
-                else {
-                    m_dblAccidsCntr = 0;
-                    notFound = false;
-                }
+            if (m_dblAccidsCntr == 4) { // double accidental note occurs every 4-th question
+              if ((QRandomGenerator::global()->bounded(2))) // randomize dblSharp or dblFlat
+                nA = n.showWithDoubleSharp();
+              else
+                nA = n.showWithDoubleFlat();
+              if (nA == n) // dbl accidentals are not possible
+                  m_dblAccidsCntr--;
+              else {
+                  m_dblAccidsCntr = 0;
+                  notFound = false;
+              }
             }
         }
         if (notFound && m_prevAccid != Tnote::e_Flat && m_level->withFlats) {
@@ -438,7 +436,7 @@ Tnote::EnameStyle TexecutorSupply::randomNameStyle(int style) {
     }
     if (m_isSolfege) {
         m_isSolfege = false;
-        if (qrand() % 2) { // full name like cis, gisis
+        if (QRandomGenerator::global()->bounded(2)) { // full name like cis, gisis
             if (GLOB->S->seventhIs_B)
                 return Tnote::e_nederl_Bis;
             else
@@ -761,7 +759,7 @@ TkeySignature TexecutorSupply::getKey(Tnote& note) {
       }
   }
   note = tmpNote;
-  key.setMinor(bool(qrand() % 2));
+  key.setMinor(bool(QRandomGenerator::global()->bounded(2)));
   return key;
 }
 

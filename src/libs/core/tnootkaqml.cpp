@@ -50,6 +50,7 @@
 #include <QtCore/qfileinfo.h>
 #include <QtCore/qdatetime.h>
 #include <QtCore/qbuffer.h>
+#include <QtCore/qrandom.h>
 #include <QtWidgets/qapplication.h>
 #include <QtGui/qdesktopservices.h>
 #include <QtGui/qpalette.h>
@@ -70,8 +71,6 @@ TnootkaQML::TnootkaQML(QObject* parent) :
     return;
   }
   m_instance = this;
-
-  qsrand(QDateTime::currentDateTimeUtc().toTime_t());
 
   qRegisterMetaType<Tclef>();
   qmlRegisterUncreatableType<Tclef>("Score", 1, 0, "Tclef", QStringLiteral("You cannot create an instance of the Tclef."));
@@ -450,7 +449,8 @@ QColor TnootkaQML::alpha(const QColor& c, int a) {
 
 
 QColor TnootkaQML::randomColor(int alpha, int level) {
-  return QColor(qrand() % level, qrand() % level, qrand() % level, alpha);
+  return QColor(QRandomGenerator::global()->bounded(level), QRandomGenerator::global()->bounded(level),
+                QRandomGenerator::global()->bounded(level), alpha);
 }
 
 

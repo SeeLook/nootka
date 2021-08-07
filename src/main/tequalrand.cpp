@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2014-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2014-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "tequalrand.h"
+#include <QtCore/qrandom.h>
 
 
 TequalRand::TequalRand(int range, int startVal) :
@@ -60,7 +61,7 @@ int TequalRand::get() {
     m_isLastLoop = false;
     setTotalRandoms(m_total); // restore depth
   }
-  int val = qrand() % m_range;
+  int val = QRandomGenerator::global()->bounded(m_range);
   if (m_shotTable[val] == m_depth)
     val = next(val);
   m_shotTable[val] += 1;
@@ -70,7 +71,7 @@ int TequalRand::get() {
 
 int TequalRand::next(int currVal) {
   int dir = 1; // Random direction of searching next value
-  if (qrand() % 2)
+  if (QRandomGenerator::global()->bounded(2))
     dir = -1;
   int result = currVal;
   do {
