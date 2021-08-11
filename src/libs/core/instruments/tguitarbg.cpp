@@ -267,7 +267,7 @@ void TguitarBg::paint(QPainter* painter) {
         painter->setPen(QPen(Qt::black, 1, Qt::SolidLine)); //on upper bridge
         painter->drawLine(m_fbRect.x() - 8, lineYpos - 2, m_fbRect.x() - 8 + huesoW , lineYpos - 2);
         painter->drawLine(m_fbRect.x() - 8, lineYpos + m_strWidth[i] - 1, m_fbRect.x() - 8 + huesoW, lineYpos + m_strWidth[i] - 1);
-        if (GLOB->instrument().classicGuitar() || GLOB->instrument().ukulele()) { // shadow on the pickup if exist (bass or electric guitar)
+        if (GLOB->instrument().electricGuitar() || GLOB->instrument().bassGuitar()) { // shadow on the pickup if exist (bass or electric guitar)
           int pickX = width() * 0.88;
 //           if (!GLOB->GisRightHanded)
 //               pickX = width() - (BG_PIX->pickUpRect().x() + BG_PIX->pickUpRect().width());
