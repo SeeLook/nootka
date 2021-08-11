@@ -348,11 +348,24 @@ Window {
       RectButton {
         height: NOO.factor() * (NOO.isAndroid() ? 1.8 : 2.2)
         anchors { left: parent.left; top: parent.top }
+        visible: chordIt && chordIt.selectSingle
         font { pixelSize: NOO.factor() * (NOO.isAndroid() ? 1.5 : 2); family: "Nootka" }
         text: "\u0194"
         onClicked: {
           chordIt.setRhythm()
           reload()
+        }
+        ToolTip {
+          delay: 150; timeout: 5000
+          x: parent.width + NOO.factor(); y: (parent.height - height) / 2
+          visible: parent.hovered
+          contentItem: Text {
+            text: qsTr("Arpeggiate chord")
+            color: activPal.text
+          }
+          enter: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 1 }}
+          exit: Transition { enabled: GLOB.useAnimations; NumberAnimation { property: "scale"; to: 0 }}
+          background: TipRect { shadowRadius: NOO.factor(); color: activPal.base }
         }
       }
       onAccepted: chordIt.arpeggiateChord()
