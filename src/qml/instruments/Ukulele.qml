@@ -46,14 +46,23 @@ TguitarBg {
     Image { // body
       cache: false
       source: NOO.pix("body-ukulele")
-      height: parent.height * 6
+      height: parent.height * 5
       width: height * (sourceSize.width / sourceSize.height)
       x: xiiFret; y: parent.height - height * 0.67
     }
-    Rectangle {
-      x: parent.width * 0.85; y: parent.height - fbRect.height
-      width: fbRect.height; height: fbRect.height; radius: width / 2
-      color: "black"
+    Repeater { // strings shadow over body
+      model: 4
+      Rectangle {
+        x: fbRect.x + fbRect.width; y: fbRect.y + stringsGap / 2 + index * stringsGap + 2.5 * height
+        width: parent.width - x - stringsGap * 0.8; height: strWidth(index)
+        color: "#201c1c1c"
+      }
+    }
+    Image {
+      cache: false
+      source: NOO.pix("rosette-ukulele")
+      x: fbRect.width + height * 0.5; y: parent.height - fbRect.height
+      width: fbRect.height; height: fbRect.height
     }
   }
 
