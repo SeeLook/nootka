@@ -129,10 +129,9 @@ void TimportScore::addNote(int partId, int staff, int voice, const Tchunk &note,
     if (snippPart->parts.isEmpty())
         snippPart->parts << new TmelodyPart(snippPart, partId, staff, voice);
     else {
-      if (voicePart->splitBarNr() > 0 && snippPart->parts.last()->melody()->lastMeasure().isFull()
-          && snippPart->parts.last()->melody()->measuresCount() % voicePart->splitBarNr() == 0) {
+        if (voicePart->splitBarNr() > 0 && snippPart->parts.last()->melody()->lastMeasure().isFull()
+              && snippPart->parts.last()->melody()->measuresCount() % voicePart->splitBarNr() == 0)
           snippPart->parts << new TmelodyPart(snippPart, partId, staff, voice);
-        }
     }
 
     auto currSnipp = snippPart->parts.last();
