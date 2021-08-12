@@ -110,7 +110,11 @@ install(DIRECTORY fonts DESTINATION "${INS_PREF}")
 install(DIRECTORY "levels/" DESTINATION "${INS_PREF}/levels")
 
 if(APPLE OR WIN32)
-  install(FILES LICENSE DESTINATION "${INS_PREF}" RENAME gpl)
+  if (APPLE)
+    install(FILES LICENSE DESTINATION "${INS_PREF}" RENAME gpl)
+  else() # specially encoded license file for Windows installer
+    install(FILES packaging/nsis/LICENSE-utf16le DESTINATION "${INS_PREF}" RENAME gpl)
+  endif()
 endif(APPLE OR WIN32)
 
 if(APPLE)
