@@ -167,7 +167,7 @@ if(UNIX AND NOT APPLE)
   if (DPKG_CMD) # Debian changelog
     install(FILES "${CMAKE_CURRENT_BINARY_DIR}/doc/changelog.Debian.gz" DESTINATION share/doc/nootka)
   endif (DPKG_CMD)
-  install(FILES copyright DESTINATION share/doc/nootka)
+  install(FILES packaging/debian/copyright DESTINATION share/doc/nootka)
   install(FILES packaging/nootka.1.gz DESTINATION share/man/man1)
 endif(UNIX AND NOT APPLE)
 
