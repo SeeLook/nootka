@@ -16,7 +16,7 @@ TguitarBg {
   property var guitarZoom: null
 
   width: Math.max(nootkaWindow.width, GLOB.instrument.getItemHeight(nootkaWindow.height) * 5.4)
-  height: GLOB.instrument.getItemHeight(nootkaWindow.height)
+  height: GLOB.instrument.getItemHeight(nootkaWindow.shortEdge)
 
   transformOrigin: Item.TopLeft
   Behavior on scale {
