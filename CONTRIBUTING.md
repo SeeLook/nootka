@@ -67,8 +67,21 @@ Below some possibilities of a help are explained but if something other will com
 
     - **Pitch detection code needs modernization or migration to external library**
 
-  * **Help with CI/CD integration**  
-    - **Mac Os builds using GitHub Actions**
+  * **Automate packaging Nootka for supported operating systems**  
+    - **Windows**
+      Installer is automatically build but under Linux cross-compile environment which is sloppy.
+      Real CI/CD build rules under Windows docker has to be prepared
+
+    - **Linux**  
+      **AppImage** is ready - build automatically,  
+      **Deb** package also but it is not official Debian way.  
+      Also Nootka is available in **FlapPak**  
+
+    - **MacOs bundle** is builded by GitHub actions
+
+    - **Help with CI/CD integration in general**  
+      - code check
+      - tests
 
 -----------------------------------
 ## 2. Translating Nootka
