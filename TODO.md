@@ -7,14 +7,9 @@
 ============================================================================
 ============================================================================
 
-### Fixes for incoming 2.0.2 version
-  - bowing symbols placement and disallow them for guitars
-  - improve ukulele:
-    - rosette
-    - equal samples
-
 ### For next stable Nootka version 2.0.4 or above
-  - score helpers also utilized for musicxml import:
+  - **MIDI** input & revert MIDI out of course
+  - **score helpers** also utilized for musicxml import:
     - fold (simplify) ties & rests
     - append another melody to score
   - clean code if objections will not occur:
@@ -22,15 +17,14 @@
   - ...
 
 ### ...and much more in the post versions
-  - **MIDI** input & revert MIDI out of course
   - migrate on preferred **48000 Hz** sample rate (ogg files and audio methods). DO NOT forget to resize output samples length
+  - **download particular instrument samples** file on demand - to save installers size
   - storing **custom tuning** named by user. Import/export tuning in XML files
   - **undo/redo** for score modifications
-  - **download particular instrument samples** file on demand - to save installers size
   - add **rests** option for random melodies in exams
-  - **solfege** as a kind of an instrument with bunch of ear training exercises
+  - **ear training** as a kind of an instrument with bunch of apparent exercises
   - playing with metronome under Android - possible migration to **Oboe** library
-  - implement repeating a melody that was listened to
+  - implement **play what you listened to** kind of exercise for melodies
   - adding set of **rhythm patterns** for melodies generated from random notes (similar to melody list)
   - **time stamps** in question/answer units - to better track exam progress
   - adding actually edited score melody to current level
