@@ -20,6 +20,7 @@ CONFIG += ordered
 src.depends = src/libs/core
 sound.depends = src/libs/core
 
+# Build-in exam level files
 levels.path= /assets/levels
 levels.files += $$files(levels/*.nel)
 guitarLevels.path= /assets/levels/guitar
@@ -32,5 +33,7 @@ bandoLevels.path= /assets/levels/bandoneon
 bandoLevels.files += $$files(levels/bandoneon/*.nel)
 saxLevels.path= /assets/levels/sax
 saxLevels.files += $$files(levels/sax/*.nel)
+ukuLevels.path= /assets/levels/ukulele
+ukuLevels.files += $$files(levels/ukulele/*.nel)
 
-INSTALLS += levels guitarLevels bassLevels pianoLevels bandoLevels saxLevels
+INSTALLS += levels guitarLevels bassLevels pianoLevels bandoLevels saxLevels ukuLevels

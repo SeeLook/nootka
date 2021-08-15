@@ -117,6 +117,8 @@ QString Tinstrument::levelsDir() const {
     case AltSax:
     case TenorSax:
       return QStringLiteral("sax");
+    case Ukulele:
+      return QStringLiteral("ukulele");
 
     default: return QString();
   }
