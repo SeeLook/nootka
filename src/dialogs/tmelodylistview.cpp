@@ -27,6 +27,8 @@
 
 #include <QtQml/qqmlapplicationengine.h>
 #include <QtCore/qtimer.h>
+#include <QtCore/qfileinfo.h>
+#include <QtCore/qdir.h>
 #if !defined (Q_OS_ANDROID)
   #include <tmtr.h>
   #include <qtr.h>
@@ -40,8 +42,7 @@
 
 TmelodyListView::TmelodyListView(QQuickItem* parent) :
   QQuickItem(parent)
-{
-}
+{}
 
 
 TmelodyListView::~TmelodyListView() {}
@@ -85,6 +86,9 @@ void TmelodyListView::loadMelody() {
   if (m_xmlFiles.isEmpty())
     return;
 #endif
+
+  GLOB->setLastXmlDir(QFileInfo(m_xmlFiles.first()).absoluteDir().path());
+  m_lastMelodyId = m_level->melodySet.count() - 1;
   processNextXmlFile();
 }
 
@@ -173,8 +177,9 @@ void TmelodyListView::processNextXmlFile() {
         if (m_xmlFiles.isEmpty()) {
             QTimer::singleShot(100, this, [=]{ loadMelodies(); });
             emit melodiesChanged();
-        } else
-            QTimer::singleShot(100, this, [=]{ processNextXmlFile(); });
+        } else {
+            QTimer::singleShot(50, this, [=]{ processNextXmlFile(); });
+        }
     }
   });
   melImport->runXmlThread();
