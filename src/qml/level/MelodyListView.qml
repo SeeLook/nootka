@@ -118,6 +118,11 @@ TmelodyListView {
         text: "-"; textColor: enabled ? "red" : disdPal.text
         enabled: currentMelody > -1
         onClicked: removeWrapper(currentMelody)
+        Shortcut {
+          enabled: currentMelody > -1
+          sequence: "del"
+          onActivated: removeWrapper(currentMelody)
+        }
       }
     }
   }
