@@ -26,9 +26,12 @@ TmelodyListView {
     id: viewRow
     Text {
       visible: !melView.visible
+      y: NOO.factor() * 2
       width: melListView.width - NOO.factor() * 4
-      text: "\n" + qsTr("Add here melodies from Music XML files.\nBut better keep them short, so divide them first in some external software.")
+      // TODO: Remove 2nd sentence from translations and here
+      text: qsTr("Add here melodies from Music XML files.\nBut better keep them short, so divide them first in some external software.").split(".")[0] + "."
       horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap
+      font { pixelSize: NOO.factor() * 1.2; bold: true }
     }
     Item {
       id: viewItem
