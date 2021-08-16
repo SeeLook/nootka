@@ -61,7 +61,7 @@ TguitarBg {
     Image {
       cache: false
       source: NOO.pix("rosette-ukulele")
-      x: fbRect.width + height * 0.5; y: parent.height - fbRect.height
+      x: fbRect.width + height * 0.5; y: parent.height - fbRect.height * parent.scale
       width: fbRect.height; height: fbRect.height
     }
   }
