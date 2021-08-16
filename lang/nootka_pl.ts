@@ -3448,7 +3448,7 @@ Sprawdź czy jego parametry są właściwe..</translation>
     <message>
         <location filename="../src/libs/core/tnootkaqml.cpp" line="390"/>
         <source>MusicXML file</source>
-        <translation>plik MusicXML</translation>
+        <translation>Plik MusicXML</translation>
     </message>
     <message>
         <location filename="../src/libs/core/tnootkaqml.cpp" line="407"/>
