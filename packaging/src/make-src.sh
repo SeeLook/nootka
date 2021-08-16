@@ -32,14 +32,11 @@ cp $SRC_DIR/sounds/*.ogg $DST_DIR/sounds/
 cp $SRC_DIR/sounds/*.raw48-16 $DST_DIR/sounds/
 cp -r $SRC_DIR/src $DST_DIR
 cp $SRC_DIR/changes $DST_DIR
-cp $SRC_DIR/copyright $DST_DIR
 cp $SRC_DIR/CMakeLists.txt $DST_DIR
 cp $SRC_DIR/LICENSE $DST_DIR
 cp $SRC_DIR/README.md $DST_DIR
 cp $SRC_DIR/TODO.md $DST_DIR
 cp $SRC_DIR/cmake_uninstall.cmake.in $DST_DIR
-
-# TODO git commits number here (Mac needs it only)
 
 
 tar -cjf $DST_DIR.tar.bz2 $DST_DIR
