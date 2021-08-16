@@ -172,6 +172,7 @@ Tflickable {
           width: aboutCont.width - NOO.factor() * 4; height: contentHeight
           spacing: NOO.factor() / (NOO.isAndroid() ? 4 : 2)
           model: [
+            "<b>Andreas</b> for help with ukulele (advices, samples, images).",
             "<b>Renato Reinau</b> for animate boost of handling bandoneon by Nootka and substantial guidance in that matter.",
             "<b>José Luis Marín</b> for patient and intensive tests under Linux and great feedback.",
             "<b>Aaron Wolf</b> <a href=\"http://blog.wolftune.com/\">http://blog.wolftune.com</a> for many warm words about Nootka in the web and helping clues.",
@@ -179,7 +180,7 @@ Tflickable {
             "<b>Users</b> of <a href=\"http://www.linuxmusicians.com/\">http://www.linuxmusicians.com</a> forum for testing and comments.",
             "<b>Olli Parviainen</b> <a href=\"http://www.surina.net/soundtouch/\">http://www.surina.net/soundtouch</a> for help with his SoundTouch library.",
             "<b>Sergei Ivanov</b> for testing Nootka intensively, bug hunting and many valuable notices.",
-            "<b>Translators (Pavel, Olivier, Sergei, Jean-Marc, José Luis and Johann)</b> for many, maaaany clues and comments.",
+            "<b>Translators (Pavel, Olivier, Sergei, Jean-Marc, José Luis, Renato and Grega)</b> for many, maaaany clues and comments.",
             "<b>Project16 @ KVR</b> <a href=\"http://www.kvraudio.com/\">http://www.kvraudio.com</a> for the bass guitar samples.",
             "<b>And all others that helped.</b>"
           ]
