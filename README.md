@@ -19,11 +19,12 @@
 - interactive interface to discover the rules of musical notation
 - exercises where user can play or may guess a note on a score or its name
 - possibility to create own rules for exercises
+- importing melodies from musicXML file format - creating exercises based on them
 - accurate method for detecting sung and played sounds and melodies
 - natural sound of supported instruments
 - clefs (treble, bass and others) and grand stave
 - analyze of results (charts)
-- different kinds of guitars and theirs tuning
+- different kinds of guitars, ukulele and theirs tuning
 - also support for piano, bandoneon and saxophones (experimental)
 - built-in metronome
 - Czech, English, French, German, Hungarian, Italian, Polish, Spanish, Slovenian and Russian translations
@@ -45,6 +46,7 @@ Testing nightly builds
 Nightly builds for testing next Nootka releases are hosted on [https://www.opencode.net/seelook/nootka](https://www.opencode.net/seelook/nootka) and can be downloaded from the links below:  
 - [Linux AppImage](https://www.opencode.net/seelook/nootka/-/jobs/artifacts/master/download?job=appimage-amd64)  
 - [Windows installer](https://www.opencode.net/seelook/nootka/-/jobs/artifacts/master/download?job=windows_installer)  
+- [MacOs bundle](https://sourceforge.net/projects/nootka/files/Testing/)
 
 
 
