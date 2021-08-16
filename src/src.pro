@@ -161,7 +161,11 @@ lang.path = /assets/lang
 # They are created only during first compilation.
 # But at the end, when install target works, it can place them properly in Android assets dir.
 QM_STAFF = $$replace(EXTRA_TRANSLATIONS, ts, qm)
-lang.files += $$replace(QM_STAFF, lang, "$$OUT_PWD/lang")
+versionAtLeast(QT_VERSION, 5.15.0) {
+  lang.files += $$replace(QM_STAFF, lang, "$$OUT_PWD/lang/$${QT_ARCH}")
+} else {
+  lang.files += $$replace(QM_STAFF, lang, "$$OUT_PWD/lang")
+}
 
 # Then append Qt base translations from current Qt installation
 TR_DIR = "$$system(dirname $$QMAKESPEC)/../translations"
