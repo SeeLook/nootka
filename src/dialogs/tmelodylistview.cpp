@@ -81,7 +81,12 @@ void TmelodyListView::loadMelody() {
   auto f = qApp->font();
   qApp->setFont(Tmtr::systemFont);
   m_xmlFiles = QFileDialog::getOpenFileNames(nullptr, qTR("TmainScoreObject", "Open melody file"), GLOB->lastXmlDir(),
-                                             qTR("TmainScoreObject", "MusicXML file") + QLatin1String(" (*.xml *.musicxml *.mxl)"));
+                                             qTR("TmainScoreObject", "MusicXML file")
+                                             + QLatin1String(": *.xml, *.musicxml, *.mxl (*.xml *.musicxml *.mxl);;")
+                                             + QLatin1String(" *.xml (*.xml);;")
+                                             + QLatin1String(" *.musicxml (*.musicxml);;")
+                                             + qTR("TmainScoreObject", "Compressed MusicXML file")
+                                             + QLatin1String(" *.mxl  (*.mxl);;"));
   qApp->setFont(f);
   if (m_xmlFiles.isEmpty())
     return;

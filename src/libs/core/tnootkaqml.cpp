@@ -386,7 +386,12 @@ QString TnootkaQML::getXmlToOpen() {
   openFile = TfileDialog::getOpenFileName(GLOB->lastXmlDir(), QStringLiteral("xml|musicxml|mxl"));
 #else
   openFile = TfileDialog::getOpenFileName(qApp->translate("TmainScoreObject", "Open melody file"), GLOB->lastXmlDir(),
-                                          qApp->translate("TmainScoreObject", "MusicXML file") + QLatin1String(" (*.xml *.musicxml *.mxl)"));
+                                          qApp->translate("TmainScoreObject", "MusicXML file")
+                                          + QLatin1String(": *.xml, *.musicxml, *.mxl (*.xml *.musicxml *.mxl);;")
+                                          + QLatin1String(" *.xml (*.xml);;")
+                                          + QLatin1String(" *.musicxml (*.musicxml);;")
+                                          + qApp->translate("TmainScoreObject", "Compressed MusicXML file")
+                                          + QLatin1String(" *.mxl  (*.mxl);;"));
 #endif
   if (!openFile.isEmpty())
     GLOB->setLastXmlDir(QFileInfo(openFile).absoluteDir().path());
@@ -404,7 +409,7 @@ QString TnootkaQML::getXmlToSave(const QString& fileName) {
                                           QStringLiteral("musicxml|mxl"));
 #else
   saveFile = TfileDialog::getSaveFileName(qApp->translate("TmainScoreObject", "Save melody as:"), GLOB->lastXmlDir() + QDir::separator() + fileName,
-                                            qApp->translate("TmainScoreObject", "Compressed MusicXML file") + QLatin1String(" - *.mxl (*.mxl);;")
+                                            qApp->translate("TmainScoreObject", "Compressed MusicXML file") + QLatin1String(" *.mxl (*.mxl);;")
                                             + qTR("TmainScoreObject", "MusicXML file") + QLatin1String(" (*.musicxml *.xml)"),
                                             &filter);
 #endif
@@ -412,11 +417,11 @@ QString TnootkaQML::getXmlToSave(const QString& fileName) {
     GLOB->setLastXmlDir(QFileInfo(saveFile).absoluteDir().path());
     //if the dialog does not retrieve an extension for the file we deduct it from the filter
     if (QFileInfo(saveFile).suffix().isEmpty()) {
-        if (filter.endsWith(QLatin1String("(*.mxl)")))
-          saveFile += QLatin1String(".mxl");
-        else
-          saveFile += QLatin1String(".musicxml");
-     }
+      if (filter.endsWith(QLatin1String("(*.mxl)")))
+        saveFile += QLatin1String(".mxl");
+      else
+        saveFile += QLatin1String(".musicxml");
+    }
   }
   return saveFile;
 }
