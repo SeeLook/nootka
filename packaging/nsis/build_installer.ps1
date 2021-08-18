@@ -1,5 +1,11 @@
 # Powershell
 
+echo "--- Installing WGET & NSIS"
+Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+scoop bucket add extras
+scoop install wget
+scoop install nsis
+
 echo "--- Getting ZLIB"
 wget "https://www.opencode.net/seelook/nootka-build/-/raw/master/3rdParty/zlib.zip" -outfile "ZLIB.zip"
 Expand-Archive -Path ZLIB.zip -DestinationPath zlib
@@ -21,11 +27,6 @@ make -j2
 mkdir installs
 make install
 make deploy
-
-echo "--- Installing NSIS"
-Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
-scoop bucket add extras
-scoop install nsis
 
 echo "--- Building installer"
 makensis installs/nootka-utf16.nsi
