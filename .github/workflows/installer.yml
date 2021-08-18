@@ -33,7 +33,7 @@ jobs:
           version: '5.15.2'
           host: 'windows'
           target: 'desktop'
-          arch: 'win32_mingw53'
+          arch: 'win32_mingw73'
           setup-python: 'false'
 
       - name: Compile and prepare installer
