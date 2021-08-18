@@ -7,13 +7,13 @@ scoop install wget
 scoop install nsis
 
 echo "--- Getting ZLIB"
-wget "https://www.opencode.net/seelook/nootka-build/-/raw/master/3rdParty/zlib.zip" -outfile "ZLIB.zip"
-Expand-Archive -Path ZLIB.zip -DestinationPath zlib
+wget "https://www.opencode.net/seelook/nootka-build/-/raw/master/3rdParty/zlib.zip"
+Expand-Archive -Path zlib.zip -DestinationPath zlib
 Move-Item -Path .\zlib\zlib\*.* -Destination .\zlib\
 
 echo "--- Getting 3rd party libraries (FFTW, OGG, VORBIS)"
-wget "https://www.opencode.net/seelook/nootka-build/-/raw/master/3rdParty/win32-fftw-ogg-vorbis.tar.gz" -outfile "FFTW_OGG.tar.gz"
-tar -xvzf .\FFTW_OGG.tar.gz
+wget "https://www.opencode.net/seelook/nootka-build/-/raw/master/3rdParty/win32-fftw-ogg-vorbis.tar.gz"
+tar -xvzf .\win32-fftw-ogg-vorbis.tar.gz
 
 mkdir build
 cd build
