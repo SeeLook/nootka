@@ -2,6 +2,9 @@
 # CMakeList.txt NootkaSound library
 ########################################################################
 
+if (MINGW)
+  set(CMAKE_FIND_LIBRARY_SUFFIXES ".dll")
+endif()
 ###########################################################################
 ########   Looking for fftw3
 ###########################################################################
@@ -10,33 +13,34 @@ IF(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
 ELSE(FFTW3_LIBRARIES AND FFTW3_INCLUDE_DIRS)
   find_path(FFTW3_INCLUDE_DIR
     NAMES
-      fftw3.h
+      "fftw3.h"
     PATHS
       /usr/include
       /usr/local/include
       /opt/local/include
       /sw/include
-      ${CMAKE_SOURCE_DIR}/fftw
-      ${CMAKE_SOURCE_DIR}/../fftw
-      ${CMAKE_BINARY_DIR}/fftw
-      ${CMAKE_BINARY_DIR}/../fftw
+      ${CMAKE_SOURCE_DIR}/fftw/
+      ${CMAKE_SOURCE_DIR}/../fftw/
+      ${CMAKE_BINARY_DIR}/fftw/
+      ${CMAKE_BINARY_DIR}/../fftw/
       /usr/x86_64-w64-mingw32/include/
   )
-    find_library(FFTW3_LIBRARY
-      NAMES
-        fftw3f
-      PATHS
-        /usr/lib
-        /usr/lib64
-        /usr/local/lib
-        /opt/local/lib
-        /sw/lib
-        ${CMAKE_SOURCE_DIR}/fftw
-        ${CMAKE_SOURCE_DIR}/../fftw
-        ${CMAKE_BINARY_DIR}/fftw
-        ${CMAKE_BINARY_DIR}/../fftw
+  find_library(FFTW3_LIBRARY
+    NAMES
+      fftw3f libfftw3f-3
+    PATHS
+      /usr/lib
+      /usr/lib64
+      /usr/local/lib
+      /opt/local/lib
+      /sw/lib
+      ${CMAKE_SOURCE_DIR}/fftw/
+      ${CMAKE_SOURCE_DIR}/../fftw/
+      ${CMAKE_BINARY_DIR}/fftw/
+      ${CMAKE_BINARY_DIR}/../fftw/
   )
 
+  message(STATUS "===============FFTW_LIB ${FFTW3_LIBRARY}")
   set(FFTW3_INCLUDE_DIRS "${FFTW3_INCLUDE_DIR}" CACHE STRING "FFTW include directory")
   set(FFTW3_LIBRARIES "${FFTW3_LIBRARY}" CACHE STRING "FFTW library path")
 
@@ -69,9 +73,10 @@ ELSE(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
       /usr/local/include
       /opt/local/include
       /sw/include
-      ${CMAKE_SOURCE_DIR}/../libvorbis/include
-      ${CMAKE_SOURCE_DIR}/libvorbis/include
-      ${CMAKE_BINARY_DIR}/../libvorbis/include
+      ${CMAKE_SOURCE_DIR}/../libvorbis/include/
+      ${CMAKE_SOURCE_DIR}/libvorbis/include/
+      ${CMAKE_BINARY_DIR}/../libvorbis/include/
+      ${CMAKE_BINARY_DIR}/libvorbis/include/
       /usr/x86_64-w64-mingw32/include/
   )
   find_path(OGG_INCLUDE_DIR
@@ -82,10 +87,10 @@ ELSE(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
       /usr/local/include
       /opt/local/include
       /sw/include
-      ${CMAKE_SOURCE_DIR}/libogg/include
-      ${CMAKE_SOURCE_DIR}}/../libogg/include
-      ${CMAKE_BINARY_DIR}/libogg/include
-      ${CMAKE_BINARY_DIR}/../libogg/include
+      ${CMAKE_SOURCE_DIR}/libogg/include/
+      ${CMAKE_SOURCE_DIR}}/../libogg/include/
+      ${CMAKE_BINARY_DIR}/libogg/include/
+      ${CMAKE_BINARY_DIR}/../libogg/include/
       /usr/x86_64-w64-mingw32/include/
   )
   get_filename_component(VORBIS_DIR "${VORBIS_LIBRARIES}" DIRECTORY)
@@ -94,7 +99,7 @@ ELSE(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
   endif()
   message(STATUS "\n${VORBIS_DIR}")
     find_library(VORBISFILE_LIB
-      NAMES vorbisfile
+      NAMES vorbisfile libvorbisfile
       PATHS
         ${VORBIS_DIR}
         /usr/lib
@@ -102,13 +107,13 @@ ELSE(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
         /usr/local/lib
         /opt/local/lib
         /sw/lib
-        ${CMAKE_SOURCE_DIR}}/../libvorbis
-        ${CMAKE_BINARY_DIR}/../libvorbis
-        ${CMAKE_SOURCE_DIR}}/../vorbis-tools
-        ${CMAKE_BINARY_DIR}/../vorbis-tools
+        ${CMAKE_BINARY_DIR}}/libvorbis/
+        ${CMAKE_BINARY_DIR}/../libvorbis/
+        ${CMAKE_BINARY_DIR}}/../vorbis-tools/
+        ${CMAKE_BINARY_DIR}/vorbis-tools/
     )
     find_library(OGG_LIB
-      NAMES ogg
+      NAMES ogg libogg
       PATHS
         ${VORBIS_DIR}
         /usr/lib
@@ -116,13 +121,13 @@ ELSE(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
         /usr/local/lib
         /opt/local/lib
         /sw/lib
-        ${CMAKE_SOURCE_DIR}}/../libvorbis
-        ${CMAKE_BINARY_DIR}/../libvorbis
-        ${CMAKE_SOURCE_DIR}}/../vorbis-tools
-        ${CMAKE_BINARY_DIR}/../vorbis-tools
+        ${CMAKE_BINARY_DIR}}/libvorbis/
+        ${CMAKE_BINARY_DIR}/../libvorbis/
+        ${CMAKE_BINARY_DIR}}/vorbis-tools/
+        ${CMAKE_BINARY_DIR}/../vorbis-tools/
     )
     find_library(VORBIS_LIB
-      NAMES vorbis
+      NAMES vorbis libvorbis
       PATHS
         ${VORBIS_DIR}
         /usr/lib
@@ -130,10 +135,10 @@ ELSE(VORBIS_LIBRARIES AND OGG_INCLUDE_DIRS AND VORBIS_INCLUDE_DIRS)
         /usr/local/lib
         /opt/local/lib
         /sw/lib
-        ${CMAKE_SOURCE_DIR}}/../libvorbis
-        ${CMAKE_BINARY_DIR}/../libvorbis
-        ${CMAKE_SOURCE_DIR}}/../vorbis-tools
-        ${CMAKE_BINARY_DIR}/../vorbis-tools
+        ${CMAKE_BINARY_DIR}}/libvorbis/
+        ${CMAKE_BINARY_DIR}/../libvorbis/
+        ${CMAKE_BINARY_DIR}}/vorbis-tools/
+        ${CMAKE_BINARY_DIR}/../vorbis-tools/
     )
 
   message(STATUS "\n${VORBIS_LIB}\n${OGG_LIB}\n${VORBISFILE_LIB}")

@@ -4,6 +4,28 @@
 
 add_definitions(-DNOOTKACORE_LIBRARY)
 
+if (WIN32)
+  set(CMAKE_FIND_LIBRARY_SUFFIXES ".dll")
+  find_path(ZLIB_INCLUDE_DIR
+    NAMES
+      "zlib.h"
+    PATHS
+      ${CMAKE_SOURCE_DIR}/zlib/
+      ${CMAKE_SOURCE_DIR}/../zlib/
+      ${CMAKE_BINARY_DIR}/zlib/
+      ${CMAKE_BINARY_DIR}/../zlib/
+      /usr/x86_64-w64-mingw32/include/
+  )
+  find_library(ZLIB_LIBRARY
+    NAMES
+      zlib zlib1
+    PATHS
+      ${CMAKE_SOURCE_DIR}/zlib/
+      ${CMAKE_SOURCE_DIR}/../zlib/
+      ${CMAKE_BINARY_DIR}/zlib/
+      ${CMAKE_BINARY_DIR}/../zlib/
+  )
+endif(WIN32)
 
 find_package(ZLIB REQUIRED)
 
