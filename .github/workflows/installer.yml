@@ -22,7 +22,7 @@ jobs:
       - name: Set variables
         run: |
           echo ("NOOTKA_VERSION=" + $((Get-Content .\src\libs\core\nootkaconfig.h | %{ $_.Split(' ')[2]; }) -replace '"', '')) >> $env:GITHUB_ENV
-          echo ("NOOTKA_COM_CNT=" + $(git rev-list HEAD --count)) >> $GITHUB_ENV
+          echo ("NOOTKA_COM_CNT=" + $(git rev-list HEAD --count)) >> $env:GITHUB_ENV
 
       - name: Prepare build tools
         run: |
@@ -42,8 +42,8 @@ jobs:
 
       - name: Set MinGw path from Qt
         run: |
-          echo "d:\a\nootka\Qt\5.15.2\mingw81_32\bin\" >> $GITHUB_PATH
-          echo "d:\a\nootka\Qt\Tools\mingw81_32\bin\" >> $GITHUB_PATH
+          echo "d:\a\nootka\Qt\5.15.2\mingw81_32\bin\" >> $env:GITHUB_PATH
+          echo "d:\a\nootka\Qt\Tools\mingw81_32\bin\" >> $env:GITHUB_PATH
 
       - name: Compile and prepare installer
         shell: pwsh
