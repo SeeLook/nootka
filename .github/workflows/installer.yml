@@ -44,12 +44,13 @@ jobs:
         run: |
           ./packaging/nsis/build_installer.ps1
           Move-Item -Path .\build\installs\Nootka-*-Windows-Installer.exe -Destination "Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Windows-Installer.exe"
+          ls
 
       - name: Upload installer to GitHub
         uses: actions/upload-artifact@v2
         with:
           name: "Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Windows-Installer.exe"
-          path: "D:\a\nootka\nootka\Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Windows-Installer.exe"
+          path: "D:/a/nootka/nootka/Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Windows-Installer.exe"
 
 
   upload_package:
