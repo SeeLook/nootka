@@ -14,10 +14,12 @@ echo "--- Getting 3rd party libraries (FFTW, OGG, VORBIS)"
 wget -q "https://www.opencode.net/seelook/nootka-build/-/raw/master/3rdParty/win32-fftw-ogg-vorbis.tar.gz"
 tar -xzf .\win32-fftw-ogg-vorbis.tar.gz
 
+$mainDir = Get-Location
+
 mkdir build
 cd build
 
-cmake -G "MinGW Makefiles" -DZLIB_LIBRARY=../zlib/zlib1.dll -DZLIB_INCLUDE_DIR=../zlib/  -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=installs ../
+cmake -G "MinGW Makefiles" -DZLIB_LIBRARY=$mainDir\zlib\zlib1.dll -DZLIB_INCLUDE_DIR=$mainDir\zlib  -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=installs ../
 
 mingw32-make -j2
 
