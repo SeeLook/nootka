@@ -127,6 +127,7 @@ if (NOT WITH_STATIC_LIB)
   else(UNIX AND NOT APPLE)
     if(WIN32)       # Windows
       install(TARGETS NootkaCore DESTINATION .)
+      install(FILES ${ZLIB_LIBRARY} DESTINATION .)
     else(WIN32)       # MacOs
       install(TARGETS NootkaCore DESTINATION "${CMAKE_INSTALL_PREFIX}/nootka.app/Contents/Frameworks")
     endif(WIN32)
