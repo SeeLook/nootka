@@ -18,9 +18,7 @@ tar -xvzf .\win32-fftw-ogg-vorbis.tar.gz
 mkdir build
 cd build
 
-# cmake -DCMAKE_C_COMPILER=C:/Qt/Tools/mingw810_32/bin/gcc.exe -DCMAKE_CXX_COMPILER=C:/Qt/Tools/mingw810_32/bin/g++.exe -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=installs ../
-
-cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=RELEASE -DCMAKE_INSTALL_PREFIX=installs ../
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=installs ../
 
 make -j2
 

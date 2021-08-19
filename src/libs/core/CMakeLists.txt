@@ -103,7 +103,10 @@ if (WITH_STATIC_LIB)
 else ()
   add_library(NootkaCore SHARED ${LIB_NOOTKACORE_SRC} )
 endif ()
+
 target_link_libraries(NootkaCore
+  Qt5::Core
+  Qt5::Gui
   Qt5::Widgets
   Qt5::Qml
   Qt5::Quick
