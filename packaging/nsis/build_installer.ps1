@@ -19,7 +19,7 @@ cd build
 
 cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=installs ../
 
-make -j2
+mingw32-make -j2
 
 mkdir installs
 make install

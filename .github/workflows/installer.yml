@@ -24,14 +24,6 @@ jobs:
           echo ("NOOTKA_VERSION=" + $((Get-Content .\src\libs\core\nootkaconfig.h | %{ $_.Split(' ')[2]; }) -replace '"', '')) >> $env:GITHUB_ENV
           echo ("NOOTKA_COM_CNT=" + $(git rev-list HEAD --count)) >> $env:GITHUB_ENV
 
-      - name: Install correct version of mingw
-        run: |
-          choco uninstall mingw --force
-          choco uninstall strawberryperl --force
-      - uses: numworks/setup-msys2@v1
-        with:
-          msystem: MINGW32
-
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
@@ -39,7 +31,6 @@ jobs:
           host: 'windows'
           target: 'desktop'
           arch: 'win32_mingw81'
-          setup-python: 'false'
 
       - name: Set MinGw path from Qt
         run: |
