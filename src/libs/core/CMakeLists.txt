@@ -105,8 +105,6 @@ else ()
 endif ()
 
 target_link_libraries(NootkaCore
-  Qt5::Core
-  Qt5::Gui
   Qt5::Widgets
   Qt5::Qml
   Qt5::Quick
