@@ -12,7 +12,7 @@ tar -xzf .\win32-fftw-ogg-vorbis.tar.gz
 mkdir build
 cd build
 
-cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=installs ../
+cmake -DCMAKE_MAKE_PROGRAM="d:\a\nootka\Qt\Tools\mingw81_32\bin\mingw32-make.exe" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=installs ../
 
 make -j2
 
