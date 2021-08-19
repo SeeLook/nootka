@@ -1,11 +1,5 @@
 # Powershell
 
-echo "--- Installing WGET & NSIS"
-Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
-scoop bucket add extras
-scoop install wget
-scoop install nsis
-
 echo "--- Getting ZLIB"
 wget "https://www.opencode.net/seelook/nootka-build/-/raw/master/3rdParty/zlib.zip"
 Expand-Archive -Path zlib.zip -DestinationPath zlib
@@ -13,7 +7,7 @@ Move-Item -Path .\zlib\zlib\*.* -Destination .\zlib\
 
 echo "--- Getting 3rd party libraries (FFTW, OGG, VORBIS)"
 wget "https://www.opencode.net/seelook/nootka-build/-/raw/master/3rdParty/win32-fftw-ogg-vorbis.tar.gz"
-tar -xvzf .\win32-fftw-ogg-vorbis.tar.gz
+tar -xzf .\win32-fftw-ogg-vorbis.tar.gz
 
 mkdir build
 cd build
