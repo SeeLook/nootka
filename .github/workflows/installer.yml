@@ -1,4 +1,4 @@
-name:     Windows installer
+name:     Installer
 
 on:
   push:
@@ -27,6 +27,13 @@ jobs:
           #CNT=$(git rev-list HEAD --count)
           #echo "NOOTKA_COM_CNT=$CNT" >> $GITHUB_ENV
 
+      - name: Prepare build tools
+        run: |
+          choco install nsis
+          choco install wget
+          choco uninstall mingw --force
+          choco uninstall strawberryperl --force
+
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
@@ -35,6 +42,11 @@ jobs:
           target: 'desktop'
           arch: 'win32_mingw81'
           setup-python: 'false'
+
+      - name: Set MinGw path from Qt
+        run: |
+          echo "::add-path::d:\a\nootka\Qt\5.15.2\mingw81_32\bin\"
+          refreshenv
 
       - name: Compile and prepare installer
         shell: pwsh
