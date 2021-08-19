@@ -117,7 +117,7 @@ target_link_libraries(NootkaCore
   Qt5::Qml
   Qt5::Quick
   Qt5::QuickControls2
-  ZLIB::ZLIB
+  ${ZLIB_LIBRARY}
 )
 
 
