@@ -1,5 +1,10 @@
 # Powershell
 
+Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+scoop bucket add extras
+scoop install nsis
+scoop install wget
+
 echo "--- Getting ZLIB"
 wget -q "https://www.opencode.net/seelook/nootka-build/-/raw/master/3rdParty/zlib.zip"
 Expand-Archive -Path zlib.zip -DestinationPath zlib

@@ -24,15 +24,6 @@ jobs:
           echo ("NOOTKA_VERSION=" + $((Get-Content .\src\libs\core\nootkaconfig.h | %{ $_.Split(' ')[2]; }) -replace '"', '')) >> $env:GITHUB_ENV
           echo ("NOOTKA_COM_CNT=" + $(git rev-list HEAD --count)) >> $env:GITHUB_ENV
 
-      - name: Prepare build tools
-        run: |
-          Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
-          scoop bucket add extras
-          scoop install nsis
-          scoop install wget
-          #choco uninstall mingw --force
-          #choco uninstall strawberryperl --force
-
       - name: Install Qt
         uses: jurplel/install-qt-action@v2
         with:
