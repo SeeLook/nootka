@@ -17,7 +17,7 @@ tar -xzf .\win32-fftw-ogg-vorbis.tar.gz
 mkdir build
 cd build
 
-cmake -G "MinGW Makefiles" -DZLIB_LIBRARY=../zlib/zlib1.dll  -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=installs ../
+cmake -G "MinGW Makefiles" -DZLIB_LIBRARY=../zlib/zlib1.dll -DZLIB_INCLUDE_DIR=../zlib/  -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=installs ../
 
 mingw32-make -j2
 
