@@ -31,7 +31,4 @@ mingw32-make deploy
 echo "--- Building installer"
 makensis installs/nootka-utf16.nsi
 
-Move-Item -Path .\installs\Nootka-*-Windows-Installer.exe -Destination ..\Nootka-Installer.exe
-
 cd ..
-ls

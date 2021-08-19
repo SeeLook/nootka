@@ -43,12 +43,13 @@ jobs:
         shell: pwsh
         run: |
           ./packaging/nsis/build_installer.ps1
+          Move-Item -Path .\build\installs\Nootka-*-Windows-Installer.exe -Destination "Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Windows-Installer.exe"
 
       - name: Upload installer to GitHub
         uses: actions/upload-artifact@v2
         with:
-          name: Nootka-Installer.exe #Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}.exe
-          path: /Users/runner/work/nootka/nootka/Nootka-Installer.exe #Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}.exe
+          name: "Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Windows-Installer.exe"
+          path: "D:\a\nootka\nootka\Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Windows-Installer.exe"
 
 
   upload_package:
@@ -72,13 +73,13 @@ jobs:
       - name: get artifacts
         uses: actions/download-artifact@v2
         with:
-          name: Nootka-Installer.exe # Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}.exe
+          name: Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Windows-Installer.exe
 
       - name: Upload installer to SF
         uses: burnett01/rsync-deployments@5.0
         with:
           switches: -avzr --delete
-          path: Nootka-Installer.exe # Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}.exe
+          path: Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Windows-Installer.exe
           remote_path: ${{ secrets.REMOTE_PATH }}
           remote_host: ${{ secrets.SSH_HOST  }}
           remote_user: ${{ secrets.SSH_USER }}
