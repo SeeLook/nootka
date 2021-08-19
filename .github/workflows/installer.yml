@@ -26,8 +26,9 @@ jobs:
 
       - name: Prepare build tools
         run: |
-          choco install nsis
-          choco install wget
+          Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+          scoop bucket add extras
+          scoop install nsis
           #choco uninstall mingw --force
           #choco uninstall strawberryperl --force
 
