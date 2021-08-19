@@ -45,8 +45,7 @@ jobs:
 
       - name: Set MinGw path from Qt
         run: |
-          echo "::add-path::d:\a\nootka\Qt\5.15.2\mingw81_32\bin\"
-          refreshenv
+          echo "d:\a\nootka\Qt\5.15.2\mingw81_32\bin\" >> $GITHUB_PATH
 
       - name: Compile and prepare installer
         shell: pwsh
