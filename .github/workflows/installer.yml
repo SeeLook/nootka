@@ -32,11 +32,6 @@ jobs:
           target: 'desktop'
           arch: 'win32_mingw81'
 
-      - name: Set MinGw path from Qt
-        run: |
-          echo "d:\a\nootka\Qt\5.15.2\mingw81_32\bin\" >> $env:GITHUB_PATH
-          echo "d:\a\nootka\Qt\Tools\mingw81_32\bin\" >> $env:GITHUB_PATH
-
       - name: Compile and prepare installer
         shell: pwsh
         run: |
