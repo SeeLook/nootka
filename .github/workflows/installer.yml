@@ -31,6 +31,7 @@ jobs:
           host: 'windows'
           target: 'desktop'
           arch: 'win32_mingw81'
+          tools: 'qt.tools.win32_mingw810'
 
       - name: Compile and prepare installer
         shell: pwsh
