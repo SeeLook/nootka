@@ -133,11 +133,21 @@ jobs:
           CNT=$(git rev-list HEAD --count)
           echo "NOOTKA_COM_CNT=$CNT" >> $GITHUB_ENV
 
-      - name: get artifacts
+      - name: get bundle
         uses: actions/download-artifact@v2
-        # get all artifacts
+        with:
+          name: Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}.dmg
 
-      - name: Upload dmg to SF
+      - name: get installer
+        uses: actions/download-artifact@v2
+        with:
+          name: Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Windows-Installer.exe
+
+      - name: see what we got
+        run: |
+          ls - la
+
+      - name: Upload packages to SF
         uses: burnett01/rsync-deployments@5.0
         with:
           switches: -avzr --delete
