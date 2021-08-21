@@ -2,14 +2,13 @@ appimage-amd64:
   image: ubuntu:16.04
 
   before_script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )'
-    - eval $(ssh-agent -s)
-    - echo "$SSH_KEY_PRIVATE" | tr -d '\r' | ssh-add -
-    - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - ssh-keyscan opencode.net >> ~/.ssh/known_hosts
-    - chmod 644 ~/.ssh/known_hosts
-
+    #- 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )'
+    #- eval $(ssh-agent -s)
+    #- echo "$SSH_KEY_PRIVATE" | tr -d '\r' | ssh-add -
+    #- mkdir -p ~/.ssh
+    #- chmod 700 ~/.ssh
+    #- ssh-keyscan opencode.net >> ~/.ssh/known_hosts
+    #- chmod 644 ~/.ssh/known_hosts
 
     - apt-get update
     - apt-get install -y mesa-common-dev libsoundtouch-dev libfftw3-dev libasound2-dev libogg-dev libvorbis-dev libpulse-dev libjack-dev cmake git wget build-essential software-properties-common
@@ -22,8 +21,8 @@ appimage-amd64:
     - make
     - make appimage
     - mv nootka-*.AppImage Nootka-$(head -1 $PWD/changes | sed 's/\ /-/g')-b$(git rev-list HEAD --count)-x86_64.AppImage
-    - echo "Uploading AppImage"
-    - rsync -avzr --delete Nootka*.AppImage $SSH_USER@$SSH_HOST:/$REMOTE_PATH
+    #- echo "Uploading AppImage"
+    #- rsync -avzr --delete Nootka*.AppImage $SSH_USER@$SSH_HOST:/$REMOTE_PATH
 
   artifacts:
     name: "Nootka-AppImage-$(head -1 $PWD/changes | sed 's/\ /-/g')-b$(git rev-list HEAD --count)"
