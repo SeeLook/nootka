@@ -67,6 +67,8 @@ class TmainScoreObject : public QObject
   Q_PROPERTY(QList<QObject*> melodyActions READ melodyActions NOTIFY melodyActionsChanged)
   Q_PROPERTY(QString keyNameText READ keyNameText NOTIFY keyNameTextChanged)
   Q_PROPERTY(QQuickItem* mainScoreItem READ mainScoreItem WRITE setMainScoreItem)
+  Q_PROPERTY(QString title READ title NOTIFY titleChanged)
+  Q_PROPERTY(QString composer READ composer NOTIFY titleChanged)
 
 public:
   explicit TmainScoreObject(QObject* parent = nullptr);
@@ -101,6 +103,9 @@ public:
 
   QQuickItem* mainScoreItem() { return m_mainScoreItem; }
   void setMainScoreItem(QQuickItem* msItem);
+
+  QString title() const { return m_title; }
+  QString composer() const { return m_composer; }
 
 // redirected from TscoreObject
   int notesCount() const;
@@ -173,6 +178,7 @@ signals:
   void readOnlyNoteClicked(int noteId);
   void melodyGenerate();
   void melodyNameDialog();
+  void titleChanged();
 
 protected:
   void openXmlActSlot();
@@ -219,6 +225,8 @@ private:
   Tnote                     *m_goodNote;
   QObject                   *m_animationObj = nullptr;
   int                        m_correctNoteId = -1; /**< keeps id of note with correction anim, -1 no note, no anim */
+  QString                    m_title;
+  QString                    m_composer;
 
 };
 

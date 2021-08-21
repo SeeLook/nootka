@@ -53,6 +53,25 @@ Score {
 
   Timer { id: zoomTimer; interval: 500 }
 
+  Text {
+    text: mainObj.title
+    visible: !singleNote
+    y: NOO.factor() / 2; x: parent.width * 0.125; z: -1
+    color: activPal.dimText
+    width: parent.width * 0.75
+    horizontalAlignment: Text.AlignHCenter
+    font { pixelSize: NOO.factor() * 2; bold: true }
+  }
+  Text {
+    text: mainObj.composer
+    visible: !singleNote
+    y: NOO.factor() * 1.5; x: parent.width * 0.875; z: -1
+    color: activPal.dimText
+    width: parent.width * 0.125
+    horizontalAlignment: Text.AlignHCenter
+    font.bold: true
+  }
+
   PinchArea {
     z: -1
     anchors.fill: parent

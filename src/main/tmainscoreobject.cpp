@@ -157,8 +157,12 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
       emit keyNameTextChanged();
   });
   connect(m_scoreObj->clearScoreAct(), &Taction::triggered, this, [=]{
-    if (!m_scoreObj->singleNote() && !GLOB->isExam())
+    if (!m_scoreObj->singleNote() && !GLOB->isExam()) {
       SOUND->stopPlaying();
+      m_title.clear();
+      m_composer.clear();
+      emit titleChanged();
+    }
   });
   m_scoreObj->clearScoreAct()->setBgColor(QColor(255, 140, 0)); // orange
 #if !defined (Q_OS_ANDROID)
@@ -520,6 +524,9 @@ void TmainScoreObject::saveMusicXml(const QString& fileName, const QString& titl
         lc.removeLast();
       GLOB->config->setValue(QLatin1String("Melody/recentComposers"), lc);
     }
+    m_title = title;
+    m_composer = composer;
+    emit titleChanged();
   }
 }
 
@@ -679,6 +686,9 @@ void TmainScoreObject::openXmlFileSlot(const QString& xmlFile) {
         NOO->scoreObj()->setMelody(IMPORT_SCORE->mainMelody(), !GLOB->instrument().bandoneon() && !GLOB->instrument().isGuitar());
         // NOTE use here NOO->scoreObj() because m_scoreObj may be yet unset
         SOUND->setMetronome(IMPORT_SCORE->mainMelody()->tempo(), IMPORT_SCORE->mainMelody()->beat());
+        m_title = IMPORT_SCORE->mainMelody()->title();
+        m_composer = IMPORT_SCORE->mainMelody()->composer();
+        emit titleChanged();
         IMPORT_SCORE->deleteLater();
       }
     });
@@ -696,6 +706,9 @@ void TmainScoreObject::melodyImportSlot() {
           NOO->scoreObj()->setMelody(snip->melody(), GLOB->instrument().type() != Tinstrument::Bandoneon && !GLOB->instrument().isGuitar());
           // NOTE use here NOO->scoreObj() because m_scoreObj may be yet unset
           SOUND->setMetronome(snip->melody()->tempo(), snip->melody()->beat());
+          m_title = snip->melody()->title();
+          m_composer = snip->melody()->composer();
+          emit titleChanged();
           break;
         }
       }
