@@ -12,7 +12,7 @@ jobs:
   win_installer:
     name:           Build Windows installer
     runs-on:        windows-latest
-    if: "contains(github.event.commits[0].message, 'prepare_build')"
+    #if: "contains(github.event.commits[0].message, 'prepare_build')"
 
     steps:
 
@@ -58,7 +58,7 @@ jobs:
     name:           Build Mac dmg
     runs-on:        macos-latest
     needs:          win_installer
-    if: "contains(github.event.commits[0].message, 'prepare_build')"
+    #if: "contains(github.event.commits[0].message, 'prepare_build')"
 
     steps:
       - name: Select Xcode version for Mac
