@@ -143,15 +143,21 @@ jobs:
         with:
           name: Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Windows-Installer.exe
 
-      - name: see what we got
-        run: |
-          ls - la
-
-      - name: Upload packages to SF
+      - name: Upload dmg to SF
         uses: burnett01/rsync-deployments@5.0
         with:
           switches: -avzr --delete
-          path: Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}*.*
+          path: Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}.dmg
+          remote_path: ${{ secrets.REMOTE_PATH }}
+          remote_host: ${{ secrets.SSH_HOST  }}
+          remote_user: ${{ secrets.SSH_USER }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Upload installer to SF
+        uses: burnett01/rsync-deployments@5.0
+        with:
+          switches: -avzr --delete
+          path: Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Windows-Installer.exe
           remote_path: ${{ secrets.REMOTE_PATH }}
           remote_host: ${{ secrets.SSH_HOST  }}
           remote_user: ${{ secrets.SSH_USER }}
