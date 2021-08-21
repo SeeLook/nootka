@@ -9,10 +9,56 @@ on:
         - master
 
 jobs:
+  win_installer:
+    name:           Build Windows installer
+    runs-on:        windows-latest
+    if: "contains(github.event.commits[0].message, 'prepare_build')"
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      # Use 'tools' to install win32_mingw810,
+      # because MinGw shipped with this docker is not able to compile (link) 32bits Qt project
+      - name: Install Qt
+        uses: jurplel/install-qt-action@v2
+        with:
+          version: '5.15.2'
+          host: 'windows'
+          target: 'desktop'
+          arch: 'win32_mingw81'
+          tools: 'tools_mingw,8.1.0-1-202004170606,qt.tools.win32_mingw810'
+
+      - name: Variables and Qt 5 environment configuration
+        shell: pwsh
+        run: |
+          Write-Output "${{ env.Qt5_DIR }}/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          Write-Output "${{ env.IQTA_TOOLS }}/mingw810_32/bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          echo ("NOOTKA_VERSION=" + $((Get-Content .\src\libs\core\nootkaconfig.h | %{ $_.Split(' ')[2]; }) -replace '"', '')) >> $env:GITHUB_ENV
+          echo ("NOOTKA_COM_CNT=" + $(git rev-list HEAD --count)) >> $env:GITHUB_ENV
+
+
+      - name: Compile and prepare installer
+        shell: pwsh
+        run: |
+          ./packaging/nsis/build_installer.ps1
+          Move-Item -Path .\build\installs\Nootka-*-Windows-Installer.exe -Destination "Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Windows-Installer.exe"
+
+      - name: Upload installer to GitHub
+        uses: actions/upload-artifact@v2
+        with:
+          name: "Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Windows-Installer.exe"
+          path: "D:/a/nootka/nootka/Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Windows-Installer.exe"
+
+
   macos_dmg:
     name:           Build Mac dmg
     runs-on:        macos-latest
-    if: "contains(github.event.commits[0].message, 'get_bundle')"
+    needs:          win_installer
+    if: "contains(github.event.commits[0].message, 'prepare_build')"
 
     steps:
       - name: Select Xcode version for Mac
@@ -89,14 +135,13 @@ jobs:
 
       - name: get artifacts
         uses: actions/download-artifact@v2
-        with:
-          name: Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}.dmg
+        # get all artifacts
 
       - name: Upload dmg to SF
         uses: burnett01/rsync-deployments@5.0
         with:
           switches: -avzr --delete
-          path: Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}.dmg
+          path: Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}*.*
           remote_path: ${{ secrets.REMOTE_PATH }}
           remote_host: ${{ secrets.SSH_HOST  }}
           remote_user: ${{ secrets.SSH_USER }}
