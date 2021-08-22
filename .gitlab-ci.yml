@@ -1,4 +1,8 @@
 appimage-amd64:
+  only:
+    variables:
+      - $CI_COMMIT_MESSAGE =~ /prepare_build/
+
   image: ubuntu:16.04
 
   before_script:
