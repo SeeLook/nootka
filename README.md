@@ -43,10 +43,9 @@ Also in [Google Play Store](https://play.google.com/store/apps/details?id=net.sf
 
 Testing nightly builds
 --------------------------
-Nightly builds for testing next Nootka releases are hosted on [https://www.opencode.net/seelook/nootka](https://www.opencode.net/seelook/nootka) and can be downloaded from the links below:  
-- [Linux AppImage](https://www.opencode.net/seelook/nootka/-/jobs/artifacts/master/download?job=appimage-amd64)  
-- [Windows installer](https://www.opencode.net/seelook/nootka/-/jobs/artifacts/master/download?job=windows_installer)  
-- [MacOs bundle](https://sourceforge.net/projects/nootka/files/Testing/)
+Nightly builds for testing next Nootka releases:  
+  Linux AppImage, MacOs bundle, Windows installer  
+  [Hosted on SourceForge](https://sourceforge.net/projects/nootka/files/Testing/)
 
 
 
