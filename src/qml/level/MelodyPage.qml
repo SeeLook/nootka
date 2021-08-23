@@ -132,7 +132,6 @@ Tflickable {
       }
     }
     Tile {
-      visible: false // TODO
       Row {
         spacing: NOO.factor()
         anchors.horizontalCenter: parent.horizontalCenter
@@ -146,7 +145,7 @@ Tflickable {
           text: Math.floor(tempoRange.first.value); font { bold: true; pixelSize: NOO.factor() * 0.8 }
           color: enabled ? activPal.text : disdPal.text
         }
-        RangeSlider { // TODO so far it is only one RangeSlider in Nootka - set its style here according to Tslider
+        TrangeSlider {
           id: tempoRange
           anchors.verticalCenter: parent.verticalCenter
           width: parent.parent.width / 3
