@@ -47,6 +47,7 @@
     <file alias="Tslider.qml">qml/shared/Tslider.qml</file>
     <file alias="TtextField.qml">qml/shared/TtextField.qml</file>
     <file alias="Tmessage.qml">qml/shared/Tmessage.qml</file>
+    <file alias="TrangeSlider.qml">qml/shared/TrangeSlider.qml</file>
 
     <file alias="gotit/GotIt.qml">qml/gotit/GotIt.qml</file>
     <file alias="gotit/SoundInfo.qml">qml/gotit/SoundInfo.qml</file>
