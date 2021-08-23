@@ -91,9 +91,9 @@ void Tsound::init() {
 #if !defined (Q_OS_ANDROID) && (defined (Q_OS_LINUX) || defined (Q_OS_WIN))
       TrtAudio::initJACKorASIO(GLOB->A->JACKorASIO);
 #endif
-      if (GLOB->A->OUTenabled)
+      if (GLOB->outputType())
         createPlayer();
-      if (GLOB->A->INenabled)
+      if (GLOB->inputType())
         createSniffer();
 
       connect(NOO, &TnootkaQML::playNote, this, &Tsound::play);
@@ -198,12 +198,12 @@ qreal Tsound::pitchDeviation() {
 void Tsound::acceptSettings() {
   bool doParamsUpdated = false;
   // for output
-  if (GLOB->A->OUTenabled) {
+  if (GLOB->outputType()) {
       if (!player)
           createPlayer();
       else {
         #if !defined (Q_OS_ANDROID)
-          if (GLOB->A->midiEnabled) {
+          if (GLOB->A->outType == TaudioParams::e_midiSound) {
             deletePlayer(); // it is safe to delete midi
             createPlayer(); // and create it again
           } else
@@ -225,7 +225,7 @@ void Tsound::acceptSettings() {
         deletePlayer();
 
   // for input
-  if (GLOB->A->INenabled) {
+  if (GLOB->inputType()) {
       if (!sniffer) {
           createSniffer();
       } else {

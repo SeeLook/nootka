@@ -45,13 +45,13 @@ void TglobalExamStore::storeSettings() {
   octaveInName = m_globals->S->octaveInNoteNameFormat;
   clef = Tclef(m_globals->S->clef);
   intonation = m_globals->A->intonation;
-  if (m_globals->A->midiEnabled)
+  if (m_globals->A->outType == TaudioParams::e_midiSound)
     playbackInstr = m_globals->A->midiInstrNr;
   else
     playbackInstr = m_globals->A->audioInstrNr;
   namesOnScore = m_globals->S->namesOnScore;
-  OUTenabled = m_globals->A->OUTenabled;
-  INenabled = m_globals->A->INenabled;
+  outType = m_globals->outputType();
+  inType = m_globals->inputType();
   enableRhythms = m_globals->rhythmsEnabled();
   quantization = SOUND->quantization();
 }
@@ -69,12 +69,12 @@ void TglobalExamStore::restoreSettings() {
   m_globals->A->intonation = intonation;
   m_globals->GshowOtherPos = showOtherPos;
   m_globals->setGuitarParams(fretsNumber, tune);
-  if (m_globals->A->midiEnabled)
+  if (m_globals->outputType() == TaudioParams::e_midiSound)
     m_globals->A->midiInstrNr = playbackInstr;
   else
     m_globals->A->audioInstrNr = playbackInstr;
-  m_globals->A->INenabled = INenabled;
-  m_globals->A->OUTenabled = OUTenabled;
+  m_globals->setInputType(inType);
+  m_globals->setOutputType(outType);
   m_globals->setRhythmsEnabled(enableRhythms);
   SOUND->setQuantization(quantization);
 }
@@ -89,13 +89,11 @@ void TglobalExamStore::prepareGlobalsToExam(const Tlevel& level) {
   m_globals->setClefType(static_cast<int>(level.clef.type()));
   m_globals->setNamesOnScore(false);
   if (level.answerIsSound()) {
-      if (!m_globals->A->INenabled) {
-        m_globals->A->INenabled = true;
-      }
+    if (m_globals->A->inType == TaudioParams::e_noSound)
+      m_globals->A->inType = TaudioParams::e_realSound;
   }
-  if (level.questionAs.isSound() && !m_globals->A->OUTenabled) {
-    m_globals->A->OUTenabled = true;
-  }
+  if (level.questionAs.isSound() && m_globals->A->outType == TaudioParams::e_noSound)
+    m_globals->A->outType = TaudioParams::e_realSound;
   m_globals->A->intonation = level.intonation;
 //   m_globals->setRhythmsEnabled(false); // TODO: Read it from level when will be implemented
     // change output instrument type when necessary (exam instrument differs from user) TODO

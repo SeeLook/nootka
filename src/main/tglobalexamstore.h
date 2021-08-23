@@ -74,7 +74,7 @@ public:
   int                           playbackInstr;
   bool                          isSingleNoteMode;
   bool                          namesOnScore;
-  bool                          OUTenabled,  INenabled;
+  int                           outType,  inType;
   bool                          showSoundView, showGuitar;
   bool                          enableRhythms;
   int                           quantization;
