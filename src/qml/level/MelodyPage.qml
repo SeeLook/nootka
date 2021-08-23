@@ -132,17 +132,17 @@ Tflickable {
       }
     }
     Tile {
+      description: qsTr("If selected, tempo in succeeding questions will increase - but only up to value when shortest melody note is possible to play/detect.")
       Row {
         spacing: NOO.factor()
         anchors.horizontalCenter: parent.horizontalCenter
         TcheckBox {
             id: inTempoChB
-            anchors.verticalCenter: parent.verticalCenter
             text: qsTr("Play in tempo")
         }
         Text {
           anchors.verticalCenter: parent.verticalCenter
-          text: Math.floor(tempoRange.first.value); font { bold: true; pixelSize: NOO.factor() * 0.8 }
+          text: Math.floor(tempoRange.first.value); font { bold: true; pixelSize: NOO.factor() * 0.9 }
           color: enabled ? activPal.text : disdPal.text
         }
         TrangeSlider {
@@ -155,7 +155,7 @@ Tflickable {
         }
         Text {
           anchors.verticalCenter: parent.verticalCenter
-          text: Math.floor(tempoRange.second.value); font { bold: true; pixelSize: NOO.factor() * 0.8 }
+          text: Math.floor(tempoRange.second.value); font { bold: true; pixelSize: NOO.factor() * 0.9 }
           color: enabled ? activPal.text : disdPal.text
         }
       }
