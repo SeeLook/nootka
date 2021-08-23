@@ -19,7 +19,8 @@ RangeSlider {
     border { width: sl.activeFocus ? 1 : 0; color: activPal.highlight }
 
     Rectangle {
-      width: sl.visualPosition * parent.width; height: parent.height
+      x: sl.first.visualPosition * parent.width
+      width: (sl.second.visualPosition - sl.first.visualPosition) * parent.width; height: parent.height
       color:  sl.enabled ? activPal.highlight : disdPal.highlight
       radius: parent.radius
     }
