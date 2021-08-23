@@ -85,14 +85,14 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(QString markedFrets READ markedFrets WRITE setMarkedFrets);
 
   /* Sound switches */
-  Q_PROPERTY(bool audioInEnabled READ audioInEnabled WRITE setAudioInEnabled)
+  Q_PROPERTY(int inputType READ inputType WRITE setInputType)
   Q_PROPERTY(int audioInstrument READ audioInstrument WRITE setAudioInstrument)
   Q_PROPERTY(QString inDevName READ inDevName WRITE setInDevName)
   Q_PROPERTY(qreal minDuration READ minDuration WRITE setMinDuration)
   Q_PROPERTY(qreal minVolume READ minVolume WRITE setMinVolume NOTIFY minVolumeChanged)
   Q_PROPERTY(int detectionMethod READ detectionMethod WRITE setDetectionMethod)
   Q_PROPERTY(bool useFilter READ useFilter WRITE setUseFilter)
-  Q_PROPERTY(bool audioOutEnabled READ audioOutEnabled WRITE setAudioOutEnabled)
+  Q_PROPERTY(int outputType READ outputType WRITE setOutputType)
   Q_PROPERTY(QString outDevName READ outDevName WRITE setOutDevName)
   Q_PROPERTY(bool forwardInput READ forwardInput WRITE setForwardInput)
   Q_PROPERTY(int midAfreq READ midAfreq WRITE setMidAfreq NOTIFY midAfreqChanged)
@@ -222,8 +222,8 @@ public:
   void setMarkedFrets(const QString& frets);
 
   /* ------------------ Sound switches ------------------ */
-  bool audioInEnabled() const;
-  void setAudioInEnabled(bool inEnabled);
+  int inputType() const;
+  void setInputType(int inT);
 
   int audioInstrument() const;
   void setAudioInstrument(int ai);
@@ -243,8 +243,8 @@ public:
   bool useFilter() const;
   void setUseFilter(bool use);
 
-  bool audioOutEnabled() const;
-  void setAudioOutEnabled(bool outEnabled);
+  int outputType() const;
+  void setOutputType(int outT);
 
   QString outDevName() const;
   void setOutDevName(const QString& odn);

@@ -329,8 +329,8 @@ void Tglobals::setMarkedFrets(const QString& frets) {
 
 
 /* ------------------ Sound switches ------------------ */
-bool Tglobals::audioInEnabled() const { return A->INenabled; }
-void Tglobals::setAudioInEnabled(bool inEnabled) { A->INenabled = inEnabled; }
+int Tglobals::inputType() const { return static_cast<int>(A->inType); }
+void Tglobals::setInputType (int inT) { A->inType = static_cast<TaudioParams::EsoundType>(qBound(0, inT, 2)); }
 
 QString Tglobals::inDevName() const { return A->INdevName; }
 void Tglobals::setInDevName(const QString& inName) { A->INdevName = inName; }
@@ -356,8 +356,8 @@ void Tglobals::setDetectionMethod(int m) { A->detectMethod = m; }
 bool Tglobals::useFilter() const { return A->equalLoudness; }
 void Tglobals::setUseFilter(bool use) { A->equalLoudness = use; }
 
-bool Tglobals::audioOutEnabled() const { return A->OUTenabled; }
-void Tglobals::setAudioOutEnabled(bool outEnabled) { A->OUTenabled = outEnabled; }
+int Tglobals::outputType() const { return static_cast<int>(A->outType); }
+void Tglobals::setOutputType (int outT) { A->outType = static_cast<TaudioParams::EsoundType>(qBound(0, outT, 2)); }
 
 QString Tglobals::outDevName() const { return A->OUTdevName; }
 void Tglobals::setOutDevName(const QString& odn) { A->OUTdevName = odn; }
@@ -668,14 +668,33 @@ void Tglobals::loadSettings(QSettings* cfg) {
 
 // Sound settings
   cfg->beginGroup(QLatin1String("sound"));
+    if (cfg->contains(QLatin1String("inSoundEnabled"))) {
+        // Convert old sound settings to new, single variable 'inType' and 'outType'
+        bool inEnbld = cfg->value(QLatin1String("inSoundEnabled"), true).toBool();
+        bool midiEnbld = cfg->value(QLatin1String("midiEnabled"), false).toBool();
+        bool outEnbld = cfg->value(QStringLiteral("outSoundEnabled"), true).toBool();
+        if (cfg->contains(QLatin1String("inputType"))) {
+            // old and new settings together - prefer new ones
+            A->inType = static_cast<TaudioParams::EsoundType>(qBound(0, cfg->value(QLatin1String("inputType"), 1).toInt(), 2));
+            A->outType = static_cast<TaudioParams::EsoundType>(qBound(0, cfg->value(QLatin1String("outputType"), 1).toInt(), 2));
+        } else {
+            // No midi input support in old settings - so only two possibilities
+            A->inType = inEnbld ? TaudioParams::e_realSound : TaudioParams::e_noSound;
+            A->outType = outEnbld ? (midiEnbld ? TaudioParams::e_midiSound : TaudioParams::e_realSound) : TaudioParams::e_noSound;
+        }
+        // remove old settings
+        cfg->remove(QLatin1String("inSoundEnabled"));
+        cfg->remove(QLatin1String("outSoundEnabled"));
+        cfg->remove(QLatin1String("midiEnabled"));
+    } else {
+        A->inType = static_cast<TaudioParams::EsoundType>(qBound(0, cfg->value(QLatin1String("inputType"), 1).toInt(), 2)); // 1: e_realSound
+        A->outType = static_cast<TaudioParams::EsoundType>(qBound(0, cfg->value(QLatin1String("outputType"), 1).toInt(), 2)); // 1: e_realSound
+    }
     A->JACKorASIO = cfg->value(QStringLiteral("JACKorASIO"), false).toBool();
-    A->OUTenabled = cfg->value(QStringLiteral("outSoundEnabled"), true).toBool();
     A->OUTdevName = cfg->value(QStringLiteral("outDeviceName"), QString()).toString();
-    A->midiEnabled = cfg->value(QStringLiteral("midiEnabled"), false).toBool();
     A->midiPortName = cfg->value(QStringLiteral("midiPortName"), QString()).toString();
     A->midiInstrNr = (unsigned char)cfg->value(QStringLiteral("midiInstrumentNr"), 0).toInt();
     A->audioInstrNr = qBound(1, cfg->value(QStringLiteral("audioInstrumentNr"), 1).toInt(), INSTR_COUNT);
-    A->INenabled = cfg->value(QStringLiteral("inSoundEnabled"), true).toBool();
     A->INdevName = cfg->value(QStringLiteral("inDeviceName"), QString()).toString();
     A->detectMethod = qBound(0, cfg->value(QStringLiteral("detectionMethod"), 2).toInt(), 2); // MPM modified cepstrum
 #if defined (Q_OS_ANDROID) // Input sound is loud on mobile
@@ -865,13 +884,12 @@ void Tglobals::storeSettings(QSettings* cfg) {
 
   cfg->beginGroup(QLatin1String("sound"));
       cfg->setValue(QStringLiteral("JACKorASIO"), A->JACKorASIO);
-      cfg->setValue(QStringLiteral("outSoundEnabled"), A->OUTenabled);
+      cfg->setValue(QStringLiteral("outputType"), A->outType);
       cfg->setValue(QStringLiteral("outDeviceName"), A->OUTdevName);
-      cfg->setValue(QStringLiteral("midiEnabled"), A->midiEnabled);
       cfg->setValue(QStringLiteral("midiPortName"), A->midiPortName);
       cfg->setValue(QStringLiteral("midiInstrumentNr"), static_cast<int>(A->midiInstrNr));
       cfg->setValue(QStringLiteral("audioInstrumentNr"), static_cast<int>(A->audioInstrNr));
-      cfg->setValue(QStringLiteral("inSoundEnabled"), A->INenabled);
+      cfg->setValue(QStringLiteral("inputType"), A->inType);
       cfg->setValue(QStringLiteral("inDeviceName"), A->INdevName);
       cfg->setValue(QStringLiteral("detectionMethod"), A->detectMethod);
       cfg->setValue(QStringLiteral("minimalVolume"), A->minimalVol);
