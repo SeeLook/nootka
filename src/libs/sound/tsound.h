@@ -109,6 +109,8 @@ public:
   Q_INVOKABLE QStringList inputDevices() const;
   Q_INVOKABLE QStringList outputDevices() const;
 
+  Q_INVOKABLE QStringList midiPorts() const;
+
   Q_INVOKABLE QString currentInDevName() const;
   Q_INVOKABLE QString currentOutDevName() const;
 

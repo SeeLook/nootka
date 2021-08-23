@@ -23,7 +23,7 @@
   #include <QtAndroidExtras/qandroidfunctions.h>
   #include <QtAndroidExtras/qandroidjnienvironment.h>
 #else
-//   #include "tmidiout.h"
+  #include "tmidiout.h"
   #include "trtaudioout.h"
   #include "trtaudioin.h"
   #include <QtCore/qfileinfo.h>
@@ -259,6 +259,15 @@ void Tsound::acceptSettings() {
 QStringList Tsound::inputDevices() const { return TaudioIN::getAudioDevicesList(); }
 
 QStringList Tsound::outputDevices() const { return TaudioOUT::getAudioDevicesList(); }
+
+QStringList Tsound::midiPorts() const {
+#if defined (Q_OS_ANDROID)
+  return QStringList();
+#else
+  return TmidiOut::getMidiPortsList();
+#endif
+}
+
 
 QString Tsound::currentInDevName() const { return TaudioIN::inputName(); }
 
