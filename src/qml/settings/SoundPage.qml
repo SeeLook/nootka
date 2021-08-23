@@ -12,6 +12,9 @@ import "../"
 Column {
   width: parent.width; height: parent.height
 
+  property alias isMidiIn: midiInRadio.checked
+  property alias isMidiOut: midiOutRadio.checked
+
   TbuttonBar {
     id: headList
     model: [ qsTr("listening"), qsTr("playing") ]
@@ -33,11 +36,26 @@ Column {
         width: parent.width
         topPadding: NOO.isAndroid() ? 2 : NOO.factor() / 2
 
-        TcheckBox {
-          id: enableInChB
-          text: qsTr("enable pitch detection")
+        Row {
           anchors.horizontalCenter: parent.horizontalCenter
-          checked: true
+          spacing: NOO.factor()
+          TcheckBox {
+            id: enableInChB
+            text: qsTr("enable pitch detection")
+            checked: true
+          }
+          Item { width: NOO.factor(); height: 1 }
+          ButtonGroup { id: midiAudioInGr }
+          TradioButton {
+            id: audioInRadio
+            text: qsTr("real sound")
+            ButtonGroup.group: midiAudioInGr
+          }
+          TradioButton {
+            id: midiInRadio
+            text: qsTr("MIDI sound")
+            ButtonGroup.group: midiAudioInGr
+          }
         }
 
         Column {
@@ -46,19 +64,22 @@ Column {
           spacing: NOO.isAndroid() ? 2 : NOO.factor() / 2
 
           Tile {
-            description: qsTr("Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.")
+            description: isMidiIn ? "" : qsTr("Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.")
             Row {
               spacing: NOO.factor() * 2
               anchors.horizontalCenter: parent.horizontalCenter
-              TlabelText { text: qsTr("input device"); anchors.verticalCenter: parent.verticalCenter }
+              TlabelText {
+                anchors.verticalCenter: parent.verticalCenter
+                text: isMidiIn ? qsTr("midi port") : qsTr("input device")
+              }
               TcomboBox {
                 id: inDevCombo
                 anchors.verticalCenter: parent.verticalCenter
-                width: NOO.factor() * 20
-                model: SOUND.inputDevices()
+                width: NOO.factor() * 25
+                model: isMidiIn ? SOUND.midiPorts() : SOUND.inputDevices()
               }
               TcheckBox {
-                visible: !NOO.isAndroid() && !NOO.isMac()
+                visible: !isMidiIn && !NOO.isAndroid() && !NOO.isMac()
                 id: jackInChB
                 text: NOO.isWindows() ? "ASIO" : "JACK"
                 anchors.verticalCenter: parent.verticalCenter
@@ -90,6 +111,7 @@ Column {
 
           Tile {
             description: qsTr("Minimum volume of a sound to be pitch-detected")
+            visible: !isMidiIn
             Row {
               spacing: NOO.factor()
               anchors.horizontalCenter: parent.horizontalCenter
@@ -118,6 +140,7 @@ Column {
           }
 
           Tframe { // advanced settings
+            visible: !isMidiIn
             width: parent.width * 0.99
             anchors.horizontalCenter: parent.horizontalCenter
             Column {
@@ -195,13 +218,28 @@ Column {
       Column {
         id: outCol
         width: parent.width
-        spacing: NOO.factor()
+        topPadding: NOO.isAndroid() ? 2 : NOO.factor() / 2
 
-        TcheckBox {
-          id: enableOutChB
-          text: qsTr("play sound")
+        Row {
           anchors.horizontalCenter: parent.horizontalCenter
-          checked: true
+          spacing: NOO.factor()
+          TcheckBox {
+            id: enableOutChB
+            text: qsTr("play sound")
+            checked: true
+          }
+          Item { width: NOO.factor(); height: 1 }
+          ButtonGroup { id: midiAudioOutGr }
+          TradioButton {
+            id: audioOutRadio
+            text: qsTr("real sound")
+            ButtonGroup.group: midiAudioOutGr
+          }
+          TradioButton {
+            id: midiOutRadio
+            text: qsTr("MIDI sound")
+            ButtonGroup.group: midiAudioOutGr
+          }
         }
 
         Column {
@@ -213,16 +251,19 @@ Column {
             Row {
               spacing: NOO.factor() * 2
               anchors.horizontalCenter: parent.horizontalCenter
-              TlabelText { text: qsTr("output device"); anchors.verticalCenter: parent.verticalCenter }
+              TlabelText {
+                anchors.verticalCenter: parent.verticalCenter
+                text: isMidiOut ? qsTr("midi port") : qsTr("output device")
+              }
               TcomboBox {
                 id: outDevCombo
                 anchors.verticalCenter: parent.verticalCenter
-                width: NOO.factor() * 20
-                model: SOUND.outputDevices()
+                width: NOO.factor() * 25
+                model: isMidiOut ? SOUND.midiPorts() : SOUND.outputDevices()
               }
               TcheckBox {
                 id: jackOutChB
-                visible: !NOO.isAndroid() && !NOO.isMac()
+                visible: !isMidiOut && !NOO.isAndroid() && !NOO.isMac()
                 anchors.verticalCenter: parent.verticalCenter
                 text: jackInChB.text
                 checked: jackInChB.checked
@@ -232,6 +273,7 @@ Column {
           }
           Tile {
             description: qsTr("All sounds captured by audio input will be forwarded directly to output device.")
+            visible: !isMidiOut
             TcheckBox {
               id: forwardInChB
               anchors.horizontalCenter: parent.horizontalCenter
@@ -251,7 +293,13 @@ Column {
     minDurSpin.value = Math.ceil(GLOB.minDuration * 1000)
     methodCombo.currentIndex = GLOB.detectionMethod
     noiseFilterChB.checked = GLOB.useFilter
-    enableInChB.checked = GLOB.audioInEnabled
+    enableInChB.checked = GLOB.inputType > 0
+    if (GLOB.inputType > 0) {
+      if (GLOB.inputType === 1)
+        audioInRadio.checked = true
+      else
+        midiInRadio.checked = true
+    }
     jackInChB.checked = GLOB.JACKorASIO
 
     if (outDevCombo.currentIndex === -1)
@@ -259,31 +307,40 @@ Column {
     else
       outDevCombo.currentIndex = outDevCombo.find(SOUND.currentOutDevName())
     forwardInChB.checked = GLOB.forwardInput
-    enableOutChB.checked = GLOB.audioOutEnabled
+    enableOutChB.checked = GLOB.outputType > 0
+    if (GLOB.outputType > 0) {
+      if (GLOB.outputType === 1)
+        audioOutRadio.checked = true
+      else
+        midiOutRadio.checked = true
+    }
   }
 
   function save() {
     if (enableInChB.checked) {
-      GLOB.inDevName = inDevCombo.currentText
-      GLOB.minDuration = minDurSpin.value / 1000.0
-      GLOB.minVolume = volSpin.value / 100.0
-      GLOB.detectionMethod = methodCombo.currentIndex
-      GLOB.useFilter = noiseFilterChB.checked
-      GLOB.midAfreq = freqSpin.value
-      GLOB.JACKorASIO = jackInChB.checked
-    }
-    GLOB.audioInEnabled = enableInChB.checked
+        GLOB.inDevName = inDevCombo.currentText
+        GLOB.minDuration = minDurSpin.value / 1000.0
+        GLOB.minVolume = volSpin.value / 100.0
+        GLOB.detectionMethod = methodCombo.currentIndex
+        GLOB.useFilter = noiseFilterChB.checked
+        GLOB.midAfreq = freqSpin.value
+        GLOB.JACKorASIO = jackInChB.checked
+        GLOB.inputType = audioInRadio.checked ? 1 : 2
+    } else
+        GLOB.inputType = 0
 
     if (enableOutChB.checked) {
-      GLOB.outDevName = outDevCombo.currentText
-      GLOB.forwardInput = forwardInChB.checked
-    }
-    GLOB.audioOutEnabled = enableOutChB.checked
+        GLOB.outDevName = outDevCombo.currentText
+        GLOB.forwardInput = forwardInChB.checked
+        GLOB.outputType = audioOutRadio.checked ? 1 : 2
+    } else
+        GLOB.outputType = 0
     SOUND.acceptSettings()
   }
 
   function defaults() {
     enableInChB.checked = true
+    audioInRadio.checked = true
     inDevCombo.currentIndex = 0
     minDurSpin.value = 150
     volSpin.value = 40
@@ -294,6 +351,7 @@ Column {
     jackInChB.checked = false
 
     enableOutChB.checked = true
+    audioOutRadio.checked = true
     outDevCombo.currentIndex = 0
     forwardInChB.checked = false
   }
