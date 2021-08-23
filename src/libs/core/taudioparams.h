@@ -32,33 +32,35 @@ class NOOTKACORE_EXPORT TaudioParams
 
 public:
 
-  bool    JACKorASIO; /**< forces to use JACK under Linux or ASIO under Windows (if they are available) */
+  enum EsoundType {
+    e_noSound = 0, e_realSound = 1, e_midiSound = 2
+  };
 
-  bool    INenabled; /**< is audio input enabled */
-  QString INdevName; /**< input device name */
-  qreal   a440diff; /**< difference between standard a1 440Hz and user preferred base pitch */
-  int     midAfreq = 440; /**< Orchestral pitch - frequency of middle A  */
-  int     transposition; /**< shift (interval) between score/note name and sound/instrument  */
-  qreal   minimalVol; /**< only detected notes louder than this value are sending to Nootka */
-  qreal   minDuration; /**< minimal duration of a sound above which it is detected */
-  int     detectMethod; /**< pitch detection method (0 - MPM, 1 - auto-correlation, 2 - MPM modified cepstrum) */
-  quint8  intonation; /**< accuracy of intonation in detected note - corresponds with @p Eaccuracy */
-  bool    stoppedByUser; /**< Stores user action when he stopped sniffing himself @default FALSE */
-  bool    audibleMetro; /**< Audible metronome ticking */
-  bool    countBefore; /**< Before playing or sniffing play a measure of ticking */
-  int     quantization; /**< Can be 6 or 12 (rhythmic duration of 16th or 8th), 4 (16th triplet is not yet supported) */
+  bool            JACKorASIO; /**< forces to use JACK under Linux or ASIO under Windows (if they are available) */
 
-  bool    equalLoudness; /**< if TRUE - noise filters are performed - FALSE by default */
-// duplex mode
-  bool    forwardInput; /**< if true, all captured audio data is pushed to output */
+  EsoundType      inType = e_realSound; /**< Input type: audio (default), MIDI or disabled */
+  QString         INdevName; /**< input device name */
+  qreal           a440diff; /**< difference between standard a1 440Hz and user preferred base pitch */
+  int             midAfreq = 440; /**< Orchestral pitch - frequency of middle A  */
+  int             transposition; /**< shift (interval) between score/note name and sound/instrument  */
+  qreal           minimalVol; /**< only detected notes louder than this value are sending to Nootka */
+  qreal           minDuration; /**< minimal duration of a sound above which it is detected */
+  int             detectMethod; /**< pitch detection method (0 - MPM, 1 - auto-correlation, 2 - MPM modified cepstrum) */
+  quint8          intonation; /**< accuracy of intonation in detected note - corresponds with @p Eaccuracy */
+  bool            stoppedByUser; /**< Stores user action when he stopped sniffing himself @default FALSE */
+  bool            audibleMetro; /**< Audible metronome ticking */
+  bool            countBefore; /**< Before playing or sniffing play a measure of ticking */
+  int             quantization; /**< Can be 6 or 12 (rhythmic duration of 16th or 8th), 4 (16th triplet is not yet supported) */
+
+  bool            equalLoudness; /**< if TRUE - noise filters are performed - FALSE by default */
+  bool            forwardInput; /**< if true, all captured audio data is pushed to output */
 
 // audio output settings
-  bool    OUTenabled; /**< audio output enabled */
-  QString OUTdevName; /**< output device name */
-  bool    midiEnabled; /**< default false */
-  QString midiPortName; /**< default empty to find system default */
-  unsigned char midiInstrNr; /**< default 0 - grand piano */
-  int     audioInstrNr; /**< corresponds with Einstrument enum numbers, default 1 classical guitar */
+  EsoundType      outType = e_realSound; /**< Output type: audio (default), MIDI or disabled */
+  QString         OUTdevName; /**< output device name */
+  QString         midiPortName; /**< default empty to find system default */
+  unsigned char   midiInstrNr; /**< default 0 - grand piano */
+  int             audioInstrNr; /**< corresponds with Einstrument enum numbers, default 1 classical guitar */
 
   QString dumpPath; /**< Path when captured PCM audio data will be dumped, if empty (default) - no dump performed */
 };
