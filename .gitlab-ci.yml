@@ -25,6 +25,7 @@ appimage-amd64:
     - make
     - make appimage
     - mv nootka-*.AppImage Nootka-$(head -1 $PWD/changes | sed 's/\ /-/g')-b$(git rev-list HEAD --count)-x86_64.AppImage
+    - ls
     - echo "Uploading AppImage"
     - rsync -avzr --delete Nootka*.AppImage $SSH_USER@$SSH_HOST:/$REMOTE_PATH
 
