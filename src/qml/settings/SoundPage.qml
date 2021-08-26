@@ -286,34 +286,34 @@ Column {
   }
 
   Component.onCompleted: {
-    if (inDevCombo.currentIndex === -1)
-      inDevCombo.model = qsTr("no devices found")
-    else
-      inDevCombo.currentIndex = inDevCombo.find(SOUND.currentInDevName())
-    minDurSpin.value = Math.ceil(GLOB.minDuration * 1000)
-    methodCombo.currentIndex = GLOB.detectionMethod
-    noiseFilterChB.checked = GLOB.useFilter
-    enableInChB.checked = GLOB.inputType > 0
     if (GLOB.inputType > 0) {
       if (GLOB.inputType === 1)
         audioInRadio.checked = true
       else
         midiInRadio.checked = true
     }
+    if (inDevCombo.currentIndex === -1)
+      inDevCombo.model = qsTr("no devices found")
+    else
+      inDevCombo.currentIndex = inDevCombo.find(GLOB.inDevName)
+    minDurSpin.value = Math.ceil(GLOB.minDuration * 1000)
+    methodCombo.currentIndex = GLOB.detectionMethod
+    noiseFilterChB.checked = GLOB.useFilter
+    enableInChB.checked = GLOB.inputType > 0
     jackInChB.checked = GLOB.JACKorASIO
 
-    if (outDevCombo.currentIndex === -1)
-      outDevCombo.model = qsTr("no devices found")
-    else
-      outDevCombo.currentIndex = outDevCombo.find(SOUND.currentOutDevName())
-    forwardInChB.checked = GLOB.forwardInput
-    enableOutChB.checked = GLOB.outputType > 0
     if (GLOB.outputType > 0) {
       if (GLOB.outputType === 1)
         audioOutRadio.checked = true
       else
         midiOutRadio.checked = true
     }
+    if (outDevCombo.currentIndex === -1)
+      outDevCombo.model = qsTr("no devices found")
+    else
+      outDevCombo.currentIndex = outDevCombo.find(GLOB.outputType === 1 ? GLOB.outDevName : GLOB.outMidiPortName)
+    forwardInChB.checked = GLOB.forwardInput
+    enableOutChB.checked = GLOB.outputType > 0
   }
 
   function save() {
@@ -330,7 +330,10 @@ Column {
         GLOB.inputType = 0
 
     if (enableOutChB.checked) {
-        GLOB.outDevName = outDevCombo.currentText
+        if (audioOutRadio.checked)
+          GLOB.outDevName = outDevCombo.currentText
+        else
+          GLOB.outMidiPortName = outDevCombo.currentText
         GLOB.forwardInput = forwardInChB.checked
         GLOB.outputType = audioOutRadio.checked ? 1 : 2
     } else

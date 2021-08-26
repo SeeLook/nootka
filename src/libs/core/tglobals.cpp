@@ -362,6 +362,9 @@ void Tglobals::setOutputType (int outT) { A->outType = static_cast<TaudioParams:
 QString Tglobals::outDevName() const { return A->OUTdevName; }
 void Tglobals::setOutDevName(const QString& odn) { A->OUTdevName = odn; }
 
+QString Tglobals::outMidiPortName() const { return A->midiPortName; }
+void Tglobals::setOutMidiPortName (const QString &midiOut) { A->midiPortName = midiOut; }
+
 bool Tglobals::forwardInput() const { return A->forwardInput; }
 void Tglobals::setForwardInput(bool fi) { A->forwardInput = fi; }
 
@@ -693,7 +696,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
     A->JACKorASIO = cfg->value(QStringLiteral("JACKorASIO"), false).toBool();
     A->OUTdevName = cfg->value(QStringLiteral("outDeviceName"), QString()).toString();
     A->midiPortName = cfg->value(QStringLiteral("midiPortName"), QString()).toString();
-    A->midiInstrNr = (unsigned char)cfg->value(QStringLiteral("midiInstrumentNr"), 0).toInt();
+    A->midiInstrNr = static_cast<unsigned char>(cfg->value(QStringLiteral("midiInstrumentNr"), 0).toInt());
     A->audioInstrNr = qBound(1, cfg->value(QStringLiteral("audioInstrumentNr"), 1).toInt(), INSTR_COUNT);
     A->INdevName = cfg->value(QStringLiteral("inDeviceName"), QString()).toString();
     A->detectMethod = qBound(0, cfg->value(QStringLiteral("detectionMethod"), 2).toInt(), 2); // MPM modified cepstrum
