@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2020 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -42,7 +42,6 @@ public:
 
 
 class Tmelody;
-class QTimer;
 class Tnote;
 class TaudioParams;
 class ToggScale;
@@ -82,6 +81,7 @@ protected:
   void setTransposition(int tra) { m_transposition = tra; }
 
   void preparePlayList(QList<Tnote>* notes, int tempo, int firstNote, int sampleRate, int transposition, int a440Ddiff);
+  void prepareMidiList(QList<Tnote>* notes, int tempo, int firstNote, int transposition, int a440Diff);
 
 private:
   TabstractPlayer             *m_player; /**< Instance of player (audio Rt, Qt) */
@@ -137,7 +137,9 @@ public:
 
   enum EplayerType { e_audio, e_midi };
 
-  EplayerType type() { return playerType; }
+  EplayerType type() { return p_playerType; }
+
+  bool isMidi() const { return p_playerType == e_midi;}
 
   QList<TsingleSound>& playList() { return m_playThreaad->playList(); }
 
@@ -191,7 +193,7 @@ signals:
 
 
 protected:
-  void setType(EplayerType type) { playerType = type; }
+  void setType(EplayerType type) { p_playerType = type; }
 
   virtual void startPlaying() = 0;
 
@@ -203,12 +205,11 @@ protected:
   bool                         p_playable;
 
       /**
-       * Determines whether @p playingFinished() signal is emited (Mostly in Qt Audio in offTimer timeOut() slot).
+       * Determines whether @p playingFinished() signal is emitted.
        * Slot is also called by stop() method and then signal can't be emitted.
        */
   bool                         p_doEmit;
-  QTimer                      *offTimer;
-  EplayerType                  playerType;
+  EplayerType                  p_playerType;
   bool                         p_isPlaying = false;
   static unsigned int          p_posInNote, p_posInOgg;
   static int                   p_playingNoteNr, p_decodingNoteNr, p_playingNoteId;

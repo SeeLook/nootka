@@ -61,14 +61,22 @@ void TplayerThread::run() {
   m_player->p_doEmit = true;
   m_playList.clear();
   if (m_noteToPlay != REST_NR) { // single note
-      playList() << TsingleSound(0, m_noteToPlay + static_cast<int>(m_player->p_audioParams->a440diff), qRound(m_player->p_oggScale->sampleRate() * 1.5));
+      if (m_player->isMidi())
+        playList() << TsingleSound(0, m_noteToPlay + static_cast<int>(m_player->p_audioParams->a440diff), 1500);
+      else
+        playList() << TsingleSound(0, m_noteToPlay + static_cast<int>(m_player->p_audioParams->a440diff),
+                                   qRound(m_player->p_oggScale->sampleRate() * 1.5));
       m_noteToPlay = REST_NR;
   } else if (m_listToPlay) { // note list (i.e. score notes)
-      preparePlayList(m_listToPlay, m_player->p_tempo, m_firstNote, m_player->p_oggScale->sampleRate(),
-                      GLOB->transposition(), static_cast<int>(m_player->p_audioParams->a440diff));
+      if (m_player->isMidi())
+        prepareMidiList(m_listToPlay, m_player->p_tempo, m_firstNote,
+                        GLOB->transposition(), static_cast<int>(m_player->p_audioParams->a440diff));
+      else
+        preparePlayList(m_listToPlay, m_player->p_tempo, m_firstNote, m_player->p_oggScale->sampleRate(),
+                        GLOB->transposition(), static_cast<int>(m_player->p_audioParams->a440diff));
       m_listToPlay = nullptr;
   } else if (m_melodyToPlay) { // melody (from Tmelody)
-      qreal rateFactor = m_player->p_oggScale->sampleRate() / 1000.0;
+      qreal rateFactor = m_player->isMidi() ? 1.0 : m_player->p_oggScale->sampleRate() / 1000.0;
       if (m_player->p_countdownDur > 0)
         playList() << TsingleSound(CNTDWN_ID, REST_NR, qRound(((m_player->p_countdownDur / 24.0) * (60000.0 / m_melodyToPlay->quarterTempo())) * rateFactor));
       for (int n = 0; n < m_melodyToPlay->length(); ++n) {
@@ -89,9 +97,11 @@ void TplayerThread::run() {
   }
 
   if (!playList().isEmpty()) { // naughty user might want to play tied note at the score end
-      m_player->p_playingNoteId = playList().first().id;
-      emit audioDataReady();
+    m_player->p_playingNoteId = playList().first().id;
+    emit audioDataReady();
   }
+  if (m_player->isMidi())
+    exec();
 }
 
 
@@ -108,6 +118,23 @@ void TplayerThread::preparePlayList(QList<Tnote>* notes, int tempo, int firstNot
         playList().last().samplesCount += samplesDuration;
     } else
         playList() << TsingleSound(n, tmpN.isValid() ? tmpN.chromatic() + transposition + a440diff : REST_NR, samplesDuration);
+  }
+}
+
+
+void TplayerThread::prepareMidiList (QList<Tnote> *notes, int tempo, int firstNote, int transposition, int a440Diff) {
+  playList().clear();
+  if (m_player->p_countdownDur > 0)
+    playList() << TsingleSound(CNTDWN_ID, REST_NR, qRound(((m_player->p_countdownDur / 24.0) * (60000.0 / tempo))));
+  for (int n = firstNote; n < notes->count(); ++n) {
+    const Tnote& tmpN = notes->at(n);
+    int samplesDuration = qRound(((tmpN.duration() > 0 ? tmpN.duration() / 24.0 : 1.0) * (60000.0 / tempo)));
+    if (tmpN.rtm.tie() > Trhythm::e_tieStart) { // append duration if tie is continued or at end
+        if (playList().isEmpty())
+          continue; // do not start playing in the middle of tied notes
+        playList().last().samplesCount += samplesDuration;
+    } else
+        playList() << TsingleSound(n, tmpN.isValid() ? tmpN.chromatic() + transposition + a440Diff : REST_NR, samplesDuration);
   }
 }
 
@@ -157,7 +184,12 @@ TabstractPlayer::~TabstractPlayer() {
 bool TabstractPlayer::playNote(int noteNr) {
   if (!p_playable)
     return false;
-  m_playThreaad->wait();
+
+  // When MIDI, we have to terminate thread execution
+  if (p_playerType == e_midi)
+    m_playThreaad->exit();
+  else
+    m_playThreaad->wait();
   m_playThreaad->setNoteToPLay(noteNr);
   m_playThreaad->start();
   return true;
@@ -167,7 +199,12 @@ bool TabstractPlayer::playNote(int noteNr) {
 bool TabstractPlayer::playNotes(QList<Tnote>* notes, int tempo, int firstNote, int countdownDur) {
   if (!p_playable)
     return false;
-  m_playThreaad->wait();
+
+  // When MIDI, we have to terminate thread execution
+  if (p_playerType == e_midi)
+    m_playThreaad->exit();
+  else
+    m_playThreaad->wait();
   m_playThreaad->setListToPlay(notes);
   p_tempo = tempo;
   m_playThreaad->setFirstNote(firstNote);
@@ -180,7 +217,12 @@ bool TabstractPlayer::playNotes(QList<Tnote>* notes, int tempo, int firstNote, i
 bool TabstractPlayer::playMelody(Tmelody* melody, int transposition, int countdownDur) {
   if (!p_playable)
     return false;
-  m_playThreaad->wait();
+
+  // When MIDI, we have to terminate thread execution
+  if (p_playerType == e_midi)
+    m_playThreaad->exit();
+  else
+    m_playThreaad->wait();
   m_playThreaad->setMelodyToPlay(melody);
   m_playThreaad->setTransposition(transposition);
   p_countdownDur = countdownDur;
