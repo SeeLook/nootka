@@ -103,6 +103,30 @@ bool Tinstrument::isFadeOut() const {
 }
 
 
+unsigned char Tinstrument::toMidiNumber ( Tinstrument::Etype instr ) {
+  switch (instr) {
+    case ClassicalGuitar:
+      return 25; // Acoustic Guitar (nylon)
+    case ElectricGuitar:
+      return 27; // Electric Guitar (jazz)
+    case BassGuitar:
+      return 34; // Electric Bass (finger)
+    case Ukulele:
+      return 106; // Banjo
+    case Piano:
+      return 1; // Acoustic Grand Piano
+    case Bandoneon:
+      return 23; // Harmonica
+    case AltSax:
+      return 66; // Alto Sax
+    case TenorSax:
+      return 67; // Tenor Sax
+    default:
+      return 1; // Acoustic Grand Piano
+  }
+}
+
+
 QString Tinstrument::levelsDir() const {
   switch (m_type) {
     case ClassicalGuitar:

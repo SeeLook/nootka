@@ -43,6 +43,7 @@ class NOOTKACORE_EXPORT Tinstrument {
   Q_PROPERTY(int transposition READ transposition)
   Q_PROPERTY(int fretNumber READ fretNumber)
   Q_PROPERTY(bool isFadeOut READ isFadeOut)
+  Q_PROPERTY(int midiNumber READ midiNumber)
 
   Q_PROPERTY(bool isGuitar READ isGuitar) // all guitars (including ukulele)
   Q_PROPERTY(bool isSax READ isSax) // all saxophones
@@ -136,6 +137,13 @@ public:
        * @p NoInstrument type is defined as continuous here as well.
        */
   bool isFadeOut() const;
+
+      /**
+       * Static method returning MIDI instrument number of given @p Tinstrument::Etype
+       */
+  static unsigned char toMidiNumber(Etype instr);
+
+  unsigned char midiNumber() const { return toMidiNumber(m_type); }
 
       /**
        * Name of subdirectory in the 'levels' directory
