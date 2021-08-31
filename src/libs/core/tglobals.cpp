@@ -365,6 +365,9 @@ void Tglobals::setOutDevName(const QString& odn) { A->OUTdevName = odn; }
 QString Tglobals::outMidiPortName() const { return A->midiPortName; }
 void Tglobals::setOutMidiPortName (const QString &midiOut) { A->midiPortName = midiOut; }
 
+int Tglobals::midiInstrument() const { return A->midiInstrNr; }
+void Tglobals::setMidiInstrument (int miIn) { A->midiInstrNr = static_cast<unsigned char>(miIn); }
+
 bool Tglobals::forwardInput() const { return A->forwardInput; }
 void Tglobals::setForwardInput(bool fi) { A->forwardInput = fi; }
 

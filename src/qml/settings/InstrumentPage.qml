@@ -284,6 +284,7 @@ Flickable {
         GLOB.setInstrument(instrSel.instrument)
         GLOB.setGuitarParams(0, NOO.defaultScale(instrSel.instrument))
     }
+    GLOB.midiInstrument = NOO.instr(instrSel.instrument).midiNumber
     GLOB.audioInstrument = instrSel.instrument
     SOUND.acceptSettings()
   }

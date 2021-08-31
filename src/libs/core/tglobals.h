@@ -95,6 +95,7 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(int outputType READ outputType WRITE setOutputType)
   Q_PROPERTY(QString outDevName READ outDevName WRITE setOutDevName)
   Q_PROPERTY(QString outMidiPortName READ outMidiPortName WRITE setOutMidiPortName)
+  Q_PROPERTY(int midiInstrument READ midiInstrument WRITE setMidiInstrument)
   Q_PROPERTY(bool forwardInput READ forwardInput WRITE setForwardInput)
   Q_PROPERTY(int midAfreq READ midAfreq WRITE setMidAfreq NOTIFY midAfreqChanged)
   Q_PROPERTY(bool JACKorASIO READ JACKorASIO WRITE setJACKorASIO)
@@ -252,6 +253,9 @@ public:
 
   QString outMidiPortName() const;
   void setOutMidiPortName(const QString& midiOut);
+
+  int midiInstrument() const;
+  void setMidiInstrument(int miIn);
 
   bool forwardInput() const;
   void setForwardInput(bool fi);
