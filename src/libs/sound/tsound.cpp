@@ -127,7 +127,7 @@ void Tsound::play(const Tnote& note) {
   if (player && note.isValid()) {
     m_stopSniffOnce = true;
     stopMetronome();
-   player->playNote(note.chromatic());
+    player->playNote(note.chromatic());
   }
 
 #if defined (Q_OS_ANDROID)
@@ -575,7 +575,10 @@ void Tsound::setDumpFileName(const QString& fName) {
 //#################################################################################################
 
 void Tsound::createPlayer() {
-  player = new TaudioOUT(GLOB->A);
+  if (GLOB->A->outType == TaudioParams::e_realSound)
+    player = new TaudioOUT(GLOB->A);
+  else
+    player = new TmidiOut(GLOB->A);
   connect(player, &TaudioOUT::playingStarted, this, &Tsound::playingStartedSlot);
   connect(player, &TaudioOUT::nextNoteStarted, this, &Tsound::selectNextNote);
   connect(player, &TaudioOUT::playingFinished, this, &Tsound::playingFinishedSlot);
