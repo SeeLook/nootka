@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2017 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2021 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -28,6 +28,8 @@
 
 class RtMidiOut;
 class TaudioParams;
+class QTimer;
+
 
 /**
  * Midi is played by RtMidi class.
@@ -43,46 +45,53 @@ public:
 
   static QStringList getMidiPortsList();
 
-  bool play(int noteNr);
+      /**
+       * Sets midi parameters:
+       * @param portName, if empty system prefered is set (Timidity under Linux)
+       * @param instrNr for instrument number in midi nomenclature.
+       */
+  void setMidiParams() override;
 
-        /**
-         * Sets midi parameters:
-         * @param portName, if empty system prefered is set (Timidity under Linux)
-         * @param instrNr for instrument number in midi nomenclature.
-         */
-  void setMidiParams();
+      /**
+       * Deletes midi device if exists.
+       * Midi device usually blocks audio devices,
+       * so when it exists getAudioDevicesList() doesn't work
+       */
+  void deleteMidi() override;
 
-        /**
-         * Deletes midi device if exists.
-         * Midi device usually blocks audio devices,
-         * so when it exists getAudioDevicesList() doesn't work
-         */
-  void deleteMidi();
+  void startPlaying() override;
 
-        /**
-         * Immediately stops playing. Emits nothing
-         */
-  void stop();
+      /**
+       * Immediately stops playing. Emits nothing
+       */
+  void stop() override;
 
-
-private:
-  TaudioParams                  *m_params;
-
-  RtMidiOut                     *m_midiOut;
-  unsigned char                  m_prevMidiNote;
-  std::vector<unsigned char>     m_message;
-  unsigned int                   m_portNr;
-  bool                           m_portOpened;
-
-private:
+protected:
   void openMidiPort();
 
-private slots:
+  void playLoop();
+
+  bool play(int noteNr);
+
       /**
        * Turns off played @param m_prevMidiNote
        * If @param m_doEmit is true emits noteFinished() signal.
        */
   void midiNoteOff();
+
+  void stopSlot();
+
+signals:
+  void wantStop();
+
+
+private:
+  RtMidiOut                     *m_midiOut;
+  unsigned char                  m_prevMidiNote;
+  std::vector<unsigned char>     m_message;
+  unsigned int                   m_portNr;
+  bool                           m_portOpened;
+  QTimer                        *m_offTimer;
 };
 
 #endif // TMIDIOUT_H
