@@ -53,8 +53,6 @@ QString Tsound::soundTouchVersion() { return TabstractPlayer::soundTouchVersion(
 
 Tsound::Tsound(QObject* parent) :
   QObject(parent),
-  player(nullptr),
-  sniffer(nullptr),
   m_tempo(60),
   m_quantVal(6)
 {
@@ -98,8 +96,8 @@ void Tsound::init() {
 
       connect(NOO, &TnootkaQML::playNote, this, &Tsound::play);
       setDefaultAmbitus();
-      if (sniffer)
-        sniffer->startListening();
+      if ( m_sniffer )
+            m_sniffer->startListening();
       emit initialized();
   });
 #if defined (Q_OS_ANDROID)
@@ -124,10 +122,10 @@ void Tsound::init() {
 
 
 void Tsound::play(const Tnote& note) {
-  if (player && note.isValid()) {
+  if ( m_player && note.isValid()) {
     m_stopSniffOnce = true;
     stopMetronome();
-    player->playNote(note.chromatic());
+        m_player->playNote(note.chromatic());
   }
 
 #if defined (Q_OS_ANDROID)
@@ -142,13 +140,13 @@ void Tsound::play(const Tnote& note) {
 
 
 void Tsound::playMelody(Tmelody* mel, int transposition) {
-  if (player && player->isPlayable()) {
-    if (player->isPlaying()) {
+  if ( m_player && m_player->isPlayable()) {
+    if ( m_player->isPlaying()) {
         stopPlaying();
     } else {
         if (mel->length()) {
           m_stopSniffOnce = true;
-          player->playMelody(mel, transposition, 0);
+                m_player->playMelody(mel, transposition, 0);
         }
     }
   }
@@ -156,12 +154,12 @@ void Tsound::playMelody(Tmelody* mel, int transposition) {
 
 
 void Tsound::playNoteList(QList<Tnote>& notes, int firstNote, int countdownDuration) {
-  if (player) {
-    if (!player->isPlaying()) {
+  if ( m_player ) {
+    if (!m_player->isPlaying()) {
         if (!notes.isEmpty()) {
           runMetronome(firstNote == 0 && tickBeforePlay() ? Tmeter(static_cast<Tmeter::Emeter>(m_currentMeter)).countTo() : 0);
           m_stopSniffOnce = true;
-          player->playNotes(std::addressof(notes),
+                m_player->playNotes(std::addressof(notes),
                             Tmeter::quarterTempo(m_tempo, m_beatUnit),
                             firstNote,
                             countdownDuration);
@@ -183,13 +181,13 @@ void Tsound::playNoteList(QList<Tnote>& notes, int firstNote, int countdownDurat
 
 
 qreal Tsound::inputVol() {
-  return sniffer ? sniffer->volume() : 0.0;
+  return m_sniffer ? m_sniffer->volume() : 0.0;
 }
 
 
 qreal Tsound::pitchDeviation() {
-  if (sniffer)
-    return static_cast<qreal>(qBound(-0.49, (sniffer->lastChunkPitch() - static_cast<float>(qRound(sniffer->lastChunkPitch()))) * INT_FACTOR, 0.49));
+  if ( m_sniffer )
+    return static_cast<qreal>(qBound(-0.49, ( m_sniffer->lastChunkPitch() - static_cast<float>(qRound( m_sniffer->lastChunkPitch()))) * INT_FACTOR, 0.49));
   else
     return 0.0;
 }
@@ -199,7 +197,7 @@ void Tsound::acceptSettings() {
   bool doParamsUpdated = false;
   // for output
   if (GLOB->outputType()) {
-      if (!player)
+      if (!m_player )
           createPlayer();
       else {
         #if !defined (Q_OS_ANDROID)
@@ -209,15 +207,15 @@ void Tsound::acceptSettings() {
           } else
         #endif
           { // avoids deleting TaudioOUT instance and loading ogg file every acceptSettings call
-            if (player->type() == TabstractPlayer::e_midi) {
+            if ( m_player->type() == TabstractPlayer::e_midi) {
                 deletePlayer(); // player was midi so delete
                 createPlayer();
             } else { // just set new params to TaudioOUT
                 doParamsUpdated = true;
             }
           }
-          if (player) {
-            if (!player->isPlayable())
+          if ( m_player ) {
+            if (!m_player->isPlayable())
               deletePlayer();
           }
       }
@@ -226,7 +224,7 @@ void Tsound::acceptSettings() {
 
   // for input
   if (GLOB->inputType()) {
-      if (!sniffer) {
+      if (!m_sniffer ) {
           createSniffer();
       } else {
 //       m_userState = sniffer->stoppedByUser();
@@ -234,7 +232,7 @@ void Tsound::acceptSettings() {
           doParamsUpdated = true;
       }
   } else {
-      if (sniffer)
+      if ( m_sniffer )
         deleteSniffer();
   }
 #if defined (Q_OS_ANDROID)
@@ -244,11 +242,11 @@ void Tsound::acceptSettings() {
     sniffer->updateAudioParams();
 #else
   if (doParamsUpdated) {
-      if (player && player->type() == TabstractPlayer::e_audio) {
-          static_cast<TaudioOUT*>(player)->updateAudioParams();
-          static_cast<TaudioOUT*>(player)->setAudioOutParams();
-      } else if (sniffer)
-          sniffer->updateAudioParams();
+      if ( m_player && m_player->type() == TabstractPlayer::e_audio) {
+          static_cast<TaudioOUT*>( m_player )->updateAudioParams();
+          static_cast<TaudioOUT*>( m_player )->setAudioOutParams();
+      } else if ( m_sniffer )
+            m_sniffer->updateAudioParams();
   }
 #endif
 //   if (sniffer)
@@ -284,8 +282,8 @@ void Tsound::setJACKorASIO(bool setOn) {
 
 
 float Tsound::pitch() {
-  if (sniffer)
-    return sniffer->lastNotePitch();
+  if ( m_sniffer )
+    return m_sniffer->lastNotePitch();
   else
     return 0.0f;
 }
@@ -336,15 +334,15 @@ void Tsound::setMetronome(int metronomeTempo, int metronomeBeat) {
 
 
 void Tsound::runMetronome(int preTicksNr) {
-  if (!GLOB->isSingleNote() && player && !m_metronomeIsRun && player->doTicking()) {
-    player->setMetronome(m_tempo);
-    if (player->tickBeforePlay() && preTicksNr) {
+  if (!GLOB->isSingleNote() && m_player && !m_metronomeIsRun && m_player->doTicking()) {
+        m_player->setMetronome(m_tempo);
+    if ( m_player->tickBeforePlay() && preTicksNr) {
       qreal preTicksSeconds = static_cast<qreal>(preTicksNr) * (60.0 / static_cast<qreal>(m_tempo));
       while (preTicksSeconds < 2.0) { // Multiple number of countdown ticks if it is to short (less than 2 sec) - to give user time to catch up
         preTicksNr += preTicksNr;
         preTicksSeconds += preTicksSeconds;
       }
-      player->setTicksCountBefore(preTicksNr);
+            m_player->setTicksCountBefore(preTicksNr);
       emit countdownPrepare(preTicksNr);
     }
     m_metronomeIsRun = true;
@@ -367,31 +365,31 @@ void Tsound::setQuantization(int q) {
 
 
 bool Tsound::stoppedByUser() const {
-  return sniffer ? sniffer->stoppedByUser() : false;
+  return m_sniffer ? m_sniffer->stoppedByUser() : false;
 }
 
 
 void Tsound::setStoppedByUser(bool sbu) {
-  if (sniffer && sniffer->stoppedByUser() != sbu) {
-    sniffer->setStoppedByUser(sbu);
+  if ( m_sniffer && m_sniffer->stoppedByUser() != sbu) {
+        m_sniffer->setStoppedByUser(sbu);
     emit stoppedByUserChanged();
   }
 }
 
 
 bool Tsound::listening() const {
-  return sniffer ? sniffer->detectingState() == TcommonListener::e_detecting : false;
+  return m_sniffer ? m_sniffer->detectingState() == TcommonListener::e_detecting : false;
 }
 
 
 bool Tsound::playing() const {
-  return player && player->isPlaying();
+  return m_player && m_player->isPlaying();
 }
 
 
 void Tsound::stopListen() {
-  if (sniffer)
-    sniffer->stopListening();
+  if ( m_sniffer )
+        m_sniffer->stopListening();
   stopMetronome();
 }
 
@@ -404,87 +402,87 @@ void Tsound::stopListen() {
  * so exams executor should call it with @p FALSE
  */
 void Tsound::startListen(bool skipPreTicking) {
-  if (sniffer) {
-    if (!sniffer->stoppedByUser())
+  if ( m_sniffer ) {
+    if (!m_sniffer->stoppedByUser())
       runMetronome(skipPreTicking ? 0 : Tmeter(static_cast<Tmeter::Emeter>(m_currentMeter)).countTo());
-    sniffer->startListening();
+        m_sniffer->startListening();
   }
 }
 
 
 void Tsound::pauseSinffing() {
-  if (sniffer)
-    sniffer->pause();
+  if ( m_sniffer )
+        m_sniffer->pause();
 }
 
 
 void Tsound::unPauseSniffing() {
-  if (sniffer)
-    sniffer->unPause();
+  if ( m_sniffer )
+        m_sniffer->unPause();
 }
 
 
 bool Tsound::isSnifferPaused() {
-  return sniffer ? sniffer->isPaused() : false;
+  return m_sniffer ? m_sniffer->isPaused() : false;
 }
 
 
 bool Tsound::isSniferStopped() {
-  return sniffer ? sniffer->isStoped() : true;
+  return m_sniffer ? m_sniffer->isStoped() : true;
 }
 
 
-bool Tsound::tickBeforePlay() const { return player && player->tickBeforePlay(); }
+bool Tsound::tickBeforePlay() const { return m_player && m_player->tickBeforePlay(); }
 void Tsound::setTickBeforePlay(bool tbp) {
-  if (player && tbp != player->tickBeforePlay()) {
-    player->setTickBeforePlay(tbp);
+  if ( m_player && tbp != m_player->tickBeforePlay()) {
+        m_player->setTickBeforePlay(tbp);
     emit tickStateChanged();
   }
 }
 
 
-bool Tsound::tickDuringPlay() const { return player && player->tickDuringPlay(); }
+bool Tsound::tickDuringPlay() const { return m_player && m_player->tickDuringPlay(); }
 void Tsound::setTickDuringPlay(bool tdp) {
-  if (player && tdp != player->tickDuringPlay()) {
-    player->setTickDuringPlay(tdp);
+  if ( m_player && tdp != m_player->tickDuringPlay()) {
+        m_player->setTickDuringPlay(tdp);
     emit tickStateChanged();
   }
 }
 
 
 int Tsound::playingNoteId() const {
-  return player && player->playingNoteId();
+  return m_player && m_player->playingNoteId();
 }
 
 
 void Tsound::prepareToExam(Tnote loNote, Tnote hiNote) {
   m_examMode = true;
-  if (sniffer) {
-     m_prevLoNote = sniffer->loNote();
-     m_prevHiNote = sniffer->hiNote();
-     sniffer->setAmbitus(loNote, hiNote);
+  if ( m_sniffer ) {
+     m_prevLoNote = m_sniffer->loNote();
+     m_prevHiNote = m_sniffer->hiNote();
+        m_sniffer->setAmbitus(loNote, hiNote);
   }
-  if (player)
-    disconnect(player, &TaudioOUT::nextNoteStarted, this, &Tsound::selectNextNote);
+  if ( m_player )
+    disconnect( m_player, &TaudioOUT::nextNoteStarted, this, &Tsound::selectNextNote);
 }
 
 
 void Tsound::restoreAfterExam() {
   m_examMode = false;
-  if (sniffer) {
+  if ( m_sniffer ) {
 //     sniffer->setAmbitus(m_prevLoNote, m_prevHiNote); // acceptSettings() has already invoked setDefaultAmbitus()
     unPauseSniffing();
     startListen();
   }
-  if (player)
-    connect(player, &TaudioOUT::nextNoteStarted, this, &Tsound::selectNextNote);
+  if ( m_player )
+    connect( m_player, &TaudioOUT::nextNoteStarted, this, &Tsound::selectNextNote);
 }
 
 
 void Tsound::stopPlaying() {
-  if (player) {
+  if ( m_player ) {
     stopMetronome();
-    player->stop();
+        m_player->stop();
   }
 }
 
@@ -496,18 +494,18 @@ void Tsound::stop() {
 
 
 bool Tsound::isPlayable() {
-  return player ? player->isPlayable() : false;
+  return m_player ? m_player->isPlayable() : false;
 }
 
 
 bool Tsound::melodyIsPlaying() {
-  return player && player->isPlaying();
+  return m_player && m_player->isPlaying();
 }
 
 
 void Tsound::setDefaultAmbitus() {
-  if (sniffer)
-    sniffer->setAmbitus(Tnote(GLOB->loString().chromatic() - 5), // range extended about 4th up and down
+  if ( m_sniffer )
+        m_sniffer->setAmbitus(Tnote(GLOB->loString().chromatic() - 5), // range extended about 4th up and down
                   Tnote(GLOB->hiString().chromatic() + GLOB->GfretsNumber + 5));
 }
 
@@ -516,8 +514,8 @@ void Tsound::setTunerMode(bool isTuner) {
   if (isTuner != m_tunerMode) {
     m_tunerMode = isTuner;
     emit tunerModeChanged();
-    if (!m_tunerMode && player) // approve changed middle A frequency (if any)
-      player->setPitchOffset(GLOB->A->a440diff - static_cast<qreal>(static_cast<int>(GLOB->A->a440diff)));
+    if (!m_tunerMode && m_player ) // approve changed middle A frequency (if any)
+            m_player->setPitchOffset(GLOB->A->a440diff - static_cast<qreal>(static_cast<int>(GLOB->A->a440diff)));
   }
 }
 
@@ -564,8 +562,8 @@ void Tsound::changeDumpPath(const QString& path) {
 
 
 void Tsound::setDumpFileName(const QString& fName) {
-  if (sniffer && !GLOB->A->dumpPath.isEmpty())
-    sniffer->setDumpFileName(fName);
+  if ( m_sniffer && !GLOB->A->dumpPath.isEmpty())
+        m_sniffer->setDumpFileName(fName);
 }
 #endif
 
@@ -576,12 +574,12 @@ void Tsound::setDumpFileName(const QString& fName) {
 
 void Tsound::createPlayer() {
   if (GLOB->A->outType == TaudioParams::e_realSound)
-    player = new TaudioOUT(GLOB->A);
+        m_player = new TaudioOUT(GLOB->A);
   else
-    player = new TmidiOut(GLOB->A);
-  connect(player, &TaudioOUT::playingStarted, this, &Tsound::playingStartedSlot);
-  connect(player, &TaudioOUT::nextNoteStarted, this, &Tsound::selectNextNote);
-  connect(player, &TaudioOUT::playingFinished, this, &Tsound::playingFinishedSlot);
+        m_player = new TmidiOut(GLOB->A);
+  connect( m_player, &TaudioOUT::playingStarted, this, &Tsound::playingStartedSlot);
+  connect( m_player, &TaudioOUT::nextNoteStarted, this, &Tsound::selectNextNote);
+  connect( m_player, &TaudioOUT::playingFinished, this, &Tsound::playingFinishedSlot);
   m_stopSniffOnce = false;
 }
 
@@ -589,36 +587,36 @@ void Tsound::createPlayer() {
 void Tsound::createSniffer() {
 #if !defined (Q_OS_ANDROID)
   if (TaudioIN::instance())
-    sniffer = TaudioIN::instance();
+        m_sniffer = TaudioIN::instance();
   else
 #endif
-  sniffer = new TaudioIN(GLOB->A);
+        m_sniffer = new TaudioIN(GLOB->A);
   setDefaultAmbitus();
 //   sniffer->setAmbitus(Tnote(-31), Tnote(82)); // fixed ambitus bounded Tartini capacities
-  connect(sniffer, &TaudioIN::noteStarted, this, &Tsound::noteStartedSlot);
-  connect(sniffer, &TaudioIN::noteFinished, this, &Tsound::noteFinishedSlot);
-  connect(sniffer, &TaudioIN::stateChanged, this, &Tsound::listeningChanged);
+  connect( m_sniffer, &TaudioIN::noteStarted, this, &Tsound::noteStartedSlot);
+  connect( m_sniffer, &TaudioIN::noteFinished, this, &Tsound::noteFinishedSlot);
+  connect( m_sniffer, &TaudioIN::stateChanged, this, &Tsound::listeningChanged);
   m_userState = false; // user didn't stop sniffing yet
 }
 
 
 void Tsound::deletePlayer() {
-  if (player) {
-    player->stop();
-    delete player;
-    player = nullptr;
+  if ( m_player ) {
+        m_player->stop();
+    delete m_player;
+        m_player = nullptr;
   }
 }
 
 
 void Tsound::deleteSniffer() {
-  delete sniffer;
-  sniffer = nullptr;
+  delete m_sniffer;
+    m_sniffer = nullptr;
 }
 
 
 void Tsound::restoreSniffer() {
-  sniffer->setStoppedByUser(m_userState);
+    m_sniffer->setStoppedByUser(m_userState);
 //   blockSignals(false);
 //   sniffer->startListening();
 }
@@ -664,15 +662,15 @@ bool Tsound::eventFilter(QObject* watched, QEvent* event) {
 
 void Tsound::playingStartedSlot() {
   emit playingChanged();
-  if (sniffer)
-    sniffer->stopListening();
+  if ( m_sniffer )
+        m_sniffer->stopListening();
 }
 
 
 void Tsound::playingFinishedSlot() {
-  if (!m_examMode && sniffer) {
+  if (!m_examMode && m_sniffer ) {
     if (m_stopSniffOnce) {
-      sniffer->startListening();
+            m_sniffer->startListening();
       m_stopSniffOnce = false;
     }
   }
@@ -742,16 +740,16 @@ void Tsound::noteFinishedSlot(const TnoteStruct& note) {
 
 
 void Tsound::selectNextNote() {
-  if (player->playingNoteId() > -1 && player->playingNoteId() != NOO->selectedNoteId())
-      NOO->selectPlayingNote(player->playingNoteId());
+  if ( m_player->playingNoteId() > -1 && m_player->playingNoteId() != NOO->selectedNoteId())
+      NOO->selectPlayingNote( m_player->playingNoteId());
   emit playingNoteIdChanged();
 }
 
 
 void Tsound::stopMetronome() {
   if (m_metronomeIsRun) {
-    if (player)
-      player->stopMetronome();
+    if ( m_player )
+            m_player->stopMetronome();
     m_metronomeIsRun = false;
     emit metroRunningChanged();
   }

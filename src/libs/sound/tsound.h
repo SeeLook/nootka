@@ -70,10 +70,10 @@ public:
   explicit Tsound(QObject *parent = nullptr);
   virtual ~Tsound();
 
-  TabstractPlayer *player;
-  TaudioIN  *sniffer;
-
   static Tsound* instance() { return m_instance; }
+
+  TaudioIN*         sniffer() { return m_sniffer; }
+  TabstractPlayer*  player() { return m_player; }
 
   Q_INVOKABLE static QString soundTouchVersion();
 
@@ -91,7 +91,7 @@ public:
 
   bool isPlayable();
 
-  bool isSniffable() { return (sniffer ? true : false) ; }
+  bool isSniffable() { return (m_sniffer ? true : false) ; }
 
   bool melodyIsPlaying();
 
@@ -260,14 +260,10 @@ protected:
 #endif
 
 private:
-  void createPlayer();
-  void createSniffer();
-  void deletePlayer();
-  void deleteSniffer();
-  void restoreSniffer(); /**< Brings back sniffer & pitch view state as such as before settings dialog */
-
   void stopMetronome();
 
+  TabstractPlayer        *m_player = nullptr;
+  TaudioIN               *m_sniffer = nullptr;
   Tnote                   m_detectedNote; /**< detected note */
   bool                    m_examMode = false;
   bool                    m_tunerMode = false;
@@ -290,6 +286,15 @@ private:
 #endif
 
 private:
+  void createPlayer();
+  void createSniffer();
+  void deletePlayer();
+  void deleteSniffer();
+
+      /**<
+       * Brings back sniffer & pitch view state as such as before settings dialog
+       */
+  void restoreSniffer();
   void playingStartedSlot();
       /**
        * Is performed when note or melody stops playing, then sniffing is unlocked

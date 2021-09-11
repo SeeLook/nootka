@@ -43,8 +43,8 @@ TaudioAnalyzeItem::~TaudioAnalyzeItem() {}
 //#################################################################################################
 
 void TaudioAnalyzeItem::soundInitSlot() {
-  if (SOUND->sniffer) {
-    m_sniffer = SOUND->sniffer;
+  if (SOUND->sniffer()) {
+    m_sniffer = SOUND->sniffer();
     connect(m_sniffer, &TcommonListener::volumeChanged, this, &TaudioAnalyzeItem::volumeSlot);
     connect(m_sniffer, &TcommonListener::noteFinished, this, &TaudioAnalyzeItem::noteFinishedSlot);
   }
@@ -85,7 +85,7 @@ void TaudioAnalyzeItem::doProcess() {
   int              samplesCount;
   QDataStream      in;
   bool             ok = true;
-  SOUND->sniffer->finder()->setOffLine(true);
+  SOUND->sniffer()->finder()->setOffLine(true);
   if (m_audioFile.open(QIODevice::ReadOnly)) {
     in.setDevice(&m_audioFile);
     QString audioExt = m_audioFile.fileName().right(3);
@@ -169,7 +169,7 @@ void TaudioAnalyzeItem::doProcess() {
 
   if (ok) {
     qDebug() << "[Nootini]" << m_audioFile.fileName() << sampleRate << channelsNr;
-    auto pf = SOUND->sniffer->finder();
+    auto pf = SOUND->sniffer()->finder();
     qint16 chL, chR;
     qint16* buffer = new qint16[pf->aGl()->framesPerChunk];
     for (int j = 0; j < samplesCount / pf->aGl()->framesPerChunk; ++j) {
