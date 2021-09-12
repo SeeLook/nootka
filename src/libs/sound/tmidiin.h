@@ -46,13 +46,18 @@ public:
 
   RtMidiIn* midiIn() { return m_midiIn; }
 
+  void startListening() override;
+  void stopListening() override;
+
 protected:
   void openMidiPort();
 
 
 private:
-  RtMidiIn              *m_midiIn;
+  RtMidiIn              *m_midiIn = nullptr;
   unsigned int           m_portNr;
+
+  static void midiCallback(double deltatime, std::vector<unsigned char> *message, void *userData);
 };
 
 #endif // TMIDIIN_H
