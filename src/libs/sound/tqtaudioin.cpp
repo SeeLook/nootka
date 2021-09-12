@@ -50,7 +50,7 @@ QString                TaudioIN::m_deviceName = QStringLiteral("anything");
 
 TaudioIN::TaudioIN(TaudioParams* params, QObject *parent) :
   TcommonListener(params, parent),
-  m_audioParams(params),
+  p_audioParams(params),
   m_audioIN(nullptr),
   m_inBuffer(nullptr)
 {
@@ -75,7 +75,7 @@ TaudioIN::~TaudioIN() {
     m_audioIN->stop();
   }
 
-  m_audioParams->INdevName = m_deviceName; // store device name at the app exit
+  p_audioParams->INdevName = m_deviceName; // store device name at the app exit
   m_deviceName = QStringLiteral("anything");
 
   m_instance = nullptr;
@@ -86,7 +86,7 @@ TaudioIN::~TaudioIN() {
 
 
 void TaudioIN::updateAudioParams() {
-  if (m_audioIN && m_audioParams->INdevName != m_deviceName) // device changed
+  if (m_audioIN && p_audioParams->INdevName != m_deviceName) // device changed
     createInputDevice();
   TcommonListener::setAudioInParams();
 }
@@ -159,7 +159,7 @@ void TaudioIN::createInputDevice() {
   m_deviceInfo = QAudioDeviceInfo::defaultInputDevice();
   QList<QAudioDeviceInfo> devList = QAudioDeviceInfo::availableDevices(QAudio::AudioInput);
   for (int i = 0; i < devList.size(); ++i) { // find device with name or keep default one
-    if (devList[i].deviceName() == m_audioParams->INdevName) {
+    if (devList[i].deviceName() == p_audioParams->INdevName) {
       m_deviceInfo = devList[i];
       break;
     }
@@ -193,8 +193,8 @@ void TaudioIN::createInputDevice() {
 
   startDevice();
 //   qDebug() << "setAudioInParams" << "\nrate:" << finder()->aGl()->rate << m_audioIN->format().sampleRate() << "\nmethod:"
-//           << m_audioParams->detectMethod
-//           << "\nmin duration" << m_audioParams->minDuration << "\nmin volume" << m_audioParams->minimalVol
+//           << p_audioParams->detectMethod
+//           << "\nmin duration" << p_audioParams->minDuration << "\nmin volume" << p_audioParams->minimalVol
 //           << "\nnoise filter:" << finder()->aGl()->equalLoudness << "\ndetection range:" << detectionRange();
 }
 

@@ -111,7 +111,7 @@ private:
 private:
   static TaudioIN       *m_instance;
   static QString         m_deviceName;
-  TaudioParams          *m_audioParams;
+  TaudioParams          *p_audioParams;
   QAudioInput           *m_audioIN;
   QAudioDeviceInfo       m_deviceInfo;
   TaudioBuffer          *m_inBuffer;

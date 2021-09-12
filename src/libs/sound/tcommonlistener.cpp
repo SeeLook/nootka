@@ -34,7 +34,7 @@
 
 TcommonListener::TcommonListener(TaudioParams* params, QObject* parent) :
   QObject(parent),
-  m_audioParams(params),
+  p_audioParams(params),
   m_volume(0.0f),
   m_stoppedByUser(params->stoppedByUser),
   m_loPitch(15), m_hiPitch(140),
@@ -44,9 +44,9 @@ TcommonListener::TcommonListener(TaudioParams* params, QObject* parent) :
 {
   m_pitchFinder = new TpitchFinder();
 #if !defined (Q_OS_ANDROID)
-  if (!m_audioParams->dumpPath.isEmpty()) {
-      QDir dumpDir(m_audioParams->dumpPath);
-      if (dumpDir.exists() && QFileInfo(m_audioParams->dumpPath).isWritable()) {
+  if (!p_audioParams->dumpPath.isEmpty()) {
+      QDir dumpDir(p_audioParams->dumpPath);
+      if (dumpDir.exists() && QFileInfo(p_audioParams->dumpPath).isWritable()) {
           /**
            * If dump path exists and it is writable,
            * create sub-directory with time stamp name
@@ -54,10 +54,10 @@ TcommonListener::TcommonListener(TaudioParams* params, QObject* parent) :
            */
           QString subDir = QDateTime::currentDateTime().toString(Qt::ISODate);
           dumpDir.mkpath(subDir);
-          m_pitchFinder->setDumpDirPath(m_audioParams->dumpPath + QLatin1String("/") + subDir);
+          m_pitchFinder->setDumpDirPath(p_audioParams->dumpPath + QLatin1String("/") + subDir);
           qDebug() << "Dumping audio data into:" << m_pitchFinder->dumpDirPath();
       } else {
-          qDebug() << "Problem with dump directory" << m_audioParams->dumpPath << "\nAudio data will not be dumped!";
+          qDebug() << "Problem with dump directory" << p_audioParams->dumpPath << "\nAudio data will not be dumped!";
       }
   }
 #endif
@@ -77,15 +77,15 @@ TcommonListener::~TcommonListener() {
 
 void TcommonListener::setStoppedByUser(bool userStop) {
   m_stoppedByUser = userStop;
-  m_audioParams->stoppedByUser = userStop;
+  p_audioParams->stoppedByUser = userStop;
 }
 
 
 void TcommonListener::setAudioInParams() {
-  setDetectionMethod(m_audioParams->detectMethod);
-  setMinimalVolume(m_audioParams->minimalVol);
-  finder()->setMinimalDuration(m_audioParams->minDuration);
-  finder()->aGl()->equalLoudness = m_audioParams->equalLoudness;
+  setDetectionMethod(p_audioParams->detectMethod);
+  setMinimalVolume(p_audioParams->minimalVol);
+  finder()->setMinimalDuration(p_audioParams->minDuration);
+  finder()->aGl()->equalLoudness = p_audioParams->equalLoudness;
   m_volume = 0.0;
   finder()->setIsFadeOut(GLOB->instrument().isFadeOut());
 }
@@ -93,12 +93,12 @@ void TcommonListener::setAudioInParams() {
 
 void TcommonListener::setMinimalVolume(qreal minVol) {
   finder()->setMinimalVolume(static_cast<float>(minVol));
-  m_audioParams->minimalVol = minVol;
+  p_audioParams->minimalVol = minVol;
 }
 
 
 qreal TcommonListener::minimalVolume() {
-  return m_audioParams->minimalVol;
+  return p_audioParams->minimalVol;
 }
 
 
@@ -108,8 +108,8 @@ qreal TcommonListener::chunkTime() const {
 
 
 void TcommonListener::setAmbitus(Tnote loNote, Tnote hiNote) {
-  m_loNote = Tnote(loNote.chromatic() + m_audioParams->transposition);
-  m_hiNote = Tnote(hiNote.chromatic() + m_audioParams->transposition);
+  m_loNote = Tnote(loNote.chromatic() + p_audioParams->transposition);
+  m_hiNote = Tnote(hiNote.chromatic() + p_audioParams->transposition);
   m_loPitch = m_loNote.toMidi() - 1;
   m_hiPitch = m_hiNote.toMidi() + 1;
   TpitchFinder::Erange range = m_loNote.chromatic() > Tnote(5, -2, 0).chromatic() ? TpitchFinder::e_middle : TpitchFinder::e_low;
@@ -136,17 +136,17 @@ if (static_cast<int>(range) != m_currentRange) {
 void TcommonListener::setDetectionMethod(int method) {
   method = qBound(0, method, 2);
   finder()->aGl()->analysisType = static_cast<EanalysisModes>(method);
-  m_audioParams->detectMethod = method;
+  p_audioParams->detectMethod = method;
 }
 
 
 quint8 TcommonListener::intonationAccuracy() {
-  return m_audioParams->intonation;
+  return p_audioParams->intonation;
 }
 
 
 void TcommonListener::setIntonationAccuracy(qint8 intAcc) {
-  m_audioParams->intonation = qBound<quint8>(0, intAcc, 5);
+  p_audioParams->intonation = qBound<quint8>(0, intAcc, 5);
 }
 
 
@@ -171,19 +171,19 @@ void TcommonListener::pitchInChunkSlot(float pitch) {
   if (pitch == 0.0)
       m_LastChunkPitch = 0.0;
   else
-      m_LastChunkPitch = pitch - m_audioParams->a440diff;
+      m_LastChunkPitch = pitch - p_audioParams->a440diff;
 }
 
 
 void TcommonListener::noteStartedSlot(qreal pitch, qreal freq, qreal duration) {
   if (!isPaused()) {
       if (pitch > 0.0) {
-          m_lastNote.set(pitch + m_audioParams->a440diff, freq, duration);
+          m_lastNote.set(pitch + p_audioParams->a440diff, freq, duration);
           if (GLOB->rhythmsEnabled() || inRange(m_lastNote.pitchF)) {
             // NOTE: Check is note fitting instrument scale only when rhythms are not enabled.
             // When rhythms enabled - timing has to be coherent
             m_noteWasStarted = true;
-            m_lastNote.pitch.transpose(-m_audioParams->transposition);
+            m_lastNote.pitch.transpose(-p_audioParams->transposition);
             emit noteStarted(m_lastNote);
           }
       } else { // zero pitch means rest
@@ -226,12 +226,12 @@ void TcommonListener::noteFinishedSlot(TnoteStruct* lastNote) {
       m_lastNote.startChunk = lastNote->startChunk;
       m_lastNote.endChunk = lastNote->endChunk;
       if (lastNote->pitchF > 0.0)
-        m_lastNote.set(midiPitch - m_audioParams->a440diff, pitch2freq(midiPitch), lastNote->duration);
+        m_lastNote.set(midiPitch - p_audioParams->a440diff, pitch2freq(midiPitch), lastNote->duration);
       else
         m_lastNote.set(0.0, 0.0, lastNote->duration);
       if (lastNote->pitchF > 0.0) {
           if (GLOB->rhythmsEnabled() || inRange(m_lastNote.pitchF)) {
-            m_lastNote.pitch.transpose(-m_audioParams->transposition);
+            m_lastNote.pitch.transpose(-p_audioParams->transposition);
             emit noteFinished(m_lastNote);
           }
       } else if (GLOB->rhythmsEnabled()) {

@@ -212,6 +212,8 @@ public slots:
        */
   virtual void stopListening() = 0;
 
+protected:
+  TaudioParams     *p_audioParams;
 
 protected:
       /**
@@ -232,7 +234,6 @@ protected slots:
 
 
 private:
-  TaudioParams     *m_audioParams;
   TpitchFinder     *m_pitchFinder;
   float             m_volume;
   Tnote             m_loNote, m_hiNote; /**< Boundary notes of the ambitus. */
