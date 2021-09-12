@@ -203,8 +203,8 @@ void Tsound::acceptSettings() {
       else {
         #if !defined (Q_OS_ANDROID)
           if (GLOB->A->outType == TaudioParams::e_midiSound) {
-            deletePlayer(); // it is safe to delete midi
-            createPlayer(); // and create it again
+              deletePlayer(); // it is safe to delete midi
+              createPlayer(); // and create it again
           } else
         #endif
           { // avoids deleting TaudioOUT instance and loading ogg file every acceptSettings call
@@ -215,7 +215,7 @@ void Tsound::acceptSettings() {
                 doParamsUpdated = true;
             }
           }
-          if (m_player ) {
+          if (m_player) {
             if (!m_player->isPlayable())
               deletePlayer();
           }
@@ -228,7 +228,6 @@ void Tsound::acceptSettings() {
       if (!m_sniffer) {
           createSniffer();
       } else {
-//       m_userState = sniffer->stoppedByUser();
           setDefaultAmbitus();
           doParamsUpdated = true;
       }
@@ -237,10 +236,10 @@ void Tsound::acceptSettings() {
         deleteSniffer();
   }
 #if defined (Q_OS_ANDROID)
-  if (player)
-    static_cast<TaudioOUT*>(player)->setAudioOutParams();
-  if (sniffer)
-    sniffer->updateAudioParams();
+  if (m_player)
+    static_cast<TaudioOUT*>(m_player)->setAudioOutParams();
+  if (m_sniffer)
+    m_sniffer->updateAudioParams();
 #else
   if (doParamsUpdated) {
       if (m_player && m_player->type() == TabstractPlayer::e_audio) {
@@ -598,13 +597,20 @@ void Tsound::createPlayer() {
 
 void Tsound::createSniffer() {
 #if !defined (Q_OS_ANDROID)
-  if (TaudioIN::instance())
-    m_sniffer = TaudioIN::instance();
-  else
-#endif
+  if (GLOB->A->inType == TaudioParams::e_realSound) {
+      if (TaudioIN::instance())
+        m_sniffer = TaudioIN::instance();
+      else
+        m_sniffer = new TaudioIN(GLOB->A);
+  } else
+      m_sniffer = new TmidiIn(GLOB->A);
+#else
+  if (GLOB->A->inType == TaudioParams::e_realSound)
     m_sniffer = new TaudioIN(GLOB->A);
+  else
+    m_sniffer = new TmidiIn(GLOB->A);
+#endif
   setDefaultAmbitus();
-//   sniffer->setAmbitus(Tnote(-31), Tnote(82)); // fixed ambitus bounded Tartini capacities
   connect(m_sniffer, &TaudioIN::noteStarted, this, &Tsound::noteStartedSlot);
   connect(m_sniffer, &TaudioIN::noteFinished, this, &Tsound::noteFinishedSlot);
   connect(m_sniffer, &TaudioIN::stateChanged, this, &Tsound::listeningChanged);
