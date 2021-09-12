@@ -358,6 +358,7 @@ set(LIB_NOOTKASOUND_SRC
   tabstractplayer.cpp
   tartiniparams.h
   tmidiout.cpp
+  tmidiin.cpp
   toggscale.cpp
   tpitchfinder.cpp
   taudioobject.h

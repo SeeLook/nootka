@@ -24,6 +24,7 @@
   #include <QtAndroidExtras/qandroidjnienvironment.h>
 #else
   #include "tmidiout.h"
+  #include "tmidiin.h"
   #include "trtaudioout.h"
   #include "trtaudioin.h"
   #include <QtCore/qfileinfo.h>
@@ -261,11 +262,19 @@ QStringList Tsound::inputDevices() const { return TaudioIN::getAudioDevicesList(
 
 QStringList Tsound::outputDevices() const { return TaudioOUT::getAudioDevicesList(); }
 
-QStringList Tsound::midiPorts() const {
+QStringList Tsound::midiOutPorts() const {
 #if defined (Q_OS_ANDROID)
   return QStringList();
 #else
   return TmidiOut::getMidiPortsList();
+#endif
+}
+
+QStringList Tsound::midiInPorts() const {
+#if defined (Q_OS_ANDROID)
+  return QStringList();
+#else
+  return TmidiIn::getMidiInPorts();
 #endif
 }
 

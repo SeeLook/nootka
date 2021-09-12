@@ -76,7 +76,7 @@ Column {
                 id: inDevCombo
                 anchors.verticalCenter: parent.verticalCenter
                 width: NOO.factor() * 25
-                model: isMidiIn ? SOUND.midiPorts() : SOUND.inputDevices()
+                model: isMidiIn ? SOUND.midiInPorts() : SOUND.inputDevices()
               }
               TcheckBox {
                 visible: !isMidiIn && !NOO.isAndroid() && !NOO.isMac()
@@ -259,7 +259,7 @@ Column {
                 id: outDevCombo
                 anchors.verticalCenter: parent.verticalCenter
                 width: NOO.factor() * 25
-                model: isMidiOut ? SOUND.midiPorts() : SOUND.outputDevices()
+                model: isMidiOut ? SOUND.midiOutPorts() : SOUND.outputDevices()
               }
               TcheckBox {
                 id: jackOutChB
