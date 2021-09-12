@@ -39,7 +39,8 @@ public:
   bool            JACKorASIO; /**< forces to use JACK under Linux or ASIO under Windows (if they are available) */
 
   EsoundType      inType = e_realSound; /**< Input type: audio (default), MIDI or disabled */
-  QString         INdevName; /**< input device name */
+  QString         INdevName; /**< audio input device name */
+  QString         midiInPortName; /**< empty by default to find system preferred */
   qreal           a440diff; /**< difference between standard a1 440Hz and user preferred base pitch */
   int             midAfreq = 440; /**< Orchestral pitch - frequency of middle A  */
   int             transposition; /**< shift (interval) between score/note name and sound/instrument  */
@@ -52,15 +53,15 @@ public:
   bool            countBefore; /**< Before playing or sniffing play a measure of ticking */
   int             quantization; /**< Can be 6 or 12 (rhythmic duration of 16th or 8th), 4 (16th triplet is not yet supported) */
 
-  bool            equalLoudness; /**< if TRUE - noise filters are performed - FALSE by default */
+  bool            equalLoudness; /**< if @p TRUE - noise filters are performed - FALSE by default */
   bool            forwardInput; /**< if true, all captured audio data is pushed to output */
 
 // audio output settings
   EsoundType      outType = e_realSound; /**< Output type: audio (default), MIDI or disabled */
   QString         OUTdevName; /**< output device name */
-  QString         midiPortName; /**< default empty to find system default */
+  QString         midiOutPortName; /**< empty by default to find system preferred */
   unsigned char   midiInstrNr; /**< default 0 - grand piano */
-  int             audioInstrNr; /**< corresponds with Einstrument enum numbers, default 1 classical guitar */
+  int             audioInstrNr; /**< corresponds with @p Einstrument enum numbers, default 1 classical guitar */
 
   QString dumpPath; /**< Path when captured PCM audio data will be dumped, if empty (default) - no dump performed */
 };

@@ -335,6 +335,9 @@ void Tglobals::setInputType (int inT) { A->inType = static_cast<TaudioParams::Es
 QString Tglobals::inDevName() const { return A->INdevName; }
 void Tglobals::setInDevName(const QString& inName) { A->INdevName = inName; }
 
+QString Tglobals::inMidiPortName() const { return A->midiInPortName; }
+void Tglobals::setInMidiPortName(const QString& midiIn) { A->midiInPortName = midiIn; }
+
 int Tglobals::audioInstrument() const { return A->audioInstrNr; }
 void Tglobals::setAudioInstrument(int ai) { A->audioInstrNr = ai; }
 
@@ -362,8 +365,8 @@ void Tglobals::setOutputType (int outT) { A->outType = static_cast<TaudioParams:
 QString Tglobals::outDevName() const { return A->OUTdevName; }
 void Tglobals::setOutDevName(const QString& odn) { A->OUTdevName = odn; }
 
-QString Tglobals::outMidiPortName() const { return A->midiPortName; }
-void Tglobals::setOutMidiPortName (const QString &midiOut) { A->midiPortName = midiOut; }
+QString Tglobals::outMidiPortName() const { return A->midiOutPortName; }
+void Tglobals::setOutMidiPortName (const QString &midiOut) { A->midiOutPortName = midiOut; }
 
 int Tglobals::midiInstrument() const { return A->midiInstrNr; }
 void Tglobals::setMidiInstrument (int miIn) { A->midiInstrNr = static_cast<unsigned char>(miIn); }
@@ -698,7 +701,8 @@ void Tglobals::loadSettings(QSettings* cfg) {
     }
     A->JACKorASIO = cfg->value(QStringLiteral("JACKorASIO"), false).toBool();
     A->OUTdevName = cfg->value(QStringLiteral("outDeviceName"), QString()).toString();
-    A->midiPortName = cfg->value(QStringLiteral("midiPortName"), QString()).toString();
+    A->midiOutPortName = cfg->value(QStringLiteral("midiPortName"), QString()).toString();
+    A->midiInPortName = cfg->value(QStringLiteral("midiInPortName"), QString()).toString();
     A->midiInstrNr = static_cast<unsigned char>(cfg->value(QStringLiteral("midiInstrumentNr"), 0).toInt());
     A->audioInstrNr = qBound(1, cfg->value(QStringLiteral("audioInstrumentNr"), 1).toInt(), INSTR_COUNT);
     A->INdevName = cfg->value(QStringLiteral("inDeviceName"), QString()).toString();
@@ -892,7 +896,8 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue(QStringLiteral("JACKorASIO"), A->JACKorASIO);
       cfg->setValue(QStringLiteral("outputType"), A->outType);
       cfg->setValue(QStringLiteral("outDeviceName"), A->OUTdevName);
-      cfg->setValue(QStringLiteral("midiPortName"), A->midiPortName);
+      cfg->setValue(QStringLiteral("midiPortName"), A->midiOutPortName);
+      cfg->setValue(QStringLiteral("midiInPortName"), A->midiInPortName);
       cfg->setValue(QStringLiteral("midiInstrumentNr"), static_cast<int>(A->midiInstrNr));
       cfg->setValue(QStringLiteral("audioInstrumentNr"), static_cast<int>(A->audioInstrNr));
       cfg->setValue(QStringLiteral("inputType"), A->inType);

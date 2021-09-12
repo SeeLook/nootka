@@ -318,7 +318,10 @@ Column {
 
   function save() {
     if (enableInChB.checked) {
-        GLOB.inDevName = inDevCombo.currentText
+        if (audioInRadio.checked)
+          GLOB.inDevName = inDevCombo.currentText
+        else
+          GLOB.inMidiPortName = inDevCombo.currentText
         GLOB.minDuration = minDurSpin.value / 1000.0
         GLOB.minVolume = volSpin.value / 100.0
         GLOB.detectionMethod = methodCombo.currentIndex

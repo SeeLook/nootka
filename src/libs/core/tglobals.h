@@ -88,6 +88,7 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(int inputType READ inputType WRITE setInputType)
   Q_PROPERTY(int audioInstrument READ audioInstrument WRITE setAudioInstrument)
   Q_PROPERTY(QString inDevName READ inDevName WRITE setInDevName)
+  Q_PROPERTY(QString inMidiPortName READ inMidiPortName WRITE setInMidiPortName)
   Q_PROPERTY(qreal minDuration READ minDuration WRITE setMinDuration)
   Q_PROPERTY(qreal minVolume READ minVolume WRITE setMinVolume NOTIFY minVolumeChanged)
   Q_PROPERTY(int detectionMethod READ detectionMethod WRITE setDetectionMethod)
@@ -232,6 +233,9 @@ public:
 
   QString inDevName() const;
   void setInDevName(const QString& inName);
+
+  QString inMidiPortName() const;
+  void setInMidiPortName(const QString& midiIn);
 
   qreal minDuration() const;
   void setMinDuration(qreal md);
