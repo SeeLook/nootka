@@ -70,9 +70,9 @@ void TmidiOut::setMidiParams() {
   deleteMidi();
   p_playable = true;
   try {
-      m_midiOut = new RtMidiOut(RtMidi::UNSPECIFIED, "Nootka_MIDI_out");
+      m_midiOut = new RtMidiOut(RtMidi::UNSPECIFIED, "Nootka MIDI output");
   } catch (RtMidiError &error) {
-      qDebug() << "[TmidiOut] Can't initialize MIDI";
+      qDebug() << "[TmidiOut] Can't initialize MIDI output";
       p_playable = false;
       return;
   }
@@ -80,12 +80,12 @@ void TmidiOut::setMidiParams() {
   if (m_midiOut && m_midiOut->getPortCount() > 0) {
       m_portNr = 0;
 #if defined(Q_OS_LINUX)
-      if (p_audioParams->midiPortName.isEmpty())
-        p_audioParams->midiPortName = QStringLiteral("TiMidity");  // TiMidity port is prefered under Linux
+      if (p_audioParams->midiOutPortName.isEmpty())
+        p_audioParams->midiOutPortName = QStringLiteral("TiMidity");  // TiMidity port is prefered under Linux
 #endif
-      if (!p_audioParams->midiPortName.isEmpty()) {
+      if (!p_audioParams->midiOutPortName.isEmpty()) {
         for (int i = 0; i < m_midiOut->getPortCount(); i++) {
-          if (QString::fromStdString(m_midiOut->getPortName(i)).contains(p_audioParams->midiPortName)) {
+          if (QString::fromStdString(m_midiOut->getPortName(i)).contains(p_audioParams->midiOutPortName)) {
             m_portNr = i;
             break;
           }
@@ -93,7 +93,7 @@ void TmidiOut::setMidiParams() {
       }
 
       openMidiPort();
-      qDebug() << "[TmidiOut] MIDI device:" << p_audioParams->midiPortName << "instrument:" << static_cast<int>(p_audioParams->midiInstrNr);
+      qDebug() << "[TmidiOut] MIDI device:" << p_audioParams->midiOutPortName << "instrument:" << static_cast<int>(p_audioParams->midiInstrNr);
   } else
       p_playable = false;
 }
@@ -205,15 +205,15 @@ void TmidiOut::openMidiPort() {
     if (m_portOpened)
       return;
     try {
-        m_midiOut->openPort(m_portNr, "Nootka_MIDI_out");
+        m_midiOut->openPort(m_portNr, "Nootka MIDI output");
     } catch (RtMidiError &error) {
-        qDebug() << "[TmidiOut] Can't open MIDI port";
+        qDebug() << "[TmidiOut] Cannot open MIDI output port";
         p_playable = false;
         return;
     }
     m_portOpened = true;
-    p_audioParams->midiPortName = QString::fromStdString(m_midiOut->getPortName(m_portNr));
-    // midi program (instrument) change
+    p_audioParams->midiOutPortName = QString::fromStdString(m_midiOut->getPortName(m_portNr));
+    // MIDI program (instrument) change
     m_message.clear();
     m_message.push_back(192);
     m_message.push_back(p_audioParams->midiInstrNr); // instrument number
@@ -223,7 +223,7 @@ void TmidiOut::openMidiPort() {
     m_message[1] = 60;
     m_midiOut->sendMessage(&m_message);
 
-    m_message.push_back(0); // third message param
+    m_message.push_back(0); // third message parameter
 
     m_message[0] = 176;
     m_message[1] = 7;
