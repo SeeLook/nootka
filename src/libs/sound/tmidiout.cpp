@@ -29,8 +29,8 @@ QStringList TmidiOut::getMidiPortsList()
   RtMidiOut *midiOut = nullptr;
   try {
       midiOut = new RtMidiOut();
-  } catch ( RtMidiError &error ) {
-      qDebug() << "no midi devices available";
+  } catch (RtMidiError &error) {
+      qDebug() << "[TmidiOut] No MIDI devices available!" << QString::fromStdString(error.getMessage());
   }
 
   QStringList portList;
