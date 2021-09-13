@@ -50,7 +50,10 @@ public:
   explicit TcommonListener(TaudioParams* params, QObject* parent = nullptr);
   ~TcommonListener();
 
+  enum EsnifferType { e_audio, e_midi };
 
+  EsnifferType type() const { return p_snifferType; }
+  bool isMIDI() { return p_snifferType == e_midi; }
       /**
        * State of input audio device:
        * @p e_listening - when input captures data and emits signals
@@ -213,6 +216,7 @@ public slots:
   virtual void stopListening() = 0;
 
 protected:
+  EsnifferType      p_snifferType = e_audio;
   TaudioParams     *p_audioParams;
 
 protected:

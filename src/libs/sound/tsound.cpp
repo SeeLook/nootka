@@ -228,8 +228,13 @@ void Tsound::acceptSettings() {
       if (!m_sniffer) {
           createSniffer();
       } else {
-          setDefaultAmbitus();
-          doParamsUpdated = true;
+          if (m_sniffer->type() == TcommonListener::e_midi) {
+              deleteSniffer();
+              createSniffer();
+          } else {
+              setDefaultAmbitus();
+              doParamsUpdated = true;
+          }
       }
   } else {
       if (m_sniffer)
