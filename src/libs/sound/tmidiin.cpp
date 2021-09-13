@@ -23,6 +23,9 @@
 #include <QtCore/qdebug.h>
 
 
+#define MIDI_NOTE_ON (144)
+#define MIDI_NOTE_OFF (128)
+
 //#################################################################################################
 //###################                STATIC            ############################################
 //#################################################################################################
@@ -30,8 +33,8 @@ QStringList TmidiIn::getMidiInPorts() {
   RtMidiIn *midiIn = nullptr;
   try {
       midiIn = new RtMidiIn();
-  } catch ( RtMidiError &error ) {
-      qDebug() << "No MIDI input devices available";
+  } catch (RtMidiError &error) {
+      qDebug() << "[TmidiIn] No MIDI devices available!" << QString::fromStdString(error.getMessage());
   }
 
   QStringList portList;
@@ -46,10 +49,15 @@ QStringList TmidiIn::getMidiInPorts() {
 
 void TmidiIn::midiCallback(double deltatime, std::vector<unsigned char> *message, void *userData) {
   Q_UNUSED(userData)
-  QString m;
-  for (int i = 0; i < message->size(); ++i)
-    m += QString::number(static_cast<int>(message->at(i))) + QLatin1String(" ");
-  qDebug() << "MIDI" << m << deltatime;
+  if (message->size() > 1) {
+    if (message->at(0) == MIDI_NOTE_ON) {
+        Tnote n;
+        n.fromMidi(message->at(1));
+        qDebug() << "MIDI note started" << n.toText();
+    } else if (message->at(0) == MIDI_NOTE_OFF) {
+        qDebug() << "MIDI note finished" << deltatime;
+    }
+  }
 }
 
 
@@ -59,12 +67,14 @@ void TmidiIn::midiCallback(double deltatime, std::vector<unsigned char> *message
 TmidiIn::TmidiIn(TaudioParams *params, QObject *parent) :
   TcommonListener(params, parent)
 {
+  p_snifferType = e_midi;
   setMidiParams();
 }
 
 
 TmidiIn::~TmidiIn()
 {
+  deleteMidi();
 }
 
 
