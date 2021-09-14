@@ -29,6 +29,10 @@
 //#################################################################################################
 //###################                STATIC            ############################################
 //#################################################################################################
+
+TmidiIn*              TmidiIn::m_instance = nullptr;
+
+
 QStringList TmidiIn::getMidiInPorts() {
   RtMidiIn *midiIn = nullptr;
   try {
@@ -51,11 +55,9 @@ void TmidiIn::midiCallback(double deltatime, std::vector<unsigned char> *message
   Q_UNUSED(userData)
   if (message->size() > 1) {
     if (message->at(0) == MIDI_NOTE_ON) {
-        Tnote n;
-        n.fromMidi(message->at(1));
-        qDebug() << "MIDI note started" << n.toText();
+        emit m_instance->midiNoteOn(message->at(1));
     } else if (message->at(0) == MIDI_NOTE_OFF) {
-        qDebug() << "MIDI note finished" << deltatime;
+        emit m_instance->midiNoteOff(message->at(1), deltatime);
     }
   }
 }
@@ -67,8 +69,13 @@ void TmidiIn::midiCallback(double deltatime, std::vector<unsigned char> *message
 TmidiIn::TmidiIn(TaudioParams *params, QObject *parent) :
   TcommonListener(params, parent)
 {
+  m_instance = this;
+
   p_snifferType = e_midi;
   setMidiParams();
+
+  connect(this, &TmidiIn::midiNoteOn, this, &TmidiIn::noteOnSlot);
+  connect(this, &TmidiIn::midiNoteOff, this, &TmidiIn::noteOffSlot);
 }
 
 
@@ -138,4 +145,16 @@ void TmidiIn::openMidiPort() {
   }
   p_audioParams->midiInPortName = QString::fromStdString(m_midiIn->getPortName(m_portNr));
   m_midiIn->ignoreTypes(false, false, false);
+}
+
+
+void TmidiIn::noteOnSlot(int midiNoteNr) {
+  Tnote n;
+  n.fromMidi(midiNoteNr);
+  qDebug() << "MIDI note started" << n.toText();
+}
+
+
+void TmidiIn::noteOffSlot(int midiNoteNr, double deltaTime) {
+  qDebug() << "MIDI note finished" << deltaTime;
 }

@@ -49,11 +49,19 @@ public:
   void startListening() override;
   void stopListening() override;
 
+signals:
+  void midiNoteOn(int midiNr);
+  void midiNoteOff(int midiNr, double deltaTime);
+
 protected:
   void openMidiPort();
 
+  void noteOnSlot(int midiNoteNr);
+  void noteOffSlot(int midiNoteNr, double deltaTime);
+
 
 private:
+  static TmidiIn        *m_instance;
   RtMidiIn              *m_midiIn = nullptr;
   unsigned int           m_portNr;
 
