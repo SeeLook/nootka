@@ -33,14 +33,11 @@
 
 
 TcommonListener::TcommonListener(TaudioParams* params, QObject* parent) :
-  QObject(parent),
-  p_audioParams(params),
+  TabstractSniffer(params, parent),
   m_volume(0.0f),
-  m_stoppedByUser(params->stoppedByUser),
   m_loPitch(15), m_hiPitch(140),
   m_noteWasStarted(false),
-  m_currentRange(1),
-  m_state(e_stopped)
+  m_currentRange(1)
 {
   m_pitchFinder = new TpitchFinder();
 #if !defined (Q_OS_ANDROID)
@@ -75,12 +72,6 @@ TcommonListener::~TcommonListener() {
 }
 
 
-void TcommonListener::setStoppedByUser(bool userStop) {
-  m_stoppedByUser = userStop;
-  p_audioParams->stoppedByUser = userStop;
-}
-
-
 void TcommonListener::setAudioInParams() {
   setDetectionMethod(p_audioParams->detectMethod);
   setMinimalVolume(p_audioParams->minimalVol);
@@ -107,12 +98,11 @@ qreal TcommonListener::chunkTime() const {
 }
 
 
-void TcommonListener::setAmbitus(Tnote loNote, Tnote hiNote) {
-  m_loNote = Tnote(loNote.chromatic() + p_audioParams->transposition);
-  m_hiNote = Tnote(hiNote.chromatic() + p_audioParams->transposition);
-  m_loPitch = m_loNote.toMidi() - 1;
-  m_hiPitch = m_hiNote.toMidi() + 1;
-  TpitchFinder::Erange range = m_loNote.chromatic() > Tnote(5, -2, 0).chromatic() ? TpitchFinder::e_middle : TpitchFinder::e_low;
+void TcommonListener::setAmbitus(const Tnote& lowestNote, const Tnote& highestNote) {
+  TabstractSniffer::setAmbitus(lowestNote, highestNote);
+  m_loPitch = loNote().toMidi() - 1;
+  m_hiPitch = hiNote().toMidi() + 1;
+  TpitchFinder::Erange range = loNote().chromatic() > Tnote(5, -2, 0).chromatic() ? TpitchFinder::e_middle : TpitchFinder::e_low;
 // TODO: seems like we never use e_high (makes sense for flute maybe) - remove dead code then
 //  TpitchFinder::Erange range = TpitchFinder::e_middle;
 //  if (loNote.chromatic() > Tnote(6, 0, 0).chromatic())

@@ -16,58 +16,27 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.  *
  ***************************************************************************/
 
-#ifndef TMIDIIN_H
-#define TMIDIIN_H
 
-
-#include "nootkasoundglobal.h"
 #include "tabstractsniffer.h"
+#include "taudioparams.h"
 
 
-class RtMidiIn;
-class TaudioParams;
-
-
-/**
- * @class TmidiIn
- */
-class NOOTKASOUND_EXPORT TmidiIn : public TabstractSniffer
+TabstractSniffer::TabstractSniffer(TaudioParams* params, QObject *parent) :
+  QObject(parent),
+  m_stoppedByUser(params->stoppedByUser),
+  m_state(e_stopped)
 {
-
-  Q_OBJECT
-
-public:
-  TmidiIn(TaudioParams* params, QObject* parent = nullptr);
-  ~TmidiIn();
-
-  static QStringList getMidiInPorts();
-
-  void setMidiParams();
-
-  void deleteMidi();
-
-  RtMidiIn* midiIn() { return m_midiIn; }
-
-  void startListening() override;
-  void stopListening() override;
-
-signals:
-  void midiNoteOn(int midiNr);
-  void midiNoteOff(int midiNr, double deltaTime);
-
-protected:
-  void openMidiPort();
-
-  void noteOnSlot(int midiNoteNr);
-  void noteOffSlot(int midiNoteNr, double deltaTime);
+  p_audioParams = params;
+}
 
 
-private:
-  static TmidiIn        *m_instance;
-  RtMidiIn              *m_midiIn = nullptr;
-  unsigned int           m_portNr;
+void TabstractSniffer::setStoppedByUser(bool userStop) {
+  m_stoppedByUser = userStop;
+  p_audioParams->stoppedByUser = userStop;
+}
 
-  static void midiCallback(double deltatime, std::vector<unsigned char> *message, void *userData);
-};
 
-#endif // TMIDIIN_H
+void TabstractSniffer::setAmbitus(const Tnote& lowestNote, const Tnote& highestNote) {
+  m_loNote = Tnote(lowestNote.chromatic() + p_audioParams->transposition);
+  m_hiNote = Tnote(highestNote.chromatic() + p_audioParams->transposition);
+}

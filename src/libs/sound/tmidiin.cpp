@@ -67,7 +67,7 @@ void TmidiIn::midiCallback(double deltatime, std::vector<unsigned char> *message
 //###################                PUBLIC            ############################################
 //#################################################################################################
 TmidiIn::TmidiIn(TaudioParams *params, QObject *parent) :
-  TcommonListener(params, parent)
+  TabstractSniffer(params, parent)
 {
   m_instance = this;
 

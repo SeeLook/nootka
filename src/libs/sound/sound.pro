@@ -14,6 +14,7 @@ TARGET = NootkaSound
 TEMPLATE = lib
 
 SOURCES +=  tabstractplayer.cpp\
+            tabstractsniffer.cpp\
             tpitchfinder.cpp\
             tonsetlogic.cpp\
             tcommonlistener.cpp\
@@ -51,6 +52,7 @@ SOURCES +=  tabstractplayer.cpp\
 HEADERS  += tartiniparams.h\
             taudioobject.h\
             tabstractplayer.h\
+            tabstractsniffer.h\
             tpitchfinder.h\
             tonsetlogic.h\
             tcommonlistener.h\

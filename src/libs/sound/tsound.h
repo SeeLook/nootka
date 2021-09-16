@@ -31,7 +31,8 @@ class Tchunk;
 class TnoteStruct;
 class Tmelody;
 class TabstractPlayer;
-class TcommonListener;
+class TabstractSniffer;
+class TaudioIN;
 
 
 #define   SOUND   Tsound::instance()
@@ -72,7 +73,7 @@ public:
 
   static Tsound* instance() { return m_instance; }
 
-  TcommonListener*    sniffer() { return m_sniffer; }
+  TabstractSniffer*   sniffer() { return m_sniffer; }
   TabstractPlayer*    player() { return m_player; }
 
   Q_INVOKABLE static QString soundTouchVersion();
@@ -264,7 +265,8 @@ private:
   void stopMetronome();
 
   TabstractPlayer        *m_player = nullptr;
-  TcommonListener        *m_sniffer = nullptr;
+  TabstractSniffer       *m_sniffer = nullptr;
+  TaudioIN               *m_audioSniffer = nullptr;
   Tnote                   m_detectedNote; /**< detected note */
   bool                    m_examMode = false;
   bool                    m_tunerMode = false;

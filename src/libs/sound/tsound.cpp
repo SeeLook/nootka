@@ -182,13 +182,15 @@ void Tsound::playNoteList(QList<Tnote>& notes, int firstNote, int countdownDurat
 
 
 qreal Tsound::inputVol() {
-  return m_sniffer ? m_sniffer->volume() : 0.0;
+  return m_audioSniffer ? m_audioSniffer->volume() : 0.0;
 }
 
 
 qreal Tsound::pitchDeviation() {
-  if (m_sniffer)
-    return static_cast<qreal>(qBound(-0.49, (m_sniffer->lastChunkPitch() - static_cast<float>(qRound(m_sniffer->lastChunkPitch()))) * INT_FACTOR, 0.49));
+  if (m_audioSniffer)
+    return static_cast<qreal>(qBound(-0.49,
+                                     (m_audioSniffer->lastChunkPitch() - static_cast<qreal>(qRound(m_audioSniffer->lastChunkPitch()))) * INT_FACTOR,
+                                     0.49));
   else
     return 0.0;
 }
@@ -250,10 +252,8 @@ void Tsound::acceptSettings() {
       if (m_player && m_player->type() == TabstractPlayer::e_audio) {
           static_cast<TaudioOUT*>(m_player)->updateAudioParams();
           static_cast<TaudioOUT*>(m_player)->setAudioOutParams();
-      } else if (m_sniffer) {
-          auto sniff = static_cast<TaudioIN*>(m_sniffer);
-          if (sniff)
-            sniff->updateAudioParams();
+      } else if (m_audioSniffer) {
+            m_audioSniffer->updateAudioParams();
       }
   }
 #endif
@@ -298,8 +298,8 @@ void Tsound::setJACKorASIO(bool setOn) {
 
 
 float Tsound::pitch() {
-  if (m_sniffer)
-    return m_sniffer->lastNotePitch();
+  if (m_audioSniffer)
+    return m_audioSniffer->lastNotePitch();
   else
     return 0.0f;
 }
@@ -394,7 +394,7 @@ void Tsound::setStoppedByUser(bool sbu) {
 
 
 bool Tsound::listening() const {
-  return m_sniffer ? m_sniffer->detectingState() == TcommonListener::e_detecting : false;
+  return m_sniffer ? m_sniffer->detectingState() == TabstractSniffer::e_detecting : false;
 }
 
 
@@ -578,8 +578,8 @@ void Tsound::changeDumpPath(const QString& path) {
 
 
 void Tsound::setDumpFileName(const QString& fName) {
-  if (m_sniffer && !GLOB->A->dumpPath.isEmpty())
-    m_sniffer->setDumpFileName(fName);
+  if (m_audioSniffer && !GLOB->A->dumpPath.isEmpty())
+    m_audioSniffer->setDumpFileName(fName);
 }
 #endif
 
@@ -607,13 +607,19 @@ void Tsound::createSniffer() {
         m_sniffer = TaudioIN::instance();
       else
         m_sniffer = new TaudioIN(GLOB->A);
-  } else
+      m_audioSniffer = static_cast<TaudioIN*>(m_sniffer);
+  } else {
       m_sniffer = new TmidiIn(GLOB->A);
+      m_audioSniffer = nullptr;
+  }
 #else
-  if (GLOB->A->inType == TaudioParams::e_realSound)
-    m_sniffer = new TaudioIN(GLOB->A);
-  else
-    m_sniffer = new TmidiIn(GLOB->A);
+  if (GLOB->A->inType == TaudioParams::e_realSound) {
+      m_sniffer = new TaudioIN(GLOB->A);
+      m_audioSniffer = static_cast<TaudioIN*>(m_sniffer);
+  } else {
+      m_sniffer = new TmidiIn(GLOB->A);
+      m_audioSniffer = nullptr;
+  }
 #endif
   setDefaultAmbitus();
   connect(m_sniffer, &TaudioIN::noteStarted, this, &Tsound::noteStartedSlot);

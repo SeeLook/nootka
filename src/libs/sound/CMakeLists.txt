@@ -356,6 +356,7 @@ endif(WIN32)
 
 set(LIB_NOOTKASOUND_SRC
   tabstractplayer.cpp
+  tabstractsniffer.cpp
   tartiniparams.h
   tmidiout.cpp
   tmidiin.cpp
