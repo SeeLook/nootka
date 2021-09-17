@@ -23,8 +23,6 @@
 
 #include "nootkasoundglobal.h"
 #include "tabstractsniffer.h"
-#include <music/tnote.h>
-#include <music/tnotestruct.h>
 
 
 class TpitchFinder;
@@ -99,12 +97,12 @@ public:
       /**
        * Pitch of last detected note in double precision.
        */
-  qreal lastNotePitch() { return m_lastNote.pitchF; }
+  qreal lastNotePitch() { return p_lastNote.pitchF; }
 
       /**
        * Pitch, frequency and duration of the last detected note.
        */
-  TnoteStruct& lastNote() { return m_lastNote; }
+  TnoteStruct& lastNote() { return p_lastNote; }
 
   float lastChunkPitch() const { return m_LastChunkPitch; }
 
@@ -116,7 +114,7 @@ public:
       /**
        * @p TRUE when note started but not finished.
        */
-  bool noteWasStarted() const { return m_noteWasStarted; }
+  bool noteWasStarted() const { return p_noteWasStarted; }
 
       /**
        * Sets pitch detection method. Currently three are available:
@@ -172,10 +170,8 @@ protected slots:
 private:
   TpitchFinder     *m_pitchFinder;
   float             m_volume;
-  TnoteStruct       m_lastNote;
   float             m_LastChunkPitch; /**< Pitch from recent processed chunk or 0.0 if silence */
   qreal             m_loPitch, m_hiPitch;
-  bool              m_noteWasStarted;
   int               m_currentRange; /**< Current range of detected note - see @p TaudioParams */
   int               m_loPCMnumber = 0, m_hiPCMnumber = 0; /**< Counts number of PCM volumes out of range, to emit warning note  */
 };

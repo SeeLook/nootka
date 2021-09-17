@@ -36,7 +36,6 @@ TcommonListener::TcommonListener(TaudioParams* params, QObject* parent) :
   TabstractSniffer(params, parent),
   m_volume(0.0f),
   m_loPitch(15), m_hiPitch(140),
-  m_noteWasStarted(false),
   m_currentRange(1)
 {
   m_pitchFinder = new TpitchFinder();
@@ -168,30 +167,30 @@ void TcommonListener::pitchInChunkSlot(float pitch) {
 void TcommonListener::noteStartedSlot(qreal pitch, qreal freq, qreal duration) {
   if (!isPaused()) {
       if (pitch > 0.0) {
-          m_lastNote.set(pitch + p_audioParams->a440diff, freq, duration);
-          if (GLOB->rhythmsEnabled() || inRange(m_lastNote.pitchF)) {
+          p_lastNote.set(pitch + p_audioParams->a440diff, freq, duration);
+          if (GLOB->rhythmsEnabled() || inRange(p_lastNote.pitchF)) {
             // NOTE: Check is note fitting instrument scale only when rhythms are not enabled.
             // When rhythms enabled - timing has to be coherent
-            m_noteWasStarted = true;
-            m_lastNote.pitch.transpose(-p_audioParams->transposition);
-            emit noteStarted(m_lastNote);
+            p_noteWasStarted = true;
+            p_lastNote.pitch.transpose(-p_audioParams->transposition);
+            emit noteStarted(p_lastNote);
           }
       } else { // zero pitch means rest
           if (GLOB->rhythmsEnabled()) {
-            m_noteWasStarted = true;
-            m_lastNote.pitch.setNote(0);
-            m_lastNote.pitch.rtm.setRest(true);
-            m_lastNote.duration = duration;
-            emit noteStarted(m_lastNote);
+            p_noteWasStarted = true;
+            p_lastNote.pitch.setNote(0);
+            p_lastNote.pitch.rtm.setRest(true);
+            p_lastNote.duration = duration;
+            emit noteStarted(p_lastNote);
           }
       }
   } else
-      m_lastNote.set(); // reset last detected note structure
+      p_lastNote.set(); // reset last detected note structure
 }
 
 
 void TcommonListener::noteFinishedSlot(TnoteStruct* lastNote) {
-  m_noteWasStarted = false;
+  p_noteWasStarted = false;
   if (!isPaused()) {
       qreal midiPitch;
       if (finder()->isFadeOut()) {
@@ -213,20 +212,20 @@ void TcommonListener::noteFinishedSlot(TnoteStruct* lastNote) {
       } else // continuous instrument pitch is average of all pitches excluding 3 at start and note end
           midiPitch = lastNote->getAverage(3, lastNote->pitches()->size() - 3);
 
-      m_lastNote.startChunk = lastNote->startChunk;
-      m_lastNote.endChunk = lastNote->endChunk;
+      p_lastNote.startChunk = lastNote->startChunk;
+      p_lastNote.endChunk = lastNote->endChunk;
       if (lastNote->pitchF > 0.0)
-        m_lastNote.set(midiPitch - p_audioParams->a440diff, pitch2freq(midiPitch), lastNote->duration);
+        p_lastNote.set(midiPitch - p_audioParams->a440diff, pitch2freq(midiPitch), lastNote->duration);
       else
-        m_lastNote.set(0.0, 0.0, lastNote->duration);
+        p_lastNote.set(0.0, 0.0, lastNote->duration);
       if (lastNote->pitchF > 0.0) {
-          if (GLOB->rhythmsEnabled() || inRange(m_lastNote.pitchF)) {
-            m_lastNote.pitch.transpose(-p_audioParams->transposition);
-            emit noteFinished(m_lastNote);
+          if (GLOB->rhythmsEnabled() || inRange(p_lastNote.pitchF)) {
+            p_lastNote.pitch.transpose(-p_audioParams->transposition);
+            emit noteFinished(p_lastNote);
           }
       } else if (GLOB->rhythmsEnabled()) {
-          m_lastNote.pitch.rtm.setRest(true);
-          emit noteFinished(m_lastNote);
+          p_lastNote.pitch.rtm.setRest(true);
+          emit noteFinished(p_lastNote);
       }
 
 //       if (lastNote->maxPCMvol < LOWEST_PCM) {
@@ -248,7 +247,7 @@ void TcommonListener::noteFinishedSlot(TnoteStruct* lastNote) {
 //           m_loPCMnumber = 0;
 //       }
   } else
-      m_lastNote.set(); // reset last detected note structure
+      p_lastNote.set(); // reset last detected note structure
 }
 
 

@@ -124,6 +124,8 @@ signals:
 protected:
   EsnifferType      p_snifferType = e_audio;
   TaudioParams     *p_audioParams;
+  TnoteStruct       p_lastNote;
+  bool              p_noteWasStarted = false;
 
 protected:
   void setState(TabstractSniffer::Estate st) { m_state = st; emit stateChanged(static_cast<int>(st)); }
