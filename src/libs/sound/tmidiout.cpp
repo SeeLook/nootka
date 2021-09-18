@@ -23,6 +23,15 @@
 #include <QtCore/qdebug.h>
 
 
+#define MIDI_NOTE_ON (144)
+#define MIDI_NOTE_OFF (128)
+#define MIDI_VOLUME (120)
+#define MIDI_PITCH_BEND (224)
+#define MIDI_INSTR_CHANGE (192)
+#define MIDI_TIMING (241)
+#define MIDI_CONTROLLER (176)
+
+
 //------------------ static methods ------------------------------------------------------
 QStringList TmidiOut::getMidiPortsList()
 {
@@ -165,15 +174,15 @@ bool TmidiOut::play (int noteNr) {
     }
   }
   m_prevMidiNote = noteNr + 47 + semiToneOff;
-  m_message[0] = 144; // note On
+  m_message[0] = MIDI_NOTE_ON;
   m_message[1] = m_prevMidiNote;
-  m_message[2] = 100; // volume
+  m_message[2] = MIDI_VOLUME;
   m_midiOut->sendMessage(&m_message);
   if (midiBend) { // let's send bend message
     char msb, lsb;
-    lsb = (char)(midiBend % 128); // calculate 7 bits lsb&msb
+    lsb = static_cast<char>(midiBend % 128); // calculate 7 bits lsb & msb
     msb = (char)(midiBend / 128);
-    m_message[0] = 224; // pitch bend
+    m_message[0] = MIDI_PITCH_BEND;
     m_message[1] = lsb;
     m_message[2] = msb;
     m_midiOut->sendMessage(&m_message);
@@ -215,19 +224,19 @@ void TmidiOut::openMidiPort() {
     p_audioParams->midiOutPortName = QString::fromStdString(m_midiOut->getPortName(m_portNr));
     // MIDI program (instrument) change
     m_message.clear();
-    m_message.push_back(192);
+    m_message.push_back(MIDI_INSTR_CHANGE);
     m_message.push_back(p_audioParams->midiInstrNr); // instrument number
     m_midiOut->sendMessage(&m_message);
-    // some spacial signals
-    m_message[0] = 241;
-    m_message[1] = 60;
+    // some special signals
+    m_message[0] = MIDI_TIMING;
+    m_message[1] = 60; // timing value
     m_midiOut->sendMessage(&m_message);
 
     m_message.push_back(0); // third message parameter
 
-    m_message[0] = 176;
+    m_message[0] = MIDI_CONTROLLER;
     m_message[1] = 7;
-    m_message[2] = 100; // volume 100;
+    m_message[2] = MIDI_VOLUME;
     m_midiOut->sendMessage(&m_message);
 }
 
@@ -237,7 +246,7 @@ void TmidiOut::openMidiPort() {
 
 void TmidiOut::midiNoteOff() {
   m_offTimer->stop();
-  m_message[0] = 128; // note Off
+  m_message[0] = MIDI_NOTE_OFF;
   m_message[1] = m_prevMidiNote;
   m_message[2] = 0; // volume
   try {
