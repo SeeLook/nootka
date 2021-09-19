@@ -11,7 +11,7 @@ appimage-amd64:
     - echo "$SSH_KEY_PRIVATE" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
-    - ssh-keyscan opencode.net >> ~/.ssh/known_hosts
+    - ssh-keyscan "$SSH_HOST" >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
 
     - apt-get update
