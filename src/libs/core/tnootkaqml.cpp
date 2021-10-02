@@ -31,6 +31,7 @@
 #include "score/taddnoteitem.h"
 #include "score/tmelodypreview.h"
 #include "score/tdummychord.h"
+#include "score/tnotesbaritem.h"
 #include "instruments/tguitarbg.h"
 #include "instruments/tpianobg.h"
 #include "instruments/tbandoneonbg.h"
@@ -87,6 +88,7 @@ TnootkaQML::TnootkaQML(QObject* parent) :
   qmlRegisterType<TmelodyPreview>("Score", 1, 0, "TmelodyPreview");
   qmlRegisterUncreatableType<TmelodyPart>("Score", 1, 0, "TmelodyPart", QStringLiteral("You cannot create an instance of the TcommonInstrument."));
   qmlRegisterType<TdummyChord>("Score", 1, 0, "TdummyChord");
+  qmlRegisterType<TnotesBarItem>("Score", 1, 0, "TnotesBarItem");
 
   qmlRegisterUncreatableType<TcommonInstrument>("Nootka", 1, 0, "TcommonInstrument", QStringLiteral("You cannot create an instance of the TcommonInstrument."));
   qmlRegisterType<TguitarBg>("Nootka", 1, 0, "TguitarBg");
@@ -208,7 +210,7 @@ QString TnootkaQML::noteName(const Tnote& n, int style, bool showOctave) {
 
 
 /**
- * So far this method doesnt cheat @p TnameStyleFilter, so improper style for 7th note will be fixed
+ * So far this method doesn't cheat @p TnameStyleFilter, so improper style for 7th note will be fixed
  */
 QString TnootkaQML::styledName(const Tnote& n, int style, bool showOctave) {
   auto tmpStyle = Tnote::defaultStyle;

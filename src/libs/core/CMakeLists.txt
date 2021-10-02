@@ -83,6 +83,7 @@ set(LIB_NOOTKACORE_SRC
   score/taddnoteitem.cpp
   score/tmelodypreview.cpp
   score/tdummychord.cpp
+  score/tnotesbaritem.cpp
 
   instruments/tcommoninstrument.cpp
   instruments/tguitarbg.cpp
