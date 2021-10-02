@@ -30,6 +30,7 @@
 #endif
 #include <tnootkaqml.h>
 #include "ttickcolors.h"
+#include "tnotesbaritem.h"
 #include <tglobals.h>
 #include <taudioparams.h>
 #include <music/tmelody.h>
@@ -64,9 +65,11 @@ Tsound::Tsound(QObject* parent) :
   }
 
   m_instance = this;
+
   qRegisterMetaType<Tchunk>("Tchunk");
   qRegisterMetaType<TnoteStruct>("TnoteStruct");
   qmlRegisterType<TtickColors>("Nootka", 1, 0, "TtickColors");
+  qmlRegisterType<TnotesBarItem>("Nootka", 1, 0, "TnotesBarItem");
 
   setQuantization(GLOB->A->quantization);
 }

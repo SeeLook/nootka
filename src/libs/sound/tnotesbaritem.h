@@ -21,8 +21,8 @@
 #define TNOTESBARITEM_H
 
 
-#include "nootkacoreglobal.h"
-#include "music/tnote.h"
+#include "nootkasoundglobal.h"
+#include <music/tnote.h>
 
 #include <QtQuick/qquickitem.h>
 
@@ -31,7 +31,7 @@
  * which visualizes distance between @p expectedNote() and @p detectedNote()
  * and shows names of those notes.
  */
-class TnotesBarItem : public QQuickItem
+class NOOTKASOUND_EXPORT TnotesBarItem : public QQuickItem
 {
 
   Q_OBJECT
