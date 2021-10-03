@@ -7,6 +7,8 @@ import QtQuick.Controls 2.12
 
 import Nootka 1.0
 
+import "sound"
+
 
 ApplicationWindow {
   id: nootkaWindow
@@ -62,6 +64,7 @@ ApplicationWindow {
     height: nootkaWindow.contentItem.height
           - (GLOB.instrument.isSax ? (GLOB.singleNoteMode ? insHi / 7 : 0) : insHi)
           - (examResults ? examResults.height + 2 : 0)
+          - (GLOB.showNotesDiff() ? namesBarItem.height : 0)
     width: parent.width * (GLOB.instrument.isSax ? 0.85 : 1)
     z: 5
     transformOrigin: Item.Top
@@ -72,6 +75,8 @@ ApplicationWindow {
       width: parent.width / (GLOB.singleNoteMode && !topToBott ? 2 : 1)
     }
   }
+
+  NotesDiffBar { id: namesBarItem; visible: GLOB.showNotesDiff() }
 
   Instrument {
     id: instrument
