@@ -17,36 +17,22 @@
  ***************************************************************************/
 
 #include "tnotesbaritem.h"
+#include "tsound.h"
+#include <music/tnotestruct.h>
+
+#include <QtGui/qguiapplication.h>
+#include <QtCore/qdebug.h>
 
 
 TnotesBarItem::TnotesBarItem(QQuickItem *parent) :
   QQuickItem(parent)
 {
+  connect(SOUND, &Tsound::noteStarted, this, &TnotesBarItem::noteStartedSlot);
+  connect(SOUND, &Tsound::noteFinishedEntire, this, &TnotesBarItem::noteFinishedSlot);
 }
 
 
-void TnotesBarItem::setLowestNote(int lowestNote)
-{
-  if (m_lowestNote == lowestNote)
-    return;
-
-  m_lowestNote = lowestNote;
-  emit lowestNoteChanged();
-}
-
-
-void TnotesBarItem::setHighestNote(int highestNote)
-{
-  if (m_highestNote == highestNote)
-    return;
-
-  m_highestNote = highestNote;
-  emit highestNoteChanged();
-}
-
-
-void TnotesBarItem::setDetectedNote(const Tnote &detectedNote)
-{
+void TnotesBarItem::setDetectedNote(const Tnote &detectedNote) {
   if (m_detectedNote == detectedNote)
     return;
 
@@ -55,11 +41,76 @@ void TnotesBarItem::setDetectedNote(const Tnote &detectedNote)
 }
 
 
-void TnotesBarItem::setExpectedNote(const Tnote &expectedNote)
-{
+void TnotesBarItem::setExpectedNote(const Tnote &expectedNote) {
   if (m_expectedNote == expectedNote)
     return;
 
   m_expectedNote = expectedNote;
   emit expectedNoteChanged();
+}
+
+
+qreal TnotesBarItem::expectedX() const {
+  qreal w = height() - qApp->font().pointSizeF() / 2.0;
+  if (m_expectedNote.isValid()) {
+      return qBound(0.0, (m_expectedNote.chromatic() - m_lowestNote.chromatic()) * (width() / m_notesSpan) - w / 2.0, width() - w);
+  } else {
+      return (width() - w) / 2.0;
+  }
+}
+
+
+qreal TnotesBarItem::detectedX() const {
+  qreal w = height() - qApp->font().pointSizeF() / 2.0;
+  if (m_detectedNote.isValid() && m_detectedNote.chromatic() != m_expectedNote.chromatic()) {
+      qreal u = width() / m_notesSpan;
+      int diff = m_expectedNote.chromatic() - m_detectedNote.chromatic();
+      return qBound(0.0, (m_expectedNote.chromatic() - m_lowestNote.chromatic() - diff) * u - w / 2.0, width() - w);
+  } else {
+      return 0.0;
+  }
+}
+
+
+qreal TnotesBarItem::notesDiff() const {
+  return static_cast<qreal>(m_detectedNote.chromatic() - m_expectedNote.chromatic());
+}
+
+
+void TnotesBarItem::setAmbitus(const Tnote &lo, const Tnote &hi) {
+  m_lowestNote = lo;
+  m_highestNote = hi;
+  m_notesSpan = m_highestNote.chromatic() - m_lowestNote.chromatic();
+}
+
+
+void TnotesBarItem::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) {
+  QQuickItem::geometryChanged(newGeometry, oldGeometry);
+  if (newGeometry.width() != oldGeometry.width() || newGeometry.height() != oldGeometry.height()) {
+    m_notesSpan = m_highestNote.chromatic() - m_lowestNote.chromatic();
+    emit expectedNoteChanged();
+    emit detectedNoteChanged();
+  }
+}
+
+
+//#################################################################################################
+//###################                PROTECTED         ############################################
+//#################################################################################################
+
+void TnotesBarItem::noteStartedSlot(const Tnote &n) {
+  if (n.isRest())
+    return;
+
+  setDetectedNote(n);
+  m_isPlaying = true;
+  emit isPlayingChanged();
+}
+
+
+void TnotesBarItem::noteFinishedSlot(const TnoteStruct &n) {
+  if (n.pitch.chromatic() != m_detectedNote.chromatic())
+    setDetectedNote(n.pitch);
+  m_isPlaying = false;
+  emit isPlayingChanged();
 }
