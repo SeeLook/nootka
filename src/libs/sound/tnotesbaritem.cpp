@@ -21,11 +21,13 @@
 #include <music/tnotestruct.h>
 
 #include <QtGui/qguiapplication.h>
+#include <QtGui/qpainter.h>
+#include <QtGui/qpalette.h>
 #include <QtCore/qdebug.h>
 
 
 TnotesBarItem::TnotesBarItem(QQuickItem *parent) :
-  QQuickItem(parent)
+  QQuickPaintedItem(parent)
 {
   connect(SOUND, &Tsound::noteStarted, this, &TnotesBarItem::noteStartedSlot);
   connect(SOUND, &Tsound::noteFinishedEntire, this, &TnotesBarItem::noteFinishedSlot);
@@ -38,6 +40,7 @@ void TnotesBarItem::setDetectedNote(const Tnote &detectedNote) {
 
   m_detectedNote = detectedNote;
   emit detectedNoteChanged();
+  update();
 }
 
 
@@ -47,6 +50,7 @@ void TnotesBarItem::setExpectedNote(const Tnote &expectedNote) {
 
   m_expectedNote = expectedNote;
   emit expectedNoteChanged();
+  update();
 }
 
 
@@ -84,7 +88,20 @@ void TnotesBarItem::setAmbitus(const Tnote &lo, const Tnote &hi) {
 }
 
 
-void TnotesBarItem::geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) {
+void TnotesBarItem::paint(QPainter* painter) {
+  if (m_expectedNote.isValid() && m_detectedNote.isValid() && m_expectedNote.chromatic() != m_detectedNote.chromatic()) {
+    painter->setPen(QPen(qApp->palette().text().color(), qApp->font().pointSizeF() / 2.0, Qt::SolidLine, Qt::RoundCap));
+    qreal u = width() / m_notesSpan;
+    int startX = qMin(m_expectedNote.chromatic(), m_detectedNote.chromatic()) + 1 - m_lowestNote.chromatic();
+    int endX = qMax(m_expectedNote.chromatic(), m_detectedNote.chromatic()) - m_lowestNote.chromatic();
+    // draw lines (ticks) representing semitones
+    for (int x = startX; x < endX; ++x)
+      painter->drawLine(QPointF(x * u, height() * 0.35), QPointF(x * u, height() * 0.65));
+  }
+}
+
+
+void TnotesBarItem::geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) {
   QQuickItem::geometryChanged(newGeometry, oldGeometry);
   if (newGeometry.width() != oldGeometry.width() || newGeometry.height() != oldGeometry.height()) {
     m_notesSpan = m_highestNote.chromatic() - m_lowestNote.chromatic();

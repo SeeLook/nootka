@@ -24,7 +24,7 @@
 #include "nootkasoundglobal.h"
 #include <music/tnote.h>
 
-#include <QtQuick/qquickitem.h>
+#include <QtQuick/qquickpainteditem.h>
 
 
 class TnoteStruct;
@@ -34,8 +34,9 @@ class TnoteStruct;
  * @class TnotesBarItem is C++ logic of QML @p NotesBar item,
  * which visualizes distance between @p expectedNote() and @p detectedNote()
  * and shows names of those notes.
+ * Also it draws lines (ticks) representing semitones of difference
  */
-class NOOTKASOUND_EXPORT TnotesBarItem : public QQuickItem
+class NOOTKASOUND_EXPORT TnotesBarItem : public QQuickPaintedItem
 {
 
   Q_OBJECT
@@ -73,7 +74,9 @@ public:
 
   Q_INVOKABLE void setAmbitus(const Tnote& lo, const Tnote& hi);
 
-  void geometryChanged(const QRectF &newGeometry, const QRectF &oldGeometry) override;
+  void paint(QPainter *painter) override;
+
+  void geometryChanged(const QRectF& newGeometry, const QRectF& oldGeometry) override;
 
 signals:
   void detectedNoteChanged();

@@ -19,6 +19,7 @@ TnotesBarItem {
   width: score.width; height: nootkaWindow.height / 20
 
   Rectangle { // background
+    z: -1
     anchors.fill: parent
     color: NOO.alpha(activPal.window, 250)
   }
@@ -37,7 +38,7 @@ TnotesBarItem {
 
   GlowRect {
     visible: detectedX > 0
-    color: activPal.base //Qt.tint(activPal.base, NOO.alpha(GLOB.selectedColor, 50))
+    color: activPal.base
     x: detectedX; y: (parent.height - height) / 2
     width: nBar.height - NOO.factor() / 2; height: width
     Text {
