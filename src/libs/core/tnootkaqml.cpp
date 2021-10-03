@@ -699,17 +699,19 @@ void TnootkaQML::noteStarted(const Tnote& n) {
         m_scoreObject->setNote(0, note);
       }
   } else {
-      if (m_scoreObject->selectedItem() == nullptr) {
-          m_scoreObject->addNote(note, true);
-          m_startedNoteId = -1;
-      } else {
-          if (!note.isRest()) {
-            auto r = m_scoreObject->selectedItem()->note()->rtm;
-            r.setRest(false);
-            note.setRhythm(r);
-            m_scoreObject->setNote(m_scoreObject->selectedItem(), note);
-          }
-          m_startedNoteId = selectedNoteId();
+      if (!GLOB->showNotesDiff()) {
+        if (m_scoreObject->selectedItem() == nullptr) {
+            m_scoreObject->addNote(note, true);
+            m_startedNoteId = -1;
+        } else {
+            if (!note.isRest()) {
+              auto r = m_scoreObject->selectedItem()->note()->rtm;
+              r.setRest(false);
+              note.setRhythm(r);
+              m_scoreObject->setNote(m_scoreObject->selectedItem(), note);
+            }
+            m_startedNoteId = selectedNoteId();
+        }
       }
   }
   m_ignoreScore = false; // Reset the switch in case it is not consumed
@@ -727,14 +729,16 @@ void TnootkaQML::noteFinished(const Tnote& n) {
       note.setRhythm(Trhythm::NoRhythm);
       m_scoreObject->setNote(0, note);
   } else {
-      if (m_scoreObject->selectedItem() == nullptr || m_startedNoteId == -1) {
-          m_scoreObject->setNote(m_scoreObject->lastNote(), note);
-          m_scoreObject->setSelectedItem(nullptr);
-      } else if (m_scoreObject->selectedItem() && !note.isRest()) {
-          auto r = m_scoreObject->selectedItem()->note()->rtm;
-          r.setRest(false);
-          note.setRhythm(r);
-          m_scoreObject->setNote(m_scoreObject->selectedItem(), note);
+      if (!GLOB->showNotesDiff()) {
+        if (m_scoreObject->selectedItem() == nullptr || m_startedNoteId == -1) {
+            m_scoreObject->setNote(m_scoreObject->lastNote(), note);
+            m_scoreObject->setSelectedItem(nullptr);
+        } else if (m_scoreObject->selectedItem() && !note.isRest()) {
+            auto r = m_scoreObject->selectedItem()->note()->rtm;
+            r.setRest(false);
+            note.setRhythm(r);
+            m_scoreObject->setNote(m_scoreObject->selectedItem(), note);
+        }
       }
   }
   m_ignoreScore = false; // Reset the switch in case it is not consumed

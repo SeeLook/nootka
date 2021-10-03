@@ -382,6 +382,9 @@ void Tglobals::setMidAfreq(int midA) {
 bool Tglobals::JACKorASIO() const { return A->JACKorASIO; }
 void Tglobals::setJACKorASIO(bool JorA) { A->JACKorASIO = JorA; }
 
+void Tglobals::setShowNotesDiff(bool notesDiff) {
+  m_showNotesDiff = notesDiff;
+}
 
 /* ------------------ Exam switches ------------------ */
 void Tglobals::setIsExam(bool is) {
@@ -694,6 +697,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
     A->audibleMetro = cfg->value(QStringLiteral("audibleMetro"), false).toBool();
     A->countBefore = cfg->value(QStringLiteral("countBefore"), false).toBool();
     A->quantization = cfg->value(QStringLiteral("quantization"), 6).toInt();
+    m_showNotesDiff = cfg->value(QStringLiteral("showNotesDiff"), true).toBool();
   cfg->endGroup();
 
 #if defined (Q_OS_ANDROID)
@@ -885,6 +889,7 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue(QStringLiteral("audibleMetro"), A->audibleMetro);
       cfg->setValue(QStringLiteral("countBefore"), A->countBefore);
       cfg->setValue(QStringLiteral("quantization"), A->quantization);
+      cfg->setValue(QStringLiteral("showNotesDiff"), m_showNotesDiff);
 #if !defined (Q_OS_ANDROID)
       cfg->setValue(QLatin1String("dumpPath"), A->dumpPath);
 #endif

@@ -258,6 +258,9 @@ public:
   bool JACKorASIO() const;
   void setJACKorASIO(bool JorA);
 
+  Q_INVOKABLE bool showNotesDiff() const { return m_showNotesDiff; }
+  void setShowNotesDiff(bool notesDiff);
+
   /* ------------------ Exam switches ------------------ */
   bool isExam() const { return m_isExam; }
   void setIsExam(bool is);
@@ -502,6 +505,7 @@ private:
   Tinstrument                m_instrument;
   qreal                      m_guiScale;
   bool                       m_isExam = false;
+  bool                       m_showNotesDiff;
 #if defined (Q_OS_ANDROID)
   bool                       m_keepScreenOn;
   bool                       m_disableRotation;
