@@ -383,7 +383,10 @@ bool Tglobals::JACKorASIO() const { return A->JACKorASIO; }
 void Tglobals::setJACKorASIO(bool JorA) { A->JACKorASIO = JorA; }
 
 void Tglobals::setShowNotesDiff(bool notesDiff) {
-  m_showNotesDiff = notesDiff;
+  if (m_showNotesDiff != notesDiff) {
+    m_showNotesDiff = notesDiff;
+    emit showNotesDiffChanged();
+  }
 }
 
 /* ------------------ Exam switches ------------------ */

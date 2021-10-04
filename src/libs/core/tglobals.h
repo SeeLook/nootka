@@ -97,6 +97,7 @@ class NOOTKACORE_EXPORT Tglobals : public QObject
   Q_PROPERTY(bool forwardInput READ forwardInput WRITE setForwardInput)
   Q_PROPERTY(int midAfreq READ midAfreq WRITE setMidAfreq NOTIFY midAfreqChanged)
   Q_PROPERTY(bool JACKorASIO READ JACKorASIO WRITE setJACKorASIO)
+  Q_PROPERTY(bool showNotesDiff READ showNotesDiff WRITE setShowNotesDiff NOTIFY showNotesDiffChanged)
 
   /* Exam */
   Q_PROPERTY(bool isExam READ isExam WRITE setIsExam NOTIFY isExamChanged)
@@ -258,7 +259,7 @@ public:
   bool JACKorASIO() const;
   void setJACKorASIO(bool JorA);
 
-  Q_INVOKABLE bool showNotesDiff() const { return m_showNotesDiff; }
+  bool showNotesDiff() const { return m_showNotesDiff; }
   void setShowNotesDiff(bool notesDiff);
 
   /* ------------------ Exam switches ------------------ */
@@ -490,6 +491,7 @@ signals:
   void notBadColorChanged();
   void wrongColorChanged(); /**< To silence warning about non-NOTIFYable properties */
   void midAfreqChanged();
+  void showNotesDiffChanged();
   void fakeSignal();
   void wantOpenFile(const QString& fileName); /**< Emitted when Nootka starts with an argument which is exam or level file  */
   void newerVersion(const QString& fileName); /**< When exam or level file was created with newer version than the current one */

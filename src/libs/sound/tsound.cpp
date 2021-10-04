@@ -104,6 +104,7 @@ void Tsound::init() {
       if (sniffer)
         sniffer->startListening();
       emit initialized();
+      emit GLOB->showNotesDiffChanged(); // trigger this option - MainWindow.qml handles this signal
   });
 #if defined (Q_OS_ANDROID)
   m_currVol = currentVol();
