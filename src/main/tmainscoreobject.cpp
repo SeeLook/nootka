@@ -95,6 +95,15 @@ TmainScoreObject::TmainScoreObject(QObject* parent) :
 
   m_notesMenuAct = new Taction(tr("notes", "musical notes of course") + QStringLiteral("   ⋮"), QStringLiteral("score"), this);
 
+  m_reviewModeAct = new Taction(tr("Review mode"), QString(), this);
+  m_reviewModeAct->setCheckable(true);
+  m_reviewModeAct->setChecked(GLOB->showNotesDiff());
+  m_reviewModeAct->setTip(tr("Do not change score when playing on instrument and display bar to see selected and played notes."));
+  connect(m_reviewModeAct, &Taction::triggered, this, [=]{
+    m_reviewModeAct->setChecked(!m_reviewModeAct->checked());
+    GLOB->setShowNotesDiff(m_reviewModeAct->checked());
+  });
+
   QQmlComponent actionsComp(NOO->qmlEngine(), this);
   m_openXmlAct->createQmlShortcut(&actionsComp, "StandardKey.Open; enabled: !GLOB.singleNoteMode && !GLOB.isExam");
   m_saveXmlAct->createQmlShortcut(&actionsComp, "StandardKey.Save; enabled: !GLOB.singleNoteMode && !GLOB.isExam");
@@ -166,6 +175,7 @@ void TmainScoreObject::setScoreObject(TscoreObject* scoreObj) {
   });
   m_scoreObj->clearScoreAct()->setBgColor(QColor(255, 140, 0)); // orange
 #if !defined (Q_OS_ANDROID)
+  m_scoreActions.prepend(m_reviewModeAct);
   m_scoreActions.prepend(m_scoreObj->editModeAct());
   m_scoreActions << m_scoreObj->insertNoteAct() << m_scoreObj->deleteNoteAct()
                  << m_scoreObj->clearScoreAct() << m_transposeAct << m_notesMenuAct;
@@ -594,6 +604,7 @@ void TmainScoreObject::isExamChangedSlot() {
   }
   if (m_scoreObj) {
 #if !defined (Q_OS_ANDROID)
+    m_scoreActions.prepend(m_reviewModeAct);
     m_scoreActions.prepend(m_scoreObj->editModeAct());
     m_scoreActions << m_scoreObj->insertNoteAct() << m_scoreObj->deleteNoteAct()
                    << m_scoreObj->clearScoreAct() << m_transposeAct << m_notesMenuAct;
