@@ -689,6 +689,7 @@ void Tglobals::loadSettings(QSettings* cfg) {
 #else
     A->minimalVol = cfg->value(QStringLiteral("minimalVolume"), 0.4).toReal();
     A->dumpPath = cfg->value(QLatin1String("dumpPath"), QString()).toString();
+    m_showNotesDiff = cfg->value(QStringLiteral("showNotesDiff"), false).toBool();
 #endif
     A->minDuration = cfg->value(QStringLiteral("minimalDuration"), 0.15).toReal(); // 150 ms
     setMidAfreq(cfg->value(QStringLiteral("midAfreq"), 440).toInt());
@@ -700,7 +701,6 @@ void Tglobals::loadSettings(QSettings* cfg) {
     A->audibleMetro = cfg->value(QStringLiteral("audibleMetro"), false).toBool();
     A->countBefore = cfg->value(QStringLiteral("countBefore"), false).toBool();
     A->quantization = cfg->value(QStringLiteral("quantization"), 6).toInt();
-    m_showNotesDiff = cfg->value(QStringLiteral("showNotesDiff"), true).toBool();
   cfg->endGroup();
 
 #if defined (Q_OS_ANDROID)
@@ -892,8 +892,8 @@ void Tglobals::storeSettings(QSettings* cfg) {
       cfg->setValue(QStringLiteral("audibleMetro"), A->audibleMetro);
       cfg->setValue(QStringLiteral("countBefore"), A->countBefore);
       cfg->setValue(QStringLiteral("quantization"), A->quantization);
-      cfg->setValue(QStringLiteral("showNotesDiff"), m_showNotesDiff);
 #if !defined (Q_OS_ANDROID)
+      cfg->setValue(QStringLiteral("showNotesDiff"), m_showNotesDiff);
       cfg->setValue(QLatin1String("dumpPath"), A->dumpPath);
 #endif
   cfg->endGroup();

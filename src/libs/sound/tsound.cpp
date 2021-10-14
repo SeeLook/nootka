@@ -26,11 +26,11 @@
 //   #include "tmidiout.h"
   #include "trtaudioout.h"
   #include "trtaudioin.h"
+  #include "tnotesbaritem.h"
   #include <QtCore/qfileinfo.h>
 #endif
 #include <tnootkaqml.h>
 #include "ttickcolors.h"
-#include "tnotesbaritem.h"
 #include <tglobals.h>
 #include <taudioparams.h>
 #include <music/tmelody.h>
@@ -69,7 +69,9 @@ Tsound::Tsound(QObject* parent) :
   qRegisterMetaType<Tchunk>("Tchunk");
   qRegisterMetaType<TnoteStruct>("TnoteStruct");
   qmlRegisterType<TtickColors>("Nootka", 1, 0, "TtickColors");
+#if !defined (Q_OS_ANDROID)
   qmlRegisterType<TnotesBarItem>("Nootka", 1, 0, "TnotesBarItem");
+#endif
 
   setQuantization(GLOB->A->quantization);
 }
@@ -104,7 +106,9 @@ void Tsound::init() {
       if (sniffer)
         sniffer->startListening();
       emit initialized();
+#if !defined (Q_OS_ANDROID)
       emit GLOB->showNotesDiffChanged(); // trigger this option - MainWindow.qml handles this signal
+#endif
   });
 #if defined (Q_OS_ANDROID)
   m_currVol = currentVol();
