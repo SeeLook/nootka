@@ -1,3 +1,7 @@
+2.0.3-devel
+    DESKTOP
+     - bar displaying difference of expected and played note
+
 2.0.2
   Nootka plays ukulele
      - added ukulele support with defined popular tunings
