@@ -118,11 +118,72 @@ TmobileMenu {
               id: nooLabel
               height: NOO.factor() * 7.91015625 // (logo ratio) 0.3955078125 * 20
               enabled: !GLOB.isExam
+              clip: true
               onClicked: {
                 mainDrawer.close()
                 NOO.aboutAct.trigger()
               }
               Component.onCompleted: mainDrawer.label = this
+
+              property int currentItem: 0
+              ListModel {
+                id: paneModel
+                ListElement { txt: "About"; img: "about" }
+                ListElement { txt: "Help"; img: "help" }
+                ListElement { txt: "Authors"; img: "author" }
+                ListElement { txt: "License"; img: "license" }
+                ListElement { txt: "Support"; img: "support" }
+                ListElement { txt: "Changes"; img: "changes" }
+              }
+
+              Rectangle {
+                id: item
+                width: parent.height / 2; height: width * 1.4
+                x: parent.width - width - NOO.factor() / 4; y: -height
+                radius: width / 8
+                color: Qt.rgba(0, 0, 0, 0.8)
+                Image {
+                  id: paneImg
+                  source: NOO.pix("pane/" + paneModel.get(nooLabel.currentItem).img)
+                  height: parent.width; width: height * (sourceSize.width / sourceSize.height)
+                  visible: false
+                }
+                Colorize {
+                  anchors.fill: paneImg
+                  source: paneImg
+                  hue: 0; lightness: 0.5; saturation: 0
+                }
+                Text {
+                  anchors { horizontalCenter: parent.horizontalCenter; bottom: parent.bottom }
+                  color: nooLabel.bgColor
+                  text: NOO.TR(nooLabel.currentItem === 1 ? "QShortcut" : "TaboutNootka", paneModel.get(nooLabel.currentItem).txt)
+                  width: parent.width; horizontalAlignment: Text.AlignHCenter
+                  fontSizeMode: Text.Fit; minimumPixelSize: NOO.factor() / 2
+                }
+                SequentialAnimation {
+                  loops: paneModel.count
+                  running: true
+                  PauseAnimation { duration: 500 }
+                  PropertyAnimation {
+                    target: item; property: "y"
+                    duration: 250
+                    to: (item.parent.height - item.height) / 2
+                  }
+                  PauseAnimation { duration: 1500 }
+                  PropertyAnimation {
+                    target: item; property: "y"
+                    duration: 500
+                    to: item.parent.height + item.height
+                  }
+                  ScriptAction {
+                    script: {
+                      item.y = -item.height
+                      if (nooLabel.currentItem < paneModel.count - 1)
+                        nooLabel.currentItem++
+                    }
+                  }
+                }
+              }
             }
             Repeater {
               model: examActions
