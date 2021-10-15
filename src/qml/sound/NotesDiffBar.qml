@@ -21,7 +21,7 @@ TnotesBarItem {
   Rectangle { // background
     z: -1
     anchors.fill: parent
-    color: NOO.alpha(activPal.window, 250)
+    color: NOO.alpha(activPal.window, 240)
   }
 
   GlowRect {
@@ -56,7 +56,7 @@ TnotesBarItem {
 
   Connections {
     target: GLOB
-    onTuningChanged: setAmbitus(GLOB.loNote(), GLOB.hiNote())
+    onGuitarParamsChanged: setAmbitus(GLOB.loNote(), GLOB.hiNote())
   }
 
 }
