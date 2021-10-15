@@ -78,6 +78,7 @@ public:
   bool                          showSoundView, showGuitar;
   bool                          enableRhythms;
   int                           quantization;
+  bool                          showNotesDiff;
 
 private:
   Tglobals *m_globals;

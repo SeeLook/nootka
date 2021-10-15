@@ -54,6 +54,7 @@ void TglobalExamStore::storeSettings() {
   INenabled = m_globals->A->INenabled;
   enableRhythms = m_globals->rhythmsEnabled();
   quantization = SOUND->quantization();
+  showNotesDiff = m_globals->showNotesDiff();
 }
 
 
@@ -77,6 +78,7 @@ void TglobalExamStore::restoreSettings() {
   m_globals->A->OUTenabled = OUTenabled;
   m_globals->setRhythmsEnabled(enableRhythms);
   SOUND->setQuantization(quantization);
+  m_globals->setShowNotesDiff(showNotesDiff);
 }
 
 
@@ -97,6 +99,7 @@ void TglobalExamStore::prepareGlobalsToExam(const Tlevel& level) {
     m_globals->A->OUTenabled = true;
   }
   m_globals->A->intonation = level.intonation;
+  m_globals->setShowNotesDiff(false);
 //   m_globals->setRhythmsEnabled(false); // TODO: Read it from level when will be implemented
     // change output instrument type when necessary (exam instrument differs from user) TODO
 //     if (m_globals->instrument != NoInstrument && m_globals->instrument != instrument)
