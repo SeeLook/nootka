@@ -25,4 +25,4 @@ Exec=nootka %f
 Icon=nootka
 Terminal=false
 MimeType=application/x-nootka-noo;application/x-nootka-nel;
-Categories=Education;Music;
+Categories=Qt;Education;Music;
