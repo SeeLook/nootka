@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright 2018-2021 SeeLook CC-0 -->
 <component type="desktop-application">
-  <id>nootka.desktop</id>
+  <id>net.sf.nootka</id>
   <name>Nootka</name>
   <developer_name>SeeLook</developer_name>
   <metadata_license>CC0-1.0</metadata_license>
@@ -27,10 +27,7 @@
     </ul>
   </description>
 
-  <categories>
-    <category>Education</category>
-    <category>Music</category>
-  </categories>
+  <launchable type="desktop-id">net.sf.nootka.desktop</launchable>
 
   <screenshots>
     <screenshot type="default">
@@ -81,7 +78,7 @@
   <update_contact>seelook_AT_gmail.com</update_contact>
 
   <releases>
-    <release date="2021-08-16" version="2.0.2"/>
+    <release date="2021-12-04" version="2.0.3"/>
   </releases>
 
 </component>
