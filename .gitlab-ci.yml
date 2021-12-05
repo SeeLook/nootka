@@ -3,7 +3,7 @@ appimage-amd64:
     variables:
       - $CI_COMMIT_MESSAGE =~ /prepare_build/
 
-  image: ubuntu:16.04
+  image: ubuntu:18.04
 
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )'
