@@ -24,7 +24,6 @@ appimage-amd64:
     - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr -DWITH_STATIC_LIB=ON -DQT_QMAKE_EXECUTABLE=/opt/qt512/bin/qmake .
     - make
     - make appimage
-    - mv nootka-*.AppImage Nootka-$(cat src/libs/core/nootkaconfig.h | awk -F" " '{ print $3 }' | sed 's/\"//g')-b$(git rev-list HEAD --count)-x86_64.AppImage
     - ls
     - echo "Uploading AppImage"
     - rsync -avzr --delete Nootka*.AppImage $SSH_USER@$SSH_HOST:/$REMOTE_PATH
