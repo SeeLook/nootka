@@ -74,6 +74,8 @@ cp $TRANS_PATH/qtbase_uk.qm AppDir/usr/translations
 # desktop integration files
 mv AppDir/usr/share/metainfo/nootka.appdata.xml AppDir/usr/share/metainfo/net.sf.nootka.appdata.xml
 mv AppDir/usr/share/applications/nootka.desktop AppDir/usr/share/applications/net.sf.nootka.desktop
+cp AppDir/usr/share/nootka/picts/nootka.png AppDir/
+rm -r AppDir/usr/share/icons/hicolor
 
 # Due to AppImage is usually built under Ubuntu/Debian, full license file is not copied by install target
 cp $SRC_DIR/LICENSE AppDir/usr/share/nootka/gpl
