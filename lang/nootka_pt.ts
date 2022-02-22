@@ -20,7 +20,7 @@
     <name>AccidsPage</name>
     <message>
         <source>accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>acidentes</translation>
     </message>
     <message>
         <source># - sharps</source>
@@ -28,7 +28,7 @@
     </message>
     <message>
         <source>b - flats</source>
-        <translation type="unfinished"></translation>
+        <translation>b - bemois</translation>
     </message>
     <message>
         <source>x, bb - double accidentals</source>
@@ -95,7 +95,7 @@
     </message>
     <message>
         <source>bar chart</source>
-        <translation type="unfinished"></translation>
+        <translation>Gráfico em barras</translation>
     </message>
     <message>
         <source>Y value:</source>
@@ -120,7 +120,7 @@
     </message>
     <message>
         <source>Analyze</source>
-        <translation type="unfinished"></translation>
+        <translation>Analisar</translation>
     </message>
     <message>
         <source>Press %1 button to select an exam from a file.</source>
@@ -132,7 +132,7 @@
     </message>
     <message>
         <source>Click and Drag the cursor to move the chart.</source>
-        <translation type="unfinished"></translation>
+        <translation>Clique e arraste o cursor para mover o gráfico.</translation>
     </message>
     <message>
         <source>Settings of a chart</source>
@@ -144,7 +144,7 @@
     </message>
     <message>
         <source>Attempts number</source>
-        <translation type="unfinished"></translation>
+        <translation>Número de tentativas</translation>
     </message>
     <message>
         <source>Preparation time</source>
@@ -181,7 +181,7 @@
     </message>
     <message>
         <source>accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>acidentes</translation>
     </message>
     <message>
         <source>key signature</source>
@@ -197,11 +197,11 @@
     </message>
     <message>
         <source>Analysis of exercise</source>
-        <translation type="unfinished"></translation>
+        <translation>Análise do exercício</translation>
     </message>
     <message>
         <source>Analysis of exam results</source>
-        <translation type="unfinished"></translation>
+        <translation>Analise dos resultados do exame</translation>
     </message>
 </context>
 <context>
@@ -295,12 +295,12 @@
     <message>
         <source>Bellows is opening.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;opening&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>O fole está abrindo.</translation>
     </message>
     <message>
         <source>Bellows is closing.</source>
         <comment>Check please what bandoneon/accordion bellows does in your language. It may be more sophisticated word than &apos;closing&apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>O fole está fechando.</translation>
     </message>
 </context>
 <context>
@@ -364,15 +364,15 @@
     </message>
     <message>
         <source>color of questions</source>
-        <translation type="unfinished"></translation>
+        <translation>cor das questões</translation>
     </message>
     <message>
         <source>color of answers</source>
-        <translation type="unfinished"></translation>
+        <translation>cor das respostas</translation>
     </message>
     <message>
         <source>color of &apos;not bad&apos; answers</source>
-        <translation type="unfinished"></translation>
+        <translation>cor das respostas &quot;nada mal&quot;</translation>
     </message>
     <message>
         <source>suggest an exam</source>
@@ -412,11 +412,11 @@
     </message>
     <message>
         <source>A question with an incorrect answer will be asked once again.</source>
-        <translation type="unfinished"></translation>
+        <translation>Uma pergunta respondida com erro será repetida mais uma vez.</translation>
     </message>
     <message>
         <source>close without confirm</source>
-        <translation type="unfinished"></translation>
+        <translation>fechar sem confirmar</translation>
     </message>
     <message>
         <source>If checked, an application will not ask to answer pending question just mark it as wrong, save an exam to file (in directory: %1) and close itself without any confirmation needed.</source>
@@ -451,7 +451,7 @@
     <name>ExamSummary</name>
     <message>
         <source>Analyze</source>
-        <translation type="unfinished"></translation>
+        <translation>Analisar</translation>
     </message>
     <message>
         <source>Pass an exam</source>
@@ -466,7 +466,7 @@
     </message>
     <message>
         <source>Application for learning musical score notation</source>
-        <translation type="unfinished"></translation>
+        <translation>Aplicativo para aprender a ler a notação musical</translation>
     </message>
     <message>
         <source>Nootka level file</source>
@@ -510,7 +510,7 @@
     </message>
     <message>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Verifique se há atualizações</translation>
     </message>
     <message>
         <source>Restore all default settings</source>
@@ -518,7 +518,7 @@
     </message>
     <message>
         <source>All settings will be reset to their default values!&lt;br&gt;Nootka will start up with the first-run wizard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Todas as configurações vão ser restauradas para os valores padrões! &lt;br&gt; O Nootka vai iniciar o assistente de primeira configuração.</translation>
     </message>
 </context>
 <context>
@@ -578,11 +578,11 @@
     </message>
     <message>
         <source>But you can select here some voice or a part and import it to the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mas você pode selecionar aqui alguma voz ou uma parte e importá-la para o aplicativo.</translation>
     </message>
     <message>
         <source>Before that, you can transform (split, transpose and etc.) score parts and also select which note of a chord will be imported.</source>
-        <translation type="unfinished"></translation>
+        <translation>Antes disso você pode transformar (dividir, transpor, etc.) partes da partitura e também selecionar qual nota de um acorde será importada.</translation>
     </message>
     <message>
         <source>Voices are divided automatically when meter, clef or key changes.</source>
@@ -633,11 +633,11 @@
     </message>
     <message>
         <source>b - flats</source>
-        <translation type="unfinished"></translation>
+        <translation>b - bemois</translation>
     </message>
     <message>
         <source>Choose which accidentals will be shown on the staff.</source>
-        <translation type="unfinished"></translation>
+        <translation>Escolha quais acidentes serão mostrados na pauta.</translation>
     </message>
     <message>
         <source>show all possibilities of a note</source>
@@ -645,7 +645,7 @@
     </message>
     <message>
         <source>As you know, the same note can be played in several places on the fingerboard.&lt;br&gt;If checked, all of them will be shown.</source>
-        <translation type="unfinished"></translation>
+        <translation>Como você sabe, a mesma nota pode ser tocada em vários lugares no braço.&lt;br&gt;Se marcado, todos eles serão mostrados.</translation>
     </message>
     <message>
         <source>marked frets</source>
@@ -658,11 +658,11 @@
     </message>
     <message>
         <source>color of a pointer on an instrument</source>
-        <translation type="unfinished"></translation>
+        <translation>cor do ponteiro em um instrumento</translation>
     </message>
     <message>
         <source>color of a selection</source>
-        <translation type="unfinished"></translation>
+        <translation>cor da seleção</translation>
     </message>
     <message>
         <source>Custom tuning</source>
@@ -701,7 +701,7 @@
     </message>
     <message>
         <source>Accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>Acidentes</translation>
     </message>
     <message>
         <source>Range</source>
@@ -709,11 +709,11 @@
     </message>
     <message>
         <source>Check</source>
-        <translation type="unfinished"></translation>
+        <translation>Verificar</translation>
     </message>
     <message>
         <source>Answers</source>
-        <translation type="unfinished"></translation>
+        <translation>Respostas</translation>
     </message>
 </context>
 <context>
@@ -840,7 +840,7 @@
     </message>
     <message>
         <source>arpeggiate chords and insert all notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Tocar acorde arpejado e inserir todas as notas</translation>
     </message>
     <message>
         <source>Select one of the notes</source>
@@ -848,7 +848,7 @@
     </message>
     <message>
         <source>Arpeggiate chord</source>
-        <translation type="unfinished"></translation>
+        <translation>Tocar acorde arpejado</translation>
     </message>
     <message>
         <source>This fragment contains elements of musical score which are not supported by Nootka!</source>
@@ -860,7 +860,8 @@
     <message>
         <source>Add here melodies from Music XML files.
 But better keep them short, so divide them first in some external software.</source>
-        <translation type="unfinished"></translation>
+        <translation>Adicionar melodias de arquivos Music XML.
+Recomendamos adicionar melodias curtas divididas previamente em um software externo.</translation>
     </message>
 </context>
 <context>
@@ -875,7 +876,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Composer</source>
-        <translation type="unfinished"></translation>
+        <translation>Compositor</translation>
     </message>
 </context>
 <context>
@@ -981,7 +982,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>b</source>
         <comment>Give here a name of 7-th note preferred in your country. But only &apos;b&apos; or &apos;h&apos; not &apos;si&apos; or something worst...</comment>
-        <translation type="unfinished"></translation>
+        <translation>b</translation>
     </message>
     <message>
         <source>letters</source>
@@ -1038,7 +1039,8 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>Cannot save exam file:
 %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Não é possível salvar o arquivo de exame:
+%1</translation>
     </message>
     <message>
         <source>master of masters</source>
@@ -1046,7 +1048,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>All possible options are turned on</source>
-        <translation type="unfinished"></translation>
+        <translation>Todas as opções possíveis estão ativadas</translation>
     </message>
     <message>
         <source>major</source>
@@ -1070,7 +1072,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>answers</source>
-        <translation type="unfinished"></translation>
+        <translation>Respostas</translation>
     </message>
     <message>
         <source>question</source>
@@ -1082,7 +1084,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>answer</source>
-        <translation type="unfinished"></translation>
+        <translation>resposta</translation>
     </message>
 </context>
 <context>
@@ -1144,11 +1146,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>adjust fret range</source>
-        <translation type="unfinished"></translation>
+        <translation>ajustar nº de trastes</translation>
     </message>
     <message>
         <source>Adjust fret range in a level to currently selected note range</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajustar o nº de trastes em um exercício para a extensão configurada</translation>
     </message>
     <message>
         <source>fret range:</source>
@@ -1164,11 +1166,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>adjust note range</source>
-        <translation type="unfinished"></translation>
+        <translation>ajustar extensão das notas</translation>
     </message>
     <message>
         <source>Adjust note range in a level to currently selected fret range</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajustar a extensão das notas em um exercício para a extensão de trastes configurada</translation>
     </message>
     <message>
         <source>Uncheck strings if you want to skip them in an exam.</source>
@@ -1176,7 +1178,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>available strings:</source>
-        <translation type="unfinished"></translation>
+        <translation>Cordas disponíveis</translation>
     </message>
 </context>
 <context>
@@ -1187,7 +1189,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Also delete level file:</source>
-        <translation type="unfinished"></translation>
+        <translation>Delete também o arquivo de exercício:</translation>
     </message>
 </context>
 <context>
@@ -1213,7 +1215,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>basic rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>ritmos básicos</translation>
     </message>
     <message>
         <source>rhythms with dots</source>
@@ -1251,7 +1253,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Clefs</source>
-        <translation type="unfinished"></translation>
+        <translation>Claves</translation>
     </message>
     <message>
         <source>Notes naming</source>
@@ -1307,7 +1309,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>color of enharmonic notes</source>
-        <translation type="unfinished"></translation>
+        <translation>cor de notas enarmônicas</translation>
     </message>
     <message>
         <source>If checked, you can use double sharps and double flats.</source>
@@ -1359,26 +1361,26 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>&lt;b&gt;double flat&lt;/b&gt; - lowers a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets down.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;dobrado bemol&lt;/b&gt; - abaixa uma nota em dois semitons (um tom inteiro).&lt;br&gt; Na guitarra é dois trastes abaixo.</translation>
     </message>
     <message>
         <source>&lt;b&gt;flat&lt;/b&gt; - lowers a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret down.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;bemol&lt;/b&gt; - abaixa uma nota em meio tom (semitom).&lt;br&gt;Na guitarra é um traste para baixo.</translation>
     </message>
     <message>
         <source>&lt;b&gt;sharp&lt;/b&gt; - raises a note by a half tone (semitone).&lt;br&gt;On the guitar it is one fret up.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;sustenido&lt;/b&gt; - aumenta uma nota em meio tom (semitom).&lt;br&gt;Na guitarra é um traste para cima.</translation>
     </message>
     <message>
         <source>&lt;b&gt;double sharp&lt;/b&gt; - raises a note by two semitones (whole tone).&lt;br&gt;On the guitar it is two frets up.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;dobrado sustenido&lt;/b&gt; - aumenta uma nota em dois semitons (um tom inteiro).&lt;br&gt; Na guitarra é dois trastes acima.</translation>
     </message>
 </context>
 <context>
     <name>Select7note</name>
     <message>
         <source>7th note is:</source>
-        <translation type="unfinished"></translation>
+        <translation>A 7ª nota é:</translation>
     </message>
 </context>
 <context>
@@ -1389,15 +1391,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Be sure your system is able to record what are you playing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Certifique-se que seu sistema seja capaz de gravar o que você está tocando.</translation>
     </message>
     <message>
         <source>Adjust minimal note volume a little below of your input volume level.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajustar o volume mínimo da nota um pouco abaixo do volume do seu instrumento</translation>
     </message>
     <message>
         <source>Aim to play loud and clear and avoid dirty sounds specific to your instrument.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tente tocar com intensidade e precisão para evitar ruídos específicos do seu instrumento</translation>
     </message>
     <message>
         <source>Nootka recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:</source>
@@ -1432,7 +1434,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.</source>
-        <translation type="unfinished"></translation>
+        <translation>Certifique-se de que seu dispositivo de entrada (microfone, webcam, instrumento, etc.) esteja conectado, configurado corretamente e funcionando.</translation>
     </message>
     <message>
         <source>input device</source>
@@ -1472,7 +1474,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Avançado</translation>
     </message>
     <message>
         <source>pitch detection mode</source>
@@ -1496,7 +1498,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>All sounds captured by audio input will be forwarded directly to output device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Todos os sons capturados pelo microfone/entrada serão enviados diretamente para a saída de som.</translation>
     </message>
     <message>
         <source>forward input to output</source>
@@ -1590,11 +1592,11 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TaboutNootka</name>
     <message>
         <source>About Nootka</source>
-        <translation type="unfinished"></translation>
+        <translation>Sobre o Nootka</translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Sobre</translation>
     </message>
     <message>
         <source>License</source>
@@ -1606,15 +1608,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Mudançãs</translation>
     </message>
     <message>
         <source>Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Código</translation>
     </message>
     <message>
         <source>Audio</source>
-        <translation type="unfinished"></translation>
+        <translation>Áudio</translation>
     </message>
     <message>
         <source>editing and/or recording of samples:</source>
@@ -1638,7 +1640,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Authors</source>
-        <translation type="unfinished"></translation>
+        <translation>Autores</translation>
     </message>
     <message>
         <source>Donors</source>
@@ -1678,11 +1680,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>bass</source>
-        <translation type="unfinished"></translation>
+        <translation>Baixo</translation>
     </message>
     <message>
         <source>alto</source>
-        <translation type="unfinished"></translation>
+        <translation>Contralto</translation>
     </message>
     <message>
         <source>tenor</source>
@@ -1694,19 +1696,19 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>clef G</source>
-        <translation type="unfinished"></translation>
+        <translation>clave de sol (G)</translation>
     </message>
     <message>
         <source>clef G dropped octave down</source>
-        <translation type="unfinished"></translation>
+        <translation>clave de sol (G) uma oitava abaixo</translation>
     </message>
     <message>
         <source>clef F</source>
-        <translation type="unfinished"></translation>
+        <translation>clave de fá (F)</translation>
     </message>
     <message>
         <source>clef C</source>
-        <translation type="unfinished"></translation>
+        <translation>clave de dó (C)</translation>
     </message>
     <message>
         <source>treble and bass clefs</source>
@@ -1718,7 +1720,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Clef for bass guitar and double bass, also used for cello and trombone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Clave para baixo e contrabaixo, também usada para violoncelo e trombone.</translation>
     </message>
     <message>
         <source>percussion clef</source>
@@ -1730,11 +1732,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Common used clef (for violin, flute, saxophones, etc.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Clave de uso comum (para violino, flauta, saxofones, etc.)</translation>
     </message>
     <message>
         <source>Clef for guitars (classical, electric and so)</source>
-        <translation type="unfinished"></translation>
+        <translation>Clave para guitarras (clássica, elétrica, etc)</translation>
     </message>
     <message>
         <source>Sometimes it is called clef for viola and mostly used for this instrument.</source>
@@ -1757,7 +1759,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>beats per minute</source>
-        <translation type="unfinished"></translation>
+        <translation>batidas por minuto</translation>
     </message>
     <message>
         <source>Mouse wheel changes tempo promptly (also with %1 key). Click for more options.</source>
@@ -1765,7 +1767,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Audible metronome</source>
-        <translation type="unfinished"></translation>
+        <translation>Metrônomo audível</translation>
     </message>
     <message>
         <source>Use earphones! Otherwise ticking will disturb proper pitch detection!</source>
@@ -1815,7 +1817,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>attempt</source>
-        <translation type="unfinished"></translation>
+        <translation>tentativa</translation>
     </message>
     <message numerus="yes">
         <source>%n attempt(s)</source>
@@ -1842,11 +1844,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>as note on the staff</source>
-        <translation type="unfinished"></translation>
+        <translation>como nota na partitura</translation>
     </message>
     <message>
         <source>as note name</source>
-        <translation type="unfinished"></translation>
+        <translation>como nome de nota</translation>
     </message>
     <message>
         <source>on instrument</source>
@@ -1854,7 +1856,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>as played sound</source>
-        <translation type="unfinished"></translation>
+        <translation>como som tocado</translation>
     </message>
     <message>
         <source>Let&apos;s start!</source>
@@ -1865,7 +1867,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TexamExecutor</name>
     <message>
         <source>&lt;b&gt;Exam file seems to be corrupted&lt;/b&gt;&lt;br&gt;Better start new exam on the same level</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Arquivo do exame parece estar corrompido&lt;/b&gt;&lt;br&gt;É melhor começar um novo exame no mesmo nível</translation>
     </message>
     <message>
         <source>File: %1 
@@ -1925,7 +1927,8 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>check answer
 (enter %1)</source>
-        <translation type="unfinished"></translation>
+        <translation>verificar resposta
+(enter %1)</translation>
     </message>
     <message>
         <source>correct answer
@@ -1985,7 +1988,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source> Briefly: Nootka give you a question and you give an answer...</source>
-        <translation type="unfinished"></translation>
+        <translation> Resumidamente: Nootka te faz uma pergunta e você dá uma resposta...</translation>
     </message>
     <message>
         <source>Questions are marked with this color and &quot;?&quot; mark.</source>
@@ -2033,7 +2036,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>check answers without requiring confirmation</source>
-        <translation type="unfinished"></translation>
+        <translation>verifique as respostas sem exigir confirmação</translation>
     </message>
     <message>
         <source>correct mistakes (exercises only)</source>
@@ -2041,7 +2044,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>ask next question automatically</source>
-        <translation type="unfinished"></translation>
+        <translation>Ir para a próxima pergunta automaticamente</translation>
     </message>
     <message>
         <source>or right mouse button</source>
@@ -2049,7 +2052,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>click %1 button</source>
-        <translation type="unfinished"></translation>
+        <translation>Clique no botão %1</translation>
     </message>
     <message>
         <source>To get question</source>
@@ -2073,7 +2076,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Click %1 button to stop.</source>
-        <translation type="unfinished"></translation>
+        <translation>Clique no botão %1 para parar.</translation>
     </message>
     <message>
         <source>tap %1</source>
@@ -2083,7 +2086,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>Click %1 to stop.</source>
         <comment>click &lt;icon-image&gt; to stop (exam or exercise)</comment>
-        <translation type="unfinished"></translation>
+        <translation>Clique %1 para parar.</translation>
     </message>
 </context>
 <context>
@@ -2165,7 +2168,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Average time taken to answer</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempo médio de resposta</translation>
     </message>
     <message>
         <source>[in seconds]</source>
@@ -2201,7 +2204,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Answered questions</source>
-        <translation type="unfinished"></translation>
+        <translation>Questões respondidas</translation>
     </message>
     <message>
         <source>Unanswered questions</source>
@@ -2222,7 +2225,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Answer time</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempo de resposta</translation>
     </message>
     <message>
         <source>Exam time</source>
@@ -2299,7 +2302,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>ascending - you are thinking too much</source>
-        <translation type="unfinished"></translation>
+        <translation>Subindo - você está pensando muito!</translation>
     </message>
 </context>
 <context>
@@ -2338,7 +2341,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Classical Guitar</source>
-        <translation type="unfinished"></translation>
+        <translation>Violão Clássico</translation>
     </message>
     <message>
         <source>Electric Guitar</source>
@@ -2346,7 +2349,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Bass Guitar</source>
-        <translation type="unfinished"></translation>
+        <translation>Contrabaixo</translation>
     </message>
     <message>
         <source>Piano</source>
@@ -2354,11 +2357,11 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Bandoneon</source>
-        <translation type="unfinished"></translation>
+        <translation>Bandoneon</translation>
     </message>
     <message>
         <source>Alt Saxophone</source>
-        <translation type="unfinished"></translation>
+        <translation>Saxophone Alto</translation>
     </message>
     <message>
         <source>Tenor Saxophone</source>
@@ -2403,7 +2406,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>cents</source>
         <comment>unit of measure used for musical intervals. This text always is used in context: &apos; ± [5, 10, 20, 30] cents &apos;</comment>
-        <translation type="unfinished"></translation>
+        <translation>cents</translation>
     </message>
 </context>
 <context>
@@ -2418,7 +2421,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Bass clef</source>
-        <translation type="unfinished"></translation>
+        <translation>Clave de Fá</translation>
     </message>
     <message>
         <source>Play a short and simple melody in bass clef</source>
@@ -2442,7 +2445,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>C-major scale</source>
-        <translation type="unfinished"></translation>
+        <translation>Escala de Dó Maior</translation>
     </message>
     <message>
         <source>In first position. No accidentals, no sound.&lt;br&gt;Octave required.</source>
@@ -2454,7 +2457,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>All to V fret</source>
-        <translation type="unfinished"></translation>
+        <translation>Todos até o 5º traste</translation>
     </message>
     <message>
         <source>Ear training</source>
@@ -2498,7 +2501,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>All chromatic notes till 5th fret, no sound.&lt;br&gt;Without double accidentals. Key signatures: C, G, D, A</source>
-        <translation type="unfinished"></translation>
+        <translation>Todas as notas cromáticas até o 5º traste, sem som. &lt;br&gt; Sem acidentes duplos. Armaduras: C, G, D, A</translation>
     </message>
     <message>
         <source>Take your instrument and just play...&lt;br&gt;Keys till 4 accidentals and double accidentals enabled!</source>
@@ -2521,7 +2524,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Cannot open file for writing</source>
-        <translation type="unfinished"></translation>
+        <translation>Não é possível abrir o arquivo para gravação</translation>
     </message>
     <message>
         <source>Level validation</source>
@@ -2600,7 +2603,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Clef</source>
-        <translation type="unfinished"></translation>
+        <translation>Clave</translation>
     </message>
     <message>
         <source>key signature:</source>
@@ -2629,7 +2632,9 @@ But better keep them short, so divide them first in some external software.</sou
         <source>Cannot open file
  %1 
  for reading</source>
-        <translation type="unfinished"></translation>
+        <translation>Não pode abrir o arquivo
+ %1 
+ para leitura</translation>
     </message>
     <message>
         <source>No file name specified</source>
@@ -2755,7 +2760,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Additional accidentals</source>
-        <translation type="unfinished"></translation>
+        <translation>Acidentes adicionais</translation>
     </message>
     <message>
         <source>Shows accidentals from the key signature also next to a note. &lt;b&gt;WARING! It never occurs in real scores - use it only for theoretical purposes.&lt;/b&gt;</source>
@@ -2821,7 +2826,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Compressed MusicXML file</source>
-        <translation type="unfinished"></translation>
+        <translation>Arquivo MusicXML Comprimido</translation>
     </message>
 </context>
 <context>
@@ -2840,7 +2845,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>Click to see what &lt;i&gt;octaves&lt;/i&gt; are at &quot;http://en.wikipedia.org/wiki/Octave&quot;</source>
         <comment>You can change this link to article in your language, but please KEEP QUOTATION MARKS AROUND THAT ADDRESS!</comment>
-        <translation type="unfinished"></translation>
+        <translation>Clique para ver o que são &lt;i&gt;octaves&lt;/i&gt; em  &quot;https://pt.wikipedia.org/wiki/Oitava&quot;</translation>
     </message>
     <message numerus="yes">
         <source>The octave &lt;b&gt;%n&lt;/b&gt; in International Pitch Notation</source>
@@ -2879,7 +2884,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>As a witness to this accomplishment,&lt;br&gt;we hereby award this certificate on &lt;b&gt;[DATE]&lt;/b&gt;.</source>
         <comment>Under results - single indent</comment>
-        <translation type="unfinished"></translation>
+        <translation>Como testemunhas deste feito, &lt;br&gt; por este meio o premiamos com este certificado em &lt;b&gt;[DATE]&lt;/b&gt;.</translation>
     </message>
     <message>
         <source>&lt;small&gt;&lt;i&gt;examining board:&lt;/i&gt;&lt;br&gt;&lt;i&gt;president:&lt;/i&gt;&lt;b&gt; Nootka itself&lt;/b&gt;&lt;br&gt;&lt;b&gt;professor Processor&lt;/b&gt; &amp;amp;&lt;br&gt;&lt;b&gt;Mrs RAM&lt;/b&gt; his assistant&lt;br&gt;&lt;i&gt;secretary:&lt;/i&gt;&lt;b&gt; Mr Disk&lt;/b&gt;&lt;/small&gt;</source>
@@ -2893,7 +2898,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>CONGRATULATIONS!&lt;br&gt;You have just passed the exam!</source>
-        <translation type="unfinished"></translation>
+        <translation>PARABÉNS!&lt;br&gt;Você acabou de passar no exame!</translation>
     </message>
     <message>
         <source>Save this certificate to file in remembrance.</source>
@@ -2912,7 +2917,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TnootkaQML</name>
     <message>
         <source>Analysis of exam results</source>
-        <translation type="unfinished"></translation>
+        <translation>Análise dos resultados do exame</translation>
     </message>
 </context>
 <context>
@@ -2923,7 +2928,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Contra</source>
-        <translation type="unfinished"></translation>
+        <translation>Contra</translation>
     </message>
     <message>
         <source>Great</source>
@@ -2935,19 +2940,19 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>1-line</source>
-        <translation type="unfinished"></translation>
+        <translation>1-linha</translation>
     </message>
     <message>
         <source>2-line</source>
-        <translation type="unfinished"></translation>
+        <translation>2-linha</translation>
     </message>
     <message>
         <source>3-line</source>
-        <translation type="unfinished"></translation>
+        <translation>3-linha</translation>
     </message>
     <message>
         <source>4-line</source>
-        <translation type="unfinished"></translation>
+        <translation>4-linha</translation>
     </message>
     <message>
         <source>Subcontra octave</source>
@@ -2996,7 +3001,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>by interval</source>
         <comment>like: Transpose by interval</comment>
-        <translation type="unfinished"></translation>
+        <translation>por intervalo</translation>
     </message>
     <message>
         <source>Limit notes to instrument scale</source>
@@ -3112,11 +3117,11 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TsettingsDialog</name>
     <message>
         <source>application&apos;s settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurações do aplicativo</translation>
     </message>
     <message>
         <source>Common</source>
-        <translation type="unfinished"></translation>
+        <translation>Comum</translation>
     </message>
     <message>
         <source>Score</source>
@@ -3236,7 +3241,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Check in exam help %1 how to do it automatically</source>
-        <translation type="unfinished"></translation>
+        <translation>Verifique na ajuda do exame %1 como fazer isso automaticamente</translation>
     </message>
     <message>
         <source>To correct an answer</source>
@@ -3256,7 +3261,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Change enharmonically and show on the staff</source>
-        <translation type="unfinished"></translation>
+        <translation>Mude de forma enarmônica e mostre na pauta</translation>
     </message>
     <message>
         <source>Given note show on the staff</source>
@@ -3265,7 +3270,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;br&gt;&lt;b&gt;Na tonalidade de %1 .&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Give name of</source>
@@ -3289,7 +3294,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Change enharmonically and give name of</source>
-        <translation type="unfinished"></translation>
+        <translation>Mude de forma enarmônica e dê o nome de</translation>
     </message>
     <message>
         <source>Use another style to give name of</source>
@@ -3298,7 +3303,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>&lt;b&gt;in %1 key.&lt;/b&gt;</source>
         <comment>in key signature</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;No tom de %1 .&lt;/b&gt;</translation>
     </message>
     <message>
         <source>Show sound from position:</source>
@@ -3331,12 +3336,12 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Click incorrect notes to see&lt;br&gt;and to listen to them corrected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Clique nas notas incorretas para ver&lt;br&gt;e ouvi-las corrigidas.</translation>
     </message>
     <message>
         <source>%1 was detected</source>
         <comment>note name</comment>
-        <translation type="unfinished"></translation>
+        <translation>1% foi detectado</translation>
     </message>
     <message>
         <source>It should be %1</source>
@@ -3352,7 +3357,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Application preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferencias do aplicativo</translation>
     </message>
     <message>
         <source>Level</source>
@@ -3387,7 +3392,7 @@ But better keep them short, so divide them first in some external software.</sou
     <message>
         <source>Check</source>
         <comment>like a check answer</comment>
-        <translation type="unfinished"></translation>
+        <translation>Verificar</translation>
     </message>
     <message>
         <source>Play</source>
@@ -3408,7 +3413,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Analyze</source>
-        <translation type="unfinished"></translation>
+        <translation>Analisar</translation>
     </message>
 </context>
 <context>
@@ -3439,15 +3444,15 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Bass in fifths: C G D A</source>
-        <translation type="unfinished"></translation>
+        <translation>Baixo em quintas: C G D A</translation>
     </message>
     <message>
         <source>5-str. bass: B E A D G</source>
-        <translation type="unfinished"></translation>
+        <translation>Baixo 5 cordas: B E A D G</translation>
     </message>
     <message>
         <source>6-str. bass: B E A D G C</source>
-        <translation type="unfinished"></translation>
+        <translation>Baixo de 6 cordas: B E A D G C</translation>
     </message>
     <message>
         <source>Standard C: G C E A</source>
@@ -3473,14 +3478,14 @@ But better keep them short, so divide them first in some external software.</sou
     <name>TupdateChecker</name>
     <message>
         <source>Checking for updates. Please wait...</source>
-        <translation type="unfinished"></translation>
+        <translation>Verificando atualizações. Por favor, aguarde...</translation>
     </message>
 </context>
 <context>
     <name>TupdateRulesWdg</name>
     <message>
         <source>check for Nootka updates</source>
-        <translation type="unfinished"></translation>
+        <translation>verifique se há atualizações do Nootka</translation>
     </message>
     <message>
         <source>daily</source>
@@ -3496,7 +3501,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>all new versions</source>
-        <translation type="unfinished"></translation>
+        <translation>todas as versões novas</translation>
     </message>
     <message>
         <source>stable versions only</source>
@@ -3559,7 +3564,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>All notes on the upper staff with treble clef are played with right hand and the notes on the lower one with bass clef are played with the left hand.</source>
-        <translation type="unfinished"></translation>
+        <translation>Todas as notas da pauta superior, na clave de sol, são tocadas com a mão direita e as notas da pauta inferior, na clave de fá, são tocadas com a mão esquerda.</translation>
     </message>
     <message>
         <source>Direction of bellows movement is marked with bowing symbols:</source>
@@ -3581,7 +3586,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Both pictures above show the same note!%1(note c in one-line octave)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ambas as imagens acima mostram a mesma nota! %1 (nota c em uma oitava de linha)</translation>
     </message>
 </context>
 <context>
@@ -3618,7 +3623,7 @@ But better keep them short, so divide them first in some external software.</sou
     <name>WizardOptions</name>
     <message>
         <source>7th note can be B or H, depends on country&lt;br&gt;What is the name of 7th note in your country?</source>
-        <translation type="unfinished"></translation>
+        <translation>A 7ª nota pode ser B ou H, depende do país. &lt;br&gt; Qual o nome da 7ª nota no seu país?</translation>
     </message>
     <message>
         <source>I know about double sharps (x) and double flats (bb)</source>
@@ -3648,7 +3653,7 @@ But better keep them short, so divide them first in some external software.</sou
     </message>
     <message>
         <source>Although for exercise purposes and also due to Nootka is supporting only single voice, sometimes just one of the staves can be used as well.</source>
-        <translation type="unfinished"></translation>
+        <translation>Para fins de exercício ou devido ao Nootka estar suportando apenas uma única voz, apenas uma das pautas pode ser usada. (Opcional)</translation>
     </message>
 </context>
 <context>
