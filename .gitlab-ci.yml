@@ -6,7 +6,7 @@ appimage-amd64:
   image: ubuntu:18.04
 
   before_script:
-    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client git -y )'
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
     - echo "$SSH_KEY_PRIVATE" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
@@ -30,4 +30,4 @@ appimage-amd64:
   artifacts:
     name: Nootka-AppImage-$(cat src/libs/core/nootkaconfig.h | awk -F" " '{ print $3 }' | sed 's/\"//g')-b$(git rev-list HEAD --count)
     paths:
-      - 'Nootka-*.AppImage*'
+      - 'Nootka-*.AppImage'
