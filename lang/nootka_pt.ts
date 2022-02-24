@@ -251,7 +251,7 @@
     </message>
     <message>
         <source>correct notes</source>
-        <translation type="unfinished"></translation>
+        <translation>corrigir notas</translation>
     </message>
     <message>
         <source>wrong notes</source>
@@ -267,7 +267,7 @@
     </message>
     <message>
         <source>correct key signatures</source>
-        <translation type="unfinished"></translation>
+        <translation>corrigir armadura</translation>
     </message>
     <message>
         <source>wrong key signatures</source>
@@ -275,7 +275,7 @@
     </message>
     <message>
         <source>correct positions</source>
-        <translation type="unfinished"></translation>
+        <translation>corrigir posições</translation>
     </message>
     <message>
         <source>wrong positions</source>
@@ -338,14 +338,14 @@
     <name>DivideMelody</name>
     <message>
         <source>Divide by selected bars number</source>
-        <translation type="unfinished"></translation>
+        <translation>Dividir pelo número de compassos selecionados</translation>
     </message>
 </context>
 <context>
     <name>EndOnTonicTile</name>
     <message>
         <source>Determines the last note of a melody.&lt;br&gt;When set, melody will be finished on tonic note in actual key signature.</source>
-        <translation type="unfinished"></translation>
+        <translation>Determina a última nota de uma melodia.&lt;br&gt;Quando definida, a melodia será finalizada na nota da tônica da armadura de clave.</translation>
     </message>
     <message>
         <source>Melody ends on tonic note</source>
@@ -356,7 +356,7 @@
     <name>ExamPage</name>
     <message>
         <source>Default name for every new exam or exercise.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome padrão para cada novo exame ou exercício.</translation>
     </message>
     <message>
         <source>When you will make mistake, the program will show you automatically how a correct answer should be.</source>
@@ -400,7 +400,7 @@
     </message>
     <message>
         <source>extra names</source>
-        <translation type="unfinished"></translation>
+        <translation>nomes extras</translation>
     </message>
     <message>
         <source>To improve association of note in the score or position on the instrument to note name, Nootka will display names even if neither question nor answer is related to it.</source>
@@ -424,7 +424,7 @@
     </message>
     <message>
         <source>Experts mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo de especialistas</translation>
     </message>
     <message>
         <source>You are about to enter expert mode.&lt;br&gt; In this mode you don&apos;t need to confirm every answer,&lt;br&gt;&lt;b&gt;but remember the following:</source>
@@ -486,11 +486,11 @@
     <name>GlobalPage</name>
     <message>
         <source>default</source>
-        <translation type="unfinished"></translation>
+        <translation>padrão</translation>
     </message>
     <message>
         <source>enable animations</source>
-        <translation type="unfinished"></translation>
+        <translation>ativar animações</translation>
     </message>
     <message>
         <source>show hints</source>
@@ -536,7 +536,7 @@
     <name>HandleScore</name>
     <message>
         <source>Editing score with touch</source>
-        <translation type="unfinished"></translation>
+        <translation>Editando a partitura com toque</translation>
     </message>
     <message>
         <source>Touch and hold area of a note you want to edit.</source>
@@ -621,7 +621,7 @@
     </message>
     <message>
         <source>Difference between score notation and real sound pitch.</source>
-        <translation type="unfinished"></translation>
+        <translation>Diferença entre a notação da partitura e o tom do som real.</translation>
     </message>
     <message>
         <source>preferred accidentals:</source>
@@ -666,7 +666,7 @@
     </message>
     <message>
         <source>Custom tuning</source>
-        <translation type="unfinished"></translation>
+        <translation>Afinação customizada</translation>
     </message>
     <message>
         <source>tuning</source>
@@ -958,11 +958,11 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>English</source>
-        <translation type="unfinished"></translation>
+        <translation>Inglês</translation>
     </message>
     <message>
         <source>Dutch</source>
-        <translation type="unfinished"></translation>
+        <translation>Alemão</translation>
     </message>
     <message>
         <source>Russian</source>
@@ -1012,7 +1012,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>disable screen rotation</source>
-        <translation type="unfinished"></translation>
+        <translation>desativar a rotação da tela</translation>
     </message>
     <message>
         <source>full screen</source>
@@ -1265,7 +1265,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>enable rhythms</source>
-        <translation type="unfinished"></translation>
+        <translation>ativar ritmos</translation>
     </message>
     <message>
         <source>Octave numbers</source>
@@ -1430,7 +1430,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>enable pitch detection</source>
-        <translation type="unfinished"></translation>
+        <translation>habilitar detecção de notas</translation>
     </message>
     <message>
         <source>Be sure your input device (microphone, webcam, instrument, etc.) is plugged in, properly configured, and working.</source>
@@ -1521,7 +1521,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Enter your name or nick-name.</source>
-        <translation type="unfinished"></translation>
+        <translation>Digite seu nome ou apelido.</translation>
     </message>
     <message>
         <source>To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file.</source>
@@ -1560,7 +1560,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     <name>SupportPage</name>
     <message>
         <source>Donate Nootka campaign</source>
-        <translation type="unfinished"></translation>
+        <translation>Contribuir com a campanha do Nootka</translation>
     </message>
     <message>
         <source>Through PayPal or a card</source>
@@ -1620,7 +1620,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>editing and/or recording of samples:</source>
-        <translation type="unfinished"></translation>
+        <translation>edição e/ou gravação de amostras:</translation>
     </message>
     <message>
         <source>Translators</source>
@@ -1645,7 +1645,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     <message>
         <source>Donors</source>
         <comment>Would be &apos;Sponsors&apos; or even &apos;Backers&apos; - translate as such as You fill, what sounds/looks better in Your language</comment>
-        <translation type="unfinished"></translation>
+        <translation>Doadores</translation>
     </message>
     <message>
         <source>People and companies who gave material support for the Nootka project</source>
@@ -1755,7 +1755,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Countdown before playing or listening.</source>
-        <translation type="unfinished"></translation>
+        <translation>Contagem regressiva antes de tocar ou ouvir.</translation>
     </message>
     <message>
         <source>beats per minute</source>
@@ -1790,11 +1790,11 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Count up</source>
-        <translation type="unfinished"></translation>
+        <translation>Contar compasso em branco</translation>
     </message>
     <message>
         <source>Detected rhythmic units are rounded (quantization). Shortest units require more rhythmical accuracy.</source>
-        <translation type="unfinished"></translation>
+        <translation>As unidades rítmicas detectadas são arredondadas (quantização). Unidades mais curtas requerem mais precisão rítmica.</translation>
     </message>
     <message>
         <source>round to:</source>
@@ -1888,11 +1888,11 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Exercises with Nootka</source>
-        <translation type="unfinished"></translation>
+        <translation>Exercícios com o Nootka</translation>
     </message>
     <message>
         <source>EXAM!</source>
-        <translation type="unfinished"></translation>
+        <translation>EXAME!</translation>
     </message>
     <message>
         <source>Psssst... Exam is going.&lt;br&gt;&lt;br&gt;Select &lt;b&gt;%1&lt;/b&gt; to check, save and exit&lt;br&gt;or &lt;b&gt;%2&lt;/b&gt; to continue.&lt;br&gt;</source>
@@ -1900,7 +1900,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Exercise or exam preferences</source>
-        <translation type="unfinished"></translation>
+        <translation>Preferências de exercícios ou exames</translation>
     </message>
     <message>
         <source>repeat previous question (backspace)</source>
@@ -1933,7 +1933,8 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     <message>
         <source>correct answer
 (enter)</source>
-        <translation type="unfinished"></translation>
+        <translation>resposta correta
+(enter)</translation>
     </message>
     <message>
         <source>finish exercising</source>
@@ -1968,11 +1969,11 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Exams can be saved to files and continued later. Moreover, exam files can be opened to analyze.</source>
-        <translation type="unfinished"></translation>
+        <translation>Os exames podem ser salvos em arquivos e continuados posteriormente. Além disso, os arquivos do exame podem ser abertos para análise.</translation>
     </message>
     <message>
         <source>Exam will be completed when you give answers to all questions.&lt;br&gt;The number of questions depends on the level of the exam.</source>
-        <translation type="unfinished"></translation>
+        <translation>O exame será concluído quando você responder a todas as perguntas.&lt;br&gt;O número de perguntas depende do nível do exame.</translation>
     </message>
     <message>
         <source>If you make a mistake, the question will asked two more times and the total number of questions will be increased. These are penalty questions.</source>
@@ -2004,7 +2005,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Exercises</source>
-        <translation type="unfinished"></translation>
+        <translation>exercícios</translation>
     </message>
     <message>
         <source>If you made a mistake during an exercise, Nootka can show you correct answer. To see it:</source>
@@ -2016,7 +2017,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Exams</source>
-        <translation type="unfinished"></translation>
+        <translation>Exames</translation>
     </message>
     <message>
         <source>If you made a mistake during an exam and you want to repeat the question:</source>
@@ -2040,7 +2041,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>correct mistakes (exercises only)</source>
-        <translation type="unfinished"></translation>
+        <translation>corrigir erros (apenas nos exercícios)</translation>
     </message>
     <message>
         <source>ask next question automatically</source>
@@ -2093,7 +2094,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     <name>TexamSummary</name>
     <message>
         <source>Exam results</source>
-        <translation type="unfinished"></translation>
+        <translation>Resultados dos exames</translation>
     </message>
     <message>
         <source>student:</source>
@@ -2164,7 +2165,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     <name>TexamView</name>
     <message>
         <source>Exam results</source>
-        <translation type="unfinished"></translation>
+        <translation>Resultados dos exames</translation>
     </message>
     <message>
         <source>Average time taken to answer</source>
@@ -2180,7 +2181,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Effectiveness</source>
-        <translation type="unfinished"></translation>
+        <translation>Eficácia</translation>
     </message>
     <message>
         <source>Number of correct answers</source>
@@ -2200,7 +2201,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>(counted as half of a mistake)</source>
-        <translation type="unfinished"></translation>
+        <translation>(contado como metade de um erro)</translation>
     </message>
     <message>
         <source>Answered questions</source>
@@ -2221,7 +2222,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Exam effectiveness (this question effectiveness)</source>
-        <translation type="unfinished"></translation>
+        <translation>Eficácia do exame (eficácia desta questão)</translation>
     </message>
     <message>
         <source>Answer time</source>
@@ -2229,7 +2230,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Exam time</source>
-        <translation type="unfinished"></translation>
+        <translation>Tempo de prova</translation>
     </message>
     <message>
         <source>Progress of the exam</source>
@@ -2237,7 +2238,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Exam was finished</source>
-        <translation type="unfinished"></translation>
+        <translation>Prova Finalizada</translation>
     </message>
 </context>
 <context>
@@ -2263,7 +2264,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Directory named &lt;b&gt;Nootka&lt;/b&gt; will be created in&lt;br&gt;%1&lt;br&gt;Application files will be written there.</source>
-        <translation type="unfinished"></translation>
+        <translation>O diretório chamado &lt;b&gt;Nootka&lt;/b&gt; será criado em&lt;br&gt;%1&lt;br&gt;Os arquivos do aplicativo serão gravados lá.</translation>
     </message>
 </context>
 <context>
@@ -2298,7 +2299,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>descending - you are progressing better</source>
-        <translation type="unfinished"></translation>
+        <translation>descendo - você está progredindo melhor</translation>
     </message>
     <message>
         <source>ascending - you are thinking too much</source>
@@ -2345,7 +2346,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Electric Guitar</source>
-        <translation type="unfinished"></translation>
+        <translation>Guitarra</translation>
     </message>
     <message>
         <source>Bass Guitar</source>
@@ -2380,7 +2381,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>do not check</source>
-        <translation type="unfinished"></translation>
+        <translation>não verificar</translation>
     </message>
     <message>
         <source>gums pain</source>
@@ -2461,7 +2462,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Ear training</source>
-        <translation type="unfinished"></translation>
+        <translation>Treinamento Auditivo</translation>
     </message>
     <message>
         <source>Listen to a sound and show it on the staff.&lt;br&gt;Guitar, note names and key signatures are not used.&lt;br&gt;Scale a - a&lt;sup&gt;2&lt;/sup&gt;.</source>
@@ -2708,11 +2709,11 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>During exercising %1 the program will be your understanding and friendly teacher - it will show you corrected answers if you miss.</source>
-        <translation type="unfinished"></translation>
+        <translation>Durante o exercício %1 o programa será seu professor compreensivo e amigável - ele mostrará as respostas corretas se você errar.</translation>
     </message>
     <message>
         <source>During exams %1 Nootka will be your strict and &amp;quot;old school&amp;quot; master. Any mistake will be penalized with additional questions...&lt;br&gt;When you pass an exam you got a certificate!</source>
-        <translation type="unfinished"></translation>
+        <translation>Durante os exames, %1 Nootka será seu &amp;quot;mestre&amp;quot; e rígido à moda antiga. Qualquer erro será penalizado com perguntas adicionais...&lt;br&gt;Quando você passa em um exame, você recebe um certificado!</translation>
     </message>
     <message>
         <source>Using Nootka may be divided into three stages:</source>
@@ -2725,7 +2726,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Exploring the interface of Nootka and how musical scores work. Just click on elements of the interface to see and get to know Nootka. Also, you can play or sing if you have a mic or web-cam.</source>
-        <translation type="unfinished"></translation>
+        <translation>Explorando a interface do Nootka e como funcionam as partituras musicais. Basta clicar nos elementos da interface para ver e conhecer o Nootka. Além disso, você pode tocar ou cantar se tiver um microfone ou webcam.</translation>
     </message>
     <message>
         <source>Press %1 buttons to see help and %2 button to adjust Nootka to your preference.</source>
@@ -2864,7 +2865,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     <message>
         <source>[DATE]&lt;br&gt;&lt;i&gt;date&lt;i&gt;</source>
         <comment>All those entries assembly a certificate. You can adjust translation to your imagination of it look by manipulating where to put an entry, using some &apos;HTML tags: http://qt-project.org/doc/qt-4.8/richtext-html-subset.html&apos; and using exam data tags like: [DATE], [STUDENT], [LEVELNAME], [TOTALTIME], [SCORE] and [QUESTNR]. Single entry can&apos;t be adjusted (center, left, right) like in pure HTML - this is why it is divided. TO OBTAIN CERT PREVIEW IN ANY TIME OF AN EXAM JUST PRESS: [Shift+Alt+middle-mouse-button] (and don&apos;t tell this secret anybody). Feel free to translate it directly as well. This entry is displayed at top-right corner of a cert</comment>
-        <translation type="unfinished"></translation>
+        <translation>[DATE]&lt;br&gt;&lt;i&gt;date&lt;i&gt;&lt;/i&gt;&lt;/i&gt;</translation>
     </message>
     <message>
         <source>Student &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; has been awarded the</source>
@@ -2960,7 +2961,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Contra octave</source>
-        <translation type="unfinished"></translation>
+        <translation>Oitava contra</translation>
     </message>
     <message>
         <source>Great octave</source>
@@ -3021,7 +3022,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>convert into rests</source>
-        <translation type="unfinished"></translation>
+        <translation>converter para pausas</translation>
     </message>
 </context>
 <context>
@@ -3042,14 +3043,14 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>down</source>
-        <translation type="unfinished"></translation>
+        <translation>abaixo</translation>
     </message>
 </context>
 <context>
     <name>TscoreObject</name>
     <message>
         <source>Delete note</source>
-        <translation type="unfinished"></translation>
+        <translation>Excluir nota</translation>
     </message>
     <message>
         <source>Insert note</source>
@@ -3057,11 +3058,11 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Delete all notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Excluir todas as notas</translation>
     </message>
     <message>
         <source>Edit score</source>
-        <translation type="unfinished"></translation>
+        <translation>Editar partitura</translation>
     </message>
     <message>
         <source>whole note</source>
@@ -3077,7 +3078,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>eighth note</source>
-        <translation type="unfinished"></translation>
+        <translation>colcheia</translation>
     </message>
     <message>
         <source>sixteenth note</source>
@@ -3089,7 +3090,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>dot</source>
-        <translation type="unfinished"></translation>
+        <translation>ponto</translation>
     </message>
     <message>
         <source>rise</source>
@@ -3137,11 +3138,11 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Exercises</source>
-        <translation type="unfinished"></translation>
+        <translation>exercícios</translation>
     </message>
     <message>
         <source>Exam</source>
-        <translation type="unfinished"></translation>
+        <translation>Exame</translation>
     </message>
     <message>
         <source>Phone</source>
@@ -3164,7 +3165,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Exam results</source>
-        <translation type="unfinished"></translation>
+        <translation>Resultados dos exames</translation>
     </message>
     <message>
         <source>Load an exam file</source>
@@ -3221,7 +3222,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source> Don&apos;t use accidentals!</source>
-        <translation type="unfinished"></translation>
+        <translation> Não use acidentes!</translation>
     </message>
     <message>
         <source>on %1 string.</source>
@@ -3401,7 +3402,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     <message>
         <source>Correct</source>
         <comment>like a correct answer with mistake</comment>
-        <translation type="unfinished"></translation>
+        <translation>Correto</translation>
     </message>
     <message>
         <source>Try again</source>
@@ -3424,11 +3425,11 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Dropped D: D A D G B E </source>
-        <translation type="unfinished"></translation>
+        <translation>Dropped D: D A D G B E </translation>
     </message>
     <message>
         <source>Dummy Lute: D A D F# B E </source>
-        <translation type="unfinished"></translation>
+        <translation>Dummy Lute: D A D F# B E </translation>
     </message>
     <message>
         <source>Open: D A D G A D </source>
@@ -3489,7 +3490,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>daily</source>
-        <translation type="unfinished"></translation>
+        <translation>diariamente</translation>
     </message>
     <message>
         <source>weekly</source>
@@ -3539,14 +3540,14 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Drag a knob to adjust minimum input volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>Arraste o botão para ajustar o volume mínimo de entrada.</translation>
     </message>
 </context>
 <context>
     <name>Windows installer entries</name>
     <message>
         <source>Do you really want to remove Nootka and all its components?</source>
-        <translation type="unfinished"></translation>
+        <translation>Você realmente deseja remover o Nootka e todos os seus componentes?</translation>
     </message>
 </context>
 <context>
@@ -3568,7 +3569,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Direction of bellows movement is marked with bowing symbols:</source>
-        <translation type="unfinished"></translation>
+        <translation>A direção do movimento do fole é marcada com símbolos de arco:</translation>
     </message>
 </context>
 <context>
