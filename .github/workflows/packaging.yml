@@ -23,7 +23,7 @@ jobs:
 
       # Use 'tools' to install win32_mingw810,
       # because MinGw shipped with this docker is not able to compile (link) 32bits Qt project
-      - name: Install Qt
+      - name: Install Qt 5.15
         uses: jurplel/install-qt-action@v3
         with:
           aqtversion: '==3.1.*'
