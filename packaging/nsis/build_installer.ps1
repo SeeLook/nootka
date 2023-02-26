@@ -1,6 +1,7 @@
 # Powershell
 
-Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+# Invoke-Expression (New-Object System.Net.WebClient).DownloadString('https://get.scoop.sh')
+iex "& {$(irm get.scoop.sh)} -RunAsAdmin"
 scoop bucket add extras
 scoop install nsis
 scoop install wget
