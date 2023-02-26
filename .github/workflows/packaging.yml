@@ -27,11 +27,11 @@ jobs:
         uses: jurplel/install-qt-action@v3
         with:
           aqtversion: '==3.1.*'
-          version: '5.15.2'
+          version: '5.12.2'
           host: 'windows'
           target: 'desktop'
           arch: 'win32_mingw73'
-          tools: 'tools_mingw,7.3.0-1-202004170606,qt.tools.win32_mingw730'
+          archives: 'qtxmlpatterns qtwinextras qtwebsockets qtwebchannel qttranslations qttools qtsvg qtsensors qtscxml qtremoteobjects qtquickcontrols2 qtquickcontrols qtimageformats qtgraphicaleffects qtdeclarative qtconnectivity qtbase qtactiveqt opengl32sw i686'
 
       - name: Variables and Qt 5 environment configuration
         shell: pwsh
