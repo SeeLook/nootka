@@ -29,8 +29,8 @@ jobs:
           version: '5.15.2'
           host: 'windows'
           target: 'desktop'
-          arch: 'win32_mingw81'
-          tools: 'tools_mingw,8.1.0-1-202004170606,qt.tools.win32_mingw810'
+          arch: 'win32_mingw73'
+          tools: 'tools_mingw,7.3.0-1-202004170606,qt.tools.win32_mingw730'
 
       - name: Variables and Qt 5 environment configuration
         shell: pwsh
