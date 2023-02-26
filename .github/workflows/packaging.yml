@@ -17,14 +17,14 @@ jobs:
     steps:
 
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
       # Use 'tools' to install win32_mingw810,
       # because MinGw shipped with this docker is not able to compile (link) 32bits Qt project
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v3
         with:
           version: '5.15.2'
           host: 'windows'
@@ -48,7 +48,7 @@ jobs:
           Move-Item -Path .\build\installs\Nootka-*-Windows-Installer.exe -Destination "Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Windows-Installer.exe"
 
       - name: Upload installer to GitHub
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: "Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Windows-Installer.exe"
           path: "D:/a/nootka/nootka/Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}-Windows-Installer.exe"
@@ -56,7 +56,7 @@ jobs:
 
   macos_dmg:
     name:           Build Mac dmg
-    runs-on:        macos-latest
+    runs-on:        macos-11
     needs:          win_installer
     #if: "contains(github.event.commits[0].message, 'prepare_build')"
 
@@ -64,10 +64,10 @@ jobs:
       - name: Select Xcode version for Mac
         uses: maxim-lobanov/setup-xcode@v1
         with:
-          xcode-version: '11.7'
+          xcode-version: '12.4'
 
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -79,7 +79,7 @@ jobs:
           echo "NOOTKA_COM_CNT=$CNT" >> $GITHUB_ENV
 
       - name: Install Qt
-        uses: jurplel/install-qt-action@v2
+        uses: jurplel/install-qt-action@v3
 
       - name: Install fftw, sound-touch, ogg-vorbis
         run: |
@@ -97,7 +97,7 @@ jobs:
           mkdir build
           cd ./build
           mkdir installs
-          MACOSX_DEPLOYMENT_TARGET=10.13
+          MACOSX_DEPLOYMENT_TARGET=10.14
           export MACOSX_DEPLOYMENT_TARGET
           cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=./installs ../
           make -j 2
@@ -109,7 +109,7 @@ jobs:
           mv Nootka*.dmg Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}.dmg
 
       - name: Upload dmg to GitHub
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}.dmg
           path: /Users/runner/work/nootka/nootka/Nootka-${{ env.NOOTKA_VERSION }}-b${{ env.NOOTKA_COM_CNT }}.dmg
@@ -122,7 +122,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
