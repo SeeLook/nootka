@@ -34,6 +34,7 @@ if(APPLE OR WIN32)
     "${QT_TRANSLATIONS_DIR}/qtbase_hu.qm"
     "${QT_TRANSLATIONS_DIR}/qtbase_it.qm"
     "${QT_TRANSLATIONS_DIR}/qtbase_pl.qm"
+    "${QT_TRANSLATIONS_DIR}/qtbase_pt_BR.qm"
     "${QT_TRANSLATIONS_DIR}/qtbase_ru.qm"
     "${QT_TRANSLATIONS_DIR}/qtbase_uk.qm"
     #"${QT_TRANSLATIONS_DIR}/qtbase_sl.qm"
