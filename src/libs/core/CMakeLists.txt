@@ -18,6 +18,7 @@ if (WIN32)
         ${CMAKE_BINARY_DIR}/../zlib/
         /usr/x86_64-w64-mingw32/include/
     )
+    include_directories(${ZLIB_INCLUDE_DIR})
   endif()
 
   if (NOT ZLIB_LIBRARY)
