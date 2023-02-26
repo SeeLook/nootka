@@ -12,7 +12,7 @@ Expand-Archive -Path "zlib.zip" -DestinationPath "zlibExtract"
 rm -fo zlib.zip
 Move-Item -Path ".\zlibExtract\zlib\*.*" -Destination ".\zlibExtract\"
 Move-Item -Path "zlibExtract" -Destination "zlib"
-dir
+dir zlib
 
 echo "--- Getting 3rd party libraries (FFTW, OGG, VORBIS)"
 wget -q "https://www.opencode.net/seelook/nootka-build/-/raw/master/3rdParty/win32-fftw-ogg-vorbis.tar.gz"
@@ -24,7 +24,7 @@ echo "--- MainDir: $mainDir"
 mkdir build
 cd build
 
-cmake -G "MinGW Makefiles" -DZLIB_LIBRARY="$mainDir\zlib\zlib1.dll" -DZLIB_INCLUDE_DIR="$mainDir\zlib"  -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=installs ../
+cmake -G "MinGW Makefiles" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=installs ../
 
 mingw32-make -j2
 
