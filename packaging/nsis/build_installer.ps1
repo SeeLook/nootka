@@ -18,6 +18,7 @@ wget -q "https://www.opencode.net/seelook/nootka-build/-/raw/master/3rdParty/win
 tar -xzf .\win32-fftw-ogg-vorbis.tar.gz
 
 $mainDir = Get-Location
+$mainDir.replace('\', '\\\')
 echo "--- MainDir: $mainDir"
 
 mkdir build
