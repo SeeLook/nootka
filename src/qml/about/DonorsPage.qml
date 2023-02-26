@@ -57,7 +57,7 @@ Tflickable {
       property real widest: 0
       spacing: NOO.factor()
       Repeater {
-        model: [ "Tony Nederpel", "Jose1711", "Wayne Bonner", "Aaron Wolf",
+        model: [ "Wolfgang Pflaesterer", "Tony Nederpel", "Jose1711", "Wayne Bonner", "Aaron Wolf",
                  "Torsten Philipp", "Vincent Bermel", "Tomasz Matuszewski",
                  "Yves Balhant", "Илья Б.", "...and others"
                ]
