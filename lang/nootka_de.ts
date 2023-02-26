@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.1" language="de_DE" sourcelanguage="en">
-    <extra-po-header-language>de</extra-po-header-language>
-    <extra-po-header-language_team>2e traducteur vers l&apos;allemand</extra-po-header-language_team>
-    <extra-po-header-last_translator>RMR &lt;MdQL6B@protonmail.com&gt;</extra-po-header-last_translator>
-    <extra-po-header-po_revision_date>2021-07-30 20:16+0200</extra-po-header-po_revision_date>
-    <extra-po-header-x_generator>Virtaal 0.7.1</extra-po-header-x_generator>
-    <extra-po-header_comment># RMR &lt;MdQL6B@protonmail.com&gt;, 2021.</extra-po-header_comment>
-    <extra-po-headers>PO-Revision-Date,Last-Translator,Language-Team,Language,MIME-Version,Content-Type,Content-Transfer-Encoding,Plural-Forms,X-Generator,X-Language,X-Source-Language,X-Qt-Contexts</extra-po-headers>
+<extra-po-header-language>de</extra-po-header-language>
+<extra-po-header-language_team>2e traducteur vers l&apos;allemand</extra-po-header-language_team>
+<extra-po-header-last_translator>RMR &lt;MdQL6B@protonmail.com&gt;</extra-po-header-last_translator>
+<extra-po-header-po_revision_date>2021-07-30 20:16+0200</extra-po-header-po_revision_date>
+<extra-po-header-x_generator>Virtaal 0.7.1</extra-po-header-x_generator>
+<extra-po-header_comment># RMR &lt;MdQL6B@protonmail.com&gt;, 2021.</extra-po-header_comment>
+<extra-po-headers>PO-Revision-Date,Last-Translator,Language-Team,Language,MIME-Version,Content-Type,Content-Transfer-Encoding,Plural-Forms,X-Generator,X-Language,X-Source-Language,X-Qt-Contexts</extra-po-headers>
 <context>
     <name>AboutPage</name>
     <message>
@@ -101,7 +101,7 @@
     <message>
         <location filename="../src/qml/level/AccidsPage.qml" line="152"/>
         <source>Only notes from current key signature are taken. If key signature is disabled accidentals are not used.</source>
-        <translation>Nur Töne von der aktuellen Tonart werden verwendet. Wenn die Tonart deaktiviert ist verden die Vorzeichen nicht genutzt.</translation>
+        <translation>Nur Töne von der aktuellen Tonart werden verwendet. Wenn die Tonart deaktiviert ist werden die Vorzeichen nicht genutzt.</translation>
     </message>
     <message>
         <location filename="../src/qml/level/AccidsPage.qml" line="69"/>
@@ -470,7 +470,7 @@
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="139"/>
         <source>When answer was played (or sung) and it was wrong also the detected wrong note is shown.</source>
-        <translation>Wenn die Antwort gepielt (oder gesungen) ist und falsch erfasst wurde, wird die Note gezeigt.</translation>
+        <translation>Wenn die Antwort gespielt (oder gesungen) ist und falsch erfasst wurde, wird die Note gezeigt.</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="164"/>
@@ -490,7 +490,7 @@
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="174"/>
         <source>If checked, an application will not ask to answer pending question just mark it as wrong, save an exam to file (in directory: %1) and close itself without any confirmation needed.</source>
-        <translation>Bei Auswahl, wird die Anwendung nicht auf die anstehenden Antwort der Frage warten, sondern sie als Falsch markieren. Speichere Prüfung in Datei (im Verzeichnis: %1) und schließe Anwendung ohne Bestätigung.</translation>
+        <translation>Bei Auswahl, wird die Anwendung nicht auf die anstehenden Antwort der Frage warten, sondern sie als falsch markieren. Speichere Prüfung in Datei (im Verzeichnis: %1) und schließe Anwendung ohne Bestätigung.</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="30"/>
@@ -566,7 +566,7 @@ Check answer just after last note of melody was played.</translatorcomment>
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="147"/>
         <source>To improve association of note in the score or position on the instrument to note name, Nootka will display names even if neither question nor answer is related to it.</source>
-        <translation>Um die Verknüpfung der Notennamen mit der Notation oder der Position auf der Gitarre zu verbessern, wird Nootka die Namen ,unabhängig von der Frage.anzeigen.</translation>
+        <translation>Um die Verknüpfung der Notennamen mit der Notation oder der Position auf der Gitarre zu verbessern, wird Nootka die Namen unabhängig von der Frage anzeigen.</translation>
     </message>
 </context>
 <context>
@@ -608,7 +608,7 @@ Check answer just after last note of melody was played.</translatorcomment>
     <message>
         <location filename="../src/libs/core/translationHeader.h" line="7"/>
         <source>Application for learning musical score notation</source>
-        <translation>Anwendung zum erlernen der musikalischen Notation</translation>
+        <translation>Anwendung zum Erlernen der musikalischen Notation</translation>
     </message>
 </context>
 <context>
@@ -616,7 +616,7 @@ Check answer just after last note of melody was played.</translatorcomment>
     <message>
         <location filename="../src/qml/settings/GlobalPage.qml" line="24"/>
         <source>Select a language.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;To take effect, this requires restarting the application!&lt;/span&gt;</source>
-        <translation>Wähle eine Sprache aus.&lt;br&gt;&lt;span style=&quot;color: red;&quot;&gt;Damit die Einstellung aktiv werden, muss das Programm neu gestartet werden!&lt;/span&gt;</translation>
+        <translation>Wähle eine Sprache aus.&lt;br&gt;&lt;span style=&quot;&quot;&gt;Damit die Einstellung aktiv wird, muss das Programm neu gestartet werden!&lt;/span&gt;</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/GlobalPage.qml" line="166"/>
@@ -740,7 +740,7 @@ Check answer just after last note of melody was played.</translatorcomment>
     <message>
         <location filename="../src/qml/gotit/ImportInfo.qml" line="59"/>
         <source>Voices are divided automatically when meter, clef or key changes.</source>
-        <translation>Stimmen werden von selber untterteilt, wenn Metrik, Schlüssel oder Vorzeichen ändern.</translation>
+        <translation>Stimmen werden von selber unterteilt, wenn sich Metrik, Schlüssel oder Vorzeichen ändern.</translation>
     </message>
     <message>
         <location filename="../src/qml/gotit/ImportInfo.qml" line="66"/>
@@ -772,12 +772,12 @@ Check answer just after last note of melody was played.</translatorcomment>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="148"/>
         <source>Select appropriate tuning from the list or prepare your own.</source>
-        <translation>Wählei eine geeignete Stimmung aus der Liste oder erstelle deine eigene.</translation>
+        <translation>Wähle eine geeignete Stimmung aus der Liste oder erstelle deine eigene.</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="149"/>
         <source>Remember to select the appropriate clef in Score settings.</source>
-        <translation>Vergiss nicht den richtigen Schlüssel in den Partitureinstelllungen auzuwählen.</translation>
+        <translation>Vergiss nicht den richtigen Schlüssel in den Partitureinstellungen auszuwählen.</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/InstrumentPage.qml" line="36"/>
@@ -1146,7 +1146,7 @@ Lieber kurz halten, deshalb besser zuerst in externer Software aufteilen.</trans
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="102"/>
         <source>How many times during an exam a melody from the list has to be played or written correctly. Warning! It multiplies question number.</source>
-        <translation>Wie viele Male in einer Prüfung muss eine Melodie aus der Liste richtig gespielt oder geschrieben sein. Achtung! Anzahl Fragen vervielfacht sich.</translation>
+        <translation>Wie viele Male in einer Prüfung muss eine Melodie aus der Liste richtig gespielt oder geschrieben sein. Achtung! Die Anzahl der Fragen vervielfacht sich.</translation>
     </message>
     <message>
         <location filename="../src/qml/level/MelodyPage.qml" line="108"/>
@@ -1255,7 +1255,7 @@ Lieber kurz halten, deshalb besser zuerst in externer Software aufteilen.</trans
     <message>
         <location filename="../src/qml/instruments/OutScaleTip.qml" line="27"/>
         <source>Out of instrument scale!</source>
-        <translation>außerhalb des spielbaren Bereichs des Instruments!</translation>
+        <translation>Außerhalb des spielbaren Bereichs des Instruments!</translation>
     </message>
 </context>
 <context>
@@ -1311,7 +1311,7 @@ Lieber kurz halten, deshalb besser zuerst in externer Software aufteilen.</trans
     <message>
         <location filename="../src/libs/core/exam/tlevel.cpp" line="113"/>
         <source>All possible options are turned on</source>
-        <translation>Alle Möglichkeiten sind an</translation>
+        <translation>Alle möglichen Optionen sind an</translation>
     </message>
     <message>
         <location filename="../src/libs/core/music/tkeysignature.h" line="72"/>
@@ -1394,7 +1394,7 @@ Lieber kurz halten, deshalb besser zuerst in externer Software aufteilen.</trans
     <message>
         <location filename="../src/qml/level/QuestionsPage.qml" line="194"/>
         <source>if checked, the lowest position in selected fret range is required, otherwise all possible positions of the note are acceptable. To use this, all strings have to be available!</source>
-        <translation>wenn ausgewählt wird die unterste Lage in dem gewählten Bundbereich benötigt, ansonsten sind alle möglichen Positionen von dem Ton möglich. Um diese Einstellung zu nutzen, müssen alle Saiten zur verfügung stehen!</translation>
+        <translation>wenn ausgewählt wird die unterste Lage in dem gewählten Bundbereich benötigt, ansonsten sind alle möglichen Positionen von dem Ton möglich. Um diese Einstellung zu nutzen, müssen alle Saiten zur Verfügung stehen!</translation>
     </message>
     <message>
         <location filename="../src/qml/level/QuestionsPage.qml" line="190"/>
@@ -1442,7 +1442,7 @@ Lieber kurz halten, deshalb besser zuerst in externer Software aufteilen.</trans
     <message>
         <location filename="../src/qml/level/RangePage.qml" line="75"/>
         <source>Adjust fret range in a level to currently selected note range</source>
-        <translation>Wähle Bunbereich entsprechend dem aktuell ausgewählten Tonbereich</translation>
+        <translation>Wähle Bundbereich entsprechend dem aktuell ausgewählten Tonbereich</translation>
     </message>
     <message>
         <location filename="../src/qml/level/RangePage.qml" line="93"/>
@@ -1462,7 +1462,7 @@ Lieber kurz halten, deshalb besser zuerst in externer Software aufteilen.</trans
     <message>
         <location filename="../src/qml/level/RangePage.qml" line="122"/>
         <source>Adjust note range in a level to currently selected fret range</source>
-        <translation>Wähle Tonbereich entsprechend dem aktuell ausgewählten Bunbereich</translation>
+        <translation>Wähle Tonbereich entsprechend dem aktuell ausgewählten Bundbereich</translation>
     </message>
     <message>
         <location filename="../src/qml/level/RangePage.qml" line="132"/>
@@ -1768,7 +1768,7 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     <message>
         <location filename="../src/qml/gotit/SoundInfo.qml" line="137"/>
         <source>If you want Nootka to write your melody with rhythm then you have to play exactly in selected tempo - preferably with a metronome. But during practice, when you are playing melody given by the application, the tempo can be at will unless some level defines it.</source>
-        <translation>Möchtest du, dass Nootka deine Melodie samt Rhythmus schreibt, musst du dich streng im Takt spielen - am besten mit Metronom. Beim Üben hingegen, beim Spielen einer von Nootka vorgegebenen Melodie, ist das Tempo frei, es sei denn ein Level gebe es vor.</translation>
+        <translation>Möchtest du, dass Nootka deine Melodie samt Rhythmus schreibt, musst du streng im Takt spielen - am besten mit Metronom. Beim Üben hingegen, beim Spielen einer von Nootka vorgegebenen Melodie, ist das Tempo frei, es sei denn ein Level gibt es vor.</translation>
     </message>
 </context>
 <context>
@@ -1801,7 +1801,7 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     <message>
         <location filename="../src/qml/settings/SoundPage.qml" line="75"/>
         <source>Only sounds longer than the selected time will be pitch-detected.&lt;br&gt;Selecting a longer minimum note duration helps avoid capturing fret noise or other unexpected sounds but decreases responsiveness.</source>
-        <translation>Nur Töne die länger als die ausgewählte Zeit sind, werden erfasst.&lt;br&gt;Eine längere Notenlänge Hilft bei der Vermeidung der Erfassung von Stöhrgeräuschen und Nebentönen, aber vermidert gleichzeitig die Ansprechempfindlichkeit.</translation>
+        <translation>Nur Töne die länger als die ausgewählte Zeit sind, werden erfasst.&lt;br&gt;Eine längere Notenlänge hilft bei der Vermeidung der Erfassung von Störgeräuschen und Nebentönen, aber vermidert gleichzeitig die Ansprechempfindlichkeit.</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/SoundPage.qml" line="96"/>
@@ -1911,7 +1911,7 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     <message>
         <location filename="../src/qml/exam/StartExam.qml" line="71"/>
         <source>To start exercising or to pass new exam put in your name and select a level. To continue the previous exam, select it from the list or load from file.</source>
-        <translation>Um eine neue Übung oder Prüfung zu starten, gibst du deinen Namen ein und wählst ein Level. Um die letzte Prüfung fortzusetzen wählst du sie aus der Liste oder aus einer Datei aus.</translation>
+        <translation>Um eine neue Übung oder Prüfung zu starten, gibst du deinen Namen ein und wählst ein Level. Um die letzte Prüfung fortzusetzen, wählst du sie aus der Liste oder aus einer Datei aus.</translation>
     </message>
     <message>
         <location filename="../src/qml/exam/StartExam.qml" line="104"/>
@@ -1990,17 +1990,17 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     <message>
         <location filename="../src/qml/about/TaboutNootka.qml" line="32"/>
         <source>About Nootka</source>
-        <translation>Nootka Info</translation>
+        <translation>Über Nootka</translation>
     </message>
     <message>
         <location filename="../src/qml/about/TaboutNootka.qml" line="21"/>
         <source>About</source>
-        <translation>Info</translation>
+        <translation>Über</translation>
     </message>
     <message>
         <location filename="../src/qml/about/TaboutNootka.qml" line="24"/>
         <source>License</source>
-        <translation>Lizens</translation>
+        <translation>Lizenz</translation>
     </message>
     <message>
         <location filename="../src/qml/about/TaboutNootka.qml" line="25"/>
@@ -2040,12 +2040,12 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     <message>
         <location filename="../src/qml/about/AuthorsPage.qml" line="117"/>
         <source>Other projects</source>
-        <translation>Ander Projekte</translation>
+        <translation>Andere Projekte</translation>
     </message>
     <message>
         <location filename="../src/qml/about/AuthorsPage.qml" line="121"/>
         <source>However this application could not exist without various open source projects.&lt;br&gt;Especially:</source>
-        <translation>Durch viele Open Source Projekte wurde dieses Projekt ermöglicht.&lt;br&gt;Besonders:</translation>
+        <translation>Diese Applikation könnte nicht ohne Open Source Projekte existieren.&lt;br&gt;Insbesondere:</translation>
     </message>
     <message>
         <location filename="../src/qml/about/TaboutNootka.qml" line="23"/>
@@ -2056,7 +2056,7 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
         <location filename="../src/qml/about/TaboutNootka.qml" line="27"/>
         <source>Donors</source>
         <comment>Would be &apos;Sponsors&apos; or even &apos;Backers&apos; - translate as such as You fill, what sounds/looks better in Your language</comment>
-        <translation>Gönner</translation>
+        <translation>Spender</translation>
     </message>
     <message>
         <location filename="../src/qml/about/DonorsPage.qml" line="41"/>
@@ -2428,7 +2428,7 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     <message>
         <location filename="../src/main/texamexecutor.cpp" line="1325"/>
         <source>Try this melody once again. (backspace)</source>
-        <translation>Versuche die Meldoie nocheinmal. (Backspace)</translation>
+        <translation>Versuche die Melodie nocheinmal. (Backspace)</translation>
     </message>
     <message>
         <location filename="../src/main/texamexecutor.cpp" line="1333"/>
@@ -2465,7 +2465,7 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     <message>
         <location filename="../src/help/texamhelp.cpp" line="35"/>
         <source>Exam will be completed when you give answers to all questions.&lt;br&gt;The number of questions depends on the level of the exam.</source>
-        <translation>Die Prüfung ist Abgeschlossen, wenn du alle Fragen beantwortet hast.&lt;br&gt;Die Anzahl der Fragen hängt vom Level der Prüfung ab.</translation>
+        <translation>Die Prüfung ist abgeschlossen, wenn du alle Fragen beantwortet hast.&lt;br&gt;Die Anzahl der Fragen hängt vom Level der Prüfung ab.</translation>
     </message>
     <message>
         <location filename="../src/help/texamhelp.cpp" line="36"/>
@@ -2531,7 +2531,7 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     <message>
         <location filename="../src/help/texamhelp.cpp" line="55"/>
         <source>To check the answer confirm it:</source>
-        <translation>Um die Antwort Prüfen Bestätigen:</translation>
+        <translation>Um die Antwort zu prüfen, bestätigen:</translation>
     </message>
     <message>
         <location filename="../src/help/texamhelp.h" line="60"/>
@@ -2581,7 +2581,7 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     <message>
         <location filename="../src/help/texamhelp.cpp" line="102"/>
         <source>Just click this settings button to adjust an exercise or an exam to your current needs.</source>
-        <translation>Klicke den Einstellungs-Knopf, um die Übung auf deine Bedürfnisse anzupassen.</translation>
+        <translation>Klicke den Einstellungsknopf, um die Übung auf deine Bedürfnisse anzupassen.</translation>
     </message>
     <message>
         <location filename="../src/qml/settings/ExamPage.qml" line="65"/>
@@ -2849,12 +2849,12 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     <message>
         <location filename="../src/main/tgotit.cpp" line="153"/>
         <source>If any note on the score is selected, only this particular one is changed by playing or clicking on an instrument. And only pitch of that note changes - rhythmic value remains the same. </source>
-        <translation>Wenn eine Note der Partitur angewählt ist, ändert sich bloss diese eine Note durch Spielen oder Klicken auf Instrument. Nur die Tonhöhe ändert, nicht der rhythmische Wert. </translation>
+        <translation>Wenn eine Note der Partitur angewählt ist, ändert sich bloss diese eine Note durch Spielen oder Klicken auf dem Instrument. Nur die Tonhöhe ändert sich, nicht der rhythmische Wert. </translation>
     </message>
     <message>
         <location filename="../src/main/tgotit.cpp" line="160"/>
         <source>When no note is chosen on the score, note cursor is highlighted and blinks. Notes are added one by one, either by playing real instrument or by selecting a sound on instrument displayed by the application.</source>
-        <translation>Wenn keine Note der Partitur angewählt wurde, ist Notenzeiger markiert und blinkt. Noten werden einzeln hinzugefügt, entweder durch Spielen eines echten Instruments oder durch Anwählen eines Tons auf in der Applikation dargestelltem Instrument.</translation>
+        <translation>Wenn keine Note der Partitur angewählt wurde, ist der Notenzeiger markiert und blinkt. Noten werden einzeln hinzugefügt, entweder durch Spielen eines echten Instruments oder durch Anwählen eines Tons auf dem in der Applikation dargestellten Instrument.</translation>
     </message>
     <message>
         <location filename="../src/main/tgotit.cpp" line="168"/>
@@ -3092,7 +3092,7 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     <message>
         <location filename="../src/dialogs/tlevelsdefs.cpp" line="263"/>
         <source>Play short melody on treble strings with notes just on first three frets. Sharps keys only.</source>
-        <translation>Spiele kurze Melodie auf den Diskant-Saiten mit Noten in den ersten drei Bünden. Nur Kreutz-Tonarten.</translation>
+        <translation>Spiele kurze Melodie auf den Diskant-Saiten mit Noten in den ersten drei Bünden. Nur Kreuz-Tonarten.</translation>
     </message>
     <message>
         <location filename="../src/dialogs/tlevelsdefs.cpp" line="298"/>
@@ -3212,7 +3212,7 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     <message>
         <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="706"/>
         <source>&lt;li&gt;Manual selecting of a key signature was checked but answer as note on the staff was not checked.&lt;/li&gt;</source>
-        <translation>&lt;li&gt;Manuelle auswahl der Generalvorzeichen wurde gewählt aber die Antwort Ton auf Notation wurde nicht gewählt.&lt;/li&gt;</translation>
+        <translation>&lt;li&gt;Manuelle Auswahl der Generalvorzeichen wurde gewählt aber die Antwort Ton auf Notation wurde nicht gewählt.&lt;/li&gt;</translation>
     </message>
     <message>
         <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="717"/>
@@ -3227,7 +3227,7 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     <message>
         <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="766"/>
         <source>Seems like this level has some mistakes</source>
-        <translation>In diesem Level sieht es nach ein paar Fehlern aus</translation>
+        <translation>Dieses Level scheint Fehler zu enthalten</translation>
     </message>
     <message>
         <location filename="../src/dialogs/tlevelcreatoritem.cpp" line="748"/>
@@ -3255,7 +3255,7 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
     <message>
         <location filename="../src/qml/level/LevelPreview.qml" line="108"/>
         <source>key signature:</source>
-        <translation>Generalvozeichen:</translation>
+        <translation>Generalvorzeichen:</translation>
     </message>
     <message>
         <location filename="../src/qml/level/LevelPreview.qml" line="118"/>
@@ -3285,14 +3285,14 @@ Größtmöglicher Wert - Melodie besteht aus größtmöglicher Anzahl ausgewähl
         <source>Cannot open file
  %1 
  for reading</source>
-        <translation>Kann Datei zum lesen
+        <translation>Kann Datei zum Lesen
  %1 
 nicht öffnen</translation>
     </message>
     <message>
         <location filename="../src/libs/core/exam/tlevel.cpp" line="87"/>
         <source>No file name specified</source>
-        <translation>Kein Dateiname festgelegt</translation>
+        <translation>Kein Dateiname angegeben</translation>
     </message>
     <message>
         <location filename="../src/dialogs/tlevelselector.cpp" line="47"/>
@@ -3369,7 +3369,7 @@ nicht öffnen</translation>
     <message>
         <location filename="../src/help/tmainhelp.cpp" line="37"/>
         <source>Select a level and warm up yourself exercising. Then try to pass an exam.</source>
-        <translation>Wähle ein Level und währm dich mit Übungen auf. Versuche anschließend eine Prüfung abzulegen.</translation>
+        <translation>Wähle ein Level und wärm dich mit Übungen auf. Versuche anschließend eine Prüfung abzulegen.</translation>
     </message>
     <message>
         <location filename="../src/help/tmainhelp.cpp" line="47"/>
@@ -3468,7 +3468,7 @@ nicht öffnen</translation>
     <message>
         <location filename="../src/main/tmainscoreobject.cpp" line="86"/>
         <source>Generate melody</source>
-        <translation>Erstellen Melodie</translation>
+        <translation>Erstelle Melodie</translation>
     </message>
     <message>
         <location filename="../src/libs/core/tnootkaqml.cpp" line="550"/>
@@ -3554,7 +3554,7 @@ nicht öffnen</translation>
         <source>The octave &lt;b&gt;%n&lt;/b&gt; in International Pitch Notation</source>
         <translation>
             <numerusform>Die Oktave &lt;b&gt;%n&lt;/b&gt; in internationaler Tonhöhen-Notation</numerusform>
-            <numerusform>Die Oktave &lt;b&gt;%n&lt;/b&gt; in internationaler Tonhöhen-Notation</numerusform>
+            <numerusform>Die Oktaven &lt;b&gt;%n&lt;/b&gt; in internationaler Tonhöhen-Notation</numerusform>
         </translation>
     </message>
 </context>
@@ -3564,7 +3564,7 @@ nicht öffnen</translation>
         <location filename="../src/main/tnootkacertificate.cpp" line="72"/>
         <source>Student &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; has been awarded the</source>
         <comment>2nd line, single indent</comment>
-        <translation>Kursteilnehmen &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; wird ausgezeichnet mit</translation>
+        <translation>Kursteilnehmer &lt;big&gt;&lt;b&gt;[STUDENT]&lt;/b&gt;&lt;/big&gt; wird ausgezeichnet mit</translation>
     </message>
     <message>
         <location filename="../src/main/tnootkacertificate.cpp" line="79"/>
@@ -4057,7 +4057,7 @@ nicht öffnen</translation>
     <message>
         <location filename="../src/main/ttiphandler.cpp" line="56"/>
         <source> Don&apos;t use accidentals!</source>
-        <translation> Benutze kene Vorzeichen!</translation>
+        <translation> Benutze keine Vorzeichen!</translation>
     </message>
     <message>
         <location filename="../src/main/ttiphandler.cpp" line="63"/>
@@ -4376,7 +4376,7 @@ täglich</translation>
     <message>
         <location filename="../src/qml/updater/TupdateSummary.qml" line="39"/>
         <source>New Nootka %1 is available.</source>
-        <translation>Neue Version Nootka %1 ist Verfügbar.</translation>
+        <translation>Neue Version Nootka %1 ist verfügbar.</translation>
     </message>
     <message>
         <location filename="../src/updater/tupdateitem.cpp" line="61"/>
@@ -4451,7 +4451,7 @@ täglich</translation>
     <message>
         <location filename="../src/qml/wizard/WizardBass.qml" line="34"/>
         <source>Musical notation for bass guitar uses bass clef (clef F), but the notes sound one octave lower. It means bass guitar is transposing instrument and it transposes one octave down.</source>
-        <translation>Notenschrift für Bassgitarre benutzt Bassschlüssel (F-Schlüssel), aber die Noten klingen eine Oktave tiefer, d.h. Bassgitarre transponiertk eine Oktave nach unten.</translation>
+        <translation>Notenschrift für Bassgitarre benutzt Bassschlüssel (F-Schlüssel), aber die Noten klingen eine Oktave tiefer, d.h. Bassgitarre transponiert eine Oktave nach unten.</translation>
     </message>
 </context>
 <context>
