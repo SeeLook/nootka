@@ -8,11 +8,11 @@ scoop install wget
 
 echo "--- Getting ZLIB"
 wget -q "https://www.opencode.net/seelook/nootka-build/-/raw/master/3rdParty/zlib.zip"
-Expand-Archive -Path zlib.zip -DestinationPath zlibExtract
+Expand-Archive -Path "zlib.zip" -DestinationPath "zlibExtract"
 rm -fo zlib.zip
-Move-Item -Path .\zlibExtract\zlib\*.* -Destination .\zlibExtract\
-Rename-Item ".\zlibExtract zlib"
-
+Move-Item -Path ".\zlibExtract\zlib\*.*" -Destination ".\zlibExtract\"
+Move-Item -Path "zlibExtract" -Destination "zlib"
+dir
 
 echo "--- Getting 3rd party libraries (FFTW, OGG, VORBIS)"
 wget -q "https://www.opencode.net/seelook/nootka-build/-/raw/master/3rdParty/win32-fftw-ogg-vorbis.tar.gz"
@@ -20,7 +20,6 @@ tar -xzf .\win32-fftw-ogg-vorbis.tar.gz
 
 $mainDir = Get-Location
 echo "--- MainDir: $mainDir"
-dir
 
 mkdir build
 cd build
