@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright 2018-2021 SeeLook CC-0 -->
+<!-- Copyright 2018-2023 SeeLook CC-0 -->
 <component type="desktop-application">
   <id>net.sf.nootka</id>
   <name>Nootka</name>
@@ -78,7 +78,7 @@
   <update_contact>seelook_AT_gmail.com</update_contact>
 
   <releases>
-    <release date="2021-12-04" version="2.0.3"/>
+    <release date="2023-03-05" version="2.0.4"/>
   </releases>
 
 </component>

@@ -3278,7 +3278,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Given note show on the staff</source>
-        <translation>Mostrar a nota dada na partitura.</translation>
+        <translation>Mostrar a nota dada na partitura</translation>
     </message>
     <message>
         <source>&lt;br&gt;&lt;b&gt;in %1 key.&lt;/b&gt;</source>
@@ -3287,7 +3287,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Give name of</source>
-        <translation>Dê o nome de.</translation>
+        <translation>Dê o nome de</translation>
     </message>
     <message>
         <source>Show on the guitar</source>
@@ -3325,7 +3325,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Guess a key signature</source>
-        <translation>Adivinhar a assinatura de clave.</translation>
+        <translation>Adivinhar a assinatura de clave</translation>
     </message>
     <message>
         <source>Listened sound show on the staff</source>
@@ -3333,7 +3333,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Give name of listened sound</source>
-        <translation>Dê o nome do som escutado.</translation>
+        <translation>Dê o nome do som escutado</translation>
     </message>
     <message>
         <source>Listened sound show on the instrument</source>
@@ -3354,12 +3354,12 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     <message>
         <source>%1 was detected</source>
         <comment>note name</comment>
-        <translation>1% foi detectado</translation>
+        <translation>%1 foi detectado</translation>
     </message>
     <message>
         <source>It should be %1</source>
         <comment>note name follows</comment>
-        <translation>Deve ser% 1</translation>
+        <translation>Deve ser%1</translation>
     </message>
 </context>
 <context>
@@ -3697,22 +3697,22 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     <message>
         <source>for a note:</source>
         <comment>average reaction time for...</comment>
-        <translation>para uma nota.</translation>
+        <translation>para uma nota:</translation>
     </message>
     <message>
         <source>for a fret:</source>
         <comment>average reaction time for...</comment>
-        <translation>para uma casa (fret).</translation>
+        <translation>para uma casa (fret):</translation>
     </message>
     <message>
         <source>for a key:</source>
         <comment>average reaction time for...</comment>
-        <translation>para uma tonalidade.</translation>
+        <translation>para uma tonalidade:</translation>
     </message>
     <message>
         <source>for an accidental:</source>
         <comment>average reaction time for...</comment>
-        <translation>para um acidente.</translation>
+        <translation>para um acidente:</translation>
     </message>
     <message>
         <source>none</source>
