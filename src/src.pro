@@ -154,6 +154,7 @@ versionAtLeast(QT_VERSION, 5.15.0) {
 LRELEASE_DIR = lang
 EXTRA_TRANSLATIONS += $$files(lang/nootka_*.ts)
 EXTRA_TRANSLATIONS += lang/qtbase_sl.ts
+EXTRA_TRANSLATIONS += lang/qtbase_pt.ts
 
 lang.path = /assets/lang
 # HACK: create list of translated file names from the list of existing *.ts files.
@@ -176,7 +177,6 @@ lang.files += $$system(ls $$TR_DIR/qtbase_fr.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_hu.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_it.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_pl.qm)
-lang.files += $$system(ls $$TR_DIR/qtbase_pt_BR.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_ru.qm)
 lang.files += $$system(ls $$TR_DIR/qtbase_uk.qm)
 lang.CONFIG += no_check_exist

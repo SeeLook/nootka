@@ -68,7 +68,6 @@ cp $TRANS_PATH/qtbase_fr.qm AppDir/usr/translations
 cp $TRANS_PATH/qtbase_hu.qm AppDir/usr/translations
 cp $TRANS_PATH/qtbase_it.qm AppDir/usr/translations
 cp $TRANS_PATH/qtbase_pl.qm AppDir/usr/translations
-cp $TRANS_PATH/qtbase_pt*.qm AppDir/usr/translations
 cp $TRANS_PATH/qtbase_ru.qm AppDir/usr/translations
 cp $TRANS_PATH/qtbase_uk.qm AppDir/usr/translations
 
