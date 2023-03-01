@@ -1609,7 +1609,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Changes</source>
-        <translation>Mudançãs</translation>
+        <translation>Mudanças</translation>
     </message>
     <message>
         <source>Code</source>
