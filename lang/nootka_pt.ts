@@ -428,7 +428,7 @@
     </message>
     <message>
         <source>You are about to enter expert mode.&lt;br&gt; In this mode you don&apos;t need to confirm every answer,&lt;br&gt;&lt;b&gt;but remember the following:</source>
-        <translation>Você está prestes a entrar no modo especialista.&lt;br&gt; Neste modo, você não precisa confirmar todas as respostas,&lt;br&gt;&lt;b&gt;mas lembre-se do seguinte:&lt;/b&gt;</translation>
+        <translation>Você está prestes a entrar no modo especialista.&lt;br&gt; Neste modo, você não precisa confirmar todas as respostas,&lt;br&gt;&lt;b&gt;mas lembre-se do seguinte:</translation>
     </message>
     <message>
         <source>Selecting a note on the score or a position on the fingerboard invokes automatic checking of your answer, so select a key signature first, if required.</source>
@@ -832,11 +832,11 @@
     </message>
     <message>
         <source>from the top</source>
-        <translation>do topo.</translation>
+        <translation>do topo</translation>
     </message>
     <message>
         <source>from the bottom</source>
-        <translation>do fundo.</translation>
+        <translation>do fundo</translation>
     </message>
     <message>
         <source>arpeggiate chords and insert all notes</source>
@@ -927,15 +927,15 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>from notes in range</source>
-        <translation>de notas no intervalo.</translation>
+        <translation>de notas no intervalo</translation>
     </message>
     <message>
         <source>from selected notes</source>
-        <translation>das notas selecionadas.</translation>
+        <translation>das notas selecionadas</translation>
     </message>
     <message>
         <source>from set of melodies</source>
-        <translation>do conjunto de melodias.</translation>
+        <translation>do conjunto de melodias</translation>
     </message>
 </context>
 <context>
@@ -1178,14 +1178,14 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>available strings:</source>
-        <translation>Cordas disponíveis</translation>
+        <translation>Cordas disponíveis:</translation>
     </message>
 </context>
 <context>
     <name>RemoveLevel</name>
     <message>
         <source>Remove level %1 from the list</source>
-        <translation>Remova o nível % 1 da lista</translation>
+        <translation>Remova o nível %1 da lista</translation>
     </message>
     <message>
         <source>Also delete level file:</source>
@@ -1395,11 +1395,11 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Adjust minimal note volume a little below of your input volume level.</source>
-        <translation>Ajustar o volume mínimo da nota um pouco abaixo do volume do seu instrumento</translation>
+        <translation>Ajustar o volume mínimo da nota um pouco abaixo do volume do seu instrumento.</translation>
     </message>
     <message>
         <source>Aim to play loud and clear and avoid dirty sounds specific to your instrument.</source>
-        <translation>Tente tocar com intensidade e precisão para evitar ruídos específicos do seu instrumento</translation>
+        <translation>Tente tocar com intensidade e precisão para evitar ruídos específicos do seu instrumento.</translation>
     </message>
     <message>
         <source>Nootka recognizes played sounds and theirs duration (rhythms). But to achieve accurate results it requires some preparations and a little patience. Here are some clues:</source>
@@ -1502,7 +1502,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>forward input to output</source>
-        <translation>encaminhar entrada para saída.</translation>
+        <translation>encaminhar entrada para saída</translation>
     </message>
     <message>
         <source>no devices found</source>
@@ -1609,7 +1609,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Changes</source>
-        <translation>Mudançãs</translation>
+        <translation>Mudanças</translation>
     </message>
     <message>
         <source>Code</source>
@@ -1694,7 +1694,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>grand staff</source>
-        <translation>pauta composta.</translation>
+        <translation>pauta composta</translation>
     </message>
     <message>
         <source>clef G</source>
@@ -1914,7 +1914,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
         <source>next question
 (space %1)</source>
         <translation>próxima questão
-(espaço % 1)</translation>
+(espaço %1)</translation>
     </message>
     <message>
         <source>Play &lt;i&gt;middle a&lt;/i&gt; like a tuning fork.
@@ -2088,7 +2088,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     <message>
         <source>tap %1</source>
         <comment>tap &lt;icon image follows&gt;</comment>
-        <translation>toque em % 1</translation>
+        <translation>toque em %1</translation>
     </message>
     <message>
         <source>Click %1 to stop.</source>
@@ -2420,7 +2420,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     <name>Tlevel</name>
     <message>
         <source>Grand staff</source>
-        <translation>Pauta composta.</translation>
+        <translation>Pauta composta</translation>
     </message>
     <message>
         <source>Guess notes from grand staff in different keys</source>
@@ -2667,7 +2667,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
  was corrupted and repaired!
  Check please, if its parameters are as expected.</source>
         <translation>arquivo de nível
-  % 1
+  %1
   foi corrompido e reparado!
   Verifique, por favor, se seus parâmetros estão dentro do esperado.</translation>
     </message>
@@ -2692,7 +2692,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>for notes without accidentals</source>
-        <translation>para notas sem acidentes.</translation>
+        <translation>para notas sem acidentes</translation>
     </message>
     <message>
         <source>questions unrelated&lt;br&gt;with chart type</source>
@@ -2820,7 +2820,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Generate melody</source>
-        <translation>Gerar melodia.</translation>
+        <translation>Gerar melodia</translation>
     </message>
     <message>
         <source>Melody</source>
@@ -2976,7 +2976,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Great octave</source>
-        <translation>Oitava maior.</translation>
+        <translation>Oitava maior</translation>
     </message>
     <message>
         <source>Small octave</source>
@@ -2996,7 +2996,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>Four-line octave</source>
-        <translation>Oitava de quatro linhas.</translation>
+        <translation>Oitava de quatro linhas</translation>
     </message>
 </context>
 <context>
@@ -3629,7 +3629,7 @@ Recomendamos adicionar melodias curtas divididas previamente em um software exte
     </message>
     <message>
         <source>full notation</source>
-        <translation>notação completa.</translation>
+        <translation>notação completa</translation>
     </message>
 </context>
 <context>
