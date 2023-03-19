@@ -69,7 +69,7 @@ Tflickable {
           ListElement { flag:"hu"; lang: "Magyar";      trr: "Gábor Kertész";   web: "<a href=\"mailto:kergab@gmail.com\">kergab@gmail.com</a>"  }
           ListElement { flag:"it"; lang: "Italiano";    trr: "Gianluca 'Kununna' Fiorentino,<br>Alessandro Mandelli"; web: "" }
           ListElement { flag:"pl"; lang: "polski";      trr: "Tomasz Bojczuk";  web: "<a href=\"mailto:seelook.gmail.com\">seelook@gmail.com</a>" }
-          ListElement { flag:"pt"; lang: "Português";   trr: "Lucas Marques Fonseca";  web: "<a href=\"https://github.com/LucasMarquess\">GitHub</a>" }
+          ListElement { flag:"br"; lang: "Português";   trr: "Lucas Marques Fonseca";  web: "<a href=\"https://github.com/LucasMarquess\">GitHub</a>" }
           ListElement { flag:"ru"; lang: "Русский";     trr: "Timur Artykov,<br>Sergei Ivanov (tico-tico)"; web: "" }
           ListElement { flag:"sl"; lang: "Slovenščina"; trr: "Grega Trček";     web: "" }
           ListElement { flag:"uk"; lang: "Українська";  trr: " - - -";
