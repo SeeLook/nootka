@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2013-2021 by Tomasz Bojczuk                             *
+ *   Copyright (C) 2013-2025 by Tomasz Bojczuk                             *
  *   seelook@gmail.com                                                     *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -41,13 +41,11 @@ TupdateChecker::TupdateChecker(QObject* parent) :
   getUpdateRules(m_updateRules);
 
   m_netManager = new QNetworkAccessManager();
-  if (m_netManager->networkAccessible() == QNetworkAccessManager::Accessible)
-    connect(m_netManager, &QNetworkAccessManager::finished, this, &TupdateChecker::replySlot);
+  connect(m_netManager, &QNetworkAccessManager::finished, this, &TupdateChecker::replySlot);
 }
 
 
 void TupdateChecker::check(bool checkRules) {
-  if (m_netManager->networkAccessible() == QNetworkAccessManager::Accessible) {
       m_respectRules = checkRules;
       if (!m_respectRules)
         emit updateMessage(tr("Checking for updates. Please wait..."));
@@ -79,20 +77,18 @@ void TupdateChecker::check(bool checkRules) {
             request.setSslConfiguration(QSslConfiguration::defaultConfiguration());
   #endif
           m_reply = m_netManager->get(request);
-          connect(m_reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error), this, &TupdateChecker::errorSlot);
+          connect(m_reply, &QNetworkReply::errorOccurred, this, &TupdateChecker::errorSlot);
     } else
         emit updateMessage(QStringLiteral("No need for updates"));
-  } else
-      emit updateMessage(QStringLiteral("offline"));
 }
 
 
 TupdateChecker::~TupdateChecker()
 {
   if (m_reply) {
-    qDebug() << "[TupdateChecker] Update checking doesn't finish, trying to abort...";
+    qDebug() << "[TupdateChecker]" << "Update checking doesn't finish, trying to abort...";
     disconnect(m_netManager, &QNetworkAccessManager::finished, this, &TupdateChecker::replySlot);
-    disconnect(m_reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error), this, &TupdateChecker::errorSlot);
+    disconnect(m_reply, &QNetworkReply::errorOccurred, this, &TupdateChecker::errorSlot);
     m_reply->abort();
     m_reply->close();
     m_reply->deleteLater();
@@ -111,7 +107,7 @@ void TupdateChecker::errorSlot(QNetworkReply::NetworkError err) {
 void TupdateChecker::replySlot(QNetworkReply* netReply) {
   if (m_success) {
     QString replyString(netReply->readAll());
-    QStringList replyLines = replyString.split(QLatin1String(";"), QString::SkipEmptyParts);
+    auto replyLines = replyString.split(QLatin1String(";"), Qt::SkipEmptyParts);
     QString newVersionStr = replyLines.at(0);
     if (newVersionStr.contains(QLatin1String("Nootka:")))
       newVersionStr.replace(QLatin1String("Nootka:"), QString());

@@ -4,12 +4,12 @@
     begin                : 2002
     copyright            : (C) 2002-2005 by Philip McLeod
     email                : pmcleod@cs.otago.ac.nz
- 
+
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
    the Free Software Foundation; either version 2 of the License, or
    (at your option) any later version.
-   
+
    Please read LICENSE.txt for details.
  ***************************************************************************/
 #ifndef USEFUL_H
@@ -185,18 +185,22 @@ void copyElementsDivide(ForwardIterator aFirst, ForwardIterator aLast, ForwardIt
 #include <functional>
 
 template <class T>
-inline T absolute(const T &x) { return (x >= 0) ? x : -x; }
+inline T absolute(const T &x) {
+    return (x >= 0) ? x : -x;
+}
 
 template <class T>
-struct absoluteLess : public std::binary_function<T, T, bool>
-{
-  bool operator()(const T &x, const T &y) const { return absolute(x) < absolute(y); }
+struct absoluteLess : public std::function<bool(T, T)> {
+    bool operator()(const T &x, const T &y) const {
+        return absolute(x) < absolute(y);
+    }
 };
 
 template <class T>
-struct absoluteGreater : public std::binary_function<T, T, bool>
-{
-  bool operator()(T &x, T &y) const { return absolute(x) > absolute(y); }
+struct absoluteGreater : public std::function<bool(T, T)> {
+    bool operator()(T &x, T &y) const {
+        return absolute(x) > absolute(y);
+    }
 };
 
 
